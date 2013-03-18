@@ -1,0 +1,26 @@
+{
+  "camelcase": true,
+  "indent": 4,
+  "white": false,
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "boss": true,
+  "eqnull": true,
+  "browser": true,
+  "jquery": true,
+  "globals": {
+    "test": true,
+    "equal": true,
+    "ok": true,
+    "sinon": true,
+    "require": true,
+    "Ember": true,
+    "Balanced": true
+  }
+}

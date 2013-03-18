@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QUnit basic example</title>
+  <link rel="stylesheet" href="support/qunit.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <script type="text/javascript" src="support/qunit.js"></script>
+  <script type="text/javascript" src="support/sinon.js"></script>
+  <script type="text/javascript">
+    TESTING = true;  
+  </script>
+  <script src="../build/application.js"></script>
+
+  <% _.each(files, function(filepath) { %>
+  <script type="text/javascript" src="<%= filepath %>"></script>
+  <% }); %>
+
+  </script>
+</body>
+</html>

@@ -1,35 +1,22 @@
-*.py[cod]
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
 
-# C extensions
-*.so
+pids
+logs
+results
+build/*
 
-# Packages
-*.egg
-*.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
+npm-debug.log
+node_modules
 
-# Installer logs
-pip-log.txt
+test/runner.html
 
-# Unit test / coverage reports
-.coverage
-.tox
-nosetests.xml
-
-# Translations
-*.mo
-
-# Mr Developer
-.mr.developer.cfg
-.project
-.pydevproject
+# emacs and other IDEs
+*~
+*.iml

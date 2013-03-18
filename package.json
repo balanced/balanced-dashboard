@@ -1,0 +1,24 @@
+{
+    "name": "balanced-dashboard",
+    "version": "0.0.0",
+    "description": "Balanced Dashboard",
+    "main": "Gruntfile.js",
+    "scripts": {
+        "test": "grunt"
+    },
+    "repository": "git@github.com:balanced/balanced-dashboard.git",
+    "author": "Balanced <dev@balancedpayments.com>",
+    "dependencies": {
+        "pullstream": "~0.2.1"
+    },
+    "devDependencies": {
+        "grunt": "0.4.0rc5",
+        "grunt-neuter": "~0.3.0",
+        "grunt-contrib-uglify": "~0.1.1rc5",
+        "grunt-contrib-less": "~0.5.0",
+        "grunt-contrib-jshint": "~0.1.1rc5",
+        "grunt-contrib-qunit": "~0.1.1rc5",
+        "grunt-ember-templates": "~0.4.2rc5",
+        "grunt-contrib-watch": "~0.2.0rc5"
+    }
+}
