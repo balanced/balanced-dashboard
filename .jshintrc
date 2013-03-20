@@ -14,13 +14,16 @@
   "eqnull": true,
   "browser": true,
   "jquery": true,
+  "camelcase": false,
   "globals": {
     "test": true,
+    "module": true,
     "equal": true,
     "ok": true,
     "sinon": true,
     "require": true,
     "Ember": true,
-    "Balanced": true
+    "Balanced": true,
+    "DS": true
   }
 }

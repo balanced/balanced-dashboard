@@ -4,64 +4,74 @@
     var localStorage = window.localStorage,
         get = Ember.get, set = Ember.set;
 
-    var Store = Ember.Object.extend({
-        init: function (properties) {
-            this._super(properties);
-            var store = localStorage.getItem(get(this, 'name'));
-            set(this, 'data', ( store && JSON.parse(store)) || {});
-        },
+    /*
+     * Like a regular serializer but because we do *not* have a root level
+     * element this thing jumps in and munges the payload.
+     *
+     * http://emberjs.com/guides/models/the-rest-adapter/#toc_json-root
+     *
+     * TODO: We need to serialize into the root level dict as well as loading
+     * from it
+     * */
+    var rootLevelSerializer = DS.JSONSerializer.create({
+        extract: function (loader, json, type, record) {
+            var root = this.rootForType(type);
+            var nestedJson = {};
+            nestedJson[root] = json;
 
-        createRecord: function (model) {
-            set(model, 'id', Date.now());
-            return this.update(model);
-        },
+            this.sideload(loader, type, nestedJson, root);
+            this.extractMeta(loader, type, nestedJson);
 
-        update: function (model) {
-            var data = this.get('data');
-
-            data[get(model, 'id')] = model.getProperties(
-                'id', 'title', 'completed'
-            );
-
-            this._stash();
-
-            this.all().addObject(model);
-            return model;
-        },
-
-        // Delete a model from `this.data`, returning it.
-        destroy: function (model) {
-            delete this.data[ model.get('id') ];
-            this._stash();
-
-            this.all().removeObject(model);
-            return model;
-        },
-
-        all: function () {
-            return this.get('_all');
-        },
-
-        _all: Ember.computed(function () {
-            var data = get(this, 'data');
-            var all = Ember.A([]);
-
-            for (var keyName in data) {
-                if (data.hasOwnProperty(keyName)) {
-                    all.addObject(Balanced.Marketplace.create(data[keyName]));
+            if (nestedJson) {
+                if (record) {
+                    loader.updateId(record, nestedJson[root]);
                 }
+                this.extractRecordRepresentation(loader, type, nestedJson[root]);
             }
+        },
+        extractMany: function (loader, json, type, records) {
+            var root = 'items';
 
-            return all;
-        }).property('data'),
+            this.extractMeta(loader, type, json);
 
+            if (json[root]) {
+                var objects = json[root], references = [];
+                if (records) {
+                    records = records.toArray();
+                }
 
-        // Save the current state of the **Store** to *localStorage*.
-        _stash: function () {
-            localStorage.setItem(get(this, 'name'), JSON.stringify(get(this, 'data')));
+                for (var i = 0; i < objects.length; i++) {
+                    if (records) {
+                        loader.updateId(records[i], objects[i]);
+                    }
+                    var reference = this.extractRecordRepresentation(loader, type, objects[i]);
+                    references.push(reference);
+                }
+
+                loader.populateArray(references);
+            }
         }
     });
 
-    app.Store = Store;
+    DS.RESTAdapter.reopen({
+        url: Ember.ENV.BALANCED.API,
+        namespace: 'v1',
+        serializer: rootLevelSerializer
+    });
+
+    var store = DS.Store.extend({
+        revision: 12
+    });
+
+    app.Store = store;
 
 })(window.Balanced);
+
+
+//  hack, ideally this would be set in a cookie by our user app
+$.ajaxSetup({
+    beforeSend: function (jqXHR, settings) {
+        jqXHR.setRequestHeader(
+            'Authorization', 'Basic YmY2MzQyZjJhNWM0MTFlMTk0MGMwMjZiYTdlMjM5YTk6Tm9uZQ==');
+    }
+});

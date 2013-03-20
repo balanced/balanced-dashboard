@@ -6,20 +6,27 @@
   <link rel="stylesheet" href="support/qunit.css">
 </head>
 <body>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
 
-  <script type="text/javascript" src="support/qunit.js"></script>
-  <script type="text/javascript" src="support/sinon.js"></script>
-  <script type="text/javascript">
-    TESTING = true;  
-  </script>
-  <script src="../build/application.js"></script>
+    <script type="text/javascript" src="support/qunit.js"></script>
+    <script type="text/javascript" src="support/sinon.js"></script>
+    <script type="text/javascript">
+    TESTING = true;
+    var ENV = {
+        BALANCED: {
+            API: 'http://api.balancedpayments.dev:5000',
+            USER: 'https://u.balancedpayments.com',
+            WWW: 'https://www.balancedpayments.com',
+            DOCS: 'https://docs.balancedpayments.com'
+        }
+    };
+    </script>
+    <script src="../build/application.js"></script>
 
-  <% _.each(files, function(filepath) { %>
-  <script type="text/javascript" src="<%= filepath %>"></script>
-  <% }); %>
+    <% _.each(files, function(filepath) { %>
+    <script type="text/javascript" src="<%= filepath %>"></script>
+    <% }); %>
 
-  </script>
 </body>
 </html>

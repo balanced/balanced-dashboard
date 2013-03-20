@@ -25,6 +25,8 @@ require('static/lib/handlebars.runtime-1.0.0-rc.3');
 
 /* This is Ember. I think you'll like it */
 require('static/lib/ember-1.0.0-rc.1');
+require('static/lib/ember-data');
+
 
 /*
  this file is generated as part of the build process.
@@ -41,7 +43,8 @@ require('build/compiled/templates');
  should manage for you.
  */
 window.Balanced = Ember.Application.create({
-    rootElement: window.TESTING ? '#qunit-fixture' : '#balanced-app'
+    rootElement: window.TESTING ? '#qunit-fixture' : '#balanced-app',
+    LOG_TRANSITIONS: true
 });
 
 if (window.TESTING) {
