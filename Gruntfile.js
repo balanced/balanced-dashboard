@@ -137,8 +137,23 @@ module.exports = function (grunt) {
          */
         build_test_runner_file: {
             all: ['test/**/*_test.js']
-        }
+        },
 
+        connect: {
+            server: {
+                options: {
+                    port: 9876,
+                    base: '.'
+                }
+            }
+        },
+
+        casperjs: {
+            options: {
+                // Task-specific options go here.
+            },
+            files: ['test/casperjs/**/*.js']
+        }
     });
 
     // grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -148,7 +163,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-neuter');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-ember-templates');
-
+    grunt.loadNpmTasks('grunt-casperjs');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     /*
      A task to build the test runner html file that get place in
@@ -168,6 +184,7 @@ module.exports = function (grunt) {
         grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
     });
 
+
     /*
      A task to run the application's unit tests via the command line.
      It will
@@ -178,6 +195,7 @@ module.exports = function (grunt) {
      - headlessy load this page and print the test runner results
      */
     grunt.registerTask('test', ['ember_templates', 'neuter', 'jshint', 'build_test_runner_file', 'qunit']);
+    grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins

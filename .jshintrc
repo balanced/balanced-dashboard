@@ -19,6 +19,7 @@
     "test": true,
     "module": true,
     "equal": true,
+    "notEqual": true,
     "ok": true,
     "sinon": true,
     "require": true,
