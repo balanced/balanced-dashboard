@@ -1,0 +1,16 @@
+<h3>Login</h3>
+{{#if authToken}}
+<form id="logout-form">
+    {{#view Balanced.AuthDestroyView}}
+    <button type="button">Logout</button>
+    {{/view}}
+</form>
+{{else}}
+<form id="auth-form">
+    <input type="email" name="email_address" placeholder="email address">
+    <input type="password" name="password" placeholder="password">
+    {{#view Balanced.AuthCreateView}}
+    <button type="button">Login</button>
+    {{/view}}
+</form>
+{{/if}}

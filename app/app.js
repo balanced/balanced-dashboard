@@ -52,13 +52,20 @@ if (window.TESTING) {
 }
 
 /*
+ * Helpers and utils - not static 3rd party libraries
+ */
+require('app/lib/helpers');
+
+/*
  * Model layer.
  * Ember.Object itself provides most of what
  * model layers elsewhere provide. Since TodoMVC
  * doesn't communicate with a server, plain
  * Ember.Objects will do.
  */
+require('app/models/auth');
 require('app/models/marketplaces');
+
 
 /*
  * Views layer.
@@ -67,6 +74,7 @@ require('app/models/marketplaces');
  * Views are only necessary if you have view-specific
  * programming to do.
  */
+require('app/views/auth');
 
 /*
  * Controller layer.
@@ -75,7 +83,8 @@ require('app/models/marketplaces');
  * whose value is computed from the content of the
  * controllers wrapped objects.
  */
-require('app/controllers/marketplaces_controller');
+require('app/controllers/marketplaces');
+require('app/controllers/auth');
 
 /*
  * States (i.e. Routes)

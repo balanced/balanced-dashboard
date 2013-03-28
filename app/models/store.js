@@ -53,25 +53,23 @@
         }
     });
 
-    DS.RESTAdapter.reopen({
+    var adapter = DS.RESTAdapter.extend({
         url: Ember.ENV.BALANCED.API,
         namespace: 'v1',
         serializer: rootLevelSerializer
     });
 
     var store = DS.Store.extend({
-        revision: 12
+        revision: 12,
+        adapter: adapter
+    });
+
+    var rootStore = DS.Store.extend({
+        revision: 12,
+        adapter: adapter
     });
 
     app.Store = store;
+    app.RootStore = rootStore;
 
 })(window.Balanced);
-
-
-//  hack, ideally this would be set in a cookie by our user app
-$.ajaxSetup({
-    beforeSend: function (jqXHR, settings) {
-        jqXHR.setRequestHeader(
-            'Authorization', 'Basic YmY2MzQyZjJhNWM0MTFlMTk0MGMwMjZiYTdlMjM5YTk6Tm9uZQ==');
-    }
-});
