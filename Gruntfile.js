@@ -139,6 +139,9 @@ module.exports = function (grunt) {
             all: ['test/**/*_test.js']
         },
 
+        /*
+        * A test server used for casperjs tests
+        * */
         connect: {
             server: {
                 options: {

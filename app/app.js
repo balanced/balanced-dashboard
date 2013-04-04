@@ -54,6 +54,7 @@ if (window.TESTING) {
 /*
  * Helpers and utils - not static 3rd party libraries
  */
+require('app/lib/ajax');
 require('app/lib/helpers');
 
 /*
@@ -63,7 +64,8 @@ require('app/lib/helpers');
  * doesn't communicate with a server, plain
  * Ember.Objects will do.
  */
-require('app/models/auth');
+require('app/models/_base');
+require('app/models/login');
 require('app/models/marketplaces');
 
 
@@ -74,7 +76,8 @@ require('app/models/marketplaces');
  * Views are only necessary if you have view-specific
  * programming to do.
  */
-require('app/views/auth');
+require('app/views/_base');
+require('app/views/login');
 
 /*
  * Controller layer.
@@ -83,8 +86,9 @@ require('app/views/auth');
  * whose value is computed from the content of the
  * controllers wrapped objects.
  */
+require('app/controllers/_base');
 require('app/controllers/marketplaces');
-require('app/controllers/auth');
+require('app/controllers/login');
 
 /*
  * States (i.e. Routes)

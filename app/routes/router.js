@@ -6,7 +6,7 @@ Balanced.Router.map(function () {
         });
 //        this.route("create");
     });
-    this.resource('auth', {path: '/login'}, function () {
+    this.resource('login', {path: '/login'}, function () {
         this.route("create");
     });
 });
@@ -39,7 +39,7 @@ Balanced.MarketplacesShowRoute = Ember.Route.extend({
 });
 
 
-Balanced.AuthCreateRoute = Ember.Route.extend({
+Balanced.LoginCreateRoute = Ember.Route.extend({
     renderTemplate: function () {
         this.render('auth_login');
     }

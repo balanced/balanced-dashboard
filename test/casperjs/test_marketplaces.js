@@ -1,6 +1,6 @@
 var casper = require('casper').create();
 
-casper.start('http://localhost:9876/index.html', function () {
+casper.start('http://dashboard.balancedpayments.dev:9876/index.html', function () {
     this.test.assertTitle('Balanced', 'The title *is* Balanced');
 });
 

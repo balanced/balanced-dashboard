@@ -1,7 +1,10 @@
 <h3>Login</h3>
-{{#if authToken}}
+{{#if content}}
+hai
+{{/if}}
+{{#if Balanced.currentLogin}}
 <form id="logout-form">
-    {{#view Balanced.AuthDestroyView}}
+    {{#view Balanced.LoginDestroyView}}
     <button type="button">Logout</button>
     {{/view}}
 </form>
@@ -9,7 +12,7 @@
 <form id="auth-form">
     <input type="email" name="email_address" placeholder="email address">
     <input type="password" name="password" placeholder="password">
-    {{#view Balanced.AuthCreateView}}
+    {{#view Balanced.LoginCreateView}}
     <button type="button">Login</button>
     {{/view}}
 </form>

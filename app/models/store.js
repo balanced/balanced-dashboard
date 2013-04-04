@@ -53,23 +53,66 @@
         }
     });
 
-    var adapter = DS.RESTAdapter.extend({
+
+    var balancedAdapter = DS.RESTAdapter.extend({
+        serializer: rootLevelSerializer,
+        createRecord: function (store, type, record) {
+            var root = this.rootForType(type);
+            var data = this.serialize(record, { includeId: true });
+
+            this.ajax(this.buildURL(root), "POST", {
+                data: data,
+                context: this,
+                success: function (json) {
+                    Ember.run(this, function () {
+                        this.didCreateRecord(store, type, record, json);
+                    });
+                },
+                error: function (xhr) {
+                    this.didError(store, type, record, xhr);
+                }
+            });
+        },
+        updateRecord: function (store, type, record) {
+            var id = get(record, 'id');
+            var root = this.rootForType(type);
+            var data = this.serialize(record);
+
+            this.ajax(this.buildURL(root, id), "PUT", {
+                data: data,
+                context: this,
+                success: function (json) {
+                    Ember.run(this, function () {
+                        this.didSaveRecord(store, type, record, json);
+                    });
+                },
+                error: function (xhr) {
+                    this.didError(store, type, record, xhr);
+                }
+            });
+        }
+    });
+
+    var apiAdapter = balancedAdapter.extend({
         url: Ember.ENV.BALANCED.API,
-        namespace: 'v1',
-        serializer: rootLevelSerializer
+        namespace: 'v1'
     });
 
-    var store = DS.Store.extend({
+    var authAdapter = balancedAdapter.extend({
+        url: Ember.ENV.BALANCED.AUTH
+    });
+
+    var apiStore = DS.Store.extend({
         revision: 12,
-        adapter: adapter
+        adapter: apiAdapter
     });
 
-    var rootStore = DS.Store.extend({
+    var authStore = DS.Store.extend({
         revision: 12,
-        adapter: adapter
+        adapter: authAdapter
     });
 
-    app.Store = store;
-    app.RootStore = rootStore;
+    app.Store = apiStore;
+    app.AuthStore = authStore;
 
 })(window.Balanced);

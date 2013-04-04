@@ -9,7 +9,7 @@ var store = Balanced.Store.create({
 });
 
 
-Balanced.Marketplace = DS.Model.extend({
+Balanced.Marketplace = Balanced.Model.extend({
     /*
      A reference to the singleton instance of the 
      localStorage wrapper.
