@@ -221,6 +221,35 @@ module.exports = function (grunt) {
             files: {
                 src: ['build/', 'dist/']
             }
+        },
+
+        s3: {
+            options: {
+                bucket: 'balanced-dashboard',
+                access: 'public-read',
+                region: 'us-west-1',
+                headers: {
+                    'Cache-Control': 'public',
+                    'Expires': 'Fri, Apr 23 2021 10:18:36 GMT',
+                    'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
+                }
+            },
+            prod: {
+                upload: [
+                    {
+                        src: 'dist/js/*',
+                        dest: 'js/'
+                    },
+                    {
+                        src: 'dist/css/*',
+                        dest: 'css/'
+                    },
+                    {
+                        src: 'dist/*',
+                        dest: ''
+                    }
+                ]
+            }
         }
 
     });
@@ -236,7 +265,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-contrib-copy');
-//    grunt.loadNpmTasks('grunt-clean');
+    grunt.loadNpmTasks('grunt-s3');
 
     /*
      A task to build the test runner html file that get place in
@@ -289,4 +318,5 @@ module.exports = function (grunt) {
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
     grunt.registerTask('build', ['delete', 'ember_templates', 'neuter', 'less', 'uglify', 'copy', 'hashres']);
+    grunt.registerTask('deploy', ['build', 's3'])
 };
