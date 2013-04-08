@@ -23,10 +23,21 @@ module.exports = function (grunt) {
          production.
          */
         neuter: {
-            options: {
-                includeSourceURL: true
+            dev: {
+                options: {
+                    includeSourceURL: true
+                },
+                src: ['app/app.js'],
+                dest: 'build/application.js'
             },
-            'build/application.js': 'app/app.js'
+            prod: {
+                src: ['app/dashboard.js'],
+                dest: 'build/dashboard.js'
+            },
+            lib: {
+                src: ['app/lib.js'],
+                dest: 'build/lib.js'
+            }
         },
 
         /*
@@ -140,8 +151,8 @@ module.exports = function (grunt) {
         },
 
         /*
-        * A test server used for casperjs tests
-        * */
+         * A test server used for casperjs tests
+         * */
         connect: {
             server: {
                 options: {
@@ -156,10 +167,65 @@ module.exports = function (grunt) {
                 // Task-specific options go here.
             },
             files: ['test/casperjs/**/*.js']
+        },
+
+        uglify: {
+            dashboard: {
+                files: {
+                    'dist/js/dashboard.min.js': [
+                        'build/dashboard.js'
+                    ]
+                }
+            },
+            lib: {
+                files: {
+                    'dist/js/lib.min.js': [
+                        'build/lib.js'
+                    ]
+                }
+            }
+        },
+
+        copy: {
+            html: {
+                files: [
+                    {
+                        src: ['prod.html'],
+                        dest: 'dist/index.html'
+                    }
+                ]
+            },
+            css: {
+                files: [
+                    {
+                        cwd: 'build/css/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'dist/css/'
+                    }
+                ]
+            }
+        },
+
+        hashres: {
+            options: {
+                fileNameFormat: '${name}-${hash}.${ext}'
+            },
+            css: {
+                src: ['dist/**/*.js', 'dist/**/*.css'],
+                dest: 'dist/index.html'
+            }
+        },
+
+        delete: {
+            files: {
+                src: ['build/', 'dist/']
+            }
         }
+
     });
 
-    // grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
@@ -168,6 +234,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ember-templates');
     grunt.loadNpmTasks('grunt-casperjs');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-hashres');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+//    grunt.loadNpmTasks('grunt-clean');
 
     /*
      A task to build the test runner html file that get place in
@@ -185,6 +254,16 @@ module.exports = function (grunt) {
             }
         };
         grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
+    });
+
+    grunt.registerMultiTask('delete', 'Deletes files', function () {
+        this.files.forEach(function (file) {
+            file.orig.src.forEach(function (f) {
+                if (grunt.file.exists(f)) {
+                    grunt.file.delete(f);
+                }
+            });
+        });
     });
 
 
@@ -205,4 +284,9 @@ module.exports = function (grunt) {
      watching for changes.
      */
     grunt.registerTask('default', ['ember_templates', 'neuter', 'less', 'watch']);
+
+    /*
+     Builds for production. Concatenates files together, minifies and then uploads to s3
+     */
+    grunt.registerTask('build', ['delete', 'ember_templates', 'neuter', 'less', 'uglify', 'copy', 'hashres']);
 };
