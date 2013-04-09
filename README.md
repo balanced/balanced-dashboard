@@ -3,6 +3,8 @@ balanced-dashboard
 
 The Balanced Dashboard
 
+[![Build Status](https://travis-ci.org/balanced/balanced-dashboard.png)](https://travis-ci.org/balanced/balanced-dashboard)
+
 ## What
 
 Welcome to the Balanced Dashboard.
