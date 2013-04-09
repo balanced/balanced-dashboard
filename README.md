@@ -3,7 +3,7 @@ balanced-dashboard
 
 The Balanced Dashboard
 
-[![Build Status](https://secure.travis-ci.org/balanced/balanced-dashboard.png?branch=master)](http://travis-ci.org/balanced/balanced-dashboard)
+[![Build Status](https://travis-ci.org/balanced/balanced-dashboard.png)](https://travis-ci.org/balanced/balanced-dashboard)
 
 ## What
 
