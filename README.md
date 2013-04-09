@@ -28,6 +28,15 @@ You will need node installed as a development dependency. See
 3. Build - `grunt`
 4. To view in a browser `open index.html`
 5. To run unit tests `grunt test`
+6. To run browser tests `grunt itest`
+
+### Building and Deploying
+
+1. To build everything `grunt build`
+2. To deploy `grunt deploy`
+
+    **Note**: You must have the appropriate `AWS_ACCESS_KEY_ID` and
+        `AWS_SECRET_ACCESS_KEY` environment variables set
 
 ### Contributing
 

@@ -23,10 +23,21 @@ module.exports = function (grunt) {
          production.
          */
         neuter: {
-            options: {
-                includeSourceURL: true
+            dev: {
+                options: {
+                    includeSourceURL: true
+                },
+                src: ['app/app.js'],
+                dest: 'build/application.js'
             },
-            'build/application.js': 'app/app.js'
+            prod: {
+                src: ['app/dashboard.js'],
+                dest: 'build/dashboard.js'
+            },
+            lib: {
+                src: ['app/lib.js'],
+                dest: 'build/lib.js'
+            }
         },
 
         /*
@@ -137,18 +148,124 @@ module.exports = function (grunt) {
          */
         build_test_runner_file: {
             all: ['test/**/*_test.js']
+        },
+
+        /*
+         * A test server used for casperjs tests
+         * */
+        connect: {
+            server: {
+                options: {
+                    port: 9876,
+                    base: '.'
+                }
+            }
+        },
+
+        casperjs: {
+            options: {
+                // Task-specific options go here.
+            },
+            files: ['test/casperjs/**/*.js']
+        },
+
+        uglify: {
+            dashboard: {
+                files: {
+                    'dist/js/dashboard.min.js': [
+                        'build/dashboard.js'
+                    ]
+                }
+            },
+            lib: {
+                files: {
+                    'dist/js/lib.min.js': [
+                        'build/lib.js'
+                    ]
+                }
+            }
+        },
+
+        copy: {
+            html: {
+                files: [
+                    {
+                        src: ['prod.html'],
+                        dest: 'dist/index.html'
+                    }
+                ]
+            },
+            css: {
+                files: [
+                    {
+                        cwd: 'build/css/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'dist/css/'
+                    }
+                ]
+            }
+        },
+
+        hashres: {
+            options: {
+                fileNameFormat: '${name}-${hash}.${ext}'
+            },
+            css: {
+                src: ['dist/**/*.js', 'dist/**/*.css'],
+                dest: 'dist/index.html'
+            }
+        },
+
+        clean: {
+            files: {
+                src: ['build/', 'dist/']
+            }
+        },
+
+        s3: {
+            options: {
+                bucket: 'balanced-dashboard',
+                access: 'public-read',
+                region: 'us-west-1',
+                headers: {
+                    'Cache-Control': 'public',
+                    'Expires': 'Fri, Apr 23 2021 10:18:36 GMT',
+                    'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
+                }
+            },
+            prod: {
+                upload: [
+                    {
+                        src: 'dist/js/*',
+                        dest: 'js/'
+                    },
+                    {
+                        src: 'dist/css/*',
+                        dest: 'css/'
+                    },
+                    {
+                        src: 'dist/*',
+                        dest: ''
+                    }
+                ]
+            }
         }
 
     });
 
-    // grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-neuter');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-ember-templates');
-
+    grunt.loadNpmTasks('grunt-casperjs');
+    grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-hashres');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-s3');
 
     /*
      A task to build the test runner html file that get place in
@@ -168,6 +285,17 @@ module.exports = function (grunt) {
         grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
     });
 
+    grunt.registerMultiTask('clean', 'Deletes files', function () {
+        this.files.forEach(function (file) {
+            file.orig.src.forEach(function (f) {
+                if (grunt.file.exists(f)) {
+                    grunt.file.delete(f);
+                }
+            });
+        });
+    });
+
+
     /*
      A task to run the application's unit tests via the command line.
      It will
@@ -178,10 +306,17 @@ module.exports = function (grunt) {
      - headlessy load this page and print the test runner results
      */
     grunt.registerTask('test', ['ember_templates', 'neuter', 'jshint', 'build_test_runner_file', 'qunit']);
+    grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
     grunt.registerTask('default', ['ember_templates', 'neuter', 'less', 'watch']);
+
+    /*
+     Builds for production. Concatenates files together, minifies and then uploads to s3
+     */
+    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'less', 'uglify', 'copy', 'hashres']);
+    grunt.registerTask('deploy', ['build', 's3']);
 };
