@@ -15,6 +15,7 @@
   "browser": true,
   "jquery": true,
   "camelcase": false,
+  "es5": true,
   "globals": {
     "test": true,
     "module": true,

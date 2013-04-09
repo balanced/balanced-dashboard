@@ -4,7 +4,7 @@
   "description": "Balanced Dashboard",
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt"
+    "test": "grunt test --verbose"
   },
   "repository": "git@github.com:balanced/balanced-dashboard.git",
   "author": "Balanced <dev@balancedpayments.com>",
