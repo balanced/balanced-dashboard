@@ -1,7 +1,8 @@
-Balanced.MarketplacesIndexController = Ember.ArrayController.extend({
+Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
 
 });
 
 
-Balanced.ShowController = Ember.ObjectController.extend({
+Balanced.ShowController = Balanced.ObjectController.extend({
+
 });

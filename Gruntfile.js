@@ -217,7 +217,7 @@ module.exports = function (grunt) {
             }
         },
 
-        delete: {
+        clean: {
             files: {
                 src: ['build/', 'dist/']
             }
@@ -285,7 +285,7 @@ module.exports = function (grunt) {
         grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
     });
 
-    grunt.registerMultiTask('delete', 'Deletes files', function () {
+    grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
             file.orig.src.forEach(function (f) {
                 if (grunt.file.exists(f)) {
@@ -317,6 +317,6 @@ module.exports = function (grunt) {
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
-    grunt.registerTask('build', ['delete', 'ember_templates', 'neuter', 'less', 'uglify', 'copy', 'hashres']);
-    grunt.registerTask('deploy', ['build', 's3'])
+    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'less', 'uglify', 'copy', 'hashres']);
+    grunt.registerTask('deploy', ['build', 's3']);
 };

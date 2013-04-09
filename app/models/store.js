@@ -31,11 +31,10 @@
         },
         extractMany: function (loader, json, type, records) {
             var root = 'items';
-
             this.extractMeta(loader, type, json);
-
-            if (json[root]) {
-                var objects = json[root], references = [];
+            var objects = json[root] ? json[root] : json;
+            if (objects) {
+                var references = [];
                 if (records) {
                     records = records.toArray();
                 }
