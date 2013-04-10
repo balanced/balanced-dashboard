@@ -2,36 +2,40 @@
 <header id="header" class="container">
     <div class="row">
         <div id="logo" class="span2">
-            <a href="/" class="img">&nbsp;</a>
+            <a href="/" class="img">Balanced Dashboard</a>
         </div>
-        <div id="marketplaces" class="span3">
-            Marketplaces
+        <div id="marketplaces-and-search" class="span18">
+            <div id="marketplaces">
+                <span class="nav2d">Marketplaces</span>
+                <span class="nav1d">(live)</span>
+            </div>
+            <div id="search">
+                <input type="search" name="q" id="q" placeholder="Search">
+            </div>
         </div>
-        <div id="search" class="span15">
-            <input type="search" name="search" placeholder="Search">
-        </div>
-        <div id="docs-menu" class="span2">
-            docs
-        </div>
-        <div id="help-menu" class="span2">
-            help
-        </div>
-        <div id="user-menu" class="span2">
-            user
+        <div id="site-nav" class="span6">
+            <div id="docs-menu">
+                <span class="nav1d">docs</span>
+            </div>
+            <div id="help-menu">
+                <span class="nav1d">help</span>
+            </div>
+            <div id="user-menu">
+                <span class="nav1d">user</span>
+            </div>
         </div>
     </div>
 </header>
 
 <section id="main" class="container">
     <div class="row">
-        <div id="marketplace-nav" class="span2">
-            <nav>
-                <ul>
-                    <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
-                    <li>{{#linkTo login.create }}Login{{/linkTo}}</li>
-                </ul>
-            </nav>
-        </div>
+        <nav id="marketplace-nav" class="span2">
+            <ul>
+                <li></li>
+                <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
+                <li>{{#linkTo login.create }}Login{{/linkTo}}</li>
+            </ul>
+        </nav>
         <div id="content" class="span24">
             <div class="row">
                 <div class="offset2 span22">

@@ -1,16 +1,24 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
 
-/*
-* Site structure
-*
-* Behold, the structure of the site. The following defines the colors, the
-* look, and the feel of the main structural components of the site.
-*/
+  /*
+  * Site structure
+  *
+  * Behold, the structure of the site. The following defines the colors, the
+  * look, and the feel of the main structural components of the site.
+  */
 
 #header {
   background-color: @searchBarBackground;
   height: @searchBarHeight;
+
+  &>div>div {
+    height: @searchBarHeight;
+    border-right: 1px solid @searchBoxBackground;
+    &:last-child {
+      border-right: 0;
+    }
+  }
 }
 
 .container {
@@ -19,17 +27,18 @@
       // push the background colour all the way to the edge of the column
       &:first-child {
         width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
-      }
-      // this col and the #marketplace-nav col are hard up against each other
-      // so no margin
-      &+[class*="span"] {
-        margin-left: 0;
+        // this col and the #marketplace-nav col are hard up against each other
+        // so no margin
+        &+[class*="span"] {
+          margin-left: 0;
+        }
       }
     }
   }
 }
 
 #logo {
+  //  border-right: 1px solid @searchBoxBackground;
   .img {
     .cssicon(
       @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
@@ -44,31 +53,66 @@
   }
 }
 
+#marketplaces-and-search {
+  width: 823px;
+}
+
 #marketplaces {
   text-align: center;
+  display: inline-block;
+  width: 20%;
 }
 
 #search {
+  display: inline-block;
+  width: 79%; // not sure where this 1% has gone.
   input {
     background-color: @searchBoxBackground;
     border: 0;
     margin: @searchBoxMargin;
     height: @searchBoxHeight;
-    width: 99%;
     padding: 0 0 0 10px;
+    width: 97%; // dropped a few % to account for padding
+
+    font-family: nimbussannov-med;
+    font-weight: normal;
+    font-size: 18px;
+    color: #fff;
   }
+}
+
+#site-nav {
+  width: 240px;
+  margin-left: 0;
+
+  [id$="menu"] {
+    float: left;
+    height: @searchBarHeight;
+    border-right: 1px solid @searchBoxBackground;
+    &:last-child {
+      border-right: 0;
+    }
+    &>span {
+      padding-top: 20px;
+      display: inline-block;
+    }
+  }
+
 }
 
 #docs-menu {
   text-align: center;
+  width: 72px;
 }
 
 #help-menu {
   text-align: center;
+  width: 70px;
 }
 
 #user-menu {
   text-align: center;
+  width: 90px;
 }
 
 #main {
@@ -78,6 +122,23 @@
 #marketplace-nav {
   background-color: @marketplaceNavBackground;
   min-height: @mainMinHeight + @mainVerticalPadding;
+  li {
+    display: block;
+    width: 90px;
+    height: 90px;
+    text-align: center;
+
+    position: relative;
+    &>a {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      margin: auto;
+    }
+  }
 }
 
 #content {
