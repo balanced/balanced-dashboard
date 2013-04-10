@@ -1,1 +1,71 @@
-@poop: #000;
+@import "/static/less/bootstrap.less";
+@import "/static/less/fonts.less";
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+/*
+* base.less
+*
+* Here we define less/css that affects the whole site.
+*
+* Styles for individual components/pages should go in their own file.
+*/
+
+html {
+
+}
+
+body {
+
+}
+
+footer {
+
+}
+
+a {
+  color: #008fc5;
+  &:hover {
+    color: #000;
+  }
+  &:active {
+    color: #008fc5;
+  }
+  &:visited {
+    color: #008fc5;
+  }
+}
+
+h1 {
+  font-family: nimbussannov-reg;
+  font-weight: normal;
+  font-size: 34px;
+  color: #737373;
+}
+
+h2 {
+  font-family: nimbussannov-bol;
+  font-weight: normal;
+  font-size: 24px;
+  color: #000;
+}
+
+h3 {
+  font-family: fanwoodtext-regular;
+  font-weight: normal;
+  font-size: 16px;
+  color: #000;
+}
+
+.fontyFont(label1, nimbussannov-med, 18px);
+.fontyFont(label2, nimbussannov-bol, 18px);
+.fontyFont(label3, nimbussannov-med, 15px);
+.fontyFont(label4, nimbussannov-med, 13px);
+.fontyFont(label5, nimbussannov-med, 12px);
+.fontyFont(label6, fanwoodtext-italic, 16px);
+.fontyFont(number1, nimbussannovcon-bol, 56px);
+.fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
+.fontyFont(nav2, nimbussannovcon-bol, 18px);
+
+
+@import "/static/less/scaffolding.less";

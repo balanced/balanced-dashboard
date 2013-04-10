@@ -1,13 +1,55 @@
-<header>
-    <img src="static/images/balanced_logo-vertical-01.png" alt="Balanced Logo">
-    <nav>
-    <ul>
-        <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
-        <li>{{#linkTo login.create }}Login{{/linkTo}}</li>
-    </ul>
-    </nav>
+
+<header id="header" class="container">
+    <div class="row">
+        <div id="logo" class="span2">
+            <a href="/" class="img">&nbsp;</a>
+        </div>
+        <div id="marketplaces" class="span3">
+            Marketplaces
+        </div>
+        <div id="search" class="span15">
+            <input type="search" name="search" placeholder="Search">
+        </div>
+        <div id="docs-menu" class="span2">
+            docs
+        </div>
+        <div id="help-menu" class="span2">
+            help
+        </div>
+        <div id="user-menu" class="span2">
+            user
+        </div>
+    </div>
 </header>
 
-<!-- a dynamic section of the view hierarchy that will be filled in
-     response to routing changes -->
-{{outlet}}
+<section id="main" class="container">
+    <div class="row">
+        <div id="marketplace-nav" class="span2">
+            <nav>
+                <ul>
+                    <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
+                    <li>{{#linkTo login.create }}Login{{/linkTo}}</li>
+                </ul>
+            </nav>
+        </div>
+        <div id="content" class="span24">
+            <div class="row">
+                <div class="offset2 span22">
+                    <h1>heading</h1>
+                    <h2>heading</h2>
+                    <h3>heading</h3>
+                    <span class="label1a">label1a</span>
+                    <span class="label2a">label2a</span>
+                    <span class="label3a">label3a</span>
+                    <span class="label4a">label4a</span>
+                    <span class="label5a">label5a</span>
+                    <span class="label6a">label6a</span>
+                    <span class="number1a">number1a</span>
+                    <span class="nav1a">nav1a</span>
+                    <span class="nav2a">nav2a</span>
+                    {{outlet}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

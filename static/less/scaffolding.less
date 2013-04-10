@@ -1,0 +1,87 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+/*
+* Site structure
+*
+* Behold, the structure of the site. The following defines the colors, the
+* look, and the feel of the main structural components of the site.
+*/
+
+#header {
+  background-color: @searchBarBackground;
+  height: @searchBarHeight;
+}
+
+.container {
+  &> .row {
+    &>.span2 {
+      // push the background colour all the way to the edge of the column
+      &:first-child {
+        width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
+      }
+      // this col and the #marketplace-nav col are hard up against each other
+      // so no margin
+      &+[class*="span"] {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+#logo {
+  .img {
+    .cssicon(
+      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
+      @width: 22px,
+      @height: 20px,
+      @display: block
+    );
+    margin: 20px auto 0;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+#marketplaces {
+  text-align: center;
+}
+
+#search {
+  input {
+    background-color: @searchBoxBackground;
+    border: 0;
+    margin: @searchBoxMargin;
+    height: @searchBoxHeight;
+    width: 99%;
+    padding: 0 0 0 10px;
+  }
+}
+
+#docs-menu {
+  text-align: center;
+}
+
+#help-menu {
+  text-align: center;
+}
+
+#user-menu {
+  text-align: center;
+}
+
+#main {
+
+}
+
+#marketplace-nav {
+  background-color: @marketplaceNavBackground;
+  min-height: @mainMinHeight + @mainVerticalPadding;
+}
+
+#content {
+  background-color: @contentBackground;
+  min-height: @mainMinHeight;
+  padding-top: @mainVerticalPadding;
+}

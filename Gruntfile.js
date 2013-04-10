@@ -135,7 +135,7 @@ module.exports = function (grunt) {
                     yuicompress: true
                 },
                 files: {
-                    "build/css/base.css": "static/less/base.less"
+                    "build/css/base.min.css": "static/less/base.less"
                 }
             }
         },
