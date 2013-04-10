@@ -2,26 +2,28 @@
 <header id="header" class="container">
     <div class="row">
         <div id="logo" class="span2">
-            <a href="/" class="img">Balanced Dashboard</a>
+            {{#linkTo root  class="img"}}Balanced Dashboard{{/linkTo}}
         </div>
         <div id="marketplaces-and-search" class="span18">
             <div id="marketplaces">
                 <span class="nav2d">Marketplaces</span>
                 <span class="nav1d">(live)</span>
+                {{outlet marketplaces}}
             </div>
             <div id="search">
                 <input type="search" name="q" id="q" placeholder="Search">
+                {{outlet search}}
             </div>
         </div>
         <div id="site-nav" class="span6">
             <div id="docs-menu">
-                <span class="nav1d">docs</span>
+                <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
             </div>
             <div id="help-menu">
-                <span class="nav1d">help</span>
+                <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
             </div>
             <div id="user-menu">
-                <span class="nav1d">user</span>
+                <span class="nav1d">{{#linkTo login.create }}Login{{/linkTo}}</span>
             </div>
         </div>
     </div>
@@ -30,27 +32,19 @@
 <section id="main" class="container">
     <div class="row">
         <nav id="marketplace-nav" class="span2">
+            {{outlet sidebar}}
             <ul>
                 <li></li>
                 <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
-                <li>{{#linkTo login.create }}Login{{/linkTo}}</li>
+                <li><span>Overview</span></li>
+                <li><span>Invoices</span></li>
+                <li><span>Logs</span></li>
+                <li><span>Settings</span></li>
             </ul>
         </nav>
         <div id="content" class="span24">
             <div class="row">
                 <div class="offset2 span22">
-                    <h1>heading</h1>
-                    <h2>heading</h2>
-                    <h3>heading</h3>
-                    <span class="label1a">label1a</span>
-                    <span class="label2a">label2a</span>
-                    <span class="label3a">label3a</span>
-                    <span class="label4a">label4a</span>
-                    <span class="label5a">label5a</span>
-                    <span class="label6a">label6a</span>
-                    <span class="number1a">number1a</span>
-                    <span class="nav1a">nav1a</span>
-                    <span class="nav2a">nav2a</span>
                     {{outlet}}
                 </div>
             </div>

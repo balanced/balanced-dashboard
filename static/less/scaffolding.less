@@ -92,12 +92,14 @@
     &:last-child {
       border-right: 0;
     }
-    &>span {
+    &>a, span {
       padding-top: 20px;
       display: inline-block;
     }
+    a {
+      color: white;
+    }
   }
-
 }
 
 #docs-menu {
@@ -129,7 +131,7 @@
     text-align: center;
 
     position: relative;
-    &>a {
+    &>a, span {
       position: absolute;
       top: 0;
       bottom: 0;
