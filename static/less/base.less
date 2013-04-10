@@ -75,5 +75,30 @@ ul, li {
 .fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
 .fontyFont(nav2, nimbussannovcon-bol, 18px);
 
+.button, button {
+  font-family: nimbussannov-med;
+  font-size: 15px;
+  border: 2px solid @buttonColor;
+  background-color: @buttonBackgroundColor;
+  color: @buttonColor;
+  text-align: center;
+  padding: 5px 12px;
+  line-height: 1em;
+  vertical-align: middle;
+  &:hover {
+    background-color: @buttonColor;
+    color: @buttonBackgroundColor;
+    text-decoration: none;
+  }
+  &.danger {
+    border-color: @buttonDangerColor;
+    color: @buttonDangerColor;
+    &:hover {
+      background-color: @buttonDangerColor;
+      border-color: @buttonDangerColor;
+      color: @buttonBackgroundColor;
+    }
+  }
+}
 
 @import "/static/less/scaffolding.less";
