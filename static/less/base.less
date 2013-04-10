@@ -40,7 +40,7 @@ h1 {
   font-family: nimbussannov-reg;
   font-weight: normal;
   font-size: 34px;
-  color: #737373;
+  color: #000;
 }
 
 h2 {
@@ -75,7 +75,7 @@ ul, li {
 .fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
 .fontyFont(nav2, nimbussannovcon-bol, 18px);
 
-.button, button {
+.btn, button {
   font-family: nimbussannov-med;
   font-size: 15px;
   border: 2px solid @buttonColor;
@@ -85,6 +85,9 @@ ul, li {
   padding: 5px 12px;
   line-height: 1em;
   vertical-align: middle;
+  &:visited {
+    color: @buttonColor;
+  }
   &:hover {
     background-color: @buttonColor;
     color: @buttonBackgroundColor;
@@ -102,3 +105,5 @@ ul, li {
 }
 
 @import "/static/less/scaffolding.less";
+@import "/static/less/forms.less";
+@import "/static/less/modals.less";

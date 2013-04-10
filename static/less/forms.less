@@ -1,0 +1,58 @@
+form {
+  //  what retard puts margin on a form element?
+  margin: 0;
+  label {
+    font-family: nimbussannov-bol;
+    color: #000;
+    margin-bottom: 0;
+    &:after {
+      content: ':';
+      padding-right: 3px;
+    }
+  }
+
+  select,
+  textarea,
+  input[type="text"],
+  input[type="password"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input[type="number"],
+  input[type="email"],
+  input[type="url"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="color"] {
+    border: 1px solid @inputBorderColor;
+    border-radius: 0;
+    color: #000;
+    font-size: @inputFontSize;
+    width: @inputFullWidth / 2;
+    padding: @inputPadding;
+    height: @inputHeight;
+    &.full {
+      width: @inputFullWidth - @inputPadding * 2;
+    }
+  }
+
+  .input-append,
+  .input-prepend {
+    .add-on {
+      font-size: @inputFontSize;
+      height: 30px;
+      min-width: @inputFontSize;
+      line-height: 1.7;
+      border-radius: 0;
+      background-color: #000;
+      color: #fff;
+      border-color: #000;
+      &:first-child {
+        .border-radius(0);
+      }
+    }
+  }
+}
