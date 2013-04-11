@@ -11,36 +11,39 @@
             <button class="danger">Cancel</button>
         </div>
 
-        <div class="modal">
-            <form>
-            <div class="modal-header">
-                <h2>Capture the hold</h2>
-            </div>
-            <div class="modal-body">
-                <ul class="summary-info">
-                    <li><label>Buyer</label>Aaron hill</li>
-                    <li><label>Credit card #</label>xxxx xxxx xxxx 1234</li>
-                    <li><label>Card holder's name</label>Aaron hill</li>
-                    <li><label>Card type</label>VISA</li>
-                </ul>
-                    <label>Description</label>
-                    <input type="text" value="Order #0234843" class="full">
-                    <label>Appears on statement as</label>
-                    <input type="text" value="" class="full">
+        <div>
+            <a href="#capture-hold" class="btn" data-toggle="modal">Capture hold</a>
+            <div class="modal hide" id="capture-hold">
+                <form>
+                <div class="modal-header">
+                    <h2>Capture the hold</h2>
+                </div>
+                <div class="modal-body">
+                    <ul class="summary-info">
+                        <li><label>Buyer</label>Aaron hill</li>
+                        <li><label>Credit card #</label>xxxx xxxx xxxx 1234</li>
+                        <li><label>Card holder's name</label>Aaron hill</li>
+                        <li><label>Card type</label>VISA</li>
+                    </ul>
+                        <label>Description</label>
+                        <input type="text" value="Order #0234843" class="full">
+                        <label>Appears on statement as</label>
+                        <input type="text" value="" class="full">
 
-                    <label>Amount</label>
-                    <div class="input-prepend">
-                        <span class="add-on">$</span>
-                        <input type="number" value="295.00">
-                    </div>
+                        <label>Amount</label>
+                        <div class="input-prepend">
+                            <span class="add-on">$</span>
+                            <input type="number" value="295.00">
+                        </div>
 
-                </ul>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn danger" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button class="btn">Capture hold</button>
+                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <a href="#" class="btn danger">Close</a>
-                <a href="#" class="btn">Capture hold</a>
-            </div>
-            </form>
         </div>
 
     </div>
