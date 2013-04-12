@@ -13,4 +13,5 @@ require('static/lib/ember-data');
 
 
 /* widgets and whatnot. i think these could be loaded separately*/
+require('static/lib/bootstrap/bootstrap-dropdown');
 require('static/lib/bootstrap/bootstrap-modal');

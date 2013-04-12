@@ -12,7 +12,7 @@
   background-color: @searchBarBackground;
   height: @searchBarHeight;
 
-  &>div>div {
+  > div > div {
     height: @searchBarHeight;
     border-right: 1px solid @searchBoxBackground;
     &:last-child {
@@ -22,8 +22,8 @@
 }
 
 .container {
-  &> .row {
-    &>.span2 {
+  > .row {
+    > .span2 {
       // push the background colour all the way to the edge of the column
       &:first-child {
         width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
@@ -57,10 +57,67 @@
   width: 823px;
 }
 
+@menuActiveBackground: #a5cbcf;
+@menuBorder: #a5cbcf;
+@menuBackground: #dbeaeb;
+@menuHoverBackground: #fff;
+@menuNewBackground: #73afb6;
+
 #marketplaces {
   text-align: center;
   display: inline-block;
   width: 20%;
+  > a {
+    display: block;
+    width: 100%;
+    padding: 18px 0;
+    text-decoration: none;
+  }
+  &.open {
+    background: @menuBorder;
+  }
+  .dropdown-menu {
+    border: 5px solid @menuBorder;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    background: @menuBackground;
+    text-align: left;
+    h4 {
+      border-bottom: 1px solid #eee;
+      margin: 10px 0 0;
+      padding: 0 15px;
+    }
+    li ul {
+      margin-bottom: 20px;
+    }
+    li {
+
+    }
+    li li {
+
+    }
+    .new {
+      background-color: @menuNewBackground;
+      a {
+        color: white;
+        padding: 10px 15px;
+        &:hover {
+          background-color: @menuNewBackground;
+          text-decoration: underline;
+        }
+      }
+    }
+    a {
+      color: black;
+      display: block;
+      padding: 5px 15px;
+      &:hover {
+        text-decoration: none;
+        background: @menuHoverBackground;
+      }
+    }
+  }
 }
 
 #search {
@@ -92,9 +149,10 @@
     &:last-child {
       border-right: 0;
     }
-    &>a, span {
-      padding-top: 20px;
-      display: inline-block;
+    > a, > span {
+      padding: 20px 0;
+      width: 100%;
+      display: block;
     }
     a {
       color: white;
@@ -131,7 +189,7 @@
     text-align: center;
 
     position: relative;
-    &>a, span {
+    > a, > span {
       position: absolute;
       top: 0;
       bottom: 0;

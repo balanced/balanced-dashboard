@@ -26,6 +26,7 @@ if (window.TESTING) {
  */
 require('app/lib/ajax');
 require('app/lib/helpers');
+require('app/lib/migration');
 
 /*
  * Model layer.
