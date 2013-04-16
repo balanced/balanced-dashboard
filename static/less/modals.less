@@ -19,7 +19,7 @@
 
 .modal-backdrop,
 .modal-backdrop.fade.in {
-  .opacity(70);
+  .opacity(85);
 }
 
 // Base modal
@@ -31,9 +31,9 @@
   width: @modalWidth;
   margin-left: -@modalWidth / 2;
   background-color: @modalBackgroundColor;
-  border: 1px solid;
-  border: 1px solid;
-  *border: 1px solid;
+  border: @modalBorderWidth solid;
+  border: @modalBorderWidth solid;
+  *border: @modalBorderWidth solid;
   border-color: @modalBorderColor;
   .background-clip(padding-box);
   // Remove focus outline from opened modal
@@ -50,14 +50,29 @@
 .modal-header {
   padding: 5px 15px;
   border-bottom: 1px transparent;
+  background-color: @modalBorderColor;
   // Close icon
   .close {
-    margin-top: 2px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 22px;
+    height: 22px;
+    background-color: #4D4B49;
+    border: 0;
+    font-size: 25px;
+    padding: 3px 0 0;
+    color: white;
+    line-height: 21px;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
   // Heading
-  h3 {
-    margin: 0;
-    line-height: 30px;
+  h2 {
+    color: #fff;
+    padding-left: 25px;
+    margin-top: 5px;
   }
 }
 
@@ -66,8 +81,8 @@
   position: relative;
   overflow-y: auto;
   max-height: 400px;
-  margin: 0 10px;
-  padding: 30px;
+  margin: 0;
+  padding: 35px;
   background-color: @modalBodyBackgroundColor;
 }
 
@@ -78,7 +93,7 @@
 
 // Footer (for actions)
 .modal-footer {
-  padding: 23px 30px 23px;
+  padding: 15px;
   margin-bottom: 0;
   text-align: right; // right align buttons
   background-color: @modalBackgroundColor;
