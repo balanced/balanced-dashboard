@@ -54,24 +54,29 @@
 }
 
 #marketplaces-and-search {
-  width: 823px;
+  width: 673px;
 }
 
-@menuActiveBackground: #a5cbcf;
-@menuBorder: #a5cbcf;
-@menuBackground: #dbeaeb;
-@menuHoverBackground: #fff;
-@menuNewBackground: #73afb6;
-
+// TODO: this is shaping up to be a general menu style. refactor if that's the
+// case
 #marketplaces {
   text-align: center;
   display: inline-block;
-  width: 20%;
+  width: 170px;
+  position: relative;
+  height: 59px;
+  border-right: 1px solid @searchBoxBackground;
   > a {
     display: block;
     width: 100%;
     padding: 18px 0;
     text-decoration: none;
+    &:active {
+      outline: 0;
+    }
+  }
+  .caret {
+    border-top-color: @searchBoxBackground;
   }
   &.open {
     background: @menuBorder;
@@ -80,11 +85,13 @@
     border: 5px solid @menuBorder;
     border-radius: 0;
     box-shadow: none;
-    padding: 0;
+    padding: 5px 0 0;
     background: @menuBackground;
     text-align: left;
+    margin: 0;
+    min-width: 210px;
     h4 {
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #BFBEB9;
       margin: 10px 0 0;
       padding: 0 15px;
     }
@@ -103,8 +110,7 @@
         color: white;
         padding: 10px 15px;
         &:hover {
-          background-color: @menuNewBackground;
-          text-decoration: underline;
+          background-color: #000;
         }
       }
     }
@@ -122,15 +128,16 @@
 
 #search {
   display: inline-block;
-  width: 79%; // not sure where this 1% has gone.
+  width: 499px;
   input {
     background-color: @searchBoxBackground;
     border: 0;
     margin: @searchBoxMargin;
     height: @searchBoxHeight;
     padding: 0 0 0 10px;
-    width: 97%; // dropped a few % to account for padding
-
+    width: 479px; // dropped a few % to account for padding
+    position: relative;
+    left: -1px;
     font-family: nimbussannov-med;
     font-weight: normal;
     font-size: 18px;
@@ -139,7 +146,7 @@
 }
 
 #site-nav {
-  width: 240px;
+  width: 390px;
   margin-left: 0;
 
   [id$="menu"] {
@@ -150,14 +157,24 @@
       border-right: 0;
     }
     > a, > span {
-      padding: 20px 0;
+      padding: 21px 0;
       width: 100%;
       display: block;
     }
     a {
       color: white;
+      &:hover {
+        background-color: #a5cbcf;
+        color: #000;
+        text-decoration: none;
+      }
     }
   }
+}
+
+#go-live-menu {
+  text-align: center;
+  width: 150px;
 }
 
 #docs-menu {
@@ -172,7 +189,7 @@
 
 #user-menu {
   text-align: center;
-  width: 90px;
+  width: 95px;
 }
 
 #main {
