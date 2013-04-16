@@ -61,10 +61,10 @@
 // case
 #marketplaces {
   text-align: center;
-  display: inline-block;
+  display: block;
+  float: left;
   width: 170px;
-  position: relative;
-  height: 59px;
+  height: 60px;
   border-right: 1px solid @searchBoxBackground;
   > a {
     display: block;
@@ -127,7 +127,8 @@
 }
 
 #search {
-  display: inline-block;
+  display: block;
+  float: left;
   width: 499px;
   input {
     background-color: @searchBoxBackground;
@@ -135,9 +136,7 @@
     margin: @searchBoxMargin;
     height: @searchBoxHeight;
     padding: 0 0 0 10px;
-    width: 479px; // dropped a few % to account for padding
-    position: relative;
-    left: -1px;
+    width: 482px;
     font-family: nimbussannov-med;
     font-weight: normal;
     font-size: 18px;
