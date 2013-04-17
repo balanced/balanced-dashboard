@@ -250,8 +250,14 @@ module.exports = function (grunt) {
                     }
                 ]
             }
-        }
+        },
 
+        img: {
+            // using only dirs with output path
+            crush_them: {
+                src: ['static/images/**/*.png']
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -266,6 +272,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-s3');
+    grunt.loadNpmTasks('grunt-img');
 
     /*
      A task to build the test runner html file that get place in
@@ -318,5 +325,17 @@ module.exports = function (grunt) {
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
     grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
-    grunt.registerTask('deploy', ['build', 's3']);
+
+    /*
+    * This isn't run as part of the build to make it easier for people to hack
+    * on the project as this requires optipng to be installed which is an
+    * external dependency.
+    */
+    grunt.registerTask('optimize', ['img']);
+
+    /*
+    * Uploads to s3. Requires environment variables to be set if the bucket
+    * you're uploading to doesn't have public write access.
+    */
+    grunt.registerTask('deploy', ['build', 'optimize', 's3']);
 };
