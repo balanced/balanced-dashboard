@@ -11,3 +11,7 @@ require('static/lib/handlebars.runtime-1.0.0-rc.3');
 require('static/lib/ember-1.0.0-rc.1');
 require('static/lib/ember-data');
 
+
+/* widgets and whatnot. i think these could be loaded separately*/
+require('static/lib/bootstrap/bootstrap-dropdown');
+require('static/lib/bootstrap/bootstrap-modal');

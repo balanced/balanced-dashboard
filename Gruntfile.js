@@ -135,7 +135,7 @@ module.exports = function (grunt) {
                     yuicompress: true
                 },
                 files: {
-                    "build/css/base.css": "static/less/base.less"
+                    "build/css/base.min.css": "static/less/base.less"
                 }
             }
         },
@@ -317,6 +317,6 @@ module.exports = function (grunt) {
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
-    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'less', 'uglify', 'copy', 'hashres']);
+    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
     grunt.registerTask('deploy', ['build', 's3']);
 };

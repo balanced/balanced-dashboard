@@ -1,4 +1,9 @@
+Balanced.Route = Ember.Route.extend({
+
+});
+
 Balanced.Router.map(function () {
+    this.route("root", {path: "/"});
     this.resource("marketplaces", {path: "/marketplaces"}, function () {
         this.route("index", {path: "/"});
         this.resource("marketplaces.show", { path: "/:marketplace_id" }, function () {
@@ -12,7 +17,7 @@ Balanced.Router.map(function () {
 });
 
 
-Balanced.MarketplacesIndexRoute = Ember.Route.extend({
+Balanced.MarketplacesIndexRoute = Balanced.Route.extend({
     model: function () {
         return Balanced.Marketplace.find();
     },
@@ -27,7 +32,7 @@ Balanced.MarketplacesIndexRoute = Ember.Route.extend({
 });
 
 
-Balanced.MarketplacesShowRoute = Ember.Route.extend({
+Balanced.MarketplacesShowRoute = Balanced.Route.extend({
     model: function (params) {
         return Balanced.Marketplace.find(params.marketplace_id);
     },
@@ -39,7 +44,7 @@ Balanced.MarketplacesShowRoute = Ember.Route.extend({
 });
 
 
-Balanced.LoginCreateRoute = Ember.Route.extend({
+Balanced.LoginCreateRoute = Balanced.Route.extend({
     renderTemplate: function () {
         this.render('auth_login');
     }

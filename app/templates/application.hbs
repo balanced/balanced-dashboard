@@ -1,13 +1,80 @@
-<header>
-    <img src="static/images/balanced_logo-vertical-01.png" alt="Balanced Logo">
-    <nav>
-    <ul>
-        <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
-        <li>{{#linkTo login.create }}Login{{/linkTo}}</li>
-    </ul>
-    </nav>
+
+<header id="header" class="container">
+    <div class="row">
+        <div id="logo" class="span2">
+            {{#linkTo root  class="img"}}Balanced Dashboard{{/linkTo}}
+        </div>
+        <div id="marketplaces-and-search" class="span18">
+            <div id="marketplaces" class="dropdown">
+                <a class="dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="#">
+                        <span class="nav2d">Marketplaces</span>
+                    <span class="nav1d">(live)</span>
+                    <b class="caret"></b>
+                </a>
+                {{outlet marketplaces}}
+                <ul class="dropdown-menu">
+                    <li>
+                        <h4 class="label6a">Production</h4>
+                        <ul>
+                            <li class="label2a"><a href="#">one</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h4 class="label6a">Test</h4>
+                        <ul>
+                            <li class="label2a"><a href="#">one</a></li>
+                            <li class="label2a"><a href="#">one</a></li>
+                            <li class="label2a"><a href="#">one</a></li>
+                        </ul>
+                    </li>
+                    <li class="new label2d"><a href="#"> + Add a marketplace</a></li>
+                </ul>
+            </div>
+            <div id="search">
+                <form>
+                <input type="search" name="q" id="q" placeholder="Search">
+                {{outlet search}}
+                </form>
+            </div>
+        </div>
+        <div id="site-nav" class="span6">
+            <div id="go-live-menu">
+                <a href="#" class="nav1d">production access</a>
+            </div>
+            <div id="docs-menu">
+                <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
+            </div>
+            <div id="help-menu">
+                <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
+            </div>
+            <div id="user-menu">
+                {{#linkTo login.create class="nav1d" }}Login{{/linkTo}}
+            </div>
+        </div>
+    </div>
 </header>
 
-<!-- a dynamic section of the view hierarchy that will be filled in
-     response to routing changes -->
-{{outlet}}
+<section id="main" class="container">
+    <div class="row">
+        <nav id="marketplace-nav" class="span2">
+            {{outlet sidebar}}
+            <ul>
+                <li></li>
+                <li>{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
+                <li><span>Overview</span></li>
+                <li><span>Invoices</span></li>
+                <li><span>Logs</span></li>
+                <li><span>Settings</span></li>
+            </ul>
+        </nav>
+        <div id="content" class="span24">
+            <div class="row">
+                <div class="offset2 span22">
+                    {{outlet}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

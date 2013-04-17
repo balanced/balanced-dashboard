@@ -1,0 +1,224 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+  /*
+  * Site structure
+  *
+  * Behold, the structure of the site. The following defines the colors, the
+  * look, and the feel of the main structural components of the site.
+  */
+
+#header {
+  background-color: @searchBarBackground;
+  height: @searchBarHeight;
+
+  > div > div {
+    height: @searchBarHeight;
+    border-right: 1px solid @searchBoxBackground;
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
+
+.container {
+  > .row {
+    > .span2 {
+      // push the background colour all the way to the edge of the column
+      &:first-child {
+        width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
+        // this col and the #marketplace-nav col are hard up against each other
+        // so no margin
+        &+[class*="span"] {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+#logo {
+  //  border-right: 1px solid @searchBoxBackground;
+  .img {
+    .cssicon(
+      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
+      @width: 22px,
+      @height: 20px,
+      @display: block
+    );
+    margin: 20px auto 0;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+#marketplaces-and-search {
+  width: 673px;
+}
+
+// TODO: this is shaping up to be a general menu style. refactor if that's the
+// case
+#marketplaces {
+  text-align: center;
+  display: block;
+  float: left;
+  width: 170px;
+  height: 60px;
+  border-right: 1px solid @searchBoxBackground;
+  > a {
+    display: block;
+    width: 100%;
+    padding: 18px 0;
+    text-decoration: none;
+    &:active {
+      outline: 0;
+    }
+  }
+  .caret {
+    border-top-color: @searchBoxBackground;
+  }
+  &.open {
+    background: @menuBorder;
+  }
+  .dropdown-menu {
+    border: 5px solid @menuBorder;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 5px 0 0;
+    background: @menuBackground;
+    text-align: left;
+    margin: 0;
+    min-width: 210px;
+    h4 {
+      border-bottom: 1px solid #BFBEB9;
+      margin: 10px 0 0;
+      padding: 0 15px;
+    }
+    li ul {
+      margin-bottom: 20px;
+    }
+    li {
+
+    }
+    li li {
+
+    }
+    .new {
+      background-color: @menuNewBackground;
+      a {
+        color: white;
+        padding: 10px 15px;
+        &:hover {
+          background-color: #000;
+        }
+      }
+    }
+    a {
+      color: black;
+      display: block;
+      padding: 5px 15px;
+      &:hover {
+        text-decoration: none;
+        background: @menuHoverBackground;
+      }
+    }
+  }
+}
+
+#search {
+  display: block;
+  float: left;
+  width: 499px;
+  input {
+    background-color: @searchBoxBackground;
+    border: 0;
+    margin: @searchBoxMargin;
+    height: @searchBoxHeight;
+    padding: 0 0 0 10px;
+    width: 482px;
+    font-family: nimbussannov-med;
+    font-weight: normal;
+    font-size: 18px;
+    color: #fff;
+  }
+}
+
+#site-nav {
+  width: 390px;
+  margin-left: 0;
+
+  [id$="menu"] {
+    float: left;
+    height: @searchBarHeight;
+    border-right: 1px solid @searchBoxBackground;
+    &:last-child {
+      border-right: 0;
+    }
+    > a, > span {
+      padding: 21px 0;
+      width: 100%;
+      display: block;
+    }
+    a {
+      color: white;
+      &:hover {
+        background-color: #a5cbcf;
+        color: #000;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#go-live-menu {
+  text-align: center;
+  width: 150px;
+}
+
+#docs-menu {
+  text-align: center;
+  width: 72px;
+}
+
+#help-menu {
+  text-align: center;
+  width: 70px;
+}
+
+#user-menu {
+  text-align: center;
+  width: 95px;
+}
+
+#main {
+
+}
+
+#marketplace-nav {
+  background-color: @marketplaceNavBackground;
+  min-height: @mainMinHeight + @mainVerticalPadding;
+  li {
+    display: block;
+    width: 90px;
+    height: 90px;
+    text-align: center;
+
+    position: relative;
+    > a, > span {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      margin: auto;
+    }
+  }
+}
+
+#content {
+  background-color: @contentBackground;
+  min-height: @mainMinHeight;
+  padding-top: @mainVerticalPadding;
+}

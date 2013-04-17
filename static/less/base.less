@@ -1,1 +1,111 @@
-@poop: #000;
+@import "/static/less/bootstrap.less";
+@import "/static/less/fonts.less";
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+/*
+* base.less
+*
+* Here we define less/css that affects the whole site.
+*
+* Styles for individual components/pages should go in their own file.
+*/
+
+html {
+
+}
+
+body {
+
+}
+
+footer {
+
+}
+
+a {
+  color: @linkColor;
+  &:hover {
+    color: @linkColorHover;
+  }
+  &:active {
+    color: @linkColor;
+  }
+  &:visited {
+    color: @linkColor;
+  }
+}
+
+h1 {
+  font-family: nimbussannov-reg;
+  font-weight: normal;
+  font-size: 34px;
+  color: #000;
+}
+
+h2 {
+  font-family: nimbussannov-bol;
+  font-weight: normal;
+  font-size: 24px;
+  color: #000;
+}
+
+h3 {
+  font-family: fanwoodtext-regular;
+  font-weight: normal;
+  font-size: 16px;
+  color: #000;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fontyFont(label1, nimbussannov-med, 18px);
+.fontyFont(label2, nimbussannov-bol, 15px);
+.fontyFont(label3, nimbussannov-med, 15px);
+.fontyFont(label4, nimbussannov-sembol, 13px);
+.fontyFont(label5, nimbussannov-med, 12px);
+.fontyFont(label6, fanwoodtext-italic, 16px);
+.fontyFont(number1, nimbussannovcon-bol, 56px);
+.fontyFont(number2, nimbussannovcon-bol, 24px);
+.fontyFont(number3, nimbussannovcon-bol, 18px);
+.fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
+.fontyFont(nav2, nimbussannov-bol, 18px);
+.fontyFont(body2, fanwoodtext-regular, 18px);
+
+.btn, button {
+  font-family: nimbussannov-med;
+  font-size: 15px;
+  border: 3px solid @buttonColor;
+  background-color: @buttonBackgroundColor;
+  color: @buttonColor;
+  text-align: center;
+  padding: 5px 12px;
+  line-height: 1em;
+  vertical-align: middle;
+  &:visited {
+    color: @buttonColor;
+  }
+  &:hover {
+    background-color: @buttonColor;
+    color: @buttonBackgroundColor;
+    text-decoration: none;
+  }
+  &.danger {
+    border-color: @buttonDangerColor;
+    color: @buttonDangerColor;
+    &:hover {
+      background-color: @buttonDangerColor;
+      border-color: @buttonDangerColor;
+      color: @buttonBackgroundColor;
+    }
+  }
+}
+
+@import "/static/less/scaffolding.less";
+@import "/static/less/forms.less";
+@import "/static/less/modals.less";
+@import "/static/less/migration.less";

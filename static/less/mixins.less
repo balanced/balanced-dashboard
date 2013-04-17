@@ -1,0 +1,45 @@
+/*
+* mixins.less
+*
+* swanky less tricks to save time and money
+*/
+
+.cssicon(@url, @width, @height, @display: inline-block) {
+  background: @url;
+  width: @width;
+  height: @height;
+  text-indent: -4000px;
+  display: @display;
+}
+
+.fontyFont(@prefix, @fontFamily, @fontSize, @fontWeight: normal,
+           @textTransform: inherit, @letterSpacing: default) {
+
+  .x() {
+    font-family: @fontFamily, arial, sans-serif;
+    font-weight: @fontWeight;
+    font-size: @fontSize;
+    text-transform: @textTransform;
+    letter-spacing: @letterSpacing;
+  }
+
+  .@{prefix}a {
+    .x();
+    color: #000;
+  }
+
+  .@{prefix}b {
+    .x();
+    color: #737373;
+  }
+
+  .@{prefix}c {
+    .x();
+    color: #e31837;
+  }
+
+  .@{prefix}d {
+    .x();
+    color: #fff;
+  }
+}
