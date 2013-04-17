@@ -1,8 +1,9 @@
-(function (app) {
+(function (Balanced) {
     'use strict';
 
-    var localStorage = window.localStorage,
-        get = Ember.get, set = Ember.set;
+    DS.RESTAdapter.reopen({
+        url: Ember.ENV.BALANCED.API
+    });
 
     /*
      * Like a regular serializer but because we do *not* have a root level
@@ -73,7 +74,7 @@
             });
         },
         updateRecord: function (store, type, record) {
-            var id = get(record, 'id');
+            var id = Ember.get(record, 'id');
             var root = this.rootForType(type);
             var data = this.serialize(record);
 
@@ -92,26 +93,9 @@
         }
     });
 
-    var apiAdapter = balancedAdapter.extend({
-        url: Ember.ENV.BALANCED.API,
-        namespace: 'v1'
-    });
-
-    var authAdapter = balancedAdapter.extend({
-        url: Ember.ENV.BALANCED.AUTH
-    });
-
-    var apiStore = DS.Store.extend({
+    Balanced.Store = DS.Store.extend({
         revision: 12,
-        adapter: apiAdapter
+        adapter: balancedAdapter
     });
-
-    var authStore = DS.Store.extend({
-        revision: 12,
-        adapter: authAdapter
-    });
-
-    app.Store = apiStore;
-    app.AuthStore = authStore;
 
 })(window.Balanced);
