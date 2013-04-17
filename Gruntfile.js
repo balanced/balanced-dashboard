@@ -94,16 +94,21 @@ module.exports = function (grunt) {
         watch: {
             application_code: {
                 files: [
-                    'static/lib/jquery-1.9.1.js',
-                    'static/lib/ember-1.0.0-rc.1.js',
-                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
+                    'static/lib/**/*.js',
                     'app/**/*.js'
                 ],
-                tasks: ['neuter']
+                tasks: ['neuter', 'concat']
+            },
+            tests: {
+                files: [
+                    'test/support/runner.html.tmpl',
+                    'test/**/*.js'
+                ],
+                tasks: ['build_test_runner_file']
             },
             handlebars_templates: {
                 files: ['app/**/*.hbs'],
-                tasks: ['ember_templates', 'neuter']
+                tasks: ['ember_templates', 'neuter', 'concat']
             },
             less: {
                 files: ['static/less/*'],
@@ -337,7 +342,7 @@ module.exports = function (grunt) {
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'jshint', 'less', 'copy', 'watch']);
+    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'less', 'build_test_runner_file', 'copy', 'watch']);
 
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3
