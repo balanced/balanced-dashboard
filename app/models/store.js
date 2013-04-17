@@ -2,7 +2,8 @@
     'use strict';
 
     DS.RESTAdapter.reopen({
-        url: Ember.ENV.BALANCED.API
+        url: Ember.ENV.BALANCED.API,
+        namespace: "v1"
     });
 
     /*
@@ -90,7 +91,28 @@
                     this.didError(store, type, record, xhr);
                 }
             });
-        }
+        },
+
+        buildURL: function(record, suffix) {
+            var url = [this.url];
+
+            Ember.assert("Namespace URL (" + this.namespace + ") must not start with slash", !this.namespace || this.namespace.toString().charAt(0) !== "/");
+            Ember.assert("Record URL (" + record + ") must not start with slash", !record || record.toString().charAt(0) !== "/");
+            Ember.assert("URL suffix (" + suffix + ") must not start with slash", !suffix || suffix.toString().charAt(0) !== "/");
+
+            // TODO - HACK - to get around having a namespace on login. Take this out when we do real auth
+            // Two URLs that we use are not part of the real API: /logins and /marketplaces (with no parameter), so in those cases leave off the namespace
+            if (record !== "login" && (record !== "marketplace" || suffix !== null) && !Ember.isNone(this.namespace)) {
+              url.push(this.namespace);
+            }
+
+            url.push(this.pluralize(record));
+            if (suffix !== undefined) {
+              url.push(suffix);
+            }
+
+            return url.join("/");
+          },
     });
 
     Balanced.Store = DS.Store.extend({
