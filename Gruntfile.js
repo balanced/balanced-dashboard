@@ -55,8 +55,8 @@ module.exports = function (grunt) {
                 src: [
                     'static/lib/jquery-1.9.1.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.2.js',
-                    'static/lib/ember-data.js',
+                    'static/lib/ember-1.0.0-rc.2.min.js',
+                    'static/lib/ember-data.prod.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js'
                 ],
