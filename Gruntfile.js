@@ -27,16 +27,57 @@ module.exports = function (grunt) {
                 options: {
                     includeSourceURL: true
                 },
-                src: ['app/app.js'],
-                dest: 'build/application.js'
+                src: ['app/dashboard.js'],
+                dest: 'build/dashboard-dev.js'
             },
             prod: {
                 src: ['app/dashboard.js'],
-                dest: 'build/dashboard.js'
+                dest: 'build/dashboard-prod.js'
+            }
+        },
+
+        concat: {
+            options: {
+                separator: ';'
+            },
+            libdev: {
+                src: [
+                    'static/lib/jquery-1.9.1.js',
+                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
+                    'static/lib/ember-1.0.0-rc.2.js',
+                    'static/lib/ember-data.js',
+                    'static/lib/bootstrap/bootstrap-dropdown.js',
+                    'static/lib/bootstrap/bootstrap-modal.js'
+                ],
+              dest: 'build/lib-dev.js'
+            },
+            libprod: {
+                src: [
+                    'static/lib/jquery-1.9.1.js',
+                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
+                    'static/lib/ember-1.0.0-rc.2.js',
+                    'static/lib/ember-data.js',
+                    'static/lib/bootstrap/bootstrap-dropdown.js',
+                    'static/lib/bootstrap/bootstrap-modal.js'
+                ],
+              dest: 'build/lib-prod.js'
+            }
+        },
+
+        uglify: {
+            dashboard: {
+                files: {
+                    'dist/js/dashboard-prod.min.js': [
+                        'build/dashboard-prod.js'
+                    ]
+                }
             },
             lib: {
-                src: ['app/lib.js'],
-                dest: 'build/lib.js'
+                files: {
+                    'dist/js/lib-prod.min.js': [
+                        'build/lib-prod.js'
+                    ]
+                }
             }
         },
 
@@ -169,23 +210,6 @@ module.exports = function (grunt) {
             files: ['test/casperjs/**/*.js']
         },
 
-        uglify: {
-            dashboard: {
-                files: {
-                    'dist/js/dashboard.min.js': [
-                        'build/dashboard.js'
-                    ]
-                }
-            },
-            lib: {
-                files: {
-                    'dist/js/lib.min.js': [
-                        'build/lib.js'
-                    ]
-                }
-            }
-        },
-
         copy: {
             html: {
                 files: [
@@ -265,6 +289,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
 
     /*
@@ -305,18 +330,18 @@ module.exports = function (grunt) {
      - build an html file with a script tag for each test file
      - headlessy load this page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'jshint', 'build_test_runner_file', 'qunit']);
+    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'build_test_runner_file', 'qunit']);
     grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['ember_templates', 'neuter', 'jshint', 'less', 'copy', 'watch']);
+    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'jshint', 'less', 'copy', 'watch']);
 
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
-    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
+    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'concat', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
     grunt.registerTask('deploy', ['build', 's3']);
 };
