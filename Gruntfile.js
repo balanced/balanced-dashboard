@@ -247,6 +247,10 @@ module.exports = function (grunt) {
                     {
                         src: 'dist/*',
                         dest: ''
+                    },
+                    {
+                        src: 'static/images/**/*',
+                        dest: 'images/'
                     }
                 ]
             }
