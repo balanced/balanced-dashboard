@@ -312,7 +312,7 @@ module.exports = function (grunt) {
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['ember_templates', 'neuter', 'less', 'watch']);
+    grunt.registerTask('default', ['ember_templates', 'neuter', 'jshint', 'less', 'copy', 'watch']);
 
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3

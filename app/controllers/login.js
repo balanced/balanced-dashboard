@@ -1,4 +1,4 @@
-Balanced.LoginCreateController = Balanced.ObjectController.extend({
+Balanced.LoginController = Balanced.ObjectController.extend({
     model: function () {
         return Balanced.Login.find('current');
     },

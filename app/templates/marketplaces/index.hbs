@@ -1,0 +1,9 @@
+<h3>marketplaces.index</h3>
+{{length}}
+<ul id="marketplace-list">
+  {{#each marketplace in controller}}
+    <li>
+        {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
+    </li>
+  {{/each}}
+</ul>
