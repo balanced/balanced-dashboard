@@ -22,7 +22,12 @@
         }
     };
     </script>
-    <script src="../build/application.js"></script>
+    <script src="../build/lib-dev.js"></script>
+    <script src="../build/dashboard-dev.js"></script>
+
+    <script type="text/javascript" src="support/testconfig.js"></script>
+
+    <script type="text/javascript" src="support/fixtures/marketplace.js"></script>
 
     <% _.each(files, function(filepath) { %>
     <script type="text/javascript" src="<%= filepath %>"></script>

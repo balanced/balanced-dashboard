@@ -188,7 +188,7 @@ module.exports = function (grunt) {
          below.
          */
         build_test_runner_file: {
-            all: ['test/**/*_test.js']
+            all: ['test/unit/**/*.js', 'test/integration/**/*.js']
         },
 
         /*
