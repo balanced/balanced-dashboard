@@ -12,11 +12,10 @@ logs
 results
 build/*
 dist/*
+report/*
 
 npm-debug.log
 node_modules
-
-test/runner.html
 
 # emacs and other IDEs
 *~

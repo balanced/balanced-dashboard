@@ -2,7 +2,7 @@
 <header id="header" class="container">
     <div class="row">
         <div id="logo" class="span2">
-            {{#linkTo root  class="img"}}Balanced Dashboard{{/linkTo}}
+            {{#linkTo "index"  class="img"}}Balanced Dashboard{{/linkTo}}
         </div>
         <div id="marketplaces-and-search" class="span18">
             <div id="marketplaces" class="dropdown">
@@ -50,7 +50,7 @@
                 <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
             </div>
             <div id="user-menu">
-                {{#linkTo login.create class="nav1d" }}Login{{/linkTo}}
+                {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
             {{outlet sidebar}}
             <ul>
                 <li></li>
-                <li class="marketplaces nav1a">{{#linkTo marketplaces.index }}Marketplaces{{/linkTo}}</li>
+                <li class="marketplaces nav1a">{{#linkTo marketplaces }}Marketplaces{{/linkTo}}</li>
                 <li class="activity nav1a"><span>Activity</span></li>
                 <li class="logs nav1a"><span>Logs</span></li>
                 <li class="invoices nav1a"><span>Invoices</span></li>

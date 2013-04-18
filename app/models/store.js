@@ -1,8 +1,10 @@
-(function (app) {
+(function (Balanced) {
     'use strict';
 
-    var localStorage = window.localStorage,
-        get = Ember.get, set = Ember.set;
+    DS.RESTAdapter.reopen({
+        url: Ember.ENV.BALANCED.API,
+        namespace: "v1"
+    });
 
     /*
      * Like a regular serializer but because we do *not* have a root level
@@ -73,7 +75,7 @@
             });
         },
         updateRecord: function (store, type, record) {
-            var id = get(record, 'id');
+            var id = Ember.get(record, 'id');
             var root = this.rootForType(type);
             var data = this.serialize(record);
 
@@ -89,29 +91,33 @@
                     this.didError(store, type, record, xhr);
                 }
             });
-        }
+        },
+
+        buildURL: function(record, suffix) {
+            var url = [this.url];
+
+            Ember.assert("Namespace URL (" + this.namespace + ") must not start with slash", !this.namespace || this.namespace.toString().charAt(0) !== "/");
+            Ember.assert("Record URL (" + record + ") must not start with slash", !record || record.toString().charAt(0) !== "/");
+            Ember.assert("URL suffix (" + suffix + ") must not start with slash", !suffix || suffix.toString().charAt(0) !== "/");
+
+            // TODO - HACK - to get around having a namespace on login. Take this out when we do real auth
+            // Two URLs that we use are not part of the real API: /logins and /marketplaces (with no parameter), so in those cases leave off the namespace
+            if (record !== "login" && (record !== "marketplace" || !Ember.isNone(suffix)) && !Ember.isNone(this.namespace)) {
+              url.push(this.namespace);
+            }
+
+            url.push(this.pluralize(record));
+            if (suffix !== undefined) {
+              url.push(suffix);
+            }
+
+            return url.join("/");
+          },
     });
 
-    var apiAdapter = balancedAdapter.extend({
-        url: Ember.ENV.BALANCED.API,
-        namespace: 'v1'
-    });
-
-    var authAdapter = balancedAdapter.extend({
-        url: Ember.ENV.BALANCED.AUTH
-    });
-
-    var apiStore = DS.Store.extend({
+    Balanced.Store = DS.Store.extend({
         revision: 12,
-        adapter: apiAdapter
+        adapter: balancedAdapter
     });
-
-    var authStore = DS.Store.extend({
-        revision: 12,
-        adapter: authAdapter
-    });
-
-    app.Store = apiStore;
-    app.AuthStore = authStore;
 
 })(window.Balanced);

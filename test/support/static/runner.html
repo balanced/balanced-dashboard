@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>QUnit basic example</title>
+  <link rel="stylesheet" href="qunit-1.11.0.css">
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+
+    <!-- All these paths are within the build/test directory, since that's where this gets run from -->
+    <script type="text/javascript" src="js/qunit-1.11.0.js"></script>
+    <script type="text/javascript" src="js/sinon.js"></script>
+    <script type="text/javascript">
+    TESTING = true;
+    var ENV = {
+        BALANCED: {
+            API: 'https://api.balancedpayments.com',
+            USER: 'https://auth.balancedpayments.com',
+            WWW: 'https://www.balancedpayments.com',
+            DOCS: 'https://docs.balancedpayments.com'
+        }
+    };
+    </script>
+    <script src="../lib-prod.js"></script>
+    <script src="../dashboard-prod.js"></script>
+
+    <script type="text/javascript" src="js/testconfig.js"></script>
+
+    <script type="text/javascript" src="../test-fixtures.js"></script>
+
+    <script type="text/javascript" src="../tests.js"></script>
+</body>
+</html>
