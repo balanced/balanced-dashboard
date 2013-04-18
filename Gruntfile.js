@@ -143,7 +143,7 @@ module.exports = function (grunt) {
                 coberturaReport: 'report/'
               }
             },
-            all: ['test/**/*.html']
+            all: ['build/test/**/*.html']
         },
 
         /*
@@ -157,7 +157,8 @@ module.exports = function (grunt) {
                 'app/**/*.js',
                 'test/**/*.js',
                 '!static/lib/*.*',
-                '!test/support/*.*'
+                '!test/support/lib/*.*',
+                '!test/support/testconfig.js'
             ],
             options: {
                 jshintrc: '.jshintrc'
@@ -245,6 +246,26 @@ module.exports = function (grunt) {
                         dest: 'dist/css/'
                     }
                 ]
+            },
+            test: {
+                files: [
+                    {
+                        cwd: 'test/support/static/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/'
+                    },
+                    {
+                        cwd: 'test/support/lib/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/js'
+                    },
+                    {
+                        src: 'test/support/testconfig.js',
+                        dest: 'build/test/js/testconfig.js'
+                    }
+                ]
             }
         },
 
@@ -329,7 +350,7 @@ module.exports = function (grunt) {
      - build an html file with a script tag for each test file
      - headlessy load this page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'qunit']);
+    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'copy', 'qunit']);
     grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
