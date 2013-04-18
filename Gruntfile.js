@@ -27,16 +27,70 @@ module.exports = function (grunt) {
                 options: {
                     includeSourceURL: true
                 },
-                src: ['app/app.js'],
-                dest: 'build/application.js'
+                src: ['app/dashboard.js'],
+                dest: 'build/dashboard-dev.js'
             },
             prod: {
                 src: ['app/dashboard.js'],
-                dest: 'build/dashboard.js'
+                dest: 'build/dashboard-prod.js'
+            }
+        },
+
+        concat: {
+            options: {
+                separator: ';'
+            },
+            libdev: {
+                src: [
+                    'static/lib/jquery-1.9.1.js',
+                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
+                    'static/lib/ember-1.0.0-rc.2.js',
+                    'static/lib/ember-data.js',
+                    'static/lib/bootstrap/bootstrap-dropdown.js',
+                    'static/lib/bootstrap/bootstrap-modal.js'
+                ],
+              dest: 'build/lib-dev.js'
+            },
+            libprod: {
+                src: [
+                    'static/lib/jquery-1.9.1.js',
+                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
+                    'static/lib/ember-1.0.0-rc.2.min.js',
+                    'static/lib/ember-data.prod.js',
+                    'static/lib/bootstrap/bootstrap-dropdown.js',
+                    'static/lib/bootstrap/bootstrap-modal.js'
+                ],
+              dest: 'build/lib-prod.js'
+            },
+            testfixtures: {
+                src: [
+                    'test/support/fixtures/**/*.js'
+                ],
+                dest: 'build/test-fixtures.js'
+            },
+            tests: {
+                src: [
+                    'test/unit/**/*.js',
+                    'test/integration/**/*.js'
+                ],
+                dest: 'build/tests.js'
+            }
+        },
+
+        uglify: {
+            dashboard: {
+                files: {
+                    'dist/js/dashboard-prod.min.js': [
+                        'build/dashboard-prod.js'
+                    ]
+                }
             },
             lib: {
-                src: ['app/lib.js'],
-                dest: 'build/lib.js'
+                files: {
+                    'dist/js/lib-prod.min.js': [
+                        'build/lib-prod.js'
+                    ]
+                }
             }
         },
 
@@ -53,16 +107,21 @@ module.exports = function (grunt) {
         watch: {
             application_code: {
                 files: [
-                    'static/lib/jquery-1.9.1.js',
-                    'static/lib/ember-1.0.0-rc.1.js',
-                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
+                    'static/lib/**/*.js',
                     'app/**/*.js'
                 ],
-                tasks: ['neuter']
+                tasks: ['neuter', 'concat']
+            },
+            tests: {
+                files: [
+                    'test/support/runner.html.tmpl',
+                    'test/**/*.js'
+                ],
+                tasks: ['concat']
             },
             handlebars_templates: {
                 files: ['app/**/*.hbs'],
-                tasks: ['ember_templates', 'neuter']
+                tasks: ['ember_templates', 'neuter', 'concat']
             },
             less: {
                 files: ['static/less/*'],
@@ -75,7 +134,16 @@ module.exports = function (grunt) {
          Prints the report in your terminal.
          */
         qunit: {
-            all: ['test/**/*.html']
+            options: {
+              '--web-security': 'no',
+              coverage: {
+                src: ['build/dashboard-prod.js'],
+                instrumentedFiles: 'temp/',
+                htmlReport: 'report/coverage',
+                coberturaReport: 'report/'
+              }
+            },
+            all: ['build/test/**/*.html']
         },
 
         /*
@@ -89,7 +157,8 @@ module.exports = function (grunt) {
                 'app/**/*.js',
                 'test/**/*.js',
                 '!static/lib/*.*',
-                '!test/support/*.*'
+                '!test/support/lib/*.*',
+                '!test/support/testconfig.js'
             ],
             options: {
                 jshintrc: '.jshintrc'
@@ -141,16 +210,6 @@ module.exports = function (grunt) {
         },
 
         /*
-         Find all the <whatever>_test.js files in the test folder.
-         These will get loaded via script tags when the task is run.
-         This gets run as part of the larger 'test' task registered
-         below.
-         */
-        build_test_runner_file: {
-            all: ['test/**/*_test.js']
-        },
-
-        /*
          * A test server used for casperjs tests
          * */
         connect: {
@@ -167,23 +226,6 @@ module.exports = function (grunt) {
                 // Task-specific options go here.
             },
             files: ['test/casperjs/**/*.js']
-        },
-
-        uglify: {
-            dashboard: {
-                files: {
-                    'dist/js/dashboard.min.js': [
-                        'build/dashboard.js'
-                    ]
-                }
-            },
-            lib: {
-                files: {
-                    'dist/js/lib.min.js': [
-                        'build/lib.js'
-                    ]
-                }
-            }
         },
 
         copy: {
@@ -204,6 +246,26 @@ module.exports = function (grunt) {
                         dest: 'dist/css/'
                     }
                 ]
+            },
+            test: {
+                files: [
+                    {
+                        cwd: 'test/support/static/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/'
+                    },
+                    {
+                        cwd: 'test/support/lib/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/js'
+                    },
+                    {
+                        src: 'test/support/testconfig.js',
+                        dest: 'build/test/js/testconfig.js'
+                    }
+                ]
             }
         },
 
@@ -219,7 +281,7 @@ module.exports = function (grunt) {
 
         clean: {
             files: {
-                src: ['build/', 'dist/']
+                src: ['build/', 'dist/', 'report/']
             }
         },
 
@@ -257,7 +319,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-neuter');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-ember-templates');
@@ -265,25 +326,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
-
-    /*
-     A task to build the test runner html file that get place in
-     /test so it will be picked up by the qunit task. Will
-     place a single <script> tag into the body for every file passed to
-     its coniguration above in the grunt.initConfig above.
-     */
-    grunt.registerMultiTask('build_test_runner_file', 'Creates a test runner file.', function () {
-        var tmpl = grunt.file.read('test/support/runner.html.tmpl');
-        var renderingContext = {
-            data: {
-                files: this.filesSrc.map(function (fileSrc) {
-                    return fileSrc.replace('test/', '');
-                })
-            }
-        };
-        grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
-    });
+    grunt.loadNpmTasks('grunt-qunit-istanbul');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -305,18 +350,18 @@ module.exports = function (grunt) {
      - build an html file with a script tag for each test file
      - headlessy load this page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'jshint', 'build_test_runner_file', 'qunit']);
+    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'copy', 'qunit']);
     grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['ember_templates', 'neuter', 'less', 'watch']);
+    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'less', 'copy', 'watch']);
 
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
-    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
+    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'concat', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
     grunt.registerTask('deploy', ['build', 's3']);
 };
