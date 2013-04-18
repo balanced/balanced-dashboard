@@ -1,3 +1,4 @@
+@import "/static/less/grid.less";
 @import "/static/less/bootstrap.less";
 @import "/static/less/fonts.less";
 @import "/static/less/variables.less";
@@ -105,7 +106,18 @@ ul, li {
   }
 }
 
+table {
+  border-collapse: collapse;
+  th {
+    text-align: left;
+  }
+  .num {
+    text-align: right;
+  }
+}
+
 @import "/static/less/scaffolding.less";
 @import "/static/less/forms.less";
 @import "/static/less/modals.less";
+@import "/static/less/search.less";
 @import "/static/less/migration.less";

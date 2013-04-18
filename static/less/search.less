@@ -1,0 +1,151 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+@searchActiveBackground: #a5cbcf;
+@searchHeaderBackground: #bfbeb9;
+@searchBodyBackground: #f2f1ec;
+@searchTimingBackground: #737373;
+@searchTimingBackgroundHover: #000;
+@searchTimingColor: #fff;
+@searchBorder: 5px solid #000;
+
+#search {
+  .results {
+    display: none;
+  }
+  &.with-results {
+    background: @searchActiveBackground;
+    input {
+      background: @searchActiveBackground;
+      color: #000;
+      &:focus {
+        outline: none;
+      }
+    }
+    .results {
+      display: block;
+      position: relative;
+      background-color: @searchActiveBackground;
+      padding-top: 10px;
+      width: 960px;
+      left: -172px;
+      border: @searchBorder;
+      border-top: 0;
+      header {
+        border-top: 1px solid @marketplaceNavColor;
+        background-color: @searchHeaderBackground;
+        float: left;
+        width: 100%;
+        nav {
+          padding-left: 20px;
+        }
+        li {
+          display: block;
+          float: left;
+          border-bottom: 5px solid transparent;
+          padding: 15px 10px 10px;
+          margin: 0 20px;
+          .selector {
+            display: inline-block;
+            padding: 4px 2px 0;
+            height: 9px;
+            vertical-align: middle;
+          }
+          .caret {
+            border-width: 5px;
+            border-top-color: #fff;
+          }
+          &.selected {
+            border-bottom: @searchBorder;
+          }
+        }
+        a {
+          color: #000;
+        }
+      }
+      .timing {
+        padding: 7px 0 0;
+        a {
+          background-color: @searchTimingBackground;
+          color: @searchTimingColor;
+          display: inline-block;
+          padding: 7px;
+          min-width: 120px;
+          text-decoration: none;
+        }
+        &:hover {
+          a {
+            background-color: @searchTimingBackgroundHover;
+            text-decoration: none;
+          }
+        }
+        .caret {
+          float: right;
+          position: relative;
+          top: -2px;
+        }
+      }
+      .selector {
+        background-color: @searchTimingBackground;
+        color: @searchTimingColor;
+        &:hover {
+          background-color: @searchTimingBackgroundHover;
+        }
+      }
+      .transactions {
+        background-color: @searchBodyBackground;
+        width: 100%;
+        th {
+          padding-top: 30px;
+        }
+        td {
+          padding: 12px 15px 12px 0;
+        }
+        thead {
+
+        }
+        th, td {
+          float: none;
+          &:first-child {
+            padding-left: 40px;
+          }
+          &:last-child {
+            padding-right: 40px;
+          }
+        }
+        tbody {
+          tr {
+            border-top: 1px solid #aaa;
+            &:hover {
+              cursor: pointer;
+              background-color: white;
+            }
+          }
+          td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+      .date {
+
+      }
+      .type {
+
+      }
+      .description {
+
+      }
+      .account {
+
+      }
+      .funding-instrument {
+
+      }
+      .amount {
+
+      }
+    }
+  }
+}

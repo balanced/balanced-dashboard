@@ -27,6 +27,7 @@
       // push the background colour all the way to the edge of the column
       &:first-child {
         width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
+        max-width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
         // this col and the #marketplace-nav col are hard up against each other
         // so no margin
         &+[class*="span"] {
@@ -129,8 +130,9 @@
 #search {
   display: block;
   float: left;
-  width: 499px;
+  width: 502px;
   input {
+    box-shadow: none;
     background-color: @searchBoxBackground;
     border: 0;
     margin: @searchBoxMargin;

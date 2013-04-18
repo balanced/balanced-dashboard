@@ -32,11 +32,101 @@
                     <li class="new label2d"><a href="#"> + Add a marketplace</a></li>
                 </ul>
             </div>
-            <div id="search">
+            <div id="search" class="with-results">
                 <form>
                 <input type="search" name="q" id="q" placeholder="Search">
                 {{outlet search}}
                 </form>
+                <div class="results">
+                    <header>
+                        <nav>
+                            <li class="selected label2a">
+                                <a href="#">Transactions (5)</a> <span class="selector"><span class="caret"></span></span>
+                            </li>
+                            <li class="disabled label2a">
+                                <span>Accounts (0)</span>
+                            </li>
+                            <li class="disabled label2a">
+                                <span>Cards &amp; Bank Accounts (0)</span> <span class="selector"><span class="caret"></span></span>
+                            </li>
+                            <li class="timing dropdown label4a">
+                                <a class="dropdown-toggle"
+                                   data-toggle="dropdown"
+                                   href="#">
+                                    Any time
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        sweet drop down here
+                                    </li>
+                                </ul>
+                            </li>
+                        </nav>
+                    </header>
+                    <table class="transactions">
+                        <thead>
+                            <tr>
+                                <th class="span3 label6a sortable unsorted">Date</th>
+                                <th class="span3 label6a type">Transaction</th>
+                                <th class="span4 label6a description">Description</th>
+                                <th class="span4 label6a account">Account</th>
+                                <th class="span4 label6a funding-instrument">Card of Bank Account</th>
+                                <th class="span2 label6a amount sortable unsorted num">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
+                            </td>
+                            <td class="span3 label4f type failed">
+                                Credit:failed
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane / jcoltrane@gmail.com
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
+                            </td>
+                            <td class="span3 label4c type failed">
+                                Credit:failed
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane / jcoltrane@gmail.com and some other shit that's way too long for this column
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
+                            </td>
+                            <td class="span3 label4a type failed">
+                                Credit:failed
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane / jcoltrane@gmail.com
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div id="site-nav" class="span6">
