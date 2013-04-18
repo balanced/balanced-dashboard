@@ -5,3 +5,10 @@ test("view all marketplaces", function () {
 
     equal($("#marketplace-list").find('a').first().text(), "Test Marketplace");
 });
+
+test("view single marketplace", function () {
+    $("a:contains('Marketplaces')").click();
+    $("a:contains('Test Marketplace')").click();
+
+    equal($(".marketplace-name").text(), "Test Marketplace");
+});
