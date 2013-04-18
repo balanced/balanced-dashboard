@@ -260,7 +260,7 @@ module.exports = function (grunt) {
 
         clean: {
             files: {
-                src: ['build/', 'dist/']
+                src: ['build/', 'dist/', 'report/']
             }
         },
 
