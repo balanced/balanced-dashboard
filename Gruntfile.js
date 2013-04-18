@@ -61,6 +61,19 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap/bootstrap-modal.js'
                 ],
               dest: 'build/lib-prod.js'
+            },
+            testfixtures: {
+                src: [
+                    'test/support/fixtures/**/*.js'
+                ],
+                dest: 'build/test-fixtures.js'
+            },
+            tests: {
+                src: [
+                    'test/unit/**/*.js',
+                    'test/integration/**/*.js'
+                ],
+                dest: 'build/tests.js'
             }
         },
 
@@ -104,7 +117,7 @@ module.exports = function (grunt) {
                     'test/support/runner.html.tmpl',
                     'test/**/*.js'
                 ],
-                tasks: ['build_test_runner_file']
+                tasks: ['concat']
             },
             handlebars_templates: {
                 files: ['app/**/*.hbs'],
@@ -193,16 +206,6 @@ module.exports = function (grunt) {
                     "build/css/base.min.css": "static/less/base.less"
                 }
             }
-        },
-
-        /*
-         Find all the <whatever>_test.js files in the test folder.
-         These will get loaded via script tags when the task is run.
-         This gets run as part of the larger 'test' task registered
-         below.
-         */
-        build_test_runner_file: {
-            all: ['test/unit/**/*.js', 'test/integration/**/*.js']
         },
 
         /*
@@ -306,24 +309,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-qunit-istanbul');
 
-    /*
-     A task to build the test runner html file that get place in
-     /test so it will be picked up by the qunit task. Will
-     place a single <script> tag into the body for every file passed to
-     its coniguration above in the grunt.initConfig above.
-     */
-    grunt.registerMultiTask('build_test_runner_file', 'Creates a test runner file.', function () {
-        var tmpl = grunt.file.read('test/support/runner.html.tmpl');
-        var renderingContext = {
-            data: {
-                files: this.filesSrc.map(function (fileSrc) {
-                    return fileSrc.replace('test/', '');
-                })
-            }
-        };
-        grunt.file.write('test/runner.html', grunt.template.process(tmpl, renderingContext));
-    });
-
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
             file.orig.src.forEach(function (f) {
@@ -344,14 +329,14 @@ module.exports = function (grunt) {
      - build an html file with a script tag for each test file
      - headlessy load this page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'build_test_runner_file', 'qunit']);
+    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'qunit']);
     grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'less', 'build_test_runner_file', 'copy', 'watch']);
+    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'less', 'copy', 'watch']);
 
     /*
      Builds for production. Concatenates files together, minifies and then uploads to s3
