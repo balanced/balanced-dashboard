@@ -10,7 +10,8 @@
 @searchBorder: 5px solid #000;
 
 #search {
-  .results {
+  position: relative;
+  .results, .close {
     display: none;
   }
   &.with-results {
@@ -20,6 +21,22 @@
       color: #000;
       &:focus {
         outline: none;
+      }
+    }
+    .close {
+      display: block;
+      right: 10px;
+      top: 20px;
+      height: 20px;
+      padding-top: 2px;
+      background-color: rgb(116, 175, 183);
+      text-indent: -4000px;
+      &:hover {
+        background-color: #777573;
+        cursor: pointer;
+      }
+      &:after {
+        top: 6px;
       }
     }
     .results {
@@ -152,4 +169,18 @@
       }
     }
   }
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #fff !important;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #fff;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #fff;
+    opacity: 1;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #fff;
+  }
 }
+

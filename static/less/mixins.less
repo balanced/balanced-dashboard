@@ -43,13 +43,41 @@
     color: #fff;
   }
 
-//  .@{prefix}e {
-//    .x();
-//    color: #fff;
-//  }
+  //  .@{prefix}e {
+  //    .x();
+  //    color: #fff;
+  //  }
 
   .@{prefix}f {
     .x();
     color: #c88a12;
+  }
+}
+
+.close {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background-color: #4D4B49;
+  border: 0;
+  font-size: 25px;
+  padding: 3px 0 0;
+  color: #4D4B49;
+  line-height: 21px;
+  &:after {
+    .cssicon(
+      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAAV0lEQVR42p2R4QlAIQiEHcERG6UNGqUR3giNdBUoTy76kR8IcqeRKgB0xWfRhNha8NXFgp9GxU6RCJu3R7ip46TLBZ9nwLBcUw2pL+WHJrMGvfJanw83AfPFCSKK6ozSAAAAAElFTkSuQmCC'),
+      @width: 12px,
+      @height: 10px,
+      @display: block
+    );
+    position: absolute;
+    top: 7px;
+    left: 5px;
+    content: ' ';
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.2);
   }
 }
