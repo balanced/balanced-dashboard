@@ -11,6 +11,16 @@
 
 #search {
   position: relative;
+  // search icon
+  &:before {
+    content: ' ';
+    display: block;
+    width: 50px;
+    height: 50px;
+    background: @iconsFile -50px -100px no-repeat;
+    position: absolute;
+    top: 4px;
+  }
   .results, .close {
     display: none;
   }
@@ -184,3 +194,7 @@
   }
 }
 
+#q {
+  text-indent: 25px;
+  line-height: 1.5em;
+}
