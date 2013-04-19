@@ -93,10 +93,24 @@
         a {
           color: #000;
         }
+        .dropdown-menu {
+          border: @searchBorder;
+          border-radius: 0;
+          box-shadow: none;
+          padding: 0;
+          background: @menuBackground;
+          text-align: left;
+          margin: 0;
+          li {
+            margin: 0;
+            padding: 0;
+            border: 0;
+          }
+        }
       }
       .timing {
         padding: 7px 0 0;
-        a {
+        a.dropdown-toggle {
           background-color: @searchTimingBackground;
           color: @searchTimingColor;
           display: inline-block;
@@ -105,7 +119,7 @@
           text-decoration: none;
         }
         &:hover {
-          a {
+          a.dropdown-toggle {
             background-color: @searchTimingBackgroundHover;
             text-decoration: none;
           }
@@ -114,6 +128,31 @@
           float: right;
           position: relative;
           top: 6px;
+        }
+        .dropdown-menu {
+          width: 130px + 230px + 5px * 4;
+          .set-times {
+            li {
+              display: block;
+              float: none;
+              font-family: nimbussannov-med;
+              padding: 0 0 15px;
+              a {
+                color: #737373;
+              }
+            }
+            padding: 5px;
+            background-color: #fff;
+            float: left;
+            width: 130px;
+          }
+          .date-picker {
+            background-color: @searchBodyBackground;
+            padding: 5px;
+            float: right;
+            width: 230px;
+          }
+
         }
       }
       .selector {
