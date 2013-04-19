@@ -45,6 +45,9 @@
           border-bottom: 5px solid transparent;
           padding: 15px 10px 10px;
           margin: 0 20px;
+          &.disabled {
+            color: #737373;
+          }
           .selector {
             display: inline-block;
             padding: 4px 2px 0;
@@ -54,6 +57,7 @@
           .caret {
             border-width: 5px;
             border-top-color: #fff;
+            margin: 0;
           }
           &.selected {
             border-bottom: @searchBorder;
@@ -82,7 +86,7 @@
         .caret {
           float: right;
           position: relative;
-          top: -2px;
+          top: 6px;
         }
       }
       .selector {

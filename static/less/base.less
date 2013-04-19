@@ -74,7 +74,7 @@ ul, li {
 .fontyFont(number2, nimbussannovcon-bol, 24px);
 .fontyFont(number3, nimbussannovcon-bol, 18px);
 .fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
-.fontyFont(nav2, nimbussannov-bol, 18px);
+.fontyFont(nav2, nimbussannov-semibol, 18px);
 .fontyFont(body2, fanwoodtext-regular, 18px);
 
 .btn, button {
@@ -115,6 +115,28 @@ table {
     text-align: right;
   }
 }
+
+::-webkit-input-placeholder { /* WebKit browsers */
+  color:    #000 !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    #000;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    #000;
+  opacity: 1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color:    #000;
+}
+
+
+[type="num"] {
+  -moz-appearance:    textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+
 
 @import "/static/less/scaffolding.less";
 @import "/static/less/forms.less";

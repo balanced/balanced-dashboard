@@ -41,13 +41,25 @@
                     <header>
                         <nav>
                             <li class="selected label2a">
-                                <a href="#">Transactions (5)</a> <span class="selector"><span class="caret"></span></span>
+                                <a href="#">Transactions (5)</a>
+                                <div class="selector dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>choose your txn type</li>
+                                    </ul>
+                                </div>
                             </li>
                             <li class="disabled label2a">
                                 <span>Accounts (0)</span>
                             </li>
                             <li class="disabled label2a">
-                                <span>Cards &amp; Bank Accounts (0)</span> <span class="selector"><span class="caret"></span></span>
+                                <span>Cards &amp; Bank Accounts (0)</span>
+                                <div class="selector dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>choose your txn type</li>
+                                    </ul>
+                                </div>
                             </li>
                             <li class="timing dropdown label4a">
                                 <a class="dropdown-toggle"
@@ -71,7 +83,7 @@
                                 <th class="span3 label6a type">Transaction</th>
                                 <th class="span4 label6a description">Description</th>
                                 <th class="span4 label6a account">Account</th>
-                                <th class="span4 label6a funding-instrument">Card of Bank Account</th>
+                                <th class="span4 label6a funding-instrument">Card or Bank Account</th>
                                 <th class="span2 label6a amount sortable unsorted num">Amount</th>
                             </tr>
                         </thead>
@@ -87,7 +99,7 @@
                                 Order #00003784
                             </td>
                             <td class="span4 account">
-                                John Coltdane / jcoltrane@gmail.com
+                                John Coltdane (jcoltrane@gmail.com)
                             </td>
                             <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
                             <td class="span2 amount num">$158.92</td>
@@ -103,7 +115,7 @@
                                 Order #00003784
                             </td>
                             <td class="span4 account">
-                                John Coltdane / jcoltrane@gmail.com and some other shit that's way too long for this column
+                                John Coltdane (jcoltrane@gmail.com) and some other shit that's way too long for this column
                             </td>
                             <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
                             <td class="span2 amount num">$158.92</td>
@@ -119,7 +131,7 @@
                                 Order #00003784
                             </td>
                             <td class="span4 account">
-                                John Coltdane / jcoltrane@gmail.com
+                                John Coltdane (jcoltrane@gmail.com)
                             </td>
                             <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
                             <td class="span2 amount num">$158.92</td>
