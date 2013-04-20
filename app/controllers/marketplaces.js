@@ -1,3 +1,3 @@
-Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
+Balanced.MarketplacesController = Balanced.ArrayController.extend({
 
 });

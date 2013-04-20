@@ -26,6 +26,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
                 login = null;
             }
             Ember.set('Balanced.currentLogin', login);
+
+            // refresh marketplaces list, since now we're authenticated
+            Balanced.Marketplace.find();
         }
     }
 });

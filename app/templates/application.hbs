@@ -13,24 +13,7 @@
                     <span class="nav1d">(live)</span>
                     <b class="caret"></b>
                 </a>
-                {{outlet marketplaces}}
-                <ul class="dropdown-menu">
-                    <li>
-                        <h4 class="label6a">Production</h4>
-                        <ul>
-                            <li class="label2a"><a href="#">one</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h4 class="label6a">Test</h4>
-                        <ul>
-                            <li class="label2a"><a href="#">one</a></li>
-                            <li class="label2a"><a href="#">one</a></li>
-                            <li class="label2a"><a href="#">one</a></li>
-                        </ul>
-                    </li>
-                    <li class="new label2d"><a href="#"> + Add a marketplace</a></li>
-                </ul>
+                {{ render "marketplaces" }}
             </div>
             <div id="search">
                 <form>
@@ -61,8 +44,6 @@
         <nav id="marketplace-nav" class="span2">
             {{outlet sidebar}}
             <ul>
-                <li></li>
-                <li>{{#linkTo "marketplaces" }}Marketplaces{{/linkTo}}</li>
                 <li><span>Overview</span></li>
                 <li><span>Invoices</span></li>
                 <li><span>Logs</span></li>
