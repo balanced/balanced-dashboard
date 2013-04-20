@@ -1,10 +1,21 @@
-<section id="main">
-  <h2>marketplaces</h2>
-
-  {{outlet}}
-
-</section>
-
-<footer id="footer">
-
-</footer>
+<ul class="dropdown-menu">
+    <li>
+        <h4 class="label6a">Production</h4>
+        <ul>
+          {{#each marketplace in controller}}
+            <li class="label2a">
+              {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
+            </li>
+          {{/each}}
+        </ul>
+    </li>
+    <li>
+        <h4 class="label6a">Test</h4>
+        <ul>
+            <li class="label2a"><a href="#">one</a></li>
+            <li class="label2a"><a href="#">one</a></li>
+            <li class="label2a"><a href="#">one</a></li>
+        </ul>
+    </li>
+    <li class="new label2d"><a href="#"> + Add a marketplace</a></li>
+</ul>

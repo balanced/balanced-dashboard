@@ -45,7 +45,7 @@ require('app/lib/migration');
  */
 require('app/models/_base');
 require('app/models/login');
-require('app/models/marketplaces');
+require('app/models/marketplace');
 
 
 /*
