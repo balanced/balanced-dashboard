@@ -3,7 +3,11 @@ Balanced.Route = Ember.Route.extend({
 });
 
 Balanced.Router.map(function () {
-  this.resource("marketplace", { path: "/marketplaces/:marketplace_id" });
+  this.resource("marketplace", { path: "/marketplaces/:marketplace_id" }, function() {
+    this.route("activity", { path: "/activity" });
+    this.route("invoices", { path: "/invoices" });
+    this.route("logs", { path: "/logs" });
+  });
   this.resource('login');
 });
 

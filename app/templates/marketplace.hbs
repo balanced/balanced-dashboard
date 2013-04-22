@@ -1,1 +1,22 @@
-<iframe id="embedded_dashboard_content" {{ bindAttr src="embedded_iframe_url"}}></iframe>
+<section id="main" class="container">
+    <div class="row">
+        <nav id="marketplace-nav" class="span2">
+            <ul>
+                <li>{{#linkTo "marketplace" model }} Overview {{/linkTo}}</li>
+                <li class="activity nav1a">{{#linkTo "marketplace.activity" model }} Activity {{/linkTo}}</li>
+                <li class="invoices nav1a">{{#linkTo "marketplace.invoices" model }} Invoices {{/linkTo}}</li>
+                <li class="logs nav1a">{{#linkTo "marketplace.logs" model }} Logs {{/linkTo}}</li>
+                <li class="settings nav1a"><span>Settings</span></li>
+            </ul>
+        </nav>
+        <div id="content" class="span24">
+            <div class="row">
+                <div class="offset2 span22">
+                  <h2>{{ name }}</h2>
+
+                  {{outlet}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

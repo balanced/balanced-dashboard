@@ -67,6 +67,7 @@ require('app/views/login');
  */
 require('app/controllers/_base');
 require('app/controllers/marketplaces');
+require('app/controllers/marketplace');
 require('app/controllers/login');
 
 /*

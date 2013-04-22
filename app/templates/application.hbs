@@ -259,24 +259,4 @@
     </div>
 </header>
 
-<section id="main" class="container">
-    <div class="row">
-        <nav id="marketplace-nav" class="span2">
-            {{outlet sidebar}}
-            <ul>
-                <li></li>
-                <li class="activity nav1a"><span>Activity</span></li>
-                <li class="logs nav1a"><span>Logs</span></li>
-                <li class="invoices nav1a"><span>Invoices</span></li>
-                <li class="settings nav1a"><span>Settings</span></li>
-            </ul>
-        </nav>
-        <div id="content" class="span24">
-            <div class="row">
-                <div class="offset2 span22">
-                    {{outlet}}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{{ outlet }}
