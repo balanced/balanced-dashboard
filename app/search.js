@@ -57,6 +57,9 @@ Balanced.Search = (function () {
 
     function selectSearchType(e) {
         var $t = $(this);
+        if ($t.hasClass('dropdown-toggle')) {
+            return;
+        }
         $t.closest('nav').find(' > li').removeClass('selected');
         $t.closest('li').addClass('selected');
         $('#search .items').removeClass('selected');
