@@ -49,6 +49,7 @@ require('app/models/marketplace');
  */
 require('app/views/_base');
 require('app/views/login');
+require('app/views/embedded_iframe');
 
 /*
  * Controller layer.
