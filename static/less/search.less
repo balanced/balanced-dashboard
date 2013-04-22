@@ -9,6 +9,8 @@
 @searchTimingColor: #fff;
 @searchBorder: 5px solid #000;
 
+@datepickerBackground: rgb(217, 216, 213);
+
 #search {
   position: relative;
   // search icon
@@ -26,7 +28,7 @@
   }
   &.with-results {
     background: @searchActiveBackground;
-    input {
+    #q {
       background: @searchActiveBackground;
       color: #000;
       &:focus {
@@ -118,7 +120,7 @@
           min-width: 120px;
           text-decoration: none;
         }
-        &:hover {
+        &:hover, &.open {
           a.dropdown-toggle {
             background-color: @searchTimingBackgroundHover;
             text-decoration: none;
@@ -131,28 +133,93 @@
         }
         .dropdown-menu {
           width: 130px + 230px + 5px * 4;
+          background-color: @searchBodyBackground;
           .set-times {
+            height: 290px;
+            padding: 10px;
+            background-color: #fff;
+            float: left;
+            width: 120px;
+
             li {
               display: block;
               float: none;
               font-family: nimbussannov-med;
               padding: 0 0 15px;
+              &.selected {
+                font-family: nimbussannov-bol;
+              }
               a {
                 color: #737373;
               }
             }
-            padding: 5px;
-            background-color: #fff;
-            float: left;
-            width: 130px;
           }
           .date-picker {
-            background-color: @searchBodyBackground;
-            padding: 5px;
+            padding: 10px;
             float: right;
-            width: 230px;
+            width: 220px;
           }
 
+          //
+          .before, .after {
+            position: absolute;
+            height: 190px;
+            width: 220px;
+            padding-top: 10px;
+            .datepicker {
+              background-color: @datepickerBackground;
+              display: none;
+            }
+            .dt {
+            }
+            &.selected {
+              .datepicker, .dt {
+                background-color: @datepickerBackground;
+                display: block;
+              }
+              .dp {
+                background-color: rgb(165, 203, 209);
+              }
+            }
+          }
+          .go {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin: 10px;
+          }
+          .before {
+            float: right;
+            .dt {
+              right: 0;
+              text-align: right;
+            }
+          }
+          .after {
+            float: left;
+          }
+          //  wrapper around dp
+          .dt {
+            position: absolute;
+            bottom: -50px;
+            width: 50%;
+            padding: 10px;
+            width: 90px;
+          }
+          //  date picker (input box with date in it)
+          .dp {
+            width: 75px;
+            margin: 0;
+            border-radius: 0;
+            border: 1px solid rgb(197, 197, 197);
+          }
+          .datepicker {
+//            position: relative;
+            top: 0;
+            display: block;
+            width: 220px;
+            border: 0;
+          }
         }
       }
       .selector {
@@ -218,18 +285,22 @@
       }
     }
   }
-  ::-webkit-input-placeholder { /* WebKit browsers */
-    color:    #fff !important;
+  ::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #fff !important;
   }
-  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:    #fff;
+  :-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #fff;
   }
-  ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:    #fff;
+  ::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #fff;
     opacity: 1;
   }
-  :-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:    #fff;
+  :-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #fff;
   }
 }
 
