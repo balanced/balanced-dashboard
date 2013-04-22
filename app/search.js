@@ -55,6 +55,14 @@ Balanced.Search = (function () {
         return false;
     }
 
+    function selectSearchType(e) {
+        var $t = $(this);
+        $t.closest('nav').find(' > li').removeClass('selected');
+        $t.closest('li').addClass('selected');
+        $('#search .items').removeClass('selected');
+        $('#search .items.' + $t.data('type')).addClass('selected');
+    }
+
     return {
         init: function () {
             //  need this in case the page content is re-generated
@@ -72,6 +80,7 @@ Balanced.Search = (function () {
             $('.before .dp').datepicker({
                 maxDate: now
             });
+            $(document).on('click', '#search .results > header > nav > li > a', selectSearchType);
         }
     };
 })();

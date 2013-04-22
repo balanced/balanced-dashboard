@@ -41,19 +41,22 @@
                 <div class="results">
                     <header>
                         <nav>
-                            <li class="selected label2a">
-                                <a href="#">Transactions (5)</a>
+                            <li class="selected label2a transactions">
+                                <a href="#" data-type="transactions">Transactions (5)</a>
                                 <div class="selector dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li>choose your txn type</li>
+                                    <ul class="dropdown-menu transaction-filter">
+                                        <li><a href="#">Holds (3)</a></li>
+                                        <li><a href="#">Debits (2)</a></li>
+                                        <li class="disabled">Credits (0)</li>
+                                        <li class="disabled">Refunds (0)</li>
                                     </ul>
                                 </div>
                             </li>
-                            <li class="disabled label2a">
-                                <span>Accounts (0)</span>
+                            <li class="label2a accounts">
+                                <a href="#" data-type="accounts">Accounts (1)</a>
                             </li>
-                            <li class="disabled label2a">
+                            <li class="disabled label2a funding-instruments">
                                 <span>Cards &amp; Bank Accounts (0)</span>
                                 <div class="selector dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -96,7 +99,35 @@
                             </li>
                         </nav>
                     </header>
-                    <table class="transactions">
+                    <table class="items accounts">
+                        <thead>
+                        <th class="span3 label6a sortable unsorted">Date</th>
+                        <th class="span3 label6a type">Transaction</th>
+                        <th class="span4 label6a description">Description</th>
+                        <th class="span4 label6a account">Account</th>
+                        <th class="span4 label6a funding-instrument">Card or Bank Account</th>
+                        <th class="span2 label6a amount sortable unsorted num">Amount</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
+                            </td>
+                            <td class="span3 label4f type failed">
+                                Credit: failed
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane (jcoltrane@gmail.com)
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table class="items transactions selected">
                         <thead>
                             <tr>
                                 <th class="span3 label6a sortable unsorted">Date</th>

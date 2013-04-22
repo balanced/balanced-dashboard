@@ -68,7 +68,7 @@
         nav {
           padding-left: 20px;
         }
-        li {
+        nav > li {
           display: block;
           float: left;
           border-bottom: 5px solid transparent;
@@ -214,7 +214,7 @@
             border: 1px solid rgb(197, 197, 197);
           }
           .datepicker {
-//            position: relative;
+            //            position: relative;
             top: 0;
             display: block;
             width: 220px;
@@ -229,9 +229,15 @@
           background-color: @searchTimingBackgroundHover;
         }
       }
-      .transactions {
-        background-color: @searchBodyBackground;
+      table.items {
+        display: none;
         width: 100%;
+        &.selected {
+         display: table;
+        }
+      }
+      table.items {
+        background-color: @searchBodyBackground;
         th {
           padding-top: 30px;
         }
