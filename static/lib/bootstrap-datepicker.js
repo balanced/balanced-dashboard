@@ -137,6 +137,7 @@
             } else {
                 this.element.prop('value', formated);
             }
+            this.element.data('datetime', this.date);
         },
 
         setValue: function (newDate) {
@@ -264,9 +265,9 @@
                 switch (target[0].nodeName.toLowerCase()) {
                     case 'th':
                         switch (target[0].className) {
-                            case 'switch':
-                                this.showMode(1);
-                                break;
+//                            case 'switch':
+//                                this.showMode(1);
+//                                break;
                             case 'prev':
                             case 'next':
                                 this.viewDate['set' + DPGlobal.modes[this.viewMode].navFnc].call(
@@ -463,18 +464,18 @@
         '<tbody></tbody>' +
         '</table>' +
         '</div>' +
-        '<div class="datepicker-months">' +
-        '<table class="table-condensed">' +
-        DPGlobal.headTemplate +
-        DPGlobal.contTemplate +
-        '</table>' +
-        '</div>' +
-        '<div class="datepicker-years">' +
-        '<table class="table-condensed">' +
-        DPGlobal.headTemplate +
-        DPGlobal.contTemplate +
-        '</table>' +
-        '</div>' +
+//        '<div class="datepicker-months">' +
+//        '<table class="table-condensed">' +
+//        DPGlobal.headTemplate +
+//        DPGlobal.contTemplate +
+//        '</table>' +
+//        '</div>' +
+//        '<div class="datepicker-years">' +
+//        '<table class="table-condensed">' +
+//        DPGlobal.headTemplate +
+//        DPGlobal.contTemplate +
+//        '</table>' +
+//        '</div>' +
         '</div>';
 
 }(window.jQuery);

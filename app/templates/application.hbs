@@ -41,13 +41,14 @@
                 <div class="results">
                     <header>
                         <nav>
-                            <li class="selected label2a transactions">
+                            <li class="selected label2a transactions filter">
                                 <a href="#" data-type="transactions">Transactions (5)</a>
                                 <div class="selector dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu transaction-filter">
-                                        <li><a href="#">Holds (3)</a></li>
-                                        <li><a href="#">Debits (2)</a></li>
+                                    <ul class="dropdown-menu transaction-filter filter-choices">
+                                        <li><a href="#" data-filter="" data-label="Transactions (5)">All (3)</a></li>
+                                        <li><a href="#" data-filter="holds">Holds (3)</a></li>
+                                        <li><a href="#" data-filter="debits">Debits (2)</a></li>
                                         <li class="disabled">Credits (0)</li>
                                         <li class="disabled">Refunds (0)</li>
                                     </ul>
@@ -56,12 +57,14 @@
                             <li class="label2a accounts">
                                 <a href="#" data-type="accounts">Accounts (1)</a>
                             </li>
-                            <li class="disabled label2a funding-instruments">
+                            <li class="disabled label2a funding-instruments filter">
                                 <span>Cards &amp; Bank Accounts (0)</span>
                                 <div class="selector dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li>choose your txn type</li>
+                                    <ul class="dropdown-menu funding-instruments-filter filter-choices">
+                                        <li><a href="#" data-filter="" data-label="Cards &amp; Bank Accounts (2)">Both (2)</a></li>
+                                        <li><a href="#" data-filter="cards">Cards (2)</a></li>
+                                        <li class="disabled">Bank accounts(0)</li>
                                     </ul>
                                 </div>
                             </li>
@@ -69,7 +72,7 @@
                                 <a class="dropdown-toggle"
                                    data-toggle="dropdown"
                                    href="#">
-                                    Any time
+                                    <span>Any time</span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -82,12 +85,12 @@
                                             <li><a href="#">Past month</a></li>
                                         </ul>
                                         <div class="date-picker">
-                                            <div class="after">
+                                            <div class="after selected">
                                                 <div class="dt">
                                                     <input type="text" name="after" class="dp" data-element="#search .timing .after">
                                                 </div>
                                             </div>
-                                            <div class="before selected">
+                                            <div class="before">
                                                 <div class="dt">
                                                     <input type="text" name="before" class="dp" data-element="#search .timing .before">
                                                 </div>
@@ -143,8 +146,8 @@
                             <td class="span3 date">
                                 <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
                             </td>
-                            <td class="span3 label4f type failed">
-                                Credit: failed
+                            <td class="span3 label4f type pending">
+                                Credit: pending
                             </td>
                             <td class="span4 description">
                                 Order #00003784
@@ -175,8 +178,72 @@
                             <td class="span3 date">
                                 <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
                             </td>
-                            <td class="span3 label4a type failed">
-                                Credit: failed
+                            <td class="span3 label4a type succeeded">
+                                Credit: succeeded
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane (jcoltrane@gmail.com)
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
+                            </td>
+                            <td class="span3 label4a type succeeded">
+                                Credit: succeeded
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane (jcoltrane@gmail.com)
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
+                            </td>
+                            <td class="span3 label4a type succeeded">
+                                Credit: succeeded
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane (jcoltrane@gmail.com)
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
+                            </td>
+                            <td class="span3 label4a type succeeded">
+                                Credit: succeeded
+                            </td>
+                            <td class="span4 description">
+                                Order #00003784
+                            </td>
+                            <td class="span4 account">
+                                John Coltdane (jcoltrane@gmail.com)
+                            </td>
+                            <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                            <td class="span2 amount num">$158.92</td>
+                        </tr>
+                        <tr>
+                            <td class="span3 date">
+                                <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
+                            </td>
+                            <td class="span3 label4a type succeeded">
+                                Credit: succeeded
                             </td>
                             <td class="span4 description">
                                 Order #00003784

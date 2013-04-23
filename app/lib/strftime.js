@@ -11,11 +11,11 @@ var strftime = (function () {
     }
 
     var DefaultLocale = {
-        days:words('Sunday Monday Tuesday Wednesday Thursday Friday Saturday'),
-        shortDays:words('Sun Mon Tue Wed Thu Fri Sat'),
-        months:words('January February March April May June July August September October November December'),
-        shortMonths:words('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'),
-        AM:'AM', PM:'PM'
+        days: words('Sunday Monday Tuesday Wednesday Thursday Friday Saturday'),
+        shortDays: words('Sun Mon Tue Wed Thu Fri Sat'),
+        months: words('January February March April May June July August September October November December'),
+        shortMonths: words('Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'),
+        AM: 'AM', PM: 'PM'
     };
 
     // locale is an object with the same structure as DefaultLocale
@@ -147,18 +147,18 @@ var strftime = (function () {
     }
 
     return {
-        strftime:function (fmt, locale) {
+        strftime: function (fmt, locale) {
             return _strftime(fmt, this, locale, false);
         },
-        strftimeUTC:function (fmt, locale) {
+        strftimeUTC: function (fmt, locale) {
             return _strftime(fmt, this, locale, true);
         },
-        localizedStrftime:function (locale) {
+        localizedStrftime: function (locale) {
             return function (fmt) {
                 return strftime(fmt, this, locale);
             };
         },
-        parseISO8601:function (unparsed) {
+        parseISO8601: function (unparsed) {
             if (!unparsed) {
                 return;
             }
@@ -182,6 +182,10 @@ var strftime = (function () {
 
             // by using setUTC methods the date has already been converted to local time(?)
             return _date;
+        },
+        addHours: function (h) {
+            this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+            return this;
         }
     };
 
@@ -191,3 +195,4 @@ Date.prototype.strftime = strftime.strftime;
 Date.prototype.strftimeUTC = strftime.strftimeUTC;
 Date.prototype.localizedStrftime = strftime.localizedStrftime;
 Date.parseISO8601 = strftime.parseISO8601;
+Date.prototype.addHours = strftime.addHours;

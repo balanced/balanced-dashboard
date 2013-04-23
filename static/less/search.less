@@ -19,7 +19,7 @@
     display: block;
     width: 50px;
     height: 50px;
-    background: @iconsFile -50px -100px no-repeat;
+    background: @iconsFile -0px -100px no-repeat;
     position: absolute;
     top: 4px;
   }
@@ -28,6 +28,9 @@
   }
   &.with-results {
     background: @searchActiveBackground;
+    &:before {
+      background-position: -50px -100px;
+    }
     #q {
       background: @searchActiveBackground;
       color: #000;
@@ -118,6 +121,8 @@
           display: inline-block;
           padding: 7px;
           min-width: 120px;
+          white-space: nowrap;
+          padding-right: 30px;
           text-decoration: none;
         }
         &:hover, &.open {
@@ -127,9 +132,9 @@
           }
         }
         .caret {
-          float: right;
-          position: relative;
-          top: 6px;
+          position: absolute;
+          top: 20px;
+          right: 10px;
         }
         .dropdown-menu {
           width: 130px + 230px + 5px * 4;
@@ -151,6 +156,10 @@
               }
               a {
                 color: #737373;
+                &:hover {
+                  color: #000;
+                  text-decoration: none;
+                }
               }
             }
           }
@@ -212,6 +221,10 @@
             margin: 0;
             border-radius: 0;
             border: 1px solid rgb(197, 197, 197);
+            &:focus, &:active {
+              outline: none;
+              box-shadow: none;
+            }
           }
           .datepicker {
             //            position: relative;
@@ -233,7 +246,7 @@
         display: none;
         width: 100%;
         &.selected {
-         display: table;
+          display: table;
         }
       }
       table.items {
