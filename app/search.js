@@ -1,12 +1,16 @@
 Balanced.Search = (function () {
     var resultsClass = 'with-results';
     var minTime = null, maxTime = null;
+    var sortOrder = null;
+    var sorts = ['unsorted', 'ascending', 'descending'];
 
     function reset() {
         var $q = $('#q');
         var $searchArea = $('#search');
         $searchArea.removeClass(resultsClass);
         $q.val('').focus();
+        resetSortOrder();
+        resetDateTimePicker();
     }
 
     function toggleResults() {
@@ -59,6 +63,7 @@ Balanced.Search = (function () {
 
         $sets.removeClass('selected');
         $dps.val('');
+        $('#search .timing > .dropdown-toggle > span').text('Any time');
     }
 
     function extractFixedTimePeriod($t) {
@@ -128,11 +133,28 @@ Balanced.Search = (function () {
     }
 
     function shouldCloseSearch(e) {
-//        console.log('should close');
-//        console.log(e.target.closest('#search'));
         if ($(e.target).closest('#search').length === 0) {
             $('#search').removeClass(resultsClass);
         }
+    }
+
+    function onSortChange(e) {
+        var $t = $(this);
+        var sequences = {};
+        resetSortOrder();
+        for (var i = 0; i < sorts.length; i++) {
+            sequences[sorts[i]] = sorts[(i + 1) % sorts.length];
+        }
+        var currentSort = $t.data('direction') || 'unsorted';
+        var nextSort = sequences[currentSort];
+        $t.data('direction', nextSort).addClass(nextSort);
+        sortOrder = $t.data('field') + '-' + nextSort;
+    }
+
+    function resetSortOrder() {
+        sortOrder = null;
+        var allSorts = $('#search .sortable');
+        allSorts.removeClass(sorts.join(' '));
     }
 
     function initSearchBox() {
@@ -152,8 +174,8 @@ Balanced.Search = (function () {
         $('.after .dp').datepicker({
             maxDate: now
         }).on('changeDate', function () {
-            $('.before .dp').focus();
-        });
+                $('.before .dp').focus();
+            });
         $(document).on('click', '#search .timing .go', onDateTimeChange);
         $(document).on('changeDate', onDateSelected);
     }
@@ -162,6 +184,10 @@ Balanced.Search = (function () {
         $(document).on('click', '#search .results > header > nav > li > a', onChangeSearchType);
         $(document).on('click', '#search .results .filter-choices a', filterResultType);
         $(document).on('click', '#search .results .clear', clearFilters);
+    }
+
+    function initSorting() {
+        $(document).on('click', '#search .sortable', onSortChange);
     }
 
     return {
@@ -173,6 +199,7 @@ Balanced.Search = (function () {
             initSearchBox();
             initDateTimePicker();
             initFilters();
+            initSorting();
         }
     };
 })();

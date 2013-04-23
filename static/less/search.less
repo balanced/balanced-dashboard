@@ -339,6 +339,32 @@
     /* Internet Explorer 10+ */
     color: #fff;
   }
+
+  .sortable {
+    &:hover {
+      cursor: pointer;
+
+    }
+    &:after {
+      display: inline-block;
+      content: ' ';
+      width: 14px;
+      height: 14px;
+      background: @iconsFile -18px -218px no-repeat;
+      margin-left: 5px;
+      vertical-align: top;
+    }
+    &.ascending {
+      &:after {
+        background-position: -68px -218px;
+      }
+    }
+    &.descending {
+      &:after {
+        background-position: -118px -218px;
+      }
+    }
+  }
 }
 
 #q {
