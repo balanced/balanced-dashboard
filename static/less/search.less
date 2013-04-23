@@ -8,6 +8,7 @@
 @searchTimingBackgroundHover: #000;
 @searchTimingColor: #000;
 @searchTimingColorHover: #fff;
+@searchSelectorBackground: #62A0A8;
 @searchBorderWidth: 5px;
 @searchBorder: @searchBorderWidth solid #000;
 
@@ -28,11 +29,13 @@
   .results, .close {
     display: none;
   }
-  &.with-results {
+  &.focus, &.with-results {
     background: @searchActiveBackground;
     &:before {
       background-position: -50px -100px;
     }
+  }
+  &.with-results {
     .results {
       display: block;
     }
@@ -224,9 +227,6 @@
               background-color: @datepickerBackground;
               display: block;
             }
-            .dp {
-              background-color: rgb(165, 203, 209);
-            }
           }
         }
         .go {
@@ -262,6 +262,7 @@
           &:focus, &:active {
             outline: none;
             box-shadow: none;
+            border-color: #000;
           }
         }
         .datepicker {
@@ -274,7 +275,7 @@
       }
     }
     .selector {
-      background-color: @searchTimingBackground;
+      background-color: @searchSelectorBackground;
       color: @searchTimingColor;
       &:hover {
         background-color: @searchTimingBackgroundHover;

@@ -13,6 +13,14 @@ Balanced.Search = (function () {
         resetDateTimePicker();
     }
 
+    function focusOnSearch() {
+        $('#search').addClass('focus');
+    }
+
+    function focusAwayFromSearch() {
+        $('#search').removeClass('focus');
+    }
+
     function toggleResults() {
         var $q = $('#q');
         var $searchArea = $('#search');
@@ -161,6 +169,8 @@ Balanced.Search = (function () {
         $(document).on('keyup change click', '#q', toggleResults);
         $(document).on('click', '#search .close', reset);
         $(document).on('click', shouldCloseSearch);
+        $(document).on('focus', '#search', focusOnSearch);
+        $(document).on('blur', '#search', focusAwayFromSearch);
     }
 
     function initDateTimePicker() {
