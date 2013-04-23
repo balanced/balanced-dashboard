@@ -292,13 +292,15 @@ module.exports = function (grunt) {
                 bucket: 'balanced-dashboard',
                 access: 'public-read',
                 region: 'us-west-1',
+                gzip: true,
                 headers: {
-                    'Cache-Control': 'public',
-                    'Expires': 'Fri, Apr 23 2021 10:18:36 GMT',
                     'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
                 }
             },
-            prod: {
+            cached: {
+                headers: {
+                    'Cache-Control': 'public, max-age=86400'
+                },
                 upload: [
                     {
                         src: 'dist/js/*',
@@ -309,12 +311,19 @@ module.exports = function (grunt) {
                         dest: 'css/'
                     },
                     {
-                        src: 'dist/*',
-                        dest: ''
-                    },
-                    {
                         src: 'static/images/**/*',
                         dest: 'images/'
+                    }
+                ]
+            },
+            not_cached: {
+                headers: {
+                    'Cache-Control': 'max-age=60'
+                },
+                upload: [
+                    {
+                        src: 'dist/*',
+                        dest: ''
                     }
                 ]
             }
