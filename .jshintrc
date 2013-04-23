@@ -26,6 +26,7 @@
     "require": true,
     "Ember": true,
     "Balanced": true,
-    "DS": true
+    "DS": true,
+    "ENV": true
   }
 }
