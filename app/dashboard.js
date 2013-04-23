@@ -46,6 +46,7 @@ require('app/lib/migration');
 require('app/models/_base');
 require('app/models/login');
 require('app/models/marketplace');
+require('app/models/credit');
 
 
 /*
@@ -67,6 +68,7 @@ require('app/views/embedded_iframe');
  * controllers wrapped objects.
  */
 require('app/controllers/_base');
+require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/login');
