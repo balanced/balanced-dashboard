@@ -120,4 +120,7 @@
         adapter: balancedAdapter
     });
 
+    // TODO - a hack until finding credits actually works
+    Balanced.Store.registerAdapter('Balanced.Credit', DS.FixtureAdapter.create({ simulateRemoteResponse: false }));
+
 })(window.Balanced);
