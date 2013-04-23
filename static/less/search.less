@@ -2,12 +2,14 @@
 @import "/static/less/mixins.less";
 
 @searchActiveBackground: #a5cbcf;
-@searchHeaderBackground: #bfbeb9;
+@searchHeaderBackground: #d4e5e6;
 @searchBodyBackground: #f2f1ec;
 @searchTimingBackground: #737373;
 @searchTimingBackgroundHover: #000;
-@searchTimingColor: #fff;
-@searchBorder: 5px solid #000;
+@searchTimingColor: #000;
+@searchTimingColorHover: #fff;
+@searchBorderWidth: 5px;
+@searchBorder: @searchBorderWidth solid #000;
 
 @datepickerBackground: rgb(217, 216, 213);
 
@@ -69,6 +71,7 @@
     border-top: 0;
     header {
       border-top: 1px solid @marketplaceNavColor;
+      border-bottom: 1px solid @marketplaceNavColor;
       background-color: @searchHeaderBackground;
       float: left;
       width: 100%;
@@ -78,10 +81,15 @@
       nav > li {
         display: block;
         float: left;
-        border-bottom: 5px solid transparent;
+        border-bottom: @searchBorderWidth solid transparent;
         padding: 15px 10px 10px;
         margin: 0 20px;
         color: #737373;
+
+        font-family: fanwoodtext-regular;
+        font-weight: normal;
+        font-size: 16px;
+
         a {
           text-decoration: none;
           color: #737373;
@@ -106,7 +114,7 @@
           vertical-align: middle;
         }
         .caret {
-          border-width: 5px;
+          border-width: @searchBorderWidth;
           border-top-color: #fff;
           margin: 0;
         }
@@ -130,16 +138,21 @@
       }
     }
     .timing {
-      padding: 7px 0 0;
+      padding: 10px 10px 0;
+      float: right;
+      border-left: 1px solid @marketplaceNavColor;
+      border-bottom: 0;
+      margin: 0;
+      height: 38px;
+      font-family: nimbussannov-sembol;
+      font-size: 13px;
       &:hover {
-        border-bottom-color: transparent;
+        border-bottom: 0;
       }
       a.dropdown-toggle {
-        background-color: @searchTimingBackground;
         color: @searchTimingColor;
         display: inline-block;
-        padding: 7px;
-        min-width: 120px;
+        padding: 6px;
         white-space: nowrap;
         padding-right: 30px;
         text-decoration: none;
@@ -147,17 +160,23 @@
       &:hover, &.open {
         a.dropdown-toggle {
           background-color: @searchTimingBackgroundHover;
+          color: @searchTimingColorHover;
           text-decoration: none;
+        }
+        .caret {
+          border-top-color: @searchTimingColorHover;
         }
       }
       .caret {
         position: absolute;
-        top: 20px;
-        right: 10px;
+        top: 22px;
+        right: 15px;
+        border-top-color: @searchTimingColor;
       }
       .dropdown-menu {
-        width: 130px + 230px + 5px * 4;
+        width: 130px + 230px + @searchBorderWidth * 4;
         background-color: @searchBodyBackground;
+        right: -@searchBorderWidth;
         .set-times {
           height: 290px;
           padding: 10px;
