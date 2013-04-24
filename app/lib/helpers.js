@@ -15,6 +15,7 @@
         return o;
     };
     $.fn.highlightWords = function (words) {
+        var TEXT_NODE = 3;
 
         var $that = $(this);
 
@@ -22,7 +23,7 @@
             var textNodes = [], whitespace = /^\s*$/;
 
             function getTextNodes(node) {
-                if (node.nodeType === 3) {
+                if (node.nodeType === TEXT_NODE) {
                     if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
                         textNodes.push(node);
                     }
@@ -60,7 +61,6 @@
         function makeTextNodeContiguous(re, litUp) {
             var $t = $(this);
             var contiguous = [];
-            var TEXT_NODE = 3;
 
             // join separate text nodes into a single continual node.
             // e.g. "j" "ohn" becomes "john"
@@ -102,6 +102,7 @@
         }
 
         function highlightWord(word) {
+            // http://stackoverflow.com/a/6969486/6084 - escape regex chars
             var wordre = word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
             var re = new RegExp('(' + wordre + ')', 'gi');
             var litUp = '<span class="highlight">$1</span>';
