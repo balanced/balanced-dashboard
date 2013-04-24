@@ -1,11 +1,6 @@
 (function (Balanced) {
     'use strict';
 
-    DS.RESTAdapter.reopen({
-        url: Ember.ENV.BALANCED.API,
-        namespace: "v1"
-    });
-
     /*
      * Like a regular serializer but because we do *not* have a root level
      * element this thing jumps in and munges the payload.
@@ -56,6 +51,8 @@
 
 
     var balancedAdapter = Auth.RESTAdapter.extend({
+        url: Ember.ENV.BALANCED.API,
+        namespace: "v1",
         serializer: rootLevelSerializer,
         createRecord: function (store, type, record) {
             var root = this.rootForType(type);
@@ -92,32 +89,21 @@
                 }
             });
         },
-
-        buildURL: function(record, suffix) {
-            var url = [this.url];
-
-            Ember.assert("Namespace URL (" + this.namespace + ") must not start with slash", !this.namespace || this.namespace.toString().charAt(0) !== "/");
-            Ember.assert("Record URL (" + record + ") must not start with slash", !record || record.toString().charAt(0) !== "/");
-            Ember.assert("URL suffix (" + suffix + ") must not start with slash", !suffix || suffix.toString().charAt(0) !== "/");
-
-            // TODO - HACK - to get around having a namespace on login. Take this out when we do real auth
-            // Two URLs that we use are not part of the real API: /logins and /marketplaces (with no parameter), so in those cases leave off the namespace
-            if (record !== "login" && (record !== "marketplace" || !Ember.isNone(suffix)) && !Ember.isNone(this.namespace)) {
-              url.push(this.namespace);
+        // since our API doesn't support params with search criteria, iterate and issue requests for each
+        findMany: function(store, type, ids, owner) {
+            for(var i = 0; i < ids.length; i++) {
+                this.find(store, type, ids[i]);
             }
-
-            url.push(this.pluralize(record));
-            if (suffix !== undefined) {
-              url.push(suffix);
-            }
-
-            return url.join("/");
-          },
+        },
     });
 
     Balanced.Store = DS.Store.extend({
         revision: 12,
         adapter: balancedAdapter
     });
+
+    Balanced.Store.registerAdapter('Balanced.User', Auth.RESTAdapter.extend({
+        url: ENV.BALANCED.AUTH
+    }));
 
 })(window.Balanced);
