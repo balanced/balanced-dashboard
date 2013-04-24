@@ -13,6 +13,18 @@ Balanced.Search = (function () {
         resetDateTimePicker();
     }
 
+    function onQueryChange(e) {
+        toggleResults();
+        var $t = $(this);
+        //  TODO: this will need to happen after search results are updated
+        highlightResults($t.val());
+    }
+
+    function highlightResults(query) {
+        //  remove empty words
+        $('#search .results tbody tr').highlightWords(query);
+    }
+
     function focusOnSearch() {
         $('#search').addClass('focus');
     }
@@ -166,7 +178,7 @@ Balanced.Search = (function () {
     }
 
     function initSearchBox() {
-        $(document).on('keyup change click', '#q', toggleResults);
+        $(document).on('keyup change click', '#q', onQueryChange);
         $(document).on('click', '#search .close', reset);
         $(document).on('click', shouldCloseSearch);
         $(document).on('focus', '#search', focusOnSearch);
