@@ -1,5 +1,7 @@
 Balanced.Route = Ember.Route.extend({
+});
 
+Balanced.AuthRoute = Auth.Route.extend({
 });
 
 Balanced.Router.map(function () {
@@ -31,28 +33,38 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
   }
 });
 
-Balanced.MarketplaceCreditsRoute = Balanced.Route.extend({
+Balanced.MarketplaceActivityRoute = Balanced.AuthRoute.extend({
+});
+Balanced.MarketplaceInvoicesRoute = Balanced.AuthRoute.extend({
+});
+Balanced.MarketplaceLogsRoute = Balanced.AuthRoute.extend({
+});
+
+Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
+});
+
+Balanced.MarketplaceCreditsRoute = Balanced.AuthRoute.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
     return ENV.BALANCED.WWW + "/marketplaces/" + marketplace.get('id') + "/credits/" + params.credit_id + "?embedded=1";
   }
 });
 
-Balanced.MarketplaceDebitsRoute = Balanced.Route.extend({
+Balanced.MarketplaceDebitsRoute = Balanced.AuthRoute.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
     return ENV.BALANCED.WWW + "/marketplaces/" + marketplace.get('id') + "/debits/" + params.debit_id + "?embedded=1";
   }
 });
 
-Balanced.MarketplaceRefundsRoute = Balanced.Route.extend({
+Balanced.MarketplaceRefundsRoute = Balanced.AuthRoute.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
     return ENV.BALANCED.WWW + "/marketplaces/" + marketplace.get('id') + "/refunds/" + params.refund_id + "?embedded=1";
   }
 });
 
-Balanced.MarketplaceAccountsRoute = Balanced.Route.extend({
+Balanced.MarketplaceAccountsRoute = Balanced.AuthRoute.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
     return ENV.BALANCED.WWW + "/marketplaces/" + marketplace.get('id') + "/accounts/" + params.account_id + "?embedded=1";

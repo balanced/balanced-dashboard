@@ -10,21 +10,18 @@
 <section id="main">
     <h2>Login</h2>
 
-{{#if Balanced.currentLogin}}
-<form id="logout-form">
-    {{#view Balanced.LoginDestroyView}}
-    <button type="button">Logout</button>
-    {{/view}}
-</form>
-{{else}}
+    {{#if loginError}}
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert" {{action "dismissError"}}>&times;</button>
+        {{loginResponse}}}
+      </div>
+    {{/if}}
+
 <form id="auth-form">
-    <input type="email" name="email_address" placeholder="email address">
-    <input type="password" name="password" placeholder="password">
-    {{#view Balanced.LoginCreateView}}
-    <button type="button">Login</button>
-    {{/view}}
+  {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="email address"}}
+  {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="password"}}
+  <button {{action "signIn"}} type="button">Login</button>
 </form>
-{{/if}}
 
 </section>
 

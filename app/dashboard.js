@@ -36,9 +36,10 @@ require('app/lib/migration');
  * Ember.Objects will do.
  */
 require('app/models/_base');
-require('app/models/login');
 require('app/models/marketplace');
+require('app/models/user');
 
+require('app/lib/auth');
 
 /*
  * Views layer.
@@ -48,7 +49,6 @@ require('app/models/marketplace');
  * programming to do.
  */
 require('app/views/_base');
-require('app/views/login');
 require('app/views/embedded_iframe');
 
 /*

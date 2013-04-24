@@ -25,6 +25,7 @@
     "sinon": true,
     "require": true,
     "Ember": true,
+    "Auth": true,
     "Balanced": true,
     "DS": true,
     "ENV": true

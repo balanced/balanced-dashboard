@@ -55,7 +55,7 @@
     });
 
 
-    var balancedAdapter = DS.RESTAdapter.extend({
+    var balancedAdapter = Auth.RESTAdapter.extend({
         serializer: rootLevelSerializer,
         createRecord: function (store, type, record) {
             var root = this.rootForType(type);
