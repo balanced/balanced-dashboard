@@ -48,7 +48,9 @@ module.exports = function (grunt) {
                     'static/lib/ember-data.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
-                    'static/lib/bootstrap-datepicker.js'
+                    'static/lib/bootstrap-datepicker.js',
+                    'static/lib/jquery.browser.js',
+                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js'
                 ],
                 dest: 'build/lib-dev.js'
             },
@@ -60,7 +62,9 @@ module.exports = function (grunt) {
                     'static/lib/ember-data.prod.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
-                    'static/lib/bootstrap-datepicker.js'
+                    'static/lib/bootstrap-datepicker.js',
+                    'static/lib/jquery.browser.js',
+                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.min.js'
                 ],
                 dest: 'build/lib-prod.js'
             },
