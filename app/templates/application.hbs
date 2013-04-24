@@ -34,7 +34,7 @@
             </div>
             <div id="user-menu">
                 {{#if Auth.authToken }}
-                    <a  href="#" {{action "signOut"}}>Log Out ({{ Auth.currentUser.name }})</a>
+                    <a  href="#" {{action "signOut"}}>Log Out ({{ Auth.currentUser.email_address }})</a>
                 {{else}}
                     {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
                 {{/if}}

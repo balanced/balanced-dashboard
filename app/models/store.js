@@ -51,8 +51,6 @@
 
 
     var balancedAdapter = Auth.RESTAdapter.extend({
-        url: Ember.ENV.BALANCED.API,
-        namespace: "v1",
         serializer: rootLevelSerializer,
         createRecord: function (store, type, record) {
             var root = this.rootForType(type);
@@ -99,11 +97,18 @@
 
     Balanced.Store = DS.Store.extend({
         revision: 12,
-        adapter: balancedAdapter
+        adapter: balancedAdapter.extend({
+            url: Ember.ENV.BALANCED.API,
+            namespace: "v1",
+        })
     });
 
-    Balanced.Store.registerAdapter('Balanced.User', Auth.RESTAdapter.extend({
+    var userAdapter = balancedAdapter.extend({
         url: ENV.BALANCED.AUTH
-    }));
+    });
+    userAdapter.map('Balanced.User', {
+      marketplaces: { embedded: 'always' }
+    });
+    Balanced.Store.registerAdapter('Balanced.User', userAdapter);
 
 })(window.Balanced);
