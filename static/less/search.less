@@ -177,11 +177,14 @@
         border-top-color: @searchTimingColor;
       }
       .dropdown-menu {
-        width: 130px + 230px + @searchBorderWidth * 4;
+        //  120px = set timing width
+        // 330px = width of date picker
+        width: 120px + 330px + @searchBorderWidth * 8;
         background-color: @searchBodyBackground;
         right: -@searchBorderWidth;
         .set-times {
-          height: 290px;
+          // wtf: where did this extra 2 px come from
+          height: 202px;
           padding: 10px;
           background-color: #fff;
           float: left;
@@ -207,7 +210,7 @@
         .date-picker {
           padding: 10px;
           float: right;
-          width: 220px;
+          width: 330px;
         }
 
         //
@@ -231,14 +234,14 @@
         }
         .go {
           position: absolute;
-          bottom: 0;
+          top: 110px;
           right: 0;
           margin: 10px;
         }
         .before {
           float: right;
           .dt {
-            right: 0;
+            top: 50px;
             text-align: right;
           }
         }
@@ -248,7 +251,9 @@
         //  wrapper around dp
         .dt {
           position: absolute;
-          bottom: -50px;
+          top: 0;
+          // 90px + 10px padding * 2
+          right: -110px;
           width: 50%;
           padding: 10px;
           width: 90px;
