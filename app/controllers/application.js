@@ -8,5 +8,13 @@ Balanced.ApplicationController = Ember.Controller.extend({
     if(transitionToDest !== '#') {
       window.location.hash = "#" + transitionToDest;
     }
-  }
+  },
+
+  signOut: function() {
+    Auth.signOut();
+    var self=this;
+    Auth.on('signOutSuccess', function() {
+      self.transitionToRoute('index');
+    });
+  },
 });
