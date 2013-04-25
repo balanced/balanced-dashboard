@@ -1,0 +1,120 @@
+/*!
+ * Datepicker for Bootstrap
+ *
+ * Copyright 2012 Stefan Petre
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+
+.datepicker {
+  >div {
+    display: none;
+  }
+  table {
+    width: 180px;
+    margin: 10px 20px;
+  }
+  td,
+  th {
+    text-align: center;
+    width: 20px;
+    height: 20px;
+  }
+  thead {
+    tr {
+      &:first-child {
+        th {
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  th {
+
+    &.dow {
+      font-size: 15px;
+      padding-top: 10px;
+      border-top: 1px solid rgb(163, 162, 160);
+    }
+  }
+  td {
+    font-family: nimbussannov-med;
+    font-size: 15px;
+    height: 16px;
+    &.day:hover {
+      background: @grayLighter;
+      cursor: pointer;
+    }
+    &.day.disabled {
+      color: @grayLight;
+      &:hover {
+        background: transparent;
+        cursor: inherit;
+      }
+    }
+    &.old,
+    &.new {
+      color: @grayLight;
+    }
+    &.active,
+    &.active:hover {
+      background: #fff;
+    }
+    span {
+      display: block;
+      width: 47px;
+      height: 54px;
+      line-height: 54px;
+      float: left;
+      margin: 2px;
+      cursor: pointer;
+      &:hover {
+        background: @grayLighter;
+      }
+      &.active {
+        .buttonBackground(@btnPrimaryBackground, spin(@btnPrimaryBackground, 20));
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+      }
+      &.old {
+        color: @grayLight;
+      }
+    }
+  }
+
+  th {
+    &.switch {
+      width: 145px;
+      font-family: nimbussannov-med;
+    }
+    &.next,
+    &.prev {
+      font-size: @baseFontSize * 1.5;
+    }
+  }
+
+  thead tr:first-child th {
+    &.prev, &.next {
+      cursor: pointer;
+      &:hover {
+        background: @grayLighter;
+      }
+    }
+  }
+  /*.dow {
+      border-top: 1px solid #ddd !important;
+  }*/
+}
+
+.input-append,
+.input-prepend {
+  &.date {
+    .add-on i {
+      display: block;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
