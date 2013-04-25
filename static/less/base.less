@@ -116,6 +116,37 @@ table {
   }
 }
 
+.loader {
+  display: none;
+  position: absolute;
+  background: @iconsFile -115px -485px no-repeat;
+  width: 21px;
+  height: 21px;
+  &.loading {
+    display: block;
+    -webkit-animation: rotation 2s infinite linear;
+    -moz-animation: rotate 20s linear 0s infinite;
+  }
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
+}
+
 // 3rd party libs
 @import "/static/less/datepicker.less";
 
@@ -125,4 +156,5 @@ table {
 @import "/static/less/dropdowns.less";
 @import "/static/less/modals.less";
 @import "/static/less/search.less";
+@import "/static/less/pages.less";
 @import "/static/less/migration.less";

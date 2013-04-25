@@ -1,0 +1,130 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+/*
+* pages.less
+*
+* Here we define less/css for the main section of pages.
+*
+*/
+
+
+//  each section of information should look like
+//  <section class="thisthing-info">...</section>
+section[class$="-info"] {
+  margin-bottom: 4em;
+  header {
+    border-bottom: 1px solid rgb(220, 220, 220);
+    h3 {
+      margin-bottom: 10px;
+      line-height: 1em;
+    }
+    margin-bottom: 10px;
+    .add {
+      float: right;
+    }
+  }
+}
+
+@itemWarningIconBackground: rgb(240, 129, 118);
+@itemWarningBackground: rgb(250, 210, 200);
+@itemSuccessIconBackground: rgb(140, 183, 168);
+@itemSuccessBackground: rgb(218, 232, 226);
+
+.span11 + .span8 {
+  section[class$="-info"] {
+    float: left;
+    width: 100%;
+  }
+}
+
+.sidebar-items {
+  li {
+    background-color: @itemSuccessBackground;
+    margin-bottom: 5px;
+    clear: both;
+    float: left;
+    width: 100%;
+    position: relative;
+
+    &.unverified {
+      background-color: @itemWarningBackground;
+      .icon, .actions {
+        background-color: @itemWarningIconBackground;
+      }
+    }
+  }
+  .icon {
+    background-color: @itemSuccessIconBackground;
+    width: 60px;
+    height: 60px;
+    display: block;
+    float: left;
+    background-image: @iconsFile;
+    text-indent: -4000px;
+  }
+  .details {
+    float: left;
+    padding: 10px;
+    .name {
+      display: block;
+    }
+  }
+  .actions {
+    background-color: @itemSuccessIconBackground;
+    clear: both;
+    text-align: right;
+    padding: 5px;
+    width: 335px;
+  }
+  .delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 0;
+    font-size: 25px;
+    padding: 0;
+    text-indent: -4000px;
+    &:after {
+      .cssicon(
+        @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAAV0lEQVR42p2R4QlAIQiEHcERG6UNGqUR3giNdBUoTy76kR8IcqeRKgB0xWfRhNha8NXFgp9GxU6RCJu3R7ip46TLBZ9nwLBcUw2pL+WHJrMGvfJanw83AfPFCSKK6ozSAAAAAElFTkSuQmCC'),
+        @width: 12px,
+        @height: 10px,
+        @display: block
+      );
+      position: absolute;
+      top: 6px;
+      left: 5px;
+      background-size: 11px;
+      background-repeat: no-repeat;
+      content: ' ';
+    }
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+      color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+.bank-account-info {
+  .icon {
+    background-position: 0px -300px;
+  }
+  .verified {
+    .icon {
+      background-position: -60px -300px;
+    }
+  }
+}
+
+.card-info {
+  .icon {
+    background-position: 0px -360px;
+  }
+  .verified {
+    background-position: -60px -360px;
+  }
+}

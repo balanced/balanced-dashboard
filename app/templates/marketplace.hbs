@@ -1,5 +1,165 @@
+<h1>Settings</h1>
 
-marketplaces.show
+<div class="row">
+    <div class="span11">
+
+        <section class="marketplace-info">
+            <form class="form-horizontal edit-inline">
+            <header>
+                <h3>Marketplace info <a href="#" class="edit">Edit</a></h3>
+            </header>
+            <div>
+                <div class="control-group">
+                    <label class="control-label">URI</label>
+                    <div class="controls">
+                        <span class="inline-label">/v1/marketplaces/MP123123123123123123</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Name</label>
+                    <div class="controls">
+                        <span class="inline-label">Zuppa</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Support email</label>
+                    <div class="controls">
+                        <span class="inline-label">owner@marketplace.com</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Domain URL</label>
+                    <div class="controls">
+                        <span class="inline-label">https://www.zuppa.com</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Support phone #</label>
+                    <div class="controls">
+                        <span class="inline-label">+1 (904) 666 9999</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">API key secret</label>
+                    <div class="controls">
+                        <span class="inline-label">908648a5ee11e1b8ac026ba7c46bae</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+            </div>
+            </form>
+        </section>
+
+        <section class="owner-info">
+            <form class="form-horizontal edit-inline">
+            <header>
+                <h3>Owner info
+                    <a href="#" class="edit">Edit</a>
+                </h3>
+            </header>
+            </form>
+        </section>
+
+    </div>
+
+    <div class="offset1 span8">
+
+        <section class="bank-account-info">
+            <header>
+                <h3>Bank accounts
+                    <a href="#" class="add">Add a bank account</a>
+                </h3>
+            </header>
+            <ul class="sidebar-items">
+                <li class="unverified">
+                    <div class="icon">Bank account</div>
+                    <a href="#" class="delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
+                        <span class="summary">5410 (Wells Fargo NA)</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn">Verify</button>
+                    </div>
+                </li>
+                <li class="verified">
+                    <div class="icon">Bank account</div>
+                    <a href="#" class="delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
+                        <span class="summary">5410 (Wells Fargo NA)</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="card-info">
+            <header>
+                <h3>Credit cards
+                    <a href="#" class="add">Add a card</a>
+                </h3>
+            </header>
+            <ul class="sidebar-items">
+                <li>
+                    <div class="icon">Credit card</div>
+                    <a href="#" class="delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">Stevie Ray Vaughn</span></span>
+                        <span class="summary">4615 (Discover)</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">Credit card</div>
+                    <a href="#" class="delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">SR Vaughn</span></span>
+                        <span class="summary">3482 (VISA)</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="span20">
+        <section class="webhook-info">
+            <header>
+                <h3>Webhooks
+                    <a href="#" class="add">Add a webhook</a>
+                </h3>
+            </header>
+            <ul>
+                <li class="pending">
+                    <a href="#" class="delete">delete</a>
+                    <div class="expand"></div>
+                    <div class="state">pending</div>
+                    <div class="action"><button class="btn">Test</button></div>
+                    <div class="url">POST http://requestb.in/34ijf4</div>
+                </li>
+                <li class="failed">
+                    <a href="#" class="delete">delete</a>
+                    <div class="expand"></div>
+                    <div class="state">pending</div>
+                    <div class="action"><button class="btn">Test</button></div>
+                    <div class="url">POST http://requestb.in/34ijf4</div>
+                </li>
+                <li class="succeeded">
+                    <a href="#" class="delete">delete</a>
+                    <div class="expand"></div>
+                    <div class="state">pending</div>
+                    <div class="action"><button class="btn">Test</button></div>
+                    <div class="url">POST http://requestb.in/34ijf4</div>
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>
 
 <span class="marketplace-name">{{name}}</span>
 {{in_escrow}}
