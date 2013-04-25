@@ -1,12 +1,12 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
 
-  /*
-  * Site structure
-  *
-  * Behold, the structure of the site. The following defines the colors, the
-  * look, and the feel of the main structural components of the site.
-  */
+/*
+* Site structure
+*
+* Behold, the structure of the site. The following defines the colors, the
+* look, and the feel of the main structural components of the site.
+*/
 
 #header {
   background-color: @searchBarBackground;
@@ -27,6 +27,7 @@
       // push the background colour all the way to the edge of the column
       &:first-child {
         width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
+        max-width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
         // this col and the #marketplace-nav col are hard up against each other
         // so no margin
         &+[class*="span"] {
@@ -129,23 +130,23 @@
 #search {
   display: block;
   float: left;
-  width: 499px;
-  input {
-    background-color: @searchBoxBackground;
-    border: 0;
-    margin: @searchBoxMargin;
-    height: @searchBoxHeight;
-    padding: 0 0 0 10px;
-    width: 482px;
-    font-family: nimbussannov-med;
-    font-weight: normal;
-    font-size: 18px;
-    color: #fff;
-  }
+  width: 502px;
+}
+#q {
+  box-shadow: none;
+  border: 0;
+  margin: @searchBoxMargin;
+  height: @searchBoxHeight;
+  padding: 0 0 0 10px;
+  width: 482px;
+  font-family: nimbussannov-bol;
+  font-weight: normal;
+  font-size: 18px;
 }
 
 #site-nav {
   width: 390px;
+  max-width: 390px;
   margin-left: 0;
 
   [id$="menu"] {
@@ -156,9 +157,9 @@
       border-right: 0;
     }
     > a, > span {
-      padding: 21px 0;
-      width: 100%;
+      padding: 16px 0;
       display: block;
+      border: 5px solid #000;
     }
     a {
       color: white;
@@ -195,6 +196,23 @@
 
 }
 
+@marketplaceNavIconSize: 50px;
+
+.marketplaceIcon(@index) {
+  &:hover {
+    > a, > span {
+      &:before {
+        background-position: @marketplaceNavIconSize * -@index 0;
+      }
+    }
+  }
+  > a, > span {
+    &:before {
+      background-position: @marketplaceNavIconSize * -@index -@marketplaceNavIconSize;
+    }
+  }
+}
+
 #marketplace-nav {
   background-color: @marketplaceNavBackground;
   min-height: @mainMinHeight + @mainVerticalPadding;
@@ -203,8 +221,8 @@
     width: 90px;
     height: 90px;
     text-align: center;
-
     position: relative;
+
     > a, > span {
       position: absolute;
       top: 0;
@@ -213,6 +231,32 @@
       right: 0;
       height: 30px;
       margin: auto;
+      color: @marketplaceNavColor;
+      text-decoration: none;
+      &:before {
+        background: @iconsFile 0 0 no-repeat;
+        content: ' ';
+        display: block;
+        width: 50px;
+        height: 50px;
+        position: relative;
+        left: 20px; // 50px / 2 - 5px for width of icon
+      }
+      &.active {
+        color: #000;
+      }
+    }
+    &.activity {
+      .marketplaceIcon(0);
+    }
+    &.logs {
+      .marketplaceIcon(1);
+    }
+    &.invoices {
+      .marketplaceIcon(2);
+    }
+    &.settings {
+      .marketplaceIcon(3);
     }
   }
 }

@@ -49,9 +49,10 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/jquery.browser.js',
-                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js'
+                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
+                    'static/lib/bootstrap-datepicker.js'
                 ],
-              dest: 'build/lib-dev.js'
+                dest: 'build/lib-dev.js'
             },
             libprod: {
                 src: [
@@ -62,9 +63,10 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/jquery.browser.js',
-                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.min.js'
+                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.min.js',
+                    'static/lib/bootstrap-datepicker.js'
                 ],
-              dest: 'build/lib-prod.js'
+                dest: 'build/lib-prod.js'
             },
             testfixtures: {
                 src: [
@@ -139,13 +141,13 @@ module.exports = function (grunt) {
          */
         qunit: {
             options: {
-              '--web-security': 'no',
-              coverage: {
-                src: ['build/dashboard-prod.js'],
-                instrumentedFiles: 'temp/',
-                htmlReport: 'report/coverage',
-                coberturaReport: 'report/'
-              }
+                '--web-security': 'no',
+                coverage: {
+                    src: ['build/dashboard-prod.js'],
+                    instrumentedFiles: 'temp/',
+                    htmlReport: 'report/coverage',
+                    coberturaReport: 'report/'
+                }
             },
             all: ['build/test/**/*.html']
         },
@@ -294,13 +296,15 @@ module.exports = function (grunt) {
                 bucket: 'balanced-dashboard',
                 access: 'public-read',
                 region: 'us-west-1',
+                gzip: true,
                 headers: {
-                    'Cache-Control': 'public',
-                    'Expires': 'Fri, Apr 23 2021 10:18:36 GMT',
                     'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
                 }
             },
-            prod: {
+            cached: {
+                headers: {
+                    'Cache-Control': 'public, max-age=86400'
+                },
                 upload: [
                     {
                         src: 'dist/js/*',
@@ -311,13 +315,30 @@ module.exports = function (grunt) {
                         dest: 'css/'
                     },
                     {
+                        src: 'static/images/**/*',
+                        dest: 'images/'
+                    }
+                ]
+            },
+            not_cached: {
+                headers: {
+                    'Cache-Control': 'max-age=60'
+                },
+                upload: [
+                    {
                         src: 'dist/*',
                         dest: ''
                     }
                 ]
             }
-        }
+        },
 
+        img: {
+            // using only dirs with output path
+            crush_them: {
+                src: ['static/images/**/*.png']
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -332,6 +353,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
+    grunt.loadNpmTasks('grunt-img');
     grunt.loadNpmTasks('grunt-qunit-istanbul');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
@@ -367,5 +389,17 @@ module.exports = function (grunt) {
      Builds for production. Concatenates files together, minifies and then uploads to s3
      */
     grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'concat', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
-    grunt.registerTask('deploy', ['build', 's3']);
+
+    /*
+     * This isn't run as part of the build to make it easier for people to hack
+     * on the project as this requires optipng to be installed which is an
+     * external dependency.
+     */
+    grunt.registerTask('optimize', ['img']);
+
+    /*
+     * Uploads to s3. Requires environment variables to be set if the bucket
+     * you're uploading to doesn't have public write access.
+     */
+    grunt.registerTask('deploy', ['build', 'optimize', 's3']);
 };
