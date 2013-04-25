@@ -96,10 +96,13 @@
         a {
           text-decoration: none;
           color: #737373;
+          &:hover {
+            color: #000;
+          }
         }
         &.selected, &:hover {
           border-bottom: @searchBorder;
-          a {
+          > a {
             color: #000;
           }
         }
@@ -129,8 +132,7 @@
         border: @searchBorder;
         border-radius: 0;
         box-shadow: none;
-        padding: 0;
-        background: @menuBackground;
+        //        background: @menuBackground;
         text-align: left;
         margin: 0;
         li {
@@ -390,6 +392,30 @@
     &.descending {
       &:after {
         background-position: -118px -218px;
+      }
+    }
+  }
+}
+
+.filter-choices {
+  background-color: #fff;
+  padding: 10px 0;
+  li {
+    font-family: nimbussannov-med;
+    font-size: 13px;
+    span, a {
+      display: block;
+      padding: 5px 20px;
+      color: #737373;
+    }
+    span {
+      color: #f2f1ec;
+    }
+    a {
+      &:hover {
+        color: #000;
+        background: transparent;
+        background-image: none;
       }
     }
   }
