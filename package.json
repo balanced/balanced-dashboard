@@ -26,8 +26,6 @@
     "grunt-hashres": "~0.3.1",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-s3": "~0.2.0-alpha",
-
-    // Pulling from my fork until the official grunt-qunit-istanbul accepts my PR. Once the plugin has coverage, this should be reset to the latest version from NPM
     "grunt-qunit-istanbul": "git://github.com/kleinsch/grunt-qunit-istanbul.git#coverage-threshold"
   }
 }
