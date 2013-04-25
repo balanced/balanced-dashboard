@@ -253,7 +253,11 @@
                 <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
             </div>
             <div id="user-menu">
-                {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
+                {{#if Auth.authToken }}
+                    <a  href="#" {{action "signOut"}}>Log Out ({{ Auth.currentUser.email_address }})</a>
+                {{else}}
+                    {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
+                {{/if}}
             </div>
         </div>
     </div>

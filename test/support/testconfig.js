@@ -9,6 +9,9 @@ Balanced.Store = DS.Store.extend({
     adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
 });
 
+Auth.authToken = "deadbeef";
+Auth.currentUserId = "deadbeef";
+
 QUnit.testStart(function () {
     // Put the application into a known state, and destroy the defaultStore.
     // Be careful about DS.Model instances stored in App; they'll be invalid
