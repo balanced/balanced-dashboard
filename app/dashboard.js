@@ -21,11 +21,19 @@ if (window.TESTING) {
     window.Balanced.deferReadiness();
 }
 
+window.Balanced.onLoad = function () {
+    //  initialize anything that needs to be done on application load
+    Balanced.Helpers.init();
+    Balanced.Search.init();
+};
+
 /*
  * Helpers and utils - not static 3rd party libraries
  */
 require('app/lib/ajax');
 require('app/lib/helpers');
+require('app/lib/jquery-hotkeys');
+require('app/lib/strftime');
 require('app/lib/migration');
 
 /*
@@ -72,3 +80,11 @@ require('app/controllers/login');
  * actions.
  */
 require('app/routes/router');
+
+/*
+ * TODO: where does this go?
+ */
+require('app/search');
+
+
+$(document).ready(window.Balanced.onLoad);
