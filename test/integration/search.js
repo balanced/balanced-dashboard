@@ -26,7 +26,7 @@ test('clicking close resets the search', function () {
     $q.val('hello world').click();
     equal($('#search .close:visible').length, 1);
 
-    $('#search .close:visible').click();
+    $('#search .close').click();
     equal($('#search .close:visible').length, 0);
     equal($q.val(), '');
 });
