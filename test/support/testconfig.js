@@ -9,9 +9,6 @@ Balanced.Store = DS.Store.extend({
     adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
 });
 
-Auth.authToken = "deadbeef";
-Auth.currentUserId = "deadbeef";
-
 QUnit.testStart(function () {
     // Put the application into a known state, and destroy the defaultStore.
     // Be careful about DS.Model instances stored in App; they'll be invalid
@@ -19,6 +16,14 @@ QUnit.testStart(function () {
     // This is broken in some versions of Ember and Ember Data, see:
     // https://github.com/emberjs/data/issues/847
     Ember.run(function () { Balanced.reset(); });
+
+    // Set up Ember Auth
+    Ember.run(function () {
+        Auth.set('authToken', "deadbeef");
+        Auth.set('currentUserId', "deadbeef");
+        Auth.set('currentUser', Balanced.User.find(Auth.currentUserId));
+    });
+
     // Display an error if asynchronous operations are queued outside of
     // Ember.run.  You need this if you want to stay sane.
     Ember.testing = true;
