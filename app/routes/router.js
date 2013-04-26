@@ -23,6 +23,7 @@ Balanced.Router.map(function () {
 
 require('app/routes/application');
 
+require('app/routes/marketplace');
 require('app/routes/marketplace_credits');
 require('app/routes/marketplace_debits');
 require('app/routes/marketplace_refunds');
