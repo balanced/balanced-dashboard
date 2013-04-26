@@ -1,6 +1,6 @@
 Balanced.MarketplaceCreditsRoute = Balanced.Route.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
-    return ENV.BALANCED.WWW + "/marketplaces/" + marketplace.get('id') + "/credits/" + params.credit_id + "?embedded=1";
+    return marketplace.get('web_uri') + "/credits/" + params.credit_id + "?embedded=1";
   }
 });

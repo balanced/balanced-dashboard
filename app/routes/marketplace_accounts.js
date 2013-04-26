@@ -1,6 +1,6 @@
 Balanced.MarketplaceAccountsRoute = Balanced.Route.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
-    return ENV.BALANCED.WWW + "/marketplaces/" + marketplace.get('id') + "/accounts/" + params.account_id + "?embedded=1";
+    return marketplace.get('web_uri') + "/accounts/" + params.account_id + "?embedded=1";
   }
 });
