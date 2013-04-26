@@ -142,7 +142,11 @@ module.exports = function (grunt) {
                     src: ['build/dashboard-prod.js'],
                     instrumentedFiles: 'temp/',
                     htmlReport: 'report/coverage',
-                    coberturaReport: 'report/'
+                    coberturaReport: 'report/',
+                    linesThresholdPct: 45,
+                    statementsThresholdPct: 45,
+                    functionsThresholdPct: 45,
+                    branchesThresholdPct: 15
                 }
             },
             all: ['build/test/**/*.html']
