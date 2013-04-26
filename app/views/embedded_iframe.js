@@ -13,7 +13,7 @@ Balanced.embedded_iframe_loaded = function(location) {
   Ember.Instrumentation.instrument("iframe.urlChanged", {url: location.pathname});
 
   // Add a handler to links so we can change the page BEFORE the page loads
-  $("#embedded_dashboard_content").contents().find("a").click(function(event) {
+  $("#embedded-dashboard-content").contents().find("a").click(function(event) {
     var addressValue = $(this).attr("href");
     Ember.Instrumentation.instrument("iframe.urlChanged", {url: addressValue});
   });
