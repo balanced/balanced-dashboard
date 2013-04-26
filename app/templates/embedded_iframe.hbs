@@ -1,1 +1,1 @@
-<iframe id="embedded_dashboard_content" class="auto-height" scrolling="no" frameborder="0" {{ bindAttr src="view.iframeUrl"}} onLoad="Balanced.embedded_iframe_loaded()"></iframe>
+<iframe id="embedded_dashboard_content" class="auto-height" scrolling="no" frameborder="0" {{ bindAttr src="view.iframeUrl"}} onLoad="Balanced.embedded_iframe_loaded(this.contentWindow.location)"></iframe>

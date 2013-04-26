@@ -1,9 +1,9 @@
 Balanced.ApplicationRoute = Balanced.Route.extend({
   setupController: function(controller, model) {
-    Ember.Instrumentation.subscribe("iframe.linkclicked", {
+    Ember.Instrumentation.subscribe("iframe.urlChanged", {
       before: function(name, timestamp, payload) {
         // forward the event to the application controller - see controllers/application.js
-        controller.send('iframeLinkClicked', payload);
+        controller.send('iframeUrlChanged', payload);
       },
       after: function() {}
     });
