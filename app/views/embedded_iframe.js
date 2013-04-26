@@ -15,7 +15,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         var addressValue = $(this).attr("href");
         _this.updateHashFromIframeLocation(addressValue);
       });
-    })
+    });
   },
 
   updateHashFromIframeLocation: function(iframePath) {
