@@ -43,10 +43,12 @@ require('app/lib/migration');
  * doesn't communicate with a server, plain
  * Ember.Objects will do.
  */
+require('app/models/store');
 require('app/models/_base');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
+require('app/models/account');
 
 require('app/lib/auth');
 

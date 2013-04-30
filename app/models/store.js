@@ -95,6 +95,34 @@
         },
     });
 
+    // Taken from EmberData's PassthruSerializer
+    var balancedAPISerializer = DS.Serializer.extend({
+        extractId: function(type, data) {
+            // We're using the URI as the ID for everything, so customize that here
+            return data.uri + '';
+        },
+
+        extractAttribute: function(type, data, name) {
+            return data[name];
+        },
+
+        extractHasMany: function(type, data, name) {
+            return data[name];
+        },
+
+        extractBelongsTo: function(type, data, name) {
+            return data[name];
+        },
+
+        deserializeValue: function(value) {
+            return value;
+        },
+
+        serializeValue: function(value) {
+            return value;
+        }
+    });
+
     Balanced.Store = DS.Store.extend({
         revision: 12,
         adapter: balancedAdapter.extend({
@@ -110,5 +138,17 @@
       marketplaces: { embedded: 'always' }
     });
     Balanced.Store.registerAdapter('Balanced.User', userAdapter);
+
+    Balanced.BasicAdapter = DS.BasicAdapter.extend({
+        serializer: balancedAPISerializer
+    });
+    Balanced.BasicAdapter.ajax = function(url, type, settings) {
+        settings = settings || {};
+        settings.url = url;
+        settings.type = type;
+        settings.context = this;
+        return Auth.ajax(settings);
+    };
+    Balanced.Store.registerAdapter('Balanced.Account', Balanced.BasicAdapter);
 
 })(window.Balanced);
