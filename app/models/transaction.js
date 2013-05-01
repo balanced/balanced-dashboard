@@ -1,6 +1,7 @@
-Balanced.Account = Balanced.Model.extend({
-    name: DS.attr('string'),
+Balanced.Transaction = Balanced.Model.extend({
     uri: DS.attr('string'),
+    description: DS.attr('string'),
+    amount: DS.attr('number'),
 
     web_uri: function() {
         return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
@@ -11,18 +12,9 @@ Balanced.Account = Balanced.Model.extend({
     }.property('web_uri')
 });
 
-Balanced.Account.sync = {
-    find: function(id, load) {
-        Balanced.BasicAdapter.ajax(ENV.BALANCED.API + id, "GET").then(function(json) {
-            load(DS.process(Balanced.Account.deserialize(json)));
-        });
-    }
-};
-
-Balanced.Account.deserialize = function(json) {
+Balanced.Transaction.deserialize = function(json) {
     json.balancedId = json.id;
     json.id = json.uri;
     json.type = json._type;
     return json;
 };
-

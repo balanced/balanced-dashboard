@@ -49,6 +49,10 @@ require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
 require('app/models/account');
+require('app/models/transaction');
+require('app/models/credit');
+require('app/models/debit');
+require('app/models/search_query');
 
 require('app/lib/auth');
 
@@ -74,6 +78,7 @@ require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/login');
+require('app/controllers/search');
 
 /*
  * States (i.e. Routes)
