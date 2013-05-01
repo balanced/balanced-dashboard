@@ -9,3 +9,8 @@ $('#migration-frame').each(function () {
     var height = $frame[0].contentWindow.document.body.scrollHeight;
     $frame.attr('height', height);
 });
+
+// xdomain hack
+if (document.domain.indexOf('balancedpayments.com') >= 0) {
+    document.domain = 'balancedpayments.com';
+}
