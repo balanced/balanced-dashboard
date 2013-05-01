@@ -28,7 +28,7 @@ You will need node installed as a development dependency. See
 1. `npm install -g grunt-cli`
 2. `npm install`
 3. Build - `grunt`
-4. To view in a browser `open index.html`
+4. To view in a browser `open local.html`
 5. To run unit tests `grunt test`
 6. To run browser tests `grunt itest`
 
