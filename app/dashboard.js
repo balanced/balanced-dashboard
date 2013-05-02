@@ -77,6 +77,7 @@ require('app/controllers/_base');
 require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
+require('app/controllers/account');
 require('app/controllers/login');
 require('app/controllers/search');
 
