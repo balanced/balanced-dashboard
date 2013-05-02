@@ -202,6 +202,12 @@ Balanced.Search = (function () {
         $(document).on('changeDate', onDateSelected);
     }
 
+    function onRowSelected(e) {
+        reset();
+        var uri = $(e.currentTarget).data('uri');
+        window.location.hash = "#" + Balanced.Utils.uriToDashboardFragment(uri);
+    }
+
     function initFilters() {
         $(document).on('click', '#search .results > header > nav > li > a', onChangeSearchType);
         $(document).on('click', '#search .results .filter-choices a', filterResultType);
@@ -222,6 +228,8 @@ Balanced.Search = (function () {
             initDateTimePicker();
             initFilters();
             initSorting();
+
+            $(document).on('click', '#search .results tr', onRowSelected);
         }
     };
 })();
