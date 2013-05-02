@@ -11,11 +11,3 @@ Balanced.Credit = Balanced.Transaction.extend({
       }
     }.property('bank_account')
 });
-
-Balanced.Credit.find = function(uri) {
-    var credit = Balanced.Credit.create({uri: uri});
-    Balanced.Model.ajax(ENV.BALANCED.API + uri, "GET").then(function(json) {
-        credit.setProperties(json);
-    });
-    return credit;
-};

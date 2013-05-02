@@ -4,10 +4,8 @@
 Balanced.SearchQuery = Balanced.Model.extend({
 });
 
-Balanced.SearchQuery.search = function(marketplaceId, query) {
-    var uri = '/v1/marketplaces/' + marketplaceId + '/search?q=' + query + '&limit=10&offset=0';
-    var searchResults = Balanced.SearchQuery.create({uri: uri});
-    Balanced.Model.ajax(ENV.BALANCED.API + uri, "GET").then(function(json) {
+Balanced.SearchQuery.reopenClass({
+    deserialize: function(json) {
         json.accounts = _.chain(json.items)
             .filter(function(item) { return item._type === "account"; })
             .map(function(account) { return Balanced.Account.create(account) })
@@ -38,8 +36,10 @@ Balanced.SearchQuery.search = function(marketplaceId, query) {
         json.total_funding_instruments = json.counts.bank_account + json.counts.card;
         json.total_bank_accounts = json.counts.bank_account;
         json.total_cards = json.counts.card;
+    }
+});
 
-        searchResults.setProperties(json);
-    });
-    return searchResults;
+Balanced.SearchQuery.search = function(marketplaceId, query) {
+    var uri = '/v1/marketplaces/' + marketplaceId + '/search?q=' + query + '&limit=10&offset=0';
+    return this.find(uri);
 };

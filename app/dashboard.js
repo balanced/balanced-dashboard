@@ -44,7 +44,7 @@ require('app/lib/migration');
  * Ember.Objects will do.
  */
 require('app/models/store');
-require('app/models/_base');
+require('app/models/model');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
