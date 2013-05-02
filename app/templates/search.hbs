@@ -1,6 +1,6 @@
 <div id="search">
-    {{view Ember.TextField valueBinding="search" action="query" name="q" id="q"}}
-    <span class="close">×</span>
+    {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q"}}
+    <span class="close" {{action closeSearch target="view"}}>×</span>
     <div class="results">
         <header>
             <nav>
@@ -125,7 +125,7 @@
             </thead>
             <tbody>
             {{#each transaction in transactions }}
-            <tr {{bindAttr data-uri="transaction.uri"}}>
+            <tr {{action selectSearchResult transaction.uri target="view"}}}}>
                 <td class="span3 date">
                     <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
                 </td>

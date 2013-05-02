@@ -16,6 +16,10 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     this.set('content', Balanced.SearchQuery.search(marketplaceId, query));
   },
 
+  selectSearchResult: function(uri) {
+    window.location.hash = "#" + Balanced.Utils.uriToDashboardFragment(uri);
+  },
+
   totalTransactionsHeader: function() {
     if(this.get('content')) {
       return "Transactions (" + this.get('content').get('total_transactions') + ")";

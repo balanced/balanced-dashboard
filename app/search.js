@@ -4,42 +4,6 @@ Balanced.Search = (function () {
     var sortOrder = null;
     var sorts = ['unsorted', 'ascending', 'descending'];
 
-    function reset() {
-        var $q = $('#q');
-        var $searchArea = $('#search');
-        $searchArea.removeClass(resultsClass);
-        $q.val('').focus();
-        resetSortOrder();
-        resetDateTimePicker();
-    }
-
-    function onQueryChange(e) {
-        toggleResults();
-        var $t = $(this);
-        //  TODO: this will need to happen after search results are updated
-        highlightResults($t.val());
-    }
-
-    function highlightResults(query) {
-        //  remove empty words
-        $('#search .results tbody tr').highlightWords(query);
-    }
-
-    function focusOnSearch() {
-        $('#search').addClass('focus');
-    }
-
-    function focusAwayFromSearch() {
-        $('#search').removeClass('focus');
-    }
-
-    function toggleResults() {
-        var $q = $('#q');
-        var $searchArea = $('#search');
-        var fn = $q.val() ? $searchArea.addClass : $searchArea.removeClass;
-        fn.call($searchArea, resultsClass);
-    }
-
     function onChangeSearchType(e) {
         var $t = $(this);
         if ($t.hasClass('dropdown-toggle')) {
@@ -57,11 +21,6 @@ Balanced.Search = (function () {
         var label = $t.data('label') || $t.text();
         $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label);
         $t.closest('li').addClass('selected');
-    }
-
-    function clearFilters() {
-        resetDateTimePicker();
-        $('#search .filters a').removeClass('selected');
     }
 
     function toggleDateTimePicker() {
@@ -152,12 +111,6 @@ Balanced.Search = (function () {
         $('.timing > .dropdown-toggle > span', '#search').text(title);
     }
 
-    function shouldCloseSearch(e) {
-        if ($(e.target).closest('#search').length === 0) {
-            $('#search').removeClass(resultsClass);
-        }
-    }
-
     function onSortChange(e) {
         var $t = $(this);
         var sequences = {};
@@ -177,14 +130,6 @@ Balanced.Search = (function () {
         allSorts.removeClass(sorts.join(' '));
     }
 
-    function initSearchBox() {
-        $(document).on('keyup change click', '#q', onQueryChange);
-        $(document).on('click', '#search .close', reset);
-        $(document).on('click', shouldCloseSearch);
-        $(document).on('focus', '#search', focusOnSearch);
-        $(document).on('blur', '#search', focusAwayFromSearch);
-    }
-
     function initDateTimePicker() {
         $(document).on('click', '#search .timing .dropdown-toggle', toggleDateTimePicker);
         $(document).on('click change focus', '#search .dt', selectDateTimePicker);
@@ -202,16 +147,9 @@ Balanced.Search = (function () {
         $(document).on('changeDate', onDateSelected);
     }
 
-    function onRowSelected(e) {
-        reset();
-        var uri = $(e.currentTarget).data('uri');
-        window.location.hash = "#" + Balanced.Utils.uriToDashboardFragment(uri);
-    }
-
     function initFilters() {
         $(document).on('click', '#search .results > header > nav > li > a', onChangeSearchType);
         $(document).on('click', '#search .results .filter-choices a', filterResultType);
-        $(document).on('click', '#search .results .clear', clearFilters);
     }
 
     function initSorting() {
@@ -224,12 +162,9 @@ Balanced.Search = (function () {
             // since we can recreate elements at run-time
 
             //  toggle and reset the search box
-            initSearchBox();
             initDateTimePicker();
             initFilters();
             initSorting();
-
-            $(document).on('click', '#search .results tr', onRowSelected);
         }
     };
 })();

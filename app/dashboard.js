@@ -65,6 +65,7 @@ require('app/lib/auth');
  */
 require('app/views/_base');
 require('app/views/embedded_iframe');
+require('app/views/search');
 
 /*
  * Controller layer.
