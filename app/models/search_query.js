@@ -27,6 +27,18 @@ Balanced.SearchQuery.search = function(marketplaceId, query) {
             })
             .value();
 
+        json.total_transactions = json.counts.refund + json.counts.credit + json.counts.debit + json.counts.hold;
+        json.total_credits = json.counts.credit;
+        json.total_debits = json.counts.debit;
+        json.total_holds = json.counts.hold;
+        json.total_refunds = json.counts.refund;
+
+        json.total_accounts = json.counts.account;
+
+        json.total_funding_instruments = json.counts.bank_account + json.counts.card;
+        json.total_bank_accounts = json.counts.bank_account;
+        json.total_cards = json.counts.card;
+
         searchResults.setProperties(json);
     });
     return searchResults;

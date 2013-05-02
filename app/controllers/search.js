@@ -14,5 +14,23 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     }
 
     this.set('content', Balanced.SearchQuery.search(marketplaceId, query));
-  }
+  },
+
+  totalTransactionsHeader: function() {
+    if(this.get('content')) {
+      return "Transactions (" + this.get('content').get('total_transactions') + ")";
+    } else {
+      return "Transactions (0)";
+    }
+
+  }.property('content.total_transactions'),
+
+  totalFundingInstrumentsHeader: function() {
+    if(this.get('content')) {
+      return "Cards & Bank Accounts (" + this.get('content').get('total_funding_instruments') + ")";
+    } else {
+      return "Cards & Bank Accounts (0)";
+    }
+
+  }.property('content.total_funding_instruments'),
 });
