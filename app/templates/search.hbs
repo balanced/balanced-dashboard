@@ -111,6 +111,39 @@
                 </li>
             </nav>
         </header>
+
+        <table class="items transactions selected">
+            <thead>
+                <tr>
+                    <th class="span3 label6a sortable unsorted" data-field="created_at">Date</th>
+                    <th class="span3 label6a type">Transaction</th>
+                    <th class="span4 label6a description">Description</th>
+                    <th class="span4 label6a account">Account</th>
+                    <th class="span4 label6a funding-instrument">Card or Bank Account</th>
+                    <th class="span2 label6a amount sortable unsorted num" data-field="amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each transaction in transactions }}
+            <tr>
+                <td class="span3 date">
+                    <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+                </td>
+                <td {{bindAttr class=":span3 :label4a :type transaction.status"}} class="span3 label4a type succeeded">
+                    {{ transaction.type_name }}: {{transaction.status}}
+                </td>
+                <td class="span4 description">
+                    {{ transaction.description }}
+                </td>
+                <td class="span4 account">
+                    {{transaction.account.name}} ({{transaction.account.email_address}})
+                </td>
+                <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
+                <td class="span2 amount num">${{ transaction.amount_dollars }}</td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
         <table class="items accounts">
             <thead>
             <th class="span3 label6a sortable unsorted">Date</th>
@@ -127,154 +160,6 @@
                 </td>
                 <td class="span3 label4f type failed">
                     Credit: failed
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            </tbody>
-        </table>
-        <table class="items transactions selected">
-            <thead>
-                <tr>
-                    <th class="span3 label6a sortable unsorted" data-field="created_at">Date</th>
-                    <th class="span3 label6a type">Transaction</th>
-                    <th class="span4 label6a description">Description</th>
-                    <th class="span4 label6a account">Account</th>
-                    <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-                    <th class="span2 label6a amount sortable unsorted num" data-field="amount">Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-            {{#each transaction in transactions }}
-
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
-                </td>
-                <td class="span3 label4a type succeeded">
-                    {{ transaction.typeName }}
-                </td>
-                <td class="span4 description">
-                    {{ transaction.description }}
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">{{ transaction.amount }}</td>
-            </tr>
-
-            {{/each}}
-
-
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
-                </td>
-                <td class="span3 label4f type pending">
-                    Credit: pending
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
-                </td>
-                <td class="span3 label4c type failed">
-                    Credit: failed
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com) and some other shit that's way too long for this column
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
-                </td>
-                <td class="span3 label4a type succeeded">
-                    Credit
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
-                </td>
-                <td class="span3 label4a type succeeded">
-                    Credit
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
-                </td>
-                <td class="span3 label4a type succeeded">
-                    Credit
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
-                </td>
-                <td class="span3 label4a type succeeded">
-                    Credit
-                </td>
-                <td class="span4 description">
-                    Order #00003784
-                </td>
-                <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
-                </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
-            </tr>
-            <tr>
-                <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">Apr 18</time>
-                </td>
-                <td class="span3 label4a type succeeded">
-                    Credit
                 </td>
                 <td class="span4 description">
                     Order #00003784
