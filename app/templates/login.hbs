@@ -14,7 +14,7 @@
       {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password"}}
       <div class="clear"></div>
 
-      <a class="pull-left forgot-password">Forgot password?</a>
+      {{#linkTo "forgot-password" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
       <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
     </form>
   </div>

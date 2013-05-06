@@ -21,6 +21,7 @@ Balanced.Router.map(function () {
     this.route("transactions", { path: "/transactions/:transaction_id"});
   });
   this.resource('login');
+  this.resource('forgot-password');
 });
 
 require('app/routes/application');
