@@ -44,9 +44,9 @@ module.exports = function (grunt) {
                 src: [
                     'static/lib/jquery-1.9.1.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.2.js',
-                    'static/lib/ember-data.js',
+                    'static/lib/ember-1.0.0-rc.3.js',
                     'static/lib/ember-auth.js',
+                    'static/lib/underscore-min.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
@@ -59,9 +59,9 @@ module.exports = function (grunt) {
                 src: [
                     'static/lib/jquery-1.9.1.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.2.min.js',
-                    'static/lib/ember-data.prod.js',
+                    'static/lib/ember-1.0.0-rc.3.min.js',
                     'static/lib/ember-auth.min.js',
+                    'static/lib/underscore-min.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',

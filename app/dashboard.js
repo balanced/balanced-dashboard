@@ -43,10 +43,16 @@ require('app/lib/migration');
  * doesn't communicate with a server, plain
  * Ember.Objects will do.
  */
-require('app/models/_base');
+require('app/models/store');
+require('app/models/model');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
+require('app/models/account');
+require('app/models/transaction');
+require('app/models/credit');
+require('app/models/debit');
+require('app/models/search_query');
 
 require('app/lib/auth');
 
@@ -59,6 +65,7 @@ require('app/lib/auth');
  */
 require('app/views/_base');
 require('app/views/embedded_iframe');
+require('app/views/search');
 
 /*
  * Controller layer.
@@ -71,7 +78,9 @@ require('app/controllers/_base');
 require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
+require('app/controllers/account');
 require('app/controllers/login');
+require('app/controllers/search');
 
 /*
  * States (i.e. Routes)
