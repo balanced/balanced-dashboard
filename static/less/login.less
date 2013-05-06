@@ -1,0 +1,33 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+@loginWrapperBackground: #A3CACE;
+
+#login {
+  .logo {
+    display: block;
+    margin: 0px auto 30px auto;
+  }
+
+  #auth-form {
+    height: 110px;
+    background-color: @loginWrapperBackground;
+    padding: 40px;
+
+    input {
+      margin-bottom: 0px;
+
+      //not a fan of setting a width, any other ideas
+      width: 247px;
+
+      &:last-of-type {
+        margin-bottom: 10px;
+      }
+    }
+
+    a.forgot-password {
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  }
+}
