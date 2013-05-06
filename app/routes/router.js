@@ -24,6 +24,7 @@ Balanced.Router.map(function () {
 });
 
 require('app/routes/application');
+require('app/routes/index');
 
 require('app/routes/marketplace');
 require('app/routes/account');
