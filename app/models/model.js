@@ -29,18 +29,38 @@ Balanced.Model.reopenClass({
     var modelClass = this;
     var modelObject = modelClass.create({uri: uri});
 
-    var host = ENV.BALANCED.API;
-    if(this.host) {
-      host = this.host(uri);
-    }
-    this.ajax(host + uri, "GET").then(function(json) {
-      if(this.deserialize) {
-        this.deserialize(json);
+    if(this.fixureMap) {
+      // if the fixtures have been set up, must be testing this class, so fetch locally
+      var json = this.fixureMap[uri];
+      if(json) {
+        if(this.deserialize) {
+          this.deserialize(json);
+        }
+        modelObject.setProperties(json);
       }
+    } else {
+      // if no fixtures defined, use AJAX to fetch from the server
+      var host = ENV.BALANCED.API;
+      if(this.host) {
+        host = this.host(uri);
+      }
+      this.ajax(host + uri, "GET").then(function(json) {
+        if(this.deserialize) {
+          this.deserialize(json);
+        }
 
-      modelObject.setProperties(json);
-    });
+        modelObject.setProperties(json);
+      });
+    }
+
     return modelObject;
+  },
+
+  constructFixtures: function(fixtureArray) {
+    this.fixureMap = {};
+    _.each(fixtureArray, function(fixture) {
+      this.fixureMap[fixture.uri] = fixture;
+    }, this);
   },
 
   ajax: function(url, type, settings) {

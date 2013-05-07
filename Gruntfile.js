@@ -125,7 +125,7 @@ module.exports = function (grunt) {
                     'test/support/runner.html.tmpl',
                     'test/**/*.js'
                 ],
-                tasks: ['concat']
+                tasks: ['concat', 'copy']
             },
             handlebars_templates: {
                 files: ['app/**/*.hbs'],

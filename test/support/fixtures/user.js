@@ -1,5 +1,15 @@
-Balanced.User.FIXTURES = [{
-  id: "deadbeef",
-  email_address: "test@balancedpayments.com",
-  marketplaces: ["TEST-MP1", "TEST-MP2"]
-}];
+Balanced.User.constructFixtures([{
+  "id": "USeb4a5d6ca6ed11e2bea6026ba7db2987",
+  "uri": "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987",
+  "password": "sha1$7o8NOGjW$ad156ba4ca3ea0ae25b3e41ae48a6a91fe72aaae",
+  "marketplaces_uri": "http://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/marketplaces",
+  "api_keys_uri": "http://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/api_keys",
+  "email_address": "nick@rasslingcats.com",
+  "marketplaces": [
+    {
+      "id": "TEST-MP5m04ORxNlNDm1bB7nkcgSY",
+      "uri": "/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY",
+      "name": "Test Marketplace"
+    }
+  ]
+}]);

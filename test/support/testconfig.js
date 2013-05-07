@@ -1,14 +1,5 @@
 $(window).load(function(){
 
-// Replace our fixture-based store with a REST-based store for testing, so we
-// don't need a server.  We disable simulateRemoteResponse so that objects will
-// appear to load at the end of every Ember.run block instead of waiting for a
-// timer to fire.
-Balanced.Store = DS.Store.extend({
-    revision: 12,
-    adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
-});
-
 QUnit.testStart(function () {
     // Put the application into a known state, and destroy the defaultStore.
     // Be careful about DS.Model instances stored in App; they'll be invalid
@@ -19,8 +10,8 @@ QUnit.testStart(function () {
 
     // Set up Ember Auth
     Ember.run(function () {
-        Auth.set('authToken', "deadbeef");
-        Auth.set('currentUserId', "deadbeef");
+        Auth.set('authToken', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
+        Auth.set('currentUserId', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
         Auth.set('currentUser', Balanced.User.find(Auth.currentUserId));
     });
 
