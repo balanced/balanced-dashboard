@@ -14,7 +14,12 @@ require('build/compiled/templates');
  */
 window.Balanced = Ember.Application.create({
     rootElement: window.TESTING ? '#qunit-fixture' : '#balanced-app',
-    LOG_TRANSITIONS: true
+    LOG_TRANSITIONS: true,
+
+    customEvents: {
+        // key is the jquery event, value is the name used in views
+        changeDate: 'changeDate'
+    }
 });
 
 if (window.TESTING) {
@@ -24,7 +29,6 @@ if (window.TESTING) {
 window.Balanced.onLoad = function () {
     //  initialize anything that needs to be done on application load
     Balanced.Helpers.init();
-    Balanced.Search.init();
 };
 
 /*
@@ -52,6 +56,8 @@ require('app/models/account');
 require('app/models/transaction');
 require('app/models/credit');
 require('app/models/debit');
+require('app/models/hold');
+require('app/models/refund');
 require('app/models/search_query');
 
 require('app/lib/auth');
@@ -66,6 +72,7 @@ require('app/lib/auth');
 require('app/views/_base');
 require('app/views/embedded_iframe');
 require('app/views/search');
+require('app/views/date_picker');
 
 /*
  * Controller layer.
@@ -90,11 +97,6 @@ require('app/controllers/search');
  * actions.
  */
 require('app/routes/router');
-
-/*
- * TODO: where does this go?
- */
-require('app/search');
 
 
 $(document).ready(window.Balanced.onLoad);

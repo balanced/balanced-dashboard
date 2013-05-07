@@ -36,7 +36,6 @@ Balanced.SearchView = Balanced.View.extend({
   },
 
   resetSortOrder: function() {
-    this.sortOrder = null;
     var allSorts = $('#search .sortable');
     allSorts.removeClass(this.sorts.join(' '));
   },
@@ -54,7 +53,45 @@ Balanced.SearchView = Balanced.View.extend({
     this.toggleResults();
 
     //  TODO: this will need to happen after search results are updated
-    this.highlightResults();
+    this._highlightResults();
+  },
+
+  onSortChange: function(e, field) {
+    var $t = $(e.currentTarget);
+    var sequences = {};
+    this.resetSortOrder();
+    for (var i = 0; i < this.sorts.length; i++) {
+      sequences[this.sorts[i]] = this.sorts[(i + 1) % this.sorts.length];
+    }
+    var currentSort = $t.data('direction') || 'unsorted';
+    var nextSort = sequences[currentSort];
+    $t.data('direction', nextSort).addClass(nextSort);
+
+    var mappedSortOrder = "none";
+    switch(nextSort) {
+      case "ascending":
+        mappedSortOrder = "asc";
+        break;
+      case "descending":
+        mappedSortOrder = "desc";
+        break;
+    }
+
+    this._setSortOrder(field,mappedSortOrder);
+  },
+
+  onChangeSearchType: function(e, searchType) {
+    var $t = $(e.currentTarget);
+    $t.closest('nav').find(' > li').removeClass('selected');
+    $t.closest('li').addClass('selected');
+    $('#search .items').removeClass('selected');
+    $('#search .items.' + searchType).addClass('selected');
+  },
+
+  filterResultType: function(e, filter, label) {
+    var $t = $(e.currentTarget);
+    $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label || $t.text());
+    $t.closest('li').addClass('selected');
   },
 
   toggleResults: function() {
@@ -64,10 +101,14 @@ Balanced.SearchView = Balanced.View.extend({
     fn.call($searchArea, this.resultsClass);
   },
 
-  highlightResults: function(query) {
+  _highlightResults: function() {
     var query = $('#q').val();
     //  remove empty words
     $('#search .results tbody tr').highlightWords(query);
+  },
+
+  _setSortOrder: function(field, sortOrder) {
+    this.get("controller").send("changeSortOrder", field, sortOrder);
   }
 });
 
@@ -90,5 +131,33 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
 
   click: function(e) {
     this.get('parentView').onQueryChange(e);
+  }
+});
+
+Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
+  tagName: 'th',
+
+  click: function(e) {
+    this.get('parentView').onSortChange(e, this.field);
+  }
+});
+
+Balanced.SearchTypeView = Balanced.View.extend({
+  tagName: 'a',
+  attributeBindings: ['href'],
+  href: '#',
+
+  click: function(e) {
+    this.get('parentView').onChangeSearchType(e, this.searchType);
+  }
+});
+
+Balanced.SearchFilterResultView = Balanced.View.extend({
+  tagName: 'a',
+  attributeBindings: ['href'],
+  href: '#',
+
+  click: function(e) {
+    this.get('parentView').filterResultType(e, this.filter, this.label);
   }
 });

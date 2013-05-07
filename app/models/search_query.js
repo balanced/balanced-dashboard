@@ -8,17 +8,21 @@ Balanced.SearchQuery.reopenClass({
     deserialize: function(json) {
         json.accounts = _.chain(json.items)
             .filter(function(item) { return item._type === "account"; })
-            .map(function(account) { return Balanced.Account.create(account) })
+            .map(function(account) { return Balanced.Account.create(account); })
             .value();
 
         json.transactions = _.chain(json.items)
-            .filter(function(item) { return item._type === "credit" || item._type === "debit"; })
+            .filter(function(item) { return item._type === "credit" || item._type === "debit" || item._type === "refund" || item._type === "hold"; })
             .map(function(transaction) {
                 switch(transaction._type) {
                     case "credit":
                         return Balanced.Credit.create(transaction);
                     case "debit":
                         return Balanced.Debit.create(transaction);
+                    case "refund":
+                        return Balanced.Refund.create(transaction);
+                    case "hold":
+                        return Balanced.Hold.create(transaction);
                     default:
                         return null;
                 }
@@ -39,7 +43,16 @@ Balanced.SearchQuery.reopenClass({
     }
 });
 
-Balanced.SearchQuery.search = function(marketplaceId, query) {
+Balanced.SearchQuery.search = function(marketplaceId, query, minDate, maxDate, sortField, sortOrder) {
     var uri = '/v1/marketplaces/' + marketplaceId + '/search?q=' + query + '&limit=10&offset=0';
+    if(minDate) {
+        uri = uri + '&created_at>=' + minDate.toISOString();
+    }
+    if(maxDate) {
+        uri = uri + '&created_at<=' + maxDate.toISOString();
+    }
+    if(sortField && sortOrder && sortOrder !== "none") {
+        uri = uri + '&sort=' + sortField + ',' + sortOrder;
+    }
     return this.find(uri);
 };

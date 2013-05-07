@@ -3,17 +3,28 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
   search: '',
 
+  minDate: null,
+  maxDate: null,
+  sortField: null,
+  sortOrder: null,
+
   query: function() {
     var query = this.get('search');
 
     var marketplaceId = this.get('controllers').get('marketplace').get('id');
+    this.set('content', Balanced.SearchQuery.search(marketplaceId, query, this.get('minDate'), this.get('maxDate'), this.get('sortField'), this.get('sortOrder')));
+  },
 
-    if(marketplaceId === undefined) {
-      // TODO - For testing only - TAKE THIS OUT BEFORE MERGING
-      marketplaceId = 'TEST-MP5m04ORxNlNDm1bB7nkcgSY';
-    }
+  changeDateFilter: function(minDate, maxDate) {
+    this.set('minDate', minDate);
+    this.set('maxDate', maxDate);
+    this.query();
+  },
 
-    this.set('content', Balanced.SearchQuery.search(marketplaceId, query));
+  changeSortOrder: function(field, sortOrder) {
+    this.set('sortField', field);
+    this.set('sortOrder', sortOrder);
+    this.query();
   },
 
   selectSearchResult: function(uri) {

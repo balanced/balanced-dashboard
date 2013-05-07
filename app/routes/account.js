@@ -1,4 +1,4 @@
-Balanced.AccountRoute = Balanced.Route.extend({
+Balanced.AccountRoute = Balanced.AuthRoute.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
     var accountURI = marketplace.get('uri') + "/accounts/" + params.account_id;

@@ -6,35 +6,35 @@
             <nav>
                 <li {{bindAttr class=":transactions :filter total_transactions::disabled :selected"}} >
                     {{#if total_transactions}}
-                        <a href="#" data-type="transactions">Transactions ({{ total_transactions }})</a>
+                        {{#view Balanced.SearchTypeView searchType="transactions"}} Transactions ({{ total_transactions }}) {{/view}}
                     {{else}}
                         <span>Transactions ({{ total_transactions }})</span>
                     {{/if}}
                     <div class="selector dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu transaction-filter filter-choices">
-                            <li><a href="#" data-filter="" {{bindAttr data-label="totalTransactionsHeader"}}>All ({{ total_transactions }})</a></li>
+                            <li>{{#view Balanced.SearchFilterResultView filter="" labelBinding="totalTransactionsHeader"}} All ({{ total_transactions }}) {{/view}}</li>
 
                             {{#if total_holds }}
-                                <li><a href="#" data-filter="holds">Holds ({{ total_holds }})</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="holds"}} Holds ({{ total_holds }}) {{/view}}</li>
                             {{else}}
                                 <li class="disabled"><span>Holds ({{ total_holds }})</span></li>
                             {{/if}}
 
                             {{#if total_debits }}
-                                <li><a href="#" data-filter="debits">Debits ({{ total_debits }})</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="debits"}} Debits ({{ total_debits }}) {{/view}}</li>
                             {{else}}
                                 <li class="disabled"><span>Debits ({{ total_debits }})</span></li>
                             {{/if}}
 
                             {{#if total_credits }}
-                                <li><a href="#" data-filter="credits">Credits ({{ total_credits }})</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="credits"}} Credits ({{ total_credits }}) {{/view}}</li>
                             {{else}}
                                 <li class="disabled"><span>Credits ({{ total_credits }})</span></li>
                             {{/if}}
 
                             {{#if total_refunds }}
-                                <li><a href="#" data-filter="refunds">Refunds ({{ total_refunds }})</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="refunds"}} Refunds ({{ total_refunds }}) {{/view}}</a></li>
                             {{else}}
                                 <li class="disabled"><span>Refunds ({{ total_refunds }})</span></li>
                             {{/if}}
@@ -44,7 +44,7 @@
 
                 <li {{bindAttr class=":accounts total_accounts::disabled"}} >
                     {{#if total_accounts}}
-                        <a href="#" data-type="accounts">Accounts ({{ total_accounts }})</a>
+                        {{#view Balanced.SearchTypeView searchType="accounts"}} Accounts ({{ total_accounts }}) {{/view}}
                     {{else}}
                         <span>Accounts ({{ total_accounts }})</span>
                     {{/if}}
@@ -60,16 +60,16 @@
                     <div class="selector dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                            <li><a href="#" data-filter="" {{bindAttr data-label="totalFundingInstrumentsHeader"}} >Both ({{ total_funding_instruments }})</a></li>
+                            <li>{{#view Balanced.SearchFilterResultView filter="" labelBinding="totalFundingInstrumentsHeader"}} Both ({{ total_funding_instruments }}) {{/view}}</li>
 
                             {{#if total_cards }}
-                                <li><a href="#" data-filter="cards">Cards ({{ total_cards }})</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="cards"}} Cards ({{ total_cards }}) {{/view}}</li>
                             {{else}}
                                 <li class="disabled"><span>Cards ({{ total_cards }})</span></li>
                             {{/if}}
 
                             {{#if total_bank_accounts }}
-                                <li><a href="#" data-filter="bank-accounts">Bank Accounts ({{ total_bank_accounts }})</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="bank-accounts"}} Bank Accounts ({{ total_bank_accounts }}) {{/view}}</li>
                             {{else}}
                                 <li class="disabled"><span>Bank Accounts ({{ total_bank_accounts }})</span></li>
                             {{/if}}
@@ -77,50 +77,19 @@
                     </div>
                 </li>
 
-                <li class="timing dropdown label4a">
-                    <a class="dropdown-toggle"
-                       data-toggle="dropdown"
-                       href="#">
-                        <span>Any time</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu right">
-                        <li>
-                            <ul class="set-times">
-                                <li><a href="#">Anytime</a></li>
-                                <li><a href="#">Past hour</a></li>
-                                <li><a href="#">Past 24 hours</a></li>
-                                <li><a href="#">Past week</a></li>
-                                <li><a href="#">Past month</a></li>
-                            </ul>
-                            <div class="date-picker">
-                                <div class="after selected">
-                                    <div class="dt">
-                                        <input type="text" name="after" class="dp" data-element="#search .timing .after">
-                                    </div>
-                                </div>
-                                <div class="before">
-                                    <div class="dt">
-                                        <input type="text" name="before" class="dp" data-element="#search .timing .before">
-                                    </div>
-                                </div>
-                                <button class="btn go">Go</button>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                {{view Balanced.DatePickerView}}
             </nav>
         </header>
 
         <table class="items transactions selected">
             <thead>
                 <tr>
-                    <th class="span3 label6a sortable unsorted" data-field="created_at">Date</th>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
                     <th class="span3 label6a type">Transaction</th>
                     <th class="span4 label6a description">Description</th>
                     <th class="span4 label6a account">Account</th>
                     <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-                    <th class="span2 label6a amount sortable unsorted num" data-field="amount">Amount</th>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount sortable unsorted num" field="amount"}}Amount{{/view}}
                 </tr>
             </thead>
             <tbody>
@@ -130,7 +99,8 @@
                     <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
                 </td>
                 <td {{bindAttr class=":span3 :label4a :type transaction.status"}} class="span3 label4a type succeeded">
-                    {{ transaction.type_name }}: {{transaction.status}}
+                    {{ transaction.type_name }}
+                    {{#if transaction.status }}: {{transaction.status}}{{/if}}
                 </td>
                 <td class="span4 description">
                     {{ transaction.description }}

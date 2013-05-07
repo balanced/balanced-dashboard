@@ -28,6 +28,7 @@
     "Auth": true,
     "Balanced": true,
     "DS": true,
-    "ENV": true
+    "ENV": true,
+    "_": true
   }
 }
