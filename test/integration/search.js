@@ -29,3 +29,12 @@ test('clicking close resets the search', function () {
     $('#search .close').click();
     equal($q.val(), '');
 });
+
+test('running a search returns results', function() {
+    var $q = $('#q');
+    $q.val('t');
+    $('#q').trigger(jQuery.Event("keyup", { keyCode: 54 }));
+    $('#q').trigger(jQuery.Event("keyup", { keyCode: 13 }));
+
+    equal($('#search .results header li.transactions > a').text(), ' Transactions (18) ');
+});
