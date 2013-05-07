@@ -12,12 +12,6 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     var query = this.get('search');
 
     var marketplaceId = this.get('controllers').get('marketplace').get('id');
-
-    if(marketplaceId === undefined) {
-      // TODO - For testing only - TAKE THIS OUT BEFORE MERGING
-      marketplaceId = 'TEST-MP5m04ORxNlNDm1bB7nkcgSY';
-    }
-
     this.set('content', Balanced.SearchQuery.search(marketplaceId, query, this.get('minDate'), this.get('maxDate'), this.get('sortField'), this.get('sortOrder')));
   },
 

@@ -7,7 +7,7 @@
 
 
         <div id="marketplaces-and-search" class="span18">
-
+            {{#if Auth.authToken }}
 
             <div id="marketplaces" class="dropdown">
                 <a class="dropdown-toggle"
@@ -22,7 +22,7 @@
 
             {{ render "search" }}
 
-
+            {{/if}}
         </div>
 
         <div id="site-nav" class="span6">
