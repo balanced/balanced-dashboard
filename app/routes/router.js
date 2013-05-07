@@ -20,8 +20,8 @@ Balanced.Router.map(function () {
     });
     this.route("transactions", { path: "/transactions/:transaction_id"});
   });
-  this.resource('login');
-  this.resource('forgot-password');
+  this.route('login', { path: "/login" });
+  this.route('forgotPassword', { path: "/forgot-password" });
 });
 
 require('app/routes/application');

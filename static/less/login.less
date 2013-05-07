@@ -1,52 +1,72 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
 
-@loginWrapperBackground: #A3CACE;
+@loginWrapperBackground: #96C0C5;
 
-#login, #forgot-password {
+#login,
+#forgot-password {
   .logo {
     display: block;
-    margin: 0px auto 30px auto;
+    margin: 0px auto 50px auto;
   }
 
-  #forgot-form {
-    overflow: auto;
-    background-color: @loginWrapperBackground;
-    padding: 40px;
+  div.alert {
+    padding: 20px;
+    text-shadow: none;
+    .border-radius(0px);
+    text-align: center;
 
-    input {
-      margin-bottom: 0px;
-
-      //not a fan of setting a width, any other ideas
-      width: 247px;
-
-      &:last-of-type {
-        margin-bottom: 10px;
-      }
-    }
-
-    p.instructions {
-      width: 70%;
+    &.alert-error {
+      background-color: #e66a5f;
+      border: 0px;
+      border-color: transparent;
+      color: #ffffff;
     }
   }
 
+  #forgot-form,
   #auth-form {
     overflow: auto;
     background-color: @loginWrapperBackground;
     padding: 40px;
 
+    &.error {
+      background-color: #f6c5B9;
+    }
+
     input {
+      .box-sizing(border-box);
+      width: 100%;
+      border: 0px;
       margin-bottom: 0px;
+      .placeholder(@textColor);
+    }
+  }
 
-      //not a fan of setting a width, any other ideas
-      width: 247px;
-
+  #forgot-form {
+    input {
       &:last-of-type {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+      }
+    }
+
+    p.instructions {
+      color: @textColor;
+      font-size: 12px;
+      width: 60%;
+    }
+  }
+
+  #auth-form {
+    input {
+      &:last-of-type {
+        margin-bottom: 5px;
       }
     }
 
     a.forgot-password {
+      font-size: 12px;
+      color: @textColor;
       cursor: pointer;
       margin-top: 10px;
     }

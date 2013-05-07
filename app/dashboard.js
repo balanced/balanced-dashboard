@@ -80,6 +80,7 @@ require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/account');
 require('app/controllers/login');
+require('app/controllers/forgotpassword');
 require('app/controllers/search');
 
 /*
