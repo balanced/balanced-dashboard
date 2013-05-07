@@ -4,25 +4,6 @@ Balanced.Search = (function () {
     var sortOrder = null;
     var sorts = ['unsorted', 'ascending', 'descending'];
 
-    function onChangeSearchType(e) {
-        var $t = $(this);
-        if ($t.hasClass('dropdown-toggle')) {
-            return;
-        }
-        $t.closest('nav').find(' > li').removeClass('selected');
-        $t.closest('li').addClass('selected');
-        $('#search .items').removeClass('selected');
-        $('#search .items.' + $t.data('type')).addClass('selected');
-    }
-
-    function filterResultType(e) {
-        var $t = $(this);
-        var filter = $t.data('filter');
-        var label = $t.data('label') || $t.text();
-        $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label);
-        $t.closest('li').addClass('selected');
-    }
-
     function toggleDateTimePicker() {
         $('.timing', '#search').find('.selected .dp').datepicker('show');
     }
@@ -128,11 +109,6 @@ Balanced.Search = (function () {
         $(document).on('changeDate', onDateSelected);
     }
 
-    function initFilters() {
-        $(document).on('click', '#search .results > header > nav > li > a', onChangeSearchType);
-        $(document).on('click', '#search .results .filter-choices a', filterResultType);
-    }
-
     return {
         init: function () {
             // events are attached to document rather than specific elements
@@ -140,7 +116,6 @@ Balanced.Search = (function () {
 
             //  toggle and reset the search box
             initDateTimePicker();
-            initFilters();
         }
     };
 })();

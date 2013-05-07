@@ -70,6 +70,21 @@ Balanced.SearchView = Balanced.View.extend({
     this.sortOrder = field + '-' + nextSort;
   },
 
+  onChangeSearchType: function(e, searchType) {
+    var $t = $(e.currentTarget);
+    $t.closest('nav').find(' > li').removeClass('selected');
+    $t.closest('li').addClass('selected');
+    $('#search .items').removeClass('selected');
+    $('#search .items.' + searchType).addClass('selected');
+  },
+
+  filterResultType: function(e, filter, label) {
+    var $t = $(e.currentTarget);
+    var label = label || $t.text();
+    $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label);
+    $t.closest('li').addClass('selected');
+  },
+
   toggleResults: function() {
     var $q = $('#q');
     var $searchArea = $('#search');
@@ -111,5 +126,25 @@ Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
 
   click: function(e) {
     this.get('parentView').onSortChange(e, this.field);
+  }
+});
+
+Balanced.SearchTypeView = Balanced.View.extend({
+  tagName: 'a',
+  attributeBindings: ['href'],
+  href: '#',
+
+  click: function(e) {
+    this.get('parentView').onChangeSearchType(e, this.searchType);
+  }
+});
+
+Balanced.SearchFilterResultView = Balanced.View.extend({
+  tagName: 'a',
+  attributeBindings: ['href'],
+  href: '#',
+
+  click: function(e) {
+    this.get('parentView').filterResultType(e, this.filter, this.label);
   }
 })
