@@ -3,6 +3,11 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
   search: '',
 
+  minDate: null,
+  maxDate: null,
+  sortField: null,
+  sortOrder: null,
+
   query: function() {
     var query = this.get('search');
 
@@ -13,7 +18,19 @@ Balanced.SearchController = Balanced.ObjectController.extend({
       marketplaceId = 'TEST-MP5m04ORxNlNDm1bB7nkcgSY';
     }
 
-    this.set('content', Balanced.SearchQuery.search(marketplaceId, query));
+    this.set('content', Balanced.SearchQuery.search(marketplaceId, query, this.get('minDate'), this.get('maxDate'), this.get('sortField'), this.get('sortOrder')));
+  },
+
+  changeDateFilter: function(minDate, maxDate) {
+    this.set('minDate', minDate);
+    this.set('maxDate', maxDate);
+    this.query();
+  },
+
+  changeSortOrder: function(field, sortOrder) {
+    this.set('sortField', field);
+    this.set('sortOrder', sortOrder);
+    this.query();
   },
 
   selectSearchResult: function(uri) {

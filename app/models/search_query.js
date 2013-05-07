@@ -43,7 +43,16 @@ Balanced.SearchQuery.reopenClass({
     }
 });
 
-Balanced.SearchQuery.search = function(marketplaceId, query) {
+Balanced.SearchQuery.search = function(marketplaceId, query, minDate, maxDate, sortField, sortOrder) {
     var uri = '/v1/marketplaces/' + marketplaceId + '/search?q=' + query + '&limit=10&offset=0';
+    if(minDate) {
+        uri = uri + '&created_at>=' + minDate.toISOString();
+    }
+    if(maxDate) {
+        uri = uri + '&created_at<=' + maxDate.toISOString();
+    }
+    if(sortField && sortOrder && sortOrder !== "none") {
+        uri = uri + '&sort=' + sortField + ',' + sortOrder;
+    }
     return this.find(uri);
 };

@@ -36,7 +36,6 @@ Balanced.SearchView = Balanced.View.extend({
   },
 
   resetSortOrder: function() {
-    this.sortOrder = null;
     var allSorts = $('#search .sortable');
     allSorts.removeClass(this.sorts.join(' '));
   },
@@ -67,7 +66,18 @@ Balanced.SearchView = Balanced.View.extend({
     var currentSort = $t.data('direction') || 'unsorted';
     var nextSort = sequences[currentSort];
     $t.data('direction', nextSort).addClass(nextSort);
-    this.sortOrder = field + '-' + nextSort;
+
+    var mappedSortOrder = "none";
+    switch(nextSort) {
+      case "ascending":
+        mappedSortOrder = "asc";
+        break;
+      case "descending":
+        mappedSortOrder = "desc";
+        break;
+    }
+
+    this._setSortOrder(field,mappedSortOrder)
   },
 
   onChangeSearchType: function(e, searchType) {
@@ -96,6 +106,10 @@ Balanced.SearchView = Balanced.View.extend({
     var query = $('#q').val();
     //  remove empty words
     $('#search .results tbody tr').highlightWords(query);
+  },
+
+  _setSortOrder: function(field, sortOrder) {
+    this.get("controller").send("changeSortOrder", field, sortOrder);
   }
 });
 

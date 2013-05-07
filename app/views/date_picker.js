@@ -60,12 +60,17 @@ Balanced.DatePickerView = Balanced.View.extend({
         this._setMinDate(new Date().addHours(-24 * 31))
         break;
     }
-    this._setTimingTitle(presetText);
+    this._changeDateFilter(presetText);
   },
 
   setDateVariable: function() {
     this.resetDateTimePicker();
-    this._setTimingTitle(this._extractVariableTimePeriod());
+    this._changeDateFilter(this._extractVariableTimePeriod());
+  },
+
+  _changeDateFilter: function(label) {
+    this._setTimingTitle(label);
+    this.get("controller").send("changeDateFilter", this.minTime, this.maxTime);
   },
 
   _setMinDate: function(minDate) {
