@@ -383,7 +383,7 @@ module.exports = function (grunt) {
      - build an html file with a script tag for each test file
      - headlessy load this page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'copy', 'qunit']);
+    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'less', 'copy', 'qunit']);
     grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*
