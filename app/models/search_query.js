@@ -12,13 +12,17 @@ Balanced.SearchQuery.reopenClass({
             .value();
 
         json.transactions = _.chain(json.items)
-            .filter(function(item) { return item._type === "credit" || item._type === "debit"; })
+            .filter(function(item) { return item._type === "credit" || item._type === "debit" || item._type === "refund" || item._type === "hold"; })
             .map(function(transaction) {
                 switch(transaction._type) {
                     case "credit":
                         return Balanced.Credit.create(transaction);
                     case "debit":
                         return Balanced.Debit.create(transaction);
+                    case "refund":
+                        return Balanced.Refund.create(transaction);
+                    case "hold":
+                        return Balanced.Hold.create(transaction);
                     default:
                         return null;
                 }
