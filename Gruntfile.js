@@ -259,6 +259,16 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            images: {
+                files: [
+                    {
+                        cwd: 'static/images/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'dist/images/'
+                    }
+                ]
+            },
             test: {
                 files: [
                     {
@@ -288,6 +298,10 @@ module.exports = function (grunt) {
             css: {
                 src: ['dist/**/*.js', 'dist/**/*.css'],
                 dest: 'dist/index.html'
+            },
+            images: {
+                src: ['dist/images/**/*.png'],
+                dest: ['dist/index.html', 'dist/css/*.css', 'dist/js/*.js']
             }
         },
 
