@@ -14,6 +14,6 @@ Auth.Config.reopen({
 
   authRedirect: true,
   signInRoute: 'login',
-  smartSignInRedirect: true,
+  smartSignInRedirect: false,
   signInRedirectFallbackRoute: 'index'
 });

@@ -1,4 +1,4 @@
-Balanced.MarketplaceTransactionsRoute = Balanced.Route.extend({
+Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
   model: function(params) {
     var marketplace = this.modelFor('marketplace');
     return marketplace.get('web_uri') + "/transactions/" + params.transaction_id + "?embedded=1";
