@@ -14,9 +14,13 @@ Balanced.MarketplaceRoute = Balanced.Route.extend({
   renderTemplate: function() {
     this.render();
     this.render('marketplace_sidebar', {
-      into: 'application',
+      into: 'marketplace',
       outlet: 'sidebar',
       controller: 'marketplace'
+    });
+    this.render('header', {
+      into: 'application',
+      outlet: 'header'
     });
   }
 });

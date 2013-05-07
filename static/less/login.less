@@ -3,14 +3,35 @@
 
 @loginWrapperBackground: #A3CACE;
 
-#login {
+#login, #forgot-password {
   .logo {
     display: block;
     margin: 0px auto 30px auto;
   }
 
+  #forgot-form {
+    overflow: auto;
+    background-color: @loginWrapperBackground;
+    padding: 40px;
+
+    input {
+      margin-bottom: 0px;
+
+      //not a fan of setting a width, any other ideas
+      width: 247px;
+
+      &:last-of-type {
+        margin-bottom: 10px;
+      }
+    }
+
+    p.instructions {
+      width: 70%;
+    }
+  }
+
   #auth-form {
-    height: 110px;
+    overflow: auto;
     background-color: @loginWrapperBackground;
     padding: 40px;
 
