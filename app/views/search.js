@@ -53,7 +53,7 @@ Balanced.SearchView = Balanced.View.extend({
     this.toggleResults();
 
     //  TODO: this will need to happen after search results are updated
-    this.highlightResults();
+    this._highlightResults();
   },
 
   onSortChange: function(e, field) {
@@ -77,7 +77,7 @@ Balanced.SearchView = Balanced.View.extend({
         break;
     }
 
-    this._setSortOrder(field,mappedSortOrder)
+    this._setSortOrder(field,mappedSortOrder);
   },
 
   onChangeSearchType: function(e, searchType) {
@@ -90,8 +90,7 @@ Balanced.SearchView = Balanced.View.extend({
 
   filterResultType: function(e, filter, label) {
     var $t = $(e.currentTarget);
-    var label = label || $t.text();
-    $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label);
+    $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label || $t.text());
     $t.closest('li').addClass('selected');
   },
 
@@ -102,7 +101,7 @@ Balanced.SearchView = Balanced.View.extend({
     fn.call($searchArea, this.resultsClass);
   },
 
-  highlightResults: function(query) {
+  _highlightResults: function() {
     var query = $('#q').val();
     //  remove empty words
     $('#search .results tbody tr').highlightWords(query);

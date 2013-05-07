@@ -48,16 +48,16 @@ Balanced.DatePickerView = Balanced.View.extend({
     this._setMaxDate(null);
     switch (presetText) {
       case 'Past hour':
-        this._setMinDate(new Date().addHours(-1))
+        this._setMinDate(new Date().addHours(-1));
         break;
       case 'Past 24 hours':
-        this._setMinDate(new Date().addHours(-24))
+        this._setMinDate(new Date().addHours(-24));
         break;
       case 'Past week':
-        this._setMinDate(new Date().addHours(-24 * 7))
+        this._setMinDate(new Date().addHours(-24 * 7));
         break;
       case 'Past month':
-        this._setMinDate(new Date().addHours(-24 * 31))
+        this._setMinDate(new Date().addHours(-24 * 31));
         break;
     }
     this._changeDateFilter(presetText);

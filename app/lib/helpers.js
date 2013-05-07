@@ -166,4 +166,4 @@ Balanced.Utils = {
         // have to strip off the API version
         return uri.substring(3);
     }
-}
+};

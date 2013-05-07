@@ -8,7 +8,7 @@ Balanced.SearchQuery.reopenClass({
     deserialize: function(json) {
         json.accounts = _.chain(json.items)
             .filter(function(item) { return item._type === "account"; })
-            .map(function(account) { return Balanced.Account.create(account) })
+            .map(function(account) { return Balanced.Account.create(account); })
             .value();
 
         json.transactions = _.chain(json.items)
