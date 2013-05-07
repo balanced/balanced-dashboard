@@ -144,6 +144,7 @@ module.exports = function (grunt) {
         qunit: {
             options: {
                 '--web-security': 'no',
+                timeout: '60000',
                 coverage: {
                     src: ['build/dashboard-prod.js'],
                     instrumentedFiles: 'temp/',
