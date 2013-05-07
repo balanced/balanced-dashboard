@@ -111,25 +111,6 @@ Balanced.Search = (function () {
         $('.timing > .dropdown-toggle > span', '#search').text(title);
     }
 
-    function onSortChange(e) {
-        var $t = $(this);
-        var sequences = {};
-        resetSortOrder();
-        for (var i = 0; i < sorts.length; i++) {
-            sequences[sorts[i]] = sorts[(i + 1) % sorts.length];
-        }
-        var currentSort = $t.data('direction') || 'unsorted';
-        var nextSort = sequences[currentSort];
-        $t.data('direction', nextSort).addClass(nextSort);
-        sortOrder = $t.data('field') + '-' + nextSort;
-    }
-
-    function resetSortOrder() {
-        sortOrder = null;
-        var allSorts = $('#search .sortable');
-        allSorts.removeClass(sorts.join(' '));
-    }
-
     function initDateTimePicker() {
         $(document).on('click', '#search .timing .dropdown-toggle', toggleDateTimePicker);
         $(document).on('click change focus', '#search .dt', selectDateTimePicker);
@@ -152,10 +133,6 @@ Balanced.Search = (function () {
         $(document).on('click', '#search .results .filter-choices a', filterResultType);
     }
 
-    function initSorting() {
-        $(document).on('click', '#search .sortable', onSortChange);
-    }
-
     return {
         init: function () {
             // events are attached to document rather than specific elements
@@ -164,7 +141,6 @@ Balanced.Search = (function () {
             //  toggle and reset the search box
             initDateTimePicker();
             initFilters();
-            initSorting();
         }
     };
 })();

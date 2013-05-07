@@ -115,12 +115,12 @@
         <table class="items transactions selected">
             <thead>
                 <tr>
-                    <th class="span3 label6a sortable unsorted" data-field="created_at">Date</th>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
                     <th class="span3 label6a type">Transaction</th>
                     <th class="span4 label6a description">Description</th>
                     <th class="span4 label6a account">Account</th>
                     <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-                    <th class="span2 label6a amount sortable unsorted num" data-field="amount">Amount</th>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount sortable unsorted num" field="amount"}}Amount{{/view}}
                 </tr>
             </thead>
             <tbody>

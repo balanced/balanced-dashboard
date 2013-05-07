@@ -57,6 +57,19 @@ Balanced.SearchView = Balanced.View.extend({
     this.highlightResults();
   },
 
+  onSortChange: function(e, field) {
+    var $t = $(e.currentTarget);
+    var sequences = {};
+    this.resetSortOrder();
+    for (var i = 0; i < this.sorts.length; i++) {
+      sequences[this.sorts[i]] = this.sorts[(i + 1) % this.sorts.length];
+    }
+    var currentSort = $t.data('direction') || 'unsorted';
+    var nextSort = sequences[currentSort];
+    $t.data('direction', nextSort).addClass(nextSort);
+    this.sortOrder = field + '-' + nextSort;
+  },
+
   toggleResults: function() {
     var $q = $('#q');
     var $searchArea = $('#search');
@@ -92,3 +105,11 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
     this.get('parentView').onQueryChange(e);
   }
 });
+
+Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
+  tagName: 'th',
+
+  click: function(e) {
+    this.get('parentView').onSortChange(e, this.field);
+  }
+})
