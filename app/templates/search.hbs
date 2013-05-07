@@ -77,38 +77,7 @@
                     </div>
                 </li>
 
-                <li class="timing dropdown label4a">
-                    <a class="dropdown-toggle"
-                       data-toggle="dropdown"
-                       href="#">
-                        <span>Any time</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu right">
-                        <li>
-                            <ul class="set-times">
-                                <li><a href="#">Anytime</a></li>
-                                <li><a href="#">Past hour</a></li>
-                                <li><a href="#">Past 24 hours</a></li>
-                                <li><a href="#">Past week</a></li>
-                                <li><a href="#">Past month</a></li>
-                            </ul>
-                            <div class="date-picker">
-                                <div class="after selected">
-                                    <div class="dt">
-                                        <input type="text" name="after" class="dp" data-element="#search .timing .after">
-                                    </div>
-                                </div>
-                                <div class="before">
-                                    <div class="dt">
-                                        <input type="text" name="before" class="dp" data-element="#search .timing .before">
-                                    </div>
-                                </div>
-                                <button class="btn go">Go</button>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
+                {{view Balanced.DatePickerView}}
             </nav>
         </header>
 

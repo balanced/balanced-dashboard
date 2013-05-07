@@ -147,4 +147,4 @@ Balanced.SearchFilterResultView = Balanced.View.extend({
   click: function(e) {
     this.get('parentView').filterResultType(e, this.filter, this.label);
   }
-})
+});
