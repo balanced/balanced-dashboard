@@ -1,3 +1,286 @@
 <h2><span class="marketplace-name">{{ name }}</span></h2>
 
+<div class="row">
+    <div class="span20">
+        <h1>Settings</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span11">
+
+        <section class="marketplace-info">
+            <form class="form-horizontal edit-inline">
+            <header>
+                <h3>Marketplace info <a href="#" class="edit">Edit</a></h3>
+            </header>
+            <div>
+                <div class="control-group">
+                    <label class="control-label">URI</label>
+                    <div class="controls">
+                        <span class="inline-label">/v1/marketplaces/MP123123123123123123</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Name</label>
+                    <div class="controls">
+                        <span class="inline-label">Zuppa</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Support email</label>
+                    <div class="controls">
+                        <span class="inline-label">owner@marketplace.com</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Domain URL</label>
+                    <div class="controls">
+                        <span class="inline-label">https://www.zuppa.com</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Support phone #</label>
+                    <div class="controls">
+                        <span class="inline-label">+1 (904) 666 9999</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">API key secret</label>
+                    <div class="controls">
+                        <span class="inline-label">908648a5ee11e1b8ac026ba7c46bae</span>
+                        <input type="text" name="name" value="Zuppa">
+                    </div>
+                </div>
+            </div>
+            </form>
+        </section>
+
+        <section class="owner-info">
+            <form class="form-horizontal edit-inline">
+            <header>
+                <h3>Owner info
+                    <a href="#" class="edit">Edit</a>
+                </h3>
+            </header>
+            </form>
+        </section>
+
+    </div>
+
+    <div class="offset1 span8">
+
+        <section class="bank-account-info">
+            <header>
+                <h3>Bank accounts
+                    <a href="#" class="add">Add a bank account</a>
+                </h3>
+            </header>
+            <ul class="sidebar-items">
+                <li class="unverified">
+                    <div class="icon">Bank account</div>
+                    <a href="#" class="icon-delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
+                        <span class="summary">5410 (Wells Fargo NA)</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn">Verify</button>
+                    </div>
+                </li>
+                <li class="verified">
+                    <div class="icon">Bank account</div>
+                    <a href="#" class="icon-delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
+                        <span class="summary">5410 (Wells Fargo NA)</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="card-info">
+            <header>
+                <h3>Credit cards
+                    <a href="#" class="add">Add a card</a>
+                </h3>
+            </header>
+            <ul class="sidebar-items">
+                <li>
+                    <div class="icon">Credit card</div>
+                    <a href="#" class="icon-delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">Stevie Ray Vaughn</span></span>
+                        <span class="summary">4615 (Discover)</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="icon">Credit card</div>
+                    <a href="#" class="icon-delete">delete</a>
+                    <div class="details">
+                        <span class="name"><span class="label2a">SR Vaughn</span></span>
+                        <span class="summary">3482 (VISA)</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="span20">
+        <section class="webhook-info">
+            <header>
+                <h3>Webhooks
+                    <a href="#" class="add">Add a webhook</a>
+                </h3>
+            </header>
+            <ul class="webhooks">
+                <li class="pending">
+                    <div class="summary">
+                        <a href="#" class="icon-delete">delete</a>
+                        <div class="expand"><span class="caret"></span></div>
+                        <div class="state">pending</div>
+                        <div class="action"><button class="btn">Test</button></div>
+                        <div class="url">POST http://requestb.in/34ijf4</div>
+                    </div>
+                    <div class="detail">
+
+                    </div>
+                </li>
+                <li class="failed">
+                    <div class="summary">
+                        <a href="#" class="icon-delete">delete</a>
+                        <div class="expand"><span class="caret"></span></div>
+                        <div class="state">failed</div>
+                        <div class="action"><button class="btn">Test</button></div>
+                        <div class="url">POST http://requestb.in/34ijf4</div>
+                    </div>
+                    <div class="detail">
+
+                    </div>
+                </li>
+                <li class="succeeded expanded">
+                    <div class="summary">
+                        <a href="#" class="icon-delete">delete</a>
+                        <div class="expand"><span class="caret"></span></div>
+                        <div class="state">succeeded</div>
+                        <div class="action"><button class="btn">Test</button></div>
+                        <div class="url">POST http://requestb.in/34ijf4</div>
+                    </div>
+                    <div class="detail">
+                        <header>
+
+                            <dl>
+                                <dd>Status</dd>
+                                <dt>201</dt>
+                                <dd>User-agent</dd>
+                                <dt>balanced/hookingbot/1.0</dt>
+                                <dd>Request</dd>
+                                <dt></dt>
+                            </dl>
+
+                        </header>
+                        <div class="payload">
+
+<pre>{
+    "id": "EV5THlcVTfjDtfPQKmY3VNJN",
+    "type": "credit.updated",
+    "occurred_at": "2012-09-18T14:58:44.179243Z",
+    "entity": {
+        "status": "paid",
+        "fee": null,
+        "description": "Light Yellow Guitar Pickup Cover and Knobs Switch Tip Set ABS Great Parts NEW",
+        "updated_at": "2013-01-14T23:54:38.852847Z",
+        "created_at": "2013-01-14T23:54:38.852846Z",
+        "transaction_number": "CR221-198-2779",
+        "amount": 7809,
+        "uri": "/v1/marketplaces/TEST-MP5PKrAjJDsHimUs46XEN5Wb/accounts/AC5TmlvYZ95vYXQdh1KQty9R/credits/CR5TGKk7nkr2IrDaqCDW65BF",
+        "bank_account_uri": "/v1/bank_accounts/BA5TiQAXbrXrEFWGLWzFGfh9",
+        "state": "cleared",
+        "meta": {},
+        "account_uri": "/v1/marketplaces/TEST-MP5PKrAjJDsHimUs46XEN5Wb/accounts/AC5TmlvYZ95vYXQdh1KQty9R",
+        "destination_uri": "/v1/marketplaces/TEST-MP5PKrAjJDsHimUs46XEN5Wb/accounts/AC5TmlvYZ95vYXQdh1KQty9R/bank_accounts/BA5TiQAXbrXrEFWGLWzFGfh9",
+        "id": "CR5TGKk7nkr2IrDaqCDW65BF",
+        "available_at": "2013-01-14T23:54:38.817488Z"
+    }
+}</pre>
+
+                        </div>
+
+                        <header>
+
+                            <dl>
+                                <dd>Response</dd>
+                                <dt></dt>
+                            </dl>
+
+                        </header>
+                        <div class="payload">
+<pre>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Example Domain&lt;/title&gt;
+
+	&lt;meta charset="utf-8" /&gt;
+	&lt;meta http-equiv="Content-type" content="text/html; charset=utf-8" /&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;
+	&lt;style type="text/css"&gt;
+	body {
+		background-color: #f0f0f2;
+		margin: 0;
+		padding: 0;
+		font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+	}
+	div {
+		width: 600px;
+		margin: 5em auto;
+		padding: 3em;
+		background-color: #fff;
+		border-radius: 1em;
+	}
+	a:link, a:visited {
+		color: #38488f;
+		text-decoration: none;
+	}
+	@media (max-width: 600px) {
+		body {
+			background-color: #fff;
+		}
+		div {
+			width: auto;
+			margin: 0 auto;
+			border-radius: 0;
+			padding: 1em;
+		}
+	}
+	&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div&gt;
+	&lt;h1&gt;Example Domain&lt;/h1&gt;
+	&lt;p&gt;This domain is established to be used for illustrative examples in documents. You do not need to
+		coordinate or ask for permission to use this domain in examples, and it is not available for
+		registration.&lt;/p&gt;
+	&lt;p&gt;&lt;a href="http://www.iana.org/domains/special"&gt;More information...&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </div>
+</div>
+
 {{outlet}}
+>>>>>>> master

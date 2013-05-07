@@ -1,3 +1,6 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
 form {
   //  what retard puts margin on a form element?
   margin: 0;
@@ -54,5 +57,61 @@ form {
         .border-radius(0);
       }
     }
+  }
+}
+
+.form-horizontal {
+  .control-group {
+    margin-bottom: 5px;
+  }
+  .control-label {
+    text-align: left;
+    width: 30%;
+  }
+  .controls {
+    margin-left: auto;
+  }
+}
+
+.edit-inline {
+  input, select {
+    display: none;
+  }
+  a.edit {
+    float: right;
+    font-family: nimbussannov-med;
+    font-size: 13px;
+    .cssicon(
+      @url: @iconsFile,
+      @width: 14px,
+      @height: 14px,
+      @display: block
+    );
+    background-position: -18px -438px;
+    &:hover {
+      background-position: -68px -438px;
+    }
+  }
+  &.edit {
+    input, select {
+      display: inherit;
+    }
+    .inline-label {
+      display: none;
+    }
+    .inline-edit {
+      background-color: #737373;
+      color: #d9d9d9;
+    }
+  }
+  .inline-label {
+    padding-top: 5px;
+    display: inline-block;
+  }
+  .controls {
+    display: inline;
+  }
+  .help-inline {
+    margin: 0;
   }
 }
