@@ -44,9 +44,9 @@ module.exports = function (grunt) {
                 src: [
                     'static/lib/jquery-1.9.1.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.2.js',
-                    'static/lib/ember-data.js',
+                    'static/lib/ember-1.0.0-rc.3.js',
                     'static/lib/ember-auth.js',
+                    'static/lib/underscore-min.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
@@ -59,9 +59,9 @@ module.exports = function (grunt) {
                 src: [
                     'static/lib/jquery-1.9.1.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.2.min.js',
-                    'static/lib/ember-data.prod.js',
+                    'static/lib/ember-1.0.0-rc.3.min.js',
                     'static/lib/ember-auth.min.js',
+                    'static/lib/underscore-min.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
@@ -125,7 +125,7 @@ module.exports = function (grunt) {
                     'test/support/runner.html.tmpl',
                     'test/**/*.js'
                 ],
-                tasks: ['concat']
+                tasks: ['concat', 'copy']
             },
             handlebars_templates: {
                 files: ['app/**/*.hbs'],
@@ -144,6 +144,7 @@ module.exports = function (grunt) {
         qunit: {
             options: {
                 '--web-security': 'no',
+                timeout: '60000',
                 coverage: {
                     src: ['build/dashboard-prod.js'],
                     instrumentedFiles: 'temp/',
@@ -382,7 +383,7 @@ module.exports = function (grunt) {
      - build an html file with a script tag for each test file
      - headlessy load this page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'copy', 'qunit']);
+    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'less', 'copy', 'qunit']);
     grunt.registerTask('itest', ['connect:server', 'casperjs']);
 
     /*

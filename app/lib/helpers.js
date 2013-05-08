@@ -160,3 +160,10 @@ Balanced.Helpers = (function () {
         }
     };
 })();
+
+Balanced.Utils = {
+    uriToDashboardFragment: function(uri) {
+        // have to strip off the API version
+        return uri.substring(3);
+    }
+};

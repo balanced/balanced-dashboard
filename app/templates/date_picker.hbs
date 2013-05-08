@@ -1,0 +1,33 @@
+<li class="timing dropdown label4a">
+    <a class="dropdown-toggle"
+       data-toggle="dropdown"
+       href="#"
+       {{action "toggleDateTimePicker" target="view"}}>
+        <span>Any time</span>
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu right">
+        <li>
+            <ul class="set-times">
+                {{#view Balanced.DatePickerPresetView}}<a href="#">Anytime</a>{{/view}}
+                {{#view Balanced.DatePickerPresetView}}<a href="#">Past hour</a>{{/view}}
+                {{#view Balanced.DatePickerPresetView}}<a href="#">Past 24 hours</a>{{/view}}
+                {{#view Balanced.DatePickerPresetView}}<a href="#">Past week</a>{{/view}}
+                {{#view Balanced.DatePickerPresetView}}<a href="#">Past month</a>{{/view}}
+            </ul>
+            <div class="date-picker">
+                <div class="after selected">
+                    {{#view Balanced.DatePickerDateFieldView class="dt"}}
+                        <input type="text" name="after" class="dp" data-element="#search .timing .after">
+                    {{/view}}
+                </div>
+                <div class="before">
+                    {{#view Balanced.DatePickerDateFieldView class="dt"}}
+                        <input type="text" name="before" class="dp" data-element="#search .timing .before">
+                    {{/view}}
+                </div>
+                <button class="btn go" {{action "setDateVariable" target="view"}}>Go</button>
+            </div>
+        </li>
+    </ul>
+</li>

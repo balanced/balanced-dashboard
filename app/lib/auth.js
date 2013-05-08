@@ -4,7 +4,7 @@ Auth.Config.reopen({
   tokenDestroyUrl: '/logins/current',
 
   tokenKey: 'id',
-  idKey: 'user_id',
+  idKey: 'user_uri',
   userModel: Balanced.User,
 
   // We're using the cookie, so Ember Auth doesn't need to worry about the token
@@ -14,6 +14,6 @@ Auth.Config.reopen({
 
   authRedirect: true,
   signInRoute: 'login',
-  smartSignInRedirect: true,
+  smartSignInRedirect: false,
   signInRedirectFallbackRoute: 'index'
 });

@@ -1,5 +1,9 @@
-require('app/models/store');
-
 Balanced.Marketplace = Balanced.MarketplaceLite.extend({
-    in_escrow: DS.attr('number')
+
+});
+
+Balanced.Marketplace.reopenClass({
+  constructUri: function(id) {
+      return "/v1/marketplaces/" + id;
+  }
 });
