@@ -38,7 +38,75 @@
   }
 }
 
-#logo {
+#flogo {
+  > .img {
+    margin: 20px auto !important;
+  }
+}
+footer {
+  [class*="span"] {
+    height: 60px;
+  }
+  .span2, .span24 {
+    background-color: #fff;
+    border-top: 1px solid @marketplaceNavBackground;
+  }
+  .span2 {
+    border-right: 1px solid @marketplaceNavBackground;
+    width: 89px !important;
+  }
+  .span24 {
+
+    > ul {
+      margin: 20px;
+      float: left;
+    }
+    li {
+      display: block;
+      float: left;
+
+      span {
+        font-family: FanwoodText-Regular;
+        font-size: 15px;
+        padding-right: 10px;
+      }
+      a {
+        display: block;
+        padding: 0 10px;
+        text-transform: uppercase;
+        color: @balancedGray;
+        font-family: nimbussannovcon-med;
+        font-size: 12px;
+        letter-spacing: 1px;
+        &:hover {
+          color: black;
+          text-decoration: none;
+        }
+      }
+    }
+    > a {
+      float: right;
+      .cssicon(@iconsFile, 30px, 30px);
+      background-color: rgb(134, 134, 134);
+      background-position: -10px -530px;
+      margin: 15px 5px;
+      &.quora {
+        background-position: -110px -530px;
+      }
+      &.github {
+        background-position: -60px -530px;
+      }
+      &.twitter {
+        margin-right: 20px;
+      }
+      &:hover {
+        background-color: #000;
+      }
+    }
+  }
+}
+
+#logo, #flogo {
   //  border-right: 1px solid @searchBoxBackground;
   .img {
     .cssicon(

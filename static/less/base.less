@@ -42,6 +42,8 @@ h1 {
   font-weight: normal;
   font-size: 34px;
   color: #000;
+  border-bottom: 1px solid #bcbcbc;
+  margin-bottom: 1em;
 }
 
 h2 {
@@ -116,6 +118,43 @@ table {
   }
 }
 
+.loader {
+  display: none;
+  position: absolute;
+  background: @iconsFile -164px -484px no-repeat;
+  width: 23px;
+  height: 23px;
+  &.loading {
+    display: block;
+    -webkit-animation: rotation 2s infinite linear;
+    -moz-animation: rotate 20s linear 0s infinite;
+  }
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
+}
+
+dl, dt, dd {
+  padding: 0;
+  margin: 0;
+}
+
+
 // 3rd party libs
 @import "/static/less/datepicker.less";
 
@@ -125,5 +164,11 @@ table {
 @import "/static/less/dropdowns.less";
 @import "/static/less/modals.less";
 @import "/static/less/search.less";
+@import "/static/less/pages.less";
+@import "/static/less/icons.less";
 @import "/static/less/migration.less";
 @import "/static/less/login.less";
+
+
+//  individual page components
+@import "/static/less/webhooks.less";
