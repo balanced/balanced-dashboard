@@ -1,10 +1,10 @@
 Balanced.ForgotPasswordView = Balanced.View.extend({
   templateName: 'forgotPassword',
   didInsertElement: function() {
-    $("body").css("background-color", "#f2f1ec");
+    $("body").addClass("light-bg");
     $("input[name=email]").focus();
   },
   willDestroyElement: function() {
-    $("body").css("background-color", "#4d4b49");
+    $("body").removeClass("light-bg");
   }
 });
