@@ -15,6 +15,7 @@ results
 build/*
 dist/*
 report/*
+temp/*
 
 npm-debug.log
 node_modules
@@ -22,3 +23,7 @@ node_modules
 # emacs and other IDEs
 *~
 *.iml
+
+# sublime project files
+*.sublime-project
+*.sublime-workspace

@@ -17,7 +17,9 @@ html {
 }
 
 body {
-
+  &.light-bg {
+    background-color: @contentBackground;
+  }
 }
 
 footer {
@@ -167,6 +169,8 @@ dl, dt, dd {
 @import "/static/less/pages.less";
 @import "/static/less/icons.less";
 @import "/static/less/migration.less";
+@import "/static/less/login.less";
+
 
 //  individual page components
 @import "/static/less/webhooks.less";

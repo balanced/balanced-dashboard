@@ -1,24 +1,30 @@
 <section id="main" class="container">
-  <div class="row">
-    <div id="content" class="span26">
-      <div class="row">
-        <div class="offset2 span22">
+  <div id="login">
+    <div class="row">
+      <div id="content" class="span26">
+        <div class="row">
+          <div class="offset2 span22">
+            <div class="offset6 span8">
+              <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
-    <h2>Login</h2>
+              <form id="auth-form" {{ bindAttr class="loginError:error" }}>
+                {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email" action="signIn"}}
+                {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
+                <div class="clear"></div>
 
-    {{#if loginError}}
-      <div class="alert alert-error">
-        <button type="button" class="close" data-dismiss="alert" {{action "dismissError"}}>&times;</button>
-        {{loginResponse}}}
-      </div>
-    {{/if}}
 
-<form id="auth-form">
-  {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="email address"}}
-  {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="password"}}
-  <button {{action "signIn"}} type="button">Login</button>
-</form>
+                {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
+                <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
+              </form>
 
+              {{#if loginError}}
+                <div class="alert alert-error">
+                  {{loginResponse}}}
+                </div>
+              {{/if}}
+
+            </div>
+          </div>
         </div>
       </div>
     </div>

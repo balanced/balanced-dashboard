@@ -1,0 +1,85 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+@loginWrapperBackground: #96C0C5;
+
+#login,
+#forgot-password {
+  .logo {
+    display: block;
+    margin: 0px auto 50px auto;
+  }
+
+  div.alert {
+    padding: 20px;
+    text-shadow: none;
+    .border-radius(0px);
+    text-align: center;
+
+    &.alert-error {
+      background-color: #e66a5f;
+      border: 0px;
+      border-color: transparent;
+      color: #ffffff;
+    }
+  }
+
+  #forgot-form,
+  #auth-form {
+    overflow: auto;
+    background-color: @loginWrapperBackground;
+    padding: 40px;
+
+    &.error {
+      background-color: #f6c5B9;
+    }
+
+    input {
+      .box-sizing(border-box);
+      width: 100%;
+      border: 0px;
+      margin-bottom: 0px;
+      .placeholder(#bfbeb9);
+
+      &:invalid {
+        color: #000000;
+      }
+    }
+  }
+
+  #forgot-form {
+    input {
+      &:last-of-type {
+        margin-bottom: 15px;
+      }
+    }
+
+    p.instructions {
+      color: @textColor;
+      font-size: 13x;
+      line-height: 15px;
+      width: 60%;
+    }
+  }
+
+  #auth-form {
+    input {
+      &:last-of-type {
+        margin-bottom: 5px;
+      }
+    }
+
+    a.forgot-password {
+      font-size: 13x;
+      line-height: 15px;
+      color: @textColor;
+      cursor: pointer;
+      margin-top: 10px;
+
+      &:hover {
+        color: #000000;
+        text-decoration: none;
+      }
+    }
+  }
+}
