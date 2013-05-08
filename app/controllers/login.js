@@ -4,10 +4,6 @@ Balanced.LoginController = Balanced.ObjectController.extend(Auth.SignInControlle
     loginError: false,
     loginResponse: "",
 
-    init: function() {
-        // Not a huge fan of this, better way?
-        jQuery("body").css("background-color", "#f2f1ec");
-    },
     signIn: function() {
         this.registerRedirect();
         Auth.signIn({
@@ -29,7 +25,7 @@ Balanced.LoginController = Balanced.ObjectController.extend(Auth.SignInControlle
 
                 var errorText = "";
                 if(typeof responseText.email_address !== "undefined") {
-                    self.set('loginResponse', responseText.email_address[0].replace("This", "E-Mail"));
+                    self.set('loginResponse', responseText.email_address[0].replace("This", "Email"));
                 } else if(typeof responseText.password !== "undefined") {
                     self.set('loginResponse', responseText.password[0].replace("This", "Password"));
                 }

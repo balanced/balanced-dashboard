@@ -39,7 +39,11 @@
       width: 100%;
       border: 0px;
       margin-bottom: 0px;
-      .placeholder(@textColor);
+      .placeholder(#bfbeb9);
+
+      &:invalid {
+        color: #000000;
+      }
     }
   }
 
@@ -52,7 +56,8 @@
 
     p.instructions {
       color: @textColor;
-      font-size: 12px;
+      font-size: 13x;
+      line-height: 15px;
       width: 60%;
     }
   }
@@ -65,10 +70,16 @@
     }
 
     a.forgot-password {
-      font-size: 12px;
+      font-size: 13x;
+      line-height: 15px;
       color: @textColor;
       cursor: pointer;
       margin-top: 10px;
+
+      &:hover {
+        color: #000000;
+        text-decoration: none;
+      }
     }
   }
 }

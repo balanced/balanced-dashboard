@@ -1,8 +1,7 @@
 Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
-  init: function() {
-    console.log("in forgot password controller");
-  },
+  email: null,
+
   forgotPassword: function() {
-    console.log("forgot pass");
+    console.log("forgot pass event click");
   }
 });

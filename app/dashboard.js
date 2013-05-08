@@ -70,6 +70,8 @@ require('app/lib/auth');
  * programming to do.
  */
 require('app/views/_base');
+require('app/views/login');
+require('app/views/forgot_password');
 require('app/views/embedded_iframe');
 require('app/views/search');
 require('app/views/date_picker');
