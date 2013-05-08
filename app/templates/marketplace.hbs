@@ -1,192 +1,204 @@
-<h2><span class="marketplace-name">{{ name }}</span></h2>
+<section id="main" class="container">
+  <div class="row">
+    <nav id="marketplace-nav" class="span2">
+        <ul>
+            {{ outlet sidebar }}
+        </ul>
+    </nav>
+    <div id="content" class="span24">
+      <div class="row">
+        <div class="offset2 span22">
+          <h2><span class="marketplace-name">{{ name }}</span></h2>
+          {{outlet}}
 
-<div class="row">
-    <div class="span20">
-        <h1>Settings</h1>
-    </div>
-</div>
+          <!--
+          <div class="row">
+              <div class="span20">
+                  <h1>Settings</h1>
+              </div>
+          </div>
 
-<div class="row">
-    <div class="span11">
+          <div class="row">
+              <div class="span11">
 
-        <section class="marketplace-info">
-            <form class="form-horizontal edit-inline">
-            <header>
-                <h3>Marketplace info <a href="#" class="edit">Edit</a></h3>
-            </header>
-            <div>
-                <div class="control-group">
-                    <label class="control-label">URI</label>
-                    <div class="controls">
-                        <span class="inline-label">/v1/marketplaces/MP123123123123123123</span>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Name</label>
-                    <div class="controls">
-                        <span class="inline-label">Zuppa</span>
-                        <input type="text" name="name" value="Zuppa">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Support email</label>
-                    <div class="controls">
-                        <span class="inline-label">owner@marketplace.com</span>
-                        <input type="text" name="name" value="Zuppa">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Domain URL</label>
-                    <div class="controls">
-                        <span class="inline-label">https://www.zuppa.com</span>
-                        <input type="text" name="name" value="Zuppa">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Support phone #</label>
-                    <div class="controls">
-                        <span class="inline-label">+1 (904) 666 9999</span>
-                        <input type="text" name="name" value="Zuppa">
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">API key secret</label>
-                    <div class="controls">
-                        <span class="inline-label">908648a5ee11e1b8ac026ba7c46bae</span>
-                        <input type="text" name="name" value="Zuppa">
-                    </div>
-                </div>
-            </div>
-            </form>
-        </section>
+                  <section class="marketplace-info">
+                      <form class="form-horizontal edit-inline">
+                          <header>
+                              <h3>Marketplace info <a href="#" class="edit">Edit</a></h3>
+                          </header>
+                          <div>
+                              <div class="control-group">
+                                  <label class="control-label">URI</label>
+                                  <div class="controls">
+                                      <span class="inline-label">/v1/marketplaces/MP123123123123123123</span>
+                                  </div>
+                              </div>
+                              <div class="control-group">
+                                  <label class="control-label">Name</label>
+                                  <div class="controls">
+                                      <span class="inline-label">Zuppa</span>
+                                      <input type="text" name="name" value="Zuppa">
+                                  </div>
+                              </div>
+                              <div class="control-group">
+                                  <label class="control-label">Support email</label>
+                                  <div class="controls">
+                                      <span class="inline-label">owner@marketplace.com</span>
+                                      <input type="text" name="name" value="Zuppa">
+                                  </div>
+                              </div>
+                              <div class="control-group">
+                                  <label class="control-label">Domain URL</label>
+                                  <div class="controls">
+                                      <span class="inline-label">https://www.zuppa.com</span>
+                                      <input type="text" name="name" value="Zuppa">
+                                  </div>
+                              </div>
+                              <div class="control-group">
+                                  <label class="control-label">Support phone #</label>
+                                  <div class="controls">
+                                      <span class="inline-label">+1 (904) 666 9999</span>
+                                      <input type="text" name="name" value="Zuppa">
+                                  </div>
+                              </div>
+                              <div class="control-group">
+                                  <label class="control-label">API key secret</label>
+                                  <div class="controls">
+                                      <span class="inline-label">908648a5ee11e1b8ac026ba7c46bae</span>
+                                      <input type="text" name="name" value="Zuppa">
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </section>
 
-        <section class="owner-info">
-            <form class="form-horizontal edit-inline">
-            <header>
-                <h3>Owner info
-                    <a href="#" class="edit">Edit</a>
-                </h3>
-            </header>
-            </form>
-        </section>
+                  <section class="owner-info">
+                      <form class="form-horizontal edit-inline">
+                          <header>
+                              <h3>Owner info
+                                  <a href="#" class="edit">Edit</a>
+                              </h3>
+                          </header>
+                      </form>
+                  </section>
 
-    </div>
+              </div>
 
-    <div class="offset1 span8">
+              <div class="offset1 span8">
 
-        <section class="bank-account-info">
-            <header>
-                <h3>Bank accounts
-                    <a href="#" class="add">Add a bank account</a>
-                </h3>
-            </header>
-            <ul class="sidebar-items">
-                <li class="unverified">
-                    <div class="icon">Bank account</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
-                        <span class="summary">5410 (Wells Fargo NA)</span>
-                    </div>
-                    <div class="actions">
-                        <button class="btn">Verify</button>
-                    </div>
-                </li>
-                <li class="verified">
-                    <div class="icon">Bank account</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
-                        <span class="summary">5410 (Wells Fargo NA)</span>
-                    </div>
-                </li>
-            </ul>
-        </section>
+                  <section class="bank-account-info">
+                      <header>
+                          <h3>Bank accounts
+                              <a href="#" class="add">Add a bank account</a>
+                          </h3>
+                      </header>
+                      <ul class="sidebar-items">
+                          <li class="unverified">
+                              <div class="icon">Bank account</div>
+                              <a href="#" class="icon-delete">delete</a>
+                              <div class="details">
+                                  <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
+                                  <span class="summary">5410 (Wells Fargo NA)</span>
+                              </div>
+                              <div class="actions">
+                                  <button class="btn">Verify</button>
+                              </div>
+                          </li>
+                          <li class="verified">
+                              <div class="icon">Bank account</div>
+                              <a href="#" class="icon-delete">delete</a>
+                              <div class="details">
+                                  <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
+                                  <span class="summary">5410 (Wells Fargo NA)</span>
+                              </div>
+                          </li>
+                      </ul>
+                  </section>
 
-        <section class="card-info">
-            <header>
-                <h3>Credit cards
-                    <a href="#" class="add">Add a card</a>
-                </h3>
-            </header>
-            <ul class="sidebar-items">
-                <li>
-                    <div class="icon">Credit card</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">Stevie Ray Vaughn</span></span>
-                        <span class="summary">4615 (Discover)</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="icon">Credit card</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">SR Vaughn</span></span>
-                        <span class="summary">3482 (VISA)</span>
-                    </div>
-                </li>
-            </ul>
-        </section>
+                  <section class="card-info">
+                      <header>
+                          <h3>Credit cards
+                              <a href="#" class="add">Add a card</a>
+                          </h3>
+                      </header>
+                      <ul class="sidebar-items">
+                          <li>
+                              <div class="icon">Credit card</div>
+                              <a href="#" class="icon-delete">delete</a>
+                              <div class="details">
+                                  <span class="name"><span class="label2a">Stevie Ray Vaughn</span></span>
+                                  <span class="summary">4615 (Discover)</span>
+                              </div>
+                          </li>
+                          <li>
+                              <div class="icon">Credit card</div>
+                              <a href="#" class="icon-delete">delete</a>
+                              <div class="details">
+                                  <span class="name"><span class="label2a">SR Vaughn</span></span>
+                                  <span class="summary">3482 (VISA)</span>
+                              </div>
+                          </li>
+                      </ul>
+                  </section>
 
-    </div>
-</div>
+              </div>
+          </div>
 
-<div class="row">
-    <div class="span20">
-        <section class="webhook-info">
-            <header>
-                <h3>Webhooks
-                    <a href="#" class="add">Add a webhook</a>
-                </h3>
-            </header>
-            <ul class="webhooks">
-                <li class="pending">
-                    <div class="summary">
-                        <a href="#" class="icon-delete">delete</a>
-                        <div class="expand"><span class="caret"></span></div>
-                        <div class="state">pending</div>
-                        <div class="action"><button class="btn">Test</button></div>
-                        <div class="url">POST http://requestb.in/34ijf4</div>
-                    </div>
-                    <div class="detail">
+          <div class="row">
+              <div class="span20">
+                  <section class="webhook-info">
+                      <header>
+                          <h3>Webhooks
+                              <a href="#" class="add">Add a webhook</a>
+                          </h3>
+                      </header>
+                      <ul class="webhooks">
+                          <li class="pending">
+                              <div class="summary">
+                                  <a href="#" class="icon-delete">delete</a>
+                                  <div class="expand"><span class="caret"></span></div>
+                                  <div class="state">pending</div>
+                                  <div class="action"><button class="btn">Test</button></div>
+                                  <div class="url">POST http://requestb.in/34ijf4</div>
+                              </div>
+                              <div class="detail">
 
-                    </div>
-                </li>
-                <li class="failed">
-                    <div class="summary">
-                        <a href="#" class="icon-delete">delete</a>
-                        <div class="expand"><span class="caret"></span></div>
-                        <div class="state">failed</div>
-                        <div class="action"><button class="btn">Test</button></div>
-                        <div class="url">POST http://requestb.in/34ijf4</div>
-                    </div>
-                    <div class="detail">
+                              </div>
+                          </li>
+                          <li class="failed">
+                              <div class="summary">
+                                  <a href="#" class="icon-delete">delete</a>
+                                  <div class="expand"><span class="caret"></span></div>
+                                  <div class="state">failed</div>
+                                  <div class="action"><button class="btn">Test</button></div>
+                                  <div class="url">POST http://requestb.in/34ijf4</div>
+                              </div>
+                              <div class="detail">
 
-                    </div>
-                </li>
-                <li class="succeeded expanded">
-                    <div class="summary">
-                        <a href="#" class="icon-delete">delete</a>
-                        <div class="expand"><span class="caret"></span></div>
-                        <div class="state">succeeded</div>
-                        <div class="action"><button class="btn">Test</button></div>
-                        <div class="url">POST http://requestb.in/34ijf4</div>
-                    </div>
-                    <div class="detail">
-                        <header>
+                              </div>
+                          </li>
+                          <li class="succeeded expanded">
+                              <div class="summary">
+                                  <a href="#" class="icon-delete">delete</a>
+                                  <div class="expand"><span class="caret"></span></div>
+                                  <div class="state">succeeded</div>
+                                  <div class="action"><button class="btn">Test</button></div>
+                                  <div class="url">POST http://requestb.in/34ijf4</div>
+                              </div>
+                              <div class="detail">
+                                  <header>
 
-                            <dl>
-                                <dd>Status</dd>
-                                <dt>201</dt>
-                                <dd>User-agent</dd>
-                                <dt>balanced/hookingbot/1.0</dt>
-                                <dd>Request</dd>
-                                <dt></dt>
-                            </dl>
+                                      <dl>
+                                          <dd>Status</dd>
+                                          <dt>201</dt>
+                                          <dd>User-agent</dd>
+                                          <dt>balanced/hookingbot/1.0</dt>
+                                          <dd>Request</dd>
+                                          <dt></dt>
+                                      </dl>
 
-                        </header>
-                        <div class="payload">
+                                  </header>
+                                  <div class="payload">
 
 <pre>{
     "id": "EV5THlcVTfjDtfPQKmY3VNJN",
@@ -211,17 +223,17 @@
     }
 }</pre>
 
-                        </div>
+                                  </div>
 
-                        <header>
+                                  <header>
 
-                            <dl>
-                                <dd>Response</dd>
-                                <dt></dt>
-                            </dl>
+                                      <dl>
+                                          <dd>Response</dd>
+                                          <dt></dt>
+                                      </dl>
 
-                        </header>
-                        <div class="payload">
+                                  </header>
+                                  <div class="payload">
 <pre>&lt;!doctype html&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -274,13 +286,17 @@
 &lt;/body&gt;
 &lt;/html&gt;
 </pre>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </section>
-    </div>
-</div>
+                                  </div>
+                              </div>
+                          </li>
+                      </ul>
+                  </section>
+              </div>
+          </div>
+          -->
+        </div>
+      </div>
 
-{{outlet}}
->>>>>>> master
+    </div>
+  </div>
+</section>

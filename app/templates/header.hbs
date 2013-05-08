@@ -1,0 +1,48 @@
+<header id="header" class="container">
+    <div class="row">
+
+        <div id="logo" class="span2">
+            {{#linkTo "index"  class="img"}}Balanced Dashboard{{/linkTo}}
+        </div>
+
+
+        <div id="marketplaces-and-search" class="span18">
+            {{#if Auth.authToken }}
+
+            <div id="marketplaces" class="dropdown">
+                <a class="dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="#">
+                        <span class="nav2d">Marketplaces</span>
+                        <!--<span class="nav1d">(live)</span>-->
+                    <b class="caret"></b>
+                </a>
+                {{ render "marketplaces" }}
+            </div>
+
+            {{ render "search" }}
+
+            {{/if}}
+        </div>
+
+        <div id="site-nav" class="span6">
+            <div id="go-live-menu">
+                <a href="#" class="nav1d">production access</a>
+            </div>
+            <div id="docs-menu">
+                <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
+            </div>
+            <div id="help-menu">
+                <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
+            </div>
+            <div id="user-menu">
+                {{#if Auth.authToken }}
+                    <a  href="#" {{action "signOut"}}>Log Out ({{ Auth.currentUser.email_address }})</a>
+                {{else}}
+                    {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
+                {{/if}}
+            </div>
+        </div>
+
+    </div>
+</header>

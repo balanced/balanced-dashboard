@@ -643,6 +643,7 @@
   if ((typeof DS !== "undefined" && DS !== null) && (DS.RESTAdapter != null)) {
     Auth.RESTAdapter = DS.RESTAdapter.extend({
       ajax: function(url, type, settings) {
+        settings = settings || {};
         settings.url = url;
         settings.type = type;
         settings.context = this;

@@ -1,9 +1,4 @@
-require('app/models/store');
-
 Balanced.MarketplaceLite = Balanced.Model.extend({
-    name: DS.attr('string'),
-    uri: DS.attr('string'),
-
     web_uri: function() {
         // have to strip off the API version
         return ENV.BALANCED.WWW + this.get('uri').substring(3);

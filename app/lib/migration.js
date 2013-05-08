@@ -14,3 +14,12 @@ $('#migration-frame').each(function () {
 if (document.domain.indexOf('balancedpayments.com') >= 0) {
     document.domain = 'balancedpayments.com';
 }
+
+Balanced.MigrationUtils = {
+  EMBEDDED_QUERY_APPEND: "?embedded=1",
+
+  convertApiUriIntoWebUri: function(apiUri) {
+    // have to strip off the API version
+    return ENV.BALANCED.WWW + apiUri.substring(3);
+  }
+};

@@ -1,0 +1,146 @@
+<div id="search">
+    {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q"}}
+    <span class="close" {{action closeSearch target="view"}}>×</span>
+    <div class="results">
+        <header>
+            <nav>
+                <li {{bindAttr class=":transactions :filter total_transactions::disabled :selected"}} >
+                    {{#if total_transactions}}
+                        {{#view Balanced.SearchTypeView searchType="transactions"}} Transactions ({{ total_transactions }}) {{/view}}
+                    {{else}}
+                        <span>Transactions ({{ total_transactions }})</span>
+                    {{/if}}
+                    <div class="selector dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu transaction-filter filter-choices">
+                            <li>{{#view Balanced.SearchFilterResultView filter="" labelBinding="totalTransactionsHeader"}} All ({{ total_transactions }}) {{/view}}</li>
+
+                            {{#if total_holds }}
+                                <li>{{#view Balanced.SearchFilterResultView filter="holds"}} Holds ({{ total_holds }}) {{/view}}</li>
+                            {{else}}
+                                <li class="disabled"><span>Holds ({{ total_holds }})</span></li>
+                            {{/if}}
+
+                            {{#if total_debits }}
+                                <li>{{#view Balanced.SearchFilterResultView filter="debits"}} Debits ({{ total_debits }}) {{/view}}</li>
+                            {{else}}
+                                <li class="disabled"><span>Debits ({{ total_debits }})</span></li>
+                            {{/if}}
+
+                            {{#if total_credits }}
+                                <li>{{#view Balanced.SearchFilterResultView filter="credits"}} Credits ({{ total_credits }}) {{/view}}</li>
+                            {{else}}
+                                <li class="disabled"><span>Credits ({{ total_credits }})</span></li>
+                            {{/if}}
+
+                            {{#if total_refunds }}
+                                <li>{{#view Balanced.SearchFilterResultView filter="refunds"}} Refunds ({{ total_refunds }}) {{/view}}</a></li>
+                            {{else}}
+                                <li class="disabled"><span>Refunds ({{ total_refunds }})</span></li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </li>
+
+                <li {{bindAttr class=":accounts total_accounts::disabled"}} >
+                    {{#if total_accounts}}
+                        {{#view Balanced.SearchTypeView searchType="accounts"}} Accounts ({{ total_accounts }}) {{/view}}
+                    {{else}}
+                        <span>Accounts ({{ total_accounts }})</span>
+                    {{/if}}
+                </li>
+
+                <li {{bindAttr class=":funding-instruments :filter total_funding_instruments::disabled"}} >
+                    {{#if total_funding_instruments}}
+                        <a href="#" data-type="funding-instruments">Cards &amp; Bank Accounts ({{ total_funding_instruments }})</a>
+                    {{else}}
+                        <span>Cards &amp; Bank Accounts ({{ total_funding_instruments }})</span>
+                    {{/if}}
+
+                    <div class="selector dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu funding-instruments-filter filter-choices">
+                            <li>{{#view Balanced.SearchFilterResultView filter="" labelBinding="totalFundingInstrumentsHeader"}} Both ({{ total_funding_instruments }}) {{/view}}</li>
+
+                            {{#if total_cards }}
+                                <li>{{#view Balanced.SearchFilterResultView filter="cards"}} Cards ({{ total_cards }}) {{/view}}</li>
+                            {{else}}
+                                <li class="disabled"><span>Cards ({{ total_cards }})</span></li>
+                            {{/if}}
+
+                            {{#if total_bank_accounts }}
+                                <li>{{#view Balanced.SearchFilterResultView filter="bank-accounts"}} Bank Accounts ({{ total_bank_accounts }}) {{/view}}</li>
+                            {{else}}
+                                <li class="disabled"><span>Bank Accounts ({{ total_bank_accounts }})</span></li>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </li>
+
+                {{view Balanced.DatePickerView}}
+            </nav>
+        </header>
+
+        <table class="items transactions selected">
+            <thead>
+                <tr>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
+                    <th class="span3 label6a type">Transaction</th>
+                    <th class="span4 label6a description">Description</th>
+                    <th class="span4 label6a account">Account</th>
+                    <th class="span4 label6a funding-instrument">Card or Bank Account</th>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount sortable unsorted num" field="amount"}}Amount{{/view}}
+                </tr>
+            </thead>
+            <tbody>
+            {{#each transaction in transactions }}
+            <tr {{action selectSearchResult transaction.uri target="view"}}}}>
+                <td class="span3 date">
+                    <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+                </td>
+                <td {{bindAttr class=":span3 :label4a :type transaction.status"}} class="span3 label4a type succeeded">
+                    {{ transaction.type_name }}
+                    {{#if transaction.status }}: {{transaction.status}}{{/if}}
+                </td>
+                <td class="span4 description">
+                    {{ transaction.description }}
+                </td>
+                <td class="span4 account">
+                    {{transaction.account.name}} ({{transaction.account.email_address}})
+                </td>
+                <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
+                <td class="span2 amount num">${{ transaction.amount_dollars }}</td>
+            </tr>
+            {{/each}}
+            </tbody>
+        </table>
+        <table class="items accounts">
+            <thead>
+            <th class="span3 label6a sortable unsorted">Date</th>
+            <th class="span3 label6a type">Transaction</th>
+            <th class="span4 label6a description">Description</th>
+            <th class="span4 label6a account">Account</th>
+            <th class="span4 label6a funding-instrument">Card or Bank Account</th>
+            <th class="span2 label6a amount sortable unsorted num">Amount</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="span3 date">
+                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
+                </td>
+                <td class="span3 label4f type failed">
+                    Credit: failed
+                </td>
+                <td class="span4 description">
+                    Order #00003784
+                </td>
+                <td class="span4 account">
+                    John Coltrane (jcoltrane@gmail.com)
+                </td>
+                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
+                <td class="span2 amount num">$158.92</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
