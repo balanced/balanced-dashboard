@@ -3,36 +3,23 @@
 module.exports = function (grunt) {
 
     grunt.initConfig({
-        // uglify: {
-        //   'dist/built.min.js': 'dist/built.js'
-        // },
+        clean: {
+            files: {
+                src: ['build/', 'dist/', 'report/']
+            }
+        },
 
-        /*
-         A simple ordered concatenation strategy.
-         This will start at app/app.js and begin
-         adding dependencies in the correct order
-         writing their string contents into
-         'build/application.js'
-
-         Additionally it will wrap them in evals
-         with @ sourceURL statements so errors, log
-         statements and debugging will reference
-         the source files by line number.
-
-         You would set this option to false for
-         production.
-         */
         neuter: {
             dev: {
                 options: {
                     includeSourceURL: true
                 },
                 src: ['app/dashboard.js'],
-                dest: 'build/dashboard-dev.js'
+                dest: 'build/js/dashboard-dev.js'
             },
             prod: {
                 src: ['app/dashboard.js'],
-                dest: 'build/dashboard-prod.js'
+                dest: 'build/js/dashboard-prod.js'
             }
         },
 
@@ -53,7 +40,7 @@ module.exports = function (grunt) {
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js'
                 ],
-                dest: 'build/lib-dev.js'
+                dest: 'build/js/lib-dev.js'
             },
             libprod: {
                 src: [
@@ -68,112 +55,37 @@ module.exports = function (grunt) {
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.min.js'
                 ],
-                dest: 'build/lib-prod.js'
+                dest: 'build/js/lib-prod.js'
             },
             testfixtures: {
                 src: [
                     'test/support/fixtures/**/*.js'
                 ],
-                dest: 'build/test-fixtures.js'
+                dest: 'build/test/js/test-fixtures.js'
             },
             tests: {
                 src: [
                     'test/unit/**/*.js',
                     'test/integration/**/*.js'
                 ],
-                dest: 'build/tests.js'
+                dest: 'build/test/js/tests.js'
             }
         },
 
         uglify: {
             dashboard: {
                 files: {
-                    'dist/js/dashboard-prod.min.js': [
-                        'build/dashboard-prod.js'
+                    'build/js/dashboard-prod.min.js': [
+                        'build/js/dashboard-prod.js'
                     ]
                 }
             },
             lib: {
                 files: {
-                    'dist/js/lib-prod.min.js': [
-                        'build/lib-prod.js'
+                    'build/js/lib-prod.min.js': [
+                        'build/js/lib-prod.js'
                     ]
                 }
-            }
-        },
-
-        /*
-         Watch files for changes.
-
-         Changes in static/lib/ember.js or application javascript
-         will trigger the neuter task.
-
-         Changes to any templates will trigger the ember_templates
-         task (which writes a new compiled file into build/)
-         and then neuter all the files again.
-         */
-        watch: {
-            application_code: {
-                files: [
-                    'static/lib/**/*.js',
-                    'app/**/*.js'
-                ],
-                tasks: ['neuter', 'concat']
-            },
-            tests: {
-                files: [
-                    'test/support/runner.html.tmpl',
-                    'test/**/*.js'
-                ],
-                tasks: ['concat']
-            },
-            handlebars_templates: {
-                files: ['app/**/*.hbs'],
-                tasks: ['ember_templates', 'neuter', 'concat']
-            },
-            less: {
-                files: ['static/less/*'],
-                tasks: ['less']
-            }
-        },
-
-        /*
-         Runs all .html files found in the test/ directory through PhantomJS.
-         Prints the report in your terminal.
-         */
-        qunit: {
-            options: {
-                '--web-security': 'no',
-                coverage: {
-                    src: ['build/dashboard-prod.js'],
-                    instrumentedFiles: 'temp/',
-                    htmlReport: 'report/coverage',
-                    coberturaReport: 'report/',
-                    linesThresholdPct: 45,
-                    statementsThresholdPct: 45,
-                    functionsThresholdPct: 45,
-                    branchesThresholdPct: 15
-                }
-            },
-            all: ['build/test/**/*.html']
-        },
-
-        /*
-         Reads the projects .jshintrc file and applies coding
-         standards. Doesn't lint the dependencies or test
-         support files.
-         */
-        jshint: {
-            all: [
-                'Gruntfile.js',
-                'app/**/*.js',
-                'test/**/*.js',
-                '!static/lib/*.*',
-                '!test/support/lib/*.*',
-                '!test/support/testconfig.js'
-            ],
-            options: {
-                jshintrc: '.jshintrc'
             }
         },
 
@@ -198,7 +110,7 @@ module.exports = function (grunt) {
                     return sourceFile.replace(/app\/templates\//, '');
                 }
             },
-            'build/compiled/templates.js': ["app/templates/**/*.hbs"]
+            'build/js/compiled-templates.js': ["app/templates/**/*.hbs"]
         },
 
         less: {
@@ -221,34 +133,7 @@ module.exports = function (grunt) {
             }
         },
 
-        /*
-         * A test server used for casperjs tests
-         * */
-        connect: {
-            server: {
-                options: {
-                    port: 9876,
-                    base: '.'
-                }
-            }
-        },
-
-        casperjs: {
-            options: {
-                // Task-specific options go here.
-            },
-            files: ['test/casperjs/**/*.js']
-        },
-
         copy: {
-            html: {
-                files: [
-                    {
-                        src: ['prod.html'],
-                        dest: 'dist/index.html'
-                    }
-                ]
-            },
             css: {
                 files: [
                     {
@@ -263,6 +148,32 @@ module.exports = function (grunt) {
                 files: [
                     {
                         cwd: 'static/images/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/images/'
+                    }
+                ]
+            },
+            dist: {
+                files: [
+                    {
+                        cwd: 'build/js/',
+                        expand: true,
+                        src: ['*-prod.min-*.js'],
+                        dest: 'dist/js/'
+                    },
+                    {
+                        cwd: 'build/css/',
+                        expand: true,
+                        src: ['*.min-*.css'],
+                        dest: 'dist/css/'
+                    },
+                    {
+                        src: 'build/prod.html',
+                        dest: 'dist/index.html'
+                    },
+                    {
+                        cwd: 'build/images/',
                         expand: true,
                         src: ['**'],
                         dest: 'dist/images/'
@@ -291,23 +202,45 @@ module.exports = function (grunt) {
             }
         },
 
+        'compile-handlebars': {
+            dev: {
+                template: 'app/index.html.hbs',
+                templateData: {
+                    cssFile: "css/base.css",
+                    jsLibFile: "js/lib-dev.js",
+                    jsDashboardFile: "js/dashboard-dev.js"
+                },
+                output: 'build/dev.html'
+            },
+            prod: {
+                template: 'app/index.html.hbs',
+                templateData: {
+                    cssFile: "css/base.min.css",
+                    jsLibFile: "js/lib-prod.min.js",
+                    jsDashboardFile: "js/dashboard-prod.min.js"
+                },
+                output: 'build/prod.html'
+            }
+        },
+
         hashres: {
             options: {
                 fileNameFormat: '${name}-${hash}.${ext}'
             },
             css: {
-                src: ['dist/**/*.js', 'dist/**/*.css'],
-                dest: 'dist/index.html'
+                src: ['build/js/*.js', 'build/css/*.css'],
+                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html']
             },
             images: {
-                src: ['dist/images/**/*.png'],
-                dest: ['dist/index.html', 'dist/css/*.css', 'dist/js/*.js']
+                src: ['build/images/**/*.png'],
+                dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js']
             }
         },
 
-        clean: {
-            files: {
-                src: ['build/', 'dist/', 'report/']
+        img: {
+            // using only dirs with output path
+            crush_them: {
+                src: ['build/images/**/*.png']
             }
         },
 
@@ -353,10 +286,75 @@ module.exports = function (grunt) {
             }
         },
 
-        img: {
-            // using only dirs with output path
-            crush_them: {
-                src: ['static/images/**/*.png']
+        /*
+         Reads the projects .jshintrc file and applies coding
+         standards. Doesn't lint the dependencies or test
+         support files.
+         */
+        jshint: {
+            all: [
+                'Gruntfile.js',
+                'app/**/*.js',
+                'test/**/*.js',
+                '!static/lib/*.*',
+                '!test/support/lib/*.*',
+                '!test/support/testconfig.js'
+            ],
+            options: {
+                jshintrc: '.jshintrc'
+            }
+        },
+
+        qunit: {
+            options: {
+                '--web-security': 'no',
+                coverage: {
+                    src: ['build/dashboard-prod.js'],
+                    instrumentedFiles: 'temp/',
+                    htmlReport: 'report/coverage',
+                    coberturaReport: 'report/',
+                    linesThresholdPct: 45,
+                    statementsThresholdPct: 45,
+                    functionsThresholdPct: 45,
+                    branchesThresholdPct: 15
+                }
+            },
+            all: ['build/test/**/*.html']
+        },
+
+        /*
+         * A test server used for casperjs tests
+         * */
+        connect: {
+            server: {
+                options: {
+                    port: 9876,
+                    base: '.'
+                }
+            }
+        },
+
+        casperjs: {
+            options: {
+                // Task-specific options go here.
+            },
+            files: ['test/casperjs/**/*.js']
+        },
+
+        watch: {
+            dev_build: {
+                files: [
+                    'app/**/*.js',
+                    'app/**/*.hbs',
+                    'app/index.html.hbs',
+                    'static/lib/**/*.js',
+                    'static/less/*',
+                    'static/images/**/*',
+                    'test/support/**/*',
+                    'test/**/*.js',
+                    'Gruntfile.js'
+                ],
+                tasks: ['_devBuild']
             }
         }
     });
@@ -375,6 +373,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
     grunt.loadNpmTasks('grunt-qunit-istanbul');
+    grunt.loadNpmTasks('grunt-compile-handlebars');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -386,40 +385,42 @@ module.exports = function (grunt) {
         });
     });
 
-
     /*
      A task to run the application's unit tests via the command line.
-     It will
-     - convert all the handlebars templates into compile functions
-     - combine these files + application files in order
-     - lint the result
-     - build an html file with a script tag for each test file
-     - headlessy load this page and print the test runner results
+     It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['ember_templates', 'neuter', 'concat', 'jshint', 'copy', 'qunit']);
-    grunt.registerTask('itest', ['connect:server', 'casperjs']);
+    grunt.registerTask('test', ['_devBuild', 'qunit']);
+    grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['ember_templates', 'neuter', 'concat', 'less', 'copy', 'watch']);
+    grunt.registerTask('default', ['_devBuild', 'watch']);
 
     /*
-     Builds for production. Concatenates files together, minifies and then uploads to s3
+     Builds for production.
      */
-    grunt.registerTask('build', ['clean', 'ember_templates', 'neuter', 'concat', 'jshint', 'less', 'uglify', 'copy', 'hashres']);
-
-    /*
-     * This isn't run as part of the build to make it easier for people to hack
-     * on the project as this requires optipng to be installed which is an
-     * external dependency.
-     */
-    grunt.registerTask('optimize', ['img']);
+    grunt.registerTask('build', ['jshint', '_devBuild', '_prodBuildSteps', '_copyDist']);
 
     /*
      * Uploads to s3. Requires environment variables to be set if the bucket
      * you're uploading to doesn't have public write access.
      */
-    grunt.registerTask('deploy', ['build', 'optimize', 's3']);
+    grunt.registerTask('deploy', ['build', 's3']);
+
+    grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildHTML']);
+
+    // keeping these steps out of the normal build because
+    // uglify) Uglifying takes forever
+    // img) Img task has dependencies that must be installed, so trying to easy the pain for new devs
+    // hashres) Hashes depend on image bytes, so need to crush the images before running this
+    grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
+    grunt.registerTask('_copyDist', ['copy:dist']);
+
+    grunt.registerTask('_buildJS', ['ember_templates', 'neuter', 'concat:libdev', 'concat:libprod']);
+    grunt.registerTask('_buildTests', ['concat:testfixtures', 'concat:tests', 'copy:test']);
+    grunt.registerTask('_buildCSS', ['less']);
+    grunt.registerTask('_buildImages', ['copy:images']);
+    grunt.registerTask('_buildHTML', ['compile-handlebars']);
 };

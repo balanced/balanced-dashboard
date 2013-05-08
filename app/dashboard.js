@@ -5,7 +5,7 @@
  It is excluded from git commits since it's a
  generated file.
  */
-require('build/compiled/templates');
+require('build/js/compiled-templates');
 
 /*
  Creates a new instance of an Ember application and
