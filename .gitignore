@@ -15,6 +15,7 @@ results
 build/*
 dist/*
 report/*
+temp/*
 
 npm-debug.log
 node_modules
