@@ -208,7 +208,15 @@ module.exports = function (grunt) {
                 templateData: {
                     cssFile: "css/base.css",
                     jsLibFile: "js/lib-dev.js",
-                    jsDashboardFile: "js/dashboard-dev.js"
+                    jsDashboardFile: "js/dashboard-dev.js",
+                    env: "{\
+                        BALANCED: {\
+                            API: 'https://auth.balancedpayments.com',\
+                            AUTH: 'https://auth.balancedpayments.com',\
+                            WWW: 'https://www.balancedpayments.com',\
+                            DOCS: 'https://docs.balancedpayments.com'\
+                        }\
+                    }"
                 },
                 output: 'build/dev.html'
             },
@@ -217,7 +225,15 @@ module.exports = function (grunt) {
                 templateData: {
                     cssFile: "css/base.min.css",
                     jsLibFile: "js/lib-prod.min.js",
-                    jsDashboardFile: "js/dashboard-prod.min.js"
+                    jsDashboardFile: "js/dashboard-prod.min.js",
+                    env: "{\
+                        BALANCED: {\
+                            API: 'https://auth.balancedpayments.com',\
+                            AUTH: 'https://auth.balancedpayments.com',\
+                            WWW: 'https://www.balancedpayments.com',\
+                            DOCS: 'https://docs.balancedpayments.com'\
+                        }\
+                    }"
                 },
                 output: 'build/prod.html'
             }
