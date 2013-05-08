@@ -1,0 +1,109 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+@webhookBackground: rgb(224, 224, 221);
+@webhookExpandedBackground: rgb(142, 183, 167);
+@webhookDetailBackground: #fff;
+@webhookCaretColor: rgb(134, 134, 134);
+
+.webhooks {
+  color: #000;
+  > li {
+    background-color: @webhookBackground;
+    margin-bottom: 5px;
+    position: relative;
+    clear: both;
+    float: left;
+    width: 100%;
+    &.pending {
+      .state {
+        color: @balancedYellow;
+      }
+    }
+    &.succeeded {
+      .state {
+        color: @balancedGreen;
+      }
+    }
+    &.failed {
+      .state {
+        color: @balancedRed;
+      }
+    }
+    &.expanded {
+      background-color: @webhookExpandedBackground;
+      .detail {
+        display: block;
+      }
+      .state {
+        color: @balancedWhite;
+      }
+      .expand {
+        .caret {
+          .rotate(0deg);
+        }
+      }
+    }
+  }
+  .summary {
+    clear: both;
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+      padding: 10px;
+    }
+  }
+  .detail {
+    display: none;
+    clear: both;
+    background-color: @webhookDetailBackground;
+    header {
+      margin-bottom: 0;
+    }
+  }
+  .expand {
+    width: 50px;
+    .caret {
+      display: block;
+      border-top-color: @webhookCaretColor;
+      margin: auto;
+      .rotate(-90deg);
+    }
+  }
+  .state {
+    font-family: @monoFontFamily;
+    width: 100px;
+  }
+  .action {
+    width: 100px;
+  }
+  .url {
+    font-family: nimbussannov-sembol;
+  }
+  header {
+    padding: 20px 40px;
+    dl {
+      font-family: nimbussannov-sembol;
+    }
+    dd {
+      float: left;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      &:after {
+        content: ': ';
+      }
+    }
+    dt {
+      clear: right;
+      padding-bottom: 10px;
+    }
+  }
+  .payload {
+    padding: 20px 40px;
+    overflow: auto;
+  }
+}
+
+.webhook {
+
+}
