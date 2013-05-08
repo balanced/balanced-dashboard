@@ -309,7 +309,7 @@ module.exports = function (grunt) {
             options: {
                 '--web-security': 'no',
                 coverage: {
-                    src: ['build/dashboard-prod.js'],
+                    src: ['build/js/dashboard-prod.js'],
                     instrumentedFiles: 'temp/',
                     htmlReport: 'report/coverage',
                     coberturaReport: 'report/',
@@ -319,7 +319,7 @@ module.exports = function (grunt) {
                     branchesThresholdPct: 15
                 }
             },
-            all: ['build/test/**/*.html']
+            all: ['build/test/runner.html']
         },
 
         /*
