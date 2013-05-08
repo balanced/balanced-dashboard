@@ -202,6 +202,7 @@ module.exports = function (grunt) {
             }
         },
 
+        /*jshint multistr: true */
         'compile-handlebars': {
             dev: {
                 template: 'app/index.html.hbs',
