@@ -261,7 +261,6 @@ footer {
 }
 
 #main {
-
 }
 
 @marketplaceNavIconSize: 50px;
@@ -279,11 +278,18 @@ footer {
       background-position: @marketplaceNavIconSize * -@index -@marketplaceNavIconSize;
     }
   }
+  > a.active {
+    &:before {
+      background-position: @marketplaceNavIconSize * -@index 0;
+    }
+  }
 }
 
 #marketplace-nav {
   background-color: @marketplaceNavBackground;
-  min-height: @mainMinHeight + @mainVerticalPadding;
+
+  min-height: @mainMinHeight;
+
   li {
     display: block;
     width: 90px;
@@ -306,11 +312,14 @@ footer {
         content: ' ';
         display: block;
         width: 50px;
-        height: 50px;
+        height: 45px;
         position: relative;
         left: 20px; // 50px / 2 - 5px for width of icon
       }
       &.active {
+        color: #000;
+      }
+      &:hover {
         color: #000;
       }
     }
@@ -331,6 +340,10 @@ footer {
 
 #content {
   background-color: @contentBackground;
-  min-height: @mainMinHeight;
   padding-top: @mainVerticalPadding;
+  min-height: @mainMinHeight;
+
+  &.no-min-height {
+    min-height: auto;
+  }
 }

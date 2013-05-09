@@ -2,8 +2,17 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
   templateName: 'embedded_iframe',
 
   didInsertElement: function() {
-    $('iframe').iframeAutoHeight({debug: true});
-    $('iframe.auto-height').iframeAutoHeight({minHeight: 400});
+    // Reset the lefthand nagivation to match the height of #content
+    $("#marketplace-nav").height(($("#content").height() + 60) + "px");
+
+    $('iframe.auto-height').iframeAutoHeight({
+      debug: true,
+      minHeight: 400,
+      callback: function() {
+        // Resize the lefthand nagivation to match the height of #content
+        $("#marketplace-nav").height(($("#content").height() + 60) + "px");
+      }
+    });
 
     var _this = this;
     $("#embedded-dashboard-content").load(function() {

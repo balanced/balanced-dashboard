@@ -27,3 +27,7 @@ node_modules
 # sublime project files
 *.sublime-project
 *.sublime-workspace
+
+# development ssl certificate
+*.crt
+*.key
