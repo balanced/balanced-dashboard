@@ -35,6 +35,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
         });
         Balanced.Auth.on('signInSuccess', function () {
             self.set('loginError', false);
+
+            // TODO: this is working around a bug where we sometimes get no
+            // redirect. find out why...
+            self.transitionToRoute('index');
         });
     }
 });
