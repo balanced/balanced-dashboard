@@ -7,7 +7,7 @@
 
 
         <div id="marketplaces-and-search" class="span18">
-            {{#if Auth.authToken }}
+            {{#if Balanced.Auth.signedIn }}
 
             <div id="marketplaces" class="dropdown">
                 <a class="dropdown-toggle"
@@ -36,8 +36,8 @@
                 <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
             </div>
             <div id="user-menu">
-                {{#if Auth.authToken }}
-                    <a  href="#" {{action "signOut"}}>Log Out ({{ Auth.currentUser.email_address }})</a>
+                {{#if Balanced.Auth.signedIn }}
+                    <a  href="#" {{action "signOut"}}>Log Out ({{ Balanced.Auth.user.email_address }})</a>
                 {{else}}
                     {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
                 {{/if}}

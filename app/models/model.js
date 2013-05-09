@@ -68,6 +68,6 @@ Balanced.Model.reopenClass({
     settings.url = url;
     settings.type = type;
     settings.context = this;
-    return Auth.ajax(settings);
+    return Balanced.Auth.send(settings);
   }
 });

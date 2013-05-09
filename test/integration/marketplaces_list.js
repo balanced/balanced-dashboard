@@ -6,6 +6,5 @@ test("view marketplace list", function () {
 
 test("view single marketplace", function () {
     $("#marketplaces ul a:contains('Test Marketplace')").click();
-
     equal($(".marketplace-name").text(), "Test Marketplace");
 });
