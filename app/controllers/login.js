@@ -1,37 +1,39 @@
-Balanced.LoginController = Balanced.ObjectController.extend(Auth.SignInController, {
+Balanced.LoginController = Balanced.ObjectController.extend({
     email: null,
     password: null,
     loginError: false,
     loginResponse: "",
 
-    signIn: function() {
-        this.registerRedirect();
-        Auth.signIn({
-            email_address: this.get('email'),
-            password: this.get('password')
+    signIn: function () {
+        Balanced.Auth.signIn({
+            data: {
+                email_address: this.get('email'),
+                password: this.get('password')
+            }
         });
         var self = this;
-        Auth.on('signInError', function() {
+        Balanced.Auth.on('signInError', function () {
             self.set('loginError', true);
-            var response = Auth.get('jqxhr');
-
-            if(response.status === 401) {
+            var response = Balanced.Auth.get('jqxhr');
+            if (response.status === 401) {
                 self.set('loginResponse', 'Invalid e-mail address or password.');
                 return;
             }
 
-            if(typeof response.responseText !== "undefined") {
+            if (typeof response.responseText !== "undefined") {
                 var responseText = JSON.parse(response.responseText);
-
-                var errorText = "";
-                if(typeof responseText.email_address !== "undefined") {
-                    self.set('loginResponse', responseText.email_address[0].replace("This", "Email"));
-                } else if(typeof responseText.password !== "undefined") {
-                    self.set('loginResponse', responseText.password[0].replace("This", "Password"));
+                var error;
+                if (typeof responseText.email_address !== 'undefined') {
+                    error = responseText.email_address[0].replace('This', 'Email');
+                } else if (typeof responseText.password !== 'undefined') {
+                    error = responseText.password[0].replace('This', 'Password');
+                }
+                if (error) {
+                    self.set('loginResponse', error);
                 }
             }
         });
-        Auth.on('signInSuccess', function() {
+        Balanced.Auth.on('signInSuccess', function () {
             self.set('loginError', false);
         });
     }

@@ -2,7 +2,7 @@
     <li>
         <h4 class="label6a">Production</h4>
         <ul>
-          {{#each marketplace in Auth.currentUser.marketplaces }}
+          {{#each marketplace in Balanced.Auth.currentUser.marketplaces }}
             <li class="label2a">
               {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
             </li>

@@ -10,9 +10,9 @@ QUnit.testStart(function () {
 
     // Set up Ember Auth
     Ember.run(function () {
-        Auth.set('authToken', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
-        Auth.set('currentUserId', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
-        Auth.set('currentUser', Balanced.User.find(Auth.currentUserId));
+        Balanced.Auth.set('authToken', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
+        Balanced.Auth.set('currentUserId', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
+        Balanced.Auth.set('currentUser', Balanced.User.find(Balanced.Auth.currentUserId));
     });
 
     // Display an error if asynchronous operations are queued outside of

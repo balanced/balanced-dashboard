@@ -1,19 +1,34 @@
-Auth.Config.reopen({
-  baseUrl: ENV.BALANCED.AUTH,
-  tokenCreateUrl: '/logins',
-  tokenDestroyUrl: '/logins/current',
+Balanced.Auth = Ember.Auth.create({
+    baseUrl: ENV.BALANCED.AUTH,
+    signInEndPoint: '/logins',
+    signOutEndPoint: '/logins/current',
 
-  tokenKey: 'id',
-  idKey: 'user_uri',
-  userModel: Balanced.User,
+    tokenKey: 'id',
+    tokenIdKey: 'user_uri',
+    userModel: 'Balanced.User',
 
-  // We're using the cookie, so Ember Auth doesn't need to worry about the token
-  requestTokenLocation: 'none',
+    // We're using the cookie, so Ember Auth doesn't need to worry about the token
+    requestTokenLocation: 'none',
 
-  rememberMe: false,
+    modules: ['authRedirectable', 'actionRedirectable', 'rememberable'],
+    authRedirectable: {
+        route: 'login'
+    },
+    actionRedirectable: {
+        signInRoute: 'index',
+        signInSmart: true,
+        signInBlacklist: ['login'],
+        signOutRoute: 'index'
+    },
+    rememberable: {
+        tokenKey: 'uri',
+        period: 1
+    }
+//
+//    modules: ['rememberable'],
+//    rememberMe: {
+//        tokenKey: 'uri',
+//        period: 1
+//    }
 
-  authRedirect: true,
-  signInRoute: 'login',
-  smartSignInRedirect: false,
-  signInRedirectFallbackRoute: 'index'
 });
