@@ -18,5 +18,10 @@ Balanced.MarketplaceLite = Balanced.Model.extend({
 
     logs_embedded_iframe_url: function() {
         return this.get('web_uri') + "/logs?embedded=1";
-    }.property('web_uri')
+    }.property('web_uri'),
+
+    production: function () {
+        return this.get('uri').indexOf('TEST') === -1
+    }.property('production')
+
 });

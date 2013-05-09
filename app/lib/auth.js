@@ -9,7 +9,7 @@ Balanced.Auth = Ember.Auth.create({
 
     // We're using the cookie, so Ember Auth doesn't need to worry about the token
     requestTokenLocation: 'none',
-
+    sessionAdapter: 'cookie',
     modules: ['authRedirectable', 'actionRedirectable', 'rememberable'],
     authRedirectable: {
         route: 'login'
@@ -22,13 +22,7 @@ Balanced.Auth = Ember.Auth.create({
     },
     rememberable: {
         tokenKey: 'uri',
-        period: 1
+        period: 1,
+        autoRecall: true
     }
-//
-//    modules: ['rememberable'],
-//    rememberMe: {
-//        tokenKey: 'uri',
-//        period: 1
-//    }
-
 });
