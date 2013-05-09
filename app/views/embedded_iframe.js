@@ -3,14 +3,20 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
 
   didInsertElement: function() {
     // Reset the lefthand nagivation to match the height of #content
-    $("#marketplace-nav").height(($("#content").height() + 60) + "px");
+    var height = $("#content").height();
+    var paddingTop = $("#content").css("padding-top").replace("px", "");
+
+    $("#marketplace-nav").height((parseInt(height) + parseInt(paddingTop)) + "px");
 
     $('iframe.auto-height').iframeAutoHeight({
       debug: true,
       minHeight: 400,
       callback: function() {
-        // Resize the lefthand nagivation to match the height of #content
-        $("#marketplace-nav").height(($("#content").height() + 60) + "px");
+        // Reset the lefthand nagivation to match the height of #content
+        var height = $("#content").height();
+        var paddingTop = $("#content").css("padding-top").replace("px", "");
+
+        $("#marketplace-nav").height((parseInt(height) + parseInt(paddingTop)) + "px");
       }
     });
 
