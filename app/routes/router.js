@@ -1,7 +1,7 @@
 Balanced.Route = Ember.Route.extend({
 });
 
-Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.authRedirectable, {
+Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 });
 
 Balanced.Router.map(function () {
