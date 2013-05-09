@@ -22,6 +22,6 @@ Balanced.MarketplaceLite = Balanced.Model.extend({
 
     production: function () {
         return this.get('uri').indexOf('TEST') === -1;
-    }.property('production')
+    }.property('uri')
 
 });
