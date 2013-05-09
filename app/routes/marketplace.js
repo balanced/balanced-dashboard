@@ -9,18 +9,5 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
     if(model._type === "marketplaceLite") {
       controller.set("content", Balanced.Marketplace.find(model.uri));
     }
-  },
-
-  renderTemplate: function() {
-    this.render();
-    this.render('marketplace_sidebar', {
-      into: 'marketplace',
-      outlet: 'sidebar',
-      controller: 'marketplace'
-    });
-    this.render('header', {
-      into: 'application',
-      outlet: 'header'
-    });
   }
 });
