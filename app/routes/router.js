@@ -6,20 +6,24 @@ Balanced.AuthRoute = Auth.Route.extend({
 
 Balanced.Router.map(function () {
   this.resource("marketplace", { path: "/marketplaces/:marketplace_id" }, function() {
-    this.route("activity", { path: "/activity" });
-    this.route("invoices", { path: "/invoices" });
+    this.route("activity", { path: "/activity" } );
+    this.route("invoices", { path: "/invoices" } );
+
     this.route("logs", { path: "/logs" });
+    //this.route("log", { path: "/logs/:log_id" });
 
-    this.route("credits", { path: "/credits/:credit_id"});
-    this.route("debits", { path: "/debits/:debit_id"});
-    this.route("refunds", { path: "/refunds/:refund_id"});
-    this.route("holds", { path: "/holds/:hold_id"});
+    this.route("credits", { path: "/credits/:credit_id" });
+    this.route("debits", { path: "/debits/:debit_id" });
+    this.route("refunds", { path: "/refunds/:refund_id" });
+    this.route("holds", { path: "/holds/:hold_id" });
 
-    this.resource("account", { path: "/accounts/:account_id"}, function() {
-      this.route("credits", { path: "/credits/:credit_id"});
+    this.resource("account", { path: "/accounts/:account_id" }, function() {
+      this.route("credits", { path: "/credits/:credit_id" });
     });
-    this.route("transactions", { path: "/transactions/:transaction_id"});
+
+    this.route("transactions", { path: "/transactions/:transaction_id" });
   });
+
   this.route('login', { path: "/login" });
   this.route('forgotPassword', { path: "/forgot-password" });
 });

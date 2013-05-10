@@ -18,6 +18,10 @@ Balanced.MarketplaceLogsController = Balanced.ObjectController.extend({
   needs: ["marketplace"]
 });
 
+Balanced.MarketplaceLogController = Balanced.ObjectController.extend({
+  needs: ["marketplace"]
+});
+
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
   needs: ["marketplace"]
 });

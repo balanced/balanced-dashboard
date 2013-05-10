@@ -5,5 +5,5 @@ Balanced.ApplicationController = Ember.Controller.extend({
     Auth.on('signOutSuccess', function() {
       self.transitionToRoute('index');
     });
-  },
+  }
 });
