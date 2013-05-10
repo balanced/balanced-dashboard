@@ -25,7 +25,7 @@ Balanced.Model.reopenClass({
   */
   host: null,
 
-  find: function(uri) {
+  find: function(uri, settings) {
     var modelClass = this;
     var modelObject = modelClass.create({uri: uri});
 
@@ -44,7 +44,7 @@ Balanced.Model.reopenClass({
       if(this.host) {
         host = this.host(uri);
       }
-      this.ajax(host + uri, "GET").then(function(json) {
+      this.ajax(host + uri, 'GET', settings).then(function(json) {
         if(this.deserialize) {
           this.deserialize(json);
         }
