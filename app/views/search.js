@@ -21,9 +21,12 @@ Balanced.SearchView = Balanced.View.extend({
   },
 
   shouldCloseSearch: function(e) {
-    if ($(e.target).closest('#search').length === 0) {
-      $('#search').removeClass(this.resultsClass);
-    }
+      var $target = $(e.target);
+      // sometimes ember likes to remove nodes from the dom when you click on
+      // them so the body check will make sure it's legit.
+      if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
+        $('#search').removeClass(this.resultsClass);
+      }
   },
 
   reset: function() {
@@ -51,6 +54,8 @@ Balanced.SearchView = Balanced.View.extend({
 
   onQueryChange: function(e) {
     this.toggleResults();
+
+    this._runSearch();
 
     //  TODO: this will need to happen after search results are updated
     this._highlightResults();
@@ -82,16 +87,28 @@ Balanced.SearchView = Balanced.View.extend({
 
   onChangeSearchType: function(e, searchType) {
     var $t = $(e.currentTarget);
+      var typeToClass = {
+          'transaction': 'transactions',
+          'account': 'accounts',
+          'funding_instrument': 'funding-instruments'
+      };
+      var typeToSelect = typeToClass[searchType] || searchType;
+
     $t.closest('nav').find(' > li').removeClass('selected');
     $t.closest('li').addClass('selected');
     $('#search .items').removeClass('selected');
-    $('#search .items.' + searchType).addClass('selected');
+    $('#search .items.' + typeToSelect).addClass('selected');
+      this.get('controller').send('changeTypeFilter', searchType);
+      this._runSearch();
+
   },
 
   filterResultType: function(e, filter, label) {
     var $t = $(e.currentTarget);
     $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label || $t.text());
     $t.closest('li').addClass('selected');
+      this.get('controller').send('changeTypeFilter', filter);
+      this._runSearch();
   },
 
   toggleResults: function() {
@@ -109,7 +126,11 @@ Balanced.SearchView = Balanced.View.extend({
 
   _setSortOrder: function(field, sortOrder) {
     this.get("controller").send("changeSortOrder", field, sortOrder);
-  }
+  },
+
+    _runSearch: function() {
+        this.get('controller').send('query');
+    }
 });
 
 Balanced.SearchQueryInputView = Ember.TextField.extend({
@@ -147,7 +168,9 @@ Balanced.SearchTypeView = Balanced.View.extend({
   attributeBindings: ['href'],
   href: '#',
 
+
   click: function(e) {
+      e.preventDefault();
     this.get('parentView').onChangeSearchType(e, this.searchType);
   }
 });
@@ -158,6 +181,7 @@ Balanced.SearchFilterResultView = Balanced.View.extend({
   href: '#',
 
   click: function(e) {
+      e.preventDefault();
     this.get('parentView').filterResultType(e, this.filter, this.label);
   }
 });

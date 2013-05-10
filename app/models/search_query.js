@@ -4,24 +4,26 @@
 Balanced.SearchQuery = Balanced.Model.extend({
 });
 
+
 Balanced.SearchQuery.reopenClass({
-    deserialize: function(json) {
+    deserialize: function (json) {
         json.accounts = _.chain(json.items)
-            .filter(function(item) { return item._type === "account"; })
-            .map(function(account) { return Balanced.Account.create(account); })
+            .filter(function (item) { return item._type === 'account'; })
+            .map(function (account) { return Balanced.Account.create(account); })
             .value();
 
         json.transactions = _.chain(json.items)
-            .filter(function(item) { return item._type === "credit" || item._type === "debit" || item._type === "refund" || item._type === "hold"; })
-            .map(function(transaction) {
-                switch(transaction._type) {
-                    case "credit":
+            .filter(function (item) {
+                return ['credit', 'debit', 'refund', 'hold'].indexOf(item._type) > -1;
+            }).map(function (transaction) {
+                switch (transaction._type) {
+                    case 'credit':
                         return Balanced.Credit.create(transaction);
-                    case "debit":
+                    case 'debit':
                         return Balanced.Debit.create(transaction);
-                    case "refund":
+                    case 'refund':
                         return Balanced.Refund.create(transaction);
-                    case "hold":
+                    case 'hold':
                         return Balanced.Hold.create(transaction);
                     default:
                         return null;
@@ -40,19 +42,37 @@ Balanced.SearchQuery.reopenClass({
         json.total_funding_instruments = json.counts.bank_account + json.counts.card;
         json.total_bank_accounts = json.counts.bank_account;
         json.total_cards = json.counts.card;
-    }
-});
+    },
+    search: function (marketplaceUri, query, minDate, maxDate, sortField, sortOrder, type) {
+        var params = {q: query, limit: 10, offset: 0};
+        var uri = marketplaceUri + '/search?';
+        if (minDate) {
+            params['created_at>='] = minDate.toISOString();
+        }
+        if (maxDate) {
+            params['created_at<='] = maxDate.toISOString();
+        }
+        if (type) {
+            switch (type) {
+                case 'transactions':
+                    params['type[in]'] = 'credit,debit,refund,hold';
+                    break;
+                case 'funding_instruments':
+                    params['type[in]'] = 'bank_account,card';
+                    break;
+                default:
+                    params.type = type;
 
-Balanced.SearchQuery.search = function(marketplaceId, query, minDate, maxDate, sortField, sortOrder) {
-    var uri = '/v1/marketplaces/' + marketplaceId + '/search?q=' + query + '&limit=10&offset=0';
-    if(minDate) {
-        uri = uri + '&created_at>=' + minDate.toISOString();
+            }
+        }
+        if (sortField && sortOrder && sortOrder !== 'none') {
+            params.sort = sortField + ',' + sortOrder;
+        }
+        var queryString = $.map(params,function (v, k) {
+            return k + '=' + v;
+        }).join('&');
+        uri += encodeURI(queryString);
+        return this.find(uri);
     }
-    if(maxDate) {
-        uri = uri + '&created_at<=' + maxDate.toISOString();
-    }
-    if(sortField && sortOrder && sortOrder !== "none") {
-        uri = uri + '&sort=' + sortField + ',' + sortOrder;
-    }
-    return this.find(uri);
-};
+
+});

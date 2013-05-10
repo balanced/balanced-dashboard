@@ -30,11 +30,22 @@ test('clicking close resets the search', function () {
     equal($q.val(), '');
 });
 
-test('running a search returns results', function() {
+test('can filter by type', function () {
     var $q = $('#q');
     $q.val('t');
     $('#q').trigger(jQuery.Event("keyup", { keyCode: 54 }));
     $('#q').trigger(jQuery.Event("keyup", { keyCode: 13 }));
 
-    equal($('#search .results header li.transactions > a').text(), ' Transactions (18) ');
+    $('#search .results header li.accounts > a').trigger($.Event('click'));
+    var selected = $('#search .results header li.accounts.selected').length;
+    equal(selected, 1);
+});
+
+test('running a search returns results', function () {
+    var $q = $('#q');
+    $q.val('t');
+    $('#q').trigger(jQuery.Event("keyup", { keyCode: 54 }));
+    $('#q').trigger(jQuery.Event("keyup", { keyCode: 13 }));
+
+    equal($('#search .results header li.transactions > a').text().trim(), 'Transactions (18)');
 });

@@ -8,11 +8,49 @@ Balanced.SearchController = Balanced.ObjectController.extend({
   sortField: null,
   sortOrder: null,
 
+    getLabel: function(labelMapping, acceptedTypes, type) {
+        var label = labelMapping[type];
+        if (!label && acceptedTypes.indexOf(type) > -1) {
+            label = type.substr(0, 1).toUpperCase() + type.substr(1) + 's';
+        }
+        return (label) ? label : labelMapping.DEFAULT;
+    },
+
+  type: 'transactions',
+    transaction_type: function () {
+        var types = ['debit', 'credit', 'hold', 'refund', 'transactions'];
+        return types.indexOf(this.type) > -1 ? 'transactions' : null;
+    }.property('content.type'),
+    transaction_type_label: function () {
+        var typesToLabels = {
+            DEFAULT: 'Transactions'
+        };
+        var types = ['debit', 'credit', 'hold', 'refund'];
+        return this.getLabel(typesToLabels, types, this.type);
+    }.property('content.type'),
+
+    funding_instrument_type_label: function () {
+        var typesToLabels = {
+            DEFAULT: 'Cards & Bank Accounts'
+        };
+        var types = ['bank_account', 'card'];
+        return this.getLabel(typesToLabels, types, this.type);
+    }.property('content.type'),
+
   query: function() {
     var query = this.get('search');
 
-    var marketplaceId = this.get('controllers').get('marketplace').get('id');
-    this.set('content', Balanced.SearchQuery.search(marketplaceId, query, this.get('minDate'), this.get('maxDate'), this.get('sortField'), this.get('sortOrder')));
+    var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
+      var search = Balanced.SearchQuery.search(
+          marketplaceUri,
+          query,
+          this.get('minDate'),
+          this.get('maxDate'),
+          this.get('sortField'),
+          this.get('sortOrder'),
+          this.get('type')
+      );
+    this.set('content', search);
   },
 
   changeDateFilter: function(minDate, maxDate) {
@@ -25,6 +63,10 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     this.set('sortField', field);
     this.set('sortOrder', sortOrder);
     this.query();
+  },
+
+  changeTypeFilter: function(type) {
+      this.set('type', type || 'transactions');
   },
 
   selectSearchResult: function(uri) {
