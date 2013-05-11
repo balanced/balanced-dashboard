@@ -91,7 +91,7 @@ require('app/controllers/account');
 require('app/controllers/login');
 require('app/controllers/forgotpassword');
 require('app/controllers/search');
-require('app/controllers/transactions')
+require('app/controllers/transactions');
 require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');
