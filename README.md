@@ -55,7 +55,7 @@ You can contribute to this project in one of two ways:
 3. Write your code **and unit tests**
 4. Ensure all tests still pass (`grunt test`)
 5. Ensure that your new code has test coverage (check out report/coverage/index.html after running tests)
-6. [Lint](https://github.com/jshint/jshint/) your code
+6. [Lint](https://github.com/jshint/jshint/) your code (`grunt jshint`)
 7. Commit your changes (`git commit -am 'Add some feature'`)
 8. Push to the branch (`git push origin my-new-feature`)
 9. Create new [pull request](https://help.github.com/articles/using-pull-requests)

@@ -47,5 +47,5 @@ Balanced.SearchController = Balanced.ObjectController.extend({
       return "Cards & Bank Accounts (0)";
     }
 
-  }.property('content.total_funding_instruments'),
+  }.property('content.total_funding_instruments')
 });
