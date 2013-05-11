@@ -1,6 +1,10 @@
 <div id="search">
     {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q"}}
-    <span class="close" {{action closeSearch target="view"}}>×</span>
+    {{# if isLoading }}
+        <span class="loader loading"></span>
+    {{else}}
+        <span class="close" {{action closeSearch target="view"}}>×</span>
+    {{/if}}
     <div class="results">
         <header>
             <nav>
@@ -33,7 +37,7 @@
                             {{/if}}
 
                             {{#if total_refunds }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="refund"}} Refunds ({{ total_refunds }}) {{/view}}</a></li>
+                                <li>{{#view Balanced.SearchFilterResultView filter="refund"}} Refunds ({{ total_refunds }}) {{/view}}</li>
                             {{else}}
                                 <li class="disabled"><span>Refunds ({{ total_refunds }})</span></li>
                             {{/if}}
