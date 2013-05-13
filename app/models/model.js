@@ -27,40 +27,43 @@ Balanced.Model.reopenClass({
 
     find: function (uri, settings) {
         var modelClass = this;
-        var modelObject = modelClass.create({uri: uri});
+        // this terrible hack ('#x') is for unit tests, we are firing an
+        // "onLoad" event by waiting for the uri to change. all API objects
+        // have a URI so this will change once it is loaded.
+        var modelObject = modelClass.create({uri: uri + '#x'});
+        var that = this;
 
         // pull out the observer if it's present
         settings = settings || {};
         var observer = settings.observer;
-        delete settings['observer'];
         if (observer) {
             // this allows us to subscribe to events on this object without
             // worrying about any race conditions
             modelObject.addObserver('uri', observer);
         }
+        delete settings.observer;
+
+        function load(json) {
+            if (!json) {
+                return;
+            }
+            if (that.deserialize) {
+                that.deserialize(json);
+            }
+            modelObject.setProperties(json);
+        }
 
         if (this.fixureMap) {
             // if the fixtures have been set up, must be testing this class, so fetch locally
             var json = this.fixureMap[uri];
-            if (json) {
-                if (this.deserialize) {
-                    this.deserialize(json);
-                }
-                modelObject.setProperties(json);
-            }
+            load(json);
         } else {
             // if no fixtures defined, use AJAX to fetch from the server
             var host = ENV.BALANCED.API;
             if (this.host) {
                 host = this.host(uri);
             }
-            this.ajax(host + uri, 'GET', settings).then(function (json) {
-                if (this.deserialize) {
-                    this.deserialize(json);
-                }
-
-                modelObject.setProperties(json);
-            });
+            this.ajax(host + uri, 'GET', settings).then(load);
         }
 
         return modelObject;

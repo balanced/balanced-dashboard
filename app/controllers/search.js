@@ -54,7 +54,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         var onceLoaded = function (search, property) {
             _this.set('content', search);
             _this.set('isLoading', false);
-            if (callback) {
+            if (callback && 'function' === typeof callback) {
                 callback();
             }
         };

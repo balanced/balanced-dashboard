@@ -81,7 +81,7 @@ Balanced.SearchQuery.reopenClass({
         }).join('&');
 
         uri += encodeURI(queryString);
-
-        return this.find(uri, options);
+        var res = this.find(uri, options);
+        return res;
     }
 });
