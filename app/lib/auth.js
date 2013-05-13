@@ -15,7 +15,6 @@ Balanced.Auth = Ember.Auth.create({
         route: 'login'
     },
     actionRedirectable: {
-        signInRoute: 'index',
         signInSmart: true,
         signInBlacklist: ['login'],
         signOutRoute: 'index'
