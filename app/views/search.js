@@ -129,7 +129,8 @@ Balanced.SearchView = Balanced.View.extend({
   },
 
     _runSearch: function() {
-        this.get('controller').send('query');
+        var callback = this._highlightResults;
+        this.get('controller').send('query', callback);
     }
 });
 

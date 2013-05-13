@@ -43,36 +43,45 @@ Balanced.SearchQuery.reopenClass({
         json.total_bank_accounts = json.counts.bank_account;
         json.total_cards = json.counts.card;
     },
-    search: function (marketplaceUri, query, minDate, maxDate, sortField, sortOrder, type) {
-        var params = {q: query, limit: 10, offset: 0};
+    search: function (marketplaceUri, params, options) {
         var uri = marketplaceUri + '/search?';
-        if (minDate) {
-            params['created_at>='] = minDate.toISOString();
+        var searchParams = {
+            limit: params.limit || 10,
+            offset: params.offset || 0,
+            sortOrder: params.sortOrder || 'desc',
+            sortField: params.sortField || 'created_at',
+            q: params.query
+        };
+        if (params.minDate) {
+            searchParams['created_at[>]'] = params.minDate.toISOString();
         }
-        if (maxDate) {
-            params['created_at<='] = maxDate.toISOString();
+        if (params.maxDate) {
+            searchParams['created_at[<]'] = params.maxDate.toISOString();
         }
-        if (type) {
-            switch (type) {
+        if (params.type) {
+            switch (params.type) {
                 case 'transactions':
-                    params['type[in]'] = 'credit,debit,refund,hold';
+                    searchParams['type[in]'] = 'credit,debit,refund,hold';
                     break;
                 case 'funding_instruments':
-                    params['type[in]'] = 'bank_account,card';
+                    searchParams['type[in]'] = 'bank_account,card';
                     break;
                 default:
-                    params.type = type;
+                    searchParams.type = params.type;
 
             }
         }
-        if (sortField && sortOrder && sortOrder !== 'none') {
-            params.sort = sortField + ',' + sortOrder;
+
+        if (params.sortField && params.sortOrder && params.sortOrder !== 'none') {
+            searchParams.sort = params.sortField + ',' + params.sortOrder;
         }
-        var queryString = $.map(params,function (v, k) {
+
+        var queryString = $.map(searchParams, function (v, k) {
             return k + '=' + v;
         }).join('&');
-        uri += encodeURI(queryString);
-        return this.find(uri);
-    }
 
+        uri += encodeURI(queryString);
+        var res = this.find(uri, options);
+        return res;
+    }
 });
