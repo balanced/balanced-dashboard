@@ -134,10 +134,11 @@ $.expr[":"].icontains = $.expr.createPseudo(function (arg) {
 
 // http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format/4673436#4673436
 if (!String.prototype.format) {
+    var re = new RegExp('{(\\d+)}', 'g');
     String.prototype.format = function () {
         var args = arguments;
-        return this.replace(/{(\d+)}/g, function (match, number) {
-            return typeof args[number] != 'undefined' ? args[number] : match;
+        return this.replace(re, function (match, number) {
+            return typeof args[number] !== 'undefined' ? args[number] : match;
         });
     };
 }
