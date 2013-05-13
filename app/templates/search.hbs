@@ -158,13 +158,17 @@
                     <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
                 </td>
                 <td>
-                    {{ funding_instrument.type }}
+                    {{ funding_instrument.type_name }}
+                    {{#if funding_instrument.is_bank_account }}
+                        ({{ funding_instrument.type }})
+                    {{/if}}
                 </td>
                 <td>
-                    {{ funding_instrument.last_four }}
+                    {{ funding_instrument.description }}
                 </td>
                 <td>
                     {{ funding_instrument.account.name }}
+                    {{ funding_instrument.account.email }}
                 </td>
             </tr>
             {{/each}}
