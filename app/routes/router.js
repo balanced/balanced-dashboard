@@ -7,7 +7,6 @@ Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 Balanced.Router.map(function () {
   this.resource("marketplace", { path: "/marketplaces/:marketplace_id" }, function() {
     this.route("transactions", { path: "/transactions" });
-    this.route("settings", { path: "/settings" });
 
     this.resource("logs", { path: "/logs" }, function() {
       this.route("log", { path: "/:log_id" });

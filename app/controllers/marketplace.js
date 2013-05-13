@@ -10,10 +10,6 @@ Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend({
   needs: ["marketplace"]
 });
 
-Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
-  needs: ["marketplace"]
-});
-
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
   needs: ["marketplace"]
 });
