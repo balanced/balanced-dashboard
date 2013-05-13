@@ -1,5 +1,13 @@
 Balanced.Model = Ember.Object.extend({
 
+    human_readable_created_at: function () {
+        if (this.get('created_at')) {
+            return Date.parseISO8601(this.get('created_at')).strftime('%b %d');
+        } else {
+            return "";
+        }
+    }.property('created_at')
+
 });
 
 Balanced.Model.reopenClass({

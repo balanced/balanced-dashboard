@@ -7,29 +7,39 @@ Balanced.SearchQuery = Balanced.Model.extend({
 
 Balanced.SearchQuery.reopenClass({
     deserialize: function (json) {
-        json.accounts = _.chain(json.items)
-            .filter(function (item) { return item._type === 'account'; })
-            .map(function (account) { return Balanced.Account.create(account); })
-            .value();
 
-        json.transactions = _.chain(json.items)
-            .filter(function (item) {
-                return ['credit', 'debit', 'refund', 'hold'].indexOf(item._type) > -1;
-            }).map(function (transaction) {
-                switch (transaction._type) {
-                    case 'credit':
-                        return Balanced.Credit.create(transaction);
-                    case 'debit':
-                        return Balanced.Debit.create(transaction);
-                    case 'refund':
-                        return Balanced.Refund.create(transaction);
-                    case 'hold':
-                        return Balanced.Hold.create(transaction);
-                    default:
-                        return null;
+        var accountMap = {
+                'account': Balanced.Account
+            },
+            transactionMap = {
+                'credit': Balanced.Credit,
+                'debit': Balanced.Debit,
+                'refund': Balanced.Refund,
+                'hold': Balanced.Hold
+            },
+            fundingInstrumentMap = {
+                'card': Balanced.Card,
+                'bank_account': Balanced.BankAccount
+            };
+
+        function itemFilter (map) {
+            return function (item) {
+                return Object.keys(map).indexOf(item._type) > -1;
+            };
+        }
+
+        function itemMap (map) {
+            return function (item) {
+                var instance = map[item._type];
+                if (instance) {
+                    return instance.create(item);
                 }
-            })
-            .value();
+            };
+        }
+
+        json.accounts = _.chain(json.items).filter(itemFilter(accountMap)).map(itemMap(accountMap)).value();
+        json.transactions = _.chain(json.items).filter(itemFilter(transactionMap)).map(itemMap(transactionMap)).value();
+        json.funding_instruments = _.chain(json.items).filter(itemFilter(fundingInstrumentMap)).map(itemMap(fundingInstrumentMap)).value();
 
         json.total_transactions = json.counts.refund + json.counts.credit + json.counts.debit + json.counts.hold;
         json.total_credits = json.counts.credit;
@@ -63,12 +73,11 @@ Balanced.SearchQuery.reopenClass({
                 case 'transactions':
                     searchParams['type[in]'] = 'credit,debit,refund,hold';
                     break;
-                case 'funding_instruments':
+                case 'funding_instrument':
                     searchParams['type[in]'] = 'bank_account,card';
                     break;
                 default:
                     searchParams.type = params.type;
-
             }
         }
 

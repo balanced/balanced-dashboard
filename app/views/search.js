@@ -82,7 +82,7 @@ Balanced.SearchView = Balanced.View.extend({
         break;
     }
 
-    this._setSortOrder(field,mappedSortOrder);
+    this._setSortOrder(field, mappedSortOrder);
   },
 
   onChangeSearchType: function(e, searchType) {
@@ -100,7 +100,6 @@ Balanced.SearchView = Balanced.View.extend({
     $('#search .items.' + typeToSelect).addClass('selected');
       this.get('controller').send('changeTypeFilter', searchType);
       this._runSearch();
-
   },
 
   filterResultType: function(e, filter, label) {

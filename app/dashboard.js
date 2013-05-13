@@ -58,6 +58,7 @@ require('app/models/credit');
 require('app/models/debit');
 require('app/models/hold');
 require('app/models/refund');
+require('app/models/funding_instrument');
 require('app/models/search_query');
 
 require('app/lib/auth');

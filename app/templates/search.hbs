@@ -55,7 +55,7 @@
 
                 <li {{bindAttr class=":funding-instruments :filter total_funding_instruments::disabled"}} >
                     {{#if total_funding_instruments}}
-                        {{#view Balanced.SearchTypeView searchType="funding_instruments"}} {{ funding_instrument_type_label }} ({{ total_accounts }}) {{/view}}
+                        {{#view Balanced.SearchTypeView searchType="funding_instrument"}} {{ funding_instrument_type_label }} ({{ total_accounts }}) {{/view}}
                     {{else}}
                         <span>Cards &amp; Bank Accounts (--)</span>
                     {{/if}}
@@ -97,7 +97,7 @@
             </thead>
             <tbody>
             {{#each transaction in transactions }}
-            <tr {{action selectSearchResult transaction.uri target="view"}}}}>
+            <tr {{action selectSearchResult transaction.uri target="view"}}>
                 <td class="span3 date">
                     <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
                 </td>
@@ -119,30 +119,55 @@
         </table>
         <table class="items accounts">
             <thead>
-            <th class="span3 label6a sortable unsorted">Date</th>
-            <th class="span3 label6a type">Transaction</th>
-            <th class="span4 label6a description">Description</th>
-            <th class="span4 label6a account">Account</th>
-            <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-            <th class="span2 label6a amount sortable unsorted num">Amount</th>
+                <tr>
+                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+                    <th class="span4 label6a account">Account</th>
+                    <th class="span8 label6a email">Email</th>
+                </tr>
             </thead>
             <tbody>
+            {{#each account in accounts}}
             <tr>
                 <td class="span3 date">
-                    <time datetime="2013-04-18T19:27:22.643658+00:00" data-format="%b %d" title="2013-04-18T19:27:22.643658+00:00">11 Mar 2013, 5:29 pm</time>
-                </td>
-                <td class="span3 label4f type failed">
-                    Credit: failed
-                </td>
-                <td class="span4 description">
-                    Order #00003784
+                    <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
                 </td>
                 <td class="span4 account">
-                    John Coltrane (jcoltrane@gmail.com)
+                    {{ account.display_me }}
                 </td>
-                <td class="span4 funding-instrument">3785 (Amex) / John Coltrane</td>
-                <td class="span2 amount num">$158.92</td>
+                <td class="span8 email">
+                    {{ account.email }}
+                </td>
             </tr>
+            {{/each}}
+            </tbody>
+        </table>
+
+        <table class="items funding-instruments">
+            <thead>
+            <tr>
+                {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+                <th class="span4 label6a">Type</th>
+                <th class="span5 label6a">Card or bank account</th>
+                <th class="span8 label6a">Account</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each funding_instrument in funding_instruments}}
+            <tr>
+                <td>
+                    <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
+                </td>
+                <td>
+                    {{ funding_instrument.type }}
+                </td>
+                <td>
+                    {{ funding_instrument.last_four }}
+                </td>
+                <td>
+                    {{ funding_instrument.account.name }}
+                </td>
+            </tr>
+            {{/each}}
             </tbody>
         </table>
     </div>
