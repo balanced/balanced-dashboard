@@ -31,7 +31,6 @@ Balanced.Model.reopenClass({
         // "onLoad" event by waiting for the uri to change. all API objects
         // have a URI so this will change once it is loaded.
         var modelObject = modelClass.create({uri: uri + '#x'});
-        var that = this;
 
         // pull out the observer if it's present
         settings = settings || {};
@@ -47,8 +46,8 @@ Balanced.Model.reopenClass({
             if (!json) {
                 return;
             }
-            if (that.deserialize) {
-                that.deserialize(json);
+            if (modelClass.deserialize) {
+                modelClass.deserialize(json);
             }
             modelObject.setProperties(json);
         }
