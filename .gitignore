@@ -10,7 +10,7 @@ lib-cov
 *.gz
 
 pids
-logs
+logs/*
 results
 build/*
 dist/*
