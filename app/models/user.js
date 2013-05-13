@@ -15,9 +15,7 @@ Balanced.User.reopenClass({
             marketplace._type = "marketplaceLite";
             return Balanced.MarketplaceLite.create(marketplace);
         });
-    },
-
-    host: function (uri) {
-        return ENV.BALANCED.AUTH;
     }
 });
+
+Balanced.Adapter.registerHostForType(Balanced.User, ENV.BALANCED.AUTH);

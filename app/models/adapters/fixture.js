@@ -3,7 +3,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
     this.dataMap = {};
   },
 
-  get: function(uri, success) {
+  get: function(type, uri, success) {
     var json = this.dataMap[uri];
     success(json);
   },

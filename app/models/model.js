@@ -53,7 +53,7 @@ Balanced.Model.reopenClass({
         modelObject.set('isLoaded', true);
     }
 
-    Balanced.Adapter.get(uri, load);
+    Balanced.Adapter.get(modelClass, uri, load);
 
     return modelObject;
   }
