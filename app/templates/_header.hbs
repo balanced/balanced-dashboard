@@ -36,7 +36,7 @@
             </div>
             <div id="user-menu">
                 {{#if Balanced.Auth.signedIn }}
-                    <a  href="#" {{action "signOut"}}>Log Out ({{ Balanced.Auth.user.email_address }})</a>
+                    <a href="#" {{action "signOut"}}>Log Out</a>
                 {{else}}
                     {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
                 {{/if}}
