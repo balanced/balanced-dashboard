@@ -7,6 +7,7 @@ Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 Balanced.Router.map(function () {
   this.resource("marketplace", { path: "/marketplaces/:marketplace_id" }, function() {
     this.route("transactions", { path: "/transactions" });
+    this.route("settings", { path: "/settings" });
 
     this.resource("logs", { path: "/logs" }, function() {
       this.route("log", { path: "/:log_id" });
@@ -20,8 +21,8 @@ Balanced.Router.map(function () {
       this.route("card", { path: "/:card_id" });
     });
 
-    this.resource("bankaccounts", { path: "/bank_accounts" }, function() {
-      this.route("bankaccount", { path: "/:bankaccount_id" });
+    this.resource("bankAccounts", { path: "/bank_accounts" }, function() {
+      this.route("bankAccount", { path: "/:bankaccount_id" });
     });
 
     this.route("credits", { path: "/credits/:credit_id" });
@@ -35,7 +36,7 @@ Balanced.Router.map(function () {
   });
 
   this.route('login', { path: "/login" });
-  this.route('forgotPassword', { path: "/forgot-password" });
+  this.route('forgotPassword', { path: "/forgot_password" });
 });
 
 ////
@@ -46,7 +47,6 @@ require('app/routes/index');
 require('app/routes/marketplace');
 require('app/routes/account');
 
-require('app/routes/marketplace_transactions');
 require('app/routes/marketplace_logs');
 require('app/routes/marketplace_invoices');
 require('app/routes/marketplace_cards');

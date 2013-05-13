@@ -89,13 +89,12 @@ require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/account');
 require('app/controllers/login');
-require('app/controllers/forgotpassword');
+require('app/controllers/forgotPassword');
 require('app/controllers/search');
-require('app/controllers/transactions');
 require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');
-require('app/controllers/bankaccounts');
+require('app/controllers/bankAccounts');
 
 /*
  * States (i.e. Routes)

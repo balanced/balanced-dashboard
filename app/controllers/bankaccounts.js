@@ -1,3 +1,3 @@
-Balanced.BankaccountsIndexController = Balanced.ObjectController.extend({
+Balanced.BankAccountsIndexController = Balanced.ObjectController.extend({
   needs: ["marketplace"]
 });
