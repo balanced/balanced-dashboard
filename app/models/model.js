@@ -57,5 +57,34 @@ Balanced.Model.reopenClass({
     Balanced.Adapter.get(modelClass, uri, load);
 
     return modelObject;
+  },
+
+  hasMany: function(type, uriPropertyName) {
+    return Ember.computed(function() {
+      // allow dependencies to be set using strings instead of class statements so we don't have ordering issues when declaring our models
+      var typeClass = type;
+      if(typeof type === "string") {
+        typeClass = eval(type);
+      }
+
+      var modelObjectsArray = Ember.A();
+      modelObjectsArray.set('isLoaded', false);
+
+      // if the URI property hasn't been set yet, don't bother trying to load it
+      if(this.get(uriPropertyName)) {
+        Balanced.Adapter.get(typeClass, this.get(uriPropertyName), function(json) {
+          if(typeClass.deserialize) {
+            _.each(json.items, function(item) {
+              typeClass.deserialize(item);
+            });
+          }
+          modelObjectsArray.setObjects(json.items);
+          
+          modelObjectsArray.set('isLoaded', true);
+        });
+      }
+
+      return modelObjectsArray;
+    }).property(uriPropertyName);
   }
 });
