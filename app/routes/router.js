@@ -21,7 +21,7 @@ Balanced.Router.map(function () {
     });
 
     this.resource("bankAccounts", { path: "/bank_accounts" }, function() {
-      this.route("bankAccount", { path: "/:bankaccount_id" });
+      this.route("bankAccount", { path: "/:bank_account_id" });
     });
 
     this.route("credits", { path: "/credits/:credit_id" });
