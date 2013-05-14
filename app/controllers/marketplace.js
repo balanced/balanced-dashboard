@@ -2,10 +2,6 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 
 });
 
-Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
-  needs: ["marketplace"]
-});
-
 Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend({
   needs: ["marketplace"]
 });

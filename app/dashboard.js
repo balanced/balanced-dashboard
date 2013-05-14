@@ -94,6 +94,7 @@ require('app/controllers/_base');
 require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
+require('app/controllers/marketplace_index');
 require('app/controllers/login');
 require('app/controllers/forgotPassword');
 require('app/controllers/search');
