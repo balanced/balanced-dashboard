@@ -78,7 +78,10 @@ Balanced.Model.reopenClass({
               typeClass.deserialize(item);
             });
           }
-          modelObjectsArray.setObjects(json.items);
+          var typedObjects = _.map(json.items, function(item) {
+            return typeClass.create(item);
+          })
+          modelObjectsArray.setObjects(typedObjects);
           
           modelObjectsArray.set('isLoaded', true);
         });
