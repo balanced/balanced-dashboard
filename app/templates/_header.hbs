@@ -19,7 +19,7 @@
                 {{ render "marketplaces" }}
             </div>
 
-            {{ render "search" }}
+            {{#if name}} {{ render "search" }} {{/if}}
 
             {{/if}}
         </div>
