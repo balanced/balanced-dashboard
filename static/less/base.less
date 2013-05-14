@@ -125,13 +125,16 @@ table {
 }
 
 .loader {
-  display: none;
+  display: block;
   position: absolute;
   background: @iconsFile -164px -484px no-repeat;
   width: 23px;
   height: 23px;
+  top: 20px;
+  right: 10px;
+
   &.loading {
-    display: block;
+    display: inline;
     -webkit-animation: rotation 2s infinite linear;
     -moz-animation: rotate 20s linear 0s infinite;
   }
