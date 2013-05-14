@@ -140,22 +140,16 @@
                 </h3>
             </header>
             <ul class="sidebar-items">
+                {{#each card in cards }}
                 <li>
                     <div class="icon">Credit card</div>
                     <a href="#" class="icon-delete">delete</a>
                     <div class="details">
-                        <span class="name"><span class="label2a">Stevie Ray Vaughn</span></span>
-                        <span class="summary">4615 (Discover)</span>
+                        <span class="name"><span class="label2a">{{ card.name }}</span></span>
+                        <span class="summary">{{ card.description }}</span>
                     </div>
                 </li>
-                <li>
-                    <div class="icon">Credit card</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">SR Vaughn</span></span>
-                        <span class="summary">3482 (VISA)</span>
-                    </div>
-                </li>
+                {{/each}}
             </ul>
         </section>
 
