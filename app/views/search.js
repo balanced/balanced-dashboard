@@ -134,6 +134,8 @@ Balanced.SearchView = Balanced.View.extend({
 });
 
 Balanced.SearchQueryInputView = Ember.TextField.extend({
+  attributeBindings: ['autocomplete'],
+
   focusIn: function(e) {
     $('#search').addClass('focus');
   },

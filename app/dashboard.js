@@ -92,6 +92,8 @@ require('app/controllers/account');
 require('app/controllers/login');
 require('app/controllers/forgotPassword');
 require('app/controllers/search');
+
+require('app/controllers/accounts');
 require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');

@@ -1,5 +1,5 @@
 <div id="search">
-    {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q"}}
+    {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
     {{# if isLoading }}
         <span class="loader loading"></span>
     {{else}}
@@ -127,7 +127,7 @@
             </thead>
             <tbody>
             {{#each account in accounts}}
-            <tr>
+            <tr {{action selectSearchResult account.uri target="view"}}>
                 <td class="span3 date">
                     <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
                 </td>
@@ -153,7 +153,7 @@
             </thead>
             <tbody>
             {{#each funding_instrument in funding_instruments}}
-            <tr>
+            <tr {{action selectSearchResult funding_instrument.uri target="view"}}>
                 <td>
                     <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
                 </td>
