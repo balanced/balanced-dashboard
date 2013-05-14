@@ -114,25 +114,22 @@
                 </h3>
             </header>
             <ul class="sidebar-items">
-                <li class="unverified">
-                    <div class="icon">Bank account</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
-                        <span class="summary">5410 (Wells Fargo NA)</span>
-                    </div>
-                    <div class="actions">
-                        <button class="btn">Verify</button>
-                    </div>
-                </li>
-                <li class="verified">
-                    <div class="icon">Bank account</div>
-                    <a href="#" class="icon-delete">delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">Zuppa, Inc.</span></span>
-                        <span class="summary">5410 (Wells Fargo NA)</span>
-                    </div>
-                </li>
+                {{#each bank_account in bank_accounts }}
+                    <li {{bindAttr class="bank_account.can_debit:verified:unverified"}}>
+                        <div class="icon">Bank account</div>
+                        <a href="#" class="icon-delete">delete</a>
+                        <div class="details">
+                            <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
+                            <span class="summary">{{ bank_account.description }}</span>
+                        </div>
+
+                        {{#unless bank_account.can_debit }}
+                        <div class="actions">
+                            <button class="btn">Verify</button>
+                        </div>
+                        {{/unless}}
+                    </li>
+                {{/each}}
             </ul>
         </section>
 
