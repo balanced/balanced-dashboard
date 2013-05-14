@@ -38,7 +38,8 @@ Balanced.Model.reopenClass({
         // this terrible hack ('#x') is for unit tests, we are firing an
         // "onLoad" event by waiting for the uri to change. all API objects
         // have a URI so this will change once it is loaded.
-        var modelObject = modelClass.create({uri: uri + '#x'});
+        var modelObject = modelClass.create({uri: uri});
+        modelObject.set('isLoaded', false);
 
         // pull out the observer if it's present
         settings = settings || {};
@@ -46,7 +47,7 @@ Balanced.Model.reopenClass({
         if (observer) {
             // this allows us to subscribe to events on this object without
             // worrying about any race conditions
-            modelObject.addObserver('uri', observer);
+            modelObject.addObserver('isLoaded', observer);
         }
         delete settings.observer;
 
@@ -58,6 +59,7 @@ Balanced.Model.reopenClass({
                 modelClass.deserialize(json);
             }
             modelObject.setProperties(json);
+            modelObject.set('isLoaded', true);
         }
 
         if (this.fixureMap) {
