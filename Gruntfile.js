@@ -39,7 +39,8 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
-                    'static/lib/underscore-min.js'
+                    'static/lib/underscore-min.js',
+                    'static/lib/uri.js'
                 ],
                 dest: 'build/js/lib-dev.js'
             },
@@ -55,7 +56,8 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.min.js',
-                    'static/lib/underscore-min.js'
+                    'static/lib/underscore-min.js',
+                    'static/lib/uri.js'
                 ],
                 dest: 'build/js/lib-prod.js'
             },

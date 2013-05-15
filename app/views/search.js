@@ -55,14 +55,15 @@ Balanced.SearchView = Balanced.View.extend({
   onQueryChange: function(e) {
     var self = this;
 
-    if($("#q").val().length > 0) {
-      this._runSearch(function() {
-        self.toggleResults();
-        self._highlightResults;
-      });
-    } else {
+    if($("#q").val().length === 0) {
       self.toggleResults();
+      return;
     }
+
+    self._runSearch(function() {
+      self.toggleResults();
+      self._highlightResults();
+    });
   },
 
   onSortChange: function(e, field) {
@@ -123,6 +124,7 @@ Balanced.SearchView = Balanced.View.extend({
 
   _highlightResults: function() {
     var query = $('#q').val();
+
     //  remove empty words
     $('#search .results tbody tr').highlightWords(query);
   },

@@ -2,6 +2,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     needs: ["marketplace"],
 
     search: '',
+    latestRequestTimeStamp: null,
 
     minDate: null,
     maxDate: null,
@@ -51,13 +52,48 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
         var _this = this;
         this.set('isLoading', true);
+
+        ////
+        // onSearch Callback
+        ////
         var onceLoaded = function (search, property) {
+            var responseUriObject = URI(search.uri).query(true);
+
+            ////
+            // Debugging
+            ////
+            // console.log("SEARCH => " + responseUriObject.q);
+            // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
+            // console.log("REQUEST TIMESTAMP => " + responseUriObject.requestTimeStamp);
+
+            var requestTimeStamp = URI(search.uri).query(true).requestTimeStamp;
+
+            if(+(requestTimeStamp) < +(_this.get('latestRequestTimeStamp'))) {
+                ////
+                // Debugging
+                ////
+                // console.log("DISCARDING - OLD REQUEST");
+                // console.log("=====================================");
+
+                return;
+            }
+
+            ////
+            // Debugging
+            ////
+            // console.log("USING - LATEST REQUEST");
+            // console.log("=====================================");
+
             _this.set('content', search);
             _this.set('isLoading', false);
             if (callback && 'function' === typeof callback) {
                 callback();
             }
         };
+
+        var requestTimeStamp = (new Date()).getTime();
+        this.set('latestRequestTimeStamp', requestTimeStamp);
+
         var search = Balanced.SearchQuery.search(
             marketplaceUri,
             {
@@ -66,7 +102,8 @@ Balanced.SearchController = Balanced.ObjectController.extend({
                 maxDate: this.get('maxDate'),
                 sortField: this.get('sortField'),
                 sortOrder: this.get('sortOrder'),
-                type: this.get('type')
+                type: this.get('type'),
+                requestTimeStamp: requestTimeStamp
             },
             {
                 observer: onceLoaded

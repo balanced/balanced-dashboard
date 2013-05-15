@@ -60,7 +60,8 @@ Balanced.SearchQuery.reopenClass({
             offset: params.offset || 0,
             sortOrder: params.sortOrder || 'desc',
             sortField: params.sortField || 'created_at',
-            q: params.query
+            q: params.query,
+            requestTimeStamp: params.requestTimeStamp
         };
         if (params.minDate) {
             searchParams['created_at[>]'] = params.minDate.toISOString();
@@ -91,6 +92,7 @@ Balanced.SearchQuery.reopenClass({
 
         uri += encodeURI(queryString);
         var res = this.find(uri, options);
+
         return res;
     }
 });
