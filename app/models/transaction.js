@@ -11,15 +11,7 @@ Balanced.Transaction = Balanced.Model.extend({
       if(this.get('amount')) {
         return (this.get('amount')/100).toFixed(2);
       } else {
-        return "";
+        return '';
       }
-    }.property('amount'),
-
-    human_readable_created_at: function() {
-      if(this.get('created_at')) {
-        return Date.parseISO8601(this.get('created_at')).strftime('%b %d');
-      } else {
-        return "";
-      }
-    }.property('created_at')
+    }.property('amount')
 });

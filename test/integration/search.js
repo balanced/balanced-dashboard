@@ -25,16 +25,26 @@ test('clicking close resets the search', function () {
 
     $q.val('hello world').click();
     equal($('#search .close:visible').length, 1);
-
     $('#search .close').click();
     equal($q.val(), '');
 });
 
-test('running a search returns results', function() {
+test('can filter by type', function () {
+    $("#marketplaces ul a:contains('Test Marketplace')").click();
     var $q = $('#q');
     $q.val('t');
-    $('#q').trigger(jQuery.Event("keyup", { keyCode: 54 }));
-    $('#q').trigger(jQuery.Event("keyup", { keyCode: 13 }));
+    $('#q').trigger('keyup');
+    $('#search .results header li.accounts > a').trigger($.Event('click'));
+    var selected = $('#search .results header li.accounts.selected').length;
+    equal(selected, 1);
+});
 
-    equal($('#search .results header li.transactions > a').text(), ' Transactions (18) ');
+test('running a search returns results', function () {
+    $("#marketplaces ul a:contains('Test Marketplace')").click();
+
+    var $q = $('#q');
+    $q.val('t');
+    $('#q').trigger('keyup');
+    $('#q').trigger(jQuery.Event("keyup", { keyCode: 13 }));
+    equal($('#search .results header li.transactions > a').text().trim(), 'Transactions (18)');
 });

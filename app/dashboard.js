@@ -58,6 +58,7 @@ require('app/models/credit');
 require('app/models/debit');
 require('app/models/hold');
 require('app/models/refund');
+require('app/models/funding_instrument');
 require('app/models/search_query');
 
 require('app/lib/auth');
@@ -91,6 +92,8 @@ require('app/controllers/account');
 require('app/controllers/login');
 require('app/controllers/forgotPassword');
 require('app/controllers/search');
+
+require('app/controllers/accounts');
 require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');

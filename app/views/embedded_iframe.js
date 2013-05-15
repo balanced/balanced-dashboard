@@ -8,6 +8,12 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             return (+height + (+paddingTop)) + 'px';
         }
 
+        function onIframeTrigger(resizeFunction, iframe) {
+            setInterval(function() {
+                resizeFunction(iframe);
+            }, 1000);
+        }
+
         // Reset the lefthand nagivation to match the height of #content
         var $content = $('#content');
         var $marketplaceNav = $('#marketplace-nav');
@@ -16,9 +22,12 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         $marketplaceNav.height(calculateHeight($content));
 
         $('iframe.auto-height').iframeAutoHeight({
-            debug: ENV.BALANCED.DEBUG,
+            debug: false, //ENV.BALANCED.DEBUG,
             minHeight: 400,
-            callback: function () {
+            triggerFunctions: [
+                onIframeTrigger
+            ],
+            callback: function(callbackObject) {
                 // Reset the left hand navigation to match the height of #content
                 $marketplaceNav.height(calculateHeight($content));
             }
