@@ -29,7 +29,6 @@
     "Balanced": true,
     "DS": true,
     "ENV": true,
-    "_": true,
-    "URI": true
+    "_": true
   }
 }

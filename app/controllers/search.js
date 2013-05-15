@@ -43,6 +43,16 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     }.property('content.type'),
 
     query: function (callback) {
+        ////
+        // Helper function
+        ////
+        function getParamByName(uri, name) {
+            name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(uri);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
         var query = this.get('search');
         var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
 
@@ -57,16 +67,14 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         // onSearch Callback
         ////
         var onceLoaded = function (search, property) {
-            var responseUriObject = URI(search.uri).query(true);
+            var requestTimeStamp = getParamByName(search.uri, "requestTimeStamp");
 
             ////
             // Debugging
             ////
-            // console.log("SEARCH => " + responseUriObject.q);
+            // console.log("SEARCH => " + getParamByName(search.uri, "q"));
             // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
-            // console.log("REQUEST TIMESTAMP => " + responseUriObject.requestTimeStamp);
-
-            var requestTimeStamp = URI(search.uri).query(true).requestTimeStamp;
+            // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
 
             if(+(requestTimeStamp) < +(_this.get('latestRequestTimeStamp'))) {
                 ////
@@ -91,7 +99,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
             }
         };
 
-        var requestTimeStamp = (new Date()).getTime();
+        var requestTimeStamp = new Date().getTime();
         this.set('latestRequestTimeStamp', requestTimeStamp);
 
         var search = Balanced.SearchQuery.search(
