@@ -48,6 +48,10 @@ You can contribute to this project in one of two ways:
 2. Clone the balanced-dashboard repo, make some changes according to our
    development guidelines and issue a pull-request with your changes.
 
+Not sure where to start? Look for issues tagged [`n00b`](https://github.com/balanced/balanced-dashboard/issues?labels=n00b&state=open), these are tasks 
+that should be able to be completed in an hour or two and require minimal
+knowledge of the balanced-dashboard application.
+
 ### Development guidelines
 
 1. Fork it (`git clone git://github.com/balanced/balanced-dashboard.git`)
