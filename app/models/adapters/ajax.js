@@ -4,11 +4,15 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
   },
 
   get: function(type, uri, success) {
-    var host = ENV.BALANCED.API;
-    if(this.hostsByType[type]) {
-      host = this.hostsByType[type];
-    }
+    var host = this.getHostForType(type);
     this.ajax(host + uri, "GET").then(function(json) {
+      success(json);
+    });
+  },
+
+  update: function(type, uri, data, success) {
+    var host = this.getHostForType(type);
+    this.ajax(host + uri, "PUT", {data: data}).then(function(json) {
       success(json);
     });
   },
@@ -23,5 +27,13 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
   registerHostForType: function(type, host) {
     this.hostsByType[type] = host;
+  },
+
+  getHostForType: function(type) {
+    var host = ENV.BALANCED.API;
+    if(this.hostsByType[type]) {
+      host = this.hostsByType[type];
+    }
+    return host;
   }
 });

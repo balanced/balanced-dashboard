@@ -1,4 +1,4 @@
-Balanced.Model = Ember.Object.extend({
+Balanced.Model = Ember.Object.extend(Ember.Evented, {
     date_formats: {
         short: '%e %b \'%y %l:%M %p'
     },
@@ -9,8 +9,35 @@ Balanced.Model = Ember.Object.extend({
         } else {
             return "";
         }
-    }.property('created_at')
+    }.property('created_at'),
 
+  update: function(fields) {
+    var self = this;
+    var data = {};
+    // TODO - would it be better to have a dirty fields list like ember data does?
+    _.each(fields, function(field) {
+      data[field] = self.get(field);
+    });
+    Balanced.Adapter.update(this.constructor, this.get('uri'), data, function(json) {
+      self._updateFromJson(json);
+
+      self.trigger('didUpdate');
+      // TODO - handle errors
+    });
+  },
+
+  _updateFromJson: function(json) {
+    if (!json) {
+        return;
+    }
+
+    if(this.constructor.deserialize) {
+      this.constructor.deserialize(json);
+    }
+
+    this.setProperties(json);
+    this.set('isLoaded', true);
+  }
 });
 
 Balanced.Model.reopenClass({
@@ -43,18 +70,10 @@ Balanced.Model.reopenClass({
     }
     delete settings.observer;
 
-    function load(json) {
-        if (!json) {
-            return;
-        }
-        if (modelClass.deserialize) {
-            modelClass.deserialize(json);
-        }
-        modelObject.setProperties(json);
-        modelObject.set('isLoaded', true);
-    }
-
-    Balanced.Adapter.get(modelClass, uri, load);
+    Balanced.Adapter.get(modelClass, uri, function(json) {
+      modelObject._updateFromJson(json);
+      modelObject.trigger('didLoad');
+    });
 
     return modelObject;
   },
