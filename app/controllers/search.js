@@ -2,6 +2,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     needs: ["marketplace"],
 
     search: '',
+    latestRequestTimeStamp: null,
 
     minDate: null,
     maxDate: null,
@@ -42,6 +43,16 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     }.property('content.type'),
 
     query: function (callback) {
+        ////
+        // Helper function
+        ////
+        function getParamByName(uri, name) {
+            name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(uri);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
         var query = this.get('search');
         var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
 
@@ -51,13 +62,46 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
         var _this = this;
         this.set('isLoading', true);
+
+        ////
+        // onSearch Callback
+        ////
         var onceLoaded = function (search, property) {
+            var requestTimeStamp = getParamByName(search.uri, "requestTimeStamp");
+
+            ////
+            // Debugging
+            ////
+            // console.log("SEARCH => " + getParamByName(search.uri, "q"));
+            // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
+            // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
+
+            if(+(requestTimeStamp) < +(_this.get('latestRequestTimeStamp'))) {
+                ////
+                // Debugging
+                ////
+                // console.log("DISCARDING - OLD REQUEST");
+                // console.log("=====================================");
+
+                return;
+            }
+
+            ////
+            // Debugging
+            ////
+            // console.log("USING - LATEST REQUEST");
+            // console.log("=====================================");
+
             _this.set('content', search);
             _this.set('isLoading', false);
             if (callback && 'function' === typeof callback) {
                 callback();
             }
         };
+
+        var requestTimeStamp = new Date().getTime();
+        this.set('latestRequestTimeStamp', requestTimeStamp);
+
         var search = Balanced.SearchQuery.search(
             marketplaceUri,
             {
@@ -66,7 +110,8 @@ Balanced.SearchController = Balanced.ObjectController.extend({
                 maxDate: this.get('maxDate'),
                 sortField: this.get('sortField'),
                 sortOrder: this.get('sortOrder'),
-                type: this.get('type')
+                type: this.get('type'),
+                requestTimeStamp: requestTimeStamp
             },
             {
                 observer: onceLoaded

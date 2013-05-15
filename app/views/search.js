@@ -53,12 +53,17 @@ Balanced.SearchView = Balanced.View.extend({
   },
 
   onQueryChange: function(e) {
-    this.toggleResults();
+    var self = this;
 
-    this._runSearch();
+    if($("#q").val().length === 0) {
+      self.toggleResults();
+      return;
+    }
 
-    //  TODO: this will need to happen after search results are updated
-    this._highlightResults();
+    self._runSearch(function() {
+      self.toggleResults();
+      self._highlightResults();
+    });
   },
 
   onSortChange: function(e, field) {
@@ -119,6 +124,7 @@ Balanced.SearchView = Balanced.View.extend({
 
   _highlightResults: function() {
     var query = $('#q').val();
+
     //  remove empty words
     $('#search .results tbody tr').highlightWords(query);
   },
@@ -127,10 +133,9 @@ Balanced.SearchView = Balanced.View.extend({
     this.get("controller").send("changeSortOrder", field, sortOrder);
   },
 
-    _runSearch: function() {
-        var callback = this._highlightResults;
-        this.get('controller').send('query', callback);
-    }
+  _runSearch: function(callback) {
+    this.get('controller').send('query', callback);
+  }
 });
 
 Balanced.SearchQueryInputView = Ember.TextField.extend({

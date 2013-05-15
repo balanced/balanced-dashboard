@@ -22,7 +22,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         $marketplaceNav.height(calculateHeight($content));
 
         $('iframe.auto-height').iframeAutoHeight({
-            debug: ENV.BALANCED.DEBUG,
+            debug: false, //ENV.BALANCED.DEBUG,
             minHeight: 400,
             triggerFunctions: [
                 onIframeTrigger
