@@ -1,0 +1,25 @@
+<div class="modal hide" id="edit-marketplace-info">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Edit marketplace info</h2>
+    </div>
+    <div class="modal-body">
+        <label>Name</label>
+        {{view Balanced.OneWayTextField sourceBinding="name" viewName="name" class="full"}}
+        
+        <label>Support email</label>
+        {{view Balanced.OneWayTextField sourceBinding="support_email_address" viewName="support_email_address" class="full"}}
+
+        <label>Domain URL</label>
+        {{view Balanced.OneWayTextField sourceBinding="domain_url" viewName="domain_url" class="full"}}
+
+        <label>Support phone number</label>
+        {{view Balanced.OneWayTextField sourceBinding="support_phone_number" viewName="support_phone_number" class="full"}}
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Save</button>
+    </div>
+    </form>
+</div>

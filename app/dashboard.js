@@ -84,6 +84,8 @@ require('app/views/forgot_password');
 require('app/views/embedded_iframe');
 require('app/views/search');
 require('app/views/date_picker');
+require('app/views/edit_marketplace_info_modal');
+require('app/views/one_way_text_field');
 
 /*
  * Controller layer.

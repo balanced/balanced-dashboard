@@ -6,7 +6,9 @@
         <section class="marketplace-info">
             <form class="form-horizontal edit-inline">
                 <header>
-                    <h3>Marketplace info <a href="#" class="edit">Edit</a></h3>
+                    <h3>Marketplace info 
+                        <a href="#edit-marketplace-info" class="edit" data-toggle="modal">Edit</a>
+                    </h3>
                 </header>
                 <div>
                     <div class="control-group">
@@ -305,3 +307,5 @@
         </section>
     </div>
 </div>
+
+{{view Balanced.EditMarketplaceInfoModalView contentBinding="model"}}
