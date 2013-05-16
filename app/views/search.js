@@ -123,10 +123,10 @@ Balanced.SearchView = Balanced.View.extend({
 
     if($q.val()) {
       $("body").addClass("overlaid");
-      $("#search-overlay").show();
+      $("#main-overlay").show();
     } else {
       $("body").removeClass("overlaid");
-      $("#search-overlay").fadeOut(250);
+      $("#main-overlay").fadeOut(250);
     }
   },
 
