@@ -120,6 +120,14 @@ Balanced.SearchView = Balanced.View.extend({
     var $searchArea = $('#search');
     var fn = $q.val() ? $searchArea.addClass : $searchArea.removeClass;
     fn.call($searchArea, this.resultsClass);
+
+    if($q.val()) {
+      $("body").addClass("overlaid");
+      $("#search-overlay").show();
+    } else {
+      $("body").removeClass("overlaid");
+      $("#search-overlay").fadeOut(250);
+    }
   },
 
   _highlightResults: function() {
