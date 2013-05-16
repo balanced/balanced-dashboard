@@ -10,7 +10,7 @@ Balanced.Card = Balanced.FundingInstrument.extend({
     is_bank_account: false,
 
     description: function () {
-        return '*** *** *** {0} ({1})'.format(
+        return '{0} ({1})'.format(
             this.get('last_four'),
             this.get('brand')
         );

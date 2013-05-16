@@ -2,7 +2,8 @@ Balanced.Model = Ember.Object.extend({
 
     human_readable_created_at: function () {
         if (this.get('created_at')) {
-            return Date.parseISO8601(this.get('created_at')).strftime('%b %d');
+            var format = '%e %b \'%y %l:%M %p';
+            return Date.parseISO8601(this.get('created_at')).strftime(format);
         } else {
             return "";
         }
