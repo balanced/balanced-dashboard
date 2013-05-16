@@ -1,5 +1,3 @@
-require('app/models/store');
-
 Balanced.User = Balanced.Model.extend({
 });
 
