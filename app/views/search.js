@@ -140,7 +140,7 @@ Balanced.SearchView = Balanced.View.extend({
     var query = $('#q').val();
 
     //  remove empty words
-    $('#search .results tbody tr:not(:last-child)').highlightWords(query);
+    $('#search .results tbody td:not(".load-more-results")').highlightWords(query);
   },
 
   _setSortOrder: function(field, sortOrder) {
