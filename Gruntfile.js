@@ -289,7 +289,7 @@ module.exports = function (grunt) {
                         dest: 'css/'
                     },
                     {
-                        src: 'static/images/**/*',
+                        src: 'dist/images/**/*',
                         dest: 'images/'
                     }
                 ]
