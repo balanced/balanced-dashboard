@@ -29,33 +29,31 @@ module.exports = function (grunt) {
             },
             libdev: {
                 src: [
-                    'static/lib/jquery-1.9.1.js',
+                    'static/lib/jquery-2.0.0.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
                     'static/lib/ember-1.0.0-rc.3.js',
                     'static/lib/ember-auth-6.0.3.js',
-                    'static/lib/underscore-min.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
-                    'static/lib/underscore-min.js'
+                    'static/lib/underscore-1.4.4.js'
                 ],
                 dest: 'build/js/lib-dev.js'
             },
             libprod: {
                 src: [
-                    'static/lib/jquery-1.9.1.js',
+                    'static/lib/jquery-2.0.0.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
                     'static/lib/ember-1.0.0-rc.3.js',
                     'static/lib/ember-auth-6.0.3.js',
-                    'static/lib/underscore-min.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
-                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.min.js',
-                    'static/lib/underscore-min.js'
+                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
+                    'static/lib/underscore-1.4.4.js'
                 ],
                 dest: 'build/js/lib-prod.js'
             },
