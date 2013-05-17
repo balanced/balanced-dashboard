@@ -119,7 +119,7 @@
                 {{#each bank_account in bank_accounts }}
                     <li {{bindAttr class="bank_account.can_debit:verified:unverified"}}>
                         <div class="icon">Bank account</div>
-                        <a href="#" class="icon-delete">delete</a>
+                        <a href="#" class="icon-delete" {{action deleteBankAccount bank_account}}>delete</a>
                         <div class="details">
                             <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
                             <span class="summary">{{ bank_account.description }}</span>
@@ -145,7 +145,7 @@
                 {{#each card in cards }}
                 <li>
                     <div class="icon">Credit card</div>
-                    <a href="#" class="icon-delete">delete</a>
+                    <a href="#" class="icon-delete" {{action deleteCard card}}>delete</a>
                     <div class="details">
                         <span class="name"><span class="label2a">{{ card.name }}</span></span>
                         <span class="summary">{{ card.description }}</span>

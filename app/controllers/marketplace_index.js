@@ -1,3 +1,11 @@
 Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
-  needs: ["marketplace"]
+  needs: ["marketplace"],
+
+  deleteCard: function(card) {
+  	card.delete();
+  },
+
+  deleteBankAccount: function(bankAccount) {
+  	bankAccount.delete();
+  }
 });
