@@ -5,17 +5,25 @@
         <h2>Edit marketplace info</h2>
     </div>
     <div class="modal-body">
-        <label>Name</label>
-        {{view Balanced.OneWayTextField sourceBinding="name" viewName="name" class="full"}}
+        <div {{bindAttr class=":control-group view.nameError:error"}}>
+            <label>Name</label>
+            {{view Balanced.OneWayTextField sourceBinding="name" viewName="name" class="full"}}
+        </div>
         
-        <label>Support email</label>
-        {{view Balanced.OneWayTextField sourceBinding="support_email_address" viewName="support_email_address" class="full"}}
+        <div {{bindAttr class=":control-group view.supportEmailAddressError:error"}}>
+            <label>Support email</label>
+            {{view Balanced.OneWayTextField sourceBinding="support_email_address" viewName="support_email_address" class="full"}}
+        </div>
 
-        <label>Domain URL</label>
-        {{view Balanced.OneWayTextField sourceBinding="domain_url" viewName="domain_url" class="full"}}
+        <div {{bindAttr class=":control-group view.domainUrlError:error"}}>
+            <label>Domain URL</label>
+            {{view Balanced.OneWayTextField sourceBinding="domain_url" viewName="domain_url" class="full"}}
+        </div>
 
-        <label>Support phone number</label>
-        {{view Balanced.OneWayTextField sourceBinding="support_phone_number" viewName="support_phone_number" class="full"}}
+        <div {{bindAttr class=":control-group view.supportPhoneNumberError:error"}}>
+            <label>Support phone number</label>
+            {{view Balanced.OneWayTextField sourceBinding="support_phone_number" viewName="support_phone_number" class="full"}}
+        </div>
     </div>
     <div class="modal-footer">
         <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
