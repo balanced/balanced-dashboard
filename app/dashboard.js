@@ -85,6 +85,7 @@ require('app/views/embedded_iframe');
 require('app/views/search');
 require('app/views/date_picker');
 require('app/views/edit_marketplace_info_modal');
+require('app/views/create_bank_account_modal');
 require('app/views/one_way_text_field');
 
 /*
