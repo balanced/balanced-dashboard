@@ -1,4 +1,12 @@
 Balanced.Model = Ember.Object.extend(Ember.Evented, {
+
+  isLoaded: false,
+  isSaving: false,
+  isDeleted: false,
+  isError: false,
+  isNew: false,
+  isValid: true,
+
     date_formats: {
         short: '%e %b \'%y %l:%M %p'
     },
@@ -11,19 +19,21 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
         }
     }.property('created_at'),
 
-  update: function(fields) {
+  update: function() {
     var self = this;
-    var data = {};
-    // TODO - would it be better to have a dirty fields list like ember data does?
-    _.each(fields, function(field) {
-      data[field] = self.get(field);
-    });
+    var data = this._propertiesMap();
+
+    self.set('isSaving', true);
+
     Balanced.Adapter.update(this.constructor, this.get('uri'), data, function(json) {
       self._updateFromJson(json);
 
+      self.set('isSaving', false);
+      self.set('isValid', true);
+      self.set('isError', false);
+
       self.trigger('didUpdate');
-      // TODO - handle errors
-    });
+    }, $.proxy(self._handleError, self));
   },
 
   _updateFromJson: function(json) {
@@ -37,6 +47,33 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
 
     this.setProperties(json);
     this.set('isLoaded', true);
+  },
+
+  _handleError: function(jqXHR, textStatus, errorThrown) {
+    this.set('isSaving', false);
+    if(jqXHR.status == 400) {
+      this.set('isValid', false);
+      this.trigger('becameInvalid', jqXHR.responseText);
+    } else {
+      this.set('isError', true);
+      this.trigger('becameError', jqXHR.responseText);
+    }
+  },
+
+  // Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
+  _propertiesMap: function(){
+    var props = {};
+    for(var prop in this){
+      if( this.hasOwnProperty(prop) 
+          && prop.indexOf('__ember') < 0
+          && prop.indexOf('_super') < 0
+          && Ember.typeOf(this.get(prop)) !== 'function'
+          && prop !== 'uri'
+      ){
+        props[prop] = this[prop];
+      }
+    }
+    return props;
   }
 });
 

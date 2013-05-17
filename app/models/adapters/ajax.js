@@ -10,9 +10,12 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     });
   },
 
-  update: function(type, uri, data, success) {
+  update: function(type, uri, data, success, error) {
+    settings = {};
+    settings.data = data;
+    settings.error = error;
     var host = this.getHostForType(type);
-    this.ajax(host + uri, "PUT", {data: data}).then(function(json) {
+    this.ajax(host + uri, "PUT", settings).then(function(json) {
       success(json);
     });
   },
