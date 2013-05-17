@@ -10,6 +10,16 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     });
   },
 
+  create: function(type, uri, data, success, error) {
+    settings = {};
+    settings.data = data;
+    settings.error = error;
+    var host = this.getHostForType(type);
+    this.ajax(host + uri, "POST", settings).then(function(json) {
+      success(json);
+    });
+  },
+
   update: function(type, uri, data, success, error) {
     settings = {};
     settings.data = data;

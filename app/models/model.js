@@ -4,7 +4,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
   isSaving: false,
   isDeleted: false,
   isError: false,
-  isNew: false,
+  isNew: true,
   isValid: true,
 
     date_formats: {
@@ -18,6 +18,24 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
             return "";
         }
     }.property('created_at'),
+
+  create: function() {
+    var self = this;
+    var data = this._propertiesMap();
+
+    self.set('isSaving', true);
+
+    Balanced.Adapter.create(this.constructor, this.get('creation_uri'), data, function(json) {
+      self._updateFromJson(json);
+
+      self.set('isNew', false);
+      self.set('isSaving', false);
+      self.set('isValid', true);
+      self.set('isError', false);
+
+      self.trigger('didCreate');
+    }, $.proxy(self._handleError, self));
+  },
 
   update: function() {
     var self = this;
@@ -108,6 +126,7 @@ Balanced.Model.reopenClass({
     // have a URI so this will change once it is loaded.
     var modelObject = modelClass.create({uri: uri});
     modelObject.set('isLoaded', false);
+    modelObject.set('isNew', false);
 
     // pull out the observer if it's present
     settings = settings || {};
