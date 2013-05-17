@@ -20,6 +20,15 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     });
   },
 
+  delete: function(type, uri, success, error) {
+    settings = {};
+    settings.error = error;
+    var host = this.getHostForType(type);
+    this.ajax(host + uri, "DELETE", settings).then(function(json) {
+      success(json);
+    });
+  },
+
   ajax: function(url, type, settings) {
     settings = settings || {};
     settings.url = url;

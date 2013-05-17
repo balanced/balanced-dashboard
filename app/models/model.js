@@ -36,6 +36,18 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
     }, $.proxy(self._handleError, self));
   },
 
+  delete: function() {
+    var self = this;
+
+    self.set('isDeleted', true);
+    self.set('isSaving', true);
+
+    Balanced.Adapter.delete(this.constructor, this.get('uri'), function(json) {
+      self.set('isSaving', false);
+      self.trigger('didDelete');
+    }, $.proxy(self._handleError, self));
+  },
+
   _updateFromJson: function(json) {
     if (!json) {
         return;
@@ -135,8 +147,16 @@ Balanced.Model.reopenClass({
             });
           }
           var typedObjects = _.map(json.items, function(item) {
-            return typeClass.create(item);
-          })
+            var typedObj = typeClass.create(item);
+
+            // if an object is deleted, remove it from the collection
+            typedObj.on('didDelete', function() {
+              modelObjectsArray.removeObject(typedObj);
+            });
+
+            return typedObj;
+          });
+
           modelObjectsArray.setObjects(typedObjects);
           
           modelObjectsArray.set('isLoaded', true);
