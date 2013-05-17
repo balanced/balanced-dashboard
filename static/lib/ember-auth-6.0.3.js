@@ -258,11 +258,17 @@ var get$ = Ember.get;
 var set$ = Ember.set;
 set$(get$(get$(Em, 'Auth'), 'Response'), 'Json', Ember.Object.extend({
   canonicalize: function (input) {
+    if (!input)
+      return {};
     switch (typeof input) {
     case 'object':
       return input;
     case 'string':
-      return JSON.parse(input);
+      if (input) {
+        return JSON.parse(input);
+      } else {
+        return '';
+      }
     default:
       throw 'Invalid JSON format';
     }
