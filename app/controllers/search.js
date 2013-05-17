@@ -106,6 +106,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
             marketplaceUri,
             {
                 query: query,
+                limit: 10,
                 minDate: this.get('minDate'),
                 maxDate: this.get('maxDate'),
                 sortField: this.get('sortField'),

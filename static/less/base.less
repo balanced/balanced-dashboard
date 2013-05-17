@@ -32,8 +32,10 @@ footer {
 
 a {
   color: @linkColor;
+
   &:hover {
     color: @linkColorHover;
+    text-decoration: none;
   }
   &:active {
     color: @linkColor;
@@ -123,22 +125,16 @@ table {
   th {
     text-align: left;
   }
-  .num {
-    text-align: right;
-  }
 }
 
 .loader {
   display: none;
-  position: absolute;
   background: @iconsFile -164px -484px no-repeat;
   width: 23px;
   height: 23px;
-  top: 20px;
-  right: 10px;
 
   &.loading {
-    display: inline;
+    display: block;
     -webkit-animation: rotation 2s infinite linear;
     -moz-animation: rotate 20s linear 0s infinite;
   }

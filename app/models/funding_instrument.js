@@ -25,10 +25,14 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
     is_bank_account: true,
 
     description: function () {
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+        }
+
         var acNum = this.get('account_number');
         return '{0} ({1})'.format(
             acNum.substr(acNum.length - 4),
-            this.get('bank_name')
+            toTitleCase(this.get('bank_name'))
         );
     }.property('account_number', 'bank_name')
 });

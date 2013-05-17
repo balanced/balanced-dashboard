@@ -15,6 +15,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
         Balanced.Auth.on('signInError', function () {
             self.set('loginError', true);
             var response = Balanced.Auth.get('jqxhr');
+
+
             if (response.status === 401) {
                 self.set('loginResponse', 'Invalid e-mail address or password.');
                 return;
@@ -28,6 +30,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
                 } else if (typeof responseText.password !== 'undefined') {
                     error = responseText.password[0].replace('This', 'Password');
                 }
+
                 if (error) {
                     self.set('loginResponse', error);
                 }

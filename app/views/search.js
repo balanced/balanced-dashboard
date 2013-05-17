@@ -26,6 +26,8 @@ Balanced.SearchView = Balanced.View.extend({
       // them so the body check will make sure it's legit.
       if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
         $('#search').removeClass(this.resultsClass);
+        $("body").removeClass("overlaid");
+        $("#main-overlay").fadeOut(250);
       }
   },
 
@@ -34,6 +36,10 @@ Balanced.SearchView = Balanced.View.extend({
     var $searchArea = $('#search');
     $searchArea.removeClass(this.resultsClass);
     $q.val('').focus();
+
+    $("body").removeClass("overlaid");
+    $("#main-overlay").fadeOut(250);
+
     this.resetSortOrder();
     this.resetDateTimePicker();
   },
@@ -134,7 +140,7 @@ Balanced.SearchView = Balanced.View.extend({
     var query = $('#q').val();
 
     //  remove empty words
-    $('#search .results tbody tr').highlightWords(query);
+    $('#search .results tbody tr:not(:last-child)').highlightWords(query);
   },
 
   _setSortOrder: function(field, sortOrder) {
@@ -157,17 +163,17 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
     $('#search').removeClass('focus');
   },
 
-  keyUp: function(e) {
-    this.get('parentView').onQueryChange(e);
-  },
+  keyUp: _.throttle(function(e) {
+    // Hide search results on escape key
+    if(e.keyCode === 27) {
+      $("#search").removeClass(this.get('parentView').resultsClass);
+      $("body").removeClass("overlaid");
+      $("#main-overlay").fadeOut(250);
+      return;
+    }
 
-  change: function(e) {
     this.get('parentView').onQueryChange(e);
-  },
-
-  click: function(e) {
-    this.get('parentView').onQueryChange(e);
-  }
+  }, 400)
 });
 
 Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
@@ -182,7 +188,6 @@ Balanced.SearchTypeView = Balanced.View.extend({
   tagName: 'a',
   attributeBindings: ['href'],
   href: '#',
-
 
   click: function(e) {
       e.preventDefault();

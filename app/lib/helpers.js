@@ -178,3 +178,7 @@ Balanced.Utils = {
         return uri.substring(3);
     }
 };
+
+Handlebars.registerHelper('log', function(input) {
+    console.log(input);
+});
