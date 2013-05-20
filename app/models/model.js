@@ -120,9 +120,6 @@ Balanced.Model.reopenClass({
 
     find: function (uri, settings) {
         var modelClass = this;
-        // this terrible hack ('#x') is for unit tests, we are firing an
-        // "onLoad" event by waiting for the uri to change. all API objects
-        // have a URI so this will change once it is loaded.
         var modelObject = modelClass.create({uri: uri});
         modelObject.set('isLoaded', false);
         modelObject.set('isNew', false);
@@ -135,11 +132,10 @@ Balanced.Model.reopenClass({
             // worrying about any race conditions
             modelObject.addObserver('isLoaded', observer);
         }
-        delete settings.observer;
 
         Balanced.Adapter.get(modelClass, uri, function (json) {
             modelObject._updateFromJson(json);
-            modelObject.trigger('didLoad');
+            modelObject.set('isLoaded', true);
         });
 
         return modelObject;
@@ -180,7 +176,8 @@ Balanced.Model.reopenClass({
                     });
 
                     modelObjectsArray.setObjects(typedObjects);
-
+                    //  TODO: which of these is correct?
+                    modelObject.trigger('didLoad');
                     modelObjectsArray.set('isLoaded', true);
                 });
             }

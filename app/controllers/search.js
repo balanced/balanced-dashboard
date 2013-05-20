@@ -75,8 +75,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
             // console.log("SEARCH => " + getParamByName(search.uri, "q"));
             // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
             // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
-
-            if(+(requestTimeStamp) < +(_this.get('latestRequestTimeStamp'))) {
+            if (+(requestTimeStamp) < +(_this.get('latestRequestTimeStamp'))) {
                 ////
                 // Debugging
                 ////
