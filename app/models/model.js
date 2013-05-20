@@ -176,8 +176,6 @@ Balanced.Model.reopenClass({
                     });
 
                     modelObjectsArray.setObjects(typedObjects);
-                    //  TODO: which of these is correct?
-                    modelObject.trigger('didLoad');
                     modelObjectsArray.set('isLoaded', true);
                 });
             }
