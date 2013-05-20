@@ -47,7 +47,10 @@ require('app/lib/migration');
  * doesn't communicate with a server, plain
  * Ember.Objects will do.
  */
-require('app/models/store');
+require('app/models/adapters/base');
+require('app/models/adapters/ajax');
+require('app/models/adapters/fixture');
+require('app/models/adapter_config');
 require('app/models/model');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
@@ -88,7 +91,6 @@ require('app/controllers/_base');
 require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
-require('app/controllers/account');
 require('app/controllers/login');
 require('app/controllers/forgotPassword');
 require('app/controllers/search');
