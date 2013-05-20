@@ -1,4 +1,12 @@
-Balanced.Model = Ember.Object.extend({
+Balanced.Model = Ember.Object.extend(Ember.Evented, {
+
+  isLoaded: false,
+  isSaving: false,
+  isDeleted: false,
+  isError: false,
+  isNew: true,
+  isValid: true,
+
     date_formats: {
         short: '%e %b \'%y %l:%M %p'
     },
@@ -9,8 +17,94 @@ Balanced.Model = Ember.Object.extend({
         } else {
             return "";
         }
-    }.property('created_at')
+    }.property('created_at'),
 
+  create: function() {
+    var self = this;
+    var data = this._propertiesMap();
+
+    self.set('isSaving', true);
+
+    Balanced.Adapter.create(this.constructor, this.get('creation_uri'), data, function(json) {
+      self._updateFromJson(json);
+
+      self.set('isNew', false);
+      self.set('isSaving', false);
+      self.set('isValid', true);
+      self.set('isError', false);
+
+      self.trigger('didCreate');
+    }, $.proxy(self._handleError, self));
+  },
+
+  update: function() {
+    var self = this;
+    var data = this._propertiesMap();
+
+    self.set('isSaving', true);
+
+    Balanced.Adapter.update(this.constructor, this.get('uri'), data, function(json) {
+      self._updateFromJson(json);
+
+      self.set('isSaving', false);
+      self.set('isValid', true);
+      self.set('isError', false);
+
+      self.trigger('didUpdate');
+    }, $.proxy(self._handleError, self));
+  },
+
+  delete: function() {
+    var self = this;
+
+    self.set('isDeleted', true);
+    self.set('isSaving', true);
+
+    Balanced.Adapter.delete(this.constructor, this.get('uri'), function(json) {
+      self.set('isSaving', false);
+      self.trigger('didDelete');
+    }, $.proxy(self._handleError, self));
+  },
+
+  _updateFromJson: function(json) {
+    if (!json) {
+        return;
+    }
+
+    if(this.constructor.deserialize) {
+      this.constructor.deserialize(json);
+    }
+
+    this.setProperties(json);
+    this.set('isLoaded', true);
+  },
+
+  _handleError: function(jqXHR, textStatus, errorThrown) {
+    this.set('isSaving', false);
+    if(jqXHR.status == 400) {
+      this.set('isValid', false);
+      this.trigger('becameInvalid', jqXHR.responseText);
+    } else {
+      this.set('isError', true);
+      this.trigger('becameError', jqXHR.responseText);
+    }
+  },
+
+  // Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
+  _propertiesMap: function(){
+    var props = {};
+    for(var prop in this){
+      if( this.hasOwnProperty(prop) 
+          && prop.indexOf('__ember') < 0
+          && prop.indexOf('_super') < 0
+          && Ember.typeOf(this.get(prop)) !== 'function'
+          && prop !== 'uri'
+      ){
+        props[prop] = this[prop];
+      }
+    }
+    return props;
+  }
 });
 
 Balanced.Model.reopenClass({
@@ -25,74 +119,70 @@ Balanced.Model.reopenClass({
      */
     deserialize: null,
 
-    /* host - override this with a function that returns the host to be used to fetch the URI
-     *
-     * Example:
-     * Balanced.Test.reopenClass({
-     *   host: function(uri) {
-     *     return "my.domain.com";
-     *   }
-     * });
-     */
-    host: null,
+  find: function(uri, settings) {
+    var modelClass = this;
+    // this terrible hack ('#x') is for unit tests, we are firing an
+    // "onLoad" event by waiting for the uri to change. all API objects
+    // have a URI so this will change once it is loaded.
+    var modelObject = modelClass.create({uri: uri});
+    modelObject.set('isLoaded', false);
+    modelObject.set('isNew', false);
 
-    find: function (uri, settings) {
-        var modelClass = this;
-        // this terrible hack ('#x') is for unit tests, we are firing an
-        // "onLoad" event by waiting for the uri to change. all API objects
-        // have a URI so this will change once it is loaded.
-        var modelObject = modelClass.create({uri: uri});
-        modelObject.set('isLoaded', false);
-
-        // pull out the observer if it's present
-        settings = settings || {};
-        var observer = settings.observer;
-        if (observer) {
-            // this allows us to subscribe to events on this object without
-            // worrying about any race conditions
-            modelObject.addObserver('isLoaded', observer);
-        }
-        delete settings.observer;
-
-        function load(json) {
-            if (!json) {
-                return;
-            }
-            if (modelClass.deserialize) {
-                modelClass.deserialize(json);
-            }
-            modelObject.setProperties(json);
-            modelObject.set('isLoaded', true);
-        }
-
-        if (this.fixureMap) {
-            // if the fixtures have been set up, must be testing this class, so fetch locally
-            var json = this.fixureMap[uri];
-            load(json);
-        } else {
-            // if no fixtures defined, use AJAX to fetch from the server
-            var host = ENV.BALANCED.API;
-            if (this.host) {
-                host = this.host(uri);
-            }
-            this.ajax(host + uri, 'GET', settings).then(load);
-        }
-
-        return modelObject;
-    },
-
-    constructFixtures: function (fixtureArray) {
-        this.fixureMap = {};
-        _.each(fixtureArray, function (fixture) {
-            this.fixureMap[fixture.uri] = fixture;
-        }, this);
-    },
-
-    ajax: function (url, type, settings) {
-        settings = settings || {};
-        settings.url = url;
-        settings.type = type;
-        settings.context = this;
-        return Balanced.Auth.send(settings);
+    // pull out the observer if it's present
+    settings = settings || {};
+    var observer = settings.observer;
+    if (observer) {
+        // this allows us to subscribe to events on this object without
+        // worrying about any race conditions
+        modelObject.addObserver('isLoaded', observer);
     }
+    delete settings.observer;
+
+    Balanced.Adapter.get(modelClass, uri, function(json) {
+      modelObject._updateFromJson(json);
+      modelObject.trigger('didLoad');
+    });
+
+    return modelObject;
+  },
+
+  hasMany: function(type, uriPropertyName) {
+    return Ember.computed(function() {
+      // allow dependencies to be set using strings instead of class statements so we don't have ordering issues when declaring our models
+      var typeClass = type;
+      if(typeof type === "string") {
+        typeClass = eval(type);
+      }
+
+      var modelObjectsArray = Ember.A();
+      modelObjectsArray.set('isLoaded', false);
+
+      // if the URI property hasn't been set yet, don't bother trying to load it
+      if(this.get(uriPropertyName)) {
+        Balanced.Adapter.get(typeClass, this.get(uriPropertyName), function(json) {
+          if(typeClass.deserialize) {
+            _.each(json.items, function(item) {
+              typeClass.deserialize(item);
+            });
+          }
+          var typedObjects = _.map(json.items, function(item) {
+            var typedObj = typeClass.create(item);
+
+            // if an object is deleted, remove it from the collection
+            typedObj.on('didDelete', function() {
+              modelObjectsArray.removeObject(typedObj);
+            });
+
+            return typedObj;
+          });
+
+          modelObjectsArray.setObjects(typedObjects);
+          
+          modelObjectsArray.set('isLoaded', true);
+        });
+      }
+
+      return modelObjectsArray;
+    }).property(uriPropertyName);
+  }
 });

@@ -1,4 +1,4 @@
-Balanced.Marketplace.constructFixtures([{
+Balanced.Adapter.addFixtures([{
     uri: "/v1/marketplaces/TEST-MP1",
     name: "Test Marketplace"
 }, {
