@@ -1,4 +1,10 @@
 
+[class^="icon"] {
+  &.right {
+    float: right;
+  }
+}
+
 .icon-delete {
   position: absolute;
   top: 0;
@@ -27,5 +33,13 @@
   &:hover {
     background-color: rgba(0, 0, 0, 0.6);
     color: rgba(255, 255, 255, 0.2);
+  }
+}
+.icon-download {
+  .cssicon(@iconsFile, 30px, 30px);
+  background-position: -10px -580px;
+  background-color: rgb(165, 163, 163);
+  &:hover {
+    background-color: rgb(100, 100, 100);
   }
 }

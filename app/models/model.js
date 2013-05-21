@@ -24,15 +24,16 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
         var data = this._propertiesMap();
 
         self.set('isSaving', true);
-
-        Balanced.Adapter.create(this.constructor, this.get('creation_uri'), data, function (json) {
+        var creationUri = this.get('creation_uri');
+        if (typeof creationUri === 'function') {
+            creationUri = creationUri();
+        }
+        Balanced.Adapter.create(this.constructor, creationUri, data, function (json) {
             self._updateFromJson(json);
-
             self.set('isNew', false);
             self.set('isSaving', false);
             self.set('isValid', true);
             self.set('isError', false);
-
             self.trigger('didCreate');
         }, $.proxy(self._handleError, self));
     },
@@ -136,6 +137,7 @@ Balanced.Model.reopenClass({
         Balanced.Adapter.get(modelClass, uri, function (json) {
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
+            modelObject.trigger('didLoad');
         });
 
         return modelObject;

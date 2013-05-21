@@ -48,6 +48,9 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
 
     updateHashFromIframeLocation: function (iframePath) {
         var transitionToDest = iframePath;
+        if (!transitionToDest) {
+            return;
+        }
         if (transitionToDest.indexOf('?') !== -1) {
             transitionToDest = transitionToDest.substring(0, transitionToDest.indexOf('?'));
         }
