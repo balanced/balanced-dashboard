@@ -68,13 +68,13 @@
                     <div class="control-group">
                         <label class="control-label">Name</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.name }} </span>
+                            <span class="inline-label"> {{ owner_account.customer.name }} </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Email</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.email_address }} </span>
+                            <span class="inline-label"> {{ owner_account.customer.email }} </span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -98,7 +98,7 @@
                     <div class="control-group">
                         <label class="control-label">Phone #</label>
                         <div class="controls">
-                            <span class="inline-label"> TODO </span>
+                            <span class="inline-label"> {{ owner_account.customer.phone }} </span>
                         </div>
                     </div>
                 </div>
