@@ -27,7 +27,6 @@ Balanced.SearchView = Balanced.View.extend({
       if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
         $('#search').removeClass(this.resultsClass);
         $("body").removeClass("overlaid");
-        $("#main-overlay").fadeOut(250);
       }
   },
 
@@ -38,8 +37,10 @@ Balanced.SearchView = Balanced.View.extend({
     $q.val('').focus();
 
     $("body").removeClass("overlaid");
-    $("#main-overlay").fadeOut(250);
+    this.resetHeader();
+  },
 
+  resetHeader: function() {
     this.resetSortOrder();
     this.resetDateTimePicker();
   },
@@ -98,27 +99,38 @@ Balanced.SearchView = Balanced.View.extend({
 
   onChangeSearchType: function(e, searchType) {
     var $t = $(e.currentTarget);
-      var typeToClass = {
-          'transaction': 'transactions',
-          'account': 'accounts',
-          'funding_instrument': 'funding-instruments'
-      };
-      var typeToSelect = typeToClass[searchType] || searchType;
+
+    ////
+    // Don't re-run query if already on selected
+    ////
+    if($t.closest('li').hasClass("selected")) {
+      return;
+    }
+
+    var typeToClass = {
+        'transaction': 'transactions',
+        'account': 'accounts',
+        'funding_instrument': 'funding-instruments'
+    };
+    var typeToSelect = typeToClass[searchType] || searchType;
 
     $t.closest('nav').find(' > li').removeClass('selected');
     $t.closest('li').addClass('selected');
     $('#search .items').removeClass('selected');
     $('#search .items.' + typeToSelect).addClass('selected');
-      this.get('controller').send('changeTypeFilter', searchType);
-      this._runSearch();
+
+    this.get('controller').send('changeTypeFilter', searchType);
+    this._runSearch();
   },
 
   filterResultType: function(e, filter, label) {
     var $t = $(e.currentTarget);
-    $t.closest('ul').find('li').removeClass('selected').closest('.filter').find('> a').text(label || $t.text());
-    $t.closest('li').addClass('selected');
-      this.get('controller').send('changeTypeFilter', filter);
-      this._runSearch();
+
+    $t.parents("nav").find("li.selected").removeClass("selected");
+    $t.parents("li.filter").addClass("selected");
+
+    this.get('controller').send('changeTypeFilter', filter);
+    this._runSearch();
   },
 
   toggleResults: function() {
@@ -129,10 +141,8 @@ Balanced.SearchView = Balanced.View.extend({
 
     if($q.val()) {
       $("body").addClass("overlaid");
-      $("#main-overlay").show();
     } else {
       $("body").removeClass("overlaid");
-      $("#main-overlay").fadeOut(250);
     }
   },
 
@@ -168,7 +178,6 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
     if(e.keyCode === 27) {
       $("#search").removeClass(this.get('parentView').resultsClass);
       $("body").removeClass("overlaid");
-      $("#main-overlay").fadeOut(250);
       return;
     }
 
@@ -190,7 +199,7 @@ Balanced.SearchTypeView = Balanced.View.extend({
   href: '#',
 
   click: function(e) {
-      e.preventDefault();
+    e.preventDefault();
     this.get('parentView').onChangeSearchType(e, this.searchType);
   }
 });
@@ -201,7 +210,7 @@ Balanced.SearchFilterResultView = Balanced.View.extend({
   href: '#',
 
   click: function(e) {
-      e.preventDefault();
+    e.preventDefault();
     this.get('parentView').filterResultType(e, this.filter, this.label);
   }
 });

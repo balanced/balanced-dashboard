@@ -176,9 +176,9 @@ Balanced.Utils = {
     uriToDashboardFragment: function (uri) {
         // have to strip off the API version
         return uri.substring(3);
+    },
+
+    toTitleCase: function(str) {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 };
-
-Handlebars.registerHelper('log', function(input) {
-    console.log(input);
-});

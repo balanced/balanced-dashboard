@@ -23,7 +23,26 @@ body {
 
   &.overlaid {
     overflow: hidden;
+
+    #main-overlay {
+      display: block;
+    }
   }
+}
+
+#main-overlay {
+  display: none;
+  position: absolute;
+  top: @searchBarHeight;
+  background-color: rgba(255, 255, 255, 0.9);
+
+  /* Not a fan of doing this, but width 100% does not work because of the right margin */
+  width: @mainWidth;
+
+  height: 100%;
+  min-height: 100%;
+  z-index: 10;
+  margin: auto;
 }
 
 footer {

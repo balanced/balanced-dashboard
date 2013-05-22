@@ -58,6 +58,7 @@ Balanced.Model.reopenClass({
             if (!json) {
                 return;
             }
+
             if (modelClass.deserialize) {
                 modelClass.deserialize(json);
             }

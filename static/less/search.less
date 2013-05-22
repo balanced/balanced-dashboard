@@ -14,21 +14,6 @@
 
 @datepickerBackground: rgb(217, 216, 213);
 
-#main-overlay {
-  display: none;
-  position: absolute;
-  top: @searchBarHeight;
-  background-color: rgba(255, 255, 255, 0.9);
-
-  /* Not a fan of doing this, but width 100% does not work because of the right margin */
-  width: @mainWidth;
-
-  height: 100%;
-  min-height: 100%;
-  z-index: 10;
-  margin: auto;
-}
-
 #search {
   position: relative;
   // search icon
@@ -104,6 +89,9 @@
     left: -172px;
     border: @searchBorder;
     border-top: 0;
+    overflow-x: auto;
+    max-height: 572px;
+
     header {
       border-top: 1px solid @marketplaceNavColor;
       border-bottom: 1px solid @marketplaceNavColor;
@@ -132,10 +120,20 @@
             color: #000;
           }
         }
-        &.selected, &:hover {
+        &:hover {
           border-bottom: @searchBorder;
           > a {
             color: #000;
+          }
+        }
+        &.selected {
+          border-bottom: @searchBorder;
+          > a {
+            color: #000;
+
+            &:hover {
+              cursor: default;
+            }
           }
         }
         &.disabled {
@@ -166,6 +164,8 @@
         //        background: @menuBackground;
         text-align: left;
         margin: 0;
+        top: 17px;
+
         li {
           margin: 0;
           padding: 0;
@@ -339,6 +339,36 @@
       thead {
 
       }
+      tfoot {
+        tr {
+          border-top: 1px solid #aaa;
+        }
+        td {
+          &.load-more-results {
+            a {
+              display: block;
+              text-align: center;
+              cursor: pointer;
+
+              &:hover {
+                &:before {
+                  background: @iconsFile -65px -485px no-repeat;
+                }
+              }
+
+              &:before {
+                content: ' ';
+                height: 25px;
+                width: 25px;
+                position: absolute;
+                background: @iconsFile -15px -485px no-repeat;
+                margin-left: -25px;
+                margin-top: -2px;
+              }
+            }
+          }
+        }
+      }
       th, td {
         float: none;
         &:first-child {
@@ -359,29 +389,7 @@
           td {
             &.no-results {
               font-style: italic;
-            }
-
-            &.load-more-results {
-              a {
-                display: block;
-                text-align: center;
-
-                &:hover {
-                  &:before {
-                    background: @iconsFile -65px -485px no-repeat;
-                  }
-                }
-
-                &:before {
-                  content: ' ';
-                  height: 25px;
-                  width: 25px;
-                  position: absolute;
-                  background: @iconsFile -15px -485px no-repeat;
-                  margin-left: -25px;
-                  margin-top: -2px;
-                }
-              }
+              cursor: default;
             }
           }
         }
