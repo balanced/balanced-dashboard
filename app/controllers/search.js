@@ -123,14 +123,14 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         ////
         // onSearch Callback
         ////
-        var requestTimeStamp = Balanced.Helpers.getParamByName(result.uri, "requestTimeStamp");
+        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, "requestTimeStamp");
 
 
         ////
         // Debugging
         ////
-        // console.log("SEARCH => " + getParamByName(search.uri, "q"));
-        // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
+        // console.log("SEARCH => " + Balanced.Utils.getParamByName(search.uri, "q"));
+        // console.log("LASTEST TIMESTAMP => " + this.get('latestRequestTimeStamp'));
         // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
 
         if (+(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {

@@ -1,8 +1,8 @@
+//  time in ms to throttle between key presses for search
+Balanced.THROTTLE_TIME = 400;
+
 Balanced.SearchView = Balanced.View.extend({
   templateName: 'search',
-
-    //  time in ms to throttle between key presses for search
-    THROTTLE_TIME: 400,
 
   resultsClass: 'with-results',
   sorts: ['unsorted', 'ascending', 'descending'],
@@ -185,7 +185,7 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
     }
 
     this.get('parentView').onQueryChange(e);
-  }, Balanced.SearchView.THROTTLE_TIME)
+  }, Balanced.THROTTLE_TIME)
 });
 
 Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({

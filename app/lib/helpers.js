@@ -168,12 +168,6 @@ Balanced.Helpers = (function () {
     return {
         init: function () {
             $('time[data-format]').each(parseDateTime);
-        },
-        getParamByName: function (uri, name) {
-            name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(uri);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
     };
 })();
@@ -188,5 +182,12 @@ Balanced.Utils = {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    },
+
+    getParamByName: function (uri, name) {
+        name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(uri);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 };

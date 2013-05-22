@@ -1,11 +1,15 @@
 module("Search");
 
 test("search is there", function () {
+    $("#marketplaces ul a:contains('Test Marketplace')").click();
+
     var $search = $('#search');
     equal($search.length, 1);
 });
 
 test("drops down when there is content", function () {
+    $("#marketplaces ul a:contains('Test Marketplace')").click();
+
     var $q = $('#q');
     var $search = $('#search');
 
