@@ -23,7 +23,26 @@ body {
 
   &.overlaid {
     overflow: hidden;
+
+    #main-overlay {
+      display: block;
+    }
   }
+}
+
+#main-overlay {
+  display: none;
+  position: absolute;
+  top: @searchBarHeight;
+  background-color: @modalBodyBackgroundColor;
+
+  /* Not a fan of doing this, but width 100% does not work because of the right margin */
+  width: @mainWidth;
+
+  height: 100%;
+  min-height: 100%;
+  z-index: 10;
+  margin: auto;
 }
 
 footer {
@@ -32,8 +51,10 @@ footer {
 
 a {
   color: @linkColor;
+
   &:hover {
     color: @linkColorHover;
+    text-decoration: none;
   }
   &:active {
     color: @linkColor;
@@ -123,22 +144,16 @@ table {
   th {
     text-align: left;
   }
-  .num {
-    text-align: right;
-  }
 }
 
 .loader {
   display: none;
-  position: absolute;
   background: @iconsFile -164px -484px no-repeat;
   width: 23px;
   height: 23px;
-  top: 20px;
-  right: 10px;
 
   &.loading {
-    display: inline;
+    display: block;
     -webkit-animation: rotation 2s infinite linear;
     -moz-animation: rotate 20s linear 0s infinite;
   }
