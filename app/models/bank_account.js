@@ -1,4 +1,6 @@
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
+    uri: '/v1/bank_accounts',
+
     type_name: function() {
         return 'Bank Account';
     }.property(),
