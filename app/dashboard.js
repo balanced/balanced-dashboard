@@ -65,6 +65,7 @@ require('app/models/refund');
 require('app/models/funding_instrument');
 require('app/models/search_query');
 require('app/models/callback');
+require('app/models/customer');
 
 require('app/lib/auth');
 

@@ -1,6 +1,7 @@
 Balanced.Model = Ember.Object.extend(Ember.Evented, {
 
     requiresMarketplaceParamForCreate: true,
+    requiresMarketplaceParamForFind: false,
 
     isLoaded: false,
     isSaving: false,
@@ -27,9 +28,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
 
         self.set('isSaving', true);
 
-        if(this.requiresMarketplaceParamForCreate && Balanced.currentMarketplace) {
-            var appendedUri = this.get('uri') + '?marketplace=' + Balanced.currentMarketplace.get('id');
-            this.set('uri', appendedUri);
+        if(this.requiresMarketplaceParamForCreate) {
+            this.set('uri', Balanced.Model._appendMarketplaceAuthParam(this.get('uri')));
         }
 
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
@@ -141,7 +141,12 @@ Balanced.Model.reopenClass({
             modelObject.addObserver('isLoaded', observer);
         }
 
-        Balanced.Adapter.get(modelClass, uri, function (json) {
+        var authedUri = uri;
+        if(modelObject.requiresMarketplaceParamForFind) {
+            authedUri = Balanced.Model._appendMarketplaceAuthParam(uri);
+        }
+
+        Balanced.Adapter.get(modelClass, authedUri, function (json) {
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
             modelObject.trigger('didLoad');
@@ -226,5 +231,13 @@ Balanced.Model.reopenClass({
         }
 
         return typeClass;
+    },
+
+    _appendMarketplaceAuthParam: function(uri) {
+        if(Balanced.currentMarketplace) {
+            return uri + '?marketplace=' + Balanced.currentMarketplace.get('id');
+        } else {
+            return uri;
+        }
     }
 });
