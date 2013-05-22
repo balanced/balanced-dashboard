@@ -186,21 +186,26 @@ Balanced.Model.reopenClass({
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
                 var populateModels = function(json) {
-                    var typedObjects = _.map(json.items, function (item) {
-                        var typedObj = typeClass.create();
-                        typedObj.set('isNew', false);
-                        typedObj._updateFromJson(item);
+                    if(json && json.items) {
+                        var typedObjects = _.map(json.items, function (item) {
+                            var typedObj = typeClass.create();
+                            typedObj.set('isNew', false);
+                            typedObj._updateFromJson(item);
 
-                        // if an object is deleted, remove it from the collection
-                        typedObj.on('didDelete', function () {
-                            modelObjectsArray.removeObject(typedObj);
+                            // if an object is deleted, remove it from the collection
+                            typedObj.on('didDelete', function () {
+                                modelObjectsArray.removeObject(typedObj);
+                            });
+
+                            return typedObj;
                         });
 
-                        return typedObj;
-                    });
-
-                    modelObjectsArray.setObjects(typedObjects);
-                    modelObjectsArray.set('isLoaded', true);
+                        modelObjectsArray.setObjects(typedObjects);
+                        modelObjectsArray.set('isLoaded', true);
+                    } else {
+                        console.log("Expecting items array in JSON response for hasMany, recieved: " + json);
+                        modelObjectsArray.set('isError', true);
+                    }
                 };
 
                 if(settings.embedded) {
