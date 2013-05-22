@@ -1,4 +1,4 @@
-Balanced.Auth = Ember.Auth.create({
+var defaultBalancedAuthOptions = {
     baseUrl: ENV.BALANCED.AUTH,
     signInEndPoint: '/logins',
     signOutEndPoint: '/logins/current',
@@ -24,4 +24,6 @@ Balanced.Auth = Ember.Auth.create({
         period: 1,
         autoRecall: true
     }
-});
+};
+
+Balanced.Auth = Ember.Auth.create(_.extend(defaultBalancedAuthOptions, window.BalancedAuthOptions));
