@@ -15,18 +15,18 @@ Balanced.CreateBankAccountModalView = Balanced.View.extend({
     var self = this;
 
     var bankAccount = Balanced.BankAccount.create({
-      creation_uri: '/v1/bank_accounts',
       name: this.get('name.value'),
       account_number: this.get('account_number.value'),
       routing_number: this.get('routing_number.value'),
       type: this.get('type.value')
-    })
+    });
 
     bankAccount.one('didCreate', function() {
-      $('#edit-marketplace-info').modal('hide');
-    })
+      $('#create-bank-account').modal('hide');
+      self.get('marketplace').get('bank_accounts').addObject(bankAccount);
+    });
     bankAccount.on('becameInvalid', function(json) {
-      console.log("Error creating " + json);
+      console.log("Error creating bank account: " + json);
     });
     bankAccount.create();
   }
