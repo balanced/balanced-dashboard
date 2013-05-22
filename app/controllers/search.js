@@ -8,7 +8,6 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     maxDate: null,
     sortField: null,
     sortOrder: null,
-    limit: null,
     isLoading: false,
 
     getLabel: function (labelMapping, acceptedTypes, type) {
@@ -135,6 +134,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         ////
         var requestTimeStamp = getParamByName(result.uri, "requestTimeStamp");
 
+
         ////
         // Debugging
         ////
@@ -142,7 +142,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
         // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
 
-        if(+(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
+        if (+(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
             ////
             // Debugging
             ////

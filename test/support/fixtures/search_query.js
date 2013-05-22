@@ -1,4 +1,4 @@
-Balanced.SearchQuery.constructFixtures([
+Balanced.Adapter.addFixtures([
     {
         "first_uri": "/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/search?q=t&limit=10&offset=0",
         "_type": "page",

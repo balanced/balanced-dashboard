@@ -21,13 +21,13 @@ Balanced.SearchQuery.reopenClass({
                 'bank_account': Balanced.BankAccount
             };
 
-        function itemFilter (map) {
+        function itemFilter(map) {
             return function (item) {
                 return Object.keys(map).indexOf(item._type) > -1;
             };
         }
 
-        function itemMap (map) {
+        function itemMap(map) {
             return function (item) {
                 var instance = map[item._type];
                 if (instance) {

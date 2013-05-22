@@ -1,3 +1,11 @@
+////
+// Global
+//
+// Where is the best place for these?
+///
+var ESCAPE_KEY = 27;
+var THROTTLE_TIME = 400;
+
 Balanced.SearchView = Balanced.View.extend({
   templateName: 'search',
 
@@ -150,7 +158,7 @@ Balanced.SearchView = Balanced.View.extend({
     var query = $('#q').val();
 
     //  remove empty words
-    $('#search .results tbody td:not(".load-more-results")').highlightWords(query);
+    $('#search .results tbody').highlightWords(query);
   },
 
   _setSortOrder: function(field, sortOrder) {
@@ -175,14 +183,14 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
 
   keyUp: _.throttle(function(e) {
     // Hide search results on escape key
-    if(e.keyCode === 27) {
+    if(e.keyCode === ESCAPE_KEY) {
       $("#search").removeClass(this.get('parentView').resultsClass);
       $("body").removeClass("overlaid");
       return;
     }
 
     this.get('parentView').onQueryChange(e);
-  }, 400)
+  }, THROTTLE_TIME)
 });
 
 Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
