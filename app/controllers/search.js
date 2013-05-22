@@ -188,7 +188,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
     totalFundingInstrumentsHeader: function () {
         if (this.get('content')) {
-            return "Cards & Bank Accounts (" + (this.get('content').get('total_funding_instruments') + ")";
+            return "Cards & Bank Accounts (" + this.get('content').get('total_funding_instruments') + ")";
         } else {
             return "Cards & Bank Accounts (0)";
         }
