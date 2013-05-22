@@ -24,6 +24,7 @@ Balanced.CreateBankAccountModalView = Balanced.View.extend({
     bankAccount.one('didCreate', function() {
       $('#create-bank-account').modal('hide');
       self.get('marketplace').get('bank_accounts').addObject(bankAccount);
+      self.get('marketplace').get('owner_account').get('bank_accounts').addObject(bankAccount);
     });
     bankAccount.on('becameInvalid', function(json) {
       console.log("Error creating bank account: " + json);

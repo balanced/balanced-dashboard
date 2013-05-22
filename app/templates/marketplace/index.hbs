@@ -116,7 +116,7 @@
                 </h3>
             </header>
             <ul class="sidebar-items">
-                {{#each bank_account in bank_accounts }}
+                {{#each bank_account in owner_account.bank_accounts }}
                     <li {{bindAttr class="bank_account.can_debit:verified:unverified"}}>
                         <div class="icon">Bank account</div>
                         <a href="#" class="icon-delete" {{action deleteBankAccount bank_account}}>delete</a>
@@ -142,7 +142,7 @@
                 </h3>
             </header>
             <ul class="sidebar-items">
-                {{#each card in cards }}
+                {{#each card in owner_account.cards }}
                 <li>
                     <div class="icon">Credit card</div>
                     <a href="#" class="icon-delete" {{action deleteCard card}}>delete</a>
