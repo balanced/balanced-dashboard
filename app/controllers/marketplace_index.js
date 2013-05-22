@@ -7,5 +7,9 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
 
   deleteBankAccount: function(bankAccount) {
   	bankAccount.delete();
+  },
+
+  deleteCallback: function(callback) {
+  	callback.delete();
   }
 });
