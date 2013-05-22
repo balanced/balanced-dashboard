@@ -39,7 +39,14 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         settings.data = data;
         settings.error = error;
         var host = this.getHostForType(type);
-        this.ajax(host + uri, 'PUT', settings).then(function (json) {
+
+        // HACK this goes away when we have oAuth
+        var authedUri = uri;
+        if(type.requiresMarketplaceParamForUpdate) {
+            authedUri = this._appendMarketplaceAuthParam(uri);
+        }
+
+        this.ajax(host + authedUri, 'PUT', settings).then(function (json) {
             success(json);
         });
     },
@@ -48,7 +55,14 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         var settings = {};
         settings.error = error;
         var host = this.getHostForType(type);
-        this.ajax(host + uri, 'DELETE', settings).then(function (json) {
+
+        // HACK this goes away when we have oAuth
+        var authedUri = uri;
+        if(type.requiresMarketplaceParamForDelete) {
+            authedUri = this._appendMarketplaceAuthParam(uri);
+        }
+
+        this.ajax(host + authedUri, 'DELETE', settings).then(function (json) {
             success(json);
         });
     },

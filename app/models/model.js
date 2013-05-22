@@ -119,8 +119,10 @@ Balanced.Model.reopenClass({
      */
     deserialize: null,
 
-    requiresMarketplaceParamForCreate: true,
     requiresMarketplaceParamForFind: false,
+    requiresMarketplaceParamForCreate: true,
+    requiresMarketplaceParamForUpdate: true,
+    requiresMarketplaceParamForDelete: true,
 
     find: function (uri, settings) {
         var modelClass = this;
