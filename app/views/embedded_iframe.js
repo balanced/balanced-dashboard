@@ -13,7 +13,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             if (this.resizer) {
                 return;
             }
-            this.resizer = setInterval(function() {
+            this.resizer = setInterval(function () {
                 resizeFunction(iframe);
             }, 1000);
         }
@@ -31,7 +31,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             triggerFunctions: [
                 onIframeTrigger
             ],
-            callback: function(callbackObject) {
+            callback: function (callbackObject) {
                 // Reset the left hand navigation to match the height of #content
                 $marketplaceNav.height(calculateHeight($content));
             }
@@ -64,7 +64,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         }
     },
 
-    willDestroyElement: function() {
+    willDestroyElement: function () {
         if (this.resizer) {
             clearInterval(this.resizer);
         }
