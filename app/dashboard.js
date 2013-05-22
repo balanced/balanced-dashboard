@@ -64,6 +64,7 @@ require('app/models/hold');
 require('app/models/refund');
 require('app/models/funding_instrument');
 require('app/models/search_query');
+require('app/models/callback');
 
 require('app/lib/auth');
 

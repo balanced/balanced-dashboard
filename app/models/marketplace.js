@@ -3,11 +3,16 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
     debits: Balanced.Model.hasMany('Balanced.Debit', 'debits_uri'),
     refunds: Balanced.Model.hasMany('Balanced.Refund', 'refunds_uri'),
     holds: Balanced.Model.hasMany('Balanced.Hold', 'holds_uri'),
+    callbacks: Balanced.Model.hasMany('Balanced.Callback', 'callbacks_uri'),
 
     bank_accounts: Balanced.Model.hasMany('Balanced.BankAccount', 'bank_accounts_uri'),
     cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
 
-    owner_account: Balanced.Model.belongsTo('Balanced.Account', 'owner_account_json', {embedded: true})
+    owner_account: Balanced.Model.belongsTo('Balanced.Account', 'owner_account_json', {embedded: true}),
+
+    callbacks_uri: function() {
+        return this.get('uri') + "/callbacks";
+    }.property('uri')
 });
 
 Balanced.Marketplace.reopenClass({
