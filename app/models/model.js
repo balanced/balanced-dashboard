@@ -144,6 +144,7 @@ Balanced.Model.reopenClass({
         Balanced.Adapter.get(modelClass, uri, function (json) {
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
+            modelObject.trigger('didLoad');
         });
 
         return modelObject;
