@@ -20,6 +20,7 @@
     "test": true,
     "module": true,
     "equal": true,
+    "deepEqual": true,
     "notEqual": true,
     "ok": true,
     "sinon": true,
@@ -29,6 +30,7 @@
     "Balanced": true,
     "DS": true,
     "ENV": true,
-    "_": true
+    "_": true,
+    "Testing": true
   }
 }
