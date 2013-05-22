@@ -1,4 +1,7 @@
 Balanced.Account = Balanced.Model.extend({
+    bank_accounts: Balanced.Model.hasMany('Balanced.BankAccount', 'bank_accounts_uri'),
+    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
+
     web_uri: function() {
         return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
     }.property('uri'),

@@ -150,31 +150,43 @@ Balanced.Model.reopenClass({
         return modelObject;
     },
 
-    hasMany: function (type, uriPropertyName) {
+    belongsTo: function (type, propertyName, settings) {
+        var modelClass = this;
         return Ember.computed(function () {
-            // allow dependencies to be set using strings instead of class
-            // statements so we don't have ordering issues when declaring our
-            // models
-            var typeClass = type;
-            //  HACK: this gets around the jshint eval warning but let's clean this up.
-            var a = eval;
-            if (typeof type === 'string') {
-                typeClass = a(type);
+            settings = settings || {};
+            var typeClass = modelClass._typeClass(type);
+
+            // if the property hasn't been set yet, don't bother trying to load it
+            if (this.get(propertyName)) {
+                if(settings.embedded) {
+                    var embeddedObj = typeClass.create();
+                    embeddedObj.set('isNew', false);
+                    embeddedObj._updateFromJson(this.get(propertyName));
+                    return embeddedObj;
+                } else {
+                    return typeClass.find(this.get(propertyName));
+                }
+            } else {
+                return null;
             }
+        }).property(propertyName);
+    },
+
+    hasMany: function (type, propertyName, settings) {
+        var modelClass = this;
+        return Ember.computed(function () {
+            settings = settings || {};
+            var typeClass = modelClass._typeClass(type);
 
             var modelObjectsArray = Ember.A();
-            modelObjectsArray.set('isLoaded', false);
 
-            // if the URI property hasn't been set yet, don't bother trying to load it
-            if (this.get(uriPropertyName)) {
-                Balanced.Adapter.get(typeClass, this.get(uriPropertyName), function (json) {
-                    if (typeClass.deserialize) {
-                        _.each(json.items, function (item) {
-                            typeClass.deserialize(item);
-                        });
-                    }
+            // if the property hasn't been set yet, don't bother trying to load it
+            if (this.get(propertyName)) {
+                var populateModels = function(json) {
                     var typedObjects = _.map(json.items, function (item) {
-                        var typedObj = typeClass.create(item);
+                        var typedObj = typeClass.create();
+                        typedObj.set('isNew', false);
+                        typedObj._updateFromJson(item);
 
                         // if an object is deleted, remove it from the collection
                         typedObj.on('didDelete', function () {
@@ -186,10 +198,33 @@ Balanced.Model.reopenClass({
 
                     modelObjectsArray.setObjects(typedObjects);
                     modelObjectsArray.set('isLoaded', true);
-                });
+                };
+
+                if(settings.embedded) {
+                    populateModels(this.get(propertyName));
+                } else {
+                    modelObjectsArray.set('isLoaded', false);
+                    Balanced.Adapter.get(typeClass, this.get(propertyName), function (json) {
+                        populateModels(json);
+                    });
+                }
             }
 
             return modelObjectsArray;
-        }).property(uriPropertyName);
+        }).property(propertyName);
+    },
+
+    _typeClass: function(type) {
+        // allow dependencies to be set using strings instead of class
+        // statements so we don't have ordering issues when declaring our
+        // models
+        var typeClass = type;
+        //  HACK: this gets around the jshint eval warning but let's clean this up.
+        var a = eval;
+        if (typeof type === 'string') {
+            typeClass = a(type);
+        }
+
+        return typeClass;
     }
 });
