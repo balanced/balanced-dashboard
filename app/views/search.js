@@ -1,13 +1,8 @@
-////
-// Global
-//
-// Where is the best place for these?
-///
-var ESCAPE_KEY = 27;
-var THROTTLE_TIME = 400;
-
 Balanced.SearchView = Balanced.View.extend({
   templateName: 'search',
+
+    //  time in ms to throttle between key presses for search
+    THROTTLE_TIME: 400,
 
   resultsClass: 'with-results',
   sorts: ['unsorted', 'ascending', 'descending'],
@@ -183,14 +178,14 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
 
   keyUp: _.throttle(function(e) {
     // Hide search results on escape key
-    if(e.keyCode === ESCAPE_KEY) {
+    if(e.keyCode === Balanced.KEYS.ESCAPE) {
       $("#search").removeClass(this.get('parentView').resultsClass);
       $("body").removeClass("overlaid");
       return;
     }
 
     this.get('parentView').onQueryChange(e);
-  }, THROTTLE_TIME)
+  }, Balanced.SearchView.THROTTLE_TIME)
 });
 
 Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({

@@ -50,13 +50,13 @@ Balanced.SearchQuery.reopenClass({
         json.total_bank_accounts = json.counts.bank_account;
         json.total_cards = json.counts.card;
 
-        if(json.transactions.length > 0) {
+        if (json.transactions.length > 0) {
             json.total_transactions = json.total;
             json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
-        } else if(json.accounts.length > 0) {
+        } else if (json.accounts.length > 0) {
             json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
             json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
-        } else if(json.funding_instruments.length > 0) {
+        } else if (json.funding_instruments.length > 0) {
             json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
             json.total_funding_instruments = json.total;
         }
@@ -97,7 +97,7 @@ Balanced.SearchQuery.reopenClass({
             searchParams.sort = params.sortField + ',' + params.sortOrder;
         }
 
-        var queryString = $.map(searchParams, function (v, k) {
+        var queryString = $.map(searchParams,function (v, k) {
             return k + '=' + v;
         }).join('&');
 

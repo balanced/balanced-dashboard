@@ -4,6 +4,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     search: '',
     latestRequestTimeStamp: null,
 
+    limit: 10,
     minDate: null,
     maxDate: null,
     sortField: null,
@@ -79,7 +80,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
         Balanced.SearchQuery.search(marketplaceUri, {
             query: query,
-            limit: 10,
+            limit: this.get('limit'),
             minDate: this.get('minDate'),
             maxDate: this.get('maxDate'),
             sortField: this.get('sortField'),
@@ -98,7 +99,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
         var _this = this;
 
-        var search = Balanced.SearchQuery.find(this.get('content.next_uri'), {
+        Balanced.SearchQuery.find(this.get('content.next_uri'), {
             observer: function(result) {
                 var exisitingTransactions = _this.get('content.transactions');
                 var existingAccounts = _this.get('content.accounts');
@@ -120,19 +121,9 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
     onSearchCallback: function(result, callback) {
         ////
-        // Helper function
-        ////
-        function getParamByName(uri, name) {
-            name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(uri);
-            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
-
-        ////
         // onSearch Callback
         ////
-        var requestTimeStamp = getParamByName(result.uri, "requestTimeStamp");
+        var requestTimeStamp = Balanced.Helpers.getParamByName(result.uri, "requestTimeStamp");
 
 
         ////
@@ -197,7 +188,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
     totalFundingInstrumentsHeader: function () {
         if (this.get('content')) {
-            return "Cards & Bank Accounts (" + this.get('content').get('total_funding_instruments') + ")";
+            return "Cards & Bank Accounts (" + (this.get('content').get('total_funding_instruments') + ")";
         } else {
             return "Cards & Bank Accounts (0)";
         }
