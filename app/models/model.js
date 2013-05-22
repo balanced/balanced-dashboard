@@ -1,5 +1,7 @@
 Balanced.Model = Ember.Object.extend(Ember.Evented, {
 
+    requiresMarketplaceParamForCreate: true,
+
     isLoaded: false,
     isSaving: false,
     isDeleted: false,
@@ -25,7 +27,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
 
         self.set('isSaving', true);
 
-        Balanced.Adapter.create(this.constructor, this.get('creation_uri'), data, function (json) {
+        if(this.requiresMarketplaceParamForCreate && Balanced.currentMarketplace) {
+            var appendedUri = this.get('uri') + '?marketplace=' + Balanced.currentMarketplace.get('id');
+            this.set('uri', appendedUri);
+        }
+
+        Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
 
             self.set('isNew', false);
