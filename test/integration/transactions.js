@@ -13,5 +13,8 @@ test('can visit page', function () {
     $title.find('a').click();
 
     var modal = $('#download-confirm:visible');
+    console.log('dl conf');
+    console.log($title.find('a').text());
+    console.log($('#download-confirm').length);
     equal(modal.length, 1);
 });
