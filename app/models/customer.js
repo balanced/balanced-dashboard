@@ -1,3 +1,7 @@
 Balanced.Customer = Balanced.Model.extend({
-	requiresMarketplaceParamForFind: true
+	
+});
+
+Balanced.Customer.reopenClass({
+    requiresMarketplaceParamForFind: true
 });

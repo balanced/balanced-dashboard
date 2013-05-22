@@ -1,8 +1,5 @@
 Balanced.Model = Ember.Object.extend(Ember.Evented, {
 
-    requiresMarketplaceParamForCreate: true,
-    requiresMarketplaceParamForFind: false,
-
     isLoaded: false,
     isSaving: false,
     isDeleted: false,
@@ -27,10 +24,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
         var data = this._propertiesMap();
 
         self.set('isSaving', true);
-
-        if(this.requiresMarketplaceParamForCreate) {
-            this.set('uri', Balanced.Model._appendMarketplaceAuthParam(this.get('uri')));
-        }
 
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
@@ -125,6 +118,9 @@ Balanced.Model.reopenClass({
      * });
      */
     deserialize: null,
+
+    requiresMarketplaceParamForCreate: true,
+    requiresMarketplaceParamForFind: false,
 
     find: function (uri, settings) {
         var modelClass = this;
@@ -231,13 +227,5 @@ Balanced.Model.reopenClass({
         }
 
         return typeClass;
-    },
-
-    _appendMarketplaceAuthParam: function(uri) {
-        if(Balanced.currentMarketplace) {
-            return uri + '?marketplace=' + Balanced.currentMarketplace.get('id');
-        } else {
-            return uri;
-        }
     }
 });
