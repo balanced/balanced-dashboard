@@ -1,8 +1,7 @@
 module('Transactions');
 
 test('can visit page', function () {
-    //  select a marketplace
-    $('#marketplaces ul a:contains("Test Marketplace")').click();
+    Testing.selectMarketplaceByName();
     // click the activity link
     $('#marketplace-nav .activity a').click();
 
