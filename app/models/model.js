@@ -98,7 +98,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
                 prop.indexOf('__ember') < 0 &&
                 prop.indexOf('_super') < 0 &&
                 Ember.typeOf(this.get(prop)) !== 'function' &&
-                prop !== 'uri') {
+                prop !== 'uri' &&
+                prop !== 'id') {
                 props[prop] = this[prop];
             }
         }

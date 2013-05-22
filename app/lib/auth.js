@@ -8,7 +8,7 @@ Balanced.Auth = Ember.Auth.create({
     userModel: 'Balanced.User',
 
     // We're using the cookie, so Ember Auth doesn't need to worry about the token
-    requestTokenLocation: 'none',
+    tokenLocation: 'none',
     sessionAdapter: 'cookie',
     modules: ['authRedirectable', 'actionRedirectable', 'rememberable'],
     authRedirectable: {
