@@ -188,5 +188,19 @@ Balanced.Utils = {
         return str.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
+    },
+
+    /*
+     * Inserts or updates a single query string parameter
+     */
+    updateQueryStringParameter: function(uri, key, value) {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf("?") > -1 ? "&" : "?";
+        if (uri.match(re)) {
+            return uri.replace(re, "$1" + key + "=" + value + "$2");
+        }
+        else {
+            return uri + separator + key + "=" + value;
+        }
     }
 };

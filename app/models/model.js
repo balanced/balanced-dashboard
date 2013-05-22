@@ -119,11 +119,6 @@ Balanced.Model.reopenClass({
      */
     deserialize: null,
 
-    requiresMarketplaceParamForFind: false,
-    requiresMarketplaceParamForCreate: true,
-    requiresMarketplaceParamForUpdate: true,
-    requiresMarketplaceParamForDelete: true,
-
     find: function (uri, settings) {
         var modelClass = this;
         var modelObject = modelClass.create({uri: uri});
@@ -139,12 +134,7 @@ Balanced.Model.reopenClass({
             modelObject.addObserver('isLoaded', observer);
         }
 
-        var authedUri = uri;
-        if(modelObject.requiresMarketplaceParamForFind) {
-            authedUri = Balanced.Model._appendMarketplaceAuthParam(uri);
-        }
-
-        Balanced.Adapter.get(modelClass, authedUri, function (json) {
+        Balanced.Adapter.get(modelClass, uri, function (json) {
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
             modelObject.trigger('didLoad');

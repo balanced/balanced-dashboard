@@ -5,14 +5,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
     get: function (type, uri, success) {
         var host = this.getHostForType(type);
-
-        // HACK this goes away when we have oAuth
-        var authedUri = uri;
-        if(type.requiresMarketplaceParamForFind) {
-            authedUri = this._appendMarketplaceAuthParam(uri);
-        }
-
-        this.ajax(host + authedUri, 'GET').then(function (json) {
+        this.ajax(host + uri, 'GET').then(function (json) {
             success(json);
         });
     },
@@ -22,14 +15,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         settings.data = data;
         settings.error = error;
         var host = this.getHostForType(type);
-
-        // HACK this goes away when we have oAuth
-        var authedUri = uri;
-        if(type.requiresMarketplaceParamForCreate) {
-            authedUri = this._appendMarketplaceAuthParam(uri);
-        }
-
-        this.ajax(host + authedUri, 'POST', settings).then(function (json) {
+        this.ajax(host + uri, 'POST', settings).then(function (json) {
             success(json);
         });
     },
@@ -39,14 +25,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         settings.data = data;
         settings.error = error;
         var host = this.getHostForType(type);
-
-        // HACK this goes away when we have oAuth
-        var authedUri = uri;
-        if(type.requiresMarketplaceParamForUpdate) {
-            authedUri = this._appendMarketplaceAuthParam(uri);
-        }
-
-        this.ajax(host + authedUri, 'PUT', settings).then(function (json) {
+        this.ajax(host + uri, 'PUT', settings).then(function (json) {
             success(json);
         });
     },
@@ -55,21 +34,15 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         var settings = {};
         settings.error = error;
         var host = this.getHostForType(type);
-
-        // HACK this goes away when we have oAuth
-        var authedUri = uri;
-        if(type.requiresMarketplaceParamForDelete) {
-            authedUri = this._appendMarketplaceAuthParam(uri);
-        }
-
-        this.ajax(host + authedUri, 'DELETE', settings).then(function (json) {
+        this.ajax(host + uri, 'DELETE', settings).then(function (json) {
             success(json);
         });
     },
 
     ajax: function (url, type, settings) {
         settings = settings || {};
-        settings.url = url;
+        // HACK this goes away when we have oAuth
+        settings.url = this._appendMarketplaceAuthParam(url);
         settings.type = type;
         settings.context = this;
         return Balanced.Auth.send(settings);
@@ -88,8 +61,13 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     },
 
     _appendMarketplaceAuthParam: function(uri) {
-        if(Balanced.currentMarketplace) {
-            return uri + '?marketplace=' + Balanced.currentMarketplace.get('id');
+        if(uri.indexOf('/users/') === -1 
+            && !( /\/v.+\/marketplaces\/.+/.test(uri) )
+            && Balanced.currentMarketplace) {
+
+            var authedUri = Balanced.Utils.updateQueryStringParameter(uri, "marketplace", Balanced.currentMarketplace.get('id'));
+
+            return authedUri;
         } else {
             return uri;
         }
