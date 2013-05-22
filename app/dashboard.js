@@ -39,6 +39,7 @@ require('app/lib/helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
+require('app/lib/variables');
 
 /*
  * Model layer.

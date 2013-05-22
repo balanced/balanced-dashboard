@@ -14,21 +14,6 @@
 
 @datepickerBackground: rgb(217, 216, 213);
 
-#search-overlay {
-  display: none;
-  position: absolute;
-  top: @searchBarHeight;
-  background-color: rgba(255, 255, 255, 0.9);
-
-  /* Not a fan of doing this, but width 100% does not work because of the right margin */
-  width: @mainWidth;
-
-  height: 100%;
-  min-height: 100%;
-  z-index: 10;
-  margin: auto;
-}
-
 #search {
   position: relative;
   // search icon
@@ -64,7 +49,7 @@
     .close {
       display: block;
       right: 10px;
-      top: 20px;
+      top: 18px;
       height: 20px;
       padding-top: 2px;
       background-color: rgb(116, 175, 183);
@@ -80,9 +65,20 @@
     .loader {
       position: absolute;
       right: 10px;
-      top: 20px;
+      top: 18px;
     }
   }
+
+  .loader {
+    position: absolute;
+    top: 18px;
+    right: 10px;
+
+    &.loading {
+      display: inline;
+    }
+  }
+
   .results {
     z-index: 20;
     display: none;
@@ -93,6 +89,9 @@
     left: -172px;
     border: @searchBorder;
     border-top: 0;
+    overflow-x: auto;
+    max-height: 572px;
+
     header {
       border-top: 1px solid @marketplaceNavColor;
       border-bottom: 1px solid @marketplaceNavColor;
@@ -121,10 +120,20 @@
             color: #000;
           }
         }
-        &.selected, &:hover {
+        &:hover {
           border-bottom: @searchBorder;
           > a {
             color: #000;
+          }
+        }
+        &.selected {
+          border-bottom: @searchBorder;
+          > a {
+            color: #000;
+
+            &:hover {
+              cursor: default;
+            }
           }
         }
         &.disabled {
@@ -149,12 +158,14 @@
         color: #737373;
       }
       .dropdown-menu {
-        border: 1px solid @black;
+        border: 5px solid @black;
         border-radius: 0;
         box-shadow: none;
         //        background: @menuBackground;
         text-align: left;
         margin: 0;
+        top: 17px;
+
         li {
           margin: 0;
           padding: 0;
@@ -194,7 +205,7 @@
       }
       .caret {
         position: absolute;
-        top: 14px;
+        top: 13px;
         right: 22px;
         border-top-color: @searchTimingColor;
       }
@@ -204,6 +215,8 @@
         width: 120px + 330px + @searchBorderWidth * 8;
         background-color: @searchBodyBackground;
         right: -@searchBorderWidth;
+        padding: 0px;
+
         .set-times {
           // wtf: where did this extra 2 px come from
           height: 202px;
@@ -258,7 +271,7 @@
           position: absolute;
           top: 110px;
           right: 0;
-          margin: 10px;
+          margin: 10px 20px 10px 10px;
         }
         .before {
           float: right;
@@ -326,6 +339,36 @@
       thead {
 
       }
+      tfoot {
+        tr {
+          border-top: 1px solid #aaa;
+        }
+        td {
+          &.load-more-results {
+            a {
+              display: block;
+              text-align: center;
+              cursor: pointer;
+
+              &:hover {
+                &:before {
+                  background: @iconsFile -65px -485px no-repeat;
+                }
+              }
+
+              &:before {
+                content: ' ';
+                height: 25px;
+                width: 25px;
+                position: absolute;
+                background: @iconsFile -15px -485px no-repeat;
+                margin-left: -25px;
+                margin-top: -2px;
+              }
+            }
+          }
+        }
+      }
       th, td {
         float: none;
         &:first-child {
@@ -346,6 +389,7 @@
           td {
             &.no-results {
               font-style: italic;
+              cursor: default;
             }
           }
         }
@@ -399,7 +443,6 @@
   .sortable {
     &:hover {
       cursor: pointer;
-
     }
     &:after {
       display: inline-block;

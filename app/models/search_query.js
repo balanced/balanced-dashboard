@@ -7,7 +7,6 @@ Balanced.SearchQuery = Balanced.Model.extend({
 
 Balanced.SearchQuery.reopenClass({
     deserialize: function (json) {
-
         var accountMap = {
                 'account': Balanced.Account
             },
@@ -37,11 +36,10 @@ Balanced.SearchQuery.reopenClass({
             };
         }
 
-        json.accounts = _.chain(json.items).filter(itemFilter(accountMap)).map(itemMap(accountMap)).value();
         json.transactions = _.chain(json.items).filter(itemFilter(transactionMap)).map(itemMap(transactionMap)).value();
+        json.accounts = _.chain(json.items).filter(itemFilter(accountMap)).map(itemMap(accountMap)).value();
         json.funding_instruments = _.chain(json.items).filter(itemFilter(fundingInstrumentMap)).map(itemMap(fundingInstrumentMap)).value();
 
-        json.total_transactions = json.counts.refund + json.counts.credit + json.counts.debit + json.counts.hold;
         json.total_credits = json.counts.credit;
         json.total_debits = json.counts.debit;
         json.total_holds = json.counts.hold;
@@ -49,20 +47,33 @@ Balanced.SearchQuery.reopenClass({
 
         json.total_accounts = json.counts.account;
 
-        json.total_funding_instruments = json.counts.bank_account + json.counts.card;
         json.total_bank_accounts = json.counts.bank_account;
         json.total_cards = json.counts.card;
+
+        if (json.transactions.length > 0) {
+            json.total_transactions = json.total;
+            json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
+        } else if (json.accounts.length > 0) {
+            json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
+            json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
+        } else if (json.funding_instruments.length > 0) {
+            json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
+            json.total_funding_instruments = json.total;
+        }
     },
     search: function (marketplaceUri, params, options) {
         var uri = marketplaceUri + '/search?';
         var searchParams = {
             limit: params.limit || 10,
             offset: params.offset || 0,
-            sortOrder: params.sortOrder || 'desc',
-            sortField: params.sortField || 'created_at',
+            sortOrder: params.sortOrder || '',
+            sortField: params.sortField || '',
             q: params.query,
             requestTimeStamp: params.requestTimeStamp
         };
+        if (params.sortOrder && params.sortField && !params.sort) {
+            searchParams.sort = [params.sortField, params.sortOrder].join(',');
+        }
         if (params.minDate) {
             searchParams['created_at[>]'] = params.minDate.toISOString();
         }
@@ -86,7 +97,7 @@ Balanced.SearchQuery.reopenClass({
             searchParams.sort = params.sortField + ',' + params.sortOrder;
         }
 
-        var queryString = $.map(searchParams, function (v, k) {
+        var queryString = $.map(searchParams,function (v, k) {
             return k + '=' + v;
         }).join('&');
 
