@@ -1,4 +1,8 @@
-module("Search");
+module("Search", {
+    setup: function () {
+        Testing.selectMarketplaceByName();
+    }
+});
 
 test("search is there", function (assert) {
     var $search = $('#search');
@@ -28,7 +32,6 @@ test('clicking close resets the search', function (assert) {
 });
 
 test('can filter by type', function (assert) {
-    Testing.selectMarketplaceByName();
     Testing.runSearch('t');
 
     $('#search .results header li.accounts > a').trigger($.Event('click'));
@@ -37,7 +40,6 @@ test('can filter by type', function (assert) {
 });
 
 test('running a search returns results', function (assert) {
-    Testing.selectMarketplaceByName();
     Testing.runSearch('t');
 
     assert.equal($('#search .results header li.transactions > a').text().trim(), 'Transactions (18)');

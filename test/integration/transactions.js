@@ -1,17 +1,24 @@
-module('Transactions');
+module('Transactions', {
+    setup: function () {
+        Testing.selectMarketplaceByName();
+    }, teardown: function () {
+
+    }
+});
 
 test('can visit page', function (assert) {
-    Testing.selectMarketplaceByName();
     // click the activity link
     $('#marketplace-nav .activity a').click();
 
-    //  check the page title has been selected
     var $title = $('#content h1');
 
-    assert.notEqual($title.text().indexOf('Transactions'), -1);
-    assert.notEqual($title.text().indexOf('Download'), -1);
+    assert.notEqual($title.text().indexOf('Transactions'), -1,
+        'Title is incorrect');
+    assert.notEqual($title.text().indexOf('Download'), -1,
+        'Download link not in title');
     $title.find('a').click();
 
     var modal = $('#download-confirm:visible');
-    assert.equal(modal.length, 1);
+    assert.equal(modal.length, 1,
+        'Download modal not visible after clicking download button');
 });
