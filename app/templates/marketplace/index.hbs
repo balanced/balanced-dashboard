@@ -9,7 +9,7 @@
             <form class="form-horizontal edit-inline">
                 <header>
                     <h3>Marketplace info 
-                        <a href="#edit-marketplace-info" class="edit" data-toggle="modal">Edit</a>
+                        <a href="#" class="edit" {{action openEditMarketplaceInfoModal target="view"}}>Edit</a>
                     </h3>
                 </header>
                 <div>
@@ -298,6 +298,6 @@
 {{/if}}
 
 {{view Balanced.CreateBankAccountModalView marketplaceBinding="model"}}
-{{view Balanced.EditMarketplaceInfoModalView contentBinding="model"}}
+{{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.AddCallbackModalView marketplaceBinding="model"}}
 {{view Balanced.DeleteCallbackModalView}}

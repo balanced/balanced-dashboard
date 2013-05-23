@@ -79,6 +79,7 @@ require('app/lib/auth');
  * programming to do.
  */
 require('app/views/_base');
+require('app/views/base_form');
 require('app/views/login');
 require('app/views/forgot_password');
 require('app/views/embedded_iframe');
@@ -86,6 +87,7 @@ require('app/views/search');
 require('app/views/date_picker');
 require('app/views/one_way_text_field');
 
+require('app/views/marketplace/marketplace_index');
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/create_bank_account_modal');
 require('app/views/marketplace/add_callback_modal');
