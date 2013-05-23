@@ -22,10 +22,6 @@ window.Balanced = Ember.Application.create({
     }
 });
 
-if (window.TESTING) {
-    window.Balanced.deferReadiness();
-}
-
 window.Balanced.onLoad = function () {
     //  initialize anything that needs to be done on application load
     Balanced.Helpers.init();

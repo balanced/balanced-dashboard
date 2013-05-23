@@ -1,14 +1,15 @@
 module('Transactions', {
     setup: function () {
         Testing.selectMarketplaceByName();
+
+        // click the activity link
+        $('#marketplace-nav .activity a').click();
     }, teardown: function () {
 
     }
 });
 
 test('can visit page', function (assert) {
-    // click the activity link
-    $('#marketplace-nav .activity a').click();
 
     var $title = $('#content h1');
 
@@ -16,6 +17,12 @@ test('can visit page', function (assert) {
         'Title is incorrect');
     assert.notEqual($title.text().indexOf('Download'), -1,
         'Download link not in title');
+
+});
+
+test('can view download modal', function (assert) {
+    var $title = $('#content h1');
+
     $title.find('a').click();
 
     var modal = $('#download-confirm:visible');
