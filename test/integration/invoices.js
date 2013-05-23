@@ -1,6 +1,6 @@
 module('Invoices');
 
-test('can visit page', function () {
+test('can visit page', function (assert) {
     Testing.selectMarketplaceByName();
 
     // click the activity link
@@ -9,5 +9,5 @@ test('can visit page', function () {
     //  check the page title has been selected
     var $title = $('#content h1');
 
-    notEqual($title.text().indexOf('Invoices'), -1);
+    assert.notEqual($title.text().indexOf('Invoices'), -1);
 });

@@ -16,10 +16,10 @@ if (document.domain.indexOf('balancedpayments.com') >= 0) {
 }
 
 Balanced.MigrationUtils = {
-  EMBEDDED_QUERY_APPEND: "?embedded=1",
+    EMBEDDED_QUERY_APPEND: "?embedded=1",
 
-  convertApiUriIntoWebUri: function(apiUri) {
-    // have to strip off the API version
-    return ENV.BALANCED.WWW + apiUri.substring(3);
-  }
+    convertApiUriIntoWebUri: function (apiUri) {
+        // have to strip off the API version
+        return ENV.BALANCED.WWW + apiUri.substring(3);
+    }
 };

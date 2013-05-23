@@ -19,10 +19,6 @@
   "globals": {
     "test": true,
     "module": true,
-    "equal": true,
-    "deepEqual": true,
-    "notEqual": true,
-    "ok": true,
     "sinon": true,
     "require": true,
     "Ember": true,
