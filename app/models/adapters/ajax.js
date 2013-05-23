@@ -41,7 +41,8 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
     ajax: function (url, type, settings) {
         settings = settings || {};
-        settings.url = url;
+        // HACK this goes away when we have oAuth
+        settings.url = this._appendMarketplaceAuthParam(url);
         settings.type = type;
         settings.context = this;
         return Balanced.Auth.send(settings);
@@ -57,5 +58,18 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
             host = this.hostsByType[type];
         }
         return host;
+    },
+
+    _appendMarketplaceAuthParam: function (uri) {
+        if (uri.indexOf('/users/') === -1 &&
+            !( /\/v.+\/marketplaces\/.+/.test(uri) ) &&
+            Balanced.currentMarketplace) {
+
+            var authedUri = Balanced.Utils.updateQueryStringParameter(uri, "marketplace", Balanced.currentMarketplace.get('id'));
+
+            return authedUri;
+        } else {
+            return uri;
+        }
     }
 });

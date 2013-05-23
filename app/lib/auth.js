@@ -1,4 +1,4 @@
-Balanced.Auth = Ember.Auth.create({
+var defaultBalancedAuthOptions = {
     baseUrl: ENV.BALANCED.AUTH,
     signInEndPoint: '/logins',
     signOutEndPoint: '/logins/current',
@@ -8,7 +8,7 @@ Balanced.Auth = Ember.Auth.create({
     userModel: 'Balanced.User',
 
     // We're using the cookie, so Ember Auth doesn't need to worry about the token
-    requestTokenLocation: 'none',
+    tokenLocation: 'none',
     sessionAdapter: 'cookie',
     modules: ['authRedirectable', 'actionRedirectable', 'rememberable'],
     authRedirectable: {
@@ -24,4 +24,6 @@ Balanced.Auth = Ember.Auth.create({
         period: 1,
         autoRecall: true
     }
-});
+};
+
+Balanced.Auth = Ember.Auth.create(_.extend(defaultBalancedAuthOptions, window.BalancedAuthOptions));

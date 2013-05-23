@@ -198,6 +198,10 @@ module.exports = function (grunt) {
                     {
                         src: 'test/support/testconfig.js',
                         dest: 'build/test/js/testconfig.js'
+                    },
+                    {
+                        src: 'test/support/testconfig-before.js',
+                        dest: 'build/test/js/testconfig-before.js'
                     }
                 ]
             }
@@ -318,7 +322,7 @@ module.exports = function (grunt) {
                 'test/**/*.js',
                 '!static/lib/*.*',
                 '!test/support/lib/*.*',
-                '!test/support/testconfig.js'
+                '!test/support/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc'
