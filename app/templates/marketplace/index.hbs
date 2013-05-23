@@ -165,7 +165,7 @@
         <section class="webhook-info">
             <header>
                 <h3>Webhooks
-                    <a href="#" class="add">Add a webhook</a>
+                    <a href="#add-callback" class="add" data-toggle="modal">Add a webhook</a>
                 </h3>
             </header>
             <ul class="webhooks">
@@ -178,7 +178,7 @@
             		-->
 
 	                    <div class="summary">
-	                        <a href="#" class="icon-delete" {{action deleteCallback callback}}>delete</a>
+	                        <a href="#" class="icon-delete" {{action promptToDeleteCallback callback}}>delete</a>
 	                        <div class="expand"><span class="caret"></span></div>
 	                        <div class="state">pending</div>
 	                        <div class="action"><button class="btn">Test</button></div>
@@ -299,3 +299,5 @@
 
 {{view Balanced.CreateBankAccountModalView marketplaceBinding="model"}}
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model"}}
+{{view Balanced.AddCallbackModalView marketplaceBinding="model"}}
+{{view Balanced.DeleteCallbackModalView}}

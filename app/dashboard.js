@@ -88,6 +88,8 @@ require('app/views/one_way_text_field');
 
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/create_bank_account_modal');
+require('app/views/marketplace/add_callback_modal');
+require('app/views/marketplace/delete_callback_modal');
 
 /*
  * Controller layer.
