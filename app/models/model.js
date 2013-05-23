@@ -66,6 +66,16 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
         }, $.proxy(self._handleError, self));
     },
 
+    refresh: function() {
+        var self = this;
+        this.set('isLoaded', false);
+        Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
+            self._updateFromJson(json);
+            self.set('isLoaded', true);
+            self.trigger('didLoad');
+        });
+    },
+
     _updateFromJson: function (json) {
         if (!json) {
             return;
