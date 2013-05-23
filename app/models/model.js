@@ -66,7 +66,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         }, $.proxy(self._handleError, self));
     },
 
-    refresh: function() {
+    refresh: function () {
         var self = this;
         this.set('isLoaded', false);
         Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
@@ -76,13 +76,13 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         });
     },
 
-    copy: function() {
+    copy: function () {
         var modelObject = this.constructor.create({uri: this.get('uri')});
         modelObject._updateFromJson(this._propertiesMap);
         return modelObject;
     },
 
-    updateFromModel: function(modelObj) {
+    updateFromModel: function (modelObj) {
         this.setProperties(modelObj._propertiesMap());
     },
 
@@ -171,7 +171,7 @@ Balanced.Model.reopenClass({
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
-                if(settings.embedded) {
+                if (settings.embedded) {
                     var embeddedObj = typeClass.create();
                     embeddedObj.set('isNew', false);
                     embeddedObj._updateFromJson(this.get(propertyName));
@@ -195,8 +195,8 @@ Balanced.Model.reopenClass({
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
-                var populateModels = function(json) {
-                    if(json && json.items) {
+                var populateModels = function (json) {
+                    if (json && json.items) {
                         var typedObjects = _.map(json.items, function (item) {
                             var typedObj = typeClass.create();
                             typedObj.set('isNew', false);
@@ -213,12 +213,11 @@ Balanced.Model.reopenClass({
                         modelObjectsArray.setObjects(typedObjects);
                         modelObjectsArray.set('isLoaded', true);
                     } else {
-                        console.log("Expecting items array in JSON response for hasMany, recieved: " + json);
                         modelObjectsArray.set('isError', true);
                     }
                 };
 
-                if(settings.embedded) {
+                if (settings.embedded) {
                     populateModels(this.get(propertyName));
                 } else {
                     modelObjectsArray.set('isLoaded', false);
@@ -232,7 +231,7 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    _typeClass: function(type) {
+    _typeClass: function (type) {
         // allow dependencies to be set using strings instead of class
         // statements so we don't have ordering issues when declaring our
         // models

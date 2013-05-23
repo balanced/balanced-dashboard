@@ -10,17 +10,17 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
 
     owner_account: Balanced.Model.belongsTo('Balanced.Account', 'owner_account_json', {embedded: true}),
 
-    callbacks_uri: function() {
+    callbacks_uri: function () {
         return this.get('uri') + "/callbacks";
     }.property('uri')
 });
 
 Balanced.Marketplace.reopenClass({
     deserialize: function (json) {
-    	json.owner_account_json = json.owner_account;
-    	delete json.owner_account;
+        json.owner_account_json = json.owner_account;
+        delete json.owner_account;
     },
-    constructUri: function(id) {
+    constructUri: function (id) {
         return "/v1/marketplaces/" + id;
     }
 });
