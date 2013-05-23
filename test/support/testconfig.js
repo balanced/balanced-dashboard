@@ -9,6 +9,9 @@ $(window).load(function () {
         Ember.testing = true;
         Balanced.reset();
 
+        //  we don't actually care about hitting a server
+        Ember.ENV.BALANCED.WWW = 'http://example.org';
+
         // Set up Ember Auth
         Ember.run(function () {
             Balanced.Auth.set('authToken', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
