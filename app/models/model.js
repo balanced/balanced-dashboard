@@ -1,4 +1,4 @@
-Balanced.Model = Ember.Object.extend(Ember.Evented, {
+Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     isLoaded: false,
     isSaving: false,
@@ -74,6 +74,16 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, {
             self.set('isLoaded', true);
             self.trigger('didLoad');
         });
+    },
+
+    copy: function() {
+        var modelObject = this.constructor.create({uri: this.get('uri')});
+        modelObject._updateFromJson(this._propertiesMap);
+        return modelObject;
+    },
+
+    updateFromModel: function(modelObj) {
+        this.setProperties(modelObj._propertiesMap());
     },
 
     _updateFromJson: function (json) {
