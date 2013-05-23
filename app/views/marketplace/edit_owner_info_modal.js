@@ -1,7 +1,7 @@
 Balanced.EditOwnerInfoModalView = Balanced.BaseFormView.extend({
   templateName: 'modals/edit_owner_info',
 
-  formProperties: ['name', 'email', 'address.address', 'address.postal_code', 'address.country', 'phone'],
+  formProperties: ['name', 'email', 'phone'],
 
   open: function() {
     this.reset(this.content);
@@ -12,9 +12,6 @@ Balanced.EditOwnerInfoModalView = Balanced.BaseFormView.extend({
     var self = this;
 
     var clonedObj = Ember.copy(this.content, true);
-    if(!clonedObj.get('address')) {
-      clonedObj.set('address', {});
-    }
     this.updateObjectFromFormFields(clonedObj);
 
     clonedObj.one('didUpdate', function() {
