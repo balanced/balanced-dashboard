@@ -5,5 +5,9 @@ Balanced.MarketplaceIndexView = Balanced.View.extend({
 
   openAddBankAccountModal: function() {
   	this.get('addBankAccountModal').open();
+  },
+
+  openAddCallbackModal: function() {
+  	this.get('addCallbackModal').open();
   }
 });

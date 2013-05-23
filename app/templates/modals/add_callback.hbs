@@ -5,9 +5,9 @@
         <h2>Add Webhook</h2>
     </div>
     <div class="modal-body">
-        <div {{bindAttr class=":control-group view.urlError:error"}}>
+        <div {{bindAttr class=":control-group view.url_error:error"}}>
             <label>URI</label>
-            {{view Balanced.OneWayTextField sourceBinding="url" viewName="url" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.url" viewName="url" class="full"}}
         </div>
     </div>
     <div class="modal-footer">

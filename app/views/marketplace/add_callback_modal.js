@@ -1,25 +1,30 @@
-Balanced.AddCallbackModalView = Balanced.View.extend({
+Balanced.AddCallbackModalView = Balanced.BaseFormView.extend({
   templateName: 'modals/add_callback',
 
-  urlError: false,
+  formProperties: ['url'],
 
-  url: "",
+
+  open: function() {
+    var callback = Balanced.Callback.create({
+      uri: this.get('marketplace').get('callbacks_uri'),
+      url: ''
+    });
+    this.set('model', callback)
+    this.reset(callback);
+    $('#add-callback').modal('show');
+  },
 
   save: function() {
     var self = this;
-
-    var callback = Balanced.Callback.create({
-      uri: this.get('marketplace').get('callbacks_uri'),
-      url: this.get('url.value')
-    });
+    var callback = this.get('model');
 
     callback.one('didCreate', function() {
+      self.get('marketplace').notifyPropertyChange('callbacks_uri');
       $('#add-callback').modal('hide');
-      self.get('marketplace').get('callbacks').addObject(callback);
     });
     callback.on('becameInvalid', function(json) {
       var jsonObject = JSON.parse(json);
-      self.set('urlError', jsonObject.description.indexOf("url") != -1);
+      self.highlightErrorsFromAPIResponse(jsonObject.description);
     });
     callback.create();
   }

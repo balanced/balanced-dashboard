@@ -165,7 +165,7 @@
         <section class="webhook-info">
             <header>
                 <h3>Webhooks
-                    <a href="#add-callback" class="add" data-toggle="modal">Add a webhook</a>
+                    <a href="#" class="add" {{action openAddCallbackModal target="view"}}>Add a webhook</a>
                 </h3>
             </header>
             <ul class="webhooks">
@@ -299,5 +299,5 @@
 
 {{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
-{{view Balanced.AddCallbackModalView marketplaceBinding="model"}}
+{{view Balanced.AddCallbackModalView marketplaceBinding="model" viewName="addCallbackModal"}}
 {{view Balanced.DeleteCallbackModalView}}
