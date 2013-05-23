@@ -14,8 +14,8 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
             download.one('didCreate', function () {
                 self.download_close();
             }).one('becameError', function () {
-                    //  TODO:
-                });
+                //  TODO:
+            });
             download.create();
         } else {
             self.download_close();

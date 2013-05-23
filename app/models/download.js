@@ -1,18 +1,24 @@
 Balanced.Download = Balanced.Model.extend({
-    creation_uri: function () {
-        // TODO: We're appending the marketplace_uri here. This should be a
-        // global once kleinsch merges his handler...
-        var m = new RegExp('/marketplaces/([\\w-]+)').exec(window.location.hash);
-        if (m && m.length >= 2) {
-            return '/downloads?marketplace=' + m[1];
-        }
-        return null;
-    },
     _propertiesMap: function () {
         return {
             email_address: this.email_address,
             uri: this.uri
         };
+    },
+
+    create: function () {
+        var self = this;
+        var data = this._propertiesMap();
+
+        self.set('isSaving', true);
+        Balanced.Adapter.create(this.constructor, '/downloads', data, function (json) {
+            self._updateFromJson(json);
+            self.set('isNew', false);
+            self.set('isSaving', false);
+            self.set('isValid', true);
+            self.set('isError', false);
+            self.trigger('didCreate');
+        }, $.proxy(self._handleError, self));
     }
 });
 
