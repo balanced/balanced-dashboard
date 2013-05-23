@@ -1,0 +1,43 @@
+<div class="modal hide" id="edit-owner-info">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Edit owner info</h2>
+    </div>
+    <div class="modal-body">
+        <div {{bindAttr class=":control-group view.name_error:error"}}>
+            <label>Name</label>
+            {{view Balanced.OneWayTextField sourceBinding="name" viewName="name" class="full"}}
+        </div>
+        
+        <div {{bindAttr class=":control-group view.email_error:error"}}>
+            <label>Email</label>
+            {{view Balanced.OneWayTextField sourceBinding="email" viewName="email" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.address_address_error:error"}}>
+            <label>Address</label>
+            {{view Balanced.OneWayTextField sourceBinding="address.address" viewName="address_address" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.address_postal_code_error:error"}}>
+            <label>Postal Code</label>
+            {{view Balanced.OneWayTextField sourceBinding="address.postal_code" viewName="address_postal_code" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.country_error:error"}}>
+            <label>Country</label>
+            {{view Balanced.OneWayTextField sourceBinding="address.country" viewName="address_country" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.phone_error:error"}}>
+            <label>Phone number</label>
+            {{view Balanced.OneWayTextField sourceBinding="phone" viewName="phone" class="full"}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Save</button>
+    </div>
+    </form>
+</div>

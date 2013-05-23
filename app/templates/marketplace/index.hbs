@@ -57,7 +57,7 @@
             <form class="form-horizontal edit-inline">
                 <header>
                     <h3>Owner info
-                        <a href="#" class="edit">Edit</a>
+                        <a href="#" class="edit" {{action openEditOwnerInfoModal target="view"}}>Edit</a>
                     </h3>
                 </header>
                 <div>
@@ -82,19 +82,19 @@
                     <div class="control-group">
                         <label class="control-label">Street Address</label>
                         <div class="controls">
-                            <span class="inline-label"> TODO </span>
+                            <span class="inline-label"> {{ owner_account.customer.address.address }} </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Postal Code</label>
                         <div class="controls">
-                            <span class="inline-label"> TODO </span>
+                            <span class="inline-label"> {{ owner_account.customer.address.postal_code }} </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Country</label>
                         <div class="controls">
-                            <span class="inline-label"> TODO </span>
+                            <span class="inline-label"> {{ owner_account.customer.address.country }} </span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -299,5 +299,6 @@
 
 {{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
+{{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_account.customer" viewName="editOwnerInfoModal"}}
 {{view Balanced.AddCallbackModalView marketplaceBinding="model" viewName="addCallbackModal"}}
 {{view Balanced.DeleteCallbackModalView}}

@@ -3,6 +3,10 @@ Balanced.MarketplaceIndexView = Balanced.View.extend({
     this.get('editMarketplaceInfoModal').open();
   },
 
+  openEditOwnerInfoModal: function() {
+  	this.get('editOwnerInfoModal').open();
+  },
+
   openAddBankAccountModal: function() {
   	this.get('addBankAccountModal').open();
   },
