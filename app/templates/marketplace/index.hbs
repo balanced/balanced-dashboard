@@ -1,4 +1,6 @@
-<h1 class="page-title">Settings</h1>
+<h1 class="page-title">Settings {{#unless fullyLoaded}}<div class="loader-container"><span class="loader loading"></div>{{/unless}}</h1>
+
+{{#if fullyLoaded}}
 
 <div class="row">
     <div class="span11">
@@ -292,6 +294,8 @@
         </section>
     </div>
 </div>
+
+{{/if}}
 
 {{view Balanced.CreateBankAccountModalView marketplaceBinding="model"}}
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model"}}
