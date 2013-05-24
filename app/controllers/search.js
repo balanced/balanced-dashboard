@@ -45,35 +45,34 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     ////
     // Wrapper
     ////
-    query: function(callback) {
+    query: function (callback) {
         this.fromQuery(callback);
     },
 
     ////
     // Wrapper
     ////
-    loadMoreSearchResults: function() {
+    loadMoreSearchResults: function () {
         this.loadMoreFromQuery();
     },
 
-    fromQuery: function(callback) {
+    fromQuery: function (callback) {
         var query = this.get('search');
         var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
+        var requestTimeStamp = Ember.testing ? 0 : new Date().getTime();
 
         if (!query.trim()) {
             return;
         }
 
         ////
-        // Allows users to get all results by either entering * or %s
+        // Allows users to get all results by entering wildcard (%)
         ////
-        if(query === "%" || query === "*") {
+        if (query === "%") {
             query = '';
         }
 
-        var requestTimeStamp = new Date().getTime();
         this.set('latestRequestTimeStamp', requestTimeStamp);
-
         this.set('isLoading', true);
 
         var _this = this;
@@ -88,19 +87,19 @@ Balanced.SearchController = Balanced.ObjectController.extend({
             type: this.get('type'),
             requestTimeStamp: requestTimeStamp
         }, {
-            observer: function(result) {
+            observer: function (result) {
                 _this.onSearchCallback(result, callback);
             }
         });
     },
 
-    loadMoreFromQuery: function() {
+    loadMoreFromQuery: function () {
         this.set('isLoading', true);
 
         var _this = this;
 
         Balanced.SearchQuery.find(this.get('content.next_uri'), {
-            observer: function(result) {
+            observer: function (result) {
                 var exisitingTransactions = _this.get('content.transactions');
                 var existingAccounts = _this.get('content.accounts');
                 var existingFundingInstruments = _this.get('content.funding_instruments');
@@ -119,21 +118,21 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         });
     },
 
-    onSearchCallback: function(result, callback) {
+    onSearchCallback: function (result, callback) {
         ////
         // onSearch Callback
         ////
-        var requestTimeStamp = Balanced.Helpers.getParamByName(result.uri, "requestTimeStamp");
+        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, "requestTimeStamp");
 
 
         ////
         // Debugging
         ////
-        // console.log("SEARCH => " + getParamByName(search.uri, "q"));
-        // console.log("LASTEST TIMESTAMP => " + _this.get('latestRequestTimeStamp'));
+        // console.log("SEARCH => " + Balanced.Utils.getParamByName(result.uri, "q"));
+        // console.log("LASTEST TIMESTAMP => " + this.get('latestRequestTimeStamp'));
         // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
 
-        if (+(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
+        if (requestTimeStamp !== 0 && +(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
             ////
             // Debugging
             ////
@@ -152,7 +151,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         this.set('content', result);
         this.set('isLoading', false);
 
-        if(callback && typeof(callback) === "function") {
+        if (callback && typeof(callback) === "function") {
             callback();
         }
     },
@@ -195,8 +194,8 @@ Balanced.SearchController = Balanced.ObjectController.extend({
 
     }.property('content.total_funding_instruments'),
 
-    hasMoreResults: function() {
-        if(this.get('content.next_uri') === null) {
+    hasMoreResults: function () {
+        if (this.get('content.next_uri') === null) {
             return false;
         }
 

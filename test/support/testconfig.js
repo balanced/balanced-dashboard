@@ -11,11 +11,12 @@ $(window).load(function () {
 
         //  we don't actually care about hitting a server
         Ember.ENV.BALANCED.WWW = 'http://example.org';
+        Balanced.THROTTLE = 0;
 
         // Set up Ember Auth
         Ember.run(function () {
-            Balanced.Auth.set('authToken', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
-            Balanced.Auth.set('userId', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");
+            Balanced.Auth.set('authToken', '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987');
+            Balanced.Auth.set('userId', '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987');
             Balanced.Auth.set('signedIn', true);
             Balanced.Auth.set('user', Balanced.User.find(Balanced.Auth.userId));
         });

@@ -1,4 +1,4 @@
-Testing = (function () {
+var Testing = (function () {
     return {
         init: function () {
 
@@ -7,7 +7,7 @@ Testing = (function () {
             name = name || 'Test Marketplace';
             $('#marketplaces ul a:contains("' + name + '")').click();
         },
-        runSearch: function(query) {
+        runSearch: function (query) {
             $('#q').val(query).trigger('keyup');
         }
     };
