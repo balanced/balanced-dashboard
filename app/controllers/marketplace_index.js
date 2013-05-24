@@ -22,10 +22,6 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
   	card.delete();
   },
 
-  deleteBankAccount: function(bankAccount) {
-  	bankAccount.delete();
-  },
-
   promptToDeleteCallback: function(callback) {
     this.callback = callback;
     $('#delete-callback').modal('show');
@@ -34,5 +30,15 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
   deleteCallback: function() {
     this.callback.delete();
     $('#delete-callback').modal('hide');
+  },
+
+  promptToDeleteBankAccount: function(bankAccount) {
+    this.bankAccount = bankAccount;
+    $('#delete-bank-account').modal('show');
+  },
+
+  deleteBankAccount: function() {
+    this.bankAccount.delete();
+    $('#delete-bank-account').modal('hide');
   }
 });

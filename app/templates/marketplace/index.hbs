@@ -121,7 +121,7 @@
                 {{#each bank_account in owner_account.bank_accounts }}
                     <li {{bindAttr class="bank_account.can_debit:verified:unverified"}}>
                         <div class="icon">Bank account</div>
-                        <a href="#" class="icon-delete" {{action deleteBankAccount bank_account}}>delete</a>
+                        <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
                         <div class="details">
                             <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
                             <span class="summary">{{ bank_account.description }}</span>
@@ -302,3 +302,4 @@
 {{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_account.customer" viewName="editOwnerInfoModal"}}
 {{view Balanced.AddCallbackModalView marketplaceBinding="model" viewName="addCallbackModal"}}
 {{view Balanced.DeleteCallbackModalView}}
+{{view Balanced.DeleteBankAccountModalView}}
