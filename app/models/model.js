@@ -21,7 +21,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     create: function () {
         var self = this;
-        var data = this._propertiesMap();
+        var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
 
@@ -39,7 +39,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     update: function () {
         var self = this;
-        var data = this._propertiesMap();
+        var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
 
@@ -78,13 +78,14 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     copy: function () {
         var modelObject = this.constructor.create({uri: this.get('uri')});
-        var props = this._propertiesMap();
+        var props = this._toSerializedJSON();
         modelObject._updateFromJson(props);
         return modelObject;
     },
 
     updateFromModel: function (modelObj) {
-        this.setProperties(modelObj._propertiesMap());
+        var modelProps = modelObj._propertiesMap();
+        this.setProperties(modelProps);
     },
 
     _updateFromJson: function (json) {
@@ -98,6 +99,16 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
         this.setProperties(json);
         this.set('isLoaded', true);
+    },
+
+    _toSerializedJSON: function() {
+        var json = this._propertiesMap();
+
+        if(this.constructor.serialize) {
+            this.constructor.serialize(json);
+        }
+
+        return json;
     },
 
     _handleError: function (jqXHR, textStatus, errorThrown) {
@@ -132,10 +143,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
                 prop !== 'id') {
                 props[prop] = this[prop];
             }
-        }
-
-        if(this.constructor.serialize) {
-            this.constructor.serialize(props);
         }
 
         return props;
