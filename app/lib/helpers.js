@@ -179,7 +179,7 @@ Balanced.Utils = {
     },
 
     toTitleCase: function (str) {
-        if(str === null || str === undefined) {
+        if(!str) {
             return str;
         }
         return str.replace(/\w\S*/g, function (txt) {
