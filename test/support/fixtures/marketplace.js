@@ -27,5 +27,13 @@ Balanced.Adapter.addFixtures([
 			method: "post",
 			url: "http://example.com"
 		}]
+	},
+	{
+		uri: '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts',
+		items: []
+	},
+	{
+		uri: '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5m0wzuMTw3JbKP4uIZXFpC/cards',
+		items: []
 	}
 ]);
