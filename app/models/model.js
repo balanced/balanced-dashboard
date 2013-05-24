@@ -118,10 +118,13 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
             computedProps.push(prop);
         });
 
+        var lifecycleProperties = ['isLoaded', 'isNew', 'isSaving', 'isValid', 'isError', 'isDeleted'];
+
         var props = {};
         for (var prop in this) {
             if (this.hasOwnProperty(prop) &&
                 $.inArray(prop, computedProps) === -1 &&
+                $.inArray(prop, lifecycleProperties) === -1 &&
                 prop.indexOf('__ember') < 0 &&
                 prop.indexOf('_super') < 0 &&
                 Ember.typeOf(this.get(prop)) !== 'function' &&
