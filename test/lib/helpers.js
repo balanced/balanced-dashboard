@@ -1,4 +1,4 @@
-Testing = (function () {
+var Testing = (function () {
     return {
         init: function () {
 
