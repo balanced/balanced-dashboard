@@ -14,6 +14,8 @@ test("can update marketplace info", function () {
 });
 
 test("can create bank accounts", function () {
+    var createsBefore = Balanced.Adapter.creates.length;
+
     $("#marketplaces ul a:contains('Test Marketplace')").click();
 
     equal($(".bank-account-info .sidebar-items li").length, 0);
@@ -29,8 +31,8 @@ test("can create bank accounts", function () {
     // click save
     $("#add-bank-account .modal-footer button")[1].click();
 
-    // check that the bank account is displayed
-    equal($(".bank-account-info .sidebar-items li").length, 1);
+    // should be two creates, one for the bank account and one for the verification
+    equal(createsBefore+2, Balanced.Adapter.creates.length);
 });
 
 test("shows webhooks", function () {
