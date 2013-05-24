@@ -7,22 +7,22 @@
     <div class="modal-body">
         <div {{bindAttr class=":control-group view.name_error:error"}}>
             <label>Name</label>
-            {{view Balanced.OneWayTextField sourceBinding="name" viewName="name" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
         </div>
         
         <div {{bindAttr class=":control-group view.support_email_address_error:error"}}>
             <label>Support email</label>
-            {{view Balanced.OneWayTextField sourceBinding="support_email_address" viewName="support_email_address" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.support_email_address" viewName="support_email_address" class="full"}}
         </div>
 
         <div {{bindAttr class=":control-group view.domain_url_error:error"}}>
             <label>Domain URL</label>
-            {{view Balanced.OneWayTextField sourceBinding="domain_url" viewName="domain_url" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.domain_url" viewName="domain_url" class="full"}}
         </div>
 
         <div {{bindAttr class=":control-group view.support_phone_number_error:error"}}>
             <label>Support phone number</label>
-            {{view Balanced.OneWayTextField sourceBinding="support_phone_number" viewName="support_phone_number" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.support_phone_number" viewName="support_phone_number" class="full"}}
         </div>
     </div>
     <div class="modal-footer">
