@@ -5,7 +5,7 @@ Balanced.AddBankAccountModalView = Balanced.BaseFormView.extend({
 
   open: function() {
     var bankAccount = Balanced.BankAccount.create({
-      uri: this.get('marketplace.owner_account.bank_accounts_uri'),
+      uri: this.get('marketplace.owner_customer.bank_accounts_uri'),
       name: '',
       account_number: '',
       routing_number: '',

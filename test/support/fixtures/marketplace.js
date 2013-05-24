@@ -29,11 +29,11 @@ Balanced.Adapter.addFixtures([
 		}]
 	},
 	{
-		uri: '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts',
+		uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts',
 		items: []
 	},
 	{
-		uri: '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5m0wzuMTw3JbKP4uIZXFpC/cards',
+		uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards',
 		items: []
 	}
 ]);

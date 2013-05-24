@@ -12,7 +12,7 @@ Balanced.AddCardModalView = Balanced.BaseFormView.extend({
 
   open: function() {
     var card = Balanced.Card.create({
-      uri: this.get('marketplace.owner_account.cards_uri'),
+      uri: this.get('marketplace.owner_customer.cards_uri'),
       name: '',
       card_number: '',
       security_code: '',

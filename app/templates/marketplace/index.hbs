@@ -106,7 +106,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_account.customer.name }}
+                                {{ owner_customer.name }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -118,7 +118,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_account.customer.email }}
+                                {{ owner_customer.email }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -130,7 +130,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_account.customer.address.address }}
+                                {{ owner_customer.address.address }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -142,7 +142,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_account.customer.address.postal_code }}
+                                {{ owner_customer.address.postal_code }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -154,7 +154,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_account.customer.address.country }}
+                                {{ owner_customer.address.country }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -166,7 +166,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_account.customer.address.phone }}
+                                {{ owner_customer.address.phone }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -188,7 +188,7 @@
                 </h3>
             </header>
             <ul class="sidebar-items">
-                {{#each bank_account in owner_account.bank_accounts }}
+                {{#each bank_account in owner_customer.bank_accounts }}
                     <li {{bindAttr class="bank_account.verified:verified:unverified"}}>
                         <div class="icon">Bank account</div>
                         <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
@@ -214,7 +214,7 @@
                 </h3>
             </header>
             <ul class="sidebar-items">
-                {{#each card in owner_account.cards }}
+                {{#each card in owner_customer.cards }}
                 <li>
                     <div class="icon">Credit card</div>
                     <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
@@ -368,7 +368,7 @@
 {{/if}}
 
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
-{{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_account.customer" viewName="editOwnerInfoModal"}}
+{{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_customer" viewName="editOwnerInfoModal"}}
 {{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}

@@ -2,19 +2,17 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
   needs: ["marketplace"],
 
   fullyLoaded: function() {
-    var ownerAccount = this.get('owner_account');
+    var ownerCustomer = this.get('owner_customer');
     return this.get('isLoaded')
-      && ownerAccount.get('isLoaded')
-      && ownerAccount.get('customer').get('isLoaded')
-      && ownerAccount.get('bank_accounts').get('isLoaded')
-      && ownerAccount.get('cards').get('isLoaded')
+      && ownerCustomer.get('isLoaded')
+      && ownerCustomer.get('bank_accounts').get('isLoaded')
+      && ownerCustomer.get('cards').get('isLoaded')
       && this.get('callbacks').get('isLoaded');
   }.property(
     'isLoaded',
-    'owner_account.isLoaded',
-    'owner_account.customer.isLoaded',
-    'owner_account.bank_accounts.isLoaded',
-    'owner_account.cards.isLoaded',
+    'owner_customer.isLoaded',
+    'owner_customer.bank_accounts.isLoaded',
+    'owner_customer.cards.isLoaded',
     'callbacks.isLoaded'
     ),
 
