@@ -9,7 +9,9 @@
             <form class="form-horizontal edit-inline">
                 <header>
                     <h3>Marketplace info 
+                        {{#if production}}
                         <a href="#" class="edit" {{action openEditMarketplaceInfoModal target="view"}}>Edit</a>
+                        {{/if}}
                     </h3>
                 </header>
                 <div>
@@ -22,25 +24,49 @@
                     <div class="control-group">
                         <label class="control-label">Name</label>
                         <div class="controls">
-                            <span class="inline-label">{{ name }}</span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ name }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Support email</label>
                         <div class="controls">
-                            <span class="inline-label">{{ support_email_address }}</span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ support_email_address }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Domain URL</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ domain_url }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ domain_url }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Support phone #</label>
                         <div class="controls">
-                            <span class="inline-label">{{ support_phone_number }}</span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ support_phone_number }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -57,50 +83,94 @@
             <form class="form-horizontal edit-inline">
                 <header>
                     <h3>Owner info
+                        {{#if production}}
                         <a href="#" class="edit" {{action openEditOwnerInfoModal target="view"}}>Edit</a>
+                        {{/if}}
                     </h3>
                 </header>
                 <div>
                     <div class="control-group">
                         <label class="control-label">Type</label>
                         <div class="controls">
-                            <span class="inline-label"> TODO </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                TODO
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Name</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.customer.name }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_account.customer.name }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Email</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.customer.email }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_account.customer.email }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Street Address</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.customer.address.address }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_account.customer.address.address }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Postal Code</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.customer.address.postal_code }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_account.customer.address.postal_code }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Country</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.customer.address.country }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_account.customer.address.country }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">Phone #</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ owner_account.customer.phone }} </span>
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_account.customer.address.phone }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
                         </div>
                     </div>
                 </div>
