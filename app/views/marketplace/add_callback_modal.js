@@ -24,7 +24,7 @@ Balanced.AddCallbackModalView = Balanced.BaseFormView.extend({
     });
     callback.on('becameInvalid', function(json) {
       var jsonObject = JSON.parse(json);
-      self.highlightErrorsFromAPIResponse(jsonObject.description);
+      self.highlightErrorsFromAPIResponse(jsonObject);
     });
     callback.create();
   }

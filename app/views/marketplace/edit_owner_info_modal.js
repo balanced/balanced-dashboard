@@ -21,7 +21,7 @@ Balanced.EditOwnerInfoModalView = Balanced.BaseFormView.extend({
     });
     customer.one('becameInvalid', function(json) {
       var jsonObject = JSON.parse(json);
-      self.highlightErrorsFromAPIResponse(jsonObject.description);
+      self.highlightErrorsFromAPIResponse(jsonObject);
     });
     customer.update();
   }

@@ -34,7 +34,7 @@ Balanced.AddCardModalView = Balanced.BaseFormView.extend({
     });
     card.on('becameInvalid', function(json) {
       var jsonObject = JSON.parse(json);
-      self.highlightErrorsFromAPIResponse(jsonObject.description);
+      self.highlightErrorsFromAPIResponse(jsonObject);
     });
     card.create();
   }

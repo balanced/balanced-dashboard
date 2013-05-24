@@ -7,9 +7,9 @@ Balanced.BaseFormView = Balanced.View.extend({
 		}, this);
 	},
 
-	highlightErrorsFromAPIResponse: function(description) {
+	highlightErrorsFromAPIResponse: function(json) {
 		_.each(this.formProperties, function(property) {
-			this.set(this._fieldNameToErrorName(property), description.indexOf(property) != -1);
+			this.set(this._fieldNameToErrorName(property), json.description.indexOf(property) != -1);
 		}, this);
 	},
 

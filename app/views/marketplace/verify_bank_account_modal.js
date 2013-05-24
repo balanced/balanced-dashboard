@@ -25,7 +25,7 @@ Balanced.VerifyBankAccountModalView = Balanced.BaseFormView.extend({
     });
     verification.one('becameInvalid', function(json) {
       var jsonObject = JSON.parse(json);
-      self.highlightErrorsFromAPIResponse(jsonObject.description);
+      self.highlightErrorsFromAPIResponse(jsonObject);
     });
     verification.update();
   }
