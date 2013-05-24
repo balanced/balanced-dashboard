@@ -23,7 +23,7 @@ window.Balanced = Ember.Application.create({
 });
 
 if (window.TESTING) {
-    window.Balanced.deferReadiness();
+    Balanced.setupForTesting();
 }
 
 window.Balanced.onLoad = function () {

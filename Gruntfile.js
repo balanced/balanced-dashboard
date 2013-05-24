@@ -65,6 +65,7 @@ module.exports = function (grunt) {
             },
             tests: {
                 src: [
+                    'test/lib/*.js',
                     'test/unit/**/*.js',
                     'test/integration/**/*.js'
                 ],

@@ -1,5 +1,6 @@
 Balanced.EmbeddedIframeView = Balanced.View.extend({
     templateName: 'embedded_iframe',
+    resizer: null,
 
     didInsertElement: function () {
         function calculateHeight($content) {
@@ -9,7 +10,10 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         }
 
         function onIframeTrigger(resizeFunction, iframe) {
-            setInterval(function() {
+            if (this.resizer) {
+                return;
+            }
+            this.resizer = setInterval(function() {
                 resizeFunction(iframe);
             }, 1000);
         }
@@ -48,6 +52,9 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
 
     updateHashFromIframeLocation: function (iframePath) {
         var transitionToDest = iframePath;
+        if (!transitionToDest) {
+            return;
+        }
         if (transitionToDest.indexOf('?') !== -1) {
             transitionToDest = transitionToDest.substring(0, transitionToDest.indexOf('?'));
         }
@@ -55,5 +62,12 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         if (transitionToDest !== '#') {
             window.location.hash = '#' + transitionToDest;
         }
+    },
+
+    willDestroyElement: function() {
+        if (this.resizer) {
+            clearInterval(this.resizer);
+        }
+        this.resizer = null;
     }
 });
