@@ -25,8 +25,15 @@ Balanced.AddBankAccountModalView = Balanced.BaseFormView.extend({
     bankAccount.set('type', this.$("form input[name=account_type]").val());
 
     bankAccount.one('didCreate', function() {
-      self.get('marketplace').refresh();
-      $('#add-bank-account').modal('hide');
+      var verification = Balanced.Verification.create({
+        uri: bankAccount.get('verifications_uri')
+      });
+
+      verification.one('didCreate', function() {
+        self.get('marketplace').refresh();
+        $('#add-bank-account').modal('hide');
+      });
+      verification.create();
     });
     bankAccount.on('becameInvalid', function(json) {
       var jsonObject = JSON.parse(json);

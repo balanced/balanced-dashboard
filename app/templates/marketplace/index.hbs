@@ -189,7 +189,7 @@
             </header>
             <ul class="sidebar-items">
                 {{#each bank_account in owner_account.bank_accounts }}
-                    <li {{bindAttr class="bank_account.can_debit:verified:unverified"}}>
+                    <li {{bindAttr class="bank_account.verified:verified:unverified"}}>
                         <div class="icon">Bank account</div>
                         <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
                         <div class="details">
@@ -197,9 +197,9 @@
                             <span class="summary">{{ bank_account.description }}</span>
                         </div>
 
-                        {{#unless bank_account.can_debit }}
+                        {{#unless bank_account.verified }}
                         <div class="actions">
-                            <button class="btn">Verify</button>
+                            <button class="btn" {{action openVerifyBankAccountModal bank_account target="view"}}>Verify</button>
                         </div>
                         {{/unless}}
                     </li>
@@ -370,6 +370,7 @@
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_account.customer" viewName="editOwnerInfoModal"}}
 {{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
+{{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.AddCardModalView marketplaceBinding="model" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}
