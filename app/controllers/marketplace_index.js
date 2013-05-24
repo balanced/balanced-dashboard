@@ -40,5 +40,15 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
   deleteBankAccount: function() {
     this.bankAccount.delete();
     $('#delete-bank-account').modal('hide');
-  }
+  },
+
+  promptToDeleteCard: function(card) {
+    this.card = card;
+    $('#delete-card').modal('show');
+  },
+
+  deleteCard: function() {
+    this.card.delete();
+    $('#delete-card').modal('hide');
+  },
 });

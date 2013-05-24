@@ -1,0 +1,47 @@
+<div class="modal hide" id="add-card">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Add a credit card</h2>
+    </div>
+    <div class="modal-body">
+        <div {{bindAttr class=":control-group view.name_error:error"}}>
+            <label>Card holder's name</label>
+            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
+        </div>
+        
+        <div {{bindAttr class=":control-group view.card_number_error:error"}}>
+            <label>Card Number</label>
+            {{view Ember.TextField valueBinding="view.model.card_number" viewName="card_number" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.security_code_error:error"}}>
+            <label>Security Code</label>
+            {{view Ember.TextField valueBinding="view.model.security_code" viewName="security_code" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.expiration_error:error"}}>
+            <label>Expiration Date</label>
+            {{view Ember.Select
+                contentBinding="view.validMonths"
+                valueBinding="view.model.expiration_month"
+                prompt="Month"
+                viewName="expiration_month"
+            }}
+            {{view Ember.Select
+                contentBinding="view.validYears"
+                valueBinding="view.model.expiration_year"
+                prompt="Year"
+                viewName="expiration_year"
+            }}
+        </div>
+    </div>
+    <div class="modal-informational">
+        <img src="images/credit-card-instructions" alt="Credit Card Instructions" class="modal-informational-content"/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Add</button>
+    </div>
+    </form>
+</div>

@@ -140,14 +140,14 @@
         <section class="card-info">
             <header>
                 <h3>Credit cards
-                    <a href="#" class="add">Add a card</a>
+                    <a href="#" class="add" {{action openAddCardModal target="view"}}>Add a card</a>
                 </h3>
             </header>
             <ul class="sidebar-items">
                 {{#each card in owner_account.cards }}
                 <li>
                     <div class="icon">Credit card</div>
-                    <a href="#" class="icon-delete" {{action deleteCard card}}>delete</a>
+                    <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
                     <div class="details">
                         <span class="name"><span class="label2a">{{ card.name }}</span></span>
                         <span class="summary">{{ card.description }}</span>
@@ -297,9 +297,11 @@
 
 {{/if}}
 
-{{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_account.customer" viewName="editOwnerInfoModal"}}
+{{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
+{{view Balanced.DeleteBankAccountModalView}}
+{{view Balanced.AddCardModalView marketplaceBinding="model" viewName="addCardModal"}}
+{{view Balanced.DeleteCardModalView}}
 {{view Balanced.AddCallbackModalView marketplaceBinding="model" viewName="addCallbackModal"}}
 {{view Balanced.DeleteCallbackModalView}}
-{{view Balanced.DeleteBankAccountModalView}}

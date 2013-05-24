@@ -92,6 +92,8 @@ require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/edit_owner_info_modal');
 require('app/views/marketplace/add_bank_account_modal');
 require('app/views/marketplace/delete_bank_account_modal');
+require('app/views/marketplace/add_card_modal');
+require('app/views/marketplace/delete_card_modal');
 require('app/views/marketplace/add_callback_modal');
 require('app/views/marketplace/delete_callback_modal');
 
