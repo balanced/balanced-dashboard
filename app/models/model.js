@@ -133,6 +133,11 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
                 props[prop] = this[prop];
             }
         }
+
+        if(this.constructor.serialize) {
+            this.constructor.serialize(props);
+        }
+
         return props;
     }
 });

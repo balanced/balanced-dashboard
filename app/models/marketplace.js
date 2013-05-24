@@ -20,6 +20,10 @@ Balanced.Marketplace.reopenClass({
         json.owner_account_json = json.owner_account;
         delete json.owner_account;
     },
+    serialize: function(json) {
+        json.owner_account = json.owner_account_json;
+        delete json.owner_account_json;
+    },
     constructUri: function (id) {
         return "/v1/marketplaces/" + id;
     }
