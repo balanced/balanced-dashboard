@@ -21,16 +21,13 @@ test("can create bank accounts", function () {
     // click the button to add a bank account
     $(".bank-account-info a.add").click();
     // fill out information
-    $("#create-bank-account .modal-body input").eq(0).val("TEST").trigger('keyup');
-    $("#create-bank-account .modal-body input").eq(1).val("123").trigger('keyup');
-    $("#create-bank-account .modal-body input").eq(2).val("123123123").trigger('keyup');
-    $("#create-bank-account .modal-body input").eq(3).val("checking").trigger('keyup');
+    $("#add-bank-account .modal-body input").eq(0).val("TEST").trigger('keyup');
+    $("#add-bank-account .modal-body input").eq(1).val("123").trigger('keyup');
+    $("#add-bank-account .modal-body input").eq(2).val("123123123").trigger('keyup');
+    $("#add-bank-account .modal-body input").eq(3).val("checking").trigger('keyup');
 
     // click save
-    $("#create-bank-account .modal-footer button")[1].click();
-
-    console.log("HERE!");
-    console.log($(".bank-account-info .sidebar-items li"));
+    $("#add-bank-account .modal-footer button")[1].click();
 
     // check that the bank account is displayed
     equal($(".bank-account-info .sidebar-items li").length, 1);
@@ -46,6 +43,9 @@ test("can delete webhooks", function () {
     equal($("ul.webhooks li").length, 2);
     // click the link to delete the webhook
     $("ul.webhooks li").first().find("a").click();
+    // click OK
+    $("#delete-callback .modal-footer button")[1].click();
+
     // now there should only be one
     equal($("ul.webhooks li").length, 1);
 });
