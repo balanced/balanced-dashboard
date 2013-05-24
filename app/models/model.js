@@ -78,7 +78,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     copy: function () {
         var modelObject = this.constructor.create({uri: this.get('uri')});
-        modelObject._updateFromJson(this._propertiesMap);
+        var props = this._propertiesMap();
+        modelObject._updateFromJson(props);
         return modelObject;
     },
 
@@ -112,9 +113,15 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     // Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
     _propertiesMap: function () {
+        var computedProps = [];
+        this.constructor.eachComputedProperty(function(prop) {
+            computedProps.push(prop);
+        });
+
         var props = {};
         for (var prop in this) {
             if (this.hasOwnProperty(prop) &&
+                $.inArray(prop, computedProps) === -1 &&
                 prop.indexOf('__ember') < 0 &&
                 prop.indexOf('_super') < 0 &&
                 Ember.typeOf(this.get(prop)) !== 'function' &&
