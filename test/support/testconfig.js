@@ -9,6 +9,8 @@ QUnit.testStart(function () {
     Ember.testing = true;
     Balanced.reset();
 
+    Balanced.THROTTLE = 0;
+
     // Set up Ember Auth
     Ember.run(function () {
         Balanced.Auth.set('authToken', "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987");

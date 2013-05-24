@@ -65,13 +65,19 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         }
 
         ////
-        // Allows users to get all results by either entering * or %s
+        // Allows users to get all results by entering wildcard (%)
         ////
-        if(query === "%" || query === "*") {
+        if(query === "%") {
             query = '';
         }
 
-        var requestTimeStamp = new Date().getTime();
+
+        if(Ember.testing) {
+            var requestTimeStamp = 0;
+        } else {
+            var requestTimeStamp = new Date().getTime();
+        }
+
         this.set('latestRequestTimeStamp', requestTimeStamp);
 
         this.set('isLoading', true);
@@ -129,11 +135,11 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         ////
         // Debugging
         ////
-        // console.log("SEARCH => " + Balanced.Utils.getParamByName(search.uri, "q"));
+        // console.log("SEARCH => " + Balanced.Utils.getParamByName(result.uri, "q"));
         // console.log("LASTEST TIMESTAMP => " + this.get('latestRequestTimeStamp'));
         // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
 
-        if (+(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
+        if (requestTimeStamp !== 0 && +(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
             ////
             // Debugging
             ////

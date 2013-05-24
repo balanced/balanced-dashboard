@@ -23,7 +23,7 @@ window.Balanced = Ember.Application.create({
 });
 
 if (window.TESTING) {
-    window.Balanced.deferReadiness();
+    Balanced.setupForTesting();
 }
 
 window.Balanced.onLoad = function () {
@@ -64,6 +64,8 @@ require('app/models/hold');
 require('app/models/refund');
 require('app/models/funding_instrument');
 require('app/models/search_query');
+require('app/models/callback');
+require('app/models/customer');
 
 require('app/lib/auth');
 

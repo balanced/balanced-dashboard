@@ -1,5 +1,5 @@
 //  time in ms to throttle between key presses for search
-Balanced.THROTTLE_TIME = 400;
+Balanced.THROTTLE = 400;
 
 Balanced.SearchView = Balanced.View.extend({
   templateName: 'search',
@@ -168,6 +168,20 @@ Balanced.SearchView = Balanced.View.extend({
 Balanced.SearchQueryInputView = Ember.TextField.extend({
   attributeBindings: ['autocomplete'],
 
+  didInsertElement: function() {
+    this.keyUp = _.throttle(function(e) {
+      // Hide search results on escape key
+      if(e.keyCode === Balanced.KEYS.ESCAPE) {
+        $("#search").removeClass(this.resultsClass);
+        $("body").removeClass("overlaid");
+        return;
+      }
+
+      this.get('parentView').onQueryChange(e);
+
+    }, Balanced.THROTTLE);
+  },
+
   focusIn: function(e) {
     $('#search').addClass('focus');
   },
@@ -175,17 +189,6 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
   focusOut: function(e) {
     $('#search').removeClass('focus');
   },
-
-  keyUp: _.throttle(function(e) {
-    // Hide search results on escape key
-    if(e.keyCode === Balanced.KEYS.ESCAPE) {
-      $("#search").removeClass(this.get('parentView').resultsClass);
-      $("body").removeClass("overlaid");
-      return;
-    }
-
-    this.get('parentView').onQueryChange(e);
-  }, Balanced.THROTTLE_TIME)
 });
 
 Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
