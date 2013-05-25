@@ -102,6 +102,7 @@ Balanced.SearchQuery.reopenClass({
         }).join('&');
 
         uri += encodeURI(queryString);
+
         var res = this.find(uri, options);
 
         return res;
