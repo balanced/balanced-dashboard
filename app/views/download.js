@@ -18,7 +18,6 @@ Balanced.ModalView = Balanced.View.extend({
     },
     willDestroyElement: function () {
         $(this.element).modal('hide');
-        this.get('controller').send(this.prefixEvent('close'));
     },
     click: function (e) {
         var target = e.target,

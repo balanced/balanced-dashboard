@@ -22,7 +22,6 @@ test('can visit page', function (assert) {
 
 test('can view download modal', function (assert) {
     var $title = $('#content h1');
-
     $title.find('a').click();
 
     var modal = $('#download-confirm:visible');

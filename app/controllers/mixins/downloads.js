@@ -25,7 +25,7 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
     download_close: function () {
         this.set('show_download', false);
     },
-    toggle_download: function () {
-        this.set('show_download', !this.get('show_download'));
+    download_show: function () {
+        this.set('show_download', true);
     }
 });

@@ -9,7 +9,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         //  HACK: this is here as a lesson about what not to do :)
         if (window.TESTING) {
             this.set('isVisible', false);
-            return
+            return;
         }
         function calculateHeight($content) {
             var height = $content.height();
@@ -69,7 +69,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             transitionToDest = transitionToDest.substring(0, transitionToDest.indexOf('?'));
         }
         var newHash = '#' + transitionToDest;
-        if (transitionToDest !== '#' && newHash != window.location.hash) {
+        if (transitionToDest !== '#' && newHash !== window.location.hash) {
             window.location.hash = '#' + transitionToDest;
         }
     },
