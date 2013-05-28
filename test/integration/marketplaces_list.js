@@ -5,6 +5,7 @@ test('view marketplace list', function (assert) {
 });
 
 test('view single marketplace', function (assert) {
-    Testing.selectMarketplaceByName();
-    assert.equal($('#marketplace-name').text().trim(), 'Test Marketplace');
+    //  TODO: clearly this is not a good test.
+    $('#marketplaces ul a:contains("Test Marketplace")').click();
+    assert.equal($('#marketplace-name').text().trim(), 'Nick\'s Test Marketplace');
 });

@@ -7,8 +7,8 @@ Balanced.Adapter.addFixtures([{
   "email_address": "nick@rasslingcats.com",
   "marketplaces": [
     {
-      "id": "TEST-MP5m04ORxNlNDm1bB7nkcgSY",
-      "uri": "/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY",
+      "id": "MP5m04ORxNlNDm1bB7nkcgSY",
+      "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
       "name": "Test Marketplace"
     }
   ]
