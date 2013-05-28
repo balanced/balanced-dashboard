@@ -5,18 +5,15 @@ module("Search", {
 });
 
 test("search box exists", function (assert) {
-    Testing.selectMarketplaceByName();
-
     assert.equal($("#q").length, 1);
 });
 
-test("search results show and hide", function(assert) {
-    Testing.selectMarketplaceByName();
+test("search results show and hide", function (assert) {
     Testing.runSearch('%');
 
     assert.equal($("#search").hasClass("with-results"), true);
     assert.equal($("#main-overlay").css('display'), 'block');
-    assert.equal($("body").hasClass("overlaid"). true);
+    assert.equal($("body").hasClass("overlaid").true);
 
     Testing.runSearch('');
 
@@ -25,8 +22,7 @@ test("search results show and hide", function(assert) {
     assert.equal($("body").hasClass("overlaid"), false);
 });
 
-test("search results hide on click [x]", function(assert) {
-    Testing.selectMarketplaceByName();
+test("search results hide on click [x]", function (assert) {
     Testing.runSearch('%');
 
     $("#search span.close").click();
@@ -37,12 +33,11 @@ test("search results hide on click [x]", function(assert) {
     assert.equal($("body").hasClass("overlaid"), false);
 });
 
-test("search '%' returns 22 transactions total, showing 10 transactions in results, with load more", function(assert) {
-    Testing.selectMarketplaceByName();
+test("search '%' returns 15 transactions total, showing 10 transactions in results, with load more", function (assert) {
     Testing.runSearch('%');
 
-    // Has 22 transactions in the header
-    assert.equal($("#search .results li.transactions > a:contains('22')").length, 1, "has 22 transaction in header");
+    // Has 15 transactions in the header
+    assert.equal($("#search .results li.transactions > a:contains('15')").length, 1, "has 15 transaction in header");
 
     // Has 10 visible rows of transactions
     assert.equal($("#search .results table.transactions tbody tr").length, 10, "has 10 transactions");
@@ -51,66 +46,49 @@ test("search '%' returns 22 transactions total, showing 10 transactions in resul
     assert.equal($("#search .results table.transactions tfoot td").length, 1, "has 'load more'");
 });
 
-////
-// The following need more fixtures defined in search_query.js
-////
+test("search '%', click accounts, returns 22 accounts total, showing 10 accounts in results, with load more", function (assert) {
+    Testing.runSearch('%');
 
-// test("search '%', click accounts, returns 19 accounts total, showing 10 accounts in results, with load more", function() {
-//     Testing.selectMarketplaceByName();
-//     Testing.runSearch('%');
+    $("#search .results li.accounts > a").click();
 
-//     $("#search .results li.accounts > a").click();
+    // Has 22 accounts in the header
+    assert.equal($("#search .results li.accounts > a:contains('22')").length, 1, "has 22 accounts in header");
 
-//     console.log($("#search .results nav li.accounts").html());
+    // Has 10 visible rows of accounts
+    assert.equal($("#search .results table.accounts tbody tr").length, 10, "has 10 accounts");
 
-//     // Has 19 accounts in the header
-//     equal($("#search .results li.accounts > a:contains('19')").length, 1, "has 19 accounts in header");
+    // Has load more
+    assert.equal($("#search .results table.accounts tfoot td").length, 1, "has 'load more'");
+});
 
-//     // Has 10 visible rows of accounts
-//     equal($("#search .results table.accounts tbody tr").length, 10, "has 10 accounts");
+test("search '%' returns 15 transactions. Click load more shows 5 more and hides load more", function (assert) {
+    Testing.runSearch('%');
 
-//     // Has load more
-//     equal($("#search .results table.accounts tfoot td").length, 1, "has 'load more'");
-// });
+    // Has load more
+    assert.equal($("#search .results table.transactions tfoot td").length, 1, "has 'load more'");
 
-// test("search '%' returns 22 transactions. Click load more shows 10 more. Click load more again shows 2 more, and hides load more", function() {
-//     Testing.selectMarketplaceByName();
-//     Testing.runSearch('%');
+    $("#search .results table.transactions tfoot td.load-more-results a").click();
 
-//     // Has load more
-//     equal($("#search .results table.transctions tfoot td").length, 1, "has 'load more'");
+    // Has 15 visible rows of transactions
+    assert.equal($("#search .results table.transactions tbody tr").length, 15, "has 15 transactions");
 
-//     $("#search .results table.transactions tfoot td.load-more-results a").click();
+    // Does not have load more
+    assert.equal($("#search .results table.transactions tfoot td").length, 0, "does not have 'load more'");
+});
 
-//     // Has 20 visible rows of transactions
-//     equal($("#search .results table.transactions tbody tr").length, 20, "has 20 transactions");
+test("search '%' return 15 transactions. Click filter by holds.", function (assert) {
+    Testing.runSearch('%');
 
-//     // Has load more
-//     equal($("#search .results table.transactions tfoot td").length, 1, "has 'load more'");
+    $("#search .results li.transactions a.dropdown-toggle").click();
 
-//     $("#search .results table.transactions tfoot td.load-more-results a").click();
+    // Transaction filter menu visible
+    assert.equal($("#search .results li.transactions ul.transaction-filter").css("display"), 'block', "transaction filter menu visible");
 
-//     // Has 22 visible rows of transactions
-//     equal($("#search .results table.transactions tbody tr").length, 22, "has 22 transactions");
+    $("#search .results li.transactions ul.transaction-filter a:contains('Holds')").click();
 
-//     // Does not have load more
-//     equal($("#search .results table.transactions tfoot td").length, 0, "does not have 'load more'");
-// });
+    // Has 6 hold transactions in the header
+    assert.equal($("#search .results li.transactions > a:contains('6')").length, 1, "has 6 hold transactions in header");
 
-// test("search '%' return 22 transactions. Click filter by holds.", function() {
-//     Testing.selectMarketplaceByName();
-//     Testing.runSearch('%');
-
-//     $("#search .results li.transactions a.dropdown-toggle").click();
-
-//     // Transaction filter menu visible
-//     equal($("#search .results li.transactions ul.transaction-filter").css("display"), 'block', "transaction filter menu visible");
-
-//     $("#search .results li.transactions ul.transaction-filter a:contains('Holds')").click();
-
-//     // Has 8 hold transactions in the header
-//     equal($("#search .results li.transactions > a:contains('8')").length, 1, "has 8 hold transactions in header");
-
-//     // Has 8 visible rows of hold transactions
-//     equal($("#search .results table.transactions tbody tr").length, 8, "has 8 hold transactions");
-// });
+    // Has 6 visible rows of hold transactions
+    assert.equal($("#search .results table.transactions tbody tr").length, 6, "has 6 hold transactions");
+});
