@@ -1,3 +1,18 @@
 <h1 class="page-title">Transactions</h1>
 
+<div class="span20 escrow-box">
+    <div class="span2 label">
+        <span>Escrow</span>
+    </div>
+    <div class="span14 amount">
+        <span class="number1d">
+            ${{ escrow_amount }}
+        </span>
+    </div>
+    <div class="span4 buttons">
+        <a class="btn">Add funds</a>
+        <a class="btn">Widthdraw funds</a>
+    </div>
+</div>
+
 {{view Balanced.EmbeddedIframeView iframeUrlBinding="controllers.marketplace.transactions_embedded_iframe_url"}}
