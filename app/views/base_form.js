@@ -1,34 +1,34 @@
 Balanced.BaseFormView = Balanced.View.extend({
-	formProperties: [],
+    formProperties: [],
 
-	updateObjectFromFormFields: function(modelObj) {
-		_.each(this.formProperties, function(property) {
-			modelObj.set(property, this.get(this._fieldNameToValueName(property)));
-		}, this);
-	},
+    updateObjectFromFormFields: function (modelObj) {
+        _.each(this.formProperties, function (property) {
+            modelObj.set(property, this.get(this._fieldNameToValueName(property)));
+        }, this);
+    },
 
-	highlightErrorsFromAPIResponse: function(json) {
-		_.each(this.formProperties, function(property) {
-			this.set(this._fieldNameToErrorName(property), json.description.indexOf(property) != -1);
-		}, this);
-	},
+    highlightErrorsFromAPIResponse: function (json) {
+        _.each(this.formProperties, function (property) {
+            this.set(this._fieldNameToErrorName(property), json.description.indexOf(property) !== -1);
+        }, this);
+    },
 
-	reset: function(modelObj) {
-		_.each(this.formProperties, function(property) {
-			this._resetProperty(property, modelObj);
-		}, this);
-	},
+    reset: function (modelObj) {
+        _.each(this.formProperties, function (property) {
+            this._resetProperty(property, modelObj);
+        }, this);
+    },
 
-	_resetProperty: function(property, modelObj) {
-		this.set(this._fieldNameToValueName(property), modelObj.get(property));
-		this.set(this._fieldNameToErrorName(property), false);
-	},
+    _resetProperty: function (property, modelObj) {
+        this.set(this._fieldNameToValueName(property), modelObj.get(property));
+        this.set(this._fieldNameToErrorName(property), false);
+    },
 
-	_fieldNameToValueName: function(property) {
-		return property.replace(/\./g,'_') + '.value';
-	},
+    _fieldNameToValueName: function (property) {
+        return property.replace(/\./g, '_') + '.value';
+    },
 
-	_fieldNameToErrorName: function(property) {
-		return property.replace(/\./g,'_') + '_error';
-	}
+    _fieldNameToErrorName: function (property) {
+        return property.replace(/\./g, '_') + '_error';
+    }
 });

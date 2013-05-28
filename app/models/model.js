@@ -24,15 +24,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
-
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
-
             self.set('isNew', false);
             self.set('isSaving', false);
             self.set('isValid', true);
             self.set('isError', false);
-
             self.trigger('didCreate');
         }, $.proxy(self._handleError, self));
     },

@@ -44,15 +44,14 @@ require('app/lib/variables');
 /*
  * Model layer.
  * Ember.Object itself provides most of what
- * model layers elsewhere provide. Since TodoMVC
- * doesn't communicate with a server, plain
- * Ember.Objects will do.
+ * model layers elsewhere provide.
  */
 require('app/models/adapters/base');
 require('app/models/adapters/ajax');
 require('app/models/adapters/fixture');
 require('app/models/adapter_config');
 require('app/models/model');
+require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
@@ -86,6 +85,7 @@ require('app/views/forgot_password');
 require('app/views/embedded_iframe');
 require('app/views/search');
 require('app/views/date_picker');
+require('app/views/download');
 
 require('app/views/marketplace/marketplace_index');
 require('app/views/marketplace/edit_marketplace_info_modal');
@@ -106,6 +106,7 @@ require('app/views/marketplace/delete_callback_modal');
  * controllers wrapped objects.
  */
 require('app/controllers/_base');
+require('app/controllers/mixins/downloads');
 require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
