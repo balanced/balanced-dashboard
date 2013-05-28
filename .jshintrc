@@ -19,9 +19,6 @@
   "globals": {
     "test": true,
     "module": true,
-    "equal": true,
-    "notEqual": true,
-    "ok": true,
     "sinon": true,
     "require": true,
     "Ember": true,
@@ -29,6 +26,7 @@
     "Balanced": true,
     "DS": true,
     "ENV": true,
-    "_": true
+    "_": true,
+    "Testing": true
   }
 }

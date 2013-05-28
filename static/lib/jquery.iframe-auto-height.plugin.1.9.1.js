@@ -85,7 +85,10 @@
       var strategies = [];
       strategies['default'] = function (iframe, $iframeBody, options, browser) {
         // NOTE: this is how the plugin determines the iframe height, override if you need custom
-        return $iframeBody[0].scrollHeight + options.heightOffset;
+          if ($iframeBody[0]) {
+               return $iframeBody[0].scrollHeight + options.heightOffset;
+
+          }
       };
 
       jQuery.each(strategyKeys, function (index, value) {

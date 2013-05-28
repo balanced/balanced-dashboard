@@ -60,6 +60,7 @@ require('app/routes/index');
 require('app/routes/marketplace');
 
 require('app/routes/marketplace_accounts');
+require('app/routes/marketplace_index');
 require('app/routes/marketplace_logs');
 require('app/routes/marketplace_invoices');
 require('app/routes/marketplace_cards');

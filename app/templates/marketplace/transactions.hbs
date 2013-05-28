@@ -1,4 +1,6 @@
-<h1 class="page-title">Transactions</h1>
+<h1 class="page-title">Transactions
+    <a href="#" {{action download_show}} class="icon-download right">Download</a>
+</h1>
 
 <div class="span20 escrow-box">
     <div class="span2 label">
@@ -16,3 +18,7 @@
 </div>
 
 {{view Balanced.EmbeddedIframeView iframeUrlBinding="controllers.marketplace.transactions_embedded_iframe_url"}}
+
+{{#if show_download}}
+    {{view Balanced.DownloadModalView }}
+{{/if}}

@@ -1,0 +1,28 @@
+<div class="modal hide" id="edit-owner-info">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Edit owner info</h2>
+    </div>
+    <div class="modal-body">
+        <div {{bindAttr class=":control-group view.name_error:error"}}>
+            <label>Name</label>
+            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
+        </div>
+        
+        <div {{bindAttr class=":control-group view.email_error:error"}}>
+            <label>Email</label>
+            {{view Ember.TextField valueBinding="view.model.email" viewName="email" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.phone_error:error"}}>
+            <label>Phone number</label>
+            {{view Ember.TextField valueBinding="view.model.phone" viewName="phone" class="full"}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Save</button>
+    </div>
+    </form>
+</div>
