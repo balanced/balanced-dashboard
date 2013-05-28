@@ -1,0 +1,43 @@
+<div class="modal hide" id="verify-bank-account">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Confirm your bank account</h2>
+    </div>
+    <div class="modal-body">
+        <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
+
+        <div class="control-group edit-inline">
+            <label class="inline-label">Bank account number</label>
+            {{view.bank_account.account_number}}
+        </div>
+
+        <div class="control-group edit-inline">
+            <label class="inline-label">Bank</label>
+            {{view.bank_account.bank_name}}
+        </div>
+        
+        <div {{bindAttr class=":control-group view.amount_1_error:error"}}>
+            <label>First Amount</label>
+            <div class="input-prepend">
+                <span class="add-on">$0.</span>
+                {{view Ember.TextField valueBinding="view.model.amount_1" viewName="amount_1" class="full"}}
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group view.amount_2_error:error"}}>
+            <label>Second Amount</label>
+            <div class="input-prepend">
+                <span class="add-on">$0.</span>
+                {{view Ember.TextField valueBinding="view.model.amount_2" viewName="amount_2" class="full"}}
+            </div>
+        </div>
+
+        <p>If you did not receive the deposits after five business days, the transaction may have failed because of incorrect account information. If you need to change the information, remove the erroneous account and add a new bank account.</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Confirm</button>
+    </div>
+    </form>
+</div>

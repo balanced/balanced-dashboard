@@ -1,0 +1,33 @@
+<div class="modal hide" id="edit-marketplace-info">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Edit marketplace info</h2>
+    </div>
+    <div class="modal-body">
+        <div {{bindAttr class=":control-group view.name_error:error"}}>
+            <label>Name</label>
+            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
+        </div>
+        
+        <div {{bindAttr class=":control-group view.support_email_address_error:error"}}>
+            <label>Support email</label>
+            {{view Ember.TextField valueBinding="view.model.support_email_address" viewName="support_email_address" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.domain_url_error:error"}}>
+            <label>Domain URL</label>
+            {{view Ember.TextField valueBinding="view.model.domain_url" viewName="domain_url" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.support_phone_number_error:error"}}>
+            <label>Support phone number</label>
+            {{view Ember.TextField valueBinding="view.model.support_phone_number" viewName="support_phone_number" class="full"}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Save</button>
+    </div>
+    </form>
+</div>

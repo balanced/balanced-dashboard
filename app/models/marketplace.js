@@ -9,6 +9,7 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
     cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
 
     owner_account: Balanced.Model.belongsTo('Balanced.Account', 'owner_account_json', {embedded: true}),
+    owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true}),
 
     callbacks_uri: function () {
         return this.get('uri') + "/callbacks";
@@ -19,6 +20,14 @@ Balanced.Marketplace.reopenClass({
     deserialize: function (json) {
         json.owner_account_json = json.owner_account;
         delete json.owner_account;
+        json.owner_customer_json = json.owner_customer;
+        delete json.owner_customer;
+    },
+    serialize: function(json) {
+        json.owner_account = json.owner_account_json;
+        delete json.owner_account_json;
+        json.owner_customer = json.owner_customer_json;
+        delete json.owner_customer_json;
     },
     constructUri: function (id) {
         return "/v1/marketplaces/" + id;

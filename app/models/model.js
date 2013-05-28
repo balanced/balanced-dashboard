@@ -21,25 +21,22 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     create: function () {
         var self = this;
-        var data = this._propertiesMap();
+        var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
-
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
-
             self.set('isNew', false);
             self.set('isSaving', false);
             self.set('isValid', true);
             self.set('isError', false);
-
             self.trigger('didCreate');
         }, $.proxy(self._handleError, self));
     },
 
     update: function () {
         var self = this;
-        var data = this._propertiesMap();
+        var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
 
@@ -78,12 +75,14 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     copy: function () {
         var modelObject = this.constructor.create({uri: this.get('uri')});
-        modelObject._updateFromJson(this._propertiesMap);
+        var props = this._toSerializedJSON();
+        modelObject._updateFromJson(props);
         return modelObject;
     },
 
     updateFromModel: function (modelObj) {
-        this.setProperties(modelObj._propertiesMap());
+        var modelProps = modelObj._propertiesMap();
+        this.setProperties(modelProps);
     },
 
     _updateFromJson: function (json) {
@@ -99,6 +98,16 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         this.set('isLoaded', true);
     },
 
+    _toSerializedJSON: function() {
+        var json = this._propertiesMap();
+
+        if(this.constructor.serialize) {
+            this.constructor.serialize(json);
+        }
+
+        return json;
+    },
+
     _handleError: function (jqXHR, textStatus, errorThrown) {
         this.set('isSaving', false);
         if (jqXHR.status === 400) {
@@ -112,9 +121,18 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
     // Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
     _propertiesMap: function () {
+        var computedProps = [];
+        this.constructor.eachComputedProperty(function(prop) {
+            computedProps.push(prop);
+        });
+
+        var lifecycleProperties = ['isLoaded', 'isNew', 'isSaving', 'isValid', 'isError', 'isDeleted'];
+
         var props = {};
         for (var prop in this) {
             if (this.hasOwnProperty(prop) &&
+                $.inArray(prop, computedProps) === -1 &&
+                $.inArray(prop, lifecycleProperties) === -1 &&
                 prop.indexOf('__ember') < 0 &&
                 prop.indexOf('_super') < 0 &&
                 Ember.typeOf(this.get(prop)) !== 'function' &&
@@ -123,6 +141,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
                 props[prop] = this[prop];
             }
         }
+
         return props;
     }
 });

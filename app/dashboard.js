@@ -44,15 +44,14 @@ require('app/lib/variables');
 /*
  * Model layer.
  * Ember.Object itself provides most of what
- * model layers elsewhere provide. Since TodoMVC
- * doesn't communicate with a server, plain
- * Ember.Objects will do.
+ * model layers elsewhere provide.
  */
 require('app/models/adapters/base');
 require('app/models/adapters/ajax');
 require('app/models/adapters/fixture');
 require('app/models/adapter_config');
 require('app/models/model');
+require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
@@ -63,9 +62,12 @@ require('app/models/debit');
 require('app/models/hold');
 require('app/models/refund');
 require('app/models/funding_instrument');
+require('app/models/bank_account');
+require('app/models/card');
 require('app/models/search_query');
 require('app/models/callback');
 require('app/models/customer');
+require('app/models/verification');
 
 require('app/lib/auth');
 
@@ -77,11 +79,24 @@ require('app/lib/auth');
  * programming to do.
  */
 require('app/views/_base');
+require('app/views/base_form');
 require('app/views/login');
 require('app/views/forgot_password');
 require('app/views/embedded_iframe');
 require('app/views/search');
 require('app/views/date_picker');
+require('app/views/download');
+
+require('app/views/marketplace/marketplace_index');
+require('app/views/marketplace/edit_marketplace_info_modal');
+require('app/views/marketplace/edit_owner_info_modal');
+require('app/views/marketplace/add_bank_account_modal');
+require('app/views/marketplace/delete_bank_account_modal');
+require('app/views/marketplace/verify_bank_account_modal');
+require('app/views/marketplace/add_card_modal');
+require('app/views/marketplace/delete_card_modal');
+require('app/views/marketplace/add_callback_modal');
+require('app/views/marketplace/delete_callback_modal');
 
 /*
  * Controller layer.
@@ -91,9 +106,11 @@ require('app/views/date_picker');
  * controllers wrapped objects.
  */
 require('app/controllers/_base');
+require('app/controllers/mixins/downloads');
 require('app/controllers/application');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
+require('app/controllers/marketplace_index');
 require('app/controllers/login');
 require('app/controllers/forgotPassword');
 require('app/controllers/search');

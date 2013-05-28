@@ -1,0 +1,39 @@
+<div class="modal hide" id="add-bank-account">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Add a bank account</h2>
+    </div>
+    <div class="modal-body">
+        <div {{bindAttr class=":control-group view.name_error:error"}}>
+            <label>Account holder's name</label>
+            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
+        </div>
+        
+        <div {{bindAttr class=":control-group view.routing_number_error:error"}}>
+            <label>Routing Number</label>
+            {{view Ember.TextField valueBinding="view.model.routing_number" viewName="routing_number" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.account_number_error:error"}}>
+            <label>Account number</label>
+            {{view Ember.TextField valueBinding="view.model.account_number" viewName="account_number" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.type_error:error"}}>
+            <label>Account type</label>
+            <input type="radio" name="account_type" value="checking" checked>
+            <label for="checking" class="radio-label">Checking</label>
+            <input type="radio" name="account_type" value="savings">
+            <label for="savings" class="radio-label">Savings</label>
+        </div>
+    </div>
+    <div class="modal-informational">
+        <img src="images/bank-account-instructions.png" alt="Bank Account Instructions" class="modal-informational-content"/>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn">Add</button>
+    </div>
+    </form>
+</div>

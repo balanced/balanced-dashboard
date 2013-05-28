@@ -1,6 +1,9 @@
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
     uri: '/v1/bank_accounts',
 
+    verifications: Balanced.Model.hasMany('Balanced.Verification', 'verifications_uri'),
+    verification: Balanced.Model.belongsTo('Balanced.Verification', 'verification_uri'),
+
     type_name: function() {
         return 'Bank Account';
     }.property(),
@@ -13,5 +16,9 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
             acNum.substr(acNum.length - 4),
             Balanced.Utils.toTitleCase(this.get('bank_name'))
         );
-    }.property('account_number', 'bank_name')
+    }.property('account_number', 'bank_name'),
+
+    verified: function() {
+        return this.get('verification.state') === "verified";
+    }.property('verification.state')
 });
