@@ -2,10 +2,15 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
     templateName: 'embedded_iframe',
     resizer: null,
     RESIZE_CHECK_INTERVAL: 1000,
-
+    isVisible: true,
     didInsertElement: function () {
         var self = this;
 
+        //  HACK: this is here as a lesson about what not to do :)
+        if (window.TESTING) {
+            this.set('isVisible', false);
+            return
+        }
         function calculateHeight($content) {
             var height = $content.height();
             var paddingTop = $content.css('padding-top').replace('px', '');
