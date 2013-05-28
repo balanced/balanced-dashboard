@@ -3,6 +3,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
     resizer: null,
 
     didInsertElement: function () {
+        var self = this;
         function calculateHeight($content) {
             var height = $content.height();
             var paddingTop = $content.css('padding-top').replace('px', '');
@@ -10,10 +11,10 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         }
 
         function onIframeTrigger(resizeFunction, iframe) {
-            if (this.resizer) {
+            if (self.resizer) {
                 return;
             }
-            this.resizer = setInterval(function() {
+            self.resizer = setInterval(function() {
                 resizeFunction(iframe);
             }, 1000);
         }
@@ -37,15 +38,14 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             }
         });
 
-        var _this = this;
         $embeddedContent.load(function () {
             // Fire this in case the server redirected
-            _this.updateHashFromIframeLocation(this.contentWindow.location.pathname);
+            self.updateHashFromIframeLocation(this.contentWindow.location.pathname);
 
             // Add a handler to links so we can change the page BEFORE the page loads
             $embeddedContent.contents().find('a').click(function (event) {
                 var addressValue = $(this).attr('href');
-                _this.updateHashFromIframeLocation(addressValue);
+                self.updateHashFromIframeLocation(addressValue);
             });
         });
     },
