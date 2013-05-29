@@ -1,4 +1,4 @@
-Balanced.SearchController = Balanced.ObjectController.extend({
+Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
     needs: ["marketplace"],
 
     search: '',
@@ -42,6 +42,15 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         return this.getLabel(typesToLabels, types, this.type);
     }.property('content.type'),
 
+    getSearchUri: function () {
+        var query = this.get('search');
+        var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
+        var params = this.searchParams({
+            query: query
+        });
+        return Balanced.SearchQuery.createUri(marketplaceUri, params);
+    },
+
     ////
     // Wrapper
     ////
@@ -76,21 +85,28 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         this.set('isLoading', true);
 
         var _this = this;
-
-        Balanced.SearchQuery.search(marketplaceUri, {
+        var params = this.searchParams({
             query: query,
+            requestTimeStamp: requestTimeStamp
+        });
+
+        Balanced.SearchQuery.search(marketplaceUri, params, {
+            observer: function (result) {
+                _this.onSearchCallback(result, callback);
+            }
+        });
+    },
+
+    searchParams: function (params) {
+        var defaults = {
             limit: this.get('limit'),
             minDate: this.get('minDate'),
             maxDate: this.get('maxDate'),
             sortField: this.get('sortField'),
             sortOrder: this.get('sortOrder'),
-            type: this.get('type'),
-            requestTimeStamp: requestTimeStamp
-        }, {
-            observer: function (result) {
-                _this.onSearchCallback(result, callback);
-            }
-        });
+            type: this.get('type')
+        };
+        return $.extend({}, defaults, params);
     },
 
     loadMoreFromQuery: function () {

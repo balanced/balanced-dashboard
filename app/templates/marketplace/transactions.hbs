@@ -2,6 +2,8 @@
     <a href="#" {{action download_show}} class="icon-download right">Download</a>
 </h1>
 
+{{controllers.marketplace.in_escrow}}
+
 {{view Balanced.EmbeddedIframeView iframeUrlBinding="controllers.marketplace.transactions_embedded_iframe_url"}}
 
 {{#if show_download}}

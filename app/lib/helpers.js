@@ -179,7 +179,7 @@ Balanced.Utils = {
     },
 
     toTitleCase: function (str) {
-        if(!str) {
+        if (!str) {
             return str;
         }
         return str.replace(/\w\S*/g, function (txt) {
@@ -197,7 +197,7 @@ Balanced.Utils = {
     /*
      * Inserts or updates a single query string parameter
      */
-    updateQueryStringParameter: function(uri, key, value) {
+    updateQueryStringParameter: function (uri, key, value) {
         var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
         var separator = uri.indexOf("?") > -1 ? "&" : "?";
         if (uri.match(re)) {
@@ -206,5 +206,20 @@ Balanced.Utils = {
         else {
             return uri + separator + key + "=" + value;
         }
+    },
+
+    sortDict: function (dict) {
+        var sorted = [];
+        for (var key in dict) {
+            sorted[sorted.length] = key;
+        }
+        sorted.sort();
+
+        var tempDict = {};
+        for (var i = 0; i < sorted.length; i++) {
+            tempDict[sorted[i]] = dict[sorted[i]];
+        }
+
+        return tempDict;
     }
 };

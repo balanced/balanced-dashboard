@@ -46,7 +46,7 @@
         outline: none;
       }
     }
-    .close {
+    > .close {
       display: block;
       right: 10px;
       top: 18px;
@@ -112,7 +112,6 @@
         font-family: fanwoodtext-regular;
         font-weight: normal;
         font-size: 16px;
-
         a {
           text-decoration: none;
           color: #737373;
@@ -141,6 +140,14 @@
           border-bottom-color: transparent;
           .selector {
             display: none;
+          }
+        }
+        &.download {
+          float: right;
+          padding: 9px 0 0;
+          margin: 0 10px;
+          &:hover {
+            border-bottom: 0;
           }
         }
         .selector {
