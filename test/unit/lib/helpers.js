@@ -12,3 +12,33 @@ test("getParamByName", function (assert) {
         assert.equal(result, '123');
     }
 });
+
+test("formatCurrency", function (assert) {
+    var cents = [
+        -984526372,
+        -10000,
+        -105,
+        -1,
+        0,
+        1,
+        105,
+        10000,
+        984726372
+    ];
+
+    var expected = [
+        "$-9,845,263.72",
+        "$-100.00",
+        "$-1.05",
+        "$-0.01",
+        "$0.00",
+        "$0.01",
+        "$1.05",
+        "$100.00",
+        "$9,847,263.72"
+    ];
+
+    for(var i = 0; i < cents.length; i++) {
+        assert.equal(Balanced.Utils.formatCurrency(cents[i]), expected[i]);
+    }
+});

@@ -205,5 +205,11 @@ Balanced.Utils = {
         else {
             return uri + separator + key + "=" + value;
         }
+    },
+
+    formatCurrency: function(cents) {
+        if(typeof cents !== "undefined") {
+            return '$' + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        }
     }
 };

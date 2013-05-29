@@ -4,11 +4,11 @@
 
 <div class="span20 escrow-box">
     <div class="span2 label">
-        <span>Escrow</span>
+        <span class="subhead1d">Escrow</span>
     </div>
     <div class="span14 amount">
         <span class="number1d">
-            {{ centsToDollars controllers.marketplace.in_escrow }}
+            {{ formatCurrency controllers.marketplace.in_escrow }}
         </span>
     </div>
     <div class="span4 buttons">

@@ -3,8 +3,4 @@
 //
 // ex: 123456 => $1,234.56
 ////
-Ember.Handlebars.registerBoundHelper('centsToDollars', function(cents) {
-    if(cents) {
-        return '$' + (cents / 100).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-    }
-});
+Ember.Handlebars.registerBoundHelper('formatCurrency', Balanced.Utils.formatCurrency);
