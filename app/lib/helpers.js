@@ -144,7 +144,6 @@ if (!String.prototype.format) {
 }
 
 Balanced.Helpers = (function () {
-
     // example of how to parse and format iso8601 dates. will parse the
     // specified format and then attach the original unparsed date as a title
     // attribute. may not be needed since we don't render the time info on the
