@@ -144,7 +144,6 @@ if (!String.prototype.format) {
 }
 
 Balanced.Helpers = (function () {
-
     // example of how to parse and format iso8601 dates. will parse the
     // specified format and then attach the original unparsed date as a title
     // attribute. may not be needed since we don't render the time info on the
@@ -205,6 +204,12 @@ Balanced.Utils = {
         }
         else {
             return uri + separator + key + "=" + value;
+        }
+    },
+
+    formatCurrency: function(cents) {
+        if(typeof cents !== "undefined") {
+            return '$' + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
         }
     }
 };

@@ -36,6 +36,7 @@ window.Balanced.onLoad = function () {
  */
 require('app/lib/ajax');
 require('app/lib/helpers');
+require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
