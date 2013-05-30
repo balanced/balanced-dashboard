@@ -13,6 +13,16 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
 
     callbacks_uri: function () {
         return this.get('uri') + "/callbacks";
+    }.property('uri'),
+
+    // computes the ID from the URI - exists only because of the auth system 
+    // we're using. if we're trying to retrieve something that needs the 
+    // marketplace ID but the marketplace hasn't been retrieved yet, need a 
+    // way to get the ID to fill out the auth param
+    // REMOVE THIS WHEN WE HAVE OAUTH
+    id_from_uri: function() {
+        var uri = this.get('uri');
+        return uri.substring(uri.lastIndexOf("/")+1);
     }.property('uri')
 });
 
