@@ -41,7 +41,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
             // TODO: this is working around a bug where we sometimes get no
             // redirect. find out why...
-            self.transitionToRoute('index');
+            self.transitionToRoute('marketplaces');
         });
     }
 });
