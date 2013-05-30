@@ -1,6 +1,7 @@
 Balanced.IndexRoute = Balanced.Route.extend({
     redirect: function () {
-        this.transitionTo('marketplaces');
+        var destination = Balanced.Auth.get('userId') ? 'marketplaces' : 'login';
+        this.transitionTo(destination);
     }
 });
 
