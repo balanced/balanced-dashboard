@@ -5,51 +5,53 @@ Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 });
 
 Balanced.Router.map(function () {
-  this.resource("marketplace", { path: "/marketplaces/:marketplace_id" }, function() {
-    this.route("transactions", { path: "/transactions" });
+    this.resource('marketplaces', {path: '/marketplaces'}, function () {
+        this.resource("marketplace", { path: "/:marketplace_id" }, function () {
+            this.route("transactions", { path: "/transactions" });
 
-    this.resource("accounts", { path: "/accounts/:account_id" }, function() {
-      this.route("credit", { path: "/credits/:credit_id" });
-      this.route("debit", { path: "/debits/:debit_id" });
-      this.route("refund", { path: "/refunds/:refund_id" });
-      this.route("hold", { path: "/holds/:hold_id" });
+            this.resource("accounts", { path: "/accounts/:account_id" }, function () {
+                this.route("credit", { path: "/credits/:credit_id" });
+                this.route("debit", { path: "/debits/:debit_id" });
+                this.route("refund", { path: "/refunds/:refund_id" });
+                this.route("hold", { path: "/holds/:hold_id" });
 
-      this.resource("cards", { path: "/cards" }, function() {
-        this.route("card", { path: "/:card_id" });
-      });
+                this.resource("cards", { path: "/cards" }, function () {
+                    this.route("card", { path: "/:card_id" });
+                });
 
-      this.resource("bankAccounts", { path: "/bank_accounts" }, function() {
-        this.route("bankAccount", { path: "/:bank_account_id" });
-      });
+                this.resource("bankAccounts", { path: "/bank_accounts" }, function () {
+                    this.route("bankAccount", { path: "/:bank_account_id" });
+                });
+            });
+
+            ////
+            // Aliases, they simply transitionTo
+            ////
+            this.route("credits", { path: "/credits/:credit_id" });
+            this.route("debits", { path: "/debits/:debit_id" });
+            this.route("refunds", { path: "/refunds/:refund_id" });
+            this.route("holds", { path: "/holds/:hold_id" });
+
+            this.resource("logs", { path: "/logs" }, function () {
+                this.route("log", { path: "/:log_id" });
+            });
+
+            this.resource("invoices", { path: "/invoices" }, function () {
+                this.route("invoice", { path: "/:invoice_id" });
+            });
+
+            this.resource("cards", { path: "/cards" }, function () {
+                this.route("card", { path: "/:card_id" });
+            });
+
+            this.resource("bankAccounts", { path: "/bank_accounts" }, function () {
+                this.route("bankAccount", { path: "/:bank_account_id" });
+            });
+        });
+
     });
-
-    ////
-    // Aliases, they simply transitionTo
-    ////
-    this.route("credits", { path: "/credits/:credit_id" });
-    this.route("debits", { path: "/debits/:debit_id" });
-    this.route("refunds", { path: "/refunds/:refund_id" });
-    this.route("holds", { path: "/holds/:hold_id" });
-
-    this.resource("logs", { path: "/logs" }, function() {
-      this.route("log", { path: "/:log_id" });
-    });
-
-    this.resource("invoices", { path: "/invoices" }, function() {
-      this.route("invoice", { path: "/:invoice_id" });
-    });
-
-    this.resource("cards", { path: "/cards" }, function() {
-      this.route("card", { path: "/:card_id" });
-    });
-
-    this.resource("bankAccounts", { path: "/bank_accounts" }, function() {
-      this.route("bankAccount", { path: "/:bank_account_id" });
-    });
-  });
-
-  this.route('login', { path: "/login" });
-  this.route('forgotPassword', { path: "/forgot_password" });
+    this.route('login', { path: "/login" });
+    this.route('forgotPassword', { path: "/forgot_password" });
 });
 
 ////

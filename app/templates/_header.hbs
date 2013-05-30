@@ -12,14 +12,14 @@
                 <a class="dropdown-toggle"
                    data-toggle="dropdown"
                    href="#">
-                        <span id="marketplace-name" class="nav2d">{{#if name}} {{name}} {{else}} Marketplaces {{/if}}</span>
+                        <span id="marketplace-name" class="nav2d">{{#if controllers.marketplace.name}} {{controllers.marketplace.name}} {{else}} Marketplaces {{/if}}</span>
                         <!--<span class="nav1d">(live)</span>-->
                     <b class="caret"></b>
                 </a>
-                {{ render "marketplaces" }}
+                {{ render "marketplaces_list" }}
             </div>
 
-            {{#if name}} {{ render "search" }} {{/if}}
+            {{#if controllers.marketplace.name}} {{ render "search" }} {{/if}}
 
             {{/if}}
         </div>

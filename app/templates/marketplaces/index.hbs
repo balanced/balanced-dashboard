@@ -1,0 +1,34 @@
+
+<section id="main" class="container">
+    <div class="row">
+        <div id="content" class="span26">
+            <div class="row">
+                <div class="offset2 span22">
+                    <div class="row">
+
+<ul>
+    {{#each marketplace in Balanced.Auth.user.marketplaces }}
+        {{#if marketplace.production }}
+            <li class="label2a">
+                {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
+            </li>
+        {{/if}}
+    {{/each}}
+</ul>
+
+<ul>
+    {{#each marketplace in Balanced.Auth.user.marketplaces }}
+        {{#unless marketplace.production }}
+            <li class="label2a">
+                {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
+            </li>
+        {{/unless}}
+    {{/each}}
+</ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
