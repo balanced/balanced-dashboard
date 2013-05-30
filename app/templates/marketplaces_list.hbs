@@ -1,0 +1,27 @@
+<ul class="dropdown-menu">
+    <li>
+        <h4 class="label6a">Production</h4>
+        <ul>
+          {{#each marketplace in Balanced.Auth.user.marketplaces }}
+              {{#if marketplace.production }}
+            <li class="label2a">
+              {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
+            </li>
+          {{/if}}
+          {{/each}}
+        </ul>
+    </li>
+    <li>
+        <h4 class="label6a">Test</h4>
+        <ul>
+            {{#each marketplace in Balanced.Auth.user.marketplaces }}
+                {{#unless marketplace.production }}
+                    <li class="label2a">
+                        {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
+                    </li>
+                {{/unless}}
+            {{/each}}
+        </ul>
+    </li>
+    <li class="new label2d"><a href="#"> + Add a marketplace</a></li>
+</ul>
