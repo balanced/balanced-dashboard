@@ -1,34 +1,41 @@
 
-<section id="main" class="container">
+<section id="main" class="container marketplaces">
     <div class="row">
-        <div id="content" class="span26">
+
+        <nav id="marketplace-nav" class="span2">
+        </nav>
+
+        <div id="content" class="span24">
             <div class="row">
                 <div class="offset2 span22">
-                    <div class="row">
+                    <h1>Add/Remove Marketplaces</h1>
 
-<ul>
-    {{#each marketplace in Balanced.Auth.user.marketplaces }}
-        {{#if marketplace.production }}
-            <li class="label2a">
-                {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
-            </li>
-        {{/if}}
-    {{/each}}
-</ul>
+                    <div class="subhead1a">Production marketplace</div>
+                    <ul class="marketplace-list production">
+                        {{#each marketplace in Balanced.Auth.user.marketplaces }}
+                            {{#if marketplace.production }}
+                                <li>
+                                    <div class="icon"></div>
+                                    <div class="name">{{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}</div>
+                                </li>
+                            {{/if}}
+                        {{/each}}
+                    </ul>
 
-<ul>
-    {{#each marketplace in Balanced.Auth.user.marketplaces }}
-        {{#unless marketplace.production }}
-            <li class="label2a">
-                {{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}
-            </li>
-        {{/unless}}
-    {{/each}}
-</ul>
-
+                    <div class="subhead1a">Test marketplaces</div>
+                    <ul class="marketplace-list test">
+                        {{#each marketplace in Balanced.Auth.user.marketplaces }}
+                            {{#unless marketplace.production }}
+                                <li>
+                                    <div class="icon-delete">&times;</div>
+                                    <div class="icon"></div>
+                                    <div class="name">{{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}</div>
+                                </li>
+                            {{/unless}}
+                        {{/each}}
+                    </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </section>
