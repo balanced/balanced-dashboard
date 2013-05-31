@@ -5,7 +5,7 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
 
     dollar_amount: null,
 
-    selected_bank_account: function() {
+    selected_bank_account: function () {
         return Balanced.BankAccount.find(this.get('model.source_uri'));
     }.property('model.source_uri'),
 
@@ -38,7 +38,7 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
         });
 
         debit.on('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(JSON.parse(json));
+            self.highlightErrorsFromAPIResponse(json);
         });
 
         debit.create();
