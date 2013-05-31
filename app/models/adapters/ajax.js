@@ -65,7 +65,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
             !( /\/v.+\/marketplaces\/.+/.test(uri) ) &&
             Balanced.currentMarketplace) {
 
-            var authedUri = Balanced.Utils.updateQueryStringParameter(uri, "marketplace", Balanced.currentMarketplace.get('id'));
+            var authedUri = Balanced.Utils.updateQueryStringParameter(uri, "marketplace", Balanced.currentMarketplace.get('id_from_uri'));
 
             return authedUri;
         } else {
