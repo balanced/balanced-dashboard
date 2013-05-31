@@ -54,6 +54,7 @@ Balanced.Router.map(function () {
 ////
 require('app/routes/application');
 require('app/routes/index');
+require('app/routes/login');
 
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/bank_accounts');

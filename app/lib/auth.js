@@ -15,9 +15,10 @@ var defaultBalancedAuthOptions = {
         route: 'login'
     },
     actionRedirectable: {
+        signInRoute: 'marketplaces',
         signInSmart: true,
         signInBlacklist: ['login'],
-        signOutRoute: 'index'
+        signOutRoute: 'marketplaces'
     },
     rememberable: {
         tokenKey: 'uri',
