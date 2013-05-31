@@ -6,13 +6,7 @@ Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 
 function makeNestedResource(that, plural, singular) {
     that.resource(plural, { path: '/' + plural }, function () {
-        this.route(singular, { path: '/' + singular + '_id' });
-    });
-}
-
-function bankAccountsResource(that) {
-    that.resource("bank_accounts", { path: "/bank_accounts" }, function () {
-        this.route("bank_account", { path: "/:bank_account_id" });
+        this.route(singular, { path: '/:' + singular + '_id' });
     });
 }
 
@@ -23,25 +17,22 @@ Balanced.Router.map(function () {
 
             this.resource("accounts", { path: "/accounts/:account_id" }, function () {
 
+                makeNestedResource(this, 'cards', 'card');
                 makeNestedResource(this, 'credits', 'credit');
                 makeNestedResource(this, 'debits', 'debit');
-                makeNestedResource(this, 'refunds', 'refund');
                 makeNestedResource(this, 'holds', 'hold');
-                makeNestedResource(this, 'cards', 'card');
-                bankAccountsResource(this);
+                makeNestedResource(this, 'refunds', 'refund');
+                makeNestedResource(this, 'bank_accounts', 'bank_account');
             });
 
-            ////
-            // Aliases, they simply transitionTo
-            ////
+            makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
-            makeNestedResource(this, 'refunds', 'refund');
             makeNestedResource(this, 'holds', 'hold');
-            makeNestedResource(this, 'cards', 'card');
-            makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'invoices', 'invoice');
-            bankAccountsResource(this);
+            makeNestedResource(this, 'logs', 'log');
+            makeNestedResource(this, 'refunds', 'refund');
+            makeNestedResource(this, 'bank_accounts', 'bank_account');
         });
 
     });
@@ -63,3 +54,4 @@ require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/invoices');
 require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');
+require('app/routes/marketplaces/transactions');

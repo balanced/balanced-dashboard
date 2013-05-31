@@ -33,8 +33,7 @@ Balanced.AddCardModalView = Balanced.BaseFormView.extend({
             $('#add-card').modal('hide');
         });
         card.on('becameInvalid', function (json) {
-            var jsonObject = JSON.parse(json);
-            self.highlightErrorsFromAPIResponse(jsonObject);
+            self.highlightErrorsFromAPIResponse(json);
         });
         card.create();
     }
