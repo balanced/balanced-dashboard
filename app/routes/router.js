@@ -63,3 +63,4 @@ require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/invoices');
 require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');
+require('app/routes/marketplaces/transactions');

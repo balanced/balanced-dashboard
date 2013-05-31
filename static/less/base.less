@@ -69,7 +69,7 @@ h1 {
   font-weight: normal;
   font-size: 34px;
   color: #000;
-  border-bottom: 1px solid #bcbcbc;
+  border-bottom: 1px solid @balancedLightGray;
   margin-bottom: 1em;
 
   &.page-title {
@@ -109,9 +109,9 @@ input:focus, select:focus, textarea:focus, a:focus {
 .fontyFont(label4, nimbussannov-sembol, 13px);
 .fontyFont(label5, nimbussannov-med, 12px);
 .fontyFont(label6, fanwoodtext-italic, 16px);
-.fontyFont(number1, nimbussannovcon-bol, 56px);
-.fontyFont(number2, nimbussannovcon-bol, 24px);
-.fontyFont(number3, nimbussannovcon-bol, 18px);
+.fontyFont(number1, nimbussancond-bol, 56px);
+.fontyFont(number2, nimbussancond-bol, 24px);
+.fontyFont(number3, nimbussancond-bol, 18px);
 .fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
 .fontyFont(nav2, nimbussannov-semibol, 18px);
 .fontyFont(body2, fanwoodtext-regular, 18px);
@@ -143,6 +143,12 @@ input:focus, select:focus, textarea:focus, a:focus {
       border-color: @buttonDangerColor;
       color: @buttonBackgroundColor;
     }
+  }
+}
+
+hr {
+  &.seperation-line {
+    border-top: 2px solid #E4E4E0;
   }
 }
 

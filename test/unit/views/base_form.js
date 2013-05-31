@@ -39,3 +39,8 @@ test('highlightErrors works properly', function (assert) {
     assert.equal(form.get('a_error'), false,
         'Errors present when they shouldn\'t be.');
 });
+test('highlightErrors works with string data', function (assert) {
+    form.highlightErrorsFromAPIResponse('{ "description": "something something a something" }');
+    assert.equal(form.get('a_error'), true,
+        'Errors not present when they should be.');
+});

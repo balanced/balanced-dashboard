@@ -172,7 +172,7 @@ Balanced.SearchQueryInputView = Ember.TextField.extend({
     this.keyUp = _.throttle(function(e) {
       // Hide search results on escape key
       if(e.keyCode === Balanced.KEYS.ESCAPE) {
-        $("#search").removeClass(this.resultsClass);
+        $("#search").removeClass(this.get('parentView').resultsClass);
         $("body").removeClass("overlaid");
         return;
       }

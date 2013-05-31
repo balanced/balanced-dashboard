@@ -74,7 +74,6 @@ require('app/lib/auth');
 
 /*
  * Views layer.
- * You'll notice that there are only a few views.
  * Ember accomplishes a lot in its templates and
  * Views are only necessary if you have view-specific
  * programming to do.
@@ -89,6 +88,9 @@ require('app/views/date_picker');
 require('app/views/download');
 
 require('app/views/marketplace/marketplace_index');
+require('app/views/marketplace/marketplace_transactions');
+require('app/views/marketplace/add_funds_modal');
+require('app/views/marketplace/withdraw_funds_modal');
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/edit_owner_info_modal');
 require('app/views/marketplace/add_bank_account_modal');
