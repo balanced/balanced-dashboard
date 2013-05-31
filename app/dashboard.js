@@ -115,14 +115,14 @@ require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/marketplace_index');
 require('app/controllers/login');
-require('app/controllers/forgotPassword');
+require('app/controllers/forgot_password');
 require('app/controllers/search');
 
 require('app/controllers/accounts');
 require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');
-require('app/controllers/bankAccounts');
+require('app/controllers/bank_accounts');
 
 /*
  * States (i.e. Routes)
