@@ -22,7 +22,7 @@ Balanced.Router.map(function () {
                 makeNestedResource(this, 'debits', 'debit');
                 makeNestedResource(this, 'holds', 'hold');
                 makeNestedResource(this, 'refunds', 'refund');
-                bankAccountsResource(this);
+                makeNestedResource(this, 'bank_accounts', 'bank_account');
             });
 
             makeNestedResource(this, 'cards', 'card');

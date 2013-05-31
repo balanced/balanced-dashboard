@@ -35,3 +35,9 @@ Balanced.HoldsRoute = Balanced.IframeRoute.extend({
     param: 'hold_id',
     title: 'Holds'
 });
+
+Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
+    model: function (params) {
+        return this.modelFor('marketplace');
+    }
+});

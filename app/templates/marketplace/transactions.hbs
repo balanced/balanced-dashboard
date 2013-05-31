@@ -12,8 +12,8 @@
         </span>
     </div>
     <div class="span4 buttons">
-        <a class="btn">Add funds</a>
-        <a class="btn">Withdraw funds</a>
+        <a class="btn" {{action openAddFundsModal target="view"}}}>Add funds</a>
+        <a class="btn" {{action openWithdrawFundsModal target="view"}}}>Withdraw funds</a>
     </div>
 </div>
 
@@ -22,3 +22,6 @@
 {{#if show_download}}
     {{view Balanced.DownloadModalView }}
 {{/if}}
+
+{{view Balanced.AddFundsModalView marketplaceBinding="model" viewName="addFundsModal"}}
+{{view Balanced.WithdrawFundsModalView marketplaceBinding="model" viewName="withdrawFundsModal"}}

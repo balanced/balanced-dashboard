@@ -20,8 +20,7 @@ Balanced.EditOwnerInfoModalView = Balanced.BaseFormView.extend({
             $('#edit-owner-info').modal('hide');
         });
         customer.one('becameInvalid', function (json) {
-            var jsonObject = JSON.parse(json);
-            self.highlightErrorsFromAPIResponse(jsonObject);
+            self.highlightErrorsFromAPIResponse(json);
         });
         customer.update();
     }

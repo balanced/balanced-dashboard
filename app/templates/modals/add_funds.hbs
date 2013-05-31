@@ -1,0 +1,45 @@
+<div class="modal hide" id="add-funds">
+    <form {{action "save" on="submit" target="view"}}>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h2>Add funds</h2>
+        </div>
+        <div class="modal-body">
+            <div {{bindAttr class=":control-group view.source_uri_error:error"}}>
+                <label>Account number</label>
+
+                {{view Ember.Select
+                    contentBinding="owner_customer.bank_accounts"
+                    valueBinding="view.model.source_uri"
+                    optionValuePath="content.uri"
+                    optionLabelPath="content.description"
+                    viewName="source_uri"
+                    class="span8"
+                }}
+            </div>
+
+            <div class="control-group">
+                <label class="inline">Account holder's name</label> {{view.selected_bank_account.name}}
+            </div>
+
+            <div class="control-group">
+                <label class="inline">Bank</label> {{view.selected_bank_account.bank_name}}
+            </div>
+
+            <div {bindAttr class=":control-group view.amount_error:error"}}>
+                <label>Amount</label>
+                <div class="input-prepend">
+                    <span class="add-on">$</span>
+                    {{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
+                </div>
+            </div>
+        </div>
+        <div class="modal-informational">
+            <p>Funds will appear in your balance in 3-5 business days.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button class="btn">Add</button>
+        </div>
+    </form>
+</div>
