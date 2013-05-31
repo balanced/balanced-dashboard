@@ -21,35 +21,3 @@ Balanced.AccountsRefundRoute = Balanced.AuthRoute.extend({
 Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
     model: model
 });
-
-////
-// Aliases
-//
-////
-Balanced.MarketplaceCreditsRoute = Balanced.AuthRoute.extend({
-    model: model,
-    renderTemplate: function () {
-        this.render('accounts/credit');
-    }
-});
-
-Balanced.MarketplaceDebitsRoute = Balanced.AuthRoute.extend({
-    model: model,
-    renderTemplate: function () {
-        this.render('accounts/debit');
-    }
-});
-
-Balanced.MarketplaceRefundsRoute = Balanced.AuthRoute.extend({
-    model: model,
-    renderTemplate: function () {
-        this.render('accounts/refund');
-    }
-});
-
-Balanced.MarketplaceHoldsRoute = Balanced.AuthRoute.extend({
-    model: model,
-    renderTemplate: function () {
-        this.render('accounts/hold');
-    }
-});
