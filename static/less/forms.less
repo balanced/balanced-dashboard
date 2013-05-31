@@ -4,13 +4,19 @@
 form {
   //  what retard puts margin on a form element?
   margin: 0;
+
   label {
     font-family: nimbussannov-sembol;
     color: #000;
     margin-bottom: 0;
+
     &:after {
       content: ':';
       padding-right: 3px;
+    }
+
+    &.inline {
+      display: inline;
     }
   }
 
