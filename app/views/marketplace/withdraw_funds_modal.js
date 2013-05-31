@@ -30,7 +30,7 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         ////
         // Convert dollars to cents
         ////
-        credit.set('amount', parseInt(this.get('dollar_amount') * 100));
+        credit.set('amount', parseInt(this.get('dollar_amount') * 100, 10));
 
         credit.one('didCreate', function () {
             self.get('marketplace').refresh();

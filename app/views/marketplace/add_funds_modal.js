@@ -30,7 +30,7 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
         ////
         // Convert dollars to cents
         ////
-        debit.set('amount', parseInt(this.get('dollar_amount') * 100));
+        debit.set('amount', parseInt(this.get('dollar_amount') * 100, 10));
 
         debit.one('didCreate', function () {
             self.get('marketplace').refresh();
