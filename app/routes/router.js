@@ -6,13 +6,13 @@ Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 
 function makeNestedResource(that, plural, singular) {
     that.resource(plural, { path: '/' + plural }, function () {
-        this.route(singular, { path: '/' + singular });
+        this.route(singular, { path: '/' + singular + '_id' });
     });
 }
 
 function bankAccountsResource(that) {
-    that.resource("bankAccounts", { path: "/bank_accounts" }, function () {
-        that.route("bankAccount", { path: "/:bank_account_id" });
+    that.resource("bank_accounts", { path: "/bank_accounts" }, function () {
+        this.route("bank_account", { path: "/:bank_account_id" });
     });
 }
 
