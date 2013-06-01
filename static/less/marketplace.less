@@ -34,3 +34,72 @@
     }
   }
 }
+
+
+.marketplaces {
+  .marketplace-list {
+    float: left;
+    clear: both;
+    margin-bottom: 60px;
+    & > div {
+      margin-bottom: 5px;
+    }
+    li {
+      float: left;
+      clear: both;
+      margin-bottom: 5px;
+      width: 895px;
+      position: relative;
+      .icon {
+        float: left;
+        .cssicon(
+          @url: @iconsFile,
+          @width: 65px,
+          @height: 65px,
+          @display: block
+        );
+        background-position: 8px -662px;
+      }
+      .name {
+        float: left;
+        padding: 15px 15px 0;
+      }
+      .delete {
+        float: right;
+      }
+    }
+    &.production {
+      li {
+        background-color: @pineGreen60;
+      }
+      .icon {
+        background-color: @pineGreen100;
+      }
+    }
+    &.test {
+      li {
+        background-color: @curryYellow60;
+      }
+      .icon {
+        background-color: @curryYellow100;
+      }
+    }
+    li.new {
+      background-color: @white;
+      .icon {
+        background-color: @gray3;
+        background-position: -43px -662px;
+      }
+    }
+    &.register {
+      li {
+        background-color: @turquoise60;
+      }
+      .icon {
+        background-color: @turquoise100;
+        background-position: -43px -662px;
+      }
+    }
+
+  }
+}
