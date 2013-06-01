@@ -16,7 +16,7 @@
                             {{#if marketplace.production }}
                                 <li>
                                     <div class="icon"></div>
-                                    <div class="name">{{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}</div>
+                                    <div class="name">{{#linkTo marketplace.transactions marketplace }}{{ marketplace.name }}{{/linkTo}}</div>
                                 </li>
                             {{/if}}
                         {{/each}}
@@ -29,7 +29,7 @@
                                 <li>
                                     <div class="icon-delete">&times;</div>
                                     <div class="icon"></div>
-                                    <div class="name">{{#linkTo "marketplace" marketplace }}{{marketplace.name}}{{/linkTo}}</div>
+                                    <div class="name">{{#linkTo marketplace.transactions marketplace }}{{ marketplace.name }}{{/linkTo}}</div>
                                 </li>
                             {{/unless}}
                         {{/each}}

@@ -1,4 +1,4 @@
-module('Invoices', {
+module('Customers', {
     setup: function () {
         Testing.selectMarketplaceByName();
     }, teardown: function () {
@@ -6,12 +6,11 @@ module('Invoices', {
     }
 });
 
-test('can visit page', function (assert) {
+test('can visit create new customer ', function (assert) {
     // click the activity link
-    $('#marketplace-nav .invoices a').click();
+    $('#marketplace-actions .add-customer a').click();
 
     //  check the page title has been selected
     var $title = $('#content h1');
-
-    assert.notEqual($title.text().indexOf('Invoices'), -1);
+    assert.equal($title.text(), 'Create a new customer');
 });

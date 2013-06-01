@@ -1,3 +1,36 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+@marketplaceActionIconSize: 37px;
+
 .test-marketplace-label {
 	font-style: italic;
+}
+
+#marketplace-actions {
+  position: absolute;
+  right: -@marketplaceActionIconSize;
+  top: @marketplaceActionIconSize;
+  float: right;
+  li {
+    margin-bottom: 5px;
+    background-color: red;
+    &.add-customer {
+      background-color: @byzantiumPurple60;
+      a {
+        background-position: -56px -626px;
+      }
+    }
+  }
+  a {
+    .cssicon(
+      @url: @iconsFile,
+      @width: @marketplaceActionIconSize,
+      @height: @marketplaceActionIconSize,
+      @display: block
+    );
+    &:hover {
+      background-color: black;
+    }
+  }
 }
