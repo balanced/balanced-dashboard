@@ -6,13 +6,18 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
     dollar_amount: null,
 
     selected_bank_account: function () {
-        return Balanced.BankAccount.find(this.get('model.source_uri'));
+        if (this.get('model.source_uri')) {
+            return Balanced.BankAccount.find(this.get('model.source_uri'));
+        }
     }.property('model.source_uri'),
 
     open: function () {
+        var verified_bank_accounts = this.get('marketplace.owner_customer.verified_bank_accounts');
+        var source_uri = (verified_bank_accounts && verified_bank_accounts.length > 0) ? verified_bank_accounts[0].get('uri') : null;
+
         var credit = Balanced.Credit.create({
             uri: this.get('marketplace.owner_customer.credits_uri'),
-            source_uri: this.get('marketplace.owner_customer.bank_accounts')[0].get('uri'),
+            source_uri: source_uri,
             amount: null
         });
 
@@ -27,10 +32,7 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         var self = this;
         var credit = this.get('model');
 
-        ////
-        // Convert dollars to cents
-        ////
-        credit.set('amount', parseInt(this.get('dollar_amount') * 100, 10));
+        credit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
 
         credit.one('didCreate', function () {
             self.get('marketplace').refresh();

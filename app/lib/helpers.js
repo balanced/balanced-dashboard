@@ -211,5 +211,9 @@ Balanced.Utils = {
         if(typeof cents !== "undefined") {
             return '$' + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
         }
+    },
+
+    dollarsToCents: function (dollars) {
+        return parseInt(dollars * 100, 10);
     }
 };
