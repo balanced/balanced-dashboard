@@ -165,7 +165,7 @@ Balanced.SearchView = Balanced.View.extend({
   }
 });
 
-Balanced.SearchQueryInputView = Ember.TextField.extend({
+Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
   attributeBindings: ['autocomplete'],
 
   didInsertElement: function() {
