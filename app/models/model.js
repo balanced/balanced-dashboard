@@ -208,7 +208,10 @@ Balanced.Model.reopenClass({
                     return typeClass.find(this.get(propertyName));
                 }
             } else {
-                return null;
+                // return a class of this type so dependent properties don't crap out on null
+                var emptyObj = typeClass.create();
+                emptyObj.set('isNew', false);
+                return emptyObj;
             }
         }).property(propertyName);
     },
