@@ -1,5 +1,5 @@
 var model = function () {
-    var uri = ENV.BALANCED.WWW + document.location.hash.substr(1) + '?embedded=1';
+    var uri = ENV.BALANCED.WWW + document.location.hash.substr(1) + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
     return uri;
 };
 
@@ -26,7 +26,7 @@ Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
 Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
     model: function () {
         var marketplace = this.modelFor('marketplace');
-        return marketplace.get('web_uri') + '/accounts/new?embedded=1';
+        return marketplace.get('web_uri') + '/accounts/new' + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
     }
 });
 

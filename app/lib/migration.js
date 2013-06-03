@@ -24,6 +24,6 @@ Balanced.MigrationUtils = {
     },
 
     convertApiURIToIframeURI: function (apiUri) {
-        return Balanced.MigrationUtils.convertApiUriIntoWebUri(apiUri) + '?embedded=1';
+        return Balanced.MigrationUtils.convertApiUriIntoWebUri(apiUri) + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
     }
 };
