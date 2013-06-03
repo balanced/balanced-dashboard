@@ -19,6 +19,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
     }.property('account_number', 'bank_name'),
 
     verified: function() {
-        return this.get('verification.state') === "verified";
+        return (this.get('can_debit') == true) || this.get('verification.state') === 'verified';
     }.property('verification.state')
 });
