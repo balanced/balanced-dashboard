@@ -48,7 +48,7 @@ footer {
     height: 60px;
   }
   .span2, .span24 {
-    background-color: #fff;
+    background-color: @white;
     border-top: 1px solid @marketplaceNavBackground;
   }
   .span2 {
@@ -160,7 +160,7 @@ footer {
     margin: 0;
     min-width: 210px;
     h4 {
-      border-bottom: 1px solid #BFBEB9;
+      border-bottom: 1px solid @gray3;
       margin: 10px 0 0;
       padding: 0 15px;
     }
@@ -179,7 +179,7 @@ footer {
         color: white;
         padding: 10px 15px;
         &:hover {
-          background-color: #000;
+          background-color: @black;
         }
       }
     }
@@ -227,13 +227,13 @@ footer {
     > a, > span {
       padding: 16px 0;
       display: block;
-      border: 5px solid #000;
+      border: 5px solid @black;
     }
     a {
       color: white;
       &:hover {
-        background-color: #a5cbcf;
-        color: #000;
+        background-color: @menuActiveBackground;
+        color: @black;
         text-decoration: none;
       }
     }
@@ -261,6 +261,7 @@ footer {
 }
 
 #main {
+  position: relative;
 }
 
 @marketplaceNavIconSize: 50px;
@@ -321,10 +322,10 @@ footer {
         left: 20px; // 50px / 2 - 5px for width of icon
       }
       &.active {
-        color: #000;
+        color: @black;
       }
       &:hover {
-        color: #000;
+        color: @black;
       }
     }
     &.activity {
@@ -344,7 +345,7 @@ footer {
 
 #content {
   background-color: @contentBackground;
-  padding-top: @mainVerticalPadding;
+  padding: @mainVerticalPadding 0;
   min-height: @mainMinHeight;
 
   &.no-min-height {

@@ -1,21 +1,3 @@
-Balanced.IframeRoute = Balanced.AuthRoute.extend({
-    param: null,
-    model: function (params) {
-        var marketplace = this.modelFor('marketplace');
-        var uri = marketplace.get('web_uri') + '/' + this.resource;
-        if (this.param && params[this.param]) {
-            uri += '/' + params[this.param];
-        }
-        return {
-            'uri': uri + '?embedded=1',
-            'title': this.title
-        };
-    },
-    renderTemplate: function () {
-        this.render('iframe');
-    }
-});
-
 Balanced.ShowResource = Balanced.IframeRoute.extend({
     setupController: function (controller, model) {
         this.controllerFor(this.resource).set('content', model);

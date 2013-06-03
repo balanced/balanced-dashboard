@@ -1,5 +1,6 @@
 var model = function () {
-    return ENV.BALANCED.WWW + document.location.hash.substr(1) + '?embedded=1';
+    var uri = ENV.BALANCED.WWW + document.location.hash.substr(1) + '?embedded=1';
+    return uri;
 };
 
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
@@ -20,4 +21,15 @@ Balanced.AccountsRefundRoute = Balanced.AuthRoute.extend({
 
 Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
     model: model
+});
+
+Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
+    model: model
+});
+
+Balanced.AccountRoute = Balanced.AuthRoute.extend({
+    model: model,
+    renderTemplate: function () {
+        this.render('accounts/account');
+    }
 });

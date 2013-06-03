@@ -57,7 +57,9 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             // Add a handler to links so we can change the page BEFORE the page loads
             $embeddedContent.contents().find('a').click(function (event) {
                 var addressValue = $(this).attr('href');
-                self.updateHashFromIframeLocation(addressValue);
+                if (!event.isDefaultPrevented()) {
+                    self.updateHashFromIframeLocation(addressValue);
+                }
             });
         });
     },
