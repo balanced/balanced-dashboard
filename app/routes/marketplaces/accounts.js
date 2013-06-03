@@ -24,7 +24,10 @@ Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
-    model: model
+    model: function () {
+        var marketplace = this.modelFor('marketplace');
+        return marketplace.get('web_uri') + '/accounts/new?embedded=1';
+    }
 });
 
 Balanced.AccountRoute = Balanced.AuthRoute.extend({
