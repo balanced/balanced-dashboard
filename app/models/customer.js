@@ -4,15 +4,12 @@ Balanced.Customer = Balanced.Model.extend({
     verified_bank_accounts: function() {
         var bank_accounts = this.get('bank_accounts');
 
-        valid_bank_accounts = [];
-        for(var i = 0; i < bank_accounts.length; i++) {
-            if(bank_accounts[i].get('verified')) {
-                valid_bank_accounts.push(bank_accounts[i]);
+        return _.filter(bank_accounts, function(bank_account) {
+            if(bank_account.get('verified')) {
+                return bank_account;
             }
-        }
-
-        return valid_bank_accounts;
-    }.property('bank_accounts'),
+        });
+    }.property('bank_accounts.@each.verified'),
 
     cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri')
 });
