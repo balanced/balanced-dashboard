@@ -72,7 +72,7 @@
                     <div class="control-group">
                         <label class="control-label">API key secret</label>
                         <div class="controls">
-                            <span class="inline-label"> TODO </span>
+                            <span class="inline-label"> {{ secret }} </span>
                         </div>
                     </div>
                 </div>
@@ -93,11 +93,7 @@
                         <label class="control-label">Type</label>
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                TODO
-                            {{else}}
-                                Test
-                            {{/if}}
+                            {{ owner_customer.type }}
                             </span>
                         </div>
                     </div>
