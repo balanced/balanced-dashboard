@@ -35,6 +35,7 @@ window.Balanced.onLoad = function () {
  * Helpers and utils - not static 3rd party libraries
  */
 require('app/lib/ajax');
+require('app/lib/forms');
 require('app/lib/helpers');
 require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
@@ -89,17 +90,20 @@ require('app/views/download');
 
 require('app/views/marketplace/marketplace_index');
 require('app/views/marketplace/marketplace_transactions');
+require('app/views/marketplace/add_bank_account_modal');
+require('app/views/marketplace/add_callback_modal');
+require('app/views/marketplace/add_card_modal');
 require('app/views/marketplace/add_funds_modal');
-require('app/views/marketplace/withdraw_funds_modal');
+require('app/views/marketplace/delete_bank_account_modal');
+require('app/views/marketplace/delete_callback_modal');
+require('app/views/marketplace/delete_card_modal');
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/edit_owner_info_modal');
-require('app/views/marketplace/add_bank_account_modal');
-require('app/views/marketplace/delete_bank_account_modal');
 require('app/views/marketplace/verify_bank_account_modal');
-require('app/views/marketplace/add_card_modal');
-require('app/views/marketplace/delete_card_modal');
-require('app/views/marketplace/add_callback_modal');
-require('app/views/marketplace/delete_callback_modal');
+require('app/views/marketplace/withdraw_funds_modal');
+require('app/views/marketplaces/add_existing_marketplace');
+require('app/views/marketplaces/add_test_marketplace');
+require('app/views/marketplaces/delete_marketplace_modal');
 
 /*
  * Controller layer.

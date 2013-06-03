@@ -44,6 +44,10 @@
     & > div {
       margin-bottom: 5px;
     }
+    .loader {
+      float: right;
+      margin-top: 7px;
+    }
     li {
       float: left;
       clear: both;
@@ -55,17 +59,28 @@
         .cssicon(
           @url: @iconsFile,
           @width: 65px,
-          @height: 65px,
+          @height: 67px,
           @display: block
         );
         background-position: 8px -662px;
       }
       .name {
-        float: left;
-        padding: 15px 15px 0;
       }
       .delete {
         float: right;
+      }
+      .info {
+        float: left;
+        padding: 15px 15px 0;
+        width: 800px;
+      }
+      input {
+        width: 325px;
+      }
+      button {
+        float: right;
+        width: 85px;
+        margin-top: 3px;
       }
     }
     &.production {
@@ -98,6 +113,9 @@
       .icon {
         background-color: @turquoise100;
         background-position: -43px -662px;
+      }
+      .name {
+        float: left;
       }
     }
 

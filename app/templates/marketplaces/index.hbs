@@ -12,53 +12,63 @@
 
                     <div class="marketplace-list production">
                         <div class="subhead1a">Production marketplace</div>
-                        <ul>
-                            {{#each marketplace in Balanced.Auth.user.marketplaces }}
-                                {{#if marketplace.production }}
-                                    <li>
-                                        <div class="icon"></div>
-                                        <h3 class="label1d name">{{#linkTo marketplace.transactions marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
-                                    </li>
-                                {{/if}}
-                            {{/each}}
-                            <li class="new">
-                                <div class="icon"></div>
-                                <input type="text" placeholder="Enter test marketplace name">
-                                <button class="btn">Add</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="marketplace-list test">
-                        <div class="subhead1a">Test marketplaces</div>
-                        <ul>
-                            {{#each marketplace in Balanced.Auth.user.marketplaces }}
-                                {{#unless marketplace.production }}
-                                    <li>
-                                        <div class="icon-delete">&times;</div>
-                                        <div class="icon"></div>
-                                        <h3 class="label1d name">{{#linkTo marketplace.transactions marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
-                                    </li>
-                                {{/unless}}
-                            {{/each}}
-                            <li class="new">
-                                <div class="icon"></div>
-                                <input type="text" placeholder="Enter API key of existing marketplace">
-                                <button class="btn">Add</button>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="marketplace-list register">
-                        <div class="subhead1a">Register</div>
-                        <ul>
-                            <li>
-                                <div class="icon"></div>
-                                <h2 class="label3d name">Not transacting yet? Register for production access.</h2>
-                                <button class="btn">Register</button>
-                            </li>
-                        </ul>
-                    </div>
+                            <ul>
+                                {{#each marketplace in Balanced.Auth.user.marketplaces }}
+                                    {{#if marketplace.production }}
+                                        <li>
+                                            <div class="icon"></div>
+                                            <div class="info">
+                                                <h3 class="label1d name">{{#linkTo marketplace.transactions marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
+                                            </div>
+                                        </li>
+                                    {{/if}}
+                                {{/each}}
+                                <li class="new">
+                                    <div class="icon"></div>
+                                    <div class="info">
+                                        {{view Balanced.AddExistingMarketplaceView}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="marketplace-list test">
+                            <div class="subhead1a">Test marketplaces</div>
+                            <ul>
+                                {{#each marketplace in Balanced.Auth.user.marketplaces }}
+                                    {{#unless marketplace.production }}
+                                        <li>
+                                            <a href="#" class="icon-delete" {{action promptToDeleteMarketplace marketplace }}>&times;</a>
+                                            <div class="icon"></div>
+                                                <div class="info">
+                                                <h3 class="label1d name">{{#linkTo marketplace.transactions marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
+                                            </div>
+                                        </li>
+                                    {{/unless}}
+                                {{/each}}
+                                <li class="new">
+                                    <div class="icon"></div>
+                                    <div class="info">
+                                        {{view Balanced.AddTestMarketplaceView}}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="marketplace-list register">
+                            <div class="subhead1a">Register</div>
+                            <ul>
+                                <li>
+                                    <div class="icon"></div>
+                                    <div class="info">
+                                        <h2 class="label3d name">Not transacting yet? Register for production access.</h2>
+                                        <button class="btn">Register</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 </section>
+
+{{view Balanced.DeleteMarketplaceModalView marketplaceBinding="model" viewName="deleteMarketplaceModal"}}
