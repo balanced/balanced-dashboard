@@ -224,25 +224,31 @@ Balanced.Model.reopenClass({
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
                 var populateModels = function (json) {
-                    if (json && json.items) {
-                        var typedObjects = _.map(json.items, function (item) {
-                            var typedObj = typeClass.create();
-                            typedObj.set('isNew', false);
-                            typedObj._updateFromJson(item);
+                    var itemsArray;
+                    if(json && $.isArray(json)) {
+                        itemsArray = json;
+                    } else if (json && json.items && $.isArray(json.items))
+                        itemsArray = json.items;
+                    else {
+                        modelObjectsArray.set('isError', true);
+                        return;
+                    }
 
-                            // if an object is deleted, remove it from the collection
-                            typedObj.on('didDelete', function () {
-                                modelObjectsArray.removeObject(typedObj);
-                            });
+                    var typedObjects = _.map(itemsArray, function (item) {
+                        var typedObj = typeClass.create();
+                        typedObj.set('isNew', false);
+                        typedObj._updateFromJson(item);
 
-                            return typedObj;
+                        // if an object is deleted, remove it from the collection
+                        typedObj.on('didDelete', function () {
+                            modelObjectsArray.removeObject(typedObj);
                         });
 
-                        modelObjectsArray.setObjects(typedObjects);
-                        modelObjectsArray.set('isLoaded', true);
-                    } else {
-                        modelObjectsArray.set('isError', true);
-                    }
+                        return typedObj;
+                    });
+
+                    modelObjectsArray.setObjects(typedObjects);
+                    modelObjectsArray.set('isLoaded', true);
                 };
 
                 if (settings.embedded) {
