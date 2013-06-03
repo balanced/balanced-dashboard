@@ -1,3 +1,123 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+@marketplaceActionIconSize: 37px;
+
 .test-marketplace-label {
 	font-style: italic;
+}
+
+#marketplace-actions {
+  position: absolute;
+  right: -@marketplaceActionIconSize;
+  top: @marketplaceActionIconSize;
+  float: right;
+  li {
+    margin-bottom: 5px;
+    background-color: red;
+    &.add-customer {
+      background-color: @byzantiumPurple60;
+      a {
+        background-position: -56px -626px;
+      }
+    }
+  }
+  a {
+    .cssicon(
+      @url: @iconsFile,
+      @width: @marketplaceActionIconSize,
+      @height: @marketplaceActionIconSize,
+      @display: block
+    );
+    &:hover {
+      background-color: black;
+    }
+  }
+}
+
+
+.marketplaces {
+  .marketplace-list {
+    float: left;
+    clear: both;
+    margin-bottom: 60px;
+    & > div {
+      margin-bottom: 5px;
+    }
+    .loader {
+      float: right;
+      margin-top: 7px;
+    }
+    li {
+      float: left;
+      clear: both;
+      margin-bottom: 5px;
+      width: 895px;
+      position: relative;
+      .icon {
+        float: left;
+        .cssicon(
+          @url: @iconsFile,
+          @width: 65px,
+          @height: 67px,
+          @display: block
+        );
+        background-position: 8px -662px;
+      }
+      .name {
+      }
+      .delete {
+        float: right;
+      }
+      .info {
+        float: left;
+        padding: 15px 15px 0;
+        width: 800px;
+      }
+      input {
+        width: 325px;
+      }
+      .btn {
+        float: right;
+        width: 75px;
+        margin-top: 3px;
+      }
+    }
+    &.production {
+      li {
+        background-color: @pineGreen60;
+      }
+      .icon {
+        background-color: @pineGreen100;
+      }
+    }
+    &.test {
+      li {
+        background-color: @curryYellow60;
+      }
+      .icon {
+        background-color: @curryYellow100;
+      }
+    }
+    li.new {
+      background-color: @white;
+      .icon {
+        background-color: @gray3;
+        background-position: -43px -662px;
+      }
+    }
+    &.register {
+      li {
+        background-color: @turquoise60;
+      }
+      .icon {
+        background-color: @turquoise100;
+        background-position: -920px -662px;
+      }
+      .name {
+        float: left;
+      }
+    }
+
+  }
 }

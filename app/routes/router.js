@@ -11,18 +11,30 @@ function makeNestedResource(that, plural, singular) {
 }
 
 Balanced.Router.map(function () {
-    this.resource('marketplaces', {path: '/marketplaces'}, function () {
-        this.resource("marketplace", { path: "/:marketplace_id" }, function () {
-            this.route("transactions", { path: "/transactions" });
 
-            this.resource("accounts", { path: "/accounts/:account_id" }, function () {
+    this.resource('marketplaces', { path: '/marketplaces' }, function () {
 
-                makeNestedResource(this, 'cards', 'card');
-                makeNestedResource(this, 'credits', 'credit');
-                makeNestedResource(this, 'debits', 'debit');
-                makeNestedResource(this, 'holds', 'hold');
-                makeNestedResource(this, 'refunds', 'refund');
-                makeNestedResource(this, 'bank_accounts', 'bank_account');
+        this.route('apply', { path: '/apply' });
+
+        this.resource('marketplace', { path: '/:marketplace_id' }, function () {
+
+            this.route('transactions', { path: '/transactions' });
+
+            this.resource('accounts', { path: '/accounts' }, function () {
+
+                this.route('new', { path: '/new' });
+
+                this.resource('account', { path: '/:account_id' }, function () {
+
+                    makeNestedResource(this, 'cards', 'card');
+                    makeNestedResource(this, 'credits', 'credit');
+                    makeNestedResource(this, 'debits', 'debit');
+                    makeNestedResource(this, 'holds', 'hold');
+                    makeNestedResource(this, 'refunds', 'refund');
+                    makeNestedResource(this, 'bank_accounts', 'bank_account');
+
+                });
+
             });
 
             makeNestedResource(this, 'cards', 'card');
@@ -36,9 +48,28 @@ Balanced.Router.map(function () {
         });
 
     });
-    this.route('login', { path: "/login" });
-    this.route('forgotPassword', { path: "/forgot_password" });
+    this.route('login', { path: '/login' });
+    this.route('forgotPassword', { path: '/forgot_password' });
 });
+
+Balanced.IframeRoute = Balanced.AuthRoute.extend({
+    param: null,
+    model: function (params) {
+        var marketplace = this.modelFor('marketplace');
+        var uri = marketplace.get('web_uri') + '/' + this.resource;
+        if (this.param && params[this.param]) {
+            uri += '/' + params[this.param];
+        }
+        return {
+            'uri': uri + '?embedded=1',
+            'title': this.title
+        };
+    },
+    renderTemplate: function () {
+        this.render('iframe');
+    }
+});
+
 
 ////
 // Route requires
