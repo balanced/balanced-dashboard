@@ -1,30 +1,27 @@
-module('Balanced.Model');
-
-test('model computes embedded properties correctly', function (assert) {
-	var TestModel = Balanced.Model.extend({
-		a: 1,
-		b: function() {
-			return this.get('a') + 1;
-		}.property('a')
-	});
-
-	var t = TestModel.create();
-	assert.equal(t.get('a'), 1);
-	assert.equal(t.get('b'), 2);
-
-	t.set('a', 5);
-	assert.equal(t.get('a'), 5);
-	assert.equal(t.get('b'), 6);
-});
-
-test('belongsTo associations work', function (assert) {
-	Balanced.TestModel = Balanced.Model.extend({
+module('Balanced.Model', {
+  setup: function() {
+    Balanced.TestModel = Balanced.Model.extend({
 		basic_field: 1,
 		derived_field: function() {
 			return this.get('basic_field') + 1;
 		}.property('basic_field')
 	});
+  }, teardown: function() {
+    ok( true, "and one extra assert after each test" );
+  }
+});
 
+test('model computes embedded properties correctly', function (assert) {
+	var t = Balanced.TestModel.create();
+	assert.equal(t.get('basic_field'), 1);
+	assert.equal(t.get('derived_field'), 2);
+
+	t.set('basic_field', 5);
+	assert.equal(t.get('basic_field'), 5);
+	assert.equal(t.get('derived_field'), 6);
+});
+
+test('belongsTo associations work', function (assert) {
 	var TestModel2 = Balanced.Model.extend({
 		my_uri_field: '/v1/testobjects/1',
 		my_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_uri_field')
@@ -47,13 +44,6 @@ test('belongsTo associations work', function (assert) {
 });
 
 test('Embedded belongsTo associations work', function (assert) {
-    Balanced.TestModel = Balanced.Model.extend({
-        basic_field: 1,
-        derived_field: function() {
-            return this.get('basic_field') + 1;
-        }.property('basic_field')
-    });
-
     var TestModel2 = Balanced.Model.extend({
         my_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_embedded_field', {embedded: true})
     });
@@ -77,13 +67,6 @@ test('Embedded belongsTo associations work', function (assert) {
 });
 
 test('hasMany associations work', function (assert) {
-	Balanced.TestModel = Balanced.Model.extend({
-		basic_field: 1,
-		derived_field: function() {
-			return this.get('basic_field') + 1;
-		}.property('basic_field')
-	});
-
 	var TestModel2 = Balanced.Model.extend({
 		my_uri_field: '/v1/testobjects/1',
 		my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_uri_field')
@@ -108,13 +91,6 @@ test('hasMany associations work', function (assert) {
 });
 
 test('Embedded hasMany associations work', function (assert) {
-	Balanced.TestModel = Balanced.Model.extend({
-		basic_field: 1,
-		derived_field: function() {
-			return this.get('basic_field') + 1;
-		}.property('basic_field')
-	});
-
 	var TestModel2 = Balanced.Model.extend({
 		my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_embedded_field', {embedded: true})
 	});
