@@ -14,7 +14,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     getLabel: function (labelMapping, acceptedTypes, type) {
         var label = labelMapping[type];
         if (!label && acceptedTypes.indexOf(type) > -1) {
-            label = type.substr(0, 1).toUpperCase() + type.substr(1) + 's';
+            label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
         }
         return (label) ? label : labelMapping.DEFAULT;
     },
