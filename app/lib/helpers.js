@@ -166,6 +166,9 @@ Balanced.Helpers = (function () {
 
     function calculateContentHeight() {
         var $content = $('#content');
+        if (!$content.length) {
+            return;
+        }
         var height = $content.height();
         var padding = (+$content.css('padding-top').replace('px', '')) + (+$content.css('padding-bottom').replace('px', ''));
         return (+height + (+padding)) + 'px';
@@ -179,7 +182,9 @@ Balanced.Helpers = (function () {
 
         updateNavigationHeight: function () {
             var height = calculateContentHeight();
-            $('#marketplace-nav').height(height);
+            if (height) {
+                $('#marketplace-nav').height(height);
+            }
         }
     };
 })();
