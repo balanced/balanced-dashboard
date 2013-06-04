@@ -206,6 +206,7 @@ Balanced.Model.reopenClass({
                     var embeddedObj = typeClass.create();
                     embeddedObj.set('isNew', false);
                     embeddedObj._updateFromJson(this.get(propertyName));
+                    embeddedObj.trigger('didLoad');
                     return embeddedObj;
                 } else {
                     return typeClass.find(this.get(propertyName));
@@ -244,6 +245,7 @@ Balanced.Model.reopenClass({
                         var typedObj = typeClass.create();
                         typedObj.set('isNew', false);
                         typedObj._updateFromJson(item);
+                        typedObj.trigger('didLoad');
 
                         // if an object is deleted, remove it from the collection
                         typedObj.on('didDelete', function () {
