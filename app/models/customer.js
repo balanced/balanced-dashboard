@@ -16,5 +16,4 @@ Balanced.Customer = Balanced.Model.extend({
     type: function () {
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
     }.property('ein', 'name')
-
 });

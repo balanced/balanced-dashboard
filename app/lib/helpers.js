@@ -221,7 +221,7 @@ Balanced.Utils = {
     },
 
     formatCurrency: function (cents) {
-        if (cents) {
+        if (cents !== null) {
             return '$' + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
         }
     },

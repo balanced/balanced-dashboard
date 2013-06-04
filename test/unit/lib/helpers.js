@@ -23,7 +23,8 @@ test("formatCurrency", function (assert) {
         1,
         105,
         10000,
-        984726372
+        984726372,
+        null
     ];
 
     var expected = [
@@ -35,10 +36,11 @@ test("formatCurrency", function (assert) {
         "$0.01",
         "$1.05",
         "$100.00",
-        "$9,847,263.72"
+        "$9,847,263.72",
+        null
     ];
 
-    for(var i = 0; i < cents.length; i++) {
+    for (var i = 0; i < cents.length; i++) {
         assert.equal(Balanced.Utils.formatCurrency(cents[i]), expected[i]);
     }
 });
