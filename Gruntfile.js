@@ -156,6 +156,12 @@ module.exports = function (grunt) {
                         expand: true,
                         src: ['**'],
                         dest: 'build/images/'
+                    },
+                    {
+                        cwd: 'static/images/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/images/'
                     }
                 ]
             },
