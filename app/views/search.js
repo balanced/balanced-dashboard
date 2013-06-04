@@ -35,7 +35,7 @@ Balanced.SearchView = Balanced.View.extend({
     },
 
     reset: function () {
-        $('#q').val('').focus();
+        $('#q').val('');
         this.resetHeader();
         this.close();
         this.get('controller').send('reset');
