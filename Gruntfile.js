@@ -367,19 +367,38 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            dev_build: {
+            js: {
                 files: [
                     'app/**/*.js',
                     'app/**/*.hbs',
-                    'app/index.html.hbs',
-                    'static/lib/**/*.js',
-                    'static/less/*',
-                    'static/images/**/*',
-                    'test/support/**/*',
-                    'test/**/*.js',
-                    'Gruntfile.js'
+                    'static/lib/**/*.js'
                 ],
-                tasks: ['_devBuild']
+                tasks: ['_buildJS']
+            },
+            tests: {
+                files: [
+                    'test/support/**/*',
+                    'test/**/*.js'
+                ],
+                tasks: ['_buildTests']
+            },
+            css: {
+                files: [
+                    'static/less/*'
+                ],
+                tasks: ['_buildCSS']
+            },
+            images: {
+                files: [
+                    'static/images/**/*'
+                ],
+                tasks: ['_buildImages']
+            },
+            html: {
+                files: [
+                    'app/index.html.hbs'
+                ],
+                tasks: ['_buildHTML']
             }
         }
     });
