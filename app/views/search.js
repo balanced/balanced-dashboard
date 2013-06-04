@@ -129,8 +129,6 @@ Balanced.SearchView = Balanced.View.extend({
   filterResultType: function(e, filter, label) {
     var $t = $(e.currentTarget);
 
-    console.log(this.searchType);
-
     $t.parents("nav").find("li.selected").removeClass("selected");
     $t.parents("li.filter").addClass("selected");
 
