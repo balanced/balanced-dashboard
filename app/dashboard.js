@@ -12,8 +12,13 @@ require('build/js/compiled-templates');
  specifies what HTML element inside index.html Ember
  should manage for you.
  */
+window.setupBalanced = function(divSelector) {
+
+// default to #balanced-app if not specified
+divSelector = divSelector || '#balanced-app';
+
 window.Balanced = Ember.Application.create({
-    rootElement: window.TESTING ? '#qunit-fixture' : '#balanced-app',
+    rootElement: divSelector,
     LOG_TRANSITIONS: true,
 
     customEvents: {
@@ -21,10 +26,6 @@ window.Balanced = Ember.Application.create({
         changeDate: 'changeDate'
     }
 });
-
-if (window.TESTING) {
-    Balanced.setupForTesting();
-}
 
 window.Balanced.onLoad = function () {
     //  initialize anything that needs to be done on application load
@@ -137,5 +138,4 @@ require('app/controllers/bank_accounts');
  */
 require('app/routes/router');
 
-
-$(document).ready(window.Balanced.onLoad);
+};

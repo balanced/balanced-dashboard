@@ -12,14 +12,24 @@ module.exports = function (grunt) {
         neuter: {
             dev: {
                 options: {
-                    includeSourceURL: true
+                    template: "{%= src %} ;"
                 },
                 src: ['app/dashboard.js'],
                 dest: 'build/js/dashboard-dev.js'
             },
             prod: {
+                options: {
+                    template: "{%= src %} ;"
+                },
                 src: ['app/dashboard.js'],
                 dest: 'build/js/dashboard-prod.js'
+            },
+            testfixtures: {
+                options: {
+                    template: "{%= src %} ;"
+                },
+                src: ['test/support/fixtures/fixtures.js'],
+                dest: 'build/test/js/test-fixtures.js'
             }
         },
 
@@ -56,12 +66,6 @@ module.exports = function (grunt) {
                     'static/lib/underscore-1.4.4.js'
                 ],
                 dest: 'build/js/lib-prod.js'
-            },
-            testfixtures: {
-                src: [
-                    'test/support/fixtures/**/*.js'
-                ],
-                dest: 'build/test/js/test-fixtures.js'
             },
             tests: {
                 src: [
@@ -459,7 +463,7 @@ module.exports = function (grunt) {
     grunt.registerTask('_copyDist', ['copy:dist']);
 
     grunt.registerTask('_buildJS', ['ember_templates', 'neuter', 'concat:libdev', 'concat:libprod']);
-    grunt.registerTask('_buildTests', ['concat:testfixtures', 'concat:tests', 'copy:test']);
+    grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);
     grunt.registerTask('_buildHTML', ['compile-handlebars']);
