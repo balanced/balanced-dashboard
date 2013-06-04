@@ -23,7 +23,7 @@ Balanced.Adapter.addFixtures([
       "last_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?q=t&limit=10&offset=20"
   },
   {
-    "first_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?requestTimeStamp=0&sortField=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold&q=&limit=10&sortOrder=&offset=0",
+    "first_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=credit,debit,refund,hold",
     "_type": "page",
     "items": [
         {
@@ -1717,7 +1717,7 @@ Balanced.Adapter.addFixtures([
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&sortOrder=&sortField=&q=&requestTimeStamp=0&type%5Bin%5D=credit,debit,refund,hold",
+    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=credit,debit,refund,hold",
     "_uris": {
         "first_uri": {
             "_type": "page",
@@ -2323,7 +2323,7 @@ Balanced.Adapter.addFixtures([
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&sortOrder=&sortField=&q=&requestTimeStamp=0&type=account",
+    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type=account",
     "_uris": {
         "first_uri": {
             "_type": "page",
@@ -4220,7 +4220,7 @@ Balanced.Adapter.addFixtures([
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&sortOrder=&sortField=&q=&requestTimeStamp=0&type=hold",
+    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type=hold",
     "_uris": {
         "first_uri": {
             "_type": "page",

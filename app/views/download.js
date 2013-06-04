@@ -12,7 +12,7 @@ Balanced.ModalView = Balanced.View.extend({
         return this.eventPrefix + '_' + eventName;
     },
     didInsertElement: function () {
-        $(this.element).modal('show');
+        $(this.element).modal('show').find('input[type="email"]').focus();
         Ember.assert(this.eventPrefix !== null, 'No event prefix given');
         Ember.assert(this.element !== null, 'No element specified');
     },

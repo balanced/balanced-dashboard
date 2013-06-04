@@ -80,8 +80,12 @@
                         </ul>
                     </div>
                 </li>
-
-                {{view Balanced.DatePickerView}}
+                <li class="timing dropdown label4a">
+                    {{view Balanced.DatePickerView viewName="dateTimePicker" }}
+                </li>
+                <!--<li class="download">-->
+                    <!--<a href="#" {{action download_show}} class="icon-download right">Download</a>-->
+                <!--</li>-->
             </nav>
         </header>
 
@@ -94,7 +98,7 @@
                         <th class="span4 label6a description">Description</th>
                         <th class="span4 label6a account">Account</th>
                         <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-                        {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount sortable unsorted num" field="amount"}}Amount{{/view}}
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
                     </tr>
                 </thead>
                 {{#if hasMoreResults}}
@@ -143,7 +147,7 @@
             <table class="items accounts">
                 <thead>
                     <tr>
-                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a unsorted" field="created_at"}}Created{{/view}}
                         <th class="span4 label6a account">Account</th>
                         <th class="span8 label6a email">Email</th>
                     </tr>
@@ -189,7 +193,7 @@
             <table class="items funding-instruments">
                 <thead>
                     <tr>
-                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a unsorted" field="created_at"}}Created{{/view}}
                         <th class="span4 label6a">Type</th>
                         <th class="span5 label6a">Card or bank account</th>
                         <th class="span8 label6a">Account holder's name</th>
@@ -239,4 +243,7 @@
             </table>
         </div>
     </div>
+    {{#if show_download}}
+        {{view Balanced.DownloadModalView }}
+    {{/if}}
 </div>

@@ -46,7 +46,7 @@
         outline: none;
       }
     }
-    .close {
+    > .close {
       display: block;
       right: 10px;
       top: 18px;
@@ -110,7 +110,6 @@
         font-family: fanwoodtext-regular;
         font-weight: normal;
         font-size: 16px;
-
         a {
           text-decoration: none;
           color: @gray5;
@@ -139,6 +138,14 @@
           border-bottom-color: transparent;
           .selector {
             display: none;
+          }
+        }
+        &.download {
+          float: right;
+          padding: 9px 0 0;
+          margin: 0 10px;
+          &:hover {
+            border-bottom: 0;
           }
         }
         .selector {
@@ -203,7 +210,7 @@
       }
       .caret {
         position: absolute;
-        top: 13px;
+        top: 21px;
         right: 22px;
         border-top-color: @searchTimingColor;
       }
@@ -213,11 +220,11 @@
         width: 120px + 330px + @searchBorderWidth * 8;
         background-color: @searchBodyBackground;
         right: -@searchBorderWidth;
-        padding: 0px;
+        padding: 0;
 
         &.date-picker {
-          top: 38px;
-          right: 5px;
+          top: 48px;
+          right: -5px;
         }
 
         .set-times {
@@ -251,7 +258,6 @@
           width: 330px;
         }
 
-        //
         .before, .after {
           position: absolute;
           height: 190px;
@@ -272,8 +278,8 @@
         }
         .go {
           position: absolute;
-          top: 110px;
-          right: 0;
+          top: 172px;
+          right: -12px;
           margin: 10px 20px 10px 10px;
         }
         .before {
@@ -378,6 +384,9 @@
         }
         &:last-child {
           padding-right: 25px;
+          &.sortable {
+            padding-right: 5px;
+          }
         }
       }
       tbody {
@@ -392,6 +401,9 @@
             &.no-results {
               font-style: italic;
               cursor: default;
+            }
+            &:last-child {
+              padding-right: 25px;
             }
           }
         }
@@ -422,6 +434,9 @@
     }
     .amount {
 
+    }
+    .num {
+      text-align: right;
     }
   }
   ::-webkit-input-placeholder {
