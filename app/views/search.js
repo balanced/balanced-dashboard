@@ -7,9 +7,6 @@ Balanced.SearchView = Balanced.View.extend({
     resultsClass: 'with-results',
     sorts: ['unsorted', 'ascending', 'descending'],
 
-    // TODO - Do we need these here? Seems like they're mirroring the controller...
-    sortOrder: null,
-
     didInsertElement: function () {
         $(document).on('click', $.proxy(this.shouldCloseSearch, this));
     },
@@ -28,19 +25,20 @@ Balanced.SearchView = Balanced.View.extend({
         // sometimes ember likes to remove nodes from the dom when you click on
         // them so the body check will make sure it's legit.
         if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
-            $('#search').removeClass(this.resultsClass);
-            $('body').removeClass('overlaid');
+            this.close();
         }
     },
 
-    reset: function () {
-        var $q = $('#q');
-        var $searchArea = $('#search');
-        $searchArea.removeClass(this.resultsClass);
-        $q.val('').focus();
-
+    close: function () {
+        $('#search').removeClass(this.resultsClass);
         $('body').removeClass('overlaid');
+    },
+
+    reset: function () {
+        $('#q').val('').focus();
         this.resetHeader();
+        this.close();
+        this.get('controller').send('resetUI');
     },
 
     resetHeader: function () {

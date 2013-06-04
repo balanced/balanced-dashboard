@@ -51,16 +51,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         return Balanced.SearchQuery.createUri(marketplaceUri, params);
     },
 
-    ////
-    // Wrapper
-    ////
     query: function (callback) {
         this.fromQuery(callback);
     },
 
-    ////
-    // Wrapper
-    ////
     loadMoreSearchResults: function () {
         this.loadMoreFromQuery();
     },
@@ -74,9 +68,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
             return;
         }
 
-        ////
         // Allows users to get all results by entering wildcard (%)
-        ////
         if (query === '%') {
             query = '';
         }
@@ -84,7 +76,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('latestRequestTimeStamp', requestTimeStamp);
         this.set('isLoading', true);
 
-        var _this = this;
+        var self = this;
         var params = this.searchParams({
             query: query,
             requestTimeStamp: requestTimeStamp
@@ -92,7 +84,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
 
         Balanced.SearchQuery.search(marketplaceUri, params, {
             observer: function (result) {
-                _this.onSearchCallback(result, callback);
+                self.onSearchCallback(result, callback);
             }
         });
     },
@@ -107,6 +99,18 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
             type: this.get('type')
         };
         return $.extend({}, defaults, params);
+    },
+
+    reset: function () {
+        this.set('minDate', null);
+        this.set('maxDate', null);
+        this.set('sortField', null);
+        this.set('sortOrder', null);
+        this.set('search', null);
+    },
+
+    resetUI: function () {
+        this.reset();
     },
 
     loadMoreFromQuery: function () {
@@ -135,34 +139,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     },
 
     onSearchCallback: function (result, callback) {
-        ////
-        // onSearch Callback
-        ////
         var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, 'requestTimeStamp');
-
-
-        ////
-        // Debugging
-        ////
-        // console.log('SEARCH => ' + Balanced.Utils.getParamByName(result.uri, 'q'));
-        // console.log('LASTEST TIMESTAMP => ' + this.get('latestRequestTimeStamp'));
-        // console.log('REQUEST TIMESTAMP => ' + requestTimeStamp);
-
         if (requestTimeStamp !== 0 && +(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
-            ////
-            // Debugging
-            ////
-            // console.log('DISCARDING - OLD REQUEST');
-            // console.log('=====================================');
-
             return;
         }
-
-        ////
-        // Debugging
-        ////
-        // console.log('USING - LATEST REQUEST');
-        // console.log('=====================================');
 
         this.set('content', result);
         this.set('isLoading', false);
