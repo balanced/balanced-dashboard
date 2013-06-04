@@ -21,8 +21,7 @@ Balanced.EditMarketplaceInfoModalView = Balanced.BaseFormView.extend({
             $('#edit-marketplace-info').modal('hide');
         });
         marketplace.one('becameInvalid', function (json) {
-            var jsonObject = JSON.parse(json);
-            self.highlightErrorsFromAPIResponse(jsonObject);
+            self.highlightErrorsFromAPIResponse(json);
         });
         marketplace.update();
     }

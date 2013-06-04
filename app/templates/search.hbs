@@ -18,7 +18,7 @@
                     <div class="selector dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu transaction-filter filter-choices">
-                            <li>{{#view Balanced.SearchFilterResultView filter="" labelBinding="totalTransactionsHeader"}} All ({{ total_transactions }}) {{/view}}</li>
+                            <li>{{#view Balanced.SearchFilterResultView filter="transactions" labelBinding="totalTransactionsHeader"}} All ({{ total_transactions }}) {{/view}}</li>
                             {{#if total_holds }}
                                 <li>{{#view Balanced.SearchFilterResultView filter="hold"}} Holds ({{ total_holds }}) {{/view}}</li>
                             {{else}}
@@ -64,7 +64,7 @@
                     <div class="selector dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                            <li>{{#view Balanced.SearchFilterResultView filter="" labelBinding="totalFundingInstrumentsHeader"}} Both ({{ total_funding_instruments }}) {{/view}}</li>
+                            <li>{{#view Balanced.SearchFilterResultView filter="funding_instrument" labelBinding="totalFundingInstrumentsHeader"}} Both ({{ total_funding_instruments }}) {{/view}}</li>
 
                             {{#if total_cards }}
                                 <li>{{#view Balanced.SearchFilterResultView filter="card"}} Cards ({{ total_cards }}) {{/view}}</li>
@@ -89,135 +89,159 @@
             </nav>
         </header>
 
-        <table class="items transactions selected">
-            <thead>
-                <tr>
-                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
-                    <th class="span3 label6a type">Transaction</th>
-                    <th class="span4 label6a description">Description</th>
-                    <th class="span4 label6a account">Account</th>
-                    <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-                    {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount sortable unsorted num" field="amount"}}Amount{{/view}}
-                </tr>
-            </thead>
-            {{#if hasMoreResults}}
-                <tfoot>
+        <div class="items-wrapper">
+            <table class="items transactions selected">
+                <thead>
                     <tr>
-                        <td colspan="6" class="load-more-results">
-                            <a {{ action "loadMoreSearchResults" }}>Load more</a>
-                        </td>
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
+                        <th class="span3 label6a type">Transaction</th>
+                        <th class="span4 label6a description">Description</th>
+                        <th class="span4 label6a account">Account</th>
+                        <th class="span4 label6a funding-instrument">Card or Bank Account</th>
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount sortable unsorted num" field="amount"}}Amount{{/view}}
                     </tr>
-                </tfoot>
-            {{/if}}
-            <tbody>
-                {{#each transaction in transactions }}
-                    <tr {{action selectSearchResult transaction.uri target="view"}}>
-                        <td class="span3 date">
-                            <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
-                        </td>
-                        <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
-                            {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
-                        </td>
-                        <td class="span4 description">
-                            {{ transaction.description }}
-                        </td>
-                        <td class="span4 account">
-                            {{transaction.account.name}} ({{transaction.account.email_address}})
-                        </td>
-                        <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
-                        <td class="span2 amount num">${{ transaction.amount_dollars }}</td>
-                    </tr>
-                {{else}}
-                    <tr>
-                        <td colspan="6" class="no-results">No results</td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
+                </thead>
+                {{#if hasMoreResults}}
+                    <tfoot>
+                        <tr>
+                            <td colspan="6" class="load-more-results">
+                                <a {{ action "loadMoreSearchResults" }}>Load more</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                {{/if}}
+                <tbody>
+                    {{#each transaction in transactions }}
+                        <tr {{action selectSearchResult transaction.uri target="view"}}>
+                            <td class="span3 date">
+                                <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+                            </td>
+                            <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
+                                {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
+                            </td>
+                            <td class="span4 description" {{bindAttr title="transaction.description"}}>
+                                {{ transaction.description }}
+                            </td>
+                            <td class="span4 account" {{bindAttr title="transaction.account.name"}}>
+                                {{transaction.account.name}} ({{transaction.account.email_address}})
+                            </td>
+                            <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
+                            <td class="span2 amount num">${{ transaction.amount_dollars }}</td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="6" class="no-results">
+                                {{# if isLoading }}
+                                    Loading...
+                                {{else}}
+                                    No results
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
 
-        <table class="items accounts">
-            <thead>
-                <tr>
-                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
-                    <th class="span4 label6a account">Account</th>
-                    <th class="span8 label6a email">Email</th>
-                </tr>
-            </thead>
-            {{#if hasMoreResults}}
-                <tfoot>
+        <div class="items-wrapper">
+            <table class="items accounts">
+                <thead>
                     <tr>
-                        <td colspan="3" class="load-more-results">
-                            <a {{ action "loadMoreSearchResults" }}>Load more</a>
-                        </td>
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+                        <th class="span4 label6a account">Account</th>
+                        <th class="span8 label6a email">Email</th>
                     </tr>
-                </tfoot>
-            {{/if}}
-            <tbody>
-                {{#each account in accounts}}
-                    <tr {{action selectSearchResult account.uri target="view"}}>
-                        <td class="span3 date">
-                            <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
-                        </td>
-                        <td class="span4 account">
-                            {{ account.display_me }}
-                        </td>
-                        <td class="span8 email">
-                            {{ account.email }}
-                        </td>
-                    </tr>
-                {{else}}
-                    <tr>
-                        <td colspan="3" class="no-results">No results</td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
+                </thead>
+                {{#if hasMoreResults}}
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="load-more-results">
+                                <a {{ action "loadMoreSearchResults" }}>Load more</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                {{/if}}
+                <tbody>
+                    {{#each account in accounts}}
+                        <tr {{action selectSearchResult account.uri target="view"}}>
+                            <td class="span3 date">
+                                <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
+                            </td>
+                            <td class="span4 account" {{bindAttr title="account.display_me"}}>
+                                {{ account.display_me }}
+                            </td>
+                            <td class="span8 email" {{bindAttr title="account.email"}}>
+                                {{ account.email }}
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="3" class="no-results">
+                                {{# if isLoading }}
+                                    Loading...
+                                {{else}}
+                                    No results
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
 
-        <table class="items funding-instruments">
-            <thead>
-                <tr>
-                    {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
-                    <th class="span4 label6a">Type</th>
-                    <th class="span5 label6a">Card or bank account</th>
-                    <th class="span8 label6a">Account holder's name</th>
-                </tr>
-            </thead>
-            {{#if hasMoreResults}}
-                <tfoot>
+        <div class="items-wrapper">
+            <table class="items funding-instruments">
+                <thead>
                     <tr>
-                        <td colspan="4" class="load-more-results">
-                            <a {{ action "loadMoreSearchResults" }}>Load more</a>
-                        </td>
+                        {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+                        <th class="span4 label6a">Type</th>
+                        <th class="span5 label6a">Card or bank account</th>
+                        <th class="span8 label6a">Account holder's name</th>
                     </tr>
-                </tfoot>
-            {{/if}}
-            <tbody>
-                {{#each funding_instrument in funding_instruments}}
-                    <tr {{action selectSearchResult funding_instrument.uri target="view"}}>
-                        <td>
-                            <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
-                        </td>
-                        <td>
-                            {{ funding_instrument.type_name }}
-                            {{#if funding_instrument.is_bank_account }}
-                                ({{ funding_instrument.type }})
-                            {{/if}}
-                        </td>
-                        <td>
-                            {{ funding_instrument.description }}
-                        </td>
-                        <td>
-                            {{ funding_instrument.account.name }}
-                            {{ funding_instrument.account.email }}
-                        </td>
-                    </tr>
-                {{else}}
-                    <tr>
-                        <td colspan="4" class="no-results">No results</td>
-                    </tr>
-                {{/each}}
-            </tbody>
-        </table>
+                </thead>
+                {{#if hasMoreResults}}
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="load-more-results">
+                                <a {{ action "loadMoreSearchResults" }}>Load more</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                {{/if}}
+                <tbody>
+                    {{#each funding_instrument in funding_instruments}}
+                        <tr {{action selectSearchResult funding_instrument.uri target="view"}}>
+                            <td>
+                                <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
+                            </td>
+                            <td>
+                                {{ funding_instrument.type_name }}
+                                {{#if funding_instrument.is_bank_account }}
+                                    ({{ funding_instrument.type }})
+                                {{/if}}
+                            </td>
+                            <td {{bindAttr title="funding_instrument.description"}}>
+                                {{ funding_instrument.description }}
+                            </td>
+                            <td>
+                                {{ funding_instrument.account.name }}
+                                {{ funding_instrument.account.email }}
+                            </td>
+                        </tr>
+                    {{else}}
+                        <tr>
+                            <td colspan="4" class="no-results">
+                                {{# if isLoading }}
+                                    Loading...
+                                {{else}}
+                                    No results
+                                {{/if}}
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
     </div>
     {{#if show_download}}
         {{view Balanced.DownloadModalView }}

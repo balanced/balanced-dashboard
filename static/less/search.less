@@ -12,7 +12,7 @@
 @searchBorderWidth: 5px;
 @searchBorder: @searchBorderWidth solid #000;
 
-@datepickerBackground: rgb(217, 216, 213);
+@datePickerBackground: rgb(217, 216, 213);
 
 #search {
   position: relative;
@@ -89,8 +89,6 @@
     left: -172px;
     border: @searchBorder;
     border-top: 0;
-    overflow-x: auto;
-    max-height: 572px;
 
     header {
       border-top: 1px solid @marketplaceNavColor;
@@ -107,28 +105,28 @@
         border-bottom: @searchBorderWidth solid transparent;
         padding: 15px 10px 10px;
         margin: 0 20px;
-        color: #737373;
+        color: @gray5;
 
         font-family: fanwoodtext-regular;
         font-weight: normal;
         font-size: 16px;
         a {
           text-decoration: none;
-          color: #737373;
+          color: @gray5;
           &:hover {
-            color: #000;
+            color: @black;
           }
         }
         &:hover {
           border-bottom: @searchBorder;
           > a {
-            color: #000;
+            color: @black;
           }
         }
         &.selected {
           border-bottom: @searchBorder;
           > a {
-            color: #000;
+            color: @black;
 
             &:hover {
               cursor: default;
@@ -157,7 +155,7 @@
           vertical-align: middle;
         }
         .caret {
-          border-top-color: #fff;
+          border-top-color: @white;
           margin: 0;
         }
       }
@@ -195,7 +193,7 @@
       a.dropdown-toggle {
         color: @searchTimingColor;
         display: inline-block;
-        padding: 10px;
+        padding: 12px 10px;
         white-space: nowrap;
         padding-right: 30px;
         text-decoration: none;
@@ -224,11 +222,16 @@
         right: -@searchBorderWidth;
         padding: 0px;
 
+        &.date-picker {
+          top: 38px;
+          right: 5px;
+        }
+
         .set-times {
           // wtf: where did this extra 2 px come from
           height: 202px;
           padding: 10px;
-          background-color: #fff;
+          background-color: @white;
           float: left;
           width: 120px;
 
@@ -241,9 +244,9 @@
               font-family: nimbussannov-bol;
             }
             a {
-              color: #737373;
+              color: @gray5;
               &:hover {
-                color: #000;
+                color: @black;
                 text-decoration: none;
               }
             }
@@ -262,14 +265,14 @@
           width: 220px;
           padding-top: 10px;
           .datepicker {
-            background-color: @datepickerBackground;
+            background-color: @datePickerBackground;
             display: none;
           }
           .dt {
           }
           &.selected {
             .datepicker, .dt {
-              background-color: @datepickerBackground;
+              background-color: @datePickerBackground;
               display: block;
             }
           }
@@ -313,7 +316,6 @@
           }
         }
         .datepicker {
-          //            position: relative;
           top: 0;
           display: block;
           width: 220px;
@@ -431,20 +433,20 @@
   }
   ::-webkit-input-placeholder {
     /* WebKit browsers */
-    color: #fff !important;
+    color: @white !important;
   }
   :-moz-placeholder {
     /* Mozilla Firefox 4 to 18 */
-    color: #fff;
+    color: @white;
   }
   ::-moz-placeholder {
     /* Mozilla Firefox 19+ */
-    color: #fff;
+    color: @white;
     opacity: 1;
   }
   :-ms-input-placeholder {
     /* Internet Explorer 10+ */
-    color: #fff;
+    color: @white;
   }
 
   .sortable {
@@ -474,7 +476,7 @@
 }
 
 .filter-choices {
-  background-color: #fff;
+  background-color: @white;
   padding: 10px 0;
   li {
     font-family: nimbussannov-med;
@@ -482,14 +484,14 @@
     span, a {
       display: block;
       padding: 5px 20px;
-      color: #737373;
+      color: @gray5;
     }
     span {
       color: #e2e1ec;
     }
     a {
       &:hover {
-        color: #000;
+        color: @black;
         background: transparent;
         background-image: none;
       }
@@ -501,11 +503,11 @@
   text-indent: 25px;
   line-height: 1.5em;
   background-color: @searchBoxBackground;
-  color: #fff;
+  color: @white;
   border-radius: 0px;
 
   &:focus {
     background: @searchActiveBackground;
-    color: #000;
+    color: @black;
   }
 }

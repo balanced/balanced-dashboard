@@ -13,12 +13,6 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             return;
         }
 
-        function calculateHeight($content) {
-            var height = $content.height();
-            var paddingTop = $content.css('padding-top').replace('px', '');
-            return (+height + (+paddingTop)) + 'px';
-        }
-
         function onIframeTrigger(resizeFunction, iframe) {
             var resizeInterval = self.RESIZE_CHECK_INTERVAL;
 
@@ -31,12 +25,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             }, resizeInterval);
         }
 
-        // Reset the lefthand nagivation to match the height of #content
-        var $content = $('#content');
-        var $marketplaceNav = $('#marketplace-nav');
         var $embeddedContent = $('#embedded-dashboard-content');
-
-        $marketplaceNav.height(calculateHeight($content));
 
         $('iframe.auto-height').iframeAutoHeight({
             debug: false,
@@ -44,10 +33,7 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             triggerFunctions: [
                 onIframeTrigger
             ],
-            callback: function (callbackObject) {
-                // Reset the left hand navigation to match the height of #content
-                $marketplaceNav.height(calculateHeight($content));
-            }
+            callback: Balanced.Helpers.updateNavigationHeight
         });
 
         $embeddedContent.load(function () {
@@ -57,7 +43,9 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             // Add a handler to links so we can change the page BEFORE the page loads
             $embeddedContent.contents().find('a').click(function (event) {
                 var addressValue = $(this).attr('href');
-                self.updateHashFromIframeLocation(addressValue);
+                if (!event.isDefaultPrevented()) {
+                    self.updateHashFromIframeLocation(addressValue);
+                }
             });
         });
     },

@@ -144,7 +144,6 @@ if (!String.prototype.format) {
 }
 
 Balanced.Helpers = (function () {
-
     // example of how to parse and format iso8601 dates. will parse the
     // specified format and then attach the original unparsed date as a title
     // attribute. may not be needed since we don't render the time info on the
@@ -165,9 +164,22 @@ Balanced.Helpers = (function () {
         }
     }
 
+    function calculateContentHeight() {
+        var $content = $('#content');
+        var height = $content.height();
+        var padding = (+$content.css('padding-top').replace('px', '')) + (+$content.css('padding-bottom').replace('px', ''));
+        return (+height + (+padding)) + 'px';
+    }
+
     return {
         init: function () {
             $('time[data-format]').each(parseDateTime);
+            Balanced.Helpers.navigationTimer = setInterval(Balanced.Helpers.updateNavigationHeight, 50);
+        },
+
+        updateNavigationHeight: function () {
+            var height = calculateContentHeight();
+            $('#marketplace-nav').height(height);
         }
     };
 })();
@@ -221,5 +233,15 @@ Balanced.Utils = {
         }
 
         return tempDict;
+    },
+
+    formatCurrency: function (cents) {
+        if (cents !== null) {
+            return '$' + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        }
+    },
+
+    dollarsToCents: function (dollars) {
+        return parseInt(dollars * 100, 10);
     }
 };

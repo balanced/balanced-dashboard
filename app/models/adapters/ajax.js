@@ -3,9 +3,16 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         this.hostsByType = {};
     },
 
-    get: function (type, uri, success) {
+    _uri: function (type, uri) {
         var host = this.getHostForType(type);
-        this.ajax(host + uri, 'GET').then(function (json) {
+        if (uri && uri.indexOf(host) !== 0) {
+            uri = host + uri;
+        }
+        return uri;
+    },
+
+    get: function (type, uri, success) {
+        this.ajax(this._uri(type, uri), 'GET').then(function (json) {
             success(json);
         });
     },
@@ -14,8 +21,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         var settings = {};
         settings.data = data;
         settings.error = error;
-        var host = this.getHostForType(type);
-        this.ajax(host + uri, 'POST', settings).then(function (json) {
+        this.ajax(this._uri(type, uri), 'POST', settings).then(function (json) {
             success(json);
         });
     },
@@ -24,8 +30,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         var settings = {};
         settings.data = data;
         settings.error = error;
-        var host = this.getHostForType(type);
-        this.ajax(host + uri, 'PUT', settings).then(function (json) {
+        this.ajax(this._uri(type, uri), 'PUT', settings).then(function (json) {
             success(json);
         });
     },
@@ -33,8 +38,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     delete: function (type, uri, success, error) {
         var settings = {};
         settings.error = error;
-        var host = this.getHostForType(type);
-        this.ajax(host + uri, 'DELETE', settings).then(function (json) {
+        this.ajax(this._uri(type, uri), 'DELETE', settings).then(function (json) {
             success(json);
         });
     },
@@ -61,15 +65,10 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     },
 
     _appendMarketplaceAuthParam: function (uri) {
-        if (uri.indexOf('/users/') === -1 &&
-            !( /\/v.+\/marketplaces\/.+/.test(uri) ) &&
+        if (uri && uri.indexOf('/users/') === -1 && !( /\/v.+\/marketplaces\/.+/.test(uri) ) &&
             Balanced.currentMarketplace) {
-
-            var authedUri = Balanced.Utils.updateQueryStringParameter(uri, "marketplace", Balanced.currentMarketplace.get('id'));
-
-            return authedUri;
-        } else {
-            return uri;
+            uri = Balanced.Utils.updateQueryStringParameter(uri, 'marketplace', Balanced.currentMarketplace.get('id_from_uri'));
         }
+        return uri;
     }
 });

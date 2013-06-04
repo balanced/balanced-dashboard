@@ -34,8 +34,11 @@ window.Balanced.onLoad = function () {
 /*
  * Helpers and utils - not static 3rd party libraries
  */
+require('app/lib/errors');
 require('app/lib/ajax');
+require('app/lib/forms');
 require('app/lib/helpers');
+require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
@@ -73,7 +76,6 @@ require('app/lib/auth');
 
 /*
  * Views layer.
- * You'll notice that there are only a few views.
  * Ember accomplishes a lot in its templates and
  * Views are only necessary if you have view-specific
  * programming to do.
@@ -88,15 +90,21 @@ require('app/views/date_picker');
 require('app/views/download');
 
 require('app/views/marketplace/marketplace_index');
+require('app/views/marketplace/marketplace_transactions');
+require('app/views/marketplace/add_bank_account_modal');
+require('app/views/marketplace/add_callback_modal');
+require('app/views/marketplace/add_card_modal');
+require('app/views/marketplace/add_funds_modal');
+require('app/views/marketplace/delete_bank_account_modal');
+require('app/views/marketplace/delete_callback_modal');
+require('app/views/marketplace/delete_card_modal');
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/edit_owner_info_modal');
-require('app/views/marketplace/add_bank_account_modal');
-require('app/views/marketplace/delete_bank_account_modal');
 require('app/views/marketplace/verify_bank_account_modal');
-require('app/views/marketplace/add_card_modal');
-require('app/views/marketplace/delete_card_modal');
-require('app/views/marketplace/add_callback_modal');
-require('app/views/marketplace/delete_callback_modal');
+require('app/views/marketplace/withdraw_funds_modal');
+require('app/views/marketplaces/add_existing_marketplace');
+require('app/views/marketplaces/add_test_marketplace');
+require('app/views/marketplaces/delete_marketplace_modal');
 
 /*
  * Controller layer.
@@ -112,14 +120,14 @@ require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/marketplace_index');
 require('app/controllers/login');
-require('app/controllers/forgotPassword');
+require('app/controllers/forgot_password');
 require('app/controllers/search');
 
 require('app/controllers/accounts');
 require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');
-require('app/controllers/bankAccounts');
+require('app/controllers/bank_accounts');
 
 /*
  * States (i.e. Routes)

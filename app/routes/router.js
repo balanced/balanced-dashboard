@@ -4,64 +4,85 @@ Balanced.Route = Ember.Route.extend({
 Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 });
 
+function makeNestedResource(that, plural, singular) {
+    that.resource(plural, { path: '/' + plural }, function () {
+        this.route(singular, { path: '/:' + singular + '_id' });
+    });
+}
+
 Balanced.Router.map(function () {
-  this.resource("marketplace", { path: "/marketplaces/:marketplace_id" }, function() {
-    this.route("transactions", { path: "/transactions" });
 
-    this.resource("accounts", { path: "/accounts/:account_id" }, function() {
-      this.route("credit", { path: "/credits/:credit_id" });
-      this.route("debit", { path: "/debits/:debit_id" });
-      this.route("refund", { path: "/refunds/:refund_id" });
-      this.route("hold", { path: "/holds/:hold_id" });
+    this.resource('marketplaces', { path: '/marketplaces' }, function () {
 
-      this.resource("cards", { path: "/cards" }, function() {
-        this.route("card", { path: "/:card_id" });
-      });
+        this.route('apply', { path: '/apply' });
 
-      this.resource("bankAccounts", { path: "/bank_accounts" }, function() {
-        this.route("bankAccount", { path: "/:bank_account_id" });
-      });
+        this.resource('marketplace', { path: '/:marketplace_id' }, function () {
+
+            this.route('transactions', { path: '/transactions' });
+
+            this.resource('accounts', { path: '/accounts' }, function () {
+
+                this.route('new', { path: '/new' });
+
+                this.resource('account', { path: '/:account_id' }, function () {
+
+                    makeNestedResource(this, 'cards', 'card');
+                    makeNestedResource(this, 'credits', 'credit');
+                    makeNestedResource(this, 'debits', 'debit');
+                    makeNestedResource(this, 'holds', 'hold');
+                    makeNestedResource(this, 'refunds', 'refund');
+                    makeNestedResource(this, 'bank_accounts', 'bank_account');
+
+                });
+
+            });
+
+            makeNestedResource(this, 'cards', 'card');
+            makeNestedResource(this, 'credits', 'credit');
+            makeNestedResource(this, 'debits', 'debit');
+            makeNestedResource(this, 'holds', 'hold');
+            makeNestedResource(this, 'invoices', 'invoice');
+            makeNestedResource(this, 'logs', 'log');
+            makeNestedResource(this, 'refunds', 'refund');
+            makeNestedResource(this, 'bank_accounts', 'bank_account');
+        });
+
     });
-
-    ////
-    // Aliases, they simply transitionTo
-    ////
-    this.route("credits", { path: "/credits/:credit_id" });
-    this.route("debits", { path: "/debits/:debit_id" });
-    this.route("refunds", { path: "/refunds/:refund_id" });
-    this.route("holds", { path: "/holds/:hold_id" });
-
-    this.resource("logs", { path: "/logs" }, function() {
-      this.route("log", { path: "/:log_id" });
-    });
-
-    this.resource("invoices", { path: "/invoices" }, function() {
-      this.route("invoice", { path: "/:invoice_id" });
-    });
-
-    this.resource("cards", { path: "/cards" }, function() {
-      this.route("card", { path: "/:card_id" });
-    });
-
-    this.resource("bankAccounts", { path: "/bank_accounts" }, function() {
-      this.route("bankAccount", { path: "/:bank_account_id" });
-    });
-  });
-
-  this.route('login', { path: "/login" });
-  this.route('forgotPassword', { path: "/forgot_password" });
+    this.route('login', { path: '/login' });
+    this.route('forgotPassword', { path: '/forgot_password' });
 });
+
+Balanced.IframeRoute = Balanced.AuthRoute.extend({
+    param: null,
+    model: function (params) {
+        var marketplace = this.modelFor('marketplace');
+        var uri = marketplace.get('web_uri') + '/' + this.resource;
+        if (this.param && params[this.param]) {
+            uri += '/' + params[this.param];
+        }
+        return {
+            'uri': uri + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND,
+            'title': this.title
+        };
+    },
+    renderTemplate: function () {
+        this.render('iframe');
+    }
+});
+
 
 ////
 // Route requires
 ////
 require('app/routes/application');
 require('app/routes/index');
-require('app/routes/marketplace');
+require('app/routes/login');
 
-require('app/routes/marketplace_accounts');
-require('app/routes/marketplace_index');
-require('app/routes/marketplace_logs');
-require('app/routes/marketplace_invoices');
-require('app/routes/marketplace_cards');
-require('app/routes/marketplace_bankaccounts');
+require('app/routes/marketplaces/accounts');
+require('app/routes/marketplaces/bank_accounts');
+require('app/routes/marketplaces/cards');
+require('app/routes/marketplaces/index');
+require('app/routes/marketplaces/invoices');
+require('app/routes/marketplaces/logs');
+require('app/routes/marketplaces/show');
+require('app/routes/marketplaces/transactions');
