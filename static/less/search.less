@@ -384,7 +384,7 @@
           padding-left: 25px;
         }
         &:last-child {
-          padding-right: 25px;
+          padding-right: 5px;
         }
       }
       tbody {
@@ -399,6 +399,9 @@
             &.no-results {
               font-style: italic;
               cursor: default;
+            }
+            &:last-child {
+              padding-right: 25px;
             }
           }
         }
@@ -429,6 +432,9 @@
     }
     .amount {
 
+    }
+    .num {
+      text-align: right;
     }
   }
   ::-webkit-input-placeholder {
