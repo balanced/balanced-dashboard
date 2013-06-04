@@ -35,6 +35,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         var self = this;
         var data = this._toSerializedJSON();
 
+        var promise = this.resolveOn('didCreate');
+
         self.set('isSaving', true);
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
@@ -45,7 +47,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.trigger('didCreate');
         }, $.proxy(self._handleError, self));
 
-        return resolveOn('didCreate');
+        return promise;
     },
 
     update: function () {
@@ -53,6 +55,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
+
+        var promise = this.resolveOn('didUpdate');
 
         Balanced.Adapter.update(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
@@ -64,7 +68,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.trigger('didUpdate');
         }, $.proxy(self._handleError, self));
 
-        return this.resolveOn('didUpdate');
+        return promise;
     },
 
     delete: function () {
@@ -73,24 +77,29 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         self.set('isDeleted', true);
         self.set('isSaving', true);
 
+        var promise = this.resolveOn('didDelete');
+
         Balanced.Adapter.delete(this.constructor, this.get('uri'), function (json) {
             self.set('isSaving', false);
             self.trigger('didDelete');
         }, $.proxy(self._handleError, self));
 
-        return resolveOn('didDelete');
+        return promise;
     },
 
     refresh: function () {
         var self = this;
         this.set('isLoaded', false);
+
+        var promise = this.resolveOn('didLoad');
+
         Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
             self._updateFromJson(json);
             self.set('isLoaded', true);
             self.trigger('didLoad');
         });
 
-        return resolveOn('didLoad');
+        return promise;
     },
 
     copy: function () {

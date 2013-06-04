@@ -6,6 +6,13 @@ module('Balanced.Model', {
 			return this.get('basic_field') + 1;
 		}.property('basic_field')
 	});
+
+	Balanced.Adapter.addFixtures([
+		{
+			uri: '/v1/testobjects/1',
+			basic_field: 123
+		}
+	]);
   },
 
   teardown: function() {
@@ -27,13 +34,6 @@ test('belongsTo associations work', function (assert) {
 		my_uri_field: '/v1/testobjects/1',
 		my_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_uri_field')
 	});
-
-	Balanced.Adapter.addFixtures([
-		{
-			uri: '/v1/testobjects/1',
-			basic_field: 123
-		}
-	]);
 
 	var t = TestModel2.create();
 
@@ -141,13 +141,6 @@ test('hasMany returns an object even if the property hasnt been set yet', functi
 });
 
 test("models have promises that resolve when they're loaded", function(assert) {
-	Balanced.Adapter.addFixtures([
-		{
-			uri: '/v1/testobjects/1',
-			basic_field: 123
-		}
-	]);
-
 	Ember.run(function() {
 		Balanced.TestModel.find('/v1/testobjects/1').then(function(testModel) {
 			assert.equal(testModel.get('basic_field'), 123);
@@ -286,5 +279,45 @@ test("hasMany association promises resolve async", function(assert) {
 		t.get('my_has_many_field').addObject(Balanced.TestModel.create({basic_field: 123}));
 		t.get('my_has_many_field').addObject(Balanced.TestModel.create({basic_field: 234}));
 		t.get('my_has_many_field').trigger('didLoad');
+	});
+});
+
+test("models have promises for create", function(assert) {
+	expect(1);
+	var t = Balanced.TestModel.create();
+	Ember.run(function() {
+		t.create().then(function(model) {
+			assert.ok(true);
+		});
+	});
+});
+
+test("models have promises for update", function(assert) {
+	expect(1);
+	var t = Balanced.TestModel.find('/v1/testobjects/1');
+	Ember.run(function() {
+		t.update().then(function(model) {
+			assert.ok(true);
+		});
+	});
+});
+
+test("models have promises for delete", function(assert) {
+	expect(1);
+	var t = Balanced.TestModel.find('/v1/testobjects/1');
+	Ember.run(function() {
+		t.delete().then(function(model) {
+			assert.ok(true);
+		});
+	});
+});
+
+test("models have promises for refresh", function(assert) {
+	expect(1);
+	var t = Balanced.TestModel.find('/v1/testobjects/1');
+	Ember.run(function() {
+		t.refresh().then(function(model) {
+			assert.ok(true);
+		});
 	});
 });
