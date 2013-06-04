@@ -115,10 +115,10 @@
                             <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
                                 {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
                             </td>
-                            <td class="span4 description">
+                            <td class="span4 description" {{bindAttr title="transaction.description"}}>
                                 {{ transaction.description }}
                             </td>
-                            <td class="span4 account">
+                            <td class="span4 account" {{bindAttr title="transaction.account.name"}}>
                                 {{transaction.account.name}} ({{transaction.account.email_address}})
                             </td>
                             <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
@@ -126,7 +126,13 @@
                         </tr>
                     {{else}}
                         <tr>
-                            <td colspan="6" class="no-results">No results</td>
+                            <td colspan="6" class="no-results">
+                                {{# if isLoading }}
+                                    Loading...
+                                {{else}}
+                                    No results
+                                {{/if}}
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -157,16 +163,22 @@
                             <td class="span3 date">
                                 <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
                             </td>
-                            <td class="span4 account">
+                            <td class="span4 account" {{bindAttr title="account.display_me"}}>
                                 {{ account.display_me }}
                             </td>
-                            <td class="span8 email">
+                            <td class="span8 email" {{bindAttr title="account.email"}}>
                                 {{ account.email }}
                             </td>
                         </tr>
                     {{else}}
                         <tr>
-                            <td colspan="3" class="no-results">No results</td>
+                            <td colspan="3" class="no-results">
+                                {{# if isLoading }}
+                                    Loading...
+                                {{else}}
+                                    No results
+                                {{/if}}
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
@@ -204,7 +216,7 @@
                                     ({{ funding_instrument.type }})
                                 {{/if}}
                             </td>
-                            <td>
+                            <td {{bindAttr title="funding_instrument.description"}}>
                                 {{ funding_instrument.description }}
                             </td>
                             <td>
@@ -214,7 +226,13 @@
                         </tr>
                     {{else}}
                         <tr>
-                            <td colspan="4" class="no-results">No results</td>
+                            <td colspan="4" class="no-results">
+                                {{# if isLoading }}
+                                    Loading...
+                                {{else}}
+                                    No results
+                                {{/if}}
+                            </td>
                         </tr>
                     {{/each}}
                 </tbody>
