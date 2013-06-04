@@ -1,4 +1,7 @@
-Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
+require('app/models/mixins/load_promise');
+require('app/models/model_array');
+
+Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
     isLoaded: false,
     isSaving: false,
@@ -222,7 +225,7 @@ Balanced.Model.reopenClass({
             settings = settings || {};
             var typeClass = modelClass._typeClass(type);
 
-            var modelObjectsArray = Ember.A();
+            var modelObjectsArray = Balanced.ModelArray.create();
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
@@ -252,6 +255,7 @@ Balanced.Model.reopenClass({
 
                     modelObjectsArray.setObjects(typedObjects);
                     modelObjectsArray.set('isLoaded', true);
+                    modelObjectsArray.trigger('didLoad');
                 };
 
                 if (settings.embedded) {
