@@ -132,6 +132,17 @@ Balanced.SearchView = Balanced.View.extend({
     $t.parents("nav").find("li.selected").removeClass("selected");
     $t.parents("li.filter").addClass("selected");
 
+    ////
+    // Switch to the correct items table
+    ////
+    if($t.parents("nav li.filter").hasClass("transactions")) {
+      $('#search .items').removeClass('selected');
+      $('#search .items.transactions').addClass('selected');
+    } else if($t.parents("nav li.filter").hasClass("funding-instruments")) {
+      $('#search .items').removeClass('selected');
+      $('#search .items.funding-instruments').addClass('selected');
+    }
+
     this.get('controller').send('changeTypeFilter', filter);
     this._runSearch();
   },
@@ -140,6 +151,7 @@ Balanced.SearchView = Balanced.View.extend({
     var $q = $('#q');
     var $searchArea = $('#search');
     var fn = $q.val() ? $searchArea.addClass : $searchArea.removeClass;
+
     fn.call($searchArea, this.resultsClass);
 
     if($q.val()) {
