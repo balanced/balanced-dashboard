@@ -35,38 +35,43 @@ Balanced.DatePickerView = Balanced.View.extend({
         }
     },
 
-    resetDateTimePicker: function () {
+    resetDateTimePicker: function (keepTime) {
         var $dps = this.$('.dp'),
             $sets = this.$('.set-times li');
 
         $sets.removeClass('selected');
         $dps.val('');
         this.$('.timing > .dropdown-toggle > span').text('Any time');
-        this.set('minTime', null);
-        this.set('maxTime', null);
+        if (!keepTime) {
+            this.set('minTime', null);
+            this.set('maxTime', null);
+        }
     },
 
     setDateFixed: function (presetText) {
         this._setMaxDate(null);
+        var hours = 0;
         switch (presetText) {
             case 'Past hour':
-                this._setMinDate(new Date().addHours(-1));
+                hours = -1;
                 break;
             case 'Past 24 hours':
-                this._setMinDate(new Date().addHours(-24));
+                hours = -24;
                 break;
             case 'Past week':
-                this._setMinDate(new Date().addHours(-24 * 7));
+                hours = -24 * 7;
                 break;
             case 'Past month':
-                this._setMinDate(new Date().addHours(-24 * 31));
+                hours = -24 * 31;
                 break;
         }
+        var minDate = (hours) ? new Date().addHours(hours) : null;
+        this._setMinDate(minDate);
         this._changeDateFilter(presetText);
     },
 
     setDateVariable: function () {
-        this.resetDateTimePicker();
+        this.resetDateTimePicker(true);
         this._changeDateFilter(this._extractVariableTimePeriod());
     },
 
@@ -105,14 +110,18 @@ Balanced.DatePickerView = Balanced.View.extend({
         if (dates.length === 2 && dates[0] === dates[1]) {
             dates.pop();
         }
+        if (!dates.length) {
+            return 'Anytime';
+        }
         return dates.join(' - ');
-    },
+    }
 });
 
 Balanced.DatePickerPresetView = Balanced.View.extend({
     tagName: 'li',
 
     click: function (e) {
+        e.preventDefault();
         this.get('parentView').resetDateTimePicker();
         var $t = $(e.currentTarget);
         $t.addClass('selected');
