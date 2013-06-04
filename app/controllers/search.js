@@ -109,10 +109,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('search', null);
     },
 
-    resetUI: function () {
-        this.reset();
-    },
-
     loadMoreFromQuery: function () {
         this.set('isLoading', true);
 

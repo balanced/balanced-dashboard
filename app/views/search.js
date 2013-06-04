@@ -38,7 +38,8 @@ Balanced.SearchView = Balanced.View.extend({
         $('#q').val('').focus();
         this.resetHeader();
         this.close();
-        this.get('controller').send('resetUI');
+        this.get('controller').send('reset');
+        this.get('dateTimePicker').resetDateTimePicker();
     },
 
     resetHeader: function () {

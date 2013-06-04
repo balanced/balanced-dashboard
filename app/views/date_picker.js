@@ -35,10 +35,6 @@ Balanced.DatePickerView = Balanced.View.extend({
         }
     },
 
-    onReset: function () {
-        this.resetDateTimePicker();
-    }.observes('controller.model.didReset'),
-
     resetDateTimePicker: function () {
         var $dps = this.$('.dp'),
             $sets = this.$('.set-times li');
