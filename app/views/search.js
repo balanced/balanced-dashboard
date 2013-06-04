@@ -29,7 +29,7 @@ Balanced.SearchView = Balanced.View.extend({
         // them so the body check will make sure it's legit.
         if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
             $('#search').removeClass(this.resultsClass);
-            $("body").removeClass("overlaid");
+            $('body').removeClass('overlaid');
         }
     },
 
@@ -39,7 +39,7 @@ Balanced.SearchView = Balanced.View.extend({
         $searchArea.removeClass(this.resultsClass);
         $q.val('').focus();
 
-        $("body").removeClass("overlaid");
+        $('body').removeClass('overlaid');
         this.resetHeader();
     },
 
@@ -65,7 +65,7 @@ Balanced.SearchView = Balanced.View.extend({
     onQueryChange: function (e) {
         var self = this;
 
-        if ($("#q").val().length === 0) {
+        if ($('#q').val().length === 0) {
             self.toggleResults();
             return;
         }
@@ -87,13 +87,13 @@ Balanced.SearchView = Balanced.View.extend({
         var nextSort = sequences[currentSort];
         $t.data('direction', nextSort).addClass(nextSort);
 
-        var mappedSortOrder = "none";
+        var mappedSortOrder = 'none';
         switch (nextSort) {
-            case "ascending":
-                mappedSortOrder = "asc";
+            case 'ascending':
+                mappedSortOrder = 'asc';
                 break;
-            case "descending":
-                mappedSortOrder = "desc";
+            case 'descending':
+                mappedSortOrder = 'desc';
                 break;
         }
 
@@ -106,7 +106,7 @@ Balanced.SearchView = Balanced.View.extend({
         ////
         // Don't re-run query if already on selected
         ////
-        if ($t.closest('li').hasClass("selected")) {
+        if ($t.closest('li').hasClass('selected')) {
             return;
         }
 
@@ -129,16 +129,16 @@ Balanced.SearchView = Balanced.View.extend({
     filterResultType: function (e, filter, label) {
         var $t = $(e.currentTarget);
 
-        $t.parents("nav").find("li.selected").removeClass("selected");
-        $t.parents("li.filter").addClass("selected");
+        $t.parents('nav').find('li.selected').removeClass('selected');
+        $t.parents('li.filter').addClass('selected');
 
         ////
         // Switch to the correct items table
         ////
-        if ($t.parents("nav li.filter").hasClass("transactions")) {
+        if ($t.parents('nav li.filter').hasClass('transactions')) {
             $('#search .items').removeClass('selected');
             $('#search .items.transactions').addClass('selected');
-        } else if ($t.parents("nav li.filter").hasClass("funding-instruments")) {
+        } else if ($t.parents('nav li.filter').hasClass('funding-instruments')) {
             $('#search .items').removeClass('selected');
             $('#search .items.funding-instruments').addClass('selected');
         }
@@ -155,9 +155,9 @@ Balanced.SearchView = Balanced.View.extend({
         fn.call($searchArea, this.resultsClass);
 
         if ($q.val()) {
-            $("body").addClass("overlaid");
+            $('body').addClass('overlaid');
         } else {
-            $("body").removeClass("overlaid");
+            $('body').removeClass('overlaid');
         }
     },
 
@@ -169,7 +169,7 @@ Balanced.SearchView = Balanced.View.extend({
     },
 
     _setSortOrder: function (field, sortOrder) {
-        this.get("controller").send("changeSortOrder", field, sortOrder);
+        this.get('controller').send('changeSortOrder', field, sortOrder);
     },
 
     _runSearch: function (callback) {
@@ -184,8 +184,8 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
         this.keyUp = _.throttle(function (e) {
             // Hide search results on escape key
             if (e.keyCode === Balanced.KEYS.ESCAPE) {
-                $("#search").removeClass(this.get('parentView').resultsClass);
-                $("body").removeClass("overlaid");
+                $('#search').removeClass(this.get('parentView').resultsClass);
+                $('body').removeClass('overlaid');
                 return;
             }
 

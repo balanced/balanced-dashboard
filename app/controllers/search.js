@@ -1,5 +1,5 @@
 Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
-    needs: ["marketplace"],
+    needs: ['marketplace'],
 
     search: '',
     latestRequestTimeStamp: null,
@@ -77,7 +77,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         ////
         // Allows users to get all results by entering wildcard (%)
         ////
-        if (query === "%") {
+        if (query === '%') {
             query = '';
         }
 
@@ -138,22 +138,22 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         ////
         // onSearch Callback
         ////
-        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, "requestTimeStamp");
+        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, 'requestTimeStamp');
 
 
         ////
         // Debugging
         ////
-        // console.log("SEARCH => " + Balanced.Utils.getParamByName(result.uri, "q"));
-        // console.log("LASTEST TIMESTAMP => " + this.get('latestRequestTimeStamp'));
-        // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
+        // console.log('SEARCH => ' + Balanced.Utils.getParamByName(result.uri, 'q'));
+        // console.log('LASTEST TIMESTAMP => ' + this.get('latestRequestTimeStamp'));
+        // console.log('REQUEST TIMESTAMP => ' + requestTimeStamp);
 
         if (requestTimeStamp !== 0 && +(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
             ////
             // Debugging
             ////
-            // console.log("DISCARDING - OLD REQUEST");
-            // console.log("=====================================");
+            // console.log('DISCARDING - OLD REQUEST');
+            // console.log('=====================================');
 
             return;
         }
@@ -161,13 +161,13 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         ////
         // Debugging
         ////
-        // console.log("USING - LATEST REQUEST");
-        // console.log("=====================================");
+        // console.log('USING - LATEST REQUEST');
+        // console.log('=====================================');
 
         this.set('content', result);
         this.set('isLoading', false);
 
-        if (callback && typeof(callback) === "function") {
+        if (callback && typeof(callback) === 'function') {
             callback();
         }
     },
@@ -189,23 +189,23 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     },
 
     selectSearchResult: function (uri) {
-        window.location.hash = "#" + Balanced.Utils.uriToDashboardFragment(uri);
+        window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(uri);
     },
 
     totalTransactionsHeader: function () {
         if (this.get('content')) {
-            return "Transactions (" + this.get('content').get('total_transactions') + ")";
+            return 'Transactions (' + this.get('content').get('total_transactions') + ')';
         } else {
-            return "Transactions (0)";
+            return 'Transactions (0)';
         }
 
     }.property('content.total_transactions'),
 
     totalFundingInstrumentsHeader: function () {
         if (this.get('content')) {
-            return "Cards & Bank Accounts (" + this.get('content').get('total_funding_instruments') + ")";
+            return 'Cards & Bank Accounts (' + this.get('content').get('total_funding_instruments') + ')';
         } else {
-            return "Cards & Bank Accounts (0)";
+            return 'Cards & Bank Accounts (0)';
         }
 
     }.property('content.total_funding_instruments'),
