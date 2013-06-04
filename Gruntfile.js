@@ -198,10 +198,6 @@ module.exports = function (grunt) {
                     {
                         src: 'test/support/testconfig.js',
                         dest: 'build/test/js/testconfig.js'
-                    },
-                    {
-                        src: 'test/support/testconfig-before.js',
-                        dest: 'build/test/js/testconfig-before.js'
                     }
                 ]
             }
