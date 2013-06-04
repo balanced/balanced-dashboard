@@ -34,8 +34,7 @@ QUnit.testStart(function () {
 
     Balanced.injectTestHelpers();
 
-    // This was causing problems with tests. We may be able to put this back in...
-    // window.Balanced.onLoad();
+    window.Balanced.onLoad();
 });
 
 QUnit.testDone(function () {
