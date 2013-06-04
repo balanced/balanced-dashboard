@@ -164,9 +164,22 @@ Balanced.Helpers = (function () {
         }
     }
 
+    function calculateContentHeight() {
+        var $content = $('#content');
+        var height = $content.height();
+        var padding = (+$content.css('padding-top').replace('px', '')) + (+$content.css('padding-bottom').replace('px', ''));
+        return (+height + (+padding)) + 'px';
+    }
+
     return {
         init: function () {
             $('time[data-format]').each(parseDateTime);
+            Balanced.Helpers.navigationTimer = setInterval(Balanced.Helpers.updateNavigationHeight, 50);
+        },
+
+        updateNavigationHeight: function () {
+            var height = calculateContentHeight();
+            $('#marketplace-nav').height(height);
         }
     };
 })();
@@ -178,7 +191,7 @@ Balanced.Utils = {
     },
 
     toTitleCase: function (str) {
-        if(!str) {
+        if (!str) {
             return str;
         }
         return str.replace(/\w\S*/g, function (txt) {
@@ -196,7 +209,7 @@ Balanced.Utils = {
     /*
      * Inserts or updates a single query string parameter
      */
-    updateQueryStringParameter: function(uri, key, value) {
+    updateQueryStringParameter: function (uri, key, value) {
         var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
         var separator = uri.indexOf("?") > -1 ? "&" : "?";
         if (uri.match(re)) {
@@ -207,9 +220,13 @@ Balanced.Utils = {
         }
     },
 
-    formatCurrency: function(cents) {
-        if(typeof cents !== "undefined") {
+    formatCurrency: function (cents) {
+        if (cents !== null) {
             return '$' + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
         }
+    },
+
+    dollarsToCents: function (dollars) {
+        return parseInt(dollars * 100, 10);
     }
 };
