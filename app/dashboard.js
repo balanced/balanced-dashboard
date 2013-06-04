@@ -34,6 +34,7 @@ window.Balanced.onLoad = function () {
 /*
  * Helpers and utils - not static 3rd party libraries
  */
+require('app/lib/errors');
 require('app/lib/ajax');
 require('app/lib/forms');
 require('app/lib/helpers');

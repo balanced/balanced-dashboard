@@ -27,6 +27,7 @@
     "DS": true,
     "ENV": true,
     "_": true,
-    "Testing": true
+    "Testing": true,
+    "Raven": true
   }
 }
