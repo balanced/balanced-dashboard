@@ -16,7 +16,9 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
         function calculateHeight($content) {
             var height = $content.height();
             var paddingTop = $content.css('padding-top').replace('px', '');
-            return (+height + (+paddingTop)) + 'px';
+            var paddingBottom = $content.css('padding-bottom').replace('px', '');
+
+            return (+height + (+paddingTop) + (+paddingBottom)) + 'px';
         }
 
         function onIframeTrigger(resizeFunction, iframe) {

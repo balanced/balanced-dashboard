@@ -11,5 +11,9 @@ Balanced.Customer = Balanced.Model.extend({
         });
     }.property('bank_accounts.@each.verified'),
 
-    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri')
+    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
+
+    type: function () {
+        return (this.get('ein') && this.get('business_name')) ? 'Business': 'Person';
+    }.property('ein', 'name')
 });

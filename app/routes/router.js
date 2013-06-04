@@ -12,17 +12,19 @@ function makeNestedResource(that, plural, singular) {
 
 Balanced.Router.map(function () {
 
-    this.resource('marketplaces', {path: '/marketplaces'}, function () {
+    this.resource('marketplaces', { path: '/marketplaces' }, function () {
 
-        this.resource("marketplace", { path: "/:marketplace_id" }, function () {
+        this.route('apply', { path: '/apply' });
 
-            this.route("transactions", { path: "/transactions" });
+        this.resource('marketplace', { path: '/:marketplace_id' }, function () {
 
-            this.resource("accounts", { path: '/accounts' }, function () {
+            this.route('transactions', { path: '/transactions' });
 
-                this.route('new', { path: '/new'});
+            this.resource('accounts', { path: '/accounts' }, function () {
 
-                this.resource('account', { path: '/:account_id'}, function () {
+                this.route('new', { path: '/new' });
+
+                this.resource('account', { path: '/:account_id' }, function () {
 
                     makeNestedResource(this, 'cards', 'card');
                     makeNestedResource(this, 'credits', 'credit');
@@ -46,8 +48,8 @@ Balanced.Router.map(function () {
         });
 
     });
-    this.route('login', { path: "/login" });
-    this.route('forgotPassword', { path: "/forgot_password" });
+    this.route('login', { path: '/login' });
+    this.route('forgotPassword', { path: '/forgot_password' });
 });
 
 Balanced.IframeRoute = Balanced.AuthRoute.extend({
