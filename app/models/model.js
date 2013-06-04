@@ -44,6 +44,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.set('isError', false);
             self.trigger('didCreate');
         }, $.proxy(self._handleError, self));
+
+        return resolveOn('didCreate');
     },
 
     update: function () {
@@ -61,6 +63,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
             self.trigger('didUpdate');
         }, $.proxy(self._handleError, self));
+
+        return this.resolveOn('didUpdate');
     },
 
     delete: function () {
@@ -73,6 +77,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.set('isSaving', false);
             self.trigger('didDelete');
         }, $.proxy(self._handleError, self));
+
+        return resolveOn('didDelete');
     },
 
     refresh: function () {
@@ -83,6 +89,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.set('isLoaded', true);
             self.trigger('didLoad');
         });
+
+        return resolveOn('didLoad');
     },
 
     copy: function () {
@@ -155,6 +163,28 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
 
         return props;
+    },
+
+    resolveOn: function(successEvent) {
+        var model = this;
+        var deferred = Ember.Deferred.create();
+
+        function success() {
+            model.off('becameError', error);
+            model.off('becameInvalid', error);
+            deferred.resolve(model);
+        };
+
+        function error() {
+            model.off(successEvent, success);
+            deferred.reject(model);
+        };
+
+        model.one(successEvent, success);
+        model.one('becameError', error);
+        model.one('becameInvalid', error);
+
+        return deferred;
     }
 });
 
