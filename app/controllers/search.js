@@ -168,6 +168,13 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(uri);
     },
 
+    redirectToLog: function (ohm) {
+        window.location = '#/marketplaces/{0}/logs/{1}'.format(
+            this.get('controllers').get('marketplace').get('id'),
+            ohm
+        );
+    },
+
     totalTransactionsHeader: function () {
         if (this.get('content')) {
             return 'Transactions (' + this.get('content').get('total_transactions') + ')';
