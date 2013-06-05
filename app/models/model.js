@@ -1,4 +1,8 @@
-Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
+require('app/models/mixins/load_promise');
+require('app/models/model_array');
+
+
+Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
     isLoaded: false,
     isSaving: false,
@@ -32,6 +36,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         var self = this;
         var data = this._toSerializedJSON();
 
+        var promise = this.resolveOn('didCreate');
+
         self.set('isSaving', true);
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
@@ -41,6 +47,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
             self.set('isError', false);
             self.trigger('didCreate');
         }, $.proxy(self._handleError, self));
+
+        return promise;
     },
 
     update: function () {
@@ -48,6 +56,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
+
+        var promise = this.resolveOn('didUpdate');
 
         Balanced.Adapter.update(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
@@ -58,6 +68,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
 
             self.trigger('didUpdate');
         }, $.proxy(self._handleError, self));
+
+        return promise;
     },
 
     delete: function () {
@@ -66,20 +78,29 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         self.set('isDeleted', true);
         self.set('isSaving', true);
 
+        var promise = this.resolveOn('didDelete');
+
         Balanced.Adapter.delete(this.constructor, this.get('uri'), function (json) {
             self.set('isSaving', false);
             self.trigger('didDelete');
         }, $.proxy(self._handleError, self));
+
+        return promise;
     },
 
     refresh: function () {
         var self = this;
         this.set('isLoaded', false);
+
+        var promise = this.resolveOn('didLoad');
+
         Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
             self._updateFromJson(json);
             self.set('isLoaded', true);
             self.trigger('didLoad');
         });
+
+        return promise;
     },
 
     copy: function () {
@@ -107,10 +128,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         this.set('isLoaded', true);
     },
 
-    _toSerializedJSON: function() {
+    _toSerializedJSON: function () {
         var json = this._propertiesMap();
 
-        if(this.constructor.serialize) {
+        if (this.constructor.serialize) {
             this.constructor.serialize(json);
         }
 
@@ -131,7 +152,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
     // Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
     _propertiesMap: function () {
         var computedProps = [];
-        this.constructor.eachComputedProperty(function(prop) {
+        this.constructor.eachComputedProperty(function (prop) {
             computedProps.push(prop);
         });
 
@@ -152,6 +173,28 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, {
         }
 
         return props;
+    },
+
+    resolveOn: function (successEvent) {
+        var model = this;
+        var deferred = Ember.Deferred.create();
+
+        function success() {
+            model.off('becameError', error);
+            model.off('becameInvalid', error);
+            deferred.resolve(model);
+        }
+
+        function error() {
+            model.off(successEvent, success);
+            deferred.reject(model);
+        }
+
+        model.one(successEvent, success);
+        model.one('becameError', error);
+        model.one('becameInvalid', error);
+
+        return deferred;
     }
 });
 
@@ -203,12 +246,16 @@ Balanced.Model.reopenClass({
                     var embeddedObj = typeClass.create();
                     embeddedObj.set('isNew', false);
                     embeddedObj._updateFromJson(this.get(propertyName));
+                    embeddedObj.trigger('didLoad');
                     return embeddedObj;
                 } else {
                     return typeClass.find(this.get(propertyName));
                 }
             } else {
-                return null;
+                // return a class of this type so dependent properties don't crap out on null
+                var emptyObj = typeClass.create();
+                emptyObj.set('isNew', false);
+                return emptyObj;
             }
         }).property(propertyName);
     },
@@ -219,30 +266,40 @@ Balanced.Model.reopenClass({
             settings = settings || {};
             var typeClass = modelClass._typeClass(type);
 
-            var modelObjectsArray = Ember.A();
+            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A() });
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
                 var populateModels = function (json) {
-                    if (json && json.items) {
-                        var typedObjects = _.map(json.items, function (item) {
-                            var typedObj = typeClass.create();
-                            typedObj.set('isNew', false);
-                            typedObj._updateFromJson(item);
+                    var itemsArray;
+                    if (json && $.isArray(json)) {
+                        itemsArray = json;
+                    } else {
+                        if (json && json.items && $.isArray(json.items)) {
+                            itemsArray = json.items;
+                        } else {
+                            modelObjectsArray.set('isError', true);
+                            return;
+                        }
+                    }
 
-                            // if an object is deleted, remove it from the collection
-                            typedObj.on('didDelete', function () {
-                                modelObjectsArray.removeObject(typedObj);
-                            });
+                    var typedObjects = _.map(itemsArray, function (item) {
+                        var typedObj = typeClass.create();
+                        typedObj.set('isNew', false);
+                        typedObj._updateFromJson(item);
+                        typedObj.trigger('didLoad');
 
-                            return typedObj;
+                        // if an object is deleted, remove it from the collection
+                        typedObj.on('didDelete', function () {
+                            modelObjectsArray.removeObject(typedObj);
                         });
 
-                        modelObjectsArray.setObjects(typedObjects);
-                        modelObjectsArray.set('isLoaded', true);
-                    } else {
-                        modelObjectsArray.set('isError', true);
-                    }
+                        return typedObj;
+                    });
+
+                    modelObjectsArray.setObjects(typedObjects);
+                    modelObjectsArray.set('isLoaded', true);
+                    modelObjectsArray.trigger('didLoad');
                 };
 
                 if (settings.embedded) {

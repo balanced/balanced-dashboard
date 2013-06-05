@@ -4,7 +4,7 @@ Balanced.Customer = Balanced.Model.extend({
     verified_bank_accounts: function () {
         var bank_accounts = this.get('bank_accounts');
 
-        return _.filter(bank_accounts, function (bank_account) {
+        return _.filter(bank_accounts.get('content'), function (bank_account) {
             if (bank_account.get('verified')) {
                 return bank_account;
             }

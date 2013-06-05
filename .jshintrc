@@ -28,6 +28,7 @@
     "ENV": true,
     "_": true,
     "Testing": true,
-    "Raven": true
+    "Raven": true,
+    "expect": true
   }
 }
