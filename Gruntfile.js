@@ -375,7 +375,7 @@ module.exports = function (grunt) {
             // We're not using this currently, but leaving it in here in case 
             // somebody wants to run tests using their installed phantomJS
             run_tests: {
-              command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
+                command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
             },
         },
 
