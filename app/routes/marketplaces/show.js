@@ -1,6 +1,10 @@
 Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
     model: function (params) {
         var marketplaceURI = Balanced.Marketplace.constructUri(params.marketplace_id);
+
+        //  set the most recently used marketplace so we can return to this at a later date
+        Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplaceURI);
+        
         return Balanced.Marketplace.find(marketplaceURI);
     },
 
@@ -9,9 +13,9 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 
         // Store the marketplace in a global so we can use it for auth. TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = model;
-        if (model._type === "marketplaceLite") {
+        if (model._type === 'marketplaceLite') {
             var realMarketplace = Balanced.Marketplace.find(model.uri);
-            controller.set("content", realMarketplace);
+            controller.set('content', realMarketplace);
             Balanced.currentMarketplace = realMarketplace;
         }
     }
