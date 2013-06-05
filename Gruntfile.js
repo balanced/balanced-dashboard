@@ -12,14 +12,24 @@ module.exports = function (grunt) {
         neuter: {
             dev: {
                 options: {
-                    includeSourceURL: true
+                    template: "{%= src %} ;"
                 },
                 src: ['app/dashboard.js'],
                 dest: 'build/js/dashboard-dev.js'
             },
             prod: {
+                options: {
+                    template: "{%= src %} ;"
+                },
                 src: ['app/dashboard.js'],
                 dest: 'build/js/dashboard-prod.js'
+            },
+            testfixtures: {
+                options: {
+                    template: "{%= src %} ;"
+                },
+                src: ['test/support/fixtures/fixtures.js'],
+                dest: 'build/test/js/test-fixtures.js'
             }
         },
 
@@ -56,12 +66,6 @@ module.exports = function (grunt) {
                     'static/lib/underscore-1.4.4.js'
                 ],
                 dest: 'build/js/lib-prod.js'
-            },
-            testfixtures: {
-                src: [
-                    'test/support/fixtures/**/*.js'
-                ],
-                dest: 'build/test/js/test-fixtures.js'
             },
             tests: {
                 src: [
@@ -152,6 +156,12 @@ module.exports = function (grunt) {
                         expand: true,
                         src: ['**'],
                         dest: 'build/images/'
+                    },
+                    {
+                        cwd: 'static/images/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/images/'
                     }
                 ]
             },
@@ -198,10 +208,6 @@ module.exports = function (grunt) {
                     {
                         src: 'test/support/testconfig.js',
                         dest: 'build/test/js/testconfig.js'
-                    },
-                    {
-                        src: 'test/support/testconfig-before.js',
-                        dest: 'build/test/js/testconfig-before.js'
                     }
                 ]
             }
@@ -347,6 +353,12 @@ module.exports = function (grunt) {
             all: ['build/test/runner.html']
         },
 
+        exec: {
+            run_tests: {
+              command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
+            },
+        },
+
         /*
          * A test server used for casperjs tests
          * */
@@ -416,7 +428,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
-    grunt.loadNpmTasks('grunt-qunit-istanbul');
+    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
@@ -433,7 +445,7 @@ module.exports = function (grunt) {
      A task to run the application's unit tests via the command line.
      It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['_devBuild', 'qunit']);
+    grunt.registerTask('test', ['_devBuild', 'exec:run_tests']);
     grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
 
     /*
@@ -463,7 +475,7 @@ module.exports = function (grunt) {
     grunt.registerTask('_copyDist', ['copy:dist']);
 
     grunt.registerTask('_buildJS', ['ember_templates', 'neuter', 'concat:libdev', 'concat:libprod']);
-    grunt.registerTask('_buildTests', ['concat:testfixtures', 'concat:tests', 'copy:test']);
+    grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);
     grunt.registerTask('_buildHTML', ['compile-handlebars']);

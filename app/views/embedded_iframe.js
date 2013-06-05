@@ -2,14 +2,14 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
     templateName: 'embedded_iframe',
     resizer: null,
     RESIZE_CHECK_INTERVAL: 1000,
-    isVisible: true,
+    // NEVER show iframes while testing - it crashes PhantomJS!
+    isVisible: !(window.TESTING),
 
     didInsertElement: function () {
         var self = this;
 
         //  HACK: this is here as a lesson about what not to do :)
         if (window.TESTING) {
-            this.set('isVisible', false);
             return;
         }
 

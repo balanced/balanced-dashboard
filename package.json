@@ -14,7 +14,7 @@
   "devDependencies": {
     "grunt": "0.4.1",
     "grunt-cli": "0.1.7",
-    "grunt-neuter": "~0.3.0",
+    "grunt-neuter": "0.5.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-less": "~0.5.0",
     "grunt-contrib-jshint": "~0.1.1rc5",
@@ -26,8 +26,8 @@
     "grunt-hashres": "~0.3.2",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-s3": "~0.2.0-alpha",
-    "grunt-qunit-istanbul": "git://github.com/kleinsch/grunt-qunit-istanbul.git#coverage-threshold",
-    "grunt-compile-handlebars": "~0.6.0"
+    "grunt-compile-handlebars": "~0.6.0",
+    "grunt-exec": "0.4.1"
   },
   "optionalDependencies": {
     "grunt-img": "~0.1.6"
