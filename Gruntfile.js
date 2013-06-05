@@ -9,20 +9,24 @@ module.exports = function (grunt) {
             }
         },
 
+        // We're using the template here to construct an array of functions 
+        // that sets up Balanced so we can destroy and reconstruct the 
+        // entire app while running tests.
         neuter: {
             dev: {
                 options: {
-                    template: "{%= src %} ;"
+                    includeSourceURL: true,
+                    template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
                 },
                 src: ['app/dashboard.js'],
-                dest: 'build/js/dashboard-dev.js'
+                dest: 'build/js/includes-dev.js'
             },
             prod: {
                 options: {
-                    template: "{%= src %} ;"
+                    template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
                 },
                 src: ['app/dashboard.js'],
-                dest: 'build/js/dashboard-prod.js'
+                dest: 'build/js/includes-prod.js'
             },
             testfixtures: {
                 options: {
@@ -36,6 +40,20 @@ module.exports = function (grunt) {
         concat: {
             options: {
                 separator: ';\n'
+            },
+            dashboarddev: {
+                src: [
+                    'app/app_setup.js',
+                    'build/js/includes-dev.js'
+                ],
+                dest: 'build/js/dashboard-dev.js'
+            },
+            dashboardprod: {
+                src: [
+                    'app/app_setup.js',
+                    'build/js/includes-prod.js'
+                ],
+                dest: 'build/js/dashboard-prod.js'
             },
             libdev: {
                 src: [
@@ -354,8 +372,10 @@ module.exports = function (grunt) {
         },
 
         exec: {
+            // We're not using this currently, but leaving it in here in case 
+            // somebody wants to run tests using their installed phantomJS
             run_tests: {
-              command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
+                command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
             },
         },
 
@@ -428,8 +448,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
+    grunt.loadNpmTasks('grunt-qunit-istanbul');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
+
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -445,7 +467,7 @@ module.exports = function (grunt) {
      A task to run the application's unit tests via the command line.
      It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['_devBuild', 'exec:run_tests']);
+    grunt.registerTask('test', ['_devBuild', 'qunit']);
     grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
 
     /*
@@ -474,7 +496,7 @@ module.exports = function (grunt) {
     grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
     grunt.registerTask('_copyDist', ['copy:dist']);
 
-    grunt.registerTask('_buildJS', ['ember_templates', 'neuter', 'concat:libdev', 'concat:libprod']);
+    grunt.registerTask('_buildJS', ['ember_templates', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
     grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);

@@ -25,11 +25,6 @@ functionality? Jump in and contribute!
 You will need node installed as a development dependency. See
 [node's site](http://nodejs.org/) for help with that.
 
-In order to run tests, you also need [PhantomJS](http://phantomjs.org/) 
-installed. If you have a Mac, this is as easy as:
-
-	brew update && brew install phantomjs
-
 1. `npm install -g grunt-cli`
 2. `npm install`
 3. Build - `grunt`

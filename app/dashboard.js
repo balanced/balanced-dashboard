@@ -8,31 +8,6 @@
 require('build/js/compiled-templates');
 
 /*
- Creates a new instance of an Ember application and
- specifies what HTML element inside index.html Ember
- should manage for you.
- */
-window.setupBalanced = function(divSelector) {
-
-// default to #balanced-app if not specified
-divSelector = divSelector || '#balanced-app';
-
-window.Balanced = Ember.Application.create({
-    rootElement: divSelector,
-    LOG_TRANSITIONS: true,
-
-    customEvents: {
-        // key is the jquery event, value is the name used in views
-        changeDate: 'changeDate'
-    }
-});
-
-window.Balanced.onLoad = function () {
-    //  initialize anything that needs to be done on application load
-    Balanced.Helpers.init();
-};
-
-/*
  * Helpers and utils - not static 3rd party libraries
  */
 require('app/lib/errors');
@@ -137,5 +112,3 @@ require('app/controllers/bank_accounts');
  * actions.
  */
 require('app/routes/router');
-
-};
