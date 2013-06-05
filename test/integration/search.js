@@ -79,3 +79,17 @@ test('search "%" return 15 transactions. Click filter by holds.', function (asse
     assert.equal($('#search .results li.transactions > a:contains("6")').length, 1, 'has 6 hold transactions in header');
     assert.equal($('#search .results table.transactions tbody tr').length, 6, 'has 6 hold transactions');
 });
+
+test('search date picker dropdown', function (assert) {
+    Testing.runSearch('%');
+    $('#q').trigger('keyup');
+
+    var toggle = $('#search .timing .dropdown-toggle');
+    toggle.click();
+    assert.ok(toggle.parent().hasClass('open'));
+
+    var dp = toggle.parent().find('div.date-picker');
+    dp.find('[name="after"]').click().focus();
+    assert.ok(dp.find('.after').hasClass('selected'), 'after is selected');
+    assert.ok(toggle.parent().hasClass('open'), 'date picker is still showing');
+});
