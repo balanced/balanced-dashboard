@@ -32,6 +32,7 @@ Balanced.Router.map(function () {
                     makeNestedResource(this, 'holds', 'hold');
                     makeNestedResource(this, 'refunds', 'refund');
                     makeNestedResource(this, 'bank_accounts', 'bank_account');
+                    makeNestedResource(this, 'transactions', 'transaction');
 
                 });
 
@@ -67,6 +68,12 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
     },
     renderTemplate: function () {
         this.render('iframe');
+    }
+});
+
+Balanced.ShowResource = Balanced.IframeRoute.extend({
+    setupController: function (controller, model) {
+        this.controllerFor(this.resource).set('content', model);
     }
 });
 

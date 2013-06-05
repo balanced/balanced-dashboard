@@ -1,6 +1,12 @@
-Balanced.BankAccountsBankAccountRoute = Balanced.AuthRoute.extend({
-  model: function(params) {
-    var marketplace = this.modelFor('marketplace');
-    return marketplace.get('web_uri') + '/bank_accounts/' + params.bank_account_id + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
-  }
+
+Balanced.BankAccountsRoute = Balanced.IframeRoute.extend({
+    param: 'bank_account_id',
+    title: 'Bank Accounts',
+    resource: 'bank_accounts'
+});
+
+Balanced.BankAccountsBankAccountRoute = Balanced.ShowResource.extend({
+    param: 'bank_account_id',
+    title: 'Bank Account',
+    resource: 'bank_accounts'
 });
