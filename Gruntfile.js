@@ -353,6 +353,14 @@ module.exports = function (grunt) {
             all: ['build/test/runner.html']
         },
 
+        exec: {
+            run_tests: {
+              command: 'phantomjs test/support/lib/run-qunit.js file://`pwd`/build/test/runner.html',
+              stdout: false,
+              stderr: false
+            },
+        },
+
         /*
          * A test server used for casperjs tests
          * */
@@ -422,7 +430,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
-    grunt.loadNpmTasks('grunt-qunit-istanbul');
+    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
@@ -439,7 +447,7 @@ module.exports = function (grunt) {
      A task to run the application's unit tests via the command line.
      It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['_devBuild', 'qunit']);
+    grunt.registerTask('test', ['_devBuild', 'exec:run_tests']);
     grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
 
     /*
