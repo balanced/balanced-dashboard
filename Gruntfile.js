@@ -355,9 +355,7 @@ module.exports = function (grunt) {
 
         exec: {
             run_tests: {
-              command: 'phantomjs test/support/lib/run-qunit.js file://`pwd`/build/test/runner.html',
-              stdout: false,
-              stderr: false
+              command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
             },
         },
 
