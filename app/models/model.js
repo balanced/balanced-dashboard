@@ -1,6 +1,7 @@
 require('app/models/mixins/load_promise');
 require('app/models/model_array');
 
+
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
     isLoaded: false,
@@ -127,10 +128,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         this.set('isLoaded', true);
     },
 
-    _toSerializedJSON: function() {
+    _toSerializedJSON: function () {
         var json = this._propertiesMap();
 
-        if(this.constructor.serialize) {
+        if (this.constructor.serialize) {
             this.constructor.serialize(json);
         }
 
@@ -151,7 +152,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     // Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
     _propertiesMap: function () {
         var computedProps = [];
-        this.constructor.eachComputedProperty(function(prop) {
+        this.constructor.eachComputedProperty(function (prop) {
             computedProps.push(prop);
         });
 
@@ -174,7 +175,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         return props;
     },
 
-    resolveOn: function(successEvent) {
+    resolveOn: function (successEvent) {
         var model = this;
         var deferred = Ember.Deferred.create();
 
@@ -182,12 +183,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             model.off('becameError', error);
             model.off('becameInvalid', error);
             deferred.resolve(model);
-        };
+        }
 
         function error() {
             model.off(successEvent, success);
             deferred.reject(model);
-        };
+        }
 
         model.one(successEvent, success);
         model.one('becameError', error);
@@ -271,13 +272,15 @@ Balanced.Model.reopenClass({
             if (this.get(propertyName)) {
                 var populateModels = function (json) {
                     var itemsArray;
-                    if(json && $.isArray(json)) {
+                    if (json && $.isArray(json)) {
                         itemsArray = json;
-                    } else if (json && json.items && $.isArray(json.items))
-                        itemsArray = json.items;
-                    else {
-                        modelObjectsArray.set('isError', true);
-                        return;
+                    } else {
+                        if (json && json.items && $.isArray(json.items)) {
+                            itemsArray = json.items;
+                        } else {
+                            modelObjectsArray.set('isError', true);
+                            return;
+                        }
                     }
 
                     var typedObjects = _.map(itemsArray, function (item) {
