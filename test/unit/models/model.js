@@ -29,6 +29,20 @@ test('model computes embedded properties correctly', function (assert) {
 	assert.equal(t.get('derived_field'), 6);
 });
 
+test("created models don't share state", function (assert) {
+	var t = Balanced.TestModel.create();
+	t.set('basic_field', 5);
+	assert.equal(t.get('basic_field'), 5);
+	assert.equal(t.get('derived_field'), 6);
+
+	var s = Balanced.TestModel.create();
+	s.set('basic_field', 123);
+	assert.equal(s.get('basic_field'), 123);
+	assert.equal(s.get('derived_field'), 124);
+	assert.equal(t.get('basic_field'), 5);
+	assert.equal(t.get('derived_field'), 6);
+});
+
 test('belongsTo associations work', function (assert) {
 	var TestModel2 = Balanced.Model.extend({
 		my_uri_field: '/v1/testobjects/1',
@@ -42,6 +56,37 @@ test('belongsTo associations work', function (assert) {
 
 	assert.equal(t.get('my_belongs_to_field').get('derived_field'), 124);
 	assert.equal(t.get('my_belongs_to_field.derived_field'), 124);
+});
+
+test("belongsTo associations don't share state", function (assert) {
+	var TestModel2 = Balanced.Model.extend({
+		my_uri_field: '/v1/testobjects/1',
+		my_other_uri_field: '/v1/testobjects/2',
+		my_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_uri_field'),
+		my_other_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_other_uri_field')
+	});
+
+	Balanced.Adapter.addFixtures([
+		{
+			uri: '/v1/testobjects/2',
+			basic_field: 42
+		}
+	]);
+
+	var t = TestModel2.create();
+
+	assert.equal(t.get('my_belongs_to_field.basic_field'), 123);
+	assert.equal(t.get('my_belongs_to_field.derived_field'), 124);
+	assert.equal(t.get('my_other_belongs_to_field.basic_field'), 42);
+	assert.equal(t.get('my_other_belongs_to_field.derived_field'), 43);
+
+	t.get('my_belongs_to_field').set('basic_field', 8);
+	t.get('my_other_belongs_to_field').set('basic_field', 23);
+
+	assert.equal(t.get('my_belongs_to_field.basic_field'), 8);
+	assert.equal(t.get('my_belongs_to_field.derived_field'), 9);
+	assert.equal(t.get('my_other_belongs_to_field.basic_field'), 23);
+	assert.equal(t.get('my_other_belongs_to_field.derived_field'), 24);
 });
 
 test('Embedded belongsTo associations work', function (assert) {
@@ -89,6 +134,49 @@ test('hasMany associations work', function (assert) {
 	assert.equal(t.get('my_has_many_field').get('length'), 2);
 	assert.equal(t.get('my_has_many_field').objectAt(0).get('derived_field'), 124);
 	assert.equal(t.get('my_has_many_field').objectAt(1).get('derived_field'), 235);
+});
+
+test("hasMany associations don't share state", function (assert) {
+	var TestModel2 = Balanced.Model.extend({
+		my_uri_field: '/v1/testobjects/1',
+		my_other_uri_field: '/v1/testobjects/2',
+		my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_uri_field'),
+		my_other_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_other_uri_field')
+	});
+
+	Balanced.Adapter.addFixtures([
+		{
+			uri: '/v1/testobjects/1',
+			items: [{
+				basic_field: 123
+			}, {
+				basic_field: 234
+			}]
+		},
+		{
+			uri: '/v1/testobjects/2',
+			items: [{
+				basic_field: 1
+			}, {
+				basic_field: 2
+			}, {
+				basic_field: 3
+			}, {
+				basic_field: 4
+			}]
+		}
+	]);
+
+	var t = TestModel2.create();
+
+	assert.equal(t.get('my_has_many_field').get('length'), 2);
+	assert.equal(t.get('my_other_has_many_field').get('length'), 4);
+	assert.equal(t.get('my_has_many_field').objectAt(0).get('derived_field'), 124);
+	assert.equal(t.get('my_has_many_field').objectAt(1).get('derived_field'), 235);
+	assert.equal(t.get('my_other_has_many_field').objectAt(0).get('derived_field'), 2);
+	assert.equal(t.get('my_other_has_many_field').objectAt(1).get('derived_field'), 3);
+	assert.equal(t.get('my_other_has_many_field').objectAt(2).get('derived_field'), 4);
+	assert.equal(t.get('my_other_has_many_field').objectAt(3).get('derived_field'), 5);
 });
 
 test('Embedded hasMany associations work', function (assert) {

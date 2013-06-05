@@ -265,7 +265,7 @@ Balanced.Model.reopenClass({
             settings = settings || {};
             var typeClass = modelClass._typeClass(type);
 
-            var modelObjectsArray = Balanced.ModelArray.create();
+            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A() });
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
