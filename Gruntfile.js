@@ -9,20 +9,24 @@ module.exports = function (grunt) {
             }
         },
 
+        // We're using the template here to construct an array of functions 
+        // that sets up Balanced so we can destroy and reconstruct the 
+        // entire app while running tests.
         neuter: {
             dev: {
                 options: {
-                    template: "{%= src %} ;"
+                    includeSourceURL: true,
+                    template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
                 },
                 src: ['app/dashboard.js'],
-                dest: 'build/js/dashboard-dev.js'
+                dest: 'build/js/includes-dev.js'
             },
             prod: {
                 options: {
-                    template: "{%= src %} ;"
+                    template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
                 },
                 src: ['app/dashboard.js'],
-                dest: 'build/js/dashboard-prod.js'
+                dest: 'build/js/includes-prod.js'
             },
             testfixtures: {
                 options: {
@@ -36,6 +40,20 @@ module.exports = function (grunt) {
         concat: {
             options: {
                 separator: ';\n'
+            },
+            dashboarddev: {
+                src: [
+                    'app/app_setup.js',
+                    'build/js/includes-dev.js'
+                ],
+                dest: 'build/js/dashboard-dev.js'
+            },
+            dashboardprod: {
+                src: [
+                    'app/app_setup.js',
+                    'build/js/includes-prod.js'
+                ],
+                dest: 'build/js/dashboard-prod.js'
             },
             libdev: {
                 src: [
@@ -474,7 +492,7 @@ module.exports = function (grunt) {
     grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
     grunt.registerTask('_copyDist', ['copy:dist']);
 
-    grunt.registerTask('_buildJS', ['ember_templates', 'neuter', 'concat:libdev', 'concat:libprod']);
+    grunt.registerTask('_buildJS', ['ember_templates', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
     grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);
