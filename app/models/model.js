@@ -29,7 +29,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     // attribute
     id: function () {
         var uri = this.get('uri');
-        return uri.substring(uri.lastIndexOf("/") + 1);
+        return uri.substring(uri.lastIndexOf('/') + 1);
     }.property('uri'),
 
     create: function () {
@@ -204,7 +204,7 @@ Balanced.Model.reopenClass({
      * Example:
      * Balanced.Test.reopenClass({
      *   deserialize: function(json) {
-     *     json.anotherProperty = "value";
+     *     json.anotherProperty = 'value';
      *   }
      * });
      */

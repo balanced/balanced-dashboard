@@ -1,4 +1,12 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend({
+
+    formattedEscrowAmount: function () {
+        var escrow = this.get('in_escrow');
+        if (isNaN(escrow)) {
+            return '$--';
+        }
+        return Balanced.Utils.formatCurrency(escrow);
+    }.property('in_escrow')
 });
 
 Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
