@@ -63,9 +63,16 @@ Balanced.SearchView = Balanced.View.extend({
 
     onQueryChange: function (e) {
         var self = this;
-
-        if ($('#q').val().length === 0) {
+        var query = $('#q').val();
+        if (query.length === 0) {
             self.toggleResults();
+            return;
+        }
+
+        //  HACK: how do we do this from the controller?
+        if (query.indexOf('OHM') === 0 && query.length > 30) {
+            this.close();
+            this.get('controller').send('redirectToLog', query);
             return;
         }
 

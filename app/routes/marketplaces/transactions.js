@@ -1,8 +1,3 @@
-Balanced.ShowResource = Balanced.IframeRoute.extend({
-    setupController: function (controller, model) {
-        this.controllerFor(this.resource).set('content', model);
-    }
-});
 
 Balanced.DebitsRoute = Balanced.IframeRoute.extend({
     param: 'debit_id',

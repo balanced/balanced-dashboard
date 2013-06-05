@@ -1,6 +1,12 @@
-Balanced.InvoicesInvoiceRoute = Balanced.AuthRoute.extend({
-    model: function (params) {
-        var marketplace = this.modelFor('marketplace');
-        return marketplace.get('web_uri') + '/invoices/' + params.invoice_id + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
-    }
+
+Balanced.InvoicesRoute = Balanced.IframeRoute.extend({
+    param: 'invoice_id',
+    title: 'Invoices',
+    resource: 'invoices'
+});
+
+Balanced.InvoicesInvoiceRoute = Balanced.ShowResource.extend({
+    param: 'invoice_id',
+    title: 'Invoice',
+    resource: 'invoices'
 });

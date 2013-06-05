@@ -1,7 +1,12 @@
-Balanced.CardsCardRoute = Balanced.AuthRoute.extend({
-    model: function (params) {
-        var marketplace = this.modelFor('marketplace');
-        return marketplace.get('web_uri') + '/cards/' + params.card_id + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
-    }
+
+Balanced.CardsRoute = Balanced.IframeRoute.extend({
+    param: 'card_id',
+    title: 'Cards',
+    resource: 'cards'
 });
 
+Balanced.CardsCardRoute = Balanced.ShowResource.extend({
+    param: 'card_id',
+    title: 'Card',
+    resource: 'cards'
+});

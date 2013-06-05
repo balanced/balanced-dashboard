@@ -36,9 +36,16 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
             callback: Balanced.Helpers.updateNavigationHeight
         });
 
+        try {
+            self.get('controller').set('iframeLoading', true);
+        } catch (error) {}
+
         $embeddedContent.load(function () {
             // Fire this in case the server redirected
             self.updateHashFromIframeLocation(this.contentWindow.location.pathname);
+            try {
+                self.get('controller').set('iframeLoading', false);
+            } catch (error) {}
 
             // Add a handler to links so we can change the page BEFORE the page loads
             $embeddedContent.contents().find('a').click(function (event) {

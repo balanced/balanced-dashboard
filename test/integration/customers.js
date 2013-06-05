@@ -12,5 +12,5 @@ test('can visit create new customer ', function (assert) {
 
     //  check the page title has been selected
     var $title = $('#content h1');
-    assert.equal($title.text(), 'Create a new customer');
+    assert.equal($title.text().trim(), 'Create a new customer');
 });

@@ -1,5 +1,4 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend({
-
 });
 
 Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({

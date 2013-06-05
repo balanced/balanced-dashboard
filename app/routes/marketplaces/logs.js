@@ -1,6 +1,12 @@
-Balanced.LogsLogRoute = Balanced.AuthRoute.extend({
-  model: function(params) {
-    var marketplace = this.modelFor('marketplace');
-    return marketplace.get('web_uri') + '/logs/' + params.log_id + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
-  }
+
+Balanced.LogsRoute = Balanced.IframeRoute.extend({
+    param: 'log_id',
+    title: 'Logs',
+    resource: 'logs'
+});
+
+Balanced.LogsLogRoute = Balanced.ShowResource.extend({
+    param: 'log_id',
+    title: 'Log',
+    resource: 'logs'
 });
