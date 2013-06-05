@@ -1,4 +1,6 @@
-QUnit.testStart(function () {
+QUnit.testStart(function (test) {
+    var module = test.module ? test.module : '';
+    console.log('#' + module + " " + test.name + ": starting setup.");
 
     // Display an error if asynchronous operations are queued outside of
     // Ember.run.  You need this if you want to stay sane.
@@ -35,13 +37,20 @@ QUnit.testStart(function () {
     Balanced.injectTestHelpers();
 
     window.Balanced.onLoad();
+
+    console.log('#' + module + " " + test.name + ": setup complete. Starting test");
 });
 
-QUnit.testDone(function () {
+QUnit.testDone(function (test) {
+    var module = test.module ? test.module : '';
+    console.log('#' + module + " " + test.name + ": tearing down.");
+
     Balanced.removeTestHelpers();
     Ember.$('#ember-testing-container, #ember-testing').remove();
     Ember.run(Balanced, Balanced.destroy);
     Balanced = null;
 
     Ember.testing = false;
+
+    console.log('#' + module + " " + test.name + ": done.");
 });
