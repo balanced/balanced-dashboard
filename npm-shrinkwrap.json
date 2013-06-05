@@ -67,14 +67,15 @@
       "from": "grunt-ember-templates@0.4.5",
       "resolved": "https://registry.npmjs.org/grunt-ember-templates/-/grunt-ember-templates-0.4.5.tgz"
     },
-    "grunt-neuter": {
-      "version": "0.3.0",
-      "from": "grunt-neuter@~0.3.0"
+    "grunt-exec": {
+      "version": "0.4.1",
+      "from": "grunt-exec@0.4.1",
+      "resolved": "https://registry.npmjs.org/grunt-exec/-/grunt-exec-0.4.1.tgz"
     },
     "grunt-hashres": {
-      "version": "0.3.1",
-      "from": "grunt-hashres@git://github.com/kleinsch/grunt-hashres.git#replace-all",
-      "resolved": "git://github.com/kleinsch/grunt-hashres.git#2895624042d3e2e3601efa73502871d948cae51c",
+      "version": "0.3.2",
+      "from": "grunt-hashres@~0.3.2",
+      "resolved": "https://registry.npmjs.org/grunt-hashres/-/grunt-hashres-0.3.2.tgz",
       "dependencies": {
         "wrench": {
           "version": "1.4.4",
@@ -355,6 +356,41 @@
             "zlib-browserify": {
               "version": "0.0.1",
               "from": "zlib-browserify@0.0.1"
+            }
+          }
+        }
+      }
+    },
+    "grunt-neuter": {
+      "version": "0.5.0",
+      "from": "grunt-neuter@0.5.0",
+      "resolved": "https://registry.npmjs.org/grunt-neuter/-/grunt-neuter-0.5.0.tgz",
+      "dependencies": {
+        "glob": {
+          "version": "3.2.1",
+          "from": "glob@~3.2.1",
+          "dependencies": {
+            "minimatch": {
+              "version": "0.2.12",
+              "from": "minimatch@~0.2.11",
+              "dependencies": {
+                "lru-cache": {
+                  "version": "2.3.0",
+                  "from": "lru-cache@2"
+                },
+                "sigmund": {
+                  "version": "1.0.0",
+                  "from": "sigmund@~1.0.0"
+                }
+              }
+            },
+            "graceful-fs": {
+              "version": "1.2.1",
+              "from": "graceful-fs@~1"
+            },
+            "inherits": {
+              "version": "1.0.0",
+              "from": "inherits@1"
             }
           }
         }

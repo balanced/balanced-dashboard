@@ -1,8 +1,12 @@
-module('Invoices');
+module('Invoices', {
+    setup: function () {
+        Testing.selectMarketplaceByName();
+    }, teardown: function () {
+
+    }
+});
 
 test('can visit page', function (assert) {
-    Testing.selectMarketplaceByName();
-
     // click the activity link
     $('#marketplace-nav .invoices a').click();
 

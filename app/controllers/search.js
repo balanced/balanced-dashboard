@@ -1,5 +1,5 @@
-Balanced.SearchController = Balanced.ObjectController.extend({
-    needs: ["marketplace"],
+Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
+    needs: ['marketplace'],
 
     search: '',
     latestRequestTimeStamp: null,
@@ -14,7 +14,7 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     getLabel: function (labelMapping, acceptedTypes, type) {
         var label = labelMapping[type];
         if (!label && acceptedTypes.indexOf(type) > -1) {
-            label = type.substr(0, 1).toUpperCase() + type.substr(1) + 's';
+            label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
         }
         return (label) ? label : labelMapping.DEFAULT;
     },
@@ -42,16 +42,19 @@ Balanced.SearchController = Balanced.ObjectController.extend({
         return this.getLabel(typesToLabels, types, this.type);
     }.property('content.type'),
 
-    ////
-    // Wrapper
-    ////
+    getSearchUri: function () {
+        var query = this.get('search');
+        var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
+        var params = this.searchParams({
+            query: query
+        });
+        return Balanced.SearchQuery.createUri(marketplaceUri, params);
+    },
+
     query: function (callback) {
         this.fromQuery(callback);
     },
 
-    ////
-    // Wrapper
-    ////
     loadMoreSearchResults: function () {
         this.loadMoreFromQuery();
     },
@@ -65,32 +68,45 @@ Balanced.SearchController = Balanced.ObjectController.extend({
             return;
         }
 
-        ////
         // Allows users to get all results by entering wildcard (%)
-        ////
-        if (query === "%") {
+        if (query === '%') {
             query = '';
         }
 
         this.set('latestRequestTimeStamp', requestTimeStamp);
         this.set('isLoading', true);
 
-        var _this = this;
-
-        Balanced.SearchQuery.search(marketplaceUri, {
+        var self = this;
+        var params = this.searchParams({
             query: query,
+            requestTimeStamp: requestTimeStamp
+        });
+
+        Balanced.SearchQuery.search(marketplaceUri, params, {
+            observer: function (result) {
+                self.onSearchCallback(result, callback);
+            }
+        });
+    },
+
+    searchParams: function (params) {
+        var defaults = {
             limit: this.get('limit'),
             minDate: this.get('minDate'),
             maxDate: this.get('maxDate'),
             sortField: this.get('sortField'),
             sortOrder: this.get('sortOrder'),
-            type: this.get('type'),
-            requestTimeStamp: requestTimeStamp
-        }, {
-            observer: function (result) {
-                _this.onSearchCallback(result, callback);
-            }
-        });
+            type: this.get('type')
+        };
+        return $.extend({}, defaults, params);
+    },
+
+    reset: function () {
+        this.set('minDate', null);
+        this.set('maxDate', null);
+        this.set('sortField', null);
+        this.set('sortOrder', null);
+        this.set('search', null);
     },
 
     loadMoreFromQuery: function () {
@@ -119,39 +135,15 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     },
 
     onSearchCallback: function (result, callback) {
-        ////
-        // onSearch Callback
-        ////
-        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, "requestTimeStamp");
-
-
-        ////
-        // Debugging
-        ////
-        // console.log("SEARCH => " + Balanced.Utils.getParamByName(result.uri, "q"));
-        // console.log("LASTEST TIMESTAMP => " + this.get('latestRequestTimeStamp'));
-        // console.log("REQUEST TIMESTAMP => " + requestTimeStamp);
-
+        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, 'requestTimeStamp');
         if (requestTimeStamp !== 0 && +(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
-            ////
-            // Debugging
-            ////
-            // console.log("DISCARDING - OLD REQUEST");
-            // console.log("=====================================");
-
             return;
         }
-
-        ////
-        // Debugging
-        ////
-        // console.log("USING - LATEST REQUEST");
-        // console.log("=====================================");
 
         this.set('content', result);
         this.set('isLoading', false);
 
-        if (callback && typeof(callback) === "function") {
+        if (callback && typeof(callback) === 'function') {
             callback();
         }
     },
@@ -173,23 +165,30 @@ Balanced.SearchController = Balanced.ObjectController.extend({
     },
 
     selectSearchResult: function (uri) {
-        window.location.hash = "#" + Balanced.Utils.uriToDashboardFragment(uri);
+        window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(uri);
+    },
+
+    redirectToLog: function (ohm) {
+        window.location = '#/marketplaces/{0}/logs/{1}'.format(
+            this.get('controllers').get('marketplace').get('id'),
+            ohm
+        );
     },
 
     totalTransactionsHeader: function () {
         if (this.get('content')) {
-            return "Transactions (" + this.get('content').get('total_transactions') + ")";
+            return 'Transactions (' + this.get('content').get('total_transactions') + ')';
         } else {
-            return "Transactions (0)";
+            return 'Transactions (0)';
         }
 
     }.property('content.total_transactions'),
 
     totalFundingInstrumentsHeader: function () {
         if (this.get('content')) {
-            return "Cards & Bank Accounts (" + this.get('content').get('total_funding_instruments') + ")";
+            return 'Cards & Bank Accounts (' + this.get('content').get('total_funding_instruments') + ')';
         } else {
-            return "Cards & Bank Accounts (0)";
+            return 'Cards & Bank Accounts (0)';
         }
 
     }.property('content.total_funding_instruments'),

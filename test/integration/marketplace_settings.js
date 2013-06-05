@@ -34,7 +34,7 @@ test('can create bank accounts', function (assert) {
     $('#add-bank-account .modal-footer button')[1].click();
 
     // should be two creates, one for the bank account and one for the verification
-    assert.equal(createsBefore + 2, Balanced.Adapter.creates.length);
+    assert.equal(Balanced.Adapter.creates.length, createsBefore + 2);
 });
 
 test('shows webhooks', function (assert) {

@@ -11,8 +11,10 @@ $.ajaxSetup({
     }
 });
 
-// POSTing to / will return a csrf token
-$.post(Ember.ENV.BALANCED.AUTH).success(function (r) {
-    csrfToken = r.csrf;
-    $.cookie('csrfToken', csrfToken);
-});
+if(!window.TESTING) {
+    // POSTing to / will return a csrf token
+    $.post(Ember.ENV.BALANCED.AUTH).success(function (r) {
+        csrfToken = r.csrf;
+        $.cookie('csrfToken', csrfToken);
+    });
+}

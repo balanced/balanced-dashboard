@@ -61,16 +61,23 @@ Balanced.SearchQuery.reopenClass({
             json.total_funding_instruments = json.total;
         }
     },
+
     search: function (marketplaceUri, params, options) {
+        var uri = this.createUri(marketplaceUri, params);
+        var res = this.find(uri, options);
+        return res;
+    },
+
+    createUri: function (marketplaceUri, params) {
         var uri = marketplaceUri + '/search?';
         var searchParams = {
             limit: params.limit || 10,
             offset: params.offset || 0,
-            sortOrder: params.sortOrder || '',
-            sortField: params.sortField || '',
-            q: params.query,
-            requestTimeStamp: params.requestTimeStamp
+            q: params.query
         };
+        if (params.requestTimeStamp) {
+            searchParams.requestTimeStamp = params.requestTimeStamp;
+        }
         if (params.sortOrder && params.sortField && !params.sort) {
             searchParams.sort = [params.sortField, params.sortOrder].join(',');
         }
@@ -97,14 +104,13 @@ Balanced.SearchQuery.reopenClass({
             searchParams.sort = params.sortField + ',' + params.sortOrder;
         }
 
+        searchParams = Balanced.Utils.sortDict(searchParams);
+
         var queryString = $.map(searchParams,function (v, k) {
             return k + '=' + v;
         }).join('&');
 
         uri += encodeURI(queryString);
-
-        var res = this.find(uri, options);
-
-        return res;
+        return uri;
     }
 });

@@ -4,7 +4,7 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
     email_address: null,
 
     download_primary: function () {
-        var uri = window.location.hash.substr(1);
+        var uri = this.getSearchUri();
         var self = this;
         if (this.email_address) {
             var download = Balanced.Download.create({
@@ -20,6 +20,10 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
         } else {
             self.download_close();
         }
+    },
+
+    getSearchUri: function () {
+        return window.location.hash.substr(1);
     },
 
     download_close: function () {

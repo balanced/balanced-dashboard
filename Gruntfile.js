@@ -9,17 +9,31 @@ module.exports = function (grunt) {
             }
         },
 
+        // We're using the template here to construct an array of functions 
+        // that sets up Balanced so we can destroy and reconstruct the 
+        // entire app while running tests.
         neuter: {
             dev: {
                 options: {
-                    includeSourceURL: true
+                    includeSourceURL: true,
+                    template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
                 },
                 src: ['app/dashboard.js'],
-                dest: 'build/js/dashboard-dev.js'
+                dest: 'build/js/includes-dev.js'
             },
             prod: {
+                options: {
+                    template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
+                },
                 src: ['app/dashboard.js'],
-                dest: 'build/js/dashboard-prod.js'
+                dest: 'build/js/includes-prod.js'
+            },
+            testfixtures: {
+                options: {
+                    template: "{%= src %} ;"
+                },
+                src: ['test/support/fixtures/fixtures.js'],
+                dest: 'build/test/js/test-fixtures.js'
             }
         },
 
@@ -27,12 +41,26 @@ module.exports = function (grunt) {
             options: {
                 separator: ';\n'
             },
+            dashboarddev: {
+                src: [
+                    'app/app_setup.js',
+                    'build/js/includes-dev.js'
+                ],
+                dest: 'build/js/dashboard-dev.js'
+            },
+            dashboardprod: {
+                src: [
+                    'app/app_setup.js',
+                    'build/js/includes-prod.js'
+                ],
+                dest: 'build/js/dashboard-prod.js'
+            },
             libdev: {
                 src: [
                     'static/lib/jquery-2.0.0.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
                     'static/lib/ember-1.0.0-rc.3.js',
-                    'static/lib/ember-auth-6.0.3.js',
+                    'static/lib/ember-auth-6.0.5-modified.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
@@ -47,7 +75,7 @@ module.exports = function (grunt) {
                     'static/lib/jquery-2.0.0.js',
                     'static/lib/handlebars.runtime-1.0.0-rc.3.js',
                     'static/lib/ember-1.0.0-rc.3.js',
-                    'static/lib/ember-auth-6.0.3.js',
+                    'static/lib/ember-auth-6.0.5-modified.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
                     'static/lib/bootstrap-datepicker.js',
@@ -56,12 +84,6 @@ module.exports = function (grunt) {
                     'static/lib/underscore-1.4.4.js'
                 ],
                 dest: 'build/js/lib-prod.js'
-            },
-            testfixtures: {
-                src: [
-                    'test/support/fixtures/**/*.js'
-                ],
-                dest: 'build/test/js/test-fixtures.js'
             },
             tests: {
                 src: [
@@ -152,6 +174,12 @@ module.exports = function (grunt) {
                         expand: true,
                         src: ['**'],
                         dest: 'build/images/'
+                    },
+                    {
+                        cwd: 'static/images/',
+                        expand: true,
+                        src: ['**'],
+                        dest: 'build/test/images/'
                     }
                 ]
             },
@@ -198,10 +226,6 @@ module.exports = function (grunt) {
                     {
                         src: 'test/support/testconfig.js',
                         dest: 'build/test/js/testconfig.js'
-                    },
-                    {
-                        src: 'test/support/testconfig-before.js',
-                        dest: 'build/test/js/testconfig-before.js'
                     }
                 ]
             }
@@ -347,6 +371,14 @@ module.exports = function (grunt) {
             all: ['build/test/runner.html']
         },
 
+        exec: {
+            // We're not using this currently, but leaving it in here in case 
+            // somebody wants to run tests using their installed phantomJS
+            run_tests: {
+                command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
+            },
+        },
+
         /*
          * A test server used for casperjs tests
          * */
@@ -367,19 +399,38 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            dev_build: {
+            js: {
                 files: [
                     'app/**/*.js',
                     'app/**/*.hbs',
-                    'app/index.html.hbs',
-                    'static/lib/**/*.js',
-                    'static/less/*',
-                    'static/images/**/*',
-                    'test/support/**/*',
-                    'test/**/*.js',
-                    'Gruntfile.js'
+                    'static/lib/**/*.js'
                 ],
-                tasks: ['_devBuild']
+                tasks: ['_buildJS']
+            },
+            tests: {
+                files: [
+                    'test/support/**/*',
+                    'test/**/*.js'
+                ],
+                tasks: ['_buildTests']
+            },
+            css: {
+                files: [
+                    'static/less/*'
+                ],
+                tasks: ['_buildCSS']
+            },
+            images: {
+                files: [
+                    'static/images/**/*'
+                ],
+                tasks: ['_buildImages']
+            },
+            html: {
+                files: [
+                    'app/index.html.hbs'
+                ],
+                tasks: ['_buildHTML']
             }
         }
     });
@@ -398,7 +449,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
     grunt.loadNpmTasks('grunt-qunit-istanbul');
+    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
+
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -443,8 +496,8 @@ module.exports = function (grunt) {
     grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
     grunt.registerTask('_copyDist', ['copy:dist']);
 
-    grunt.registerTask('_buildJS', ['ember_templates', 'neuter', 'concat:libdev', 'concat:libprod']);
-    grunt.registerTask('_buildTests', ['concat:testfixtures', 'concat:tests', 'copy:test']);
+    grunt.registerTask('_buildJS', ['ember_templates', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
+    grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);
     grunt.registerTask('_buildHTML', ['compile-handlebars']);
