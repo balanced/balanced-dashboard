@@ -1,7 +1,11 @@
 //  time in ms to throttle between key presses for search
 Balanced.THROTTLE = 400;
 
-Balanced.SearchView = Balanced.View.extend({
+Balanced.BaseSearchView = Balanced.View.extend({
+    overlayClass: 'overlaid'
+});
+
+Balanced.SearchView = Balanced.BaseSearchView.extend({
     templateName: 'search',
 
     resultsClass: 'with-results',
@@ -31,7 +35,7 @@ Balanced.SearchView = Balanced.View.extend({
 
     close: function () {
         $('#search').removeClass(this.resultsClass);
-        $('body').removeClass('overlaid');
+        $('body').removeClass(this.overlayClass);
     },
 
     reset: function () {
@@ -156,15 +160,12 @@ Balanced.SearchView = Balanced.View.extend({
     toggleResults: function () {
         var $q = $('#q');
         var $searchArea = $('#search');
+        var $body = $('body');
         var fn = $q.val() ? $searchArea.addClass : $searchArea.removeClass;
+        var bodyFn = $q.val() ? $body.addClass : $body.removeClass;
 
         fn.call($searchArea, this.resultsClass);
-
-        if ($q.val()) {
-            $('body').addClass('overlaid');
-        } else {
-            $('body').removeClass('overlaid');
-        }
+        bodyFn.call($body, this.overlayClass);
     },
 
     _highlightResults: function () {
@@ -187,15 +188,17 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
     attributeBindings: ['autocomplete'],
 
     didInsertElement: function () {
-        this.keyUp = _.throttle(function (e) {
+        var self = this;
+        self.keyUp = _.throttle(function (e) {
+            var parentView = this.get('parentView');
             // Hide search results on escape key
             if (e.keyCode === Balanced.KEYS.ESCAPE) {
-                $('#search').removeClass(this.get('parentView').resultsClass);
-                $('body').removeClass('overlaid');
+                $('#search').removeClass(parentView.resultsClass);
+                $('body').removeClass(parentView.overlayClass);
                 return;
             }
 
-            this.get('parentView').onQueryChange(e);
+            parentView.onQueryChange(e);
 
         }, Balanced.THROTTLE);
     },
@@ -209,7 +212,7 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
     },
 });
 
-Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
+Balanced.SearchSortableColumnHeaderView = Balanced.BaseSearchView.extend({
     tagName: 'th',
 
     click: function (e) {
@@ -217,7 +220,7 @@ Balanced.SearchSortableColumnHeaderView = Balanced.View.extend({
     }
 });
 
-Balanced.SearchTypeView = Balanced.View.extend({
+Balanced.SearchTypeView = Balanced.BaseSearchView.extend({
     tagName: 'a',
     attributeBindings: ['href'],
     href: '#',
@@ -228,7 +231,7 @@ Balanced.SearchTypeView = Balanced.View.extend({
     }
 });
 
-Balanced.SearchFilterResultView = Balanced.View.extend({
+Balanced.SearchFilterResultView = Balanced.BaseSearchView.extend({
     tagName: 'a',
     attributeBindings: ['href'],
     href: '#',
