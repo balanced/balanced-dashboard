@@ -27,7 +27,8 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-s3": "~0.2.0-alpha",
     "grunt-compile-handlebars": "~0.6.0",
-    "grunt-exec": "0.4.1"
+    "grunt-exec": "0.4.1",
+    "grunt-qunit-istanbul": "git://github.com/kleinsch/grunt-qunit-istanbul.git#coverage-threshold"
   },
   "optionalDependencies": {
     "grunt-img": "~0.1.6"

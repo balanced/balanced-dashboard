@@ -372,6 +372,8 @@ module.exports = function (grunt) {
         },
 
         exec: {
+            // We're not using this currently, but leaving it in here in case 
+            // somebody wants to run tests using their installed phantomJS
             run_tests: {
               command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
             },
@@ -446,8 +448,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
+    grunt.loadNpmTasks('grunt-qunit-istanbul');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
+
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -463,7 +467,7 @@ module.exports = function (grunt) {
      A task to run the application's unit tests via the command line.
      It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['_devBuild', 'exec:run_tests']);
+    grunt.registerTask('test', ['_devBuild', 'qunit']);
     grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
 
     /*
