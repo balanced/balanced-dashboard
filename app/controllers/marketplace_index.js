@@ -51,6 +51,6 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
         var marketplaceUri =  Balanced.Auth.get('userId') + '/marketplaces/' + marketplaceId;
         var marketplace = Balanced.MarketplaceLite.find(marketplaceUri);
         return marketplace;
-    }.property()
+    }.property('uri')
 
 });
