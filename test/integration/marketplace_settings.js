@@ -1,10 +1,21 @@
 module('Marketplaces Settings', {
     setup: function () {
         Testing.selectMarketplaceByName();
+
+        // click the settings link
+        $('#marketplace-nav .settings a').click();
     }, teardown: function () {
 
     }
 });
+
+test('can visit page', function (assert) {
+    //  check the page title has been selected
+    var $title = $('#content h1');
+
+    assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
+});
+
 
 test('can update marketplace info', function (assert) {
     // click the button to edit marketplace info

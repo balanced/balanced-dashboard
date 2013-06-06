@@ -1,4 +1,4 @@
-Balanced.MarketplaceTransactionsView = Balanced.View.extend({
+Balanced.MarketplaceView = Balanced.View.extend({
     openAddFundsModal: function () {
         this.get('addFundsModal').open();
     },

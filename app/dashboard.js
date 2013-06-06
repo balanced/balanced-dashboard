@@ -65,8 +65,8 @@ require('app/views/search');
 require('app/views/date_picker');
 require('app/views/download');
 
+require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_index');
-require('app/views/marketplace/marketplace_transactions');
 require('app/views/marketplace/add_bank_account_modal');
 require('app/views/marketplace/add_callback_modal');
 require('app/views/marketplace/add_card_modal');

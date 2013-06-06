@@ -1,35 +1,12 @@
-
 <div id="activity">
-    <h1 class="page-title">Transactions
+    <h1 class="page-title">Activity
         {{#if iframeLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
         <a href="#" {{action download_show}} class="icon-download right">Download</a>
     </h1>
 
-    <div class="span20 escrow-box">
-        <div class="span2 label">
-            <span class="subhead1d">Escrow</span>
-        </div>
-        <div class="span14 amount">
-            <span class="number1d">
-                {{ controllers.marketplace.formattedEscrowAmount }}
-            </span>
-        </div>
+    {{ partial "escrow_box" }}
 
-        <div class="span4 buttons">
-            <a class="btn" {{action openAddFundsModal target="view"}}}>Add funds</a>
-            <a class="btn" {{action openWithdrawFundsModal target="view"}}}>Withdraw funds</a>
-        </div>
-    </div>
-
-    <!-- TODO: NEEDS TO BE DEVELOPED
-    <header class="span20">
-        <nav>
-            {{#linkTo marketplace.transactions class="btn"}}Transactions{{/linkTo}}
-            {{#linkTo accounts class="btn"}}Accounts{{/linkTo}}
-            {{#linkTo cards class="btn"}}Cards &amp; Bank Accounts{{/linkTo}}
-        </nav>
-    </header>
-    -->
+    {{ partial "activity_header" }}
 
     {{view Balanced.EmbeddedIframeView iframeUrlBinding="controllers.marketplace.transactions_embedded_iframe_url"}}
 
