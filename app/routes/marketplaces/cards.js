@@ -1,8 +1,10 @@
-
 Balanced.CardsRoute = Balanced.IframeRoute.extend({
     param: 'card_id',
-    title: 'Cards',
-    resource: 'cards'
+    title: 'Activity',
+    resource: 'cards',
+    renderTemplate: function () {
+        this.render('activity');
+    }
 });
 
 Balanced.CardsCardRoute = Balanced.ShowResource.extend({

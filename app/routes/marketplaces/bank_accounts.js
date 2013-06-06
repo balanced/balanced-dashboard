@@ -1,8 +1,10 @@
-
 Balanced.BankAccountsRoute = Balanced.IframeRoute.extend({
     param: 'bank_account_id',
-    title: 'Bank Accounts',
-    resource: 'bank_accounts'
+    title: 'Activity',
+    resource: 'bank_accounts',
+    renderTemplate: function () {
+        this.render('activity');
+    }
 });
 
 Balanced.BankAccountsBankAccountRoute = Balanced.ShowResource.extend({
