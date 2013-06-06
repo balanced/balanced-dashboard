@@ -1,4 +1,4 @@
-module('Transactions', {
+module('Activity', {
     setup: function () {
         Testing.selectMarketplaceByName();
 
@@ -53,14 +53,4 @@ test('withdraw funds', function(assert) {
 
     //assert.notEqual($(".activity-escrow-box .amount .number1d").html().indexOf("1082.26"), -1, "escrow amount is now $1082.26");
 });
-
-// This test will not pass until we add a bank account to our marketplace
-// fixtures but highlights a bug when you do not have a verified bank account
-// associated to your marketplace.
-//test('can view withdraw modal', function (assert) {
-//    $('.escrow-box').find('a:contains("Add funds")').click();
-//    var modal = $('#add-funds:visible');
-//    assert.equal(modal.length, 1,
-//        'Add funds modal not visible after clicking button');
-//});
 
