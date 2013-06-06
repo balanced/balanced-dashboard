@@ -7,7 +7,7 @@ module('Customers', {
 });
 
 test('can visit create new customer ', function (assert) {
-    // click the activity link
+    // click the add customer link
     $('#marketplace-actions .add-customer a').click();
 
     //  check the page title has been selected

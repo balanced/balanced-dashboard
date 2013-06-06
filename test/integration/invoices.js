@@ -7,7 +7,7 @@ module('Invoices', {
 });
 
 test('can visit page', function (assert) {
-    // click the activity link
+    // click the invoices link
     $('#marketplace-nav .invoices a').click();
 
     //  check the page title has been selected

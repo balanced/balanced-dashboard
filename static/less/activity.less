@@ -1,0 +1,99 @@
+.activity {
+  width: 100%;
+  margin: 0px;
+  border: 0px;
+
+  &.activity-escrow-box {
+    background-color: @turquoise60;
+    height: 75px;
+
+    div.label {
+      display: table;
+      background-color: @turquoise100;
+      margin: 0px;
+      height: 100%;
+
+      span {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+      }
+    }
+
+    div.amount {
+      display: table;
+      height: 100%;
+
+      span {
+        line-height: normal;
+        display: table-cell;
+        vertical-align: middle;
+
+      }
+    }
+
+    div.buttons {
+      height: 100%;
+      margin-top: 4px;
+      margin-left: 0px;
+
+      a {
+        float: right;
+        display: block;
+        width: 70%;
+        cursor: pointer;
+
+        &:first-child {
+          margin-bottom: 4px;
+        }
+      }
+    }
+  }
+
+  &.activity-header {
+    margin-bottom: 30px;
+    background-color: @white;
+
+    nav {
+      padding-left: 10px;
+    }
+    nav > li {
+      display: block;
+      float: left;
+      border-bottom: @searchBorderWidth solid transparent;
+      padding: 15px 10px 10px;
+      margin: 0px 20px;
+      color: @gray5;
+
+      font-family: fanwoodtext-regular;
+      font-weight: normal;
+      font-size: 16px;
+
+      a {
+        cursor: pointer;
+        text-decoration: none;
+        color: @gray5;
+
+        &:hover {
+          color: @black;
+        }
+      }
+      &:hover {
+        border-bottom: @searchBorder;
+        > a {
+          color: @black;
+        }
+      }
+      &.active {
+        border-bottom: @searchBorder;
+        > a {
+          color: @black;
+
+          &:hover {
+            cursor: default;
+          }
+        }
+      }
+    }
+  }
+}

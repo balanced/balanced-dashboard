@@ -11,6 +11,11 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         }
     }.property('model.source_uri'),
 
+    verified_bank_accounts: function () {
+        var customer = this.get('owner_customer') || this.get('marketplace.owner_customer');
+        return customer.get('verified_bank_accounts');
+    }.property('model'),
+
     open: function () {
         var verified_bank_accounts = this.get('marketplace.owner_customer.verified_bank_accounts');
         var source_uri = (verified_bank_accounts && verified_bank_accounts.length > 0) ? verified_bank_accounts[0].get('uri') : null;
