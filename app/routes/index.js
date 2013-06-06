@@ -24,6 +24,7 @@ Balanced.MarketplacesApplyRoute = Balanced.AuthRoute.extend({
         };
     },
     setupController: function () {
+        this._super(controller, model);
         this.controllerFor('marketplace').set('content', null);
     }
 });

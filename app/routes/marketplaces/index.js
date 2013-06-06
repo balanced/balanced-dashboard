@@ -5,6 +5,7 @@ Balanced.MarketplaceIndexRoute = Balanced.AuthRoute.extend({
 
     // if we passed a lite marketplace to #linkTo, need this to find the real marketplace
     setupController: function (controller, model) {
+    	this._super(controller, model);
         if (model._type === 'marketplaceLite') {
             controller.set('content', Balanced.Marketplace.find(model.uri));
         }
