@@ -9,7 +9,7 @@ Balanced.Adapter.addFixtures([{
     {
       "id": "MP5m04ORxNlNDm1bB7nkcgSY",
       "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
-      "name": "Test Marketplace"
+      "name": "Nick's Test Marketplace"
     }
   ]
 }]);

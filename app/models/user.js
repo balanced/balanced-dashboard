@@ -10,8 +10,7 @@ Balanced.User.reopenClass({
             return (a.name > b.name) ? 1 : -1;
         });
         json.marketplaces = _.map(json.marketplaces, function (marketplace) {
-            marketplace._type = "marketplaceLite";
-            return Balanced.MarketplaceLite.create(marketplace);
+            return Balanced.Marketplace.find(marketplace.uri);
         });
     }
 });
