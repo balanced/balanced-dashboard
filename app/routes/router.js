@@ -63,7 +63,8 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
         }
         return {
             'uri': uri + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND,
-            'title': this.title
+            'title': this.title,
+            'marketplace': marketplace
         };
     },
     renderTemplate: function () {

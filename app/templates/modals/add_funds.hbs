@@ -5,7 +5,7 @@
             <h2>Add funds</h2>
         </div>
         <div class="modal-body">
-            {{# unless owner_customer.verified_bank_accounts }}
+            {{# unless view.verified_bank_accounts }}
             <div class="alert alert-info">
                 You must have at least one verified bank account to add funds.
             </div>
@@ -15,7 +15,7 @@
                 <label>Account number</label>
 
                 {{view Ember.Select
-                    contentBinding="owner_customer.verified_bank_accounts"
+                    contentBinding="view.verified_bank_accounts"
                     valueBinding="view.model.source_uri"
                     optionValuePath="content.uri"
                     optionLabelPath="content.description"

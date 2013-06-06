@@ -1,9 +1,9 @@
-Balanced.CardsRoute = Balanced.IframeRoute.extend({
+Balanced.CardsIndexRoute = Balanced.ShowResource.extend({
     param: 'card_id',
     title: 'Activity',
     resource: 'cards',
     renderTemplate: function () {
-        this.render('activity');
+        this.render('marketplace/activity');
     }
 });
 
