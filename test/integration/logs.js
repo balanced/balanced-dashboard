@@ -7,8 +7,7 @@ module('Logs', {
 });
 
 test('can visit page', function (assert) {
-
-    // click the activity link
+    // click the logs link
     $('#marketplace-nav .logs a').click();
 
     //  check the page title has been selected
