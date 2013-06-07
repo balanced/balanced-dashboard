@@ -21,36 +21,36 @@ test('can visit page', function (assert) {
 });
 
 test('add funds', function(assert) {
-    assert.notEqual($(".activity-escrow-box .amount .number1d").html().indexOf("1,137.81"), -1, "escrow amount is $1,137.81å");
+    assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
-    $(".activity-escrow-box .span4 .btn").first().click();
+    $('.activity-escrow-box .span4 .btn').first().click();
 
-    assert.equal($("#add-funds").css('display'), 'block', "add funds modal visible");
+    assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 
-    // assert.notEqual($("#add-funds select option").length, 0, "at least one bank account in account dropdown");
+    // assert.notEqual($('#add-funds select option').length, 0, 'at least one bank account in account dropdown');
 
-    // $("#add-funds input").first().val("55.55");
-    // $("#add-funds .modal-footer .btn").not(".danger").click();
+    // $('#add-funds input').first().val('55.55');
+    // $('#add-funds .modal-footer .btn').not('.danger').click();
 
-    // assert.equal($("#add-funds").css('display'), 'none', "add funds modal hidden");
+    // assert.equal($('#add-funds').css('display'), 'none', 'add funds modal hidden');
 
-    //assert.notEqual($(".activity-escrow-box .amount .number1d").html().indexOf("1137.81"), -1, "escrow amount is now $1193.36");
+    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1137.81'), -1, 'escrow amount is now $1193.36');
 });
 
 test('withdraw funds', function(assert) {
-    assert.notEqual($(".activity-escrow-box .amount .number1d").html().indexOf("1,137.81"), -1, "escrow amount is $1,137.81");
+    assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
-    $(".activity-escrow-box .span4 .btn").eq(1).click();
+    $('.activity-escrow-box .span4 .btn').eq(1).click();
 
-    assert.equal($("#withdraw-funds").css('display'), 'block', "withdraw funds modal visible");
+    assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 
-    // assert.notEqual($("#withdraw-funds select option").length, 0, "at least one bank account in account dropdown");
+    // assert.notEqual($('#withdraw-funds select option').length, 0, 'at least one bank account in account dropdown');
 
-    // $("#withdraw-funds input").first().val("55.55");
-    // $("#withdraw-funds .modal-footer .btn").not(".danger").click();
+    // $('#withdraw-funds input').first().val('55.55');
+    // $('#withdraw-funds .modal-footer .btn').not('.danger').click();
 
-    // assert.equal($("#withdraw-funds").css('display'), 'none', "withdraw funds modal hidden");
+    // assert.equal($('#withdraw-funds').css('display'), 'none', 'withdraw funds modal hidden');
 
-    //assert.notEqual($(".activity-escrow-box .amount .number1d").html().indexOf("1082.26"), -1, "escrow amount is now $1082.26");
+    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1082.26'), -1, 'escrow amount is now $1082.26');
 });
 
