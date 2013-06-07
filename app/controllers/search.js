@@ -10,6 +10,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     sortField: null,
     sortOrder: null,
     isLoading: false,
+    type: 'transactions',
 
     getLabel: function (labelMapping, acceptedTypes, type) {
         var label = labelMapping[type];
@@ -18,8 +19,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         }
         return (label) ? label : labelMapping.DEFAULT;
     },
-
-    type: 'transactions',
 
     transaction_type: function () {
         var types = ['debit', 'credit', 'hold', 'refund', 'transactions'];
@@ -107,6 +106,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('sortField', null);
         this.set('sortOrder', null);
         this.set('search', null);
+        this.set('type', 'transactions');
     },
 
     loadMoreFromQuery: function () {
