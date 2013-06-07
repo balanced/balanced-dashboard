@@ -7,19 +7,22 @@
 
         <div id="marketplaces-and-search" class="span18">
             {{#if Balanced.Auth.signedIn }}
+                <div id="marketplaces" class="dropdown">
+                {{#if Balanced.Auth.isGuest }}
+                {{#linkTo claim}}<span id="marketplace-name" class="nav2d">Claim account</span>{{/linkTo}}
+                {{else}}
+                    <a class="dropdown-toggle"
+                       data-toggle="dropdown"
+                       href="#">
+                            <span id="marketplace-name" class="nav2d">{{#if controllers.marketplace.name}} {{controllers.marketplace.name}} {{else}} Marketplaces {{/if}}</span>
+                            <!--<span class="nav1d">(live)</span>-->
+                        <b class="caret"></b>
+                    </a>
+                    {{ render "marketplaces_list" }}
+                {{/if}}
+                </div>
 
-            <div id="marketplaces" class="dropdown">
-                <a class="dropdown-toggle"
-                   data-toggle="dropdown"
-                   href="#">
-                        <span id="marketplace-name" class="nav2d">{{#if controllers.marketplace.name}} {{controllers.marketplace.name}} {{else}} Marketplaces {{/if}}</span>
-                        <!--<span class="nav1d">(live)</span>-->
-                    <b class="caret"></b>
-                </a>
-                {{ render "marketplaces_list" }}
-            </div>
-
-            {{#if controllers.marketplace.name}} {{ render "search" }} {{/if}}
+                {{#if controllers.marketplace.name}} {{ render "search" }} {{/if}}
 
             {{/if}}
         </div>

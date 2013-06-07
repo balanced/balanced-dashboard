@@ -34,6 +34,7 @@ require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
+require('app/models/login');
 require('app/models/account');
 require('app/models/transaction');
 require('app/models/credit');

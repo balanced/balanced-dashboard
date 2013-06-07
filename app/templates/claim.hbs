@@ -1,0 +1,89 @@
+<header id="header" class="container">
+    <div class="row">
+
+        <div id="logo" class="span2">
+            {{#linkTo "index"  class="img"}}Balanced Dashboard{{/linkTo}}
+        </div>
+
+        <div id="marketplaces-and-search" class="span18">
+
+        </div>
+
+        <div id="site-nav" class="span6">
+            <div id="go-live-menu">
+                {{#linkTo marketplaces classNames="nav1d"}}Return to dashboard{{/linkTo}}
+            </div>
+            <div id="docs-menu">
+                <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
+            </div>
+            <div id="help-menu">
+                <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
+            </div>
+            <div id="user-menu">
+                {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
+            </div>
+        </div>
+
+    </div>
+</header>
+<section id="main" class="container marketplaces">
+    <div class="row">
+
+        <nav id="marketplace-nav" class="span2">
+        </nav>
+
+        <div id="content" class="span24">
+            <div class="row">
+                <div class="offset2 span20">
+                    <h1>Claim your account</h1>
+                    <form id="claim-form" {{ bindAttr class="signUpError:error" }}>
+                        <fieldset>
+                        <legend>Login info</legend>
+
+                        <div class="control-group" {{ bindAttr class="validationErrors.email:error" }}>
+                            {{view Balanced.Forms.TextField type="email" name="email_address" valueBinding="email_address" placeholder="Email" action="signUp" autofocus="autofocus"}}
+                            <label class="control-label" for="email">{{ emailLabel }}</label>
+                        </div>
+
+                        <div class="control-group" {{ bindAttr class="validationErrors.password:error" }}>
+                            {{view Balanced.Forms.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signUp"}}
+                            <label class="control-label" for="password">{{ passwordLabel }}</label>
+                        </div>
+
+                        <div class="control-group" {{ bindAttr class="validationErrors.passwordConfirm:error" }}>
+                            {{view Balanced.Forms.TextField type="password" name="passwordConfirm" valueBinding="passwordConfirm" placeholder="Confirm password" action="signUp"}}
+                            <label class="control-label" for="passwordConfirm">{{ passwordConfirmLabel }}</label>
+                        </div>
+
+                        <div class="actions">
+                            <button class="btn danger" {{action cancel}}>Cancel</button>
+                            <button class="btn" {{action signUp content}}>Submit</button>
+                        </div>
+                        </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="container">
+    <div class="row">
+        <div class="span2" id="flogo">
+            <a href="https://www.balancedpayments.com" target="_blank" class="img">Logo</a>
+        </div>
+        <div class="span24">
+            <ul>
+                <li><span>&copy; 2013 Balanced</span></li>
+                <li><a href="https://www.balancedpayments.com/about">About</a></li>
+                <li><a href="http://blog.balancedpayments.com" target="_blank">Blog</a></li>
+                <li><a href="https://status.balancedpayments.com" target="_blank">Status</a></li>
+                <li><a href="https://support.balancedpayments.com" target="_blank">Contact us</a></li>
+                <li><a href="https://www.balancedpayments.com/terms" target="_blank">Terms of use</a></li>
+                <li><a href="https://www.balancedpayments.com/privacy" target="_blank">Privacy policy</a></li>
+            </ul>
+            <a href="https://twitter.com/balanced" target="_blank" class="twitter">Balanced on Twitter</a>
+            <a href="http://quora.com/balanced" target="_blank" class="quora">Balanced on Quora</a>
+            <a href="https://github.com/balanced" target="_blank" class="github">Balanced on Github</a>
+        </div>
+    </div>
+</footer>

@@ -1,5 +1,5 @@
 Balanced.Forms = {
     TextField: Ember.TextField.extend({
-        attributeBindings: ['autocomplete', 'placeholder']
+        attributeBindings: ['autocomplete', 'placeholder', 'autofocus']
     })
 };

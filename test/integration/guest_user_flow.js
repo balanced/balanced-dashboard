@@ -19,6 +19,6 @@ test('visiting start creates a marketplace', function (assert) {
     assert.equal(Balanced.Auth.get('authToken'), '/users/guest', 'Auth token is guest');
     assert.equal(Balanced.Auth.get('userId'), '/users/guest', 'Userid is guest');
     assert.equal(Balanced.Auth.get('signedIn'), true, 'User is signed in');
-
+    assert.ok(Balanced.Auth.get('isGuest'));
     assert.ok(Balanced.NET.ajaxHeaders['Authorization'], 'Authorization header set');
 });

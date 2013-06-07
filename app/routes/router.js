@@ -49,9 +49,12 @@ Balanced.Router.map(function () {
         });
 
     });
+
+    // signup related
     this.route('login', { path: '/login' });
     this.route('forgotPassword', { path: '/forgot_password' });
     this.route('start', { path: '/start' });
+    this.route('claim', { path: '/claim' });
 });
 
 Balanced.IframeRoute = Balanced.AuthRoute.extend({
