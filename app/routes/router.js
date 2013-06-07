@@ -51,6 +51,7 @@ Balanced.Router.map(function () {
     });
     this.route('login', { path: '/login' });
     this.route('forgotPassword', { path: '/forgot_password' });
+    this.route('start', { path: '/start' });
 });
 
 Balanced.IframeRoute = Balanced.AuthRoute.extend({
@@ -77,7 +78,6 @@ Balanced.ShowResource = Balanced.IframeRoute.extend({
         this.controllerFor(this.resource).set('content', model);
     }
 });
-
 
 ////
 // Route requires
