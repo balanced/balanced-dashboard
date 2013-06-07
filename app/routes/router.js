@@ -3,11 +3,13 @@ Balanced.Route = Ember.Route.extend({
 
 Balanced.Router.reopenClass({
     defaultFailureHandler: {
-        setup: function(error) {
+        setup: function (error) {
             Ember.Logger.error('Error while loading route:', error);
 
             // Using setTimeout allows us to escape from the Promise's try/catch block
-            setTimeout(function() { Balanced.Router.router.transitionTo('login') });
+            setTimeout(function () {
+                Balanced.Router.router.transitionTo('login');
+            });
         }
     }
 });
