@@ -1,4 +1,3 @@
-
 Balanced.DebitsRoute = Balanced.IframeRoute.extend({
     param: 'debit_id',
     title: 'Debits',
@@ -49,6 +48,10 @@ Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
 
 Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
     model: function (params) {
+        var marketplace = this.modelFor('marketplace');
+        $.cookie('mru', marketplace.get('uri'), {
+            expires: 730
+        });
         return this.modelFor('marketplace');
     }
 });

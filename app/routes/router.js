@@ -78,7 +78,6 @@ Balanced.ShowResource = Balanced.IframeRoute.extend({
     }
 });
 
-
 ////
 // Route requires
 ////
