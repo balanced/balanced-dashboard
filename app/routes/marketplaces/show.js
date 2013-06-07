@@ -10,7 +10,8 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 
     // if we passed a lite marketplace to #linkTo, need this to find the real marketplace
     setupController: function (controller, model) {
-
+        this._super(controller, model);
+        
         // Store the marketplace in a global so we can use it for auth. TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = model;
         if (model._type === 'marketplaceLite') {
