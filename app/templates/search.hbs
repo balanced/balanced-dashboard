@@ -11,7 +11,7 @@
             <nav>
                 <li {{bindAttr class=":transactions :filter total_transactions::disabled :selected"}} >
                     {{#if total_transactions}}
-                        {{#view Balanced.SearchTypeView searchType="transactions"}} {{ transaction_type_label }} ({{ total_transactions }}) {{/view}}
+                        {{#view Balanced.SearchTypeView searchType="transactions"}} {{ transaction_type_label }} ({{ transaction_type_total }}) {{/view}}
                     {{else}}
                         <span>Transactions (0)</span>
                     {{/if}}
