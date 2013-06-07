@@ -50,16 +50,8 @@ Balanced.SearchQuery.reopenClass({
         json.total_bank_accounts = json.counts.bank_account;
         json.total_cards = json.counts.card;
 
-        if (json.transactions.length > 0) {
-            json.total_transactions = json.total;
-            json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
-        } else if (json.accounts.length > 0) {
-            json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
-            json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
-        } else if (json.funding_instruments.length > 0) {
-            json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
-            json.total_funding_instruments = json.total;
-        }
+        json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
+        json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
     },
 
     search: function (marketplaceUri, params, options) {
