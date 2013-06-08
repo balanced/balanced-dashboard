@@ -50,7 +50,7 @@ Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
     model: function (params) {
         var marketplace = this.modelFor('marketplace');
         $.cookie('mru', marketplace.get('uri'), {
-            expires: 730
+            expires: Balanced.COOKIE.THREE_YEARS
         });
         return this.modelFor('marketplace');
     }
