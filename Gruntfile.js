@@ -58,8 +58,8 @@ module.exports = function (grunt) {
             libdev: {
                 src: [
                     'static/lib/jquery-2.0.0.js',
-                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.3.js',
+                    'static/lib/handlebars-1.0.0-rc.4.js',
+                    'static/lib/ember-1.0.0-rc.5.js',
                     'static/lib/ember-auth-6.0.5-modified.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
@@ -73,8 +73,8 @@ module.exports = function (grunt) {
             libprod: {
                 src: [
                     'static/lib/jquery-2.0.0.js',
-                    'static/lib/handlebars.runtime-1.0.0-rc.3.js',
-                    'static/lib/ember-1.0.0-rc.3.js',
+                    'static/lib/handlebars-1.0.0-rc.4.js',
+                    'static/lib/ember-1.0.0-rc.5.js',
                     'static/lib/ember-auth-6.0.5-modified.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
                     'static/lib/bootstrap/bootstrap-modal.js',
@@ -127,7 +127,7 @@ module.exports = function (grunt) {
          The compiled result will be stored in
          Ember.TEMPLATES keyed on their file path (with the 'app/templates' stripped)
          */
-        ember_templates: {
+        emberTemplates: {
             options: {
                 templateName: function (sourceFile) {
                     return sourceFile.replace(/app\/templates\//, '');
@@ -496,7 +496,7 @@ module.exports = function (grunt) {
     grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
     grunt.registerTask('_copyDist', ['copy:dist']);
 
-    grunt.registerTask('_buildJS', ['ember_templates', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
+    grunt.registerTask('_buildJS', ['emberTemplates', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
     grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);

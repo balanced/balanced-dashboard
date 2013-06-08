@@ -11,7 +11,15 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
       run(this, 'resolve', this);
     });
 
+    this.one('didCreate', this, function() {
+      run(this, 'resolve', this);
+    });
+
     this.one('becameError', this, function() {
+      run(this, 'reject', this);
+    });
+
+    this.one('becameInvalid', this, function() {
       run(this, 'reject', this);
     });
 

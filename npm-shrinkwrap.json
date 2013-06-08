@@ -63,9 +63,8 @@
       "from": "grunt-contrib-copy@~0.4.1"
     },
     "grunt-ember-templates": {
-      "version": "0.4.5",
-      "from": "grunt-ember-templates@0.4.5",
-      "resolved": "https://registry.npmjs.org/grunt-ember-templates/-/grunt-ember-templates-0.4.5.tgz"
+      "version": "0.4.7",
+      "from": "grunt-ember-templates@0.4.7"
     },
     "grunt-exec": {
       "version": "0.4.1",

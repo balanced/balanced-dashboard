@@ -5,7 +5,7 @@ Balanced.BaseAdapter = Ember.Object.extend({
     }
   },
 
-  get: function(type, uri, success) {
+  get: function(type, uri, success, error) {
     Ember.assert("Your adapter should override get", false);
   },
 
