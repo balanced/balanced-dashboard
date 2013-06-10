@@ -15,6 +15,6 @@ Balanced.BankAccountRoute = Balanced.ShowResource.extend({
 
 Balanced.BankAccountTransactionsRoute = Balanced.Route.extend({
     redirect: function() {
-        this.transitionTo('bankAccount');
+        this.transitionTo('index');
     }
 });
