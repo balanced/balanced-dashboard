@@ -7,7 +7,13 @@ Balanced.BankAccountsIndexRoute = Balanced.ShowResource.extend({
     }
 });
 
-Balanced.BankAccountsBankAccountRoute = Balanced.ShowResource.extend({
+Balanced.BankAccountRoute = Balanced.ShowResource.extend({
+    param: 'bank_account_id',
+    title: 'Bank Account',
+    resource: 'bank_accounts'
+});
+
+Balanced.BankAccountTransactionsRoute = Balanced.ShowResource.extend({
     param: 'bank_account_id',
     title: 'Bank Account',
     resource: 'bank_accounts'
