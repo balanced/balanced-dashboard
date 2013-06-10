@@ -1,6 +1,19 @@
 Balanced.Route = Ember.Route.extend({
 });
 
+Balanced.Router.reopenClass({
+    defaultFailureHandler: {
+        setup: function (error) {
+            Ember.Logger.error('Error while loading route:', error);
+
+            // Using setTimeout allows us to escape from the Promise's try/catch block
+            setTimeout(function () {
+                Balanced.Router.router.transitionTo('login');
+            });
+        }
+    }
+});
+
 Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 });
 
@@ -17,8 +30,6 @@ Balanced.Router.map(function () {
         this.route('apply', { path: '/apply' });
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
-
-            this.route('transactions', { path: '/transactions' });
 
             this.resource('accounts', { path: '/accounts' }, function () {
 
@@ -38,6 +49,7 @@ Balanced.Router.map(function () {
 
             });
 
+            this.route('transactions', { path: '/transactions' });
             makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
@@ -78,6 +90,7 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
 
 Balanced.ShowResource = Balanced.IframeRoute.extend({
     setupController: function (controller, model) {
+        controller.set('model', model);
         this.controllerFor(this.resource).set('content', model);
     }
 });

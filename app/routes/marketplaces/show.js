@@ -4,12 +4,13 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 
         //  set the most recently used marketplace so we can return to this at a later date
         Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplaceURI);
-        
+
         return Balanced.Marketplace.find(marketplaceURI);
     },
 
     // if we passed a lite marketplace to #linkTo, need this to find the real marketplace
     setupController: function (controller, model) {
+        this._super(controller, model);
 
         // Store the marketplace in a global so we can use it for auth. TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = model;

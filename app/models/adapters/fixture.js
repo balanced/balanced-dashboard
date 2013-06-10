@@ -7,7 +7,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
         this.deletes = [];
     },
 
-    get: function (type, uri, success) {
+    get: function (type, uri, success, error) {
         var json = this.dataMap[uri];
         // cloning in case people modify this later, don't want to screw up our fixtures!
         var clonedJson = this._cloneObject(json);

@@ -11,8 +11,10 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         return uri;
     },
 
-    get: function (type, uri, success) {
-        this.ajax(this._uri(type, uri), 'GET').then(function (json) {
+    get: function (type, uri, success, error) {
+        var settings = {};
+        settings.error = error;
+        this.ajax(this._uri(type, uri), 'GET', settings).then(function (json) {
             success(json);
         });
     },

@@ -42,7 +42,11 @@ Balanced.EmbeddedIframeView = Balanced.View.extend({
 
         $embeddedContent.load(function () {
             // Fire this in case the server redirected
-            self.updateHashFromIframeLocation(this.contentWindow.location.pathname);
+            var pn = this.contentWindow.location.pathname;
+            if (pn !== 'blank') {
+                self.updateHashFromIframeLocation(this.contentWindow.location.pathname);
+            }
+
             try {
                 self.get('controller').set('iframeLoading', false);
             } catch (error) {}

@@ -98,7 +98,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self._updateFromJson(json);
             self.set('isLoaded', true);
             self.trigger('didLoad');
-        });
+        }, $.proxy(self._handleError, self));
 
         return promise;
     },
@@ -229,7 +229,7 @@ Balanced.Model.reopenClass({
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
             modelObject.trigger('didLoad');
-        });
+        }, $.proxy(modelObject._handleError, modelObject));
 
         return modelObject;
     },
@@ -308,6 +308,14 @@ Balanced.Model.reopenClass({
                     modelObjectsArray.set('isLoaded', false);
                     Balanced.Adapter.get(typeClass, this.get(propertyName), function (json) {
                         populateModels(json);
+                    }, function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status === 400) {
+                            this.set('isValid', false);
+                            this.trigger('becameInvalid', jqXHR.responseText);
+                        } else {
+                            this.set('isError', true);
+                            this.trigger('becameError', jqXHR.responseText);
+                        }
                     });
                 }
             }

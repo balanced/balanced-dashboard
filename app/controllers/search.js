@@ -33,6 +33,12 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         return this.getLabel(typesToLabels, types, this.type);
     }.property('content.type'),
 
+    transaction_type_total: function () {
+        var types = ['debit', 'credit', 'hold', 'refund'];
+        var type = this.get('type');
+        return (types.indexOf(type) >= 0 && this.get('total_{0}s'.format(type))) || this.get('total_transactions');
+    }.property('content.uri'),
+
     funding_instrument_type_label: function () {
         var typesToLabels = {
             DEFAULT: 'Cards & Bank Accounts'
