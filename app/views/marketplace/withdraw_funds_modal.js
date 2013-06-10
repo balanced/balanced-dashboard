@@ -13,7 +13,9 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
 
     verified_bank_accounts: function () {
         var customer = this.get('owner_customer') || this.get('marketplace.owner_customer');
-        return customer.get('verified_bank_accounts');
+        if (customer) {
+            return customer.get('verified_bank_accounts');
+        }
     }.property('model'),
 
     open: function () {
@@ -38,7 +40,6 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         var credit = this.get('model');
 
         credit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
-
         credit.one('didCreate', function () {
             self.get('marketplace').refresh();
             $('#withdraw-funds').modal('hide');
