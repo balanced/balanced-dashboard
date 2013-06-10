@@ -6,19 +6,21 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
     dollar_amount: null,
 
     selected_bank_account: function () {
-        if(this.get('model.source_uri')) {
+        if (this.get('model.source_uri')) {
             return Balanced.BankAccount.find(this.get('model.source_uri'));
         }
     }.property('model.source_uri'),
 
     verified_bank_accounts: function () {
         var customer = this.get('owner_customer') || this.get('marketplace.owner_customer');
-        return customer.get('verified_bank_accounts');
+        if (customer) {
+            return customer.get('verified_bank_accounts');
+        }
     }.property('model'),
 
     open: function () {
         var verified_bank_accounts = this.get('marketplace.owner_customer.verified_bank_accounts');
-        var source_uri = (typeof verified_bank_accounts !== "undefined" && verified_bank_accounts.length > 0) ? verified_bank_accounts[0].get('uri') : null;
+        var source_uri = (verified_bank_accounts && verified_bank_accounts.length > 0) ? verified_bank_accounts[0].get('uri') : null;
 
         var debit = Balanced.Debit.create({
             uri: this.get('marketplace.owner_customer.debits_uri'),
@@ -37,11 +39,7 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
         var self = this;
         var debit = this.get('model');
 
-        ////
-        // Convert dollars to cents
-        ////
-        debit.set('amount', parseInt(this.get('dollar_amount') * 100, 10));
-
+        debit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
         debit.one('didCreate', function () {
             self.get('marketplace').refresh();
             $('#add-funds').modal('hide');

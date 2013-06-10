@@ -31,8 +31,6 @@ Balanced.Router.map(function () {
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
 
-            this.route('transactions', { path: '/transactions' });
-
             this.resource('accounts', { path: '/accounts' }, function () {
 
                 this.route('new', { path: '/new' });
@@ -51,6 +49,7 @@ Balanced.Router.map(function () {
 
             });
 
+            this.route('transactions', { path: '/transactions' });
             makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
@@ -87,6 +86,7 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
 
 Balanced.ShowResource = Balanced.IframeRoute.extend({
     setupController: function (controller, model) {
+        controller.set('model', model);
         this.controllerFor(this.resource).set('content', model);
     }
 });
