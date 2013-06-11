@@ -1,6 +1,6 @@
 Balanced.NET = (function () {
 
-    var csrfToken = $.cookie('csrftoken');
+    var csrfToken = $.cookie(Balanced.COOKIE.CSRF_TOKEN);
 
     var ajaxHeaders = {
         'X-CSRFToken': csrfToken
@@ -28,7 +28,7 @@ Balanced.NET = (function () {
                 // POSTing to / will return a csrf token
                 $.post(Ember.ENV.BALANCED.AUTH).success(function (r) {
                     csrfToken = r.csrf;
-                    $.cookie('csrftoken', csrfToken);
+                    $.cookie(Balanced.COOKIE.CSRF_TOKEN, csrfToken);
                     ajaxHeaders['X-CSRFToken'] = csrfToken;
                 });
             }

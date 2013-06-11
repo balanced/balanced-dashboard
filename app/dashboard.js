@@ -11,6 +11,7 @@ require('build/js/compiled-templates');
  * Helpers and utils - not static 3rd party libraries
  */
 require('app/lib/errors');
+require('app/lib/variables');
 require('app/lib/ajax');
 require('app/lib/forms');
 require('app/lib/helpers');
@@ -18,7 +19,6 @@ require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
-require('app/lib/variables');
 
 /*
  * Model layer.

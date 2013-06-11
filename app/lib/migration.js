@@ -20,7 +20,7 @@ Balanced.MigrationUtils = {
 
     embeddedQueryString: function () {
         var base = Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
-        var secret = $.cookie('api_key_secret');
+        var secret = $.cookie(Balanced.COOKIE.API_KEY_SECRET);
         if (secret) {
             base += '&secret=' + secret;
         }

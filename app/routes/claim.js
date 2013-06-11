@@ -48,14 +48,9 @@ Balanced.ClaimRoute = Balanced.Route.extend({
                     password: user.get('passwordConfirm')
                 });
                 login.create().then(function (login) {
-                    //  persist cookie for next time
-                    $.removeCookie('apiKeySecret');
-                    $.cookie('ember-auth-rememberable', login.uri);
-                    Balanced.Auth.set('authToken', login.uri);
-                    Balanced.Auth.set('userId', user.uri);
-                    Balanced.Auth.set('signedIn', true);
-                    Balanced.Auth.set('user', user);
+                    Balanced.Auth.manualLogin(user, login);
 
+                    // associate marketplace to user
                     if (authToken) {
                         var marketplace = Balanced.MarketplaceLite.create({
                             uri: user.api_keys_uri,
