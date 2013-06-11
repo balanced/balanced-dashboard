@@ -61,7 +61,7 @@ Balanced.Router.map(function () {
 
             this.resource('bank_accounts', { path: '/bank_accounts'}, function() {
                 this.resource('bank_account', { path: '/:bank_account_id'}, function() {
-                    this.route('bank_account', { path: '/transactions'});
+                    this.route('transactions', { path: '/transactions'});
                 });
             });
         });
