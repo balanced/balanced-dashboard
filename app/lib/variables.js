@@ -1,13 +1,13 @@
 Balanced.COOKIE = {
-    MARKETPLACE_URI: 'marketplaceUri',
+    MARKETPLACE_URI: 'mru',
 
-    set: function (name, value) {
-        $.cookie(name, value);
+    set: function (name, value, options) {
+        $.cookie(name, value, options);
     }
 };
 
 Balanced.TIME = {
-    THREE_YEARS: 1095
+    THREE_YEARS: 365 * 3
 };
 
 Balanced.KEYS = {

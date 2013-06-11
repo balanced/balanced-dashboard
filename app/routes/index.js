@@ -1,7 +1,8 @@
 Balanced.IndexRoute = Balanced.AuthRoute.extend({
-    redirect: function() {
-        if($.cookie('mru')) {
-            this.transitionTo('marketplace.transactions', Balanced.Marketplace.find($.cookie('mru')));
+    redirect: function () {
+        var marketplaceUri = $.cookie(Balanced.COOKIE.MARKETPLACE_URI);
+        if (marketplaceUri) {
+            this.transitionTo('marketplace.transactions', Balanced.Marketplace.find(marketplaceUri));
         } else {
             this.transitionTo('marketplaces');
         }
