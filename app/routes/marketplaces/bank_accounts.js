@@ -20,7 +20,7 @@ Balanced.BankAccountTransactionsRoute = Balanced.ShowResource.extend({
 
     model: function(params) {
         var marketplace = this.modelFor('marketplace');
-        bank_account = window.location.hash.split('/')[4];
+        var bank_account = window.location.hash.split('/')[4];
         var uri = marketplace.get('web_uri') + '/bank_accounts/' + bank_account + '/transactions';
 
         return {
