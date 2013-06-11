@@ -57,7 +57,13 @@ Balanced.Router.map(function () {
             makeNestedResource(this, 'invoices', 'invoice');
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
-            makeNestedResource(this, 'bank_accounts', 'bank_account');
+
+
+            this.resource('bank_accounts', { path: '/bank_accounts'}, function() {
+                this.resource('bank_account', { path: '/:bank_account_id'}, function() {
+                    this.route('transactions', { path: '/transactions'});
+                });
+            });
         });
 
     });
@@ -90,7 +96,6 @@ Balanced.ShowResource = Balanced.IframeRoute.extend({
         this.controllerFor(this.resource).set('content', model);
     }
 });
-
 
 ////
 // Route requires
