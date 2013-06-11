@@ -16,7 +16,7 @@ Balanced.Auth = (function () {
             route: 'login'
         },
         actionRedirectable: {
-            signInRoute: 'marketplaces',
+            signInRoute: 'index',
             signInSmart: true,
             signInBlacklist: ['login'],
             signOutRoute: 'login'

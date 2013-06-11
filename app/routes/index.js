@@ -1,6 +1,11 @@
 Balanced.IndexRoute = Balanced.AuthRoute.extend({
     redirect: function () {
-        this.transitionTo('marketplaces');
+        var marketplaceUri = $.cookie(Balanced.COOKIE.MARKETPLACE_URI);
+        if (marketplaceUri) {
+            this.transitionTo('marketplace.transactions', Balanced.Marketplace.find(marketplaceUri));
+        } else {
+            this.transitionTo('marketplaces');
+        }
     }
 });
 

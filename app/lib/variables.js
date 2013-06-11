@@ -1,14 +1,17 @@
 Balanced.COOKIE = {
-    MARKETPLACE_URI: 'marketplaceUri',
+    MARKETPLACE_URI: 'mru',
     API_KEY_SECRET: 'apiKeySecret',
     EMBER_AUTH_TOKEN: 'ember-auth-rememberable',
     CSRF_TOKEN: 'csrftoken',
-    set: function (name, value) {
-        $.cookie(name, value);
+    set: function (name, value, options) {
+        $.cookie(name, value, options);
     }
+};
+
+Balanced.TIME = {
+    THREE_YEARS: 365 * 3
 };
 
 Balanced.KEYS = {
     ESCAPE: 27
 };
-
