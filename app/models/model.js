@@ -11,6 +11,9 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     isNew: true,
     isValid: true,
 
+    //  properties which are not echoed back to the server
+    privateProperties: ['id', 'uri'],
+
     date_formats: {
         short: '%e %b \'%y %l:%M %p'
     },
@@ -161,13 +164,13 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         var props = {};
         for (var prop in this) {
             if (this.hasOwnProperty(prop) &&
-                $.inArray(prop, computedProps) === -1 &&
-                $.inArray(prop, lifecycleProperties) === -1 &&
-                prop.indexOf('__ember') < 0 &&
-                prop.indexOf('_super') < 0 &&
-                Ember.typeOf(this.get(prop)) !== 'function' &&
-                prop !== 'uri' &&
-                prop !== 'id') {
+                    $.inArray(prop, computedProps) === -1 &&
+                    $.inArray(prop, lifecycleProperties) === -1 &&
+                    $.inArray(prop, this.privateProperties) === -1 &&
+                    prop.indexOf('__ember') < 0 &&
+                    prop.indexOf('_super') < 0 &&
+                    Ember.typeOf(this.get(prop)) !== 'function'
+                ) {
                 props[prop] = this[prop];
             }
         }

@@ -20,3 +20,8 @@ Balanced.Claim = Balanced.Model.extend(Ember.Validations, {
         }
     }
 });
+
+
+Balanced.Login = Balanced.Model.extend({
+    uri: '/logins'
+});

@@ -16,7 +16,16 @@ if (document.domain.indexOf('balancedpayments.com') >= 0) {
 }
 
 Balanced.MigrationUtils = {
-    EMBEDDED_QUERY_APPEND: "?embedded=1",
+    EMBEDDED_QUERY_APPEND: '?embedded=1',
+
+    embeddedQueryString: function () {
+        var base = Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
+        var secret = $.cookie('api_key_secret');
+        if (secret) {
+            base += '&secret=' + secret;
+        }
+        return base;
+    },
 
     convertApiUriIntoWebUri: function (apiUri) {
         // have to strip off the API version
@@ -24,6 +33,6 @@ Balanced.MigrationUtils = {
     },
 
     convertApiURIToIframeURI: function (apiUri) {
-        return Balanced.MigrationUtils.convertApiUriIntoWebUri(apiUri) + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
+        return Balanced.MigrationUtils.convertApiUriIntoWebUri(apiUri) + Balanced.MigrationUtils.embeddedQueryString();
     }
 };

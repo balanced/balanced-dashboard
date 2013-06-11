@@ -78,7 +78,7 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
             uri += '/' + params[this.param];
         }
         return {
-            'uri': uri + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND,
+            'uri': uri + Balanced.MigrationUtils.embeddedQueryString(),
             'title': this.title,
             'marketplace': marketplace
         };
@@ -100,7 +100,10 @@ Balanced.ShowResource = Balanced.IframeRoute.extend({
 ////
 require('app/routes/application');
 require('app/routes/index');
+
+require('app/routes/claim');
 require('app/routes/login');
+require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/bank_accounts');

@@ -17,7 +17,7 @@ Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
 Balanced.MarketplacesApplyRoute = Balanced.AuthRoute.extend({
     title: 'Apply for production access',
     model: function () {
-        var uri = ENV.BALANCED.WWW + '/marketplaces/apply' + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
+        var uri = ENV.BALANCED.WWW + '/marketplaces/apply' + Balanced.MigrationUtils.embeddedQueryString();
         return {
             'uri': uri,
             'title': this.title

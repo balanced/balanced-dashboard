@@ -93,6 +93,7 @@ require('app/views/marketplaces/delete_marketplace_modal');
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
 require('app/controllers/application');
+require('app/controllers/claim');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/marketplace_index');
