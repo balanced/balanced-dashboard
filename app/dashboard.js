@@ -101,6 +101,8 @@ require('app/controllers/login');
 require('app/controllers/forgot_password');
 require('app/controllers/search');
 
+require('app/controllers/marketplaces/apply');
+require('app/controllers/marketplaces/index');
 require('app/controllers/accounts');
 require('app/controllers/logs');
 require('app/controllers/invoices');
