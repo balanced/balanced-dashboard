@@ -9,7 +9,7 @@ Balanced.Account = Balanced.Model.extend({
     }.property('uri'),
 
     embedded_iframe_url: function() {
-        return this.get('web_uri') + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND;
+        return this.get('web_uri') + Balanced.MigrationUtils.embeddedQueryString();
     }.property('web_uri'),
 
     display_me: function () {

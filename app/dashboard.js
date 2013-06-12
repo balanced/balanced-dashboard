@@ -11,6 +11,7 @@ require('build/js/compiled-templates');
  * Helpers and utils - not static 3rd party libraries
  */
 require('app/lib/errors');
+require('app/lib/variables');
 require('app/lib/ajax');
 require('app/lib/forms');
 require('app/lib/helpers');
@@ -18,7 +19,6 @@ require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
-require('app/lib/variables');
 
 /*
  * Model layer.
@@ -34,6 +34,7 @@ require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
 require('app/models/user');
+require('app/models/login');
 require('app/models/account');
 require('app/models/transaction');
 require('app/models/credit');
@@ -92,6 +93,7 @@ require('app/views/marketplaces/delete_marketplace_modal');
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
 require('app/controllers/application');
+require('app/controllers/claim');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/marketplace_index');

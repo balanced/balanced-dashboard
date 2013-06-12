@@ -48,10 +48,11 @@ Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
 
 Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
     model: function () {
-        var marketplace = this.modelFor('marketplace');
-        Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
+        return this.modelFor('marketplace');
+    },
+    setupController: function (controller, model) {
+        Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, model.get('uri'), {
             expires: Balanced.TIME.THREE_YEARS
         });
-        return marketplace;
     }
 });

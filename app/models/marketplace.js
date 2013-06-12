@@ -12,7 +12,7 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
     owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true}),
 
     callbacks_uri: function () {
-        return this.get('uri') + "/callbacks";
+        return this.get('uri') + '/callbacks';
     }.property('uri')
 });
 
@@ -30,6 +30,6 @@ Balanced.Marketplace.reopenClass({
         delete json.owner_customer_json;
     },
     constructUri: function (id) {
-        return "/v1/marketplaces/" + id;
+        return '/v1/marketplaces/' + id;
     }
 });

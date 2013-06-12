@@ -67,8 +67,12 @@ Balanced.Router.map(function () {
         });
 
     });
+
+    // signup related
     this.route('login', { path: '/login' });
     this.route('forgotPassword', { path: '/forgot_password' });
+    this.route('start', { path: '/start' });
+    this.route('claim', { path: '/claim' });
 });
 
 Balanced.IframeRoute = Balanced.AuthRoute.extend({
@@ -80,7 +84,7 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
             uri += '/' + params[this.param];
         }
         return {
-            'uri': uri + Balanced.MigrationUtils.EMBEDDED_QUERY_APPEND,
+            'uri': uri + Balanced.MigrationUtils.embeddedQueryString(),
             'title': this.title,
             'marketplace': marketplace
         };
@@ -102,7 +106,10 @@ Balanced.ShowResource = Balanced.IframeRoute.extend({
 ////
 require('app/routes/application');
 require('app/routes/index');
+
+require('app/routes/claim');
 require('app/routes/login');
+require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/bank_accounts');
