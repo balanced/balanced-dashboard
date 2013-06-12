@@ -1,8 +1,6 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
 
-@loginWrapperBackground: #96C0C5;
-
 #login,
 #forgot-password {
   .logo {
@@ -17,8 +15,8 @@
     text-align: center;
 
     &.alert-error {
-      background-color: #e66a5f;
-      border: 0px;
+      background-color: @imperialRed60;
+      border: 0;
       border-color: transparent;
       color: @white;
     }
@@ -27,11 +25,11 @@
   #forgot-form,
   #auth-form {
     overflow: auto;
-    background-color: @loginWrapperBackground;
+    background-color: @egyptianBlue60;
     padding: 40px;
 
     &.error {
-      background-color: #f6c5B9;
+      background-color: @imperialRed20;
     }
 
     input {
@@ -39,7 +37,7 @@
       width: 100%;
       border: 0px;
       margin-bottom: 0px;
-      .placeholder(#bfbeb9);
+      .placeholder(@gray3);
 
       &:invalid {
         color: @black;
@@ -96,13 +94,15 @@
       border-bottom: 0;
     }
   }
-  input {
+  input[type="text"] {
     width: 300px;
     margin: 0;
   }
   label {
     display: inline-block;
-    padding-left: 50px;
+    float: right;
+    padding-top: 10px;
+    width: 400px;
     &:after {
       content: '.';
     }

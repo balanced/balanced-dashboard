@@ -48,6 +48,7 @@ require('app/models/search_query');
 require('app/models/callback');
 require('app/models/customer');
 require('app/models/verification');
+require('app/models/production_access_application');
 
 require('app/lib/auth');
 

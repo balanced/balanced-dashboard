@@ -9,11 +9,88 @@
         </nav>
         <div id="content" class="span24">
             <div class="row">
-                <div class="offset2 span22">
+                <div class="offset2 span20">
 
                     <h1 class="page-title">{{title}}</h1>
 
-                    {{view Balanced.EmbeddedIframeView iframeUrlBinding="uri"}}
+                    <form id="claim-form">
+
+                        {{#if isGuest}}
+                        <fieldset>
+                            <legend>Login info</legend>
+                        </fieldset>
+                        {{/if}}
+
+                        <fieldset>
+                            <legend>Who are you?</legend>
+                            <a href="#" {{ action selectType "personal" }}>Personal</a>
+                            <a href="#" {{ action selectType "business" }}>Business</a>
+                        </fieldset>
+
+                        {{#if typeSelected}}
+
+                            {{#if isBusiness}}
+                            <fieldset>
+                                <legend>Business info</legend>
+                                {{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter your business name"}}
+                                {{view Balanced.ControlGroupFieldView placeholder="EIN" field="ein" help="Enter your 9-digit employer identification number"}}
+                            </fieldset>
+                            {{/if}}
+
+                        <fieldset>
+                            <legend>Your personal info</legend>
+
+                            {{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter your zip code" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone_number" help="Enter your phone number" }}
+
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Banking info</legend>
+
+                            {{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="banking.account_name" help="Enter the name on your bank account" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Account number" field="banking.account_number" help="Enter your bank account number" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Routing number" field="banking.routing_number" help="Enter your 9 digit routing number" }}
+
+                            <div class="control-group">
+                                {{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}
+                                <label>Specify your account type</label>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Marketplace info</legend>
+
+                            {{view Balanced.ControlGroupFieldView placeholder="Marketplace name" field="marketplace.name" help="Enter your marketplace name" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Support email address" field="marketplace.support_email_address" help="Support requests and automated email messages are sent to this email address" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Support phone no." field="marketplace.support_phone_number" help="The support phone number will appear on credit card statements associated with your marketplace" }}
+                            {{view Balanced.ControlGroupFieldView placeholder="Domain name" field="marketplace.domain_url" help="HELP" }}
+
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Terms &amp; Conditions + Privacy Policy</legend>
+                            <div class="control-group">
+                                {{view Ember.Checkbox checkedBinding="termsAndConditions"}}
+                                I accept the
+                                <a href="https://www.balancedpayments.com/terms/" target="_blank">Terms &amp; Conditions</a>,
+                                <a href="https://www.balancedpayments.com/terms/marketplaceagreement" target="_blank">Marketplace Agreement</a>, and
+                                <a href="https://www.balancedpayments.com/privacy" target="_blank">Privacy Policy</a>.
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Next steps</legend>
+                        </fieldset>
+                            <div class="actions">
+                                <button class="btn" {{ action submitApplication }}>Thug</button>
+                            </div>
+                        {{/if}}
+
+                    </form>
 
                 </div>
             </div>

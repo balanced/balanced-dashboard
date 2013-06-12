@@ -1,0 +1,54 @@
+Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
+    address: Ember.computed(function () {
+        return Balanced.Model.create();
+    }),
+    banking: Ember.computed(function () {
+        return Balanced.Model.create();
+    }),
+    marketplace: Ember.computed(function () {
+        return Balanced.Model.create();
+    }),
+    validations: {
+        name: {
+            presence: true
+        },
+        ssn_last4: {
+            presence: true
+        },
+        phone_number: {
+            presence: true
+        },
+        'address.street_address': {
+            presence: true
+        },
+        'address.postal_code': {
+            presence: true,
+            length: {
+                minimum: 5,
+                maximum: 10
+            }
+        },
+        'banking.account_name': {
+            presence: true
+        },
+        'banking.account_number': {
+            presence: true
+        },
+        'banking.routing_number': {
+            presence: true,
+            length: 9
+        },
+        'marketplace.name': {
+            presence: true
+        },
+        'marketplace.support_email_address': {
+            presence: true
+        },
+        'marketplace.support_phone_number': {
+            presence: true
+        },
+        'marketplace.domain_url': {
+            presence: true
+        }
+    }
+});
