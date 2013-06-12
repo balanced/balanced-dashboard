@@ -39,9 +39,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         var self = this;
         var data = this._toSerializedJSON();
 
+        self.set('isSaving', true);
+
         var promise = this.resolveOn('didCreate');
 
-        self.set('isSaving', true);
         Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
             self._updateFromJson(json);
             self.set('isNew', false);
@@ -193,6 +194,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             deferred.reject(model);
         }
 
+        model._resetPromise();
         model.one(successEvent, success);
         model.one('becameError', error);
         model.one('becameInvalid', error);
