@@ -401,7 +401,7 @@ test('create promises work if the model was previously invalid', function (asser
     expect(1);
     var t = Balanced.TestModel.create();
 
-    t._handleError({status: 400, responseText: "Something bad"});
+    t._handleError({status: 400, responseText: 'Something bad'});
 
     Ember.run(function () {
         t.create().then(function (model) {
