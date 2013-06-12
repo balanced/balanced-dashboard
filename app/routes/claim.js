@@ -3,6 +3,21 @@ Balanced.ClaimRoute = Balanced.Route.extend({
         var claim = Balanced.Claim.create({
             uri: '/users'
         });
+
+        var parseResponse = function (unparsedJson) {
+            var json = JSON.parse(unparsedJson);
+            for (var key in json) {
+                if (!json.hasOwnProperty(key)) {
+                    continue;
+                }
+                claim.get('validationErrors').add(key, 'invalid', null, json[key]);
+            }
+            claim.propertyDidChange('validationErrors');
+        };
+
+        claim.one('becameInvalid', parseResponse);
+        claim.one('becameError', parseResponse);
+
         return {
             claim: claim
         };
@@ -28,19 +43,6 @@ Balanced.ClaimRoute = Balanced.Route.extend({
                 return;
             }
 
-            var parseResponse = function (unparsedJson) {
-                var json = JSON.parse(unparsedJson);
-                for (var key in json) {
-                    if (!json.hasOwnProperty(key)) {
-                        continue;
-                    }
-                    model.get('validationErrors').add(key, 'invalid', null, json[key]);
-                }
-                model.propertyDidChange('validationErrors');
-            };
-
-            model.one('becameInvalid', parseResponse);
-            model.one('becameError', parseResponse);
             model.create().then(function (user) {
                 //  create a login
                 var login = Balanced.Login.create({

@@ -10,7 +10,8 @@ Balanced.StartRoute = Balanced.Route.extend({
             Balanced.Marketplace.create({
                 uri: '/v1/marketplaces'
             }).create().then(function (marketplace) {
-                Balanced.Auth.get('user').get('marketplaces').pushObject(Balanced.Marketplace.create(marketplace));
+                var marketplaces = Balanced.Auth.get('user').get('marketplaces');
+                marketplaces.pushObject(Balanced.Marketplace.create(marketplace));
                 self.transitionTo('marketplace.transactions', marketplace);
             });
         });
