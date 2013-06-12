@@ -1,4 +1,4 @@
-Balanced.MarketplacesApplyRoute = Balanced.AuthRoute.extend({
+Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
     title: 'Apply for production access',
     model: function () {
         var request = Balanced.ProductionAccessRequest.create({

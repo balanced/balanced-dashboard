@@ -36,7 +36,14 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
         },
         'banking.routing_number': {
             presence: true,
-            length: 9
+            length: 9,
+            matches: {
+                validator: function (object, attribute, value) {
+                    if (!balanced.bankAccount.validateRoutingNumber(value)) {
+                        object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid routing number');
+                    }
+                }
+            }
         },
         'marketplace.name': {
             presence: true
