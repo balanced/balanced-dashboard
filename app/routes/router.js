@@ -112,6 +112,7 @@ require('app/routes/login');
 require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
+require('app/routes/marketplaces/apply');
 require('app/routes/marketplaces/bank_accounts');
 require('app/routes/marketplaces/cards');
 require('app/routes/marketplaces/index');
