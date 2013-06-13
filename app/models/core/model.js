@@ -1,6 +1,6 @@
 require('app/models/core/mixins/load_promise');
 require('app/models/core/model_array');
-
+require('app/models/core/type_mappings');
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
@@ -243,15 +243,12 @@ Balanced.Model.reopenClass({
         var modelClass = this;
         return Ember.computed(function () {
             settings = settings || {};
-            var typeClass = modelClass._typeClass(type);
+            var typeClass = Balanced.TypeMappings.typeClass(type);
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
                 if (settings.embedded) {
-                    var embeddedObj = typeClass.create();
-                    embeddedObj.set('isNew', false);
-                    embeddedObj._updateFromJson(this.get(propertyName));
-                    embeddedObj.trigger('didLoad');
+                    var embeddedObj = modelClass._materializeLoadedObjectFromAPIResult(this.get(propertyName), typeClass);
                     return embeddedObj;
                 } else {
                     return typeClass.find(this.get(propertyName));
@@ -265,11 +262,11 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    hasMany: function (type, propertyName, settings) {
+    hasMany: function (defaultType, propertyName, settings) {
         var modelClass = this;
         return Ember.computed(function () {
             settings = settings || {};
-            var typeClass = modelClass._typeClass(type);
+            var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
             var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A() });
 
@@ -289,10 +286,7 @@ Balanced.Model.reopenClass({
                     }
 
                     var typedObjects = _.map(itemsArray, function (item) {
-                        var typedObj = typeClass.create();
-                        typedObj.set('isNew', false);
-                        typedObj._updateFromJson(item);
-                        typedObj.trigger('didLoad');
+                        var typedObj = modelClass._materializeLoadedObjectFromAPIResult(item, typeClass);
 
                         // if an object is deleted, remove it from the collection
                         typedObj.on('didDelete', function () {
@@ -329,17 +323,15 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    _typeClass: function (type) {
-        // allow dependencies to be set using strings instead of class
-        // statements so we don't have ordering issues when declaring our
-        // models
-        var typeClass = type;
-        //  HACK: this gets around the jshint eval warning but let's clean this up.
-        var a = eval;
-        if (typeof type === 'string') {
-            typeClass = a(type);
+    _materializeLoadedObjectFromAPIResult: function(json, defaultClass) {
+        var objClass = defaultClass;
+        if(json._type) {
+            objClass = Balanced.TypeMappings.classForType(json._type);
         }
-
-        return typeClass;
+        var typedObj = objClass.create();
+        typedObj.set('isNew', false);
+        typedObj._updateFromJson(json);
+        typedObj.trigger('didLoad');
+        return typedObj;
     }
 });
