@@ -47,8 +47,16 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
     },
 
     resetHeader: function () {
+        this.resetSelectedTab();
         this.resetSortOrder();
         this.resetDateTimePicker();
+    },
+
+    resetSelectedTab: function() {
+        $('#search nav > li').removeClass('selected');
+        $('#search nav > li.transactions').addClass('selected');
+        $('#search .items').removeClass('selected');
+        $('#search .items.transactions').addClass('selected');
     },
 
     resetSortOrder: function () {
