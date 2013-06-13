@@ -363,7 +363,10 @@ Balanced.Model.reopenClass({
     _materializeLoadedObjectFromAPIResult: function(json, defaultClass) {
         var objClass = defaultClass;
         if(json._type) {
-            objClass = Balanced.TypeMappings.classForType(json._type);
+            var mappedTypeClass = Balanced.TypeMappings.classForType(json._type);
+            if(mappedTypeClass) {
+                objClass = mappedTypeClass;
+            }
         }
         var typedObj = objClass.create();
         typedObj.set('isNew', false);
