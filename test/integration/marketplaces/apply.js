@@ -36,9 +36,8 @@ var expectedBusinessApiKeyData = {
     'merchant.street_address': businessData['address.street_address'],
     'merchant.person.tax_id': businessData.ssn_last4,
     'merchant.person.street_address': businessData['address.street_address'],
-    'merchant.person.postal_code': businessData['address.postall_code'],
-    'merchant.person.phone_number': businessData.phone_number,
-    'merchant.person.dob': '1980-05-27'
+    'merchant.person.postal_code': businessData['address.postal_code'],
+    'merchant.person.phone_number': businessData.phone_number
 };
 
 test('we are on the correct page', function (assert) {
@@ -46,14 +45,16 @@ test('we are on the correct page', function (assert) {
 });
 
 test('clicking business or personal shows data', function (assert) {
-    var inputs = $('input', '#marketplace-apply');
-    assert.equal(inputs.length, 0);
+    function getInputs() {
+        return $('input', '#marketplace-apply');
+    }
+    assert.equal(getInputs().length, 0);
 
     $('a:contains("Business")').click();
-    assert.equal(inputs.length, 15);
+    assert.equal(getInputs().length, 15);
 
     $('a:contains("Personal")').click();
-    assert.equal(inputs.length, 13);
+    assert.equal(getInputs().length, 13);
 });
 
 test('api key data is correctly extracted', function (assert) {
@@ -61,7 +62,11 @@ test('api key data is correctly extracted', function (assert) {
 
     // populate fields
     _.each(businessData, function (value, key) {
-        $('[name="' + key + '"]').val(value);
+        var $input = $('[name="' + key + '"]');
+        $input.val(value);
+        $input.find(':selected').removeAttr('selected');
+        $input.find(':contains("' + value + '")').attr('selected', 'selected');
+        $input.keyup();
     });
 
     var controller = Balanced.__container__.lookup('controller:marketplacesApply');

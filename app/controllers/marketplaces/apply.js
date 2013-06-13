@@ -46,6 +46,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
     submitApplication: function () {
         var model = this.get('content');
+
         if (model.validate()) {
             // TODO: persist the request to the server, this will ultimately
             // be several requests so we need to be prepared on all of them for
