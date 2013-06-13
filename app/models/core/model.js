@@ -239,6 +239,23 @@ Balanced.Model.reopenClass({
         return modelObject;
     },
 
+    /*
+     * Used for adding a one-to-one association to a model.
+     *
+     * Params:
+     *  - type - Used to find/construct child objects. For embedded objects,
+     * we'll use the _type field if it's present in the JSON. For non-embedded
+     * objects, we use this type to construct the object
+     * - propertyName - The property whose value we'll get to determine the URI
+     *  or embedded data to use for the association
+     * - settings - The only setting that's current supported is embedded = [true|false].
+     *
+     * Example:
+     *
+     * Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+     *      owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true})
+     * });
+     */
     belongsTo: function (type, propertyName, settings) {
         var modelClass = this;
         return Ember.computed(function () {
@@ -262,6 +279,26 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
+    /*
+     * Used for adding a one-to-many association to a model.
+     *
+     * Params:
+     *  - defaultType - Used to find/construct child objects. If the _type
+     * field is present in the returned JSON, we'll map that to create objects
+     * of the correct type. Since we use the type of object to pick which host
+     * to use, it's important to set the defaultType, even if your returned
+     * data uses the _type field.
+     * - propertyName - The property whose value we'll get to determine the URI
+     *  or embedded data to use for the association
+     * - settings - The only setting that's current supported is embedded = [true|false].
+     *
+     * Example:
+     *
+     * Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+     *      credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
+     *      customers: Balanced.Model.hasMany('Balanced.Customer', 'customers_json', {embedded: true})
+     * });
+     */
     hasMany: function (defaultType, propertyName, settings) {
         var modelClass = this;
         return Ember.computed(function () {
