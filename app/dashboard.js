@@ -102,6 +102,7 @@ require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');
 require('app/controllers/bank_accounts');
+require('app/controllers/customers');
 
 /*
  * States (i.e. Routes)

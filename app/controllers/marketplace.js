@@ -20,6 +20,13 @@ Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend(
     }
 );
 
+Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(
+    Balanced.DownloadControllerMixin,
+    {
+        needs: ['marketplace']
+    }
+);
+
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
     needs: ['marketplace']
 });
