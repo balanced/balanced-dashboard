@@ -93,11 +93,31 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
     _extractMarketplacePayload: function (model) {
         return Balanced.Marketplace.create({
             uri: '/v1/marketplaces',
+            name: this.get('marketplace.name'),
+            support_email_address: this.get('marketplace.support_email_address'),
+            support_phone_number: this.get('marketplace.support_phone_number'),
+            domain_url: this.get('marketplace.domain_url')
         });
     },
 
     _extractLoginPayload: function (model) {
+        if (Balanced.Auth.get('isGuest')) {
+            return Balanced.User.create({
+                uri: '/users',
+                email_address: this.get('email_address'),
+                password: this.get('password')
+            });
+        }
+    },
 
+    _extractBankAccountPayload: function () {
+        return Balanced.BankAccount.create({
+            uri: '/v1/bank_accounts',
+            name: this.get('banking.account_name'),
+            routing_number: this.get('banking.routing_number'),
+            account_number: this.get('banking.account_number'),
+            type: this.get('banking.account_type')
+        });
     }
 });
 

@@ -37,8 +37,51 @@ var expectedBusinessApiKeyData = {
     'merchant.person.tax_id': businessData.ssn_last4,
     'merchant.person.street_address': businessData['address.street_address'],
     'merchant.person.postal_code': businessData['address.postal_code'],
-    'merchant.person.phone_number': businessData.phone_number
+    'merchant.person.phone_number': businessData.phone_number,
+    'merchant.person.name': businessData.name
 };
+
+var expectedPersonalApiKeyData = {
+    'merchant.name': businessData.name,
+    'merchant.tax_id': businessData.ssn_last4,
+    'merchant.phone_number': businessData.phone_number,
+    'merchant.postal_code': businessData['address.postal_code'],
+    'merchant.street_address': businessData['address.street_address']
+};
+
+var expectedMarketplaceData = {
+    name: businessData['marketplace.name'],
+    support_phone_number: businessData['marketplace.support_phone_number'],
+    support_email_address: businessData['marketplace.support_email_address'],
+    domain_url: businessData['marketplace.domain_url']
+};
+
+var expectedBankAccountData = {
+    name: businessData['banking.account_name'],
+    routing_number: businessData['banking.routing_number'],
+    account_number: businessData['banking.account_number'],
+    type: 'CHECKING'
+};
+
+function populate() {
+    _.each(businessData, function (value, key) {
+        var $input = $('[name="' + key + '"]');
+        $input.val(value);
+        $input.find(':selected').removeAttr('selected');
+        $input.find(':contains("' + value + '")').attr('selected', 'selected');
+        $input.keyup();
+    });
+}
+
+function confirm(assert, method, payload) {
+    var controller = Balanced.__container__.lookup('controller:marketplacesApply');
+    var parsedPayload = controller[method]();
+
+    _.each(payload, function (value, key) {
+        assert.equal(parsedPayload.get(key), value);
+    });
+
+}
 
 test('we are on the correct page', function (assert) {
     assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
@@ -48,6 +91,7 @@ test('clicking business or personal shows data', function (assert) {
     function getInputs() {
         return $('input', '#marketplace-apply');
     }
+
     assert.equal(getInputs().length, 0);
 
     $('a:contains("Business")').click();
@@ -57,23 +101,30 @@ test('clicking business or personal shows data', function (assert) {
     assert.equal(getInputs().length, 13);
 });
 
-test('api key data is correctly extracted', function (assert) {
+test('business api key data is correctly extracted', function (assert) {
     $('a:contains("Business")').click();
 
-    // populate fields
-    _.each(businessData, function (value, key) {
-        var $input = $('[name="' + key + '"]');
-        $input.val(value);
-        $input.find(':selected').removeAttr('selected');
-        $input.find(':contains("' + value + '")').attr('selected', 'selected');
-        $input.keyup();
-    });
+    populate();
+    confirm(assert, '_extractApiKeyPayload', expectedBusinessApiKeyData);
+});
 
-    var controller = Balanced.__container__.lookup('controller:marketplacesApply');
-    var apiKeyPayload = controller._extractApiKeyPayload();
+test('personal api key data is correctly extracted', function (assert) {
+    $('a:contains("Person")').click();
 
-    _.each(expectedBusinessApiKeyData, function (value, key) {
-        assert.equal(apiKeyPayload.get(key), value);
-    });
+    populate();
+    confirm(assert, '_extractApiKeyPayload', expectedPersonalApiKeyData);
+});
 
+test('bank account data is correctly extracted', function (assert) {
+    $('a:contains("Person")').click();
+
+    populate();
+    confirm(assert, '_extractBankAccountPayload', expectedBankAccountData);
+});
+
+test('marketplace data is correctly extracted', function (assert) {
+    $('a:contains("Person")').click();
+
+    populate();
+    confirm(assert, '_extractMarketplacePayload', expectedMarketplaceData);
 });

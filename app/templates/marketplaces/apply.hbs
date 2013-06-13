@@ -42,9 +42,9 @@
 
                             {{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name" }}
                             <div class="control-group">
-                                {{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year"}}
-                                {{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month"}}
-                                {{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day"}}
+                                {{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year" class="span2"}}
+                                {{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month" class="span2"}}
+                                {{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
                                 <label>Enter your date of birth</label>
                             </div>
                             {{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number" }}
