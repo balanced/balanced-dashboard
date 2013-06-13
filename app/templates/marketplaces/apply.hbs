@@ -18,6 +18,10 @@
                         {{#if isGuest}}
                         <fieldset>
                             <legend>Login info</legend>
+
+                            {{view Balanced.ControlGroupFieldView placeholder="Email address" field="email_address" help="Enter your email address"}}
+                            {{view Balanced.ControlGroupFieldView placeholder="Password" field="password" help="Enter a secure password"}}
+
                         </fieldset>
                         {{/if}}
 

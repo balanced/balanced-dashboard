@@ -3,6 +3,7 @@ Balanced.User = Balanced.Model.extend({
 
 Balanced.User.reopenClass({
     deserialize: function (json) {
+        json.marketplaces = json.marketplaces || [];
         json.marketplaces.sort(function (a, b) {
             if (a.name === b.name) {
                 return 0;

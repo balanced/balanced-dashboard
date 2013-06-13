@@ -6,7 +6,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
     },
 
     typeSelected: function () {
-        return this.get('applicationType');
+        return this.get('isBusiness') ? 'BUSINESS' : 'PERSON';
     }.property('applicationType'),
 
     isBusiness: function () {
@@ -14,7 +14,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
     }.property('applicationType'),
 
     isGuest: function () {
-        return !Balanced.Auth.get('user');
+        return Balanced.Auth.get('isGuest');
     }.property(),
 
     dobYears: function () {
@@ -44,6 +44,18 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         return values.join('-');
     }.property('dob_day', 'dob_month', 'dob_year'),
 
+    userFailure: function () {
+        console.log('userFailure', arguments);
+    },
+
+    apiKeyFailure: function () {
+        console.log('apiKeyFailure', arguments);
+    },
+
+    marketplaceFailure: function () {
+        console.log('marketplaceFailure', arguments);
+    },
+
     submitApplication: function () {
         var model = this.get('content');
 
@@ -51,11 +63,29 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
             // TODO: persist the request to the server, this will ultimately
             // be several requests so we need to be prepared on all of them for
             // failure.
-            // POST -> /users && /logins (if not logged in)
-            // POST -> /v1/api_keys
-            // POST -> /v1/marketplaces
-            // POST -> /users/US132123/marketplaces
-            this.send('signup', model);
+            var user = this._extractLoginPayload(),
+                apiKey = this._extractApiKeyPayload(),
+                marketplace = this._extractMarketplacePayload(),
+                bankAccount = this._extractBankAccountPayload();
+
+            user.one('becameInvalid', this.userFailure);
+            user.one('becameError', this.userFailure);
+            apiKey.one('becameInvalid', this.apiKeyFailure);
+            apiKey.one('becameError', this.apiKeyFailure);
+            marketplace.one('becameInvalid', this.marketplaceFailure);
+            // create user (check for duplicate email address)
+            // create api key (check for merchant underwrite failure)
+            // create marketplace (should be no failure)
+            // associate marketplace with user (should be no failure)
+            // create bankAccount (possible failures but at this point we
+            // should just swallow and send them to the marketplace management
+            // page to re-add)
+            this.send('signup', {
+                user: user,
+                apiKey: apiKey,
+                marketplace: marketplace,
+                bankAccount: bankAccount
+            });
         } else {
 //            console.log('failed');
 //            console.log(this.get('content.validationErrors'));
@@ -66,7 +96,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
     _extractApiKeyPayload: function () {
         var merchantType = this.get('typeSelected'),
-            isBusiness = merchantType === 'business';
+            isBusiness = this.get('isBusiness');
         var person = isBusiness ? {
             name: this.get('name'),
             dob: this.get('dob'),
