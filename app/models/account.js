@@ -21,3 +21,5 @@ Balanced.Account = Balanced.Model.extend({
         return this.get('email_address');
     }.property('email_address')
 });
+
+Balanced.TypeMappings.addTypeMapping('account', 'Balanced.Account');

@@ -11,3 +11,5 @@ Balanced.Credit = Balanced.Transaction.extend({
       }
     }.property('bank_account')
 });
+
+Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');
