@@ -30,6 +30,7 @@ require('app/models/adapters/ajax');
 require('app/models/adapters/fixture');
 require('app/models/adapter_config');
 require('app/models/model');
+require('app/models/api_key');
 require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');

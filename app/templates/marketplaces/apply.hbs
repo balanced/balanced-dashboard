@@ -9,9 +9,9 @@
         </nav>
         <div id="content" class="span24">
             <div class="row">
-                <div class="offset2 span20">
+                <div class="offset2 span20" id="marketplace-apply">
 
-                    <h1 class="page-title">{{title}}</h1>
+                    <h1 class="page-title">Apply for a Production Marketplace</h1>
 
                     <form id="claim-form">
 
@@ -41,6 +41,12 @@
                             <legend>Your personal info</legend>
 
                             {{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name" }}
+                            <div class="control-group">
+                                {{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" nameBinding="dob_year"}}
+                                {{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month"}}
+                                {{view Ember.Select contentBinding="dobDays" valueBinding="dob_day"}}
+                                <label>Enter your date of birth</label>
+                            </div>
                             {{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number" }}
                             {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter your zip code" }}
                             {{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed" }}
