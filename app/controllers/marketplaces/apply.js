@@ -2,6 +2,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
     selectType: function (applicationType) {
         this.set('applicationType', applicationType);
+        $('input:first', '#marketplace-apply').focus();
     },
 
     typeSelected: function () {
@@ -101,6 +102,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 Balanced.ControlGroupFieldView = Balanced.View.extend({
     tagName: 'div',
+    classNames: ['control-group'],
+    classNameBindings: ['cssError:error'],
     layoutName: '_control_group_field',
 
     error: function (field, prefix) {

@@ -1,4 +1,2 @@
-<div class="control-group" {{ bindAttr class="view.cssError:error" }}>
-    {{view Ember.TextField valueBinding="view.value" placeholderBinding="view.placeholder" nameBinding="view.field" idBinding="view.field" }}
-    <label class="control-label"  {{ bindAttr for="view.field" }}>{{ view.labelForField }}</label>
-</div>
+{{view Ember.TextField valueBinding="view.value" placeholderBinding="view.placeholder" nameBinding="view.field" idBinding="view.field" }}
+<label class="control-label"  {{ bindAttr for="view.field" }}>{{ view.labelForField }}</label>
