@@ -1,5 +1,5 @@
-require('app/models/mixins/load_promise');
-require('app/models/model_array');
+require('app/models/core/mixins/load_promise');
+require('app/models/core/model_array');
 
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
@@ -26,9 +26,9 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
     }.property('created_at'),
 
-    // computes the ID from the URI - exists because at times Ember needs the 
-    // ID of our model before it has finished loading. This gets overridden 
-    // when the real model object gets loaded by the ID value from the JSON 
+    // computes the ID from the URI - exists because at times Ember needs the
+    // ID of our model before it has finished loading. This gets overridden
+    // when the real model object gets loaded by the ID value from the JSON
     // attribute
     id: function () {
         var uri = this.get('uri');
