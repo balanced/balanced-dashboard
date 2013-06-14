@@ -13,6 +13,7 @@ Balanced.NET = (function () {
             withCredentials: true
         },
         beforeSend: function (xhr, settings) {
+	    console.log(arguments);
             for (var key in ajaxHeaders) {
                 if (!ajaxHeaders.hasOwnProperty(key)) {
                     continue;
