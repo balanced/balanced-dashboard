@@ -31,7 +31,15 @@ Balanced.CreditsRoute = Balanced.IframeRoute.extend({
 Balanced.CreditsCreditRoute = Balanced.ShowResource.extend({
     param: 'credit_id',
     title: 'Credits',
-    resource: 'credits'
+    resource: 'credits',
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        try {
+            this.controllerFor('account').set('content', model);
+        } catch (e) {
+            //  if not nested under account, this will not work
+        }
+    }
 });
 
 Balanced.HoldsRoute = Balanced.IframeRoute.extend({
@@ -43,7 +51,15 @@ Balanced.HoldsRoute = Balanced.IframeRoute.extend({
 Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
     param: 'hold_id',
     title: 'Holds',
-    resource: 'holds'
+    resource: 'holds',
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        try {
+            this.controllerFor('account').set('content', model);
+        } catch (e) {
+            //  if not nested under account, this will not work
+        }
+    }
 });
 
 Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
