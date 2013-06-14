@@ -20,6 +20,15 @@
                     <th class="span2 label6a amount unsorted num">Amount</th>
                 </tr>
             </thead>
+            {{#if transactions.hasNextPage}}
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="load-more-results">
+                            <a {{ action "loadMore" }}>Load more</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            {{/if}}
             <tbody>
                 {{#each transaction in transactions }}
                     <tr {{action transactionSelected transaction}}>

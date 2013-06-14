@@ -17,6 +17,15 @@
                     <th class="span8 label6a email">Email</th>
                 </tr>
             </thead>
+            {{#if customers.hasNextPage}}
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="load-more-results">
+                            <a {{ action "loadMore" }}>Load more</a>
+                        </td>
+                    </tr>
+                </tfoot>
+            {{/if}}
             <tbody>
                 {{#each customer in customers}}
                     <tr {{action customerSelected customer}}>

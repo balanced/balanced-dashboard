@@ -1,3 +1,7 @@
 Balanced.CustomersIndexController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
-    needs: ['marketplace']
+    needs: ['marketplace'],
+
+    loadMore: function() {
+        this.get('content').get('customers').loadNextPage();
+    }
 });
