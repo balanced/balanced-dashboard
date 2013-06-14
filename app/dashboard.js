@@ -26,11 +26,7 @@ require('app/lib/analytics');
  * Ember.Object itself provides most of what
  * model layers elsewhere provide.
  */
-require('app/models/adapters/base');
-require('app/models/adapters/ajax');
-require('app/models/adapters/fixture');
-require('app/models/adapter_config');
-require('app/models/model');
+require('app/models/core/core');
 require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
