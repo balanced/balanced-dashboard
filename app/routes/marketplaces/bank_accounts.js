@@ -6,6 +6,7 @@ Balanced.BankAccountsIndexRoute = Balanced.ShowResource.extend({
         this.render('marketplace/activity');
     }
 });
+
 Balanced.BankAccountsBankAccountRoute = Balanced.ShowResource.extend({
     param: 'bank_account_id',
     title: 'Bank account',
