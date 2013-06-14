@@ -1,6 +1,6 @@
-require('app/models/mixins/load_promise');
-require('app/models/model_array');
-
+require('app/models/core/mixins/load_promise');
+require('app/models/core/model_array');
+require('app/models/core/type_mappings');
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
@@ -26,9 +26,9 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
     }.property('created_at'),
 
-    // computes the ID from the URI - exists because at times Ember needs the 
-    // ID of our model before it has finished loading. This gets overridden 
-    // when the real model object gets loaded by the ID value from the JSON 
+    // computes the ID from the URI - exists because at times Ember needs the
+    // ID of our model before it has finished loading. This gets overridden
+    // when the real model object gets loaded by the ID value from the JSON
     // attribute
     id: function () {
         var uri = this.get('uri');
@@ -165,41 +165,18 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         var props = {};
         for (var prop in this) {
             if (this.hasOwnProperty(prop) &&
-                    $.inArray(prop, computedProps) === -1 &&
-                    $.inArray(prop, lifecycleProperties) === -1 &&
-                    $.inArray(prop, this.privateProperties) === -1 &&
-                    prop.indexOf('__ember') < 0 &&
-                    prop.indexOf('_super') < 0 &&
-                    Ember.typeOf(this.get(prop)) !== 'function'
+                $.inArray(prop, computedProps) === -1 &&
+                $.inArray(prop, lifecycleProperties) === -1 &&
+                $.inArray(prop, this.privateProperties) === -1 &&
+                prop.indexOf('__ember') < 0 &&
+                prop.indexOf('_super') < 0 &&
+                Ember.typeOf(this.get(prop)) !== 'function'
                 ) {
                 props[prop] = this[prop];
             }
         }
 
         return props;
-    },
-
-    resolveOn: function (successEvent) {
-        var model = this;
-        var deferred = Ember.Deferred.create();
-
-        function success() {
-            model.off('becameError', error);
-            model.off('becameInvalid', error);
-            deferred.resolve(model);
-        }
-
-        function error() {
-            model.off(successEvent, success);
-            deferred.reject(model);
-        }
-
-        model._resetPromise();
-        model.one(successEvent, success);
-        model.one('becameError', error);
-        model.one('becameInvalid', error);
-
-        return deferred;
     }
 });
 
@@ -239,19 +216,33 @@ Balanced.Model.reopenClass({
         return modelObject;
     },
 
+    /*
+     * Used for adding a one-to-one association to a model.
+     *
+     * Params:
+     *  - type - Used to find/construct child objects. For embedded objects,
+     * we'll use the _type field if it's present in the JSON. For non-embedded
+     * objects, we use this type to construct the object
+     * - propertyName - The property whose value we'll get to determine the URI
+     *  or embedded data to use for the association
+     * - settings - The only setting that's current supported is embedded = [true|false].
+     *
+     * Example:
+     *
+     * Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+     *      owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true})
+     * });
+     */
     belongsTo: function (type, propertyName, settings) {
         var modelClass = this;
         return Ember.computed(function () {
             settings = settings || {};
-            var typeClass = modelClass._typeClass(type);
+            var typeClass = Balanced.TypeMappings.typeClass(type);
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
                 if (settings.embedded) {
-                    var embeddedObj = typeClass.create();
-                    embeddedObj.set('isNew', false);
-                    embeddedObj._updateFromJson(this.get(propertyName));
-                    embeddedObj.trigger('didLoad');
+                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(propertyName));
                     return embeddedObj;
                 } else {
                     return typeClass.find(this.get(propertyName));
@@ -265,54 +256,42 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    hasMany: function (type, propertyName, settings) {
+    /*
+     * Used for adding a one-to-many association to a model.
+     *
+     * Params:
+     *  - defaultType - Used to find/construct child objects. If the _type
+     * field is present in the returned JSON, we'll map that to create objects
+     * of the correct type. Since we use the type of object to pick which host
+     * to use, it's important to set the defaultType, even if your returned
+     * data uses the _type field.
+     * - propertyName - The property whose value we'll get to determine the URI
+     *  or embedded data to use for the association
+     * - settings - The only setting that's current supported is embedded = [true|false].
+     *
+     * Example:
+     *
+     * Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+     *      credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
+     *      customers: Balanced.Model.hasMany('Balanced.Customer', 'customers_json', {embedded: true})
+     * });
+     */
+    hasMany: function (defaultType, propertyName, settings) {
         var modelClass = this;
         return Ember.computed(function () {
             settings = settings || {};
-            var typeClass = modelClass._typeClass(type);
+            var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
-            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A() });
+            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A(), typeClass: typeClass });
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
-                var populateModels = function (json) {
-                    var itemsArray;
-                    if (json && $.isArray(json)) {
-                        itemsArray = json;
-                    } else {
-                        if (json && json.items && $.isArray(json.items)) {
-                            itemsArray = json.items;
-                        } else {
-                            modelObjectsArray.set('isError', true);
-                            return;
-                        }
-                    }
-
-                    var typedObjects = _.map(itemsArray, function (item) {
-                        var typedObj = typeClass.create();
-                        typedObj.set('isNew', false);
-                        typedObj._updateFromJson(item);
-                        typedObj.trigger('didLoad');
-
-                        // if an object is deleted, remove it from the collection
-                        typedObj.on('didDelete', function () {
-                            modelObjectsArray.removeObject(typedObj);
-                        });
-
-                        return typedObj;
-                    });
-
-                    modelObjectsArray.setObjects(typedObjects);
-                    modelObjectsArray.set('isLoaded', true);
-                    modelObjectsArray.trigger('didLoad');
-                };
-
                 if (settings.embedded) {
-                    populateModels(this.get(propertyName));
+                    modelObjectsArray.populateModels(this.get(propertyName));
                 } else {
                     modelObjectsArray.set('isLoaded', false);
                     Balanced.Adapter.get(typeClass, this.get(propertyName), function (json) {
-                        populateModels(json);
+                        modelObjectsArray.populateModels(json);
                     }, function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 400) {
                             this.set('isValid', false);
@@ -329,17 +308,18 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    _typeClass: function (type) {
-        // allow dependencies to be set using strings instead of class
-        // statements so we don't have ordering issues when declaring our
-        // models
-        var typeClass = type;
-        //  HACK: this gets around the jshint eval warning but let's clean this up.
-        var a = eval;
-        if (typeof type === 'string') {
-            typeClass = a(type);
+    _materializeLoadedObjectFromAPIResult: function (json) {
+        var objClass = this;
+        if (json._type) {
+            var mappedTypeClass = Balanced.TypeMappings.classForType(json._type);
+            if (mappedTypeClass) {
+                objClass = mappedTypeClass;
+            }
         }
-
-        return typeClass;
+        var typedObj = objClass.create();
+        typedObj.set('isNew', false);
+        typedObj._updateFromJson(json);
+        typedObj.trigger('didLoad');
+        return typedObj;
     }
 });

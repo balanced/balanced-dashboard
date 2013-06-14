@@ -17,3 +17,5 @@ Balanced.Customer = Balanced.Model.extend({
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
     }.property('ein', 'name')
 });
+
+Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

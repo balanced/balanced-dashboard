@@ -22,3 +22,5 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
         return this.get('can_debit') || this.get('verification.state') === 'verified';
     }.property('verification.state')
 });
+
+Balanced.TypeMappings.addTypeMapping('bank_account', 'Balanced.BankAccount');

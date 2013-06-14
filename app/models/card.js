@@ -12,3 +12,5 @@ Balanced.Card = Balanced.FundingInstrument.extend({
         );
     }.property('last_four', 'brand')
 });
+
+Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');

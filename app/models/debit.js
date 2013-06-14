@@ -11,3 +11,5 @@ Balanced.Debit = Balanced.Transaction.extend({
       }
     }.property('source')
 });
+
+Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');

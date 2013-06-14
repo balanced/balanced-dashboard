@@ -11,3 +11,5 @@ Balanced.Hold = Balanced.Transaction.extend({
       }
     }.property('source')
 });
+
+Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');
