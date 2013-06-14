@@ -1,0 +1,62 @@
+<div id="activity" class="span20">
+    <h1 class="page-title">Activity
+        {{#if iframeLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
+        <a href="#" {{action download_show}} class="icon-download right">Download</a>
+    </h1>
+
+    {{ partial "escrow_box" }}
+
+    {{ partial "activity_header" }}
+
+    <div class="results">
+        <table class="items funding-instruments">
+            <thead>
+                <tr>
+                    <th class="span3 label6a">Created</th>
+                    <th class="span4 label6a">Type</th>
+                    <th class="span5 label6a">Card or bank account</th>
+                    <th class="span8 label6a">Account holder's name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each funding_instrument in funding_instruments}}
+                    <tr {{action fundingInstrumentSelected funding_instrument}}>
+                        <td>
+                            <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
+                        </td>
+                        <td>
+                            {{ funding_instrument.type_name }}
+                            {{#if funding_instrument.is_bank_account }}
+                                ({{ funding_instrument.type }})
+                            {{/if}}
+                        </td>
+                        <td {{bindAttr title="funding_instrument.description"}}>
+                            {{ funding_instrument.description }}
+                        </td>
+                        <td>
+                            {{ funding_instrument.account.name }}
+                            {{ funding_instrument.account.email }}
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="4" class="no-results">
+                            {{# unless funding_instruments.isLoaded }}
+                                Loading...
+                            {{else}}
+                                No results
+                            {{/unless}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    {{#if show_download}}
+        {{view Balanced.DownloadModalView }}
+    {{/if}}
+
+    {{view Balanced.AddFundsModalView marketplaceBinding="model" viewName="addFundsModal"}}
+    {{view Balanced.WithdrawFundsModalView marketplaceBinding="model" viewName="withdrawFundsModal"}}
+</div>

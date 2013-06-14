@@ -6,6 +6,7 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
     transactions: Balanced.Model.hasMany('Balanced.Transaction', 'transactions_uri'),
     callbacks: Balanced.Model.hasMany('Balanced.Callback', 'callbacks_uri'),
 
+    funding_instruments: Balanced.Model.hasMany('Balanced.FundingInstrument', 'funding_instruments_uri'),
     bank_accounts: Balanced.Model.hasMany('Balanced.BankAccount', 'bank_accounts_uri'),
     cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
 
@@ -16,6 +17,10 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
 
     callbacks_uri: function () {
         return this.get('uri') + '/callbacks';
+    }.property('uri'),
+
+    funding_instruments_uri: function() {
+        return this.get('uri') + '/search?limit=10&offset=0&q=&type[in]=bank_account,card';
     }.property('uri')
 });
 
