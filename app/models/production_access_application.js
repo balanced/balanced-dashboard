@@ -13,7 +13,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
             presence: true
         },
         ssn_last4: {
-            presence: true
+            presence: true,
+            length: 4,
+            numericality: true
         },
         phone_number: {
             presence: true
@@ -26,7 +28,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
             length: {
                 minimum: 5,
                 maximum: 10
-            }
+            },
+            format:  /^\d{5}([\-]?\d{4})?$/
         },
         'banking.account_name': {
             presence: true

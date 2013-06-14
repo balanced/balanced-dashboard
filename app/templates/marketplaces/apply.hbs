@@ -27,11 +27,11 @@
 
                         <fieldset>
                             <legend>Who are you?</legend>
-                            <a href="#" {{ action selectType "personal" }}>Personal</a>
-                            <a href="#" {{ action selectType "business" }}>Business</a>
+                            <a href="#" {{ action selectType "PERSON" }}>Personal</a>
+                            <a href="#" {{ action selectType "BUSINESS" }}>Business</a>
                         </fieldset>
 
-                        {{#if typeSelected}}
+                        {{#if selectedType}}
 
                             {{#if isBusiness}}
                             <fieldset>

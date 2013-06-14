@@ -29,7 +29,9 @@
 
         <div id="site-nav" class="span6">
             <div id="go-live-menu">
-                <a href="#" class="nav1d">production access</a>
+                {{#if Balanced.Auth.isGuest}}
+                    {{#linkTo marketplaces.apply class="nav1d"}}Production access{{/linkTo}}
+                {{/if}}
             </div>
             <div id="docs-menu">
                 <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>

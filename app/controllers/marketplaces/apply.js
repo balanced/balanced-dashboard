@@ -5,17 +5,17 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         $('input:first', '#marketplace-apply').focus();
     },
 
-    typeSelected: function () {
-        return this.get('isBusiness') ? 'BUSINESS' : 'PERSON';
+    selectedType: function () {
+        return this.get('applicationType');
     }.property('applicationType'),
 
     isBusiness: function () {
-        return this.get('applicationType') === 'business';
+        return this.get('applicationType') === 'BUSINESS';
     }.property('applicationType'),
 
     isGuest: function () {
         return Balanced.Auth.get('isGuest');
-    }.property(),
+    }.property('Balanced.Auth.isGuest'),
 
     dobYears: function () {
         var start = new Date().getFullYear() - 17;
@@ -44,21 +44,30 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         return values.join('-');
     }.property('dob_day', 'dob_month', 'dob_year'),
 
-    userFailure: function () {
+    userFailure: function (unparsedJson) {
         console.log('userFailure', arguments);
     },
 
-    apiKeyFailure: function () {
-        console.log('apiKeyFailure', arguments);
+    apiKeyFailure: function (unparsedJson) {
+        var self = this;
+        console.log('apiKeyFailure', arguments, this);
+        var json = JSON.parse(unparsedJson);
+        if (json.extras) {
+            _.each(json.extras, function (value, key) {
+                console.log('invalid', key, value);
+                self.get('validationErrors').add(key, 'invalid', null, value);
+            });
+        }
+        self.propertyDidChange('validationErrors');
     },
 
-    marketplaceFailure: function () {
+    marketplaceFailure: function (unparsedJson) {
         console.log('marketplaceFailure', arguments);
     },
 
     submitApplication: function () {
         var model = this.get('content');
-
+        apiKey = this._extractApiKeyPayload();
         if (model.validate()) {
             // TODO: persist the request to the server, this will ultimately
             // be several requests so we need to be prepared on all of them for
@@ -68,10 +77,12 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
                 marketplace = this._extractMarketplacePayload(),
                 bankAccount = this._extractBankAccountPayload();
 
-            user.one('becameInvalid', this.userFailure);
-            user.one('becameError', this.userFailure);
-            apiKey.one('becameInvalid', this.apiKeyFailure);
-            apiKey.one('becameError', this.apiKeyFailure);
+            if (user) {
+                user.one('becameInvalid', this.userFailure);
+                user.one('becameError', this.userFailure);
+            }
+            apiKey.one('becameInvalid', $.proxy(this.apiKeyFailure, this));
+            apiKey.one('becameError', $.proxy(this.apiKeyFailure, this));
             marketplace.one('becameInvalid', this.marketplaceFailure);
             // create user (check for duplicate email address)
             // create api key (check for merchant underwrite failure)
@@ -86,17 +97,15 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
                 marketplace: marketplace,
                 bankAccount: bankAccount
             });
-        } else {
-//            console.log('failed');
-//            console.log(this.get('content.validationErrors'));
         }
     },
 
     accountTypes: ['CHECKING', 'SAVINGS'],
 
     _extractApiKeyPayload: function () {
-        var merchantType = this.get('typeSelected'),
-            isBusiness = this.get('isBusiness');
+        var merchantType = this.get('selectedType'),
+            isBusiness = merchantType === 'BUSINESS';
+        console.log(merchantType, isBusiness);
         var person = isBusiness ? {
             name: this.get('name'),
             dob: this.get('dob'),
@@ -105,7 +114,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
             tax_id: this.get('ssn_last4'),
             phone_number: this.get('phone_number')
         } : null;
-        return Balanced.APIKey.create({
+        var apiKey = Balanced.APIKey.create({
             uri: '/v1/api_keys',
             merchant: {
                 type: merchantType,
@@ -113,11 +122,15 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
                 street_address: this.get('address.street_address'),
                 postal_code: this.get('address.postal_code'),
                 tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
-                dob: isBusiness ? null : this.get('dob'),
-                phone_number: this.get('phone_number'),
-                person: person
+                phone_number: this.get('phone_number')
             }
         });
+        if (isBusiness) {
+            apiKey.set('merchant.person', person);
+        } else {
+            apiKey.set('merchant.dob', this.get('dob'));
+        }
+        return apiKey;
     },
 
     _extractMarketplacePayload: function (model) {
