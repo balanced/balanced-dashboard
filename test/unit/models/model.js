@@ -532,3 +532,74 @@ test('belongsTo creates correct types for embedded polymorphic associations', fu
         });
     });
 });
+
+test('hasMany pagination works', function(assert) {
+    expect(6);
+    var TestModel2 = Balanced.Model.extend({
+        my_uri_field: '/v1/testobjects/1',
+        my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_uri_field')
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testobjects/10'
+        },
+        {
+            uri: '/v1/testobjects/1',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                },
+                {
+                    basic_field: 234,
+                    _type: 'second'
+                }
+            ],
+            next_uri: '/v1/testobjects/1?page=2'
+        },
+        {
+            uri: '/v1/testobjects/1?page=2',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                },
+                {
+                    basic_field: 234,
+                    _type: 'second'
+                }
+            ],
+            next_uri: '/v1/testobjects/1?page=3'
+        },
+        {
+            uri: '/v1/testobjects/1?page=3',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                }
+            ],
+            next_uri: null
+        }
+    ]);
+
+    Ember.run(function () {
+        TestModel2.find('/v1/testobjects/10').then(function(testModel) {
+            return testModel.get('my_has_many_field');
+        }).then(function(hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 2);
+            assert.ok(hasManyArray.get('hasNextPage'));
+
+            return hasManyArray.loadNextPage();
+        }).then(function(hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 4);
+            assert.ok(hasManyArray.get('hasNextPage'));
+
+            return hasManyArray.loadNextPage();
+        }).then(function(hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 5);
+            assert.ok(!hasManyArray.get('hasNextPage'));
+        });
+    });
+});

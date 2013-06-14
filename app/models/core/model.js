@@ -177,29 +177,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
 
         return props;
-    },
-
-    resolveOn: function (successEvent) {
-        var model = this;
-        var deferred = Ember.Deferred.create();
-
-        function success() {
-            model.off('becameError', error);
-            model.off('becameInvalid', error);
-            deferred.resolve(model);
-        }
-
-        function error() {
-            model.off(successEvent, success);
-            deferred.reject(model);
-        }
-
-        model._resetPromise();
-        model.one(successEvent, success);
-        model.one('becameError', error);
-        model.one('becameInvalid', error);
-
-        return deferred;
     }
 });
 
@@ -265,7 +242,7 @@ Balanced.Model.reopenClass({
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
                 if (settings.embedded) {
-                    var embeddedObj = modelClass._materializeLoadedObjectFromAPIResult(this.get(propertyName), typeClass);
+                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(propertyName));
                     return embeddedObj;
                 } else {
                     return typeClass.find(this.get(propertyName));
@@ -305,45 +282,16 @@ Balanced.Model.reopenClass({
             settings = settings || {};
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
-            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A() });
+            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A(), typeClass: typeClass });
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(propertyName)) {
-                var populateModels = function (json) {
-                    var itemsArray;
-                    if (json && $.isArray(json)) {
-                        itemsArray = json;
-                    } else {
-                        if (json && json.items && $.isArray(json.items)) {
-                            itemsArray = json.items;
-                        } else {
-                            modelObjectsArray.set('isError', true);
-                            return;
-                        }
-                    }
-
-                    var typedObjects = _.map(itemsArray, function (item) {
-                        var typedObj = modelClass._materializeLoadedObjectFromAPIResult(item, typeClass);
-
-                        // if an object is deleted, remove it from the collection
-                        typedObj.on('didDelete', function () {
-                            modelObjectsArray.removeObject(typedObj);
-                        });
-
-                        return typedObj;
-                    });
-
-                    modelObjectsArray.setObjects(typedObjects);
-                    modelObjectsArray.set('isLoaded', true);
-                    modelObjectsArray.trigger('didLoad');
-                };
-
                 if (settings.embedded) {
-                    populateModels(this.get(propertyName));
+                    modelObjectsArray.populateModels(this.get(propertyName));
                 } else {
                     modelObjectsArray.set('isLoaded', false);
                     Balanced.Adapter.get(typeClass, this.get(propertyName), function (json) {
-                        populateModels(json);
+                        modelObjectsArray.populateModels(json);
                     }, function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 400) {
                             this.set('isValid', false);
@@ -360,8 +308,8 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    _materializeLoadedObjectFromAPIResult: function(json, defaultClass) {
-        var objClass = defaultClass;
+    _materializeLoadedObjectFromAPIResult: function(json) {
+        var objClass = this;
         if(json._type) {
             var mappedTypeClass = Balanced.TypeMappings.classForType(json._type);
             if(mappedTypeClass) {
