@@ -6,6 +6,22 @@ Balanced.BankAccountsIndexRoute = Balanced.ShowResource.extend({
         this.render('marketplace/activity');
     }
 });
+Balanced.BankAccountsBankAccountRoute = Balanced.ShowResource.extend({
+    param: 'bank_account_id',
+    title: 'Bank account',
+    resource: 'bank_accounts',
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        try {
+            this.controllerFor('account').set('content', model);
+        } catch (e) {
+            //  if not nested under account, this will not work
+        }
+    },
+    renderTemplate: function () {
+        this.render('marketplace/activity');
+    }
+});
 
 Balanced.BankAccountRoute = Balanced.ShowResource.extend({
     param: 'bank_account_id',

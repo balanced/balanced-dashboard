@@ -7,8 +7,30 @@ Balanced.CardsIndexRoute = Balanced.ShowResource.extend({
     }
 });
 
+
+Balanced.CardsRoute = Balanced.IframeRoute.extend({
+    title: 'Cards',
+    resource: 'cards',
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        try {
+            this.controllerFor('account').set('content', model);
+        } catch (e) {
+            //  if not nested under account, this will not work
+        }
+    }
+});
+
 Balanced.CardsCardRoute = Balanced.ShowResource.extend({
     param: 'card_id',
     title: 'Card',
-    resource: 'cards'
+    resource: 'cards',
+    setupController: function(controller, model) {
+        this._super(controller, model);
+        try {
+            this.controllerFor('account').set('content', model);
+        } catch (e) {
+            //  if not nested under account, this will not work
+        }
+    }
 });
