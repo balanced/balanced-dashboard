@@ -29,6 +29,29 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
         }
     },
 
+    resolveOn: function (successEvent) {
+        var model = this;
+        var deferred = Ember.Deferred.create();
+
+        function success() {
+            model.off('becameError', error);
+            model.off('becameInvalid', error);
+            deferred.resolve(model);
+        }
+
+        function error() {
+            model.off(successEvent, success);
+            deferred.reject(model);
+        }
+
+        model._resetPromise();
+        model.one(successEvent, success);
+        model.one('becameError', error);
+        model.one('becameInvalid', error);
+
+        return deferred;
+    },
+
     _resetPromise: function () {
         // once a promise is resolved it doesn't not seem possible to get it
         // to "reset". we emulate that capability here by creating a new

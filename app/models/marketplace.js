@@ -33,3 +33,5 @@ Balanced.Marketplace.reopenClass({
         return '/v1/marketplaces/' + id;
     }
 });
+
+Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');

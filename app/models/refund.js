@@ -12,3 +12,5 @@ Balanced.Refund = Balanced.Transaction.extend({
       }
     }.property('debit')
 });
+
+Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');

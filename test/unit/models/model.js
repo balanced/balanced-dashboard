@@ -13,6 +13,21 @@ module('Balanced.Model', {
                 basic_field: 123
             }
         ]);
+
+        Balanced.TestFirstChildModel = Balanced.TestModel.extend({
+            child_class_field: function () {
+                return "first";
+            }.property()
+        });
+
+        Balanced.TestSecondChildModel = Balanced.TestModel.extend({
+            child_class_field: function () {
+                return "second";
+            }.property()
+        });
+
+        Balanced.TypeMappings.addTypeMapping('first', 'Balanced.TestFirstChildModel');
+        Balanced.TypeMappings.addTypeMapping('second', 'Balanced.TestSecondChildModel');
     },
 
     teardown: function () {
@@ -436,6 +451,155 @@ test('models have promises for refresh', function (assert) {
     Ember.run(function () {
         t.refresh().then(function (model) {
             assert.ok(true);
+        });
+    });
+});
+
+test('hasMany creates correct types for polymorphic associations', function (assert) {
+    expect(3);
+    var TestModel2 = Balanced.Model.extend({
+        my_uri_field: '/v1/testobjects/1',
+        my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_uri_field')
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testobjects/10'
+        },
+        {
+            uri: '/v1/testobjects/1',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                },
+                {
+                    basic_field: 234,
+                    _type: 'second'
+                }
+            ]
+        }
+    ]);
+
+    Ember.run(function () {
+        TestModel2.find('/v1/testobjects/10').then(function (testModel) {
+            return testModel.get('my_has_many_field');
+        }).then(function (hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 2);
+            assert.equal(hasManyArray.objectAt(0).get('child_class_field'), 'first');
+            assert.equal(hasManyArray.objectAt(1).get('child_class_field'), 'second');
+        });
+    });
+});
+
+test('belongsTo creates correct types for embedded polymorphic associations', function (assert) {
+    expect(2);
+
+    var TestModel2 = Balanced.Model.extend({
+        my_belongs_to_field1: Balanced.Model.belongsTo('Balanced.TestModel', 'my_first_obj', {embedded: true}),
+        my_belongs_to_field2: Balanced.Model.belongsTo('Balanced.TestModel', 'my_second_obj', {embedded: true})
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testobjects/0',
+            my_first_obj: {
+                uri: '/v1/testobjects/1',
+                basic_field: 123,
+                _type: 'first'
+            },
+            my_second_obj: {
+                uri: '/v1/testobjects/2',
+                basic_field: 123,
+                _type: 'second'
+            }
+        }
+    ]);
+
+    var t = TestModel2.find('/v1/testobjects/0');
+
+    Ember.run(function () {
+        TestModel2.find('/v1/testobjects/0').then(function (testModel) {
+            return testModel.get('my_belongs_to_field1');
+        }).then(function (belongsToField) {
+            assert.equal(belongsToField.get('child_class_field'), 'first');
+        });
+
+        TestModel2.find('/v1/testobjects/0').then(function (testModel) {
+            return testModel.get('my_belongs_to_field2');
+        }).then(function (belongsToField) {
+            assert.equal(belongsToField.get('child_class_field'), 'second');
+        });
+    });
+});
+
+test('hasMany pagination works', function (assert) {
+    expect(6);
+    var TestModel2 = Balanced.Model.extend({
+        my_uri_field: '/v1/testobjects/1',
+        my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_uri_field')
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testobjects/10'
+        },
+        {
+            uri: '/v1/testobjects/1',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                },
+                {
+                    basic_field: 234,
+                    _type: 'second'
+                }
+            ],
+            next_uri: '/v1/testobjects/1?page=2'
+        },
+        {
+            uri: '/v1/testobjects/1?page=2',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                },
+                {
+                    basic_field: 234,
+                    _type: 'second'
+                }
+            ],
+            next_uri: '/v1/testobjects/1?page=3'
+        },
+        {
+            uri: '/v1/testobjects/1?page=3',
+            items: [
+                {
+                    basic_field: 123,
+                    _type: 'first'
+                }
+            ],
+            next_uri: null
+        }
+    ]);
+
+    Ember.run(function () {
+        TestModel2.find('/v1/testobjects/10').then(function (testModel) {
+            return testModel.get('my_has_many_field');
+        }).then(function (hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 2);
+            assert.ok(hasManyArray.get('hasNextPage'));
+
+            return hasManyArray.loadNextPage();
+        }).then(function (hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 4);
+            assert.ok(hasManyArray.get('hasNextPage'));
+
+            return hasManyArray.loadNextPage();
+        }).then(function (hasManyArray) {
+            assert.equal(hasManyArray.get('length'), 5);
+            assert.ok(!hasManyArray.get('hasNextPage'));
         });
     });
 });

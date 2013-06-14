@@ -35,9 +35,8 @@ Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
     }
 });
 
-Balanced.AccountRoute = Balanced.AuthRoute.extend({
-    model: model,
-    renderTemplate: function () {
-        this.render('accounts/account');
-    }
+Balanced.AccountRoute = Balanced.ShowResource.extend({
+    param: 'account_id',
+    title: 'Account',
+    resource: 'accounts'
 });
