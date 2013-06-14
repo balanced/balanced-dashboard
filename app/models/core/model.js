@@ -165,12 +165,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         var props = {};
         for (var prop in this) {
             if (this.hasOwnProperty(prop) &&
-                    $.inArray(prop, computedProps) === -1 &&
-                    $.inArray(prop, lifecycleProperties) === -1 &&
-                    $.inArray(prop, this.privateProperties) === -1 &&
-                    prop.indexOf('__ember') < 0 &&
-                    prop.indexOf('_super') < 0 &&
-                    Ember.typeOf(this.get(prop)) !== 'function'
+                $.inArray(prop, computedProps) === -1 &&
+                $.inArray(prop, lifecycleProperties) === -1 &&
+                $.inArray(prop, this.privateProperties) === -1 &&
+                prop.indexOf('__ember') < 0 &&
+                prop.indexOf('_super') < 0 &&
+                Ember.typeOf(this.get(prop)) !== 'function'
                 ) {
                 props[prop] = this[prop];
             }
@@ -308,11 +308,11 @@ Balanced.Model.reopenClass({
         }).property(propertyName);
     },
 
-    _materializeLoadedObjectFromAPIResult: function(json) {
+    _materializeLoadedObjectFromAPIResult: function (json) {
         var objClass = this;
-        if(json._type) {
+        if (json._type) {
             var mappedTypeClass = Balanced.TypeMappings.classForType(json._type);
-            if(mappedTypeClass) {
+            if (mappedTypeClass) {
                 objClass = mappedTypeClass;
             }
         }
