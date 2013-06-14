@@ -4,7 +4,7 @@ Balanced.Route = Ember.Route.extend({
 Balanced.Router = Ember.Router.extend({
     didTransition: function(info) {
 	Balanced.Analytics.trackPage(_.pluck(info, 'name').join('/'));
-	return this._super();
+	return this._super.apply(this, arguments);
     }
 });
 
