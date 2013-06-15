@@ -14,7 +14,13 @@
             <tfoot>
                 <tr>
                     <td colspan="6" class="load-more-results">
-                        <a {{ action "loadMore" }}>Load more</a>
+                        {{#if transactions.loadingNextPage }}
+                            <div class="loader-container">
+                                <span class="loader loading"></span>
+                            </div>
+                        {{else}}
+                            <a {{ action "loadMore" }}>Load more</a>
+                        {{/if}}
                     </td>
                 </tr>
             </tfoot>
