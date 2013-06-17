@@ -19,6 +19,7 @@ require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
+require('app/lib/analytics');
 
 /*
  * Model layer.
@@ -106,6 +107,7 @@ require('app/controllers/logs');
 require('app/controllers/invoices');
 require('app/controllers/cards');
 require('app/controllers/bank_accounts');
+require('app/controllers/customers');
 
 /*
  * States (i.e. Routes)

@@ -1,6 +1,13 @@
 Balanced.Route = Ember.Route.extend({
 });
 
+Balanced.Router = Ember.Router.extend({
+    didTransition: function (info) {
+        Balanced.Analytics.trackPage(_.pluck(info, 'name').join('/'));
+        return this._super.apply(this, arguments);
+    }
+});
+
 Balanced.Router.reopenClass({
     defaultFailureHandler: {
         setup: function (error) {
@@ -50,6 +57,8 @@ Balanced.Router.map(function () {
             });
 
             this.route('transactions', { path: '/transactions' });
+            this.route('funding_instruments', { path: '/funding_instruments' });
+            makeNestedResource(this, 'customers', 'customer');
             makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
@@ -58,9 +67,10 @@ Balanced.Router.map(function () {
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
 
+            this.route('activity', { path: '/activity' });
 
-            this.resource('bank_accounts', { path: '/bank_accounts'}, function() {
-                this.resource('bank_account', { path: '/:bank_account_id'}, function() {
+            this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
+                this.resource('bank_account', { path: '/:bank_account_id'}, function () {
                     this.route('transactions', { path: '/transactions'});
                 });
             });
@@ -114,9 +124,12 @@ require('app/routes/start');
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/apply');
 require('app/routes/marketplaces/bank_accounts');
+require('app/routes/marketplaces/funding_instruments');
 require('app/routes/marketplaces/cards');
 require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/invoices');
 require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');
 require('app/routes/marketplaces/transactions');
+require('app/routes/marketplaces/activity');
+require('app/routes/customers');

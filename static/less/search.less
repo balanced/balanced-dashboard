@@ -38,6 +38,10 @@
   &.with-results {
     .results {
       display: block;
+      .items-wrapper {
+        float: left;
+        width: 100%;
+      }
     }
     #q {
       background: @searchActiveBackground;
@@ -331,7 +335,6 @@
     }
     table.items {
       display: none;
-      width: 100%;
       &.selected {
         display: table;
       }
@@ -341,102 +344,6 @@
       th {
         padding-top: 30px;
       }
-      td {
-        padding: 12px 15px 12px 0;
-      }
-      thead {
-
-      }
-      tfoot {
-        tr {
-          border-top: 1px solid #aaa;
-        }
-        td {
-          &.load-more-results {
-            a {
-              display: block;
-              text-align: center;
-              cursor: pointer;
-
-              &:hover {
-                &:before {
-                  background: @iconsFile -65px -485px no-repeat;
-                }
-              }
-
-              &:before {
-                content: ' ';
-                height: 25px;
-                width: 25px;
-                position: absolute;
-                background: @iconsFile -15px -485px no-repeat;
-                margin-left: -25px;
-                margin-top: -2px;
-              }
-            }
-          }
-        }
-      }
-      th, td {
-        float: none;
-        &:first-child {
-          padding-left: 25px;
-        }
-        &:last-child {
-          padding-right: 25px;
-          &.sortable {
-            padding-right: 5px;
-          }
-        }
-      }
-      tbody {
-        tr {
-          border-top: 1px solid #aaa;
-          &:hover {
-            cursor: pointer;
-            background-color: white;
-          }
-
-          td {
-            &.no-results {
-              font-style: italic;
-              cursor: default;
-            }
-            &:last-child {
-              padding-right: 25px;
-            }
-          }
-        }
-        td {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-      .highlight {
-        background-color: #b3d1d5;
-      }
-    }
-    .date {
-
-    }
-    .type {
-
-    }
-    .description {
-
-    }
-    .account {
-
-    }
-    .funding-instrument {
-
-    }
-    .amount {
-
-    }
-    .num {
-      text-align: right;
     }
   }
   ::-webkit-input-placeholder {
