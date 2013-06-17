@@ -1,6 +1,13 @@
 Balanced.Route = Ember.Route.extend({
 });
 
+Balanced.Router = Ember.Router.extend({
+    didTransition: function (info) {
+        Balanced.Analytics.trackPage(_.pluck(info, 'name').join('/'));
+        return this._super.apply(this, arguments);
+    }
+});
+
 Balanced.Router.reopenClass({
     defaultFailureHandler: {
         setup: function (error) {
@@ -62,8 +69,8 @@ Balanced.Router.map(function () {
 
             this.route('activity', { path: '/activity' });
 
-            this.resource('bank_accounts', { path: '/bank_accounts'}, function() {
-                this.resource('bank_account', { path: '/:bank_account_id'}, function() {
+            this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
+                this.resource('bank_account', { path: '/:bank_account_id'}, function () {
                     this.route('transactions', { path: '/transactions'});
                 });
             });

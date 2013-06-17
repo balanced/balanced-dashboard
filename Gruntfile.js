@@ -67,7 +67,8 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
-                    'static/lib/underscore-1.4.4.js'
+                    'static/lib/underscore-1.4.4.js',
+                    'static/lib/mixpanel-2.2.js'
                 ],
                 dest: 'build/js/lib-dev.js'
             },
@@ -83,7 +84,8 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
                     'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
-                    'static/lib/underscore-1.4.4.js'
+                    'static/lib/underscore-1.4.4.js',
+                    'static/lib/mixpanel-2.2.js'
                 ],
                 dest: 'build/js/lib-prod.js'
             },
@@ -247,7 +249,9 @@ module.exports = function (grunt) {
                             AUTH: 'https://auth.balancedpayments.com',\
                             WWW: 'https://www.balancedpayments.com',\
                             DOCS: 'https://docs.balancedpayments.com',\
-                            DEBUG: true\
+                            DEBUG: true,\
+                            MIXPANEL: '',\
+                            GOOGLE_ANALYTICS: ''\
                         }\
                     }"
                 },
@@ -265,7 +269,9 @@ module.exports = function (grunt) {
                             AUTH: 'https://auth.balancedpayments.com',\
                             WWW: 'https://www.balancedpayments.com',\
                             DOCS: 'https://docs.balancedpayments.com',\
-                            DEBUG: false\
+                            DEBUG: false,\
+                            MIXPANEL: '991598fc644dd5d0894e6cb070154330',\
+                            GOOGLE_ANALYTICS: 'UA-30733850-1'\
                         }\
                     }"
                 },

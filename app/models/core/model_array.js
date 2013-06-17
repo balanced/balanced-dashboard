@@ -4,18 +4,18 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
     isLoaded: false,
     hasNextPage: false,
 
-    loadNextPage: function() {
-    	var self = this;
+    loadNextPage: function () {
+        var self = this;
 
         var promise = this.resolveOn('didLoad');
 
-    	if(this.get('hasNextPage')) {
-    		var typeClass = this.get('typeClass');
+        if (this.get('hasNextPage')) {
+            var typeClass = this.get('typeClass');
 
-    		Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
-    			self.populateModels(json);
-    		});
-    	} else {
+            Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
+                self.populateModels(json);
+            });
+        } else {
             promise.reject(this);
         }
 
@@ -23,24 +23,24 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
     },
 
     populateModels: function (json) {
-    	var self = this;
+        var self = this;
 
-    	var typeClass = this.get('typeClass');
+        var typeClass = this.get('typeClass');
 
         var itemsArray;
         if (json && $.isArray(json)) {
             itemsArray = json;
             this.set('next_uri', undefined);
-                    this.set('hasNextPage', false);
+            this.set('hasNextPage', false);
         } else {
             if (json && json.items && $.isArray(json.items)) {
                 itemsArray = json.items;
 
-                if(json.next_uri) {
+                if (json.next_uri) {
                     this.set('next_uri', json.next_uri);
                     this.set('hasNextPage', true);
                 } else {
-                	this.set('next_uri', undefined);
+                    this.set('next_uri', undefined);
                     this.set('hasNextPage', false);
                 }
             } else {
