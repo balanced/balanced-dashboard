@@ -19,6 +19,7 @@ require('app/lib/handlebar_helpers');
 require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
+require('app/lib/analytics');
 
 /*
  * Model layer.
