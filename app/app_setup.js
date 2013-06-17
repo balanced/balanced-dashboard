@@ -27,6 +27,7 @@ window.setupBalanced = function (divSelector) {
         //  initialize anything that needs to be done on application load
         Balanced.Helpers.init();
         Balanced.NET.init();
+        Balanced.Analytics.init(Ember.ENV.BALANCED);
     };
 
     _.each(window.balancedSetupFunctions, function (setupFunction) {
