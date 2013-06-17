@@ -97,7 +97,7 @@ test('clicking business or personal shows data', function (assert) {
     $('a:contains("Business")').click();
     assert.equal(getInputs().length, 15);
 
-    $('a:contains("Personal")').click();
+    $('a:contains("Person")').click();
     assert.equal(getInputs().length, 13);
 });
 
