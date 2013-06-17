@@ -32,7 +32,7 @@ Balanced.CreditsCreditRoute = Balanced.ShowResource.extend({
     param: 'credit_id',
     title: 'Credits',
     resource: 'credits',
-    setupController: function(controller, model) {
+    setupController: function (controller, model) {
         this._super(controller, model);
         try {
             this.controllerFor('account').set('content', model);
@@ -52,7 +52,7 @@ Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
     param: 'hold_id',
     title: 'Holds',
     resource: 'holds',
-    setupController: function(controller, model) {
+    setupController: function (controller, model) {
         this._super(controller, model);
         try {
             this.controllerFor('account').set('content', model);
@@ -74,7 +74,7 @@ Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
     },
 
     events: {
-        transactionSelected: function(transaction) {
+        transactionSelected: function (transaction) {
             window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(transaction.uri);
         }
     }

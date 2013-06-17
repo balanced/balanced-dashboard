@@ -1,4 +1,3 @@
-
 Balanced.LogsRoute = Balanced.IframeRoute.extend({
     param: 'log_id',
     title: 'Logs',

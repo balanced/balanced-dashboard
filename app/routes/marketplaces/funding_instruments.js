@@ -3,7 +3,7 @@ Balanced.MarketplaceFundingInstrumentsRoute = Balanced.AuthRoute.extend({
         return this.modelFor('marketplace');
     },
     events: {
-        fundingInstrumentSelected: function(fundingInstrument) {
+        fundingInstrumentSelected: function (fundingInstrument) {
             window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(fundingInstrument.uri);
         }
     }

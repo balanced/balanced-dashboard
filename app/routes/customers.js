@@ -5,8 +5,12 @@ Balanced.CustomersIndexRoute = Balanced.AuthRoute.extend({
     },
 
     events: {
-      customerSelected: function(customer) {
-        this.transitionTo("customers.customer", customer);
-      }
+        customerSelected: function (customer) {
+            //  HACK: until we have a customers page implemented we need to use the account's iframe
+            var marketplace = this.modelFor('marketplace');
+            var location = '/marketplaces/{0}/accounts/{1}'.format(marketplace.id, customer.id);
+            window.location.hash = '#' + location;
+//            this.transitionTo('customers.customer', customer);
+        }
     }
 });

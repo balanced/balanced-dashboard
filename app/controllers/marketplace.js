@@ -18,7 +18,7 @@ Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend(
     {
         needs: ['marketplace'],
 
-        loadMore: function() {
+        loadMore: function () {
             this.get('content').get('transactions').loadNextPage();
         }
     }
@@ -29,7 +29,7 @@ Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.ext
     {
         needs: ['marketplace'],
 
-        loadMore: function() {
+        loadMore: function () {
             this.get('content').get('funding_instruments').loadNextPage();
         }
     }
