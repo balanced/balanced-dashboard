@@ -57,6 +57,8 @@ Balanced.Router.map(function () {
             });
 
             this.route('transactions', { path: '/transactions' });
+            this.route('funding_instruments', { path: '/funding_instruments' });
+            makeNestedResource(this, 'customers', 'customer');
             makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
@@ -65,6 +67,7 @@ Balanced.Router.map(function () {
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
 
+            this.route('activity', { path: '/activity' });
 
             this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
                 this.resource('bank_account', { path: '/:bank_account_id'}, function () {
@@ -120,9 +123,12 @@ require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/bank_accounts');
+require('app/routes/marketplaces/funding_instruments');
 require('app/routes/marketplaces/cards');
 require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/invoices');
 require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');
 require('app/routes/marketplaces/transactions');
+require('app/routes/marketplaces/activity');
+require('app/routes/customers');

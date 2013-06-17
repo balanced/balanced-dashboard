@@ -16,7 +16,22 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
 Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend(
     Balanced.DownloadControllerMixin,
     {
-        needs: ['marketplace']
+        needs: ['marketplace'],
+
+        loadMore: function () {
+            this.get('content').get('transactions').loadNextPage();
+        }
+    }
+);
+
+Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(
+    Balanced.DownloadControllerMixin,
+    {
+        needs: ['marketplace'],
+
+        loadMore: function () {
+            this.get('content').get('funding_instruments').loadNextPage();
+        }
     }
 );
 

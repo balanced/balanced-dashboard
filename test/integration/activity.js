@@ -21,6 +21,24 @@ test('can visit page', function (assert) {
 
 });
 
+test('can visit pages', function (assert) {
+    var links = [
+        ['Cards & Bank Accounts', 'funding-instruments'],
+        ['Customers', 'accounts'],
+        ['Transactions', 'transactions']
+    ];
+    expect(links.length * 2);
+    _.each(links, function (linkAndClass) {
+        var link = linkAndClass[0],
+            cls = linkAndClass[1];
+        var $link = $('a:contains("' + link + '")');
+        assert.ok($link.length, link + ' link exists');
+        $link.click();
+        assert.ok($('table.items.' + cls).length, link + ' table visible');
+    });
+});
+
+
 test('add funds', function(assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
