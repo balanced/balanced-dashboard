@@ -20,15 +20,18 @@
                             <legend>Login info</legend>
 
                             {{view Balanced.ControlGroupFieldView placeholder="Email address" field="email_address" help="Enter your email address"}}
-                            {{view Balanced.ControlGroupFieldView placeholder="Password" field="password" help="Enter a secure password"}}
+                            {{view Balanced.ControlGroupFieldView placeholder="Password" field="password" help="Enter a secure password" type="password"}}
 
                         </fieldset>
                         {{/if}}
 
-                        <fieldset>
+                        <fieldset class="application-type">
                             <legend>Who are you?</legend>
-                            <a href="#" {{ action selectType "PERSON" }}>Personal</a>
-                            <a href="#" {{ action selectType "BUSINESS" }}>Business</a>
+                            <div class="control-group">
+                                <a href="#" {{ action selectType "PERSON" }} class="person"><span class="icon"></span>Person</a>
+                                <div class="or"><hr><span>OR</span><hr></div>
+                                <a href="#" {{ action selectType "BUSINESS" }} class="business"><span class="icon"></span>Business</a>
+                            </div>
                         </fieldset>
 
                         {{#if selectedType}}

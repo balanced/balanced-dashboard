@@ -83,8 +83,17 @@
 }
 
 #claim-form {
+  fieldset {
+    margin-top: 60px;
+  }
   legend {
-
+    margin-bottom: 0;
+    font-family: fanwoodtext-regular;
+    font-size: 16px;
+    line-height: 1.5em;
+    &+.control-group {
+      margin-top: 0;
+    }
   }
   .control-group {
     background-color: @white;
@@ -111,5 +120,72 @@
     text-align: right;
     padding: 15px;
     background-color: @egyptianBlue60;
+  }
+
+  .application-type {
+    font-family: fanwoodtext-italic;
+    font-size: 16px;
+    .control-group {
+      text-align: center;
+      font-size: 17px;
+    }
+    a {
+      width: 212px;
+      height: 112px;
+      border: 5px solid transparent;
+      display: inline-block;
+      background-color: @gray2;
+      color: @gray4;
+      span {
+        width: 60px;
+        height: 60px;
+        margin: 12px auto 5px;
+        display: block;
+        background: @iconsFile 0 -770px;
+      }
+      &.business {
+        span {
+          background-position: -60px -770px;
+        }
+      }
+      &.selected, &:hover {
+        border-color: @black;
+        color: @black;
+      }
+      &.selected {
+        background-color: @turquoise20;
+        span {
+          background-position: -120px -770px;
+        }
+        &.business {
+          span {
+            background-position-x: -180px;
+          }
+        }
+      }
+    }
+    .or {
+      display: inline-block;
+      width: 170px;
+      margin: 0 40px;
+      position: relative;
+      top: -35px;
+      hr {
+        width: 60px;
+        float: right;
+        border-top-color: @gray3;
+        &:first-child {
+          float: left;
+        }
+      }
+      span {
+        display: inline-block;
+        width: 50px;
+        text-align: center;
+        position: relative;
+        top: 11px;
+        color: @black;
+      }
+    }
   }
 }

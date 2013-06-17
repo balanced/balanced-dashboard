@@ -1,8 +1,10 @@
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
     selectType: function (applicationType) {
+        var cls = 'selected';
         this.set('applicationType', applicationType);
         $('input:first', '#marketplace-apply').focus();
+        $('a', '.application-type').removeClass(cls).parent().find('.' + applicationType.toLowerCase()).addClass(cls);
     },
 
     selectedType: function () {
@@ -105,7 +107,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
     _extractApiKeyPayload: function () {
         var merchantType = this.get('selectedType'),
             isBusiness = merchantType === 'BUSINESS';
-        console.log(merchantType, isBusiness);
+
         var person = isBusiness ? {
             name: this.get('name'),
             dob: this.get('dob'),
@@ -133,7 +135,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         return apiKey;
     },
 
-    _extractMarketplacePayload: function (model) {
+    _extractMarketplacePayload: function () {
         return Balanced.Marketplace.create({
             uri: '/v1/marketplaces',
             name: this.get('marketplace.name'),
@@ -169,6 +171,7 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
     classNames: ['control-group'],
     classNameBindings: ['cssError:error'],
     layoutName: '_control_group_field',
+    type: 'text',
 
     error: function (field, prefix) {
         var errors = this.get('controller.validationErrors.' + field + '.messages');
