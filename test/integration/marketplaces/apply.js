@@ -128,3 +128,19 @@ test('marketplace data is correctly extracted', function (assert) {
     populate();
     confirm(assert, '_extractMarketplacePayload', expectedMarketplaceData);
 });
+
+test('basic form validation and terms and conditions', function (assert) {
+    $('a:contains("Person")').click();
+
+    var $submitButton = $('button:contains("Submit")');
+    assert.equal($submitButton.length, 1);
+
+    $submitButton.click();
+    assert.equal($('.control-group.error').length, 13, 'expected error fields highlighted');
+
+    $('#terms-and-conditions').click();
+    $submitButton.click();
+
+    assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
+
+});

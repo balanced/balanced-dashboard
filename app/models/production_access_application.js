@@ -11,16 +11,16 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
     validations: {
         email_address: {
             presence: {
-                validator: function(object, attribute, value) {
+                validator: function (object, attribute, value) {
                     if (Balanced.Auth.get('isGuest') && !value) {
                         object.get('validationErrors').add(attribute, 'blank');
                     }
                 }
             }
         },
-        password:  {
+        password: {
             presence: {
-                validator: function(object, attribute, value) {
+                validator: function (object, attribute, value) {
                     if (Balanced.Auth.get('isGuest') && !value) {
                         object.get('validationErrors').add(attribute, 'blank');
                     }
@@ -47,7 +47,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
                 minimum: 5,
                 maximum: 10
             },
-            format:  /^\d{5}([\-]?\d{4})?$/
+            format: /^\d{5}([\-]?\d{4})?$/
         },
         'banking.account_name': {
             presence: true
@@ -60,7 +60,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
             length: 9,
             matches: {
                 validator: function (object, attribute, value) {
-                    if (!balanced.bankAccount.validateRoutingNumber(value)) {
+                    if (window.balanced !== undefined && !balanced.bankAccount.validateRoutingNumber(value)) {
                         object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid routing number');
                     }
                 }
