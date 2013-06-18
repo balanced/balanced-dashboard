@@ -1,8 +1,12 @@
-
 Balanced.StartRoute = Balanced.Route.extend({
     redirect: function () {
         var self = this;
+        if (Balanced.Auth.get('user') && !Balanced.Auth.get('isGuest')) {
+            self.transitionTo('index');
+            return;
+        }
         Balanced.Model.create({
+            // TODO: get this from the api
             uri: '/v1/api_keys'
         }).create().then(function (apiKey) {
             Balanced.Auth.storeGuestAPIKey(apiKey.secret);
