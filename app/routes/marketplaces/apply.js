@@ -42,7 +42,14 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
                         });
 
                         //  annnnd we're done
-                        self.transitionTo('marketplace.index', marketplace);
+                        this.controllerFor('marketplace').send('alertMessage', {
+                            type: 'success',
+                            message: 'We\'ve received your information. In the ' +
+                                'meantime, you may fund your balance with your ' +
+                                'credit card to transact right away.'
+                        });
+
+                        self.transitionTo('marketplace.initial_deposit', marketplace);
                     });
                 });
             }

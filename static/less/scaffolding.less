@@ -345,10 +345,41 @@ footer {
 
 #content {
   background-color: @contentBackground;
-  padding: @mainVerticalPadding 0;
+  padding: 0 0 @mainVerticalPadding 0;
   min-height: @mainMinHeight;
-
+  &> .row {
+    &:last-child {
+      margin-top: @mainVerticalPadding;
+    }
+  }
   &.no-min-height {
     min-height: auto;
   }
+  .alert-row {
+    .alert {
+      margin: 0;
+      padding: 13px 90px 5px;
+      font-size: 16px;
+      font-family: fanwoodtext-regular;
+      border-radius: 0;
+      text-shadow: none;
+      border: 0;
+      color: @black;
+      &.success {
+        background-color: @forestGreen20;
+      }
+      &.error {
+        background-color: @imperialRed20;
+      }
+      &.info {
+        background-color: @egyptianBlue20;
+      }
+      &.warning {
+        background-color: @curryYellow20;
+      }
+    }
+  }
+}
+.hidden {
+  display: none;
 }
