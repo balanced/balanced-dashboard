@@ -250,7 +250,8 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
     }.observes('value'),
 
     labelForField: function () {
-        var field = this.get('field');
-        return this.error(field, field) || this.get('help');
+        var field = this.get('field'),
+            prefix = this.get('placeholder') || field;
+        return this.error(field, prefix) || this.get('help');
     }.property('controller.validationErrors.length')
 });

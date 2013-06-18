@@ -102,6 +102,15 @@
     &:last-child {
       border-bottom: 0;
     }
+    &.error {
+      background-color: @imperialRed20;
+      label, .control-label {
+        color: @imperialRed100;
+      }
+      input {
+        border-color: @gray3;
+      }
+    }
   }
   input[type="text"] {
     width: 300px;
