@@ -13,7 +13,7 @@
 
                     <h1 class="page-title">Apply for a Production Marketplace</h1>
 
-                    <form id="claim-form">
+                    <form class="full-page-form">
 
                         {{#if isGuest}}
                         <fieldset>
@@ -87,20 +87,48 @@
                         <fieldset>
                             <legend>Terms &amp; Conditions + Privacy Policy</legend>
                             <div class="control-group">
-                                {{view Ember.Checkbox checkedBinding="termsAndConditions"}}
-                                I accept the
-                                <a href="https://www.balancedpayments.com/terms/" target="_blank">Terms &amp; Conditions</a>,
-                                <a href="https://www.balancedpayments.com/terms/marketplaceagreement" target="_blank">Marketplace Agreement</a>, and
-                                <a href="https://www.balancedpayments.com/privacy" target="_blank">Privacy Policy</a>.
+                                <label for="terms-and-conditions">
+                                    {{view Ember.Checkbox checkedBinding="termsAndConditions" id="terms-and-conditions" }}
+                                    <strong>I accept the
+                                    <a href="https://www.balancedpayments.com/terms/" target="_blank">Terms &amp; Conditions</a>,
+                                    <a href="https://www.balancedpayments.com/terms/marketplaceagreement" target="_blank">Marketplace Agreement</a>, and
+                                    <a href="https://www.balancedpayments.com/privacy" target="_blank">Privacy Policy</a>.
+                                </strong></label>
+                                <p class="nested">
+                                    We respect your privacy. Your information is
+                                    stored securely and used only for transaction
+                                    processing, customer support, and fraud
+                                    prevention.
+                                </p>
                             </div>
                         </fieldset>
 
                         <fieldset>
                             <legend>Next steps</legend>
-                        </fieldset>
-                            <div class="actions">
-                                <button class="btn" {{ action submitApplication }}>Thug</button>
+                            <div class="control-group">
+                                <strong>Your bank account will take 1-2 business days to confirm.<br>
+                                    We'll make 2 small deposits (each less than $1.00) to your account. You'll need to:
+                                </strong>
+                                <ol>
+                                    <li>Check your bank account in 1-2 business days for the exact amounts</li>
+                                    <li>Sign in to the Balanced dashboard</li>
+                                    <li>Click verify from the settings page and enter the deposit amounts</li>
+                                </ol>
                             </div>
+                        </fieldset>
+                            {{#view Balanced.View classBinding=":actions kycError:error"}}
+                                {{# if kycError }}
+                                <div class="kyc-error">
+                                    <span class="icon warning"></span>
+                                    <span class="message">We could not verify your identity. Please check your information again and resubmit.</span>
+                                </div>
+                                {{/if}}
+                                {{# if isLoading }}
+                                    <span class="loader loading"></span> <span class="message">Verifying...</span>
+                                {{else}}
+                                    <button class="btn" {{ action submitApplication }}>Submit</button>
+                                {{/if}}
+                            {{/view}}
                         {{/if}}
 
                     </form>

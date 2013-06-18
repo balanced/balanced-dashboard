@@ -9,6 +9,24 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
         return Balanced.Model.create();
     }),
     validations: {
+        email_address: {
+            presence: {
+                validator: function(object, attribute, value) {
+                    if (Balanced.Auth.get('isGuest') && !value) {
+                        object.get('validationErrors').add(attribute, 'blank');
+                    }
+                }
+            }
+        },
+        password:  {
+            presence: {
+                validator: function(object, attribute, value) {
+                    if (Balanced.Auth.get('isGuest') && !value) {
+                        object.get('validationErrors').add(attribute, 'blank');
+                    }
+                }
+            }
+        },
         name: {
             presence: true
         },

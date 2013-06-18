@@ -82,7 +82,7 @@
   }
 }
 
-#claim-form {
+.full-page-form {
   fieldset {
     margin-top: 60px;
   }
@@ -116,10 +116,50 @@
       content: '.';
     }
   }
+  strong {
+    font-size: 15px;
+    color: @black;
+  }
+  ol {
+    margin: 1em 0 0 1em;
+    li {
+      list-style: decimal;
+      margin-bottom: 0.5em;
+    }
+  }
   .actions {
     text-align: right;
     padding: 15px;
     background-color: @egyptianBlue60;
+    min-height: 23px;
+    .loader {
+      float: left;
+    }
+    &.error {
+      background-color: @imperialRed20;
+    }
+    .kyc-error {
+      float: left;
+      padding: 5px 5px 0 0;
+    }
+    .icon.warning {
+      display: block;
+      border-radius: 90px;
+      float: left;
+      background: @iconsFile -65px -586px no-repeat;
+      background-color: @imperialRed100;
+      width: 20px;
+      height: 20px;
+    }
+    .message {
+      position: relative;
+      left: 9px;
+      top: 3px;
+      font-size: 15px;
+      font-family: nimbussannov-bol;
+      float: left;
+      color: @black;
+    }
   }
 
   .application-type {
@@ -186,6 +226,23 @@
         top: 11px;
         color: @black;
       }
+    }
+  }
+  label[for="terms-and-conditions"] {
+    width: 100%;
+    input {
+      margin-top: 0;
+    }
+    strong {
+      vertical-align: text-top;
+    }
+    &+.nested {
+      margin-left: 1em;
+      padding-top: 3em;
+      width: 400px;
+    }
+    &:after {
+      display: none;
     }
   }
 }
