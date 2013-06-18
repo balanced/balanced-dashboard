@@ -2,14 +2,11 @@
 @import "/static/less/mixins.less";
 
 form {
-  //  what retard puts margin on a form element?
   margin: 0;
 
   legend {
     margin-bottom: 0;
   }
-
-
 
   label {
     font-family: nimbussannov-sembol;
@@ -50,6 +47,7 @@ form {
     padding: @inputPadding;
     height: @inputHeight;
     line-height: 22px;
+    margin-bottom: 0;
     &.full {
       width: @inputFullWidth - @inputPadding * 2;
     }
