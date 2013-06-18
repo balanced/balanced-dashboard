@@ -64,6 +64,7 @@ require('app/views/embedded_iframe');
 require('app/views/search');
 require('app/views/date_picker');
 require('app/views/download');
+require('app/views/control_group');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_index');

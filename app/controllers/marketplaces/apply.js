@@ -72,7 +72,11 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         } else {
             if (json.description === 'KYC failed') {
                 var kycKeys = [
-                    'name', 'address.postal_code', 'dob_year', 'address.postal_code', 'ssn_last4',
+                    'address.street_address',
+                    'address.postal_code',
+                    'dob_year',
+                    'name',
+                    'ssn_last4'
                 ];
 
                 _.each(kycKeys, function (value) {
@@ -128,6 +132,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
             apiKey.one('becameInvalid', $.proxy(this.apiKeyFailure, this));
             apiKey.one('becameError', $.proxy(this.apiKeyFailure, this));
             marketplace.one('becameInvalid', $.proxy(this.marketplaceFailure, this));
+
             // create user (check for duplicate email address)
             // create api key (check for merchant underwrite failure)
             // create marketplace (should be no failure)
@@ -165,6 +170,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
             phone_number: this.get('phone_number')
         } : null;
         var apiKey = Balanced.APIKey.create({
+            //  TODO: uri should come from API
             uri: '/v1/api_keys',
             merchant: {
                 type: merchantType,
@@ -185,6 +191,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
     _extractMarketplacePayload: function () {
         return Balanced.Marketplace.create({
+            //  TODO: uri should come from API
             uri: '/v1/marketplaces',
             name: this.get('marketplace.name'),
             support_email_address: this.get('marketplace.support_email_address'),
@@ -206,6 +213,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
     _extractBankAccountPayload: function () {
         return Balanced.BankAccount.create({
+            //  TODO: uri should come from API
             uri: '/v1/bank_accounts',
             name: this.get('banking.account_name'),
             routing_number: this.get('banking.routing_number'),
@@ -213,45 +221,4 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
             type: this.get('banking.account_type')
         });
     }
-});
-
-Balanced.ControlGroupFieldView = Balanced.View.extend({
-    tagName: 'div',
-    classNames: ['control-group'],
-    classNameBindings: ['cssError:error'],
-    layoutName: '_control_group_field',
-    type: 'text',
-
-    error: function (field, prefix) {
-        var errors = this.get('controller.validationErrors.' + field + '.messages');
-        if (errors) {
-            var error = errors[0];
-            if (error.indexOf(prefix) !== 0) {
-                error = prefix + ' ' + error;
-            }
-            return error;
-        }
-    },
-
-    cssError: function () {
-        var field = this.get('field');
-        return this.get('controller.validationErrors.' + field);
-    }.property('controller.validationErrors.length'),
-
-    value: function () {
-        var field = this.get('field');
-        return this.get('controller.content.' + field);
-    }.property(),
-
-    valueChange: function () {
-        var field = this.get('field'),
-            value = this.get('value');
-        this.get('controller.content').set(field, value);
-    }.observes('value'),
-
-    labelForField: function () {
-        var field = this.get('field'),
-            prefix = this.get('placeholder') || field;
-        return this.error(field, prefix) || this.get('help');
-    }.property('controller.validationErrors.length')
 });
