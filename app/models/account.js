@@ -16,6 +16,21 @@ Balanced.Account = Balanced.Model.extend({
         return this.get('name') || this.get('id');
     }.property('name', 'id'),
 
+    name_summary: function() {
+        var builtString;
+        if(this.get('name')) {
+            builtString = this.get('name');
+            if(this.get('email_address')) {
+                builtString += " (" + this.get('email_address') + ")";
+            }
+        } else if(this.get('email_address')) {
+            builtString = this.get('email_address');
+        } else {
+            builtString = this.get('id');
+        }
+        return builtString;
+    }.property('name', 'email_address', 'id'),
+
     // compat with customers:
     email: function () {
         return this.get('email_address');
