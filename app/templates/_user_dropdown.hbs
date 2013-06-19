@@ -1,6 +1,6 @@
 {{#if Balanced.Auth.signedIn }}
     <a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-        <span class="icon profile"></span>
+        <span class="icon profile"><img {{ bindAttr src=Balanced.Auth.user.gravatar }}></span>
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">

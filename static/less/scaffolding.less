@@ -286,19 +286,20 @@ footer {
   a.dropdown-toggle.gravatar {
     padding-top: 10px;
     padding-bottom: 4px;
+    opacity: 0.6;
     &:hover {
+      background-color: transparent;
+      opacity: 1;
       .caret {
-        border-top-color: @black;
+        border-top-color: @white;
       }
     }
   }
   .profile.icon {
-    .cssicon(
-      @url: @iconsFile,
-      @width: 30px,
-      @height: 30px,
-      @display: inline-block
-    );
+    border: 1px solid @white;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
     background-position: -60px -160px;
   }
   .caret {
@@ -306,20 +307,30 @@ footer {
     border-top-color: @gray3;
   }
 
+  &.open {
+    a.dropdown-toggle.gravatar {
+      opacity: 1;
+    }
+      .caret {
+      border-top-color: @white;
+    }
+  }
+
   .dropdown-menu {
     border: 0;
     border-radius: 0;
     box-shadow: none;
     padding: 0;
-    background: @menuBorder;
+    background: @white;
     text-align: left;
     margin: 0;
     min-width: 210px;
     li {
       padding: 5px;
-      border-bottom: 1px solid @gray4;
+      border: 1px solid @gray3;
+      border-top: 0;
       &:last-child {
-        border-bottom: 0;
+        border-bottom-color: @gray4;
       }
     }
     a {

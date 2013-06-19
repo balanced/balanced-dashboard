@@ -16,7 +16,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
             self.set('loginError', true);
             var response = Balanced.Auth.get('jqxhr');
 
-
             if (response.status === 401) {
                 self.set('loginResponse', 'Invalid e-mail address or password.');
                 return;

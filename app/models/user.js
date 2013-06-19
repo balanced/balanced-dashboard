@@ -1,4 +1,9 @@
 Balanced.User = Balanced.Model.extend({
+
+    gravatar: function () {
+        var emailHash = this.get('email_hash');
+        return Balanced.Utils.toGravatar(emailHash);
+    }.property('email_hash')
 });
 
 Balanced.User.reopenClass({
