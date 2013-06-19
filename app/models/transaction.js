@@ -15,7 +15,15 @@ Balanced.Transaction = Balanced.Model.extend({
         } else {
             return '';
         }
-    }.property('amount')
+    }.property('amount'),
+
+    account_name_summary: function() {
+        if(this.get('account')) {
+            return this.get('account.name_summary');
+        } else {
+            return "None";
+        }
+    }.property('account')
 });
 
 Balanced.Transaction.reopenClass({
