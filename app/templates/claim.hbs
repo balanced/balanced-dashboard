@@ -19,8 +19,8 @@
             <div id="help-menu">
                 <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
             </div>
-            <div id="user-menu">
-                {{#linkTo login class="nav1d" }}Login{{/linkTo}}
+            <div id="user-menu" class="dropdown pull-right">
+                {{partial "user_dropdown" }}
             </div>
         </div>
 
@@ -59,6 +59,7 @@
                             <button class="btn" {{action signUp content}}>Submit</button>
                         </div>
                         </fieldset>
+                    </form>
                 </div>
             </div>
         </div>

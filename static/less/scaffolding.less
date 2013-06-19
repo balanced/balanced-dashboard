@@ -258,6 +258,56 @@ footer {
 #user-menu {
   text-align: center;
   width: 95px;
+  a.dropdown-toggle.gravatar {
+    padding-top: 10px;
+    padding-bottom: 4px;
+    &:hover {
+      .caret {
+        border-top-color: @black;
+      }
+    }
+  }
+  .profile.icon {
+    .cssicon(
+      @url: @iconsFile,
+      @width: 30px,
+      @height: 30px,
+      @display: inline-block
+    );
+    background-position: -60px -160px;
+  }
+  .caret {
+    margin-top: 13px;
+    border-top-color: @gray3;
+  }
+
+  .dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    background: @menuBorder;
+    text-align: left;
+    margin: 0;
+    min-width: 210px;
+    li {
+      padding: 5px;
+      border-bottom: 1px solid @gray4;
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+    a {
+      color: black;
+      display: block;
+      padding: 5px 15px;
+
+      &:hover {
+        text-decoration: underline;
+        background: transparent;
+      }
+    }
+  }
 }
 
 #main {

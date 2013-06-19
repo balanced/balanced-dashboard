@@ -1,0 +1,13 @@
+{{#if Balanced.Auth.signedIn }}
+    <a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
+        <span class="icon profile"></span>
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li>{{#linkTo claim class="label2a"}}Claim account{{/linkTo}}</li>
+        <li><a class="label2a" href="#" {{action signOut}}>Log Out</a></li>
+    </ul>
+
+{{else}}
+    {{#linkTo login class="nav1d" }}Login{{/linkTo}}
+{{/if}}
