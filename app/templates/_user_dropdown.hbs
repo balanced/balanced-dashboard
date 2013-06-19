@@ -4,7 +4,10 @@
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
+
+        {{#if Balanced.Auth.isGuest}}
         <li>{{#linkTo claim class="label2a"}}Claim account{{/linkTo}}</li>
+        {{/if}}
         <li><a class="label2a" href="#" {{action signOut}}>Log Out</a></li>
     </ul>
 
