@@ -1,10 +1,7 @@
 module('Guest', {
     setup: function () {
         Ember.run(function () {
-            Balanced.Auth.set('authToken', null);
-            Balanced.Auth.set('userId', null);
-            Balanced.Auth.set('signedIn', false);
-            Balanced.Auth.set('user', null);
+            Balanced.Auth.setAuthProperties(false, null, null, null, false);
         });
     }, teardown: function () {
 
