@@ -1,8 +1,6 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
 
-@loginWrapperBackground: #96C0C5;
-
 #login,
 #forgot-password {
   .logo {
@@ -17,8 +15,8 @@
     text-align: center;
 
     &.alert-error {
-      background-color: #e66a5f;
-      border: 0px;
+      background-color: @imperialRed60;
+      border: 0;
       border-color: transparent;
       color: @white;
     }
@@ -27,11 +25,11 @@
   #forgot-form,
   #auth-form {
     overflow: auto;
-    background-color: @loginWrapperBackground;
+    background-color: @egyptianBlue60;
     padding: 40px;
 
     &.error {
-      background-color: #f6c5B9;
+      background-color: @imperialRed20;
     }
 
     input {
@@ -39,7 +37,7 @@
       width: 100%;
       border: 0px;
       margin-bottom: 0px;
-      .placeholder(#bfbeb9);
+      .placeholder(@gray3);
 
       &:invalid {
         color: @black;
@@ -84,9 +82,18 @@
   }
 }
 
-#claim-form {
+.full-page-form {
+  fieldset {
+    margin-top: 60px;
+  }
   legend {
-
+    margin-bottom: 0;
+    font-family: fanwoodtext-regular;
+    font-size: 16px;
+    line-height: 1.5em;
+    &+.control-group {
+      margin-top: 0;
+    }
   }
   .control-group {
     background-color: @white;
@@ -95,21 +102,162 @@
     &:last-child {
       border-bottom: 0;
     }
+    &.error {
+      background-color: @imperialRed20;
+      label, .control-label {
+        color: @imperialRed100;
+      }
+      input {
+        border-color: @gray3;
+      }
+    }
   }
-  input {
+  .btn {
+    &.primary {
+      float: right;
+      margin-left: 5px;
+    }
+  }
+  input[type="text"], input[type="email"] {
     width: 300px;
     margin: 0;
   }
   label {
     display: inline-block;
-    padding-left: 50px;
+    float: right;
+    padding-top: 10px;
+    width: 400px;
     &:after {
       content: '.';
+    }
+  }
+  strong {
+    font-size: 15px;
+    color: @black;
+  }
+  ol {
+    margin: 1em 0 0 1em;
+    li {
+      list-style: decimal;
+      margin-bottom: 0.5em;
     }
   }
   .actions {
     text-align: right;
     padding: 15px;
     background-color: @egyptianBlue60;
+    min-height: 23px;
+    .loader {
+      float: left;
+    }
+    &.error {
+      background-color: @imperialRed20;
+    }
+    .kyc-error {
+      float: left;
+      padding: 5px 5px 0 0;
+    }
+    .icon.warning {
+      display: block;
+      border-radius: 90px;
+      float: left;
+      background: @iconsFile -65px -586px no-repeat;
+      background-color: @imperialRed100;
+      width: 20px;
+      height: 20px;
+    }
+    .message {
+      position: relative;
+      left: 9px;
+      top: 3px;
+      font-size: 15px;
+      font-family: nimbussannov-bol;
+      float: left;
+      color: @black;
+    }
+  }
+
+  .application-type {
+    font-family: fanwoodtext-italic;
+    font-size: 16px;
+    .control-group {
+      text-align: center;
+      font-size: 17px;
+    }
+    a {
+      width: 212px;
+      height: 112px;
+      border: 5px solid transparent;
+      display: inline-block;
+      background-color: @gray2;
+      color: @gray4;
+      span {
+        width: 60px;
+        height: 60px;
+        margin: 12px auto 5px;
+        display: block;
+        background: @iconsFile 0 -770px;
+      }
+      &.business {
+        span {
+          background-position: -60px -770px;
+        }
+      }
+      &.selected, &:hover {
+        border-color: @black;
+        color: @black;
+        span {
+          background-position: -120px -770px;
+        }
+        &.business {
+          span {
+            background-position: -180px -770px;
+          }
+        }
+      }
+      &.selected {
+        background-color: @turquoise20;
+      }
+    }
+    .or {
+      display: inline-block;
+      width: 170px;
+      margin: 0 40px;
+      position: relative;
+      top: -35px;
+      hr {
+        width: 60px;
+        float: right;
+        border-top-color: @gray3;
+        &:first-child {
+          float: left;
+        }
+      }
+      span {
+        display: inline-block;
+        width: 50px;
+        text-align: center;
+        position: relative;
+        top: 11px;
+        color: @black;
+      }
+    }
+  }
+  label[for="terms-and-conditions"] {
+    width: 100%;
+    input {
+      margin-top: 0;
+    }
+    strong {
+      vertical-align: text-top;
+    }
+    &+.nested {
+      margin-left: 1em;
+      padding-top: 3em;
+      width: 400px;
+    }
+    &:after {
+      display: none;
+    }
   }
 }

@@ -248,5 +248,13 @@ Balanced.Utils = {
 
     dollarsToCents: function (dollars) {
         return parseInt(dollars * 100, 10);
+    },
+
+    toGravatar: function (emailHash) {
+        var placeholder = 'https://dashboard.balancedpayments.com/images/user_icon-01-3c142d4f.png';
+        if (!emailHash) {
+            return placeholder;
+        }
+        return 'https://secure.gravatar.com/avatar/{0}?s=30&d={1}'.format(emailHash, placeholder);
     }
 };

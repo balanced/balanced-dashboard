@@ -18,6 +18,10 @@
     &:last-child {
       border-right: 0;
     }
+    //  needed because ember inserts elements which mess up our :last-child selector
+    &#site-nav {
+      border-right: 0;
+    }
   }
 }
 
@@ -124,6 +128,11 @@ footer {
 
 #marketplaces-and-search {
   width: 673px;
+  //  needed because ember inserts elements which mess up our :first-child selector
+  margin-left: 0;
+  &.span20 {
+    width: 824px;
+  }
 }
 
 // TODO: this is shaping up to be a general menu style. refactor if that's the
@@ -211,11 +220,27 @@ footer {
   font-weight: normal;
   font-size: 18px;
 }
+#marketplaces-and-search.span20 {
+  #search {
+    width: 653px;
+  }
+  #q {
+    width: 633px;
+  }
+}
 
 #site-nav {
-  width: 390px;
-  max-width: 390px;
   margin-left: 0;
+
+  &.span6 {
+    width: 390px;
+    max-width: 390px;
+  }
+
+  &.span4 {
+    width: 239px;
+    max-width: 239px;
+  }
 
   [id$="menu"] {
     float: left;
@@ -258,6 +283,67 @@ footer {
 #user-menu {
   text-align: center;
   width: 95px;
+  a.dropdown-toggle.gravatar {
+    padding-top: 10px;
+    padding-bottom: 4px;
+    opacity: 0.6;
+    &:hover {
+      background-color: transparent;
+      opacity: 1;
+      .caret {
+        border-top-color: @white;
+      }
+    }
+  }
+  .profile.icon {
+    border: 1px solid @white;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-position: -60px -160px;
+  }
+  .caret {
+    margin-top: 13px;
+    border-top-color: @gray3;
+  }
+
+  &.open {
+    a.dropdown-toggle.gravatar {
+      opacity: 1;
+    }
+      .caret {
+      border-top-color: @white;
+    }
+  }
+
+  .dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    background: @white;
+    text-align: left;
+    margin: 0;
+    min-width: 210px;
+    li {
+      padding: 5px;
+      border: 1px solid @gray3;
+      border-top: 0;
+      &:last-child {
+        border-bottom-color: @gray4;
+      }
+    }
+    a {
+      color: black;
+      display: block;
+      padding: 5px 15px;
+
+      &:hover {
+        text-decoration: underline;
+        background: transparent;
+      }
+    }
+  }
 }
 
 #main {
@@ -345,10 +431,41 @@ footer {
 
 #content {
   background-color: @contentBackground;
-  padding: @mainVerticalPadding 0;
+  padding: 0 0 @mainVerticalPadding 0;
   min-height: @mainMinHeight;
-
+  &> .row {
+    &:last-child {
+      margin-top: @mainVerticalPadding;
+    }
+  }
   &.no-min-height {
     min-height: auto;
   }
+  .alert-row {
+    .alert {
+      margin: 0;
+      padding: 13px 90px 5px;
+      font-size: 16px;
+      font-family: fanwoodtext-regular;
+      border-radius: 0;
+      text-shadow: none;
+      border: 0;
+      color: @black;
+      &.success {
+        background-color: @forestGreen20;
+      }
+      &.error {
+        background-color: @imperialRed20;
+      }
+      &.info {
+        background-color: @egyptianBlue20;
+      }
+      &.warning {
+        background-color: @curryYellow20;
+      }
+    }
+  }
+}
+.hidden {
+  display: none;
 }

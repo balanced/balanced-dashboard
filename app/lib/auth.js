@@ -39,7 +39,15 @@ Balanced.Auth = (function () {
         auth.set('signedIn', true);
         auth.set('isGuest', true);
         auth.set('user', guestUser);
+        setAPIKey(apiKeySecret);
+    }
+
+    function setAPIKey(apiKeySecret) {
         Balanced.NET.ajaxHeaders['Authorization'] = 'Basic ' + window.btoa(apiKeySecret + ':');
+    }
+
+    function unsetAPIKey() {
+        delete Balanced.NET.ajaxHeaders['Authorization'];
     }
 
     function loadGuestAPIKey() {
@@ -60,7 +68,7 @@ Balanced.Auth = (function () {
 
     auth.destroyGuestUser = function () {
         $.removeCookie(Balanced.COOKIE.API_KEY_SECRET);
-        delete Balanced.NET.ajaxHeaders['Authorization'];
+        unsetAPIKey();
     };
 
     auth.manualLogin = function (user, login) {
@@ -73,6 +81,9 @@ Balanced.Auth = (function () {
         auth.set('user', user);
         auth.set('isGuest', false);
     };
+
+    auth.setAPIKey = setAPIKey;
+    auth.unsetAPIKey = unsetAPIKey;
 
     initGuestUser();
 

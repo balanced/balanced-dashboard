@@ -57,6 +57,7 @@ Balanced.Router.map(function () {
             });
 
             this.route('transactions', { path: '/transactions' });
+            this.route('initial_deposit', { path: '/initial_deposit' });
             this.route('funding_instruments', { path: '/funding_instruments' });
             makeNestedResource(this, 'customers', 'customer');
             makeNestedResource(this, 'cards', 'card');
@@ -122,10 +123,12 @@ require('app/routes/login');
 require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
+require('app/routes/marketplaces/apply');
 require('app/routes/marketplaces/bank_accounts');
 require('app/routes/marketplaces/funding_instruments');
 require('app/routes/marketplaces/cards');
 require('app/routes/marketplaces/index');
+require('app/routes/marketplaces/initial_deposit');
 require('app/routes/marketplaces/invoices');
 require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');

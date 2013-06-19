@@ -24,6 +24,7 @@
     "Ember": true,
     "Auth": true,
     "Balanced": true,
+    "balanced": true,
     "DS": true,
     "ENV": true,
     "_": true,

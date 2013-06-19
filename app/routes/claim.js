@@ -1,37 +1,39 @@
 Balanced.ClaimRoute = Balanced.Route.extend({
+
+    parseResponse: function (unparsedJson) {
+        var json = JSON.parse(unparsedJson);
+        for (var key in json) {
+            if (!json.hasOwnProperty(key)) {
+                continue;
+            }
+            this.get('validationErrors').add(key, 'invalid', null, json[key]);
+        }
+        this.propertyDidChange('validationErrors');
+    },
+
     model: function () {
         var claim = Balanced.Claim.create({
             uri: '/users'
         });
 
-        var parseResponse = function (unparsedJson) {
-            var json = JSON.parse(unparsedJson);
-            for (var key in json) {
-                if (!json.hasOwnProperty(key)) {
-                    continue;
-                }
-                claim.get('validationErrors').add(key, 'invalid', null, json[key]);
-            }
-            claim.propertyDidChange('validationErrors');
-        };
-
-        claim.one('becameInvalid', parseResponse);
-        claim.one('becameError', parseResponse);
+        claim.one('becameInvalid', $.proxy(this.parseResponse, claim));
+        claim.one('becameError', $.proxy(this.parseResponse, claim));
 
         return {
             claim: claim
         };
     },
+
     setupController: function (controller, model) {
         controller.set('content', model.claim);
     },
+
     redirect: function () {
-        var userId = Balanced.Auth.get('userId');
-        // gone while developings
-        if (userId !== '/users/guest') {
+        if (!Balanced.Auth.get('isGuest')) {
             this.transitionTo('index');
         }
     },
+
     events: {
         signUp: function (someShitThatsNotTheModel, event) {
             var self = this;
@@ -67,6 +69,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
                 self.transitionTo('index');
             });
         },
+
         cancel: function () {
             this.transitionTo('index');
         }

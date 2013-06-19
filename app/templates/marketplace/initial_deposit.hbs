@@ -1,0 +1,41 @@
+<div id="marketplace-initial-deposit">
+
+    <h1 class="page-title">Make an initial deposit</h1>
+
+    <form class="full-page-form">
+
+        <fieldset>
+            <legend>Login info</legend>
+
+            <div class="control-group">
+                {{view Ember.Select
+                    contentBinding="initialAmounts"
+                    valueBinding="initial_amount"
+                    optionValuePath="content.amount"
+                    optionLabelPath="content.formatted"}}
+                <label>How much do you want to add to your balance</label>
+            </div>
+
+            {{view Balanced.ControlGroupFieldView placeholder="Credit card number" field="card_number" help="Enter your credit card number"}}
+            {{view Balanced.ControlGroupFieldView placeholder="Security code" field="security_code" help="Locate the security code on the front or back of your card"}}
+            {{view Balanced.ControlGroupFieldView placeholder="U.S. postal code" field="postal_code" help="Enter your zip code if you are using a U.S. issued credit card"}}
+
+            {{#view Balanced.View classBinding=":control-group expirationError:error"}}
+                {{view Ember.Select contentBinding="expirationMonths" valueBinding="expiration_month" class="span2"}}
+                {{view Ember.Select contentBinding="expirationYears" valueBinding="expiration_year" class="span2"}}
+                <label>Specify your card's expiration month and year</label>
+            {{/view}}
+        </fieldset>
+
+        <div class="actions">
+            {{# if isLoading }}
+                <span class="loader loading"></span> <span class="message">{{loadingMessage}}</span>
+            {{else}}
+                <button class="btn primary" {{action submit}}>Submit</button>
+                <button class="btn danger" {{action skip}}>Skip</button>
+            {{/if}}
+        </div>
+
+    </form>
+
+</div>

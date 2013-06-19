@@ -1,31 +1,4 @@
-<header id="header" class="container">
-    <div class="row">
-
-        <div id="logo" class="span2">
-            {{#linkTo "index"  class="img"}}Balanced Dashboard{{/linkTo}}
-        </div>
-
-        <div id="marketplaces-and-search" class="span18">
-
-        </div>
-
-        <div id="site-nav" class="span6">
-            <div id="go-live-menu">
-                {{#linkTo marketplaces classNames="nav1d"}}Return to dashboard{{/linkTo}}
-            </div>
-            <div id="docs-menu">
-                <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
-            </div>
-            <div id="help-menu">
-                <a href="https://help.balancedpayments.com" class="nav1d" target="new">help</a>
-            </div>
-            <div id="user-menu">
-                {{#linkTo "login" class="nav1d" }}Login{{/linkTo}}
-            </div>
-        </div>
-
-    </div>
-</header>
+{{partial header}}
 <section id="main" class="container marketplaces">
     <div class="row">
 
@@ -36,7 +9,7 @@
             <div class="row">
                 <div class="offset2 span20">
                     <h1>Claim your account</h1>
-                    <form id="claim-form" {{ bindAttr class="signUpError:error" }}>
+                    <form id="claim-form" {{ bindAttr class=":full-page-form signUpError:error" }}>
                         <fieldset>
                         <legend>Login info</legend>
 
@@ -59,6 +32,7 @@
                             <button class="btn" {{action signUp content}}>Submit</button>
                         </div>
                         </fieldset>
+                    </form>
                 </div>
             </div>
         </div>

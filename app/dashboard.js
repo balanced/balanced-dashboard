@@ -27,6 +27,7 @@ require('app/lib/analytics');
  * model layers elsewhere provide.
  */
 require('app/models/core/core');
+require('app/models/api_key');
 require('app/models/download');
 require('app/models/marketplace_lite');
 require('app/models/marketplace');
@@ -45,6 +46,8 @@ require('app/models/search_query');
 require('app/models/callback');
 require('app/models/customer');
 require('app/models/verification');
+require('app/models/production_access_application');
+require('app/models/initial_deposit');
 
 require('app/lib/auth');
 
@@ -55,13 +58,15 @@ require('app/lib/auth');
  * programming to do.
  */
 require('app/views/_base');
+require('app/views/alert_view');
 require('app/views/base_form');
-require('app/views/login');
-require('app/views/forgot_password');
-require('app/views/embedded_iframe');
-require('app/views/search');
+require('app/views/control_group');
 require('app/views/date_picker');
 require('app/views/download');
+require('app/views/embedded_iframe');
+require('app/views/login');
+require('app/views/forgot_password'); // depends on login
+require('app/views/search');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_index');
@@ -98,6 +103,9 @@ require('app/controllers/login');
 require('app/controllers/forgot_password');
 require('app/controllers/search');
 
+require('app/controllers/marketplaces/apply');
+require('app/controllers/marketplaces/index');
+require('app/controllers/marketplaces/initial_deposit');
 require('app/controllers/accounts');
 require('app/controllers/logs');
 require('app/controllers/invoices');
