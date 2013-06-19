@@ -89,5 +89,18 @@ Balanced.Auth = (function () {
 
     initGuestUser();
 
+    // Since we can't use withCredentials for signIn (due to Firefox problems
+    // with async==true), grab the session cookie out of the response and set
+    // it manually upon login
+    auth.on('signInSuccess', function () {
+        var response = Balanced.Auth.get('jqxhr');
+        var sessionCookieValue = response.session;
+        $.cookie(Balanced.COOKIE.SESSION, sessionCookieValue, {
+            expires: 14,
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+    });
+
     return auth;
 }());
