@@ -1,5 +1,5 @@
 Balanced.DownloadControllerMixin = Ember.Mixin.create({
-
+    needs: ['marketplace'],
     show_download: false,
     email_address: null,
 
@@ -11,11 +11,8 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
                 uri: uri,
                 email_address: this.get('email_address')
             });
-            download.one('didCreate', function () {
-                self.download_close();
-            }).one('becameError', function () {
-                //  TODO:
-            });
+            download.one('didCreate', $.proxy(this.download_close, this));
+            download.one('didCreate', $.proxy(this.download_confirmation, this));
             download.create();
         } else {
             self.download_close();
@@ -24,6 +21,14 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
 
     getSearchUri: function () {
         return window.location.hash.substr(1);
+    },
+
+    download_confirmation: function () {
+        this.get('controllers.marketplace').send('alertMessage', {
+            type: 'success',
+            message: 'We\'re processing your request. We will email you once ' +
+                'the exported data is ready to view.'
+        });
     },
 
     download_close: function () {

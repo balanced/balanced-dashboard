@@ -446,13 +446,23 @@ footer {
   .alert-row {
     .alert {
       margin: 0;
-      padding: 13px 90px 5px;
+      padding: 13px 90px;
       font-size: 16px;
       font-family: fanwoodtext-regular;
       border-radius: 0;
       text-shadow: none;
       border: 0;
       color: @black;
+      .close {
+        float: right;
+        background-color: transparent;
+        &:hover {
+          color: @black;
+        }
+        &:after {
+          display: none;
+        }
+      }
       &.success {
         background-color: @forestGreen20;
       }
