@@ -24,7 +24,6 @@ function hackTheLogin () {
         }
     }).success(function (r) {
         var csrfToken = r.csrf;
-        $.cookie(Balanced.COOKIE.CSRF_TOKEN, csrfToken);
         Balanced.NET.ajaxHeaders['X-CSRFToken'] = csrfToken;
         var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
         if (authCookie) {

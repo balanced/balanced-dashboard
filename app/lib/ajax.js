@@ -38,7 +38,6 @@ Balanced.NET = (function () {
                 }
             }).success(function (r) {
                 csrfToken = r.csrf;
-                $.cookie(Balanced.COOKIE.CSRF_TOKEN, csrfToken);
                 ajaxHeaders['X-CSRFToken'] = csrfToken;
             });
         },

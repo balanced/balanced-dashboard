@@ -11,6 +11,7 @@ QUnit.testStart(function (test) {
 
     Ember.$('<style>#ember-testing-container { position: absolute; background: white; bottom: 0; right: 0; width: 640px; height: 600px; overflow: auto; z-index: 9999; border: 1px solid #ccc; } #ember-testing { zoom: 50%; }</style>').appendTo('head');
     Ember.$('<div id="ember-testing-container"><div id="ember-testing"></div></div>').appendTo('body');
+
     Ember.run(function () {
         window.setupBalanced('#ember-testing');
         Balanced.Adapter = Balanced.FixtureAdapter.create();
@@ -32,7 +33,6 @@ QUnit.testStart(function (test) {
     });
 
     Ember.run(function () {
-        Balanced.advanceReadiness();
         Balanced.advanceReadiness();
     });
 
