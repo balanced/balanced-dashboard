@@ -17,11 +17,11 @@ Balanced.Transaction = Balanced.Model.extend({
         }
     }.property('amount'),
 
-    account_name_summary: function() {
-        if(this.get('account')) {
+    account_name_summary: function () {
+        if (this.get('account')) {
             return this.get('account.name_summary');
         } else {
-            return "None";
+            return 'None';
         }
     }.property('account')
 });

@@ -2,7 +2,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
     email: null,
     password: null,
     loginError: false,
-    loginResponse: "",
+    loginResponse: '',
 
     signIn: function () {
         Balanced.Auth.destroyGuestUser();

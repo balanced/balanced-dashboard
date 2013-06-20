@@ -30,7 +30,7 @@ Balanced.Auth = (function () {
 
     var auth = Ember.Auth.create(_.extend(defaultBalancedAuthOptions, window.BalancedAuthOptions));
 
-    auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
+    auth.setAuthProperties = function (signedIn, user, userId, authToken, isGuest) {
         auth.set('_strategy.adapter.authToken', authToken);
         auth.set('_session.userId', userId);
         auth.set('_session.signedIn', signedIn);

@@ -16,13 +16,13 @@ module('Balanced.Model', {
 
         Balanced.TestFirstChildModel = Balanced.TestModel.extend({
             child_class_field: function () {
-                return "first";
+                return 'first';
             }.property()
         });
 
         Balanced.TestSecondChildModel = Balanced.TestModel.extend({
             child_class_field: function () {
-                return "second";
+                return 'second';
             }.property()
         });
 

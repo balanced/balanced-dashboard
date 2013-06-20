@@ -258,8 +258,9 @@ Balanced.Utils = {
         return 'https://secure.gravatar.com/avatar/{0}?s=30&d={1}'.format(emailHash, placeholder);
     },
 
-    setCurrentMarketplace: function(marketplace) {
-        // Store the marketplace in a global so we can use it for auth. TAKE THIS OUT when we've moved to oAuth
+    setCurrentMarketplace: function (marketplace) {
+        // Store the marketplace in a global so we can use it for auth.
+        // TODO: TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = marketplace;
         Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
             expires: Balanced.TIME.THREE_YEARS
