@@ -2,9 +2,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
     email: null,
     password: null,
     loginError: false,
-    loginResponse: "",
+    loginResponse: '',
 
     signIn: function () {
+        Balanced.Auth.destroyGuestUser();
         Balanced.Auth.signIn({
             data: {
                 email_address: this.get('email'),

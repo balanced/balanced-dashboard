@@ -240,7 +240,8 @@ Balanced.Model.reopenClass({
             var typeClass = Balanced.TypeMappings.typeClass(type);
 
             // if the property hasn't been set yet, don't bother trying to load it
-            if (this.get(propertyName)) {
+            var propertyValue = this.get(propertyName);
+            if (propertyValue) {
                 if (settings.embedded) {
                     var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(propertyName));
                     return embeddedObj;
@@ -248,10 +249,7 @@ Balanced.Model.reopenClass({
                     return typeClass.find(this.get(propertyName));
                 }
             } else {
-                // return a class of this type so dependent properties don't crap out on null
-                var emptyObj = typeClass.create();
-                emptyObj.set('isNew', false);
-                return emptyObj;
+                return propertyValue;
             }
         }).property(propertyName);
     },

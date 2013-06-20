@@ -9,12 +9,11 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
     setupController: function (controller, model) {
         this._super(controller, model);
 
-        // Store the marketplace in a global so we can use it for auth. TAKE THIS OUT when we've moved to oAuth
-        Balanced.currentMarketplace = model;
+        Balanced.Utils.setCurrentMarketplace(model);
         if (model._type === 'marketplaceLite') {
             var realMarketplace = Balanced.Marketplace.find(model.uri);
             controller.set('content', realMarketplace);
-            Balanced.currentMarketplace = realMarketplace;
+            Balanced.Utils.setCurrentMarketplace(model);
         }
     }
 });

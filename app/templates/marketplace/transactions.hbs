@@ -41,8 +41,8 @@
                         <td class="span4 description" {{bindAttr title="transaction.description"}}>
                             {{ transaction.description }}
                         </td>
-                        <td class="span4 account" {{bindAttr title="transaction.account.name"}}>
-                            {{transaction.account.name}} ({{transaction.account.email_address}})
+                        <td {{bindAttr class=":span4 :account transaction.account::null-field"}} {{bindAttr title="transaction.account_name_summary"}}>
+                            {{transaction.account_name_summary}}
                         </td>
                         <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
                         <td class="span2 amount num">${{ transaction.amount_dollars }}</td>

@@ -16,13 +16,13 @@ module('Balanced.Model', {
 
         Balanced.TestFirstChildModel = Balanced.TestModel.extend({
             child_class_field: function () {
-                return "first";
+                return 'first';
             }.property()
         });
 
         Balanced.TestSecondChildModel = Balanced.TestModel.extend({
             child_class_field: function () {
-                return "second";
+                return 'second';
             }.property()
         });
 
@@ -231,7 +231,7 @@ test('Embedded hasMany associations work', function (assert) {
     assert.equal(t.get('my_has_many_field').objectAt(1).get('derived_field'), 235);
 });
 
-test("belongsTo returns an object even if the property hasn't been set yet", function (assert) {
+test("belongsTo returns undefined if the property hasn't been set yet", function (assert) {
     var TestModel2 = Balanced.Model.extend({
         my_uri_field: null,
         my_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_uri_field'),
@@ -239,8 +239,41 @@ test("belongsTo returns an object even if the property hasn't been set yet", fun
     });
 
     var t = TestModel2.create();
-    assert.equal(t.get('my_belongs_to_field').get('basic_field'), 1);
-    assert.equal(t.get('my_embedded_belongs_to_field').get('basic_field'), 1);
+    assert.equal(t.get('my_belongs_to_field'), undefined);
+    assert.equal(t.get('my_belongs_to_field.basic_field'), undefined);
+});
+
+test("embedded belongsTo returns null if the property was null", function (assert) {
+    var TestModel2 = Balanced.Model.extend({
+        my_belongs_to_field1: Balanced.Model.belongsTo('Balanced.TestModel', 'my_first_obj', {embedded: true})
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testobjects/0',
+            my_first_obj: null
+        }
+    ]);
+
+    var t = TestModel2.find('/v1/testobjects/0');
+    assert.equal(t.get('my_belongs_to_field'), null);
+    assert.equal(t.get('my_belongs_to_field.basic_field'), null);
+});
+
+test("embedded belongsTo returns undefined if the property was not present", function (assert) {
+    var TestModel2 = Balanced.Model.extend({
+        my_belongs_to_field1: Balanced.Model.belongsTo('Balanced.TestModel', 'my_first_obj', {embedded: true})
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testobjects/0'
+        }
+    ]);
+
+    var t = TestModel2.find('/v1/testobjects/0');
+    assert.equal(t.get('my_belongs_to_field'), undefined);
+    assert.equal(t.get('my_belongs_to_field.basic_field'), undefined);
 });
 
 test("hasMany returns an object even if the property hasn't been set yet", function (assert) {

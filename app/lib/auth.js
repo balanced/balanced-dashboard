@@ -30,15 +30,19 @@ Balanced.Auth = (function () {
 
     var auth = Ember.Auth.create(_.extend(defaultBalancedAuthOptions, window.BalancedAuthOptions));
 
+    auth.setAuthProperties = function (signedIn, user, userId, authToken, isGuest) {
+        auth.set('_strategy.adapter.authToken', authToken);
+        auth.set('_session.userId', userId);
+        auth.set('_session.signedIn', signedIn);
+        auth.set('_session.user', user);
+        auth.set('isGuest', isGuest);
+    };
+
     function loginGuestUser(apiKeySecret) {
         var guestUser = Balanced.User.create({
             marketplaces: Ember.A()
         });
-        auth.set('authToken', apiKeySecret);
-        auth.set('userId', '/users/guest');
-        auth.set('signedIn', true);
-        auth.set('isGuest', true);
-        auth.set('user', guestUser);
+        auth.setAuthProperties(true, guestUser, '/users/guest', apiKeySecret, true);
         setAPIKey(apiKeySecret);
     }
 
@@ -77,11 +81,7 @@ Balanced.Auth = (function () {
         auth.destroyGuestUser();
         //  persist cookie for next time
         $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, login.uri);
-        auth.set('authToken', login.uri);
-        auth.set('userId', user.uri);
-        auth.set('signedIn', true);
-        auth.set('user', user);
-        auth.set('isGuest', false);
+        auth.setAuthProperties(true, user, user.uri, login.uri, false);
     };
 
     auth.setAPIKey = setAPIKey;
