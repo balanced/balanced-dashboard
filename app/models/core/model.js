@@ -2,6 +2,8 @@ require('app/models/core/mixins/load_promise');
 require('app/models/core/model_array');
 require('app/models/core/type_mappings');
 
+var JSON_PROPERTY_KEY = "__json";
+
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
     isLoaded: false,
@@ -140,13 +142,27 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     _updateFromJson: function (json) {
+        var self = this;
         if (!json) {
             return;
         }
 
         this.deserialize(json);
 
-        this.setProperties(json);
+        this.set(JSON_PROPERTY_KEY, json);
+
+        Ember.changeProperties(function(){
+            for(var prop in json) {
+                if (json.hasOwnProperty(prop)) {
+                    var desc = Ember.meta(self.constructor.proto(), false).descs[prop];
+                    // don't override computed properties with raw json
+                    if(!(desc && desc instanceof Ember.ComputedProperty)) {
+                        self.set(prop, json[prop]);
+                    }
+                }
+            }
+        });
+
         this.set('isLoaded', true);
     },
 
