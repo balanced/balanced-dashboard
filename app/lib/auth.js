@@ -72,6 +72,8 @@ Balanced.Auth = (function () {
 
     auth.destroyGuestUser = function () {
         $.removeCookie(Balanced.COOKIE.API_KEY_SECRET);
+        $.removeCookie(Balanced.COOKIE.SESSION);
+        Balanced.NET.loadCSRFToken();
         unsetAPIKey();
     };
 
@@ -86,6 +88,19 @@ Balanced.Auth = (function () {
     auth.unsetAPIKey = unsetAPIKey;
 
     initGuestUser();
+
+    // Since we can't use withCredentials for signIn (due to Firefox problems
+    // with async==true), grab the session cookie out of the response and set
+    // it manually upon login
+    auth.on('signInSuccess', function () {
+        var response = Balanced.Auth.get('jqxhr');
+        var sessionCookieValue = response.session;
+        $.cookie(Balanced.COOKIE.SESSION, sessionCookieValue, {
+            expires: 14,
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+    });
 
     return auth;
 }());

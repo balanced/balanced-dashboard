@@ -9,9 +9,6 @@ Balanced.NET = (function () {
     $.ajaxSetup({
         type: 'POST',
         dataType: 'json',
-        xhrFields: {
-            withCredentials: true
-        },
         beforeSend: function (xhr, settings) {
             if (Balanced['Analytics']) {
                 _.defer(Balanced.Analytics.trackAjax, settings);
@@ -28,13 +25,22 @@ Balanced.NET = (function () {
     return {
         init: function () {
             if (!window.TESTING) {
-                // POSTing to / will return a csrf token
-                $.post(Ember.ENV.BALANCED.AUTH).success(function (r) {
-                    csrfToken = r.csrf;
-                    $.cookie(Balanced.COOKIE.CSRF_TOKEN, csrfToken);
-                    ajaxHeaders['X-CSRFToken'] = csrfToken;
-                });
+                Balanced.NET.loadCSRFToken();
             }
+        },
+        loadCSRFToken: function () {
+            // POSTing to / will return a csrf token
+            $.ajax({
+                type: 'POST',
+                url: Ember.ENV.BALANCED.AUTH,
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).success(function (r) {
+                csrfToken = r.csrf;
+                $.cookie(Balanced.COOKIE.CSRF_TOKEN, csrfToken);
+                ajaxHeaders['X-CSRFToken'] = csrfToken;
+            });
         },
         ajaxHeaders: ajaxHeaders
     };

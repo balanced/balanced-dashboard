@@ -51,6 +51,9 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         settings.url = this._appendMarketplaceAuthParam(url);
         settings.type = type;
         settings.context = this;
+        settings.xhrFields = {
+            withCredentials: true
+        };
         return Balanced.Auth.send(settings);
     },
 

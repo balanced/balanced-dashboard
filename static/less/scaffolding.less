@@ -155,6 +155,7 @@ footer {
   }
   .caret {
     border-top-color: @searchBoxBackground;
+    border-width: 5px;
   }
   &.open {
     background: @menuBorder;
@@ -305,6 +306,7 @@ footer {
   .caret {
     margin-top: 13px;
     border-top-color: @gray3;
+    border-width: 5px;
   }
 
   &.open {
@@ -326,7 +328,6 @@ footer {
     margin: 0;
     min-width: 210px;
     li {
-      padding: 5px;
       border: 1px solid @gray3;
       border-top: 0;
       &:last-child {
@@ -336,11 +337,12 @@ footer {
     a {
       color: black;
       display: block;
-      padding: 5px 15px;
+      padding: 10px 20px;
+
 
       &:hover {
-        text-decoration: underline;
-        background: transparent;
+        text-decoration: none;
+        background: @egyptianBlue20;
       }
     }
   }
@@ -444,13 +446,23 @@ footer {
   .alert-row {
     .alert {
       margin: 0;
-      padding: 13px 90px 5px;
+      padding: 13px 90px;
       font-size: 16px;
       font-family: fanwoodtext-regular;
       border-radius: 0;
       text-shadow: none;
       border: 0;
       color: @black;
+      .close {
+        float: right;
+        background-color: transparent;
+        &:hover {
+          color: @black;
+        }
+        &:after {
+          display: none;
+        }
+      }
       &.success {
         background-color: @forestGreen20;
       }
