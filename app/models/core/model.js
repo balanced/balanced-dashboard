@@ -11,6 +11,26 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     isNew: true,
     isValid: true,
 
+    /* deserialize - override this with a function to transform the json before it's used
+     * Make sure to call this._super so that parent classes can perform their own 
+     * deserialization
+     *
+     * Example:
+     * Balanced.Test = Balanced.Model.extend({
+     *   deserialize: function(json) {
+     *      this._super(json);
+     *      json.anotherProperty = 'value';
+     *   }
+     * });
+     */
+    deserialize: function(json) {
+        // Deliberately empty so we can add functionality later without having to alter 
+        // classes that inherit from this
+    },
+
+    serialize: function(json) {
+    },
+
     //  properties which are not echoed back to the server
     privateProperties: ['id', 'uri'],
 
@@ -124,9 +144,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             return;
         }
 
-        if (this.constructor.deserialize) {
-            this.constructor.deserialize(json);
-        }
+        this.deserialize(json);
 
         this.setProperties(json);
         this.set('isLoaded', true);
@@ -135,9 +153,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     _toSerializedJSON: function () {
         var json = this._propertiesMap();
 
-        if (this.constructor.serialize) {
-            this.constructor.serialize(json);
-        }
+        this.serialize(json);
 
         return json;
     },
@@ -181,17 +197,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 });
 
 Balanced.Model.reopenClass({
-    /* deserialize - override this with a function to transform the json before it's used
-     *
-     * Example:
-     * Balanced.Test.reopenClass({
-     *   deserialize: function(json) {
-     *     json.anotherProperty = 'value';
-     *   }
-     * });
-     */
-    deserialize: null,
-
     find: function (uri, settings) {
         var modelClass = this;
         var modelObject = modelClass.create({uri: uri});

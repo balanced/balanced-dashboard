@@ -23,15 +23,17 @@ Balanced.Transaction = Balanced.Model.extend({
         } else {
             return 'None';
         }
-    }.property('account')
-});
+    }.property('account'),
 
-Balanced.Transaction.reopenClass({
     deserialize: function (json) {
+        this._super(json);
+
         json.account_json = json.account;
         delete json.account;
     },
     serialize: function (json) {
+        this._super(json);
+        
         json.account = json.account_json;
         delete json.account_json;
     }

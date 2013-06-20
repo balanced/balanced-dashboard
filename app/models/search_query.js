@@ -2,11 +2,9 @@
  * This wraps the results of a search query.
  */
 Balanced.SearchQuery = Balanced.Model.extend({
-});
-
-
-Balanced.SearchQuery.reopenClass({
     deserialize: function (json) {
+        this._super(json);
+        
         var accountMap = {
                 'account': Balanced.Account
             },
@@ -52,8 +50,10 @@ Balanced.SearchQuery.reopenClass({
 
         json.total_transactions = json.total_credits + json.total_debits + json.total_holds + json.total_refunds;
         json.total_funding_instruments = json.total_bank_accounts + json.total_cards;
-    },
+    }
+});
 
+Balanced.SearchQuery.reopenClass({
     search: function (marketplaceUri, params, options) {
         var uri = this.createUri(marketplaceUri, params);
         var res = this.find(uri, options);

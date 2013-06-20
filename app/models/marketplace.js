@@ -21,22 +21,28 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
 
     funding_instruments_uri: function() {
         return this.get('uri') + '/search?limit=10&offset=0&q=&type[in]=bank_account,card';
-    }.property('uri')
-});
+    }.property('uri'),
 
-Balanced.Marketplace.reopenClass({
     deserialize: function (json) {
+        this._super(json);
+
         json.owner_account_json = json.owner_account;
         delete json.owner_account;
         json.owner_customer_json = json.owner_customer;
         delete json.owner_customer;
     },
+    
     serialize: function (json) {
+        this._super(json);
+        
         json.owner_account = json.owner_account_json;
         delete json.owner_account_json;
         json.owner_customer = json.owner_customer_json;
         delete json.owner_customer_json;
-    },
+    }
+});
+
+Balanced.Marketplace.reopenClass({
     constructUri: function (id) {
         return '/v1/marketplaces/' + id;
     }
