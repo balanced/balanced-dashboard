@@ -256,8 +256,8 @@ Balanced.Model.reopenClass({
      */
     belongsTo: function (type, propertyName, settings) {
         var modelClass = this;
-        settings = settings || {};
-        var embedded = !!settings.embedded;
+        var embedded = this._isEmbedded(propertyName, settings);
+        
         // if it's an embedded object, get it from the raw json rather than a real property
         var translatedProperty = embedded ? (JSON_PROPERTY_KEY + "." + propertyName) : propertyName;
 
@@ -301,8 +301,8 @@ Balanced.Model.reopenClass({
      */
     hasMany: function (defaultType, propertyName, settings) {
         var modelClass = this;
-        settings = settings || {};
-        var embedded = !!settings.embedded;
+        var embedded = this._isEmbedded(propertyName, settings);
+
         // if it's an embedded object, get it from the raw json rather than a real property
         var translatedProperty = embedded ? (JSON_PROPERTY_KEY + "." + propertyName) : propertyName;
 
@@ -348,5 +348,16 @@ Balanced.Model.reopenClass({
         typedObj._updateFromJson(json);
         typedObj.trigger('didLoad');
         return typedObj;
+    },
+
+    _isEmbedded: function(propertyName, settings) {
+        settings = settings || {};
+
+        var embedded = !(/_uri$/.test(propertyName));
+        if(settings.hasOwnProperty('embedded')) {
+            embedded = settings.embedded;
+        }
+
+        return embedded;
     }
 });
