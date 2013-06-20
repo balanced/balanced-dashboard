@@ -14,7 +14,6 @@ QUnit.testStart(function (test) {
 
     Ember.run(function () {
         window.setupBalanced('#ember-testing');
-
         Balanced.Adapter = Balanced.FixtureAdapter.create();
         window.setupTestFixtures();
 
