@@ -127,6 +127,29 @@ test('Embedded belongsTo associations work', function (assert) {
     assert.equal(t.get('my_belongs_to_field.derived_field'), 235);
 });
 
+test('Embedded belongsTo associations work with fields of the same name', function (assert) {
+    var TestModel2 = Balanced.Model.extend({
+        my_belongs_to_field: Balanced.Model.belongsTo('Balanced.TestModel', 'my_belongs_to_field', {embedded: true})
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testmodel2s/2',
+            my_belongs_to_field: {
+                basic_field: 234
+            }
+        }
+    ]);
+
+    var t = TestModel2.find('/v1/testmodel2s/2');
+
+    assert.equal(t.get('my_belongs_to_field').get('basic_field'), 234);
+    assert.equal(t.get('my_belongs_to_field.basic_field'), 234);
+
+    assert.equal(t.get('my_belongs_to_field').get('derived_field'), 235);
+    assert.equal(t.get('my_belongs_to_field.derived_field'), 235);
+});
+
 test('hasMany associations work', function (assert) {
     var TestModel2 = Balanced.Model.extend({
         my_uri_field: '/v1/testobjects/1',
@@ -214,6 +237,32 @@ test('Embedded hasMany associations work', function (assert) {
         {
             uri: '/v1/testmodel2s/2',
             my_embedded_field: [
+                {
+                    basic_field: 123
+                },
+                {
+                    basic_field: 234
+                }
+            ]
+        }
+    ]);
+
+    var t = TestModel2.find('/v1/testmodel2s/2');
+
+    assert.equal(t.get('my_has_many_field').get('length'), 2);
+    assert.equal(t.get('my_has_many_field').objectAt(0).get('derived_field'), 124);
+    assert.equal(t.get('my_has_many_field').objectAt(1).get('derived_field'), 235);
+});
+
+test('Embedded hasMany associations work with fields of the same name', function (assert) {
+    var TestModel2 = Balanced.Model.extend({
+        my_has_many_field: Balanced.Model.hasMany('Balanced.TestModel', 'my_has_many_field', {embedded: true})
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testmodel2s/2',
+            my_has_many_field: [
                 {
                     basic_field: 123
                 },

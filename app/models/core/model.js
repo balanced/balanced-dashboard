@@ -256,23 +256,27 @@ Balanced.Model.reopenClass({
      */
     belongsTo: function (type, propertyName, settings) {
         var modelClass = this;
+        settings = settings || {};
+        var embedded = !!settings.embedded;
+        // if it's an embedded object, get it from the raw json rather than a real property
+        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + "." + propertyName) : propertyName;
+
         return Ember.computed(function () {
-            settings = settings || {};
             var typeClass = Balanced.TypeMappings.typeClass(type);
 
             // if the property hasn't been set yet, don't bother trying to load it
-            var propertyValue = this.get(propertyName);
+            var propertyValue = this.get(translatedProperty);
             if (propertyValue) {
-                if (settings.embedded) {
-                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(propertyName));
+                if (embedded) {
+                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(translatedProperty));
                     return embeddedObj;
                 } else {
-                    return typeClass.find(this.get(propertyName));
+                    return typeClass.find(this.get(translatedProperty));
                 }
             } else {
                 return propertyValue;
             }
-        }).property(propertyName);
+        }).property(translatedProperty);
     },
 
     /*
@@ -297,19 +301,23 @@ Balanced.Model.reopenClass({
      */
     hasMany: function (defaultType, propertyName, settings) {
         var modelClass = this;
+        settings = settings || {};
+        var embedded = !!settings.embedded;
+        // if it's an embedded object, get it from the raw json rather than a real property
+        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + "." + propertyName) : propertyName;
+
         return Ember.computed(function () {
-            settings = settings || {};
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
             var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A(), typeClass: typeClass });
 
             // if the property hasn't been set yet, don't bother trying to load it
-            if (this.get(propertyName)) {
-                if (settings.embedded) {
-                    modelObjectsArray.populateModels(this.get(propertyName));
+            if (this.get(translatedProperty)) {
+                if (embedded) {
+                    modelObjectsArray.populateModels(this.get(translatedProperty));
                 } else {
                     modelObjectsArray.set('isLoaded', false);
-                    Balanced.Adapter.get(typeClass, this.get(propertyName), function (json) {
+                    Balanced.Adapter.get(typeClass, this.get(translatedProperty), function (json) {
                         modelObjectsArray.populateModels(json);
                     }, function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 400) {
@@ -324,7 +332,7 @@ Balanced.Model.reopenClass({
             }
 
             return modelObjectsArray;
-        }).property(propertyName);
+        }).property(translatedProperty);
     },
 
     _materializeLoadedObjectFromAPIResult: function (json) {
