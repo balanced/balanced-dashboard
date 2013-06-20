@@ -87,7 +87,10 @@ Balanced.Analytics = (function () {
             if (data.type === 'GET' || !data.data) {
                 return;
             }
-            var dat = JSON.parse(data.data);
+            var dat;
+            try {
+                dat = JSON.parse(data.data);
+            } catch (e) { return; }
             dat._type = data.type;
             dat = filter(dat);
             if (testing) {

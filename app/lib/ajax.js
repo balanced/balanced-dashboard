@@ -9,6 +9,9 @@ Balanced.NET = (function () {
     $.ajaxSetup({
         type: 'POST',
         dataType: 'json',
+        xhrFields: {
+            withCredentials: true
+        },
         beforeSend: function (xhr, settings) {
             if (Balanced['Analytics']) {
                 _.defer(Balanced.Analytics.trackAjax, settings);
@@ -24,9 +27,6 @@ Balanced.NET = (function () {
 
     return {
         init: function () {
-            if (!window.TESTING) {
-                Balanced.NET.loadCSRFToken();
-            }
         },
         loadCSRFToken: function () {
             // POSTing to / will return a csrf token
