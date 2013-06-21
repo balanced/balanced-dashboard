@@ -16,7 +16,7 @@ function hackTheLogin () {
     // is going to think that they are all good to go and the async: false
     // won't break our flow.
     window.Balanced.deferReadiness();
-    
+
     function fin () {
         window.Balanced.advanceReadiness();
     }

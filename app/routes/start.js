@@ -1,29 +1,41 @@
 Balanced.StartRoute = Balanced.Route.extend({
     model: function () {
-        var apiKey = Balanced.Model.create({
+        var existingApiKey = $.cookie(Balanced.COOKIE.API_KEY_SECRET);
+        var apiKey = existingApiKey ? Balanced.APIKey.current() : Balanced.APIKey.create({
                 // TODO: get this from the api
                 uri: '/v1/api_keys'
             }),
-            marketplace = Balanced.Marketplace.create({
+            marketplace = existingApiKey ? Balanced.Marketplace.current() : Balanced.Marketplace.create({
                 uri: '/v1/marketplaces'
             });
+
         var models = {
             apiKey: apiKey,
-            marketplace: marketplace
+            marketplace: marketplace,
+            headerClass: 'noShow'
         };
-        apiKey.create().then(function (apiKey) {
+        var onMarketplaceCreate = function (mkt) {
+            var marketplaces = Balanced.Auth.get('user').get('marketplaces');
+            marketplaces.pushObject(Balanced.Marketplace.create(mkt));
+            marketplace.refresh();
+        }, onApiKeyCreate = function (apiKey) {
             Balanced.Auth.storeGuestAPIKey(apiKey.secret);
-            marketplace.then(function (marketplace) {
-                var marketplaces = Balanced.Auth.get('user').get('marketplaces');
-                marketplaces.pushObject(Balanced.Marketplace.create(marketplace));
-            });
-        });
+            marketplace.create().then(onMarketplaceCreate);
+        };
+
+        if (!existingApiKey) {
+            apiKey.create().then(onApiKeyCreate);
+        }
         return models;
+    },
+    redirect: function () {
+        if (Balanced.Auth.get('user') && !Balanced.Auth.get('isGuest')) {
+            this.transitionTo('marketplaces');
+        }
     },
     events: {
         goToDashboard: function () {
-            console.log(this.currentModel.marketplace);
-            this.transitionTo('marketplace.index', this.currentModel.marketplace);
+            this.transitionTo('marketplace.activity', this.currentModel.marketplace);
         },
         goToDocumentation: function () {
             window.location = 'https://docs.balancedpayments.com';
