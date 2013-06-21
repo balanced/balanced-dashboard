@@ -2,6 +2,8 @@ require('app/models/core/mixins/load_promise');
 require('app/models/core/model_array');
 require('app/models/core/type_mappings');
 
+var JSON_PROPERTY_KEY = '__json';
+
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
     isLoaded: false,
@@ -10,6 +12,26 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     isError: false,
     isNew: true,
     isValid: true,
+
+    /* deserialize - override this with a function to transform the json before it's used
+     * Make sure to call this._super so that parent classes can perform their own 
+     * deserialization
+     *
+     * Example:
+     * Balanced.Test = Balanced.Model.extend({
+     *   deserialize: function(json) {
+     *      this._super(json);
+     *      json.anotherProperty = 'value';
+     *   }
+     * });
+     */
+    deserialize: function (json) {
+        // Deliberately empty so we can add functionality later without having to alter 
+        // classes that inherit from this
+    },
+
+    serialize: function (json) {
+    },
 
     //  properties which are not echoed back to the server
     privateProperties: ['id', 'uri'],
@@ -120,24 +142,34 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     _updateFromJson: function (json) {
+        var self = this;
         if (!json) {
             return;
         }
 
-        if (this.constructor.deserialize) {
-            this.constructor.deserialize(json);
-        }
+        this.deserialize(json);
 
-        this.setProperties(json);
+        this.set(JSON_PROPERTY_KEY, json);
+
+        Ember.changeProperties(function () {
+            for (var prop in json) {
+                if (json.hasOwnProperty(prop)) {
+                    var desc = Ember.meta(self.constructor.proto(), false).descs[prop];
+                    // don't override computed properties with raw json
+                    if (!(desc && desc instanceof Ember.ComputedProperty)) {
+                        self.set(prop, json[prop]);
+                    }
+                }
+            }
+        });
+
         this.set('isLoaded', true);
     },
 
     _toSerializedJSON: function () {
         var json = this._propertiesMap();
 
-        if (this.constructor.serialize) {
-            this.constructor.serialize(json);
-        }
+        this.serialize(json);
 
         return json;
     },
@@ -181,17 +213,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 });
 
 Balanced.Model.reopenClass({
-    /* deserialize - override this with a function to transform the json before it's used
-     *
-     * Example:
-     * Balanced.Test.reopenClass({
-     *   deserialize: function(json) {
-     *     json.anotherProperty = 'value';
-     *   }
-     * });
-     */
-    deserialize: null,
-
     find: function (uri, settings) {
         var modelClass = this;
         var modelObject = modelClass.create({uri: uri});
@@ -234,24 +255,27 @@ Balanced.Model.reopenClass({
      * });
      */
     belongsTo: function (type, propertyName, settings) {
-        var modelClass = this;
+        var embedded = this._isEmbedded(propertyName, settings);
+
+        // if it's an embedded object, get it from the raw json rather than a real property
+        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + '.' + propertyName) : propertyName;
+
         return Ember.computed(function () {
-            settings = settings || {};
             var typeClass = Balanced.TypeMappings.typeClass(type);
 
             // if the property hasn't been set yet, don't bother trying to load it
-            var propertyValue = this.get(propertyName);
+            var propertyValue = this.get(translatedProperty);
             if (propertyValue) {
-                if (settings.embedded) {
-                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(propertyName));
+                if (embedded) {
+                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(translatedProperty));
                     return embeddedObj;
                 } else {
-                    return typeClass.find(this.get(propertyName));
+                    return typeClass.find(this.get(translatedProperty));
                 }
             } else {
                 return propertyValue;
             }
-        }).property(propertyName);
+        }).property(translatedProperty);
     },
 
     /*
@@ -276,19 +300,23 @@ Balanced.Model.reopenClass({
      */
     hasMany: function (defaultType, propertyName, settings) {
         var modelClass = this;
+        var embedded = this._isEmbedded(propertyName, settings);
+
+        // if it's an embedded object, get it from the raw json rather than a real property
+        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + '.' + propertyName) : propertyName;
+
         return Ember.computed(function () {
-            settings = settings || {};
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
             var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A(), typeClass: typeClass });
 
             // if the property hasn't been set yet, don't bother trying to load it
-            if (this.get(propertyName)) {
-                if (settings.embedded) {
-                    modelObjectsArray.populateModels(this.get(propertyName));
+            if (this.get(translatedProperty)) {
+                if (embedded) {
+                    modelObjectsArray.populateModels(this.get(translatedProperty));
                 } else {
                     modelObjectsArray.set('isLoaded', false);
-                    Balanced.Adapter.get(typeClass, this.get(propertyName), function (json) {
+                    Balanced.Adapter.get(typeClass, this.get(translatedProperty), function (json) {
                         modelObjectsArray.populateModels(json);
                     }, function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 400) {
@@ -303,7 +331,7 @@ Balanced.Model.reopenClass({
             }
 
             return modelObjectsArray;
-        }).property(propertyName);
+        }).property(translatedProperty);
     },
 
     _materializeLoadedObjectFromAPIResult: function (json) {
@@ -319,5 +347,16 @@ Balanced.Model.reopenClass({
         typedObj._updateFromJson(json);
         typedObj.trigger('didLoad');
         return typedObj;
+    },
+
+    _isEmbedded: function (propertyName, settings) {
+        settings = settings || {};
+
+        var embedded = !(/_uri$/.test(propertyName));
+        if (settings.hasOwnProperty('embedded')) {
+            embedded = settings.embedded;
+        }
+
+        return embedded;
     }
 });
