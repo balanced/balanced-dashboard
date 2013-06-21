@@ -30,7 +30,7 @@ function hackTheLogin () {
     }).success(function (r) {
         var csrfToken = r.csrf;
         Balanced.NET.ajaxHeaders['X-CSRFToken'] = csrfToken;
-        var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
+        var authCookie = Balanced.Auth.retrieveLogin();
         if (authCookie) {
             $.ajax('https://auth.balancedpayments.com/logins', {
                 type: 'POST',
