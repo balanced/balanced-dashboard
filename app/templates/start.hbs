@@ -1,0 +1,56 @@
+{{partial "header"}}
+
+
+<section id="main" class="container start">
+
+    <div class="row">
+
+        <nav id="marketplace-nav" class="span2 noshow">
+        </nav>
+
+        <div id="content" class="span16">
+            <h1>WELCOME to BALANCED</h1>
+            <p class="label1a">Manage your customers and transactions, from charging buyers<br>
+                to paying sellers.
+                {{#linkTo marketplace.index marketplace class="linky"}}Get started by trying
+                    out the dashboard.{{/linkTo}}
+            </p>
+            <div class="api-key">
+                <span class="title">API Key</span>
+                <span class="secret">{{ apiKey.secret }}</span>
+            </div>
+        </div>
+        <div class="span8">
+            <ul>
+                <li class="dashboard" {{action goToDashboard}}>
+                    <div class="icon"> </div>
+                    <h2>Demo Dashboard</h2>
+                    <p>Explore the dashboard with sample data</p>
+                    <div class="arrow">
+                        <div class="icon"> </div>
+                    </div>
+                </li>
+                <li class="documentation" {{action goToDocumentation}}>
+                    <div class="icon"> </div>
+                    <h2>Integrate</h2>
+                    <p>Check out the document and tutorials</p>
+                    <div class="arrow">
+                        <div class="icon"> </div>
+                    </div>
+                </li>
+                <li class="registration" {{action goToApply}}>
+                    <div class="icon"> </div>
+                    <h2>Transact</h2>
+                    <p>Register for production access</p>
+                    <div class="arrow">
+                        <div class="icon"> </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+<section>
+
+{{partial "footer"}}
