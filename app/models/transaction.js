@@ -1,5 +1,5 @@
 Balanced.Transaction = Balanced.Model.extend({
-    account: Balanced.Model.belongsTo('Balanced.Account', 'account_json', {embedded: true}),
+    account: Balanced.Model.belongsTo('Balanced.Account', 'account'),
 
     web_uri: function () {
         return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
@@ -24,15 +24,4 @@ Balanced.Transaction = Balanced.Model.extend({
             return 'None';
         }
     }.property('account')
-});
-
-Balanced.Transaction.reopenClass({
-    deserialize: function (json) {
-        json.account_json = json.account;
-        delete json.account;
-    },
-    serialize: function (json) {
-        json.account = json.account_json;
-        delete json.account_json;
-    }
 });
