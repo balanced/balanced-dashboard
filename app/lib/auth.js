@@ -11,15 +11,9 @@ Balanced.Auth = (function () {
         // We're using the cookie, so Ember Auth doesn't need to worry about the token
         tokenLocation: 'none',
         sessionAdapter: 'cookie',
-        modules: ['authRedirectable', 'actionRedirectable'],
+        modules: ['authRedirectable'],
         authRedirectable: {
             route: 'login'
-        },
-        actionRedirectable: {
-            signInRoute: 'index',
-            signInSmart: true,
-            signInBlacklist: ['login'],
-            signOutRoute: 'login'
         }
     };
 
