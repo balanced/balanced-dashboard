@@ -102,12 +102,6 @@ Balanced.Auth = (function () {
     // it manually upon login
     auth.on('signInSuccess', function () {
         var response = Balanced.Auth.get('jqxhr');
-        var sessionCookieValue = response.session;
-        $.cookie(Balanced.COOKIE.SESSION, sessionCookieValue, {
-            expires: 14,
-            path: '/',
-            domain: 'balancedpayments.com'
-        });
         auth.rememberLogin(response.uri);
     });
 
