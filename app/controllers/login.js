@@ -4,7 +4,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
     loginError: false,
     loginResponse: '',
 
-    init: function() {
+    init: function () {
         var self = this;
         Balanced.Auth.on('signInError', function () {
             self.set('loginError', true);

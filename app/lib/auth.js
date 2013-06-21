@@ -27,7 +27,7 @@ Balanced.Auth = (function () {
         auth.set('isGuest', isGuest);
     };
 
-    auth.rememberLogin = function(token) {
+    auth.rememberLogin = function (token) {
         $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
             expires: 1,
             path: '/',
@@ -35,14 +35,14 @@ Balanced.Auth = (function () {
         });
     };
 
-    auth.forgetLogin = function() {
+    auth.forgetLogin = function () {
         $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
             path: '/',
             domain: 'balancedpayments.com'
         });
     };
 
-    auth.retrieveLogin = function() {
+    auth.retrieveLogin = function () {
         return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
     };
 
@@ -94,13 +94,13 @@ Balanced.Auth = (function () {
 
     var INTENDED_DESTINATION_KEY = 'intendedDestinationHash';
 
-    auth.getIntendedDestinationHash = function() {
+    auth.getIntendedDestinationHash = function () {
         return auth.get(INTENDED_DESTINATION_KEY);
-    }
+    };
 
-    auth.clearIntendedDestinationHash = function() {
+    auth.clearIntendedDestinationHash = function () {
         auth.set(INTENDED_DESTINATION_KEY, null);
-    }
+    };
 
     auth.setAPIKey = setAPIKey;
     auth.unsetAPIKey = unsetAPIKey;
@@ -115,11 +115,11 @@ Balanced.Auth = (function () {
         auth.rememberLogin(response.uri);
     });
 
-    auth.on('signOutSuccess', function() {
+    auth.on('signOutSuccess', function () {
         auth.forgetLogin();
     });
 
-    auth.on('authAccess', function() {
+    auth.on('authAccess', function () {
         auth.set(INTENDED_DESTINATION_KEY, window.location.hash);
     });
 
