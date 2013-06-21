@@ -19,7 +19,7 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
         return this.get('uri') + '/callbacks';
     }.property('uri'),
 
-    funding_instruments_uri: function() {
+    funding_instruments_uri: function () {
         return this.get('uri') + '/search?limit=10&offset=0&q=&type[in]=bank_account,card';
     }.property('uri')
 });

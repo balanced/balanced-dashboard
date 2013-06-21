@@ -2,7 +2,7 @@ require('app/models/core/mixins/load_promise');
 require('app/models/core/model_array');
 require('app/models/core/type_mappings');
 
-var JSON_PROPERTY_KEY = "__json";
+var JSON_PROPERTY_KEY = '__json';
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
@@ -25,12 +25,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
      *   }
      * });
      */
-    deserialize: function(json) {
+    deserialize: function (json) {
         // Deliberately empty so we can add functionality later without having to alter 
         // classes that inherit from this
     },
 
-    serialize: function(json) {
+    serialize: function (json) {
     },
 
     //  properties which are not echoed back to the server
@@ -151,12 +151,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
         this.set(JSON_PROPERTY_KEY, json);
 
-        Ember.changeProperties(function(){
-            for(var prop in json) {
+        Ember.changeProperties(function () {
+            for (var prop in json) {
                 if (json.hasOwnProperty(prop)) {
                     var desc = Ember.meta(self.constructor.proto(), false).descs[prop];
                     // don't override computed properties with raw json
-                    if(!(desc && desc instanceof Ember.ComputedProperty)) {
+                    if (!(desc && desc instanceof Ember.ComputedProperty)) {
                         self.set(prop, json[prop]);
                     }
                 }
@@ -255,11 +255,10 @@ Balanced.Model.reopenClass({
      * });
      */
     belongsTo: function (type, propertyName, settings) {
-        var modelClass = this;
         var embedded = this._isEmbedded(propertyName, settings);
-        
+
         // if it's an embedded object, get it from the raw json rather than a real property
-        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + "." + propertyName) : propertyName;
+        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + '.' + propertyName) : propertyName;
 
         return Ember.computed(function () {
             var typeClass = Balanced.TypeMappings.typeClass(type);
@@ -304,7 +303,7 @@ Balanced.Model.reopenClass({
         var embedded = this._isEmbedded(propertyName, settings);
 
         // if it's an embedded object, get it from the raw json rather than a real property
-        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + "." + propertyName) : propertyName;
+        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + '.' + propertyName) : propertyName;
 
         return Ember.computed(function () {
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
@@ -350,11 +349,11 @@ Balanced.Model.reopenClass({
         return typedObj;
     },
 
-    _isEmbedded: function(propertyName, settings) {
+    _isEmbedded: function (propertyName, settings) {
         settings = settings || {};
 
         var embedded = !(/_uri$/.test(propertyName));
-        if(settings.hasOwnProperty('embedded')) {
+        if (settings.hasOwnProperty('embedded')) {
             embedded = settings.embedded;
         }
 

@@ -4,7 +4,7 @@
 Balanced.SearchQuery = Balanced.Model.extend({
     deserialize: function (json) {
         this._super(json);
-        
+
         var accountMap = {
                 'account': Balanced.Account
             },

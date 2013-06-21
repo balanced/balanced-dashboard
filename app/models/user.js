@@ -5,10 +5,10 @@ Balanced.User = Balanced.Model.extend({
         return Balanced.Utils.toGravatar(emailHash);
     }.property('email_hash'),
 
-    
+
     deserialize: function (json) {
         this._super(json);
-        
+
         json.marketplaces = json.marketplaces || [];
         json.marketplaces.sort(function (a, b) {
             if (a.name === b.name) {
