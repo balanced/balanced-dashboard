@@ -11,7 +11,7 @@ Balanced.Auth = (function () {
         // We're using the cookie, so Ember Auth doesn't need to worry about the token
         tokenLocation: 'none',
         sessionAdapter: 'cookie',
-        modules: ['authRedirectable', 'actionRedirectable', 'rememberable'],
+        modules: ['authRedirectable', 'actionRedirectable'],
         authRedirectable: {
             route: 'login'
         },
@@ -20,11 +20,6 @@ Balanced.Auth = (function () {
             signInSmart: true,
             signInBlacklist: ['login'],
             signOutRoute: 'login'
-        },
-        rememberable: {
-            tokenKey: 'uri',
-            period: 1,
-            autoRecall: true
         }
     };
 
@@ -36,6 +31,25 @@ Balanced.Auth = (function () {
         auth.set('_session.signedIn', signedIn);
         auth.set('_session.user', user);
         auth.set('isGuest', isGuest);
+    };
+
+    auth.rememberLogin = function(token) {
+        $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
+            expires: 1,
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+    };
+
+    auth.forgetLogin = function() {
+        $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+    };
+
+    auth.retrieveLogin = function() {
+        return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
     };
 
     function loginGuestUser(apiKeySecret) {
@@ -80,7 +94,7 @@ Balanced.Auth = (function () {
     auth.manualLogin = function (user, login) {
         auth.destroyGuestUser();
         //  persist cookie for next time
-        $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, login.uri);
+        auth.rememberLogin(login.uri);
         auth.setAuthProperties(true, user, user.uri, login.uri, false);
     };
 
@@ -100,6 +114,11 @@ Balanced.Auth = (function () {
             path: '/',
             domain: 'balancedpayments.com'
         });
+        auth.rememberLogin(response.uri);
+    });
+
+    auth.on('signOutSuccess', function() {
+        auth.forgetLogin();
     });
 
     return auth;
