@@ -1,15 +1,13 @@
 Balanced.Debit = Balanced.Transaction.extend({
+    source: Balanced.Model.belongsTo('Balanced.FundingInstrument', 'source'),
+
     type_name: function() {
         return "Debit";
     }.property(),
 
     funding_instrument_description: function() {
-      if(this.get('source')) {
-      return this.get('source').last_four + " (" + this.get('source').card_type + ") / " + this.get('source').name;
-      } else {
-        return "";
-      }
-    }.property('source')
+        return this.get('source.description');
+    }.property('source.description')
 });
 
 Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');

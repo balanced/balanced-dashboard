@@ -1,15 +1,13 @@
 Balanced.Credit = Balanced.Transaction.extend({
+    bank_account: Balanced.Model.belongsTo('Balanced.BankAccount', 'bank_account'),
+
     type_name: function() {
         return "Credit";
     }.property(),
 
     funding_instrument_description: function() {
-      if(this.get('bank_account')) {
-      return this.get('bank_account').last_four + " (" + this.get('bank_account').bank_name + ") / " + this.get('bank_account').name;
-      } else {
-        return "";
-      }
-    }.property('bank_account')
+        return this.get('bank_account.description');
+    }.property('bank_account.description')
 });
 
 Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');

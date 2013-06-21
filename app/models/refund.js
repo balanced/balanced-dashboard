@@ -1,16 +1,14 @@
 Balanced.Refund = Balanced.Transaction.extend({
+    debit: Balanced.Model.belongsTo('Balanced.Debit', 'debit'),
+
     type_name: function() {
         return "Refund";
     }.property(),
 
     funding_instrument_description: function() {
-      if(this.get('debit')) {
-        // TODO - what should we display for refunds?
-        return this.get('debit').account_name;
-      } else {
-        return "";
-      }
-    }.property('debit')
+        // TODO - once we've gotten dynamic associations, use the funding_instrument_description from the debit
+        return this.get('debit.account_name');
+    }.property('debit.account_name')
 });
 
 Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');
