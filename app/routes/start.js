@@ -30,7 +30,7 @@ Balanced.StartRoute = Balanced.Route.extend({
     },
     redirect: function () {
         if (Balanced.Auth.get('user') && !Balanced.Auth.get('isGuest')) {
-            this.transitionTo('marketplaces');
+            this.transitionTo('index');
         }
     },
     events: {
