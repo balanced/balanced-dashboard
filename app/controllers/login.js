@@ -4,14 +4,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
     loginError: false,
     loginResponse: '',
 
-    signIn: function () {
-        Balanced.Auth.destroyGuestUser();
-        Balanced.Auth.signIn({
-            data: {
-                email_address: this.get('email'),
-                password: this.get('password')
-            }
-        });
+    init: function() {
         var self = this;
         Balanced.Auth.on('signInError', function () {
             self.set('loginError', true);
@@ -38,6 +31,16 @@ Balanced.LoginController = Balanced.ObjectController.extend({
         });
         Balanced.Auth.on('signInSuccess', function () {
             self.set('loginError', false);
+        });
+    },
+
+    signIn: function () {
+        Balanced.Auth.destroyGuestUser();
+        Balanced.Auth.signIn({
+            data: {
+                email_address: this.get('email'),
+                password: this.get('password')
+            }
         });
     }
 });
