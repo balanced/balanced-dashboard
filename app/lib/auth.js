@@ -11,20 +11,9 @@ Balanced.Auth = (function () {
         // We're using the cookie, so Ember Auth doesn't need to worry about the token
         tokenLocation: 'none',
         sessionAdapter: 'cookie',
-        modules: ['authRedirectable', 'actionRedirectable', 'rememberable'],
+        modules: ['authRedirectable'],
         authRedirectable: {
             route: 'login'
-        },
-        actionRedirectable: {
-            signInRoute: 'index',
-            signInSmart: true,
-            signInBlacklist: ['login'],
-            signOutRoute: 'login'
-        },
-        rememberable: {
-            tokenKey: 'uri',
-            period: 1,
-            autoRecall: true
         }
     };
 
@@ -36,6 +25,25 @@ Balanced.Auth = (function () {
         auth.set('_session.signedIn', signedIn);
         auth.set('_session.user', user);
         auth.set('isGuest', isGuest);
+    };
+
+    auth.rememberLogin = function (token) {
+        $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
+            expires: 1,
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+    };
+
+    auth.forgetLogin = function () {
+        $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+    };
+
+    auth.retrieveLogin = function () {
+        return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
     };
 
     function loginGuestUser(apiKeySecret) {
@@ -80,8 +88,18 @@ Balanced.Auth = (function () {
     auth.manualLogin = function (user, login) {
         auth.destroyGuestUser();
         //  persist cookie for next time
-        $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, login.uri);
+        auth.rememberLogin(login.uri);
         auth.setAuthProperties(true, user, user.uri, login.uri, false);
+    };
+
+    var INTENDED_DESTINATION_KEY = 'intendedDestinationHash';
+
+    auth.getIntendedDestinationHash = function () {
+        return auth.get(INTENDED_DESTINATION_KEY);
+    };
+
+    auth.clearIntendedDestinationHash = function () {
+        auth.set(INTENDED_DESTINATION_KEY, null);
     };
 
     auth.setAPIKey = setAPIKey;
@@ -94,12 +112,15 @@ Balanced.Auth = (function () {
     // it manually upon login
     auth.on('signInSuccess', function () {
         var response = Balanced.Auth.get('jqxhr');
-        var sessionCookieValue = response.session;
-        $.cookie(Balanced.COOKIE.SESSION, sessionCookieValue, {
-            expires: 14,
-            path: '/',
-            domain: 'balancedpayments.com'
-        });
+        auth.rememberLogin(response.uri);
+    });
+
+    auth.on('signOutSuccess', function () {
+        auth.forgetLogin();
+    });
+
+    auth.on('authAccess', function () {
+        auth.set(INTENDED_DESTINATION_KEY, window.location.hash);
     });
 
     return auth;
