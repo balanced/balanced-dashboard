@@ -13,6 +13,8 @@ Balanced.Router.reopenClass({
         setup: function (error) {
             Ember.Logger.error('Error while loading route:', error);
 
+            Balanced.Auth.trigger('authAccess');
+
             // Using setTimeout allows us to escape from the Promise's try/catch block
             setTimeout(function () {
                 Balanced.Router.router.transitionTo('login');

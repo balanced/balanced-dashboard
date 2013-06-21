@@ -5,7 +5,13 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 		// ember-auth
 		Balanced.Auth.on('signInSuccess', function() {
 			setTimeout(function () {
-				self.transitionTo('index');
+				var intendedDestinationHash = Balanced.Auth.getIntendedDestinationHash();
+				if(intendedDestinationHash) {
+					Balanced.Auth.clearIntendedDestinationHash();
+					window.location.hash = intendedDestinationHash;
+				} else {
+					self.transitionTo('index');
+				}
 			});
 		});
 		Balanced.Auth.on('signOutSuccess', function() {

@@ -92,6 +92,16 @@ Balanced.Auth = (function () {
         auth.setAuthProperties(true, user, user.uri, login.uri, false);
     };
 
+    var INTENDED_DESTINATION_KEY = 'intendedDestinationHash';
+
+    auth.getIntendedDestinationHash = function() {
+        return auth.get(INTENDED_DESTINATION_KEY);
+    }
+
+    auth.clearIntendedDestinationHash = function() {
+        auth.set(INTENDED_DESTINATION_KEY, null);
+    }
+
     auth.setAPIKey = setAPIKey;
     auth.unsetAPIKey = unsetAPIKey;
 
@@ -107,6 +117,10 @@ Balanced.Auth = (function () {
 
     auth.on('signOutSuccess', function() {
         auth.forgetLogin();
+    });
+
+    auth.on('authAccess', function() {
+        auth.set(INTENDED_DESTINATION_KEY, window.location.hash);
     });
 
     return auth;
