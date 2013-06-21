@@ -16,6 +16,11 @@ function hackTheLogin () {
     // is going to think that they are all good to go and the async: false
     // won't break our flow.
     window.Balanced.deferReadiness();
+    
+    function fin () {
+        window.Balanced.advanceReadiness();
+    }
+
     $.ajax({
         type: 'POST',
         url: Ember.ENV.BALANCED.AUTH,
@@ -40,13 +45,14 @@ function hackTheLogin () {
                     Balanced.User.find(login.user_uri),
                     login.user_id,
                     login.user_id,
-                    false);
-                window.Balanced.advanceReadiness();
-            }).error(window.Balanced.advanceReadiness);
+                    false
+                );
+                fin();
+            }).error(fin);
         } else {
-            window.Balanced.advanceReadiness();
+            fin();
         }
-    }).error(window.Balanced.advanceReadiness);
+    }).error(fin);
 }
 
 /*
