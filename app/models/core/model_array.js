@@ -22,6 +22,22 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
         return promise;
     },
 
+    refresh: function () {
+        var self = this;
+        this.set('isLoaded', false);
+        var promise = this.resolveOn('didLoad');
+
+        Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
+            // todo, maybe we should go through and reload each item rather
+            // than nuking and re-adding
+            self.clear();
+            self.populateModels(json);
+        }, function () {
+            promise.reject(self);
+        });
+        return promise;
+    },
+
     populateModels: function (json) {
         var self = this;
 

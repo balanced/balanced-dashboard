@@ -66,6 +66,7 @@ Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
     model: function () {
         var marketplace = this.modelFor('marketplace');
         marketplace.refresh();
+        marketplace.get('transactions').refresh();
         return marketplace;
     },
     events: {

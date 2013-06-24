@@ -740,3 +740,39 @@ test('hasMany pagination works', function (assert) {
         });
     });
 });
+
+test('hasMany collection can be refreshed', function (assert) {
+    expect(2);
+
+    var model = Balanced.Model.extend({
+        transactions_uri: '/v1/transactions',
+        transactions: Balanced.Model.hasMany('Balanced.TestModel', 'transactions_uri')
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/transactions',
+            items: [
+                { _type: 'balls' },
+                { _type: 'balls' }
+            ]
+        },
+        {
+            uri: '/v1/obj',
+            transactions_uri: '/v1/transactions'
+        }
+    ]);
+
+    Ember.run(function () {
+        model.find('/v1/obj').then(function (testModel) {
+            return testModel.get('transactions');
+        }).then(function(transactions) {
+            assert.equal(transactions.get('length'), 2);
+            transactions.refresh().then(function (transactions) {
+                assert.equal(transactions.get('length'), 2);
+            });
+        });
+    });
+
+
+});
