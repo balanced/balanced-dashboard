@@ -40,6 +40,7 @@ Balanced.Auth = (function () {
             path: '/',
             domain: 'balancedpayments.com'
         });
+        auth.destroyGuestUser();
     };
 
     auth.retrieveLogin = function () {
