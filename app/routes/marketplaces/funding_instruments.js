@@ -1,6 +1,8 @@
 Balanced.MarketplaceFundingInstrumentsRoute = Balanced.AuthRoute.extend({
     model: function () {
-        return this.modelFor('marketplace');
+        var marketplace = this.modelFor('marketplace');
+        marketplace.refresh();
+        return marketplace;
     },
     events: {
         fundingInstrumentSelected: function (fundingInstrument) {

@@ -64,7 +64,9 @@ Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
 
 Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
     model: function () {
-        return this.modelFor('marketplace');
+        var marketplace = this.modelFor('marketplace');
+        marketplace.refresh();
+        return marketplace;
     },
     events: {
         transactionSelected: function (transaction) {

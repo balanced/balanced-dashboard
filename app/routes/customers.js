@@ -1,6 +1,7 @@
 Balanced.CustomersIndexRoute = Balanced.AuthRoute.extend({
     model: function () {
         var marketplace = this.modelFor('marketplace');
+        marketplace.refresh();
         return marketplace;
     },
 
