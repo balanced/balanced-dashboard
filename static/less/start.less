@@ -1,0 +1,116 @@
+#main.start {
+  #content {
+    height: 525px;
+  }
+  h1 {
+    .cssicon(url('../images/welcome.png') -10px -90px, 285px, 110px);
+    border-bottom: 0;
+    margin-top: 150px;
+  }
+  p {
+    line-height: 1.5em;
+    a:hover {
+      color: black;
+    }
+  }
+  .api-key {
+    margin-top: 50px;
+    .title {
+      float: left;
+      padding: 5px 10px;
+      border: 1px solid @gray3;
+      border-bottom-width: 2px;
+      color: black;
+      font-family: nimbussannov-sembol;
+    }
+    .secret {
+      float: left;
+      padding: 5px 10px;
+      border: 1px solid @gray3;
+      border-bottom-width: 2px;
+      background-color: @white;
+      font-family: consolas, 'Lucida Console', Monaco, monospace;
+      font-size: 12px;
+    }
+  }
+  .span8 {
+    background-color: @contentBackground;
+    margin-left: 0;
+    width: 360px;
+    max-width: 360px;
+    li {
+      height: 195px;
+      position: relative;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.95;
+        .icon, .arrow .icon {
+          opacity: 1;
+        }
+      }
+      > .icon {
+        float: left;
+        margin: 20px;
+        .cssicon(url('../images/welcome.png'), 70px, 70px);
+        opacity: 0.5;
+      }
+      h2 {
+        margin: 0;
+        position: absolute;
+        bottom: 45px;
+        padding-left: 20px;
+        color: @white;
+        font-family: nimbussannov-reg;
+      }
+      p {
+        position: absolute;
+        bottom: 13px;
+        padding-left: 20px;
+        color: @white;
+        font-family: nimbussannov-med;
+        font-size: 15px;
+      }
+      .arrow {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        .icon {
+          .cssicon(url('../images/welcome.png') -275px 0, 10px, 55px);
+          margin: 54px 16px;
+          opacity: 0.5;
+        }
+      }
+    }
+    .dashboard {
+      //      background-color: @egyptianBlue100;
+      background-color: @turquoise60;
+      > .icon {
+        background-position: -7px 0;
+      }
+      .arrow {
+        //        background-color: @egyptianBlue60;
+        background-color: @turquoise100;
+      }
+    }
+    .documentation {
+      background-color: @curryYellow60;
+      > .icon {
+        background-position: -84px 0;
+      }
+      .arrow {
+        background-color: @curryYellow100;
+      }
+    }
+    .registration {
+      background-color: @pineGreen80;
+      > .icon {
+        background-position: -167px 0;
+      }
+      .arrow {
+        background-color: @forestGreen100;
+      }
+    }
+  }
+}

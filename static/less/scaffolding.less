@@ -23,6 +23,12 @@
       border-right: 0;
     }
   }
+
+  &.noShow {
+    #marketplaces-and-search, #go-live-menu, #docs-menu, #help-menu, #user-menu {
+      display: none;
+    }
+  }
 }
 
 .container {
@@ -376,6 +382,10 @@ footer {
 
 #marketplace-nav {
   background-color: @marketplaceNavBackground;
+
+  &.noshow {
+    background-color: @contentBackground;
+  }
 
   min-height: @mainMinHeight;
 

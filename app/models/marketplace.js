@@ -27,6 +27,18 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
 Balanced.Marketplace.reopenClass({
     constructUri: function (id) {
         return '/v1/marketplaces/' + id;
+    },
+
+    current: function () {
+        var marketplace = Balanced.Marketplace.create({
+            uri: '/v1/marketplaces'
+        });
+        Balanced.Marketplace.find('/v1/marketplaces').then(function (marketplaces) {
+            marketplace._updateFromJson(marketplaces.items[0]);
+        });
+
+        return marketplace;
+
     }
 });
 
