@@ -18,6 +18,13 @@ Balanced.StartRoute = Balanced.Route.extend({
             var marketplaces = Balanced.Auth.get('user').get('marketplaces');
             marketplaces.pushObject(Balanced.Marketplace.create(mkt));
             marketplace.refresh();
+
+            //  pre-populate marketplace with transactions
+            var id = mkt.uri.substr(mkt.uri.lastIndexOf('/') + 1);
+            var uri = '/marketplaces/{0}/spam'.format(id);
+            Balanced.Model.create({
+                uri: uri
+            }).update();
         }, onApiKeyCreate = function (apiKey) {
             Balanced.Auth.storeGuestAPIKey(apiKey.secret);
             marketplace.create().then(onMarketplaceCreate);
