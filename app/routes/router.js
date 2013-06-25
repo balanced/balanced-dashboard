@@ -58,9 +58,8 @@ Balanced.Router.map(function () {
 
             });
 
-            this.route('transactions', { path: '/transactions' });
             this.route('initial_deposit', { path: '/initial_deposit' });
-            this.route('funding_instruments', { path: '/funding_instruments' });
+
             makeNestedResource(this, 'customers', 'customer');
             makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
@@ -70,7 +69,11 @@ Balanced.Router.map(function () {
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
 
-            this.route('activity', { path: '/activity' });
+            this.resource('activity', { path: '/activity' }, function() {
+                this.route('transactions', { path: '/transactions' });
+                this.route('customers', { path: '/customers' });
+                this.route('funding_instruments', { path: '/funding_instruments' });
+            });
 
             this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
                 this.resource('bank_account', { path: '/:bank_account_id'}, function () {

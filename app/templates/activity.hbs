@@ -1,0 +1,43 @@
+{{#if showWelcome}}
+    {{ partial "welcome_transition" }}
+{{/if}}
+
+<div id="activity" class="span20">
+    <h1 class="page-title">Activity
+        {{#if iframeLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
+        <!--<a href="#" {{action download_show}} class="icon-download right">Download</a>-->
+    </h1>
+
+    <div class="activity activity-escrow-box span20">
+        <div class="span2 label">
+            <span class="subhead1d">Escrow</span>
+        </div>
+        <div class="span14 amount">
+            <span class="number1d">
+                {{ controllers.marketplace.formattedEscrowAmount }}
+            </span>
+        </div>
+
+        <div class="span4 buttons">
+            <a class="btn" {{action openAddFundsModal target="view"}}}>Add funds</a>
+            <a class="btn" {{action openWithdrawFundsModal target="view"}}}>Withdraw funds</a>
+        </div>
+    </div>
+
+    <header class="activity activity-header span20">
+        <nav>
+            {{#linkTo activity.transactions tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Transactions</a>{{/linkTo}}
+            {{#linkTo activity.customers tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Customers</a>{{/linkTo}}
+            {{#linkTo activity.funding_instruments tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Cards &amp; Bank Accounts</a>{{/linkTo}}
+        </nav>
+    </header>
+
+    {{ outlet }}
+
+    {{#if show_download}}
+        {{view Balanced.DownloadModalView }}
+    {{/if}}
+
+    {{view Balanced.AddFundsModalView marketplaceBinding="model" viewName="addFundsModal"}}
+    {{view Balanced.WithdrawFundsModalView marketplaceBinding="model" viewName="withdrawFundsModal"}}
+</div>

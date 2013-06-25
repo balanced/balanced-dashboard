@@ -1,0 +1,45 @@
+<div class="results">
+	<table class="items accounts">
+        <thead>
+            <tr>
+                <th class="span3 label6a account">Created</th>
+                <th class="span4 label6a account">Name</th>
+                <th class="span8 label6a email">Email</th>
+            </tr>
+        </thead>
+        {{#if customers.hasNextPage}}
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="load-more-results">
+                        <a {{ action "loadMore" }}>Load more</a>
+                    </td>
+                </tr>
+            </tfoot>
+        {{/if}}
+        <tbody>
+            {{#each customer in customers}}
+                <tr {{action customerSelected customer}}>
+                    <td class="span3 date">
+                        <time {{bindAttr datetime="customer.created_at"}}" data-format="%b %d" {{bindAttr title="customer.created_at"}}>{{ customer.human_readable_created_at }}</time>
+                    </td>
+                    <td class="span4 customer" {{bindAttr title="customer.display_me"}}>
+                        {{ customer.display_me }}
+                    </td>
+                    <td class="span8 email" {{bindAttr title="customer.email"}}>
+                        {{ customer.email }}
+                    </td>
+                </tr>
+            {{else}}
+                <tr>
+                    <td colspan="3" class="no-results">
+                        {{# unless customers.isLoaded }}
+                            Loading...
+                        {{else}}
+                            No results
+                        {{/unless}}
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

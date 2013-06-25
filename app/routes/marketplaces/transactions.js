@@ -61,34 +61,3 @@ Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
         }
     }
 });
-
-Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
-    model: function () {
-        var marketplace = this.modelFor('marketplace');
-        var transactions = marketplace.get('transactions');
-        // HACK: never hard-code the cookie key directly, only doing this to
-        // limit scope of migration changes
-        var showWelcome = $.cookie('existing') && !$.cookie('suppressWelcome');
-        marketplace.refresh();
-        transactions.refresh();
-        //  TODO: this is migration code, remove it after August 2013
-        setTimeout(function () {
-            $('#welcome-transition').modal('show');
-        }, 100);
-        return {
-            marketplace: marketplace,
-            showWelcome: showWelcome,
-            transactions: transactions
-        };
-    },
-    events: {
-        hideWelcome: function () {
-            $.cookie('suppressWelcome', 1);
-            $.removeCookie('existing');
-            $('#welcome-transition').modal('hide');
-        },
-        transactionSelected: function (transaction) {
-            window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(transaction.uri);
-        }
-    }
-});

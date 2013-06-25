@@ -42,7 +42,7 @@ Balanced.StartRoute = Balanced.Route.extend({
     },
     events: {
         goToDashboard: function () {
-            this.transitionTo('marketplace.activity', this.currentModel.marketplace);
+            this.transitionTo('activity', this.currentModel.marketplace);
         },
         goToDocumentation: function () {
             window.location = 'https://docs.balancedpayments.com';
