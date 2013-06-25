@@ -3,9 +3,8 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
     show_download: false,
     email_address: null,
 
-    download_primary: function () {
+    downloadDownload: function () {
         var uri = this.getSearchUri();
-        var self = this;
         if (this.email_address) {
             var download = Balanced.Download.create({
                 uri: uri,
@@ -14,9 +13,12 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
             download.one('didCreate', $.proxy(this.download_close, this));
             download.one('didCreate', $.proxy(this.download_confirmation, this));
             download.create();
-        } else {
-            self.download_close();
         }
+        return false;
+    },
+
+    closeDownload: function () {
+        this.download_close();
     },
 
     getSearchUri: function () {
