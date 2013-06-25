@@ -1,8 +1,7 @@
-
 <div class="modal hide" id="download-confirm">
     <form>
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" rel="close">×</button>
+            <button type="button" class="close" data-dismiss="modal" {{action closeDownload}}>×</button>
             <h2>Export data</h2>
         </div>
         <div class="modal-body">
@@ -11,8 +10,8 @@
             {{view Ember.TextField valueBinding="email_address" type="email" class="full"}}
         </div>
         <div class="modal-footer">
-            <button class="btn danger" data-dismiss="modal" aria-hidden="true" rel="close">Close</button>
-            <button class="btn" rel="primary">Export</button>
+            <button class="btn" rel="primary" {{action downloadDownload}}>Export</button>
+            <button class="btn danger" data-dismiss="modal" aria-hidden="true" {{action closeDownload}}>Close</button>
         </div>
     </form>
 </div>
