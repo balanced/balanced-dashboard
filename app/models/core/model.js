@@ -299,7 +299,6 @@ Balanced.Model.reopenClass({
      * });
      */
     hasMany: function (defaultType, propertyName, settings) {
-        var modelClass = this;
         var embedded = this._isEmbedded(propertyName, settings);
 
         // if it's an embedded object, get it from the raw json rather than a real property
@@ -308,7 +307,11 @@ Balanced.Model.reopenClass({
         return Ember.computed(function () {
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
-            var modelObjectsArray = Balanced.ModelArray.create({ content: Ember.A(), typeClass: typeClass });
+            var modelObjectsArray = Balanced.ModelArray.create({
+                content: Ember.A(),
+                typeClass: typeClass,
+                uri: this.get(translatedProperty)
+            });
 
             // if the property hasn't been set yet, don't bother trying to load it
             if (this.get(translatedProperty)) {
