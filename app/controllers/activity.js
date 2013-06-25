@@ -1,3 +1,7 @@
+Balanced.ActivityController = Balanced.ObjectController.extend({
+    needs: ['marketplace']
+});
+
 Balanced.ActivityTransactionsController = Balanced.ObjectController.extend(
     Balanced.DownloadControllerMixin,
     {
