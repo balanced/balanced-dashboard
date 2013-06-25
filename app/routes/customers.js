@@ -9,7 +9,7 @@ Balanced.CustomersIndexRoute = Balanced.AuthRoute.extend({
         customerSelected: function (customer) {
             //  HACK: until we have a customers page implemented we need to use the account's iframe
             var marketplace = this.modelFor('marketplace');
-            var location = '/marketplaces/{0}/accounts/{1}'.format(marketplace.id, customer.id);
+            var location = '/marketplaces/{0}/accounts/{1}'.format(marketplace.get('id'), customer.get('id'));
             window.location.hash = '#' + location;
 //            this.transitionTo('customers.customer', customer);
         }
