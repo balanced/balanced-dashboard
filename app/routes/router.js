@@ -40,6 +40,8 @@ Balanced.Router.map(function () {
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
 
+            this.route('settings', { path: 'settings' });
+
             // only exists for compatibility with old dashboard URLs
             this.resource('accounts', { path: '/accounts' }, function () {
 
@@ -140,4 +142,5 @@ require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');
 require('app/routes/marketplaces/transactions');
 require('app/routes/marketplaces/activity');
+require('app/routes/marketplaces/settings');
 require('app/routes/customers');
