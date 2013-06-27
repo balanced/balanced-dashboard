@@ -27,12 +27,6 @@ node_modules
 *.sublime-project
 *.sublime-workspace
 
-# IntelliJ project files
-*.iml
-*.ipr
-*.iws
-.idea/
-
 # development ssl certificate
 *.crt
 *.key
