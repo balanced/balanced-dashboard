@@ -1,9 +1,6 @@
-Balanced.CardsIndexRoute = Balanced.ShowResource.extend({
-    param: 'card_id',
-    title: 'Activity',
-    resource: 'cards',
-    renderTemplate: function () {
-        this.render('marketplace/activity');
+Balanced.CardsIndexRoute = Balanced.AuthRoute.extend({
+    redirect: function() {
+        this.transitionTo('activity.funding_instruments');
     }
 });
 

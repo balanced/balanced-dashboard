@@ -1,9 +1,6 @@
-Balanced.BankAccountsIndexRoute = Balanced.ShowResource.extend({
-    param: 'bank_account_id',
-    title: 'Activity',
-    resource: 'bank_accounts',
-    renderTemplate: function () {
-        this.render('marketplace/activity');
+Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
+    redirect: function() {
+        this.transitionTo('activity.funding_instruments');
     }
 });
 
@@ -18,9 +15,6 @@ Balanced.BankAccountsBankAccountRoute = Balanced.ShowResource.extend({
         } catch (e) {
             //  if not nested under account, this will not work
         }
-    },
-    renderTemplate: function () {
-        this.render('marketplace/activity');
     }
 });
 

@@ -40,6 +40,7 @@ Balanced.Router.map(function () {
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
 
+            // only exists for compatibility with old dashboard URLs
             this.resource('accounts', { path: '/accounts' }, function () {
 
                 this.route('new', { path: '/new' });

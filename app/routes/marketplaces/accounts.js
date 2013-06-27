@@ -3,12 +3,9 @@ var model = function () {
     return uri;
 };
 
-Balanced.AccountsIndexRoute = Balanced.ShowResource.extend({
-    param: 'account_id',
-    title: 'Activity',
-    resource: 'accounts',
-    renderTemplate: function () {
-        this.render('marketplace/activity');
+Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
+    redirect: function() {
+        this.transitionTo('activity.customers');
     }
 });
 
