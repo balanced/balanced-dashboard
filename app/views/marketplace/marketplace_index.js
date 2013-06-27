@@ -1,4 +1,6 @@
 Balanced.MarketplaceIndexView = Balanced.View.extend({
+    keySecret: false,
+
     openEditMarketplaceInfoModal: function () {
         this.get('editMarketplaceInfoModal').open();
     },
@@ -21,5 +23,9 @@ Balanced.MarketplaceIndexView = Balanced.View.extend({
 
     openAddCallbackModal: function () {
         this.get('addCallbackModal').open();
+    },
+
+    showKeySecret: function() {
+        this.set('keySecret', true);
     }
 });
