@@ -46,10 +46,9 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
         $('#delete-card').modal('hide');
     },
 
-    marketplace: function () {
-        var marketplaceUri =  '/users/' + Balanced.Auth.get('userId') + '/marketplaces/' + this.get('id');
-        var marketplace = Balanced.MarketplaceLite.find(marketplaceUri);
-        return marketplace;
+    userMarketplace: function () {
+        var userMarketplaceUri = '/users/' + Balanced.Auth.get('userId') + '/marketplaces/' + this.get('id');
+        return Balanced.MarketplaceLite.find(userMarketplaceUri);
     }.property('secret')
 
 });
