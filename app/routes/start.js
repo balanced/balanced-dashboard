@@ -11,8 +11,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 
         var models = {
             apiKey: apiKey,
-            marketplace: marketplace,
-            headerClass: 'noShow'
+            marketplace: marketplace
         };
         var onMarketplaceCreate = function (mkt) {
             var marketplaces = Balanced.Auth.get('user').get('marketplaces');
@@ -49,6 +48,12 @@ Balanced.StartRoute = Balanced.Route.extend({
         },
         goToApply: function () {
             this.transitionTo('marketplaces.apply');
+        },
+        goToLogin: function() {
+            // Since we already logged them in as guest, log them out so they can sign in as themselves
+            Balanced.Auth.destroyGuestUser();
+            Balanced.Auth.manualLogout();
+            this.transitionTo('login');
         }
     }
 });

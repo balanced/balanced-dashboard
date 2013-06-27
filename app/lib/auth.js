@@ -93,6 +93,10 @@ Balanced.Auth = (function () {
         auth.setAuthProperties(true, user, user.uri, login.uri, false);
     };
 
+    auth.manualLogout = function() {
+        auth.setAuthProperties(false, null, null, null, false);
+    };
+
     var INTENDED_DESTINATION_KEY = 'intendedDestinationHash';
 
     auth.getIntendedDestinationHash = function () {

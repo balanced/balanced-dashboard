@@ -1,5 +1,19 @@
-{{partial "header"}}
+<header id="header" {{ bindAttr class=":container headerClass"}}>
+    <div class="row">
+        <div id="logo" class="span2">
+            <a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
+        </div>
 
+        <div class="span22">
+        </div>
+
+        <div id="site-nav" class="span2">
+            <div id="login-menu">
+                <a href="#" {{action goToLogin}} class="nav1d">sign in</a>
+            </div>
+        </div>
+    </div>
+</header>
 
 <section id="main" class="container start">
 
