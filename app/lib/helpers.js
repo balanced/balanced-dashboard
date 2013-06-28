@@ -251,7 +251,7 @@ Balanced.Utils = {
     },
 
     toGravatar: function (emailHash) {
-        return 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash);
+        return emailHash ? 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
     },
 
     setCurrentMarketplace: function (marketplace) {
