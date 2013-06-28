@@ -251,11 +251,7 @@ Balanced.Utils = {
     },
 
     toGravatar: function (emailHash) {
-        var placeholder = 'https://dashboard.balancedpayments.com/images/user_icon-01-3c142d4f.png';
-        if (!emailHash) {
-            return placeholder;
-        }
-        return 'https://secure.gravatar.com/avatar/{0}?s=30&d={1}'.format(emailHash, placeholder);
+        return emailHash ? 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
     },
 
     setCurrentMarketplace: function (marketplace) {

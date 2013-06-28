@@ -7,7 +7,7 @@
         <section class="marketplace-info">
             <form class="form-horizontal edit-inline">
                 <header>
-                    <h3>Marketplace info 
+                    <h3>Marketplace info
                         {{#if production}}
                         <a href="#" class="edit" {{action openEditMarketplaceInfoModal target="view"}}>Edit</a>
                         {{/if}}
@@ -71,7 +71,13 @@
                     <div class="control-group">
                         <label class="control-label">API key secret</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ userMarketplace.secret }} </span>
+                            <span class="inline-label">
+                                {{#if view.keySecret}}
+                                    {{ userMarketplace.secret }}
+                                {{else}}
+                                    <a href="#" {{action showKeySecret target="view"}}>click to show</a>
+                                {{/if}}
+                            </span>
                         </div>
                     </div>
                 </div>
