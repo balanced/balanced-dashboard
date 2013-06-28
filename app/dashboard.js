@@ -62,6 +62,7 @@ require('app/views/alert_view');
 require('app/views/base_form');
 require('app/views/control_group');
 require('app/views/date_picker');
+require('app/views/modal');
 require('app/views/download');
 require('app/views/embedded_iframe');
 require('app/views/login');
@@ -95,6 +96,7 @@ require('app/views/marketplaces/delete_marketplace_modal');
  */
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
+require('app/controllers/mixins/modal');
 require('app/controllers/activity');
 require('app/controllers/application');
 require('app/controllers/claim');
@@ -104,6 +106,7 @@ require('app/controllers/marketplace_settings');
 require('app/controllers/login');
 require('app/controllers/forgot_password');
 require('app/controllers/search');
+require('app/controllers/pay_seller_modal');
 
 require('app/controllers/marketplaces/apply');
 require('app/controllers/marketplaces/index');

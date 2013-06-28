@@ -1,5 +1,10 @@
 <ul>
+	<li class="pay-seller">
+        <a href="#" {{action openPaySellerModal}}>Pay a seller</a>
+    </li>
     <li class="add-customer">
         {{#linkTo accounts.new model }}Add a new customer{{/linkTo}}
     </li>
 </ul>
+
+{{render "paySellerModal"}}

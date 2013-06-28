@@ -14,7 +14,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     isValid: true,
 
     /* deserialize - override this with a function to transform the json before it's used
-     * Make sure to call this._super so that parent classes can perform their own 
+     * Make sure to call this._super so that parent classes can perform their own
      * deserialization
      *
      * Example:
@@ -26,7 +26,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
      * });
      */
     deserialize: function (json) {
-        // Deliberately empty so we can add functionality later without having to alter 
+        // Deliberately empty so we can add functionality later without having to alter
         // classes that inherit from this
     },
 
@@ -179,6 +179,9 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         if (jqXHR.status === 400) {
             this.set('isValid', false);
             this.trigger('becameInvalid', jqXHR.responseText);
+            if(jqXHR.responseJSON && jqXHR.responseJSON.extras) {
+                this.set('validationErrors', jqXHR.responseJSON.extras);
+            }
         } else {
             this.set('isError', true);
             this.trigger('becameError', jqXHR.responseText);

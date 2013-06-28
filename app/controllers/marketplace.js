@@ -1,4 +1,5 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend({
+    needs: 'paySellerModal',
 
     message_message: null,
     message_type: null,
@@ -19,6 +20,10 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
     dismissAlert: function () {
         this.set('message_message', null);
         this.set('message_type', null);
+    },
+
+    openPaySellerModal: function() {
+        this.get('controllers.paySellerModal').open();
     }
 });
 
