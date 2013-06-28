@@ -7,4 +7,6 @@
     </li>
 </ul>
 
-{{render "paySellerModal"}}
+{{#if show_pay_seller}}
+	{{partial "modals/pay_seller"}}
+{{/if}}

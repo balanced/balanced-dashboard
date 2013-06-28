@@ -1,19 +1,16 @@
-Balanced.ActivityController = Balanced.ObjectController.extend({
+Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
     needs: ['marketplace']
 });
 
-Balanced.ActivityTransactionsController = Balanced.ObjectController.extend(
-    Balanced.DownloadControllerMixin,
-    {
+Balanced.ActivityTransactionsController = Balanced.ObjectController.extend({
         needs: ['marketplace'],
 
         loadMore: function () {
             this.get('content').get('transactions').loadNextPage();
         }
-    }
-);
+});
 
-Balanced.ActivityCustomersController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
+Balanced.ActivityCustomersController = Balanced.ObjectController.extend({
     needs: ['marketplace'],
 
     loadMore: function () {
@@ -21,13 +18,10 @@ Balanced.ActivityCustomersController = Balanced.ObjectController.extend(Balanced
     }
 });
 
-Balanced.ActivityFundingInstrumentsController = Balanced.ObjectController.extend(
-    Balanced.DownloadControllerMixin,
-    {
+Balanced.ActivityFundingInstrumentsController = Balanced.ObjectController.extend({
         needs: ['marketplace'],
 
         loadMore: function () {
             this.get('content').get('funding_instruments').loadNextPage();
         }
-    }
-);
+});

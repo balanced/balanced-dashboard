@@ -5,7 +5,7 @@
 <div id="activity" class="span20">
     <h1 class="page-title">Activity
         {{#if iframeLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
-        <!-- <a href="#" {{action download_show}} class="icon-download right">Download</a> -->
+        <!--<a href="#" {{action openDownload}} class="icon-download right">Download</a>-->
     </h1>
 
     <div class="activity activity-escrow-box span20">
@@ -35,7 +35,7 @@
     {{ outlet }}
 
     {{#if show_download}}
-        {{view Balanced.DownloadModalView }}
+        {{partial "modals/download" }}
     {{/if}}
 
     {{view Balanced.AddFundsModalView marketplaceBinding="model" viewName="addFundsModal"}}

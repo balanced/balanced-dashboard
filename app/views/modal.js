@@ -1,9 +1,12 @@
 /*
  *   A view that will encapsulate a modal box
+ *   It will bind to data from the controller.
  */
 Balanced.ModalView = Balanced.View.extend({
     tagName: 'div',
     classNames: ['modal'],
+
+    close_event: 'close',
 
     didInsertElement: function () {
         this.$().modal('show');
@@ -12,7 +15,7 @@ Balanced.ModalView = Balanced.View.extend({
         // we can make sure the controller updates its state correctly
         var self = this;
         this.$().on('hide', function() {
-            self.get('controller').send('close');
+            self.get('controller').send(self.get('close_event'));
         });
     },
 
