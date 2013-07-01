@@ -179,7 +179,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         if (jqXHR.status === 400) {
             this.set('isValid', false);
             this.trigger('becameInvalid', jqXHR.responseText);
-            if(jqXHR.responseJSON && jqXHR.responseJSON.extras) {
+            if (jqXHR.responseJSON && jqXHR.responseJSON.extras) {
                 this.set('validationErrors', jqXHR.responseJSON.extras);
             }
         } else {

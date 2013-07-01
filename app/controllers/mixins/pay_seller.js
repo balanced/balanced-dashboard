@@ -5,7 +5,7 @@ Balanced.PaySeller = Ember.Mixin.create({
 
     pay_seller_amount_dollars: 0,
 
-    openPaySellerModal: function() {
+    openPaySellerModal: function () {
         var credit = Balanced.Credit.create({uri: '/v1/credits'});
         credit.set('bank_account', Balanced.BankAccount.create());
         this.set('pay_seller_model', credit);
@@ -13,17 +13,17 @@ Balanced.PaySeller = Ember.Mixin.create({
         this.set('show_pay_seller', true);
     },
 
-    closePaySellerModal: function() {
+    closePaySellerModal: function () {
         this.set('show_pay_seller', false);
     },
 
-    paySeller: function() {
+    paySeller: function () {
         var self = this;
         var credit = this.get('pay_seller_model');
 
         credit.set('amount', Balanced.Utils.dollarsToCents(this.get('pay_seller_amount_dollars')));
 
-        credit.create().then(function(credit) {
+        credit.create().then(function (credit) {
             self.closePaySellerModal();
 
             // this junk is in here because of the iframe code. Take it out when we clean that up!
@@ -32,6 +32,6 @@ Balanced.PaySeller = Ember.Mixin.create({
 
             // This is what we should be doing to transition
             // self.transitionToRoute('credits.credit', credit);
-        })
+        });
     }
 });

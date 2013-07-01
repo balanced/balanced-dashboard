@@ -72,7 +72,7 @@ Balanced.Router.map(function () {
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
 
-            this.resource('activity', { path: '/activity' }, function() {
+            this.resource('activity', { path: '/activity' }, function () {
                 this.route('transactions', { path: '/transactions' });
                 this.route('customers', { path: '/customers' });
                 this.route('funding_instruments', { path: '/funding_instruments' });

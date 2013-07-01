@@ -5,12 +5,12 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
 
     email_address: null,
 
-    openDownload: function() {
+    openDownload: function () {
         this.set('email_address', null);
         this.set('show_download', true);
     },
 
-    closeDownload: function() {
+    closeDownload: function () {
         this.set('show_download', false);
     },
 

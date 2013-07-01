@@ -3,11 +3,11 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.Download
 });
 
 Balanced.ActivityTransactionsController = Balanced.ObjectController.extend({
-        needs: ['marketplace'],
+    needs: ['marketplace'],
 
-        loadMore: function () {
-            this.get('content').get('transactions').loadNextPage();
-        }
+    loadMore: function () {
+        this.get('content').get('transactions').loadNextPage();
+    }
 });
 
 Balanced.ActivityCustomersController = Balanced.ObjectController.extend({
@@ -19,9 +19,9 @@ Balanced.ActivityCustomersController = Balanced.ObjectController.extend({
 });
 
 Balanced.ActivityFundingInstrumentsController = Balanced.ObjectController.extend({
-        needs: ['marketplace'],
+    needs: ['marketplace'],
 
-        loadMore: function () {
-            this.get('content').get('funding_instruments').loadNextPage();
-        }
+    loadMore: function () {
+        this.get('content').get('funding_instruments').loadNextPage();
+    }
 });

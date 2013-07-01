@@ -1,5 +1,5 @@
 Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
-    redirect: function() {
+    redirect: function () {
         this.transitionTo('activity.transactions');
     }
 });
