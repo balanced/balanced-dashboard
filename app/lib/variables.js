@@ -16,3 +16,14 @@ Balanced.TIME = {
 Balanced.KEYS = {
     ESCAPE: 27
 };
+
+Balanced.BANK_ACCOUNT_TYPES = [
+    {
+        label: 'Checking',
+        value: 'checking'
+    },
+    {
+        label: 'Savings',
+        value: 'savings'
+    }
+];

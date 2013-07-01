@@ -16,9 +16,11 @@ test('can visit page', function (assert) {
     assert.notEqual($title.text().indexOf('Activity'), -1,
         'Title is incorrect');
 
+    // Put this back in when the activity page supports downloads
+    /*
     assert.notEqual($title.text().indexOf('Download'), -1,
         'Download link not in title "{0}"'.format($title.text()));
-
+    */
 });
 
 test('can visit pages', function (assert) {

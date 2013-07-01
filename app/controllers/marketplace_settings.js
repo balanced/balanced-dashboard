@@ -1,4 +1,4 @@
-Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
+Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
     needs: ["marketplace"],
 
     fullyLoaded: function () {
@@ -50,5 +50,4 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
         var userMarketplaceUri = '/users/' + Balanced.Auth.get('userId') + '/marketplaces/' + this.get('id');
         return Balanced.MarketplaceLite.find(userMarketplaceUri);
     }.property('secret')
-
 });
