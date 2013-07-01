@@ -62,7 +62,7 @@ require('app/views/alert_view');
 require('app/views/base_form');
 require('app/views/control_group');
 require('app/views/date_picker');
-require('app/views/download');
+require('app/views/modal');
 require('app/views/embedded_iframe');
 require('app/views/login');
 require('app/views/forgot_password'); // depends on login
@@ -70,7 +70,7 @@ require('app/views/search');
 require('app/views/welcome_transition');
 
 require('app/views/marketplace/marketplace');
-require('app/views/marketplace/marketplace_index');
+require('app/views/marketplace/marketplace_settings');
 require('app/views/marketplace/add_bank_account_modal');
 require('app/views/marketplace/add_callback_modal');
 require('app/views/marketplace/add_card_modal');
@@ -95,11 +95,13 @@ require('app/views/marketplaces/delete_marketplace_modal');
  */
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
+require('app/controllers/mixins/pay_seller');
+require('app/controllers/activity');
 require('app/controllers/application');
 require('app/controllers/claim');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
-require('app/controllers/marketplace_index');
+require('app/controllers/marketplace_settings');
 require('app/controllers/login');
 require('app/controllers/forgot_password');
 require('app/controllers/search');

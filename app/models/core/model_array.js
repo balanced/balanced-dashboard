@@ -3,20 +3,24 @@ require('app/models/mixins/load_promise');
 Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
     isLoaded: false,
     hasNextPage: false,
+    loadingNextPage: false,
 
     loadNextPage: function () {
         var self = this;
 
         var promise = this.resolveOn('didLoad');
+        self.set('loadingNextPage', true);
 
         if (this.get('hasNextPage')) {
             var typeClass = this.get('typeClass');
 
             Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
                 self.populateModels(json);
+                self.set('loadingNextPage', false);
             });
         } else {
             promise.reject(this);
+            self.set('loadingNextPage', false);
         }
 
         return promise;

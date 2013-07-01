@@ -1,4 +1,4 @@
-Balanced.MarketplaceIndexView = Balanced.View.extend({
+Balanced.MarketplaceSettingsView = Balanced.View.extend({
     keySecret: false,
 
     openEditMarketplaceInfoModal: function () {

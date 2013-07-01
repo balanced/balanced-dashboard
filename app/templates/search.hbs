@@ -84,7 +84,7 @@
                     {{view Balanced.DatePickerView viewName="dateTimePicker" }}
                 </li>
                 <!--<li class="download">-->
-                    <!--<a href="#" {{action download_show}} class="icon-download right">Download</a>-->
+                    <!--<a href="#" {{action openDownload}} class="icon-download right">Download</a>-->
                 <!--</li>-->
             </nav>
         </header>
@@ -244,6 +244,6 @@
         </div>
     </div>
     {{#if show_download}}
-        {{view Balanced.DownloadModalView }}
+        {{partial "modals/download" }}
     {{/if}}
 </div>
