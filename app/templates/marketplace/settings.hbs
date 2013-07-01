@@ -131,7 +131,31 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_customer.address.address }}
+                                {{ owner_customer.address.street_address }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">City</label>
+                        <div class="controls">
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_customer.address.city }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Region</label>
+                        <div class="controls">
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_customer.address.region }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -155,7 +179,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_customer.address.country }}
+                                {{ owner_customer.address.country_code }}
                             {{else}}
                                 Test
                             {{/if}}
