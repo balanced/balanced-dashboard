@@ -11,13 +11,13 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         }
     }.property('model.source_uri'),
 
-    verified_bank_accounts: function () {
-        return this.get('owner_customer.verified_bank_accounts') || this.get('marketplace.owner_customer.verified_bank_accounts');
-    }.property('owner_customer.verified_bank_accounts', 'marketplace.owner_customer.verified_bank_accounts'),
+    bank_accounts: function () {
+        return this.get('owner_customer.bank_accounts') || this.get('marketplace.owner_customer.bank_accounts');
+    }.property('owner_customer.bank_accounts', 'marketplace.owner_customer.bank_accounts'),
 
     open: function () {
-        var verified_bank_accounts = this.get('marketplace.owner_customer.verified_bank_accounts');
-        var source_uri = (verified_bank_accounts && verified_bank_accounts.length > 0) ? verified_bank_accounts[0].get('uri') : null;
+        var bank_accounts = this.get('marketplace.owner_customer.bank_accounts');
+        var source_uri = (bank_accounts && bank_accounts.length > 0) ? bank_accounts[0].get('uri') : null;
 
         var credit = Balanced.Credit.create({
             uri: this.get('marketplace.owner_customer.credits_uri'),

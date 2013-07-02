@@ -11,7 +11,10 @@ Balanced.Credit = Balanced.Transaction.extend({
 
     serialize: function (json) {
         this._super(json);
-        json.bank_account = this.get('bank_account')._toSerializedJSON();
+
+        if(this.get('bank_account')) {
+            json.bank_account = this.get('bank_account')._toSerializedJSON();
+        }
     }
 });
 
