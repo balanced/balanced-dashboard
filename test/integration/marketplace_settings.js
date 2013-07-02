@@ -32,7 +32,8 @@ test('can update marketplace info', function (assert) {
 test('can create bank accounts', function (assert) {
     var createsBefore = Balanced.Adapter.creates.length;
 
-    assert.equal($('.bank-account-info .sidebar-items li').length, 0);
+    // There are two bank accounts added to the fixture, used for add and withdraw funds
+    assert.equal($('.bank-account-info .sidebar-items li').length, 2);
 
     // click the button to add a bank account
     $('.bank-account-info a.add').click();

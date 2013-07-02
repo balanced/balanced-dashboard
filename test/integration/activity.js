@@ -48,14 +48,14 @@ test('add funds', function(assert) {
 
     assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 
-    // assert.notEqual($('#add-funds select option').length, 0, 'at least one bank account in account dropdown');
+    assert.equal($('#add-funds select option').length, 2, 'two verified bank account in account dropdown');
 
-    // $('#add-funds input').first().val('55.55');
-    // $('#add-funds .modal-footer .btn').not('.danger').click();
+    $('#add-funds input').first().val('55.55').trigger('keyup');
+    $('#add-funds .modal-footer .btn').not('.danger').click();
 
-    // assert.equal($('#add-funds').css('display'), 'none', 'add funds modal hidden');
+    assert.equal($('#add-funds').css('display'), 'none', 'add funds modal hidden');
 
-    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1137.81'), -1, 'escrow amount is now $1193.36');
+    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,193.36'), -1, 'escrow amount is now $1,193.36');
 });
 
 test('withdraw funds', function(assert) {
@@ -65,13 +65,13 @@ test('withdraw funds', function(assert) {
 
     assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 
-    // assert.notEqual($('#withdraw-funds select option').length, 0, 'at least one bank account in account dropdown');
+    assert.equal($('#withdraw-funds select option').length, 2, 'two bank account in account dropdown');
 
-    // $('#withdraw-funds input').first().val('55.55');
-    // $('#withdraw-funds .modal-footer .btn').not('.danger').click();
+    $('#withdraw-funds input').first().val('55.55').trigger('keyup');
+    $('#withdraw-funds .modal-footer .btn').not('.danger').click();
 
-    // assert.equal($('#withdraw-funds').css('display'), 'none', 'withdraw funds modal hidden');
+    assert.equal($('#withdraw-funds').css('display'), 'none', 'withdraw funds modal hidden');
 
-    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1082.26'), -1, 'escrow amount is now $1082.26');
+    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,082.26'), -1, 'escrow amount is now $1,082.26');
 });
 
