@@ -1,3 +1,9 @@
+Balanced.ActivityRoute = Balanced.AuthRoute.extend({
+    model: function () {
+        return this.modelFor('marketplace');
+    }
+});
+
 Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
     redirect: function () {
         this.transitionTo('activity.transactions');
