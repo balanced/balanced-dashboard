@@ -47,7 +47,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
     },
 
     userMarketplace: function () {
-        var userMarketplaceUri = '/users/' + Balanced.Auth.get('userId') + '/marketplaces/' + this.get('id');
-        return Balanced.MarketplaceLite.find(userMarketplaceUri);
+        var marketplaceUri = Balanced.Auth.get('user').get('marketplaces_uri');
+        return Balanced.MarketplaceLite.find(marketplaceUri + '/' + this.get('id'));
     }.property('secret')
 });
