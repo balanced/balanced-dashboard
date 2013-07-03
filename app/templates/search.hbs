@@ -48,9 +48,9 @@
 
                 <li {{bindAttr class=":accounts total_accounts::disabled"}} >
                     {{#if total_accounts}}
-                        {{#view Balanced.SearchTypeView searchType="account"}} Accounts ({{ total_accounts }}) {{/view}}
+                        {{#view Balanced.SearchTypeView searchType="account"}} Customers ({{ total_accounts }}) {{/view}}
                     {{else}}
-                        <span>Accounts (0)</span>
+                        <span>Customers (0)</span>
                     {{/if}}
                 </li>
 
@@ -148,7 +148,7 @@
                 <thead>
                     <tr>
                         {{#view Balanced.SearchSortableColumnHeaderView class="span3 label6a unsorted" field="created_at"}}Created{{/view}}
-                        <th class="span4 label6a account">Account</th>
+                        <th class="span4 label6a name">Name</th>
                         <th class="span8 label6a email">Email</th>
                     </tr>
                 </thead>
@@ -167,7 +167,7 @@
                             <td class="span3 date">
                                 <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
                             </td>
-                            <td class="span4 account" {{bindAttr title="account.display_me"}}>
+                            <td class="span4 name" {{bindAttr title="account.display_me"}}>
                                 {{ account.display_me }}
                             </td>
                             <td class="span8 email" {{bindAttr title="account.email"}}>
