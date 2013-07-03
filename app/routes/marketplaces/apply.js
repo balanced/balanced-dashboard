@@ -27,7 +27,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
                         // unset the api key for this request
                         //  associate to login
-                        var userMarketplaceAssociation = Balanced.MarketplaceLite.create({
+                        var userMarketplaceAssociation = Balanced.UserMarketplace.create({
                             uri: user.api_keys_uri,
                             secret: apiKey.secret
                         });

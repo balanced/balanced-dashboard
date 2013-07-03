@@ -1,13 +1,13 @@
 Balanced.User = Balanced.Model.extend({
 
-    marketplace_lites: Balanced.Model.hasMany('Balanced.MarketplaceLite', 'marketplace_lites'),
+    user_marketplaces: Balanced.Model.hasMany('Balanced.UserMarketplace', 'user_marketplaces'),
 
     marketplaces: function() {
-        var marketplaceLites = this.get('marketplace_lites').get('content');
-        return _.map(marketplaceLites, function (marketplace) {
+        var userMarketplaces = this.get('user_marketplaces').get('content');
+        return _.map(userMarketplaces, function (marketplace) {
             return Balanced.Marketplace.find(marketplace.uri);
         });
-    }.property('marketplace_lites'),
+    }.property('user_marketplaces'),
 
     gravatar: function () {
         var emailHash = this.get('email_hash');
@@ -18,10 +18,10 @@ Balanced.User = Balanced.Model.extend({
     deserialize: function (json) {
         this._super(json);
 
-        json.marketplace_lites = json.marketplaces || [];
+        json.user_marketplaces = json.marketplaces || [];
         delete json.marketplaces;
 
-        json.marketplace_lites.sort(function (a, b) {
+        json.user_marketplaces.sort(function (a, b) {
             if (a.name === b.name) {
                 return 0;
             }

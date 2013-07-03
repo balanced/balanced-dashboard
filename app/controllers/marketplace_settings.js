@@ -49,11 +49,11 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
     marketplaceSecret: function () {
         var uri = this.get('uri');
         var user = Balanced.Auth.get('user');
-        var currentMarketplaceLite = _.find(user.get('marketplace_lites').get('content'), function(marketplaceLite) {
-            return marketplaceLite.get('uri') === uri;
+        var currentUserMarketplace = _.find(user.get('user_marketplaces').get('content'), function(userMarketplace) {
+            return userMarketplace.get('uri') === uri;
         });
-        if(currentMarketplaceLite) {
-            return currentMarketplaceLite.get('secret');
+        if(currentUserMarketplace) {
+            return currentUserMarketplace.get('secret');
         } else {
             return "";
         }

@@ -56,7 +56,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 
                     // associate marketplace to user
                     if (authToken) {
-                        var marketplace = Balanced.MarketplaceLite.create({
+                        var marketplace = Balanced.UserMarketplace.create({
                             uri: user.api_keys_uri,
                             secret: authToken
                         });

@@ -14,10 +14,11 @@ Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
         // with api based uris
         var user = Balanced.Auth.get('user');
         var uri = user.marketplaces_uri + '/' + this.marketplace.get('id');
-        Balanced.MarketplaceLite.create({
+        Balanced.UserMarketplace.create({
             uri: uri
-        }).delete();
-        user.marketplaces.removeObject(this.marketplace);
+        }).delete().then(function() {
+            user.refresh();
+        });
         $('#delete-marketplace').modal('hide');
     },
 
