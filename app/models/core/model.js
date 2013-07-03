@@ -115,22 +115,22 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     refresh: function () {
-        if(this.get('isLoaded')) {
-            var self = this;
-            this.set('isLoaded', false);
-
-            var promise = this.resolveOn('didLoad');
-
-            Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
-                self._updateFromJson(json);
-                self.set('isLoaded', true);
-                self.trigger('didLoad');
-            }, $.proxy(self._handleError, self));
-
-            return promise;
-        } else {
+        if(!this.get('isLoaded')) {
             return this;
         }
+
+        var self = this;
+        this.set('isLoaded', false);
+
+        var promise = this.resolveOn('didLoad');
+
+        Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
+            self._updateFromJson(json);
+            self.set('isLoaded', true);
+            self.trigger('didLoad');
+        }, $.proxy(self._handleError, self));
+
+        return promise;
     },
 
     copy: function () {
