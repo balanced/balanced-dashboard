@@ -13,9 +13,10 @@ Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
         // for doing so is we generally (except for this single case), deal
         // with api based uris
         var user = Balanced.Auth.get('user');
-        var uri = user.marketplaces_uri + '/' + this.marketplace.get('id');
+        var uri = user.get('marketplaces_uri') + '/' + this.marketplace.get('id');
         Balanced.UserMarketplace.create({
-            uri: uri
+            uri: uri,
+            isLoaded: true
         }).delete().then(function() {
             user.refresh();
         });
@@ -26,11 +27,12 @@ Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
         var self = this;
         this.set('isLoading', true);
         marketplace.one('didCreate', function () {
-            Balanced.Auth.get('user').marketplaces.addObject(marketplace);
-            self.reset();
-        }).one('didError', function () {
+            Balanced.Auth.get('user').refresh().then(function() {
                 self.reset();
             });
+        }).one('didError', function () {
+            self.reset();
+        });
         marketplace.create();
     },
 

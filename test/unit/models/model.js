@@ -582,6 +582,16 @@ test('models have promises for delete', function (assert) {
     });
 });
 
+test('newly created models have promises for delete', function (assert) {
+    expect(1);
+    var t = Balanced.TestModel.create({uri: '/v1/testobjects/1', isLoaded: true});
+    Ember.run(function () {
+        t.delete().then(function (model) {
+            assert.ok(true);
+        });
+    });
+});
+
 test('models have promises for refresh', function (assert) {
     expect(1);
     var t = Balanced.TestModel.find('/v1/testobjects/1');
