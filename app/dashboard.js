@@ -29,7 +29,7 @@ require('app/lib/analytics');
 require('app/models/core/core');
 require('app/models/api_key');
 require('app/models/download');
-require('app/models/marketplace_lite');
+require('app/models/user_marketplace');
 require('app/models/marketplace');
 require('app/models/user');
 require('app/models/login');

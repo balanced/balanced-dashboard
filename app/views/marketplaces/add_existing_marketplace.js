@@ -11,7 +11,7 @@ Balanced.AddExistingMarketplaceView = Balanced.View.extend({
         if (!secret) {
             return;
         }
-        var marketplace = Balanced.MarketplaceLite.create({
+        var marketplace = Balanced.UserMarketplace.create({
             uri: Balanced.Auth.get('user').get('marketplaces_uri'),
             secret: secret
         }).one('didCreate',function () {

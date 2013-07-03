@@ -1,4 +1,4 @@
-Balanced.MarketplaceLite = Balanced.Model.extend({
+Balanced.UserMarketplace = Balanced.Model.extend({
     web_uri: function() {
         // have to strip off the API version
         return ENV.BALANCED.WWW + this.get('uri').substring(3);

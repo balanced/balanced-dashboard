@@ -1,6 +1,8 @@
 Balanced.ActivityRoute = Balanced.AuthRoute.extend({
     model: function () {
-        return this.modelFor('marketplace');
+        var marketplace = this.modelFor('marketplace');
+        marketplace.refresh();
+        return marketplace;
     }
 });
 
@@ -12,22 +14,17 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
     model: function () {
-        var marketplace = this.modelFor('marketplace');
-        var transactions = marketplace.get('transactions');
         // HACK: never hard-code the cookie key directly, only doing this to
         // limit scope of migration changes
-        var showWelcome = $.cookie('existing') && !$.cookie('suppressWelcome');
-        marketplace.refresh();
-        transactions.refresh();
-        //  TODO: this is migration code, remove it after August 2013
-        setTimeout(function () {
-            $('#welcome-transition').modal('show');
-        }, 100);
-        return Ember.Object.create({
-            marketplace: marketplace,
-            showWelcome: showWelcome,
-            transactions: transactions
-        });
+        if ($.cookie('existing') && !$.cookie('suppressWelcome')) {
+            setTimeout(function () {
+                $('#welcome-transition').modal('show');
+            }, 100);
+        }
+
+        var marketplace = this.modelFor('marketplace');
+        marketplace.get('transactions').refresh();
+        return marketplace;
     },
     events: {
         hideWelcome: function () {
@@ -44,7 +41,7 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
     model: function () {
         var marketplace = this.modelFor('marketplace');
-        marketplace.refresh();
+        marketplace.get('customers').refresh();
         return marketplace;
     },
 
@@ -62,7 +59,7 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
     model: function () {
         var marketplace = this.modelFor('marketplace');
-        marketplace.refresh();
+        marketplace.get('funding_instruments').refresh();
         return marketplace;
     },
     events: {

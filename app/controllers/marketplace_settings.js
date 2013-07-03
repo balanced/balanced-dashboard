@@ -46,8 +46,14 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
         $('#delete-card').modal('hide');
     },
 
-    userMarketplace: function () {
-        var marketplaceUri = Balanced.Auth.get('user').get('marketplaces_uri');
-        return Balanced.MarketplaceLite.find(marketplaceUri + '/' + this.get('id'));
-    }.property('secret')
+    marketplaceSecret: function () {
+        var uri = this.get('uri');
+        var user = Balanced.Auth.get('user');
+        var currentUserMarketplace = user.user_marketplace_for_uri(uri);
+        if (currentUserMarketplace) {
+            return currentUserMarketplace.get('secret');
+        } else {
+            return '';
+        }
+    }.property('uri', 'Balanced.Auth.user.user_marketplaces.@each.uri')
 });
