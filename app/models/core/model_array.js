@@ -27,7 +27,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
     },
 
     refresh: function () {
-        if(!this.get('isLoaded')) {
+        if (!this.get('isLoaded')) {
             return this;
         }
 

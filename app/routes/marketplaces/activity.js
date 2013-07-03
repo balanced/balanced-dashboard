@@ -16,7 +16,7 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
     model: function () {
         // HACK: never hard-code the cookie key directly, only doing this to
         // limit scope of migration changes
-        if($.cookie('existing') && !$.cookie('suppressWelcome')) {
+        if ($.cookie('existing') && !$.cookie('suppressWelcome')) {
             setTimeout(function () {
                 $('#welcome-transition').modal('show');
             }, 100);

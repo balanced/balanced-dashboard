@@ -2,13 +2,13 @@ Balanced.User = Balanced.Model.extend({
 
     user_marketplaces: Balanced.Model.hasMany('Balanced.UserMarketplace', 'user_marketplaces'),
 
-    user_marketplace_for_uri: function(uri) {
-        return _.find(this.get('user_marketplaces').get('content'), function(userMarketplace) {
+    user_marketplace_for_uri: function (uri) {
+        return _.find(this.get('user_marketplaces').get('content'), function (userMarketplace) {
             return userMarketplace.get('uri') === uri;
         });
     },
 
-    marketplaces: function() {
+    marketplaces: function () {
         var userMarketplaces = this.get('user_marketplaces').get('content');
         return _.map(userMarketplaces, function (marketplace) {
             return Balanced.Marketplace.find(marketplace.uri);

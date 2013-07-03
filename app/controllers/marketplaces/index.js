@@ -1,4 +1,3 @@
-
 Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
 
     isLoading: false,
@@ -17,22 +16,22 @@ Balanced.MarketplacesIndexController = Balanced.ArrayController.extend({
         Balanced.UserMarketplace.create({
             uri: uri,
             isLoaded: true
-        }).delete().then(function() {
-            user.refresh();
-        });
+        }).delete().then(function () {
+                user.refresh();
+            });
         $('#delete-marketplace').modal('hide');
     },
 
     addMarketplace: function (marketplace) {
         var self = this;
         this.set('isLoading', true);
-        marketplace.one('didCreate', function () {
-            Balanced.Auth.get('user').refresh().then(function() {
+        marketplace.one('didCreate',function () {
+            Balanced.Auth.get('user').refresh().then(function () {
                 self.reset();
             });
         }).one('didError', function () {
-            self.reset();
-        });
+                self.reset();
+            });
         marketplace.create();
     },
 
