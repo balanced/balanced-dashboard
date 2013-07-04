@@ -14,6 +14,7 @@ Balanced.TIME = {
 };
 
 Balanced.KEYS = {
+    ENTER: 13,
     ESCAPE: 27
 };
 

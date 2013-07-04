@@ -14,7 +14,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     init: function() {
         var self = this;
         var debouncedQuery = _.debounce(function() {
-            self.query();
+            // since this might get called after a timeout, make sure this
+            // object is still valid (especially necessary for tests)
+            if(!self.get('isDestroyed')) {
+                self.query();
+            }
         }, 400);
         this.addObserver('search', debouncedQuery);
     },
