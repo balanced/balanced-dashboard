@@ -12,7 +12,13 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
     sorts: ['unsorted', 'ascending', 'descending'],
 
     didInsertElement: function () {
+        var self = this;
         $(document).on('click', $.proxy(this.shouldCloseSearch, this));
+
+        this.get('controller').addObserver('content', function() {
+            self.toggleResults();
+            self._highlightResults();
+        });
     },
 
     selectSearchResult: function (uri) {
@@ -87,11 +93,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
             this.get('controller').send('redirectToLog', query);
             return;
         }
-
-        self._runSearch(function () {
-            self.toggleResults();
-            self._highlightResults();
-        });
     },
 
     onSortChange: function (e, field) {
@@ -141,7 +142,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $('#search .items.' + typeToSelect).addClass('selected');
 
         this.get('controller').send('changeTypeFilter', searchType);
-        this._runSearch();
     },
 
     filterResultType: function (e, filter, label) {
@@ -162,7 +162,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         }
 
         this.get('controller').send('changeTypeFilter', filter);
-        this._runSearch();
     },
 
     toggleResults: function () {
@@ -185,10 +184,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
     _setSortOrder: function (field, sortOrder) {
         this.get('controller').send('changeSortOrder', field, sortOrder);
-    },
-
-    _runSearch: function (callback) {
-        this.get('controller').send('query', callback);
     }
 });
 

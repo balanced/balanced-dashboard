@@ -2,15 +2,49 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     needs: ['marketplace'],
 
     search: '',
-    latestRequestTimeStamp: null,
 
     limit: 10,
     minDate: null,
     maxDate: null,
     sortField: null,
     sortOrder: null,
-    isLoading: false,
     type: 'transactions',
+
+    // Using a two-level system for the results content here because we don't
+    // want to lose our results while we're loading a new query
+    // The currently processing query is computed as loading_content, once it
+    // has loaded successfully, it's set as content
+    loading_content: function() {
+        var query = this.get('search');
+        var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
+
+        if (!query || !query.trim()) {
+            return null;
+        }
+
+        // Allows users to get all results by entering wildcard (%)
+        if (query === '%') {
+            query = '';
+        }
+
+        var self = this;
+        var params = this.searchParams({
+            query: query
+        });
+
+        var searchQuery = Balanced.SearchQuery.search(marketplaceUri, params);
+
+        searchQuery.then(function(searchQuery) {
+            self.set('content', searchQuery);
+        });
+
+        return searchQuery;
+    }.property('search', 'limit', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'type'),
+
+    isLoading: function() {
+        var current = this.get('loading_content');
+        return current && !current.get('isLoaded');
+    }.property('loading_content.isLoaded'),
 
     getLabel: function (labelMapping, acceptedTypes, type) {
         var label = labelMapping[type];
@@ -56,42 +90,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         return Balanced.SearchQuery.createUri(marketplaceUri, params);
     },
 
-    query: function (callback) {
-        this.fromQuery(callback);
-    },
-
     loadMore: function(results) {
         results.loadNextPage();
-    },
-
-    fromQuery: function (callback) {
-        var query = this.get('search');
-        var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
-        var requestTimeStamp = Ember.testing ? 0 : new Date().getTime();
-
-        if (!query.trim()) {
-            return;
-        }
-
-        // Allows users to get all results by entering wildcard (%)
-        if (query === '%') {
-            query = '';
-        }
-
-        this.set('latestRequestTimeStamp', requestTimeStamp);
-        this.set('isLoading', true);
-
-        var self = this;
-        var params = this.searchParams({
-            query: query,
-            requestTimeStamp: requestTimeStamp
-        });
-
-        Balanced.SearchQuery.search(marketplaceUri, params, {
-            observer: function (result) {
-                self.onSearchCallback(result, callback);
-            }
-        });
     },
 
     searchParams: function (params) {
@@ -113,20 +113,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('sortOrder', null);
         this.set('search', null);
         this.set('type', 'transactions');
-    },
-
-    onSearchCallback: function (result, callback) {
-        var requestTimeStamp = Balanced.Utils.getParamByName(result.uri, 'requestTimeStamp');
-        if (requestTimeStamp !== 0 && +(requestTimeStamp) < +(this.get('latestRequestTimeStamp'))) {
-            return;
-        }
-
-        this.set('content', result);
-        this.set('isLoading', false);
-
-        if (callback && typeof(callback) === 'function') {
-            callback();
-        }
     },
 
     changeDateFilter: function (minDate, maxDate) {

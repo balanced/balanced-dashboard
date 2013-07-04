@@ -87,9 +87,6 @@ Balanced.SearchQuery.reopenClass({
             offset: params.offset || 0,
             q: params.query
         };
-        if (params.requestTimeStamp) {
-            searchParams.requestTimeStamp = params.requestTimeStamp;
-        }
         if (params.sortOrder && params.sortField && !params.sort) {
             searchParams.sort = [params.sortField, params.sortOrder].join(',');
         }
