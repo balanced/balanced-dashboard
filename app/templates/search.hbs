@@ -1,4 +1,4 @@
-<div id="search">
+<div id="search" {{bindAttr class="controller.displayResults:with-results"}}>
     {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
     {{# if isLoading }}
         <span class="loader loading query-loader"></span>

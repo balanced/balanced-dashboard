@@ -8,24 +8,20 @@ Balanced.BaseSearchView = Balanced.View.extend({
 Balanced.SearchView = Balanced.BaseSearchView.extend({
     templateName: 'search',
 
-    resultsClass: 'with-results',
-
     didInsertElement: function () {
-        var self = this;
-        $(document).on('click', $.proxy(this.clickOutsideSearchBox, this));
+        $(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
 
-        this.get('controller').addObserver('content', function() {
-            self.toggleResults();
-            self._highlightResults();
-        });
-
-        this.get('controller').addObserver('displayResults', function() {
-            if(!self.get('controller.displayResults')) {
-                self.reset();
-            }
-        });
+        this.get('controller').addObserver('content', this, this._highlightResults);
+        this.get('controller').addObserver('displayResults', this, this._toggleDisplayResults);
 
         this.reset();
+    },
+
+    willDestroyElement: function() {
+        this.get('controller').removeObserver('content', this, this._highlightResults);
+        this.get('controller').removeObserver('displayResults', this, this._toggleDisplayResults);
+
+        $(document).off('click.balanced-click-outside');
     },
 
     clickOutsideSearchBox: function (e) {
@@ -40,7 +36,7 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
     reset: function () {
         $('#q').val('');
         this.resetHeader();
-        this.hideResults();
+        this.hideResultsOverlay();
         this.get('controller').send('reset');
         this.get('dateTimePicker').resetDateTimePicker();
     },
@@ -60,8 +56,11 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $('#search .items.transactions').addClass('selected');
     },
 
-    hideResults: function () {
-        $('#search').removeClass(this.resultsClass);
+    showResultsOverlay: function() {
+        $('body').addClass(this.overlayClass);
+    },
+
+    hideResultsOverlay: function () {
         $('body').removeClass(this.overlayClass);
     },
 
@@ -72,21 +71,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $sets.removeClass('selected');
         $dps.val('');
         $('#search .timing > .dropdown-toggle > span').text('Any time');
-    },
-
-    onQueryChange: function (e) {
-        var self = this;
-        var query = $('#q').val();
-        if (query.length === 0) {
-            self.toggleResults();
-            return;
-        }
-
-        //  HACK: how do we do this from the controller?
-        if (query.indexOf('OHM') === 0 && query.length > 30) {
-            this.get('controller').send('redirectToLog', query);
-            return;
-        }
     },
 
     onChangeSearchType: function (e, searchType) {
@@ -134,15 +118,13 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         this.get('controller').send('changeTypeFilter', filter);
     },
 
-    toggleResults: function () {
-        var $q = $('#q');
-        var $searchArea = $('#search');
-        var $body = $('body');
-        var fn = $q.val() ? $searchArea.addClass : $searchArea.removeClass;
-        var bodyFn = $q.val() ? $body.addClass : $body.removeClass;
-
-        fn.call($searchArea, this.resultsClass);
-        bodyFn.call($body, this.overlayClass);
+    _toggleDisplayResults: function() {
+        if(this.get('controller.displayResults')) {
+            this.showResultsOverlay();
+            this._highlightResults();
+        } else {
+            this.reset();
+        }
     },
 
     _highlightResults: function () {
@@ -156,19 +138,12 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
     attributeBindings: ['autocomplete'],
 
-    didInsertElement: function () {
-        var self = this;
-        self.keyUp = _.throttle(function (e) {
-            var parentView = this.get('parentView');
-            // Hide search results on escape key
-            if (e.keyCode === Balanced.KEYS.ESCAPE) {
-                this.get('controller').send('closeSearch');
-                return;
-            }
-
-            parentView.onQueryChange(e);
-
-        }, Balanced.THROTTLE);
+    keyUp: function(e) {
+        // Hide search results on escape key
+        if (e.keyCode === Balanced.KEYS.ESCAPE) {
+            this.get('controller').send('closeSearch');
+            return;
+        }
     },
 
     focusIn: function (e) {

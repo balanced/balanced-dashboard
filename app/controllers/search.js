@@ -67,6 +67,17 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     },
 
     query: function() {
+        var search = this.get('search');
+        if(!search || search.length == 0) {
+            this.closeSearch();
+            return;
+        }
+
+        if (search.indexOf('OHM') === 0 && query.length > 30) {
+            this.redirectToLog(search);
+            return;
+        }
+
         this.set('debounced_search', this.get('search'));
     },
 
