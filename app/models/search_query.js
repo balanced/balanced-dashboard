@@ -2,6 +2,10 @@
  * This wraps the results of a search query.
  */
 Balanced.SearchQuery = Balanced.Model.extend({
+    transactions: Balanced.Model.hasMany('Balanced.Transaction', 'transactions'),
+    accounts: Balanced.Model.hasMany('Balanced.Account', 'accounts'),
+    funding_instruments: Balanced.Model.hasMany('Balanced.FundingInstrument', 'funding_instruments'),
+
     deserialize: function (json) {
         this._super(json);
 
@@ -25,18 +29,22 @@ Balanced.SearchQuery = Balanced.Model.extend({
             };
         }
 
-        function itemMap(map) {
-            return function (item) {
-                var instance = map[item._type];
-                if (instance) {
-                    return instance.create(item);
-                }
+        var transactions = _.chain(json.items).filter(itemFilter(transactionMap)).value();
+        var accounts = _.chain(json.items).filter(itemFilter(accountMap)).value();
+        var funding_instruments = _.chain(json.items).filter(itemFilter(fundingInstrumentMap)).value();
+
+        function constructResults(items, json) {
+            var results = {
+                items: items
             };
+            results.next_uri = items.length > 0 ? json.next_uri : null;
+            results.total = items.length > 0 ? json.total : null;
+            return results;
         }
 
-        json.transactions = _.chain(json.items).filter(itemFilter(transactionMap)).map(itemMap(transactionMap)).value();
-        json.accounts = _.chain(json.items).filter(itemFilter(accountMap)).map(itemMap(accountMap)).value();
-        json.funding_instruments = _.chain(json.items).filter(itemFilter(fundingInstrumentMap)).map(itemMap(fundingInstrumentMap)).value();
+        json.transactions = constructResults(transactions, json);
+        json.accounts = constructResults(accounts, json);
+        json.funding_instruments = constructResults(funding_instruments, json);
 
         json.total_credits = json.counts.credit;
         json.total_debits = json.counts.debit;

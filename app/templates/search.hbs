@@ -1,7 +1,7 @@
 <div id="search">
     {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
     {{# if isLoading }}
-        <span class="loader loading"></span>
+        <span class="loader loading query-loader"></span>
     {{else}}
         <span class="close" {{action closeSearch target="view"}}>×</span>
     {{/if}}
@@ -101,14 +101,20 @@
                         {{#view Balanced.SearchSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
                     </tr>
                 </thead>
-                {{#if hasMoreResults}}
-                    <tfoot>
-                        <tr>
-                            <td colspan="6" class="load-more-results">
-                                <a {{ action "loadMoreSearchResults" }}>Load more</a>
-                            </td>
-                        </tr>
-                    </tfoot>
+                {{#if transactions.hasNextPage}}
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="load-more-results">
+                            {{#if transactions.loadingNextPage }}
+                                <div class="loader-container">
+                                    <span class="loader loading"></span>
+                                </div>
+                            {{else}}
+                                <a {{ action loadMore transactions }}>Load more</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                </tfoot>
                 {{/if}}
                 <tbody>
                     {{#each transaction in transactions }}
@@ -152,14 +158,20 @@
                         <th class="span8 label6a email">Email</th>
                     </tr>
                 </thead>
-                {{#if hasMoreResults}}
-                    <tfoot>
-                        <tr>
-                            <td colspan="3" class="load-more-results">
-                                <a {{ action "loadMoreSearchResults" }}>Load more</a>
-                            </td>
-                        </tr>
-                    </tfoot>
+                {{#if accounts.hasNextPage}}
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="load-more-results">
+                            {{#if accounts.loadingNextPage }}
+                                <div class="loader-container">
+                                    <span class="loader loading"></span>
+                                </div>
+                            {{else}}
+                                <a {{ action loadMore accounts }}>Load more</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                </tfoot>
                 {{/if}}
                 <tbody>
                     {{#each account in accounts}}
@@ -199,14 +211,20 @@
                         <th class="span8 label6a">Account holder's name</th>
                     </tr>
                 </thead>
-                {{#if hasMoreResults}}
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" class="load-more-results">
-                                <a {{ action "loadMoreSearchResults" }}>Load more</a>
-                            </td>
-                        </tr>
-                    </tfoot>
+                {{#if funding_instruments.hasNextPage}}
+                <tfoot>
+                    <tr>
+                        <td colspan="6" class="load-more-results">
+                            {{#if funding_instruments.loadingNextPage }}
+                                <div class="loader-container">
+                                    <span class="loader loading"></span>
+                                </div>
+                            {{else}}
+                                <a {{ action loadMore funding_instruments }}>Load more</a>
+                            {{/if}}
+                        </td>
+                    </tr>
+                </tfoot>
                 {{/if}}
                 <tbody>
                     {{#each funding_instrument in funding_instruments}}

@@ -60,8 +60,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.fromQuery(callback);
     },
 
-    loadMoreSearchResults: function () {
-        this.loadMoreFromQuery();
+    loadMore: function(results) {
+        results.loadNextPage();
     },
 
     fromQuery: function (callback) {
@@ -113,31 +113,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('sortOrder', null);
         this.set('search', null);
         this.set('type', 'transactions');
-    },
-
-    loadMoreFromQuery: function () {
-        this.set('isLoading', true);
-
-        var _this = this;
-
-        Balanced.SearchQuery.find(this.get('content.next_uri'), {
-            observer: function (result) {
-                var exisitingTransactions = _this.get('content.transactions');
-                var existingAccounts = _this.get('content.accounts');
-                var existingFundingInstruments = _this.get('content.funding_instruments');
-
-                exisitingTransactions.addObjects(result.transactions);
-                existingAccounts.addObjects(result.accounts);
-                existingFundingInstruments.addObjects(result.funding_instruments);
-
-                _this.set('content.transactions', exisitingTransactions);
-                _this.set('content.accounts', existingAccounts);
-                _this.set('content.funding_instruments', existingFundingInstruments);
-                _this.set('content.next_uri', result.get('next_uri'));
-
-                _this.set('isLoading', false);
-            }
-        });
     },
 
     onSearchCallback: function (result, callback) {
@@ -197,13 +172,5 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
             return 'Cards & Bank Accounts (0)';
         }
 
-    }.property('content.total_funding_instruments'),
-
-    hasMoreResults: function () {
-        if (this.get('content.next_uri') === null) {
-            return false;
-        }
-
-        return true;
-    }.property('content.next_uri')
+    }.property('content.total_funding_instruments')
 });
