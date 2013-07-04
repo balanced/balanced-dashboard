@@ -2,6 +2,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     needs: ['marketplace'],
 
     search: '',
+    debounced_search: '',
 
     limit: 10,
     minDate: null,
@@ -10,12 +11,20 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     sortOrder: null,
     type: 'transactions',
 
+    init: function() {
+        var self = this;
+        var debouncedQuery = _.debounce(function() {
+            self.query();
+        }, 400);
+        this.addObserver('search', debouncedQuery);
+    },
+
     // Using a two-level system for the results content here because we don't
     // want to lose our results while we're loading a new query
     // The currently processing query is computed as loading_content, once it
     // has loaded successfully, it's set as content
     loading_content: function() {
-        var query = this.get('search');
+        var query = this.get('debounced_search');
         var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
 
         if (!query || !query.trim()) {
@@ -39,7 +48,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         });
 
         return searchQuery;
-    }.property('search', 'limit', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'type'),
+    }.property('debounced_search', 'limit', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'type'),
 
     isLoading: function() {
         var current = this.get('loading_content');
@@ -50,12 +59,17 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         results.loadNextPage();
     },
 
+    query: function() {
+        this.set('debounced_search', this.get('search'));
+    },
+
     reset: function () {
         this.set('minDate', null);
         this.set('maxDate', null);
         this.set('sortField', null);
         this.set('sortOrder', null);
         this.set('search', null);
+        this.set('debounced_search', null);
         this.set('type', 'transactions');
     },
 
