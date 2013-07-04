@@ -1,0 +1,47 @@
+<thead>
+    <tr>
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a unsorted" field="created_at"}}Created{{/view}}
+        <th class="span4 label6a name">Name</th>
+        <th class="span8 label6a email">Email</th>
+    </tr>
+</thead>
+{{#if accounts.hasNextPage}}
+<tfoot>
+    <tr>
+        <td colspan="6" class="load-more-results">
+            {{#if accounts.loadingNextPage }}
+                <div class="loader-container">
+                    <span class="loader loading"></span>
+                </div>
+            {{else}}
+                <a {{ action loadMore accounts }}>Load more</a>
+            {{/if}}
+        </td>
+    </tr>
+</tfoot>
+{{/if}}
+<tbody>
+    {{#each account in accounts}}
+        <tr {{action selectResult account.uri target="view"}}>
+            <td class="span3 date">
+                <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
+            </td>
+            <td class="span4 name" {{bindAttr title="account.display_me"}}>
+                {{ account.display_me }}
+            </td>
+            <td class="span8 email" {{bindAttr title="account.email"}}>
+                {{ account.email }}
+            </td>
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="3" class="no-results">
+                {{# if isLoading }}
+                    Loading...
+                {{else}}
+                    No results
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+</tbody>

@@ -103,7 +103,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         return Balanced.SearchQuery.createUri(marketplaceUri, params);
     },
 
-    selectSearchResult: function (uri) {
+    selectResult: function (uri) {
         window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(uri);
     },
 

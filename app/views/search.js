@@ -9,7 +9,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
     templateName: 'search',
 
     resultsClass: 'with-results',
-    sorts: ['unsorted', 'ascending', 'descending'],
 
     didInsertElement: function () {
         var self = this;
@@ -19,11 +18,8 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
             self.toggleResults();
             self._highlightResults();
         });
-    },
 
-    selectSearchResult: function (uri) {
         this.reset();
-        this.get('controller').send('selectSearchResult', uri);
     },
 
     closeSearch: function () {
@@ -54,7 +50,9 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
     resetHeader: function () {
         this.resetSelectedTab();
-        this.resetSortOrder();
+        this.get('transactionsView').reset();
+        this.get('customersView').reset();
+        this.get('fundingInstrumentsView').reset();
         this.resetDateTimePicker();
     },
 
@@ -63,11 +61,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $('#search nav > li.transactions').addClass('selected');
         $('#search .items').removeClass('selected');
         $('#search .items.transactions').addClass('selected');
-    },
-
-    resetSortOrder: function () {
-        var allSorts = $('#search .sortable');
-        allSorts.removeClass(this.sorts.join(' '));
     },
 
     resetDateTimePicker: function () {
@@ -93,30 +86,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
             this.get('controller').send('redirectToLog', query);
             return;
         }
-    },
-
-    onSortChange: function (e, field) {
-        var $t = $(e.currentTarget);
-        var sequences = {};
-        this.resetSortOrder();
-        for (var i = 0; i < this.sorts.length; i++) {
-            sequences[this.sorts[i]] = this.sorts[(i + 1) % this.sorts.length];
-        }
-        var currentSort = $t.data('direction') || 'unsorted';
-        var nextSort = sequences[currentSort];
-        $t.data('direction', nextSort).addClass(nextSort);
-
-        var mappedSortOrder = 'none';
-        switch (nextSort) {
-            case 'ascending':
-                mappedSortOrder = 'asc';
-                break;
-            case 'descending':
-                mappedSortOrder = 'desc';
-                break;
-        }
-
-        this._setSortOrder(field, mappedSortOrder);
     },
 
     onChangeSearchType: function (e, searchType) {
@@ -180,10 +149,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
         //  remove empty words
         $('#search .results tbody').highlightWords(query);
-    },
-
-    _setSortOrder: function (field, sortOrder) {
-        this.get('controller').send('changeSortOrder', field, sortOrder);
     }
 });
 
@@ -213,14 +178,6 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
     focusOut: function (e) {
         $('#search').removeClass('focus');
     },
-});
-
-Balanced.SearchSortableColumnHeaderView = Balanced.BaseSearchView.extend({
-    tagName: 'th',
-
-    click: function (e) {
-        this.get('parentView').onSortChange(e, this.field);
-    }
 });
 
 Balanced.SearchTypeView = Balanced.BaseSearchView.extend({

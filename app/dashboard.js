@@ -66,6 +66,7 @@ require('app/views/modal');
 require('app/views/embedded_iframe');
 require('app/views/login');
 require('app/views/forgot_password'); // depends on login
+require('app/views/results');
 require('app/views/search');
 require('app/views/welcome_transition');
 
