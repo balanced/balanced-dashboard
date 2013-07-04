@@ -11,6 +11,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     sortOrder: null,
     type: 'transactions',
 
+    displayResults: false,
+
     init: function() {
         var self = this;
         var debouncedQuery = _.debounce(function() {
@@ -49,6 +51,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
 
         searchQuery.then(function(searchQuery) {
             self.set('content', searchQuery);
+            self.set('displayResults', true);
         });
 
         return searchQuery;
@@ -67,6 +70,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('debounced_search', this.get('search'));
     },
 
+    closeSearch: function() {
+        this.reset();
+    },
+
     reset: function () {
         this.set('minDate', null);
         this.set('maxDate', null);
@@ -75,6 +82,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('search', null);
         this.set('debounced_search', null);
         this.set('type', 'transactions');
+        this.set('displayResults', false);
     },
 
     changeDateFilter: function (minDate, maxDate) {
@@ -104,10 +112,12 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     },
 
     selectResult: function (uri) {
+        this.closeSearch();
         window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(uri);
     },
 
     redirectToLog: function (ohm) {
+        this.closeSearch();
         window.location = '#/marketplaces/{0}/logs/{1}'.format(
             this.get('controllers').get('marketplace').get('id'),
             ohm

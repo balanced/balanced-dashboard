@@ -12,38 +12,35 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
     didInsertElement: function () {
         var self = this;
-        $(document).on('click', $.proxy(this.shouldCloseSearch, this));
+        $(document).on('click', $.proxy(this.clickOutsideSearchBox, this));
 
         this.get('controller').addObserver('content', function() {
             self.toggleResults();
             self._highlightResults();
         });
 
+        this.get('controller').addObserver('displayResults', function() {
+            if(!self.get('controller.displayResults')) {
+                self.reset();
+            }
+        });
+
         this.reset();
     },
 
-    closeSearch: function () {
-        this.reset();
-    },
-
-    shouldCloseSearch: function (e) {
+    clickOutsideSearchBox: function (e) {
         var $target = $(e.target);
         // sometimes ember likes to remove nodes from the dom when you click on
         // them so the body check will make sure it's legit.
         if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
-            this.close();
+            this.get('controller').send('closeSearch');
         }
-    },
-
-    close: function () {
-        $('#search').removeClass(this.resultsClass);
-        $('body').removeClass(this.overlayClass);
     },
 
     reset: function () {
         $('#q').val('');
         this.resetHeader();
-        this.close();
+        this.hideResults();
         this.get('controller').send('reset');
         this.get('dateTimePicker').resetDateTimePicker();
     },
@@ -61,6 +58,11 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $('#search nav > li.transactions').addClass('selected');
         $('#search .items').removeClass('selected');
         $('#search .items.transactions').addClass('selected');
+    },
+
+    hideResults: function () {
+        $('#search').removeClass(this.resultsClass);
+        $('body').removeClass(this.overlayClass);
     },
 
     resetDateTimePicker: function () {
@@ -82,7 +84,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
         //  HACK: how do we do this from the controller?
         if (query.indexOf('OHM') === 0 && query.length > 30) {
-            this.close();
             this.get('controller').send('redirectToLog', query);
             return;
         }
@@ -161,8 +162,7 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
             var parentView = this.get('parentView');
             // Hide search results on escape key
             if (e.keyCode === Balanced.KEYS.ESCAPE) {
-                $('#search').removeClass(parentView.resultsClass);
-                $('body').removeClass(parentView.overlayClass);
+                this.get('controller').send('closeSearch');
                 return;
             }
 
