@@ -8,8 +8,6 @@ Balanced.SearchView = Balanced.View.extend({
 
         this.get('controller').addObserver('content', this, this._highlightResults);
         this.get('controller').addObserver('displayResults', this, this._toggleDisplayResults);
-
-        this.reset();
     },
 
     willDestroyElement: function() {
@@ -37,8 +35,6 @@ Balanced.SearchView = Balanced.View.extend({
         this.get('transactionsView').reset();
         this.get('customersView').reset();
         this.get('fundingInstrumentsView').reset();
-
-        this.get('controller').send('reset');
     },
 
     showResultsOverlay: function() {

@@ -1,8 +1,8 @@
 Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, {
     needs: ['marketplace'],
 
-    search: '',
-    debounced_search: '',
+    search: null,
+    debounced_search: null,
 
     limit: 10,
     minDate: null,
@@ -84,16 +84,12 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     },
 
     closeSearch: function() {
-        this.reset();
-    },
-
-    reset: function () {
+        this.set('debounced_search', null);
+        this.set('search', null);
         this.set('minDate', null);
         this.set('maxDate', null);
         this.set('sortField', null);
         this.set('sortOrder', null);
-        this.set('search', null);
-        this.set('debounced_search', null);
         this.set('type', 'transaction');
         this.set('displayResults', false);
     },
