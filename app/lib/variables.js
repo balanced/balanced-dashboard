@@ -34,3 +34,6 @@ Balanced.SEARCH = {
     TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
     FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card'],
 };
+
+//  time in ms to throttle between key presses for search
+Balanced.THROTTLE = 400;

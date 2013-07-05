@@ -23,7 +23,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
             if(!self.get('isDestroyed')) {
                 self.query();
             }
-        }, 400);
+        }, Balanced.THROTTLE);
         this.addObserver('search', debouncedQuery);
     },
 

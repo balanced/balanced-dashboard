@@ -3,13 +3,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
     tagName: 'header',
 
     reset: function() {
-        this.resetSelectedTab();
         this.resetDateTimePicker();
-    },
-
-    resetSelectedTab: function() {
-        this.$('nav > li').removeClass('selected');
-        this.$('nav > li.transactions').addClass('selected');
     },
 
     resetDateTimePicker: function () {

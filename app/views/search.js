@@ -1,12 +1,7 @@
-//  time in ms to throttle between key presses for search
-Balanced.THROTTLE = 400;
-
-Balanced.BaseSearchView = Balanced.View.extend({
-    overlayClass: 'overlaid'
-});
-
-Balanced.SearchView = Balanced.BaseSearchView.extend({
+Balanced.SearchView = Balanced.View.extend({
     templateName: 'search',
+
+    overlayClass: 'overlaid',
 
     didInsertElement: function () {
         $(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
