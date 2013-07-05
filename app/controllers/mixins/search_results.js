@@ -79,24 +79,30 @@ Balanced.SearchResults = Ember.Mixin.create({
 
     reset: function() {
         var defaultSearch = this.get('default_search');
-        this.set('debounced_search', defaultSearch);
-        this.set('search', defaultSearch);
-        this.set('content', null);
-        this.set('minDate', null);
-        this.set('maxDate', null);
-        this.set('sortField', null);
-        this.set('sortOrder', null);
-        this.set('type', 'transaction');
+        this.setProperties({
+            debounced_search: defaultSearch,
+            search: defaultSearch,
+            content: null,
+            minDate: null,
+            maxDate: null,
+            sortField: null,
+            sortOrder: null,
+            type: 'transaction'
+        });
     },
 
     changeDateFilter: function (minDate, maxDate) {
-        this.set('minDate', minDate);
-        this.set('maxDate', maxDate);
+        this.setProperties({
+            minDate: minDate,
+            maxDate: maxDate
+        });
     },
 
     changeSortOrder: function (field, sortOrder) {
-        this.set('sortField', field);
-        this.set('sortOrder', sortOrder);
+        this.setProperties({
+            sortField: field,
+            sortOrder: sortOrder
+        });
     },
 
     changeTypeFilter: function (type) {
