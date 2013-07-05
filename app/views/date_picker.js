@@ -131,6 +131,14 @@ Balanced.DatePickerPresetView = Balanced.View.extend({
 });
 
 Balanced.DatePickerDateFieldView = Balanced.View.extend({
+    beforeSelector: function() {
+        return this.get('controller.baseClassSelector') + ' .timing .before';
+    }.property(),
+
+    afterSelector: function() {
+        return this.get('controller.baseClassSelector') + ' .timing .after';
+    }.property(),
+
     click: function (e) {
         e.preventDefault();
         this.get('parentView').selectDateTimePicker(e);
