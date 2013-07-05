@@ -226,15 +226,6 @@ Balanced.Model.reopenClass({
         modelObject.set('isLoaded', false);
         modelObject.set('isNew', false);
 
-        // pull out the observer if it's present
-        settings = settings || {};
-        var observer = settings.observer;
-        if (observer) {
-            // this allows us to subscribe to events on this object without
-            // worrying about any race conditions
-            modelObject.addObserver('isLoaded', observer);
-        }
-
         Balanced.Adapter.get(modelClass, uri, function (json) {
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
