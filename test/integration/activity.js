@@ -16,11 +16,7 @@ test('can visit page', function (assert) {
     assert.notEqual($title.text().indexOf('Activity'), -1,
         'Title is incorrect');
 
-    // Put this back in when the activity page supports downloads
-    /*
-    assert.notEqual($title.text().indexOf('Download'), -1,
-        'Download link not in title "{0}"'.format($title.text()));
-    */
+    assert.ok($('#activity .download').length, "Download link is visible");
 });
 
 test('can visit pages', function (assert) {
@@ -33,13 +29,12 @@ test('can visit pages', function (assert) {
     _.each(links, function (linkAndClass) {
         var link = linkAndClass[0],
             cls = linkAndClass[1];
-        var $link = $('a:contains("' + link + '")');
+        var $link = $('#activity a:contains("' + link + '")');
         assert.ok($link.length, link + ' link exists');
         $link.click();
-        assert.ok($('table.items.' + cls).length, link + ' table visible');
+        assert.ok($('#activity table.items.' + cls).length, link + ' table visible');
     });
 });
-
 
 test('add funds', function(assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');

@@ -12,8 +12,8 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
     }.property('model.source_uri'),
 
     verified_bank_accounts: function () {
-        return this.get('owner_customer.verified_bank_accounts') || this.get('marketplace.owner_customer.verified_bank_accounts');
-    }.property('owner_customer.verified_bank_accounts', 'marketplace.owner_customer.verified_bank_accounts'),
+        return this.get('marketplace.owner_customer.verified_bank_accounts');
+    }.property('marketplace.owner_customer.verified_bank_accounts'),
 
     open: function () {
         var verified_bank_accounts = this.get('marketplace.owner_customer.verified_bank_accounts');
