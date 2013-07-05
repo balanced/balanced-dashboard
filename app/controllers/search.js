@@ -13,11 +13,9 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
 
     displayResults: false,
 
-    categories: ['transaction', 'account', 'funding_instrument'],
-    transactionTypes: ['debit', 'credit', 'hold', 'refund'],
-    fundingInstrumentTypes: ['bank_account', 'card'],
-
     init: function() {
+        this._super();
+
         var self = this;
         var debouncedQuery = _.debounce(function() {
             // since this might get called after a timeout, make sure this
@@ -103,17 +101,15 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     changeDateFilter: function (minDate, maxDate) {
         this.set('minDate', minDate);
         this.set('maxDate', maxDate);
-        this.query();
     },
 
     changeSortOrder: function (field, sortOrder) {
         this.set('sortField', field);
         this.set('sortOrder', sortOrder);
-        this.query();
     },
 
     changeTypeFilter: function (type) {
-        this.set('type', type || 'transaction');
+        this.set('type', type);
     },
 
     // For download mixin
@@ -143,62 +139,20 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     // is viewing holds, type==hold category==transaction
     category: function() {
         var type = this.get('type');
-        if(_.contains(this.categories, type)) {
+        if(_.contains(Balanced.SEARCH.CATEGORIES, type)) {
             return type;
         }
 
-        if(_.contains(this.transactionTypes, type)) {
+        if(_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
             return "transaction";
         }
 
-        if(_.contains(this.fundingInstrumentTypes, type)) {
+        if(_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
             return "funding_instrument";
         }
 
         return "";
     }.property('type'),
-
-    // UI computed properties
-
-    transaction_type_label: function () {
-        var typesToLabels = {
-            DEFAULT: 'Transactions'
-        };
-        var types = this.transactionTypes;
-        return this._getLabel(typesToLabels, types, this.type);
-    }.property('content.type'),
-
-    transaction_type_total: function () {
-        var types = this.transactionTypes;
-        var type = this.get('type');
-        return (types.indexOf(type) >= 0 && this.get('total_{0}s'.format(type))) || this.get('total_transactions');
-    }.property('content.uri'),
-
-    funding_instrument_type_label: function () {
-        var typesToLabels = {
-            DEFAULT: 'Cards & Bank Accounts'
-        };
-        var types = this.fundingInstrumentTypes;
-        return this._getLabel(typesToLabels, types, this.type);
-    }.property('content.type'),
-
-    totalTransactionsHeader: function () {
-        if (this.get('content')) {
-            return 'Transactions (' + this.get('content').get('total_transactions') + ')';
-        } else {
-            return 'Transactions (0)';
-        }
-
-    }.property('content.total_transactions'),
-
-    totalFundingInstrumentsHeader: function () {
-        if (this.get('content')) {
-            return 'Cards & Bank Accounts (' + this.get('content').get('total_funding_instruments') + ')';
-        } else {
-            return 'Cards & Bank Accounts (0)';
-        }
-
-    }.property('content.total_funding_instruments'),
 
     // internal functions
 
@@ -212,13 +166,5 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
             type: this.get('type')
         };
         return $.extend({}, defaults, params);
-    },
-
-    _getLabel: function (labelMapping, acceptedTypes, type) {
-        var label = labelMapping[type];
-        if (!label && acceptedTypes.indexOf(type) > -1) {
-            label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
-        }
-        return (label) ? label : labelMapping.DEFAULT;
     }
 });

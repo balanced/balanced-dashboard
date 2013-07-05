@@ -28,3 +28,9 @@ Balanced.BANK_ACCOUNT_TYPES = [
         value: 'savings'
     }
 ];
+
+Balanced.SEARCH = {
+    CATEGORIES: ['transaction', 'account', 'funding_instrument'],
+    TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
+    FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card'],
+};
