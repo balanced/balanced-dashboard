@@ -3,6 +3,7 @@ Balanced.SearchResults = Ember.Mixin.create({
 
     search: '%',
     debounced_search: '%',
+    default_search: '%',
 
     limit: 10,
     minDate: null,
@@ -77,8 +78,9 @@ Balanced.SearchResults = Ember.Mixin.create({
     },
 
     reset: function() {
-        this.set('debounced_search', null);
-        this.set('search', null);
+        var defaultSearch = this.get('default_search');
+        this.set('debounced_search', defaultSearch);
+        this.set('search', defaultSearch);
         this.set('content', null);
         this.set('minDate', null);
         this.set('maxDate', null);

@@ -3,6 +3,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
 
     search: null,
     debounced_search: null,
+    default_search: null,
 
     displayResults: function() {
         return !!this.get('content');
