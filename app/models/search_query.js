@@ -98,7 +98,7 @@ Balanced.SearchQuery.reopenClass({
         }
         if (params.type) {
             switch (params.type) {
-                case 'transactions':
+                case 'transaction':
                     searchParams['type[in]'] = 'credit,debit,refund,hold';
                     break;
                 case 'funding_instrument':

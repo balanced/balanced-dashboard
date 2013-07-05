@@ -35,25 +35,15 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
     reset: function () {
         $('#q').val('');
-        this.resetHeader();
         this.hideResultsOverlay();
-        this.get('controller').send('reset');
-        this.get('dateTimePicker').resetDateTimePicker();
-    },
 
-    resetHeader: function () {
-        this.resetSelectedTab();
+        this.get('filtersView').reset();
+
         this.get('transactionsView').reset();
         this.get('customersView').reset();
         this.get('fundingInstrumentsView').reset();
-        this.resetDateTimePicker();
-    },
 
-    resetSelectedTab: function() {
-        $('#search nav > li').removeClass('selected');
-        $('#search nav > li.transactions').addClass('selected');
-        $('#search .items').removeClass('selected');
-        $('#search .items.transactions').addClass('selected');
+        this.get('controller').send('reset');
     },
 
     showResultsOverlay: function() {
@@ -64,24 +54,8 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $('body').removeClass(this.overlayClass);
     },
 
-    resetDateTimePicker: function () {
-        var $dps = $('#search .dp'),
-            $sets = $('#search .set-times li');
-
-        $sets.removeClass('selected');
-        $dps.val('');
-        $('#search .timing > .dropdown-toggle > span').text('Any time');
-    },
-
     onChangeSearchType: function (e, searchType) {
         var $t = $(e.currentTarget);
-
-        ////
-        // Don't re-run query if already on selected
-        ////
-        if ($t.closest('li').hasClass('selected')) {
-            return;
-        }
 
         var typeToClass = {
             'transaction': 'transactions',
@@ -92,8 +66,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
         $t.closest('nav').find(' > li').removeClass('selected');
         $t.closest('li').addClass('selected');
-        $('#search .items').removeClass('selected');
-        $('#search .items.' + typeToSelect).addClass('selected');
 
         this.get('controller').send('changeTypeFilter', searchType);
     },
@@ -103,17 +75,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
 
         $t.parents('nav').find('li.selected').removeClass('selected');
         $t.parents('li.filter').addClass('selected');
-
-        ////
-        // Switch to the correct items table
-        ////
-        if ($t.parents('nav li.filter').hasClass('transactions')) {
-            $('#search .items').removeClass('selected');
-            $('#search .items.transactions').addClass('selected');
-        } else if ($t.parents('nav li.filter').hasClass('funding-instruments')) {
-            $('#search .items').removeClass('selected');
-            $('#search .items.funding-instruments').addClass('selected');
-        }
 
         this.get('controller').send('changeTypeFilter', filter);
     },
@@ -162,7 +123,7 @@ Balanced.SearchTypeView = Balanced.BaseSearchView.extend({
 
     click: function (e) {
         e.preventDefault();
-        this.get('parentView').onChangeSearchType(e, this.searchType);
+        this.get('parentView').get('parentView').onChangeSearchType(e, this.searchType);
     }
 });
 
@@ -173,6 +134,6 @@ Balanced.SearchFilterResultView = Balanced.BaseSearchView.extend({
 
     click: function (e) {
         e.preventDefault();
-        this.get('parentView').filterResultType(e, this.filter, this.label);
+        this.get('parentView').get('parentView').filterResultType(e, this.filter, this.label);
     }
 });

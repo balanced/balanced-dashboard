@@ -7,98 +7,18 @@
     {{/if}}
 
     <div class="results">
-        <header>
-            <nav>
-                <li {{bindAttr class=":transactions :filter total_transactions::disabled :selected"}} >
-                    {{#if total_transactions}}
-                        {{#view Balanced.SearchTypeView searchType="transactions"}} {{ transaction_type_label }} ({{ transaction_type_total }}) {{/view}}
-                    {{else}}
-                        <span>Transactions (0)</span>
-                    {{/if}}
-                    <div class="selector dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                        <ul class="dropdown-menu transaction-filter filter-choices">
-                            <li>{{#view Balanced.SearchFilterResultView filter="transactions" labelBinding="totalTransactionsHeader"}} All ({{ total_transactions }}) {{/view}}</li>
-                            {{#if total_holds }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="hold"}} Holds ({{ total_holds }}) {{/view}}</li>
-                            {{else}}
-                                <li class="disabled"><span>Holds ({{ total_holds }})</span></li>
-                            {{/if}}
-
-                            {{#if total_debits }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="debit"}} Debits ({{ total_debits }}) {{/view}}</li>
-                            {{else}}
-                                <li class="disabled"><span>Debits ({{ total_debits }})</span></li>
-                            {{/if}}
-
-                            {{#if total_credits }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="credit"}} Credits ({{ total_credits }}) {{/view}}</li>
-                            {{else}}
-                                <li class="disabled"><span>Credits ({{ total_credits }})</span></li>
-                            {{/if}}
-
-                            {{#if total_refunds }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="refund"}} Refunds ({{ total_refunds }}) {{/view}}</li>
-                            {{else}}
-                                <li class="disabled"><span>Refunds ({{ total_refunds }})</span></li>
-                            {{/if}}
-                        </ul>
-                    </div>
-                </li>
-
-                <li {{bindAttr class=":accounts total_accounts::disabled"}} >
-                    {{#if total_accounts}}
-                        {{#view Balanced.SearchTypeView searchType="account"}} Customers ({{ total_accounts }}) {{/view}}
-                    {{else}}
-                        <span>Customers (0)</span>
-                    {{/if}}
-                </li>
-
-                <li {{bindAttr class=":funding-instruments :filter total_funding_instruments::disabled"}} >
-                    {{#if total_funding_instruments}}
-                        {{#view Balanced.SearchTypeView searchType="funding_instrument"}} {{ funding_instrument_type_label }} ({{ total_funding_instruments }}) {{/view}}
-                    {{else}}
-                        <span>Cards &amp; Bank Accounts (0)</span>
-                    {{/if}}
-
-                    <div class="selector dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                        <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                            <li>{{#view Balanced.SearchFilterResultView filter="funding_instrument" labelBinding="totalFundingInstrumentsHeader"}} Both ({{ total_funding_instruments }}) {{/view}}</li>
-
-                            {{#if total_cards }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="card"}} Cards ({{ total_cards }}) {{/view}}</li>
-                            {{else}}
-                                <li class="disabled"><span>Cards ({{ total_cards }})</span></li>
-                            {{/if}}
-
-                            {{#if total_bank_accounts }}
-                                <li>{{#view Balanced.SearchFilterResultView filter="bank_account"}} Bank Accounts ({{ total_bank_accounts }}) {{/view}}</li>
-                            {{else}}
-                                <li class="disabled"><span>Bank Accounts ({{ total_bank_accounts }})</span></li>
-                            {{/if}}
-                        </ul>
-                    </div>
-                </li>
-                <li class="timing dropdown label4a">
-                    {{view Balanced.DatePickerView viewName="dateTimePicker" }}
-                </li>
-                <li class="download">
-                    <a href="#" {{action openDownload}} class="icon-download right">Download</a>
-                </li>
-            </nav>
-        </header>
+        {{view Balanced.ResultsFiltersHeaderView viewName="filtersView"}}
 
         <div class="items-wrapper">
-            {{view Balanced.TransactionsResultsView viewName="transactionsView" transactionsBinding="transactions"}}
+            {{view Balanced.TransactionsResultsView viewName="transactionsView"}}
         </div>
 
         <div class="items-wrapper">
-            {{view Balanced.CustomersResultsView viewName="customersView" customersBinding="customers"}}
+            {{view Balanced.CustomersResultsView viewName="customersView"}}
         </div>
 
         <div class="items-wrapper">
-            {{view Balanced.FundingInstrumentsResultsView viewName="fundingInstrumentsView" funding_instrumentsBinding="funding_instruments"}}
+            {{view Balanced.FundingInstrumentsResultsView viewName="fundingInstrumentsView"}}
         </div>
     </div>
     {{#if show_download}}

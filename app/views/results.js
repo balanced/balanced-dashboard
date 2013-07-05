@@ -1,3 +1,26 @@
+Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
+    templateName: 'results/results_filters_header',
+    tagName: 'header',
+
+    reset: function() {
+        this.resetSelectedTab();
+        this.resetDateTimePicker();
+    },
+
+    resetSelectedTab: function() {
+        this.$('nav > li').removeClass('selected');
+        this.$('nav > li.transactions').addClass('selected');
+    },
+
+    resetDateTimePicker: function () {
+        this.$('.set-times li').removeClass('selected');
+        this.$('.dp').val('');
+        this.$('.timing > .dropdown-toggle > span').text('Any time');
+
+        this.get('dateTimePicker').resetDateTimePicker();
+    },
+});
+
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
     tagName: 'th',
 
@@ -57,15 +80,30 @@ Balanced.ResultsTableView = Balanced.View.extend({
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
     classNames: 'transactions',
-    templateName: 'results/transactions_table'
+    classNameBindings: 'selected',
+    templateName: 'results/transactions_table',
+
+    selected: function() {
+        return this.get('controller.category') === "transaction" ? "selected" : "";
+    }.property('controller.category')
 });
 
 Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
     classNames: 'accounts',
-    templateName: 'results/customers_table'
+    classNameBindings: 'selected',
+    templateName: 'results/customers_table',
+
+    selected: function() {
+        return this.get('controller.category') === "account" ? "selected" : "";
+    }.property('controller.category')
 });
 
 Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
     classNames: 'funding-instruments',
-    templateName: 'results/funding_instruments_table'
+    classNameBindings: 'selected',
+    templateName: 'results/funding_instruments_table',
+
+    selected: function() {
+        return this.get('controller.category') === "funding_instrument" ? "selected" : "";
+    }.property('controller.category')
 });

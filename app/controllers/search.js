@@ -9,9 +9,13 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     maxDate: null,
     sortField: null,
     sortOrder: null,
-    type: 'transactions',
+    type: 'transaction',
 
     displayResults: false,
+
+    categories: ['transaction', 'account', 'funding_instrument'],
+    transactionTypes: ['debit', 'credit', 'hold', 'refund'],
+    fundingInstrumentTypes: ['bank_account', 'card'],
 
     init: function() {
         var self = this;
@@ -92,7 +96,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.set('sortOrder', null);
         this.set('search', null);
         this.set('debounced_search', null);
-        this.set('type', 'transactions');
+        this.set('type', 'transaction');
         this.set('displayResults', false);
     },
 
@@ -109,7 +113,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     },
 
     changeTypeFilter: function (type) {
-        this.set('type', type || 'transactions');
+        this.set('type', type || 'transaction');
     },
 
     // For download mixin
@@ -135,18 +139,37 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         );
     },
 
+    // used for when filtering to one specific type. for example: if the user
+    // is viewing holds, type==hold category==transaction
+    category: function() {
+        var type = this.get('type');
+        if(_.contains(this.categories, type)) {
+            return type;
+        }
+
+        if(_.contains(this.transactionTypes, type)) {
+            return "transaction";
+        }
+
+        if(_.contains(this.fundingInstrumentTypes, type)) {
+            return "funding_instrument";
+        }
+
+        return "";
+    }.property('type'),
+
     // UI computed properties
 
     transaction_type_label: function () {
         var typesToLabels = {
             DEFAULT: 'Transactions'
         };
-        var types = ['debit', 'credit', 'hold', 'refund'];
+        var types = this.transactionTypes;
         return this._getLabel(typesToLabels, types, this.type);
     }.property('content.type'),
 
     transaction_type_total: function () {
-        var types = ['debit', 'credit', 'hold', 'refund'];
+        var types = this.transactionTypes;
         var type = this.get('type');
         return (types.indexOf(type) >= 0 && this.get('total_{0}s'.format(type))) || this.get('total_transactions');
     }.property('content.uri'),
@@ -155,7 +178,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         var typesToLabels = {
             DEFAULT: 'Cards & Bank Accounts'
         };
-        var types = ['bank_account', 'card'];
+        var types = this.fundingInstrumentTypes;
         return this._getLabel(typesToLabels, types, this.type);
     }.property('content.type'),
 
