@@ -96,6 +96,7 @@ require('app/views/marketplaces/delete_marketplace_modal');
  */
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
+require('app/controllers/mixins/search_results');
 require('app/controllers/mixins/pay_seller');
 require('app/controllers/activity');
 require('app/controllers/application');
