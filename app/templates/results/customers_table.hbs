@@ -22,7 +22,7 @@
 {{/if}}
 <tbody>
     {{#each account in accounts}}
-        <tr {{action selectResult account.uri target="view"}}>
+        <tr {{action selectResult account.uri}}>
             <td class="span3 date">
                 <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
             </td>

@@ -1,34 +1,34 @@
 <nav>
-    <li {{bindAttr class=":transactions :filter total_transactions::disabled :selected"}} >
+    <li {{bindAttr class=":transactions :filter total_transactions::disabled view.transactionsTabSelected:selected"}} >
         {{#if total_transactions}}
-            {{#view Balanced.SearchTypeView searchType="transaction"}} {{ transaction_type_label }} ({{ transaction_type_total }}) {{/view}}
+            <a href="#" {{action changeTypeFilter "transaction"}}>{{ transaction_type_label }} ({{ transaction_type_total }}) </a>
         {{else}}
             <span>Transactions (0)</span>
         {{/if}}
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu transaction-filter filter-choices">
-                <li>{{#view Balanced.SearchFilterResultView filter="transaction" labelBinding="totalTransactionsHeader"}} All ({{ total_transactions }}) {{/view}}</li>
+                <li><a href="#" {{action changeTypeFilter "transaction"}} {{bindAttr label="totalTransactionsHeader"}}>All ({{ total_transactions }})</a></li>
                 {{#if total_holds }}
-                    <li>{{#view Balanced.SearchFilterResultView filter="hold"}} Holds ({{ total_holds }}) {{/view}}</li>
+                    <li><a href="#" {{action changeTypeFilter "hold"}}> Holds ({{ total_holds }}) </a></li>
                 {{else}}
                     <li class="disabled"><span>Holds ({{ total_holds }})</span></li>
                 {{/if}}
 
                 {{#if total_debits }}
-                    <li>{{#view Balanced.SearchFilterResultView filter="debit"}} Debits ({{ total_debits }}) {{/view}}</li>
+                    <li><a href="#" {{action changeTypeFilter "debit"}}> Debits ({{ total_debits }}) </a></li>
                 {{else}}
                     <li class="disabled"><span>Debits ({{ total_debits }})</span></li>
                 {{/if}}
 
                 {{#if total_credits }}
-                    <li>{{#view Balanced.SearchFilterResultView filter="credit"}} Credits ({{ total_credits }}) {{/view}}</li>
+                    <li><a href="#" {{action changeTypeFilter "credit"}}> Credits ({{ total_credits }}) </a></li>
                 {{else}}
                     <li class="disabled"><span>Credits ({{ total_credits }})</span></li>
                 {{/if}}
 
                 {{#if total_refunds }}
-                    <li>{{#view Balanced.SearchFilterResultView filter="refund"}} Refunds ({{ total_refunds }}) {{/view}}</li>
+                    <li><a href="#" {{action changeTypeFilter "refund"}}> Refunds ({{ total_refunds }}) </a></li>
                 {{else}}
                     <li class="disabled"><span>Refunds ({{ total_refunds }})</span></li>
                 {{/if}}
@@ -36,17 +36,17 @@
         </div>
     </li>
 
-    <li {{bindAttr class=":accounts total_accounts::disabled"}} >
+    <li {{bindAttr class=":accounts total_accounts::disabled view.customersTabSelected:selected"}} >
         {{#if total_accounts}}
-            {{#view Balanced.SearchTypeView searchType="account"}} Customers ({{ total_accounts }}) {{/view}}
+            <a href="#" {{action changeTypeFilter "account"}}> Customers ({{ total_accounts }}) </a>
         {{else}}
             <span>Customers (0)</span>
         {{/if}}
     </li>
 
-    <li {{bindAttr class=":funding-instruments :filter total_funding_instruments::disabled"}} >
+    <li {{bindAttr class=":funding-instruments :filter total_funding_instruments::disabled view.fundingInstrumentsTabSelected:selected"}} >
         {{#if total_funding_instruments}}
-            {{#view Balanced.SearchTypeView searchType="funding_instrument"}} {{ funding_instrument_type_label }} ({{ total_funding_instruments }}) {{/view}}
+            <a href="#" {{action changeTypeFilter "funding_instrument"}}> {{ funding_instrument_type_label }} ({{ total_funding_instruments }}) </a>
         {{else}}
             <span>Cards &amp; Bank Accounts (0)</span>
         {{/if}}
@@ -54,16 +54,16 @@
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                <li>{{#view Balanced.SearchFilterResultView filter="funding_instrument" labelBinding="totalFundingInstrumentsHeader"}} Both ({{ total_funding_instruments }}) {{/view}}</li>
+                <li><a href="#" {{action changeTypeFilter "funding_instrument"}} {{bindAttr label="totalFundingInstrumentsHeader"}}> Both ({{ total_funding_instruments }}) </a></li>
 
                 {{#if total_cards }}
-                    <li>{{#view Balanced.SearchFilterResultView filter="card"}} Cards ({{ total_cards }}) {{/view}}</li>
+                    <li><a href="#" {{action changeTypeFilter "card"}}> Cards ({{ total_cards }}) </a></li>
                 {{else}}
                     <li class="disabled"><span>Cards ({{ total_cards }})</span></li>
                 {{/if}}
 
                 {{#if total_bank_accounts }}
-                    <li>{{#view Balanced.SearchFilterResultView filter="bank_account"}} Bank Accounts ({{ total_bank_accounts }}) {{/view}}</li>
+                    <li><a href="#" {{action changeTypeFilter "bank_account"}}> Bank Accounts ({{ total_bank_accounts }}) </a></li>
                 {{else}}
                     <li class="disabled"><span>Bank Accounts ({{ total_bank_accounts }})</span></li>
                 {{/if}}

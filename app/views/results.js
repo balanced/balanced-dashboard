@@ -19,6 +19,19 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
         this.get('dateTimePicker').resetDateTimePicker();
     },
+
+    // UI computed properties
+    transactionsTabSelected: function() {
+        return this.get('controller.category') === "transaction";
+    }.property('controller.category'),
+
+    customersTabSelected: function() {
+        return this.get('controller.category') === "transaction";
+    }.property('controller.category'),
+
+    fundingInstrumentsTabSelected: function() {
+        return this.get('controller.category') === "transaction";
+    }.property('controller.category'),
 });
 
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
@@ -66,15 +79,6 @@ Balanced.ResultsTableView = Balanced.View.extend({
         }
 
         this.get('controller').send('changeSortOrder', field, mappedSortOrder);
-    },
-
-    selectResult: function(uri) {
-        // TODO - this sucks, should be driven from the controller
-        if(this.get('parentView').reset) {
-            this.get('parentView').reset();
-        }
-
-        this.get('controller').send('selectResult', uri);
     }
 });
 

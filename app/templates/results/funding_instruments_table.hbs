@@ -23,7 +23,7 @@
 {{/if}}
 <tbody>
     {{#each funding_instrument in funding_instruments}}
-        <tr {{action selectResult funding_instrument.uri target="view"}}>
+        <tr {{action selectResult funding_instrument.uri}}>
             <td>
                 <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
             </td>

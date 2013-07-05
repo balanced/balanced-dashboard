@@ -54,31 +54,6 @@ Balanced.SearchView = Balanced.BaseSearchView.extend({
         $('body').removeClass(this.overlayClass);
     },
 
-    onChangeSearchType: function (e, searchType) {
-        var $t = $(e.currentTarget);
-
-        var typeToClass = {
-            'transaction': 'transactions',
-            'account': 'accounts',
-            'funding_instrument': 'funding-instruments'
-        };
-        var typeToSelect = typeToClass[searchType] || searchType;
-
-        $t.closest('nav').find(' > li').removeClass('selected');
-        $t.closest('li').addClass('selected');
-
-        this.get('controller').send('changeTypeFilter', searchType);
-    },
-
-    filterResultType: function (e, filter, label) {
-        var $t = $(e.currentTarget);
-
-        $t.parents('nav').find('li.selected').removeClass('selected');
-        $t.parents('li.filter').addClass('selected');
-
-        this.get('controller').send('changeTypeFilter', filter);
-    },
-
     _toggleDisplayResults: function() {
         if(this.get('controller.displayResults')) {
             this.showResultsOverlay();
@@ -114,26 +89,4 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
     focusOut: function (e) {
         $('#search').removeClass('focus');
     },
-});
-
-Balanced.SearchTypeView = Balanced.BaseSearchView.extend({
-    tagName: 'a',
-    attributeBindings: ['href'],
-    href: '#',
-
-    click: function (e) {
-        e.preventDefault();
-        this.get('parentView').get('parentView').onChangeSearchType(e, this.searchType);
-    }
-});
-
-Balanced.SearchFilterResultView = Balanced.BaseSearchView.extend({
-    tagName: 'a',
-    attributeBindings: ['href'],
-    href: '#',
-
-    click: function (e) {
-        e.preventDefault();
-        this.get('parentView').get('parentView').filterResultType(e, this.filter, this.label);
-    }
 });
