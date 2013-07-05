@@ -1,6 +1,9 @@
 Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.SearchResults, {
     needs: ['marketplace'],
 
+    search: null,
+    debounced_search: null,
+
     displayResults: function() {
         return !!this.get('content');
     }.property('content'),

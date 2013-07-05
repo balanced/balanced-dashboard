@@ -1,8 +1,8 @@
 Balanced.SearchResults = Ember.Mixin.create({
     needs: ['marketplace'],
 
-    search: null,
-    debounced_search: null,
+    search: '%',
+    debounced_search: '%',
 
     limit: 10,
     minDate: null,
@@ -29,9 +29,12 @@ Balanced.SearchResults = Ember.Mixin.create({
     // want to lose our results while we're loading a new query
     // The currently processing query is computed as loading_content, once it
     // has loaded successfully, it's set as content
+    // IMPORTANT - in order for this to refresh automatically, something has to be using
+    // it, rather than content. The simplest way to do this is to use the isLoading
+    // property to display a spinner
     loading_content: function() {
         var query = this.get('debounced_search');
-        var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
+        var marketplaceUri = this.get('controllers.marketplace.uri');
 
         if (!query || !query.trim()) {
             return null;
@@ -47,7 +50,7 @@ Balanced.SearchResults = Ember.Mixin.create({
         });
 
         return searchQuery;
-    }.property('debounced_search', 'limit', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'type'),
+    }.property('controllers.marketplace.uri', 'debounced_search', 'limit', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'type'),
 
     isLoading: function() {
         var current = this.get('loading_content');
@@ -61,7 +64,7 @@ Balanced.SearchResults = Ember.Mixin.create({
     query: function() {
         var search = this.get('search');
         if(!search || search.length == 0) {
-            this.closeSearch();
+            this.reset();
             return;
         }
 

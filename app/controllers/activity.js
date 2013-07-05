@@ -1,11 +1,6 @@
 Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.SearchResults, {
     needs: ['marketplace'],
 
-    init: function() {
-        this.set('debounced_search', '%');
-        this.set('search', '%');
-    },
-
     changeTypeFilter: function (type) {
         this.set('type', type);
         if(type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {

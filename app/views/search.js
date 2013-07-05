@@ -18,11 +18,13 @@ Balanced.SearchView = Balanced.View.extend({
     },
 
     clickOutsideSearchBox: function (e) {
-        var $target = $(e.target);
-        // sometimes ember likes to remove nodes from the dom when you click on
-        // them so the body check will make sure it's legit.
-        if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
-            this.get('controller').send('closeSearch');
+        if(this.get('controller.displayResults')) {
+            var $target = $(e.target);
+            // sometimes ember likes to remove nodes from the dom when you click on
+            // them so the body check will make sure it's legit.
+            if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
+                this.get('controller').send('closeSearch');
+            }
         }
     },
 
