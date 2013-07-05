@@ -37,15 +37,8 @@ Balanced.SearchResults = Ember.Mixin.create({
             return null;
         }
 
-        // Allows users to get all results by entering wildcard (%)
-        if (query === '%') {
-            query = '';
-        }
-
         var self = this;
-        var params = this._searchParams({
-            query: query
-        });
+        var params = this._searchParams();
 
         var searchQuery = Balanced.SearchQuery.search(marketplaceUri, params);
 
@@ -107,11 +100,8 @@ Balanced.SearchResults = Ember.Mixin.create({
 
     // For download mixin
     getSearchUri: function () {
-        var query = this.get('search');
         var marketplaceUri = this.get('controllers').get('marketplace').get('uri');
-        var params = this._searchParams({
-            query: query
-        });
+        var params = this._searchParams();
         return Balanced.SearchQuery.createUri(marketplaceUri, params);
     },
 
@@ -148,7 +138,14 @@ Balanced.SearchResults = Ember.Mixin.create({
     // internal functions
 
     _searchParams: function (params) {
+        params = params || {};
+        var query = this.get('search');
+        // Allows users to get all results by entering wildcard (%)
+        if (query === '%') {
+            query = '';
+        }
         var defaults = {
+            query: query,
             limit: this.get('limit'),
             minDate: this.get('minDate'),
             maxDate: this.get('maxDate'),

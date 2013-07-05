@@ -17,12 +17,12 @@
         <div class="date-picker">
             <div class="after selected">
                 {{#view Balanced.DatePickerDateFieldView class="dt"}}
-                    <input type="text" name="after" class="dp" data-element="#search .timing .after">
+                    <input type="text" name="after" class="dp" data-element=".results .timing .after">
                 {{/view}}
             </div>
             <div class="before">
                 {{#view Balanced.DatePickerDateFieldView class="dt"}}
-                    <input type="text" name="before" class="dp" data-element="#search .timing .before">
+                    <input type="text" name="before" class="dp" data-element=".results .timing .before">
                 {{/view}}
             </div>
             <button class="btn go" {{action "setDateVariable" target="view"}}>Go</button>
