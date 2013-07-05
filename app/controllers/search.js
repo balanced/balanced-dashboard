@@ -11,8 +11,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     sortOrder: null,
     type: 'transaction',
 
-    displayResults: false,
-
     init: function() {
         this._super();
 
@@ -53,7 +51,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
 
         searchQuery.then(function(searchQuery) {
             self.set('content', searchQuery);
-            self.set('displayResults', true);
         });
 
         return searchQuery;
@@ -63,6 +60,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         var current = this.get('loading_content');
         return current && !current.get('isLoaded');
     }.property('loading_content.isLoaded'),
+
+    displayResults: function() {
+        return !!this.get('content');
+    }.property('content'),
 
     loadMore: function(results) {
         results.loadNextPage();
@@ -86,12 +87,12 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     closeSearch: function() {
         this.set('debounced_search', null);
         this.set('search', null);
+        this.set('content', null);
         this.set('minDate', null);
         this.set('maxDate', null);
         this.set('sortField', null);
         this.set('sortOrder', null);
         this.set('type', 'transaction');
-        this.set('displayResults', false);
     },
 
     changeDateFilter: function (minDate, maxDate) {
