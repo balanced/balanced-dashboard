@@ -14,24 +14,11 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
     model: function () {
-        // HACK: never hard-code the cookie key directly, only doing this to
-        // limit scope of migration changes
-        if ($.cookie('existing') && !$.cookie('suppressWelcome')) {
-            setTimeout(function () {
-                $('#welcome-transition').modal('show');
-            }, 100);
-        }
-
         var marketplace = this.modelFor('marketplace');
         marketplace.get('transactions').refresh();
         return marketplace;
     },
     events: {
-        hideWelcome: function () {
-            $.cookie('suppressWelcome', 1);
-            $.removeCookie('existing');
-            $('#welcome-transition').modal('hide');
-        },
         transactionSelected: function (transaction) {
             window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(transaction.uri);
         }
