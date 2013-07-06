@@ -1729,14 +1729,20 @@ var basicResult = {
     "last_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?requestTimeStamp=0&sortField=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold&q=&limit=10&sortOrder=&offset=10"
   };
 
+var creditsResult = JSON.parse(JSON.stringify(basicResult));
+creditsResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type=credit";
+creditsResult.items = [basicResult.items[0]];
+
 var customersResult = JSON.parse(JSON.stringify(basicResult));
 customersResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=account";
+
 
 var fundingInstrumentsResult = JSON.parse(JSON.stringify(basicResult));
 fundingInstrumentsResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=bank_account,card";
 
 Balanced.Adapter.addFixtures([
   basicResult,
+  creditsResult,
   customersResult,
   fundingInstrumentsResult,
   {

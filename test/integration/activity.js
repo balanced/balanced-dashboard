@@ -36,6 +36,25 @@ test('can visit pages', function (assert) {
     });
 });
 
+test('Click load more shows 5 more and hides load more', function (assert) {
+    assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
+
+    $('#activity .results table.transactions tfoot td.load-more-results a').click();
+
+    assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
+    assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
+});
+
+test('Filtering by type works', function(assert) {
+    assert.equal($('#activity .results table.transactions tbody tr').length, 10, 'has 10 transactions before');
+
+    $('#activity .results header .transactions .selector a.dropdown-toggle').click();
+
+    $('#activity .results header .transactions .selector a:contains("Credits")').click();
+
+    assert.equal($('#activity .results table.transactions tbody tr').length, 1, 'has 1 transactions after');
+});
+
 test('add funds', function(assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
