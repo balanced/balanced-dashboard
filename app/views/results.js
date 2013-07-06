@@ -2,18 +2,6 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
     templateName: 'results/results_filters_header',
     tagName: 'header',
 
-    reset: function() {
-        this.resetDateTimePicker();
-    },
-
-    resetDateTimePicker: function () {
-        this.$('.set-times li').removeClass('selected');
-        this.$('.dp').val('');
-        this.$('.timing > .dropdown-toggle > span').text('Any time');
-
-        this.get('dateTimePicker').resetDateTimePicker();
-    },
-
     // UI computed properties
     transactionsTabSelected: function() {
         return this.get('controller.category') === "transaction";

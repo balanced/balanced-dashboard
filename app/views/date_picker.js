@@ -1,6 +1,8 @@
 Balanced.DatePickerView = Balanced.View.extend({
     templateName: 'date_picker',
 
+    // temporary properties to use for selecting time periods, controller
+    // stores the values used for filtering
     minTime: null,
     maxTime: null,
 
@@ -20,10 +22,9 @@ Balanced.DatePickerView = Balanced.View.extend({
         this.$('.timing').find('.selected .dp').datepicker('show');
     },
 
-    selectDateTimePicker: function (e) {
+    selectDateTimePicker: function (datePickerSelector) {
         this.$('.date-picker').children().removeClass('selected').find('.dp').datepicker('hide');
-        $(e.currentTarget).parent().addClass('selected').find('.dp').focus().datepicker('show');
-        this.$('.set-times li').removeClass('selected');
+        datePickerSelector.parent().addClass('selected').find('.dp').focus().datepicker('show');
     },
 
     changeDate: function (e) {
@@ -35,17 +36,14 @@ Balanced.DatePickerView = Balanced.View.extend({
         }
     },
 
-    resetDateTimePicker: function (keepTime) {
-        var $dps = this.$('.dp'),
-            $sets = this.$('.set-times li');
-
-        $sets.removeClass('selected');
-        $dps.val('');
-        this.$('.timing > .dropdown-toggle > span').text('Any time');
-        if (!keepTime) {
-            this.set('minTime', null);
-            this.set('maxTime', null);
-        }
+    resetDateTimePicker: function () {
+        this.$('.dp').val('');
+        this.selectDateTimePicker(this.$('.after input'));
+        this.toggleDateTimePicker();
+        this.setProperties({
+            minTime: null,
+            maxTime: null
+        });
     },
 
     setDateFixed: function (presetText) {
@@ -71,13 +69,12 @@ Balanced.DatePickerView = Balanced.View.extend({
     },
 
     setDateVariable: function () {
-        this.resetDateTimePicker(true);
         this._changeDateFilter(this._extractVariableTimePeriod());
     },
 
     _changeDateFilter: function (label) {
-        this._setTimingTitle(label);
-        this.get('controller').send('changeDateFilter', this.minTime, this.maxTime);
+        this.get('controller').send('changeDateFilter', this.minTime, this.maxTime, label);
+        this.resetDateTimePicker();
     },
 
     _setMinDate: function (minDate) {
@@ -86,10 +83,6 @@ Balanced.DatePickerView = Balanced.View.extend({
 
     _setMaxDate: function (maxDate) {
         this.maxTime = maxDate;
-    },
-
-    _setTimingTitle: function (title) {
-        this.$('.dropdown-toggle > span').text(title);
     },
 
     _extractVariableTimePeriod: function () {
@@ -111,7 +104,7 @@ Balanced.DatePickerView = Balanced.View.extend({
             dates.pop();
         }
         if (!dates.length) {
-            return 'Anytime';
+            return 'Any time';
         }
         return dates.join(' - ');
     }
@@ -119,12 +112,18 @@ Balanced.DatePickerView = Balanced.View.extend({
 
 Balanced.DatePickerPresetView = Balanced.View.extend({
     tagName: 'li',
+    classNameBindings: 'isSelected',
+
+    isSelected: function() {
+        if(!this.get('elementInDom')) {
+            return null;
+        }
+        return this.get('controller.dateFilterTitle') === this.$().text() ? "selected" : null;
+    }.property('controller.dateFilterTitle', 'elementInDom'),
 
     click: function (e) {
         e.preventDefault();
-        this.get('parentView').resetDateTimePicker();
         var $t = $(e.currentTarget);
-        $t.addClass('selected');
         var presetText = $t.text();
         this.get('parentView').setDateFixed(presetText);
     }
@@ -141,15 +140,15 @@ Balanced.DatePickerDateFieldView = Balanced.View.extend({
 
     click: function (e) {
         e.preventDefault();
-        this.get('parentView').selectDateTimePicker(e);
+        this.get('parentView').selectDateTimePicker($(e.currentTarget));
         return false;
     },
 
     change: function (e) {
-        this.get('parentView').selectDateTimePicker(e);
+        this.get('parentView').selectDateTimePicker($(e.currentTarget));
     },
 
     focusIn: function (e) {
-        this.get('parentView').selectDateTimePicker(e);
+        this.get('parentView').selectDateTimePicker($(e.currentTarget));
     }
 });

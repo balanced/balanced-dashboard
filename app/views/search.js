@@ -31,8 +31,6 @@ Balanced.SearchView = Balanced.View.extend({
     reset: function () {
         $('#q').val('');
         this.hideResultsOverlay();
-
-        this.get('filtersView').reset();
     },
 
     showResultsOverlay: function() {

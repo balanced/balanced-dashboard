@@ -26,6 +26,8 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
     sortField: Ember.computed.alias('controllers.activity.sortField'),
     sortOrder: Ember.computed.alias('controllers.activity.sortOrder'),
 
+    dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
+
     loadMore: function(results) {
         this.get('controllers.activity').loadMore(results);
     },

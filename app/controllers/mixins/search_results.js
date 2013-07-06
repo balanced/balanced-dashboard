@@ -12,6 +12,8 @@ Balanced.SearchResults = Ember.Mixin.create({
     sortOrder: null,
     type: 'transaction',
 
+    dateFilterTitle: 'Any time',
+
     init: function() {
         this._super();
 
@@ -91,10 +93,11 @@ Balanced.SearchResults = Ember.Mixin.create({
         });
     },
 
-    changeDateFilter: function (minDate, maxDate) {
+    changeDateFilter: function (minDate, maxDate, title) {
         this.setProperties({
             minDate: minDate,
-            maxDate: maxDate
+            maxDate: maxDate,
+            dateFilterTitle: title
         });
     },
 
