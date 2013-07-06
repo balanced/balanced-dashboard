@@ -74,50 +74,46 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
     tagName: 'th',
+    classNameBindings: 'sortClass',
+
+    sortClass: function() {
+        var sortField = this.get('controller.sortField');
+        var sortOrder = this.get('controller.sortOrder');
+        if(sortField !== this.get('field')) {
+            return "unsorted";
+        } else {
+            switch (sortOrder) {
+                case 'asc':
+                    return 'ascending';
+                case 'desc':
+                    return 'descending';
+                default:
+                    return 'unsorted';
+            }
+        }
+    }.property('controller.sortField', 'controller.sortOrder'),
 
     click: function (e) {
-        this.get('parentView').onSortChange(e, this.field);
+        var sortField = this.get('controller.sortField');
+        var sortOrder = this.get('controller.sortOrder');
+        var nextSortOrder = "asc";
+        if(sortField === this.get('field')) {
+            switch (sortOrder) {
+                case 'asc':
+                    nextSortOrder = 'desc';
+                    break;
+                case 'desc':
+                    nextSortOrder = 'none';
+                    break;
+            }
+        }
+        this.get('controller').send('changeSortOrder', this.get('field'), nextSortOrder);
     }
 });
 
 Balanced.ResultsTableView = Balanced.View.extend({
     tagName: 'table',
-    classNames: 'items',
-    sorts: ['unsorted', 'ascending', 'descending'],
-
-    reset: function() {
-        this.resetSortOrder();
-    },
-
-    resetSortOrder: function () {
-        var allSorts = this.$('.sortable');
-        allSorts.removeClass(this.sorts.join(' '));
-        allSorts.data('direction', null);
-    },
-
-    onSortChange: function (e, field) {
-        var $t = $(e.currentTarget);
-        var sequences = {};
-        for (var i = 0; i < this.sorts.length; i++) {
-            sequences[this.sorts[i]] = this.sorts[(i + 1) % this.sorts.length];
-        }
-        var currentSort = $t.data('direction') || 'unsorted';
-        var nextSort = sequences[currentSort];
-        this.resetSortOrder();
-        $t.data('direction', nextSort).addClass(nextSort);
-
-        var mappedSortOrder = 'none';
-        switch (nextSort) {
-            case 'ascending':
-                mappedSortOrder = 'asc';
-                break;
-            case 'descending':
-                mappedSortOrder = 'desc';
-                break;
-        }
-
-        this.get('controller').send('changeSortOrder', field, mappedSortOrder);
-    }
+    classNames: 'items'
 });
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({

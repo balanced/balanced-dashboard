@@ -33,10 +33,6 @@ Balanced.SearchView = Balanced.View.extend({
         this.hideResultsOverlay();
 
         this.get('filtersView').reset();
-
-        this.get('transactionsView').reset();
-        this.get('customersView').reset();
-        this.get('fundingInstrumentsView').reset();
     },
 
     showResultsOverlay: function() {
