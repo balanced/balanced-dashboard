@@ -66,12 +66,12 @@ Balanced.SearchResults = Ember.Mixin.create({
 
     query: function() {
         var search = this.get('search');
-        if(!search || search.length == 0) {
+        if(!search || search.length === 0) {
             this.reset();
             return;
         }
 
-        if (search.indexOf('OHM') === 0 && query.length > 30) {
+        if (search.indexOf('OHM') === 0 && search.length > 30) {
             this.redirectToLog(search);
             return;
         }

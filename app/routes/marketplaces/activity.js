@@ -12,7 +12,7 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
         this._super(controller, model);
 
         if(this.controllerFor('activity').get('category') !== "transaction") {
-        	this.controllerFor('activity').set('type', "transaction");
+            this.controllerFor('activity').set('type', "transaction");
         }
     }
 });
@@ -22,7 +22,7 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
         this._super(controller, model);
 
         if(this.controllerFor('activity').get('category') !== "account") {
-        	this.controllerFor('activity').set('type', "account");
+            this.controllerFor('activity').set('type', "account");
         }
     }
 });
@@ -32,7 +32,7 @@ Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
         this._super(controller, model);
 
         if(this.controllerFor('activity').get('category') !== "funding_instrument") {
-        	this.controllerFor('activity').set('type', "funding_instrument");
+            this.controllerFor('activity').set('type', "funding_instrument");
         }
     }
 });
