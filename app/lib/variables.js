@@ -14,6 +14,7 @@ Balanced.TIME = {
 };
 
 Balanced.KEYS = {
+    ENTER: 13,
     ESCAPE: 27
 };
 
@@ -27,3 +28,12 @@ Balanced.BANK_ACCOUNT_TYPES = [
         value: 'savings'
     }
 ];
+
+Balanced.SEARCH = {
+    CATEGORIES: ['transaction', 'account', 'funding_instrument'],
+    TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
+    FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card'],
+};
+
+//  time in ms to throttle between key presses for search
+Balanced.THROTTLE = 400;

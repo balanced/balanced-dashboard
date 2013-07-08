@@ -1,9 +1,9 @@
-{{ partial "welcome_transition" }}
+{{view Balanced.WelcomeTransitionView }}
 
 <div id="activity" class="span20">
     <h1 class="page-title">Activity
         {{#if iframeLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
-        <!--<a href="#" {{action openDownload}} class="icon-download right">Download</a>-->
+        {{#if isLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
     </h1>
 
     <div class="activity activity-escrow-box span20">
@@ -22,13 +22,9 @@
         </div>
     </div>
 
-    <header class="activity activity-header span20">
-        <nav>
-            {{#linkTo activity.transactions tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Transactions</a>{{/linkTo}}
-            {{#linkTo activity.customers tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Customers</a>{{/linkTo}}
-            {{#linkTo activity.funding_instruments tagName="li" href=false}}<a {{bindAttr href="view.href"}}>Cards &amp; Bank Accounts</a>{{/linkTo}}
-        </nav>
-    </header>
+    <div class="results">
+        {{view Balanced.ResultsFiltersHeaderView viewName="filtersView"}}
+    </div>
 
     {{ outlet }}
 
@@ -36,6 +32,6 @@
         {{partial "modals/download" }}
     {{/if}}
 
-    {{view Balanced.AddFundsModalView marketplaceBinding="model" viewName="addFundsModal"}}
-    {{view Balanced.WithdrawFundsModalView marketplaceBinding="model" viewName="withdrawFundsModal"}}
+    {{view Balanced.AddFundsModalView marketplaceBinding="controllers.marketplace.model" viewName="addFundsModal"}}
+    {{view Balanced.WithdrawFundsModalView marketplaceBinding="controllers.marketplace.model" viewName="withdrawFundsModal"}}
 </div>

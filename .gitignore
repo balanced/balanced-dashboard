@@ -10,7 +10,7 @@ lib-cov
 
 pids
 logs/*
-results
+./results
 build/*
 dist/*
 report/*

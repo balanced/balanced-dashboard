@@ -66,6 +66,7 @@ require('app/views/modal');
 require('app/views/embedded_iframe');
 require('app/views/login');
 require('app/views/forgot_password'); // depends on login
+require('app/views/results');
 require('app/views/search');
 require('app/views/welcome_transition');
 
@@ -95,6 +96,7 @@ require('app/views/marketplaces/delete_marketplace_modal');
  */
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
+require('app/controllers/mixins/search_results');
 require('app/controllers/mixins/pay_seller');
 require('app/controllers/activity');
 require('app/controllers/application');

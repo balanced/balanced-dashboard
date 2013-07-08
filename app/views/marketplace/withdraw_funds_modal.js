@@ -12,8 +12,8 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
     }.property('model.source_uri'),
 
     bank_accounts: function () {
-        return this.get('owner_customer.bank_accounts') || this.get('marketplace.owner_customer.bank_accounts');
-    }.property('owner_customer.bank_accounts', 'marketplace.owner_customer.bank_accounts'),
+        return this.get('marketplace.owner_customer.bank_accounts');
+    }.property('marketplace.owner_customer.bank_accounts'),
 
     open: function () {
         var bank_accounts = this.get('marketplace.owner_customer.bank_accounts');

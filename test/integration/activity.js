@@ -16,11 +16,7 @@ test('can visit page', function (assert) {
     assert.notEqual($title.text().indexOf('Activity'), -1,
         'Title is incorrect');
 
-    // Put this back in when the activity page supports downloads
-    /*
-    assert.notEqual($title.text().indexOf('Download'), -1,
-        'Download link not in title "{0}"'.format($title.text()));
-    */
+    assert.ok($('#activity .download').length, "Download link is visible");
 });
 
 test('can visit pages', function (assert) {
@@ -33,15 +29,33 @@ test('can visit pages', function (assert) {
     _.each(links, function (linkAndClass) {
         var link = linkAndClass[0],
             cls = linkAndClass[1];
-        var $link = $('a:contains("' + link + '")');
+        var $link = $('#activity a:contains("' + link + '")');
         assert.ok($link.length, link + ' link exists');
         $link.click();
-        assert.ok($('table.items.' + cls).length, link + ' table visible');
+        assert.ok($('#activity table.items.' + cls).length, link + ' table visible');
     });
 });
 
+test('Click load more shows 5 more and hides load more', function (assert) {
+    assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
 
-test('add funds', function(assert) {
+    $('#activity .results table.transactions tfoot td.load-more-results a').click();
+
+    assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
+    assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
+});
+
+test('Filtering by type works', function (assert) {
+    assert.equal($('#activity .results table.transactions tbody tr').length, 10, 'has 10 transactions before');
+
+    $('#activity .results header .transactions .selector a.dropdown-toggle').click();
+
+    $('#activity .results header .transactions .selector a:contains("Credits")').click();
+
+    assert.equal($('#activity .results table.transactions tbody tr').length, 1, 'has 1 transactions after');
+});
+
+test('add funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
     $('.activity-escrow-box .span4 .btn').first().click();
@@ -58,7 +72,7 @@ test('add funds', function(assert) {
     //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,193.36'), -1, 'escrow amount is now $1,193.36');
 });
 
-test('withdraw funds', function(assert) {
+test('withdraw funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
     $('.activity-escrow-box .span4 .btn').eq(1).click();
