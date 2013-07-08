@@ -14,14 +14,14 @@ Balanced.SearchResults = Ember.Mixin.create({
 
     dateFilterTitle: 'Any time',
 
-    init: function() {
+    init: function () {
         this._super();
 
         var self = this;
-        var debouncedQuery = _.debounce(function() {
+        var debouncedQuery = _.debounce(function () {
             // since this might get called after a timeout, make sure this
             // object is still valid (especially necessary for tests)
-            if(!self.get('isDestroyed')) {
+            if (!self.get('isDestroyed')) {
                 self.query();
             }
         }, Balanced.THROTTLE);
@@ -35,7 +35,7 @@ Balanced.SearchResults = Ember.Mixin.create({
     // IMPORTANT - in order for this to refresh automatically, something has to be using
     // it, rather than content. The simplest way to do this is to use the isLoading
     // property to display a spinner
-    loading_content: function() {
+    loading_content: function () {
         var query = this.get('debounced_search');
         var marketplaceUri = this.get('controllers.marketplace.uri');
 
@@ -48,25 +48,25 @@ Balanced.SearchResults = Ember.Mixin.create({
 
         var searchQuery = Balanced.SearchQuery.search(marketplaceUri, params);
 
-        searchQuery.then(function(searchQuery) {
+        searchQuery.then(function (searchQuery) {
             self.set('content', searchQuery);
         });
 
         return searchQuery;
     }.property('controllers.marketplace.uri', 'debounced_search', 'limit', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'type'),
 
-    isLoading: function() {
+    isLoading: function () {
         var current = this.get('loading_content');
         return current && !current.get('isLoaded');
     }.property('loading_content.isLoaded'),
 
-    loadMore: function(results) {
+    loadMore: function (results) {
         results.loadNextPage();
     },
 
-    query: function() {
+    query: function () {
         var search = this.get('search');
-        if(!search || search.length === 0) {
+        if (!search || search.length === 0) {
             this.reset();
             return;
         }
@@ -79,7 +79,7 @@ Balanced.SearchResults = Ember.Mixin.create({
         this.set('debounced_search', this.get('search'));
     },
 
-    reset: function() {
+    reset: function () {
         var defaultSearch = this.get('default_search');
         this.setProperties({
             debounced_search: defaultSearch,
@@ -132,17 +132,17 @@ Balanced.SearchResults = Ember.Mixin.create({
 
     // used for when filtering to one specific type. for example: if the user
     // is viewing holds, type==hold category==transaction
-    category: function() {
+    category: function () {
         var type = this.get('type');
-        if(_.contains(Balanced.SEARCH.CATEGORIES, type)) {
+        if (_.contains(Balanced.SEARCH.CATEGORIES, type)) {
             return type;
         }
 
-        if(_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+        if (_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
             return "transaction";
         }
 
-        if(_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
+        if (_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
             return "funding_instrument";
         }
 

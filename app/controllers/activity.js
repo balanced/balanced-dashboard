@@ -5,7 +5,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.Download
 
     changeTypeFilter: function (type) {
         this.set('type', type);
-        if(type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+        if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
             this.transitionToRoute('activity.transactions');
         } else if (type === 'account') {
             this.transitionToRoute('activity.customers');
@@ -28,15 +28,15 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
     dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
 
-    loadMore: function(results) {
+    loadMore: function (results) {
         this.get('controllers.activity').loadMore(results);
     },
 
-    changeSortOrder: function(field, sortOrder) {
+    changeSortOrder: function (field, sortOrder) {
         this.get('controllers.activity').changeSortOrder(field, sortOrder);
     },
 
-    selectResult: function(uri) {
+    selectResult: function (uri) {
         this.get('controllers.activity').selectResult(uri);
     }
 });

@@ -45,7 +45,7 @@ test('Click load more shows 5 more and hides load more', function (assert) {
     assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
 });
 
-test('Filtering by type works', function(assert) {
+test('Filtering by type works', function (assert) {
     assert.equal($('#activity .results table.transactions tbody tr').length, 10, 'has 10 transactions before');
 
     $('#activity .results header .transactions .selector a.dropdown-toggle').click();
@@ -55,7 +55,7 @@ test('Filtering by type works', function(assert) {
     assert.equal($('#activity .results table.transactions tbody tr').length, 1, 'has 1 transactions after');
 });
 
-test('add funds', function(assert) {
+test('add funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
     $('.activity-escrow-box .span4 .btn').first().click();
@@ -72,7 +72,7 @@ test('add funds', function(assert) {
     //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,193.36'), -1, 'escrow amount is now $1,193.36');
 });
 
-test('withdraw funds', function(assert) {
+test('withdraw funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
     $('.activity-escrow-box .span4 .btn').eq(1).click();

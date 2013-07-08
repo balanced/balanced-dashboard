@@ -7,11 +7,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
 
     baseClassSelector: '#search',
 
-    displayResults: function() {
+    displayResults: function () {
         return !!this.get('content');
     }.property('content'),
 
-    closeSearch: function() {
+    closeSearch: function () {
         this.reset();
     },
 

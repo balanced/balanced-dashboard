@@ -3,15 +3,15 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
     tagName: 'header',
 
     // UI computed properties
-    transactionsTabSelected: function() {
+    transactionsTabSelected: function () {
         return this.get('controller.category') === "transaction";
     }.property('controller.category'),
 
-    customersTabSelected: function() {
+    customersTabSelected: function () {
         return this.get('controller.category') === "account";
     }.property('controller.category'),
 
-    fundingInstrumentsTabSelected: function() {
+    fundingInstrumentsTabSelected: function () {
         return this.get('controller.category') === "funding_instrument";
     }.property('controller.category'),
 
@@ -64,10 +64,10 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
     tagName: 'th',
     classNameBindings: 'sortClass',
 
-    sortClass: function() {
+    sortClass: function () {
         var sortField = this.get('controller.sortField');
         var sortOrder = this.get('controller.sortOrder');
-        if(sortField !== this.get('field')) {
+        if (sortField !== this.get('field')) {
             return "unsorted";
         } else {
             switch (sortOrder) {
@@ -85,7 +85,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
         var sortField = this.get('controller.sortField');
         var sortOrder = this.get('controller.sortOrder');
         var nextSortOrder = "asc";
-        if(sortField === this.get('field')) {
+        if (sortField === this.get('field')) {
             switch (sortOrder) {
                 case 'asc':
                     nextSortOrder = 'desc';
@@ -109,7 +109,7 @@ Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
     classNameBindings: 'selected',
     templateName: 'results/transactions_table',
 
-    selected: function() {
+    selected: function () {
         return this.get('controller.category') === "transaction" ? "selected" : "";
     }.property('controller.category')
 });
@@ -119,7 +119,7 @@ Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
     classNameBindings: 'selected',
     templateName: 'results/customers_table',
 
-    selected: function() {
+    selected: function () {
         return this.get('controller.category') === "account" ? "selected" : "";
     }.property('controller.category')
 });
@@ -129,7 +129,7 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
     classNameBindings: 'selected',
     templateName: 'results/funding_instruments_table',
 
-    selected: function() {
+    selected: function () {
         return this.get('controller.category') === "funding_instrument" ? "selected" : "";
     }.property('controller.category')
 });

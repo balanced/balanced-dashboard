@@ -114,8 +114,8 @@ Balanced.DatePickerPresetView = Balanced.View.extend({
     tagName: 'li',
     classNameBindings: 'isSelected',
 
-    isSelected: function() {
-        if(!this.get('elementInDom')) {
+    isSelected: function () {
+        if (!this.get('elementInDom')) {
             return null;
         }
         return this.get('controller.dateFilterTitle') === this.$().text() ? "selected" : null;
@@ -130,11 +130,11 @@ Balanced.DatePickerPresetView = Balanced.View.extend({
 });
 
 Balanced.DatePickerDateFieldView = Balanced.View.extend({
-    beforeSelector: function() {
+    beforeSelector: function () {
         return this.get('controller.baseClassSelector') + ' .timing .before';
     }.property(),
 
-    afterSelector: function() {
+    afterSelector: function () {
         return this.get('controller.baseClassSelector') + ' .timing .after';
     }.property(),
 
