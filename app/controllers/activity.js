@@ -1,6 +1,9 @@
 Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.SearchResults, {
     needs: ['marketplace'],
 
+    sortField: 'created_at',
+    sortOrder: 'desc',
+
     baseClassSelector: '#activity',
 
     changeTypeFilter: function (type) {
