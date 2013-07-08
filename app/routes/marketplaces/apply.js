@@ -18,6 +18,8 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
             var self = this;
 
             function persistMarketplace(user) {
+                Balanced.Utils.setCurrentMarketplace(null);
+
                 models.apiKey.create().then(function (apiKey) {
                     //  set the api key for this request
                     Balanced.Auth.setAPIKey(apiKey.get('secret'));
@@ -35,14 +37,14 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
                             user.refresh();
                             //  we need the api key to be associated with the user before we can create the bank account
                             //  create bank account
-                            var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri') + '?marketplace_guid=' + marketplace.get('id');
+                            var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri') + '?marketplace=' + marketplace.get('id');
 
                             models.bankAccount.set('uri', bankAccountUri);
                             models.bankAccount.create();
                         });
 
                         //  annnnd we're done
-                        this.controllerFor('marketplace').send('alertMessage', {
+                        self.controllerFor('marketplace').send('alertMessage', {
                             type: 'success',
                             message: 'We\'ve received your information. In the ' +
                                 'meantime, you may fund your balance with your ' +
