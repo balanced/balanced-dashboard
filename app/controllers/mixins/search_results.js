@@ -8,8 +8,8 @@ Balanced.SearchResults = Ember.Mixin.create({
     limit: 10,
     minDate: null,
     maxDate: null,
-    sortField: 'created_at',
-    sortOrder: 'desc',
+    sortField: null,
+    sortOrder: null,
     type: 'transaction',
 
     dateFilterTitle: 'Any time',
