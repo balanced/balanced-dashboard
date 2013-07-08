@@ -258,8 +258,10 @@ Balanced.Utils = {
         // Store the marketplace in a global so we can use it for auth.
         // TODO: TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = marketplace;
-        Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
-            expires: Balanced.TIME.THREE_YEARS
-        });
+        if(marketplace) {
+            Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
+                expires: Balanced.TIME.THREE_YEARS
+            });
+        }
     }
 };
