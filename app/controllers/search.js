@@ -15,9 +15,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.reset();
     },
 
-    selectResult: function (uri) {
+    selectResult: function (obj) {
         this.closeSearch();
-        window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(uri);
+
+        this._super(obj);
     },
 
     redirectToLog: function (ohm) {

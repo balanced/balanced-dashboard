@@ -1,0 +1,65 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+.customer {
+  width: 100%;
+  margin: 0px;
+  border: 0px;
+
+  &.customer-header {
+    background-color: @byzantiumPurple60;
+    height: 75px;
+    margin-bottom: 35px;
+
+    div.label {
+      display: table;
+      background-color: @byzantiumPurple100;
+      margin: 0px;
+      height: 100%;
+
+      .icon {
+        margin: 5px;
+        width: 65px;
+        height: 65px;
+        background-image: @iconsFile;
+        text-indent: -4000px;
+
+        &.business-info {
+          background-position: -60px -768px;
+        }
+
+        &.person-info {
+          background-position: 0px -768px;
+        }
+      }
+    }
+
+    div.title {
+      display: table;
+      height: 100%;
+
+      span {
+        line-height: normal;
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+
+    div.buttons {
+      height: 100%;
+      margin-top: 4px;
+      margin-left: 0px;
+
+      a {
+        float: right;
+        display: block;
+        width: 50%;
+        cursor: pointer;
+
+        &:first-child {
+          margin-bottom: 4px;
+        }
+      }
+    }
+  }
+}

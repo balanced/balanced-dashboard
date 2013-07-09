@@ -25,7 +25,7 @@
 {{/if}}
 <tbody>
     {{#each transaction in transactions }}
-        <tr {{action selectResult transaction.uri}}>
+        <tr {{action selectResult transaction}}>
             <td class="span3 date">
                 <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
             </td>
