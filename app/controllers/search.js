@@ -15,17 +15,24 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.reset();
     },
 
-    selectResult: function (obj) {
-        this.closeSearch();
-
-        this._super(obj);
-    },
-
     redirectToLog: function (ohm) {
         this.closeSearch();
         window.location = '#/marketplaces/{0}/logs/{1}'.format(
             this.get('controllers').get('marketplace').get('id'),
             ohm
         );
-    }
+    },
+
+    // UI properties
+    transactionsTabSelected: function () {
+        return this.get('category') === "transaction";
+    }.property('category'),
+
+    customersTabSelected: function () {
+        return this.get('category') === "account";
+    }.property('category'),
+
+    fundingInstrumentsTabSelected: function () {
+        return this.get('category') === "funding_instrument";
+    }.property('category'),
 });

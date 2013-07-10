@@ -44,10 +44,10 @@
     {{else}}
         <tr>
             <td colspan="4" class="no-results">
-                {{# if isLoading }}
-                    Loading...
-                {{else}}
+                {{# if funding_instruments.isLoaded }}
                     No results
+                {{else}}
+                    Loading...
                 {{/if}}
             </td>
         </tr>

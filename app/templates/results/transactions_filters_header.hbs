@@ -1,0 +1,29 @@
+<nav>
+    <li {{bindAttr class=":filter view.allTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "transaction"}}>All</a>
+    </li>
+
+    <li {{bindAttr class=":filter view.holdsTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "hold"}}>Holds</a>
+    </li>
+
+    <li {{bindAttr class=":filter view.debitsTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "debit"}}>Debits</a>
+    </li>
+
+    <li {{bindAttr class=":filter view.creditsTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "credit"}}>Credits</a>
+    </li>
+
+    <li {{bindAttr class=":filter view.refundsTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "refund"}}>Refunds</a>
+    </li>
+
+    <li class="timing dropdown label4a">
+        {{view Balanced.DatePickerView viewName="dateTimePicker" }}
+    </li>
+
+    <li class="download">
+        <a href="#" {{action openDownload}} class="icon-download right">Download</a>
+    </li>
+</nav>

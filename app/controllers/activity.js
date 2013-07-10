@@ -37,10 +37,6 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
     changeSortOrder: function (field, sortOrder) {
         this.get('controllers.activity').changeSortOrder(field, sortOrder);
-    },
-
-    selectResult: function (obj) {
-        this.get('controllers.activity').selectResult(obj);
     }
 });
 

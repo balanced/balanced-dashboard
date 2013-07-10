@@ -6,7 +6,7 @@
 	        <div {{bindAttr class=":icon is_business:business-info:person-info"}}>Business</div>
 	    </div>
 	    <div class="span14 title">
-	        <span class="label1d">
+	        <span class="nav2d">
 	            {{#if is_business}} {{business_name}} {{else}} {{name}} {{/if}}
 	        </span>
 	    </div>
@@ -212,7 +212,19 @@
 	                {{/each}}
 	            </ul>
 	        </section>
-
 	    </div>
 	</div>
+
+	<section class="activity">
+		<header>
+		    <h3>Activity</h3>
+		</header>
+		<div class="results">
+		    {{view Balanced.TransactionsFiltersHeaderView}}
+
+			<div class="items-wrapper">
+			    {{view Balanced.TransactionsResultsView}}
+			</div>
+		</div>
+	</section>
 </div>

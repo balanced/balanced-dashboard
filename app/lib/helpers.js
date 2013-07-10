@@ -271,5 +271,43 @@ Balanced.Utils = {
                 expires: Balanced.TIME.THREE_YEARS
             });
         }
-    }
+    },
+
+    applyUriFilters: function(uri, params) {
+        var filteringParams = {
+            limit: params.limit || 10,
+            offset: params.offset || 0
+        };
+
+        if (params.sortField && params.sortOrder && params.sortOrder !== 'none') {
+            filteringParams.sort = params.sortField + ',' + params.sortOrder;
+        }
+
+        if (params.minDate) {
+            filteringParams['created_at[>]'] = params.minDate.toISOString();
+        }
+        if (params.maxDate) {
+            filteringParams['created_at[<]'] = params.maxDate.toISOString();
+        }
+        if (params.type) {
+            switch (params.type) {
+                case 'transaction':
+                    filteringParams['type[in]'] = 'credit,debit,refund,hold';
+                    break;
+                case 'funding_instrument':
+                    filteringParams['type[in]'] = 'bank_account,card';
+                    break;
+                default:
+                    filteringParams.type = params.type;
+            }
+        }
+
+        for(key in filteringParams) {
+            if(filteringParams.hasOwnProperty(key)) {
+                uri = Balanced.Utils.updateQueryStringParameter(uri, key, filteringParams[key]);
+            }
+        }
+
+        return uri;
+    },
 };

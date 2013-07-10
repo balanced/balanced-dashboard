@@ -36,10 +36,10 @@
     {{else}}
         <tr>
             <td colspan="3" class="no-results">
-                {{# if isLoading }}
-                    Loading...
-                {{else}}
+                {{# if accounts.isLoaded }}
                     No results
+                {{else}}
+                    Loading...
                 {{/if}}
             </td>
         </tr>

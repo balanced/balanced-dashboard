@@ -1,5 +1,11 @@
 Balanced.Customer = Balanced.Model.extend({
     bank_accounts: Balanced.Model.hasMany('Balanced.BankAccount', 'bank_accounts_uri'),
+    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
+    transactions: Balanced.Model.hasMany('Balanced.Transaction', 'transactions_uri'),
+    debits: Balanced.Model.hasMany('Balanced.Debit', 'debits_uri'),
+    credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
+    holds: Balanced.Model.hasMany('Balanced.Hold', 'holds_uri'),
+    refunds: Balanced.Model.hasMany('Balanced.Refund', 'refunds_uri'),
 
     verified_bank_accounts: function () {
         var bank_accounts = this.get('bank_accounts');
@@ -10,8 +16,6 @@ Balanced.Customer = Balanced.Model.extend({
             }
         });
     }.property('bank_accounts.@each.verified'),
-
-    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
 
     type: function () {
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';

@@ -9,17 +9,23 @@
     <div class="results">
         {{view Balanced.ResultsFiltersHeaderView viewName="filtersView"}}
 
-        <div class="items-wrapper">
+        {{#if transactionsTabSelected}}
+        <div class="items-wrapper" {{action closeSearch}}>
             {{view Balanced.TransactionsResultsView viewName="transactionsView"}}
         </div>
+        {{/if}}
 
-        <div class="items-wrapper">
+        {{#if customersTabSelected}}
+        <div class="items-wrapper" {{action closeSearch}}>
             {{view Balanced.CustomersResultsView viewName="customersView"}}
         </div>
+        {{/if}}
 
-        <div class="items-wrapper">
+        {{#if fundingInstrumentsTabSelected}}
+        <div class="items-wrapper" {{action closeSearch}}>
             {{view Balanced.FundingInstrumentsResultsView viewName="fundingInstrumentsView"}}
         </div>
+        {{/if}}
     </div>
     {{#if show_download}}
         {{partial "modals/download" }}

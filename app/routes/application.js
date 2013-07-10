@@ -28,6 +28,19 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
                     withCredentials: true
                 }
             });
-        }
+        },
+
+        selectResult: function (obj) {
+            if(obj.constructor == Balanced.Account) {
+                obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
+            }
+
+            if (obj.constructor == Balanced.Customer) {
+                this.transitionTo('customer', obj);
+                return;
+            }
+
+            window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(obj.uri);
+        },
     }
 });

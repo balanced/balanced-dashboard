@@ -60,6 +60,31 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
     }
 });
 
+Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
+    templateName: 'results/transactions_filters_header',
+    tagName: 'header',
+
+    allTabSelected: function () {
+        return this.get('controller.type') === "transaction";
+    }.property('controller.type'),
+
+    holdsTabSelected: function () {
+        return this.get('controller.type') === "hold";
+    }.property('controller.type'),
+
+    creditsTabSelected: function () {
+        return this.get('controller.type') === "credit";
+    }.property('controller.type'),
+
+    debitsTabSelected: function () {
+        return this.get('controller.type') === "debit";
+    }.property('controller.type'),
+
+    refundsTabSelected: function () {
+        return this.get('controller.type') === "refund";
+    }.property('controller.type'),
+});
+
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
     tagName: 'th',
     classNameBindings: 'sortClass',
@@ -106,30 +131,15 @@ Balanced.ResultsTableView = Balanced.View.extend({
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
     classNames: 'transactions',
-    classNameBindings: 'selected',
-    templateName: 'results/transactions_table',
-
-    selected: function () {
-        return this.get('controller.category') === "transaction" ? "selected" : "";
-    }.property('controller.category')
+    templateName: 'results/transactions_table'
 });
 
 Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
     classNames: 'accounts',
-    classNameBindings: 'selected',
-    templateName: 'results/customers_table',
-
-    selected: function () {
-        return this.get('controller.category') === "account" ? "selected" : "";
-    }.property('controller.category')
+    templateName: 'results/customers_table'
 });
 
 Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
     classNames: 'funding-instruments',
-    classNameBindings: 'selected',
-    templateName: 'results/funding_instruments_table',
-
-    selected: function () {
-        return this.get('controller.category') === "funding_instrument" ? "selected" : "";
-    }.property('controller.category')
+    templateName: 'results/funding_instruments_table'
 });

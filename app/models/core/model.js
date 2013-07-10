@@ -316,18 +316,7 @@ Balanced.Model.reopenClass({
                 if (embedded) {
                     modelObjectsArray.populateModels(this.get(translatedProperty));
                 } else {
-                    modelObjectsArray.set('isLoaded', false);
-                    Balanced.Adapter.get(typeClass, this.get(translatedProperty), function (json) {
-                        modelObjectsArray.populateModels(json);
-                    }, function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 400) {
-                            this.set('isValid', false);
-                            this.trigger('becameInvalid', jqXHR.responseText);
-                        } else {
-                            this.set('isError', true);
-                            this.trigger('becameError', jqXHR.responseText);
-                        }
-                    });
+                    return Balanced.ModelArray.newArrayLoadedFromUri(this.get(translatedProperty), defaultType);
                 }
             }
 

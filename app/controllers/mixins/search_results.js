@@ -119,19 +119,6 @@ Balanced.SearchResults = Ember.Mixin.create({
         return Balanced.SearchQuery.createUri(marketplaceUri, params);
     },
 
-    selectResult: function (obj) {
-        if(obj.constructor == Balanced.Account) {
-            obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
-        }
-
-        if (obj.constructor == Balanced.Customer) {
-            this.transitionToRoute('customer', obj);
-            return;
-        }
-
-        window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(obj.uri);
-    },
-
     redirectToLog: function (ohm) {
         window.location = '#/marketplaces/{0}/logs/{1}'.format(
             this.get('controllers').get('marketplace').get('id'),
