@@ -36,10 +36,7 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
         var self = this;
         var debit = this.get('model');
 
-        // Strip commas from amount
-        var amount = this.get('dollar_amount').replace(/,/g, '');
-
-        debit.set('amount', Balanced.Utils.dollarsToCents(amount));
+        debit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
         debit.one('didCreate', function () {
             self.get('marketplace').refresh();
             $('#add-funds').modal('hide');

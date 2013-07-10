@@ -36,10 +36,7 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         var self = this;
         var credit = this.get('model');
 
-        // Strip commas from amount
-        var amount = this.get('dollar_amount').replace(/,/g, '');
-
-        credit.set('amount', Balanced.Utils.dollarsToCents(amount));
+        credit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
         credit.one('didCreate', function () {
             self.get('marketplace').refresh();
             $('#withdraw-funds').modal('hide');

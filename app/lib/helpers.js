@@ -247,11 +247,24 @@ Balanced.Utils = {
     },
 
     dollarsToCents: function (dollars) {
-        return parseInt(dollars * 100, 10);
+        var d = dollars.replace(/,/g, '');
+        return parseInt(d * 100, 10);
     },
 
     toGravatar: function (emailHash) {
         return emailHash ? 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
+    },
+
+    isValidPassword: function(password) {
+        if(password.length < 6) {
+            return false;
+        }
+
+        if(!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
+            return false;
+        }
+
+        return true;
     },
 
     setCurrentMarketplace: function (marketplace) {

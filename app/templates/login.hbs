@@ -8,15 +8,11 @@
               <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
               <form id="auth-form" {{ bindAttr class="loginError:error" }}>
-                {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email" action="signIn"}}
+                {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
                 {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
                 <div class="clear"></div>
 
-
-                <!--
-                  This functionality is not complete.
-                  {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
-                -->
+                {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
 
                 <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
               </form>
