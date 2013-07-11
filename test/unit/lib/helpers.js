@@ -52,7 +52,7 @@ test("isValidPassword", function (assert) {
         '1',
         '123456',
         'a',
-        'abcdef',
+        'abcdef'
     ];
 
     var valid_passwords = [
@@ -60,11 +60,10 @@ test("isValidPassword", function (assert) {
         '12345f'
     ];
 
-    for (var i = 0; i < invalid_passwords.length; i++) {
-        assert.equal(Balanced.Utils.isValidPassword(invalid_passwords[i]), false);
-    }
-
-    for (var j = 0; j < valid_passwords.length; j++) {
-        assert.equal(Balanced.Utils.isValidPassword(valid_passwords[j]), true);
-    }
+    _.each(invalid_passwords, function (password) {
+        assert.equal(Balanced.PASSWORD.REGEX.test(password), false, password);
+    });
+    _.each(valid_passwords, function (password) {
+        assert.equal(Balanced.PASSWORD.REGEX.test(password), true, password);
+    });
 });

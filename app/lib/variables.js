@@ -27,3 +27,8 @@ Balanced.BANK_ACCOUNT_TYPES = [
         value: 'savings'
     }
 ];
+
+Balanced.PASSWORD = {
+    MIN_CHARS: 6,
+    REGEX: /(?=.*[a-z])(?=.*\d)/
+};

@@ -3,21 +3,16 @@ Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
         password: {
             presence: true,
             length: {
-                minimum: 6
+                minimum: Balanced.PASSWORD.MIN_CHARS
             },
             format: {
-                validator: function (object, attribute, value) {
-                    if (!Balanced.Utils.isValidPassword(value)) {
-                        object.set('hasError', true);
-                        object.get('validationErrors').add(attribute, 'invalid');
-                    }
-                }
+                with: Balanced.PASSWORD.REGEX
             }
         },
         password_confirm: {
             presence: true,
             length: {
-                minimum: 6
+                minimum: Balanced.PASSWORD.MIN_CHARS
             },
             format: {
                 validator: function (object, attribute, value) {

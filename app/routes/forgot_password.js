@@ -5,8 +5,8 @@ Balanced.ForgotPasswordRoute = Balanced.Route.extend({
         this._super(controller, model.fp);
     },
 
-    model: function() {
-        var fp =  Balanced.ForgotPassword.create();
+    model: function () {
+        var fp = Balanced.ForgotPassword.create();
 
         return {
             fp: fp

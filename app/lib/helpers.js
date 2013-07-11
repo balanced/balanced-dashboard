@@ -255,22 +255,6 @@ Balanced.Utils = {
         return emailHash ? 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
     },
 
-    isValidPassword: function(password) {
-        if(!password) {
-            return false;
-        }
-
-        if(password.length < 6) {
-            return false;
-        }
-
-        if(!/[A-Za-z]/.test(password) || !/\d/.test(password)) {
-            return false;
-        }
-
-        return true;
-    },
-
     setCurrentMarketplace: function (marketplace) {
         // Store the marketplace in a global so we can use it for auth.
         // TODO: TAKE THIS OUT when we've moved to oAuth

@@ -5,8 +5,8 @@ Balanced.ResetPasswordRoute = Balanced.Route.extend({
         this._super(controller, model.rp);
     },
 
-    model: function(params) {
-        var rp =  Balanced.ResetPassword.create({
+    model: function (params) {
+        var rp = Balanced.ResetPassword.create({
             isLoaded: true,
             token: params.token
         });

@@ -5,7 +5,7 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
     submitted: false,
     hasError: false,
 
-    resetPassword: function() {
+    resetPassword: function () {
         var model = this.get('content');
         var self = this;
 
@@ -13,18 +13,18 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
         model.set('password', this.get('password'));
         model.set('password_confirm', this.get('password_confirm'));
 
-        if(model.validate()) {
+        if (model.validate()) {
             self.set('hasError', false);
 
-            model.one('becameInvalid', function() {
+            model.one('becameInvalid', function () {
                 self.set('hasError', true);
             });
 
-            model.one('becameError', function() {
+            model.one('becameError', function () {
                 self.set('hasError', true);
             });
 
-            model.update().then(function() {
+            model.update().then(function () {
                 self.set('password', '');
                 self.set('password_confirm', '');
                 self.set('submitted', true);
