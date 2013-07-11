@@ -29,27 +29,27 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
         };
         var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
         return this._getLabel(typesToLabels, types, this.get('controller.type'));
-    }.property('controller.type', 'controller.counts'),
+    }.property('controller.type'),
 
     totalTransactionsHeader: function () {
-        return 'Transactions (' + this.get('controller.total_transactions') + ')';
-    }.property('controller.total_transactions'),
+        return 'Transactions (' + this.get('searchResult.total_transactions') + ')';
+    }.property('searchResult.total_transactions'),
 
     totalFundingInstrumentsHeader: function () {
-        return 'Cards & Bank Accounts (' + this.get('controller.total_funding_instruments') + ')';
-    }.property('controller.total_funding_instruments'),
+        return 'Cards & Bank Accounts (' + this.get('searchResult.total_funding_instruments') + ')';
+    }.property('searchResult.total_funding_instruments'),
 
     transaction_type_total: function () {
         var types = Balanced.SEARCH.TRANSACTION_TYPES;
         var type = this.get('controller.type');
-        return (types.indexOf(type) >= 0 && this.get('controller.total_{0}s'.format(type))) || this.get('controller.total_transactions');
-    }.property('controller.type', 'controller.counts'),
+        return (types.indexOf(type) >= 0 && this.get('searchResult.total_{0}s'.format(type))) || this.get('searchResult.total_transactions');
+    }.property('controller.type', 'searchResult.total_transactions'),
 
     funding_instrument_type_total: function () {
         var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
         var type = this.get('controller.type');
-        return (types.indexOf(type) >= 0 && this.get('controller.total_{0}s'.format(type))) || this.get('controller.total_funding_instruments');
-    }.property('controller.type', 'controller.counts'),
+        return (types.indexOf(type) >= 0 && this.get('searchResult.total_{0}s'.format(type))) || this.get('searchResult.total_funding_instruments');
+    }.property('controller.type', 'searchResult'),
 
     _getLabel: function (labelMapping, acceptedTypes, type) {
         var label = labelMapping[type];

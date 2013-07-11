@@ -274,6 +274,10 @@ Balanced.Utils = {
     },
 
     applyUriFilters: function(uri, params) {
+        if(!uri) {
+            return uri;
+        }
+
         var filteringParams = {
             limit: params.limit || 10,
             offset: params.offset || 0

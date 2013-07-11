@@ -5,23 +5,23 @@
         <th class="span8 label6a email">Email</th>
     </tr>
 </thead>
-{{#if accounts.hasNextPage}}
+{{#if view.customers.hasNextPage}}
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if accounts.loadingNextPage }}
+            {{#if view.customers.loadingNextPage }}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{ action loadMore accounts }}>Load more</a>
+                <a {{ action loadMore view.customers }}>Load more</a>
             {{/if}}
         </td>
     </tr>
 </tfoot>
 {{/if}}
 <tbody>
-    {{#each account in accounts}}
+    {{#each account in view.customers}}
         <tr {{action selectResult account}}>
             <td class="span3 date">
                 <time {{bindAttr datetime="account.created_at"}}" data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
@@ -36,7 +36,7 @@
     {{else}}
         <tr>
             <td colspan="3" class="no-results">
-                {{# if accounts.isLoaded }}
+                {{# if view.customers.isLoaded }}
                     No results
                 {{else}}
                     Loading...

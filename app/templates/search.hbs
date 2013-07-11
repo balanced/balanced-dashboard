@@ -7,23 +7,23 @@
     {{/if}}
 
     <div class="results">
-        {{view Balanced.ResultsFiltersHeaderView viewName="filtersView"}}
+        {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
 
         {{#if transactionsTabSelected}}
-        <div class="items-wrapper" {{action closeSearch}}>
-            {{view Balanced.TransactionsResultsView viewName="transactionsView"}}
+        <div class="items-wrapper">
+            {{view Balanced.TransactionsResultsView transactionsBinding=results}}
         </div>
         {{/if}}
 
         {{#if customersTabSelected}}
-        <div class="items-wrapper" {{action closeSearch}}>
-            {{view Balanced.CustomersResultsView viewName="customersView"}}
+        <div class="items-wrapper">
+            {{view Balanced.CustomersResultsView customersBinding=results}}
         </div>
         {{/if}}
 
         {{#if fundingInstrumentsTabSelected}}
-        <div class="items-wrapper" {{action closeSearch}}>
-            {{view Balanced.FundingInstrumentsResultsView viewName="fundingInstrumentsView"}}
+        <div class="items-wrapper">
+            {{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding=results}}
         </div>
         {{/if}}
     </div>

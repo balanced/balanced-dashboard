@@ -223,8 +223,12 @@
 		    {{view Balanced.TransactionsFiltersHeaderView}}
 
 			<div class="items-wrapper">
-			    {{view Balanced.TransactionsResultsView}}
+			    {{view Balanced.TransactionsResultsView transactionsBinding=results}}
 			</div>
 		</div>
 	</section>
 </div>
+
+{{#if show_download}}
+    {{partial "modals/download" }}
+{{/if}}
