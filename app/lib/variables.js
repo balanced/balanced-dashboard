@@ -40,6 +40,6 @@ Balanced.THROTTLE = 400;
 
 Balanced.PASSWORD = {
     MIN_CHARS: 6,
-    REGEX: /(?=.*[a-z])(?=.*\d)/
+    REGEX: /(?=.*[A-z])(?=.*\d)/
 };
 

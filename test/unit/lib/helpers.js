@@ -57,12 +57,16 @@ test("isValidPassword", function (assert) {
 
     var valid_passwords = [
         '1abcdef',
-        '12345f'
+        '12345f',
+        'SupahSecret123',
+        'JohnSe!@#~~~cret1212',
+        'IAMSUPERMAN123'
     ];
 
     _.each(invalid_passwords, function (password) {
         assert.equal(Balanced.PASSWORD.REGEX.test(password), false, password);
     });
+
     _.each(valid_passwords, function (password) {
         assert.equal(Balanced.PASSWORD.REGEX.test(password), true, password);
     });
