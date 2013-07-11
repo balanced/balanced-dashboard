@@ -1,36 +1,36 @@
 Balanced.ResetPasswordController = Balanced.ObjectController.extend({
-  content: null,
-  password: null,
-  password_confirm: null,
-  submitted: false,
-  hasError: false,
+    content: null,
+    password: null,
+    password_confirm: null,
+    submitted: false,
+    hasError: false,
 
-  resetPassword: function() {
-    var model = this.get('content');
-    var self = this;
+    resetPassword: function() {
+        var model = this.get('content');
+        var self = this;
 
-    model.set('uri', '/password/' + this.get('token'));
-    model.set('password', this.get('password'));
-    model.set('password_confirm', this.get('password_confirm'));
+        model.set('uri', '/password/' + this.get('token'));
+        model.set('password', this.get('password'));
+        model.set('password_confirm', this.get('password_confirm'));
 
-    if(model.validate()) {
-      self.set('hasError', false);
+        if(model.validate()) {
+            self.set('hasError', false);
 
-      model.one('becameInvalid', function() {
-        self.set('hasError', true);
-      });
+            model.one('becameInvalid', function() {
+                self.set('hasError', true);
+            });
 
-      model.one('becameError', function() {
-        self.set('hasError', true);
-      });
+            model.one('becameError', function() {
+                self.set('hasError', true);
+            });
 
-      model.update().then(function() {
-        self.set('password', '');
-        self.set('password_confirm', '');
-        self.set('submitted', true);
-      });
-    } else {
-      self.set('hasError', true);
+            model.update().then(function() {
+                self.set('password', '');
+                self.set('password_confirm', '');
+                self.set('submitted', true);
+            });
+        } else {
+            self.set('hasError', true);
+        }
     }
-  }
 });

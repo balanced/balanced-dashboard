@@ -1,9 +1,9 @@
 Balanced.ForgotPassword = Balanced.Model.extend(Ember.Validations, {
-  uri: '/password',
+    uri: '/password',
 
-  validations: {
-    email_address: {
-      presence: true
+    validations: {
+        email_address: {
+            presence: true
+        }
     }
-  }
 });

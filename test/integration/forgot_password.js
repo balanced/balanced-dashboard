@@ -3,7 +3,8 @@ module('ForgotPassword', {
         Ember.run(function () {
             Balanced.Auth.setAuthProperties(false, null, null, null, false);
         });
-    }, teardown: function () {
+    },
+    teardown: function () {
 
     }
 });
