@@ -1,14 +1,17 @@
-Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
+Balanced.ResetPasswordController = Balanced.ObjectController.extend({
     content: null,
-    email_address: null,
+    password: null,
+    password_confirm: null,
     submitted: false,
     hasError: false,
 
-    forgotPass: function () {
+    resetPassword: function () {
         var model = this.get('content');
         var self = this;
 
-        model.set('email_address', this.get('email_address'));
+        model.set('uri', '/password/' + this.get('token'));
+        model.set('password', this.get('password'));
+        model.set('password_confirm', this.get('password_confirm'));
 
         if (model.validate()) {
             self.set('hasError', false);
@@ -21,8 +24,9 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
                 self.set('hasError', true);
             });
 
-            model.create().then(function () {
-                self.set('email_address', '');
+            model.update().then(function () {
+                self.set('password', '');
+                self.set('password_confirm', '');
                 self.set('submitted', true);
             });
         } else {

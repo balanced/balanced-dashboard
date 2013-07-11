@@ -32,8 +32,14 @@ Balanced.BANK_ACCOUNT_TYPES = [
 Balanced.SEARCH = {
     CATEGORIES: ['transaction', 'account', 'funding_instrument'],
     TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
-    FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card'],
+    FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card']
 };
 
 //  time in ms to throttle between key presses for search
 Balanced.THROTTLE = 400;
+
+Balanced.PASSWORD = {
+    MIN_CHARS: 6,
+    REGEX: /(?=.*[a-z])(?=.*\d)/
+};
+

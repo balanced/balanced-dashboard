@@ -2,14 +2,15 @@
 @import "/static/less/mixins.less";
 
 #login,
-#forgot-password {
+#forgot-password,
+#reset-password {
   .logo {
     display: block;
     margin: 0px auto 50px auto;
   }
 
   div.alert {
-    padding: 20px;
+    padding: 20px 10px 20px 10px;
     text-shadow: none;
     .border-radius(0px);
     text-align: center;
@@ -20,10 +21,17 @@
       border-color: transparent;
       color: @white;
     }
+    &.alert-black {
+      background-color: @black;
+      border: 0px;
+      border-color: transparent;
+      color: @white;
+    }
   }
 
   #forgot-form,
-  #auth-form {
+  #auth-form,
+  #reset-password-form {
     overflow: auto;
     background-color: @egyptianBlue60;
     padding: 40px;
@@ -45,7 +53,8 @@
     }
   }
 
-  #forgot-form {
+  #forgot-form,
+  #reset-password-form {
     input {
       &:last-of-type {
         margin-bottom: 15px;

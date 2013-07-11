@@ -90,6 +90,7 @@ Balanced.Router.map(function () {
     // signup related
     this.route('login', { path: '/login' });
     this.route('forgotPassword', { path: '/forgot_password' });
+    this.route('resetPassword', { path: '/password/:token' });
     this.route('start', { path: '/start' });
     this.route('claim', { path: '/claim' });
 });
@@ -128,6 +129,8 @@ require('app/routes/index');
 
 require('app/routes/claim');
 require('app/routes/login');
+require('app/routes/forgot_password');
+require('app/routes/reset_password');
 require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');

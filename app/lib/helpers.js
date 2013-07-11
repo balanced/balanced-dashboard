@@ -247,7 +247,8 @@ Balanced.Utils = {
     },
 
     dollarsToCents: function (dollars) {
-        return parseInt(dollars * 100, 10);
+        var d = dollars.replace(/,/g, '');
+        return parseInt(d * 100, 10);
     },
 
     toGravatar: function (emailHash) {

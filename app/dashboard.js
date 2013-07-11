@@ -33,6 +33,8 @@ require('app/models/user_marketplace');
 require('app/models/marketplace');
 require('app/models/user');
 require('app/models/login');
+require('app/models/forgot_password');
+require('app/models/reset_password');
 require('app/models/account');
 require('app/models/transaction');
 require('app/models/credit');
@@ -66,6 +68,7 @@ require('app/views/modal');
 require('app/views/embedded_iframe');
 require('app/views/login');
 require('app/views/forgot_password'); // depends on login
+require('app/views/reset_password'); // depends on login
 require('app/views/results');
 require('app/views/search');
 require('app/views/welcome_transition');
@@ -106,6 +109,7 @@ require('app/controllers/marketplace');
 require('app/controllers/marketplace_settings');
 require('app/controllers/login');
 require('app/controllers/forgot_password');
+require('app/controllers/reset_password');
 require('app/controllers/search');
 
 require('app/controllers/marketplaces/apply');

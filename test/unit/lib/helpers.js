@@ -44,3 +44,26 @@ test("formatCurrency", function (assert) {
         assert.equal(Balanced.Utils.formatCurrency(cents[i]), expected[i]);
     }
 });
+
+test("isValidPassword", function (assert) {
+    var invalid_passwords = [
+        null,
+        '',
+        '1',
+        '123456',
+        'a',
+        'abcdef'
+    ];
+
+    var valid_passwords = [
+        '1abcdef',
+        '12345f'
+    ];
+
+    _.each(invalid_passwords, function (password) {
+        assert.equal(Balanced.PASSWORD.REGEX.test(password), false, password);
+    });
+    _.each(valid_passwords, function (password) {
+        assert.equal(Balanced.PASSWORD.REGEX.test(password), true, password);
+    });
+});
