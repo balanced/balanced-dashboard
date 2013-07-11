@@ -35,7 +35,7 @@ Balanced.Customer = Balanced.Model.extend({
 
     facebook_url: function() {
         if(this.get('facebook')) {
-            return 'http://facebook.com/profile.php?id=' + this.get('facebook')
+            return 'http://facebook.com/profile.php?id=' + this.get('facebook');
         } else {
             return undefined;
         }

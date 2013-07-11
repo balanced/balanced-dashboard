@@ -33,7 +33,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         }
         return {
             query: query
-        }
+        };
     }.property('debounced_search'),
 
     query: function () {
@@ -80,11 +80,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     selectResult: function (obj) {
         this.closeSearch();
 
-        if(obj.constructor == Balanced.Account) {
+        if(obj.constructor === Balanced.Account) {
             obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
         }
 
-        if (obj.constructor == Balanced.Customer) {
+        if (obj.constructor === Balanced.Customer) {
             this.transitionTo('customer', obj);
             return;
         }

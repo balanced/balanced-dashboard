@@ -81,13 +81,8 @@ Balanced.SearchQuery.reopenClass({
     },
 
     createUri: function (marketplaceUri, params) {
-        var uri = marketplaceUri + '/search?';
-
+        var uri = marketplaceUri + '/search';
         uri = Balanced.Utils.applyUriFilters(uri, params);
-        if(params.query) {
-            uri = Balanced.Utils.updateQueryStringParameter(uri, "q", params.query);
-        }
-
         return uri;
     }
 });

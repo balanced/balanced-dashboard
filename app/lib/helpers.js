@@ -306,11 +306,23 @@ Balanced.Utils = {
             }
         }
 
-        for(key in filteringParams) {
-            if(filteringParams.hasOwnProperty(key)) {
-                uri = Balanced.Utils.updateQueryStringParameter(uri, key, filteringParams[key]);
+        if(params.query) {
+            if (params.query === '%') {
+                filteringParams.q = '';
+            } else {
+                filteringParams.q = params.query;
             }
+        } else {
+            filteringParams.q = '';
         }
+
+        filteringParams = Balanced.Utils.sortDict(filteringParams);
+
+        var queryString = $.map(filteringParams,function (v, k) {
+            return k + '=' + v;
+        }).join('&');
+
+        uri += '?' + encodeURI(queryString);
 
         return uri;
     },
