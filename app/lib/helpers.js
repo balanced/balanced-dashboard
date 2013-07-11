@@ -256,6 +256,10 @@ Balanced.Utils = {
     },
 
     isValidPassword: function(password) {
+        if(!password) {
+            return false;
+        }
+
         if(password.length < 6) {
             return false;
         }

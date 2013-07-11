@@ -1,6 +1,6 @@
 {
   "camelcase": true,
-  "indent": 4,
+  "indent": 2,
   "white": false,
   "curly": true,
   "eqeqeq": true,

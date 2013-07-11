@@ -1,41 +1,36 @@
 Balanced.ResetPasswordController = Balanced.ObjectController.extend({
+  content: null,
   password: null,
   password_confirm: null,
   submitted: false,
   hasError: false,
 
   resetPassword: function() {
-      if(!this.get('password') ||
-         !this.get('password_confirm') ||
-         this.get('password') !== this.get('password_confirm') ||
-         !Balanced.Utils.isValidPassword(this.get('password'))) {
-        this.set('hasError', true);
-        return;
-      } else {
-        this.set('hasError', false);
-      }
+    var model = this.get('content');
+    var self = this;
 
-      var self = this;
+    model.set('uri', '/password/' + this.get('token'));
+    model.set('password', this.get('password'));
+    model.set('password_confirm', this.get('password_confirm'));
 
-      var rp = Balanced.ResetPassword.create({
-        uri: '/password/' + this.get('token'),
-        password: this.get('password'),
-        isLoaded: true
-      });
+    if(model.validate()) {
+      self.set('hasError', false);
 
-      rp.one('becameInvalid', function() {
+      model.one('becameInvalid', function() {
         self.set('hasError', true);
       });
 
-      rp.one('becameError', function() {
+      model.one('becameError', function() {
         self.set('hasError', true);
       });
 
-      rp.update().then(function() {
-        self.set('submitted', true);
+      model.update().then(function() {
         self.set('password', '');
         self.set('password_confirm', '');
         self.set('submitted', true);
       });
+    } else {
+      self.set('hasError', true);
+    }
   }
 });

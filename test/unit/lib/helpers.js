@@ -47,6 +47,7 @@ test("formatCurrency", function (assert) {
 
 test("isValidPassword", function (assert) {
     var invalid_passwords = [
+        null,
         '',
         '1',
         '123456',
