@@ -10,7 +10,6 @@ Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
           if (!Balanced.Utils.isValidPassword(value)) {
             object.set('hasError', true);
             object.get('validationErrors').add(attribute, 'invalid');
-            //object.get('validationErrors').add(attribute, 'blank', null, 'is not valid');
           }
         }
       }
