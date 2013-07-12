@@ -29,7 +29,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
         var debit = this.get('model');
         debit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
         debit.create().then(function (credit) {
-            this.set('showModal', false);
+            $('#debit-customer').modal('hide');
         });
     }
 });
