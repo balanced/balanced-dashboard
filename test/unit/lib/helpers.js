@@ -45,6 +45,42 @@ test("formatCurrency", function (assert) {
     }
 });
 
+test("dollarsToCents", function (assert) {
+    var dollars = [
+        "0",
+        "0.01",
+        "1.05",
+        "45.98",
+        "100",
+        "100.00",
+        "1498",
+        "2947.56",
+        "2,947.56",
+        "9847263.72",
+        "9847263",
+        "9,847,263.72"
+    ];
+
+    var cents = [
+        0,
+        1,
+        105,
+        4598,
+        10000,
+        10000,
+        149800,
+        294756,
+        294756,
+        984726372,
+        984726300,
+        984726372
+    ];
+
+    for (var i = 0; i < dollars.length; i++) {
+        assert.equal(Balanced.Utils.dollarsToCents(dollars[i]), cents[i]);
+    }
+});
+
 test("isValidPassword", function (assert) {
     var invalid_passwords = [
         null,

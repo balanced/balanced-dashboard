@@ -247,8 +247,15 @@ Balanced.Utils = {
     },
 
     dollarsToCents: function (dollars) {
-        var d = dollars.replace(/,/g, '');
-        return parseInt(d * 100, 10);
+        // remove commas and whitespace
+        dollars = dollars.replace(/,|\s/g, '');
+
+        // make sure our input looks reasonable now, or else fail
+        if (!/^([0-9]+(\.[0-9]{2})?)$/.test(dollars)) {
+            throw new Error ('{0} is not a valid dollar amount'.format(dollars));
+        }
+
+        return Math.round(100 * parseFloat(dollars));
     },
 
     toGravatar: function (emailHash) {

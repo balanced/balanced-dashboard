@@ -18,7 +18,6 @@ Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
                 validator: function (object, attribute, value) {
                     var password = object.get('password');
                     if (value !== password) {
-                        object.set('hasError', true);
                         object.get('validationErrors').add(attribute, 'invalid');
                     }
                 }

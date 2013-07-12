@@ -16,9 +16,9 @@ test('can pay a seller', function (assert) {
     $('#pay-seller .modal-body input').eq(0).val('TEST').trigger('keyup');
     $('#pay-seller .modal-body input').eq(1).val('123123123').trigger('keyup');
     $('#pay-seller .modal-body input').eq(2).val('123123123').trigger('keyup');
-    $('#pay-seller .modal-body input').eq(3).val('checking').trigger('keyup');
-    $('#pay-seller .modal-body input').eq(4).val('98').trigger('keyup');
-    $('#pay-seller .modal-body input').eq(5).val('Test Transaction').trigger('keyup');
+    $('#pay-seller .modal-body select').eq(0).val('checking').trigger('keyup');
+    $('#pay-seller .modal-body input').eq(3).val('98').trigger('keyup');
+    $('#pay-seller .modal-body input').eq(4).val('Test Transaction').trigger('keyup');
     // click save
     $('#pay-seller .modal-footer button')[1].click();
 
