@@ -13,7 +13,7 @@
 
 	    <div class="span4 buttons">
 	        <a class="btn" {{action openDebitCustomerModal target="view"}}>Debit</a>
-	        <a class="btn" >Credit</a>
+	        <a class="btn" {{action openCreditCustomerModal target="view"}}>Credit</a>
 	    </div>
 	</div>
 
@@ -234,6 +234,7 @@
 {{/if}}
 
 {{view Balanced.DebitCustomerModalView customerBinding="model" viewName="debitCustomerModal"}}
+{{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 
 {{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}

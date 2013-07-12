@@ -7,6 +7,10 @@ Balanced.CustomerView = Balanced.View.extend({
         this.get('debitCustomerModal').open();
     },
 
+    openCreditCustomerModal: function () {
+        this.get('creditCustomerModal').open();
+    },
+
     openAddBankAccountModal: function () {
         this.get('addBankAccountModal').open();
     },
