@@ -75,6 +75,7 @@ require('app/views/welcome_transition');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_settings');
+require('app/views/customer');
 require('app/views/marketplace/add_bank_account_modal');
 require('app/views/marketplace/add_callback_modal');
 require('app/views/marketplace/add_card_modal');

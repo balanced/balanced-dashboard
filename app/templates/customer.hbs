@@ -232,3 +232,9 @@
 {{#if show_download}}
     {{partial "modals/download" }}
 {{/if}}
+
+{{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
+{{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
+{{view Balanced.DeleteBankAccountModalView}}
+{{view Balanced.AddCardModalView customerBinding="model" viewName="addCardModal"}}
+{{view Balanced.DeleteCardModalView}}
