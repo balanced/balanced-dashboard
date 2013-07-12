@@ -88,7 +88,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
     results_uri: function() {
         return Balanced.Utils.applyUriFilters(this.get('results_base_uri'), this.get('search_params'));
-    }.property('type', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'results_base_uri'),
+    }.property('results_base_uri', 'search_params'),
 
     search_params: function() {
         return _.extend({
