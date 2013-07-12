@@ -60,7 +60,7 @@ test("dollarsToCents", function (assert) {
         "2,947.56",
         "9847263.72",
         "9847263",
-        "9,847,263.72",
+        "9,847,263.72"
     ];
 
     var cents = [
@@ -94,7 +94,7 @@ test("dollarsToCents", function (assert) {
 
     ////
     // Not a fan of this, but we need to wrap in a functions outside of the
-    // lopp so jshint is happy.
+    // loop so jshint is happy.
     ////
     function isInvalid(val) {
         assert.throws(function() {
