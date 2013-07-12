@@ -55,11 +55,12 @@ test("dollarsToCents", function (assert) {
         "100.00",
         "631.55",
         "1498",
+        " 1,498 ",
         "2947.56",
         "2,947.56",
         "9847263.72",
         "9847263",
-        "9,847,263.72"
+        "9,847,263.72",
     ];
 
     var cents = [
@@ -71,6 +72,7 @@ test("dollarsToCents", function (assert) {
         10000,
         63155,
         149800,
+        149800,
         294756,
         294756,
         984726372,
@@ -80,6 +82,30 @@ test("dollarsToCents", function (assert) {
 
     for (var i = 0; i < dollars.length; i++) {
         assert.equal(Balanced.Utils.dollarsToCents(dollars[i]), cents[i]);
+    }
+
+    var invalid = [
+        "",
+        "dsfadsf",
+        "!safds",
+        "$afs",
+        "122.34324"
+    ];
+
+    ////
+    // Not a fan of this, but we need to wrap in a functions outside of the
+    // lopp so jshint is happy.
+    ////
+    function isInvalid(val) {
+        assert.throws(function() {
+            Balanced.Utils.dollarsToCents(val);
+        },
+        /is not a valid dollar amount/,
+        "Expected an error to be thrown");
+    }
+
+    for (var j = 0; j < invalid.length; j++) {
+        isInvalid(invalid[j]);
     }
 });
 
