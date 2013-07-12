@@ -278,6 +278,8 @@ Balanced.Utils = {
             return uri;
         }
 
+        var transformedParams = ['limit', 'offset', 'sortField', 'sortOrder', 'minDate', 'maxDate', 'type', 'query'];
+
         var filteringParams = {
             limit: params.limit || 10,
             offset: params.offset || 0
@@ -315,6 +317,8 @@ Balanced.Utils = {
         } else {
             filteringParams.q = '';
         }
+
+        filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));
 
         filteringParams = Balanced.Utils.sortDict(filteringParams);
 

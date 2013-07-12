@@ -83,6 +83,22 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
     refundsTabSelected: function () {
         return this.get('controller.type') === "refund";
     }.property('controller.type'),
+
+    debits_label: function() {
+        if(this.get('controller.type') === 'debit') {
+            return 'Debits: {0}'.format(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
+        } else {
+            return 'Debits: All';
+        }
+    }.property('controller.transactionType', 'controller.type'),
+
+    credits_label: function() {
+        if(this.get('controller.type') === 'credit') {
+            return 'Credits: {0}'.format(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
+        } else {
+            return 'Credits: All';
+        }
+    }.property('controller.transactionType', 'controller.type')
 });
 
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
