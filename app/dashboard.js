@@ -90,6 +90,7 @@ require('app/views/marketplace/withdraw_funds_modal');
 require('app/views/marketplaces/add_existing_marketplace');
 require('app/views/marketplaces/add_test_marketplace');
 require('app/views/marketplaces/delete_marketplace_modal');
+require('app/views/customer/debit_customer_modal');
 
 /*
  * Controller layer.

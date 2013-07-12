@@ -3,6 +3,10 @@ Balanced.CustomerView = Balanced.View.extend({
         this.get('editCustomerInfoModal').open();
     },
 
+    openDebitCustomerModal: function () {
+        this.get('debitCustomerModal').open();
+    },
+
     openAddBankAccountModal: function () {
         this.get('addBankAccountModal').open();
     },

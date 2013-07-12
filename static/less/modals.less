@@ -32,6 +32,10 @@
   z-index: @zindexModal;
   width: @modalWidth;
   margin-left: -@modalWidth / 2;
+  &.wide-modal {
+    width: @wideModalWidth;
+    margin-left: -@wideModalWidth / 2;
+  }
   background-color: @modalBackgroundColor;
   border: @modalBorderWidth solid;
   border: @modalBorderWidth solid;
@@ -161,7 +165,6 @@
 }
 
 #pay-seller {
-  width: 600px;
   top: 5%;
   left: 45%;
 }
