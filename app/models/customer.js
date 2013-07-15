@@ -48,6 +48,24 @@ Balanced.Customer = Balanced.Model.extend({
             return undefined;
         }
     }.property('twitter'),
+
+    dob_month: function() {
+        var dob = this.get('dob');
+        if(dob && dob.length > 6) {
+            return dob.substring(5,7);
+        } else {
+            return null;
+        }
+    }.property('dob'),
+
+    dob_year: function() {
+        var dob = this.get('dob');
+        if(dob && dob.length > 3) {
+            return dob.substring(0,4);
+        } else {
+            return null;
+        }
+    }.property('dob')
 });
 
 Balanced.Customer.reopenClass({

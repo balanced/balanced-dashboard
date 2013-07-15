@@ -23,7 +23,7 @@
 	            <form class="form-horizontal edit-inline">
 	                <header>
 	                    <h3>Customer info
-	                        <a href="#" class="edit" {{action openEditMarketplaceInfoModal target="view"}}>Edit</a>
+	                        <a href="#" class="edit" {{action openEditCustomerInfoModal target="view"}}>Edit</a>
 	                    </h3>
 	                </header>
 	                <div>
@@ -233,6 +233,7 @@
     {{partial "modals/download" }}
 {{/if}}
 
+{{view Balanced.EditCustomerInfoModalView customerBinding="model" viewName="editCustomerInfoModal"}}
 {{view Balanced.DebitCustomerModalView customerBinding="model" viewName="debitCustomerModal"}}
 {{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 
