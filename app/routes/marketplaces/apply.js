@@ -40,7 +40,15 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
                             var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri') + '?marketplace=' + marketplace.get('id');
 
                             models.bankAccount.set('uri', bankAccountUri);
-                            models.bankAccount.create();
+                            models.bankAccount.create().then(function (bankAccount) {
+                                // we don't know the bank account's
+                                // verification uri until it's created so we
+                                // are forced to create it here.
+                                var verification = Balanced.Verification.create({
+                                    uri: bankAccount.get('verifications_uri')
+                                });
+                                verification.create();
+                            });
                         });
 
                         //  annnnd we're done
