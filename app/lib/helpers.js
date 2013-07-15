@@ -252,7 +252,7 @@ Balanced.Utils = {
 
         // make sure our input looks reasonable now, or else fail
         if (!/^([0-9]+(\.[0-9]{2})?)$/.test(dollars)) {
-            throw new Error ('{0} is not a valid dollar amount'.format(dollars));
+            throw new Error('{0} is not a valid dollar amount'.format(dollars));
         }
 
         return Math.round(100 * parseFloat(dollars));
@@ -266,7 +266,7 @@ Balanced.Utils = {
         // Store the marketplace in a global so we can use it for auth.
         // TODO: TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = marketplace;
-        if(marketplace) {
+        if (marketplace) {
             Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
                 expires: Balanced.TIME.THREE_YEARS
             });

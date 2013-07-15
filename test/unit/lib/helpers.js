@@ -1,6 +1,6 @@
-module("Balanced.Utils");
+module('Balanced.Utils');
 
-test("getParamByName", function (assert) {
+test('getParamByName', function (assert) {
     var uris = [
         '/v1/marketplaces?query=123',
         '/v1/marketplaces?query=123&after=bar',
@@ -13,7 +13,7 @@ test("getParamByName", function (assert) {
     }
 });
 
-test("formatCurrency", function (assert) {
+test('formatCurrency', function (assert) {
     var cents = [
         -984526372,
         -10000,
@@ -28,15 +28,15 @@ test("formatCurrency", function (assert) {
     ];
 
     var expected = [
-        "$-9,845,263.72",
-        "$-100.00",
-        "$-1.05",
-        "$-0.01",
-        "$0.00",
-        "$0.01",
-        "$1.05",
-        "$100.00",
-        "$9,847,263.72",
+        '$-9,845,263.72',
+        '$-100.00',
+        '$-1.05',
+        '$-0.01',
+        '$0.00',
+        '$0.01',
+        '$1.05',
+        '$100.00',
+        '$9,847,263.72',
         null
     ];
 
@@ -45,22 +45,22 @@ test("formatCurrency", function (assert) {
     }
 });
 
-test("dollarsToCents", function (assert) {
+test('dollarsToCents', function (assert) {
     var dollars = [
-        "0",
-        "0.01",
-        "1.05",
-        "45.98",
-        "100",
-        "100.00",
-        "631.55",
-        "1498",
-        " 1,498 ",
-        "2947.56",
-        "2,947.56",
-        "9847263.72",
-        "9847263",
-        "9,847,263.72"
+        '0',
+        '0.01',
+        '1.05',
+        '45.98',
+        '100',
+        '100.00',
+        '631.55',
+        '1498',
+        ' 1,498 ',
+        '2947.56',
+        '2,947.56',
+        '9847263.72',
+        '9847263',
+        '9,847,263.72'
     ];
 
     var cents = [
@@ -85,11 +85,11 @@ test("dollarsToCents", function (assert) {
     }
 
     var invalid = [
-        "",
-        "dsfadsf",
-        "!safds",
-        "$afs",
-        "122.34324"
+        '',
+        'dsfadsf',
+        '!safds',
+        '$afs',
+        '122.34324'
     ];
 
     ////
@@ -97,11 +97,12 @@ test("dollarsToCents", function (assert) {
     // loop so jshint is happy.
     ////
     function isInvalid(val) {
-        assert.throws(function() {
-            Balanced.Utils.dollarsToCents(val);
-        },
-        /is not a valid dollar amount/,
-        "Expected an error to be thrown");
+        assert.throws(function () {
+                Balanced.Utils.dollarsToCents(val);
+            },
+            /is not a valid dollar amount/,
+            'Expected an error to be thrown'
+        );
     }
 
     for (var j = 0; j < invalid.length; j++) {
@@ -109,7 +110,7 @@ test("dollarsToCents", function (assert) {
     }
 });
 
-test("isValidPassword", function (assert) {
+test('isValidPassword', function (assert) {
     var invalid_passwords = [
         null,
         '',
