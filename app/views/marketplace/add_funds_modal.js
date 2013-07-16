@@ -36,7 +36,15 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
         var self = this;
         var debit = this.get('model');
 
-        debit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
+        var cents = null;
+        try {
+            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+        } catch (error) {
+            debit.set('validationErrors', {'amount': error});
+            return;
+        }
+        debit.set('amount', cents);
+
         debit.one('didCreate', function () {
             self.get('marketplace').refresh();
             $('#add-funds').modal('hide');
