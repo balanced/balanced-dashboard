@@ -251,7 +251,7 @@ Balanced.Utils = {
         dollars = dollars.replace(/,|\s/g, '');
 
         // make sure our input looks reasonable now, or else fail
-        if (!/^([0-9]+(\.[0-9]{2})?)$/.test(dollars)) {
+        if (!/^([0-9]+(\.[0-9]{0,2})?)$/.test(dollars)) {
             throw new Error('{0} is not a valid dollar amount'.format(dollars));
         }
 
