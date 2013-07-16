@@ -36,7 +36,16 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         var self = this;
         var credit = this.get('model');
 
-        credit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
+        var cents = null;
+        try {
+            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+        } catch (error) {
+            credit.set('validationErrors', {'amount': error});
+            return;
+        }
+        credit.set('amount', cents);
+
+
         credit.one('didCreate', function () {
             self.get('marketplace').refresh();
             $('#withdraw-funds').modal('hide');

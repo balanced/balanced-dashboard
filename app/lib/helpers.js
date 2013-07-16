@@ -251,7 +251,7 @@ Balanced.Utils = {
         dollars = dollars.replace(/,|\s/g, '');
 
         // make sure our input looks reasonable now, or else fail
-        if (!/^([0-9]+(\.[0-9]{2})?)$/.test(dollars)) {
+        if (!/^([0-9]+(\.[0-9]{0,2})?)$/.test(dollars)) {
             throw new Error('{0} is not a valid dollar amount'.format(dollars));
         }
 
@@ -271,5 +271,57 @@ Balanced.Utils = {
                 expires: Balanced.TIME.THREE_YEARS
             });
         }
-    }
+    },
+
+    applyUriFilters: function (uri, params) {
+        if (!uri) {
+            return uri;
+        }
+
+        var transformedParams = ['limit', 'offset', 'sortField', 'sortOrder', 'minDate', 'maxDate', 'type', 'query'];
+
+        var filteringParams = {
+            limit: params.limit || 10,
+            offset: params.offset || 0
+        };
+
+        if (params.sortField && params.sortOrder && params.sortOrder !== 'none') {
+            filteringParams.sort = params.sortField + ',' + params.sortOrder;
+        }
+
+        if (params.minDate) {
+            filteringParams['created_at[>]'] = params.minDate.toISOString();
+        }
+        if (params.maxDate) {
+            filteringParams['created_at[<]'] = params.maxDate.toISOString();
+        }
+        if (params.type) {
+            switch (params.type) {
+                case 'transaction':
+                    filteringParams['type[in]'] = 'credit,debit,refund,hold';
+                    break;
+                case 'funding_instrument':
+                    filteringParams['type[in]'] = 'bank_account,card';
+                    break;
+                default:
+                    filteringParams.type = params.type;
+            }
+        }
+        filteringParams.q = '';
+        if (params.query && params.query !== '%') {
+            filteringParams.q = params.query;
+        }
+
+        filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));
+
+        filteringParams = Balanced.Utils.sortDict(filteringParams);
+
+        var queryString = $.map(filteringParams,function (v, k) {
+            return k + '=' + v;
+        }).join('&');
+
+        uri += '?' + encodeURI(queryString);
+
+        return uri;
+    },
 };

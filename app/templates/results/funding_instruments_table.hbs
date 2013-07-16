@@ -6,24 +6,24 @@
         <th class="span8 label6a">Account holder's name</th>
     </tr>
 </thead>
-{{#if funding_instruments.hasNextPage}}
+{{#if view.fundingInstruments.hasNextPage}}
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if funding_instruments.loadingNextPage }}
+            {{#if view.fundingInstruments.loadingNextPage }}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{ action loadMore funding_instruments }}>Load more</a>
+                <a {{ action loadMore view.fundingInstruments }}>Load more</a>
             {{/if}}
         </td>
     </tr>
 </tfoot>
 {{/if}}
 <tbody>
-    {{#each funding_instrument in funding_instruments}}
-        <tr {{action selectResult funding_instrument.uri}}>
+    {{#each funding_instrument in view.fundingInstruments}}
+        <tr {{action selectResult funding_instrument}}>
             <td>
                 <time {{bindAttr datetime="funding_instrument.created_at"}} data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
             </td>
@@ -44,10 +44,10 @@
     {{else}}
         <tr>
             <td colspan="4" class="no-results">
-                {{# if isLoading }}
-                    Loading...
-                {{else}}
+                {{# if view.fundingInstruments.isLoaded }}
                     No results
+                {{else}}
+                    Loading...
                 {{/if}}
             </td>
         </tr>

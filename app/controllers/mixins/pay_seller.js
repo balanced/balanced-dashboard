@@ -21,7 +21,14 @@ Balanced.PaySeller = Ember.Mixin.create({
         var self = this;
         var credit = this.get('pay_seller_model');
 
-        credit.set('amount', Balanced.Utils.dollarsToCents(this.get('pay_seller_amount_dollars')));
+        var cents = null;
+        try {
+            cents = Balanced.Utils.dollarsToCents(this.get('pay_seller_amount_dollars'));
+        } catch (error) {
+            credit.set('validationErrors', {'amount': error});
+            return;
+        }
+        credit.set('amount', cents);
 
         credit.create().then(function (credit) {
             self.closePaySellerModal();

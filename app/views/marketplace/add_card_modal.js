@@ -12,7 +12,7 @@ Balanced.AddCardModalView = Balanced.BaseFormView.extend({
 
     open: function () {
         var card = Balanced.Card.create({
-            uri: this.get('marketplace.owner_customer.cards_uri'),
+            uri: this.get('customer.cards_uri'),
             name: '',
             card_number: '',
             security_code: '',
@@ -29,7 +29,7 @@ Balanced.AddCardModalView = Balanced.BaseFormView.extend({
         var card = this.get('model');
 
         card.one('didCreate', function () {
-            self.get('marketplace').refresh();
+            self.get('customer.cards').refresh();
             $('#add-card').modal('hide');
         });
         card.on('becameInvalid', function (json) {
