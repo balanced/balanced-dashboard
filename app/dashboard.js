@@ -50,6 +50,7 @@ require('app/models/customer');
 require('app/models/verification');
 require('app/models/production_access_application');
 require('app/models/initial_deposit');
+require('app/models/log');
 
 require('app/lib/auth');
 

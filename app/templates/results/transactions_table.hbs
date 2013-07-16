@@ -27,7 +27,7 @@
     {{#each transaction in transactions }}
         <tr {{action selectResult transaction.uri}}>
             <td class="span3 date">
-                <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+                <time {{bindAttr datetime="transaction.created_at"}} data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
             </td>
             <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
                 {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}

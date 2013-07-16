@@ -133,3 +133,9 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
         return this.get('controller.category') === "funding_instrument" ? "selected" : "";
     }.property('controller.category')
 });
+
+Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
+    classNames: 'logs',
+    classNameBindings: 'selected',
+    templateName: 'results/logs_table'
+});
