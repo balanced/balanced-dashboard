@@ -8,24 +8,24 @@
         {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
     </tr>
 </thead>
-{{#if transactions.hasNextPage}}
+{{#if view.transactions.hasNextPage}}
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if transactions.loadingNextPage }}
+            {{#if view.transactions.loadingNextPage }}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{ action loadMore transactions }}>Load more</a>
+                <a {{ action loadMore view.transactions }}>Load more</a>
             {{/if}}
         </td>
     </tr>
 </tfoot>
 {{/if}}
 <tbody>
-    {{#each transaction in transactions }}
-        <tr {{action selectResult transaction.uri}}>
+    {{#each transaction in view.transactions }}
+        <tr {{action selectResult transaction}}>
             <td class="span3 date">
                 <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
             </td>
@@ -44,10 +44,10 @@
     {{else}}
         <tr>
             <td colspan="6" class="no-results">
-                {{# if isLoading }}
-                    Loading...
-                {{else}}
+                {{# if view.transactions.isLoaded }}
                     No results
+                {{else}}
+                    Loading...
                 {{/if}}
             </td>
         </tr>

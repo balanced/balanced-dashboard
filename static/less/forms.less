@@ -87,7 +87,7 @@ form {
 
 .form-horizontal:not(.split-labels) {
   .control-group {
-    margin-bottom: 5px;
+    margin: 2px 0 2px 0;
   }
   .control-label {
     text-align: left;
@@ -95,6 +95,14 @@ form {
   }
   .controls {
     margin-left: auto;
+  }
+}
+
+.form-horizontal {
+  &.split-labels {
+    .control-label {
+      text-align: left;
+    }
   }
 }
 

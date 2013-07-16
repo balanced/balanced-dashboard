@@ -75,6 +75,7 @@ require('app/views/welcome_transition');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_settings');
+require('app/views/customer');
 require('app/views/marketplace/add_bank_account_modal');
 require('app/views/marketplace/add_callback_modal');
 require('app/views/marketplace/add_card_modal');
@@ -89,6 +90,9 @@ require('app/views/marketplace/withdraw_funds_modal');
 require('app/views/marketplaces/add_existing_marketplace');
 require('app/views/marketplaces/add_test_marketplace');
 require('app/views/marketplaces/delete_marketplace_modal');
+require('app/views/customer/debit_customer_modal');
+require('app/views/customer/credit_customer_modal');
+require('app/views/customer/edit_customer_info_modal');
 
 /*
  * Controller layer.
@@ -99,7 +103,7 @@ require('app/views/marketplaces/delete_marketplace_modal');
  */
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
-require('app/controllers/mixins/search_results');
+require('app/controllers/mixins/results_table');
 require('app/controllers/mixins/pay_seller');
 require('app/controllers/activity');
 require('app/controllers/application');

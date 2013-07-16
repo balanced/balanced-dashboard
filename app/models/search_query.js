@@ -81,45 +81,8 @@ Balanced.SearchQuery.reopenClass({
     },
 
     createUri: function (marketplaceUri, params) {
-        var uri = marketplaceUri + '/search?';
-        var searchParams = {
-            limit: params.limit || 10,
-            offset: params.offset || 0,
-            q: params.query
-        };
-        if (params.sortOrder && params.sortField && !params.sort) {
-            searchParams.sort = [params.sortField, params.sortOrder].join(',');
-        }
-        if (params.minDate) {
-            searchParams['created_at[>]'] = params.minDate.toISOString();
-        }
-        if (params.maxDate) {
-            searchParams['created_at[<]'] = params.maxDate.toISOString();
-        }
-        if (params.type) {
-            switch (params.type) {
-                case 'transaction':
-                    searchParams['type[in]'] = 'credit,debit,refund,hold';
-                    break;
-                case 'funding_instrument':
-                    searchParams['type[in]'] = 'bank_account,card';
-                    break;
-                default:
-                    searchParams.type = params.type;
-            }
-        }
-
-        if (params.sortField && params.sortOrder && params.sortOrder !== 'none') {
-            searchParams.sort = params.sortField + ',' + params.sortOrder;
-        }
-
-        searchParams = Balanced.Utils.sortDict(searchParams);
-
-        var queryString = $.map(searchParams,function (v, k) {
-            return k + '=' + v;
-        }).join('&');
-
-        uri += encodeURI(queryString);
+        var uri = marketplaceUri + '/search';
+        uri = Balanced.Utils.applyUriFilters(uri, params);
         return uri;
     }
 });

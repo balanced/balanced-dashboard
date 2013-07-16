@@ -1,10 +1,16 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.SearchResults, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.ResultsTable, {
     needs: ['marketplace'],
+
+    useSearch: true,
 
     sortField: 'created_at',
     sortOrder: 'desc',
 
     baseClassSelector: '#activity',
+
+    results_base_uri: function () {
+        return this.get('controllers.marketplace').get('search_uri');
+    }.property('controllers.marketplace.search_uri'),
 
     changeTypeFilter: function (type) {
         this.set('type', type);
@@ -21,14 +27,13 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.Download
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
     needs: ['marketplace', 'activity'],
 
-    content: Ember.computed.alias('controllers.activity.content'),
-    loading_content: Ember.computed.alias('controllers.activity.loading_content'),
+    results: Ember.computed.alias('controllers.activity.results'),
+    search_result: Ember.computed.alias('controllers.activity.search_result'),
+    last_loaded_search_result: Ember.computed.alias('controllers.activity.last_loaded_search_result'),
     type: Ember.computed.alias('controllers.activity.type'),
     category: Ember.computed.alias('controllers.activity.category'),
-    isLoading: Ember.computed.alias('controllers.activity.isLoading'),
     sortField: Ember.computed.alias('controllers.activity.sortField'),
     sortOrder: Ember.computed.alias('controllers.activity.sortOrder'),
-
     dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
 
     loadMore: function (results) {
@@ -37,10 +42,6 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
     changeSortOrder: function (field, sortOrder) {
         this.get('controllers.activity').changeSortOrder(field, sortOrder);
-    },
-
-    selectResult: function (uri) {
-        this.get('controllers.activity').selectResult(uri);
     }
 });
 

@@ -32,6 +32,10 @@
   z-index: @zindexModal;
   width: @modalWidth;
   margin-left: -@modalWidth / 2;
+  &.wide-modal {
+    width: @wideModalWidth;
+    margin-left: -@wideModalWidth / 2;
+  }
   background-color: @modalBackgroundColor;
   border: @modalBorderWidth solid;
   border: @modalBorderWidth solid;
@@ -70,10 +74,28 @@
 .modal-body {
   position: relative;
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 420px;
   margin: 0;
-  padding: 20px 35px 20px 35px;
-  background-color: @modalBodyBackgroundColor;
+
+  &:not(.modal-with-headers) {
+    background-color: @modalBodyBackgroundColor;
+    padding: 20px 35px 20px 35px;
+  }
+
+  .modal-content {
+    background-color: @modalBodyBackgroundColor;
+    padding: 20px 35px 20px 35px;
+  }
+
+  .optional-modal-fields:not(.open) {
+    display: none;
+  }
+}
+
+.modal-section-header {
+  background-color: @modalInformationalLightBackground;
+  border-top: 1px solid @balancedLightGray;
+  border-bottom: 1px solid @balancedLightGray;
 }
 
 .modal-informational {
@@ -81,15 +103,50 @@
   border-top: 1px solid @balancedLightGray;
   border-bottom: 1px solid @balancedLightGray;
 
+  .disclosure-button {
+    background-color: @modalInformationalDarkBackground;
+    float: left;
+    a {
+      .cssicon(
+        @url: @iconsFile,
+        @width: 20px,
+        @height: 58px,
+        @display: block
+      );
+      background-position: -15px -828px;
+
+      &:hover {
+        background-color: @black;
+      }
+    }
+    &.open {
+      a {
+        background-position: -115px -828px;
+      }
+    }
+  }
+
   p {
     padding: 20px 0 20px 0;
     text-align: center;
     color: @balancedBlack;
     margin: 0;
+
+    &.modal-informational-content {
+      padding: 20px 35px 20px 35px;
+    }
+  }
+
+  img {
+    &.modal-informational-content {
+      padding: 0px 35px 0px 35px;
+    }
   }
 
   .modal-informational-content {
-    padding: 0px 35px 0px 35px;
+    &.fields-header {
+      text-align: left;
+    }
 
     &.modal-informational-split-content {
       padding: 20px 35px 20px 35px;
@@ -161,7 +218,6 @@
 }
 
 #pay-seller {
-  width: 600px;
   top: 5%;
   left: 45%;
 }
