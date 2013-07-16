@@ -19,7 +19,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
         $('#edit-customer-info').modal('show');
     },
 
-    toggleOptionalFields: function() {
+    toggleOptionalFields: function () {
         this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
     },
 
@@ -28,12 +28,12 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
         var customer = this.get('model');
         var month = this.get('dob_month');
         var year = this.get('dob_year');
-        if((month && month.length > 0) || (year && year.length > 0)) {
+        if ((month && month.length > 0) || (year && year.length > 0)) {
             customer.set('dob', year + '-' + month);
         } else {
             customer.set('dob', null);
         }
-        customer.update().then(function() {
+        customer.update().then(function () {
             self.get('customer').refresh();
             $('#edit-customer-info').modal('hide');
         });

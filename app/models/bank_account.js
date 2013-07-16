@@ -21,7 +21,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
         }
     }.property('last_four', 'bank_name'),
 
-    description_with_type: function() {
+    description_with_type: function () {
         return 'Bank account: {0}'.format(this.get('description'));
     }.property('description'),
 

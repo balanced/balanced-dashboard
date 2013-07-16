@@ -2,27 +2,26 @@ Balanced.CustomersController = Balanced.ObjectController.extend({
 });
 
 Balanced.CustomerController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.ResultsTable, {
-	needs: ['marketplace'],
+    needs: ['marketplace'],
 
-	sortField: 'created_at',
+    sortField: 'created_at',
     sortOrder: 'desc',
 
     transactionType: 'all',
 
     baseClassSelector: "#customer",
 
-    extra_filtering_params: function() {
+    extra_filtering_params: function () {
         var transactionType = this.get('transactionType');
         if (transactionType === 'all') {
             return {};
-        } else {
-            return {
-                state: transactionType
-            };
         }
+        return {
+            state: transactionType
+        };
     }.property('transactionType'),
 
-    changeTransactionTypeFilter: function(type, transactionType) {
+    changeTransactionTypeFilter: function (type, transactionType) {
         this.setProperties({
             type: type,
             transactionType: transactionType
@@ -49,7 +48,7 @@ Balanced.CustomerController = Balanced.ObjectController.extend(Balanced.Download
         $('#delete-card').modal('hide');
     },
 
-    results_base_uri: function() {
+    results_base_uri: function () {
         return this.get('content.transactions_uri');
     }.property('content.transactions_uri')
 });

@@ -22,11 +22,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         this.addObserver('search', debouncedQuery);
     },
 
-    fetch_results: function() {
+    fetch_results: function () {
         return this.get('debounced_search') && this.get('debounced_search').length > 0;
     }.property('debounced_search'),
 
-    extra_filtering_params: function() {
+    extra_filtering_params: function () {
         var query = this.get('debounced_search');
         if (query === '%') {
             query = '';
@@ -65,7 +65,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
         });
     },
 
-    isLoading: function() {
+    isLoading: function () {
         return this.get('fetch_results') && this.get('search_result') && !this.get('search_result.isLoaded');
     }.property('search_result.isLoaded'),
 
@@ -80,7 +80,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     selectResult: function (obj) {
         this.closeSearch();
 
-        if(obj.constructor === Balanced.Account) {
+        if (obj.constructor === Balanced.Account) {
             obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
         }
 

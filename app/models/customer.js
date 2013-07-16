@@ -21,11 +21,11 @@ Balanced.Customer = Balanced.Model.extend({
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
     }.property('ein', 'business_name'),
 
-    is_business: function() {
+    is_business: function () {
         return this.get('type') === 'Business';
     }.property('type'),
 
-    is_person: function() {
+    is_person: function () {
         return this.get('type') === 'Person';
     }.property('type'),
 
@@ -33,35 +33,35 @@ Balanced.Customer = Balanced.Model.extend({
         return this.get('name') || this.get('id');
     }.property('name', 'id'),
 
-    facebook_url: function() {
-        if(this.get('facebook')) {
+    facebook_url: function () {
+        if (this.get('facebook')) {
             return 'http://facebook.com/profile.php?id=' + this.get('facebook');
         } else {
             return undefined;
         }
     }.property('facebook'),
 
-    twitter_url: function() {
-        if(this.get('twitter')) {
+    twitter_url: function () {
+        if (this.get('twitter')) {
             return 'http://twitter.com/#/' + this.get('twitter');
         } else {
             return undefined;
         }
     }.property('twitter'),
 
-    dob_month: function() {
+    dob_month: function () {
         var dob = this.get('dob');
-        if(dob && dob.length > 6) {
-            return dob.substring(5,7);
+        if (dob && dob.length > 6) {
+            return dob.substring(5, 7);
         } else {
             return null;
         }
     }.property('dob'),
 
-    dob_year: function() {
+    dob_year: function () {
         var dob = this.get('dob');
-        if(dob && dob.length > 3) {
-            return dob.substring(0,4);
+        if (dob && dob.length > 3) {
+            return dob.substring(0, 4);
         } else {
             return null;
         }
@@ -70,6 +70,7 @@ Balanced.Customer = Balanced.Model.extend({
 
 Balanced.Customer.reopenClass({
     constructUri: function (id) {
+        //  TODO: get this from the API
         return '/v1/customers/' + id;
     }
 });

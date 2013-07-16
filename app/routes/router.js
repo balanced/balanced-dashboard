@@ -42,7 +42,7 @@ Balanced.Router.map(function () {
 
             this.route('settings', { path: 'settings' });
 
-            this.resource('customers', { path: '/customers' }, function() {
+            this.resource('customers', { path: '/customers' }, function () {
                 this.resource('customer', { path: '/:customer_id'});
             });
 

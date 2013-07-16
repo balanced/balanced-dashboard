@@ -28,31 +28,41 @@ Balanced.ResultsTable = Ember.Mixin.create({
     // override this if you conditionally don't want to get results
     fetch_results: true,
 
-    results: function() {
-        if(!this.get('fetch_results')) {
+    results: function () {
+        if (!this.get('fetch_results')) {
             return null;
         }
 
-        if(this.get('useSearch')) {
+        if (this.get('useSearch')) {
             return this.get('search_result.' + this.get('category') + 's');
-        } else {
-            return Balanced.ModelArray.newArrayLoadedFromUri(this.get('results_uri'), this.get('results_type'));
         }
-    }.property('fetch_results', 'useSearch', 'results_uri', 'results_type', 'type', 'search_result.transactions', 'search_result.accounts', 'search_result.funding_instruments'),
 
-    search_result: function() {
+        return Balanced.ModelArray.newArrayLoadedFromUri(
+            this.get('results_uri'),
+            this.get('results_type')
+        );
+    }.property(
+            'fetch_results', 'useSearch', 'results_uri', 'results_type',
+            'type', 'search_result.transactions', 'search_result.accounts',
+            'search_result.funding_instruments'),
+
+    search_result: function () {
         var self = this;
-        if(this.get('useSearch')) {
-            var search = Balanced.SearchQuery.search(this.get('controllers.marketplace.uri'), this.get('search_params'));
+        if (this.get('useSearch')) {
+            var search = Balanced.SearchQuery.search(
+                this.get('controllers.marketplace.uri'),
+                this.get('search_params')
+            );
 
             search.then(function (searchQuery) {
                 self.set('last_loaded_search_result', searchQuery);
             });
 
             return search;
-        } else {
-            return null;
         }
+
+        return null;
+
     }.property('useSearch', 'controllers.marketplace.uri', 'search_params'),
 
     changeDateFilter: function (minDate, maxDate, title) {
@@ -75,22 +85,27 @@ Balanced.ResultsTable = Ember.Mixin.create({
     },
 
     getSearchUri: function () {
-        if(this.get('useSearch')) {
-            return Balanced.SearchQuery.createUri(this.get('controllers.marketplace.uri'), this.get('search_params'));
-        } else {
-            return this.get('results_uri');
+        if (this.get('useSearch')) {
+            return Balanced.SearchQuery.createUri(
+                this.get('controllers.marketplace.uri'),
+                this.get('search_params')
+            );
         }
+        return this.get('results_uri');
     },
 
     loadMore: function (results) {
         results.loadNextPage();
     },
 
-    results_uri: function() {
-        return Balanced.Utils.applyUriFilters(this.get('results_base_uri'), this.get('search_params'));
+    results_uri: function () {
+        return Balanced.Utils.applyUriFilters(
+            this.get('results_base_uri'),
+            this.get('search_params')
+        );
     }.property('results_base_uri', 'search_params'),
 
-    search_params: function() {
+    search_params: function () {
         return _.extend({
             type: this.get('type'),
             minDate: this.get('minDate'),
@@ -101,8 +116,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
         }, this.get('extra_filtering_params'));
     }.property('type', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'limit', 'extra_filtering_params'),
 
-    results_type: function() {
-        switch(this.get('type')) {
+    results_type: function () {
+        switch (this.get('type')) {
             case 'transaction':
                 return 'Balanced.Transaction';
             case 'debit':
@@ -144,6 +159,6 @@ Balanced.ResultsTable = Ember.Mixin.create({
             return "funding_instrument";
         }
 
-        return "";
+        return '';
     }.property('type')
 });

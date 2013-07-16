@@ -8,7 +8,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.Download
 
     baseClassSelector: '#activity',
 
-    results_base_uri: function() {
+    results_base_uri: function () {
         return this.get('controllers.marketplace').get('search_uri');
     }.property('controllers.marketplace.search_uri'),
 

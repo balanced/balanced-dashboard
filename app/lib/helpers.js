@@ -273,8 +273,8 @@ Balanced.Utils = {
         }
     },
 
-    applyUriFilters: function(uri, params) {
-        if(!uri) {
+    applyUriFilters: function (uri, params) {
+        if (!uri) {
             return uri;
         }
 
@@ -307,15 +307,9 @@ Balanced.Utils = {
                     filteringParams.type = params.type;
             }
         }
-
-        if(params.query) {
-            if (params.query === '%') {
-                filteringParams.q = '';
-            } else {
-                filteringParams.q = params.query;
-            }
-        } else {
-            filteringParams.q = '';
+        filteringParams.q = '';
+        if (params.query && params.query !== '%') {
+            filteringParams.q = params.query;
         }
 
         filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));

@@ -31,7 +31,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
         },
 
         selectResult: function (obj) {
-            if(obj.constructor === Balanced.Account) {
+            if (obj.constructor === Balanced.Account) {
                 obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
             }
 

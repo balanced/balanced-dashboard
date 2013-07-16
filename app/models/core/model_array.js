@@ -101,7 +101,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 });
 
 Balanced.ModelArray.reopenClass({
-    newArrayLoadedFromUri: function(uri, defaultType) {
+    newArrayLoadedFromUri: function (uri, defaultType) {
         var typeClass = Balanced.TypeMappings.typeClass(defaultType);
         var modelObjectsArray = Balanced.ModelArray.create({
             content: Ember.A(),
@@ -109,7 +109,7 @@ Balanced.ModelArray.reopenClass({
             uri: uri
         });
 
-        if(!uri) {
+        if (!uri) {
             return modelObjectsArray;
         }
 
