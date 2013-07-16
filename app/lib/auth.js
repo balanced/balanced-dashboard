@@ -79,6 +79,10 @@ Balanced.Auth = (function () {
         loginGuestUser(apiKeySecret);
     };
 
+    auth.getGuestAPIKey = function() {
+        return loadGuestAPIKey();
+    };
+
     auth.destroyGuestUser = function () {
         $.removeCookie(Balanced.COOKIE.API_KEY_SECRET);
         $.removeCookie(Balanced.COOKIE.SESSION);

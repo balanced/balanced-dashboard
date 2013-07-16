@@ -46,11 +46,19 @@ Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
         $('#delete-card').modal('hide');
     },
 
-    userMarketplace: function () {
-        var marketplaceId = this.get('id');
-        var marketplaceUri =  Balanced.Auth.get('userId') + '/marketplaces/' + marketplaceId;
-        var marketplace = Balanced.MarketplaceLite.find(marketplaceUri);
-        return marketplace;
-    }.property('uri')
+    marketplaceSecret: function () {
+        var uri = this.get('uri');
+        var user = Balanced.Auth.get('user');
+        var currentUserMarketplace = user.user_marketplace_for_uri(uri);
 
+        if(currentUserMarketplace) {
+            return currentUserMarketplace.get('secret');
+        }
+
+        if(Balanced.Auth.getGuestAPIKey()) {
+            return Balanced.Auth.getGuestAPIKey();
+        }
+
+        return '';
+    }.property('uri', 'Balanced.Auth.user.user_marketplaces.@each.uri')
 });
