@@ -1,4 +1,4 @@
-Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
+Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
     needs: ["marketplace"],
 
     fullyLoaded: function () {

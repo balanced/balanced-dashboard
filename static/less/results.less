@@ -1,10 +1,104 @@
 .results {
   float: left;
   width: 100%;
-  table.items {
+  header {
+    border-top: 1px solid @marketplaceNavColor;
+    border-bottom: 1px solid @marketplaceNavColor;
+    background-color: @white;
+    float: left;
     width: 100%;
+    nav {
+      padding-left: 20px;
+    }
+    nav > li {
+      display: block;
+      float: left;
+      border-bottom: @searchBorderWidth solid transparent;
+      padding: 15px 10px 10px;
+      margin: 0 20px;
+      color: @gray5;
+
+      font-family: fanwoodtext-regular;
+      font-weight: normal;
+      font-size: 16px;
+      a {
+        text-decoration: none;
+        color: @gray5;
+        &:hover {
+          color: @black;
+        }
+      }
+      &:hover {
+        border-bottom: @searchBorder;
+        > a {
+          color: @black;
+        }
+      }
+      &.selected {
+        border-bottom: @searchBorder;
+        > a {
+          color: @black;
+
+          &:hover {
+            cursor: default;
+          }
+        }
+      }
+      &.disabled {
+        color: @gray6;
+        border-bottom-color: transparent;
+        .selector {
+          display: none;
+        }
+      }
+      &.disabled.selected {
+        border-bottom: @searchBorder;
+      }
+      &.download {
+        float: right;
+        padding: 9px 0 0;
+        margin: 0 10px;
+        &:hover {
+          border-bottom: 0;
+        }
+      }
+      .selector {
+        display: inline-block;
+        padding: 4px 2px 0;
+        height: 9px;
+        vertical-align: middle;
+      }
+      .caret {
+        border-top-color: @white;
+        margin: 0;
+      }
+    }
+    a {
+      color: @gray6;
+    }
+    .dropdown-menu {
+      border: 5px solid @black;
+      border-radius: 0;
+      box-shadow: none;
+      //        background: @menuBackground;
+      text-align: left;
+      margin: 0;
+      top: 17px;
+
+      li {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+    }
   }
   table.items {
+    width: 100%;
+    display: table;
+    background-color: @searchBodyBackground;
+    th {
+      padding-top: 30px;
+    }
     td {
       padding: 12px 15px 12px 0;
     }
@@ -17,9 +111,10 @@
       }
       td {
         &.load-more-results {
+          text-align: center;
+
           a {
             display: block;
-            text-align: center;
             cursor: pointer;
 
             &:hover {
@@ -104,5 +199,205 @@
   }
   .null-field {
     font-style:italic;
+  }
+
+  .sortable {
+    &:hover {
+      cursor: pointer;
+    }
+    &:after {
+      display: inline-block;
+      content: ' ';
+      width: 14px;
+      height: 14px;
+      background: @iconsFile -18px -218px no-repeat;
+      margin-left: 5px;
+      vertical-align: top;
+    }
+    &.ascending {
+      &:after {
+        background-position: -68px -218px;
+      }
+    }
+    &.descending {
+      &:after {
+        background-position: -118px -218px;
+      }
+    }
+  }
+  .selector {
+    background-color: @searchSelectorBackground;
+    color: @searchTimingColor;
+    &:hover {
+      background-color: @searchTimingBackgroundHover;
+    }
+  }
+  .timing {
+    padding: 5px;
+    float: right;
+    border-left: 1px solid @marketplaceNavColor;
+    border-bottom: 0;
+    margin: 0;
+    height: 38px;
+    font-family: nimbussannov-sembol;
+    font-size: 13px;
+    &:hover {
+      border-bottom: 0;
+    }
+    a.dropdown-toggle {
+      color: @searchTimingColor;
+      display: inline-block;
+      padding: 12px 10px;
+      white-space: nowrap;
+      padding-right: 30px;
+      text-decoration: none;
+    }
+    &:hover, &.open {
+      a.dropdown-toggle {
+        background-color: @searchTimingBackgroundHover;
+        color: @searchTimingColorHover;
+        text-decoration: none;
+      }
+      .caret {
+        border-top-color: @searchTimingColorHover;
+      }
+    }
+    .caret {
+      position: absolute;
+      top: 21px;
+      right: 22px;
+      border-top-color: @searchTimingColor;
+    }
+    .dropdown-menu {
+      //  120px = set timing width
+      // 330px = width of date picker
+      width: 120px + 330px + @searchBorderWidth * 8;
+      background-color: @searchBodyBackground;
+      right: -@searchBorderWidth;
+      padding: 0;
+
+      &.date-picker {
+        top: 48px;
+        right: -5px;
+      }
+
+      .set-times {
+        // wtf: where did this extra 2 px come from
+        height: 202px;
+        padding: 10px;
+        background-color: @white;
+        float: left;
+        width: 120px;
+
+        li {
+          display: block;
+          float: none;
+          font-family: nimbussannov-med;
+          padding: 0 0 15px;
+          &.selected {
+            font-family: nimbussannov-bol;
+          }
+          a {
+            color: @gray5;
+            &:hover {
+              color: @black;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      .date-picker {
+        padding: 10px;
+        float: right;
+        width: 330px;
+      }
+
+      .before, .after {
+        position: absolute;
+        height: 190px;
+        width: 220px;
+        padding-top: 10px;
+        .datepicker {
+          background-color: @datePickerBackground;
+          display: none;
+        }
+        .dt {
+        }
+        &.selected {
+          .datepicker, .dt {
+            background-color: @datePickerBackground;
+            display: block;
+          }
+        }
+      }
+      .go {
+        position: absolute;
+        top: 172px;
+        right: -12px;
+        margin: 10px 20px 10px 10px;
+      }
+      .before {
+        float: right;
+        .dt {
+          top: 50px;
+          text-align: right;
+        }
+      }
+      .after {
+        float: left;
+      }
+      //  wrapper around dp
+      .dt {
+        position: absolute;
+        top: 0;
+        // 90px + 10px padding * 2
+        right: -110px;
+        width: 50%;
+        padding: 10px;
+        width: 90px;
+      }
+      //  date picker (input box with date in it)
+      .dp {
+        width: 75px;
+        margin: 0;
+        border-radius: 0;
+        border: 1px solid rgb(197, 197, 197);
+        &:focus, &:active {
+          outline: none;
+          box-shadow: none;
+          border-color: #000;
+        }
+      }
+      .datepicker {
+        top: 0;
+        display: block;
+        width: 220px;
+        border: 0;
+      }
+    }
+  }
+}
+
+.filter-choices {
+  background-color: @white;
+  padding: 10px 0;
+  li {
+    font-family: nimbussannov-med;
+    font-size: 13px;
+    span, a {
+      display: block;
+      padding: 5px 20px;
+      color: @gray5;
+    }
+    span {
+      color: #e2e1ec;
+    }
+    a {
+      &:hover {
+        color: @black;
+        background: transparent;
+        background-image: none;
+      }
+    }
   }
 }

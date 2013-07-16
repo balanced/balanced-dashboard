@@ -9,8 +9,8 @@ module.exports = function (grunt) {
             }
         },
 
-        // We're using the template here to construct an array of functions 
-        // that sets up Balanced so we can destroy and reconstruct the 
+        // We're using the template here to construct an array of functions
+        // that sets up Balanced so we can destroy and reconstruct the
         // entire app while running tests.
         neuter: {
             dev: {
@@ -380,7 +380,7 @@ module.exports = function (grunt) {
         },
 
         exec: {
-            // We're not using this currently, but leaving it in here in case 
+            // We're not using this currently, but leaving it in here in case
             // somebody wants to run tests using their installed phantomJS
             run_tests: {
                 command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
@@ -475,7 +475,7 @@ module.exports = function (grunt) {
      A task to run the application's unit tests via the command line.
      It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['_devBuild', 'qunit']);
+    grunt.registerTask('test', ['_devBuild', 'qunit', 'jshint']);
     grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
 
     /*

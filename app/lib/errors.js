@@ -5,6 +5,7 @@ if (typeof Raven !== typeof undefined) {
         if (!ENV.BALANCED.DEBUG) {
             Raven.captureException(error);
         }
+
         Ember.Logger.error(error.message);
     };
 }

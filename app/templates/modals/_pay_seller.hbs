@@ -1,0 +1,71 @@
+{{#view Balanced.ModalView class="wide-modal" id="pay-seller" close_event="closePaySellerModal"}}
+    <form class="form-horizontal split-labels" {{action "paySeller" on="submit"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Pay a seller</h2>
+    </div>
+    <div class="modal-body">
+        <div {{bindAttr class=":control-group pay_seller_model.validationErrors.name:error"}}>
+            <label class="control-label">Account holder's name</label>
+            <div class="controls">
+                {{view Ember.TextField valueBinding="pay_seller_model.bank_account.name" class="full"}}
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group pay_seller_model.validationErrors.routing_number:error"}}>
+            <label class="control-label">Routing Number</label>
+            <div class="controls">
+                {{view Ember.TextField valueBinding="pay_seller_model.bank_account.routing_number" class="full"}}
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group pay_seller_model.validationErrors.account_number:error"}}>
+            <label class="control-label">Account number</label>
+            <div class="controls">
+                {{view Ember.TextField valueBinding="pay_seller_model.bank_account.account_number" class="full"}}
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group pay_seller_model.validationErrors.type:error"}}>
+            <label class="control-label">Account type</label>
+            <div class="controls">
+                {{view Ember.Select
+                       contentBinding="Balanced.BANK_ACCOUNT_TYPES"
+                       optionValuePath="content.value"
+                       optionLabelPath="content.label"
+                       valueBinding="pay_seller_model.bank_account.type"
+                }}
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group pay_seller_model.validationErrors.amount:error"}}>
+            <label class="control-label">Amount</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">$</span>
+                    {{view Ember.TextField valueBinding="pay_seller_amount_dollars" class="span3"}}
+                </div>
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group pay_seller_model.validationErrors.description:error"}}>
+            <label class="control-label">Description</label>
+            <div class="controls">
+                {{view Ember.TextField valueBinding="pay_seller_model.description" class="full"}}
+            </div>
+        </div>
+    </div>
+    <div class="modal-informational modal-informational-light">
+        <div class="modal-informational-content modal-informational-split-content">
+            <p class="informational-label">Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
+            <div class="informational-content">
+                <img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn" {{action paySeller}}>Credit</button>
+    </div>
+    </form>
+{{/view}}

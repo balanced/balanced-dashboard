@@ -40,6 +40,13 @@ Balanced.Router.map(function () {
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
 
+            this.route('settings', { path: 'settings' });
+
+            this.resource('customers', { path: '/customers' }, function () {
+                this.resource('customer', { path: '/:customer_id'});
+            });
+
+            // only exists for compatibility with old dashboard URLs
             this.resource('accounts', { path: '/accounts' }, function () {
 
                 this.route('new', { path: '/new' });
@@ -58,10 +65,8 @@ Balanced.Router.map(function () {
 
             });
 
-            this.route('transactions', { path: '/transactions' });
             this.route('initial_deposit', { path: '/initial_deposit' });
-            this.route('funding_instruments', { path: '/funding_instruments' });
-            makeNestedResource(this, 'customers', 'customer');
+
             makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
@@ -70,7 +75,11 @@ Balanced.Router.map(function () {
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
 
-            this.route('activity', { path: '/activity' });
+            this.resource('activity', { path: '/activity' }, function () {
+                this.route('transactions', { path: '/transactions' });
+                this.route('customers', { path: '/customers' });
+                this.route('funding_instruments', { path: '/funding_instruments' });
+            });
 
             this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
                 this.resource('bank_account', { path: '/:bank_account_id'}, function () {
@@ -84,6 +93,7 @@ Balanced.Router.map(function () {
     // signup related
     this.route('login', { path: '/login' });
     this.route('forgotPassword', { path: '/forgot_password' });
+    this.route('resetPassword', { path: '/password/:token' });
     this.route('start', { path: '/start' });
     this.route('claim', { path: '/claim' });
 });
@@ -122,6 +132,8 @@ require('app/routes/index');
 
 require('app/routes/claim');
 require('app/routes/login');
+require('app/routes/forgot_password');
+require('app/routes/reset_password');
 require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
@@ -136,4 +148,5 @@ require('app/routes/marketplaces/logs');
 require('app/routes/marketplaces/show');
 require('app/routes/marketplaces/transactions');
 require('app/routes/marketplaces/activity');
+require('app/routes/marketplaces/settings');
 require('app/routes/customers');

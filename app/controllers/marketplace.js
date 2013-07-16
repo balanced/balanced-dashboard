@@ -1,5 +1,4 @@
-Balanced.MarketplaceController = Balanced.ObjectController.extend({
-
+Balanced.MarketplaceController = Balanced.ObjectController.extend(Balanced.PaySeller, {
     message_message: null,
     message_type: null,
 
@@ -22,32 +21,6 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
     }
 });
 
-Balanced.MarketplaceIndexController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
-});
-
-Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend(
-    Balanced.DownloadControllerMixin,
-    {
-        needs: ['marketplace'],
-
-        loadMore: function () {
-            this.get('content').get('transactions').loadNextPage();
-        }
-    }
-);
-
-Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(
-    Balanced.DownloadControllerMixin,
-    {
-        needs: ['marketplace'],
-
-        loadMore: function () {
-            this.get('content').get('funding_instruments').loadNextPage();
-        }
-    }
-);
-
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
     needs: ['marketplace']
 });
@@ -61,5 +34,9 @@ Balanced.MarketplaceHoldsController = Balanced.ObjectController.extend({
 });
 
 Balanced.MarketplaceRefundsController = Balanced.ObjectController.extend({
+    needs: ['marketplace']
+});
+
+Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
     needs: ['marketplace']
 });

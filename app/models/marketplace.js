@@ -1,4 +1,4 @@
-Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+Balanced.Marketplace = Balanced.UserMarketplace.extend({
     credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
     debits: Balanced.Model.hasMany('Balanced.Debit', 'debits_uri'),
     refunds: Balanced.Model.hasMany('Balanced.Refund', 'refunds_uri'),

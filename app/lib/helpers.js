@@ -247,23 +247,81 @@ Balanced.Utils = {
     },
 
     dollarsToCents: function (dollars) {
-        return parseInt(dollars * 100, 10);
+        // remove commas and whitespace
+        dollars = dollars.replace(/,|\s/g, '');
+
+        // make sure our input looks reasonable now, or else fail
+        if (!/^([0-9]+(\.[0-9]{0,2})?)$/.test(dollars)) {
+            throw new Error('{0} is not a valid dollar amount'.format(dollars));
+        }
+
+        return Math.round(100 * parseFloat(dollars));
     },
 
     toGravatar: function (emailHash) {
-        var placeholder = 'https://dashboard.balancedpayments.com/images/user_icon-01-3c142d4f.png';
-        if (!emailHash) {
-            return placeholder;
-        }
-        return 'https://secure.gravatar.com/avatar/{0}?s=30&d={1}'.format(emailHash, placeholder);
+        return emailHash ? 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
     },
 
     setCurrentMarketplace: function (marketplace) {
         // Store the marketplace in a global so we can use it for auth.
         // TODO: TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = marketplace;
-        Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
-            expires: Balanced.TIME.THREE_YEARS
-        });
-    }
+        if (marketplace) {
+            Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
+                expires: Balanced.TIME.THREE_YEARS
+            });
+        }
+    },
+
+    applyUriFilters: function (uri, params) {
+        if (!uri) {
+            return uri;
+        }
+
+        var transformedParams = ['limit', 'offset', 'sortField', 'sortOrder', 'minDate', 'maxDate', 'type', 'query'];
+
+        var filteringParams = {
+            limit: params.limit || 10,
+            offset: params.offset || 0
+        };
+
+        if (params.sortField && params.sortOrder && params.sortOrder !== 'none') {
+            filteringParams.sort = params.sortField + ',' + params.sortOrder;
+        }
+
+        if (params.minDate) {
+            filteringParams['created_at[>]'] = params.minDate.toISOString();
+        }
+        if (params.maxDate) {
+            filteringParams['created_at[<]'] = params.maxDate.toISOString();
+        }
+        if (params.type) {
+            switch (params.type) {
+                case 'transaction':
+                    filteringParams['type[in]'] = 'credit,debit,refund,hold';
+                    break;
+                case 'funding_instrument':
+                    filteringParams['type[in]'] = 'bank_account,card';
+                    break;
+                default:
+                    filteringParams.type = params.type;
+            }
+        }
+        filteringParams.q = '';
+        if (params.query && params.query !== '%') {
+            filteringParams.q = params.query;
+        }
+
+        filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));
+
+        filteringParams = Balanced.Utils.sortDict(filteringParams);
+
+        var queryString = $.map(filteringParams,function (v, k) {
+            return k + '=' + v;
+        }).join('&');
+
+        uri += '?' + encodeURI(queryString);
+
+        return uri;
+    },
 };

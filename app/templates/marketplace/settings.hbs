@@ -7,7 +7,7 @@
         <section class="marketplace-info">
             <form class="form-horizontal edit-inline">
                 <header>
-                    <h3>Marketplace info 
+                    <h3>Marketplace info
                         {{#if production}}
                         <a href="#" class="edit" {{action openEditMarketplaceInfoModal target="view"}}>Edit</a>
                         {{/if}}
@@ -71,7 +71,13 @@
                     <div class="control-group">
                         <label class="control-label">API key secret</label>
                         <div class="controls">
-                            <span class="inline-label"> {{ userMarketplace.secret }} </span>
+                            <span class="inline-label">
+                                {{#if view.keySecret}}
+                                    {{ marketplaceSecret }}
+                                {{else}}
+                                    <a href="#" {{action showKeySecret target="view"}}>click to show</a>
+                                {{/if}}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -125,7 +131,31 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_customer.address.address }}
+                                {{ owner_customer.address.street_address }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">City</label>
+                        <div class="controls">
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_customer.address.city }}
+                            {{else}}
+                                Test
+                            {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Region</label>
+                        <div class="controls">
+                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
+                            {{#if production}}
+                                {{ owner_customer.address.region }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -149,7 +179,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_customer.address.country }}
+                                {{ owner_customer.address.country_code }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -161,7 +191,7 @@
                         <div class="controls">
                             <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
                             {{#if production}}
-                                {{ owner_customer.address.phone }}
+                                {{ owner_customer.phone }}
                             {{else}}
                                 Test
                             {{/if}}
@@ -244,9 +274,11 @@
 
 	                    <div class="summary">
 	                        <a href="#" class="icon-delete" {{action promptToDeleteCallback callback}}>delete</a>
-	                        <div class="expand"><span class="caret"></span></div>
+                            <div class="expand"><!--<span class="caret"></span>--></div>
 	                        <div class="state">pending</div>
+                            <!--
 	                        <div class="action"><button class="btn">Test</button></div>
+                            -->
 	                        <div class="url"><span class="callback-method">{{ callback.method }}</span> {{ callback.url }}</div>
 	                    </div>
 	                    <div class="detail">
@@ -364,10 +396,10 @@
 
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_customer" viewName="editOwnerInfoModal"}}
-{{view Balanced.AddBankAccountModalView marketplaceBinding="model" viewName="addBankAccountModal"}}
+{{view Balanced.AddBankAccountModalView customerBinding="model.owner_customer" viewName="addBankAccountModal"}}
 {{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
-{{view Balanced.AddCardModalView marketplaceBinding="model" viewName="addCardModal"}}
+{{view Balanced.AddCardModalView customerBinding="model.owner_customer" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}
 {{view Balanced.AddCallbackModalView marketplaceBinding="model" viewName="addCallbackModal"}}
 {{view Balanced.DeleteCallbackModalView}}

@@ -8,9 +8,13 @@ Balanced.Card = Balanced.FundingInstrument.extend({
     description: function () {
         return '{0} ({1})'.format(
             this.get('last_four'),
-            this.get('brand')
+            Balanced.Utils.toTitleCase(this.get('brand'))
         );
-    }.property('last_four', 'brand')
+    }.property('last_four', 'brand'),
+
+    description_with_type: function () {
+        return 'Card: {0}'.format(this.get('description'));
+    }.property('description')
 });
 
 Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');

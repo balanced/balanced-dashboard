@@ -32,6 +32,10 @@
   z-index: @zindexModal;
   width: @modalWidth;
   margin-left: -@modalWidth / 2;
+  &.wide-modal {
+    width: @wideModalWidth;
+    margin-left: -@wideModalWidth / 2;
+  }
   background-color: @modalBackgroundColor;
   border: @modalBorderWidth solid;
   border: @modalBorderWidth solid;
@@ -70,27 +74,102 @@
 .modal-body {
   position: relative;
   overflow-y: auto;
-  max-height: 400px;
+  max-height: 420px;
   margin: 0;
-  padding: 20px 35px 20px 35px;
-  background-color: @modalBodyBackgroundColor;
+
+  &:not(.modal-with-headers) {
+    background-color: @modalBodyBackgroundColor;
+    padding: 20px 35px 20px 35px;
+  }
+
+  .modal-content {
+    background-color: @modalBodyBackgroundColor;
+    padding: 20px 35px 20px 35px;
+  }
+
+  .optional-modal-fields:not(.open) {
+    display: none;
+  }
+}
+
+.modal-section-header {
+  background-color: @modalInformationalLightBackground;
+  border-top: 1px solid @balancedLightGray;
+  border-bottom: 1px solid @balancedLightGray;
 }
 
 .modal-informational {
-  background-color: #a5c9d0;
+  background-color: @modalInformationalDarkBackground;
   border-top: 1px solid @balancedLightGray;
   border-bottom: 1px solid @balancedLightGray;
 
+  .disclosure-button {
+    background-color: @modalInformationalDarkBackground;
+    float: left;
+    a {
+      .cssicon(
+        @url: @iconsFile,
+        @width: 20px,
+        @height: 58px,
+        @display: block
+      );
+      background-position: -15px -828px;
+
+      &:hover {
+        background-color: @black;
+      }
+    }
+    &.open {
+      a {
+        background-position: -115px -828px;
+      }
+    }
+  }
+
   p {
-    padding: 20px 0px 20px 0px;
+    padding: 20px 0 20px 0;
     text-align: center;
     color: @balancedBlack;
-    margin: 0px;
+    margin: 0;
+
+    &.modal-informational-content {
+      padding: 20px 35px 20px 35px;
+    }
+  }
+
+  img {
+    &.modal-informational-content {
+      padding: 0px 35px 0px 35px;
+    }
   }
 
   .modal-informational-content {
-    padding: 0px 35px 0px 35px;
+    &.fields-header {
+      text-align: left;
+    }
+
+    &.modal-informational-split-content {
+      padding: 20px 35px 20px 35px;
+
+      .informational-label {
+        float: left;
+        width: 160px;
+        padding-top: 5px;
+        text-align: left;
+      }
+
+      .informational-content {
+        padding: 0 0 0 20px;
+        margin-left: 180px;
+        border-left: 2px solid;
+        border-color: @gray2;
+      }
+    }
   }
+}
+
+.modal-informational-light {
+  background-color: @modalInformationalLightBackground;
 }
 
 // Remove bottom margin if need be
@@ -136,4 +215,22 @@
     input {
     }
   }
+}
+
+#pay-seller {
+  top: 5%;
+  left: 45%;
+}
+
+.control-group {
+
+  &:first-of-type {
+    margin: 0;
+  }
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  margin: 10px 0 10px 0;
 }

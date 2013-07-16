@@ -13,12 +13,18 @@
   top: @marketplaceActionIconSize;
   float: right;
   li {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     background-color: red;
     &.add-customer {
       background-color: @byzantiumPurple60;
       a {
         background-position: -56px -626px;
+      }
+    }
+    &.pay-seller {
+      background-color: @persianBlue60;
+      a {
+        background-position: -6px -626px;
       }
     }
   }
@@ -30,7 +36,7 @@
       @display: block
     );
     &:hover {
-      background-color: black;
+      background-color: @black;
     }
   }
 }
@@ -112,7 +118,7 @@
       }
       .icon {
         background-color: @turquoise100;
-        background-position: -920px -662px;
+        background-position: -892px -662px;
       }
       .name {
         float: left;

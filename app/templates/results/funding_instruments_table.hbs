@@ -1,0 +1,55 @@
+<thead>
+    <tr>
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
+        <th class="span4 label6a">Type</th>
+        <th class="span5 label6a">Card or bank account</th>
+        <th class="span8 label6a">Account holder's name</th>
+    </tr>
+</thead>
+{{#if view.fundingInstruments.hasNextPage}}
+<tfoot>
+    <tr>
+        <td colspan="6" class="load-more-results">
+            {{#if view.fundingInstruments.loadingNextPage }}
+                <div class="loader-container">
+                    <span class="loader loading"></span>
+                </div>
+            {{else}}
+                <a {{ action loadMore view.fundingInstruments }}>Load more</a>
+            {{/if}}
+        </td>
+    </tr>
+</tfoot>
+{{/if}}
+<tbody>
+    {{#each funding_instrument in view.fundingInstruments}}
+        <tr {{action selectResult funding_instrument}}>
+            <td>
+                <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
+            </td>
+            <td>
+                {{ funding_instrument.type_name }}
+                {{#if funding_instrument.is_bank_account }}
+                    ({{ funding_instrument.type }})
+                {{/if}}
+            </td>
+            <td {{bindAttr title="funding_instrument.description"}}>
+                {{ funding_instrument.description }}
+            </td>
+            <td>
+                {{ funding_instrument.account.name }}
+                {{ funding_instrument.account.email }}
+            </td>
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="4" class="no-results">
+                {{# if view.fundingInstruments.isLoaded }}
+                    No results
+                {{else}}
+                    Loading...
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+</tbody>

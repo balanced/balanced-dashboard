@@ -85,9 +85,9 @@ form {
   }
 }
 
-.form-horizontal {
+.form-horizontal:not(.split-labels) {
   .control-group {
-    margin-bottom: 5px;
+    margin: 2px 0 2px 0;
   }
   .control-label {
     text-align: left;
@@ -95,6 +95,14 @@ form {
   }
   .controls {
     margin-left: auto;
+  }
+}
+
+.form-horizontal {
+  &.split-labels {
+    .control-label {
+      text-align: left;
+    }
   }
 }
 
@@ -125,7 +133,7 @@ form {
       display: none;
     }
     .inline-edit {
-      background-color: #737373;
+      background-color: @gray6;
       color: #d9d9d9;
     }
   }

@@ -1,0 +1,55 @@
+<thead>
+    <tr>
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
+        <th class="span3 label6a type">Transaction</th>
+        <th class="span4 label6a description">Description</th>
+        <th class="span4 label6a account">Account</th>
+        <th class="span4 label6a funding-instrument">Card or Bank Account</th>
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
+    </tr>
+</thead>
+{{#if view.transactions.hasNextPage}}
+<tfoot>
+    <tr>
+        <td colspan="6" class="load-more-results">
+            {{#if view.transactions.loadingNextPage }}
+                <div class="loader-container">
+                    <span class="loader loading"></span>
+                </div>
+            {{else}}
+                <a {{ action loadMore view.transactions }}>Load more</a>
+            {{/if}}
+        </td>
+    </tr>
+</tfoot>
+{{/if}}
+<tbody>
+    {{#each transaction in view.transactions }}
+        <tr {{action selectResult transaction}}>
+            <td class="span3 date">
+                <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+            </td>
+            <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
+                {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
+            </td>
+            <td class="span4 description" {{bindAttr title="transaction.description"}}>
+                {{ transaction.description }}
+            </td>
+            <td {{bindAttr class=":span4 :account transaction.account::null-field"}} {{bindAttr title="transaction.account_name_summary"}}>
+                {{transaction.account_name_summary}}
+            </td>
+            <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
+            <td class="span2 amount num">${{ transaction.amount_dollars }}</td>
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="6" class="no-results">
+                {{# if view.transactions.isLoaded }}
+                    No results
+                {{else}}
+                    Loading...
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+</tbody>

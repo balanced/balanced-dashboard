@@ -11,9 +11,6 @@ test('search box exists', function (assert) {
 test('search results show and hide', function (assert) {
     Testing.runSearch('foodbar');
 
-    //  TODO: why?
-    $('#q').trigger('keyup');
-
     assert.equal($('#search').hasClass('with-results'), true, 'search has no results');
     assert.equal($('body').hasClass('overlaid'), true, 'overlay not showing');
 
@@ -36,7 +33,6 @@ test('search results hide on click [x]', function (assert) {
 
 test('search "%" returns 15 transactions total, showing 10 transactions in results, with load more', function (assert) {
     Testing.runSearch('%');
-    $('#q').trigger('keyup');
 
     assert.equal($('#search .results li.transactions > a:contains("15")').length, 1, 'has 15 transaction in header');
     assert.equal($('#search .results table.transactions tbody tr').length, 10, 'has 10 transactions');
@@ -45,7 +41,6 @@ test('search "%" returns 15 transactions total, showing 10 transactions in resul
 
 test('search "%", click accounts, returns 22 accounts total, showing 10 accounts in results, with load more', function (assert) {
     Testing.runSearch('%');
-    $('#q').trigger('keyup');
 
     $('#search .results li.accounts > a').click();
 
@@ -56,7 +51,6 @@ test('search "%", click accounts, returns 22 accounts total, showing 10 accounts
 
 test('search "%" returns 15 transactions. Click load more shows 5 more and hides load more', function (assert) {
     Testing.runSearch('%');
-    $('#q').trigger('keyup');
 
     assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 
@@ -68,7 +62,6 @@ test('search "%" returns 15 transactions. Click load more shows 5 more and hides
 
 test('search "%" return 15 transactions. Click filter by holds.', function (assert) {
     Testing.runSearch('%');
-    $('#q').trigger('keyup');
 
     $('#search .results li.transactions a.dropdown-toggle').click();
 
@@ -82,7 +75,6 @@ test('search "%" return 15 transactions. Click filter by holds.', function (asse
 
 test('search date picker dropdown', function (assert) {
     Testing.runSearch('%');
-    $('#q').trigger('keyup');
 
     var toggle = $('#search .timing .dropdown-toggle');
     toggle.click();

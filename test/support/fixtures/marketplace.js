@@ -10,30 +10,119 @@ Balanced.Adapter.addFixtures([{
 ]);
 
 Balanced.Adapter.addFixtures([
-	{
-		uri: "/v1/marketplaces/MP1/callbacks",
-		items: []
-	},
-	{
-		uri: "/v1/marketplaces/MP2/callbacks",
-		items: []
-	},
-	{
-		uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/callbacks",
-		items: [{
-			method: "post",
-			url: "http://balancedpayments.com"
-		}, {
-			method: "post",
-			url: "http://example.com"
-		}]
-	},
-	{
-		uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts',
-		items: []
-	},
-	{
-		uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards',
-		items: []
-	}
+  {
+    uri: "/v1/marketplaces/MP1/callbacks",
+    items: []
+  },
+  {
+    uri: "/v1/marketplaces/MP2/callbacks",
+    items: []
+  },
+  {
+    uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/callbacks",
+    items: [{
+      method: "post",
+      url: "http://balancedpayments.com"
+    }, {
+      method: "post",
+      url: "http://example.com"
+    }]
+  },
+  {
+    uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts',
+    items: [
+      {
+        "default_credit": true,
+        "can_hold": false,
+        "meta": {
+
+        },
+        "routing_number": "123456789",
+        "id": "BA5r9JGZJ7YOCiULGthQYjVc",
+        "is_valid": true,
+        "verifications_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications",
+        "type": "checking",
+        "bank_name": null,
+        "_type": "bank_account",
+        "bank_code": "123456789",
+        "default_debit": true,
+        "_uris": {
+            "verification_uri": {
+                "_type": "bank_account_authentication",
+                "key": "verification"
+            },
+            "transactions_uri": {
+                "_type": "page",
+                "key": "transactions"
+            },
+            "verifications_uri": {
+                "_type": "page",
+                "key": "verifications"
+            },
+            "credits_uri": {
+                "_type": "page",
+                "key": "credits"
+            }
+        },
+        "last_four": "5555",
+        "fingerprint": "16igBKFBfrx4xoUvatqJFz",
+        "can_debit": true,
+        "credits_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/credits",
+        "customer": null,
+        "verification_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications/BZ5s80nhCfSdQAQKjk3PXDT9",
+        "transactions_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/transactions",
+        "name": "Test",
+        "can_credit": true,
+        "created_at": "2013-07-02T18:03:28.465726Z",
+        "uri": "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc",
+        "account_number": "xxxxxxxxx5555"
+      },
+      {
+        "default_credit": false,
+        "can_hold": false,
+        "meta": {
+
+        },
+        "routing_number": "121042882",
+        "id": "BA5nPKKnltzJAAEiWWnnZHBg",
+        "is_valid": true,
+        "verifications_uri": "/v1/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg/verifications",
+        "type": "checking",
+        "bank_name": "WELLS FARGO BANK NA",
+        "_type": "bank_account",
+        "bank_code": "121042882",
+        "default_debit": false,
+        "_uris": {
+            "transactions_uri": {
+                "_type": "page",
+                "key": "transactions"
+            },
+            "verifications_uri": {
+                "_type": "page",
+                "key": "verifications"
+            },
+            "credits_uri": {
+                "_type": "page",
+                "key": "credits"
+            }
+        },
+        "last_four": "5555",
+        "fingerprint": "6ybvaLUrJy07phK2EQ7pVk",
+        "can_debit": true,
+        "credits_uri": "/v1/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg/credits",
+        "customer": null,
+        "verification_uri": null,
+        "transactions_uri": "/v1/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg/transactions",
+        "name": "TEST-MERCHANT-BANK-ACCOUNT",
+        "can_credit": true,
+        "created_at": "2013-06-28T01:18:51.099402Z",
+        "uri": "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg",
+        "account_number": "xxxxxxxxxxx5555"
+      }
+    ]
+  },
+  {
+    uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards',
+    items: []
+  }
 ]);

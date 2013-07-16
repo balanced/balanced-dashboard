@@ -13,7 +13,7 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
     events: {
         onComplete: function () {
             var marketplace = this.modelFor('marketplace');
-            this.transitionTo('marketplace.activity', marketplace);
+            this.transitionTo('activity', marketplace);
         },
         onCardDebit: function (items) {
             var debit = items.debit, tokenizedCard = items.card;
@@ -31,14 +31,14 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
                 debit.create().then(function (debit) {
 
                     //  annnnd we're done
-                    self.transitionTo('marketplace.activity', marketplace);
+                    self.transitionTo('activity', marketplace);
                 });
             });
         },
         onSkip: function () {
             var marketplace = this.modelFor('marketplace');
             marketplace.refresh();
-            this.transitionTo('marketplace.activity', marketplace);
+            this.transitionTo('activity', marketplace);
         },
         passAlertMessage: function (type, message) {
             // TODO: i'm pretty sure this is the wrong way to do this but i am

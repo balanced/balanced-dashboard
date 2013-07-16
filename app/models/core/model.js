@@ -14,7 +14,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     isValid: true,
 
     /* deserialize - override this with a function to transform the json before it's used
-     * Make sure to call this._super so that parent classes can perform their own 
+     * Make sure to call this._super so that parent classes can perform their own
      * deserialization
      *
      * Example:
@@ -26,7 +26,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
      * });
      */
     deserialize: function (json) {
-        // Deliberately empty so we can add functionality later without having to alter 
+        // Deliberately empty so we can add functionality later without having to alter
         // classes that inherit from this
     },
 
@@ -115,6 +115,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     refresh: function () {
+        if(!this.get('isLoaded')) {
+            return this;
+        }
+
         var self = this;
         this.set('isLoaded', false);
 
@@ -179,6 +183,9 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         if (jqXHR.status === 400) {
             this.set('isValid', false);
             this.trigger('becameInvalid', jqXHR.responseText);
+            if (jqXHR.responseJSON && jqXHR.responseJSON.extras) {
+                this.set('validationErrors', jqXHR.responseJSON.extras);
+            }
         } else {
             this.set('isError', true);
             this.trigger('becameError', jqXHR.responseText);
@@ -219,15 +226,6 @@ Balanced.Model.reopenClass({
         modelObject.set('isLoaded', false);
         modelObject.set('isNew', false);
 
-        // pull out the observer if it's present
-        settings = settings || {};
-        var observer = settings.observer;
-        if (observer) {
-            // this allows us to subscribe to events on this object without
-            // worrying about any race conditions
-            modelObject.addObserver('isLoaded', observer);
-        }
-
         Balanced.Adapter.get(modelClass, uri, function (json) {
             modelObject._updateFromJson(json);
             modelObject.set('isLoaded', true);
@@ -250,7 +248,7 @@ Balanced.Model.reopenClass({
      *
      * Example:
      *
-     * Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+     * Balanced.Marketplace = Balanced.UserMarketplace.extend({
      *      owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true})
      * });
      */
@@ -293,7 +291,7 @@ Balanced.Model.reopenClass({
      *
      * Example:
      *
-     * Balanced.Marketplace = Balanced.MarketplaceLite.extend({
+     * Balanced.Marketplace = Balanced.UserMarketplace.extend({
      *      credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
      *      customers: Balanced.Model.hasMany('Balanced.Customer', 'customers_json', {embedded: true})
      * });
@@ -318,18 +316,7 @@ Balanced.Model.reopenClass({
                 if (embedded) {
                     modelObjectsArray.populateModels(this.get(translatedProperty));
                 } else {
-                    modelObjectsArray.set('isLoaded', false);
-                    Balanced.Adapter.get(typeClass, this.get(translatedProperty), function (json) {
-                        modelObjectsArray.populateModels(json);
-                    }, function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status === 400) {
-                            this.set('isValid', false);
-                            this.trigger('becameInvalid', jqXHR.responseText);
-                        } else {
-                            this.set('isError', true);
-                            this.trigger('becameError', jqXHR.responseText);
-                        }
-                    });
+                    return Balanced.ModelArray.newArrayLoadedFromUri(this.get(translatedProperty), defaultType);
                 }
             }
 

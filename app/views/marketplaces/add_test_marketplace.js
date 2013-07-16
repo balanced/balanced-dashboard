@@ -11,7 +11,7 @@ Balanced.AddTestMarketplaceView = Balanced.BaseFormView.extend({
         if (!marketplaceName) {
             return;
         }
-        var marketplace = Balanced.MarketplaceLite.create({
+        var marketplace = Balanced.UserMarketplace.create({
             uri: Balanced.Auth.get('user').get('marketplaces_uri'),
             name: marketplaceName
         }).one('didCreate',function () {

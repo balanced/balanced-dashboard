@@ -3,26 +3,34 @@ require('app/models/mixins/load_promise');
 Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
     isLoaded: false,
     hasNextPage: false,
+    loadingNextPage: false,
 
     loadNextPage: function () {
         var self = this;
 
         var promise = this.resolveOn('didLoad');
+        self.set('loadingNextPage', true);
 
         if (this.get('hasNextPage')) {
             var typeClass = this.get('typeClass');
 
             Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
                 self.populateModels(json);
+                self.set('loadingNextPage', false);
             });
         } else {
             promise.reject(this);
+            self.set('loadingNextPage', false);
         }
 
         return promise;
     },
 
     refresh: function () {
+        if (!this.get('isLoaded')) {
+            return this;
+        }
+
         var self = this;
         this.set('isLoaded', false);
         var promise = this.resolveOn('didLoad');
@@ -79,5 +87,39 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
         this.addObjects(typedObjects);
         this.set('isLoaded', true);
         this.trigger('didLoad');
+    },
+
+    _handleError: function (jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status === 400) {
+            this.set('isValid', false);
+            this.trigger('becameInvalid', jqXHR.responseText);
+        } else {
+            this.set('isError', true);
+            this.trigger('becameError', jqXHR.responseText);
+        }
+    }
+});
+
+Balanced.ModelArray.reopenClass({
+    newArrayLoadedFromUri: function (uri, defaultType) {
+        var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+        var modelObjectsArray = Balanced.ModelArray.create({
+            content: Ember.A(),
+            typeClass: typeClass,
+            uri: uri
+        });
+
+        if (!uri) {
+            return modelObjectsArray;
+        }
+
+        modelObjectsArray.set('isLoaded', false);
+        Balanced.Adapter.get(typeClass, uri, function (json) {
+            modelObjectsArray.populateModels(json);
+        }, function (jqXHR, textStatus, errorThrown) {
+            modelObjectsArray._handleError(jqXHR, textStatus, errorThrown);
+        });
+
+        return modelObjectsArray;
     }
 });

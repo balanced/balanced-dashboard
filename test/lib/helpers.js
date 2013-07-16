@@ -9,6 +9,8 @@ var Testing = (function () {
         },
         runSearch: function (query) {
             $('#q').val(query).trigger('keyup');
+            // Press enter to run the search immediately
+            $("#q").trigger(jQuery.Event("keyup", {keyCode: Balanced.KEYS.ENTER}));
         }
     };
 })();
