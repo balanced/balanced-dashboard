@@ -27,7 +27,16 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
 
     save: function () {
         var debit = this.get('model');
-        debit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
+
+        var cents = null;
+        try {
+            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+        } catch (error) {
+            debit.set('validationErrors', {'amount': error});
+            return;
+        }
+        debit.set('amount', cents);
+
         debit.create().then(function (credit) {
             $('#debit-customer').modal('hide');
         });
