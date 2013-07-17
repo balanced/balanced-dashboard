@@ -1,0 +1,47 @@
+<thead>
+    <tr>
+        <th class="span3 label6a staus">Status</th>
+        <th class="span10 label6a method">Method &amp; URI</th>
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span4 label6a sortable unsorted" field="created_at"}}Time{{/view}}
+    </tr>
+</thead>
+{{#if model.hasNextPage}}
+<tfoot>
+    <tr>
+        <td colspan="3" class="load-more-results">
+            {{#if model.loadingNextPage }}
+                <div class="loader-container">
+                    <span class="loader loading"></span>
+                </div>
+            {{else}}
+                <a {{ action loadMore model }}>Load more</a>
+            {{/if}}
+        </td>
+    </tr>
+</tfoot>
+{{/if}}
+<tbody>
+    {{#each log in model.items}}
+        <tr>
+            <td class="span3 status">
+                {{ log.message.response.status }}
+            </td>
+            <td class="span8 method">
+                {{ log.message.request.method }} {{ log.message.request.url }}
+            </td>
+            <td class="span3 date">
+                ???
+            </td>
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="3" class="no-results">
+                {{# if model.isLoading }}
+                    Loading...
+                {{else}}
+                    No results
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+</tbody>

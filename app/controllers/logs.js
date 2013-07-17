@@ -1,7 +1,7 @@
-Balanced.LogsIndexController = Balanced.ObjectController.extend({
+Balanced.LogsController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
     needs: ['marketplace']
 });
 
-Balanced.LogIndexController = Balanced.ObjectController.extend({
+Balanced.LogController = Balanced.ObjectController.extend({
     needs: ['marketplace']
 });

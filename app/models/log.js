@@ -1,7 +1,5 @@
 Balanced.Log = Balanced.Model.extend({
-    logs: function() {
-        return this.get('items');
-    }.property('items')
+
 });
 
 Balanced.Log.reopenClass({
