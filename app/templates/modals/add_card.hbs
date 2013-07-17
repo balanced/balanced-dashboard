@@ -5,19 +5,19 @@
         <h2>Add a credit card</h2>
     </div>
     <div class="modal-body">
-        <div {{bindAttr class=":control-group view.name_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label>Card holder's name</label>
-            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
-        </div>
-        
-        <div {{bindAttr class=":control-group view.card_number_error:error"}}>
-            <label>Card Number</label>
-            {{view Ember.TextField valueBinding="view.model.card_number" viewName="card_number" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.security_code_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.card_number:error"}}>
+            <label>Card Number</label>
+            {{view Ember.TextField valueBinding="view.model.card_number" name="card_number" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.security_code:error"}}>
             <label>Security Code</label>
-            {{view Ember.TextField valueBinding="view.model.security_code" viewName="security_code" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.security_code" name="security_code" class="full"}}
         </div>
 
         <div {{bindAttr class=":control-group view.expiration_error:error"}}>
@@ -26,13 +26,13 @@
                 contentBinding="view.validMonths"
                 valueBinding="view.model.expiration_month"
                 prompt="Month"
-                viewName="expiration_month"
+                name="expiration_month"
             }}
             {{view Ember.Select
                 contentBinding="view.validYears"
                 valueBinding="view.model.expiration_year"
                 prompt="Year"
-                viewName="expiration_year"
+                name="expiration_year"
             }}
         </div>
     </div>
@@ -40,8 +40,7 @@
         <img src="images/credit-card-instructions.png" alt="Credit Card Instructions" class="modal-informational-content"/>
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn">Add</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Add"}}
     </div>
     </form>
 </div>
