@@ -79,7 +79,7 @@ test('withdraw funds', function (assert) {
 
     assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 
-    assert.equal($('#withdraw-funds select option').length, 2, 'two bank account in account dropdown');
+    assert.equal($('#withdraw-funds select option').length, 3, 'three bank account in account dropdown');
 
     $('#withdraw-funds input').first().val('55.55').trigger('keyup');
     $('#withdraw-funds .modal-footer .btn').not('.danger').click();

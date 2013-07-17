@@ -33,7 +33,7 @@ test('can create bank accounts', function (assert) {
     var createsBefore = Balanced.Adapter.creates.length;
 
     // There are two bank accounts added to the fixture, used for add and withdraw funds
-    assert.equal($('.bank-account-info .sidebar-items li').length, 2);
+    assert.equal($('.bank-account-info .sidebar-items li').length, 3);
 
     // click the button to add a bank account
     $('.bank-account-info a.add').click();
@@ -47,6 +47,14 @@ test('can create bank accounts', function (assert) {
 
     // should be two creates, one for the bank account and one for the verification
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 2);
+});
+
+test('can verify bank account modal', function (assert) {
+    assert.equal($("section.bank-account-info li.unverified").length, 1);
+
+    $("section.bank-account-info li.unverified .actions button").click();
+
+    assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
 });
 
 test('shows webhooks', function (assert) {

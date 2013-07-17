@@ -118,7 +118,50 @@ Balanced.Adapter.addFixtures([
         "created_at": "2013-06-28T01:18:51.099402Z",
         "uri": "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg",
         "account_number": "xxxxxxxxxxx5555"
-      }
+      },
+      {
+        "default_credit": true,
+        "can_hold": false,
+        "meta": {},
+        "routing_number": "121042882",
+        "id": "BAUgen6ESuHYg31BxVy9pPV",
+        "is_valid": true,
+        "verifications_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications",
+        "type": "checking",
+        "bank_name": "WELLS FARGO BANK NA",
+        "_type": "bank_account",
+        "bank_code": "121042882",
+        "default_debit": false,
+        "_uris": {
+            "verification_uri": {
+                "_type": "bank_account_authentication",
+                "key": "verification"
+            },
+            "transactions_uri": {
+                "_type": "page",
+                "key": "transactions"
+            },
+            "verifications_uri": {
+                "_type": "page",
+                "key": "verifications"
+            },
+            "credits_uri": {
+                "_type": "page",
+                "key": "credits"
+            }
+        },
+        "last_four": "1297",
+        "fingerprint": "9e47fd3e95838a82814ec751bda86ebaad6ed349d0b9936cb7ce29d468d6124a",
+        "can_debit": false,
+        "credits_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/credits",
+        "verification_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications/BZ3cMDwSGLuevgcKUbFoq9kz",
+        "transactions_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/transactions",
+        "name": "DWELLERS INC",
+        "can_credit": true,
+        "created_at": "2013-07-12T02:52:40.047585Z",
+        "uri": "/v1/customers/CUa7ooMptCVqMOjRNK3EAlW/bank_accounts/BAUgen6ESuHYg31BxVy9pPV",
+        "account_number": "xxxxxx1297"
+       }
     ]
   },
   {
