@@ -11,7 +11,7 @@
             </div>
             {{/unless}}
 
-            <div {{bindAttr class=":control-group view.source_uri_error:error"}}>
+            <div {{bindAttr class=":control-group view.model.validationErrors.source_uri:error"}}>
                 <label>Account number</label>
 
                 {{view Ember.Select
@@ -39,7 +39,7 @@
                 <div class="number1a">{{ formatCurrency controllers.marketplace.in_escrow }}</div>
             </div>
 
-            <div {bindAttr class=":control-group view.amount_error:error"}}>
+            <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
                 <label>Amount</label>
                 <div class="input-prepend">
                     <span class="add-on">$</span>

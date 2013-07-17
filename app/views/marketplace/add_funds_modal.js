@@ -1,7 +1,5 @@
-Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
+Balanced.AddFundsModalView = Balanced.View.extend({
     templateName: 'modals/add_funds',
-
-    formProperties: ['source_uri'],
 
     dollar_amount: null,
 
@@ -31,7 +29,6 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
 
         this.set('dollar_amount', null);
         this.set('model', debit);
-        this.reset(debit);
 
         $('#add-funds').modal('show');
     },
@@ -61,7 +58,6 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
             $('#add-funds').modal('hide');
         }, function() {
             self.set('isSubmitting', false);
-            self.highlightErrorsFromAPIResponse(json);
         });
     }
 });

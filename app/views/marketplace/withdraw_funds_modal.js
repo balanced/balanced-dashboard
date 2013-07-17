@@ -1,7 +1,5 @@
-Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
+Balanced.WithdrawFundsModalView = Balanced.View.extend({
     templateName: 'modals/withdraw_funds',
-
-    formProperties: ['source_uri'],
 
     dollar_amount: null,
 
@@ -30,7 +28,6 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
 
         this.set('dollar_amount', null);
         this.set('model', credit);
-        this.reset(credit);
 
         $('#withdraw-funds').modal('show');
     },
@@ -60,7 +57,6 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
             $('#withdraw-funds').modal('hide');
         }, function() {
             self.set('isSubmitting', false);
-            self.highlightErrorsFromAPIResponse(json);
         });
     }
 });
