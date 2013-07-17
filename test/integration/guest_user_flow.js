@@ -19,6 +19,28 @@ test('visiting start creates a marketplace', function (assert) {
     assert.ok(Balanced.NET.ajaxHeaders['Authorization'], 'Authorization header set');
 });
 
+test('visiting start and then settings, can view api secret key', function(assert) {
+    ////
+    // In order to get this working, we need to be able to issue POSTS and persistent the creates in tests.
+    ////
+
+    // Ember.run(function() {
+    //     Balanced.Router.create().transitionTo('start');
+    // });
+
+    // var api_secret_key = $(".api-key .secret").text();
+
+    // $(".dashboard").click();
+
+    // $("li.settings a").click();
+
+    // $(".control-group .controls .api-key-secret a").click();
+
+    // var shown_api_secret_key = $(".control-group .controls .api-key-secret").text();
+
+    // assert.equal(api_secret_key, shown_api_secret_key, 'Generated api secret matches shown api secret in settings');
+});
+
 test('claim account creates a login', function (assert) {
     expect(4);
 
