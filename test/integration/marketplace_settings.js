@@ -116,7 +116,7 @@ test('can delete bank accounts', function (assert) {
     assert.equal($('.bank-account-info .sidebar-items li').length, 2);
 
     // click the delete button
-    $(".bank-account-info .sidebar-items li").first().find(".icon-delete").click()
+    $(".bank-account-info .sidebar-items li").first().find(".icon-delete").click();
 
     // click save
     $('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
@@ -129,7 +129,7 @@ test('delete bank accounts only deletes once when submit clicked multiple times'
     var stub = sinon.stub(Balanced.Adapter, "delete");
 
     // click the delete button
-    $(".bank-account-info .sidebar-items li").first().find(".icon-delete").click()
+    $(".bank-account-info .sidebar-items li").first().find(".icon-delete").click();
 
     // click save
     for(var i = 0; i < 20; i++) {
@@ -181,7 +181,7 @@ test('can delete cards', function (assert) {
     assert.equal($('.card-info .sidebar-items li').length, 2);
 
     // click the delete button
-    $(".card-info .sidebar-items li").first().find(".icon-delete").click()
+    $(".card-info .sidebar-items li").first().find(".icon-delete").click();
 
     // click save
     $('#delete-card .modal-footer button[name="modal-submit"]').click();
@@ -194,7 +194,7 @@ test('delete cards only deletes once when submit clicked multiple times', functi
     var stub = sinon.stub(Balanced.Adapter, "delete");
 
     // click the delete button
-    $(".card-info .sidebar-items li").first().find(".icon-delete").click()
+    $(".card-info .sidebar-items li").first().find(".icon-delete").click();
 
     // click save
     for(var i = 0; i < 20; i++) {
