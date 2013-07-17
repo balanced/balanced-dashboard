@@ -34,7 +34,7 @@ test('add test marketplace', function(assert) {
     $(".marketplace-list.test li.new input[name='name']").val('NEW MARKETPLACE').trigger('keyup');
 
     // click add
-    $(".marketplace-list.test li.new form button").click()
+    $(".marketplace-list.test li.new form button").click();
 
     assert.ok(spy.calledOnce);
 });
@@ -49,7 +49,7 @@ test('add existing marketplace', function(assert) {
     $(".marketplace-list.production li.new input[name='secret']").val('1234').trigger('keyup');
 
     // click add
-    $(".marketplace-list.production li.new form button").click()
+    $(".marketplace-list.production li.new form button").click();
 
     assert.ok(spy.calledOnce);
 });
