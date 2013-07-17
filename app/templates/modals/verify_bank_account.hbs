@@ -16,28 +16,27 @@
             <label class="inline-label">Bank</label>
             {{view.bank_account.bank_name}}
         </div>
-        
-        <div {{bindAttr class=":control-group view.amount_1_error:error"}}>
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.amount_1:error"}}>
             <label>First Amount</label>
             <div class="input-prepend">
                 <span class="add-on">$0.</span>
-                {{view Ember.TextField valueBinding="view.model.amount_1" viewName="amount_1" class="full"}}
+                {{view Ember.TextField name="amount_1" valueBinding="view.model.amount_1" class="full"}}
             </div>
         </div>
 
-        <div {{bindAttr class=":control-group view.amount_2_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.amount_2:error"}}>
             <label>Second Amount</label>
             <div class="input-prepend">
                 <span class="add-on">$0.</span>
-                {{view Ember.TextField valueBinding="view.model.amount_2" viewName="amount_2" class="full"}}
+                {{view Ember.TextField name="amount_2" valueBinding="view.model.amount_2" class="full"}}
             </div>
         </div>
 
         <p>If you did not receive the deposits after five business days, the transaction may have failed because of incorrect account information. If you need to change the information, remove the erroneous account and add a new bank account.</p>
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn">Confirm</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
     </div>
     </form>
 </div>

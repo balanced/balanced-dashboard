@@ -5,7 +5,7 @@ module('Marketplaces Settings', {
         // click the settings link
         $('#marketplace-nav .settings a').click();
     }, teardown: function () {
-
+        $("#verify-bank-account").modal('hide');
     }
 });
 
@@ -47,6 +47,44 @@ test('can create bank accounts', function (assert) {
 
     // should be two creates, one for the bank account and one for the verification
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 2);
+});
+
+test('can verify bank accounts', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 1);
+
+    // click the verify button
+    $(".bank-account-info .sidebar-items li.unverified").first().find(".actions button").click();
+
+    // fill out information
+    $('#verify-bank-account .modal-body input[name="amount_1"]').val('1.00').trigger('keyup');
+    $('#verify-bank-account .modal-body input[name="amount_2"]').val('1.00').trigger('keyup');
+
+    // click save
+    $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(stub.calledOnce, "Update should have been called once");
+});
+
+test('verifying bank accounts only happens once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 1);
+
+    // click the verify button
+    $(".bank-account-info .sidebar-items li.unverified").first().find(".actions button").click();
+
+    // fill out information
+    $('#verify-bank-account .modal-body input[name="amount_1"]').val('1.00').trigger('keyup');
+    $('#verify-bank-account .modal-body input[name="amount_2"]').val('1.00').trigger('keyup');
+
+    // click save
+    for(var i = 0; i < 20; i++) {
+        $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce, "Update should have been called once");
 });
 
 test('shows webhooks', function (assert) {

@@ -66,7 +66,7 @@ Balanced.Adapter.addFixtures([
         },
         "last_four": "5555",
         "fingerprint": "16igBKFBfrx4xoUvatqJFz",
-        "can_debit": true,
+        "can_debit": false,
         "credits_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/credits",
         "customer": null,
         "verification_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications/BZ5s80nhCfSdQAQKjk3PXDT9",
@@ -124,5 +124,14 @@ Balanced.Adapter.addFixtures([
   {
     uri: '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards',
     items: []
+  },
+  {
+    "_type": "bank_account_authentication",
+    "state": "pending",
+    "uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications/BZ5s80nhCfSdQAQKjk3PXDT9",
+    "attempts": 0,
+    "_uris": {},
+    "id": "BZ5s80nhCfSdQAQKjk3PXDT9",
+    "remaining_attempts": 3
   }
 ]);
