@@ -69,6 +69,23 @@ test('can credit customer', function (assert) {
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
 
+test("can't credit customer multiple times using the same modal", function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    // click the credit customer button
+    $(".customer-header .buttons a").eq(1).click();
+
+    $('#credit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
+    $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
+
+    // click credit
+    for(var i = 0; i < 20; i++) {
+        $('#credit-customer .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});
+
 test('can edit customer info', function (assert) {
     var updatesBefore = Balanced.Adapter.updates.length;
 

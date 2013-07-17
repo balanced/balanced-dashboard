@@ -5,7 +5,8 @@ module('Activity', {
         // click the activity link
         $('#marketplace-nav .activity a').click();
     }, teardown: function () {
-
+        $('#add-funds').modal('hide');
+        $('#withdraw-funds').modal('hide');
     }
 });
 
@@ -72,6 +73,19 @@ test('add funds', function (assert) {
     //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,193.36'), -1, 'escrow amount is now $1,193.36');
 });
 
+test('add funds only adds once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    $('.activity-escrow-box .span4 .btn').first().click();
+
+    $('#add-funds input').first().val('55.55').trigger('keyup');
+    for(var i = 0; i < 20; i++) {
+        $('#add-funds .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});
+
 test('withdraw funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
@@ -89,3 +103,15 @@ test('withdraw funds', function (assert) {
     //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,082.26'), -1, 'escrow amount is now $1,082.26');
 });
 
+test('withdraw funds only withdraws once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    $('.activity-escrow-box .span4 .btn').eq(1).click();
+    $('#withdraw-funds input').first().val('55.55').trigger('keyup');
+
+    for(var i = 0; i < 20; i++) {
+        $('#withdraw-funds .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});

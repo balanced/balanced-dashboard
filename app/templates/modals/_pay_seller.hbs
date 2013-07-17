@@ -64,8 +64,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn" {{action paySeller}}>Credit</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Credit" isSubmittingBinding=isSubmitting}}
     </div>
     </form>
 {{/view}}

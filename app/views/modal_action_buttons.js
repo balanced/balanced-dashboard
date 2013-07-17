@@ -3,13 +3,20 @@ Balanced.ModalActionButtonsView = Balanced.View.extend({
 
 	// override this to customize
 	submitTitle: "Submit",
-	submittingTitle: "Submitting...",
+
+	// override to customize, adds "ing..." to submitTitle if not defined
+	submittingTitle: null,
 
 	isSubmitting: Ember.computed.alias('parentView.isSubmitting'),
 
 	_submitTitle: function() {
-		if(this.get('parentView.isSubmitting')) {
-			return this.get('submittingTitle');
+		if(this.get('isSubmitting')) {
+			var submittingTitle = this.get('submittingTitle');
+			if(submittingTitle) {
+				return submittingTitle;
+			} else {
+				return this.get('submitTitle') + 'ing...';
+			}
 		} else {
 			return this.get('submitTitle');
 		}
