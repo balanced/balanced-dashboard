@@ -407,13 +407,18 @@ module.exports = function (grunt) {
         },
 
         watch: {
+            templates: {
+                files: [
+                    'app/**/*.hbs'
+                ],
+                tasks: ['_buildJS']
+            },
             js: {
                 files: [
                     'app/**/*.js',
-                    'app/**/*.hbs',
                     'static/lib/**/*.js'
                 ],
-                tasks: ['_buildJS']
+                tasks: ['_buildJSAfterTemplates']
             },
             tests: {
                 files: [
@@ -504,7 +509,8 @@ module.exports = function (grunt) {
     grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
     grunt.registerTask('_copyDist', ['copy:dist']);
 
-    grunt.registerTask('_buildJS', ['emberTemplates', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
+    grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
+    grunt.registerTask('_buildJSAfterTemplates', ['neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
     grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
     grunt.registerTask('_buildCSS', ['less']);
     grunt.registerTask('_buildImages', ['copy:images']);
