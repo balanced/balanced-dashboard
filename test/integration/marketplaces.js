@@ -39,6 +39,21 @@ test('add test marketplace', function(assert) {
     assert.ok(spy.calledOnce);
 });
 
+test('add existing marketplace', function(assert) {
+    var spy = sinon.spy(Balanced.Adapter, "create");
+
+    // Open marketplaces page
+    $("#marketplaces li.manage-marketplaces a").click();
+
+    // enter a secret
+    $(".marketplace-list.production li.new input[name='secret']").val('1234').trigger('keyup');
+
+    // click add
+    $(".marketplace-list.production li.new form button").click()
+
+    assert.ok(spy.calledOnce);
+});
+
 test('delete marketplace', function(assert) {
     var spy = sinon.spy(Balanced.Adapter, "delete");
 
