@@ -370,10 +370,10 @@ module.exports = function (grunt) {
                     instrumentedFiles: 'temp/',
                     htmlReport: 'report/coverage',
                     coberturaReport: 'report/',
-                    linesThresholdPct: 45,
-                    statementsThresholdPct: 45,
-                    functionsThresholdPct: 45,
-                    branchesThresholdPct: 15
+                    linesThresholdPct: 77,
+                    statementsThresholdPct: 76,
+                    functionsThresholdPct: 68,
+                    branchesThresholdPct: 57
                 }
             },
             all: ['build/test/runner.html']
