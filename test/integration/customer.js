@@ -115,19 +115,6 @@ test("can't credit customer multiple times using the same modal", function (asse
     assert.ok(stub.calledOnce);
 });
 
-test('can edit customer info', function (assert) {
-    var updatesBefore = Balanced.Adapter.updates.length;
-
-    $(".marketplace-info header a.edit").click();
-
-    $('#edit-customer-info .modal-body input').eq(0).val("My Test Company").trigger('keyup');
-
-    $('#edit-customer-info .modal-footer button').eq(1).click();
-
-    // should have posted the update
-    assert.equal(Balanced.Adapter.updates.length, updatesBefore + 1);
-});
-
 test('can add bank account', function (assert) {
     var createsBefore = Balanced.Adapter.creates.length;
 
