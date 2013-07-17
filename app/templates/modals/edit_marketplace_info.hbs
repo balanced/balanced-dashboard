@@ -5,29 +5,28 @@
         <h2>Edit marketplace info</h2>
     </div>
     <div class="modal-body">
-        <div {{bindAttr class=":control-group view.name_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label>Name</label>
-            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
         </div>
-        
-        <div {{bindAttr class=":control-group view.support_email_address_error:error"}}>
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.support_email_address:error"}}>
             <label>Support email</label>
-            {{view Ember.TextField valueBinding="view.model.support_email_address" viewName="support_email_address" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.support_email_address" name="support_email_address" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.domain_url_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.domain_url:error"}}>
             <label>Domain URL</label>
-            {{view Ember.TextField valueBinding="view.model.domain_url" viewName="domain_url" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.domain_url" name="domain_url" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.support_phone_number_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.support_phone_number:error"}}>
             <label>Support phone number</label>
-            {{view Ember.TextField valueBinding="view.model.support_phone_number" viewName="support_phone_number" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.support_phone_number" name="support_phone_number" class="full"}}
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn">Save</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Save" submittingTitle="Saving..."}}
     </div>
     </form>
 </div>

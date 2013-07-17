@@ -5,24 +5,23 @@
         <h2>Edit owner info</h2>
     </div>
     <div class="modal-body">
-        <div {{bindAttr class=":control-group view.name_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label>Name</label>
-            {{view Ember.TextField valueBinding="view.model.name" viewName="name" class="full"}}
-        </div>
-        
-        <div {{bindAttr class=":control-group view.email_error:error"}}>
-            <label>Email</label>
-            {{view Ember.TextField valueBinding="view.model.email" viewName="email" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.phone_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.email:error"}}>
+            <label>Email</label>
+            {{view Ember.TextField valueBinding="view.model.email" name="email" class="full"}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.phone:error"}}>
             <label>Phone number</label>
-            {{view Ember.TextField valueBinding="view.model.phone" viewName="phone" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.phone" name="phone" class="full"}}
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn">Save</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Save" submittingTitle="Saving..."}}
     </div>
     </form>
 </div>

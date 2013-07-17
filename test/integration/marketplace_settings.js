@@ -12,6 +12,8 @@ module('Marketplaces Settings', {
         $("#delete-card").modal('hide');
         $("#add-callback").modal('hide');
         $("#delete-callback").modal('hide');
+        $('#edit-marketplace-info').modal('hide');
+        $('#edit-owner-info').modal('hide');
     }
 });
 
@@ -26,12 +28,54 @@ test('can update marketplace info', function (assert) {
     // click the button to edit marketplace info
     $('.marketplace-info a.edit').click();
     // change the text for marketplace name
-    $('#edit-marketplace-info .modal-body input').first().val('TEST').trigger('keyup');
+    $('#edit-marketplace-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
     // click save
-    $('#edit-marketplace-info .modal-footer button')[1].click();
+    $('#edit-marketplace-info .modal-footer button[name="modal-submit"]').click();
 
     // Marketplace name should have changed
     assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
+});
+
+test('updating marketplace info only submits once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    // click the button to edit marketplace info
+    $('.marketplace-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-marketplace-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    // click save
+    for(var i = 0; i < 20; i++) {
+        $('#edit-marketplace-info .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});
+
+test('can update owner info', function (assert) {
+    // click the button to edit marketplace info
+    $('.owner-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-owner-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    // click save
+    $('#edit-owner-info .modal-footer button[name="modal-submit"]').click();
+
+    // Marketplace name should have changed
+    assert.equal($('.owner-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
+});
+
+test('updating owner info only submits once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    // click the button to edit marketplace info
+    $('.owner-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-owner-info .modal-body input').first().val('TEST').trigger('keyup');
+    // click save
+    for(var i = 0; i < 20; i++) {
+        $('#edit-owner-info .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
 });
 
 test('can create bank accounts', function (assert) {

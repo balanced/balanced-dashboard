@@ -6,7 +6,10 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
     dob_month: "",
     dob_year: "",
 
+    isSubmitting: false,
+
     open: function () {
+        this.set('isSubmitting', false);
         var customer = Ember.copy(this.get('customer'), true);
         customer.trigger('didCreate');
 
@@ -24,6 +27,10 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
     },
 
     save: function () {
+        if(this.get('isSubmitting')) {
+            return;
+        }
+        this.set('isSubmitting', true);
         var self = this;
         var customer = this.get('model');
         var month = this.get('dob_month');
@@ -34,8 +41,11 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
             customer.set('dob', null);
         }
         customer.update().then(function () {
+            self.set('isSubmitting', false);
             self.get('customer').refresh();
             $('#edit-customer-info').modal('hide');
+        }, function() {
+            self.set('isSubmitting', false);
         });
     }
 });

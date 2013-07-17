@@ -12,12 +12,41 @@ module('Customer Page', {
         $('#debit-customer').modal('hide');
         $('#add-bank-account').modal('hide');
         $('#add-bank-account').modal('hide');
+        $('#edit-customer-info').modal('hide');
     }
 });
 
 test('can view customer page', function (assert) {
     assert.equal($('#content h1').text().trim(), 'Customer');
     assert.equal($(".title span").text().trim(), 'Nick1');
+});
+
+test('can edit customer info', function (assert) {
+    var spy = sinon.spy(Balanced.Adapter, "update");
+
+    // click the button to edit customer info
+    $('.customer-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-customer-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    // click save
+    $('#edit-customer-info .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(spy.calledOnce);
+});
+
+test('editing customer info only submits once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    // click the button to edit customer info
+    $('.customer-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-customer-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    // click save
+    for(var i = 0; i < 20; i++) {
+        $('#edit-customer-info .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
 });
 
 test('can debit customer', function (assert) {

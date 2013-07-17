@@ -1,27 +1,34 @@
-Balanced.AddTestMarketplaceView = Balanced.BaseFormView.extend({
+Balanced.AddTestMarketplaceView = Balanced.View.extend({
     templateName: 'marketplaces/_add_test',
     tagName: 'form',
-    formProperties: ['name'],
 
     name: null,
 
+    isSubmitting: false,
+
     add: function () {
+        if(this.get('isSubmitting')) {
+            return;
+        }
+        this.set('isSubmitting', true);
+
         var self = this;
         var marketplaceName = this.get('name');
         if (!marketplaceName) {
+            self.set('isSubmitting', false);
             return;
         }
         var marketplace = Balanced.UserMarketplace.create({
             uri: Balanced.Auth.get('user').get('marketplaces_uri'),
             name: marketplaceName
-        }).one('didCreate',function () {
-            self.reset();
-        }).on('becameInvalid', self.highlightErrorsFromAPIResponse);
-        this.get('controller').send('addMarketplace', marketplace);
-    },
+        });
 
-    reset: function () {
-        this.set('name', null);
+        marketplace.create().then(function() {
+            self.set('isSubmitting', false);
+            self.set('name', null);
+            Balanced.Auth.get('user').refresh();
+        }, function() {
+            self.set('isSubmitting', false);
+        });
     }
-
 });
