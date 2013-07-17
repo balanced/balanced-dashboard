@@ -103,6 +103,8 @@ test('dollarsToCents', function (assert) {
     }
 
     var invalid = [
+        null,
+        undefined,
         '',
         'dsfadsf',
         '!safds',

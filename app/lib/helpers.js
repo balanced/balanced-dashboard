@@ -247,6 +247,10 @@ Balanced.Utils = {
     },
 
     dollarsToCents: function (dollars) {
+        if(!dollars) {
+            throw new Error('{0} is not a valid dollar amount'.format(dollars));
+        }
+
         // remove commas and whitespace
         dollars = dollars.replace(/,|\s/g, '');
 
