@@ -8,7 +8,10 @@ module('Customer Page', {
         // click on the first customer
         $("table.accounts tbody tr").eq(0).click();
     }, teardown: function () {
-
+        $('#credit-customer').modal('hide');
+        $('#debit-customer').modal('hide');
+        $('#add-bank-account').modal('hide');
+        $('#add-bank-account').modal('hide');
     }
 });
 
@@ -31,6 +34,23 @@ test('can debit customer', function (assert) {
 
     // should be one create for the debit
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
+});
+
+test("can't debit customer multiple times using the same modal", function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    // click the debit customer button
+    $(".customer-header .buttons a").eq(0).click();
+
+    $('#debit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input').eq(1).val("Test debit").trigger('keyup');
+
+    // click debit
+    for(var i = 0; i < 20; i++) {
+        $('#debit-customer .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
 });
 
 test('can credit customer', function (assert) {
