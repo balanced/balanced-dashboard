@@ -10,18 +10,17 @@ Balanced.VerifyBankAccountModalView = Balanced.BaseFormView.extend({
 
         var originalVerification = bankAccount.get('verification');
 
-        var verification;
         if(originalVerification) {
-            // operate on a copy so we don't mess up the original object
-            verification = Ember.copy(originalVerification, true);
-            self.set('model', verification);
-            self.reset(verification);
+            var newVerification = Ember.copy(originalVerification, true);
+            self.set('model', newVerification);
+            self.reset(newVerification);
             $('#verify-bank-account').modal('show');
         } else {
+            console.log("creating a verification");
+
             Balanced.Verification.create({
                 uri: bankAccount.get('verifications').uri
-            }).create().then(function(newVerification) {
-                verification = Ember.copy(newVerification, true);
+            }).create().then(function(verification) {
                 self.set('model', verification);
                 self.reset(verification);
                 $('#verify-bank-account').modal('show');
