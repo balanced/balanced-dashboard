@@ -5,14 +5,13 @@
         <h2>Add Webhook</h2>
     </div>
     <div class="modal-body">
-        <div {{bindAttr class=":control-group view.url_error:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.url:error"}}>
             <label>URI</label>
-            {{view Ember.TextField valueBinding="view.model.url" viewName="url" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.url" name="url" class="full"}}
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn">Add</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Add"}}
     </div>
     </form>
 </div>

@@ -3,6 +3,8 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
 
     dollar_amount: null,
 
+    isSubmitting: false,
+
     selected_funding_instrument: function () {
         if (this.get('model.source_uri')) {
             return Balanced.FundingInstrument.find(this.get('model.source_uri'));
@@ -10,6 +12,8 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
     }.property('model.source_uri'),
 
     open: function () {
+        this.set('isSubmitting', false);
+
         var cards = this.get('customer.cards');
         var source_uri = (cards && cards.get('length') > 0) ? cards.get('content')[0].get('uri') : null;
 
@@ -26,10 +30,29 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
     },
 
     save: function () {
+        if (this.get('isSubmitting')) {
+            return;
+        }
+
+        this.set('isSubmitting', true);
         var debit = this.get('model');
-        debit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
+
+        var cents = null;
+        try {
+            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+        } catch (error) {
+            debit.set('validationErrors', {'amount': error});
+            this.set('isSubmitting', false);
+            return;
+        }
+        debit.set('amount', cents);
+
+        var self = this;
         debit.create().then(function (credit) {
+            self.set('isSubmitting', false);
             $('#debit-customer').modal('hide');
+        }, function () {
+            self.set('isSubmitting', false);
         });
     }
 });

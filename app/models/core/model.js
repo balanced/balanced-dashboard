@@ -65,7 +65,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
         var promise = this.resolveOn('didCreate');
 
-        Balanced.Adapter.create(this.constructor, this.get('uri'), data, function (json) {
+        Balanced.Adapter.create(this.constructor, this._createUri(), data, function (json) {
             self._updateFromJson(json);
             self.set('isNew', false);
             self.set('isSaving', false);
@@ -75,6 +75,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }, $.proxy(self._handleError, self));
 
         return promise;
+    },
+
+    _createUri: function () {
+        return this.get('uri');
     },
 
     update: function () {
@@ -115,7 +119,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     refresh: function () {
-        if(!this.get('isLoaded')) {
+        if (!this.get('isLoaded')) {
             return this;
         }
 

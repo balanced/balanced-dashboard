@@ -1,5 +1,5 @@
 {{#view Balanced.ModalView id="download-confirm" close_event="closeDownload"}}
-    <form>
+    <form {{action download on="submit"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h2>Export data</h2>
@@ -7,11 +7,10 @@
         <div class="modal-body">
             <p class="body2a">A CSV file of your current data set will be sent to:</p>
             <label>Email</label>
-            {{view Ember.TextField valueBinding="email_address" type="email" class="full"}}
+            {{view Ember.TextField name="email" valueBinding="email_address" type="email" class="full"}}
         </div>
         <div class="modal-footer">
-            <button class="btn danger" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn" {{action download}}>Export</button>
+            {{view Balanced.ModalActionButtonsView submitTitle="Export" isSubmittingBinding=isSubmitting}}
         </div>
     </form>
 {{/view}}

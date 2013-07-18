@@ -1,30 +1,33 @@
-Balanced.AddCallbackModalView = Balanced.BaseFormView.extend({
+Balanced.AddCallbackModalView = Balanced.View.extend({
     templateName: 'modals/add_callback',
 
-    formProperties: ['url'],
-
+    isSubmitting: false,
 
     open: function () {
+        this.set('isSubmitting', false);
         var callback = Balanced.Callback.create({
             uri: this.get('marketplace').get('callbacks_uri'),
             url: ''
         });
         this.set('model', callback);
-        this.reset(callback);
         $('#add-callback').modal('show');
     },
 
     save: function () {
+        if(this.get('isSubmitting')) {
+            return;
+        }
+        this.set('isSubmitting', true);
+
         var self = this;
         var callback = this.get('model');
 
-        callback.one('didCreate', function () {
-            self.get('marketplace').notifyPropertyChange('callbacks_uri');
+        callback.create().then(function() {
+            self.set('isSubmitting', false);
+            self.get('marketplace.callbacks').refresh();
             $('#add-callback').modal('hide');
+        }, function() {
+            self.set('isSubmitting', false);
         });
-        callback.on('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(json);
-        });
-        callback.create();
     }
 });

@@ -8,13 +8,45 @@ module('Customer Page', {
         // click on the first customer
         $("table.accounts tbody tr").eq(0).click();
     }, teardown: function () {
-
+        $('#credit-customer').modal('hide');
+        $('#debit-customer').modal('hide');
+        $('#add-bank-account').modal('hide');
+        $('#add-bank-account').modal('hide');
+        $('#edit-customer-info').modal('hide');
     }
 });
 
 test('can view customer page', function (assert) {
     assert.equal($('#content h1').text().trim(), 'Customer');
     assert.equal($(".title span").text().trim(), 'Nick1');
+});
+
+test('can edit customer info', function (assert) {
+    var spy = sinon.spy(Balanced.Adapter, "update");
+
+    // click the button to edit customer info
+    $('.customer-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-customer-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    // click save
+    $('#edit-customer-info .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(spy.calledOnce);
+});
+
+test('editing customer info only submits once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    // click the button to edit customer info
+    $('.customer-info a.edit').click();
+    // change the text for marketplace name
+    $('#edit-customer-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    // click save
+    for (var i = 0; i < 20; i++) {
+        $('#edit-customer-info .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
 });
 
 test('can debit customer', function (assert) {
@@ -33,6 +65,23 @@ test('can debit customer', function (assert) {
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
 
+test("can't debit customer multiple times using the same modal", function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    // click the debit customer button
+    $(".customer-header .buttons a").eq(0).click();
+
+    $('#debit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input').eq(1).val("Test debit").trigger('keyup');
+
+    // click debit
+    for (var i = 0; i < 20; i++) {
+        $('#debit-customer .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});
+
 test('can credit customer', function (assert) {
     var createsBefore = Balanced.Adapter.creates.length;
 
@@ -49,17 +98,21 @@ test('can credit customer', function (assert) {
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
 
-test('can edit customer info', function (assert) {
-    var updatesBefore = Balanced.Adapter.updates.length;
+test("can't credit customer multiple times using the same modal", function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
 
-    $(".marketplace-info header a.edit").click();
+    // click the credit customer button
+    $(".customer-header .buttons a").eq(1).click();
 
-    $('#edit-customer-info .modal-body input').eq(0).val("My Test Company").trigger('keyup');
+    $('#credit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
+    $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
 
-    $('#edit-customer-info .modal-footer button').eq(1).click();
+    // click credit
+    for (var i = 0; i < 20; i++) {
+        $('#credit-customer .modal-footer button[name="modal-submit"]').click();
+    }
 
-    // should have posted the update
-    assert.equal(Balanced.Adapter.updates.length, updatesBefore + 1);
+    assert.ok(stub.calledOnce);
 });
 
 test('can add bank account', function (assert) {

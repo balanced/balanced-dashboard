@@ -65,6 +65,7 @@ require('app/views/base_form');
 require('app/views/control_group');
 require('app/views/date_picker');
 require('app/views/modal');
+require('app/views/modal_action_buttons');
 require('app/views/embedded_iframe');
 require('app/views/login');
 require('app/views/forgot_password'); // depends on login
