@@ -5,7 +5,11 @@ module('Activity', {
         // click the activity link
         $('#marketplace-nav .activity a').click();
     }, teardown: function () {
-
+        Ember.run(function () {
+            $('#add-funds').modal('hide');
+            $('#withdraw-funds').modal('hide');
+            $('#download-confirm').modal('hide');
+        });
     }
 });
 
@@ -62,7 +66,7 @@ test('add funds', function (assert) {
 
     assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 
-    assert.equal($('#add-funds select option').length, 2, 'two verified bank account in account dropdown');
+    assert.equal($('#add-funds select option').length, 1, 'one verified bank account in account dropdown');
 
     $('#add-funds input').first().val('55.55').trigger('keyup');
     $('#add-funds .modal-footer .btn').not('.danger').click();
@@ -70,6 +74,19 @@ test('add funds', function (assert) {
     assert.equal($('#add-funds').css('display'), 'none', 'add funds modal hidden');
 
     //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,193.36'), -1, 'escrow amount is now $1,193.36');
+});
+
+test('add funds only adds once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    $('.activity-escrow-box .span4 .btn').first().click();
+
+    $('#add-funds input').first().val('55.55').trigger('keyup');
+    for (var i = 0; i < 20; i++) {
+        $('#add-funds .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
 });
 
 test('withdraw funds', function (assert) {
@@ -89,3 +106,39 @@ test('withdraw funds', function (assert) {
     //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,082.26'), -1, 'escrow amount is now $1,082.26');
 });
 
+test('withdraw funds only withdraws once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    $('.activity-escrow-box .span4 .btn').eq(1).click();
+    $('#withdraw-funds input').first().val('55.55').trigger('keyup');
+
+    for (var i = 0; i < 20; i++) {
+        $('#withdraw-funds .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});
+
+test('download activity', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    $("#activity .icon-download").click();
+
+    $("#download-confirm form input[name='email']").val('test@example.com').trigger('keyup');
+    $('#download-confirm .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(stub.calledOnce);
+});
+
+test('download activity only runs once despite multiple clicks', function (assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    $("#activity .icon-download").click();
+
+    $("#download-confirm form input[name='email']").val('test@example.com').trigger('keyup');
+    for (var i = 0; i < 20; i++) {
+        $('#download-confirm .modal-footer button[name="modal-submit"]').click();
+    }
+
+    assert.ok(stub.calledOnce);
+});

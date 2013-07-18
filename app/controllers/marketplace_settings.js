@@ -1,4 +1,4 @@
-Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
+Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.Evented, {
     needs: ["marketplace"],
 
     fullyLoaded: function () {
@@ -17,33 +17,15 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
     ),
 
     promptToDeleteCallback: function (callback) {
-        this.callback = callback;
-        $('#delete-callback').modal('show');
-    },
-
-    deleteCallback: function () {
-        this.callback.delete();
-        $('#delete-callback').modal('hide');
+        this.trigger('openDeleteCallbackModal', callback);
     },
 
     promptToDeleteBankAccount: function (bankAccount) {
-        this.bankAccount = bankAccount;
-        $('#delete-bank-account').modal('show');
-    },
-
-    deleteBankAccount: function () {
-        this.bankAccount.delete();
-        $('#delete-bank-account').modal('hide');
+        this.trigger('openDeleteBankAccountModal', bankAccount);
     },
 
     promptToDeleteCard: function (card) {
-        this.card = card;
-        $('#delete-card').modal('show');
-    },
-
-    deleteCard: function () {
-        this.card.delete();
-        $('#delete-card').modal('hide');
+        this.trigger('openDeleteCardModal', card);
     },
 
     marketplaceSecret: function () {
