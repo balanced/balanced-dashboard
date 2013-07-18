@@ -11,6 +11,15 @@ Balanced.CustomerController = Balanced.ObjectController.extend(Ember.Evented, Ba
 
     baseClassSelector: "#customer",
 
+    init: function() {
+        var self = this;
+        Balanced.Model.Events.on('didCreate', function(object) {
+            if(Balanced.Transaction.prototype.isPrototypeOf(object)) {
+                self.refresh();
+            }
+        });
+    },
+
     extra_filtering_params: function () {
         var transactionType = this.get('transactionType');
         if (transactionType === 'all') {

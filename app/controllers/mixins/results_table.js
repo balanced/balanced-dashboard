@@ -98,6 +98,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
         results.loadNextPage();
     },
 
+    refresh: function() {
+        this.notifyPropertyChange('search_params');
+    },
+
     results_uri: function () {
         return Balanced.Utils.applyUriFilters(
             this.get('results_base_uri'),
