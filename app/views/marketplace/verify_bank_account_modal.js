@@ -16,8 +16,6 @@ Balanced.VerifyBankAccountModalView = Balanced.BaseFormView.extend({
             self.reset(newVerification);
             $('#verify-bank-account').modal('show');
         } else {
-            console.log("creating a verification");
-
             Balanced.Verification.create({
                 uri: bankAccount.get('verifications').uri
             }).create().then(function(verification) {
