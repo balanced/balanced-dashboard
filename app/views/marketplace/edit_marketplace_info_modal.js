@@ -13,18 +13,18 @@ Balanced.EditMarketplaceInfoModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
         var self = this;
 
         var marketplace = this.get('model');
-        marketplace.update().then(function() {
+        marketplace.update().then(function () {
             self.set('isSubmitting', false);
             self.get('content').updateFromModel(marketplace);
             $('#edit-marketplace-info').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

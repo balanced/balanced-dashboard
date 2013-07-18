@@ -23,7 +23,7 @@ Balanced.PaySeller = Ember.Mixin.create({
     },
 
     paySeller: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
 
@@ -51,7 +51,7 @@ Balanced.PaySeller = Ember.Mixin.create({
 
             // This is what we should be doing to transition
             // self.transitionToRoute('credits.credit', credit);
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

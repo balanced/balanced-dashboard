@@ -29,7 +29,7 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
 
@@ -50,7 +50,7 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
         credit.create().then(function (credit) {
             self.set('isSubmitting', false);
             $('#credit-customer').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

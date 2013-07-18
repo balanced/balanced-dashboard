@@ -247,7 +247,7 @@ Balanced.Utils = {
     },
 
     dollarsToCents: function (dollars) {
-        if(!dollars) {
+        if (!dollars) {
             throw new Error('{0} is not a valid dollar amount'.format(dollars));
         }
 

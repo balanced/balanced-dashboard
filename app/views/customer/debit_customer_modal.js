@@ -30,7 +30,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
 
@@ -51,7 +51,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
         debit.create().then(function (credit) {
             self.set('isSubmitting', false);
             $('#debit-customer').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

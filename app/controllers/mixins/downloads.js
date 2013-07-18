@@ -19,7 +19,7 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
     },
 
     download: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
 
@@ -32,11 +32,11 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
 
             this.set('isSubmitting', true);
             var self = this;
-            download.create().then(function() {
+            download.create().then(function () {
                 self.set('isSubmitting', false);
                 self.closeDownload();
                 self.confirmDownload();
-            }, function() {
+            }, function () {
                 self.set('isSubmitting', false);
             });
         }

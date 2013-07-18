@@ -12,7 +12,7 @@ Balanced.EditOwnerInfoModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -20,11 +20,11 @@ Balanced.EditOwnerInfoModalView = Balanced.View.extend({
 
         var customer = this.get('model');
 
-        customer.update().then(function() {
+        customer.update().then(function () {
             self.set('isSubmitting', false);
             self.content.updateFromModel(customer);
             $('#edit-owner-info').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

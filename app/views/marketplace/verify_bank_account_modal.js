@@ -16,7 +16,7 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -24,12 +24,12 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
         var self = this;
 
         var verification = this.get('model');
-        verification.update().then(function() {
+        verification.update().then(function () {
             self.set('isSubmitting', false);
             self.get('bank_account').refresh();
             self.get('bank_account.verification').refresh();
             $('#verify-bank-account').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

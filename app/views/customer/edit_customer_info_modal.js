@@ -27,7 +27,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -44,7 +44,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
             self.set('isSubmitting', false);
             self.get('customer').refresh();
             $('#edit-customer-info').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

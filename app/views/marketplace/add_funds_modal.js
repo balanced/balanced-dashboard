@@ -34,7 +34,7 @@ Balanced.AddFundsModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -52,11 +52,11 @@ Balanced.AddFundsModalView = Balanced.View.extend({
         }
         debit.set('amount', cents);
 
-        debit.create().then(function() {
+        debit.create().then(function () {
             self.set('isSubmitting', false);
             self.get('marketplace').refresh();
             $('#add-funds').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

@@ -2,7 +2,7 @@ module('Pay Seller', {
     setup: function () {
         Testing.selectMarketplaceByName();
     }, teardown: function () {
-        Ember.run(function() {
+        Ember.run(function () {
             $("#pay-seller").modal('hide');
         });
     }
@@ -44,7 +44,7 @@ test('pay a seller only submits once despite multiple button clicks', function (
     $('#pay-seller .modal-body input').eq(3).val('98').trigger('keyup');
     $('#pay-seller .modal-body input').eq(4).val('Test Transaction').trigger('keyup');
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#pay-seller .modal-footer button[name="modal-submit"]').click();
     }
 

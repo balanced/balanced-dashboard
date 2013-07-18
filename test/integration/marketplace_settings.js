@@ -44,7 +44,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
     // change the text for marketplace name
     $('#edit-marketplace-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#edit-marketplace-info .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -71,7 +71,7 @@ test('updating owner info only submits once despite multiple clicks', function (
     // change the text for marketplace name
     $('#edit-owner-info .modal-body input').first().val('TEST').trigger('keyup');
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#edit-owner-info .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -109,7 +109,7 @@ test('create bank account only submits once when clicked multiple times', functi
     $('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
     $('#add-bank-account .modal-body input[name="account_type"]').val('checking').trigger('keyup');
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -147,7 +147,7 @@ test('verifying bank accounts only happens once despite multiple clicks', functi
     $('#verify-bank-account .modal-body input[name="amount_2"]').val('1.00').trigger('keyup');
 
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -176,7 +176,7 @@ test('delete bank accounts only deletes once when submit clicked multiple times'
     $(".bank-account-info .sidebar-items li").first().find(".icon-delete").click();
 
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -212,7 +212,7 @@ test('create card only submits once when clicked multiple times', function (asse
     $('#add-card .modal-body input[name="expiration_month"]').val('01').trigger('keyup');
     $('#add-card .modal-body input[name="expiration_month"]').val('2020').trigger('keyup');
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#add-card .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -241,7 +241,7 @@ test('delete cards only deletes once when submit clicked multiple times', functi
     $(".card-info .sidebar-items li").first().find(".icon-delete").click();
 
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#delete-card .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -277,7 +277,7 @@ test('webhooks get created once if submit button is clicked multiple times', fun
     $("#add-callback .modal-body input[name='url']").val('http://www.example.com/something').trigger('keyup');
 
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#add-callback .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -302,7 +302,7 @@ test('delete webhooks only submits once even if clicked multiple times', functio
     // click the link to delete the webhook
     $('ul.webhooks li').first().find('a').click();
     // click OK
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#delete-callback .modal-footer button[name="modal-submit"]').click();
     }
 

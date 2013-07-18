@@ -42,7 +42,7 @@ test('editing customer info only submits once despite multiple clicks', function
     // change the text for marketplace name
     $('#edit-customer-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
     // click save
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#edit-customer-info .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -75,7 +75,7 @@ test("can't debit customer multiple times using the same modal", function (asser
     $('#debit-customer .modal-body input').eq(1).val("Test debit").trigger('keyup');
 
     // click debit
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#debit-customer .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -108,7 +108,7 @@ test("can't credit customer multiple times using the same modal", function (asse
     $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
 
     // click credit
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#credit-customer .modal-footer button[name="modal-submit"]').click();
     }
 

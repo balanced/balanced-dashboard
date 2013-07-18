@@ -25,7 +25,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -33,11 +33,11 @@ Balanced.AddCardModalView = Balanced.View.extend({
         var self = this;
         var card = this.get('model');
 
-        card.create().then(function() {
+        card.create().then(function () {
             self.set('isSubmitting', false);
             self.get('customer.cards').refresh();
             $('#add-card').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

@@ -2,8 +2,8 @@ module('Search', {
     setup: function () {
         Testing.selectMarketplaceByName();
     },
-    teardown: function() {
-        Ember.run(function() {
+    teardown: function () {
+        Ember.run(function () {
             $('#search span.close').click();
         });
     }

@@ -7,7 +7,7 @@ Balanced.Download = Balanced.Model.extend({
     },
 
     // have to override the URI for create, since the uri property of the JSON is the search URI
-    _createUri: function() {
+    _createUri: function () {
         return '/downloads';
     }
 });

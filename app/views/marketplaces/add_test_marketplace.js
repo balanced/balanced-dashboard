@@ -7,7 +7,7 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
     isSubmitting: false,
 
     add: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -23,11 +23,11 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
             name: marketplaceName
         });
 
-        marketplace.create().then(function() {
+        marketplace.create().then(function () {
             self.set('isSubmitting', false);
             self.set('name', null);
             Balanced.Auth.get('user').refresh();
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

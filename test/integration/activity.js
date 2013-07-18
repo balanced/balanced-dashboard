@@ -5,7 +5,7 @@ module('Activity', {
         // click the activity link
         $('#marketplace-nav .activity a').click();
     }, teardown: function () {
-        Ember.run(function() {
+        Ember.run(function () {
             $('#add-funds').modal('hide');
             $('#withdraw-funds').modal('hide');
             $('#download-confirm').modal('hide');
@@ -82,7 +82,7 @@ test('add funds only adds once despite multiple clicks', function (assert) {
     $('.activity-escrow-box .span4 .btn').first().click();
 
     $('#add-funds input').first().val('55.55').trigger('keyup');
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#add-funds .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -112,7 +112,7 @@ test('withdraw funds only withdraws once despite multiple clicks', function (ass
     $('.activity-escrow-box .span4 .btn').eq(1).click();
     $('#withdraw-funds input').first().val('55.55').trigger('keyup');
 
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#withdraw-funds .modal-footer button[name="modal-submit"]').click();
     }
 
@@ -136,7 +136,7 @@ test('download activity only runs once despite multiple clicks', function (asser
     $("#activity .icon-download").click();
 
     $("#download-confirm form input[name='email']").val('test@example.com').trigger('keyup');
-    for(var i = 0; i < 20; i++) {
+    for (var i = 0; i < 20; i++) {
         $('#download-confirm .modal-footer button[name="modal-submit"]').click();
     }
 

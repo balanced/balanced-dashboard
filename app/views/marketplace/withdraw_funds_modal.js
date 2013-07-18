@@ -33,7 +33,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
 
@@ -51,11 +51,11 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
         }
         credit.set('amount', cents);
 
-        credit.create().then(function() {
+        credit.create().then(function () {
             self.set('isSubmitting', false);
             self.get('marketplace').refresh();
             $('#withdraw-funds').modal('hide');
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }

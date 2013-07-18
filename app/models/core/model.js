@@ -77,7 +77,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         return promise;
     },
 
-    _createUri: function() {
+    _createUri: function () {
         return this.get('uri');
     },
 
@@ -119,7 +119,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     refresh: function () {
-        if(!this.get('isLoaded')) {
+        if (!this.get('isLoaded')) {
             return this;
         }
 

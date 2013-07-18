@@ -18,7 +18,7 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('isSubmitting')) {
+        if (this.get('isSubmitting')) {
             return;
         }
         this.set('isSubmitting', true);
@@ -29,17 +29,17 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
         // this isn't an ember widget, so have to grab it ourselves
         bankAccount.set('type', this.$('form input[name=account_type]').val());
 
-        bankAccount.create().then(function() {
+        bankAccount.create().then(function () {
             Balanced.Verification.create({
                 uri: bankAccount.get('verifications_uri')
-            }).create().then(function() {
+            }).create().then(function () {
                 self.get('customer.bank_accounts').refresh();
                 $('#add-bank-account').modal('hide');
                 self.set('isSubmitting', false);
-            }, function() {
+            }, function () {
                 self.set('isSubmitting', false);
             });
-        }, function() {
+        }, function () {
             self.set('isSubmitting', false);
         });
     }
