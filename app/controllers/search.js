@@ -19,7 +19,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
                 self.query();
             }
         }, Balanced.THROTTLE);
-        this.addObserver('search', debouncedQuery);
+        this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.query, this));
     },
 
     fetch_results: function () {
