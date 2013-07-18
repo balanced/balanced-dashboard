@@ -17,6 +17,10 @@ Balanced.Customer = Balanced.Model.extend({
         });
     }.property('bank_accounts.@each.verified'),
 
+    debitable_funding_instruments: function() {
+        return this.get('verified_bank_accounts').concat(this.get('cards.content'));
+    }.property('verified_bank_accounts', 'cards'),
+
     type: function () {
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
     }.property('ein', 'business_name'),
