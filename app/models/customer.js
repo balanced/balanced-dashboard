@@ -68,11 +68,4 @@ Balanced.Customer = Balanced.Model.extend({
     }.property('dob')
 });
 
-Balanced.Customer.reopenClass({
-    constructUri: function (id) {
-        //  TODO: get this from the API
-        return '/v1/customers/' + id;
-    }
-});
-
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

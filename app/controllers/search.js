@@ -80,16 +80,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     selectResult: function (obj) {
         this.closeSearch();
 
-        if (obj.constructor === Balanced.Account) {
-            obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
-        }
-
-        if (obj.constructor === Balanced.Customer) {
-            this.transitionTo('customer', obj);
-            return;
-        }
-
-        window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(obj.uri);
+        // TODO - Using __container__ is not good, we should see if there's a better way to kick this up the chain
+        // Let's see if this gets anything...
+        // http://stackoverflow.com/questions/17751081/ember-js-propagate-event-up-the-controller-router-chain
+        Balanced.__container__.lookup('router:main').send('selectResult', obj);
     },
 
     redirectToLog: function (ohm) {

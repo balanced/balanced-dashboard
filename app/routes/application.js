@@ -31,8 +31,15 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
         },
 
         selectResult: function (obj) {
+            var self = this;
             if (obj.constructor === Balanced.Account) {
-                obj = Balanced.Customer.find(Balanced.Customer.constructUri(obj.get('id')));
+                var marketplace = this.modelFor('marketplace');
+                var accountId = obj.get('id');
+                obj = marketplace.then(function(marketplace) {
+                    var customerUri = marketplace.get('customers_uri') + '/' + accountId;
+                    self.transitionTo('customer', Balanced.Customer.find(customerUri));
+                });
+                return;
             }
 
             if (obj.constructor === Balanced.Customer) {
