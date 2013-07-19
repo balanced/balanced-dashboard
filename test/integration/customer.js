@@ -107,8 +107,8 @@ test("can't debit customer multiple times using the same modal", function (asser
     // click the debit customer button
     $(".customer-header .buttons a").eq(0).click();
 
-    $('#debit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
-    $('#debit-customer .modal-body input').eq(1).val("Test debit").trigger('keyup');
+    $('#debit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
 
     // click debit
     for (var i = 0; i < 20; i++) {
@@ -116,6 +116,21 @@ test("can't debit customer multiple times using the same modal", function (asser
     }
 
     assert.ok(stub.calledOnce);
+});
+
+test("debit customer triggers refresh of transactions", function (assert) {
+    // click the debit customer button
+    $(".customer-header .buttons a").eq(0).click();
+
+    $('#debit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
+
+    var stub = sinon.stub(Balanced.Adapter, "get");
+
+    // click debit
+    $('#debit-customer .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(stub.calledWith(Balanced.Transaction));
 });
 
 test('can credit customer', function (assert) {
