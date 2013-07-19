@@ -14,6 +14,6 @@ Balanced.CardController = Balanced.ObjectController.extend(Ember.Evented, Balanc
     }.property('content.transactions_uri'),
 
     openDebitFundingInstrumentModal: function() {
-    	this.trigger('openDebitFundingInstrumentModal');
+        this.trigger('openDebitFundingInstrumentModal');
     }
 });
