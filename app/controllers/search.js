@@ -1,5 +1,5 @@
 Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.ResultsTable, {
-    needs: ['marketplace'],
+    needs: ['application', 'marketplace'],
 
     useSearch: true,
 
@@ -80,10 +80,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(Balanced.DownloadCo
     selectResult: function (obj) {
         this.closeSearch();
 
-        // TODO - Using __container__ is not good, we should see if there's a better way to kick this up the chain
-        // Let's see if this gets anything...
-        // http://stackoverflow.com/questions/17751081/ember-js-propagate-event-up-the-controller-router-chain
-        Balanced.__container__.lookup('router:main').send('selectResult', obj);
+        this.get('controllers.application').send('selectResult', obj);
     },
 
     redirectToLog: function (ohm) {
