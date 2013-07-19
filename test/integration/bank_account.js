@@ -6,7 +6,7 @@ module('Bank Account Page', {
         $('#marketplace-nav .settings a').click();
 
         // click on the first bank account
-        $(".bank-account-info .sidebar-items li").first().find(".name a").click()
+        $(".bank-account-info .sidebar-items li").first().find(".name a").click();
     }, teardown: function () {
         $('#credit-bank-account').modal('hide');
         $('#debit-funding-instrument').modal('hide');
