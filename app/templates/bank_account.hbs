@@ -13,9 +13,9 @@
 
         <div {{bindAttr class=":span4 :buttons customer::single-button"}}>
             {{#if customer}}
-            <a class="btn" {{action openDebitFundingInstrumentModal}}>Debit</a>
+            <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
             {{/if}}
-            <a class="btn" {{action openCreditBankAccountModal}}>Credit</a>
+            <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
         </div>
     </div>
 

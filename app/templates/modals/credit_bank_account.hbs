@@ -31,7 +31,7 @@
                 <div class="controls">
                     <div class="input-prepend">
                         <span class="add-on">$</span>
-                        {{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
+                        {{view Ember.TextField valueBinding="view.dollar_amount" name="dollar_amount" class="span3"}}
                     </div>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div {{bindAttr class=":control-group view.model.validationErrors.description:error"}}>
                 <label class="control-label">Description</label>
                 <div class="controls">
-                    {{view Ember.TextField valueBinding="view.model.description" class="full"}}
+                    {{view Ember.TextField valueBinding="view.model.description" name="description" class="full"}}
                 </div>
             </div>
         </div>

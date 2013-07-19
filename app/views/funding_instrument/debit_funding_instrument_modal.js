@@ -21,7 +21,7 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', debit);
 
-        $('#debit').modal('show');
+        $('#debit-funding-instrument').modal('show');
     },
 
     save: function () {
@@ -45,7 +45,7 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
         var self = this;
         debit.create().then(function (credit) {
             self.set('isSubmitting', false);
-            $('#debit').modal('hide');
+            $('#debit-funding-instrument').modal('hide');
         }, function () {
             self.set('isSubmitting', false);
         });
