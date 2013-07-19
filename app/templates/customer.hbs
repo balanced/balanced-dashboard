@@ -179,7 +179,7 @@
 	                        <div class="icon">Bank account</div>
 	                        <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
 	                        <div class="details">
-	                            <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
+	                            <span class="name"><span class="label2a">{{#linkTo 'bank_account' bank_account}}{{ bank_account.name }}{{/linkTo}}</span></span>
 	                            <span class="summary">{{ bank_account.description }}</span>
 	                        </div>
 
@@ -205,7 +205,7 @@
 	                    <div class="icon">Credit card</div>
 	                    <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
 	                    <div class="details">
-	                        <span class="name"><span class="label2a">{{ card.name }}</span></span>
+	                        <span class="name"><span class="label2a">{{#linkTo 'card' card}}{{ card.name }}{{/linkTo}}</span></span>
 	                        <span class="summary">{{ card.description }}</span>
 	                    </div>
 	                </li>
