@@ -20,19 +20,15 @@
     font-size: @baseFontSize+2px;
   }
   .icon {
-    margin: 0 10px 0 10px;
-    width: 40px;
-    height: 60px;
     float: left;
-    background-image: @iconsFile;
-    text-indent: -4000px;
+    margin: 0 10px 0 10px;
 
     &.business-info {
-      background-position: -190px -768px;
+      .csssprite(40px, 60px, 190px, 768px, 0.6);
     }
 
     &.person-info {
-      background-position: -130px -768px;
+      .csssprite(40px, 60px, 130px, 768px, 0.6);
     }
   }
 }
