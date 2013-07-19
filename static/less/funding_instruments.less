@@ -1,0 +1,38 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+.funding-instrument-header {
+  background-color: @persianBlue60;
+  div.label {
+    background-color: @persianBlue100;
+    .icon {
+      margin: 0px 7px 0px 8px;
+      width: 60px;
+      height: 75px;
+      background-position: -0px -297px;
+    }
+  }
+}
+
+.customer-info {
+  .customer-name {
+    font-family: nimbussannov-sembol;
+    font-size: @baseFontSize+2px;
+  }
+  .icon {
+    margin: 0 10px 0 10px;
+    width: 40px;
+    height: 60px;
+    float: left;
+    background-image: @iconsFile;
+    text-indent: -4000px;
+
+    &.business-info {
+      background-position: -190px -768px;
+    }
+
+    &.person-info {
+      background-position: -130px -768px;
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<h1 class="page-title">Bank Account</h1>
+
+<div id="bank-account">
+    <div class="funding-instrument-header main-header span20">
+        <div class="span2 label">
+            <div {{bindAttr class=":icon bank-account-info"}}>Bank Account</div>
+        </div>
+        <div class="span14 title">
+            <span class="nav2d">
+                {{title_description}}
+            </span>
+        </div>
+
+        <div class="span4 buttons">
+            <a class="btn">Debit</a>
+            <a class="btn">Credit</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span11">
+            <section class="bank-account-info">
+                <form class="form-horizontal edit-inline">
+                    <header>
+                        <h3>Bank account info</h3>
+                    </header>
+                    <div>
+                        <div class="control-group">
+                            <label class="control-label">ID</label>
+                            <div class="controls">
+                                <span class="inline-label">{{ id }}</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Created</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ created_at }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Name</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ name }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Account #</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ account_number }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Routing #</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ routing_number }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Bank</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ bank_name }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Type</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{capitalize model.type }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+        </div>
+
+        <div class="offset1 span8">
+
+            <section class="customer-info">
+                <header>
+                    <h3>Customer info</h3>
+                </header>
+                <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
+                <div>
+                    <span class="customer-name">{{#linkTo 'customer' customer}} {{ customer.name }} {{/linkTo}}</span>
+                    <br/>
+                    <span>{{ customer.email }}</span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <section class="activity">
+        <header>
+            <h3>Activity</h3>
+        </header>
+        <div class="results">
+            {{view Balanced.TransactionsFiltersHeaderView}}
+
+            <div class="items-wrapper">
+                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+            </div>
+        </div>
+    </section>
+</div>
+
+{{#if show_download}}
+    {{partial "modals/download" }}
+{{/if}}

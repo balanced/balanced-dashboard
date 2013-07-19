@@ -105,6 +105,7 @@ require('app/views/customer/edit_customer_info_modal');
 require('app/controllers/_base');
 require('app/controllers/mixins/downloads');
 require('app/controllers/mixins/results_table');
+require('app/controllers/mixins/transactions_table');
 require('app/controllers/mixins/pay_seller');
 require('app/controllers/activity');
 require('app/controllers/application');

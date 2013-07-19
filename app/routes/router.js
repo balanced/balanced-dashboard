@@ -46,6 +46,10 @@ Balanced.Router.map(function () {
                 this.resource('customer', { path: '/:customer_id'});
             });
 
+            this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
+                this.resource('bank_account', { path: '/:bank_account_id'});
+            });
+
             // only exists for compatibility with old dashboard URLs
             this.resource('accounts', { path: '/accounts' }, function () {
 
@@ -79,12 +83,6 @@ Balanced.Router.map(function () {
                 this.route('transactions', { path: '/transactions' });
                 this.route('customers', { path: '/customers' });
                 this.route('funding_instruments', { path: '/funding_instruments' });
-            });
-
-            this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
-                this.resource('bank_account', { path: '/:bank_account_id'}, function () {
-                    this.route('transactions', { path: '/transactions'});
-                });
             });
         });
 
@@ -138,7 +136,6 @@ require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/apply');
-require('app/routes/marketplaces/bank_accounts');
 require('app/routes/marketplaces/funding_instruments');
 require('app/routes/marketplaces/cards');
 require('app/routes/marketplaces/index');
@@ -150,3 +147,4 @@ require('app/routes/marketplaces/transactions');
 require('app/routes/marketplaces/activity');
 require('app/routes/marketplaces/settings');
 require('app/routes/customers');
+require('app/routes/bank_accounts');

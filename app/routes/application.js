@@ -47,6 +47,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
                 return;
             }
 
+            if (obj.constructor === Balanced.BankAccount) {
+                this.transitionTo('bank_account', obj);
+                return;
+            }
+
             window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(obj.uri);
         },
     }
