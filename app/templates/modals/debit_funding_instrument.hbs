@@ -1,0 +1,50 @@
+<div class="modal wide-modal hide" id="debit">
+    <form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h2>Debit {{type_name}}</h2>
+        </div>
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label">{{type_name}}</label>
+                <div class="controls">
+                    <span class="label1a">{{view.funding_instrument.title_description}}</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Account holder's name</label>
+                <div class="controls">
+                    <span class="label1a">{{view.funding_instrument.name}}</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">Type</label>
+                <div class="controls">
+                    <span class="label1a">{{capitalize view.funding_instrument.type}}</span>
+                </div>
+            </div>
+
+            <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
+                <label class="control-label">Amount</label>
+                <div class="controls">
+                    <div class="input-prepend">
+                        <span class="add-on">$</span>
+                        {{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
+                    </div>
+                </div>
+            </div>
+
+            <div {{bindAttr class=":control-group view.model.validationErrors.description:error"}}>
+                <label class="control-label">Description</label>
+                <div class="controls">
+                    {{view Ember.TextField valueBinding="view.model.description" class="full"}}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            {{view Balanced.ModalActionButtonsView submitTitle="Debit"}}
+        </div>
+    </form>
+</div>

@@ -11,9 +11,16 @@
             </span>
         </div>
 
+        <!--
+        Commented out since bank accounts don't have a debits URI
         <div class="span4 buttons">
-            <a class="btn">Debit</a>
-            <a class="btn">Credit</a>
+            <a class="btn" {{action openDebitFundingInstrumentModal}}>Debit</a>
+            <a class="btn" {{action openCreditBankAccountModal}}>Credit</a>
+        </div>
+        -->
+
+        <div class="span4 buttons single-button">
+            <a class="btn" {{action openCreditBankAccountModal}}>Credit</a>
         </div>
     </div>
 
@@ -118,3 +125,9 @@
 {{#if show_download}}
     {{partial "modals/download" }}
 {{/if}}
+
+<!--
+Commented out since bank accounts don't have a debits URI
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
+-->
+{{view Balanced.CreditBankAccountModalView funding_instrumentBinding=model}}

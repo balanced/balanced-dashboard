@@ -94,6 +94,8 @@ require('app/views/marketplaces/delete_marketplace_modal');
 require('app/views/customer/debit_customer_modal');
 require('app/views/customer/credit_customer_modal');
 require('app/views/customer/edit_customer_info_modal');
+require('app/views/funding_instrument/debit_funding_instrument_modal');
+require('app/views/funding_instrument/credit_bank_account_modal');
 
 /*
  * Controller layer.

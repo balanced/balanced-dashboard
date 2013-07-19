@@ -11,5 +11,13 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(Ember.Evented,
 
     results_base_uri: function () {
         return this.get('content.transactions_uri');
-    }.property('content.transactions_uri')
+    }.property('content.transactions_uri'),
+
+    openDebitFundingInstrumentModal: function() {
+    	this.trigger('openDebitFundingInstrumentModal');
+    },
+
+    openCreditBankAccountModal: function() {
+        this.trigger('openCreditBankAccountModal');
+    }
 });
