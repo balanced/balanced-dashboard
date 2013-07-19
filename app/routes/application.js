@@ -52,6 +52,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
                 return;
             }
 
+            if (obj.constructor === Balanced.Card) {
+                this.transitionTo('card', obj);
+                return;
+            }
+
             window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(obj.uri);
         },
     }

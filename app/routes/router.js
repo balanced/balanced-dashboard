@@ -39,6 +39,11 @@ Balanced.Router.map(function () {
         this.route('apply', { path: '/apply' });
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
+            this.resource('activity', { path: '/activity' }, function () {
+                this.route('transactions', { path: '/transactions' });
+                this.route('customers', { path: '/customers' });
+                this.route('funding_instruments', { path: '/funding_instruments' });
+            });
 
             this.route('settings', { path: 'settings' });
 
@@ -49,6 +54,12 @@ Balanced.Router.map(function () {
             this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
                 this.resource('bank_account', { path: '/:bank_account_id'});
             });
+
+            this.resource('cards', { path: '/cards'}, function () {
+                this.resource('card', { path: '/:card_id'});
+            });
+
+            this.route('initial_deposit', { path: '/initial_deposit' });
 
             // only exists for compatibility with old dashboard URLs
             this.resource('accounts', { path: '/accounts' }, function () {
@@ -69,21 +80,12 @@ Balanced.Router.map(function () {
 
             });
 
-            this.route('initial_deposit', { path: '/initial_deposit' });
-
-            makeNestedResource(this, 'cards', 'card');
             makeNestedResource(this, 'credits', 'credit');
             makeNestedResource(this, 'debits', 'debit');
             makeNestedResource(this, 'holds', 'hold');
             makeNestedResource(this, 'invoices', 'invoice');
             makeNestedResource(this, 'logs', 'log');
             makeNestedResource(this, 'refunds', 'refund');
-
-            this.resource('activity', { path: '/activity' }, function () {
-                this.route('transactions', { path: '/transactions' });
-                this.route('customers', { path: '/customers' });
-                this.route('funding_instruments', { path: '/funding_instruments' });
-            });
         });
 
     });
@@ -137,7 +139,6 @@ require('app/routes/start');
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/apply');
 require('app/routes/marketplaces/funding_instruments');
-require('app/routes/marketplaces/cards');
 require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/initial_deposit');
 require('app/routes/marketplaces/invoices');
@@ -148,3 +149,4 @@ require('app/routes/marketplaces/activity');
 require('app/routes/marketplaces/settings');
 require('app/routes/customers');
 require('app/routes/bank_accounts');
+require('app/routes/cards');

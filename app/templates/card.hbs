@@ -1,9 +1,9 @@
-<h1 class="page-title">Bank Account</h1>
+<h1 class="page-title">Card</h1>
 
-<div id="bank-account">
+<div id="card">
     <div class="funding-instrument-header main-header span20">
         <div class="span2 label">
-            <div {{bindAttr class=":icon :bank-account-info"}}>Bank Account</div>
+            <div {{bindAttr class=":icon :card-info"}}>Card</div>
         </div>
         <div class="span14 title">
             <span class="nav2d">
@@ -11,20 +11,19 @@
             </span>
         </div>
 
-        <div {{bindAttr class=":span4 :buttons customer::single-button"}}>
+        <div class="span4 buttons single-button">
             {{#if customer}}
             <a class="btn" {{action openDebitFundingInstrumentModal}}>Debit</a>
             {{/if}}
-            <a class="btn" {{action openCreditBankAccountModal}}>Credit</a>
         </div>
     </div>
 
     <div class="row">
         <div class="span11">
-            <section class="bank-account-info">
+            <section class="card-info">
                 <form class="form-horizontal edit-inline">
                     <header>
-                        <h3>Bank account info</h3>
+                        <h3>Card info</h3>
                     </header>
                     <div>
                         <div class="control-group">
@@ -50,26 +49,18 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Account #</label>
+                            <label class="control-label">Card #</label>
                             <div class="controls">
                                 <span class=":inline-label">
-                                    {{ account_number }}
+                                    **** **** **** {{ last_four }}
                                 </span>
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label">Routing #</label>
+                            <label class="control-label">Expiration</label>
                             <div class="controls">
                                 <span class=":inline-label">
-                                    {{ routing_number }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Bank</label>
-                            <div class="controls">
-                                <span class=":inline-label">
-                                    {{ bank_name }}
+                                    {{ expiration_month }}/{{ expiration_year }}
                                 </span>
                             </div>
                         </div>
@@ -77,7 +68,7 @@
                             <label class="control-label">Type</label>
                             <div class="controls">
                                 <span class=":inline-label">
-                                    {{capitalize model.type }}
+                                    {{titleCase brand}}
                                 </span>
                             </div>
                         </div>
@@ -109,4 +100,3 @@
 {{/if}}
 
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
-{{view Balanced.CreditBankAccountModalView funding_instrumentBinding=model}}
