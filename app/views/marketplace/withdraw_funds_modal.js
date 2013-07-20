@@ -3,8 +3,6 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 
     dollar_amount: null,
 
-    isSubmitting: false,
-
     selected_bank_account: function () {
         if (this.get('model.source_uri')) {
             return Balanced.BankAccount.find(this.get('model.source_uri'));
@@ -16,7 +14,6 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
     }.property('marketplace.owner_customer.bank_accounts'),
 
     open: function () {
-        this.set('isSubmitting', false);
         var bank_accounts = this.get('marketplace.owner_customer.bank_accounts');
         var source_uri = (bank_accounts && bank_accounts.length > 0) ? bank_accounts[0].get('uri') : null;
 
@@ -33,11 +30,10 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if (this.get('isSubmitting')) {
+        if (this.get('model.isSaving')) {
             return;
         }
 
-        this.set('isSubmitting', true);
         var self = this;
         var credit = this.get('model');
 
@@ -45,18 +41,14 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
         try {
             cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
         } catch (error) {
-            this.set('isSubmitting', false);
             credit.set('validationErrors', {'amount': error});
             return;
         }
         credit.set('amount', cents);
 
         credit.create().then(function () {
-            self.set('isSubmitting', false);
             self.get('marketplace').refresh();
             $('#withdraw-funds').modal('hide');
-        }, function () {
-            self.set('isSubmitting', false);
         });
     }
 });

@@ -1,10 +1,7 @@
 Balanced.VerifyBankAccountModalView = Balanced.View.extend({
     templateName: 'modals/verify_bank_account',
 
-    isSubmitting: false,
-
     open: function (bankAccount) {
-        this.set('isSubmitting', false);
         this.set('bank_account', bankAccount);
 
         // operate on a copy so we don't mess up the original object
@@ -16,21 +13,17 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if (this.get('isSubmitting')) {
+        if (this.get('model.isSaving')) {
             return;
         }
-        this.set('isSubmitting', true);
 
         var self = this;
 
         var verification = this.get('model');
         verification.update().then(function () {
-            self.set('isSubmitting', false);
             self.get('bank_account').refresh();
             self.get('bank_account.verification').refresh();
             $('#verify-bank-account').modal('hide');
-        }, function () {
-            self.set('isSubmitting', false);
         });
     }
 });
