@@ -10,7 +10,6 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 
         var after = function (verification) {
             self.set('model', verification);
-            self.reset(verification);
             $('#verify-bank-account').modal('show');
         };
 

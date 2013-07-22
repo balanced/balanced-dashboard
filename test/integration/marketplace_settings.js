@@ -119,7 +119,7 @@ test('create bank account only submits once when clicked multiple times', functi
 test('can verify bank accounts', function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "update");
 
-    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 1);
+    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 2);
 
     // click the verify button
     $(".bank-account-info .sidebar-items li.unverified").first().find(".actions button").click();
@@ -132,12 +132,14 @@ test('can verify bank accounts', function (assert) {
     $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
 
     assert.ok(stub.calledOnce, "Update should have been called once");
+
+    //  TODO: assert call to server was made
 });
 
 test('verifying bank accounts only happens once despite multiple clicks', function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "update");
 
-    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 1);
+    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 2);
 
     // click the verify button
     $(".bank-account-info .sidebar-items li.unverified").first().find(".actions button").click();
@@ -156,8 +158,7 @@ test('verifying bank accounts only happens once despite multiple clicks', functi
 
 test('can delete bank accounts', function (assert) {
     var spy = sinon.spy(Balanced.Adapter, "delete");
-
-    assert.equal($('.bank-account-info .sidebar-items li').length, 2);
+    var initialLength = $('.bank-account-info .sidebar-items li').length;
 
     // click the delete button
     $(".bank-account-info .sidebar-items li").first().find(".icon-delete").click();
@@ -165,8 +166,10 @@ test('can delete bank accounts', function (assert) {
     // click save
     $('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
 
-    assert.equal($('.bank-account-info .sidebar-items li').length, 1);
+    assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
     assert.ok(spy.calledOnce, "Delete should have been called once");
+
+    //  TODO: assert call to server was made
 });
 
 test('delete bank accounts only deletes once when submit clicked multiple times', function (assert) {
@@ -232,6 +235,8 @@ test('can delete cards', function (assert) {
 
     assert.equal($('.card-info .sidebar-items li').length, 1);
     assert.ok(spy.calledOnce, "Delete should have been called once");
+
+    //  TODO: assert server side call was made once.
 });
 
 test('delete cards only deletes once when submit clicked multiple times', function (assert) {
@@ -246,10 +251,12 @@ test('delete cards only deletes once when submit clicked multiple times', functi
     }
 
     assert.ok(stub.calledOnce, "Delete should have been called once");
+
+    //  TODO: assert server side call was made once.
 });
 
 test('can verify bank account modal', function (assert) {
-    assert.equal($("section.bank-account-info li.unverified").length, 1);
+    assert.equal($("section.bank-account-info li.unverified").length, 2);
 
     $("section.bank-account-info li.unverified .actions button").click();
 
