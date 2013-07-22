@@ -24,6 +24,9 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
         var self = this;
         var customer = this.get('model');
         var month = this.get('dob_month');

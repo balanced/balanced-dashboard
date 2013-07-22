@@ -1,9 +1,10 @@
-Balanced.AddBankAccountModalView = Balanced.BaseFormView.extend({
+Balanced.AddBankAccountModalView = Balanced.View.extend({
     templateName: 'modals/add_bank_account',
 
-    formProperties: ['name', 'account_number', 'routing_number'],
+    isSubmitting: false,
 
     open: function () {
+        this.set('isSubmitting', false);
         var bankAccount = Balanced.BankAccount.create({
             uri: this.get('customer.bank_accounts_uri'),
             name: '',
@@ -12,32 +13,34 @@ Balanced.AddBankAccountModalView = Balanced.BaseFormView.extend({
             type: 'checking'
         });
         this.set('model', bankAccount);
-        this.reset(bankAccount);
         this.$('#add-bank-account').modal('show');
         this.$('form input:radio[name=account_type][value=checking]').prop('checked', true);
     },
 
     save: function () {
+        if (this.get('isSubmitting')) {
+            return;
+        }
+        this.set('isSubmitting', true);
+
         var self = this;
         var bankAccount = this.get('model');
 
         // this isn't an ember widget, so have to grab it ourselves
         bankAccount.set('type', this.$('form input[name=account_type]').val());
 
-        bankAccount.one('didCreate', function () {
-            var verification = Balanced.Verification.create({
+        bankAccount.create().then(function () {
+            Balanced.Verification.create({
                 uri: bankAccount.get('verifications_uri')
-            });
-
-            verification.one('didCreate', function () {
+            }).create().then(function () {
                 self.get('customer.bank_accounts').refresh();
                 $('#add-bank-account').modal('hide');
+                self.set('isSubmitting', false);
+            }, function () {
+                self.set('isSubmitting', false);
             });
-            verification.create();
+        }, function () {
+            self.set('isSubmitting', false);
         });
-        bankAccount.on('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(json);
-        });
-        bankAccount.create();
     }
 });

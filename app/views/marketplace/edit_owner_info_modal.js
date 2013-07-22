@@ -1,27 +1,24 @@
-Balanced.EditOwnerInfoModalView = Balanced.BaseFormView.extend({
+Balanced.EditOwnerInfoModalView = Balanced.View.extend({
     templateName: 'modals/edit_owner_info',
 
-    formProperties: ['name', 'email', 'phone'],
-
     open: function () {
-        var customer = Ember.copy(this.content, true);
+        var customer = Ember.copy(this.get('content'), true);
+        customer.trigger('didCreate');
         this.set('model', customer);
-        this.reset(customer);
         $('#edit-owner-info').modal('show');
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
         var self = this;
 
         var customer = this.get('model');
 
-        customer.one('didUpdate', function () {
+        customer.update().then(function () {
             self.content.updateFromModel(customer);
             $('#edit-owner-info').modal('hide');
         });
-        customer.one('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(json);
-        });
-        customer.update();
     }
 });

@@ -206,53 +206,53 @@
 
     <div class="offset1 span8">
 
-        <section class="bank-account-info">
-            <header>
-                <h3>Bank accounts
-                    <a href="#" class="add" {{action openAddBankAccountModal target="view"}}}>Add a bank account</a>
-                </h3>
-            </header>
-            <ul class="sidebar-items">
-                {{#each bank_account in owner_customer.bank_accounts }}
-                    <li {{bindAttr class="bank_account.verified:verified:unverified"}}>
-                        <div class="icon">Bank account</div>
-                        <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
+            <section class="bank-account-info">
+                <header>
+                    <h3>Bank accounts
+                        <a href="#" class="add" {{action openAddBankAccountModal target="view"}}}>Add a bank account</a>
+                    </h3>
+                </header>
+                <ul class="sidebar-items">
+                    {{#each bank_account in owner_customer.bank_accounts }}
+                        <li {{bindAttr class="bank_account.verified:verified:unverified"}}>
+                            <div class="icon">Bank account</div>
+                            <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
+                            <div class="details">
+                                <span class="name"><span class="label2a">{{#linkTo 'bank_account' bank_account}}{{ bank_account.name }}{{/linkTo}}</span></span>
+                                <span class="summary">{{ bank_account.description }}</span>
+                            </div>
+
+                            {{#unless bank_account.verified }}
+                            <div class="actions">
+                                <button class="btn" {{action openVerifyBankAccountModal bank_account target="view"}}>Verify</button>
+                            </div>
+                            {{/unless}}
+                        </li>
+                    {{/each}}
+                </ul>
+            </section>
+
+            <section class="card-info">
+                <header>
+                    <h3>Credit cards
+                        <a href="#" class="add" {{action openAddCardModal target="view"}}>Add a card</a>
+                    </h3>
+                </header>
+                <ul class="sidebar-items">
+                    {{#each card in owner_customer.cards }}
+                    <li>
+                        <div class="icon">Credit card</div>
+                        <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
                         <div class="details">
-                            <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
-                            <span class="summary">{{ bank_account.description }}</span>
+                            <span class="name"><span class="label2a">{{#linkTo 'card' card}}{{ card.name }}{{/linkTo}}</span></span>
+                            <span class="summary">{{ card.description }}</span>
                         </div>
-
-                        {{#unless bank_account.verified }}
-                        <div class="actions">
-                            <button class="btn" {{action openVerifyBankAccountModal bank_account target="view"}}>Verify</button>
-                        </div>
-                        {{/unless}}
                     </li>
-                {{/each}}
-            </ul>
-        </section>
+                    {{/each}}
+                </ul>
+            </section>
 
-        <section class="card-info">
-            <header>
-                <h3>Credit cards
-                    <a href="#" class="add" {{action openAddCardModal target="view"}}>Add a card</a>
-                </h3>
-            </header>
-            <ul class="sidebar-items">
-                {{#each card in owner_customer.cards }}
-                <li>
-                    <div class="icon">Credit card</div>
-                    <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
-                    <div class="details">
-                        <span class="name"><span class="label2a">{{ card.name }}</span></span>
-                        <span class="summary">{{ card.description }}</span>
-                    </div>
-                </li>
-                {{/each}}
-            </ul>
-        </section>
-
-    </div>
+        </div>
 </div>
 
 <div class="row">

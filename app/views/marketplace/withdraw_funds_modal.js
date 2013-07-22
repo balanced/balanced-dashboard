@@ -1,7 +1,5 @@
-Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
+Balanced.WithdrawFundsModalView = Balanced.View.extend({
     templateName: 'modals/withdraw_funds',
-
-    formProperties: ['source_uri'],
 
     dollar_amount: null,
 
@@ -27,12 +25,15 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
 
         this.set('dollar_amount', null);
         this.set('model', credit);
-        this.reset(credit);
 
         $('#withdraw-funds').modal('show');
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
+
         var self = this;
         var credit = this.get('model');
 
@@ -45,16 +46,9 @@ Balanced.WithdrawFundsModalView = Balanced.BaseFormView.extend({
         }
         credit.set('amount', cents);
 
-
-        credit.one('didCreate', function () {
+        credit.create().then(function () {
             self.get('marketplace').refresh();
             $('#withdraw-funds').modal('hide');
         });
-
-        credit.on('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(json);
-        });
-
-        credit.create();
     }
 });

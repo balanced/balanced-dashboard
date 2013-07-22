@@ -1,54 +1,38 @@
 Balanced.CustomersController = Balanced.ObjectController.extend({
 });
 
-Balanced.CustomerController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.ResultsTable, {
-    needs: ['marketplace'],
+Balanced.CustomerController = Balanced.ObjectController.extend(
+    Ember.Evented,
+    Balanced.DownloadControllerMixin,
+    Balanced.ResultsTable,
+    Balanced.TransactionsTable,
+    {
+        needs: ['marketplace'],
 
-    sortField: 'created_at',
-    sortOrder: 'desc',
+        sortField: 'created_at',
+        sortOrder: 'desc',
 
-    transactionType: 'all',
+        baseClassSelector: "#customer",
 
-    baseClassSelector: "#customer",
+        init: function () {
+            var self = this;
+            Balanced.Model.Events.on('didCreate', function (object) {
+                if (Balanced.Transaction.prototype.isPrototypeOf(object)) {
+                    self.refresh();
+                }
+            });
+        },
 
-    extra_filtering_params: function () {
-        var transactionType = this.get('transactionType');
-        if (transactionType === 'all') {
-            return {};
-        }
-        return {
-            state: transactionType
-        };
-    }.property('transactionType'),
+        promptToDeleteBankAccount: function (bankAccount) {
+            this.trigger('openDeleteBankAccountModal', bankAccount);
+        },
 
-    changeTransactionTypeFilter: function (type, transactionType) {
-        this.setProperties({
-            type: type,
-            transactionType: transactionType
-        });
-    },
+        promptToDeleteCard: function (card) {
+            this.trigger('openDeleteCardModal', card);
+        },
 
-    promptToDeleteBankAccount: function (bankAccount) {
-        this.bankAccount = bankAccount;
-        $('#delete-bank-account').modal('show');
-    },
-
-    deleteBankAccount: function () {
-        this.bankAccount.delete();
-        $('#delete-bank-account').modal('hide');
-    },
-
-    promptToDeleteCard: function (card) {
-        this.card = card;
-        $('#delete-card').modal('show');
-    },
-
-    deleteCard: function () {
-        this.card.delete();
-        $('#delete-card').modal('hide');
-    },
-
-    results_base_uri: function () {
-        return this.get('content.transactions_uri');
-    }.property('content.transactions_uri')
-});
+        results_base_uri: function () {
+            return this.get('content.transactions_uri');
+        }.property('content.transactions_uri')
+    }
+);
