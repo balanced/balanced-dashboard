@@ -1,14 +1,12 @@
-Balanced.AddCardModalView = Balanced.BaseFormView.extend({
+Balanced.AddCardModalView = Balanced.View.extend({
     templateName: 'modals/add_card',
-
-    formProperties: ['name', 'card_number', 'security_code', 'expiration_month', 'expiration_year'],
 
     validMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     validYears: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
 
     expiration_error: function () {
-        return this.get('expiration_month_error') || this.get('expiration_year_error');
-    }.property('expiration_month_error', 'expiration_year_error'),
+        return this.get('model.validationErrors.expiration_month') || this.get('model.validationErrors.expiration_year');
+    }.property('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
     open: function () {
         var card = Balanced.Card.create({
@@ -20,21 +18,20 @@ Balanced.AddCardModalView = Balanced.BaseFormView.extend({
             expiration_year: ''
         });
         this.set('model', card);
-        this.reset(card);
         $('#add-card').modal('show');
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
+
         var self = this;
         var card = this.get('model');
 
-        card.one('didCreate', function () {
+        card.create().then(function () {
             self.get('customer.cards').refresh();
             $('#add-card').modal('hide');
         });
-        card.on('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(json);
-        });
-        card.create();
     }
 });

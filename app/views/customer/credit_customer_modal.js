@@ -26,8 +26,22 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
+
         var credit = this.get('model');
-        credit.set('amount', Balanced.Utils.dollarsToCents(this.get('dollar_amount')));
+
+        var cents = null;
+        try {
+            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+        } catch (error) {
+            credit.set('validationErrors', {'amount': error});
+            return;
+        }
+        credit.set('amount', cents);
+
+        var self = this;
         credit.create().then(function (credit) {
             $('#credit-customer').modal('hide');
         });

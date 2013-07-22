@@ -1,7 +1,5 @@
-Balanced.VerifyBankAccountModalView = Balanced.BaseFormView.extend({
+Balanced.VerifyBankAccountModalView = Balanced.View.extend({
     templateName: 'modals/verify_bank_account',
-
-    formProperties: ['amount_1', 'amount_2'],
 
     open: function (bankAccount) {
         var self = this;
@@ -10,35 +8,34 @@ Balanced.VerifyBankAccountModalView = Balanced.BaseFormView.extend({
 
         var originalVerification = bankAccount.get('verification');
 
+        var after = function (verification) {
+            self.set('model', verification);
+            self.reset(verification);
+            $('#verify-bank-account').modal('show');
+        };
+
         if(originalVerification) {
             var newVerification = Ember.copy(originalVerification, true);
-            self.set('model', newVerification);
-            self.reset(newVerification);
-            $('#verify-bank-account').modal('show');
+            after(newVerification);
         } else {
             Balanced.Verification.create({
                 uri: bankAccount.get('verifications').uri
-            }).create().then(function(verification) {
-                self.set('model', verification);
-                self.reset(verification);
-                $('#verify-bank-account').modal('show');
-            });
+            }).create().then(after);
         }
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
+
         var self = this;
 
         var verification = this.get('model');
-
-        verification.one('didUpdate', function () {
-            self.bank_account.refresh();
+        verification.update().then(function () {
+            self.get('bank_account').refresh();
+            self.get('bank_account.verification').refresh();
             $('#verify-bank-account').modal('hide');
         });
-        verification.one('becameInvalid', function (json) {
-            var jsonObject = JSON.parse(json);
-            self.highlightErrorsFromAPIResponse(jsonObject);
-        });
-        verification.update();
     }
 });

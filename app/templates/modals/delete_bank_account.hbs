@@ -1,4 +1,5 @@
 <div class="modal hide" id="delete-bank-account">
+    <form {{action "deleteBankAccount" target="view" on="submit"}}>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h2>Remove bank account</h2>
@@ -7,7 +8,7 @@
         Are you sure you want to remove this bank account?
     </div>
     <div class="modal-footer">
-        <button class="btn danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn" {{action deleteBankAccount}}>Yes</button>
+        {{view Balanced.ModalActionButtonsView submitTitle="Yes" submittingTitle="Deleting..."}}
     </div>
+    </form>
 </div>

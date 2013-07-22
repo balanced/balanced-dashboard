@@ -6,25 +6,10 @@ Balanced.Download = Balanced.Model.extend({
         };
     },
 
-    create: function () {
-        var self = this;
-        var data = this._propertiesMap();
-
-        self.set('isSaving', true);
-        Balanced.Adapter.create(this.constructor, '/downloads', data, function (json) {
-            self._updateFromJson(json);
-            self.set('isNew', false);
-            self.set('isSaving', false);
-            self.set('isValid', true);
-            self.set('isError', false);
-            self.trigger('didCreate');
-        }, $.proxy(self._handleError, self));
+    // have to override the URI for create, since the uri property of the JSON is the search URI
+    _createUri: function () {
+        return '/downloads';
     }
 });
-
-
-Balanced.Download.reopenClass({
-});
-
 
 Balanced.Adapter.registerHostForType(Balanced.Download, ENV.BALANCED.WWW);

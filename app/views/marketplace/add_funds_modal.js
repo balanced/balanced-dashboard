@@ -1,7 +1,5 @@
-Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
+Balanced.AddFundsModalView = Balanced.View.extend({
     templateName: 'modals/add_funds',
-
-    formProperties: ['source_uri'],
 
     dollar_amount: null,
 
@@ -27,12 +25,15 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
 
         this.set('dollar_amount', null);
         this.set('model', debit);
-        this.reset(debit);
 
         $('#add-funds').modal('show');
     },
 
     save: function () {
+        if (this.get('model.isSaving')) {
+            return;
+        }
+
         var self = this;
         var debit = this.get('model');
 
@@ -45,15 +46,9 @@ Balanced.AddFundsModalView = Balanced.BaseFormView.extend({
         }
         debit.set('amount', cents);
 
-        debit.one('didCreate', function () {
+        debit.create().then(function () {
             self.get('marketplace').refresh();
             $('#add-funds').modal('hide');
         });
-
-        debit.on('becameInvalid', function (json) {
-            self.highlightErrorsFromAPIResponse(json);
-        });
-
-        debit.create();
     }
 });
