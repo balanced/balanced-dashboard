@@ -1,28 +1,23 @@
-Balanced.CreditCustomerModalView = Balanced.View.extend({
-    templateName: 'modals/credit_customer',
+Balanced.CreditBankAccountModalView = Balanced.View.extend({
+    templateName: 'modals/credit_bank_account',
 
     dollar_amount: null,
 
-    selected_funding_instrument: function () {
-        if (this.get('model.bank_account_uri')) {
-            return Balanced.BankAccount.find(this.get('model.bank_account_uri'));
-        }
-    }.property('model.bank_account_uri'),
+    didInsertElement: function () {
+        this.get('controller').on('openCreditBankAccountModal', $.proxy(this.open, this));
+    },
 
     open: function () {
-        var bankAccounts = this.get('customer.bank_accounts');
-        var bank_account_uri = (bankAccounts && bankAccounts.get('length') > 0) ? bankAccounts.get('content')[0].get('uri') : null;
-
         var credit = Balanced.Credit.create({
-            uri: this.get('customer.credits_uri'),
-            bank_account_uri: bank_account_uri,
+            uri: this.get('funding_instrument.credits_uri'),
+            bank_account_uri: this.get('funding_instrument.uri'),
             amount: null
         });
 
         this.set('dollar_amount', null);
         this.set('model', credit);
 
-        $('#credit-customer').modal('show');
+        $('#credit-bank-account').modal('show');
     },
 
     save: function () {
@@ -43,7 +38,7 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
 
         var self = this;
         credit.create().then(function (credit) {
-            $('#credit-customer').modal('hide');
+            $('#credit-bank-account').modal('hide');
         });
     }
 });

@@ -1,28 +1,23 @@
-Balanced.DebitCustomerModalView = Balanced.View.extend({
-    templateName: 'modals/debit_customer',
+Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
+    templateName: 'modals/debit_funding_instrument',
 
     dollar_amount: null,
 
-    selected_funding_instrument: function () {
-        if (this.get('model.source_uri')) {
-            return Balanced.FundingInstrument.find(this.get('model.source_uri'));
-        }
-    }.property('model.source_uri'),
+    didInsertElement: function () {
+        this.get('controller').on('openDebitFundingInstrumentModal', $.proxy(this.open, this));
+    },
 
     open: function () {
-        var fundingInstruments = this.get('customer.debitable_funding_instruments');
-        var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
-
         var debit = Balanced.Debit.create({
-            uri: this.get('customer.debits_uri'),
-            source_uri: source_uri,
+            uri: this.get('funding_instrument.customer.debits_uri'),
+            source_uri: this.get('funding_instrument.uri'),
             amount: null
         });
 
         this.set('dollar_amount', null);
         this.set('model', debit);
 
-        $('#debit-customer').modal('show');
+        $('#debit-funding-instrument').modal('show');
     },
 
     save: function () {
@@ -43,7 +38,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
 
         var self = this;
         debit.create().then(function (credit) {
-            $('#debit-customer').modal('hide');
+            $('#debit-funding-instrument').modal('hide');
         });
     }
 });

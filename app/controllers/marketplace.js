@@ -1,4 +1,4 @@
-Balanced.MarketplaceController = Balanced.ObjectController.extend(Balanced.PaySeller, {
+Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
     message_message: null,
     message_type: null,
 
@@ -18,6 +18,10 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Balanced.PaySe
     dismissAlert: function () {
         this.set('message_message', null);
         this.set('message_type', null);
+    },
+
+    openPaySellerModal: function () {
+        this.trigger('openPaySellerModal');
     }
 });
 

@@ -72,6 +72,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.set('isValid', true);
             self.set('isError', false);
             self.trigger('didCreate');
+            Balanced.Model.Events.trigger('didCreate', self);
         }, $.proxy(self._handleError, self));
 
         return promise;
@@ -97,6 +98,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             self.set('isError', false);
 
             self.trigger('didUpdate');
+            Balanced.Model.Events.trigger('didUpdate', self);
         }, $.proxy(self._handleError, self));
 
         return promise;
@@ -113,6 +115,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         Balanced.Adapter.delete(this.constructor, this.get('uri'), function (json) {
             self.set('isSaving', false);
             self.trigger('didDelete');
+            Balanced.Model.Events.trigger('didDelete', self);
         }, $.proxy(self._handleError, self));
 
         return promise;
@@ -354,3 +357,5 @@ Balanced.Model.reopenClass({
         return embedded;
     }
 });
+
+Balanced.Model.Events = Ember.Object.extend(Ember.Evented).create();

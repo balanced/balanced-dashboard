@@ -72,7 +72,7 @@ Balanced.Adapter.addFixtures([
         "fingerprint": "16igBKFBfrx4xoUvatqJFz",
         "can_debit": false,
         "credits_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/credits",
-        "customer": null,
+        "customer": {"twitter": null, "meta": {}, "id": "AC5m0wzuMTw3JbKP4uIZXFpC", "email": "nick2@rasslingcats.com", "_type": "customer", "source_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts/BA7ib903o1OjP6hrmRPv5VFI", "bank_accounts_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts", "phone": "30137944734", "merchant_uri": "/v1/merchants/TEST-MR5lE5Z9UX5KwOLt1jWfyd5B", "facebook": null, "address": {}, "destination_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts/BA7ib903o1OjP6hrmRPv5VFI", "business_name": null, "credits_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/credits", "cards_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/cards", "holds_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/holds", "name": "Nick1", "dob": null, "created_at": "2013-04-16T23:30:56.390Z", "is_identity_verified": false, "uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC", "refunds_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/refunds", "_uris": {"holds_uri": {"_type": "page", "key": "holds"}, "source_uri": {"_type": "bank_account", "key": "source"}, "bank_accounts_uri": {"_type": "page", "key": "bank_accounts"}, "refunds_uri": {"_type": "page", "key": "refunds"}, "merchant_uri": {"_type": "merchant", "key": "merchant"}, "debits_uri": {"_type": "page", "key": "debits"}, "destination_uri": {"_type": "bank_account", "key": "destination"}, "transactions_uri": {"_type": "page", "key": "transactions"}, "credits_uri": {"_type": "page", "key": "credits"}, "cards_uri": {"_type": "page", "key": "cards"}}, "debits_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/debits", "transactions_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/transactions", "ssn_last4": null, "ein": null},
         "verification_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications/BZ5s80nhCfSdQAQKjk3PXDT9",
         "transactions_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/transactions",
         "name": "Test",
@@ -122,7 +122,50 @@ Balanced.Adapter.addFixtures([
         "created_at": "2013-06-28T01:18:51.099402Z",
         "uri": "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg",
         "account_number": "xxxxxxxxxxx5555"
-      }
+      },
+      {
+        "default_credit": true,
+        "can_hold": false,
+        "meta": {},
+        "routing_number": "121042882",
+        "id": "BAUgen6ESuHYg31BxVy9pPV",
+        "is_valid": true,
+        "verifications_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications",
+        "type": "checking",
+        "bank_name": "WELLS FARGO BANK NA",
+        "_type": "bank_account",
+        "bank_code": "121042882",
+        "default_debit": false,
+        "_uris": {
+            "verification_uri": {
+                "_type": "bank_account_authentication",
+                "key": "verification"
+            },
+            "transactions_uri": {
+                "_type": "page",
+                "key": "transactions"
+            },
+            "verifications_uri": {
+                "_type": "page",
+                "key": "verifications"
+            },
+            "credits_uri": {
+                "_type": "page",
+                "key": "credits"
+            }
+        },
+        "last_four": "1297",
+        "fingerprint": "9e47fd3e95838a82814ec751bda86ebaad6ed349d0b9936cb7ce29d468d6124a",
+        "can_debit": false,
+        "credits_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/credits",
+        "verification_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications/BZ3cMDwSGLuevgcKUbFoq9kz",
+        "transactions_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/transactions",
+        "name": "DWELLERS INC",
+        "can_credit": true,
+        "created_at": "2013-07-12T02:52:40.047585Z",
+        "uri": "/v1/customers/CUa7ooMptCVqMOjRNK3EAlW/bank_accounts/BAUgen6ESuHYg31BxVy9pPV",
+        "account_number": "xxxxxx1297"
+       }
     ]
   },
   {

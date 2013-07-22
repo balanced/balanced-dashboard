@@ -3,41 +3,30 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
 
     show_download: false,
 
-    email_address: null,
-
-    isSubmitting: false,
-
     openDownload: function () {
-        this.set('isSubmitting', false);
-        this.set('email_address', null);
+        var uri = this.getSearchUri();
+        var download = Balanced.Download.create({
+            uri: uri,
+            email_address: null
+        });
+        this.set('model', download);
         this.set('show_download', true);
     },
 
     closeDownload: function () {
-        this.set('isSubmitting', false);
         this.set('show_download', false);
     },
 
     download: function () {
-        if (this.get('isSubmitting')) {
+        if (this.get('model.isSaving')) {
             return;
         }
 
-        var uri = this.getSearchUri();
-        if (this.email_address) {
-            var download = Balanced.Download.create({
-                uri: uri,
-                email_address: this.get('email_address')
-            });
-
-            this.set('isSubmitting', true);
+        if (this.get('model.email_address')) {
             var self = this;
-            download.create().then(function () {
-                self.set('isSubmitting', false);
+            this.get('model').create().then(function () {
                 self.closeDownload();
                 self.confirmDownload();
-            }, function () {
-                self.set('isSubmitting', false);
             });
         }
         return false;

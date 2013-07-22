@@ -1,42 +1,28 @@
-<div class="modal wide-modal hide" id="debit-customer">
+<div class="modal wide-modal hide" id="debit-funding-instrument">
     <form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Debit this customer</h2>
+            <h2>Debit {{type_name}}</h2>
         </div>
         <div class="modal-body">
             <div class="control-group">
-                <label class="control-label">Customer</label>
+                <label class="control-label">{{type_name}}</label>
                 <div class="controls">
-                    <span class="label1a">{{view.customer.name}} ({{view.customer.email}})</span>
-                </div>
-            </div>
-
-            <div {{bindAttr class=":control-group view.model.validationErrors.source_uri:error"}}>
-                <label class="control-label">Account number</label>
-                <div class="controls">
-                    {{view Ember.Select
-                        contentBinding="view.customer.debitable_funding_instruments"
-                        valueBinding="view.model.source_uri"
-                        optionValuePath="content.uri"
-                        optionLabelPath="content.description_with_type"
-                        class="span8"
-                        name="source_uri"
-                    }}
+                    <span class="label1a">{{view.funding_instrument.title_description}}</span>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">Account holder's name</label>
                 <div class="controls">
-                    <span class="label1a">{{view.selected_funding_instrument.name}}</span>
+                    <span class="label1a">{{view.funding_instrument.name}}</span>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label">Type</label>
                 <div class="controls">
-                    <span class="label1a">{{view.selected_funding_instrument.brand}}</span>
+                    <span class="label1a">{{capitalize view.funding_instrument.type}}</span>
                 </div>
             </div>
 
