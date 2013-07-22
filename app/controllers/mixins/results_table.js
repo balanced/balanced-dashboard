@@ -98,7 +98,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
         results.loadNextPage();
     },
 
-    refresh: function() {
+    refresh: function () {
         this.notifyPropertyChange('search_params');
     },
 
