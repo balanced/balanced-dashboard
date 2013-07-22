@@ -20,7 +20,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented,
         this.set('message_type', null);
     },
 
-    openPaySellerModal: function() {
+    openPaySellerModal: function () {
         this.trigger('openPaySellerModal');
     }
 });

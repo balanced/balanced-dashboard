@@ -246,8 +246,8 @@ Balanced.Utils = {
         }
     },
 
-    capitalize: function(str) {
-        if(!str) {
+    capitalize: function (str) {
+        if (!str) {
             return str;
         }
 

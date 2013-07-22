@@ -35,7 +35,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
             if (obj.constructor === Balanced.Account) {
                 var marketplace = this.modelFor('marketplace');
                 var accountId = obj.get('id');
-                obj = marketplace.then(function(marketplace) {
+                obj = marketplace.then(function (marketplace) {
                     var customerUri = marketplace.get('customers_uri') + '/' + accountId;
                     self.transitionTo('customer', Balanced.Customer.find(customerUri));
                 });

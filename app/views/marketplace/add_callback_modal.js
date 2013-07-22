@@ -11,14 +11,14 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if(this.get('model.isSaving')) {
+        if (this.get('model.isSaving')) {
             return;
         }
 
         var self = this;
         var callback = this.get('model');
 
-        callback.create().then(function() {
+        callback.create().then(function () {
             self.get('marketplace.callbacks').refresh();
             $('#add-callback').modal('hide');
         });
