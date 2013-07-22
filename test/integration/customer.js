@@ -49,17 +49,53 @@ test('editing customer info only submits once despite multiple clicks', function
     assert.ok(stub.calledOnce);
 });
 
-test('can debit customer', function (assert) {
+test('can debit customer using card', function (assert) {
     var createsBefore = Balanced.Adapter.creates.length;
 
     // click the debit customer button
     $(".customer-header .buttons a").eq(0).click();
 
-    $('#debit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
-    $('#debit-customer .modal-body input').eq(1).val("Test debit").trigger('keyup');
+    assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
+
+    // bank accounts first
+    assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank account: 123");
+    // cards second
+    assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Card: 0005 (American Express)");
+
+    // select the card
+    $("#debit-customer select[name='source_uri']").val($("#debit-customer form select[name='source_uri'] option").eq(1).attr('value'));
+
+    $('#debit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
 
     // click debit
-    $('#debit-customer .modal-footer button').eq(1).click();
+    $('#debit-customer .modal-footer button[name="modal-submit"]').click();
+
+    // should be one create for the debit
+    assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
+});
+
+test('can debit customer using bank account', function (assert) {
+    var createsBefore = Balanced.Adapter.creates.length;
+
+    // click the debit customer button
+    $(".customer-header .buttons a").eq(0).click();
+
+    assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
+
+    // bank accounts first
+    assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank account: 123");
+    // cards second
+    assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Card: 0005 (American Express)");
+
+    // select the bank account
+    $("#debit-customer select[name='source_uri']").val($("#debit-customer form select[name='source_uri'] option").eq(0).attr('value'));
+
+    $('#debit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
+
+    // click debit
+    $('#debit-customer .modal-footer button[name="modal-submit"]').click();
 
     // should be one create for the debit
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
@@ -71,8 +107,8 @@ test("can't debit customer multiple times using the same modal", function (asser
     // click the debit customer button
     $(".customer-header .buttons a").eq(0).click();
 
-    $('#debit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
-    $('#debit-customer .modal-body input').eq(1).val("Test debit").trigger('keyup');
+    $('#debit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
 
     // click debit
     for (var i = 0; i < 20; i++) {
@@ -80,6 +116,21 @@ test("can't debit customer multiple times using the same modal", function (asser
     }
 
     assert.ok(stub.calledOnce);
+});
+
+test("debit customer triggers refresh of transactions", function (assert) {
+    // click the debit customer button
+    $(".customer-header .buttons a").eq(0).click();
+
+    $('#debit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
+
+    var stub = sinon.stub(Balanced.Adapter, "get");
+
+    // click debit
+    $('#debit-customer .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(stub.calledWith(Balanced.Transaction));
 });
 
 test('can credit customer', function (assert) {

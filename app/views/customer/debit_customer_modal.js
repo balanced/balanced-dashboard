@@ -10,8 +10,8 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
     }.property('model.source_uri'),
 
     open: function () {
-        var cards = this.get('customer.cards');
-        var source_uri = (cards && cards.get('length') > 0) ? cards.get('content')[0].get('uri') : null;
+        var fundingInstruments = this.get('customer.debitable_funding_instruments');
+        var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
 
         var debit = Balanced.Debit.create({
             uri: this.get('customer.debits_uri'),
