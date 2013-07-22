@@ -88,6 +88,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
         redirectToLog: function (ohm) {
             this.closeSearch();
+
             // #TODO: pretty sure this isn't how we should do redirects.
             window.location = '#/marketplaces/{0}/logs/{1}'.format(
                 this.get('controllers').get('marketplace').get('id'),
@@ -106,6 +107,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
         fundingInstrumentsTabSelected: function () {
             return this.get('category') === "funding_instrument";
-        }.property('category'),
+        }.property('category')
     }
 );
