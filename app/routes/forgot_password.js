@@ -1,4 +1,6 @@
 Balanced.ForgotPasswordRoute = Balanced.Route.extend({
+    title: 'Forgot password',
+
     setupController: function (controller, model) {
         controller.set('submitted', false);
         controller.set('hasError', false);

@@ -1,9 +1,29 @@
+/*
+ * This function update page title when a transition is made
+ */
+var _update_title = function(infos) {
+    var last_info = infos[infos.length - 1];
+    var title = last_info.handler.title;
+    // backup document title
+    if (Balanced._doc_title === undefined) {
+        Balanced._doc_title = document.title;
+    }
+    document.title = Balanced._doc_title;
+    // TODO: we should add i18n support here
+    // we may should use a message key instead of string in route classes
+    // TODO: what about a dynamic title? try to call it if it is a function?
+    if (title !== undefined) {
+        document.title += ' - ' + title;
+    }
+};
+
 Balanced.Route = Ember.Route.extend({
 });
 
 Balanced.Router = Ember.Router.extend({
-    didTransition: function (info) {
-        Balanced.Analytics.trackPage(_.pluck(info, 'name').join('/'));
+    didTransition: function (infos) {
+        _update_title(infos);
+        Balanced.Analytics.trackPage(_.pluck(infos, 'name').join('/'));
         return this._super.apply(this, arguments);
     }
 });

@@ -8,6 +8,8 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
+    title: 'Activity',
+    
     setupController: function (controller, model) {
         this._super(controller, model);
 
