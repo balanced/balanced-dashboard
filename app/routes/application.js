@@ -57,6 +57,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
                 return;
             }
 
+            if (obj.constructor === Balanced.Log) {
+                this.transitionTo('logs.log', obj);
+                return;
+            }
+
             window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(obj.uri);
         },
     }

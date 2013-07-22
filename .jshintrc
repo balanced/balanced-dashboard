@@ -30,6 +30,7 @@
     "_": true,
     "Testing": true,
     "Raven": true,
-    "expect": true
+    "expect": true,
+    "prettyPrint": true
   }
 }

@@ -15,3 +15,8 @@ test('can visit page', function (assert) {
 
     assert.notEqual($title.text().indexOf('Logs'), -1, 'Title is not correct');
 });
+
+test('has logs in table', function (assert) {
+    assert.equal($('table .logs tbody tr').length, 10, 'has 10 logs');
+    assert.equal($('table .logs tfoot td').length, 1, 'has "load more"');
+});

@@ -87,13 +87,13 @@ Balanced.SearchController = Balanced.ObjectController.extend(
         },
 
         redirectToLog: function (ohm) {
-            this.closeSearch();
+            var self = this;
 
-            // #TODO: pretty sure this isn't how we should do redirects.
-            window.location = '#/marketplaces/{0}/logs/{1}'.format(
-                this.get('controllers').get('marketplace').get('id'),
-                ohm
-            );
+            var logUri = Balanced.Log.constructUri(ohm);
+            Balanced.Log.find(logUri).then(function(log) {
+                self.closeSearch();
+                self.transitionToRoute('logs.log', log);
+            });
         },
 
         // UI properties

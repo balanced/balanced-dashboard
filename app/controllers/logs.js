@@ -1,7 +1,10 @@
-Balanced.LogsController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
-    needs: ['marketplace']
+Balanced.LogsIndexController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
+    needs: ['marketplace'],
+
+    sortField: 'status',
+    sortOrder: 'desc',
 });
 
-Balanced.LogController = Balanced.ObjectController.extend({
+Balanced.LogsLogController = Balanced.ObjectController.extend({
     needs: ['marketplace']
 });

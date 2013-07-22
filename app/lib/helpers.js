@@ -195,6 +195,18 @@ Balanced.Utils = {
         return uri.substring(3);
     },
 
+    stripDomain: function(url) {
+        return url.replace(/^.*\/\/[^\/]+/, '');
+    },
+
+    prettyLogUrl: function(url) {
+        return Balanced.Utils.stripDomain(url).replace(/\/marketplaces\/[^\/]*\/(.+)$/, '/.../$1').split("?")[0];
+    },
+
+    prettyPrint: function(obj) {
+        return JSON.stringify(obj, null, 2);
+    },
+
     toTitleCase: function (str) {
         if (!str) {
             return str;
@@ -263,7 +275,7 @@ Balanced.Utils = {
         dollars = dollars.replace(/,|\s/g, '');
 
         // make sure our input looks reasonable now, or else fail
-        if (!/^([0-9]+(\.[0-9]{0,2})?)$/.test(dollars)) {
+        if (!/^([0-9]*(\.[0-9]{0,2})?)$/.test(dollars)) {
             throw new Error('{0} is not a valid dollar amount'.format(dollars));
         }
 
