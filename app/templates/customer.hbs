@@ -176,8 +176,8 @@
 	            <ul class="sidebar-items">
 	                {{#each bank_account in bank_accounts }}
 	                    <li class="bank-account">
-	                        {{#linkTo 'bank_account' bank_account}}
-                                <div class="icon" {{bindAttr class="bank_account.can_debit:icon-verified"}}>Bank account</div>
+                            {{#linkTo 'bank_account' bank_account}}
+                                <div {{bindAttr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
 	                        {{/linkTo}}
                                 <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
                             {{#linkTo 'bank_account' bank_account}}
