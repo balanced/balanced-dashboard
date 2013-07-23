@@ -1,13 +1,11 @@
-<div class="offset1 span8">
-    <section class="customer-info">
-        <header>
-            <h3>Customer info</h3>
-        </header>
-        <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
-        <div>
-            <span class="customer-name">{{#linkTo 'customer' customer}} {{ customer.name }} {{/linkTo}}</span>
-            <br/>
-            <span>{{ customer.email }}</span>
-        </div>
-    </section>
-</div>
+<section class="customer-info">
+    <header>
+        <h3>Customer info</h3>
+    </header>
+    <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
+    <div>
+        <span class="customer-name">{{#linkTo 'customer' customer}} {{ customer.name }} {{/linkTo}}</span>
+        <br/>
+        <span>{{ customer.email }}</span>
+    </div>
+</section>

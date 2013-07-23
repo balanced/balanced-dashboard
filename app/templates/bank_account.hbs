@@ -13,7 +13,15 @@
 
         <div {{bindAttr class=":span4 :buttons customer::single-button"}}>
             {{#if customer}}
-            <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                {{#if verified}}
+                    <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                {{else}}
+                    {{#if can_confirm_verification}}
+                        <a class="btn debit-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                    {{else}}
+                        <a class="btn debit-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+                    {{/if}}
+                {{/if}}
             {{/if}}
             <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
         </div>
@@ -87,7 +95,45 @@
 
         </div>
 
-        {{partial 'customer_info'}}
+        <div class="offset1 span8">
+
+            {{partial 'customer_info'}}
+
+            <section class="verifications-info">
+                <header>
+                    <h3>Bank account verification</h3>
+                </header>
+
+                <div class="row-fluid">
+                    <table class="items">
+                        <tbody>
+                            {{#each verification in verifications}}
+                                <tr>
+                                    <td class="attempts span13">
+                                        {{ verification.attempts }} of {{ verification.allowed_attempts }} attempts
+                                    </td>
+                                    <td class="status span13">
+                                        {{capitalize verification.state }}
+                                    </td>
+                                </tr>
+                            {{else}}
+                                <tr>
+                                    <td colspan="2" class="no-results">
+                                        {{# if verifications.isLoaded }}
+                                            No results
+                                        {{else}}
+                                            Loading...
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </div>
+
     </div>
 
     <section class="activity">
@@ -110,3 +156,5 @@
 
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
 {{view Balanced.CreditBankAccountModalView funding_instrumentBinding=model}}
+{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding=model}}
+{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding=model}}

@@ -24,6 +24,14 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(
 
         openCreditBankAccountModal: function () {
             this.trigger('openCreditBankAccountModal');
+        },
+
+        openVerifyBankAccountModal: function() {
+            this.trigger('openVerifyBankAccountModal');
+        },
+
+        openConfirmVerificationModal: function() {
+            this.trigger('openConfirmVerificationModal');
         }
     }
 );

@@ -1,0 +1,44 @@
+<div class="modal hide" id="confirm-verification">
+    <form {{action "save" on="submit" target="view"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Confirm your bank account</h2>
+    </div>
+    <div class="modal-body">
+        <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
+
+        <p>Verification attempts remaining: {{view.model.remaining_attempts}}</p>
+
+        <div class="control-group edit-inline">
+            <label class="inline-label">Bank account number</label>
+            {{view.funding_instrument.account_number}}
+        </div>
+
+        <div class="control-group edit-inline">
+            <label class="inline-label">Bank</label>
+            {{view.funding_instrument.bank_name}}
+        </div>
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.amount_1:error"}}>
+            <label>First Amount</label>
+            <div class="input-prepend">
+                <span class="add-on">$0.</span>
+                {{view Ember.TextField name="amount_1" valueBinding="view.model.amount_1" class="full"}}
+            </div>
+        </div>
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.amount_2:error"}}>
+            <label>Second Amount</label>
+            <div class="input-prepend">
+                <span class="add-on">$0.</span>
+                {{view Ember.TextField name="amount_2" valueBinding="view.model.amount_2" class="full"}}
+            </div>
+        </div>
+
+        <p>If you did not receive the deposits after five business days, the transaction may have failed because of incorrect account information. If you need to change the information, remove the erroneous account and add a new bank account.</p>
+    </div>
+    <div class="modal-footer">
+        {{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
+    </div>
+    </form>
+</div>

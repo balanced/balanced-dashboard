@@ -97,6 +97,8 @@ require('app/views/customer/credit_customer_modal');
 require('app/views/customer/edit_customer_info_modal');
 require('app/views/funding_instrument/debit_funding_instrument_modal');
 require('app/views/funding_instrument/credit_bank_account_modal');
+require('app/views/funding_instrument/verify_bank_account_modal');
+require('app/views/funding_instrument/confirm_verification_modal');
 
 /*
  * Controller layer.
