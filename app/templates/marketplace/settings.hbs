@@ -227,7 +227,11 @@
 
                                 {{#unless bank_account.can_debit }}
                                     <div class="actions">
-                                        Verify to debit
+                                        {{#if bank_account.verification}}
+                                            Confirm verification
+                                        {{else}}
+                                            Verify to debit
+                                        {{/if}}
                                     </div>
                                 {{/unless}}
                             {{/linkTo}}
