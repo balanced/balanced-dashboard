@@ -27,9 +27,12 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 
         var self = this;
         verification.create().then(function (verification) {
-            self.get('funding_instrument').refresh();
-            self.get('funding_instrument.verification').refresh();
-            self.get('funding_instrument.verifications').refresh();
+            self.get('funding_instrument').refresh().then(function() {
+                self.get('funding_instrument.verification').refresh();
+                self.get('funding_instrument.verifications').refresh();
+            });
+            $('#verify-bank-account').modal('hide');
+        }, function() {
             $('#verify-bank-account').modal('hide');
         });
     }

@@ -24,6 +24,7 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 
         var verification = this.get('model');
         verification.update().then(function () {
+            self.get('funding_instrument').refresh();
             self.get('funding_instrument.verification').refresh();
             self.get('funding_instrument.verifications').refresh();
             $('#confirm-verification').modal('hide');
