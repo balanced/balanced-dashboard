@@ -195,6 +195,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             }
         } else {
             this.set('isError', true);
+            this.set('errorStatusCode', jqXHR.status);
             this.trigger('becameError', jqXHR.responseText);
         }
     },
