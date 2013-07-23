@@ -188,7 +188,7 @@
 
 	                           {{#unless bank_account.can_debit }}
 	                               <div class="actions">
-	                                   {{#if bank_account.verification}}
+	                                   {{#if bank_account.can_confirm_verification}}
                                             Confirm verification
                                         {{else}}
                                             Verify to debit
