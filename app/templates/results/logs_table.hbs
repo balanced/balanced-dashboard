@@ -2,7 +2,7 @@
     <tr>
         <th class="span3 label6a">Status</th>
         <th class="span11 label6a">Method &amp; URI</th>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Time{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="log.message.date"}}Date{{/view}}
     </tr>
 </thead>
 {{#if model.hasNextPage}}
@@ -27,10 +27,10 @@
                 {{ colorizeStatus log.message.response.status }}
             </td>
             <td class="span11">
-                {{ log.message.request.method }} {{ log.condensedRequestUrl }}
+                {{ log.message.request.method }} {{ log.condensed_request_url }}
             </td>
             <td class="span3 date">
-                ???
+                <time {{bindAttr datetime="log.message.date"}} data-format="%b %d" {{bindAttr title="log.message.date"}}>{{ log.human_readable_date }}</time>
             </td>
         </tr>
     {{else}}

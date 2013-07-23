@@ -1,11 +1,19 @@
 Balanced.Log = Balanced.Model.extend({
-    shortUrl: function() {
-        return Balanced.Utils.stripDomain(this.get('url'));
+    short_url: function() {
+        return Balanced.Utils.stripDomain(this.get('message.request.url'));
     }.property('log.message.request.url'),
 
-    condensedRequestUrl: function() {
-        return Balanced.Utils.prettyLogUrl(this.get('url'));
-    }.property('log.shortUrl')
+    condensed_request_url: function() {
+        return Balanced.Utils.prettyLogUrl(this.get('short_url'));
+    }.property('log.short_url'),
+
+    human_readable_date: function() {
+        if (this.get('message.date')) {
+            return Date.parseISO8601(this.get('message.date')).strftime(this.date_formats.short);
+        } else {
+            return '';
+        }
+    }.property('log.message.date')
 });
 
 Balanced.Log.reopenClass({
