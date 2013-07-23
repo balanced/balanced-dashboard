@@ -137,3 +137,4 @@ require('app/controllers/customers');
  * actions.
  */
 require('app/routes/router');
+
