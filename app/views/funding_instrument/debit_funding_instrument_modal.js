@@ -4,7 +4,11 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
     dollar_amount: null,
 
     didInsertElement: function () {
-        this.get('controller').on('openDebitFundingInstrumentModal', $.proxy(this.open, this));
+        this.get('controller').on('openDebitFundingInstrumentModal', this, this.open);
+    },
+
+    willDestroyElement: function () {
+        this.get('controller').off('openDebitFundingInstrumentModal', this, this.open);
     },
 
     open: function () {

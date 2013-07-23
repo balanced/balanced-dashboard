@@ -2,7 +2,11 @@ Balanced.DeleteMarketplaceModalView = Balanced.View.extend({
     templateName: 'modals/delete_marketplace',
 
     didInsertElement: function () {
-        this.get('controller').on('openDeleteMarketplaceModal', $.proxy(this.open, this));
+        this.get('controller').on('openDeleteMarketplaceModal', this, this.open);
+    },
+
+    willDestroyElement: function () {
+        this.get('controller').off('openDeleteMarketplaceModal', this, this.open);
     },
 
     open: function (marketplace) {
