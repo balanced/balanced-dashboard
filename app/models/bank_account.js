@@ -25,10 +25,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
         return 'Bank account: {0}'.format(this.get('description'));
     }.property('description'),
 
-    verified: function () {
-        return this.get('can_debit') || this.get('verification.state') === 'verified';
-    }.property('can_debit', 'verification.state'),
-
     can_confirm_verification: function() {
         return this.get('verification.state') === 'pending' && this.get('verification.remaining_attempts') > 0;
     }.property('verification.state', 'verification.remaining_attempts')

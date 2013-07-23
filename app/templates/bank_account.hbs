@@ -13,7 +13,7 @@
 
         <div {{bindAttr class=":span4 :buttons customer::single-button"}}>
             {{#if customer}}
-                {{#if verified}}
+                {{#if can_debit}}
                     <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
                 {{else}}
                     {{#if can_confirm_verification}}

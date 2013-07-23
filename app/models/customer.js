@@ -7,19 +7,19 @@ Balanced.Customer = Balanced.Model.extend({
     holds: Balanced.Model.hasMany('Balanced.Hold', 'holds_uri'),
     refunds: Balanced.Model.hasMany('Balanced.Refund', 'refunds_uri'),
 
-    verified_bank_accounts: function () {
+    debitable_bank_accounts: function () {
         var bank_accounts = this.get('bank_accounts');
 
         return _.filter(bank_accounts.get('content'), function (bank_account) {
-            if (bank_account.get('verified')) {
+            if (bank_account.get('can_debit')) {
                 return bank_account;
             }
         });
-    }.property('bank_accounts.@each.verified'),
+    }.property('bank_accounts.@each.can_debit'),
 
     debitable_funding_instruments: function () {
-        return this.get('verified_bank_accounts').concat(this.get('cards.content'));
-    }.property('verified_bank_accounts', 'cards'),
+        return this.get('debitable_bank_accounts').concat(this.get('cards.content'));
+    }.property('debitable_bank_accounts', 'cards'),
 
     type: function () {
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
