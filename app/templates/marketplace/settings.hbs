@@ -225,7 +225,7 @@
                                     <span class="summary">{{ bank_account.description }}</span>
                                 </div>
 
-                                {{#unless bank_account.verified }}
+                                {{#unless bank_account.can_debit }}
                                     <div class="actions">
                                         Verify to debit
                                     </div>
