@@ -175,19 +175,23 @@
 	            </header>
 	            <ul class="sidebar-items">
 	                {{#each bank_account in bank_accounts }}
-	                    <li {{bindAttr class="bank_account.verified:verified:unverified"}}>
-	                        <div class="icon">Bank account</div>
-	                        <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
-	                        <div class="details">
-	                            <span class="name"><span class="label2a">{{#linkTo 'bank_account' bank_account}}{{ bank_account.name }}{{/linkTo}}</span></span>
-	                            <span class="summary">{{ bank_account.description }}</span>
-	                        </div>
+	                    <li class="bank-account">
+	                        {{#linkTo 'bank_account' bank_account}}
+                                <div class="icon" {{bindAttr class="bank_account.verified:icon-verified"}}>Bank account</div>
+	                        {{/linkTo}}
+                                <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
+                            {{#linkTo 'bank_account' bank_account}}
+	                            <div class="details">
+	                               <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
+	                               <span class="summary">{{ bank_account.description }}</span>
+	                           </div>
 
-	                        {{#unless bank_account.verified }}
-	                        <div class="actions">
-	                            <button class="btn" {{action openVerifyBankAccountModal bank_account target="view"}}>Verify</button>
-	                        </div>
-	                        {{/unless}}
+	                           {{#unless bank_account.verified }}
+	                               <div class="actions">
+	                                   Verify to debit
+	                               </div>
+	                           {{/unless}}
+                            {{/linkTo}}
 	                    </li>
 	                {{/each}}
 	            </ul>
