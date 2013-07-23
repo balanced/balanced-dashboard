@@ -216,7 +216,7 @@
                     {{#each bank_account in owner_customer.bank_accounts }}
                         <li class="bank-account">
                             {{#linkTo 'bank_account' bank_account}}
-                                <div class="icon" {{bindAttr class="bank_account.verified:icon-verified"}}>Bank account</div>
+                                <div class="icon" {{bindAttr class="bank_account.can_debit:icon-verified"}}>Bank account</div>
                             {{/linkTo}}
                                 <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
                             {{#linkTo 'bank_account' bank_account}}
@@ -405,7 +405,6 @@
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_customer" viewName="editOwnerInfoModal"}}
 {{view Balanced.AddBankAccountModalView customerBinding="model.owner_customer" viewName="addBankAccountModal"}}
-{{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.AddCardModalView customerBinding="model.owner_customer" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}

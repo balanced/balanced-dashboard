@@ -177,7 +177,7 @@
 	                {{#each bank_account in bank_accounts }}
 	                    <li class="bank-account">
 	                        {{#linkTo 'bank_account' bank_account}}
-                                <div class="icon" {{bindAttr class="bank_account.verified:icon-verified"}}>Bank account</div>
+                                <div class="icon" {{bindAttr class="bank_account.can_debit:icon-verified"}}>Bank account</div>
 	                        {{/linkTo}}
                                 <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
                             {{#linkTo 'bank_account' bank_account}}
@@ -242,7 +242,6 @@
 {{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 
 {{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
-{{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.AddCardModalView customerBinding="model" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}
