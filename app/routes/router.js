@@ -1,5 +1,3 @@
-
-
 Balanced.Route = Ember.Route.extend({
 });
 
@@ -7,7 +5,7 @@ Balanced.Router = Ember.Router.extend({
     /*
      * This function update page title when a transition is made
      */
-    _update_title: function(infos) {
+    _update_title: function (infos) {
         var last_info = infos[infos.length - 1];
         var title = last_info.handler.title;
         // backup document title
@@ -20,9 +18,6 @@ Balanced.Router = Ember.Router.extend({
             title = title();
         }
 
-        // TODO: we should add i18n support here
-        // we may should use a message key instead of string in route classes
-        
         if (title !== undefined) {
             document.title += ' - ' + title;
         }

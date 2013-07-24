@@ -1,5 +1,5 @@
 Balanced.MarketplaceSettingsRoute = Balanced.AuthRoute.extend({
-	title: 'Settings',
+    title: 'Settings',
 
     model: function (params) {
         return this.modelFor('marketplace');
