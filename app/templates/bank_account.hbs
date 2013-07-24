@@ -109,18 +109,21 @@
                         <tbody>
                             {{#each verification in verifications}}
                                 <tr>
-                                    <td class="attempts span13">
+                                    <td class="status span12">
+                                        <time {{bindAttr datetime="verification.created_at"}}" data-format="%b %d">{{ verification.human_readable_created_at }}</time>
+                                    </td>
+                                    <td class="attempts span8">
                                         {{ verification.attempts }} of {{ verification.allowed_attempts }} attempts
                                     </td>
-                                    <td class="status span13">
-                                        {{capitalize verification.state }}
+                                    <td class="status span6 label4a">
+                                        {{titleCase verification.state }}
                                     </td>
                                 </tr>
                             {{else}}
                                 <tr>
-                                    <td colspan="2" class="no-results">
+                                    <td colspan="2" class="span26 no-results">
                                         {{# if verifications.isLoaded }}
-                                            No results
+                                            Unverified
                                         {{else}}
                                             Loading...
                                         {{/if}}
