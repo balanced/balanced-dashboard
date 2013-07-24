@@ -138,6 +138,10 @@ require('app/controllers/invoices');
 require('app/controllers/cards');
 require('app/controllers/bank_accounts');
 require('app/controllers/customers');
+require('app/controllers/credits');
+require('app/controllers/debits');
+require('app/controllers/holds');
+require('app/controllers/refunds');
 
 /*
  * States (i.e. Routes)

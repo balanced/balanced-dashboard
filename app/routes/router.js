@@ -104,21 +104,18 @@ Balanced.Router.map(function () {
             this.resource('accounts', { path: '/accounts' }, function () {
                 this.resource('account', { path: '/:account_id' }, function () {
                     makeNestedResource(this, 'cards', 'card');
-                    makeNestedResource(this, 'credits', 'credit');
-                    makeNestedResource(this, 'debits', 'debit');
-                    makeNestedResource(this, 'holds', 'hold');
-                    makeNestedResource(this, 'refunds', 'refund');
                     makeNestedResource(this, 'bank_accounts', 'bank_account');
                     makeNestedResource(this, 'transactions', 'transaction');
                 });
             });
 
-            makeNestedResource(this, 'credits', 'credit');
-            makeNestedResource(this, 'debits', 'debit');
-            makeNestedResource(this, 'holds', 'hold');
+            this.resource('credits', { path: '/credits/:credit_id'});
+            this.resource('debits', { path: '/debits/:debit_id'});
+            this.resource('holds', { path: '/holds/:hold_id'});
+            this.resource('refunds', { path: '/refunds/:refund_id'});
+
             makeNestedResource(this, 'invoices', 'invoice');
             makeNestedResource(this, 'logs', 'log');
-            makeNestedResource(this, 'refunds', 'refund');
         });
 
     });
@@ -185,3 +182,7 @@ require('app/routes/marketplaces/add_customer');
 require('app/routes/customers');
 require('app/routes/bank_accounts');
 require('app/routes/cards');
+require('app/routes/credits');
+require('app/routes/debits');
+require('app/routes/holds');
+require('app/routes/refunds');

@@ -11,22 +11,6 @@ Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
     }
 });
 
-Balanced.AccountsCreditRoute = Balanced.AuthRoute.extend({
-    model: model
-});
-
-Balanced.AccountsDebitRoute = Balanced.AuthRoute.extend({
-    model: model
-});
-
-Balanced.AccountsRefundRoute = Balanced.AuthRoute.extend({
-    model: model
-});
-
-Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
-    model: model
-});
-
 Balanced.AccountRoute = Balanced.AuthRoute.extend({
     model: function(params) {
         var marketplace = this.modelFor('marketplace');

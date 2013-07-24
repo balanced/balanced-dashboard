@@ -40,15 +40,7 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 
         credit.save().then(function (credit) {
             $('#pay-seller').modal('hide');
-
-            // this junk is in here because of the iframe code. Take it out when we clean that up!
-            var marketplace = self.get('controllers.marketplace.model');
-            window.location.hash = '#' +
-                Balanced.Utils.uriToDashboardFragment(marketplace.get('uri')) +
-                Balanced.Utils.uriToDashboardFragment(credit.get('uri'));
-
-            // This is what we should be doing to transition
-            // self.transitionToRoute('credits.credit', credit);
+            self.transitionToRoute('credits', credit);
         });
     }
 });
