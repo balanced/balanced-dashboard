@@ -5,7 +5,22 @@
         <h2>Confirm your bank account</h2>
     </div>
     <div class="modal-body">
-        <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
+        {{#unless view.model.no_remaining_attempts}}
+            {{#unless view.failedConfirmation}}
+                <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
+            {{else}}
+                <div class="alert alert-error">
+                <p>Unable to verify.</p>
+                <p>Please check the deposit amounts and enter them again.</p>
+                </div>
+            {{/unless}}
+        {{else}}
+            <div class="alert alert-error">
+                <p>Unable to verify.</p>
+                <p>You have reached the maximum number of tries allowed.</p>
+                <p>Please restart the verification process.</p>
+            </div>
+        {{/unless}}
 
         <p>Verification attempts remaining: {{view.model.remaining_attempts}}</p>
 
@@ -19,7 +34,7 @@
             {{view.funding_instrument.bank_name}}
         </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.amount_1:error"}}>
+        <div {{bindAttr class=":control-group view.amount_1_highlight:error"}}>
             <label>First Amount</label>
             <div class="input-prepend">
                 <span class="add-on">$0.</span>
@@ -27,7 +42,7 @@
             </div>
         </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.amount_2:error"}}>
+        <div {{bindAttr class=":control-group view.amount_2_highlight:error"}}>
             <label>Second Amount</label>
             <div class="input-prepend">
                 <span class="add-on">$0.</span>
@@ -38,7 +53,11 @@
         <p>If you did not receive the deposits after five business days, the transaction may have failed because of incorrect account information. If you need to change the information, remove the erroneous account and add a new bank account.</p>
     </div>
     <div class="modal-footer">
-        {{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
+        {{#unless view.model.no_remaining_attempts}}
+            {{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
+        {{else}}
+            <button class="btn danger" name="modal-submit" data-dismiss="modal" aria-hidden="true">Close</button>
+        {{/unless}}
     </div>
     </form>
 </div>

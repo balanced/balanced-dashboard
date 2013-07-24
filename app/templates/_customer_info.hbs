@@ -4,7 +4,15 @@
     </header>
     <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
     <div>
-        <span class="customer-name">{{#linkTo 'customer' customer}} {{ customer.name }} {{/linkTo}}</span>
+        <span class="customer-name">
+        	{{#linkTo 'customer' customer}}
+	        	{{#if customer.name}}
+		        	 {{ customer.name }}
+	        	{{else}}
+	        		{{ customer.id }}
+	        	{{/if}}
+        	{{/linkTo}}
+        </span>
         <br/>
         <span>{{ customer.email }}</span>
     </div>
