@@ -66,7 +66,7 @@ test('add funds', function (assert) {
 
     assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 
-    assert.equal($('#add-funds select option').length, 1, 'one verified bank account in account dropdown');
+    assert.equal($('#add-funds select option').length, 2);
 
     $('#add-funds input').first().val('55.55').trigger('keyup');
     $('#add-funds .modal-footer .btn').not('.danger').click();
