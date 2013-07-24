@@ -14,19 +14,21 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
     }.property('marketplace.owner_customer.bank_accounts'),
 
     open: function () {
-        var bank_accounts = this.get('marketplace.owner_customer.bank_accounts');
-        var source_uri = (bank_accounts && bank_accounts.length > 0) ? bank_accounts[0].get('uri') : null;
+        var self = this;
+        this.get('marketplace.owner_customer.bank_accounts').then(function(bank_accounts) {
+            var source_uri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
 
-        var credit = Balanced.Credit.create({
-            uri: this.get('marketplace.owner_customer.credits_uri'),
-            source_uri: source_uri,
-            amount: null
+            var credit = Balanced.Credit.create({
+                uri: self.get('marketplace.owner_customer.credits_uri'),
+                source_uri: source_uri,
+                amount: null
+            });
+
+            self.set('dollar_amount', null);
+            self.set('model', credit);
+
+            $('#withdraw-funds').modal('show');
         });
-
-        this.set('dollar_amount', null);
-        this.set('model', credit);
-
-        $('#withdraw-funds').modal('show');
     },
 
     save: function () {
