@@ -179,8 +179,7 @@ test('can add bank account', function (assert) {
     // click save
     $('#add-bank-account .modal-footer button').eq(1).click();
 
-    // should be two creates, one for the bank account and one for the verification
-    assert.equal(Balanced.Adapter.creates.length, createsBefore + 2);
+    assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
 
 test('can add card', function (assert) {

@@ -6,7 +6,6 @@ module('Marketplaces Settings', {
         $('#marketplace-nav .settings a').click();
     }, teardown: function () {
         $("#add-bank-account").modal('hide');
-        $("#verify-bank-account").modal('hide');
         $("#delete-bank-account").modal('hide');
         $("#add-card").modal('hide');
         $("#delete-card").modal('hide');
@@ -94,8 +93,7 @@ test('can create bank accounts', function (assert) {
     // click save
     $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
 
-    // should be two creates, one for the bank account and one for the verification
-    assert.ok(spy.calledTwice);
+    assert.ok(spy.calledOnce);
 });
 
 test('create bank account only submits once when clicked multiple times', function (assert) {
@@ -114,46 +112,6 @@ test('create bank account only submits once when clicked multiple times', functi
     }
 
     assert.ok(stub.calledOnce);
-});
-
-test('can verify bank accounts', function (assert) {
-    var stub = sinon.stub(Balanced.Adapter, "update");
-
-    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 2);
-
-    // click the verify button
-    $(".bank-account-info .sidebar-items li.unverified").first().find(".actions button").click();
-
-    // fill out information
-    $('#verify-bank-account .modal-body input[name="amount_1"]').val('1.00').trigger('keyup');
-    $('#verify-bank-account .modal-body input[name="amount_2"]').val('1.00').trigger('keyup');
-
-    // click save
-    $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
-
-    assert.ok(stub.calledOnce, "Update should have been called once");
-
-    //  TODO: assert call to server was made
-});
-
-test('verifying bank accounts only happens once despite multiple clicks', function (assert) {
-    var stub = sinon.stub(Balanced.Adapter, "update");
-
-    assert.equal($('.bank-account-info .sidebar-items li.unverified').length, 2);
-
-    // click the verify button
-    $(".bank-account-info .sidebar-items li.unverified").first().find(".actions button").click();
-
-    // fill out information
-    $('#verify-bank-account .modal-body input[name="amount_1"]').val('1.00').trigger('keyup');
-    $('#verify-bank-account .modal-body input[name="amount_2"]').val('1.00').trigger('keyup');
-
-    // click save
-    for (var i = 0; i < 20; i++) {
-        $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
-    }
-
-    assert.ok(stub.calledOnce, "Update should have been called once");
 });
 
 test('can delete bank accounts', function (assert) {
@@ -253,14 +211,6 @@ test('delete cards only deletes once when submit clicked multiple times', functi
     assert.ok(stub.calledOnce, "Delete should have been called once");
 
     //  TODO: assert server side call was made once.
-});
-
-test('can verify bank account modal', function (assert) {
-    assert.equal($("section.bank-account-info li.unverified").length, 2);
-
-    $("section.bank-account-info li.unverified .actions button").click();
-
-    assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
 });
 
 test('shows webhooks', function (assert) {
