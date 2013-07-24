@@ -11,11 +11,11 @@
             </span>
         </div>
 
-        <div {{bindAttr class=":span4 :buttons customer::single-button"}}>
-            {{#if customer}}
-                {{#if can_debit}}
-                    <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
-                {{else}}
+        <div {{bindAttr class=":span4 :buttons can_debit_or_verify::single-button"}}>
+            {{#if can_debit}}
+                <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+            {{else}}
+                {{#if can_verify}}
                     {{#if can_confirm_verification}}
                         <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
                     {{else}}

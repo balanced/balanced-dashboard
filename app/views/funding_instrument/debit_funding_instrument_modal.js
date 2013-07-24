@@ -13,7 +13,7 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
 
     open: function () {
         var debit = Balanced.Debit.create({
-            uri: this.get('funding_instrument.customer.debits_uri'),
+            uri: this.get('funding_instrument.debits_uri'),
             source_uri: this.get('funding_instrument.uri'),
             amount: null
         });

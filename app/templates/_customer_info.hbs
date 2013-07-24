@@ -2,20 +2,25 @@
     <header>
         <h3>Customer info</h3>
     </header>
-    {{#linkTo 'customer' customer}}
-        <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
-    {{/linkTo}}
-    <div>
-        <span class="customer-name">
-        	{{#linkTo 'customer' customer}}
-	        	{{#if customer.name}}
-		        	 {{ customer.name }}
-	        	{{else}}
-	        		{{ customer.id }}
-	        	{{/if}}
-        	{{/linkTo}}
-        </span>
-        <br/>
-        <span>{{#linkTo 'customer' customer}}{{ customer.email }}{{/linkTo}}</span>
-    </div>
+
+    {{#if customer}}
+        {{#linkTo 'customer' customer}}
+            <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
+        {{/linkTo}}
+        <div>
+            <span class="customer-name">
+            	{{#linkTo 'customer' customer}}
+    	        	{{#if customer.name}}
+    		        	 {{ customer.name }}
+    	        	{{else}}
+    	        		{{ customer.id }}
+    	        	{{/if}}
+            	{{/linkTo}}
+            </span>
+            <br/>
+            <span>{{#linkTo 'customer' customer}}{{ customer.email }}{{/linkTo}}</span>
+        </div>
+    {{else}}
+        <span class="empty-field-label">None</span>
+    {{/if}}
 </section>
