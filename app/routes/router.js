@@ -11,10 +11,10 @@ Balanced.Router = Ember.Router.extend({
         var last_info = infos[infos.length - 1];
         var title = last_info.handler.title;
         // backup document title
-        if (Balanced._doc_title === undefined) {
-            Balanced._doc_title = document.title;
+        if (this._doc_title === undefined) {
+            this._doc_title = document.title;
         }
-        document.title = Balanced._doc_title;
+        document.title = this._doc_title;
         // try to call it if it is a function
         if (typeof title === 'function') {
             title = title();
