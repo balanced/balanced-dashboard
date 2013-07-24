@@ -80,8 +80,8 @@ test('updating owner info only submits once despite multiple clicks', function (
 test('can create bank accounts', function (assert) {
     var spy = sinon.spy(Balanced.Adapter, "create");
 
-    // There are three bank accounts added to the fixture, used for add and withdraw funds
-    assert.equal($('.bank-account-info .sidebar-items li').length, 3);
+    // Bank accounts added to the fixture, used for add and withdraw funds
+    assert.equal($('.bank-account-info .sidebar-items li').length, 4);
 
     // click the button to add a bank account
     $('.bank-account-info a.add').click();
