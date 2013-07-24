@@ -2,6 +2,7 @@
     <header>
         <h3>Customer info</h3>
     </header>
+    {{#if customer}}
     <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
     <div>
         <span class="customer-name">
@@ -16,4 +17,7 @@
         <br/>
         <span>{{ customer.email }}</span>
     </div>
+    {{else}}
+        <span class="empty-field-label">None</span>
+    {{/if}}
 </section>
