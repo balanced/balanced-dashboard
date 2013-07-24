@@ -1,5 +1,7 @@
 Balanced.MarketplaceIndexRoute = Balanced.AuthRoute.extend({
-    redirect: function() {
+    title: 'Marketplaces',
+
+    redirect: function () {
         this.transitionTo('activity');
     }
 });

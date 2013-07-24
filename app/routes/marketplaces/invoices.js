@@ -1,3 +1,6 @@
+Balanced.InvoicesIndexRoute = Balanced.Route.extend({
+    title: 'Invoices',
+});
 
 Balanced.InvoicesRoute = Balanced.IframeRoute.extend({
     param: 'invoice_id',
