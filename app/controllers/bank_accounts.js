@@ -52,6 +52,6 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(
 
         can_debit_or_verify: function() {
             return this.get('content.can_debit') || this.get('content.can_verify');
-        }
+        }.property('content.can_debit', 'content.can_verify')
     }
 );
