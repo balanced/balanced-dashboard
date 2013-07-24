@@ -19,7 +19,7 @@ test('visiting start creates a marketplace', function (assert) {
     assert.ok(Balanced.NET.ajaxHeaders['Authorization'], 'Authorization header set');
 });
 
-test('visiting start and then settings, can view api secret key', function(assert) {
+test('viewing settings page as guest, can view api secret key', function(assert) {
     Ember.run(function() {
         var guestUser = Balanced.User.create({
             marketplaces: Ember.A([
