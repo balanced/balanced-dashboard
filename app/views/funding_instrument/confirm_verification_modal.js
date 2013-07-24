@@ -35,17 +35,13 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 
         var verification = this.get('model');
         verification.update().then(function () {
-            self.get('funding_instrument').refresh();
-            self.get('funding_instrument.verification').refresh();
-            self.get('funding_instrument.verifications').refresh();
             $('#confirm-verification').modal('hide');
         }, function() {
             if(verification.get('errorStatusCode') === 409) {
                 self.set('failedConfirmation', true);
             }
 
-            self.get('funding_instrument.verification').refresh();
-            self.get('funding_instrument.verifications').refresh();
+            self.get('controller').refresh_verifications(verification);
         });
     }
 });

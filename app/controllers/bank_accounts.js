@@ -14,6 +14,22 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(
 
         baseClassSelector: "#bank-account",
 
+        init: function () {
+            var self = this;
+            Balanced.Model.Events.on('didCreate', this, this.refresh_verifications);
+            Balanced.Model.Events.on('didUpdate', this, this.refresh_verifications);
+        },
+
+        refresh_verifications: function(object) {
+            if(Balanced.Verification.prototype.isPrototypeOf(object) && this.get('content')) {
+                var self = this;
+                this.get('content').refresh().then(function() {
+                    self.get('verification').refresh();
+                    self.get('verifications').refresh();
+                });
+            }
+        },
+
         results_base_uri: function () {
             return this.get('content.transactions_uri');
         }.property('content.transactions_uri'),
