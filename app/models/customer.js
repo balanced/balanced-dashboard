@@ -69,7 +69,11 @@ Balanced.Customer = Balanced.Model.extend({
         } else {
             return null;
         }
-    }.property('dob')
+    }.property('dob'),
+
+    display_me: function () {
+        return this.get('name') || this.get('id');
+    }.property('name', 'id')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

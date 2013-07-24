@@ -10,11 +10,7 @@
         <div>
             <span class="customer-name">
             	{{#linkTo 'customer' customer}}
-    	        	{{#if customer.name}}
-    		        	 {{ customer.name }}
-    	        	{{else}}
-    	        		{{ customer.id }}
-    	        	{{/if}}
+    	        	{{customer.display_me}}
             	{{/linkTo}}
             </span>
             <br/>
