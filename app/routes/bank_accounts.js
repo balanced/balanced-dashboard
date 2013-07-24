@@ -5,6 +5,8 @@ Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.BankAccountRoute = Balanced.AuthRoute.extend({
+    title: 'Bank Account',
+
     model: function (params) {
         var marketplace = this.modelFor('marketplace');
         return marketplace.then(function (marketplace) {

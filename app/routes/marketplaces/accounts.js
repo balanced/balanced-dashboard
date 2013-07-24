@@ -28,6 +28,8 @@ Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
+    title: 'Create a new customer', 
+    
     model: function () {
         var marketplace = this.modelFor('marketplace');
         return marketplace.get('web_uri') + '/accounts/new' + Balanced.MigrationUtils.embeddedQueryString();
