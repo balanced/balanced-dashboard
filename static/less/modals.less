@@ -83,6 +83,10 @@
 
   .row-pad {
     padding: 20px;
+
+    p:last-of-type {
+        margin: 0px;
+    }
   }
 
   .row-full {
@@ -95,7 +99,7 @@
 
   .row-borders {
     border-top: 1px solid @gray4;
-    bottom-bottom: 1px solid @gray4;
+    border-bottom: 1px solid @gray4;
   }
 
   .number1a {
@@ -262,4 +266,32 @@
   }
 
   margin: 10px 0 10px 0;
+}
+
+#verify-bank-account {
+    .row-pad {
+        p.label1a {
+            margin-bottom: 20px;
+        }
+    }
+
+    .row-full {
+        min-height: 50px;
+    }
+}
+
+#confirm-verification {
+    .row-pad {
+        p.label1a {
+            margin-bottom: 20px;
+        }
+    }
+
+    #verification-attempts {
+        background-color: @gray2;
+
+        .label1a {
+            margin-bottom: 0px;
+        }
+    }
 }

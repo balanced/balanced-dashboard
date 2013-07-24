@@ -1,4 +1,4 @@
-<div class="modal hide" id="confirm-verification">
+<div class="modal wide-modal hide" id="confirm-verification">
     <form {{action "save" on="submit" target="view"}}>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -7,22 +7,25 @@
     <div class="modal-body">
         {{#unless view.model.no_remaining_attempts}}
             {{#unless view.failedConfirmation}}
-                <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
+                <div class="row-pad">
+                    <p class="label1a">Check the two deposits Balanced made into this bank account and enter the amounts below.</p>
+                </div>
             {{else}}
                 <div class="alert alert-error row-full">
-                    <p>Unable to verify.</p>
+                    <p class="label1a">Unable to verify.</p>
                     <p>Please check the deposit amounts and enter them again.</p>
                 </div>
             {{/unless}}
         {{else}}
             <div class="alert alert-error row-full">
-                <p>Unable to verify.</p>
-                <p>You have reached the maximum number of tries allowed.</p>
-                <p>Please restart the verification process.</p>
+                <p class="label1a">Unable to verify.</p>
+                <p>You have reached the maximum number of tries allowed. Please restart the verification process.</p>
             </div>
         {{/unless}}
 
-        <p>Verification attempts remaining: {{view.model.remaining_attempts}}</p>
+        <div id="verification-attempts" class="row-pad row-full row-borders">
+            <p class="label3a">Verification attempts remaining: {{view.model.remaining_attempts}}</p>
+        </div>
 
         <div class="control-group edit-inline">
             <label class="inline-label">Bank account number</label>
@@ -38,7 +41,7 @@
             <label>First Amount</label>
             <div class="input-prepend">
                 <span class="add-on">$0.</span>
-                {{view Ember.TextField name="amount_1" valueBinding="view.model.amount_1" class="full"}}
+                {{view Ember.TextField name="amount_1" valueBinding="view.model.amount_1" class="span2"}}
             </div>
         </div>
 
@@ -46,11 +49,12 @@
             <label>Second Amount</label>
             <div class="input-prepend">
                 <span class="add-on">$0.</span>
-                {{view Ember.TextField name="amount_2" valueBinding="view.model.amount_2" class="full"}}
+                {{view Ember.TextField name="amount_2" valueBinding="view.model.amount_2" class="span2"}}
             </div>
         </div>
-
-        <p>If you did not receive the deposits after five business days, the transaction may have failed because of incorrect account information. If you need to change the information, remove the erroneous account and add a new bank account.</p>
+    </div>
+    <div class="modal-informational">
+        <p class="modal-informational-content">If the deposits are not received after five business days, the transactions may have failed because of incorrect bank account information. Remove the erroneous bank account and add a new bank account.</p>
     </div>
     <div class="modal-footer">
         {{#unless view.model.no_remaining_attempts}}

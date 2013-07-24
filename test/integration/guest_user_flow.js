@@ -24,6 +24,14 @@ test('visiting start and then settings, can view api secret key', function(asser
         Balanced.Router.create().transitionTo('start');
     });
 
+    var guestUser = Balanced.User.create({
+        marketplaces: Ember.A([
+            Balanced.Marketplace.find("/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY")
+        ])
+    });
+
+    Balanced.Auth.setAuthProperties(true, guestUser, '/users/guest', '73ec8c8ef40611e2a318026ba7d31e6f', true);
+
     $(".dashboard").click();
 
     $("li.settings a").click();
