@@ -9,13 +9,13 @@
             {{#unless view.failedConfirmation}}
                 <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
             {{else}}
-                <div class="alert alert-error">
-                <p>Unable to verify.</p>
-                <p>Please check the deposit amounts and enter them again.</p>
+                <div class="alert alert-error row-full">
+                    <p>Unable to verify.</p>
+                    <p>Please check the deposit amounts and enter them again.</p>
                 </div>
             {{/unless}}
         {{else}}
-            <div class="alert alert-error">
+            <div class="alert alert-error row-full">
                 <p>Unable to verify.</p>
                 <p>You have reached the maximum number of tries allowed.</p>
                 <p>Please restart the verification process.</p>

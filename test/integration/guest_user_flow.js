@@ -20,25 +20,19 @@ test('visiting start creates a marketplace', function (assert) {
 });
 
 test('visiting start and then settings, can view api secret key', function(assert) {
-    ////
-    // In order to get this working, we need to be able to issue POSTS and persistent the creates in tests.
-    ////
+    Ember.run(function() {
+        Balanced.Router.create().transitionTo('start');
+    });
 
-    // Ember.run(function() {
-    //     Balanced.Router.create().transitionTo('start');
-    // });
+    $(".dashboard").click();
 
-    // var api_secret_key = $(".api-key .secret").text();
+    $("li.settings a").click();
 
-    // $(".dashboard").click();
+    $(".control-group .controls .api-key-secret a").click();
 
-    // $("li.settings a").click();
+    var shown_api_secret_key = $(".control-group .controls .api-key-secret").text();
 
-    // $(".control-group .controls .api-key-secret a").click();
-
-    // var shown_api_secret_key = $(".control-group .controls .api-key-secret").text();
-
-    // assert.equal(api_secret_key, shown_api_secret_key, 'Generated api secret matches shown api secret in settings');
+    assert.notEqual(shown_api_secret_key, '', 'shown api secret in settings for guest');
 });
 
 test('claim account creates a login', function (assert) {
