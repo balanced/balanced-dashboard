@@ -77,6 +77,29 @@
   max-height: 420px;
   margin: 0;
 
+  &.modal-info {
+    padding-bottom: 0px !important;
+  }
+
+  .row-pad {
+    padding: 20px;
+  }
+
+  .row-full {
+    margin-left: -35px;
+    margin-right: -35px;
+    min-height: 55px;
+  }
+
+  .row-borders {
+    border-top: 1px solid @gray3;
+    bottom-bottom: 1px solid @gray3;
+  }
+
+  .number1a {
+    line-height: 48px;
+  }
+
   &:not(.modal-with-headers) {
     background-color: @modalBodyBackgroundColor;
     padding: 20px 35px 20px 35px;
@@ -169,7 +192,11 @@
 }
 
 .modal-informational-light {
-  background-color: @modalInformationalLightBackground;
+    p {
+        color: @black;
+    }
+
+    background-color: @modalInformationalLightBackground;
 }
 
 // Remove bottom margin if need be
