@@ -17,9 +17,9 @@
                     <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
                 {{else}}
                     {{#if can_confirm_verification}}
-                        <a class="btn debit-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                        <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
                     {{else}}
-                        <a class="btn debit-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+                        <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
                     {{/if}}
                 {{/if}}
             {{/if}}

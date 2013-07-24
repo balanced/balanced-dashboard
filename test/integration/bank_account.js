@@ -10,6 +10,8 @@ module('Bank Account Page', {
     }, teardown: function () {
         $('#credit-bank-account').modal('hide');
         $('#debit-funding-instrument').modal('hide');
+        $('#verify-bank-account').modal('hide');
+        $('#confirm-verification').modal('hide');
     }
 });
 
@@ -84,6 +86,55 @@ test('debiting only submits once despite multiple clicks', function (assert) {
     for (var i = 0; i < 20; i++) {
         $('#debit-funding-instrument .modal-footer button[name="modal-submit"]').click();
     }
+
+    assert.ok(stub.calledOnce);
+});
+
+test('can initiate bank account verification', function(assert) {
+    var stub = sinon.stub(Balanced.Adapter, "create");
+
+    // click the settings link
+    $('#marketplace-nav .settings a').click();
+
+    // click on the third bank account (which has no verification)
+    $(".bank-account-info .sidebar-items li").eq(2).find(".name").click();
+
+    assert.equal($('#content h1').text().trim(), 'Bank Account');
+
+    assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
+
+    // click the verify button
+    $(".main-header .buttons a.verify-button").click();
+
+    assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
+
+    $('#verify-bank-account .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(stub.calledOnce);
+});
+
+test('can confirm bank account verification', function(assert) {
+    var stub = sinon.stub(Balanced.Adapter, "update");
+
+    // click the settings link
+    $('#marketplace-nav .settings a').click();
+
+    // click on the fourth bank account (which has a pending verification)
+    $(".bank-account-info .sidebar-items li").eq(3).find(".name").click();
+
+    assert.equal($('#content h1').text().trim(), 'Bank Account');
+
+    assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
+
+    // click the confirm button
+    $(".main-header .buttons a.confirm-verification-button").click();
+
+    assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
+
+    $('#confirm-verification .modal-body input[name="amount_1"]').val('1.00').trigger('keyup');
+    $('#confirm-verification .modal-body input[name="amount_2"]').val('1.00').trigger('keyup');
+
+    $('#confirm-verification .modal-footer button[name="modal-submit"]').click();
 
     assert.ok(stub.calledOnce);
 });
