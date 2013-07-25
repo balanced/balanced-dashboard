@@ -20,6 +20,8 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
+    title: 'Activity',
+
     setupController: function (controller, model) {
         this._super(controller, model);
 
@@ -30,6 +32,8 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
+    title: 'Activity',
+    
     setupController: function (controller, model) {
         this._super(controller, model);
 
