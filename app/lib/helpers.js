@@ -344,10 +344,9 @@ Balanced.Utils = {
         }
 
         // called when data is loaded
-        var data_loaded = function () {
+        data.on('didLoad', function () {
             set_title(loaded_func());
-        };
-        data.on('didLoad', data_loaded);
+        });
         return loading_func();
     }
 };
