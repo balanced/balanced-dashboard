@@ -109,13 +109,13 @@
                         <tbody>
                             {{#each verification in verifications}}
                                 <tr>
-                                    <td class="status span12">
-                                        <time {{bindAttr datetime="verification.created_at"}}" data-format="%b %d">{{ verification.human_readable_created_at }}</time>
+                                    <td class="status span10">
+                                        <time {{bindAttr datetime="verification.created_at"}} data-format="%b %d">{{ verification.human_readable_created_at }}</time>
                                     </td>
                                     <td class="attempts span8">
                                         {{ verification.attempts }} of {{ verification.allowed_attempts }} attempts
                                     </td>
-                                    <td class="status span6 label4a">
+                                    <td class="status span8 label4a">
                                         {{titleCase verification.display_state }}
                                     </td>
                                 </tr>
