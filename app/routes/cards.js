@@ -5,16 +5,12 @@ Balanced.CardsIndexRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.CardRoute = Balanced.AuthRoute.extend({
-    page_title: function (route, set_title) {
+    pageTitle: function (route, setTitle) {
         var card = route.controller.content;
-        return Balanced.Utils.loadSetTitle(card, set_title, function () {
+        return Balanced.Utils.maybeDeferredLoading(card, setTitle, function () {
             return 'Card: loading ...'; 
         }, function () {
-            return 'Card: {0} ({1} {2})'.format(
-                card.get('name'), 
-                card.get('last_four'), 
-                Balanced.Utils.toTitleCase(card.get('brand'))
-            );
+            return 'Card: {0}'.format(card.get('displayName'));
         });
     },
 

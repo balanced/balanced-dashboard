@@ -1,5 +1,5 @@
 Balanced.InvoicesIndexRoute = Balanced.Route.extend({
-    page_title: 'Invoices'
+    pageTitle: 'Invoices'
 });
 
 Balanced.InvoicesRoute = Balanced.IframeRoute.extend({

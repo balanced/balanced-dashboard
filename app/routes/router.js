@@ -9,7 +9,7 @@ Balanced.Router = Ember.Router.extend({
         var last_info = infos[infos.length - 1];
         var title = last_info.handler.title;
         var route = last_info.handler;
-        var page_title = route.page_title;
+        var page_title = route.get('pageTitle');
 
         // backup document title
         if (typeof this._doc_title === 'undefined') {

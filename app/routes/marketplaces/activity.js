@@ -8,7 +8,7 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
-    page_title: 'Activity',
+    pageTitle: 'Activity',
     
     setupController: function (controller, model) {
         this._super(controller, model);
@@ -20,7 +20,7 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
-    page_title: 'Activity',
+    pageTitle: 'Activity',
 
     setupController: function (controller, model) {
         this._super(controller, model);
@@ -32,7 +32,7 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
-    page_title: 'Activity',
+    pageTitle: 'Activity',
     
     setupController: function (controller, model) {
         this._super(controller, model);

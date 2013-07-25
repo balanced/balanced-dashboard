@@ -2,22 +2,12 @@ Balanced.CustomersRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.CustomerRoute = Balanced.AuthRoute.extend({
-    page_title: function (route, set_title) {
+    pageTitle: function (route, setTitle) {
         var customer = route.controller.content;
-        return Balanced.Utils.loadSetTitle(customer, set_title, function () {
+        return Balanced.Utils.maybeDeferredLoading(customer, setTitle, function () {
             return 'Customer: loading ...'; 
         }, function () {
-            var name;
-            if (customer.is_business) {
-                name = customer.business_name;
-            } else {
-                name = customer.name;
-            }
-            var title = 'Customer: {0}'.format(name);
-            if (customer.email) {
-                title += ' ({0})'.format(customer.email);
-            }
-            return title;
+            return 'Customer: {0}'.format(customer.get('displayName'));
         });
     },
 

@@ -35,7 +35,15 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
                 this.get('verification.state') !== 'failed' &&
                 this.get('verification.state') !== 'verified' &&
                 this.get('verification.remaining_attempts') > 0;
-    }.property('verification', 'verification.state', 'verification.remaining_attempts')
+    }.property('verification', 'verification.state', 'verification.remaining_attempts'),
+
+    displayName: function() {
+        return '{0} ({1} {2})'.format(
+            this.get('name'), 
+            this.get('last_four'), 
+            Balanced.Utils.toTitleCase(this.get('bank_name'))
+        );
+    }.property('name', 'last_four', 'bank_name')
 });
 
 Balanced.TypeMappings.addTypeMapping('bank_account', 'Balanced.BankAccount');

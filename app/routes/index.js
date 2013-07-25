@@ -29,7 +29,7 @@ Balanced.MarketplacesRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
-    page_title: 'Marketplaces',
+    pageTitle: 'Marketplaces',
     
     setupController: function () {
         this.controllerFor('marketplace').set('content', null);

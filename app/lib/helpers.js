@@ -337,16 +337,24 @@ Balanced.Utils = {
         return uri;
     },
 
-    loadSetTitle: function (data, set_title, loading_func, loaded_func) {
+    /*
+     * This function checks whether data is loaded, when it is loaded, loadedFunc
+     * is called and the result is returned. Otherwise, result of loadingFunc()
+     * will be returned and callback(loadedFunc()) will be called once the data is loaded
+     *
+     * It is very useful for getting a loading message when it is loading,
+     * update the information later with the data is loaded.
+     */
+    maybeDeferredLoading: function (data, callback, loadingFunc, loadedFunc) {
         // the data is already loaded
         if (data.isLoaded) {
-            return loaded_func();
+            return loadedFunc();
         }
 
         // called when data is loaded
         data.on('didLoad', function () {
-            set_title(loaded_func());
+            callback(loadedFunc());
         });
-        return loading_func();
+        return loadingFunc();
     }
 };

@@ -5,16 +5,12 @@ Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.BankAccountRoute = Balanced.AuthRoute.extend({
-    page_title: function (route, set_title) {
+    pageTitle: function (route, setTitle) {
         var account = route.controller.content;
-        return Balanced.Utils.loadSetTitle(account, set_title, function () {
+        return Balanced.Utils.maybeDeferredLoading(account, setTitle, function () {
             return 'Bank Account: loading ...'; 
         }, function () {
-            return 'Bank Account: {0} ({1} {2})'.format(
-                account.get('name'), 
-                account.get('last_four'), 
-                Balanced.Utils.toTitleCase(account.get('bank_name'))
-            );
+            return 'Bank Account: {0}'.format(account.get('displayName'));
         });
     },
 
