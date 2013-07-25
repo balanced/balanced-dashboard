@@ -66,7 +66,7 @@ test('add funds', function (assert) {
 
     assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 
-    assert.equal($('#add-funds select option').length, 1, 'one verified bank account in account dropdown');
+    assert.equal($('#add-funds select option').length, 2);
 
     $('#add-funds input').first().val('55.55').trigger('keyup');
     $('#add-funds .modal-footer .btn').not('.danger').click();
@@ -96,7 +96,7 @@ test('withdraw funds', function (assert) {
 
     assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 
-    assert.equal($('#withdraw-funds select option').length, 3, 'three bank account in account dropdown');
+    assert.equal($('#withdraw-funds select option').length, 4, 'bank accounts in account dropdown');
 
     $('#withdraw-funds input').first().val('55.55').trigger('keyup');
     $('#withdraw-funds .modal-footer .btn').not('.danger').click();

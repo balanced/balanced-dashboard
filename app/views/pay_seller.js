@@ -5,7 +5,11 @@ Balanced.PaySellerModalView = Balanced.View.extend({
     amount_dollars: 0,
 
     didInsertElement: function () {
-        this.get('controller').on('openPaySellerModal', $.proxy(this.open, this));
+        this.get('controller').on('openPaySellerModal', this, this.open);
+    },
+
+    willDestroyElement: function () {
+        this.get('controller').off('openPaySellerModal', this, this.open);
     },
 
     open: function () {

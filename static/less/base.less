@@ -101,6 +101,10 @@ input:focus, select:focus, textarea:focus, a:focus {
   box-shadow: none;
 }
 
+.empty-field-label {
+  font-style: italic;
+}
+
 .fontyFont(label1, nimbussannov-reg, 18px);
 .fontyFont(label2, nimbussannov-bol, 15px);
 .fontyFont(label3, nimbussannov-med, 15px);
@@ -223,6 +227,7 @@ dl, dt, dd {
 @import "/static/less/customer.less";
 @import "/static/less/funding_instruments.less";
 @import "/static/less/start.less";
+@import "/static/less/alerts.less";
 
 //  individual page components
 @import "/static/less/webhooks.less";

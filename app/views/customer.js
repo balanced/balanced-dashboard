@@ -15,10 +15,6 @@ Balanced.CustomerView = Balanced.View.extend({
         this.get('addBankAccountModal').open();
     },
 
-    openVerifyBankAccountModal: function (bankAccount) {
-        this.get('verifyBankAccountModal').open(bankAccount);
-    },
-
     openAddCardModal: function () {
         this.get('addCardModal').open();
     }
