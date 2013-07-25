@@ -15,15 +15,14 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(
         baseClassSelector: "#bank-account",
 
         init: function () {
-            var self = this;
-            Balanced.Model.Events.on('didCreate', this, this.refresh_verifications);
-            Balanced.Model.Events.on('didUpdate', this, this.refresh_verifications);
+            Balanced.Model.Events.on('didCreate', this, this.refreshVerifications);
+            Balanced.Model.Events.on('didUpdate', this, this.refreshVerifications);
         },
 
-        refresh_verifications: function(object) {
-            if(Balanced.Verification.prototype.isPrototypeOf(object) && this.get('content')) {
+        refreshVerifications: function (object) {
+            if (Balanced.Verification.prototype.isPrototypeOf(object) && this.get('content')) {
                 var self = this;
-                this.get('content').refresh().then(function() {
+                this.get('content').refresh().then(function () {
                     self.get('verification').refresh();
                     self.get('verifications').refresh();
                 });
@@ -42,15 +41,15 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(
             this.trigger('openCreditBankAccountModal');
         },
 
-        openVerifyBankAccountModal: function() {
+        openVerifyBankAccountModal: function () {
             this.trigger('openVerifyBankAccountModal');
         },
 
-        openConfirmVerificationModal: function() {
+        openConfirmVerificationModal: function () {
             this.trigger('openConfirmVerificationModal');
         },
 
-        can_debit_or_verify: function() {
+        can_debit_or_verify: function () {
             return this.get('content.can_debit') || this.get('content.can_verify');
         }.property('content.can_debit', 'content.can_verify')
     }

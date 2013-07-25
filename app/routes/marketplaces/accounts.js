@@ -4,7 +4,7 @@ var model = function () {
 };
 
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
-    title: 'Accounts',
+    pageTitle: 'Accounts',
     
     redirect: function () {
         this.transitionTo('activity.customers');
@@ -29,6 +29,7 @@ Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
 
 Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
     title: 'Create a new customer', 
+    pageTitle: 'Create a new customer', 
     
     model: function () {
         var marketplace = this.modelFor('marketplace');

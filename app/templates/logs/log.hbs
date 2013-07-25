@@ -15,9 +15,9 @@
                 <dt>Request ID</dt>
                 <dd>{{ model.guru_id }}</dd>
                 <dt>IP address</dt>
-                <dd>{{ model.request.headers.X-Real-Ip }}</dd>
+                <dd>{{ model.message.request.headers.X-Real-Ip }}</dd>
                 <dt>User-agent</dt>
-                <dd>{{ model.request.headers.User-Agent }}</dd>
+                <dd>{{ model.message.request.headers.User-Agent }}</dd>
             </dl>
         </section>
     </div>

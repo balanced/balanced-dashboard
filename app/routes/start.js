@@ -1,5 +1,5 @@
 Balanced.StartRoute = Balanced.Route.extend({
-    title: 'Getting started',
+    pageTitle: 'Getting started',
     
     model: function () {
         var existingApiKey = $.cookie(Balanced.COOKIE.API_KEY_SECRET);

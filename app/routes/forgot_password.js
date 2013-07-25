@@ -1,5 +1,5 @@
 Balanced.ForgotPasswordRoute = Balanced.Route.extend({
-    title: 'Forgot password',
+    pageTitle: 'Forgot password',
 
     setupController: function (controller, model) {
         controller.set('submitted', false);

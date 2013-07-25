@@ -8,19 +8,35 @@ Balanced.Router = Ember.Router.extend({
     _update_title: function (infos) {
         var last_info = infos[infos.length - 1];
         var title = last_info.handler.title;
+        var route = last_info.handler;
+        var page_title = route.get('pageTitle');
+
         // backup document title
-        if (this._doc_title === undefined) {
+        if (typeof this._doc_title === 'undefined') {
             this._doc_title = document.title;
         }
-        document.title = this._doc_title;
-        // try to call it if it is a function
-        if (typeof title === 'function') {
-            title = title();
-        }
 
-        if (title !== undefined) {
-            document.title += ' - ' + title;
+        var self = this;
+        var set_title = function(title) {
+            if (typeof title !== 'undefined') {
+                document.title = self._doc_title + ' | ' + title;
+            } else {
+                document.title = self._doc_title;
+            }
+        };
+        
+        // try to call it if it is a function
+        if (typeof page_title === 'function') {
+            /*
+             * The title may be updated by the page_title function later,
+             * for example, ajax data loading page can update the title after the 
+             * data is loaded. So, you can return such as 'Customer: loading ...',
+             * and call set_title('Customer: John') later when the data is loaded 
+             */
+            page_title = page_title(route, set_title);
         }
+        
+        set_title(page_title);
     },
 
     didTransition: function (infos) {

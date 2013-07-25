@@ -5,7 +5,14 @@ Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.BankAccountRoute = Balanced.AuthRoute.extend({
-    title: 'Bank Account',
+    pageTitle: function (route, setTitle) {
+        var bankAccount = route.controller.content;
+        return Balanced.Utils.maybeDeferredLoading(bankAccount, setTitle, function () {
+            return 'Bank Account: loading ...';
+        }, function () {
+            return 'Bank Account: {0}'.format(bankAccount.get('description'));
+        });
+    },
 
     model: function (params) {
         var marketplace = this.modelFor('marketplace');

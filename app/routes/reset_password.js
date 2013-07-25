@@ -1,5 +1,5 @@
 Balanced.ResetPasswordRoute = Balanced.Route.extend({
-    title: 'Reset password',
+    pageTitle: 'Reset password',
 
     setupController: function (controller, model) {
         controller.set('submitted', false);
