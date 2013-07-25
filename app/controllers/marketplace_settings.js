@@ -33,11 +33,11 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
         var user = Balanced.Auth.get('user');
         var currentUserMarketplace = user.user_marketplace_for_uri(uri);
 
-        if(currentUserMarketplace) {
+        if (currentUserMarketplace) {
             return currentUserMarketplace.get('secret');
         }
 
-        if(Balanced.Auth.getGuestAPIKey()) {
+        if (Balanced.Auth.getGuestAPIKey()) {
             return Balanced.Auth.getGuestAPIKey();
         }
 

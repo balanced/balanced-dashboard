@@ -15,11 +15,11 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
     open: function () {
         var debitableBankAccounts = this.get('marketplace.owner_customer.debitable_bank_accounts');
-        var source_uri = (debitableBankAccounts && debitableBankAccounts.length > 0) ? debitableBankAccounts[0].get('uri') : null;
+        var sourceUri = (debitableBankAccounts && debitableBankAccounts.length > 0) ? debitableBankAccounts[0].get('uri') : null;
 
         var debit = Balanced.Debit.create({
             uri: this.get('marketplace.owner_customer.debits_uri'),
-            source_uri: source_uri,
+            source_uri: sourceUri,
             amount: null
         });
 

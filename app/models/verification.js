@@ -1,21 +1,20 @@
 Balanced.Verification = Balanced.Model.extend({
-	allowed_attempts: function() {
-		return this.get('remaining_attempts') + this.get('attempts');
-	}.property('remaining_attempts', 'attempts'),
+    allowed_attempts: function () {
+        return this.get('remaining_attempts') + this.get('attempts');
+    }.property('remaining_attempts', 'attempts'),
 
-	no_remaining_attempts: function() {
+    no_remaining_attempts: function () {
         return this.get('remaining_attempts') === 0;
     }.property('remaining_attempts'),
 
     // hide the deposit_succeeded state to keep things less confusing
-    display_state: function() {
+    display_state: function () {
         var state = this.get('state');
 
-        if(state === 'deposit_succeeded') {
+        if (state === 'deposit_succeeded') {
             return 'pending';
-        } else {
-            return state;
         }
+        return state;
     }.property('state')
 });
 
