@@ -1,1 +1,34 @@
 <h1 class="page-title">Debit</h1>
+
+<div id="debit" class="transaction">
+	<div class="main-header transactions-header span20">
+	    <div class="span2 label">
+	        <div class="icon">Debit</div>
+	    </div>
+	    <div class="span14 title">
+	        <span class="nav2d">
+	            {{description}}
+	        </span>
+	    </div>
+
+	    <div class="span4 buttons">
+	    </div>
+	</div>
+
+	<section class="customer-info">
+		<header>
+		    <h3>Customer</h3>
+		</header>
+		<div class="main-header span20">
+			<div class="span2 label">
+				<div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Customer</div>
+		    </div>
+		    <div class="span14 title">
+		        <span>
+		            {{#linkTo 'customers' customer}}{{customer.display_me_with_email}}{{/linkTo}}
+		        </span>
+		    </div>
+		</div>
+	</section>
+</div>
+

@@ -1,5 +1,6 @@
 Balanced.Transaction = Balanced.Model.extend({
     account: Balanced.Model.belongsTo('account', 'Balanced.Account'),
+    customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
     web_uri: function () {
         return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
