@@ -5,7 +5,17 @@ Balanced.Verification = Balanced.Model.extend({
 
 	no_remaining_attempts: function() {
         return this.get('remaining_attempts') === 0;
-    }.property('remaining_attempts')
+    }.property('remaining_attempts'),
+
+    // hide the deposit_succeeded state to keep things less confusing
+    display_state: function() {
+    	var state = this.get('state');
+    	if(state == 'deposit_succeeded') {
+    		return 'pending';
+    	} else {
+    		return state;
+    	}
+    }.property('state')
 });
 
 Balanced.TypeMappings.addTypeMapping('verification', 'Balanced.Verification');
