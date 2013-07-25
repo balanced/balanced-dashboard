@@ -336,4 +336,18 @@ Balanced.Utils = {
 
         return uri;
     },
+
+    loadSetTitle: function (data, set_title, loading_func, loaded_func) {
+        // the data is already loaded
+        if (data.isLoaded) {
+            return loaded_func();
+        }
+
+        // called when data is loaded
+        var data_loaded = function () {
+            set_title(loaded_func());
+        };
+        data.on('didLoad', data_loaded);
+        return loading_func();
+    }
 };

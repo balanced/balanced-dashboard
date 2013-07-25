@@ -4,7 +4,7 @@ var model = function () {
 };
 
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
-    title: 'Accounts',
+    page_title: 'Accounts',
     
     redirect: function () {
         this.transitionTo('activity.customers');

@@ -7,7 +7,8 @@ Balanced.DebitsRoute = Balanced.IframeRoute.extend({
 Balanced.DebitsDebitRoute = Balanced.ShowResource.extend({
     param: 'debit_id',
     title: 'Debits',
-    resource: 'debits'
+    resource: 'debits',
+    page_title: 'Debits'
 });
 
 Balanced.RefundsRoute = Balanced.IframeRoute.extend({
@@ -19,7 +20,8 @@ Balanced.RefundsRoute = Balanced.IframeRoute.extend({
 Balanced.RefundsRefundRoute = Balanced.ShowResource.extend({
     param: 'refund_id',
     title: 'Refunds',
-    resource: 'refunds'
+    resource: 'refunds',
+    page_title: 'Refunds'
 });
 
 Balanced.CreditsRoute = Balanced.IframeRoute.extend({
@@ -32,6 +34,7 @@ Balanced.CreditsCreditRoute = Balanced.ShowResource.extend({
     param: 'credit_id',
     title: 'Credits',
     resource: 'credits',
+    page_title: 'Credits',
     setupController: function (controller, model) {
         this._super(controller, model);
         try {
@@ -52,6 +55,7 @@ Balanced.HoldsHoldRoute = Balanced.ShowResource.extend({
     param: 'hold_id',
     title: 'Holds',
     resource: 'holds',
+    page_title: 'Holds',
     setupController: function (controller, model) {
         this._super(controller, model);
         try {

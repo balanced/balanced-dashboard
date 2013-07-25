@@ -1,5 +1,5 @@
 Balanced.LogsIndexRoute = Balanced.Route.extend({
-    title: 'Logs',
+    page_title: 'Logs'
 });
 
 Balanced.LogsRoute = Balanced.IframeRoute.extend({
