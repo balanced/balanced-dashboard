@@ -9,12 +9,13 @@ Balanced.Verification = Balanced.Model.extend({
 
     // hide the deposit_succeeded state to keep things less confusing
     display_state: function() {
-    	var state = this.get('state');
-    	if(state == 'deposit_succeeded') {
-    		return 'pending';
-    	} else {
-    		return state;
-    	}
+        var state = this.get('state');
+
+        if(state === 'deposit_succeeded') {
+            return 'pending';
+        } else {
+            return state;
+        }
     }.property('state')
 });
 
