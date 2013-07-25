@@ -71,7 +71,7 @@ Balanced.Customer = Balanced.Model.extend({
         }
     }.property('dob'),
 
-    displayName: function() {
+    displayName: function () {
         var name;
         if (this.get('is_business')) {
             name = this.get('business_name');
@@ -79,8 +79,12 @@ Balanced.Customer = Balanced.Model.extend({
             name = this.get('name');
         }
         var email = this.get('email');
-        if (email) {
-            name += ' ({0})'.format(email);
+        if (name) {
+            if (email) {
+                name += ' ({0})'.format(email);
+            }
+        } else {
+            name = email;
         }
         return name;
     }.property('is_business', 'business_name', 'name', 'email')

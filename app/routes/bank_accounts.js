@@ -6,11 +6,11 @@ Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
 
 Balanced.BankAccountRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
-        var account = route.controller.content;
-        return Balanced.Utils.maybeDeferredLoading(account, setTitle, function () {
-            return 'Bank Account: loading ...'; 
+        var bankAccount = route.controller.content;
+        return Balanced.Utils.maybeDeferredLoading(bankAccount, setTitle, function () {
+            return 'Bank Account: loading ...';
         }, function () {
-            return 'Bank Account: {0}'.format(account.get('displayName'));
+            return 'Bank Account: {0}'.format(bankAccount.get('description'));
         });
     },
 

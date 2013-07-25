@@ -24,12 +24,10 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
         }
 
         var verification = this.get('model');
+        var after = function () {
+            $('#verify-bank-account').modal('hide');
+        };
 
-        var self = this;
-        verification.create().then(function (verification) {
-            $('#verify-bank-account').modal('hide');
-        }, function() {
-            $('#verify-bank-account').modal('hide');
-        });
+        verification.create().then(after, after);
     }
 });

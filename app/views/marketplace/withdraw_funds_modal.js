@@ -15,12 +15,12 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 
     open: function () {
         var self = this;
-        this.get('marketplace.owner_customer.bank_accounts').then(function(bank_accounts) {
-            var source_uri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
+        this.get('marketplace.owner_customer.bank_accounts').then(function (bank_accounts) {
+            var sourceUri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
 
             var credit = Balanced.Credit.create({
                 uri: self.get('marketplace.owner_customer.credits_uri'),
-                source_uri: source_uri,
+                source_uri: sourceUri,
                 amount: null
             });
 
@@ -38,8 +38,8 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 
         var self = this;
         var credit = this.get('model');
-
         var cents = null;
+
         try {
             cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
         } catch (error) {
