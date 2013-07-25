@@ -1,10 +1,7 @@
 Balanced.AddBankAccountModalView = Balanced.View.extend({
     templateName: 'modals/add_bank_account',
 
-    isSubmitting: false,
-
     open: function () {
-        this.set('isSubmitting', false);
         var bankAccount = Balanced.BankAccount.create({
             uri: this.get('customer.bank_accounts_uri'),
             name: '',
@@ -18,10 +15,9 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
     },
 
     save: function () {
-        if (this.get('isSubmitting')) {
+        if (this.get('model.isSaving')) {
             return;
         }
-        this.set('isSubmitting', true);
 
         var self = this;
         var bankAccount = this.get('model');
@@ -30,17 +26,8 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
         bankAccount.set('type', this.$('form input[name=account_type]').val());
 
         bankAccount.create().then(function () {
-            Balanced.Verification.create({
-                uri: bankAccount.get('verifications_uri')
-            }).create().then(function () {
-                self.get('customer.bank_accounts').refresh();
-                $('#add-bank-account').modal('hide');
-                self.set('isSubmitting', false);
-            }, function () {
-                self.set('isSubmitting', false);
-            });
-        }, function () {
-            self.set('isSubmitting', false);
+            self.get('customer.bank_accounts').refresh();
+            $('#add-bank-account').modal('hide');
         });
     }
 });

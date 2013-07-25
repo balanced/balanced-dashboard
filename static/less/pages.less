@@ -54,7 +54,7 @@
     a {
       float: right;
       display: block;
-      width: 60%;
+      width: 80%;
       cursor: pointer;
 
       &:first-of-type {
@@ -84,10 +84,8 @@ section[class$="-info"] {
   }
 }
 
-@itemWarningIconBackground: rgb(240, 129, 118);
-@itemWarningBackground: rgb(250, 210, 200);
-@itemSuccessIconBackground: rgb(140, 183, 168);
-@itemSuccessBackground: rgb(218, 232, 226);
+@itemIconBackground: @gray4;
+@itemBackground: @gray2;
 
 .span11 + .span8 {
   section[class$="-info"] {
@@ -98,22 +96,19 @@ section[class$="-info"] {
 
 .sidebar-items {
   li {
-    background-color: @itemSuccessBackground;
+    background-color: @itemBackground;
     margin-bottom: 5px;
     clear: both;
     float: left;
     width: 100%;
     position: relative;
 
-    &.unverified {
-      background-color: @itemWarningBackground;
-      .icon, .actions {
-        background-color: @itemWarningIconBackground;
-      }
+    a, a:visited, a:hover {
+        color: @gray5;
     }
   }
   .icon {
-    background-color: @itemSuccessIconBackground;
+    background-color: @itemIconBackground;
     width: 60px;
     height: 60px;
     display: block;
@@ -129,30 +124,28 @@ section[class$="-info"] {
     }
   }
   .actions {
-    background-color: @itemSuccessIconBackground;
+    background-color: @itemIconBackground;
     clear: both;
     text-align: right;
     padding: 5px;
     width: 335px;
+    color: @white;
+    font-style: italic;
   }
 }
 
 .bank-account-info {
-  .icon {
-    background-position: 0px -300px;
-  }
-  .verified {
     .icon {
-      background-position: -60px -300px;
+        background-position: -123px -300px;
     }
-  }
+
+    .icon-verified {
+        background-position: -63px -300px;
+    }
 }
 
 .card-info {
-  .icon {
-    background-position: 0px -360px;
-  }
-  .verified {
-    background-position: -60px -360px;
-  }
+    .icon {
+        background-position: -60px -360px;
+    }
 }

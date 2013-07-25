@@ -2,6 +2,7 @@ module('Guest', {
     setup: function () {
         Ember.run(function () {
             Balanced.Auth.setAuthProperties(false, null, null, null, false);
+            Balanced.Auth.destroyGuestUser();
         });
     }, teardown: function () {
 
@@ -17,6 +18,29 @@ test('visiting start creates a marketplace', function (assert) {
     assert.equal(Balanced.Auth.get('signedIn'), true, 'User is signed in');
     assert.ok(Balanced.Auth.get('isGuest'));
     assert.ok(Balanced.NET.ajaxHeaders['Authorization'], 'Authorization header set');
+});
+
+test('viewing settings page as guest, can view api secret key', function(assert) {
+    Ember.run(function() {
+        var guestUser = Balanced.User.create({
+            marketplaces: Ember.A([
+                Balanced.Marketplace.find("/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY")
+            ])
+        });
+
+        Balanced.Auth.setAuthProperties(true, guestUser, '/users/guest', '73ec8c8ef40611e2a318026ba7d31e6f', true);
+        Balanced.Auth.storeGuestAPIKey('73ec8c8ef40611e2a318026ba7d31e6f');
+
+        Balanced.Router.create().transitionTo('marketplace', Balanced.Marketplace.find("/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY"));
+    });
+
+    $("li.settings a").click();
+
+    $(".control-group .controls .api-key-secret a").click();
+
+    var shown_api_secret_key = $(".control-group .controls .api-key-secret").text().trim();
+
+    assert.equal(shown_api_secret_key, '73ec8c8ef40611e2a318026ba7d31e6f', 'shown api secret in settings for guest');
 });
 
 test('claim account creates a login', function (assert) {

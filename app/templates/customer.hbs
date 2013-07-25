@@ -175,19 +175,27 @@
 	            </header>
 	            <ul class="sidebar-items">
 	                {{#each bank_account in bank_accounts }}
-	                    <li {{bindAttr class="bank_account.verified:verified:unverified"}}>
-	                        <div class="icon">Bank account</div>
-	                        <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
-	                        <div class="details">
-	                            <span class="name"><span class="label2a">{{#linkTo 'bank_account' bank_account}}{{ bank_account.name }}{{/linkTo}}</span></span>
-	                            <span class="summary">{{ bank_account.description }}</span>
-	                        </div>
+	                    <li class="bank-account">
+                            {{#linkTo 'bank_account' bank_account}}
+                                <div {{bindAttr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
+	                        {{/linkTo}}
+                                <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
+                            {{#linkTo 'bank_account' bank_account}}
+	                            <div class="details">
+	                               <span class="name label2a">{{ bank_account.name }}</span>
+	                               <span class="summary">{{ bank_account.description }}</span>
+                                </div>
 
-	                        {{#unless bank_account.verified }}
-	                        <div class="actions">
-	                            <button class="btn" {{action openVerifyBankAccountModal bank_account target="view"}}>Verify</button>
-	                        </div>
-	                        {{/unless}}
+                                {{#unless bank_account.can_debit }}
+                                    <div class="actions">
+                                        {{#if bank_account.can_confirm_verification}}
+                                            Confirm verification
+                                        {{else}}
+                                            Verify to debit
+                                        {{/if}}
+	                               </div>
+	                           {{/unless}}
+                            {{/linkTo}}
 	                    </li>
 	                {{/each}}
 	            </ul>
@@ -205,7 +213,7 @@
 	                    <div class="icon">Credit card</div>
 	                    <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
 	                    <div class="details">
-	                        <span class="name"><span class="label2a">{{#linkTo 'card' card}}{{ card.name }}{{/linkTo}}</span></span>
+	                        <span class="name label2a">{{#linkTo 'card' card}}{{ card.name }}{{/linkTo}}</span>
 	                        <span class="summary">{{ card.description }}</span>
 	                    </div>
 	                </li>
@@ -238,7 +246,6 @@
 {{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 
 {{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
-{{view Balanced.VerifyBankAccountModalView viewName="verifyBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.AddCardModalView customerBinding="model" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}

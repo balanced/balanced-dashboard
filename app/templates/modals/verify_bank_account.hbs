@@ -1,42 +1,34 @@
-<div class="modal hide" id="verify-bank-account">
+<div class="modal wide-modal hide" id="verify-bank-account">
     <form {{action "save" on="submit" target="view"}}>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h2>Confirm your bank account</h2>
+        <h2>Bank account verification</h2>
     </div>
-    <div class="modal-body">
-        <p>Check the 2 deposits we made into your bank account and enter the amounts below. This process helps ensure that you are the owner of this bank account.</p>
-
-        <div class="control-group edit-inline">
-            <label class="inline-label">Bank account number</label>
-            {{view.bank_account.account_number}}
+    <div class="modal-body modal-info">
+        <div class="row-pad">
+            <p class="label1a">To debit this bank account, you need to verify it.</p>
         </div>
-
-        <div class="control-group edit-inline">
-            <label class="inline-label">Bank</label>
-            {{view.bank_account.bank_name}}
-        </div>
-
-        <div {{bindAttr class=":control-group view.model.validationErrors.amount_1:error"}}>
-            <label>First Amount</label>
-            <div class="input-prepend">
-                <span class="add-on">$0.</span>
-                {{view Ember.TextField name="amount_1" valueBinding="view.model.amount_1" class="full"}}
+        <div class="row-pad row-full modal-informational-light row-borders">
+            <div class="span2 number1a">
+                1
             </div>
+            <p>Balanced will make two small deposits (each less than $1.00) to this bank account.</p>
         </div>
-
-        <div {{bindAttr class=":control-group view.model.validationErrors.amount_2:error"}}>
-            <label>Second Amount</label>
-            <div class="input-prepend">
-                <span class="add-on">$0.</span>
-                {{view Ember.TextField name="amount_2" valueBinding="view.model.amount_2" class="full"}}
+        <div class="row-pad row-full modal-informational-light row-borders">
+            <div class="span2 number1a">
+                2
             </div>
+            <p>Check the bank account in <strong>1-2</strong> business days for the exact deposit amounts.</p>
         </div>
-
-        <p>If you did not receive the deposits after five business days, the transaction may have failed because of incorrect account information. If you need to change the information, remove the erroneous account and add a new bank account.</p>
+        <div class="row-pad row-full modal-informational-light row-borders">
+            <div class="span2 number1a">
+                3
+            </div>
+            <p>Click on this verification link again to enter the deposit amounts. If verification is unsuccessful after three attempts, you will have to restart the process and wait for two new deposits.</p>
+        </div>
     </div>
     <div class="modal-footer">
-        {{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
+        {{view Balanced.ModalActionButtonsView submitTitle="Start verification" submittingTitle="Starting verification..."}}
     </div>
     </form>
 </div>

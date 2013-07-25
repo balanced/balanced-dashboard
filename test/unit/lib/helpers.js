@@ -50,6 +50,7 @@ test('dollarsToCents', function (assert) {
         '0',
         '0.',
         '0.1',
+        '.51',
         '0.01',
         '0.51',
         '1.05',
@@ -77,6 +78,7 @@ test('dollarsToCents', function (assert) {
         0,
         0,
         10,
+        51,
         1,
         51,
         105,
@@ -210,5 +212,31 @@ test('prettyLogUrl', function (assert) {
 
     for(var i = 0; i < uris.length; i++) {
         assert.equal(Balanced.Utils.prettyLogUrl(uris[i]), expected[i]);
+    }
+});
+
+test('toTitleCase', function(assert) {
+    var inputs = [
+        null,
+        undefined,
+        '',
+        'a',
+        'something',
+        'something else',
+        'something_else'
+    ];
+
+    var outputs = [
+        null,
+        undefined,
+        '',
+        'A',
+        'Something',
+        'Something Else',
+        'Something Else'
+    ];
+
+    for (var i = 0; i < inputs.length; i++) {
+        assert.equal(Balanced.Utils.toTitleCase(inputs[i]), outputs[i]);
     }
 });

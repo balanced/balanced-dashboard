@@ -1,0 +1,58 @@
+<h1 class="page-title ellipsis">{{ model.message.request.method }} {{ model.condensed_request_url }}</h1>
+
+<div class="row">
+    <div class="span20">
+        <section class="mb-large">
+            <dl class="dl-horizontal">
+                <dt>Date</dt>
+                <dd>{{ model.human_readable_date }}</dd>
+                <dt>Method</dt>
+                <dd>{{ model.message.request.method }}</dd>
+                <dt>URI</dt>
+                <dd>{{ model.short_url }}</dd>
+                <dt>Status</dt>
+                <dd>{{ colorizeStatus model.message.response.status }}</dd>
+                <dt>Request ID</dt>
+                <dd>{{ model.guru_id }}</dd>
+                <dt>IP address</dt>
+                <dd>{{ model.request.headers.X-Real-Ip }}</dd>
+                <dt>User-agent</dt>
+                <dd>{{ model.request.headers.User-Agent }}</dd>
+            </dl>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span20">
+        <section class="request-info">
+            <header>
+                <h3>Request body</h3>
+            </header>
+
+            {{# if model.message.request.payload }}
+                <pre class="prettyprint lang-js">{{ prettyPrint model.message.request.payload }}</pre>
+            {{else}}
+                <pre class="prettyprint">None</pre>
+            {{/if}}
+            </pre>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span20">
+        <section class="mb-none response-info">
+            <header>
+                <h3>Response body</h3>
+            </header>
+
+            {{# if model.message.response.body }}
+                <pre class="prettyprint lang-js">{{ prettyPrint model.message.response.body }}</pre>
+            {{else}}
+                <pre class="prettyprint">None</pre>
+            {{/if}}
+            </pre>
+        </section>
+    </div>
+</div>

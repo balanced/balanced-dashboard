@@ -77,6 +77,35 @@
   max-height: 420px;
   margin: 0;
 
+  &.modal-info {
+    padding-bottom: 0px !important;
+  }
+
+  .row-pad {
+    padding: 20px;
+
+    p:last-of-type {
+        margin: 0px;
+    }
+  }
+
+  .row-full {
+    margin-left: -35px;
+    margin-right: -35px;
+    padding-left: 35px;
+    padding-right: 35px;
+    //min-height: 55px;
+  }
+
+  .row-borders {
+    border-top: 1px solid @gray4;
+    border-bottom: 1px solid @gray4;
+  }
+
+  .number1a {
+    line-height: 48px;
+  }
+
   &:not(.modal-with-headers) {
     background-color: @modalBodyBackgroundColor;
     padding: 20px 35px 20px 35px;
@@ -169,7 +198,11 @@
 }
 
 .modal-informational-light {
-  background-color: @modalInformationalLightBackground;
+    p {
+        color: @black;
+    }
+
+    background-color: @modalInformationalDarkBackground;
 }
 
 // Remove bottom margin if need be
@@ -233,4 +266,32 @@
   }
 
   margin: 10px 0 10px 0;
+}
+
+#verify-bank-account {
+    .row-pad {
+        p.label1a {
+            margin-bottom: 20px;
+        }
+    }
+
+    .row-full {
+        min-height: 50px;
+    }
+}
+
+#confirm-verification {
+    .row-pad {
+        p.label1a {
+            margin-bottom: 20px;
+        }
+    }
+
+    #verification-attempts {
+        background-color: @gray2;
+
+        .label1a {
+            margin-bottom: 0px;
+        }
+    }
 }

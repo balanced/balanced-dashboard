@@ -6,7 +6,7 @@ module('Card Page', {
         $('#marketplace-nav .settings a').click();
 
         // click on the first card
-        $(".card-info .sidebar-items li").first().find(".name a").click();
+        $(".card-info .sidebar-items li").first().find(".name").click();
     }, teardown: function () {
         $('#debit-funding-instrument').modal('hide');
     }

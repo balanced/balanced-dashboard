@@ -4,12 +4,16 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
     dollar_amount: null,
 
     didInsertElement: function () {
-        this.get('controller').on('openDebitFundingInstrumentModal', $.proxy(this.open, this));
+        this.get('controller').on('openDebitFundingInstrumentModal', this, this.open);
+    },
+
+    willDestroyElement: function () {
+        this.get('controller').off('openDebitFundingInstrumentModal', this, this.open);
     },
 
     open: function () {
         var debit = Balanced.Debit.create({
-            uri: this.get('funding_instrument.customer.debits_uri'),
+            uri: this.get('funding_instrument.debits_uri'),
             source_uri: this.get('funding_instrument.uri'),
             amount: null
         });
