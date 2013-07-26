@@ -17,12 +17,23 @@ Balanced.Log = Balanced.Model.extend({
 });
 
 Balanced.Log.reopenClass({
-    constructUri: function(id) {
-        if(id) {
-            return '/v1/logs/' + id;
-        } else {
-            return '/v1/logs';
+    constructUri: function(id, params) {
+        var uri = '/v1/logs';
+
+        if(typeof id === 'object' && !params) {
+            params = id;
+            id = null;
         }
+
+        if(id) {
+            return uri + id;
+        }
+
+        if(params) {
+            return uri + '?' + $.param(params);
+        }
+
+        return uri;
     }
 });
 

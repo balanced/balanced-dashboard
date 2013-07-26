@@ -2,7 +2,10 @@ Balanced.LogsIndexRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Logs',
 
     model: function () {
-        var logUri = Balanced.Log.constructUri();
+        var logUri = Balanced.Log.constructUri({
+            method: ['post', 'put', 'delete']
+        });
+
         return Balanced.ModelArray.newArrayLoadedFromUri(logUri, 'Balanced.Log');
     }
 });
