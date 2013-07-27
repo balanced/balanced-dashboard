@@ -417,8 +417,7 @@ Balanced.Utils = {
             route_name = 'refunds.refund';
             break;
         default:
-            // TODO: raise a more clear error
-            throw Ember.Error();
+            throw new Ember.Error('not supported model {0}'.format(obj));
         }
 
         var hash = options.hash;
