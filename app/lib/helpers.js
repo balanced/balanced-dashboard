@@ -361,7 +361,10 @@ Balanced.Utils = {
     /*
      *
      */
-    linkToEntity: function (property, options) {
+    linkToEntity: function (property) {
+        var options = [].slice.call(arguments, -1)[0];
+        var params = [].slice.call(arguments, 1, -1);
+
         /*
          * This basically evalute the property from name to object in the template context
          * borrowed from https://github.com/emberjs/ember.js/blob/v1.0.0-rc.6.1/packages/ember-handlebars/lib/helpers/debug.js
@@ -373,15 +376,24 @@ Balanced.Utils = {
             obj = (path === 'this') ? pathRoot : Ember.Handlebars.get(pathRoot, path, options);
 
         var route_name;
-        var self = this;
-        console.log(obj);
+        var link_view = Ember.LinkView;
         switch(obj.constructor) {
         case Balanced.Account:
-            /* TODO: deal the side effect 
-            I think a good way could be check current object
-            after a transition, load the customer object instead
-            */
+            /* 
+             * By passing account object to linkTo or LinkView, when a user click on it, the data of
+             * account is displayed. The account object is deprecated, we want to display customer
+             * object instead. 
+
+             * We can get a corresponding customer object from the server, but that is a deferred 
+             * operation, we cannot do it in this handlebear helper function. To solve that problem, 
+             * I want to change the behavior of LinkView. When a user click on it, it will load
+             * the corresponding customer object and transition to the customer route with it.
+             *
+             * Maybe there is a better solution, but this is the best workaround I can see. When
+             * we get rid of the deprecated account object, we can also get rid of this hack.
+             */
             route_name = 'customer';
+            link_view = Balanced.AccountLinkView;
             break;
         case Balanced.Customer:
             route_name = 'customer';
@@ -408,6 +420,18 @@ Balanced.Utils = {
             // TODO: raise a more clear error
             throw Ember.Error();
         }
-        return Ember.Handlebars.helpers.linkTo.call(this, route_name, obj, options);
+
+        var hash = options.hash;
+
+        hash.namedRoute = route_name;
+        hash.currentWhen = hash.currentWhen || route_name;
+        hash.disabledBinding = hash.disabledWhen;
+
+        hash.parameters = {
+            context: this,
+            options: options,
+            params: [obj].concat(params)
+        };
+        return Ember.Handlebars.helpers.view.call(this, link_view, options);
     }
 };
