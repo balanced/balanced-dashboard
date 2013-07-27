@@ -5,10 +5,6 @@ Balanced.Transaction = Balanced.Model.extend({
         return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
     }.property('uri'),
 
-    db_uri: function () {
-        return '#' + Balanced.Utils.uriToDashboardFragment(this.get('uri'));
-    }.property('uri'),
-
     embedded_iframe_url: function () {
         return this.get('web_uri') + Balanced.MigrationUtils.embeddedQueryString();
     }.property('web_uri'),
