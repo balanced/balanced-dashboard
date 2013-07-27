@@ -356,5 +356,58 @@ Balanced.Utils = {
             callback(loadedFunc());
         });
         return loadingFunc();
+    },
+
+    /*
+     *
+     */
+    linkToEntity: function (property, options) {
+        /*
+         * This basically evalute the property from name to object in the template context
+         * borrowed from https://github.com/emberjs/ember.js/blob/v1.0.0-rc.6.1/packages/ember-handlebars/lib/helpers/debug.js
+         */ 
+        var context = (options.contexts && options.contexts[0]) || this,
+            normalized = Ember.Handlebars.normalizePath(context, property, options.data),
+            pathRoot = normalized.root,
+            path = normalized.path,
+            obj = (path === 'this') ? pathRoot : Ember.Handlebars.get(pathRoot, path, options);
+
+        var route_name;
+        var self = this;
+        console.log(obj);
+        switch(obj.constructor) {
+        case Balanced.Account:
+            /* TODO: deal the side effect 
+            I think a good way could be check current object
+            after a transition, load the customer object instead
+            */
+            route_name = 'customer';
+            break;
+        case Balanced.Customer:
+            route_name = 'customer';
+            break;
+        case Balanced.BankAccount:
+            route_name = 'bank_account';
+            break;
+        case Balanced.Card:
+            route_name = 'card';
+            break;
+        case Balanced.Credit:
+            route_name = 'credits.credit';
+            break;
+        case Balanced.Debit:
+            route_name = 'debits.debit';
+            break;
+        case Balanced.Hold:
+            route_name = 'holds.hold';
+            break;
+        case Balanced.Refund:
+            route_name = 'refunds.refund';
+            break;
+        default:
+            // TODO: raise a more clear error
+            throw Ember.Error();
+        }
+        return Ember.Handlebars.helpers.linkTo.call(this, route_name, obj, options);
     }
 };

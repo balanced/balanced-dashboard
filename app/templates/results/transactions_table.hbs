@@ -27,34 +27,34 @@
     {{#each transaction in view.transactions }}
         <tr>
             <td class="span3 date">
-                <a {{bindAttr href="transaction.db_uri"}}"><span>
+                {{#linkToEntity transaction}}<span>
                     <time {{bindAttr datetime="transaction.created_at"}}" data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
-                </span></a>
+                {{/linkToEntity}}</a>
             </td>
             <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
-                <a {{bindAttr href="transaction.db_uri"}}"><span>
+                {{#linkToEntity transaction}}<span>
                     {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
-                </span></a>
+                {{/linkToEntity}}</a>
             </td>
             <td class="span4 description" {{bindAttr title="transaction.description"}}>
-                <a {{bindAttr href="transaction.db_uri"}}"><span>
+                {{#linkToEntity transaction}}<span>
                     {{ transaction.description }}
-                </span></a>
+                {{/linkToEntity}}</a>
             </td>
             <td {{bindAttr class=":span4 :account transaction.account::null-field"}} {{bindAttr title="transaction.account_name_summary"}}>
-                <a {{bindAttr href="transaction.db_uri"}}"><span>
+                {{#linkToEntity transaction}}<span>
                     {{transaction.account_name_summary}}
-                </span></a>
+                {{/linkToEntity}}</a>
             </td>
             <td class="span4 funding-instrument">
-                <a {{bindAttr href="transaction.db_uri"}}"><span>
+                {{#linkToEntity transaction}}<span>
                     {{transaction.funding_instrument_description}}
-                </span></a>
+                {{/linkToEntity}}</a>
             </td>
             <td class="span2 amount num">
-                <a {{bindAttr href="transaction.db_uri"}}"><span>
+                {{#linkToEntity transaction}}<span>
                     ${{ transaction.amount_dollars }}
-                </span></a>
+                {{/linkToEntity}}</a>
             </td>
         </tr>
     {{else}}
