@@ -6,7 +6,7 @@ module('Customer Page', {
         $("#activity header .accounts a").click();
 
         // click on the first customer
-        $("table.accounts tbody tr").eq(0).click();
+        $("table.accounts tbody tr a").eq(0).click();
     }, teardown: function () {
         $('#credit-customer').modal('hide');
         $('#debit-customer').modal('hide');
