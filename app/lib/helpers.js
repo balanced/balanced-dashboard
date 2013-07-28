@@ -359,7 +359,16 @@ Balanced.Utils = {
     },
 
     /*
+     * This function does almost the same as linkTo does. Except it determines 
+     * which route to go by type of given model object. As we may have different 
+     * types of model appears in the same table, this function is pretty useful
+     * for generating a link to any data entity we had.
      *
+     * To use it, for example, simply put 
+     *
+     *     {{#linkToEntity account}}Account link{{/linkToEntity}}
+     *
+     * in the handlebears template.
      */
     linkToEntity: function (property) {
         var options = [].slice.call(arguments, -1)[0];
