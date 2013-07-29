@@ -1,7 +1,7 @@
 Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
     needs: ['marketplace'],
 
-    sortField: 'message.date',
+    sortField: 'date_created',
     sortOrder: 'desc'
 });
 
