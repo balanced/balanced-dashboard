@@ -8,12 +8,12 @@ Balanced.Log = Balanced.Model.extend({
     }.property('log.short_url'),
 
     human_readable_date: function() {
-        if (this.get('message.date')) {
-            return Date.parseISO8601(this.get('message.date')).strftime(this.date_formats.short);
+        if (this.get('created_at')) {
+            return Date.parseISO8601(this.get('created_at')).strftime(this.date_formats.short);
         } else {
             return '';
         }
-    }.property('log.message.date')
+    }.property('log.created_at')
 });
 
 Balanced.Log.reopenClass({

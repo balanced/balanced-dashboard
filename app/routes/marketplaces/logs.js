@@ -3,7 +3,8 @@ Balanced.LogsIndexRoute = Balanced.AuthRoute.extend({
 
     model: function () {
         var logUri = Balanced.Log.constructUri({
-            method: ['post', 'put', 'delete']
+            method: ['post', 'put', 'delete'],
+            sort: 'created_at, desc'
         });
 
         return Balanced.ModelArray.newArrayLoadedFromUri(logUri, 'Balanced.Log');
