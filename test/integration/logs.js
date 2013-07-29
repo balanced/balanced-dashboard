@@ -30,7 +30,7 @@ test('view a particular log entry', function (assert) {
 
     $("table.logs tbody tr").first().click();
 
-    assert.equal($("h1.page-title").text(), 'POST /v1/marketplaces', 'h1 title is correct');
+    assert.equal($("h1.page-title").text(), 'PUT /v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU', 'h1 title is correct');
 
-    assert.equal($("#log-request-id").text(), 'OHM2c0c5fd4df8911e2a42a026ba7cac9da', 'Log request id matches');
+    assert.equal($("#log-request-id").text(), 'OHM7eb02462f32211e28797026ba7d31e6f', 'Log request id matches');
 });

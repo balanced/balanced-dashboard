@@ -26,7 +26,7 @@ Balanced.Log.reopenClass({
         }
 
         if(id) {
-            return uri + id;
+            return uri + '/' + id;
         }
 
         if(params) {

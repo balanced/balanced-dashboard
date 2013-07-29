@@ -8,7 +8,7 @@ Balanced.CardRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
         var card = route.controller.content;
         return Balanced.Utils.maybeDeferredLoading(card, setTitle, function () {
-            return 'Card: loading ...'; 
+            return 'Card: loading ...';
         }, function () {
             return 'Card: {0}'.format(card.get('displayName'));
         });
