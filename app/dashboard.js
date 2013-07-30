@@ -116,6 +116,7 @@ require('app/controllers/claim');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/marketplace_settings');
+require('app/controllers/add_customer');
 require('app/controllers/login');
 require('app/controllers/forgot_password');
 require('app/controllers/reset_password');
