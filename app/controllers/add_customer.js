@@ -26,6 +26,7 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 
     selectType: function (applicationType) {
         this.set('applicationType', applicationType);
+        this.set('optionalFieldsOpen', false);
 
         var cls = 'selected';
         $('a', '.application-type').removeClass(cls).parent().find('.' + applicationType.toLowerCase()).addClass(cls);
@@ -49,5 +50,13 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
         } else {
             return "Submit";
         }
-    }.property('model.isSaving')
+    }.property('model.isSaving'),
+
+    street_address_label: function() {
+        if(this.get('isBusiness')) {
+            return "Enter the business representative's permanent street address (not the business address). ";
+        } else {
+            return "Enter the permanent street address. ";
+        }
+    }.property('isBusiness')
 });

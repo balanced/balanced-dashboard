@@ -13,18 +13,20 @@
     {{#if selectedType}}
 
     	<fieldset>
+    	<div class="section-banner-header instructions-banner">
+            <p><strong>All fields are optional, but we suggest collecting information on the recommended fields in order to verify the customer's identity. You may still pay out a customer who is not verified.</strong></p>
+        </div>
     	<div class="section-banner-header">
             <p><strong>Basic info</strong> (all fields are optional)</p>
         </div>
         {{#if isBusiness}}
-            {{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter the full business name"}}
-            {{view Balanced.ControlGroupFieldView placeholder="EIN" field="ein" help="Enter the 9-digit employer identification number"}}
-            {{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter the business representative's name"}}
-            {{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the email" }}
+            {{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter the full business name. " recommendedField=true}}
+            {{view Balanced.ControlGroupFieldView placeholder="EIN number" field="ein" help="Enter the EIN number. " recommendedField=true}}
+            {{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter the business representative's full legal name. " recommendedField=true}}
+            {{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the email. " recommendedField=true}}
 	    {{else}}
-	    	{{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter the customer's name"
-	    	}}
-	    	{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the customer's email" }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="Full legal name" field="name" help="Enter the customer's full legal name. " recommendedField=true }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the customer's email. " recommendedField=true }}
 	    {{/if}}
 
 	    <div class="section-banner-header">
@@ -33,16 +35,16 @@
         </div>
 
     	{{#if optionalFieldsOpen}}
-	    	{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter the street address" }}
-	    	{{view Balanced.ControlGroupFieldView placeholder="City" field="address.city" help="Enter the city" }}
-	    	{{view Balanced.ControlGroupFieldView placeholder="Country" field="address.country" help="Enter the country" }}
-	    	{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.region" help="Enter the state or province" }}
-	        {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter the postal code" }}
-	        {{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone" help="Enter the phone number" }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="Permanent street address" field="address.street_address" helpBinding=street_address_label recommendedField=true }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="City" field="address.city" help="Enter the city. " recommendedField=true }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="Country" field="address.country" help="Enter the country. " recommendedField=true }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.region" help="Enter the state or province. " recommendedField=true }}
+	        {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter the postal code. " recommendedField=true }}
+	        {{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true }}
 	        <div {{bindAttr class=":control-group model.validationErrors.dob:error"}}>
 		        {{view Ember.TextField valueBinding="dob_month" name="dob_month" class="span2" placeholder="MM"}}
 	            {{view Ember.TextField valueBinding="dob_year" name="dob_year" class="span2" placeholder="YYYY"}}
-	            <label>Enter the date of birth</label>
+	            <label class="control-label">Enter the date of birth. <span class="recommended-field">Recommended field</span></label>
 	        </div>
 	        {{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="Enter the last 4 digits of the social security number" }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Facebook ID" field="facebook" help="Enter the Facebook ID" }}
