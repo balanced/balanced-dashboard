@@ -19,5 +19,15 @@ Balanced.BaseAdapter = Ember.Object.extend({
 
     delete: function (type, uri, success, error) {
         Ember.assert("Your adapter should override delete", false);
+    },
+
+    _checkParams: function(type, uri) {
+        if(!uri) {
+            throw new Error('Missing URI in adapter call for {0}'.format(type));
+        }
+
+        if(!type) {
+            throw new Error('Missing type in adapter call for {0}'.format(uri));
+        }
     }
 });

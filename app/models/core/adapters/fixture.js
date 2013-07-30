@@ -8,7 +8,13 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
     },
 
     get: function (type, uri, success, error) {
+        this._checkParams(type, uri);
+
         var json = this.dataMap[uri];
+
+        if(!uri) {
+            throw new Error('Missing URI in adapter call for {0}'.format(type));
+        }
 
         if(!json) {
             Ember.Logger.warn("Couldn't retrieve fixture for URI: " + uri);
@@ -20,6 +26,8 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
     },
 
     create: function (type, uri, data, success, error) {
+        this._checkParams(type, uri);
+
         this.creates.push({
             type: type,
             uri: uri,
@@ -32,6 +40,8 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
     },
 
     update: function (type, uri, data, success, error) {
+        this._checkParams(type, uri);
+
         this.updates.push({
             type: type,
             uri: uri,
@@ -44,6 +54,8 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
     },
 
     delete: function (type, uri, success, error) {
+        this._checkParams(type, uri);
+
         this.deletes.push({
             type: type,
             uri: uri
