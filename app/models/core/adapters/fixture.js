@@ -12,10 +12,6 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 
         var json = this.dataMap[uri];
 
-        if(!uri) {
-            throw new Error('Missing URI in adapter call for {0}'.format(type));
-        }
-
         if(!json) {
             Ember.Logger.warn("Couldn't retrieve fixture for URI: " + uri);
         }
