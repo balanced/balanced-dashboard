@@ -27,6 +27,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
         if (this.get('model.isSaving')) {
             return;
         }
+
         var self = this;
         var customer = this.get('model');
         var month = this.get('dob_month');
@@ -36,6 +37,11 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
         } else {
             customer.set('dob', null);
         }
+
+        if(customer.get('email') === '') {
+            customer.set('email', null);
+        }
+
         customer.update().then(function () {
             self.get('customer').refresh();
             $('#edit-customer-info').modal('hide');
