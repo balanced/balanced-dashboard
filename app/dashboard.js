@@ -72,7 +72,6 @@ require('app/views/forgot_password'); // depends on login
 require('app/views/reset_password'); // depends on login
 require('app/views/results');
 require('app/views/search');
-require('app/views/welcome_transition');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_settings');
