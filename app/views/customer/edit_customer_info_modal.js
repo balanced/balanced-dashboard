@@ -38,8 +38,6 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
             customer.set('dob', null);
         }
 
-        console.log(customer.get('email'));
-
         if(customer.get('email') === '') {
             customer.set('email', null);
         }
