@@ -356,5 +356,90 @@ Balanced.Utils = {
             callback(loadedFunc());
         });
         return loadingFunc();
+    },
+
+    /*
+     * This function does almost the same as linkTo does. Except it determines 
+     * which route to go by type of given model object. As we may have different 
+     * types of model appears in the same table, this function is pretty useful
+     * for generating a link to any data entity we had.
+     *
+     * To use it, for example, simply put 
+     *
+     *     {{#linkToEntity account}}Account link{{/linkToEntity}}
+     *
+     * in the handlebears template.
+     */
+    linkToEntity: function (property) {
+        var options = [].slice.call(arguments, -1)[0];
+        var params = [].slice.call(arguments, 1, -1);
+
+        /*
+         * This basically evalute the property from name to object in the template context
+         * borrowed from https://github.com/emberjs/ember.js/blob/v1.0.0-rc.6.1/packages/ember-handlebars/lib/helpers/debug.js
+         */ 
+        var context = (options.contexts && options.contexts[0]) || this,
+            normalized = Ember.Handlebars.normalizePath(context, property, options.data),
+            pathRoot = normalized.root,
+            path = normalized.path,
+            obj = (path === 'this') ? pathRoot : Ember.Handlebars.get(pathRoot, path, options);
+
+        var route_name;
+        var link_view = Ember.LinkView;
+        switch(obj.constructor) {
+        case Balanced.Account:
+            /* 
+             * By passing account object to linkTo or LinkView, when a user click on it, the data of
+             * account is displayed. The account object is deprecated, we want to display customer
+             * object instead. 
+
+             * We can get a corresponding customer object from the server, but that is a deferred 
+             * operation, we cannot do it in this handlebear helper function. To solve that problem, 
+             * I want to change the behavior of LinkView. When a user click on it, it will load
+             * the corresponding customer object and transition to the customer route with it.
+             *
+             * Maybe there is a better solution, but this is the best workaround I can see. When
+             * we get rid of the deprecated account object, we can also get rid of this hack.
+             */
+            route_name = 'customer';
+            link_view = Balanced.AccountLinkView;
+            break;
+        case Balanced.Customer:
+            route_name = 'customer';
+            break;
+        case Balanced.BankAccount:
+            route_name = 'bank_account';
+            break;
+        case Balanced.Card:
+            route_name = 'card';
+            break;
+        case Balanced.Credit:
+            route_name = 'credits.credit';
+            break;
+        case Balanced.Debit:
+            route_name = 'debits.debit';
+            break;
+        case Balanced.Hold:
+            route_name = 'holds.hold';
+            break;
+        case Balanced.Refund:
+            route_name = 'refunds.refund';
+            break;
+        default:
+            throw new Ember.Error('not supported model {0}'.format(obj));
+        }
+
+        var hash = options.hash;
+
+        hash.namedRoute = route_name;
+        hash.currentWhen = hash.currentWhen || route_name;
+        hash.disabledBinding = hash.disabledWhen;
+
+        hash.parameters = {
+            context: this,
+            options: options,
+            params: [obj].concat(params)
+        };
+        return Ember.Handlebars.helpers.view.call(this, link_view, options);
     }
 };
