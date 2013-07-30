@@ -23,30 +23,22 @@
 {{/if}}
 <tbody>
     {{#each funding_instrument in view.fundingInstruments}}
-        <tr>
+        <tr {{action selectResult funding_instrument}}>
             <td>
-                {{#linkToEntity funding_instrument}}<span>
-                    <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
-                </span>{{/linkToEntity}}
+                <time {{bindAttr datetime="funding_instrument.created_at"}}" data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{ funding_instrument.human_readable_created_at }}</time>
             </td>
             <td>
-                {{#linkToEntity funding_instrument}}<span>
-                    {{ funding_instrument.type_name }}
-                    {{#if funding_instrument.is_bank_account }}
-                        ({{ funding_instrument.type }})
-                    {{/if}}
-                </span>{{/linkToEntity}}
+                {{ funding_instrument.type_name }}
+                {{#if funding_instrument.is_bank_account }}
+                    ({{ funding_instrument.type }})
+                {{/if}}
             </td>
             <td {{bindAttr title="funding_instrument.description"}}>
-                {{#linkToEntity funding_instrument}}<span>
-                    {{ funding_instrument.description }}
-                </span>{{/linkToEntity}}
+                {{ funding_instrument.description }}
             </td>
             <td>
-                {{#linkToEntity funding_instrument}}<span>
-                    {{ funding_instrument.account.name }}
-                    {{ funding_instrument.account.email }}
-                </span>{{/linkToEntity}}
+                {{ funding_instrument.account.name }}
+                {{ funding_instrument.account.email }}
             </td>
         </tr>
     {{else}}

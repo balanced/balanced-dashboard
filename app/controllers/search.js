@@ -80,6 +80,12 @@ Balanced.SearchController = Balanced.ObjectController.extend(
             this.reset();
         },
 
+        selectResult: function (obj) {
+            this.closeSearch();
+
+            this.get('controllers.application').send('selectResult', obj);
+        },
+
         redirectToLog: function (ohm) {
             this.closeSearch();
 

@@ -22,7 +22,7 @@ Balanced.Card = Balanced.FundingInstrument.extend({
             this.get('last_four'), 
             Balanced.Utils.toTitleCase(this.get('brand'))
         );
-    }.property('name', 'last_four', 'brand')
+    }.property('name', 'last_four', 'brand'),
 });
 
 Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');
