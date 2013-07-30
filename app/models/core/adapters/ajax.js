@@ -4,6 +4,8 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
     },
 
     _uri: function (type, uri) {
+        this._checkParams(type, uri);
+
         var host = this.getHostForType(type);
         if (uri && uri.indexOf(host) !== 0 && uri.indexOf('https') !== 0) {
             uri = host + uri;

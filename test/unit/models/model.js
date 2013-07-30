@@ -541,7 +541,7 @@ test('hasMany association promises resolve async', function (assert) {
 
 test('models have promises for create', function (assert) {
     expect(1);
-    var t = Balanced.TestModel.create();
+    var t = Balanced.TestModel.create({uri: '/v1/woo'});
     Ember.run(function () {
         t.create().then(function (model) {
             assert.ok(true);
@@ -551,7 +551,7 @@ test('models have promises for create', function (assert) {
 
 test('create promises work if the model was previously invalid', function (assert) {
     expect(1);
-    var t = Balanced.TestModel.create();
+    var t = Balanced.TestModel.create({uri: '/v1/woo'});
 
     t._handleError({status: 400, responseText: 'Something bad'});
 
