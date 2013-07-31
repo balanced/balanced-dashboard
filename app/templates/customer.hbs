@@ -24,6 +24,13 @@
 	                <header>
 	                    <h3>Customer info:
 	                    	<span {{bindAttr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">{{#if is_identity_verified}}VERIFIED{{else}}UNVERIFIED{{/if}}</span>
+
+	                    	{{#unless is_identity_verified}}
+		                    	{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Identify Unverified" data-content="More information is necessary to verify the identity of this customer. You may continue paying this customer, but we recommend collecting the full legal name, email, and permanent street address. For a business, we also recommend collecting the full business name and EIN number. If verification is unsuccessful, try collecting the last four digits of the SSN."}}
+		                    		Verification status
+		                    	{{/view}}
+	                    	{{/unless}}
+
 	                        <a href="#" class="edit" {{action openEditCustomerInfoModal target="view"}}>Edit</a>
 	                    </h3>
 	                </header>
