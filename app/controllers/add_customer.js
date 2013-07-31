@@ -46,7 +46,7 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 
     submitTitle: function() {
         if(this.get('model.isSaving')) {
-            return "Submitting..."
+            return "Submitting...";
         } else {
             return "Submit";
         }

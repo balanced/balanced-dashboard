@@ -7,8 +7,8 @@ Balanced.MarketplaceAddCustomerRoute = Balanced.AuthRoute.extend({
         var marketplace = this.modelFor('marketplace');
 
         controller.set('content', Balanced.Customer.create({
-        	uri: marketplace.get('customers_uri'),
-        	address: {}
+            uri: marketplace.get('customers_uri'),
+            address: {}
         }));
         controller.set('optionalFieldsOpen', false);
     }
