@@ -37,7 +37,10 @@
     	{{#if optionalFieldsOpen}}
 	    	{{view Balanced.ControlGroupFieldView placeholder="Permanent street address" field="address.street_address" helpBinding=street_address_label recommendedField=true }}
 	    	{{view Balanced.ControlGroupFieldView placeholder="City" field="address.city" help="Enter the city. " recommendedField=true }}
-	    	{{view Balanced.ControlGroupFieldView placeholder="Country" field="address.country" help="Enter the country. " recommendedField=true }}
+	    	<div {{bindAttr class=":control-group model.validationErrors.address.country_code:error"}}>
+		        {{view Balanced.CountrySelectView valueBinding="address.country_code"}}
+	            <label class="control-label">Enter the country. <span class="recommended-field">Recommended field</span></label>
+	        </div>
 	    	{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.region" help="Enter the state or province. " recommendedField=true }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter the postal code. " recommendedField=true }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true }}

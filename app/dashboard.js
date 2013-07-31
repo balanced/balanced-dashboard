@@ -20,6 +20,7 @@ require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
 require('app/lib/analytics');
+require('app/lib/country_codes');
 
 /*
  * Model layer.
@@ -73,6 +74,7 @@ require('app/views/forgot_password'); // depends on login
 require('app/views/reset_password'); // depends on login
 require('app/views/results');
 require('app/views/search');
+require('app/views/country_select');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_settings');

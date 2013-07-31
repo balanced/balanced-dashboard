@@ -95,7 +95,11 @@ Balanced.Customer = Balanced.Model.extend({
         } else {
             this.set('dob', null);
         }
-    }
+    },
+
+    country_name: function() {
+        return Balanced.CountryCodesToNames[this.get('address.country_code')];
+    }.property('address.country_code')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');
