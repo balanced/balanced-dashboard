@@ -3,7 +3,7 @@
 <div id="customer">
 	<div class="main-header customer customer-header span20">
 	    <div class="span2 label">
-	        <div {{bindAttr class=":icon is_business:business-info:person-info"}}>Business</div>
+	        <div {{bindAttr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
 	    </div>
 	    <div class="span14 title">
 	        <span class="nav2d">
@@ -22,7 +22,8 @@
 	        <section class="customer-info">
 	            <form class="form-horizontal edit-inline">
 	                <header>
-	                    <h3>Customer info
+	                    <h3>Customer info:
+	                    	<span {{bindAttr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">{{#if is_identity_verified}}VERIFIED{{else}}UNVERIFIED{{/if}}</span>
 	                        <a href="#" class="edit" {{action openEditCustomerInfoModal target="view"}}>Edit</a>
 	                    </h3>
 	                </header>
