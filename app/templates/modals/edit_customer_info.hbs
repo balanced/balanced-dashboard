@@ -36,7 +36,7 @@
             </div>
             <div class="modal-informational modal-informational-light">
                 <div {{bindAttr class=":disclosure-button view.optionalFieldsOpen:open"}}><a href="#" {{action toggleOptionalFields target="view"}}>More Information</a></div>
-                <p class="modal-informational-content fields-header">Basic info (all fields are optional)</p>
+                <p class="modal-informational-content fields-header">Additional info (all fields are optional)</p>
             </div>
             <div {{bindAttr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
                 <div {{bindAttr class=":control-group view.model.validationErrors.address.street_address:error"}}>
@@ -57,10 +57,10 @@
                         {{view Ember.TextField valueBinding="view.model.address.region" name="region" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.country:error"}}>
+                <div {{bindAttr class=":control-group view.model.validationErrors.address.country_code:error"}}>
                     <label class="control-label">Country</label>
                     <div class="controls">
-                        {{view Ember.TextField valueBinding="view.model.address.country" name="country" class="full"}}
+                        {{view Balanced.CountrySelectView valueBinding="view.model.address.country_code" name="country_code" class="full"}}
                     </div>
                 </div>
                 <div {{bindAttr class=":control-group view.model.validationErrors.address.postal_code:error"}}>

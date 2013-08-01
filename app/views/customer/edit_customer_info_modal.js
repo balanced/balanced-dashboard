@@ -30,13 +30,8 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 
         var self = this;
         var customer = this.get('model');
-        var month = this.get('dob_month');
-        var year = this.get('dob_year');
-        if ((month && month.length > 0) || (year && year.length > 0)) {
-            customer.set('dob', year + '-' + month);
-        } else {
-            customer.set('dob', null);
-        }
+
+        customer.updateDob(this.get('dob_month'), this.get('dob_year'));
 
         if(customer.get('email') === '') {
             customer.set('email', null);

@@ -5,6 +5,8 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
     layoutName: '_control_group_field',
     type: 'text',
 
+    recommendedField: false,
+
     error: function (field, prefix) {
         var errors = this.get('controller.validationErrors.' + field + '.messages');
         if (errors) {

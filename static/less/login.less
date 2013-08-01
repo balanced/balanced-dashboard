@@ -108,6 +108,7 @@
     background-color: @white;
     border-bottom: 1px solid @balancedLightGray;
     padding: 25px 50px;
+    margin: 0;
     &:last-child {
       border-bottom: 0;
     }
@@ -118,6 +119,49 @@
       }
       input {
         border-color: @gray3;
+      }
+    }
+  }
+  .section-banner-header {
+    background-color: @gray3;
+    margin: 0;
+    p {
+      margin: 0;
+      padding: 15px 50px 15px 50px;
+      color: @black;
+      strong {
+        font-size: 13px;
+      }
+    }
+
+    &.instructions-banner {
+      background-color: @white;
+      p {
+        padding-top: 25px;
+        padding-bottom: 25px;
+      }
+    }
+
+    .disclosure-button {
+      background-color: @gray4;
+      float: left;
+      a {
+        .cssicon(
+          @url: @iconsFile,
+          @width: 30px,
+          @height: 48px,
+          @display: block
+        );
+        background-position: -10px -833px;
+
+        &:hover {
+          background-color: @black;
+        }
+      }
+      &.open {
+        a {
+          background-position: -110px -833px;
+        }
       }
     }
   }

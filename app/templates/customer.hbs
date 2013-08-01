@@ -3,7 +3,7 @@
 <div id="customer">
 	<div class="main-header customer customer-header span20">
 	    <div class="span2 label">
-	        <div {{bindAttr class=":icon is_business:business-info:person-info"}}>Business</div>
+	        <div {{bindAttr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
 	    </div>
 	    <div class="span14 title">
 	        <span class="nav2d">
@@ -22,7 +22,15 @@
 	        <section class="customer-info">
 	            <form class="form-horizontal edit-inline">
 	                <header>
-	                    <h3>Customer info
+	                    <h3>Customer info:
+	                    	<span {{bindAttr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">{{#if is_identity_verified}}VERIFIED{{else}}UNVERIFIED{{/if}}</span>
+
+	                    	{{#unless is_identity_verified}}
+		                    	{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Identify Unverified" data-content="More information is necessary to verify the identity of this customer. You may continue paying this customer, but we recommend collecting the full legal name, email, and permanent street address. For a business, we also recommend collecting the full business name and EIN number. If verification is unsuccessful, try collecting the last four digits of the SSN."}}
+		                    		Verification status
+		                    	{{/view}}
+	                    	{{/unless}}
+
 	                        <a href="#" class="edit" {{action openEditCustomerInfoModal target="view"}}>Edit</a>
 	                    </h3>
 	                </header>
@@ -111,7 +119,7 @@
 	                        <label class="control-label">Country</label>
 	                        <div class="controls">
 	                            <span class=":inline-label">
-	                                {{ address.country_code }}
+	                                {{ country_name }}
 	                            </span>
 	                        </div>
 	                    </div>
