@@ -90,3 +90,15 @@ test('search date picker dropdown', function (assert) {
     assert.ok(dp.find('.after').hasClass('selected'), 'after is selected');
     assert.ok(toggle.parent().hasClass('open'), 'date picker is still showing');
 });
+
+test('search click result', function (assert) {
+    Testing.runSearch('%');
+
+    // click customer section button
+    $('#search .results .accounts a').click();
+    // click the first row
+    $('#search .results table.items tbody tr a').first().click();
+
+    assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
+    assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
+});
