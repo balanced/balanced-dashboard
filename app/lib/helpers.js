@@ -386,6 +386,8 @@ Balanced.Utils = {
 
         var route_name;
         var link_view = Ember.LinkView;
+        // is this a transaction route?
+        var transaction_route = false;
         switch(obj.constructor) {
         case Balanced.Account:
             /* 
@@ -415,18 +417,39 @@ Balanced.Utils = {
             break;
         case Balanced.Credit:
             route_name = 'credits.credit';
+            transaction_route = true;
             break;
         case Balanced.Debit:
             route_name = 'debits.debit';
+            transaction_route = true;
             break;
         case Balanced.Hold:
             route_name = 'holds.hold';
+            transaction_route = true;
             break;
         case Balanced.Refund:
             route_name = 'refunds.refund';
+            transaction_route = true;
             break;
         default:
             throw new Ember.Error('not supported model {0}'.format(obj));
+        }
+        /*
+         * When it is a transaction route, as it uses iframe now,
+         * we need to transform the model object into another form.
+         * That is done by model method of Balanced.IframeRoute.
+         * However, when we pass the object directly to a LinkView,
+         * the object will be used directly, and the route.model will not
+         * be called. In this case, we call the model method manually here
+         * to transform the object before passing to LinkView to solve the problem. 
+         *
+         * We can get rid of this little hack when iframe is replaced
+         */
+        if (transaction_route) {
+            var route = this.get('container').lookup('route:' + route_name);
+            var route_params = {};
+            route_params[route.get('param')] = obj.get('id');
+            obj = route.model(route_params);
         }
 
         var hash = options.hash;
