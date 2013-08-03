@@ -146,6 +146,7 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
             uri += '/' + params[this.param];
         }
         return {
+            'id': params[this.param],
             'uri': uri + Balanced.MigrationUtils.embeddedQueryString(),
             'title': this.title,
             'marketplace': marketplace
