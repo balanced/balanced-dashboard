@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         clean: {
             files: {
-                src: ['build/', 'dist/', 'report/']
+                src: ['build/', 'dist/', 'report/', 'js/']
             }
         },
 
@@ -105,16 +105,28 @@ module.exports = function (grunt) {
 
         uglify: {
             dashboard: {
+                options: {
+                    sourceMap: 'js/dashboard.map.js',
+                    sourceMapRoot: '/js/',
+                    sourceMappingURL: '/js/dashboard.map.js',
+                    sourceMapPrefix: 1
+                },
                 files: {
-                    'build/js/dashboard-prod.min.js': [
-                        'build/js/dashboard-prod.js'
+                    'js/dashboard-prod.min.js': [
+                        'js/dashboard-prod.js'
                     ]
                 }
             },
             lib: {
+                options: {
+                    sourceMap: 'js/lib.map.js',
+                    sourceMapRoot: '/js/',
+                    sourceMappingURL: '/js/lib.map.js',
+                    sourceMapPrefix: 1
+                },
                 files: {
-                    'build/js/lib-prod.min.js': [
-                        'build/js/lib-prod.js'
+                    'js/lib-prod.min.js': [
+                        'js/lib-prod.js'
                     ]
                 }
             }
@@ -236,6 +248,26 @@ module.exports = function (grunt) {
                         dest: 'build/test/js/testconfig.js'
                     }
                 ]
+            },
+            preUglify: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['build/js/dashboard-prod.js','build/js/lib-prod.js'],
+                        dest: 'js/'
+                    }
+                ]
+            },
+            postUglify: {
+                files: [
+                    {
+                        expand: true,
+                        flatten: true,
+                        src: ['js/*'],
+                        dest: 'dist/js/'
+                    }
+                ]
             }
         },
 
@@ -288,8 +320,16 @@ module.exports = function (grunt) {
                 fileNameFormat: '${name}-${hash}.${ext}'
             },
             css: {
-                src: ['build/js/*.js', 'build/css/*.css'],
-                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html']
+                src: ['build/css/*.css'],
+                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'dist/*.html']
+            },
+            js: {
+                src: ['dist/js/dashboard-prod.js', 'dist/js/dashboard-prod.min.js', 'dist/js/lib-prod.js', 'dist/js/lib-prod.min.js'],
+                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'dist/js/*.map.js']
+            },
+            jsSourceMaps: {
+                src: ['dist/js/dashboard.map.js', 'dist/js/lib.map.js'],
+                dest: ['dist/js/*']
             },
             images: {
                 src: ['build/images/**/*.png'],
@@ -496,7 +536,7 @@ module.exports = function (grunt) {
     /*
      Builds for production.
      */
-    grunt.registerTask('build', ['jshint', '_devBuild', '_prodBuildSteps', '_copyDist']);
+    grunt.registerTask('build', ['jshint', '_devBuild', '_prodBuildSteps']);
 
     /*
      * Uploads to s3. Requires environment variables to be set if the bucket
@@ -506,12 +546,13 @@ module.exports = function (grunt) {
 
     grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildHTML']);
 
+    grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
+
     // keeping these steps out of the normal build because
     // uglify) Uglifying takes forever
-    // img) Img task has dependencies that must be installed, so trying to easy the pain for new devs
+    // img) Img task has dependencies that must be installed, so trying to ease the pain for new devs
     // hashres) Hashes depend on image bytes, so need to crush the images before running this
-    grunt.registerTask('_prodBuildSteps', ['uglify', 'img', 'hashres']);
-    grunt.registerTask('_copyDist', ['copy:dist']);
+    grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
     grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
     grunt.registerTask('_buildJSAfterTemplates', ['neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
