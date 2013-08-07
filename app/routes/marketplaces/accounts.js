@@ -5,7 +5,7 @@ var model = function () {
 
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Accounts',
-    
+
     redirect: function () {
         this.transitionTo('activity.customers');
     }
@@ -27,18 +27,15 @@ Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
     model: model
 });
 
-Balanced.AccountsNewRoute = Balanced.AuthRoute.extend({
-    title: 'Create a new customer', 
-    pageTitle: 'Create a new customer', 
-    
-    model: function () {
+Balanced.AccountRoute = Balanced.AuthRoute.extend({
+    redirect: function() {
         var marketplace = this.modelFor('marketplace');
-        return marketplace.get('web_uri') + '/accounts/new' + Balanced.MigrationUtils.embeddedQueryString();
-    }
-});
+        var customerId = window.location.hash.substr(window.location.hash.lastIndexOf('/'));
+        var customerUri = marketplace.get('customers_uri') + customerId;
+        this.transitionTo('customer', Balanced.Customer.find(customerUri));
+    },
 
-Balanced.AccountRoute = Balanced.ShowResource.extend({
-    param: 'account_id',
-    title: 'Account',
-    resource: 'accounts'
+    model: function() {
+        return null;
+    }
 });

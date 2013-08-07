@@ -102,11 +102,7 @@ Balanced.Router.map(function () {
 
             // only exists for compatibility with old dashboard URLs
             this.resource('accounts', { path: '/accounts' }, function () {
-
-                this.route('new', { path: '/new' });
-
                 this.resource('account', { path: '/:account_id' }, function () {
-
                     makeNestedResource(this, 'cards', 'card');
                     makeNestedResource(this, 'credits', 'credit');
                     makeNestedResource(this, 'debits', 'debit');
@@ -114,9 +110,7 @@ Balanced.Router.map(function () {
                     makeNestedResource(this, 'refunds', 'refund');
                     makeNestedResource(this, 'bank_accounts', 'bank_account');
                     makeNestedResource(this, 'transactions', 'transaction');
-
                 });
-
             });
 
             makeNestedResource(this, 'credits', 'credit');
