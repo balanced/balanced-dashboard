@@ -1,5 +1,5 @@
-// Version: v1.0.0-rc.4-23-gbfd3023
-// Last commit: bfd3023 (2013-06-01 13:41:52 -0400)
+// Version: v1.0.0-rc.6.1
+// Last commit: 2a9ce26 (2013-07-25 18:13:33 -0400)
 
 
 (function() {
@@ -49,7 +49,12 @@ if (!('MANDATORY_SETTER' in Ember.ENV)) {
     falsy, an exception will be thrown.
 */
 Ember.assert = function(desc, test) {
-  if (!test) throw new Error("assertion failed: "+desc);
+  Ember.Logger.assert(test, desc);
+
+  if (Ember.testing && !test) {
+    // when testing, ensure test failures when assertions fail
+    throw new Error("Assertion Failed: " + desc);
+  }
 };
 
 
@@ -95,12 +100,12 @@ Ember.debug = function(message) {
     will be displayed.
 */
 Ember.deprecate = function(message, test) {
-  if (Ember && Ember.TESTING_DEPRECATION) { return; }
+  if (Ember.TESTING_DEPRECATION) { return; }
 
   if (arguments.length === 1) { test = false; }
   if (test) { return; }
 
-  if (Ember && Ember.ENV.RAISE_ON_DEPRECATION) { throw new Error(message); }
+  if (Ember.ENV.RAISE_ON_DEPRECATION) { throw new Error(message); }
 
   var error;
 
@@ -151,8 +156,8 @@ Ember.deprecateFunc = function(message, func) {
 
 })();
 
-// Version: v1.0.0-rc.4-23-gbfd3023
-// Last commit: bfd3023 (2013-06-01 13:41:52 -0400)
+// Version: v1.0.0-rc.6-2-gaa6f429
+// Last commit: aa6f429 (2013-07-25 20:20:00 -0400)
 
 
 (function() {
@@ -219,7 +224,7 @@ var define, requireModule;
 
   @class Ember
   @static
-  @version 1.0.0-rc.5
+  @version 1.0.0-rc.6
 */
 
 if ('undefined' === typeof Ember) {
@@ -246,10 +251,10 @@ Ember.toString = function() { return "Ember"; };
 /**
   @property VERSION
   @type String
-  @default '1.0.0-rc.5'
+  @default '1.0.0-rc.6'
   @final
 */
-Ember.VERSION = '1.0.0-rc.5';
+Ember.VERSION = '1.0.0-rc.6';
 
 /**
   Standard environmental variables. You can define these in a global `ENV`
@@ -364,6 +369,19 @@ function consoleMethod(name) {
   }
 }
 
+function assertPolyfill(test, message) {
+  if (!test) {
+    try {
+      // attempt to preserve the stack
+      throw new Error("assertion failed: " + message);
+    } catch(error) {
+      setTimeout(function(){
+        throw error;
+      }, 0);
+    }
+  }
+}
+
 /**
   Inside Ember-Metal, simply uses the methods from `imports.console`.
   Override this to provide more robust logging functionality.
@@ -376,7 +394,8 @@ Ember.Logger = {
   warn:  consoleMethod('warn')  || Ember.K,
   error: consoleMethod('error') || Ember.K,
   info:  consoleMethod('info')  || Ember.K,
-  debug: consoleMethod('debug') || consoleMethod('info') || Ember.K
+  debug: consoleMethod('debug') || consoleMethod('info') || Ember.K,
+  assert: consoleMethod('assert') || assertPolyfill
 };
 
 
@@ -1644,6 +1663,7 @@ get = function get(obj, keyName) {
     obj = null;
   }
 
+  Ember.assert("Cannot call get with "+ keyName +" key.", !!keyName);
   Ember.assert("Cannot call get with '"+ keyName +"' on an undefined object.", obj !== undefined);
 
   if (obj === null || keyName.indexOf('.') !== -1) {
@@ -1676,12 +1696,21 @@ if (Ember.config.overrideAccessors) {
   get = Ember.get;
 }
 
-function firstKey(path) {
-  return path.match(FIRST_KEY)[0];
-}
+/**
+  @private
 
-// assumes path is already normalized
-function normalizeTuple(target, path) {
+  Normalizes a target/path pair to reflect that actual target/path that should
+  be observed, etc. This takes into account passing in global property
+  paths (i.e. a path beginning with a captial letter not defined on the
+  target) and * separators.
+
+  @method normalizeTuple
+  @for Ember
+  @param {Object} target The current target. May be `null`.
+  @param {String} path A path on the target or a global property path.
+  @return {Array} a temporary array with the normalized target/path pair.
+*/
+var normalizeTuple = Ember.normalizeTuple = function(target, path) {
   var hasThis  = HAS_THIS.test(path),
       isGlobal = !hasThis && IS_GLOBAL_PATH.test(path),
       key;
@@ -1690,7 +1719,7 @@ function normalizeTuple(target, path) {
   if (hasThis) path = path.slice(5);
 
   if (target === Ember.lookup) {
-    key = firstKey(path);
+    key = path.match(FIRST_KEY)[0];
     target = get(target, key);
     path   = path.slice(key.length+1);
   }
@@ -1699,7 +1728,7 @@ function normalizeTuple(target, path) {
   if (!path || path.length===0) throw new Error('Invalid Path');
 
   return [ target, path ];
-}
+};
 
 var getPath = Ember._getPath = function(root, path) {
   var hasThis, parts, tuple, idx, len;
@@ -1726,24 +1755,6 @@ var getPath = Ember._getPath = function(root, path) {
     if (root && root.isDestroyed) { return undefined; }
   }
   return root;
-};
-
-/**
-  @private
-
-  Normalizes a target/path pair to reflect that actual target/path that should
-  be observed, etc. This takes into account passing in global property
-  paths (i.e. a path beginning with a captial letter not defined on the
-  target) and * separators.
-
-  @method normalizeTuple
-  @for Ember
-  @param {Object} target The current target. May be `null`.
-  @param {String} path A path on the target or a global property path.
-  @return {Array} a temporary array with the normalized target/path pair.
-*/
-Ember.normalizeTuple = function(target, path) {
-  return normalizeTuple(target, path);
 };
 
 Ember.getWithDefault = function(root, key, defaultValue) {
@@ -2465,6 +2476,8 @@ var set = function set(obj, keyName, value, tolerant) {
     obj = null;
   }
 
+  Ember.assert("Cannot call set with "+ keyName +" key.", !!keyName);
+
   if (!obj || keyName.indexOf('.') !== -1) {
     return setPath(obj, keyName, value, tolerant);
   }
@@ -3116,9 +3129,9 @@ var changeProperties = Ember.changeProperties,
   observers will be buffered.
 
   @method setProperties
-  @param target
-  @param {Hash} properties
-  @return target
+  @param self
+  @param {Object} hash
+  @return self
 */
 Ember.setProperties = function(self, hash) {
   changeProperties(function(){
@@ -4758,7 +4771,7 @@ define("backburner",
       },
 
       cancel: function(timer) {
-        if (typeof timer === 'object' && timer.queue && timer.method) { // we're cancelling a deferOnce
+        if (timer && typeof timer === 'object' && timer.queue && timer.method) { // we're cancelling a deferOnce
           return timer.queue.cancel(timer);
         } else if (typeof timer === 'function') { // we're cancelling a setTimeout
           for (var i = 0, l = timers.length; i < l; i += 2) {
@@ -4767,6 +4780,8 @@ define("backburner",
               return true;
             }
           }
+        } else {
+          return; // timer was null or not a timer
         }
       }
     };
@@ -4859,7 +4874,7 @@ define("backburner/deferred_action_queues",
         while (queueNameIndex < numberOfQueues) {
           queueName = queueNames[queueNameIndex];
           queue = queues[queueName];
-          queueItems = queue._queue.slice();
+          queueItems = queue._queueBeingFlushed = queue._queue.slice();
           queue._queue = [];
 
           var options = queue.options,
@@ -4877,15 +4892,19 @@ define("backburner/deferred_action_queues",
 
             if (typeof method === 'string') { method = target[method]; }
 
-            // TODO: error handling
-            if (args && args.length > 0) {
-              method.apply(target, args);
-            } else {
-              method.call(target);
+            // method could have been nullified / canceled during flush
+            if (method) {
+              // TODO: error handling
+              if (args && args.length > 0) {
+                method.apply(target, args);
+              } else {
+                method.call(target);
+              }
             }
 
             queueIndex += 4;
           }
+          queue._queueBeingFlushed = null;
           if (numberOfQueueItems && after) { after(); }
 
           if ((priorQueueNameIndex = indexOfPriorQueueWithActions(this, queueNameIndex)) !== -1) {
@@ -4909,6 +4928,7 @@ define("backburner/deferred_action_queues",
 
       return -1;
     }
+
 
     __exports__.DeferredActionQueues = DeferredActionQueues;
   });
@@ -4999,12 +5019,30 @@ define("backburner/queue",
             return true;
           }
         }
+
+        // if not found in current queue
+        // could be in the queue that is being flushed
+        queue = this._queueBeingFlushed;
+        if (!queue) {
+          return;
+        }
+        for (i = 0, l = queue.length; i < l; i += 4) {
+          currentTarget = queue[i];
+          currentMethod = queue[i+1];
+
+          if (currentTarget === actionToCancel.target && currentMethod === actionToCancel.method) {
+            // don't mess with array during flush
+            // just nullify the method
+            queue[i+1] = null;
+            return true;
+          }
+        }
       }
     };
 
+
     __exports__.Queue = Queue;
   });
-
 })();
 
 
@@ -5112,7 +5150,7 @@ Ember.run = function(target, method) {
     May be a function or a string. If you pass a string
     then it will be looked up on the passed target.
   @param {Object} [args*] Any additional arguments you wish to pass to the method.
-  @return {Object} return value from invoking the passed function. Please note, 
+  @return {Object} return value from invoking the passed function. Please note,
   when called within an existing loop, no return value is possible.
 */
 Ember.run.join = function(target, method) {
@@ -5248,7 +5286,9 @@ Ember.run.cancelTimers = function () {
   @return {void}
 */
 Ember.run.sync = function() {
-  backburner.currentInstance.queues.sync.flush();
+  if (backburner.currentInstance) {
+    backburner.currentInstance.queues.sync.flush();
+  }
 };
 
 /**
@@ -5439,6 +5479,38 @@ Ember.run.next = function() {
 */
 Ember.run.cancel = function(timer) {
   return backburner.cancel(timer);
+};
+
+/**
+  Execute the passed method in a specified amount of time, reset timer
+  upon additional calls.
+
+  ```javascript
+    var myFunc = function() { console.log(this.name + ' ran.'); };
+    var myContext = {name: 'debounce'};
+
+    Ember.run.debounce(myContext, myFunc, 150);
+
+    // less than 150ms passes
+
+    Ember.run.debounce(myContext, myFunc, 150);
+
+    // 150ms passes
+    // myFunc is invoked with context myContext
+    // console logs 'debounce ran.' one time.
+  ```
+
+  @method debounce
+  @param {Object} [target] target of method to invoke
+  @param {Function|String} method The method to invoke.
+    May be a function or a string. If you pass a string
+    then it will be looked up on the passed target.
+  @param {Object} [args*] Optional arguments to pass to the timeout.
+  @param {Number} wait Number of milliseconds to wait.
+  @return {void}
+*/
+Ember.run.debounce = function() {
+  return backburner.debounce.apply(backburner, arguments);
 };
 
 // Make sure it's not an autorun during testing
@@ -7230,6 +7302,8 @@ define("rsvp",
     __exports__.reject = reject;
   });
 
+
+
 })();
 
 (function() {
@@ -7352,6 +7426,10 @@ define("container",
         }
 
         return value;
+      },
+
+      lookupFactory: function(fullName) {
+        return factoryFor(this, fullName);
       },
 
       has: function(fullName) {
@@ -8074,8 +8152,8 @@ Ember.String = {
     ```
 
     @method capitalize
-    @param {String} str
-    @return {String}
+    @param {String} str The string to capitalize.
+    @return {String} The capitalized string.
   */
   capitalize: function(str) {
     return str.charAt(0).toUpperCase() + str.substr(1);
@@ -9448,15 +9526,15 @@ Ember.Array = Ember.Mixin.create(Ember.Enumerable, /** @scope Ember.Array.protot
     Adds an array observer to the receiving array. The array observer object
     normally must implement two methods:
 
-    * `arrayWillChange(start, removeCount, addCount)` - This method will be
+    * `arrayWillChange(observedObj, start, removeCount, addCount)` - This method will be
       called just before the array is modified.
-    * `arrayDidChange(start, removeCount, addCount)` - This method will be
+    * `arrayDidChange(observedObj, start, removeCount, addCount)` - This method will be
       called just after the array is modified.
 
-    Both callbacks will be passed the starting index of the change as well a
-    a count of the items to be removed and added. You can use these callbacks
-    to optionally inspect the array during the change, clear caches, or do
-    any other bookkeeping necessary.
+    Both callbacks will be passed the observed object, starting index of the
+    change as well a a count of the items to be removed and added. You can use
+    these callbacks to optionally inspect the array during the change, clear
+    caches, or do any other bookkeeping necessary.
 
     In addition to passing a target, you can also include an options hash
     which you can use to override the method names that will be invoked on the
@@ -13464,17 +13542,40 @@ Ember.SortableMixin = Ember.Mixin.create(Ember.MutableEnumerable, {
     @property {Boolean} sortAscending
   */
   sortAscending: true,
+  
+  /**
+    The function used to compare two values. You can override this if you
+    want to do custom comparisons.Functions must be of the type expected by
+    Array#sort, i.e.
+      return 0 if the two parameters are equal,
+      return a negative value if the first parameter is smaller than the second or
+      return a positive value otherwise:
 
+    ```javascript
+    function(x,y){ // These are assumed to be integers
+      if(x === y)
+        return 0;
+      return x < y ? -1 : 1;
+    }
+    ```
+
+    @property sortFunction
+    @type {Function}
+    @default Ember.compare
+  */
+  sortFunction: Ember.compare,
+  
   orderBy: function(item1, item2) {
     var result = 0,
         sortProperties = get(this, 'sortProperties'),
-        sortAscending = get(this, 'sortAscending');
+        sortAscending = get(this, 'sortAscending'),
+        sortFunction = get(this, 'sortFunction');
 
     Ember.assert("you need to define `sortProperties`", !!sortProperties);
 
     forEach(sortProperties, function(propertyName) {
       if (result === 0) {
-        result = Ember.compare(get(item1, propertyName), get(item2, propertyName));
+        result = sortFunction(get(item1, propertyName), get(item2, propertyName));
         if ((result !== 0) && !sortAscending) {
           result = (-1) * result;
         }
@@ -13912,7 +14013,7 @@ Ember Runtime
 */
 
 var jQuery = Ember.imports.jQuery;
-Ember.assert("Ember Views require jQuery 1.8, 1.9, 1.10, or 2.0", jQuery && (jQuery().jquery.match(/^((1\.(8|9|10))|2.0)(\.\d+)?(pre|rc\d?)?/) || Ember.ENV.FORCE_JQUERY));
+Ember.assert("Ember Views require jQuery 1.7, 1.8, 1.9, 1.10, or 2.0", jQuery && (jQuery().jquery.match(/^((1\.(7|8|9|10))|2.0)(\.\d+)?(pre|rc\d?)?/) || Ember.ENV.FORCE_JQUERY));
 
 /**
   Alias for jQuery
@@ -14113,6 +14214,45 @@ ClassSet.prototype = {
     return this.list.join(" ");
   }
 };
+
+var BAD_TAG_NAME_TEST_REGEXP = /[^a-zA-Z\-]/;
+var BAD_TAG_NAME_REPLACE_REGEXP = /[^a-zA-Z\-]/g;
+
+function stripTagName(tagName) {
+  if (!tagName) {
+    return tagName;
+  }
+
+  if (!BAD_TAG_NAME_TEST_REGEXP.test(tagName)) {
+    return tagName;
+  }
+
+  return tagName.replace(BAD_TAG_NAME_REPLACE_REGEXP, '');
+}
+
+var BAD_CHARS_REGEXP = /&(?!\w+;)|[<>"'`]/g;
+var POSSIBLE_CHARS_REGEXP = /[&<>"'`]/;
+
+function escapeAttribute(value) {
+  // Stolen shamelessly from Handlebars
+
+  var escape = {
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#x27;",
+    "`": "&#x60;"
+  };
+
+  var escapeChar = function(chr) {
+    return escape[chr] || "&amp;";
+  };
+
+  var string = value.toString();
+
+  if(!POSSIBLE_CHARS_REGEXP.test(string)) { return string; }
+  return string.replace(BAD_CHARS_REGEXP, escapeChar);
+}
 
 /**
   `Ember.RenderBuffer` gathers information regarding the a view and generates the
@@ -14401,14 +14541,14 @@ Ember._RenderBuffer.prototype =
         style = this.elementStyle,
         attr, prop;
 
-    buffer += '<' + tagName;
+    buffer += '<' + stripTagName(tagName);
 
     if (id) {
-      buffer += ' id="' + this._escapeAttribute(id) + '"';
+      buffer += ' id="' + escapeAttribute(id) + '"';
       this.elementId = null;
     }
     if (classes) {
-      buffer += ' class="' + this._escapeAttribute(classes.join(' ')) + '"';
+      buffer += ' class="' + escapeAttribute(classes.join(' ')) + '"';
       this.classes = null;
     }
 
@@ -14417,7 +14557,7 @@ Ember._RenderBuffer.prototype =
 
       for (prop in style) {
         if (style.hasOwnProperty(prop)) {
-          buffer += prop + ':' + this._escapeAttribute(style[prop]) + ';';
+          buffer += prop + ':' + escapeAttribute(style[prop]) + ';';
         }
       }
 
@@ -14429,7 +14569,7 @@ Ember._RenderBuffer.prototype =
     if (attrs) {
       for (attr in attrs) {
         if (attrs.hasOwnProperty(attr)) {
-          buffer += ' ' + attr + '="' + this._escapeAttribute(attrs[attr]) + '"';
+          buffer += ' ' + attr + '="' + escapeAttribute(attrs[attr]) + '"';
         }
       }
 
@@ -14444,7 +14584,7 @@ Ember._RenderBuffer.prototype =
             if (value === true) {
               buffer += ' ' + prop + '="' + prop + '"';
             } else {
-              buffer += ' ' + prop + '="' + this._escapeAttribute(props[prop]) + '"';
+              buffer += ' ' + prop + '="' + escapeAttribute(props[prop]) + '"';
             }
           }
         }
@@ -14459,7 +14599,7 @@ Ember._RenderBuffer.prototype =
 
   pushClosingTag: function() {
     var tagName = this.tagNames.pop();
-    if (tagName) { this.buffer += '</' + tagName + '>'; }
+    if (tagName) { this.buffer += '</' + stripTagName(tagName) + '>'; }
   },
 
   currentTagName: function() {
@@ -14557,32 +14697,7 @@ Ember._RenderBuffer.prototype =
 
   innerString: function() {
     return this.buffer;
-  },
-
-  _escapeAttribute: function(value) {
-    // Stolen shamelessly from Handlebars
-
-    var escape = {
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#x27;",
-      "`": "&#x60;"
-    };
-
-    var badChars = /&(?!\w+;)|[<>"'`]/g;
-    var possible = /[&<>"'`]/;
-
-    var escapeChar = function(chr) {
-      return escape[chr] || "&amp;";
-    };
-
-    var string = value.toString();
-
-    if(!possible.test(string)) { return string; }
-    return string.replace(badChars, escapeChar);
   }
-
 };
 
 })();
@@ -14609,6 +14724,47 @@ var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt;
   @extends Ember.Object
 */
 Ember.EventDispatcher = Ember.Object.extend(/** @scope Ember.EventDispatcher.prototype */{
+
+  /**
+    The set of events names (and associated handler function names) to be setup
+    and dispatched by the `EventDispatcher`. Custom events can added to this list at setup
+    time, generally via the `Ember.Application.customEvents` hash. Only override this
+    default set to prevent the EventDispatcher from listening on some events all together.
+
+    This set will be modified by `setup` to also include any events added at that time.
+
+    @property events
+    @type Object
+  */
+  events: {
+    touchstart  : 'touchStart',
+    touchmove   : 'touchMove',
+    touchend    : 'touchEnd',
+    touchcancel : 'touchCancel',
+    keydown     : 'keyDown',
+    keyup       : 'keyUp',
+    keypress    : 'keyPress',
+    mousedown   : 'mouseDown',
+    mouseup     : 'mouseUp',
+    contextmenu : 'contextMenu',
+    click       : 'click',
+    dblclick    : 'doubleClick',
+    mousemove   : 'mouseMove',
+    focusin     : 'focusIn',
+    focusout    : 'focusOut',
+    mouseenter  : 'mouseEnter',
+    mouseleave  : 'mouseLeave',
+    submit      : 'submit',
+    input       : 'input',
+    change      : 'change',
+    dragstart   : 'dragStart',
+    drag        : 'drag',
+    dragenter   : 'dragEnter',
+    dragleave   : 'dragLeave',
+    dragover    : 'dragOver',
+    drop        : 'drop',
+    dragend     : 'dragEnd'
+  },
 
   /**
     @private
@@ -14641,35 +14797,7 @@ Ember.EventDispatcher = Ember.Object.extend(/** @scope Ember.EventDispatcher.pro
     @param addedEvents {Hash}
   */
   setup: function(addedEvents, rootElement) {
-    var event, events = {
-      touchstart  : 'touchStart',
-      touchmove   : 'touchMove',
-      touchend    : 'touchEnd',
-      touchcancel : 'touchCancel',
-      keydown     : 'keyDown',
-      keyup       : 'keyUp',
-      keypress    : 'keyPress',
-      mousedown   : 'mouseDown',
-      mouseup     : 'mouseUp',
-      contextmenu : 'contextMenu',
-      click       : 'click',
-      dblclick    : 'doubleClick',
-      mousemove   : 'mouseMove',
-      focusin     : 'focusIn',
-      focusout    : 'focusOut',
-      mouseenter  : 'mouseEnter',
-      mouseleave  : 'mouseLeave',
-      submit      : 'submit',
-      input       : 'input',
-      change      : 'change',
-      dragstart   : 'dragStart',
-      drag        : 'drag',
-      dragenter   : 'dragEnter',
-      dragleave   : 'dragLeave',
-      dragover    : 'dragOver',
-      drop        : 'drop',
-      dragend     : 'dragEnd'
-    };
+    var event, events = get(this, 'events');
 
     Ember.$.extend(events, addedEvents || {});
 
@@ -14915,6 +15043,15 @@ Ember.warn("The VIEW_PRESERVES_CONTEXT flag has been removed and the functionali
   @type Hash
 */
 Ember.TEMPLATES = {};
+
+/**
+  `Ember.CoreView` is
+
+  @class CoreView
+  @namespace Ember
+  @extends Ember.Object
+  @uses Ember.Evented
+*/
 
 Ember.CoreView = Ember.Object.extend(Ember.Evented, {
   isView: true,
@@ -15619,8 +15756,10 @@ class:
 
   ### Event Names
 
-  Possible events names for any of the responding approaches described above
-  are:
+  All of the event handling approaches described above respond to the same set
+  of events. The names of the built-in events are listed below. (The hash of
+  built-in events exists in `Ember.EventDispatcher`.) Additional, custom events
+  can be registered by using `Ember.Application.customEvents`.
 
   Touch events:
 
@@ -15673,8 +15812,7 @@ class:
 
   @class View
   @namespace Ember
-  @extends Ember.Object
-  @uses Ember.Evented
+  @extends Ember.CoreView
 */
 Ember.View = Ember.CoreView.extend(
 /** @scope Ember.View.prototype */ {
@@ -15855,7 +15993,7 @@ Ember.View = Ember.CoreView.extend(
     If a value that affects template rendering changes, the view should be
     re-rendered to reflect the new value.
 
-    @method _displayPropertyDidChange
+    @method _contextDidChange
   */
   _contextDidChange: Ember.observer(function() {
     this.rerender();
@@ -15984,6 +16122,8 @@ Ember.View = Ember.CoreView.extend(
   */
   _parentViewDidChange: Ember.observer(function() {
     if (this.isDestroying) { return; }
+
+    this.trigger('parentViewDidChange');
 
     if (get(this, 'parentView.controller') && !get(this, 'controller')) {
       this.notifyPropertyChange('controller');
@@ -16256,9 +16396,9 @@ Ember.View = Ember.CoreView.extend(
     For example, calling `view.$('li')` will return a jQuery object containing
     all of the `li` elements inside the DOM element of this view.
 
-    @property $
+    @method $
     @param {String} [selector] a jQuery-compatible selector string
-    @return {jQuery} the CoreQuery object for the DOM node
+    @return {jQuery} the jQuery object for the DOM node
   */
   $: function(sel) {
     return this.currentState.$(this, sel);
@@ -16939,31 +17079,32 @@ Ember.View = Ember.CoreView.extend(
     @return {Ember.View} new instance
   */
   createChildView: function(view, attrs) {
-    if (view.isView && view._parentView === this) { return view; }
+    if (view.isView && view._parentView === this && view.container === this.container) {
+      return view;
+    }
+
+    attrs = attrs || {};
+    attrs._parentView = this;
+    attrs.container = this.container;
 
     if (Ember.CoreView.detect(view)) {
-      attrs = attrs || {};
-      attrs._parentView = this;
-      attrs.container = this.container;
       attrs.templateData = attrs.templateData || get(this, 'templateData');
 
       view = view.create(attrs);
 
       // don't set the property on a virtual view, as they are invisible to
       // consumers of the view API
-      if (view.viewName) { set(get(this, 'concreteView'), view.viewName, view); }
+      if (view.viewName) {
+        set(get(this, 'concreteView'), view.viewName, view);
+      }
     } else {
       Ember.assert('You must pass instance or subclass of View', view.isView);
 
-      if (attrs) {
-        view.setProperties(attrs);
-      }
+      Ember.setProperties(view, attrs);
 
       if (!get(view, 'templateData')) {
         set(view, 'templateData', get(this, 'templateData'));
       }
-
-      set(view, '_parentView', this);
     }
 
     return view;
@@ -17310,8 +17451,8 @@ Ember.View.applyAttributeBindings = function(elem, name, value) {
       elem.attr(name, value);
     }
   } else if (name === 'value' || type === 'boolean') {
-    // We can't set properties to undefined
-    if (value === undefined) { value = null; }
+    // We can't set properties to undefined or null
+    if (!value) { value = ''; }
 
     if (value !== elem.prop(name)) {
       // value and booleans should always be properties
@@ -18011,6 +18152,7 @@ Ember.ContainerView = Ember.View.extend(Ember.MutableArray, {
   initializeViews: function(views, parentView, templateData) {
     forEach(views, function(view) {
       set(view, '_parentView', parentView);
+      set(view, 'container', parentView && parentView.container);
 
       if (!get(view, 'templateData')) {
         set(view, 'templateData', templateData);
@@ -18477,6 +18619,103 @@ Ember.CollectionView.CONTAINER_MAP = {
 
 
 (function() {
+/**
+@module ember
+@submodule ember-views
+*/
+
+/**
+  An `Ember.Component` is a view that is completely
+  isolated. Property access in its templates go
+  to the view object and actions are targeted at
+  the view object. There is no access to the
+  surrounding context or outer controller; all
+  contextual information is passed in.
+
+  The easiest way to create an `Ember.Component` is via
+  a template. If you name a template
+  `controls/my-foo`, you will be able to use
+  `{{my-foo}}` in other templates, which will make
+  an instance of the isolated control.
+
+  ```html
+  {{app-profile person=currentUser}}
+  ```
+
+  ```html
+  <!-- app-profile template -->
+  <h1>{{person.title}}</h1>
+  <img {{bindAttr src=person.avatar}}>
+  <p class='signature'>{{person.signature}}</p>
+  ```
+
+  You can also use `yield` inside a template to
+  include the **contents** of the custom tag:
+
+  ```html
+  {{#my-profile person=currentUser}}
+  <p>Admin mode</p>
+  {{/my-profile}}
+  ```
+
+  ```html
+  <!-- app-profile template -->
+
+  <h1>{{person.title}}</h1>
+  {{yield}} <!-- block contents -->
+  ```
+
+  If you want to customize the control, in order to
+  handle events or actions, you implement a subclass
+  of `Ember.Component` named after the name of the
+  control.
+
+  For example, you could implement the action
+  `hello` for the `app-profile` control:
+
+  ```js
+  App.AppProfileComponent = Ember.Component.extend({
+    hello: function(name) {
+      console.log("Hello", name)
+    }
+  });
+  ```
+
+  And then use it in the control's template:
+
+  ```html
+  <!-- app-profile template -->
+
+  <h1>{{person.title}}</h1>
+  {{yield}} <!-- block contents -->
+
+  <button {{action 'hello' person.name}}>
+    Say Hello to {{person.name}}
+  </button>
+  ```
+
+  Components must have a `-` in their name to avoid
+  conflicts with built-in controls that wrap HTML
+  elements. This is consistent with the same
+  requirement in web components.
+
+  @class Component
+  @namespace Ember
+  @extends Ember.View
+*/
+Ember.Component = Ember.View.extend({
+  init: function() {
+    this._super();
+    this.set('context', this);
+    this.set('controller', this);
+  }
+});
+
+})();
+
+
+
+(function() {
 
 })();
 
@@ -18546,7 +18785,6 @@ Ember.ViewTargetActionSupport = Ember.Mixin.create(Ember.TargetActionSupport, {
 
 
 (function() {
-/*globals jQuery*/
 /**
 Ember Views
 
@@ -19071,7 +19309,71 @@ function makeBindings(options) {
   }
 }
 
+/**
+  Register a bound helper or custom view helper.
+
+  ## Simple bound helper example
+
+  ```javascript
+  Ember.Handlebars.helper('capitalize', function(value) {
+    return value.toUpperCase();
+  });
+  ```
+
+  The above bound helper can be used inside of templates as follows:
+
+  ```handlebars
+  {{capitalize name}}
+  ```
+
+  In this case, when the `name` property of the template's context changes,
+  the rendered value of the helper will update to reflect this change.
+
+  For more examples of bound helpers, see documentation for
+  `Ember.Handlebars.registerBoundHelper`.
+
+  ## Custom view helper example
+
+  Assuming a view subclass named `App.CalenderView` were defined, a helper
+  for rendering instances of this view could be registered as follows:
+
+  ```javascript
+  Ember.Handlebars.helper('calendar', App.CalendarView):
+  ```
+
+  The above bound helper can be used inside of templates as follows:
+
+  ```handlebars
+  {{calendar}}
+  ```
+
+  Which is functionally equivalent to:
+
+  ```handlebars
+  {{view App.CalendarView}}
+  ```
+
+  Options in the helper will be passed to the view in exactly the same
+  manner as with the `view` helper.
+
+  @method helper
+  @for Ember.Handlebars
+  @param {String} name
+  @param {Function|Ember.View} function or view class constructor
+  @param {String} dependentKeys*
+*/
 Ember.Handlebars.helper = function(name, value) {
+  if (Ember.Component.detect(value)) {
+    Ember.assert("You tried to register a component named '" + name + "', but component names must include a '-'", name.match(/-/));
+
+    var proto = value.proto();
+    if (!proto.layoutName && !proto.templateName) {
+      value.reopen({
+        layoutName: 'components/' + name
+      });
+    }
+  }
+
   if (Ember.View.detect(value)) {
     Ember.Handlebars.registerHelper(name, function(options) {
       Ember.assert("You can only pass attributes as parameters (not values) to a application-defined helper", arguments.length < 2);
@@ -19832,7 +20134,7 @@ Ember._MetamorphView = Ember.View.extend(Ember._Metamorph);
 /**
   @class _SimpleMetamorphView
   @namespace Ember
-  @extends Ember.View
+  @extends Ember.CoreView
   @uses Ember._Metamorph
   @private
 */
@@ -22648,7 +22950,6 @@ Ember.SelectOption = Ember.View.extend({
 
   ```html
   <select class="ember-select">
-    <option value>Please Select</option>
     <option value="1">Yehuda</option>
     <option value="2">Tom</option>
   </select>
@@ -22681,7 +22982,6 @@ Ember.SelectOption = Ember.View.extend({
 
   ```html
   <select class="ember-select">
-    <option value>Please Select</option>
     <option value="1">Yehuda</option>
     <option value="2" selected="selected">Tom</option>
   </select>
@@ -22719,7 +23019,6 @@ Ember.SelectOption = Ember.View.extend({
 
   ```html
   <select class="ember-select">
-    <option value>Please Select</option>
     <option value="1">Yehuda</option>
     <option value="2" selected="selected">Tom</option>
   </select>
@@ -22987,8 +23286,8 @@ function program3(depth0,data) {
     var selection = get(this, 'selection');
     var value = get(this, 'value');
 
-    if (selection) { this.selectionDidChange(); }
-    if (value) { this.valueDidChange(); }
+    if (!Ember.isNone(selection)) { this.selectionDidChange(); }
+    if (!Ember.isNone(value)) { this.valueDidChange(); }
 
     this._change();
   },
@@ -23185,6 +23484,31 @@ function bootstrap() {
   Ember.Handlebars.bootstrap( Ember.$(document) );
 }
 
+function registerComponents(container) {
+  var templates = Ember.TEMPLATES, match;
+  if (!templates) { return; }
+
+  for (var prop in templates) {
+    if (match = prop.match(/^components\/(.*)$/)) {
+      registerComponent(container, match[1]);
+    }
+  }
+}
+
+function registerComponent(container, name) {
+  Ember.assert("You provided a template named 'components/" + name + "', but custom components must include a '-'", name.match(/-/));
+
+  var className = name.replace(/-/g, '_');
+  var Component = container.lookupFactory('component:' + className) || container.lookupFactory('component:' + name);
+  var View = Component || Ember.Component.extend();
+
+  View.reopen({
+    layoutName: 'components/' + name
+  });
+
+  Ember.Handlebars.helper(name, View);
+}
+
 /*
   We tie this to application.load to ensure that we've at least
   attempted to bootstrap at the point that the application is loaded.
@@ -23196,7 +23520,23 @@ function bootstrap() {
   from the DOM after processing.
 */
 
-Ember.onLoad('application', bootstrap);
+Ember.onLoad('Ember.Application', function(Application) {
+  if (Application.initializer) {
+    Application.initializer({
+      name: 'domTemplates',
+      initialize: bootstrap
+    });
+
+    Application.initializer({
+      name: 'registerComponents',
+      after: 'domTemplates',
+      initialize: registerComponents
+    });
+  } else {
+    // for ember-old-router
+    Ember.onLoad('application', bootstrap);
+  }
+});
 
 })();
 
@@ -23731,8 +24071,8 @@ define("route-recognizer",
 
 (function() {
 define("router",
-  ["route-recognizer"],
-  function(RouteRecognizer) {
+  ["route-recognizer", "rsvp"],
+  function(RouteRecognizer, RSVP) {
     "use strict";
     /**
       @private
@@ -23753,8 +24093,145 @@ define("router",
     */
 
 
+    var slice = Array.prototype.slice;
+
+
+
+    /**
+      @private
+
+      A Transition is a thennable (a promise-like object) that represents
+      an attempt to transition to another route. It can be aborted, either
+      explicitly via `abort` or by attempting another transition while a 
+      previous one is still underway. An aborted transition can also
+      be `retry()`d later. 
+     */
+
+    function Transition(router, promise) { 
+      this.router = router;
+      this.promise = promise;
+      this.data = {};
+      this.resolvedModels = {};
+      this.providedModels = {};
+      this.providedModelsArray = [];
+      this.sequence = ++Transition.currentSequence;
+      this.params = {};
+    }
+
+    Transition.currentSequence = 0;
+
+    Transition.prototype = {
+      targetName: null,
+      urlMethod: 'update',
+      providedModels: null,
+      resolvedModels: null,
+      params: null,
+
+      /**
+        The Transition's internal promise. Calling `.then` on this property
+        is that same as calling `.then` on the Transition object itself, but
+        this property is exposed for when you want to pass around a
+        Transition's promise, but not the Transition object itself, since 
+        Transition object can be externally `abort`ed, while the promise
+        cannot. 
+       */
+      promise: null,
+
+      /**
+        Custom state can be stored on a Transition's `data` object.
+        This can be useful for decorating a Transition within an earlier
+        hook and shared with a later hook. Properties set on `data` will
+        be copied to new transitions generated by calling `retry` on this
+        transition.
+       */
+      data: null,
+
+      /**
+        A standard promise hook that resolves if the transition 
+        succeeds and rejects if it fails/redirects/aborts.
+
+        Forwards to the internal `promise` property which you can
+        use in situations where you want to pass around a thennable,
+        but not the Transition itself. 
+
+        @param {Function} success
+        @param {Function} failure
+       */
+      then: function(success, failure) {
+        return this.promise.then(success, failure);
+      },
+
+      /**
+        Aborts the Transition. Note you can also implicitly abort a transition
+        by initiating another transition while a previous one is underway. 
+       */
+      abort: function() {
+        if (this.isAborted) { return this; }
+        log(this.router, this.sequence, this.targetName + ": transition was aborted");
+        this.isAborted = true;
+        this.router.activeTransition = null;
+        return this; 
+      },
+
+      /**
+        Retries a previously-aborted transition (making sure to abort the 
+        transition if it's still active). Returns a new transition that
+        represents the new attempt to transition.
+       */
+      retry: function() {
+        this.abort();
+
+        var recogHandlers = this.router.recognizer.handlersFor(this.targetName),
+            newTransition = performTransition(this.router, recogHandlers, this.providedModelsArray, this.params, this.data);
+
+        return newTransition;
+      },
+
+      /**
+        Sets the URL-changing method to be employed at the end of a 
+        successful transition. By default, a new Transition will just
+        use `updateURL`, but passing 'replace' to this method will
+        cause the URL to update using 'replaceWith' instead. Omitting
+        a parameter will disable the URL change, allowing for transitions
+        that don't update the URL at completion (this is also used for
+        handleURL, since the URL has already changed before the
+        transition took place).
+
+        @param {String} method the type of URL-changing method to use
+          at the end of a transition. Accepted values are 'replace',
+          falsy values, or any other non-falsy value (which is
+          interpreted as an updateURL transition).
+
+        @return {Transition} this transition
+       */
+      method: function(method) {
+        this.urlMethod = method;
+        return this;
+      }
+    };
+
     function Router() {
       this.recognizer = new RouteRecognizer();
+    }
+
+
+
+    /**
+      Promise reject reasons passed to promise rejection
+      handlers for failed transitions.
+     */
+    Router.UnrecognizedURLError = function(message) {
+      this.message = (message || "UnrecognizedURLError"); 
+      this.name = "UnrecognizedURLError";
+    };
+
+    Router.TransitionAborted = function(message) {
+      this.message = (message || "TransitionAborted"); 
+      this.name = "TransitionAborted";
+    };
+
+    function errorTransition(router, reason) {
+      return new Transition(router, RSVP.reject(reason));
     }
 
 
@@ -23788,7 +24265,8 @@ define("router",
         its ancestors.
       */
       reset: function() {
-        eachHandler(this.currentHandlerInfos || [], function(handler) {
+        eachHandler(this.currentHandlerInfos || [], function(handlerInfo) {
+          var handler = handlerInfo.handler;
           if (handler.exit) {
             handler.exit();
           }
@@ -23797,7 +24275,10 @@ define("router",
         this.targetHandlerInfos = null;
       },
 
+      activeTransition: null,
+
       /**
+        var handler = handlerInfo.handler;
         The entry point for handling a change to the URL (usually
         via the back and forward button).
 
@@ -23809,13 +24290,9 @@ define("router",
         @return {Array} an Array of `[handler, parameter]` tuples
       */
       handleURL: function(url) {
-        var results = this.recognizer.recognize(url);
-
-        if (!results) {
-          throw new Error("No route matched the URL '" + url + "'");
-        }
-
-        collectObjects(this, results, 0, []);
+        // Perform a URL-based transition, but don't change
+        // the URL afterward, since it already happened.
+        return doTransition(this, arguments).method(null);
       },
 
       /**
@@ -23847,8 +24324,7 @@ define("router",
         @param {String} name the name of the route
       */
       transitionTo: function(name) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        doTransition(this, name, this.updateURL, args);
+        return doTransition(this, arguments);
       },
 
       /**
@@ -23860,8 +24336,7 @@ define("router",
         @param {String} name the name of the route
       */
       replaceWith: function(name) {
-        var args = Array.prototype.slice.call(arguments, 1);
-        doTransition(this, name, this.replaceURL, args);
+        return doTransition(this, arguments).method('replace');
       },
 
       /**
@@ -23875,8 +24350,7 @@ define("router",
         @return {Object} a serialized parameter hash
       */
       paramsForHandler: function(handlerName, callback) {
-        var output = this._paramsForHandler(handlerName, [].slice.call(arguments, 1));
-        return output.params;
+        return paramsForHandler(this, handlerName, slice.call(arguments, 1));
       },
 
       /**
@@ -23890,109 +24364,17 @@ define("router",
         @return {String} a URL
       */
       generate: function(handlerName) {
-        var params = this.paramsForHandler.apply(this, arguments);
+        var params = paramsForHandler(this, handlerName, slice.call(arguments, 1));
         return this.recognizer.generate(handlerName, params);
       },
 
-      /**
-        @private
-
-        Used internally by `generate` and `transitionTo`.
-      */
-      _paramsForHandler: function(handlerName, objects, doUpdate) {
-        var handlers = this.recognizer.handlersFor(handlerName),
-            params = {},
-            toSetup = [],
-            startIdx = handlers.length,
-            objectsToMatch = objects.length,
-            object, objectChanged, handlerObj, handler, names, i;
-
-        // Find out which handler to start matching at
-        for (i=handlers.length-1; i>=0 && objectsToMatch>0; i--) {
-          if (handlers[i].names.length) {
-            objectsToMatch--;
-            startIdx = i;
-          }
-        }
-
-        if (objectsToMatch > 0) {
-          throw "More context objects were passed than there are dynamic segments for the route: "+handlerName;
-        }
-
-        // Connect the objects to the routes
-        for (i=0; i<handlers.length; i++) {
-          handlerObj = handlers[i];
-          handler = this.getHandler(handlerObj.handler);
-          names = handlerObj.names;
-          objectChanged = false;
-
-          // If it's a dynamic segment
-          if (names.length) {
-            // If we have objects, use them
-            if (i >= startIdx) {
-              object = objects.shift();
-              objectChanged = true;
-            // Otherwise use existing context
-            } else {
-              object = handler.context;
-            }
-
-            // Serialize to generate params
-            if (handler.serialize) {
-              merge(params, handler.serialize(object, names));
-            }
-          // If it's not a dynamic segment and we're updating
-          } else if (doUpdate) {
-            // If we've passed the match point we need to deserialize again
-            // or if we never had a context
-            if (i > startIdx || !handler.hasOwnProperty('context')) {
-              if (handler.deserialize) {
-                object = handler.deserialize({});
-                objectChanged = true;
-              }
-            // Otherwise use existing context
-            } else {
-              object = handler.context;
-            }
-          }
-
-          // Make sure that we update the context here so it's available to
-          // subsequent deserialize calls
-          if (doUpdate && objectChanged) {
-            // TODO: It's a bit awkward to set the context twice, see if we can DRY things up
-            setContext(handler, object);
-          }
-
-          toSetup.push({
-            isDynamic: !!handlerObj.names.length,
-            name: handlerObj.handler,
-            handler: handler,
-            context: object
-          });
-
-          if (i === handlers.length - 1) {
-            var lastHandler = toSetup[toSetup.length - 1],
-                additionalHandler;
-
-            if (additionalHandler = lastHandler.handler.additionalHandler) {
-              handlers.push({
-                handler: additionalHandler.call(lastHandler.handler),
-                names: []
-              });
-            }
-          }
-        }
-
-        return { params: params, toSetup: toSetup };
-      },
-
       isActive: function(handlerName) {
-        var contexts = [].slice.call(arguments, 1);
+        var contexts = slice.call(arguments, 1);
 
         var targetHandlerInfos = this.targetHandlerInfos,
             found = false, names, object, handlerInfo, handlerObj;
 
-        if (!targetHandlerInfos) { return; }
+        if (!targetHandlerInfos) { return false; }
 
         for (var i=targetHandlerInfos.length-1; i>=0; i--) {
           handlerInfo = targetHandlerInfos[i];
@@ -24012,10 +24394,133 @@ define("router",
       },
 
       trigger: function(name) {
-        var args = [].slice.call(arguments);
-        trigger(this, args);
-      }
+        var args = slice.call(arguments);
+        trigger(this.currentHandlerInfos, false, args);
+      },
+
+      /**
+        Hook point for logging transition status updates.
+
+        @param {String} message The message to log.
+      */
+      log: null
     };
+
+    /**
+      @private
+
+      Used internally for both URL and named transition to determine
+      a shared pivot parent route and other data necessary to perform
+      a transition.
+     */
+    function getMatchPoint(router, handlers, objects, inputParams) {
+
+      var objectsToMatch = objects.length, 
+          matchPoint = handlers.length, 
+          providedModels = {}, i,
+          currentHandlerInfos = router.currentHandlerInfos || [],
+          params = {},
+          oldParams = router.currentParams || {},
+          activeTransition = router.activeTransition,
+          handlerParams = {};
+
+      merge(params, inputParams);
+   
+      for (i = handlers.length - 1; i >= 0; i--) {
+        var handlerObj = handlers[i], 
+            handlerName = handlerObj.handler,
+            oldHandlerInfo = currentHandlerInfos[i],
+            hasChanged = false;
+
+        // Check if handler names have changed.
+        if (!oldHandlerInfo || oldHandlerInfo.name !== handlerObj.handler) { hasChanged = true; }
+
+        if (handlerObj.isDynamic) {
+          // URL transition.
+
+          if (objectsToMatch > 0) {
+            hasChanged = true;
+            providedModels[handlerName] = objects[--objectsToMatch];
+          } else {
+            handlerParams[handlerName] = {};
+            for (var prop in handlerObj.params) {
+              if (!handlerObj.params.hasOwnProperty(prop)) { continue; }
+              var newParam = handlerObj.params[prop];
+              if (oldParams[prop] !== newParam) { hasChanged = true; }
+              handlerParams[handlerName][prop] = params[prop] = newParam;
+            }
+          }
+        } else if (handlerObj.hasOwnProperty('names') && handlerObj.names.length) {
+          // Named transition.
+
+          if (objectsToMatch > 0) {
+            hasChanged = true;
+            providedModels[handlerName] = objects[--objectsToMatch];
+          } else if (activeTransition && activeTransition.providedModels[handlerName]) {
+
+            // Use model from previous transition attempt, preferably the resolved one.
+            hasChanged = true;
+            providedModels[handlerName] = activeTransition.providedModels[handlerName] ||
+                                          activeTransition.resolvedModels[handlerName];
+          } else {
+            var names = handlerObj.names;
+            handlerParams[handlerName] = {};
+            for (var j = 0, len = names.length; j < len; ++j) {
+              var name = names[j];
+              handlerParams[handlerName][name] = params[name] = oldParams[name];
+            }
+          }
+        } 
+
+        if (hasChanged) { matchPoint = i; }
+      }
+
+      if (objectsToMatch > 0) {
+        throw "More context objects were passed than there are dynamic segments for the route: " + handlers[handlers.length - 1].handler;
+      }
+
+      return { matchPoint: matchPoint, providedModels: providedModels, params: params, handlerParams: handlerParams };
+    }
+
+    /**
+      @private
+
+      This method takes a handler name and a list of contexts and returns
+      a serialized parameter hash suitable to pass to `recognizer.generate()`.
+
+      @param {Router} router
+      @param {String} handlerName
+      @param {Array[Object]} objects
+      @return {Object} a serialized parameter hash
+    */
+    function paramsForHandler(router, handlerName, objects) {
+
+      var handlers = router.recognizer.handlersFor(handlerName),
+          params = {},
+          matchPoint = getMatchPoint(router, handlers, objects).matchPoint,
+          object, handlerObj, handler, names, i;
+
+      for (i=0; i<handlers.length; i++) {
+        handlerObj = handlers[i];
+        handler = router.getHandler(handlerObj.handler);
+        names = handlerObj.names;
+
+        // If it's a dynamic segment
+        if (names.length) {
+          // If we have objects, use them
+          if (i >= matchPoint) {
+            object = objects.shift();
+          // Otherwise use existing context
+          } else {
+            object = handler.context;
+          }
+
+          // Serialize to generate params
+          merge(params, serialize(handler, object, names));
+        }
+      }
+      return params;
+    }
 
     function merge(hash, other) {
       for (var prop in other) {
@@ -24023,153 +24528,34 @@ define("router",
       }
     }
 
-    function isCurrent(currentHandlerInfos, handlerName) {
-      return currentHandlerInfos[currentHandlerInfos.length - 1].name === handlerName;
-    }
-
     /**
       @private
-
-      This function is called the first time the `collectObjects`
-      function encounters a promise while converting URL parameters
-      into objects.
-
-      It triggers the `enter` and `setup` methods on the `loading`
-      handler.
-
-      @param {Router} router
     */
-    function loading(router) {
-      if (!router.isLoading) {
-        router.isLoading = true;
-        var handler = router.getHandler('loading');
+    function createNamedTransition(router, args) {
+      var handlers = router.recognizer.handlersFor(args[0]);
 
-        if (handler) {
-          if (handler.enter) { handler.enter(); }
-          if (handler.setup) { handler.setup(); }
-        }
-      }
-    }
+      log(router, "Attempting transition to " + args[0]);
 
-    /**
-      @private
-
-      This function is called if a promise was previously
-      encountered once all promises are resolved.
-
-      It triggers the `exit` method on the `loading` handler.
-
-      @param {Router} router
-    */
-    function loaded(router) {
-      router.isLoading = false;
-      var handler = router.getHandler('loading');
-      if (handler && handler.exit) { handler.exit(); }
-    }
-
-    /**
-      @private
-
-      This function is called if any encountered promise
-      is rejected.
-
-      It triggers the `exit` method on the `loading` handler,
-      the `enter` method on the `failure` handler, and the
-      `setup` method on the `failure` handler with the
-      `error`.
-
-      @param {Router} router
-      @param {Object} error the reason for the promise
-        rejection, to pass into the failure handler's
-        `setup` method.
-    */
-    function failure(router, error) {
-      loaded(router);
-      var handler = router.getHandler('failure');
-      if (handler) {
-        if (handler.enter) { handler.enter(); }
-        if (handler.setup) { handler.setup(error); }
-      }
+      return performTransition(router, handlers, slice.call(args, 1), router.currentParams);
     }
 
     /**
       @private
     */
-    function doTransition(router, name, method, args) {
-      var output = router._paramsForHandler(name, args, true);
-      var params = output.params, toSetup = output.toSetup;
+    function createURLTransition(router, url) {
 
-      var url = router.recognizer.generate(name, params);
-      method.call(router, url);
+      var results = router.recognizer.recognize(url),
+          currentHandlerInfos = router.currentHandlerInfos;
 
-      setupContexts(router, toSetup);
+      log(router, "Attempting URL transition to " + url);
+
+      if (!results) {
+        return errorTransition(router, new Router.UnrecognizedURLError(url));
+      }
+
+      return performTransition(router, results, [], {});
     }
 
-    /**
-      @private
-
-      This function is called after a URL change has been handled
-      by `router.handleURL`.
-
-      Takes an Array of `RecognizedHandler`s, and converts the raw
-      params hashes into deserialized objects by calling deserialize
-      on the handlers. This process builds up an Array of
-      `HandlerInfo`s. It then calls `setupContexts` with the Array.
-
-      If the `deserialize` method on a handler returns a promise
-      (i.e. has a method called `then`), this function will pause
-      building up the `HandlerInfo` Array until the promise is
-      resolved. It will use the resolved value as the context of
-      `HandlerInfo`.
-    */
-    function collectObjects(router, results, index, objects) {
-      if (results.length === index) {
-        var lastObject = objects[objects.length - 1],
-            lastHandler = lastObject && lastObject.handler;
-
-        if (lastHandler && lastHandler.additionalHandler) {
-          var additionalResult = {
-            handler: lastHandler.additionalHandler(),
-            params: {},
-            isDynamic: false
-          };
-          results.push(additionalResult);
-        } else {
-          loaded(router);
-          setupContexts(router, objects);
-          return;
-        }
-      }
-
-      var result = results[index];
-      var handler = router.getHandler(result.handler);
-      var object = handler.deserialize && handler.deserialize(result.params);
-
-      if (object && typeof object.then === 'function') {
-        loading(router);
-
-        // The chained `then` means that we can also catch errors that happen in `proceed`
-        object.then(proceed).then(null, function(error) {
-          failure(router, error);
-        });
-      } else {
-        proceed(object);
-      }
-
-      function proceed(value) {
-        if (handler.context !== object) {
-          setContext(handler, object);
-        }
-
-        var updatedObjects = objects.concat([{
-          context: value,
-          name: result.handler,
-          handler: router.getHandler(result.handler),
-          isDynamic: result.isDynamic
-        }]);
-        collectObjects(router, results, index + 1, updatedObjects);
-      }
-    }
 
     /**
       @private
@@ -24193,7 +24579,7 @@ define("router",
       Consider the following transitions:
 
       1. A URL transition to `/posts/1`.
-         1. Triggers the `deserialize` callback on the
+         1. Triggers the `*model` callbacks on the
             `index`, `posts`, and `showPost` handlers
          2. Triggers the `enter` callback on the same
          3. Triggers the `setup` callback on the same
@@ -24209,16 +24595,17 @@ define("router",
          3. Triggers the `enter` callback on `about`
          4. Triggers the `setup` callback on `about`
 
-      @param {Router} router
+      @param {Transition} transition
       @param {Array[HandlerInfo]} handlerInfos
     */
-    function setupContexts(router, handlerInfos) {
-      var partition =
-        partitionHandlers(router.currentHandlerInfos || [], handlerInfos);
+    function setupContexts(transition, handlerInfos) {
+      var router = transition.router,
+          partition = partitionHandlers(router.currentHandlerInfos || [], handlerInfos);
 
       router.targetHandlerInfos = handlerInfos;
 
-      eachHandler(partition.exited, function(handler, context) {
+      eachHandler(partition.exited, function(handlerInfo) {
+        var handler = handlerInfo.handler;
         delete handler.context;
         if (handler.exit) { handler.exit(); }
       });
@@ -24226,32 +24613,50 @@ define("router",
       var currentHandlerInfos = partition.unchanged.slice();
       router.currentHandlerInfos = currentHandlerInfos;
 
-      eachHandler(partition.updatedContext, function(handler, context, handlerInfo) {
-        setContext(handler, context);
-        if (handler.setup) { handler.setup(context); }
-        currentHandlerInfos.push(handlerInfo);
+      eachHandler(partition.updatedContext, function(handlerInfo) {
+        handlerEnteredOrUpdated(transition, currentHandlerInfos, handlerInfo, false);
       });
 
-      var aborted = false;
-      eachHandler(partition.entered, function(handler, context, handlerInfo) {
-        if (aborted) { return; }
-        if (handler.enter) { handler.enter(); }
-        setContext(handler, context);
-        if (handler.setup) {
-          if (false === handler.setup(context)) {
-            aborted = true;
-          }
-        }
-
-        if (!aborted) {
-          currentHandlerInfos.push(handlerInfo);
-        }
+      eachHandler(partition.entered, function(handlerInfo) {
+        handlerEnteredOrUpdated(transition, currentHandlerInfos, handlerInfo, true);
       });
 
-      if (!aborted && router.didTransition) {
+      if (router.didTransition) {
         router.didTransition(handlerInfos);
       }
     }
+
+    /**
+      @private
+
+      Helper method used by setupContexts. Handles errors or redirects
+      that may happen in enter/setup.
+    */
+    function handlerEnteredOrUpdated(transition, currentHandlerInfos, handlerInfo, enter) {
+      var handler = handlerInfo.handler,
+          context = handlerInfo.context;
+
+      try {
+        if (enter && handler.enter) { handler.enter(); }
+        checkAbort(transition);
+
+        setContext(handler, context);
+
+        if (handler.setup) { handler.setup(context); }
+        checkAbort(transition);
+      } catch(e) {
+        if (!(e instanceof Router.TransitionAborted)) { 
+          // Trigger the `error` event starting from this failed handler.
+          trigger(currentHandlerInfos.concat(handlerInfo), true, ['error', e, transition]);
+        }
+
+        // Propagate the error so that the transition promise will reject.
+        throw e;
+      }
+
+      currentHandlerInfos.push(handlerInfo);
+    }
+
 
     /**
       @private
@@ -24264,11 +24669,7 @@ define("router",
     */
     function eachHandler(handlerInfos, callback) {
       for (var i=0, l=handlerInfos.length; i<l; i++) {
-        var handlerInfo = handlerInfos[i],
-            handler = handlerInfo.handler,
-            context = handlerInfo.context;
-
-        callback(handler, context, handlerInfo);
+        callback(handlerInfos[i]);
       }
     }
 
@@ -24348,19 +24749,19 @@ define("router",
       return handlers;
     }
 
-    function trigger(router, args) {
-      var currentHandlerInfos = router.currentHandlerInfos;
+    function trigger(handlerInfos, ignoreFailure, args) {
 
       var name = args.shift();
 
-      if (!currentHandlerInfos) {
+      if (!handlerInfos) {
+        if (ignoreFailure) { return; }
         throw new Error("Could not trigger event '" + name + "'. There are no active handlers");
       }
 
       var eventWasHandled = false;
 
-      for (var i=currentHandlerInfos.length-1; i>=0; i--) {
-        var handlerInfo = currentHandlerInfos[i],
+      for (var i=handlerInfos.length-1; i>=0; i--) {
+        var handlerInfo = handlerInfos[i],
             handler = handlerInfo.handler;
 
         if (handler.events && handler.events[name]) {
@@ -24372,7 +24773,7 @@ define("router",
         }
       }
 
-      if (!eventWasHandled) {
+      if (!eventWasHandled && !ignoreFailure) {
         throw new Error("Nothing handled the event '" + name + "'.");
       }
     }
@@ -24381,9 +24782,371 @@ define("router",
       handler.context = context;
       if (handler.contextDidChange) { handler.contextDidChange(); }
     }
+
+    /**
+      @private
+
+      Creates, begins, and returns a Transition.
+     */
+    function performTransition(router, recogHandlers, providedModelsArray, params, data) {
+
+      var matchPointResults = getMatchPoint(router, recogHandlers, providedModelsArray, params),
+          targetName = recogHandlers[recogHandlers.length - 1].handler,
+          wasTransitioning = false;
+
+      // Check if there's already a transition underway.
+      if (router.activeTransition) { 
+        if (transitionsIdentical(router.activeTransition, targetName, providedModelsArray)) {
+          return router.activeTransition;
+        }
+        router.activeTransition.abort(); 
+        wasTransitioning = true;
+      }
+
+      var deferred = RSVP.defer(),
+          transition = new Transition(router, deferred.promise);
+
+      transition.targetName = targetName;
+      transition.providedModels = matchPointResults.providedModels;
+      transition.providedModelsArray = providedModelsArray;
+      transition.params = matchPointResults.params;
+      transition.data = data || {};
+      router.activeTransition = transition;
+
+      var handlerInfos = generateHandlerInfos(router, recogHandlers);
+
+      // Fire 'willTransition' event on current handlers, but don't fire it
+      // if a transition was already underway.
+      if (!wasTransitioning) {
+        trigger(router.currentHandlerInfos, true, ['willTransition', transition]);
+      }
+
+      log(router, transition.sequence, "Beginning validation for transition to " + transition.targetName);
+      validateEntry(transition, handlerInfos, 0, matchPointResults.matchPoint, matchPointResults.handlerParams)
+                   .then(transitionSuccess, transitionFailure);
+
+      return transition;
+
+      function transitionSuccess() {
+        checkAbort(transition);
+
+        try {
+          finalizeTransition(transition, handlerInfos);
+
+          // Resolve with the final handler.
+          deferred.resolve(handlerInfos[handlerInfos.length - 1].handler);
+        } catch(e) {
+          deferred.reject(e);
+        }
+
+        // Don't nullify if another transition is underway (meaning
+        // there was a transition initiated with enter/setup).
+        if (!transition.isAborted) {
+          router.activeTransition = null;
+        }
+      }
+
+      function transitionFailure(reason) {
+        deferred.reject(reason);
+      }
+    }
+
+    /**
+      @private
+
+      Accepts handlers in Recognizer format, either returned from
+      recognize() or handlersFor(), and returns unified 
+      `HandlerInfo`s. 
+     */
+    function generateHandlerInfos(router, recogHandlers) {
+      var handlerInfos = [];
+      for (var i = 0, len = recogHandlers.length; i < len; ++i) {
+        var handlerObj = recogHandlers[i],
+            isDynamic = handlerObj.isDynamic || (handlerObj.names && handlerObj.names.length);
+
+        handlerInfos.push({
+          isDynamic: !!isDynamic,
+          name: handlerObj.handler,
+          handler: router.getHandler(handlerObj.handler)
+        });
+      }
+      return handlerInfos;
+    }
+
+    /**
+      @private
+     */
+    function transitionsIdentical(oldTransition, targetName, providedModelsArray) {
+
+      if (oldTransition.targetName !== targetName) { return false; }
+
+      var oldModels = oldTransition.providedModelsArray;
+      if (oldModels.length !== providedModelsArray.length) { return false; }
+
+      for (var i = 0, len = oldModels.length; i < len; ++i) {
+        if (oldModels[i] !== providedModelsArray[i]) { return false; }
+      }
+      return true;
+    }
+
+    /**
+      @private
+
+      Updates the URL (if necessary) and calls `setupContexts`
+      to update the router's array of `currentHandlerInfos`.
+     */
+    function finalizeTransition(transition, handlerInfos) {
+
+      var router = transition.router,
+          seq = transition.sequence,
+          handlerName = handlerInfos[handlerInfos.length - 1].name;
+
+      log(router, seq, "Validation succeeded, finalizing transition;");
+
+      // Collect params for URL.
+      var objects = [];
+      for (var i = 0, len = handlerInfos.length; i < len; ++i) {
+        var handlerInfo = handlerInfos[i];
+        if (handlerInfo.isDynamic) {
+          objects.push(handlerInfo.context);
+        }
+      }
+
+      var params = paramsForHandler(router, handlerName, objects);
+
+      transition.providedModelsArray = [];
+      transition.providedContexts = {};
+      router.currentParams = params;
+
+      var urlMethod = transition.urlMethod;
+      if (urlMethod) { 
+        var url = router.recognizer.generate(handlerName, params);
+
+        if (urlMethod === 'replace') {
+          router.replaceURL(url);
+        } else {
+          // Assume everything else is just a URL update for now.
+          router.updateURL(url);
+        }
+      }
+
+      setupContexts(transition, handlerInfos);
+      log(router, seq, "TRANSITION COMPLETE.");
+    }
+
+    /**
+      @private
+
+      Internal function used to construct the chain of promises used
+      to validate a transition. Wraps calls to `beforeModel`, `model`,
+      and `afterModel` in promises, and checks for redirects/aborts
+      between each.
+     */
+    function validateEntry(transition, handlerInfos, index, matchPoint, handlerParams) {
+
+      if (index === handlerInfos.length) {
+        // No more contexts to resolve.
+        return RSVP.resolve(transition.resolvedModels);
+      }
+
+      var router = transition.router,
+          handlerInfo = handlerInfos[index],
+          handler = handlerInfo.handler,
+          handlerName = handlerInfo.name,
+          seq = transition.sequence,
+          errorAlreadyHandled = false,
+          resolvedModel;
+
+      if (index < matchPoint) {
+        log(router, seq, handlerName + ": using context from already-active handler");
+
+        // We're before the match point, so don't run any hooks,
+        // just use the already resolved context from the handler.
+        resolvedModel = handlerInfo.handler.context;
+        return proceed();
+      }
+
+      return RSVP.resolve().then(handleAbort)
+                           .then(beforeModel)
+                           .then(null, handleError)
+                           .then(handleAbort)
+                           .then(model)
+                           .then(null, handleError)
+                           .then(handleAbort)
+                           .then(afterModel)
+                           .then(null, handleError)
+                           .then(handleAbort)
+                           .then(proceed);
+
+      function handleAbort(result) {
+
+        if (transition.isAborted) { 
+          log(transition.router, transition.sequence, "detected abort.");
+          errorAlreadyHandled = true;
+          return RSVP.reject(new Router.TransitionAborted());
+        }
+
+        return result;
+      }
+
+      function handleError(reason) {
+
+        if (errorAlreadyHandled) { return RSVP.reject(reason); }
+        errorAlreadyHandled = true;
+        transition.abort();
+
+        log(router, seq, handlerName + ": handling error: " + reason);
+
+        // An error was thrown / promise rejected, so fire an 
+        // `error` event from this handler info up to root.
+        trigger(handlerInfos.slice(0, index + 1), true, ['error', reason, transition]);
+
+        if (handler.error) { 
+          handler.error(reason, transition); }
+
+
+        // Propagate the original error.
+        return RSVP.reject(reason);
+      }
+
+      function beforeModel() {
+
+        log(router, seq, handlerName + ": calling beforeModel hook");
+
+        return handler.beforeModel && handler.beforeModel(transition);
+      }
+
+      function model() {
+        log(router, seq, handlerName + ": resolving model");
+
+        return getModel(handlerInfo, transition, handlerParams[handlerName], index >= matchPoint);
+      }
+
+      function afterModel(context) {
+
+        log(router, seq, handlerName + ": calling afterModel hook");
+
+        // Pass the context and resolved parent contexts to afterModel, but we don't
+        // want to use the value returned from `afterModel` in any way, but rather
+        // always resolve with the original `context` object.
+
+        resolvedModel = context;
+        return handler.afterModel && handler.afterModel(resolvedModel, transition);
+      }
+
+      function proceed() {
+        log(router, seq, handlerName + ": validation succeeded, proceeding");
+
+        handlerInfo.context = transition.resolvedModels[handlerInfo.name] = resolvedModel;
+        return validateEntry(transition, handlerInfos, index + 1, matchPoint, handlerParams);
+      }
+    }
+
+    /**
+      @private
+
+      Throws a TransitionAborted if the provided transition has been aborted.
+     */
+    function checkAbort(transition) {
+      if (transition.isAborted) { 
+        log(transition.router, transition.sequence, "detected abort.");
+        throw new Router.TransitionAborted();
+      }
+    }
+
+    /**
+      @private
+
+      Encapsulates the logic for whether to call `model` on a route,
+      or use one of the models provided to `transitionTo`.
+     */
+    function getModel(handlerInfo, transition, handlerParams, needsUpdate) {
+
+      var handler = handlerInfo.handler,
+          handlerName = handlerInfo.name;
+
+      if (!needsUpdate && handler.hasOwnProperty('context')) {
+        return handler.context;
+      }
+
+      if (handlerInfo.isDynamic && transition.providedModels.hasOwnProperty(handlerName)) {
+        var providedModel = transition.providedModels[handlerName];
+        return typeof providedModel === 'function' ? providedModel() : providedModel;
+      }
+
+      return handler.model && handler.model(handlerParams || {}, transition);
+    }
+
+    /**
+      @private 
+     */
+    function log(router, sequence, msg) {
+
+      if (!router.log) { return; }
+
+      if (arguments.length === 3) {
+        router.log("Transition #" + sequence + ": " + msg);
+      } else {
+        msg = sequence;
+        router.log(msg);
+      }
+    }
+
+    /**
+      @private
+
+      Begins and returns a Transition based on the provided
+      arguments. Accepts arguments in the form of both URL
+      transitions and named transitions.
+
+      @param {Router} router
+      @param {Array[Object]} args arguments passed to transitionTo,
+        replaceWith, or handleURL
+    */
+    function doTransition(router, args) {
+      // Normalize blank transitions to root URL transitions.
+      var name = args[0] || '/';
+
+      if (name.charAt(0) === '/') {
+        return createURLTransition(router, name);
+      } else {
+        return createNamedTransition(router, args);
+      }
+    }
+
+    /**
+      @private
+
+      Serializes a handler using its custom `serialize` method or
+      by a default that looks up the expected property name from
+      the dynamic segment.
+
+      @param {Object} handler a router handler
+      @param {Object} model the model to be serialized for this handler
+      @param {Array[Object]} names the names array attached to an
+        handler object returned from router.recognizer.handlersFor()
+    */
+    function serialize(handler, model, names) {
+
+      // Use custom serialize if it exists.
+      if (handler.serialize) {
+        return handler.serialize(model, names);
+      } 
+
+      if (names.length !== 1) { return; }
+
+      var name = names[0], object = {};
+
+      if (/_id$/.test(name)) {
+        object[name] = model.id;
+      } else {
+        object[name] = model;
+      }
+      return object;
+    }
+
     return Router;
   });
-
 
 })();
 
@@ -24570,7 +25333,7 @@ Ember.Router = Ember.Object.extend({
   location: 'hash',
 
   init: function() {
-    this.router = this.constructor.router;
+    this.router = this.constructor.router || this.constructor.map(Ember.K);
     this._activeViews = {};
     setupLocation(this);
   },
@@ -24615,34 +25378,21 @@ Ember.Router = Ember.Object.extend({
   },
 
   handleURL: function(url) {
-    this.router.handleURL(url);
-    this.notifyPropertyChange('url');
+    scheduleLoadingStateEntry(this);
+
+    var self = this;
+
+    return this.router.handleURL(url).then(function() {
+      transitionCompleted(self);
+    });
   },
 
-  /**
-    Transition to another route via the `routeTo` event which
-    will by default be handled by ApplicationRoute.
-
-    @method routeTo
-    @param {TransitionEvent} transitionEvent
-   */
-  routeTo: function(transitionEvent) {
-    var handlerInfos = this.router.currentHandlerInfos;
-    if (handlerInfos) {
-      transitionEvent.sourceRoute = handlerInfos[handlerInfos.length - 1].handler;
-    }
-
-    this.send('routeTo', transitionEvent);
-  },
-
-  transitionTo: function(name) {
-    var args = [].slice.call(arguments);
-    doTransition(this, 'transitionTo', args);
+  transitionTo: function() {
+    return doTransition(this, 'transitionTo', arguments);
   },
 
   replaceWith: function() {
-    var args = [].slice.call(arguments);
-    doTransition(this, 'replaceWith', args);
+    return doTransition(this, 'replaceWith', arguments);
   },
 
   generate: function() {
@@ -24696,17 +25446,6 @@ Ember.Router = Ember.Object.extend({
   }
 });
 
-Ember.Router.reopenClass({
-  defaultFailureHandler: {
-    setup: function(error) {
-      Ember.Logger.error('Error while loading route:', error);
-
-      // Using setTimeout allows us to escape from the Promise's try/catch block
-      setTimeout(function() { throw error; });
-    }
-  }
-});
-
 function getHandlerFunction(router) {
   var seen = {}, container = router.container,
       DefaultRoute = container.resolve('route:basic');
@@ -24721,7 +25460,6 @@ function getHandlerFunction(router) {
 
     if (!handler) {
       if (name === 'loading') { return {}; }
-      if (name === 'failure') { return router.constructor.defaultFailureHandler; }
 
       container.register(routeName, DefaultRoute.extend());
       handler = container.lookup(routeName);
@@ -24732,15 +25470,23 @@ function getHandlerFunction(router) {
     }
 
     if (name === 'application') {
-      // Inject default `routeTo` handler.
+      // Inject default `error` handler.
       handler.events = handler.events || {};
-      handler.events.routeTo = handler.events.routeTo || Ember.TransitionEvent.defaultHandler;
+      handler.events.error = handler.events.error || defaultErrorHandler;
     }
 
     handler.routeName = name;
     return handler;
   };
 }
+
+function defaultErrorHandler(error, transition) {
+  Ember.Logger.error('Error while loading route:', error);
+
+  // Using setTimeout allows us to escape from the Promise's try/catch block
+  setTimeout(function() { throw error; });
+}
+
 
 function routePath(handlerInfos) {
   var path = [];
@@ -24786,23 +25532,75 @@ function setupRouter(emberRouter, router, location) {
 }
 
 function doTransition(router, method, args) {
+  // Normalize blank route to root URL.
+  args = [].slice.call(args);
+  args[0] = args[0] || '/';
+
   var passedName = args[0], name;
 
-  if (!router.router.hasRoute(args[0])) {
-    name = args[0] = passedName + '.index';
-  } else {
+  if (passedName.charAt(0) === '/') {
     name = passedName;
+  } else {
+    if (!router.router.hasRoute(passedName)) {
+      name = args[0] = passedName + '.index';
+    } else {
+      name = passedName;
+    }
+
+    Ember.assert("The route " + passedName + " was not found", router.router.hasRoute(name));
   }
 
-  Ember.assert("The route " + passedName + " was not found", router.router.hasRoute(name));
+  scheduleLoadingStateEntry(router);
 
-  router.router[method].apply(router.router, args);
+  var transitionPromise = router.router[method].apply(router.router, args);
+  transitionPromise.then(function() {
+    transitionCompleted(router);
+  });
+
+  // We want to return the configurable promise object
+  // so that callers of this function can use `.method()` on it,
+  // which obviously doesn't exist for normal RSVP promises.
+  return transitionPromise;
+}
+
+function scheduleLoadingStateEntry(router) {
+  if (router._loadingStateActive) { return; }
+  router._shouldEnterLoadingState = true;
+  Ember.run.scheduleOnce('routerTransitions', null, enterLoadingState, router);
+}
+
+function enterLoadingState(router) {
+  if (router._loadingStateActive || !router._shouldEnterLoadingState) { return; }
+
+  var loadingRoute = router.router.getHandler('loading');
+  if (loadingRoute) {
+    if (loadingRoute.enter) { loadingRoute.enter(); }
+    if (loadingRoute.setup) { loadingRoute.setup(); }
+    router._loadingStateActive = true;
+  }
+}
+
+function exitLoadingState(router) {
+  router._shouldEnterLoadingState = false;
+  if (!router._loadingStateActive) { return; }
+
+  var loadingRoute = router.router.getHandler('loading');
+  if (loadingRoute && loadingRoute.exit) { loadingRoute.exit(); }
+  router._loadingStateActive = false;
+}
+
+function transitionCompleted(router) {
   router.notifyPropertyChange('url');
+  exitLoadingState(router);
 }
 
 Ember.Router.reopenClass({
   map: function(callback) {
     var router = this.router = new Router();
+
+    if (get(this, 'namespace.LOG_TRANSITIONS_INTERNAL')) {
+      router.log = Ember.Logger.debug;
+    }
 
     var dsl = Ember.RouterDSL.map(function() {
       this.resource('application', { path: "/" }, function() {
@@ -24814,6 +25612,7 @@ Ember.Router.reopenClass({
     return router;
   }
 });
+
 
 })();
 
@@ -24827,7 +25626,9 @@ Ember.Router.reopenClass({
 
 var get = Ember.get, set = Ember.set,
     classify = Ember.String.classify,
-    fmt = Ember.String.fmt;
+    fmt = Ember.String.fmt,
+    a_forEach = Ember.EnumerableUtils.forEach,
+    a_replace = Ember.EnumerableUtils.replace;
 
 /**
   The `Ember.Route` class is used to define individual routes. Refer to
@@ -24845,7 +25646,7 @@ Ember.Route = Ember.Object.extend({
   */
   exit: function() {
     this.deactivate();
-    teardownView(this);
+    this.teardownViews();
   },
 
   /**
@@ -24868,6 +25669,104 @@ Ember.Route = Ember.Object.extend({
     or `Controller#send`.
 
     The context of the event will be this route.
+
+    ## Bubbling
+
+    By default, an event will stop bubbling once a handler defined
+    on the `events` hash handles it. To continue bubbling the event,
+    you must return `true` from the handler.
+
+    ## Built-in events
+
+    There are a few built-in events pertaining to transitions that you
+    can use to customize transition behavior: `willTransition` and
+    `error`.
+
+    ### `willTransition`
+
+    The `willTransition` event is fired at the beginning of any
+    attempted transition with a `Transition` object as the sole
+    argument. This event can be used for aborting, redirecting,
+    or decorating the transition from the currently active routes.
+
+    A good example is preventing navigation when a form is
+    half-filled out:
+
+    ```js
+    App.ContactFormRoute = Ember.Route.extend({
+      events: {
+        willTransition: function(transition) {
+          if (this.controller.get('userHasEnteredData')) {
+            this.controller.displayNavigationConfirm();
+            transition.abort();
+          }
+        }
+      }
+    });
+    ```
+
+    You can also redirect elsewhere by calling 
+    `this.transitionTo('elsewhere')` from within `willTransition`.
+    Note that `willTransition` will not be fired for the
+    redirecting `transitionTo`, since `willTransition` doesn't
+    fire when there is already a transition underway. If you want
+    subsequent `willTransition` events to fire for the redirecting
+    transition, you must first explicitly call
+    `transition.abort()`.
+
+    ### `error`
+
+    When attempting to transition into a route, any of the hooks
+    may throw an error, or return a promise that rejects, at which
+    point an `error` event will be fired on the partially-entered
+    routes, allowing for per-route error handling logic, or shared
+    error handling logic defined on a parent route. 
+    
+    Here is an example of an error handler that will be invoked
+    for rejected promises / thrown errors from the various hooks
+    on the route, as well as any unhandled errors from child
+    routes:
+
+    ```js
+    App.AdminRoute = Ember.Route.extend({
+      beforeModel: function() {
+        throw "bad things!";
+        // ...or, equivalently:
+        return Ember.RSVP.reject("bad things!");
+      },
+
+      events: {
+        error: function(error, transition) {
+          // Assuming we got here due to the error in `beforeModel`,
+          // we can expect that error === "bad things!",
+          // but a promise model rejecting would also 
+          // call this hook, as would any errors encountered
+          // in `afterModel`. 
+
+          // The `error` hook is also provided the failed
+          // `transition`, which can be stored and later
+          // `.retry()`d if desired.
+
+          this.transitionTo('login');
+        }
+      }
+    });
+    ```
+
+    `error` events that bubble up all the way to `ApplicationRoute` 
+    will fire a default error handler that logs the error. You can
+    specify your own global default error handler by overriding the 
+    `error` handler on `ApplicationRoute`:
+
+    ```js
+    App.ApplicationRoute = Ember.Route.extend({
+      events: {
+        error: function(error, transition) {
+          this.controllerFor('banner').displayError(error.message);
+        }
+      }
+    });
+    ```
 
     @see {Ember.Route#send}
     @see {Handlebars.helpers.action}
@@ -24895,17 +25794,6 @@ Ember.Route = Ember.Object.extend({
   activate: Ember.K,
 
   /**
-    Transition to another route via the `routeTo` event which
-    will by default be handled by ApplicationRoute.
-
-    @method routeTo
-    @param {TransitionEvent} transitionEvent
-   */
-  routeTo: function(transitionEvent) {
-    this.router.routeTo(transitionEvent);
-  },
-
-  /**
     Transition into another route. Optionally supply a model for the
     route in question. The model will be serialized into the URL
     using the `serialize` hook.
@@ -24916,13 +25804,6 @@ Ember.Route = Ember.Object.extend({
   */
   transitionTo: function(name, context) {
     var router = this.router;
-
-    // If the transition is a no-op, just bail.
-    if (router.isActive.apply(router, arguments)) {
-      return;
-    }
-
-    if (this._checkingRedirect) { this._redirected[this._redirectDepth] = true; }
     return router.transitionTo.apply(router, arguments);
   },
 
@@ -24939,28 +25820,12 @@ Ember.Route = Ember.Object.extend({
   */
   replaceWith: function() {
     var router = this.router;
-
-    // If the transition is a no-op, just bail.
-    if (router.isActive.apply(router, arguments)) {
-      return;
-    }
-
-    if (this._checkingRedirect) { this._redirected[this._redirectDepth] = true; }
     return this.router.replaceWith.apply(this.router, arguments);
   },
 
   send: function() {
     return this.router.send.apply(this.router, arguments);
   },
-
-  /**
-   @private
-
-   Internal counter for tracking whether a route handler has
-   called transitionTo or replaceWith inside its redirect hook.
-
-  */
-  _redirectDepth: 0,
 
   /**
     @private
@@ -24970,58 +25835,6 @@ Ember.Route = Ember.Object.extend({
     @method setup
   */
   setup: function(context) {
-    // Determine if this is the top-most transition.
-    // If so, we'll set up a data structure to track
-    // whether `transitionTo` or replaceWith gets called
-    // inside our `redirect` hook.
-    //
-    // This is necessary because we set a flag on the route
-    // inside transitionTo/replaceWith to determine afterwards
-    // if they were called, but `setup` can be called
-    // recursively and we need to disambiguate where in the
-    // call stack the redirect happened.
-
-    // Are we the first call to setup? If so, set up the
-    // redirect tracking data structure, and remember that
-    // we're the top-most so we can clean it up later.
-    var isTop;
-    if (!this._redirected) {
-      isTop = true;
-      this._redirected = [];
-    }
-
-    // Set a flag on this route saying that we are interested in
-    // tracking redirects, and increment the depth count.
-    this._checkingRedirect = true;
-    var depth = ++this._redirectDepth;
-
-    // Check to see if context is set. This check preserves
-    // the correct arguments.length inside the `redirect` hook.
-    if (context === undefined) {
-      this.redirect();
-    } else {
-      this.redirect(context);
-    }
-
-    // After the call to `redirect` returns, decrement the depth count.
-    this._redirectDepth--;
-    this._checkingRedirect = false;
-
-    // Save off the data structure so we can reset it on the route but
-    // still reference it later in this method.
-    var redirected = this._redirected;
-
-    // If this is the top `setup` call in the call stack, clear the
-    // redirect tracking data structure.
-    if (isTop) { this._redirected = null; }
-
-    // If we were redirected, there is nothing left for us to do.
-    // Returning false tells router.js not to continue calling setup
-    // on any children route handlers.
-    if (redirected[depth]) {
-      return false;
-    }
-
     var controller = this.controllerFor(this.routeName, context);
 
     // Assign the route's controller so that it can more easily be
@@ -25044,10 +25857,15 @@ Ember.Route = Ember.Object.extend({
   },
 
   /**
+    @deprecated
+
     A hook you can implement to optionally redirect to another route.
 
     If you call `this.transitionTo` from inside of this hook, this route
     will not be entered in favor of the other hook.
+
+    This hook is deprecated in favor of using the `afterModel` hook
+    for performing redirects after the model has resolved.
 
     @method redirect
     @param {Object} model the model for this route
@@ -25055,17 +25873,114 @@ Ember.Route = Ember.Object.extend({
   redirect: Ember.K,
 
   /**
-    @private
+    This hook is the first of the route entry validation hooks
+    called when an attempt is made to transition into a route
+    or one of its children. It is called before `model` and
+    `afterModel`, and is appropriate for cases when:
 
-    The hook called by `router.js` to convert parameters into the context
-    for this handler. The public Ember hook is `model`.
+    1) A decision can be made to redirect elsewhere without
+       needing to resolve the model first.
+    2) Any async operations need to occur first before the 
+       model is attempted to be resolved.
 
-    @method deserialize
+    This hook is provided the current `transition` attempt
+    as a parameter, which can be used to `.abort()` the transition,
+    save it for a later `.retry()`, or retrieve values set
+    on it from a previous hook. You can also just call
+    `this.transitionTo` to another route to implicitly 
+    abort the `transition`. 
+
+    You can return a promise from this hook to pause the
+    transition until the promise resolves (or rejects). This could
+    be useful, for instance, for retrieving async code from 
+    the server that is required to enter a route. 
+
+    ```js
+    App.PostRoute = Ember.Route.extend({
+      beforeModel: function(transition) {
+        if (!App.Post) {
+          return Ember.$.getScript('/models/post.js');
+        }
+      }
+    });
+    ```
+
+    If `App.Post` doesn't exist in the above example, 
+    `beforeModel` will use jQuery's `getScript`, which
+    returns a promise that resolves after the server has
+    successfully retrieved and executed the code from the
+    server. Note that if an error were to occur, it would 
+    be passed to the `error` hook on `Ember.Route`, but 
+    it's also possible to handle errors specific to 
+    `beforeModel` right from within the hook (to distinguish
+    from the shared error handling behavior of the `error`
+    hook):
+
+    ```js
+    App.PostRoute = Ember.Route.extend({
+      beforeModel: function(transition) {
+        if (!App.Post) {
+          var self = this;
+          return Ember.$.getScript('post.js').then(null, function(e) {
+            self.transitionTo('help');
+
+            // Note that the above transitionTo will implicitly
+            // halt the transition. If you were to return
+            // nothing from this promise reject handler, 
+            // according to promise semantics, that would
+            // convert the reject into a resolve and the 
+            // transition would continue. To propagate the
+            // error so that it'd be handled by the `error` 
+            // hook, you would have to either
+            return Ember.RSVP.reject(e);
+            // or
+            throw e;
+          });
+        }
+      }
+    });
+    ```
+
+    @param {Transition} transition 
+    @return {Promise} if the value returned from this hook is
+      a promise, the transition will pause until the transition
+      resolves. Otherwise, non-promise return values are not 
+      utilized in any way.
   */
-  deserialize: function(params) {
-    var model = this.model(params);
-    return this.currentModel = model;
+  beforeModel: Ember.K,
+
+  /**
+    This hook is called after this route's model has resolved.
+    It follows identical async/promise semantics to `beforeModel` 
+    but is provided the route's resolved model in addition to 
+    the `transition`, and is therefore suited to performing
+    logic that can only take place after the model has already
+    resolved.
+
+    ```js
+    App.PostRoute = Ember.Route.extend({
+      afterModel: function(posts, transition) {
+        if (posts.length === 1) {
+          this.transitionTo('post.show', posts[0]);
+        }
+      }
+    });
+    ```
+
+    Refer to documentation for `beforeModel` for a description
+    of transition-pausing semantics when a promise is returned
+    from this hook. 
+
+    @param {Transition} transition 
+    @return {Promise} if the value returned from this hook is
+      a promise, the transition will pause until the transition
+      resolves. Otherwise, non-promise return values are not 
+      utilized in any way.
+   */
+  afterModel: function(resolvedModel, transition) {
+    this.redirect(resolvedModel, transition);
   },
+
 
   /**
     @private
@@ -25104,10 +26019,15 @@ Ember.Route = Ember.Object.extend({
     is not called. Routes without dynamic segments will always
     execute the model hook.
 
+    This hook follows the asynchronous/promise semantics
+    described in the documentation for `beforeModel`. In particular,
+    if a promise returned from `model` fails, the error will be 
+    handled by the `error` hook on `Ember.Route`.
+
     @method model
     @param {Object} params the parameters extracted from the URL
   */
-  model: function(params) {
+  model: function(params, resolvedParentModels) {
     var match, name, sawParams, value;
 
     for (var prop in params) {
@@ -25265,7 +26185,19 @@ Ember.Route = Ember.Object.extend({
     @return {Object} the model object
   */
   modelFor: function(name) {
-    var route = this.container.lookup('route:' + name);
+
+    var route = this.container.lookup('route:' + name),
+        transition = this.router.router.activeTransition;
+
+    // If we are mid-transition, we want to try and look up
+    // resolved parent contexts on the current transitionEvent.
+    if (transition) {
+      var modelLookupName = (route && route.routeName) || name;
+      if (transition.resolvedModels.hasOwnProperty(modelLookupName)) {
+        return transition.resolvedModels[modelLookupName];
+      }
+    }
+
     return route && route.currentModel;
   },
 
@@ -25368,7 +26300,22 @@ Ember.Route = Ember.Object.extend({
   },
 
   willDestroy: function() {
-    teardownView(this);
+    this.teardownViews();
+  },
+  
+  teardownViews: function() {
+    // Tear down the top level view
+    if (this.teardownTopLevelView) { this.teardownTopLevelView(); }
+    
+    // Tear down any outlets rendered with 'into'
+    var teardownOutletViews = this.teardownOutletViews || [];
+    a_forEach(teardownOutletViews, function(teardownOutletView) { 
+      teardownOutletView();
+    });
+    
+    delete this.teardownTopLevelView;
+    delete this.teardownOutletViews;
+    delete this.lastRenderedTemplate;
   }
 });
 
@@ -25457,93 +26404,29 @@ function setupView(view, container, options) {
 function appendView(route, view, options) {
   if (options.into) {
     var parentView = route.router._lookupActiveView(options.into);
-    route.teardownView = teardownOutlet(parentView, options.outlet);
+    var teardownOutletView = generateOutletTeardown(parentView, options.outlet);
+    if (!route.teardownOutletViews) { route.teardownOutletViews = []; }
+    a_replace(route.teardownOutletViews, 0, 0, [teardownOutletView]);
     parentView.connectOutlet(options.outlet, view);
   } else {
     var rootElement = get(route, 'router.namespace.rootElement');
     // tear down view if one is already rendered
-    if (route.teardownView) {
-      route.teardownView();
+    if (route.teardownTopLevelView) {
+      route.teardownTopLevelView();
     }
     route.router._connectActiveView(options.name, view);
-    route.teardownView = teardownTopLevel(view);
+    route.teardownTopLevelView = generateTopLevelTeardown(view);
     view.appendTo(rootElement);
   }
 }
 
-function teardownTopLevel(view) {
+function generateTopLevelTeardown(view) {
   return function() { view.destroy(); };
 }
 
-function teardownOutlet(parentView, outlet) {
+function generateOutletTeardown(parentView, outlet) {
   return function() { parentView.disconnectOutlet(outlet); };
 }
-
-function teardownView(route) {
-  if (route.teardownView) { route.teardownView(); }
-
-  delete route.teardownView;
-  delete route.lastRenderedTemplate;
-}
-
-})();
-
-
-
-(function() {
-/**
-@module ember
-@submodule ember-routing
-*/
-
-
-/*
-  A TransitionEvent is passed as the argument for `transitionTo`
-  events and contains information about an attempted transition 
-  that can be modified or decorated by leafier `transitionTo` event
-  handlers before the actual transition is committed by ApplicationRoute.
-
-  @class TransitionEvent
-  @namespace Ember
-  @extends Ember.Deferred
- */
-Ember.TransitionEvent = Ember.Object.extend({
-
-  /*
-    The Ember.Route method used to perform the transition.  Presently, 
-    the only valid values are 'transitionTo' and 'replaceWith'.
-   */
-  transitionMethod: 'transitionTo',
-  destinationRouteName: null,
-  sourceRoute: null,
-  contexts: null,
-
-  init: function() {
-    this._super();
-    this.contexts = this.contexts || [];
-  },
-
-  /*
-    Convenience method that returns an array that can be used for
-    legacy `transitionTo` and `replaceWith`.
-   */
-  transitionToArgs: function() {
-    return [this.destinationRouteName].concat(this.contexts);
-  }
-});
-
-
-Ember.TransitionEvent.reopenClass({
-  /*
-    This is the default transition event handler that will be injected
-    into ApplicationRoute. The context, like all route event handlers in
-    the events hash, will be an `Ember.Route`.
-   */
-  defaultHandler: function(transitionEvent) {
-    var router = this.router;
-    router[transitionEvent.transitionMethod].apply(router, transitionEvent.transitionToArgs());
-  }
-});
 
 })();
 
@@ -25622,34 +26505,133 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
   }
 
   /**
+    `Ember.LinkView` renders an element whose `click` event triggers a
+    transition of the application's instance of `Ember.Router` to
+    a supplied route by name.
+    
+    Instances of `LinkView` will most likely be created through
+    the `linkTo` Handlebars helper, but properties of this class
+    can be overridden to customize application-wide behavior.
+
     @class LinkView
     @namespace Ember
     @extends Ember.View
+    @see {Handlebars.helpers.linkTo}
   **/
   var LinkView = Ember.LinkView = Ember.View.extend({
     tagName: 'a',
     namedRoute: null,
     currentWhen: null,
+
+    /**
+      Sets the `title` attribute of the `LinkView`'s HTML element.
+
+      @property title
+      @default null
+    **/
     title: null,
+
+    /**
+      The CSS class to apply to `LinkView`'s element when its `active`
+      property is `true`.
+
+      @property activeClass
+      @type String
+      @default active
+    **/
     activeClass: 'active',
+
+    /**
+      The CSS class to apply to a `LinkView`'s element when its `disabled`
+      property is `true`.
+      
+      @property disabledClass
+      @type String
+      @default disabled
+    **/
     disabledClass: 'disabled',
     _isDisabled: false,
+
+    /**
+      Determines whether the `LinkView` will trigger routing via
+      the `replaceWith` routing strategy. 
+
+      @type Boolean
+      @default false
+    **/
     replace: false,
     attributeBindings: ['href', 'title'],
     classNameBindings: ['active', 'disabled'],
 
-    // Even though this isn't a virtual view, we want to treat it as if it is
-    // so that you can access the parent with {{view.prop}}
+    /**
+      By default the `{{linkTo}}` helper responds to the `click` event. You
+      can override this globally by setting this property to your custom
+      event name. 
+
+      This is particularly useful on mobile when one wants to avoid the 300ms
+      click delay using some sort of custom `tap` event.
+
+      @property eventName
+      @type String
+      @default click
+    */
+    eventName: 'click',
+
+    // this is doc'ed here so it shows up in the events
+    // section of the API documentation, which is where
+    // people will likely go looking for it.
+    /**
+      Triggers the `LinkView`'s routing behavior. If
+      `eventName` is changed to a value other than `click`
+      the routing behavior will trigger on that custom event
+      instead.
+
+      @event click
+    **/
+
+    init: function() {
+      this._super();
+      // Map desired event name to invoke function
+      var eventName = get(this, 'eventName');
+      this.on(eventName, this, this._invoke);
+    },
+
+    /**
+      @private
+      
+      Even though this isn't a virtual view, we want to treat it as if it is
+      so that you can access the parent with {{view.prop}}
+      
+      @method concreteView
+    **/
     concreteView: Ember.computed(function() {
       return get(this, 'parentView');
     }).property('parentView'),
 
+    /**
+      
+      Accessed as a classname binding to apply the `LinkView`'s `disabledClass`
+      CSS `class` to the element when the link is disabled.
+      
+      When `true` interactions with the element will not trigger route changes.
+      @property disabled
+    */
     disabled: Ember.computed(function(key, value) {
       if (value !== undefined) { this.set('_isDisabled', value); }
       
       return value ? this.get('disabledClass') : false;
     }),
 
+    /**
+      Accessed as a classname binding to apply the `LinkView`'s `activeClass`
+      CSS `class` to the element when the link is active.
+
+      A `LinkView` is considered active when its `currentWhen` property is `true`
+      or the application's current route is the route the `LinkView` would trigger
+      transitions into.
+
+      @property active
+    **/
     active: Ember.computed(function() {
       var router = this.get('router'),
           params = resolvedPaths(this.parameters),
@@ -25664,7 +26646,15 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
       return this.get('controller').container.lookup('router:main');
     }),
 
-    click: function(event) {
+    /**
+      @private
+
+      Event handler that invokes the link, activating the associated route.
+
+      @method _invoke
+      @param {Event} event
+    */
+    _invoke: function(event) {
       if (!isSimpleClick(event)) { return true; }
 
       event.preventDefault();
@@ -25672,26 +26662,25 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
       
       if (get(this, '_isDisabled')) { return false; }
 
-      var router = this.get('router');
+      var router = this.get('router'),
+          routeArgs = args(this, router);
 
-      if (Ember.ENV.ENABLE_ROUTE_TO) {
-
-        var routeArgs = args(this, router);
-
-        router.routeTo(Ember.TransitionEvent.create({
-          transitionMethod: this.get('replace') ? 'replaceWith' : 'transitionTo',
-          destinationRouteName: routeArgs[0],
-          contexts: routeArgs.slice(1)
-        }));
+      if (this.get('replace')) {
+        router.replaceWith.apply(router, routeArgs);
       } else {
-        if (this.get('replace')) {
-          router.replaceWith.apply(router, args(this, router));
-        } else {
-          router.transitionTo.apply(router, args(this, router));
-        }
+        router.transitionTo.apply(router, routeArgs);
       }
     },
 
+    /**
+      Sets the element's `href` attribute to the url for
+      the `LinkView`'s targeted route.
+
+      If the `LinkView`'s `tagName` is changed to a value other
+      than `a`, this property will be ignored.
+
+      @property href
+    **/
     href: Ember.computed(function() {
       if (this.get('tagName') !== 'a') { return false; }
 
@@ -25850,6 +26839,15 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
       activeClass: "is-active",
       tagName: 'li'
     })
+    ```
+
+    It is also possible to override the default event in
+    this manner:
+
+    ``` javascript
+    Ember.LinkView.reopen({
+      eventName: 'customEventName'
+    });
     ```
 
     @method linkTo
@@ -26043,8 +27041,12 @@ Ember.onLoad('Ember.Handlebars', function(Handlebars) {
 
     view = container.lookup('view:' + name) || container.lookup('view:default');
 
-    if (controller = options.hash.controller) {
-      controller = container.lookup('controller:' + controller, lookupOptions);
+    var controllerName = options.hash.controller;
+
+    // Look up the controller by name, if provided.
+    if (controllerName) {
+      controller = container.lookup('controller:' + controllerName, lookupOptions);
+      Ember.assert("The controller name you supplied '" + controllerName + "' did not resolve to a controller.", !!controller);
     } else {
       controller = Ember.controllerFor(container, name, context, lookupOptions);
     }
@@ -26465,10 +27467,12 @@ if (Ember.ENV.EXPERIMENTAL_CONTROL_HELPER) {
       childView.rerender();
     }
 
-    Ember.addObserver(this, modelPath, observer);
-    childView.one('willDestroyElement', this, function() {
-      Ember.removeObserver(this, modelPath, observer);
-    });
+    if (modelPath) {
+      Ember.addObserver(this, modelPath, observer);
+      childView.one('willDestroyElement', this, function() {
+        Ember.removeObserver(this, modelPath, observer);
+      });
+    }
 
     Ember.Handlebars.helpers.view.call(this, childView, options);
   });
@@ -26593,7 +27597,7 @@ Ember.View.reopen({
   _hasEquivalentView: function(outletName, view) {
     var existingView = get(this, '_outlets.'+outletName);
     return existingView &&
-      existingView.prototype === view.prototype &&
+      existingView.constructor === view.constructor &&
       existingView.get('template') === view.get('template') &&
       existingView.get('context') === view.get('context');
   },
@@ -26622,6 +27626,19 @@ Ember.View.reopen({
 
 
 (function() {
+/**
+@module ember
+@submodule ember-views
+*/
+
+// Add a new named queue after the 'actions' queue (where RSVP promises
+// resolve), which is used in router transitions to prevent unnecessary
+// loading state entry if all context promises resolve on the 
+// 'actions' queue first.
+
+var queues = Ember.run.queues,
+    indexOf = Ember.ArrayPolyfills.indexOf;
+queues.splice(indexOf.call(queues, 'actions') + 1, 0, 'routerTransitions');
 
 })();
 
@@ -27505,11 +28522,14 @@ DeprecatedContainer.prototype = {
 
   In addition to creating your application's router, `Ember.Application` is
   also responsible for telling the router when to start routing. Transitions
-  between routes can be logged with the LOG_TRANSITIONS flag:
+  between routes can be logged with the LOG_TRANSITIONS flag, and more
+  detailed intra-transition logging can be logged with
+  the LOG_TRANSITIONS_INTERNAL flag:
 
   ```javascript
   window.App = Ember.Application.create({
-    LOG_TRANSITIONS: true
+    LOG_TRANSITIONS: true, // basic logging of successful transitions
+    LOG_TRANSITIONS_INTERNAL: true // detailed logging of all routing steps
   });
   ```
 
@@ -28216,6 +29236,8 @@ Ember.ControllerMixin.reopen({
     this.get('controllers.post'); // instance of App.PostController
     ```
 
+    This is only available for singleton controllers.
+
     @property {Array} needs
     @default []
   */
@@ -28278,8 +29300,6 @@ var get = Ember.get, set = Ember.set;
 */
 Ember.State = Ember.Object.extend(Ember.Evented,
 /** @scope Ember.State.prototype */{
-  isState: true,
-
   /**
     A reference to the parent state.
 
@@ -28389,20 +29409,24 @@ Ember.State = Ember.Object.extend(Ember.Evented,
 
   setupChild: function(states, name, value) {
     if (!value) { return false; }
+    var instance;
 
-    if (value.isState) {
+    if (value instanceof Ember.State) {
       set(value, 'name', name);
+      instance = value;
+      instance.container = this.container;
     } else if (Ember.State.detect(value)) {
-      value = value.create({
-        name: name
+      instance = value.create({
+        name: name,
+        container: this.container
       });
     }
 
-    if (value.isState) {
-      set(value, 'parentState', this);
-      get(this, 'childStates').pushObject(value);
-      states[name] = value;
-      return value;
+    if (instance instanceof Ember.State) {
+      set(instance, 'parentState', this);
+      get(this, 'childStates').pushObject(instance);
+      states[name] = instance;
+      return instance;
     }
   },
 
@@ -29631,7 +30655,7 @@ Ember.Test = {
       chained: false
     };
     thenable.then = function(onSuccess, onFailure) {
-      var self = this, thenPromise, nextPromise;
+      var thenPromise, nextPromise;
       thenable.chained = true;
       thenPromise = promise.then(onSuccess, onFailure);
       // this is to ensure all downstream fulfillment
@@ -29804,33 +30828,32 @@ Test.QUnitAdapter = Test.Adapter.extend({
 
 (function() {
 var get = Ember.get,
-    helper = Ember.Test.registerHelper,
-    pendingAjaxRequests = 0,
+    Test = Ember.Test,
+    helper = Test.registerHelper,
     countAsync = 0;
 
+Test.pendingAjaxRequests = 0;
 
-Ember.Test.onInjectHelpers(function() {
+Test.onInjectHelpers(function() {
   Ember.$(document).ajaxStart(function() {
-    pendingAjaxRequests++;
+    Test.pendingAjaxRequests++;
   });
 
   Ember.$(document).ajaxStop(function() {
-    pendingAjaxRequests--;
+    Test.pendingAjaxRequests--;
   });
 });
 
 
 function visit(app, url) {
-  Ember.run(app, app.handleURL, url);
   app.__container__.lookup('router:main').location.setURL(url);
+  Ember.run(app, app.handleURL, url);
   return wait(app);
 }
 
 function click(app, selector, context) {
-  var $el = find(app, selector, context);
-  Ember.run(function() {
-    $el.click();
-  });
+  var $el = findWithAssert(app, selector, context);
+  Ember.run($el, 'click');
   return wait(app);
 }
 
@@ -29840,42 +30863,49 @@ function fillIn(app, selector, context, text) {
     text = context;
     context = null;
   }
-  $el = find(app, selector, context);
+  $el = findWithAssert(app, selector, context);
   Ember.run(function() {
     $el.val(text).change();
   });
   return wait(app);
 }
 
-function find(app, selector, context) {
-  var $el;
-  context = context || get(app, 'rootElement');
-  $el = app.$(selector, context);
+function findWithAssert(app, selector, context) {
+  var $el = find(app, selector, context);
   if ($el.length === 0) {
     throw("Element " + selector + " not found.");
   }
   return $el;
 }
 
-function wait(app, value) {
-  var promise, obj = {}, helperName;
+function find(app, selector, context) {
+  var $el;
+  context = context || get(app, 'rootElement');
+  $el = app.$(selector, context);
 
-  promise = Ember.Test.promise(function(resolve) {
+  return $el;
+}
+
+function wait(app, value) {
+  var promise;
+
+  promise = Test.promise(function(resolve) {
     if (++countAsync === 1) {
-      Ember.Test.adapter.asyncStart();
+      Test.adapter.asyncStart();
     }
     var watcher = setInterval(function() {
       var routerIsLoading = app.__container__.lookup('router:main').router.isLoading;
       if (routerIsLoading) { return; }
-      if (pendingAjaxRequests) { return; }
+      if (Test.pendingAjaxRequests) { return; }
       if (Ember.run.hasScheduledTimers() || Ember.run.currentRunLoop) { return; }
+
       clearInterval(watcher);
+
       if (--countAsync === 0) {
-        Ember.Test.adapter.asyncEnd();
+        Test.adapter.asyncEnd();
       }
-      Ember.run(function() {
-        resolve(value);
-      });
+
+      Ember.run(null, resolve, value);
     }, 10);
   });
 
@@ -29930,6 +30960,7 @@ helper('visit', visit);
 helper('click', click);
 helper('fillIn', fillIn);
 helper('find', find);
+helper('findWithAssert', findWithAssert);
 helper('wait', wait);
 
 })();
