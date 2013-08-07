@@ -214,19 +214,19 @@ Balanced.Utils = {
                 type: 'GET',
                 jsonp: 'callback'
             }).then(function(result) {
-                var geo_ip_string;
+                var geoIpString;
 
                 if(result.city && result.region_name && result.country_name) {
-                    geo_ip_string = '(' + result.city + ', ' + result.region_name + ', ' + result.country_name + ')';
+                    geoIpString = '(' + result.city + ', ' + result.region_name + ', ' + result.country_name + ')';
                 }
                 else if(result.region_name && result.country_name) {
-                    geo_ip_string = '(' + result.region_name + ', ' + result.country_name + ')';
+                    geoIpString = '(' + result.region_name + ', ' + result.country_name + ')';
                 }
 
                 if (callback && typeof(callback) === "function") {
-                    callback(geo_ip_string);
+                    callback(geoIpString);
                 } else {
-                    return geo_ip_string;
+                    return geoIpString;
                 }
             });
         }

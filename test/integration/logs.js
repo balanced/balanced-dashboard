@@ -22,6 +22,12 @@ test('has logs in table', function (assert) {
 
     assert.equal($('table.logs tbody tr').length, 10, 'has 10 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+
+    // click load more
+    $("table.logs tfoot tr a").click();
+
+    assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
+    assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 });
 
 test('view a particular log entry', function (assert) {
