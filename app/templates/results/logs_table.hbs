@@ -2,7 +2,7 @@
     <tr>
         <th class="span3 label6a">Status</th>
         <th class="span11 label6a">Method &amp; URI</th>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a align-right sortable unsorted" field="created_at"}}Date{{/view}}
     </tr>
 </thead>
 {{#if results.hasNextPage}}
@@ -33,9 +33,9 @@
                     {{ log.message.request.method }} {{ log.condensed_request_url }}
                 {{/linkToEntity}}
             </td>
-            <td class="span3 date">
+            <td class="span3 align-right date">
                 {{#linkToEntity log}}
-                    <time {{bindAttr datetime="log.created_at"}} data-format="%b %d" {{bindAttr title="log.created_at"}}>{{ log.human_readable_date }}</time>
+                    <time {{bindAttr datetime="log.created_at"}} data-format="%b %d" {{bindAttr title="log.created_at"}}>{{ log.human_readable_created_at }}</time>
                 {{/linkToEntity}}
             </td>
         </tr>
