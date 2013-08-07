@@ -1,16 +1,13 @@
-.com { color: #93a1a1; }
 .lit { color: @balancedYellow; }
 .pun, .opn, .clo { color: @code1d; }
-.fun { color: #dc322f; }
 .str, .atv { color: @code1e; }
 .kwd, .prettyprint .tag { color: @balancedYellow; }
-.typ, .atn, .dec, .var { color: teal; }
-.pln { color: #48484c; line-height: 21px; }
+.pln { color: @gray6; line-height: 21px; }
 
 .prettyprint {
   padding: 10px;
   background-color: @white;
-  border: 1px solid #dddddd;
+  border: 1px solid @codeBorders;
 }
 /* Specify class=linenums on a pre to get line numbering */
 ol.linenums {
@@ -18,7 +15,7 @@ ol.linenums {
 }
 ol.linenums li {
   padding-left: 12px;
-  color: #bebec5;
+  color: @codeBorders;
   line-height: 18px;
-  text-shadow: 0 1px 0 #fff;
+  text-shadow: 0 1px 0 @white;
 }
