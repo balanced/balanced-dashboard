@@ -105,7 +105,7 @@ header.results-label h3 {
       padding-top: 30px;
     }
     td {
-      padding: 12px 15px 12px 0;
+      
     }
     thead {
 
@@ -141,8 +141,10 @@ header.results-label h3 {
         }
       }
     }
-    th, td {
+    th {
       float: none;
+      padding-left: 0;
+      padding-right: 0;
       &:first-child {
         padding-left: 25px;
       }
@@ -150,6 +152,22 @@ header.results-label h3 {
         padding-right: 25px;
         &.sortable {
           padding-right: 5px;
+        }
+      }
+    }
+    td {
+      float: none;
+      &:first-child {
+        span {
+          padding-left: 25px;
+        }
+      }
+      &:last-child {
+        span {
+          padding-right: 25px;
+          &.sortable {
+            padding-right: 5px;
+          }
         }
       }
     }
@@ -162,19 +180,41 @@ header.results-label h3 {
         }
 
         td {
+          padding: 0;
           &.no-results {
+            padding: 12px 15px 12px 25px;
             font-style: italic;
             cursor: default;
           }
           &:last-child {
-            padding-right: 25px;
+            
+          }
+          a {
+            display: block;
+            height: 100%;
+            width: 100%;
+            text-decoration: none;
+            span {
+              padding: 12px 15px 12px 0;
+              display: block;
+            }
+            &:link, &:visited, &:hover, &:active {
+              color: @textColor;
+            }
+          }
+        }
+        td.label4a {
+          a {
+            &:link, &:visited, &:hover, &:active {
+              color: @black;
+            }
           }
           &.black {
             color: @black;
           }
         }
       }
-      td {
+      td, span {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

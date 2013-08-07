@@ -1,6 +1,9 @@
 <h1 class="page-title">Logs
-    {{#unless model.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+    {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
 </h1>
+
 <div class="results">
-    {{view Balanced.LogsResultsView}}
+    <div class="items-wrapper">
+        {{view Balanced.LogsResultsView}}
+    </div>
 </div>

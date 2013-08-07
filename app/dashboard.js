@@ -20,6 +20,7 @@ require('app/lib/jquery-hotkeys');
 require('app/lib/strftime');
 require('app/lib/migration');
 require('app/lib/analytics');
+require('app/lib/country_codes');
 
 /*
  * Model layer.
@@ -66,6 +67,7 @@ require('app/views/base_form');
 require('app/views/control_group');
 require('app/views/date_picker');
 require('app/views/modal');
+require('app/views/popover');
 require('app/views/modal_action_buttons');
 require('app/views/embedded_iframe');
 require('app/views/login');
@@ -73,8 +75,10 @@ require('app/views/forgot_password'); // depends on login
 require('app/views/reset_password'); // depends on login
 require('app/views/results');
 require('app/views/search');
-require('app/views/welcome_transition');
 require('app/views/logs/log');
+require('app/views/country_select');
+require('app/views/account_link_view');
+require('app/views/pretty_print');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_settings');
@@ -119,6 +123,7 @@ require('app/controllers/claim');
 require('app/controllers/marketplaces');
 require('app/controllers/marketplace');
 require('app/controllers/marketplace_settings');
+require('app/controllers/add_customer');
 require('app/controllers/login');
 require('app/controllers/forgot_password');
 require('app/controllers/reset_password');

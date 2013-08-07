@@ -28,9 +28,9 @@ test('view a particular log entry', function (assert) {
     // click the logs link
     $('#marketplace-nav .logs a').click();
 
-    $("table.logs tbody tr").first().click();
+    $("table.logs tbody tr a").first().click();
 
-    assert.equal($("h1.page-title").text(), 'PUT /v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU', 'h1 title is correct');
+    assert.equal($("h1.page-title").text(), 'POST /v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications', 'h1 title is correct');
 
-    assert.equal($("#log-request-id").text(), 'OHM7eb02462f32211e28797026ba7d31e6f', 'Log request id matches');
+    assert.equal($("#log-request-id").text(), 'OHMa2a01fecf94111e2ab70026ba7cac9da', 'Log request id matches');
 });

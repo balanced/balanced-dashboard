@@ -22,15 +22,21 @@
 {{/if}}
 <tbody>
     {{#each account in view.customers}}
-        <tr {{action selectResult account}}>
+        <tr>
             <td class="span3 date">
-                <time {{bindAttr datetime="account.created_at"}} data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
+                {{#linkToEntity account}}<span>
+                    <time {{bindAttr datetime="account.created_at"}} data-format="%b %d" {{bindAttr title="account.created_at"}}>{{ account.human_readable_created_at }}</time>
+                </span>{{/linkToEntity}}
             </td>
             <td class="span4 name" {{bindAttr title="account.display_me"}}>
-                {{ account.display_me }}
+                {{#linkToEntity account}}<span>
+                    {{ account.display_me }}
+                </span>{{/linkToEntity}}
             </td>
             <td class="span8 email" {{bindAttr title="account.email"}}>
-                {{ account.email }}
+                {{#linkToEntity account}}<span>
+                    {{ account.email }}
+                </span>{{/linkToEntity}}
             </td>
         </tr>
     {{else}}

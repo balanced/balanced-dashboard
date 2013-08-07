@@ -13,3 +13,5 @@ Ember.Handlebars.registerBoundHelper('colorizeStatus', function(status) {
 
     return new Ember.Handlebars.SafeString('<span class="status-error">' + status + '</span>');
 });
+
+Ember.Handlebars.registerHelper('linkToEntity', Balanced.Utils.linkToEntity);

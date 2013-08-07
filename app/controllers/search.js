@@ -23,6 +23,12 @@ Balanced.SearchController = Balanced.ObjectController.extend(
                 }
             }, Balanced.THROTTLE);
             this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.query, this));
+
+            // close the search result when we do a transition
+            var router = this.get('container').lookup('router:main');
+            router.addObserver('url', function() {
+                self.closeSearch();
+            });
         },
 
         fetch_results: function () {
@@ -78,12 +84,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
         closeSearch: function () {
             this.reset();
-        },
-
-        selectResult: function (obj) {
-            this.closeSearch();
-
-            this.get('controllers.application').send('selectResult', obj);
         },
 
         redirectToLog: function (ohm) {

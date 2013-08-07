@@ -87,7 +87,19 @@ Balanced.Customer = Balanced.Model.extend({
             name = email;
         }
         return name;
-    }.property('is_business', 'business_name', 'name', 'email')
+    }.property('is_business', 'business_name', 'name', 'email'),
+
+    updateDob: function(month, year) {
+        if ((month && month.length > 0) || (year && year.length > 0)) {
+            this.set('dob', year + '-' + month);
+        } else {
+            this.set('dob', null);
+        }
+    },
+
+    country_name: function() {
+        return Balanced.CountryCodesToNames[this.get('address.country_code')];
+    }.property('address.country_code')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

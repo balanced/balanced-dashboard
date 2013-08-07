@@ -10,6 +10,7 @@ Balanced.Adapter.addFixtures([
       "can_hold": false,
       "meta": {},
       "routing_number": "123123123",
+      "debits_uri": "/v1/bank_accounts/BA57flitvIS6mhDCSqkAloo8/debits",
       "id": "BA57flitvIS6mhDCSqkAloo8",
       "is_valid": true,
       "verifications_uri": "/v1/bank_accounts/BA57flitvIS6mhDCSqkAloo8/verifications",

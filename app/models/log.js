@@ -13,24 +13,27 @@ Balanced.Log = Balanced.Model.extend({
         } else {
             return '';
         }
-    }.property('log.created_at')
+    }.property('log.created_at'),
+
+    geo_ip: function() {
+        var ip = this.get('message.request.headers.X-Real-Ip');
+
+        if(ip) {
+            var self = this;
+
+            Balanced.Utils.geoIP(ip, function(result) {
+                self.set('geo_ip', result);
+            });
+        }
+    }.property('message.request.headers.X-Real-Ip'),
 });
 
 Balanced.Log.reopenClass({
-    constructUri: function(id, params) {
+    constructUri: function(id) {
         var uri = '/v1/logs';
-
-        if(typeof id === 'object' && !params) {
-            params = id;
-            id = null;
-        }
 
         if(id) {
             return uri + '/' + id;
-        }
-
-        if(params) {
-            return uri + '?' + $.param(params);
         }
 
         return uri;

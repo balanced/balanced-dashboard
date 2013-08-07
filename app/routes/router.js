@@ -24,18 +24,18 @@ Balanced.Router = Ember.Router.extend({
                 document.title = self._doc_title;
             }
         };
-        
+
         // try to call it if it is a function
         if (typeof page_title === 'function') {
             /*
              * The title may be updated by the page_title function later,
-             * for example, ajax data loading page can update the title after the 
+             * for example, ajax data loading page can update the title after the
              * data is loaded. So, you can return such as 'Customer: loading ...',
-             * and call set_title('Customer: John') later when the data is loaded 
+             * and call set_title('Customer: John') later when the data is loaded
              */
             page_title = page_title(route, set_title);
         }
-        
+
         set_title(page_title);
     },
 
@@ -84,6 +84,7 @@ Balanced.Router.map(function () {
             });
 
             this.route('settings', { path: 'settings' });
+            this.route('add_customer', { path: 'add_customer' });
 
             this.resource('customers', { path: '/customers' }, function () {
                 this.resource('customer', { path: '/:customer_id'});
@@ -145,6 +146,7 @@ Balanced.IframeRoute = Balanced.AuthRoute.extend({
             uri += '/' + params[this.param];
         }
         return {
+            'id': params[this.param],
             'uri': uri + Balanced.MigrationUtils.embeddedQueryString(),
             'title': this.title,
             'marketplace': marketplace
@@ -185,6 +187,7 @@ require('app/routes/marketplaces/show');
 require('app/routes/marketplaces/transactions');
 require('app/routes/marketplaces/activity');
 require('app/routes/marketplaces/settings');
+require('app/routes/marketplaces/add_customer');
 require('app/routes/customers');
 require('app/routes/bank_accounts');
 require('app/routes/cards');

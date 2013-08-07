@@ -7,7 +7,7 @@
         <div class="modal-body">
             <p class="body2a">A CSV file of your current data set will be sent to:</p>
             <label>Email</label>
-            {{view Ember.TextField name="email" valueBinding="model.email_address" type="email" class="full"}}
+            {{view Ember.TextField name="email" valueBinding="download_model.email_address" type="email" class="full"}}
         </div>
         <div class="modal-footer">
             {{view Balanced.ModalActionButtonsView submitTitle="Export"}}

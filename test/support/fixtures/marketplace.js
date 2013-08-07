@@ -26,10 +26,12 @@ Balanced.Adapter.addFixtures([
     uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/callbacks",
     items: [{
       method: "post",
-      url: "http://balancedpayments.com"
+      url: "http://balancedpayments.com",
+      uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/callbacks/1"
     }, {
       method: "post",
-      url: "http://example.com"
+      url: "http://example.com",
+      uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/callbacks/2"
     }]
   },
   {
@@ -42,6 +44,7 @@ Balanced.Adapter.addFixtures([
 
         },
         "routing_number": "123456789",
+        "debits_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/debits",
         "id": "BA5r9JGZJ7YOCiULGthQYjVc",
         "is_valid": true,
         "verifications_uri": "/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications",
@@ -88,6 +91,7 @@ Balanced.Adapter.addFixtures([
 
         },
         "routing_number": "121042882",
+        "debits_uri": "/v1/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg/debits",
         "id": "BA5nPKKnltzJAAEiWWnnZHBg",
         "is_valid": true,
         "verifications_uri": "/v1/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg/verifications",
@@ -128,6 +132,7 @@ Balanced.Adapter.addFixtures([
         "can_hold": false,
         "meta": {},
         "routing_number": "121042882",
+        "debits_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/debits",
         "id": "BAUgen6ESuHYg31BxVy9pPV",
         "is_valid": true,
         "verifications_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications",
@@ -172,6 +177,7 @@ Balanced.Adapter.addFixtures([
         "can_hold": false,
         "meta": {},
         "routing_number": "121042882",
+        "debits_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/debits",
         "id": "BAUgen6ESuHYg31BxVy9pPV",
         "is_valid": true,
         "verifications_uri": "/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications",

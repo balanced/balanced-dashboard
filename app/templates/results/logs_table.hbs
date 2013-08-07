@@ -2,41 +2,47 @@
     <tr>
         <th class="span3 label6a">Status</th>
         <th class="span11 label6a">Method &amp; URI</th>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="log.created_date"}}Date{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
     </tr>
 </thead>
-{{#if model.hasNextPage}}
+{{#if results.hasNextPage}}
 <tfoot>
     <tr>
         <td colspan="3" class="load-more-results">
-            {{#if model.loadingNextPage }}
+            {{#if results.loadingNextPage }}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{ action loadMore model }}>Load more</a>
+                <a {{ action loadMore results }}>Load more</a>
             {{/if}}
         </td>
     </tr>
 </tfoot>
 {{/if}}
 <tbody>
-    {{#each log in model}}
-        <tr {{action selectResult log}}>
+    {{#each log in results}}
+        <tr>
             <td class="span3 black">
-                {{ colorizeStatus log.message.response.status }}
+                {{#linkToEntity log}}
+                    {{ colorizeStatus log.message.response.status }}
+                {{/linkToEntity}}
             </td>
             <td class="span11">
-                {{ log.message.request.method }} {{ log.condensed_request_url }}
+                {{#linkToEntity log}}
+                    {{ log.message.request.method }} {{ log.condensed_request_url }}
+                {{/linkToEntity}}
             </td>
             <td class="span3 date">
-                <time {{bindAttr datetime="log.created_at"}} data-format="%b %d" {{bindAttr title="log.created_at"}}>{{ log.human_readable_date }}</time>
+                {{#linkToEntity log}}
+                    <time {{bindAttr datetime="log.created_at"}} data-format="%b %d" {{bindAttr title="log.created_at"}}>{{ log.human_readable_date }}</time>
+                {{/linkToEntity}}
             </td>
         </tr>
     {{else}}
         <tr>
             <td colspan="3" class="no-results">
-                {{# if model.isLoaded }}
+                {{# if results.isLoaded }}
                     No results
                 {{else}}
                     Loading...

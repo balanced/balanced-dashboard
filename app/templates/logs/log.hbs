@@ -15,7 +15,7 @@
                 <dt>Request ID</dt>
                 <dd id="log-request-id">{{ model.guru_id }}</dd>
                 <dt>IP address</dt>
-                <dd>{{ model.message.request.headers.X-Real-Ip }}</dd>
+                <dd>{{ model.message.request.headers.X-Real-Ip }} {{ model.geo_ip }}</dd>
                 <dt>User-agent</dt>
                 <dd>{{ model.message.request.headers.User-Agent }}</dd>
             </dl>
@@ -30,12 +30,7 @@
                 <h3>Request body</h3>
             </header>
 
-            {{# if model.message.request.payload }}
-                <pre class="prettyprint lang-js">{{ prettyPrint model.message.request.payload }}</pre>
-            {{else}}
-                <pre class="prettyprint">None</pre>
-            {{/if}}
-            </pre>
+            {{view Balanced.PrettyPrintView contentBinding=model.message.request.payload}}
         </section>
     </div>
 </div>
@@ -47,12 +42,7 @@
                 <h3>Response body</h3>
             </header>
 
-            {{# if model.message.response.body }}
-                <pre class="prettyprint lang-js">{{ prettyPrint model.message.response.body }}</pre>
-            {{else}}
-                <pre class="prettyprint">None</pre>
-            {{/if}}
-            </pre>
+             {{view Balanced.PrettyPrintView contentBinding=model.message.response.body}}
         </section>
     </div>
 </div>

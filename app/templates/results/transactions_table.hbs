@@ -25,21 +25,37 @@
 {{/if}}
 <tbody>
     {{#each transaction in view.transactions }}
-        <tr {{action selectResult transaction}}>
+        <tr>
             <td class="span3 date">
-                <time {{bindAttr datetime="transaction.created_at"}} data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+                {{#linkToEntity transaction}}<span>
+                    <time {{bindAttr datetime="transaction.created_at"}} data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{transaction.human_readable_created_at}}</time>
+                </span>{{/linkToEntity}}
             </td>
             <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
-                {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
+                {{#linkToEntity transaction}}<span>
+                    {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
+                </span>{{/linkToEntity}}
             </td>
             <td class="span4 description" {{bindAttr title="transaction.description"}}>
-                {{ transaction.description }}
+                {{#linkToEntity transaction}}<span>
+                    {{ transaction.description }}
+                </span>{{/linkToEntity}}
             </td>
             <td {{bindAttr class=":span4 :account transaction.account::null-field"}} {{bindAttr title="transaction.account_name_summary"}}>
-                {{transaction.account_name_summary}}
+                {{#linkToEntity transaction}}<span>
+                    {{transaction.account_name_summary}}
+                </span>{{/linkToEntity}}
             </td>
-            <td class="span4 funding-instrument">{{transaction.funding_instrument_description}}</td>
-            <td class="span2 amount num">${{ transaction.amount_dollars }}</td>
+            <td class="span4 funding-instrument">
+                {{#linkToEntity transaction}}<span>
+                    {{transaction.funding_instrument_description}}
+                </span>{{/linkToEntity}}
+            </td>
+            <td class="span2 amount num">
+                {{#linkToEntity transaction}}<span>
+                    ${{ transaction.amount_dollars }}
+                </span>{{/linkToEntity}}
+            </td>
         </tr>
     {{else}}
         <tr>
