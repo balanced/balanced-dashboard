@@ -34,6 +34,10 @@ test('filter logs by endpoint bank accounts', function(assert) {
      // click the logs link
     $('#marketplace-nav .logs a').click();
 
+    assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
+    assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+
+    // click filer by endpoint bank accounts
     $(".results li.filter-endpoints ul li.bank_accounts a").click();
 
     assert.equal($('table.logs tbody tr').length, 8, 'has 8 logs');
