@@ -142,6 +142,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
                 return 'Balanced.BankAccount';
             case 'card':
                 return 'Balanced.Card';
+            case 'log':
+                return 'Balanced.Log';
             default:
                 return null;
         }

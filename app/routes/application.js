@@ -20,7 +20,6 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
             });
         });
     },
-
     events: {
         signOut: function () {
             Balanced.Auth.signOut({
@@ -28,6 +27,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
                     withCredentials: true
                 }
             });
+
         }
     }
 });

@@ -159,3 +159,9 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
     classNames: 'funding-instruments',
     templateName: 'results/funding_instruments_table'
 });
+
+Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
+    classNames: 'logs',
+    classNameBindings: 'selected',
+    templateName: 'results/logs_table'
+});

@@ -52,6 +52,7 @@ test('dollarsToCents', function (assert) {
         '0.1',
         '.51',
         '0.01',
+        '0.51',
         '1.05',
         '45.98',
         '100',
@@ -79,6 +80,7 @@ test('dollarsToCents', function (assert) {
         10,
         51,
         1,
+        51,
         105,
         4598,
         10000,
@@ -159,7 +161,61 @@ test('isValidPassword', function (assert) {
     });
 });
 
-test('toTitleCase', function(assert) {
+test('stripDomain', function (assert) {
+    var urls = [
+        'https://api.balancedpayments.com/v1/marketplaces',
+        'http://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
+        'https://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
+        'http://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s&limit=10&offset=0',
+        '/v1/customers',
+        'api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk'
+    ];
+
+    var expected = [
+        '/v1/marketplaces',
+        '/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
+        '/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
+        '/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s&limit=10&offset=0',
+        '/v1/customers',
+        'api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk'
+    ];
+
+    for (var i = 0; i < urls.length; i++) {
+        assert.equal(Balanced.Utils.stripDomain(urls[i]), expected[i]);
+    }
+});
+
+test('prettyLogUrl', function (assert) {
+    var uris = [
+        'http://api.balancedpayments.com/v1/marketplaces',
+        'https://api.balancedpayments.com/v1/marketplaces/',
+        'http://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
+        'https://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s/',
+        'https://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
+        'http://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s/credits',
+        'https://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s/accounts/AC5nNzq2Qy3cjrXOGqow2yka/credits',
+        'https://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s/accounts/AC5npjjazD5O0cKfEkizNghk/bank_accounts?is_valid=True',
+        'http://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s'
+    ];
+
+    var expected = [
+        '/v1/marketplaces',
+        '/v1/marketplaces/',
+        '/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
+        '/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s/',
+        '/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
+        '/v1/.../credits',
+        '/v1/.../accounts/AC5nNzq2Qy3cjrXOGqow2yka/credits',
+        '/v1/.../accounts/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
+        '/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg'
+    ];
+
+    for (var i = 0; i < uris.length; i++) {
+        assert.equal(Balanced.Utils.prettyLogUrl(uris[i]), expected[i]);
+    }
+});
+
+test('toTitleCase', function (assert) {
     var inputs = [
         null,
         undefined,

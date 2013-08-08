@@ -294,5 +294,4 @@ Balanced.Adapter.addFixtures([
       "id": "BZ58Cg2EyCHwHXnEV2VrNOnd",
       "remaining_attempts": 3
   }
-  ]);
-
+]);

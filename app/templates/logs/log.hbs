@@ -1,0 +1,50 @@
+<h1 class="page-title ellipsis">{{ model.message.request.method }} {{ model.condensed_request_url }}</h1>
+
+<div class="row">
+    <div class="span20">
+        <section class="mb-large">
+            <dl class="dl-horizontal">
+                <dt>Date</dt>
+                <dd>
+                    <time {{bindAttr datetime="model.created_at"}} data-format="%b %d" {{bindAttr title="model.created_at"}}>{{ model.human_readable_created_at }}</time>
+                </dd>
+                <dt>Method</dt>
+                <dd>{{ model.message.request.method }}</dd>
+                <dt>URI</dt>
+                <dd>{{ model.short_url }}</dd>
+                <dt>Status</dt>
+                <dd>{{ colorizeStatus model.message.response.status }}</dd>
+                <dt>Request ID</dt>
+                <dd id="log-request-id">{{ model.guru_id }}</dd>
+                <dt>IP address</dt>
+                <dd>{{ model.message.request.headers.X-Real-Ip }} {{ model.geo_ip }}</dd>
+                <dt>User-agent</dt>
+                <dd>{{ model.message.request.headers.User-Agent }}</dd>
+            </dl>
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span20">
+        <section class="request-info">
+            <header>
+                <h3>Request body</h3>
+            </header>
+
+            {{view Balanced.PrettyPrintView contentBinding=model.message.request.payload}}
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span20">
+        <section class="mb-none response-info">
+            <header>
+                <h3>Response body</h3>
+            </header>
+
+             {{view Balanced.PrettyPrintView contentBinding=model.message.response.body}}
+        </section>
+    </div>
+</div>

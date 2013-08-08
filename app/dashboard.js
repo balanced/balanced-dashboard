@@ -51,6 +51,7 @@ require('app/models/customer');
 require('app/models/verification');
 require('app/models/production_access_application');
 require('app/models/initial_deposit');
+require('app/models/log');
 
 require('app/lib/auth');
 
@@ -74,8 +75,10 @@ require('app/views/forgot_password'); // depends on login
 require('app/views/reset_password'); // depends on login
 require('app/views/results');
 require('app/views/search');
+require('app/views/logs/log');
 require('app/views/country_select');
 require('app/views/account_link_view');
+require('app/views/pretty_print');
 
 require('app/views/marketplace/marketplace');
 require('app/views/marketplace/marketplace_settings');
