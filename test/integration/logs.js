@@ -30,6 +30,15 @@ test('has logs in table', function (assert) {
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 });
 
+test('filter logs by endpoint bank accounts', function(assert) {
+     // click the logs link
+    $('#marketplace-nav .logs a').click();
+
+    $(".results li.filter-endpoints ul li.bank_accounts a").click();
+
+    assert.equal($('table.logs tbody tr').length, 8, 'has 8 logs');
+});
+
 test('view a particular log entry', function (assert) {
     // click the logs link
     $('#marketplace-nav .logs a').click();
