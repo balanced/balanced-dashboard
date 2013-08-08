@@ -28,14 +28,13 @@ Balanced.AccountsHoldRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.AccountRoute = Balanced.AuthRoute.extend({
-    redirect: function() {
+    model: function(params) {
         var marketplace = this.modelFor('marketplace');
-        var customerId = window.location.hash.substr(window.location.hash.lastIndexOf('/'));
-        var customerUri = marketplace.get('customers_uri') + customerId;
-        this.transitionTo('customer', Balanced.Customer.find(customerUri));
+        var customerUri = marketplace.get('customers_uri') + '/' + params.account_id;
+        return Balanced.Customer.find(customerUri);
     },
 
-    model: function() {
-        return null;
+    redirect: function(params) {
+        this.transitionTo('customer', this.modelFor('account'));
     }
 });
