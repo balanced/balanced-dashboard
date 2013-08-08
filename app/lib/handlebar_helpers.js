@@ -6,12 +6,11 @@ Ember.Handlebars.registerBoundHelper('titleCase', Balanced.Utils.toTitleCase);
 
 Ember.Handlebars.registerBoundHelper('prettyPrint', Balanced.Utils.prettyPrint);
 
-Ember.Handlebars.registerBoundHelper('colorizeStatus', function(status) {
-    if(status.match(/2\d\d/)) {
-        return new Ember.Handlebars.SafeString('<span class="status-ok">' + status + '</span>');
-    }
-
-    return new Ember.Handlebars.SafeString('<span class="status-error">' + status + '</span>');
+Ember.Handlebars.registerBoundHelper('colorizeStatus', function (status) {
+    var statusClass = status.match(/2\d\d/) ? 'ok': 'error';
+    return new Ember.Handlebars.SafeString(
+        '<span class="status-{}">{}</span>'.format(statusClass, status)
+    );
 });
 
 Ember.Handlebars.registerHelper('linkToEntity', Balanced.Utils.linkToEntity);

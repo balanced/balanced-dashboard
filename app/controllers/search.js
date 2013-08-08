@@ -26,7 +26,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
             // close the search result when we do a transition
             var router = this.get('container').lookup('router:main');
-            router.addObserver('url', function() {
+            router.addObserver('url', function () {
                 self.closeSearch();
             });
         },
@@ -90,7 +90,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
             var self = this;
 
             var logUri = Balanced.Log.constructUri(ohm);
-            Balanced.Log.find(logUri).then(function(log) {
+            Balanced.Log.find(logUri).then(function (log) {
                 self.closeSearch();
                 self.transitionToRoute('logs.log', log);
             });

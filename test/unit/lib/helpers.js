@@ -180,7 +180,7 @@ test('stripDomain', function (assert) {
         'api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk'
     ];
 
-    for(var i = 0; i < urls.length; i++) {
+    for (var i = 0; i < urls.length; i++) {
         assert.equal(Balanced.Utils.stripDomain(urls[i]), expected[i]);
     }
 });
@@ -210,12 +210,12 @@ test('prettyLogUrl', function (assert) {
         '/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts/BA5nPKKnltzJAAEiWWnnZHBg'
     ];
 
-    for(var i = 0; i < uris.length; i++) {
+    for (var i = 0; i < uris.length; i++) {
         assert.equal(Balanced.Utils.prettyLogUrl(uris[i]), expected[i]);
     }
 });
 
-test('toTitleCase', function(assert) {
+test('toTitleCase', function (assert) {
     var inputs = [
         null,
         undefined,

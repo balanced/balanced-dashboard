@@ -195,31 +195,31 @@ Balanced.Utils = {
         return uri.substring(3);
     },
 
-    stripDomain: function(url) {
+    stripDomain: function (url) {
         return url.replace(/^.*\/\/[^\/]+/, '');
     },
 
-    prettyLogUrl: function(url) {
+    prettyLogUrl: function (url) {
         return Balanced.Utils.stripDomain(url).replace(/\/marketplaces\/[^\/]*\/(.+)$/, '/.../$1').split("?")[0];
     },
 
-    prettyPrint: function(obj) {
+    prettyPrint: function (obj) {
         return JSON.stringify(obj, null, 2);
     },
 
-    geoIP: function(ip, callback) {
-        if(ip) {
+    geoIP: function (ip, callback) {
+        if (ip) {
             $.ajax('https://freegeoip.net/json/' + ip, {
                 dataType: 'jsonp',
                 type: 'GET',
                 jsonp: 'callback'
-            }).then(function(result) {
+            }).then(function (result) {
                 var geoIpString;
 
-                if(result.city && result.region_name && result.country_name) {
+                if (result.city && result.region_name && result.country_name) {
                     geoIpString = '(' + result.city + ', ' + result.region_name + ', ' + result.country_name + ')';
                 }
-                else if(result.region_name && result.country_name) {
+                else if (result.region_name && result.country_name) {
                     geoIpString = '(' + result.region_name + ', ' + result.country_name + ')';
                 }
 
@@ -236,7 +236,7 @@ Balanced.Utils = {
         if (!str) {
             return str;
         }
-        return str.replace(/_/g,' ').replace(/\w\S*/g, function (txt) {
+        return str.replace(/_/g, ' ').replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
     },
@@ -425,54 +425,54 @@ Balanced.Utils = {
         var link_view = Ember.LinkView;
         // is this a transaction route?
         var transaction_route = false;
-        switch(obj.constructor) {
-        case Balanced.Account:
-            /*
-             * By passing account object to linkTo or LinkView, when a user click on it, the data of
-             * account is displayed. The account object is deprecated, we want to display customer
-             * object instead.
+        switch (obj.constructor) {
+            case Balanced.Account:
+                /*
+                 * By passing account object to linkTo or LinkView, when a user click on it, the data of
+                 * account is displayed. The account object is deprecated, we want to display customer
+                 * object instead.
 
-             * We can get a corresponding customer object from the server, but that is a deferred
-             * operation, we cannot do it in this handlebear helper function. To solve that problem,
-             * I want to change the behavior of LinkView. When a user click on it, it will load
-             * the corresponding customer object and transition to the customer route with it.
-             *
-             * Maybe there is a better solution, but this is the best workaround I can see. When
-             * we get rid of the deprecated account object, we can also get rid of this hack.
-             */
-            route_name = 'customer';
-            link_view = Balanced.AccountLinkView;
-            break;
-        case Balanced.Customer:
-            route_name = 'customer';
-            break;
-        case Balanced.BankAccount:
-            route_name = 'bank_account';
-            break;
-        case Balanced.Card:
-            route_name = 'card';
-            break;
-        case Balanced.Credit:
-            route_name = 'credits.credit';
-            transaction_route = true;
-            break;
-        case Balanced.Debit:
-            route_name = 'debits.debit';
-            transaction_route = true;
-            break;
-        case Balanced.Hold:
-            route_name = 'holds.hold';
-            transaction_route = true;
-            break;
-        case Balanced.Refund:
-            route_name = 'refunds.refund';
-            transaction_route = true;
-            break;
-        case Balanced.Log:
-            route_name = 'logs.log';
-            break;
-        default:
-            throw new Ember.Error('not supported model {0}'.format(obj));
+                 * We can get a corresponding customer object from the server, but that is a deferred
+                 * operation, we cannot do it in this handlebear helper function. To solve that problem,
+                 * I want to change the behavior of LinkView. When a user click on it, it will load
+                 * the corresponding customer object and transition to the customer route with it.
+                 *
+                 * Maybe there is a better solution, but this is the best workaround I can see. When
+                 * we get rid of the deprecated account object, we can also get rid of this hack.
+                 */
+                route_name = 'customer';
+                link_view = Balanced.AccountLinkView;
+                break;
+            case Balanced.Customer:
+                route_name = 'customer';
+                break;
+            case Balanced.BankAccount:
+                route_name = 'bank_account';
+                break;
+            case Balanced.Card:
+                route_name = 'card';
+                break;
+            case Balanced.Credit:
+                route_name = 'credits.credit';
+                transaction_route = true;
+                break;
+            case Balanced.Debit:
+                route_name = 'debits.debit';
+                transaction_route = true;
+                break;
+            case Balanced.Hold:
+                route_name = 'holds.hold';
+                transaction_route = true;
+                break;
+            case Balanced.Refund:
+                route_name = 'refunds.refund';
+                transaction_route = true;
+                break;
+            case Balanced.Log:
+                route_name = 'logs.log';
+                break;
+            default:
+                throw new Ember.Error('not supported model {0}'.format(obj));
         }
         /*
          * When it is a transaction route, as it uses iframe now,

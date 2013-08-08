@@ -1,19 +1,19 @@
 Balanced.Log = Balanced.Model.extend({
-    short_url: function() {
+    short_url: function () {
         return Balanced.Utils.stripDomain(this.get('message.request.url'));
     }.property('log.message.request.url'),
 
-    condensed_request_url: function() {
+    condensed_request_url: function () {
         return Balanced.Utils.prettyLogUrl(this.get('short_url'));
     }.property('log.short_url'),
 
-    geo_ip: function() {
+    geo_ip: function () {
         var ip = this.get('message.request.headers.X-Real-Ip');
 
-        if(ip) {
+        if (ip) {
             var self = this;
 
-            Balanced.Utils.geoIP(ip, function(result) {
+            Balanced.Utils.geoIP(ip, function (result) {
                 self.set('geo_ip', result);
             });
         }
@@ -21,10 +21,10 @@ Balanced.Log = Balanced.Model.extend({
 });
 
 Balanced.Log.reopenClass({
-    constructUri: function(id) {
+    constructUri: function (id) {
         var uri = '/v1/logs';
 
-        if(id) {
+        if (id) {
             return uri + '/' + id;
         }
 
