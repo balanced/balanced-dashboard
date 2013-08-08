@@ -165,3 +165,8 @@ Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
     classNameBindings: 'selected',
     templateName: 'results/logs_table'
 });
+
+Balanced.LogsFiltersHeaderView = Balanced.View.extend({
+    templateName: 'results/logs_filters_header',
+    tagName: 'header'
+});

@@ -29,7 +29,7 @@
                         <div class="control-group">
                             <label class="control-label">ID</label>
                             <div class="controls">
-                                <span class="inline-label">{{ id }}</span>
+                                <span class="inline-label">{{#if id}} {{ id }} {{ else }} <span class="text-error">DELETED</span> {{/if}}</span>
                             </div>
                         </div>
                         <div class="control-group">

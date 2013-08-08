@@ -20,13 +20,13 @@ test('has logs in table', function (assert) {
     // click the logs link
     $('#marketplace-nav .logs a').click();
 
-    assert.equal($('table.logs tbody tr').length, 10, 'has 10 logs');
+    assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 
     // click load more
     $("table.logs tfoot tr a").click();
 
-    assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
+    assert.equal($('table.logs tbody tr').length, 40, 'has 40 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 });
 

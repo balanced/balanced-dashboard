@@ -1,0 +1,37 @@
+<nav>
+    <li class="timing dropdown filter-endpoints label4a pull-left">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <span>{{#if currentEndpointFilter}} {{ currentEndpointFilter }} {{ else }} All endpoints {{/if}}</span>
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a {{action "setEndPointFilter" "" target="controller"}}>All endpoints</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "debits" target="controller"}}>Debits</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "credits" target="controller"}}>Credits</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "refunds" target="controller"}}>Refunds</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "holds" target="controller"}}>Holds</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "customers" target="controller"}}>Customers</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "accounts" target="controller"}}>Accounts</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "bank_accounts" target="controller"}}>Bank Accounts</a>
+            </li>
+            <li>
+                <a {{action "setEndPointFilter" "cards" target="controller"}}>Cards</a>
+            </li>
+        </ul>
+    </li>
+</nav>
