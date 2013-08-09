@@ -85,10 +85,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
         this.set('type', type);
     },
 
-    changeEndpointFiler: function(endpoint) {
+    changeEndpointFiler: function (endpoint) {
         var filtering_params = Ember.copy(this.get('extra_filtering_params'));
 
-        if(endpoint) {
+        if (endpoint) {
             filtering_params.endpoint = endpoint;
         } else {
             delete filtering_params.endpoint;

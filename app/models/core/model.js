@@ -55,7 +55,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     id: function () {
         var uri = this.get('uri');
 
-        if(uri) {
+        if (uri) {
             return uri.substring(uri.lastIndexOf('/') + 1);
         }
     }.property('uri'),

@@ -30,8 +30,8 @@ test('has logs in table', function (assert) {
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 });
 
-test('filter logs by endpoint bank accounts', function(assert) {
-     // click the logs link
+test('filter logs by endpoint bank accounts', function (assert) {
+    // click the logs link
     $('#marketplace-nav .logs a').click();
 
     assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
