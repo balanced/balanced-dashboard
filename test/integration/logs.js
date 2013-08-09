@@ -51,10 +51,13 @@ test('filter logs by request failed only', function (assert) {
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 
     // unchceck filer by request succeeded
-    $(".results .filter-status-rollup label.succeeded").click().trigger('keyup');
+    $(".results .filter-status-rollup label.succeeded input[type='checkbox']").click().trigger('checked');
 
     assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+
+    // check the first row is the log we expect
+    assert.equal($('table.logs tbody tr td a').first().attr("href"), "/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/logs/OHM9d1fc57cf94111e291bb026ba7d31e6f");
 });
 
 test('view a particular log entry', function (assert) {

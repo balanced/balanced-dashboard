@@ -4862,7 +4862,7 @@ Balanced.Adapter.addFixtures([{
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/logs?sort=created_at%2Cdesc&marketplace=MP5m04ORxNlNDm1bB7nkcgSY&q=&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx",
+    "uri": "/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc&status_rollup%5Bin%5D=3xx,4xx,5xx",
     "_uris": {
         "first_uri": {
             "_type": "page",
