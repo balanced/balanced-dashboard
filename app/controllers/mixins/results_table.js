@@ -87,31 +87,31 @@ Balanced.ResultsTable = Ember.Mixin.create({
     },
 
     changeEndpointFiler: function (endpoint) {
-        var filtering_params = Ember.copy(this.get('extra_filtering_params'));
+        var filteringParams = Ember.copy(this.get('extra_filtering_params'));
 
         if (endpoint) {
-            filtering_params.endpoint = endpoint;
+            filteringParams.endpoint = endpoint;
         } else {
-            delete filtering_params.endpoint;
+            delete filteringParams.endpoint;
         }
 
-        this.set('extra_filtering_params', filtering_params);
+        this.set('extra_filtering_params', filteringParams);
     },
 
     changeStatusRollupFilter: function(statuses) {
-        var filtering_params = Ember.copy(this.get('extra_filtering_params'));
+        var filteringParams = Ember.copy(this.get('extra_filtering_params'));
 
         if(statuses) {
             var status_rollup = {
                 'status_rollup[in]': statuses
             };
 
-            $.extend(filtering_params, status_rollup);
+            $.extend(filteringParams, status_rollup);
         } else {
-            delete filtering_params['status_rollup[in]'];
+            delete filteringParams['status_rollup[in]'];
         }
 
-        this.set('extra_filtering_params', filtering_params);
+        this.set('extra_filtering_params', filteringParams);
     },
 
     getSearchUri: function () {
