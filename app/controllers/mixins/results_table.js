@@ -2,6 +2,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
     needs: ['marketplace'],
 
     type: 'transaction',
+    endPoint: null,
 
     minDate: null,
     maxDate: null,
@@ -43,7 +44,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
         );
     }.property(
             'fetch_results', 'useSearch', 'results_uri', 'results_type',
-            'type', 'search_result.transactions', 'search_result.accounts',
+            'type', 'endPoint', 'search_result.transactions', 'search_result.accounts',
             'search_result.funding_instruments'),
 
     search_result: function () {
@@ -82,6 +83,18 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
     changeTypeFilter: function (type) {
         this.set('type', type);
+    },
+
+    changeEndpointFiler: function (endpoint) {
+        var filtering_params = Ember.copy(this.get('extra_filtering_params'));
+
+        if (endpoint) {
+            filtering_params.endpoint = endpoint;
+        } else {
+            delete filtering_params.endpoint;
+        }
+
+        this.set('extra_filtering_params', filtering_params);
     },
 
     getSearchUri: function () {

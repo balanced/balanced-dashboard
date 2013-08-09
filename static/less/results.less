@@ -11,9 +11,7 @@ header.results-label h3 {
     background-color: @white;
     float: left;
     width: 100%;
-    nav {
-      padding-left: 20px;
-    }
+
     nav > li {
       display: block;
       float: left;
@@ -282,6 +280,12 @@ header.results-label h3 {
     }
   }
   .timing {
+    &.pull-left {
+        float: left;
+        border-left: 0px;
+        border-right: 1px solid @marketplaceNavColor;
+    }
+
     padding: 5px;
     float: right;
     border-left: 1px solid @marketplaceNavColor;
@@ -317,6 +321,36 @@ header.results-label h3 {
       right: 22px;
       border-top-color: @searchTimingColor;
     }
+
+    &.filter-endpoints {
+        .dropdown-toggle {
+            width: 100px;
+        }
+
+        .dropdown-menu {
+            width: 130px;
+            background-color: @white;
+            top: 0px;
+            position: relative;
+            float: none;
+            min-width: 0;
+
+            li {
+                a {
+                    padding: 10px;
+                    color: @linkColor;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: @black;
+                        background-image: none;
+                        color: @white;
+                    }
+                }
+            }
+        }
+    }
+
     .dropdown-menu {
       //  120px = set timing width
       // 330px = width of date picker
