@@ -49,7 +49,7 @@ Balanced.Router = Ember.Router.extend({
 Balanced.Router.reopenClass({
     defaultFailureHandler: {
         setup: function (error) {
-            Ember.Logger.error('Error while loading route:', error);
+            Ember.Logger.error('Error while loading route:', error.stack || error);
 
             Balanced.Auth.trigger('authAccess');
 
