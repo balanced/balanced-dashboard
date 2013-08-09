@@ -3615,4 +3615,1277 @@ Balanced.Adapter.addFixtures([{
     "next_uri": null,
     "id": null,
     "last_uri": "/v1/logs?sort=created_at%2Cdesc&marketplace=MP5m04ORxNlNDm1bB7nkcgSY&endpoint=bank_accounts&q=&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0"
+}, {
+    "first_uri": "/v1/logs?sort=created_at%2Cdesc&marketplace=MP5m04ORxNlNDm1bB7nkcgSY&q=&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx",
+    "_type": "page",
+    "items": [
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZRD7wo2n780mcFKmI6cIBG?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-30T17:58:17.969176Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM9d1fc57cf94111e291bb026ba7d31e6f",
+            "status_rollup": "4XX",
+            "id": "OHM9d1fc57cf94111e291bb026ba7d31e6f",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-30T17:58:17.969176Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZRD7wo2n780mcFKmI6cIBG?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "errorStatusCode": 409,
+                        "_type": "bank_account_authentication",
+                        "created_at": "2013-07-25T00:21:12.230000+00:00Z",
+                        "amount_2": "23",
+                        "updated_at": "2013-07-30T17:58:14.766000+00:00Z",
+                        "amount_1": "2",
+                        "state": "deposit_succeeded",
+                        "_uris": {},
+                        "attempts": 2,
+                        "id": "BZRD7wo2n780mcFKmI6cIBG",
+                        "remaining_attempts": 1
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM9d1fc57cf94111e291bb026ba7d31e6f.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM9d1fc57cf94111e291bb026ba7d31e6f",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM9d1fc57cf94111e291bb026ba7d31e6f"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZRD7wo2n780mcFKmI6cIBG?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-30T17:58:14.919449Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM9b440b5af94111e28918026ba7c1aba6",
+            "status_rollup": "4XX",
+            "id": "OHM9b440b5af94111e28918026ba7c1aba6",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-30T17:58:14.919449Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZRD7wo2n780mcFKmI6cIBG?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "created_at": "2013-07-25T00:21:12.230000+00:00Z",
+                        "amount_2": "23",
+                        "updated_at": "2013-07-26T04:12:06.790000+00:00Z",
+                        "amount_1": "2",
+                        "state": "deposit_succeeded",
+                        "_uris": {},
+                        "attempts": 1,
+                        "id": "BZRD7wo2n780mcFKmI6cIBG",
+                        "remaining_attempts": 2
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM9b440b5af94111e28918026ba7c1aba6.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM9b440b5af94111e28918026ba7c1aba6",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM9b440b5af94111e28918026ba7c1aba6"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "customers",
+            "url": "http://api.balancedpayments.com/v1/customers/AC3ufGxx2hKgI0pzjzgbxtm?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-30T01:05:13.387854Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM16b5a9f8f8b411e29e3d026ba7f8ec28",
+            "status_rollup": "4XX",
+            "id": "OHM16b5a9f8f8b411e29e3d026ba7f8ec28",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-30T01:05:13.387854Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/customers/AC3ufGxx2hKgI0pzjzgbxtm?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "twitter": null,
+                        "meta": {},
+                        "id": "AC3ufGxx2hKgI0pzjzgbxtm",
+                        "email": "dsfsa",
+                        "_type": "customer",
+                        "source_uri": null,
+                        "bank_accounts_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/bank_accounts",
+                        "phone": "+8057052440",
+                        "_uris": {
+                            "holds_uri": {
+                                "_type": "page",
+                                "key": "holds"
+                            },
+                            "bank_accounts_uri": {
+                                "_type": "page",
+                                "key": "bank_accounts"
+                            },
+                            "refunds_uri": {
+                                "_type": "page",
+                                "key": "refunds"
+                            },
+                            "merchant_uri": {
+                                "_type": "merchant",
+                                "key": "merchant"
+                            },
+                            "debits_uri": {
+                                "_type": "page",
+                                "key": "debits"
+                            },
+                            "destination_uri": {
+                                "_type": "bank_account",
+                                "key": "destination"
+                            },
+                            "transactions_uri": {
+                                "_type": "page",
+                                "key": "transactions"
+                            },
+                            "reversals_uri": {
+                                "_type": "page",
+                                "key": "reversals"
+                            },
+                            "credits_uri": {
+                                "_type": "page",
+                                "key": "credits"
+                            },
+                            "cards_uri": {
+                                "_type": "page",
+                                "key": "cards"
+                            }
+                        },
+                        "facebook": null,
+                        "address": {
+                            "city": "San Francisco",
+                            "region": "CA",
+                            "postal_code": "94108",
+                            "street_address": "626 Bush St. Apt 304",
+                            "country_code": "USA"
+                        },
+                        "destination_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/bank_accounts/BA1ifrc8QtTfqbRqk1tFAa0T",
+                        "business_name": "NodeSocket LLC",
+                        "reversals_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/reversals",
+                        "credits_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/credits",
+                        "cards_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/cards",
+                        "holds_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/holds",
+                        "name": "Justin Keller",
+                        "dob": "1982-06",
+                        "created_at": "2013-07-05T20:10:58.769000+00:00Z",
+                        "is_identity_verified": false,
+                        "refunds_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/refunds",
+                        "merchant_uri": "v1/merchants/MR6xBgEkDmXbJjfgGDVpCeGb",
+                        "debits_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/debits",
+                        "transactions_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/transactions",
+                        "ssn_last4": null,
+                        "ein": "123456789"
+                    }
+                },
+                "response": {
+                    "status": "400 BAD REQUEST",
+                    "body": {
+                        "status": "Bad Request",
+                        "category_code": "request",
+                        "description": "Invalid field [email] - \"dsfsa\" must be a valid email address as specified by RFC-2822 Your request id is OHM16b5a9f8f8b411e29e3d026ba7f8ec28.",
+                        "_uris": {},
+                        "status_code": 400,
+                        "category_type": "request",
+                        "extras": {
+                            "email": "\"dsfsa\" must be a valid email address as specified by RFC-2822"
+                        },
+                        "request_id": "OHM16b5a9f8f8b411e29e3d026ba7f8ec28",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM16b5a9f8f8b411e29e3d026ba7f8ec28"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "customers",
+            "url": "http://api.balancedpayments.com/v1/customers/AC3ufGxx2hKgI0pzjzgbxtm?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-30T01:02:52.994095Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHMc30bd246f8b311e29ecb026ba7f8ec28",
+            "status_rollup": "4XX",
+            "id": "OHMc30bd246f8b311e29ecb026ba7f8ec28",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-30T01:02:52.994095Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/customers/AC3ufGxx2hKgI0pzjzgbxtm?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "twitter": null,
+                        "meta": {},
+                        "id": "AC3ufGxx2hKgI0pzjzgbxtm",
+                        "email": "",
+                        "_type": "customer",
+                        "source_uri": null,
+                        "bank_accounts_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/bank_accounts",
+                        "phone": "+8057052440",
+                        "_uris": {
+                            "holds_uri": {
+                                "_type": "page",
+                                "key": "holds"
+                            },
+                            "bank_accounts_uri": {
+                                "_type": "page",
+                                "key": "bank_accounts"
+                            },
+                            "refunds_uri": {
+                                "_type": "page",
+                                "key": "refunds"
+                            },
+                            "merchant_uri": {
+                                "_type": "merchant",
+                                "key": "merchant"
+                            },
+                            "debits_uri": {
+                                "_type": "page",
+                                "key": "debits"
+                            },
+                            "destination_uri": {
+                                "_type": "bank_account",
+                                "key": "destination"
+                            },
+                            "transactions_uri": {
+                                "_type": "page",
+                                "key": "transactions"
+                            },
+                            "reversals_uri": {
+                                "_type": "page",
+                                "key": "reversals"
+                            },
+                            "credits_uri": {
+                                "_type": "page",
+                                "key": "credits"
+                            },
+                            "cards_uri": {
+                                "_type": "page",
+                                "key": "cards"
+                            }
+                        },
+                        "facebook": null,
+                        "address": {
+                            "city": "San Francisco",
+                            "region": "CA",
+                            "postal_code": "94108",
+                            "street_address": "626 Bush St. Apt 304",
+                            "country_code": "USA"
+                        },
+                        "destination_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/bank_accounts/BA1ifrc8QtTfqbRqk1tFAa0T",
+                        "business_name": "NodeSocket LLC",
+                        "reversals_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/reversals",
+                        "credits_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/credits",
+                        "cards_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/cards",
+                        "holds_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/holds",
+                        "name": "Justin Keller",
+                        "dob": "1982-06",
+                        "created_at": "2013-07-05T20:10:58.769000+00:00Z",
+                        "is_identity_verified": true,
+                        "refunds_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/refunds",
+                        "merchant_uri": "v1/merchants/MR6xBgEkDmXbJjfgGDVpCeGb",
+                        "debits_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/debits",
+                        "transactions_uri": "v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/transactions",
+                        "ssn_last4": "xxxx",
+                        "ein": "123456789"
+                    }
+                },
+                "response": {
+                    "status": "400 BAD REQUEST",
+                    "body": {
+                        "status": "Bad Request",
+                        "category_code": "request",
+                        "description": "Invalid field [email] - \"\" must be a valid email address as specified by RFC-2822 Your request id is OHMc30bd246f8b311e29ecb026ba7f8ec28.",
+                        "_uris": {},
+                        "status_code": 400,
+                        "category_type": "request",
+                        "extras": {
+                            "email": "\"\" must be a valid email address as specified by RFC-2822"
+                        },
+                        "request_id": "OHMc30bd246f8b311e29ecb026ba7f8ec28",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHMc30bd246f8b311e29ecb026ba7f8ec28"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "marketplaces",
+            "url": "http://api.balancedpayments.com/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-30T01:02:04.303654Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHMa6032172f8b311e2ab70026ba7cac9da",
+            "status_rollup": "4XX",
+            "id": "OHMa6032172f8b311e2ab70026ba7cac9da",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-30T01:02:04.303654Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "support_email_address": "",
+                        "accounts_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts",
+                        "can_cancel_transactions": false,
+                        "meta": {},
+                        "id": "MP5m04ORxNlNDm1bB7nkcgSY",
+                        "domain_url": "https://www.nodesocket.com",
+                        "can_debit_bank_accounts": true,
+                        "_type": "marketplace",
+                        "events_uri": "v1/events",
+                        "reversals_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/reversals",
+                        "_uris": {
+                            "callbacks_uri": {
+                                "_type": "page",
+                                "key": "callbacks"
+                            },
+                            "transactions_uri": {
+                                "_type": "page",
+                                "key": "transactions"
+                            },
+                            "accounts_uri": {
+                                "_type": "page",
+                                "key": "accounts"
+                            },
+                            "events_uri": {
+                                "_type": "page",
+                                "key": "events"
+                            },
+                            "bank_accounts_uri": {
+                                "_type": "page",
+                                "key": "bank_accounts"
+                            },
+                            "refunds_uri": {
+                                "_type": "page",
+                                "key": "refunds"
+                            },
+                            "debits_uri": {
+                                "_type": "page",
+                                "key": "debits"
+                            },
+                            "customers_uri": {
+                                "_type": "page",
+                                "key": "customers"
+                            },
+                            "holds_uri": {
+                                "_type": "page",
+                                "key": "holds"
+                            },
+                            "reversals_uri": {
+                                "_type": "page",
+                                "key": "reversals"
+                            },
+                            "credits_uri": {
+                                "_type": "page",
+                                "key": "credits"
+                            },
+                            "cards_uri": {
+                                "_type": "page",
+                                "key": "cards"
+                            }
+                        },
+                        "transactions_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/transactions",
+                        "bank_accounts_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/bank_accounts",
+                        "credits_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/credits",
+                        "cards_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/cards",
+                        "in_escrow": 0,
+                        "holds_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/holds",
+                        "name": "NodeSocket",
+                        "can_reverse_transactions": true,
+                        "support_phone_number": "+8057052440",
+                        "refunds_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/refunds",
+                        "debits_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/debits",
+                        "customers_uri": "v1/customers"
+                    }
+                },
+                "response": {
+                    "status": "400 BAD REQUEST",
+                    "body": {
+                        "status": "Bad Request",
+                        "category_code": "request",
+                        "description": "Invalid field [support_email_address] - \"\" must be a valid email address as specified by RFC-2822 Your request id is OHMa6032172f8b311e2ab70026ba7cac9da.",
+                        "_uris": {},
+                        "status_code": 400,
+                        "category_type": "request",
+                        "extras": {
+                            "support_email_address": "\"\" must be a valid email address as specified by RFC-2822"
+                        },
+                        "request_id": "OHMa6032172f8b311e2ab70026ba7cac9da",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHMa6032172f8b311e2ab70026ba7cac9da"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "marketplaces",
+            "url": "http://api.balancedpayments.com/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-30T01:01:43.323171Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM9984b4cef8b311e29ecb026ba7f8ec28",
+            "status_rollup": "4XX",
+            "id": "OHM9984b4cef8b311e29ecb026ba7f8ec28",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-30T01:01:43.323171Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "support_email_address": "",
+                        "accounts_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts",
+                        "can_cancel_transactions": false,
+                        "meta": {},
+                        "id": "MP5m04ORxNlNDm1bB7nkcgSY",
+                        "domain_url": "https://www.nodesocket.com",
+                        "can_debit_bank_accounts": true,
+                        "_type": "marketplace",
+                        "events_uri": "v1/events",
+                        "reversals_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/reversals",
+                        "_uris": {
+                            "callbacks_uri": {
+                                "_type": "page",
+                                "key": "callbacks"
+                            },
+                            "transactions_uri": {
+                                "_type": "page",
+                                "key": "transactions"
+                            },
+                            "accounts_uri": {
+                                "_type": "page",
+                                "key": "accounts"
+                            },
+                            "events_uri": {
+                                "_type": "page",
+                                "key": "events"
+                            },
+                            "bank_accounts_uri": {
+                                "_type": "page",
+                                "key": "bank_accounts"
+                            },
+                            "refunds_uri": {
+                                "_type": "page",
+                                "key": "refunds"
+                            },
+                            "debits_uri": {
+                                "_type": "page",
+                                "key": "debits"
+                            },
+                            "customers_uri": {
+                                "_type": "page",
+                                "key": "customers"
+                            },
+                            "holds_uri": {
+                                "_type": "page",
+                                "key": "holds"
+                            },
+                            "reversals_uri": {
+                                "_type": "page",
+                                "key": "reversals"
+                            },
+                            "credits_uri": {
+                                "_type": "page",
+                                "key": "credits"
+                            },
+                            "cards_uri": {
+                                "_type": "page",
+                                "key": "cards"
+                            }
+                        },
+                        "transactions_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/transactions",
+                        "bank_accounts_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/bank_accounts",
+                        "credits_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/credits",
+                        "cards_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/cards",
+                        "in_escrow": 0,
+                        "holds_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/holds",
+                        "name": "NodeSocket",
+                        "can_reverse_transactions": true,
+                        "support_phone_number": "+8057052440",
+                        "refunds_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/refunds",
+                        "debits_uri": "v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/debits",
+                        "customers_uri": "v1/customers"
+                    }
+                },
+                "response": {
+                    "status": "400 BAD REQUEST",
+                    "body": {
+                        "status": "Bad Request",
+                        "category_code": "request",
+                        "description": "Invalid field [support_email_address] - \"\" must be a valid email address as specified by RFC-2822 Your request id is OHM9984b4cef8b311e29ecb026ba7f8ec28.",
+                        "_uris": {},
+                        "status_code": 400,
+                        "category_type": "request",
+                        "extras": {
+                            "support_email_address": "\"\" must be a valid email address as specified by RFC-2822"
+                        },
+                        "request_id": "OHM9984b4cef8b311e29ecb026ba7f8ec28",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM9984b4cef8b311e29ecb026ba7f8ec28"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZRD7wo2n780mcFKmI6cIBG?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-25T22:19:45.211909Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM4f56bd22f57811e2aa92026ba7cac9da",
+            "status_rollup": "4XX",
+            "id": "OHM4f56bd22f57811e2aa92026ba7cac9da",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-25T22:19:45.211909Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZRD7wo2n780mcFKmI6cIBG?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "created_at": "2013-07-25T00:21:12.230000+00:00Z",
+                        "amount_2": "1",
+                        "updated_at": "2013-07-25T00:21:12.230000+00:00Z",
+                        "amount_1": "1",
+                        "state": "pending",
+                        "_uris": {},
+                        "attempts": 0,
+                        "id": "BZRD7wo2n780mcFKmI6cIBG",
+                        "remaining_attempts": 3
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM4f56bd22f57811e2aa92026ba7cac9da.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM4f56bd22f57811e2aa92026ba7cac9da",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM4f56bd22f57811e2aa92026ba7cac9da"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ4WJZUrCUN56WMylceCgAb0?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-25T00:21:02.835770Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM16c5c344f4c011e2b8f1026ba7d31e6f",
+            "status_rollup": "4XX",
+            "id": "OHM16c5c344f4c011e2b8f1026ba7d31e6f",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-25T00:21:02.835770Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ4WJZUrCUN56WMylceCgAb0?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "errorStatusCode": 409,
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "1",
+                        "attempts": 2,
+                        "amount_2": "1",
+                        "id": "BZ4WJZUrCUN56WMylceCgAb0",
+                        "remaining_attempts": 1
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM16c5c344f4c011e2b8f1026ba7d31e6f.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM16c5c344f4c011e2b8f1026ba7d31e6f",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM16c5c344f4c011e2b8f1026ba7d31e6f"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ4WJZUrCUN56WMylceCgAb0?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-25T00:21:01.147774Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM15bec874f4c011e2a587026ba7cd33d0",
+            "status_rollup": "4XX",
+            "id": "OHM15bec874f4c011e2a587026ba7cd33d0",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-25T00:21:01.147774Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ4WJZUrCUN56WMylceCgAb0?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "errorStatusCode": 409,
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "1",
+                        "attempts": 1,
+                        "amount_2": "1",
+                        "id": "BZ4WJZUrCUN56WMylceCgAb0",
+                        "remaining_attempts": 2
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM15bec874f4c011e2a587026ba7cd33d0.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM15bec874f4c011e2a587026ba7cd33d0",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM15bec874f4c011e2a587026ba7cd33d0"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ4WJZUrCUN56WMylceCgAb0?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-25T00:20:59.607528Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM14d4e11ef4c011e2951f026ba7cd33d0",
+            "status_rollup": "4XX",
+            "id": "OHM14d4e11ef4c011e2951f026ba7cd33d0",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-25T00:20:59.607528Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ4WJZUrCUN56WMylceCgAb0?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "1",
+                        "attempts": 0,
+                        "amount_2": "1",
+                        "id": "BZ4WJZUrCUN56WMylceCgAb0",
+                        "remaining_attempts": 3
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM14d4e11ef4c011e2951f026ba7cd33d0.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM14d4e11ef4c011e2951f026ba7cd33d0",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM14d4e11ef4c011e2951f026ba7cd33d0"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ3BCZWTcdmldA7i2PP00axw?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-24T23:48:48.341797Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM95b3c426f4bb11e2a58a026ba7c1aba6",
+            "status_rollup": "4XX",
+            "id": "OHM95b3c426f4bb11e2a58a026ba7c1aba6",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-24T23:48:48.341797Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ3BCZWTcdmldA7i2PP00axw?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "errorStatusCode": 409,
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "1",
+                        "attempts": 2,
+                        "amount_2": "1",
+                        "id": "BZ3BCZWTcdmldA7i2PP00axw",
+                        "remaining_attempts": 1
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM95b3c426f4bb11e2a58a026ba7c1aba6.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM95b3c426f4bb11e2a58a026ba7c1aba6",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM95b3c426f4bb11e2a58a026ba7c1aba6"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ3BCZWTcdmldA7i2PP00axw?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-24T23:48:42.298162Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM9219d652f4bb11e29c7a026ba7cac9da",
+            "status_rollup": "4XX",
+            "id": "OHM9219d652f4bb11e29c7a026ba7cac9da",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-24T23:48:42.298162Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ3BCZWTcdmldA7i2PP00axw?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "errorStatusCode": 409,
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "1",
+                        "attempts": 1,
+                        "amount_2": "1",
+                        "id": "BZ3BCZWTcdmldA7i2PP00axw",
+                        "remaining_attempts": 2
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM9219d652f4bb11e29c7a026ba7cac9da.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM9219d652f4bb11e29c7a026ba7cac9da",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM9219d652f4bb11e29c7a026ba7cac9da"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ3BCZWTcdmldA7i2PP00axw?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-24T23:48:36.928909Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM8eeb89eef4bb11e28c0d026ba7f8ec28",
+            "status_rollup": "4XX",
+            "id": "OHM8eeb89eef4bb11e28c0d026ba7f8ec28",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-24T23:48:36.928909Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3htREei0Tt9mWLQ0MU5IDI/verifications/BZ3BCZWTcdmldA7i2PP00axw?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "1",
+                        "attempts": 0,
+                        "amount_2": "1",
+                        "id": "BZ3BCZWTcdmldA7i2PP00axw",
+                        "remaining_attempts": 3
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM8eeb89eef4bb11e28c0d026ba7f8ec28.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM8eeb89eef4bb11e28c0d026ba7f8ec28",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM8eeb89eef4bb11e28c0d026ba7f8ec28"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "marketplaces",
+            "url": "http://api.balancedpayments.com/v1/marketplaces?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-24T01:16:37.525019Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHMb007707ef3fe11e286c1026ba7f8ec28",
+            "status_rollup": "4XX",
+            "id": "OHMb007707ef3fe11e286c1026ba7f8ec28",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-24T01:16:37.525019Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/marketplaces?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "POST",
+                    "payload": {
+                        "id": null
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "marketplace-already-created",
+                        "description": "Marketplace already created. Your request id is OHMb007707ef3fe11e286c1026ba7f8ec28.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHMb007707ef3fe11e286c1026ba7f8ec28",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "POST",
+            "guru_id": "OHMb007707ef3fe11e286c1026ba7f8ec28"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "bank_accounts",
+            "url": "http://api.balancedpayments.com/v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/bank_accounts?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-23T23:06:36.504026Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM8637b928f3ec11e2b7ec026ba7c1aba6",
+            "status_rollup": "4XX",
+            "id": "OHM8637b928f3ec11e2b7ec026ba7c1aba6",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-23T23:06:36.504026Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/customers/AC3ufGxx2hKgI0pzjzgbxtm/bank_accounts?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "POST",
+                    "payload": {
+                        "routing_number": "123456789",
+                        "account_number": "XXXXXXXXX",
+                        "type": "checking",
+                        "id": null,
+                        "name": "NEW TEST"
+                    }
+                },
+                "response": {
+                    "status": "400 BAD REQUEST",
+                    "body": {
+                        "status": "Bad Request",
+                        "category_code": "request",
+                        "description": "Invalid field [routing_number] - \"123456789\" is not a valid bank code routing number Your request id is OHM8637b928f3ec11e2b7ec026ba7c1aba6.",
+                        "_uris": {},
+                        "status_code": 400,
+                        "category_type": "request",
+                        "extras": {
+                            "routing_number": "\"123456789\" is not a valid bank code routing number"
+                        },
+                        "request_id": "OHM8637b928f3ec11e2b7ec026ba7c1aba6",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "POST",
+            "guru_id": "OHM8637b928f3ec11e2b7ec026ba7c1aba6"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications",
+            "created_at": "2013-07-22T23:14:25.035669Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM7319275af32411e294cf026ba7cd33d0",
+            "status_rollup": "4XX",
+            "id": "OHM7319275af32411e294cf026ba7cd33d0",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-22T23:14:25.035669Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications",
+                    "headers": {
+                        "X-Real-Ip": "199.241.202.99",
+                        "User-Agent": "curl/7.24.0 (x86_64-apple-darwin12.0) libcurl/7.24.0 OpenSSL/0.9.8x zlib/1.2.5"
+                    },
+                    "method": "POST"
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-already-exists",
+                        "description": "Pending authentication for BA3GJuPQtalOstj1ZOqHn6eX already exists. Your request id is OHM7319275af32411e294cf026ba7cd33d0.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM7319275af32411e294cf026ba7cd33d0",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "POST",
+            "guru_id": "OHM7319275af32411e294cf026ba7cd33d0"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-22T23:03:55.237601Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHMfbb693e2f32211e2869c026ba7f8ec28",
+            "status_rollup": "4XX",
+            "id": "OHMfbb693e2f32211e2869c026ba7f8ec28",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-22T23:03:55.237601Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.204.103",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "failed",
+                        "amount_1": "34",
+                        "attempts": 3,
+                        "amount_2": "36",
+                        "id": "BZ3Id7dzTwISb8XlR3jpxbiU",
+                        "remaining_attempts": 0
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-not-pending",
+                        "description": "Authentication is not pending. Your request id is OHMfbb693e2f32211e2869c026ba7f8ec28.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHMfbb693e2f32211e2869c026ba7f8ec28",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHMfbb693e2f32211e2869c026ba7f8ec28"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-22T23:03:19.832915Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHMe69eacbaf32211e28144026ba7d31e6f",
+            "status_rollup": "4XX",
+            "id": "OHMe69eacbaf32211e28144026ba7d31e6f",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-22T23:03:19.832915Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "failed",
+                        "amount_1": "34",
+                        "attempts": 3,
+                        "amount_2": "34",
+                        "id": "BZ3Id7dzTwISb8XlR3jpxbiU",
+                        "remaining_attempts": 0
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-not-pending",
+                        "description": "Authentication is not pending. Your request id is OHMe69eacbaf32211e28144026ba7d31e6f.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHMe69eacbaf32211e28144026ba7d31e6f",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHMe69eacbaf32211e28144026ba7d31e6f"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-22T23:00:49.513401Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM8cfd7060f32211e28797026ba7d31e6f",
+            "status_rollup": "4XX",
+            "id": "OHM8cfd7060f32211e28797026ba7d31e6f",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-22T23:00:49.513401Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "23",
+                        "attempts": 0,
+                        "amount_2": "67",
+                        "id": "BZ3Id7dzTwISb8XlR3jpxbiU",
+                        "remaining_attempts": 3
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM8cfd7060f32211e28797026ba7d31e6f.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM8cfd7060f32211e28797026ba7d31e6f",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM8cfd7060f32211e28797026ba7d31e6f"
+        },
+        {
+            "_type": "log_search",
+            "endpoint": "verifications",
+            "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+            "created_at": "2013-07-22T23:00:42.163682Z",
+            "marketplace_guid": "MP5m04ORxNlNDm1bB7nkcgSY",
+            "uri": "/v1/logs/OHM889025b8f32211e294cf026ba7cd33d0",
+            "status_rollup": "4XX",
+            "id": "OHM889025b8f32211e294cf026ba7cd33d0",
+            "_uris": {},
+            "message": {
+                "date": "2013-07-22T23:00:42.163682Z",
+                "user_guid": "US6xxiHRw623lKxcw1uewqDR",
+                "request": {
+                    "url": "http://api.balancedpayments.com/v1/bank_accounts/BA3GJuPQtalOstj1ZOqHn6eX/verifications/BZ3Id7dzTwISb8XlR3jpxbiU?marketplace=MP5m04ORxNlNDm1bB7nkcgSY",
+                    "headers": {
+                        "X-Real-Ip": "50.18.199.26",
+                        "User-Agent": "balanced-python/0.11.10"
+                    },
+                    "method": "PUT",
+                    "payload": {
+                        "_type": "bank_account_authentication",
+                        "_uris": {},
+                        "state": "pending",
+                        "amount_1": "34",
+                        "attempts": 0,
+                        "amount_2": "36",
+                        "id": "BZ3Id7dzTwISb8XlR3jpxbiU",
+                        "remaining_attempts": 3
+                    }
+                },
+                "response": {
+                    "status": "409 CONFLICT",
+                    "body": {
+                        "status": "Conflict",
+                        "category_code": "bank-account-authentication-failed",
+                        "description": "Authentication amounts do not match. Your request id is OHM889025b8f32211e294cf026ba7cd33d0.",
+                        "_uris": {},
+                        "status_code": 409,
+                        "category_type": "logical",
+                        "extras": {},
+                        "request_id": "OHM889025b8f32211e294cf026ba7cd33d0",
+                        "additional": null
+                    }
+                }
+            },
+            "method": "PUT",
+            "guru_id": "OHM889025b8f32211e294cf026ba7cd33d0"
+        }
+    ],
+    "previous_uri": null,
+    "uri": "/v1/logs?sort=created_at%2Cdesc&marketplace=MP5m04ORxNlNDm1bB7nkcgSY&q=&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx",
+    "_uris": {
+        "first_uri": {
+            "_type": "page",
+            "key": "first"
+        },
+        "previous_uri": {
+            "_type": "page",
+            "key": "previous"
+        },
+        "next_uri": {
+            "_type": "page",
+            "key": "next"
+        },
+        "last_uri": {
+            "_type": "page",
+            "key": "last"
+        }
+    },
+    "limit": 20,
+    "offset": 0,
+    "counts": null,
+    "total": 21,
+    "next_uri": "/v1/logs?sort=created_at%2Cdesc&marketplace=MP5m04ORxNlNDm1bB7nkcgSY&q=&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=20&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx",
+    "id": null,
+    "last_uri": "/v1/logs?sort=created_at%2Cdesc&marketplace=MP5m04ORxNlNDm1bB7nkcgSY&q=&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=20&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx"
 }]);

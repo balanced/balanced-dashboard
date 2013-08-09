@@ -5,8 +5,11 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
     sortOrder: 'desc',
     results_type: 'Balanced.Log',
     type: null,
-    currentEndpointFilter: null,
     limit: 20,
+
+    currentEndpointFilter: null,
+    statusRollupFilterSucceeded: true,
+    statusRollupFilterFailed: true,
 
     results_base_uri: function () {
         return '/v1/logs';
@@ -26,7 +29,23 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
         } else {
             this.set('currentEndpointFilter', null);
         }
-    }
+    },
+
+    setStatusRollupFilter: function() {
+        if(this.get('statusRollupFilterSucceeded') && !this.get('statusRollupFilterFailed')) {
+            this.changeStatusRollupFilter([
+                '2xx'
+            ]);
+        } else if(this.get('statusRollupFilterFailed') && !this.get('statusRollupFilterSucceeded')) {
+            this.changeStatusRollupFilter([
+                '3xx',
+                '4xx',
+                '5xx'
+            ]);
+        } else {
+            this.changeStatusRollupFilter(null);
+        }
+    }.observes('statusRollupFilterSucceeded', 'statusRollupFilterFailed')
 });
 
 Balanced.LogsLogController = Balanced.ObjectController.extend({

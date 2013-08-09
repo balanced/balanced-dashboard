@@ -43,6 +43,20 @@ test('filter logs by endpoint bank accounts', function (assert) {
     assert.equal($('table.logs tbody tr').length, 8, 'has 8 logs');
 });
 
+test('filter logs by request failed only', function (assert) {
+     // click the logs link
+    $('#marketplace-nav .logs a').click();
+
+    assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
+    assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+
+    // unchceck filer by request succeeded
+    $(".results .filter-status-rollup label.succeeded").click().trigger('keyup');
+
+    assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
+    assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+});
+
 test('view a particular log entry', function (assert) {
     // click the logs link
     $('#marketplace-nav .logs a').click();
