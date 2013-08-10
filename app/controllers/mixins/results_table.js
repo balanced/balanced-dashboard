@@ -2,7 +2,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
     needs: ['marketplace'],
 
     type: 'transaction',
-    endPoint: null,
+    endpoint: null,
+    status_rollup: null,
 
     minDate: null,
     maxDate: null,
@@ -44,8 +45,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
         );
     }.property(
             'fetch_results', 'useSearch', 'results_uri', 'results_type',
-            'type', 'endPoint', 'search_result.transactions', 'search_result.accounts',
-            'search_result.funding_instruments'),
+            'type', 'endpoint', 'status_rollup', 'search_result.transactions',
+            'search_result.accounts', 'search_result.funding_instruments'),
 
     search_result: function () {
         var self = this;
@@ -86,15 +87,31 @@ Balanced.ResultsTable = Ember.Mixin.create({
     },
 
     changeEndpointFiler: function (endpoint) {
-        var filtering_params = Ember.copy(this.get('extra_filtering_params'));
+        var filteringParams = Ember.copy(this.get('extra_filtering_params'));
 
         if (endpoint) {
-            filtering_params.endpoint = endpoint;
+            filteringParams.endpoint = endpoint;
         } else {
-            delete filtering_params.endpoint;
+            delete filteringParams.endpoint;
         }
 
-        this.set('extra_filtering_params', filtering_params);
+        this.set('extra_filtering_params', filteringParams);
+    },
+
+    changeStatusRollupFilter: function(statuses) {
+        var filteringParams = Ember.copy(this.get('extra_filtering_params'));
+
+        if(statuses) {
+            var status_rollup = {
+                'status_rollup[in]': statuses
+            };
+
+            $.extend(filteringParams, status_rollup);
+        } else {
+            delete filteringParams['status_rollup[in]'];
+        }
+
+        this.set('extra_filtering_params', filteringParams);
     },
 
     getSearchUri: function () {
