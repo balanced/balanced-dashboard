@@ -33,7 +33,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
         }
     },
 
-    setStatusRollupFilter: function() {
+    setStatusRollupFilter: function () {
         var SUCCEEDED = ['2xx'],
             FAILED = ['3xx', '4xx', '5xx'];
 
@@ -41,15 +41,15 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
             failed = this.get('statusRollupFilterFailed'),
             filters = [];
 
-        if(succeeded) {
+        if (succeeded) {
             filters = filters.concat(SUCCEEDED);
         }
 
-        if(failed) {
+        if (failed) {
             filters = filters.concat(FAILED);
         }
 
-        if(!succeeded && !failed) {
+        if (!succeeded && !failed) {
             filters = null;
         }
 

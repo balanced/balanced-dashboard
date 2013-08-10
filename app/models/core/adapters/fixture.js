@@ -10,6 +10,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
     initAdapter: function () {
         this.dataMap = {};
 
+        this.fetches = [];
         this.creates = [];
         this.updates = [];
         this.deletes = [];
@@ -23,7 +24,10 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
         if (!json) {
             Ember.Logger.warn("Couldn't retrieve fixture for [" + type + "].\n\tURI =>  " + uri);
         }
-
+        this.fetches.push({
+            type: type,
+            uri: uri
+        });
         // cloning in case people modify this later, don't want to screw up our fixtures!
         var clonedJson = this._cloneObject(json);
 

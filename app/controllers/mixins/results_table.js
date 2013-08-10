@@ -98,10 +98,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
         this.set('extra_filtering_params', filteringParams);
     },
 
-    changeStatusRollupFilter: function(statuses) {
+    changeStatusRollupFilter: function (statuses) {
         var filteringParams = Ember.copy(this.get('extra_filtering_params'));
 
-        if(statuses) {
+        if (statuses) {
             var status_rollup = {
                 'status_rollup[in]': statuses
             };
@@ -188,11 +188,11 @@ Balanced.ResultsTable = Ember.Mixin.create({
         }
 
         if (_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
-            return "transaction";
+            return 'transaction';
         }
 
         if (_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
-            return "funding_instrument";
+            return 'funding_instrument';
         }
 
         return '';
