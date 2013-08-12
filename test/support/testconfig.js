@@ -19,6 +19,7 @@ QUnit.testStart(function (test) {
 
         Balanced.THROTTLE = 0;
         Balanced.setupForTesting();
+
     });
 
     // Set up Ember Auth
@@ -40,12 +41,12 @@ QUnit.testStart(function (test) {
 
     window.Balanced.onLoad();
 
-    console.log('#' + module + " " + test.name + ": setup complete. Starting test");
+    console.log('#{0} {1}: setup complete. Starting test'.format(module, test.name));
 });
 
 QUnit.testDone(function (test) {
     var module = test.module ? test.module : '';
-    console.log('#' + module + " " + test.name + ": tearing down.");
+    console.log('#{0} {1}: tearing down.'.format(module, test.name));
 
     Balanced.removeTestHelpers();
     Ember.$('#ember-testing-container, #ember-testing').remove();
@@ -54,5 +55,5 @@ QUnit.testDone(function (test) {
 
     Ember.testing = false;
 
-    console.log('#' + module + " " + test.name + ": done.");
+    console.log('#{0} {1}: done.'.format(module, test.name));
 });

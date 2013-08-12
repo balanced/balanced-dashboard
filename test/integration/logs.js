@@ -1,22 +1,22 @@
 module('Logs', {
     setup: function () {
         Testing.selectMarketplaceByName();
+
     }, teardown: function () {
 
     }
 });
 
 test('can visit page', function (assert) {
+    var spy = sinon.spy(Balanced.Adapter, 'get');
     // click the logs link
     $('#marketplace-nav .logs a').click();
 
     //  check the page title has been selected
     var $title = $('#content h1');
-    var logRequests = Balanced.Adapter.fetches.filter(function (item) {
-        return item.type === Balanced.Log;
-    });
-
-    assert.ok(logRequests.length, 'No requests were made to fetch logs');
+    var logRequest = spy.getCall(spy.callCount - 1);
+    assert.equal(logRequest.args[0], Balanced.Log);
+    assert.equal(logRequest.args[1], '/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc');
     assert.notEqual($title.text().indexOf('Logs'), -1, 'Title is not correct');
 });
 
@@ -48,27 +48,22 @@ test('filter logs by endpoint bank accounts', function (assert) {
 });
 
 test('filter logs by request failed only', function (assert) {
+    var spy = sinon.spy(Balanced.Adapter, 'get');
+
     // click the logs link
     $('#marketplace-nav .logs a').click();
 
     assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 
-
-    var logRequests = Balanced.Adapter.fetches.filter(function (item) {
-        return item.type === Balanced.Log;
-    });
-    var requestCount = logRequests.length;
-
     // uncheck filter by request succeeded
     $('.results .filter-status-rollup label.succeeded input[type="checkbox"]').click().trigger('checked');
 
-    logRequests = Balanced.Adapter.fetches.filter(function (item) {
-        return item.type === Balanced.Log;
-    });
+    var logRequest = spy.getCall(spy.callCount - 1);
 
-    assert.ok(logRequests.length > requestCount);
-    assert.ok(logRequests[logRequests.length - 1].uri.indexOf('3xx,4xx,5xx'));
+    assert.equal(logRequest.args[0], Balanced.Log);
+    assert.equal(logRequest.args[1],
+        '/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc&status_rollup%5Bin%5D=3xx,4xx,5xx');
 
     assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
