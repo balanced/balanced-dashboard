@@ -335,7 +335,7 @@ module.exports = function (grunt) {
             },
             images: {
                 src: ['build/images/**/*.png'],
-                dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js']
+                dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
             }
         },
 
