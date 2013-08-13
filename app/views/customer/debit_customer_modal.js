@@ -9,6 +9,10 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
         }
     }.property('model.source_uri'),
 
+    can_debit: function() {
+        return this.get('customer.debitable_funding_instruments.length') > 0;
+    }.property('customer.debitable_funding_instruments'),
+
     open: function () {
         var fundingInstruments = this.get('customer.debitable_funding_instruments');
         var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
