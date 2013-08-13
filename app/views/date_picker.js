@@ -69,10 +69,20 @@ Balanced.DatePickerView = Balanced.View.extend({
     },
 
     setDateVariable: function () {
-        this._changeDateFilter(this._extractVariableTimePeriod());
+        this._changeDateFilter(this._extractVariableTimePeriod(), true);
     },
 
-    _changeDateFilter: function (label) {
+    _changeDateFilter: function (label, date_range) {
+        /* as this is a date range, we want to include the end date (maxTime here),
+         * for example, 2013/07/01 to 2013/07/31, the 31st should also
+         * be included, so we need to advance the maxTime by one day
+         */
+        if (date_range) {
+            /*
+             * Notice: date 32end is okay, js should handle this for us
+             */
+            this.maxTime.setDate(this.maxTime.getDate()+1);
+        }
         this.get('controller').send('changeDateFilter', this.minTime, this.maxTime, label);
         this.resetDateTimePicker();
     },
