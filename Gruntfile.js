@@ -58,8 +58,8 @@ module.exports = function (grunt) {
             libdev: {
                 src: [
                     'static/lib/jquery-2.0.0.js',
-                    'static/lib/handlebars-1.0.0-rc.4.js',
-                    'static/lib/ember-1.0.0-rc.5.js',
+                    'static/lib/handlebars-1.0.0.js',
+                    'static/lib/ember-1.0.0-rc.7.js',
                     'static/lib/ember-auth-6.0.5-modified.js',
                     'static/lib/ember-validations.prod.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
@@ -78,8 +78,8 @@ module.exports = function (grunt) {
             libprod: {
                 src: [
                     'static/lib/jquery-2.0.0.js',
-                    'static/lib/handlebars-1.0.0-rc.4.js',
-                    'static/lib/ember-1.0.0-rc.5.js',
+                    'static/lib/handlebars-1.0.0.js',
+                    'static/lib/ember-1.0.0-rc.7.js',
                     'static/lib/ember-auth-6.0.5-modified.js',
                     'static/lib/ember-validations.prod.js',
                     'static/lib/bootstrap/bootstrap-dropdown.js',
