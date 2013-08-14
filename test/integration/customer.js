@@ -152,11 +152,11 @@ test('can credit customer', function (assert) {
     // click the credit customer button
     $(".customer-header .buttons a").eq(1).click();
 
-    $('#credit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
-    $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
+    $('#credit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#credit-customer .modal-body input[name="description"]').val("Test credit").trigger('keyup');
 
     // click credit
-    $('#credit-customer .modal-footer button').eq(1).click();
+    $('#credit-customer .modal-footer button[name="modal-submit"]').click();
 
     // should be one create for the debit
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
@@ -166,14 +166,14 @@ test('when crediting customer triggers an error, the error is displayed to the u
     // click the credit customer button
     $(".customer-header .buttons a").eq(1).click();
 
-    $('#credit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
-    $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
+    $('#credit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#credit-customer .modal-body input[name="description"]').val("Test credit").trigger('keyup');
 
     var stub = sinon.stub(Balanced.Adapter, "create");
     stub.callsArgWith(4, { status: 400, responseText: "", responseJSON: {extras: {}, description: "My error"}}, null, null);
 
     // click credit
-    $('#credit-customer .modal-footer button').eq(1).click();
+    $('#credit-customer .modal-footer button[name="modal-submit"]').click();
 
     assert.equal($('.alert-error').first().text().trim(), "My error");
 });
@@ -184,8 +184,8 @@ test("can't credit customer multiple times using the same modal", function (asse
     // click the credit customer button
     $(".customer-header .buttons a").eq(1).click();
 
-    $('#credit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
-    $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
+    $('#credit-customer .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
+    $('#credit-customer .modal-body input[name="description"]').val("Test credit").trigger('keyup');
 
     // click credit
     for (var i = 0; i < 20; i++) {
@@ -206,7 +206,7 @@ test('can add bank account', function (assert) {
     $('#add-bank-account .modal-body input').eq(2).val('123123123').trigger('keyup');
     $('#add-bank-account .modal-body input').eq(3).val('checking').trigger('keyup');
     // click save
-    $('#add-bank-account .modal-footer button').eq(1).click();
+    $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
 
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
@@ -223,7 +223,7 @@ test('can add card', function (assert) {
     $('#add-card .modal-body select').eq(0).val(1);
     $('#add-card .modal-body select').eq(1).val(2020);
     // click save
-    $('#add-card .modal-footer button').eq(1).click();
+    $('#add-card .modal-footer button[name="modal-submit"]').click();
 
     // should be one create
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
