@@ -77,7 +77,7 @@ Balanced.DatePickerView = Balanced.View.extend({
          * for example, 2013/07/01 to 2013/07/31, the 31st should also
          * be included, so we need to advance the maxTime by one day
          */
-        if (date_range) {
+        if (date_range && this.maxTime) {
             /*
              * Notice: date 32end is okay, js should handle this for us
              */
