@@ -1,29 +1,31 @@
 <h1 class="page-title">Bank Account</h1>
 
 <div id="bank-account">
-    <div class="funding-instrument-header main-header span20">
-        <div class="span2 label">
-            <div {{bindAttr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
-        </div>
-        <div class="span14 title">
-            <span class="nav2d">
-                {{title_description}}
-            </span>
-        </div>
+    <div class="funding-instrument-header main-header">
+        <div class="row">
+            <div class="span2 label">
+                <div {{bindAttr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
+            </div>
+            <div class="span14 title">
+                <span class="nav2d">
+                    {{title_description}}
+                </span>
+            </div>
 
-        <div {{bindAttr class=":span4 :buttons can_debit_or_verify::single-button"}}>
-            {{#if can_debit}}
-                <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
-            {{else}}
-                {{#if can_verify}}
-                    {{#if can_confirm_verification}}
-                        <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
-                    {{else}}
-                        <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+            <div {{bindAttr class=":span4 :buttons can_debit_or_verify::single-button"}}>
+                {{#if can_debit}}
+                    <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                {{else}}
+                    {{#if can_verify}}
+                        {{#if can_confirm_verification}}
+                            <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                        {{else}}
+                            <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
-            {{/if}}
-            <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
+                <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
+            </div>
         </div>
     </div>
 

@@ -1,20 +1,22 @@
 <h1 class="page-title">Customer</h1>
 
 <div id="customer">
-	<div class="main-header customer customer-header span20">
-	    <div class="span2 label">
-	        <div {{bindAttr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
-	    </div>
-	    <div class="span14 title">
-	        <span class="nav2d">
-	            {{#if is_business}} {{business_name}} {{else}} {{name}} {{/if}}
-	        </span>
-	    </div>
+	<div class="main-header customer customer-header">
+		<div class="row">
+		    <div class="span2 label">
+		        <div {{bindAttr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
+		    </div>
+		    <div class="span14 title">
+		        <span class="nav2d">
+		            {{#if is_business}} {{business_name}} {{else}} {{name}} {{/if}}
+		        </span>
+		    </div>
 
-	    <div class="span4 buttons">
-	        <a class="btn debit-customer" {{action openDebitCustomerModal target="view"}}>Debit</a>
-	        <a class="btn credit-customer" {{action openCreditCustomerModal target="view"}}>Credit</a>
-	    </div>
+		    <div class="span4 buttons">
+		        <a class="btn debit-customer" {{action openDebitCustomerModal target="view"}}>Debit</a>
+		        <a class="btn credit-customer" {{action openCreditCustomerModal target="view"}}>Credit</a>
+		    </div>
+		</div>
 	</div>
 
 	<div class="row">

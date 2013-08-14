@@ -1,20 +1,22 @@
 <h1 class="page-title">Card</h1>
 
 <div id="card">
-    <div class="funding-instrument-header main-header span20">
-        <div class="span2 label">
-            <div {{bindAttr class=":icon :card-info"}}>Card</div>
-        </div>
-        <div class="span14 title">
-            <span class="nav2d">
-                {{title_description}}
-            </span>
-        </div>
+    <div class="funding-instrument-header main-header">
+        <div class="row">
+            <div class="span2 label">
+                <div {{bindAttr class=":icon :card-info"}}>Card</div>
+            </div>
+            <div class="span14 title">
+                <span class="nav2d">
+                    {{title_description}}
+                </span>
+            </div>
 
-        <div class="span4 buttons single-button">
-            {{#if customer}}
-            <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
-            {{/if}}
+            <div class="span4 buttons single-button">
+                {{#if customer}}
+                <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                {{/if}}
+            </div>
         </div>
     </div>
 
