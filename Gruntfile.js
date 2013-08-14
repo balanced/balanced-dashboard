@@ -335,7 +335,7 @@ module.exports = function (grunt) {
             },
             images: {
                 src: ['build/images/**/*.png'],
-                dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js']
+                dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
             }
         },
 
@@ -396,14 +396,22 @@ module.exports = function (grunt) {
         jshint: {
             all: [
                 'Gruntfile.js',
-                'app/**/*.js',
-                'test/**/*.js',
-                '!static/lib/*.*',
-                '!test/support/lib/*.*',
-                '!test/support/*.js'
+                'app/**/*.js'
             ],
             options: {
                 jshintrc: '.jshintrc'
+            },
+            test: {
+                files: {
+                    src: [
+                        'test/**/*.js',
+                        '!test/support/lib/*.*',
+                        '!test/support/*.js'
+                    ],
+                },
+                options: {
+                    jshintrc: 'test/.jshintrc'
+                }
             }
         },
 

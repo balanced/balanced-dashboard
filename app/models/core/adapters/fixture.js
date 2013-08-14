@@ -1,4 +1,12 @@
 Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
+    // Set this to true for all callbacks to be executed in an async callback.
+    // This is the preferred way to operate, since it will catch computed
+    // property / async bugs.
+    // Defaulting to false for now because all hell will break loose with the tests
+    // otherwise. Brand new tests should set this to true like this:
+    // Balanced.Adapter.asyncCallbacks = true;
+    asyncCallbacks: false,
+
     initAdapter: function () {
         this.dataMap = {};
 
@@ -18,7 +26,10 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 
         // cloning in case people modify this later, don't want to screw up our fixtures!
         var clonedJson = this._cloneObject(json);
-        success(clonedJson);
+
+        this._executeCallback(function() {
+            success(clonedJson);
+        });
     },
 
     create: function (type, uri, data, success, error) {
@@ -32,7 +43,9 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 
         // cloning to prevent weird data errors
         var clonedJson = this._cloneObject(data);
-        success(clonedJson);
+        this._executeCallback(function() {
+            success(clonedJson);
+        });
     },
 
     update: function (type, uri, data, success, error) {
@@ -46,7 +59,9 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 
         // cloning to prevent weird data errors
         var clonedJson = this._cloneObject(data);
-        success(clonedJson);
+        this._executeCallback(function() {
+            success(clonedJson);
+        });
     },
 
     delete: function (type, uri, success, error) {
@@ -57,7 +72,9 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
             uri: uri
         });
 
-        success();
+        this._executeCallback(function() {
+            success();
+        });
     },
 
     addFixture: function (json) {
@@ -66,6 +83,18 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 
     addFixtures: function (jsonArray) {
         _.each(jsonArray, _.bind(this.addFixture, this));
+    },
+
+    _executeCallback: function(callbackExecutionFunction) {
+        if(this.asyncCallbacks) {
+            setTimeout(function() {
+                Ember.run(function() {
+                    callbackExecutionFunction();
+                });
+            });
+        } else {
+            callbackExecutionFunction();
+        }
     },
 
     _cloneObject: function (obj) {

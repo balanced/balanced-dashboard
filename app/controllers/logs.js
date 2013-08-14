@@ -7,6 +7,8 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
     type: null,
     limit: 20,
 
+    baseClassSelector: '#logs',
+
     currentEndpointFilter: null,
     statusRollupFilterSucceeded: true,
     statusRollupFilterFailed: true,

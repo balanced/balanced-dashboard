@@ -19,7 +19,7 @@ Balanced.Customer = Balanced.Model.extend({
 
     debitable_funding_instruments: function () {
         return this.get('debitable_bank_accounts').concat(this.get('cards.content'));
-    }.property('debitable_bank_accounts', 'cards'),
+    }.property('debitable_bank_accounts', 'cards.@each'),
 
     type: function () {
         return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';

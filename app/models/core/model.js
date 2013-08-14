@@ -48,6 +48,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
     }.property('created_at'),
 
+    displayErrorDescription: function() {
+        return (!this.get('isValid') || this.get('isError')) && !this.get('validationErrors');
+    }.property('isValid', 'isError', 'validationErrors'),
+
     // computes the ID from the URI - exists because at times Ember needs the
     // ID of our model before it has finished loading. This gets overridden
     // when the real model object gets loaded by the ID value from the JSON
@@ -193,13 +197,18 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         if (jqXHR.status === 400) {
             this.set('isValid', false);
             this.trigger('becameInvalid', jqXHR.responseText);
-            if (jqXHR.responseJSON && jqXHR.responseJSON.extras) {
-                this.set('validationErrors', jqXHR.responseJSON.extras);
-            }
         } else {
             this.set('isError', true);
             this.set('errorStatusCode', jqXHR.status);
             this.trigger('becameError', jqXHR.responseText);
+        }
+
+        if(jqXHR.responseJSON && jqXHR.responseJSON.extras && Object.keys(jqXHR.responseJSON.extras).length > 0) {
+            this.set('validationErrors', jqXHR.responseJSON.extras);
+        }
+
+        if(jqXHR.responseJSON && jqXHR.responseJSON.description) {
+            this.set('errorDescription', jqXHR.responseJSON.description);
         }
     },
 

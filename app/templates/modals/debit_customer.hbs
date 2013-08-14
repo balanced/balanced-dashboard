@@ -5,11 +5,12 @@
             <h2>Debit this customer</h2>
         </div>
         <div class="modal-body">
-            {{# unless view.selected_funding_instrument.can_debit }}
+            {{# unless view.can_debit }}
                 <div class="alert alert-info row-full">
-                    There must be at least one verified bank account to debit this customer.
+                    There must be at least one card or verified bank account to debit this customer.
                 </div>
             {{/unless}}
+            {{ partial "modals/modalErrors" }}
 
             <div class="control-group">
                 <label class="control-label">Customer</label>

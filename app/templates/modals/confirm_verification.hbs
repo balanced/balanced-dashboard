@@ -10,6 +10,7 @@
                 <div class="row-pad">
                     <p class="label1a">Check the two deposits Balanced made into this bank account and enter the amounts below.</p>
                 </div>
+                {{ partial "modals/modalErrors" }}
             {{else}}
                 <div class="alert alert-error row-full">
                     <p class="label1a">Unable to verify.</p>

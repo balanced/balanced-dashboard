@@ -35,10 +35,13 @@ You will need node installed as a development dependency. See
 ### Building and Deploying
 
 1. To build everything `grunt build`
-2. To deploy `grunt deploy`
+2. To deploy to S3 `grunt deploy`
 
-    **Note**: You must have the appropriate `AWS_ACCESS_KEY_ID` and
-        `AWS_SECRET_ACCESS_KEY` environment variables set
+**Note**: To build, you need to have binary dependendencies installed for [grunt-img](https://github.com/heldr/grunt-img). See the project page for how to set that up. If you have a Mac and use homebrew, you can run this to install them:
+
+		brew install optipng jpeg
+
+**Note**: In order to deploy to S3, you must have the appropriate `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables set
 
 ### Contributing
 
@@ -48,7 +51,7 @@ You can contribute to this project in one of two ways:
 2. Clone the balanced-dashboard repo, make some changes according to our
    development guidelines and issue a pull-request with your changes.
 
-Not sure where to start? Look for issues tagged [`n00b`](https://github.com/balanced/balanced-dashboard/issues?labels=n00b&state=open), these are tasks 
+Not sure where to start? Look for issues tagged [`n00b`](https://github.com/balanced/balanced-dashboard/issues?labels=n00b&state=open), these are tasks
 that should be able to be completed in an hour or two and require minimal
 knowledge of the balanced-dashboard application.
 

@@ -28,6 +28,12 @@
     "_": true,
     "Testing": true,
     "Raven": true,
-    "prettyPrint": true
+    "expect": true,
+    "prettyPrint": true,
+
+    "test": true,
+    "asyncTest": true,
+    "start": true,
+    "sinon": true
   }
 }

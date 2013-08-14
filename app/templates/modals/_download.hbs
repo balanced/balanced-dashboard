@@ -5,6 +5,12 @@
             <h2>Export data</h2>
         </div>
         <div class="modal-body">
+            {{# if download_model.displayErrorDescription }}
+                <div class="alert alert-error row-full">
+                    {{ view.model.errorDescription }}
+                </div>
+            {{/if}}
+
             <p class="body2a">A CSV file of your current data set will be sent to:</p>
             <label>Email</label>
             {{view Ember.TextField name="email" valueBinding="download_model.email_address" type="email" class="full"}}

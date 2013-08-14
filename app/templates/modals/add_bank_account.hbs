@@ -5,6 +5,8 @@
         <h2>Add a bank account</h2>
     </div>
     <div class="modal-body">
+        {{ partial "modals/modalErrors" }}
+
         <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label>Account holder's name</label>
             {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
