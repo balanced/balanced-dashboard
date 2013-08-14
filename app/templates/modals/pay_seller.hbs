@@ -5,6 +5,8 @@
         <h2>Pay a seller</h2>
     </div>
     <div class="modal-body">
+        {{ partial "modals/modalErrors" }}
+
         <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label class="control-label">Account holder's name</label>
             <div class="controls">

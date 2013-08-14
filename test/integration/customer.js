@@ -162,6 +162,22 @@ test('can credit customer', function (assert) {
     assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
 
+test('when crediting customer triggers an error, the error is displayed to the user', function (assert) {
+    // click the credit customer button
+    $(".customer-header .buttons a").eq(1).click();
+
+    $('#credit-customer .modal-body input').eq(0).val("1000").trigger('keyup');
+    $('#credit-customer .modal-body input').eq(1).val("Test credit").trigger('keyup');
+
+    var stub = sinon.stub(Balanced.Adapter, "create");
+    stub.callsArgWith(4, { status: 400, responseText: "", responseJSON: {extras: {}, description: "My error"}}, null, null);
+
+    // click credit
+    $('#credit-customer .modal-footer button').eq(1).click();
+
+    assert.equal($('.alert-error').first().text().trim(), "My error");
+});
+
 test("can't credit customer multiple times using the same modal", function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "create");
 
