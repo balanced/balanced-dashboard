@@ -4,7 +4,7 @@ Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
     }
 });
 
-Balanced.BankAccountRoute = Balanced.AuthRoute.extend({
+Balanced.BankAccountsRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
         var bankAccount = route.controller.content;
         return Balanced.Utils.maybeDeferredLoading(bankAccount, setTitle, function () {

@@ -1,1 +1,167 @@
-{{outlet}}
+<h1 class="page-title">Bank Account</h1>
+
+<div id="bank-account">
+    <div class="funding-instrument-header main-header span20">
+        <div class="span2 label">
+            <div {{bindAttr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
+        </div>
+        <div class="span14 title">
+            <span class="nav2d">
+                {{title_description}}
+            </span>
+        </div>
+
+        <div {{bindAttr class=":span4 :buttons can_debit_or_verify::single-button"}}>
+            {{#if can_debit}}
+                <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+            {{else}}
+                {{#if can_verify}}
+                    {{#if can_confirm_verification}}
+                        <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                    {{else}}
+                        <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+            <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span11">
+            <section class="bank-account-info">
+                <form class="form-horizontal edit-inline">
+                    <header>
+                        <h3>Bank account info</h3>
+                    </header>
+                    <div>
+                        <div class="control-group">
+                            <label class="control-label">ID</label>
+                            <div class="controls">
+                                <span class="inline-label">{{ id }}</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Created</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ created_at }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Name</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ name }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Account #</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ account_number }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Routing #</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ routing_number }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Bank</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ bank_name }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Type</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{capitalize model.type }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+        </div>
+
+        <div class="offset1 span8">
+
+            {{partial 'customer_info'}}
+
+            <section class="verifications-info">
+                <header>
+                    <h3>Bank account verifications</h3>
+                </header>
+
+                <div class="row-fluid">
+                    <table class="items">
+                        <tbody>
+                            {{#each verification in verifications}}
+                                <tr>
+                                    <td class="status span10">
+                                        {{# if verification.created_at }}
+                                            <time {{bindAttr datetime="verification.created_at"}} data-format="%b %d">{{ verification.human_readable_created_at }}</time>
+                                        {{else}}
+                                            ---
+                                        {{/if}}
+                                    </td>
+                                    <td class="attempts span8">
+                                        {{ verification.attempts }} of {{ verification.allowed_attempts }} attempts
+                                    </td>
+                                    <td class="status span8 label4a">
+                                        {{titleCase verification.display_state }}
+                                    </td>
+                                </tr>
+                            {{else}}
+                                <tr>
+                                    <td colspan="2" class="span26 no-results">
+                                        {{# if verifications.isLoaded }}
+                                            Unverified
+                                        {{else}}
+                                            Loading...
+                                        {{/if}}
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+
+    <section class="activity">
+        <header>
+            <h3>Activity</h3>
+        </header>
+        <div class="results">
+            {{view Balanced.TransactionsFiltersHeaderView}}
+
+            <div class="items-wrapper">
+                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+            </div>
+        </div>
+    </section>
+</div>
+
+{{#if show_download}}
+    {{partial "modals/download" }}
+{{/if}}
+
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
+{{view Balanced.CreditBankAccountModalView funding_instrumentBinding=model}}
+{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding=model}}
+{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding=model}}

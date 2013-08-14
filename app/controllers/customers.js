@@ -1,7 +1,4 @@
-Balanced.CustomersController = Balanced.ObjectController.extend({
-});
-
-Balanced.CustomerController = Balanced.ObjectController.extend(
+Balanced.CustomersController = Balanced.ObjectController.extend(
     Ember.Evented,
     Balanced.DownloadControllerMixin,
     Balanced.ResultsTable,

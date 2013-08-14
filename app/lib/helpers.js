@@ -441,33 +441,29 @@ Balanced.Utils = {
                  * Maybe there is a better solution, but this is the best workaround I can see. When
                  * we get rid of the deprecated account object, we can also get rid of this hack.
                  */
-                route_name = 'customer';
+                route_name = 'customers';
                 link_view = Balanced.AccountLinkView;
                 break;
             case Balanced.Customer:
-                route_name = 'customer';
+                route_name = 'customers';
                 break;
             case Balanced.BankAccount:
-                route_name = 'bank_account';
+                route_name = 'bank_accounts';
                 break;
             case Balanced.Card:
-                route_name = 'card';
+                route_name = 'cards';
                 break;
             case Balanced.Credit:
-                route_name = 'credits.credit';
-                transaction_route = true;
+                route_name = 'credits';
                 break;
             case Balanced.Debit:
-                route_name = 'debits.debit';
-                transaction_route = true;
+                route_name = 'debits';
                 break;
             case Balanced.Hold:
-                route_name = 'holds.hold';
-                transaction_route = true;
+                route_name = 'holds';
                 break;
             case Balanced.Refund:
-                route_name = 'refunds.refund';
-                transaction_route = true;
+                route_name = 'refunds';
                 break;
             case Balanced.Log:
                 route_name = 'logs.log';
@@ -476,23 +472,6 @@ Balanced.Utils = {
                 return;
             default:
                 throw new Ember.Error('not supported model {0}'.format(obj));
-        }
-        /*
-         * When it is a transaction route, as it uses iframe now,
-         * we need to transform the model object into another form.
-         * That is done by model method of Balanced.IframeRoute.
-         * However, when we pass the object directly to a LinkView,
-         * the object will be used directly, and the route.model will not
-         * be called. In this case, we call the model method manually here
-         * to transform the object before passing to LinkView to solve the problem.
-         *
-         * We can get rid of this little hack when iframe is replaced
-         */
-        if (transaction_route) {
-            var route = this.get('container').lookup('route:' + route_name);
-            var route_params = {};
-            route_params[route.get('param')] = obj.get('id');
-            obj = route.model(route_params);
         }
 
         var hash = options.hash;

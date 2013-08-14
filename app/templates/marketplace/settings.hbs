@@ -215,11 +215,11 @@
                 <ul class="sidebar-items">
                     {{#each bank_account in owner_customer.bank_accounts }}
                         <li class="bank-account">
-                            {{#linkTo 'bank_account' bank_account}}
+                            {{#linkTo 'bank_accounts' bank_account}}
                                 <div {{bindAttr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
                             {{/linkTo}}
                                 <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
-                            {{#linkTo 'bank_account' bank_account}}
+                            {{#linkTo 'bank_accounts' bank_account}}
                                 <div class="details">
                                     <span class="name"><span class="label2a">{{ bank_account.name }}</span></span>
                                     <span class="summary">{{ bank_account.description }}</span>
@@ -249,11 +249,11 @@
                 <ul class="sidebar-items">
                     {{#each card in owner_customer.cards }}
                     <li>
-                        {{#linkTo 'card' card}}
+                        {{#linkTo 'cards' card}}
                             <div class="icon">Credit card</div>
                         {{/linkTo}}
                             <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
-                        {{#linkTo 'card' card}}
+                        {{#linkTo 'cards' card}}
                             <div class="details">
                                 <span class="name"><span class="label2a">{{ card.name }}</span></span>
                                 <span class="summary">{{ card.description }}</span>

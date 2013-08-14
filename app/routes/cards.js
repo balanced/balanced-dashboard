@@ -4,7 +4,7 @@ Balanced.CardsIndexRoute = Balanced.AuthRoute.extend({
     }
 });
 
-Balanced.CardRoute = Balanced.AuthRoute.extend({
+Balanced.CardsRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
         var card = route.controller.content;
         return Balanced.Utils.maybeDeferredLoading(card, setTitle, function () {

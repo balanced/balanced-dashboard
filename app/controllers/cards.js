@@ -1,7 +1,4 @@
-Balanced.CardsController = Balanced.ObjectController.extend({
-});
-
-Balanced.CardController = Balanced.ObjectController.extend(
+Balanced.CardsController = Balanced.ObjectController.extend(
     Ember.Evented,
     Balanced.DownloadControllerMixin,
     Balanced.ResultsTable,

@@ -1,7 +1,4 @@
 Balanced.CustomersRoute = Balanced.AuthRoute.extend({
-});
-
-Balanced.CustomerRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
         var customer = route.controller.content;
         return Balanced.Utils.maybeDeferredLoading(customer, setTitle, function () {

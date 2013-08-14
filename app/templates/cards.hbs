@@ -1,1 +1,104 @@
-{{outlet}}
+<h1 class="page-title">Card</h1>
+
+<div id="card">
+    <div class="funding-instrument-header main-header span20">
+        <div class="span2 label">
+            <div {{bindAttr class=":icon :card-info"}}>Card</div>
+        </div>
+        <div class="span14 title">
+            <span class="nav2d">
+                {{title_description}}
+            </span>
+        </div>
+
+        <div class="span4 buttons single-button">
+            {{#if customer}}
+            <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span11">
+            <section class="card-info">
+                <form class="form-horizontal edit-inline">
+                    <header>
+                        <h3>Card info</h3>
+                    </header>
+                    <div>
+                        <div class="control-group">
+                            <label class="control-label">ID</label>
+                            <div class="controls">
+                                <span class="inline-label">{{#if id}} {{ id }} {{ else }} <span class="text-error">DELETED</span> {{/if}}</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Created</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ created_at }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Name</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ name }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Card #</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    **** **** **** {{ last_four }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Expiration</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{ expiration_month }}/{{ expiration_year }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Type</label>
+                            <div class="controls">
+                                <span class=":inline-label">
+                                    {{titleCase brand}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+        </div>
+
+        <div class="offset1 span8">
+            {{partial 'customer_info'}}
+        </div>
+    </div>
+
+    <section class="activity">
+        <header>
+            <h3>Activity</h3>
+        </header>
+        <div class="results">
+            {{view Balanced.TransactionsFiltersHeaderView}}
+
+            <div class="items-wrapper">
+                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+            </div>
+        </div>
+    </section>
+</div>
+
+{{#if show_download}}
+    {{partial "modals/download" }}
+{{/if}}
+
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}

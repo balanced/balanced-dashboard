@@ -77,45 +77,30 @@ Balanced.Router.map(function () {
         this.route('apply', { path: '/apply' });
 
         this.resource('marketplace', { path: '/:marketplace_id' }, function () {
+            this.route('settings', { path: 'settings' });
+            this.route('add_customer', { path: 'add_customer' });
+            this.route('initial_deposit', { path: '/initial_deposit' });
+
             this.resource('activity', { path: '/activity' }, function () {
                 this.route('transactions', { path: '/transactions' });
                 this.route('customers', { path: '/customers' });
                 this.route('funding_instruments', { path: '/funding_instruments' });
             });
 
-            this.route('settings', { path: 'settings' });
-            this.route('add_customer', { path: 'add_customer' });
+            this.resource('customers', { path: '/customers/:customer_id' });
 
-            this.resource('customers', { path: '/customers' }, function () {
-                this.resource('customer', { path: '/:customer_id'});
-            });
+            this.resource('bank_accounts', { path: '/bank_accounts/:bank_account_id'});
 
-            this.resource('bank_accounts', { path: '/bank_accounts'}, function () {
-                this.resource('bank_account', { path: '/:bank_account_id'});
-            });
-
-            this.resource('cards', { path: '/cards'}, function () {
-                this.resource('card', { path: '/:card_id'});
-            });
-
-            this.route('initial_deposit', { path: '/initial_deposit' });
-
-            // only exists for compatibility with old dashboard URLs
-            this.resource('accounts', { path: '/accounts' }, function () {
-                this.resource('account', { path: '/:account_id' }, function () {
-                    makeNestedResource(this, 'cards', 'card');
-                    makeNestedResource(this, 'bank_accounts', 'bank_account');
-                    makeNestedResource(this, 'transactions', 'transaction');
-                });
-            });
+            this.resource('cards', { path: '/cards/:card_id'});
 
             this.resource('credits', { path: '/credits/:credit_id'});
             this.resource('debits', { path: '/debits/:debit_id'});
             this.resource('holds', { path: '/holds/:hold_id'});
             this.resource('refunds', { path: '/refunds/:refund_id'});
 
-            makeNestedResource(this, 'invoices', 'invoice');
             makeNestedResource(this, 'logs', 'log');
+
+            makeNestedResource(this, 'invoices', 'invoice');
         });
 
     });
