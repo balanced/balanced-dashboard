@@ -17,7 +17,7 @@
                                         <li>
                                             <div class="icon"></div>
                                             <div class="info">
-                                                <h3 class="label1d name">{{#linkTo activity marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
+                                                <h3 class="label1d name">{{#linkTo 'activity' marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
                                             </div>
                                         </li>
                                     {{/if}}
@@ -39,7 +39,7 @@
                                             <a href="#" class="icon-delete" {{action promptToDeleteMarketplace marketplace }}>&times;</a>
                                             <div class="icon"></div>
                                                 <div class="info">
-                                                <h3 class="label1d name">{{#linkTo activity marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
+                                                <h3 class="label1d name">{{#linkTo 'activity' marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
                                             </div>
                                         </li>
                                     {{/unless}}
@@ -59,7 +59,7 @@
                                     <div class="icon"></div>
                                     <div class="info">
                                         <h2 class="label3d name">Not transacting yet? Register for production access.</h2>
-                                        {{#linkTo marketplaces.apply classNames="btn"}}Register{{/linkTo}}
+                                        {{#linkTo 'marketplaces.apply' classNames="btn"}}Register{{/linkTo}}
                                     </div>
                                 </li>
                             </ul>
