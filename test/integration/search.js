@@ -102,3 +102,49 @@ test('search click result', function (assert) {
     assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
     assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
 });
+
+test('search and click go with empty date range', function (assert) {
+    Testing.runSearch('%');
+
+    // click the date picker dropdown
+    $('#search .results .timing a.dropdown-toggle').click();
+    // click go button
+    $('#search .results button.go').click();
+
+    assert.equal($('#search .results .timing a.dropdown-toggle span').text().trim(), 'Any time');
+});
+
+test('search date range pick', function (assert) {
+    Testing.runSearch('%');
+
+    var spy = sinon.spy(Balanced.Adapter, 'get');
+
+    // click the date picker dropdown
+    $('#search .results .timing a.dropdown-toggle').click();
+
+    // enter date 
+    $('#search .results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
+    $('#search .results .timing td.active.day').click();
+    $('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
+    $('#search .results .timing td.active.day').click();
+
+    // click go button
+    $('#search .results button.go').click();
+
+    // Notice: month 7 is Aug here for JS Date, ugly javascript...
+    // As the date time is local, we need to convert it to ISO from in UTC timezone
+    var begin = new Date(2013, 7, 1);
+    var begin_iso = begin.toISOString();
+    var end = new Date(2013, 7, 2);
+    var end_iso = end.toISOString();
+
+    var expected_uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?' +
+        'created_at%5B%3C%5D=' + end_iso + '&' +
+        'created_at%5B%3E%5D=' + begin_iso + '&' +
+        'limit=10&offset=0&q=&type%5Bin%5D=credit,debit,refund,hold'
+    ;
+
+    var request = spy.getCall(spy.callCount - 1);
+    assert.equal(request.args[0], Balanced.SearchQuery);
+    assert.equal(request.args[1], expected_uri);
+});
