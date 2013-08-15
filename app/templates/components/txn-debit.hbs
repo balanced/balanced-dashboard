@@ -1,0 +1,114 @@
+<div class="debit">
+	<div class="main-header transaction-type-subheader">
+		<div class="row">
+			<div class="span2 border-adjust label">
+				<span class="subhead2d">Debit</span>
+			</div>
+			<div class="span14 title">
+				<span class="transaction-description subhead2d">{{titleCase debit.status}}: ${{debit.amount_dollars}}</span>
+			</div>
+			<div class="span4 border-adjust buttons">
+				<a class="btn" {{action refund}}>Refund</a>
+			</div>
+		</div>
+	</div>
+	<div class="transaction-body">
+		<div class="row">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
+				<div class="row-fluid">
+					<div class="span13">
+						<section class="transaction-info">
+							<form class="form-horizontal edit-inline">
+								<header>
+									<h3>Debit
+										<a href="#" class="edit" {{action edit}}>Edit</a>
+									</h3>
+								</header>
+								<div>
+									<div class="control-group">
+										<label class="control-label">Created</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.human_readable_created_at }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Description</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.description }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">ID</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.id }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Txn #</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.transaction_number }}</span>
+										</div>
+									</div>
+								</div>
+							</form>
+						</section>
+
+						<section class="funding-instrument-info">
+							<form class="form-horizontal edit-inline">
+								<header>
+									<h3>{{debit.source.description_with_type}}
+										<a href="#" {{bindAttr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
+									</h3>
+								</header>
+								{{#if show_funding_instrument_details}}
+								<div>
+									<div class="control-group">
+										<label class="control-label">Card #</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.source.last_four }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Created</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.source.human_readable_created_at }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">ID</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.source.id }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Card holder's name</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.source.name }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Type</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.source.brand }}</span>
+										</div>
+									</div>
+									<div class="control-group">
+										<label class="control-label">Expiration</label>
+										<div class="controls">
+											<span class="inline-label">{{ debit.source.human_readable_expiration }}</span>
+										</div>
+									</div>
+								</div>
+								{{/if}}
+							</form>
+						</section>
+					</div>
+					<div class="span13">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -26,7 +26,11 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 
     debits_uri: function() {
         return this.get('customer.debits_uri');
-    }.property('customer.debits_uri')
+    }.property('customer.debits_uri'),
+
+    human_readable_expiration: function() {
+        return this.get('expiration_month') + '/' + this.get('expiration_year');
+    }.property('expiration_month', 'expiration_year')
 });
 
 Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');

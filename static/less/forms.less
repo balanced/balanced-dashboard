@@ -125,6 +125,27 @@ form {
       background-position: -68px -438px;
     }
   }
+  a.disclosure {
+    float: right;
+    font-family: nimbussannov-med;
+    font-size: 13px;
+    .cssicon(
+      @url: @iconsFile,
+      @width: 14px,
+      @height: 14px,
+      @display: block
+    );
+    background-position: -18px -847px;
+    &:hover {
+      background-position: -18px -847px;
+    }
+    &.open {
+      background-position: -118px -847px;
+      &:hover {
+        background-position: -118px -847px;
+      }
+    }
+  }
   &.edit {
     input, select {
       display: inherit;

@@ -144,6 +144,11 @@ require('app/controllers/holds');
 require('app/controllers/refunds');
 
 /*
+ * Components
+ */
+require('app/components/txn_debit');
+
+/*
  * States (i.e. Routes)
  * Handles serialization of the application's current state
  * which results in view hierarchy updates. Responds to
