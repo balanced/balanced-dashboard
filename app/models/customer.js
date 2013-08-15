@@ -45,8 +45,7 @@ Balanced.Customer = Balanced.Model.extend({
         } else {
             return name;
         }
-        return this.get('name') || this.get('id');
-    }.property('name', 'id'),
+    }.property('name', 'id', 'email'),
 
     facebook_url: function () {
         if (this.get('facebook')) {

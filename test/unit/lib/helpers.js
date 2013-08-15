@@ -240,3 +240,28 @@ test('toTitleCase', function (assert) {
         assert.equal(Balanced.Utils.toTitleCase(inputs[i]), outputs[i]);
     }
 });
+
+test('combineUri', function (assert) {
+    var inputs = [
+        { base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1', path: '1234' },
+        { base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/', path: '1234' },
+        { base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1', path: '/1234' },
+        { base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/', path: '/1234' }
+    ];
+
+    var outputs = [
+        'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/1234',
+        'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/1234',
+        'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/1234',
+        'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/1234'
+    ];
+
+    assert.throws(function () {
+            Balanced.Utils.combineUri(null, undefined);
+        }
+    );
+
+    for (var i = 0; i < inputs.length; i++) {
+        assert.equal(Balanced.Utils.combineUri(inputs[i].base, inputs[i].path), outputs[i]);
+    }
+});

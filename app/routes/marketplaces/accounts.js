@@ -14,7 +14,7 @@ Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
 Balanced.AccountRoute = Balanced.AuthRoute.extend({
     model: function(params) {
         var marketplace = this.modelFor('marketplace');
-        var customerUri = marketplace.get('customers_uri') + '/' + params.account_id;
+        var customerUri = Balanced.Utils.combineUri(marketplace.get('customers_uri'), params.account_id);
         return Balanced.Customer.find(customerUri);
     },
 

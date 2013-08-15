@@ -28,7 +28,7 @@ Balanced.AccountLinkView = Ember.LinkView.extend({
         var marketplace = app_route.modelFor('marketplace');
         var accountId = obj.get('id');
         obj = marketplace.then(function (marketplace) {
-            var customerUri = marketplace.get('customers_uri') + '/' + accountId;
+            var customerUri = Balanced.Utils.combineUri(marketplace.get('customers_uri'), accountId);
             router.transitionTo('customers', Balanced.Customer.find(customerUri));
         });
     }

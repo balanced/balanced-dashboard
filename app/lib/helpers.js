@@ -486,5 +486,23 @@ Balanced.Utils = {
             params: [obj].concat(params)
         };
         return Ember.Handlebars.helpers.view.call(this, link_view, options);
+    },
+
+    combineUri: function(baseUri, path) {
+        if(!baseUri || !path) {
+            throw new Error("Can't combine URIs: {0} {1}".format(baseUri, path));
+        }
+
+        // strip trailing slash
+        if(baseUri[baseUri.length-1] === '/') {
+            baseUri = baseUri.substring(0, baseUri.length-1);
+        }
+
+        // strip leading slash
+        if(path[0] === '/') {
+            path = path.substring(1);
+        }
+
+        return baseUri + '/' + path;
     }
 };

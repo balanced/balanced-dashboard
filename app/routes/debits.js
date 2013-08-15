@@ -10,7 +10,7 @@ Balanced.DebitsRoute = Balanced.AuthRoute.extend({
 	model: function (params) {
 		var marketplace = this.modelFor('marketplace');
 		return marketplace.then(function(marketplace) {
-			var debitUri = marketplace.get('debits_uri') + '/' + params.debit_id;
+			var debitUri = Balanced.Utils.combineUri(marketplace.get('debits_uri'), params.debit_id);
 			return Balanced.Debit.find(debitUri);
 		});
 	}

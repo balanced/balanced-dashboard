@@ -10,7 +10,7 @@ Balanced.RefundsRoute = Balanced.AuthRoute.extend({
 	model: function (params) {
 		var marketplace = this.modelFor('marketplace');
 		return marketplace.then(function(marketplace) {
-			var refundUri = marketplace.get('refunds_uri') + '/' + params.refund_id;
+			var refundUri = Balanced.Utils.combineUri(marketplace.get('refunds_uri'), params.refund_id);
 			return Balanced.Refund.find(refundUri);
 		});
 	}
