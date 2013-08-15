@@ -21,27 +21,64 @@
       border-bottom: 0;
     }
     .main-header {
-      background-color: @gray3;
+      background-color: @gray2;
+      margin-bottom: 0;
       div.label {
-        width: 45px;
-        margin: 15px 15px 0 15px;
-
-        &.business-info {
-          .csssprite(40px, 60px, 190px, 768px, 0.6);
+        .business-info {
+          .csssprite(40px, 60px, 190px, 768px, 0.8);
+          margin: 13px 21px;
         }
 
-        &.person-info {
-          .csssprite(40px, 60px, 130px, 768px, 0.6);
+        .person-info {
+          .csssprite(40px, 60px, 130px, 768px, 0.8);
+          margin: 13px 21px;
         }
       }
       div.title {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+
         margin-left: 0;
         padding-left: 15px;
-        border-left: 1px solid @gray4;
+        border-left: 1px solid @gray3;
 
         font-family: nimbussannov-semibol, arial, sans-serif;
         font-size: 16px;
       }
+    }
+  }
+
+  .transaction-details {
+    @transactionDetailsBorder: 5px;
+
+    border-left: @transactionDetailsBorder solid @gray2;
+    border-right: @transactionDetailsBorder solid @gray2;
+    border-bottom: @transactionDetailsBorder solid @gray2;
+
+    // we need this hacky business because we want a border around the whole
+    // transaction details and the border f*#ks up our bootstrap grid
+    .span2.border-adjust {
+      width: 75px - @transactionDetailsBorder;
+    }
+
+    .span18.border-adjust {
+      width: 795px - @transactionDetailsBorder;
+    }
+
+    .transaction-type-subheader {
+      height: 37px;
+      margin-bottom: 0;
+
+      background-color: @pineGreen60;
+
+      .label {
+        background-color: @pineGreen100;
+      }
+    }
+
+    .transaction-body {
+      background-color: @white;
     }
   }
 }

@@ -1,34 +1,67 @@
 <h1 class="page-title">Debit</h1>
 
 <div id="debit" class="transaction">
-	<div class="main-header transactions-header span20">
-	    <div class="span2 label">
-	        <div class="icon">Debit</div>
-	    </div>
-	    <div class="span14 title">
-	        <span class="nav2d">
-	            {{description}}
-	        </span>
-	    </div>
 
-	    <div class="span4 buttons">
-	    </div>
+	<div class="main-header transactions-header">
+		<div class="row">
+		    <div class="span2 label">
+		        <div class="icon">Debit</div>
+		    </div>
+		    <div class="span14 title">
+		        <span class="nav2d">
+		            {{description}}
+		        </span>
+		    </div>
+
+		    <div class="span4 buttons">
+		    </div>
+		</div>
 	</div>
 
-	<section class="customer-info">
+	<div class="customer-info">
 		<header>
 		    <h3>Customer</h3>
 		</header>
-		<div class="main-header span20">
-			<div class="span2 label">
-				<div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Customer</div>
-		    </div>
-		    <div class="span14 title">
-		        <span>
-		            {{#linkTo 'customers' customer}}{{customer.display_me_with_email}}{{/linkTo}}
-		        </span>
-		    </div>
+		<div class="main-header">
+			<div class="row">
+				<div class="span2 label">
+					<div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Customer</div>
+			    </div>
+			    <div class="span18 title">
+			        <span>
+			            {{#linkTo 'customers' customer}}{{customer.display_me_with_email}}{{/linkTo}}
+			        </span>
+			    </div>
+			</div>
 		</div>
-	</section>
+	</div>
+
+	<div class="transaction-details">
+
+		<div class="debit">
+			<div class="main-header transaction-type-subheader">
+				<div class="row">
+					<div class="span2 border-adjust label">Debit</div>
+					<div class="span18 border-adjust title">{{titleCase status}}: ${{amount_dollars}}</div>
+				</div>
+			</div>
+			<div class="transaction-body">
+				<div class="row">
+					<div class="span2 border-adjust"></div>
+					<div class="span18 border-adjust">
+						<div class="row-fluid">
+							<div class="span13">
+								One
+							</div>
+							<div class="span13">
+								Two
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 </div>
 
