@@ -7,7 +7,7 @@ Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Accounts',
 
     redirect: function () {
-        this.transitionTo('activity.customers');
+        this.transitionTo('activity.customers', this.modelFor('marketplace'));
     }
 });
 
