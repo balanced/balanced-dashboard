@@ -54,7 +54,7 @@ test('pages have download links', function (assert) {
         assert.ok($link.length, link + ' link exists');
         $link.click();
 
-        assert.equal($("#activity .download").length, hasDownload ? 1 : 0)
+        assert.equal($("#activity .download").length, hasDownload ? 1 : 0);
     });
 });
 
