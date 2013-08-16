@@ -427,7 +427,7 @@ module.exports = function (grunt) {
                     linesThresholdPct: 84,
                     statementsThresholdPct: 82,
                     functionsThresholdPct: 76,
-                    branchesThresholdPct: 60
+                    branchesThresholdPct: 58
                 }
             },
             all: ['build/test/runner.html']
