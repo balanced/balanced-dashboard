@@ -57,7 +57,11 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
             label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
         }
         return (label) ? label : labelMapping.DEFAULT;
-    }
+    },
+
+    show_download_button: function() {
+        return this.get('controller.category') === 'transaction';
+    }.property('controller.category')
 });
 
 Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({

@@ -73,7 +73,9 @@
     <li class="timing dropdown label4a">
         {{view Balanced.DatePickerView viewName="dateTimePicker" }}
     </li>
+    {{#if view.show_download_button}}
     <li class="download">
         <a href="#" {{action openDownload}} class="icon-download right">Download</a>
     </li>
+    {{/if}}
 </nav>

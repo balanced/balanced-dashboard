@@ -40,6 +40,24 @@ test('can visit pages', function (assert) {
     });
 });
 
+test('pages have download links', function (assert) {
+    var links = [
+        ['Cards & Bank Accounts', false],
+        ['Customers', false],
+        ['Transactions', true]
+    ];
+    expect(links.length * 2);
+    _.each(links, function (linkAndHasDownload) {
+        var link = linkAndHasDownload[0],
+            hasDownload = linkAndHasDownload[1];
+        var $link = $('#activity a:contains("' + link + '")');
+        assert.ok($link.length, link + ' link exists');
+        $link.click();
+
+        assert.equal($("#activity .download").length, hasDownload ? 1 : 0);
+    });
+});
+
 test('Click load more shows 5 more and hides load more', function (assert) {
     assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
 
