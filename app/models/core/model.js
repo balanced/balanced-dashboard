@@ -38,18 +38,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     //  properties which are not echoed back to the server
     privateProperties: ['id', 'uri', 'validationErrors'],
 
-    date_formats: {
-        short: '%e %b \'%y %l:%M %p'
-    },
-
-    human_readable_created_at: function () {
-        if (this.get('created_at')) {
-            return Date.parseISO8601(this.get('created_at')).strftime(this.date_formats.short);
-        } else {
-            return '';
-        }
-    }.property('created_at'),
-
     displayErrorDescription: function() {
         return (!this.get('isValid') || this.get('isError')) && !this.get('validationErrors');
     }.property('isValid', 'isError', 'validationErrors'),

@@ -63,6 +63,10 @@
       width: 165px - @transactionDetailsBorder;
     }
 
+    .span8.border-adjust {
+      width: 345px - @transactionDetailsBorder;
+    }
+
     .span18.border-adjust {
       width: 795px - @transactionDetailsBorder;
     }
@@ -76,11 +80,36 @@
       .label {
         background-color: @pineGreen100;
       }
+
+      &.failed {
+        background-color: @imperialRed60;
+        .label {
+          background-color: @imperialRed100;
+        }
+      }
+      &.pending {
+        background-color: @turmericYellow60;
+        .label {
+          background-color: @turmericYellow100;
+        }
+      }
     }
 
     .transaction-body {
       background-color: @white;
       padding-top: 20px;
+    }
+
+    div.buttons {
+      a {
+        width: 60%;
+      }
+
+      &.side-by-side {
+        a {
+          width: 30%;
+        }
+      }
     }
   }
 }

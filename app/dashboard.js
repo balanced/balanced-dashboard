@@ -146,7 +146,7 @@ require('app/controllers/refunds');
 /*
  * Components
  */
-require('app/components/txn_debit');
+require('app/components/txn_funding_instrument');
 
 /*
  * States (i.e. Routes)

@@ -504,5 +504,26 @@ Balanced.Utils = {
         }
 
         return baseUri + '/' + path;
+    },
+
+    date_formats: {
+        short: '%e %b \'%y %l:%M %p',
+        long: '%a, %e %b %Y, %l:%M %p',
+    },
+
+    humanReadableDateShort: function (isoDate) {
+        if(isoDate) {
+            return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.short);
+        } else {
+            return isoDate;
+        }
+    },
+
+    humanReadableDateLong: function (isoDate) {
+        if(isoDate) {
+            return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.long);
+        } else {
+            return isoDate;
+        }
     }
 };

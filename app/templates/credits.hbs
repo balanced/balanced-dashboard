@@ -1,1 +1,26 @@
 <h1 class="page-title">Credit</h1>
+
+<div id="credit" class="transaction">
+
+  <div class="main-header transactions-header">
+    <div class="row">
+      <div class="span2 label">
+        <div class="icon">Credit</div>
+      </div>
+        <div class="span14 title">
+        <span class="nav2d">
+          {{description}}
+        </span>
+      </div>
+
+        <div class="span4 buttons">
+        </div>
+    </div>
+  </div>
+
+  {{txn-customer customer=customer}}
+
+  <div class="transaction-details">
+    {{txn-credit credit=model}}
+  </div>
+</div>

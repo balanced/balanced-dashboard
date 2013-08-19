@@ -113,7 +113,7 @@
                                 <tr>
                                     <td class="status span10">
                                         {{# if verification.created_at }}
-                                            <time {{bindAttr datetime="verification.created_at"}} data-format="%b %d">{{ verification.human_readable_created_at }}</time>
+                                            <time {{bindAttr datetime="verification.created_at"}} data-format="%b %d">{{humanReadableDateShort verification.created_at }}</time>
                                         {{else}}
                                             ---
                                         {{/if}}

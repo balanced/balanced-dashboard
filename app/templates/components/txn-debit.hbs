@@ -29,7 +29,7 @@
 									<div class="control-group">
 										<label class="control-label">Created</label>
 										<div class="controls">
-											<span class="inline-label">{{ debit.human_readable_created_at }}</span>
+											<span class="inline-label">{{humanReadableDateLong debit.created_at }}</span>
 										</div>
 									</div>
 									<div class="control-group">
@@ -54,55 +54,7 @@
 							</form>
 						</section>
 
-						<section class="funding-instrument-info">
-							<form class="form-horizontal edit-inline">
-								<header>
-									<h3>{{debit.source.description_with_type}}
-										<a href="#" {{bindAttr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
-									</h3>
-								</header>
-								{{#if show_funding_instrument_details}}
-								<div>
-									<div class="control-group">
-										<label class="control-label">Card #</label>
-										<div class="controls">
-											<span class="inline-label">{{ debit.source.last_four }}</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">Created</label>
-										<div class="controls">
-											<span class="inline-label">{{ debit.source.human_readable_created_at }}</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">ID</label>
-										<div class="controls">
-											<span class="inline-label">{{ debit.source.id }}</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">Card holder's name</label>
-										<div class="controls">
-											<span class="inline-label">{{ debit.source.name }}</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">Type</label>
-										<div class="controls">
-											<span class="inline-label">{{ debit.source.brand }}</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label class="control-label">Expiration</label>
-										<div class="controls">
-											<span class="inline-label">{{ debit.source.human_readable_expiration }}</span>
-										</div>
-									</div>
-								</div>
-								{{/if}}
-							</form>
-						</section>
+						{{txn-funding-instrument funding_instrument=debit.source}}
 					</div>
 					<div class="span13">
 

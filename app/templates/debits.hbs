@@ -21,6 +21,12 @@
 	{{txn-customer customer=customer}}
 
 	<div class="transaction-details">
+		{{#each refund in model.refunds}}
+			{{txn-refund refund=refund}}
+		{{/each}}
 		{{txn-debit debit=model}}
+		{{#if hold}}
+			{{txn-hold hold=hold}}
+		{{/if}}
 	</div>
 </div>
