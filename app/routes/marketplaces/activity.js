@@ -3,13 +3,13 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 
 Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
     redirect: function () {
-        this.transitionTo('activity.transactions');
+        this.transitionTo('activity.transactions', this.modelFor('marketplace'));
     }
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Activity',
-    
+
     setupController: function (controller, model) {
         this._super(controller, model);
 
@@ -33,7 +33,7 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 
 Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Activity',
-    
+
     setupController: function (controller, model) {
         this._super(controller, model);
 
