@@ -69,7 +69,7 @@ asyncTest('can debit customer using card', function (assert) {
         assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
 
         // bank accounts first
-        assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank account: 123");
+        assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 123");
         // cards second
         assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Card: 0005 (American Express)");
 
@@ -97,7 +97,7 @@ test('can debit customer using bank account', function (assert) {
     assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
 
     // bank accounts first
-    assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank account: 123");
+    assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 123");
     // cards second
     assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Card: 0005 (American Express)");
 
