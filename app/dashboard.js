@@ -147,6 +147,9 @@ require('app/controllers/refunds');
  * Components
  */
 require('app/components/txn_funding_instrument');
+require('app/components/txn_hold');
+require('app/components/capture_hold_modal');
+require('app/components/void_hold_modal');
 
 /*
  * States (i.e. Routes)

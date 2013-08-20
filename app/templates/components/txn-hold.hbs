@@ -5,11 +5,13 @@
         <span class="subhead2d">Hold</span>
       </div>
       <div class="span10 title">
-        <span class="transaction-description subhead2d">Created: ${{hold.amount_dollars}}</span>
+        <span class="transaction-description subhead2d">{{capitalize hold.hold_status}}: ${{hold.amount_dollars}}</span>
       </div>
       <div class="span8 border-adjust buttons side-by-side">
-        <a class="btn" {{action capture}}>Capture</a>
-        <a class="btn" {{action void}}>Void</a>
+        {{#if hold.can_void_or_capture}}
+          {{capture-hold-modal hold=hold}}
+          {{void-hold-modal hold=hold}}
+        {{/if}}
       </div>
     </div>
   </div>

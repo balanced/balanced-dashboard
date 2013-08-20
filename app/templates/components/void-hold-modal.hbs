@@ -1,0 +1,16 @@
+<div class="modal hide" id="void-hold">
+    <form {{action "save" on="submit"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Void the hold</h2>
+    </div>
+    <div class="modal-body">
+        {{ partial "modals/modalErrors" }}
+        <span class="label7a">Are you sure you want to void the hold?</span>
+    </div>
+    <div class="modal-footer">
+        {{view Balanced.ModalActionButtonsView submitTitle="Yes" submittingTitle="Voiding..."}}
+    </div>
+    </form>
+</div>
+<a class="btn" {{action open}}>Void</a>

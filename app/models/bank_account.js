@@ -21,10 +21,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
         }
     }.property('last_four', 'bank_name'),
 
-    description_with_type: function () {
-        return 'Bank account: {0}'.format(this.get('description'));
-    }.property('description'),
-
     can_verify: function () {
         return !this.get('can_debit') &&
             (this.get('customer') || this.get('account'));

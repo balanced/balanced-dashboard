@@ -43,6 +43,7 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
         var self = this;
         credit.save().then(function (credit) {
             $('#credit-bank-account').modal('hide');
+            self.get('controller').transitionToRoute('credits', credit);
         });
     }
 });

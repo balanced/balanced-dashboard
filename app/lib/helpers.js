@@ -422,6 +422,10 @@ Balanced.Utils = {
             path = normalized.path,
             obj = (path === 'this') ? pathRoot : Ember.Handlebars.get(pathRoot, path, options);
 
+        if(!obj) {
+            return obj;
+        }
+
         var route_name;
         var link_view = Ember.LinkView;
         // is this a transaction route?
