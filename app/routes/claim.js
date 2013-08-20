@@ -61,7 +61,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
                             secret: authToken
                         });
                         marketplace.create().then(function () {
-                            user.refresh();
+                            user.reload();
                         });
                     }
                 });

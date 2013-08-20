@@ -37,7 +37,7 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
         },
         onSkip: function () {
             var marketplace = this.modelFor('marketplace');
-            marketplace.refresh();
+            marketplace.reload();
             this.transitionTo('activity', marketplace);
         },
         passAlertMessage: function (type, message) {

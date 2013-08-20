@@ -35,7 +35,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
                             secret: apiKey.secret
                         });
                         userMarketplaceAssociation.create().then(function () {
-                            user.refresh();
+                            user.reload();
                             //  we need the api key to be associated with the user before we can create the bank account
                             //  create bank account
                             var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri') + '?marketplace=' + marketplace.get('id');

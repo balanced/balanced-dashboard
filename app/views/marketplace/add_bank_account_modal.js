@@ -26,7 +26,7 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
         bankAccount.set('type', this.$('form input[name=account_type]').val());
 
         bankAccount.create().then(function () {
-            self.get('customer.bank_accounts').refresh();
+            self.get('customer.bank_accounts').reload();
             $('#add-bank-account').modal('hide');
         });
     }

@@ -592,11 +592,11 @@ test('newly created models have promises for delete', function (assert) {
     });
 });
 
-test('models have promises for refresh', function (assert) {
+test('models have promises for reload', function (assert) {
     expect(1);
     var t = Balanced.TestModel.find('/v1/testobjects/1');
     Ember.run(function () {
-        t.refresh().then(function (model) {
+        t.reload().then(function (model) {
             assert.ok(true);
         });
     });
@@ -751,7 +751,7 @@ test('hasMany pagination works', function (assert) {
     });
 });
 
-test('hasMany collection can be refreshed', function (assert) {
+test('hasMany collection can be reloaded', function (assert) {
     expect(2);
 
     var model = Balanced.Model.extend({
@@ -778,7 +778,7 @@ test('hasMany collection can be refreshed', function (assert) {
             return testModel.get('transactions');
         }).then(function(transactions) {
             assert.equal(transactions.get('length'), 2);
-            transactions.refresh().then(function (transactions) {
+            transactions.reload().then(function (transactions) {
                 assert.equal(transactions.get('length'), 2);
             });
         });

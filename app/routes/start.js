@@ -1,6 +1,6 @@
 Balanced.StartRoute = Balanced.Route.extend({
     pageTitle: 'Getting started',
-    
+
     model: function () {
         var existingApiKey = $.cookie(Balanced.COOKIE.API_KEY_SECRET);
         var apiKey = existingApiKey ? Balanced.APIKey.current() : Balanced.APIKey.create({
@@ -18,7 +18,7 @@ Balanced.StartRoute = Balanced.Route.extend({
         var onMarketplaceCreate = function (mkt) {
             var marketplaces = Balanced.Auth.get('user').get('marketplaces');
             marketplaces.pushObject(Balanced.Marketplace.create(mkt));
-            marketplace.refresh();
+            marketplace.reload();
 
             //  pre-populate marketplace with transactions
             var id = mkt.uri.substr(mkt.uri.lastIndexOf('/') + 1);

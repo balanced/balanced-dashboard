@@ -32,8 +32,8 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 
         var verification = this.get('model');
         verification.update().then(function () {
-            self.get('bank_account').refresh();
-            self.get('bank_account.verification').refresh();
+            self.get('bank_account').reload();
+            self.get('bank_account.verification').reload();
             $('#verify-bank-account').modal('hide');
         });
     }

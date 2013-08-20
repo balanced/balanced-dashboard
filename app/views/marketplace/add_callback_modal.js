@@ -19,7 +19,7 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
         var callback = this.get('model');
 
         callback.create().then(function () {
-            self.get('marketplace.callbacks').refresh();
+            self.get('marketplace.callbacks').reload();
             $('#add-callback').modal('hide');
         });
     }

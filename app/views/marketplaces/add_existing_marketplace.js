@@ -26,7 +26,7 @@ Balanced.AddExistingMarketplaceView = Balanced.View.extend({
         marketplace.create().then(function () {
             self.set('isSubmitting', false);
             self.set('secret', null);
-            Balanced.Auth.get('user').refresh();
+            Balanced.Auth.get('user').reload();
         }, function () {
             self.set('isSubmitting', false);
         });

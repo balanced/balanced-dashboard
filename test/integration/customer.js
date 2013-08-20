@@ -131,7 +131,7 @@ test("can't debit customer multiple times using the same modal", function (asser
     assert.ok(stub.calledOnce);
 });
 
-test("debit customer triggers refresh of transactions", function (assert) {
+test("debit customer triggers reload of transactions", function (assert) {
     // click the debit customer button
     $(".customer-header .buttons a").eq(0).click();
 

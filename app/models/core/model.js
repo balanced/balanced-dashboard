@@ -128,7 +128,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         return promise;
     },
 
-    refresh: function () {
+    reload: function () {
         if (!this.get('isLoaded')) {
             return this;
         }

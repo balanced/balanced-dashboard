@@ -41,7 +41,7 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
                 self.set('failedConfirmation', true);
             }
 
-            self.get('controller').refreshVerifications(verification);
+            self.get('controller').reloadVerifications(verification);
         });
     }
 });

@@ -38,7 +38,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
         }
 
         customer.update().then(function () {
-            self.get('customer').refresh();
+            self.get('customer').reload();
             $('#edit-customer-info').modal('hide');
         });
     }

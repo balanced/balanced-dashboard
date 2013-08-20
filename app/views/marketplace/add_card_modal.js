@@ -30,7 +30,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
         var card = this.get('model');
 
         card.create().then(function () {
-            self.get('customer.cards').refresh();
+            self.get('customer.cards').reload();
             $('#add-card').modal('hide');
         });
     }
