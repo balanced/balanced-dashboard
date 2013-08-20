@@ -21,11 +21,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
             function persistMarketplace(user) {
                 Balanced.Utils.setCurrentMarketplace(null);
 
-                models.apiKey.create().then(function (apiKey) {
+                models.apiKey.save().then(function (apiKey) {
                     //  set the api key for this request
                     Balanced.Auth.setAPIKey(apiKey.get('secret'));
 
-                    models.marketplace.create().then(function (marketplace) {
+                    models.marketplace.save().then(function (marketplace) {
                         Balanced.Auth.unsetAPIKey();
 
                         // unset the api key for this request
@@ -34,21 +34,21 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
                             uri: user.api_keys_uri,
                             secret: apiKey.secret
                         });
-                        userMarketplaceAssociation.create().then(function () {
+                        userMarketplaceAssociation.save().then(function () {
                             user.reload();
                             //  we need the api key to be associated with the user before we can create the bank account
                             //  create bank account
                             var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri') + '?marketplace=' + marketplace.get('id');
 
                             models.bankAccount.set('uri', bankAccountUri);
-                            models.bankAccount.create().then(function (bankAccount) {
+                            models.bankAccount.save().then(function (bankAccount) {
                                 // we don't know the bank account's
                                 // verification uri until it's created so we
                                 // are forced to create it here.
                                 var verification = Balanced.Verification.create({
                                     uri: bankAccount.get('verifications_uri')
                                 });
-                                verification.create();
+                                verification.save();
                             });
                         });
 
@@ -67,13 +67,13 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
             function persistUser() {
                 var password = models.user.password;
-                models.user.create().then(function (user) {
+                models.user.save().then(function (user) {
                     //  create new login
                     var login = Balanced.Login.create({
                         email_address: user.email_address,
                         password: password
                     });
-                    login.create().then(function (login) {
+                    login.save().then(function (login) {
                         Balanced.Auth.manualLogin(user, login);
                         persistMarketplace(Balanced.Auth.get('user'));
                     });

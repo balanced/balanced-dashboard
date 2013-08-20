@@ -543,7 +543,7 @@ test('models have promises for create', function (assert) {
     expect(1);
     var t = Balanced.TestModel.create({uri: '/v1/woo'});
     Ember.run(function () {
-        t.create().then(function (model) {
+        t.save().then(function (model) {
             assert.ok(true);
         });
     });
@@ -556,7 +556,7 @@ test('create promises work if the model was previously invalid', function (asser
     t._handleError({status: 400, responseText: 'Something bad'});
 
     Ember.run(function () {
-        t.create().then(function (model) {
+        t.save().then(function (model) {
             assert.ok(true);
         });
     });
@@ -566,7 +566,7 @@ test('models have promises for update', function (assert) {
     expect(1);
     var t = Balanced.TestModel.find('/v1/testobjects/1');
     Ember.run(function () {
-        t.update().then(function (model) {
+        t.save().then(function (model) {
             assert.ok(true);
         });
     });

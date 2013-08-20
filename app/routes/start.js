@@ -24,15 +24,16 @@ Balanced.StartRoute = Balanced.Route.extend({
             var id = mkt.uri.substr(mkt.uri.lastIndexOf('/') + 1);
             var uri = '/marketplaces/{0}/spam'.format(id);
             Balanced.Model.create({
-                uri: uri
-            }).update();
+                uri: uri,
+                isNew: false
+            }).save();
         }, onApiKeyCreate = function (apiKey) {
             Balanced.Auth.storeGuestAPIKey(apiKey.secret);
-            marketplace.create().then(onMarketplaceCreate);
+            marketplace.save().then(onMarketplaceCreate);
         };
 
         if (!existingApiKey) {
-            apiKey.create().then(onApiKeyCreate);
+            apiKey.save().then(onApiKeyCreate);
         }
         return models;
     },

@@ -42,7 +42,7 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
         credit.set('amount', cents);
 
         var self = this;
-        credit.create().then(function (credit) {
+        credit.save().then(function (credit) {
             $('#credit-customer').modal('hide');
         });
     }

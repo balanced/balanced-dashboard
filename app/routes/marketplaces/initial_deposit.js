@@ -24,11 +24,11 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
             debit.set('uri', marketplace.get('owner_customer.debits_uri'));
 
             //  saving this will associate the card to the marketplace owner
-            tokenizedCard.create().then(function (associatedCard) {
+            tokenizedCard.save().then(function (associatedCard) {
                 //  uri of card changes once tokenized, now we know it and can
                 // set on the debit
                 debit.set('source_uri', associatedCard.get('uri'));
-                debit.create().then(function (debit) {
+                debit.save().then(function (debit) {
 
                     //  annnnd we're done
                     self.transitionTo('activity', marketplace);

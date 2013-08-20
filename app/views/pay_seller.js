@@ -38,7 +38,7 @@ Balanced.PaySellerModalView = Balanced.View.extend({
         }
         credit.set('amount', cents);
 
-        credit.create().then(function (credit) {
+        credit.save().then(function (credit) {
             $('#pay-seller').modal('hide');
 
             // this junk is in here because of the iframe code. Take it out when we clean that up!

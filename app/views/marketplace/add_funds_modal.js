@@ -46,7 +46,7 @@ Balanced.AddFundsModalView = Balanced.View.extend({
         }
         debit.set('amount', cents);
 
-        debit.create().then(function () {
+        debit.save().then(function () {
             self.get('marketplace').reload();
             $('#add-funds').modal('hide');
         });

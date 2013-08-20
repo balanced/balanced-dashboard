@@ -1,7 +1,7 @@
 Balanced.DownloadControllerMixin = Ember.Mixin.create({
     needs: ['marketplace'],
 
-    download_model: null, 
+    download_model: null,
     show_download: false,
 
     openDownload: function () {
@@ -25,7 +25,7 @@ Balanced.DownloadControllerMixin = Ember.Mixin.create({
 
         if (this.get('download_model.email_address')) {
             var self = this;
-            this.get('download_model').create().then(function () {
+            this.get('download_model').save().then(function () {
                 self.closeDownload();
                 self.confirmDownload();
             });

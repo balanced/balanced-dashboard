@@ -4,6 +4,7 @@ Balanced.EditMarketplaceInfoModalView = Balanced.View.extend({
     open: function () {
         // operate on a copy so we don't mess up the original object
         var marketplace = Ember.copy(this.get('content'), true);
+        marketplace.set('isNew', false);
         marketplace.trigger('didCreate');
         this.set('model', marketplace);
         $('#edit-marketplace-info').modal('show');
@@ -16,7 +17,7 @@ Balanced.EditMarketplaceInfoModalView = Balanced.View.extend({
         var self = this;
 
         var marketplace = this.get('model');
-        marketplace.update().then(function () {
+        marketplace.save().then(function () {
             self.get('content').updateFromModel(marketplace);
             $('#edit-marketplace-info').modal('hide');
         });

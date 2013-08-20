@@ -24,7 +24,7 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
                 self.set('hasError', true);
             });
 
-            model.update().then(function () {
+            model.save().then(function () {
                 self.set('password', '');
                 self.set('password_confirm', '');
                 self.set('submitted', true);

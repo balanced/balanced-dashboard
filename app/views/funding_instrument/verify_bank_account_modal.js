@@ -28,6 +28,6 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
             $('#verify-bank-account').modal('hide');
         };
 
-        verification.create().then(after, after);
+        verification.save().then(after, after);
     }
 });

@@ -64,22 +64,28 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
     }.property('uri'),
 
-    create: function () {
+    save: function() {
         var self = this;
         var data = this._toSerializedJSON();
 
         self.set('isSaving', true);
 
-        var promise = this.resolveOn('didCreate');
+        var creatingNewModel = this.get('isNew');
 
-        Balanced.Adapter.create(this.constructor, this._createUri(), data, function (json) {
+        var resolveEvent = creatingNewModel ? 'didCreate' : 'didUpdate';
+        var uri = creatingNewModel ? this._createUri() : this.get('uri');
+        var adapterFunc = creatingNewModel ? Balanced.Adapter.create : Balanced.Adapter.update;
+
+        var promise = this.resolveOn(resolveEvent);
+
+        adapterFunc.call(Balanced.Adapter, this.constructor, uri, data, function(json) {
             self._updateFromJson(json);
             self.set('isNew', false);
             self.set('isSaving', false);
             self.set('isValid', true);
             self.set('isError', false);
-            self.trigger('didCreate');
-            Balanced.Model.Events.trigger('didCreate', self);
+            self.trigger(resolveEvent);
+            Balanced.Model.Events.trigger(resolveEvent, self);
         }, $.proxy(self._handleError, self));
 
         return promise;
@@ -87,28 +93,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
     _createUri: function () {
         return this.get('uri');
-    },
-
-    update: function () {
-        var self = this;
-        var data = this._toSerializedJSON();
-
-        self.set('isSaving', true);
-
-        var promise = this.resolveOn('didUpdate');
-
-        Balanced.Adapter.update(this.constructor, this.get('uri'), data, function (json) {
-            self._updateFromJson(json);
-
-            self.set('isSaving', false);
-            self.set('isValid', true);
-            self.set('isError', false);
-
-            self.trigger('didUpdate');
-            Balanced.Model.Events.trigger('didUpdate', self);
-        }, $.proxy(self._handleError, self));
-
-        return promise;
     },
 
     delete: function () {

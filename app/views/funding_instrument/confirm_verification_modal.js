@@ -34,7 +34,7 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
         var self = this;
 
         var verification = this.get('model');
-        verification.update().then(function () {
+        verification.save().then(function () {
             $('#confirm-verification').modal('hide');
         }, function () {
             if (verification.get('errorStatusCode') === 409) {

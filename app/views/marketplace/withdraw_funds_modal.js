@@ -48,7 +48,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
         }
         credit.set('amount', cents);
 
-        credit.create().then(function () {
+        credit.save().then(function () {
             self.get('marketplace').reload();
             $('#withdraw-funds').modal('hide');
         });

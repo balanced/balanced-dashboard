@@ -45,13 +45,13 @@ Balanced.ClaimRoute = Balanced.Route.extend({
                 return;
             }
 
-            model.create().then(function (user) {
+            model.save().then(function (user) {
                 //  create a login
                 var login = Balanced.Login.create({
                     email_address: user.get('email_address'),
                     password: user.get('passwordConfirm')
                 });
-                login.create().then(function (login) {
+                login.save().then(function (login) {
                     Balanced.Auth.manualLogin(user, login);
 
                     // associate marketplace to user
@@ -60,7 +60,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
                             uri: user.api_keys_uri,
                             secret: authToken
                         });
-                        marketplace.create().then(function () {
+                        marketplace.save().then(function () {
                             user.reload();
                         });
                     }
