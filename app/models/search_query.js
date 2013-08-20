@@ -2,9 +2,9 @@
  * This wraps the results of a search query.
  */
 Balanced.SearchQuery = Balanced.Model.extend({
-    transactions: Balanced.Model.hasMany('Balanced.Transaction', 'transactions'),
-    accounts: Balanced.Model.hasMany('Balanced.Account', 'accounts'),
-    funding_instruments: Balanced.Model.hasMany('Balanced.FundingInstrument', 'funding_instruments'),
+    transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
+    accounts: Balanced.Model.hasMany('accounts', 'Balanced.Account'),
+    funding_instruments: Balanced.Model.hasMany('funding_instruments', 'Balanced.FundingInstrument'),
 
     total_credits: function () {
         return this.get('counts.credit');

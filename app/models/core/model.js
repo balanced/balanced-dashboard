@@ -3,6 +3,8 @@ require('app/models/core/model_array');
 require('app/models/core/type_mappings');
 
 var JSON_PROPERTY_KEY = '__json';
+var URI_POSTFIX = "_uri";
+var URI_METADATA_PROPERTY = "_uris";
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
@@ -220,6 +222,24 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
         }
 
         return props;
+    },
+
+    _extractTypeClassFromUrisMetadata: function(uriProperty) {
+        var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
+
+        var metadataType = this.get(uriMetadataProperty + "." + uriProperty + "._type");
+        if(metadataType) {
+            var mappedType = Balanced.TypeMappings.classForType(metadataType);
+            if(mappedType) {
+                return mappedType;
+            } else {
+                Ember.Logger.warn("Couldn't map _type of {0} for URI: {1}".format(metadataType, this.get('uri')));
+            }
+        } else {
+            Ember.Logger.warn("No _type found for {0} in _uris metadata for URI: {1}".format(uriProperty, this.get('uri')));
+        }
+
+        return undefined;
     }
 });
 
@@ -243,89 +263,96 @@ Balanced.Model.reopenClass({
      * Used for adding a one-to-one association to a model.
      *
      * Params:
-     *  - type - Used to find/construct child objects. For embedded objects,
-     * we'll use the _type field if it's present in the JSON. For non-embedded
-     * objects, we use this type to construct the object
      * - propertyName - The property whose value we'll get to determine the URI
      *  or embedded data to use for the association
-     * - settings - The only setting that's current supported is embedded = [true|false].
+     *  - defaultType - Used as a fallback in case the object doesn't have a
+     * _type or the _uris doesn't have data for this association
      *
      * Example:
      *
      * Balanced.Marketplace = Balanced.UserMarketplace.extend({
-     *      owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true})
+     *      owner_customer: Balanced.Model.belongsTo('owner_customer_json', 'Balanced.Customer')
      * });
      */
-    belongsTo: function (type, propertyName, settings) {
-        var embedded = this._isEmbedded(propertyName, settings);
+    belongsTo: function (propertyName, defaultType) {
+        defaultType = defaultType || 'Balanced.Model';
 
-        // if it's an embedded object, get it from the raw json rather than a real property
-        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + '.' + propertyName) : propertyName;
+        var embeddedProperty = JSON_PROPERTY_KEY + '.' + propertyName;
+        var uriProperty = propertyName + URI_POSTFIX;
+        var fullUriProperty = JSON_PROPERTY_KEY + '.' + propertyName + URI_POSTFIX;
+        var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
 
         return Ember.computed(function () {
-            var typeClass = Balanced.TypeMappings.typeClass(type);
+            var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 
-            // if the property hasn't been set yet, don't bother trying to load it
-            var propertyValue = this.get(translatedProperty);
-            if (propertyValue) {
-                if (embedded) {
-                    var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(this.get(translatedProperty));
-                    return embeddedObj;
-                } else {
-                    return typeClass.find(this.get(translatedProperty));
+            var embeddedPropertyValue = this.get(embeddedProperty);
+            var uriPropertyValue = this.get(fullUriProperty);
+            if (embeddedPropertyValue) {
+                var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(embeddedPropertyValue);
+                return embeddedObj;
+            } else if (uriPropertyValue) {
+                var metadataTypeClass = this._extractTypeClassFromUrisMetadata(uriProperty);
+                if(metadataTypeClass) {
+                    typeClass = metadataTypeClass;
                 }
+
+                return typeClass.find(uriPropertyValue);
             } else {
-                return propertyValue;
+                return embeddedPropertyValue;
             }
-        }).property(translatedProperty);
+        }).property(embeddedProperty, fullUriProperty, uriMetadataProperty + ".@each");
     },
 
     /*
      * Used for adding a one-to-many association to a model.
      *
      * Params:
+     * - propertyName - The property whose value we'll get to determine the URI
+     *  or embedded data to use for the association
      *  - defaultType - Used to find/construct child objects. If the _type
      * field is present in the returned JSON, we'll map that to create objects
      * of the correct type. Since we use the type of object to pick which host
      * to use, it's important to set the defaultType, even if your returned
      * data uses the _type field.
-     * - propertyName - The property whose value we'll get to determine the URI
-     *  or embedded data to use for the association
-     * - settings - The only setting that's current supported is embedded = [true|false].
      *
      * Example:
      *
      * Balanced.Marketplace = Balanced.UserMarketplace.extend({
-     *      credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
-     *      customers: Balanced.Model.hasMany('Balanced.Customer', 'customers_json', {embedded: true})
+     *      customers: Balanced.Model.hasMany('customers_json', 'Balanced.Customer')
      * });
      */
-    hasMany: function (defaultType, propertyName, settings) {
-        var embedded = this._isEmbedded(propertyName, settings);
+    hasMany: function (propertyName, defaultType) {
+        defaultType = defaultType || 'Balanced.Model';
 
-        // if it's an embedded object, get it from the raw json rather than a real property
-        var translatedProperty = embedded ? (JSON_PROPERTY_KEY + '.' + propertyName) : propertyName;
+        var embeddedProperty = JSON_PROPERTY_KEY + '.' + propertyName;
+        var uriProperty = propertyName + URI_POSTFIX;
+        var fullUriProperty = JSON_PROPERTY_KEY + '.' + uriProperty;
+        var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
 
         return Ember.computed(function () {
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+            var embeddedPropertyValue = this.get(embeddedProperty);
+            // if the URI isn't defined in the JSON, check for a property on
+            // the model. This way we can hardcode URIs if necessary to support
+            // undocumented URIs
+            var uriPropertyValue = this.get(fullUriProperty) || this.get(uriProperty);
 
-            var modelObjectsArray = Balanced.ModelArray.create({
-                content: Ember.A(),
-                typeClass: typeClass,
-                uri: this.get(translatedProperty)
-            });
-
-            // if the property hasn't been set yet, don't bother trying to load it
-            if (this.get(translatedProperty)) {
-                if (embedded) {
-                    modelObjectsArray.populateModels(this.get(translatedProperty));
-                } else {
-                    return Balanced.ModelArray.newArrayLoadedFromUri(this.get(translatedProperty), defaultType);
-                }
+            if (embeddedPropertyValue) {
+                var modelObjectsArray = Balanced.ModelArray.create({
+                    content: Ember.A(),
+                    typeClass: typeClass
+                });
+                modelObjectsArray.populateModels(embeddedPropertyValue);
+                return modelObjectsArray;
+            } else if (uriPropertyValue) {
+                return Balanced.ModelArray.newArrayLoadedFromUri(uriPropertyValue, defaultType);
+            } else {
+                return Balanced.ModelArray.create({
+                    content: Ember.A(),
+                    typeClass: typeClass
+                });
             }
-
-            return modelObjectsArray;
-        }).property(translatedProperty);
+        }).property(embeddedProperty, uriProperty, fullUriProperty, uriMetadataProperty + ".@each");
     },
 
     _materializeLoadedObjectFromAPIResult: function (json) {

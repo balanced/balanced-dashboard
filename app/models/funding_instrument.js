@@ -1,5 +1,5 @@
 Balanced.FundingInstrument = Balanced.Model.extend({
-    customer: Balanced.Model.belongsTo('Balanced.Customer', 'customer'),
+    customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
     title_description: function () {
         return '{0} ({1})'.format(

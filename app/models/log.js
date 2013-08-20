@@ -33,3 +33,4 @@ Balanced.Log.reopenClass({
 });
 
 Balanced.TypeMappings.addTypeMapping('log', 'Balanced.Log');
+Balanced.TypeMappings.addTypeMapping('log_search', 'Balanced.Log');

@@ -1,5 +1,5 @@
 Balanced.Hold = Balanced.Transaction.extend({
-    source: Balanced.Model.belongsTo('Balanced.FundingInstrument', 'source'),
+    source: Balanced.Model.belongsTo('source', 'Balanced.Card'),
 
     type_name: function () {
         return "Hold";

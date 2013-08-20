@@ -1,19 +1,19 @@
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
-    credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
-    debits: Balanced.Model.hasMany('Balanced.Debit', 'debits_uri'),
-    refunds: Balanced.Model.hasMany('Balanced.Refund', 'refunds_uri'),
-    holds: Balanced.Model.hasMany('Balanced.Hold', 'holds_uri'),
-    transactions: Balanced.Model.hasMany('Balanced.Transaction', 'transactions_uri'),
-    callbacks: Balanced.Model.hasMany('Balanced.Callback', 'callbacks_uri'),
+    credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
+    debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
+    refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
+    holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
+    transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
+    callbacks: Balanced.Model.hasMany('callbacks', 'Balanced.Callback'),
 
-    funding_instruments: Balanced.Model.hasMany('Balanced.FundingInstrument', 'funding_instruments_uri'),
-    bank_accounts: Balanced.Model.hasMany('Balanced.BankAccount', 'bank_accounts_uri'),
-    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
+    funding_instruments: Balanced.Model.hasMany('funding_instruments', 'Balanced.FundingInstrument'),
+    bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
+    cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
 
-    owner_account: Balanced.Model.belongsTo('Balanced.Account', 'owner_account'),
-    owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer'),
+    owner_account: Balanced.Model.belongsTo('owner_account', 'Balanced.Account'),
+    owner_customer: Balanced.Model.belongsTo('owner_customer', 'Balanced.Customer'),
 
-    customers: Balanced.Model.hasMany('Balanced.Customer', 'customers_uri'),
+    customers: Balanced.Model.hasMany('customers', 'Balanced.Customer'),
 
     callbacks_uri: function () {
         return this.get('uri') + '/callbacks';
