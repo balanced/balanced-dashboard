@@ -1,0 +1,16 @@
+<div class="modal hide">
+    <form {{action "save" on="submit"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Reverse Credit</h2>
+    </div>
+    <div class="modal-body">
+        {{ partial "modals/modalErrors" }}
+        <span class="label7a">A credit reversal will take 4-5 business days to process. The reversal status will update to "succeeded" or "failed".</span>
+    </div>
+    <div class="modal-footer">
+        {{view Balanced.ModalActionButtonsView submitTitle="Reverse" submittingTitle="Reversing..."}}
+    </div>
+    </form>
+</div>
+<a class="btn" {{action open}}>Reverse</a>

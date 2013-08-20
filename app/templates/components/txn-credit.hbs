@@ -8,7 +8,7 @@
         <span class="transaction-description subhead2d">{{titleCase credit.status}}: ${{credit.amount_dollars}}</span>
       </div>
       <div class="span4 border-adjust buttons">
-        <a class="btn" {{action reverse}}>Reverse</a>
+        {{reverse-credit-modal credit=credit}}
       </div>
     </div>
   </div>

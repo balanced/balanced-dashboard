@@ -52,6 +52,7 @@ require('app/models/verification');
 require('app/models/production_access_application');
 require('app/models/initial_deposit');
 require('app/models/log');
+require('app/models/reversal');
 
 require('app/lib/auth');
 
@@ -150,10 +151,12 @@ require('app/components/txn_funding_instrument');
 require('app/components/txn_hold');
 require('app/components/txn_debit');
 require('app/components/txn_refund');
+require('app/components/txn_credit');
 require('app/components/capture_hold_modal');
 require('app/components/void_hold_modal');
 require('app/components/refund_debit_modal');
 require('app/components/edit_transaction_modal');
+require('app/components/reverse_credit_modal');
 
 /*
  * States (i.e. Routes)
