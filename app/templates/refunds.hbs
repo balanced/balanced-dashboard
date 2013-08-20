@@ -21,8 +21,8 @@
   {{txn-customer customer=customer}}
 
   <div class="transaction-details">
-    <!-- TODO - should probably show the current refund first -->
-    {{#each refund in debit.refunds}}
+    {{txn-refund refund=model}}
+    {{#each refund in refunds_without_current}}
       {{txn-refund refund=refund}}
     {{/each}}
     {{txn-debit debit=debit}}

@@ -153,6 +153,7 @@ require('app/components/txn_refund');
 require('app/components/capture_hold_modal');
 require('app/components/void_hold_modal');
 require('app/components/refund_debit_modal');
+require('app/components/edit_transaction_modal');
 
 /*
  * States (i.e. Routes)

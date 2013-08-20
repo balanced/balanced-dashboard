@@ -18,10 +18,10 @@
         <div class="row-fluid">
           <div class="span13">
             <section class="transaction-info">
-              <form class="form-horizontal edit-inline">
+              <div class="form-horizontal key-value-display">
                 <header>
                   <h3>Refund
-                    <a href="#" class="edit" {{action edit}}>Edit</a>
+                    {{edit-transaction-modal transaction=refund}}
                   </h3>
                 </header>
                 <div>
@@ -50,7 +50,7 @@
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </section>
 
             {{txn-funding-instrument funding_instrument=refund.source}}
