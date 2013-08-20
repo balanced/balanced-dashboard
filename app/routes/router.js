@@ -159,7 +159,7 @@ require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/initial_deposit');
 require('app/routes/marketplaces/invoices');
 require('app/routes/marketplaces/logs');
-require('app/routes/marketplaces/show');
+require('app/routes/marketplaces/marketplace');
 require('app/routes/marketplaces/transactions');
 require('app/routes/marketplaces/activity');
 require('app/routes/marketplaces/settings');

@@ -12,5 +12,20 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
         this._super(controller, model);
 
         Balanced.Utils.setCurrentMarketplace(model);
+    },
+
+    events: {
+        submitRefundDebit: function(refund) {
+            var self = this;
+            refund.create().then(function (refund) {
+                self.transitionTo('refunds', refund);
+            });
+        },
+        submitCaptureHold: function(debit) {
+            var self = this;
+            debit.create().then(function (debit) {
+                self.transitionTo('debits', debit);
+            });
+        }
     }
 });

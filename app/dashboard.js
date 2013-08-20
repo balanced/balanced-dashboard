@@ -148,8 +148,11 @@ require('app/controllers/refunds');
  */
 require('app/components/txn_funding_instrument');
 require('app/components/txn_hold');
+require('app/components/txn_debit');
+require('app/components/txn_refund');
 require('app/components/capture_hold_modal');
 require('app/components/void_hold_modal');
+require('app/components/refund_debit_modal');
 
 /*
  * States (i.e. Routes)

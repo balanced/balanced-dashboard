@@ -13,14 +13,5 @@ Balanced.HoldsRoute = Balanced.AuthRoute.extend({
 			var holdUri = Balanced.Utils.combineUri(marketplace.get('holds_uri'), params.hold_id);
 			return Balanced.Hold.find(holdUri);
 		});
-	},
-
-	events: {
-		submitCaptureHold: function(debit) {
-			var self = this;
-			debit.create().then(function (debit) {
-				self.transitionTo('debits', debit);
-			});
-		}
 	}
 });
