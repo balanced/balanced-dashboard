@@ -40,7 +40,7 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 
         credit.save().then(function (credit) {
             $('#pay-seller').modal('hide');
-            self.transitionToRoute('credits', credit);
+            self.get('controller').transitionToRoute('credits', credit);
         });
     }
 });
