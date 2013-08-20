@@ -1,8 +1,3 @@
-var model = function () {
-    var uri = ENV.BALANCED.WWW + document.location.hash.substr(1) + Balanced.MigrationUtils.embeddedQueryString();
-    return uri;
-};
-
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Accounts',
 

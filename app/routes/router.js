@@ -154,7 +154,6 @@ require('app/routes/start');
 
 require('app/routes/marketplaces/accounts');
 require('app/routes/marketplaces/apply');
-require('app/routes/marketplaces/funding_instruments');
 require('app/routes/marketplaces/index');
 require('app/routes/marketplaces/initial_deposit');
 require('app/routes/marketplaces/invoices');
