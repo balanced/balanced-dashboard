@@ -471,6 +471,8 @@ Balanced.Utils = {
             case Balanced.Log:
                 route_name = 'logs.log';
                 break;
+            case Ember.Deferred:
+                return;
             default:
                 throw new Ember.Error('not supported model {0}'.format(obj));
         }

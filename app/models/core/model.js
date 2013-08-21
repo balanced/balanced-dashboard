@@ -280,7 +280,6 @@ Balanced.Model.reopenClass({
         var embeddedProperty = JSON_PROPERTY_KEY + '.' + propertyName;
         var uriProperty = propertyName + URI_POSTFIX;
         var fullUriProperty = JSON_PROPERTY_KEY + '.' + propertyName + URI_POSTFIX;
-        var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
 
         return Ember.computed(function () {
             var typeClass = Balanced.TypeMappings.typeClass(defaultType);
@@ -294,13 +293,23 @@ Balanced.Model.reopenClass({
                 var metadataTypeClass = this._extractTypeClassFromUrisMetadata(uriProperty);
                 if(metadataTypeClass) {
                     typeClass = metadataTypeClass;
-                }
+                    return typeClass.find(uriPropertyValue);
+                } else {
+                    // if we can't figure out what type it is from the
+                    // metadata, fetch it and set the result as an embedded
+                    // property in our JSON. That'll force an update of the
+                    // association
+                    var self = this;
+                    Balanced.Adapter.get(defaultType, uriPropertyValue, function (json) {
+                        self.set(embeddedProperty, json);
+                    });
 
-                return typeClass.find(uriPropertyValue);
+                    return embeddedPropertyValue;
+                }
             } else {
                 return embeddedPropertyValue;
             }
-        }).property(embeddedProperty, fullUriProperty, uriMetadataProperty + ".@each");
+        }).property(embeddedProperty, fullUriProperty);
     },
 
     /*
@@ -362,6 +371,8 @@ Balanced.Model.reopenClass({
             if (mappedTypeClass) {
                 objClass = mappedTypeClass;
             }
+        } else {
+            Ember.Logger.warn("No _type field found on URI: " + json.uri);
         }
         var typedObj = objClass.create();
         typedObj.set('isNew', false);
