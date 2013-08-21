@@ -12,9 +12,12 @@
                 </span>
             </div>
 
-            <div class="span4 buttons single-button">
+            <div {{bindAttr class=":span4 :buttons Balanced.Auth.user.allow_hold_card::single-button"}}>
                 {{#if customer}}
-                <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                    {{#if Balanced.Auth.user.allow_hold_card}}
+                        <a class="btn hold-button" {{action openHoldCardModal}}>Hold</a>
+                    {{/if}}
+                    <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
                 {{/if}}
             </div>
         </div>
@@ -104,3 +107,4 @@
 {{/if}}
 
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
+{{view Balanced.HoldCardModalView funding_instrumentBinding=model}}
