@@ -3,12 +3,20 @@ Balanced.Hold = Balanced.Transaction.extend({
     debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
 
     hold_status: function() {
-        return this.get('is_void') ? "void" : "created";
-    }.property('is_void'),
+        if(this.get('debit')) {
+            return 'captured';
+        } else if(this.get('is_void')) {
+            return "void";
+        } else if(Date.parseISO8601(this.get('expires_at')) < new Date()) {
+            return "expired";
+        } else {
+            return "created";
+        }
+    }.property('debit', 'is_void', 'expires_at'),
 
     can_void_or_capture: function() {
-        return this.get('hold_status') === 'created' && !this.get('debit');
-    }.property('hold_status', 'debit'),
+        return this.get('hold_status') === 'created';
+    }.property('hold_status'),
 
     type_name: function () {
         return "Hold";
