@@ -1,5 +1,5 @@
 Balanced.Reversal = Balanced.Transaction.extend({
-    credit: Balanced.Model.belongsTo('Balanced.Credit', 'credit'),
+    credit: Balanced.Model.belongsTo('credit', 'Balanced.Credit'),
 
     type_name: function () {
         return "Reversal";
