@@ -94,6 +94,7 @@ Balanced.Router.map(function () {
             this.resource('cards', { path: '/cards/:card_id'});
 
             this.resource('credits', { path: '/credits/:credit_id'});
+            this.resource('reversals', { path: '/reversals/:reversal_id'});
             this.resource('debits', { path: '/debits/:debit_id'});
             this.resource('holds', { path: '/holds/:hold_id'});
             this.resource('refunds', { path: '/refunds/:refund_id'});
@@ -170,3 +171,4 @@ require('app/routes/credits');
 require('app/routes/debits');
 require('app/routes/holds');
 require('app/routes/refunds');
+require('app/routes/reversals');

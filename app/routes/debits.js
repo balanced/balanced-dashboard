@@ -1,9 +1,3 @@
-Balanced.DebitsIndexRoute = Balanced.AuthRoute.extend({
-    redirect: function () {
-        this.transitionTo('activity.transactions');
-    }
-});
-
 Balanced.DebitsRoute = Balanced.AuthRoute.extend({
 	title: 'Debit',
 

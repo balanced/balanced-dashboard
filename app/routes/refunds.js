@@ -1,9 +1,3 @@
-Balanced.RefundsIndexRoute = Balanced.AuthRoute.extend({
-    redirect: function () {
-        this.transitionTo('activity.transactions');
-    }
-});
-
 Balanced.RefundsRoute = Balanced.AuthRoute.extend({
 	title: 'Refund',
 

@@ -1,11 +1,11 @@
-<h1 class="page-title">Credit</h1>
+<h1 class="page-title">Reversal</h1>
 
-<div id="credit" class="transaction">
+<div id="reversal" class="transaction">
 
   <div class="main-header transactions-header">
     <div class="row">
       <div class="span2 label">
-        <div class="icon">Credit</div>
+        <div class="icon">Reversal</div>
       </div>
         <div class="span14 title">
         <span class="nav2d">
@@ -21,9 +21,7 @@
   {{txn-customer customer=customer}}
 
   <div class="transaction-details">
-    {{#each reversal in model.reversals}}
-      {{txn-reversal reversal=reversal}}
-    {{/each}}
-    {{txn-credit credit=model}}
+    {{txn-reversal reversal=model}}
+    {{txn-credit credit=credit}}
   </div>
 </div>

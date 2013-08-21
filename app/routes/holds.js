@@ -1,9 +1,3 @@
-Balanced.HoldsIndexRoute = Balanced.AuthRoute.extend({
-	redirect: function () {
-		this.transitionTo('activity.transactions');
-	}
-});
-
 Balanced.HoldsRoute = Balanced.AuthRoute.extend({
 	title: 'Hold',
 

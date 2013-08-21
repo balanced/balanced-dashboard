@@ -10,6 +10,15 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
     is_bank_account: true,
 
+    last_four: function() {
+        var accountNumber = this.get('account_number');
+        if(!accountNumber || accountNumber.length < 5) {
+            return accountNumber;
+        } else {
+            return accountNumber.substr(accountNumber.length-4,4)
+        }
+    }.property('account_number'),
+
     description: function () {
         if (this.get('bank_name')) {
             return '{0} ({1})'.format(

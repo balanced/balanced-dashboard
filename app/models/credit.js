@@ -1,5 +1,6 @@
 Balanced.Credit = Balanced.Transaction.extend({
     bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
+    reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
     type_name: function () {
         return "Credit";
@@ -8,6 +9,10 @@ Balanced.Credit = Balanced.Transaction.extend({
     funding_instrument_description: function () {
         return this.get('bank_account.description');
     }.property('bank_account.description'),
+
+    can_reverse: function() {
+        return this.get('reversals.isLoaded') && this.get('reversals.content') && this.get('reversals.content').length === 0;
+    }.property('reversals.@each'),
 
     serialize: function (json) {
         this._super(json);
