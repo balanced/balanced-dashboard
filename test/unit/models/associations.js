@@ -354,6 +354,11 @@ test("belongsTo associations have promises that resolve when they're loaded", fu
 
     Balanced.Adapter.addFixtures([
         {
+            _uris: {
+                my_field_uri: {
+                    _type: 'test'
+                }
+            },
             uri: '/v1/testmodel2s/2',
             my_field_uri: '/v1/testobjects/1'
         }
@@ -384,7 +389,14 @@ test('belongsTo association promises resolve async', function (assert) {
             assert.equal(belongsToModel.get('basic_field'), 123);
         });
 
-        t.set('__json', {my_field_uri: '/v1/testobjects/1'});
+        t.set('__json', {
+            _uris: {
+                my_field_uri: {
+                    _type: 'test'
+                }
+            },
+            my_field_uri: '/v1/testobjects/1'
+        });
         t.trigger('didLoad');
     });
 });
@@ -666,4 +678,36 @@ test('hasMany URIs can be specified in the model object, not just the JSON', fun
     assert.equal(t.get('my_has_many_field').get('length'), 2);
     assert.equal(t.get('my_has_many_field').objectAt(0).get('derived_field'), 124);
     assert.equal(t.get('my_has_many_field').objectAt(1).get('derived_field'), 235);
+});
+
+asyncTest('belongsTo URI associations that are missing the metadata fetch to determine the correct type', function (assert) {
+    var TestModel2 = Balanced.Model.extend({
+        my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
+    });
+
+    Balanced.Adapter.addFixtures([
+        {
+            uri: '/v1/testmodel2s/2',
+            my_belongs_to_field_uri: '/v1/belongs_to_fields/1'
+        },
+        {
+            uri: '/v1/belongs_to_fields/1',
+            basic_field: 456,
+            _type: 'test'
+        }
+    ]);
+
+    Balanced.Adapter.asyncCallbacks = true;
+    expect(2);
+
+    var t;
+    Testing.execWithTimeoutPromise(function() {
+        t = TestModel2.find('/v1/testmodel2s/2');
+    })().then(Testing.execWithTimeoutPromise(function() {
+        t.get('my_belongs_to_field');
+    })).then(Testing.execWithTimeoutPromise(function() {
+        assert.equal(t.get('my_belongs_to_field.basic_field'), 456);
+        assert.equal(t.get('my_belongs_to_field.derived_field'), 457);
+        start();
+    }));
 });
