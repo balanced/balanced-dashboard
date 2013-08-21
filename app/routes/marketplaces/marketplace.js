@@ -17,17 +17,17 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
     events: {
         submitRefundDebit: function(refund) {
             var self = this;
-            refund.create().then(function (refund) {
+            refund.save().then(function (refund) {
                 self.transitionTo('refunds', refund);
             });
         },
         submitReverseCredit: function(reversal) {
             var self = this;
-            reversal.create();
+            reversal.save();
         },
         submitCaptureHold: function(debit) {
             var self = this;
-            debit.create().then(function (debit) {
+            debit.save().then(function (debit) {
                 self.transitionTo('debits', debit);
             });
         }

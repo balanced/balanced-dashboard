@@ -21,7 +21,7 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 
         var transaction = this.get('model');
         var self = this;
-        transaction.update().then(function() {
+        transaction.save().then(function() {
             self.get('transaction').updateFromModel(transaction);
             self.$('.modal').modal('hide');
         });

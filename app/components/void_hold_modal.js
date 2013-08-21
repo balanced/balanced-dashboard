@@ -14,6 +14,6 @@ Balanced.VoidHoldModalComponent = Ember.Component.extend({
 
         var hold = this.get('hold');
         hold.set('is_void', true);
-        hold.update();
+        hold.save();
     }
 });
