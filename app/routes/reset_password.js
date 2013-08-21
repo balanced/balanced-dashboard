@@ -10,6 +10,7 @@ Balanced.ResetPasswordRoute = Balanced.Route.extend({
     model: function (params) {
         var rp = Balanced.ResetPassword.create({
             isLoaded: true,
+            isNew: false,
             token: params.token
         });
 
