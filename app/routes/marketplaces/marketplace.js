@@ -23,7 +23,9 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
         },
         submitReverseCredit: function(reversal) {
             var self = this;
-            reversal.save();
+            reversal.save().then(function (reversal) {
+                self.transitionTo('reversals', reversal);
+            });
         },
         submitCaptureHold: function(debit) {
             var self = this;
