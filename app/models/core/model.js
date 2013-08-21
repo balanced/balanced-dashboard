@@ -36,7 +36,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
     },
 
     //  properties which are not echoed back to the server
-    privateProperties: ['id', 'uri'],
+    privateProperties: ['id', 'uri', 'validationErrors'],
 
     date_formats: {
         short: '%e %b \'%y %l:%M %p'
