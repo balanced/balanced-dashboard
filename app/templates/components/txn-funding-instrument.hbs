@@ -1,8 +1,11 @@
 <section class="funding-instrument-info">
   <form class="form-horizontal edit-inline">
     <header>
-      <h3>{{funding_instrument.type_name}}: {{#linkToEntity funding_instrument}}{{funding_instrument.description}}{{/linkToEntity}}</a>
+      <h3>
+        {{#if funding_instrument}}
+        {{funding_instrument.type_name}}: {{#linkToEntity funding_instrument}}{{funding_instrument.description}}{{/linkToEntity}}
         <a href="#" {{bindAttr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
+        {{/if}}
       </h3>
     </header>
     {{#if show_funding_instrument_details}}
