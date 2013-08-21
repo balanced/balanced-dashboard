@@ -4,11 +4,11 @@ Balanced.RefundsController = Balanced.ObjectController.extend(
         needs: ['marketplace'],
 
 		refunds_without_current: function() {
+			var currentModelId = this.get('id');
 			var refunds = this.get('debit.refunds.content');
-			var self = this;
 			return _.filter(refunds, function(refund) {
-				return refund.get('uri') !== self.get('model.uri');
+				return refund.get('id') !== currentModelId;
 			});
-		}.property('debit.refunds.@each')
+		}.property('id', 'debit.refunds.@each')
     }
 );
