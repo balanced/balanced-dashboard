@@ -316,7 +316,8 @@ Balanced.Utils = {
         // TODO: TAKE THIS OUT when we've moved to oAuth
         Balanced.currentMarketplace = marketplace;
         if (marketplace) {
-            Balanced.COOKIE.set(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
+            $.cookie(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
+                path: '/',
                 expires: Balanced.TIME.THREE_YEARS
             });
         }

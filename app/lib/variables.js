@@ -1,12 +1,12 @@
 Balanced.COOKIE = {
+    // cookies set by the Ember dashboard app
+    EMBER_AUTH_TOKEN: 'ember-auth-rememberable',
     MARKETPLACE_URI: 'mru',
     API_KEY_SECRET: 'apiKeySecret',
-    EMBER_AUTH_TOKEN: 'ember-auth-rememberable',
+
+    // read only (set by the auth proxy)
     CSRF_TOKEN: 'csrftoken',
-    SESSION: 'session',
-    set: function (name, value, options) {
-        $.cookie(name, value, options);
-    }
+    SESSION: 'session'
 };
 
 Balanced.TIME = {

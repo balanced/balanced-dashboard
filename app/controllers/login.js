@@ -35,7 +35,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
     },
 
     signIn: function () {
-        Balanced.Auth.destroyGuestUser();
+        Balanced.Auth.forgetLogin();
         Balanced.Auth.signIn({
             data: {
                 email_address: this.get('email'),

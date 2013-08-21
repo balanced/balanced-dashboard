@@ -30,15 +30,20 @@ Balanced.Auth = (function () {
     auth.rememberLogin = function (token) {
         $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
             expires: 1,
-            path: '/',
-            domain: 'balancedpayments.com'
+            path: '/'
         });
     };
 
     auth.forgetLogin = function () {
+        // Removing from the root domain since we were setting it on the root
+        // domain for a while. This line can be removed after Aug 23, 2013
         $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
             path: '/',
             domain: 'balancedpayments.com'
+        });
+
+        $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
+            path: '/'
         });
         auth.destroyGuestUser();
     };
@@ -75,7 +80,9 @@ Balanced.Auth = (function () {
     }
 
     auth.storeGuestAPIKey = function (apiKeySecret) {
-        $.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret);
+        $.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
+            path: '/'
+        });
         loginGuestUser(apiKeySecret);
     };
 
