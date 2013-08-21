@@ -15,11 +15,12 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 
         if(originalVerification) {
             var newVerification = Ember.copy(originalVerification, true);
+            newVerification.set('isNew', false);
             after(newVerification);
         } else {
             Balanced.Verification.create({
                 uri: bankAccount.get('verifications').uri
-            }).create().then(after);
+            }).save().then(after);
         }
     },
 
@@ -31,9 +32,9 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
         var self = this;
 
         var verification = this.get('model');
-        verification.update().then(function () {
-            self.get('bank_account').refresh();
-            self.get('bank_account.verification').refresh();
+        verification.save().then(function () {
+            self.get('bank_account').reload();
+            self.get('bank_account.verification').reload();
             $('#verify-bank-account').modal('hide');
         });
     }

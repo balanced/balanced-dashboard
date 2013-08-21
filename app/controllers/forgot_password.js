@@ -21,7 +21,7 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
                 self.set('hasError', true);
             });
 
-            model.create().then(function () {
+            model.save().then(function () {
                 self.set('email_address', '');
                 self.set('submitted', true);
             });

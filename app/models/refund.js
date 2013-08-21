@@ -1,5 +1,5 @@
 Balanced.Refund = Balanced.Transaction.extend({
-    debit: Balanced.Model.belongsTo('Balanced.Debit', 'debit'),
+    debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
 
     type_name: function () {
         return "Refund";

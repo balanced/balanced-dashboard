@@ -1,6 +1,6 @@
 Balanced.User = Balanced.Model.extend({
 
-    user_marketplaces: Balanced.Model.hasMany('Balanced.UserMarketplace', 'user_marketplaces'),
+    user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
     user_marketplace_for_uri: function (uri) {
         return _.find(this.get('user_marketplaces').get('content'), function (userMarketplace) {

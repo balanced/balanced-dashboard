@@ -1,5 +1,5 @@
 Balanced.Debit = Balanced.Transaction.extend({
-    source: Balanced.Model.belongsTo('Balanced.FundingInstrument', 'source'),
+    source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
 
     type_name: function () {
         return "Debit";

@@ -8,7 +8,11 @@ var typeMapping = Ember.Object.extend({
     },
 
     classForType: function (typeCode) {
-        return this.typeClass(this.typesMap[typeCode]);
+        var mappedType = this.typesMap[typeCode];
+        if(!mappedType) {
+            Ember.Logger.warn("Couldn't map typeCode {0}".format(typeCode));
+        }
+        return this.typeClass(mappedType);
     },
 
     typeClass: function (type) {

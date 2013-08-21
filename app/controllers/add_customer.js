@@ -19,7 +19,7 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
             }
         }
 
-        customer.create().then(function(customer) {
+        customer.save().then(function(customer) {
             self.transitionToRoute('customer', customer);
         });
     },

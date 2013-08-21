@@ -25,8 +25,8 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
         // this isn't an ember widget, so have to grab it ourselves
         bankAccount.set('type', this.$('form input[name=account_type]').val());
 
-        bankAccount.create().then(function () {
-            self.get('customer.bank_accounts').refresh();
+        bankAccount.save().then(function () {
+            self.get('customer.bank_accounts').reload();
             $('#add-bank-account').modal('hide');
         });
     }

@@ -33,7 +33,7 @@ Balanced.DeleteMarketplaceModalView = Balanced.View.extend({
             $('#delete-marketplace').modal('hide');
 
             var user = Balanced.Auth.get('user');
-            user.refresh();
+            user.reload();
         });
     }
 });

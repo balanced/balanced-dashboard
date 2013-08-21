@@ -41,7 +41,7 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
         credit.set('amount', cents);
 
         var self = this;
-        credit.create().then(function (credit) {
+        credit.save().then(function (credit) {
             $('#credit-bank-account').modal('hide');
         });
     }

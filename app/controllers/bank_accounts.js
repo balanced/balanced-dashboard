@@ -15,16 +15,16 @@ Balanced.BankAccountController = Balanced.ObjectController.extend(
         baseClassSelector: "#bank-account",
 
         init: function () {
-            Balanced.Model.Events.on('didCreate', this, this.refreshVerifications);
-            Balanced.Model.Events.on('didUpdate', this, this.refreshVerifications);
+            Balanced.Model.Events.on('didCreate', this, this.reloadVerifications);
+            Balanced.Model.Events.on('didUpdate', this, this.reloadVerifications);
         },
 
-        refreshVerifications: function (object) {
+        reloadVerifications: function (object) {
             if (Balanced.Verification.prototype.isPrototypeOf(object) && this.get('content')) {
                 var self = this;
-                this.get('content').refresh().then(function () {
-                    self.get('verification').refresh();
-                    self.get('verifications').refresh();
+                this.get('content').reload().then(function () {
+                    self.get('verification').reload();
+                    self.get('verifications').reload();
                 });
             }
         },

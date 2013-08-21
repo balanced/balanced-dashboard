@@ -18,7 +18,7 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
             var self = this;
             Balanced.Model.Events.on('didCreate', function (object) {
                 if (Balanced.Transaction.prototype.isPrototypeOf(object)) {
-                    self.refresh();
+                    self.reload();
                 }
             });
         },

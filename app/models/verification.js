@@ -18,4 +18,4 @@ Balanced.Verification = Balanced.Model.extend({
     }.property('state')
 });
 
-Balanced.TypeMappings.addTypeMapping('verification', 'Balanced.Verification');
+Balanced.TypeMappings.addTypeMapping('bank_account_authentication', 'Balanced.Verification');

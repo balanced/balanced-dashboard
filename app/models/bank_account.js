@@ -1,8 +1,8 @@
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
     uri: '/v1/bank_accounts',
 
-    verifications: Balanced.Model.hasMany('Balanced.Verification', 'verifications_uri'),
-    verification: Balanced.Model.belongsTo('Balanced.Verification', 'verification_uri'),
+    verifications: Balanced.Model.hasMany('verifications', 'Balanced.Verification'),
+    verification: Balanced.Model.belongsTo('verification', 'Balanced.Verification'),
 
     type_name: function () {
         return 'Bank Account';

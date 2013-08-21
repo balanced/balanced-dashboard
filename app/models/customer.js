@@ -1,11 +1,11 @@
 Balanced.Customer = Balanced.Model.extend({
-    bank_accounts: Balanced.Model.hasMany('Balanced.BankAccount', 'bank_accounts_uri'),
-    cards: Balanced.Model.hasMany('Balanced.Card', 'cards_uri'),
-    transactions: Balanced.Model.hasMany('Balanced.Transaction', 'transactions_uri'),
-    debits: Balanced.Model.hasMany('Balanced.Debit', 'debits_uri'),
-    credits: Balanced.Model.hasMany('Balanced.Credit', 'credits_uri'),
-    holds: Balanced.Model.hasMany('Balanced.Hold', 'holds_uri'),
-    refunds: Balanced.Model.hasMany('Balanced.Refund', 'refunds_uri'),
+    bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
+    cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
+    transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
+    debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
+    credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
+    holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
+    refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 
     debitable_bank_accounts: function () {
         var bank_accounts = this.get('bank_accounts');

@@ -3,6 +3,7 @@ Balanced.EditOwnerInfoModalView = Balanced.View.extend({
 
     open: function () {
         var customer = Ember.copy(this.get('content'), true);
+        customer.set('isNew', false);
         customer.trigger('didCreate');
         this.set('model', customer);
         $('#edit-owner-info').modal('show');
@@ -16,7 +17,7 @@ Balanced.EditOwnerInfoModalView = Balanced.View.extend({
 
         var customer = this.get('model');
 
-        customer.update().then(function () {
+        customer.save().then(function () {
             self.content.updateFromModel(customer);
             $('#edit-owner-info').modal('hide');
         });

@@ -46,7 +46,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
         debit.set('amount', cents);
 
         var self = this;
-        debit.create().then(function (credit) {
+        debit.save().then(function (credit) {
             $('#debit-customer').modal('hide');
         });
     }

@@ -1,5 +1,5 @@
 Balanced.Credit = Balanced.Transaction.extend({
-    bank_account: Balanced.Model.belongsTo('Balanced.BankAccount', 'bank_account'),
+    bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
 
     type_name: function () {
         return "Credit";

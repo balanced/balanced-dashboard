@@ -21,7 +21,7 @@ Balanced.MarketplacesRoute = Balanced.AuthRoute.extend({
                 return;
             }
             var guestMarketplace = Balanced.Marketplace.create({uri: marketplaces.items[0].uri});
-            guestMarketplace.refresh();
+            guestMarketplace.reload();
             guestUser.get('marketplaces').pushObject(guestMarketplace);
         });
 
@@ -30,7 +30,7 @@ Balanced.MarketplacesRoute = Balanced.AuthRoute.extend({
 
 Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
     pageTitle: 'Marketplaces',
-    
+
     setupController: function () {
         this.controllerFor('marketplace').set('content', null);
     }

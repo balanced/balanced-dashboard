@@ -8,6 +8,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 
     open: function () {
         var customer = Ember.copy(this.get('customer'), true);
+        customer.set('isNew', false);
         customer.trigger('didCreate');
 
         this.set('model', customer);
@@ -37,8 +38,8 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
             customer.set('email', null);
         }
 
-        customer.update().then(function () {
-            self.get('customer').refresh();
+        customer.save().then(function () {
+            self.get('customer').reload();
             $('#edit-customer-info').modal('hide');
         });
     }

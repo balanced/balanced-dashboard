@@ -23,10 +23,10 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
             name: marketplaceName
         });
 
-        marketplace.create().then(function () {
+        marketplace.save().then(function () {
             self.set('isSubmitting', false);
             self.set('name', null);
-            Balanced.Auth.get('user').refresh();
+            Balanced.Auth.get('user').reload();
         }, function () {
             self.set('isSubmitting', false);
         });
