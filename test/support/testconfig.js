@@ -33,10 +33,6 @@ QUnit.testStart(function (test) {
             false);
     });
 
-    Ember.run(function () {
-        Balanced.advanceReadiness();
-    });
-
     Balanced.injectTestHelpers();
 
     window.Balanced.onLoad();
