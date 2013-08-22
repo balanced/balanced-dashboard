@@ -85,6 +85,7 @@ Balanced.Router.map(function () {
             this.resource('debits', { path: '/debits/:debit_id'});
             this.resource('holds', { path: '/holds/:hold_id'});
             this.resource('refunds', { path: '/refunds/:refund_id'});
+            this.resource('events', { path: '/events/:event_id'});
 
             makeNestedResource(this, 'logs', 'log');
 
@@ -161,5 +162,4 @@ require('app/routes/debits');
 require('app/routes/holds');
 require('app/routes/refunds');
 require('app/routes/reversals');
-require('app/routes/accounts');
-require('app/routes/invalid');
+require('app/routes/events');

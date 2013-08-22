@@ -22,7 +22,7 @@
       <div class="span2 border-adjust"></div>
       <div class="span18 border-adjust">
         <div class="row-fluid">
-          <div class="span16">
+          <div class="span12">
             <section class="transaction-info">
               <div class="key-value-display">
                 <header>
@@ -61,8 +61,8 @@
 
             {{txn-funding-instrument funding_instrument=hold.source}}
           </div>
-          <div class="span10">
-
+          <div class="span13">
+            {{view Balanced.EventsSideBarView contentBinding=hold}}
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@
 			<div class="span2 border-adjust"></div>
 			<div class="span18 border-adjust">
 				<div class="row-fluid">
-					<div class="span16">
+					<div class="span12">
 						<section class="transaction-info">
 							<div class="key-value-display">
 								<header>
@@ -28,9 +28,11 @@
 									</h3>
 								</header>
 								<div>
-									<div class="key-value-row">
-										<label class="key">Created</label>
-										<span class="value">{{humanReadableDateLong debit.created_at }}</span>
+									<div class="control-group">
+										<label class="control-label">Created</label>
+										<div class="controls">
+											<span class="inline-label">{{humanReadableDateLong debit.created_at }}</span>
+										</div>	
 									</div>
 									<div class="key-value-row">
 										<label class="key">Description</label>
@@ -55,11 +57,10 @@
 								</div>
 							</div>
 						</section>
-
 						{{txn-funding-instrument funding_instrument=debit.source}}
 					</div>
-					<div class="span10">
-
+					<div class="span12">
+					  {{view Balanced.EventsSideBarView contentBinding=debit}}
 					</div>
 				</div>
 			</div>

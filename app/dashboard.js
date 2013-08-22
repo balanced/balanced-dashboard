@@ -47,12 +47,14 @@ require('app/models/bank_account');
 require('app/models/card');
 require('app/models/search_query');
 require('app/models/callback');
+require('app/models/event_callback');
 require('app/models/customer');
 require('app/models/verification');
 require('app/models/production_access_application');
 require('app/models/initial_deposit');
 require('app/models/log');
 require('app/models/reversal');
+require('app/models/event');
 
 require('app/lib/auth');
 
@@ -106,6 +108,8 @@ require('app/views/funding_instrument/credit_bank_account_modal');
 require('app/views/funding_instrument/verify_bank_account_modal');
 require('app/views/funding_instrument/confirm_verification_modal');
 require('app/views/funding_instrument/hold_card_modal');
+require('app/views/events');
+require('app/views/events_sidebar');
 
 /*
  * Controller layer.
@@ -143,6 +147,7 @@ require('app/controllers/credits');
 require('app/controllers/debits');
 require('app/controllers/holds');
 require('app/controllers/refunds');
+require('app/controllers/events');
 
 /*
  * Components
