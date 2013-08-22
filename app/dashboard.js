@@ -93,7 +93,6 @@ require('app/views/marketplace/delete_callback_modal');
 require('app/views/marketplace/delete_card_modal');
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/edit_owner_info_modal');
-require('app/views/marketplace/verify_bank_account_modal');
 require('app/views/marketplace/withdraw_funds_modal');
 require('app/views/marketplaces/add_existing_marketplace');
 require('app/views/marketplaces/add_test_marketplace');
