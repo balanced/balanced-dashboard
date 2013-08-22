@@ -545,7 +545,7 @@ module.exports = function (grunt) {
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['_devBuild', 'watch']);
+    grunt.registerTask('default', ['_devBuild', 'connect', 'watch']);
 
     /*
      Builds for production.
