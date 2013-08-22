@@ -12,11 +12,13 @@ module('Holds', {
 	}
 });
 
-test('can visit page', function (assert) {
-	Ember.run(function() {
-		assert.notEqual($('#content h1').text().indexOf('Hold'), -1, 'Title is not correct');
-		assert.equal($(".transaction-description").text().trim(), 'Created: $42.00');
-	});
+asyncTest('can visit page', function (assert) {
+    expect(2);
+    Testing.execWithTimeoutPromise(function() {
+        assert.notEqual($('#content h1').text().indexOf('Hold'), -1, 'Title is not correct');
+        assert.equal($(".transaction-description").text().trim(), 'Created: $42.00');
+        start();
+    })();
 });
 
 asyncTest('can void hold', function (assert) {

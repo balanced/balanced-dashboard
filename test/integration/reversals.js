@@ -12,11 +12,13 @@ module('Reversals', {
 	}
 });
 
-test('can visit page', function (assert) {
-	Ember.run(function() {
+asyncTest('can visit page', function (assert) {
+    expect(2);
+	Testing.execWithTimeoutPromise(function() {
 		assert.notEqual($('#content h1').text().indexOf('Reversal'), -1, 'Title is not correct');
 		assert.equal($(".reversal .transaction-description").text().trim(), 'Created: $25.00');
-	});
+        start();
+	})();
 });
 
 asyncTest('can edit reversal', function (assert) {
