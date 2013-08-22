@@ -26,6 +26,11 @@ asyncTest('can void hold', function (assert) {
 
 	Testing.execWithTimeoutPromise(function() {
         $(".void-hold-button").click();
+
+        $('#void-hold .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('#void-hold .modal-footer button[name="modal-submit"]').click();
         $('#void-hold .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);
@@ -47,6 +52,10 @@ asyncTest('can capture hold', function (assert) {
         $('#capture-hold .modal-body input[name="description"]').val("Test debit").trigger('keyup');
 
         $('#capture-hold .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('#capture-hold .modal-footer button[name="modal-submit"]').click();
+        $('#capture-hold .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Debit));
@@ -67,6 +76,10 @@ asyncTest('can edit hold', function (assert) {
 
         $('.edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
 
+        $('.edit-transaction.in .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('.edit-transaction.in .modal-footer button[name="modal-submit"]').click();
         $('.edit-transaction.in .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);

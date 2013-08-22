@@ -30,6 +30,10 @@ asyncTest('can refund debit', function (assert) {
         $('#refund-debit .modal-body input[name="dollar_amount"]').val("10").trigger('keyup');
 
         $('#refund-debit .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('#refund-debit .modal-footer button[name="modal-submit"]').click();
+        $('#refund-debit .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Refund));
@@ -49,6 +53,10 @@ asyncTest('can edit debit', function (assert) {
 
         $('.debit .edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
 
+        $('.debit .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('.debit .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
         $('.debit .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);

@@ -28,6 +28,10 @@ asyncTest('can reverse credit', function (assert) {
         $(".reverse-credit-button").click();
 
         $('#reverse-credit .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('#reverse-credit .modal-footer button[name="modal-submit"]').click();
+        $('#reverse-credit .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Reversal));
@@ -47,6 +51,10 @@ asyncTest('can edit credit', function (assert) {
 
         $('.credit .edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
 
+        $('.credit .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('.credit .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
         $('.credit .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);

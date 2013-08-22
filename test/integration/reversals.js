@@ -30,6 +30,10 @@ asyncTest('can edit reversal', function (assert) {
         $('.reversal .edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
 
         $('.reversal .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
+
+        // Click a few times to make sure we don't get multiple submissions
+        $('.reversal .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
+        $('.reversal .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Reversal));
