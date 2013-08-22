@@ -91,8 +91,12 @@ Balanced.Auth = (function () {
     };
 
     auth.destroyGuestUser = function () {
-        $.removeCookie(Balanced.COOKIE.API_KEY_SECRET);
-        $.removeCookie(Balanced.COOKIE.SESSION);
+        $.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
+            path: '/'
+        });
+        $.removeCookie(Balanced.COOKIE.SESSION, {
+            path: '/'
+        });
         Balanced.NET.loadCSRFToken();
         unsetAPIKey();
     };
