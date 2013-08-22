@@ -6,19 +6,21 @@
             <div class="span2 label">
                 <div {{bindAttr class=":icon :card-info"}}>Card</div>
             </div>
-            <div class="span14 title">
+            <div class="span10 title">
                 <span class="nav2d">
                     {{title_description}}
                 </span>
             </div>
 
-            <div {{bindAttr class=":span4 :buttons Balanced.Auth.user.allow_hold_card::single-button"}}>
-                {{#if customer}}
-                    {{#if Balanced.Auth.user.allow_hold_card}}
-                        <a class="btn hold-button" {{action openHoldCardModal}}>Hold</a>
+            <div class="span8 buttons">
+                <div class="buttons-container">
+                    {{#if customer}}
+                        {{#if Balanced.Auth.user.allow_hold_card}}
+                            <a class="btn hold-button" {{action openHoldCardModal}}>Hold</a>
+                        {{/if}}
+                        <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
                     {{/if}}
-                    <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
-                {{/if}}
+                </div>
             </div>
         </div>
     </div>

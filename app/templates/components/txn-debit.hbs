@@ -4,11 +4,13 @@
 			<div class="span2 border-adjust label">
 				<span class="subhead2d">Debit</span>
 			</div>
-			<div class="span14 title">
+			<div class="span10 title">
 				<span class="transaction-description subhead2d">{{titleCase debit.status}}: ${{debit.amount_dollars}}</span>
 			</div>
-			<div class="span4 border-adjust buttons">
-				{{refund-debit-modal debit=debit}}
+			<div class="span8 border-adjust buttons">
+				<div class="buttons-container">
+					{{refund-debit-modal debit=debit}}
+				</div>
 			</div>
 		</div>
 	</div>

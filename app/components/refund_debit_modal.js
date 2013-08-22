@@ -1,5 +1,6 @@
 Balanced.RefundDebitModalComponent = Ember.Component.extend({
     submitAction: 'submitRefundDebit',
+    classNames: ['modal-container'],
 
     willDestroyElement: function() {
         this.$('.modal').modal('hide');

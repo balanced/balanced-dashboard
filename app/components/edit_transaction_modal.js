@@ -1,5 +1,5 @@
 Balanced.EditTransactionModalComponent = Ember.Component.extend({
-    classNames: ['header-action-container'],
+    classNames: ['modal-container', 'header-action-container'],
 
     willDestroyElement: function() {
         this.$('.modal').modal('hide');

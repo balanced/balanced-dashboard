@@ -1,5 +1,6 @@
 Balanced.ReverseCreditModalComponent = Ember.Component.extend({
     submitAction: 'submitReverseCredit',
+    classNames: ['modal-container'],
 
     willDestroyElement: function() {
         this.$('.modal').modal('hide');

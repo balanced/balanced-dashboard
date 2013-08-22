@@ -47,28 +47,22 @@
 
   div.buttons {
     height: 100%;
-    margin-top: 4px;
+    margin-top: 28px;
 
-    &.single-button {
-      margin-top: 20px;
-    }
-
-    a {
+    .buttons-container {
+      height: 100%;
       float: right;
-      margin-right: 15px;
-      display: block;
-      width: 80%;
-      cursor: pointer;
-
-      &:first-of-type {
-        margin-bottom: 4px;
-      }
-    }
-
-    &.side-by-side {
       a {
-        display: inline;
-        width: 40%;
+        margin-right: 7px;
+        cursor: pointer;
+
+        &:last-of-type {
+          margin-right: 14px;
+        }
+      }
+
+      .modal-container {
+        display: inline-block;
       }
     }
   }

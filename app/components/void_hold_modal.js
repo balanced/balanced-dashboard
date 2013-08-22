@@ -1,4 +1,6 @@
 Balanced.VoidHoldModalComponent = Ember.Component.extend({
+    classNames: ['modal-container'],
+
     willDestroyElement: function() {
         this.$('.modal').modal('hide');
     },

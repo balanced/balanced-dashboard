@@ -7,11 +7,13 @@
       <div class="span10 title">
         <span class="transaction-description subhead2d">{{capitalize hold.hold_status}}: ${{hold.amount_dollars}}</span>
       </div>
-      <div class="span8 border-adjust buttons side-by-side">
-        {{#if hold.can_void_or_capture}}
-          {{capture-hold-modal hold=hold}}
-          {{void-hold-modal hold=hold}}
-        {{/if}}
+      <div class="span8 border-adjust buttons">
+        <div class="buttons-container">
+          {{#if hold.can_void_or_capture}}
+            {{capture-hold-modal hold=hold}}
+            {{void-hold-modal hold=hold}}
+          {{/if}}
+        </div>
       </div>
     </div>
   </div>

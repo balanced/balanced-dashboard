@@ -9,15 +9,17 @@
                 <div class="span2 label">
                     <span class="subhead1d">Escrow</span>
                 </div>
-                <div class="span14 amount">
+                <div class="span10 amount">
                     <span class="number1d">
                         {{ controllers.marketplace.formattedEscrowAmount }}
                     </span>
                 </div>
 
-                <div class="span4 buttons">
-                    <a class="btn" {{action openAddFundsModal target="view"}}>Add funds</a>
-                    <a class="btn" {{action openWithdrawFundsModal target="view"}}>Withdraw funds</a>
+                <div class="span8 buttons">
+                    <div class="buttons-container">
+                        <a class="btn" {{action openAddFundsModal target="view"}}>Add funds</a>
+                        <a class="btn" {{action openWithdrawFundsModal target="view"}}>Withdraw funds</a>
+                    </div>
                 </div>
             </div>
         </div>

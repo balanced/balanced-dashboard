@@ -1,5 +1,6 @@
 Balanced.CaptureHoldModalComponent = Ember.Component.extend({
     submitAction: 'submitCaptureHold',
+    classNames: ['modal-container'],
 
     willDestroyElement: function() {
         this.$('.modal').modal('hide');

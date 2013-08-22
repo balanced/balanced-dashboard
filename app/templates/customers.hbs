@@ -6,15 +6,17 @@
 		    <div class="span2 label">
 		        <div {{bindAttr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
 		    </div>
-		    <div class="span14 title">
+		    <div class="span10 title">
 		        <span class="nav2d">
 		            {{#if is_business}} {{business_name}} {{else}} {{name}} {{/if}}
 		        </span>
 		    </div>
 
-		    <div class="span4 buttons">
-		        <a class="btn debit-customer" {{action openDebitCustomerModal target="view"}}>Debit</a>
-		        <a class="btn credit-customer" {{action openCreditCustomerModal target="view"}}>Credit</a>
+		    <div class="span8 buttons">
+		    	<div class="buttons-container">
+			        <a class="btn debit-customer" {{action openDebitCustomerModal target="view"}}>Debit</a>
+			        <a class="btn credit-customer" {{action openCreditCustomerModal target="view"}}>Credit</a>
+			    </div>
 		    </div>
 		</div>
 	</div>
