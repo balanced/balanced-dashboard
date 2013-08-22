@@ -5,9 +5,6 @@ Balanced.LoginView = Balanced.View.extend({
         $('footer').css('display', 'none');
         $('#content').addClass('no-min-height');
         $('input[name=email]').focus();
-
-        // Remove cookie used for welcome transition which is now removed
-        $.removeCookie('suppressWelcome');
     },
     willDestroyElement: function () {
         $('body').removeClass('light-bg');
