@@ -2,7 +2,9 @@ module('Holds', {
 	setup: function () {
 		Testing.selectMarketplaceByName();
 
-		Balanced.Adapter.asyncCallbacks = true;
+		// TODO - figure out why Travis chokes on callbacks and make these async again
+        Balanced.Adapter.asyncCallbacks = false;
+        Testing.asyncCallbacks = false;
 
 		Ember.run(function () {
 			var hold = Balanced.Hold.find('/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/holds/HL5oPyl3e5QKjtMdbsnLhYpy');

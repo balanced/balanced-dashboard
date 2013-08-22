@@ -2,7 +2,9 @@ module('Debits', {
 	setup: function () {
 		Testing.selectMarketplaceByName();
 
-		Balanced.Adapter.asyncCallbacks = true;
+		// TODO - figure out why Travis chokes on callbacks and make these async again
+        Balanced.Adapter.asyncCallbacks = false;
+        Testing.asyncCallbacks = false;
 
 		Ember.run(function () {
 			var debit = Balanced.Debit.find('/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/debits/WD3TaPwBiqg2SECH1Q33QuvC');
@@ -23,6 +25,7 @@ asyncTest('can visit page', function (assert) {
 
 asyncTest('can refund debit', function (assert) {
 	expect(4);
+    Balanced.Adapter.asyncCallbacks = true;
 
 	var spy = sinon.spy(Balanced.Adapter, "create");
 

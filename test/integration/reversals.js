@@ -2,7 +2,9 @@ module('Reversals', {
 	setup: function () {
 		Testing.selectMarketplaceByName();
 
-		Balanced.Adapter.asyncCallbacks = true;
+		// TODO - figure out why Travis chokes on callbacks and make these async again
+		Balanced.Adapter.asyncCallbacks = false;
+        Testing.asyncCallbacks = false;
 
 		Ember.run(function () {
 			var reversal = Balanced.Reversal.find('/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/credits/CR5WLencnYp5YFgk43RWoXrM/reversals/RV1k7EBixU1TP1KboTrbVu9W');
