@@ -8,5 +8,7 @@ window.setupTestFixtures = function () {
     require('test/support/fixtures/holds');
     require('test/support/fixtures/debits');
     require('test/support/fixtures/refunds');
+    require('test/support/fixtures/credits');
+    require('test/support/fixtures/reversals');
 
 };

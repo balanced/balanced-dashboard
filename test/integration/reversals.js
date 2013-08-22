@@ -1,0 +1,39 @@
+module('Reversals', {
+	setup: function () {
+		Testing.selectMarketplaceByName();
+
+		Balanced.Adapter.asyncCallbacks = true;
+
+		Ember.run(function () {
+			var reversal = Balanced.Reversal.find('/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/credits/CR5WLencnYp5YFgk43RWoXrM/reversals/RV1k7EBixU1TP1KboTrbVu9W');
+			Balanced.Router.create().transitionTo('reversals', reversal);
+		});
+	}, teardown: function () {
+	}
+});
+
+test('can visit page', function (assert) {
+	Ember.run(function() {
+		assert.notEqual($('#content h1').text().indexOf('Reversal'), -1, 'Title is not correct');
+		assert.equal($(".reversal .transaction-description").text().trim(), 'Created: $25.00');
+	});
+});
+
+asyncTest('can edit reversal', function (assert) {
+	expect(3);
+
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	Testing.execWithTimeoutPromise(function() {
+        $(".reversal .transaction-info a.edit").click();
+
+        $('.reversal .edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
+
+        $('.reversal .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
+    })().then(Testing.execWithTimeoutPromise(function() {
+        assert.ok(spy.calledOnce);
+        assert.ok(spy.calledWith(Balanced.Reversal));
+        assert.equal(spy.getCall(0).args[2].description, "changing desc");
+        start();
+    }));
+});
