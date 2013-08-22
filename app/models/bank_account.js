@@ -15,7 +15,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
         if(!accountNumber || accountNumber.length < 5) {
             return accountNumber;
         } else {
-            return accountNumber.substr(accountNumber.length-4,4)
+            return accountNumber.substr(accountNumber.length-4,4);
         }
     }.property('account_number'),
 
