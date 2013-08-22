@@ -37,6 +37,10 @@ QUnit.testStart(function (test) {
 
     window.Balanced.onLoad();
 
+    Ember.run(function() {
+        window.Balanced.advanceReadiness();
+    });
+
     console.log('#{0} {1}: setup complete. Starting test'.format(module, test.name));
 });
 
