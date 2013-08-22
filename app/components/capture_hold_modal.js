@@ -19,7 +19,7 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
             }
         });
 
-        this.set('dollar_amount', null);
+        this.set('dollar_amount', this.get('hold.amount_dollars'));
         this.set('model', debit);
 
         this.$('.modal').modal('show');

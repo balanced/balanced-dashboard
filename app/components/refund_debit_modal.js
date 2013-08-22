@@ -19,7 +19,7 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
             }
         });
 
-        this.set('dollar_amount', null);
+        this.set('dollar_amount', this.get('debit.amount_dollars'));
         this.set('model', refund);
 
         this.$('.modal').modal('show');
