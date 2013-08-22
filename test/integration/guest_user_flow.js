@@ -2,7 +2,7 @@ module('Guest', {
     setup: function () {
         Ember.run(function () {
             Balanced.Auth.setAuthProperties(false, null, null, null, false);
-            Balanced.Auth.destroyGuestUser();
+            Balanced.Auth.forgetLogin();
         });
     }, teardown: function () {
 
