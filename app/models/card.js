@@ -12,10 +12,6 @@ Balanced.Card = Balanced.FundingInstrument.extend({
         );
     }.property('last_four', 'brand'),
 
-    description_with_type: function () {
-        return 'Card: {0}'.format(this.get('description'));
-    }.property('description'),
-
     displayName: function () {
         return '{0} ({1} {2})'.format(
             this.get('name'),

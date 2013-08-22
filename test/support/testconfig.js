@@ -34,13 +34,13 @@ QUnit.testStart(function (test) {
             false);
     });
 
-    Balanced.injectTestHelpers();
-
-    window.Balanced.onLoad();
-
     Ember.run(function() {
         window.Balanced.advanceReadiness();
     });
+
+    Balanced.injectTestHelpers();
+
+    window.Balanced.onLoad();
 
     console.log('#{0} {1}: setup complete. Starting test'.format(module, test.name));
 });
