@@ -248,6 +248,10 @@ module.exports = function (grunt) {
                     {
                         src: 'test/support/testconfig.js',
                         dest: 'build/test/js/testconfig.js'
+                    },
+                    {
+                        src: 'test/support/fixturebrowserconfig.js',
+                        dest: 'build/test/js/fixturebrowserconfig.js'
                     }
                 ]
             },
@@ -323,11 +327,11 @@ module.exports = function (grunt) {
             },
             css: {
                 src: ['build/css/*.css'],
-                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'dist/*.html']
+                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'build/test/fixturebrowser.html', 'dist/*.html']
             },
             js: {
                 src: ['dist/js/dashboard-prod.js', 'dist/js/dashboard-prod.min.js', 'dist/js/lib-prod.js', 'dist/js/lib-prod.min.js'],
-                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'dist/js/*.map.js']
+                dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'build/test/fixturebrowser.html', 'dist/js/*.map.js']
             },
             jsSourceMaps: {
                 src: ['dist/js/dashboard.map.js', 'dist/js/lib.map.js'],
@@ -427,7 +431,7 @@ module.exports = function (grunt) {
                     linesThresholdPct: 84,
                     statementsThresholdPct: 82,
                     functionsThresholdPct: 76,
-                    branchesThresholdPct: 58
+                    branchesThresholdPct: 56
                 }
             },
             all: ['build/test/runner.html']
@@ -541,7 +545,7 @@ module.exports = function (grunt) {
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['_devBuild', 'watch']);
+    grunt.registerTask('default', ['_devBuild', 'connect', 'watch']);
 
     /*
      Builds for production.

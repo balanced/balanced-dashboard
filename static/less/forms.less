@@ -91,10 +91,11 @@ form {
   }
   .control-label {
     text-align: left;
-    width: 30%;
+    width: 40%;
   }
   .controls {
     margin-left: auto;
+    width: 60%;
   }
 }
 
@@ -110,6 +111,9 @@ form {
   input, select {
     display: none;
   }
+  .header-action-container {
+    display: inline;
+  }
   a.edit {
     float: right;
     font-family: nimbussannov-med;
@@ -123,6 +127,27 @@ form {
     background-position: -18px -438px;
     &:hover {
       background-position: -68px -438px;
+    }
+  }
+  a.disclosure {
+    float: right;
+    font-family: nimbussannov-med;
+    font-size: 13px;
+    .cssicon(
+      @url: @iconsFile,
+      @width: 14px,
+      @height: 14px,
+      @display: block
+    );
+    background-position: -18px -847px;
+    &:hover {
+      background-position: -68px -847px;
+    }
+    &.open {
+      background-position: -118px -847px;
+      &:hover {
+        background-position: -168px -847px;
+      }
     }
   }
   &.edit {
@@ -140,9 +165,6 @@ form {
   .inline-label {
     padding-top: 5px;
     display: inline-block;
-  }
-  .controls {
-    display: inline;
   }
   .help-inline {
     margin: 0;

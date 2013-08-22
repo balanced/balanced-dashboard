@@ -1,5 +1,5 @@
 /*
- * A specialized LinkView, when a account link is clicked, we get the a Customer from the server and 
+ * A specialized LinkView, when a account link is clicked, we get the a Customer from the server and
  * transition to customer view with it
  */
 Balanced.AccountLinkView = Ember.LinkView.extend({
@@ -16,7 +16,7 @@ Balanced.AccountLinkView = Ember.LinkView.extend({
 
         var router = this.get('router');
 
-        /* above code is from Ember.js, below is where our code kicks in, 
+        /* above code is from Ember.js, below is where our code kicks in,
          * the Account object should be loaded dynamicaly and converted into a Customer object
          */
         var obj = this.parameters.params[0];
@@ -28,8 +28,8 @@ Balanced.AccountLinkView = Ember.LinkView.extend({
         var marketplace = app_route.modelFor('marketplace');
         var accountId = obj.get('id');
         obj = marketplace.then(function (marketplace) {
-            var customerUri = marketplace.get('customers_uri') + '/' + accountId;
-            router.transitionTo('customer', Balanced.Customer.find(customerUri));
+            var customerUri = Balanced.Utils.combineUri(marketplace.get('customers_uri'), accountId);
+            router.transitionTo('customers', Balanced.Customer.find(customerUri));
         });
     }
 });

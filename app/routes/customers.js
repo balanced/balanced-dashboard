@@ -1,7 +1,4 @@
 Balanced.CustomersRoute = Balanced.AuthRoute.extend({
-});
-
-Balanced.CustomerRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
         var customer = route.controller.content;
         return Balanced.Utils.maybeDeferredLoading(customer, setTitle, function () {
@@ -14,7 +11,7 @@ Balanced.CustomerRoute = Balanced.AuthRoute.extend({
     model: function (params) {
         var marketplace = this.modelFor('marketplace');
         return marketplace.then(function (marketplace) {
-            var customerUri = marketplace.get('customers_uri') + '/' + params.customer_id;
+            var customerUri = Balanced.Utils.combineUri(marketplace.get('customers_uri'), params.customer_id);
             return Balanced.Customer.find(customerUri);
         });
     }

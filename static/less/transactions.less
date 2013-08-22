@@ -1,0 +1,107 @@
+@import "/static/less/variables.less";
+@import "/static/less/mixins.less";
+
+.transaction {
+  .transactions-header {
+    background-color: @turquoise60;
+    div.label {
+      background-color: @turquoise100;
+
+      .icon {
+        margin: 12px 22px 12px 22px;
+        width: 25px;
+        height: 50px;
+        background-position: -112px -570px;
+      }
+    }
+  }
+
+  .customer-info {
+    header {
+      border-bottom: 0;
+    }
+    .main-header {
+      background-color: @gray2;
+      margin-bottom: 0;
+      div.label {
+        .business-info {
+          .csssprite(40px, 60px, 190px, 768px, 0.8);
+          margin: 13px 21px;
+        }
+
+        .person-info {
+          .csssprite(40px, 60px, 130px, 768px, 0.8);
+          margin: 13px 21px;
+        }
+      }
+      div.title {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+
+        margin-left: 0;
+        padding-left: 15px;
+        border-left: 1px solid @gray3;
+      }
+    }
+  }
+
+  .transaction-details {
+    @transactionDetailsBorder: 5px;
+
+    border-left: @transactionDetailsBorder solid @gray2;
+    border-right: @transactionDetailsBorder solid @gray2;
+    border-bottom: @transactionDetailsBorder solid @gray2;
+
+    // we need this hacky business because we want a border around the whole
+    // transaction details and the border f*#ks up our bootstrap grid
+    .span2.border-adjust {
+      width: 75px - @transactionDetailsBorder;
+    }
+
+    .span4.border-adjust {
+      width: 165px - @transactionDetailsBorder;
+    }
+
+    .span8.border-adjust {
+      width: 345px - @transactionDetailsBorder;
+    }
+
+    .span18.border-adjust {
+      width: 795px - @transactionDetailsBorder;
+    }
+
+    .transaction-type-subheader {
+      height: 40px;
+      margin-bottom: 0;
+
+      background-color: @pineGreen60;
+
+      .label {
+        background-color: @pineGreen100;
+      }
+
+      &.failed {
+        background-color: @imperialRed60;
+        .label {
+          background-color: @imperialRed100;
+        }
+      }
+      &.pending {
+        background-color: @turmericYellow60;
+        .label {
+          background-color: @turmericYellow100;
+        }
+      }
+    }
+
+    .transaction-body {
+      background-color: @white;
+      padding-top: 20px;
+    }
+
+    div.buttons {
+      margin-top: 11px;
+    }
+  }
+}

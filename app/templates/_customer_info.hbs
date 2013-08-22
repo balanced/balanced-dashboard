@@ -4,17 +4,17 @@
     </header>
 
     {{#if customer}}
-        {{#linkTo 'customer' customer}}
+        {{#linkTo 'customers' customer}}
             <div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Business</div>
         {{/linkTo}}
         <div>
             <span class="customer-name">
-            	{{#linkTo 'customer' customer}}
+            	{{#linkTo 'customers' customer}}
     	        	{{customer.display_me}}
             	{{/linkTo}}
             </span>
             <br/>
-            <span>{{#linkTo 'customer' customer}}{{ customer.email }}{{/linkTo}}</span>
+            <span>{{#linkTo 'customers' customer}}{{ customer.email }}{{/linkTo}}</span>
         </div>
     {{else}}
         <span class="empty-field-label">None</span>

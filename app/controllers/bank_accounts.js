@@ -1,7 +1,4 @@
-Balanced.BankAccountsController = Balanced.ObjectController.extend({
-});
-
-Balanced.BankAccountController = Balanced.ObjectController.extend(
+Balanced.BankAccountsController = Balanced.ObjectController.extend(
     Ember.Evented,
     Balanced.DownloadControllerMixin,
     Balanced.ResultsTable,

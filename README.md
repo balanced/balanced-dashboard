@@ -28,9 +28,11 @@ You will need node installed as a development dependency. See
 1. `npm install -g grunt-cli`
 2. `npm install`
 3. Build - `grunt`
-4. To view in a browser `open build/dev.html`
-5. To run unit tests `grunt test`
-6. To run browser tests `grunt itest`
+4. To view in a browser - [http://localhost:9876/build/dev.html](http://localhost:9876/build/dev.html)
+5. To run unit tests at the command line `grunt test`
+6. To run unit tests in a browser - [http://localhost:9876/build/test/runner.html](http://localhost:9876/build/test/runner.html)
+7. To browser the dashboard running against test fixture data - [http://localhost:9876/build/test/fixturebrowser.html](http://localhost:9876/build/test/fixturebrowser.html)
+8. To run browser tests `grunt itest`
 
 ### Building and Deploying
 

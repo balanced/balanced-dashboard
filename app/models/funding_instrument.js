@@ -7,4 +7,8 @@ Balanced.FundingInstrument = Balanced.Model.extend({
             this.get('last_four')
         );
     }.property('name', 'last_four'),
+
+    description_with_type: function () {
+        return '{0}: {1}'.format(this.get('type_name'), this.get('description'));
+    }.property('description'),
 });

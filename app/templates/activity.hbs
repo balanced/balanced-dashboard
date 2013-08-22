@@ -1,35 +1,40 @@
-<div id="activity" class="span20">
-    <h1 class="page-title">Activity
-        {{#if iframeLoading}}<div class="loader-container"><span class="loader loading"></span></div>{{/if}}
-        {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
-    </h1>
+<div class="row">
+    <div id="activity" class="span20">
+        <h1 class="page-title">Activity
+            {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+        </h1>
 
-    <div class="main-header activity-escrow-box span20">
-        <div class="span2 label">
-            <span class="subhead1d">Escrow</span>
-        </div>
-        <div class="span14 amount">
-            <span class="number1d">
-                {{ controllers.marketplace.formattedEscrowAmount }}
-            </span>
+        <div class="main-header activity-escrow-box">
+            <div class="row">
+                <div class="span2 label">
+                    <span class="subhead1d">Escrow</span>
+                </div>
+                <div class="span10 amount">
+                    <span class="number1d">
+                        {{ controllers.marketplace.formattedEscrowAmount }}
+                    </span>
+                </div>
+
+                <div class="span8 buttons">
+                    <div class="buttons-container">
+                        <a class="btn" {{action openAddFundsModal target="view"}}>Add funds</a>
+                        <a class="btn" {{action openWithdrawFundsModal target="view"}}>Withdraw funds</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="span4 buttons">
-            <a class="btn" {{action openAddFundsModal target="view"}}>Add funds</a>
-            <a class="btn" {{action openWithdrawFundsModal target="view"}}>Withdraw funds</a>
+        <div class="results">
+            {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
         </div>
+
+        {{ outlet }}
+
+        {{#if show_download}}
+            {{partial "modals/download" }}
+        {{/if}}
+
+        {{view Balanced.AddFundsModalView marketplaceBinding="controllers.marketplace.model" viewName="addFundsModal"}}
+        {{view Balanced.WithdrawFundsModalView marketplaceBinding="controllers.marketplace.model" viewName="withdrawFundsModal"}}
     </div>
-
-    <div class="results">
-        {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
-    </div>
-
-    {{ outlet }}
-
-    {{#if show_download}}
-        {{partial "modals/download" }}
-    {{/if}}
-
-    {{view Balanced.AddFundsModalView marketplaceBinding="controllers.marketplace.model" viewName="addFundsModal"}}
-    {{view Balanced.WithdrawFundsModalView marketplaceBinding="controllers.marketplace.model" viewName="withdrawFundsModal"}}
 </div>

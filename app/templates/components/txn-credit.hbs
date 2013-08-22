@@ -1,0 +1,84 @@
+<div class="credit">
+  <div {{bindAttr class=":main-header :transaction-type-subheader credit.status"}}>
+    <div class="row">
+      <div class="span2 border-adjust label">
+        <span class="subhead2d">Credit</span>
+      </div>
+      <div class="span10 title">
+        <span class="transaction-description subhead2d">{{titleCase credit.status}}: ${{credit.amount_dollars}}</span>
+      </div>
+      <div class="span8 border-adjust buttons">
+        <div class="buttons-container">
+          {{#if marketplace.can_reverse_transactions}}
+            {{#if credit.can_reverse}}
+              {{reverse-credit-modal credit=credit}}
+            {{/if}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="transaction-body">
+    <div class="row">
+      <div class="span2 border-adjust"></div>
+      <div class="span18 border-adjust">
+        <div class="row-fluid">
+          <div class="span13">
+            <section class="transaction-info">
+              <div class="form-horizontal key-value-display">
+                <header>
+                  <h3>Credit
+                    {{edit-transaction-modal transaction=credit}}
+                  </h3>
+                </header>
+                <div>
+                  <div class="control-group">
+                    <label class="control-label">Status</label>
+                    <div class="controls">
+                      <span class="inline-label">{{ credit.status_description }}</span>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Expected</label>
+                    <div class="controls">
+                      <span class="inline-label">{{humanReadableDateLong credit.available_at}}, <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Created</label>
+                    <div class="controls">
+                      <span class="inline-label">{{humanReadableDateLong credit.created_at }}</span>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Description</label>
+                    <div class="controls">
+                      <span class="inline-label">{{ credit.description }}</span>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">ID</label>
+                    <div class="controls">
+                      <span class="inline-label">{{ credit.id }}</span>
+                    </div>
+                  </div>
+                  <div class="control-group">
+                    <label class="control-label">Txn #</label>
+                    <div class="controls">
+                      <span class="inline-label">{{ credit.transaction_number }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {{txn-funding-instrument funding_instrument=credit.bank_account}}
+          </div>
+          <div class="span13">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

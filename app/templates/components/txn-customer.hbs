@@ -1,0 +1,17 @@
+<div class="customer-info">
+	<header>
+		<h3>Customer</h3>
+	</header>
+	<div class="main-header">
+		<div class="row">
+			<div class="span2 label">
+				<div {{bindAttr class=":icon customer.is_business:business-info:person-info"}}>Customer</div>
+			</div>
+			<div class="span18 title label7a">
+				<span>
+					{{#linkTo 'customers' customer class="linky"}}{{customer.display_me_with_email}}{{/linkTo}}
+				</span>
+			</div>
+		</div>
+	</div>
+</div>

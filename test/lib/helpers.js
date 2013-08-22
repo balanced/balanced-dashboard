@@ -13,6 +13,8 @@ var Testing = (function () {
             $("#q").trigger(jQuery.Event("keyup", {keyCode: Balanced.KEYS.ENTER}));
         },
 
+        asyncCallbacks: true,
+
         // provides a simple way to chain steps of a test together, while still
         // running any async callbacks each step triggered
         // Returns a function (so calls won't execute until the previous promise
@@ -27,12 +29,21 @@ var Testing = (function () {
         execWithTimeoutPromise: function(callback) {
             return function() {
                 var dfd = new $.Deferred();
-                setTimeout(function() {
+                var runCallback = function() {
                     Ember.run(function() {
                         callback();
                         dfd.resolve();
                     });
-                });
+                };
+
+                if(Testing.asyncCallbacks) {
+                    setTimeout(function() {
+                        runCallback();
+                    });
+                } else {
+                    runCallback();
+                }
+
                 return dfd;
             };
         }

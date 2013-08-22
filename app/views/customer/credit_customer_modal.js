@@ -44,6 +44,7 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
         var self = this;
         credit.save().then(function (credit) {
             $('#credit-customer').modal('hide');
+            self.get('controller').transitionToRoute('credits', credit);
         });
     }
 });

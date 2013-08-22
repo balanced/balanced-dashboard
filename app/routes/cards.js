@@ -4,7 +4,7 @@ Balanced.CardsIndexRoute = Balanced.AuthRoute.extend({
     }
 });
 
-Balanced.CardRoute = Balanced.AuthRoute.extend({
+Balanced.CardsRoute = Balanced.AuthRoute.extend({
     pageTitle: function (route, setTitle) {
         var card = route.controller.content;
         return Balanced.Utils.maybeDeferredLoading(card, setTitle, function () {
@@ -17,7 +17,7 @@ Balanced.CardRoute = Balanced.AuthRoute.extend({
     model: function (params) {
         var marketplace = this.modelFor('marketplace');
         return marketplace.then(function (marketplace) {
-            var cardUri = marketplace.get('cards_uri') + '/' + params.card_id;
+            var cardUri = Balanced.Utils.combineUri(marketplace.get('cards_uri'), params.card_id);
             return Balanced.Card.find(cardUri);
         });
     }

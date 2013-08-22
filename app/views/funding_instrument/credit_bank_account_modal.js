@@ -13,7 +13,7 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
 
     open: function () {
         var credit = Balanced.Credit.create({
-            uri: this.get('funding_instrument.credits_uri'),
+            uri: this.get('funding_instrument.customer.credits_uri') || this.get('funding_instrument.credits_uri'),
             bank_account_uri: this.get('funding_instrument.uri'),
             amount: null
         });
@@ -43,6 +43,7 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
         var self = this;
         credit.save().then(function (credit) {
             $('#credit-bank-account').modal('hide');
+            self.get('controller').transitionToRoute('credits', credit);
         });
     }
 });

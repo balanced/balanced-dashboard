@@ -52,6 +52,7 @@ require('app/models/verification');
 require('app/models/production_access_application');
 require('app/models/initial_deposit');
 require('app/models/log');
+require('app/models/reversal');
 
 require('app/lib/auth');
 
@@ -92,7 +93,6 @@ require('app/views/marketplace/delete_callback_modal');
 require('app/views/marketplace/delete_card_modal');
 require('app/views/marketplace/edit_marketplace_info_modal');
 require('app/views/marketplace/edit_owner_info_modal');
-require('app/views/marketplace/verify_bank_account_modal');
 require('app/views/marketplace/withdraw_funds_modal');
 require('app/views/marketplaces/add_existing_marketplace');
 require('app/views/marketplaces/add_test_marketplace');
@@ -105,6 +105,7 @@ require('app/views/funding_instrument/debit_funding_instrument_modal');
 require('app/views/funding_instrument/credit_bank_account_modal');
 require('app/views/funding_instrument/verify_bank_account_modal');
 require('app/views/funding_instrument/confirm_verification_modal');
+require('app/views/funding_instrument/hold_card_modal');
 
 /*
  * Controller layer.
@@ -138,6 +139,24 @@ require('app/controllers/invoices');
 require('app/controllers/cards');
 require('app/controllers/bank_accounts');
 require('app/controllers/customers');
+require('app/controllers/credits');
+require('app/controllers/debits');
+require('app/controllers/holds');
+require('app/controllers/refunds');
+
+/*
+ * Components
+ */
+require('app/components/txn_funding_instrument');
+require('app/components/txn_hold');
+require('app/components/txn_debit');
+require('app/components/txn_refund');
+require('app/components/txn_credit');
+require('app/components/capture_hold_modal');
+require('app/components/void_hold_modal');
+require('app/components/refund_debit_modal');
+require('app/components/edit_transaction_modal');
+require('app/components/reverse_credit_modal');
 
 /*
  * States (i.e. Routes)

@@ -1,7 +1,4 @@
-Balanced.CardsController = Balanced.ObjectController.extend({
-});
-
-Balanced.CardController = Balanced.ObjectController.extend(
+Balanced.CardsController = Balanced.ObjectController.extend(
     Ember.Evented,
     Balanced.DownloadControllerMixin,
     Balanced.ResultsTable,
@@ -20,6 +17,10 @@ Balanced.CardController = Balanced.ObjectController.extend(
 
         openDebitFundingInstrumentModal: function () {
             this.trigger('openDebitFundingInstrumentModal');
+        },
+
+        openHoldCardModal: function () {
+            this.trigger('openHoldCardModal');
         }
     }
 );

@@ -25,7 +25,7 @@ Balanced.Log.reopenClass({
         var uri = '/v1/logs';
 
         if (id) {
-            return uri + '/' + id;
+            return Balanced.Utils.combineUri(uri,id);
         }
 
         return uri;

@@ -14,7 +14,7 @@ Balanced.DeleteMarketplaceModalView = Balanced.View.extend({
         // for doing so is we generally (except for this single case), deal
         // with api based uris
         var user = Balanced.Auth.get('user');
-        var uri = user.get('marketplaces_uri') + '/' + marketplace.get('id');
+        var uri = Balanced.Utils.combineUri(user.get('marketplaces_uri'), marketplace.get('id'));
         var self = this;
         var model = Balanced.UserMarketplace.create({
             uri: uri,

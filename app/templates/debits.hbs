@@ -1,0 +1,33 @@
+<h1 class="page-title">Debit</h1>
+
+<div id="debit" class="transaction">
+
+	<div class="main-header transactions-header">
+		<div class="row">
+			<div class="span2 label">
+				<div class="icon">Debit</div>
+			</div>
+		    <div class="span10 title">
+				<span class="nav2d">
+					{{page_title}}
+				</span>
+			</div>
+
+		    <div class="span8 buttons">
+		    	<div class="buttons-container"></div>
+		    </div>
+		</div>
+	</div>
+
+	{{txn-customer customer=customer}}
+
+	<div class="transaction-details">
+		{{#each refund in model.refunds}}
+			{{txn-refund refund=refund}}
+		{{/each}}
+		{{txn-debit debit=model}}
+		{{#if hold}}
+			{{txn-hold hold=hold}}
+		{{/if}}
+	</div>
+</div>

@@ -37,6 +37,16 @@ Balanced.Customer = Balanced.Model.extend({
         return this.get('name') || this.get('id');
     }.property('name', 'id'),
 
+    display_me_with_email: function () {
+        var name = this.get('name') || this.get('id');
+        var email = this.get('email');
+        if(email) {
+            return "{0} ({1})".format(name, email);
+        } else {
+            return name;
+        }
+    }.property('name', 'id', 'email'),
+
     facebook_url: function () {
         if (this.get('facebook')) {
             return 'http://facebook.com/profile.php?id=' + this.get('facebook');

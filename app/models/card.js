@@ -12,10 +12,6 @@ Balanced.Card = Balanced.FundingInstrument.extend({
         );
     }.property('last_four', 'brand'),
 
-    description_with_type: function () {
-        return 'Card: {0}'.format(this.get('description'));
-    }.property('description'),
-
     displayName: function () {
         return '{0} ({1} {2})'.format(
             this.get('name'),
@@ -26,7 +22,15 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 
     debits_uri: function() {
         return this.get('customer.debits_uri');
-    }.property('customer.debits_uri')
+    }.property('customer.debits_uri'),
+
+    human_readable_expiration: function() {
+        return this.get('expiration_month') + '/' + this.get('expiration_year');
+    }.property('expiration_month', 'expiration_year'),
+
+    card_number_with_xs: function() {
+        return 'xxxx xxxx xxxx ' + this.get('last_four');
+    }.property('last_four')
 });
 
 Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');

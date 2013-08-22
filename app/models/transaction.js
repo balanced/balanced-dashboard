@@ -1,5 +1,6 @@
 Balanced.Transaction = Balanced.Model.extend({
     account: Balanced.Model.belongsTo('account', 'Balanced.Account'),
+    customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
     web_uri: function () {
         return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
@@ -23,5 +24,9 @@ Balanced.Transaction = Balanced.Model.extend({
         } else {
             return 'None';
         }
-    }.property('account')
+    }.property('account'),
+
+    page_title: function() {
+        return this.get('description') || this.get('id');
+    }.property('description', 'id')
 });

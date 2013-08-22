@@ -80,7 +80,7 @@ test('Filtering by type works', function (assert) {
 test('add funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
-    $('.activity-escrow-box .span4 .btn').first().click();
+    $('.activity-escrow-box .btn').first().click();
 
     assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 
@@ -97,7 +97,7 @@ test('add funds', function (assert) {
 test('add funds only adds once despite multiple clicks', function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "create");
 
-    $('.activity-escrow-box .span4 .btn').first().click();
+    $('.activity-escrow-box .btn').first().click();
 
     $('#add-funds input').first().val('55.55').trigger('keyup');
     for (var i = 0; i < 20; i++) {
@@ -110,7 +110,7 @@ test('add funds only adds once despite multiple clicks', function (assert) {
 test('withdraw funds', function (assert) {
     assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
-    $('.activity-escrow-box .span4 .btn').eq(1).click();
+    $('.activity-escrow-box .btn').eq(1).click();
 
     assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 
@@ -127,7 +127,7 @@ test('withdraw funds', function (assert) {
 test('withdraw funds only withdraws once despite multiple clicks', function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "create");
 
-    $('.activity-escrow-box .span4 .btn').eq(1).click();
+    $('.activity-escrow-box .btn').eq(1).click();
     $('#withdraw-funds input').first().val('55.55').trigger('keyup');
 
     for (var i = 0; i < 20; i++) {
