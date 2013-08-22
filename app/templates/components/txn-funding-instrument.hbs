@@ -3,7 +3,7 @@
     <header>
       <h3>
         {{#if funding_instrument}}
-        {{funding_instrument.type_name}}: {{#linkToEntity funding_instrument}}{{funding_instrument.description}}{{/linkToEntity}}
+        {{funding_instrument.type_name}}: <a href="#" {{action toggleFundingInstrumentDetails}}>{{funding_instrument.description}}</a>
         <a href="#" {{bindAttr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
         {{/if}}
       </h3>
@@ -14,7 +14,7 @@
         <div class="control-group">
           <label class="control-label">Account #</label>
           <div class="controls">
-            <span class="inline-label">{{ funding_instrument.account_number }}</span>
+            <span class="inline-label">{{#linkToEntity funding_instrument}} {{ funding_instrument.account_number }} {{/linkToEntity}}</span>
           </div>
         </div>
         <div class="control-group">
@@ -57,7 +57,7 @@
         <div class="control-group">
           <label class="control-label">Card #</label>
           <div class="controls">
-            <span class="inline-label">{{ funding_instrument.last_four }}</span>
+            <span class="inline-label">{{#linkToEntity funding_instrument}} {{ funding_instrument.card_number_with_xs }} {{/linkToEntity}}</span>
           </div>
         </div>
         <div class="control-group">

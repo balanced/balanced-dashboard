@@ -30,7 +30,11 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 
     human_readable_expiration: function() {
         return this.get('expiration_month') + '/' + this.get('expiration_year');
-    }.property('expiration_month', 'expiration_year')
+    }.property('expiration_month', 'expiration_year'),
+
+    card_number_with_xs: function() {
+        return 'xxxx xxxx xxxx ' + this.get('last_four');
+    }.property('last_four')
 });
 
 Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');
