@@ -65,9 +65,9 @@ asyncTest('can edit hold', function (assert) {
 	Testing.execWithTimeoutPromise(function() {
         $(".transaction-info a.edit").click();
 
-        $('#edit-transaction .modal-body input[name="description"]').val("changing desc").trigger('keyup');
+        $('.edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
 
-        $('#edit-transaction .modal-footer button[name="modal-submit"]').click();
+        $('.edit-transaction.in .modal-footer button[name="modal-submit"]').click();
     })().then(Testing.execWithTimeoutPromise(function() {
         assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Hold));
