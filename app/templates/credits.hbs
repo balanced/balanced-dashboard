@@ -25,6 +25,6 @@
     {{#each reversal in model.reversals}}
       {{txn-reversal reversal=reversal}}
     {{/each}}
-    {{txn-credit credit=model}}
+    {{txn-credit credit=model marketplace=controllers.marketplace.model}}
   </div>
 </div>
