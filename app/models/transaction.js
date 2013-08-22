@@ -24,5 +24,9 @@ Balanced.Transaction = Balanced.Model.extend({
         } else {
             return 'None';
         }
-    }.property('account')
+    }.property('account'),
+
+    page_title: function() {
+        return this.get('description') || this.get('id');
+    }.property('description', 'id')
 });
