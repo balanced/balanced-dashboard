@@ -39,7 +39,9 @@
                   <div class="control-group">
                     <label class="control-label">Expected</label>
                     <div class="controls">
-                      <span class="inline-label">{{humanReadableDateLong credit.available_at}}, <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>
+                      <span class="inline-label">
+                        {{#if credit.available_at}} {{humanReadableDateLong credit.available_at}}, {{/if}}
+                        <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>
                     </div>
                   </div>
                   <div class="control-group">
