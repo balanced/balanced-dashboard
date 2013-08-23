@@ -46,21 +46,6 @@ Balanced.Router = Ember.Router.extend({
     }
 });
 
-Balanced.Router.reopenClass({
-    defaultFailureHandler: {
-        setup: function (error) {
-            Ember.Logger.error('Error while loading route:', error.stack || error);
-
-            Balanced.Auth.trigger('authAccess');
-
-            // Using setTimeout allows us to escape from the Promise's try/catch block
-            setTimeout(function () {
-                Balanced.Router.router.transitionTo('login');
-            });
-        }
-    }
-});
-
 Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
 });
 
@@ -112,6 +97,8 @@ Balanced.Router.map(function () {
     this.route('resetPassword', { path: '/password/:token' });
     this.route('start', { path: '/start' });
     this.route('claim', { path: '/claim' });
+
+    this.route("invalid", { path: "*:"});
 });
 
 Balanced.IframeRoute = Balanced.AuthRoute.extend({
@@ -172,3 +159,4 @@ require('app/routes/debits');
 require('app/routes/holds');
 require('app/routes/refunds');
 require('app/routes/reversals');
+require('app/routes/invalid');

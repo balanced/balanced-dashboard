@@ -16,9 +16,7 @@ Balanced.StartRoute = Balanced.Route.extend({
             marketplace: marketplace
         };
         var onMarketplaceCreate = function (mkt) {
-            var marketplaces = Balanced.Auth.get('user').get('marketplaces');
-            marketplaces.pushObject(Balanced.Marketplace.create(mkt));
-            marketplace.reload();
+            Balanced.Auth.get('user').reload();
 
             //  pre-populate marketplace with transactions
             var id = mkt.uri.substr(mkt.uri.lastIndexOf('/') + 1);

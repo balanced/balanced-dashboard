@@ -20,9 +20,12 @@ Balanced.MarketplacesRoute = Balanced.AuthRoute.extend({
             if (!marketplaces.items.length) {
                 return;
             }
-            var guestMarketplace = Balanced.Marketplace.create({uri: marketplaces.items[0].uri});
-            guestMarketplace.reload();
-            guestUser.get('marketplaces').pushObject(guestMarketplace);
+            var guestMarketplace = Balanced.UserMarketplace.create({
+                id: marketplaces.items[0].id,
+                uri: marketplaces.items[0].uri,
+                name: marketplaces.items[0].name
+            });
+            guestUser.get('user_marketplaces').pushObject(guestMarketplace);
         });
 
     }

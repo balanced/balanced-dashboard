@@ -1,10 +1,17 @@
 Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
     model: function (params) {
         var marketplaceURI = Balanced.Marketplace.constructUri(params.marketplace_id);
-        balanced.init(marketplaceURI);
         var marketplace = Balanced.Marketplace.find(marketplaceURI);
-        Balanced.Utils.setCurrentMarketplace(marketplace);
         return marketplace;
+    },
+
+    afterModel: function(model) {
+        // balanced.js doesn't load in phantomjs environment, so skip it here
+        // TODO - get balanced.js working in test
+        if(!window.TESTING) {
+            balanced.init(model.get('uri'));
+        }
+        Balanced.Utils.setCurrentMarketplace(model);
     },
 
     // if we passed a marketplace to #linkTo, need this to set current marketplace
