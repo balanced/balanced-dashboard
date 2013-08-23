@@ -112,6 +112,8 @@ Balanced.Router.map(function () {
     this.route('resetPassword', { path: '/password/:token' });
     this.route('start', { path: '/start' });
     this.route('claim', { path: '/claim' });
+
+    this.route("invalid", { path: "*:"});
 });
 
 Balanced.IframeRoute = Balanced.AuthRoute.extend({
@@ -172,3 +174,4 @@ require('app/routes/debits');
 require('app/routes/holds');
 require('app/routes/refunds');
 require('app/routes/reversals');
+require('app/routes/invalid')
