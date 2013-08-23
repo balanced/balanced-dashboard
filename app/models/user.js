@@ -8,13 +8,6 @@ Balanced.User = Balanced.Model.extend({
         });
     },
 
-    marketplaces: function () {
-        var userMarketplaces = this.get('user_marketplaces').get('content');
-        return _.map(userMarketplaces, function (marketplace) {
-            return Balanced.Marketplace.find(marketplace.uri);
-        });
-    }.property('user_marketplaces'),
-
     gravatar: function () {
         var emailHash = this.get('email_hash');
         return Balanced.Utils.toGravatar(emailHash);

@@ -12,12 +12,12 @@
                     <div class="marketplace-list production">
                         <div class="subhead1a">Production marketplace</div>
                             <ul>
-                                {{#each marketplace in Balanced.Auth.user.marketplaces }}
-                                    {{#if marketplace.production }}
+                                {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
+                                    {{#if user_marketplace.production }}
                                         <li>
                                             <div class="icon"></div>
                                             <div class="info">
-                                                <h3 class="label1d name">{{#linkTo 'activity' marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
+                                                <h3 class="label1d name">{{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}</h3>
                                             </div>
                                         </li>
                                     {{/if}}
@@ -33,13 +33,13 @@
                         <div class="marketplace-list test">
                             <div class="subhead1a">Test marketplaces</div>
                             <ul>
-                                {{#each marketplace in Balanced.Auth.user.marketplaces }}
-                                    {{#unless marketplace.production }}
+                                {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
+                                    {{#unless user_marketplace.production }}
                                         <li>
-                                            <a href="#" class="icon-delete" {{action promptToDeleteMarketplace marketplace }}>&times;</a>
+                                            <a href="#" class="icon-delete" {{action promptToDeleteMarketplace user_marketplace }}>&times;</a>
                                             <div class="icon"></div>
                                                 <div class="info">
-                                                <h3 class="label1d name">{{#linkTo 'activity' marketplace }}{{ marketplace.name }}{{/linkTo}}</h3>
+                                                <h3 class="label1d name">{{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}</h3>
                                             </div>
                                         </li>
                                     {{/unless}}
