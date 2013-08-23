@@ -11,8 +11,8 @@ Balanced.Credit = Balanced.Transaction.extend({
     }.property('bank_account.description'),
 
     can_reverse: function() {
-        return this.get('reversals.isLoaded') && this.get('reversals.content') && this.get('reversals.content').length === 0;
-    }.property('reversals.isLoaded', 'reversals.@each'),
+        return this.get('status') !== 'failed' && this.get('reversals.isLoaded') && this.get('reversals.content') && this.get('reversals.content').length === 0;
+    }.property('status', 'reversals.isLoaded', 'reversals.@each'),
 
     serialize: function (json) {
         this._super(json);
