@@ -21,6 +21,16 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
         });
     },
     events: {
+        error: function(error, transition) {
+            Ember.Logger.error('Error while loading route:', error.stack || error);
+
+            if(error.isError && error.errorStatusCode === 401) {
+                Balanced.Auth.trigger('authAccess');
+                this.transitionTo('login');
+            } else {
+                this.transitionTo('index');
+            }
+        },
         signOut: function () {
             Balanced.Auth.signOut({
                 xhrFields: {
