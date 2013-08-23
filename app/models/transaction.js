@@ -28,5 +28,22 @@ Balanced.Transaction = Balanced.Model.extend({
 
     page_title: function() {
         return this.get('description') || this.get('id');
-    }.property('description', 'id')
+    }.property('description', 'id'),
+
+    meta_array: function() {
+        var meta = this.get('meta');
+        if(!meta) {
+            return meta;
+        }
+
+        var metaArray = [];
+
+        for(key in meta) {
+            metaArray.push({
+                key: key,
+                value: meta[key]
+            });
+        }
+        return metaArray;
+    }.property('meta')
 });

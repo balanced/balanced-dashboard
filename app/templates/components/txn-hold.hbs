@@ -22,7 +22,7 @@
       <div class="span2 border-adjust"></div>
       <div class="span18 border-adjust">
         <div class="row-fluid">
-          <div class="span13">
+          <div class="span16">
             <section class="transaction-info">
               <div class="key-value-display">
                 <header>
@@ -47,13 +47,21 @@
                     <label class="key">Txn #</label>
                     <span class="value">{{ hold.transaction_number }}</span>
                   </div>
+                  <div class="key-value-row">
+                    <label class="key">Meta</label>
+                    <span class="value">
+                      {{#each meta in hold.meta_array}}
+                        {{ meta.key }}: {{ meta.value }}<br/>
+                      {{/each}}
+                    </span>
+                  </div>
                 </div>
               </div>
             </section>
 
             {{txn-funding-instrument funding_instrument=hold.source}}
           </div>
-          <div class="span13">
+          <div class="span10">
 
           </div>
         </div>
