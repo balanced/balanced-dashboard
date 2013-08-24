@@ -38,7 +38,7 @@ Balanced.Transaction = Balanced.Model.extend({
 
         var metaArray = [];
 
-        for(key in meta) {
+        for(var key in meta) {
             metaArray.push({
                 key: key,
                 value: meta[key]
