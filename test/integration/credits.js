@@ -53,7 +53,7 @@ asyncTest('admins can reverse credit regardless of marketplace settings', functi
     Ember.run(function() {
         var credit = Balanced.Credit.find('/v1/marketplaces/TEST-TEST_CREDITS/credits/1');
         Balanced.Router.create().transitionTo('credits', credit);
-    })
+    });
 
     Testing.execWithTimeoutPromise(function() {
         Balanced.Auth.get('user').set('admin', true);
