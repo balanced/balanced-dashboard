@@ -55,6 +55,7 @@
       a {
         margin-right: 7px;
         cursor: pointer;
+        .button1;
 
         &:last-of-type {
           margin-right: 14px;
@@ -64,81 +65,6 @@
       .modal-container {
         display: inline-block;
       }
-    }
-  }
-}
-
-.key-value-display {
-  .header-action-container {
-    display: inline;
-  }
-  a.edit {
-    float: right;
-    font-family: nimbussannov-med;
-    font-size: 13px;
-    .cssicon(
-      @url: @iconsFile,
-      @width: 14px,
-      @height: 14px,
-      @display: block
-    );
-    background-position: -18px -438px;
-    &:hover {
-      background-position: -68px -438px;
-      cursor: pointer;
-    }
-  }
-  a.disclosure {
-    float: right;
-    font-family: nimbussannov-med;
-    font-size: 13px;
-    .cssicon(
-      @url: @iconsFile,
-      @width: 14px,
-      @height: 14px,
-      @display: block
-    );
-    background-position: -18px -847px;
-    &:hover {
-      background-position: -18px -847px;
-      cursor: pointer;
-    }
-    &.open {
-      background-position: -118px -847px;
-      &:hover {
-        background-position: -118px -847px;
-      }
-    }
-  }
-  &.edit {
-    .inline-label {
-      display: none;
-    }
-    .inline-edit {
-      background-color: @gray6;
-      color: #d9d9d9;
-    }
-  }
-  .inline-label {
-    padding-top: 5px;
-    display: inline-block;
-  }
-  .help-inline {
-    margin: 0;
-  }
-
-  label {
-    font-family: nimbussannov-sembol;
-    color: #000;
-    margin-bottom: 0;
-
-    &:after {
-      content: ':';
-      padding-right: 3px;
-    }
-
-    &.inline {
-      display: inline;
     }
   }
 }

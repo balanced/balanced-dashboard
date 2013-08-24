@@ -17,46 +17,44 @@
       <div class="span2 border-adjust"></div>
       <div class="span18 border-adjust">
         <div class="row-fluid">
-          <div class="span13">
+          <div class="span16">
             <section class="transaction-info">
-              <div class="form-horizontal key-value-display">
+              <div class="key-value-display">
                 <header>
                   <h3>Reversal
                     {{edit-transaction-modal transaction=reversal}}
                   </h3>
                 </header>
-                <div>
-                  <div class="control-group">
-                    <label class="control-label">Created</label>
-                    <div class="controls">
-                      <span class="inline-label">{{humanReadableDateLong reversal.created_at }}</span>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">Description</label>
-                    <div class="controls">
-                      <span class="inline-label">{{ reversal.description }}</span>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">ID</label>
-                    <div class="controls">
-                      <span class="inline-label">{{ reversal.id }}</span>
-                    </div>
-                  </div>
-                  <div class="control-group">
-                    <label class="control-label">Txn #</label>
-                    <div class="controls">
-                      <span class="inline-label">{{ reversal.transaction_number }}</span>
-                    </div>
-                  </div>
+                <div class="key-value-row">
+                  <label class="key">Created</label>
+                  <span class="value">{{humanReadableDateLong reversal.created_at }}</span>
+                </div>
+                <div class="key-value-row">
+                  <label class="key">Description</label>
+                  <span class="value">{{ reversal.description }}</span>
+                </div>
+                <div class="key-value-row">
+                  <label class="key">ID</label>
+                  <span class="value">{{ reversal.id }}</span>
+                </div>
+                <div class="key-value-row">
+                  <label class="key">Txn #</label>
+                  <span class="value">{{ reversal.transaction_number }}</span>
+                </div>
+                <div class="key-value-row">
+                  <label class="key">Meta</label>
+                  <span class="value">
+                    {{#each meta in reversal.meta_array}}
+                      {{ meta.key }}: {{ meta.value }}<br/>
+                    {{/each}}
+                  </span>
                 </div>
               </div>
             </section>
 
             {{txn-funding-instrument funding_instrument=reversal.credit.bank_account}}
           </div>
-          <div class="span13">
+          <div class="span10">
 
           </div>
         </div>

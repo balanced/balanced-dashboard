@@ -19,6 +19,9 @@
   .customer-info {
     header {
       border-bottom: 0;
+      h3 {
+        margin-bottom: 0;
+      }
     }
     .main-header {
       background-color: @gray2;
@@ -98,6 +101,17 @@
     .transaction-body {
       background-color: @white;
       padding-top: 20px;
+
+      .transaction-info, .funding-instrument-info {
+        .key-value-display {
+          .key {
+            width: 25%;
+          }
+          .value {
+            width: 75%;
+          }
+        }
+      }
     }
 
     div.buttons {

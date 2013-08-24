@@ -17,38 +17,38 @@
       <div class="span2 border-adjust"></div>
       <div class="span18 border-adjust">
         <div class="row-fluid">
-          <div class="span13">
+          <div class="span16">
             <section class="transaction-info">
-              <div class="form-horizontal key-value-display">
+              <div class="key-value-display">
                 <header>
                   <h3>Refund
                     {{edit-transaction-modal transaction=refund}}
                   </h3>
                 </header>
                 <div>
-                  <div class="control-group">
-                    <label class="control-label">Created</label>
-                    <div class="controls">
-                      <span class="inline-label">{{humanReadableDateLong refund.created_at }}</span>
-                    </div>
+                  <div class="key-value-row">
+                    <label class="key">Created</label>
+                    <span class="value">{{humanReadableDateLong refund.created_at }}</span>
                   </div>
-                  <div class="control-group">
-                    <label class="control-label">Description</label>
-                    <div class="controls">
-                      <span class="inline-label">{{ refund.description }}</span>
-                    </div>
+                  <div class="key-value-row">
+                    <label class="key">Description</label>
+                    <span class="value">{{ refund.description }}</span>
                   </div>
-                  <div class="control-group">
-                    <label class="control-label">ID</label>
-                    <div class="controls">
-                      <span class="inline-label">{{ refund.id }}</span>
-                    </div>
+                  <div class="key-value-row">
+                    <label class="key">ID</label>
+                    <span class="value">{{ refund.id }}</span>
                   </div>
-                  <div class="control-group">
-                    <label class="control-label">Txn #</label>
-                    <div class="controls">
-                      <span class="inline-label">{{ refund.transaction_number }}</span>
-                    </div>
+                  <div class="key-value-row">
+                    <label class="key">Txn #</label>
+                    <span class="value">{{ refund.transaction_number }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">Meta</label>
+                    <span class="value">
+                      {{#each meta in refund.meta_array}}
+                        {{ meta.key }}: {{ meta.value }}<br/>
+                      {{/each}}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -56,7 +56,7 @@
 
             {{txn-funding-instrument funding_instrument=refund.debit.source}}
           </div>
-          <div class="span13">
+          <div class="span10">
 
           </div>
         </div>

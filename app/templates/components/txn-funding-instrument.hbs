@@ -9,86 +9,60 @@
       </h3>
     </header>
     {{#if show_funding_instrument_details}}
-    <div>
+    <div class="key-value-display">
       {{#if funding_instrument.is_bank_account}}
-        <div class="control-group">
-          <label class="control-label">Account #</label>
-          <div class="controls">
-            <span class="inline-label">{{#linkToEntity funding_instrument}} {{ funding_instrument.account_number }} {{/linkToEntity}}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Account #</label>
+          <span class="value">{{#linkToEntity funding_instrument}} {{ funding_instrument.account_number }} {{/linkToEntity}}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Routing #</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.routing_number }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Routing #</label>
+          <span class="value">{{ funding_instrument.routing_number }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Created</label>
-          <div class="controls">
-            <span class="inline-label">{{humanReadableDateLong funding_instrument.created_at }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Created</label>
+          <span class="value">{{humanReadableDateLong funding_instrument.created_at }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">ID</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.id }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">ID</label>
+          <span class="value">{{ funding_instrument.id }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Name</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.name }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Name</label>
+          <span class="value">{{ funding_instrument.name }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Bank</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.bank_name }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Bank</label>
+          <span class="value">{{ funding_instrument.bank_name }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Type</label>
-          <div class="controls">
-            <span class="inline-label">{{capitalize funding_instrument.type }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Type</label>
+          <span class="value">{{capitalize funding_instrument.type }}</span>
         </div>
       {{else}}
-        <div class="control-group">
-          <label class="control-label">Card #</label>
-          <div class="controls">
-            <span class="inline-label">{{#linkToEntity funding_instrument}} {{ funding_instrument.card_number_with_xs }} {{/linkToEntity}}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Card #</label>
+          <span class="value">{{#linkToEntity funding_instrument}} {{ funding_instrument.card_number_with_xs }} {{/linkToEntity}}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Created</label>
-          <div class="controls">
-            <span class="inline-label">{{humanReadableDateLong funding_instrument.created_at }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Created</label>
+          <span class="value">{{humanReadableDateLong funding_instrument.created_at }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">ID</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.id }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">ID</label>
+          <span class="value">{{ funding_instrument.id }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Card holder's name</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.name }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Card holder's name</label>
+          <span class="value">{{ funding_instrument.name }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Type</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.brand }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Type</label>
+          <span class="value">{{ funding_instrument.brand }}</span>
         </div>
-        <div class="control-group">
-          <label class="control-label">Expiration</label>
-          <div class="controls">
-            <span class="inline-label">{{ funding_instrument.human_readable_expiration }}</span>
-          </div>
+        <div class="key-value-row">
+          <label class="key">Expiration</label>
+          <span class="value">{{ funding_instrument.human_readable_expiration }}</span>
         </div>
       {{/if}}
     </div>

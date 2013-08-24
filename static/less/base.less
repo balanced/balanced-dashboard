@@ -53,6 +53,10 @@ a {
   &:hover {
     color: @linkColorHover;
     text-decoration: none;
+    &:visited {
+      color: @linkColorHover;
+      text-decoration: none;
+    }
   }
   &:active {
     color: @linkColor;
@@ -67,7 +71,7 @@ h1 {
   font-weight: normal;
   font-size: 34px;
   color: #000;
-  margin-bottom: 1em;
+  margin-bottom: 28px;
 
   &.page-title {
     width: @pageTitleWidth;
@@ -103,23 +107,6 @@ input:focus, select:focus, textarea:focus, a:focus {
 .empty-field-label {
   font-style: italic;
 }
-
-.fontyFont(label1, nimbussannov-reg, 18px);
-.fontyFont(label2, nimbussannov-bol, 15px);
-.fontyFont(label3, nimbussannov-med, 15px);
-.fontyFont(label4, nimbussannov-sembol, 13px);
-.fontyFont(label5, nimbussannov-med, 12px);
-.fontyFont(label6, fanwoodtext-italic, 16px);
-.fontyFont(label7, nimbussannov-sembol, 15px);
-.fontyFont(number1, nimbussancond-bol, 56px);
-.fontyFont(number2, nimbussancond-bol, 24px);
-.fontyFont(number3, nimbussancond-bol, 18px);
-.fontyFont(nav1, nimbussannovcon-med, 12px, @textTransform: uppercase, @letterSpacing: 1px);
-.fontyFont(nav2, nimbussannov-semibol, 18px);
-.fontyFont(body2, fanwoodtext-regular, 18px);
-.fontyFont(subhead1, fanwoodtext-regular, 16px);
-.fontyFont(subhead2, nimbussannov-reg, 16px);
-.fontyFont(search1, nimbussannov-med, 18px);
 
 .btn, button {
   font-family: nimbussannov-med;
@@ -237,7 +224,7 @@ dl, dt, dd {
 @import "/static/less/funding_instruments.less";
 @import "/static/less/transactions.less";
 @import "/static/less/start.less";
-@import "/static/less/dl.less";
+@import "/static/less/key_value.less";
 @import "/static/less/logs.less";
 @import "/static/less/google_prettify.less";
 @import "/static/less/alerts.less";
