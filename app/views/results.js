@@ -136,7 +136,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
                     nextSortOrder = 'desc';
                     break;
                 case 'desc':
-                    nextSortOrder = 'none';
+                    nextSortOrder = 'asc';
                     break;
             }
         }
