@@ -9,10 +9,8 @@
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container">
-          {{#if marketplace.can_reverse_transactions}}
-            {{#if credit.can_reverse}}
-              {{reverse-credit-modal credit=credit}}
-            {{/if}}
+          {{#if can_reverse_credit}}
+            {{reverse-credit-modal credit=credit}}
           {{/if}}
         </div>
       </div>

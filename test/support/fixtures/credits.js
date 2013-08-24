@@ -4,5 +4,18 @@ Balanced.Adapter.addFixtures([
 	{
 		uri: '/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/credits/CR5WLencnYp5YFgk43RWoXrM/reversals',
 		items: []
-	}
+	},
+
+	{
+        uri: '/v1/marketplaces/TEST_CREDITS',
+        name: 'TEST_CREDITS'
+    },
+    {
+        uri: '/v1/marketplaces/TEST-TEST_CREDITS/credits/1',
+        reversals_uri: '/v1/marketplaces/TEST-TEST_CREDITS/credits/1/reversals'
+    },
+    {
+        uri: '/v1/marketplaces/TEST-TEST_CREDITS/credits/1/reversals',
+        items: []
+    }
 ]);
