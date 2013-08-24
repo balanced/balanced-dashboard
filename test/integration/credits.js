@@ -45,6 +45,24 @@ asyncTest('can reverse credit', function (assert) {
     }));
 });
 
+asyncTest('admins can reverse credit regardless of marketplace settings', function (assert) {
+    expect(1);
+
+    Testing.selectMarketplaceByName('TEST_CREDITS');
+
+    Ember.run(function() {
+        var credit = Balanced.Credit.find('/v1/marketplaces/TEST-TEST_CREDITS/credits/1');
+        Balanced.Router.create().transitionTo('credits', credit);
+    })
+
+    Testing.execWithTimeoutPromise(function() {
+        Balanced.Auth.get('user').set('admin', true);
+    })().then(Testing.execWithTimeoutPromise(function() {
+        assert.equal($(".reverse-credit-button").length, 1);
+        start();
+    }));
+});
+
 asyncTest('can edit credit', function (assert) {
 	expect(3);
 
