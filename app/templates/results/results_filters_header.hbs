@@ -1,7 +1,7 @@
 <nav>
     <li {{bindAttr class=":transactions :filter view.searchResult.total_transactions::disabled view.transactionsTabSelected:selected"}} >
         {{#if view.searchResult.total_transactions}}
-            <a href="#" {{action changeTypeFilter "transaction"}}>{{ view.transaction_type_label }} ({{ view.transaction_type_total }}) </a>
+            <a href="#" {{action changeTypeFilter "transaction"}}>{{ view.transaction_type_label }} ({{ formatNumber view.transaction_type_total }}) </a>
         {{else}}
             <span>Transactions (0)</span>
         {{/if}}
@@ -38,7 +38,7 @@
 
     <li {{bindAttr class=":accounts view.searchResult.total_accounts::disabled view.customersTabSelected:selected"}} >
         {{#if view.searchResult.total_accounts}}
-            <a href="#" {{action changeTypeFilter "account"}}> Customers ({{ view.searchResult.total_accounts }}) </a>
+            <a href="#" {{action changeTypeFilter "account"}}> Customers ({{ formatNumber view.searchResult.total_accounts }}) </a>
         {{else}}
             <span>Customers (0)</span>
         {{/if}}
@@ -46,7 +46,7 @@
 
     <li {{bindAttr class=":funding-instruments :filter view.searchResult.total_funding_instruments::disabled view.fundingInstrumentsTabSelected:selected"}} >
         {{#if view.searchResult.total_funding_instruments}}
-            <a href="#" {{action changeTypeFilter "funding_instrument"}}> {{ view.funding_instrument_type_label }} ({{ view.funding_instrument_type_total }}) </a>
+            <a href="#" {{action changeTypeFilter "funding_instrument"}}> {{ view.funding_instrument_type_label }} ({{ formatNumber view.funding_instrument_type_total }}) </a>
         {{else}}
             <span>Cards &amp; Bank Accounts (0)</span>
         {{/if}}

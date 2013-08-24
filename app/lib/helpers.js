@@ -283,6 +283,12 @@ Balanced.Utils = {
         }
     },
 
+     formatNumber: function (number){
+        if (number !== null) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    },
+
     capitalize: function (str) {
         if (!str) {
             return str;
