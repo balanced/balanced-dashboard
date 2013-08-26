@@ -30,56 +30,9 @@ Balanced.AddCardModalView = Balanced.View.extend({
         var self = this;
         var card = this.get('model');
 
-        var cardData = {
-            card_number: card.get('card_number'),
-            expiration_month: card.get('expiration_month'),
-            expiration_year: card.get('expiration_year'),
-            security_code: card.get('security_code'),
-            name: card.get('name')
-        };
-
-        // Tokenize the card using the balanced.js library
-        balanced.card.create(cardData, function (response) {
-            switch (response.status) {
-                case 201:
-                    self.associateCard(response.data);
-                    break;
-                case 400:
-                    card.set('validationErrors', {});
-                    if (response.error.expiration) {
-                        card.set('validationErrors.expiration_month', 'invalid');
-                    }
-                    _.each(response.error, function (value, key) {
-                        card.set('validationErrors.' + key, 'invalid');
-                    });
-                    self.set('model.isSaving', false);
-                    break;
-                default:
-                    card.set('displayErrorDescription', true);
-                    var errorSuffix = (response.error && response.error.description) ? (': ' + response.error.description) : '.';
-                    card.set('errorDescription', 'Sorry, there was an error tokenizing this card' + errorSuffix);
-                    self.set('model.isSaving', false);
-                    break;
-            }
-        });
-    },
-
-    associateCard: function(responseData) {
-        var self = this;
-
-        // Now that it's been tokenized, we just need to associate it with this customer's account
-        var cardAssociation = Balanced.Card.create({
-            uri: this.get('customer.cards_uri'),
-            card_uri: responseData.uri
-        });
-        cardAssociation.save().then(function () {
-            self.set('model.isSaving', false);
+        card.tokenizeAndCreate().then(function () {
             self.get('customer.cards').reload();
             $('#add-card').modal('hide');
-        }, function() {
-            self.set('model.displayErrorDescription', true);
-            self.set('model.errorDescription', 'Sorry, there was an error associating this card.');
-            self.set('model.isSaving', false);
         });
     }
 });
