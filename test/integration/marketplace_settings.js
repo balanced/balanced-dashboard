@@ -78,7 +78,14 @@ test('updating owner info only submits once despite multiple clicks', function (
 });
 
 test('can create bank accounts', function (assert) {
-    var spy = sinon.spy(Balanced.Adapter, "create");
+    var createSpy = sinon.spy(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/bank_accounts/deadbeef"
+        }
+    });
 
     // Bank accounts added to the fixture, used for add and withdraw funds
     assert.equal($('.bank-account-info .sidebar-items li').length, 4);
@@ -93,11 +100,28 @@ test('can create bank accounts', function (assert) {
     // click save
     $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
 
-    assert.ok(spy.calledOnce);
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+        type: "checking",
+        name: "TEST",
+        account_number: "123",
+        routing_number: "123123123"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
+        bank_account_uri: '/v1/bank_accounts/deadbeef'
+    }));
 });
 
 test('create bank account only submits once when clicked multiple times', function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/bank_accounts/deadbeef"
+        }
+    });
 
     // click the button to add a bank account
     $('.bank-account-info a.add').click();
@@ -111,6 +135,7 @@ test('create bank account only submits once when clicked multiple times', functi
         $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
     }
 
+    assert.ok(tokenizingStub.calledOnce);
     assert.ok(stub.calledOnce);
 });
 
