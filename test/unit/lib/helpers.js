@@ -265,3 +265,41 @@ test('combineUri', function (assert) {
         assert.equal(Balanced.Utils.combineUri(inputs[i].base, inputs[i].path), outputs[i]);
     }
 });
+
+test('formatNumber', function (assert) {
+    var number = [
+        -984526372,
+        -10000,
+        -1000,
+        -105,
+        -1,
+        0,
+        1,
+        105,
+        1000,
+        10000,
+        984726372,
+        null,
+        undefined
+    ];
+
+    var expected = [
+        '-984,526,372',
+        '-10,000',
+        '-1,000',
+        '-105',
+        '-1',
+        '0',
+        '1',
+        '105',
+        '1,000',
+        '10,000',
+        '984,726,372',
+        null,
+        undefined
+    ];
+
+    for (var i = 0; i < number.length; i++) {
+        assert.equal(Balanced.Utils.formatNumber(number[i]), expected[i]);
+    }
+});
