@@ -203,7 +203,7 @@ test('delete bank accounts only deletes once when submit clicked multiple times'
 });
 
 test('can create cards', function (assert) {
-    var cardCreateSpy = sinon.spy(Balanced.Adapter, "create");
+    var createSpy = sinon.spy(Balanced.Adapter, "create");
     var tokenizingStub = sinon.stub(balanced.card, "create");
     tokenizingStub.callsArgWith(1, {
         status: 201,
@@ -218,13 +218,26 @@ test('can create cards', function (assert) {
     $('#add-card .modal-body input[name="name"]').val('TEST').trigger('keyup');
     $('#add-card .modal-body input[name="card_number"]').val('1234123412341234').trigger('keyup');
     $('#add-card .modal-body input[name="security_code"]').val('123').trigger('keyup');
-    $('#add-card .modal-body input[name="expiration_month"]').val('01').trigger('keyup');
-    $('#add-card .modal-body input[name="expiration_month"]').val('2020').trigger('keyup');
+    $('#add-card .modal-body select[name="expiration_month"] option[value="1"]').attr('selected', 'selected');
+    $('#add-card .modal-body select[name="expiration_month"]').trigger('change');
+    $('#add-card .modal-body select[name="expiration_year"] option[value="2020"]').attr('selected', 'selected');
+    $('#add-card .modal-body select[name="expiration_year"]').trigger('change');
+
     // click save
     $('#add-card .modal-footer button[name="modal-submit"]').click();
 
     assert.ok(tokenizingStub.calledOnce);
-    assert.ok(cardCreateSpy.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+        card_number: "1234123412341234",
+        expiration_month: 1,
+        expiration_year: 2020,
+        security_code: "123",
+        name: "TEST"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards', {
+        card_uri: '/v1/cards/deadbeef'
+    }));
 });
 
 test('create card only submits once when clicked multiple times', function (assert) {
