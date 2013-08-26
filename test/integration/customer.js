@@ -196,35 +196,72 @@ test("can't credit customer multiple times using the same modal", function (asse
 });
 
 test('can add bank account', function (assert) {
-    var createsBefore = Balanced.Adapter.creates.length;
+    var createSpy = sinon.spy(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/bank_accounts/deadbeef"
+        }
+    });
 
     // click the button to add a bank account
     $('.bank-account-info a.add').click();
     // fill out information
-    $('#add-bank-account .modal-body input').eq(0).val('TEST').trigger('keyup');
-    $('#add-bank-account .modal-body input').eq(1).val('123').trigger('keyup');
-    $('#add-bank-account .modal-body input').eq(2).val('123123123').trigger('keyup');
-    $('#add-bank-account .modal-body input').eq(3).val('checking').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="account_number"]').val('123').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="account_type"][value="checking"]').click();
     // click save
     $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
 
-    assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+        type: "checking",
+        name: "TEST",
+        account_number: "123",
+        routing_number: "123123123"
+    }));
+    assert.ok(createSpy.calledOnce);
+    console.log(createSpy.args[0][1]);
+    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts', {
+        bank_account_uri: '/v1/bank_accounts/deadbeef'
+    }));
 });
 
 test('can add card', function (assert) {
-    var createsBefore = Balanced.Adapter.creates.length;
+    var createSpy = sinon.spy(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.card, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/cards/deadbeef"
+        }
+    });
 
     // click the button to add a bank account
     $('.card-info a.add').click();
     // fill out information
-    $('#add-card .modal-body input').eq(0).val('TEST').trigger('keyup');
-    $('#add-card .modal-body input').eq(1).val('123').trigger('keyup');
-    $('#add-card .modal-body input').eq(2).val('123123123').trigger('keyup');
-    $('#add-card .modal-body select').eq(0).val(1);
-    $('#add-card .modal-body select').eq(1).val(2020);
+    $('#add-card .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    $('#add-card .modal-body input[name="card_number"]').val('1234123412341234').trigger('keyup');
+    $('#add-card .modal-body input[name="security_code"]').val('123').trigger('keyup');
+    $('#add-card .modal-body select[name="expiration_month"] option[value="1"]').attr('selected', 'selected');
+    $('#add-card .modal-body select[name="expiration_month"]').trigger('change');
+    $('#add-card .modal-body select[name="expiration_year"] option[value="2020"]').attr('selected', 'selected');
+    $('#add-card .modal-body select[name="expiration_year"]').trigger('change');
     // click save
     $('#add-card .modal-footer button[name="modal-submit"]').click();
 
-    // should be one create
-    assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+        card_number: "1234123412341234",
+        expiration_month: 1,
+        expiration_year: 2020,
+        security_code: "123",
+        name: "TEST"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/cards', {
+        card_uri: '/v1/cards/deadbeef'
+    }));
 });
