@@ -96,13 +96,46 @@ test('can create bank accounts', function (assert) {
     $('#add-bank-account .modal-body input[name="name"]').val('TEST').trigger('keyup');
     $('#add-bank-account .modal-body input[name="account_number"]').val('123').trigger('keyup');
     $('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
-    $('#add-bank-account .modal-body input[name="account_type"]').val('checking').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="account_type"][value="checking"]').click();
     // click save
     $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
 
     assert.ok(tokenizingStub.calledOnce);
     assert.ok(tokenizingStub.calledWith({
         type: "checking",
+        name: "TEST",
+        account_number: "123",
+        routing_number: "123123123"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
+        bank_account_uri: '/v1/bank_accounts/deadbeef'
+    }));
+});
+
+test('can create savings accounts', function (assert) {
+    var createSpy = sinon.spy(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/bank_accounts/deadbeef"
+        }
+    });
+
+    // click the button to add a bank account
+    $('.bank-account-info a.add').click();
+    // fill out information
+    $('#add-bank-account .modal-body input[name="name"]').val('TEST').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="account_number"]').val('123').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
+    $('#add-bank-account .modal-body input[name="account_type"][value="savings"]').click();
+    // click save
+    $('#add-bank-account .modal-footer button[name="modal-submit"]').click();
+
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+        type: "savings",
         name: "TEST",
         account_number: "123",
         routing_number: "123123123"

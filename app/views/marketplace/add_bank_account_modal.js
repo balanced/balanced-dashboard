@@ -25,7 +25,7 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 
         var bankAccountData = {
             // this isn't an ember widget, so have to grab it ourselves
-            type: this.$('form input[name=account_type]').val(),
+            type: this.$('form input[name=account_type]:checked').val(),
             name: bankAccount.get('name'),
             account_number: bankAccount.get('account_number'),
             routing_number: bankAccount.get('routing_number')
