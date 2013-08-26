@@ -2,7 +2,7 @@
     <div class="row">
 
         <div id="logo" class="span2">
-            <a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
+            {{#linkTo 'index' class="img"}}Balanced Dashboard{{/linkTo}}
         </div>
 
         {{#if Balanced.Auth.isGuest}}
