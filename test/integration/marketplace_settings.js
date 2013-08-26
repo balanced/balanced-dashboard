@@ -145,7 +145,14 @@ test('delete bank accounts only deletes once when submit clicked multiple times'
 });
 
 test('can create cards', function (assert) {
-    var spy = sinon.spy(Balanced.Adapter, "create");
+    var cardCreateSpy = sinon.spy(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.card, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/cards/deadbeef"
+        }
+    });
 
     // click the button to add a bank account
     $('.card-info a.add').click();
@@ -158,11 +165,19 @@ test('can create cards', function (assert) {
     // click save
     $('#add-card .modal-footer button[name="modal-submit"]').click();
 
-    assert.ok(spy.calledOnce);
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(cardCreateSpy.calledOnce);
 });
 
 test('create card only submits once when clicked multiple times', function (assert) {
     var stub = sinon.stub(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.card, "create");
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/cards/deadbeef"
+        }
+    });
 
     // click the button to add a bank account
     $('.card-info a.add').click();
@@ -177,6 +192,7 @@ test('create card only submits once when clicked multiple times', function (asse
         $('#add-card .modal-footer button[name="modal-submit"]').click();
     }
 
+    assert.ok(tokenizingStub.calledOnce);
     assert.ok(stub.calledOnce);
 });
 
