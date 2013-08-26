@@ -5,9 +5,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(
         needs: ['application', 'marketplace'],
 
         useSearch: true,
-
+        
         search: null,
         debounced_search: null,
+
+        allowSortByNone: true,
 
         baseClassSelector: '#search',
 

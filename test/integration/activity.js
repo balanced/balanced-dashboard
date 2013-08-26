@@ -160,3 +160,37 @@ test('download activity only runs once despite multiple clicks', function (asser
 
     assert.ok(stub.calledOnce);
 });
+
+test('transactions date sort has two states', function (assert) {
+    var objectPath = "#activity .results th.date";
+    var states = [];
+    var getSate = function(){
+        if($(objectPath).hasClass("unsorted")){
+            if($.inArray("unsorted", states) === -1){
+                states.push("unsorted");
+            }
+        }else if($(objectPath).hasClass("ascending")){
+            if($.inArray("ascending", states) === -1){
+                states.push("ascending");
+            }
+        }else if($(objectPath).hasClass("descending")){
+            if($.inArray("descending", states) === -1){
+                states.push("descending");
+            }
+        }
+    };
+
+    var count = 0;
+    var testAmount = 5;
+    while(count !== testAmount){
+        $(objectPath).click();
+        getSate();
+        count ++;
+    }
+    states.sort();
+    
+    var expectedStates = ["ascending", "descending"];
+    assert.equal(states[0], expectedStates[0]);
+    assert.equal(states[1], expectedStates[1]);
+    assert.equal(states.length, 2);
+});

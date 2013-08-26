@@ -129,6 +129,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
     click: function (e) {
         var sortField = this.get('controller.sortField');
         var sortOrder = this.get('controller.sortOrder');
+        var allowSortByNone = this.get('controller.allowSortByNone');
         var nextSortOrder = "asc";
         if (sortField === this.get('field')) {
             switch (sortOrder) {
@@ -137,6 +138,9 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
                     break;
                 case 'desc':
                     nextSortOrder = 'asc';
+                    if(allowSortByNone){
+                        nextSortOrder = 'none';
+                    }
                     break;
             }
         }

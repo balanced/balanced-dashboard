@@ -148,3 +148,40 @@ test('search date range pick', function (assert) {
     assert.equal(request.args[0], Balanced.SearchQuery);
     assert.equal(request.args[1], expected_uri);
 });
+
+test('search date sort has three states', function (assert) {
+    Testing.runSearch('%');
+
+    var objectPath = "#search .results th.date";
+    var states = [];
+    var getSate = function(){
+        if($(objectPath).hasClass("unsorted")){
+            if($.inArray("unsorted", states) === -1){
+                states.push("unsorted");
+            }
+        }else if($(objectPath).hasClass("ascending")){
+            if($.inArray("ascending", states) === -1){
+                states.push("ascending");
+            }
+        }else if($(objectPath).hasClass("descending")){
+            if($.inArray("descending", states) === -1){
+                states.push("descending");
+            }
+        }
+    };
+
+    var count = 0;
+    var testAmount = 5;
+    while(count !== testAmount){
+        $(objectPath).click();
+        getSate();
+        count ++;
+    }
+    states.sort();
+
+    var expectedStates = ["ascending", "descending", "unsorted"];
+    assert.equal(states[0], expectedStates[0]);
+    assert.equal(states[1], expectedStates[1]);
+    assert.equal(states[2], expectedStates[2]);
+    assert.equal(states.length, 3);
+});

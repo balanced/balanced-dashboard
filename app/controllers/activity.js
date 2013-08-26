@@ -46,6 +46,7 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 });
 
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
+    allowSortByNone: false
 });
 
 Balanced.ActivityCustomersController = Balanced.NestedActivityResultsControllers.extend({
