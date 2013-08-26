@@ -25,7 +25,6 @@ Balanced.AddCardModalView = Balanced.View.extend({
         if (this.get('model.isSaving')) {
             return;
         }
-        this.set('model.isSaving', true);
 
         var self = this;
         var card = this.get('model');
