@@ -374,10 +374,10 @@ Balanced.Utils = {
         filteringParams = Balanced.Utils.sortDict(filteringParams);
 
         var queryString = $.map(filteringParams,function (v, k) {
-            return k + '=' + v;
+            return encodeURIComponent(k) + '=' + encodeURIComponent(v);
         }).join('&');
 
-        uri += '?' + encodeURI(queryString);
+        uri += '?' + queryString;
 
         return uri;
     },
