@@ -1697,7 +1697,7 @@ var basicResult = {
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=credit,debit,refund,hold",
+    "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold",
     "_uris": {
         "first_uri": {
             "_type": "page",
@@ -1734,23 +1734,23 @@ var basicResult = {
   };
 
 var basicResultSorted = JSON.parse(JSON.stringify(basicResult));
-basicResultSorted.uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at,desc&type%5Bin%5D=credit,debit,refund,hold';
+basicResultSorted.uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold';
 var creditsResult = JSON.parse(JSON.stringify(basicResult));
 creditsResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type=credit";
 creditsResult.items = [basicResult.items[0]];
 var creditsResultSorted = JSON.parse(JSON.stringify(creditsResult));
-creditsResultSorted.uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at,desc&type=credit';
+creditsResultSorted.uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type=credit';
 
 var customersResult = JSON.parse(JSON.stringify(basicResult));
 customersResult.items = [{"twitter": null, "meta": {}, "id": "AC5m0wzuMTw3JbKP4uIZXFpC", "email": "nick2@rasslingcats.com", "_type": "account", "source_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts/BA7ib903o1OjP6hrmRPv5VFI", "bank_accounts_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts", "phone": "30137944734", "merchant_uri": "/v1/merchants/TEST-MR5lE5Z9UX5KwOLt1jWfyd5B", "facebook": null, "address": {}, "destination_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts/BA7ib903o1OjP6hrmRPv5VFI", "business_name": null, "credits_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/credits", "cards_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/cards", "holds_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/holds", "name": "Nick1", "dob": null, "created_at": "2013-04-16T23:30:56.390Z", "is_identity_verified": false, "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5m0wzuMTw3JbKP4uIZXFpC", "customer_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC", "refunds_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/refunds", "_uris": {"holds_uri": {"_type": "page", "key": "holds"}, "source_uri": {"_type": "bank_account", "key": "source"}, "bank_accounts_uri": {"_type": "page", "key": "bank_accounts"}, "refunds_uri": {"_type": "page", "key": "refunds"}, "merchant_uri": {"_type": "merchant", "key": "merchant"}, "debits_uri": {"_type": "page", "key": "debits"}, "destination_uri": {"_type": "bank_account", "key": "destination"}, "transactions_uri": {"_type": "page", "key": "transactions"}, "credits_uri": {"_type": "page", "key": "credits"}, "cards_uri": {"_type": "page", "key": "cards"}}, "debits_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/debits", "transactions_uri": "/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/transactions", "ssn_last4": null, "ein": null}];
 customersResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type=account";
 var customersResultSorted = JSON.parse(JSON.stringify(customersResult));
-customersResultSorted.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at,desc&type=account";
+customersResultSorted.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type=account";
 
 var fundingInstrumentsResult = JSON.parse(JSON.stringify(basicResult));
-fundingInstrumentsResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=bank_account,card";
+fundingInstrumentsResult.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&type%5Bin%5D=bank_account%2Ccard";
 var fundingInstrumentsResultSorted = JSON.parse(JSON.stringify(fundingInstrumentsResult));
-fundingInstrumentsResultSorted.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at,desc&type%5Bin%5D=bank_account,card";
+fundingInstrumentsResultSorted.uri = "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=bank_account%2Ccard";
 
 Balanced.Adapter.addFixtures([
   basicResult,
@@ -1777,7 +1777,7 @@ Balanced.Adapter.addFixtures([
           {"_type": "account", "holds_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/holds", "name": "Robert Hofstadter", "roles": ["buyer"], "transactions_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/transactions", "created_at": "2013-04-16T23:31:08.924631Z", "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88", "bank_accounts_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/bank_accounts", "refunds_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/refunds", "merchant_uri": null, "_uris": {"transactions_uri": {"_type": "page", "key": "transactions"}, "bank_accounts_uri": {"_type": "page", "key": "bank_accounts"}, "refunds_uri": {"_type": "page", "key": "refunds"}, "debits_uri": {"_type": "page", "key": "debits"}, "holds_uri": {"_type": "page", "key": "holds"}, "credits_uri": {"_type": "page", "key": "credits"}, "cards_uri": {"_type": "page", "key": "cards"}}, "meta": {}, "debits_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/debits", "email_address": "robert.hofstadter150@gmail.web", "id": "AC5A68nxZcKtmMREMrGCJK88", "credits_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/credits", "cards_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/accounts/AC5A68nxZcKtmMREMrGCJK88/cards"}
       ],
       "previous_uri": null,
-      "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&sortOrder=desc&sortField=created_at&q=t&type%5Bin%5D=credit,debit,refund,hold",
+      "uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&sortOrder=desc&sortField=created_at&q=t&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold",
       "_uris": {"first_uri": {"_type": "page", "key": "first"}, "previous_uri": {"_type": "page", "key": "previous"}, "next_uri": {"_type": "page", "key": "next"}, "last_uri": {"_type": "page", "key": "last"}}, "limit": 10, "offset": 0, "counts": {"refund": 1, "account": 6, "credit": 8, "bank_account": 3, "debit": 5, "hold": 4, "card": 2},
       "total": 29,
       "next_uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?q=t&limit=10&offset=10",

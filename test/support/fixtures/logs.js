@@ -1858,7 +1858,7 @@ Balanced.Adapter.addFixtures([{
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc",
+    "uri": "/v1/logs?limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc",
     "_uris": {
         "first_uri": {
             "_type": "page",
@@ -3589,7 +3589,7 @@ Balanced.Adapter.addFixtures([{
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/logs?endpoint=bank_accounts&limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc",
+    "uri": "/v1/logs?endpoint=bank_accounts&limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc",
     "_uris": {
         "first_uri": {
             "_type": "page",
@@ -4862,7 +4862,7 @@ Balanced.Adapter.addFixtures([{
         }
     ],
     "previous_uri": null,
-    "uri": "/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc&status_rollup%5Bin%5D=3xx,4xx,5xx",
+    "uri": "/v1/logs?limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx",
     "_uris": {
         "first_uri": {
             "_type": "page",

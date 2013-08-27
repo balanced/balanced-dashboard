@@ -303,3 +303,51 @@ test('formatNumber', function (assert) {
         assert.equal(Balanced.Utils.formatNumber(number[i]), expected[i]);
     }
 });
+
+test('applyUriFilters', function(assert) {
+    var inputs = [
+        {
+            uri: 'http://example.com/something',
+            params: {
+                query: 'hello',
+            }
+        },
+        {
+            uri: 'http://example.com/something',
+            params: {
+                query: 'hello',
+                limit: 23,
+                offset: 87,
+                sortField: 'foo',
+                sortOder: 'asc',
+                minDate: new Date(1231231231231),
+                maxDate: new Date(1231231231231),
+                type: 'foobar'
+            }
+        },
+        {
+            uri: 'http://example.com/something',
+            params: {
+                query: 'hello',
+                custom: 'woohoo'
+            }
+        },
+        {
+            uri: 'http://example.com/something',
+            params: {
+                query: 'nick+test1@rasslingcats.com'
+            }
+        }
+    ];
+
+    var expected = [
+        'http://example.com/something?limit=10&offset=0&q=hello',
+        'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=23&offset=87&q=hello&sortOder=asc&type=foobar',
+        'http://example.com/something?custom=woohoo&limit=10&offset=0&q=hello',
+        'http://example.com/something?limit=10&offset=0&q=nick%2Btest1%40rasslingcats.com'
+    ];
+
+    for (var i = 0; i < inputs.length; i++) {
+        assert.equal(Balanced.Utils.applyUriFilters(inputs[i].uri, inputs[i].params), expected[i]);
+    }
+});
