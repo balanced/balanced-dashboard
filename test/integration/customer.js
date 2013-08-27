@@ -223,7 +223,6 @@ test('can add bank account', function (assert) {
         routing_number: "123123123"
     }));
     assert.ok(createSpy.calledOnce);
-    console.log(createSpy.args[0][1]);
     assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts', {
         bank_account_uri: '/v1/bank_accounts/deadbeef'
     }));

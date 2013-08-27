@@ -63,7 +63,10 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
                         uri: self.get('uri'),
                         bank_account_uri: response.data.uri
                     });
-                    bankAccountAssociation.save().then(function () {
+                    bankAccountAssociation.save().then(function (savedBankAccount) {
+                        self.updateFromModel(savedBankAccount);
+                        self.set('isLoaded', true);
+                        self.set('isNew', false);
                         self.set('isSaving', false);
                         self.trigger('didCreate');
                     }, function() {

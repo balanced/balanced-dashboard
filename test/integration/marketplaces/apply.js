@@ -144,3 +144,70 @@ test('basic form validation and terms and conditions', function (assert) {
     assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
 
 });
+
+test('application submits properly', function(assert) {
+    var createStub = sinon.stub(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+    createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
+
+    });
+    createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
+        owner_customer: {
+            bank_accounts_uri: "/v1/marketplaces/deadbeef/bank_accounts"
+        }
+    });
+    createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {
+
+    });
+    createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
+        verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
+    });
+    createStub.withArgs(Balanced.Verification).callsArgWith(3, {
+
+    });
+
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/bank_accounts/deadbeef"
+        }
+    });
+
+    $('a:contains("Person")').click();
+    populate();
+    $("#terms-and-conditions").click();
+
+    $('.submit').click();
+
+    assert.equal(createStub.callCount, 5);
+    assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
+        merchant: {
+            dob: '1996-1-1',
+            name: 'John Balanced',
+            phone_number: '(904) 628 1796',
+            postal_code: '94103',
+            street_address: '965 Mission St',
+            tax_id: '1234',
+            type: 'PERSON'
+        }
+    }));
+    assert.ok(createStub.calledWith(Balanced.Marketplace, "/v1/marketplaces", {
+        name: "Balanced Test Marketplace",
+        support_email_address: "support@balancedpayments.com",
+        support_phone_number: "(650) 555-4444",
+        domain_url: "https://www.balancedpayments.com"
+    }));
+    assert.ok(createStub.calledWith(Balanced.UserMarketplace));
+    assert.ok(createStub.calledWith(Balanced.BankAccount, '/v1/marketplaces/deadbeef/bank_accounts', {
+        bank_account_uri: '/v1/bank_accounts/deadbeef'
+    }));
+    assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
+
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+        type: "CHECKING",
+        name: "Balanced Inc",
+        account_number: "123123123",
+        routing_number: "321174851"
+    }));
+});
