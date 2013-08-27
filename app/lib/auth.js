@@ -94,6 +94,11 @@ Balanced.Auth = (function () {
         $.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
             path: '/'
         });
+        $.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
+            path: '/',
+            domain: 'balancedpayments.com'
+        });
+
         $.removeCookie(Balanced.COOKIE.SESSION, {
             path: '/'
         });

@@ -73,6 +73,8 @@ Balanced.Router.map(function () {
             });
 
             this.resource('customers', { path: '/customers/:customer_id' });
+            // exists to handle old URIs for accounts, redirects to the customers page
+            this.resource('accounts', { path: '/accounts/:account_id' });
 
             this.resource('bank_accounts', { path: '/bank_accounts/:bank_account_id'});
 
@@ -159,4 +161,5 @@ require('app/routes/debits');
 require('app/routes/holds');
 require('app/routes/refunds');
 require('app/routes/reversals');
+require('app/routes/accounts');
 require('app/routes/invalid');
