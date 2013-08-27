@@ -40,7 +40,62 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
                 this.get('verification.state') !== 'failed' &&
                 this.get('verification.state') !== 'verified' &&
                 this.get('verification.remaining_attempts') > 0;
-    }.property('verification', 'verification.state', 'verification.remaining_attempts')
+    }.property('verification', 'verification.state', 'verification.remaining_attempts'),
+
+    tokenizeAndCreate: function() {
+        var self = this;
+        var promise = this.resolveOn('didCreate');
+
+        this.set('isSaving', true);
+        var bankAccountData = {
+            type: this.get('type'),
+            name: this.get('name'),
+            account_number: this.get('account_number'),
+            routing_number: this.get('routing_number')
+        };
+
+        // Tokenize the bank account using the balanced.js library
+        balanced.bankAccount.create(bankAccountData, function (response) {
+            switch (response.status) {
+                case 201:
+                    // Now that it's been tokenized, we just need to associate it with the customer's account
+                    var bankAccountAssociation = Balanced.BankAccount.create({
+                        uri: self.get('uri'),
+                        bank_account_uri: response.data.uri
+                    });
+                    bankAccountAssociation.save().then(function (savedBankAccount) {
+                        self.updateFromModel(savedBankAccount);
+                        self.set('isLoaded', true);
+                        self.set('isNew', false);
+                        self.set('isSaving', false);
+                        self.trigger('didCreate');
+                    }, function() {
+                        self.set('displayErrorDescription', true);
+                        self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
+                        self.set('isSaving', false);
+                        promise.reject();
+                    });
+                    break;
+                case 400:
+                    self.set('validationErrors', {});
+                    _.each(response.error, function (value, key) {
+                        self.set('validationErrors.' + key, 'invalid');
+                    });
+                    self.set('isSaving', false);
+                    promise.reject();
+                    break;
+                default:
+                    self.set('displayErrorDescription', true);
+                    var errorSuffix = (response.error && response.error.description) ? (': ' + response.error.description) : '.';
+                    self.set('errorDescription', 'Sorry, there was an error tokenizing this bank account' + errorSuffix);
+                    self.set('isSaving', false);
+                    promise.reject();
+                    break;
+            }
+        });
+
+        return promise;
+    }
 });
 
 Balanced.TypeMappings.addTypeMapping('bank_account', 'Balanced.BankAccount');
