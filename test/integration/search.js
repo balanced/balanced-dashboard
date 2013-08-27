@@ -122,7 +122,7 @@ test('search date range pick', function (assert) {
     // click the date picker dropdown
     $('#search .results .timing a.dropdown-toggle').click();
 
-    // enter date 
+    // enter date
     $('#search .results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
     $('#search .results .timing td.active.day').click();
     $('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
@@ -134,14 +134,14 @@ test('search date range pick', function (assert) {
     // Notice: month 7 is Aug here for JS Date, ugly javascript...
     // As the date time is local, we need to convert it to ISO from in UTC timezone
     var begin = new Date(2013, 7, 1);
-    var begin_iso = begin.toISOString();
+    var begin_iso = encodeURIComponent(begin.toISOString());
     var end = new Date(2013, 7, 2);
-    var end_iso = end.toISOString();
+    var end_iso = encodeURIComponent(end.toISOString());
 
     var expected_uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?' +
         'created_at%5B%3C%5D=' + end_iso + '&' +
         'created_at%5B%3E%5D=' + begin_iso + '&' +
-        'limit=10&offset=0&q=&type%5Bin%5D=credit,debit,refund,hold'
+        'limit=10&offset=0&q=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold'
     ;
 
     var request = spy.getCall(spy.callCount - 1);

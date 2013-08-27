@@ -16,7 +16,7 @@ test('can visit page', function (assert) {
     var $title = $('#content h1');
     var logRequest = spy.getCall(spy.callCount - 1);
     assert.equal(logRequest.args[0], Balanced.Log);
-    assert.equal(logRequest.args[1], '/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc');
+    assert.equal(logRequest.args[1], '/v1/logs?limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc');
     assert.notEqual($title.text().indexOf('Logs'), -1, 'Title is not correct');
 });
 
@@ -63,7 +63,7 @@ test('filter logs by request failed only', function (assert) {
 
     assert.equal(logRequest.args[0], Balanced.Log);
     assert.equal(logRequest.args[1],
-        '/v1/logs?limit=20&method%5Bin%5D=post,put,delete&offset=0&q=&sort=created_at,desc&status_rollup%5Bin%5D=3xx,4xx,5xx');
+        '/v1/logs?limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx');
 
     assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
     assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
