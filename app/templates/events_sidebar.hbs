@@ -18,7 +18,11 @@
 				</li>
 			{{/each}}
 		{{ else }}
-		  <em>None</em>
+			{{# if view.transactions.isLoaded }}
+				<em>None</em>
+			{{else}}
+				<em>Loading...</em>
+			{{/if}}
 		{{/if}}
 	</ul>
-</section> 
+</section>
