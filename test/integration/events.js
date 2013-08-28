@@ -14,10 +14,6 @@ module('Events', {
 	}
 });
 
-test('just a dumb test TWO', function (assert) {
-    assert.equal(2, 3, 'oh yaaa 2 == 2');
-});
-
 asyncTest('can visit page', function (assert) {
     expect(3);
 	Testing.execWithTimeoutPromise(function() {
@@ -25,16 +21,6 @@ asyncTest('can visit page', function (assert) {
 		assert.notEqual($('#content h1').text().indexOf('credit.created'), -1, 'Title is not correct');
 		assert.equal($(".event-data-info h3").text().trim(), 'Event data');
 		assert.equal($(".webhook-info h3").text().trim(), 'Webhooks');
-        start();
-	})();
-});
-
-asyncTest('contains valid webhook data', function (assert) {
-    expect(3);
-	Testing.execWithTimeoutPromise(function() {
-		assert.notEqual($('ul.webhooks .state').text().trim(),'succeeded');
-		assert.equal($("ul.webhooks .callback-method").text().trim(), 'POST');
-		assert.equal($("ul.webhooks .url").text().trim(), 'http://hackingbeauty.com');
         start();
 	})();
 });
