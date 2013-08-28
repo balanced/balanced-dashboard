@@ -1,7 +1,19 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
 
-#invoices td.amount a {
-	font-family: @baseFontFamilyBold;
-	color: @black;
+#invoices {
+	th.amount {
+		padding-right: 0;
+	}
+	.amount {
+		float: right;
+  	text-align: right;
+  	a {
+      font-family: @baseFontFamilyBold;
+      color: @black;
+    }
+	}
+	.status {
+		float: right;
+	}
 }

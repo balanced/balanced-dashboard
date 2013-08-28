@@ -1,17 +1,19 @@
 module('Invoices', {
     setup: function () {
         Testing.selectMarketplaceByName();
+
+        // click the invoices link
+		    $('#marketplace-nav .invoices a').click();
     }, teardown: function () {
 
     }
 });
 
 test('can visit page', function (assert) {
-    // click the invoices link
-    $('#marketplace-nav .invoices a').click();
-
     //  check the page title has been selected
-    var $title = $('#content h1');
+    assert.equal($('#content h1').text().trim(), 'Invoices');
+});
 
-    assert.notEqual($title.text().indexOf('Invoices'), -1);
+test('shows invoices list', function(assert) {
+	assert.equal($("#invoices table tbody tr").length, 2);
 });
