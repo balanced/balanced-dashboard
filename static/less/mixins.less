@@ -25,13 +25,14 @@
   background-position: @scale*-1*@posX @scale*-1*@posY;
 }
 
-.fontyFont(@prefix, @fontFamily, @fontSize, @fontWeight: normal,
-           @textTransform: inherit, @letterSpacing: default) {
+.fontyFont(@prefix; @fontFamily; @fontSize; @fontWeight: normal;
+           @textTransform: inherit; @letterSpacing: default; @fontStyle: normal) {
 
   .x() {
-    font-family: @fontFamily, arial, sans-serif;
+    font-family: @fontFamily;
     font-weight: @fontWeight;
     font-size: @fontSize;
+    font-style: @fontStyle;
     text-transform: @textTransform;
     letter-spacing: @letterSpacing;
     line-height: 100%;
