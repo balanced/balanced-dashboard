@@ -12,6 +12,7 @@
 					  {{#linkTo 'events' event}}{{ event.type }}{{/linkTo}}
 					</div>
 					<div>
+						{{ inflection event.eventCallbacks.length singular="webhook"}}:
 						{{ humanReadableDateLong event.entity.created_at }}
 					</div>
 				</li>

@@ -19,3 +19,15 @@ Ember.Handlebars.registerHelper('linkToEntity', Balanced.Utils.linkToEntity);
 
 Ember.Handlebars.registerBoundHelper('humanReadableDateShort', Balanced.Utils.humanReadableDateShort);
 Ember.Handlebars.registerBoundHelper('humanReadableDateLong', Balanced.Utils.humanReadableDateLong);
+Ember.Handlebars.registerBoundHelper('inflection', function (property, options) {
+	var length, singularForm, str;
+	if(options){
+		length = property, singularForm = options.hash["singular"];
+		if((parseInt(length) > 1) || (parseInt(length) === 0)){
+			str = length + " " + singularForm  + "s"; 
+		} else {
+			str = length + " " + singularForm; 
+		}
+	}
+	return new Handlebars.SafeString(str);
+});
