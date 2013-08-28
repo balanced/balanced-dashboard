@@ -174,3 +174,9 @@ Balanced.LogsFiltersHeaderView = Balanced.View.extend({
     templateName: 'results/logs_filters_header',
     tagName: 'header'
 });
+
+Balanced.InvoicesResultsView = Balanced.ResultsTableView.extend({
+    classNames: 'invoices',
+    classNameBindings: 'selected',
+    templateName: 'results/invoices_table'
+});
