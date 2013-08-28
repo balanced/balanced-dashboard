@@ -10,6 +10,6 @@ Balanced.InvoicesIndexController = Balanced.ObjectController.extend(Ember.Evente
 	baseClassSelector: '#invoices',
 
 	results_base_uri: function () {
-	    return this.get('controllers.marketplace.invoices_uri');
+		return this.get('controllers.marketplace.invoices_uri');
 	}.property('controllers.marketplace.invoices_uri'),
 });
