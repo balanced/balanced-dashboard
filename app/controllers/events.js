@@ -1,15 +1,15 @@
 Balanced.EventsController = Balanced.ObjectController.extend({
 	eventData: function(){
-		var entity = this.get('model')['entity'],
+		var model = this.get('model')['entity'],
 			data = {
-				"amount":               entity['amount'],
-				"bank_account_uri":     entity['bank_account_uri'],
-				"created_at":           entity['created_at'],
-				"description":          entity['description'],
-				"id":                   entity['id'],
-				"meta":                 entity['meta'],
-				"status":               entity['status'],
-				"uri":                  entity['uri']
+				"amount":               model['amount'],
+				"bank_account_uri":     model['bank_account_uri'],
+				"created_at":           model['created_at'],
+				"description":          model['description'],
+				"id":                   model['id'],
+				"meta":                 model['meta'],
+				"status":               model['status'],
+				"uri":                  model['uri']
 			};
 		return data;
 	}.property('model')
