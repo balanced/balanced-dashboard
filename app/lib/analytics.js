@@ -32,8 +32,6 @@ Balanced.Analytics = (function () {
         try {
             window.mixpanel.alias(email);
         } catch (err) {
-            // TODO: is this indicative of a bug?
-            // Mixpanel error: Attempting to create alias for existing People user - aborting.
         }
     }
 
@@ -50,8 +48,10 @@ Balanced.Analytics = (function () {
             window._gaq.push(['_trackPageview']);
 
             Balanced.Auth.on('signInSuccess', _.debounce(function () {
-                var user = this.get('_session').get('user');
-                trackLogin(user.email_address);
+                var user = Balanced.Auth.get('user');
+                user.then(function() {
+                    trackLogin(user.get('email_address'));
+                });
             }, 450));
 
             // HACK: can't find an good way to track all events in ember atm
