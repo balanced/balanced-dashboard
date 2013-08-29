@@ -1,3 +1,5 @@
+require('app/models/funding_instrument');
+
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
     uri: '/v1/bank_accounts',
 

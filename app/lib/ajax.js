@@ -1,3 +1,5 @@
+require('app/lib/variables');
+
 Balanced.NET = (function () {
 
     var csrfToken = $.cookie(Balanced.COOKIE.CSRF_TOKEN);

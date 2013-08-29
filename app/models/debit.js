@@ -1,3 +1,5 @@
+require('app/models/transaction');
+
 Balanced.Debit = Balanced.Transaction.extend({
     source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
     hold: Balanced.Model.belongsTo('hold', 'Balanced.Hold'),
