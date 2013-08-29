@@ -40,6 +40,16 @@
         }
       }
     },
+    "grunt-open": {
+      "version": "0.2.2",
+      "from": "grunt-open@",
+      "dependencies": {
+        "open": {
+          "version": "0.0.4",
+          "from": "open@~0.0.4"
+        }
+      }
+    },
     "grunt-img": {
       "version": "0.1.6",
       "from": "grunt-img@~0.1.6",
@@ -499,37 +509,30 @@
       }
     },
     "grunt-contrib-watch": {
-      "version": "0.2.0",
-      "from": "grunt-contrib-watch@~0.2.0rc5",
+      "version": "0.5.3",
+      "from": "grunt-contrib-watch@>= 0.4.0",
+      "resolved": "https://registry.npmjs.org/grunt-contrib-watch/-/grunt-contrib-watch-0.5.3.tgz",
       "dependencies": {
         "gaze": {
-          "version": "0.3.4",
-          "from": "gaze@~0.3.3",
+          "version": "0.4.1",
+          "from": "gaze@~0.4.0",
+          "resolved": "https://registry.npmjs.org/gaze/-/gaze-0.4.1.tgz",
           "dependencies": {
-            "minimatch": {
-              "version": "0.2.12",
-              "from": "minimatch@~0.2.9",
+            "globule": {
+              "version": "0.1.0",
+              "from": "globule@~0.1.0",
+              "resolved": "https://registry.npmjs.org/globule/-/globule-0.1.0.tgz",
               "dependencies": {
-                "lru-cache": {
-                  "version": "2.3.0",
-                  "from": "lru-cache@2"
+                "lodash": {
+                  "version": "1.0.1",
+                  "from": "lodash@~1.0.1"
                 },
-                "sigmund": {
-                  "version": "1.0.0",
-                  "from": "sigmund@~1.0.0"
-                }
-              }
-            },
-            "fileset": {
-              "version": "0.1.5",
-              "from": "fileset@~0.1.5",
-              "dependencies": {
                 "glob": {
-                  "version": "3.2.1",
-                  "from": "glob@3.x",
+                  "version": "3.1.21",
+                  "from": "glob@~3.1.21",
                   "dependencies": {
                     "graceful-fs": {
-                      "version": "1.2.1",
+                      "version": "1.2.3",
                       "from": "graceful-fs@~1.2.0"
                     },
                     "inherits": {
@@ -537,8 +540,56 @@
                       "from": "inherits@1"
                     }
                   }
+                },
+            "minimatch": {
+              "version": "0.2.12",
+                  "from": "minimatch@~0.2.11",
+              "dependencies": {
+                "lru-cache": {
+                      "version": "2.3.1",
+                  "from": "lru-cache@2"
+                },
+                "sigmund": {
+                  "version": "1.0.0",
+                  "from": "sigmund@~1.0.0"
                 }
               }
+                }
+              }
+            }
+          }
+            },
+        "tiny-lr": {
+          "version": "0.0.4",
+          "from": "tiny-lr@0.0.4",
+                  "dependencies": {
+            "qs": {
+              "version": "0.5.6",
+              "from": "qs@~0.5.2"
+                    },
+            "faye-websocket": {
+              "version": "0.4.4",
+              "from": "faye-websocket@~0.4.3"
+            },
+            "noptify": {
+              "version": "0.0.3",
+              "from": "noptify@latest",
+              "dependencies": {
+                "nopt": {
+                  "version": "2.0.0",
+                  "from": "nopt@~2.0.0",
+                  "dependencies": {
+                    "abbrev": {
+                      "version": "1.0.4",
+                      "from": "abbrev@1"
+                    }
+                  }
+                }
+              }
+            },
+            "debug": {
+              "version": "0.7.2",
+              "from": "debug@~0.7.0"
             }
           }
         }

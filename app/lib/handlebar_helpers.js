@@ -1,3 +1,5 @@
+require('app/lib/helpers');
+
 Ember.Handlebars.registerBoundHelper('formatCurrency', Balanced.Utils.formatCurrency);
 
 Ember.Handlebars.registerBoundHelper('formatNumber', Balanced.Utils.formatNumber);
@@ -24,9 +26,9 @@ Ember.Handlebars.registerBoundHelper('inflection', function (property, options) 
 	if(options){
 		length = property, singularForm = options.hash["singular"];
 		if((parseInt(length,10) > 1) || (parseInt(length,10) === 0)){
-			str = length + " " + singularForm  + "s"; 
+			str = length + " " + singularForm  + "s";
 		} else {
-			str = length + " " + singularForm; 
+			str = length + " " + singularForm;
 		}
 	}
 	return new Ember.Handlebars.SafeString(str);

@@ -130,36 +130,3 @@ Balanced.ShowResource = Balanced.IframeRoute.extend({
         this.controllerFor(this.resource).set('content', model);
     }
 });
-
-////
-// Route requires
-////
-require('app/routes/application');
-require('app/routes/index');
-
-require('app/routes/claim');
-require('app/routes/login');
-require('app/routes/forgot_password');
-require('app/routes/reset_password');
-require('app/routes/start');
-
-require('app/routes/marketplaces/accounts');
-require('app/routes/marketplaces/apply');
-require('app/routes/marketplaces/index');
-require('app/routes/marketplaces/initial_deposit');
-require('app/routes/marketplaces/invoices');
-require('app/routes/marketplaces/logs');
-require('app/routes/marketplaces/marketplace');
-require('app/routes/marketplaces/transactions');
-require('app/routes/marketplaces/activity');
-require('app/routes/marketplaces/settings');
-require('app/routes/marketplaces/add_customer');
-require('app/routes/customers');
-require('app/routes/bank_accounts');
-require('app/routes/cards');
-require('app/routes/credits');
-require('app/routes/debits');
-require('app/routes/holds');
-require('app/routes/refunds');
-require('app/routes/reversals');
-require('app/routes/events');

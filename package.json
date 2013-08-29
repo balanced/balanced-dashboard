@@ -9,7 +9,8 @@
   "repository": "git@github.com:balanced/balanced-dashboard.git",
   "author": "Balanced <dev@balancedpayments.com>",
   "dependencies": {
-    "pullstream": "~0.2.1"
+    "pullstream": "~0.2.1",
+    "grunt-open": "~0.2.2"
   },
   "devDependencies": {
     "grunt": "0.4.1",
@@ -19,7 +20,7 @@
     "grunt-contrib-less": "~0.5.0",
     "grunt-contrib-jshint": "~0.1.1rc5",
     "grunt-ember-templates": "0.4.10",
-    "grunt-contrib-watch": "~0.2.0rc5",
+    "grunt-contrib-watch": ">= 0.4.0",
     "grunt-casperjs": "~1.0.6",
     "grunt-contrib-connect": "~0.2.0",
     "grunt-contrib-concat": "~0.2.0",

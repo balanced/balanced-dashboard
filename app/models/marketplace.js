@@ -1,3 +1,5 @@
+require('app/models/user_marketplace');
+
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
     credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
     debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),

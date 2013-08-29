@@ -1,3 +1,5 @@
+require('app/models/transaction');
+
 Balanced.Credit = Balanced.Transaction.extend({
     bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
     reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),

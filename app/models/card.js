@@ -1,3 +1,5 @@
+require('app/models/card');
+
 Balanced.Card = Balanced.FundingInstrument.extend({
     type_name: function() {
         return 'Card';
