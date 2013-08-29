@@ -21,6 +21,8 @@ require('app/lib/**/*');
 require('app/models/core/core');
 require('app/models/**/*');
 
+require('app/auth');
+
 /*
  * Views layer.
  * Ember accomplishes a lot in its templates and
