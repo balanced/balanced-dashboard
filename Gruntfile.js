@@ -520,6 +520,12 @@ module.exports = function (grunt) {
                     livereload: true,
                 },
             }
+        },
+
+        open: {
+            dev : {
+                path: 'http://localhost:9876/build/dev.html'
+            },
         }
     });
 
@@ -539,7 +545,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-qunit-istanbul');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
-
+    grunt.loadNpmTasks('grunt-open');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -562,7 +568,7 @@ module.exports = function (grunt) {
      Default task. Compiles templates, neuters application code, and begins
      watching for changes.
      */
-    grunt.registerTask('default', ['_devBuild', 'connect', 'watch']);
+    grunt.registerTask('default', ['_devBuild', 'connect', 'open', 'watch']);
 
     /*
      Builds for production.

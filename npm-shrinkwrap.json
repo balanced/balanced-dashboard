@@ -40,6 +40,16 @@
         }
       }
     },
+    "grunt-open": {
+      "version": "0.2.2",
+      "from": "grunt-open@",
+      "dependencies": {
+        "open": {
+          "version": "0.0.4",
+          "from": "open@~0.0.4"
+        }
+      }
+    },
     "grunt-img": {
       "version": "0.1.6",
       "from": "grunt-img@~0.1.6",
