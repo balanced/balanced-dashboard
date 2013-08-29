@@ -4,9 +4,8 @@
         <th class="span3 label6a">Invoice #</th>
         <th class="span3 label6a">From</th>
         <th class="span3 label6a">To</th>
-        <th class="span2 label6a status"></th>
         <th class="span2 label6a amount">Amount</th>
-
+        <th class="span2 label6a status"></th>
     </tr>
 </thead>
 {{#if results.hasNextPage}}
@@ -32,24 +31,19 @@
                 <span>{{humanReadableDateShort invoice.created_at }}</span>
                 {{/linkTo}}
             </td>
-            <td class="span3 black">
+            <td class="span2 black">
                 {{#linkTo 'invoices.invoice' invoice.id}}
                 {{ invoice.sequence_number }}
                 {{/linkTo}}
             </td>
-            <td class="span3 black">
+            <td class="span5 black">
                 {{#linkTo 'invoices.invoice' invoice.id}}
                 {{humanReadableDateShort invoice.from_date }}
                 {{/linkTo}}
             </td>
-            <td class="span3 black">
+            <td class="span5 black">
                 {{#linkTo 'invoices.invoice' invoice.id}}
                 {{humanReadableDateShort invoice.to_date }}
-                {{/linkTo}}
-            </td>
-            <td class="span2 black status">
-                {{#linkTo 'invoices.invoice' invoice.id}}
-                {{ invoice.state }}
                 {{/linkTo}}
             </td>
             <td class="span2 black amount">
@@ -57,7 +51,11 @@
                 {{formatCurrency invoice.total_fee }}
                 {{/linkTo}}
             </td>
-
+            <td class="span2 black status">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                {{ invoice.state }}
+                {{/linkTo}}
+            </td>
         </tr>
     {{else}}
         <tr>
