@@ -285,6 +285,7 @@ module.exports = function (grunt) {
                     cssFile: "css/base.css",
                     jsLibFile: "js/lib-dev.js",
                     jsDashboardFile: "js/dashboard-dev.js",
+                    includeLiveReload: true,
                     env: "{\
                         BALANCED: {\
                             API: 'https://auth.balancedpayments.com',\
@@ -305,6 +306,7 @@ module.exports = function (grunt) {
                     cssFile: "css/base.min.css",
                     jsLibFile: "js/lib-prod.min.js",
                     jsDashboardFile: "js/dashboard-prod.min.js",
+                    includeLiveReload: false,
                     env: "{\
                         BALANCED: {\
                             API: 'https://auth.balancedpayments.com',\
@@ -469,14 +471,20 @@ module.exports = function (grunt) {
                 files: [
                     'app/**/*.hbs'
                 ],
-                tasks: ['_buildJS']
+                tasks: ['_buildJS'],
+                options: {
+                    livereload: true,
+                },
             },
             js: {
                 files: [
                     'app/**/*.js',
                     'static/lib/**/*.js'
                 ],
-                tasks: ['_buildJSAfterTemplates']
+                tasks: ['_buildJSAfterTemplates'],
+                options: {
+                    livereload: true,
+                },
             },
             tests: {
                 files: [
@@ -489,19 +497,28 @@ module.exports = function (grunt) {
                 files: [
                     'static/less/*'
                 ],
-                tasks: ['_buildCSS']
+                tasks: ['_buildCSS'],
+                options: {
+                    livereload: true,
+                },
             },
             images: {
                 files: [
                     'static/images/**/*'
                 ],
-                tasks: ['_buildImages']
+                tasks: ['_buildImages'],
+                options: {
+                    livereload: true,
+                },
             },
             html: {
                 files: [
                     'app/index.html.hbs'
                 ],
-                tasks: ['_buildHTML']
+                tasks: ['_buildHTML'],
+                options: {
+                    livereload: true,
+                },
             }
         }
     });
