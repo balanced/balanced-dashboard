@@ -1,0 +1,73 @@
+<thead>
+    <tr>
+        <th class="span4 label6a">Date</th>
+        <th class="span3 label6a">Invoice #</th>
+        <th class="span3 label6a">From</th>
+        <th class="span3 label6a">To</th>
+        <th class="span2 label6a status"></th>
+        <th class="span2 label6a amount">Amount</th>
+
+    </tr>
+</thead>
+{{#if results.hasNextPage}}
+<tfoot>
+    <tr>
+        <td colspan="6" class="load-more-results">
+            {{#if results.loadingNextPage }}
+                <div class="loader-container">
+                    <span class="loader loading"></span>
+                </div>
+            {{else}}
+                <a {{ action loadMore results }}>Load more</a>
+            {{/if}}
+        </td>
+    </tr>
+</tfoot>
+{{/if}}
+<tbody>
+    {{#each invoice in results}}
+        <tr>
+            <td class="span4 black">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                <span>{{humanReadableDateShort invoice.created_at }}</span>
+                {{/linkTo}}
+            </td>
+            <td class="span3 black">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                {{ invoice.sequence_number }}
+                {{/linkTo}}
+            </td>
+            <td class="span3 black">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                {{humanReadableDateShort invoice.from_date }}
+                {{/linkTo}}
+            </td>
+            <td class="span3 black">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                {{humanReadableDateShort invoice.to_date }}
+                {{/linkTo}}
+            </td>
+            <td class="span2 black status">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                {{ invoice.state }}
+                {{/linkTo}}
+            </td>
+            <td class="span2 black amount">
+                {{#linkTo 'invoices.invoice' invoice.id}}
+                {{formatCurrency invoice.total_fee }}
+                {{/linkTo}}
+            </td>
+
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="6" class="no-results">
+                {{# if results.isLoaded }}
+                    No results
+                {{else}}
+                    Loading...
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+</tbody>

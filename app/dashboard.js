@@ -55,6 +55,7 @@ require('app/models/initial_deposit');
 require('app/models/log');
 require('app/models/reversal');
 require('app/models/event');
+require('app/models/invoice');
 
 require('app/lib/auth');
 

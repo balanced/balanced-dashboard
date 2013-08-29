@@ -12,5 +12,5 @@ window.setupTestFixtures = function () {
     require('test/support/fixtures/reversals');
     require('test/support/fixtures/events');
     require('test/support/fixtures/event_callback');
-
+    require('test/support/fixtures/invoices');
 };
