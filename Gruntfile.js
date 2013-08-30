@@ -68,7 +68,6 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap/bootstrap-popover.js',
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
-                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
                     'static/lib/underscore-1.4.4.js',
                     'static/lib/mixpanel-2.2.js',
                     'static/lib/google_prettify.js'
@@ -88,7 +87,6 @@ module.exports = function (grunt) {
                     'static/lib/bootstrap/bootstrap-popover.js',
                     'static/lib/bootstrap-datepicker.js',
                     'static/lib/jquery.browser.js',
-                    'static/lib/jquery.iframe-auto-height.plugin.1.9.1.js',
                     'static/lib/underscore-1.4.4.js',
                     'static/lib/mixpanel-2.2.js',
                     'static/lib/google_prettify.js'
