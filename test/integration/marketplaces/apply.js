@@ -71,16 +71,6 @@ function populate() {
     });
 }
 
-function confirm(assert, method, payload) {
-    var controller = Balanced.__container__.lookup('controller:marketplacesApply');
-    var parsedPayload = controller[method]();
-
-    _.each(payload, function (value, key) {
-        assert.equal(parsedPayload.get(key), value);
-    });
-
-}
-
 test('we are on the correct page', function (assert) {
     visit(applyRoute).then(function() {
         assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
@@ -100,42 +90,6 @@ test('clicking business or personal shows data', function (assert) {
 
         $('a:contains("Person")').click();
         assert.equal(getInputs().length, 13);
-    });
-});
-
-test('business api key data is correctly extracted', function (assert) {
-    visit(applyRoute).then(function() {
-        $('a:contains("Business")').click();
-
-        populate();
-        confirm(assert, '_extractApiKeyPayload', expectedBusinessApiKeyData);
-    });
-});
-
-test('personal api key data is correctly extracted', function (assert) {
-    visit(applyRoute).then(function() {
-        $('a:contains("Person")').click();
-
-        populate();
-        confirm(assert, '_extractApiKeyPayload', expectedPersonalApiKeyData);
-    });
-});
-
-test('bank account data is correctly extracted', function (assert) {
-    visit(applyRoute).then(function() {
-        $('a:contains("Person")').click();
-
-        populate();
-        confirm(assert, '_extractBankAccountPayload', expectedBankAccountData);
-    });
-});
-
-test('marketplace data is correctly extracted', function (assert) {
-    visit(applyRoute).then(function() {
-        $('a:contains("Person")').click();
-
-        populate();
-        confirm(assert, '_extractMarketplacePayload', expectedMarketplaceData);
     });
 });
 
