@@ -250,6 +250,10 @@ module.exports = function (grunt) {
                         dest: 'build/test/js/testconfig.js'
                     },
                     {
+                        src: 'test/support/testenv.js',
+                        dest: 'build/test/js/testenv.js'
+                    },
+                    {
                         src: 'test/support/fixturebrowserconfig.js',
                         dest: 'build/test/js/fixturebrowserconfig.js'
                     }
@@ -421,35 +425,12 @@ module.exports = function (grunt) {
             }
         },
 
-        qunit: {
-            options: {
-                '--web-security': 'no',
-                timeout: 60000,
-                coverage: {
-                    src: ['build/js/dashboard-prod.js'],
-                    instrumentedFiles: 'temp/',
-                    htmlReport: 'report/coverage',
-                    coberturaReport: 'report/',
-                    linesThresholdPct: 84,
-                    statementsThresholdPct: 82,
-                    functionsThresholdPct: 76,
-                    branchesThresholdPct: 56
-                }
-            },
-            all: ['build/test/runner.html']
-        },
-
-        exec: {
-            // We're not using this currently, but leaving it in here in case
-            // somebody wants to run tests using their installed phantomJS
-            run_tests: {
-                command: 'phantomjs test/support/lib/run-qunit.js build/test/runner.html'
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
             }
         },
 
-        /*
-         * A test server used for casperjs tests
-         * */
         connect: {
             server: {
                 options: {
@@ -457,13 +438,6 @@ module.exports = function (grunt) {
                     base: '.'
                 }
             }
-        },
-
-        casperjs: {
-            options: {
-                // Task-specific options go here.
-            },
-            files: ['test/casperjs/**/*.js']
         },
 
         watch: {
@@ -535,17 +509,16 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-neuter');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-ember-templates');
-    grunt.loadNpmTasks('grunt-casperjs');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-s3');
     grunt.loadNpmTasks('grunt-img');
-    grunt.loadNpmTasks('grunt-qunit-istanbul');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-compile-handlebars');
     grunt.loadNpmTasks('grunt-open');
+    grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerMultiTask('clean', 'Deletes files', function () {
         this.files.forEach(function (file) {
@@ -561,8 +534,7 @@ module.exports = function (grunt) {
      A task to run the application's unit tests via the command line.
      It will headlessy load the test runner page and print the test runner results
      */
-    grunt.registerTask('test', ['_devBuild', 'qunit', 'jshint']);
-    grunt.registerTask('itest', ['_devBuild', 'connect:server', 'casperjs']);
+    grunt.registerTask('test', ['_devBuild', 'karma', 'jshint']);
 
     /*
      Default task. Compiles templates, neuters application code, and begins

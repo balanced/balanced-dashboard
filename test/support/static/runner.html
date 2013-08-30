@@ -10,24 +10,11 @@
 <div id="qunit"></div>
 <div id="qunit-fixture"></div>
 
-
 <!-- All these paths are within the build/test directory, since that's where this gets run from -->
 <script type="text/javascript" src="js/qunit-1.11.0.js"></script>
 <script type="text/javascript" src="js/sinon.js"></script>
-<script type="text/javascript">
-    TESTING = true;
-    var ENV = {
-        BALANCED: {
-            API: 'https://api.balancedpayments.com',
-            USER: 'https://auth.balancedpayments.com',
-            WWW: 'https://www.balancedpayments.com',
-            DOCS: 'https://docs.balancedpayments.com',
-            DEBUG: true,
-            MIXPANEL: '',
-            GOOGLE_ANALYTICS: ''
-        }
-    };
-</script>
+<script type="text/javascript" src="js/testenv.js"></script>
+
 <script src="../js/lib-prod.js"></script>
 
 <script src="../js/dashboard-prod.js"></script>
