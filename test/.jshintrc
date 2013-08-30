@@ -34,6 +34,13 @@
     "test": true,
     "asyncTest": true,
     "start": true,
-    "sinon": true
+    "sinon": true,
+
+    "visit": true,
+    "find": true,
+    "fillIn": true,
+    "click": true,
+    "keyDown": true,
+    "wait": true
   }
 }

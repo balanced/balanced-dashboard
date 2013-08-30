@@ -7,10 +7,10 @@ module('Reversals', {
 });
 
 test('can visit page', function (assert) {
-    visit(reversalsRoutePath).then(function() {
-    	assert.notEqual($('#content h1').text().indexOf('Reversal'), -1, 'Title is not correct');
+	visit(reversalsRoutePath).then(function() {
+		assert.notEqual($('#content h1').text().indexOf('Reversal'), -1, 'Title is not correct');
 		assert.equal($(".reversal .transaction-description").text().trim(), 'Created: $25.00');
-    });
+	});
 });
 
 test('can edit reversal', function (assert) {
@@ -22,7 +22,7 @@ test('can edit reversal', function (assert) {
 	.click('.reversal .edit-transaction.in .modal-footer button[name="modal-submit"]')
 	.then(function() {
 		assert.ok(spy.calledOnce);
-        assert.ok(spy.calledWith(Balanced.Reversal));
-        assert.equal(spy.getCall(0).args[2].description, "changing desc");
+		assert.ok(spy.calledWith(Balanced.Reversal));
+		assert.equal(spy.getCall(0).args[2].description, "changing desc");
 	});
 });

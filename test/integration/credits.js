@@ -10,7 +10,7 @@ test('can visit page', function (assert) {
     visit(creditRoutePath).then(function() {
         assert.notEqual($('#content h1').text().indexOf('Credit'), -1, 'Title is not correct');
         assert.equal($(".credit .transaction-description").text().trim(), 'Paid: $25.00');
-    })
+    });
 });
 
 test('can reverse credit', function (assert) {
@@ -19,7 +19,7 @@ test('can reverse credit', function (assert) {
     visit(creditRoutePath).then(function() {
         return click(".reverse-credit-button");
     }).then(function() {
-        return click('#reverse-credit .modal-footer button[name="modal-submit"]')
+        return click('#reverse-credit .modal-footer button[name="modal-submit"]');
     }).then(function() {
         assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Reversal));

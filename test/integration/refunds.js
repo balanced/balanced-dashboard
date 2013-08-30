@@ -7,10 +7,10 @@ module('Refunds', {
 });
 
 test('can visit page', function (assert) {
-    visit(refundsRoutePath).then(function() {
-    	assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
+	visit(refundsRoutePath).then(function() {
+		assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
 		assert.equal($(".refund .transaction-description").text().trim(), 'Created: $42.00');
-    });
+	});
 });
 
 test('can edit refund', function (assert) {
@@ -22,7 +22,7 @@ test('can edit refund', function (assert) {
 	.click('.refund .edit-transaction.in .modal-footer button[name="modal-submit"]')
 	.then(function() {
 		assert.ok(spy.calledOnce);
-        assert.ok(spy.calledWith(Balanced.Refund));
-        assert.equal(spy.getCall(0).args[2].description, "changing desc");
+		assert.ok(spy.calledWith(Balanced.Refund));
+		assert.equal(spy.getCall(0).args[2].description, "changing desc");
 	});
 });
