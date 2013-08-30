@@ -31,6 +31,10 @@ Balanced.NET = (function () {
         init: function () {
         },
         loadCSRFToken: function () {
+            if(window.TESTING) {
+                return;
+            }
+
             // POSTing to / will return a csrf token
             $.ajax({
                 type: 'POST',
