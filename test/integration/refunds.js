@@ -1,47 +1,28 @@
+var refundsRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/refunds/RF44kCAddvYXYs4hqUwnaRb8';
+
 module('Refunds', {
 	setup: function () {
-		Testing.selectMarketplaceByName();
-
-		// TODO - figure out why Travis chokes on callbacks and make these async again
-		Balanced.Adapter.asyncCallbacks = false;
-        Testing.asyncCallbacks = false;
-
-		Ember.run(function () {
-			var refund = Balanced.Refund.find('/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/refunds/RF44kCAddvYXYs4hqUwnaRb8');
-			Balanced.Router.create().transitionTo('refunds', refund);
-		});
 	}, teardown: function () {
 	}
 });
 
-asyncTest('can visit page', function (assert) {
-    expect(2);
-	Testing.execWithTimeoutPromise(function() {
-		assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
+test('can visit page', function (assert) {
+    visit(refundsRoutePath).then(function() {
+    	assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
 		assert.equal($(".refund .transaction-description").text().trim(), 'Created: $42.00');
-        start();
-	})();
+    });
 });
 
-asyncTest('can edit refund', function (assert) {
-	expect(3);
-
+test('can edit refund', function (assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	Testing.execWithTimeoutPromise(function() {
-        $(".refund .transaction-info a.edit").click();
-
-        $('.refund .edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
-
-        $('.refund .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
-
-        // Click a few times to make sure we don't get multiple submissions
-        $('.refund .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
-        $('.refund .edit-transaction.in .modal-footer button[name="modal-submit"]').click();
-    })().then(Testing.execWithTimeoutPromise(function() {
-        assert.ok(spy.calledOnce);
+	visit(refundsRoutePath)
+	.click(".refund .transaction-info a.edit")
+	.fillIn('.refund .edit-transaction.in .modal-body input[name="description"]', "changing desc")
+	.click('.refund .edit-transaction.in .modal-footer button[name="modal-submit"]')
+	.then(function() {
+		assert.ok(spy.calledOnce);
         assert.ok(spy.calledWith(Balanced.Refund));
         assert.equal(spy.getCall(0).args[2].description, "changing desc");
-        start();
-    }));
+	});
 });

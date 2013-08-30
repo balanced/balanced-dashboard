@@ -5,7 +5,6 @@ QUnit.testStart(function (test) {
     // Display an error if asynchronous operations are queued outside of
     // Ember.run.  You need this if you want to stay sane.
     Ember.testing = true;
-    Testing.asyncCallbacks = true;
 
     //  we don't actually care about hitting a server
     Ember.ENV.BALANCED.WWW = 'http://example.org';

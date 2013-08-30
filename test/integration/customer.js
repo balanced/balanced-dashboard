@@ -49,23 +49,22 @@ test('editing customer info only submits once despite multiple clicks', function
     assert.ok(stub.calledOnce);
 });
 
-asyncTest('can debit customer using card', function (assert) {
-    expect(4);
+test('can debit customer using card', function (assert) {
     var spy = sinon.spy(Balanced.Adapter, "create");
     Balanced.Adapter.asyncCallbacks = true;
 
     Testing.selectMarketplaceByName();
 
-    Testing.execWithTimeoutPromise(function() {
+    wait().then(function() {
         // click the customers tab on the activity page
-        $("#activity header .accounts a").click();
-    })().then(Testing.execWithTimeoutPromise(function() {
+        return click("#activity header .accounts a");
+    }).then(function() {
         // click on the first customer
-        $("table.accounts tbody tr a").eq(0).click();
-    })).then(Testing.execWithTimeoutPromise(function() {
+        return click($("table.accounts tbody tr a").eq(0));
+    }).then(function() {
         // click the debit customer button
-        $(".customer-header .buttons a.debit-customer").click();
-    })).then(Testing.execWithTimeoutPromise(function() {
+        return click(".customer-header .buttons a.debit-customer");
+    }).then(function() {
         assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
 
         // bank accounts first
@@ -80,12 +79,11 @@ asyncTest('can debit customer using card', function (assert) {
         $('#debit-customer .modal-body input[name="description"]').val("Test debit").trigger('keyup');
 
         // click debit
-        $('#debit-customer .modal-footer button[name="modal-submit"]').click();
-
+        return click('#debit-customer .modal-footer button[name="modal-submit"]');
+    }).then(function() {
         // should be one create for the debit
         assert.ok(spy.calledOnce);
-        start();
-    }));
+    });
 });
 
 test('can debit customer using bank account', function (assert) {

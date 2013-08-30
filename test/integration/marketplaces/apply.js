@@ -1,10 +1,8 @@
+var applyRoute = '/marketplaces/apply';
+
 module('Balanced.Marketplaces.apply', {
     setup: function () {
-        Ember.run(function () {
-            Balanced.Router.create().transitionTo('marketplaces.apply');
-        });
     }, teardown: function () {
-
     }
 });
 
@@ -84,130 +82,145 @@ function confirm(assert, method, payload) {
 }
 
 test('we are on the correct page', function (assert) {
-    assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
+    visit(applyRoute).then(function() {
+        assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
+    });
 });
 
 test('clicking business or personal shows data', function (assert) {
-    function getInputs() {
-        return $('input', '#marketplace-apply');
-    }
+    visit(applyRoute).then(function() {
+        function getInputs() {
+            return $('input', '#marketplace-apply');
+        }
 
-    assert.equal(getInputs().length, 0);
+        assert.equal(getInputs().length, 0);
 
-    $('a:contains("Business")').click();
-    assert.equal(getInputs().length, 15);
+        $('a:contains("Business")').click();
+        assert.equal(getInputs().length, 15);
 
-    $('a:contains("Person")').click();
-    assert.equal(getInputs().length, 13);
+        $('a:contains("Person")').click();
+        assert.equal(getInputs().length, 13);
+    });
 });
 
 test('business api key data is correctly extracted', function (assert) {
-    $('a:contains("Business")').click();
+    visit(applyRoute).then(function() {
+        $('a:contains("Business")').click();
 
-    populate();
-    confirm(assert, '_extractApiKeyPayload', expectedBusinessApiKeyData);
+        populate();
+        confirm(assert, '_extractApiKeyPayload', expectedBusinessApiKeyData);
+    });
 });
 
 test('personal api key data is correctly extracted', function (assert) {
-    $('a:contains("Person")').click();
+    visit(applyRoute).then(function() {
+        $('a:contains("Person")').click();
 
-    populate();
-    confirm(assert, '_extractApiKeyPayload', expectedPersonalApiKeyData);
+        populate();
+        confirm(assert, '_extractApiKeyPayload', expectedPersonalApiKeyData);
+    });
 });
 
 test('bank account data is correctly extracted', function (assert) {
-    $('a:contains("Person")').click();
+    visit(applyRoute).then(function() {
+        $('a:contains("Person")').click();
 
-    populate();
-    confirm(assert, '_extractBankAccountPayload', expectedBankAccountData);
+        populate();
+        confirm(assert, '_extractBankAccountPayload', expectedBankAccountData);
+    });
 });
 
 test('marketplace data is correctly extracted', function (assert) {
-    $('a:contains("Person")').click();
+    visit(applyRoute).then(function() {
+        $('a:contains("Person")').click();
 
-    populate();
-    confirm(assert, '_extractMarketplacePayload', expectedMarketplaceData);
+        populate();
+        confirm(assert, '_extractMarketplacePayload', expectedMarketplaceData);
+    });
 });
 
 test('basic form validation and terms and conditions', function (assert) {
-    $('a:contains("Person")').click();
+    visit(applyRoute).then(function() {
+        $('a:contains("Person")').click();
 
-    var $submitButton = $('button:contains("Submit")');
-    assert.equal($submitButton.length, 1);
+        var $submitButton = $('button:contains("Submit")');
+        assert.equal($submitButton.length, 1);
 
-    $submitButton.click();
-    assert.equal($('.control-group.error').length, 13, 'expected error fields highlighted');
+        $submitButton.click();
+        assert.equal($('.control-group.error').length, 13, 'expected error fields highlighted');
 
-    $('#terms-and-conditions').click();
-    $submitButton.click();
+        $('#terms-and-conditions').click();
+        $submitButton.click();
 
-    assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
-
+        assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
+    });
 });
 
 test('application submits properly', function(assert) {
-    var createStub = sinon.stub(Balanced.Adapter, "create");
-    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-    createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
+    visit(applyRoute).then(function() {
+        var createStub = sinon.stub(Balanced.Adapter, "create");
+        var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+        createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
 
+        });
+        createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
+            owner_customer: {
+                bank_accounts_uri: "/v1/marketplaces/deadbeef/bank_accounts"
+            }
+        });
+        createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {
+
+        });
+        createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
+            verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
+        });
+        createStub.withArgs(Balanced.Verification).callsArgWith(3, {
+
+        });
+
+        tokenizingStub.callsArgWith(1, {
+            status: 201,
+            data: {
+                uri: "/v1/bank_accounts/deadbeef"
+            }
+        });
+
+        $('a:contains("Person")').click();
+        populate();
+        $("#terms-and-conditions").click();
+
+        $('.submit').click();
+
+        assert.equal(createStub.callCount, 5);
+        assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
+            merchant: {
+                dob: '1996-1-1',
+                name: 'John Balanced',
+                phone_number: '(904) 628 1796',
+                postal_code: '94103',
+                street_address: '965 Mission St',
+                tax_id: '1234',
+                type: 'PERSON'
+            }
+        }));
+        assert.ok(createStub.calledWith(Balanced.Marketplace, "/v1/marketplaces", {
+            name: "Balanced Test Marketplace",
+            support_email_address: "support@balancedpayments.com",
+            support_phone_number: "(650) 555-4444",
+            domain_url: "https://www.balancedpayments.com"
+        }));
+        assert.ok(createStub.calledWith(Balanced.UserMarketplace));
+        assert.ok(createStub.calledWith(Balanced.BankAccount, '/v1/marketplaces/deadbeef/bank_accounts', {
+            bank_account_uri: '/v1/bank_accounts/deadbeef'
+        }));
+        assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
+
+        assert.ok(tokenizingStub.calledOnce);
+        assert.ok(tokenizingStub.calledWith({
+            type: "CHECKING",
+            name: "Balanced Inc",
+            account_number: "123123123",
+            routing_number: "321174851"
+        }));
     });
-    createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
-        owner_customer: {
-            bank_accounts_uri: "/v1/marketplaces/deadbeef/bank_accounts"
-        }
-    });
-    createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {
-
-    });
-    createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
-        verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
-    });
-    createStub.withArgs(Balanced.Verification).callsArgWith(3, {
-
-    });
-
-    tokenizingStub.callsArgWith(1, {
-        status: 201,
-        data: {
-            uri: "/v1/bank_accounts/deadbeef"
-        }
-    });
-
-    $('a:contains("Person")').click();
-    populate();
-    $("#terms-and-conditions").click();
-
-    $('.submit').click();
-
-    assert.equal(createStub.callCount, 5);
-    assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
-        merchant: {
-            dob: '1996-1-1',
-            name: 'John Balanced',
-            phone_number: '(904) 628 1796',
-            postal_code: '94103',
-            street_address: '965 Mission St',
-            tax_id: '1234',
-            type: 'PERSON'
-        }
-    }));
-    assert.ok(createStub.calledWith(Balanced.Marketplace, "/v1/marketplaces", {
-        name: "Balanced Test Marketplace",
-        support_email_address: "support@balancedpayments.com",
-        support_phone_number: "(650) 555-4444",
-        domain_url: "https://www.balancedpayments.com"
-    }));
-    assert.ok(createStub.calledWith(Balanced.UserMarketplace));
-    assert.ok(createStub.calledWith(Balanced.BankAccount, '/v1/marketplaces/deadbeef/bank_accounts', {
-        bank_account_uri: '/v1/bank_accounts/deadbeef'
-    }));
-    assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
-
-    assert.ok(tokenizingStub.calledOnce);
-    assert.ok(tokenizingStub.calledWith({
-        type: "CHECKING",
-        name: "Balanced Inc",
-        account_number: "123123123",
-        routing_number: "321174851"
-    }));
 });

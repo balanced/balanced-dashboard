@@ -680,7 +680,7 @@ test('hasMany URIs can be specified in the model object, not just the JSON', fun
     assert.equal(t.get('my_has_many_field').objectAt(1).get('derived_field'), 235);
 });
 
-asyncTest('belongsTo URI associations that are missing the metadata fetch to determine the correct type', function (assert) {
+test('belongsTo URI associations that are missing the metadata fetch to determine the correct type', function (assert) {
     var TestModel2 = Balanced.Model.extend({
         my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
     });
@@ -698,16 +698,16 @@ asyncTest('belongsTo URI associations that are missing the metadata fetch to det
     ]);
 
     Balanced.Adapter.asyncCallbacks = true;
-    expect(2);
 
     var t;
-    Testing.execWithTimeoutPromise(function() {
+    wait().then(function() {
         t = TestModel2.find('/v1/testmodel2s/2');
-    })().then(Testing.execWithTimeoutPromise(function() {
+        return wait();
+    }).then(function() {
         t.get('my_belongs_to_field');
-    })).then(Testing.execWithTimeoutPromise(function() {
+        return wait();
+    }).then(function() {
         assert.equal(t.get('my_belongs_to_field.basic_field'), 456);
         assert.equal(t.get('my_belongs_to_field.derived_field'), 457);
-        start();
-    }));
+    });
 });
