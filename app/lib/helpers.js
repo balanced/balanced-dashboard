@@ -210,6 +210,11 @@ Balanced.Utils = {
     },
 
     geoIP: function (ip, callback) {
+        if(window.TESTING) {
+            callback("(San Francisco, California, United States)");
+            return;
+        }
+
         if (ip) {
             $.ajax('https://freegeoip.net/json/' + ip, {
                 dataType: 'jsonp',
