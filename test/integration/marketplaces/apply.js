@@ -111,40 +111,41 @@ test('basic form validation and terms and conditions', function (assert) {
 });
 
 test('application submits properly', function(assert) {
-    visit(applyRoute).then(function() {
-        var createStub = sinon.stub(Balanced.Adapter, "create");
-        var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-        createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
+    var createStub = sinon.stub(Balanced.Adapter, "create");
+    var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+    createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
 
-        });
-        createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
-            owner_customer: {
-                bank_accounts_uri: "/v1/marketplaces/deadbeef/bank_accounts"
-            }
-        });
-        createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {
+    });
+    createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
+        owner_customer: {
+            bank_accounts_uri: "/v1/marketplaces/deadbeef/bank_accounts"
+        }
+    });
+    createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {
 
-        });
-        createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
-            verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
-        });
-        createStub.withArgs(Balanced.Verification).callsArgWith(3, {
+    });
+    createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
+        verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
+    });
+    createStub.withArgs(Balanced.Verification).callsArgWith(3, {
 
-        });
+    });
 
-        tokenizingStub.callsArgWith(1, {
-            status: 201,
-            data: {
-                uri: "/v1/bank_accounts/deadbeef"
-            }
-        });
+    tokenizingStub.callsArgWith(1, {
+        status: 201,
+        data: {
+            uri: "/v1/bank_accounts/deadbeef"
+        }
+    });
 
-        $('a:contains("Person")').click();
+    visit(applyRoute)
+    .click('a:contains("Person")')
+    .then(function() {
         populate();
-        $("#terms-and-conditions").click();
-
-        $('.submit').click();
-
+    })
+    .click("#terms-and-conditions")
+    .click('.submit')
+    .then(function() {
         assert.equal(createStub.callCount, 5);
         assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
             merchant: {
