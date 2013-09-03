@@ -1,4 +1,6 @@
 Balanced.Invoice = Balanced.Model.extend({
+	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
+
 	from_date: function() {
 		var period = this.get('period');
 		if(!period) {
@@ -17,7 +19,7 @@ Balanced.Invoice = Balanced.Model.extend({
 	subtotal: function() {
 		var total = this.get('total_fee');
 		var adjustments = this.get('adjustments_total_fee');
-		if(Ember.none(total) || Ember.none(adjustments)) {
+		if(Ember.isNone(total) || Ember.isNone(adjustments)) {
 			return undefined;
 		}
 		return total - adjustments;
@@ -25,7 +27,11 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	is_scheduled: function() {
 		return this.get('state') == 'scheduled';
-	}.property('state')
+	}.property('state'),
+
+	reversal_fee: function() {
+		return 0;
+	}.property()
 });
 
 Balanced.TypeMappings.addTypeMapping('invoice', 'Balanced.Invoice');

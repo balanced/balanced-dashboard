@@ -31,7 +31,11 @@
             <div class="key-value-row">
               <label class="key">From</label>
               <span class="value">
-                TODO
+                {{#if source}}
+                  {{ source.description }}
+                {{else}}
+                  Default
+                {{/if}}
               </span>
             </div>
           </div>
@@ -71,14 +75,19 @@
         <td class="span4 label4a"><span>Debits: cards</span></td>
         <td class="span2"><span>{{formatNumber card_debits_count }}</span></td>
         <td class="span6"><span>{{formatCurrency card_debits_total_amount }}</span></td>
-        <td class="span6"><span>{{variable_fee_percentage}}% of txn amount + TODO per txn</span></td>
+        <td class="span6"><span>{{variable_fee_percentage}}% of txn amount</span></td>
         <td class="span2 total number3a"><span>{{formatCurrency card_debits_total_fee }}</span></td>
       </tr>
       <tr>
         <td class="span4 label4a"><span>Debits: bank accounts</span></td>
         <td class="span2"><span>{{formatNumber bank_account_debits_count }}</span></td>
         <td class="span6"><span>{{formatCurrency bank_account_debits_total_amount }}</span></td>
-        <td class="span6"><span>{{bank_account_debit_variable_fee_percentage}}% of txn amount + TODO per txn / {{formatCurrency bank_account_debit_variable_fee_cap}} cap</span></td>
+        <td class="span6"><span>
+          {{bank_account_debit_variable_fee_percentage}}% of txn amount
+          {{#if bank_account_debit_variable_fee_cap}}
+            (max {{formatCurrency bank_account_debit_variable_fee_cap}} per debit)
+          {{/if}}
+          </span></td>
         <td class="span2 total number3a"><span>{{formatCurrency bank_account_debits_total_fee }}</span></td>
       </tr>
       <tr>
@@ -99,14 +108,14 @@
         <td class="span4 label4a"><span>Refunds</span></td>
         <td class="span2"><span>{{formatNumber refunds_count }}</span></td>
         <td class="span6"><span>{{formatCurrency refunds_total_amount }}</span></td>
-        <td class="span6"><span>TODO</span></td>
+        <td class="span6"><span>{{variable_fee_percentage}}% of txn amount returned</span></td>
         <td class="span2 total number3a"><span>{{formatCurrency refunds_total_fee }}</span></td>
       </tr>
       <tr>
         <td class="span4 label4a"><span>Reversals</span></td>
         <td class="span2"><span>{{formatNumber reversals_count }}</span></td>
         <td class="span6"><span>{{formatCurrency reversals_total_amount }}</span></td>
-        <td class="span6"><span>TODO</span></td>
+        <td class="span6"><span>{{formatCurrency reversal_fee}} per reversal</span></td>
         <td class="span2 total number3a"><span>{{formatCurrency reversals_total_fee }}</span></td>
         <td class="span2 total number3a"><span></span></td>
       </tr>
@@ -114,7 +123,7 @@
         <td class="span4 label4a"><span>Chargebacks</span></td>
         <td class="span2"><span>{{formatNumber lost_debit_chargebacks_count }}</span></td>
         <td class="span6"><span>{{formatCurrency lost_debit_chargebacks_total_amount }}</span></td>
-        <td class="span6"><span>{{formatCurrency chargeback_fixed_fee}} per lost chargeback</span></td>
+        <td class="span6"><span>{{formatCurrency chargeback_fixed_fee}} per failed chargeback</span></td>
         <td class="span2 total number3a"><span>{{formatCurrency lost_debit_chargebacks_total_fee }}</span></td>
         <td class="span2 total number3a"><span></span></td>
       </tr>
