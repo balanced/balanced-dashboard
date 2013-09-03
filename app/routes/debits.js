@@ -6,7 +6,7 @@ Balanced.DebitsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(debit, setTitle, function () {
             return 'Debit: loading ...';
         }, function () {
-            return 'Debit: Order #{0}'.format(debit.get('id'));
+            return 'Debit: {0}'.format(debit.get('page_title'));
         });
     },
 

@@ -6,7 +6,7 @@ Balanced.RefundsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(refund, setTitle, function () {
             return 'Refund: loading ...';
         }, function () {
-            return 'Refund: Order #{0}'.format(refund.get('id'));
+            return 'Refund: {0}'.format(refund.get('page_title'));
         });
     },
 
