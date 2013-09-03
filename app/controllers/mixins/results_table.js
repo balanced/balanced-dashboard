@@ -9,6 +9,9 @@ Balanced.ResultsTable = Ember.Mixin.create({
     maxDate: null,
     dateFilterTitle: 'Any time',
 
+    // override this if you want to allow the results table to be able to sort by none
+    allowSortByNone: false,
+
     sortField: null,
     sortOrder: null,
 
