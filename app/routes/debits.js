@@ -1,6 +1,15 @@
 Balanced.DebitsRoute = Balanced.AuthRoute.extend({
 	title: 'Debit',
 
+    pageTitle: function (route, setTitle) {
+        var debit = route.controller.content;
+        return Balanced.Utils.maybeDeferredLoading(debit, setTitle, function () {
+            return 'Debit: loading ...';
+        }, function () {
+            return 'Debit: Order #{0}'.format(debit.get('id'));
+        });
+    },
+
 	model: function (params) {
 		var marketplace = this.modelFor('marketplace');
 		return marketplace.then(function(marketplace) {
