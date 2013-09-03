@@ -177,7 +177,9 @@ Balanced.Helpers = (function () {
     return {
         init: function () {
             $('time[data-format]').each(parseDateTime);
-            Balanced.Helpers.navigationTimer = setInterval(Balanced.Helpers.updateNavigationHeight, 50);
+            if(!window.TESTING) {
+                Balanced.Helpers.navigationTimer = setInterval(Balanced.Helpers.updateNavigationHeight, 50);
+            }
         },
 
         updateNavigationHeight: function () {
@@ -208,6 +210,11 @@ Balanced.Utils = {
     },
 
     geoIP: function (ip, callback) {
+        if(window.TESTING) {
+            callback("(San Francisco, California, United States)");
+            return;
+        }
+
         if (ip) {
             $.ajax('https://freegeoip.net/json/' + ip, {
                 dataType: 'jsonp',

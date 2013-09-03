@@ -2,13 +2,14 @@ window.mixpanel = window.mixpanel || [];
 window._gaq = window._gaq || [];
 
 Balanced.Analytics = (function () {
-    var testing = false;
     var fieldsToExclude = [
         'card_number', 'account_number', 'password', 'security_code'
     ];
 
-    // This page will almost always be over https, so can just load this directly.
-    $.getScript('https://ssl.google-analytics.com/ga.js', { cache: true });
+    if(!window.TESTING) {
+        // This page will almost always be over https, so can just load this directly.
+        $.getScript('https://ssl.google-analytics.com/ga.js', { cache: true });
+    }
 
     // filters any number that is in the form of a string and longer than 4 digits (bank codes, ccard numbers etc)
     function filter(text) {
@@ -38,8 +39,11 @@ Balanced.Analytics = (function () {
 
     return {
         init: function (settings) {
+            if (window.TESTING) {
+                return;
+            }
+
             window.mixpanel.init(settings.MIXPANEL);
-            testing = window.TESTING;
 
             window._gaq.push(['_setAccount', settings.GOOGLE_ANALYTICS]);
             window._gaq.push(['_setDomainName', 'balancedpayments.com']);
@@ -49,10 +53,6 @@ Balanced.Analytics = (function () {
                 var user = this.get('_session').get('user');
                 trackLogin(user.email_address);
             }, 450));
-
-            if (testing) {
-                return;
-            }
 
             // HACK: can't find an good way to track all events in ember atm
             // to track all click events
@@ -70,7 +70,7 @@ Balanced.Analytics = (function () {
         },
         trackPage: _.debounce(function (page) {
             var currentLocation = page + location.hash;
-            if (testing) {
+            if (window.TESTING) {
                 return;
             }
             window._gaq.push(['_trackPageview', currentLocation]);
@@ -78,7 +78,7 @@ Balanced.Analytics = (function () {
         }, 500),
         trackEvent: function (name, data) {
             data = filter(data);
-            if (testing) {
+            if (window.TESTING) {
                 return;
             }
             window.mixpanel.track(name, data);
@@ -93,7 +93,7 @@ Balanced.Analytics = (function () {
             } catch (e) { return; }
             dat._type = data.type;
             dat = filter(dat);
-            if (testing) {
+            if (window.TESTING) {
                 return;
             }
             window._gaq.push(['_trackEvent', 'dashboard', dat._type, data.url]);

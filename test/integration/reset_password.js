@@ -10,40 +10,28 @@ module('ResetPassword', {
 });
 
 test('reset password page exists', function (assert) {
-    Ember.run(function () {
-        Balanced.Router.create().transitionTo('resetPassword', 'abcdefghijklmnopq');
+    visit('/password/abcdefghijklmnopq').then(function() {
+        assert.equal($("form#reset-password-form").length, 1, 'The reset password form exists.');
     });
-
-    assert.equal($("form#reset-password-form").length, 1, 'The reset password form exists.');
 });
 
 test('setting a weak password should error', function (assert) {
-    Ember.run(function () {
-        Balanced.Router.create().transitionTo('resetPassword', 'abcdefghijklmnopq');
+    visit('/password/abcdefghijklmnopq')
+    .fillIn("form#reset-password-form input[name=password]", '123456')
+    .fillIn("form#reset-password-form input[name=password_confirm]", '123456')
+    .click("form#reset-password-form button")
+    .then(function() {
+        assert.equal($("form#reset-password-form").hasClass('error'), true, 'reset password form should have error class');
     });
-
-    $("form#reset-password-form input[name=password]").val('123456').trigger('keyup');
-    $("form#reset-password-form input[name=password_confirm]").val('123456').trigger('keyup');
-
-    $("form#reset-password-form button").click();
-    assert.equal($("form#reset-password-form").hasClass('error'), true, 'reset password form should have error class');
 });
 
-asyncTest('reset password form submits', function (assert) {
-    expect(3);
-
+test('reset password form submits', function (assert) {
     var spy = sinon.spy(Balanced.Adapter, "update");
 
-    Ember.run(function () {
-        Balanced.Router.create().transitionTo('resetPassword', 'abcdefghijklmnopq');
-    });
-
-    Testing.execWithTimeoutPromise(function() {
-        $("form#reset-password-form input[name=password]").val('abcdef5').trigger('keyup');
-        $("form#reset-password-form input[name=password_confirm]").val('abcdef5').trigger('keyup');
-
-        $("form#reset-password-form button").click();
-    })().then(Testing.execWithTimeoutPromise(function() {
+    visit('/password/abcdefghijklmnopq')
+    .fillIn("form#reset-password-form input[name=password]", 'abcdef5')
+    .fillIn("form#reset-password-form input[name=password_confirm]", 'abcdef5')
+    .click("form#reset-password-form button").then(function() {
         assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
 
         assert.ok(spy.calledOnce);
@@ -52,6 +40,5 @@ asyncTest('reset password form submits', function (assert) {
             password_confirm: 'abcdef5',
             token: 'abcdefghijklmnopq'
         }));
-        start();
-    }));
+    });
 });

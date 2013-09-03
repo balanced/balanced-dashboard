@@ -1,13 +1,10 @@
+var initialDepositRoute = '/marketplaces/MP1/initial_deposit';
 /*
  * TODO: Some of these tests are not working because the balanced.js library
  * does not appear to be loaded correctly and form validation therefore fails.
  */
 module('Balanced.Marketplaces.initial_deposit', {
     setup: function () {
-        Ember.run(function () {
-            var marketplace = Balanced.Marketplace.find('/v1/marketplaces/MP1');
-            Balanced.Router.create().transitionTo('marketplace.initial_deposit', marketplace);
-        });
     }, teardown: function () {
 
     }
@@ -35,22 +32,27 @@ function populateData(data) {
 }
 
 test('on the correct page', function (assert) {
-    assert.equal($('h1', '#marketplace-initial-deposit').text(), 'Make an initial deposit', 'title is correct');
-
+    visit(initialDepositRoute).then(function() {
+        assert.equal($('h1', '#marketplace-initial-deposit').text(), 'Make an initial deposit', 'title is correct');
+    });
 });
 
 test('form validation', function (assert) {
-    var $submitButton = $('button:contains("Submit")');
-    assert.equal($submitButton.length, 1, 'submit button exists');
+    visit(initialDepositRoute).then(function() {
+        var $submitButton = $('button:contains("Submit")');
+        assert.equal($submitButton.length, 1, 'submit button exists');
+    });
 //    $submitButton.click();
 //
 //    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
 });
 
 test('payment success', function (assert) {
-    populateData(goodData);
-    var $submitButton = $('button:contains("Submit")');
-    assert.equal($submitButton.length, 1, 'submit button exists');
+    visit(initialDepositRoute).then(function() {
+        populateData(goodData);
+        var $submitButton = $('button:contains("Submit")');
+        assert.equal($submitButton.length, 1, 'submit button exists');
+    });
 //    $submitButton.click();
 });
 
@@ -67,9 +69,11 @@ test('payment success', function (assert) {
 //});
 
 test('cancel', function (assert) {
-    var $skipButton = $('button:contains("Skip")');
-    var hash = window.location.hash;
-    assert.equal($skipButton.length, 1, 'skip button exists');
+    visit(initialDepositRoute).then(function() {
+        var $skipButton = $('button:contains("Skip")');
+        var hash = window.location.hash;
+        assert.equal($skipButton.length, 1, 'skip button exists');
+    });
 
 //    $skipButton.click();
 //    assert.notEqual(hash, window.location.hash, 'location has changed');

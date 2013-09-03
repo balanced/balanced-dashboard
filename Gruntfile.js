@@ -448,7 +448,7 @@ module.exports = function (grunt) {
                 tasks: ['_buildJS'],
                 options: {
                     livereload: true,
-                },
+                }
             },
             js: {
                 files: [
@@ -458,14 +458,17 @@ module.exports = function (grunt) {
                 tasks: ['_buildJSAfterTemplates'],
                 options: {
                     livereload: true,
-                },
+                }
             },
             tests: {
                 files: [
                     'test/support/**/*',
                     'test/**/*.js'
                 ],
-                tasks: ['_buildTests']
+                tasks: ['_buildTests'],
+                options: {
+                    livereload: true,
+                }
             },
             css: {
                 files: [
@@ -474,7 +477,7 @@ module.exports = function (grunt) {
                 tasks: ['_buildCSS'],
                 options: {
                     livereload: true,
-                },
+                }
             },
             images: {
                 files: [
@@ -483,7 +486,7 @@ module.exports = function (grunt) {
                 tasks: ['_buildImages'],
                 options: {
                     livereload: true,
-                },
+                }
             },
             html: {
                 files: [
@@ -492,7 +495,7 @@ module.exports = function (grunt) {
                 tasks: ['_buildHTML'],
                 options: {
                     livereload: true,
-                },
+                }
             }
         },
 
