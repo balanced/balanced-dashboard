@@ -16,3 +16,62 @@
 		padding-left: 10px;
 	}
 }
+
+#invoice {
+  th {
+    padding: 0;
+  }
+  td {
+    padding: 0;
+  }
+  .total {
+    text-align: right;
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  .invoice-details {
+    thead {
+      background-color: @egyptianBlue20;
+      th {
+        padding: 10px 0 10px 0;
+      }
+    }
+    tbody {
+      background-color: @white;
+      tr {
+        border-top: 1px solid @gray3;
+      }
+      tr:first-child {
+        border-top: none;
+      }
+      td {
+        span {
+          padding: 12px 0 12px 0;
+          display: block;
+        }
+      }
+    }
+    tfoot {
+      background-color: @egyptianBlue20;
+      tr:first-child {
+        border-top: none;
+      }
+      td {
+        span {
+          padding: 12px 0 12px 0;
+          display: block;
+
+        }
+        &.top-border {
+          border-top: 1px solid @gray3;
+        }
+        &.top-border:last-child {
+          margin-left: 0;
+          padding-left: @gridGutterWidth;
+        }
+      }
+    }
+  }
+}
