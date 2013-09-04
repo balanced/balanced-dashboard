@@ -15,7 +15,9 @@
                                 {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
                                     {{#if user_marketplace.production }}
                                         <li>
-                                            <div class="icon"></div>
+                                            <div class="span2 label">
+                                                <div class="icon"></div>
+                                            </div>
                                             <div class="info">
                                                 <h3 class="label1d name">{{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}</h3>
                                             </div>
@@ -23,7 +25,9 @@
                                     {{/if}}
                                 {{/each}}
                                 <li class="new">
-                                    <div class="icon"></div>
+                                    <div class="span2 label">
+                                        <div class="icon"></div>
+                                    </div>
                                     <div class="info">
                                         {{view Balanced.AddExistingMarketplaceView}}
                                     </div>
@@ -38,7 +42,7 @@
                                         <li>
                                             <a href="#" class="icon-delete" {{action promptToDeleteMarketplace user_marketplace }}>&times;</a>
                                             <div class="icon"></div>
-                                                <div class="info">
+                                            <div class="info">
                                                 <h3 class="label1d name">{{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}</h3>
                                             </div>
                                         </li>

@@ -60,6 +60,11 @@
       margin-bottom: 5px;
       width: 895px;
       position: relative;
+      .label{
+        width: 65px;
+        margin: 0;
+        height: 65px;
+      }
       .icon {
         float: left;
         .cssicon(
@@ -92,24 +97,29 @@
     &.production {
       li {
         background-color: @pineGreen60;
+        &.new{
+          .icon {
+            background-position: -43px -716px;
+          }
+        }
+      }
+      .label{
+        background-color: @pineGreen100;
       }
       .icon {
-        background-color: @pineGreen100;
-        &:before{
-          display: block;
-          position: relative;
-          top: 38px;
-          left: 29px;
-          content: '';
-          width: 6px;
-          height: 7px;
-          background-color: @pineGreen100;
-        }
+        background-position: 8px -716px;
+        height: 55px;
+        margin-top: 3px;
       }
     }
     &.test {
       li {
         background-color: @curryYellow60;
+        &.new{
+          .icon {
+            background-position: -43px -662px;
+          }
+        }
       }
       .icon {
         background-color: @curryYellow100;
@@ -117,12 +127,8 @@
     }
     li.new {
       background-color: @white;
-      .icon {
+      .icon, .label {
         background-color: @gray3;
-        background-position: -43px -662px;
-        &:before{
-          background-color: @gray3;
-        }
       }
     }
     &.register {
