@@ -463,6 +463,33 @@ footer {
     &.settings {
       .marketplaceIcon(3);
     }
+    &.add-customer {
+      padding-bottom: 80px;
+      border-top: 1px solid #BBBAB8;
+      margin-top: 30px;
+      height: 20px;
+      width: 70px;
+      margin-left: 10px;
+      > a, > span {
+        text-transform: none;
+        &:before {
+          margin-bottom: 5px;
+          background-position: -100px -723px;
+          background-color: @byzantiumPurple60;
+          left: 10px;
+        }
+      }
+    }
+    &.pay-seller {
+      > a, > span {
+        text-transform: none;
+        &:before {
+          margin-bottom: 5px;
+          background-position: -5px -308px;
+          background-color: @persianBlue60;
+        }
+      }
+    }
   }
 }
 
