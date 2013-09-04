@@ -95,6 +95,16 @@
       }
       .icon {
         background-color: @pineGreen100;
+        &:before{
+          display: block;
+          position: relative;
+          top: 38px;
+          left: 29px;
+          content: '';
+          width: 6px;
+          height: 7px;
+          background-color: @pineGreen100;
+        }
       }
     }
     &.test {
@@ -110,6 +120,9 @@
       .icon {
         background-color: @gray3;
         background-position: -43px -662px;
+        &:before{
+          background-color: @gray3;
+        }
       }
     }
     &.register {
