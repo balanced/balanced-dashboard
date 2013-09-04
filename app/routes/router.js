@@ -103,30 +103,3 @@ Balanced.Router.map(function () {
 
     this.route("invalid", { path: "*:"});
 });
-
-Balanced.IframeRoute = Balanced.AuthRoute.extend({
-    param: null,
-    model: function (params) {
-        var marketplace = this.modelFor('marketplace');
-        var uri = marketplace.get('web_uri') + '/' + this.resource;
-        if (this.param && params[this.param]) {
-            uri += '/' + params[this.param];
-        }
-        return {
-            'id': params[this.param],
-            'uri': uri + Balanced.MigrationUtils.embeddedQueryString(),
-            'title': this.title,
-            'marketplace': marketplace
-        };
-    },
-    renderTemplate: function () {
-        this.render('iframe');
-    }
-});
-
-Balanced.ShowResource = Balanced.IframeRoute.extend({
-    setupController: function (controller, model) {
-        controller.set('model', model);
-        this.controllerFor(this.resource).set('content', model);
-    }
-});

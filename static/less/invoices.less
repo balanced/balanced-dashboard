@@ -16,3 +16,93 @@
 		padding-left: 10px;
 	}
 }
+
+#invoice {
+  .invoice-balance-due-box {
+    background-color: @turquoise60;
+
+    div.label {
+      background-color: @turquoise100;
+      .icon {
+        width: 50px;
+        height: 30px;
+        display: block;
+        float: left;
+        background-image: @iconsFile;
+        text-indent: -4000px;
+        background-position: -200px -60px;
+        margin: 22px 12px 22px 12px;
+      }
+    }
+
+    div.amount {
+      display: table;
+      height: 100%;
+
+      span {
+        line-height: normal;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: right;
+        padding-right: 10px;
+      }
+    }
+  }
+
+  th {
+    padding: 0;
+  }
+  td {
+    padding: 0;
+  }
+  .total {
+    text-align: right;
+    span {
+      margin-right: 10px;
+    }
+  }
+
+  .invoice-details {
+    thead {
+      background-color: @egyptianBlue20;
+      th {
+        padding: 10px 0 10px 0;
+      }
+    }
+    tbody {
+      background-color: @white;
+      tr {
+        border-top: 1px solid @gray3;
+      }
+      tr:first-child {
+        border-top: none;
+      }
+      td {
+        span {
+          padding: 12px 0 12px 0;
+          display: block;
+        }
+      }
+    }
+    tfoot {
+      background-color: @egyptianBlue20;
+      tr:first-child {
+        border-top: none;
+      }
+      td {
+        span {
+          padding: 12px 0 12px 0;
+          display: block;
+
+        }
+        &.top-border {
+          border-top: 1px solid @gray3;
+        }
+        &.top-border:last-child {
+          margin-left: 0;
+          padding-left: @gridGutterWidth;
+        }
+      }
+    }
+  }
+}

@@ -4,14 +4,6 @@ Balanced.Account = Balanced.Model.extend({
 
     customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
-    web_uri: function () {
-        return Balanced.MigrationUtils.convertApiUriIntoWebUri(this.get('uri'));
-    }.property('uri'),
-
-    embedded_iframe_url: function () {
-        return this.get('web_uri') + Balanced.MigrationUtils.embeddedQueryString();
-    }.property('web_uri'),
-
     display_me: function () {
         return this.get('name') || this.get('id');
     }.property('name', 'id'),
