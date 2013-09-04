@@ -377,6 +377,22 @@ footer {
       background-position: @marketplaceNavIconSize * -@index 0;
     }
   }
+  > a.active {
+    &:after {
+      content: ' ';
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: @marketplaceNavTriangleSize solid transparent;
+      border-bottom: @marketplaceNavTriangleSize solid transparent;
+      
+      border-left: @marketplaceNavTriangleSize solid @marketplaceNavBackground; /* Color of Triangle */
+
+      position: relative;
+      left: 90px;
+      top: -35px;
+    }
+  }
 }
 
 #marketplace-nav {
