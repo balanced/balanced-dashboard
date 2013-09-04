@@ -26,7 +26,7 @@ Balanced.Invoice = Balanced.Model.extend({
 	}.property('total_fee', 'adjustments_total_fee'),
 
 	is_scheduled: function() {
-		return this.get('state') == 'scheduled';
+		return this.get('state') === 'scheduled';
 	}.property('state'),
 
 	reversal_fee: function() {
