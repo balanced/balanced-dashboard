@@ -434,7 +434,7 @@ module.exports = function (grunt) {
         connect: {
             server: {
                 options: {
-                    hostname: "192.168.1.110",
+                    hostname: "localhost",
                     port: 9876,
                     base: '.'
                 }
