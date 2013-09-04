@@ -133,6 +133,9 @@ footer {
   &.span20 {
     width: 824px;
   }
+  > .ember-view{
+    overflow: hidden;
+  }
 }
 
 // TODO: this is shaping up to be a general menu style. refactor if that's the
@@ -141,9 +144,10 @@ footer {
   text-align: center;
   display: block;
   float: left;
-  width: 170px;
+  width: auto;
   height: 60px;
   border-right: 1px solid @searchBoxBackground;
+  padding: 0 5px;
   > a {
     display: block;
     width: 100%;
@@ -208,15 +212,17 @@ footer {
 #search {
   display: block;
   float: left;
-  width: 502px;
+  width: 100%;
+  text-align: center;
+  height: 100%;
 }
 #q {
   box-shadow: none;
   border: 0;
-  margin: @searchBoxMargin;
+  margin-top: @searchBoxMargin;
   height: @searchBoxHeight;
-  padding: 0 0 0 10px;
-  width: 482px;
+  padding: 0;
+  width: 95%;
   font-family: nimbussannov-bol;
   font-weight: normal;
   font-size: 18px;
