@@ -141,13 +141,19 @@ footer {
 // TODO: this is shaping up to be a general menu style. refactor if that's the
 // case
 #marketplaces {
+  #marketplace-name{
+    max-width: 400px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
   text-align: center;
   display: block;
   float: left;
   width: auto;
   height: 60px;
   border-right: 1px solid @searchBoxBackground;
-  padding: 0 5px;
+  padding: 0 10px;
   > a {
     display: block;
     width: 100%;
@@ -210,30 +216,23 @@ footer {
 }
 
 #search {
+  text-align: center;
   display: block;
   float: left;
   width: 100%;
-  text-align: center;
   height: 100%;
 }
 #q {
   box-shadow: none;
   border: 0;
   margin-top: @searchBoxMargin;
+  margin-left: -3px;
   height: @searchBoxHeight;
   padding: 0;
-  width: 95%;
+  width: calc(~"90% - 50px");
   font-family: nimbussannov-bol;
   font-weight: normal;
   font-size: 18px;
-}
-#marketplaces-and-search.span20 {
-  #search {
-    width: 653px;
-  }
-  #q {
-    width: 633px;
-  }
 }
 
 #site-nav {

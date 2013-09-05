@@ -14,24 +14,26 @@
 
 @datePickerBackground: rgb(217, 216, 213);
 
+// search icon
+.search.icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background: @iconsFile -0px -100px no-repeat;
+  line-height: 1.5em;
+  background-color: @searchBoxBackground;
+  margin-top: 5px;
+  margin-left: 8px;
+}
+
 #search {
-  position: relative;
-  // search icon
-  &:before {
-    content: ' ';
-    display: block;
-    width: 50px;
-    height: 50px;
-    background: @iconsFile -0px -100px no-repeat;
-    position: absolute;
-    top: 4px;
-  }
   .results, .close {
     display: none;
   }
   &.focus, &.with-results {
     background: @searchActiveBackground;
-    &:before {
+    .search.icon {
+      background-color: @searchActiveBackground;
       background-position: -50px -100px;
     }
   }
@@ -49,11 +51,13 @@
       &:focus {
         outline: none;
       }
+      width: calc(~"90% - 97px");
+      padding-right: 5px;
     }
-    > .close {
+    .close {
       display: block;
-      right: 10px;
-      top: 18px;
+      right: 175px;
+      top: -42px;
       height: 20px;
       padding-top: 2px;
       background-color: rgb(116, 175, 183);
@@ -68,8 +72,8 @@
     }
     .query-loader {
       position: absolute;
-      right: 10px;
-      top: 18px;
+      right: 175px;
+      top: -42px;
     }
   }
 
@@ -84,13 +88,15 @@
   }
 
   .results {
-    z-index: 20;
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    margin-left: -500px;
+    z-index: 11;
     display: none;
-    position: relative;
     background-color: @searchActiveBackground;
     padding-top: 10px;
-    width: 960px;
-    left: -172px;
+    width: 1000px;
     border: @searchBorder;
     border-top: 0;
 
@@ -120,7 +126,7 @@
 }
 
 #q {
-  text-indent: 25px;
+  display: inline-block;
   line-height: 1.5em;
   background-color: @searchBoxBackground;
   color: @white;
