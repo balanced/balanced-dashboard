@@ -1,6 +1,8 @@
 <div id="search" {{bindAttr class="controller.displayResults:with-results"}}>
-    <div class="search icon"></div>
-    {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
+    <div class="search-field-container">
+        <div class="search icon"></div>
+        {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
+    </div>
 
     <div class="results">
         {{# if isLoading }}
@@ -8,7 +10,7 @@
         {{else}}
             <span class="close" {{action closeSearch}}>×</span>
         {{/if}}
-        
+
         {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
 
         {{#if transactionsTabSelected}}

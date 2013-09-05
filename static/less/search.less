@@ -14,27 +14,28 @@
 
 @datePickerBackground: rgb(217, 216, 213);
 
-// search icon
-.search.icon {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  background: @iconsFile -0px -100px no-repeat;
-  line-height: 1.5em;
-  background-color: @searchBoxBackground;
-  margin-top: 5px;
-  margin-left: 8px;
-}
-
 #search {
+  height: 60px;
   .results, .close {
     display: none;
   }
+  .search-field-container {
+    height: 50px;
+    background-color: @searchBoxBackground;
+    margin: 5px;
+
+    .search.icon {
+      float: left;
+      width: 50px;
+      height: 50px;
+      background: @iconsFile -0px -100px no-repeat;
+      line-height: 1.5em;
+    }
+  }
   &.focus, &.with-results {
     background: @searchActiveBackground;
-    .search.icon {
-      background-color: @searchActiveBackground;
-      background-position: -50px -100px;
+    .search-field-container {
+      background: @searchActiveBackground;
     }
   }
   &.with-results {
@@ -46,13 +47,9 @@
       }
     }
     #q {
-      background: @searchActiveBackground;
-      color: @black;
       &:focus {
         outline: none;
       }
-      width: calc(~"90% - 97px");
-      padding-right: 5px;
     }
     .close {
       display: block;

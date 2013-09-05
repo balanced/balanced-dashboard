@@ -142,7 +142,8 @@ footer {
 // case
 #marketplaces {
   #marketplace-name{
-    max-width: 400px;
+    display: inline-block;
+    max-width: 215px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -178,7 +179,7 @@ footer {
     background: @menuBackground;
     text-align: left;
     margin: 0;
-    min-width: 210px;
+    width: 240px;
     h4 {
       border-bottom: 1px solid @gray3;
       margin: 10px 0 0;
@@ -223,13 +224,14 @@ footer {
   height: 100%;
 }
 #q {
+  float: left;
+  width: calc(~"100% - 85px");
+  padding: 0 5px 0 0;
+  margin: 0;
+  color: @black;
   box-shadow: none;
   border: 0;
-  margin-top: @searchBoxMargin;
-  margin-left: -3px;
   height: @searchBoxHeight;
-  padding: 0;
-  width: calc(~"90% - 50px");
   font-family: nimbussannov-bol;
   font-weight: normal;
   font-size: 18px;
