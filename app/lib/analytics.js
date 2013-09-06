@@ -57,6 +57,12 @@ Balanced.Analytics = (function () {
             if (window.TESTING) {
                 return;
             }
+
+            if(Balanced.currentMarketplace) {
+            	data.marketplaceId = Balanced.currentMarketplace.get('id');
+            	data.marketplaceName = Balanced.currentMarketplace.get('name');
+            }
+
             var filteredData = Balanced.Utils.filterSensitivePropertiesMap(data);
             window.mixpanel.track(name, filteredData);
             window._gaq.push(['_trackEvent', 'dashboard', name]);
