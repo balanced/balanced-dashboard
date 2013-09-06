@@ -44,7 +44,7 @@
 
             <div class="control-group">
                 <label>Description</label>
-                {{view Ember.TextField valueBinding="view.model.description" class="full description" maxlength="150"}}
+                {{view Ember.TextField valueBinding="view.model.description" class="full description" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}
             </div>
         </div>
         <div class="modal-informational">
