@@ -546,6 +546,30 @@ Balanced.Utils = {
         } else {
             return isoDate;
         }
-    }
+    },
 
+    // filters any number that is in the form of a string and longer than 4 digits (bank codes, ccard numbers etc)
+    filterSensitiveData: function(str) {
+        if(Ember.isNone(str)) {
+            return str;
+        }
+        var strValue = '' + str;
+        return strValue.replace(/([0-9])[\s+\-]([0-9])/g, '$1$2').replace(/([0-9]*)([0-9]{4})/g, 'XX-HIDE-XX-$2');
+    },
+
+    // Takes a hash and filters out all the sensitive data. Only preserves
+    // top-level properties, since mixpanel doesn't do nested properties
+    filterSensitivePropertiesMap: function(obj) {
+        if(!obj) {
+            return obj;
+        }
+
+        var ret = {};
+        for (var name in obj) {
+            if(obj.hasOwnProperty(name)) {
+                ret[name] = Balanced.Utils.filterSensitiveData(obj[name]);
+            }
+        }
+        return ret;
+    }
 };
