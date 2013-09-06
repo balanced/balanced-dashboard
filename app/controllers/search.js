@@ -5,7 +5,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
         needs: ['application', 'marketplace'],
 
         useSearch: true,
-        
+
         search: null,
         debounced_search: null,
 
@@ -39,6 +39,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
         extra_filtering_params: function () {
             var query = this.get('debounced_search');
+
+            if(query) {
+            	Balanced.Analytics.trackEvent('Search', {query: query});
+            }
+
             if (query === '%') {
                 query = '';
             }
