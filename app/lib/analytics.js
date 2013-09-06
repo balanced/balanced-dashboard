@@ -59,8 +59,8 @@ Balanced.Analytics = (function () {
             }
 
             if(Balanced.currentMarketplace) {
-            	data.marketplaceId = Balanced.currentMarketplace.get('id');
-            	data.marketplaceName = Balanced.currentMarketplace.get('name');
+                data.marketplaceId = Balanced.currentMarketplace.get('id');
+                data.marketplaceName = Balanced.currentMarketplace.get('name');
             }
 
             var filteredData = Balanced.Utils.filterSensitivePropertiesMap(data);

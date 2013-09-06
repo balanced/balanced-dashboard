@@ -560,9 +560,9 @@ Balanced.Utils = {
     // Takes a hash and filters out all the sensitive data. Only preserves
     // top-level properties, since mixpanel doesn't do nested properties
     filterSensitivePropertiesMap: function(obj) {
-    	if(!obj) {
-    		return obj;
-    	}
+        if(!obj) {
+            return obj;
+        }
 
         var ret = {};
         for (var name in obj) {
