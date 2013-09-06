@@ -2,7 +2,6 @@ Balanced.AddFundsModalView = Balanced.View.extend({
     templateName: 'modals/add_funds',
 
     dollar_amount: null,
-    description: null,
 
     selected_bank_account: function () {
         if (this.get('model.source_uri')) {
@@ -26,7 +25,6 @@ Balanced.AddFundsModalView = Balanced.View.extend({
         });
 
         this.set('dollar_amount', null);
-        this.set('description', null);
         this.set('model', debit);
 
         $('#add-funds').modal('show');
@@ -49,10 +47,10 @@ Balanced.AddFundsModalView = Balanced.View.extend({
         }
 
         debit.set('amount', cents);
-        debit.set('description', this.get('description'));
 
         debit.save().then(function () {
             self.get('marketplace').reload();
+            $('#add-funds').modal('hide');
             self.get('controller').transitionToRoute('debits', debit);
         });
     }
