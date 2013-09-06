@@ -6,7 +6,7 @@ Balanced.EventsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(event, setTitle, function () {
             return 'Event: loading ...';
         }, function () {
-            return 'Event: {0} #{1}'.format(event.get('type'), event.get('id'));
+            return 'Event: %@ #%@'.fmt(event.get('type'), event.get('id'));
         });
     },
 

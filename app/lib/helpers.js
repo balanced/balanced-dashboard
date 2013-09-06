@@ -132,23 +132,7 @@ $.expr[":"].icontains = $.expr.createPseudo(function (arg) {
     };
 });
 
-// http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format/4673436#4673436
-if (!String.prototype.format) {
-    var re = new RegExp('{(\\d+)}', 'g');
-    String.prototype.format = function () {
-        var args = arguments;
-        return this.replace(re, function (match, number) {
-            return typeof args[number] !== 'undefined' ? args[number] : match;
-        });
-    };
-}
-
 Balanced.Utils = {
-    uriToDashboardFragment: function (uri) {
-        // have to strip off the API version
-        return uri.substring(3);
-    },
-
     stripDomain: function (url) {
         return url.replace(/^.*\/\/[^\/]+/, '');
     },
@@ -264,7 +248,7 @@ Balanced.Utils = {
 
     dollarsToCents: function (dollars) {
         if (!dollars) {
-            throw new Error('{0} is not a valid dollar amount'.format(dollars));
+            throw new Error('%@ is not a valid dollar amount'.fmt(dollars));
         }
 
         // remove commas and whitespace
@@ -272,14 +256,14 @@ Balanced.Utils = {
 
         // make sure our input looks reasonable now, or else fail
         if (!/^([0-9]*(\.[0-9]{0,2})?)$/.test(dollars)) {
-            throw new Error('{0} is not a valid dollar amount'.format(dollars));
+            throw new Error('%@ is not a valid dollar amount'.fmt(dollars));
         }
 
         return Math.round(100 * parseFloat(dollars));
     },
 
     toGravatar: function (emailHash) {
-        return emailHash ? 'https://secure.gravatar.com/avatar/{0}?s=30&d=mm'.format(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
+        return emailHash ? 'https://secure.gravatar.com/avatar/%@?s=30&d=mm'.fmt(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
     },
 
     setCurrentMarketplace: function (marketplace) {
@@ -444,7 +428,7 @@ Balanced.Utils = {
             case Ember.Deferred:
                 return;
             default:
-                throw new Ember.Error('not supported model {0}'.format(obj));
+                throw new Ember.Error('not supported model %@'.fmt(obj));
         }
 
         var hash = options.hash;
@@ -463,7 +447,7 @@ Balanced.Utils = {
 
     combineUri: function(baseUri, path) {
         if(!baseUri || !path) {
-            throw new Error("Can't combine URIs: {0} {1}".format(baseUri, path));
+            throw new Error("Can't combine URIs: %@ %@".fmt(baseUri, path));
         }
 
         // strip trailing slash

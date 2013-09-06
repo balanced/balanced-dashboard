@@ -41,7 +41,7 @@ Balanced.Customer = Balanced.Model.extend({
         var name = this.get('name') || this.get('id');
         var email = this.get('email');
         if(email) {
-            return "{0} ({1})".format(name, email);
+            return "%@ (%@)".fmt(name, email);
         } else {
             return name;
         }
@@ -91,7 +91,7 @@ Balanced.Customer = Balanced.Model.extend({
         var email = this.get('email');
         if (name) {
             if (email) {
-                name += ' ({0})'.format(email);
+                name += ' (%@)'.fmt(email);
             }
         } else {
             name = email;

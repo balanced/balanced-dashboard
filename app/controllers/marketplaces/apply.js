@@ -98,7 +98,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         var self = this;
         var json = JSON.parse(unparsedJson);
         _.each(json.extras, function (value, key) {
-            self.get('validationErrors').add('marketplace.{0}'.format(key), 'invalid', null, value);
+            self.get('validationErrors').add('marketplace.%@'.fmt(key), 'invalid', null, value);
         });
         self.propertyDidChange('validationErrors');
         self.set('isLoading', false);

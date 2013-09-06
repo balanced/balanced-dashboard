@@ -6,7 +6,7 @@ Balanced.ReversalsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(reversal, setTitle, function () {
             return 'Reversal: loading ...';
         }, function () {
-            return 'Reversal: {0}'.format(reversal.get('page_title'));
+            return 'Reversal: %@'.fmt(reversal.get('page_title'));
         });
     },
 

@@ -6,7 +6,7 @@ Balanced.HoldsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(hold, setTitle, function () {
             return 'Hold: loading ...';
         }, function () {
-            return 'Hold: {0}'.format(hold.get('page_title'));
+            return 'Hold: %@'.fmt(hold.get('page_title'));
         });
     },
 

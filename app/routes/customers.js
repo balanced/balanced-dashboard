@@ -4,7 +4,7 @@ Balanced.CustomersRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(customer, setTitle, function () {
             return 'Customer: loading ...';
         }, function () {
-            return 'Customer: {0}'.format(customer.get('displayName'));
+            return 'Customer: %@'.fmt(customer.get('displayName'));
         });
     },
 

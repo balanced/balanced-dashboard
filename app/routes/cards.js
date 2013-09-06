@@ -10,7 +10,7 @@ Balanced.CardsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(card, setTitle, function () {
             return 'Card: loading ...';
         }, function () {
-            return 'Card: {0}'.format(card.get('displayName'));
+            return 'Card: %@'.fmt(card.get('displayName'));
         });
     },
 

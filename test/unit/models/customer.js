@@ -8,7 +8,7 @@ test('displayName', function (assert) {
     customer.set('email', emailAddress);
     assert.equal(customer.get('displayName'), emailAddress);
     customer.set('name', name);
-    assert.equal(customer.get('displayName'), '{0} ({1})'.format(name, emailAddress));
+    assert.equal(customer.get('displayName'), '%@ (%@)'.fmt(name, emailAddress));
     customer.set('email', null);
     assert.equal(customer.get('displayName'), name);
     customer.set('business_name', businessName);

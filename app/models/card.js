@@ -8,14 +8,14 @@ Balanced.Card = Balanced.FundingInstrument.extend({
     is_bank_account: false,
 
     description: function () {
-        return '{0} ({1})'.format(
+        return '%@ (%@)'.fmt(
             this.get('last_four'),
             Balanced.Utils.toTitleCase(this.get('brand'))
         );
     }.property('last_four', 'brand'),
 
     displayName: function () {
-        return '{0} ({1} {2})'.format(
+        return '%@ (%@ %@)'.fmt(
             this.get('name'),
             this.get('last_four'),
             Balanced.Utils.toTitleCase(this.get('brand'))

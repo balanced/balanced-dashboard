@@ -23,7 +23,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
     description: function () {
         if (this.get('bank_name')) {
-            return '{0} ({1})'.format(
+            return '%@ (%@)'.fmt(
                 this.get('last_four'),
                 Balanced.Utils.toTitleCase(this.get('bank_name'))
             );
