@@ -47,6 +47,11 @@
                     {{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
                 </div>
             </div>
+
+            <div class="control-group">
+                <label>Description</label>
+                {{view Ember.TextField valueBinding="view.description" class="full description" maxlength="150"}}
+            </div>
         </div>
         <div class="modal-informational">
             <p>Funds will appear in your balance in 1-2 business days.</p>

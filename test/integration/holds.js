@@ -2,7 +2,9 @@ var holdRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/holds/HL5oPyl3e
 
 module('Holds', {
 	setup: function () {
+
 	}, teardown: function () {
+
 	}
 });
 
