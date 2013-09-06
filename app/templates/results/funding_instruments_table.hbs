@@ -26,7 +26,7 @@
         <tr>
             <td>
                 {{#linkToEntity funding_instrument}}<span>
-                    <time {{bindAttr datetime="funding_instrument.created_at"}} data-format="%b %d" {{bindAttr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at }}</time>
+                    <time {{bindAttr datetime="funding_instrument.created_at"}} {{bindAttr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at }}</time>
                 </span>{{/linkToEntity}}
             </td>
             <td>

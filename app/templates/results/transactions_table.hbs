@@ -28,7 +28,7 @@
         <tr>
             <td class="span3 date">
                 {{#linkToEntity transaction}}<span>
-                    <time {{bindAttr datetime="transaction.created_at"}} data-format="%b %d" {{bindAttr title="transaction.created_at"}}>{{humanReadableDateShort transaction.created_at}}</time>
+                    <time {{bindAttr datetime="transaction.created_at"}} {{bindAttr title="transaction.created_at"}}>{{humanReadableDateShort transaction.created_at}}</time>
                 </span>{{/linkToEntity}}
             </td>
             <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>

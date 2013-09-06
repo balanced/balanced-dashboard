@@ -35,7 +35,7 @@
             </td>
             <td class="span3 align-right date">
                 {{#linkToEntity log}}
-                    <time {{bindAttr datetime="log.created_at"}} data-format="%b %d" {{bindAttr title="log.created_at"}}>{{humanReadableDateShort log.created_at }}</time>
+                    <time {{bindAttr datetime="log.created_at"}} {{bindAttr title="log.created_at"}}>{{humanReadableDateShort log.created_at }}</time>
                 {{/linkToEntity}}
             </td>
         </tr>
