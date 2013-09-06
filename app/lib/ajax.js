@@ -15,9 +15,6 @@ Balanced.NET = (function () {
             withCredentials: true
         },
         beforeSend: function (xhr, settings) {
-            if (Balanced['Analytics']) {
-                _.defer(Balanced.Analytics.trackAjax, settings);
-            }
             for (var key in ajaxHeaders) {
                 if (!ajaxHeaders.hasOwnProperty(key)) {
                     continue;
