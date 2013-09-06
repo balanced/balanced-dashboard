@@ -392,7 +392,7 @@ footer {
       height: 0;
       border-top: @marketplaceNavTriangleSize solid transparent;
       border-bottom: @marketplaceNavTriangleSize solid transparent;
-      
+
       border-left: @marketplaceNavTriangleSize solid @marketplaceNavBackground; /* Color of Triangle */
 
       position: relative;
@@ -404,12 +404,13 @@ footer {
 
 #marketplace-nav {
   background-color: @marketplaceNavBackground;
+  min-height: @mainMinHeight;
+  position: absolute;
+  height: 100%;
 
   &.noshow {
     background-color: @contentBackground;
   }
-
-  min-height: @mainMinHeight;
 
   li {
     display: block;
@@ -469,6 +470,8 @@ footer {
   background-color: @contentBackground;
   padding: 0 0 @mainVerticalPadding 0;
   min-height: @mainMinHeight;
+  margin-left: 105px;
+
   &> .row {
     &:last-child {
       margin-top: @mainVerticalPadding;
