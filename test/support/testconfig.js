@@ -55,12 +55,12 @@ QUnit.testStart(function (test) {
         }
     };
 
-    console.log('#{0} {1}: setup complete. Starting test'.format(module, test.name));
+    console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 });
 
 QUnit.testDone(function (test) {
     var module = test.module ? test.module : '';
-    console.log('#{0} {1}: tearing down.'.format(module, test.name));
+    console.log('#%@ %@: tearing down.'.fmt(module, test.name));
 
     Balanced.removeTestHelpers();
     Ember.$('#ember-testing-container, #ember-testing').remove();
@@ -69,5 +69,5 @@ QUnit.testDone(function (test) {
 
     Ember.testing = false;
 
-    console.log('#{0} {1}: done.'.format(module, test.name));
+    console.log('#%@ %@: done.'.fmt(module, test.name));
 });

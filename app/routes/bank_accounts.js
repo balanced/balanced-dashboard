@@ -10,7 +10,7 @@ Balanced.BankAccountsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(bankAccount, setTitle, function () {
             return 'Bank Account: loading ...';
         }, function () {
-            return 'Bank Account: {0}'.format(bankAccount.get('description'));
+            return 'Bank Account: %@'.fmt(bankAccount.get('description'));
         });
     },
 

@@ -8,7 +8,7 @@ Balanced.LogsLogRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(log, setTitle, function () {
             return 'Log: loading ...';
         }, function () {
-            return 'Log: {0} {1}'.format(log.get('message.request.method'), log.get('short_url'));
+            return 'Log: %@ %@'.fmt(log.get('message.request.method'), log.get('short_url'));
         });
     },
 

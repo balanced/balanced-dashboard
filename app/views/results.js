@@ -42,13 +42,13 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
     transaction_type_total: function () {
         var types = Balanced.SEARCH.TRANSACTION_TYPES;
         var type = this.get('controller.type');
-        return (types.indexOf(type) >= 0 && this.get('searchResult.total_{0}s'.format(type))) || this.get('searchResult.total_transactions');
+        return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_transactions');
     }.property('controller.type', 'searchResult.total_transactions'),
 
     funding_instrument_type_total: function () {
         var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
         var type = this.get('controller.type');
-        return (types.indexOf(type) >= 0 && this.get('searchResult.total_{0}s'.format(type))) || this.get('searchResult.total_funding_instruments');
+        return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_funding_instruments');
     }.property('controller.type', 'searchResult'),
 
     _getLabel: function (labelMapping, acceptedTypes, type) {
@@ -90,7 +90,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 
     debits_label: function () {
         if (this.get('controller.type') === 'debit') {
-            return 'Debits: {0}'.format(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
+            return 'Debits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
         } else {
             return 'Debits: All';
         }
@@ -98,7 +98,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 
     credits_label: function () {
         if (this.get('controller.type') === 'credit') {
-            return 'Credits: {0}'.format(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
+            return 'Credits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
         } else {
             return 'Credits: All';
         }

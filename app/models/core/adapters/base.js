@@ -23,11 +23,11 @@ Balanced.BaseAdapter = Ember.Object.extend({
 
     _checkParams: function(type, uri) {
         if(!uri) {
-            throw new Error('Missing URI in adapter call for {0}'.format(type));
+            throw new Error('Missing URI in adapter call for %@'.fmt(type));
         }
 
         if(!type) {
-            throw new Error('Missing type in adapter call for {0}'.format(uri));
+            throw new Error('Missing type in adapter call for %@'.fmt(uri));
         }
     }
 });

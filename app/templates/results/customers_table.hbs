@@ -25,7 +25,7 @@
         <tr>
             <td class="span3 date">
                 {{#linkToEntity account}}<span>
-                    <time {{bindAttr datetime="account.created_at"}} data-format="%b %d" {{bindAttr title="account.created_at"}}>{{humanReadableDateShort account.created_at }}</time>
+                    <time {{bindAttr datetime="account.created_at"}} {{bindAttr title="account.created_at"}}>{{humanReadableDateShort account.created_at }}</time>
                 </span>{{/linkToEntity}}
             </td>
             <td class="span4 name" {{bindAttr title="account.display_me"}}>

@@ -6,7 +6,7 @@ Balanced.CreditsRoute = Balanced.AuthRoute.extend({
         return Balanced.Utils.maybeDeferredLoading(credit, setTitle, function () {
             return 'Credit: loading ...';
         }, function () {
-            return 'Credit: {0}'.format(credit.get('page_title'));
+            return 'Credit: %@'.fmt(credit.get('page_title'));
         });
     },
 

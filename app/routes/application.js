@@ -22,7 +22,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
     },
     events: {
         error: function(error, transition) {
-            Ember.Logger.error("Error while loading route ({0}: {1}): ".format(error.errorStatusCode, error.uri), error.stack || error);
+            Ember.Logger.error("Error while loading route (%@: %@): ".fmt(error.errorStatusCode, error.uri), error.stack || error);
 
             // if we had a problem loading the marketplace, check that it's not the current
             // marketplace, since that might send us into an infinite loop

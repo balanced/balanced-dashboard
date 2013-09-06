@@ -20,7 +20,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 
             //  pre-populate marketplace with transactions
             var id = mkt.uri.substr(mkt.uri.lastIndexOf('/') + 1);
-            var uri = '/marketplaces/{0}/spam'.format(id);
+            var uri = '/marketplaces/%@/spam'.fmt(id);
             Balanced.Model.create({
                 uri: uri,
                 isNew: false

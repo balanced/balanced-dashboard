@@ -221,10 +221,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
             if(mappedType) {
                 return mappedType;
             } else {
-                Ember.Logger.warn("Couldn't map _type of {0} for URI: {1}".format(metadataType, this.get('uri')));
+                Ember.Logger.warn("Couldn't map _type of %@ for URI: %@".fmt(metadataType, this.get('uri')));
             }
         } else {
-            Ember.Logger.warn("No _type found for {0} in _uris metadata for URI: {1}".format(uriProperty, this.get('uri')));
+            Ember.Logger.warn("No _type found for %@ in _uris metadata for URI: %@".fmt(uriProperty, this.get('uri')));
         }
 
         return undefined;

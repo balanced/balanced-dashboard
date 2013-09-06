@@ -1,4 +1,4 @@
-require('app/lib/helpers');
+require('app/lib/utils');
 
 Ember.Handlebars.registerBoundHelper('formatCurrency', Balanced.Utils.formatCurrency);
 
@@ -13,7 +13,7 @@ Ember.Handlebars.registerBoundHelper('prettyPrint', Balanced.Utils.prettyPrint);
 Ember.Handlebars.registerBoundHelper('colorizeStatus', function (status) {
     var statusClass = status.match(/2\d\d/) ? 'ok': 'error';
     return new Ember.Handlebars.SafeString(
-        '<span class="status-{0}">{1}</span>'.format(statusClass, status)
+        '<span class="status-%@">%@</span>'.fmt(statusClass, status)
     );
 });
 
