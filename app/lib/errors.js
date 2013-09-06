@@ -5,7 +5,18 @@ if (typeof Raven !== typeof undefined) {
         var realError = error.stack || error;
 
         if (!ENV.BALANCED.DEBUG) {
-            Raven.captureException(realError);
+        	var data = {
+        		text: error.message || realError.toString(),
+				location: window.location.toString()
+        	};
+        	if(Balanced.currentMarketplace) {
+                data.marketplaceId = Balanced.currentMarketplace.get('id');
+                data.marketplaceName = Balanced.currentMarketplace.get('name');
+            }
+
+            Raven.captureException(realError, {tags: data});
+
+            Balanced.Analytics.trackEvent('js-error', data);
         }
 
         Ember.Logger.error(realError);

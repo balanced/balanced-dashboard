@@ -11,6 +11,9 @@ Balanced.Analytics = (function () {
     function trackLogin(email) {
         try {
             window.mixpanel.alias(email);
+            Raven.setUser({
+			    email: email
+			});
         } catch (err) {
         }
     }
