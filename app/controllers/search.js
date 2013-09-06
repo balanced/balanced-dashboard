@@ -41,7 +41,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
             var query = this.get('debounced_search');
 
             if(query) {
-            	Balanced.Analytics.trackEvent('Search', {query: query});
+                Balanced.Analytics.trackEvent('Search', {query: query});
             }
 
             if (query === '%') {
