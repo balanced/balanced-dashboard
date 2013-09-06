@@ -70,7 +70,9 @@ module.exports = function (grunt) {
                     'static/lib/jquery.browser.js',
                     'static/lib/underscore-1.4.4.js',
                     'static/lib/mixpanel-2.2.js',
-                    'static/lib/google_prettify.js'
+                    'static/lib/google_prettify.js',
+                    'static/lib/strftime.js',
+                    'static/lib/jquery-hotkeys.js'
                 ],
                 dest: 'build/js/lib-dev.js'
             },
@@ -89,7 +91,9 @@ module.exports = function (grunt) {
                     'static/lib/jquery.browser.js',
                     'static/lib/underscore-1.4.4.js',
                     'static/lib/mixpanel-2.2.js',
-                    'static/lib/google_prettify.js'
+                    'static/lib/google_prettify.js',
+                    'static/lib/strftime.js',
+                    'static/lib/jquery-hotkeys.js'
                 ],
                 dest: 'build/js/lib-prod.js'
             },
