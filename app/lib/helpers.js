@@ -164,29 +164,9 @@ Balanced.Helpers = (function () {
         }
     }
 
-    function calculateContentHeight() {
-        var $content = $('#content');
-        if (!$content.length) {
-            return;
-        }
-        var height = $content.height();
-        var padding = (+$content.css('padding-top').replace('px', '')) + (+$content.css('padding-bottom').replace('px', ''));
-        return (+height + (+padding)) + 'px';
-    }
-
     return {
         init: function () {
             $('time[data-format]').each(parseDateTime);
-            if(!window.TESTING) {
-                Balanced.Helpers.navigationTimer = setInterval(Balanced.Helpers.updateNavigationHeight, 50);
-            }
-        },
-
-        updateNavigationHeight: function () {
-            var height = calculateContentHeight();
-            if (height) {
-                $('#marketplace-nav').height(height);
-            }
         }
     };
 })();
