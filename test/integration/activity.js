@@ -78,20 +78,27 @@ test('Filtering by type works', function (assert) {
 });
 
 test('add funds', function (assert) {
-    assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
+    var spy = sinon.spy(Balanced.Adapter, "create");
+
+    assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
     $('.activity-escrow-box .btn').first().click();
 
     assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
-
-    assert.equal($('#add-funds select option').length, 2);
+    assert.equal($('#add-funds select option').length, 2, 'bank accounts in account dropdown');
 
     $('#add-funds input').first().val('55.55').trigger('keyup');
-    $('#add-funds .modal-footer .btn').not('.danger').click();
 
-    assert.equal($('#add-funds').css('display'), 'none', 'add funds modal hidden');
+    var description = 'Adding lots of money yo';
+    $('#add-funds input.description').val(description).trigger('keyup');
 
-    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,193.36'), -1, 'escrow amount is now $1,193.36');
+    click('#add-funds .modal-footer button[name="modal-submit"]')
+    .then(function() {
+        assert.ok(spy.calledOnce);
+        assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/debits'));
+        assert.equal(spy.getCall(0).args[2].amount, 5555);
+        assert.equal(spy.getCall(0).args[2].description, description);
+    });
 });
 
 test('add funds only adds once despite multiple clicks', function (assert) {
@@ -108,20 +115,27 @@ test('add funds only adds once despite multiple clicks', function (assert) {
 });
 
 test('withdraw funds', function (assert) {
-    assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
+    var spy = sinon.spy(Balanced.Adapter, "create");
+
+    assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
 
     $('.activity-escrow-box .btn').eq(1).click();
 
     assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
-
     assert.equal($('#withdraw-funds select option').length, 4, 'bank accounts in account dropdown');
 
     $('#withdraw-funds input').first().val('55.55').trigger('keyup');
-    $('#withdraw-funds .modal-footer .btn').not('.danger').click();
 
-    assert.equal($('#withdraw-funds').css('display'), 'none', 'withdraw funds modal hidden');
+    var description = 'Adding lots of money yo';
+    $('#withdraw-funds input.description').val(description).trigger('keyup');
 
-    //assert.notEqual($('.activity-escrow-box .amount .number1d').html().indexOf('1,082.26'), -1, 'escrow amount is now $1,082.26');
+    click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+    .then(function() {
+        assert.ok(spy.calledOnce);
+        assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/credits'));
+        assert.equal(spy.getCall(0).args[2].amount, 5555);
+        assert.equal(spy.getCall(0).args[2].description, description);
+    });
 });
 
 test('withdraw funds only withdraws once despite multiple clicks', function (assert) {
@@ -188,7 +202,7 @@ test('transactions date sort has two states', function (assert) {
         count ++;
     }
     states.sort();
-    
+
     var expectedStates = ["ascending", "descending"];
     assert.equal(states[0], expectedStates[0]);
     assert.equal(states[1], expectedStates[1]);

@@ -20,7 +20,8 @@ Balanced.AddFundsModalView = Balanced.View.extend({
         var debit = Balanced.Debit.create({
             uri: this.get('marketplace.owner_customer.debits_uri'),
             source_uri: sourceUri,
-            amount: null
+            amount: null,
+            description: null
         });
 
         this.set('dollar_amount', null);
@@ -44,11 +45,13 @@ Balanced.AddFundsModalView = Balanced.View.extend({
             debit.set('validationErrors', {'amount': error});
             return;
         }
+
         debit.set('amount', cents);
 
         debit.save().then(function () {
             self.get('marketplace').reload();
             $('#add-funds').modal('hide');
+            self.get('controller').transitionToRoute('debits', debit);
         });
     }
 });

@@ -21,7 +21,8 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
             var credit = Balanced.Credit.create({
                 uri: self.get('marketplace.owner_customer.credits_uri'),
                 source_uri: sourceUri,
-                amount: null
+                amount: null,
+                description: null
             });
 
             self.set('dollar_amount', null);
@@ -46,11 +47,13 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
             credit.set('validationErrors', {'amount': error});
             return;
         }
+
         credit.set('amount', cents);
 
         credit.save().then(function () {
             self.get('marketplace').reload();
             $('#withdraw-funds').modal('hide');
+            self.get('controller').transitionToRoute('credits', credit);
         });
     }
 });

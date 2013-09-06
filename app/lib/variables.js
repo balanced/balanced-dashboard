@@ -43,3 +43,6 @@ Balanced.PASSWORD = {
     REGEX: /(?=.*[A-z])(?=.*\d)/
 };
 
+Balanced.MAXLENGTH = {
+    DESCRIPTION: 150
+};
