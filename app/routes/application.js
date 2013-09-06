@@ -30,6 +30,12 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
                 $.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, { path: '/' });
             }
 
+            Balanced.Analytics.trackEvent('route-error', {
+				type: 'error-loading-route',
+				location: window.location.toString(),
+				statusCode: error.errorStatusCode
+			});
+
             if(error.isError && (error.errorStatusCode === 401 || error.errorStatusCode === 403)) {
                 Balanced.Auth.trigger('authAccess');
                 // If we're not authorized, need to log in (maybe as a different user),
