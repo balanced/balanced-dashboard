@@ -25,8 +25,6 @@ Balanced.NET = (function () {
     });
 
     return {
-        init: function () {
-        },
         loadCSRFToken: function () {
             if(window.TESTING) {
                 return;
