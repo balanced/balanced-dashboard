@@ -57,7 +57,8 @@ Balanced.Analytics = (function () {
             if (window.TESTING) {
                 return;
             }
-            window.mixpanel.track(name, data);
+            var filteredData = Balanced.Utils.filterSensitivePropertiesMap(data);
+            window.mixpanel.track(name, filteredData);
             window._gaq.push(['_trackEvent', 'dashboard', name]);
         }
     };

@@ -351,3 +351,64 @@ test('applyUriFilters', function(assert) {
         assert.equal(Balanced.Utils.applyUriFilters(inputs[i].uri, inputs[i].params), expected[i]);
     }
 });
+
+
+test('filterSensitiveData', function(assert) {
+	var inputs = [
+        null,
+        undefined,
+        [],
+        {},
+        'hello world',
+        '123-12-1234',
+        '1234123412341234',
+        '1234-1234-1234-1234',
+        '1234 1234 1234 1234',
+        '123456',
+        'my SSN is 123-12-1234',
+        "i'm dumb and my credit card number is 1234-1234-1234-1234 yup"
+    ];
+
+    var expected = [
+        null,
+        undefined,
+        "",
+        "[object Object]",
+        'hello world',
+        'XX-HIDE-XX-1234',
+        'XX-HIDE-XX-1234',
+        'XX-HIDE-XX-1234',
+        'XX-HIDE-XX-1234',
+        'XX-HIDE-XX-3456',
+        'my SSN is XX-HIDE-XX-1234',
+        "i'm dumb and my credit card number is XX-HIDE-XX-1234 yup"
+    ];
+
+    for (var i = 0; i < inputs.length; i++) {
+        assert.equal(Balanced.Utils.filterSensitiveData(inputs[i]), expected[i]);
+    }
+});
+
+test('filterSensitivePropertiesMap', function(assert) {
+	var inputs = [
+        null,
+        undefined,
+        {},
+        {a: 'b'},
+        {a: {b: 'c'}},
+        {a: '1234123412341234', b: "234523452345"}
+    ];
+
+    var expected = [
+        null,
+        undefined,
+        {},
+        {a: 'b'},
+        {a: "[object Object]"},
+        {a: 'XX-HIDE-XX-1234', b: "XX-HIDE-XX-2345"}
+    ];
+
+    for (var i = 0; i < inputs.length; i++) {
+        assert.deepEqual(Balanced.Utils.filterSensitivePropertiesMap(inputs[i]), expected[i]);
+    }
+});
