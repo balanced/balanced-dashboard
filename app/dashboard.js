@@ -55,4 +55,5 @@ require('app/components/**/*');
  * actions.
  */
 require('app/routes/router');
+require('app/routes/auth_route');
 require('app/routes/**/*');

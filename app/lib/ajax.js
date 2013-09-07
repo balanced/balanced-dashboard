@@ -42,7 +42,27 @@ Balanced.NET = (function () {
                 ajaxHeaders['X-CSRFToken'] = csrfToken;
             });
         },
-        ajaxHeaders: ajaxHeaders
+        ajaxHeaders: ajaxHeaders,
+
+        ajax: function(settings) {
+	    	if (null == settings) {
+				settings = {};
+			}
+
+			var def = {
+				'dataType': 'json'
+			};
+
+			if (settings.data && Ember.isNone(settings.contentType)) {
+				if(settings.type && settings.type.toUpperCase !== 'GET') {
+					def.contentType = 'application/json; charset=utf-8';
+					settings.data  = JSON.stringify(settings.data)
+				}
+			}
+			settings = $.extend(def, settings);
+
+			return $.ajax(settings);
+	    }
     };
 
 })();

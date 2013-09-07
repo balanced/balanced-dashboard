@@ -1,29 +1,62 @@
 Balanced.Auth = (function () {
-    var defaultBalancedAuthOptions = {
-        baseUrl: ENV.BALANCED.AUTH,
-        signInEndPoint: '/logins',
-        signOutEndPoint: '/logins/current',
+    var auth = Ember.Object.extend(Ember.Evented).create();
 
-        tokenKey: 'id',
-        tokenIdKey: 'user_uri',
-        userModel: 'Balanced.User',
+    auth.signIn = function(opts) {
+    	var self = this;
+		if (null == opts) {
+			opts = {};
+		}
 
-        // We're using the cookie, so Ember Auth doesn't need to worry about the token
-        tokenLocation: 'none',
-        sessionAdapter: 'cookie',
-        modules: ['authRedirectable'],
-        authRedirectable: {
-            route: 'login'
-        }
-    };
+		return Balanced.NET.ajax($.extend(true, {
+			url: ENV.BALANCED.AUTH + '/logins',
+			type: 'POST'
+		}, opts)).done(function (json, status, jqxhr) {
+			var user = Balanced.User.create();
+			user.set('isNew', false);
+			user._updateFromJson(json.user);
+            user.set('isLoaded', true);
+            user.trigger('didLoad');
 
-    var auth = Ember.Auth.create(_.extend(defaultBalancedAuthOptions, window.BalancedAuthOptions));
+			self.setAuthProperties(true,
+				user,
+				json.user_id,
+				json.user_id,
+				false);
+
+			auth.rememberLogin(json.uri);
+
+			self.trigger('signInSuccess');
+		}).fail(function () {
+			self.trigger('signInError');
+		}).always(function () {
+			self.trigger('signInComplete');
+		});
+    }
+
+    auth.signOut = function(opts) {
+    	var self = this;
+		if (null == opts) {
+			opts = {};
+		}
+
+		this.forgetLogin();
+		return Balanced.NET.ajax($.extend(true, {
+			url: ENV.BALANCED.AUTH + '/logins/current',
+			type: 'DELETE'
+		}, opts)).done(function () {
+			self.trigger('signOutSuccess');
+		}).fail(function () {
+			self.trigger('signOutError');
+		}).always(function () {
+			self.trigger('signOutComplete');
+		});
+    }
 
     auth.setAuthProperties = function (signedIn, user, userId, authToken, isGuest) {
-        auth.set('_strategy.adapter.authToken', authToken);
-        auth.set('_session.userId', userId);
-        auth.set('_session.signedIn', signedIn);
-        auth.set('_session.user', user);
+        auth.set('authToken', authToken);
+        auth.set('userId', userId);
+        auth.set('signedIn', signedIn);
+        auth.set('user', user);
         auth.set('isGuest', isGuest);
     };
 
@@ -46,6 +79,7 @@ Balanced.Auth = (function () {
             path: '/'
         });
         auth.destroyGuestUser();
+        auth.manualLogout();
     };
 
     auth.retrieveLogin = function () {
@@ -117,36 +151,10 @@ Balanced.Auth = (function () {
         auth.setAuthProperties(false, null, null, null, false);
     };
 
-    var INTENDED_DESTINATION_KEY = 'intendedDestinationHash';
-
-    auth.getIntendedDestinationHash = function () {
-        return auth.get(INTENDED_DESTINATION_KEY);
-    };
-
-    auth.clearIntendedDestinationHash = function () {
-        auth.set(INTENDED_DESTINATION_KEY, null);
-    };
-
     auth.setAPIKey = setAPIKey;
     auth.unsetAPIKey = unsetAPIKey;
 
     initGuestUser();
-
-    // Since we can't use withCredentials for signIn (due to Firefox problems
-    // with async==true), grab the session cookie out of the response and set
-    // it manually upon login
-    auth.on('signInSuccess', function () {
-        var response = Balanced.Auth.get('jqxhr');
-        auth.rememberLogin(response.uri);
-    });
-
-    auth.on('signOutSuccess', function () {
-        auth.forgetLogin();
-    });
-
-    auth.on('authAccess', function () {
-        auth.set(INTENDED_DESTINATION_KEY, window.location.hash);
-    });
 
     return auth;
 }());

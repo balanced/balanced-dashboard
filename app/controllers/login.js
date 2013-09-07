@@ -4,19 +4,34 @@ Balanced.LoginController = Balanced.ObjectController.extend({
     loginError: false,
     loginResponse: '',
 
-    init: function () {
-        var self = this;
-        Balanced.Auth.on('signInError', function () {
-            self.set('loginError', true);
-            var response = Balanced.Auth.get('jqxhr');
+    signIn: function () {
+    	var self = this;
+        Balanced.Auth.forgetLogin();
+        Balanced.Auth.signIn({
+            data: {
+                email_address: this.get('email'),
+                password: this.get('password')
+            }
+        }).then(function() {
+        	self.set('loginError', false);
 
-            if (response.status === 401) {
+			var attemptedTransition = Balanced.Auth.get('attemptedTransition');
+			if (attemptedTransition) {
+				attemptedTransition.retry();
+				Balanced.Auth.set('attemptedTransition', null);
+			} else {
+				self.transitionToRoute('index');
+			}
+		}, function(jqxhr, status, message) {
+			self.set('loginError', true);
+
+            if (jqxhr.status === 401) {
                 self.set('loginResponse', 'Invalid e-mail address or password.');
                 return;
             }
 
-            if (typeof response.responseText !== "undefined") {
-                var responseText = JSON.parse(response.responseText);
+            if (typeof jqxhr.responseText !== "undefined") {
+                var responseText = JSON.parse(jqxhr.responseText);
                 var error;
                 if (typeof responseText.email_address !== 'undefined') {
                     error = responseText.email_address[0].replace('This', 'Email');
@@ -28,19 +43,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
                     self.set('loginResponse', error);
                 }
             }
-        });
-        Balanced.Auth.on('signInSuccess', function () {
-            self.set('loginError', false);
-        });
-    },
-
-    signIn: function () {
-        Balanced.Auth.forgetLogin();
-        Balanced.Auth.signIn({
-            data: {
-                email_address: this.get('email'),
-                password: this.get('password')
-            }
-        });
+		});
     }
 });
