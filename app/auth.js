@@ -33,6 +33,29 @@ Balanced.Auth = (function () {
 		});
 	};
 
+	auth.rememberMeSignIn = function() {
+		var self = this;
+		var authCookie = this.retrieveLogin();
+		if (authCookie) {
+			return $.ajax(ENV.BALANCED.AUTH + '/logins', {
+				type: 'POST',
+				xhrFields: {
+					withCredentials: true
+				},
+				data: { uri: authCookie }
+			}).success(function (response, status, jqxhr) {
+				// set the auth stuff manually
+				self.setAuthProperties(
+					true,
+					Balanced.User.find(response.user_uri),
+					response.user_id,
+					response.user_id,
+					false
+				);
+			});
+		}
+	};
+
 	auth.signOut = function(opts) {
 		var self = this;
 		if (null == opts) {
@@ -42,7 +65,10 @@ Balanced.Auth = (function () {
 		this.forgetLogin();
 		return Balanced.NET.ajax($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins/current',
-			type: 'DELETE'
+			type: 'DELETE',
+			xhrFields: {
+				withCredentials: true
+			}
 		}, opts)).done(function () {
 			self.trigger('signOutSuccess');
 		}).fail(function () {

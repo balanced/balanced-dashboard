@@ -31,15 +31,15 @@ Balanced.NET = (function () {
 			}
 
 			// POSTing to / will return a csrf token
-			$.ajax({
+			return $.ajax({
 				type: 'POST',
 				url: Ember.ENV.BALANCED.AUTH,
 				xhrFields: {
 					withCredentials: true
 				}
-			}).success(function (r) {
-				csrfToken = r.csrf;
-				ajaxHeaders['X-CSRFToken'] = csrfToken;
+			}).success(function (response, status, jqxhr) {
+				csrfToken = response.csrf;
+				Balanced.NET.ajaxHeaders['X-CSRFToken'] = csrfToken;
 			});
 		},
 		ajaxHeaders: ajaxHeaders,

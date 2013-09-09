@@ -4,37 +4,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			return;
 		}
 
-		var self = this;
-
-		return $.ajax({
-			type: 'POST',
-			url: Ember.ENV.BALANCED.AUTH,
-			xhrFields: {
-				withCredentials: true
-			}
-		}).then(function(response, status, jqxhr) {
-			var csrfToken = response.csrf;
-			Balanced.NET.ajaxHeaders['X-CSRFToken'] = csrfToken;
-
-			var authCookie = Balanced.Auth.retrieveLogin();
-			if (authCookie) {
-				return $.ajax('https://auth.balancedpayments.com/logins', {
-					type: 'POST',
-					xhrFields: {
-						withCredentials: true
-					},
-					data: { uri: authCookie }
-				}).success(function (response, status, jqxhr) {
-					// set the auth stuff manually
-					Balanced.Auth.setAuthProperties(
-						true,
-						Balanced.User.find(response.user_uri),
-						response.user_id,
-						response.user_id,
-						false
-					);
-				});
-			}
+		return Balanced.NET.loadCSRFToken().then(function(response, status, jqxhr) {
+			return Balanced.Auth.rememberMeSignIn();
 		});
 	},
 
@@ -70,11 +41,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 		signOut: function () {
 			var self = this;
-			Balanced.Auth.signOut({
-				xhrFields: {
-					withCredentials: true
-				}
-			}).then(function() {
+			Balanced.Auth.signOut().then(function() {
 				self.transitionTo('login');
 			});
 		}
