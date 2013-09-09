@@ -1,7 +1,7 @@
 Balanced.Auth = (function () {
 	var auth = Ember.Object.extend(Ember.Evented).create();
 
-	auth.signIn = function(opts) {
+	auth._doSignIn = function(opts) {
 		var self = this;
 		if (null == opts) {
 			opts = {};
@@ -10,20 +10,20 @@ Balanced.Auth = (function () {
 		return Balanced.NET.ajax($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts)).done(function (json, status, jqxhr) {
+		}, opts)).done(function (response, status, jqxhr) {
 			var user = Balanced.User.create();
 			user.set('isNew', false);
-			user._updateFromJson(json.user);
+			user._updateFromJson(response.user);
 			user.set('isLoaded', true);
 			user.trigger('didLoad');
 
 			self.setAuthProperties(true,
 				user,
-				json.user_id,
-				json.user_id,
+				response.user_id,
+				response.user_id,
 				false);
 
-			auth.rememberLogin(json.uri);
+			auth.rememberLogin(response.uri);
 
 			self.trigger('signInSuccess');
 		}).fail(function () {
@@ -31,45 +31,40 @@ Balanced.Auth = (function () {
 		}).always(function () {
 			self.trigger('signInComplete');
 		});
+	}
+
+	auth.signIn = function(emailAddress, password) {
+		return this._doSignIn({
+			data: {
+				email_address: emailAddress,
+				password: password
+			}
+		});
 	};
 
 	auth.rememberMeSignIn = function() {
-		var self = this;
 		var authCookie = this.retrieveLogin();
 		if (authCookie) {
-			return $.ajax(ENV.BALANCED.AUTH + '/logins', {
-				type: 'POST',
+			return this._doSignIn({
+				data: { uri: authCookie },
 				xhrFields: {
 					withCredentials: true
-				},
-				data: { uri: authCookie }
-			}).success(function (response, status, jqxhr) {
-				// set the auth stuff manually
-				self.setAuthProperties(
-					true,
-					Balanced.User.find(response.user_uri),
-					response.user_id,
-					response.user_id,
-					false
-				);
+				}
 			});
 		}
 	};
 
-	auth.signOut = function(opts) {
+	auth.signOut = function() {
 		var self = this;
-		if (null == opts) {
-			opts = {};
-		}
 
 		this.forgetLogin();
-		return Balanced.NET.ajax($.extend(true, {
+		return Balanced.NET.ajax({
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE',
 			xhrFields: {
 				withCredentials: true
 			}
-		}, opts)).done(function () {
+		}).done(function () {
 			self.trigger('signOutSuccess');
 		}).fail(function () {
 			self.trigger('signOutError');

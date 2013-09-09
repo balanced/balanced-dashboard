@@ -34,9 +34,7 @@ Balanced.Analytics = (function () {
                 Balanced.Analytics.trackEvent('login-success', {remembered: false});
 
                 var user = Balanced.Auth.get('user');
-                user.then(function() {
-                    trackLogin(user.get('email_address'));
-                });
+                trackLogin(user.get('email_address'));
             }, 450));
 
             Balanced.Auth.on('signInError', function () {
