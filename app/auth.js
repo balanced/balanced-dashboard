@@ -31,7 +31,7 @@ Balanced.Auth = (function () {
 		}).always(function () {
 			self.trigger('signInComplete');
 		});
-	}
+	};
 
 	auth.signIn = function(emailAddress, password) {
 		return this._doSignIn({
