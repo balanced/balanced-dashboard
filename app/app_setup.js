@@ -39,6 +39,8 @@ function hackTheLogin () {
                 },
                 data: { uri: authCookie }
             }).success(function (login) {
+                Balanced.Analytics.trackEvent('login-success', {remembered: true});
+
                 // set the auth stuff manually
                 Balanced.Auth.setAuthProperties(
                     true,

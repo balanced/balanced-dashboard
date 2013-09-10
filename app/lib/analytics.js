@@ -31,11 +31,17 @@ Balanced.Analytics = (function () {
             window._gaq.push(['_trackPageview']);
 
             Balanced.Auth.on('signInSuccess', _.debounce(function () {
+                Balanced.Analytics.trackEvent('login-success', {remembered: false});
+
                 var user = Balanced.Auth.get('user');
                 user.then(function() {
                     trackLogin(user.get('email_address'));
                 });
             }, 450));
+
+            Balanced.Auth.on('signInError', function () {
+                Balanced.Analytics.trackEvent('login-error');
+            });
 
             // HACK: can't find an good way to track all events in ember atm
             // to track all click events
@@ -57,6 +63,8 @@ Balanced.Analytics = (function () {
             window.mixpanel.track_pageview(currentLocation);
         }, 500),
         trackEvent: function (name, data) {
+            data = data || {};
+
             if (window.TESTING) {
                 return;
             }
