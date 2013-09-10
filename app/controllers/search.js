@@ -11,6 +11,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
         allowSortByNone: true,
 
+        showResults: false,
+
         baseClassSelector: '#search',
 
         init: function () {
@@ -65,6 +67,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
             }
 
             this.set('debounced_search', this.get('search'));
+            this.set('showResults', true);
         },
 
         reset: function () {
@@ -86,10 +89,18 @@ Balanced.SearchController = Balanced.ObjectController.extend(
         }.property('search_result.isLoaded'),
 
         displayResults: function () {
-            return this.get('fetch_results');
-        }.property('fetch_results'),
+            return this.get('fetch_results') && this.get('showResults');
+        }.property('fetch_results', 'showResults'),
+
+        openSearch: function() {
+            this.set('showResults', true);
+        },
 
         closeSearch: function () {
+            this.set('showResults', false);
+        },
+
+        clearSearch: function() {
             this.reset();
         },
 
