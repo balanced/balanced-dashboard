@@ -30,12 +30,12 @@ Balanced.Analytics = (function () {
             window._gaq.push(['_setDomainName', 'balancedpayments.com']);
             window._gaq.push(['_trackPageview']);
 
-            Balanced.Auth.on('signInSuccess', _.debounce(function () {
+            Balanced.Auth.on('signInSuccess', function () {
                 Balanced.Analytics.trackEvent('login-success', {remembered: false});
 
                 var user = Balanced.Auth.get('user');
                 trackLogin(user.get('email_address'));
-            }, 450));
+            });
 
             Balanced.Auth.on('signInError', function () {
                 Balanced.Analytics.trackEvent('login-error');
