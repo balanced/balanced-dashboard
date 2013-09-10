@@ -1,67 +1,71 @@
 <div class="debit">
-	<div class="main-header transaction-type-subheader">
-		<div class="row">
-			<div class="span2 border-adjust label">
-				<span class="subhead2d">Debit</span>
-			</div>
-			<div class="span10 title">
-				<span class="transaction-description subhead2d">{{titleCase debit.status}}: ${{debit.amount_dollars}}</span>
-			</div>
-			<div class="span8 border-adjust buttons">
-				<div class="buttons-container">
-					{{refund-debit-modal debit=debit}}
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="transaction-body">
-		<div class="row">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
-				<div class="row-fluid">
-					<div class="span16">
-						<section class="transaction-info">
-							<div class="key-value-display">
-								<header>
-									<h3>Debit
-										{{edit-transaction-modal transaction=debit}}
-									</h3>
-								</header>
-								<div>
-									<div class="key-value-row">
-										<label class="key">Created</label>
-										<span class="value">{{humanReadableDateLong debit.created_at }}</span>
-									</div>
-									<div class="key-value-row">
-										<label class="key">Description</label>
-										<span class="value">{{ debit.description }}</span>
-									</div>
-									<div class="key-value-row">
-										<label class="key">ID</label>
-										<span class="value">{{ debit.id }}</span>
-									</div>
-									<div class="key-value-row">
-										<label class="key">Txn #</label>
-										<span class="value">{{ debit.transaction_number }}</span>
-									</div>
-									<div class="key-value-row">
-										<label class="key">Meta</label>
-										<span class="value">
-											{{#each meta in debit.meta_array}}
-												{{ meta.key }}: {{ meta.value }}<br/>
-											{{/each}}
-										</span>
-									</div>
-								</div>
-							</div>
-						</section>
-						{{txn-funding-instrument funding_instrument=debit.source}}
-					</div>
-					<div class="span10">
-					  {{view Balanced.EventsSideBarView contentBinding=debit}}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="main-header transaction-type-subheader">
+    <div class="row">
+      <div class="span2 border-adjust label">
+        <span class="subhead2d">Debit</span>
+      </div>
+      <div class="span10 title">
+        <span class="transaction-description subhead2d">{{titleCase debit.status}}: ${{debit.amount_dollars}}</span>
+      </div>
+      <div class="span8 border-adjust buttons">
+        <div class="buttons-container">
+          {{refund-debit-modal debit=debit}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="transaction-body">
+    <div class="row">
+      <div class="span2 border-adjust"></div>
+      <div class="span18 border-adjust">
+        <div class="row-fluid">
+          <div class="span16">
+            <section class="transaction-info">
+              <div class="key-value-display">
+                <header>
+                  <h3>Debit
+                    {{edit-transaction-modal transaction=debit}}
+                  </h3>
+                </header>
+                <div>
+                  <div class="key-value-row">
+                    <label class="key">Created</label>
+                    <span class="value">{{humanReadableDateLong debit.created_at }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">Description</label>
+                    <span class="value">{{ debit.description }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">ID</label>
+                    <span class="value">{{ debit.id }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">Txn #</label>
+                    <span class="value">{{ debit.transaction_number }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">On statement as</label>
+                    <span class="value">{{ debit.appears_on_statement_as }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">Meta</label>
+                    <span class="value">
+                      {{#each meta in debit.meta_array}}
+                        {{ meta.key }}: {{ meta.value }}<br/>
+                      {{/each}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            {{txn-funding-instrument funding_instrument=debit.source}}
+          </div>
+          <div class="span10">
+            {{view Balanced.EventsSideBarView contentBinding=debit}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

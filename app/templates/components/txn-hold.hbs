@@ -48,6 +48,10 @@
                     <span class="value">{{ hold.transaction_number }}</span>
                   </div>
                   <div class="key-value-row">
+                    <label class="key">On statement as</label>
+                    <span class="value">{{ hold.appears_on_statement_as }}</span>
+                  </div>
+                  <div class="key-value-row">
                     <label class="key">Meta</label>
                     <span class="value">
                       {{#each meta in hold.meta_array}}

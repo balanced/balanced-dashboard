@@ -50,6 +50,13 @@
             </div>
         </div>
 
+        <div {{bindAttr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
+            <label class="control-label">Appears on statement as</label>
+            <div class="controls">
+                {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full"}}
+            </div>
+        </div>
+
         <div {{bindAttr class=":control-group view.model.validationErrors.description:error"}}>
             <label class="control-label">Description</label>
             <div class="controls">
