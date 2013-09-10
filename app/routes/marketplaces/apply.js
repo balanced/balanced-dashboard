@@ -26,9 +26,6 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 					Balanced.Auth.setAPIKey(apiKey.get('secret'));
 
 					models.marketplace.save().then(function (marketplace) {
-						Balanced.Auth.unsetAPIKey();
-
-						// unset the api key for this request
 						//  associate to login
 						var userMarketplaceAssociation = Balanced.UserMarketplace.create({
 							uri: user.api_keys_uri,
@@ -67,27 +64,16 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 				});
 			}
 
-			function persistUser() {
+			if (models.user) {
 				var password = models.user.password;
 				models.user.save().then(function (user) {
-					//  create new login
-					var login = Balanced.Login.create({
-						email_address: user.email_address,
-						password: password
-					});
-					login.save().then(function (login) {
-						Balanced.Auth.manualLogin(user, login);
+					Balanced.Auth.signIn(models.user.email_address, password).then(function() {
 						persistMarketplace(Balanced.Auth.get('user'));
 					});
 				});
-			}
-
-			if (models.user) {
-				persistUser();
 			} else {
 				persistMarketplace(Balanced.Auth.get('user'));
 			}
-
 		}
 	}
 });

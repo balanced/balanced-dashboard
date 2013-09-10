@@ -46,12 +46,75 @@ Balanced.Auth = (function () {
 		var authCookie = this.retrieveLogin();
 		if (authCookie) {
 			return this._doSignIn({
-				data: { uri: authCookie },
-				xhrFields: {
-					withCredentials: true
+				data: { uri: authCookie }
+			});
+		} else {
+			var existingApiKey = this.getGuestAPIKey();
+			if(existingApiKey) {
+				return this.rememberGuestUser(existingApiKey);
+			}
+		}
+	};
+
+	auth.rememberGuestUser = function(apiKey) {
+		this.setAPIKey(apiKey);
+		return Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + '/v1/api_keys',
+			type: 'GET'
+		}).then(function(response) {
+			var theKeys = _.filter(response.items, function (key) {
+				if (key.secret !== null) {
+					return key;
 				}
 			});
-		}
+			var secret = theKeys.length ? theKeys[0].secret : null;
+
+			auth.loginGuestUser(secret);
+		}).then(function() {
+			return Balanced.NET.ajax({
+				url: ENV.BALANCED.API + '/v1/marketplaces',
+				type: 'GET'
+			}).then(function(response) {
+				var marketplace = Balanced.Marketplace.create({
+					uri: '/v1/marketplaces'
+				});
+
+				if (!response.items.length) {
+					return;
+				}
+
+				marketplace.set('isNew', false);
+				marketplace._updateFromJson(response.items[0]);
+				marketplace.set('isLoaded', true);
+				marketplace.trigger('didLoad');
+
+				auth.setupGuestUserMarketplace(marketplace);
+
+				return marketplace;
+			});
+		});
+	};
+
+	auth.loginGuestUser = function(apiKey) {
+		auth.storeGuestAPIKey(apiKey);
+		auth.setAPIKey(apiKey);
+
+		var guestUser = Balanced.User.create({
+			user_marketplaces: Ember.A()
+		});
+		auth.setAuthProperties(true, guestUser, '/users/guest', apiKey, true);
+	};
+
+	auth.setupGuestUserMarketplace = function(marketplace) {
+		Balanced.Utils.setCurrentMarketplace(marketplace);
+
+		var guestMarketplace = Balanced.UserMarketplace.create({
+			id: marketplace.get('id'),
+			uri: marketplace.get('uri'),
+			name: marketplace.get('name'),
+			secret: auth.getGuestAPIKey()
+		});
+		Balanced.Auth.get('user').get('user_marketplaces').pushObject(guestMarketplace);
 	};
 
 	auth.signOut = function() {
@@ -60,16 +123,22 @@ Balanced.Auth = (function () {
 		this.forgetLogin();
 		return Balanced.NET.ajax({
 			url: ENV.BALANCED.AUTH + '/logins/current',
-			type: 'DELETE',
-			xhrFields: {
-				withCredentials: true
-			}
+			type: 'DELETE'
 		}).done(function () {
 			self.trigger('signOutSuccess');
 		}).fail(function () {
 			self.trigger('signOutError');
 		}).always(function () {
 			self.trigger('signOutComplete');
+		});
+	};
+
+	auth.createNewGuestUser = function() {
+		return Balanced.APIKey.create({
+			uri: '/v1/api_keys'
+		}).save().then(function (apiKey) {
+			var secret = apiKey.get('secret');
+			auth.loginGuestUser(secret);
 		});
 	};
 
@@ -99,53 +168,7 @@ Balanced.Auth = (function () {
 		$.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
 			path: '/'
 		});
-		auth.destroyGuestUser();
-		auth.manualLogout();
-	};
 
-	auth.retrieveLogin = function () {
-		return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
-	};
-
-	function loginGuestUser(apiKeySecret) {
-		var guestUser = Balanced.User.create({
-			user_marketplaces: Ember.A()
-		});
-		auth.setAuthProperties(true, guestUser, '/users/guest', apiKeySecret, true);
-		setAPIKey(apiKeySecret);
-	}
-
-	function setAPIKey(apiKeySecret) {
-		Balanced.NET.ajaxHeaders['Authorization'] = 'Basic ' + window.btoa(apiKeySecret + ':');
-	}
-
-	function unsetAPIKey() {
-		delete Balanced.NET.ajaxHeaders['Authorization'];
-	}
-
-	function loadGuestAPIKey() {
-		return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
-	}
-
-	function initGuestUser() {
-		var apiKeySecret = loadGuestAPIKey();
-		if (apiKeySecret) {
-			loginGuestUser(apiKeySecret);
-		}
-	}
-
-	auth.storeGuestAPIKey = function (apiKeySecret) {
-		$.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
-			path: '/'
-		});
-		loginGuestUser(apiKeySecret);
-	};
-
-	auth.getGuestAPIKey = function() {
-		return loadGuestAPIKey();
-	};
-
-	auth.destroyGuestUser = function () {
 		$.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
 			path: '/'
 		});
@@ -157,25 +180,35 @@ Balanced.Auth = (function () {
 		$.removeCookie(Balanced.COOKIE.SESSION, {
 			path: '/'
 		});
+
 		Balanced.NET.loadCSRFToken();
-		unsetAPIKey();
-	};
 
-	auth.manualLogin = function (user, login) {
-		auth.destroyGuestUser();
-		//  persist cookie for next time
-		auth.rememberLogin(login.uri);
-		auth.setAuthProperties(true, user, user.uri, login.uri, false);
-	};
+		auth.unsetAPIKey();
 
-	auth.manualLogout = function () {
 		auth.setAuthProperties(false, null, null, null, false);
 	};
 
-	auth.setAPIKey = setAPIKey;
-	auth.unsetAPIKey = unsetAPIKey;
+	auth.retrieveLogin = function () {
+		return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
+	};
 
-	initGuestUser();
+	auth.setAPIKey = function(apiKeySecret) {
+		Balanced.NET.defaultApiKey = apiKeySecret;
+	};
+
+	auth.unsetAPIKey = function() {
+		Balanced.NET.defaultApiKey = null;
+	};
+
+	auth.storeGuestAPIKey = function (apiKeySecret) {
+		$.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
+			path: '/'
+		});
+	};
+
+	auth.getGuestAPIKey = function() {
+		return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
+	};
 
 	return auth;
 }());

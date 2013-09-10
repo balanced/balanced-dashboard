@@ -93,6 +93,8 @@ Balanced.Router.map(function () {
 
 	// signup related
 	this.route('login', { path: '/login' });
+	this.route('logout', { path: '/logout' });
+
 	this.route('forgotPassword', { path: '/forgot_password' });
 	this.route('resetPassword', { path: '/password/:token' });
 	this.route('start', { path: '/start' });

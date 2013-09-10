@@ -15,21 +15,14 @@ test('visiting start creates a marketplace', function (assert) {
 		assert.equal(Balanced.Auth.get('userId'), '/users/guest', 'Userid is guest');
 		assert.equal(Balanced.Auth.get('signedIn'), true, 'User is signed in');
 		assert.ok(Balanced.Auth.get('isGuest'));
-		assert.ok(Balanced.NET.ajaxHeaders['Authorization'], 'Authorization header set');
 	});
 });
 
 test('viewing settings page as guest, can view api secret key', function(assert) {
 	var apiKeySecret = '73ec8c8ef40611e2a318026ba7d31e6f';
 	Ember.run(function() {
-		var guestUser = Balanced.User.create({
-			marketplaces: Ember.A([
-				Balanced.Marketplace.find('/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY')
-			])
-		});
-
-		Balanced.Auth.setAuthProperties(true, guestUser, '/users/guest', apiKeySecret, true);
-		Balanced.Auth.storeGuestAPIKey(apiKeySecret);
+		Balanced.Auth.loginGuestUser(apiKeySecret);
+		Balanced.Auth.setupGuestUserMarketplace(Balanced.Marketplace.find('/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY'));
 	});
 
 	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY').then(function() {
@@ -44,7 +37,7 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 });
 
 test('claim account creates a login', function (assert) {
-	expect(4);
+	expect(3);
 
 	var emailAddress = 'marshall@example.com',
 		password = 'SupahSecret123~!';
@@ -63,13 +56,6 @@ test('claim account creates a login', function (assert) {
 		var expectedCalls = [
 			{
 				type: Balanced.Claim,
-				data: {
-					email_address: emailAddress,
-					password: password
-				}
-			},
-			{
-				type: Balanced.Login,
 				data: {
 					email_address: emailAddress,
 					password: password

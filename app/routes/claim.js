@@ -46,14 +46,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 			}
 
 			model.save().then(function (user) {
-				//  create a login
-				var login = Balanced.Login.create({
-					email_address: user.get('email_address'),
-					password: user.get('passwordConfirm')
-				});
-				login.save().then(function (login) {
-					Balanced.Auth.manualLogin(user, login);
-
+				Balanced.Auth.signIn(user.get('email_address'), user.get('passwordConfirm')).then(function() {
 					// associate marketplace to user
 					if (authToken) {
 						var marketplace = Balanced.UserMarketplace.create({
@@ -61,12 +54,14 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 							secret: authToken
 						});
 						marketplace.save().then(function () {
-							user.reload();
+							user.reload().then(function() {
+								self.transitionTo('index');
+							});
 						});
+					} else {
+						self.transitionTo('index');
 					}
 				});
-
-				self.transitionTo('index');
 			});
 		},
 

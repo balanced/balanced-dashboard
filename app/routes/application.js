@@ -51,10 +51,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 		},
 
 		signOut: function () {
-			var self = this;
-			Balanced.Auth.signOut().then(function() {
-				self.transitionTo('login');
-			});
+			this.transitionTo('logout');
 		}
 	}
 });

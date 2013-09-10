@@ -1,29 +1,6 @@
 require('app/lib/variables');
 
 Balanced.NET = (function () {
-
-	var csrfToken = $.cookie(Balanced.COOKIE.CSRF_TOKEN);
-
-	var ajaxHeaders = {
-		'X-CSRFToken': csrfToken
-	};
-
-	$.ajaxSetup({
-		type: 'POST',
-		dataType: 'json',
-		xhrFields: {
-			withCredentials: true
-		},
-		beforeSend: function (xhr, settings) {
-			for (var key in ajaxHeaders) {
-				if (!ajaxHeaders.hasOwnProperty(key)) {
-					continue;
-				}
-				xhr.setRequestHeader(key, ajaxHeaders[key]);
-			}
-		}
-	});
-
 	return {
 		loadCSRFToken: function () {
 			if(window.TESTING) {
@@ -31,18 +8,15 @@ Balanced.NET = (function () {
 			}
 
 			// POSTing to / will return a csrf token
-			return $.ajax({
+			return this.ajax({
 				type: 'POST',
-				url: Ember.ENV.BALANCED.AUTH,
-				xhrFields: {
-					withCredentials: true
-				}
+				url: Ember.ENV.BALANCED.AUTH
 			}).success(function (response, status, jqxhr) {
-				csrfToken = response.csrf;
-				Balanced.NET.ajaxHeaders['X-CSRFToken'] = csrfToken;
+				Balanced.NET.csrfToken = response.csrf;
 			});
 		},
-		ajaxHeaders: ajaxHeaders,
+		csrfToken: $.cookie(Balanced.COOKIE.CSRF_TOKEN),
+		defaultApiKey: null,
 
 		ajax: function(settings) {
 			if (null == settings) {
@@ -50,8 +24,24 @@ Balanced.NET = (function () {
 			}
 
 			var def = {
-				'dataType': 'json'
+				'dataType': 'json',
+				headers: {
+				}
 			};
+
+			if(this.defaultApiKey) {
+				def.headers['Authorization'] = 'Basic ' + window.btoa(this.defaultApiKey + ':');
+			}
+
+			if(settings.url.indexOf(ENV.BALANCED.AUTH) !== -1) {
+				if(this.csrfToken) {
+					def.headers['X-CSRFToken'] = this.csrfToken;
+				}
+
+				def.xhrFields = {
+					withCredentials: true
+				};
+			}
 
 			if (settings.data && Ember.isNone(settings.contentType)) {
 				if(settings.type && settings.type.toUpperCase !== 'GET') {

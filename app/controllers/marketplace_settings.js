@@ -39,10 +39,6 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 			return currentUserMarketplace.get('secret');
 		}
 
-		if (Balanced.Auth.getGuestAPIKey()) {
-			return Balanced.Auth.getGuestAPIKey();
-		}
-
 		return '';
 	}.property('uri', 'Balanced.Auth.user.user_marketplaces.@each.uri')
 });
