@@ -1,152 +1,181 @@
 Balanced.Auth = (function () {
-    var defaultBalancedAuthOptions = {
-        baseUrl: ENV.BALANCED.AUTH,
-        signInEndPoint: '/logins',
-        signOutEndPoint: '/logins/current',
+	var auth = Ember.Object.extend(Ember.Evented).create();
 
-        tokenKey: 'id',
-        tokenIdKey: 'user_uri',
-        userModel: 'Balanced.User',
+	auth._doSignIn = function(opts) {
+		var self = this;
+		if (null == opts) {
+			opts = {};
+		}
 
-        // We're using the cookie, so Ember Auth doesn't need to worry about the token
-        tokenLocation: 'none',
-        sessionAdapter: 'cookie',
-        modules: ['authRedirectable'],
-        authRedirectable: {
-            route: 'login'
-        }
-    };
+		return Balanced.NET.ajax($.extend(true, {
+			url: ENV.BALANCED.AUTH + '/logins',
+			type: 'POST'
+		}, opts)).done(function (response, status, jqxhr) {
+			var user = Balanced.User.create();
+			user.set('isNew', false);
+			user._updateFromJson(response.user);
+			user.set('isLoaded', true);
+			user.trigger('didLoad');
 
-    var auth = Ember.Auth.create(_.extend(defaultBalancedAuthOptions, window.BalancedAuthOptions));
+			self.setAuthProperties(true,
+				user,
+				response.user_id,
+				response.user_id,
+				false);
 
-    auth.setAuthProperties = function (signedIn, user, userId, authToken, isGuest) {
-        auth.set('_strategy.adapter.authToken', authToken);
-        auth.set('_session.userId', userId);
-        auth.set('_session.signedIn', signedIn);
-        auth.set('_session.user', user);
-        auth.set('isGuest', isGuest);
-    };
+			auth.rememberLogin(response.uri);
 
-    auth.rememberLogin = function (token) {
-        $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
-            expires: 1,
-            path: '/'
-        });
-    };
+			self.trigger('signInSuccess');
+		}).fail(function () {
+			self.trigger('signInError');
+		}).always(function () {
+			self.trigger('signInComplete');
+		});
+	};
 
-    auth.forgetLogin = function () {
-        // Removing from the root domain since we were setting it on the root
-        // domain for a while. This line can be removed after Aug 23, 2013
-        $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
-            path: '/',
-            domain: 'balancedpayments.com'
-        });
+	auth.signIn = function(emailAddress, password) {
+		return this._doSignIn({
+			data: {
+				email_address: emailAddress,
+				password: password
+			}
+		});
+	};
 
-        $.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
-            path: '/'
-        });
-        auth.destroyGuestUser();
-    };
+	auth.rememberMeSignIn = function() {
+		var authCookie = this.retrieveLogin();
+		if (authCookie) {
+			return this._doSignIn({
+				data: { uri: authCookie },
+				xhrFields: {
+					withCredentials: true
+				}
+			});
+		}
+	};
 
-    auth.retrieveLogin = function () {
-        return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
-    };
+	auth.signOut = function() {
+		var self = this;
 
-    function loginGuestUser(apiKeySecret) {
-        var guestUser = Balanced.User.create({
-            user_marketplaces: Ember.A()
-        });
-        auth.setAuthProperties(true, guestUser, '/users/guest', apiKeySecret, true);
-        setAPIKey(apiKeySecret);
-    }
+		this.forgetLogin();
+		return Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + '/logins/current',
+			type: 'DELETE',
+			xhrFields: {
+				withCredentials: true
+			}
+		}).done(function () {
+			self.trigger('signOutSuccess');
+		}).fail(function () {
+			self.trigger('signOutError');
+		}).always(function () {
+			self.trigger('signOutComplete');
+		});
+	};
 
-    function setAPIKey(apiKeySecret) {
-        Balanced.NET.ajaxHeaders['Authorization'] = 'Basic ' + window.btoa(apiKeySecret + ':');
-    }
+	auth.setAuthProperties = function (signedIn, user, userId, authToken, isGuest) {
+		auth.set('authToken', authToken);
+		auth.set('userId', userId);
+		auth.set('signedIn', signedIn);
+		auth.set('user', user);
+		auth.set('isGuest', isGuest);
+	};
 
-    function unsetAPIKey() {
-        delete Balanced.NET.ajaxHeaders['Authorization'];
-    }
+	auth.rememberLogin = function (token) {
+		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
+			expires: 1,
+			path: '/'
+		});
+	};
 
-    function loadGuestAPIKey() {
-        return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
-    }
+	auth.forgetLogin = function () {
+		// Removing from the root domain since we were setting it on the root
+		// domain for a while. This line can be removed after Aug 23, 2013
+		$.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
+			path: '/',
+			domain: 'balancedpayments.com'
+		});
 
-    function initGuestUser() {
-        var apiKeySecret = loadGuestAPIKey();
-        if (apiKeySecret) {
-            loginGuestUser(apiKeySecret);
-        }
-    }
+		$.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
+			path: '/'
+		});
+		auth.destroyGuestUser();
+		auth.manualLogout();
+	};
 
-    auth.storeGuestAPIKey = function (apiKeySecret) {
-        $.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
-            path: '/'
-        });
-        loginGuestUser(apiKeySecret);
-    };
+	auth.retrieveLogin = function () {
+		return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
+	};
 
-    auth.getGuestAPIKey = function() {
-        return loadGuestAPIKey();
-    };
+	function loginGuestUser(apiKeySecret) {
+		var guestUser = Balanced.User.create({
+			user_marketplaces: Ember.A()
+		});
+		auth.setAuthProperties(true, guestUser, '/users/guest', apiKeySecret, true);
+		setAPIKey(apiKeySecret);
+	}
 
-    auth.destroyGuestUser = function () {
-        $.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
-            path: '/'
-        });
-        $.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
-            path: '/',
-            domain: 'balancedpayments.com'
-        });
+	function setAPIKey(apiKeySecret) {
+		Balanced.NET.ajaxHeaders['Authorization'] = 'Basic ' + window.btoa(apiKeySecret + ':');
+	}
 
-        $.removeCookie(Balanced.COOKIE.SESSION, {
-            path: '/'
-        });
-        Balanced.NET.loadCSRFToken();
-        unsetAPIKey();
-    };
+	function unsetAPIKey() {
+		delete Balanced.NET.ajaxHeaders['Authorization'];
+	}
 
-    auth.manualLogin = function (user, login) {
-        auth.destroyGuestUser();
-        //  persist cookie for next time
-        auth.rememberLogin(login.uri);
-        auth.setAuthProperties(true, user, user.uri, login.uri, false);
-    };
+	function loadGuestAPIKey() {
+		return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
+	}
 
-    auth.manualLogout = function () {
-        auth.setAuthProperties(false, null, null, null, false);
-    };
+	function initGuestUser() {
+		var apiKeySecret = loadGuestAPIKey();
+		if (apiKeySecret) {
+			loginGuestUser(apiKeySecret);
+		}
+	}
 
-    var INTENDED_DESTINATION_KEY = 'intendedDestinationHash';
+	auth.storeGuestAPIKey = function (apiKeySecret) {
+		$.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
+			path: '/'
+		});
+		loginGuestUser(apiKeySecret);
+	};
 
-    auth.getIntendedDestinationHash = function () {
-        return auth.get(INTENDED_DESTINATION_KEY);
-    };
+	auth.getGuestAPIKey = function() {
+		return loadGuestAPIKey();
+	};
 
-    auth.clearIntendedDestinationHash = function () {
-        auth.set(INTENDED_DESTINATION_KEY, null);
-    };
+	auth.destroyGuestUser = function () {
+		$.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
+			path: '/'
+		});
+		$.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
+			path: '/',
+			domain: 'balancedpayments.com'
+		});
 
-    auth.setAPIKey = setAPIKey;
-    auth.unsetAPIKey = unsetAPIKey;
+		$.removeCookie(Balanced.COOKIE.SESSION, {
+			path: '/'
+		});
+		Balanced.NET.loadCSRFToken();
+		unsetAPIKey();
+	};
 
-    initGuestUser();
+	auth.manualLogin = function (user, login) {
+		auth.destroyGuestUser();
+		//  persist cookie for next time
+		auth.rememberLogin(login.uri);
+		auth.setAuthProperties(true, user, user.uri, login.uri, false);
+	};
 
-    // Since we can't use withCredentials for signIn (due to Firefox problems
-    // with async==true), grab the session cookie out of the response and set
-    // it manually upon login
-    auth.on('signInSuccess', function () {
-        var response = Balanced.Auth.get('jqxhr');
-        auth.rememberLogin(response.uri);
-    });
+	auth.manualLogout = function () {
+		auth.setAuthProperties(false, null, null, null, false);
+	};
 
-    auth.on('signOutSuccess', function () {
-        auth.forgetLogin();
-    });
+	auth.setAPIKey = setAPIKey;
+	auth.unsetAPIKey = unsetAPIKey;
 
-    auth.on('authAccess', function () {
-        auth.set(INTENDED_DESTINATION_KEY, window.location.hash);
-    });
+	initGuestUser();
 
-    return auth;
+	return auth;
 }());

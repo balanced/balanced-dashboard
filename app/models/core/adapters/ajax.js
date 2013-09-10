@@ -56,7 +56,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
         settings.xhrFields = {
             withCredentials: true
         };
-        return Balanced.Auth.send(settings);
+        return Balanced.NET.ajax(settings);
     },
 
     registerHostForType: function (type, host) {

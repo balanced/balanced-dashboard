@@ -46,9 +46,6 @@ Balanced.Router = Ember.Router.extend({
     }
 });
 
-Balanced.AuthRoute = Ember.Route.extend(Balanced.Auth.AuthRedirectable, {
-});
-
 function makeNestedResource(that, plural, singular) {
     that.resource(plural, { path: '/' + plural }, function () {
         this.route(singular, { path: '/:' + singular + '_id' });
