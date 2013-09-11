@@ -1,3 +1,5 @@
+var settingsPath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
+
 module('Marketplaces Settings', {
     setup: function () {
         Testing.selectMarketplaceByName();
@@ -51,30 +53,41 @@ test('updating marketplace info only submits once despite multiple clicks', func
 });
 
 test('can update owner info', function (assert) {
-    // click the button to edit marketplace info
-    $('.owner-info a.edit').click();
-    // change the text for marketplace name
-    $('#edit-owner-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
-    // click save
-    $('#edit-owner-info .modal-footer button[name="modal-submit"]').click();
+    var spy = sinon.spy(Balanced.Adapter, "update");
 
-    // Marketplace name should have changed
-    assert.equal($('.owner-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
-});
-
-test('updating owner info only submits once despite multiple clicks', function (assert) {
-    var stub = sinon.stub(Balanced.Adapter, "update");
-
-    // click the button to edit marketplace info
-    $('.owner-info a.edit').click();
-    // change the text for marketplace name
-    $('#edit-owner-info .modal-body input').first().val('TEST').trigger('keyup');
-    // click save
-    for (var i = 0; i < 20; i++) {
-        $('#edit-owner-info .modal-footer button[name="modal-submit"]').click();
-    }
-
-    assert.ok(stub.calledOnce);
+	visit(settingsPath)
+	.click('.owner-info a.edit')
+	.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
+	.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
+	.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
+	.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
+	.click('#edit-customer-info a.more-info')
+	.fillIn('#edit-customer-info .modal-body input[name="street_address"]', '600 William St')
+	.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
+	.fillIn('#edit-customer-info .modal-body input[name="region"]', 'CA')
+	.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
+	.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '12345')
+	.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
+	.fillIn('#edit-customer-info .modal-body input[name="dob_month"]', '12')
+	.fillIn('#edit-customer-info .modal-body input[name="dob_year"]', '1924')
+	.fillIn('#edit-customer-info .modal-body input[name="ssn_last4"]', '1234')
+	.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
+	.then(function() {
+		assert.ok(spy.calledOnce);
+        assert.ok(spy.calledWith(Balanced.Customer));
+        assert.equal(spy.getCall(0).args[2].name, "TEST");
+        assert.equal(spy.getCall(0).args[2].email, "TEST@example.com");
+        assert.equal(spy.getCall(0).args[2].business_name, "TEST");
+        assert.equal(spy.getCall(0).args[2].ein, "1234");
+        assert.equal(spy.getCall(0).args[2].address.street_address, "600 William St");
+        assert.equal(spy.getCall(0).args[2].address.city, "Oakland");
+        assert.equal(spy.getCall(0).args[2].address.region, "CA");
+        assert.equal(spy.getCall(0).args[2].address.country_code, "US");
+        assert.equal(spy.getCall(0).args[2].address.postal_code, "12345");
+        assert.equal(spy.getCall(0).args[2].phone, "1231231234");
+        assert.equal(spy.getCall(0).args[2].dob, "1924-12");
+        assert.equal(spy.getCall(0).args[2].ssn_last4, "1234");
+	});
 });
 
 test('can create bank accounts', function (assert) {

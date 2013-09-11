@@ -1,10 +1,17 @@
 Balanced.EditCustomerInfoModalView = Balanced.View.extend({
     templateName: 'modals/edit_customer_info',
 
+    classNames: ['modal-container', 'header-action-container'],
+
+    marketplaceOwner: false,
     optionalFieldsOpen: false,
 
     dob_month: "",
     dob_year: "",
+
+    willDestroyElement: function() {
+        this.$('.modal').modal('hide');
+    },
 
     open: function () {
         var customer = Ember.copy(this.get('customer'), true);
