@@ -2,7 +2,13 @@
     <form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Edit customer info</h2>
+            <h2>
+              {{#if view.marketplaceOwner}}
+              Edit owner info
+              {{else}}
+              Edit customer info
+              {{/if}}
+            </h2>
         </div>
         <div class="modal-body modal-with-headers">
             {{ partial "modals/modalErrors" }}
