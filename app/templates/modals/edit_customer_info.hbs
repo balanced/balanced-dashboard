@@ -2,7 +2,13 @@
     <form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Edit customer info</h2>
+            <h2>
+              {{#if view.marketplaceOwner}}
+              Edit owner info
+              {{else}}
+              Edit customer info
+              {{/if}}
+            </h2>
         </div>
         <div class="modal-body modal-with-headers">
             {{ partial "modals/modalErrors" }}
@@ -11,18 +17,6 @@
                 <p class="modal-informational-content fields-header">Basic info (all fields are optional)</p>
             </div>
             <div class="modal-content">
-            <div {{bindAttr class=":control-group view.model.validationErrors.business_name:error"}}>
-                <label class="control-label">Business Name</label>
-                <div class="controls">
-                    {{view Ember.TextField valueBinding="view.model.business_name" name="business_name" class="full"}}
-                </div>
-            </div>
-            <div {{bindAttr class=":control-group view.model.validationErrors.ein:error"}}>
-                <label class="control-label">EIN #</label>
-                <div class="controls">
-                    {{view Ember.TextField valueBinding="view.model.ein" name="ein" class="full"}}
-                </div>
-            </div>
             <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
                 <label class="control-label">Name</label>
                 <div class="controls">
@@ -35,9 +29,21 @@
                     {{view Ember.TextField valueBinding="view.model.email" name="email" class="full"}}
                 </div>
             </div>
+            <div {{bindAttr class=":control-group view.model.validationErrors.business_name:error"}}>
+                <label class="control-label">Business Name</label>
+                <div class="controls">
+                    {{view Ember.TextField valueBinding="view.model.business_name" name="business_name" class="full"}}
+                </div>
+            </div>
+            <div {{bindAttr class=":control-group view.model.validationErrors.ein:error"}}>
+                <label class="control-label">EIN #</label>
+                <div class="controls">
+                    {{view Ember.TextField valueBinding="view.model.ein" name="ein" class="full"}}
+                </div>
+            </div>
             </div>
             <div class="modal-informational modal-informational-light">
-                <div {{bindAttr class=":disclosure-button view.optionalFieldsOpen:open"}}><a href="#" {{action toggleOptionalFields target="view"}}>More Information</a></div>
+                <div {{bindAttr class=":disclosure-button view.optionalFieldsOpen:open"}}><a href="#" class="more-info" {{action toggleOptionalFields target="view"}}>More Information</a></div>
                 <p class="modal-informational-content fields-header">Additional info (all fields are optional)</p>
             </div>
             <div {{bindAttr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
@@ -90,6 +96,8 @@
                         {{view Ember.TextField valueBinding="view.model.ssn_last4" name="ssn_last4" class="full"}}
                     </div>
                 </div>
+
+                {{#unless view.marketplaceOwner}}
                 <div {{bindAttr class=":control-group view.model.validationErrors.facebook:error"}}>
                     <label class="control-label">Facebook ID</label>
                     <div class="controls">
@@ -102,6 +110,7 @@
                         {{view Ember.TextField valueBinding="view.model.twitter" name="twitter" class="full"}}
                     </div>
                 </div>
+                {{/unless}}
             </div>
         </div>
         <div class="modal-footer">
@@ -109,3 +118,4 @@
         </div>
     </form>
 </div>
+<a class="edit" {{action open target="view"}}>Edit</a>

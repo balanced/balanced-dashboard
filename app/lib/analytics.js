@@ -41,6 +41,17 @@ Balanced.Analytics = (function () {
                 Balanced.Analytics.trackEvent('login-error');
             });
 
+            $(document).bind("ajaxComplete", function(evt, jqxhr, ajaxOptions) {
+                if(jqxhr && jqxhr.status >= 400) {
+                    Balanced.Analytics.trackEvent('ajax-error', {
+                        status: jqxhr.status,
+                        ajaxUrl: ajaxOptions.url,
+                        type: ajaxOptions.type,
+                        responseText: jqxhr.responseText
+                    });
+                }
+            });
+
             // HACK: can't find an good way to track all events in ember atm
             // to track all click events
             $(document).on('click', 'a,.btn,button', function () {

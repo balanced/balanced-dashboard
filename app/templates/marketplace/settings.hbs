@@ -85,118 +85,100 @@
         </section>
 
         <section class="owner-info">
-            <form class="form-horizontal edit-inline">
+            <div class="key-value-display">
                 <header>
                     <h3>Owner info
                         {{#if production}}
-                        <a href="#" class="edit" {{action openEditOwnerInfoModal target="view"}}>Edit</a>
+                        {{view Balanced.EditCustomerInfoModalView customerBinding="model.owner_customer" marketplaceOwner="true"}}
                         {{/if}}
                     </h3>
                 </header>
                 <div>
-                    <div class="control-group">
-                        <label class="control-label">Type</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{ owner_customer.type }}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Type</label>
+                      <span class="value">
+                        {{ owner_customer.type }}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Name</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.display_me }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Name</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.display_me }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Email</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.email }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Email</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.email }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Street Address</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.address.street_address }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Street Address</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.address.street_address }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">City</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.address.city }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">City</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.address.city }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Region</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.address.region }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Region</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.address.region }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Postal Code</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.address.postal_code }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Postal Code</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.address.postal_code }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Country</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.address.country_code }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Country</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.address.country_code }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">Phone #</label>
-                        <div class="controls">
-                            <span {{bindAttr class="production::test-marketplace-label :inline-label"}}>
-                            {{#if production}}
-                                {{ owner_customer.phone }}
-                            {{else}}
-                                Test
-                            {{/if}}
-                            </span>
-                        </div>
+                    <div class="key-value-row">
+                      <label class="key">Phone #</label>
+                      <span {{bindAttr class="production::test-marketplace-label :value"}}>
+                        {{#if production}}
+                            {{ owner_customer.phone }}
+                        {{else}}
+                            Test
+                        {{/if}}
+                      </span>
                     </div>
                 </div>
             </form>
@@ -407,7 +389,6 @@
 {{/if}}
 
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
-{{view Balanced.EditOwnerInfoModalView contentBinding="model.owner_customer" viewName="editOwnerInfoModal"}}
 {{view Balanced.AddBankAccountModalView customerBinding="model.owner_customer" viewName="addBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.AddCardModalView customerBinding="model.owner_customer" viewName="addCardModal"}}

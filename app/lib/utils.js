@@ -288,6 +288,9 @@ Balanced.Utils = {
             case Balanced.Refund:
                 route_name = 'refunds';
                 break;
+            case Balanced.Reversal:
+                route_name = 'reversals';
+                break;
             case Balanced.Log:
                 route_name = 'logs.log';
                 break;

@@ -24,7 +24,7 @@
 	<div class="row">
 	    <div class="span11">
 	        <section class="customer-info">
-	            <form class="form-horizontal edit-inline">
+	            <div class="key-value-display">
 	                <header>
 	                    <h3>Customer info:
 	                    	<span {{bindAttr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">{{#if is_identity_verified}}VERIFIED{{else}}UNVERIFIED{{/if}}</span>
@@ -35,142 +35,84 @@
 		                    	{{/view}}
 	                    	{{/unless}}
 
-	                        <a href="#" class="edit" {{action openEditCustomerInfoModal target="view"}}>Edit</a>
+                          {{view Balanced.EditCustomerInfoModalView customerBinding="model"}}
 	                    </h3>
 	                </header>
 	                <div>
-	                    <div class="control-group">
-	                        <label class="control-label">URI</label>
-	                        <div class="controls">
-	                            <span class="inline-label">{{ uri }}</span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Created</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ created_at }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    {{#if is_business }}
-	                    <div class="control-group">
-	                        <label class="control-label">Business Name</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ business_name }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">EIN #</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ ein }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    {{/if}}
-	                    <div class="control-group">
-	                        <label class="control-label">Name</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ name }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Email</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ email }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Street Address</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ address.street_address }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">City</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ address.city }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Region</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ address.region }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Postal Code</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ address.postal_code }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Country</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ country_name }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Phone #</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ phone }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Date of birth</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ dob }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">SSN #</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{ ssn_last4 }}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Facebook ID</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                                {{#if facebook_url }}
-	                            		<a {{bindAttr href=facebook_url}}>{{facebook}}</a>
-	                                {{/if}}
-	                            </span>
-	                        </div>
-	                    </div>
-	                    <div class="control-group">
-	                        <label class="control-label">Twitter ID</label>
-	                        <div class="controls">
-	                            <span class="inline-label">
-	                            	{{#if twitter_url }}
-	                            		<a {{bindAttr href=twitter_url}}>{{twitter}}</a>
-	                                {{/if}}
-	                            </span>
-	                        </div>
-	                    </div>
+                    <div class="key-value-row">
+                      <label class="key">URI</label>
+                      <span class="value">{{ uri }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Created</label>
+                      <span class="value">{{ created_at }}</span>
+                    </div>
+                    {{#if is_business }}
+                    <div class="key-value-row">
+                      <label class="key">Business Name</label>
+                      <span class="value">{{ business_name }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">EIN #</label>
+                      <span class="value">{{ ein }}</span>
+                    </div>
+                    {{/if}}
+                    <div class="key-value-row">
+                      <label class="key">Name</label>
+                      <span class="value">{{ name }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Email</label>
+                      <span class="value">{{ email }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Street Address</label>
+                      <span class="value">{{ address.street_address }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">City</label>
+                      <span class="value">{{ address.city }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Region</label>
+                      <span class="value">{{ address.region }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Postal Code</label>
+                      <span class="value">{{ address.postal_code }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Country</label>
+                      <span class="value">{{ country_name }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Phone #</label>
+                      <span class="value">{{ phone }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Date of birth</label>
+                      <span class="value">{{ dob }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">SSN #</label>
+                      <span class="value">{{ ssn_last4 }}</span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Facebook ID</label>
+                      <span class="value">
+                        {{#if facebook_url }}
+                        <a {{bindAttr href=facebook_url}}>{{facebook}}</a>
+                        {{/if}}
+                      </span>
+                    </div>
+                    <div class="key-value-row">
+                      <label class="key">Twitter ID</label>
+                      <span class="value">
+                        {{#if twitter_url }}
+                        <a {{bindAttr href=twitter_url}}>{{twitter}}</a>
+                        {{/if}}
+                      </span>
+                    </div>
 	                </div>
 	            </form>
 	        </section>
@@ -255,7 +197,6 @@
     {{partial "modals/download" }}
 {{/if}}
 
-{{view Balanced.EditCustomerInfoModalView customerBinding="model" viewName="editCustomerInfoModal"}}
 {{view Balanced.DebitCustomerModalView customerBinding="model" viewName="debitCustomerModal"}}
 {{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 

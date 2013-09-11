@@ -23,5 +23,7 @@
             {{/each}}
         </ul>
     </li>
+    {{#unless Balanced.Auth.isGuest}}
     <li class="new label2d manage-marketplaces">{{#linkTo 'marketplaces' }}Manage marketplaces{{/linkTo}}</li>
+    {{/unless}}
 </ul>
