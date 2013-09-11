@@ -28,11 +28,6 @@ Balanced.SearchView = Balanced.View.extend({
         }
     },
 
-    reset: function () {
-        $('#q').val('');
-        this.hideResultsOverlay();
-    },
-
     showResultsOverlay: function () {
         $('body').addClass(this.overlayClass);
     },
@@ -46,7 +41,7 @@ Balanced.SearchView = Balanced.View.extend({
             this.showResultsOverlay();
             this._highlightResults();
         } else {
-            this.reset();
+            this.hideResultsOverlay();
         }
     },
 
@@ -65,12 +60,14 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
         // Hide search results on escape key
         if (e.keyCode === Balanced.KEYS.ESCAPE) {
             this.get('controller').send('closeSearch');
+            this.$().blur();
             return;
         }
     },
 
     focusIn: function (e) {
         $('#search').addClass('focus');
+        this.get('controller').send('openSearch');
     },
 
     focusOut: function (e) {

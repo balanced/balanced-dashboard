@@ -5,7 +5,7 @@
         <span class="subhead2d">Hold</span>
       </div>
       <div class="span10 title">
-        <span class="transaction-description subhead2d">{{capitalize hold.hold_status}}: ${{hold.amount_dollars}}</span>
+        <span class="transaction-description subhead2d">{{capitalize hold.status}}: ${{hold.amount_dollars}}</span>
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container">
@@ -46,6 +46,10 @@
                   <div class="key-value-row">
                     <label class="key">Txn #</label>
                     <span class="value">{{ hold.transaction_number }}</span>
+                  </div>
+                  <div class="key-value-row">
+                    <label class="key">On statement as</label>
+                    <span class="value">{{ hold.appears_on_statement_as }}</span>
                   </div>
                   <div class="key-value-row">
                     <label class="key">Meta</label>

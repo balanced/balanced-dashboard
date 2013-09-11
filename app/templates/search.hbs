@@ -8,7 +8,7 @@
         {{# if isLoading }}
             <span class="loader loading query-loader"></span>
         {{else}}
-            <span class="close" {{action closeSearch}}>×</span>
+            <span class="close" {{action clearSearch}}>×</span>
         {{/if}}
 
         {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
