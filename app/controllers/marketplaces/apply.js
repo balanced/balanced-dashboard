@@ -155,7 +155,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
         $('input', '#marketplace-apply .control-group.error:first').focus();
     },
 
-    accountTypes: ['CHECKING', 'SAVINGS'],
+    accountTypes: ['checking', 'savings'],
 
     _extractApiKeyPayload: function () {
         var merchantType = this.get('selectedType'),
