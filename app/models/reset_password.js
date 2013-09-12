@@ -27,3 +27,7 @@ Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
 });
 
 Balanced.Adapter.registerHostForType(Balanced.ResetPassword, ENV.BALANCED.AUTH);
+
+Balanced.ResetPassword.reopenClass({
+	serializer: Balanced.Rev0Serializer.create()
+});

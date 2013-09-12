@@ -26,3 +26,7 @@ Balanced.Claim = Balanced.Model.extend(Ember.Validations, {
 });
 
 Balanced.Adapter.registerHostForType(Balanced.Claim, ENV.BALANCED.AUTH);
+
+Balanced.Claim.reopenClass({
+	serializer: Balanced.Rev0Serializer.create()
+});

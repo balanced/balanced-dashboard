@@ -18,6 +18,6 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 		if (!id) {
 			return id;
 		}
-		return '/v1/%@/%@/transactions'.fmt(this.get('route_name'), this.get('id'));
+		return '/%@/%@/transactions'.fmt(this.get('route_name'), this.get('id'));
 	}.property('id', 'route_name')
 });

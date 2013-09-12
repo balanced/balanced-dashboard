@@ -1,7 +1,7 @@
 require('app/models/funding_instrument');
 
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
-	uri: '/v1/bank_accounts',
+	uri: '/bank_accounts',
 
 	verifications: Balanced.Model.hasMany('verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('verification', 'Balanced.Verification'),

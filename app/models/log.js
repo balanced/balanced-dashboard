@@ -1,5 +1,5 @@
 Balanced.Log = Balanced.Model.extend({
-	uri: '/v1/logs',
+	uri: '/logs',
 
 	short_url: function() {
 		return Balanced.Utils.stripDomain(this.get('message.request.url'));

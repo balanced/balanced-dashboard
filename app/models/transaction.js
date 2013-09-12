@@ -23,6 +23,10 @@ Balanced.Transaction = Balanced.Model.extend({
 		return this.get('description') || this.get('id');
 	}.property('description', 'id'),
 
+	events_uri: function() {
+		return this.get('uri') + '/events';
+	}.property(),
+
 	meta_array: function() {
 		var meta = this.get('meta');
 		if (!meta) {

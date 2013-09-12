@@ -1,7 +1,7 @@
 require('app/models/core/mixins/load_promise');
 require('app/models/core/model_array');
 require('app/models/core/type_mappings');
-require('app/models/core/serializers/rev0');
+require('app/models/core/serializers/rev1');
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = "_uri";
@@ -190,7 +190,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 });
 
 Balanced.Model.reopenClass({
-	serializer: Balanced.Rev0Serializer.create(),
+	serializer: Balanced.Rev1Serializer.create(),
 
 	find: function(uri, settings) {
 		var modelClass = this;
