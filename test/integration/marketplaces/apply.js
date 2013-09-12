@@ -58,7 +58,7 @@ var expectedBankAccountData = {
     name: businessData['banking.account_name'],
     routing_number: businessData['banking.routing_number'],
     account_number: businessData['banking.account_number'],
-    type: 'CHECKING'
+    type: 'checking'
 };
 
 function populate() {
@@ -172,7 +172,7 @@ test('application submits properly', function(assert) {
 
         assert.ok(tokenizingStub.calledOnce);
         assert.ok(tokenizingStub.calledWith({
-            type: "CHECKING",
+            type: "checking",
             name: "Balanced Inc",
             account_number: "123123123",
             routing_number: "321174851"

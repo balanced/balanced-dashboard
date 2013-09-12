@@ -48,19 +48,19 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
                                 var verification = Balanced.Verification.create({
                                     uri: bankAccount.get('verifications_uri')
                                 });
-                                verification.save();
+                                verification.save().then(function() {
+                                    //  annnnd we're done
+                                    self.controllerFor('marketplace').send('alertMessage', {
+                                        type: 'success',
+                                        message: 'We\'ve received your information. In the ' +
+                                            'meantime, you may fund your balance with your ' +
+                                            'credit card to transact right away.'
+                                    });
+
+                                    self.transitionTo('marketplace.initial_deposit', marketplace);
+                                });
                             });
                         });
-
-                        //  annnnd we're done
-                        self.controllerFor('marketplace').send('alertMessage', {
-                            type: 'success',
-                            message: 'We\'ve received your information. In the ' +
-                                'meantime, you may fund your balance with your ' +
-                                'credit card to transact right away.'
-                        });
-
-                        self.transitionTo('marketplace.initial_deposit', marketplace);
                     });
                 });
             }
