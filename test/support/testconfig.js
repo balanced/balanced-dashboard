@@ -43,6 +43,8 @@ QUnit.testStart(function (test) {
 
     // since we aren't using balanced.js, define its functions so we can stub them
     balanced = {};
+    balanced.init = function() {
+    }
     balanced.bankAccount = {
         validateRoutingNumber: function() {
             return true;

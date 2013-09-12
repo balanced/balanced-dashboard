@@ -132,6 +132,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
             apiKey.one('becameInvalid', $.proxy(this.apiKeyFailure, this));
             apiKey.one('becameError', $.proxy(this.apiKeyFailure, this));
             marketplace.one('becameInvalid', $.proxy(this.marketplaceFailure, this));
+            marketplace.one('becameError', $.proxy(this.marketplaceFailure, this));
 
             // create user (check for duplicate email address)
             // create api key (check for merchant underwrite failure)
