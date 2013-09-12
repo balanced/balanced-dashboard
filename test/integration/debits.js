@@ -30,6 +30,14 @@ test('can refund debit', function (assert) {
     });
 });
 
+test("can't refund failed debit", function (assert) {
+	var spy = sinon.spy(Balanced.Adapter, "create");
+
+    visit(debitRoutePath + '-FAILED').then(function() {
+    	assert.equal($(".refund-debit-button").length, 0);
+    });
+});
+
 test('can edit debit', function (assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 

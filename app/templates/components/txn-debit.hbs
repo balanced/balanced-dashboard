@@ -1,5 +1,5 @@
 <div class="debit">
-  <div class="main-header transaction-type-subheader">
+  <div {{bindAttr class=":main-header :transaction-type-subheader debit.status"}}>
     <div class="row">
       <div class="span2 border-adjust label">
         <span class="subhead2d">Debit</span>
@@ -9,7 +9,9 @@
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container">
-          {{refund-debit-modal debit=debit}}
+          {{#if debit.can_refund}}
+            {{refund-debit-modal debit=debit}}
+          {{/if}}
         </div>
       </div>
     </div>

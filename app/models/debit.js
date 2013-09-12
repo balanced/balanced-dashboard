@@ -11,7 +11,11 @@ Balanced.Debit = Balanced.Transaction.extend({
 
     funding_instrument_description: function () {
         return this.get('source.description');
-    }.property('source.description')
+    }.property('source.description'),
+
+    can_refund: function() {
+    	return this.get('status') !== 'failed';
+    }.property('status')
 });
 
 Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');
