@@ -8,7 +8,7 @@
             {{ partial "modals/modalErrors" }}
 
             <div {{bindAttr class=":control-group model.validationErrors.description:error"}}>
-                <label class="control-label">Description</label>
+                <label class="control-label">Internal Description</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="model.description" name="description" class="full" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}
                 </div>
