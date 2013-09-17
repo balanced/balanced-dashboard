@@ -6,12 +6,10 @@ Balanced.SearchView = Balanced.View.extend({
     didInsertElement: function () {
         $(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
 
-        this.get('controller').addObserver('content', this, this._highlightResults);
         this.get('controller').addObserver('displayResults', this, this._toggleDisplayResults);
     },
 
     willDestroyElement: function () {
-        this.get('controller').removeObserver('content', this, this._highlightResults);
         this.get('controller').removeObserver('displayResults', this, this._toggleDisplayResults);
 
         $(document).off('click.balanced-click-outside');
@@ -39,17 +37,9 @@ Balanced.SearchView = Balanced.View.extend({
     _toggleDisplayResults: function () {
         if (this.get('controller.displayResults')) {
             this.showResultsOverlay();
-            this._highlightResults();
         } else {
             this.hideResultsOverlay();
         }
-    },
-
-    _highlightResults: function () {
-        var query = $('#q').val();
-
-        //  remove empty words
-        $('#search .results tbody').highlightWords(query);
     }
 });
 
