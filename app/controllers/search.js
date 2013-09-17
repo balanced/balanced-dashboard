@@ -1,5 +1,4 @@
 Balanced.SearchController = Balanced.ObjectController.extend(
-    Balanced.DownloadControllerMixin,
     Balanced.ResultsTable,
     {
         needs: ['application', 'marketplace'],

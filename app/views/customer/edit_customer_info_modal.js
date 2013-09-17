@@ -10,7 +10,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
     dob_year: "",
 
     willDestroyElement: function() {
-        this.$('.modal').modal('hide');
+        $('#edit-customer-info').modal('hide');
     },
 
     open: function () {

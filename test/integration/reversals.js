@@ -17,9 +17,9 @@ test('can edit reversal', function (assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(reversalsRoutePath)
-	.click(".reversal .transaction-info a.edit")
-	.fillIn('.reversal .edit-transaction.in .modal-body input[name="description"]', "changing desc")
-	.click('.reversal .edit-transaction.in .modal-footer button[name="modal-submit"]')
+	.click('.reversal .transaction-info a.edit')
+	.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
+	.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
 	.then(function() {
 		assert.ok(spy.calledOnce);
 		assert.ok(spy.calledWith(Balanced.Reversal));

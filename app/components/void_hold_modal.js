@@ -2,11 +2,11 @@ Balanced.VoidHoldModalComponent = Ember.Component.extend({
     classNames: ['modal-container'],
 
     willDestroyElement: function() {
-        this.$('.modal').modal('hide');
+        $('#void-hold').modal('hide');
     },
 
     open: function () {
-        this.$('.modal').modal('show');
+        $('#void-hold').modal('show');
     },
 
     save: function () {

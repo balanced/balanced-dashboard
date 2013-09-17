@@ -8,7 +8,7 @@ module('Activity', {
         Ember.run(function () {
             $('#add-funds').modal('hide');
             $('#withdraw-funds').modal('hide');
-            $('#download-confirm').modal('hide');
+            $('.download-modal.in').modal('hide');
         });
     }
 });
@@ -156,8 +156,8 @@ test('download activity', function (assert) {
 
     $("#activity .icon-download").click();
 
-    $("#download-confirm form input[name='email']").val('test@example.com').trigger('keyup');
-    $('#download-confirm .modal-footer button[name="modal-submit"]').click();
+    $(".download-modal.in form input[name='email']").val('test@example.com').trigger('keyup');
+    $('.download-modal.in .modal-footer button[name="modal-submit"]').click();
 
     assert.ok(stub.calledOnce);
 });
@@ -167,9 +167,9 @@ test('download activity only runs once despite multiple clicks', function (asser
 
     $("#activity .icon-download").click();
 
-    $("#download-confirm form input[name='email']").val('test@example.com').trigger('keyup');
+    $(".download-modal.in form input[name='email']").val('test@example.com').trigger('keyup');
     for (var i = 0; i < 20; i++) {
-        $('#download-confirm .modal-footer button[name="modal-submit"]').click();
+        $('.download-modal.in .modal-footer button[name="modal-submit"]').click();
     }
 
     assert.ok(stub.calledOnce);

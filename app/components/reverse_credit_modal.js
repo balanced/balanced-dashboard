@@ -3,7 +3,7 @@ Balanced.ReverseCreditModalComponent = Ember.Component.extend({
     classNames: ['modal-container'],
 
     willDestroyElement: function() {
-        this.$('.modal').modal('hide');
+        $('#reverse-credit').modal('hide');
     },
 
     open: function () {
@@ -15,14 +15,12 @@ Balanced.ReverseCreditModalComponent = Ember.Component.extend({
 
         var self = this;
         reversal.on('didCreate', function() {
-            if(self.$('.modal')) {
-                self.$('.modal').modal('hide');
-            }
+            $('#reverse-credit').modal('hide');
         });
 
         this.set('model', reversal);
 
-        this.$('.modal').modal('show');
+        $('#reverse-credit').modal('show');
     },
 
     save: function () {

@@ -117,7 +117,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
         this.set('extra_filtering_params', filteringParams);
     },
 
-    getSearchUri: function () {
+    search_uri: function () {
         if (this.get('useSearch')) {
             return Balanced.SearchQuery.createUri(
                 this.get('controllers.marketplace.uri'),
@@ -125,7 +125,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
             );
         }
         return this.get('results_uri');
-    },
+    }.property('useSearch', 'results_uri', 'controllers.marketplace.uri', 'searchParams'),
 
     loadMore: function (results) {
         results.loadNextPage();
