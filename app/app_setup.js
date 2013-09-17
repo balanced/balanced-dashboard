@@ -25,6 +25,9 @@ window.setupBalanced = function (divSelector) {
 	window.Balanced.onLoad = function () {
 		//  initialize anything that needs to be done on application load
 		Balanced.Analytics.init(Ember.ENV.BALANCED);
+
+		// Configure modal parent selector
+		$.fn.modal.defaults.manager = '#balanced-app';
 	};
 
 	_.each(window.balancedSetupFunctions, function (setupFunction) {
