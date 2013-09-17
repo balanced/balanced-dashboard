@@ -72,7 +72,9 @@ module.exports = function (grunt) {
                     'static/lib/google_prettify.js',
                     'static/lib/strftime.js',
                     'static/lib/jquery-hotkeys.js',
-                    'static/lib/jquery.cookie.js'
+                    'static/lib/jquery.cookie.js',
+                    'static/lib/bootstrap-modal/bootstrap-modalmanager.js',
+                    'static/lib/bootstrap-modal/bootstrap-modal.js'
                 ],
                 dest: 'build/js/lib-dev.js'
             },
@@ -93,7 +95,9 @@ module.exports = function (grunt) {
                     'static/lib/google_prettify.js',
                     'static/lib/strftime.js',
                     'static/lib/jquery-hotkeys.js',
-                    'static/lib/jquery.cookie.js'
+                    'static/lib/jquery.cookie.js',
+                    'static/lib/bootstrap-modal/bootstrap-modalmanager.js',
+                    'static/lib/bootstrap-modal/bootstrap-modal.js'
                 ],
                 dest: 'build/js/lib-prod.js'
             },
