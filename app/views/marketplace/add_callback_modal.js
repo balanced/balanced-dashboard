@@ -7,7 +7,9 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
             url: ''
         });
         this.set('model', callback);
-        $('#add-callback').modal('show');
+        $('#add-callback').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

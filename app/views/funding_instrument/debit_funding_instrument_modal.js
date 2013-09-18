@@ -21,7 +21,9 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', debit);
 
-        $('#debit-funding-instrument').modal('show');
+        $('#debit-funding-instrument').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

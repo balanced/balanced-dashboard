@@ -15,7 +15,9 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
         });
         this.set('model', verification);
 
-        $('#verify-bank-account').modal('show');
+        $('#verify-bank-account').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

@@ -21,7 +21,9 @@ Balanced.DeleteMarketplaceModalView = Balanced.View.extend({
             isLoaded: true
         });
         this.set('model', model);
-        $('#delete-marketplace').modal('show');
+        $('#delete-marketplace').modal({
+            manager: this.$()
+        });
     },
 
     deleteMarketplace: function () {

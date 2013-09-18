@@ -20,7 +20,9 @@ Balanced.ReverseCreditModalComponent = Ember.Component.extend({
 
         this.set('model', reversal);
 
-        $('#reverse-credit').modal('show');
+        $('#reverse-credit').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

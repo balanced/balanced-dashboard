@@ -21,7 +21,9 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', credit);
 
-        $('#credit-bank-account').modal('show');
+        $('#credit-bank-account').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

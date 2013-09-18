@@ -21,7 +21,9 @@ Balanced.HoldCardModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', hold);
 
-        $('#hold-card').modal('show');
+        $('#hold-card').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

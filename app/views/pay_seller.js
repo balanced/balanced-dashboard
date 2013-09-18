@@ -18,7 +18,9 @@ Balanced.PaySellerModalView = Balanced.View.extend({
         this.set('model', credit);
         this.set('amount_dollars', null);
 
-        $('#pay-seller').modal('show');
+        $('#pay-seller').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

@@ -22,7 +22,9 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', credit);
 
-        $('#credit-customer').modal('show');
+        $('#credit-customer').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

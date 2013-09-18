@@ -18,7 +18,9 @@ Balanced.AddCardModalView = Balanced.View.extend({
             expiration_year: ''
         });
         this.set('model', card);
-        $('#add-card').modal('show');
+        $('#add-card').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

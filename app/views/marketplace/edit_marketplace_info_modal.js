@@ -7,7 +7,9 @@ Balanced.EditMarketplaceInfoModalView = Balanced.View.extend({
         marketplace.set('isNew', false);
         marketplace.trigger('didCreate');
         this.set('model', marketplace);
-        $('#edit-marketplace-info').modal('show');
+        $('#edit-marketplace-info').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

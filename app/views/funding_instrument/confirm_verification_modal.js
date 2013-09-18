@@ -23,7 +23,9 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
         this.set('failedConfirmation', false);
         var verification = this.get('funding_instrument.verification');
         this.set('model', verification);
-        $('#confirm-verification').modal('show');
+        $('#confirm-verification').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

@@ -11,7 +11,9 @@ Balanced.DeleteCardModalView = Balanced.View.extend({
 
     open: function (card) {
         this.set('model', card);
-        $('#delete-card').modal('show');
+        $('#delete-card').modal({
+            manager: this.$()
+        });
     },
 
     deleteCard: function () {

@@ -9,7 +9,9 @@ Balanced.DownloadModalView = Balanced.View.extend({
         });
         this.set('model', download);
 
-        this.$('.modal').modal('show');
+        this.$('.modal').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

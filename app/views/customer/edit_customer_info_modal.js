@@ -24,7 +24,9 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
         this.set('dob_year', customer.get('dob_year'));
 
         this.set('optionalFieldsOpen', false);
-        $('#edit-customer-info').modal('show');
+        $('#edit-customer-info').modal({
+            manager: this.$()
+        });
     },
 
     toggleOptionalFields: function () {

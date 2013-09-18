@@ -121,7 +121,6 @@ test('withdraw funds', function (assert) {
 
     $('.activity-escrow-box .btn').eq(1).click();
 
-    assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
     assert.equal($('#withdraw-funds select option').length, 4, 'bank accounts in account dropdown');
 
     $('#withdraw-funds input').first().val('55.55').trigger('keyup');

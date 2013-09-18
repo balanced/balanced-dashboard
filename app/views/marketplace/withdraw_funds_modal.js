@@ -28,7 +28,9 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
             self.set('dollar_amount', null);
             self.set('model', credit);
 
-            $('#withdraw-funds').modal('show');
+            $('#withdraw-funds').modal({
+                manager: this.$()
+            });
         });
     },
 

@@ -27,7 +27,9 @@ Balanced.AddFundsModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', debit);
 
-        $('#add-funds').modal('show');
+        $('#add-funds').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {

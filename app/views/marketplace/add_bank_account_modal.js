@@ -10,7 +10,9 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
             type: 'checking'
         });
         this.set('model', bankAccount);
-        $('#add-bank-account').modal('show');
+        $('#add-bank-account').modal({
+            manager: this.$()
+        });
         $('#add-bank-account form input:radio[name=account_type][value=checking]').prop('checked', true);
     },
 

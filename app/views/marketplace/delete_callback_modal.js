@@ -11,7 +11,9 @@ Balanced.DeleteCallbackModalView = Balanced.View.extend({
 
     open: function (callback) {
         this.set('model', callback);
-        $('#delete-callback').modal('show');
+        $('#delete-callback').modal({
+            manager: this.$()
+        });
     },
 
     deleteCallback: function () {

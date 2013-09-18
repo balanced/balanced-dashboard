@@ -26,7 +26,9 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
         this.set('dollar_amount', null);
         this.set('model', debit);
 
-        $('#debit-customer').modal('show');
+        $('#debit-customer').modal({
+            manager: this.$()
+        });
     },
 
     save: function () {
