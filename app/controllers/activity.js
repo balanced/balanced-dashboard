@@ -1,4 +1,4 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.DownloadControllerMixin, Balanced.ResultsTable, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
     needs: ['marketplace'],
 
     useSearch: true,

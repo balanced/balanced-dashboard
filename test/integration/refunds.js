@@ -17,9 +17,9 @@ test('can edit refund', function (assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(refundsRoutePath)
-	.click(".refund .transaction-info a.edit")
-	.fillIn('.refund .edit-transaction.in .modal-body input[name="description"]', "changing desc")
-	.click('.refund .edit-transaction.in .modal-footer button[name="modal-submit"]')
+	.click('.refund .transaction-info a.edit')
+	.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
+	.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
 	.then(function() {
 		assert.ok(spy.calledOnce);
 		assert.ok(spy.calledWith(Balanced.Refund));

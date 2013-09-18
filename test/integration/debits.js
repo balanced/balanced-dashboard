@@ -41,16 +41,13 @@ test("can't refund failed debit", function (assert) {
 test('can edit debit', function (assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(debitRoutePath).then(function() {
-		return click(".debit .transaction-info a.edit");
-	}).then(function() {
-		$('.debit .edit-transaction.in .modal-body input[name="description"]').val("changing desc").trigger('keyup');
-
-		return click('.debit .edit-transaction.in .modal-footer button[name="modal-submit"]');
-	}).then(function() {
+	visit(debitRoutePath)
+	.click('.debit .transaction-info a.edit')
+	.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
+	.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
+	.then(function() {
 		assert.ok(spy.calledOnce);
 		assert.ok(spy.calledWith(Balanced.Debit));
 		assert.equal(spy.getCall(0).args[2].description, "changing desc");
 	});
 });
-

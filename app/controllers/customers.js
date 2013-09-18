@@ -1,6 +1,5 @@
 Balanced.CustomersController = Balanced.ObjectController.extend(
     Ember.Evented,
-    Balanced.DownloadControllerMixin,
     Balanced.ResultsTable,
     Balanced.TransactionsTable,
     {

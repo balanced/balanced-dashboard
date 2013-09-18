@@ -65,9 +65,9 @@ QUnit.testDone(function (test) {
     console.log('#%@ %@: tearing down.'.fmt(module, test.name));
 
     Balanced.removeTestHelpers();
-    Ember.$('#ember-testing-container, #ember-testing').remove();
     Ember.run(Balanced, Balanced.destroy);
     Balanced = null;
+    Ember.$('#ember-testing-container, #ember-testing').remove();
 
     Ember.testing = false;
 

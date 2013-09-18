@@ -3,7 +3,7 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
     classNames: ['modal-container'],
 
     willDestroyElement: function() {
-        this.$('.modal').modal('hide');
+        $('#refund-debit').modal('hide');
     },
 
     open: function () {
@@ -15,15 +15,13 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 
         var self = this;
         refund.on('didCreate', function() {
-            if(self.$('.modal')) {
-                self.$('.modal').modal('hide');
-            }
+            $('#refund-debit').modal('hide');
         });
 
         this.set('dollar_amount', this.get('debit.amount_dollars'));
         this.set('model', refund);
 
-        this.$('.modal').modal('show');
+        $('#refund-debit').modal('show');
     },
 
     save: function () {

@@ -3,7 +3,7 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
     classNames: ['modal-container'],
 
     willDestroyElement: function() {
-        this.$('.modal').modal('hide');
+        $('#capture-hold').modal('hide');
     },
 
     open: function () {
@@ -15,15 +15,13 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 
         var self = this;
         debit.on('didCreate', function() {
-            if(self.$('.modal')) {
-                self.$('.modal').modal('hide');
-            }
+            $('#capture-hold').modal('hide');
         });
 
         this.set('dollar_amount', this.get('hold.amount_dollars'));
         this.set('model', debit);
 
-        this.$('.modal').modal('show');
+        $('#capture-hold').modal('show');
     },
 
     save: function () {
