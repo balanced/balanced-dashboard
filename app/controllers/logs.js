@@ -1,62 +1,64 @@
 Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
-    needs: ['marketplace'],
+	needs: ['marketplace'],
 
-    sortField: 'created_at',
-    sortOrder: 'desc',
-    results_type: 'Balanced.Log',
-    type: null,
-    limit: 20,
+	sortField: 'created_at',
+	sortOrder: 'desc',
+	results_type: 'Balanced.Log',
+	type: null,
+	limit: 20,
 
-    baseClassSelector: '#logs',
+	baseClassSelector: '#logs',
 
-    currentEndpointFilter: null,
-    statusRollupFilterSucceeded: true,
-    statusRollupFilterFailed: true,
+	currentEndpointFilter: null,
+	statusRollupFilterSucceeded: true,
+	statusRollupFilterFailed: true,
 
-    results_base_uri: function () {
-        return '/v1/logs';
-    }.property(),
+	actions: {
+		setEndPointFilter: function (endpoint) {
+			this.changeEndpointFiler(endpoint);
 
-    extra_filtering_params: function () {
-        return {
-            'method[in]': 'post,put,delete'
-        };
-    }.property(),
+			if (endpoint) {
+				this.set('currentEndpointFilter', Balanced.Utils.toTitleCase(endpoint));
+			} else {
+				this.set('currentEndpointFilter', null);
+			}
+		},
 
-    setEndPointFilter: function (endpoint) {
-        this.changeEndpointFiler(endpoint);
+		setStatusRollupFilter: function () {
+			var SUCCEEDED = ['2xx'],
+				FAILED = ['3xx', '4xx', '5xx'];
 
-        if (endpoint) {
-            this.set('currentEndpointFilter', Balanced.Utils.toTitleCase(endpoint));
-        } else {
-            this.set('currentEndpointFilter', null);
-        }
-    },
+			var succeeded = this.get('statusRollupFilterSucceeded'),
+				failed = this.get('statusRollupFilterFailed'),
+				filters = [];
 
-    setStatusRollupFilter: function () {
-        var SUCCEEDED = ['2xx'],
-            FAILED = ['3xx', '4xx', '5xx'];
+			if (succeeded) {
+				filters = filters.concat(SUCCEEDED);
+			}
 
-        var succeeded = this.get('statusRollupFilterSucceeded'),
-            failed = this.get('statusRollupFilterFailed'),
-            filters = [];
+			if (failed) {
+				filters = filters.concat(FAILED);
+			}
 
-        if (succeeded) {
-            filters = filters.concat(SUCCEEDED);
-        }
+			if (!succeeded && !failed) {
+				filters = null;
+			}
 
-        if (failed) {
-            filters = filters.concat(FAILED);
-        }
+			this.changeStatusRollupFilter(filters);
+		}.observes('statusRollupFilterSucceeded', 'statusRollupFilterFailed')
+	},
 
-        if (!succeeded && !failed) {
-            filters = null;
-        }
+	results_base_uri: function () {
+		return '/v1/logs';
+	}.property(),
 
-        this.changeStatusRollupFilter(filters);
-    }.observes('statusRollupFilterSucceeded', 'statusRollupFilterFailed')
+	extra_filtering_params: function () {
+		return {
+			'method[in]': 'post,put,delete'
+		};
+	}.property()
 });
 
 Balanced.LogsLogController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
+	needs: ['marketplace']
 });

@@ -1,7 +1,7 @@
 Balanced.RefundsController = Balanced.ObjectController.extend(
-    Ember.Evented,
-    {
-        needs: ['marketplace'],
+	Ember.Evented,
+	{
+		needs: ['marketplace'],
 
 		refunds_without_current: function() {
 			var currentModelId = this.get('id');
@@ -10,5 +10,5 @@ Balanced.RefundsController = Balanced.ObjectController.extend(
 				return refund.get('id') !== currentModelId;
 			});
 		}.property('id', 'debit.refunds.@each')
-    }
+	}
 );

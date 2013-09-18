@@ -1,62 +1,64 @@
 Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
-    needs: ["marketplace"],
+	needs: ["marketplace"],
 
-    optionalFieldsOpen: false,
+	optionalFieldsOpen: false,
 
-    save: function() {
-        if (this.get('model.isSaving')) {
-            return;
-        }
+	actions: {
+		save: function() {
+			if (this.get('model.isSaving')) {
+				return;
+			}
 
-        var self = this;
-        var customer = this.get('model');
+			var self = this;
+			var customer = this.get('model');
 
-        customer.updateDob(this.get('dob_month'), this.get('dob_year'));
+			customer.updateDob(this.get('dob_month'), this.get('dob_year'));
 
-        for(var prop in customer) {
-            if(customer.hasOwnProperty(prop) && customer[prop] === '') {
-                customer.set(prop, null);
-            }
-        }
+			for(var prop in customer) {
+				if(customer.hasOwnProperty(prop) && customer[prop] === '') {
+					customer.set(prop, null);
+				}
+			}
 
-        customer.save().then(function(customer) {
-            self.transitionToRoute('customers', customer);
-        });
-    },
+			customer.save().then(function(customer) {
+				self.transitionToRoute('customers', customer);
+			});
+		},
 
-    selectType: function (applicationType) {
-        this.set('applicationType', applicationType);
-        this.set('optionalFieldsOpen', false);
+		selectType: function (applicationType) {
+			this.set('applicationType', applicationType);
+			this.set('optionalFieldsOpen', false);
 
-        var cls = 'selected';
-        $('a', '.application-type').removeClass(cls).parent().find('.' + applicationType.toLowerCase()).addClass(cls);
-    },
+			var cls = 'selected';
+			$('a', '.application-type').removeClass(cls).parent().find('.' + applicationType.toLowerCase()).addClass(cls);
+		},
 
-    selectedType: function () {
-        return this.get('applicationType');
-    }.property('applicationType'),
+		toggleOptionalFields: function() {
+			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
+		}
+	},
 
-    isBusiness: function () {
-        return this.get('applicationType') === 'BUSINESS';
-    }.property('applicationType'),
+	selectedType: function () {
+		return this.get('applicationType');
+	}.property('applicationType'),
 
-    toggleOptionalFields: function() {
-        this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
-    },
+	isBusiness: function () {
+		return this.get('applicationType') === 'BUSINESS';
+	}.property('applicationType'),
 
-    submitTitle: function() {
-        if(this.get('model.isSaving')) {
-            return "Submitting...";
-        } else {
-            return "Submit";
-        }
-    }.property('model.isSaving'),
+	submitTitle: function() {
+		if(this.get('model.isSaving')) {
+			return "Submitting...";
+		} else {
+			return "Submit";
+		}
+	}.property('model.isSaving'),
 
-    street_address_label: function() {
-        if(this.get('isBusiness')) {
-            return "Enter the business representative's permanent street address (not the business address). ";
-        } else {
-            return "Enter the permanent street address. ";
-        }
-    }.property('isBusiness')
+	street_address_label: function() {
+		if(this.get('isBusiness')) {
+			return "Enter the business representative's permanent street address (not the business address). ";
+		} else {
+			return "Enter the permanent street address. ";
+		}
+	}.property('isBusiness')
 });

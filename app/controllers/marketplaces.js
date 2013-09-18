@@ -1,4 +1,4 @@
 Balanced.MarketplacesController = Balanced.ArrayController.extend({
-    needs: 'marketplace',
-    marketplaceBinding: 'controllers.marketplace'
+	needs: 'marketplace',
+	marketplaceBinding: 'controllers.marketplace'
 });

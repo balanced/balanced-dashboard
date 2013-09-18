@@ -1,46 +1,48 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
-    message_message: null,
-    message_type: null,
+	message_message: null,
+	message_type: null,
 
-    formattedEscrowAmount: function () {
-        var escrow = this.get('in_escrow');
-        if (isNaN(escrow)) {
-            return '$--';
-        }
-        return Balanced.Utils.formatCurrency(escrow);
-    }.property('in_escrow'),
+	actions: {
+		alertMessage: function (data) {
+			this.set('message_message', data.message);
+			this.set('message_type', data.type);
+		},
 
-    alertMessage: function (data) {
-        this.set('message_message', data.message);
-        this.set('message_type', data.type);
-    },
+		dismissAlert: function () {
+			this.set('message_message', null);
+			this.set('message_type', null);
+		},
 
-    dismissAlert: function () {
-        this.set('message_message', null);
-        this.set('message_type', null);
-    },
+		openPaySellerModal: function () {
+			this.trigger('openPaySellerModal');
+		},
+	},
 
-    openPaySellerModal: function () {
-        this.trigger('openPaySellerModal');
-    }
+	formattedEscrowAmount: function () {
+		var escrow = this.get('in_escrow');
+		if (isNaN(escrow)) {
+			return '$--';
+		}
+		return Balanced.Utils.formatCurrency(escrow);
+	}.property('in_escrow'),
 });
 
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
+	needs: ['marketplace']
 });
 
 Balanced.MarketplaceDebitsController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
+	needs: ['marketplace']
 });
 
 Balanced.MarketplaceHoldsController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
+	needs: ['marketplace']
 });
 
 Balanced.MarketplaceRefundsController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
+	needs: ['marketplace']
 });
 
 Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
-    needs: ['marketplace']
+	needs: ['marketplace']
 });
