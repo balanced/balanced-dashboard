@@ -1,8 +1,8 @@
 Balanced.PrettyPrintView = Balanced.View.extend({
-    templateName: 'prettyPrint',
-    content: null,
+	templateName: 'prettyPrint',
+	content: null,
 
-    didInsertElement: function () {
-        prettyPrint();
-    }
+	didInsertElement: function () {
+		prettyPrint();
+	}
 });

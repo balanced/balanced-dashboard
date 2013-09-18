@@ -1,56 +1,58 @@
 Balanced.DebitCustomerModalView = Balanced.View.extend({
-    templateName: 'modals/debit_customer',
+	templateName: 'modals/debit_customer',
 
-    dollar_amount: null,
+	dollar_amount: null,
 
-    selected_funding_instrument: function () {
-        if (this.get('model.source_uri')) {
-            return Balanced.FundingInstrument.find(this.get('model.source_uri'));
-        }
-    }.property('model.source_uri'),
+	actions: {
+		open: function () {
+			var fundingInstruments = this.get('customer.debitable_funding_instruments');
+			var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
 
-    can_debit: function() {
-        return this.get('customer.debitable_funding_instruments.length') > 0;
-    }.property('customer.debitable_funding_instruments'),
+			var debit = Balanced.Debit.create({
+				uri: this.get('customer.debits_uri'),
+				source_uri: source_uri,
+				amount: null
+			});
 
-    open: function () {
-        var fundingInstruments = this.get('customer.debitable_funding_instruments');
-        var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
+			this.set('dollar_amount', null);
+			this.set('model', debit);
 
-        var debit = Balanced.Debit.create({
-            uri: this.get('customer.debits_uri'),
-            source_uri: source_uri,
-            amount: null
-        });
+			$('#debit-customer').modal({
+				manager: this.$()
+			});
+		},
 
-        this.set('dollar_amount', null);
-        this.set('model', debit);
+		save: function () {
+			if (this.get('model.isSaving')) {
+				return;
+			}
 
-        $('#debit-customer').modal({
-            manager: this.$()
-        });
-    },
+			var debit = this.get('model');
 
-    save: function () {
-        if (this.get('model.isSaving')) {
-            return;
-        }
+			var cents = null;
+			try {
+				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+			} catch (error) {
+				debit.set('validationErrors', {'amount': error});
+				return;
+			}
+			debit.set('amount', cents);
 
-        var debit = this.get('model');
+			var self = this;
+			debit.save().then(function (debit) {
+				$('#debit-customer').modal('hide');
+				self.get('controller').transitionToRoute('debits', debit);
+			});
+		}
+	},
 
-        var cents = null;
-        try {
-            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
-        } catch (error) {
-            debit.set('validationErrors', {'amount': error});
-            return;
-        }
-        debit.set('amount', cents);
+	selected_funding_instrument: function () {
+		if (this.get('model.source_uri')) {
+			return Balanced.FundingInstrument.find(this.get('model.source_uri'));
+		}
+	}.property('model.source_uri'),
 
-        var self = this;
-        debit.save().then(function (debit) {
-            $('#debit-customer').modal('hide');
-            self.get('controller').transitionToRoute('debits', debit);
-        });
-    }
+	can_debit: function() {
+		return this.get('customer.debitable_funding_instruments.length') > 0;
+	}.property('customer.debitable_funding_instruments')
 });

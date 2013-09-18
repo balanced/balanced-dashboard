@@ -1,17 +1,19 @@
 Balanced.CustomersView = Balanced.View.extend({
-    openDebitCustomerModal: function () {
-        this.get('debitCustomerModal').open();
-    },
+	actions: {
+		openDebitCustomerModal: function () {
+			this.get('debitCustomerModal').send('open');
+		},
 
-    openCreditCustomerModal: function () {
-        this.get('creditCustomerModal').open();
-    },
+		openCreditCustomerModal: function () {
+			this.get('creditCustomerModal').send('open');
+		},
 
-    openAddBankAccountModal: function () {
-        this.get('addBankAccountModal').open();
-    },
+		openAddBankAccountModal: function () {
+			this.get('addBankAccountModal').send('open');
+		},
 
-    openAddCardModal: function () {
-        this.get('addCardModal').open();
-    }
+		openAddCardModal: function () {
+			this.get('addCardModal').send('open');
+		}
+	}
 });
