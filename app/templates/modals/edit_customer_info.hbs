@@ -47,11 +47,17 @@
                 <p class="modal-informational-content fields-header">Additional info (all fields are optional)</p>
             </div>
             <div {{bindAttr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.street_address:error"}}>
-                    <label class="control-label">Street address</label>
+                <div {{bindAttr class=":control-group view.model.validationErrors.address.line1:error"}}>
+                    <label class="control-label">Street address (line 1)</label>
                     <div class="controls">
-                        {{view Ember.TextField valueBinding="view.model.address.street_address" name="street_address" class="full"}}
+                        {{view Ember.TextField valueBinding="view.model.address.line1" name="line1" class="full"}}
                     </div>
+                </div>
+                <div {{bindAttr class=":control-group view.model.validationErrors.address.line2:error"}}>
+                    <label class="control-label">Street address (line 2)</label>
+                    <div class="controls">
+                        {{view Ember.TextField valueBinding="view.model.address.line2" name="line2" class="full"}}
+                </div>
                 </div>
                 <div {{bindAttr class=":control-group view.model.validationErrors.address.city:error"}}>
                     <label class="control-label">City</label>
