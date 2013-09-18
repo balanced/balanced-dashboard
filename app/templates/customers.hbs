@@ -67,7 +67,13 @@
                     </div>
                     <div class="key-value-row">
                       <label class="key">Street Address</label>
-                      <span class="value">{{ address.line1 }} {{ address.line2 }}</span>
+                      <span class="value">
+                        {{#if address.street_address }}
+                          {{ address.street_address }}
+                        {{else}}
+                          {{ address.line1 }} {{ address.line2 }}
+                        {{/if}}
+                      </span>
                     </div>
                     <div class="key-value-row">
                       <label class="key">City</label>
@@ -75,7 +81,13 @@
                     </div>
                     <div class="key-value-row">
                       <label class="key">Region</label>
-                      <span class="value">{{ address.state }}</span>
+                      <span class="value">
+                        {{#if address.state }}
+                          {{ address.state }}
+                        {{else}}
+                          {{ address.region }}
+                        {{/if}}
+                      </span>
                     </div>
                     <div class="key-value-row">
                       <label class="key">Postal Code</label>

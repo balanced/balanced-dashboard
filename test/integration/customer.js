@@ -46,7 +46,8 @@ test('can update customer info', function (assert) {
 	.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
 	.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
 	.click('#edit-customer-info a.more-info')
-	.fillIn('#edit-customer-info .modal-body input[name="street_address"]', '600 William St')
+	.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
+	.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 101')
 	.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
 	.fillIn('#edit-customer-info .modal-body input[name="region"]', 'CA')
 	.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
@@ -63,7 +64,8 @@ test('can update customer info', function (assert) {
         assert.equal(spy.getCall(0).args[2].email, "TEST@example.com");
         assert.equal(spy.getCall(0).args[2].business_name, "TEST");
         assert.equal(spy.getCall(0).args[2].ein, "1234");
-        assert.equal(spy.getCall(0).args[2].address.street_address, "600 William St");
+        assert.equal(spy.getCall(0).args[2].address.line1, "600 William St");
+        assert.equal(spy.getCall(0).args[2].address.line2, "Apt 101");
         assert.equal(spy.getCall(0).args[2].address.city, "Oakland");
         assert.equal(spy.getCall(0).args[2].address.region, "CA");
         assert.equal(spy.getCall(0).args[2].address.country_code, "US");

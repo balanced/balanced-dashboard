@@ -124,7 +124,11 @@
                       <label class="key">Street Address</label>
                       <span {{bindAttr class="production::test-marketplace-label :value"}}>
                         {{#if production}}
+                          {{#if owner_customer.address.street_address }}
                             {{ owner_customer.address.street_address }}
+                          {{else}}
+                            {{ owner_customer.address.line1 }} {{ owner_customer.address.line2 }}
+                          {{/if}}
                         {{else}}
                             Test
                         {{/if}}

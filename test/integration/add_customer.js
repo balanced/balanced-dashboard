@@ -27,7 +27,8 @@ test('can create person customer', function(assert) {
 
     $('#add-customer input[name="name"]').val('TEST').trigger('keyup');
     $('#add-customer input[name="email"]').val('nick@example.com').trigger('keyup');
-    $('#add-customer input[name="address.street_address"]').val('1234 main street').trigger('keyup');
+    $('#add-customer input[name="address.line1"]').val('1234 main street').trigger('keyup');
+    $('#add-customer input[name="address.line2"]').val('Ste 400').trigger('keyup');
     $('#add-customer input[name="address.city"]').val('oakland').trigger('keyup');
     $('#add-customer input[name="address.country"]').val('USA').trigger('keyup');
     $('#add-customer input[name="address.region"]').val('ca').trigger('keyup');
@@ -65,7 +66,8 @@ test('can create business customer', function(assert) {
 
     $('#add-customer input[name="name"]').val('TEST').trigger('keyup');
     $('#add-customer input[name="email"]').val('nick@example.com').trigger('keyup');
-    $('#add-customer input[name="address.street_address"]').val('1234 main street').trigger('keyup');
+    $('#add-customer input[name="address.line1"]').val('1234 main street').trigger('keyup');
+    $('#add-customer input[name="address.line2"]').val('Ste 200').trigger('keyup');
     $('#add-customer input[name="address.city"]').val('oakland').trigger('keyup');
     $('#add-customer input[name="address.country"]').val('USA').trigger('keyup');
     $('#add-customer input[name="address.region"]').val('ca').trigger('keyup');
