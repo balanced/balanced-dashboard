@@ -29,7 +29,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
             self.set('model', credit);
 
             $('#withdraw-funds').modal({
-                manager: this.$()
+                manager: self.$()
             });
         });
     },
