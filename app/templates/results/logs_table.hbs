@@ -24,19 +24,19 @@
     {{#each log in results}}
         <tr>
             <td class="span3 black">
-                {{#linkToEntity log}}
+                {{#linkTo "logs.log" log}}
                     {{ colorizeStatus log.message.response.status }}
-                {{/linkToEntity}}
+                {{/linkTo}}
             </td>
             <td class="span11">
-                {{#linkToEntity log}}
+                {{#linkTo "logs.log" log}}
                     {{ log.message.request.method }} {{ log.condensed_request_url }}
-                {{/linkToEntity}}
+                {{/linkTo}}
             </td>
             <td class="span3 align-right date">
-                {{#linkToEntity log}}
+                {{#linkTo "logs.log" log}}
                     <time {{bindAttr datetime="log.created_at"}} {{bindAttr title="log.created_at"}}>{{humanReadableDateShort log.created_at }}</time>
-                {{/linkToEntity}}
+                {{/linkTo}}
             </td>
         </tr>
     {{else}}

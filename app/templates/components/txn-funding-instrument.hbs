@@ -13,7 +13,7 @@
       {{#if funding_instrument.is_bank_account}}
         <div class="key-value-row">
           <label class="key">Account #</label>
-          <span class="value">{{#linkToEntity funding_instrument}} {{ funding_instrument.account_number }} {{/linkToEntity}}</span>
+          <span class="value">{{#linkTo funding_instrument.route_name funding_instrument}} {{ funding_instrument.account_number }} {{/linkTo}}</span>
         </div>
         <div class="key-value-row">
           <label class="key">Routing #</label>
@@ -42,7 +42,7 @@
       {{else}}
         <div class="key-value-row">
           <label class="key">Card #</label>
-          <span class="value">{{#linkToEntity funding_instrument}} {{ funding_instrument.card_number_with_xs }} {{/linkToEntity}}</span>
+          <span class="value">{{#linkTo funding_instrument.route_name funding_instrument}} {{ funding_instrument.card_number_with_xs }} {{/linkTo}}</span>
         </div>
         <div class="key-value-row">
           <label class="key">Created</label>

@@ -1,16 +1,20 @@
 require('app/models/transaction');
 
 Balanced.Refund = Balanced.Transaction.extend({
-    debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
+	debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
 
-    type_name: function () {
-        return "Refund";
-    }.property(),
+	type_name: function () {
+		return "Refund";
+	}.property(),
 
-    funding_instrument_description: function () {
-        // TODO - once we've gotten dynamic associations, use the funding_instrument_description from the debit
-        return this.get('debit.account_name');
-    }.property('debit.account_name')
+	route_name: function() {
+		return "debits";
+	}.property(),
+
+	funding_instrument_description: function () {
+		// TODO - once we've gotten dynamic associations, use the funding_instrument_description from the debit
+		return this.get('debit.account_name');
+	}.property('debit.account_name')
 });
 
 Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');

@@ -12,6 +12,7 @@ window.setupBalanced = function (divSelector) {
 
 	// default to #balanced-app if not specified
 	divSelector = divSelector || '#balanced-app';
+	ENV.HELPER_PARAM_LOOKUPS = true;
 	window.Balanced = Ember.Application.create({
 		rootElement: divSelector,
 		LOG_TRANSITIONS: true,

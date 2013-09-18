@@ -17,8 +17,6 @@ Ember.Handlebars.registerBoundHelper('colorizeStatus', function (status) {
     );
 });
 
-Ember.Handlebars.registerHelper('linkToEntity', Balanced.Utils.linkToEntity);
-
 Ember.Handlebars.registerBoundHelper('humanReadableDateShort', Balanced.Utils.humanReadableDateShort);
 Ember.Handlebars.registerBoundHelper('humanReadableDateLong', Balanced.Utils.humanReadableDateLong);
 Ember.Handlebars.registerBoundHelper('inflection', function (property, options) {
