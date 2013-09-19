@@ -141,20 +141,20 @@ module.exports = function (grunt) {
 		},
 
 		/*
-		 Finds Handlebars templates and precompiles them into functions.
-		 The provides two benefits:
+		Finds Handlebars templates and precompiles them into functions.
+		The provides two benefits:
 
-		 1. Templates render much faster
-		 2. We only need to include the handlebars-runtime microlib
-		 and not the entire Handlebars parser.
+		1. Templates render much faster
+		2. We only need to include the handlebars-runtime microlib
+		and not the entire Handlebars parser.
 
-		 Files will be written out to build/compiled/templates.js
-		 which is required within the project files so will end up
-		 as part of our application.
+		Files will be written out to build/compiled/templates.js
+		which is required within the project files so will end up
+		as part of our application.
 
-		 The compiled result will be stored in
-		 Ember.TEMPLATES keyed on their file path (with the 'app/templates' stripped)
-		 */
+		The compiled result will be stored in
+		Ember.TEMPLATES keyed on their file path (with the 'app/templates' stripped)
+		*/
 		emberTemplates: {
 			options: {
 				templateName: function (sourceFile) {
@@ -405,10 +405,10 @@ module.exports = function (grunt) {
 		},
 
 		/*
-		 Reads the projects .jshintrc file and applies coding
-		 standards. Doesn't lint the dependencies or test
-		 support files.
-		 */
+		Reads the projects .jshintrc file and applies coding
+		standards. Doesn't lint the dependencies or test
+		support files.
+		*/
 		jshint: {
 			all: [
 				'Gruntfile.js',
@@ -540,26 +540,26 @@ module.exports = function (grunt) {
 	});
 
 	/*
-	 A task to run the application's unit tests via the command line.
-	 It will headlessy load the test runner page and print the test runner results
-	 */
+	A task to run the application's unit tests via the command line.
+	It will headlessy load the test runner page and print the test runner results
+	*/
 	grunt.registerTask('test', ['_devBuild', 'karma', 'jshint']);
 
 	/*
-	 Default task. Compiles templates, neuters application code, and begins
-	 watching for changes.
-	 */
+	Default task. Compiles templates, neuters application code, and begins
+	watching for changes.
+	*/
 	grunt.registerTask('default', ['_devBuild', 'connect', 'open', 'watch']);
 
 	/*
-	 Builds for production.
-	 */
+	Builds for production.
+	*/
 	grunt.registerTask('build', ['jshint', '_devBuild', '_prodBuildSteps']);
 
 	/*
-	 * Uploads to s3. Requires environment variables to be set if the bucket
-	 * you're uploading to doesn't have public write access.
-	 */
+	Uploads to s3. Requires environment variables to be set if the bucket
+	you're uploading to doesn't have public write access.
+	*/
 	grunt.registerTask('deploy', ['build', 's3']);
 
 	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildHTML']);
