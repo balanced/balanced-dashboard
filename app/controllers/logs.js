@@ -22,31 +22,31 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 			} else {
 				this.set('currentEndpointFilter', null);
 			}
-		},
-
-		setStatusRollupFilter: function () {
-			var SUCCEEDED = ['2xx'],
-				FAILED = ['3xx', '4xx', '5xx'];
-
-			var succeeded = this.get('statusRollupFilterSucceeded'),
-				failed = this.get('statusRollupFilterFailed'),
-				filters = [];
-
-			if (succeeded) {
-				filters = filters.concat(SUCCEEDED);
-			}
-
-			if (failed) {
-				filters = filters.concat(FAILED);
-			}
-
-			if (!succeeded && !failed) {
-				filters = null;
-			}
-
-			this.changeStatusRollupFilter(filters);
-		}.observes('statusRollupFilterSucceeded', 'statusRollupFilterFailed')
+		}
 	},
+
+	setStatusRollupFilter: function () {
+		var SUCCEEDED = ['2xx'],
+			FAILED = ['3xx', '4xx', '5xx'];
+
+		var succeeded = this.get('statusRollupFilterSucceeded'),
+			failed = this.get('statusRollupFilterFailed'),
+			filters = [];
+
+		if (succeeded) {
+			filters = filters.concat(SUCCEEDED);
+		}
+
+		if (failed) {
+			filters = filters.concat(FAILED);
+		}
+
+		if (!succeeded && !failed) {
+			filters = null;
+		}
+
+		this.changeStatusRollupFilter(filters);
+	}.observes('statusRollupFilterSucceeded', 'statusRollupFilterFailed'),
 
 	changeEndpointFilter: function (endpoint) {
 		var filteringParams = Ember.copy(this.get('extra_filtering_params'));
