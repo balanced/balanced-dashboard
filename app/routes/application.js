@@ -9,7 +9,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 		});
 	},
 
-	events: {
+	actions: {
 		error: function(error, transition) {
 			// the error object could be an ember object or a jqxhr
 			var statusCode = error.errorStatusCode || error.status;
@@ -44,6 +44,10 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			} else {
 				this.transitionTo('index');
 			}
+		},
+
+		willTransition: function() {
+			this.controllerFor('search').send('closeSearch');
 		},
 
 		signOut: function () {

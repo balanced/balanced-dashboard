@@ -1,3 +1,3 @@
 Balanced.EventsSideBarView = Balanced.View.extend({
-    templateName: 'events_sidebar'
+	templateName: 'events_sidebar'
 });

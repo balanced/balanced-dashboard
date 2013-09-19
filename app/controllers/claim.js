@@ -1,24 +1,26 @@
 Balanced.ClaimController = Balanced.ObjectController.extend({
-    error: function (field, prefix) {
-        var errors = this.get('validationErrors.' + field + '.messages');
-        if (errors) {
-            var error = errors[0];
-            if (error.indexOf(prefix) !== 0) {
-                error = prefix + ' ' + error;
-            }
-            return error;
-        }
-    },
+	needs: ['marketplace'],
 
-    emailLabel: function () {
-        return this.error('email_address', 'Email') || 'Enter your email';
-    }.property('validationErrors.email'),
+	error: function (field, prefix) {
+		var errors = this.get('validationErrors.' + field + '.messages');
+		if (errors) {
+			var error = errors[0];
+			if (error.indexOf(prefix) !== 0) {
+				error = prefix + ' ' + error;
+			}
+			return error;
+		}
+	},
 
-    passwordLabel: function () {
-        return this.error('password', 'Password') || 'Create a password';
-    }.property('validationErrors.password'),
+	emailLabel: function () {
+		return this.error('email_address', 'Email') || 'Enter your email';
+	}.property('validationErrors.email'),
 
-    passwordConfirmLabel: function () {
-        return this.error('passwordConfirm', 'Password') || 'Re-enter your password';
-    }.property('validationErrors.passwordConfirm')
+	passwordLabel: function () {
+		return this.error('password', 'Password') || 'Create a password';
+	}.property('validationErrors.password'),
+
+	passwordConfirmLabel: function () {
+		return this.error('passwordConfirm', 'Password') || 'Re-enter your password';
+	}.property('validationErrors.passwordConfirm')
 });

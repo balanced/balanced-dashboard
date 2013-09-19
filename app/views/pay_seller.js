@@ -1,48 +1,50 @@
 Balanced.PaySellerModalView = Balanced.View.extend({
 
-    templateName: 'modals/pay_seller',
+	templateName: 'modals/pay_seller',
 
-    amount_dollars: 0,
+	amount_dollars: 0,
 
-    didInsertElement: function () {
-        this.get('controller').on('openPaySellerModal', this, this.open);
-    },
+	didInsertElement: function () {
+		this.get('controller').on('openPaySellerModal', this, this.open);
+	},
 
-    willDestroyElement: function () {
-        this.get('controller').off('openPaySellerModal', this, this.open);
-    },
+	willDestroyElement: function () {
+		this.get('controller').off('openPaySellerModal', this, this.open);
+	},
 
-    open: function () {
-        var credit = Balanced.Credit.create({uri: '/v1/credits'});
-        credit.set('bank_account', Balanced.BankAccount.create({'type': 'checking'}));
-        this.set('model', credit);
-        this.set('amount_dollars', null);
+	open: function () {
+		var credit = Balanced.Credit.create({uri: '/v1/credits'});
+		credit.set('bank_account', Balanced.BankAccount.create({'type': 'checking'}));
+		this.set('model', credit);
+		this.set('amount_dollars', null);
 
-        $('#pay-seller').modal({
-            manager: this.$()
-        });
-    },
+		$('#pay-seller').modal({
+			manager: this.$()
+		});
+	},
 
-    save: function () {
-        if (this.get('model.isSaving')) {
-            return;
-        }
+	actions: {
+		save: function () {
+			if (this.get('model.isSaving')) {
+				return;
+			}
 
-        var self = this;
-        var credit = this.get('model');
+			var self = this;
+			var credit = this.get('model');
 
-        var cents = null;
-        try {
-            cents = Balanced.Utils.dollarsToCents(this.get('amount_dollars'));
-        } catch (error) {
-            credit.set('validationErrors', {'amount': error});
-            return;
-        }
-        credit.set('amount', cents);
+			var cents = null;
+			try {
+				cents = Balanced.Utils.dollarsToCents(this.get('amount_dollars'));
+			} catch (error) {
+				credit.set('validationErrors', {'amount': error});
+				return;
+			}
+			credit.set('amount', cents);
 
-        credit.save().then(function (credit) {
-            $('#pay-seller').modal('hide');
-            self.get('controller').transitionToRoute('credits', credit);
-        });
-    }
+			credit.save().then(function (credit) {
+				$('#pay-seller').modal('hide');
+				self.get('controller').transitionToRoute('credits', credit);
+			});
+		}
+	}
 });

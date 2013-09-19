@@ -1,61 +1,63 @@
 Balanced.WithdrawFundsModalView = Balanced.View.extend({
-    templateName: 'modals/withdraw_funds',
+	templateName: 'modals/withdraw_funds',
 
-    dollar_amount: null,
+	dollar_amount: null,
 
-    selected_bank_account: function () {
-        if (this.get('model.source_uri')) {
-            return Balanced.BankAccount.find(this.get('model.source_uri'));
-        }
-    }.property('model.source_uri'),
+	actions: {
+		open: function () {
+			var self = this;
+			this.get('marketplace.owner_customer.bank_accounts').then(function (bank_accounts) {
+				var sourceUri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
 
-    bank_accounts: function () {
-        return this.get('marketplace.owner_customer.bank_accounts');
-    }.property('marketplace.owner_customer.bank_accounts'),
+				var credit = Balanced.Credit.create({
+					uri: self.get('marketplace.owner_customer.credits_uri'),
+					source_uri: sourceUri,
+					amount: null,
+					description: null
+				});
 
-    open: function () {
-        var self = this;
-        this.get('marketplace.owner_customer.bank_accounts').then(function (bank_accounts) {
-            var sourceUri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
+				self.set('dollar_amount', null);
+				self.set('model', credit);
 
-            var credit = Balanced.Credit.create({
-                uri: self.get('marketplace.owner_customer.credits_uri'),
-                source_uri: sourceUri,
-                amount: null,
-                description: null
-            });
+				$('#withdraw-funds').modal({
+					manager: self.$()
+				});
+			});
+		},
 
-            self.set('dollar_amount', null);
-            self.set('model', credit);
+		save: function () {
+			if (this.get('model.isSaving')) {
+				return;
+			}
 
-            $('#withdraw-funds').modal({
-                manager: self.$()
-            });
-        });
-    },
+			var self = this;
+			var credit = this.get('model');
+			var cents = null;
 
-    save: function () {
-        if (this.get('model.isSaving')) {
-            return;
-        }
+			try {
+				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+			} catch (error) {
+				credit.set('validationErrors', {'amount': error});
+				return;
+			}
 
-        var self = this;
-        var credit = this.get('model');
-        var cents = null;
+			credit.set('amount', cents);
 
-        try {
-            cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
-        } catch (error) {
-            credit.set('validationErrors', {'amount': error});
-            return;
-        }
+			credit.save().then(function () {
+				self.get('marketplace').reload();
+				$('#withdraw-funds').modal('hide');
+				self.get('controller').transitionToRoute('credits', credit);
+			});
+		}
+	},
 
-        credit.set('amount', cents);
+	selected_bank_account: function () {
+		if (this.get('model.source_uri')) {
+			return Balanced.BankAccount.find(this.get('model.source_uri'));
+		}
+	}.property('model.source_uri'),
 
-        credit.save().then(function () {
-            self.get('marketplace').reload();
-            $('#withdraw-funds').modal('hide');
-            self.get('controller').transitionToRoute('credits', credit);
-        });
-    }
+	bank_accounts: function () {
+		return this.get('marketplace.owner_customer.bank_accounts');
+	}.property('marketplace.owner_customer.bank_accounts')
 });

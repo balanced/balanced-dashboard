@@ -1,8 +1,10 @@
 Balanced.TxnCreditComponent = Ember.Component.extend({
 	submitReverseCreditEvent: 'submitReverseCredit',
 
-	submitReverseCredit: function(reversal) {
-		this.sendAction('submitReverseCreditEvent', reversal);
+	actions: {
+		submitReverseCredit: function(reversal) {
+			this.sendAction('submitReverseCreditEvent', reversal);
+		},
 	},
 
 	can_reverse_credit: function() {

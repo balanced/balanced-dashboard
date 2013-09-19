@@ -1,129 +1,129 @@
 Balanced.SearchController = Balanced.ObjectController.extend(
-    Balanced.ResultsTable,
-    {
-        needs: ['application', 'marketplace'],
+	Balanced.ResultsTable,
+	{
+		needs: ['application', 'marketplace'],
 
-        useSearch: true,
+		useSearch: true,
 
-        search: null,
-        debounced_search: null,
+		search: null,
+		debounced_search: null,
 
-        allowSortByNone: true,
+		allowSortByNone: true,
 
-        showResults: false,
+		showResults: false,
 
-        baseClassSelector: '#search',
+		baseClassSelector: '#search',
 
-        init: function () {
-            this._super();
+		init: function () {
+			this._super();
 
-            var self = this;
-            var debouncedQuery = _.debounce(function () {
-                // since this might get called after a timeout, make sure this
-                // object is still valid (especially necessary for tests)
-                if (!self.get('isDestroyed')) {
-                    self.query();
-                }
-            }, Balanced.THROTTLE);
-            this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.query, this));
+			var self = this;
+			var debouncedQuery = _.debounce(function () {
+				// since this might get called after a timeout, make sure this
+				// object is still valid (especially necessary for tests)
+				if (!self.get('isDestroyed')) {
+					self.runQuery();
+				}
+			}, Balanced.THROTTLE);
+			this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.runQuery, this));
+		},
 
-            // close the search result when we do a transition
-            var router = this.get('container').lookup('router:main');
-            router.addObserver('url', function () {
-                self.closeSearch();
-            });
-        },
+		actions: {
+			openSearch: function() {
+				this.set('showResults', true);
+			},
 
-        fetch_results: function () {
-            return this.get('debounced_search') && this.get('debounced_search').length > 0;
-        }.property('debounced_search'),
+			closeSearch: function () {
+				this.set('showResults', false);
+			},
 
-        extra_filtering_params: function () {
-            var query = this.get('debounced_search');
+			clearSearch: function() {
+				this.reset();
+			},
 
-            if(query) {
-                Balanced.Analytics.trackEvent('Search', {query: query});
-            }
+			query: function () {
+				var search = this.get('search');
+				if (!search || search.length === 0) {
+					this.reset();
+					return;
+				}
 
-            if (query === '%') {
-                query = '';
-            }
-            return {
-                query: query
-            };
-        }.property('debounced_search'),
+				if (search.indexOf('OHM') === 0 && search.length > 30) {
+					this.redirectToLog(search);
+					return;
+				}
 
-        query: function () {
-            var search = this.get('search');
-            if (!search || search.length === 0) {
-                this.reset();
-                return;
-            }
+				this.set('debounced_search', this.get('search'));
+				this.set('showResults', true);
+			},
+		},
 
-            if (search.indexOf('OHM') === 0 && search.length > 30) {
-                this.redirectToLog(search);
-                return;
-            }
+		fetch_results: function () {
+			return this.get('debounced_search') && this.get('debounced_search').length > 0;
+		}.property('debounced_search'),
 
-            this.set('debounced_search', this.get('search'));
-            this.set('showResults', true);
-        },
+		extra_filtering_params: function () {
+			var query = this.get('debounced_search');
 
-        reset: function () {
-            this.setProperties({
-                debounced_search: null,
-                search: null,
-                minDate: null,
-                maxDate: null,
-                dateFilterTitle: 'Any time',
-                sortField: null,
-                sortOrder: null,
-                type: 'transaction',
-                last_loaded_search_result: null
-            });
-        },
+			if(query) {
+				Balanced.Analytics.trackEvent('Search', {query: query});
+			}
 
-        isLoading: function () {
-            return this.get('fetch_results') && this.get('search_result') && !this.get('search_result.isLoaded');
-        }.property('search_result.isLoaded'),
+			if (query === '%') {
+				query = '';
+			}
+			return {
+				query: query
+			};
+		}.property('debounced_search'),
 
-        displayResults: function () {
-            return this.get('fetch_results') && this.get('showResults');
-        }.property('fetch_results', 'showResults'),
+		runQuery: function() {
+			this.send('query');
+		},
 
-        openSearch: function() {
-            this.set('showResults', true);
-        },
+		reset: function () {
+			this.setProperties({
+				debounced_search: null,
+				search: null,
+				minDate: null,
+				maxDate: null,
+				dateFilterTitle: 'Any time',
+				sortField: null,
+				sortOrder: null,
+				type: 'transaction',
+				last_loaded_search_result: null
+			});
+		},
 
-        closeSearch: function () {
-            this.set('showResults', false);
-        },
+		isLoading: function () {
+			return this.get('fetch_results') && this.get('search_result') && !this.get('search_result.isLoaded');
+		}.property('search_result.isLoaded'),
 
-        clearSearch: function() {
-            this.reset();
-        },
+		displayResults: function () {
+			return this.get('fetch_results') && this.get('showResults');
+		}.property('fetch_results', 'showResults'),
 
-        redirectToLog: function (ohm) {
-            var self = this;
+		redirectToLog: function (ohm) {
+			var self = this;
 
-            var logUri = Balanced.Log.constructUri(ohm);
-            Balanced.Log.find(logUri).then(function (log) {
-                self.closeSearch();
-                self.transitionToRoute('logs.log', log);
-            });
-        },
+			var logUri = Balanced.Log.constructUri(ohm);
+			Balanced.Log.find(logUri).then(function (log) {
+				self.send('closeSearch');
+				self.transitionToRoute('logs.log', log);
+			});
+		},
 
-        // UI properties
-        transactionsTabSelected: function () {
-            return this.get('category') === "transaction";
-        }.property('category'),
+		// UI properties
+		transactionsTabSelected: function () {
+			return this.get('category') === "transaction";
+		}.property('category'),
 
-        customersTabSelected: function () {
-            return this.get('category') === "account";
-        }.property('category'),
+		customersTabSelected: function () {
+			return this.get('category') === "account";
+		}.property('category'),
 
-        fundingInstrumentsTabSelected: function () {
-            return this.get('category') === "funding_instrument";
-        }.property('category')
-    }
+		fundingInstrumentsTabSelected: function () {
+			return this.get('category') === "funding_instrument";
+		}.property('category')
+	}
 );

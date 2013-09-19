@@ -21,7 +21,7 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
         Balanced.Utils.setCurrentMarketplace(model);
     },
 
-    events: {
+    actions: {
         submitRefundDebit: function(refund) {
             var self = this;
             refund.save().then(function (refund) {
