@@ -1,125 +1,125 @@
 require('app/models/mixins/load_promise');
 
 Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
-    isLoaded: false,
-    hasNextPage: false,
-    loadingNextPage: false,
+	isLoaded: false,
+	hasNextPage: false,
+	loadingNextPage: false,
 
-    loadNextPage: function () {
-        var self = this;
+	loadNextPage: function () {
+		var self = this;
 
-        var promise = this.resolveOn('didLoad');
-        self.set('loadingNextPage', true);
+		var promise = this.resolveOn('didLoad');
+		self.set('loadingNextPage', true);
 
-        if (this.get('hasNextPage')) {
-            var typeClass = this.get('typeClass');
+		if (this.get('hasNextPage')) {
+			var typeClass = this.get('typeClass');
 
-            Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
-                self.populateModels(json);
-                self.set('loadingNextPage', false);
-            });
-        } else {
-            promise.reject(this);
-            self.set('loadingNextPage', false);
-        }
+			Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
+				self.populateModels(json);
+				self.set('loadingNextPage', false);
+			});
+		} else {
+			promise.reject(this);
+			self.set('loadingNextPage', false);
+		}
 
-        return promise;
-    },
+		return promise;
+	},
 
-    reload: function () {
-        if (!this.get('isLoaded')) {
-            return this;
-        }
+	reload: function () {
+		if (!this.get('isLoaded')) {
+			return this;
+		}
 
-        var self = this;
-        this.set('isLoaded', false);
-        var promise = this.resolveOn('didLoad');
+		var self = this;
+		this.set('isLoaded', false);
+		var promise = this.resolveOn('didLoad');
 
-        Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
-            // todo, maybe we should go through and reload each item rather
-            // than nuking and re-adding
-            self.clear();
-            self.populateModels(json);
-        }, function () {
-            promise.reject(self);
-        });
-        return promise;
-    },
+		Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
+			// todo, maybe we should go through and reload each item rather
+			// than nuking and re-adding
+			self.clear();
+			self.populateModels(json);
+		}, function () {
+			promise.reject(self);
+		});
+		return promise;
+	},
 
-    populateModels: function (json) {
-        var self = this;
+	populateModels: function (json) {
+		var self = this;
 
-        var typeClass = this.get('typeClass');
+		var typeClass = this.get('typeClass');
 
-        var itemsArray;
-        if (json && $.isArray(json)) {
-            itemsArray = json;
-            this.set('next_uri', undefined);
-            this.set('hasNextPage', false);
-        } else {
-            if (json && json.items && $.isArray(json.items)) {
-                itemsArray = json.items;
+		var itemsArray;
+		if (json && $.isArray(json)) {
+			itemsArray = json;
+			this.set('next_uri', undefined);
+			this.set('hasNextPage', false);
+		} else {
+			if (json && json.items && $.isArray(json.items)) {
+				itemsArray = json.items;
 
-                if (json.next_uri) {
-                    this.set('next_uri', json.next_uri);
-                    this.set('hasNextPage', true);
-                } else {
-                    this.set('next_uri', undefined);
-                    this.set('hasNextPage', false);
-                }
-            } else {
-                this.set('isError', true);
-                return;
-            }
-        }
+				if (json.next_uri) {
+					this.set('next_uri', json.next_uri);
+					this.set('hasNextPage', true);
+				} else {
+					this.set('next_uri', undefined);
+					this.set('hasNextPage', false);
+				}
+			} else {
+				this.set('isError', true);
+				return;
+			}
+		}
 
-        var typedObjects = _.map(itemsArray, function (item) {
-            var typedObj = typeClass._materializeLoadedObjectFromAPIResult(item);
+		var typedObjects = _.map(itemsArray, function (item) {
+			var typedObj = typeClass._materializeLoadedObjectFromAPIResult(item);
 
-            // if an object is deleted, remove it from the collection
-            typedObj.on('didDelete', function () {
-                self.removeObject(typedObj);
-            });
+			// if an object is deleted, remove it from the collection
+			typedObj.on('didDelete', function () {
+				self.removeObject(typedObj);
+			});
 
-            return typedObj;
-        });
+			return typedObj;
+		});
 
-        this.addObjects(typedObjects);
-        this.set('isLoaded', true);
-        this.trigger('didLoad');
-    },
+		this.addObjects(typedObjects);
+		this.set('isLoaded', true);
+		this.trigger('didLoad');
+	},
 
-    _handleError: function (jqXHR, textStatus, errorThrown) {
-        if (jqXHR.status === 400) {
-            this.set('isValid', false);
-            this.trigger('becameInvalid', jqXHR.responseText);
-        } else {
-            this.set('isError', true);
-            this.trigger('becameError', jqXHR.responseText);
-        }
-    }
+	_handleError: function (jqXHR, textStatus, errorThrown) {
+		if (jqXHR.status === 400) {
+			this.set('isValid', false);
+			this.trigger('becameInvalid', jqXHR.responseText);
+		} else {
+			this.set('isError', true);
+			this.trigger('becameError', jqXHR.responseText);
+		}
+	}
 });
 
 Balanced.ModelArray.reopenClass({
-    newArrayLoadedFromUri: function (uri, defaultType) {
-        var typeClass = Balanced.TypeMappings.typeClass(defaultType);
-        var modelObjectsArray = Balanced.ModelArray.create({
-            content: Ember.A(),
-            typeClass: typeClass,
-            uri: uri
-        });
+	newArrayLoadedFromUri: function (uri, defaultType) {
+		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+		var modelObjectsArray = Balanced.ModelArray.create({
+			content: Ember.A(),
+			typeClass: typeClass,
+			uri: uri
+		});
 
-        if (!uri) {
-            return modelObjectsArray;
-        }
+		if (!uri) {
+			return modelObjectsArray;
+		}
 
-        modelObjectsArray.set('isLoaded', false);
-        Balanced.Adapter.get(typeClass, uri, function (json) {
-            modelObjectsArray.populateModels(json);
-        }, function (jqXHR, textStatus, errorThrown) {
-            modelObjectsArray._handleError(jqXHR, textStatus, errorThrown);
-        });
+		modelObjectsArray.set('isLoaded', false);
+		Balanced.Adapter.get(typeClass, uri, function (json) {
+			modelObjectsArray.populateModels(json);
+		}, function (jqXHR, textStatus, errorThrown) {
+			modelObjectsArray._handleError(jqXHR, textStatus, errorThrown);
+		});
 
-        return modelObjectsArray;
-    }
+		return modelObjectsArray;
+	}
 });

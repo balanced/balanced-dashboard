@@ -1,14 +1,14 @@
 Balanced.RefundsRoute = Balanced.AuthRoute.extend({
 	title: 'Refund',
 
-    pageTitle: function (route, setTitle) {
-        var refund = route.controller.content;
-        return Balanced.Utils.maybeDeferredLoading(refund, setTitle, function () {
-            return 'Refund: loading ...';
-        }, function () {
-            return 'Refund: %@'.fmt(refund.get('page_title'));
-        });
-    },
+	pageTitle: function (route, setTitle) {
+		var refund = route.controller.content;
+		return Balanced.Utils.maybeDeferredLoading(refund, setTitle, function () {
+			return 'Refund: loading ...';
+		}, function () {
+			return 'Refund: %@'.fmt(refund.get('page_title'));
+		});
+	},
 
 	model: function (params) {
 		var marketplace = this.modelFor('marketplace');

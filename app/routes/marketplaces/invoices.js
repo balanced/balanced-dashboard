@@ -1,9 +1,9 @@
 Balanced.InvoicesIndexRoute = Balanced.AuthRoute.extend({
-    pageTitle: 'Invoices'
+	pageTitle: 'Invoices'
 });
 
 Balanced.InvoicesInvoiceRoute = Balanced.AuthRoute.extend({
-    title: 'Invoice',
+	title: 'Invoice',
 
 	model: function (params) {
 		var marketplace = this.modelFor('marketplace');

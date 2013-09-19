@@ -1,14 +1,14 @@
 Balanced.EventsRoute = Balanced.AuthRoute.extend({
 	title: 'Events',
 
-    pageTitle: function (route, setTitle) {
-        var event = route.controller.content;
-        return Balanced.Utils.maybeDeferredLoading(event, setTitle, function () {
-            return 'Event: loading ...';
-        }, function () {
-            return 'Event: %@ #%@'.fmt(event.get('type'), event.get('id'));
-        });
-    },
+	pageTitle: function (route, setTitle) {
+		var event = route.controller.content;
+		return Balanced.Utils.maybeDeferredLoading(event, setTitle, function () {
+			return 'Event: loading ...';
+		}, function () {
+			return 'Event: %@ #%@'.fmt(event.get('type'), event.get('id'));
+		});
+	},
 
 	model: function (params) {
 		var marketplace = this.modelFor('marketplace');
