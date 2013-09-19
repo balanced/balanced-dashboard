@@ -23,14 +23,14 @@ Balanced.DatePickerView = Balanced.View.extend({
 			this.$('.timing').find('.selected .dp').datepicker('show');
 		},
 
-		selectDateTimePicker: function (datePickerSelector) {
-			this.$('.date-picker').children().removeClass('selected').find('.dp').datepicker('hide');
-			datePickerSelector.parent().addClass('selected').find('.dp').focus().datepicker('show');
-		},
-
 		setDateVariable: function () {
 			this._changeDateFilter(this._extractVariableTimePeriod(), true);
 		},
+	},
+
+	selectDateTimePicker: function (datePickerSelector) {
+		this.$('.date-picker').children().removeClass('selected').find('.dp').datepicker('hide');
+		datePickerSelector.parent().addClass('selected').find('.dp').focus().datepicker('show');
 	},
 
 	changeDate: function (e) {
