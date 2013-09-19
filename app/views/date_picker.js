@@ -45,7 +45,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 	resetDateTimePicker: function () {
 		this.$('.dp').val('');
 		this.selectDateTimePicker(this.$('.after input'));
-		this.toggleDateTimePicker();
+		this.send('toggleDateTimePicker');
 		this.setProperties({
 			minTime: null,
 			maxTime: null

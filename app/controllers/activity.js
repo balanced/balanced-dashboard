@@ -40,11 +40,11 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
 	actions: {
 		loadMore: function (results) {
-			this.get('controllers.activity').loadMore(results);
+			this.get('controllers.activity').send('loadMore', results);
 		},
 
 		changeSortOrder: function (field, sortOrder) {
-			this.get('controllers.activity').changeSortOrder(field, sortOrder);
+			this.get('controllers.activity').send('changeSortOrder', field, sortOrder);
 		}
 	}
 });

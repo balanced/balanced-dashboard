@@ -46,6 +46,10 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			}
 		},
 
+		willTransition: function() {
+			this.controllerFor('search').send('closeSearch');
+		},
+
 		signOut: function () {
 			var self = this;
 			Balanced.Auth.signOut().then(function() {

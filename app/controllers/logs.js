@@ -15,7 +15,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 
 	actions: {
 		setEndPointFilter: function (endpoint) {
-			this.changeEndpointFiler(endpoint);
+			this.changeEndpointFilter(endpoint);
 
 			if (endpoint) {
 				this.set('currentEndpointFilter', Balanced.Utils.toTitleCase(endpoint));
@@ -46,6 +46,34 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 
 			this.changeStatusRollupFilter(filters);
 		}.observes('statusRollupFilterSucceeded', 'statusRollupFilterFailed')
+	},
+
+	changeEndpointFilter: function (endpoint) {
+		var filteringParams = Ember.copy(this.get('extra_filtering_params'));
+
+		if (endpoint) {
+			filteringParams.endpoint = endpoint;
+		} else {
+			delete filteringParams.endpoint;
+		}
+
+		this.set('extra_filtering_params', filteringParams);
+	},
+
+	changeStatusRollupFilter: function (statuses) {
+		var filteringParams = Ember.copy(this.get('extra_filtering_params'));
+
+		if (statuses) {
+			var status_rollup = {
+				'status_rollup[in]': statuses
+			};
+
+			$.extend(filteringParams, status_rollup);
+		} else {
+			delete filteringParams['status_rollup[in]'];
+		}
+
+		this.set('extra_filtering_params', filteringParams);
 	},
 
 	results_base_uri: function () {

@@ -26,12 +26,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				}
 			}, Balanced.THROTTLE);
 			this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.runQuery, this));
-
-			// close the search result when we do a transition
-			var router = this.get('container').lookup('router:main');
-			router.addObserver('url', function () {
-				self.closeSearch();
-			});
 		},
 
 		actions: {
