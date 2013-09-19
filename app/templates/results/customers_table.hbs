@@ -24,19 +24,19 @@
     {{#each account in view.customers}}
         <tr>
             <td class="span3 date">
-                {{#linkToEntity account}}<span>
+                {{#linkTo "customers" account.customer}}<span>
                     <time {{bindAttr datetime="account.created_at"}} {{bindAttr title="account.created_at"}}>{{humanReadableDateShort account.created_at }}</time>
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td class="span4 name" {{bindAttr title="account.display_me"}}>
-                {{#linkToEntity account}}<span>
+                {{#linkTo "customers" account.customer}}<span>
                     {{ account.display_me }}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td class="span8 email" {{bindAttr title="account.email"}}>
-                {{#linkToEntity account}}<span>
+                {{#linkTo "customers" account.customer}}<span>
                     {{ account.email }}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
         </tr>
     {{else}}

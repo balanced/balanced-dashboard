@@ -27,34 +27,34 @@
     {{#each transaction in view.transactions }}
         <tr>
             <td class="span3 date">
-                {{#linkToEntity transaction}}<span>
+                {{#linkTo transaction.route_name transaction}}<span>
                     <time {{bindAttr datetime="transaction.created_at"}} {{bindAttr title="transaction.created_at"}}>{{humanReadableDateShort transaction.created_at}}</time>
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td {{bindAttr class=":span3 :label4a :type transaction.status"}}>
-                {{#linkToEntity transaction}}<span>
+                {{#linkTo transaction.route_name transaction}}<span>
                     {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td class="span4 description" {{bindAttr title="transaction.description"}}>
-                {{#linkToEntity transaction}}<span>
+                {{#linkTo transaction.route_name transaction}}<span>
                     {{ transaction.description }}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td {{bindAttr class=":span4 :account transaction.account::null-field"}} {{bindAttr title="transaction.account_name_summary"}}>
-                {{#linkToEntity transaction}}<span>
+                {{#linkTo transaction.route_name transaction}}<span>
                     {{transaction.account_name_summary}}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td class="span4 funding-instrument">
-                {{#linkToEntity transaction}}<span>
+                {{#linkTo transaction.route_name transaction}}<span>
                     {{transaction.funding_instrument_description}}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
             <td class="span2 amount num">
-                {{#linkToEntity transaction}}<span>
+                {{#linkTo transaction.route_name transaction}}<span>
                     ${{ transaction.amount_dollars }}
-                </span>{{/linkToEntity}}
+                </span>{{/linkTo}}
             </td>
         </tr>
     {{else}}

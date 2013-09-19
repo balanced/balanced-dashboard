@@ -9,6 +9,10 @@ Balanced.Debit = Balanced.Transaction.extend({
 		return "Debit";
 	}.property(),
 
+	route_name: function() {
+		return "debits";
+	}.property(),
+
 	funding_instrument_description: function () {
 		return this.get('source.description');
 	}.property('source.description'),

@@ -25,7 +25,7 @@
 			<div class="control-group">
 				<label class="control-label">Reference #</label>
 				<div class="controls">
-					<span class="inline-label">{{#linkToEntity model.transaction }}{{ model.entity.transaction_number }}{{/linkToEntity}}</span>
+					<span class="inline-label">{{#linkTo model.transaction.route_name model.transaction }}{{ model.entity.transaction_number }}{{/linkTo}}</span>
 				</div>
 			</div>
 		</div>
