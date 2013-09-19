@@ -34,7 +34,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
         }
     },
 
-    events: {
+    actions: {
         signUp: function (someShitThatsNotTheModel, event) {
             var self = this;
             var model = this.currentModel.claim;

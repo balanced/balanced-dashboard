@@ -14,7 +14,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
         this._super(controller, model.request);
         this.controllerFor('marketplace').set('content', null);
     },
-    events: {
+    actions: {
         signup: function (models) {
             var self = this;
 

@@ -10,7 +10,7 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
     setupController: function (controller, model) {
         this._super(controller, model.form);
     },
-    events: {
+    actions: {
         onComplete: function () {
             var marketplace = this.modelFor('marketplace');
             this.transitionTo('activity', marketplace);
