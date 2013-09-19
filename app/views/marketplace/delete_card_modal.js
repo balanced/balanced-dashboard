@@ -9,14 +9,14 @@ Balanced.DeleteCardModalView = Balanced.View.extend({
 		this.get('controller').off('openDeleteCardModal', this, this.open);
 	},
 
-	actions: {
-		open: function (card) {
-			this.set('model', card);
-			$('#delete-card').modal({
-				manager: this.$()
-			});
-		},
+	open: function (card) {
+		this.set('model', card);
+		$('#delete-card').modal({
+			manager: this.$()
+		});
+	},
 
+	actions: {
 		deleteCard: function () {
 			if (this.get('model.isSaving')) {
 				return;

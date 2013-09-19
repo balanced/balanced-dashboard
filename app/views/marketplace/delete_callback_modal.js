@@ -9,14 +9,14 @@ Balanced.DeleteCallbackModalView = Balanced.View.extend({
 		this.get('controller').off('openDeleteCallbackModal', this, this.open);
 	},
 
-	actions: {
-		open: function (callback) {
-			this.set('model', callback);
-			$('#delete-callback').modal({
-				manager: this.$()
-			});
-		},
+	open: function (callback) {
+		this.set('model', callback);
+		$('#delete-callback').modal({
+			manager: this.$()
+		});
+	},
 
+	actions: {
 		deleteCallback: function () {
 			if (this.get('model.isSaving')) {
 				return;

@@ -11,22 +11,22 @@ Balanced.HoldCardModalView = Balanced.View.extend({
 		this.get('controller').off('openHoldCardModal', this, this.open);
 	},
 
+	open: function () {
+		var hold = Balanced.Hold.create({
+			uri: this.get('funding_instrument.customer.holds_uri'),
+			source_uri: this.get('funding_instrument.uri'),
+			amount: null
+		});
+
+		this.set('dollar_amount', null);
+		this.set('model', hold);
+
+		$('#hold-card').modal({
+			manager: this.$()
+		});
+	},
+
 	action: {
-		open: function () {
-			var hold = Balanced.Hold.create({
-				uri: this.get('funding_instrument.customer.holds_uri'),
-				source_uri: this.get('funding_instrument.uri'),
-				amount: null
-			});
-
-			this.set('dollar_amount', null);
-			this.set('model', hold);
-
-			$('#hold-card').modal({
-				manager: this.$()
-			});
-		},
-
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

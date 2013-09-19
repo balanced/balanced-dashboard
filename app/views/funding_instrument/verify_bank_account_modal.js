@@ -9,18 +9,18 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 		this.get('controller').off('openVerifyBankAccountModal', this, this.open);
 	},
 
+	open: function () {
+		var verification = Balanced.Verification.create({
+			uri: this.get('funding_instrument.verifications_uri')
+		});
+		this.set('model', verification);
+
+		$('#verify-bank-account').modal({
+			manager: this.$()
+		});
+	},
+
 	actions: {
-		open: function () {
-			var verification = Balanced.Verification.create({
-				uri: this.get('funding_instrument.verifications_uri')
-			});
-			this.set('model', verification);
-
-			$('#verify-bank-account').modal({
-				manager: this.$()
-			});
-		},
-
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

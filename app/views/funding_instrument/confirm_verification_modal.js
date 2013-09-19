@@ -11,16 +11,16 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 		this.get('controller').off('openConfirmVerificationModal', this, this.open);
 	},
 
-	actions: {
-		open: function () {
-			this.set('failedConfirmation', false);
-			var verification = this.get('funding_instrument.verification');
-			this.set('model', verification);
-			$('#confirm-verification').modal({
-				manager: this.$()
-			});
-		},
+	open: function () {
+		this.set('failedConfirmation', false);
+		var verification = this.get('funding_instrument.verification');
+		this.set('model', verification);
+		$('#confirm-verification').modal({
+			manager: this.$()
+		});
+	},
 
+	actions: {
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

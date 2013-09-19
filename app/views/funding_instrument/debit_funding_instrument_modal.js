@@ -11,22 +11,22 @@ Balanced.DebitFundingInstrumentModalView = Balanced.View.extend({
 		this.get('controller').off('openDebitFundingInstrumentModal', this, this.open);
 	},
 
+	open: function () {
+		var debit = Balanced.Debit.create({
+			uri: this.get('funding_instrument.debits_uri'),
+			source_uri: this.get('funding_instrument.uri'),
+			amount: null
+		});
+
+		this.set('dollar_amount', null);
+		this.set('model', debit);
+
+		$('#debit-funding-instrument').modal({
+			manager: this.$()
+		});
+	},
+
 	actions: {
-		open: function () {
-			var debit = Balanced.Debit.create({
-				uri: this.get('funding_instrument.debits_uri'),
-				source_uri: this.get('funding_instrument.uri'),
-				amount: null
-			});
-
-			this.set('dollar_amount', null);
-			this.set('model', debit);
-
-			$('#debit-funding-instrument').modal({
-				manager: this.$()
-			});
-		},
-
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

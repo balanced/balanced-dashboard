@@ -12,18 +12,18 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 		this.get('controller').off('openPaySellerModal', this, this.open);
 	},
 
+	open: function () {
+		var credit = Balanced.Credit.create({uri: '/v1/credits'});
+		credit.set('bank_account', Balanced.BankAccount.create({'type': 'checking'}));
+		this.set('model', credit);
+		this.set('amount_dollars', null);
+
+		$('#pay-seller').modal({
+			manager: this.$()
+		});
+	},
+
 	actions: {
-		open: function () {
-			var credit = Balanced.Credit.create({uri: '/v1/credits'});
-			credit.set('bank_account', Balanced.BankAccount.create({'type': 'checking'}));
-			this.set('model', credit);
-			this.set('amount_dollars', null);
-
-			$('#pay-seller').modal({
-				manager: this.$()
-			});
-		},
-
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

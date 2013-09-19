@@ -11,22 +11,22 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
 		this.get('controller').off('openCreditBankAccountModal', this, this.open);
 	},
 
+	open: function () {
+		var credit = Balanced.Credit.create({
+			uri: this.get('funding_instrument.customer.credits_uri') || this.get('funding_instrument.credits_uri'),
+			bank_account_uri: this.get('funding_instrument.uri'),
+			amount: null
+		});
+
+		this.set('dollar_amount', null);
+		this.set('model', credit);
+
+		$('#credit-bank-account').modal({
+			manager: this.$()
+		});
+	},
+
 	actions: {
-		open: function () {
-			var credit = Balanced.Credit.create({
-				uri: this.get('funding_instrument.customer.credits_uri') || this.get('funding_instrument.credits_uri'),
-				bank_account_uri: this.get('funding_instrument.uri'),
-				amount: null
-			});
-
-			this.set('dollar_amount', null);
-			this.set('model', credit);
-
-			$('#credit-bank-account').modal({
-				manager: this.$()
-			});
-		},
-
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

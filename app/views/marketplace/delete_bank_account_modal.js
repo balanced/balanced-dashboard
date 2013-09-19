@@ -9,14 +9,14 @@ Balanced.DeleteBankAccountModalView = Balanced.View.extend({
 		this.get('controller').off('openDeleteBankAccountModal', this, this.open);
 	},
 
-	actions: {
-		open: function (bankAccount) {
-			this.set('model', bankAccount);
-			$('#delete-bank-account').modal({
-				manager: this.$()
-			});
-		},
+	open: function (bankAccount) {
+		this.set('model', bankAccount);
+		$('#delete-bank-account').modal({
+			manager: this.$()
+		});
+	},
 
+	actions: {
 		deleteBankAccount: function () {
 			if (this.get('model.isSaving')) {
 				return;
