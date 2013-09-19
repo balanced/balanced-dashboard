@@ -4,17 +4,17 @@ var initialDepositRoute = '/marketplaces/MP1/initial_deposit';
  * does not appear to be loaded correctly and form validation therefore fails.
  */
 module('Balanced.Marketplaces.initial_deposit', {
-    setup: function () {
-    }, teardown: function () {
+	setup: function () {
+	}, teardown: function () {
 
-    }
+	}
 });
 
 var goodData = {
-    card_number: '341111111111111',
-    security_code: '1234',
-    expiration_month: 12,
-    expiration_year: 2020
+	card_number: '341111111111111',
+	security_code: '1234',
+	expiration_month: 12,
+	expiration_year: 2020
 };
 
 var nonChargingCard = goodData;
@@ -24,35 +24,35 @@ var nonTokenizingCard = goodData;
 nonTokenizingCard.card_number = '4222222222222220';
 
 function populateData(data) {
-    _.each(data, function (value, key) {
-        var $input = $('[name="' + key + '"]');
-        $input.val(value);
-        $input.keyup();
-    });
+	_.each(data, function (value, key) {
+		var $input = $('[name="' + key + '"]');
+		$input.val(value);
+		$input.keyup();
+	});
 }
 
 test('on the correct page', function (assert) {
-    visit(initialDepositRoute).then(function() {
-        assert.equal($('h1', '#marketplace-initial-deposit').text(), 'Make an initial deposit', 'title is correct');
-    });
+	visit(initialDepositRoute).then(function() {
+		assert.equal($('h1', '#marketplace-initial-deposit').text(), 'Make an initial deposit', 'title is correct');
+	});
 });
 
 test('form validation', function (assert) {
-    visit(initialDepositRoute).then(function() {
-        var $submitButton = $('button:contains("Submit")');
-        assert.equal($submitButton.length, 1, 'submit button exists');
-    });
+	visit(initialDepositRoute).then(function() {
+		var $submitButton = $('button:contains("Submit")');
+		assert.equal($submitButton.length, 1, 'submit button exists');
+	});
 //    $submitButton.click();
 //
 //    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
 });
 
 test('payment success', function (assert) {
-    visit(initialDepositRoute).then(function() {
-        populateData(goodData);
-        var $submitButton = $('button:contains("Submit")');
-        assert.equal($submitButton.length, 1, 'submit button exists');
-    });
+	visit(initialDepositRoute).then(function() {
+		populateData(goodData);
+		var $submitButton = $('button:contains("Submit")');
+		assert.equal($submitButton.length, 1, 'submit button exists');
+	});
 //    $submitButton.click();
 });
 
@@ -69,11 +69,11 @@ test('payment success', function (assert) {
 //});
 
 test('cancel', function (assert) {
-    visit(initialDepositRoute).then(function() {
-        var $skipButton = $('button:contains("Skip")');
-        var hash = window.location.hash;
-        assert.equal($skipButton.length, 1, 'skip button exists');
-    });
+	visit(initialDepositRoute).then(function() {
+		var $skipButton = $('button:contains("Skip")');
+		var hash = window.location.hash;
+		assert.equal($skipButton.length, 1, 'skip button exists');
+	});
 
 //    $skipButton.click();
 //    assert.notEqual(hash, window.location.hash, 'location has changed');
