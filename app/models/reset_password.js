@@ -25,3 +25,5 @@ Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
 		}
 	}
 });
+
+Balanced.Adapter.registerHostForType(Balanced.ResetPassword, ENV.BALANCED.AUTH);

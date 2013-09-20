@@ -7,3 +7,5 @@ Balanced.ForgotPassword = Balanced.Model.extend(Ember.Validations, {
 		}
 	}
 });
+
+Balanced.Adapter.registerHostForType(Balanced.ForgotPassword, ENV.BALANCED.AUTH);

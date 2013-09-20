@@ -298,7 +298,7 @@ module.exports = function (grunt) {
 					includeLiveReload: true,
 					env: "{\
 						BALANCED: {\
-							API: 'https://auth.balancedpayments.com',\
+							API: 'https://api.balancedpayments.com',\
 							AUTH: 'https://auth.balancedpayments.com',\
 							WWW: 'https://www.balancedpayments.com',\
 							DOCS: 'https://docs.balancedpayments.com',\
@@ -319,7 +319,7 @@ module.exports = function (grunt) {
 					includeLiveReload: false,
 					env: "{\
 						BALANCED: {\
-							API: 'https://auth.balancedpayments.com',\
+							API: 'https://api.balancedpayments.com',\
 							AUTH: 'https://auth.balancedpayments.com',\
 							WWW: 'https://www.balancedpayments.com',\
 							DOCS: 'https://docs.balancedpayments.com',\
