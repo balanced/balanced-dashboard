@@ -364,7 +364,6 @@ module.exports = function (grunt) {
 
 		s3: {
 			options: {
-				bucket: 'balanced-dashboard',
 				access: 'public-read',
 				region: 'us-west-1',
 				gzip: true,
@@ -372,7 +371,10 @@ module.exports = function (grunt) {
 					'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
 				}
 			},
-			cached: {
+			previewCached: {
+				options: {
+					bucket: 'balanced-dashboard-preview',
+				},
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
@@ -391,7 +393,10 @@ module.exports = function (grunt) {
 					}
 				]
 			},
-			not_cached: {
+			previewUncached: {
+				options: {
+					bucket: 'balanced-dashboard-preview',
+				},
 				headers: {
 					'Cache-Control': 'max-age=60'
 				},
@@ -401,7 +406,43 @@ module.exports = function (grunt) {
 						dest: ''
 					}
 				]
-			}
+			},
+			productionCached: {
+				options: {
+					bucket: 'balanced-dashboard',
+				},
+				headers: {
+					'Cache-Control': 'public, max-age=86400'
+				},
+				upload: [
+					{
+						src: 'dist/js/*',
+						dest: 'js/'
+					},
+					{
+						src: 'dist/css/*',
+						dest: 'css/'
+					},
+					{
+						src: 'dist/images/**/*',
+						dest: 'images/'
+					}
+				]
+			},
+			productionUncached: {
+				options: {
+					bucket: 'balanced-dashboard',
+				},
+				headers: {
+					'Cache-Control': 'max-age=60'
+				},
+				upload: [
+					{
+						src: 'dist/*',
+						dest: ''
+					}
+				]
+			},
 		},
 
 		/*
@@ -560,7 +601,8 @@ module.exports = function (grunt) {
 	Uploads to s3. Requires environment variables to be set if the bucket
 	you're uploading to doesn't have public write access.
 	*/
-	grunt.registerTask('deploy', ['build', 's3']);
+	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
+	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 
 	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildHTML']);
 
