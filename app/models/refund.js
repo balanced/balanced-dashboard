@@ -8,7 +8,7 @@ Balanced.Refund = Balanced.Transaction.extend({
 	}.property(),
 
 	route_name: function() {
-		return "debits";
+		return "refunds";
 	}.property(),
 
 	funding_instrument_description: function () {
