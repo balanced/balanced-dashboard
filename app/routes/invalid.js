@@ -5,7 +5,7 @@ Balanced.InvalidRoute = Balanced.AuthRoute.extend({
 			type: 'invalid-route',
 			location: window.location.toString()
 		});
-		this.transitionTo('index');
+		this.transitionTo('marketplaces');
 	},
 
 	model: function (params) {

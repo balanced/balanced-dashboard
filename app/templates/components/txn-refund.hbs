@@ -1,11 +1,11 @@
 <div class="refund">
-  <div class="main-header transaction-type-subheader">
+  <div {{bindAttr class=":main-header :transaction-type-subheader refund.status"}}>
     <div class="row">
       <div class="span2 border-adjust label">
         <span class="subhead2d">Refund</span>
       </div>
       <div class="span10 title">
-        <span class="transaction-description subhead2d">Created: ${{refund.amount_dollars}}</span>
+        <span class="transaction-description subhead2d">{{titleCase refund.status}}: ${{refund.amount_dollars}}</span>
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container"></div>

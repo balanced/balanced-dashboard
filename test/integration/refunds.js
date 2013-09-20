@@ -9,7 +9,7 @@ module('Refunds', {
 test('can visit page', function (assert) {
 	visit(refundsRoutePath).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
-		assert.equal($(".refund .transaction-description").text().trim(), 'Created: $42.00');
+		assert.equal($(".refund .transaction-description").text().trim(), 'Successful: $42.00');
 	});
 });
 
