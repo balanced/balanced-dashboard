@@ -49,6 +49,9 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
 	ajax: function (url, type, settings) {
 		settings = settings || {};
+		settings.url = url;
+		settings.type = type;
+		settings.context = this;
 
 		// HACK this goes away when we have oAuth
 		if(url && url.indexOf(ENV.BALANCED.AUTH) === -1) {
@@ -64,6 +67,19 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
 				if(!userMarketplace || !userMarketplace.get('secret')) {
 					Ember.Logger.warn("Couldn't find user marketplace for ID %@ (url: %@)".fmt(marketplaceId, url));
+
+					// If we couldn't find the user marketplace, maybe this is an admin user, so hit the auth server to try to find the API secret
+					return Balanced.NET.ajax({
+						url: ENV.BALANCED.AUTH + '/marketplaces/%@'.fmt(marketplaceId),
+						type: 'GET',
+						error: settings.error
+					}).then(function(response) {
+						Balanced.Auth.addUserMarketplace(response.id, response.uri, response.name, response.secret);
+
+						settings.headers = settings.headers || {};
+						settings.headers['Authorization'] = 'Basic ' + window.btoa(response.secret + ':');
+						return Balanced.NET.ajax(settings);
+					});
 				} else {
 					var secret = userMarketplace.get('secret');
 					settings.headers = settings.headers || {};
@@ -72,9 +88,6 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 			}
 		}
 
-		settings.url = url;
-		settings.type = type;
-		settings.context = this;
 		return Balanced.NET.ajax(settings);
 	},
 

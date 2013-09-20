@@ -107,12 +107,20 @@ Balanced.Auth = (function () {
 
 	auth.setupGuestUserMarketplace = function(marketplace) {
 		Balanced.Utils.setCurrentMarketplace(marketplace);
+		auth.addUserMarketplace(
+			marketplace.get('id'),
+			marketplace.get('uri'),
+			marketplace.get('name'),
+			auth.getGuestAPIKey()
+		);
+	};
 
+	auth.addUserMarketplace = function(id, uri, name, secret) {
 		var guestMarketplace = Balanced.UserMarketplace.create({
-			id: marketplace.get('id'),
-			uri: marketplace.get('uri'),
-			name: marketplace.get('name'),
-			secret: auth.getGuestAPIKey()
+			id: id,
+			uri: uri,
+			name: name,
+			secret: secret
 		});
 		Balanced.Auth.get('user').get('user_marketplaces').pushObject(guestMarketplace);
 	};
