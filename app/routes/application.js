@@ -32,7 +32,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 				if(error.get && error.get('uri')) {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
 					Balanced.Auth.set('attemptedTransition', null);
-					this.transitionTo('index');
+					this.transitionTo('marketplaces');
 				} else if(transition) {
 					Balanced.Auth.set('attemptedTransition', transition);
 
@@ -42,7 +42,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 					this.transitionTo('login');
 				}
 			} else {
-				this.transitionTo('index');
+				this.transitionTo('marketplaces');
 			}
 		},
 
