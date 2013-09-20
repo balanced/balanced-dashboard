@@ -1,11 +1,11 @@
 <div class="hold">
-  <div class="main-header transaction-type-subheader">
+  <div {{bindAttr class=":main-header :transaction-type-subheader hold.status"}}>
     <div class="row">
       <div class="span2 border-adjust label">
         <span class="subhead2d">Hold</span>
       </div>
       <div class="span10 title">
-        <span class="transaction-description subhead2d">{{capitalize hold.status}}: ${{hold.amount_dollars}}</span>
+        <span class="transaction-description subhead2d">{{titleCase hold.status}}: ${{hold.amount_dollars}}</span>
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container">
