@@ -29,7 +29,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 			this.transitionTo('index');
 		}
 	},
-	events: {
+	actions: {
 		goToDashboard: function () {
 			this.transitionTo('activity', this.currentModel);
 		},
