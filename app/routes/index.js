@@ -13,7 +13,7 @@ Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Marketplaces',
 
 	redirect: function() {
-		if(Balanced.Auth.get('isGuest')) {
+		if(Balanced.Auth.get('isGuest') && Balanced.currentMarketplace) {
 			this.transitionTo('marketplace', Balanced.currentMarketplace);
 		}
 	},
