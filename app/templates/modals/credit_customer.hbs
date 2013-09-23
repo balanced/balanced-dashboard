@@ -53,9 +53,9 @@
             </div>
 
             <div {{bindAttr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-                <label class="control-label">Appears on statement as</label>
+                <label class="control-label">Appears on statement as ({{view.selected_funding_instrument.appears_on_statement_max_length}} characters max)</label>
                 <div class="controls">
-                    {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full"}}
+                    {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.selected_funding_instrument.appears_on_statement_max_length"}}
                 </div>
             </div>
 

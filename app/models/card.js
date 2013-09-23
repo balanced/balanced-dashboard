@@ -11,6 +11,10 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 
 	is_bank_account: false,
 
+	appears_on_statement_max_length: function() {
+		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD;
+	}.property(),
+
 	description: function () {
 		return '%@ (%@)'.fmt(
 			this.get('last_four'),

@@ -53,9 +53,12 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 
 	selected_bank_account: function () {
 		if (this.get('model.source_uri')) {
-			return Balanced.BankAccount.find(this.get('model.source_uri'));
+			var self = this;
+			return this.get('bank_accounts').find(function(b) {
+				return self.get('model.source_uri') === b.get('uri');
+			});
 		}
-	}.property('model.source_uri'),
+	}.property('model.source_uri', 'bank_accounts'),
 
 	bank_accounts: function () {
 		return this.get('marketplace.owner_customer.bank_accounts');
