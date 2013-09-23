@@ -129,6 +129,7 @@ Balanced.Auth = (function () {
 		var self = this;
 
 		this.forgetLogin();
+		auth.forgetLastUsedMarketplaceUri();
 		return Balanced.NET.ajax({
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
@@ -218,6 +219,21 @@ Balanced.Auth = (function () {
 
 	auth.getGuestAPIKey = function() {
 		return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
+	};
+
+	auth.rememberLastUsedMarketplaceUri = function(marketplaceUri) {
+		$.cookie(Balanced.COOKIE.MARKETPLACE_URI, marketplaceUri, {
+			path: '/',
+			expires: Balanced.TIME.THREE_YEARS
+		});
+	};
+
+	auth.getLastUsedMarketplaceUri = function() {
+		return $.cookie(Balanced.COOKIE.MARKETPLACE_URI);
+	};
+
+	auth.forgetLastUsedMarketplaceUri = function() {
+		$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, { path: '/' });
 	};
 
 	return auth;

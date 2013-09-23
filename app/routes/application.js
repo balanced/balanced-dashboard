@@ -18,8 +18,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 			// if we had a problem loading the marketplace, check that it's not the current
 			// marketplace, since that might send us into an infinite loop
-			if(error.get && error.get('uri') === $.cookie(Balanced.COOKIE.MARKETPLACE_URI)) {
-				$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, { path: '/' });
+			if(error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
+				Balanced.Auth.forgetLastUsedMarketplaceUri();
 			}
 
 			Balanced.Analytics.trackEvent('route-error', {

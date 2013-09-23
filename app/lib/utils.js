@@ -137,10 +137,7 @@ Balanced.Utils = {
 		// TODO: TAKE THIS OUT when we've moved to oAuth
 		Balanced.currentMarketplace = marketplace;
 		if (marketplace) {
-			$.cookie(Balanced.COOKIE.MARKETPLACE_URI, marketplace.get('uri'), {
-				path: '/',
-				expires: Balanced.TIME.THREE_YEARS
-			});
+			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 
 			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(marketplace.get('uri'));
 			if(userMarketplace) {
