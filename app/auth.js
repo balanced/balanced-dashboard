@@ -129,10 +129,12 @@ Balanced.Auth = (function () {
 		var self = this;
 
 		this.forgetLogin();
+		auth.forgetLastUsedMarketplaceUri();
 		return Balanced.NET.ajax({
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
 		}).done(function () {
+			Balanced.NET.loadCSRFToken();
 			self.trigger('signOutSuccess');
 		}).fail(function () {
 			self.trigger('signOutError');
@@ -189,11 +191,11 @@ Balanced.Auth = (function () {
 			path: '/'
 		});
 
-		Balanced.NET.loadCSRFToken();
-
 		auth.unsetAPIKey();
 
 		auth.setAuthProperties(false, null, null, null, false);
+
+		Balanced.Utils.setCurrentMarketplace(null);
 	};
 
 	auth.retrieveLogin = function () {
@@ -201,11 +203,12 @@ Balanced.Auth = (function () {
 	};
 
 	auth.setAPIKey = function(apiKeySecret) {
-		Balanced.NET.defaultApiKey = apiKeySecret;
+		// Have to use Ember.set since we're using defaultApiKey in bindings
+		Ember.set(Balanced.NET, 'defaultApiKey', apiKeySecret);
 	};
 
 	auth.unsetAPIKey = function() {
-		Balanced.NET.defaultApiKey = null;
+		Ember.set(Balanced.NET, 'defaultApiKey', null);
 	};
 
 	auth.storeGuestAPIKey = function (apiKeySecret) {
@@ -216,6 +219,21 @@ Balanced.Auth = (function () {
 
 	auth.getGuestAPIKey = function() {
 		return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
+	};
+
+	auth.rememberLastUsedMarketplaceUri = function(marketplaceUri) {
+		$.cookie(Balanced.COOKIE.MARKETPLACE_URI, marketplaceUri, {
+			path: '/',
+			expires: Balanced.TIME.THREE_YEARS
+		});
+	};
+
+	auth.getLastUsedMarketplaceUri = function() {
+		return $.cookie(Balanced.COOKIE.MARKETPLACE_URI);
+	};
+
+	auth.forgetLastUsedMarketplaceUri = function() {
+		$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, { path: '/' });
 	};
 
 	return auth;

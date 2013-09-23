@@ -1,4 +1,11 @@
+var INFINITE_LOOP_DURATION_MILLIS = 2500;
+var INFINITE_LOOP_NUM_ERRORS = 5;
+
 Balanced.ApplicationRoute = Balanced.Route.extend({
+	init: function() {
+		this.set('errorTimestamps', []);
+	},
+
 	beforeModel: function() {
 		if (window.TESTING || Balanced.Auth.get('signedIn')) {
 			return;
@@ -11,6 +18,26 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 	actions: {
 		error: function(error, transition) {
+
+			if(!window.TESTING) {
+				// Check for an infinite loop of error handling and short-circuit
+				// if we've seen too many errors in too short a period
+				var errorTimestamps = this.get('errorTimestamps');
+				var currentTimestamp = new Date().getTime();
+				errorTimestamps.push(currentTimestamp);
+				if(errorTimestamps.length > INFINITE_LOOP_NUM_ERRORS) {
+					var filtered = _.filter(errorTimestamps, function(t) {
+						return t > currentTimestamp - INFINITE_LOOP_DURATION_MILLIS;
+					});
+					this.set('errorTimestamps', filtered);
+					if(filtered.length > INFINITE_LOOP_NUM_ERRORS) {
+						Balanced.Auth.forgetLogin();
+						this.transitionTo('login');
+						return;
+					}
+				}
+			}
+
 			// the error object could be an ember object or a jqxhr
 			var statusCode = error.errorStatusCode || error.status;
 
@@ -18,8 +45,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 			// if we had a problem loading the marketplace, check that it's not the current
 			// marketplace, since that might send us into an infinite loop
-			if(error.get && error.get('uri') === $.cookie(Balanced.COOKIE.MARKETPLACE_URI)) {
-				$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, { path: '/' });
+			if(error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
+				Balanced.Auth.forgetLastUsedMarketplaceUri();
 			}
 
 			Balanced.Analytics.trackEvent('route-error', {

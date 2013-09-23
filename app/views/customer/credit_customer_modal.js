@@ -48,7 +48,10 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
 
 	selected_funding_instrument: function () {
 		if (this.get('model.bank_account_uri')) {
-			return Balanced.BankAccount.find(this.get('model.bank_account_uri'));
+			var self = this;
+			return this.get('customer.bank_accounts').find(function(b) {
+				return self.get('model.bank_account_uri') === b.get('uri');
+			});
 		}
-	}.property('model.bank_account_uri')
+	}.property('model.bank_account_uri', 'customer.bank_accounts')
 });

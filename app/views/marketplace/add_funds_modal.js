@@ -5,9 +5,12 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 	selected_bank_account: function () {
 		if (this.get('model.source_uri')) {
-			return Balanced.BankAccount.find(this.get('model.source_uri'));
+			var self = this;
+			return this.get('debitable_bank_accounts').find(function(b) {
+				return self.get('model.source_uri') === b.get('uri');
+			});
 		}
-	}.property('model.source_uri'),
+	}.property('model.source_uri', 'debitable_bank_accounts'),
 
 	debitable_bank_accounts: function () {
 		return this.get('marketplace.owner_customer.debitable_bank_accounts');
@@ -15,7 +18,7 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 	actions: {
 		open: function () {
-			var debitableBankAccounts = this.get('marketplace.owner_customer.debitable_bank_accounts');
+			var debitableBankAccounts = this.get('debitable_bank_accounts');
 			var sourceUri = (debitableBankAccounts && debitableBankAccounts.length > 0) ? debitableBankAccounts[0].get('uri') : null;
 
 			var debit = Balanced.Debit.create({
