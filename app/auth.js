@@ -201,11 +201,12 @@ Balanced.Auth = (function () {
 	};
 
 	auth.setAPIKey = function(apiKeySecret) {
-		Balanced.NET.defaultApiKey = apiKeySecret;
+		// Have to use Ember.set since we're using defaultApiKey in bindings
+		Ember.set(Balanced.NET, 'defaultApiKey', apiKeySecret);
 	};
 
 	auth.unsetAPIKey = function() {
-		Balanced.NET.defaultApiKey = null;
+		Ember.set(Balanced.NET, 'defaultApiKey', null);
 	};
 
 	auth.storeGuestAPIKey = function (apiKeySecret) {

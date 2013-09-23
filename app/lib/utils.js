@@ -144,7 +144,7 @@ Balanced.Utils = {
 
 			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(marketplace.get('uri'));
 			if(userMarketplace) {
-				Balanced.NET.defaultApiKey = userMarketplace.get('secret');
+				Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
 			} else {
 				Ember.Logger.warn("Couldn't find API key for %@".fmt(marketplace.get('uri')));
 			}
