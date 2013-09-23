@@ -133,6 +133,7 @@ Balanced.Auth = (function () {
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
 		}).done(function () {
+			Balanced.NET.loadCSRFToken();
 			self.trigger('signOutSuccess');
 		}).fail(function () {
 			self.trigger('signOutError');
@@ -189,11 +190,11 @@ Balanced.Auth = (function () {
 			path: '/'
 		});
 
-		Balanced.NET.loadCSRFToken();
-
 		auth.unsetAPIKey();
 
 		auth.setAuthProperties(false, null, null, null, false);
+
+		Balanced.Utils.setCurrentMarketplace(null);
 	};
 
 	auth.retrieveLogin = function () {
