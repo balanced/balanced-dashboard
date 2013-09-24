@@ -62,7 +62,6 @@ test('can create person customer', function(assert) {
       dob: "1930-12",
       email: "nick@example.com",
       facebook: "kleinsch",
-      name: "TEST",
       phone: "1231231234",
       ssn_last4: "1234",
       twitter: "kleinsch"
