@@ -25,6 +25,7 @@ Balanced.NET = (function () {
 
 			var def = {
 				'dataType': 'json',
+				contentType: 'application/json; charset=UTF-8',
 				headers: {
 				}
 			};
@@ -45,7 +46,6 @@ Balanced.NET = (function () {
 
 			if (settings.data && Ember.isNone(settings.contentType)) {
 				if(settings.type && settings.type.toUpperCase !== 'GET') {
-					def.contentType = 'application/json; charset=utf-8';
 					settings.data  = JSON.stringify(settings.data);
 				}
 			}
