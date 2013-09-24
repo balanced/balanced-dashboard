@@ -1,6 +1,10 @@
-<div class="span24">
-    {{#view Balanced.View classBinding=":alert controller.message_type"}}
-        <button type="button" class="close" data-dismiss="alert" {{action dismissAlert}}>&times;</button>
-        {{message_message}}
-    {{/view}}
+{{#if controllers.application.notification}}
+<div class="row alert-row">
+  <div class="span24">
+    <div {{bindAttr class=":alert controllers.application.notification.type"}}>
+      <button type="button" class="close" data-dismiss="alert" {{action closeNotification target="controllers.application"}}>&times;</button>
+      <span>{{controllers.application.notification.message}}</span>
+    </div>
+  </div>
 </div>
+{{/if}}

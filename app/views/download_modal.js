@@ -35,10 +35,10 @@ Balanced.DownloadModalView = Balanced.View.extend({
 	},
 
 	confirmDownload: function () {
-		this.get('controller.controllers.marketplace').send('alertMessage', {
-			type: 'success',
-			message: 'We\'re processing your request. We will email you once ' +
-				'the exported data is ready to view.'
+		this.get('controller').send('notify', {
+			message: "We're processing your request. We will email you once the exported data is ready to view.",
+			persists: false,
+			type: "success"
 		});
 	}
 });

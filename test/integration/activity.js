@@ -1,3 +1,5 @@
+var activityPath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/activity/transactions';
+
 module('Activity', {
 	setup: function () {
 		Testing.selectMarketplaceByName();
@@ -152,14 +154,26 @@ test('withdraw funds only withdraws once despite multiple clicks', function (ass
 });
 
 test('download activity', function (assert) {
+	assert.equal($(".alert span").length, 0);
+
 	var stub = sinon.stub(Balanced.Adapter, "create");
+	stub.withArgs(Balanced.Download).callsArgWith(3, {
+		download: {}
+	});
 
-	$("#activity .icon-download").click();
-
-	$(".download-modal.in form input[name='email']").val('test@example.com').trigger('keyup');
-	$('.download-modal.in .modal-footer button[name="modal-submit"]').click();
-
-	assert.ok(stub.calledOnce);
+	visit(activityPath)
+	.click("#activity .icon-download")
+	.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+	.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+	.then(function() {
+		assert.ok(stub.calledOnce);
+		assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+			email_address: "test@example.com",
+			uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold"
+		}));
+		assert.equal($(".alert span").length, 1);
+		assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
+	});
 });
 
 test('download activity only runs once despite multiple clicks', function (assert) {
