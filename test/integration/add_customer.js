@@ -1,3 +1,5 @@
+var addCustomerRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/add_customer';
+
 module('Add Customer', {
 	setup: function () {
 		Testing.selectMarketplaceByName();
@@ -10,81 +12,71 @@ module('Add Customer', {
 
 test('can visit page', function (assert) {
 	//  check the page title has been selected
-	var $title = $('#content h1');
+  visit(addCustomerRoutePath).then(function() {
+    var $title = $('#content h1');
 
-	assert.equal($title.text().trim(), 'Add a customer', 'Title is not correct');
+    assert.equal($title.text().trim(), 'Add a customer', 'Title is not correct');
+  });
 });
 
 test('can create person customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	// click on the person tab
-	$("fieldset.application-type a.person").click();
 
-	// open the additional section
-	$(".disclosure-button a").click();
+  visit(addCustomerRoutePath)
+  .click("fieldset.application-type a.person")
+  .click(".disclosure-button a")
+  .fillIn('#add-customer input[name="name"]', 'TEST')
+  .fillIn('#add-customer input[name="email"]', 'nick@example.com')
+  .fillIn('#add-customer input[name="address.line1"]', '1234 main street')
+  .fillIn('#add-customer input[name="address.line2"]', 'Ste 400')
+  .fillIn('#add-customer input[name="address.city"]', 'oakland')
+  .fillIn('#add-customer .country-select', 'US')
+  .fillIn('#add-customer input[name="address.region"]', 'ca')
+  .fillIn('#add-customer input[name="address.postal_code"]', '94612')
+  .fillIn('#add-customer input[name="phone"]', '1231231234')
+  .fillIn('#add-customer input[name="dob_month"]', '12')
+  .fillIn('#add-customer input[name="dob_year"]', '1930')
+  .fillIn('#add-customer input[name="ssn_last4"]', '1234')
+  .fillIn('#add-customer input[name="facebook"]', 'kleinsch')
+  .fillIn('#add-customer input[name="twitter"]', 'kleinsch')
+  .click(".actions button")
+  .then(function() {
+    // make sure we posted the customer
+    assert.ok(spy.calledOnce);
 
-	// fill out info
-
-	$('#add-customer input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-customer input[name="email"]').val('nick@example.com').trigger('keyup');
-	$('#add-customer input[name="address.line1"]').val('1234 main street').trigger('keyup');
-	$('#add-customer input[name="address.line2"]').val('Ste 400').trigger('keyup');
-	$('#add-customer input[name="address.city"]').val('oakland').trigger('keyup');
-	$('#add-customer input[name="address.country"]').val('USA').trigger('keyup');
-	$('#add-customer input[name="address.region"]').val('ca').trigger('keyup');
-	$('#add-customer input[name="address.postal_code"]').val('94612').trigger('keyup');
-	$('#add-customer input[name="phone"]').val('1231231234').trigger('keyup');
-	$('#add-customer input[name="dob_month"]').val('12').trigger('keyup');
-	$('#add-customer input[name="dob_year"]').val('1930').trigger('keyup');
-	$('#add-customer input[name="ssn_last4"]').val('1234').trigger('keyup');
-	$('#add-customer input[name="facebook"]').val('kleinsch').trigger('keyup');
-	$('#add-customer input[name="twitter"]').val('kleinsch').trigger('keyup');
-
-	// click submit
-	$(".actions button").click();
-
-	// make sure we posted the customer
-	assert.ok(spy.calledOnce);
-
-	// should end up on the customer page
-	assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
+    // should end up on the customer page
+    assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
+  });
 });
 
 test('can create business customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	// click on the business tab
-	$("fieldset.application-type a.business").click();
+  visit(addCustomerRoutePath)
+	.click("fieldset.application-type a.business")
+  .click(".disclosure-button a")
+  .fillIn('#add-customer input[name="business_name"]', 'Something Inc')
+	.fillIn('#add-customer input[name="ein"]', '123123123')
+	.fillIn('#add-customer input[name="name"]', 'TEST')
+	.fillIn('#add-customer input[name="email"]', 'nick@example.com')
+	.fillIn('#add-customer input[name="address.line1"]', '1234 main street')
+	.fillIn('#add-customer input[name="address.line2"]', 'Ste 200')
+	.fillIn('#add-customer input[name="address.city"]', 'oakland')
+	.fillIn('#add-customer .country-select', 'USA')
+	.fillIn('#add-customer input[name="address.region"]', 'ca')
+	.fillIn('#add-customer input[name="address.postal_code"]', '94612')
+	.fillIn('#add-customer input[name="phone"]', '1231231234')
+	.fillIn('#add-customer input[name="dob_month"]', '12')
+	.fillIn('#add-customer input[name="dob_year"]', '1930')
+	.fillIn('#add-customer input[name="ssn_last4"]', '1234')
+	.fillIn('#add-customer input[name="facebook"]', 'kleinsch')
+	.fillIn('#add-customer input[name="twitter"]', 'kleinsch')
+	.click(".actions button")
+  .then(function() {
+    // make sure we posted the customer
+    assert.ok(spy.calledOnce);
 
-	// open the additional section
-	$(".disclosure-button a").click();
-
-	// fill out info
-
-	$('#add-customer input[name="business_name"]').val('Something Inc').trigger('keyup');
-	$('#add-customer input[name="ein"]').val('123123123').trigger('keyup');
-
-	$('#add-customer input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-customer input[name="email"]').val('nick@example.com').trigger('keyup');
-	$('#add-customer input[name="address.line1"]').val('1234 main street').trigger('keyup');
-	$('#add-customer input[name="address.line2"]').val('Ste 200').trigger('keyup');
-	$('#add-customer input[name="address.city"]').val('oakland').trigger('keyup');
-	$('#add-customer input[name="address.country"]').val('USA').trigger('keyup');
-	$('#add-customer input[name="address.region"]').val('ca').trigger('keyup');
-	$('#add-customer input[name="address.postal_code"]').val('94612').trigger('keyup');
-	$('#add-customer input[name="phone"]').val('1231231234').trigger('keyup');
-	$('#add-customer input[name="dob_month"]').val('12').trigger('keyup');
-	$('#add-customer input[name="dob_year"]').val('1930').trigger('keyup');
-	$('#add-customer input[name="ssn_last4"]').val('1234').trigger('keyup');
-	$('#add-customer input[name="facebook"]').val('kleinsch').trigger('keyup');
-	$('#add-customer input[name="twitter"]').val('kleinsch').trigger('keyup');
-
-	// click submit
-	$(".actions button").click();
-
-	// make sure we posted the customer
-	assert.ok(spy.calledOnce);
-
-	// should end up on the customer page
-	assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
+    // should end up on the customer page
+    assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
+  });
 });
