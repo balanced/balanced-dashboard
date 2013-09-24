@@ -1,6 +1,6 @@
 var addCustomerRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/add_customer';
 
-module('Add Customer', {
+module('AddCustomer', {
 	setup: function () {
 		Testing.selectMarketplaceByName();
 
@@ -46,6 +46,27 @@ test('can create person customer', function(assert) {
 
     // should end up on the customer page
     assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
+
+    // make sure we made the correct call with the proper object
+    assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', {
+      name: 'TEST',
+      applicationType: 'PERSON',
+      address: {
+        city: "oakland",
+        country_code: "US",
+        line1: "1234 main street",
+        line2: "Ste 400",
+        postal_code: "94612",
+        region: "ca"
+      },
+      dob: "1930-12",
+      email: "nick@example.com",
+      facebook: "kleinsch",
+      name: "TEST",
+      phone: "1231231234",
+      ssn_last4: "1234",
+      twitter: "kleinsch"
+    }));
   });
 });
 
@@ -78,5 +99,26 @@ test('can create business customer', function(assert) {
 
     // should end up on the customer page
     assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
+
+    // make sure we made the correct call with the proper object
+    assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', {
+      name: "TEST",
+      applicationType: "BUSINESS",
+      business_name: "Something Inc",
+      address: {
+        city: "oakland",
+        line1: "1234 main street",
+        line2: "Ste 200",
+        postal_code: "94612",
+        region: "ca"
+      },
+      dob: "1930-12",
+      ein: "123123123",
+      email: "nick@example.com",
+      facebook: "kleinsch",
+      phone: "1231231234",
+      ssn_last4: "1234",
+      twitter: "kleinsch"
+    }));
   });
 });
