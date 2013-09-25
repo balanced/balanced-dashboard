@@ -9,14 +9,8 @@ Balanced.ApplicationController = Ember.Controller.extend({
 			if(notification.persists) {
 				notification.persists = false;
 			} else {
-				this.send('closeNotification');
+				this.set('notification', null);
 			}
-		}
-	},
-
-	actions: {
-		closeNotification: function() {
-			this.set('notification', null);
 		}
 	}
 });

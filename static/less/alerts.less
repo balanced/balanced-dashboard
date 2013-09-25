@@ -9,3 +9,43 @@ div.alert {
     }
   }
 }
+
+div.alert-strip {
+  width: 100%;
+  height: 5px;
+}
+
+.alert-row {
+  .alert-text-wrapper, .alert-strip {
+    &.success {
+      background-color: @forestGreen60;
+    }
+    &.error {
+      background-color: @imperialRed60;
+    }
+    &.info {
+      background-color: @egyptianBlue60;
+    }
+    &.warning {
+      background-color: @curryYellow60;
+    }
+  }
+
+  .alert-text-wrapper {
+    display: inline-block;
+    padding: 10px 10px;
+  }
+
+  .alert {
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    font-family: 'Droid Serif', serif;
+    border-radius: 0;
+    text-shadow: none;
+    border: 0;
+    color: @white;
+    text-align: center;
+    background-color: transparent;
+  }
+}

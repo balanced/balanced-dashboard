@@ -6,9 +6,11 @@
   {{/if}}
 
   {{#if controllers.application.notification}}
+  <div {{bindAttr class=":alert-strip controllers.application.notification.type"}}></div>
   <div {{bindAttr class=":alert controllers.application.notification.type"}}>
-    <button type="button" class="close" data-dismiss="alert" {{action closeNotification target="controllers.application"}}>&times;</button>
-    <span>{{controllers.application.notification.message}}</span>
+    <div {{bindAttr class=":alert-text-wrapper controllers.application.notification.type"}}>
+      <span>{{controllers.application.notification.message}}</span>
+    </div>
   </div>
   {{/if}}
 </div>
