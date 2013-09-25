@@ -26,7 +26,7 @@ Balanced.HoldCardModalView = Balanced.View.extend({
 		});
 	},
 
-	action: {
+	actions: {
 		save: function () {
 			if (this.get('model.isSaving')) {
 				return;

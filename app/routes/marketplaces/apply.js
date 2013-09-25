@@ -55,10 +55,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 											'meantime, you may fund your balance with your ' +
 											'credit card to transact right away.'
 									});
-
-									self.transitionTo('marketplace.initial_deposit', marketplace);
 								});
 							});
+
+							// we don't actually care if the bank account creates successfully, so we can go on to the initial deposit
+							self.transitionTo('marketplace.initial_deposit', marketplace);
 						});
 					});
 				});
