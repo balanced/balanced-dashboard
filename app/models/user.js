@@ -26,13 +26,7 @@ Balanced.User = Balanced.Model.extend({
 			}
 			return (a.name > b.name) ? 1 : -1;
 		});
-	},
-
-	allow_hold_card: function() {
-		// Should check an admin flag for this someday, right exists so devs
-		// can create holds easily for testing
-		return false;
-	}.property()
+	}
 });
 
 Balanced.Adapter.registerHostForType(Balanced.User, ENV.BALANCED.AUTH);
