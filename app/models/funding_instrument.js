@@ -11,4 +11,13 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 	description_with_type: function () {
 		return '%@: %@'.fmt(this.get('type_name'), this.get('description'));
 	}.property('description'),
+
+	// TODO - fix the API to return the transactions_uri, then get rid of this hack
+	transactions_uri: function() {
+		var id = this.get('id');
+		if(!id) {
+			return id;
+		}
+		return '/v1/%@/%@/transactions'.fmt(this.get('route_name'), this.get('id'));
+	}.property('id', 'route_name')
 });
