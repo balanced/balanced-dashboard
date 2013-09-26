@@ -1,53 +1,52 @@
+var settingsRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
+
 module('Card Page', {
 	setup: function () {
-		Testing.selectMarketplaceByName();
-
-		// click the settings link
-		$('#marketplace-nav .settings a').click();
-
-		// click on the first card
-		$(".card-info .sidebar-items li").first().find(".name").click();
 	}, teardown: function () {
-		$('#debit-funding-instrument').modal('hide');
 	}
 });
 
 test('can view card page', function (assert) {
-	assert.equal($('#content h1').text().trim(), 'Card');
-	assert.equal($(".title span").text().trim(), 'Test Card 1 (0005)');
+  visit(settingsRoutePath)
+  .click(".card-info .sidebar-items li:eq(0) .name")
+  .then(function() {
+    assert.equal($('#content h1').text().trim(), 'Card');
+    assert.equal($(".title span").text().trim(), 'Test Card 1 (0005)');
+  });
 });
 
 test('debit card', function (assert) {
-	var createsBefore = Balanced.Adapter.creates.length;
+  var spy = sinon.spy(Balanced.Adapter, "create");
 
-	assert.equal($(".main-header .buttons a.debit-button").length, 1);
-
-	// click the debit button
-	$(".main-header .buttons a.debit-button").click();
-
-	$('#debit-funding-instrument .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
-	$('#debit-funding-instrument .modal-body input[name="description"]').val("Test debit").trigger('keyup');
-
-	// click debit
-	$('#debit-funding-instrument .modal-footer button[name="modal-submit"]').click();
-
-	// should be one create for the debit
-	assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
+  visit(settingsRoutePath)
+  .click(".card-info .sidebar-items li:eq(0) .name")
+	.click(".main-header .buttons a.debit-button")
+	.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
+	.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
+  .click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(spy.calledOnce);
+    assert.ok(spy.calledWith(Balanced.Debit, "/v1/customers/CU1DkfCFcAemmM99fabUso2c/debits", {
+      amount: 100000,
+      description: "Test debit",
+      source_uri: "/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards/CC1BkhJFryfa4hvIIsbDl1Bd"
+    }));
+  });
 });
 
 test('debiting only submits once despite multiple clicks', function (assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	// click the debit button
-	$(".main-header .buttons a.debit-button").click();
-
-	$('#debit-funding-instrument .modal-body input[name="dollar_amount"]').val("1000").trigger('keyup');
-	$('#debit-funding-instrument .modal-body input[name="description"]').val("Test debit").trigger('keyup');
-
-	// click debit
-	for (var i = 0; i < 20; i++) {
-		$('#debit-funding-instrument .modal-footer button[name="modal-submit"]').click();
-	}
-
-	assert.ok(stub.calledOnce);
+  visit(settingsRoutePath)
+  .click(".card-info .sidebar-items li:eq(0) .name")
+	.click(".main-header .buttons a.debit-button")
+	.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
+	.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
+  .click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+  .click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+  .click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+  .click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(stub.calledOnce);
+  });
 });
