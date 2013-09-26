@@ -211,6 +211,22 @@ module.exports = function (grunt) {
 					}
 				]
 			},
+			fonts: {
+				files: [
+					{
+						cwd: 'static/fonts/',
+						expand: true,
+						src: ['**'],
+						dest: 'build/fonts/'
+					},
+					{
+						cwd: 'static/fonts/',
+						expand: true,
+						src: ['**'],
+						dest: 'build/test/fonts/'
+					}
+				]
+			},
 			dist: {
 				files: [
 					{
@@ -234,6 +250,12 @@ module.exports = function (grunt) {
 						expand: true,
 						src: ['**'],
 						dest: 'dist/images/'
+					},
+					{
+						cwd: 'build/fonts/',
+						expand: true,
+						src: ['**'],
+						dest: 'dist/fonts/'
 					}
 				]
 			},
@@ -352,6 +374,10 @@ module.exports = function (grunt) {
 			images: {
 				src: ['build/images/**/*.png'],
 				dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
+			},
+			fonts: {
+				src: ['build/fonts/**/*'],
+				dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
 			}
 		},
 
@@ -390,6 +416,10 @@ module.exports = function (grunt) {
 					{
 						src: 'dist/images/**/*',
 						dest: 'images/'
+					},
+					{
+						src: 'dist/fonts/**/*',
+						dest: 'fonts/'
 					}
 				]
 			},
@@ -426,6 +456,10 @@ module.exports = function (grunt) {
 					{
 						src: 'dist/images/**/*',
 						dest: 'images/'
+					},
+					{
+						src: 'dist/fonts/**/*',
+						dest: 'fonts/'
 					}
 				]
 			},
@@ -535,6 +569,15 @@ module.exports = function (grunt) {
 					livereload: true,
 				}
 			},
+			fonts: {
+				files: [
+					'static/fonts/**/*'
+				],
+				tasks: ['_buildFonts'],
+				options: {
+					livereload: true,
+				}
+			},
 			html: {
 				files: [
 					'app/index.html.hbs'
@@ -604,7 +647,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 
-	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildHTML']);
+	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML']);
 
 	grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
 
@@ -619,5 +662,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);
+	grunt.registerTask('_buildFonts', ['copy:fonts']);
 	grunt.registerTask('_buildHTML', ['compile-handlebars']);
 };

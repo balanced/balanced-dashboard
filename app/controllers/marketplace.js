@@ -1,18 +1,7 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
-	message_message: null,
-	message_type: null,
+	needs: ['application'],
 
 	actions: {
-		alertMessage: function (data) {
-			this.set('message_message', data.message);
-			this.set('message_type', data.type);
-		},
-
-		dismissAlert: function () {
-			this.set('message_message', null);
-			this.set('message_type', null);
-		},
-
 		openPaySellerModal: function () {
 			this.trigger('openPaySellerModal');
 		},

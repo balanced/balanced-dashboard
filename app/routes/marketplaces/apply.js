@@ -49,7 +49,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 								});
 								verification.save().then(function() {
 									//  annnnd we're done
-									self.controllerFor('marketplace').send('alertMessage', {
+									self.send('alert', {
 										type: 'success',
 										message: 'We\'ve received your information. In the ' +
 											'meantime, you may fund your balance with your ' +

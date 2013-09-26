@@ -39,14 +39,6 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
 			var marketplace = this.modelFor('marketplace');
 			marketplace.reload();
 			this.transitionTo('activity', marketplace);
-		},
-		passAlertMessage: function (type, message) {
-			// TODO: i'm pretty sure this is the wrong way to do this but i am
-			// not sure how to pass messages between controllers.
-			this.controllerFor('marketplace').send('alertMessage', {
-				type: type,
-				message: message
-			});
 		}
 	}
 });
