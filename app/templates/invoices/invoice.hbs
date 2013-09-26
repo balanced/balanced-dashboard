@@ -156,4 +156,17 @@
       </tr>
     </tfoot>
   </table>
+
+  <section class="activity">
+    <header class="results-label">
+      <h3>Transactions</h3>
+    </header>
+    <div class="results">
+      {{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
+
+      <div class="items-wrapper">
+        {{view Balanced.TransactionsResultsView transactionsBinding=results hideDateSort=true}}
+      </div>
+    </div>
+  </section>
 </div>
