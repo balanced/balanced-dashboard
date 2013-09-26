@@ -1,18 +1,17 @@
 Balanced.ApplicationController = Ember.Controller.extend({
 	showNotificationCenter: true,
 
-	// TODO - rename this to alert or flash
-	notify: function(options) {
-		this.set('notification', options);
+	alert: function(options) {
+		this.set('alertObj', options);
 	},
 
-	notificationTransition: function() {
-		var notification = this.get('notification');
-		if(notification) {
-			if(notification.persists) {
-				notification.persists = false;
+	alertTransition: function() {
+		var alert = this.get('alertObj');
+		if(alert) {
+			if(alert.persists) {
+				alert.persists = false;
 			} else {
-				this.set('notification', null);
+				this.set('alertObj', null);
 			}
 		}
 	},

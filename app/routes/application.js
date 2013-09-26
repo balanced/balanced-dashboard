@@ -59,7 +59,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 				if(error.get && error.get('uri')) {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
 					Balanced.Auth.set('attemptedTransition', null);
-					this.controllerFor('application').notify({
+					this.controllerFor('application').alert({
 						message: 'You are not permitted to access this resource.',
 						type: 'error',
 						persists: true
@@ -74,14 +74,14 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 					this.transitionTo('login');
 				}
 			} else if(statusCode === 404) {
-				this.controllerFor('application').notify({
+				this.controllerFor('application').alert({
 					message: "Couldn't find the resource for this page, please make sure the URL is valid.",
 					type: 'error',
 					persists: true
 				});
 				this.transitionTo('marketplaces');
 			} else {
-				this.controllerFor('application').notify({
+				this.controllerFor('application').alert({
 					message: 'There was an error loading this page.',
 					type: 'error',
 					persists: true
@@ -92,11 +92,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 		willTransition: function() {
 			this.controllerFor('search').send('closeSearch');
-			this.controllerFor('application').notificationTransition();
+			this.controllerFor('application').alertTransition();
 		},
 
-		notify: function(options) {
-			this.controllerFor('application').notify(options);
+		alert: function(options) {
+			this.controllerFor('application').alert(options);
 		},
 
 		signOut: function () {

@@ -52,7 +52,7 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 				self.set('isLoading', false);
 				break;
 			case 402:
-				self.send('notify', {
+				self.send('alert', {
 					message: 'Sorry, there was an error tokenizing this card.',
 					type: 'error'
 				});
@@ -66,7 +66,7 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 
 	onDebitFailed: function (unparsedJson) {
 		this.set('isLoading', false);
-		this.send('notify', {
+		this.send('alert', {
 			message: 'Sorry, there was an error charging this card.',
 			type: 'error'
 		});

@@ -5,7 +5,7 @@ Balanced.InvalidRoute = Balanced.AuthRoute.extend({
 			type: 'invalid-route',
 			location: window.location.toString()
 		});
-		this.controllerFor('application').notify({
+		this.controllerFor('application').alert({
 			message: "Invalid URL specified, please check the URL.",
 			type: 'error'
 		});

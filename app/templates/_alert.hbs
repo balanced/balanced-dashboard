@@ -19,7 +19,7 @@
 
     {{else}}
 
-      {{#unless controllers.application.notification}}
+      {{#unless controllers.application.alertObj}}
         <div class="notification-center">
         <div {{bindAttr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
           <button type="button" class="icon icon-notification notification-bell" {{action toggleNotificationCenter target="controllers.application"}}></button>
@@ -30,9 +30,9 @@
     {{/if}}
   {{/if}}
 
-  {{#if controllers.application.notification}}
-    <div {{bindAttr class=":alert-strip controllers.application.notification.type"}}></div>
-    <div {{bindAttr class=":alert controllers.application.notification.type"}}>
+  {{#if controllers.application.alertObj}}
+    <div {{bindAttr class=":alert-strip controllers.application.alertObj.type"}}></div>
+    <div {{bindAttr class=":alert controllers.application.alertObj.type"}}>
       <div class="button-wrapper left">
         {{#if Balanced.Auth.isGuest}}
           {{#unless controllers.application.showNotificationCenter}}
@@ -45,8 +45,8 @@
           {{/unless}}
         {{/if}}
       </div>
-      <div {{bindAttr class=":alert-text-wrapper controllers.application.notification.type"}}>
-        <span>{{controllers.application.notification.message}}</span>
+      <div {{bindAttr class=":alert-text-wrapper controllers.application.alertObj.type"}}>
+        <span>{{controllers.application.alertObj.message}}</span>
       </div>
       <div class="button-wrapper right"></div>
     </div>
