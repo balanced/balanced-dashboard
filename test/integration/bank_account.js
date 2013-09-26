@@ -1,24 +1,15 @@
-var addBankAccountsRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc';
+var settingsRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
 
 module('Bank Account Page', {
 	setup: function () {
-		Testing.selectMarketplaceByName();
-
-		// click the settings link
-		$('#marketplace-nav .settings a').click();
-
-		// click on the first bank account
-		$(".bank-account-info .sidebar-items li").first().find(".name").click();
 	}, teardown: function () {
-		$('#credit-bank-account').modal('hide');
-		$('#debit-funding-instrument').modal('hide');
-		$('#verify-bank-account').modal('hide');
-		$('#confirm-verification').modal('hide');
 	}
 });
 
 test('can view bank account page', function(assert) {
-  visit(addBankAccountsRoutePath).then(function() {
+  visit(settingsRoutePath)
+  .click(".bank-account-info .sidebar-items li:eq(0) .name")
+  .then(function() {
     assert.equal($("#content h1").text().trim(), 'Bank Account');
     assert.equal($(".title span").text().trim(), 'Test (5555)');
   });
@@ -27,7 +18,8 @@ test('can view bank account page', function(assert) {
 test('credit bank account', function (assert) {
   var spy = sinon.spy(Balanced.Adapter, "create");
 
-  visit(addBankAccountsRoutePath)
+  visit(settingsRoutePath)
+  .click(".bank-account-info .sidebar-items li:eq(0) .name")
 	.click(".main-header .buttons a.credit-button")
 	.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
 	.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
@@ -46,7 +38,8 @@ test('credit bank account', function (assert) {
 test('crediting only submits once despite multiple clicks', function (assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-  visit(addBankAccountsRoutePath)
+  visit(settingsRoutePath)
+  .click(".bank-account-info .sidebar-items li:eq(0) .name")
 	.click(".main-header .buttons a.credit-button")
 	.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
 	.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
@@ -62,7 +55,8 @@ test('crediting only submits once despite multiple clicks', function (assert) {
 test('debit bank account', function (assert) {
   var spy = sinon.spy(Balanced.Adapter, "create");
 
-  visit(addBankAccountsRoutePath)
+  visit(settingsRoutePath)
+  .click(".bank-account-info .sidebar-items li:eq(0) .name")
 	.click(".main-header .buttons a.debit-button")
 	.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 	.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
@@ -80,7 +74,8 @@ test('debit bank account', function (assert) {
 test('debiting only submits once despite multiple clicks', function (assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-  visit(addBankAccountsRoutePath)
+  visit(settingsRoutePath)
+  .click(".bank-account-info .sidebar-items li:eq(0) .name")
 	.click(".main-header .buttons a.debit-button")
 	.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 	.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
@@ -96,8 +91,7 @@ test('debiting only submits once despite multiple clicks', function (assert) {
 test('can initiate bank account verification', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-  visit(addBankAccountsRoutePath)
-	.click('#marketplace-nav .settings a')
+  visit(settingsRoutePath)
 	.click(".bank-account-info .sidebar-items li:eq(2) .name")
   .then(function() {
     assert.equal($('#content h1').text().trim(), 'Bank Account');
@@ -116,8 +110,7 @@ test('can initiate bank account verification', function(assert) {
 test('can confirm bank account verification', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-  visit(addBankAccountsRoutePath)
-	.click('#marketplace-nav .settings a')
+  visit(settingsRoutePath)
 	.click(".bank-account-info .sidebar-items li:eq(3) .name")
   .then(function() {
     assert.equal($('#content h1').text().trim(), 'Bank Account');
