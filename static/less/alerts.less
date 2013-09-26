@@ -12,28 +12,28 @@ div.alert {
 
 div.alert-strip {
   width: 100%;
-  height: 5px;
+  height: 3px;
 }
 
 .alert-row {
   .alert-text-wrapper, .alert-strip {
     &.success {
-      background-color: @forestGreen60;
+      background-color: @pineGreen100;
     }
     &.error {
-      background-color: @imperialRed60;
+      background-color: @imperialRed80;
     }
     &.info {
       background-color: @egyptianBlue60;
     }
     &.warning {
-      background-color: @curryYellow60;
+      background-color: @curryYellow100;
     }
   }
 
   .alert-text-wrapper {
     display: inline-block;
-    padding: 10px 10px;
+    padding: 6px 10px;
   }
 
   .alert {
@@ -47,10 +47,11 @@ div.alert-strip {
     color: @white;
     text-align: center;
     background-color: transparent;
+    height: 30px;
 
     .button-wrapper {
       width: 75px;
-      height: 40px;
+      height: 30px;
 
       &.left {
         float: left;
@@ -65,9 +66,9 @@ div.alert-strip {
 .notification-center {
   &.notification-center-row {
     margin: 0 0 0 -15px;
-    padding: 13px 0px;
-    font-size: 13px;
-    font-family: 'Droid Serif', serif;
+    padding: 14px 0px;
+    font-size: 14px;
+    font-family: nimbussannov-med, arial, sans-serif;
     border-radius: 0;
     text-shadow: none;
     border: 0;
@@ -100,20 +101,6 @@ div.alert-strip {
     }
   }
 
-  .icon-button-group:hover {
-    .callout {
-      background-color: @black;
-      color: @white;
-    }
-    .callout:after {
-      border-right-color: @black;
-    }
-    .notification-bell {
-      background-color: transparent;
-      color: @black;
-    }
-  }
-
   .notification-bell {
     float: left;
     position: relative;
@@ -126,8 +113,8 @@ div.alert-strip {
     position: relative;
     float: left;
     margin: 0 0 0 10px;
-    font-family: 'Droid Serif';
-    font-size: 12px;
+    font-family: nimbussannov-sembol, arial, sans-serif;
+    font-size: 13px;
     background-color: @curryYellow100;
     color: @white;
   }
@@ -155,6 +142,20 @@ div.alert-strip {
       .callout:after {
         border-right-color: @gray7;
       }
+    }
+  }
+
+  .icon-button-group:hover {
+    .callout {
+      background-color: @black;
+      color: @white;
+    }
+    .callout:after {
+      border-right-color: @black;
+    }
+    .notification-bell {
+      background-color: transparent;
+      color: @black;
     }
   }
 }
