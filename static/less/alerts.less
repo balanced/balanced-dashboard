@@ -47,5 +47,119 @@ div.alert-strip {
     color: @white;
     text-align: center;
     background-color: transparent;
+
+    .button-wrapper {
+      width: 75px;
+      height: 40px;
+
+      &.left {
+        float: left;
+      }
+      &.right {
+        float: right;
+      }
+    }
+  }
+}
+
+.notification-center {
+  &.notification-center-row {
+    margin: 0 0 0 -15px;
+    padding: 13px 0px;
+    font-size: 13px;
+    font-family: 'Droid Serif', serif;
+    border-radius: 0;
+    text-shadow: none;
+    border: 0;
+    color: @black;
+    background-color: @curryYellow20;
+  }
+
+  button {
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background-color: transparent;
+    color: @black;
+  }
+
+  .close {
+    float: right;
+    position: relative;
+    margin: 0 10px 0 0;
+    background-color: @gray7;
+    color: @white;
+    &:hover {
+      color: @white;
+      background-color: @black;
+    }
+    &:after {
+      display: none;
+    }
+  }
+
+  .icon-button-group:hover {
+    .callout {
+      background-color: @black;
+      color: @white;
+    }
+    .callout:after {
+      border-right-color: @black;
+    }
+    .notification-bell {
+      background-color: transparent;
+      color: @black;
+    }
+  }
+
+  .notification-bell {
+    float: left;
+    position: relative;
+    margin: 0 0 0 10px;
+    font-size: 17px;
+    color: @gray7;
+  }
+
+  .callout {
+    position: relative;
+    float: left;
+    margin: 0 0 0 10px;
+    font-family: 'Droid Serif';
+    font-size: 12px;
+    background-color: @curryYellow100;
+    color: @white;
+  }
+
+  // Puts the arrow on the left side of the callout
+  .callout:after {
+    content: ' ';
+    height: 0;
+    width: 0;
+    position: absolute;
+
+    border: 5px solid transparent;
+    border-right-color: @curryYellow100;
+    top: 6px;
+    left: -10px;
+  }
+
+  .icon-button-group {
+    margin-top: 13px;
+    &.open {
+      margin-top: 0px;
+      .callout {
+        background-color: @gray7;
+      }
+      .callout:after {
+        border-right-color: @gray7;
+      }
+    }
+  }
+
+  .span-width-fix {
+    margin-left: 0;
+    width: 990px;
   }
 }
