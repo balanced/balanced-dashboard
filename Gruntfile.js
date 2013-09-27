@@ -170,7 +170,8 @@ module.exports = function (grunt) {
 					paths: ["assets/css"]
 				},
 				files: {
-					"build/css/base.css": "static/less/base.less"
+					"build/css/base.css": "static/less/base.less",
+					"build/css/print.css": "static/less/print.less"
 				}
 			},
 			production: {
@@ -179,7 +180,8 @@ module.exports = function (grunt) {
 					yuicompress: true
 				},
 				files: {
-					"build/css/base.min.css": "static/less/base.less"
+					"build/css/base.min.css": "static/less/base.less",
+					"build/css/print.min.css": "static/less/print.less"
 				}
 			}
 		},
@@ -315,6 +317,7 @@ module.exports = function (grunt) {
 				template: 'app/index.html.hbs',
 				templateData: {
 					cssFile: "css/base.css",
+					printCssFile: "css/print.css",
 					jsLibFile: "js/lib-dev.js",
 					jsDashboardFile: "js/dashboard-dev.js",
 					includeLiveReload: true,
@@ -336,6 +339,7 @@ module.exports = function (grunt) {
 				template: 'app/index.html.hbs',
 				templateData: {
 					cssFile: "css/base.min.css",
+					printCssFile: "css/print.min.css",
 					jsLibFile: "js/lib-prod.min.js",
 					jsDashboardFile: "js/dashboard-prod.min.js",
 					includeLiveReload: false,

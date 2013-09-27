@@ -1,43 +1,101 @@
-@media print {
-  body {
-    background-color: #FFFFFF;
-  }
+@printBackground: #FFFFFF;
 
-  #main-overlay, #marketplace-nav, #header, #balanced-app > div > footer, .alert-row, .do-not-print {
-    display: none !important;
-  }
+body, #header {
+  background-color: @printBackground;
+}
 
-  .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
-    width: 885px;
-    max-width: 885px;
-  }
+#main-overlay, #marketplace-nav, #balanced-app > div > footer, .alert-row, .do-not-print, #site-nav, #marketplaces-and-search {
+  display: none !important;
+}
 
-  .span24 {
-    width: 885px;
-    max-width: 885px;
-  }
+#header {
+  height: auto;
 
-  .offset2.span20 {
-    margin-left: 30px;
-  }
+  > div > div {
+    height: auto;
+    border-right: 0;
 
-  #content {
-    margin-left: 0;
-    background-color: #FFFFFF;
-  }
+    &#balanced-address {
+      display: block;
+      text-align: right;
 
-  h1.page-title {
-    text-align: right;
-    border-top: 3px solid #000000;
+      > h3 {
+        font-size: 12px;
+        display: inline-block;
 
-/*    .box-shadow(0px -4px 3px rgba(0, 0, 0, 0.05));*/
-
-    padding-top: 8px
-  }
-
-  #invoice {
-    .invoice-details {
-      border-bottom: 3px solid #000000;
+        &:last-child  {
+          border-left: 1px solid #7F7F7F;
+          padding-left: 10px;
+          margin-left: 8px;
+        }
+      }
     }
+
+    &#logo {
+      width: 180px;
+      max-width: 180px;
+      float: none;
+
+      .img {
+        background: url(../images/balanced-logo.png);
+        width: 180px;
+        height: 79px;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+  width: 885px;
+  max-width: 885px;
+}
+
+.span24 {
+  width: 885px;
+  max-width: 885px;
+}
+
+.offset2.span20 {
+  margin-left: 30px;
+}
+
+#content {
+  margin-left: 0;
+  background-color: @printBackground;
+
+  > .row:last-child {
+    margin-top: 20px;
+  }
+}
+
+h1.page-title {
+  text-align: right;
+  border-top: 3px solid #000000;
+
+  padding-top: 6px
+}
+
+#invoice {
+  .customer-info {
+    display: block;
+    position: relative;
+    top: -66px;
+
+    h3 {
+      margin-bottom: 0;
+    }
+
+    > div {
+      h4 {
+        margin-top: 0;
+        font-weight: 300;
+        font-style: italic;
+      }
+    }
+  }
+
+  .invoice-details {
+    border-bottom: 3px solid #000000;
   }
 }
