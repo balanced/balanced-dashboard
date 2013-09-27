@@ -89,7 +89,7 @@ test('debiting only submits once despite multiple clicks', function (assert) {
 });
 
 test('can initiate bank account verification', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var spy = sinon.spy(Balanced.Adapter, "create");
 
   visit(settingsRoutePath)
 	.click(".bank-account-info .sidebar-items li:eq(2) .name")
@@ -103,12 +103,14 @@ test('can initiate bank account verification', function(assert) {
   })
   .then(function() {
     click('#verify-bank-account .modal-footer button[name="modal-submit"]');
-    assert.ok(stub.calledOnce);
+    assert.ok(spy.calledOnce);
+    assert.ok(spy.calledWith(Balanced.Verification));
+    assert.ok(spy.getCall(0).args[4].guid, 10);
   });
 });
 
 test('can confirm bank account verification', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var spy = sinon.spy(Balanced.Adapter, "update");
 
   visit(settingsRoutePath)
 	.click(".bank-account-info .sidebar-items li:eq(3) .name")
@@ -126,6 +128,8 @@ test('can confirm bank account verification', function(assert) {
 
     click('#confirm-verification .modal-footer button[name="modal-submit"]');
 
-    assert.ok(stub.calledOnce);
+    assert.ok(spy.calledOnce);
+    assert.ok(spy.calledWith(Balanced.Verification));
+    assert.ok(spy.getCall(0).args[4].guid, 10);
   });
 });
