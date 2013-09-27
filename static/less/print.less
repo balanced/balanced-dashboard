@@ -1,0 +1,43 @@
+@media print {
+  body {
+    background-color: #FFFFFF;
+  }
+
+  #main-overlay, #marketplace-nav, #header, #balanced-app > div > footer, .alert-row, .do-not-print {
+    display: none !important;
+  }
+
+  .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+    width: 885px;
+    max-width: 885px;
+  }
+
+  .span24 {
+    width: 885px;
+    max-width: 885px;
+  }
+
+  .offset2.span20 {
+    margin-left: 30px;
+  }
+
+  #content {
+    margin-left: 0;
+    background-color: #FFFFFF;
+  }
+
+  h1.page-title {
+    text-align: right;
+    border-top: 3px solid #000000;
+
+/*    .box-shadow(0px -4px 3px rgba(0, 0, 0, 0.05));*/
+
+    padding-top: 8px
+  }
+
+  #invoice {
+    .invoice-details {
+      border-bottom: 3px solid #000000;
+    }
+  }
+}

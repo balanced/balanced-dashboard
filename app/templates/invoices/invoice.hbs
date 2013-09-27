@@ -43,8 +43,9 @@
 
     <div class="span8">
       <section class="total-info">
-        <header>
-          <h3>Balance due</h3>
+        <header class="clearfix">
+          <h3 class="pull-left">Balance due</h3>
+          <h3 class="pull-right do-not-print"><a href="#" {{action printSummary}}>Print Summary</a></h3>
         </header>
 
         <div class="main-header invoice-balance-due-box">
@@ -127,7 +128,6 @@
         <td class="span6"><span>{{formatCurrency reversals_total_amount }}</span></td>
         <td class="span6"><span>{{formatCurrency reversal_fee}} per reversal</span></td>
         <td class="span2 total number3a"><span>{{formatCurrency reversals_total_fee }}</span></td>
-        <td class="span2 total number3a"><span></span></td>
       </tr>
       <tr class="chargeback-details-row">
         <td class="span4 label4a"><span>Chargebacks</span></td>
@@ -135,7 +135,6 @@
         <td class="span6"><span>{{formatCurrency lost_debit_chargebacks_total_amount }}</span></td>
         <td class="span6"><span>{{formatCurrency chargeback_fixed_fee}} per failed chargeback</span></td>
         <td class="span2 total number3a"><span>{{formatCurrency lost_debit_chargebacks_total_fee }}</span></td>
-        <td class="span2 total number3a"><span></span></td>
       </tr>
     </tbody>
     <tfoot>
