@@ -48,6 +48,11 @@ body, #header {
   }
 }
 
+.span (@columns) {
+  width: (@gridColumnWidth * @columns) + (@gridGutterWidth * (@columns - 1));
+  max-width: (@gridColumnWidth * @columns) + (@gridGutterWidth * (@columns - 1));
+}
+
 .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container, .span24 {
   .span(20);
 }
