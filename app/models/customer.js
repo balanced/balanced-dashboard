@@ -109,7 +109,25 @@ Balanced.Customer = Balanced.Model.extend({
 
 	country_name: function() {
 		return Balanced.CountryCodesToNames[this.get('address.country_code')];
-	}.property('address.country_code')
+	}.property('address.country_code'),
+
+	address_string: function(seperator) {
+		seperator = seperator || ', ';
+		var addressParts = [];
+
+		if (this.get('address.street_address')) {
+			addressParts.push(this.get('address.street_address'));
+		} else {
+			addressParts.push(this.get('address.line1'));
+			addressParts.push(this.get('address.line2'));
+		}
+
+		addressParts.push(this.get('address.city') + ', ' + this.get('address.region') + ' ' + this.get('address.postal_code'));
+		addressParts.push(this.get('address.country_code'));
+
+		addressParts = _.compact(addressParts);
+		return addressParts.join(seperator);
+	}.property('address')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

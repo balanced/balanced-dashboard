@@ -8,6 +8,7 @@ Balanced.Invoice = Balanced.Model.extend({
 		}
 		return period[0];
 	}.property('period'),
+
 	to_date: function() {
 		var period = this.get('period');
 		if(!period) {
