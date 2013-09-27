@@ -22,6 +22,12 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 			});
 		},
 
+		actions: {
+			printSummary: function () {
+				window.print();
+			}
+		},
+
 		results: function () {
 			switch (this.get('type')) {
 				case 'debit':
