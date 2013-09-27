@@ -69,7 +69,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	updateLastLoaded: function() {
 		var results = this.get('results');
-		if(results.get('isLoaded')) {
+		if(results && results.get('isLoaded')) {
 			this.set('last_loaded_search_result', results);
 		}
 	}.observes('results', 'results.isLoaded'),
