@@ -1,6 +1,41 @@
-<h1 class="page-title">Invoice #{{sequence_number}}</h1>
+<h1 class="page-title">
+  Invoice #{{sequence_number}}
+</h1>
 
 <div id="invoice">
+  <section class="customer-info clearfix">
+    <header>
+      <h3>Bill to:</h3>
+    </header>
+    <div>
+      <h4>
+        <div>
+          {{#if production}}
+              {{marketplace.owner_customer.display_me}}
+          {{else}}
+              Test
+          {{/if}}
+        </div>
+        {{#if marketplace.owner_customer.is_business}}
+          <div>
+            {{#if production}}
+              {{marketplace.owner_customer.business_name}}
+            {{else}}
+              Test
+            {{/if}}
+          </div>
+        {{/if}}
+        <div>
+          {{#if production}}
+            {{marketplace.owner_customer.address_string}}
+          {{else}}
+            Test
+          {{/if}}
+        </div>
+      </h4>
+    </div>
+  </section>
+
   <div class="row">
     <div class="span12">
       <section class="invoice-info">
