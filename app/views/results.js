@@ -81,11 +81,11 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	}.property('controller.type'),
 
 	debitBankAccountsTabSelected: function () {
-		return this.get('controller.type') === "bank_account_debits";
+		return this.get('controller.type') === "bank_account_debit";
 	}.property('controller.type'),
 
 	debitCardsTabSelected: function () {
-		return this.get('controller.type') === "card_debits";
+		return this.get('controller.type') === "card_debit";
 	}.property('controller.type'),
 
 	debitsTabSelected: function () {

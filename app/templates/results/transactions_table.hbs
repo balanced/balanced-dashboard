@@ -1,6 +1,6 @@
 <thead>
     <tr>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a {{#unless view.hideDateSort}}sortable {{/unless}}date" field="created_at"}}Date{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :date view.hideDateSort::sortable" field="created_at"}}Date{{/view}}
         <th class="span4 label6a type">Transaction</th>
         <th class="span4 label6a description">Description</th>
         <th class="span3 label6a account">Account</th>
