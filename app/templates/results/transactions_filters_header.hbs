@@ -1,56 +1,43 @@
 <nav>
-    <li {{bindAttr class=":filter view.allTabSelected:selected"}} >
+  {{#unless view.showExtraTransactionTypes}}
+    <li {{bindAttr class=":filter :all view.allTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "transaction" "all"}}>All</a>
     </li>
+  {{/unless}}
 
-    <li {{bindAttr class=":filter view.holdsTabSelected:selected"}} >
+    <li {{bindAttr class=":filter :holds view.holdsTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "hold" "all"}}>Holds</a>
     </li>
 
-    <li {{bindAttr class=":filter view.debitsTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "debit" "all"}}>Debits</a>
+    {{#if view.showExtraTransactionTypes}}
+      <li {{bindAttr class=":filter :debit-cards view.debitCardsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "card_debit" "all"}}>Debit: cards</a>
+      </li>
 
-        <!--
+      <li {{bindAttr class=":filter :debit-bank-accounts view.debitBankAccountsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "bank_account_debit" "all"}}>Debit: bank accounts</a>
+      </li>
+    {{else}}
+      <li {{bindAttr class=":filter :debits view.debitsTabSelected:selected"}} >
+          <a href="#" {{action changeTransactionTypeFilter "debit" "all"}}>Debits</a>
+      </li>
+    {{/if}}
 
-        Pending/failed filters commented out for now because the API filtering param isn't working. Uncomment this once the API supports filtering by state.
-
-        <a href="#" {{action changeTransactionTypeFilter "debit" "all"}}>{{ view.debits_label }}</a>
-        <div class="selector dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-            <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                <li><a href="#" {{action changeTransactionTypeFilter "debit" "all"}}> All </a></li>
-                <li><a href="#" {{action changeTransactionTypeFilter "debit" "pending"}}> Pending </a></li>
-                <li><a href="#" {{action changeTransactionTypeFilter "debit" "failed"}}> Failed </a></li>
-            </ul>
-        </div>
-        -->
-    </li>
-
-    <li {{bindAttr class=":filter view.creditsTabSelected:selected"}} >
+    <li {{bindAttr class=":filter :credits view.creditsTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "credit" "all"}}>Credits</a>
-
-        <!--
-        <a href="#" {{action changeTransactionTypeFilter "credit" "all"}}>{{ view.credits_label }}</a>
-        <div class="selector dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-            <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                <li><a href="#" {{action changeTransactionTypeFilter "credit" "all"}}> All </a></li>
-                <li><a href="#" {{action changeTransactionTypeFilter "credit" "pending"}}> Pending </a></li>
-                <li><a href="#" {{action changeTransactionTypeFilter "credit" "failed"}}> Failed </a></li>
-            </ul>
-        </div>
-        -->
     </li>
 
-    <li {{bindAttr class=":filter view.refundsTabSelected:selected"}} >
+    <li {{bindAttr class=":filter :refunds view.refundsTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "refund" "all"}}>Refunds</a>
     </li>
 
-    <li class="timing dropdown label4a">
-        {{view Balanced.DatePickerView viewName="dateTimePicker" }}
-    </li>
+    {{#unless view.showExtraTransactionTypes}}
+      <li class="timing dropdown label4a">
+          {{view Balanced.DatePickerView viewName="dateTimePicker" }}
+      </li>
 
-    <li class="download">
-        {{view Balanced.DownloadModalView}}
-    </li>
+      <li class="download">
+          {{view Balanced.DownloadModalView}}
+      </li>
+    {{/unless}}
 </nav>

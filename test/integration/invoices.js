@@ -33,5 +33,41 @@ test('invoice detail page', function(assert) {
 		assert.equal($(".subtotal-row .total").text().trim(), "$17.85");
 		assert.equal($(".adjustments-row .total").text().trim(), "$0.00");
 		assert.equal($(".total-balance-row .total").text().trim(), "$17.85");
+	})
+	.click('.activity .results header li.debit-cards a')
+	.then(function () {
+		assert.equal($('.activity table.transactions tbody tr').length, 3);
+
+		// Check if the transaction is showing up correctly
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Debit: succeeded');
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'AC3gu16bmtX9g3Gc9svlWC');
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$24.15');
+	})
+	.click('.activity .results header li.holds a')
+	.then(function () {
+		// Show transactions correctly
+		assert.equal($('.activity table.transactions tbody tr').length, 10);
+
+		// Check if the transaction is showing up correctly
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Hold: void');
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'slkfdjslkj (slkjlsj@gmail.com)');
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$49.95');
+	})
+	.click('.activity .results header li.debit-bank-accounts a')
+	.then(function () {
+		assert.equal($('.activity table.transactions tbody tr .no-results').length, 1);
+	})
+	.click('.activity .results header li.credits a')
+	.then(function () {
+		assert.equal($('.activity table.transactions tbody tr .no-results').length, 1);
+	})
+	.click('.activity .results header li.refunds a')
+	.then(function () {
+		assert.equal($('.activity table.transactions tbody tr').length, 7);
+
+		// Check if the transaction is showing up correctly
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Refund');
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'Marc Sherry (msherry@gmail.com)');
+		assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$5.00');
 	});
 });
