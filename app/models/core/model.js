@@ -101,6 +101,18 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		return promise;
 	},
 
+	copy: function () {
+		var modelObject = this.constructor.create({uri: this.get('uri')});
+		var props = this.constructor.serializer.serialize(this);
+		modelObject.populateFromJsonResponse(props);
+		return modelObject;
+	},
+
+	updateFromModel: function(modelObj) {
+		var props = modelObj.constructor.serializer.serialize(modelObj);
+		this.populateFromJsonResponse(props);
+	},
+
 	populateFromJsonResponse: function(json) {
 		this.set('isNew', false);
 		var modelJson = this.constructor.serializer.extractSingle(json, this.get('uri'));

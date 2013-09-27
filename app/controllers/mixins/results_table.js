@@ -64,17 +64,19 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			this.get('results_type')
 		);
 
-		var self = this;
-		searchArray.on('didLoad', function() {
-			self.set('last_loaded_search_result', searchArray);
-		});
-
 		return searchArray;
 	}.property('fetch_results', 'results_uri', 'results_type'),
 
+	updateLastLoaded: function() {
+		var results = this.get('results');
+		if(results.get('isLoaded')) {
+			this.set('last_loaded_search_result', results);
+		}
+	}.observes('results', 'results.isLoaded'),
+
 	// must be overridden to provide content if not using search
 	results_base_uri: function () {
-		var marketplaceUri = this.get('controllers.marketplace.uri')
+		var marketplaceUri = this.get('controllers.marketplace.uri');
 		if(!marketplaceUri) {
 			return marketplaceUri;
 		}

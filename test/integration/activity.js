@@ -2,6 +2,7 @@ var activityRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/activity/transac
 
 module('Activity', {
 	setup: function () {
+		Balanced.Adapter.asyncCallbacks = true;
 	}, teardown: function () {
 	}
 });
