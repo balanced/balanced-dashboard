@@ -15,21 +15,6 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 		},
 	},
 
-	fullyLoaded: function () {
-		var ownerCustomer = this.get('owner_customer');
-		return this.get('isLoaded') &&
-			ownerCustomer.get('isLoaded') &&
-			ownerCustomer.get('bank_accounts').get('isLoaded') &&
-			ownerCustomer.get('cards').get('isLoaded') &&
-			this.get('callbacks').get('isLoaded');
-	}.property(
-		'isLoaded',
-		'owner_customer.isLoaded',
-		'owner_customer.bank_accounts.isLoaded',
-		'owner_customer.cards.isLoaded',
-		'callbacks.isLoaded'
-	),
-
 	marketplaceSecret: function () {
 		var uri = this.get('uri');
 		var user = Balanced.Auth.get('user');

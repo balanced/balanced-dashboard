@@ -26,15 +26,13 @@ test('can visit page', function (assert) {
 });
 
 test('can update marketplace info', function (assert) {
-	// click the button to edit marketplace info
-	$('.marketplace-info a.edit').click();
-	// change the text for marketplace name
-	$('#edit-marketplace-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	// click save
-	$('#edit-marketplace-info .modal-footer button[name="modal-submit"]').click();
-
-	// Marketplace name should have changed
-	assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
+	click('.marketplace-info a.edit')
+	.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
+	.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+	.then(function() {
+		// Marketplace name should have changed
+		assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
+	});
 });
 
 test('updating marketplace info only submits once despite multiple clicks', function (assert) {
