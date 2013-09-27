@@ -167,6 +167,24 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		if(jqXHR.responseJSON && jqXHR.responseJSON.description) {
 			this.set('errorDescription', jqXHR.responseJSON.description);
 		}
+	},
+
+	_extractTypeClassFromUrisMetadata: function(uriProperty) {
+		var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
+
+		var metadataType = this.get(uriMetadataProperty + "." + uriProperty + "._type");
+		if(metadataType) {
+			var mappedType = Balanced.TypeMappings.classForType(metadataType);
+			if(mappedType) {
+				return mappedType;
+			} else {
+				Ember.Logger.warn("Couldn't map _type of %@ for URI: %@".fmt(metadataType, this.get('uri')));
+			}
+		} else {
+			Ember.Logger.warn("No _type found for %@ in _uris metadata for URI: %@".fmt(uriProperty, this.get('uri')));
+		}
+
+		return undefined;
 	}
 });
 
@@ -217,6 +235,11 @@ Balanced.Model.reopenClass({
 				var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(embeddedPropertyValue);
 				return embeddedObj;
 			} else if (uriPropertyValue) {
+				var metadataTypeClass = this._extractTypeClassFromUrisMetadata(uriProperty);
+				if(metadataTypeClass) {
+					typeClass = metadataTypeClass;
+					return typeClass.find(uriPropertyValue);
+				} else {
 				// if we can't figure out what type it is from the
 				// metadata, fetch it and set the result as an embedded
 				// property in our JSON. That'll force an update of the
@@ -227,6 +250,7 @@ Balanced.Model.reopenClass({
 				});
 
 				return embeddedPropertyValue;
+				}
 			} else {
 				return embeddedPropertyValue;
 			}
