@@ -12,10 +12,7 @@ Balanced.Auth = (function () {
 			type: 'POST'
 		}, opts)).done(function (response, status, jqxhr) {
 			var user = Balanced.User.create();
-			user.set('isNew', false);
-			user._updateFromJson(response.user);
-			user.set('isLoaded', true);
-			user.trigger('didLoad');
+			user.populateFromJsonResponse(response.user);
 
 			self.setAuthProperties(true,
 				user,
@@ -83,10 +80,7 @@ Balanced.Auth = (function () {
 					return;
 				}
 
-				marketplace.set('isNew', false);
-				marketplace._updateFromJson(response.items[0]);
-				marketplace.set('isLoaded', true);
-				marketplace.trigger('didLoad');
+				marketplace.populateFromJsonResponse(response.items[0]);
 
 				auth.setupGuestUserMarketplace(marketplace);
 

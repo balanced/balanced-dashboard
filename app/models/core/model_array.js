@@ -15,7 +15,8 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 			var typeClass = this.get('typeClass');
 
 			Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
-				self.populateModels(json);
+				var deserializedJson = typeClass.serializer.extractCollection(json);
+				self.populateModels(deserializedJson);
 				self.set('loadingNextPage', false);
 			});
 		} else {
@@ -34,12 +35,14 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 		var self = this;
 		this.set('isLoaded', false);
 		var promise = this.resolveOn('didLoad');
+		var typeClass = this.get('typeClass');
 
 		Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
 			// todo, maybe we should go through and reload each item rather
 			// than nuking and re-adding
 			self.clear();
-			self.populateModels(json);
+			var deserializedJson = typeClass.serializer.extractCollection(json);
+			self.populateModels(deserializedJson);
 		}, function () {
 			promise.reject(self);
 		});
@@ -56,6 +59,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 			itemsArray = json;
 			this.set('next_uri', undefined);
 			this.set('hasNextPage', false);
+			this.set('counts', {});
 		} else {
 			if (json && json.items && $.isArray(json.items)) {
 				itemsArray = json.items;
@@ -67,6 +71,8 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 					this.set('next_uri', undefined);
 					this.set('hasNextPage', false);
 				}
+
+				this.set('counts', json.counts);
 			} else {
 				this.set('isError', true);
 				return;
@@ -103,7 +109,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 Balanced.ModelArray.reopenClass({
 	newArrayLoadedFromUri: function (uri, defaultType) {
 		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
-		var modelObjectsArray = Balanced.ModelArray.create({
+		var modelObjectsArray = this.create({
 			content: Ember.A(),
 			typeClass: typeClass,
 			uri: uri
@@ -115,10 +121,29 @@ Balanced.ModelArray.reopenClass({
 
 		modelObjectsArray.set('isLoaded', false);
 		Balanced.Adapter.get(typeClass, uri, function (json) {
-			modelObjectsArray.populateModels(json);
+			var deserializedJson = typeClass.serializer.extractCollection(json);
+			modelObjectsArray.populateModels(deserializedJson);
 		}, function (jqXHR, textStatus, errorThrown) {
 			modelObjectsArray._handleError(jqXHR, textStatus, errorThrown);
 		});
+
+		return modelObjectsArray;
+	},
+
+	newArrayCreatedFromJson: function(json, defaultType) {
+		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+		var modelObjectsArray = this.create({
+			content: Ember.A(),
+			typeClass: typeClass,
+			uri: null
+		});
+
+		if (!json) {
+			return modelObjectsArray;
+		}
+
+		var deserializedJson = typeClass.serializer.extractCollection(json);
+		modelObjectsArray.populateModels(deserializedJson);
 
 		return modelObjectsArray;
 	}
