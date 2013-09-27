@@ -95,7 +95,6 @@ test('can debit customer using card', function (assert) {
 	}).then(function() {
 		// should be one create for the debit
 		assert.ok(spy.calledOnce);
-    console.log(spy.args);
     assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/debits', {
       amount: 100000,
       description: "Test debit",
@@ -156,7 +155,7 @@ test("can't debit customer multiple times using the same modal", function (asser
 });
 
 test("debit customer triggers reload of transactions", function (assert) {
-  visit(customerPage)
+  visit(customerPage);
 	click($(".customer-header .buttons a").eq(0));
 
 	fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000');
@@ -179,7 +178,7 @@ test('can credit customer', function (assert) {
 	.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 	.click('#credit-customer .modal-footer button[name="modal-submit"]')
   .then(function() {
-    assert.ok(spy.calledOnce)
+    assert.ok(spy.calledOnce);
     assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/credits', {
       amount: 100000,
       bank_account_uri: "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA57flitvIS6mhDCSqkAloo8",
