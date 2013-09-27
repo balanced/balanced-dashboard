@@ -111,9 +111,11 @@ Balanced.Customer = Balanced.Model.extend({
 		return Balanced.CountryCodesToNames[this.get('address.country_code')];
 	}.property('address.country_code'),
 
-	address_string: function(seperator) {
-		seperator = seperator || ', ';
+	address_string: function() {
+		var seperator = ', ';
 		var addressParts = [];
+		var city = this.get('address.city');
+		var cityLine = '';
 
 		if (this.get('address.street_address')) {
 			addressParts.push(this.get('address.street_address'));
@@ -122,12 +124,13 @@ Balanced.Customer = Balanced.Model.extend({
 			addressParts.push(this.get('address.line2'));
 		}
 
-		addressParts.push(this.get('address.city') + ', ' + this.get('address.region') + ' ' + this.get('address.postal_code'));
+		cityLine = (city ? city + ', ' : '') + ' ' + (this.get('address.postal_code') || '')
+		addressParts.push($.trim(cityLine));
 		addressParts.push(this.get('address.country_code'));
 
 		addressParts = _.compact(addressParts);
 		return addressParts.join(seperator);
-	}.property('address')
+	}.property('address.street_address', 'address.line1', 'address.line2', 'address.city', 'address.region', 'address.postal_code', 'address.country_code')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

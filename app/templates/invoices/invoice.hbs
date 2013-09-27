@@ -10,7 +10,7 @@
     <div>
       <h4>
         <div>
-          {{#if production}}
+          {{#if marketplace.production}}
               {{marketplace.owner_customer.display_me}}
           {{else}}
               Test
@@ -18,20 +18,22 @@
         </div>
         {{#if marketplace.owner_customer.is_business}}
           <div>
-            {{#if production}}
+            {{#if marketplace.production}}
               {{marketplace.owner_customer.business_name}}
             {{else}}
               Test
             {{/if}}
           </div>
         {{/if}}
-        <div>
-          {{#if production}}
-            {{marketplace.owner_customer.address_string}}
-          {{else}}
-            Test
-          {{/if}}
-        </div>
+        {{#if marketplace.owner_customer.address_string}}
+          <div>
+            {{#if marketplace.production}}
+              {{marketplace.owner_customer.address_string}}
+            {{else}}
+              Test
+            {{/if}}
+          </div>
+        {{/if}}
       </h4>
     </div>
   </section>
