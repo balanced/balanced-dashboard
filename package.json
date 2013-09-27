@@ -35,7 +35,8 @@
     "karma": "~0.10.2",
     "grunt-karma": "~0.6.2",
     "karma-coverage": "~0.1",
-    "karma-qunit": "~0.1"
+    "karma-qunit": "~0.1",
+    "grunt-jsbeautifier": "~0.2.2"
   },
   "optionalDependencies": {
     "grunt-img": "~0.1.6"

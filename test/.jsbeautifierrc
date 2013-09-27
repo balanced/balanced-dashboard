@@ -1,0 +1,5 @@
+{
+  braceStyle: "collapse",
+  breakChainedMethods: true,
+  indentWithTabs: true
+}
