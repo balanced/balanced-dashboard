@@ -1,3 +1,5 @@
+@import "/static/less/variables.less";
+
 @printBackground: #FFFFFF;
 
 body, #header {
@@ -12,68 +14,61 @@ body, #header {
   height: auto;
 
   > div > div {
-    height: auto;
     border-right: 0;
+    height: auto;
 
     &#balanced-address {
       display: block;
       text-align: right;
 
       > h3 {
-        font-size: 12px;
         display: inline-block;
+        font-size: 12px;
 
         &:last-child  {
           border-left: 1px solid #7F7F7F;
-          padding-left: 10px;
           margin-left: 8px;
+          padding-left: 10px;
         }
       }
     }
 
     &#logo {
+      float: none;
       width: 180px;
       max-width: 180px;
-      float: none;
 
       .img {
         background: url(../images/balanced-logo.png);
-        width: 180px;
-        height: 79px;
         margin: 0;
+        height: 79px;
+        width: 180px;
       }
     }
   }
 }
 
-.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
-  width: 885px;
-  max-width: 885px;
-}
-
-.span24 {
-  width: 885px;
-  max-width: 885px;
-}
-
-.offset2.span20 {
-  margin-left: 30px;
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container, .span24 {
+  .span(20);
 }
 
 #content {
-  margin-left: 0;
   background-color: @printBackground;
+  margin-left: 0;
 
   > .row:last-child {
     margin-top: 20px;
   }
+
+  .offset2.span20 {
+    margin-left: @gridGutterWidth * 2;
+  }
 }
 
 h1.page-title {
-  text-align: right;
   border-top: 3px solid #000000;
-
-  padding-top: 6px
+  padding-top: 6px;
+  text-align: right;
 }
 
 #invoice {
@@ -88,9 +83,9 @@ h1.page-title {
 
     > div {
       h4 {
-        margin-top: 0;
-        font-weight: 300;
         font-style: italic;
+        font-weight: 300;
+        margin-top: 0;
       }
     }
   }
