@@ -41,17 +41,15 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 			params.endpoint = endpoint;
 		}
 
-		var SUCCEEDED = ['2xx'],
-			FAILED = ['3xx', '4xx', '5xx'];
 		var succeeded = this.get('statusRollupFilterSucceeded'),
 			failed = this.get('statusRollupFilterFailed'),
 			statusFilters = [];
 
-		if (succeeded) {
-			statusFilters.push(SUCCEEDED);
+		if (succeeded && !failed) {
+			statusFilters.push('2xx');
 		}
-		if (failed) {
-			statusFilters.push(FAILED);
+		if (failed && !succeeded) {
+			statusFilters.push('3xx', '4xx', '5xx');
 		}
 		if (statusFilters.length > 0) {
 			params['status_rollup[in]'] = statusFilters;
