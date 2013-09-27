@@ -4,6 +4,7 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 	Balanced.TransactionsTable,
 	{
 		needs: ['marketplace'],
+		marketplace: Ember.computed.alias('controllers.marketplace.content'),
 
 		type: 'hold',
 		sortField: 'created_at',
