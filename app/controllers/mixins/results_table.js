@@ -84,10 +84,6 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		return marketplaceUri + '/search';
 	}.property('controllers.marketplace.uri'),
 
-	search_uri: function () {
-		return this.get('results_uri');
-	}.property('results_uri'),
-
 	results_uri: function () {
 		return Balanced.Utils.applyUriFilters(
 			this.get('results_base_uri'),

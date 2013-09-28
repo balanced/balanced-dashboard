@@ -2,7 +2,6 @@ var activityRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/activity/transac
 
 module('Activity', {
 	setup: function () {
-		Balanced.Adapter.asyncCallbacks = true;
 	}, teardown: function () {
 	}
 });
@@ -19,72 +18,16 @@ test('can visit page', function (assert) {
   });
 });
 
-test('can visit pages', function (assert) {
-	var links = [
-		['Cards & Bank Accounts', 'funding-instruments'],
-		['Customers', 'accounts'],
-		['Transactions', 'transactions']
-	];
-
-  visit(activityRoutePath)
-  .then(function() {
-    expect(links.length * 2);
-    _.each(links, function (linkAndClass) {
-      var link = linkAndClass[0],
-        cls = linkAndClass[1];
-      var $link = $('#activity a:contains("' + link + '")');
-      assert.ok($link.length, link + ' link exists');
-      click($link);
-      assert.ok($('#activity table.items.' + cls).length, link + ' table visible');
-    });
-  });
-});
-
-test('pages have download links', function (assert) {
-	var links = [
-		['Cards & Bank Accounts', false],
-		['Customers', false],
-		['Transactions', true]
-	];
-
-  visit(activityRoutePath)
-  .then(function() {
-    expect(links.length * 2);
-    _.each(links, function (linkAndHasDownload) {
-      var link = linkAndHasDownload[0],
-        hasDownload = linkAndHasDownload[1];
-      var $link = $('#activity a:contains("' + link + '")');
-      assert.ok($link.length, link + ' link exists');
-      click($link);
-
-      assert.equal($("#activity .download").length, hasDownload ? 1 : 0);
-    });
-  });
-});
-
 test('Click load more shows 5 more and hides load more', function (assert) {
-  visit(activityRoutePath)
-  .then(function() {
-    assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
-  })
-  .then(function() {
-    click('#activity .results table.transactions tfoot td.load-more-results a');
-
-    assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
-    assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
-  });
-});
-
-test('Filtering by type works', function (assert) {
-  visit(activityRoutePath)
-  .then(function() {
-    assert.equal($('#activity .results table.transactions tbody tr').length, 10, 'has 10 transactions before');
-  })
-	.click('#activity .results header .transactions .selector a.dropdown-toggle')
-  .click('#activity .results header .transactions .selector a:contains("Credits")')
-  .then(function() {
-    assert.equal($('#activity .results table.transactions tbody tr').length, 1, 'has 1 transactions after');
-  });
+	visit(activityRoutePath)
+	.then(function() {
+		assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
+	})
+	.click('#activity .results table.transactions tfoot td.load-more-results a')
+	.then(function() {
+		assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
+		assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
+	});
 });
 
 test('add funds', function (assert) {
