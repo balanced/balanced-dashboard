@@ -124,7 +124,7 @@ Balanced.Customer = Balanced.Model.extend({
 			addressParts.push(this.get('address.line2'));
 		}
 
-		cityLine = (city ? city + ', ' : '') + ' ' + (this.get('address.postal_code') || '')
+		cityLine = (city ? city + ', ' : '') + ' ' + (this.get('address.postal_code') || '');
 		addressParts.push($.trim(cityLine));
 		addressParts.push(this.get('address.country_code'));
 
