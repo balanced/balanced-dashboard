@@ -89,7 +89,7 @@ test('debiting only submits once despite multiple clicks', function (assert) {
 });
 
 test('can initiate bank account verification', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 
   visit(settingsRoutePath)
 	.click(".bank-account-info .sidebar-items li:eq(2) .name")
@@ -103,14 +103,13 @@ test('can initiate bank account verification', function(assert) {
   })
   .then(function() {
     click('#verify-bank-account .modal-footer button[name="modal-submit"]');
-    assert.ok(spy.calledOnce);
-    assert.ok(spy.calledWith(Balanced.Verification));
-    assert.ok(spy.getCall(0).args[4].guid, 10);
+    assert.ok(stub.calledOnce);
+    assert.ok(stub.calledWith(Balanced.Verification, '/v1/bank_accounts/BAUgen6ESuHYg31BxVy9pPV/verifications'));
   });
 });
 
 test('can confirm bank account verification', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var stub = sinon.stub(Balanced.Adapter, "update");
 
   visit(settingsRoutePath)
 	.click(".bank-account-info .sidebar-items li:eq(3) .name")
@@ -128,8 +127,10 @@ test('can confirm bank account verification', function(assert) {
 
     click('#confirm-verification .modal-footer button[name="modal-submit"]');
 
-    assert.ok(spy.calledOnce);
-    assert.ok(spy.calledWith(Balanced.Verification));
-    assert.ok(spy.getCall(0).args[4].guid, 10);
+    assert.ok(stub.calledOnce);
+    assert.ok(stub.calledWith(Balanced.Verification, '/v1/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc/verifications/BZ5s80nhCfSdQAQKjk3PXDT9'));
+    assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
+    assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
+    assert.ok(stub.getCall(0).args[2].state, "pending");
   });
 });
