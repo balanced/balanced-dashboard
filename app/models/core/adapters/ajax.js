@@ -66,9 +66,9 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(Balanced.Marketplace.constructUri(marketplaceId));
 
 				if(!userMarketplace || !userMarketplace.get('secret')) {
-					Ember.Logger.warn("Couldn't find user marketplace for ID %@ (url: %@)".fmt(marketplaceId, url));
-
 					if(marketplaceId) {
+						Ember.Logger.warn("Couldn't find user marketplace for ID %@ (url: %@)".fmt(marketplaceId, url));
+
 						// If we couldn't find the user marketplace, maybe this is an admin user, so hit the auth server to try to find the API secret
 						return Balanced.NET.ajax({
 							url: ENV.BALANCED.AUTH + '/marketplaces/%@'.fmt(marketplaceId),

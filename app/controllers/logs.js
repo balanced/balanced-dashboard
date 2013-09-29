@@ -28,7 +28,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 	},
 
 	results_base_uri: function () {
-		return '/v1/logs';
+		return Balanced.Log.create().get('uri');
 	}.property(),
 
 	extra_filtering_params: function () {

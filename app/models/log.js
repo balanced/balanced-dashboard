@@ -1,4 +1,6 @@
 Balanced.Log = Balanced.Model.extend({
+	uri: '/v1/logs',
+
 	short_url: function () {
 		return Balanced.Utils.stripDomain(this.get('message.request.url'));
 	}.property('log.message.request.url'),
@@ -18,18 +20,6 @@ Balanced.Log = Balanced.Model.extend({
 			});
 		}
 	}.property('message.request.headers.X-Real-Ip'),
-});
-
-Balanced.Log.reopenClass({
-	constructUri: function (id) {
-		var uri = '/v1/logs';
-
-		if (id) {
-			return Balanced.Utils.combineUri(uri,id);
-		}
-
-		return uri;
-	}
 });
 
 Balanced.TypeMappings.addTypeMapping('log', 'Balanced.Log');

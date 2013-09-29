@@ -202,6 +202,22 @@ Balanced.Model.reopenClass({
 		return modelObject;
 	},
 
+	findAll: function(settings) {
+		var uri = this.create().get('uri');
+		if(!uri) {
+			throw new Error("Can't call findAll for class that doesn't have a default URI: %@".fmt(this));
+		}
+		return Balanced.ModelArray.newArrayLoadedFromUri(uri, this);
+	},
+
+	constructUri: function (id) {
+		var uri = this.create().get('uri');
+		if(id) {
+			return Balanced.Utils.combineUri(uri,id);
+		}
+		return uri;
+	},
+
 	/*
 	 * Used for adding a one-to-one association to a model.
 	 *

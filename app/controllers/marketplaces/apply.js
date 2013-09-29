@@ -173,8 +173,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			phone_number: this.get('phone_number')
 		} : null;
 		var apiKey = Balanced.APIKey.create({
-			//  TODO: uri should come from API
-			uri: '/v1/api_keys',
 			merchant: {
 				type: merchantType,
 				name: this.get(isBusiness ? 'business_name' : 'name'),
@@ -194,8 +192,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	_extractMarketplacePayload: function () {
 		return Balanced.Marketplace.create({
-			//  TODO: uri should come from API
-			uri: '/v1/marketplaces',
 			name: this.get('marketplace.name'),
 			support_email_address: this.get('marketplace.support_email_address'),
 			support_phone_number: this.get('marketplace.support_phone_number'),
@@ -206,7 +202,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	_extractLoginPayload: function () {
 		if (Balanced.Auth.get('isGuest')) {
 			return Balanced.Claim.create({
-				uri: '/users',
 				email_address: this.get('email_address'),
 				password: this.get('password'),
 				passwordConfirm: this.get('password')
@@ -216,8 +211,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	_extractBankAccountPayload: function () {
 		return Balanced.BankAccount.create({
-			//  TODO: uri should come from API
-			uri: '/v1/bank_accounts',
 			name: this.get('banking.account_name'),
 			routing_number: this.get('banking.routing_number'),
 			account_number: this.get('banking.account_number'),
