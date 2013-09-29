@@ -18,7 +18,7 @@ Balanced.Adapter.registerHostForType(Balanced.User, ENV.BALANCED.AUTH);
 
 Balanced.User.reopenClass({
 	serializer: Balanced.Rev0Serializer.extend({
-		extractSingle: function(rootJson, href) {
+		extractSingle: function(rootJson, href, type) {
 			var json = this._super(rootJson, href);
 
 			json.user_marketplaces = json.marketplaces || [];

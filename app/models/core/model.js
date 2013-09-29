@@ -47,7 +47,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		var promise = this.resolveOn(resolveEvent);
 
 		adapterFunc.call(Balanced.Adapter, this.constructor, uri, data, function(json) {
-			var deserializedJson = self.constructor.serializer.extractSingle(json, self.get('href'));
+			var deserializedJson = self.constructor.serializer.extractSingle(json, self.get('href'), this.constructor);
 			self._updateFromJson(deserializedJson);
 			self.set('isNew', false);
 			self.set('isSaving', false);
@@ -92,7 +92,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		var promise = this.resolveOn('didLoad');
 
 		Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
-			var deserializedJson = self.constructor.serializer.extractSingle(json, self.get('href'));
+			var deserializedJson = self.constructor.serializer.extractSingle(json, self.get('href'), this.constructor);
 			self._updateFromJson(deserializedJson);
 			self.set('isLoaded', true);
 			self.trigger('didLoad');
@@ -113,7 +113,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 	populateFromJsonResponse: function(json) {
 		this.set('isNew', false);
-		var modelJson = this.constructor.serializer.extractSingle(json, this.get('uri'));
+		var modelJson = this.constructor.serializer.extractSingle(json, this.get('uri'), this.constructor);
 		if(modelJson) {
 			this._updateFromJson(modelJson);
 			this.set('isLoaded', true);
