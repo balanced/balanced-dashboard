@@ -103,22 +103,20 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 	copy: function () {
 		var modelObject = this.constructor.create({uri: this.get('uri')});
-		modelObject.populateFromJsonResponse(this.get(JSON_PROPERTY_KEY));
+		modelObject._updateFromJson(this.get(JSON_PROPERTY_KEY));
 		return modelObject;
 	},
 
 	updateFromModel: function(modelObj) {
-		this.populateFromJsonResponse(modelObj.get(JSON_PROPERTY_KEY));
+		this._updateFromJson(modelObj.get(JSON_PROPERTY_KEY));
 	},
 
 	populateFromJsonResponse: function(json) {
-		this.set('isNew', false);
 		var modelJson = this.constructor.serializer.extractSingle(json, this.get('uri'), this.constructor);
 		if(modelJson) {
 			this._updateFromJson(modelJson);
-			this.set('isLoaded', true);
-			this.trigger('didLoad');
 		} else {
+			this.set('isNew', false);
 			this.set('isError', true);
 			this.trigger('becameError');
 		}
@@ -130,6 +128,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			return;
 		}
 
+		this.set('isNew', false);
 		this.set(JSON_PROPERTY_KEY, json);
 
 		Ember.changeProperties(function () {
@@ -145,6 +144,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		});
 
 		this.set('isLoaded', true);
+		this.trigger('didLoad');
 	},
 
 	_handleError: function (jqXHR, textStatus, errorThrown) {

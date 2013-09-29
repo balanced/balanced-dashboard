@@ -16,7 +16,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 
 			Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
 				var deserializedJson = typeClass.serializer.extractCollection(json);
-				self.populateModels(deserializedJson);
+				self._populateModels(deserializedJson);
 				self.set('loadingNextPage', false);
 			});
 		} else {
@@ -42,14 +42,14 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 			// than nuking and re-adding
 			self.clear();
 			var deserializedJson = typeClass.serializer.extractCollection(json);
-			self.populateModels(deserializedJson);
+			self._populateModels(deserializedJson);
 		}, function () {
 			promise.reject(self);
 		});
 		return promise;
 	},
 
-	populateModels: function (json) {
+	_populateModels: function (json) {
 		var self = this;
 
 		var typeClass = this.get('typeClass');
@@ -122,7 +122,7 @@ Balanced.ModelArray.reopenClass({
 		modelObjectsArray.set('isLoaded', false);
 		Balanced.Adapter.get(typeClass, uri, function (json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
-			modelObjectsArray.populateModels(deserializedJson);
+			modelObjectsArray._populateModels(deserializedJson);
 		}, function (jqXHR, textStatus, errorThrown) {
 			modelObjectsArray._handleError(jqXHR, textStatus, errorThrown);
 		});
@@ -143,7 +143,7 @@ Balanced.ModelArray.reopenClass({
 		}
 
 		var deserializedJson = typeClass.serializer.extractCollection(json);
-		modelObjectsArray.populateModels(deserializedJson);
+		modelObjectsArray._populateModels(deserializedJson);
 
 		return modelObjectsArray;
 	}
