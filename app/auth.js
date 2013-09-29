@@ -57,7 +57,7 @@ Balanced.Auth = (function () {
 		this.setAPIKey(apiKey);
 
 		return Balanced.APIKey.findAll().then(function(apiKeys) {
-			var apiKeysWithSecrets = apiKeys.filterBy('secret')
+			var apiKeysWithSecrets = apiKeys.filterBy('secret');
 			var secret = apiKeysWithSecrets.length ? apiKeysWithSecrets[0].get('secret') : null;
 
 			auth.loginGuestUser(secret);
