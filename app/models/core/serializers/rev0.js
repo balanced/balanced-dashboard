@@ -9,7 +9,7 @@ Balanced.Rev0Serializer = Ember.Object.extend({
 		return json;
 	},
 
-	extractSingle: function(rootJson, href, type) {
+	extractSingle: function(rootJson, type, href) {
 		return rootJson;
 	},
 
