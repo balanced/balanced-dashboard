@@ -1,17 +1,17 @@
 Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
-	address: Ember.computed(function () {
+	address: Ember.computed(function() {
 		return Balanced.Model.create();
 	}),
-	banking: Ember.computed(function () {
+	banking: Ember.computed(function() {
 		return Balanced.Model.create();
 	}),
-	marketplace: Ember.computed(function () {
+	marketplace: Ember.computed(function() {
 		return Balanced.Model.create();
 	}),
 	validations: {
 		email_address: {
 			presence: {
-				validator: function (object, attribute, value) {
+				validator: function(object, attribute, value) {
 					if (Balanced.Auth.get('isGuest') && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
@@ -20,7 +20,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		},
 		password: {
 			presence: {
-				validator: function (object, attribute, value) {
+				validator: function(object, attribute, value) {
 					if (Balanced.Auth.get('isGuest') && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
@@ -59,7 +59,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			presence: true,
 			length: 9,
 			matches: {
-				validator: function (object, attribute, value) {
+				validator: function(object, attribute, value) {
 					if (window.balanced !== undefined && !balanced.bankAccount.validateRoutingNumber(value)) {
 						object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid routing number');
 					}

@@ -6,34 +6,34 @@ Balanced.DatePickerView = Balanced.View.extend({
 	minTime: null,
 	maxTime: null,
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		var now = new Date();
 		this.$('.before .dp').datepicker({
 			maxDate: now
 		});
 		this.$('.after .dp').datepicker({
 			maxDate: now
-		}).on('changeDate', $.proxy(function () {
+		}).on('changeDate', $.proxy(function() {
 			this.$('.before .dp').focus();
 		}, this));
 	},
 
 	actions: {
-		toggleDateTimePicker: function () {
+		toggleDateTimePicker: function() {
 			this.$('.timing').find('.selected .dp').datepicker('show');
 		},
 
-		setDateVariable: function () {
+		setDateVariable: function() {
 			this._changeDateFilter(this._extractVariableTimePeriod(), true);
 		},
 	},
 
-	selectDateTimePicker: function (datePickerSelector) {
+	selectDateTimePicker: function(datePickerSelector) {
 		this.$('.date-picker').children().removeClass('selected').find('.dp').datepicker('hide');
 		datePickerSelector.parent().addClass('selected').find('.dp').focus().datepicker('show');
 	},
 
-	changeDate: function (e) {
+	changeDate: function(e) {
 		var date = e.date;
 		if ($(e.target).attr('name') === 'before') {
 			this._setMaxDate(date);
@@ -42,7 +42,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 		}
 	},
 
-	resetDateTimePicker: function () {
+	resetDateTimePicker: function() {
 		this.$('.dp').val('');
 		this.selectDateTimePicker(this.$('.after input'));
 		this.send('toggleDateTimePicker');
@@ -52,7 +52,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 		});
 	},
 
-	setDateFixed: function (presetText) {
+	setDateFixed: function(presetText) {
 		this._setMaxDate(null);
 		var hours = 0;
 		switch (presetText) {
@@ -74,7 +74,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 		this._changeDateFilter(presetText);
 	},
 
-	_changeDateFilter: function (label, date_range) {
+	_changeDateFilter: function(label, date_range) {
 		/* as this is a date range, we want to include the end date (maxTime here),
 		 * for example, 2013/07/01 to 2013/07/31, the 31st should also
 		 * be included, so we need to advance the maxTime by one day
@@ -83,21 +83,21 @@ Balanced.DatePickerView = Balanced.View.extend({
 			/*
 			 * Notice: date 32end is okay, js should handle this for us
 			 */
-			this.maxTime.setDate(this.maxTime.getDate()+1);
+			this.maxTime.setDate(this.maxTime.getDate() + 1);
 		}
 		this.get('controller').send('changeDateFilter', this.minTime, this.maxTime, label);
 		this.resetDateTimePicker();
 	},
 
-	_setMinDate: function (minDate) {
+	_setMinDate: function(minDate) {
 		this.minTime = minDate;
 	},
 
-	_setMaxDate: function (maxDate) {
+	_setMaxDate: function(maxDate) {
 		this.maxTime = maxDate;
 	},
 
-	_extractVariableTimePeriod: function () {
+	_extractVariableTimePeriod: function() {
 		var min = this.minTime < this.maxTime ? this.minTime : this.maxTime;
 		var max = this.minTime < this.maxTime ? this.maxTime : this.minTime;
 		var dates = [];
@@ -107,7 +107,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 		if (max) {
 			dates.push(max);
 		}
-		dates = $.map(dates, function (date) {
+		dates = $.map(dates, function(date) {
 			return date.strftime('%d %b %Y');
 		});
 
@@ -126,14 +126,14 @@ Balanced.DatePickerPresetView = Balanced.View.extend({
 	tagName: 'li',
 	classNameBindings: 'isSelected',
 
-	isSelected: function () {
+	isSelected: function() {
 		if (!this.get('elementInDom')) {
 			return null;
 		}
 		return this.get('controller.dateFilterTitle') === this.$().text() ? "selected" : null;
 	}.property('controller.dateFilterTitle', 'elementInDom'),
 
-	click: function (e) {
+	click: function(e) {
 		e.preventDefault();
 		var $t = $(e.currentTarget);
 		var presetText = $t.text();
@@ -142,25 +142,25 @@ Balanced.DatePickerPresetView = Balanced.View.extend({
 });
 
 Balanced.DatePickerDateFieldView = Balanced.View.extend({
-	beforeSelector: function () {
+	beforeSelector: function() {
 		return this.get('controller.baseClassSelector') + ' .timing .before';
 	}.property(),
 
-	afterSelector: function () {
+	afterSelector: function() {
 		return this.get('controller.baseClassSelector') + ' .timing .after';
 	}.property(),
 
-	click: function (e) {
+	click: function(e) {
 		e.preventDefault();
 		this.get('parentView').selectDateTimePicker($(e.currentTarget));
 		return false;
 	},
 
-	change: function (e) {
+	change: function(e) {
 		this.get('parentView').selectDateTimePicker($(e.currentTarget));
 	},
 
-	focusIn: function (e) {
+	focusIn: function(e) {
 		this.get('parentView').selectDateTimePicker($(e.currentTarget));
 	}
 });

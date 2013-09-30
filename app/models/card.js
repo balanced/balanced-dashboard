@@ -15,14 +15,14 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD;
 	}.property(),
 
-	description: function () {
+	description: function() {
 		return '%@ (%@)'.fmt(
 			this.get('last_four'),
 			Balanced.Utils.toTitleCase(this.get('brand'))
 		);
 	}.property('last_four', 'brand'),
 
-	displayName: function () {
+	displayName: function() {
 		return '%@ (%@ %@)'.fmt(
 			this.get('name'),
 			this.get('last_four'),
@@ -56,7 +56,7 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 		};
 
 		// Tokenize the card using the balanced.js library
-		balanced.card.create(cardData, function (response) {
+		balanced.card.create(cardData, function(response) {
 			switch (response.status) {
 				case 201:
 					// Now that it's been tokenized, we just need to associate it with the customer's account
@@ -64,7 +64,7 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 						uri: self.get('uri'),
 						card_uri: response.data.uri
 					});
-					cardAssociation.save().then(function () {
+					cardAssociation.save().then(function() {
 						self.set('isSaving', false);
 						self.trigger('didCreate');
 					}, function() {
@@ -79,7 +79,7 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 					if (response.error.expiration) {
 						self.set('validationErrors.expiration_month', 'invalid');
 					}
-					_.each(response.error, function (value, key) {
+					_.each(response.error, function(value, key) {
 						self.set('validationErrors.' + key, 'invalid');
 					});
 					self.set('isSaving', false);

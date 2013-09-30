@@ -4,9 +4,9 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 	dollar_amount: null,
 
 	actions: {
-		open: function () {
+		open: function() {
 			var self = this;
-			this.get('marketplace.owner_customer.bank_accounts').then(function (bank_accounts) {
+			this.get('marketplace.owner_customer.bank_accounts').then(function(bank_accounts) {
 				var sourceUri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
 
 				var credit = Balanced.Credit.create({
@@ -25,7 +25,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -37,13 +37,15 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
-				credit.set('validationErrors', {'amount': error});
+				credit.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 
 			credit.set('amount', cents);
 
-			credit.save().then(function () {
+			credit.save().then(function() {
 				self.get('marketplace').reload();
 				$('#withdraw-funds').modal('hide');
 				self.get('controller').transitionToRoute('credits', credit);
@@ -51,7 +53,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 		}
 	},
 
-	selected_bank_account: function () {
+	selected_bank_account: function() {
 		if (this.get('model.source_uri')) {
 			var self = this;
 			return this.get('bank_accounts').find(function(b) {
@@ -60,7 +62,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 		}
 	}.property('model.source_uri', 'bank_accounts'),
 
-	bank_accounts: function () {
+	bank_accounts: function() {
 		return this.get('marketplace.owner_customer.bank_accounts');
 	}.property('marketplace.owner_customer.bank_accounts')
 });

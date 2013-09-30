@@ -3,15 +3,15 @@ Balanced.HoldCardModalView = Balanced.View.extend({
 
 	dollar_amount: null,
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openHoldCardModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openHoldCardModal', this, this.open);
 	},
 
-	open: function () {
+	open: function() {
 		var hold = Balanced.Hold.create({
 			uri: this.get('funding_instrument.customer.holds_uri'),
 			source_uri: this.get('funding_instrument.uri'),
@@ -27,7 +27,7 @@ Balanced.HoldCardModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -38,13 +38,15 @@ Balanced.HoldCardModalView = Balanced.View.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
-				hold.set('validationErrors', {'amount': error});
+				hold.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 			hold.set('amount', cents);
 
 			var self = this;
-			hold.save().then(function (hold) {
+			hold.save().then(function(hold) {
 				$('#hold-card').modal('hide');
 				self.get('controller').transitionToRoute('holds', hold);
 			});

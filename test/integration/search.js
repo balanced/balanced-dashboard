@@ -1,19 +1,19 @@
 module('Search', {
-	setup: function () {
+	setup: function() {
 		Testing.selectMarketplaceByName();
 	},
-	teardown: function () {
-		Ember.run(function () {
+	teardown: function() {
+		Ember.run(function() {
 			$('#search span.close').click();
 		});
 	}
 });
 
-test('search box exists', function (assert) {
+test('search box exists', function(assert) {
 	assert.equal($('#q').length, 1);
 });
 
-test('search results show and hide', function (assert) {
+test('search results show and hide', function(assert) {
 	Testing.runSearch('foodbar');
 
 	assert.equal($('#search').hasClass('with-results'), true, 'search has no results');
@@ -25,7 +25,7 @@ test('search results show and hide', function (assert) {
 	assert.equal($('body').hasClass('overlaid'), false, 'overlay still showing');
 });
 
-test('search results hide on click [x]', function (assert) {
+test('search results hide on click [x]', function(assert) {
 	Testing.runSearch('%');
 
 	$('#search span.close').click();
@@ -36,7 +36,7 @@ test('search results hide on click [x]', function (assert) {
 	assert.equal($('body').hasClass('overlaid'), false);
 });
 
-test('search "%" returns 15 transactions total, showing 10 transactions in results, with load more', function (assert) {
+test('search "%" returns 15 transactions total, showing 10 transactions in results, with load more', function(assert) {
 	Testing.runSearch('%');
 
 	assert.equal($('#search .results li.transactions > a:contains("15")').length, 1, 'has 15 transaction in header');
@@ -44,7 +44,7 @@ test('search "%" returns 15 transactions total, showing 10 transactions in resul
 	assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 });
 
-test('search "%", click accounts, returns 22 accounts total, showing 10 accounts in results, with load more', function (assert) {
+test('search "%", click accounts, returns 22 accounts total, showing 10 accounts in results, with load more', function(assert) {
 	Testing.runSearch('%');
 
 	$('#search .results li.accounts > a').click();
@@ -54,7 +54,7 @@ test('search "%", click accounts, returns 22 accounts total, showing 10 accounts
 	assert.equal($('#search .results table.accounts tfoot td').length, 1, 'has "load more"');
 });
 
-test('search "%" returns 15 transactions. Click load more shows 5 more and hides load more', function (assert) {
+test('search "%" returns 15 transactions. Click load more shows 5 more and hides load more', function(assert) {
 	Testing.runSearch('%');
 
 	assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
@@ -65,7 +65,7 @@ test('search "%" returns 15 transactions. Click load more shows 5 more and hides
 	assert.equal($('#search .results table.transactions tfoot td').length, 0, 'does not have "load more"');
 });
 
-test('search "%" return 15 transactions. Click filter by holds.', function (assert) {
+test('search "%" return 15 transactions. Click filter by holds.', function(assert) {
 	Testing.runSearch('%');
 
 	$('#search .results li.transactions a.dropdown-toggle').click();
@@ -78,7 +78,7 @@ test('search "%" return 15 transactions. Click filter by holds.', function (asse
 	assert.equal($('#search .results table.transactions tbody tr').length, 6, 'has 6 hold transactions');
 });
 
-test('search date picker dropdown', function (assert) {
+test('search date picker dropdown', function(assert) {
 	Testing.runSearch('%');
 
 	var toggle = $('#search .timing .dropdown-toggle');
@@ -91,7 +91,7 @@ test('search date picker dropdown', function (assert) {
 	assert.ok(toggle.parent().hasClass('open'), 'date picker is still showing');
 });
 
-test('search click result', function (assert) {
+test('search click result', function(assert) {
 	Testing.runSearch('%');
 
 	// click customer section button
@@ -103,7 +103,7 @@ test('search click result', function (assert) {
 	assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
 });
 
-test('search and click go with empty date range', function (assert) {
+test('search and click go with empty date range', function(assert) {
 	Testing.runSearch('%');
 
 	// click the date picker dropdown
@@ -114,7 +114,7 @@ test('search and click go with empty date range', function (assert) {
 	assert.equal($('#search .results .timing a.dropdown-toggle span').text().trim(), 'Any time');
 });
 
-test('search date range pick', function (assert) {
+test('search date range pick', function(assert) {
 	Testing.runSearch('%');
 
 	var spy = sinon.spy(Balanced.Adapter, 'get');
@@ -141,30 +141,29 @@ test('search date range pick', function (assert) {
 	var expected_uri = '/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?' +
 		'created_at%5B%3C%5D=' + end_iso + '&' +
 		'created_at%5B%3E%5D=' + begin_iso + '&' +
-		'limit=10&offset=0&q=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold'
-	;
+		'limit=10&offset=0&q=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold';
 
 	var request = spy.getCall(spy.callCount - 1);
 	assert.equal(request.args[0], Balanced.Transaction);
 	assert.equal(request.args[1], expected_uri);
 });
 
-test('search date sort has three states', function (assert) {
+test('search date sort has three states', function(assert) {
 	Testing.runSearch('%');
 
 	var objectPath = "#search .results th.date";
 	var states = [];
-	var getSate = function(){
-		if($(objectPath).hasClass("unsorted")){
-			if($.inArray("unsorted", states) === -1){
+	var getSate = function() {
+		if ($(objectPath).hasClass("unsorted")) {
+			if ($.inArray("unsorted", states) === -1) {
 				states.push("unsorted");
 			}
-		}else if($(objectPath).hasClass("ascending")){
-			if($.inArray("ascending", states) === -1){
+		} else if ($(objectPath).hasClass("ascending")) {
+			if ($.inArray("ascending", states) === -1) {
 				states.push("ascending");
 			}
-		}else if($(objectPath).hasClass("descending")){
-			if($.inArray("descending", states) === -1){
+		} else if ($(objectPath).hasClass("descending")) {
+			if ($.inArray("descending", states) === -1) {
 				states.push("descending");
 			}
 		}
@@ -172,10 +171,10 @@ test('search date sort has three states', function (assert) {
 
 	var count = 0;
 	var testAmount = 5;
-	while(count !== testAmount){
+	while (count !== testAmount) {
 		$(objectPath).click();
 		getSate();
-		count ++;
+		count++;
 	}
 	states.sort();
 

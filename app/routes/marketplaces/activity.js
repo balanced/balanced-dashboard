@@ -1,8 +1,7 @@
-Balanced.ActivityRoute = Balanced.AuthRoute.extend({
-});
+Balanced.ActivityRoute = Balanced.AuthRoute.extend({});
 
 Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
-	redirect: function () {
+	redirect: function() {
 		this.transitionTo('activity.transactions', this.modelFor('marketplace'));
 	}
 });
@@ -10,7 +9,7 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Activity',
 
-	setupController: function (controller, model) {
+	setupController: function(controller, model) {
 		this._super(controller, model);
 
 		if (this.controllerFor('activity').get('category') !== 'transaction') {
@@ -22,7 +21,7 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Activity',
 
-	setupController: function (controller, model) {
+	setupController: function(controller, model) {
 		this._super(controller, model);
 
 		if (this.controllerFor('activity').get('category') !== 'account') {
@@ -34,7 +33,7 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Activity',
 
-	setupController: function (controller, model) {
+	setupController: function(controller, model) {
 		this._super(controller, model);
 
 		if (this.controllerFor('activity').get('category') !== 'funding_instrument') {

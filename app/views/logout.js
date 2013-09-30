@@ -1,11 +1,11 @@
 Balanced.LogoutView = Balanced.View.extend({
 	templateName: 'logout',
-	didInsertElement: function () {
+	didInsertElement: function() {
 		$('body').addClass('light-bg');
 		$('footer').css('display', 'none');
 		$('#content').addClass('no-min-height');
 	},
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		$('body').removeClass('light-bg');
 		$('footer').css('display', 'block');
 		$('#content').removeClass('no-min-height');

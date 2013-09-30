@@ -1,4 +1,4 @@
-QUnit.testStart(function (test) {
+QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';
 	console.log('#' + module + " " + test.name + ": starting setup.");
 
@@ -12,7 +12,7 @@ QUnit.testStart(function (test) {
 	Ember.$('<style>#ember-testing-container { position: absolute; background: white; bottom: 0; right: 0; width: 640px; height: 600px; overflow: auto; z-index: 9999; border: 1px solid #ccc; } #ember-testing { zoom: 50%; }</style>').appendTo('head');
 	Ember.$('<div id="ember-testing-container"><div id="ember-testing"></div></div>').appendTo('body');
 
-	Ember.run(function () {
+	Ember.run(function() {
 		window.setupBalanced('#ember-testing');
 		Balanced.Adapter = Balanced.FixtureAdapter.create();
 		window.setupTestFixtures();
@@ -23,7 +23,7 @@ QUnit.testStart(function (test) {
 	});
 
 	// Set up Ember Auth
-	Ember.run(function () {
+	Ember.run(function() {
 		var userId = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
 		Balanced.Auth.setAuthProperties(
 			true,
@@ -43,24 +43,21 @@ QUnit.testStart(function (test) {
 
 	// since we aren't using balanced.js, define its functions so we can stub them
 	balanced = {};
-	balanced.init = function() {
-	}
+	balanced.init = function() {}
 	balanced.bankAccount = {
 		validateRoutingNumber: function() {
 			return true;
 		},
-		create: function() {
-		}
+		create: function() {}
 	};
 	balanced.card = {
-		create: function() {
-		}
+		create: function() {}
 	};
 
 	console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 });
 
-QUnit.testDone(function (test) {
+QUnit.testDone(function(test) {
 	var module = test.module ? test.module : '';
 	console.log('#%@ %@: tearing down.'.fmt(module, test.name));
 

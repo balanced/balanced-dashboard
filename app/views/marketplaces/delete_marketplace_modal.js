@@ -1,15 +1,15 @@
 Balanced.DeleteMarketplaceModalView = Balanced.View.extend({
 	templateName: 'modals/delete_marketplace',
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openDeleteMarketplaceModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openDeleteMarketplaceModal', this, this.open);
 	},
 
-	open: function (marketplace) {
+	open: function(marketplace) {
 		//  let's construct a uri even tho that's a little horrid. the reason
 		// for doing so is we generally (except for this single case), deal
 		// with api based uris
@@ -27,12 +27,12 @@ Balanced.DeleteMarketplaceModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		deleteMarketplace: function () {
+		deleteMarketplace: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
 
-			this.get('model').delete().then(function () {
+			this.get('model').delete().then(function() {
 				$('#delete-marketplace').modal('hide');
 
 				var user = Balanced.Auth.get('user');

@@ -2,7 +2,7 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 	templateName: 'modals/add_bank_account',
 
 	actions: {
-		open: function () {
+		open: function() {
 			var bankAccount = Balanced.BankAccount.create({
 				uri: this.get('customer.bank_accounts_uri'),
 				name: '',
@@ -17,7 +17,7 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 			$('#add-bank-account form input:radio[name=account_type][value=checking]').prop('checked', true);
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}

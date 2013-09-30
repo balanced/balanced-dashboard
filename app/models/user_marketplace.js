@@ -1,5 +1,5 @@
 Balanced.UserMarketplace = Balanced.Model.extend({
-	production: function () {
+	production: function() {
 		return this.get('uri').indexOf('TEST') === -1;
 	}.property('uri'),
 

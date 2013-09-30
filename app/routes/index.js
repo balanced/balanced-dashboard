@@ -1,5 +1,5 @@
 Balanced.IndexRoute = Balanced.AuthRoute.extend({
-	redirect: function () {
+	redirect: function() {
 		var marketplaceUri = Balanced.Auth.getLastUsedMarketplaceUri();
 		if (marketplaceUri) {
 			this.transitionTo('activity', Balanced.Marketplace.find(marketplaceUri));
@@ -13,12 +13,12 @@ Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Marketplaces',
 
 	redirect: function() {
-		if(Balanced.Auth.get('isGuest') && Balanced.currentMarketplace) {
+		if (Balanced.Auth.get('isGuest') && Balanced.currentMarketplace) {
 			this.transitionTo('marketplace', Balanced.currentMarketplace);
 		}
 	},
 
-	setupController: function () {
+	setupController: function() {
 		this.controllerFor('marketplace').set('content', null);
 	}
 });

@@ -5,7 +5,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	loginResponse: '',
 
 	actions: {
-		signIn: function () {
+		signIn: function() {
 			var self = this;
 			Balanced.Auth.forgetLogin();
 			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {

@@ -1,15 +1,15 @@
 Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 	templateName: 'modals/verify_bank_account',
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openVerifyBankAccountModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openVerifyBankAccountModal', this, this.open);
 	},
 
-	open: function () {
+	open: function() {
 		var verification = Balanced.Verification.create({
 			uri: this.get('funding_instrument.verifications_uri')
 		});
@@ -21,13 +21,13 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
 
 			var verification = this.get('model');
-			var after = function () {
+			var after = function() {
 				$('#verify-bank-account').modal('hide');
 			};
 

@@ -16,7 +16,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 	statusRollupFilterFailed: true,
 
 	actions: {
-		setEndPointFilter: function (endpoint) {
+		setEndPointFilter: function(endpoint) {
 			if (endpoint) {
 				this.set('currentEndpointFilter', Balanced.Utils.toTitleCase(endpoint));
 				this.set('endpoint', endpoint);
@@ -27,17 +27,17 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 		}
 	},
 
-	results_base_uri: function () {
+	results_base_uri: function() {
 		return Balanced.Log.create().get('uri');
 	}.property(),
 
-	extra_filtering_params: function () {
+	extra_filtering_params: function() {
 		var params = {
 			'method[in]': 'post,put,delete'
 		};
 
 		var endpoint = this.get('endpoint');
-		if(endpoint) {
+		if (endpoint) {
 			params.endpoint = endpoint;
 		}
 

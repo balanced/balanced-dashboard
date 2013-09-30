@@ -3,15 +3,15 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 
 	failedConfirmation: false,
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openConfirmVerificationModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openConfirmVerificationModal', this, this.open);
 	},
 
-	open: function () {
+	open: function() {
 		this.set('failedConfirmation', false);
 		var verification = this.get('funding_instrument.verification');
 		this.set('model', verification);
@@ -21,7 +21,7 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -29,9 +29,9 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 			var self = this;
 
 			var verification = this.get('model');
-			verification.save().then(function () {
+			verification.save().then(function() {
 				$('#confirm-verification').modal('hide');
-			}, function () {
+			}, function() {
 				if (verification.get('errorStatusCode') === 409) {
 					self.set('failedConfirmation', true);
 				}
@@ -41,11 +41,11 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 		}
 	},
 
-	amount_1_highlight: function () {
+	amount_1_highlight: function() {
 		return this.get('failedConfirmation') || this.get('model.validationErrors.amount_1');
 	}.property('failedConfirmation', 'model.validationErrors.amount_1'),
 
-	amount_2_highlight: function () {
+	amount_2_highlight: function() {
 		return this.get('failedConfirmation') || this.get('model.validationErrors.amount_2');
 	}.property('failedConfirmation', 'model.validationErrors.amount_12')
 });

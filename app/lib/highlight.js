@@ -1,8 +1,8 @@
-(function ($) {
-	$.fn.serializeObject = function () {
+(function($) {
+	$.fn.serializeObject = function() {
 		var o = {};
 		var a = this.serializeArray();
-		$.each(a, function () {
+		$.each(a, function() {
 			if (o[this.name] !== undefined) {
 				if (!o[this.name].push) {
 					o[this.name] = [o[this.name]];
@@ -14,13 +14,14 @@
 		});
 		return o;
 	};
-	$.fn.highlightWords = function (words) {
+	$.fn.highlightWords = function(words) {
 		var TEXT_NODE = 3;
 
 		var $that = $(this);
 
 		function getTextNodesIn(node, includeWhitespaceNodes) {
-			var textNodes = [], whitespace = /^\s*$/;
+			var textNodes = [],
+				whitespace = /^\s*$/;
 
 			function getTextNodes(node) {
 				if (node.nodeType === TEXT_NODE) {
@@ -66,13 +67,14 @@
 			// e.g. "j" "ohn" becomes "john"
 			// should remove the subsequent nodes and leave only the first
 			// node which is replaced with the joined content
+
 			function joinContiguous(contiguous) {
 				if (!contiguous.length) {
 					return;
 				}
 
 				// add them all together
-				var condensedValue = $.map(contiguous, function (el) {
+				var condensedValue = $.map(contiguous, function(el) {
 					return el.nodeValue;
 				});
 
@@ -91,7 +93,7 @@
 
 			// for each direct child node, let's check if it's text. add all
 			// those to a collection and then join once we meet a non-text node
-			$t.contents().each(function () {
+			$t.contents().each(function() {
 				if (this.nodeType === TEXT_NODE) {
 					contiguous.push(this);
 				} else {
@@ -106,12 +108,12 @@
 			var wordre = word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 			var re = new RegExp('(' + wordre + ')', 'gi');
 			var litUp = '<span class="highlight">$1</span>';
-			$(':icontains(' + word + ')', $that).not('.highlight').each(function () {
+			$(':icontains(' + word + ')', $that).not('.highlight').each(function() {
 				makeTextNodeContiguous.call(this, re, litUp);
 			});
 		}
 
-		words = $.map(words.split(' '), function (word) {
+		words = $.map(words.split(' '), function(word) {
 			return (word) ? word : null;
 		});
 
@@ -126,8 +128,8 @@
 })(jQuery);
 
 // http://css-tricks.com/snippets/jquery/make-jquery-contains-case-insensitive/
-$.expr[":"].icontains = $.expr.createPseudo(function (arg) {
-	return function (elem) {
+$.expr[":"].icontains = $.expr.createPseudo(function(arg) {
+	return function(elem) {
 		return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
 	};
 });

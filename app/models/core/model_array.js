@@ -5,7 +5,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 	hasNextPage: false,
 	loadingNextPage: false,
 
-	loadNextPage: function () {
+	loadNextPage: function() {
 		var self = this;
 
 		var promise = this.resolveOn('didLoad');
@@ -14,7 +14,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 		if (this.get('hasNextPage')) {
 			var typeClass = this.get('typeClass');
 
-			Balanced.Adapter.get(typeClass, this.get('next_uri'), function (json) {
+			Balanced.Adapter.get(typeClass, this.get('next_uri'), function(json) {
 				var deserializedJson = typeClass.serializer.extractCollection(json);
 				self._populateModels(deserializedJson);
 				self.set('loadingNextPage', false);
@@ -27,7 +27,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 		return promise;
 	},
 
-	reload: function () {
+	reload: function() {
 		if (!this.get('isLoaded')) {
 			return this;
 		}
@@ -37,19 +37,19 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 		var promise = this.resolveOn('didLoad');
 		var typeClass = this.get('typeClass');
 
-		Balanced.Adapter.get(this.constructor, this.get('uri'), function (json) {
+		Balanced.Adapter.get(this.constructor, this.get('uri'), function(json) {
 			// todo, maybe we should go through and reload each item rather
 			// than nuking and re-adding
 			self.clear();
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			self._populateModels(deserializedJson);
-		}, function () {
+		}, function() {
 			promise.reject(self);
 		});
 		return promise;
 	},
 
-	_populateModels: function (json) {
+	_populateModels: function(json) {
 		var self = this;
 
 		var typeClass = this.get('typeClass');
@@ -79,11 +79,11 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 			}
 		}
 
-		var typedObjects = _.map(itemsArray, function (item) {
+		var typedObjects = _.map(itemsArray, function(item) {
 			var typedObj = typeClass._materializeLoadedObjectFromAPIResult(item);
 
 			// if an object is deleted, remove it from the collection
-			typedObj.on('didDelete', function () {
+			typedObj.on('didDelete', function() {
 				self.removeObject(typedObj);
 			});
 
@@ -95,7 +95,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 		this.trigger('didLoad');
 	},
 
-	_handleError: function (jqXHR, textStatus, errorThrown) {
+	_handleError: function(jqXHR, textStatus, errorThrown) {
 		if (jqXHR.status === 400) {
 			this.set('isValid', false);
 			this.trigger('becameInvalid', jqXHR.responseText);
@@ -107,7 +107,7 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 });
 
 Balanced.ModelArray.reopenClass({
-	newArrayLoadedFromUri: function (uri, defaultType) {
+	newArrayLoadedFromUri: function(uri, defaultType) {
 		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 		var modelObjectsArray = this.create({
 			content: Ember.A(),
@@ -120,10 +120,10 @@ Balanced.ModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
-		Balanced.Adapter.get(typeClass, uri, function (json) {
+		Balanced.Adapter.get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);
-		}, function (jqXHR, textStatus, errorThrown) {
+		}, function(jqXHR, textStatus, errorThrown) {
 			modelObjectsArray._handleError(jqXHR, textStatus, errorThrown);
 		});
 

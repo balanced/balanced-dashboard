@@ -2,19 +2,19 @@ Balanced.MarketplaceSettingsView = Balanced.View.extend({
 	keySecret: false,
 
 	actions: {
-		openEditMarketplaceInfoModal: function () {
+		openEditMarketplaceInfoModal: function() {
 			this.get('editMarketplaceInfoModal').send('open');
 		},
 
-		openAddBankAccountModal: function () {
+		openAddBankAccountModal: function() {
 			this.get('addBankAccountModal').send('open');
 		},
 
-		openAddCardModal: function () {
+		openAddCardModal: function() {
 			this.get('addCardModal').send('open');
 		},
 
-		openAddCallbackModal: function () {
+		openAddCallbackModal: function() {
 			this.get('addCallbackModal').send('open');
 		},
 

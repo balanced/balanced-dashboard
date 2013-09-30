@@ -1,6 +1,5 @@
 Balanced.SearchController = Balanced.ObjectController.extend(
-	Balanced.ResultsTable,
-	{
+	Balanced.ResultsTable, {
 		needs: ['application', 'marketplace'],
 
 		search: null,
@@ -12,11 +11,11 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
 		baseClassSelector: '#search',
 
-		init: function () {
+		init: function() {
 			this._super();
 
 			var self = this;
-			var debouncedQuery = _.debounce(function () {
+			var debouncedQuery = _.debounce(function() {
 				// since this might get called after a timeout, make sure this
 				// object is still valid (especially necessary for tests)
 				if (!self.get('isDestroyed')) {
@@ -31,7 +30,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				this.set('showResults', true);
 			},
 
-			closeSearch: function () {
+			closeSearch: function() {
 				this.set('showResults', false);
 			},
 
@@ -39,7 +38,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				this.reset();
 			},
 
-			query: function () {
+			query: function() {
 				var search = this.get('search');
 				if (!search || search.length === 0) {
 					this.reset();
@@ -56,15 +55,17 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 			},
 		},
 
-		fetch_results: function () {
+		fetch_results: function() {
 			return this.get('debounced_search') && this.get('debounced_search').length > 0;
 		}.property('debounced_search'),
 
-		extra_filtering_params: function () {
+		extra_filtering_params: function() {
 			var query = this.get('debounced_search');
 
-			if(query) {
-				Balanced.Analytics.trackEvent('Search', {query: query});
+			if (query) {
+				Balanced.Analytics.trackEvent('Search', {
+					query: query
+				});
 			}
 
 			if (query === '%') {
@@ -79,7 +80,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 			this.send('query');
 		},
 
-		reset: function () {
+		reset: function() {
 			this.setProperties({
 				debounced_search: null,
 				search: null,
@@ -93,34 +94,34 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 			});
 		},
 
-		isLoading: function () {
+		isLoading: function() {
 			return this.get('fetch_results') && this.get('results') && !this.get('results.isLoaded');
 		}.property('results.isLoaded'),
 
-		displayResults: function () {
+		displayResults: function() {
 			return this.get('fetch_results') && this.get('showResults');
 		}.property('fetch_results', 'showResults'),
 
-		redirectToLog: function (ohm) {
+		redirectToLog: function(ohm) {
 			var self = this;
 
 			var logUri = Balanced.Log.constructUri(ohm);
-			Balanced.Log.find(logUri).then(function (log) {
+			Balanced.Log.find(logUri).then(function(log) {
 				self.send('closeSearch');
 				self.transitionToRoute('logs.log', log);
 			});
 		},
 
 		// UI properties
-		transactionsTabSelected: function () {
+		transactionsTabSelected: function() {
 			return this.get('category') === "transaction";
 		}.property('category'),
 
-		customersTabSelected: function () {
+		customersTabSelected: function() {
 			return this.get('category') === "account";
 		}.property('category'),
 
-		fundingInstrumentsTabSelected: function () {
+		fundingInstrumentsTabSelected: function() {
 			return this.get('category') === "funding_instrument";
 		}.property('category')
 	}

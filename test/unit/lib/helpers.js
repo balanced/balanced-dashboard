@@ -1,6 +1,6 @@
 module('Balanced.Utils');
 
-test('getParamByName', function (assert) {
+test('getParamByName', function(assert) {
 	var uris = [
 		'/v1/marketplaces?query=123',
 		'/v1/marketplaces?query=123&after=bar',
@@ -13,12 +13,8 @@ test('getParamByName', function (assert) {
 	}
 });
 
-test('formatCurrency', function (assert) {
-	var cents = [
-		-984526372,
-		-10000,
-		-105,
-		-1,
+test('formatCurrency', function(assert) {
+	var cents = [-984526372, -10000, -105, -1,
 		0,
 		1,
 		105,
@@ -45,7 +41,7 @@ test('formatCurrency', function (assert) {
 	}
 });
 
-test('dollarsToCents', function (assert) {
+test('dollarsToCents', function(assert) {
 	var dollars = [
 		'0',
 		'0.',
@@ -120,8 +116,9 @@ test('dollarsToCents', function (assert) {
 	// Not a fan of this, but we need to wrap in a functions outside of the
 	// loop so jshint is happy.
 	////
+
 	function isInvalid(val) {
-		assert.throws(function () {
+		assert.throws(function() {
 				Balanced.Utils.dollarsToCents(val);
 			},
 			/is not a valid dollar amount/,
@@ -134,7 +131,7 @@ test('dollarsToCents', function (assert) {
 	}
 });
 
-test('isValidPassword', function (assert) {
+test('isValidPassword', function(assert) {
 	var invalid_passwords = [
 		null,
 		'',
@@ -152,16 +149,16 @@ test('isValidPassword', function (assert) {
 		'IAMSUPERMAN123'
 	];
 
-	_.each(invalid_passwords, function (password) {
+	_.each(invalid_passwords, function(password) {
 		assert.equal(Balanced.PASSWORD.REGEX.test(password), false, password);
 	});
 
-	_.each(valid_passwords, function (password) {
+	_.each(valid_passwords, function(password) {
 		assert.equal(Balanced.PASSWORD.REGEX.test(password), true, password);
 	});
 });
 
-test('stripDomain', function (assert) {
+test('stripDomain', function(assert) {
 	var urls = [
 		'https://api.balancedpayments.com/v1/marketplaces',
 		'http://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
@@ -185,7 +182,7 @@ test('stripDomain', function (assert) {
 	}
 });
 
-test('prettyLogUrl', function (assert) {
+test('prettyLogUrl', function(assert) {
 	var uris = [
 		'http://api.balancedpayments.com/v1/marketplaces',
 		'https://api.balancedpayments.com/v1/marketplaces/',
@@ -215,7 +212,7 @@ test('prettyLogUrl', function (assert) {
 	}
 });
 
-test('toTitleCase', function (assert) {
+test('toTitleCase', function(assert) {
 	var inputs = [
 		null,
 		undefined,
@@ -241,13 +238,20 @@ test('toTitleCase', function (assert) {
 	}
 });
 
-test('combineUri', function (assert) {
-	var inputs = [
-		{ base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1', path: '1234' },
-		{ base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/', path: '1234' },
-		{ base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1', path: '/1234' },
-		{ base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/', path: '/1234' }
-	];
+test('combineUri', function(assert) {
+	var inputs = [{
+		base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1',
+		path: '1234'
+	}, {
+		base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/',
+		path: '1234'
+	}, {
+		base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1',
+		path: '/1234'
+	}, {
+		base: 'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/',
+		path: '/1234'
+	}];
 
 	var outputs = [
 		'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/1234',
@@ -256,23 +260,17 @@ test('combineUri', function (assert) {
 		'http://auth.balancedpayments.com/v1/marketplaces/TEST-MP1/1234'
 	];
 
-	assert.throws(function () {
-			Balanced.Utils.combineUri(null, undefined);
-		}
-	);
+	assert.throws(function() {
+		Balanced.Utils.combineUri(null, undefined);
+	});
 
 	for (var i = 0; i < inputs.length; i++) {
 		assert.equal(Balanced.Utils.combineUri(inputs[i].base, inputs[i].path), outputs[i]);
 	}
 });
 
-test('formatNumber', function (assert) {
-	var number = [
-		-984526372,
-		-10000,
-		-1000,
-		-105,
-		-1,
+test('formatNumber', function(assert) {
+	var number = [-984526372, -10000, -1000, -105, -1,
 		0,
 		1,
 		105,
@@ -305,40 +303,35 @@ test('formatNumber', function (assert) {
 });
 
 test('applyUriFilters', function(assert) {
-	var inputs = [
-		{
-			uri: 'http://example.com/something',
-			params: {
-				query: 'hello',
-			}
-		},
-		{
-			uri: 'http://example.com/something',
-			params: {
-				query: 'hello',
-				limit: 23,
-				offset: 87,
-				sortField: 'foo',
-				sortOder: 'asc',
-				minDate: new Date(1231231231231),
-				maxDate: new Date(1231231231231),
-				type: 'foobar'
-			}
-		},
-		{
-			uri: 'http://example.com/something',
-			params: {
-				query: 'hello',
-				custom: 'woohoo'
-			}
-		},
-		{
-			uri: 'http://example.com/something',
-			params: {
-				query: 'nick+test1@rasslingcats.com'
-			}
+	var inputs = [{
+		uri: 'http://example.com/something',
+		params: {
+			query: 'hello',
 		}
-	];
+	}, {
+		uri: 'http://example.com/something',
+		params: {
+			query: 'hello',
+			limit: 23,
+			offset: 87,
+			sortField: 'foo',
+			sortOder: 'asc',
+			minDate: new Date(1231231231231),
+			maxDate: new Date(1231231231231),
+			type: 'foobar'
+		}
+	}, {
+		uri: 'http://example.com/something',
+		params: {
+			query: 'hello',
+			custom: 'woohoo'
+		}
+	}, {
+		uri: 'http://example.com/something',
+		params: {
+			query: 'nick+test1@rasslingcats.com'
+		}
+	}];
 
 	var expected = [
 		'http://example.com/something?limit=10&offset=0&q=hello',
@@ -356,9 +349,7 @@ test('applyUriFilters', function(assert) {
 test('filterSensitiveData', function(assert) {
 	var inputs = [
 		null,
-		undefined,
-		[],
-		{},
+		undefined, [], {},
 		'hello world',
 		'123-12-1234',
 		'1234123412341234',
@@ -392,20 +383,28 @@ test('filterSensitiveData', function(assert) {
 test('filterSensitivePropertiesMap', function(assert) {
 	var inputs = [
 		null,
-		undefined,
-		{},
-		{a: 'b'},
-		{a: {b: 'c'}},
-		{a: '1234123412341234', b: "234523452345"}
+		undefined, {}, {
+			a: 'b'
+		}, {
+			a: {
+				b: 'c'
+			}
+		}, {
+			a: '1234123412341234',
+			b: "234523452345"
+		}
 	];
 
 	var expected = [
 		null,
-		undefined,
-		{},
-		{a: 'b'},
-		{a: "[object Object]"},
-		{a: 'XX-HIDE-XX-1234', b: "XX-HIDE-XX-2345"}
+		undefined, {}, {
+			a: 'b'
+		}, {
+			a: "[object Object]"
+		}, {
+			a: 'XX-HIDE-XX-1234',
+			b: "XX-HIDE-XX-2345"
+		}
 	];
 
 	for (var i = 0; i < inputs.length; i++) {

@@ -3,7 +3,7 @@ Balanced.PopoverView = Balanced.View.extend({
 	attributeBindings: ['data-toggle', 'data-placement', 'data-original-title', 'data-content'],
 	'data-toggle': 'popover',
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.$().popover();
 	}
 });

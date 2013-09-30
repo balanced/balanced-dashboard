@@ -7,12 +7,14 @@ Balanced.Claim = Balanced.Model.extend(Ember.Validations, {
 		},
 		password: {
 			presence: true,
-			length: {minimum: 6}
+			length: {
+				minimum: 6
+			}
 		},
 		passwordConfirm: {
 			presence: true,
 			matches: {
-				validator: function (object, attribute, value) {
+				validator: function(object, attribute, value) {
 					var password = object.get('password');
 					if (value !== password) {
 						object.get('validationErrors').add(attribute, 'invalid');

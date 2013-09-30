@@ -10,7 +10,7 @@ window.Balanced.setupFixtureApp = function() {
 	window.setupTestFixtures();
 
 	// // Set up Ember Auth
-	Ember.run(function () {
+	Ember.run(function() {
 		var userId = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
 		Balanced.Auth.setAuthProperties(
 			true,

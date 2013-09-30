@@ -6,7 +6,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	verifications: Balanced.Model.hasMany('verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('verification', 'Balanced.Verification'),
 
-	type_name: function () {
+	type_name: function() {
 		return 'Bank Account';
 	}.property(),
 
@@ -22,14 +22,14 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	last_four: function() {
 		var accountNumber = this.get('account_number');
-		if(!accountNumber || accountNumber.length < 5) {
+		if (!accountNumber || accountNumber.length < 5) {
 			return accountNumber;
 		} else {
-			return accountNumber.substr(accountNumber.length-4,4);
+			return accountNumber.substr(accountNumber.length - 4, 4);
 		}
 	}.property('account_number'),
 
-	description: function () {
+	description: function() {
 		if (this.get('bank_name')) {
 			return '%@ (%@)'.fmt(
 				this.get('last_four'),
@@ -40,16 +40,16 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('last_four', 'bank_name'),
 
-	can_verify: function () {
+	can_verify: function() {
 		return !this.get('can_debit') &&
 			(this.get('customer') || this.get('account'));
 	}.property('can_debit', 'can_confirm_verification'),
 
-	can_confirm_verification: function () {
+	can_confirm_verification: function() {
 		return this.get('verification') &&
-				this.get('verification.state') !== 'failed' &&
-				this.get('verification.state') !== 'verified' &&
-				this.get('verification.remaining_attempts') > 0;
+			this.get('verification.state') !== 'failed' &&
+			this.get('verification.state') !== 'verified' &&
+			this.get('verification.remaining_attempts') > 0;
 	}.property('verification', 'verification.state', 'verification.remaining_attempts'),
 
 	tokenizeAndCreate: function() {
@@ -65,7 +65,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		};
 
 		// Tokenize the bank account using the balanced.js library
-		balanced.bankAccount.create(bankAccountData, function (response) {
+		balanced.bankAccount.create(bankAccountData, function(response) {
 			switch (response.status) {
 				case 201:
 					// Now that it's been tokenized, we just need to associate it with the customer's account
@@ -73,7 +73,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 						uri: self.get('uri'),
 						bank_account_uri: response.data.uri
 					});
-					bankAccountAssociation.save().then(function (savedBankAccount) {
+					bankAccountAssociation.save().then(function(savedBankAccount) {
 						self.updateFromModel(savedBankAccount);
 						self.set('isLoaded', true);
 						self.set('isNew', false);
@@ -88,7 +88,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					break;
 				case 400:
 					self.set('validationErrors', {});
-					_.each(response.error, function (value, key) {
+					_.each(response.error, function(value, key) {
 						self.set('validationErrors.' + key, 'invalid');
 					});
 					self.set('isSaving', false);

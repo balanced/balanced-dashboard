@@ -18,9 +18,9 @@ Balanced.Rev0Serializer = Ember.Object.extend({
 	},
 
 	// Taken from http://stackoverflow.com/questions/9211844/reflection-on-emberjs-objects-how-to-find-a-list-of-property-keys-without-knowi
-	_propertiesMap: function (record) {
+	_propertiesMap: function(record) {
 		var computedProps = [];
-		record.constructor.eachComputedProperty(function (prop) {
+		record.constructor.eachComputedProperty(function(prop) {
 			computedProps.push(prop);
 		});
 
@@ -35,7 +35,7 @@ Balanced.Rev0Serializer = Ember.Object.extend({
 				prop.indexOf('__ember') < 0 &&
 				prop.indexOf('_super') < 0 &&
 				Ember.typeOf(record.get(prop)) !== 'function'
-				) {
+			) {
 				props[prop] = record[prop];
 			}
 		}

@@ -2,12 +2,12 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented,
 	needs: ['application'],
 
 	actions: {
-		openPaySellerModal: function () {
+		openPaySellerModal: function() {
 			this.trigger('openPaySellerModal');
 		},
 	},
 
-	formattedEscrowAmount: function () {
+	formattedEscrowAmount: function() {
 		var escrow = this.get('in_escrow');
 		if (isNaN(escrow)) {
 			return '$--';

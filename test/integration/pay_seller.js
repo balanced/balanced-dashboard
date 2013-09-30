@@ -1,14 +1,15 @@
 module('Pay Seller', {
-	setup: function () {
+	setup: function() {
 		Testing.selectMarketplaceByName();
-	}, teardown: function () {
-		Ember.run(function () {
+	},
+	teardown: function() {
+		Ember.run(function() {
 			$("#pay-seller").modal('hide');
 		});
 	}
 });
 
-test('can pay a seller', function (assert) {
+test('can pay a seller', function(assert) {
 	var createsBefore = Balanced.Adapter.creates.length;
 
 	// click the button to pay a seller
@@ -28,7 +29,7 @@ test('can pay a seller', function (assert) {
 	assert.equal(Balanced.Adapter.creates.length, createsBefore + 1);
 });
 
-test('pay a seller only submits once despite multiple button clicks', function (assert) {
+test('pay a seller only submits once despite multiple button clicks', function(assert) {
 	expect(1);
 
 	var stub = sinon.stub(Balanced.Adapter, "create");

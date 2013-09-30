@@ -6,13 +6,13 @@ Balanced.VoidHoldModalComponent = Ember.Component.extend({
 	},
 
 	actions: {
-		open: function () {
+		open: function() {
 			$('#void-hold').modal({
 				manager: this.$()
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('hold.isSaving')) {
 				return;
 			}

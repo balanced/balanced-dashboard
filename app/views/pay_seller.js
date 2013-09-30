@@ -4,17 +4,19 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 
 	amount_dollars: 0,
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openPaySellerModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openPaySellerModal', this, this.open);
 	},
 
-	open: function () {
+	open: function() {
 		var credit = Balanced.Credit.create();
-		credit.set('bank_account', Balanced.BankAccount.create({'type': 'checking'}));
+		credit.set('bank_account', Balanced.BankAccount.create({
+			'type': 'checking'
+		}));
 		this.set('model', credit);
 		this.set('amount_dollars', null);
 
@@ -24,7 +26,7 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -36,12 +38,14 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('amount_dollars'));
 			} catch (error) {
-				credit.set('validationErrors', {'amount': error});
+				credit.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 			credit.set('amount', cents);
 
-			credit.save().then(function (credit) {
+			credit.save().then(function(credit) {
 				$('#pay-seller').modal('hide');
 				self.get('controller').transitionToRoute('credits', credit);
 			});

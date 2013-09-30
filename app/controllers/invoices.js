@@ -1,7 +1,6 @@
 Balanced.InvoicesIndexController = Balanced.ObjectController.extend(
 	Ember.Evented,
-	Balanced.ResultsTable,
-	{
+	Balanced.ResultsTable, {
 		needs: ['marketplace'],
 
 		sortField: 'created_at',
@@ -12,7 +11,7 @@ Balanced.InvoicesIndexController = Balanced.ObjectController.extend(
 
 		baseClassSelector: '#invoices',
 
-		results_base_uri: function () {
+		results_base_uri: function() {
 			return this.get('controllers.marketplace.invoices_uri');
 		}.property('controllers.marketplace.invoices_uri'),
 	}

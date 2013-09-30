@@ -1,8 +1,8 @@
 Balanced.StartRoute = Balanced.Route.extend({
 	pageTitle: 'Getting started',
 
-	model: function () {
-		if(Balanced.Auth.get('signedIn')) {
+	model: function() {
+		if (Balanced.Auth.get('signedIn')) {
 			return Balanced.currentMarketplace;
 		} else {
 			return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
@@ -28,22 +28,22 @@ Balanced.StartRoute = Balanced.Route.extend({
 			});
 		}
 	},
-	redirect: function () {
+	redirect: function() {
 		if (Balanced.Auth.get('user') && !Balanced.Auth.get('isGuest')) {
 			this.transitionTo('index');
 		}
 	},
 	actions: {
-		goToDashboard: function () {
+		goToDashboard: function() {
 			this.transitionTo('activity', this.currentModel);
 		},
-		goToDocumentation: function () {
+		goToDocumentation: function() {
 			window.location = 'https://docs.balancedpayments.com';
 		},
-		goToApply: function () {
+		goToApply: function() {
 			this.transitionTo('marketplaces.apply');
 		},
-		goToLogin: function () {
+		goToLogin: function() {
 			// Since we already logged them in as guest, log them out so they can sign in as themselves
 			Balanced.Auth.forgetLogin();
 			this.transitionTo('login');

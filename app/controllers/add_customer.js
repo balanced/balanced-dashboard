@@ -14,8 +14,8 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 
 			customer.updateDob(this.get('dob_month'), this.get('dob_year'));
 
-			for(var prop in customer) {
-				if(customer.hasOwnProperty(prop) && customer[prop] === '') {
+			for (var prop in customer) {
+				if (customer.hasOwnProperty(prop) && customer[prop] === '') {
 					customer.set(prop, null);
 				}
 			}
@@ -25,7 +25,7 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 			});
 		},
 
-		selectType: function (applicationType) {
+		selectType: function(applicationType) {
 			this.set('applicationType', applicationType);
 			this.set('optionalFieldsOpen', false);
 
@@ -38,16 +38,16 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 		}
 	},
 
-	selectedType: function () {
+	selectedType: function() {
 		return this.get('applicationType');
 	}.property('applicationType'),
 
-	isBusiness: function () {
+	isBusiness: function() {
 		return this.get('applicationType') === 'BUSINESS';
 	}.property('applicationType'),
 
 	submitTitle: function() {
-		if(this.get('model.isSaving')) {
+		if (this.get('model.isSaving')) {
 			return "Submitting...";
 		} else {
 			return "Submit";
@@ -55,7 +55,7 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 	}.property('model.isSaving'),
 
 	street_address_label: function() {
-		if(this.get('isBusiness')) {
+		if (this.get('isBusiness')) {
 			return "Enter the business representative's permanent street address (not the business address). ";
 		} else {
 			return "Enter the permanent street address. ";

@@ -7,7 +7,7 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 	},
 
 	actions: {
-		open: function () {
+		open: function() {
 			var debit = Balanced.Debit.create({
 				uri: this.get('hold.customer.debits_uri'),
 				hold_uri: this.get('hold.uri'),
@@ -27,7 +27,7 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -38,7 +38,9 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
-				debit.set('validationErrors', {'amount': error});
+				debit.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 			debit.set('amount', cents);

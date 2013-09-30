@@ -2,13 +2,13 @@ Balanced.User = Balanced.Model.extend({
 
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
-	user_marketplace_for_uri: function (uri) {
-		return this.get('user_marketplaces').find(function (userMarketplace) {
+	user_marketplace_for_uri: function(uri) {
+		return this.get('user_marketplaces').find(function(userMarketplace) {
 			return userMarketplace.get('uri') === uri;
 		});
 	},
 
-	gravatar: function () {
+	gravatar: function() {
 		var emailHash = this.get('email_hash');
 		return Balanced.Utils.toGravatar(emailHash);
 	}.property('email_hash')
@@ -24,7 +24,7 @@ Balanced.User.reopenClass({
 			json.user_marketplaces = json.marketplaces || [];
 			delete json.marketplaces;
 
-			json.user_marketplaces.sort(function (a, b) {
+			json.user_marketplaces.sort(function(a, b) {
 				if (a.name === b.name) {
 					return 0;
 				}

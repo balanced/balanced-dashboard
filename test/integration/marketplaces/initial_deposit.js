@@ -4,8 +4,8 @@ var initialDepositRoute = '/marketplaces/MP1/initial_deposit';
  * does not appear to be loaded correctly and form validation therefore fails.
  */
 module('Balanced.Marketplaces.initial_deposit', {
-	setup: function () {
-	}, teardown: function () {
+	setup: function() {},
+	teardown: function() {
 
 	}
 });
@@ -24,36 +24,36 @@ var nonTokenizingCard = goodData;
 nonTokenizingCard.card_number = '4222222222222220';
 
 function populateData(data) {
-	_.each(data, function (value, key) {
+	_.each(data, function(value, key) {
 		var $input = $('[name="' + key + '"]');
 		$input.val(value);
 		$input.keyup();
 	});
 }
 
-test('on the correct page', function (assert) {
+test('on the correct page', function(assert) {
 	visit(initialDepositRoute).then(function() {
 		assert.equal($('h1', '#marketplace-initial-deposit').text(), 'Make an initial deposit', 'title is correct');
 	});
 });
 
-test('form validation', function (assert) {
+test('form validation', function(assert) {
 	visit(initialDepositRoute).then(function() {
 		var $submitButton = $('button:contains("Submit")');
 		assert.equal($submitButton.length, 1, 'submit button exists');
 	});
-//    $submitButton.click();
-//
-//    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
+	//    $submitButton.click();
+	//
+	//    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
 });
 
-test('payment success', function (assert) {
+test('payment success', function(assert) {
 	visit(initialDepositRoute).then(function() {
 		populateData(goodData);
 		var $submitButton = $('button:contains("Submit")');
 		assert.equal($submitButton.length, 1, 'submit button exists');
 	});
-//    $submitButton.click();
+	//    $submitButton.click();
 });
 
 //test('payment failure', function (assert) {
@@ -68,13 +68,13 @@ test('payment success', function (assert) {
 //    assert.equal($('.alert').text(), 'Sorry, there was an error charging this card.', 'error message is correct');
 //});
 
-test('cancel', function (assert) {
+test('cancel', function(assert) {
 	visit(initialDepositRoute).then(function() {
 		var $skipButton = $('button:contains("Skip")');
 		var hash = window.location.hash;
 		assert.equal($skipButton.length, 1, 'skip button exists');
 	});
 
-//    $skipButton.click();
-//    assert.notEqual(hash, window.location.hash, 'location has changed');
+	//    $skipButton.click();
+	//    assert.notEqual(hash, window.location.hash, 'location has changed');
 });

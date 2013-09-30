@@ -4,7 +4,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
 	dollar_amount: null,
 
 	actions: {
-		open: function () {
+		open: function() {
 			var fundingInstruments = this.get('customer.debitable_funding_instruments');
 			var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
 
@@ -22,7 +22,7 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -33,20 +33,22 @@ Balanced.DebitCustomerModalView = Balanced.View.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
-				debit.set('validationErrors', {'amount': error});
+				debit.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 			debit.set('amount', cents);
 
 			var self = this;
-			debit.save().then(function (debit) {
+			debit.save().then(function(debit) {
 				$('#debit-customer').modal('hide');
 				self.get('controller').transitionToRoute('debits', debit);
 			});
 		}
 	},
 
-	selected_funding_instrument: function () {
+	selected_funding_instrument: function() {
 		if (this.get('model.source_uri')) {
 			var self = this;
 			return this.get('customer.debitable_funding_instruments').find(function(i) {

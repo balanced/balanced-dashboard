@@ -1,7 +1,7 @@
 Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 	title: 'Apply for production access',
 	pageTitle: 'Apply for production access',
-	model: function () {
+	model: function() {
 		var request = Balanced.ProductionAccessRequest.create({
 
 		});
@@ -10,19 +10,19 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 			title: this.title
 		};
 	},
-	setupController: function (controller, model) {
+	setupController: function(controller, model) {
 		this._super(controller, model.request);
 		this.controllerFor('marketplace').set('content', null);
 	},
 	actions: {
-		signup: function (models) {
+		signup: function(models) {
 			var self = this;
 
 			function persistMarketplace(user) {
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();
 
-				models.apiKey.save().then(function (apiKey) {
+				models.apiKey.save().then(function(apiKey) {
 					var apiKeySecret = apiKey.get('secret');
 					//  set the api key for this request
 					Balanced.Auth.setAPIKey(apiKeySecret);
@@ -32,13 +32,13 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 						}
 					};
 
-					models.marketplace.save(settings).then(function (marketplace) {
+					models.marketplace.save(settings).then(function(marketplace) {
 						//  associate to login
 						var userMarketplaceAssociation = Balanced.UserMarketplace.create({
 							uri: user.api_keys_uri,
 							secret: apiKeySecret
 						});
-						userMarketplaceAssociation.save().then(function () {
+						userMarketplaceAssociation.save().then(function() {
 							Balanced.Auth.setAPIKey(apiKey.get('secret'));
 							user.reload();
 							balanced.init(marketplace.get('uri'));
@@ -47,7 +47,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 							var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri');
 
 							models.bankAccount.set('uri', bankAccountUri);
-							models.bankAccount.tokenizeAndCreate().then(function (bankAccount) {
+							models.bankAccount.tokenizeAndCreate().then(function(bankAccount) {
 								// we don't know the bank account's
 								// verification uri until it's created so we
 								// are forced to create it here.
@@ -58,9 +58,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 									//  annnnd we're done
 									self.send('alert', {
 										type: 'success',
-										message: 'We\'ve received your information. In the ' +
-											'meantime, you may fund your balance with your ' +
-											'credit card to transact right away.'
+										message: 'We\'ve received your information. In the ' + 'meantime, you may fund your balance with your ' + 'credit card to transact right away.'
 									});
 								});
 							});
@@ -74,7 +72,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 			if (models.user) {
 				var password = models.user.password;
-				models.user.save().then(function (user) {
+				models.user.save().then(function(user) {
 					Balanced.Auth.signIn(models.user.email_address, password).then(function() {
 						persistMarketplace(Balanced.Auth.get('user'));
 					});

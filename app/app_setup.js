@@ -8,7 +8,7 @@ Creates a new instance of an Ember application and
 specifies what HTML element inside index.html Ember
 should manage for you.
 */
-window.setupBalanced = function (divSelector) {
+window.setupBalanced = function(divSelector) {
 
 	// default to #balanced-app if not specified
 	divSelector = divSelector || '#balanced-app';
@@ -23,7 +23,7 @@ window.setupBalanced = function (divSelector) {
 		}
 	});
 
-	window.Balanced.onLoad = function () {
+	window.Balanced.onLoad = function() {
 		//  initialize anything that needs to be done on application load
 		Balanced.Analytics.init(Ember.ENV.BALANCED);
 
@@ -31,7 +31,7 @@ window.setupBalanced = function (divSelector) {
 		$.fn.modal.defaults.manager = divSelector;
 	};
 
-	_.each(window.balancedSetupFunctions, function (setupFunction) {
+	_.each(window.balancedSetupFunctions, function(setupFunction) {
 		setupFunction();
 	});
 };

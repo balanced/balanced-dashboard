@@ -1,112 +1,111 @@
 var activityRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/activity/transactions';
 
 module('Activity', {
-	setup: function () {
-	}, teardown: function () {
-	}
+	setup: function() {},
+	teardown: function() {}
 });
 
-test('can visit page', function (assert) {
-  visit(activityRoutePath)
-  .then(function() {
-    var $title = $('#content h1');
-
-    assert.notEqual($title.text().indexOf('Activity'), -1,
-      'Title is incorrect');
-
-    assert.ok($('#activity .download').length, "Download link is visible");
-  });
-});
-
-test('Click load more shows 5 more and hides load more', function (assert) {
+test('can visit page', function(assert) {
 	visit(activityRoutePath)
-	.then(function() {
-		assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
-	})
-	.click('#activity .results table.transactions tfoot td.load-more-results a')
-	.then(function() {
-		assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
-		assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
-	});
+		.then(function() {
+			var $title = $('#content h1');
+
+			assert.notEqual($title.text().indexOf('Activity'), -1,
+				'Title is incorrect');
+
+			assert.ok($('#activity .download').length, "Download link is visible");
+		});
 });
 
-test('add funds', function (assert) {
+test('Click load more shows 5 more and hides load more', function(assert) {
+	visit(activityRoutePath)
+		.then(function() {
+			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
+		})
+		.click('#activity .results table.transactions tfoot td.load-more-results a')
+		.then(function() {
+			assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
+			assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
+		});
+});
+
+test('add funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 
-  visit(activityRoutePath)
-  .then(function() {
-    assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
-  })
-  .click('.activity-escrow-box .btn')
-  .then(function() {
-    assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
-    assert.equal($('#add-funds select option').length, 2, 'bank accounts in account dropdown');
-  })
-	.fillIn('#add-funds input', '55.55')
-	.fillIn('#add-funds input.description', 'Adding lots of money yo')
-	.click('#add-funds .modal-footer button[name="modal-submit"]')
-	.then(function() {
-		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/debits'));
-		assert.equal(spy.getCall(0).args[2].amount, 5555);
-		assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
-	});
+	visit(activityRoutePath)
+		.then(function() {
+			assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
+		})
+		.click('.activity-escrow-box .btn')
+		.then(function() {
+			assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
+			assert.equal($('#add-funds select option').length, 2, 'bank accounts in account dropdown');
+		})
+		.fillIn('#add-funds input', '55.55')
+		.fillIn('#add-funds input.description', 'Adding lots of money yo')
+		.click('#add-funds .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/debits'));
+			assert.equal(spy.getCall(0).args[2].amount, 5555);
+			assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
+		});
 });
 
-test('add funds only adds once despite multiple clicks', function (assert) {
+test('add funds only adds once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-  visit(activityRoutePath)
-  .click('.activity-escrow-box .btn')
-	.fillIn('#add-funds input', '55.55')
-  .click('#add-funds .modal-footer button[name="modal-submit"]')
-  .click('#add-funds .modal-footer button[name="modal-submit"]')
-  .click('#add-funds .modal-footer button[name="modal-submit"]')
-  .click('#add-funds .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(stub.calledOnce);
-  });
+	visit(activityRoutePath)
+		.click('.activity-escrow-box .btn')
+		.fillIn('#add-funds input', '55.55')
+		.click('#add-funds .modal-footer button[name="modal-submit"]')
+		.click('#add-funds .modal-footer button[name="modal-submit"]')
+		.click('#add-funds .modal-footer button[name="modal-submit"]')
+		.click('#add-funds .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+		});
 });
 
-test('withdraw funds', function (assert) {
+test('withdraw funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-  visit(activityRoutePath)
-  .then(function() {
-    assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
-  })
-	.click('.activity-escrow-box .btn')
-  .then(function() {
-    assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
-    assert.equal($('#withdraw-funds select option').length, 4, 'bank accounts in account dropdown');
-  })
-	.fillIn('#withdraw-funds input', '55.55')
-	.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
-	.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-	.then(function() {
-		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/credits'));
-		assert.equal(spy.getCall(0).args[2].amount, 5555);
-		assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
-	});
+	visit(activityRoutePath)
+		.then(function() {
+			assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
+		})
+		.click('.activity-escrow-box .btn')
+		.then(function() {
+			assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
+			assert.equal($('#withdraw-funds select option').length, 4, 'bank accounts in account dropdown');
+		})
+		.fillIn('#withdraw-funds input', '55.55')
+		.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
+		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/credits'));
+			assert.equal(spy.getCall(0).args[2].amount, 5555);
+			assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+		});
 });
 
-test('withdraw funds only withdraws once despite multiple clicks', function (assert) {
+test('withdraw funds only withdraws once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-  visit(activityRoutePath)
-  .click('.activity-escrow-box .btn')
-	.fillIn('#withdraw-funds input', '55.55')
-	.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-	.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-	.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-	.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(stub.calledOnce);
-  });
+	visit(activityRoutePath)
+		.click('.activity-escrow-box .btn')
+		.fillIn('#withdraw-funds input', '55.55')
+		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+		});
 });
 
-test('download activity', function (assert) {
+test('download activity', function(assert) {
 	assert.equal($(".alert span").length, 0);
 
 	var stub = sinon.stub(Balanced.Adapter, "create");
@@ -115,68 +114,68 @@ test('download activity', function (assert) {
 	});
 
 	visit(activityRoutePath)
-	.click("#activity .icon-download")
-	.fillIn(".download-modal.in form input[name='email']", "test@example.com")
-	.click('.download-modal.in .modal-footer button[name="modal-submit"]')
-	.then(function() {
-		assert.ok(stub.calledOnce);
-		assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
-			email_address: "test@example.com",
-			uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold"
-		}));
-		assert.equal($(".alert span").length, 1);
-		assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
-	});
+		.click("#activity .icon-download")
+		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+				email_address: "test@example.com",
+				uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold"
+			}));
+			assert.equal($(".alert span").length, 1);
+			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
+		});
 });
 
-test('download activity only runs once despite multiple clicks', function (assert) {
+test('download activity only runs once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-  visit(activityRoutePath)
-	.click("#activity .icon-download")
-	.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
-	.click('.download-modal.in .modal-footer button[name="modal-submit"]')
-	.click('.download-modal.in .modal-footer button[name="modal-submit"]')
-	.click('.download-modal.in .modal-footer button[name="modal-submit"]')
-	.click('.download-modal.in .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(stub.calledOnce);
-  });
+	visit(activityRoutePath)
+		.click("#activity .icon-download")
+		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+		});
 });
 
-test('transactions date sort has two states', function (assert) {
-  visit(activityRoutePath)
-  .then(function() {
-    var objectPath = "#activity .results th.date";
-    var states = [];
-    var getSate = function(){
-      if($(objectPath).hasClass("unsorted")){
-        if($.inArray("unsorted", states) === -1){
-          states.push("unsorted");
-        }
-      }else if($(objectPath).hasClass("ascending")){
-        if($.inArray("ascending", states) === -1){
-          states.push("ascending");
-        }
-      }else if($(objectPath).hasClass("descending")){
-        if($.inArray("descending", states) === -1){
-          states.push("descending");
-        }
-      }
-    };
+test('transactions date sort has two states', function(assert) {
+	visit(activityRoutePath)
+		.then(function() {
+			var objectPath = "#activity .results th.date";
+			var states = [];
+			var getSate = function() {
+				if ($(objectPath).hasClass("unsorted")) {
+					if ($.inArray("unsorted", states) === -1) {
+						states.push("unsorted");
+					}
+				} else if ($(objectPath).hasClass("ascending")) {
+					if ($.inArray("ascending", states) === -1) {
+						states.push("ascending");
+					}
+				} else if ($(objectPath).hasClass("descending")) {
+					if ($.inArray("descending", states) === -1) {
+						states.push("descending");
+					}
+				}
+			};
 
-    var count = 0;
-    var testAmount = 5;
-    while(count !== testAmount){
-      click($(objectPath));
-      getSate();
-      count ++;
-    }
-    states.sort();
+			var count = 0;
+			var testAmount = 5;
+			while (count !== testAmount) {
+				click($(objectPath));
+				getSate();
+				count++;
+			}
+			states.sort();
 
-    var expectedStates = ["ascending", "descending"];
-    assert.equal(states[0], expectedStates[0]);
-    assert.equal(states[1], expectedStates[1]);
-    assert.equal(states.length, 2);
-  });
+			var expectedStates = ["ascending", "descending"];
+			assert.equal(states[0], expectedStates[0]);
+			assert.equal(states[1], expectedStates[1]);
+			assert.equal(states.length, 2);
+		});
 });

@@ -4,12 +4,12 @@ Balanced.AddCardModalView = Balanced.View.extend({
 	validMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 	validYears: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
 
-	expiration_error: function () {
+	expiration_error: function() {
 		return this.get('model.validationErrors.expiration_month') || this.get('model.validationErrors.expiration_year');
 	}.property('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
 	actions: {
-		open: function () {
+		open: function() {
 			var card = Balanced.Card.create({
 				uri: this.get('customer.cards_uri'),
 				name: '',
@@ -24,7 +24,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -32,7 +32,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
 			var self = this;
 			var card = this.get('model');
 
-			card.tokenizeAndCreate().then(function () {
+			card.tokenizeAndCreate().then(function() {
 				self.get('customer.cards').reload();
 				$('#add-card').modal('hide');
 			});

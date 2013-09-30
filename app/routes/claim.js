@@ -1,6 +1,6 @@
 Balanced.ClaimRoute = Balanced.Route.extend({
 
-	parseResponse: function (unparsedJson) {
+	parseResponse: function(unparsedJson) {
 		var json = JSON.parse(unparsedJson);
 		for (var key in json) {
 			if (!json.hasOwnProperty(key)) {
@@ -11,7 +11,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 		this.propertyDidChange('validationErrors');
 	},
 
-	model: function () {
+	model: function() {
 		var claim = Balanced.Claim.create();
 
 		claim.one('becameInvalid', $.proxy(this.parseResponse, claim));
@@ -22,18 +22,18 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 		};
 	},
 
-	setupController: function (controller, model) {
+	setupController: function(controller, model) {
 		controller.set('content', model.claim);
 	},
 
-	redirect: function () {
+	redirect: function() {
 		if (!Balanced.Auth.get('isGuest')) {
 			this.transitionTo('index');
 		}
 	},
 
 	actions: {
-		signUp: function (someShitThatsNotTheModel, event) {
+		signUp: function(someShitThatsNotTheModel, event) {
 			var self = this;
 			var model = this.currentModel.claim;
 			var authToken = Balanced.Auth.get('authToken');
@@ -43,7 +43,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 				return;
 			}
 
-			model.save().then(function (user) {
+			model.save().then(function(user) {
 				Balanced.Auth.signIn(user.get('email_address'), user.get('passwordConfirm')).then(function() {
 					// associate marketplace to user
 					if (authToken) {
@@ -51,7 +51,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 							uri: user.api_keys_uri,
 							secret: authToken
 						});
-						marketplace.save().then(function () {
+						marketplace.save().then(function() {
 							user.reload().then(function() {
 								self.transitionTo('index');
 							});
@@ -63,7 +63,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 			});
 		},
 
-		cancel: function () {
+		cancel: function() {
 			this.transitionTo('index');
 		}
 	}
