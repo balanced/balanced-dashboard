@@ -31,7 +31,7 @@ Balanced.NET = (function () {
 			};
 
 			if(this.defaultApiKey) {
-				def.headers['Authorization'] = 'Basic ' + window.btoa(this.defaultApiKey + ':');
+				def.headers['Authorization'] = Balanced.Utils.encodeAuthorization(this.defaultApiKey);
 			}
 
 			if(settings.url.indexOf(ENV.BALANCED.AUTH) !== -1) {

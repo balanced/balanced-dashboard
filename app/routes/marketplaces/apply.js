@@ -20,16 +20,23 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 			function persistMarketplace(user) {
 				Balanced.Utils.setCurrentMarketplace(null);
+				Balanced.Auth.unsetAPIKey();
 
 				models.apiKey.save().then(function (apiKey) {
+					var apiKeySecret = apiKey.get('secret');
 					//  set the api key for this request
-					Balanced.Auth.setAPIKey(apiKey.get('secret'));
+					Balanced.Auth.setAPIKey(apiKeySecret);
+					var settings = {
+						headers: {
+							Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+						}
+					};
 
-					models.marketplace.save().then(function (marketplace) {
+					models.marketplace.save(settings).then(function (marketplace) {
 						//  associate to login
 						var userMarketplaceAssociation = Balanced.UserMarketplace.create({
 							uri: user.api_keys_uri,
-							secret: apiKey.secret
+							secret: apiKeySecret
 						});
 						userMarketplaceAssociation.save().then(function () {
 							Balanced.Auth.setAPIKey(apiKey.get('secret'));

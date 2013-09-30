@@ -118,9 +118,11 @@ Balanced.Auth = (function () {
 	};
 
 	auth.createNewGuestUser = function() {
+		Balanced.Auth.unsetAPIKey();
 		return Balanced.APIKey.create().save().then(function (apiKey) {
 			var secret = apiKey.get('secret');
 			auth.loginGuestUser(secret);
+			return apiKey;
 		});
 	};
 

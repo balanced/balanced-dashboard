@@ -32,7 +32,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		}
 	}.property('uri'),
 
-	save: function() {
+	save: function(settings) {
+		settings = settings || {};
 		var self = this;
 		var data = this.constructor.serializer.serialize(this);
 
@@ -55,7 +56,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			self.set('isError', false);
 			self.trigger(resolveEvent);
 			Balanced.Model.Events.trigger(resolveEvent, self);
-		}, $.proxy(self._handleError, self));
+		}, $.proxy(self._handleError, self), settings);
 
 		return promise;
 	},
@@ -66,6 +67,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 	delete: function () {
 		var self = this;
+		var settings = settings || {};
 
 		self.set('isDeleted', true);
 		self.set('isSaving', true);
@@ -76,7 +78,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			self.set('isSaving', false);
 			self.trigger('didDelete');
 			Balanced.Model.Events.trigger('didDelete', self);
-		}, $.proxy(self._handleError, self));
+		}, $.proxy(self._handleError, self), settings);
 
 		return promise;
 	},
