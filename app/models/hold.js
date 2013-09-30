@@ -34,3 +34,4 @@ Balanced.Hold = Balanced.Transaction.extend({
 });
 
 Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');
+Balanced.TypeMappings.addTypeMapping('card_hold', 'Balanced.Hold');

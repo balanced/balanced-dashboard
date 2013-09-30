@@ -37,7 +37,7 @@ var marketplaceJson = {
 test('Can extractSingle marketplace', function(assert) {
 	var serializer = Balanced.Rev1Serializer.create();
 
-	var extracted = serializer.extractSingle(marketplaceJson, '/marketplaces/TEST-MP1XQLiGuuKx5kaIgsRPjQyZ', Balanced.Marketplace);
+	var extracted = serializer.extractSingle(marketplaceJson, Balanced.Marketplace, '/marketplaces/TEST-MP1XQLiGuuKx5kaIgsRPjQyZ');
 	assert.equal(extracted.name, "Test Marketplace");
 	assert.equal(extracted.transactions_uri, "/transactions");
 	assert.equal(extracted.owner_customer_uri, "/customers/CU1XSPjcwGw7h279IMxptENX");
@@ -46,7 +46,7 @@ test('Can extractSingle marketplace', function(assert) {
 test('Can extractSingle new marketplace', function(assert) {
 	var serializer = Balanced.Rev1Serializer.create();
 
-	var extracted = serializer.extractSingle(marketplaceJson, null, Balanced.Marketplace);
+	var extracted = serializer.extractSingle(marketplaceJson, Balanced.Marketplace);
 	assert.equal(extracted.name, "Test Marketplace");
 	assert.equal(extracted.transactions_uri, "/transactions");
 	assert.equal(extracted.owner_customer_uri, "/customers/CU1XSPjcwGw7h279IMxptENX");
