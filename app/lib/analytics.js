@@ -10,7 +10,7 @@ Balanced.Analytics = (function () {
 	// links the current id with this specific id
 	function trackLogin(email) {
 		try {
-			window.mixpanel.alias(email);
+			window.mixpanel.identify(email);
 			Raven.setUser({
 				email: email
 			});
