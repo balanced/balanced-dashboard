@@ -267,7 +267,8 @@ Balanced.Model.reopenClass({
 					// association
 					var self = this;
 					Balanced.Adapter.get(defaultType, uriPropertyValue, function(json) {
-						self.set(embeddedProperty, json);
+						var modelJson = typeClass.serializer.extractSingle(json, typeClass, uriPropertyValue);
+						self.set(embeddedProperty, modelJson);
 					});
 
 					return embeddedPropertyValue;
