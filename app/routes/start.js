@@ -5,8 +5,14 @@ Balanced.StartRoute = Balanced.Route.extend({
 		if(Balanced.Auth.get('signedIn')) {
 			return Balanced.currentMarketplace;
 		} else {
-			return Balanced.Auth.createNewGuestUser().then(function() {
-				return Balanced.Marketplace.create().save().then(function(marketplace) {
+			return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+				var apiKeySecret = apiKey.get('secret');
+				var settings = {
+					headers: {
+						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+					}
+				};
+				return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
 					//  pre-populate marketplace with transactions
 					var uri = marketplace.get('uri');
 					var id = uri.substr(uri.lastIndexOf('/') + 1);

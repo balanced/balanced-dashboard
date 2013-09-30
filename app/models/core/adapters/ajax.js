@@ -21,8 +21,8 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	create: function (type, uri, data, success, error) {
-		var settings = {};
+	create: function (type, uri, data, success, error, settings) {
+		var settings = settings || {};
 		settings.data = data;
 		settings.error = error;
 		this.ajax(this._uri(type, uri), 'POST', settings).then(function (json) {
@@ -30,8 +30,8 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	update: function (type, uri, data, success, error) {
-		var settings = {};
+	update: function (type, uri, data, success, error, settings) {
+		var settings = settings || {};
 		settings.data = data;
 		settings.error = error;
 		this.ajax(this._uri(type, uri), 'PUT', settings).then(function (json) {
@@ -39,8 +39,8 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	delete: function (type, uri, success, error) {
-		var settings = {};
+	delete: function (type, uri, success, error, settings) {
+		var settings = settings || {};
 		settings.error = error;
 		this.ajax(this._uri(type, uri), 'DELETE', settings).then(function (json) {
 			success(json);
@@ -53,8 +53,10 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 		settings.type = type;
 		settings.context = this;
 
+		var alreadyHasAuth = settings.headers && settings.headers['Authorization'];
+
 		// HACK this goes away when we have oAuth
-		if(url && url.indexOf(ENV.BALANCED.AUTH) === -1) {
+		if(!alreadyHasAuth && url && url.indexOf(ENV.BALANCED.AUTH) === -1) {
 			if(Balanced.Auth.get('signedIn')) {
 				var marketplaceId = Balanced.currentMarketplace ? Balanced.currentMarketplace.get('id') : null;
 
@@ -78,14 +80,14 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 							Balanced.Auth.addUserMarketplace(response.id, response.uri, response.name, response.secret);
 
 							settings.headers = settings.headers || {};
-							settings.headers['Authorization'] = 'Basic ' + window.btoa(response.secret + ':');
+							settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(response.secret);
 							return Balanced.NET.ajax(settings);
 						});
 					}
 				} else {
 					var secret = userMarketplace.get('secret');
 					settings.headers = settings.headers || {};
-					settings.headers['Authorization'] = 'Basic ' + window.btoa(secret + ':');
+					settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(secret);
 				}
 			}
 		}

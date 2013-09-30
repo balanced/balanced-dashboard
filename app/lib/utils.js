@@ -283,5 +283,9 @@ Balanced.Utils = {
 			}
 		}
 		return ret;
+	},
+
+	encodeAuthorization: function(apiKey) {
+		return 'Basic ' + window.btoa(apiKey + ':');
 	}
 };
