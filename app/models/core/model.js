@@ -33,7 +33,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	}.property('uri'),
 
 	save: function(settings) {
-		var settings = settings || {};
+		settings = settings || {};
 		var self = this;
 		var data = this.constructor.serializer.serialize(this);
 

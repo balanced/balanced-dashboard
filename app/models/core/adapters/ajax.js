@@ -22,7 +22,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 	},
 
 	create: function (type, uri, data, success, error, settings) {
-		var settings = settings || {};
+		settings = settings || {};
 		settings.data = data;
 		settings.error = error;
 		this.ajax(this._uri(type, uri), 'POST', settings).then(function (json) {
@@ -31,7 +31,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 	},
 
 	update: function (type, uri, data, success, error, settings) {
-		var settings = settings || {};
+		settings = settings || {};
 		settings.data = data;
 		settings.error = error;
 		this.ajax(this._uri(type, uri), 'PUT', settings).then(function (json) {
@@ -40,7 +40,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 	},
 
 	delete: function (type, uri, success, error, settings) {
-		var settings = settings || {};
+		settings = settings || {};
 		settings.error = error;
 		this.ajax(this._uri(type, uri), 'DELETE', settings).then(function (json) {
 			success(json);
