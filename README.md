@@ -64,7 +64,7 @@ knowledge of the balanced-dashboard application.
 3. Write your code **and unit tests**
 4. Ensure all tests still pass (`grunt test`)
 5. Ensure that your new code has test coverage (check out report/coverage/index.html after running tests)
-6. [Lint](https://github.com/jshint/jshint/) your code (`grunt jshint`)
+6. Verify your code your code (`grunt verify`) (uses [JSHint](https://github.com/jshint/jshint/) and [JSBeautify](https://github.com/einars/js-beautify) to do linting and check style guidelines)
 7. Commit your changes (`git commit -am 'Add some feature'`)
 8. Push to the branch (`git push origin my-new-feature`)
 9. Create new [pull request](https://help.github.com/articles/using-pull-requests)
