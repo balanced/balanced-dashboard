@@ -1,6 +1,8 @@
 require('app/models/user_marketplace');
 
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
+	uri: '/v1/marketplaces',
+
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
@@ -28,12 +30,6 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	invoices_uri: function() {
 		return this.get('uri') + '/invoices';
 	}.property('uri')
-});
-
-Balanced.Marketplace.reopenClass({
-	constructUri: function (id) {
-		return '/v1/marketplaces/' + id;
-	}
 });
 
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');

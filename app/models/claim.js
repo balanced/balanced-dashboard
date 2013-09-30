@@ -1,4 +1,6 @@
 Balanced.Claim = Balanced.Model.extend(Ember.Validations, {
+	uri: '/users',
+
 	validations: {
 		email_address: {
 			presence: true

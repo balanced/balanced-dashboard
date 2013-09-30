@@ -12,10 +12,7 @@ Balanced.Auth = (function () {
 			type: 'POST'
 		}, opts)).done(function (response, status, jqxhr) {
 			var user = Balanced.User.create();
-			user.set('isNew', false);
-			user._updateFromJson(response.user);
-			user.set('isLoaded', true);
-			user.trigger('didLoad');
+			user.populateFromJsonResponse(response.user);
 
 			self.setAuthProperties(true,
 				user,
@@ -58,38 +55,15 @@ Balanced.Auth = (function () {
 
 	auth.rememberGuestUser = function(apiKey) {
 		this.setAPIKey(apiKey);
-		return Balanced.NET.ajax({
-			url: ENV.BALANCED.AUTH + '/v1/api_keys',
-			type: 'GET'
-		}).then(function(response) {
-			var theKeys = _.filter(response.items, function (key) {
-				if (key.secret !== null) {
-					return key;
-				}
-			});
-			var secret = theKeys.length ? theKeys[0].secret : null;
+
+		return Balanced.APIKey.findAll().then(function(apiKeys) {
+			var apiKeysWithSecrets = apiKeys.filterBy('secret');
+			var secret = apiKeysWithSecrets.length ? apiKeysWithSecrets[0].get('secret') : null;
 
 			auth.loginGuestUser(secret);
-		}).then(function() {
-			return Balanced.NET.ajax({
-				url: ENV.BALANCED.API + '/v1/marketplaces',
-				type: 'GET'
-			}).then(function(response) {
-				var marketplace = Balanced.Marketplace.create({
-					uri: '/v1/marketplaces'
-				});
-
-				if (!response.items.length) {
-					return;
-				}
-
-				marketplace.set('isNew', false);
-				marketplace._updateFromJson(response.items[0]);
-				marketplace.set('isLoaded', true);
-				marketplace.trigger('didLoad');
-
+			return Balanced.Marketplace.findAll().then(function(marketplaces) {
+				var marketplace = marketplaces.get('length') ? marketplaces.objectAt(0) : null;
 				auth.setupGuestUserMarketplace(marketplace);
-
 				return marketplace;
 			});
 		});
@@ -106,13 +80,13 @@ Balanced.Auth = (function () {
 	};
 
 	auth.setupGuestUserMarketplace = function(marketplace) {
-		Balanced.Utils.setCurrentMarketplace(marketplace);
 		auth.addUserMarketplace(
 			marketplace.get('id'),
 			marketplace.get('uri'),
 			marketplace.get('name'),
 			auth.getGuestAPIKey()
 		);
+		Balanced.Utils.setCurrentMarketplace(marketplace);
 	};
 
 	auth.addUserMarketplace = function(id, uri, name, secret) {
@@ -144,9 +118,7 @@ Balanced.Auth = (function () {
 	};
 
 	auth.createNewGuestUser = function() {
-		return Balanced.APIKey.create({
-			uri: '/v1/api_keys'
-		}).save().then(function (apiKey) {
+		return Balanced.APIKey.create().save().then(function (apiKey) {
 			var secret = apiKey.get('secret');
 			auth.loginGuestUser(secret);
 		});

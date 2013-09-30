@@ -60,11 +60,10 @@ test('models promises resolve async', function (assert) {
 			assert.equal(testModel.get('basic_field'), 123);
 		});
 
-		t._updateFromJson({
+		t.populateFromJsonResponse({
 			uri: '/v1/testobjects/1',
 			basic_field: 123
 		});
-		t.trigger('didLoad');
 	});
 });
 

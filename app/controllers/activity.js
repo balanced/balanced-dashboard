@@ -1,8 +1,6 @@
 Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
-	useSearch: true,
-
 	sortField: 'created_at',
 	sortOrder: 'desc',
 
@@ -19,11 +17,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 				this.transitionToRoute('activity.funding_instruments');
 			}
 		}
-	},
-
-	results_base_uri: function () {
-		return this.get('controllers.marketplace').get('search_uri');
-	}.property('controllers.marketplace.search_uri')
+	}
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({

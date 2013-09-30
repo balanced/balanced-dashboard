@@ -11,22 +11,27 @@ Balanced.User = Balanced.Model.extend({
 	gravatar: function () {
 		var emailHash = this.get('email_hash');
 		return Balanced.Utils.toGravatar(emailHash);
-	}.property('email_hash'),
-
-
-	deserialize: function (json) {
-		this._super(json);
-
-		json.user_marketplaces = json.marketplaces || [];
-		delete json.marketplaces;
-
-		json.user_marketplaces.sort(function (a, b) {
-			if (a.name === b.name) {
-				return 0;
-			}
-			return (a.name > b.name) ? 1 : -1;
-		});
-	}
+	}.property('email_hash')
 });
 
 Balanced.Adapter.registerHostForType(Balanced.User, ENV.BALANCED.AUTH);
+
+Balanced.User.reopenClass({
+	serializer: Balanced.Rev0Serializer.extend({
+		extractSingle: function(rootJson, type, href) {
+			var json = this._super(rootJson, type, href);
+
+			json.user_marketplaces = json.marketplaces || [];
+			delete json.marketplaces;
+
+			json.user_marketplaces.sort(function (a, b) {
+				if (a.name === b.name) {
+					return 0;
+				}
+				return (a.name > b.name) ? 1 : -1;
+			});
+
+			return json;
+		},
+	}).create(),
+});

@@ -2,8 +2,6 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	needs: ['marketplace'],
 
 	type: 'transaction',
-	endpoint: null,
-	status_rollup: null,
 
 	minDate: null,
 	maxDate: null,
@@ -15,14 +13,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	sortField: null,
 	sortOrder: null,
 
-	// override this to true if you want to use the search API to fetch results
-	useSearch: false,
-
 	// we use this so we can display counts without having them reset every time you filter
 	last_loaded_search_result: null,
-
-	// must be overridden to provide content if not using search
-	results_base_uri: null,
 
 	// must be overridden for data picker to work
 	baseClassSelector: null,
@@ -67,47 +59,30 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			return null;
 		}
 
-		if (this.get('useSearch')) {
-			return this.get('search_result.' + this.get('category') + 's');
-		}
-
-		return Balanced.ModelArray.newArrayLoadedFromUri(
+		var searchArray = Balanced.SearchModelArray.newArrayLoadedFromUri(
 			this.get('results_uri'),
 			this.get('results_type')
 		);
-	}.property(
-			'fetch_results', 'useSearch', 'results_uri', 'results_type',
-			'type', 'endpoint', 'status_rollup', 'search_result.transactions',
-			'search_result.accounts', 'search_result.funding_instruments'),
 
-	search_result: function () {
-		var self = this;
-		if (this.get('useSearch')) {
-			var search = Balanced.SearchQuery.search(
-				this.get('controllers.marketplace.uri'),
-				this.get('search_params')
-			);
+		return searchArray;
+	}.property('fetch_results', 'results_uri', 'results_type'),
 
-			search.then(function (searchQuery) {
-				self.set('last_loaded_search_result', searchQuery);
-			});
+	updateLastLoaded: function() {
+		var results = this.get('results');
+		if(results && results.get('isLoaded')) {
+			this.set('last_loaded_search_result', results);
+		}
+	}.observes('results', 'results.isLoaded'),
 
-			return search;
+	// must be overridden to provide content if not using search
+	results_base_uri: function () {
+		var marketplaceUri = this.get('controllers.marketplace.uri');
+		if(!marketplaceUri) {
+			return marketplaceUri;
 		}
 
-		return null;
-
-	}.property('useSearch', 'controllers.marketplace.uri', 'search_params'),
-
-	search_uri: function () {
-		if (this.get('useSearch')) {
-			return Balanced.SearchQuery.createUri(
-				this.get('controllers.marketplace.uri'),
-				this.get('search_params')
-			);
-		}
-		return this.get('results_uri');
-	}.property('useSearch', 'results_uri', 'controllers.marketplace.uri', 'searchParams'),
+		return marketplaceUri + '/search';
+	}.property('controllers.marketplace.uri'),
 
 	results_uri: function () {
 		return Balanced.Utils.applyUriFilters(

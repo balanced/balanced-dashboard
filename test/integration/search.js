@@ -145,7 +145,7 @@ test('search date range pick', function (assert) {
 	;
 
 	var request = spy.getCall(spy.callCount - 1);
-	assert.equal(request.args[0], Balanced.SearchQuery);
+	assert.equal(request.args[0], Balanced.Transaction);
 	assert.equal(request.args[1], expected_uri);
 });
 

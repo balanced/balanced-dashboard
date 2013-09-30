@@ -6,9 +6,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 			return Balanced.currentMarketplace;
 		} else {
 			return Balanced.Auth.createNewGuestUser().then(function() {
-				return Balanced.Marketplace.create({
-					uri: '/v1/marketplaces'
-				}).save().then(function(marketplace) {
+				return Balanced.Marketplace.create().save().then(function(marketplace) {
 					//  pre-populate marketplace with transactions
 					var uri = marketplace.get('uri');
 					var id = uri.substr(uri.lastIndexOf('/') + 1);

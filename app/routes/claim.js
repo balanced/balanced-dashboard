@@ -12,9 +12,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 	},
 
 	model: function () {
-		var claim = Balanced.Claim.create({
-			uri: '/users'
-		});
+		var claim = Balanced.Claim.create();
 
 		claim.one('becameInvalid', $.proxy(this.parseResponse, claim));
 		claim.one('becameError', $.proxy(this.parseResponse, claim));

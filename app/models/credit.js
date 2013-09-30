@@ -1,6 +1,8 @@
 require('app/models/transaction');
 
 Balanced.Credit = Balanced.Transaction.extend({
+	uri: '/v1/credits',
+
 	bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
@@ -20,14 +22,6 @@ Balanced.Credit = Balanced.Transaction.extend({
 		return this.get('status') !== 'failed' && this.get('reversals.isLoaded') && this.get('reversals.content') && this.get('reversals.content').length === 0;
 	}.property('status', 'reversals.isLoaded', 'reversals.@each'),
 
-	serialize: function (json) {
-		this._super(json);
-
-		if (this.get('bank_account')) {
-			json.bank_account = this.get('bank_account')._toSerializedJSON();
-		}
-	},
-
 	status_description: function() {
 		if(this.get('status') === 'pending') {
 			return "Credit is processing, funds will be available the next business day unless there is an issue with the bank account.";
@@ -42,3 +36,18 @@ Balanced.Credit = Balanced.Transaction.extend({
 });
 
 Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');
+
+Balanced.Credit.reopenClass({
+	serializer: Balanced.Rev0Serializer.extend({
+		serialize: function(record) {
+			var json = this._super(record);
+
+			var bankAccount = record.get('bank_account');
+			if (bankAccount) {
+				json.bank_account = bankAccount.constructor.serializer.serialize(bankAccount);
+			}
+
+			return json;
+		}
+	}).create(),
+});

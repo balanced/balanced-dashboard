@@ -3,8 +3,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 	{
 		needs: ['application', 'marketplace'],
 
-		useSearch: true,
-
 		search: null,
 		debounced_search: null,
 
@@ -96,8 +94,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		},
 
 		isLoading: function () {
-			return this.get('fetch_results') && this.get('search_result') && !this.get('search_result.isLoaded');
-		}.property('search_result.isLoaded'),
+			return this.get('fetch_results') && this.get('results') && !this.get('results.isLoaded');
+		}.property('results.isLoaded'),
 
 		displayResults: function () {
 			return this.get('fetch_results') && this.get('showResults');

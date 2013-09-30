@@ -3,7 +3,7 @@ Balanced.DownloadModalView = Balanced.View.extend({
 
 	actions: {
 		open: function () {
-			var uri = this.get('controller.search_uri') || this.getSearchUri();
+			var uri = this.get('controller.results_uri') || this.getSearchUri();
 			var download = Balanced.Download.create({
 				uri: uri,
 				email_address: null

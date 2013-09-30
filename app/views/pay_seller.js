@@ -13,7 +13,7 @@ Balanced.PaySellerModalView = Balanced.View.extend({
 	},
 
 	open: function () {
-		var credit = Balanced.Credit.create({uri: '/v1/credits'});
+		var credit = Balanced.Credit.create();
 		credit.set('bank_account', Balanced.BankAccount.create({'type': 'checking'}));
 		this.set('model', credit);
 		this.set('amount_dollars', null);
