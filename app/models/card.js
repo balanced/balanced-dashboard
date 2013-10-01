@@ -69,13 +69,13 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		return 'xxxx xxxx xxxx ' + this.get('last_four');
 	}.property('last_four'),
 
-	tokenizeAndCreate: function() {
+	tokenizeAndCreate: function(customerId) {
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
 		this.set('isSaving', true);
 		var cardData = {
-			card_number: this.get('card_number'),
+			number: this.get('card_number'),
 			expiration_month: this.get('expiration_month'),
 			expiration_year: this.get('expiration_year'),
 			security_code: this.get('security_code'),
@@ -85,22 +85,23 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
-			switch (response.status) {
+			switch (response.status_code) {
 				case 201:
 					// Now that it's been tokenized, we just need to associate it with the customer's account
-					var cardAssociation = Balanced.Card.create({
-						uri: self.get('uri'),
-						card_uri: response.data.uri
-					});
-					cardAssociation.save().then(function(savedCard) {
-						self.updateFromModel(savedCard);
-						self.set('isSaving', false);
-						self.trigger('didCreate');
-					}, function() {
-						self.set('displayErrorDescription', true);
-						self.set('errorDescription', 'Sorry, there was an error associating this card.');
-						self.set('isSaving', false);
-						promise.reject();
+					Balanced.Card.find(response.cards[0].href).then(function(card) {
+						card.set('links.customer', customerId);
+
+						card.save().then(function() {
+							self.set('isLoaded', true);
+							self.set('isNew', false);
+							self.set('isSaving', false);
+							self.trigger('didCreate');
+						}, function() {
+							self.set('displayErrorDescription', true);
+							self.set('errorDescription', 'Sorry, there was an error associating this card.');
+							self.set('isSaving', false);
+							promise.reject();
+						})
 					});
 					break;
 				case 400:

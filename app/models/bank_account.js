@@ -52,7 +52,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 			this.get('verification.remaining_attempts') > 0) || Ember.testing;
 	}.property('verification', 'verification.state', 'verification.remaining_attempts'),
 
-	tokenizeAndCreate: function() {
+	tokenizeAndCreate: function(customerId) {
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
@@ -66,24 +66,23 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 		// Tokenize the bank account using the balanced.js library
 		balanced.bankAccount.create(bankAccountData, function(response) {
-			switch (response.status) {
+			switch (response.status_code) {
 				case 201:
 					// Now that it's been tokenized, we just need to associate it with the customer's account
-					var bankAccountAssociation = Balanced.BankAccount.create({
-						uri: self.get('uri'),
-						bank_account_uri: response.data.uri
-					});
-					bankAccountAssociation.save().then(function(savedBankAccount) {
-						self.updateFromModel(savedBankAccount);
-						self.set('isLoaded', true);
-						self.set('isNew', false);
-						self.set('isSaving', false);
-						self.trigger('didCreate');
-					}, function() {
-						self.set('displayErrorDescription', true);
-						self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
-						self.set('isSaving', false);
-						promise.reject();
+					Balanced.BankAccount.find(response.bank_accounts[0].href).then(function(bankAccount) {
+						bankAccount.set('links.customer', customerId);
+
+						bankAccount.save().then(function() {
+							self.set('isLoaded', true);
+							self.set('isNew', false);
+							self.set('isSaving', false);
+							self.trigger('didCreate');
+						}, function() {
+							self.set('displayErrorDescription', true);
+							self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
+							self.set('isSaving', false);
+							promise.reject();
+						})
 					});
 					break;
 				case 400:

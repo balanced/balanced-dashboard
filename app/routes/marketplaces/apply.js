@@ -42,11 +42,9 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 							Balanced.Auth.setAPIKey(apiKey.get('secret'));
 							user.reload();
 							//  we need the api key to be associated with the user before we can create the bank account
-							//  create bank account
-							var bankAccountUri = marketplace.get('owner_customer.bank_accounts_uri');
 
-							models.bankAccount.set('uri', bankAccountUri);
-							models.bankAccount.tokenizeAndCreate().then(function(bankAccount) {
+							//  create bank account
+							models.bankAccount.tokenizeAndCreate(marketplace.get('owner_customer.id')).then(function(bankAccount) {
 								// we don't know the bank account's
 								// verification uri until it's created so we
 								// are forced to create it here.
