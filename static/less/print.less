@@ -39,7 +39,7 @@ body, #header {
       max-width: 180px;
 
       .img {
-        background: url(../images/balanced-logo.png);
+        background-image: url(../images/balanced-logo.png) !important;
         margin: 0;
         height: 79px;
         width: 180px;
@@ -95,8 +95,16 @@ h1.page-title {
     }
   }
 
+  .invoice-balance-due-box {
+    background-color: #d4e5e6 !important;
+  }
+
   .invoice-details {
     border-bottom: 3px solid #000000;
+    
+    thead {
+      background-color: #d4e5e6 !important;
+    }
   }
 
   .activity {
