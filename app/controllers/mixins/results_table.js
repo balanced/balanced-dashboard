@@ -26,7 +26,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	fetch_results: true,
 
 	actions: {
-		changeDateFilter: function (minDate, maxDate, title) {
+		changeDateFilter: function(minDate, maxDate, title) {
 			this.setProperties({
 				minDate: minDate,
 				maxDate: maxDate,
@@ -34,27 +34,27 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			});
 		},
 
-		changeSortOrder: function (field, sortOrder) {
+		changeSortOrder: function(field, sortOrder) {
 			this.setProperties({
 				sortField: field,
 				sortOrder: sortOrder
 			});
 		},
 
-		changeTypeFilter: function (type) {
+		changeTypeFilter: function(type) {
 			this.set('type', type);
 		},
 
-		loadMore: function (results) {
+		loadMore: function(results) {
 			results.loadNextPage();
 		},
 
-		reload: function () {
+		reload: function() {
 			this.notifyPropertyChange('search_params');
 		},
 	},
 
-	results: function () {
+	results: function() {
 		if (!this.get('fetch_results')) {
 			return null;
 		}
@@ -69,29 +69,29 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	updateLastLoaded: function() {
 		var results = this.get('results');
-		if(results && results.get('isLoaded')) {
+		if (results && results.get('isLoaded')) {
 			this.set('last_loaded_search_result', results);
 		}
 	}.observes('results', 'results.isLoaded'),
 
 	// must be overridden to provide content if not using search
-	results_base_uri: function () {
+	results_base_uri: function() {
 		var marketplaceUri = this.get('controllers.marketplace.uri');
-		if(!marketplaceUri) {
+		if (!marketplaceUri) {
 			return marketplaceUri;
 		}
 
 		return marketplaceUri + '/search';
 	}.property('controllers.marketplace.uri'),
 
-	results_uri: function () {
+	results_uri: function() {
 		return Balanced.Utils.applyUriFilters(
 			this.get('results_base_uri'),
 			this.get('search_params')
 		);
 	}.property('results_base_uri', 'search_params'),
 
-	search_params: function () {
+	search_params: function() {
 		return _.extend({
 			type: this.get('type'),
 			minDate: this.get('minDate'),
@@ -102,7 +102,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		}, this.get('extra_filtering_params'));
 	}.property('type', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'limit', 'extra_filtering_params'),
 
-	results_type: function () {
+	results_type: function() {
 		switch (this.get('type')) {
 			case 'transaction':
 				return 'Balanced.Transaction';
@@ -133,7 +133,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	// used for when filtering to one specific type. for example: if the user
 	// is viewing holds, type==hold category==transaction
-	category: function () {
+	category: function() {
 		var type = this.get('type');
 		if (_.contains(Balanced.SEARCH.CATEGORIES, type)) {
 			return type;

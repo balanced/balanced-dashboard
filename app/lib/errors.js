@@ -1,7 +1,7 @@
 if (typeof Raven !== typeof undefined) {
 	Raven.config('https://c5e331a1bd9c47af85d481e46b415dab@app.getsentry.com/6353').install();
 
-	Ember.onerror = function (error) {
+	Ember.onerror = function(error) {
 		var realError = error.stack || error;
 
 		if (!ENV.BALANCED.DEBUG) {
@@ -9,12 +9,14 @@ if (typeof Raven !== typeof undefined) {
 				text: error.message || realError.toString(),
 				location: window.location.toString()
 			};
-			if(Balanced.currentMarketplace) {
+			if (Balanced.currentMarketplace) {
 				data.marketplaceId = Balanced.currentMarketplace.get('id');
 				data.marketplaceName = Balanced.currentMarketplace.get('name');
 			}
 
-			Raven.captureException(realError, {tags: data});
+			Raven.captureException(realError, {
+				tags: data
+			});
 
 			Balanced.Analytics.trackEvent('js-error', data);
 		}

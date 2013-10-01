@@ -1,10 +1,10 @@
 Balanced.View = Ember.View.extend({
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.set('elementInDom', true);
 		this._super();
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.set('elementInDom', false);
 		this._super();
 	}

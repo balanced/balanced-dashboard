@@ -7,7 +7,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	baseClassSelector: '#activity',
 
 	actions: {
-		changeTypeFilter: function (type) {
+		changeTypeFilter: function(type) {
 			this.set('type', type);
 			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
@@ -33,11 +33,11 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 	dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
 
 	actions: {
-		loadMore: function (results) {
+		loadMore: function(results) {
 			this.get('controllers.activity').send('loadMore', results);
 		},
 
-		changeSortOrder: function (field, sortOrder) {
+		changeSortOrder: function(field, sortOrder) {
 			this.get('controllers.activity').send('changeSortOrder', field, sortOrder);
 		}
 	}
@@ -47,8 +47,6 @@ Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControll
 	allowSortByNone: false
 });
 
-Balanced.ActivityCustomersController = Balanced.NestedActivityResultsControllers.extend({
-});
+Balanced.ActivityCustomersController = Balanced.NestedActivityResultsControllers.extend({});
 
-Balanced.ActivityFundingInstrumentsController = Balanced.NestedActivityResultsControllers.extend({
-});
+Balanced.ActivityFundingInstrumentsController = Balanced.NestedActivityResultsControllers.extend({});

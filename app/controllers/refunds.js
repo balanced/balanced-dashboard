@@ -1,6 +1,5 @@
 Balanced.RefundsController = Balanced.ObjectController.extend(
-	Ember.Evented,
-	{
+	Ember.Evented, {
 		needs: ['marketplace'],
 
 		refunds_without_current: function() {

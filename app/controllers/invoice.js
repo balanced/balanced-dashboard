@@ -1,8 +1,7 @@
 Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 	Ember.Evented,
 	Balanced.ResultsTable,
-	Balanced.TransactionsTable,
-	{
+	Balanced.TransactionsTable, {
 		needs: ['marketplace'],
 		marketplace: Ember.computed.alias('controllers.marketplace.content'),
 
@@ -13,10 +12,10 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 
 		baseClassSelector: '#invoice',
 
-		init: function () {
+		init: function() {
 			var self = this;
 
-			Balanced.Model.Events.on('didCreate', function (object) {
+			Balanced.Model.Events.on('didCreate', function(object) {
 				if (Balanced.Transaction.prototype.isPrototypeOf(object)) {
 					self.send('reload');
 				}
@@ -24,12 +23,12 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 		},
 
 		actions: {
-			printSummary: function () {
+			printSummary: function() {
 				window.print();
 			}
 		},
 
-		results: function () {
+		results: function() {
 			switch (this.get('type')) {
 				case 'debit':
 					return this.get('debits');
@@ -51,7 +50,7 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 			'card_debits', 'bank_account_debits'
 		),
 
-		results_base_uri: function () {
+		results_base_uri: function() {
 			return this.get('controllers.marketplace.invoices_uri');
 		}.property('controllers.marketplace.invoices_uri')
 	}

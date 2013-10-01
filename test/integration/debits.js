@@ -1,19 +1,18 @@
 var debitRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/debits/WD3TaPwBiqg2SECH1Q33QuvC';
 
 module('Debits', {
-	setup: function () {
-	}, teardown: function () {
-	}
+	setup: function() {},
+	teardown: function() {}
 });
 
-test('can visit page', function (assert) {
+test('can visit page', function(assert) {
 	visit(debitRoutePath).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Debit'), -1, 'Title is not correct');
 		assert.equal($(".debit .transaction-description").text().trim(), 'Succeeded: $42.00');
 	});
 });
 
-test('can refund debit', function (assert) {
+test('can refund debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(debitRoutePath).then(function() {
@@ -30,7 +29,7 @@ test('can refund debit', function (assert) {
 	});
 });
 
-test("can't refund failed debit", function (assert) {
+test("can't refund failed debit", function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(debitRoutePath + '-FAILED').then(function() {
@@ -38,16 +37,16 @@ test("can't refund failed debit", function (assert) {
 	});
 });
 
-test('can edit debit', function (assert) {
+test('can edit debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(debitRoutePath)
-	.click('.debit .transaction-info a.edit')
-	.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
-	.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
-	.then(function() {
-		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Debit));
-		assert.equal(spy.getCall(0).args[2].description, "changing desc");
-	});
+		.click('.debit .transaction-info a.edit')
+		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
+		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Debit));
+			assert.equal(spy.getCall(0).args[2].description, "changing desc");
+		});
 });

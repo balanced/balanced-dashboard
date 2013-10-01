@@ -14,7 +14,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		open: function () {
+		open: function() {
 			var customer = Ember.copy(this.get('customer'), true);
 			customer.set('isNew', false);
 			customer.trigger('didCreate');
@@ -30,13 +30,13 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 			});
 		},
 
-		toggleOptionalFields: function () {
+		toggleOptionalFields: function() {
 			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
 			// trigger a resize to reposition the dialog
 			$("body").trigger("resize");
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -46,11 +46,11 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 
 			customer.updateDob(this.get('dob_month'), this.get('dob_year'));
 
-			if(customer.get('email') === '') {
+			if (customer.get('email') === '') {
 				customer.set('email', null);
 			}
 
-			customer.save().then(function () {
+			customer.save().then(function() {
 				self.get('customer').reload();
 				$('#edit-customer-info').modal('hide');
 			});

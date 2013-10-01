@@ -3,7 +3,7 @@ Balanced.Transaction = Balanced.Model.extend({
 	customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 
-	amount_dollars: function () {
+	amount_dollars: function() {
 		if (this.get('amount')) {
 			return (this.get('amount') / 100).toFixed(2);
 		} else {
@@ -11,7 +11,7 @@ Balanced.Transaction = Balanced.Model.extend({
 		}
 	}.property('amount'),
 
-	account_name_summary: function () {
+	account_name_summary: function() {
 		if (this.get('account')) {
 			return this.get('account.name_summary');
 		} else {
@@ -25,13 +25,13 @@ Balanced.Transaction = Balanced.Model.extend({
 
 	meta_array: function() {
 		var meta = this.get('meta');
-		if(!meta) {
+		if (!meta) {
 			return meta;
 		}
 
 		var metaArray = [];
 
-		for(var key in meta) {
+		for (var key in meta) {
 			metaArray.push({
 				key: key,
 				value: meta[key]

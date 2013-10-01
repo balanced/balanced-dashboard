@@ -7,7 +7,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 	// Balanced.Adapter.asyncCallbacks = true;
 	asyncCallbacks: false,
 
-	initAdapter: function () {
+	initAdapter: function() {
 		this.dataMap = {};
 
 		this.fetches = [];
@@ -16,7 +16,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		this.deletes = [];
 	},
 
-	get: function (type, uri, success, error) {
+	get: function(type, uri, success, error) {
 		this._checkParams(type, uri);
 
 		var json = this.dataMap[uri];
@@ -36,7 +36,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	create: function (type, uri, data, success, error) {
+	create: function(type, uri, data, success, error) {
 		this._checkParams(type, uri);
 
 		this.creates.push({
@@ -52,7 +52,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	update: function (type, uri, data, success, error) {
+	update: function(type, uri, data, success, error) {
 		this._checkParams(type, uri);
 
 		this.updates.push({
@@ -68,7 +68,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	delete: function (type, uri, success, error) {
+	delete: function(type, uri, success, error) {
 		this._checkParams(type, uri);
 
 		this.deletes.push({
@@ -81,16 +81,16 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
-	addFixture: function (json) {
+	addFixture: function(json) {
 		this.dataMap[json.uri] = json;
 	},
 
-	addFixtures: function (jsonArray) {
+	addFixtures: function(jsonArray) {
 		_.each(jsonArray, _.bind(this.addFixture, this));
 	},
 
 	_executeCallback: function(callbackExecutionFunction) {
-		if(this.asyncCallbacks) {
+		if (this.asyncCallbacks) {
 			setTimeout(function() {
 				Ember.run(function() {
 					callbackExecutionFunction();
@@ -101,7 +101,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		}
 	},
 
-	_cloneObject: function (obj) {
+	_cloneObject: function(obj) {
 		if (obj !== undefined && obj !== null) {
 			return JSON.parse(JSON.stringify(obj));
 		} else {

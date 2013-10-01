@@ -3,7 +3,7 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 	transactionType: 'all',
 
 	actions: {
-		changeTransactionTypeFilter: function (type, transactionType) {
+		changeTransactionTypeFilter: function(type, transactionType) {
 			this.setProperties({
 				type: type,
 				transactionType: transactionType
@@ -11,7 +11,7 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 		}
 	},
 
-	extra_filtering_params: function () {
+	extra_filtering_params: function() {
 		var transactionType = this.get('transactionType');
 		if (transactionType === 'all') {
 			return {};

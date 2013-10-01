@@ -19,18 +19,18 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 	actions: {
 		error: function(error, transition) {
 
-			if(!window.TESTING) {
+			if (!window.TESTING) {
 				// Check for an infinite loop of error handling and short-circuit
 				// if we've seen too many errors in too short a period
 				var errorTimestamps = this.get('errorTimestamps');
 				var currentTimestamp = new Date().getTime();
 				errorTimestamps.push(currentTimestamp);
-				if(errorTimestamps.length > INFINITE_LOOP_NUM_ERRORS) {
+				if (errorTimestamps.length > INFINITE_LOOP_NUM_ERRORS) {
 					var filtered = _.filter(errorTimestamps, function(t) {
 						return t > currentTimestamp - INFINITE_LOOP_DURATION_MILLIS;
 					});
 					this.set('errorTimestamps', filtered);
-					if(filtered.length > INFINITE_LOOP_NUM_ERRORS) {
+					if (filtered.length > INFINITE_LOOP_NUM_ERRORS) {
 						Balanced.Auth.forgetLogin();
 						this.transitionTo('login');
 						return;
@@ -45,7 +45,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 			// if we had a problem loading the marketplace, check that it's not the current
 			// marketplace, since that might send us into an infinite loop
-			if(error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
+			if (error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
 				Balanced.Auth.forgetLastUsedMarketplaceUri();
 			}
 
@@ -55,8 +55,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 				statusCode: statusCode
 			});
 
-			if(statusCode === 401 || statusCode === 403) {
-				if(error.get && error.get('uri')) {
+			if (statusCode === 401 || statusCode === 403) {
+				if (error.get && error.get('uri')) {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
 					Balanced.Auth.set('attemptedTransition', null);
 					this.controllerFor('application').alert({
@@ -65,7 +65,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 						persists: true
 					});
 					this.transitionTo('marketplaces');
-				} else if(transition) {
+				} else if (transition) {
 					Balanced.Auth.set('attemptedTransition', transition);
 
 					// If we're not authorized, need to log in (maybe as a different user),
@@ -73,7 +73,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 					Balanced.Auth.forgetLogin();
 					this.transitionTo('login');
 				}
-			} else if(statusCode === 404) {
+			} else if (statusCode === 404) {
 				this.controllerFor('application').alert({
 					message: "Couldn't find the resource for this page, please make sure the URL is valid.",
 					type: 'error',
@@ -99,7 +99,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			this.controllerFor('application').alert(options);
 		},
 
-		signOut: function () {
+		signOut: function() {
 			this.transitionTo('logout');
 		}
 	}

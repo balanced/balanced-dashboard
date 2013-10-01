@@ -1,7 +1,7 @@
 Balanced.ClaimController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
 
-	error: function (field, prefix) {
+	error: function(field, prefix) {
 		var errors = this.get('validationErrors.' + field + '.messages');
 		if (errors) {
 			var error = errors[0];
@@ -12,15 +12,15 @@ Balanced.ClaimController = Balanced.ObjectController.extend({
 		}
 	},
 
-	emailLabel: function () {
+	emailLabel: function() {
 		return this.error('email_address', 'Email') || 'Enter your email';
 	}.property('validationErrors.email'),
 
-	passwordLabel: function () {
+	passwordLabel: function() {
 		return this.error('password', 'Password') || 'Create a password';
 	}.property('validationErrors.password'),
 
-	passwordConfirmLabel: function () {
+	passwordConfirmLabel: function() {
 		return this.error('passwordConfirm', 'Password') || 'Re-enter your password';
 	}.property('validationErrors.passwordConfirm')
 });

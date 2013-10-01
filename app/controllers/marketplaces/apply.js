@@ -5,16 +5,16 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	termsAndConditions: false,
 
 	actions: {
-		selectType: function (applicationType) {
+		selectType: function(applicationType) {
 			var cls = 'selected';
 			this.set('applicationType', applicationType);
-			$('input:text', '#marketplace-apply').filter(function () {
+			$('input:text', '#marketplace-apply').filter(function() {
 				return this.value === '';
 			}).first().focus();
 			$('a', '.application-type').removeClass(cls).parent().find('.' + applicationType.toLowerCase()).addClass(cls);
 		},
 
-		submitApplication: function () {
+		submitApplication: function() {
 			var model = this.get('content');
 			var superError = 'error critical';
 			var $termsAndConditionsControlGroup = $('#terms-and-conditions').closest('.control-group');
@@ -62,19 +62,19 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		},
 	},
 
-	selectedType: function () {
+	selectedType: function() {
 		return this.get('applicationType');
 	}.property('applicationType'),
 
-	isBusiness: function () {
+	isBusiness: function() {
 		return this.get('applicationType') === 'BUSINESS';
 	}.property('applicationType'),
 
-	isGuest: function () {
+	isGuest: function() {
 		return Balanced.Auth.get('isGuest');
 	}.property('Balanced.Auth.isGuest'),
 
-	dobYears: function () {
+	dobYears: function() {
 		var start = new Date().getFullYear() - 17;
 		var years = Ember.A();
 		for (var i = 0; i < 80; i++) {
@@ -87,13 +87,13 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	dobDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
 
-	dob: function () {
+	dob: function() {
 		var values = [
 			this.get('dob_year'),
 			this.get('dob_month'),
 			this.get('dob_day')
 		];
-		values = $.map(values, function (value) {
+		values = $.map(values, function(value) {
 			if (value) {
 				return value;
 			}
@@ -101,10 +101,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return values.join('-');
 	}.property('dob_day', 'dob_month', 'dob_year'),
 
-	userFailure: function (unparsedJson) {
+	userFailure: function(unparsedJson) {
 		var self = this;
 		var json = JSON.parse(unparsedJson);
-		_.each(json, function (value, key) {
+		_.each(json, function(value, key) {
 			self.get('validationErrors').add(key, 'invalid', null, value);
 		});
 		self.propertyDidChange('validationErrors');
@@ -112,7 +112,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		self.highlightError();
 	},
 
-	apiKeyFailure: function (unparsedJson) {
+	apiKeyFailure: function(unparsedJson) {
 		var self = this;
 		var json = JSON.parse(unparsedJson);
 		var errors = {};
@@ -128,14 +128,14 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 					'ssn_last4'
 				];
 
-				_.each(kycKeys, function (value) {
+				_.each(kycKeys, function(value) {
 					errors[value] = 'Please check this entry';
 				});
 
 				self.set('kycError', true);
 			}
 		}
-		_.each(errors, function (value, key) {
+		_.each(errors, function(value, key) {
 			self.get('validationErrors').add(key, 'invalid', null, value);
 		});
 		self.propertyDidChange('validationErrors');
@@ -143,10 +143,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		self.highlightError();
 	},
 
-	marketplaceFailure: function (unparsedJson) {
+	marketplaceFailure: function(unparsedJson) {
 		var self = this;
 		var json = JSON.parse(unparsedJson);
-		_.each(json.extras, function (value, key) {
+		_.each(json.extras, function(value, key) {
 			self.get('validationErrors').add('marketplace.%@'.fmt(key), 'invalid', null, value);
 		});
 		self.propertyDidChange('validationErrors');
@@ -154,13 +154,13 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		self.highlightError();
 	},
 
-	highlightError: function () {
+	highlightError: function() {
 		$('input', '#marketplace-apply .control-group.error:first').focus();
 	},
 
 	accountTypes: ['checking', 'savings'],
 
-	_extractApiKeyPayload: function () {
+	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),
 			isBusiness = merchantType === 'BUSINESS';
 
@@ -190,7 +190,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return apiKey;
 	},
 
-	_extractMarketplacePayload: function () {
+	_extractMarketplacePayload: function() {
 		return Balanced.Marketplace.create({
 			name: this.get('marketplace.name'),
 			support_email_address: this.get('marketplace.support_email_address'),
@@ -199,7 +199,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		});
 	},
 
-	_extractLoginPayload: function () {
+	_extractLoginPayload: function() {
 		if (Balanced.Auth.get('isGuest')) {
 			return Balanced.Claim.create({
 				email_address: this.get('email_address'),
@@ -209,7 +209,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		}
 	},
 
-	_extractBankAccountPayload: function () {
+	_extractBankAccountPayload: function() {
 		return Balanced.BankAccount.create({
 			name: this.get('banking.account_name'),
 			routing_number: this.get('banking.routing_number'),

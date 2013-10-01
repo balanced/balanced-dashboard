@@ -2,20 +2,20 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	needs: ["marketplace"],
 
 	actions: {
-		promptToDeleteCallback: function (callback) {
+		promptToDeleteCallback: function(callback) {
 			this.trigger('openDeleteCallbackModal', callback);
 		},
 
-		promptToDeleteBankAccount: function (bankAccount) {
+		promptToDeleteBankAccount: function(bankAccount) {
 			this.trigger('openDeleteBankAccountModal', bankAccount);
 		},
 
-		promptToDeleteCard: function (card) {
+		promptToDeleteCard: function(card) {
 			this.trigger('openDeleteCardModal', card);
 		},
 	},
 
-	marketplaceSecret: function () {
+	marketplaceSecret: function() {
 		var uri = this.get('uri');
 		var user = Balanced.Auth.get('user');
 		var currentUserMarketplace = user.user_marketplace_for_uri(uri);

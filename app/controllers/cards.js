@@ -1,8 +1,7 @@
 Balanced.CardsController = Balanced.ObjectController.extend(
 	Ember.Evented,
 	Balanced.ResultsTable,
-	Balanced.TransactionsTable,
-	{
+	Balanced.TransactionsTable, {
 		needs: ['marketplace'],
 
 		sortField: 'created_at',
@@ -11,16 +10,16 @@ Balanced.CardsController = Balanced.ObjectController.extend(
 		baseClassSelector: "#card",
 
 		actions: {
-			openDebitFundingInstrumentModal: function () {
+			openDebitFundingInstrumentModal: function() {
 				this.trigger('openDebitFundingInstrumentModal');
 			},
 
-			openHoldCardModal: function () {
+			openHoldCardModal: function() {
 				this.trigger('openHoldCardModal');
 			}
 		},
 
-		results_base_uri: function () {
+		results_base_uri: function() {
 			return this.get('content.transactions_uri');
 		}.property('content.transactions_uri')
 	}

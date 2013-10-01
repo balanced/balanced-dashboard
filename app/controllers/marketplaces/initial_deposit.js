@@ -7,7 +7,7 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 	expirationMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 
 	actions: {
-		submit: function () {
+		submit: function() {
 			var model = this.get('content');
 			this.set('expirationError', false);
 
@@ -18,12 +18,12 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 			}
 		},
 
-		skip: function () {
+		skip: function() {
 			this.send('onSkip');
 		}
 	},
 
-	expirationYears: function () {
+	expirationYears: function() {
 		var start = new Date().getFullYear();
 		var years = Ember.A();
 		for (var i = 0; i < 10; i++) {
@@ -32,21 +32,28 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 		return years;
 	}.property(),
 
-	initialAmounts: [
-		{amount: 10, formatted: '$10.00'},
-		{amount: 25, formatted: '$25.00'},
-		{amount: 50, formatted: '$50.00'},
-		{amount: 100, formatted: '$100.00'}
-	],
+	initialAmounts: [{
+		amount: 10,
+		formatted: '$10.00'
+	}, {
+		amount: 25,
+		formatted: '$25.00'
+	}, {
+		amount: 50,
+		formatted: '$50.00'
+	}, {
+		amount: 100,
+		formatted: '$100.00'
+	}],
 
-	onCardTokenized: function (response) {
+	onCardTokenized: function(response) {
 		var self = this;
 		switch (response.status) {
 			case 400:
 				if (response.error.expiration) {
 					self.set('expirationError', true);
 				}
-				_.each(response.error, function (value, key) {
+				_.each(response.error, function(value, key) {
 					self.get('validationErrors').add(key, 'invalid', null, value);
 				});
 				self.set('isLoading', false);
@@ -64,7 +71,7 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 		}
 	},
 
-	onDebitFailed: function (unparsedJson) {
+	onDebitFailed: function(unparsedJson) {
 		this.set('isLoading', false);
 		this.send('alert', {
 			message: 'Sorry, there was an error charging this card.',
@@ -72,12 +79,13 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 		});
 	},
 
-	associateAndDebitCard: function (card) {
+	associateAndDebitCard: function(card) {
 		var cardAssociation = Balanced.Card.create({
 			card_uri: card.uri
-		}), debit = Balanced.Debit.create({
-			amount: this.get('initial_amount') * 100
-		});
+		}),
+			debit = Balanced.Debit.create({
+				amount: this.get('initial_amount') * 100
+			});
 		var proxy = $.proxy(this.onDebitFailed, this);
 		cardAssociation.one('becameInvalid', proxy);
 		cardAssociation.one('becameError', proxy);
@@ -89,7 +97,7 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 		});
 	},
 
-	_extractCardPayload: function () {
+	_extractCardPayload: function() {
 		var cardData = {
 			card_number: this.get('card_number'),
 			expiration_month: this.get('expiration_month'),

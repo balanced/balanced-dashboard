@@ -5,7 +5,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 	hold: Balanced.Model.belongsTo('hold', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 
-	type_name: function () {
+	type_name: function() {
 		return "Debit";
 	}.property(),
 
@@ -13,7 +13,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 		return "debits";
 	}.property(),
 
-	funding_instrument_description: function () {
+	funding_instrument_description: function() {
 		return this.get('source.description');
 	}.property('source.description'),
 

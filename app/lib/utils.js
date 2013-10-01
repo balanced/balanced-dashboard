@@ -1,18 +1,18 @@
 Balanced.Utils = {
-	stripDomain: function (url) {
+	stripDomain: function(url) {
 		return url.replace(/^.*\/\/[^\/]+/, '');
 	},
 
-	prettyLogUrl: function (url) {
+	prettyLogUrl: function(url) {
 		return Balanced.Utils.stripDomain(url).replace(/\/marketplaces\/[^\/]*\/(.+)$/, '/.../$1').split("?")[0];
 	},
 
-	prettyPrint: function (obj) {
+	prettyPrint: function(obj) {
 		return JSON.stringify(obj, null, 2);
 	},
 
-	geoIP: function (ip, callback) {
-		if(window.TESTING) {
+	geoIP: function(ip, callback) {
+		if (window.TESTING) {
 			callback("(San Francisco, California, United States)");
 			return;
 		}
@@ -22,13 +22,12 @@ Balanced.Utils = {
 				dataType: 'jsonp',
 				type: 'GET',
 				jsonp: 'callback'
-			}).then(function (result) {
+			}).then(function(result) {
 				var geoIpString;
 
 				if (result.city && result.region_name && result.country_name) {
 					geoIpString = '(' + result.city + ', ' + result.region_name + ', ' + result.country_name + ')';
-				}
-				else if (result.region_name && result.country_name) {
+				} else if (result.region_name && result.country_name) {
 					geoIpString = '(' + result.region_name + ', ' + result.country_name + ')';
 				}
 
@@ -41,16 +40,16 @@ Balanced.Utils = {
 		}
 	},
 
-	toTitleCase: function (str) {
+	toTitleCase: function(str) {
 		if (!str) {
 			return str;
 		}
-		return str.replace(/_/g, ' ').replace(/\w\S*/g, function (txt) {
+		return str.replace(/_/g, ' ').replace(/\w\S*/g, function(txt) {
 			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 		});
 	},
 
-	getParamByName: function (uri, name) {
+	getParamByName: function(uri, name) {
 		name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 			results = regex.exec(uri);
@@ -60,18 +59,17 @@ Balanced.Utils = {
 	/*
 	 * Inserts or updates a single query string parameter
 	 */
-	updateQueryStringParameter: function (uri, key, value) {
+	updateQueryStringParameter: function(uri, key, value) {
 		var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
 		var separator = uri.indexOf("?") > -1 ? "&" : "?";
 		if (uri.match(re)) {
 			return uri.replace(re, "$1" + key + "=" + value + "$2");
-		}
-		else {
+		} else {
 			return uri + separator + key + "=" + value;
 		}
 	},
 
-	sortDict: function (dict) {
+	sortDict: function(dict) {
 		var sorted = [];
 		for (var key in dict) {
 			sorted[sorted.length] = key;
@@ -86,9 +84,9 @@ Balanced.Utils = {
 		return tempDict;
 	},
 
-	formatCurrency: function (cents) {
+	formatCurrency: function(cents) {
 		var prepend = '$';
-		if(cents < 0) {
+		if (cents < 0) {
 			cents = cents * -1;
 			prepend = '-$';
 		}
@@ -97,14 +95,14 @@ Balanced.Utils = {
 		}
 	},
 
-	formatNumber: function (number){
+	formatNumber: function(number) {
 		if (number !== null && number !== undefined) {
 			return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 		return number;
 	},
 
-	capitalize: function (str) {
+	capitalize: function(str) {
 		if (!str) {
 			return str;
 		}
@@ -112,7 +110,7 @@ Balanced.Utils = {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	},
 
-	dollarsToCents: function (dollars) {
+	dollarsToCents: function(dollars) {
 		if (!dollars) {
 			throw new Error('%@ is not a valid dollar amount'.fmt(dollars));
 		}
@@ -128,11 +126,11 @@ Balanced.Utils = {
 		return Math.round(100 * parseFloat(dollars));
 	},
 
-	toGravatar: function (emailHash) {
+	toGravatar: function(emailHash) {
 		return emailHash ? 'https://secure.gravatar.com/avatar/%@?s=30&d=mm'.fmt(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
 	},
 
-	setCurrentMarketplace: function (marketplace) {
+	setCurrentMarketplace: function(marketplace) {
 		// Store the marketplace in a global so we can use it for auth.
 		// TODO: TAKE THIS OUT when we've moved to oAuth
 		Balanced.currentMarketplace = marketplace;
@@ -140,7 +138,7 @@ Balanced.Utils = {
 			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 
 			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(marketplace.get('uri'));
-			if(userMarketplace) {
+			if (userMarketplace) {
 				Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
 			} else {
 				Ember.Logger.warn("Couldn't find API key for %@".fmt(marketplace.get('uri')));
@@ -148,7 +146,7 @@ Balanced.Utils = {
 		}
 	},
 
-	applyUriFilters: function (uri, params) {
+	applyUriFilters: function(uri, params) {
 		if (!uri) {
 			return uri;
 		}
@@ -191,7 +189,7 @@ Balanced.Utils = {
 
 		filteringParams = Balanced.Utils.sortDict(filteringParams);
 
-		var queryString = $.map(filteringParams,function (v, k) {
+		var queryString = $.map(filteringParams, function(v, k) {
 			return encodeURIComponent(k) + '=' + encodeURIComponent(v);
 		}).join('&');
 
@@ -208,31 +206,31 @@ Balanced.Utils = {
 	 * It is very useful for getting a loading message when it is loading,
 	 * update the information later with the data is loaded.
 	 */
-	maybeDeferredLoading: function (data, callback, loadingFunc, loadedFunc) {
+	maybeDeferredLoading: function(data, callback, loadingFunc, loadedFunc) {
 		// the data is already loaded
 		if (data.isLoaded) {
 			return loadedFunc();
 		}
 
 		// called when data is loaded
-		data.on('didLoad', function () {
+		data.on('didLoad', function() {
 			callback(loadedFunc());
 		});
 		return loadingFunc();
 	},
 
 	combineUri: function(baseUri, path) {
-		if(!baseUri || !path) {
+		if (!baseUri || !path) {
 			throw new Error("Can't combine URIs: %@ %@".fmt(baseUri, path));
 		}
 
 		// strip trailing slash
-		if(baseUri[baseUri.length-1] === '/') {
-			baseUri = baseUri.substring(0, baseUri.length-1);
+		if (baseUri[baseUri.length - 1] === '/') {
+			baseUri = baseUri.substring(0, baseUri.length - 1);
 		}
 
 		// strip leading slash
-		if(path[0] === '/') {
+		if (path[0] === '/') {
 			path = path.substring(1);
 		}
 
@@ -244,16 +242,16 @@ Balanced.Utils = {
 		long: '%a, %e %b %Y, %l:%M %p',
 	},
 
-	humanReadableDateShort: function (isoDate) {
-		if(isoDate) {
+	humanReadableDateShort: function(isoDate) {
+		if (isoDate) {
 			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.short);
 		} else {
 			return isoDate;
 		}
 	},
 
-	humanReadableDateLong: function (isoDate) {
-		if(isoDate) {
+	humanReadableDateLong: function(isoDate) {
+		if (isoDate) {
 			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.long);
 		} else {
 			return isoDate;
@@ -262,7 +260,7 @@ Balanced.Utils = {
 
 	// filters any number that is in the form of a string and longer than 4 digits (bank codes, ccard numbers etc)
 	filterSensitiveData: function(str) {
-		if(Ember.isNone(str)) {
+		if (Ember.isNone(str)) {
 			return str;
 		}
 		var strValue = '' + str;
@@ -272,13 +270,13 @@ Balanced.Utils = {
 	// Takes a hash and filters out all the sensitive data. Only preserves
 	// top-level properties, since mixpanel doesn't do nested properties
 	filterSensitivePropertiesMap: function(obj) {
-		if(!obj) {
+		if (!obj) {
 			return obj;
 		}
 
 		var ret = {};
 		for (var name in obj) {
-			if(obj.hasOwnProperty(name)) {
+			if (obj.hasOwnProperty(name)) {
 				ret[name] = Balanced.Utils.filterSensitiveData(obj[name]);
 			}
 		}

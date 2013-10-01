@@ -1,0 +1,5 @@
+{
+	"indentChar": "\t",
+	"indentSize": 1,
+	"breakChainedMethods": false
+}

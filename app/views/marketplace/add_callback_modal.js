@@ -2,7 +2,7 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
 	templateName: 'modals/add_callback',
 
 	actions: {
-		open: function () {
+		open: function() {
 			var callback = Balanced.Callback.create({
 				uri: this.get('marketplace').get('callbacks_uri'),
 				url: ''
@@ -13,7 +13,7 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -21,7 +21,7 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
 			var self = this;
 			var callback = this.get('model');
 
-			callback.save().then(function () {
+			callback.save().then(function() {
 				self.get('marketplace.callbacks').reload();
 				$('#add-callback').modal('hide');
 			});

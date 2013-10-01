@@ -1,15 +1,15 @@
 Balanced.DeleteCardModalView = Balanced.View.extend({
 	templateName: 'modals/delete_card',
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openDeleteCardModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openDeleteCardModal', this, this.open);
 	},
 
-	open: function (card) {
+	open: function(card) {
 		this.set('model', card);
 		$('#delete-card').modal({
 			manager: this.$()
@@ -17,13 +17,13 @@ Balanced.DeleteCardModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		deleteCard: function () {
+		deleteCard: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
 
 			var self = this;
-			this.get('model').delete().then(function () {
+			this.get('model').delete().then(function() {
 				$('#delete-card').modal('hide');
 			});
 		}

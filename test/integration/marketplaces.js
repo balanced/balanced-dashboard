@@ -1,12 +1,11 @@
 module('Marketplaces.Index', {
-	setup: function () {
-	},
+	setup: function() {},
 	teardown: function() {
 		$("#delete-marketplace").modal('hide');
 	}
 });
 
-test('view a marketplace sets the mru cookie', function (assert) {
+test('view a marketplace sets the mru cookie', function(assert) {
 	Testing.selectMarketplaceByName();
 	assert.equal(
 		$.cookie(Balanced.COOKIE.MARKETPLACE_URI),
@@ -15,11 +14,11 @@ test('view a marketplace sets the mru cookie', function (assert) {
 	);
 });
 
-test('view marketplace list', function (assert) {
+test('view marketplace list', function(assert) {
 	assert.equal($('#marketplaces ul').find('a').first().text(), 'Nick\'s Test Marketplace');
 });
 
-test('view single marketplace', function (assert) {
+test('view single marketplace', function(assert) {
 	$('#marketplaces ul a:contains("Nick\'s Test Marketplace")').click();
 	assert.equal($('#marketplace-name').text().trim(), 'Nick\'s Test Marketplace');
 });
@@ -79,7 +78,7 @@ test('delete marketplace only deletes once despite multiple clicks', function(as
 	$(".marketplace-list.test li").first().find(".icon-delete").click();
 
 	// click save
-	for(var i = 0; i < 20; i++) {
+	for (var i = 0; i < 20; i++) {
 		$('#delete-marketplace .modal-footer button[name="modal-submit"]').click();
 	}
 

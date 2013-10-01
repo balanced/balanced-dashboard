@@ -1,11 +1,10 @@
-Balanced.Route = Ember.Route.extend({
-});
+Balanced.Route = Ember.Route.extend({});
 
 Balanced.Router = Ember.Router.extend({
 	/*
 	 * This function update page title when a transition is made
 	 */
-	_update_title: function (infos) {
+	_update_title: function(infos) {
 		var last_info = infos[infos.length - 1];
 		var title = last_info.handler.title;
 		var route = last_info.handler;
@@ -39,7 +38,7 @@ Balanced.Router = Ember.Router.extend({
 		set_title(page_title);
 	},
 
-	didTransition: function (infos) {
+	didTransition: function(infos) {
 		this._update_title(infos);
 		Balanced.Analytics.trackPage(_.pluck(infos, 'name').join('/'));
 		return this._super.apply(this, arguments);
@@ -47,42 +46,86 @@ Balanced.Router = Ember.Router.extend({
 });
 
 function makeNestedResource(that, plural, singular) {
-	that.resource(plural, { path: '/' + plural }, function () {
-		this.route(singular, { path: '/:' + singular + '_id' });
+	that.resource(plural, {
+		path: '/' + plural
+	}, function() {
+		this.route(singular, {
+			path: '/:' + singular + '_id'
+		});
 	});
 }
 
-Balanced.Router.map(function () {
+Balanced.Router.map(function() {
 
-	this.resource('marketplaces', { path: '/marketplaces' }, function () {
+	this.resource('marketplaces', {
+		path: '/marketplaces'
+	}, function() {
 
-		this.route('apply', { path: '/apply' });
+		this.route('apply', {
+			path: '/apply'
+		});
 
-		this.resource('marketplace', { path: '/:marketplace_id' }, function () {
-			this.route('settings', { path: 'settings' });
-			this.route('add_customer', { path: 'add_customer' });
-			this.route('initial_deposit', { path: '/initial_deposit' });
-
-			this.resource('activity', { path: '/activity' }, function () {
-				this.route('transactions', { path: '/transactions' });
-				this.route('customers', { path: '/customers' });
-				this.route('funding_instruments', { path: '/funding_instruments' });
+		this.resource('marketplace', {
+			path: '/:marketplace_id'
+		}, function() {
+			this.route('settings', {
+				path: 'settings'
+			});
+			this.route('add_customer', {
+				path: 'add_customer'
+			});
+			this.route('initial_deposit', {
+				path: '/initial_deposit'
 			});
 
-			this.resource('customers', { path: '/customers/:customer_id' });
+			this.resource('activity', {
+				path: '/activity'
+			}, function() {
+				this.route('transactions', {
+					path: '/transactions'
+				});
+				this.route('customers', {
+					path: '/customers'
+				});
+				this.route('funding_instruments', {
+					path: '/funding_instruments'
+				});
+			});
+
+			this.resource('customers', {
+				path: '/customers/:customer_id'
+			});
 			// exists to handle old URIs for accounts, redirects to the customers page
-			this.resource('accounts', { path: '/accounts/:account_id' });
+			this.resource('accounts', {
+				path: '/accounts/:account_id'
+			});
 
-			this.resource('bank_accounts', { path: '/bank_accounts/:bank_account_id'});
+			this.resource('bank_accounts', {
+				path: '/bank_accounts/:bank_account_id'
+			});
 
-			this.resource('cards', { path: '/cards/:card_id'});
+			this.resource('cards', {
+				path: '/cards/:card_id'
+			});
 
-			this.resource('credits', { path: '/credits/:credit_id'});
-			this.resource('reversals', { path: '/reversals/:reversal_id'});
-			this.resource('debits', { path: '/debits/:debit_id'});
-			this.resource('holds', { path: '/holds/:hold_id'});
-			this.resource('refunds', { path: '/refunds/:refund_id'});
-			this.resource('events', { path: '/events/:event_id'});
+			this.resource('credits', {
+				path: '/credits/:credit_id'
+			});
+			this.resource('reversals', {
+				path: '/reversals/:reversal_id'
+			});
+			this.resource('debits', {
+				path: '/debits/:debit_id'
+			});
+			this.resource('holds', {
+				path: '/holds/:hold_id'
+			});
+			this.resource('refunds', {
+				path: '/refunds/:refund_id'
+			});
+			this.resource('events', {
+				path: '/events/:event_id'
+			});
 
 			makeNestedResource(this, 'logs', 'log');
 
@@ -92,13 +135,27 @@ Balanced.Router.map(function () {
 	});
 
 	// signup related
-	this.route('login', { path: '/login' });
-	this.route('logout', { path: '/logout' });
+	this.route('login', {
+		path: '/login'
+	});
+	this.route('logout', {
+		path: '/logout'
+	});
 
-	this.route('forgotPassword', { path: '/forgot_password' });
-	this.route('resetPassword', { path: '/password/:token' });
-	this.route('start', { path: '/start' });
-	this.route('claim', { path: '/claim' });
+	this.route('forgotPassword', {
+		path: '/forgot_password'
+	});
+	this.route('resetPassword', {
+		path: '/password/:token'
+	});
+	this.route('start', {
+		path: '/start'
+	});
+	this.route('claim', {
+		path: '/claim'
+	});
 
-	this.route("invalid", { path: "*:"});
+	this.route("invalid", {
+		path: "*:"
+	});
 });

@@ -1,6 +1,6 @@
 /*jshint camelcase: false */
 /*global module:false */
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
 	grunt.initConfig({
 		clean: {
@@ -157,7 +157,7 @@ module.exports = function (grunt) {
 		*/
 		emberTemplates: {
 			options: {
-				templateName: function (sourceFile) {
+				templateName: function(sourceFile) {
 					return sourceFile.replace(/app\/templates\//, '');
 				}
 			},
@@ -188,126 +188,102 @@ module.exports = function (grunt) {
 
 		copy: {
 			css: {
-				files: [
-					{
-						cwd: 'build/css/',
-						expand: true,
-						src: ['**'],
-						dest: 'dist/css/'
-					}
-				]
+				files: [{
+					cwd: 'build/css/',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/css/'
+				}]
 			},
 			images: {
-				files: [
-					{
-						cwd: 'static/images/',
-						expand: true,
-						src: ['**'],
-						dest: 'build/images/'
-					},
-					{
-						cwd: 'static/images/',
-						expand: true,
-						src: ['**'],
-						dest: 'build/test/images/'
-					}
-				]
+				files: [{
+					cwd: 'static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/images/'
+				}, {
+					cwd: 'static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/images/'
+				}]
 			},
 			fonts: {
-				files: [
-					{
-						cwd: 'static/fonts/',
-						expand: true,
-						src: ['**'],
-						dest: 'build/fonts/'
-					},
-					{
-						cwd: 'static/fonts/',
-						expand: true,
-						src: ['**'],
-						dest: 'build/test/fonts/'
-					}
-				]
+				files: [{
+					cwd: 'static/fonts/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/fonts/'
+				}, {
+					cwd: 'static/fonts/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/fonts/'
+				}]
 			},
 			dist: {
-				files: [
-					{
-						cwd: 'build/js/',
-						expand: true,
-						src: ['*-prod.min-*.js'],
-						dest: 'dist/js/'
-					},
-					{
-						cwd: 'build/css/',
-						expand: true,
-						src: ['*.min-*.css'],
-						dest: 'dist/css/'
-					},
-					{
-						src: 'build/prod.html',
-						dest: 'dist/index.html'
-					},
-					{
-						cwd: 'build/images/',
-						expand: true,
-						src: ['**'],
-						dest: 'dist/images/'
-					},
-					{
-						cwd: 'build/fonts/',
-						expand: true,
-						src: ['**'],
-						dest: 'dist/fonts/'
-					}
-				]
+				files: [{
+					cwd: 'build/js/',
+					expand: true,
+					src: ['*-prod.min-*.js'],
+					dest: 'dist/js/'
+				}, {
+					cwd: 'build/css/',
+					expand: true,
+					src: ['*.min-*.css'],
+					dest: 'dist/css/'
+				}, {
+					src: 'build/prod.html',
+					dest: 'dist/index.html'
+				}, {
+					cwd: 'build/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/images/'
+				}, {
+					cwd: 'build/fonts/',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/fonts/'
+				}]
 			},
 			test: {
-				files: [
-					{
-						cwd: 'test/support/static/',
-						expand: true,
-						src: ['**'],
-						dest: 'build/test/'
-					},
-					{
-						cwd: 'test/support/lib/',
-						expand: true,
-						src: ['**'],
-						dest: 'build/test/js'
-					},
-					{
-						src: 'test/support/testconfig.js',
-						dest: 'build/test/js/testconfig.js'
-					},
-					{
-						src: 'test/support/testenv.js',
-						dest: 'build/test/js/testenv.js'
-					},
-					{
-						src: 'test/support/fixturebrowserconfig.js',
-						dest: 'build/test/js/fixturebrowserconfig.js'
-					}
-				]
+				files: [{
+					cwd: 'test/support/static/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/'
+				}, {
+					cwd: 'test/support/lib/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/js'
+				}, {
+					src: 'test/support/testconfig.js',
+					dest: 'build/test/js/testconfig.js'
+				}, {
+					src: 'test/support/testenv.js',
+					dest: 'build/test/js/testenv.js'
+				}, {
+					src: 'test/support/fixturebrowserconfig.js',
+					dest: 'build/test/js/fixturebrowserconfig.js'
+				}]
 			},
 			preUglify: {
-				files: [
-					{
-						expand: true,
-						flatten: true,
-						src: ['build/js/dashboard-prod.js','build/js/lib-prod.js'],
-						dest: 'js/'
-					}
-				]
+				files: [{
+					expand: true,
+					flatten: true,
+					src: ['build/js/dashboard-prod.js', 'build/js/lib-prod.js'],
+					dest: 'js/'
+				}]
 			},
 			postUglify: {
-				files: [
-					{
-						expand: true,
-						flatten: true,
-						src: ['js/*'],
-						dest: 'dist/js/'
-					}
-				]
+				files: [{
+					expand: true,
+					flatten: true,
+					src: ['js/*'],
+					dest: 'dist/js/'
+				}]
 			}
 		},
 
@@ -408,24 +384,19 @@ module.exports = function (grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: [
-					{
-						src: 'dist/js/*',
-						dest: 'js/'
-					},
-					{
-						src: 'dist/css/*',
-						dest: 'css/'
-					},
-					{
-						src: 'dist/images/**/*',
-						dest: 'images/'
-					},
-					{
-						src: 'dist/fonts/**/*',
-						dest: 'fonts/'
-					}
-				]
+				upload: [{
+					src: 'dist/js/*',
+					dest: 'js/'
+				}, {
+					src: 'dist/css/*',
+					dest: 'css/'
+				}, {
+					src: 'dist/images/**/*',
+					dest: 'images/'
+				}, {
+					src: 'dist/fonts/**/*',
+					dest: 'fonts/'
+				}]
 			},
 			previewUncached: {
 				options: {
@@ -434,12 +405,10 @@ module.exports = function (grunt) {
 				headers: {
 					'Cache-Control': 'max-age=60'
 				},
-				upload: [
-					{
-						src: 'dist/*',
-						dest: ''
-					}
-				]
+				upload: [{
+					src: 'dist/*',
+					dest: ''
+				}]
 			},
 			productionCached: {
 				options: {
@@ -448,24 +417,19 @@ module.exports = function (grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: [
-					{
-						src: 'dist/js/*',
-						dest: 'js/'
-					},
-					{
-						src: 'dist/css/*',
-						dest: 'css/'
-					},
-					{
-						src: 'dist/images/**/*',
-						dest: 'images/'
-					},
-					{
-						src: 'dist/fonts/**/*',
-						dest: 'fonts/'
-					}
-				]
+				upload: [{
+					src: 'dist/js/*',
+					dest: 'js/'
+				}, {
+					src: 'dist/css/*',
+					dest: 'css/'
+				}, {
+					src: 'dist/images/**/*',
+					dest: 'images/'
+				}, {
+					src: 'dist/fonts/**/*',
+					dest: 'fonts/'
+				}]
 			},
 			productionUncached: {
 				options: {
@@ -474,12 +438,10 @@ module.exports = function (grunt) {
 				headers: {
 					'Cache-Control': 'max-age=60'
 				},
-				upload: [
-					{
-						src: 'dist/*',
-						dest: ''
-					}
-				]
+				upload: [{
+					src: 'dist/*',
+					dest: ''
+				}]
 			},
 		},
 
@@ -513,6 +475,34 @@ module.exports = function (grunt) {
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js'
+			}
+		},
+
+		jsbeautifier: {
+			options: {
+				config: '.jsbeautifyrc'
+			},
+			verify: {
+				options: {
+					mode: 'VERIFY_ONLY'
+				},
+				src: [
+					'Gruntfile.js',
+					'app/**/*.js',
+					'test/**/*.js',
+					'!test/support/lib/*.js'
+				],
+			},
+			update: {
+				options: {
+					mode: 'VERIFY_AND_WRITE'
+				},
+				src: [
+					'Gruntfile.js',
+					'app/**/*.js',
+					'test/**/*.js',
+					'!test/support/lib/*.js'
+				],
 			}
 		},
 
@@ -594,7 +584,7 @@ module.exports = function (grunt) {
 		},
 
 		open: {
-			dev : {
+			dev: {
 				path: 'http://localhost:9876/build/dev.html'
 			},
 		}
@@ -616,10 +606,11 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-compile-handlebars');
 	grunt.loadNpmTasks('grunt-open');
 	grunt.loadNpmTasks('grunt-karma');
+	grunt.loadNpmTasks('grunt-jsbeautifier');
 
-	grunt.registerMultiTask('clean', 'Deletes files', function () {
-		this.files.forEach(function (file) {
-			file.orig.src.forEach(function (f) {
+	grunt.registerMultiTask('clean', 'Deletes files', function() {
+		this.files.forEach(function(file) {
+			file.orig.src.forEach(function(f) {
 				if (grunt.file.exists(f)) {
 					grunt.file.delete(f);
 				}
@@ -631,7 +622,7 @@ module.exports = function (grunt) {
 	A task to run the application's unit tests via the command line.
 	It will headlessy load the test runner page and print the test runner results
 	*/
-	grunt.registerTask('test', ['_devBuild', 'karma', 'jshint']);
+	grunt.registerTask('test', ['_devBuild', 'karma', 'jshint', 'verify']);
 
 	/*
 	Default task. Compiles templates, neuters application code, and begins
@@ -643,6 +634,9 @@ module.exports = function (grunt) {
 	Builds for production.
 	*/
 	grunt.registerTask('build', ['jshint', '_devBuild', '_prodBuildSteps']);
+
+	grunt.registerTask('format', ['jsbeautifier:update']);
+	grunt.registerTask('verify', ['jshint', 'jsbeautifier:verify']);
 
 	/*
 	Uploads to s3. Requires environment variables to be set if the bucket

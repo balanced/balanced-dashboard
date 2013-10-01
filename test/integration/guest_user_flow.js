@@ -1,15 +1,16 @@
 module('Guest', {
-	setup: function () {
-		Ember.run(function () {
+	setup: function() {
+		Ember.run(function() {
 			Balanced.Auth.setAuthProperties(false, null, null, null, false);
 			Balanced.Auth.forgetLogin();
 		});
-	}, teardown: function () {
+	},
+	teardown: function() {
 
 	}
 });
 
-test('visiting start creates a marketplace', function (assert) {
+test('visiting start creates a marketplace', function(assert) {
 	visit('/start').then(function() {
 		assert.ok(window.location.hash.indexOf('start'), 'Transitioned to the start page');
 		assert.equal(Balanced.Auth.get('userId'), '/users/guest', 'Userid is guest');
@@ -36,48 +37,46 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 	});
 });
 
-test('claim account creates a login', function (assert) {
+test('claim account creates a login', function(assert) {
 	expect(3);
 
 	var emailAddress = 'marshall@example.com',
 		password = 'SupahSecret123~!';
 
 	visit('/start')
-	.visit('/claim')
-	.then(function() {
-		assert.notEqual($('h1').text().trim().indexOf('Claim your account'), -1, 'title is incorrect');
-		assert.equal($('[name="email_address"]').length, 1, 'email address is visible');
+		.visit('/claim')
+		.then(function() {
+			assert.notEqual($('h1').text().trim().indexOf('Claim your account'), -1, 'title is incorrect');
+			assert.equal($('[name="email_address"]').length, 1, 'email address is visible');
 
-		$('[name="email_address"]').val(emailAddress).keyup();
-		$('[name="password"]').val(password).keyup();
-		$('[name="passwordConfirm"]').val(password).keyup();
-		return click('button', '#claim-form');
-	}).then(function() {
-		var expectedCalls = [
-			{
+			$('[name="email_address"]').val(emailAddress).keyup();
+			$('[name="password"]').val(password).keyup();
+			$('[name="passwordConfirm"]').val(password).keyup();
+			return click('button', '#claim-form');
+		}).then(function() {
+			var expectedCalls = [{
 				type: Balanced.Claim,
 				data: {
 					email_address: emailAddress,
 					password: password
 				}
-			}
-		];
+			}];
 
-		_.each(expectedCalls, function (e) {
-			var match = 0;
-			_.each(Balanced.Adapter.creates, function (create) {
-				if (e.type !== create.type) {
-					return;
-				}
-				_.each(e.data, function (d) {
-					if (create.data[d] !== e.data[d]) {
-						match = false;
+			_.each(expectedCalls, function(e) {
+				var match = 0;
+				_.each(Balanced.Adapter.creates, function(create) {
+					if (e.type !== create.type) {
 						return;
 					}
+					_.each(e.data, function(d) {
+						if (create.data[d] !== e.data[d]) {
+							match = false;
+							return;
+						}
+					});
+					match = true;
 				});
-				match = true;
+				assert.ok(match);
 			});
-			assert.ok(match);
 		});
-	});
 });

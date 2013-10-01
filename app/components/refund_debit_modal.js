@@ -7,7 +7,7 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 	},
 
 	actions: {
-		open: function () {
+		open: function() {
 			var refund = Balanced.Refund.create({
 				uri: this.get('debit.customer.refunds_uri'),
 				debit_uri: this.get('debit.uri'),
@@ -27,7 +27,7 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -38,7 +38,9 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
-				refund.set('validationErrors', {'amount': error});
+				refund.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 			refund.set('amount', cents);

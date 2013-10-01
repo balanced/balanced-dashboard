@@ -4,14 +4,14 @@ Balanced.Account = Balanced.Model.extend({
 
 	customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
-	display_me: function () {
+	display_me: function() {
 		return this.get('name') || this.get('id');
 	}.property('name', 'id'),
 
-	name_summary: function () {
+	name_summary: function() {
 		var builtString;
 		var name = this.get('name'),
-			emailAddress =this.get('email_address');
+			emailAddress = this.get('email_address');
 		if (name) {
 			builtString = name;
 			if (emailAddress) {
@@ -28,7 +28,7 @@ Balanced.Account = Balanced.Model.extend({
 	}.property('name', 'email_address', 'id'),
 
 	// compat with customers:
-	email: function () {
+	email: function() {
 		return this.get('email_address');
 	}.property('email_address')
 

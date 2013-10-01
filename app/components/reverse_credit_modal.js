@@ -7,7 +7,7 @@ Balanced.ReverseCreditModalComponent = Ember.Component.extend({
 	},
 
 	actions: {
-		open: function () {
+		open: function() {
 			var reversal = Balanced.Reversal.create({
 				uri: this.get('credit.reversals_uri'),
 				credit_uri: this.get('credit.uri'),
@@ -26,7 +26,7 @@ Balanced.ReverseCreditModalComponent = Ember.Component.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}

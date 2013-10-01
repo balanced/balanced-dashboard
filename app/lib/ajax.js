@@ -1,9 +1,9 @@
 require('app/lib/variables');
 
-Balanced.NET = (function () {
+Balanced.NET = (function() {
 	return {
-		loadCSRFToken: function () {
-			if(window.TESTING) {
+		loadCSRFToken: function() {
+			if (window.TESTING) {
 				return;
 			}
 
@@ -11,7 +11,7 @@ Balanced.NET = (function () {
 			return this.ajax({
 				type: 'POST',
 				url: Ember.ENV.BALANCED.AUTH
-			}).success(function (response, status, jqxhr) {
+			}).success(function(response, status, jqxhr) {
 				Balanced.NET.csrfToken = response.csrf;
 			});
 		},
@@ -26,16 +26,15 @@ Balanced.NET = (function () {
 			var def = {
 				'dataType': 'json',
 				contentType: 'application/json; charset=UTF-8',
-				headers: {
-				}
+				headers: {}
 			};
 
-			if(this.defaultApiKey) {
+			if (this.defaultApiKey) {
 				def.headers['Authorization'] = Balanced.Utils.encodeAuthorization(this.defaultApiKey);
 			}
 
-			if(settings.url.indexOf(ENV.BALANCED.AUTH) !== -1) {
-				if(this.csrfToken) {
+			if (settings.url.indexOf(ENV.BALANCED.AUTH) !== -1) {
+				if (this.csrfToken) {
 					def.headers['X-CSRFToken'] = this.csrfToken;
 				}
 
@@ -45,8 +44,8 @@ Balanced.NET = (function () {
 			}
 
 			if (settings.data && Ember.isNone(settings.contentType)) {
-				if(settings.type && settings.type.toUpperCase !== 'GET') {
-					settings.data  = JSON.stringify(settings.data);
+				if (settings.type && settings.type.toUpperCase !== 'GET') {
+					settings.data = JSON.stringify(settings.data);
 				}
 			}
 			settings = $.extend(def, settings);

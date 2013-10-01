@@ -3,19 +3,19 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	tagName: 'header',
 
 	// UI computed properties
-	transactionsTabSelected: function () {
+	transactionsTabSelected: function() {
 		return this.get('controller.category') === "transaction";
 	}.property('controller.category'),
 
-	customersTabSelected: function () {
+	customersTabSelected: function() {
 		return this.get('controller.category') === "account";
 	}.property('controller.category'),
 
-	fundingInstrumentsTabSelected: function () {
+	fundingInstrumentsTabSelected: function() {
 		return this.get('controller.category') === "funding_instrument";
 	}.property('controller.category'),
 
-	transaction_type_label: function () {
+	transaction_type_label: function() {
 		var typesToLabels = {
 			DEFAULT: 'Transactions'
 		};
@@ -23,7 +23,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
-	funding_instrument_type_label: function () {
+	funding_instrument_type_label: function() {
 		var typesToLabels = {
 			DEFAULT: 'Cards & Bank Accounts'
 		};
@@ -31,27 +31,27 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
-	totalTransactionsHeader: function () {
+	totalTransactionsHeader: function() {
 		return 'Transactions (' + this.get('searchResult.total_transactions') + ')';
 	}.property('searchResult.total_transactions'),
 
-	totalFundingInstrumentsHeader: function () {
+	totalFundingInstrumentsHeader: function() {
 		return 'Cards & Bank Accounts (' + this.get('searchResult.total_funding_instruments') + ')';
 	}.property('searchResult.total_funding_instruments'),
 
-	transaction_type_total: function () {
+	transaction_type_total: function() {
 		var types = Balanced.SEARCH.TRANSACTION_TYPES;
 		var type = this.get('controller.type');
 		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_transactions');
 	}.property('controller.type', 'searchResult.total_transactions'),
 
-	funding_instrument_type_total: function () {
+	funding_instrument_type_total: function() {
 		var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
 		var type = this.get('controller.type');
 		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_funding_instruments');
 	}.property('controller.type', 'searchResult'),
 
-	_getLabel: function (labelMapping, acceptedTypes, type) {
+	_getLabel: function(labelMapping, acceptedTypes, type) {
 		var label = labelMapping[type];
 		if (!label && acceptedTypes.indexOf(type) > -1) {
 			label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
@@ -68,35 +68,35 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/transactions_filters_header',
 	tagName: 'header',
 
-	allTabSelected: function () {
+	allTabSelected: function() {
 		return this.get('controller.type') === "transaction";
 	}.property('controller.type'),
 
-	holdsTabSelected: function () {
+	holdsTabSelected: function() {
 		return this.get('controller.type') === "hold";
 	}.property('controller.type'),
 
-	creditsTabSelected: function () {
+	creditsTabSelected: function() {
 		return this.get('controller.type') === "credit";
 	}.property('controller.type'),
 
-	debitBankAccountsTabSelected: function () {
+	debitBankAccountsTabSelected: function() {
 		return this.get('controller.type') === "bank_account_debit";
 	}.property('controller.type'),
 
-	debitCardsTabSelected: function () {
+	debitCardsTabSelected: function() {
 		return this.get('controller.type') === "card_debit";
 	}.property('controller.type'),
 
-	debitsTabSelected: function () {
+	debitsTabSelected: function() {
 		return this.get('controller.type') === "debit";
 	}.property('controller.type'),
 
-	refundsTabSelected: function () {
+	refundsTabSelected: function() {
 		return this.get('controller.type') === "refund";
 	}.property('controller.type'),
 
-	debits_label: function () {
+	debits_label: function() {
 		if (this.get('controller.type') === 'debit') {
 			return 'Debits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
 		} else {
@@ -104,7 +104,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 		}
 	}.property('controller.transactionType', 'controller.type'),
 
-	credits_label: function () {
+	credits_label: function() {
 		if (this.get('controller.type') === 'credit') {
 			return 'Credits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
 		} else {
@@ -117,7 +117,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 	tagName: 'th',
 	classNameBindings: 'sortClass',
 
-	sortClass: function () {
+	sortClass: function() {
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		if (sortField !== this.get('field')) {
@@ -134,7 +134,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 		}
 	}.property('controller.sortField', 'controller.sortOrder'),
 
-	click: function (e) {
+	click: function(e) {
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		var allowSortByNone = this.get('controller.allowSortByNone');
@@ -146,7 +146,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 					break;
 				case 'desc':
 					nextSortOrder = 'asc';
-					if(allowSortByNone){
+					if (allowSortByNone) {
 						nextSortOrder = 'none';
 					}
 					break;

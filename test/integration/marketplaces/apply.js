@@ -1,9 +1,8 @@
 var applyRoute = '/marketplaces/apply';
 
 module('Balanced.Marketplaces.apply', {
-	setup: function () {
-	}, teardown: function () {
-	}
+	setup: function() {},
+	teardown: function() {}
 });
 
 var businessData = {
@@ -62,7 +61,7 @@ var expectedBankAccountData = {
 };
 
 function populate() {
-	_.each(businessData, function (value, key) {
+	_.each(businessData, function(value, key) {
 		var $input = $('[name="' + key + '"]');
 		$input.val(value);
 		$input.find(':selected').removeAttr('selected');
@@ -71,13 +70,13 @@ function populate() {
 	});
 }
 
-test('we are on the correct page', function (assert) {
+test('we are on the correct page', function(assert) {
 	visit(applyRoute).then(function() {
 		assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
 	});
 });
 
-test('clicking business or personal shows data', function (assert) {
+test('clicking business or personal shows data', function(assert) {
 	visit(applyRoute).then(function() {
 		function getInputs() {
 			return $('input', '#marketplace-apply');
@@ -93,7 +92,7 @@ test('clicking business or personal shows data', function (assert) {
 	});
 });
 
-test('basic form validation and terms and conditions', function (assert) {
+test('basic form validation and terms and conditions', function(assert) {
 	visit(applyRoute).then(function() {
 		$('a:contains("Person")').click();
 
@@ -140,45 +139,45 @@ test('application submits properly', function(assert) {
 	});
 
 	visit(applyRoute)
-	.click('a:contains("Person")')
-	.then(function() {
-		populate();
-	})
-	.click("#terms-and-conditions")
-	.click('.submit')
-	.then(function() {
-		assert.equal(createStub.callCount, 5);
-		assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
-			merchant: {
-				dob: '1996-1-1',
-				name: 'John Balanced',
-				phone_number: '(904) 628 1796',
-				postal_code: '94103',
-				street_address: '965 Mission St',
-				tax_id: '1234',
-				type: 'PERSON'
-			}
-		}));
-		assert.ok(createStub.calledWith(Balanced.Marketplace, "/v1/marketplaces", {
-			name: "Balanced Test Marketplace",
-			support_email_address: "support@balancedpayments.com",
-			support_phone_number: "(650) 555-4444",
-			domain_url: "https://www.balancedpayments.com"
-		}));
-		assert.ok(createStub.calledWith(Balanced.UserMarketplace));
-		assert.ok(createStub.calledWith(Balanced.BankAccount, '/v1/marketplaces/deadbeef/bank_accounts', {
-			bank_account_uri: '/v1/bank_accounts/deadbeef'
-		}));
-		assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
+		.click('a:contains("Person")')
+		.then(function() {
+			populate();
+		})
+		.click("#terms-and-conditions")
+		.click('.submit')
+		.then(function() {
+			assert.equal(createStub.callCount, 5);
+			assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
+				merchant: {
+					dob: '1996-1-1',
+					name: 'John Balanced',
+					phone_number: '(904) 628 1796',
+					postal_code: '94103',
+					street_address: '965 Mission St',
+					tax_id: '1234',
+					type: 'PERSON'
+				}
+			}));
+			assert.ok(createStub.calledWith(Balanced.Marketplace, "/v1/marketplaces", {
+				name: "Balanced Test Marketplace",
+				support_email_address: "support@balancedpayments.com",
+				support_phone_number: "(650) 555-4444",
+				domain_url: "https://www.balancedpayments.com"
+			}));
+			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
+			assert.ok(createStub.calledWith(Balanced.BankAccount, '/v1/marketplaces/deadbeef/bank_accounts', {
+				bank_account_uri: '/v1/bank_accounts/deadbeef'
+			}));
+			assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
 
-		assert.ok(balancedInitStub.calledOnce);
-		assert.ok(balancedInitStub.calledWith('/v1/marketplaces'));
-		assert.ok(tokenizingStub.calledOnce);
-		assert.ok(tokenizingStub.calledWith({
-			type: "checking",
-			name: "Balanced Inc",
-			account_number: "123123123",
-			routing_number: "321174851"
-		}));
-	});
+			assert.ok(balancedInitStub.calledOnce);
+			assert.ok(balancedInitStub.calledWith('/v1/marketplaces'));
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
+				type: "checking",
+				name: "Balanced Inc",
+				account_number: "123123123",
+				routing_number: "321174851"
+			}));
+		});
 });

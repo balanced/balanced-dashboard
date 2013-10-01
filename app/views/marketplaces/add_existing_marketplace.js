@@ -7,7 +7,7 @@ Balanced.AddExistingMarketplaceView = Balanced.View.extend({
 	isSubmitting: false,
 
 	actions: {
-		add: function () {
+		add: function() {
 			if (this.get('isSubmitting')) {
 				return;
 			}
@@ -24,11 +24,11 @@ Balanced.AddExistingMarketplaceView = Balanced.View.extend({
 				secret: secret
 			});
 
-			marketplace.save().then(function () {
+			marketplace.save().then(function() {
 				self.set('isSubmitting', false);
 				self.set('secret', null);
 				Balanced.Auth.get('user').reload();
-			}, function () {
+			}, function() {
 				self.set('isSubmitting', false);
 			});
 		}

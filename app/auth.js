@@ -1,4 +1,4 @@
-Balanced.Auth = (function () {
+Balanced.Auth = (function() {
 	var auth = Ember.Object.extend(Ember.Evented).create();
 
 	auth._doSignIn = function(opts) {
@@ -10,7 +10,7 @@ Balanced.Auth = (function () {
 		return Balanced.NET.ajax($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts)).done(function (response, status, jqxhr) {
+		}, opts)).done(function(response, status, jqxhr) {
 			var user = Balanced.User.create();
 			user.populateFromJsonResponse(response.user);
 
@@ -23,9 +23,9 @@ Balanced.Auth = (function () {
 			auth.rememberLogin(response.uri);
 
 			self.trigger('signInSuccess');
-		}).fail(function () {
+		}).fail(function() {
 			self.trigger('signInError');
-		}).always(function () {
+		}).always(function() {
 			self.trigger('signInComplete');
 		});
 	};
@@ -43,11 +43,13 @@ Balanced.Auth = (function () {
 		var authCookie = this.retrieveLogin();
 		if (authCookie) {
 			return this._doSignIn({
-				data: { uri: authCookie }
+				data: {
+					uri: authCookie
+				}
 			});
 		} else {
 			var existingApiKey = this.getGuestAPIKey();
-			if(existingApiKey) {
+			if (existingApiKey) {
 				return this.rememberGuestUser(existingApiKey);
 			}
 		}
@@ -107,26 +109,26 @@ Balanced.Auth = (function () {
 		return Balanced.NET.ajax({
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
-		}).done(function () {
+		}).done(function() {
 			Balanced.NET.loadCSRFToken();
 			self.trigger('signOutSuccess');
-		}).fail(function () {
+		}).fail(function() {
 			self.trigger('signOutError');
-		}).always(function () {
+		}).always(function() {
 			self.trigger('signOutComplete');
 		});
 	};
 
 	auth.createNewGuestUser = function() {
 		Balanced.Auth.unsetAPIKey();
-		return Balanced.APIKey.create().save().then(function (apiKey) {
+		return Balanced.APIKey.create().save().then(function(apiKey) {
 			var secret = apiKey.get('secret');
 			auth.loginGuestUser(secret);
 			return apiKey;
 		});
 	};
 
-	auth.setAuthProperties = function (signedIn, user, userId, authToken, isGuest) {
+	auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
 		auth.set('authToken', authToken);
 		auth.set('userId', userId);
 		auth.set('signedIn', signedIn);
@@ -134,14 +136,14 @@ Balanced.Auth = (function () {
 		auth.set('isGuest', isGuest);
 	};
 
-	auth.rememberLogin = function (token) {
+	auth.rememberLogin = function(token) {
 		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
 			expires: 1,
 			path: '/'
 		});
 	};
 
-	auth.forgetLogin = function () {
+	auth.forgetLogin = function() {
 		// Removing from the root domain since we were setting it on the root
 		// domain for a while. This line can be removed after Aug 23, 2013
 		$.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
@@ -172,7 +174,7 @@ Balanced.Auth = (function () {
 		Balanced.Utils.setCurrentMarketplace(null);
 	};
 
-	auth.retrieveLogin = function () {
+	auth.retrieveLogin = function() {
 		return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
 	};
 
@@ -185,7 +187,7 @@ Balanced.Auth = (function () {
 		Ember.set(Balanced.NET, 'defaultApiKey', null);
 	};
 
-	auth.storeGuestAPIKey = function (apiKeySecret) {
+	auth.storeGuestAPIKey = function(apiKeySecret) {
 		$.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
 			path: '/'
 		});
@@ -207,7 +209,9 @@ Balanced.Auth = (function () {
 	};
 
 	auth.forgetLastUsedMarketplaceUri = function() {
-		$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, { path: '/' });
+		$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, {
+			path: '/'
+		});
 	};
 
 	return auth;

@@ -6,7 +6,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 	bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
-	type_name: function () {
+	type_name: function() {
 		return "Credit";
 	}.property(),
 
@@ -14,7 +14,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 		return "credits";
 	}.property(),
 
-	funding_instrument_description: function () {
+	funding_instrument_description: function() {
 		return this.get('bank_account.description');
 	}.property('bank_account.description'),
 
@@ -23,7 +23,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 	}.property('status', 'reversals.isLoaded', 'reversals.@each'),
 
 	status_description: function() {
-		if(this.get('status') === 'pending') {
+		if (this.get('status') === 'pending') {
 			return "Credit is processing, funds will be available the next business day unless there is an issue with the bank account.";
 		} else if (this.get('status') === 'paid') {
 			return "Funds are now available. If there is an issue with the bank account, a \"Failed\" status and rejection reason will be displayed here.";

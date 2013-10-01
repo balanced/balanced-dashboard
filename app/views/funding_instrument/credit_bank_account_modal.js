@@ -3,15 +3,15 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
 
 	dollar_amount: null,
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this.get('controller').on('openCreditBankAccountModal', this, this.open);
 	},
 
-	willDestroyElement: function () {
+	willDestroyElement: function() {
 		this.get('controller').off('openCreditBankAccountModal', this, this.open);
 	},
 
-	open: function () {
+	open: function() {
 		var credit = Balanced.Credit.create({
 			uri: this.get('funding_instrument.customer.credits_uri') || this.get('funding_instrument.credits_uri'),
 			bank_account_uri: this.get('funding_instrument.uri'),
@@ -27,7 +27,7 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
 	},
 
 	actions: {
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}
@@ -38,13 +38,15 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
-				credit.set('validationErrors', {'amount': error});
+				credit.set('validationErrors', {
+					'amount': error
+				});
 				return;
 			}
 			credit.set('amount', cents);
 
 			var self = this;
-			credit.save().then(function (credit) {
+			credit.save().then(function(credit) {
 				$('#credit-bank-account').modal('hide');
 				self.get('controller').transitionToRoute('credits', credit);
 			});

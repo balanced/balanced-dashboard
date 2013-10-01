@@ -3,7 +3,7 @@ Balanced.InitialDeposit = Balanced.Model.extend(Ember.Validations, {
 		card_number: {
 			presence: true,
 			format: {
-				validator: function (object, attribute, value) {
+				validator: function(object, attribute, value) {
 					if (!balanced.card.isCardNumberValid(value)) {
 						object.get('validationErrors').add(attribute, 'blank', null, 'is not valid');
 					}

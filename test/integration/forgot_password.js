@@ -1,15 +1,14 @@
 module('ForgotPassword', {
-	setup: function () {
-		Ember.run(function () {
+	setup: function() {
+		Ember.run(function() {
 			Balanced.Auth.setAuthProperties(false, null, null, null, false);
 		});
 		Balanced.Adapter.asyncCallbacks = true;
 	},
-	teardown: function () {
-	}
+	teardown: function() {}
 });
 
-test('clicking forgot password from login takes you to the page', function (assert) {
+test('clicking forgot password from login takes you to the page', function(assert) {
 	visit('/login').then(function() {
 		return click($("form#auth-form a").first());
 	}).then(function() {
@@ -17,7 +16,7 @@ test('clicking forgot password from login takes you to the page', function (asse
 	});
 });
 
-test('forgot password form submits', function (assert) {
+test('forgot password form submits', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit('/forgot_password').then(function() {

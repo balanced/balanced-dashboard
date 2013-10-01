@@ -19,11 +19,11 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 
 	customers: Balanced.Model.hasMany('customers', 'Balanced.Customer'),
 
-	callbacks_uri: function () {
+	callbacks_uri: function() {
 		return this.get('uri') + '/callbacks';
 	}.property('uri'),
 
-	funding_instruments_uri: function () {
+	funding_instruments_uri: function() {
 		return this.get('uri') + '/search?limit=10&offset=0&q=&type[in]=bank_account,card';
 	}.property('uri'),
 

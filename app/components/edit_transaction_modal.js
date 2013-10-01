@@ -6,7 +6,7 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 	},
 
 	actions: {
-		open: function () {
+		open: function() {
 			// operate on a copy so we don't mess up the original object
 			var copiedTransaction = Ember.copy(this.get('transaction'), true);
 			copiedTransaction.set('isNew', false);
@@ -18,7 +18,7 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 			});
 		},
 
-		save: function () {
+		save: function() {
 			if (this.get('model.isSaving')) {
 				return;
 			}

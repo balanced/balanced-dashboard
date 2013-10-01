@@ -1,12 +1,13 @@
 var settingsPath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
 
 module('Marketplaces Settings', {
-	setup: function () {
+	setup: function() {
 		Testing.selectMarketplaceByName();
 
 		// click the settings link
 		$('#marketplace-nav .settings a').click();
-	}, teardown: function () {
+	},
+	teardown: function() {
 		$("#add-bank-account").modal('hide');
 		$("#delete-bank-account").modal('hide');
 		$("#add-card").modal('hide');
@@ -18,24 +19,24 @@ module('Marketplaces Settings', {
 	}
 });
 
-test('can visit page', function (assert) {
+test('can visit page', function(assert) {
 	//  check the page title has been selected
 	var $title = $('#content h1');
 
 	assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
 });
 
-test('can update marketplace info', function (assert) {
+test('can update marketplace info', function(assert) {
 	click('.marketplace-info a.edit')
-	.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
-	.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-	.then(function() {
-		// Marketplace name should have changed
-		assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
-	});
+		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
+		.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			// Marketplace name should have changed
+			assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
+		});
 });
 
-test('updating marketplace info only submits once despite multiple clicks', function (assert) {
+test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
 	// click the button to edit marketplace info
@@ -50,47 +51,47 @@ test('updating marketplace info only submits once despite multiple clicks', func
 	assert.ok(stub.calledOnce);
 });
 
-test('can update owner info', function (assert) {
+test('can update owner info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(settingsPath)
-	.click('.owner-info a.edit')
-	.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
-	.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
-	.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
-	.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
-	.click('#edit-customer-info a.more-info')
-	.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
-	.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 101')
-	.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
-	.fillIn('#edit-customer-info .modal-body input[name="region"]', 'CA')
-	.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
-	.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '12345')
-	.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
-	.fillIn('#edit-customer-info .modal-body input[name="dob_month"]', '12')
-	.fillIn('#edit-customer-info .modal-body input[name="dob_year"]', '1924')
-	.fillIn('#edit-customer-info .modal-body input[name="ssn_last4"]', '1234')
-	.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
-	.then(function() {
-		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Customer));
-		assert.equal(spy.getCall(0).args[2].name, "TEST");
-		assert.equal(spy.getCall(0).args[2].email, "TEST@example.com");
-		assert.equal(spy.getCall(0).args[2].business_name, "TEST");
-		assert.equal(spy.getCall(0).args[2].ein, "1234");
-		assert.equal(spy.getCall(0).args[2].address.line1, "600 William St");
-		assert.equal(spy.getCall(0).args[2].address.line2, "Apt 101");
-		assert.equal(spy.getCall(0).args[2].address.city, "Oakland");
-		assert.equal(spy.getCall(0).args[2].address.region, "CA");
-		assert.equal(spy.getCall(0).args[2].address.country_code, "US");
-		assert.equal(spy.getCall(0).args[2].address.postal_code, "12345");
-		assert.equal(spy.getCall(0).args[2].phone, "1231231234");
-		assert.equal(spy.getCall(0).args[2].dob, "1924-12");
-		assert.equal(spy.getCall(0).args[2].ssn_last4, "1234");
-	});
+		.click('.owner-info a.edit')
+		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
+		.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
+		.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
+		.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
+		.click('#edit-customer-info a.more-info')
+		.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
+		.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 101')
+		.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
+		.fillIn('#edit-customer-info .modal-body input[name="region"]', 'CA')
+		.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
+		.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '12345')
+		.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
+		.fillIn('#edit-customer-info .modal-body input[name="dob_month"]', '12')
+		.fillIn('#edit-customer-info .modal-body input[name="dob_year"]', '1924')
+		.fillIn('#edit-customer-info .modal-body input[name="ssn_last4"]', '1234')
+		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Customer));
+			assert.equal(spy.getCall(0).args[2].name, "TEST");
+			assert.equal(spy.getCall(0).args[2].email, "TEST@example.com");
+			assert.equal(spy.getCall(0).args[2].business_name, "TEST");
+			assert.equal(spy.getCall(0).args[2].ein, "1234");
+			assert.equal(spy.getCall(0).args[2].address.line1, "600 William St");
+			assert.equal(spy.getCall(0).args[2].address.line2, "Apt 101");
+			assert.equal(spy.getCall(0).args[2].address.city, "Oakland");
+			assert.equal(spy.getCall(0).args[2].address.region, "CA");
+			assert.equal(spy.getCall(0).args[2].address.country_code, "US");
+			assert.equal(spy.getCall(0).args[2].address.postal_code, "12345");
+			assert.equal(spy.getCall(0).args[2].phone, "1231231234");
+			assert.equal(spy.getCall(0).args[2].dob, "1924-12");
+			assert.equal(spy.getCall(0).args[2].ssn_last4, "1234");
+		});
 });
 
-test('can create bank accounts', function (assert) {
+test('can create bank accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -126,7 +127,7 @@ test('can create bank accounts', function (assert) {
 	}));
 });
 
-test('can create savings accounts', function (assert) {
+test('can create savings accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -163,7 +164,7 @@ test('can create savings accounts', function (assert) {
 	}));
 });
 
-test('create bank account only submits once when clicked multiple times', function (assert) {
+test('create bank account only submits once when clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -189,7 +190,7 @@ test('create bank account only submits once when clicked multiple times', functi
 	assert.ok(stub.calledOnce);
 });
 
-test('can delete bank accounts', function (assert) {
+test('can delete bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
 	var initialLength = $('.bank-account-info .sidebar-items li').length;
 
@@ -205,7 +206,7 @@ test('can delete bank accounts', function (assert) {
 	//  TODO: assert call to server was made
 });
 
-test('delete bank accounts only deletes once when submit clicked multiple times', function (assert) {
+test('delete bank accounts only deletes once when submit clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
 
 	// click the delete button
@@ -219,7 +220,7 @@ test('delete bank accounts only deletes once when submit clicked multiple times'
 	assert.ok(stub.calledOnce, "Delete should have been called once");
 });
 
-test('can create cards', function (assert) {
+test('can create cards', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -261,7 +262,7 @@ test('can create cards', function (assert) {
 	}));
 });
 
-test('create card only submits once when clicked multiple times', function (assert) {
+test('create card only submits once when clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -288,7 +289,7 @@ test('create card only submits once when clicked multiple times', function (asse
 	assert.ok(stub.calledOnce);
 });
 
-test('can delete cards', function (assert) {
+test('can delete cards', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
 
 	assert.equal($('.card-info .sidebar-items li').length, 2);
@@ -305,7 +306,7 @@ test('can delete cards', function (assert) {
 	//  TODO: assert server side call was made once.
 });
 
-test('delete cards only deletes once when submit clicked multiple times', function (assert) {
+test('delete cards only deletes once when submit clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
 
 	// click the delete button
@@ -321,11 +322,11 @@ test('delete cards only deletes once when submit clicked multiple times', functi
 	//  TODO: assert server side call was made once.
 });
 
-test('shows webhooks', function (assert) {
+test('shows webhooks', function(assert) {
 	assert.equal($('ul.webhooks li').length, 2);
 });
 
-test('can add webhooks', function (assert) {
+test('can add webhooks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	// click add webhook button
@@ -340,7 +341,7 @@ test('can add webhooks', function (assert) {
 	assert.ok(stub.calledOnce);
 });
 
-test('webhooks get created once if submit button is clicked multiple times', function (assert) {
+test('webhooks get created once if submit button is clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	// click add webhook button
@@ -357,7 +358,7 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 	assert.ok(stub.calledOnce);
 });
 
-test('can delete webhooks', function (assert) {
+test('can delete webhooks', function(assert) {
 	assert.equal($('ul.webhooks li').length, 2);
 
 	// click the link to delete the webhook
@@ -369,7 +370,7 @@ test('can delete webhooks', function (assert) {
 	assert.equal($('ul.webhooks li').length, 1);
 });
 
-test('delete webhooks only submits once even if clicked multiple times', function (assert) {
+test('delete webhooks only submits once even if clicked multiple times', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "delete");
 
 	// click the link to delete the webhook

@@ -1,6 +1,6 @@
 module('Balanced.Customer');
 
-test('displayName', function (assert) {
+test('displayName', function(assert) {
 	var emailAddress = 'bob@example.org';
 	var name = 'Bob';
 	var businessName = 'Balanced';

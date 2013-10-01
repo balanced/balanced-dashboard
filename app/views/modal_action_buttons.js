@@ -7,11 +7,11 @@ Balanced.ModalActionButtonsView = Balanced.View.extend({
 	// override to customize, adds "ing..." to submitTitle if not defined
 	submittingTitle: null,
 
-	isSubmitting: function () {
+	isSubmitting: function() {
 		return this.get('parentView.model.isSaving') || this.get('parentView.isSubmitting');
 	}.property('parentView.isSubmitting', 'parentView.model.isSaving'),
 
-	_submitTitle: function () {
+	_submitTitle: function() {
 		if (this.get('isSubmitting')) {
 			var submittingTitle = this.get('submittingTitle');
 			if (submittingTitle) {

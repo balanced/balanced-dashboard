@@ -1,21 +1,21 @@
 var typeMapping = Ember.Object.extend({
-	init: function () {
+	init: function() {
 		this.typesMap = {};
 	},
 
-	addTypeMapping: function (typeCode, className) {
+	addTypeMapping: function(typeCode, className) {
 		this.typesMap[typeCode] = className;
 	},
 
-	classForType: function (typeCode) {
+	classForType: function(typeCode) {
 		var mappedType = this.typesMap[typeCode];
-		if(!mappedType) {
+		if (!mappedType) {
 			Ember.Logger.warn("Couldn't map typeCode %@".fmt(typeCode));
 		}
 		return this.typeClass(mappedType);
 	},
 
-	typeClass: function (type) {
+	typeClass: function(type) {
 		// allow dependencies to be set using strings instead of class
 		// statements so we don't have ordering issues when declaring our
 		// models
