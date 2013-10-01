@@ -6,6 +6,10 @@ body, #header {
   background-color: @printBackground;
 }
 
+* {
+  -webkit-print-color-adjust: exact;
+}
+
 #main-overlay, #marketplace-nav, #balanced-app > div > footer, .alert-row, .hidden-print, #site-nav, #marketplaces-and-search {
   display: none !important;
 }
@@ -96,12 +100,25 @@ h1.page-title {
   }
 
   .invoice-balance-due-box {
-    background-color: #d4e5e6 !important;
+    background-color: #2A727E !important;
+
+    .number1d {
+      color: #FFF !important;
+    }
+
+    div.label {
+      background-color: #003f48 !important;
+
+      .icon {
+        background-image: url('../images/icons.png') !important;
+        background-position: -200px -60px !important;
+      }
+    }
   }
 
   .invoice-details {
     border-bottom: 3px solid #000000;
-    
+
     thead {
       background-color: #d4e5e6 !important;
     }
