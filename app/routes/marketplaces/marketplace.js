@@ -6,14 +6,6 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 	},
 
 	afterModel: function(model) {
-		// balanced.js doesn't load in phantomjs environment, so skip it here
-		// TODO - get balanced.js working in test
-		if (!window.TESTING) {
-			balanced.init({
-				server: 'https://js-pmtest.balancedpayments.com',
-				revision: 1.1
-			});
-		}
 		Balanced.Utils.setCurrentMarketplace(model);
 	},
 
