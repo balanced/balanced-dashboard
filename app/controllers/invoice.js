@@ -4,6 +4,7 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 	Balanced.TransactionsTable,
 	{
 		needs: ['marketplace'],
+		marketplace: Ember.computed.alias('controllers.marketplace.content'),
 
 		type: 'hold',
 		sortField: 'created_at',
@@ -20,6 +21,12 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 					self.send('reload');
 				}
 			});
+		},
+
+		actions: {
+			printSummary: function () {
+				window.print();
+			}
 		},
 
 		results: function () {
