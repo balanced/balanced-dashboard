@@ -183,8 +183,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			} else {
 				Ember.Logger.warn("Couldn't map _type of %@ for URI: %@".fmt(metadataType, this.get('uri')));
 			}
-		} else {
-			Ember.Logger.warn("No _type found for %@ in _uris metadata for URI: %@".fmt(uriProperty, this.get('uri')));
 		}
 
 		return undefined;
