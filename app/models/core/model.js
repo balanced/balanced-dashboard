@@ -183,8 +183,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			} else {
 				Ember.Logger.warn("Couldn't map _type of %@ for URI: %@".fmt(metadataType, this.get('uri')));
 			}
-		} else {
-			Ember.Logger.warn("No _type found for %@ in _uris metadata for URI: %@".fmt(uriProperty, this.get('uri')));
 		}
 
 		return undefined;
@@ -267,7 +265,8 @@ Balanced.Model.reopenClass({
 					// association
 					var self = this;
 					Balanced.Adapter.get(defaultType, uriPropertyValue, function(json) {
-						self.set(embeddedProperty, json);
+						var modelJson = typeClass.serializer.extractSingle(json, typeClass, uriPropertyValue);
+						self.set(embeddedProperty, modelJson);
 					});
 
 					return embeddedPropertyValue;

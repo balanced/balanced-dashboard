@@ -31,6 +31,22 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
+	_getLabel: function(labelMapping, acceptedTypes, type) {
+		var label = labelMapping[type];
+		if (!label && acceptedTypes.indexOf(type) > -1) {
+			label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
+		}
+		return (label) ? label : labelMapping.DEFAULT;
+	},
+
+	show_download_button: function() {
+		return this.get('controller.category') === 'transaction';
+	}.property('controller.category')
+});
+
+Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
+	templateName: 'results/results_filters_header_with_counts',
+
 	totalTransactionsHeader: function() {
 		return 'Transactions (' + this.get('searchResult.total_transactions') + ')';
 	}.property('searchResult.total_transactions'),
@@ -49,19 +65,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
 		var type = this.get('controller.type');
 		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_funding_instruments');
-	}.property('controller.type', 'searchResult'),
-
-	_getLabel: function(labelMapping, acceptedTypes, type) {
-		var label = labelMapping[type];
-		if (!label && acceptedTypes.indexOf(type) > -1) {
-			label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
-		}
-		return (label) ? label : labelMapping.DEFAULT;
-	},
-
-	show_download_button: function() {
-		return this.get('controller.category') === 'transaction';
-	}.property('controller.category')
+	}.property('controller.type', 'searchResult')
 });
 
 Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({

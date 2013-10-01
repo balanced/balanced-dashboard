@@ -11,7 +11,7 @@
             <span class="close" {{action clearSearch}}>×</span>
         {{/if}}
 
-        {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
+        {{view Balanced.ResultsFiltersHeaderWithCountsView searchResultBinding=last_loaded_search_result}}
 
         {{#if transactionsTabSelected}}
         <div class="items-wrapper">
