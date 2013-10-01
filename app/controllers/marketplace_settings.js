@@ -20,14 +20,13 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	},
 
 	marketplaceSecret: function() {
-		var uri = this.get('uri');
 		var user = Balanced.Auth.get('user');
-		var currentUserMarketplace = user.user_marketplace_for_uri(uri);
+		var currentUserMarketplace = user.user_marketplace_for_id(this.get('id'));
 
 		if (currentUserMarketplace) {
 			return currentUserMarketplace.get('secret');
 		}
 
 		return '';
-	}.property('uri', 'Balanced.Auth.user.user_marketplaces.@each.uri')
+	}.property('id', 'Balanced.Auth.user.user_marketplaces.@each.id')
 });

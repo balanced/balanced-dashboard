@@ -65,7 +65,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 					marketplaceId = matches[1];
 				}
 
-				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(Balanced.Marketplace.constructUri(marketplaceId));
+				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
 
 				if (!userMarketplace || !userMarketplace.get('secret')) {
 					if (marketplaceId) {

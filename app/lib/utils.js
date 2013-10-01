@@ -137,7 +137,7 @@ Balanced.Utils = {
 		if (marketplace) {
 			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 
-			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(marketplace.get('uri'));
+			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplace.get('id'));
 			if (userMarketplace) {
 				Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
 			} else {
