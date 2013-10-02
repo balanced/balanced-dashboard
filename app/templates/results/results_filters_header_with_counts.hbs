@@ -38,7 +38,7 @@
 
     <li {{bindAttr class=":accounts view.searchResult.total_accounts::disabled view.customersTabSelected:selected"}} >
         {{#if view.searchResult.total_accounts}}
-            <a href="#" {{action changeTypeFilter "account"}}> Customers ({{ formatNumber view.searchResult.total_accounts }}) </a>
+            <a href="#" {{action changeTypeFilter "customer"}}> Customers ({{ formatNumber view.searchResult.total_accounts }}) </a>
         {{else}}
             <span>Customers (0)</span>
         {{/if}}

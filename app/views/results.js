@@ -8,7 +8,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	}.property('controller.category'),
 
 	customersTabSelected: function() {
-		return this.get('controller.category') === "account";
+		return this.get('controller.category') === "customer";
 	}.property('controller.category'),
 
 	fundingInstrumentsTabSelected: function() {

@@ -12,12 +12,12 @@ Balanced.Transaction = Balanced.Model.extend({
 	}.property('amount'),
 
 	account_name_summary: function() {
-		if (this.get('account')) {
-			return this.get('account.name_summary');
+		if (this.get('customer')) {
+			return this.get('customer.display_me_with_email');
 		} else {
 			return 'None';
 		}
-	}.property('account'),
+	}.property('customer'),
 
 	page_title: function() {
 		return this.get('description') || this.get('id');

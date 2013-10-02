@@ -26,8 +26,8 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		if (this.controllerFor('activity').get('category') !== 'account') {
-			this.controllerFor('activity').set('type', 'account');
+		if (this.controllerFor('activity').get('category') !== 'customer') {
+			this.controllerFor('activity').set('type', 'customer');
 		} else {
 			this.controllerFor('activity').send('reload');
 		}

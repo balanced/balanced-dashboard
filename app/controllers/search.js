@@ -118,7 +118,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		}.property('category'),
 
 		customersTabSelected: function() {
-			return this.get('category') === "account";
+			return this.get('category') === "customer";
 		}.property('category'),
 
 		fundingInstrumentsTabSelected: function() {
