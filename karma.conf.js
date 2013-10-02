@@ -17,6 +17,7 @@ module.exports = function(config) {
       'build/test/js/testenv.js',
       'build/js/lib-dev.js',
       'build/js/dashboard-dev.js',
+      'build/js/dashboard-prod.js',
       'build/test/js/test-fixtures.js',
       'test/support/testconfig.js',
       'test/lib/helpers.js',
