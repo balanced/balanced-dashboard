@@ -3,7 +3,7 @@ require('app/models/transaction');
 Balanced.Credit = Balanced.Transaction.extend({
 	uri: '/credits',
 
-	bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
+	bank_account: Balanced.Model.belongsTo('destination', 'Balanced.BankAccount'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
 	type_name: function() {
@@ -38,7 +38,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');
 
 Balanced.Credit.reopenClass({
-	serializer: Balanced.Rev0Serializer.extend({
+	serializer: Balanced.Rev1Serializer.extend({
 		serialize: function(record) {
 			var json = this._super(record);
 
