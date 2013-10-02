@@ -12,8 +12,8 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 	},
 
 	extractSingle: function(rootJson, href) {
-		var modelObj = undefined;
-		var objType = undefined;
+		var modelObj;
+		var objType;
 
 		var objTypes = _.keys(_.omit(rootJson, "links", "meta"));
 		if (objTypes.length === 0) {
@@ -36,12 +36,15 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 	extractCollection: function(rootJson) {
 		var collection = [];
 		var self = this;
+
+		var populateFunc = function(val) {
+			collection.push(self._populateObject(val, typeName, rootJson));
+		};
+
 		for (var typeName in rootJson) {
 			var vals = rootJson[typeName];
 			if ($.isArray(vals)) {
-				_.each(vals, function(val) {
-					collection.push(self._populateObject(val, typeName, rootJson));
-				});
+				_.each(vals, populateFunc);
 			}
 		}
 
@@ -57,6 +60,16 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 			}
 		}
 
+		var replaceHrefFunc = function(match, linkParam) {
+			var replacement = linksValues[linkParam];
+
+			if (replacement === undefined) {
+				Ember.Logger.warn("Couldn't find replacement for param %@".fmt(linkParam));
+			}
+
+			return replacement;
+		};
+
 		var templatedLinks = {};
 		var objPropertyName = objType;
 		for (var link in rootJson.links) {
@@ -65,27 +78,19 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 
 				// Templace all the links
 				var href = rootJson.links[link];
-				var replacedHref = href.replace(/\{([\.\w]+)\}/g, function(match, linkParam) {
-					var replacement = linksValues[linkParam];
-
-					if (replacement === undefined) {
-						Ember.Logger.warn("Couldn't find replacement for param %@".fmt(linkParam));
-					}
-
-					return replacement;
-				});
+				var replacedHref = href.replace(/\{([\.\w]+)\}/g, replaceHrefFunc);
 
 
 				templatedLinks[linkName] = replacedHref;
 			}
-		};
+		}
 
-		for (var link in templatedLinks) {
+		for (link in templatedLinks) {
 			modelObj[link + "_uri"] = templatedLinks[link];
 		}
 
 		modelObj.uri = modelObj.href;
-		modelObj._type = objType.replace(/s$/, '');;
+		modelObj._type = objType.replace(/s$/, '');
 		return modelObj;
 	},
 
