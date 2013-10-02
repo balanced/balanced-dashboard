@@ -29,7 +29,17 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 
 	invoices_uri: function() {
 		return this.get('uri') + '/invoices';
-	}.property('uri')
+	}.property('uri'),
+
+	populateWithTestTransactions: function() {
+		//  pre-populate marketplace with transactions
+		var uri = this.get('uri');
+		var id = uri.substr(uri.lastIndexOf('/') + 1);
+		Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + '/marketplaces/%@/spam'.fmt(id),
+			type: 'PUT'
+		});
+	}
 });
 
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
