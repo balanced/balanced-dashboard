@@ -65,17 +65,13 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		return this.get('expiration_month') + '/' + this.get('expiration_year');
 	}.property('expiration_month', 'expiration_year'),
 
-	card_number_with_xs: function() {
-		return 'xxxx xxxx xxxx ' + this.get('last_four');
-	}.property('last_four'),
-
 	tokenizeAndCreate: function(customerId) {
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
 		this.set('isSaving', true);
 		var cardData = {
-			number: this.get('card_number'),
+			number: this.get('number'),
 			expiration_month: this.get('expiration_month'),
 			expiration_year: this.get('expiration_year'),
 			security_code: this.get('security_code'),

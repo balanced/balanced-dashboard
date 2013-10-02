@@ -13,7 +13,7 @@ Balanced.HoldsRoute = Balanced.AuthRoute.extend({
 	model: function(params) {
 		var marketplace = this.modelFor('marketplace');
 		return marketplace.then(function(marketplace) {
-			var holdUri = Balanced.Utils.combineUri(marketplace.get('holds_uri'), params.hold_id);
+			var holdUri = Balanced.Utils.combineUri(marketplace.get('hold_cards_uri'), params.hold_id);
 			return Balanced.Hold.find(holdUri);
 		});
 	}

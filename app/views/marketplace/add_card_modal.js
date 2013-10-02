@@ -12,7 +12,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
 		open: function() {
 			var card = Balanced.Card.create({
 				name: '',
-				card_number: '',
+				number: '',
 				security_code: '',
 				expiration_month: '',
 				expiration_year: '',
