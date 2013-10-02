@@ -11,7 +11,8 @@
             <span class="close" {{action clearSearch}}>×</span>
         {{/if}}
 
-        {{view Balanced.ResultsFiltersHeaderWithCountsView searchResultBinding=last_loaded_search_result}}
+        <!-- TODO - put the counts back when the API supports it -->
+        {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
 
         {{#if transactionsTabSelected}}
         <div class="items-wrapper">
