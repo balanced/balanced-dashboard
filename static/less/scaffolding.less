@@ -27,6 +27,34 @@
       display: none;
     }
   }
+
+  .dropdown-menu {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    background: @white;
+    text-align: left;
+    margin: 0;
+
+    a {
+      color: @skyBlue100;
+      display: block;
+      padding: 5px 15px;
+      &:hover {
+        text-decoration: none;
+        background: @black;
+        color: @white;
+      }
+    }
+
+    > li {
+      border-bottom:1px solid @gray2;
+    }
+    > li:last-of-type {
+      border-bottom:none;
+    };
+  }
 }
 
 .container {
@@ -188,19 +216,15 @@ footer {
       color:@black;
     }
     .caret{
-      color:@black;     
+      color:@black;
     }
   }
   .dropdown-menu {
-    border-radius: 0;
-    box-shadow: none;
     padding: 5px 0 0;
-    background:white;
-    text-align: left;
-    margin: 0;
     width: 240px;
+
     h4 {
-      margin: 10px 0 0;
+      margin: 10px 0;
       padding: 0 15px; 
     }
     li ul {
@@ -209,32 +233,14 @@ footer {
         color:@turquoise60;
       }
     }
-    > li {
-      border-bottom:1px solid @gray2;
-    }
-    > li:last-of-type {
-      border-bottom:none;
-    };
-    li li {
-
-    }
     .new {
-      background-color: @menuNewBackground;
+      background-color: @skyBlue100;
       a {
         color: white;
         padding: 10px 15px;
         &:hover {
           background-color: @black;
         }
-      }
-    }
-    a {
-      color: black;
-      display: block;
-      padding: 5px 15px;
-      &:hover {
-        text-decoration: none;
-        background: @menuHoverBackground;
       }
     }
   }
@@ -289,7 +295,7 @@ footer {
          border:5px solid white;
       };
     }
-    a {
+    > a {
       color: white;
       &:hover {
         background-color:white;
@@ -328,8 +334,6 @@ footer {
     padding-bottom: 10px;
     opacity: 0.6;
     &:hover {
-      background-color: transparent;
-      background:@white;
       opacity: 1;
       .caret {
         border-top-color: @black;
@@ -353,46 +357,23 @@ footer {
   }
 
   &.open {
-    background:@white;
     a.dropdown-toggle.gravatar {
       background:@white;
       opacity: 1;
       border-color:@white;
-      border-bottom:1px solid @gray2;
     }
-      .caret {
+    .caret {
       border-top-color: @black;
     }
     .profile.icon {
       border-color:@gray4;
     }
   }
-
   .dropdown-menu {
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 0;
-    background: @white;
-    text-align: left;
-    margin: 0;
     min-width: 210px;
     li {
-      border: 1px solid @gray3;
-      border-top: 0;
-      &:last-child {
-        border-bottom-color: @gray4;
-      }
-    }
-    a {
-      color: black;
-      display: block;
-      padding: 10px 20px;
-
-
-      &:hover {
-        text-decoration: none;
-        background:transparent;
+      a{
+        padding: 10px 20px;
       }
     }
   }
