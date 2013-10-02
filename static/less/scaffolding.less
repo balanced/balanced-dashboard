@@ -204,7 +204,7 @@ footer {
     h4 {
       // border-bottom: 1px solid @gray3;
       margin: 10px 0 0;
-      padding: 0 15px;
+      padding: 0 15px; 
     }
     li ul {
       margin-bottom: 20px;
@@ -294,9 +294,6 @@ footer {
     &:last-child {
       border-right: 0;
     }
-    &:hover{
-      background:white;
-    };
     > a, > span {
       padding: 19px 0;
       display: block;
@@ -339,15 +336,13 @@ footer {
 #user-menu {
   text-align: center;
   width: 95px;
-  &:hover {
-    background:white;
-  }
   a.dropdown-toggle.gravatar {
     padding-top: 10px;
     padding-bottom: 10px;
     opacity: 0.6;
     &:hover {
       background-color: transparent;
+      background:@white;
       opacity: 1;
       .caret {
         border-top-color: @black;
@@ -370,9 +365,10 @@ footer {
   &.open {
     background:@white;
     a.dropdown-toggle.gravatar {
+      background:@white;
       opacity: 1;
       border-color:@white;
-      border-bottom:1px solid @gray3;
+      border-bottom:1px solid @gray2;
     }
       .caret {
       border-top-color: @black;
@@ -403,7 +399,8 @@ footer {
 
       &:hover {
         text-decoration: none;
-        background: @egyptianBlue20;
+        // background: @egyptianBlue20;
+        background:transparent;
       }
     }
   }
