@@ -17,7 +17,6 @@ module.exports = function(config) {
       'build/test/js/testenv.js',
       'build/js/lib-dev.js',
       'build/js/dashboard-dev.js',
-      'build/js/dashboard-prod.js',
       'build/test/js/test-fixtures.js',
       'test/support/testconfig.js',
       'test/lib/helpers.js',
@@ -30,7 +29,7 @@ module.exports = function(config) {
     ],
 
     preprocessors: {
-      'build/js/dashboard-prod.js': ['coverage']
+      'build/js/dashboard-dev.js': ['coverage']
     },
 
     // test results reporter to use
