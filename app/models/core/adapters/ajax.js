@@ -81,6 +81,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
 							settings.headers = settings.headers || {};
 							settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(response.secret);
+							Ember.set(Balanced, 'API_KEY', response.secret);
 							return Balanced.NET.ajax(settings);
 						});
 					}
@@ -88,6 +89,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 					var secret = userMarketplace.get('secret');
 					settings.headers = settings.headers || {};
 					settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(secret);
+					Ember.set(Balanced, 'API_KEY', secret); 
 				}
 			}
 		}

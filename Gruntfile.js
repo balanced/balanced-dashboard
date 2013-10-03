@@ -60,6 +60,8 @@ module.exports = function(grunt) {
 					'static/lib/jquery-2.0.0.js',
 					'static/lib/handlebars-1.0.0.js',
 					'static/lib/ember-1.0.0.js',
+					'static/lib/ember-data.js',
+					'static/lib/json_api_adapter.js', 
 					'static/lib/ember-validations.prod.js',
 					'static/lib/bootstrap/bootstrap-dropdown.js',
 					'static/lib/bootstrap/bootstrap-modal.js',
@@ -83,6 +85,8 @@ module.exports = function(grunt) {
 					'static/lib/jquery-2.0.0.js',
 					'static/lib/handlebars-1.0.0.js',
 					'static/lib/ember-1.0.0.js',
+					'static/lib/ember-data.js',
+					'static/lib/json_api_adapter.js', 
 					'static/lib/ember-validations.prod.js',
 					'static/lib/bootstrap/bootstrap-dropdown.js',
 					'static/lib/bootstrap/bootstrap-modal.js',
@@ -309,7 +313,7 @@ module.exports = function(grunt) {
 					includeLiveReload: true,
 					env: "{\
 						BALANCED: {\
-							API: 'https://api.balancedpayments.com',\
+							API: 'https://api-pm.balancedpayments.com',\
 							AUTH: 'https://auth.balancedpayments.com',\
 							WWW: 'https://www.balancedpayments.com',\
 							DOCS: 'https://docs.balancedpayments.com',\
@@ -331,7 +335,7 @@ module.exports = function(grunt) {
 					includeLiveReload: false,
 					env: "{\
 						BALANCED: {\
-							API: 'https://api.balancedpayments.com',\
+							API: 'https://api-pm.balancedpayments.com',\
 							AUTH: 'https://auth.balancedpayments.com',\
 							WWW: 'https://www.balancedpayments.com',\
 							DOCS: 'https://docs.balancedpayments.com',\
