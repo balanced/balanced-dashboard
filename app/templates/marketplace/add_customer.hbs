@@ -29,10 +29,10 @@
 	    	{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the customer's email. " recommendedField=true }}
 	    {{/if}}
 
-	    <div class="section-banner-header">
-		    <div {{bindAttr class=":disclosure-button optionalFieldsOpen:open"}}><a href="#" {{action toggleOptionalFields}}>Additional Info (all fields are optional)</div>
-          <p><strong>Additional info</strong> (all fields are optional)</p></a>
-        </div>
+	    <div class="section-banner-header special-rollover"><a href="#" {{action toggleOptionalFields}}>
+		    <div {{bindAttr class=":disclosure-button optionalFieldsOpen:open"}}>Additional Info (all fields are optional)</div>
+        <p><strong>Additional info</strong> (all fields are optional)</p></a>
+      </div>
 
     	{{#if optionalFieldsOpen}}
 	    	{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 1)" field="address.line1" helpBinding=street_address_label recommendedField=true }}

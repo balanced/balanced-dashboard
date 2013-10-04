@@ -128,14 +128,15 @@
     }
   }
   .section-banner-header {
-    background-color: @gray3;
+    background-color: @egyptianBlue20;
+    border-bottom: 1px solid @gray3;
     margin: 0;
     p {
       margin: 0;
       padding: 15px 50px 15px 50px;
       color: @black;
       strong {
-        font-size: 13px;
+        font-size: 16px;
       }
     }
 
@@ -148,25 +149,18 @@
     }
 
     .disclosure-button {
-      background-color: @gray4;
+      background-color: @egyptianBlue60 !important;
       float: left;
-      a {
-        .cssicon(
-          @url: @iconsFile,
-          @width: 30px,
-          @height: 48px,
-          @display: block
-        );
-        background-position: -10px -833px;
+      .cssicon(
+        @url: @iconsFile,
+        @width: 30px,
+        @height: 50px,
+        @display: block
+      );
+      background-position: -10px -830px;
 
-        &:hover {
-          background-color: @black;
-        }
-      }
       &.open {
-        a {
-          background-position: -110px -833px;
-        }
+        background-position: -110px -830px;
       }
     }
   }
@@ -203,7 +197,7 @@
   .actions {
     text-align: right;
     padding: 15px;
-    background-color: @egyptianBlue60;
+    background-color: @gray2 !important;
     min-height: 23px;
     .loader {
       float: left;
@@ -325,4 +319,13 @@
   font-family: nimbussannov-med;
   padding: 10px;
   text-align: center;
+}
+
+.special-rollover {
+  &:hover {
+    background-color: @egyptianBlue60;
+    .disclosure-button {
+      background-color: @egyptianBlue100 !important;
+    }
+  }
 }
