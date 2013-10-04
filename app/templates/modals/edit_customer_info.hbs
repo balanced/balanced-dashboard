@@ -14,7 +14,7 @@
             {{ partial "modals/modalErrors" }}
 
             <div class="modal-informational modal-informational-light">
-                <p class="modal-informational-content fields-header">Basic info (all fields are optional)</p>
+              <p class="modal-informational-content fields-header"><strong>Basic info</strong> (all fields are optional)</p>
             </div>
             <div class="modal-content">
             <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
@@ -42,9 +42,9 @@
                 </div>
             </div>
             </div>
-            <div class="modal-informational modal-informational-light">
-                <div {{bindAttr class=":disclosure-button view.optionalFieldsOpen:open"}}><a href="#" class="more-info" {{action toggleOptionalFields target="view"}}>More Information</a></div>
-                <p class="modal-informational-content fields-header">Additional info (all fields are optional)</p>
+            <div class="modal-informational modal-informational-light special-rollover"><a href="#" class="more-info" {{action toggleOptionalFields target="view"}}>
+                <div {{bindAttr class=":disclosure-button view.optionalFieldsOpen:open"}}>More Information</div>
+                <p class="modal-informational-content fields-header"><strong>Additional info</strong> (all fields are optional)</p></a>
             </div>
             <div {{bindAttr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
               {{#if view.model.address.street_address}}
