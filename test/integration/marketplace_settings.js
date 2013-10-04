@@ -1,60 +1,52 @@
-var settingsPath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
+var settingsRoute = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
 
 module('Marketplaces Settings', {
 	setup: function() {
-		Testing.selectMarketplaceByName();
-
-		// click the settings link
-		$('#marketplace-nav .settings a').click();
 	},
 	teardown: function() {
-		$("#add-bank-account").modal('hide');
-		$("#delete-bank-account").modal('hide');
-		$("#add-card").modal('hide');
-		$("#delete-card").modal('hide');
-		$("#add-callback").modal('hide');
-		$("#delete-callback").modal('hide');
-		$('#edit-marketplace-info').modal('hide');
-		$('#edit-owner-info').modal('hide');
 	}
 });
 
 test('can visit page', function(assert) {
-	//  check the page title has been selected
-	var $title = $('#content h1');
+  visit(settingsRoute)
+  .then(function() {
+    var $title = $('#content h1');
 
-	assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
+    assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
+  });
 });
 
 test('can update marketplace info', function(assert) {
-	click('.marketplace-info a.edit')
-		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
-		.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			// Marketplace name should have changed
-			assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'TEST');
-		});
+  var spy = sinon.spy(Balanced.Adapter, "update");
+
+  visit(settingsRoute)
+	.click('.marketplace-info a.edit')
+  .fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
+  .click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(spy.calledWith(Balanced.Marketplace, "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY"));
+    assert.equal(spy.getCall(0).args[2].name, "TEST");
+  });
 });
 
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	// click the button to edit marketplace info
-	$('.marketplace-info a.edit').click();
-	// change the text for marketplace name
-	$('#edit-marketplace-info .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	// click save
-	for (var i = 0; i < 20; i++) {
-		$('#edit-marketplace-info .modal-footer button[name="modal-submit"]').click();
-	}
-
-	assert.ok(stub.calledOnce);
+  visit(settingsRoute)
+	.click('.marketplace-info a.edit')
+	.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
+  .then(function() {
+    for (var i = 0; i < 20; i++) {
+      click('#edit-marketplace-info .modal-footer button[name="modal-submit"]');
+    }
+    assert.ok(stub.calledOnce);
+  });
 });
 
 test('can update owner info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(settingsPath)
+	visit(settingsRoute)
 		.click('.owner-info a.edit')
 		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 		.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
@@ -101,30 +93,29 @@ test('can create bank accounts', function(assert) {
 		}
 	});
 
-	// Bank accounts added to the fixture, used for add and withdraw funds
-	assert.equal($('.bank-account-info .sidebar-items li').length, 4);
-
-	// click the button to add a bank account
-	$('.bank-account-info a.add').click();
-	// fill out information
-	$('#add-bank-account .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="account_number"]').val('123').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="account_type"][value="checking"]').click();
-	// click save
-	$('#add-bank-account .modal-footer button[name="modal-submit"]').click();
-
-	assert.ok(tokenizingStub.calledOnce);
-	assert.ok(tokenizingStub.calledWith({
-		type: "checking",
-		name: "TEST",
-		account_number: "123",
-		routing_number: "123123123"
-	}));
-	assert.ok(createSpy.calledOnce);
-	assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
-		bank_account_uri: '/v1/bank_accounts/deadbeef'
-	}));
+  visit(settingsRoute)
+  .then(function() {
+    assert.equal($('.bank-account-info .sidebar-items li').length, 4);
+  })
+	.click('.bank-account-info a.add')
+	.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+	.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+	.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
+	.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'checking')
+	.click('#add-bank-account .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+      type: "checking",
+      name: "TEST",
+      account_number: "123",
+      routing_number: "123123123"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
+      bank_account_uri: '/v1/bank_accounts/deadbeef'
+    }));
+  });
 });
 
 test('can create savings accounts', function(assert) {
@@ -137,31 +128,26 @@ test('can create savings accounts', function(assert) {
 		}
 	});
 
-	// click the button to add a bank account
-	$('.bank-account-info a.add').click();
-	// fill out information
-	$('#add-bank-account .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="account_number"]').val('123').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="account_type"][value="savings"]').click();
-	// click save
-	$('#add-bank-account .modal-footer button[name="modal-submit"]').click();
-
-	assert.ok(tokenizingStub.calledOnce);
-
-	// phantomjs can't handle the change events, so can't check the payload for now
-	// TODO - put this back in when we're off phantomjs
-	// assert.ok(tokenizingStub.calledWith({
-	//     type: "savings",
-	//     name: "TEST",
-	//     account_number: "123",
-	//     routing_number: "123123123"
-	// }));
-
-	assert.ok(createSpy.calledOnce);
-	assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
-		bank_account_uri: '/v1/bank_accounts/deadbeef'
-	}));
+  visit(settingsRoute)
+	.click('.bank-account-info a.add')
+	.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+	.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+	.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
+	.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'savings')
+	.click('#add-bank-account .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+      type: "savings",
+      name: "TEST",
+      account_number: "123",
+      routing_number: "123123123"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
+      bank_account_uri: '/v1/bank_accounts/deadbeef'
+    }));
+  });
 });
 
 test('create bank account only submits once when clicked multiple times', function(assert) {
@@ -174,50 +160,51 @@ test('create bank account only submits once when clicked multiple times', functi
 		}
 	});
 
-	// click the button to add a bank account
-	$('.bank-account-info a.add').click();
-	// fill out information
-	$('#add-bank-account .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="account_number"]').val('123').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="routing_number"]').val('123123123').trigger('keyup');
-	$('#add-bank-account .modal-body input[name="account_type"]').val('checking').trigger('keyup');
-	// click save
-	for (var i = 0; i < 20; i++) {
-		$('#add-bank-account .modal-footer button[name="modal-submit"]').click();
-	}
+  visit(settingsRoute)
+	.click('.bank-account-info a.add')
+	.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+	.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+	.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
+	.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'checking')
+  .then(function() {
+    for (var i = 0; i < 20; i++) {
+      click('#add-bank-account .modal-footer button[name="modal-submit"]');
+    }
 
-	assert.ok(tokenizingStub.calledOnce);
-	assert.ok(stub.calledOnce);
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(stub.calledOnce);
+  });
 });
 
 test('can delete bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var initialLength = $('.bank-account-info .sidebar-items li').length;
+  var initialLength;
 
-	// click the delete button
-	$(".bank-account-info .sidebar-items li").first().find(".icon-delete").click();
-
-	// click save
-	$('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
-
-	assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-	assert.ok(spy.calledOnce, "Delete should have been called once");
-
-	//  TODO: assert call to server was made
+  visit(settingsRoute)
+  .then(function() {
+    initialLength = $('.bank-account-info .sidebar-items li').length;
+  })
+	.click($(".bank-account-info .sidebar-items li").first().find(".icon-delete"))
+	.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(spy.calledOnce, "Delete should have been called once");
+    assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+    assert.ok(spy.calledWith(Balanced.BankAccount, "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc"));
+  });
 });
 
 test('delete bank accounts only deletes once when submit clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
 
-	// click the delete button
-	$(".bank-account-info .sidebar-items li").first().find(".icon-delete").click();
+  visit(settingsRoute)
+	.click($(".bank-account-info .sidebar-items li").first().find(".icon-delete"))
+  .then(function() {
+    for (var i = 0; i < 20; i++) {
+      $('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
+    }
 
-	// click save
-	for (var i = 0; i < 20; i++) {
-		$('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
-	}
-
-	assert.ok(stub.calledOnce, "Delete should have been called once");
+    assert.ok(stub.calledOnce, "Delete should have been called once");
+  });
 });
 
 test('can create cards', function(assert) {
@@ -230,36 +217,28 @@ test('can create cards', function(assert) {
 		}
 	});
 
-	// click the button to add a bank account
-	$('.card-info a.add').click();
-	// fill out information
-	$('#add-card .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-card .modal-body input[name="card_number"]').val('1234123412341234').trigger('keyup');
-	$('#add-card .modal-body input[name="security_code"]').val('123').trigger('keyup');
-	$('#add-card .modal-body select[name="expiration_month"] option[value="1"]').attr('selected', 'selected');
-	$('#add-card .modal-body select[name="expiration_month"]').trigger('change');
-	$('#add-card .modal-body select[name="expiration_year"] option[value="2020"]').attr('selected', 'selected');
-	$('#add-card .modal-body select[name="expiration_year"]').trigger('change');
-
-	// click save
-	$('#add-card .modal-footer button[name="modal-submit"]').click();
-
-	assert.ok(tokenizingStub.calledOnce);
-
-	// phantomjs can't handle the change events, so can't check the payload for now
-	// TODO - put this back in when we're off phantomjs
-	// assert.ok(tokenizingStub.calledWith({
-	//     card_number: "1234123412341234",
-	//     expiration_month: 1,
-	//     expiration_year: 2020,
-	//     security_code: "123",
-	//     name: "TEST"
-	// }));
-
-	assert.ok(createSpy.calledOnce);
-	assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards', {
-		card_uri: '/v1/cards/deadbeef'
-	}));
+  visit(settingsRoute)
+	.click('.card-info a.add')
+	.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
+	.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
+	.fillIn('#add-card .modal-body input[name="security_code"]', '123')
+	.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
+	.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
+	.click('#add-card .modal-footer button[name="modal-submit"]')
+  .then(function() {
+    assert.ok(tokenizingStub.calledOnce);
+    assert.ok(tokenizingStub.calledWith({
+      card_number: "1234123412341234",
+      expiration_month: 1,
+      expiration_year: 2020,
+      security_code: "123",
+      name: "TEST"
+    }));
+    assert.ok(createSpy.calledOnce);
+    assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards', {
+      card_uri: '/v1/cards/deadbeef'
+    }));
+  });
 });
 
 test('create card only submits once when clicked multiple times', function(assert) {
