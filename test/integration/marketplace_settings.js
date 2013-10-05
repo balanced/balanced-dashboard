@@ -1,46 +1,44 @@
 var settingsRoute = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
 
 module('Marketplaces Settings', {
-	setup: function() {
-	},
-	teardown: function() {
-	}
+	setup: function() {},
+	teardown: function() {}
 });
 
 test('can visit page', function(assert) {
-  visit(settingsRoute)
-  .then(function() {
-    var $title = $('#content h1');
+	visit(settingsRoute)
+		.then(function() {
+			var $title = $('#content h1');
 
-    assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
-  });
+			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
+		});
 });
 
 test('can update marketplace info', function(assert) {
-  var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(Balanced.Adapter, "update");
 
-  visit(settingsRoute)
-	.click('.marketplace-info a.edit')
-  .fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
-  .click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(spy.calledWith(Balanced.Marketplace, "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY"));
-    assert.equal(spy.getCall(0).args[2].name, "TEST");
-  });
+	visit(settingsRoute)
+		.click('.marketplace-info a.edit')
+		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
+		.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledWith(Balanced.Marketplace, "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY"));
+			assert.equal(spy.getCall(0).args[2].name, "TEST");
+		});
 });
 
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-  visit(settingsRoute)
-	.click('.marketplace-info a.edit')
-	.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
-  .then(function() {
-    for (var i = 0; i < 20; i++) {
-      click('#edit-marketplace-info .modal-footer button[name="modal-submit"]');
-    }
-    assert.ok(stub.calledOnce);
-  });
+	visit(settingsRoute)
+		.click('.marketplace-info a.edit')
+		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'TEST')
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#edit-marketplace-info .modal-footer button[name="modal-submit"]');
+			}
+			assert.ok(stub.calledOnce);
+		});
 });
 
 test('can update owner info', function(assert) {
@@ -93,29 +91,29 @@ test('can create bank accounts', function(assert) {
 		}
 	});
 
-  visit(settingsRoute)
-  .then(function() {
-    assert.equal($('.bank-account-info .sidebar-items li').length, 4);
-  })
-	.click('.bank-account-info a.add')
-	.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-	.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-	.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
-	.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'checking')
-	.click('#add-bank-account .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(tokenizingStub.calledOnce);
-    assert.ok(tokenizingStub.calledWith({
-      type: "checking",
-      name: "TEST",
-      account_number: "123",
-      routing_number: "123123123"
-    }));
-    assert.ok(createSpy.calledOnce);
-    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
-      bank_account_uri: '/v1/bank_accounts/deadbeef'
-    }));
-  });
+	visit(settingsRoute)
+		.then(function() {
+			assert.equal($('.bank-account-info .sidebar-items li').length, 4);
+		})
+		.click('.bank-account-info a.add')
+		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
+		.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'checking')
+		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
+				type: "checking",
+				name: "TEST",
+				account_number: "123",
+				routing_number: "123123123"
+			}));
+			assert.ok(createSpy.calledOnce);
+			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
+				bank_account_uri: '/v1/bank_accounts/deadbeef'
+			}));
+		});
 });
 
 test('can create savings accounts', function(assert) {
@@ -128,26 +126,26 @@ test('can create savings accounts', function(assert) {
 		}
 	});
 
-  visit(settingsRoute)
-	.click('.bank-account-info a.add')
-	.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-	.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-	.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
-	.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'savings')
-	.click('#add-bank-account .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(tokenizingStub.calledOnce);
-    assert.ok(tokenizingStub.calledWith({
-      type: "savings",
-      name: "TEST",
-      account_number: "123",
-      routing_number: "123123123"
-    }));
-    assert.ok(createSpy.calledOnce);
-    assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
-      bank_account_uri: '/v1/bank_accounts/deadbeef'
-    }));
-  });
+	visit(settingsRoute)
+		.click('.bank-account-info a.add')
+		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
+		.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'savings')
+		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
+				type: "savings",
+				name: "TEST",
+				account_number: "123",
+				routing_number: "123123123"
+			}));
+			assert.ok(createSpy.calledOnce);
+			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts', {
+				bank_account_uri: '/v1/bank_accounts/deadbeef'
+			}));
+		});
 });
 
 test('create bank account only submits once when clicked multiple times', function(assert) {
@@ -160,51 +158,51 @@ test('create bank account only submits once when clicked multiple times', functi
 		}
 	});
 
-  visit(settingsRoute)
-	.click('.bank-account-info a.add')
-	.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-	.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-	.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
-	.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'checking')
-  .then(function() {
-    for (var i = 0; i < 20; i++) {
-      click('#add-bank-account .modal-footer button[name="modal-submit"]');
-    }
+	visit(settingsRoute)
+		.click('.bank-account-info a.add')
+		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
+		.fillIn('#add-bank-account .modal-body input[name="account_type"]', 'checking')
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#add-bank-account .modal-footer button[name="modal-submit"]');
+			}
 
-    assert.ok(tokenizingStub.calledOnce);
-    assert.ok(stub.calledOnce);
-  });
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(stub.calledOnce);
+		});
 });
 
 test('can delete bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
-  var initialLength;
+	var initialLength;
 
-  visit(settingsRoute)
-  .then(function() {
-    initialLength = $('.bank-account-info .sidebar-items li').length;
-  })
-	.click($(".bank-account-info .sidebar-items li").first().find(".icon-delete"))
-	.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(spy.calledOnce, "Delete should have been called once");
-    assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-    assert.ok(spy.calledWith(Balanced.BankAccount, "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc"));
-  });
+	visit(settingsRoute)
+		.then(function() {
+			initialLength = $('.bank-account-info .sidebar-items li').length;
+		})
+		.click($(".bank-account-info .sidebar-items li").first().find(".icon-delete"))
+		.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce, "Delete should have been called once");
+			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+			assert.ok(spy.calledWith(Balanced.BankAccount, "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA5r9JGZJ7YOCiULGthQYjVc"));
+		});
 });
 
 test('delete bank accounts only deletes once when submit clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
 
-  visit(settingsRoute)
-	.click($(".bank-account-info .sidebar-items li").first().find(".icon-delete"))
-  .then(function() {
-    for (var i = 0; i < 20; i++) {
-      $('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
-    }
+	visit(settingsRoute)
+		.click($(".bank-account-info .sidebar-items li").first().find(".icon-delete"))
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				$('#delete-bank-account .modal-footer button[name="modal-submit"]').click();
+			}
 
-    assert.ok(stub.calledOnce, "Delete should have been called once");
-  });
+			assert.ok(stub.calledOnce, "Delete should have been called once");
+		});
 });
 
 test('can create cards', function(assert) {
@@ -217,28 +215,28 @@ test('can create cards', function(assert) {
 		}
 	});
 
-  visit(settingsRoute)
-	.click('.card-info a.add')
-	.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-	.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
-	.fillIn('#add-card .modal-body input[name="security_code"]', '123')
-	.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
-	.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
-	.click('#add-card .modal-footer button[name="modal-submit"]')
-  .then(function() {
-    assert.ok(tokenizingStub.calledOnce);
-    assert.ok(tokenizingStub.calledWith({
-      card_number: "1234123412341234",
-      expiration_month: 1,
-      expiration_year: 2020,
-      security_code: "123",
-      name: "TEST"
-    }));
-    assert.ok(createSpy.calledOnce);
-    assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards', {
-      card_uri: '/v1/cards/deadbeef'
-    }));
-  });
+	visit(settingsRoute)
+		.click('.card-info a.add')
+		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
+		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
+		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
+		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
+		.click('#add-card .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
+				card_number: "1234123412341234",
+				expiration_month: 1,
+				expiration_year: 2020,
+				security_code: "123",
+				name: "TEST"
+			}));
+			assert.ok(createSpy.calledOnce);
+			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards', {
+				card_uri: '/v1/cards/deadbeef'
+			}));
+		});
 });
 
 test('create card only submits once when clicked multiple times', function(assert) {
@@ -251,114 +249,112 @@ test('create card only submits once when clicked multiple times', function(asser
 		}
 	});
 
-	// click the button to add a bank account
-	$('.card-info a.add').click();
-	// fill out information
-	$('#add-card .modal-body input[name="name"]').val('TEST').trigger('keyup');
-	$('#add-card .modal-body input[name="card_number"]').val('1234123412341234').trigger('keyup');
-	$('#add-card .modal-body input[name="security_code"]').val('123').trigger('keyup');
-	$('#add-card .modal-body input[name="expiration_month"]').val('01').trigger('keyup');
-	$('#add-card .modal-body input[name="expiration_month"]').val('2020').trigger('keyup');
-	// click save
-	for (var i = 0; i < 20; i++) {
-		$('#add-card .modal-footer button[name="modal-submit"]').click();
-	}
+	visit(settingsRoute)
+		.click('.card-info a.add')
+		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
+		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
+		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
+		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#add-card .modal-footer button[name="modal-submit"]');
+			}
 
-	assert.ok(tokenizingStub.calledOnce);
-	assert.ok(stub.calledOnce);
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(stub.calledOnce);
+		});
 });
 
 test('can delete cards', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
 
-	assert.equal($('.card-info .sidebar-items li').length, 2);
-
-	// click the delete button
-	$(".card-info .sidebar-items li").first().find(".icon-delete").click();
-
-	// click save
-	$('#delete-card .modal-footer button[name="modal-submit"]').click();
-
-	assert.equal($('.card-info .sidebar-items li').length, 1);
-	assert.ok(spy.calledOnce, "Delete should have been called once");
-
-	//  TODO: assert server side call was made once.
+	visit(settingsRoute)
+		.then(function() {
+			assert.equal($('.card-info .sidebar-items li').length, 2);
+		})
+		.click($(".card-info .sidebar-items li").first().find(".icon-delete"))
+		.click('#delete-card .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.equal($('.card-info .sidebar-items li').length, 1);
+			assert.ok(spy.calledOnce, "Delete should have been called once");
+			assert.ok(spy.calledWith(Balanced.Card, "/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards/CC1BkhJFryfa4hvIIsbDl1Bd"));
+		});
 });
 
 test('delete cards only deletes once when submit clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
 
-	// click the delete button
-	$(".card-info .sidebar-items li").first().find(".icon-delete").click();
+	visit(settingsRoute)
+		.click($(".card-info .sidebar-items li").first().find(".icon-delete"))
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#delete-card .modal-footer button[name="modal-submit"]');
+			}
 
-	// click save
-	for (var i = 0; i < 20; i++) {
-		$('#delete-card .modal-footer button[name="modal-submit"]').click();
-	}
-
-	assert.ok(stub.calledOnce, "Delete should have been called once");
-
-	//  TODO: assert server side call was made once.
+			assert.ok(stub.calledOnce, "Delete should have been called once");
+		});
 });
 
 test('shows webhooks', function(assert) {
-	assert.equal($('ul.webhooks li').length, 2);
+	visit(settingsRoute)
+		.then(function() {
+			assert.equal($('ul.webhooks li').length, 2);
+		});
 });
 
 test('can add webhooks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	// click add webhook button
-	$(".webhook-info .add").click();
-
-	// fill out
-	$("#add-callback .modal-body input[name='url']").val('http://www.example.com/something').trigger('keyup');
-
-	// click save
-	$('#add-callback .modal-footer button[name="modal-submit"]').click();
-
-	assert.ok(stub.calledOnce);
+	visit(settingsRoute)
+		.click(".webhook-info .add")
+		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com')
+		.click('#add-callback .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Callback, "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/callbacks", {
+				url: "http://www.example.com"
+			}));
+		});
 });
 
 test('webhooks get created once if submit button is clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	// click add webhook button
-	$(".webhook-info .add").click();
+	visit(settingsRoute)
+		.click(".webhook-info .add")
+		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com')
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				$('#add-callback .modal-footer button[name="modal-submit"]').click();
+			}
 
-	// fill out
-	$("#add-callback .modal-body input[name='url']").val('http://www.example.com/something').trigger('keyup');
-
-	// click save
-	for (var i = 0; i < 20; i++) {
-		$('#add-callback .modal-footer button[name="modal-submit"]').click();
-	}
-
-	assert.ok(stub.calledOnce);
+			assert.ok(stub.calledOnce);
+		});
 });
 
 test('can delete webhooks', function(assert) {
-	assert.equal($('ul.webhooks li').length, 2);
-
-	// click the link to delete the webhook
-	$('ul.webhooks li').first().find('a').click();
-	// click OK
-	$('#delete-callback .modal-footer button[name="modal-submit"]').click();
-
-	// now there should only be one
-	assert.equal($('ul.webhooks li').length, 1);
+	visit(settingsRoute)
+		.then(function() {
+			assert.equal($('ul.webhooks li').length, 2);
+		})
+		.click($('ul.webhooks li').first().find('a'))
+		.click('#delete-callback .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.equal($('ul.webhooks li').length, 1);
+		});
 });
 
 test('delete webhooks only submits once even if clicked multiple times', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "delete");
 
-	// click the link to delete the webhook
-	$('ul.webhooks li').first().find('a').click();
-	// click OK
-	for (var i = 0; i < 20; i++) {
-		$('#delete-callback .modal-footer button[name="modal-submit"]').click();
-	}
+	visit(settingsRoute)
+		.click($('ul.webhooks li').first().find('a'))
+		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#delete-callback .modal-footer button[name="modal-submit"]');
+			}
 
-	// now there should only be one
-	assert.ok(spy.calledOnce);
+			assert.ok(spy.calledOnce);
+		});
 });
