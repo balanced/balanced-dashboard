@@ -49,7 +49,6 @@ Balanced.NET = (function() {
 				}
 			}
 			settings = $.extend(def, settings);
-
 			return $.ajax(settings);
 		}
 	};

@@ -1,22 +1,20 @@
-var customerPage = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/customers/AC5m0wzuMTw3JbKP4uIZXFpC';
-
 module('Customer Page', {
 	setup: function() {},
 	teardown: function() {}
 });
 
 test('can view customer page', function(assert) {
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer');
-			assert.equal($(".title span").text().trim(), 'Nick1');
+			assert.equal($(".title span").text().trim(), 'William Henry Cavendish III');
 		});
 });
 
 test('can edit customer info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click('.customer-info a.edit')
 		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
@@ -30,15 +28,14 @@ test('can edit customer info', function(assert) {
 test('can update customer info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click('.customer-info a.edit')
 		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 		.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
 		.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
 		.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
 		.click('#edit-customer-info a.more-info')
-		.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
-		.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 101')
+		.fillIn('#edit-customer-info .modal-body input[name="street_address"]', '600 William St')
 		.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
 		.fillIn('#edit-customer-info .modal-body input[name="region"]', 'CA')
 		.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
@@ -55,8 +52,7 @@ test('can update customer info', function(assert) {
 			assert.equal(spy.getCall(0).args[2].email, "TEST@example.com");
 			assert.equal(spy.getCall(0).args[2].business_name, "TEST");
 			assert.equal(spy.getCall(0).args[2].ein, "1234");
-			assert.equal(spy.getCall(0).args[2].address.line1, "600 William St");
-			assert.equal(spy.getCall(0).args[2].address.line2, "Apt 101");
+			assert.equal(spy.getCall(0).args[2].address.street_address, "600 William St");
 			assert.equal(spy.getCall(0).args[2].address.city, "Oakland");
 			assert.equal(spy.getCall(0).args[2].address.region, "CA");
 			assert.equal(spy.getCall(0).args[2].address.country_code, "US");
@@ -71,17 +67,17 @@ test('can debit customer using card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.Adapter.asyncCallbacks = true;
 
-	visit(customerPage);
+	visit(Balanced.TEST.CUSTOMER_ROUTE);
 	wait().then(function() {
 		// click the debit customer button
 		return click(".customer-header .buttons a.debit-customer");
 	}).then(function() {
-		assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
+		assert.equal($("#debit-customer form select[name='source_uri'] option").length, 1);
 
 		// bank accounts first
-		assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 123");
+		assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 5555 (Wells Fargo Bank Na)");
 		// cards second
-		assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Card: 0005 (American Express)");
+		assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "");
 
 		// select the card
 		$("#debit-customer select[name='source_uri']").val($("#debit-customer form select[name='source_uri'] option").eq(1).attr('value'));
@@ -94,29 +90,28 @@ test('can debit customer using card', function(assert) {
 	}).then(function() {
 		// should be one create for the debit
 		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/debits', {
+		assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', sinon.match({
 			amount: 100000,
-			description: "Test debit",
-			source_uri: null
-		}));
+			description: "Test debit"
+		})));
 	});
 });
 
 test('can debit customer using bank account', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 	// click the debit customer button
 	.click($(".customer-header .buttons a").eq(0))
 		.then(function() {
-			assert.equal($("#debit-customer form select[name='source_uri'] option").length, 2);
+			assert.equal($("#debit-customer form select[name='source_uri'] option").length, 1);
 		})
 		.then(function() {
 			// bank accounts first
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 123");
+			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 5555 (Wells Fargo Bank Na)");
 
 			// cards second
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Card: 0005 (American Express)");
+			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "");
 
 			// select the bank account
 			$("#debit-customer select[name='source_uri']").val($("#debit-customer form select[name='source_uri'] option").eq(0).attr('value'));
@@ -128,11 +123,10 @@ test('can debit customer using bank account', function(assert) {
 			click('#debit-customer .modal-footer button[name="modal-submit"]');
 
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/debits', {
+			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', sinon.match({
 				amount: 100000,
-				description: "Test debit",
-				source_uri: "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA57flitvIS6mhDCSqkAloo8"
-			}));
+				description: "Test debit"
+			})));
 		});
 });
 
@@ -140,7 +134,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	// click the debit customer button
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click(".customer-header .buttons a")
 		.fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit')
@@ -156,7 +150,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 test("debit customer triggers reload of transactions", function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "get");
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(0))
 		.fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit')
@@ -169,18 +163,17 @@ test("debit customer triggers reload of transactions", function(assert) {
 test('can credit customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
 		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/credits', {
+			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits', sinon.match({
 				amount: 100000,
-				bank_account_uri: "/v1/customers/CU1DkfCFcAemmM99fabUso2c/bank_accounts/BA57flitvIS6mhDCSqkAloo8",
 				description: "Test credit"
-			}));
+			})));
 		});
 });
 
@@ -195,7 +188,7 @@ test('when crediting customer triggers an error, the error is displayed to the u
 		}
 	}, null, null);
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
 		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
@@ -209,7 +202,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	// click the credit customer button
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
 		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
@@ -232,7 +225,7 @@ test('can add bank account', function(assert) {
 		}
 	});
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click('.bank-account-info a.add')
 		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
@@ -248,9 +241,9 @@ test('can add bank account', function(assert) {
 				routing_number: "123123123"
 			}));
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/bank_accounts', {
+			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', sinon.match({
 				bank_account_uri: '/v1/bank_accounts/deadbeef'
-			}));
+			})));
 		});
 });
 
@@ -264,7 +257,7 @@ test('can add card', function(assert) {
 		}
 	});
 
-	visit(customerPage)
+	visit(Balanced.TEST.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
@@ -285,9 +278,9 @@ test('can add card', function(assert) {
 			}));
 
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/cards', {
+			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', sinon.match({
 				card_uri: '/v1/cards/deadbeef'
-			}));
+			})));
 		});
 });
 
