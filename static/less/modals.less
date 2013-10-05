@@ -1,5 +1,6 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
+@import "/static/less/icon_font.less";
 
 //
 // Modals
@@ -136,20 +137,6 @@
   .disclosure-button {
     background-color: @egyptianBlue60 !important;
     float: left;
-      .cssicon(
-        @url: @iconsFile,
-        @width: 20px,
-        @height: 53px,
-        @display: block
-      );
-      background-position: -15px -828px;
-
-      &:hover {
-        background-color: @black;
-      }
-    &.open {
-      background-position: -115px -828px;
-    }
   }
 
   p {
@@ -302,6 +289,11 @@
       background-color: @egyptianBlue100 !important;
     }
   }
+}
+
+.icon-carat-right, .icon-carat-down {
+  margin: 0 !important;
+  padding: 20px 5px 19px 6px !important;
 }
 
 @import "/static/less/bootstrap-modal/bootstrap-modal.less";
