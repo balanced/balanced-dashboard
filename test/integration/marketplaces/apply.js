@@ -71,25 +71,25 @@ function populate() {
 }
 
 test('we are on the correct page', function(assert) {
-	visit(applyRoute).then(function() {
+	visit(applyRoute)
+  .then(function() {
 		assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
 	});
 });
 
 test('clicking business or personal shows data', function(assert) {
-	visit(applyRoute).then(function() {
-		function getInputs() {
-			return $('input', '#marketplace-apply');
-		}
-
-		assert.equal(getInputs().length, 0);
-
-		$('a:contains("Business")').click();
-		assert.equal(getInputs().length, 15);
-
-		$('a:contains("Person")').click();
-		assert.equal(getInputs().length, 13);
-	});
+	visit(applyRoute)
+  .then(function() {
+		assert.equal($('input', '#marketplace-apply').length, 0);
+  })
+  .click('a:contains("Business")')
+  .then(function() {
+    assert.equal($('input', '#marketplace-apply').length, 15);
+  })
+  .click('a:contains("Person")')
+  .then(function() {
+    assert.equal($('input', '#marketplace-apply').length, 13);
+  });
 });
 
 test('basic form validation and terms and conditions', function(assert) {
