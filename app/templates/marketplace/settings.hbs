@@ -6,9 +6,7 @@
             <form class="form-horizontal edit-inline">
                 <header>
                     <h3>Marketplace info
-                        {{#if production}}
                         <a href="#" class="edit" {{action openEditMarketplaceInfoModal target="view"}}>Edit</a>
-                        {{/if}}
                     </h3>
                 </header>
                 <div>
@@ -86,9 +84,7 @@
             <div class="key-value-display">
                 <header>
                     <h3>Owner info
-                        {{#if production}}
                         {{view Balanced.EditCustomerInfoModalView customerBinding="model.owner_customer" marketplaceOwner="true"}}
-                        {{/if}}
                     </h3>
                 </header>
                 <div>
@@ -388,7 +384,7 @@
     </div>
 </div>
 
-{{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
+{{view Balanced.EditMarketplaceInfoModalView modelBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.AddBankAccountModalView customerBinding="model.owner_customer" viewName="addBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.AddCardModalView customerBinding="model.owner_customer" viewName="addCardModal"}}
