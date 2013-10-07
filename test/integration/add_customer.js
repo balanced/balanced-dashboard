@@ -1,7 +1,9 @@
-var addCustomerRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/add_customer';
+var addCustomerRoutePath;
 
 module('AddCustomer', {
-	setup: function() {},
+	setup: function() {
+		addCustomerRoutePath = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/add_customer';
+	},
 	teardown: function() {}
 });
 
@@ -9,7 +11,6 @@ test('can visit page', function(assert) {
 	// check the page title has been selected
 	visit(addCustomerRoutePath).then(function() {
 		var $title = $('#content h1');
-
 		assert.equal($title.text().trim(), 'Add a customer', 'Title is not correct');
 	});
 });
@@ -43,7 +44,7 @@ test('can create person customer', function(assert) {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
-			assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', {
+			assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', sinon.match({
 				name: 'TEST',
 				applicationType: 'PERSON',
 				address: {
@@ -60,7 +61,7 @@ test('can create person customer', function(assert) {
 				phone: "1231231234",
 				ssn_last4: "1234",
 				twitter: "kleinsch"
-			}));
+			})));
 		});
 });
 
@@ -95,7 +96,7 @@ test('can create business customer', function(assert) {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
-			assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', {
+			assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', sinon.match({
 				name: "TEST",
 				applicationType: "BUSINESS",
 				business_name: "Something Inc",
@@ -113,6 +114,6 @@ test('can create business customer', function(assert) {
 				phone: "1231231234",
 				ssn_last4: "1234",
 				twitter: "kleinsch"
-			}));
+			})));
 		});
 });
