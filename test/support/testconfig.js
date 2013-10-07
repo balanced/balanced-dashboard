@@ -49,39 +49,80 @@ QUnit.testStart(function(test) {
 	$.ajax({
 		url: ENV.BALANCED.API + '/v1/api_keys',
 		type: 'post'
-	}).done(function(res) {
-		var apiKey = res.secret;
-		Balanced.Auth.setAPIKey(apiKey);
-		$.ajax({
+	}).then(function(apiKey) {
+		var secret = apiKey.secret;
+		Balanced.Auth.setAPIKey(secret);
+		return $.ajax({
 			url: ENV.BALANCED.API + '/v1/marketplaces',
 			type: 'post',
 			headers: {
-				'Authorization': Balanced.Utils.encodeAuthorization(apiKey)
+				'Authorization': Balanced.Utils.encodeAuthorization(secret)
 			}
-		}).done(function(res) {
-			var marketplaceId = res.id;
-			var customerId = res.owner_customer.id;
-			Balanced.TEST.MARKETPLACE_ID = marketplaceId;
-			Balanced.TEST.CUSTOMER_ID = customerId;
+		});
+	}).done(function(marketplace) {
+		var marketplaceId = marketplace.id;
+		var customerId = marketplace.owner_customer.id;
+
+		Balanced.TEST.MARKETPLACE_ID = marketplaceId;
+		Balanced.TEST.CUSTOMER_ID = customerId;
+
+		Balanced.TEST.CUSTOMER_ROUTE = '/marketplaces/' +
+			Balanced.TEST.MARKETPLACE_ID + '/customers/' +
+			Balanced.TEST.CUSTOMER_ID;
+
+		Balanced.TEST.MARKETPLACE_INDEX = '/marketplaces/';
+		Balanced.TEST.MARKETPLACE_ROUTE = '/marketplaces/' +
+			Balanced.TEST.MARKETPLACE_ID;
+
+		var userMarketplace = Balanced.UserMarketplace.create({
+			secret: Balanced.NET.defaultApiKey
+		});
+		userMarketplace.populateFromJsonResponse(marketplace);
+
+		var user = Balanced.User.create({
+			user_marketplaces: [userMarketplace],
+			marketplaces_uri: '/users/' + customerId + '/marketplaces'
+		});
+
+		user.populateFromJsonResponse(marketplace.owner_customer);
+		Balanced.Auth.setAuthProperties(true, user, customerId, Ember.get(Balanced.NET, 'defaultApiKey'), true);
+
+		start();
+		console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
+	});
+
+	// What I'd like to do, but this fucks up
+	// because of BS related to the test helpers
+	/*
+	Ember.run(function() {
+		Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+
+			var apiKeySecret = apiKey.get('secret');
+			var settings = {
+				headers: {
+					Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+				}
+			};
+			return Balanced.Marketplace.create().save(settings);
+
+		}).then(function(marketplace) {
+
+			var uri = marketplace.get('uri');
+			var id = uri.substr(uri.lastIndexOf('/') + 1);
+			Balanced.Auth.setupGuestUserMarketplace(marketplace);
+
+			Balanced.TEST.MARKETPLACE_ID = id;
+			Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer.id');
 			Balanced.TEST.CUSTOMER_ROUTE = '/marketplaces/' +
 				Balanced.TEST.MARKETPLACE_ID + '/customers/' +
 				Balanced.TEST.CUSTOMER_ID;
 
-			var userMarketplace = Balanced.UserMarketplace.create({
-				secret: Balanced.NET.defaultApiKey
-			});
-			userMarketplace.populateFromJsonResponse(res);
-
-			var user = Balanced.User.create({
-				user_marketplaces: [userMarketplace]
-			});
-			user.populateFromJsonResponse(res.owner_customer);
-			Balanced.Auth.setAuthProperties(true, user, customerId, apiKey, true);
-
 			start();
 			console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
+		
 		});
 	});
+	*/
 
 });
 
