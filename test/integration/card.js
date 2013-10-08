@@ -1,7 +1,29 @@
-var settingsRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/settings';
+var settingsRoutePath;
 
 module('Card Page', {
-	setup: function() {},
+	setup: function() {
+		settingsRoutePath = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
+		Ember.run(function() {
+			Balanced.Card.create({
+				uri: '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/cards',
+				card_number: '4444400012123434',
+				name: 'Test Card',
+				expiration_year: 2020,
+				expiration_month: 11
+			}).save().then(function(card) {
+				var uri = card.uri;
+				var user = Balanced.Auth.get('user');
+				// ghetto workaround
+				Balanced.NET.ajax({
+					url: ENV.BALANCED.API + user.uri,
+					type: 'put',
+					data: {
+						card_uri: uri
+					}
+				});
+			});
+		});
+	},
 	teardown: function() {}
 });
 
@@ -10,7 +32,7 @@ test('can view card page', function(assert) {
 		.click(".card-info .sidebar-items li:eq(0) .name")
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Card');
-			assert.equal($(".title span").text().trim(), 'Test Card 1 (0005)');
+			assert.equal($(".title span").text().trim(), 'Test Card (3434)');
 		});
 });
 
@@ -25,11 +47,10 @@ test('debit card', function(assert) {
 		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, "/v1/customers/CU1DkfCFcAemmM99fabUso2c/debits", {
+			assert.ok(spy.calledWith(Balanced.Debit, "/v1/customers/" + Balanced.TEST.CUSTOMER_ID + "/debits", sinon.match({
 				amount: 100000,
-				description: "Test debit",
-				source_uri: "/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards/CC1BkhJFryfa4hvIIsbDl1Bd"
-			}));
+				description: "Test debit"
+			})));
 		});
 });
 

@@ -31,19 +31,6 @@ QUnit.testStart(function(test) {
 
 	window.Balanced.onLoad();
 
-	// since we aren't using balanced.js, define its functions so we can stub them
-	balanced = {};
-	balanced.init = function() {}
-	balanced.bankAccount = {
-		validateRoutingNumber: function() {
-			return true;
-		},
-		create: function() {}
-	};
-	balanced.card = {
-		create: function() {}
-	};
-
 	// build up test fixtures
 	stop();
 	$.ajax({
@@ -52,12 +39,9 @@ QUnit.testStart(function(test) {
 	}).then(function(apiKey) {
 		var secret = apiKey.secret;
 		Balanced.Auth.setAPIKey(secret);
-		return $.ajax({
+		return Balanced.NET.ajax({
 			url: ENV.BALANCED.API + '/v1/marketplaces',
-			type: 'post',
-			headers: {
-				'Authorization': Balanced.Utils.encodeAuthorization(secret)
-			}
+			type: 'post'
 		});
 	}).done(function(marketplace) {
 		var marketplaceId = marketplace.id;
@@ -65,14 +49,6 @@ QUnit.testStart(function(test) {
 
 		Balanced.TEST.MARKETPLACE_ID = marketplaceId;
 		Balanced.TEST.CUSTOMER_ID = customerId;
-
-		Balanced.TEST.CUSTOMER_ROUTE = '/marketplaces/' +
-			Balanced.TEST.MARKETPLACE_ID + '/customers/' +
-			Balanced.TEST.CUSTOMER_ID;
-
-		Balanced.TEST.MARKETPLACE_INDEX = '/marketplaces/';
-		Balanced.TEST.MARKETPLACE_ROUTE = '/marketplaces/' +
-			Balanced.TEST.MARKETPLACE_ID;
 
 		var userMarketplace = Balanced.UserMarketplace.create({
 			secret: Balanced.NET.defaultApiKey

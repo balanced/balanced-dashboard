@@ -1,10 +1,16 @@
+var customerRoute;
+
 module('Customer Page', {
-	setup: function() {},
+	setup: function() {
+		customerRoute = '/marketplaces/' +
+			Balanced.TEST.MARKETPLACE_ID + '/customers/' +
+			Balanced.TEST.CUSTOMER_ID;
+	},
 	teardown: function() {}
 });
 
 test('can view customer page', function(assert) {
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer');
 			assert.equal($(".title span").text().trim(), 'William Henry Cavendish III');
@@ -14,7 +20,7 @@ test('can view customer page', function(assert) {
 test('can edit customer info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click('.customer-info a.edit')
 		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
@@ -28,7 +34,7 @@ test('can edit customer info', function(assert) {
 test('can update customer info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click('.customer-info a.edit')
 		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 		.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
@@ -67,7 +73,7 @@ test('can debit customer using card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.Adapter.asyncCallbacks = true;
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE);
+	visit(customerRoute);
 	wait().then(function() {
 		// click the debit customer button
 		return click(".customer-header .buttons a.debit-customer");
@@ -100,7 +106,7 @@ test('can debit customer using card', function(assert) {
 test('can debit customer using bank account', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 	// click the debit customer button
 	.click($(".customer-header .buttons a").eq(0))
 		.then(function() {
@@ -134,7 +140,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	// click the debit customer button
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click(".customer-header .buttons a")
 		.fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit')
@@ -150,7 +156,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 test("debit customer triggers reload of transactions", function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "get");
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click($(".customer-header .buttons a").eq(0))
 		.fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit')
@@ -163,7 +169,7 @@ test("debit customer triggers reload of transactions", function(assert) {
 test('can credit customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click($(".customer-header .buttons a").eq(1))
 		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
@@ -188,7 +194,7 @@ test('when crediting customer triggers an error, the error is displayed to the u
 		}
 	}, null, null);
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click($(".customer-header .buttons a").eq(1))
 		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
@@ -202,7 +208,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	// click the credit customer button
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click($(".customer-header .buttons a").eq(1))
 		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
@@ -217,7 +223,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 
 test('can add bank account', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+	var tokenizingStub = sinon.stub(Balanced.BankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
@@ -225,7 +231,7 @@ test('can add bank account', function(assert) {
 		}
 	});
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click('.bank-account-info a.add')
 		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
@@ -249,7 +255,7 @@ test('can add bank account', function(assert) {
 
 test('can add card', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.card, "create");
+	var tokenizingStub = sinon.stub(Balanced.Card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
@@ -257,7 +263,7 @@ test('can add card', function(assert) {
 		}
 	});
 
-	visit(Balanced.TEST.CUSTOMER_ROUTE)
+	visit(customerRoute)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
