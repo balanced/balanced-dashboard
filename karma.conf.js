@@ -29,7 +29,7 @@ module.exports = function(config) {
     ],
 
     preprocessors: {
-      'build/js/dashboard-prod.js': ['coverage']
+      'build/js/dashboard-dev.js': ['coverage']
     },
 
     // test results reporter to use
