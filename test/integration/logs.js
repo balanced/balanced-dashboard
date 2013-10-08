@@ -1,14 +1,16 @@
-var logsRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/logs';
+var logsRoute;
 
 module('Logs', {
-	setup: function() {},
+	setup: function() {
+		logsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/logs';
+	},
 	teardown: function() {}
 });
 
 test('can visit page', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
-	visit(logsRoutePath)
+	visit(logsRoute)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			var $title = $('#content h1');
@@ -20,7 +22,7 @@ test('can visit page', function(assert) {
 });
 
 test('has logs in table', function(assert) {
-	visit(logsRoutePath)
+	visit(logsRoute)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
@@ -36,7 +38,7 @@ test('has logs in table', function(assert) {
 test('filter logs by endpoint bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
-	visit(logsRoutePath)
+	visit(logsRoute)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
@@ -52,7 +54,7 @@ test('filter logs by endpoint bank accounts', function(assert) {
 test('filter logs by request failed only', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
-	visit(logsRoutePath)
+	visit(logsRoute)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 20, 'has 20 logs');
@@ -74,7 +76,7 @@ test('filter logs by request failed only', function(assert) {
 });
 
 test('view a particular log entry', function(assert) {
-	visit(logsRoutePath)
+	visit(logsRoute)
 		.click('#marketplace-nav .logs a')
 		.click($('table.logs tbody tr a').first())
 		.then(function() {

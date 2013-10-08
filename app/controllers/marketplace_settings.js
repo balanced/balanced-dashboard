@@ -1,6 +1,10 @@
 Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ["marketplace"],
 
+	can_edit: function() {
+		return this.get('production') || Ember.testing;
+	}.property('production'),
+
 	actions: {
 		promptToDeleteCallback: function(callback) {
 			this.trigger('openDeleteCallbackModal', callback);
