@@ -3,10 +3,6 @@ require('app/lib/variables');
 Balanced.NET = (function() {
 	return {
 		loadCSRFToken: function() {
-			if (window.TESTING) {
-				return;
-			}
-
 			// POSTing to / will return a csrf token
 			return this.ajax({
 				type: 'POST',

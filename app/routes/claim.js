@@ -1,6 +1,7 @@
 Balanced.ClaimRoute = Balanced.Route.extend({
 
 	parseResponse: function(unparsedJson) {
+		unparsedJson = unparsedJson || '{}';
 		var json = JSON.parse(unparsedJson);
 		for (var key in json) {
 			if (!json.hasOwnProperty(key)) {

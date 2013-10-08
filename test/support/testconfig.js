@@ -61,7 +61,7 @@ QUnit.testStart(function(test) {
 		});
 
 		user.populateFromJsonResponse(marketplace.owner_customer);
-		Balanced.Auth.setAuthProperties(true, user, customerId, Ember.get(Balanced.NET, 'defaultApiKey'), true);
+		Balanced.Auth.setAuthProperties(true, user, '/users/guest', Ember.get(Balanced.NET, 'defaultApiKey'), true);
 
 		start();
 		console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
