@@ -354,7 +354,7 @@ test('can add webhooks', function(assert) {
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com/something')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
-		.then(function() {
+		.then(function () {
 			assert.ok(stub.calledOnce);
 		});
 });
