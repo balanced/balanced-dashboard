@@ -1,5 +1,6 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
+@import "/static/less/icon_font.less";
 
 #logo {
   width: 90px;
@@ -128,14 +129,15 @@
     }
   }
   .section-banner-header {
-    background-color: @gray3;
+    background-color: @egyptianBlue20;
+    border-bottom: 1px solid @gray3;
     margin: 0;
     p {
       margin: 0;
-      padding: 15px 50px 15px 50px;
+      padding: 19px 50px 15px 50px;
       color: @black;
       strong {
-        font-size: 13px;
+        font-size: 16px;
       }
     }
 
@@ -148,27 +150,9 @@
     }
 
     .disclosure-button {
-      background-color: @gray4;
+      background-color: @egyptianBlue60 !important;
       float: left;
-      a {
-        .cssicon(
-          @url: @iconsFile,
-          @width: 30px,
-          @height: 48px,
-          @display: block
-        );
-        background-position: -10px -833px;
-
-        &:hover {
-          background-color: @black;
-        }
       }
-      &.open {
-        a {
-          background-position: -110px -833px;
-        }
-      }
-    }
   }
   .btn {
     &.primary {
@@ -203,7 +187,7 @@
   .actions {
     text-align: right;
     padding: 15px;
-    background-color: @egyptianBlue60;
+    background-color: @gray2 !important;
     min-height: 23px;
     .loader {
       float: left;
@@ -325,4 +309,20 @@
   font-family: nimbussannov-med;
   padding: 10px;
   text-align: center;
+}
+
+.special-rollover {
+  &:hover {
+    background-color: @egyptianBlue60;
+    .disclosure-button {
+      background-color: @egyptianBlue100 !important;
+    }
+  }
+}
+
+.icon-carat-right, .icon-carat-down {
+  width: 15px;
+  height: 15px;
+  padding: 20px 5px 15px 6px;
+  color: @white;
 }

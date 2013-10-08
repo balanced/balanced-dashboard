@@ -1,5 +1,6 @@
 @import "/static/less/variables.less";
 @import "/static/less/mixins.less";
+@import "/static/less/icon_font.less";
 
 //
 // Modals
@@ -134,26 +135,8 @@
   border-bottom: 1px solid @balancedLightGray;
 
   .disclosure-button {
-    background-color: @modalInformationalDarkBackground;
+    background-color: @egyptianBlue60 !important;
     float: left;
-    a {
-      .cssicon(
-        @url: @iconsFile,
-        @width: 20px,
-        @height: 53px,
-        @display: block
-      );
-      background-position: -15px -828px;
-
-      &:hover {
-        background-color: @black;
-      }
-    }
-    &.open {
-      a {
-        background-position: -115px -828px;
-      }
-    }
   }
 
   p {
@@ -203,7 +186,7 @@
     color: @black;
   }
 
-  background-color: @modalInformationalDarkBackground;
+  background-color: @egyptianBlue20;
 }
 
 // Remove bottom margin if need be
@@ -290,6 +273,27 @@
       margin-bottom: 0px;
     }
   }
+}
+
+#add-funds {
+  #ember1108 {
+    float: right;
+    margin-top: 10px;
+  }
+}
+
+.special-rollover {
+  &:hover {
+    background-color: @egyptianBlue60;
+    .disclosure-button {
+      background-color: @egyptianBlue100 !important;
+    }
+  }
+}
+
+.icon-carat-right, .icon-carat-down {
+  margin: 0 !important;
+  padding: 20px 5px 19px 6px !important;
 }
 
 @import "/static/less/bootstrap-modal/bootstrap-modal.less";

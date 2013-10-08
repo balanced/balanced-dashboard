@@ -19,7 +19,7 @@ test('can create person customer', function(assert) {
 
 	visit(addCustomerRoutePath)
 		.click("fieldset.application-type a.person")
-		.click(".disclosure-button a")
+		.click(".disclosure-button")
 		.fillIn('#add-customer input[name="name"]', 'TEST')
 		.fillIn('#add-customer input[name="email"]', 'nick@example.com')
 		.fillIn('#add-customer input[name="address.line1"]', '1234 main street')
@@ -69,7 +69,7 @@ test('can create business customer', function(assert) {
 
 	visit(addCustomerRoutePath)
 		.click("fieldset.application-type a.business")
-		.click(".disclosure-button a")
+		.click(".disclosure-button")
 		.fillIn('#add-customer input[name="business_name"]', 'Something Inc')
 		.fillIn('#add-customer input[name="ein"]', '123123123')
 		.fillIn('#add-customer input[name="name"]', 'TEST')
