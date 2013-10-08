@@ -1,12 +1,16 @@
-var reversalsRoutePath = '/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/reversals/RV1k7EBixU1TP1KboTrbVu9W';
+var reversalsRoute;
 
 module('Reversals', {
-	setup: function() {},
+	setup: function() {
+		Ember.run(function() {
+			
+		});
+	},
 	teardown: function() {}
 });
 
 test('can visit page', function(assert) {
-	visit(reversalsRoutePath).then(function() {
+	visit(reversalsRoute).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Reversal'), -1, 'Title is not correct');
 		assert.equal($(".reversal .transaction-description").text().trim(), 'Successful: $25.00');
 	});
@@ -15,7 +19,7 @@ test('can visit page', function(assert) {
 test('can edit reversal', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(reversalsRoutePath)
+	visit(reversalsRoute)
 		.click('.reversal .transaction-info a.edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')

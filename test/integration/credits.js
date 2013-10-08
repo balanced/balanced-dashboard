@@ -3,6 +3,12 @@ var creditRoute;
 module('Credits', {
 	setup: function() {
 		Ember.run(function() {
+			Balanced.Debit.create({
+				uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
+				appears_on_statement_as: 'Pixie Dust',
+				amount: 100000,
+				description: 'Cocaine'
+			}).save();
 			Balanced.BankAccount.create({
 				name: 'Test Account',
 				account_number: '1234',
@@ -17,8 +23,9 @@ module('Credits', {
 						amount: 100000
 					}
 				}).done(function(res) {
+					Balanced.TEST.CREDIT_ID = res.id;
 					creditRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-						'/credits/' + res.id;
+						'/credits/' + Balanced.TEST.CREDIT_ID;
 				});
 			});
 		});
@@ -29,7 +36,7 @@ module('Credits', {
 test('can visit page', function(assert) {
 	visit(creditRoute).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Credit'), -1, 'Title is not correct');
-		assert.equal($(".credit .transaction-description").text().trim(), 'Paid: $25.00');
+		assert.equal($(".credit .transaction-description").text().trim(), 'Paid: $1000.00');
 	});
 });
 
@@ -43,15 +50,15 @@ test('can reverse credit', function(assert) {
 	}).then(function() {
 		assert.ok(spy.calledOnce);
 		assert.ok(spy.calledWith(Balanced.Reversal));
-		assert.equal(spy.getCall(0).args[2].credit_uri, '/v1/marketplaces/TEST-MP5m04ORxNlNDm1bB7nkcgSY/credits/CR5WLencnYp5YFgk43RWoXrM');
-		assert.equal(spy.getCall(0).args[2].amount, '2500');
+		assert.equal(spy.getCall(0).args[2].credit_uri, '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/credits/' + Balanced.TEST.CREDIT_ID);
+		assert.equal(spy.getCall(0).args[2].amount, '100000');
 	});
 });
 
 test('admins can reverse credit regardless of marketplace settings', function(assert) {
 	Balanced.Auth.get('user').set('admin', true);
 
-	visit('/marketplaces/TEST-TEST_CREDITS/credits/1').then(function() {
+	visit(creditRoute).then(function() {
 		assert.equal($(".reverse-credit-button").length, 1);
 	});
 });
