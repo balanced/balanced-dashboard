@@ -301,7 +301,7 @@ test('can add card with postal code', function(assert) {
 		}
 	});
 
-	visit(customerPage)
+	visit(customerRoute)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
@@ -323,8 +323,8 @@ test('can add card with postal code', function(assert) {
 			}));
 
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/cards', {
+			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', sinon.match({
 				card_uri: '/v1/cards/deadbeef'
-			}));
+			})));
 		});
 });
