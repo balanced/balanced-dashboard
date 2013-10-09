@@ -30,7 +30,7 @@ test('can visit page', function(assert) {
 
 test('shows invoices list', function(assert) {
 	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/invoices').then(function() {
-		assert.equal($("#invoices table tbody tr").length, 1);
+		assert.equal($("#invoices table tbody tr").length, 2);
 	});
 });
 
