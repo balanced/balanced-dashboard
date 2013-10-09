@@ -66,11 +66,11 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 		// Tokenize the bank account using the balanced.js library
 		balanced.bankAccount.create(bankAccountData, function(response) {
-			if(response.errors) {
+			if (response.errors) {
 				var validationErrors =
-				self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
+					self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
 
-				if(!validationErrors) {
+				if (!validationErrors) {
 					self.set('displayErrorDescription', true);
 					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
 					self.set('errorDescription', 'Sorry, there was an error tokenizing this bank account' + errorSuffix);

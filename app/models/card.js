@@ -81,11 +81,11 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
-			if(response.errors) {
+			if (response.errors) {
 				var validationErrors =
-				self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
+					self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
 
-				if(!validationErrors) {
+				if (!validationErrors) {
 					self.set('displayErrorDescription', true);
 					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
 					self.set('errorDescription', 'Sorry, there was an error tokenizing this card' + errorSuffix);

@@ -290,7 +290,7 @@ Balanced.Utils = {
 	extractValidationErrorHash: function(errorsRoot) {
 		var errorsHash = {};
 		_.each(errorsRoot.errors, function(error) {
-			for(key in error.extras) {
+			for (var key in error.extras) {
 				errorsHash[key] = error.extras[key];
 			}
 		});

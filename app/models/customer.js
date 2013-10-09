@@ -106,7 +106,7 @@ Balanced.Customer = Balanced.Model.extend({
 		var month = this.get('dob_month');
 		var year = this.get('dob_year');
 
-		if(month && year) {
+		if (month && year) {
 			return "%@-%@".fmt(year, month);
 		} else {
 			return year;
