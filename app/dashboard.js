@@ -14,12 +14,6 @@ require('build/js/compiled-templates');
 require('app/lib/**/*');
 
 /*
- * Ember-data models
- */
-require('app/data_models/**/*');
-require('app/adapter');
-
-/*
  * Model layer.
  * Ember.Object itself provides most of what
  * model layers elsewhere provide.
