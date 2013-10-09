@@ -63,8 +63,8 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
 
-    // TravisCI only has Firefox
-    browsers: ['Firefox'],
+    // TravisCI only has Firefox and PhantomJS
+    browsers: ['PhantomJS'],
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
