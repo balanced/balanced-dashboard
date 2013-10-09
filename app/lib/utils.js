@@ -154,7 +154,7 @@ Balanced.Utils = {
 		var transformedParams = ['limit', 'offset', 'sortField', 'sortOrder', 'minDate', 'maxDate', 'type', 'query'];
 
 		var filteringParams = {
-			limit: (!!Ember.testing && !Balanced.Adapter.dataMap) ? 2 : (params.limit || 10),
+			limit: ( !! Ember.testing && !Balanced.Adapter.dataMap) ? 2 : (params.limit || 10),
 			offset: params.offset || 0
 		};
 

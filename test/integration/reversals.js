@@ -26,8 +26,7 @@ module('Reversals', {
 				}).then(function(res) {
 					Balanced.TEST.CREDIT_ID = res.id;
 					return Balanced.NET.ajax({
-						url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-							'/credits/' + Balanced.TEST.CREDIT_ID + '/reversals',
+						url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/credits/' + Balanced.TEST.CREDIT_ID + '/reversals',
 						type: 'post'
 					});
 				}).done(function(res) {

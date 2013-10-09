@@ -4,21 +4,22 @@ module('Search', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		var i = 4;
-		while(i > 0) {
-			Ember.run(function() {
+		Ember.run(function() {
+			while (i > 0) {
 				Balanced.Debit.create({
 					uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine'
 				}).save();
-			});
-			i--;
-		}
+				i--;
+			}
+		});
 		marketplaceRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID;
 		Balanced.Auth.set('signedIn', true);
 
 		// add some delay, because the API takes some time to add things to search
+		var stop = window.stop;
 		stop();
 		setTimeout(start, 2 * 1000);
 	},

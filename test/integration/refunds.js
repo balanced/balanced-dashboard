@@ -12,8 +12,7 @@ module('Refunds', {
 			}).save().then(function(debit) {
 				Balanced.TEST.DEBIT_ID = debit.get('id');
 				Balanced.NET.ajax({
-					url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-						'/debits/' + Balanced.TEST.DEBIT_ID + '/refunds',
+					url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/debits/' + Balanced.TEST.DEBIT_ID + '/refunds',
 					type: 'post'
 				}).done(function(res) {
 					refundRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +

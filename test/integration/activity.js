@@ -4,17 +4,17 @@ module('Activity', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		var i = 4;
-		while(i > 0) {
-			Ember.run(function() {
+		Ember.run(function() {
+			while (i > 0) {
 				Balanced.Debit.create({
 					uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine'
 				}).save();
-			});
-			i--;
-		}
+				i--;
+			}
+		});
 		activityRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/activity/transactions';
 	},
 	teardown: function() {}
