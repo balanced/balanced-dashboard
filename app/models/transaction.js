@@ -11,7 +11,7 @@ Balanced.Transaction = Balanced.Model.extend({
 		}
 	}.property('amount'),
 
-	account_name_summary: function() {
+	customer_name_summary: function() {
 		if (this.get('customer')) {
 			return this.get('customer.display_me_with_email');
 		} else {

@@ -42,6 +42,15 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD;
 	}.property(),
 
+	last_four: function() {
+		var accountNumber = this.get('number');
+		if (!accountNumber || accountNumber.length < 5) {
+			return accountNumber;
+		} else {
+			return accountNumber.substr(accountNumber.length - 4, 4);
+		}
+	}.property('account_number'),
+
 	description: function() {
 		return '%@ (%@)'.fmt(
 			this.get('last_four'),

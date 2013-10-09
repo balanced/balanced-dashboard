@@ -12,9 +12,8 @@ Balanced.Refund = Balanced.Transaction.extend({
 	}.property(),
 
 	funding_instrument_description: function() {
-		// TODO - once we've gotten dynamic associations, use the funding_instrument_description from the debit
-		return this.get('debit.account_name');
-	}.property('debit.account_name')
+		return this.get('debit.funding_instrument_description');
+	}.property('debit.funding_instrument_description')
 });
 
 Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');

@@ -3,7 +3,7 @@
         {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :date view.hideDateSort::sortable" field="created_at"}}Date{{/view}}
         <th class="span4 label6a type">Transaction</th>
         <th class="span4 label6a description">Description</th>
-        <th class="span3 label6a account">Account</th>
+        <th class="span3 label6a account">Customer</th>
         <th class="span4 label6a funding-instrument">Card or Bank Account</th>
         {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
     </tr>
@@ -41,9 +41,9 @@
                     {{ transaction.description }}
                 </span>{{/linkTo}}
             </td>
-            <td {{bindAttr class=":span4 :account transaction.account::null-field"}} {{bindAttr title="transaction.account_name_summary"}}>
+            <td {{bindAttr class=":span4 :account transaction.customer::null-field"}} {{bindAttr title="transaction.customer_name_summary"}}>
                 {{#linkTo transaction.route_name transaction}}<span>
-                    {{transaction.account_name_summary}}
+                    {{transaction.customer_name_summary}}
                 </span>{{/linkTo}}
             </td>
             <td class="span3 funding-instrument">

@@ -1,7 +1,8 @@
 require('app/models/transaction');
 
 Balanced.Hold = Balanced.Transaction.extend({
-	source: Balanced.Model.belongsTo('card', 'Balanced.FundingInstrument'),
+	card: Balanced.Model.belongsTo('card', 'Balanced.FundingInstrument'),
+	source: Ember.computed.alias('card'),
 	debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
 
 	status: function() {
