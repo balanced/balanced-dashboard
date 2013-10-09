@@ -1,6 +1,16 @@
 module('Invoices', {
 	setup: function() {
-		Testing.selectMarketplaceByName();
+		Ember.run(function() {
+			Balanced.Adapter = Balanced.FixtureAdapter.create();
+			window.setupTestFixtures();
+			var userId = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
+			Balanced.Auth.setAuthProperties(
+				true,
+				Balanced.User.find(userId),
+				userId,
+				userId,
+				false);
+		});
 
 		// click the invoices link
 		$('#marketplace-nav .invoices a').click();
@@ -11,12 +21,16 @@ module('Invoices', {
 });
 
 test('can visit page', function(assert) {
-	//  check the page title has been selected
-	assert.equal($('#content h1').text().trim(), 'Invoices');
+	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/invoices').then(function() {
+		//  check the page title has been selected
+		assert.equal($('#content h1').text().trim(), 'Invoices');
+	});
 });
 
 test('shows invoices list', function(assert) {
-	assert.equal($("#invoices table tbody tr").length, 2);
+	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/invoices').then(function() {
+		assert.equal($("#invoices table tbody tr").length, 1);
+	});
 });
 
 test('invoice detail page', function(assert) {
