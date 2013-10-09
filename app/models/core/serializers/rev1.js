@@ -48,7 +48,12 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 			}
 		}
 
-		return collection;
+		var nextUri = rootJson.meta ? rootJson.meta.next : null;
+
+		return {
+			items: collection,
+			next_uri: nextUri
+		};
 	},
 
 	_populateObject: function(modelObj, objType, rootJson) {
