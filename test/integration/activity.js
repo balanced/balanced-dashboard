@@ -1,12 +1,26 @@
-var activityRoutePath = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/activity/transactions';
+var activityRoute;
 
 module('Activity', {
-	setup: function() {},
+	setup: function() {
+		var i = 4;
+		while(i > 0) {
+			Ember.run(function() {
+				Balanced.Debit.create({
+					uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
+					appears_on_statement_as: 'Pixie Dust',
+					amount: 10000,
+					description: 'Cocaine'
+				}).save();
+			});
+			i--;
+		}
+		activityRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/activity/transactions';
+	},
 	teardown: function() {}
 });
 
 test('can visit page', function(assert) {
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.then(function() {
 			var $title = $('#content h1');
 
@@ -18,13 +32,13 @@ test('can visit page', function(assert) {
 });
 
 test('Click load more shows 5 more and hides load more', function(assert) {
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
 		.click('#activity .results table.transactions tfoot td.load-more-results a')
 		.then(function() {
-			assert.equal($('#activity .results table.transactions tbody tr').length, 15, 'has 15 transactions');
+			assert.equal($('#activity .results table.transactions tbody tr').length, 4, 'has 4 transactions');
 			assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
 		});
 });
@@ -32,22 +46,21 @@ test('Click load more shows 5 more and hides load more', function(assert) {
 test('add funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.then(function() {
-			assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
+			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 		})
 		.click('.activity-escrow-box .btn')
 		.then(function() {
 			assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
-			assert.equal($('#add-funds select option').length, 2, 'bank accounts in account dropdown');
+			assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
 		})
 		.fillIn('#add-funds input', '55.55')
 		.fillIn('#add-funds input.description', 'Adding lots of money yo')
 		.click('#add-funds .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/debits'));
+			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
 			assert.equal(spy.getCall(0).args[2].amount, 5555);
 			assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
 		});
@@ -56,7 +69,7 @@ test('add funds', function(assert) {
 test('add funds only adds once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.click('.activity-escrow-box .btn')
 		.fillIn('#add-funds input', '55.55')
 		.click('#add-funds .modal-footer button[name="modal-submit"]')
@@ -70,21 +83,21 @@ test('add funds only adds once despite multiple clicks', function(assert) {
 
 test('withdraw funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.then(function() {
-			assert.notEqual($('.activity-escrow-box .amount .number1d').text().indexOf('1,137.81'), -1, 'escrow amount is $1,137.81');
+			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 		})
 		.click('.activity-escrow-box .btn')
 		.then(function() {
 			assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
-			assert.equal($('#withdraw-funds select option').length, 4, 'bank accounts in account dropdown');
+			assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
 		})
 		.fillIn('#withdraw-funds input', '55.55')
 		.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
 		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/credits'));
+			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits'));
 			assert.equal(spy.getCall(0).args[2].amount, 5555);
 			assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
 		});
@@ -93,7 +106,7 @@ test('withdraw funds', function(assert) {
 test('withdraw funds only withdraws once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.click('.activity-escrow-box .btn')
 		.fillIn('#withdraw-funds input', '55.55')
 		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
@@ -113,7 +126,7 @@ test('download activity', function(assert) {
 		download: {}
 	});
 
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.click("#activity .icon-download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
@@ -121,7 +134,7 @@ test('download activity', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
 				email_address: "test@example.com",
-				uri: "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/search?limit=10&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold"
+				uri: "/v1/marketplaces/" + Balanced.TEST.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
@@ -131,7 +144,7 @@ test('download activity', function(assert) {
 test('download activity only runs once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.click("#activity .icon-download")
 		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
@@ -144,11 +157,11 @@ test('download activity only runs once despite multiple clicks', function(assert
 });
 
 test('transactions date sort has two states', function(assert) {
-	visit(activityRoutePath)
+	visit(activityRoute)
 		.then(function() {
 			var objectPath = "#activity .results th.date";
 			var states = [];
-			var getSate = function() {
+			var getState = function() {
 				if ($(objectPath).hasClass("unsorted")) {
 					if ($.inArray("unsorted", states) === -1) {
 						states.push("unsorted");
@@ -168,7 +181,7 @@ test('transactions date sort has two states', function(assert) {
 			var testAmount = 5;
 			while (count !== testAmount) {
 				click($(objectPath));
-				getSate();
+				getState();
 				count++;
 			}
 			states.sort();
