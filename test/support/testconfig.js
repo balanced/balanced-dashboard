@@ -34,6 +34,19 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
+	// since we aren't using balanced.js, define its functions so we can stub them
+	balanced = {};
+	balanced.init = function() {}
+	balanced.bankAccount = {
+		validateRoutingNumber: function() {
+			return true;
+		},
+		create: function() {}
+	};
+	balanced.card = {
+		create: function() {}
+	};
+
 	// use the fixture adapter
 	Balanced.TEST.setupFixtures = function() {
 		Balanced.Adapter = Balanced.FixtureAdapter.create();

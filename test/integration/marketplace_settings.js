@@ -1,6 +1,6 @@
 var settingsRoute;
 
-module('Marketplaces Settings', {
+module('Marketplace Settings', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';

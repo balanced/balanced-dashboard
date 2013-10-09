@@ -1,10 +1,13 @@
-var initialDepositRoute = '/marketplaces/MP1/initial_deposit';
+var initialDepositRoute;
 /*
  * TODO: Some of these tests are not working because the balanced.js library
  * does not appear to be loaded correctly and form validation therefore fails.
  */
 module('Balanced.Marketplaces.initial_deposit', {
-	setup: function() {},
+	setup: function() {
+		Balanced.TEST.setupMarketplace();
+		initialDepositRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/initial_deposit';
+	},
 	teardown: function() {
 
 	}

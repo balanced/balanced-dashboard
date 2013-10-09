@@ -2,6 +2,21 @@ var logsRoute;
 
 module('Logs', {
 	setup: function() {
+		Balanced.TEST.setupFixtures();
+		// Set up Ember Auth
+		Ember.run(function() {
+			var userId = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
+			Balanced.Auth.setAuthProperties(
+				true,
+				Balanced.User.find(userId),
+				userId,
+				userId,
+				false);
+		});
+		logsRoute = '/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/logs';
+
+		// The API has issues with generating logs
+		/*
 		Balanced.TEST.setupMarketplace();
 		var i = 3;
 		while(i > 0) {
@@ -16,6 +31,7 @@ module('Logs', {
 			i--;
 		}
 		logsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/logs';
+		*/
 	},
 	teardown: function() {}
 });
@@ -29,7 +45,7 @@ test('can visit page', function(assert) {
 			var $title = $('#content h1');
 			var logRequest = spy.getCall(spy.callCount - 1);
 			assert.equal(logRequest.args[0], Balanced.Log);
-			assert.equal(logRequest.args[1], '/v1/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc');
+			assert.equal(logRequest.args[1], '/v1/logs?limit=20&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc');
 			assert.notEqual($title.text().indexOf('Logs'), -1, 'Title is correct');
 		});
 });

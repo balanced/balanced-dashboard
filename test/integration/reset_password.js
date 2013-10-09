@@ -1,10 +1,9 @@
 module('ResetPassword', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Balanced.TEST.setupFixtures();
 		Ember.run(function() {
 			Balanced.Auth.setAuthProperties(false, null, null, null, false);
 		});
-		Balanced.Adapter.asyncCallbacks = true;
 	},
 	teardown: function() {}
 });

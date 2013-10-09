@@ -1,7 +1,17 @@
 var applyRoute = '/marketplaces/apply';
 
 module('Balanced.Marketplaces.apply', {
-	setup: function() {},
+	setup: function() {
+		Ember.run(function() {
+			// Set up Ember Auth with some BS values
+			Balanced.Auth.setAuthProperties(
+				true,
+				Balanced.User.create(),
+				true,
+				true,
+				false);
+		});
+	},
 	teardown: function() {}
 });
 

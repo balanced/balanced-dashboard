@@ -224,7 +224,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 
 test('can add bank account', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(Balanced.BankAccount, "create");
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
@@ -256,7 +256,7 @@ test('can add bank account', function(assert) {
 
 test('can add card', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(Balanced.Card, "create");
+	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
