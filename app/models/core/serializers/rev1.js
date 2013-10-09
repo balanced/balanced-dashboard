@@ -70,6 +70,11 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 
 			if (replacement === undefined) {
 				Ember.Logger.warn("Couldn't find replacement for param %@".fmt(linkParam));
+				throw new Error("Undefined value for URL macro");
+			}
+
+			if(replacement === null) {
+				throw new Error("Null value for URL macro");
 			}
 
 			return replacement;
@@ -81,12 +86,15 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 			if (link.indexOf(objPropertyName + ".") === 0) {
 				var linkName = link.substring(objPropertyName.length + 1);
 
-				// Templace all the links
+				// Template all the links
 				var href = rootJson.links[link];
-				var replacedHref = href.replace(/\{([\.\w]+)\}/g, replaceHrefFunc);
 
-
-				templatedLinks[linkName] = replacedHref;
+				try {
+					var replacedHref = href.replace(/\{([\.\w]+)\}/g, replaceHrefFunc);
+					templatedLinks[linkName] = replacedHref;
+				} catch (e) {
+					templatedLinks[linkName] = null;
+				}
 			}
 		}
 
