@@ -2,8 +2,14 @@ var holdRoute;
 
 module('Holds', {
 	setup: function() {
-		var uri;
+		var uri, user;
 		Ember.run(function() {
+			Balanced.Customer.create({
+				uri: '/v1/customers',
+				name: 'Dali Wali'
+			}).save().then(function(customer) {
+				user = customer;
+			});
 			Balanced.Card.create({
 				uri: '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/cards',
 				card_number: '4444400012123434',
@@ -12,7 +18,6 @@ module('Holds', {
 				expiration_month: 11
 			}).save().then(function(card) {
 				uri = card.uri;
-				var user = Balanced.Auth.get('user');
 				// ghetto workaround
 				return Balanced.NET.ajax({
 					url: ENV.BALANCED.API + user.uri,
