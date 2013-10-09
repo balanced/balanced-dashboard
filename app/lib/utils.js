@@ -285,5 +285,15 @@ Balanced.Utils = {
 
 	encodeAuthorization: function(apiKey) {
 		return 'Basic ' + window.btoa(apiKey + ':');
+	},
+
+	extractValidationErrorHash: function(errorsRoot) {
+		var errorsHash = {};
+		_.each(errorsRoot.errors, function(error) {
+			for(key in error.extras) {
+				errorsHash[key] = error.extras[key];
+			}
+		});
+		return errorsHash;
 	}
 };

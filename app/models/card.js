@@ -81,43 +81,35 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
-			switch (response.status_code) {
-				case 201:
-					// Now that it's been tokenized, we just need to associate it with the customer's account
-					Balanced.Card.find(response.cards[0].href).then(function(card) {
-						card.set('links.customer', customerId);
+			if(response.errors) {
+				var validationErrors =
+				self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
 
-						card.save().then(function() {
-							self.set('isLoaded', true);
-							self.set('isNew', false);
-							self.set('isSaving', false);
-							self.trigger('didCreate');
-						}, function() {
-							self.set('displayErrorDescription', true);
-							self.set('errorDescription', 'Sorry, there was an error associating this card.');
-							self.set('isSaving', false);
-							promise.reject();
-						});
-					});
-					break;
-				case 400:
-					self.set('validationErrors', {});
-					if (response.error.expiration) {
-						self.set('validationErrors.expiration_month', 'invalid');
-					}
-					_.each(response.error, function(value, key) {
-						self.set('validationErrors.' + key, 'invalid');
-					});
-					self.set('isSaving', false);
-					promise.reject();
-					break;
-				default:
+				if(!validationErrors) {
 					self.set('displayErrorDescription', true);
-					var errorSuffix = (response.error && response.error.description) ? (': ' + response.error.description) : '.';
+					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
 					self.set('errorDescription', 'Sorry, there was an error tokenizing this card' + errorSuffix);
-					self.set('isSaving', false);
-					promise.reject();
-					break;
+				}
+
+				self.set('isSaving', false);
+				promise.reject();
+			} else {
+				// Now that it's been tokenized, we just need to associate it with the customer's account
+				Balanced.Card.find(response.cards[0].href).then(function(card) {
+					card.set('links.customer', customerId);
+
+					card.save().then(function() {
+						self.set('isLoaded', true);
+						self.set('isNew', false);
+						self.set('isSaving', false);
+						self.trigger('didCreate');
+					}, function() {
+						self.set('displayErrorDescription', true);
+						self.set('errorDescription', 'Sorry, there was an error associating this card.');
+						self.set('isSaving', false);
+						promise.reject();
+					});
+				});
 			}
 		});
 

@@ -163,12 +163,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			this.trigger('becameError', jqXHR.responseText);
 		}
 
-		if (jqXHR.responseJSON && jqXHR.responseJSON.extras && Object.keys(jqXHR.responseJSON.extras).length > 0) {
-			this.set('validationErrors', jqXHR.responseJSON.extras);
-		}
+		if (jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors.length > 0) {
+			this.set('validationErrors', Balanced.Utils.extractValidationErrorHash(jqXHR.responseJSON));
 
-		if (jqXHR.responseJSON && jqXHR.responseJSON.description) {
-			this.set('errorDescription', jqXHR.responseJSON.description);
+			this.set('errorDescription', jqXHR.responseJSON.errors[0].description);
 		}
 	},
 

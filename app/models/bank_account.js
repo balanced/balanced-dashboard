@@ -66,40 +66,35 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 		// Tokenize the bank account using the balanced.js library
 		balanced.bankAccount.create(bankAccountData, function(response) {
-			switch (response.status_code) {
-				case 201:
-					// Now that it's been tokenized, we just need to associate it with the customer's account
-					Balanced.BankAccount.find(response.bank_accounts[0].href).then(function(bankAccount) {
-						bankAccount.set('links.customer', customerId);
+			if(response.errors) {
+				var validationErrors =
+				self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
 
-						bankAccount.save().then(function() {
-							self.set('isLoaded', true);
-							self.set('isNew', false);
-							self.set('isSaving', false);
-							self.trigger('didCreate');
-						}, function() {
-							self.set('displayErrorDescription', true);
-							self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
-							self.set('isSaving', false);
-							promise.reject();
-						});
-					});
-					break;
-				case 400:
-					self.set('validationErrors', {});
-					_.each(response.error, function(value, key) {
-						self.set('validationErrors.' + key, 'invalid');
-					});
-					self.set('isSaving', false);
-					promise.reject();
-					break;
-				default:
+				if(!validationErrors) {
 					self.set('displayErrorDescription', true);
-					var errorSuffix = (response.error && response.error.description) ? (': ' + response.error.description) : '.';
+					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
 					self.set('errorDescription', 'Sorry, there was an error tokenizing this bank account' + errorSuffix);
-					self.set('isSaving', false);
-					promise.reject();
-					break;
+				}
+
+				self.set('isSaving', false);
+				promise.reject();
+			} else {
+				// Now that it's been tokenized, we just need to associate it with the customer's account
+				Balanced.BankAccount.find(response.bank_accounts[0].href).then(function(bankAccount) {
+					bankAccount.set('links.customer', customerId);
+
+					bankAccount.save().then(function() {
+						self.set('isLoaded', true);
+						self.set('isNew', false);
+						self.set('isSaving', false);
+						self.trigger('didCreate');
+					}, function() {
+						self.set('displayErrorDescription', true);
+						self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
+						self.set('isSaving', false);
+						promise.reject();
+					});
+				});
 			}
 		});
 
