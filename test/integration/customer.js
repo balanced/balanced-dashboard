@@ -280,7 +280,46 @@ test('can add card', function(assert) {
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",
-				name: "TEST"
+				name: "TEST",
+				postal_code: ""
+			}));
+
+			assert.ok(createSpy.calledOnce);
+			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/AC5m0wzuMTw3JbKP4uIZXFpC/cards', {
+				card_uri: '/v1/cards/deadbeef'
+			}));
+		});
+});
+
+test('can add card with postal code', function(assert) {
+	var createSpy = sinon.spy(Balanced.Adapter, "create");
+	var tokenizingStub = sinon.stub(balanced.card, "create");
+	tokenizingStub.callsArgWith(1, {
+		status: 201,
+		data: {
+			uri: "/v1/cards/deadbeef"
+		}
+	});
+
+	visit(customerPage)
+		.click('.card-info a.add')
+		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
+		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
+		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
+		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
+		.fillIn('#add-card .modal-body input[name="postal_code"]', '94612')
+		.click('#add-card .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+
+			assert.ok(tokenizingStub.calledWith({
+				card_number: "1234123412341234",
+				expiration_month: 1,
+				expiration_year: 2020,
+				security_code: "123",
+				name: "TEST",
+				postal_code: "94612"
 			}));
 
 			assert.ok(createSpy.calledOnce);
