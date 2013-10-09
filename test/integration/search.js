@@ -17,6 +17,10 @@ module('Search', {
 		}
 		marketplaceRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID;
 		Balanced.Auth.set('signedIn', true);
+
+		// add some delay, because the API takes some time to add things to search
+		stop();
+		setTimeout(start, 2 * 1000);
 	},
 	teardown: function() {
 		Ember.run(function() {
