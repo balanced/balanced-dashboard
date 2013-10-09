@@ -52,7 +52,8 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 			expiration_month: this.get('expiration_month'),
 			expiration_year: this.get('expiration_year'),
 			security_code: this.get('security_code'),
-			name: this.get('name')
+			name: this.get('name'),
+			postal_code: this.get('postal_code')
 		};
 
 		// Tokenize the card using the balanced.js library

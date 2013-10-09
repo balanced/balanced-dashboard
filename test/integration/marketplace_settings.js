@@ -230,7 +230,8 @@ test('can create cards', function(assert) {
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",
-				name: "TEST"
+				name: "TEST",
+				postal_code: ""
 			}));
 			assert.ok(createSpy.calledOnce);
 			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/CU1DkfCFcAemmM99fabUso2c/cards', {

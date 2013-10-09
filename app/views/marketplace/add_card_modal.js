@@ -16,7 +16,8 @@ Balanced.AddCardModalView = Balanced.View.extend({
 				card_number: '',
 				security_code: '',
 				expiration_month: '',
-				expiration_year: ''
+				expiration_year: '',
+				postal_code: ''
 			});
 			this.set('model', card);
 			$('#add-card').modal({
