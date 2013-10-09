@@ -2,6 +2,7 @@ var reversalsRoute;
 
 module('Reversals', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
 			Balanced.Debit.create({
 				uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',

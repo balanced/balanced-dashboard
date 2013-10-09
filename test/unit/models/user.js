@@ -1,4 +1,8 @@
-module('Balanced.User');
+module('Balanced.User', {
+	setup: function() {
+		Balanced.TEST.setupFixtures();
+	}
+});
 
 test('has an email address', function(assert) {
 	var user;

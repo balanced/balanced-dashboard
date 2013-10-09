@@ -2,6 +2,7 @@ var addCustomerRoutePath;
 
 module('AddCustomer', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		addCustomerRoutePath = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/add_customer';
 	},
 	teardown: function() {}

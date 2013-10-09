@@ -1,4 +1,8 @@
-module('Balanced.Marketplace');
+module('Balanced.Marketplace', {
+	setup: function() {
+		Balanced.TEST.setupFixtures();
+	}
+});
 
 test('has a name', function(assert) {
 	var marketplace;

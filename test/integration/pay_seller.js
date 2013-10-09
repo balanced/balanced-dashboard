@@ -2,6 +2,7 @@ var marketplaceRoute;
 
 module('Pay Seller', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		marketplaceRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID;
 	},
 	teardown: function() {

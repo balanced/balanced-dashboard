@@ -2,6 +2,7 @@ var holdRoute;
 
 module('Holds', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		var uri, user;
 		Ember.run(function() {
 			Balanced.Customer.create({

@@ -2,6 +2,7 @@ var marketplaceIndexRoute;
 
 module('Marketplaces.Index', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		marketplaceIndexRoute = '/marketplaces';
 	},
 	teardown: function() {

@@ -2,6 +2,7 @@ var customerRoute;
 
 module('Customer Page', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		customerRoute = '/marketplaces/' +
 			Balanced.TEST.MARKETPLACE_ID + '/customers/' +
 			Balanced.TEST.CUSTOMER_ID;

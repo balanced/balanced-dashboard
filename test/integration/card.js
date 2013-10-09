@@ -2,6 +2,7 @@ var settingsRoutePath;
 
 module('Card Page', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		settingsRoutePath = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
 		Ember.run(function() {
 			Balanced.Card.create({

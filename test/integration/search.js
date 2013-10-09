@@ -2,6 +2,7 @@ var marketplaceRoute;
 
 module('Search', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		var i = 4;
 		while(i > 0) {
 			Ember.run(function() {

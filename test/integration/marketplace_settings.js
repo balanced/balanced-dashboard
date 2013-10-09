@@ -2,6 +2,7 @@ var settingsRoute;
 
 module('Marketplaces Settings', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
 		Ember.run(function() {
 			Balanced.Card.create({

@@ -2,6 +2,7 @@ var settingsRoute, bankAccountRoute;
 
 module('Bank Account Page', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
 		Ember.run(function() {
 			Balanced.BankAccount.create({

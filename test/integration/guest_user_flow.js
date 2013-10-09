@@ -1,5 +1,7 @@
 module('Guest', {
-	setup: function() {},
+	setup: function() {
+		Balanced.TEST.setupMarketplace();
+	},
 	teardown: function() {}
 });
 

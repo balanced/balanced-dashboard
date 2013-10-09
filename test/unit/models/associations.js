@@ -1,5 +1,6 @@
 module('Balanced.Model.Associations', {
 	setup: function() {
+		Balanced.TEST.setupFixtures();
 		Balanced.TestModel = Balanced.Model.extend({
 			basic_field: 1,
 			derived_field: function() {

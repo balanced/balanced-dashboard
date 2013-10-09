@@ -1,5 +1,6 @@
 module('Invoices', {
 	setup: function() {
+		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
 			Balanced.Adapter = Balanced.FixtureAdapter.create();
 			window.setupTestFixtures();
