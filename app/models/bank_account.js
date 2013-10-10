@@ -3,8 +3,8 @@ require('app/models/funding_instrument');
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	uri: '/bank_accounts',
 
-	verifications: Balanced.Model.hasMany('verifications', 'Balanced.Verification'),
-	verification: Balanced.Model.belongsTo('verification', 'Balanced.Verification'),
+	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
+	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
 	type_name: function() {
 		return 'Bank Account';
@@ -42,15 +42,15 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	can_verify: function() {
 		return (!this.get('can_debit') && !this.get('can_confirm_verification') &&
-			(this.get('customer') || this.get('account'))) || Ember.testing;
-	}.property('can_debit', 'can_confirm_verification'),
+			this.get('customer')) || Ember.testing;
+	}.property('can_debit', 'can_confirm_verification', 'customer'),
 
 	can_confirm_verification: function() {
 		return (this.get('verification') &&
-			this.get('verification.state') !== 'failed' &&
-			this.get('verification.state') !== 'verified' &&
-			this.get('verification.remaining_attempts') > 0) || Ember.testing;
-	}.property('verification', 'verification.state', 'verification.remaining_attempts'),
+			this.get('verification.verification_status') !== 'failed' &&
+			this.get('verification.verification_status') !== 'verified' &&
+			this.get('verification.attempts_remaining') > 0) || Ember.testing;
+	}.property('verification', 'verification.verification_status', 'verification.attempts_remaining'),
 
 	tokenizeAndCreate: function(customerId) {
 		var self = this;

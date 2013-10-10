@@ -49,7 +49,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 								// verification uri until it's created so we
 								// are forced to create it here.
 								var verification = Balanced.Verification.create({
-									uri: bankAccount.get('verifications_uri')
+									uri: bankAccount.get('bank_account_verifications_uri')
 								});
 								verification.save().then(function() {
 									//  annnnd we're done

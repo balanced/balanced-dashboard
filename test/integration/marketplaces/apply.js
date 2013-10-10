@@ -69,7 +69,7 @@ test('application submits properly', function(assert) {
 
 	});
 	createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
-		verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
+		bank_account_verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
 	});
 	createStub.withArgs(Balanced.Verification).callsArgWith(3, {
 

@@ -42,7 +42,7 @@ Balanced.Credit.reopenClass({
 		serialize: function(record) {
 			var json = this._super(record);
 
-			var bankAccount = record.get('bank_account');
+			var bankAccount = record.get('destination');
 			if (bankAccount) {
 				json.bank_account = bankAccount.constructor.serializer.serialize(bankAccount);
 			}

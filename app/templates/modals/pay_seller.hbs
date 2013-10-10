@@ -10,21 +10,21 @@
         <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label class="control-label">Account holder's name</label>
             <div class="controls">
-                {{view Ember.TextField valueBinding="view.model.bank_account.name" class="full"}}
+                {{view Ember.TextField valueBinding="view.model.destination.name" class="full"}}
             </div>
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.routing_number:error"}}>
             <label class="control-label">Routing Number</label>
             <div class="controls">
-                {{view Ember.TextField valueBinding="view.model.bank_account.routing_number" class="full"}}
+                {{view Ember.TextField valueBinding="view.model.destination.routing_number" class="full"}}
             </div>
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.account_number:error"}}>
             <label class="control-label">Account number</label>
             <div class="controls">
-                {{view Ember.TextField valueBinding="view.model.bank_account.account_number" class="full"}}
+                {{view Ember.TextField valueBinding="view.model.destination.account_number" class="full"}}
             </div>
         </div>
 
@@ -35,7 +35,7 @@
                        contentBinding="Balanced.BANK_ACCOUNT_TYPES"
                        optionValuePath="content.value"
                        optionLabelPath="content.label"
-                       valueBinding="view.model.bank_account.type"
+                       valueBinding="view.model.destination.type"
                 }}
             </div>
         </div>
@@ -51,9 +51,9 @@
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-            <label class="control-label">Appears on statement as ({{view.model.bank_account.appears_on_statement_max_length}} characters max)</label>
+            <label class="control-label">Appears on statement as ({{view.model.destination.appears_on_statement_max_length}} characters max)</label>
             <div class="controls">
-                {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.bank_account.appears_on_statement_max_length"}}
+                {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.destination.appears_on_statement_max_length"}}
             </div>
         </div>
 

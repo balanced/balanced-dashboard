@@ -73,7 +73,7 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 				throw new Error("Undefined value for URL macro");
 			}
 
-			if(replacement === null) {
+			if (replacement === null) {
 				throw new Error("Null value for URL macro");
 			}
 

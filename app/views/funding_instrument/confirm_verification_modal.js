@@ -16,7 +16,7 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 		var verification = this.get('funding_instrument.verification');
 		if (Ember.testing) {
 			verification = Balanced.Verification.create({
-				uri: this.get('funding_instrument.verifications_uri'),
+				uri: this.get('funding_instrument.bank_account_verifications_uri'),
 				state: 'deposit_succeeded'
 			});
 		}
