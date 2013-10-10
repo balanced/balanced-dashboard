@@ -22,7 +22,6 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 	},
 
 	create: function(type, uri, data, success, error, settings) {
-		console.log(arguments);
 		settings = settings || {};
 		settings.data = data;
 		settings.error = error;

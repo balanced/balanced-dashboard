@@ -40,9 +40,13 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('last_four', 'bank_name'),
 
+	can_debit_account: function() {
+		return !!Ember.testing || this.get('can_debit');
+	}.property('can_debit'),
+
 	can_verify: function() {
-		return (!this.get('can_debit') && !this.get('can_confirm_verification') &&
-			this.get('customer')) || Ember.testing;
+		return !!Ember.testing || (!this.get('can_debit') && !this.get('can_confirm_verification') &&
+			this.get('customer'));
 	}.property('can_debit', 'can_confirm_verification', 'customer'),
 
 	can_confirm_verification: function() {

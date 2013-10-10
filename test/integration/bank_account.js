@@ -21,27 +21,25 @@ module('Bank Account Page', {
 });
 
 test('can view bank account page', function(assert) {
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(bankAccountRoute)
 		.then(function() {
 			assert.equal($("#content h1").text().trim(), 'Bank Account');
-			assert.equal($(".title span").text().trim(), 'TEST-MERCHANT-BANK-ACCOUNT (5555)');
+			assert.equal($(".title span").text().trim(), 'Test Account (1234)');
 		});
 });
 
 test('credit bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(bankAccountRoute)
 		.click(".main-header .buttons a.credit-button")
 		.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			// should be one create for the debit
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits', sinon.match({
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Credit, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/credits', sinon.match({
 				amount: 100000,
 				description: "Test credit"
 			})));
@@ -51,8 +49,7 @@ test('credit bank account', function(assert) {
 test('crediting only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(bankAccountRoute)
 		.click(".main-header .buttons a.credit-button")
 		.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
@@ -66,17 +63,16 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 });
 
 test('debit bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(bankAccountRoute)
 		.click(".main-header .buttons a.debit-button")
 		.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
 		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, sinon.match(/\/v1\/bank_accounts\/(.*)\/debits/), sinon.match({
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Debit, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/debits', sinon.match({
 				amount: 100000,
 				description: "Test debit"
 			})));
@@ -86,8 +82,7 @@ test('debit bank account', function(assert) {
 test('debiting only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(bankAccountRoute)
 		.click(".main-header .buttons a.debit-button")
 		.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
@@ -115,7 +110,7 @@ test('can initiate bank account verification', function(assert) {
 		.then(function() {
 			click('#verify-bank-account .modal-footer button[name="modal-submit"]');
 			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Verification, sinon.match(/\/v1\/bank_accounts\/(.*)\/verifications/)));
+			assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
 		});
 });
 
@@ -136,7 +131,7 @@ test('can confirm bank account verification', function(assert) {
 		.click('#confirm-verification .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Verification, sinon.match(/\/v1\/bank_accounts\/(.*)\/verifications/)));
+			assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
 			assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
 			assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
 			assert.ok(stub.getCall(0).args[2].state, "pending");
