@@ -52,7 +52,7 @@ test('can visit page', function(assert) {
 test('can reverse credit', function(assert) {
 	Balanced.Auth.get('user').set('admin', true);
 
-	var spy = sinon.stub(Balanced.Adapter, "create");
+	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(creditRoute).then(function() {
 		return click(".reverse-credit-button");
@@ -67,7 +67,7 @@ test('can reverse credit', function(assert) {
 });
 
 test('can edit credit', function(assert) {
-	var spy = sinon.stub(Balanced.Adapter, "update");
+	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(creditRoute)
 		.click('.credit .transaction-info a.edit')

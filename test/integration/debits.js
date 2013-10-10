@@ -4,15 +4,24 @@ module('Debits', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
-			Balanced.Debit.create({
-				uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
-				appears_on_statement_as: 'Pixie Dust',
-				amount: 10000,
-				description: 'Cocaine'
-			}).save().then(function(debit) {
-				Balanced.TEST.DEBIT_ID = debit.get('id');
-				debitRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-					'/debits/' + Balanced.TEST.DEBIT_ID;
+			Balanced.Card.create({
+				uri: '/cards',
+				name: 'Test Card',
+				number: "4111111111111111",
+				expiration_month: '12',
+				expiration_year: '2020',
+				security_code: '123'
+			}).save().then(function(card) {
+				Balanced.Debit.create({
+					uri: card.get('debits_uri'),
+					appears_on_statement_as: 'Pixie Dust',
+					amount: 10000,
+					description: 'Cocaine'
+				}).save().then(function(debit) {
+					Balanced.TEST.DEBIT_ID = debit.get('id');
+					Balanced.TEST.DEBIT_URI = debit.get('uri');
+					debitRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/debits/' + Balanced.TEST.DEBIT_ID;
+				});
 			});
 		});
 	},
@@ -36,15 +45,9 @@ test('can refund debit', function(assert) {
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Refund));
-			assert.equal(spy.getCall(0).args[2].debit_uri, '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/debits/' + Balanced.TEST.DEBIT_ID);
+			assert.equal(spy.getCall(0).args[2].debit_uri, Balanced.TEST.DEBIT_URI);
 			assert.equal(spy.getCall(0).args[2].amount, '1000');
 		});
-});
-
-test("can't refund failed debit", function(assert) {
-	visit(debitRoute + '-FAILED').then(function() {
-		assert.equal($(".refund-debit-button").length, 0);
-	});
 });
 
 test('can edit debit', function(assert) {
