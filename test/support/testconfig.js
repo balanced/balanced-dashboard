@@ -44,46 +44,31 @@ QUnit.testStart(function(test) {
 	};
 
 	// build up test fixtures
-	Balanced.TEST.setupMarketplace = function(force) {
-		currentModule = module;
-		if (currentModule !== lastModule || force) {
-			lastModule = currentModule;
-			Ember.run(function() {
-				Balanced.Auth.createNewGuestUser().then(function(apiKey) {
-					var apiKeySecret = apiKey.get('secret');
-					var settings = {
-						headers: {
-							Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-						}
-					};
-					return Balanced.Marketplace.create().save(settings);
-				}).then(function(marketplace) {
-					Balanced.Auth.setupGuestUserMarketplace(marketplace);
-					Balanced.TEST.marketplace = marketplace;
-					marketplaceId = Balanced.TEST.MARKETPLACE_ID = marketplace.get('id');
+	Balanced.TEST.setupMarketplace = function() {
+		Ember.run(function() {
+			Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+				var apiKeySecret = apiKey.get('secret');
+				var settings = {
+					headers: {
+						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+					}
+				};
+				return Balanced.Marketplace.create().save(settings);
+			}).then(function(marketplace) {
+				var uri = marketplace.get('uri');
+				var id = uri.substr(uri.lastIndexOf('/') + 1);
+				Balanced.Auth.setupGuestUserMarketplace(marketplace);
 
-					balanced.init(marketplace.get('uri'));
+				Balanced.TEST.MARKETPLACE_ID = id;
+				Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer.id');
+				Balanced.TEST.CUSTOMER_ROUTE = '/marketplaces/' +
+					Balanced.TEST.MARKETPLACE_ID + '/customers/' +
+					Balanced.TEST.CUSTOMER_ID;
 
-					marketplace.get('owner_customer').then(function(customer) {
-						Balanced.TEST.customer = customer;
-						customerId = Balanced.TEST.CUSTOMER_ID = customer.get('id');
-					});
-
-					console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
-				});
+				console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 			});
-		} else {
-			Ember.run(function() {
-				Balanced.Auth.rememberMeSignIn();
-				Balanced.TEST.MARKETPLACE_ID = marketplaceId;
-				Balanced.TEST.CUSTOMER_ID = customerId;
-			});
-		}
+		});
 	};
-
-	Balanced.TEST.bankAccountTokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	Balanced.TEST.cardTokenizingStub = sinon.stub(balanced.card, "create");
-	Balanced.TEST.balancedInitStub = sinon.stub(balanced, "init");
 });
 
 QUnit.testDone(function(test) {
