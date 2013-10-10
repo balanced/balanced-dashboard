@@ -25,7 +25,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 	status_description: function() {
 		if (this.get('status') === 'pending') {
 			return "Credit is processing, funds will be available the next business day unless there is an issue with the bank account.";
-		} else if (this.get('status') === 'paid') {
+		} else if (this.get('status') === 'succeeded') {
 			return "Funds are now available. If there is an issue with the bank account, a \"Failed\" status and rejection reason will be displayed here.";
 		} else if (this.get('status') === 'failed') {
 			return "Update the customer account with corrected bank account information. Then resubmit the credit.";

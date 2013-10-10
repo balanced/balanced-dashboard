@@ -9,7 +9,7 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 	actions: {
 		open: function() {
 			var debit = Balanced.Debit.create({
-				uri: this.get('hold.customer.debits_uri'),
+				uri: this.get('hold.debits_uri'),
 				hold_uri: this.get('hold.uri'),
 				amount: null
 			});

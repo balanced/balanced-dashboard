@@ -13,7 +13,7 @@ Balanced.HoldCardModalView = Balanced.View.extend({
 
 	open: function() {
 		var hold = Balanced.Hold.create({
-			uri: this.get('funding_instrument.customer.holds_uri'),
+			uri: this.get('funding_instrument.card_holds_uri'),
 			source_uri: this.get('funding_instrument.uri'),
 			amount: null
 		});
