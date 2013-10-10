@@ -28,7 +28,7 @@ test('can create person customer', function(assert) {
 		.fillIn('#add-customer input[name="address.line2"]', 'Ste 400')
 		.fillIn('#add-customer input[name="address.city"]', 'oakland')
 		.fillIn('#add-customer .country-select', 'US')
-		.fillIn('#add-customer input[name="address.region"]', 'ca')
+		.fillIn('#add-customer input[name="address.state"]', 'ca')
 		.fillIn('#add-customer input[name="address.postal_code"]', '94612')
 		.fillIn('#add-customer input[name="phone"]', '1231231234')
 		.fillIn('#add-customer input[name="dob_month"]', '12')
@@ -45,7 +45,7 @@ test('can create person customer', function(assert) {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
-			assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', sinon.match({
+			assert.ok(spy.calledWith(Balanced.Customer, '/customers', sinon.match({
 				name: 'TEST',
 				applicationType: 'PERSON',
 				address: {
@@ -54,9 +54,10 @@ test('can create person customer', function(assert) {
 					line1: "1234 main street",
 					line2: "Ste 400",
 					postal_code: "94612",
-					region: "ca"
+					state: "ca"
 				},
-				dob: "1930-12",
+				dob_month: "12",
+				dob_year: "1930",
 				email: "nick@example.com",
 				facebook: "kleinsch",
 				phone: "1231231234",
@@ -80,7 +81,7 @@ test('can create business customer', function(assert) {
 		.fillIn('#add-customer input[name="address.line2"]', 'Ste 200')
 		.fillIn('#add-customer input[name="address.city"]', 'oakland')
 		.fillIn('#add-customer .country-select', 'USA')
-		.fillIn('#add-customer input[name="address.region"]', 'ca')
+		.fillIn('#add-customer input[name="address.state"]', 'ca')
 		.fillIn('#add-customer input[name="address.postal_code"]', '94612')
 		.fillIn('#add-customer input[name="phone"]', '1231231234')
 		.fillIn('#add-customer input[name="dob_month"]', '12')
@@ -97,7 +98,7 @@ test('can create business customer', function(assert) {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
-			assert.ok(spy.calledWith(Balanced.Customer, '/v1/customers', sinon.match({
+			assert.ok(spy.calledWith(Balanced.Customer, '/customers', sinon.match({
 				name: "TEST",
 				applicationType: "BUSINESS",
 				business_name: "Something Inc",
@@ -106,9 +107,10 @@ test('can create business customer', function(assert) {
 					line1: "1234 main street",
 					line2: "Ste 200",
 					postal_code: "94612",
-					region: "ca"
+					state: "ca"
 				},
-				dob: "1930-12",
+				dob_month: "12",
+				dob_year: "1930",
 				ein: "123123123",
 				email: "nick@example.com",
 				facebook: "kleinsch",
