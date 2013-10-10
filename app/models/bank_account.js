@@ -79,8 +79,16 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 				self.set('isSaving', false);
 				promise.reject();
 			} else {
+				(function() {
+					// the response is fake in testing
+					if( !!Ember.testing) {
+						return Balanced.BankAccount.create(bankAccountData).save();
+					} else {
+						return Balanced.BankAccount.find(response.bank_accounts[0].href);
+					}
+				})()
 				// Now that it's been tokenized, we just need to associate it with the customer's account
-				Balanced.BankAccount.find(response.bank_accounts[0].href).then(function(bankAccount) {
+				.then(function(bankAccount) {
 					bankAccount.set('links.customer', customerId);
 
 					bankAccount.save().then(function() {

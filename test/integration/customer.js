@@ -192,7 +192,7 @@ test('when crediting customer triggers an error, the error is displayed to the u
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.equal($('.alert-error').first().text().trim(), "My error");
+			assert.equal($('.alert-error').is(':visible'), true);
 		});
 });
 
@@ -214,8 +214,9 @@ test("can't credit customer multiple times using the same modal", function(asser
 });
 
 test('can add bank account', function(assert) {
-	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
+	var spy = sinon.spy(Balanced.Adapter, "create");
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/bank_accounts/deadbeef"
@@ -230,23 +231,23 @@ test('can add bank account', function(assert) {
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
-			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
+			var input = {
 				type: "checking",
 				name: "TEST",
 				account_number: "123",
 				routing_number: "123123123"
-			}));
-			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', sinon.match({
-				bank_account_uri: '/bank_accounts/deadbeef'
-			})));
+			};
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith(input));
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.BankAccount, '/bank_accounts', sinon.match(input)));
 		});
 });
 
 test('can add card', function(assert) {
-	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	var tokenizingStub = sinon.stub(balanced.card, "create");
+	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/cards/deadbeef"
@@ -262,26 +263,25 @@ test('can add card', function(assert) {
 		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
-
-			assert.ok(tokenizingStub.calledWith(sinon.match({
-				card_number: "1234123412341234",
+			var input = {
+				number: "1234123412341234",
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",
 				name: "TEST"
-			})));
+			};
 
-			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', sinon.match({
-				card_uri: '/cards/deadbeef'
-			})));
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith(sinon.match(input)));
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Card, '/cards', sinon.match(input)));
 		});
 });
 
 test('can add card with postal code', function(assert) {
-	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	var tokenizingStub = sinon.stub(balanced.card, "create");
+	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/cards/deadbeef"
@@ -291,27 +291,25 @@ test('can add card with postal code', function(assert) {
 	visit(customerRoute)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-card .modal-body input[name="card_number"]', '4111111111111111')
+		.fillIn('#add-card .modal-body input[name="number"]', '1234123412341234')
 		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
 		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
 		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
 		.fillIn('#add-card .modal-body input[name="postal_code"]', '94612')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
-
-			assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
-				card_number: "4111111111111111",
+			var input = {
+				number: "1234123412341234",
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",
 				name: "TEST",
 				postal_code: "94612"
-			}));
+			};
 
-			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', sinon.match({
-				card_uri: '/v1/cards/deadbeef'
-			})));
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith(input));
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Card, '/cards', sinon.match(input)));
 		});
 });

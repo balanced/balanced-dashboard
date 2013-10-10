@@ -26,7 +26,7 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 });
 
 test('claim account creates a login', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 	var emailAddress = 'marshall@example.com',
 		password = 'SupahSecret123~!';
 
@@ -40,8 +40,8 @@ test('claim account creates a login', function(assert) {
 		.fillIn('[name="passwordConfirm"]', password)
 		.click('#claim-form button')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Claim, '/users', sinon.match({
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Claim, '/users', sinon.match({
 				email_address: emailAddress,
 				password: password
 			})));

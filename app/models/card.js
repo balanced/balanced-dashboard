@@ -99,8 +99,18 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 				self.set('isSaving', false);
 				promise.reject();
 			} else {
+				(function() {
+					// the response is fake in testing
+					if( !!Ember.testing) {
+						return Balanced.Card.create($.extend({
+							uri: '/cards'
+						}, cardData)).save();
+					} else {
+						return Balanced.Card.find(response.cards[0].href);
+					}
+				})()
 				// Now that it's been tokenized, we just need to associate it with the customer's account
-				Balanced.Card.find(response.cards[0].href).then(function(card) {
+				.then(function(card) {
 					card.set('links.customer', customerId);
 
 					card.save().then(function() {
