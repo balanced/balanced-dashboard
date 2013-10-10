@@ -15,7 +15,6 @@ test('visiting start creates a marketplace', function(assert) {
 });
 
 test('viewing settings page as guest, can view api secret key', function(assert) {
-
 	visit('/marketplaces/' + Balanced.TEST.MARKETPLACE_ID)
 		.click('li.settings a')
 		.click('.control-group .controls .api-key-secret a')

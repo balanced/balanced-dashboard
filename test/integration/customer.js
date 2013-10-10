@@ -33,7 +33,7 @@ test('can edit customer info', function(assert) {
 });
 
 test('can update customer info', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var stub = sinon.stub(Balanced.Adapter, "update");
 
 	visit(customerRoute)
 		.click('.customer-info a.edit')
@@ -42,9 +42,10 @@ test('can update customer info', function(assert) {
 		.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
 		.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
 		.click('#edit-customer-info a.more-info')
-		.fillIn('#edit-customer-info .modal-body input[name="street_address"]', '600 William St')
+		.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
+		.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 400')
 		.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
-		.fillIn('#edit-customer-info .modal-body input[name="region"]', 'CA')
+		.fillIn('#edit-customer-info .modal-body input[name="state"]', 'CA')
 		.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
 		.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '12345')
 		.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
@@ -53,29 +54,29 @@ test('can update customer info', function(assert) {
 		.fillIn('#edit-customer-info .modal-body input[name="ssn_last4"]', '1234')
 		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Customer));
-			assert.equal(spy.getCall(0).args[2].name, "TEST");
-			assert.equal(spy.getCall(0).args[2].email, "TEST@example.com");
-			assert.equal(spy.getCall(0).args[2].business_name, "TEST");
-			assert.equal(spy.getCall(0).args[2].ein, "1234");
-			assert.equal(spy.getCall(0).args[2].address.street_address, "600 William St");
-			assert.equal(spy.getCall(0).args[2].address.city, "Oakland");
-			assert.equal(spy.getCall(0).args[2].address.region, "CA");
-			assert.equal(spy.getCall(0).args[2].address.country_code, "US");
-			assert.equal(spy.getCall(0).args[2].address.postal_code, "12345");
-			assert.equal(spy.getCall(0).args[2].phone, "1231231234");
-			assert.equal(spy.getCall(0).args[2].dob, "1924-12");
-			assert.equal(spy.getCall(0).args[2].ssn_last4, "1234");
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Customer));
+			assert.equal(stub.getCall(0).args[2].name, "TEST");
+			assert.equal(stub.getCall(0).args[2].email, "TEST@example.com");
+			assert.equal(stub.getCall(0).args[2].business_name, "TEST");
+			assert.equal(stub.getCall(0).args[2].ein, "1234");
+			assert.equal(stub.getCall(0).args[2].address.line1, "600 William St");
+			assert.equal(stub.getCall(0).args[2].address.line2, "Apt 400");
+			assert.equal(stub.getCall(0).args[2].address.city, "Oakland");
+			assert.equal(stub.getCall(0).args[2].address.state, "CA");
+			assert.equal(stub.getCall(0).args[2].address.country_code, "US");
+			assert.equal(stub.getCall(0).args[2].address.postal_code, "12345");
+			assert.equal(stub.getCall(0).args[2].phone, "1231231234");
+			assert.equal(stub.getCall(0).args[2].dob_month, "12");
+			assert.equal(stub.getCall(0).args[2].dob_year, "1924");
+			assert.equal(stub.getCall(0).args[2].ssn_last4, "1234");
 		});
 });
 
 test('can debit customer using card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.Adapter.asyncCallbacks = true;
 
-	visit(customerRoute);
-	wait().then(function() {
+	visit(customerRoute).then(function() {
 		// click the debit customer button
 		return click(".customer-header .buttons a.debit-customer");
 	}).then(function() {
@@ -97,7 +98,7 @@ test('can debit customer using card', function(assert) {
 	}).then(function() {
 		// should be one create for the debit
 		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', sinon.match({
+		assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', sinon.match({
 			amount: 100000,
 			description: "Test debit"
 		})));
@@ -130,7 +131,7 @@ test('can debit customer using bank account', function(assert) {
 			click('#debit-customer .modal-footer button[name="modal-submit"]');
 
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', sinon.match({
+			assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', sinon.match({
 				amount: 100000,
 				description: "Test debit"
 			})));
@@ -177,7 +178,7 @@ test('can credit customer', function(assert) {
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits', sinon.match({
+			assert.ok(spy.calledWith(Balanced.Credit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits', sinon.match({
 				amount: 100000,
 				description: "Test credit"
 			})));
@@ -185,19 +186,9 @@ test('can credit customer', function(assert) {
 });
 
 test('when crediting customer triggers an error, the error is displayed to the user', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-	stub.callsArgWith(4, {
-		status: 400,
-		responseText: "",
-		responseJSON: {
-			extras: {},
-			description: "My error"
-		}
-	}, null, null);
-
 	visit(customerRoute)
 		.click($(".customer-header .buttons a").eq(1))
-		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
+		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '10000')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -227,7 +218,7 @@ test('can add bank account', function(assert) {
 	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
-			uri: "/v1/bank_accounts/deadbeef"
+			uri: "/bank_accounts/deadbeef"
 		}
 	});
 
@@ -247,8 +238,8 @@ test('can add bank account', function(assert) {
 				routing_number: "123123123"
 			}));
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', sinon.match({
-				bank_account_uri: '/v1/bank_accounts/deadbeef'
+			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', sinon.match({
+				bank_account_uri: '/bank_accounts/deadbeef'
 			})));
 		});
 });
@@ -265,7 +256,7 @@ test('can add card', function(assert) {
 	visit(customerRoute)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-card .modal-body input[name="card_number"]', '4111111111111111')
+		.fillIn('#add-card .modal-body input[name="number"]', '1234123412341234')
 		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
 		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
 		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
@@ -273,18 +264,17 @@ test('can add card', function(assert) {
 		.then(function() {
 			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
 
-			assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
-				card_number: "4111111111111111",
+			assert.ok(tokenizingStub.calledWith(sinon.match({
+				card_number: "1234123412341234",
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",
-				name: "TEST",
-				postal_code: ""
-			}));
+				name: "TEST"
+			})));
 
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', sinon.match({
-				card_uri: '/v1/cards/deadbeef'
+			assert.ok(createSpy.calledWith(Balanced.Card, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', sinon.match({
+				card_uri: '/cards/deadbeef'
 			})));
 		});
 });
@@ -294,7 +284,7 @@ test('can add card with postal code', function(assert) {
 	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
-			uri: "/v1/cards/deadbeef"
+			uri: "/cards/deadbeef"
 		}
 	});
 

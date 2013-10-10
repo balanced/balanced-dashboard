@@ -21,10 +21,10 @@ Balanced.NET = (function() {
 
 			var def = {
 				dataType: 'json',
+				contentType: 'application/json; charset=UTF-8',
 				accepts: {
 					json: 'application/vnd.balancedpayments+json; version=1.1'
 				},
-				contentType: 'application/json; charset=UTF-8',
 				headers: {}
 			};
 
@@ -47,6 +47,7 @@ Balanced.NET = (function() {
 					settings.data = JSON.stringify(settings.data);
 				}
 			}
+
 			settings = $.extend(def, settings);
 			return $.ajax(settings);
 		}
