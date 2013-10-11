@@ -1,38 +1,43 @@
 var reversalsRoute;
+var createdReversal;
 
 module('Reversals', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
-			Balanced.Debit.create({
-				uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
-				appears_on_statement_as: 'Pixie Dust',
-				amount: 100000,
-				description: 'Cocaine'
-			}).save();
-			Balanced.BankAccount.create({
-				name: 'Test Account',
-				account_number: '1234',
-				routing_number: '122242607',
-				type: 'checking'
-			}).save().then(function(bankAccount) {
+			Balanced.Card.create({
+				name: 'Test Card',
+				number: "4111111111111111",
+				expiration_month: '12',
+				expiration_year: '2020',
+				security_code: '123'
+			}).save().then(function(card) {
+				Balanced.Debit.create({
+					uri: card.get('debits_uri'),
+					amount: 100000
+				}).save();
+			}).then(function() {
+				return Balanced.BankAccount.create({
+					name: 'Test Account',
+					account_number: '1234',
+					routing_number: '122242607',
+					type: 'checking'
+				}).save();
+			}).then(function(bankAccount) {
 				Balanced.TEST.BANK_ACCOUNT_ID = bankAccount.get('id');
-				Balanced.NET.ajax({
-					url: ENV.BALANCED.API + '/v1/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/credits',
-					type: 'post',
-					data: {
-						amount: 100000
-					}
-				}).then(function(res) {
-					Balanced.TEST.CREDIT_ID = res.id;
-					return Balanced.NET.ajax({
-						url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/credits/' + Balanced.TEST.CREDIT_ID + '/reversals',
-						type: 'post'
-					});
-				}).done(function(res) {
-					Balanced.TEST.REVERSAL_ID = res.id;
-					reversalsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-						'/reversals/' + Balanced.TEST.REVERSAL_ID;
+
+				return Balanced.Credit.create({
+					uri: bankAccount.get('credits_uri'),
+					amount: 100000
+				}).save();
+			}).then(function(credit) {
+				Balanced.Reversal.create({
+					uri: credit.get('reversals_uri'),
+					credit_uri: credit.get('uri'),
+					amount: 100000
+				}).save().then(function(createdReversal) {
+					reversal = createdReversal;
+					reversalsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/reversals/' + reversal.get('id');
 				});
 			});
 		});

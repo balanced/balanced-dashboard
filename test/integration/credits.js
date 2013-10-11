@@ -5,7 +5,6 @@ module('Credits', {
 		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
 			Balanced.Card.create({
-				uri: '/cards',
 				name: 'Test Card',
 				number: "4111111111111111",
 				expiration_month: '12',
@@ -18,7 +17,6 @@ module('Credits', {
 				}).save();
 			}).then(function() {
 				return Balanced.BankAccount.create({
-					uri: '/bank_accounts',
 					name: 'Test Account',
 					account_number: '1234',
 					routing_number: '122242607',
