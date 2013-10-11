@@ -46,24 +46,12 @@ QUnit.testStart(function(test) {
 	// build up test fixtures
 	Balanced.TEST.setupMarketplace = function() {
 		Ember.run(function() {
-			Balanced.Auth.createNewGuestUser().then(function(apiKey) {
-				var apiKeySecret = apiKey.get('secret');
-				var settings = {
-					headers: {
-						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-					}
-				};
-				return Balanced.Marketplace.create().save(settings);
+			Balanced.Auth.createNewGuestUser().then(function() {
+				return Balanced.Marketplace.create().save();
 			}).then(function(marketplace) {
-				var uri = marketplace.get('uri');
-				var id = uri.substr(uri.lastIndexOf('/') + 1);
 				Balanced.Auth.setupGuestUserMarketplace(marketplace);
-
-				Balanced.TEST.MARKETPLACE_ID = id;
-				Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer.id');
-				Balanced.TEST.CUSTOMER_ROUTE = '/marketplaces/' +
-					Balanced.TEST.MARKETPLACE_ID + '/customers/' +
-					Balanced.TEST.CUSTOMER_ID;
+				Balanced.TEST.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
+				Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
 
 				console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 			});
