@@ -40,20 +40,16 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('last_four', 'bank_name'),
 
-	can_debit_account: function() {
-		return !!Ember.testing || this.get('can_debit');
-	}.property('can_debit'),
-
 	can_verify: function() {
-		return !!Ember.testing || (!this.get('can_debit') && !this.get('can_confirm_verification') &&
-			this.get('customer'));
+		return !this.get('can_debit') && !this.get('can_confirm_verification') &&
+			this.get('customer');
 	}.property('can_debit', 'can_confirm_verification', 'customer'),
 
 	can_confirm_verification: function() {
-		return (this.get('verification') &&
+		return this.get('verification') &&
 			this.get('verification.verification_status') !== 'failed' &&
 			this.get('verification.verification_status') !== 'verified' &&
-			this.get('verification.attempts_remaining') > 0) || Ember.testing;
+			this.get('verification.attempts_remaining') > 0;
 	}.property('verification', 'verification.verification_status', 'verification.attempts_remaining'),
 
 	tokenizeAndCreate: function(customerId) {
@@ -83,14 +79,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 				self.set('isSaving', false);
 				promise.reject();
 			} else {
-				(function() {
-					// the response is fake in testing
-					if( !!Ember.testing) {
-						return Balanced.BankAccount.create(bankAccountData).save();
-					} else {
-						return Balanced.BankAccount.find(response.bank_accounts[0].href);
-					}
-				})()
+				Balanced.BankAccount.find(response.bank_accounts[0].href)
 				// Now that it's been tokenized, we just need to associate it with the customer's account
 				.then(function(bankAccount) {
 					bankAccount.set('links.customer', customerId);

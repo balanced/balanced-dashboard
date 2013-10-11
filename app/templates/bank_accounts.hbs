@@ -14,14 +14,15 @@
 
             <div class="span10 buttons">
                 <div class="buttons-container">
-                    {{#if can_debit_account}}
+                    {{#if can_debit}}
                         <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
-                    {{/if}}
-                    {{#if can_verify}}
-                        <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
-                    {{/if}}
-                    {{#if can_confirm_verification}}
-                        <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                    {{else}}
+                        {{#if can_verify}}
+                            <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+                        {{/if}}
+                        {{#if can_confirm_verification}}
+                            <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                        {{/if}}
                     {{/if}}
                     <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
                 </div>

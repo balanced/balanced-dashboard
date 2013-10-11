@@ -14,12 +14,6 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 	open: function() {
 		this.set('failedConfirmation', false);
 		var verification = this.get('funding_instrument.verification');
-		if (Ember.testing) {
-			verification = Balanced.Verification.create({
-				uri: this.get('funding_instrument.bank_account_verifications_uri'),
-				state: 'deposit_succeeded'
-			});
-		}
 		this.set('model', verification);
 		$('#confirm-verification').modal({
 			manager: this.$()

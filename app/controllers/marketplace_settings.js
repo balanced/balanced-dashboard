@@ -2,7 +2,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	needs: ["marketplace"],
 
 	can_edit: function() {
-		return this.get('production') || Ember.testing;
+		return this.get('production');
 	}.property('production'),
 
 	actions: {
