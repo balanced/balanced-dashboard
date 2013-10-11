@@ -1,4 +1,5 @@
 var holdRoute;
+var hold;
 
 module('Holds', {
 	setup: function() {
@@ -6,38 +7,25 @@ module('Holds', {
 		var uri, user;
 		Ember.run(function() {
 			Balanced.Customer.create({
-				uri: '/v1/customers',
 				name: 'Dali Wali'
 			}).save().then(function(customer) {
 				user = customer;
 			});
 			Balanced.Card.create({
-				uri: '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/cards',
-				card_number: '4444400012123434',
 				name: 'Test Card',
-				expiration_year: 2020,
-				expiration_month: 11
+				number: "4111111111111111",
+				expiration_month: '12',
+				expiration_year: '2020',
+				security_code: '123'
 			}).save().then(function(card) {
-				uri = card.uri;
-				// ghetto workaround
-				return Balanced.NET.ajax({
-					url: ENV.BALANCED.API + user.uri,
-					type: 'put',
-					data: {
-						card_uri: uri
-					}
-				});
-			}).then(function() {
 				Balanced.Hold.create({
-					uri: '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/holds',
+					uri: card.get('card_holds_uri'),
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
-					description: 'Cocaine',
-					source_uri: uri
-				}).save().then(function(hold) {
-					Balanced.TEST.HOLD_ID = hold.get('id');
-					holdRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-						'/holds/' + Balanced.TEST.HOLD_ID;
+					description: 'Cocaine'
+				}).save().then(function(createdHold) {
+					hold = createdHold;
+					holdRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/holds/' + hold.get('id');
 				});
 			});
 		});
@@ -62,7 +50,7 @@ test('can void hold', function(assert) {
 		.click('#void-hold .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Hold, '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/holds/' + Balanced.TEST.HOLD_ID));
+			assert.ok(spy.calledWith(Balanced.Hold, hold.get('uri')));
 			assert.ok(spy.getCall(0).args[2].is_void);
 		});
 });
@@ -80,7 +68,7 @@ test('can capture hold', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Debit));
 			assert.equal(spy.getCall(0).args[2].amount, 1000);
 			assert.equal(spy.getCall(0).args[2].description, "Test debit");
-			assert.equal(spy.getCall(0).args[2].hold_uri, '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/holds/' + Balanced.TEST.HOLD_ID);
+			assert.equal(spy.getCall(0).args[2].hold_uri, hold.get('uri'));
 		});
 });
 

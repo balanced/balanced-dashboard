@@ -1,6 +1,8 @@
 require('app/models/card');
 
 Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
+	uri: '/cards',
+
 	validations: {
 		card_number: {
 			presence: true,
@@ -100,7 +102,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 				promise.reject();
 			} else {
 				Balanced.Card.find(response.cards[0].href)
-				
+
 				// Now that it's been tokenized, we just need to associate it with the customer's account
 				.then(function(card) {
 					card.set('links.customer', customerId);

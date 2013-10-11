@@ -7,6 +7,8 @@ Balanced.Customer = Balanced.Model.extend({
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 
+	uri: '/customers',
+
 	debitable_bank_accounts: function() {
 		var bank_accounts = this.get('bank_accounts');
 
