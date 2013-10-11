@@ -172,6 +172,25 @@ strong {
   display: inline-block;
 }
 
+.window {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+
+  .frame {
+    height: 200px;
+    width: 100%;
+    top: 50%;
+    position: absolute;
+    margin: -100px auto 0;
+    text-align: center;
+  }
+}
+
 @-webkit-keyframes rotation {
   from {
     -webkit-transform: rotate(0deg);
@@ -214,6 +233,7 @@ dl, dt, dd {
 @import "/static/less/popovers.less";
 @import "/static/less/search.less";
 @import "/static/less/pages.less";
+@import "/static/less/loading.less";
 @import "/static/less/icons.less";
 @import "/static/less/icon_font.less";
 @import "/static/less/login.less";

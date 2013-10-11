@@ -110,3 +110,20 @@
     color: rgba(255, 255, 255, 0.2);
   }
 }
+
+.animation (@name, @duration: 300ms, @ease: ease, @delay: 0) {
+  -webkit-animation: @name @duration @ease @delay;
+  -moz-animation: @name @duration @ease @delay;
+  -ms-animation: @name @duration @ease @delay;
+  animation: @name @duration @ease @delay;
+}
+
+.transform(@string){
+  -webkit-transform: translatez(0);
+  -moz-transform: translateZ(0);
+  -webkit-transform: @string;
+  -moz-transform: @string;
+  -ms-transform: @string;
+  -o-transform: @string;
+  transform: @string;
+}
