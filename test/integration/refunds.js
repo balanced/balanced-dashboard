@@ -1,22 +1,29 @@
 var refundRoute;
+var refund;
 
 module('Refunds', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
-			Balanced.Debit.create({
-				uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
-				appears_on_statement_as: 'Pixie Dust',
-				amount: 10000,
-				description: 'Cocaine'
-			}).save().then(function(debit) {
-				Balanced.TEST.DEBIT_ID = debit.get('id');
-				Balanced.NET.ajax({
-					url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/debits/' + Balanced.TEST.DEBIT_ID + '/refunds',
-					type: 'post'
-				}).done(function(res) {
-					refundRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-						'/refunds/' + res.id;
+			Balanced.Card.create({
+				name: 'Test Card',
+				number: "4111111111111111",
+				expiration_month: '12',
+				expiration_year: '2020',
+				security_code: '123'
+			}).save().then(function(card) {
+				Balanced.Debit.create({
+					uri: card.get('debits_uri'),
+					amount: 100000
+				}).save().then(function(debit) {
+					Balanced.Refund.create({
+						uri: debit.get('refunds_uri'),
+						debit_uri: debit.get('uri'),
+						amount: 10000
+					}).save().then(function(createdRefund) {
+						refund = createdRefund;
+						refundRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/refunds/' + createdRefund.get('id');
+					})
 				});
 			});
 		});
