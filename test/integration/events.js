@@ -1,15 +1,12 @@
 module('Events', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
-		var stop = window.stop;
-		stop();
-		setTimeout(start, 1000);
-		Balanced.NET.ajax({
-			url: ENV.BALANCED.API + '/v1/events',
-			type: 'get'
-		}).done(function(res) {
-			Balanced.TEST.EVENT_ID = res.items[0].id;
-		});
+		Ember.run(function() {
+			Balanced.Event.findAll().then(function(events) {
+				var evt = events.objectAt(0);
+				Balanced.TEST.EVENT_ID = evt.get('id');
+			});
+		})
 	},
 	teardown: function() {}
 });
