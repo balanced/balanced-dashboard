@@ -1,5 +1,5 @@
 var reversalsRoute;
-var createdReversal;
+var reversal;
 
 module('Reversals', {
 	setup: function() {

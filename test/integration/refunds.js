@@ -23,7 +23,7 @@ module('Refunds', {
 					}).save().then(function(createdRefund) {
 						refund = createdRefund;
 						refundRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/refunds/' + createdRefund.get('id');
-					})
+					});
 				});
 			});
 		});

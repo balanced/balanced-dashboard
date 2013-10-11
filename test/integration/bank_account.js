@@ -111,14 +111,14 @@ test('can initiate bank account verification', function(assert) {
 				assert.equal($('#content h1').text().trim(), 'Bank Account');
 				assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
 				click(".main-header .buttons a.verify-button")
-				.then(function() {
-					assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
-				})
-				.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					assert.ok(stub.calledOnce);
-					assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
-				});
+					.then(function() {
+						assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
+					})
+					.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
+					});
 			});
 		});
 });
@@ -143,18 +143,18 @@ test('can confirm bank account verification', function(assert) {
 				assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
 
 				click(".main-header .buttons a.confirm-verification-button")
-				.then(function() {
-					assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
-				})
-				.fillIn('#confirm-verification .modal-body input[name="amount_1"]', '1.00')
-				.fillIn('#confirm-verification .modal-body input[name="amount_2"]', '1.00')
-				.click('#confirm-verification .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					assert.ok(stub.calledOnce);
-					assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
-					assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
-					assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
-				});
+					.then(function() {
+						assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
+					})
+					.fillIn('#confirm-verification .modal-body input[name="amount_1"]', '1.00')
+					.fillIn('#confirm-verification .modal-body input[name="amount_2"]', '1.00')
+					.click('#confirm-verification .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
+						assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
+						assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
+					});
 			});
 		});
 });

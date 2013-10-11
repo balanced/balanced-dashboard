@@ -306,7 +306,7 @@ test('can add card', function(assert) {
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith(sinon.match(input)));
 			balanced.card.create.restore();
-			
+
 			//assert.ok(stub.calledOnce);
 			//assert.ok(stub.calledWith(Balanced.Card, '/cards', sinon.match(input)));
 		});

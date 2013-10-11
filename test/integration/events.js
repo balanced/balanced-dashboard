@@ -6,7 +6,7 @@ module('Events', {
 				var evt = events.objectAt(0);
 				Balanced.TEST.EVENT_ID = evt.get('id');
 			});
-		})
+		});
 	},
 	teardown: function() {}
 });
