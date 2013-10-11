@@ -49,7 +49,6 @@ QUnit.testStart(function(test) {
 			Balanced.Auth.createNewGuestUser().then(function() {
 				return Balanced.Marketplace.create().save();
 			}).then(function(marketplace) {
-				balanced.init('/v1' + marketplace.get('uri'));
 				Balanced.Auth.setupGuestUserMarketplace(marketplace);
 				Balanced.TEST.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
 				Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
