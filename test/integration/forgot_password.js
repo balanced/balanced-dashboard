@@ -17,7 +17,9 @@ test('clicking forgot password from login takes you to the page', function(asser
 });
 
 test('forgot password form submits', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
+
+	stub.callsArgWith(3, {"id": null, "email_address": "foo@bar.com"});
 
 	visit('/forgot_password')
 		.fillIn("form#forgot-form input[name=email_address]", 'foo@bar.com')
@@ -25,8 +27,8 @@ test('forgot password form submits', function(assert) {
 		.then(function() {
 			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
 
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.ForgotPassword, '/password', sinon.match({
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.ForgotPassword, '/password', sinon.match({
 				email_address: 'foo@bar.com'
 			})));
 		});
