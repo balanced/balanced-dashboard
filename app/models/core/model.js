@@ -17,7 +17,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	isValid: true,
 
 	displayErrorDescription: function() {
-		return (!this.get('isValid') || this.get('isError')) && !this.get('validationErrors');
+		return (!this.get('isValid') || this.get('isError')) &&
+			(!this.get('validationErrors') || !_.keys(this.get('validationErrors')).length);
 	}.property('isValid', 'isError', 'validationErrors'),
 
 	// computes the ID from the URI - exists because at times Ember needs the

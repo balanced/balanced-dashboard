@@ -1,9 +1,8 @@
-var settingsRoute, bankAccountRoute;
+var bankAccountRoute;
 
 module('Bank Account Page', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
-		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
 		Ember.run(function() {
 			Balanced.BankAccount.create({
 				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
@@ -12,7 +11,6 @@ module('Bank Account Page', {
 				routing_number: '122242607',
 				type: 'checking'
 			}).save().then(function(bankAccount) {
-				Balanced.TEST.BANK_ACCOUNT = bankAccount;
 				Balanced.TEST.BANK_ACCOUNT_ID = bankAccount.get('id');
 				bankAccountRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
 					'/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID;
