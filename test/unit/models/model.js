@@ -8,6 +8,10 @@ module('Balanced.Model', {
 			}.property('basic_field')
 		});
 
+		Balanced.TestModel.reopenClass({
+			serializer: Balanced.Rev0Serializer.create()
+		});
+
 		Balanced.Adapter.addFixtures([{
 			uri: '/v1/testobjects/1',
 			basic_field: 123
