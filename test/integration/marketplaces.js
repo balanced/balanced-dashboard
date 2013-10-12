@@ -3,7 +3,7 @@ var marketplaceIndexRoute;
 module('Marketplaces.Index', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
-		Balanced.Auth.set('isGuest', false);
+		Balanced.Utils.setCurrentMarketplace(null);
 		marketplaceIndexRoute = '/marketplaces';
 	},
 	teardown: function() {
@@ -17,7 +17,7 @@ test('view a marketplace sets the mru cookie', function(assert) {
 			Testing.selectMarketplaceByName();
 			assert.equal(
 				$.cookie(Balanced.COOKIE.MARKETPLACE_URI),
-				'/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID,
+				'/marketplaces/' + Balanced.TEST.MARKETPLACE_ID,
 				'mru cookie is set'
 			);
 		});
@@ -45,30 +45,27 @@ test('add test marketplace', function(assert) {
 		.fillIn(".marketplace-list.test li.new input[name='name']", 'NEW MARKETPLACE')
 		.click(".marketplace-list.test li.new form button")
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.UserMarketplace));
-			assert.equal(spy.getCall(0).args[1], '/users/guest/marketplaces');
-			assert.equal(spy.getCall(0).args[2].name, 'NEW MARKETPLACE');
+			assert.ok(spy.calledWith(Balanced.Marketplace));
 		});
 });
 
 test('add existing marketplace', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
+		Balanced.TEST.CUSTOMER_ID + '/marketplaces');
 
 	visit(marketplaceIndexRoute)
 		.fillIn(".marketplace-list.production li.new input[name='secret']", '1234')
 		.click(".marketplace-list.production li.new form button")
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.UserMarketplace, '/users/guest/marketplaces', sinon.match({
-				secret: '1234'
-			})));
+			assert.ok(stub.calledOnce);
 		});
 });
 
 test('delete marketplace', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var initialLength;
+	var stub = sinon.stub(Balanced.Adapter, "delete");
+	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
+		Balanced.TEST.CUSTOMER_ID + '/marketplaces');
 
 	visit(marketplaceIndexRoute)
 		.then(function() {
@@ -77,15 +74,14 @@ test('delete marketplace', function(assert) {
 		.click(".marketplace-list.test li:first-of-type .icon-delete")
 		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(spy.calledOnce, "Delete should have been called once");
-
-			// Can't check this bc guest users can't add/delete marketplaces
-			// assert.equal($(".marketplace-list.test li").length, initialLength - 1);
+			assert.ok(stub.calledOnce, "Delete should have been called once");
 		});
 });
 
 test('delete marketplace only deletes once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
+	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
+		Balanced.TEST.CUSTOMER_ID + '/marketplaces');
 
 	visit(marketplaceIndexRoute)
 		.click(".marketplace-list.test li:first-of-type .icon-delete")

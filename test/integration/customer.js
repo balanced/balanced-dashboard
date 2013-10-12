@@ -240,9 +240,6 @@ test('can add bank account', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
-		data: {
-			uri: "/bank_accounts/deadbeef"
-		},
 		bank_accounts: [{
 			href: '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID
 		}]
@@ -277,9 +274,6 @@ test('can add card', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
-		data: {
-			uri: "/v1/cards/deadbeef"
-		},
 		cards: [{
 			href: '/cards/' + Balanced.TEST.CARD_ID
 		}]
@@ -317,9 +311,6 @@ test('can add card with postal code', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
-		data: {
-			uri: "/cards/deadbeef"
-		},
 		cards: [{
 			href: '/cards/' + Balanced.TEST.CARD_ID
 		}]

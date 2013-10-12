@@ -7,7 +7,7 @@ module('Activity', {
 		Ember.run(function() {
 			while (i > 0) {
 				Balanced.Debit.create({
-					uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
+					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine'
