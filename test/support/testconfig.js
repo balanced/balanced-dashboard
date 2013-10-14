@@ -50,13 +50,8 @@ QUnit.testStart(function(test) {
 				return Balanced.Marketplace.create().save();
 			}).then(function(marketplace) {
 				Balanced.Auth.setupGuestUserMarketplace(marketplace);
-				Balanced.TEST.marketplace = marketplace;
 				Balanced.TEST.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
-
-				marketplace.get('owner_customer').then(function(customer) {
-					Balanced.TEST.customer = customer;
-					Balanced.TEST.CUSTOMER_ID = customer.get('id');
-				});
+				Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
 
 				console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 			});
