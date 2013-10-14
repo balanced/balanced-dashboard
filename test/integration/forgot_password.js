@@ -19,7 +19,10 @@ test('clicking forgot password from login takes you to the page', function(asser
 test('forgot password form submits', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	stub.callsArgWith(3, {"id": null, "email_address": "foo@bar.com"});
+	stub.callsArgWith(3, {
+		"id": null,
+		"email_address": "foo@bar.com"
+	});
 
 	visit('/forgot_password')
 		.fillIn("form#forgot-form input[name=email_address]", 'foo@bar.com')

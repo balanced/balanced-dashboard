@@ -40,16 +40,16 @@ test('debit card', function(assert) {
 			// wait for computed property to fire first
 			Ember.run.next(function() {
 				click(".main-header .buttons a.debit-button")
-				.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
-				.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
-				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					assert.ok(spy.calledOnce);
-					assert.ok(spy.calledWith(Balanced.Debit, "/cards/" + Balanced.TEST.CARD_ID + "/debits", sinon.match({
-						amount: 100000,
-						description: "Test debit"
-					})));
-				});
+					.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
+					.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
+					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(spy.calledOnce);
+						assert.ok(spy.calledWith(Balanced.Debit, "/cards/" + Balanced.TEST.CARD_ID + "/debits", sinon.match({
+							amount: 100000,
+							description: "Test debit"
+						})));
+					});
 			});
 		});
 });
@@ -66,15 +66,15 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 			// wait for computed property to fire first
 			Ember.run.next(function() {
 				click(".main-header .buttons a.debit-button")
-				.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
-				.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
-				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					assert.ok(stub.calledOnce);
-				});
+					.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
+					.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
+					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+					});
 			});
 		});
 });
