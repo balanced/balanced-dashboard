@@ -7,7 +7,7 @@ module('Marketplace Settings', {
 		Ember.run(function() {
 
 			Balanced.BankAccount.create({
-				uri: '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/bank_accounts',
+				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
 				name: 'Test Account',
 				account_number: '1234',
 				routing_number: '122242607',
@@ -24,8 +24,6 @@ module('Marketplace Settings', {
 				expiration_month: 11
 			}).save().then(function(card) {
 				Balanced.TEST.CARD_ID = card.get('id');
-				var uri = card.uri;
-				var user = Balanced.Auth.get('user');
 			});
 
 			Balanced.Callback.create({
@@ -213,14 +211,8 @@ test('can create savings accounts', function(assert) {
 });
 
 test('create bank account only submits once when clicked multiple times', function(assert) {
-	//var stub = sinon.stub(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		bank_accounts: [{
-			href: '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID
-		}]
-	});
+	var spy = sinon.spy(balanced.bankAccount, 'create');
+	var model;
 
 	visit(settingsRoute)
 		.click('.bank-account-info a.add')
@@ -231,37 +223,51 @@ test('create bank account only submits once when clicked multiple times', functi
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
-		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			//assert.ok(stub.calledOnce);
+			assert.ok(spy.calledOnce);
+			balanced.bankAccount.create.restore();
 		});
 });
 
 test('can delete bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
 	var initialLength;
+	var bankAccounts = Balanced.BankAccount.findAll();
+	var model;
 
 	visit(settingsRoute)
 		.then(function() {
-			initialLength = $('.bank-account-info .sidebar-items li').length;
-		})
-		.click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-			assert.ok(spy.calledOnce, "Delete should have been called once");
-		});
-});
+			/**
+			 * WORKAROUND: I think there may be something weird happening
+			 * with the custom models when it is in synchronous mode.
+			 */
+			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+			model.set('owner_customer', Ember.Object.create());
+			model.set('owner_customer.bank_accounts', bankAccounts);
 
-test('delete bank accounts only deletes once when submit clicked multiple times', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "delete");
+			Ember.run.next(function() {
+				initialLength = $('.bank-account-info .sidebar-items li').length;
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(stub.calledOnce, "Delete should have been called once");
+				click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
+				.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					/**
+					 * WORKAROUND: since the test runner is synchronous,
+					 * lets force the model into a saving state.
+					 */
+					bankAccounts.get('content').forEach(function(bankAccount) {
+						bankAccount.set('isSaving', true);
+					});
+
+					Ember.run.next(function() {
+						click('#delete-bank-account .modal-footer button[name="modal-submit"]');
+					});
+				})
+				.then(function() {
+					assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+					assert.ok(spy.calledOnce, "Delete should have been called once");
+				});
+			});
 		});
 });
 
@@ -274,6 +280,7 @@ test('can create cards', function(assert) {
 			href: '/cards/' + Balanced.TEST.CARD_ID
 		}]
 	});
+	var model;
 
 	visit(settingsRoute)
 		.click('.card-info a.add')
@@ -286,7 +293,18 @@ test('can create cards', function(assert) {
 		})
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			/**
+			 * WORKAROUND: since the test runner is synchronous,
+			 * lets force the model into a saving state.
+			 */
+			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+			model.set('isSaving', true);
+
+			Ember.run.next(function() {
+				click('#add-card .modal-footer button[name="modal-submit"]');
+			});
+		})
+		.then(function() {
 			assert.ok(tokenizingStub.calledWith(sinon.match({
 				name: "TEST",
 				number: "1234123412341234",
@@ -294,6 +312,7 @@ test('can create cards', function(assert) {
 				expiration_month: 1,
 				expiration_year: 2020
 			})));
+			assert.ok(tokenizingStub.calledOnce);
 			/*assert.ok(createSpy.calledOnce);
 			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', {
 				card_uri: '/v1/cards/deadbeef'
@@ -302,66 +321,43 @@ test('can create cards', function(assert) {
 		});
 });
 
-test('create card only submits once when clicked multiple times', function(assert) {
-	//var stub = sinon.stub(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		cards: [{
-			href: '/cards/' + Balanced.TEST.CARD_ID
-		}]
-	});
-
-	visit(settingsRoute)
-		.click('.card-info a.add')
-		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-card .modal-body input[name="number"]', '1234123412341234')
-		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
-		.then(function() {
-			$('#add-card .modal-body select[name="expiration_month"]').val('1').change();
-			$('#add-card .modal-body select[name="expiration_year"]').val('2020').change();
-		})
-		.click('#add-card .modal-footer button[name="modal-submit"]')
-		.click('#add-card .modal-footer button[name="modal-submit"]')
-		.click('#add-card .modal-footer button[name="modal-submit"]')
-		.click('#add-card .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			//assert.ok(stub.calledOnce);
-			balanced.card.create.restore();
-		});
-});
-
 test('can delete cards', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var cards = Balanced.Card.findAll();
+	var model;
 
 	visit(settingsRoute)
 		.then(function() {
-			assert.equal($('.card-info .sidebar-items li').length, 1);
-		})
-		.click(".card-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-card .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.equal($('.card-info .sidebar-items li').length, 0);
-			assert.ok(spy.calledOnce, "Delete should have been called once");
+			/**
+			 * WORKAROUND: I think there may be something weird happening
+			 * with the custom models when it is in synchronous mode.
+			 */
+			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+			model.set('owner_customer', Ember.Object.create());
+			model.set('owner_customer.cards', cards);
+
+			Ember.run.next(function() {
+				assert.equal($('.card-info .sidebar-items li').length, 1);
+				
+				click(".card-info .sidebar-items li:eq(0) .icon-delete")
+				.click('#delete-card .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					/**
+					 * WORKAROUND: since the test runner is synchronous,
+					 * lets force the model into a saving state.
+					 */
+					model.set('isSaving', true);
+
+					Ember.run.next(function() {
+						click('#delete-card .modal-footer button[name="modal-submit"]');
+					});
+				})
+				.then(function() {
+					assert.equal($('.card-info .sidebar-items li').length, 0);
+					assert.ok(spy.calledOnce, "Delete should have been called once");
+				});
+			});
 		});
-
-	//  TODO: assert server side call was made once.
-});
-
-test('delete cards only deletes once when submit clicked multiple times', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "delete");
-
-	visit(settingsRoute)
-		.click(".card-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-card .modal-footer button[name="modal-submit"]')
-		.click('#delete-card .modal-footer button[name="modal-submit"]')
-		.click('#delete-card .modal-footer button[name="modal-submit"]')
-		.click('#delete-card .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(stub.calledOnce, "Delete should have been called once");
-		});
-	//  TODO: assert server side call was made once.
 });
 
 test('shows webhooks', function(assert) {

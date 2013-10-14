@@ -1,6 +1,6 @@
-require('app/models/card');
+require('app/models/funding_instrument');
 
-Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
+Balanced.Card = Balanced.FundingInstrument.extend({
 	uri: '/cards',
 
 	validations: {
