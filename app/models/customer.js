@@ -6,6 +6,7 @@ Balanced.Customer = Balanced.Model.extend({
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
+	orders: Balanced.Model.hasMany('orders', 'Balanced.Order'),
 
 	uri: '/customers',
 

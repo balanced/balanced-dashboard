@@ -126,6 +126,9 @@ Balanced.Router.map(function() {
 			this.resource('events', {
 				path: '/events/:event_id'
 			});
+			this.resource('orders', {
+				path: '/orders/:order_id'
+			});
 
 			makeNestedResource(this, 'logs', 'log');
 
