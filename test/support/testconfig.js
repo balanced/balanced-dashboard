@@ -34,19 +34,6 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
-	// since we aren't using balanced.js, define its functions so we can stub them
-	balanced = {};
-	balanced.init = function() {}
-	balanced.bankAccount = {
-		validateRoutingNumber: function() {
-			return true;
-		},
-		create: function() {}
-	};
-	balanced.card = {
-		create: function() {}
-	};
-
 	// use the fixture adapter
 	Balanced.TEST.setupFixtures = function() {
 		Balanced.Adapter = Balanced.FixtureAdapter.create();
@@ -55,73 +42,31 @@ QUnit.testStart(function(test) {
 
 	// build up test fixtures
 	Balanced.TEST.setupMarketplace = function() {
-		$.ajax({
-			url: ENV.BALANCED.API + '/v1/api_keys',
-			type: 'post'
-		}).then(function(apiKey) {
-			var secret = apiKey.secret;
-			Balanced.Auth.setAPIKey(secret);
-			return Balanced.NET.ajax({
-				url: ENV.BALANCED.API + '/v1/marketplaces',
-				type: 'post'
+		Ember.run(function() {
+			Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+				var apiKeySecret = apiKey.get('secret');
+				var settings = {
+					headers: {
+						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+					}
+				};
+				return Balanced.Marketplace.create().save(settings);
+			}).then(function(marketplace) {
+				Balanced.Auth.setupGuestUserMarketplace(marketplace);
+				Balanced.TEST.marketplace = marketplace;
+				Balanced.TEST.MARKETPLACE_ID = marketplace.get('id');
+
+				balanced.init(marketplace.get('uri'));
+
+				marketplace.get('owner_customer').then(function(customer) {
+					Balanced.TEST.customer = customer;
+					Balanced.TEST.CUSTOMER_ID = customer.get('id');
+				});
+
+				console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 			});
-		}).done(function(marketplace) {
-			var marketplaceId = marketplace.id;
-			var customerId = marketplace.owner_customer.id;
-
-			Balanced.TEST.MARKETPLACE_ID = marketplaceId;
-			Balanced.TEST.CUSTOMER_ID = customerId;
-
-			var userMarketplace = Balanced.UserMarketplace.create({
-				secret: Balanced.NET.defaultApiKey
-			});
-			userMarketplace.populateFromJsonResponse(marketplace);
-
-			var user = Balanced.User.create({
-				user_marketplaces: [userMarketplace],
-				marketplaces_uri: '/users/' + customerId + '/marketplaces'
-			});
-
-			user.populateFromJsonResponse(marketplace.owner_customer);
-			Balanced.Auth.setAuthProperties(true, user, '/users/guest', Ember.get(Balanced.NET, 'defaultApiKey'), true);
-
-			console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
 		});
 	};
-
-	// What I'd like to do, but this fucks up
-	// because of BS related to the test helpers
-	/*
-	Ember.run(function() {
-		Balanced.Auth.createNewGuestUser().then(function(apiKey) {
-
-			var apiKeySecret = apiKey.get('secret');
-			var settings = {
-				headers: {
-					Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-				}
-			};
-			return Balanced.Marketplace.create().save(settings);
-
-		}).then(function(marketplace) {
-
-			var uri = marketplace.get('uri');
-			var id = uri.substr(uri.lastIndexOf('/') + 1);
-			Balanced.Auth.setupGuestUserMarketplace(marketplace);
-
-			Balanced.TEST.MARKETPLACE_ID = id;
-			Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer.id');
-			Balanced.TEST.CUSTOMER_ROUTE = '/marketplaces/' +
-				Balanced.TEST.MARKETPLACE_ID + '/customers/' +
-				Balanced.TEST.CUSTOMER_ID;
-
-			start();
-			console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
-		
-		});
-	});
-	*/
-
 });
 
 QUnit.testDone(function(test) {

@@ -21,8 +21,8 @@
             {{view Balanced.ControlGroupFieldView placeholder="U.S. postal code" field="postal_code" help="Enter your zip code if you are using a U.S. issued credit card"}}
 
             {{#view Balanced.View classBinding=":control-group expirationError:error"}}
-                {{view Ember.Select contentBinding="expirationMonths" valueBinding="expiration_month" class="span2"}}
-                {{view Ember.Select contentBinding="expirationYears" valueBinding="expiration_year" class="span2"}}
+                {{view Ember.Select contentBinding="expirationMonths" valueBinding="expiration_month" name="expiration_month" class="span2"}}
+                {{view Ember.Select contentBinding="expirationYears" valueBinding="expiration_year" name="expiration_year" class="span2"}}
                 <label>Specify your card's expiration month and year</label>
             {{/view}}
         </fieldset>
@@ -31,7 +31,7 @@
             {{# if isLoading }}
                 <span class="loader loading"></span> <span class="message">{{loadingMessage}}</span>
             {{else}}
-                <button class="btn primary" {{action submit}}>Submit</button>
+                <button class="btn primary" {{action submit}} {{bindAttr disabled="isSaving"}}>Submit</button>
                 <button class="btn danger" {{action skip}}>Skip</button>
             {{/if}}
         </div>

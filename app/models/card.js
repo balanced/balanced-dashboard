@@ -1,6 +1,33 @@
 require('app/models/card');
 
-Balanced.Card = Balanced.FundingInstrument.extend({
+Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
+	validations: {
+		card_number: {
+			presence: true,
+			format: {
+				validator: function(object, attribute, value) {
+					if (!balanced.card.isCardNumberValid(value)) {
+						object.get('validationErrors').add(attribute, 'blank', null, 'is not valid');
+					}
+				}
+			}
+		},
+		expiration_month: {
+			presence: true
+		},
+		expiration_year: {
+			presence: true
+		},
+		security_code: {
+			presence: true,
+			numericality: true,
+			length: {
+				minimum: 3,
+				maximum: 4
+			}
+		}
+	},
+
 	type_name: function() {
 		return 'Card';
 	}.property(),
@@ -65,7 +92,8 @@ Balanced.Card = Balanced.FundingInstrument.extend({
 						uri: self.get('uri'),
 						card_uri: response.data.uri
 					});
-					cardAssociation.save().then(function() {
+					cardAssociation.save().then(function(savedCard) {
+						self.updateFromModel(savedCard);
 						self.set('isSaving', false);
 						self.trigger('didCreate');
 					}, function() {
