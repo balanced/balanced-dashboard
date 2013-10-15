@@ -3,28 +3,26 @@
     <div class="row">
       <div id="content" class="span26">
         <div class="row">
-          <div class="offset2 span22">
-            <div class="offset6 span8">
-              <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
+          <div class="offset9 span8">
+            <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
-              <form id="auth-form" {{ bindAttr class="loginError:error" }}>
-                {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
-                {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
-                <div class="clear"></div>
+            <form id="auth-form" {{ bindAttr class="loginError:error" }}>
+              {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
+              {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
+              <div class="clear"></div>
 
-                {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
+              {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
 
-                <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
-              </form>
+              <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
+            </form>
 
-              {{#if loginError}}
-                <div class="alert alert-error">
-                  {{loginResponse}}
-                </div>
-              {{/if}}
+            {{#if loginError}}
+              <div class="alert alert-error">
+                {{loginResponse}}
+              </div>
+            {{/if}}
 
-              <p class="label4b" id="get-started">New to Balanced? <a href="#/start" class="linky">Click here to get started</a>.</p>
-            </div>
+            <p class="label4b" id="get-started">New to Balanced? <a href="#/start" class="linky">Click here to get started</a>.</p>
           </div>
         </div>
       </div>
