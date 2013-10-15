@@ -9,16 +9,18 @@
 			</div>
 			<div class="span8 title">
 				<span class="nav3d">
-					70315 Oktober Fest By The Bay
-					{{!title_description}}
+					{{page_title}}
 				</span>
 			</div>
 		</div>
 	</div>
 
 	<div class="order-sub-header">
-		<span class="created">Created: Tue, 9 Apr 2013, 4:19 PM</span>
-		<span class="order-id">Order ID: OR34xcMwd916xOaDp38vB5x</span>
+		<span class="created">
+			Created:
+			<time {{bindAttr datetime="transaction.created_at"}} {{bindAttr title="transaction.created_at"}}>{{humanReadableDateShort created_at}}</time>
+		</span>
+		<span class="order-id">Order ID: {{id}}</span>
 	</div>
 
 	<div class="order-summary">
@@ -27,31 +29,44 @@
 			<div class="span4">Quantity</div>
 			<div class="span4">Total</div>
 		</div>
-		<div class="row">
+		<div {{bindAttr class=":row amounts.debits.quantity::empty"}}>
 			<div class="span10">Debits</div>
-			<div class="span4">1</div>
-			<div class="span4">$100.00</div>
+			<div class="span4">{{amounts.debits.quantity}}</div>
+			<div class="span4">{{amounts.debits.total}}</div>
 		</div>
-		<div class="row">
+		<div {{bindAttr class=":row amounts.refunds.quantity::empty"}}>
 			<div class="span10">Refunds</div>
-			<div class="span4"><span>0</span></div>
-			<div class="span4"><span>$0.00</span></div>
+			<div class="span4">{{amounts.refunds.quantity}}</div>
+			<div class="span4">{{amounts.refunds.total}}</div>
 		</div>
-		<div class="row">
-			<div class="span10">Credits</div>
-			<div class="span4"><span>0</span></div>
-			<div class="span4"><span>$0.00</span></div>
+		<div {{bindAttr class=":row amounts.credits.quantity::empty"}}>
+			<div class="span10">Credits to seller</div>
+			<div class="span4">{{amounts.credits.quantity}}</div>
+			<div class="span4">{{amounts.credits.total}}</div>
 		</div>
-		<div class="row">
+		<div {{bindAttr class=":row amounts.reversals.quantity::empty"}}>
 			<div class="span10">Reversals</div>
-			<div class="span4"><span>0</span></div>
-			<div class="span4"><span>$0.00</span></div>
+			<div class="span4">{{amounts.reversals.quantity}}</div>
+			<div class="span4">{{amounts.reversals.total}}</div>
 		</div>
 	</div>
 
 	<div class="order-total">
-		<h1>$100.00</h1>
-		<p>Escrow balance for this order</p>
+		<h1>{{escrow_balance}}</h1>
+		<p>
+			Escrow balance for this order
+			{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Escrow Balance" data-content="Meh authentic dreamcatcher, paleo typewriter semiotics freegan gentrify. YOLO letterpress kitsch, semiotics Bushwick Terry Richardson church-key lomo 90's wayfarers roof party asymmetrical."}}
+				Verification status
+			{{/view}}
+		</p>
 	</div>
+
+	<h3 class="order-party">Buyer</h3>
+	{{#each buyer in buyers}}
+		{{order-customer customer=buyer debits=debits}}
+	{{/each}}
+
+	<h3 class="order-party">Seller</h3>
+	{{order-customer customer=seller credits=credits}}
 
 </div>
