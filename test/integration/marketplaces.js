@@ -45,6 +45,9 @@ test('add test marketplace', function(assert) {
 		.click(".marketplace-list.test li.new form button")
 		.then(function() {
 			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.UserMarketplace));
+			assert.equal(spy.getCall(0).args[1], '/users/' + Balanced.TEST.CUSTOMER_ID + '/marketplaces');
+			assert.equal(spy.getCall(0).args[2].name, 'NEW MARKETPLACE');
 		});
 });
 
@@ -56,17 +59,27 @@ test('add existing marketplace', function(assert) {
 		.click(".marketplace-list.production li.new form button")
 		.then(function() {
 			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.UserMarketplace, '/users/' + Balanced.TEST.CUSTOMER_ID + '/marketplaces', sinon.match({
+				secret: '1234'
+			})));
 		});
 });
 
 test('delete marketplace', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var initialLength;
 
 	visit(marketplaceIndexRoute)
+		.then(function() {
+			initialLength = $(".marketplace-list.test li").length;
+		})
 		.click(".marketplace-list.test li:first-of-type .icon-delete")
 		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce, "Delete should have been called once");
+
+			// Can't check this bc guest users can't add/delete marketplaces
+			// assert.equal($(".marketplace-list.test li").length, initialLength - 1);
 		});
 });
 
@@ -75,10 +88,10 @@ test('delete marketplace only deletes once despite multiple clicks', function(as
 
 	visit(marketplaceIndexRoute)
 		.click(".marketplace-list.test li:first-of-type .icon-delete")
-		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
-		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
-		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
 		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#delete-marketplace .modal-footer button[name="modal-submit"]');
+			}
 			assert.ok(stub.calledOnce, "Delete should have been called once");
 		});
 });
