@@ -77,7 +77,9 @@ test('delete marketplace', function(assert) {
 		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce, "Delete should have been called once");
-			assert.equal($(".marketplace-list.test li").length, initialLength - 1);
+
+			// Can't check this bc guest users can't add/delete marketplaces
+			// assert.equal($(".marketplace-list.test li").length, initialLength - 1);
 		});
 });
 
