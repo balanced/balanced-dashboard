@@ -76,7 +76,6 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		var list = Ember.A();
 
 		debits.forEach(function(debit) {
-			console.log(customer.get('id'));
 			if(customer && debit.get('customer_uri') === customer.get('href')) {
 				list.pushObject(debit);
 			}
