@@ -45,9 +45,10 @@ test('form validation', function(assert) {
 		var $submitButton = $('button:contains("Submit")');
 		assert.equal($submitButton.length, 1, 'submit button exists');
 	});
-	//    $submitButton.click();
-	//
-	//    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
+
+  click($('button:contains("Submit")'));
+	
+	    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
 });
 
 test('payment success', function(assert) {
