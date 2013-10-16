@@ -76,7 +76,8 @@ Balanced.Auth = (function() {
 		auth.setAPIKey(apiKey);
 
 		var guestUser = Balanced.User.create({
-			user_marketplaces: Ember.A()
+			user_marketplaces: Ember.A(),
+			marketplaces_uri: '/users/guest/marketplaces'
 		});
 		auth.setAuthProperties(true, guestUser, '/users/guest', apiKey, true);
 	};

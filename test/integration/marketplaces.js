@@ -3,6 +3,7 @@ var marketplaceIndexRoute;
 module('Marketplaces.Index', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
+		Balanced.Auth.set('isGuest', false);
 		marketplaceIndexRoute = '/marketplaces';
 	},
 	teardown: function() {
@@ -46,7 +47,7 @@ test('add test marketplace', function(assert) {
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.UserMarketplace));
-			assert.equal(spy.getCall(0).args[1], '/users/' + Balanced.TEST.CUSTOMER_ID + '/marketplaces');
+			assert.equal(spy.getCall(0).args[1], '/users/guest/marketplaces');
 			assert.equal(spy.getCall(0).args[2].name, 'NEW MARKETPLACE');
 		});
 });
@@ -59,7 +60,7 @@ test('add existing marketplace', function(assert) {
 		.click(".marketplace-list.production li.new form button")
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.UserMarketplace, '/users/' + Balanced.TEST.CUSTOMER_ID + '/marketplaces', sinon.match({
+			assert.ok(spy.calledWith(Balanced.UserMarketplace, '/users/guest/marketplaces', sinon.match({
 				secret: '1234'
 			})));
 		});

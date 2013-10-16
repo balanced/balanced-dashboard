@@ -51,8 +51,7 @@ test('form validation', function(assert) {
 });
 
 test('payment success', function(assert) {
-	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/cards/deadbeef"
@@ -66,7 +65,7 @@ test('payment success', function(assert) {
 		.fillIn('select[name="expiration_year"]', '2020')
 		.click('button:contains("Submit")')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
 		});
 });
 

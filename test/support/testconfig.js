@@ -67,11 +67,17 @@ QUnit.testStart(function(test) {
 			});
 		});
 	};
+
+	Balanced.TEST.bankAccountTokenizingStub = sinon.stub(balanced.bankAccount, "create");
+	Balanced.TEST.cardTokenizingStub = sinon.stub(balanced.card, "create");
 });
 
 QUnit.testDone(function(test) {
 	var module = test.module ? test.module : '';
 	console.log('#%@ %@: tearing down.'.fmt(module, test.name));
+
+	Balanced.TEST.bankAccountTokenizingStub.restore();
+	Balanced.TEST.cardTokenizingStub.restore();
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);

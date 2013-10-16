@@ -13,10 +13,9 @@ module('Card Page', {
 				expiration_month: 11
 			}).save().then(function(card) {
 				var uri = card.uri;
-				var user = Balanced.Auth.get('user');
 				// ghetto workaround
 				Balanced.NET.ajax({
-					url: ENV.BALANCED.API + user.uri,
+					url: ENV.BALANCED.API + Balanced.TEST.marketplace.get('owner_customer.uri'),
 					type: 'put',
 					data: {
 						card_uri: uri
