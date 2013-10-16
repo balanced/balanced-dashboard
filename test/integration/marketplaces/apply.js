@@ -57,8 +57,6 @@ test('basic form validation and terms and conditions', function(assert) {
 
 test('application submits properly', function(assert) {
 	var createStub = sinon.stub(Balanced.Adapter, "create");
-	var balancedInitStub = sinon.stub(balanced, "init");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
 
 	});
@@ -77,7 +75,7 @@ test('application submits properly', function(assert) {
 
 	});
 
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/bank_accounts/deadbeef"
@@ -137,10 +135,10 @@ test('application submits properly', function(assert) {
 			}));
 			assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
 
-			assert.ok(balancedInitStub.calledOnce);
-			assert.ok(balancedInitStub.calledWith('/v1/marketplaces'));
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
+			assert.ok(Balanced.TEST.balancedInitStub.calledTwice);
+			assert.ok(Balanced.TEST.balancedInitStub.calledWith('/v1/marketplaces'));
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
 				type: "checking",
 				name: "Balanced Inc",
 				account_number: "123123123",

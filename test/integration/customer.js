@@ -224,8 +224,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 
 test('can add bank account', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/bank_accounts/deadbeef"
@@ -240,8 +239,8 @@ test('can add bank account', function(assert) {
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
 				type: "checking",
 				name: "TEST",
 				account_number: "123",
@@ -256,8 +255,7 @@ test('can add bank account', function(assert) {
 
 test('can add card', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/cards/deadbeef"
@@ -267,16 +265,16 @@ test('can add card', function(assert) {
 	visit(customerRoute)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
+		.fillIn('#add-card .modal-body input[name="card_number"]', '4111111111111111')
 		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
 		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
 		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
 
-			assert.ok(tokenizingStub.calledWith({
-				card_number: "1234123412341234",
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
+				card_number: "4111111111111111",
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",
@@ -293,8 +291,7 @@ test('can add card', function(assert) {
 
 test('can add card with postal code', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/cards/deadbeef"
@@ -304,17 +301,17 @@ test('can add card with postal code', function(assert) {
 	visit(customerRoute)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-card .modal-body input[name="card_number"]', '1234123412341234')
+		.fillIn('#add-card .modal-body input[name="card_number"]', '4111111111111111')
 		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
 		.fillIn('#add-card .modal-body select[name="expiration_month"]', '1')
 		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
 		.fillIn('#add-card .modal-body input[name="postal_code"]', '94612')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
 
-			assert.ok(tokenizingStub.calledWith({
-				card_number: "1234123412341234",
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
+				card_number: "4111111111111111",
 				expiration_month: 1,
 				expiration_year: 2020,
 				security_code: "123",

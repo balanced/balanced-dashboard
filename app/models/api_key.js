@@ -3,5 +3,3 @@ Balanced.APIKey = Balanced.Model.extend({
 });
 
 Balanced.TypeMappings.addTypeMapping('api_key', 'Balanced.APIKey');
-
-Balanced.Adapter.registerHostForType(Balanced.APIKey, ENV.BALANCED.AUTH);

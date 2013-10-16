@@ -13,10 +13,9 @@ module('Marketplace Settings', {
 				expiration_month: 11
 			}).save().then(function(card) {
 				var uri = card.uri;
-				var user = Balanced.Auth.get('user');
 				// ghetto workaround
 				Balanced.NET.ajax({
-					url: ENV.BALANCED.API + user.uri,
+					url: ENV.BALANCED.API + Balanced.TEST.marketplace.get('owner_customer.uri'),
 					type: 'put',
 					data: {
 						card_uri: uri
@@ -114,8 +113,7 @@ test('can update owner info', function(assert) {
 
 test('can create bank accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/bank_accounts/deadbeef"
@@ -134,8 +132,8 @@ test('can create bank accounts', function(assert) {
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
 				type: "checking",
 				name: "TEST",
 				account_number: "123",
@@ -150,8 +148,7 @@ test('can create bank accounts', function(assert) {
 
 test('can create savings accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/bank_accounts/deadbeef"
@@ -166,11 +163,11 @@ test('can create savings accounts', function(assert) {
 		.click('#add-bank-account .modal-body input[name="account_type"][value="savings"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
 
 			// phantomjs can't handle the change events, so can't check the payload for now
 			// TODO - put this back in when we're off phantomjs
-			// assert.ok(tokenizingStub.calledWith({
+			// assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
 			//     type: "savings",
 			//     name: "TEST",
 			//     account_number: "123",
@@ -186,8 +183,7 @@ test('can create savings accounts', function(assert) {
 
 test('create bank account only submits once when clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/bank_accounts/deadbeef"
@@ -209,7 +205,7 @@ test('create bank account only submits once when clicked multiple times', functi
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
 			assert.ok(stub.calledOnce);
 		});
 });
@@ -243,8 +239,7 @@ test('delete bank accounts only deletes once when submit clicked multiple times'
 
 test('can create cards', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/cards/deadbeef"
@@ -264,7 +259,7 @@ test('can create cards', function(assert) {
 		})
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
 			assert.ok(createSpy.calledOnce);
 			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', {
 				card_uri: '/v1/cards/deadbeef'
@@ -273,7 +268,7 @@ test('can create cards', function(assert) {
 
 	// phantomjs can't handle the change events, so can't check the payload for now
 	// TODO - put this back in when we're off phantomjs
-	// assert.ok(tokenizingStub.calledWith({
+	// assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
 	//     card_number: "1234123412341234",
 	//     expiration_month: 1,
 	//     expiration_year: 2020,
@@ -285,8 +280,7 @@ test('can create cards', function(assert) {
 
 test('create card only submits once when clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
+	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
 		status: 201,
 		data: {
 			uri: "/v1/cards/deadbeef"
@@ -309,7 +303,7 @@ test('create card only submits once when clicked multiple times', function(asser
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
 			assert.ok(stub.calledOnce);
 		});
 });

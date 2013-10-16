@@ -51,12 +51,22 @@ test('form validation', function(assert) {
 });
 
 test('payment success', function(assert) {
-	visit(initialDepositRoute).then(function() {
-		populateData(goodData);
-		var $submitButton = $('button:contains("Submit")');
-		assert.equal($submitButton.length, 1, 'submit button exists');
+	Balanced.TEST.cardTokenizingStub.callsArgWith(1, {
+		status: 201,
+		data: {
+			uri: "/v1/cards/deadbeef"
+		}
 	});
-	//    $submitButton.click();
+
+	visit(initialDepositRoute)
+		.fillIn('input[name="card_number"]', '341111111111111')
+		.fillIn('input[name="security_code"]', '1234')
+		.fillIn('select[name="expiration_month"]', '12')
+		.fillIn('select[name="expiration_year"]', '2020')
+		.click('button:contains("Submit")')
+		.then(function() {
+			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
+		});
 });
 
 //test('payment failure', function (assert) {
