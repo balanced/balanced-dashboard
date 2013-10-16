@@ -21,10 +21,10 @@ test('form validation', function(assert) {
 		var $submitButton = $('button:contains("Submit")');
 		assert.equal($submitButton.length, 1, 'submit button exists');
 	})
-  .then(function() {
-    click($('button:contains("Submit")'));
-    assert.equal($('.control-group.error').length, 2, 'errors are displayed');
-  });
+		.then(function() {
+			click($('button:contains("Submit")'));
+			assert.equal($('.control-group.error').length, 2, 'errors are displayed');
+		});
 });
 
 test('payment success', function(assert) {
@@ -35,7 +35,7 @@ test('payment success', function(assert) {
 		}
 	});
 
-  var spy = sinon.spy(Balanced.Debit, 'create');
+	var spy = sinon.spy(Balanced.Debit, 'create');
 
 	visit(initialDepositRoute)
 		.fillIn('input[name="card_number"]', '341111111111111')
@@ -45,18 +45,18 @@ test('payment success', function(assert) {
 		.click('button:contains("Submit")')
 		.then(function() {
 			assert.ok(Balanced.TEST.cardTokenizingStub.calledOnce);
-      assert.ok(spy.calledOnce);
-      assert.equal(spy.getCall(0).args[0].amount, "1000");
+			assert.ok(spy.calledOnce);
+			assert.equal(spy.getCall(0).args[0].amount, "1000");
 		});
 });
 
 test('cancel', function(assert) {
-  visit(initialDepositRoute).then(function() {
-    var $skipButton = $('button:contains("Skip")');
-    assert.equal($skipButton.length, 1, 'skip button exists');
-  }).then(function() {
+	visit(initialDepositRoute).then(function() {
+		var $skipButton = $('button:contains("Skip")');
+		assert.equal($skipButton.length, 1, 'skip button exists');
+	}).then(function() {
 
-    click('button:contains("Skip")');
-    assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
-  });
+		click('button:contains("Skip")');
+		assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
+	});
 });
