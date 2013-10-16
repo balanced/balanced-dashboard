@@ -70,6 +70,7 @@ QUnit.testStart(function(test) {
 
 	Balanced.TEST.bankAccountTokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	Balanced.TEST.cardTokenizingStub = sinon.stub(balanced.card, "create");
+	Balanced.TEST.balancedInitStub = sinon.stub(balanced, "init");
 });
 
 QUnit.testDone(function(test) {
@@ -78,6 +79,7 @@ QUnit.testDone(function(test) {
 
 	Balanced.TEST.bankAccountTokenizingStub.restore();
 	Balanced.TEST.cardTokenizingStub.restore();
+	Balanced.TEST.balancedInitStub.restore();
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
