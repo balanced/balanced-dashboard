@@ -169,7 +169,7 @@ test('search and click go with empty date range', function(assert) {
 });
 
 test('search date range pick', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get')
+	var spy = sinon.spy(Balanced.Adapter, 'get');
 
 	visit(marketplaceRoute).then(function() {
 		Testing.runSearch('%');
@@ -191,9 +191,6 @@ test('search date range pick', function(assert) {
 			var begin_iso = encodeURIComponent(begin.toISOString());
 			var end = new Date(2013, 7, 2);
 			var end_iso = encodeURIComponent(end.toISOString());
-			console.log(begin_iso);
-			console.log(end_iso);
-			console.log(spy.args);
 
 			var expected_uri = '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/search?' +
 				'created_at%5B%3C%5D=' + end_iso + '&' +
