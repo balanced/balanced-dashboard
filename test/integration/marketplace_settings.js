@@ -2,7 +2,7 @@ var settingsRoute;
 
 module('Marketplace Settings', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Balanced.TEST.setupMarketplace(true);
 		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
 		Ember.run(function() {
 			Balanced.Card.create({
@@ -354,7 +354,7 @@ test('can add webhooks', function(assert) {
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com/something')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
-		.then(function () {
+		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
 });

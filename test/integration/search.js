@@ -2,7 +2,7 @@ var marketplaceRoute;
 
 module('Search', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Balanced.TEST.setupMarketplace(true);
 		var i = 4;
 		Ember.run(function() {
 			while (i > 0) {
@@ -21,7 +21,7 @@ module('Search', {
 		// add some delay, because the API takes some time to add things to search
 		var stop = window.stop;
 		stop();
-		setTimeout(start, 2 * 1000);
+		setTimeout(start, 1000);
 	},
 	teardown: function() {
 		Ember.run(function() {
