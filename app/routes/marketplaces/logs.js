@@ -1,5 +1,9 @@
 Balanced.LogsIndexRoute = Balanced.AuthRoute.extend({
-	pageTitle: 'Logs'
+	pageTitle: 'Logs',
+
+	setupController: function(controller, model) {
+		controller.send('reload');
+	}
 });
 
 Balanced.LogsLogRoute = Balanced.AuthRoute.extend({

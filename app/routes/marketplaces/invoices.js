@@ -1,5 +1,9 @@
 Balanced.InvoicesIndexRoute = Balanced.AuthRoute.extend({
-	pageTitle: 'Invoices'
+	pageTitle: 'Invoices',
+
+	setupController: function(controller, model) {
+		controller.send('reload');
+	}
 });
 
 Balanced.InvoicesInvoiceRoute = Balanced.AuthRoute.extend({
@@ -11,5 +15,10 @@ Balanced.InvoicesInvoiceRoute = Balanced.AuthRoute.extend({
 			var invoiceUri = Balanced.Utils.combineUri(marketplace.get('invoices_uri'), params.invoice_id);
 			return Balanced.Invoice.find(invoiceUri);
 		});
+	},
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+		controller.send('reload');
 	}
 });
