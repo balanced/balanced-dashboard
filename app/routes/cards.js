@@ -20,5 +20,10 @@ Balanced.CardsRoute = Balanced.AuthRoute.extend({
 			var cardUri = Balanced.Utils.combineUri(marketplace.get('cards_uri'), params.card_id);
 			return Balanced.Card.find(cardUri);
 		});
+	},
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+		controller.send('reload');
 	}
 });

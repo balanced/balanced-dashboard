@@ -20,5 +20,10 @@ Balanced.BankAccountsRoute = Balanced.AuthRoute.extend({
 			var bankAccountUri = Balanced.Utils.combineUri(marketplace.get('bank_accounts_uri'), params.bank_account_id);
 			return Balanced.BankAccount.find(bankAccountUri);
 		});
+	},
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+		controller.send('reload');
 	}
 });
