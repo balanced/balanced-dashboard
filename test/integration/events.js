@@ -1,6 +1,9 @@
 module('Events', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
+		var stop = window.stop;
+		stop();
+		setTimeout(start, 1000);
 		Balanced.NET.ajax({
 			url: ENV.BALANCED.API + '/v1/events',
 			type: 'get'

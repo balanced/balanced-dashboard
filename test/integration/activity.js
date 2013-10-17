@@ -2,7 +2,7 @@ var activityRoute;
 
 module('Activity', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Balanced.TEST.setupMarketplace(true);
 		var i = 4;
 		Ember.run(function() {
 			while (i > 0) {
@@ -16,6 +16,9 @@ module('Activity', {
 			}
 		});
 		activityRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/activity/transactions';
+		var stop = window.stop;
+		stop();
+		setTimeout(start, 1000);
 	},
 	teardown: function() {}
 });
