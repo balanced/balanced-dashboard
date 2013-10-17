@@ -175,10 +175,14 @@ test('search date range pick', function(assert) {
 		Testing.runSearch('%');
 	})
 		.click('#search .results .timing a.dropdown-toggle')
-		.fillIn('#search .results .timing input[name="after"]', '08/01/2013')
-		.click('#search .results .timing td.day.active')
-		.fillIn('#search .results .timing input[name="before"]', '08/01/2013')
-		.click('#search .results .timing td.day.active')
+		.then(function() {
+			$('#search .results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
+		})
+		.click('#search .results .timing td.active.day')
+		.then(function() {
+			$('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
+		})
+		.click('#search .results .timing td.active.day')
 		.click('#search .results button.go')
 		.then(function() {
 			// Notice: month 7 is Aug here for JS Date, ugly javascript...
