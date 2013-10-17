@@ -146,64 +146,65 @@ test('search date picker dropdown', function(assert) {
 test('search click result', function(assert) {
 	visit(marketplaceRoute).then(function() {
 		Testing.runSearch('%');
-
-		// click customer section button
-		$('#search .results .accounts a').click();
-		// click the first row
-		$('#search .results table.items tbody tr a').first().click();
-
-		assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
-		assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
-	});
+	})
+		.then(function() {
+			click('#search .results .accounts a');
+			click($('#search .results table.items tbody tr a').first());
+		})
+		.then(function() {
+			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
+			assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
+		});
 });
 
 test('search and click go with empty date range', function(assert) {
 	visit(marketplaceRoute).then(function() {
 		Testing.runSearch('%');
-
-		// click the date picker dropdown
-		$('#search .results .timing a.dropdown-toggle').click();
-		// click go button
-		$('#search .results button.go').click();
-
-		assert.equal($('#search .results .timing a.dropdown-toggle span').text().trim(), 'Any time');
-	});
+	})
+		.click('#search .results .timing a.dropdown-toggle')
+		.click('#search .results button.go')
+		.then(function() {
+			assert.equal($('#search .results .timing a.dropdown-toggle span').text().trim(), 'Any time');
+		});
 });
 
 test('search date range pick', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, 'get')
+
 	visit(marketplaceRoute).then(function() {
 		Testing.runSearch('%');
+	})
+		.click('#search .results .timing a.dropdown-toggle')
+		.then(function() {
+			$('#search .results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
+		})
+		.click('#search .results .timing td.active.day')
+		.then(function() {
+			$('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
+		})
+		.click('#search .results .timing td.active.day')
+		.click('#search .results button.go')
+		.then(function() {
+			// Notice: month 7 is Aug here for JS Date, ugly javascript...
+			// As the date time is local, we need to convert it to ISO from in UTC timezone
+			var begin = new Date(2013, 7, 1);
+			var begin_iso = encodeURIComponent(begin.toISOString());
+			var end = new Date(2013, 7, 2);
+			var end_iso = encodeURIComponent(end.toISOString());
+			console.log(begin_iso);
+			console.log(end_iso);
+			console.log(spy.args);
 
-		var spy = sinon.spy(Balanced.Adapter, 'get');
+			var expected_uri = '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/search?' +
+				'created_at%5B%3C%5D=' + end_iso + '&' +
+				'created_at%5B%3E%5D=' + begin_iso + '&' +
+				'limit=2&offset=0&q=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold';
 
-		// click the date picker dropdown
-		$('#search .results .timing a.dropdown-toggle').click();
+			var request = spy.getCall(spy.callCount - 1);
 
-		// enter date
-		$('#search .results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
-		$('#search .results .timing td.active.day').click();
-		$('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
-		$('#search .results .timing td.active.day').click();
-
-		// click go button
-		$('#search .results button.go').click();
-
-		// Notice: month 7 is Aug here for JS Date, ugly javascript...
-		// As the date time is local, we need to convert it to ISO from in UTC timezone
-		var begin = new Date(2013, 7, 1);
-		var begin_iso = encodeURIComponent(begin.toISOString());
-		var end = new Date(2013, 7, 2);
-		var end_iso = encodeURIComponent(end.toISOString());
-
-		var expected_uri = '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/search?' +
-			'created_at%5B%3C%5D=' + end_iso + '&' +
-			'created_at%5B%3E%5D=' + begin_iso + '&' +
-			'limit=2&offset=0&q=&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold';
-
-		var request = spy.getCall(spy.callCount - 1);
-		assert.equal(request.args[0], Balanced.Transaction);
-		assert.equal(request.args[1], expected_uri);
-	});
+			assert.equal(request.args[0], Balanced.Transaction);
+			assert.equal(request.args[1], expected_uri);
+		});
 });
 
 test('search date sort has three states', function(assert) {
