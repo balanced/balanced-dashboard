@@ -21,12 +21,11 @@ Balanced.OrdersController = Balanced.ObjectController.extend(
 				amounts[type].total = Balanced.Utils.formatCurrency(amounts[type].total);
 			});
 			return Ember.Object.create(amounts);
-		}.property(
-			'debits.@each',
-			'refunds.@each',
-			'credits.@each',
-			'reversals.@each'
-		)
+		}.property('debits.@each', 'refunds.@each', 'credits.@each', 'reversals.@each'),
+
+		multiple_credits: function() {
+			return this.get('credits.length') > 1;
+		}.property('credits.@each')
 
 	}
 );

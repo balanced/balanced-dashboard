@@ -39,11 +39,21 @@
 			<div class="span4">{{amounts.refunds.quantity}}</div>
 			<div class="span4">{{amounts.refunds.total}}</div>
 		</div>
-		<div {{bindAttr class=":row amounts.credits.quantity::empty"}}>
-			<div class="span10">Credits to seller</div>
-			<div class="span4">{{amounts.credits.quantity}}</div>
-			<div class="span4">{{amounts.credits.total}}</div>
-		</div>
+		{{#if multiple_credits}}
+			{{#each credit in credits}}
+				<div class="row">
+					<div class="span10">Credit to {{credit.funding_instrument_description}}</div>
+					<div class="span4">1</div>
+					<div class="span4">{{credit.amount_dollars}}</div>
+				</div>
+			{{/each}}
+		{{else}}
+			<div {{bindAttr class=":row amounts.credits.quantity::empty"}}>
+				<div class="span10">Credits to seller</div>
+				<div class="span4">{{amounts.credits.quantity}}</div>
+				<div class="span4">{{amounts.credits.total}}</div>
+			</div>
+		{{/if}}
 		<div {{bindAttr class=":row amounts.reversals.quantity::empty"}}>
 			<div class="span10">Reversals</div>
 			<div class="span4">{{amounts.reversals.quantity}}</div>
@@ -55,9 +65,7 @@
 		<h1>{{escrow_balance}}</h1>
 		<p>
 			Escrow balance for this order
-			{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Escrow Balance" data-content="Meh authentic dreamcatcher, paleo typewriter semiotics freegan gentrify. YOLO letterpress kitsch, semiotics Bushwick Terry Richardson church-key lomo 90's wayfarers roof party asymmetrical."}}
-				Verification status
-			{{/view}}
+			{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Escrow Balance" data-content="Meh authentic dreamcatcher, paleo typewriter semiotics freegan gentrify. YOLO letterpress kitsch, semiotics Bushwick Terry Richardson church-key lomo 90's wayfarers roof party asymmetrical."}}{{/view}}
 		</p>
 	</div>
 

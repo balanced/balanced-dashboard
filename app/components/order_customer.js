@@ -26,8 +26,8 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 			debited: 0,
 			pending: 0
 		};
-		var credits = this.get('credits_list') || Ember.A();
-		var debits = this.get('debits_list') || Ember.A();
+		var credits = this.get('credits_list');
+		var debits = this.get('debits_list');
 
 		debits.forEach(function(debit) {
 			var amount = debit.get('amount');
@@ -58,31 +58,24 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	credits_list: function() {
 		var customer = this.get('customer');
 		var credits = this.get('credits') || Ember.A();
-		var list = Ember.A();
 
-		credits.forEach(function(credit) {
-			if(customer && credit.get('customer_uri') === customer.get('href')) {
-				list.pushObject(credit);
-			}
+		credits = credits.filter(function(credit) {
+			return customer && credit.get('customer_uri') === customer.get('href');
 		});
 
-		return list;
+		return credits;
 	}.property('credits.@each', 'customer'),
 
 	// filter debits by those that belong to the customer
 	debits_list: function() {
 		var customer = this.get('customer');
 		var debits = this.get('debits') || Ember.A();
-		var list = Ember.A();
 
-		debits.forEach(function(debit) {
-			console.log([debit, customer]);
-			if(customer && debit.get('customer_uri') === customer.get('href')) {
-				list.pushObject(debit);
-			}
+		debits = debits.filter(function(debit) {
+			return customer && debit.get('customer_uri') === customer.get('href');
 		});
 
-		return list;
+		return debits;
 	}.property('debits.@each', 'customer'),
 
 	actions: {

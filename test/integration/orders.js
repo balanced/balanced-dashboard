@@ -25,7 +25,6 @@ module('Order Page', {
 			}).then(function(debit) {
 
 				Balanced.TEST.DEBIT = debit;
-				Balanced.TEST.DEBIT_ID = debit.get('id');
 
 				return Balanced.BankAccount.create({
 					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
@@ -39,7 +38,7 @@ module('Order Page', {
 
 				return Balanced.Credit.create({
 					uri: bankAccount.get('credits_uri'),
-					amount: 10000,
+					amount: 1000,
 					links: {
 						order: '/orders/' + Balanced.TEST.ORDER_ID
 					}
@@ -47,11 +46,32 @@ module('Order Page', {
 
 			}).then(function(credit) {
 			
-				Balanced.TEST.CREDIT = credit;
-				Balanced.TEST.CREDIT_ID = credit.get('id');
+				Balanced.TEST.CREDIT_1 = credit;
+
+				return Balanced.BankAccount.create({
+					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
+					name: 'Test Account 2',
+					account_number: '12345',
+					routing_number: '122242607',
+					type: 'checking'
+				}).save();
+
+			}).then(function(bankAccount) {
+
+				return Balanced.Credit.create({
+					uri: bankAccount.get('credits_uri'),
+					amount: 1000,
+					links: {
+						order: '/orders/' + Balanced.TEST.ORDER_ID
+					}
+				}).save();
+
+			}).then(function(credit) {
+
+				Balanced.TEST.CREDIT_2 = credit;
 
 				return Balanced.Customer.find('/customers/' + Balanced.TEST.CUSTOMER_ID);
-			
+
 			}).then(function(customer) {
 
 				Balanced.TEST.CUSTOMER = customer;
@@ -70,7 +90,8 @@ test('can visit order page', function(assert) {
 
 		var model = Balanced.__container__.lookup('controller:orders').get('model');
 		model.set('credits', Ember.A([
-			Balanced.TEST.CREDIT
+			Balanced.TEST.CREDIT_1,
+			Balanced.TEST.CREDIT_2
 		]));
 		model.set('debits', Ember.A([
 			Balanced.TEST.DEBIT
@@ -82,6 +103,7 @@ test('can visit order page', function(assert) {
 
 		Ember.run.next(function() {
 			assert.equal($('.transaction-details').length, 2, 'There is a debit and a credit.');
+			console.log($('.transaction-details:eq(1)').html());
 		});
 	});
 });
