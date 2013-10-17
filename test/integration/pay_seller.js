@@ -24,6 +24,16 @@ test('can pay a seller', function(assert) {
 		.click('#pay-seller .modal-footer button:eq(1)')
 		.then(function() {
 			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Credit, "/v1/credits", sinon.match({
+				amount: 9800,
+				appears_on_statement_as: "Test Transaction",
+				bank_account: {
+					account_number: "123123123",
+					name: "TEST",
+					routing_number: "123123123",
+					type: "checking"
+				}
+			})));
 		});
 });
 
@@ -38,10 +48,10 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 		.fillIn('#pay-seller .modal-body select:eq(0)', 'checking')
 		.fillIn('#pay-seller .modal-body input:eq(3)', '98')
 		.fillIn('#pay-seller .modal-body input:eq(4)', 'Test Transaction')
-		.click('#pay-seller .modal-footer button:eq(1)')
-		.click('#pay-seller .modal-footer button:eq(1)')
-		.click('#pay-seller .modal-footer button:eq(1)')
 		.then(function() {
+			for (var i = 0; i < 20; i++) {
+				click('#pay-seller .modal-footer button:eq(1)');
+			}
 			assert.ok(stub.calledOnce);
 		});
 });
