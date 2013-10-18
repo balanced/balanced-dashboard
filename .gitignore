@@ -21,6 +21,9 @@ temp/*
 npm-debug.log
 node_modules
 
+# bower
+static/javascripts
+
 # emacs and other IDEs
 *~
 *.iml

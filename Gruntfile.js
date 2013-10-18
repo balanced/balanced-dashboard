@@ -37,6 +37,14 @@ module.exports = function(grunt) {
 			}
 		},
 
+		bower: {
+			install: {
+				options: {
+					copy: false
+				}
+			}
+		},
+
 		concat: {
 			options: {
 				separator: ';\n'
@@ -57,47 +65,47 @@ module.exports = function(grunt) {
 			},
 			libdev: {
 				src: [
-					'static/lib/jquery-2.0.0.js',
-					'static/lib/handlebars-1.0.0.js',
-					'static/lib/ember-1.0.0.js',
+					'static/javascripts/jquery/jquery.js',
+					'static/javascripts/handlebars/handlebars.runtime.js',
+					'static/javascripts/ember/ember.js',
 					'static/lib/ember-validations.prod.js',
-					'static/lib/bootstrap/bootstrap-dropdown.js',
-					'static/lib/bootstrap/bootstrap-modal.js',
-					'static/lib/bootstrap/bootstrap-tooltip.js',
-					'static/lib/bootstrap/bootstrap-popover.js',
 					'static/lib/bootstrap-datepicker.js',
-					'static/lib/jquery.browser.js',
-					'static/lib/underscore-1.4.4.js',
-					'static/lib/mixpanel-2.2.js',
-					'static/lib/google_prettify.js',
-					'static/lib/strftime.js',
-					'static/lib/jquery-hotkeys.js',
-					'static/lib/jquery.cookie.js',
-					'static/lib/bootstrap-modal/bootstrap-modalmanager.js',
-					'static/lib/bootstrap-modal/bootstrap-modal.js'
+					'static/javascripts/bootstrap/js/bootstrap-dropdown.js',
+					'static/javascripts/bootstrap/js/bootstrap-modal.js',
+					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
+					'static/javascripts/bootstrap/js/bootstrap-popover.js',
+					'static/javascripts/jquery.browser/jquery.browser.js',
+					'static/javascripts/underscore/underscore.js',
+					'static/javascripts/mixpanel/mixpanel.js',
+					'static/javascripts/google-code-prettify/src/prettify.js',
+					'static/javascripts/strftime/index.js',
+					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
+					'static/javascripts/jquery.cookie/jquery.cookie.js',
+					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
+					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js'
 				],
 				dest: 'build/js/lib-dev.js'
 			},
 			libprod: {
 				src: [
-					'static/lib/jquery-2.0.0.js',
-					'static/lib/handlebars-1.0.0.js',
-					'static/lib/ember-1.0.0.js',
+					'static/javascripts/jquery/jquery.js',
+					'static/javascripts/handlebars/handlebars.runtime.js',
+					'static/javascripts/ember/ember.prod.js',
 					'static/lib/ember-validations.prod.js',
-					'static/lib/bootstrap/bootstrap-dropdown.js',
-					'static/lib/bootstrap/bootstrap-modal.js',
-					'static/lib/bootstrap/bootstrap-tooltip.js',
-					'static/lib/bootstrap/bootstrap-popover.js',
 					'static/lib/bootstrap-datepicker.js',
-					'static/lib/jquery.browser.js',
-					'static/lib/underscore-1.4.4.js',
-					'static/lib/mixpanel-2.2.js',
-					'static/lib/google_prettify.js',
-					'static/lib/strftime.js',
-					'static/lib/jquery-hotkeys.js',
-					'static/lib/jquery.cookie.js',
-					'static/lib/bootstrap-modal/bootstrap-modalmanager.js',
-					'static/lib/bootstrap-modal/bootstrap-modal.js'
+					'static/javascripts/bootstrap/js/bootstrap-dropdown.js',
+					'static/javascripts/bootstrap/js/bootstrap-modal.js',
+					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
+					'static/javascripts/bootstrap/js/bootstrap-popover.js',
+					'static/javascripts/jquery.browser/jquery.browser.js',
+					'static/javascripts/underscore/underscore.js',
+					'static/javascripts/mixpanel/mixpanel.js',
+					'static/javascripts/google-code-prettify/src/prettify.js',
+					'static/javascripts/strftime/index.js',
+					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
+					'static/javascripts/jquery.cookie/jquery.cookie.js',
+					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
+					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js'
 				],
 				dest: 'build/js/lib-prod.js'
 			},
@@ -604,6 +612,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-neuter');
+	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-ember-templates');
 	grunt.loadNpmTasks('grunt-contrib-connect');
@@ -666,7 +675,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
+	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);
