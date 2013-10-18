@@ -1,10 +1,8 @@
-Balanced.ReverseCreditModalComponent = Ember.Component.extend({
-	submitAction: 'submitReverseCredit',
-	classNames: ['modal-container'],
+require('app/components/modal');
 
-	willDestroyElement: function() {
-		$('#reverse-credit').modal('hide');
-	},
+Balanced.ReverseCreditModalComponent = Balanced.ModalComponent.extend({
+
+	submitAction: 'submitReverseCredit',
 
 	actions: {
 		open: function() {
@@ -13,26 +11,11 @@ Balanced.ReverseCreditModalComponent = Ember.Component.extend({
 				credit_uri: this.get('credit.uri'),
 				amount: this.get('credit.amount')
 			});
-
-			var self = this;
-			reversal.on('didCreate', function() {
-				$('#reverse-credit').modal('hide');
-			});
-
-			this.set('model', reversal);
-
-			$('#reverse-credit').modal({
-				manager: this.$()
-			});
+			this._super(reversal);
 		},
 
 		save: function() {
-			if (this.get('model.isSaving')) {
-				return;
-			}
-
-			var reversal = this.get('model');
-			this.sendAction('submitAction', reversal);
+			this._super(this.get('model'));
 		}
 	}
 });

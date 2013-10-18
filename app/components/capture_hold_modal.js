@@ -1,10 +1,8 @@
-Balanced.CaptureHoldModalComponent = Ember.Component.extend({
-	submitAction: 'submitCaptureHold',
-	classNames: ['modal-container'],
+require('app/components/modal');
 
-	willDestroyElement: function() {
-		$('#capture-hold').modal('hide');
-	},
+Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
+
+	submitAction: 'submitCaptureHold',
 
 	actions: {
 		open: function() {
@@ -14,26 +12,12 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 				amount: null
 			});
 
-			var self = this;
-			debit.on('didCreate', function() {
-				$('#capture-hold').modal('hide');
-			});
-
 			this.set('dollar_amount', this.get('hold.amount_dollars'));
-			this.set('model', debit);
-
-			$('#capture-hold').modal({
-				manager: this.$()
-			});
+			this._super(debit);
 		},
 
 		save: function() {
-			if (this.get('model.isSaving')) {
-				return;
-			}
-
 			var debit = this.get('model');
-
 			var cents = null;
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
@@ -44,8 +28,7 @@ Balanced.CaptureHoldModalComponent = Ember.Component.extend({
 				return;
 			}
 			debit.set('amount', cents);
-
-			this.sendAction('submitAction', debit);
+			this._super(debit);
 		}
 	}
 });

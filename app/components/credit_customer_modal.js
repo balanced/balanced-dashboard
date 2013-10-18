@@ -1,10 +1,9 @@
-Balanced.CreditCustomerModalComponent = Ember.Component.extend({
-	submitAction: 'submitCreditCustomer',
-	classNames: ['modal-container'],
+require('app/components/modal');
 
-	willDestroyElement: function() {
-		$('#credit-customer').modal('hide');
-	},
+Balanced.CreditCustomerModalComponent = Balanced.ModalComponent.extend({
+
+	submitAction: 'submitCreditCustomer',
+	modalElement: '#credit-customer',
 
 	dollar_amount: null,
 
@@ -20,23 +19,11 @@ Balanced.CreditCustomerModalComponent = Ember.Component.extend({
 				order: this.get('order.href')
 			});
 
-			credit.on('didCreate', function() {
-				$('#credit-customer').modal('hide');
-			});
-
 			this.set('dollar_amount', null);
-			this.set('model', credit);
-
-			$('#credit-customer').modal({
-				manager: this.$()
-			});
+			this._super(credit);
 		},
 
 		save: function() {
-			if (this.get('model.isSaving')) {
-				return;
-			}
-
 			var credit = this.get('model');
 
 			var cents = null;
@@ -49,8 +36,7 @@ Balanced.CreditCustomerModalComponent = Ember.Component.extend({
 				return;
 			}
 			credit.set('amount', cents);
-
-			this.sendAction('submitAction', credit);
+			this._super(credit);
 		}
 	},
 
