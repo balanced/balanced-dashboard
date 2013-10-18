@@ -1,16 +1,7 @@
 Balanced.Order = Balanced.Model.extend({
 	uri: '/orders',
 
-	//buyers: Balanced.Model.hasMany('buyers', 'Balanced.Customer'),
-
-	buyers: Ember.A([
-		Balanced.Customer.create({
-			id: 'CU27Ah2RtfYE57owDaLsOJ9f',
-			href: '/customers/CU27Ah2RtfYE57owDaLsOJ9f',
-			name: 'Dali Wali'
-		})
-	]),
-
+	buyers: Balanced.Model.hasMany('buyers', 'Balanced.Customer'),
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
