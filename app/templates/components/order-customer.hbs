@@ -3,10 +3,20 @@
 		<div class="span2 label">
 			<i class="icon-person"></i>
 		</div>
-		<div class="span8 title">
+		<div class="span10 title">
 			<span class="nav3d">
-				{{title}}
+				{{#linkTo 'customers' customer}}{{title}}{{/linkTo}}
 			</span>
+		</div>
+		<div class="span8 buttons">
+			<div class="buttons-container">
+				{{#if debits_list.length}}
+					{{debit-customer-modal customer=customer order=order}}
+				{{/if}}
+				{{#if credits_list.length}}
+					{{credit-customer-modal customer=customer order=order}}
+				{{/if}}
+			</div>
 		</div>
 	</div>
 </div>

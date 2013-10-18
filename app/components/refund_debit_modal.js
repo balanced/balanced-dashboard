@@ -14,7 +14,6 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 				amount: null
 			});
 
-			var self = this;
 			refund.on('didCreate', function() {
 				$('#refund-debit').modal('hide');
 			});

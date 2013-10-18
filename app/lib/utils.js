@@ -1,4 +1,5 @@
-Balanced.Utils = {
+Balanced.Utils = Ember.Namespace.create({
+
 	stripDomain: function(url) {
 		return url.replace(/^.*\/\/[^\/]+/, '');
 	},
@@ -296,4 +297,5 @@ Balanced.Utils = {
 		});
 		return errorsHash;
 	}
-};
+
+});

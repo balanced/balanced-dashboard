@@ -1,5 +1,11 @@
 Balanced.OrderCustomerComponent = Ember.Component.extend({
 
+	submitRefundDebitEvent: 'submitRefundDebit',
+	submitReverseCreditEvent: 'submitReverseCredit',
+	submitCaptureHoldEvent: 'submitCaptureHold',
+	submitCreditCustomerEvent: 'submitCreditCustomer',
+	submitDebitCustomerEvent: 'submitDebitCustomer',
+
 	is_visible: true,
 	classNames: ['order-customer'],
 
@@ -82,6 +88,21 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		toggle_visibility: function() {
 			var visibility = this.get('is_visible');
 			this.set('is_visible', !visibility);
+		},
+		submitRefundDebit: function(refund) {
+			this.sendAction('submitRefundDebitEvent', refund);
+		},
+		submitReverseCredit: function(reversal) {
+			this.sendAction('submitReverseCreditEvent', reversal);
+		},
+		submitCaptureHold: function(debit) {
+			this.sendAction('submitCaptureHoldEvent', debit);
+		},
+		submitCreditCustomer: function(credit) {
+			this.sendAction('submitCreditCustomerEvent', credit);
+		},
+		submitDebitCustomer: function(debit) {
+			this.sendAction('submitDebitCustomerEvent', debit);
 		}
 	}
 

@@ -14,10 +14,6 @@ Balanced.Credit = Balanced.Transaction.extend({
 		return "credits";
 	}.property(),
 
-	amount_dollars: function() {
-		return Balanced.Utils.formatCurrency(this.get('amount'));
-	}.property('amount'),
-
 	funding_instrument_description: function() {
 		return this.get('bank_account.description');
 	}.property('bank_account.description'),

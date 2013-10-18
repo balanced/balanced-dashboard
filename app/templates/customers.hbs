@@ -14,8 +14,8 @@
 
 		    <div class="span8 buttons">
 		    	<div class="buttons-container">
-			        <a class="btn debit-customer" {{action openDebitCustomerModal target="view"}}>Debit</a>
-			        <a class="btn credit-customer" {{action openCreditCustomerModal target="view"}}>Credit</a>
+              {{debit-customer-modal customer=model}}
+              {{credit-customer-modal customer=model}}
 			    </div>
 		    </div>
 		</div>
@@ -200,9 +200,6 @@
 {{#if show_download}}
     {{partial "modals/download" }}
 {{/if}}
-
-{{view Balanced.DebitCustomerModalView customerBinding="model" viewName="debitCustomerModal"}}
-{{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 
 {{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}

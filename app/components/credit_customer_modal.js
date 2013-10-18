@@ -1,5 +1,10 @@
-Balanced.CreditCustomerModalView = Balanced.View.extend({
-	templateName: 'modals/credit_customer',
+Balanced.CreditCustomerModalComponent = Ember.Component.extend({
+	submitAction: 'submitCreditCustomer',
+	classNames: ['modal-container'],
+
+	willDestroyElement: function() {
+		$('#credit-customer').modal('hide');
+	},
 
 	dollar_amount: null,
 
@@ -11,7 +16,12 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
 			var credit = Balanced.Credit.create({
 				uri: this.get('customer.credits_uri'),
 				bank_account_uri: bank_account_uri,
-				amount: null
+				amount: null,
+				order: this.get('order.href')
+			});
+
+			credit.on('didCreate', function() {
+				$('#credit-customer').modal('hide');
 			});
 
 			this.set('dollar_amount', null);
@@ -40,11 +50,7 @@ Balanced.CreditCustomerModalView = Balanced.View.extend({
 			}
 			credit.set('amount', cents);
 
-			var self = this;
-			credit.save().then(function(credit) {
-				$('#credit-customer').modal('hide');
-				self.get('controller').transitionToRoute('credits', credit);
-			});
+			this.sendAction('submitAction', credit);
 		}
 	},
 

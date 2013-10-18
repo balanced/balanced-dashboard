@@ -1,4 +1,5 @@
 Balanced.OrdersRoute = Balanced.AuthRoute.extend({
+
 	title: 'Orders',
 
 	pageTitle: function(route, setTitle) {
@@ -15,4 +16,5 @@ Balanced.OrdersRoute = Balanced.AuthRoute.extend({
 		var orderUri = Balanced.Order.constructUri(params.order_id);
 		return Balanced.Order.find(orderUri);
 	}
+
 });
