@@ -16,9 +16,7 @@ module('Invoices', {
 		// click the invoices link
 		$('#marketplace-nav .invoices a').click();
 	},
-	teardown: function() {
-
-	}
+	teardown: function() {}
 });
 
 test('can visit page', function(assert) {
