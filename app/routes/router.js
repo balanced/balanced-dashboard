@@ -81,6 +81,9 @@ Balanced.Router.map(function() {
 			this.resource('activity', {
 				path: '/activity'
 			}, function() {
+				this.route('orders', {
+					path: '/orders'
+				});
 				this.route('transactions', {
 					path: '/transactions'
 				});

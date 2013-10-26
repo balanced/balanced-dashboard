@@ -11,6 +11,10 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return this.get('controller.category') === "customer";
 	}.property('controller.category'),
 
+	ordersTabSelected: function() {
+		return this.get('controller.category') === "order";
+	}.property('controller.category'),
+
 	fundingInstrumentsTabSelected: function() {
 		return this.get('controller.category') === "funding_instrument";
 	}.property('controller.category'),
@@ -163,6 +167,11 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
 	classNames: 'items'
+});
+
+Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
+	classNames: 'orders',
+	templateName: 'results/orders_table'
 });
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({

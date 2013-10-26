@@ -6,6 +6,18 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 	}
 });
 
+Balanced.ActivityOrdersRoute = Balanced.AuthRoute.extend({
+	pageTitle: 'Activity',
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+
+		if (this.controllerFor('activity').get('category') !== 'order') {
+			this.controllerFor('activity').set('type', 'order');
+		}
+	}
+});
+
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Activity',
 

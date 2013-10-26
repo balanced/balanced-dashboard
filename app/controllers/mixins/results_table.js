@@ -126,6 +126,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 				return 'Balanced.Card';
 			case 'log':
 				return 'Balanced.Log';
+			case 'order':
+				return 'Balanced.Order';
 			default:
 				return null;
 		}

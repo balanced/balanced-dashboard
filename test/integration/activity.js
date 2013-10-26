@@ -2,9 +2,9 @@ var activityRoute;
 
 module('Activity', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace(true);
-		var i = 4;
+		Balanced.TEST.setupMarketplace();
 		Ember.run(function() {
+			var i = 4;
 			while (i > 0) {
 				Balanced.Debit.create({
 					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
@@ -54,7 +54,7 @@ test('add funds', function(assert) {
 		.then(function() {
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 		})
-		.click('.activity-escrow-box .btn')
+		.click('.activity-escrow-box .btn:eq(0)')
 		.then(function() {
 			assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 			assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
@@ -64,7 +64,7 @@ test('add funds', function(assert) {
 		.click('#add-funds .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
+			assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
 			assert.equal(spy.getCall(0).args[2].amount, 5555);
 			assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
 		});
@@ -138,7 +138,7 @@ test('download activity', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
 				email_address: "test@example.com",
-				uri: "/v1/marketplaces/" + Balanced.TEST.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Chold"
+				uri: "/marketplaces/" + Balanced.TEST.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Ccard_hold"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");

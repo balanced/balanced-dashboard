@@ -12,6 +12,16 @@ Balanced.Order = Balanced.Model.extend({
 		return this.get('description') || this.get('id');
 	}.property('description', 'id'),
 
+	debits_amount: function() {
+		return Balanced.Utils.formatCurrency(this.get('amount'));
+	}.property('amount'),
+
+	credits_amount: function() {
+		return Balanced.Utils.formatCurrency(
+			this.get('amount') - this.get('amount_escrowed')
+		);
+	}.property('amount', 'amount_escrowed'),
+
 	escrow_balance: function() {
 		var cents = this.get('amount_escrowed');
 		return Balanced.Utils.formatCurrency(cents);

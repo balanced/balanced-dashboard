@@ -1,4 +1,9 @@
 <nav>
+
+    <li {{bindAttr class=":orders view.ordersTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "order"}}> Orders </a>
+    </li>
+
     <li {{bindAttr class=":transactions :filter view.transactionsTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "transaction"}}>{{ view.transaction_type_label }} </a>
         <div class="selector dropdown">

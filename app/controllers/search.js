@@ -113,6 +113,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		},
 
 		// UI properties
+		ordersTabSelected: function() {
+			return this.get('category') === "order";
+		}.property('category'),
+
 		transactionsTabSelected: function() {
 			return this.get('category') === "transaction";
 		}.property('category'),
