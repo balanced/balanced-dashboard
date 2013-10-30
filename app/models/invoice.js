@@ -4,7 +4,7 @@ Balanced.Invoice = Balanced.Model.extend({
 	bank_account_debits: Balanced.Model.hasMany('bank_account_debits', 'Balanced.Debit'),
 	card_debits: Balanced.Model.hasMany('card_debits', 'Balanced.Debit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
-	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
+	credits: Balanced.Model.hasMany('bank_account_credits', 'Balanced.Credit'),
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	failed_credits: Balanced.Model.hasMany('failed_credits', 'Balanced.Credit'),
 	lost_debit_chargebacks: Balanced.Model.hasMany('lost_debit_chargebacks', 'Balanced.Debit'),
