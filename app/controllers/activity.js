@@ -8,15 +8,18 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 	actions: {
 		changeTypeFilter: function(type) {
-			this.set('type', type);
 			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+				this.set('type', 'search');
 				this.transitionToRoute('activity.transactions');
-			} else if (type === 'order') {
-				this.transitionToRoute('activity.orders');
-			} else if (type === 'customer') {
-				this.transitionToRoute('activity.customers');
-			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
-				this.transitionToRoute('activity.funding_instruments');
+			} else {
+				this.set('type', type);
+				if (type === 'order') {
+					this.transitionToRoute('activity.orders');
+				} else if (type === 'customer') {
+					this.transitionToRoute('activity.customers');
+				} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
+					this.transitionToRoute('activity.funding_instruments');
+				}
 			}
 		}
 	}

@@ -2,6 +2,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 	Balanced.ResultsTable, {
 		needs: ['application', 'marketplace'],
 
+		type: 'search',
 		search: null,
 		debounced_search: null,
 
@@ -89,7 +90,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				dateFilterTitle: 'Any time',
 				sortField: null,
 				sortOrder: null,
-				type: 'transaction',
+				type: 'search',
 				last_loaded_search_result: null
 			});
 		},
@@ -118,7 +119,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		}.property('category'),
 
 		transactionsTabSelected: function() {
-			return this.get('category') === "transaction";
+			return this.get('category') === "search";
 		}.property('category'),
 
 		customersTabSelected: function() {
