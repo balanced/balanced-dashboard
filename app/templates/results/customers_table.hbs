@@ -21,22 +21,22 @@
 </tfoot>
 {{/if}}
 <tbody>
-    {{#each account in view.customers}}
+    {{#each customer in view.customers}}
         <tr>
             <td class="span3 date">
-                {{#linkTo "customers" account}}<span>
-                    <time {{bindAttr datetime="account.created_at"}} {{bindAttr title="account.created_at"}}>{{humanReadableDateShort account.created_at }}</time>
-                </span>{{/linkTo}}
+                {{#link-to "customers" customer}}<span>
+                    <time {{bindAttr datetime="customer.created_at"}} {{bindAttr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at }}</time>
+                </span>{{/link-to}}
             </td>
-            <td class="span4 name" {{bindAttr title="account.display_me"}}>
-                {{#linkTo "customers" account}}<span>
-                    {{ account.display_me }}
-                </span>{{/linkTo}}
+            <td class="span4 name" {{bindAttr title="customer.display_me"}}>
+                {{#link-to "customers" customer}}<span>
+                    {{ customer.display_me }}
+                </span>{{/link-to}}
             </td>
-            <td class="span8 email" {{bindAttr title="account.email"}}>
-                {{#linkTo "customers" account}}<span>
-                    {{ account.email }}
-                </span>{{/linkTo}}
+            <td class="span8 email" {{bindAttr title="customer.email"}}>
+                {{#link-to "customers" customer}}<span>
+                    {{ customer.email }}
+                </span>{{/link-to}}
             </td>
         </tr>
     {{else}}
