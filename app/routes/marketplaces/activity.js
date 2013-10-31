@@ -24,8 +24,8 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		if (this.controllerFor('activity').get('category') !== 'transaction') {
-			this.controllerFor('activity').set('type', 'transaction');
+		if (this.controllerFor('activity').get('category') !== 'search') {
+			this.controllerFor('activity').set('type', 'search');
 		} else {
 			this.controllerFor('activity').send('reload');
 		}

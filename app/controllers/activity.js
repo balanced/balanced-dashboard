@@ -49,6 +49,8 @@ Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControll
 	allowSortByNone: false
 });
 
+Balanced.ActivityOrdersController = Balanced.NestedActivityResultsControllers.extend({});
+
 Balanced.ActivityCustomersController = Balanced.NestedActivityResultsControllers.extend({});
 
 Balanced.ActivityFundingInstrumentsController = Balanced.NestedActivityResultsControllers.extend({});

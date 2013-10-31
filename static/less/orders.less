@@ -102,6 +102,17 @@
 	}
 }
 
+table.orders {
+	th, td {
+		&:nth-of-type(5), &:nth-of-type(6), &:nth-of-type(7) {
+			text-align: right;
+		}
+	}
+	td:last-of-type {
+		font-weight: bold;
+	}
+}
+
 .order-party {
 	font-style: italic;
 	margin: 70px 0 0;

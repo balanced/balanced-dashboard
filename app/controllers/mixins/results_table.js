@@ -106,6 +106,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		switch (this.get('type')) {
 			case 'transaction':
 				return 'Balanced.Transaction';
+			case 'search':
+				return 'Balanced.Transaction';
 			case 'debit':
 				return 'Balanced.Debit';
 			case 'credit':

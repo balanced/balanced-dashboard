@@ -171,11 +171,14 @@ Balanced.Utils = Ember.Namespace.create({
 		}
 		if (params.type) {
 			switch (params.type) {
+				case 'search':
+					filteringParams['type[in]'] = Balanced.SEARCH.SEARCH_TYPES.join(',');
+					break;
 				case 'transaction':
-					filteringParams['type[in]'] = 'credit,debit,refund,card_hold';
+					filteringParams['type[in]'] = Balanced.SEARCH.TRANSACTION_TYPES.join(',');
 					break;
 				case 'funding_instrument':
-					filteringParams['type[in]'] = 'bank_account,card';
+					filteringParams['type[in]'] = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES.join(',');
 					break;
 				default:
 					filteringParams.type = params.type;
