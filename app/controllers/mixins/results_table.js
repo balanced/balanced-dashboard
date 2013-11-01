@@ -112,6 +112,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 				return 'Balanced.Debit';
 			case 'credit':
 				return 'Balanced.Credit';
+			case 'card_hold':
+				return 'Balanced.Hold';
 			case 'hold':
 				return 'Balanced.Hold';
 			case 'refund':
@@ -143,8 +145,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			return type;
 		}
 
-		if (_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
-			return 'transaction';
+		if (_.contains(Balanced.SEARCH.SEARCH_TYPES, type)) {
+			return 'search';
 		}
 
 		if (_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {

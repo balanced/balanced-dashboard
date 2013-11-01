@@ -21,9 +21,10 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 	transaction_type_label: function() {
 		var typesToLabels = {
-			DEFAULT: 'Transactions'
+			DEFAULT: 'Transactions',
+			card_hold: 'Holds'
 		};
-		var types = Balanced.SEARCH.TRANSACTION_TYPES;
+		var types = Balanced.SEARCH.SEARCH_TYPES;
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
