@@ -1,9 +1,7 @@
 module('Invoices', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Balanced.TEST.setupFixtures();
 		Ember.run(function() {
-			Balanced.Adapter = Balanced.FixtureAdapter.create();
-			window.setupTestFixtures();
 			var userId = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
 			Balanced.Auth.setAuthProperties(
 				true,
@@ -12,9 +10,6 @@ module('Invoices', {
 				userId,
 				false);
 		});
-
-		// click the invoices link
-		$('#marketplace-nav .invoices a').click();
 	},
 	teardown: function() {}
 });

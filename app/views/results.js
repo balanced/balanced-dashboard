@@ -45,7 +45,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	},
 
 	show_download_button: function() {
-		return this.get('controller.category') === 'transaction';
+		return this.get('controller.category') === 'search';
 	}.property('controller.category')
 });
 
