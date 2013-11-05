@@ -1,5 +1,15 @@
 var activityRoute;
 
+function setupMarketplaceController(bankAccounts) {
+	var model = Balanced.__container__.lookup('controller:marketplace').get('model');
+	model.set('owner_customer', Ember.Object.create({
+		debits_uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
+		credits_uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits',
+		bank_accounts: bankAccounts,
+		debitable_bank_accounts: bankAccounts
+	}));
+}
+
 module('Activity', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
@@ -16,9 +26,11 @@ module('Activity', {
 			}
 		});
 		activityRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/activity/transactions';
+
+		// add some delay, because the API takes some time to add things to search
 		var stop = window.stop;
 		stop();
-		setTimeout(start, 1000);
+		setTimeout(start, 2 * 1000);
 	},
 	teardown: function() {}
 });
@@ -49,32 +61,37 @@ test('Click load more shows 5 more and hides load more', function(assert) {
 
 test('add funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
+	var bankAccounts = Balanced.BankAccount.findAll();
 
-	visit(activityRoute)
-		.then(function() {
+	visit(activityRoute).then(function() {
+		setupMarketplaceController(bankAccounts);
+
+		Ember.run.next(function() {
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
-		})
-		.click('.activity-escrow-box .btn:eq(0)')
-		.then(function() {
-			assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
-			assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
-		})
-		.fillIn('#add-funds input', '55.55')
-		.fillIn('#add-funds input.description', 'Adding lots of money yo')
-		.click('#add-funds .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
-			assert.equal(spy.getCall(0).args[2].amount, 5555);
-			assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
+
+			click('.activity-escrow-box .btn:eq(0)')
+			.then(function() {
+				assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
+				assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
+			})
+			.fillIn('#add-funds input', '55.55')
+			.fillIn('#add-funds input.description', 'Adding lots of money yo')
+			.click('#add-funds .modal-footer button[name="modal-submit"]')
+			.then(function() {
+				assert.ok(spy.calledOnce);
+				assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
+				assert.equal(spy.getCall(0).args[2].amount, 5555);
+				assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
+			});
 		});
+	});
 });
 
 test('add funds only adds once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(activityRoute)
-		.click('.activity-escrow-box .btn')
+		.click('.activity-escrow-box .btn:eq(0)')
 		.fillIn('#add-funds input', '55.55')
 		.click('#add-funds .modal-footer button[name="modal-submit"]')
 		.click('#add-funds .modal-footer button[name="modal-submit"]')
@@ -87,39 +104,51 @@ test('add funds only adds once despite multiple clicks', function(assert) {
 
 test('withdraw funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	visit(activityRoute)
-		.then(function() {
+	var bankAccounts = Balanced.BankAccount.findAll();
+
+	visit(activityRoute).then(function() {
+		setupMarketplaceController(bankAccounts);
+
+		Ember.run.next(function() {
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
-		})
-		.click('.activity-escrow-box .btn')
-		.then(function() {
-			assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
-			assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
-		})
-		.fillIn('#withdraw-funds input', '55.55')
-		.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
-		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits'));
-			assert.equal(spy.getCall(0).args[2].amount, 5555);
-			assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+
+			click('.activity-escrow-box .btn:eq(1)')
+			.then(function() {
+				assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
+				assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
+			})
+			.fillIn('#withdraw-funds input', '55.55')
+			.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
+			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+			.then(function() {
+				assert.ok(spy.calledOnce);
+				assert.ok(spy.calledWith(Balanced.Credit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits'));
+				assert.equal(spy.getCall(0).args[2].amount, 5555);
+				assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+			});
 		});
+	});
 });
 
 test('withdraw funds only withdraws once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
+	var bankAccounts = Balanced.BankAccount.findAll();
 
-	visit(activityRoute)
-		.click('.activity-escrow-box .btn')
-		.fillIn('#withdraw-funds input', '55.55')
-		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-		.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
+	visit(activityRoute).then(function() {
+		setupMarketplaceController(bankAccounts);
+
+		Ember.run.next(function() {
+			click('.activity-escrow-box .btn:eq(1)')
+			.fillIn('#withdraw-funds input', '55.55')
+			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+			.then(function() {
+				assert.ok(stub.calledOnce);
+			});
 		});
+	});
 });
 
 test('download activity', function(assert) {
@@ -138,7 +167,7 @@ test('download activity', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
 				email_address: "test@example.com",
-				uri: "/marketplaces/" + Balanced.TEST.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=credit%2Cdebit%2Crefund%2Ccard_hold"
+				uri: "/marketplaces/" + Balanced.TEST.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
