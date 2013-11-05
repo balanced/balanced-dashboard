@@ -30,7 +30,7 @@ module('Activity', {
 		// add some delay, because the API takes some time to add things to search
 		var stop = window.stop;
 		stop();
-		setTimeout(start, 2 * 1000);
+		setTimeout(start, 1000);
 	},
 	teardown: function() {}
 });
