@@ -39,13 +39,13 @@ Balanced.Adapter.addFixtures([{
 					"_type": "page",
 					"key": "card_debits"
 				},
-				"credits": {
+				"bank_account_credits": {
 					"_type": "page",
 					"key": "cre"
 				},
-				"credits_uri": {
+				"bank_account_credits_uri": {
 					"_type": "page",
-					"key": "credits"
+					"key": "bank_account_credits"
 				},
 				"debits": {
 					"_type": "page",
@@ -120,10 +120,10 @@ Balanced.Adapter.addFixtures([{
 			"chargeback_fixed_fee": 1500,
 			"created_at": "2012-12-13T23:07:05.243478Z",
 			"credit_fee": 0,
-			"credits_count": 0,
-			"credits_total_amount": 0,
-			"credits_total_fee": 0,
-			"credits_uri": "/v1/invoices/IV6jUpqk7IkuH6pyrzumcr9e/credits",
+			"bank_account_credits_count": 0,
+			"bank_account_credits_total_amount": 0,
+			"bank_account_credits_total_fee": 0,
+			"bank_account_credits_uri": "/v1/invoices/IV6jUpqk7IkuH6pyrzumcr9e/credits",
 			"debits_count": 0,
 			"debits_total_amount": 0,
 			"debits_total_fee": 0,
@@ -198,13 +198,13 @@ Balanced.Adapter.addFixtures([{
 					"_type": "page",
 					"key": "card_debits"
 				},
-				"credits": {
+				"bank_account_credits": {
 					"_type": "page",
 					"key": "cre"
 				},
-				"credits_uri": {
+				"bank_account_credits_uri": {
 					"_type": "page",
-					"key": "credits"
+					"key": "bank_account_credits"
 				},
 				"debits": {
 					"_type": "page",
@@ -279,10 +279,10 @@ Balanced.Adapter.addFixtures([{
 			"chargeback_fixed_fee": 1500,
 			"created_at": "2012-12-08T00:34:53.121459Z",
 			"credit_fee": 0,
-			"credits_count": 0,
-			"credits_total_amount": 0,
-			"credits_total_fee": 0,
-			"credits_uri": "/v1/invoices/IVDOATjeyAPTJMJPnBR83uE/credits",
+			"bank_account_credits_count": 0,
+			"bank_account_credits_total_amount": 0,
+			"bank_account_credits_total_fee": 0,
+			"bank_account_credits_uri": "/v1/invoices/IVDOATjeyAPTJMJPnBR83uE/credits",
 			"debits_count": 6,
 			"debits_total_amount": 7015,
 			"debits_total_fee": 245,
@@ -359,7 +359,7 @@ Balanced.Adapter.addFixtures([{
 				"_type": "page",
 				"key": "card_de"
 			},
-			"credits": {
+			"bank_account_credits": {
 				"_type": "page",
 				"key": "cre"
 			},
@@ -778,7 +778,7 @@ Balanced.Adapter.addFixtures([{
 		"chargeback_fixed_fee": 1500,
 		"created_at": "2012-12-08T00:34:53.121Z",
 		"credit_fee": 0,
-		"credits": {
+		"bank_account_credits": {
 			"_type": "page",
 			"_uris": {
 				"first_uri": {
@@ -807,9 +807,9 @@ Balanced.Adapter.addFixtures([{
 			"previous_uri": null,
 			"total": 0
 		},
-		"credits_count": 0,
-		"credits_total_amount": 0,
-		"credits_total_fee": 0,
+		"bank_account_credits_count": 0,
+		"bank_account_credits_total_amount": 0,
+		"bank_account_credits_total_fee": 0,
 		"debits": {
 			"_type": "page",
 			"_uris": {
