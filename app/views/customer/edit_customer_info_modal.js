@@ -50,6 +50,10 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 				customer.set('email', null);
 			}
 
+			if (customer.get('ssn_last4') === '') {
+				customer.set('ssn_last4', null);
+			}
+
 			customer.save().then(function() {
 				self.get('customer').reload();
 				$('#edit-customer-info').modal('hide');
