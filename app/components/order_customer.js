@@ -37,7 +37,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		debits.forEach(function(debit) {
 			var amount = debit.get('amount');
-			if(debit.get('status') === 'succeeded') {
+			if (debit.get('status') === 'succeeded') {
 				amounts.debited += amount;
 			} else {
 				amounts.pending += amount;
@@ -46,7 +46,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		credits.forEach(function(credit) {
 			var amount = credit.get('amount');
-			if(credit.get('status') === 'succeeded') {
+			if (credit.get('status') === 'succeeded') {
 				amounts.credited += amount;
 			} else {
 				amounts.pending += amount;

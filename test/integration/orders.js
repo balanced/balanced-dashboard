@@ -45,7 +45,7 @@ module('Order Page', {
 				}).save();
 
 			}).then(function(credit) {
-			
+
 				Balanced.TEST.CREDIT_1 = credit;
 
 				return Balanced.BankAccount.create({

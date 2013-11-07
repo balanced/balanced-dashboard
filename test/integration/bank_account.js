@@ -117,7 +117,7 @@ test('can initiate bank account verification', function(assert) {
 					.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
 					.then(function() {
 						assert.ok(stub.calledOnce);
-						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/bank_account_verifications'));
+						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID + '/verifications'));
 					});
 			});
 		});

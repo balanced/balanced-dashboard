@@ -15,20 +15,20 @@ module('Invoices', {
 });
 
 test('can visit page', function(assert) {
-	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/invoices').then(function() {
+	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices').then(function() {
 		//  check the page title has been selected
 		assert.equal($('#content h1').text().trim(), 'Invoices');
 	});
 });
 
 test('shows invoices list', function(assert) {
-	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/invoices').then(function() {
+	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices').then(function() {
 		assert.equal($("#invoices table tbody tr").length, 2);
 	});
 });
 
 test('invoice detail page', function(assert) {
-	visit('/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY/invoices/IVDOATjeyAPTJMJPnBR83uE')
+	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices/IVDOATjeyAPTJMJPnBR83uE')
 		.then(function() {
 			assert.equal($(".invoice-balance-due-box .amount").text().trim(), "$17.85");
 			assert.equal($(".hold-details-row .total").text().trim(), "$17.85");
@@ -59,7 +59,7 @@ test('invoice detail page', function(assert) {
 
 			// Check if the transaction is showing up correctly
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Hold: void');
-			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'slkfdjslkj (slkjlsj@gmail.com)');
+			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'slkfdjslkj');
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$49.95');
 		})
 		.click('.activity .results header li.debit-bank-accounts a')
@@ -76,7 +76,7 @@ test('invoice detail page', function(assert) {
 
 			// Check if the transaction is showing up correctly
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Refund');
-			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'Marc Sherry (msherry@gmail.com)');
+			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'Marc Sherry');
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$5.00');
 		});
 });

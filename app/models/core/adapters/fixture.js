@@ -28,6 +28,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 			type: type,
 			uri: uri
 		});
+
 		// cloning in case people modify this later, don't want to screw up our fixtures!
 		var clonedJson = this._cloneObject(json);
 
@@ -82,7 +83,7 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 	},
 
 	addFixture: function(json) {
-		this.dataMap[json.uri] = json;
+		this.dataMap[json.href || json.uri] = json;
 	},
 
 	addFixtures: function(jsonArray) {

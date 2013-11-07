@@ -70,19 +70,19 @@ test('add funds', function(assert) {
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			click('.activity-escrow-box .btn:eq(0)')
-			.then(function() {
-				assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
-				assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
-			})
-			.fillIn('#add-funds input', '55.55')
-			.fillIn('#add-funds input.description', 'Adding lots of money yo')
-			.click('#add-funds .modal-footer button[name="modal-submit"]')
-			.then(function() {
-				assert.ok(spy.calledOnce);
-				assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
-				assert.equal(spy.getCall(0).args[2].amount, 5555);
-				assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
-			});
+				.then(function() {
+					assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
+					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
+				})
+				.fillIn('#add-funds input', '55.55')
+				.fillIn('#add-funds input.description', 'Adding lots of money yo')
+				.click('#add-funds .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(spy.calledOnce);
+					assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits'));
+					assert.equal(spy.getCall(0).args[2].amount, 5555);
+					assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
+				});
 		});
 	});
 });
@@ -113,19 +113,19 @@ test('withdraw funds', function(assert) {
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			click('.activity-escrow-box .btn:eq(1)')
-			.then(function() {
-				assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
-				assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
-			})
-			.fillIn('#withdraw-funds input', '55.55')
-			.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
-			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-			.then(function() {
-				assert.ok(spy.calledOnce);
-				assert.ok(spy.calledWith(Balanced.Credit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits'));
-				assert.equal(spy.getCall(0).args[2].amount, 5555);
-				assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
-			});
+				.then(function() {
+					assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
+					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
+				})
+				.fillIn('#withdraw-funds input', '55.55')
+				.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
+				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(spy.calledOnce);
+					assert.ok(spy.calledWith(Balanced.Credit, '/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits'));
+					assert.equal(spy.getCall(0).args[2].amount, 5555);
+					assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+				});
 		});
 	});
 });
@@ -139,14 +139,14 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 
 		Ember.run.next(function() {
 			click('.activity-escrow-box .btn:eq(1)')
-			.fillIn('#withdraw-funds input', '55.55')
-			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-			.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-			.then(function() {
-				assert.ok(stub.calledOnce);
-			});
+				.fillIn('#withdraw-funds input', '55.55')
+				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(stub.calledOnce);
+				});
 		});
 	});
 });

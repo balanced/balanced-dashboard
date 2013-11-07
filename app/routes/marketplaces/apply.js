@@ -33,6 +33,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 					};
 
 					models.marketplace.save(settings).then(function(marketplace) {
+
 						//  associate to login
 						var userMarketplaceAssociation = Balanced.UserMarketplace.create({
 							uri: user.api_keys_uri,

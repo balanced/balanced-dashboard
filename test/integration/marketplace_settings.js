@@ -60,12 +60,12 @@ test('can update marketplace info', function(assert) {
 
 		Ember.run.next(function() {
 			click('.marketplace-info a.edit')
-			.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
-			.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-			.then(function() {
-				// Marketplace name should have changed
-				assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'Test');
-			});
+				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
+				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					// Marketplace name should have changed
+					assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'Test');
+				});
 		});
 	});
 });
@@ -79,13 +79,13 @@ test('updating marketplace info only submits once despite multiple clicks', func
 
 		Ember.run.next(function() {
 			click('.marketplace-info a.edit')
-			.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
-			.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-			.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-			.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-			.then(function() {
-				assert.ok(stub.calledOnce);
-			});
+				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
+				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(stub.calledOnce);
+				});
 		});
 	});
 });
@@ -100,40 +100,40 @@ test('can update owner info', function(assert) {
 
 		Ember.run.next(function() {
 			click('.owner-info a.edit')
-			.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
-			.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
-			.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
-			.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
-			.click('#edit-customer-info a.more-info')
-			.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
-			.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 400')
-			.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
-			.fillIn('#edit-customer-info .modal-body input[name="state"]', 'CA')
-			.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
-			.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '12345')
-			.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
-			.fillIn('#edit-customer-info .modal-body input[name="dob_month"]', '12')
-			.fillIn('#edit-customer-info .modal-body input[name="dob_year"]', '1924')
-			.fillIn('#edit-customer-info .modal-body input[name="ssn_last4"]', '1234')
-			.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
-			.then(function() {
-				assert.ok(stub.calledOnce);
-				assert.ok(stub.calledWith(Balanced.Customer));
-				assert.equal(stub.getCall(0).args[2].name, "TEST");
-				assert.equal(stub.getCall(0).args[2].email, "TEST@example.com");
-				assert.equal(stub.getCall(0).args[2].business_name, "TEST");
-				assert.equal(stub.getCall(0).args[2].ein, "1234");
-				assert.equal(stub.getCall(0).args[2].address.line1, "600 William St");
-				assert.equal(stub.getCall(0).args[2].address.line2, "Apt 400");
-				assert.equal(stub.getCall(0).args[2].address.city, "Oakland");
-				assert.equal(stub.getCall(0).args[2].address.state, "CA");
-				assert.equal(stub.getCall(0).args[2].address.country_code, "US");
-				assert.equal(stub.getCall(0).args[2].address.postal_code, "12345");
-				assert.equal(stub.getCall(0).args[2].phone, "1231231234");
-				assert.equal(stub.getCall(0).args[2].dob_month, "12");
-				assert.equal(stub.getCall(0).args[2].dob_year, "1924");
-				assert.equal(stub.getCall(0).args[2].ssn_last4, "1234");
-			});
+				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
+				.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
+				.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')
+				.fillIn('#edit-customer-info .modal-body input[name="ein"]', '1234')
+				.click('#edit-customer-info a.more-info')
+				.fillIn('#edit-customer-info .modal-body input[name="line1"]', '600 William St')
+				.fillIn('#edit-customer-info .modal-body input[name="line2"]', 'Apt 400')
+				.fillIn('#edit-customer-info .modal-body input[name="city"]', 'Oakland')
+				.fillIn('#edit-customer-info .modal-body input[name="state"]', 'CA')
+				.fillIn('#edit-customer-info .modal-body select[name="country_code"]', 'US')
+				.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '12345')
+				.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
+				.fillIn('#edit-customer-info .modal-body input[name="dob_month"]', '12')
+				.fillIn('#edit-customer-info .modal-body input[name="dob_year"]', '1924')
+				.fillIn('#edit-customer-info .modal-body input[name="ssn_last4"]', '1234')
+				.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(stub.calledOnce);
+					assert.ok(stub.calledWith(Balanced.Customer));
+					assert.equal(stub.getCall(0).args[2].name, "TEST");
+					assert.equal(stub.getCall(0).args[2].email, "TEST@example.com");
+					assert.equal(stub.getCall(0).args[2].business_name, "TEST");
+					assert.equal(stub.getCall(0).args[2].ein, "1234");
+					assert.equal(stub.getCall(0).args[2].address.line1, "600 William St");
+					assert.equal(stub.getCall(0).args[2].address.line2, "Apt 400");
+					assert.equal(stub.getCall(0).args[2].address.city, "Oakland");
+					assert.equal(stub.getCall(0).args[2].address.state, "CA");
+					assert.equal(stub.getCall(0).args[2].address.country_code, "US");
+					assert.equal(stub.getCall(0).args[2].address.postal_code, "12345");
+					assert.equal(stub.getCall(0).args[2].phone, "1231231234");
+					assert.equal(stub.getCall(0).args[2].dob_month, "12");
+					assert.equal(stub.getCall(0).args[2].dob_year, "1924");
+					assert.equal(stub.getCall(0).args[2].ssn_last4, "1234");
+				});
 		});
 	});
 });
@@ -249,24 +249,24 @@ test('can delete bank accounts', function(assert) {
 				initialLength = $('.bank-account-info .sidebar-items li').length;
 
 				click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
-				.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					/**
-					 * WORKAROUND: since the test runner is synchronous,
-					 * lets force the model into a saving state.
-					 */
-					bankAccounts.get('content').forEach(function(bankAccount) {
-						bankAccount.set('isSaving', true);
-					});
+					.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						/**
+						 * WORKAROUND: since the test runner is synchronous,
+						 * lets force the model into a saving state.
+						 */
+						bankAccounts.get('content').forEach(function(bankAccount) {
+							bankAccount.set('isSaving', true);
+						});
 
-					Ember.run.next(function() {
-						click('#delete-bank-account .modal-footer button[name="modal-submit"]');
+						Ember.run.next(function() {
+							click('#delete-bank-account .modal-footer button[name="modal-submit"]');
+						});
+					})
+					.then(function() {
+						assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+						assert.ok(spy.calledOnce, "Delete should have been called once");
 					});
-				})
-				.then(function() {
-					assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-					assert.ok(spy.calledOnce, "Delete should have been called once");
-				});
 			});
 		});
 });
@@ -338,24 +338,24 @@ test('can delete cards', function(assert) {
 
 			Ember.run.next(function() {
 				assert.equal($('.card-info .sidebar-items li').length, 1);
-				
-				click(".card-info .sidebar-items li:eq(0) .icon-delete")
-				.click('#delete-card .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					/**
-					 * WORKAROUND: since the test runner is synchronous,
-					 * lets force the model into a saving state.
-					 */
-					model.set('isSaving', true);
 
-					Ember.run.next(function() {
-						click('#delete-card .modal-footer button[name="modal-submit"]');
+				click(".card-info .sidebar-items li:eq(0) .icon-delete")
+					.click('#delete-card .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						/**
+						 * WORKAROUND: since the test runner is synchronous,
+						 * lets force the model into a saving state.
+						 */
+						model.set('isSaving', true);
+
+						Ember.run.next(function() {
+							click('#delete-card .modal-footer button[name="modal-submit"]');
+						});
+					})
+					.then(function() {
+						assert.equal($('.card-info .sidebar-items li').length, 0);
+						assert.ok(spy.calledOnce, "Delete should have been called once");
 					});
-				})
-				.then(function() {
-					assert.equal($('.card-info .sidebar-items li').length, 0);
-					assert.ok(spy.calledOnce, "Delete should have been called once");
-				});
 			});
 		});
 });

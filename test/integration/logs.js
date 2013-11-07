@@ -4,7 +4,7 @@ module('Logs', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
 		var i = 3;
-		while(i > 0) {
+		while (i > 0) {
 			Ember.run(function() {
 				Balanced.Debit.create({
 					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
