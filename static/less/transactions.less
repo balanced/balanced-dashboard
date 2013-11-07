@@ -4,6 +4,16 @@
 .transaction {
   .transactions-header {
     background-color: @turquoise60;
+    -ms-word-break: break-all;
+     word-break: break-all;
+
+    /* Non standard for webkit */
+    word-break: break-word;
+
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+    
     div.label {
       background-color: @turquoise100;
 
@@ -118,6 +128,16 @@
 }
 
 .transaction-info {
+  -ms-word-break: break-all;
+  word-break: break-all;
+
+  /* Non standard for webkit */
+  word-break: break-word;
+
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
 
   ul#events {
     li.event {
