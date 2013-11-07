@@ -1,5 +1,4 @@
-var lastModule, currentModule;
-var marketplaceId, customerId;
+document.write('<script src="https:\/\/js.balancedpayments.com\/1.1\/balanced.js"><\/script>');
 
 QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';

@@ -103,7 +103,6 @@ test('can visit order page', function(assert) {
 
 		Ember.run.next(function() {
 			assert.equal($('.transaction-details').length, 2, 'There is a debit and a credit.');
-			console.log($('.transaction-details:eq(1)').html());
 		});
 	});
 });

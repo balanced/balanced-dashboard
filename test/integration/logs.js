@@ -3,25 +3,17 @@ var logsRoute;
 module('Logs', {
 	setup: function() {
 		Balanced.TEST.setupMarketplace();
-		var i = 3;
-		while (i > 0) {
-			Ember.run(function() {
+		Ember.run(function() {
+			var i = 4;
+			while (i > 0) {
 				Balanced.Debit.create({
 					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine'
 				}).save();
-			});
-			i--;
-		}
-		Ember.run(function() {
-			Balanced.Debit.create({
-				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/fail',
-				appears_on_statement_as: 'Pixie Dust',
-				amount: 10000,
-				description: 'Cocaine'
-			}).save();
+				i--;
+			}
 		});
 		logsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/logs';
 
@@ -91,11 +83,11 @@ test('filter logs by request failed only', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Log,
 				'/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx'));
 
-			assert.equal($('table.logs tbody tr').length, 1, 'has 1 log');
+			assert.equal($('table.logs tbody tr').length, 1, 'has no failures');
 			assert.equal($('table.logs tfoot td').length, 0, 'no "load more"');
 
 			// check the first row is the log we expect
-			assert.ok($('table.logs tbody tr td a').first().attr('href').match(/\/logs\//));
+			assert.equal($('table.logs tbody tr td').first().text().trim(), 'No results');
 		});
 });
 
@@ -104,7 +96,7 @@ test('view a particular log entry', function(assert) {
 		.click('#marketplace-nav .logs a')
 		.click('table.logs tbody tr:first-of-type a')
 		.then(function() {
-			assert.equal($('h1.page-title').text(), 'POST /customers/' + Balanced.TEST.CUSTOMER_ID + '/fail', 'h1 title is correct');
+			assert.equal($('h1.page-title').text(), 'POST /customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', 'h1 title is correct');
 			assert.equal($('#log-request-id').text().length, 35, 'Log request id valid');
 		});
 });

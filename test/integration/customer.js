@@ -266,6 +266,8 @@ test('can add bank account', function(assert) {
 
 			//assert.ok(spy.calledOnce);
 			//assert.ok(spy.calledWith(Balanced.BankAccount, '/bank_accounts', sinon.match(input)));
+
+			balanced.bankAccount.create.restore();
 		});
 });
 
