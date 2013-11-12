@@ -15,9 +15,7 @@
             <div class="span8 buttons">
                 <div class="buttons-container">
                     {{#if customer}}
-                        {{#if Balanced.Auth.user.admin }}
-                            <a class="btn hold-button" {{action openHoldCardModal}}>Hold</a>
-                        {{/if}}
+                        {{partial 'hold_card'}}
                         <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
                     {{/if}}
                 </div>
