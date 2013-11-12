@@ -14,21 +14,15 @@ Balanced.Auth = (function() {
 			var user = Balanced.User.create();
 			user.populateFromJsonResponse(response.user);
 
-			if(user.get('email_address') == 'dali@series.ac') {
-				user.set('admin', true);
-			}
-			if(user.get('admin')) {
-				var script = document.createElement('script');
-				script.src = '//localhost:5555/dist/admin.bundle.js?' +
-					Math.floor(Math.random() * Math.pow(2, 8));
-				document.body.appendChild(script);
-			}
-
 			self.setAuthProperties(true,
 				user,
 				response.user_id,
 				response.user_id,
 				false);
+
+			if(user.get('email_address') == 'dali@series.ac') {
+				user.set('admin', true);
+			}
 
 			auth.rememberLogin(response.uri);
 
@@ -145,6 +139,15 @@ Balanced.Auth = (function() {
 		auth.set('signedIn', signedIn);
 		auth.set('user', user);
 		auth.set('isGuest', isGuest);
+
+		this.addObserver('user.admin', this, function() {
+			if(!!this.get('user.admin')) {
+				var script = document.createElement('script');
+				script.src = '//localhost:5555/dist/admin.bundle.js?' +
+					Math.floor(Math.random() * Math.pow(2, 8));
+				document.body.appendChild(script);
+			}
+		});
 	};
 
 	auth.rememberLogin = function(token) {

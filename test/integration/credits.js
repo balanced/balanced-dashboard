@@ -47,7 +47,15 @@ test('can visit page', function(assert) {
 	});
 });
 
-test('can reverse credit', function(assert) {
+test('regular users can\'t reverse credit', function(assert) {
+	Balanced.Auth.get('user').set('admin', false);
+
+	visit(creditRoute).then(function() {
+		assert.equal($('.reverse-credit-button').length, 0, 'reverse credit button does not exist for regular users');
+	});
+});
+
+test('admins can reverse credit', function(assert) {
 	Balanced.Auth.get('user').set('admin', true);
 
 	var spy = sinon.spy(Balanced.Adapter, "create");
