@@ -47,31 +47,6 @@ test('can visit page', function(assert) {
 	});
 });
 
-test('regular users can\'t reverse credit', function(assert) {
-	Balanced.Auth.get('user').set('admin', false);
-
-	visit(creditRoute).then(function() {
-		assert.equal($('.reverse-credit-button').length, 0, 'reverse credit button does not exist for regular users');
-	});
-});
-
-test('admins can reverse credit', function(assert) {
-	Balanced.Auth.get('user').set('admin', true);
-
-	var spy = sinon.spy(Balanced.Adapter, "create");
-
-	visit(creditRoute).then(function() {
-		return click(".reverse-credit-button");
-	}).then(function() {
-		return click('#reverse-credit .modal-footer button[name="modal-submit"]');
-	}).then(function() {
-		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Reversal));
-		assert.equal(spy.getCall(0).args[2].credit_uri, Balanced.TEST.CREDIT_URI);
-		assert.equal(spy.getCall(0).args[2].amount, '100000');
-	});
-});
-
 test('can edit credit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 

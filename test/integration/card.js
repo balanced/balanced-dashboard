@@ -28,34 +28,6 @@ test('can view card page', function(assert) {
 		});
 });
 
-test('admin can hold card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.Auth.get('user').set('admin', true);
-
-	visit(cardRoute)
-		.then(function() {
-			var controller = Balanced.__container__.lookup('controller:cards');
-			var model = controller.get('model');
-			model.set('customer', true);
-
-			// wait for computed property to fire first
-			Ember.run.next(function() {
-				click(".main-header .buttons a.hold-button")
-					.fillIn('#hold-card .modal-body input[name="dollar_amount"]', "1000")
-					.fillIn('#hold-card .modal-body input[name="description"]', "Test debit")
-					.click('#hold-card .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						assert.ok(spy.calledOnce);
-						assert.ok(spy.calledWith(Balanced.Hold, "/cards/" + Balanced.TEST.CARD_ID + "/card_holds", sinon.match({
-							amount: 100000,
-							description: "Test debit"
-						})));
-						Balanced.Adapter.create.restore();
-					});
-			});
-		});
-});
-
 test('debit card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
