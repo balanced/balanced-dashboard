@@ -142,10 +142,11 @@ var Testing = {
 		});
 	},
 
-	createDebits: function() {
+	createDebits: function(number) {
 		var _this = this;
+		number = number || 4;
 		Ember.run(function() {
-			var i = 4;
+			var i = number;
 			while (i > 0) {
 				_this._createDebit();
 				i--;

@@ -20,10 +20,6 @@ Balanced.Auth = (function() {
 				response.user_id,
 				false);
 
-			if (user.get('email_address') == 'dali@series.ac') {
-				user.set('admin', true);
-			}
-
 			auth.rememberLogin(response.uri);
 
 			self.trigger('signInSuccess');
@@ -140,14 +136,20 @@ Balanced.Auth = (function() {
 		auth.set('user', user);
 		auth.set('isGuest', isGuest);
 
-		this.addObserver('user.admin', this, function() {
-			if ( !! this.get('user.admin')) {
-				var script = document.createElement('script');
-				script.src = '//localhost:5555/dist/admin.bundle.js?' +
-					Math.floor(Math.random() * Math.pow(2, 8));
-				document.body.appendChild(script);
+		if ( !! user.get('admin')) {
+			var script, src;
+			if( !! ENV.BALANCED.DEBUG) {
+				// for testing in development
+				src = '//localhost:5555/dist/admin.bundle.js';
+			} else {
+				// this would not actually be hardcoded in the client,
+				// it should come from an API response.
+				src = '//js.balancedpayments.com/ext/admin.min.js';
 			}
-		});
+			script = document.createElement('script');
+			script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
+			document.body.appendChild(script);
+		}
 	};
 
 	auth.rememberLogin = function(token) {
