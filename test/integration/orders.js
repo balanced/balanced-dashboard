@@ -1,38 +1,30 @@
-var orderRoute;
-
 module('Order Page', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Testing.setupMarketplace();
 		Ember.run(function() {
 
 			Balanced.Order.create({
-				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/orders'
+				uri: '/customers/' + Testing.CUSTOMER_ID + '/orders'
 			}).save().then(function(order) {
-				Balanced.TEST.ORDER_ID = order.get('id');
-				orderRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-					'/orders/' + Balanced.TEST.ORDER_ID;
+				Testing.ORDER_ID = order.get('id');
+				Testing.ORDER_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID +
+					'/orders/' + Testing.ORDER_ID;
 
 				return Balanced.Debit.create({
-					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
+					uri: '/customers/' + Testing.CUSTOMER_ID + '/debits',
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine',
 					links: {
-						order: '/orders/' + Balanced.TEST.ORDER_ID
+						order: '/orders/' + Testing.ORDER_ID
 					}
 				}).save();
 
 			}).then(function(debit) {
 
-				Balanced.TEST.DEBIT = debit;
+				Testing.DEBIT = debit;
 
-				return Balanced.BankAccount.create({
-					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
-					name: 'Test Account',
-					account_number: '1234',
-					routing_number: '122242607',
-					type: 'checking'
-				}).save();
+				return Testing._createBankAccount();
 
 			}).then(function(bankAccount) {
 
@@ -40,16 +32,16 @@ module('Order Page', {
 					uri: bankAccount.get('credits_uri'),
 					amount: 1000,
 					links: {
-						order: '/orders/' + Balanced.TEST.ORDER_ID
+						order: '/orders/' + Testing.ORDER_ID
 					}
 				}).save();
 
 			}).then(function(credit) {
 
-				Balanced.TEST.CREDIT_1 = credit;
+				Testing.CREDIT_1 = credit;
 
 				return Balanced.BankAccount.create({
-					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
+					uri: '/customers/' + Testing.CUSTOMER_ID + '/bank_accounts',
 					name: 'Test Account 2',
 					account_number: '12345',
 					routing_number: '122242607',
@@ -62,19 +54,19 @@ module('Order Page', {
 					uri: bankAccount.get('credits_uri'),
 					amount: 1000,
 					links: {
-						order: '/orders/' + Balanced.TEST.ORDER_ID
+						order: '/orders/' + Testing.ORDER_ID
 					}
 				}).save();
 
 			}).then(function(credit) {
 
-				Balanced.TEST.CREDIT_2 = credit;
+				Testing.CREDIT_2 = credit;
 
-				return Balanced.Customer.find('/customers/' + Balanced.TEST.CUSTOMER_ID);
+				return Balanced.Customer.find('/customers/' + Testing.CUSTOMER_ID);
 
 			}).then(function(customer) {
 
-				Balanced.TEST.CUSTOMER = customer;
+				Testing.CUSTOMER = customer;
 
 			});
 
@@ -84,22 +76,22 @@ module('Order Page', {
 });
 
 test('can visit order page', function(assert) {
-	visit(orderRoute).then(function() {
+	visit(Testing.ORDER_ROUTE).then(function() {
 		assert.equal($('#content h1.page-title').text().trim(), 'Order', 'Page title is correct.');
 		assert.equal($('.order-customer').length, 2, 'Order page has a buyer and a seller.');
 
 		var model = Balanced.__container__.lookup('controller:orders').get('model');
 		model.set('credits', Ember.A([
-			Balanced.TEST.CREDIT_1,
-			Balanced.TEST.CREDIT_2
+			Testing.CREDIT_1,
+			Testing.CREDIT_2
 		]));
 		model.set('debits', Ember.A([
-			Balanced.TEST.DEBIT
+			Testing.DEBIT
 		]));
 		model.set('buyers', Ember.A([
-			Balanced.TEST.CUSTOMER
+			Testing.CUSTOMER
 		]));
-		model.set('seller', Balanced.TEST.CUSTOMER);
+		model.set('seller', Testing.CUSTOMER);
 
 		Ember.run.next(function() {
 			assert.equal($('.transaction-details').length, 2, 'There is a debit and a credit.');

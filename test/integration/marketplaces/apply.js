@@ -1,5 +1,3 @@
-var applyRoute = '/marketplaces/apply';
-
 module('Balanced.Marketplaces.apply', {
 	setup: function() {
 		Ember.run(function() {
@@ -11,19 +9,20 @@ module('Balanced.Marketplaces.apply', {
 				true,
 				false);
 		});
+		Testing.APPLY_ROUTE = '/marketplaces/apply';
 	},
 	teardown: function() {}
 });
 
 test('we are on the correct page', function(assert) {
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
 		});
 });
 
 test('clicking business or personal shows data', function(assert) {
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			assert.equal($('input', '#marketplace-apply').length, 0);
 		})
@@ -38,7 +37,7 @@ test('clicking business or personal shows data', function(assert) {
 });
 
 test('basic form validation and terms and conditions', function(assert) {
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			click('a:contains("Person")');
 
@@ -84,7 +83,7 @@ test('application submits properly', function(assert) {
 		}]
 	});
 
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.click('a:contains("Business")')
 		.fillIn('input[name="business_name"]', 'Balanced Inc')
 		.fillIn('input[name="ein"]', '123456789')

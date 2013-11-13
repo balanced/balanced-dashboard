@@ -1,21 +1,7 @@
-var logsRoute;
-
 module('Logs', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
-		Ember.run(function() {
-			var i = 4;
-			while (i > 0) {
-				Balanced.Debit.create({
-					uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
-					appears_on_statement_as: 'Pixie Dust',
-					amount: 10000,
-					description: 'Cocaine'
-				}).save();
-				i--;
-			}
-		});
-		logsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/logs';
+		Testing.setupMarketplace();
+		Testing.createDebits();
 
 		// add some delay, because the API takes some time to add things to logs
 		var stop = window.stop;
@@ -28,7 +14,7 @@ module('Logs', {
 test('can visit page', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
-	visit(logsRoute)
+	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			var $title = $('#content h1');
@@ -40,7 +26,7 @@ test('can visit page', function(assert) {
 });
 
 test('has logs in table', function(assert) {
-	visit(logsRoute)
+	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
@@ -56,7 +42,7 @@ test('has logs in table', function(assert) {
 test('filter logs by endpoint bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
-	visit(logsRoute)
+	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
@@ -72,7 +58,7 @@ test('filter logs by endpoint bank accounts', function(assert) {
 test('filter logs by request failed only', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
-	visit(logsRoute)
+	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav .logs a')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
@@ -92,11 +78,11 @@ test('filter logs by request failed only', function(assert) {
 });
 
 test('view a particular log entry', function(assert) {
-	visit(logsRoute)
+	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav .logs a')
 		.click('table.logs tbody tr:first-of-type a')
 		.then(function() {
-			assert.equal($('h1.page-title').text(), 'POST /customers/' + Balanced.TEST.CUSTOMER_ID + '/debits', 'h1 title is correct');
+			assert.equal($('h1.page-title').text(), 'POST /customers/' + Testing.CUSTOMER_ID + '/debits', 'h1 title is correct');
 			assert.equal($('#log-request-id').text().length, 35, 'Log request id valid');
 		});
 });

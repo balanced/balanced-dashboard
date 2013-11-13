@@ -1,6 +1,6 @@
 module('Invoices', {
 	setup: function() {
-		Balanced.TEST.setupFixtures();
+		Testing.setupFixtures();
 		Ember.run(function() {
 			var userId = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
 			Balanced.Auth.setAuthProperties(

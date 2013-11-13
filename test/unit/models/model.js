@@ -1,6 +1,6 @@
 module('Balanced.Model', {
 	setup: function() {
-		Balanced.TEST.setupFixtures();
+		Testing.setupFixtures();
 		Balanced.TestModel = Balanced.Model.extend({
 			basic_field: 1,
 			derived_field: function() {

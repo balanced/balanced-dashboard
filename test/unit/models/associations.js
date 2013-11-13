@@ -2,7 +2,7 @@ var rev0Model;
 
 module('Balanced.Model.Associations', {
 	setup: function() {
-		Balanced.TEST.setupFixtures();
+		Testing.setupFixtures();
 
 		rev0Model = Balanced.Model.extend({});
 		rev0Model.reopenClass({

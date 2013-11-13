@@ -1,33 +1,17 @@
-/*var holdRoute;
-var hold, card;
-
+/*
 module('Holds', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
-		var uri, user;
+		Testing.setupMarketplace();
 		Ember.run(function() {
-			Balanced.Customer.create({
-				name: 'Dali Wali'
-			}).save().then(function(customer) {
-				user = customer;
-			});
-			Balanced.Card.create({
-				name: 'Test Card',
-				number: "4111111111111111",
-				expiration_month: '12',
-				expiration_year: '2020',
-				security_code: '123'
-			}).save().then(function(createdCard) {
-				card = createdCard;
+			Testing._createCard().then(function(card) {
 				return Balanced.Hold.create({
 					uri: card.get('card_holds_uri'),
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine'
 				}).save();
-			}).then(function(createdHold) {
-				hold = createdHold;
-				holdRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/holds/' + hold.get('id');
+			}).then(function(hold) {
+				Testing.HOLD_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/holds/' + hold.get('id');
 			});
 		});
 	},
@@ -37,7 +21,7 @@ module('Holds', {
 });
 
 test('can visit page', function(assert) {
-	visit(holdRoute).then(function() {
+	visit(Testing.HOLD_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Hold'), -1, 'Title is not correct');
 		assert.equal($(".transaction-description").text().trim(), 'Created: $100.00');
 	});
@@ -46,7 +30,7 @@ test('can visit page', function(assert) {
 test('can void hold', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(holdRoute)
+	visit(Testing.HOLD_ROUTE)
 		.click(".void-hold-button")
 		.click('#void-hold .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -59,7 +43,7 @@ test('can void hold', function(assert) {
 test('can capture hold', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(holdRoute)
+	visit(Testing.HOLD_ROUTE)
 		.click(".capture-hold-button")
 		.fillIn('#capture-hold .modal-body input[name="dollar_amount"]', '10')
 		.fillIn('#capture-hold .modal-body input[name="description"]', 'Test debit')
@@ -76,7 +60,7 @@ test('can capture hold', function(assert) {
 test('can edit hold', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(holdRoute)
+	visit(Testing.HOLD_ROUTE)
 		.click('.hold .transaction-info a.edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')

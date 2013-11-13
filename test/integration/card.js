@@ -1,27 +1,13 @@
-var cardRoute;
-
 module('Card Page', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
-		Ember.run(function() {
-			Balanced.Card.create({
-				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards',
-				number: '4444400012123434',
-				name: 'Test Card',
-				expiration_year: 2020,
-				expiration_month: 11
-			}).save().then(function(card) {
-				Balanced.TEST.CARD_ID = card.get('id');
-				cardRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-					'/cards/' + Balanced.TEST.CARD_ID;
-			});
-		});
+		Testing.setupMarketplace();
+		Testing.createCard();
 	},
 	teardown: function() {}
 });
 
 test('can view card page', function(assert) {
-	visit(cardRoute)
+	visit(Testing.CARD_ROUTE)
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Card');
 			assert.equal($(".title span").text().trim(), 'Test Card (3434)');
@@ -31,7 +17,7 @@ test('can view card page', function(assert) {
 test('debit card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(cardRoute)
+	visit(Testing.CARD_ROUTE)
 		.then(function() {
 			var controller = Balanced.__container__.lookup('controller:cards');
 			var model = controller.get('model');
@@ -45,7 +31,7 @@ test('debit card', function(assert) {
 					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
 					.then(function() {
 						assert.ok(spy.calledOnce);
-						assert.ok(spy.calledWith(Balanced.Debit, "/cards/" + Balanced.TEST.CARD_ID + "/debits", sinon.match({
+						assert.ok(spy.calledWith(Balanced.Debit, "/cards/" + Testing.CARD_ID + "/debits", sinon.match({
 							amount: 100000,
 							description: "Test debit"
 						})));
@@ -58,7 +44,7 @@ test('debit card', function(assert) {
 test('debiting only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(cardRoute)
+	visit(Testing.CARD_ROUTE)
 		.then(function() {
 			var controller = Balanced.__container__.lookup('controller:cards');
 			var model = controller.get('model');

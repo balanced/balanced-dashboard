@@ -17,7 +17,6 @@ QUnit.testStart(function(test) {
 	Ember.run(function() {
 		window.setupBalanced('#ember-testing');
 
-		Balanced.TEST = {};
 		Balanced.THROTTLE = 0;
 		Balanced.setupForTesting();
 
@@ -36,27 +35,6 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
-	// use the fixture adapter
-	Balanced.TEST.setupFixtures = function() {
-		Balanced.Adapter = Balanced.FixtureAdapter.create();
-		window.setupTestFixtures();
-	};
-
-	// build up test fixtures
-	Balanced.TEST.setupMarketplace = function() {
-		Ember.run(function() {
-			Balanced.Auth.createNewGuestUser().then(function() {
-				return Balanced.Marketplace.create().save();
-			}).then(function(marketplace) {
-				Balanced.Auth.setupGuestUserMarketplace(marketplace);
-
-				Balanced.TEST.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
-				Balanced.TEST.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
-
-				console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
-			});
-		});
-	};
 });
 
 QUnit.testDone(function(test) {

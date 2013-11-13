@@ -1,6 +1,6 @@
 module('ForgotPassword', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Testing.setupMarketplace();
 		Ember.run(function() {
 			Balanced.Auth.setAuthProperties(false, null, null, null, false);
 		});

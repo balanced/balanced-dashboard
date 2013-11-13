@@ -1,16 +1,13 @@
-var addCustomerRoutePath;
-
 module('AddCustomer', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
-		addCustomerRoutePath = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/add_customer';
+		Testing.setupMarketplace();
 	},
 	teardown: function() {}
 });
 
 test('can visit page', function(assert) {
 	// check the page title has been selected
-	visit(addCustomerRoutePath).then(function() {
+	visit(Testing.ADD_CUSTOMER_ROUTE).then(function() {
 		var $title = $('#content h1');
 		assert.equal($title.text().trim(), 'Add a customer', 'Title is not correct');
 	});
@@ -19,7 +16,7 @@ test('can visit page', function(assert) {
 test('can create person customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(addCustomerRoutePath)
+	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.person")
 		.click(".disclosure-button")
 		.fillIn('#add-customer input[name="name"]', 'TEST')
@@ -70,7 +67,7 @@ test('can create person customer', function(assert) {
 test('can create business customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
-	visit(addCustomerRoutePath)
+	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.business")
 		.click(".disclosure-button")
 		.fillIn('#add-customer input[name="business_name"]', 'Something Inc')

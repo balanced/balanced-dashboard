@@ -1,36 +1,13 @@
-var settingsRoute;
-
 module('Marketplace Settings', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace(true);
-		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
+		Testing.createCard();
 		Ember.run(function() {
-
-			Balanced.BankAccount.create({
-				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts',
-				name: 'Test Account',
-				account_number: '1234',
-				routing_number: '122242607',
-				type: 'checking'
-			}).save().then(function(bankAccount) {
-				Balanced.TEST.BANK_ACCOUNT_ID = bankAccount.get('id');
-			});
-
-			Balanced.Card.create({
-				uri: '/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards',
-				number: '4444400012123434',
-				name: 'Test Card',
-				expiration_year: 2020,
-				expiration_month: 11
-			}).save().then(function(card) {
-				Balanced.TEST.CARD_ID = card.get('id');
-			});
-
 			Balanced.Callback.create({
 				uri: '/callbacks',
 				url: 'http://api.com/something'
 			}).save();
-
 		});
 	},
 	teardown: function() {
@@ -46,7 +23,7 @@ module('Marketplace Settings', {
 });
 
 test('can visit page', function(assert) {
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			var $title = $('#content h1');
 			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
@@ -54,7 +31,7 @@ test('can visit page', function(assert) {
 });
 
 test('can update marketplace info', function(assert) {
-	visit(settingsRoute).then(function() {
+	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('production', true);
 
@@ -73,7 +50,7 @@ test('can update marketplace info', function(assert) {
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	visit(settingsRoute).then(function() {
+	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('production', true);
 
@@ -93,7 +70,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 test('can update owner info', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	visit(settingsRoute).then(function() {
+	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('owner_customer', Balanced.Customer.create());
 		model.set('production', true);
@@ -144,11 +121,11 @@ test('can create checking accounts', function(assert) {
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		bank_accounts: [{
-			href: '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID
+			href: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID
 		}]
 	});
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
 		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
@@ -167,7 +144,7 @@ test('can create checking accounts', function(assert) {
 			balanced.bankAccount.create.restore();
 			/*
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', {
+			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
 				bank_account_uri: '/v1/bank_accounts/deadbeef'
 			}));
 			*/
@@ -180,11 +157,11 @@ test('can create savings accounts', function(assert) {
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		bank_accounts: [{
-			href: '/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID
+			href: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID
 		}]
 	});
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
 		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
@@ -203,7 +180,7 @@ test('can create savings accounts', function(assert) {
 			balanced.bankAccount.create.restore();
 			/*
 			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', {
+			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
 				bank_account_uri: '/v1/bank_accounts/deadbeef'
 			}));
 			*/
@@ -214,7 +191,7 @@ test('create bank account only submits once when clicked multiple times', functi
 	var spy = sinon.spy(balanced.bankAccount, 'create');
 	var model;
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
 		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
@@ -235,7 +212,7 @@ test('can delete bank accounts', function(assert) {
 	var bankAccounts = Balanced.BankAccount.findAll();
 	var model;
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			/**
 			 * WORKAROUND: I think there may be something weird happening
@@ -277,12 +254,12 @@ test('can create cards', function(assert) {
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		cards: [{
-			href: '/cards/' + Balanced.TEST.CARD_ID
+			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
 	var model;
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.card-info a.add')
 		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-card .modal-body input[name="number"]', '1234123412341234')
@@ -314,7 +291,7 @@ test('can create cards', function(assert) {
 			})));
 			assert.ok(tokenizingStub.calledOnce);
 			/*assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/cards', {
+			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Testing.CUSTOMER_ID + '/cards', {
 				card_uri: '/v1/cards/deadbeef'
 			}));*/
 			balanced.card.create.restore();
@@ -326,7 +303,7 @@ test('can delete cards', function(assert) {
 	var cards = Balanced.Card.findAll();
 	var model;
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			/**
 			 * WORKAROUND: I think there may be something weird happening
@@ -361,7 +338,7 @@ test('can delete cards', function(assert) {
 });
 
 test('shows webhooks', function(assert) {
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			assert.equal($('ul.webhooks li').length, 1);
 		});
@@ -370,7 +347,7 @@ test('shows webhooks', function(assert) {
 test('can add webhooks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com/something')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
@@ -382,7 +359,7 @@ test('can add webhooks', function(assert) {
 test('webhooks get created once if submit button is clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com/something')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
@@ -394,7 +371,7 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 });
 
 test('can delete webhooks', function(assert) {
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click('ul.webhooks li:eq(0) a')
 		.click('#delete-callback .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -405,7 +382,7 @@ test('can delete webhooks', function(assert) {
 test('delete webhooks only submits once even if clicked multiple times', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "delete");
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.click('ul.webhooks li:eq(0) a')
 		.click('#delete-callback .modal-footer button[name="modal-submit"]')
 		.click('#delete-callback .modal-footer button[name="modal-submit"]')
