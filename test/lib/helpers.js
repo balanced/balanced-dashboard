@@ -84,7 +84,7 @@ var Testing = {
 		}).save().then(function(bankAccount) {
 			_this.BANK_ACCOUNT_ID = bankAccount.get('id');
 			_this.BANK_ACCOUNT_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
-					'/bank_accounts/' + _this.BANK_ACCOUNT_ID;
+				'/bank_accounts/' + _this.BANK_ACCOUNT_ID;
 			return bankAccount;
 		});
 	},

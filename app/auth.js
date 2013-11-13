@@ -20,7 +20,7 @@ Balanced.Auth = (function() {
 				response.user_id,
 				false);
 
-			if(user.get('email_address') == 'dali@series.ac') {
+			if (user.get('email_address') == 'dali@series.ac') {
 				user.set('admin', true);
 			}
 
@@ -141,7 +141,7 @@ Balanced.Auth = (function() {
 		auth.set('isGuest', isGuest);
 
 		this.addObserver('user.admin', this, function() {
-			if(!!this.get('user.admin')) {
+			if ( !! this.get('user.admin')) {
 				var script = document.createElement('script');
 				script.src = '//localhost:5555/dist/admin.bundle.js?' +
 					Math.floor(Math.random() * Math.pow(2, 8));
