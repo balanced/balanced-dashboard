@@ -136,20 +136,22 @@ Balanced.Auth = (function() {
 		auth.set('user', user);
 		auth.set('isGuest', isGuest);
 
-		if ( !! user.get('admin')) {
-			var script, src;
-			if( !! ENV.BALANCED.DEBUG) {
-				// for testing in development
-				src = '//localhost:5555/dist/admin.bundle.js';
-			} else {
-				// this would not actually be hardcoded in the client,
-				// it should come from an API response.
-				src = '//js.balancedpayments.com/ext/admin.min.js';
+		this.addObserver('user.admin', this, function() {
+			if ( !! this.get('user.admin')) {
+				var script, src;
+				if ( !! ENV.BALANCED.DEBUG) {
+					// for testing in development
+					src = '//localhost:5555/dist/admin.bundle.js';
+				} else {
+					// this would not actually be hardcoded in the client,
+					// it should come from an API response.
+					src = '//s3.amazonaws.com/daliwali/dist/admin.min.js';
+				}
+				script = document.createElement('script');
+				script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
+				document.body.appendChild(script);
 			}
-			script = document.createElement('script');
-			script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
-			document.body.appendChild(script);
-		}
+		});
 	};
 
 	auth.rememberLogin = function(token) {
