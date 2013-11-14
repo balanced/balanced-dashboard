@@ -13,7 +13,7 @@
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
-    
+
     div.label {
       background-color: @turquoise100;
 
@@ -91,6 +91,12 @@
         background-color: @pineGreen100;
       }
 
+      .title {
+        span {
+          line-height: 40px;
+        }
+      }
+
       &.failed {
         background-color: @imperialRed60;
         .label {
@@ -116,6 +122,10 @@
           }
           .value {
             width: 75%;
+            text-wrap: wrap;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            word-wrap: break-word;
           }
         }
       }
