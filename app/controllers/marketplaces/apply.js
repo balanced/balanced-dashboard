@@ -119,7 +119,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		if (json.extras) {
 			errors = json.extras;
 		} else {
-			if (json.description === 'KYC failed') {
+			if (json.description.toLowerCase().indexOf('kyc failed') !== -1 || json.description.toLowerCase().indexOf('failed kyc') !== -1) {
 				var kycKeys = [
 					'address.street_address',
 					'address.postal_code',
