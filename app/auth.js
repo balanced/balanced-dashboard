@@ -139,7 +139,7 @@ Balanced.Auth = (function() {
 		this.addObserver('user.ext', this, function() {
 			var extensions = this.get('user.ext');
 			if ( !! extensions && typeof extensions === 'object') {
-				for(var key in extensions) {
+				for (var key in extensions) {
 					var script, src;
 					if ( !! ENV.BALANCED.DEBUG) {
 						// for testing in development
