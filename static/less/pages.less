@@ -10,7 +10,7 @@
 
 .main-header {
   width: 100%;
-  height: 75px;
+  height: @headerHeight;
   margin-bottom: 35px;
   border: 0px;
 
@@ -35,13 +35,17 @@
   }
 
   div.title {
-    display: table;
     height: 100%;
 
     span {
-      line-height: normal;
-      display: table-cell;
-      vertical-align: middle;
+      // vertically center the text
+      display: block;
+      line-height: @headerHeight;
+
+      // hide long lines with an ellipsis
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 
