@@ -5,15 +5,15 @@ Balanced.Extension = Ember.Namespace.create({
 	_active: Ember.A(),
 
 	/**
-	  An extension must implement two methods: `init` and `destroy`.
-	  Ideally, calling destroy will revert the application into a
-	  state before init was called.
+		An extension must implement two methods: `init` and `destroy`.
+		Ideally, calling destroy will revert the application into a
+		state before init was called.
 
-	  @param {String} name
-	  @param {Object} hash
-	  @return this
+		@param {String} name
+		@param {Object} hash
+		@return this
 	 */
-	register: function(name) {
+	register: function(name, hash) {
 		Ember.assert('Extension should be named', typeof name === 'string');
 		Ember.assert('Balanced extension should implement "init" method', typeof hash.init === 'function');
 		Ember.assert('Balanced extension should implement "destroy" method', typeof hash.destroy === 'function');
@@ -24,10 +24,10 @@ Balanced.Extension = Ember.Namespace.create({
 	},
 
 	/**
-	  Load an extension by name.
+		Load an extension by name.
 
-	  @param {String} name
-	  @return this
+		@param {String} name
+		@return this
 	 */
 	load: function(name) {
 		var extension = this._registered.find(function(extension) {
@@ -43,10 +43,10 @@ Balanced.Extension = Ember.Namespace.create({
 	},
 
 	/**
-	  Unload an extension, either by name, or by last one loaded.
+		Unload an extension, either by name, or by last one loaded.
 
-	  @param {String} [name]
-	  @return this
+		@param {String} [name]
+		@return this
 	 */
 	unload: function(name) {
 		var extension = name ? this._registered.find(function(extension) {
@@ -63,10 +63,10 @@ Balanced.Extension = Ember.Namespace.create({
 	},
 
 	/**
-	  Rerender the application view. This currently doesn't work right
-	  due to a bug in Ember: https://github.com/emberjs/ember.js/issues/2267
+		Rerender the application view. This currently doesn't work right
+		due to a bug in Ember: https://github.com/emberjs/ember.js/issues/2267
 
-	  @api private
+		@api private
 	 */
 	_rerender: function() {
 		//Balanced.__container__.lookup('router:main')._activeViews.application[0].rerender();
