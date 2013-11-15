@@ -150,7 +150,9 @@ Balanced.Auth = (function() {
 			}
 		}
 
-		if ( !! ENV.BALANCED.EXT) { loadExtensions(); }
+		if ( !! ENV.BALANCED.EXT) {
+			loadExtensions();
+		}
 		this.addObserver('user.ext', this, loadExtensions);
 	};
 

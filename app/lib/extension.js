@@ -14,7 +14,7 @@ Balanced.Extension = Ember.Namespace.create({
 	  @return this
 	 */
 	register: function(name, hash) {
-		if(typeof name === 'object') {
+		if (typeof name === 'object') {
 			name = undefined;
 			hash = name;
 		}
@@ -34,7 +34,7 @@ Balanced.Extension = Ember.Namespace.create({
 	  @return this
 	 */
 	load: function(name) {
-		var extension = name ? this._registered.find(function(extension) {
+		var extension = this._registered.find(function(extension) {
 			return extension._name === name;
 		});
 
