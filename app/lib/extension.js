@@ -9,16 +9,12 @@ Balanced.Extension = Ember.Namespace.create({
 	  Ideally, calling destroy will revert the application into a
 	  state before init was called.
 
-	  @param {String} [name]
+	  @param {String} name
 	  @param {Object} hash
 	  @return this
 	 */
-	register: function(name, hash) {
-		if (typeof name === 'object') {
-			name = undefined;
-			hash = name;
-		}
-
+	register: function(name) {
+		Ember.assert('Extension should be named', typeof name === 'string');
 		Ember.assert('Balanced extension should implement "init" method', typeof hash.init === 'function');
 		Ember.assert('Balanced extension should implement "destroy" method', typeof hash.destroy === 'function');
 
