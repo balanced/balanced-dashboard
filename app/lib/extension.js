@@ -1,7 +1,8 @@
 Balanced.Extension = Ember.Namespace.create({
 
 	// cache extensions here
-	_extensions: Ember.A(),
+	_registered: Ember.A(),
+	_active: Ember.A(),
 
 	/**
 	  An extension must implement two methods: `init` and `destroy`.
@@ -22,30 +23,25 @@ Balanced.Extension = Ember.Namespace.create({
 		Ember.assert('Balanced extension should implement "destroy" method', typeof hash.destroy === 'function');
 
 		hash._name = name;
-		hash._loaded = false;
-		_extensions.pushObject(hash);
+		this._registered.pushObject(hash);
 		return this;
 	},
 
 	/**
-	  Load an extension, either by name, or by first one that isn't loaded.
+	  Load an extension by name.
 
-	  @param {String} [name]
+	  @param {String} name
 	  @return this
 	 */
 	load: function(name) {
-		var extension = name ? this._extensions.find(function(extension) {
+		var extension = name ? this._registered.find(function(extension) {
 			return extension._name === name;
-		}) : this._extensions.filter(function(extension) {
-			return extension._loaded === false;
-		}).get('firstObject');
+		});
 
-		Ember.assert('Extension is already loaded', extension._loaded === false);
+		Ember.assert('Extension is not already loaded', this._active.indexOf(extension) < 0);
 
 		extension.init();
-		extension._loaded = true;
-		this._extensions = this._extensions.without(extension);
-		this._extensions.unshiftObject(extension);
+		this._active.pushObject(extension);
 		this._rerender();
 		return this;
 	},
@@ -57,19 +53,15 @@ Balanced.Extension = Ember.Namespace.create({
 	  @return this
 	 */
 	unload: function(name) {
-		var extension = name ? this._extensions.find(function(extension) {
+		var extension = name ? this._registered.find(function(extension) {
 			return extension._name === name;
-		}) : this._extensions.filter(function(extension) {
-			return extension._loaded === true;
-		}).get('firstObject');
+		}) : this._active.get('lastObject');
 
-		Ember.assert('Extension you are trying to unload is not the last loaded extension', this._extensions.indexOf(extension) > 0);
-		Ember.assert('Extension is has not been loaded', extension._loaded === true);
+		Ember.assert('Extension you are trying to unload is not the last loaded extension', this._active.indexOf(extension) > 0);
+		Ember.assert('Extension has been loaded', typeof extension === 'object');
 
 		extension.destroy();
-		extension._loaded = false;
-		this._extensions = this._extensions.without(extension);
-		this._extensions.pushObject(extension);
+		this._active.popObject();
 		this._rerender();
 		return this;
 	},
