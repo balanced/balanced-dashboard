@@ -136,24 +136,22 @@ Balanced.Auth = (function() {
 		auth.set('user', user);
 		auth.set('isGuest', isGuest);
 
-		this.addObserver('user.ext', this, function() {
-			var extensions = this.get('user.ext');
+		function loadExtensions() {
+			var extensions = ENV.BALANCED.EXT || this.get('user.ext');
 			if ( !! extensions && typeof extensions === 'object') {
 				for (var key in extensions) {
 					var script, src;
-					if ( !! ENV.BALANCED.DEBUG) {
-						// for testing in development
-						src = '//localhost:5555/dist/admin.bundle.js';
-					} else {
-						src = extensions[key];
-					}
+					src = extensions[key];
 					script = document.createElement('script');
 					script['data-package'] = key;
 					script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
 					document.body.appendChild(script);
 				}
 			}
-		});
+		}
+
+		if ( !! ENV.BALANCED.EXT) { loadExtensions(); }
+		this.addObserver('user.ext', this, loadExtensions);
 	};
 
 	auth.rememberLogin = function(token) {
