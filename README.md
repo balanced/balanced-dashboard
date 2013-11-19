@@ -39,7 +39,7 @@ You will need node installed as a development dependency. See
 1. To build everything `grunt build`
 2. To deploy to S3 `grunt deploy`
 
-**Note**: To build, you need to have binary dependendencies installed for [grunt-img](https://github.com/heldr/grunt-img). See the project page for how to set that up. If you have a Mac and use homebrew, you can run this to install them:
+**Note**: To build, you need to have binary dependencies installed for [grunt-img](https://github.com/heldr/grunt-img). See the project page for how to set that up. If you have a Mac and use homebrew, you can run this to install them:
 
 		brew install optipng jpeg
 
