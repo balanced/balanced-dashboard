@@ -23,6 +23,9 @@ node_modules
 
 # bower
 static/javascripts
+.bower-cache
+.bower-registry
+.bower-tmp
 
 # emacs and other IDEs
 *~
