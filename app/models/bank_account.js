@@ -60,8 +60,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		var bankAccountData = {
 			type: this.get('type'),
 			name: this.get('name'),
-			account_number: this.get('account_number'),
-			routing_number: this.get('routing_number')
+			account_number: $.trim(this.get('account_number')),
+			routing_number: $.trim(this.get('routing_number'))
 		};
 
 		// Tokenize the bank account using the balanced.js library
