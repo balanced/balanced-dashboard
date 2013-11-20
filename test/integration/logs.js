@@ -25,18 +25,38 @@ test('can visit page', function(assert) {
 		});
 });
 
-test('has logs in table', function(assert) {
-	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav .logs a')
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
-		})
-		.click('table.logs tfoot tr a')
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 4, 'has 4 logs');
-			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
-		});
+asyncTest('has logs in table', 4, function(assert) {
+	var calledTimes = 0;
+	var fn = function () {
+		calledTimes++;
+		if (calledTimes > 60) {
+			assert.ok(false, 'logs page does not have "load more"');
+		}
+
+		visit(Testing.LOGS_ROUTE)
+			.click('#marketplace-nav .logs a')
+			.then(function() {
+				assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
+				if (!$('table.logs tfoot td').length) {
+					return setTimeout(fn, 1000);
+				}
+
+				assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+			})
+			.click('table.logs tfoot tr a')
+			.then(function() {
+				assert.equal($('table.logs tbody tr').length, 4, 'has 4 logs');
+				if (!$('table.logs tfoot td').length) {
+					return setTimeout(fn, 1000);
+				}
+
+				assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
+
+				start();
+			});
+	};
+
+	fn();
 });
 
 test('filter logs by endpoint bank accounts', function(assert) {
