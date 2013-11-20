@@ -27,7 +27,7 @@ test('can visit page', function(assert) {
 
 asyncTest('has logs in table', 4, function(assert) {
 	var calledTimes = 0;
-	var fn = function () {
+	var fn = function() {
 		calledTimes++;
 		if (calledTimes > 60) {
 			assert.ok(false, 'logs page does not have "load more"');
