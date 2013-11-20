@@ -76,7 +76,7 @@ test('application submits properly', function(assert) {
 
 	});
 
-	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
+	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		bank_accounts: [{
 			href: "/bank_accounts/deadbeef"

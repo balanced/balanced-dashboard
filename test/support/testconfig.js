@@ -41,10 +41,6 @@ QUnit.testDone(function(test) {
 	var module = test.module ? test.module : '';
 	console.log('#%@ %@: tearing down.'.fmt(module, test.name));
 
-	Balanced.TEST.bankAccountTokenizingStub.restore();
-	Balanced.TEST.cardTokenizingStub.restore();
-	Balanced.TEST.balancedInitStub.restore();
-
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
 	Balanced = null;

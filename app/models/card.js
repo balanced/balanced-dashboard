@@ -1,10 +1,10 @@
 require('app/models/funding_instrument');
 
-Balanced.Card = Balanced.FundingInstrument.extend({
+Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	uri: '/cards',
 
 	validations: {
-		card_number: {
+		number: {
 			presence: true,
 			format: {
 				validator: function(object, attribute, value) {
