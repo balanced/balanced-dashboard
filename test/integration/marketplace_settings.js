@@ -355,6 +355,8 @@ test('can add webhooks', function(assert) {
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
+			assert.equal(stub.getCall(0).args[2].revision, '1.0');
+			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
 		});
 });
 
@@ -370,6 +372,8 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
+			assert.equal(stub.getCall(0).args[2].revision, '1.1');
+			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
 		});
 });
 
