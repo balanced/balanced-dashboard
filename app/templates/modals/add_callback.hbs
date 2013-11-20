@@ -13,6 +13,14 @@
         </div>
     </div>
     <div class="modal-footer">
+        {{view Ember.Select
+            contentBinding="view.callback_revisions"
+            valueBinding="view.model.revision"
+            class="pull-left"
+            name="callback-revision"
+            optionValuePath="content.value"
+            optionLabelPath="content.label"
+        }}
         {{view Balanced.ModalActionButtonsView submitTitle="Add"}}
     </div>
     </form>

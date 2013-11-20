@@ -6,7 +6,8 @@ module('Marketplace Settings', {
 		Ember.run(function() {
 			Balanced.Callback.create({
 				uri: '/callbacks',
-				url: 'http://api.com/something'
+				url: 'http://api.com/something',
+				revision: '1.0'
 			}).save();
 		});
 	},
@@ -350,6 +351,7 @@ test('can add webhooks', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com/something')
+		.fillIn("#add-callback .modal-body select[name='callback-revision']", '1.0')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
@@ -362,6 +364,7 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name='url']", 'http://www.example.com/something')
+		.fillIn("#add-callback .modal-body select[name='callback-revision']", '1.1')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
 		.click('#add-callback .modal-footer button[name="modal-submit"]')
