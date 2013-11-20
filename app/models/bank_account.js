@@ -88,7 +88,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					break;
 				case 400:
 					self.set('validationErrors', {});
-					_.each(response.error, function(value, key) {
+					console.log(response);
+					_.each(response.error.extras, function(value, key) {
 						self.set('validationErrors.' + key, 'invalid');
 					});
 					self.set('isSaving', false);
