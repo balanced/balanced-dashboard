@@ -48,7 +48,7 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 		});
 });
 
-test('debit bank account', function(assert) {
+asyncTest('debit bank account', 2, function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE).then(function() {
@@ -57,7 +57,6 @@ test('debit bank account', function(assert) {
 		model.set('can_debit', true);
 
 		Ember.run.next(function() {
-
 			click(".main-header .buttons a.debit-button")
 				.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 				.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
@@ -68,6 +67,8 @@ test('debit bank account', function(assert) {
 						amount: 100000,
 						description: "Test debit"
 					})));
+
+					start();
 				});
 		});
 	});
