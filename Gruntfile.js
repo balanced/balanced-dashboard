@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		clean: {
 			files: {
-				src: ['build/', 'dist/', 'report/', 'js/']
+				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp' ]
 			}
 		},
 
