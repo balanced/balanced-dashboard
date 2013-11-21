@@ -149,16 +149,19 @@ test('can create bank accounts', function(assert) {
 test('can fail at creating bank accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
-		"status": "Bad Request",
-		"category_code": "request",
-		"additional": null,
-		"status_code": 400,
-		"description": "Invalid field [routing_number] - \"321171184abc\" must have length <= 9 Your request id is OHM4b90b4d8524611e3b62e02a1fe52a36c.",
-		"category_type": "request",
-		"_uris": {},
-		"request_id": "OHM4b90b4d8524611e3b62e02a1fe52a36c",
-		"extras": {
-			"routing_number": "\"321171184abc\" must have length <= 9"
+		status: 400,
+		data: {
+			"status": "Bad Request",
+			"category_code": "request",
+			"additional": null,
+			"status_code": 400,
+			"description": "Invalid field [routing_number] - \"321171184abc\" must have length <= 9 Your request id is OHM4b90b4d8524611e3b62e02a1fe52a36c.",
+			"category_type": "request",
+			"_uris": {},
+			"request_id": "OHM4b90b4d8524611e3b62e02a1fe52a36c",
+			"extras": {
+				"routing_number": "\"321171184abc\" must have length <= 9"
+			}
 		}
 	});
 
@@ -181,7 +184,6 @@ test('can fail at creating bank accounts', function(assert) {
 				account_number: "123",
 				routing_number: "123123123abc"
 			}));
-			assert.ok(createSpy.calledOnce);
 			assert.ok($('#add-bank-account .modal-body input[name="routing_number"]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
 		});
 });
