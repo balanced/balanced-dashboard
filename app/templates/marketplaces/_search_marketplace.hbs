@@ -1,0 +1,8 @@
+<div {{bindAttr class=":control-group"}}>
+    {{view Balanced.Forms.TextField valueBinding="view.secret" name="secret" placeholder="Enter API key of existing marketplace"}}
+    {{#if view.isSubmitting}}
+        <span class="loader loading"></span>
+    {{else}}
+        <button class="btn" {{action add target="view"}}>Add</button>
+    {{/if}}
+</div>
