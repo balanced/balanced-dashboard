@@ -150,7 +150,7 @@ test('can fail at creating bank accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
 		status: 400,
-		data: {
+		error: {
 			"status": "Bad Request",
 			"category_code": "request",
 			"additional": null,
