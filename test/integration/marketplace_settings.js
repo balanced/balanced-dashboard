@@ -54,8 +54,8 @@ test('can update marketplace info', function(assert) {
 		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 		.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
 		.then(function() {
-				// Marketplace name should have changed
-				assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'Test');
+			// Marketplace name should have changed
+			assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'Test');
 		});
 });
 
@@ -141,27 +141,24 @@ test('can create bank accounts', function(assert) {
 			}));
 			assert.ok(createSpy.calledOnce);
 			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/bank_accounts', {
-			bank_account_uri: '/v1/bank_accounts/deadbeef'
-		}));
-	});
+				bank_account_uri: '/v1/bank_accounts/deadbeef'
+			}));
+		});
 });
 
 test('can fail at creating bank accounts', function(assert) {
 	var createSpy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
-		{
-			"status": "Bad Request",
-			"category_code": "request",
-			"additional": null,
-			"status_code": 400,
-			"description": "Invalid field [routing_number] - \"321171184abc\" must have length <= 9 Your request id is OHM4b90b4d8524611e3b62e02a1fe52a36c.",
-			"category_type": "request",
-			"_uris": {},
-			"request_id": "OHM4b90b4d8524611e3b62e02a1fe52a36c",
-			"extras": {
-				"routing_number": "\"321171184abc\" must have length <= 9"
-				}
-			}
+		"status": "Bad Request",
+		"category_code": "request",
+		"additional": null,
+		"status_code": 400,
+		"description": "Invalid field [routing_number] - \"321171184abc\" must have length <= 9 Your request id is OHM4b90b4d8524611e3b62e02a1fe52a36c.",
+		"category_type": "request",
+		"_uris": {},
+		"request_id": "OHM4b90b4d8524611e3b62e02a1fe52a36c",
+		"extras": {
+			"routing_number": "\"321171184abc\" must have length <= 9"
 		}
 	});
 
@@ -309,16 +306,16 @@ test('can create cards', function(assert) {
 			}));
 		});
 
-		// phantomjs can't handle the change events, so can't check the payload for now
-		// TODO - put this back in when we're off phantomjs
-		// assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
-		//     card_number: "1234123412341234",
-		//     expiration_month: 1,
-		//     expiration_year: 2020,
-		//     security_code: "123",
-		//     name: "TEST",
-		//     postal_code: ""
-		// }));
+	// phantomjs can't handle the change events, so can't check the payload for now
+	// TODO - put this back in when we're off phantomjs
+	// assert.ok(Balanced.TEST.cardTokenizingStub.calledWith({
+	//     card_number: "1234123412341234",
+	//     expiration_month: 1,
+	//     expiration_year: 2020,
+	//     security_code: "123",
+	//     name: "TEST",
+	//     postal_code: ""
+	// }));
 });
 
 test('create card only submits once when clicked multiple times', function(assert) {
