@@ -9,18 +9,20 @@ module('Logs', {
 
 		var count = 0;
 		var checkAndStart = function() {
-			Balanced.Log.findAll().then(function(logs) {
-				if (logs.toArray().length) {
-					start();
-				} else if (count < 60) {
-					count++;
-					setTimeout(checkAndStart, 1000);
-				} else {
-					throw new Error('Logs not working');
-				}
+			var logs;
+
+			Ember.run(function() {
+				logs = Balanced.Log.findAll();
 			});
 
-			start();
+			if (logs && logs.toArray().length) {
+				return start();
+			} else if (count < 60) {
+				count++;
+				return setTimeout(checkAndStart, 1000);
+			} else {
+				throw new Error('Logs not working');
+			}
 		};
 
 		setTimeout(checkAndStart, 1000);
