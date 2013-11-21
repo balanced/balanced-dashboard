@@ -2,12 +2,12 @@ Balanced.AddCallbackModalView = Balanced.View.extend({
 	templateName: 'modals/add_callback',
 
 	callback_revisions: [{
-							label: 'Revision 1.0',
-							value: '1.0'
-						}, {
-							label: 'Revision 1.1',
-							value: '1.1'
-						}],
+		label: 'Revision 1.0',
+		value: '1.0'
+	}, {
+		label: 'Revision 1.1',
+		value: '1.1'
+	}],
 
 	actions: {
 		open: function() {

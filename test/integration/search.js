@@ -195,7 +195,7 @@ test('search date range pick', function(assert) {
 test('search date preset pick', function(assert) {
 	var spy;
 
-	visit(marketplaceRoute).then(function() {
+	visit(Testing.MARKETPLACE_ROUTE).then(function() {
 		Testing.runSearch('%');
 	})
 		.click('#search .results .set-times a:contains("Past hour")')
@@ -204,8 +204,8 @@ test('search date preset pick', function(assert) {
 		})
 		.click('#search .results button.go')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			var request = spy.getCall(spy.callCount - 1);
+			assert.ok(spy.called);
+			var request = spy.getCall(0);
 			assert.equal(request.args[0], Balanced.Transaction);
 		});
 });
