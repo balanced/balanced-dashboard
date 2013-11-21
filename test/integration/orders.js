@@ -92,8 +92,10 @@ test('can visit order page', function(assert) {
 			Testing.CUSTOMER
 		]));
 		model.set('seller', Testing.CUSTOMER);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			assert.equal($('.transaction-details').length, 2, 'There is a debit and a credit.');
 		});
 	});

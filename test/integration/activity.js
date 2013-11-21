@@ -51,8 +51,10 @@ test('add funds', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			click('.activity-escrow-box .btn:eq(0)')
@@ -94,8 +96,10 @@ test('withdraw funds', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			click('.activity-escrow-box .btn:eq(1)')
@@ -122,8 +126,10 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			click('.activity-escrow-box .btn:eq(1)')
 				.fillIn('#withdraw-funds input', '55.55')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')

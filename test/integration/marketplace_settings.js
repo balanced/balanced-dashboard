@@ -35,8 +35,10 @@ test('can update marketplace info', function(assert) {
 	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('production', true);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			click('.marketplace-info a.edit')
 				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -54,8 +56,10 @@ test('updating marketplace info only submits once despite multiple clicks', func
 	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('production', true);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			click('.marketplace-info a.edit')
 				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -75,8 +79,10 @@ test('can update owner info', function(assert) {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('owner_customer', Balanced.Customer.create());
 		model.set('production', true);
+		stop();
 
 		Ember.run.next(function() {
+			start();
 			click('.owner-info a.edit')
 				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 				.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
@@ -222,8 +228,10 @@ test('can delete bank accounts', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('owner_customer', Ember.Object.create());
 			model.set('owner_customer.bank_accounts', bankAccounts);
+			stop();
 
 			Ember.run.next(function() {
+				start();
 				initialLength = $('.bank-account-info .sidebar-items li').length;
 
 				click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
@@ -237,7 +245,9 @@ test('can delete bank accounts', function(assert) {
 							bankAccount.set('isSaving', true);
 						});
 
+						stop();
 						Ember.run.next(function() {
+							start();
 							click('#delete-bank-account .modal-footer button[name="modal-submit"]');
 						});
 					})
@@ -278,7 +288,9 @@ test('can create cards', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('isSaving', true);
 
+			stop();
 			Ember.run.next(function() {
+				start();
 				click('#add-card .modal-footer button[name="modal-submit"]');
 			});
 		})
@@ -313,8 +325,10 @@ test('can delete cards', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('owner_customer', Ember.Object.create());
 			model.set('owner_customer.cards', cards);
+			stop();
 
 			Ember.run.next(function() {
+				start();
 				assert.equal($('.card-info .sidebar-items li').length, 1);
 
 				click(".card-info .sidebar-items li:eq(0) .icon-delete")
@@ -325,8 +339,10 @@ test('can delete cards', function(assert) {
 						 * lets force the model into a saving state.
 						 */
 						model.set('isSaving', true);
+						stop();
 
 						Ember.run.next(function() {
+							start();
 							click('#delete-card .modal-footer button[name="modal-submit"]');
 						});
 					})
