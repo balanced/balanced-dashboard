@@ -169,8 +169,7 @@ test('search and click go with empty date range', function(assert) {
 });
 
 test('search date range pick', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get');
-
+	var spy;
 	visit(marketplaceRoute).then(function() {
 		Testing.runSearch('%');
 	})
@@ -183,6 +182,9 @@ test('search date range pick', function(assert) {
 			$('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
 		})
 		.click('#search .results .timing td.active.day')
+		.then(function() {
+			spy = sinon.spy(Balanced.Adapter, 'get');
+		})
 		.click('#search .results button.go')
 		.then(function() {
 			// Notice: month 7 is Aug here for JS Date, ugly javascript...
@@ -199,8 +201,27 @@ test('search date range pick', function(assert) {
 
 			var request = spy.getCall(spy.callCount - 1);
 
+			assert.ok(spy.calledOnce);
 			assert.equal(request.args[0], Balanced.Transaction);
 			assert.equal(request.args[1], expected_uri);
+		});
+});
+
+test('search date preset pick', function(assert) {
+	var spy;
+
+	visit(marketplaceRoute).then(function() {
+		Testing.runSearch('%');
+	})
+		.click('#search .results .set-times a:contains("Past hour")')
+		.then(function() {
+			spy = sinon.spy(Balanced.Adapter, 'get');
+		})
+		.click('#search .results button.go')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			var request = spy.getCall(spy.callCount - 1);
+			assert.equal(request.args[0], Balanced.Transaction);
 		});
 });
 

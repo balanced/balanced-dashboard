@@ -69,7 +69,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 				hours = -24 * 31;
 				break;
 		}
-		var minDate = (hours) ? new Date().addHours(hours) : null;
+		var minDate = (hours) ? new Date(new Date().getTime() + (hours * 60 * 60 * 1000)) : null;
 		this._setMinDate(minDate);
 		this._changeDateFilter(presetText);
 	},
