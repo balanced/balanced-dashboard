@@ -64,8 +64,16 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			this.get('results_type')
 		);
 
+		if (this.get('type') === 'funding_instrument' || this.get('type') === 'transaction' || this.get('type') === 'search') {
+			var sortField = this.get('sortField'),
+				sortOrder = this.get('sortOrder');
+
+			searchArray.set('sortProperties', [sortField]);
+			searchArray.set('sortAscending', sortOrder === 'asc' ? true : false);
+		}
+
 		return searchArray;
-	}.property('fetch_results', 'results_uri', 'results_type'),
+	}.property('fetch_results', 'results_uri', 'results_type', 'sortField', 'sortOrder'),
 
 	updateLastLoaded: function() {
 		var results = this.get('results');
