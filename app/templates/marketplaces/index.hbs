@@ -1,12 +1,14 @@
 <section id="main" class="container marketplaces">
     <div class="row">
-        <nav id="marketplace-nav" class="span2"></nav>
+
+        <nav id="marketplace-nav" class="span2">
+        </nav>
 
         <div id="content" class="span24">
           {{partial "alert"}}
             <div class="row">
                 <div class="offset2 span22">
-                  <input type="text" id="marketplace-search-field"/>
+                  {{view Balanced.SearchMarketplaceView}}
                 </div>
 
                 <div class="offset2 span22">
