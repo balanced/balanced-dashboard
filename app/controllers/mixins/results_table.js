@@ -65,11 +65,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		);
 
 		if (this.get('type') === 'funding_instrument' || this.get('type') === 'transaction' || this.get('type') === 'search') {
-			var sortField = this.get('sortField'),
-				sortOrder = this.get('sortOrder');
-
-			searchArray.set('sortProperties', [sortField]);
-			searchArray.set('sortAscending', sortOrder === 'asc' ? true : false);
+			searchArray.set('sortProperties', [this.get('sortField')]);
+			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
 		}
 
 		return searchArray;
