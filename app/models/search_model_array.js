@@ -1,6 +1,6 @@
 require('app/models/core/model_array');
 
-Balanced.SearchModelArray = Balanced.ModelArray.extend({
+Balanced.SearchModelArray = Balanced.ModelArray.extend(Ember.SortableMixin, {
 	total_credits: function() {
 		return this.get('counts.credit');
 	}.property('counts.credit'),
