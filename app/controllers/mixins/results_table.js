@@ -64,7 +64,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			this.get('results_type')
 		);
 
-		if (this.get('type') === 'funding_instrument' || this.get('type') === 'transaction' || this.get('type') === 'search') {
+		if (['funding_instrument', 'transaction', 'search'].indexOf(this.get('type')) >= 0) {
 			searchArray.set('sortProperties', [this.get('sortField')]);
 			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
 		}
