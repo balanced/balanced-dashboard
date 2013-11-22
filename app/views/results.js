@@ -4,11 +4,15 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 	// UI computed properties
 	transactionsTabSelected: function() {
-		return this.get('controller.category') === "transaction";
+		return this.get('controller.category') === "search";
 	}.property('controller.category'),
 
 	customersTabSelected: function() {
-		return this.get('controller.category') === "account";
+		return this.get('controller.category') === "customer";
+	}.property('controller.category'),
+
+	ordersTabSelected: function() {
+		return this.get('controller.category') === "order";
 	}.property('controller.category'),
 
 	fundingInstrumentsTabSelected: function() {
@@ -17,9 +21,10 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 	transaction_type_label: function() {
 		var typesToLabels = {
-			DEFAULT: 'Transactions'
+			DEFAULT: 'Transactions',
+			card_hold: 'Holds'
 		};
-		var types = Balanced.SEARCH.TRANSACTION_TYPES;
+		var types = Balanced.SEARCH.SEARCH_TYPES;
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
@@ -40,7 +45,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	},
 
 	show_download_button: function() {
-		return this.get('controller.category') === 'transaction';
+		return this.get('controller.category') === 'search';
 	}.property('controller.category')
 });
 
@@ -163,6 +168,11 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
 	classNames: 'items'
+});
+
+Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
+	classNames: 'orders',
+	templateName: 'results/orders_table'
 });
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({

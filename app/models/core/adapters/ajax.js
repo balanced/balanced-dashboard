@@ -60,12 +60,12 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 			if (Balanced.Auth.get('signedIn')) {
 				var marketplaceId = Balanced.currentMarketplace ? Balanced.currentMarketplace.get('id') : null;
 
-				var matches = /\/v.+\/marketplaces\/([^\/]+)/.exec(url);
+				var matches = /\/marketplaces\/([^\/]+)/.exec(url);
 				if (matches) {
 					marketplaceId = matches[1];
 				}
 
-				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(Balanced.Marketplace.constructUri(marketplaceId));
+				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
 
 				if (!userMarketplace || !userMarketplace.get('secret')) {
 					if (marketplaceId) {

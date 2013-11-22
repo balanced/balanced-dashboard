@@ -5,7 +5,7 @@
         <h2>Confirm your bank account</h2>
     </div>
     <div class="modal-body">
-        {{#unless view.model.no_remaining_attempts}}
+        {{#unless view.model.no_attempts_remaining}}
             {{#unless view.failedConfirmation}}
                 <div class="row-pad">
                     <p class="label1a">Check the two deposits Balanced made into this bank account and enter the amounts below.</p>
@@ -25,7 +25,7 @@
         {{/unless}}
 
         <div id="verification-attempts" class="row-pad row-full row-borders">
-            <p class="label3a">Verification attempts remaining: {{view.model.remaining_attempts}}</p>
+            <p class="label3a">Verification attempts remaining: {{view.model.attempts_remaining}}</p>
         </div>
 
         <div class="control-group edit-inline">
@@ -58,7 +58,7 @@
         <p class="modal-informational-content">If the deposits are not received after five business days, the transactions may have failed because of incorrect bank account information. Remove the erroneous bank account and add a new bank account.</p>
     </div>
     <div class="modal-footer">
-        {{#unless view.model.no_remaining_attempts}}
+        {{#unless view.model.no_attempts_remaining}}
             {{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
         {{else}}
             <button class="btn danger" name="modal-submit" data-dismiss="modal" aria-hidden="true">Close</button>

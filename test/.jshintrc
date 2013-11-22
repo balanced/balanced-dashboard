@@ -34,6 +34,7 @@
     "test": true,
     "asyncTest": true,
     "start": true,
+    "stop": true,
     "sinon": true,
 
     "visit": true,

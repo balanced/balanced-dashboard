@@ -11,9 +11,8 @@ Balanced.AddCardModalView = Balanced.View.extend({
 	actions: {
 		open: function() {
 			var card = Balanced.Card.create({
-				uri: this.get('customer.cards_uri'),
 				name: '',
-				card_number: '',
+				number: '',
 				security_code: '',
 				expiration_month: '',
 				expiration_year: '',
@@ -33,7 +32,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
 			var self = this;
 			var card = this.get('model');
 
-			card.tokenizeAndCreate().then(function() {
+			card.tokenizeAndCreate(this.get('customer.id')).then(function() {
 				self.get('customer.cards').reload();
 				$('#add-card').modal('hide');
 			});

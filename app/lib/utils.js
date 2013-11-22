@@ -1,4 +1,5 @@
-Balanced.Utils = {
+Balanced.Utils = Ember.Namespace.create({
+
 	stripDomain: function(url) {
 		return url.replace(/^.*\/\/[^\/]+/, '');
 	},
@@ -137,7 +138,7 @@ Balanced.Utils = {
 		if (marketplace) {
 			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 
-			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(marketplace.get('uri'));
+			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplace.get('id'));
 			if (userMarketplace) {
 				Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
 			} else {
@@ -170,11 +171,14 @@ Balanced.Utils = {
 		}
 		if (params.type) {
 			switch (params.type) {
+				case 'search':
+					filteringParams['type[in]'] = Balanced.SEARCH.SEARCH_TYPES.join(',');
+					break;
 				case 'transaction':
-					filteringParams['type[in]'] = 'credit,debit,refund,hold';
+					filteringParams['type[in]'] = Balanced.SEARCH.TRANSACTION_TYPES.join(',');
 					break;
 				case 'funding_instrument':
-					filteringParams['type[in]'] = 'bank_account,card';
+					filteringParams['type[in]'] = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES.join(',');
 					break;
 				default:
 					filteringParams.type = params.type;
@@ -285,5 +289,16 @@ Balanced.Utils = {
 
 	encodeAuthorization: function(apiKey) {
 		return 'Basic ' + window.btoa(apiKey + ':');
+	},
+
+	extractValidationErrorHash: function(errorsRoot) {
+		var errorsHash = {};
+		_.each(errorsRoot.errors, function(error) {
+			for (var key in error.extras) {
+				errorsHash[key] = error.extras[key];
+			}
+		});
+		return errorsHash;
 	}
-};
+
+});

@@ -1,11 +1,16 @@
 <nav>
+
+    <li {{bindAttr class=":orders view.ordersTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "order"}}> Orders </a>
+    </li>
+
     <li {{bindAttr class=":transactions :filter view.transactionsTabSelected:selected"}} >
-        <a href="#" {{action changeTypeFilter "transaction"}}>{{ view.transaction_type_label }} </a>
+        <a href="#" {{action changeTypeFilter "search"}}>{{ view.transaction_type_label }} </a>
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu transaction-filter filter-choices">
-                <li><a href="#" {{action changeTypeFilter "transaction"}} {{bindAttr label="view.totalTransactionsHeader"}}>All</a></li>
-                <li><a href="#" {{action changeTypeFilter "hold"}}> Holds </a></li>
+                <li><a href="#" {{action changeTypeFilter "search"}} {{bindAttr label="view.totalTransactionsHeader"}}>All</a></li>
+                <li><a href="#" {{action changeTypeFilter "card_hold"}}> Holds </a></li>
 
                 <li><a href="#" {{action changeTypeFilter "debit"}}> Debits </a></li>
 
@@ -17,7 +22,7 @@
     </li>
 
     <li {{bindAttr class=":accounts view.customersTabSelected:selected"}} >
-        <a href="#" {{action changeTypeFilter "account"}}> Customers </a>
+        <a href="#" {{action changeTypeFilter "customer"}}> Customers </a>
     </li>
 
     <li {{bindAttr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >

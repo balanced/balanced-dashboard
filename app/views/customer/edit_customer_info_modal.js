@@ -17,6 +17,10 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 		open: function() {
 			var customer = Ember.copy(this.get('customer'), true);
 			customer.set('isNew', false);
+
+			// if the address hash is empty, cast it to an empty object
+			customer.set('address', customer.get('address') || {});
+
 			customer.trigger('didCreate');
 
 			this.set('model', customer);
@@ -43,8 +47,6 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 
 			var self = this;
 			var customer = this.get('model');
-
-			customer.updateDob(this.get('dob_month'), this.get('dob_year'));
 
 			if (customer.get('email') === '') {
 				customer.set('email', null);

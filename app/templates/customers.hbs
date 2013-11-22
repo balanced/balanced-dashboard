@@ -14,8 +14,8 @@
 
 		    <div class="span8 buttons">
 		    	<div class="buttons-container">
-			        <a class="btn debit-customer" {{action openDebitCustomerModal target="view"}}>Debit</a>
-			        <a class="btn credit-customer" {{action openCreditCustomerModal target="view"}}>Credit</a>
+              {{debit-customer-modal customer=model}}
+              {{credit-customer-modal customer=model}}
 			    </div>
 		    </div>
 		</div>
@@ -40,8 +40,8 @@
 	                </header>
 	                <div>
                     <div class="key-value-row">
-                      <label class="key">URI</label>
-                      <span class="value">{{ uri }}</span>
+                      <label class="key">ID</label>
+                      <span class="value">{{ id }}</span>
                     </div>
                     <div class="key-value-row">
                       <label class="key">Created</label>
@@ -68,11 +68,7 @@
                     <div class="key-value-row">
                       <label class="key">Street Address</label>
                       <span class="value">
-                        {{#if address.street_address }}
-                          {{ address.street_address }}
-                        {{else}}
-                          {{ address.line1 }} {{ address.line2 }}
-                        {{/if}}
+                        {{ address.line1 }} {{ address.line2 }}
                       </span>
                     </div>
                     <div class="key-value-row">
@@ -80,13 +76,9 @@
                       <span class="value">{{ address.city }}</span>
                     </div>
                     <div class="key-value-row">
-                      <label class="key">Region</label>
+                      <label class="key">State</label>
                       <span class="value">
-                        {{#if address.state }}
-                          {{ address.state }}
-                        {{else}}
-                          {{ address.region }}
-                        {{/if}}
+                        {{ address.state }}
                       </span>
                     </div>
                     <div class="key-value-row">
@@ -208,9 +200,6 @@
 {{#if show_download}}
     {{partial "modals/download" }}
 {{/if}}
-
-{{view Balanced.DebitCustomerModalView customerBinding="model" viewName="debitCustomerModal"}}
-{{view Balanced.CreditCustomerModalView customerBinding="model" viewName="creditCustomerModal"}}
 
 {{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}

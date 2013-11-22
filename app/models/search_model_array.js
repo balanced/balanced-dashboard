@@ -29,6 +29,10 @@ Balanced.SearchModelArray = Balanced.ModelArray.extend({
 		return this.get('counts.card');
 	}.property('counts.card'),
 
+	total_orders: function() {
+		return this.get('counts.order');
+	}.property('counts.order'),
+
 	total_transactions: function() {
 		return this.get('total_credits') + this.get('total_debits') + this.get('total_holds') + this.get('total_refunds');
 	}.property('total_credits', 'total_debits', 'total_holds', 'total_refunds'),

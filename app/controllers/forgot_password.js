@@ -9,10 +9,6 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 			var model = this.get('content');
 			var self = this;
 
-			if ( !! Ember.testing) {
-				this.set('submitted', true);
-			}
-
 			model.set('email_address', this.get('email_address'));
 
 			if (model.validate()) {

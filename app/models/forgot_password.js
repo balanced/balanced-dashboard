@@ -9,3 +9,7 @@ Balanced.ForgotPassword = Balanced.Model.extend(Ember.Validations, {
 });
 
 Balanced.Adapter.registerHostForType(Balanced.ForgotPassword, ENV.BALANCED.AUTH);
+
+Balanced.ForgotPassword.reopenClass({
+	serializer: Balanced.Rev0Serializer.create()
+});

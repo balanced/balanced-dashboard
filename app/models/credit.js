@@ -1,9 +1,9 @@
 require('app/models/transaction');
 
 Balanced.Credit = Balanced.Transaction.extend({
-	uri: '/v1/credits',
+	uri: '/credits',
 
-	bank_account: Balanced.Model.belongsTo('bank_account', 'Balanced.BankAccount'),
+	bank_account: Balanced.Model.belongsTo('destination', 'Balanced.BankAccount'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
 	type_name: function() {
@@ -25,7 +25,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 	status_description: function() {
 		if (this.get('status') === 'pending') {
 			return "Credit is processing, funds will be available the next business day unless there is an issue with the bank account.";
-		} else if (this.get('status') === 'paid') {
+		} else if (this.get('status') === 'succeeded') {
 			return "Funds are now available. If there is an issue with the bank account, a \"Failed\" status and rejection reason will be displayed here.";
 		} else if (this.get('status') === 'failed') {
 			return "Update the customer account with corrected bank account information. Then resubmit the credit.";
@@ -38,7 +38,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');
 
 Balanced.Credit.reopenClass({
-	serializer: Balanced.Rev0Serializer.extend({
+	serializer: Balanced.Rev1Serializer.extend({
 		serialize: function(record) {
 			var json = this._super(record);
 

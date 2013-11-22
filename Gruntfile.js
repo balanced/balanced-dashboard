@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		clean: {
 			files: {
-				src: ['build/', 'dist/', 'report/', 'js/']
+				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp']
 			}
 		},
 
@@ -305,6 +305,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+
 		/*jshint multistr: true */
 		'compile-handlebars': {
 			dev: {
@@ -325,7 +326,8 @@ module.exports = function(grunt) {
 							MIXPANEL: '',\
 							GOOGLE_ANALYTICS: ''\
 						}\
-					}"
+					}",
+					ext: grunt.file.exists('./ext.json') ? grunt.file.read('./ext.json') : ''
 				},
 				output: 'build/dev.html'
 			},

@@ -1,47 +1,31 @@
-var settingsRoute, bankAccountRoute;
-
 module('Bank Account Page', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
-		settingsRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/settings';
-		Ember.run(function() {
-			Balanced.BankAccount.create({
-				name: 'Test Account',
-				account_number: '1234',
-				routing_number: '122242607',
-				type: 'checking'
-			}).save().then(function(bankAccount) {
-				Balanced.TEST.BANK_ACCOUNT_ID = bankAccount.get('id');
-				bankAccountRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-					'/bank_accounts/' + Balanced.TEST.BANK_ACCOUNT_ID;
-			});
-		});
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
 	},
 	teardown: function() {}
 });
 
 test('can view bank account page', function(assert) {
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
 			assert.equal($("#content h1").text().trim(), 'Bank Account');
-			assert.equal($(".title span").text().trim(), 'TEST-MERCHANT-BANK-ACCOUNT (5555)');
+			assert.equal($(".title span").text().trim(), 'Test Account (1234)');
 		});
 });
 
 test('credit bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.click(".main-header .buttons a.credit-button")
 		.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			// should be one create for the debit
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit, '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/credits', sinon.match({
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Credit, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits', sinon.match({
 				amount: 100000,
 				description: "Test credit"
 			})));
@@ -51,8 +35,7 @@ test('credit bank account', function(assert) {
 test('crediting only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
+	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.click(".main-header .buttons a.credit-button")
 		.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
@@ -65,80 +48,123 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 		});
 });
 
-test('debit bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+asyncTest('debit bank account', 2, function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
-		.click(".main-header .buttons a.debit-button")
-		.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
-		.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, sinon.match(/\/v1\/bank_accounts\/(.*)\/debits/), sinon.match({
-				amount: 100000,
-				description: "Test debit"
-			})));
+	visit(Testing.BANK_ACCOUNT_ROUTE).then(function() {
+		var controller = Balanced.__container__.lookup('controller:bankAccounts');
+		var model = controller.get('model');
+		model.set('can_debit', true);
+		stop();
+
+		Ember.run.next(function() {
+			start();
+			click(".main-header .buttons a.debit-button")
+				.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
+				.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
+				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(stub.calledOnce);
+					assert.ok(stub.calledWith(Balanced.Debit, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/debits', sinon.match({
+						amount: 100000,
+						description: "Test debit"
+					})));
+
+					start();
+				});
 		});
+	});
 });
 
 test('debiting only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(settingsRoute)
-		.click(".bank-account-info .sidebar-items li:eq(0) .name")
-		.click(".main-header .buttons a.debit-button")
-		.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
-		.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
+	visit(Testing.BANK_ACCOUNT_ROUTE).then(function() {
+		var controller = Balanced.__container__.lookup('controller:bankAccounts');
+		var model = controller.get('model');
+		model.set('can_debit', true);
+		stop();
+
+		Ember.run.next(function() {
+			start();
+			click(".main-header .buttons a.debit-button")
+				.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
+				.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
+				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+				.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(stub.calledOnce);
+				});
 		});
+	});
 });
 
 test('can initiate bank account verification', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(bankAccountRoute)
+	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
-			assert.equal($('#content h1').text().trim(), 'Bank Account');
-			assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
-		})
-		.then(function() {
-			click(".main-header .buttons a.verify-button");
-			assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
-		})
-		.then(function() {
-			click('#verify-bank-account .modal-footer button[name="modal-submit"]');
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Verification, sinon.match(/\/v1\/bank_accounts\/(.*)\/verifications/)));
+			var controller = Balanced.__container__.lookup('controller:bankAccounts');
+			var model = controller.get('model');
+			model.set('can_debit', false);
+			model.set('customer', true);
+			model.set('verification', false);
+			stop();
+
+			// wait for computed property to fire first
+			Ember.run.next(function() {
+				start();
+				assert.equal($('#content h1').text().trim(), 'Bank Account');
+				assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
+				click(".main-header .buttons a.verify-button")
+					.then(function() {
+						assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
+					})
+					.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/verifications'));
+					});
+			});
 		});
 });
 
 test('can confirm bank account verification', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(bankAccountRoute)
+	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
-			assert.equal($('#content h1').text().trim(), 'Bank Account');
-			assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
-		})
-		.click(".main-header .buttons a.confirm-verification-button")
-		.then(function() {
-			assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
-		})
-		.fillIn('#confirm-verification .modal-body input[name="amount_1"]', '1.00')
-		.fillIn('#confirm-verification .modal-body input[name="amount_2"]', '1.00')
-		.click('#confirm-verification .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Verification, sinon.match(/\/v1\/bank_accounts\/(.*)\/verifications/)));
-			assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
-			assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
-			assert.ok(stub.getCall(0).args[2].state, "pending");
+			var controller = Balanced.__container__.lookup('controller:bankAccounts');
+			var model = controller.get('model');
+			model.set('can_debit', false);
+			model.set('verification', Balanced.Verification.create({
+				uri: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/bank_account_verifications',
+				verification_status: 'pending',
+				attempts_remaining: 1
+			}));
+			stop();
+
+			// wait for computed property to fire first
+			Ember.run.next(function() {
+				start();
+				assert.equal($('#content h1').text().trim(), 'Bank Account');
+				assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
+
+				click(".main-header .buttons a.confirm-verification-button")
+					.then(function() {
+						assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
+					})
+					.fillIn('#confirm-verification .modal-body input[name="amount_1"]', '1.00')
+					.fillIn('#confirm-verification .modal-body input[name="amount_2"]', '1.00')
+					.click('#confirm-verification .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/bank_account_verifications'));
+						assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
+						assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
+					});
+			});
 		});
 });

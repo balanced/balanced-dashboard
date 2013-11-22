@@ -1,11 +1,15 @@
 module('Balanced.Model', {
 	setup: function() {
-		Balanced.TEST.setupFixtures();
+		Testing.setupFixtures();
 		Balanced.TestModel = Balanced.Model.extend({
 			basic_field: 1,
 			derived_field: function() {
 				return this.get('basic_field') + 1;
 			}.property('basic_field')
+		});
+
+		Balanced.TestModel.reopenClass({
+			serializer: Balanced.Rev0Serializer.create()
 		});
 
 		Balanced.Adapter.addFixtures([{

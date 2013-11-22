@@ -81,6 +81,9 @@ Balanced.Router.map(function() {
 			this.resource('activity', {
 				path: '/activity'
 			}, function() {
+				this.route('orders', {
+					path: '/orders'
+				});
 				this.route('transactions', {
 					path: '/transactions'
 				});
@@ -125,6 +128,9 @@ Balanced.Router.map(function() {
 			});
 			this.resource('events', {
 				path: '/events/:event_id'
+			});
+			this.resource('orders', {
+				path: '/orders/:order_id'
 			});
 
 			makeNestedResource(this, 'logs', 'log');

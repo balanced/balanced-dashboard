@@ -1,5 +1,3 @@
-var applyRoute = '/marketplaces/apply';
-
 module('Balanced.Marketplaces.apply', {
 	setup: function() {
 		Ember.run(function() {
@@ -11,19 +9,20 @@ module('Balanced.Marketplaces.apply', {
 				true,
 				false);
 		});
+		Testing.APPLY_ROUTE = '/marketplaces/apply';
 	},
 	teardown: function() {}
 });
 
 test('we are on the correct page', function(assert) {
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			assert.equal($('h1', '#marketplace-apply').text(), 'Apply for a Production Marketplace');
 		});
 });
 
 test('clicking business or personal shows data', function(assert) {
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			assert.equal($('input', '#marketplace-apply').length, 0);
 		})
@@ -38,7 +37,7 @@ test('clicking business or personal shows data', function(assert) {
 });
 
 test('basic form validation and terms and conditions', function(assert) {
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			click('a:contains("Person")');
 
@@ -57,32 +56,34 @@ test('basic form validation and terms and conditions', function(assert) {
 
 test('application submits properly', function(assert) {
 	var createStub = sinon.stub(Balanced.Adapter, "create");
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+
 	createStub.withArgs(Balanced.APIKey).callsArgWith(3, {
 
 	});
 	createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
-		owner_customer: {
-			bank_accounts_uri: "/v1/marketplaces/deadbeef/bank_accounts"
-		}
+		owner_customer: [{
+			bank_accounts_uri: "/marketplaces/deadbeef/bank_accounts"
+		}]
 	});
 	createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {
 
 	});
 	createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
-		verifications_uri: "/v1/bank_accounts/deadbeef/verifications"
+		bank_account_verifications_uri: "/bank_accounts/deadbeef/verifications"
 	});
 	createStub.withArgs(Balanced.Verification).callsArgWith(3, {
 
 	});
 
-	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
+	tokenizingStub.callsArgWith(1, {
 		status: 201,
-		data: {
-			uri: "/v1/bank_accounts/deadbeef"
-		}
+		bank_accounts: [{
+			href: "/bank_accounts/deadbeef"
+		}]
 	});
 
-	visit(applyRoute)
+	visit(Testing.APPLY_ROUTE)
 		.click('a:contains("Business")')
 		.fillIn('input[name="business_name"]', 'Balanced Inc')
 		.fillIn('input[name="ein"]', '123456789')
@@ -104,8 +105,8 @@ test('application submits properly', function(assert) {
 		.click("#terms-and-conditions")
 		.click('.submit')
 		.then(function() {
-			assert.equal(createStub.callCount, 5);
-			assert.ok(createStub.calledWith(Balanced.APIKey, '/v1/api_keys', {
+			assert.equal(createStub.callCount, 3);
+			assert.ok(createStub.calledWith(Balanced.APIKey, '/api_keys', {
 				merchant: {
 					name: "Balanced Inc",
 					person: {
@@ -123,26 +124,31 @@ test('application submits properly', function(assert) {
 					type: "BUSINESS"
 				}
 			}));
-			assert.ok(createStub.calledWith(Balanced.Marketplace, "/v1/marketplaces", {
+			assert.ok(createStub.calledWith(Balanced.Marketplace, "/marketplaces", {
 				name: "Balanced Test Marketplace",
 				support_email_address: "support@balancedpayments.com",
 				support_phone_number: "(650) 555-4444",
 				domain_url: "https://www.balancedpayments.com"
 			}));
-			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
-			assert.ok(createStub.calledWith(Balanced.BankAccount, '/v1/marketplaces/deadbeef/bank_accounts', {
-				bank_account_uri: '/v1/bank_accounts/deadbeef'
-			}));
-			assert.ok(createStub.calledWith(Balanced.Verification, '/v1/bank_accounts/deadbeef/verifications'));
 
-			assert.ok(Balanced.TEST.balancedInitStub.calledTwice);
-			assert.ok(Balanced.TEST.balancedInitStub.calledWith('/v1/marketplaces'));
-			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
-			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
+			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
+
+			// using balanced.js to create the bank account
+			/*
+			assert.ok(createStub.calledWith(Balanced.BankAccount, '/marketplaces/deadbeef/bank_accounts', {
+				bank_account_uri: '/bank_accounts/deadbeef'
+			}));
+			assert.ok(createStub.calledWith(Balanced.Verification, '/bank_accounts/deadbeef/verifications'));
+			*/
+
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
 				type: "checking",
 				name: "Balanced Inc",
 				account_number: "123123123",
 				routing_number: "321174851"
 			}));
+
+			balanced.bankAccount.create.restore();
 		});
 });

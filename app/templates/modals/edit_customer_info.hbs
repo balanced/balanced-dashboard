@@ -47,14 +47,6 @@
                 <p class="modal-informational-content fields-header"><strong>Additional info</strong> (all fields are optional)</p></a>
             </div>
             <div {{bindAttr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
-              {{#if view.model.address.street_address}}
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.street_address:error"}}>
-                    <label class="control-label">Street address</label>
-                    <div class="controls">
-                        {{view Ember.TextField valueBinding="view.model.address.street_address" name="street_address" class="full"}}
-                    </div>
-                </div>
-              {{else}}
                 <div {{bindAttr class=":control-group view.model.validationErrors.address.line1:error"}}>
                     <label class="control-label">Street address (line 1)</label>
                     <div class="controls">
@@ -67,21 +59,16 @@
                         {{view Ember.TextField valueBinding="view.model.address.line2" name="line2" class="full"}}
                     </div>
                 </div>
-              {{/if}}
                 <div {{bindAttr class=":control-group view.model.validationErrors.address.city:error"}}>
                     <label class="control-label">City</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.address.city" name="city" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.region:error"}}>
+                <div {{bindAttr class=":control-group view.model.validationErrors.address.state:error"}}>
                     <label class="control-label">State or Province</label>
                     <div class="controls">
-                      {{#if view.model.address.state}}
-                        {{view Ember.TextField valueBinding="view.model.address.state" name="state" class="full"}}
-                      {{else}}
-                        {{view Ember.TextField valueBinding="view.model.address.region" name="region" class="full"}}
-                      {{/if}}
+                      {{view Ember.TextField valueBinding="view.model.address.state" name="state" class="full"}}
                     </div>
                 </div>
                 <div {{bindAttr class=":control-group view.model.validationErrors.address.country_code:error"}}>
@@ -102,11 +89,11 @@
                         {{view Ember.TextField valueBinding="view.model.phone" name="phone" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.dob:error"}}>
+                <div {{bindAttr class=":control-group view.model.dob_error:error"}}>
                     <label class="control-label">Date of Birth</label>
                     <div class="controls">
-                        {{view Ember.TextField valueBinding="view.dob_month" name="dob_month" class="span2" placeholder="Month"}}
-                        {{view Ember.TextField valueBinding="view.dob_year" name="dob_year" class="span2" placeholder="Year"}}
+                        {{view Ember.TextField valueBinding="view.model.dob_month" name="dob_month" class="span2" placeholder="Month"}}
+                        {{view Ember.TextField valueBinding="view.model.dob_year" name="dob_year" class="span2" placeholder="Year"}}
                     </div>
                 </div>
                 <div {{bindAttr class=":control-group view.model.validationErrors.ssn_last4:error"}}>

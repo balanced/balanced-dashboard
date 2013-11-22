@@ -42,12 +42,12 @@
 		        {{view Balanced.CountrySelectView valueBinding="address.country_code"}}
 	            <label class="control-label">Enter the country. <span class="recommended-field">Recommended field</span></label>
 	        </div>
-	    	{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.region" help="Enter the state or province. " recommendedField=true }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.state" help="Enter the state or province. " recommendedField=true }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter the postal code. " recommendedField=true }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true }}
-	        <div {{bindAttr class=":control-group model.validationErrors.dob:error"}}>
-		        {{view Ember.TextField valueBinding="dob_month" name="dob_month" class="span2" placeholder="MM"}}
-	            {{view Ember.TextField valueBinding="dob_year" name="dob_year" class="span2" placeholder="YYYY"}}
+	        <div {{bindAttr class=":control-group model.dob_error:error"}}>
+		        {{view Ember.TextField valueBinding="model.dob_month" name="dob_month" class="span2" placeholder="MM"}}
+	            {{view Ember.TextField valueBinding="model.dob_year" name="dob_year" class="span2" placeholder="YYYY"}}
 	            <label class="control-label">Enter the date of birth. <span class="recommended-field">Recommended field</span></label>
 	        </div>
 	        {{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="Enter the last 4 digits of the social security number" }}

@@ -11,3 +11,7 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 Balanced.TypeMappings.addTypeMapping('user_marketplace', 'Balanced.UserMarketplace');
 
 Balanced.Adapter.registerHostForType(Balanced.UserMarketplace, ENV.BALANCED.AUTH);
+
+Balanced.UserMarketplace.reopenClass({
+	serializer: Balanced.Rev0Serializer.create()
+});

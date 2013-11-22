@@ -12,9 +12,9 @@
             {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.card_number:error"}}>
+        <div {{bindAttr class=":control-group view.model.validationErrors.number:error"}}>
             <label>Card Number</label>
-            {{view Ember.TextField valueBinding="view.model.card_number" name="card_number" class="full"}}
+            {{view Ember.TextField valueBinding="view.model.number" name="number" class="full"}}
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.security_code:error"}}>

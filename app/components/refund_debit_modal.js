@@ -9,12 +9,11 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 	actions: {
 		open: function() {
 			var refund = Balanced.Refund.create({
-				uri: this.get('debit.customer.refunds_uri'),
+				uri: this.get('debit.refunds_uri'),
 				debit_uri: this.get('debit.uri'),
 				amount: null
 			});
 
-			var self = this;
 			refund.on('didCreate', function() {
 				$('#refund-debit').modal('hide');
 			});

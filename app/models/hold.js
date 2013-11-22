@@ -1,7 +1,8 @@
 require('app/models/transaction');
 
 Balanced.Hold = Balanced.Transaction.extend({
-	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
+	card: Balanced.Model.belongsTo('card', 'Balanced.FundingInstrument'),
+	source: Ember.computed.alias('card'),
 	debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
 
 	status: function() {
@@ -29,8 +30,9 @@ Balanced.Hold = Balanced.Transaction.extend({
 	}.property(),
 
 	funding_instrument_description: function() {
-		return this.get('source.description');
-	}.property('source.description')
+		return this.get('card.description');
+	}.property('card.description')
 });
 
 Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');
+Balanced.TypeMappings.addTypeMapping('card_hold', 'Balanced.Hold');

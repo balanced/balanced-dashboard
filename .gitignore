@@ -18,6 +18,7 @@ report/*
 coverage/*
 temp/*
 
+ext.json
 npm-debug.log
 node_modules
 
