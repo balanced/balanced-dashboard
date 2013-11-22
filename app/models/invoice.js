@@ -43,7 +43,44 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	reversal_fee: function() {
 		return 0;
-	}.property()
+	}.property(),
+
+	// TODO - take all these URIs out once invoice has links for them
+	bank_account_debits_uri: function() {
+		return this.get('uri') + '/bank_account_debits';
+	}.property('uri'),
+
+	card_debits_uri: function() {
+		return this.get('uri') + '/card_debits';
+	}.property('uri'),
+
+	debits_uri: function() {
+		return this.get('uri') + '/debits';
+	}.property('uri'),
+
+	bank_account_credits_uri: function() {
+		return this.get('uri') + '/bank_account_credits';
+	}.property('uri'),
+
+	holds_uri: function() {
+		return this.get('uri') + '/holds';
+	}.property('uri'),
+
+	failed_credits_uri: function() {
+		return this.get('uri') + '/failed_credits';
+	}.property('uri'),
+
+	lost_debit_chargebacks_uri: function() {
+		return this.get('uri') + '/lost_debit_chargebacks';
+	}.property('uri'),
+
+	refunds_uri: function() {
+		return this.get('uri') + '/refunds';
+	}.property('uri'),
+
+	reversals_uri: function() {
+		return this.get('uri') + '/reversals';
+	}.property('uri')
 });
 
 Balanced.TypeMappings.addTypeMapping('invoice', 'Balanced.Invoice');

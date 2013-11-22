@@ -23,8 +23,9 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		return this.get('uri') + '/search?limit=10&offset=0&q=&type[in]=bank_account,card';
 	}.property('uri'),
 
+	// TODO - take this out once marketplace has a link to invoices list
 	invoices_uri: function() {
-		return this.get('uri') + '/invoices';
+		return '/invoices';
 	}.property('uri'),
 
 	populateWithTestTransactions: function() {

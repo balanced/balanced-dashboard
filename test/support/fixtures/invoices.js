@@ -345,7 +345,7 @@ Balanced.Adapter.addFixtures([{
 		"offset": 0,
 		"previous_uri": null,
 		"total": 16,
-		"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc"
+		"uri": "/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc"
 	},
 
 	{
@@ -2824,7 +2824,7 @@ Balanced.Adapter.addFixtures([{
 			"updated_at": "2013-01-11T02:01:51.739Z",
 			"variable_fee_percentage": 3.5
 		}],
-		"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices/IVDOATjeyAPTJMJPnBR83uE"
+		"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE"
 	}
 
 ]);
