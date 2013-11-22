@@ -6,14 +6,26 @@ Balanced.ActivityIndexRoute = Balanced.AuthRoute.extend({
 	}
 });
 
+Balanced.ActivityOrdersRoute = Balanced.AuthRoute.extend({
+	pageTitle: 'Activity',
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+
+		if (this.controllerFor('activity').get('category') !== 'order') {
+			this.controllerFor('activity').set('type', 'order');
+		}
+	}
+});
+
 Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Activity',
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		if (this.controllerFor('activity').get('category') !== 'transaction') {
-			this.controllerFor('activity').set('type', 'transaction');
+		if (this.controllerFor('activity').get('category') !== 'search') {
+			this.controllerFor('activity').set('type', 'search');
 		} else {
 			this.controllerFor('activity').send('reload');
 		}
@@ -26,8 +38,8 @@ Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		if (this.controllerFor('activity').get('category') !== 'account') {
-			this.controllerFor('activity').set('type', 'account');
+		if (this.controllerFor('activity').get('category') !== 'customer') {
+			this.controllerFor('activity').set('type', 'customer');
 		} else {
 			this.controllerFor('activity').send('reload');
 		}

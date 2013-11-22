@@ -13,13 +13,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 					}
 				};
 				return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
-					//  pre-populate marketplace with transactions
-					var uri = marketplace.get('uri');
-					var id = uri.substr(uri.lastIndexOf('/') + 1);
-					Balanced.NET.ajax({
-						url: ENV.BALANCED.AUTH + '/marketplaces/%@/spam'.fmt(id),
-						type: 'PUT'
-					});
+					marketplace.populateWithTestTransactions();
 
 					Balanced.Auth.setupGuestUserMarketplace(marketplace);
 

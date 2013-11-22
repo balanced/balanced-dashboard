@@ -13,9 +13,9 @@
                 </header>
                 <div>
                     <div class="control-group">
-                        <label class="control-label">URI</label>
+                        <label class="control-label">ID</label>
                         <div class="controls">
-                            <span class="inline-label">{{ uri }}</span>
+                            <span class="inline-label">{{ id }}</span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -122,11 +122,7 @@
                       <label class="key">Street Address</label>
                       <span {{bindAttr class="production::test-marketplace-label :value"}}>
                         {{#if production}}
-                          {{#if owner_customer.address.street_address }}
-                            {{ owner_customer.address.street_address }}
-                          {{else}}
-                            {{ owner_customer.address.line1 }} {{ owner_customer.address.line2 }}
-                          {{/if}}
+                          {{ owner_customer.address.line1 }} {{ owner_customer.address.line2 }}
                         {{else}}
                             Test
                         {{/if}}
@@ -146,7 +142,7 @@
                       <label class="key">Region</label>
                       <span {{bindAttr class="production::test-marketplace-label :value"}}>
                         {{#if production}}
-                            {{ owner_customer.address.region }}
+                            {{ owner_customer.address.state }}
                         {{else}}
                             Test
                         {{/if}}
@@ -272,6 +268,7 @@
 	                        <a href="#" class="icon-delete" {{action promptToDeleteCallback callback}}>delete</a>
                             <div class="expand"><!--<span class="caret"></span>--></div>
 	                        <div class="state">pending</div>
+                          <div class="callback-revision">Revision {{ callback.revision }}</div>
                             <!--
 	                        <div class="action"><button class="btn">Test</button></div>
                             -->

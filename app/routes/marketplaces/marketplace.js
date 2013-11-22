@@ -6,7 +6,6 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 	},
 
 	afterModel: function(model) {
-		balanced.init(model.get('uri'));
 		Balanced.Utils.setCurrentMarketplace(model);
 	},
 
@@ -31,6 +30,18 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 			});
 		},
 		submitCaptureHold: function(debit) {
+			var self = this;
+			debit.save().then(function(debit) {
+				self.transitionTo('debits', debit);
+			});
+		},
+		submitCreditCustomer: function(credit) {
+			var self = this;
+			credit.save().then(function(credit) {
+				self.transitionTo('credits', credit);
+			});
+		},
+		submitDebitCustomer: function(debit) {
 			var self = this;
 			debit.save().then(function(debit) {
 				self.transitionTo('debits', debit);

@@ -18,11 +18,15 @@ report/*
 coverage/*
 temp/*
 
+ext.json
 npm-debug.log
 node_modules
 
 # bower
 static/javascripts
+.bower-cache
+.bower-registry
+.bower-tmp
 
 # emacs and other IDEs
 *~

@@ -1,23 +1,20 @@
-var refundRoute;
-
 module('Refunds', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Testing.setupMarketplace();
 		Ember.run(function() {
-			Balanced.Debit.create({
-				uri: '/v1/customers/' + Balanced.TEST.CUSTOMER_ID + '/debits',
-				appears_on_statement_as: 'Pixie Dust',
-				amount: 10000,
-				description: 'Cocaine'
-			}).save().then(function(debit) {
-				Balanced.TEST.DEBIT_ID = debit.get('id');
-				Balanced.NET.ajax({
-					url: ENV.BALANCED.API + '/v1/marketplaces/' + Balanced.TEST.MARKETPLACE_ID + '/debits/' + Balanced.TEST.DEBIT_ID + '/refunds',
-					type: 'post'
-				}).done(function(res) {
-					refundRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID +
-						'/refunds/' + res.id;
-				});
+			Testing._createCard().then(function(card) {
+				return Balanced.Debit.create({
+					uri: card.get('debits_uri'),
+					amount: 100000
+				}).save();
+			}).then(function(debit) {
+				return Balanced.Refund.create({
+					uri: debit.get('refunds_uri'),
+					debit_uri: debit.get('uri'),
+					amount: 10000
+				}).save();
+			}).then(function(refund) {
+				Testing.REFUND_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/refunds/' + refund.get('id');
 			});
 		});
 	},
@@ -25,7 +22,7 @@ module('Refunds', {
 });
 
 test('can visit page', function(assert) {
-	visit(refundRoute).then(function() {
+	visit(Testing.REFUND_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
 		assert.equal($(".refund .transaction-description").text().trim(), 'Succeeded: $100.00');
 	});
@@ -34,7 +31,7 @@ test('can visit page', function(assert) {
 test('can edit refund', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(refundRoute)
+	visit(Testing.REFUND_ROUTE)
 		.click('.refund .transaction-info a.edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')

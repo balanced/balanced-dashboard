@@ -1,10 +1,10 @@
 require('app/models/funding_instrument');
 
 Balanced.BankAccount = Balanced.FundingInstrument.extend({
-	uri: '/v1/bank_accounts',
+	uri: '/bank_accounts',
 
-	verifications: Balanced.Model.hasMany('verifications', 'Balanced.Verification'),
-	verification: Balanced.Model.belongsTo('verification', 'Balanced.Verification'),
+	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
+	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
 	type_name: function() {
 		return 'Bank Account';
@@ -41,18 +41,18 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	}.property('last_four', 'bank_name'),
 
 	can_verify: function() {
-		return (!this.get('can_debit') && !this.get('can_confirm_verification') &&
-			(this.get('customer') || this.get('account'))) || Ember.testing;
-	}.property('can_debit', 'can_confirm_verification'),
+		return !this.get('can_debit') && !this.get('can_confirm_verification') &&
+			this.get('customer');
+	}.property('can_debit', 'can_confirm_verification', 'customer'),
 
 	can_confirm_verification: function() {
-		return (this.get('verification') &&
-			this.get('verification.state') !== 'failed' &&
-			this.get('verification.state') !== 'verified' &&
-			this.get('verification.remaining_attempts') > 0) || Ember.testing;
-	}.property('verification', 'verification.state', 'verification.remaining_attempts'),
+		return this.get('verification') &&
+			this.get('verification.verification_status') !== 'failed' &&
+			this.get('verification.verification_status') !== 'verified' &&
+			this.get('verification.attempts_remaining') > 0;
+	}.property('verification', 'verification.verification_status', 'verification.attempts_remaining'),
 
-	tokenizeAndCreate: function() {
+	tokenizeAndCreate: function(customerId) {
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
@@ -66,15 +66,25 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 		// Tokenize the bank account using the balanced.js library
 		balanced.bankAccount.create(bankAccountData, function(response) {
-			switch (response.status) {
-				case 201:
-					// Now that it's been tokenized, we just need to associate it with the customer's account
-					var bankAccountAssociation = Balanced.BankAccount.create({
-						uri: self.get('uri'),
-						bank_account_uri: response.data.uri
-					});
-					bankAccountAssociation.save().then(function(savedBankAccount) {
-						self.updateFromModel(savedBankAccount);
+			if (response.errors) {
+				var validationErrors =
+					self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
+
+				if (!validationErrors) {
+					self.set('displayErrorDescription', true);
+					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
+					self.set('errorDescription', 'Sorry, there was an error tokenizing this bank account' + errorSuffix);
+				}
+
+				self.set('isSaving', false);
+				promise.reject();
+			} else {
+				Balanced.BankAccount.find(response.bank_accounts[0].href)
+				// Now that it's been tokenized, we just need to associate it with the customer's account
+				.then(function(bankAccount) {
+					bankAccount.set('links.customer', customerId);
+
+					bankAccount.save().then(function() {
 						self.set('isLoaded', true);
 						self.set('isNew', false);
 						self.set('isSaving', false);
@@ -85,22 +95,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 						self.set('isSaving', false);
 						promise.reject();
 					});
-					break;
-				case 400:
-					self.set('validationErrors', {});
-					_.each(response.error, function(value, key) {
-						self.set('validationErrors.' + key, 'invalid');
-					});
-					self.set('isSaving', false);
-					promise.reject();
-					break;
-				default:
-					self.set('displayErrorDescription', true);
-					var errorSuffix = (response.error && response.error.description) ? (': ' + response.error.description) : '.';
-					self.set('errorDescription', 'Sorry, there was an error tokenizing this bank account' + errorSuffix);
-					self.set('isSaving', false);
-					promise.reject();
-					break;
+				});
 			}
 		});
 

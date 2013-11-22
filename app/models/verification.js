@@ -1,15 +1,15 @@
 Balanced.Verification = Balanced.Model.extend({
 	allowed_attempts: function() {
-		return this.get('remaining_attempts') + this.get('attempts');
-	}.property('remaining_attempts', 'attempts'),
+		return this.get('attempts_remaining') + this.get('attempts');
+	}.property('attempts_remaining', 'attempts'),
 
-	no_remaining_attempts: function() {
-		return this.get('remaining_attempts') === 0;
-	}.property('remaining_attempts'),
+	no_attempts_remaining: function() {
+		return this.get('attempts_remaining') === 0;
+	}.property('attempts_remaining'),
 
 	// hide the deposit_succeeded state to keep things less confusing
 	display_state: function() {
-		var state = this.get('state');
+		var state = this.get('verification_status');
 
 		if (state === 'deposit_succeeded') {
 			return 'pending';
@@ -18,4 +18,4 @@ Balanced.Verification = Balanced.Model.extend({
 	}.property('state')
 });
 
-Balanced.TypeMappings.addTypeMapping('bank_account_authentication', 'Balanced.Verification');
+Balanced.TypeMappings.addTypeMapping('bank_account_verification', 'Balanced.Verification');

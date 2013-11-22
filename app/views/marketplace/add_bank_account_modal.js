@@ -4,11 +4,10 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 	actions: {
 		open: function() {
 			var bankAccount = Balanced.BankAccount.create({
-				uri: this.get('customer.bank_accounts_uri'),
 				name: '',
 				account_number: '',
 				routing_number: '',
-				type: 'checking'
+				type: ''
 			});
 			this.set('model', bankAccount);
 			$('#add-bank-account').modal({
@@ -26,9 +25,9 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 			var bankAccount = this.get('model');
 
 			// this isn't an ember widget, so have to grab it ourselves
-			bankAccount.set('type', $('#add-bank-account form input[name=account_type]').val());
+			bankAccount.set('type', $('#add-bank-account form input[name=account_type]:checked').val());
 
-			bankAccount.tokenizeAndCreate().then(function() {
+			bankAccount.tokenizeAndCreate(this.get('customer.id')).then(function() {
 				self.get('customer.bank_accounts').reload();
 				$('#add-bank-account').modal('hide');
 			});

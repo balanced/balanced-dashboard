@@ -1,3 +1,8 @@
 {
-	"directory" : "static/javascripts"
+	"directory" : "static/javascripts",
+	"storage" : {
+		"packages" : ".bower-cache",
+		"registry" : ".bower-registry"
+	},
+	"tmp" : ".bower-tmp"
 }

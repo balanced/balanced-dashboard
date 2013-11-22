@@ -1,6 +1,6 @@
 module('Guest', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
+		Testing.setupMarketplace();
 	},
 	teardown: function() {}
 });
@@ -15,8 +15,7 @@ test('visiting start creates a marketplace', function(assert) {
 });
 
 test('viewing settings page as guest, can view api secret key', function(assert) {
-
-	visit('/marketplaces/' + Balanced.TEST.MARKETPLACE_ID)
+	visit('/marketplaces/' + Testing.MARKETPLACE_ID)
 		.click('li.settings a')
 		.click('.control-group .controls .api-key-secret a')
 		.then(function() {
@@ -27,7 +26,7 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 });
 
 test('claim account creates a login', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 	var emailAddress = 'marshall@example.com',
 		password = 'SupahSecret123~!';
 
@@ -41,8 +40,8 @@ test('claim account creates a login', function(assert) {
 		.fillIn('[name="passwordConfirm"]', password)
 		.click('#claim-form button')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Claim, '/users', sinon.match({
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Claim, '/users', sinon.match({
 				email_address: emailAddress,
 				password: password
 			})));

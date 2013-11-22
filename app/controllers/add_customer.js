@@ -12,8 +12,6 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 			var self = this;
 			var customer = this.get('model');
 
-			customer.updateDob(this.get('dob_month'), this.get('dob_year'));
-
 			for (var prop in customer) {
 				if (customer.hasOwnProperty(prop) && customer[prop] === '') {
 					customer.set(prop, null);

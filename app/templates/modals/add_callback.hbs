@@ -11,6 +11,16 @@
             <label>URI</label>
             {{view Ember.TextField valueBinding="view.model.url" name="url" class="full"}}
         </div>
+        <div class="control-group">
+          <label>Revision</label>
+          {{view Ember.Select
+              contentBinding="view.callback_revisions"
+              valueBinding="view.model.revision"
+              class="full"
+              name="callback-revision"
+              optionValuePath="content.value"
+              optionLabelPath="content.label"
+          }}
     </div>
     <div class="modal-footer">
         {{view Balanced.ModalActionButtonsView submitTitle="Add"}}

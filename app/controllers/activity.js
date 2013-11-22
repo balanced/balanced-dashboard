@@ -9,9 +9,11 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	actions: {
 		changeTypeFilter: function(type) {
 			this.set('type', type);
-			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
-			} else if (type === 'account') {
+			} else if (type === 'order') {
+				this.transitionToRoute('activity.orders');
+			} else if (type === 'customer') {
 				this.transitionToRoute('activity.customers');
 			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 				this.transitionToRoute('activity.funding_instruments');
@@ -46,6 +48,8 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
 	allowSortByNone: false
 });
+
+Balanced.ActivityOrdersController = Balanced.NestedActivityResultsControllers.extend({});
 
 Balanced.ActivityCustomersController = Balanced.NestedActivityResultsControllers.extend({});
 

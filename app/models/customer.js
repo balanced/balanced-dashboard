@@ -6,6 +6,9 @@ Balanced.Customer = Balanced.Model.extend({
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
+	orders: Balanced.Model.hasMany('orders', 'Balanced.Order'),
+
+	uri: '/customers',
 
 	debitable_bank_accounts: function() {
 		var bank_accounts = this.get('bank_accounts');
@@ -63,24 +66,6 @@ Balanced.Customer = Balanced.Model.extend({
 		}
 	}.property('twitter'),
 
-	dob_month: function() {
-		var dob = this.get('dob');
-		if (dob && dob.length > 6) {
-			return dob.substring(5, 7);
-		} else {
-			return null;
-		}
-	}.property('dob'),
-
-	dob_year: function() {
-		var dob = this.get('dob');
-		if (dob && dob.length > 3) {
-			return dob.substring(0, 4);
-		} else {
-			return null;
-		}
-	}.property('dob'),
-
 	displayName: function() {
 		var name;
 		if (this.get('is_business')) {
@@ -99,14 +84,6 @@ Balanced.Customer = Balanced.Model.extend({
 		return name;
 	}.property('is_business', 'business_name', 'name', 'email'),
 
-	updateDob: function(month, year) {
-		if ((month && month.length > 0) || (year && year.length > 0)) {
-			this.set('dob', year + '-' + month);
-		} else {
-			this.set('dob', null);
-		}
-	},
-
 	country_name: function() {
 		return Balanced.CountryCodesToNames[this.get('address.country_code')];
 	}.property('address.country_code'),
@@ -117,12 +94,8 @@ Balanced.Customer = Balanced.Model.extend({
 		var city = this.get('address.city');
 		var cityLine = '';
 
-		if (this.get('address.street_address')) {
-			addressParts.push(this.get('address.street_address'));
-		} else {
-			addressParts.push(this.get('address.line1'));
-			addressParts.push(this.get('address.line2'));
-		}
+		addressParts.push(this.get('address.line1'));
+		addressParts.push(this.get('address.line2'));
 
 		cityLine = (city ? city + ', ' : '') + ' ' + (this.get('address.postal_code') || '');
 		addressParts.push($.trim(cityLine));
@@ -130,7 +103,22 @@ Balanced.Customer = Balanced.Model.extend({
 
 		addressParts = _.compact(addressParts);
 		return addressParts.join(seperator);
-	}.property('address.street_address', 'address.line1', 'address.line2', 'address.city', 'address.region', 'address.postal_code', 'address.country_code')
+	}.property('address.line1', 'address.line2', 'address.city', 'address.state', 'address.postal_code', 'address.country_code'),
+
+	dob: function() {
+		var month = this.get('dob_month');
+		var year = this.get('dob_year');
+
+		if (month && year) {
+			return "%@-%@".fmt(year, month);
+		} else {
+			return year;
+		}
+	}.property('dob_month', 'dob_year'),
+
+	dob_error: function() {
+		return this.get('validationErrors.dob_month') || this.get('validationErrors.dob_year');
+	}.property('validationErrors.dob_month', 'validationErrors.dob_year')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

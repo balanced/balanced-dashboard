@@ -33,7 +33,7 @@
                 {{#linkTo funding_instrument.route_name funding_instrument}}<span>
                     {{ funding_instrument.type_name }}
                     {{#if funding_instrument.is_bank_account }}
-                        ({{ funding_instrument.type }})
+                        ({{ funding_instrument.account_type }})
                     {{/if}}
                 </span>{{/linkTo}}
             </td>
@@ -44,8 +44,8 @@
             </td>
             <td>
                 {{#linkTo funding_instrument.route_name funding_instrument}}<span>
-                    {{ funding_instrument.account.name }}
-                    {{ funding_instrument.account.email }}
+                    {{ funding_instrument.customer.name }}
+                    {{ funding_instrument.customer.email }}
                 </span>{{/linkTo}}
             </td>
         </tr>

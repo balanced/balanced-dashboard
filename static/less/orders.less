@@ -1,0 +1,179 @@
+.order-header, .order-customer-header {
+	background-color: @turquoise60;
+	margin-bottom: 0;
+	div.title {
+		a:hover {
+			color: inherit;
+		}
+	}
+	div.label {
+		background-color: @turquoise100;
+		i {
+			color: @white;
+			line-height: 75px;
+			display: block;
+			text-align: center;
+			font-size: 36px;
+		}
+	}
+	div.buttons {
+		height: auto;
+	}
+}
+
+.order-sub-header, .order-customer-sub-header {
+	background-color: @turquoise100;
+	color: @white;
+	line-height: 40px;
+	padding: 0 15px 0 90px;
+	span {
+		display: inline-block;
+		margin-right: 30px;
+	}
+}
+
+.order-summary {
+	padding-left: 90px;
+	background-color: @white;
+	color: @black;
+	.row {
+		position: relative;
+		line-height: 44px;
+		font-weight: bold;
+		span {
+			.ellipsis;
+		}
+		.span4 {
+			box-sizing: border-box;
+			text-align: right;
+			padding-right: 15px;
+		}
+		&:not(.head) .span4 {
+			font-weight: normal;
+			font-family: 'NimbusSanConD-Bol',arial,sans-serif;
+			font-size: @baseFontSize * 1.3;
+		}
+		&.head {
+			font-family: 'Droid Serif', serif;
+			font-style: italic;
+			font-weight: normal;
+		}
+		&.empty {
+			.span4 {
+				color: @gray5;
+			}
+		}
+		&:before {
+			position: absolute;
+			bottom: 0;
+			left: 15px;
+			width: calc(~"100% - 15px");
+			height: 1px;
+			content: ' ';
+			display: block;
+			background-color: @gray3;
+		}
+		&:last-of-type:before {
+			display: none;
+		}
+	}
+}
+
+.order-total {
+	line-height: 75px;
+	height: 75px;
+	padding: 0 15px 0 90px;
+	background-color: @gray2;
+	font-weight: bold;
+	color: @black;
+	margin: 0 0 35px;
+	.icon-help {
+		vertical-align: middle;
+	}
+	.popover {
+		line-height: @baseLineHeight;
+	}
+	h1 {
+		font-family: 'NimbusSanConD-Bol',arial,sans-serif;
+		float: right;
+		line-height: 75px;
+		margin: 0;
+		font-size: 56px;
+	}
+}
+
+table.orders {
+	th, td {
+		&:nth-of-type(5), &:nth-of-type(6), &:nth-of-type(7) {
+			text-align: right;
+		}
+	}
+	td:nth-of-type(7) {
+		color: @black;
+		font-weight: bold;
+	}
+}
+
+.order-party {
+	font-style: italic;
+	margin: 70px 0 0;
+}
+
+.order-customer-header {
+	background-color: @turquoise60;
+	div.label {
+		box-sizing: border-box;
+		border-right: 1px rgba(255, 255, 255, 1 / 3) solid;
+		background-color: @turquoise60;
+	}
+}
+
+.order-customer-sub-header {
+	background-color: @gray2;
+	color: @black;
+	font-weight: bold;
+	.owed {
+		color: @imperialRed100;
+	}
+	.toggle {
+		float: right;
+		i {
+			.cssicon(
+				@url: @iconsFile,
+				@width: 14px,
+				@height: 14px,
+				@display: block
+			);
+			margin: 0 0 0 5px;
+			vertical-align: middle;
+			display: inline-block;
+		}
+		&.arrow-open {
+			i {
+				background-position: -18px -847px;
+			}
+			&:hover i {
+				background-position: -68px -847px;
+			}
+		}
+		&.arrow-close {
+			i {
+				background-position: -118px -847px;
+			}
+			&:hover i {
+				background-position: -168px -847px;
+			}
+		}
+	}
+}
+
+.transaction.order {
+	.transaction-details {
+		margin: 1px 0 0;
+		border: 5px @gray2 solid;
+	}
+}
+
+.order-customer {
+	margin: 0 0 35px;
+}

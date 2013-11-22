@@ -1,0 +1,51 @@
+<div class="order-customer-header main-header">
+	<div class="row">
+		<div class="span2 label">
+			<i class="icon-person"></i>
+		</div>
+		<div class="span10 title">
+			<span class="nav3d">
+				{{#linkTo 'customers' customer}}{{title}}{{/linkTo}}
+			</span>
+		</div>
+		<div class="span8 buttons">
+			<div class="buttons-container">
+				{{#if debits_list.length}}
+					{{debit-customer-modal customer=customer order=order}}
+				{{/if}}
+				{{#if credits_list.length}}
+					{{credit-customer-modal customer=customer order=order}}
+				{{/if}}
+			</div>
+		</div>
+	</div>
+</div>
+<div class="order-customer-sub-header">
+	{{#if credits_list.length}}
+		<span class="credited">
+			Credited: {{amounts.credited}}
+		</span>
+	{{/if}}
+	{{#if debits_list.length}}
+		<span class="debited">
+			Debited: {{amounts.debited}}
+		</span>
+	{{/if}}
+	{{#if has_transactions}}
+		<a href="#" {{action "toggle_visibility"}} {{bindAttr class=":toggle is_visible:arrow-close:arrow-open"}}>
+			{{toggle_display}}<i></i>
+		</a>
+	{{/if}}
+</div>
+{{#if show_transactions}}
+<div class="transaction order">
+	<div class="transaction-details">
+		{{#each credit in credits_list}}
+			{{txn-credit credit=credit}}
+		{{/each}}
+		{{#each debit in debits_list}}
+			{{txn-debit debit=debit}}
+		{{/each}}
+	</div>
+</div>
+{{/if}}

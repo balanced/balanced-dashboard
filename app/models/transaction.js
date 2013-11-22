@@ -11,17 +11,21 @@ Balanced.Transaction = Balanced.Model.extend({
 		}
 	}.property('amount'),
 
-	account_name_summary: function() {
-		if (this.get('account')) {
-			return this.get('account.name_summary');
+	customer_name_summary: function() {
+		if (this.get('customer')) {
+			return this.get('customer.display_me_with_email');
 		} else {
 			return 'None';
 		}
-	}.property('account'),
+	}.property('customer'),
 
 	page_title: function() {
 		return this.get('description') || this.get('id');
 	}.property('description', 'id'),
+
+	events_uri: function() {
+		return this.get('uri') + '/events';
+	}.property(),
 
 	meta_array: function() {
 		var meta = this.get('meta');

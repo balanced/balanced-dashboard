@@ -1,7 +1,7 @@
 require('app/models/user_marketplace');
 
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
-	uri: '/v1/marketplaces',
+	uri: '/marketplaces',
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
@@ -19,17 +19,28 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 
 	customers: Balanced.Model.hasMany('customers', 'Balanced.Customer'),
 
-	callbacks_uri: function() {
-		return this.get('uri') + '/callbacks';
-	}.property('uri'),
-
 	funding_instruments_uri: function() {
 		return this.get('uri') + '/search?limit=10&offset=0&q=&type[in]=bank_account,card';
 	}.property('uri'),
 
+	// TODO - take this out once marketplace has a link to invoices list
 	invoices_uri: function() {
-		return this.get('uri') + '/invoices';
-	}.property('uri')
+		return '/invoices';
+	}.property('uri'),
+
+	populateWithTestTransactions: function() {
+		//  pre-populate marketplace with transactions
+		var uri = this.get('uri');
+		var id = uri.substr(uri.lastIndexOf('/') + 1);
+		Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + '/marketplaces/%@/spam'.fmt(id),
+			type: 'PUT'
+		});
+	}
 });
 
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
+
+Balanced.Marketplace.reopenClass({
+	serializer: Balanced.Rev1Serializer.create()
+});

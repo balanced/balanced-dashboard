@@ -1,5 +1,4 @@
-var lastModule, currentModule;
-var marketplaceId, customerId;
+document.write('<script src="https:\/\/js.balancedpayments.com\/1.1\/balanced.js"><\/script>');
 
 QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';
@@ -18,7 +17,6 @@ QUnit.testStart(function(test) {
 	Ember.run(function() {
 		window.setupBalanced('#ember-testing');
 
-		Balanced.TEST = {};
 		Balanced.THROTTLE = 0;
 		Balanced.setupForTesting();
 
@@ -37,62 +35,11 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
-	// use the fixture adapter
-	Balanced.TEST.setupFixtures = function() {
-		Balanced.Adapter = Balanced.FixtureAdapter.create();
-		window.setupTestFixtures();
-	};
-
-	// build up test fixtures
-	Balanced.TEST.setupMarketplace = function(force) {
-		currentModule = module;
-		if (currentModule !== lastModule || force) {
-			lastModule = currentModule;
-			Ember.run(function() {
-				Balanced.Auth.createNewGuestUser().then(function(apiKey) {
-					var apiKeySecret = apiKey.get('secret');
-					var settings = {
-						headers: {
-							Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-						}
-					};
-					return Balanced.Marketplace.create().save(settings);
-				}).then(function(marketplace) {
-					Balanced.Auth.setupGuestUserMarketplace(marketplace);
-					Balanced.TEST.marketplace = marketplace;
-					marketplaceId = Balanced.TEST.MARKETPLACE_ID = marketplace.get('id');
-
-					balanced.init(marketplace.get('uri'));
-
-					marketplace.get('owner_customer').then(function(customer) {
-						Balanced.TEST.customer = customer;
-						customerId = Balanced.TEST.CUSTOMER_ID = customer.get('id');
-					});
-
-					console.log('%@ %@: setup complete. Starting test'.fmt(module, test.name));
-				});
-			});
-		} else {
-			Ember.run(function() {
-				Balanced.Auth.rememberMeSignIn();
-				Balanced.TEST.MARKETPLACE_ID = marketplaceId;
-				Balanced.TEST.CUSTOMER_ID = customerId;
-			});
-		}
-	};
-
-	Balanced.TEST.bankAccountTokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	Balanced.TEST.cardTokenizingStub = sinon.stub(balanced.card, "create");
-	Balanced.TEST.balancedInitStub = sinon.stub(balanced, "init");
 });
 
 QUnit.testDone(function(test) {
 	var module = test.module ? test.module : '';
 	console.log('#%@ %@: tearing down.'.fmt(module, test.name));
-
-	Balanced.TEST.bankAccountTokenizingStub.restore();
-	Balanced.TEST.cardTokenizingStub.restore();
-	Balanced.TEST.balancedInitStub.restore();
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);

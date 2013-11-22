@@ -1,9 +1,6 @@
-var marketplaceRoute;
-
 module('Pay Seller', {
 	setup: function() {
-		Balanced.TEST.setupMarketplace();
-		marketplaceRoute = '/marketplaces/' + Balanced.TEST.MARKETPLACE_ID;
+		Testing.setupMarketplace();
 	},
 	teardown: function() {
 		$("#pay-seller").modal('hide');
@@ -13,7 +10,7 @@ module('Pay Seller', {
 test('can pay a seller', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(marketplaceRoute)
+	visit(Testing.MARKETPLACES_ROUTE)
 		.click('li.pay-seller a')
 		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
 		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
@@ -24,10 +21,10 @@ test('can pay a seller', function(assert) {
 		.click('#pay-seller .modal-footer button:eq(1)')
 		.then(function() {
 			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Credit, "/v1/credits", sinon.match({
+			assert.ok(stub.calledWith(Balanced.Credit, "/credits", sinon.match({
 				amount: 9800,
 				appears_on_statement_as: "Test Transaction",
-				bank_account: {
+				destination: {
 					account_number: "123123123",
 					name: "TEST",
 					routing_number: "123123123",
@@ -40,7 +37,7 @@ test('can pay a seller', function(assert) {
 test('pay a seller only submits once despite multiple button clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	visit(marketplaceRoute)
+	visit(Testing.MARKETPLACES_ROUTE)
 		.click('li.pay-seller a')
 		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
 		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')

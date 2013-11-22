@@ -11,7 +11,7 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 
 	open: function() {
 		var verification = Balanced.Verification.create({
-			uri: this.get('funding_instrument.verifications_uri')
+			uri: this.get('funding_instrument.bank_account_verifications_uri')
 		});
 		this.set('model', verification);
 

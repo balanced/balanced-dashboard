@@ -1,8 +1,10 @@
-require('app/models/card');
+require('app/models/funding_instrument');
 
 Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
+	uri: '/cards',
+
 	validations: {
-		card_number: {
+		number: {
 			presence: true,
 			format: {
 				validator: function(object, attribute, value) {
@@ -42,6 +44,15 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD;
 	}.property(),
 
+	last_four: function() {
+		var accountNumber = this.get('number');
+		if (!accountNumber || accountNumber.length < 5) {
+			return accountNumber;
+		} else {
+			return accountNumber.substr(accountNumber.length - 4, 4);
+		}
+	}.property('account_number'),
+
 	description: function() {
 		return '%@ (%@)'.fmt(
 			this.get('last_four'),
@@ -57,25 +68,17 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		);
 	}.property('name', 'last_four', 'brand'),
 
-	debits_uri: function() {
-		return this.get('customer.debits_uri');
-	}.property('customer.debits_uri'),
-
 	human_readable_expiration: function() {
 		return this.get('expiration_month') + '/' + this.get('expiration_year');
 	}.property('expiration_month', 'expiration_year'),
 
-	card_number_with_xs: function() {
-		return 'xxxx xxxx xxxx ' + this.get('last_four');
-	}.property('last_four'),
-
-	tokenizeAndCreate: function() {
+	tokenizeAndCreate: function(customerId) {
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
 		this.set('isSaving', true);
 		var cardData = {
-			card_number: this.get('card_number'),
+			number: this.get('number'),
 			expiration_month: this.get('expiration_month'),
 			expiration_year: this.get('expiration_year'),
 			security_code: this.get('security_code'),
@@ -85,15 +88,28 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
-			switch (response.status) {
-				case 201:
-					// Now that it's been tokenized, we just need to associate it with the customer's account
-					var cardAssociation = Balanced.Card.create({
-						uri: self.get('uri'),
-						card_uri: response.data.uri
-					});
-					cardAssociation.save().then(function(savedCard) {
-						self.updateFromModel(savedCard);
+			if (response.errors) {
+				var validationErrors =
+					self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
+
+				if (!validationErrors) {
+					self.set('displayErrorDescription', true);
+					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
+					self.set('errorDescription', 'Sorry, there was an error tokenizing this card' + errorSuffix);
+				}
+
+				self.set('isSaving', false);
+				promise.reject();
+			} else {
+				Balanced.Card.find(response.cards[0].href)
+
+				// Now that it's been tokenized, we just need to associate it with the customer's account
+				.then(function(card) {
+					card.set('links.customer', customerId);
+
+					card.save().then(function() {
+						self.set('isLoaded', true);
+						self.set('isNew', false);
 						self.set('isSaving', false);
 						self.trigger('didCreate');
 					}, function() {
@@ -102,25 +118,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 						self.set('isSaving', false);
 						promise.reject();
 					});
-					break;
-				case 400:
-					self.set('validationErrors', {});
-					if (response.error.expiration) {
-						self.set('validationErrors.expiration_month', 'invalid');
-					}
-					_.each(response.error, function(value, key) {
-						self.set('validationErrors.' + key, 'invalid');
-					});
-					self.set('isSaving', false);
-					promise.reject();
-					break;
-				default:
-					self.set('displayErrorDescription', true);
-					var errorSuffix = (response.error && response.error.description) ? (': ' + response.error.description) : '.';
-					self.set('errorDescription', 'Sorry, there was an error tokenizing this card' + errorSuffix);
-					self.set('isSaving', false);
-					promise.reject();
-					break;
+				});
 			}
 		});
 
