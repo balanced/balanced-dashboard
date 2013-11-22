@@ -3,6 +3,25 @@
     {{#if view.isSubmitting}}
         <span class="loader loading"></span>
     {{else}}
-        <button class="btn" {{action add target="view"}}>Search</button>
+        <button class="btn" {{action submit target="view"}}>Search</button>
+    {{/if}}
+
+    {{#if view.hasResults}}
+        <div class="marketplace-list search">
+            <div class="subhead1a">Search Marketplace</div>
+                <ul>
+                    {{#each user_marketplace in view.results }}
+                        <li>
+                            <div class="span2 label">
+                                <div class="icon"></div>
+                            </div>
+                            <div class="info">
+                                <h3 class="label1d name">{{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}</h3>
+                            </div>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
     {{/if}}
 </div>
