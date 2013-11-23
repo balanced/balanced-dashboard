@@ -2,8 +2,6 @@
     {{view Balanced.Forms.TextField valueBinding="view.query" name="query" placeholder="Search for a marketplace" classNames="span8"}}
     {{#if view.isSubmitting}}
         <span class="loader loading"></span>
-    {{else}}
-        <button class="btn" {{action submit target="view"}}>Search</button>
     {{/if}}
 </div>
 {{#if view.hasResults}}
