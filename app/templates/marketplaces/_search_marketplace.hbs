@@ -1,27 +1,28 @@
-<div {{bindAttr class=":control-group"}}>
-    {{view Balanced.Forms.TextField valueBinding="view.query" name="query" placeholder="Search for a marketplace"}}
+<div {{bindAttr class=":control-group :search-marketplace-query"}}>
+    {{view Balanced.Forms.TextField valueBinding="view.query" name="query" placeholder="Search for a marketplace" classNames="span8"}}
     {{#if view.isSubmitting}}
         <span class="loader loading"></span>
     {{else}}
         <button class="btn" {{action submit target="view"}}>Search</button>
     {{/if}}
-
-    {{#if view.hasResults}}
-        <div class="marketplace-list search">
-            <div class="subhead1a">Search Marketplace</div>
-                <ul>
-                    {{#each user_marketplace in view.results }}
-                        <li>
-                            <div class="span2 label">
-                                <div class="icon"></div>
-                            </div>
-                            <div class="info">
-                                <h3 class="label1d name">{{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}</h3>
-                            </div>
-                        </li>
-                    {{/each}}
-                </ul>
-            </div>
-        </div>
-    {{/if}}
 </div>
+{{#if view.hasResults}}
+    <div class="marketplace-list search production">
+        <h1>Search Marketplaces: Results for "{{view.query}}"</h1>
+        <ul>
+            {{#each user_marketplace in view.results }}
+                <li>
+                    <div class="span2 label">
+                        <div class="icon"></div>
+                    </div>
+                    <div class="info">
+                        <h3 class="label1d name">
+                          {{#linkTo 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/linkTo}}
+                          <div class="span6 pull-right label3d">{{user_marketplace.support_email_address}}</div>
+                        </h3>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}

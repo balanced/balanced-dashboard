@@ -7,7 +7,9 @@
           {{partial "alert"}}
             <div class="row">
                 <div class="offset2 span22">
-                    {{view Balanced.SearchMarketplaceView}}
+                    {{#if Balanced.Auth.user.admin}}
+                        {{view Balanced.SearchMarketplaceView}}
+                    {{/if}}
 
                     <h1>Add/Remove Marketplaces</h1>
                     <div class="marketplace-list production">
