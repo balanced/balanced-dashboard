@@ -34,10 +34,10 @@ test('reset password form submits', function(assert) {
 			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
 
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.ResetPassword, '/password/abcdefghijklmnopq', {
+			assert.ok(spy.calledWith(Balanced.ResetPassword, '/password/abcdefghijklmnopq', sinon.match({
 				password: 'abcdef5',
 				password_confirm: 'abcdef5',
 				token: 'abcdefghijklmnopq'
-			}));
+			})));
 		});
 });
