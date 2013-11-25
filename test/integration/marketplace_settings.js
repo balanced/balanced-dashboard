@@ -178,10 +178,6 @@ test('can fail at creating bank accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			// Bank accounts added to the fixture, used for add and withdraw funds
-			assert.equal($('.bank-account-info .sidebar-items li').length, 1);
-		})
 		.click('.bank-account-info a.add')
 		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
