@@ -159,10 +159,10 @@ test('can create checking accounts', function(assert) {
 });
 
 test('can fail at creating bank accounts', function(assert) {
-	var createSpy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.TEST.bankAccountTokenizingStub.callsArgWith(1, {
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+	tokenizingStub.callsArgWith(1, {
 		status: 400,
-		error: {
+		errors: [{
 			"status": "Bad Request",
 			"category_code": "request",
 			"additional": null,
@@ -174,7 +174,7 @@ test('can fail at creating bank accounts', function(assert) {
 			"extras": {
 				"routing_number": "\"321171184abc\" must have length <= 9"
 			}
-		}
+		}]
 	});
 
 	visit(settingsRoute)
@@ -189,8 +189,8 @@ test('can fail at creating bank accounts', function(assert) {
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledOnce);
-			assert.ok(Balanced.TEST.bankAccountTokenizingStub.calledWith({
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
 				type: "checking",
 				name: "TEST",
 				account_number: "123",

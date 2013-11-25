@@ -11,7 +11,10 @@ module('Balanced.Marketplaces.apply', {
 		});
 		Testing.APPLY_ROUTE = '/marketplaces/apply';
 	},
-	teardown: function() {}
+	teardown: function() {
+		balanced.bankAccount.create.restore && balanced.bankAccount.create.restore();
+		Balanced.Adapter.create.restore && Balanced.Adapter.create.restore();
+	}
 });
 
 test('we are on the correct page', function(assert) {
