@@ -177,7 +177,7 @@ test('can fail at creating bank accounts', function(assert) {
 		}]
 	});
 
-	visit(settingsRoute)
+	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			// Bank accounts added to the fixture, used for add and withdraw funds
 			assert.equal($('.bank-account-info .sidebar-items li').length, 1);
@@ -196,6 +196,9 @@ test('can fail at creating bank accounts', function(assert) {
 				account_number: "123",
 				routing_number: "123123123abc"
 			}));
+
+			balanced.bankAccount.create.restore();
+
 			assert.ok($('#add-bank-account .modal-body input[name="routing_number"]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
 		});
 });
