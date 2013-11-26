@@ -146,6 +146,11 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 test('download activity', function(assert) {
 	assert.equal($(".alert span").length, 0);
 
+	// var searchUri = "/marketplaces/" + Testing.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund";
+
+	// HACK - we have to mess with the URI since the CSV download service doesn't support rev1. When it does, switch this back to the above
+	var searchUri = "/v1/marketplaces/" + Testing.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Chold%2Crefund";
+
 	var stub = sinon.stub(Balanced.Adapter, "create");
 	stub.withArgs(Balanced.Download).callsArgWith(3, {
 		download: {}
@@ -159,7 +164,7 @@ test('download activity', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
 				email_address: "test@example.com",
-				uri: "/marketplaces/" + Testing.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund"
+				uri: searchUri
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
