@@ -11,12 +11,20 @@ module('Balanced.Marketplaces.apply', {
 		});
 		Testing.APPLY_ROUTE = '/marketplaces/apply';
 
-		balanced.bankAccount.create.restore && balanced.bankAccount.create.restore();
-		Balanced.Adapter.create.restore && Balanced.Adapter.create.restore();
+		if (balanced.bankAccount.create.restore) {
+			balanced.bankAccount.create.restore();
+		}
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
 	},
 	teardown: function() {
-		balanced.bankAccount.create.restore && balanced.bankAccount.create.restore();
-		Balanced.Adapter.create.restore && Balanced.Adapter.create.restore();
+		if (balanced.bankAccount.create.restore) {
+			balanced.bankAccount.create.restore();
+		}
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
 	}
 });
 
