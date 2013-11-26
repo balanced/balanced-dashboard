@@ -10,8 +10,22 @@ module('Balanced.Marketplaces.apply', {
 				false);
 		});
 		Testing.APPLY_ROUTE = '/marketplaces/apply';
+
+		if (balanced.bankAccount.create.restore) {
+			balanced.bankAccount.create.restore();
+		}
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
 	},
-	teardown: function() {}
+	teardown: function() {
+		if (balanced.bankAccount.create.restore) {
+			balanced.bankAccount.create.restore();
+		}
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
+	}
 });
 
 test('we are on the correct page', function(assert) {

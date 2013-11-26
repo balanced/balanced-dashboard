@@ -158,6 +158,47 @@ test('can create checking accounts', function(assert) {
 		});
 });
 
+test('can fail at creating bank accounts', function(assert) {
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
+	tokenizingStub.callsArgWith(1, {
+		status: 400,
+		errors: [{
+			"status": "Bad Request",
+			"category_code": "request",
+			"additional": null,
+			"status_code": 400,
+			"description": "Invalid field [routing_number] - \"321171184abc\" must have length <= 9 Your request id is OHM4b90b4d8524611e3b62e02a1fe52a36c.",
+			"category_type": "request",
+			"_uris": {},
+			"request_id": "OHM4b90b4d8524611e3b62e02a1fe52a36c",
+			"extras": {
+				"routing_number": "\"321171184abc\" must have length <= 9"
+			}
+		}]
+	});
+
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.bank-account-info a.add')
+		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
+		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
+		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123abc')
+		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
+		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
+				type: "checking",
+				name: "TEST",
+				account_number: "123",
+				routing_number: "123123123abc"
+			}));
+
+			balanced.bankAccount.create.restore();
+
+			assert.ok($('#add-bank-account .modal-body input[name="routing_number"]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
+		});
+});
+
 test('can create savings accounts', function(assert) {
 	//var createSpy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
