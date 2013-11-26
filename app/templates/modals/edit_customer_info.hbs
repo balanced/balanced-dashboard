@@ -107,13 +107,13 @@
                 <div {{bindAttr class=":control-group view.model.validationErrors.facebook:error"}}>
                     <label class="control-label">Facebook ID</label>
                     <div class="controls">
-                        {{view Ember.TextField valueBinding="view.model.facebook" name="facebook" class="full"}}
+                        {{view Ember.TextField valueBinding="view.model.meta.facebook" name="facebook" class="full"}}
                     </div>
                 </div>
                 <div {{bindAttr class=":control-group view.model.validationErrors.twitter:error"}}>
                     <label class="control-label">Twitter ID</label>
                     <div class="controls">
-                        {{view Ember.TextField valueBinding="view.model.twitter" name="twitter" class="full"}}
+                        {{view Ember.TextField valueBinding="view.model.meta.twitter" name="twitter" class="full"}}
                     </div>
                 </div>
                 {{/unless}}

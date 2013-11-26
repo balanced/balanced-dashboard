@@ -52,19 +52,19 @@ Balanced.Customer = Balanced.Model.extend({
 
 	facebook_url: function() {
 		if (this.get('facebook')) {
-			return 'http://facebook.com/profile.php?id=' + this.get('facebook');
+			return 'http://facebook.com/profile.php?id=' + (this.get('facebook') || this.get('meta.facebook'));
 		} else {
 			return undefined;
 		}
-	}.property('facebook'),
+	}.property('facebook', 'meta.facebook'),
 
 	twitter_url: function() {
 		if (this.get('twitter')) {
-			return 'http://twitter.com/#/' + this.get('twitter');
+			return 'http://twitter.com/#/' + (this.get('twitter') || this.get('meta.twitter'));
 		} else {
 			return undefined;
 		}
-	}.property('twitter'),
+	}.property('twitter', 'meta.twitter'),
 
 	displayName: function() {
 		var name;
