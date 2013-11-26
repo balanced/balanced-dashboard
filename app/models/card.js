@@ -39,7 +39,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	}.property(),
 
 	postal_code: function() {
-		return this.get('address.postal_code')
+		return this.get('address.postal_code');
 	}.property('address.postal_code'),
 
 	is_bank_account: false,
