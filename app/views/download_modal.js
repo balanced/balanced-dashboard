@@ -4,6 +4,11 @@ Balanced.DownloadModalView = Balanced.View.extend({
 	actions: {
 		open: function() {
 			var uri = this.get('controller.results_uri') || this.getSearchUri();
+
+			// HACK - download service doesn't support rev1 URIs, so convert them to rev0 URIs
+			uri = '/v1' + uri;
+			uri = uri.replace(/card_hold/g, 'hold');
+
 			var download = Balanced.Download.create({
 				uri: uri,
 				email_address: null
