@@ -1,0 +1,30 @@
+<div class="modal wide-modal hide" id="pay-multiple-sellers">
+    <form class="form-horizontal split-labels" {{action "save" target="view" on="submit"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Pay multiple sellers</h2>
+    </div>
+    <div class="modal-body">
+        {{ partial "modals/modalErrors" }}
+
+        <div {{bindAttr class=":control-group view.model.validationErrors.csv_upload_file:error"}}>
+            <label class="control-label">CSV File</label>
+            <div class="controls">
+                <a href="files/samplePayout.csv">Sample Payout CSV File</a><br/>
+                <input type="file" id="file" name="file" {{action "fileSelectionChanged" on="change" target="view"}}/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-informational modal-informational-light">
+        <div class="modal-informational-content modal-informational-split-content">
+            <p class="informational-label">Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
+            <div class="informational-content">
+                <img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        {{view Balanced.ModalActionButtonsView submitTitle="Credit"}}
+    </div>
+    </form>
+</div>

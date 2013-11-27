@@ -5,6 +5,9 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented,
 		openPaySellerModal: function() {
 			this.trigger('openPaySellerModal');
 		},
+		openPayMultipleSellersModal: function() {
+			this.trigger('openPayMultipleSellersModal');
+		},
 	},
 
 	formattedEscrowAmount: function() {
