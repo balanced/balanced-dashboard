@@ -19,7 +19,6 @@ module('Logs', {
 				return start();
 			} else if (count < 300) {
 				count++;
-        console.log('Waiting...' + count + ' seconds');
 				return setTimeout(checkAndStart, 1000);
 			} else {
 				throw new Error('Logs not working');
