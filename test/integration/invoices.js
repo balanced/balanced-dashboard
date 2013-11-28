@@ -58,7 +58,7 @@ test('invoice detail page', function(assert) {
 
 			// Check if the transaction is showing up correctly
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Hold: void');
-			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'slkfdjslkj');
+			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'None');
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$49.95');
 		})
 		.click('.activity .results header li.debit-bank-accounts a')
