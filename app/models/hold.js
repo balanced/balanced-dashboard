@@ -31,7 +31,11 @@ Balanced.Hold = Balanced.Transaction.extend({
 
 	funding_instrument_description: function() {
 		return this.get('card.description');
-	}.property('card.description')
+	}.property('card.description'),
+
+	customer: function() {
+		return this.get('debit.customer') || this.get('card.customer');
+	}.property('debit.customer', 'card.customer')
 });
 
 Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');
