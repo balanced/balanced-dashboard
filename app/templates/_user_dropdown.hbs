@@ -8,7 +8,7 @@
         {{#if Balanced.Auth.isGuest}}
         <li>{{#linkTo 'claim' class="label2a"}}Claim account{{/linkTo}}</li>
         {{else}}
-        <li>{{#linkTo 'change-email-password' class="label2a"}}Change email/password{{/linkTo}}</li>
+        <li><a class="label2a" href="#" {{action openChangePasswordModal target="controllers.application"}}>Change email/password</a></li>
         {{/if}}
         <li><a class="label2a" href="#" {{action signOut}}>Log Out</a></li>
     </ul>

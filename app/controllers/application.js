@@ -23,6 +23,11 @@ Balanced.ApplicationController = Ember.Controller.extend({
 
 		toggleNotificationCenter: function() {
 			this.set('showNotificationCenter', !this.get('showNotificationCenter'));
+		},
+
+		openChangePasswordModal: function() {
+			console.log('action open');
+			this.get('changePasswordModal').send('open');
 		}
 	}
 });
