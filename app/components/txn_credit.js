@@ -8,6 +8,6 @@ Balanced.TxnCreditComponent = Ember.Component.extend({
 	},
 
 	can_reverse_credit: function() {
-		return this.get('credit.can_reverse') && this.get('marketplace.can_reverse_transactions');
-	}.property('credit.can_reverse', 'marketplace.can_reverse_transactions')
+		return this.get('credit.can_reverse');
+	}.property('credit.can_reverse')
 });

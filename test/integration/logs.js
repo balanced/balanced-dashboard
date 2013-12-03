@@ -17,7 +17,7 @@ module('Logs', {
 
 			if (logs && logs.toArray().length) {
 				return start();
-			} else if (count < 60) {
+			} else if (count < 300) {
 				count++;
 				return setTimeout(checkAndStart, 1000);
 			} else {
