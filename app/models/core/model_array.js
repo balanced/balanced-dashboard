@@ -27,6 +27,21 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 		return promise;
 	},
 
+	loadAll: function() {
+		var self = this;
+		var loadAll = _.bind(this.loadAll, this);
+
+		if (this.get('isLoaded')) {
+			_.defer(function() {
+				if (self.get('hasNextPage') && !self.get('loadingNextPage')) {
+					self.loadNextPage().then(loadAll);
+				}
+			});
+		} else {
+			this.one('didLoad', loadAll);
+		}
+	},
+
 	reload: function() {
 		if (!this.get('isLoaded')) {
 			return this;

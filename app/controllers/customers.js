@@ -7,6 +7,8 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 		sortField: 'created_at',
 		sortOrder: 'desc',
 
+		loadsCollections: ['cards', 'bank_accounts'],
+
 		baseClassSelector: "#customer",
 
 		init: function() {
@@ -15,6 +17,19 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 				if (Balanced.Transaction.prototype.isPrototypeOf(object)) {
 					self.send('reload');
 				}
+			});
+
+			this.loadEntireCollections();
+		},
+
+		loadEntireCollections: function() {
+			var model = this.get('model');
+			if (!model) {
+				return _.delay(_.bind(this.loadEntireCollections, this), 100);
+			}
+
+			_.each(this.loadsCollections, function(collectionName) {
+				model.get(collectionName).loadAll();
 			});
 		},
 
