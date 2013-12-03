@@ -49,7 +49,7 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
 	keyUp: function(e) {
 		// Hide search results on escape key
 		if (e.keyCode === Balanced.KEYS.ESCAPE) {
-			this.get('controller').send('closeSearch');
+			this.get('targetObject').send('closeSearch');
 			this.$().blur();
 			return;
 		}
@@ -57,7 +57,7 @@ Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
 
 	focusIn: function(e) {
 		$('#search').addClass('focus');
-		this.get('controller').send('openSearch');
+		this.get('targetObject').send('openSearch');
 	},
 
 	focusOut: function(e) {
