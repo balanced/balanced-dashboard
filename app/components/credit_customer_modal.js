@@ -37,6 +37,10 @@ Balanced.CreditCustomerModalComponent = Ember.Component.extend({
             }
 
             var credit = this.get('model');
+            var selfie = this.get('selected_funding_instrument');
+            if (selfie) {
+                credit.set('uri', selfie.get('credits_uri'));
+            }
 
             var cents = null;
             try {

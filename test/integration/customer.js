@@ -78,22 +78,20 @@ test('can debit customer using card', function(assert) {
 		// click the debit customer button
 		return click(".customer-header .buttons a.debit-customer");
 	}).then(function() {
-        var model = Balanced.__container__.lookup('controller:customers').get('model');
-
-		assert.equal($("#debit-customer form select[name='source_uri'] option").length, 3);
+        var options = $("#debit-customer form select[name='source_uri'] option");
+		assert.equal(options.length, 3);
 
 		// bank accounts first
-		assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 1234 (Wells Fargo Bank)");
+		assert.equal(options.eq(0).text(), "Bank Account: 1234 (Wells Fargo Bank)");
 
 		// cards second
-		assert.equal($("#debit-customer form select[name='source_uri'] option").eq(2).text(), "Card: 3434 (Visa)");
+		assert.equal(options.eq(2).text(), "Card: 3434 (Visa)");
 
 		// select the card
-        fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
-		$("#debit-customer select[name='source_uri']").val(fundingInstrumentUri);
-
+        fundingInstrumentUri = options.eq(2).val();
+        $("#debit-customer form select[name='source_uri']").val(fundingInstrumentUri).change();
 		fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000');
-		fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit');
+		fillIn('#debit-customer .modal-body input[name="description"]', 'Card debit');
 
 		// click debit
 		return click('#debit-customer .modal-footer button[name="modal-submit"]');
@@ -102,7 +100,7 @@ test('can debit customer using card', function(assert) {
 		assert.ok(spy.calledOnce);
 		assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
 			amount: 100000,
-			description: "Test debit"
+			description: "Card debit"
 		})));
 	});
 });

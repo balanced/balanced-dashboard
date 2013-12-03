@@ -37,7 +37,11 @@ Balanced.DebitCustomerModalComponent = Ember.Component.extend({
             }
 
             var debit = this.get('model');
-
+            var selfie = this.get('selected_funding_instrument');
+            if (selfie){
+                debit.set('uri', selfie.get('debits_uri'));
+            }
+            
             var cents = null;
             try {
                 cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
