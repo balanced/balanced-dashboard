@@ -1,40 +1,52 @@
-<div class="modal hide" id="add-bank-account">
-    <form {{action "save" on="submit" target="view"}}>
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h2>Add a bank account</h2>
-    </div>
-    <div class="modal-body">
-        {{ partial "modals/modalErrors" }}
-
-        <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
-            <label>Account holder's name</label>
-            {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
+<div class="modal hide wide-modal" id="add-bank-account">
+    <form {{action "save" on="submit" target="view"}} class="form-horizontal split-labels">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h2>Add a bank account</h2>
         </div>
+        <div class="modal-body modal-with-headers">
+            <div class="modal-content-error">
+                {{partial "modals/modalErrors"}}
+            </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.routing_number:error"}}>
-            <label>Routing Number</label>
-            {{view Ember.TextField valueBinding="view.model.routing_number" name="routing_number" class="full"}}
-        </div>
+            <div class="modal-content">
+                <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
+                    <label class="control-label">Account holder's name</label>
+                    <div class="controls">
+                        {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
+                    </div>
+                </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.account_number:error"}}>
-            <label>Account number</label>
-            {{view Ember.TextField valueBinding="view.model.account_number" name="account_number" class="full"}}
-        </div>
+                <div {{bindAttr class=":control-group view.model.validationErrors.routing_number:error"}}>
+                    <label class="control-label">Routing Number</label>
+                    <div class="controls">
+                        {{view Ember.TextField valueBinding="view.model.routing_number" name="routing_number" class="full"}}
+                    </div>
+                </div>
 
-        <div {{bindAttr class=":control-group view.model.type.amount:error"}}>
-            <label>Account type</label>
-            <input type="radio" name="account_type" value="checking">
-            <label for="checking" class="radio-label">Checking</label>
-            <input type="radio" name="account_type" value="savings">
-            <label for="savings" class="radio-label">Savings</label>
+                <div {{bindAttr class=":control-group view.model.validationErrors.account_number:error"}}>
+                    <label class="control-label">Account number</label>
+                    <div class="controls">
+                        {{view Ember.TextField valueBinding="view.model.account_number" name="account_number" class="full"}}
+                    </div>
+                </div>
+
+                <div {{bindAttr class=":control-group view.model.type.amount:error"}}>
+                    <label class="control-label">Account type</label>
+                    <div class="controls">
+                        <input type="radio" name="account_type" value="checking">
+                        <label for="checking" class="radio-label">Checking</label>
+                        <input type="radio" name="account_type" value="savings">
+                        <label for="savings" class="radio-label">Savings</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-informational">
+                <img src="images/bank-account-instructions.png" alt="Bank Account Instructions" class="modal-informational-content"/>
+            </div>
         </div>
-    </div>
-    <div class="modal-informational">
-        <img src="images/bank-account-instructions.png" alt="Bank Account Instructions" class="modal-informational-content"/>
-    </div>
-    <div class="modal-footer">
-        {{view Balanced.ModalActionButtonsView submitTitle="Add"}}
-    </div>
+        <div class="modal-footer">
+            {{view Balanced.ModalActionButtonsView submitTitle="Add"}}
+        </div>
     </form>
 </div>

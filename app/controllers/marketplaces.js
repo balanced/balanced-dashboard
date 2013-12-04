@@ -1,4 +1,10 @@
-Balanced.MarketplacesController = Balanced.ArrayController.extend({
-	needs: ['marketplace', 'application'],
-	marketplaceBinding: 'controllers.marketplace'
+Balanced.MarketplacesController = Balanced.ArrayController.extend(Ember.Evented, {
+	needs: ['marketplace', 'application', 'marketplaces'],
+	marketplaceBinding: 'controllers.marketplace',
+
+	actions: {
+		openChangePasswordModal: function() {
+			this.trigger('openChangePasswordModal');
+		}
+	}
 });

@@ -2,19 +2,23 @@ var Testing = {
 
 	// constant ids
 	MARKETPLACE_ID: null,
-	CUSTOMER_ID: null,
 	CARD_ID: null,
 	BANK_ACCOUNT_ID: null,
 	CREDIT_ID: null,
+	CUSTOMER_ID: null,
 	DEBIT_ID: null,
+	REVERSAL_ID: null,
 
 	// constant routes
+	MARKETPLACES_ROUTE: '/marketplaces',
 	ACTIVITY_ROUTE: null,
 	ADD_CUSTOMER_ROUTE: null,
 	BANK_ACCOUNT_ROUTE: null,
 	CARD_ROUTE: null,
 	CREDIT_ROUTE: null,
 	CUSTOMER_ROUTE: null,
+	DEBIT_ROUTE: null,
+	REVERSAL_ROUTE: null,
 
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
@@ -33,6 +37,27 @@ var Testing = {
 	setupFixtures: function() {
 		Balanced.Adapter = Balanced.FixtureAdapter.create();
 		window.setupTestFixtures();
+	},
+
+	fixtureLogin: function() {
+		var _this = this;
+		Ember.run(function() {
+			var userId = _this.FIXTURE_USER_ROUTE = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
+			Balanced.Auth.setAuthProperties(
+				true,
+				Balanced.User.find(userId),
+				userId,
+				userId,
+				false);
+
+			_this.FIXTURE_USER_EMAIL = Balanced.Auth.user.email_address;
+		});
+	},
+
+	logout: function() {
+		Ember.run(function() {
+			Balanced.Auth.setAuthProperties(false, null, null, null, false);
+		});
 	},
 
 	// build up test fixtures
@@ -89,6 +114,20 @@ var Testing = {
 		});
 	},
 
+	_createReversal: function() {
+		var _this = this;
+
+		return Balanced.Reversal.create({
+			uri: '/credits/' + _this.CREDIT_ID + '/reversals',
+			credit_uri: '/credits/' + _this.CREDIT_ID,
+			amount: 10000
+		}).save().then(function(reversal) {
+			_this.REVERSAL_ID = reversal.get('id');
+			_this.REVERSAL_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/reversals/' + _this.REVERSAL_ID;
+			return reversal;
+		});
+	},
+
 	_createDebit: function() {
 		var _this = this;
 		return Balanced.Debit.create({
@@ -98,6 +137,8 @@ var Testing = {
 			description: 'Cocaine'
 		}).save().then(function(debit) {
 			_this.DEBIT_ID = debit.get('id');
+			_this.DEBIT_ROUTE = '/marketplace/' + _this.MARKETPLACE_ID +
+				'/debits/' + _this.DEBIT_ID;
 			return debit;
 		});
 	},
@@ -126,6 +167,15 @@ var Testing = {
 		var _this = this;
 		Ember.run(function() {
 			_this._createBankAccount();
+		});
+	},
+
+	createReversal: function() {
+		this.createCredit();
+
+		var _this = this;
+		Ember.run(function() {
+			_this._createReversal();
 		});
 	},
 
