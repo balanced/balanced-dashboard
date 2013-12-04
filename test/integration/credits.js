@@ -26,3 +26,16 @@ test('can edit credit', function(assert) {
 			assert.equal(spy.getCall(0).args[2].description, "changing desc");
 		});
 });
+
+test('can reverse credit', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "create");
+
+	visit(Testing.CREDIT_ROUTE)
+		.click('.credit a.reverse-credit-button')
+		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Reversal));
+			assert.equal(spy.getCall(0).args[2].amount, 10000);
+		});
+});

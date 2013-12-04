@@ -14,16 +14,16 @@
   bottom: 0;
   left: 0;
   z-index: @zindexModalBackdrop;
-  background-color: @modalOverlayColor;
+  background-color: @modalOverlayColor !important;
   // Fade for backdrop
   &.fade {
     opacity: 0;
   }
 }
 
-.modal-backdrop,
-.modal-backdrop.fade.in {
-  .opacity(85);
+body .modal-backdrop,
+body .modal-backdrop.fade.in {
+  .opacity(60);
 }
 
 // Base modal
@@ -61,8 +61,8 @@
   background-color: @modalBorderColor;
   // Close icon
   .close {
-    right: 5px;
-    top: 5px;
+    right: 0;
+    top: 0;
   }
   // Heading
   h2 {

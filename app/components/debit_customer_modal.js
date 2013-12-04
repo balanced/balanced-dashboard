@@ -11,11 +11,10 @@ Balanced.DebitCustomerModalComponent = Ember.Component.extend({
 	actions: {
 		open: function() {
 			var fundingInstruments = this.get('customer.debitable_funding_instruments');
-			var source_uri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('uri') : null;
+			var debitUri = (fundingInstruments && fundingInstruments.length > 0) ? fundingInstruments[0].get('debits_uri') : null;
 
 			var debit = Balanced.Debit.create({
-				uri: this.get('customer.debits_uri'),
-				source_uri: source_uri,
+				uri: debitUri,
 				amount: null,
 				order: this.get('order.href')
 			});
@@ -38,6 +37,10 @@ Balanced.DebitCustomerModalComponent = Ember.Component.extend({
 			}
 
 			var debit = this.get('model');
+			var selfie = this.get('selected_funding_instrument');
+			if (selfie) {
+				debit.set('uri', selfie.get('debits_uri'));
+			}
 
 			var cents = null;
 			try {
@@ -55,10 +58,10 @@ Balanced.DebitCustomerModalComponent = Ember.Component.extend({
 	},
 
 	selected_funding_instrument: function() {
-		if (this.get('model.source_uri')) {
-			var self = this;
-			return this.get('customer.debitable_funding_instruments').find(function(i) {
-				return self.get('model.source_uri') === i.get('uri');
+		var sourceUri = this.get('model.source_uri');
+		if (sourceUri) {
+			return this.get('customer.debitable_funding_instruments').find(function(fundingInstrument) {
+				return sourceUri === fundingInstrument.get('uri');
 			});
 		}
 	}.property('model.source_uri', 'customer.debitable_funding_instruments'),
