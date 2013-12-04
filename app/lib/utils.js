@@ -299,6 +299,18 @@ Balanced.Utils = Ember.Namespace.create({
 			}
 		});
 		return errorsHash;
+	},
+
+	traverse: function(o, fn, ctx, addlKey) {
+		addlKey = addlKey || '';
+
+		_.each(o, function(val, key) {
+			fn.call(this, val, addlKey + key);
+
+			if (_.isObject(val)) {
+				Balanced.Utils.traverse(val, fn, ctx, key + '.');
+			}
+		}, ctx);
 	}
 
 });
