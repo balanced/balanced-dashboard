@@ -47,10 +47,12 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 
 			var self = this;
 			var customer = this.get('model');
+			console.log(customer);
 
-			_.each(['email', 'ssn_last4', 'dob_year', 'dob_month', 'ein', 'business_name'], function(key) {
-				if (customer.get(key) === '') {
-					customer.set(key, null);
+			_.each(['email', 'ssn_last4', 'dob_year', 'dob_month', 'ein', 'business_name', 'phone', 'name', 'address.city', 'address.line1', 'address.line2', 'address.state', 'address.postal_code', 'address.country_code'], function(key) {
+				console.log(key, customer.get(key), !customer.get(key) || customer.get(key) === 'xxxx')
+				if (!customer.get(key) || customer.get(key) === 'xxxx') {
+					customer.set(key, undefined);
 				}
 			});
 
