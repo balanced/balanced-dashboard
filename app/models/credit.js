@@ -20,7 +20,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 
 	can_reverse: function() {
 		return this.get('status') !== 'failed' && this.get('reversals.isLoaded') && this.get('reversals.content') && this.get('reversals.content').length === 0;
-	}.property('status', 'reversals.isLoaded', 'reversals.@each'),
+	}.property('status', 'reversals.isLoaded', 'reversals.content', 'reversals.@each'),
 
 	status_description: function() {
 		if (this.get('status') === 'pending') {
