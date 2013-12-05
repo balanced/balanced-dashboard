@@ -11,6 +11,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {
 				self.set('loginError', false);
 
+				self.send('openMFAInformationModal');
+
 				var attemptedTransition = Balanced.Auth.get('attemptedTransition');
 				if (attemptedTransition) {
 					attemptedTransition.retry();

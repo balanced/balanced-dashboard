@@ -9,11 +9,8 @@
             <form id="auth-form" {{ bindAttr class="loginError:error" }}>
               {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
               {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
-              <div class="clear"></div>
-
-              {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
-
-              <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
+              <button class="extended green" {{action "signIn"}} type="button">Sign In</button>
+              {{#linkTo "forgotPassword" class="forgot-password" }}Forgot password?{{/linkTo}}
             </form>
 
             {{#if loginError}}
