@@ -48,4 +48,6 @@
 
     </div>
 </header>
-{{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
+{{#unless Balanced.Auth.isGuest}}
+    {{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
+{{/unless}}
