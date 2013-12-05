@@ -11,7 +11,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			$('input:text', '#marketplace-apply').filter(function() {
 				return this.value === '';
 			}).first().focus();
-			$('a', '.application-type').removeClass(cls).parent().find('.' + applicationType.toLowerCase()).addClass(cls);
+			$('a', '.application-type').removeClass(cls).parent().find('.' + (applicationType || '').toLowerCase()).addClass(cls);
 		},
 
 		submitApplication: function() {
@@ -119,7 +119,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		if (json.extras) {
 			errors = json.extras;
 		} else {
-			if (json.description.toLowerCase().indexOf('kyc failed') !== -1 || json.description.toLowerCase().indexOf('failed kyc') !== -1) {
+			if (json.description && (json.description.toLowerCase().indexOf('kyc failed') !== -1 || json.description.toLowerCase().indexOf('failed kyc') !== -1)) {
 				var kycKeys = [
 					'address.street_address',
 					'address.postal_code',
