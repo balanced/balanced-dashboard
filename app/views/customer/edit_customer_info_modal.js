@@ -48,8 +48,8 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 			var self = this;
 			var customer = this.get('model');
 
-			_.each(['email', 'ssn_last4', 'dob_year', 'dob_month', 'ein', 'business_name'], function(key) {
-				if (customer.get(key) === '') {
+			Balanced.Utils.traverse(customer, function(val, key) {
+				if (!customer.get(key)) {
 					customer.set(key, null);
 				}
 			});

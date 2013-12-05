@@ -70,6 +70,42 @@ test('can update customer info', function(assert) {
 		});
 });
 
+test('can update customer info only some fields', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, "update");
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.click('.customer-info a.edit')
+		.fillIn('#edit-customer-info .modal-body input[name="business_name"]', '')
+		.fillIn('#edit-customer-info .modal-body input[name="ein"]', '')
+		.click('#edit-customer-info a.more-info')
+		.fillIn('#edit-customer-info .modal-body input[name="line1"]', '1 1st St')
+		.fillIn('#edit-customer-info .modal-body input[name="line2"]', '')
+		.fillIn('#edit-customer-info .modal-body input[name="city"]', '')
+		.fillIn('#edit-customer-info .modal-body input[name="state"]', '')
+		.fillIn('#edit-customer-info .modal-body select[name="country_code"]', '')
+		.fillIn('#edit-customer-info .modal-body input[name="postal_code"]', '')
+		.fillIn('#edit-customer-info .modal-body input[name="phone"]', '1231231234')
+		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Customer));
+			assert.equal(stub.getCall(0).args[2].name, "William Henry Cavendish III");
+			assert.equal(stub.getCall(0).args[2].email, "whc@example.org");
+			assert.equal(stub.getCall(0).args[2].business_name, null);
+			assert.equal(stub.getCall(0).args[2].ein, null);
+			assert.equal(stub.getCall(0).args[2].address.line1, '1 1st St');
+			assert.equal(stub.getCall(0).args[2].address.line2, null);
+			assert.equal(stub.getCall(0).args[2].address.city, null);
+			assert.equal(stub.getCall(0).args[2].address.state, null);
+			assert.equal(stub.getCall(0).args[2].address.country_code, null);
+			assert.equal(stub.getCall(0).args[2].address.postal_code, null);
+			assert.equal(stub.getCall(0).args[2].phone, "1231231234");
+			assert.equal(stub.getCall(0).args[2].dob_month, 2);
+			assert.equal(stub.getCall(0).args[2].dob_year, 1947);
+			assert.equal(stub.getCall(0).args[2].ssn_last4, "xxxx");
+		});
+});
+
 test('can debit customer using card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	var fundingInstrumentUri;
