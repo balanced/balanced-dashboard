@@ -29,11 +29,14 @@ test('change password form submits', function(assert) {
 		.then(function() {
 			assert.equal($(".change-password-modal form input[name=email]").val(), Testing.FIXTURE_USER_EMAIL, 'Email is filled in');
 		})
-		.fillIn(".change-password-modal form input[name=email]", 'foo+1@bar.com')
-		.fillIn(".change-password-modal form input[name=existing_password]", '123456')
-		.fillIn(".change-password-modal form input[name=password]", '12345678')
-		.fillIn(".change-password-modal form input[name=confirm_password]", '12345678')
-		.click(".change-password-modal form button[name=modal-submit]")
+		.fillForm('.change-password-modal form', {
+			email: 'foo+1@bar.com',
+			existing_password: '123456',
+			password: '12345678',
+			confirm_password: '12345678'
+		}, {
+			click: 'button[name=modal-submit]'
+		})
 		.then(function() {
 			assert.ok($(".modal.change-password-modal").is(":hidden"), 'The change password modal is hidden.');
 
@@ -58,10 +61,14 @@ test('change password form errors if no email', function(assert) {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.fillIn(".change-password-modal form input[name=email]", '')
-		.fillIn(".change-password-modal form input[name=existing_password]", '123456')
-		.fillIn(".change-password-modal form input[name=password]", '12345678')
-		.fillIn(".change-password-modal form input[name=confirm_password]", '12345678')
+		.fillForm('.change-password-modal form', {
+			email: '',
+			existing_password: '123456',
+			password: '12345678',
+			confirm_password: '12345678'
+		}, {
+			click: 'button[name=modal-submit]'
+		})
 		.click(".change-password-modal form button[name=modal-submit]")
 		.then(function() {
 			assert.ok($(".modal.change-password-modal.in").is(":visible"), 'The change password modal is still visible.');
@@ -82,9 +89,12 @@ test('change password errors if no existing password', function(assert) {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.fillIn(".change-password-modal form input[name=password]", '12345678')
-		.fillIn(".change-password-modal form input[name=confirm_password]", '12345678')
-		.click(".change-password-modal form button[name=modal-submit]")
+		.fillForm('.change-password-modal form', {
+			password: '12345678',
+			confirm_password: '12345678'
+		}, {
+			click: 'button[name=modal-submit]'
+		})
 		.then(function() {
 			assert.ok($(".modal.change-password-modal.in").is(":visible"), 'The change password modal is still visible.');
 			assert.ok($(".modal.change-password-modal .alert-error").is(":visible"), 'The change password modal error is visible.');
@@ -104,10 +114,13 @@ test('change password errors if passwords are different', function(assert) {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.fillIn(".change-password-modal form input[name=existing_password]", '123456')
-		.fillIn(".change-password-modal form input[name=password]", '12345678')
-		.fillIn(".change-password-modal form input[name=confirm_password]", '666666')
-		.click(".change-password-modal form button[name=modal-submit]")
+		.fillForm('.change-password-modal form', {
+			existing_password: '123456',
+			password: '12345678',
+			confirm_password: '666666'
+		}, {
+			click: 'button[name=modal-submit]'
+		})
 		.then(function() {
 			assert.ok($(".modal.change-password-modal.in").is(":visible"), 'The change password modal is still visible.');
 			assert.ok($(".modal.change-password-modal .alert-error").is(":visible"), 'The change password modal error is visible.');
