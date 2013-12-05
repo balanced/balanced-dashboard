@@ -1,0 +1,21 @@
+<div class="modal hide wide-modal" id="mfa-information">
+    <form {{action submit on="submit" target="view"}} class="form-horizontal split-labels">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h2>Set Up Two-Factor Authentication</h2>
+        </div>
+        <div class="modal-body modal-with-headers">
+            <div class="modal-content-error">
+                {{partial "modals/modalErrors"}}
+            </div>
+
+            <div class="modal-content">
+              <div class="main-text">You can now set up two-factor authentication to add another layer of security to your dashboard account. In addition to your login email and password, you'll need to enter an authentication code from Balanced using your Google Authenticatior app on your smartphone.</div>
+              <div class="footnote">You can always enable or disable authentication later by clicking on "Account Security" from the user icon menu located on the top right.</div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            {{view Balanced.ModalActionButtonsView submitTitle="Set Up Now"}}
+        </div>
+    </form>
+</div>
