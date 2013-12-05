@@ -26,9 +26,9 @@ test('change password form submits', function(assert) {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.then(function() {
-			assert.equal($(".change-password-modal form input[name=email]").val(), Testing.FIXTURE_USER_EMAIL, 'Email is filled in');
-		})
+		// .then(function() {
+		// 	assert.equal($(".change-password-modal form input[name=email]").val(), Testing.FIXTURE_USER_EMAIL, 'Email is filled in');
+		// })
 		.fillForm('.change-password-modal form', {
 			// email: 'foo+1@bar.com',
 			existing_password: '123456',
