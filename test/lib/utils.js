@@ -1,5 +1,4 @@
 var Testing = {
-
 	// constant ids
 	MARKETPLACE_ID: null,
 	CARD_ID: null,
@@ -204,5 +203,4 @@ var Testing = {
 			}
 		});
 	}
-
 };

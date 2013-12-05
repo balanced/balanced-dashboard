@@ -27,6 +27,6 @@ _.each(Balanced.Test.helpers || {}, function(fn, name) {
 });
 
 _.each(Balanced.Test.asyncHelpers || {}, function(fn, name) {
-	// TODO: Switch to registerAsyncHelper when upgrade emberjs v1.2
+	// TODO: Switch to registerAsyncHelper when we upgrade to emberjs v1.2
 	Ember.Test.registerHelper(name, fn);
 });
