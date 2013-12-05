@@ -1,9 +1,7 @@
 module('ResetPassword', {
 	setup: function() {
 		Testing.setupFixtures();
-		Ember.run(function() {
-			Balanced.Auth.setAuthProperties(false, null, null, null, false);
-		});
+		Testing.logout();
 	},
 	teardown: function() {}
 });

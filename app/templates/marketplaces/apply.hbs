@@ -66,7 +66,9 @@
 
                             {{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="banking.account_name" help="Enter the name on your bank account" }}
                             {{view Balanced.ControlGroupFieldView placeholder="Account number" field="banking.account_number" help="Enter your bank account number" }}
+                            {{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
                             {{view Balanced.ControlGroupFieldView placeholder="Routing number" field="banking.routing_number" help="Enter your 9 digit routing number" }}
+                            {{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
 
                             <div class="control-group">
                                 {{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}

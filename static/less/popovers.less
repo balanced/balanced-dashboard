@@ -20,3 +20,27 @@
   	font-size: 13px;
   }
 }
+
+.check_image_tool_tip {
+  width: 280px;
+  height: 155px;
+}
+
+.icon-tooltip {
+  position: absolute;
+  top: -1000px;
+  left: 350px;
+  color: @gray4;
+
+  &:hover, &.hover {
+    color: @black;
+  }
+
+  &.tooltip_account_number {
+    top: 150px;
+  }
+
+  &.tooltip_routing_number {
+    top: 240px;
+  }
+}

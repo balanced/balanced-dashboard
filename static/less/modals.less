@@ -117,6 +117,13 @@ body .modal-backdrop.fade.in {
     background-color: @modalBodyBackgroundColor;
     padding: 20px 35px 20px 35px;
   }
+  .modal-content-error {
+    padding: 0 35px 0 35px;
+
+    .alert {
+      margin-bottom: 0;
+    }
+  }
 
   .optional-modal-fields:not(.open) {
     display: none;
@@ -150,9 +157,17 @@ body .modal-backdrop.fade.in {
     }
   }
 
+  #add-bank-account & {
+    text-align: center;
+  }
+
   img {
     &.modal-informational-content {
       padding: 0px 35px 0px 35px;
+
+      #add-bank-account & {
+        padding-top: 10px;
+      }
     }
   }
 

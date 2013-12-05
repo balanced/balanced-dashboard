@@ -11,7 +11,7 @@
 
         {{#if Balanced.Auth.isGuest}}
             <div id="marketplaces-and-search" class="span18">
-                {{partial "header_search" }}
+                {{partial "header_search"}}
             </div>
 
             <div id="site-nav" class="span6">
@@ -25,12 +25,12 @@
                     <a href="https://www.balancedpayments.com/help" class="nav1d" target="new">help</a>
                 </div>
                 <div id="user-menu" class="dropdown pull-right">
-                    {{partial "user_dropdown" }}
+                    {{partial "user_dropdown"}}
                 </div>
             </div>
         {{else}}
             <div id="marketplaces-and-search" class="span20">
-                {{partial "header_search" }}
+                {{partial "header_search"}}
             </div>
 
             <div id="site-nav" class="span4">
@@ -41,10 +41,13 @@
                     <a href="https://www.balancedpayments.com/help" class="nav1d" target="new">help</a>
                 </div>
                 <div id="user-menu" class="dropdown pull-right">
-                    {{partial "user_dropdown" }}
+                    {{partial "user_dropdown"}}
                 </div>
             </div>
         {{/if}}
 
     </div>
 </header>
+{{#unless Balanced.Auth.isGuest}}
+    {{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
+{{/unless}}

@@ -1,5 +1,4 @@
-Balanced.User = Balanced.Model.extend({
-
+Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
 	user_marketplace_for_id: function(id) {
@@ -11,7 +10,25 @@ Balanced.User = Balanced.Model.extend({
 	gravatar: function() {
 		var emailHash = this.get('email_hash');
 		return Balanced.Utils.toGravatar(emailHash);
-	}.property('email_hash')
+	}.property('email_hash'),
+
+	validations: {
+		email_address: {
+			presence: true,
+			length: {
+				minimum: 6
+			},
+			format: /.+@.+\..{2,4}/
+		},
+		existing_password: {
+			presence: true
+		},
+		password: {
+			match: {
+				property: "confirm_password"
+			}
+		}
+	}
 });
 
 Balanced.Adapter.registerHostForType(Balanced.User, ENV.BALANCED.AUTH);

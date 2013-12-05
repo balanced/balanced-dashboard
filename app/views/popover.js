@@ -1,6 +1,6 @@
 Balanced.PopoverView = Balanced.View.extend({
 	tagName: 'a',
-	attributeBindings: ['data-toggle', 'data-placement', 'data-original-title', 'data-content'],
+	attributeBindings: ['class', 'data-toggle', 'data-placement', 'data-original-title', 'data-content', 'data-html'],
 	'data-toggle': 'popover',
 
 	didInsertElement: function() {

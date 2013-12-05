@@ -1,16 +1,7 @@
 module('Reversals', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Testing.createCredit();
-		Ember.run(function() {
-			Balanced.Reversal.create({
-				uri: '/credits/' + Testing.CREDIT_ID + '/reversals',
-				credit_uri: '/credits/' + Testing.CREDIT_ID,
-				amount: 10000
-			}).save().then(function(reversal) {
-				Testing.REVERSAL_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/reversals/' + reversal.get('id');
-			});
-		});
+		Testing.createReversal();
 	},
 	teardown: function() {}
 });

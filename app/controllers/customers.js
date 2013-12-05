@@ -7,6 +7,8 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 		sortField: 'created_at',
 		sortOrder: 'desc',
 
+		loadsCollections: ['cards', 'bank_accounts'],
+
 		baseClassSelector: "#customer",
 
 		init: function() {
@@ -17,6 +19,17 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 				}
 			});
 		},
+
+		loadEntireCollections: function() {
+			var model = this.get('model');
+			if (!model || !model.get('isLoaded')) {
+				return;
+			}
+
+			_.each(this.loadsCollections, function(collectionName) {
+				model.get(collectionName).loadAll();
+			});
+		}.observes('model', 'model.isLoaded'),
 
 		actions: {
 			promptToDeleteBankAccount: function(bankAccount) {
