@@ -75,7 +75,7 @@ test('invoice detail page', function(assert) {
 
 			// Check if the transaction is showing up correctly
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .type').text().trim(), 'Refund');
-			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'Marc Sherry');
+			assert.equal($('.activity table.transactions tbody tr:eq(0) .account').text().trim(), 'None');
 			assert.equal($('.activity table.transactions tbody tr:eq(0) .amount').text().trim(), '$5.00');
 		});
 });

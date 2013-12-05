@@ -13,7 +13,11 @@ Balanced.Refund = Balanced.Transaction.extend({
 
 	funding_instrument_description: function() {
 		return this.get('debit.funding_instrument_description');
-	}.property('debit.funding_instrument_description')
+	}.property('debit.funding_instrument_description'),
+
+	customer: function() {
+		return this.get('debit.customer');
+	}.property('debit.customer')
 });
 
 Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');
