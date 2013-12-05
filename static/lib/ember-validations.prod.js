@@ -500,9 +500,9 @@ Ember.Validations = Ember.Mixin.create(/**@scope Ember.Validations.prototype */{
      Property updated when calling `validate()` or `validateProperty()`.
      True when the object is valid.
    */
-  isValid: Ember.computed(function() {
+  isValid: function() {
     return get(this, 'validationErrors.length') === 0;
-  }).property('validationErrors.length').cacheable()
+  }.property('validationErrors.length')
 });
 })();
 

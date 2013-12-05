@@ -31,23 +31,26 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 				}
 			}, user);
 
-			user.validate();
-			if (user.get('isValid')) {
-				user.setProperties({
-					displayErrorDescription: null,
-					errorDescription: ''
-				});
-
-				user.save().then(function() {
-					$(".change-password-modal.in").modal('hide');
-					Balanced.Auth.get('user').send('reload');
-				});
-			} else {
+			//  bug in ember-validation requires this extra check for length
+			if (!user.validate() && user.get('validationErrors.length')) {
 				user.setProperties({
 					displayErrorDescription: true,
 					errorDescription: 'Please fix the errors below.'
 				});
+				return;
 			}
+
+			// Turn off errors
+			user.setProperties({
+				displayErrorDescription: false,
+				errorDescription: ''
+			});
+
+			// Save the user
+			user.save().then(function() {
+				$(".change-password-modal.in").modal('hide');
+				Balanced.Auth.get('user').send('reload');
+			});
 		}
 	}
 });
