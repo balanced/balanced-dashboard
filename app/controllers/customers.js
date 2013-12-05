@@ -18,20 +18,18 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 					self.send('reload');
 				}
 			});
-
-			this.loadEntireCollections();
 		},
 
 		loadEntireCollections: function() {
 			var model = this.get('model');
-			if (!model) {
-				return _.delay(_.bind(this.loadEntireCollections, this), 100);
+			if (!model || !model.get('isLoaded')) {
+				return;
 			}
 
 			_.each(this.loadsCollections, function(collectionName) {
 				model.get(collectionName).loadAll();
 			});
-		},
+		}.observes('model', 'model.isLoaded'),
 
 		actions: {
 			promptToDeleteBankAccount: function(bankAccount) {

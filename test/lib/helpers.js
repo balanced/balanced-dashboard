@@ -123,7 +123,8 @@ var Testing = {
 			amount: 10000
 		}).save().then(function(reversal) {
 			_this.REVERSAL_ID = reversal.get('id');
-			_this.REVERSAL_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/reversals/' + _this.REVERSAL_ID;
+			_this.REVERSAL_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+				'/reversals/' + _this.REVERSAL_ID;
 			return reversal;
 		});
 	},
