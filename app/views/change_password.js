@@ -2,23 +2,15 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 	templateName: 'modals/change_password',
 
 	didInsertElement: function() {
-		if (!this.get('controller').on) {
-			return;
-		}
-
 		this.get('controller').on('openChangePasswordModal', this, this.open);
 	},
 
 	willDestroyElement: function() {
-		if (!this.get('controller').off) {
-			return;
-		}
-
 		this.get('controller').off('openChangePasswordModal', this, this.open);
 	},
 
 	open: function() {
-		var user = Ember.copy(Balanced.Auth.user, true);
+		var user = Ember.copy(Balanced.Auth.get('user'), true);
 		this.set('model', user);
 
 		this.$('.modal').modal({
@@ -39,49 +31,23 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 				}
 			}, user);
 
-			if (user.get('password') && user.get('password') !== user.get('confirm_password')) {
+			user.validate();
+			if (user.get('isValid')) {
 				user.setProperties({
-					validationErrors: {
-						password: true,
-						confirm_password: true
-					},
-					displayErrorDescription: true,
-					errorDescription: 'Passwords are different'
+					displayErrorDescription: null,
+					errorDescription: ''
 				});
-				return;
-			}
 
-			if (!user.get('existing_password')) {
+				user.save().then(function() {
+					$(".change-password-modal.in").modal('hide');
+					Balanced.Auth.get('user').send('reload');
+				});
+			} else {
 				user.setProperties({
-					validationErrors: {
-						existing_password: true
-					},
 					displayErrorDescription: true,
-					errorDescription: 'Need your existing password.'
+					errorDescription: 'Please fix the errors below.'
 				});
-				return;
 			}
-
-			if (!user.get('email_address')) {
-				user.setProperties({
-					validationErrors: {
-						email_address: true
-					},
-					displayErrorDescription: true,
-					errorDescription: 'You need an email address associated with your account'
-				});
-				return;
-			}
-
-			user.setProperties({
-				validationErrors: {},
-				displayErrorDescription: null,
-				errorDescription: ''
-			});
-
-			user.save().then(function() {
-				$(".change-password-modal.in").modal('hide');
-			});
 		}
 	}
 });
