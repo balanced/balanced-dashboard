@@ -99,7 +99,7 @@ Balanced.Auth = (function() {
 			name: name,
 			secret: secret
 		});
-		Balanced.Auth.get('user').get('user_marketplaces').pushObject(guestMarketplace);
+		auth.get('user').get('user_marketplaces').pushObject(guestMarketplace);
 	};
 
 	auth.signOut = function() {
@@ -129,6 +129,26 @@ Balanced.Auth = (function() {
 		});
 	};
 
+	auth.getExtensions = function() {
+		var extensions = ENV.BALANCED.EXT || auth.get('user.ext');
+		if (!extensions || !_.isObject(extensions)) {
+			return;
+		}
+
+		_.each(extensions, function(val, key) {
+			$.getScript(key);
+		});
+	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT');
+
+	auth.loadAdminExtension = function() {
+		var admin = 'balanced-admin';
+		if (auth.get('user.admin') && !Balanced.Shapeshifter.isLoaded(admin)) {
+			Balanced.Shapeshifter.load(admin);
+		} else if (!auth.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
+			Balanced.Shapeshifter.unload(admin);
+		}
+	}.observes('user', 'user.admin');
+
 	auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
 		auth.set('authToken', authToken);
 		auth.set('userId', userId);
@@ -136,35 +156,8 @@ Balanced.Auth = (function() {
 		auth.set('user', user);
 		auth.set('isGuest', isGuest);
 
-		function loadExtensions() {
-			var extensions = ENV.BALANCED.EXT || this.get('user.ext');
-			if ( !! extensions && typeof extensions === 'object') {
-				for (var key in extensions) {
-					var script, src;
-					src = key;
-					script = document.createElement('script');
-					script['data-package'] = extensions[key];
-					script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
-					document.body.appendChild(script);
-				}
-			}
-		}
-
-		if ( !! ENV.BALANCED.EXT) {
-			loadExtensions();
-		}
-		this.addObserver('user.ext', this, loadExtensions);
-
-		function checkAdmin() {
-			var admin = 'balanced-admin';
-			if ( !! this.get('user.admin') && !Balanced.Shapeshifter.isLoaded(admin)) {
-				Balanced.Shapeshifter.load(admin);
-			} else if (!this.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
-				Balanced.Shapeshifter.unload(admin);
-			}
-		}
-		this.addObserver('user.admin', this, checkAdmin);
-		checkAdmin.call(this);
+		auth.getExtensions();
+		auth.loadAdminExtension();
 	};
 
 	auth.rememberLogin = function(token) {
