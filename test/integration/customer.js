@@ -207,19 +207,19 @@ test("debit customer triggers reload of transactions", function(assert) {
 });
 
 test('can credit customer', function(assert) {
+	Testing.createDebits(1);
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
-		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '1000')
+		.fillIn('#credit-customer .modal-body input[name="dollar_amount"]', '10')
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			var fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
 
-			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
-				amount: 100000,
+			assert.ok(spy.calledWith(Balanced.Credit, sinon.match('/credits'), sinon.match({
+				amount: 1000,
 				description: "Test credit"
 			})));
 		});
