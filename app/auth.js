@@ -154,6 +154,17 @@ Balanced.Auth = (function() {
 			loadExtensions();
 		}
 		this.addObserver('user.ext', this, loadExtensions);
+
+		function checkAdmin() {
+			var admin = 'balanced-admin';
+			if ( !! this.get('user.admin') && !Balanced.Shapeshifter.isLoaded(admin)) {
+				Balanced.Shapeshifter.load(admin);
+			} else if (!this.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
+				Balanced.Shapeshifter.unload(admin);
+			}
+		}
+		this.addObserver('user.admin', this, checkAdmin);
+		checkAdmin.call(this);
 	};
 
 	auth.rememberLogin = function(token) {

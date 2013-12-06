@@ -120,7 +120,7 @@ test('application submits properly', function(assert) {
 		.click('.submit')
 		.then(function() {
 			assert.equal(createStub.callCount, 3);
-			assert.ok(createStub.calledWith(Balanced.APIKey, '/api_keys', {
+			assert.ok(createStub.calledWith(Balanced.APIKey, '/api_keys', sinon.match({
 				merchant: {
 					name: "Balanced Inc",
 					person: {
@@ -137,13 +137,13 @@ test('application submits properly', function(assert) {
 					tax_id: "123456789",
 					type: "BUSINESS"
 				}
-			}));
-			assert.ok(createStub.calledWith(Balanced.Marketplace, "/marketplaces", {
+			})));
+			assert.ok(createStub.calledWith(Balanced.Marketplace, "/marketplaces", sinon.match({
 				name: "Balanced Test Marketplace",
 				support_email_address: "support@balancedpayments.com",
 				support_phone_number: "(650) 555-4444",
 				domain_url: "https://www.balancedpayments.com"
-			}));
+			})));
 
 			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
 
