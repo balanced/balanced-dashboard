@@ -26,30 +26,31 @@ test('change password form submits', function(assert) {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.then(function() {
-			assert.equal($(".change-password-modal form input[name=email]").val(), Testing.FIXTURE_USER_EMAIL, 'Email is filled in');
-		})
-		.fillForm('.change-password-modal form', {
-			email: 'foo+1@bar.com',
-			existing_password: '123456',
-			password: '12345678',
-			confirm_password: '12345678'
-		}, {
-			click: 'button[name=modal-submit]'
-		})
+	// .then(function() {
+	// assert.equal($(".change-password-modal form input[name=email]").val(), Testing.FIXTURE_USER_EMAIL, 'Email is filled in');
+	// })
+	.fillForm('.change-password-modal form', {
+		// email: 'foo+1@bar.com',
+		existing_password: '123456',
+		password: '12345678',
+		confirm_password: '12345678'
+	}, {
+		click: 'button[name=modal-submit]'
+	})
 		.then(function() {
 			assert.ok($(".modal.change-password-modal").is(":hidden"), 'The change password modal is hidden.');
 
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.User, Testing.FIXTURE_USER_ROUTE, sinon.match({
 				confirm_password: "12345678",
-				email_address: "foo+1@bar.com",
+				// email_address: "foo+1@bar.com",
 				existing_password: "123456",
 				password: "12345678"
 			})));
 		});
 });
 
+/*
 test('change password form errors if no email', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
@@ -77,6 +78,7 @@ test('change password form errors if no email', function(assert) {
 			assert.equal(stub.callCount, 0);
 		});
 });
+*/
 
 test('change password errors if no existing password', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
