@@ -141,9 +141,9 @@ Balanced.Auth = (function() {
 			if ( !! extensions && typeof extensions === 'object') {
 				for (var key in extensions) {
 					var script, src;
-					src = extensions[key];
+					src = key;
 					script = document.createElement('script');
-					script['data-package'] = key;
+					script['data-package'] = extensions[key];
 					script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
 					document.body.appendChild(script);
 				}
