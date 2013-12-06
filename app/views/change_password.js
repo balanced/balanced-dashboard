@@ -2,11 +2,21 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 	templateName: 'modals/change_password',
 
 	didInsertElement: function() {
-		this.get('controller').on('openChangePasswordModal', this, this.open);
+		var controller = this.get('controller');
+		if (!controller.on) {
+			return;
+		}
+
+		controller.on('openChangePasswordModal', this, this.open);
 	},
 
 	willDestroyElement: function() {
-		this.get('controller').off('openChangePasswordModal', this, this.open);
+		var controller = this.get('controller');
+		if (!controller.off) {
+			return;
+		}
+
+		controller.off('openChangePasswordModal', this, this.open);
 	},
 
 	open: function() {
