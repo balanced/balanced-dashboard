@@ -138,16 +138,13 @@ Balanced.Auth = (function() {
 
 		function loadExtensions() {
 			var extensions = ENV.BALANCED.EXT || auth.get('user.ext');
-			if (extensions && _.isObject(extensions)) {
-				_.each(extensions, function(val, key) {
-					var script, src;
-					src = key;
-					script = document.createElement('script');
-					script['data-package'] = extensions[key];
-					script.src = src + '?' + Math.floor(Math.random() * Math.pow(2, 8));
-					document.body.appendChild(script);
-				});
+			if (!extensions || !_.isObject(extensions)) {
+				return;
 			}
+
+			_.each(extensions, function(val, key) {
+				$.getScript(key);
+			});
 		}
 
 		loadExtensions();
