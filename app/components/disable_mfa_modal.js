@@ -1,4 +1,4 @@
-Balanced.MFAInformationModalComponent = Ember.Component.extend({
+Balanced.DisableMFAModalComponent = Ember.Component.extend({
 	classNames: ['modal-container'],
 
 	didInsertElement: function() {
