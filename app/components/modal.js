@@ -1,8 +1,7 @@
 Balanced.ModalComponent = Ember.Component.extend({
-
 	submitAction: 'submit',
 	classNames: ['modal-container'],
-	modalElement: null,
+	modalElement: '.modal',
 
 	willDestroyElement: function() {
 		$(this.get('modalElement')).modal('hide');
@@ -17,7 +16,7 @@ Balanced.ModalComponent = Ember.Component.extend({
 
 			this.set('model', model);
 
-			$(modalElement).modal({
+			this.$(modalElement).modal({
 				manager: this.$()
 			});
 		},

@@ -1,7 +1,7 @@
 require('app/components/modal');
 
 Balanced.ReverseCreditModalComponent = Balanced.ModalComponent.extend({
-
+	modalElement: '#reverse-credit',
 	submitAction: 'submitReverseCredit',
 
 	actions: {

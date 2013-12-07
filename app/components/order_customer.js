@@ -1,5 +1,4 @@
 Balanced.OrderCustomerComponent = Ember.Component.extend({
-
 	submitRefundDebitEvent: 'submitRefundDebit',
 	submitReverseCreditEvent: 'submitReverseCredit',
 	submitCaptureHoldEvent: 'submitCaptureHold',

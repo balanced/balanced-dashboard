@@ -11,11 +11,8 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 			var copiedTransaction = Ember.copy(this.get('transaction'), true);
 			copiedTransaction.set('isNew', false);
 			copiedTransaction.trigger('didCreate');
-			this.set('model', copiedTransaction);
 
-			this.$('.modal').modal({
-				manager: this.$()
-			});
+			this._super(copiedTransaction);
 		},
 
 		save: function() {
