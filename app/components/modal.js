@@ -9,12 +9,16 @@ Balanced.ModalComponent = Ember.Component.extend({
 
 	actions: {
 		open: function(model) {
+			var self = this;
 			var modalElement = this.get('modalElement');
-			model.on('didCreate', function() {
-				$(modalElement).modal('hide');
-			});
 
-			this.set('model', model);
+			if (model) {
+				model.on('didCreate', function() {
+					self.$(modalElement).modal('hide');
+				});
+
+				this.set('model', model);
+			}
 
 			this.$(modalElement).modal({
 				manager: this.$()
@@ -25,6 +29,7 @@ Balanced.ModalComponent = Ember.Component.extend({
 			if (this.get('model.isSaving')) {
 				return;
 			}
+
 			this.sendAction('submitAction', model);
 		}
 	}

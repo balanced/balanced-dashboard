@@ -1,7 +1,6 @@
 require('app/components/modal');
 
 Balanced.RefundDebitModalComponent = Balanced.ModalComponent.extend({
-	modalElement: '#refund-debit',
 	submitAction: 'submitRefundDebit',
 
 	actions: {
