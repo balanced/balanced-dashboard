@@ -3,13 +3,15 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 	dollar_amount: null,
 
-	selected_bank_account: function() {
-		if (this.get('model.source_uri')) {
-			var self = this;
-			return this.get('debitable_bank_accounts').find(function(b) {
-				return self.get('model.source_uri') === b.get('uri');
-			});
-		}
+	source: function() {
+		var debitableBankAccounts = this.get('debitable_bank_accounts');
+		var sourceUri = this.get('model.source_uri');
+		var defaultSource = (debitableBankAccounts && debitableBankAccounts.get('length') > 0) ? debitableBankAccounts.get('content')[0] : null;
+		return debitableBankAccounts.find(function(source) {
+			if (source) {
+				return sourceUri === source.get('uri');
+			}
+		}) || defaultSource;
 	}.property('model.source_uri', 'debitable_bank_accounts'),
 
 	debitable_bank_accounts: function() {
@@ -18,12 +20,7 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 	actions: {
 		open: function() {
-			var debitableBankAccounts = this.get('debitable_bank_accounts');
-			var sourceUri = (debitableBankAccounts && debitableBankAccounts.length > 0) ? debitableBankAccounts[0].get('uri') : null;
-
 			var debit = Balanced.Debit.create({
-				uri: this.get('marketplace.owner_customer.debits_uri'),
-				source_uri: sourceUri,
 				amount: null,
 				description: null
 			});
@@ -43,8 +40,9 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 			var self = this;
 			var debit = this.get('model');
-
+			var source = this.get('source');
 			var cents = null;
+
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
@@ -54,6 +52,7 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 				return;
 			}
 
+			debit.set('uri', source.get('debits_uri'));
 			debit.set('amount', cents);
 
 			debit.save().then(function() {

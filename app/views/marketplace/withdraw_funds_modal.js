@@ -6,22 +6,16 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 	actions: {
 		open: function() {
 			var self = this;
-			this.get('marketplace.owner_customer.bank_accounts').then(function(bank_accounts) {
-				var sourceUri = (bank_accounts && bank_accounts.get('content').length > 0) ? bank_accounts.get('content')[0].get('uri') : null;
+			var credit = Balanced.Credit.create({
+				amount: null,
+				description: null
+			});
 
-				var credit = Balanced.Credit.create({
-					uri: self.get('marketplace.owner_customer.credits_uri'),
-					source_uri: sourceUri,
-					amount: null,
-					description: null
-				});
+			self.set('dollar_amount', null);
+			self.set('model', credit);
 
-				self.set('dollar_amount', null);
-				self.set('model', credit);
-
-				$('#withdraw-funds').modal({
-					manager: self.$()
-				});
+			$('#withdraw-funds').modal({
+				manager: self.$()
 			});
 		},
 
@@ -33,6 +27,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 			var self = this;
 			var credit = this.get('model');
 			var cents = null;
+			var destination = this.get('destination');
 
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
@@ -43,6 +38,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 				return;
 			}
 
+			credit.set('uri', destination.get('credits_uri'));
 			credit.set('amount', cents);
 
 			credit.save().then(function() {
@@ -53,14 +49,16 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 		}
 	},
 
-	selected_bank_account: function() {
-		if (this.get('model.source_uri')) {
-			var self = this;
-			return this.get('bank_accounts').find(function(b) {
-				return self.get('model.source_uri') === b.get('uri');
-			});
-		}
-	}.property('model.source_uri', 'bank_accounts'),
+	destination: function() {
+		var fundingInstruments = this.get('bank_accounts');
+		var destinationUri = this.get('model.destination_uri');
+		var defaultDestination = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments.get('content')[0] : null;
+		return fundingInstruments.find(function(destination) {
+			if (destination) {
+				return destinationUri === destination.get('uri');
+			}
+		}) || defaultDestination;
+	}.property('model.destination_uri', 'bank_accounts'),
 
 	bank_accounts: function() {
 		return this.get('marketplace.owner_customer.bank_accounts');
