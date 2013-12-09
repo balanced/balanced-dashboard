@@ -1,8 +1,8 @@
-Balanced.AddCardModalView = Balanced.View.extend({
-	templateName: 'modals/add_card',
+require('app/components/modal');
 
+Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 	validMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-	validYears: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020],
+	validYears: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
 
 	expiration_error: function() {
 		return this.get('model.validationErrors.expiration_month') || this.get('model.validationErrors.expiration_year');
@@ -18,10 +18,8 @@ Balanced.AddCardModalView = Balanced.View.extend({
 				expiration_year: '',
 				postal_code: ''
 			});
-			this.set('model', card);
-			$('#add-card').modal({
-				manager: this.$()
-			});
+
+			this._super(card);
 		},
 
 		save: function() {
@@ -34,7 +32,7 @@ Balanced.AddCardModalView = Balanced.View.extend({
 
 			card.tokenizeAndCreate(this.get('customer.id')).then(function() {
 				self.get('customer.cards').reload();
-				$('#add-card').modal('hide');
+				self.hide();
 			});
 		}
 	}

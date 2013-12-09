@@ -95,6 +95,11 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 						self.set('isSaving', false);
 						promise.reject();
 					});
+				}, function() {
+					self.set('displayErrorDescription', true);
+					self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
+					self.set('isSaving', false);
+					promise.reject();
 				});
 			}
 		});

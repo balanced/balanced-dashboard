@@ -1,9 +1,14 @@
-Balanced.AddFundsModalView = Balanced.View.extend({
-	templateName: 'modals/add_funds',
+require('app/components/modal');
 
+Balanced.AddFundsModalComponent = Balanced.ModalComponent.extend({
+	submitAction: 'submitDebitCustomer',
 	dollar_amount: null,
 
 	source: function() {
+		if (!this.get('model')) {
+			return null;
+		}
+
 		var debitableBankAccounts = this.get('debitable_bank_accounts');
 		var sourceUri = this.get('model.source_uri');
 		var defaultSource = null;
@@ -15,7 +20,7 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 				return sourceUri === source.get('uri');
 			}
 		}) || defaultSource;
-	}.property('model.source_uri', 'debitable_bank_accounts'),
+	}.property('model', 'model.source_uri', 'debitable_bank_accounts'),
 
 	debitable_bank_accounts: function() {
 		return this.get('marketplace.owner_customer.debitable_bank_accounts');
@@ -29,11 +34,8 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 			});
 
 			this.set('dollar_amount', null);
-			this.set('model', debit);
 
-			$('#add-funds').modal({
-				manager: this.$()
-			});
+			this._super(debit);
 		},
 
 		save: function() {
@@ -57,11 +59,12 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 			debit.set('uri', source.get('debits_uri'));
 			debit.set('amount', cents);
-			debit.save().then(function() {
+			debit.on('didCreate', function() {
 				self.get('marketplace').reload();
-				$('#add-funds').modal('hide');
-				self.get('controller').transitionToRoute('debits', debit);
+				self.hide();
 			});
+
+			this._super(debit);
 		}
 	}
 });

@@ -181,15 +181,13 @@
                 </div>
             </form>
         </section>
-
     </div>
 
     <div class="offset1 span8">
-
             <section class="bank-account-info">
                 <header>
                     <h3>Bank accounts
-                        <a href="#" class="add" {{action openAddBankAccountModal target="view"}}>Add a bank account</a>
+                        {{add-bank-account-modal customerBinding="model.owner_customer"}}
                     </h3>
                 </header>
                 <ul class="sidebar-items">
@@ -223,7 +221,7 @@
             <section class="card-info">
                 <header>
                     <h3>Credit cards
-                        <a href="#" class="add" {{action openAddCardModal target="view"}}>Add a card</a>
+                        {{add-card-modal customerBinding="model.owner_customer"}}
                     </h3>
                 </header>
                 <ul class="sidebar-items">
@@ -243,7 +241,6 @@
                     {{/each}}
                 </ul>
             </section>
-
         </div>
 </div>
 
@@ -252,7 +249,7 @@
         <section class="webhook-info">
             <header>
                 <h3>Webhooks
-                    <a href="#" class="add" {{action openAddCallbackModal target="view"}}>Add a webhook</a>
+                    {{add-callback-modal marketplaceBinding="model"}}
                 </h3>
             </header>
             <ul class="webhooks">
@@ -274,9 +271,6 @@
 </div>
 
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
-{{view Balanced.AddBankAccountModalView customerBinding="model.owner_customer" viewName="addBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
-{{view Balanced.AddCardModalView customerBinding="model.owner_customer" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}
-{{view Balanced.AddCallbackModalView marketplaceBinding="model" viewName="addCallbackModal"}}
 {{view Balanced.DeleteCallbackModalView}}

@@ -4,7 +4,11 @@ Balanced.ModalComponent = Ember.Component.extend({
 	modalElement: '.modal',
 
 	willDestroyElement: function() {
-		$(this.get('modalElement')).modal('hide');
+		this.hide();
+	},
+
+	hide: function() {
+		this.$(this.get('modalElement')).modal('hide');
 	},
 
 	actions: {
@@ -26,11 +30,17 @@ Balanced.ModalComponent = Ember.Component.extend({
 		},
 
 		save: function(model) {
-			if (this.get('model.isSaving')) {
+			model = model || this.get('model');
+
+			if (Ember.get(model, 'isSaving')) {
 				return;
 			}
 
-			this.sendAction('submitAction', model);
+			var self = this;
+
+			model.save().then(function() {
+				self.sendAction('submitAction', model);
+			});
 		}
 	}
 

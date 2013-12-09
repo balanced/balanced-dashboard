@@ -5,7 +5,7 @@
             <h2>Withdraw funds</h2>
         </div>
         <div class="modal-body">
-            {{# unless view.bank_accounts }}
+            {{#unless view.bank_accounts }}
             <div class="alert alert-info row-full">
                 You must have at least one bank account to withdraw funds.
             </div>
@@ -27,18 +27,18 @@
             </div>
 
             <div class="control-group">
-                <label class="inline">Account holder's name</label> {{view.selected_bank_account.name}}
+                <label class="inline">Account holder's name</label> {{view.destination.name}}
             </div>
 
             <div class="control-group">
-                <label class="inline">Bank</label> {{view.selected_bank_account.bank_name}}
+                <label class="inline">Bank</label> {{view.destination.bank_name}}
             </div>
 
             <hr class="separation-line" />
 
             <div class="control-group">
                 <label>Available balance</label>
-                <div class="number1a">{{ formatCurrency controllers.marketplace.in_escrow }}</div>
+                <div class="number1a">{{ formatCurrency view.marketplace.in_escrow }}</div>
             </div>
 
             <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
@@ -69,3 +69,4 @@
         </div>
     </form>
 </div>
+<a class="btn" {{action open}}>Withdraw funds</a>
