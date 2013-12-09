@@ -6,7 +6,10 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 	source: function() {
 		var debitableBankAccounts = this.get('debitable_bank_accounts');
 		var sourceUri = this.get('model.source_uri');
-		var defaultSource = (debitableBankAccounts && debitableBankAccounts.get('length') > 0) ? debitableBankAccounts.get('content')[0] : null;
+		var defaultSource = null;
+		if (debitableBankAccounts && debitableBankAccounts.get('length') > 0) {
+			defaultSource = (debitableBankAccounts.get('content') || debitableBankAccounts)[0];
+		}
 		return debitableBankAccounts.find(function(source) {
 			if (source) {
 				return sourceUri === source.get('uri');
@@ -54,7 +57,6 @@ Balanced.AddFundsModalView = Balanced.View.extend({
 
 			debit.set('uri', source.get('debits_uri'));
 			debit.set('amount', cents);
-
 			debit.save().then(function() {
 				self.get('marketplace').reload();
 				$('#add-funds').modal('hide');
