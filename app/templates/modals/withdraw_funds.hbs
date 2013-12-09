@@ -12,16 +12,17 @@
             {{/unless}}
             {{partial "modals/modalErrors"}}
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.source_uri:error"}}>
+            <div {{bindAttr class=":control-group view.model.validationErrors.destination_uri:error"}}>
                 <label>Account number</label>
 
                 {{view Ember.Select
                     contentBinding="view.bank_accounts"
-                    valueBinding="view.model.source_uri"
+                    valueBinding="view.model.destination_uri"
                     optionValuePath="content.uri"
                     optionLabelPath="content.description"
-                    viewName="source_uri"
+                    viewName="destination_uri"
                     class="span8"
+                    name="destination_uri"
                 }}
             </div>
 
