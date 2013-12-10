@@ -65,14 +65,14 @@
                 {{humanReadableDateShort settle_at}}
               </span>
             </div>
-            {{#if source}}
+
             <div class="key-value-row">
               <label class="key">From</label>
               <span class="value">
-                {{ source.description }}
+                {{#if source}}{{ source.description }}{{else}}<i>Default</i>{{/if}}
+                {{#if is_not_paid}}({{change-funding-source-modal marketplaceBinding=marketplace sourceUriBinding=source.uri}}){{/if}}
               </span>
             </div>
-            {{/if}}
           </div>
         </div>
       </section>
