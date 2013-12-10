@@ -213,7 +213,8 @@ Balanced.Auth = (function() {
 
 	auth.storeGuestAPIKey = function(apiKeySecret) {
 		$.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
-			path: '/'
+			path: '/',
+			expires: Balanced.TIME.WEEK
 		});
 	};
 

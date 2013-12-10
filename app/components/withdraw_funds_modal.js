@@ -26,6 +26,10 @@ Balanced.WithdrawFundsModalComponent = Balanced.ModalComponent.extend({
 			var cents = null;
 			var destination = this.get('destination');
 
+			if (!destination) {
+				return;
+			}
+
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
