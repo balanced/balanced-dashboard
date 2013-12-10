@@ -1,4 +1,6 @@
-Balanced.EditTransactionModalComponent = Ember.Component.extend({
+require('app/components/modal');
+
+Balanced.EditTransactionModalComponent = Balanced.ModalComponent.extend({
 	classNames: ['modal-container', 'header-action-container'],
 
 	actions: {
@@ -19,10 +21,12 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 			var transaction = this.get('model');
 			var self = this;
 
-			transaction.save().then(function() {
+			transaction.one('didUpdate', function() {
 				self.get('transaction').updateFromModel(transaction);
 				self.hide();
 			});
+
+			this._super(transaction);
 		}
 	}
 });
