@@ -29,7 +29,8 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Activity'), -1,
 				'Title is correct');
 
-			assert.ok($('#activity .download').length, "Download link is visible");
+			// TODO: Re-enable download link
+			// assert.ok($('#activity .download').length, "Download link is visible");
 		});
 });
 
@@ -62,7 +63,7 @@ test('add funds', function(assert) {
 			fundingInstrumentUri = $("#add-funds select[name='source_uri'] option").eq(0).val();
 			$("#add-funds select[name='source_uri']").val(fundingInstrumentUri);
 
-			click('.activity-escrow-box .btn:eq(0)')
+			click('.activity-escrow-box .add-funds-btn')
 				.then(function() {
 					assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
@@ -90,7 +91,7 @@ test('add funds only adds once despite multiple clicks', function(assert) {
 
 		Ember.run.next(function() {
 			start();
-			click('.activity-escrow-box .btn:eq(0)')
+			click('.activity-escrow-box .add-funds-btn')
 				.fillIn('#add-funds input', '55.55')
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
@@ -120,7 +121,7 @@ test('withdraw funds', function(assert) {
 			fundingInstrumentUri = $("#withdraw-funds select[name='destination_uri'] option").eq(0).val();
 			$("#withdraw-funds select[name='destination_uri']").val(fundingInstrumentUri);
 
-			click('.activity-escrow-box .btn:eq(1)')
+			click('.activity-escrow-box .withdraw-funds-btn')
 				.then(function() {
 					assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
@@ -148,7 +149,7 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 
 		Ember.run.next(function() {
 			start();
-			click('.activity-escrow-box .btn:eq(1)')
+			click('.activity-escrow-box .withdraw-funds-btn')
 				.fillIn('#withdraw-funds input', '55.55')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
@@ -161,6 +162,8 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 	});
 });
 
+// TODO: Re-enable download link
+/*
 test('download activity', function(assert) {
 	assert.equal($(".alert span").length, 0);
 
@@ -203,6 +206,7 @@ test('download activity only runs once despite multiple clicks', function(assert
 			assert.ok(stub.calledOnce);
 		});
 });
+*/
 
 test('transactions date sort has two states', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)

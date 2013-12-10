@@ -1,7 +1,7 @@
 require('app/components/modal');
 
 Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
-	validMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+	validMonths: Balanced.TIME.MONTHS,
 	validYears: function() {
 		var years = [];
 
