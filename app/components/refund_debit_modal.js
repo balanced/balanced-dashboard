@@ -25,9 +25,12 @@ Balanced.RefundDebitModalComponent = Balanced.ModalComponent.extend({
 				refund.set('validationErrors', {
 					'amount': error
 				});
+
 				return;
 			}
+
 			refund.set('amount', cents);
+
 			this._super(refund);
 		}
 	}
