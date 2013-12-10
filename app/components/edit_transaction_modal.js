@@ -1,10 +1,6 @@
 Balanced.EditTransactionModalComponent = Ember.Component.extend({
 	classNames: ['modal-container', 'header-action-container'],
 
-	willDestroyElement: function() {
-		$('.edit-transaction.in').modal('hide');
-	},
-
 	actions: {
 		open: function() {
 			// operate on a copy so we don't mess up the original object
@@ -22,9 +18,10 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 
 			var transaction = this.get('model');
 			var self = this;
+
 			transaction.save().then(function() {
 				self.get('transaction').updateFromModel(transaction);
-				$('.edit-transaction.in').modal('hide');
+				self.hide();
 			});
 		}
 	}

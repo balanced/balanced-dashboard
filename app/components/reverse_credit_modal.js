@@ -10,6 +10,7 @@ Balanced.ReverseCreditModalComponent = Balanced.ModalComponent.extend({
 				credit_uri: this.get('credit.uri'),
 				amount: this.get('credit.amount')
 			});
+
 			this._super(reversal);
 		},
 

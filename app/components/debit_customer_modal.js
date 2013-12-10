@@ -21,6 +21,10 @@ Balanced.DebitCustomerModalComponent = Balanced.ModalComponent.extend({
 		},
 
 		save: function() {
+			if (this.get('model.isSaving')) {
+				return;
+			}
+
 			var debit = this.get('model');
 			var selfie = this.get('selected_funding_instrument');
 			if (selfie) {

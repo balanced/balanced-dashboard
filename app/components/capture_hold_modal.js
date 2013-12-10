@@ -16,6 +16,10 @@ Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
 		},
 
 		save: function() {
+			if (this.get('model.isSaving')) {
+				return;
+			}
+
 			var debit = this.get('model');
 			var cents = null;
 			try {
@@ -27,6 +31,7 @@ Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
 				return;
 			}
 			debit.set('amount', cents);
+
 			this._super(debit);
 		}
 	}
