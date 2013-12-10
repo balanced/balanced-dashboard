@@ -1,38 +1,44 @@
-<div class="modal hide" id="add-funds">
+<div class="modal hide" id="withdraw-funds">
     <form {{action "save" on="submit" target="view"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Add funds</h2>
+            <h2>Withdraw funds</h2>
         </div>
         <div class="modal-body">
-            {{# unless view.debitable_bank_accounts }}
+            {{#unless view.bank_accounts }}
             <div class="alert alert-info row-full">
-                You must have at least one verified bank account to add funds.
+                You must have at least one bank account to withdraw funds.
             </div>
             {{/unless}}
-
             {{partial "modals/modalErrors"}}
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.source_uri:error"}}>
+            <div {{bindAttr class=":control-group view.model.validationErrors.destination_uri:error"}}>
                 <label>Account number</label>
 
                 {{view Ember.Select
-                    contentBinding="view.debitable_bank_accounts"
-                    valueBinding="view.model.source_uri"
+                    contentBinding="view.bank_accounts"
+                    valueBinding="view.model.destination_uri"
                     optionValuePath="content.uri"
                     optionLabelPath="content.description"
-                    viewName="source_uri"
+                    viewName="destination_uri"
                     class="span8"
-                    name="source_uri"
+                    name="destination_uri"
                 }}
             </div>
 
             <div class="control-group">
-                <label class="inline">Account holder's name</label> {{view.selected_bank_account.name}}
+                <label class="inline">Account holder's name</label> {{view.destination.name}}
             </div>
 
             <div class="control-group">
-                <label class="inline">Bank</label> {{view.selected_bank_account.bank_name}}
+                <label class="inline">Bank</label> {{view.destination.bank_name}}
+            </div>
+
+            <hr class="separation-line" />
+
+            <div class="control-group">
+                <label>Available balance</label>
+                <div class="number1a">{{ formatCurrency view.marketplace.in_escrow }}</div>
             </div>
 
             <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
@@ -56,10 +62,11 @@
             </div>
         </div>
         <div class="modal-informational">
-            <p>Funds will appear in your balance in 3-5 business days.</p>
+            <p>Funds will appear in your balance in 1-2 business days.</p>
         </div>
         <div class="modal-footer">
-            {{view Balanced.ModalActionButtonsView submitTitle="Add"}}
+            {{view Balanced.ModalActionButtonsView submitTitle="Withdraw"}}
         </div>
     </form>
 </div>
+<a class="btn withdraw-funds-btn" {{action open}}>Withdraw funds</a>

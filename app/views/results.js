@@ -45,7 +45,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	},
 
 	show_download_button: false
-	// To enable download
+	// TODO: Re-enable download link
 	// function() {
 	// return this.get('controller.category') === 'search';
 	// }.property('controller.category')

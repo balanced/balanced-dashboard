@@ -18,34 +18,19 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 
 	actions: {
 		submitRefundDebit: function(refund) {
-			var self = this;
-			refund.save().then(function(refund) {
-				self.transitionTo('refunds', refund);
-			});
+			this.transitionTo('refunds', refund);
 		},
 		submitReverseCredit: function(reversal) {
-			var self = this;
-			reversal.save().then(function(reversal) {
-				self.transitionTo('reversals', reversal);
-			});
+			this.transitionTo('reversals', reversal);
 		},
 		submitCaptureHold: function(debit) {
-			var self = this;
-			debit.save().then(function(debit) {
-				self.transitionTo('debits', debit);
-			});
+			this.transitionTo('debits', debit);
 		},
 		submitCreditCustomer: function(credit) {
-			var self = this;
-			credit.save().then(function(credit) {
-				self.transitionTo('credits', credit);
-			});
+			this.transitionTo('credits', credit);
 		},
 		submitDebitCustomer: function(debit) {
-			var self = this;
-			debit.save().then(function(debit) {
-				self.transitionTo('debits', debit);
-			});
+			this.transitionTo('debits', debit);
 		}
 	}
 });

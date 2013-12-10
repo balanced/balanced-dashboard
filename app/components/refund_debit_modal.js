@@ -1,10 +1,7 @@
-Balanced.RefundDebitModalComponent = Ember.Component.extend({
-	submitAction: 'submitRefundDebit',
-	classNames: ['modal-container'],
+require('app/components/modal');
 
-	willDestroyElement: function() {
-		$('#refund-debit').modal('hide');
-	},
+Balanced.RefundDebitModalComponent = Balanced.ModalComponent.extend({
+	submitAction: 'submitRefundDebit',
 
 	actions: {
 		open: function() {
@@ -14,23 +11,11 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 				amount: null
 			});
 
-			refund.on('didCreate', function() {
-				$('#refund-debit').modal('hide');
-			});
-
 			this.set('dollar_amount', this.get('debit.amount_dollars'));
-			this.set('model', refund);
-
-			$('#refund-debit').modal({
-				manager: this.$()
-			});
+			this._super(refund);
 		},
 
 		save: function() {
-			if (this.get('model.isSaving')) {
-				return;
-			}
-
 			var refund = this.get('model');
 
 			var cents = null;
@@ -40,11 +25,13 @@ Balanced.RefundDebitModalComponent = Ember.Component.extend({
 				refund.set('validationErrors', {
 					'amount': error
 				});
+
 				return;
 			}
+
 			refund.set('amount', cents);
 
-			this.sendAction('submitAction', refund);
+			this._super(refund);
 		}
 	}
 });

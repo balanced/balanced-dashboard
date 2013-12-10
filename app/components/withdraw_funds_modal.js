@@ -1,6 +1,7 @@
-Balanced.WithdrawFundsModalView = Balanced.View.extend({
-	templateName: 'modals/withdraw_funds',
+require('app/components/modal');
 
+Balanced.WithdrawFundsModalComponent = Balanced.ModalComponent.extend({
+	submitAction: 'submitCreditCustomer',
 	dollar_amount: null,
 
 	actions: {
@@ -12,11 +13,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 			});
 
 			self.set('dollar_amount', null);
-			self.set('model', credit);
-
-			$('#withdraw-funds').modal({
-				manager: self.$()
-			});
+			self._super(credit);
 		},
 
 		save: function() {
@@ -28,6 +25,10 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 			var credit = this.get('model');
 			var cents = null;
 			var destination = this.get('destination');
+
+			if (!destination) {
+				return;
+			}
 
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
@@ -41,15 +42,20 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 			credit.set('uri', destination.get('credits_uri'));
 			credit.set('amount', cents);
 
-			credit.save().then(function() {
+			credit.on('didCreate', function() {
 				self.get('marketplace').reload();
-				$('#withdraw-funds').modal('hide');
-				self.get('controller').transitionToRoute('credits', credit);
+				self.hide();
 			});
+
+			this._super(credit);
 		}
 	},
 
 	destination: function() {
+		if (!this.get('model')) {
+			return null;
+		}
+
 		var fundingInstruments = this.get('bank_accounts');
 		var destinationUri = this.get('model.destination_uri');
 		var defaultDestination = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments.get('content')[0] : null;
@@ -58,7 +64,7 @@ Balanced.WithdrawFundsModalView = Balanced.View.extend({
 				return destinationUri === destination.get('uri');
 			}
 		}) || defaultDestination;
-	}.property('model.destination_uri', 'bank_accounts'),
+	}.property('model', 'model.destination_uri', 'bank_accounts'),
 
 	bank_accounts: function() {
 		return this.get('marketplace.owner_customer.bank_accounts');

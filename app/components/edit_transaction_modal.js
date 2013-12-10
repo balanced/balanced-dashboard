@@ -1,9 +1,7 @@
-Balanced.EditTransactionModalComponent = Ember.Component.extend({
-	classNames: ['modal-container', 'header-action-container'],
+require('app/components/modal');
 
-	willDestroyElement: function() {
-		$('.edit-transaction.in').modal('hide');
-	},
+Balanced.EditTransactionModalComponent = Balanced.ModalComponent.extend({
+	classNames: ['modal-container', 'header-action-container'],
 
 	actions: {
 		open: function() {
@@ -11,11 +9,8 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 			var copiedTransaction = Ember.copy(this.get('transaction'), true);
 			copiedTransaction.set('isNew', false);
 			copiedTransaction.trigger('didCreate');
-			this.set('model', copiedTransaction);
 
-			this.$('.modal').modal({
-				manager: this.$()
-			});
+			this._super(copiedTransaction);
 		},
 
 		save: function() {
@@ -25,10 +20,13 @@ Balanced.EditTransactionModalComponent = Ember.Component.extend({
 
 			var transaction = this.get('model');
 			var self = this;
-			transaction.save().then(function() {
+
+			transaction.one('didUpdate', function() {
 				self.get('transaction').updateFromModel(transaction);
-				$('.edit-transaction.in').modal('hide');
+				self.hide();
 			});
+
+			this._super(transaction);
 		}
 	}
 });

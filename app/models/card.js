@@ -93,16 +93,21 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
 			if (response.errors) {
-				var validationErrors =
-					self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
+				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
+				self.setProperties({
+					validationErrors: validationErrors,
+					isSaving: false
+				});
 
 				if (!validationErrors) {
 					self.set('displayErrorDescription', true);
 					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
-					self.set('errorDescription', 'Sorry, there was an error tokenizing this card' + errorSuffix);
+					self.setProperties({
+						displayErrorDescription: true,
+						errorDescription: 'Sorry, there was an error tokenizing this card' + errorSuffix
+					});
 				}
 
-				self.set('isSaving', false);
 				promise.reject();
 			} else {
 				Balanced.Card.find(response.cards[0].href)
@@ -112,16 +117,30 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 					card.set('links.customer', customerId);
 
 					card.save().then(function() {
-						self.set('isLoaded', true);
-						self.set('isNew', false);
-						self.set('isSaving', false);
+						self.setProperties({
+							isSaving: false,
+							isNew: false,
+							isLoaded: true
+						});
+
 						self.trigger('didCreate');
-					}, function() {
-						self.set('displayErrorDescription', true);
-						self.set('errorDescription', 'Sorry, there was an error associating this card.');
-						self.set('isSaving', false);
+					}, function(err) {
+						self.setProperties({
+							displayErrorDescription: true,
+							isSaving: false,
+							errorDescription: 'There was an error processing your card. ' + Ember.get(err, 'errorDescription')
+						});
+
 						promise.reject();
 					});
+				}, function(err) {
+					self.setProperties({
+						displayErrorDescription: true,
+						isSaving: false,
+						errorDescription: 'There was an error processing your card. ' + Ember.get(err, 'errorDescription')
+					});
+
+					promise.reject();
 				});
 			}
 		});

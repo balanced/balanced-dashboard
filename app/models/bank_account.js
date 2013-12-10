@@ -67,16 +67,20 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		// Tokenize the bank account using the balanced.js library
 		balanced.bankAccount.create(bankAccountData, function(response) {
 			if (response.errors) {
-				var validationErrors =
-					self.set('validationErrors', Balanced.Utils.extractValidationErrorHash(response));
+				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
+				self.setProperties({
+					validationErrors: validationErrors,
+					isSaving: false
+				});
 
 				if (!validationErrors) {
-					self.set('displayErrorDescription', true);
 					var errorSuffix = (response.errors && response.errors.length > 0 && response.errors[0].description) ? (': ' + response.errors[0].description) : '.';
-					self.set('errorDescription', 'Sorry, there was an error tokenizing this bank account' + errorSuffix);
+					self.setProperties({
+						displayErrorDescription: true,
+						errorDescription: 'Sorry, there was an error tokenizing this bank account' + errorSuffix
+					});
 				}
 
-				self.set('isSaving', false);
 				promise.reject();
 			} else {
 				Balanced.BankAccount.find(response.bank_accounts[0].href)
@@ -85,16 +89,30 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					bankAccount.set('links.customer', customerId);
 
 					bankAccount.save().then(function() {
-						self.set('isLoaded', true);
-						self.set('isNew', false);
-						self.set('isSaving', false);
+						self.setProperties({
+							isSaving: false,
+							isNew: false,
+							isLoaded: true
+						});
+
 						self.trigger('didCreate');
-					}, function() {
-						self.set('displayErrorDescription', true);
-						self.set('errorDescription', 'Sorry, there was an error associating this bank account.');
-						self.set('isSaving', false);
+					}, function(err) {
+						self.setProperties({
+							displayErrorDescription: true,
+							isSaving: false,
+							errorDescription: 'There was an error processing your bank account. ' + Ember.get(err, 'errorDescription')
+						});
+
 						promise.reject();
 					});
+				}, function(err) {
+					self.setProperties({
+						displayErrorDescription: true,
+						isSaving: false,
+						errorDescription: 'There was an error processing your bank account. ' + Ember.get(err, 'errorDescription')
+					});
+
+					promise.reject();
 				});
 			}
 		});

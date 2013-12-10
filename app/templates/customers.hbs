@@ -128,7 +128,7 @@
 	        <section class="bank-account-info">
 	            <header>
 	                <h3>Bank accounts
-	                    <a href="#" class="add" {{action openAddBankAccountModal target="view"}}>Add a bank account</a>
+                    {{add-bank-account-modal customerBinding="model"}}
 	                </h3>
 	            </header>
 	            <ul class="sidebar-items">
@@ -162,7 +162,7 @@
 	        <section class="card-info">
 	            <header>
 	                <h3>Credit cards
-	                    <a href="#" class="add" {{action openAddCardModal target="view"}}>Add a card</a>
+                    {{add-card-modal customerBinding="model"}}
 	                </h3>
 	            </header>
 	            <ul class="sidebar-items">
@@ -201,7 +201,5 @@
     {{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.AddBankAccountModalView customerBinding="model" viewName="addBankAccountModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
-{{view Balanced.AddCardModalView customerBinding="model" viewName="addCardModal"}}
 {{view Balanced.DeleteCardModalView}}
