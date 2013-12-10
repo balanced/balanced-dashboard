@@ -2,7 +2,7 @@
     <form {{action "save" on="submit" target="view"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Change funding source</h2>
+            <h2>Pay with another bank account</h2>
         </div>
         <div class="modal-body">
             {{#unless view.debitable_bank_accounts }}
@@ -33,14 +33,6 @@
 
             <div class="control-group">
                 <label class="inline">Bank</label> {{view.source.bank_name}}
-            </div>
-
-            <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
-                <label>Amount</label>
-                <div class="input-prepend">
-                    <span class="add-on">$</span>
-                    {{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
-                </div>
             </div>
         </div>
         <div class="modal-footer">

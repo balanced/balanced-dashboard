@@ -33,27 +33,17 @@ Balanced.ChangeFundingSourceModalComponent = Balanced.ModalComponent.extend({
 			}
 
 			var self = this;
-			var debit = this.get('model');
+			var invoice = this.get('model');
 			var source = this.get('source');
 			var cents = null;
 
-			try {
-				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
-			} catch (error) {
-				debit.set('validationErrors', {
-					'amount': error
-				});
-				return;
-			}
-
-			debit.set('uri', source.get('debits_uri'));
-			debit.set('amount', cents);
-			debit.on('didCreate', function() {
-				self.get('marketplace').reload();
+			invoice.set('source_uri', source.get('debits_uri'));
+			invoice.on('didUpdate', function() {
+				invoice.reload();
 				self.hide();
 			});
 
-			this._super(debit);
+			this._super(invoice);
 		}
 	}
 });
