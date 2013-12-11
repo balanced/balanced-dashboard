@@ -368,3 +368,7 @@ test('can add card with postal code', function(assert) {
 			//assert.ok(stub.calledWith(Balanced.Card, '/cards', sinon.match(input)));
 		});
 });
+
+test('verification renders properly against rev1', function(assert){
+
+});

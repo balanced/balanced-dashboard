@@ -129,12 +129,8 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('validationErrors.dob_month', 'validationErrors.dob_year'),
 
     is_identity_verified: function() {
-        if (this.merchant_status == "underwritten") {
-            return 1;
-        } else {
-            return 0;
-        }
-    }.property('is_identity_verified')
+        return this.get('merchant_status') == 'underwritten';
+    }.property('merchant_status')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');
