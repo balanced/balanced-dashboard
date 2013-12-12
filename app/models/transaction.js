@@ -45,9 +45,8 @@ Balanced.Transaction = Balanced.Model.extend({
 	}.property('meta'),
 
 	status_description: function() {
-		console.log(this.get('status'));
 		if (this.get('status') === 'failed') {
-			if(this.get('failure_reason') || this.get('failure_reason_code')) {
+			if (this.get('failure_reason') || this.get('failure_reason_code')) {
 				return this.get('failure_reason') || this.get('failure_reason_code');
 			}
 			return 'The transaction failed, no failure reason was given.';
