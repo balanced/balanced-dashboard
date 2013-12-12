@@ -17,18 +17,7 @@ Balanced.Refund = Balanced.Transaction.extend({
 
 	customer: function() {
 		return this.get('debit.customer');
-	}.property('debit.customer'),
-
-	status_description: function() {
-		if (this.get('status') === 'failed') {
-			if(this.get('failure_reason') || this.get('failure_reason_code')) {
-				return this.get('failure_reason') || this.get('failure_reason_code');
-			}
-			return 'The refund failed, no failure reason was given.';
-		} else {
-			return undefined;
-		}
-	}.property('status', 'failure_reason', 'failure_reason_code')
+	}.property('debit.customer')
 });
 
 Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');

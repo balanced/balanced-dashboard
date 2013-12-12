@@ -15,18 +15,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 
 	funding_instrument_description: function() {
 		return this.get('source.description');
-	}.property('source.description'),
-
-	status_description: function() {
-		if (this.get('status') === 'failed') {
-			if(this.get('failure_reason') || this.get('failure_reason_code')) {
-				return this.get('failure_reason') || this.get('failure_reason_code');
-			}
-			return 'The debit failed, no failure reason was given.';
-		} else {
-			return undefined;
-		}
-	}.property('status', 'failure_reason', 'failure_reason_code')
+	}.property('source.description')
 });
 
 Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');

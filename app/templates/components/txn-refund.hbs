@@ -25,36 +25,7 @@
                     {{edit-transaction-modal transaction=refund}}
                   </h3>
                 </header>
-                {{#if refund.is_failed}}
-                  <div class="key-value-row">
-                    <label class="key">Status</label>
-                    <span {{bindAttr class=":value refund.status"}}>{{ refund.status_description }}</span>
-                  </div>
-                {{/if}}
-                <div class="key-value-row">
-                  <label class="key">Created</label>
-                  <span class="value">{{humanReadableDateLong refund.created_at }}</span>
-                </div>
-                <div class="key-value-row">
-                  <label class="key">Internal Description</label>
-                  <span class="value">{{ refund.description }}</span>
-                </div>
-                <div class="key-value-row">
-                  <label class="key">ID</label>
-                  <span class="value">{{ refund.id }}</span>
-                </div>
-                <div class="key-value-row">
-                  <label class="key">Txn #</label>
-                  <span class="value">{{ refund.transaction_number }}</span>
-                </div>
-                <div class="key-value-row meta">
-                  <label class="key">Meta</label>
-                  <span class="value">
-                    {{#each meta in refund.meta_array}}
-                      {{ meta.key }}: {{ meta.value }}<br/>
-                    {{/each}}
-                  </span>
-                </div>
+                {{txn-description transaction=refund}}
               </div>
             </section>
 
