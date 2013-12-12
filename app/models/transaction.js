@@ -42,5 +42,9 @@ Balanced.Transaction = Balanced.Model.extend({
 			});
 		}
 		return metaArray;
-	}.property('meta')
+	}.property('meta'),
+
+	is_failed: function() {
+		return this.get('status') === 'failed';
+	}.property('status')
 });

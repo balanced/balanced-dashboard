@@ -35,7 +35,18 @@ Balanced.Hold = Balanced.Transaction.extend({
 
 	customer: function() {
 		return this.get('debit.customer') || this.get('card.customer');
-	}.property('debit.customer', 'card.customer')
+	}.property('debit.customer', 'card.customer'),
+
+	status_description: function() {
+		if (this.get('status') === 'failed') {
+			if(this.get('failure_reason') || this.get('failure_reason_code')) {
+				return this.get('failure_reason') || this.get('failure_reason_code');
+			}
+			return 'The hold failed, no failure reason was given.';
+		} else {
+			return undefined;
+		}
+	}.property('status', 'failure_reason', 'failure_reason_code')
 });
 
 Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');

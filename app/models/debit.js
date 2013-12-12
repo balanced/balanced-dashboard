@@ -17,9 +17,16 @@ Balanced.Debit = Balanced.Transaction.extend({
 		return this.get('source.description');
 	}.property('source.description'),
 
-	can_refund: function() {
-		return this.get('status') !== 'failed';
-	}.property('status')
+	status_description: function() {
+		if (this.get('status') === 'failed') {
+			if(this.get('failure_reason') || this.get('failure_reason_code')) {
+				return this.get('failure_reason') || this.get('failure_reason_code');
+			}
+			return 'The debit failed, no failure reason was given.';
+		} else {
+			return undefined;
+		}
+	}.property('status', 'failure_reason', 'failure_reason_code')
 });
 
 Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');

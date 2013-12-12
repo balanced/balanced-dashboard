@@ -31,14 +31,16 @@
                 </header>
                 <div class="key-value-row">
                   <label class="key">Status</label>
-                  <span class="value">{{ credit.status_description }}</span>
+                  <span {{bindAttr class=":value credit.status"}}>{{ credit.status_description }}</span>
                 </div>
+                {{#unless credit.is_failed}}
                 <div class="key-value-row">
                   <label class="key">Expected</label>
                   <span class="value">
                     <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>
                   </span>
                 </div>
+                {{/unless}}
                 <div class="key-value-row">
                   <label class="key">Created</label>
                   <span class="value">{{humanReadableDateLong credit.created_at }}</span>
