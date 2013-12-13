@@ -54,3 +54,18 @@ test('can edit debit', function(assert) {
 			assert.equal(spy.getCall(0).args[2].description, "changing desc");
 		});
 });
+
+test('failed debit shows failure information', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	visit(Testing.DEBIT_ROUTE).then(function() {
+		var model = Balanced.__container__.lookup('controller:debits');
+		model.set('status', 'failed');
+		model.set('failure_reason', 'Foobar');
+		stop();
+		Ember.run.next(function() {
+			start();
+			assert.equal($('.value.failed').text().trim(), 'Foobar');
+		});
+	});
+});
