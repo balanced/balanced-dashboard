@@ -5,7 +5,8 @@ Balanced.TxnDescriptionComponent = Ember.Component.extend({
 			credit: type === 'credit',
 			debit: type === 'debit',
 			refund: type === 'refund',
-			hold: type === 'hold'
+			hold: type === 'hold',
+			reversal: type === 'reversal'
 		};
 	}.property('transaction.type_name')
 });

@@ -28,12 +28,12 @@
   <label class="key">Txn #</label>
   <span class="value">{{ transaction.transaction_number }}</span>
 </div>
-{{#unless type.refund}}
+{{#unless type.refund}}{{#unless type.reversal}}
   <div class="key-value-row">
     <label class="key">On statement as</label>
     <span class="value">{{ transaction.appears_on_statement_as }}</span>
   </div>
-{{/unless}}
+{{/unless}}{{/unless}}
 <div class="key-value-row meta">
   <label class="key">Meta</label>
   <span class="value">

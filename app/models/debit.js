@@ -24,7 +24,9 @@ Balanced.Debit = Balanced.Transaction.extend({
 		this.get('refunds').then(function(refunds) {
 			var accumulator = 0;
 			refunds.forEach(function(refund) {
-				accumulator += refund.amount;
+				if(refund.get('status') !== 'failed') {
+					accumulator += refund.amount;
+				}
 			});
 			_this.set('refund_amount', accumulator);
 		});
