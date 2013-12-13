@@ -23,16 +23,16 @@ Balanced.Debit = Balanced.Transaction.extend({
 		var _this = this;
 		try {
 			this.get('refunds').then(function(refunds) {
-				var accumulator = 0;
-				refunds.forEach(function(refund) {
-					if(refund.get('status') !== 'failed') {
-						accumulator += refund.amount;
+				_this.set('refund_amount', refunds.reduce(function(amount, refund) {
+					if (refund.get('status') !== 'failed') {
+						return amount + refund.get('amount');
+					} else {
+						return amount;
 					}
-				});
-				_this.set('refund_amount', accumulator);
+				}, 0));
 			});
-		} catch(e) {
-			_this.set('refund_amount', 0);
+		} catch (e) {
+			this.set('refund_amount', 0);
 		}
 	}.on('didLoad'),
 
