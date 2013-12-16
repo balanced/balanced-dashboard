@@ -125,19 +125,25 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 						self.trigger('didCreate');
 					}, function(err) {
-						self.setProperties({
-							displayErrorDescription: true,
-							isSaving: false,
-							errorDescription: 'There was an error processing your card. ' + Ember.get(err, 'errorDescription')
+						Ember.run.next(function() {
+							self.setProperties({
+								displayErrorDescription: true,
+								isSaving: false,
+								errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
+								validationErrors: Ember.get(err, 'validationErrors') || {}
+							});
 						});
 
 						promise.reject();
 					});
 				}, function(err) {
-					self.setProperties({
-						displayErrorDescription: true,
-						isSaving: false,
-						errorDescription: 'There was an error processing your card. ' + Ember.get(err, 'errorDescription')
+					Ember.run.next(function() {
+						self.setProperties({
+							displayErrorDescription: true,
+							isSaving: false,
+							errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
+							validationErrors: Ember.get(err, 'validationErrors') || {}
+						});
 					});
 
 					promise.reject();
