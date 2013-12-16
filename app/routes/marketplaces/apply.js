@@ -16,7 +16,6 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 	},
 	actions: {
 		signup: function(models) {
-			var deferred = Ember.Deferred.create();
 			var self = this;
 
 			function onApplyError(err) {
