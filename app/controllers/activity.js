@@ -3,6 +3,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 	sortField: 'created_at',
 	sortOrder: 'desc',
+	limit: 50,
 
 	baseClassSelector: '#activity',
 
