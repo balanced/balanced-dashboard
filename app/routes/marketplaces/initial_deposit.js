@@ -18,7 +18,7 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
 			var self = this;
 
 			card.tokenizeAndCreate().then(function() {
-				debit.set('uri', marketplace.get('owner_customer.debits_uri'));
+				debit.set('uri', card.get('debits_uri'));
 				debit.set('source_uri', card.get('uri'));
 				debit.save().then(function(debit) {
 					self.transitionTo('activity', marketplace);
