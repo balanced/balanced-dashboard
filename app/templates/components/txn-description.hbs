@@ -1,17 +1,8 @@
 <div class="key-value-row">
   <label class="key">Status</label>
-  <span {{bindAttr class=":value transaction.status"}}>{{ transaction.status_description }}</span>
+  <span {{bindAttr class=":value transaction.status"}}>{{ transaction.status_description }}{{#if type.credit}}{{#if transaction.is_pending}}
+          <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>{{/if}}{{/if}}</span>
 </div>
-{{#if type.credit}}
-  {{#unless transaction.is_failed}}
-    <div class="key-value-row">
-      <label class="key">Expected</label>
-      <span class="value">
-        <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>
-      </span>
-    </div>
-  {{/unless}}
-{{/if}}
 <div class="key-value-row">
   <label class="key">Created</label>
   <span class="value">{{humanReadableDateLong transaction.created_at }}</span>

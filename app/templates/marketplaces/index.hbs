@@ -11,7 +11,7 @@
 
                     <h1>Add/Remove Marketplaces</h1>
                     <div class="marketplace-list production">
-                        <div class="subhead1a">Production marketplace</div>
+                        <div class="label7a">Production marketplace</div>
                             <ul>
                                 {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
                                     {{#if user_marketplace.production }}
@@ -36,7 +36,7 @@
                             </ul>
                         </div>
                         <div class="marketplace-list test">
-                            <div class="subhead1a">Test marketplaces</div>
+                            <div class="label7a">Test marketplaces</div>
                             <ul>
                                 {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
                                     {{#unless user_marketplace.production }}
@@ -58,7 +58,7 @@
                             </ul>
                         </div>
                         <div class="marketplace-list register">
-                            <div class="subhead1a">Register</div>
+                            <div class="label7a">Register</div>
                             <ul>
                                 <li>
                                     <div class="icon"></div>
