@@ -99,7 +99,17 @@ Balanced.Auth = (function() {
 			name: name,
 			secret: secret
 		});
-		auth.get('user').get('user_marketplaces').pushObject(guestMarketplace);
+
+		var userMarketplaces = auth.get('user.user_marketplaces');
+		equivalentMarketplace = userMarketplaces.find(function(item) {
+			return item.isEqual(guestMarketplace)
+		});
+
+		if (equivalentMarketplace) {
+			return;
+		}
+
+		userMarketplaces.pushObject(guestMarketplace);
 	};
 
 	auth.signOut = function() {

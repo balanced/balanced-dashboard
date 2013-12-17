@@ -2,9 +2,7 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
 	user_marketplace_for_id: function(id) {
-		return this.get('user_marketplaces').find(function(userMarketplace) {
-			return userMarketplace.get('id') === id;
-		});
+		return this.get('user_marketplaces').findBy('id', id);
 	},
 
 	gravatar: function() {
