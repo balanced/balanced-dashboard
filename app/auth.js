@@ -101,8 +101,8 @@ Balanced.Auth = (function() {
 		});
 
 		var userMarketplaces = auth.get('user.user_marketplaces');
-		equivalentMarketplace = userMarketplaces.find(function(item) {
-			return item.isEqual(guestMarketplace)
+		var equivalentMarketplace = userMarketplaces.find(function(item) {
+			return item.isEqual(guestMarketplace);
 		});
 
 		if (equivalentMarketplace) {
