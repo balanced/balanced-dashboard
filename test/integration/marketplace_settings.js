@@ -336,7 +336,6 @@ test('can create cards', function(assert) {
 			});
 		})
 		.then(function() {
-			console.log(tokenizingStub.getCall(0).args)
 			assert.ok(tokenizingStub.calledWith(sinon.match({
 				name: "TEST",
 				number: "1234123412341234",
