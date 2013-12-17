@@ -377,3 +377,11 @@ test('can add card with postal code', function(assert) {
 			balanced.card.create.restore();
 		});
 });
+
+test('verification renders properly against rev1', function(assert) {
+	visit(Testing.CUSTOMER_ROUTE)
+		.then(function() {
+			assert.ok($('.verification-status').hasClass('verified'), 'Customer has been verified');
+			assert.equal($('.verification-status').text().trim(), 'VERIFIED', 'Customer has been verified');
+		});
+});
