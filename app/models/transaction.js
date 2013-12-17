@@ -42,5 +42,20 @@ Balanced.Transaction = Balanced.Model.extend({
 			});
 		}
 		return metaArray;
-	}.property('meta')
+	}.property('meta'),
+
+	status_description: function() {
+		if (this.get('status') === 'failed') {
+			if (this.get('failure_reason') || this.get('failure_reason_code')) {
+				return this.get('failure_reason') || this.get('failure_reason_code');
+			}
+			return 'The transaction failed, no failure reason was given.';
+		} else {
+			return Ember.String.capitalize(this.get('status'));
+		}
+	}.property('status', 'failure_reason', 'failure_reason_code'),
+
+	is_failed: function() {
+		return this.get('status') === 'failed';
+	}.property('status')
 });

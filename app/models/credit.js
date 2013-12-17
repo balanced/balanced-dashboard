@@ -28,11 +28,15 @@ Balanced.Credit = Balanced.Transaction.extend({
 		} else if (this.get('status') === 'succeeded') {
 			return "Funds are now available. If there is an issue with the bank account, a \"Failed\" status and rejection reason will be displayed here.";
 		} else if (this.get('status') === 'failed') {
+			if (this.get('failure_reason') || this.get('failure_reason_code')) {
+				return this.get('failure_reason') || this.get('failure_reason_code');
+			}
 			return "Update the customer account with corrected bank account information. Then resubmit the credit.";
 		} else {
 			return undefined;
 		}
-	}.property('status')
+	}.property('status', 'failure_reason', 'failure_reason_code'),
+
 });
 
 Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');

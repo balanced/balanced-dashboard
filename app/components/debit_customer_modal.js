@@ -1,10 +1,7 @@
-Balanced.DebitCustomerModalComponent = Ember.Component.extend({
-	submitAction: 'submitDebitCustomer',
-	classNames: ['modal-container'],
+require('app/components/modal');
 
-	willDestroyElement: function() {
-		$('#debit-customer').modal('hide');
-	},
+Balanced.DebitCustomerModalComponent = Balanced.ModalComponent.extend({
+	submitAction: 'submitDebitCustomer',
 
 	dollar_amount: null,
 
@@ -19,16 +16,8 @@ Balanced.DebitCustomerModalComponent = Ember.Component.extend({
 				order: this.get('order.href')
 			});
 
-			debit.on('didCreate', function() {
-				$('#debit-customer').modal('hide');
-			});
-
 			this.set('dollar_amount', null);
-			this.set('model', debit);
-
-			$('#debit-customer').modal({
-				manager: this.$()
-			});
+			this._super(debit);
 		},
 
 		save: function() {
@@ -52,8 +41,7 @@ Balanced.DebitCustomerModalComponent = Ember.Component.extend({
 				return;
 			}
 			debit.set('amount', cents);
-
-			this.sendAction('submitAction', debit);
+			this._super(debit);
 		}
 	},
 

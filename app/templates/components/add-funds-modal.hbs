@@ -23,15 +23,16 @@
                     optionLabelPath="content.description"
                     viewName="source_uri"
                     class="span8"
+                    name="source_uri"
                 }}
             </div>
 
             <div class="control-group">
-                <label class="inline">Account holder's name</label> {{view.selected_bank_account.name}}
+                <label class="inline">Account holder's name</label> {{view.source.name}}
             </div>
 
             <div class="control-group">
-                <label class="inline">Bank</label> {{view.selected_bank_account.bank_name}}
+                <label class="inline">Bank</label> {{view.source.bank_name}}
             </div>
 
             <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
@@ -62,3 +63,4 @@
         </div>
     </form>
 </div>
+<a class="btn add-funds-btn" {{action open}}>Add funds</a>

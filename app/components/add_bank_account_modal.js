@@ -1,6 +1,6 @@
-Balanced.AddBankAccountModalView = Balanced.View.extend({
-	templateName: 'modals/add_bank_account',
+require('app/components/modal');
 
+Balanced.AddBankAccountModalComponent = Balanced.ModalComponent.extend({
 	actions: {
 		open: function() {
 			var bankAccount = Balanced.BankAccount.create({
@@ -9,11 +9,10 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 				routing_number: '',
 				type: ''
 			});
-			this.set('model', bankAccount);
-			$('#add-bank-account').modal({
-				manager: this.$()
-			});
-			$('#add-bank-account form input:radio[name=account_type][value=checking]').prop('checked', true);
+
+			this._super(bankAccount);
+
+			this.$('form input:radio[name=account_type][value=checking]').prop('checked', true);
 		},
 
 		save: function() {
@@ -29,7 +28,7 @@ Balanced.AddBankAccountModalView = Balanced.View.extend({
 
 			bankAccount.tokenizeAndCreate(this.get('customer.id')).then(function() {
 				self.get('customer.bank_accounts').reload();
-				$('#add-bank-account').modal('hide');
+				self.hide();
 			});
 		}
 	}

@@ -44,9 +44,11 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return (label) ? label : labelMapping.DEFAULT;
 	},
 
-	show_download_button: function() {
-		return this.get('controller.category') === 'search';
-	}.property('controller.category')
+	show_download_button: false
+	// TODO: Re-enable download link
+	// function() {
+	// return this.get('controller.category') === 'search';
+	// }.property('controller.category')
 });
 
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({

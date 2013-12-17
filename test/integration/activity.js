@@ -29,7 +29,8 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Activity'), -1,
 				'Title is correct');
 
-			assert.ok($('#activity .download').length, "Download link is visible");
+			// TODO: Re-enable download link
+			// assert.ok($('#activity .download').length, "Download link is visible");
 		});
 });
 
@@ -48,6 +49,7 @@ test('Click load more shows 2 more and hides load more', function(assert) {
 test('add funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	var bankAccounts = Balanced.BankAccount.findAll();
+	var fundingInstrumentUri;
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
@@ -57,7 +59,11 @@ test('add funds', function(assert) {
 			start();
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
-			click('.activity-escrow-box .btn:eq(0)')
+			// select the bank account
+			fundingInstrumentUri = $("#add-funds select[name='source_uri'] option").eq(0).val();
+			$("#add-funds select[name='source_uri']").val(fundingInstrumentUri);
+
+			click('.activity-escrow-box .add-funds-btn')
 				.then(function() {
 					assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
@@ -67,7 +73,7 @@ test('add funds', function(assert) {
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
 				.then(function() {
 					assert.ok(spy.calledOnce);
-					assert.ok(spy.calledWith(Balanced.Debit, '/customers/' + Testing.CUSTOMER_ID + '/debits'));
+					assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits'));
 					assert.equal(spy.getCall(0).args[2].amount, 5555);
 					assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
 				});
@@ -77,22 +83,31 @@ test('add funds', function(assert) {
 
 test('add funds only adds once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
+	var bankAccounts = Balanced.BankAccount.findAll();
 
-	visit(Testing.ACTIVITY_ROUTE)
-		.click('.activity-escrow-box .btn:eq(0)')
-		.fillIn('#add-funds input', '55.55')
-		.click('#add-funds .modal-footer button[name="modal-submit"]')
-		.click('#add-funds .modal-footer button[name="modal-submit"]')
-		.click('#add-funds .modal-footer button[name="modal-submit"]')
-		.click('#add-funds .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
+	visit(Testing.ACTIVITY_ROUTE).then(function() {
+		setupMarketplaceController(bankAccounts);
+		stop();
+
+		Ember.run.next(function() {
+			start();
+			click('.activity-escrow-box .add-funds-btn')
+				.fillIn('#add-funds input', '55.55')
+				.click('#add-funds .modal-footer button[name="modal-submit"]')
+				.click('#add-funds .modal-footer button[name="modal-submit"]')
+				.click('#add-funds .modal-footer button[name="modal-submit"]')
+				.click('#add-funds .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(stub.calledOnce);
+				});
 		});
+	});
 });
 
 test('withdraw funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	var bankAccounts = Balanced.BankAccount.findAll();
+	var fundingInstrumentUri;
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
@@ -102,7 +117,11 @@ test('withdraw funds', function(assert) {
 			start();
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
-			click('.activity-escrow-box .btn:eq(1)')
+			// select the bank account
+			fundingInstrumentUri = $("#withdraw-funds select[name='destination_uri'] option").eq(0).val();
+			$("#withdraw-funds select[name='destination_uri']").val(fundingInstrumentUri);
+
+			click('.activity-escrow-box .withdraw-funds-btn')
 				.then(function() {
 					assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
@@ -112,7 +131,7 @@ test('withdraw funds', function(assert) {
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 				.then(function() {
 					assert.ok(spy.calledOnce);
-					assert.ok(spy.calledWith(Balanced.Credit, '/customers/' + Testing.CUSTOMER_ID + '/credits'));
+					assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits'));
 					assert.equal(spy.getCall(0).args[2].amount, 5555);
 					assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
 				});
@@ -130,7 +149,7 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 
 		Ember.run.next(function() {
 			start();
-			click('.activity-escrow-box .btn:eq(1)')
+			click('.activity-escrow-box .withdraw-funds-btn')
 				.fillIn('#withdraw-funds input', '55.55')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
@@ -143,6 +162,8 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 	});
 });
 
+// TODO: Re-enable download link
+/*
 test('download activity', function(assert) {
 	assert.equal($(".alert span").length, 0);
 
@@ -185,6 +206,7 @@ test('download activity only runs once despite multiple clicks', function(assert
 			assert.ok(stub.calledOnce);
 		});
 });
+*/
 
 test('transactions date sort has two states', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)

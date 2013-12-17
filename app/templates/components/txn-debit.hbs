@@ -29,36 +29,7 @@
                     {{edit-transaction-modal transaction=debit}}
                   </h3>
                 </header>
-                <div>
-                  <div class="key-value-row">
-                    <label class="key">Created</label>
-                    <span class="value">{{humanReadableDateLong debit.created_at }}</span>
-                  </div>
-                  <div class="key-value-row">
-                    <label class="key">Internal Description</label>
-                    <span class="value">{{ debit.description }}</span>
-                  </div>
-                  <div class="key-value-row">
-                    <label class="key">ID</label>
-                    <span class="value">{{ debit.id }}</span>
-                  </div>
-                  <div class="key-value-row">
-                    <label class="key">Txn #</label>
-                    <span class="value">{{ debit.transaction_number }}</span>
-                  </div>
-                  <div class="key-value-row">
-                    <label class="key">On statement as</label>
-                    <span class="value">{{ debit.appears_on_statement_as }}</span>
-                  </div>
-                  <div class="key-value-row meta">
-                    <label class="key">Meta</label>
-                    <span class="value">
-                      {{#each meta in debit.meta_array}}
-                        {{ meta.key }}: {{ meta.value }}<br/>
-                      {{/each}}
-                    </span>
-                  </div>
-                </div>
+                {{txn-description transaction=debit}}
               </div>
             </section>
             {{txn-funding-instrument funding_instrument=debit.source}}

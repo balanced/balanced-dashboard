@@ -302,6 +302,20 @@ test('can add card', function(assert) {
 			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
+	var input = {
+		number: "1234123412341234",
+		expiration_month: 1,
+		expiration_year: 2020,
+		security_code: "123",
+		name: "TEST"
+	};
+	var expected = {
+		number: "1234123412341234",
+		expiration_month: 1,
+		expiration_year: 2020,
+		cvv: "123",
+		name: "TEST"
+	};
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
@@ -312,21 +326,11 @@ test('can add card', function(assert) {
 		.fillIn('#add-card .modal-body select[name="expiration_year"]', '2020')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			var input = {
-				number: "1234123412341234",
-				expiration_month: 1,
-				expiration_year: 2020,
-				security_code: "123",
-				name: "TEST"
-			};
 
 			// this tests balanced.js
 			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(sinon.match(input)));
+			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
 			balanced.card.create.restore();
-
-			//assert.ok(stub.calledOnce);
-			//assert.ok(stub.calledWith(Balanced.Card, '/cards', sinon.match(input)));
 		});
 });
 
@@ -339,6 +343,22 @@ test('can add card with postal code', function(assert) {
 			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
+	var input = {
+		number: "1234123412341234",
+		expiration_month: 1,
+		expiration_year: 2020,
+		security_code: "123",
+		name: "TEST",
+		postal_code: "94612"
+	};
+	var expected = {
+		number: "1234123412341234",
+		expiration_month: 1,
+		expiration_year: 2020,
+		cvv: "123",
+		name: "TEST",
+		postal_code: "94612"
+	};
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
@@ -350,22 +370,11 @@ test('can add card with postal code', function(assert) {
 		.fillIn('#add-card .modal-body input[name="postal_code"]', '94612')
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			var input = {
-				number: "1234123412341234",
-				expiration_month: 1,
-				expiration_year: 2020,
-				security_code: "123",
-				name: "TEST",
-				postal_code: "94612"
-			};
 
 			// this tests balanced.js
 			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(sinon.match(input)));
+			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
 			balanced.card.create.restore();
-
-			//assert.ok(stub.calledOnce);
-			//assert.ok(stub.calledWith(Balanced.Card, '/cards', sinon.match(input)));
 		});
 });
 

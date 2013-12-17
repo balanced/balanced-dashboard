@@ -339,9 +339,10 @@ test('can create cards', function(assert) {
 			assert.ok(tokenizingStub.calledWith(sinon.match({
 				name: "TEST",
 				number: "1234123412341234",
-				security_code: "123",
+				cvv: "123",
 				expiration_month: 1,
-				expiration_year: 2020
+				expiration_year: 2020,
+				postal_code: ""
 			})));
 			assert.ok(tokenizingStub.calledOnce);
 			/*assert.ok(createSpy.calledOnce);

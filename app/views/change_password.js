@@ -60,6 +60,11 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 			user.save().then(function() {
 				$(".change-password-modal.in").modal('hide');
 				Balanced.Auth.get('user').send('reload');
+			}, function() {
+				user.setProperties({
+					displayErrorDescription: true,
+					errorDescription: 'Oops, we failed to change your password. Please try again.'
+				});
 			});
 		}
 	}
