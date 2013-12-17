@@ -1,7 +1,5 @@
 if (typeof Raven !== typeof undefined) {
-	Raven.config('https://c5e331a1bd9c47af85d481e46b415dab@app.getsentry.com/6353').install();
-
-	function reportError(error) {
+	var reportError = function(error) {
 		var realError = error.stack || error;
 
 		if (!ENV.BALANCED.DEBUG) {
@@ -23,7 +21,9 @@ if (typeof Raven !== typeof undefined) {
 		}
 
 		Ember.Logger.error(realError);
-	}
+	};
+
+	Raven.config('https://c5e331a1bd9c47af85d481e46b415dab@app.getsentry.com/6353').install();
 
 	Ember.onerror = reportError;
 	Ember.RSVP.configure('onerror', reportError);
