@@ -80,6 +80,19 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
+		function errorCreatingCard(err) {
+			Ember.run.next(function() {
+				self.setProperties({
+					displayErrorDescription: true,
+					isSaving: false,
+					errorDescription: 'There was an error processing your card. ' + (Ember.get(err, 'errorDescription') || ''),
+					validationErrors: Ember.get(err, 'validationErrors') || {}
+				});
+			});
+
+			promise.reject();
+		}
+
 		this.set('isSaving', true);
 		var cardData = {
 			number: this.get('number'),
@@ -124,30 +137,8 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 						});
 
 						self.trigger('didCreate');
-					}, function(err) {
-						Ember.run.next(function() {
-							self.setProperties({
-								displayErrorDescription: true,
-								isSaving: false,
-								errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
-								validationErrors: Ember.get(err, 'validationErrors') || {}
-							});
-						});
-
-						promise.reject();
-					});
-				}, function(err) {
-					Ember.run.next(function() {
-						self.setProperties({
-							displayErrorDescription: true,
-							isSaving: false,
-							errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
-							validationErrors: Ember.get(err, 'validationErrors') || {}
-						});
-					});
-
-					promise.reject();
-				});
+					}, errorCreatingCard);
+				}, errorCreatingCard);
 			}
 		});
 

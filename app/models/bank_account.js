@@ -56,6 +56,19 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
+		function errorCreatingBankAccount(err) {
+			Ember.run.next(function() {
+				self.setProperties({
+					displayErrorDescription: true,
+					isSaving: false,
+					errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
+					validationErrors: Ember.get(err, 'validationErrors') || {}
+				});
+			});
+
+			promise.reject();
+		}
+
 		this.set('isSaving', true);
 		var bankAccountData = {
 			type: this.get('type'),
@@ -96,30 +109,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 						});
 
 						self.trigger('didCreate');
-					}, function(err) {
-						Ember.run.next(function() {
-							self.setProperties({
-								displayErrorDescription: true,
-								isSaving: false,
-								errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
-								validationErrors: Ember.get(err, 'validationErrors') || {}
-							});
-						});
-
-						promise.reject();
-					});
-				}, function(err) {
-					Ember.run.next(function() {
-						self.setProperties({
-							displayErrorDescription: true,
-							isSaving: false,
-							errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
-							validationErrors: Ember.get(err, 'validationErrors') || {}
-						});
-					});
-
-					promise.reject();
-				});
+					}, errorCreatingBankAccount);
+				}, errorCreatingBankAccount);
 			}
 		});
 
