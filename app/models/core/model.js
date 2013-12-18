@@ -184,6 +184,11 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		}
 
 		return undefined;
+	},
+
+	isEqual: function(a, b) {
+		b = b || this;
+		return Ember.get(a, 'id') === Ember.get(b, 'id');
 	}
 });
 

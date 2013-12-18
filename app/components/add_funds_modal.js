@@ -48,6 +48,10 @@ Balanced.AddFundsModalComponent = Balanced.ModalComponent.extend({
 			var source = this.get('source');
 			var cents = null;
 
+			if (!source) {
+				return;
+			}
+
 			try {
 				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {

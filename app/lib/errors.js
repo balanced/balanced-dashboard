@@ -1,7 +1,7 @@
 if (typeof Raven !== typeof undefined) {
 	Raven.config('https://c5e331a1bd9c47af85d481e46b415dab@app.getsentry.com/6353').install();
 
-	Ember.onerror = function(error) {
+	var reportError = function(error) {
 		if (!error) {
 			return;
 		}
@@ -13,12 +13,13 @@ if (typeof Raven !== typeof undefined) {
 				text: error.message || realError.toString(),
 				location: window.location.toString()
 			};
+
 			if (Balanced.currentMarketplace) {
 				data.marketplaceId = Balanced.currentMarketplace.get('id');
 				data.marketplaceName = Balanced.currentMarketplace.get('name');
 			}
 
-			Raven.captureException(realError, {
+			Raven.captureException(error, {
 				tags: data
 			});
 
@@ -27,4 +28,9 @@ if (typeof Raven !== typeof undefined) {
 
 		Ember.Logger.error(realError);
 	};
+
+	Raven.config('https://c5e331a1bd9c47af85d481e46b415dab@app.getsentry.com/6353').install();
+
+	Ember.onerror = reportError;
+	Ember.RSVP.configure('onerror', reportError);
 }
