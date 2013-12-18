@@ -46,6 +46,11 @@ body .modal-backdrop.fade.in {
   .background-clip(padding-box);
   // Remove focus outline from opened modal
   outline: none;
+  .alert-error {
+    background-color: transparent;
+    border-color: transparent;
+    color: #D9002A;
+  }
   &.fade {
     .transition(e('opacity .3s linear, top .3s ease-out'));
     top: -25%;
@@ -250,7 +255,15 @@ body .modal-backdrop.fade.in {
 }
 
 .control-group {
-
+  &.error {
+    input, select, textarea {
+      border-color: #D9002A;
+      background-color: #F6C5B9;
+    }
+    .control-label {
+      color: #D9002A;
+    }
+  }
   &:first-of-type {
     margin: 0;
   }
