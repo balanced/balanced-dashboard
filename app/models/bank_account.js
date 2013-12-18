@@ -82,9 +82,9 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 			if (response.errors) {
 				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
 				for(var property in validationErrors) {
-					var start = validationErrors[property].search(/-\s/) + 2;
+					var start = validationErrors[property].search(/-\s/);
 					if (start !== -1) {
-						validationErrors[property] = validationErrors[property].slice(start);
+						validationErrors[property] = validationErrors[property].slice(start + 2);
 					}
 				}
 				self.setProperties({
