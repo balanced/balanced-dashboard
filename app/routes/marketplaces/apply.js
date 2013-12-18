@@ -18,6 +18,10 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 		signup: function(models) {
 			var self = this;
 
+			function onApplyError(err) {
+				models.marketplace.trigger('becameError', {});
+			}
+
 			function persistMarketplace(user) {
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();
@@ -63,7 +67,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 							// we don't actually care if the bank account creates successfully, so we can go on to the initial deposit
 							self.transitionTo('marketplace.initial_deposit', marketplace);
-						});
+						}, onApplyError);
 					});
 				});
 			}
@@ -73,7 +77,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 				models.user.save().then(function(user) {
 					Balanced.Auth.signIn(models.user.email_address, password).then(function() {
 						persistMarketplace(Balanced.Auth.get('user'));
-					});
+					}, onApplyError);
 				});
 			} else {
 				persistMarketplace(Balanced.Auth.get('user'));

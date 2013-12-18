@@ -5,7 +5,12 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 
 	marketplace: function() {
 		return Balanced.Marketplace.find(this.get('uri'));
-	}.property('uri')
+	}.property('uri'),
+
+	isEqual: function(a, b) {
+		b = b || this;
+		return Ember.get(a, 'secret') === Ember.get(b, 'secret');
+	}
 });
 
 Balanced.TypeMappings.addTypeMapping('user_marketplace', 'Balanced.UserMarketplace');

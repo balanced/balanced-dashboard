@@ -67,7 +67,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
 				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
 
-				if (!userMarketplace || !userMarketplace.get('secret')) {
+				if (!userMarketplace) {
 					if (marketplaceId) {
 						Ember.Logger.warn("Couldn't find user marketplace for ID %@ (url: %@)".fmt(marketplaceId, url));
 
@@ -84,6 +84,8 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 							return Balanced.NET.ajax(settings);
 						});
 					}
+				} else if (!userMarketplace.get('secret')) {
+					userMarketplace.reload();
 				} else {
 					var secret = userMarketplace.get('secret');
 					settings.headers = settings.headers || {};
