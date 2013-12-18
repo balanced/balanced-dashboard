@@ -1,5 +1,9 @@
 if (typeof Raven !== typeof undefined) {
 	var reportError = function(error) {
+		if (!error) {
+			return;
+		}
+
 		var realError = error.stack || error;
 
 		if (!ENV.BALANCED.DEBUG) {
