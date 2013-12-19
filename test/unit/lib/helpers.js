@@ -308,7 +308,7 @@ test('formatError', function(assert) {
 		undefined,
 		'Invalid field [routing_number] - "" is not a valid routing number',
 		'Invalid field [routing_number] --- "" is not a valid routing number',
-		'"123123123adf" must have length <= 9'
+		'"123456789abc" must have length <= 9'
 	];
 
 	var expected = [
@@ -316,7 +316,7 @@ test('formatError', function(assert) {
 		undefined,
 		'"" is not a valid routing number',
 		'"" is not a valid routing number',
-		'"123123123adf" must have length <= 9'
+		'"123456789abc" must have length <= 9'
 	];
 
 	for (var i = 0; i < error.length; i++) {
