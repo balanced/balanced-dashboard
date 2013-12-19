@@ -81,12 +81,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		balanced.bankAccount.create(bankAccountData, function(response) {
 			if (response.errors) {
 				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
-				for(var property in validationErrors) {
-					var start = validationErrors[property].search(/-\s/);
-					if (start !== -1) {
-						validationErrors[property] = validationErrors[property].slice(start + 2);
-					}
-				}
 				self.setProperties({
 					validationErrors: validationErrors,
 					isSaving: false
