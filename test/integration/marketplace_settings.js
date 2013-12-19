@@ -196,6 +196,7 @@ test('can fail at creating bank accounts', function(assert) {
 			balanced.bankAccount.create.restore();
 
 			assert.ok($('#add-bank-account .modal-body input[name="routing_number"]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
+			assert.equal($('#add-bank-account .modal-body input[name="routing_number"]').next().text().trim(), '"321171184abc" must have length <= 9');
 		});
 });
 

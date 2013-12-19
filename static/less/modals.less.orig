@@ -58,6 +58,11 @@ body .modal-backdrop.fade.in {
   &.fade.in {
     top: 10%;
   }
+  .alert-error {
+    background-color: transparent;
+    border-color: transparent;
+    color: @imperialRed100;
+  }
 }
 
 .modal-header {
@@ -264,6 +269,10 @@ body .modal-backdrop.fade.in {
       color: @imperialRed100;
     }
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> c20af80dc8cc3ad5083ffc75d4fcffbfc1854bf2
   &:first-of-type {
     margin: 0;
   }
