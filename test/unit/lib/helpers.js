@@ -319,7 +319,7 @@ test('formatError', function(assert) {
 		'"123123123adf" must have length <= 9'
 	];
 
-	for (var i = 0; i < number.length; i++) {
+	for (var i = 0; i < error.length; i++) {
 		assert.equal(Balanced.Utils.formatError(error[i]), expected[i]);
 	}
 });
