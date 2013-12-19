@@ -10,16 +10,19 @@
         <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
             <label>Card holder's name</label>
             {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
+            <div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.name}}</div>
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.number:error"}}>
             <label>Card Number</label>
             {{view Ember.TextField valueBinding="view.model.number" name="number" class="full"}}
+            <div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.number}}</div>
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.security_code:error"}}>
             <label>Security Code</label>
             {{view Ember.TextField valueBinding="view.model.security_code" name="security_code" class="full"}}
+            <div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.security_code}}</div>
         </div>
 
         <div {{bindAttr class=":control-group view.expiration_error:error"}}>
@@ -36,6 +39,7 @@
                 prompt="Year"
                 name="expiration_year"
             }}
+            <div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.expiration_month}}</div>
         </div>
 
         <div {{bindAttr class=":control-group view.model.validationErrors.postal_code:error"}}>

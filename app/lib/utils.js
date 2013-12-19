@@ -103,6 +103,16 @@ Balanced.Utils = Ember.Namespace.create({
 		return number;
 	},
 
+	formatError: function(error) {
+		if (error !== null && error !== undefined) {
+			var split = error.search(/-\s/);
+			if (split !== -1) {
+				return error.slice(split + 2);
+			}
+		}
+		return error;
+	},
+
 	capitalize: function(str) {
 		if (!str) {
 			return str;
