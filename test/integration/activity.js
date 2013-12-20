@@ -29,8 +29,7 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Activity'), -1,
 				'Title is correct');
 
-			// TODO: Re-enable download link
-			// assert.ok($('#activity .download').length, "Download link is visible");
+      assert.ok($('#activity .download').length, "Download link is visible");
 		});
 });
 
@@ -162,8 +161,6 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 	});
 });
 
-// TODO: Re-enable download link
-/*
 test('download activity', function(assert) {
 	assert.equal($(".alert span").length, 0);
 
@@ -184,8 +181,7 @@ test('download activity', function(assert) {
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
-				email_address: "test@example.com",
-				uri: searchUri
+				email_address: "test@example.com"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
@@ -206,7 +202,6 @@ test('download activity only runs once despite multiple clicks', function(assert
 			assert.ok(stub.calledOnce);
 		});
 });
-*/
 
 test('transactions date sort has two states', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
