@@ -29,7 +29,7 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Activity'), -1,
 				'Title is correct');
 
-      assert.ok($('#activity .download').length, "Download link is visible");
+			assert.ok($('#activity .download').length, "Download link is visible");
 		});
 });
 

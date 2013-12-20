@@ -30,7 +30,6 @@ Balanced.DownloadModalView = Balanced.View.extend({
 		},
 
 		save: function() {
-			console.log(this.get('noURI'), this.get('model.uri'));
 			if (this.get('model.isSaving')) {
 				return;
 			}
