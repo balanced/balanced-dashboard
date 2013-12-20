@@ -1,18 +1,27 @@
 Balanced.DownloadModalView = Balanced.View.extend({
 	templateName: 'modals/download',
+	noURI: false,
 
 	actions: {
 		open: function() {
-			var uri = this.get('controller.results_uri') || this.getSearchUri();
+			var download;
 
-			// HACK - download service doesn't support rev1 URIs, so convert them to rev0 URIs
-			uri = '/v1' + uri;
-			uri = uri.replace(/card_hold/g, 'hold');
+			if (this.get('noURI')) {
+				download = Balanced.Download.create({
+					email_address: null
+				});
+			} else {
+				var uri = this.get('controller.results_uri') || this.getSearchUri();
 
-			var download = Balanced.Download.create({
-				uri: uri,
-				email_address: null
-			});
+				// HACK - download service doesn't support rev1 URIs, so convert them to rev0 URIs
+				uri = '/v1' + uri;
+				uri = uri.replace(/card_hold/g, 'hold');
+
+				download = Balanced.Download.create({
+					uri: uri,
+					email_address: null
+				});
+			}
 			this.set('model', download);
 
 			this.$('.modal').modal({

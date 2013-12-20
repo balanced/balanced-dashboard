@@ -6,6 +6,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	limit: 50,
 
 	baseClassSelector: '#activity',
+	noDownloadsUri: true,
 
 	actions: {
 		changeTypeFilter: function(type) {
@@ -47,7 +48,8 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 });
 
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
-	allowSortByNone: false
+	allowSortByNone: false,
+	noDownloadsUri: true
 });
 
 Balanced.ActivityOrdersController = Balanced.NestedActivityResultsControllers.extend({});
