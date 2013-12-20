@@ -303,25 +303,25 @@ test('formatNumber', function(assert) {
 });
 
 test('formatError', function(assert) {
-  var error = [
-    null,
-    undefined,
-    'Invalid field [routing_number] - "" is not a valid routing number',
-    'Invalid field [routing_number] --- "" is not a valid routing number',
-    '"123456789abc" must have length <= 9'
-  ];
+	var error = [
+		null,
+		undefined,
+		'Invalid field [routing_number] - "" is not a valid routing number',
+		'Invalid field [routing_number] --- "" is not a valid routing number',
+		'"123456789abc" must have length <= 9'
+	];
 
-  var expected = [
-    null,
-    undefined,
-    '"" is not a valid routing number',
-    '"" is not a valid routing number',
-    '"123456789abc" must have length <= 9'
-  ];
+	var expected = [
+		null,
+		undefined,
+		'"" is not a valid routing number',
+		'"" is not a valid routing number',
+		'"123456789abc" must have length <= 9'
+	];
 
-  for (var i = 0; i < error.length; i++) {
-    assert.equal(Balanced.Utils.formatError(error[i]), expected[i]);
-  }
+	for (var i = 0; i < error.length; i++) {
+		assert.equal(Balanced.Utils.formatError(error[i]), expected[i]);
+	}
 });
 
 test('applyUriFilters', function(assert) {
