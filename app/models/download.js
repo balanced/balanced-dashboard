@@ -11,7 +11,8 @@ Balanced.Download.reopenClass({
 	serializer: Balanced.Rev0Serializer.extend({
 		_propertiesMap: function(record) {
 			var obj = {
-				email_address: record.email_address
+				email_address: record.email_address,
+				uri: ''
 			};
 
 			if (record.uri) {
