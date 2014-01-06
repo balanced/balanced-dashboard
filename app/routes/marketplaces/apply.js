@@ -68,7 +68,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 							// we don't actually care if the bank account creates successfully, so we can go on to the initial deposit
 							self.transitionTo('marketplace.initial_deposit', marketplace);
 						}, onApplyError);
+					}, function(error) {
+						self.set('controller.unknownError', true);
 					});
+				}, function(error) {
+					self.set('controller.unknownError', true);
 				});
 			}
 

@@ -2,6 +2,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	isLoading: false,
 	kycError: false,
+	unknownError: false,
 	termsAndConditions: false,
 
 	actions: {
@@ -24,6 +25,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			}
 			if (model.validate() && this.get('termsAndConditions')) {
 				this.set('kycError', false);
+				this.set('unknownError', false);
 				this.set('isLoading', true);
 
 				// persist the request to the server, this will ultimately

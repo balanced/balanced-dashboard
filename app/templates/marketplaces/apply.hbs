@@ -118,12 +118,19 @@
                                 </ol>
                             </div>
                         </fieldset>
-                            {{#view Balanced.View classBinding=":actions kycError:error"}}
+                            {{#view Balanced.View classBinding=":actions kycError:error unknownError:error"}}
                                 {{# if kycError }}
-                                <div class="kyc-error">
-                                    <span class="icon warning"></span>
-                                    <span class="message">We could not verify your identity. Please check your information again and resubmit.</span>
-                                </div>
+                                    <div class="kyc-error">
+                                        <span class="icon warning"></span>
+                                        <span class="message">We could not verify your identity. Please check your information again and resubmit.</span>
+                                    </div>
+                                {{else}}
+                                    {{# if unknownError }}
+                                        <div class="kyc-error">
+                                            <span class="icon warning"></span>
+                                            <span class="message">An unknown error occurred. Please check your information again and resubmit.</span>
+                                        </div>
+                                    {{/if}}
                                 {{/if}}
                                 {{# if isLoading }}
                                     <span class="loader loading"></span> <span class="message">Verifying...</span>
