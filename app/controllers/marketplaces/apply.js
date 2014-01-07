@@ -145,9 +145,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		self.highlightError();
 	},
 
-	marketplaceFailure: function(unparsedJson) {
+	marketplaceFailure: function(json) {
 		var self = this;
-		var json = JSON.parse(unparsedJson);
+		json = typeof json === 'object' ? json : JSON.parse(json);
 		_.each(json.extras, function(value, key) {
 			self.get('validationErrors').add('marketplace.%@'.fmt(key), 'invalid', null, value);
 		});

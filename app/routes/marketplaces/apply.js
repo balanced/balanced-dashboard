@@ -19,8 +19,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 			var self = this;
 
 			function onApplyError(err) {
-				models.marketplace.trigger('becameError', {});
 				self.set('controller.unknownError', true);
+				Balanced.Analytics.trackEvent('applyError', {
+					request_id: err.requestId
+				});
+				models.marketplace.trigger('becameError', {});
 			}
 
 			function persistMarketplace(user) {
