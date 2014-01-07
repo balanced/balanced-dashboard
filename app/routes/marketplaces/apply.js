@@ -63,8 +63,8 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 										type: 'success',
 										message: 'We\'ve received your information. In the ' + 'meantime, you may fund your balance with your ' + 'credit card to transact right away.'
 									});
-								});
-							});
+								}, onApplyError);
+							}, onApplyError);
 
 							// we don't actually care if the bank account creates successfully, so we can go on to the initial deposit
 							self.transitionTo('marketplace.initial_deposit', marketplace);
