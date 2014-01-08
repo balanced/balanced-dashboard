@@ -27,13 +27,13 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 			}
 
 			function persistMarketplace(user) {
-				var marketplace = null;
+				var marketplace, apiKeySecret;
 
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();
 
 				models.apiKey.save().then(function(apiKey) {
-					var apiKeySecret = apiKey.get('secret');
+					apiKeySecret = apiKey.get('secret');
 					//  set the api key for this request
 					Balanced.Auth.setAPIKey(apiKeySecret);
 					var settings = {
@@ -50,9 +50,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 						secret: apiKeySecret
 					}).save();
 				}, onApplyError).then(function() {
-					Balanced.Auth.setAPIKey(apiKey.get('secret'));
+					Balanced.Auth.setAPIKey(apiKeySecret);
 					//  we need the api key to be associated with the user before we can create the bank account
-					return user.reload();
+					return new Ember.RSVP.Promise(function(resolve, reject) {
+						resolve(!user.get('isLoaded') ? null : user.reload());
+					});
 				}, onApplyError).then(function() {
 					//  create bank account
 					return models.bankAccount.tokenizeAndCreate(marketplace.get('owner_customer.id'));

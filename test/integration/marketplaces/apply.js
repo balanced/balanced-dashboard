@@ -1,5 +1,8 @@
 module('Balanced.Marketplaces.apply', {
 	setup: function() {
+
+		Testing.APPLY_ROUTE = '/marketplaces/apply';
+
 		Ember.run(function() {
 			// Set up Ember Auth with some BS values
 			Balanced.Auth.setAuthProperties(
@@ -9,7 +12,6 @@ module('Balanced.Marketplaces.apply', {
 				true,
 				false);
 		});
-		Testing.APPLY_ROUTE = '/marketplaces/apply';
 
 		if (balanced.bankAccount.create.restore) {
 			balanced.bankAccount.create.restore();
