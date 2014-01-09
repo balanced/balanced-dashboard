@@ -18,12 +18,43 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 		signup: function(models) {
 			var self = this;
 
-			function onApplyError(err) {
-				self.set('controller.unknownError', true);
+			function trackApplyError(err) {
 				Balanced.Analytics.trackEvent('applyError', {
-					request_id: err.requestId
+					request_id: err ? err.requestId : 'unknown',
+					err: err
 				});
-				models.marketplace.trigger('becameError', {});
+			}
+
+			function onUndeterminedError(err) {
+				self.set('controller.unknownError', true);
+				trackApplyError(err);
+			}
+
+			function onBankingError(err) {
+				trackApplyError(err);
+				models.bankAccount.trigger('becameError', err || {});
+			}
+
+			function onMarketplaceError(err) {
+				trackApplyError(err);
+				models.marketplace.trigger('becameError', err || {});
+			}
+
+			function onApiKeyError(err) {
+				trackApplyError(err);
+				models.apiKey.trigger('becameError', err || {});
+			}
+
+			function onBankAccountVerificationError(err) {
+				self.send('alert', {
+					type: 'error',
+					message: 'We couldn\'t verify your bank account. Please try manually verifying it from the marketplace settings page.'
+				});
+			}
+
+			function onUserError(err) {
+				trackApplyError(err);
+				models.user.trigger('becameError', err || {});
 			}
 
 			function persistMarketplace(user) {
@@ -42,23 +73,24 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 						}
 					};
 					return models.marketplace.save(settings);
-				}, onApplyError).then(function(response) {
+				}, onApiKeyError).then(function(response) {
+					// nb: this is a global variable
 					marketplace = response;
 					//  associate to login
 					return Balanced.UserMarketplace.create({
 						uri: user.api_keys_uri,
 						secret: apiKeySecret
 					}).save();
-				}, onApplyError).then(function() {
+				}, onApiKeyError).then(function() {
 					Balanced.Auth.setAPIKey(apiKeySecret);
 					//  we need the api key to be associated with the user before we can create the bank account
 					return new Ember.RSVP.Promise(function(resolve, reject) {
 						resolve(!user.get('isLoaded') ? null : user.reload());
 					});
-				}, onApplyError).then(function() {
+				}, onMarketplaceError).then(function() {
 					//  create bank account
 					return models.bankAccount.tokenizeAndCreate(marketplace.get('owner_customer.id'));
-				}, onApplyError).then(function(bankAccount) {
+				}, onUndeterminedError).then(function(bankAccount) {
 					// we don't know the bank account's
 					// verification uri until it's created so we
 					// are forced to create it here.
@@ -70,11 +102,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 							type: 'success',
 							message: 'We\'ve received your information. In the ' + 'meantime, you may fund your balance with your ' + 'credit card to transact right away.'
 						});
-					}, onApplyError);
+					}, onBankAccountVerificationError);
 
 					// we don't actually care if the bank account creates successfully, so we can go on to the initial deposit
 					self.transitionTo('marketplace.initial_deposit', marketplace);
-				}, onApplyError);
+				}, onBankingError);
 			}
 
 			if (models.user) {
@@ -82,7 +114,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 				models.user.save().then(function(user) {
 					Balanced.Auth.signIn(models.user.email_address, password).then(function() {
 						persistMarketplace(Balanced.Auth.get('user'));
-					}, onApplyError);
+					}, onUserError);
 				});
 			} else {
 				persistMarketplace(Balanced.Auth.get('user'));

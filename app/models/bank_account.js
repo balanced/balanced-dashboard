@@ -65,8 +65,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					validationErrors: Ember.get(err, 'validationErrors') || {}
 				});
 			});
-
-			promise.reject();
+			promise.reject(err);
 		}
 
 		this.set('isSaving', true);
@@ -94,7 +93,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					});
 				}
 
-				promise.reject();
+				promise.reject(validationErrors);
 			} else {
 				Balanced.BankAccount.find(response.bank_accounts[0].href)
 				// Now that it's been tokenized, we just need to associate it with the customer's account

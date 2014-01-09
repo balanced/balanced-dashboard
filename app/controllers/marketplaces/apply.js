@@ -36,14 +36,27 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 					marketplace = this._extractMarketplacePayload(),
 					bankAccount = this._extractBankAccountPayload();
 
-				if (user) {
-					user.one('becameInvalid', $.proxy(this.userFailure, this));
-					user.one('becameError', $.proxy(this.userFailure, this));
-				}
-				apiKey.one('becameInvalid', $.proxy(this.apiKeyFailure, this));
-				apiKey.one('becameError', $.proxy(this.apiKeyFailure, this));
-				marketplace.one('becameInvalid', $.proxy(this.marketplaceFailure, this));
-				marketplace.one('becameError', $.proxy(this.marketplaceFailure, this));
+				var modelsAndErrorHandlers = [{
+					model: user,
+					handler: this.userFailure
+				}, {
+					model: apiKey,
+					handler: this.apiKeyFailure
+				}, {
+					model: marketplace,
+					handler: this.marketplaceFailure
+				}, {
+					model: bankAccount,
+					handler: this.bankingFailure
+				}];
+
+				var self = this;
+				$.each(modelsAndErrorHandlers, function(_, thing) {
+					if (thing.model) {
+						thing.model.one('becameInvalid', $.proxy(thing.handler, self));
+						thing.model.one('becameError', $.proxy(thing.handler, self));
+					}
+				});
 
 				// create user (check for duplicate email address)
 				// create api key (check for merchant underwrite failure)
@@ -150,6 +163,17 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		json = typeof json === 'object' ? json : JSON.parse(json);
 		_.each(json.extras, function(value, key) {
 			self.get('validationErrors').add('marketplace.%@'.fmt(key), 'invalid', null, value);
+		});
+		self.propertyDidChange('validationErrors');
+		self.set('isLoading', false);
+		self.highlightError();
+	},
+
+	bankingFailure: function(json) {
+		var self = this;
+		json = typeof json === 'object' ? json : JSON.parse(json);
+		_.each(json.extras, function(value, key) {
+			self.get('validationErrors').add('banking.%@'.fmt(key), 'invalid', null, value);
 		});
 		self.propertyDidChange('validationErrors');
 		self.set('isLoading', false);
