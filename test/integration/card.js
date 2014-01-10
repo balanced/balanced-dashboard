@@ -28,6 +28,17 @@ test('debit card', function(assert) {
 			Ember.run.next(function() {
 				start();
 				click(".main-header .buttons a.debit-button")
+                    .then(function () {
+                        // opened the modal
+                        assert.equal(
+                            $('label.control-label:contains(characters max):visible').text(),
+                            'Appears on statement as (18 characters max)'
+                        );
+                        assert.equal(
+                            $('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
+                            '18'
+                        );
+                    })
 					.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
 					.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
 					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
