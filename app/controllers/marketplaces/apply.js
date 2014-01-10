@@ -1,8 +1,6 @@
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	isLoading: false,
-	kycError: false,
-	unknownError: false,
 	termsAndConditions: false,
 
 	actions: {
@@ -24,8 +22,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				$termsAndConditionsControlGroup.addClass(superError).focus();
 			}
 			if (model.validate() && this.get('termsAndConditions')) {
-				this.set('kycError', false);
-				this.set('unknownError', false);
+				this.resetError();
 				this.set('isLoading', true);
 
 				// persist the request to the server, this will ultimately
@@ -76,6 +73,58 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			}
 		},
 	},
+
+	resetError: function() {
+		this.set('error', {
+			kyc: false,
+			unknown: false,
+			banking: false,
+			marketplace: false,
+			apiKey: false,
+			user: false
+		});
+	},
+
+	hasError: function() {
+		var obj = this.get('error');
+		var error = false;
+		for (var key in obj) {
+			if (obj[key] === true) {
+				error = true;
+			}
+		}
+		return error;
+	}.property(
+		'error.kyc', 'error.unknown', 'error.banking',
+		'error.marketplace', 'error.apiKey', 'error.user'
+	),
+
+	errorMessage: function() {
+		var obj = this.get('error');
+		var message = '';
+		if (this.get('hasError')) {
+			if (obj.unknown === true) {
+				message = 'An unknown error occurred.';
+			}
+			if (obj.banking === true) {
+				message = 'There was a problem creating the bank account.';
+			}
+			if (obj.marketplace === true) {
+				message = 'There was a problem creating the marketplace.';
+			}
+			if (obj.apiKey === true) {
+				message = 'There was a problem creating the API key.';
+			}
+			if (obj.user === true) {
+				message = 'There was a problem creating the user.';
+			}
+			if (obj.kyc === true) {
+				message = 'We could not verify your identity.';
+			}
+			message += ' Please check your information again and resubmit.';
+		}
+		return message;
+	}.property('hasError', 'error'),
 
 	selectedType: function() {
 		return this.get('applicationType');
@@ -147,7 +196,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 					errors[value] = 'Please check this entry';
 				});
 
-				self.set('kycError', true);
+				self.set('error.kyc', true);
 			}
 		}
 		_.each(errors, function(value, key) {
