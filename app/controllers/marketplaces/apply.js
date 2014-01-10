@@ -88,8 +88,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	hasError: function() {
 		var obj = this.get('error');
 		var error = false;
-		for(var key in obj) {
-			if(obj[key] === true) {
+		for (var key in obj) {
+			if (obj[key] === true) {
 				error = true;
 			}
 		}
@@ -102,13 +102,25 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	errorMessage: function() {
 		var obj = this.get('error');
 		var message = '';
-		if(this.get('hasError')) {
-			if(obj.unknown === true) { message = 'An unknown error occurred.'; }
-			if(obj.banking === true) { message = 'There was a problem creating the bank account.'; }
-			if(obj.marketplace === true) { message = 'There was a problem creating the marketplace.'; }
-			if(obj.apiKey === true) { message = 'There was a problem creating the API key.'; }
-			if(obj.user === true) { message = 'There was a problem creating the user.'; }
-			if(obj.kyc === true) { message = 'We could not verify your identity.'; }
+		if (this.get('hasError')) {
+			if (obj.unknown === true) {
+				message = 'An unknown error occurred.';
+			}
+			if (obj.banking === true) {
+				message = 'There was a problem creating the bank account.';
+			}
+			if (obj.marketplace === true) {
+				message = 'There was a problem creating the marketplace.';
+			}
+			if (obj.apiKey === true) {
+				message = 'There was a problem creating the API key.';
+			}
+			if (obj.user === true) {
+				message = 'There was a problem creating the user.';
+			}
+			if (obj.kyc === true) {
+				message = 'We could not verify your identity.';
+			}
 			message += ' Please check your information again and resubmit.';
 		}
 		return message;
