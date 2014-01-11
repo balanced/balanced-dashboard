@@ -33,36 +33,78 @@
                 </div>
             </div>
 
-            <div class="control-group">
-                <label class="control-label">Account holder's name</label>
-                <div class="controls">
-                    <span class="label1a">{{selected_funding_instrument.name}}</span>
-                </div>
-            </div>
 
-            <div class="control-group">
-                <label class="control-label">Type</label>
-                <div class="controls">
-                    <span class="label1a">{{selected_funding_instrument.brand}}</span>
-                </div>
-            </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.amount:error"}}>
-                <label class="control-label">Amount</label>
-                <div class="controls">
-                    <div class="input-prepend">
-                        <span class="add-on">$</span>
-                        {{view Ember.TextField valueBinding="dollar_amount" name="dollar_amount" class="span3"}}
+            {{#if selected_funding_instrument}}
+                <div class="control-group">
+                    <label class="control-label">Account holder's name</label>
+                    <div class="controls">
+                        <span class="label1a">{{selected_funding_instrument.name}}</span>
                     </div>
                 </div>
-            </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.appears_on_statement_as:error"}}>
-                <label class="control-label">Appears on statement as ({{selected_funding_instrument.appears_on_statement_max_length}} characters max)</label>
-                <div class="controls">
-                    {{view Ember.TextField valueBinding="model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="selected_funding_instrument.appears_on_statement_max_length"}}
+                <div class="control-group">
+                    <label class="control-label">Type</label>
+                    <div class="controls">
+                        <span class="label1a">{{selected_funding_instrument.brand}}</span>
+                    </div>
                 </div>
-            </div>
+
+                <div {{bindAttr class=":control-group model.validationErrors.amount:error"}}>
+                    <label class="control-label">Amount</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on">$</span>
+                            {{view Ember.TextField valueBinding="dollar_amount" name="dollar_amount" class="span3"}}
+                        </div>
+                    </div>
+                </div>
+
+                <div {{bindAttr class=":control-group model.validationErrors.appears_on_statement_as:error"}}>
+                    <label class="control-label">Appears on statement as ({{selected_funding_instrument.appears_on_statement_max_length}} characters max)</label>
+                    <div class="controls">
+                        {{view Ember.TextField valueBinding="model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="selected_funding_instrument.appears_on_statement_max_length"}}
+                    </div>
+                </div>
+            {{else}}
+                    <div class="control-group">
+                        <label class="control-label">Account holder's name</label>
+                        <div class="controls">
+                            <span class="label1a">{{customer.debitable_funding_instruments.0.name}}</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Type</label>
+                        <div class="controls">
+                            <span class="label1a">{{customer.debitable_funding_instruments.0.brand}}</span>
+                        </div>
+                    </div>
+
+                    <div {{bindAttr class=":control-group model.validationErrors.amount:error"}}>
+                        <label class="control-label">Amount</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on">$</span>
+                                {{view Ember.TextField valueBinding="dollar_amount" name="dollar_amount" class="span3"}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div {{bindAttr class=":control-group model.validationErrors.appears_on_statement_as:error"}}>
+                        <label class="control-label">Appears on statement as ({{customer.debitable_funding_instruments.0.appears_on_statement_max_length}} characters max)</label>
+                        <div class="controls">
+                            {{view Ember.TextField valueBinding="model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="customer.debitable_funding_instruments.0.appears_on_statement_max_length"}}
+                        </div>
+                    </div>
+            {{/if}}
+
+
+
+
+
+            _______________________
+
 
             <div {{bindAttr class=":control-group model.validationErrors.description:error"}}>
                 <label class="control-label">Internal Description</label>
