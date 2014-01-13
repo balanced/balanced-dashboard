@@ -12,12 +12,17 @@ Balanced.Download.reopenClass({
 		_propertiesMap: function(record) {
 			var obj = {
 				email_address: record.email_address,
-				uri: ''
+				uri: '',
+                type: ''
 			};
 
 			if (record.uri) {
 				obj.uri = record.uri;
 			}
+
+            if (record.type) {
+                obj.type = record.type;
+            }
 
 			return obj;
 		}
