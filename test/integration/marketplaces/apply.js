@@ -150,13 +150,6 @@ test('application submits properly', function(assert) {
 			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
 
 			// using balanced.js to create the bank account
-			/*
-			assert.ok(createStub.calledWith(Balanced.BankAccount, '/marketplaces/deadbeef/bank_accounts', {
-				bank_account_uri: '/bank_accounts/deadbeef'
-			}));
-			assert.ok(createStub.calledWith(Balanced.Verification, '/bank_accounts/deadbeef/verifications'));
-			*/
-
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith({
 				type: "checking",
