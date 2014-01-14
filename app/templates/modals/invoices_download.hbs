@@ -1,0 +1,23 @@
+<div class="modal hide download-modal">
+    <form {{action save on="submit" target="view"}}>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h2>Export data</h2>
+        </div>
+        <div class="modal-body">
+            {{# if view.model.displayErrorDescription }}
+                <div class="alert alert-error row-full">
+                    {{ view.model.errorDescription }}
+                </div>
+            {{/if}}
+
+            <p class="label4a">A CSV file of your historical invoices set will be sent to:</p>
+            <label>Email</label>
+            {{view Ember.TextField name="email" valueBinding="view.model.email_address" type="email" class="full"}}
+        </div>
+        <div class="modal-footer">
+            {{view Balanced.ModalActionButtonsView submitTitle="Export"}}
+        </div>
+    </form>
+</div>
+<a href="#" {{action open target="view"}} class="icon-download right">Download</a>

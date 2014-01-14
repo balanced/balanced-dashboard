@@ -182,7 +182,8 @@ test('download activity', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
 				email_address: "test@example.com",
-				uri: ""
+				uri: "",
+				type: "transactions"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
