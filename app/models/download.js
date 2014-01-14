@@ -15,15 +15,12 @@ Balanced.Download.reopenClass({
 				uri: '',
 				type: ''
 			};
-
 			if (record.uri) {
 				obj.uri = record.uri;
 			}
-
 			if (record.type) {
 				obj.type = record.type;
 			}
-
 			return obj;
 		}
 	}).create()
