@@ -1,7 +1,7 @@
 Balanced.DownloadModalView = Balanced.View.extend({
 	templateName: 'modals/download',
 	noURI: false,
-    type: 'transactions',
+	type: 'transactions',
 
 	actions: {
 		open: function() {
