@@ -22,7 +22,7 @@ Balanced.Download.reopenClass({
 
 			if (record.type) {
 				obj.type = record.type;
-            }
+			}
 
 			return obj;
 		}
