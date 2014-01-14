@@ -49,12 +49,13 @@ Balanced.CreditCustomerModalComponent = Balanced.ModalComponent.extend({
 		}
 	},
 
-	selected_funding_instrument: function() {
+    selected_funding_instrument: function() {
 		var bankAccountUri = this.get('model.bank_account_uri');
 		if (bankAccountUri) {
 			return this.get('customer.bank_accounts').find(function(bankAccount) {
 				return bankAccountUri === bankAccount.get('uri');
 			});
 		}
+        return this.get('customer.creditable_funding_instruments.0');
 	}.property('model.bank_account_uri', 'customer.bank_accounts')
 });
