@@ -66,6 +66,14 @@ test('add funds', function(assert) {
 				.then(function() {
 					assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
+					assert.equal(
+						$('label.control-label:contains(characters max):visible').text(),
+						'Appears on statement as (14 characters max)'
+					);
+					assert.equal(
+						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
+						'14'
+					);
 				})
 				.fillIn('#add-funds input', '55.55')
 				.fillIn('#add-funds input.description', 'Adding lots of money yo')
@@ -124,6 +132,14 @@ test('withdraw funds', function(assert) {
 				.then(function() {
 					assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
+					assert.equal(
+						$('label.control-label:contains(characters max):visible').text(),
+						'Appears on statement as (14 characters max)'
+					);
+					assert.equal(
+						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
+						'14'
+					);
 				})
 				.fillIn('#withdraw-funds input', '55.55')
 				.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
