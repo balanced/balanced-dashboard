@@ -32,6 +32,7 @@ test('can reverse credit', function(assert) {
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.credit a.reverse-credit-button')
+		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', "100")
 		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
