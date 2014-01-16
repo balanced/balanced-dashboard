@@ -41,53 +41,17 @@ test('can reverse credit', function(assert) {
 		});
 });
 
-
-
-test('when reversing credit triggers an error, the amount changes color', function(assert) {
-	visit(Testing.CREDIT_ROUTE)
-		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '10000')
-		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			stop();
-			Ember.run.next(function() {
-				start();
+test('credit reversal errors', function(assert) {
+	$.each(['-10000', '0'], function(e, amount) {
+		visit(Testing.CREDIT_ROUTE)
+			.click('.credit a.reverse-credit-button')
+			.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', amount)
+			.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+			.then(function() {
 				assert.equal($('.control-group.error').is(':visible'), true);
 			});
-		});
+	});
 });
-
-
-test('attempting to reverse credit with amount 0 triggers an error', function(assert) {
-	visit(Testing.CREDIT_ROUTE)
-		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '0')
-		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			stop();
-			Ember.run.next(function() {
-				start();
-				assert.equal($('.control-group.error').is(':visible'), true);
-			});
-		});
-});
-
-
-test('attempting to reverse credit with negative amount triggers an error', function(assert) {
-	visit(Testing.CREDIT_ROUTE)
-		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '-10000')
-		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			stop();
-			Ember.run.next(function() {
-				start();
-				assert.equal($('.control-group.error').is(':visible'), true);
-			});
-		});
-});
-
-
 
 
 test('reversing a credit with a comma in the amount will succeed', function(assert) {
