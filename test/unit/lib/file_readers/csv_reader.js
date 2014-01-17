@@ -27,12 +27,12 @@ test("hashes", function(assert) {
 	assert.deepEqual(csvReader.get("hashes"), expectations);
 });
 
-test("columnNames", function(assert) {
+test("column_names", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
 		body: "column1,column2\ncell1:1,cell1:2"
 	});
 
-	var columns = csvReader.get("columnNames");
+	var columns = csvReader.get("column_names");
 	assert.deepEqual(columns, ["column1", "column2"]);
 });
 

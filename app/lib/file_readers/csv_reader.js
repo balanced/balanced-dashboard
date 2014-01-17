@@ -5,7 +5,7 @@ Balanced.CsvReader = Ember.Object.extend({
 	}.property("body"),
 
 	hashes: function() {
-		var columnNames = this.get("columnNames");
+		var columnNames = this.get("column_names");
 		var rows = this.get("rows").slice(1);
 		return rows.map(function(row) {
 			var obj = {};
@@ -14,9 +14,9 @@ Balanced.CsvReader = Ember.Object.extend({
 			});
 			return obj;
 		});
-	}.property("rows", "columnNames"),
+	}.property("rows", "column_names"),
 
-	columnNames: function() {
+	column_names: function() {
 		return this.get("rows")[0];
 	}.property("rows"),
 
