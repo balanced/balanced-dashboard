@@ -2,7 +2,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	needs: ["marketplace"],
 	content: null,
 
-	expected_column_fields: ["bank_account", "name", "amount"],
+    expected_column_fields: ["customer_id", "bank_account_id", "amount", "bank_statement_descriptor", "internal_description"],
 	upload_error_messages: ["No file provided"],
 
 	current_escrow_balance: 100,
@@ -22,6 +22,8 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 				});
 				self.set("payments_csv_reader", paymentsCsvReader);
 				self.set("uploaded_column_names", paymentsCsvReader.get("column_names"));
+
+				self.set("columns_valid", paymentsCsvReader.columnsMatch(self.get("expected_column_fields")));
 			};
 			reader.readAsText(this.get('file'));
 		},

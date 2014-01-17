@@ -18,11 +18,15 @@
       <h2>Step 2: Confirm Fields</h2>
       <div>
         {{#if uploaded_column_names}}
-          <ul>
-            {{#each expected_column_fields}}
-                <li>{{this}} : {{../uploaded_column_names}}</li>
-            {{/each}}
-          </ul>
+          {{#if columns_valid}}
+            <p>Your column names look great</p>
+          {{else}}
+            <p>The column mapping functionality is not implemented yet.</p>
+            <p>Please relabel your columns with:
+              {{expected_column_fields}}
+            </p>
+            <p>You used: {{uploaded_column_names}}</p>
+          {{/if}}
         {{else}}
           Upload a file first
         {{/if}}
