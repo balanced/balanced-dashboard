@@ -2,23 +2,87 @@ module("Balanced.CsvReader");
 
 test("rows", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
-		body: "column 1,column 2\ncell1:1,cell1:2"
+		body: "animal,name\ncat,milo\ndog,fido"
 	});
-	var rows = csvReader.get("rows");
-	assert.equal(rows.length, 2);
-	assert.equal(rows[0][0], "column 1");
-	assert.equal(rows[0][1], "column 2");
-	assert.equal(rows[1][0], "cell1:1");
-	assert.equal(rows[1][1], "cell1:2");
+	var expectations = [
+		["animal", "name"],
+		["cat", "milo"],
+		["dog", "fido"]
+	];
+	assert.deepEqual(csvReader.get("rows"), expectations);
 });
 
 test("hashes", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
+		body: "name,amount\nJim Fish,10.00\nDoctor Grump,11.00"
+	});
+	var expectations = [{
+		name: "Jim Fish",
+		amount: "10.00"
+	}, {
+		name: "Doctor Grump",
+		amount: "11.00"
+	}];
+
+	assert.deepEqual(csvReader.get("hashes"), expectations);
+});
+
+test("columnNames", function(assert) {
+	var csvReader = Balanced.CsvReader.create({
 		body: "column1,column2\ncell1:1,cell1:2"
 	});
 
-	var hashes = csvReader.get("hashes");
-	assert.equal(hashes.length, 1);
-	assert.equal(hashes[0].column1, "cell1:1");
-	assert.equal(hashes[0].column2, "cell1:2");
+	var columns = csvReader.get("columnNames");
+	assert.deepEqual(columns, ["column1", "column2"]);
+});
+
+test("mapRowToAttributes", function(assert) {
+	var reader = Balanced.CsvReader.create();
+	var row = {
+		"Name": "Reginald",
+		"Bank Account": "83938439843"
+	};
+
+	var result = reader.mapRowToAttributes(row, {
+		name: "Name",
+		bank_account: "Bank Account"
+	});
+
+	assert.deepEqual(result, {
+		name: "Reginald",
+		bank_account: "83938439843"
+	});
+});
+
+test("mapRowsToAttributes", function(assert) {
+	var csvRows = [{
+		"Name": "Reginald",
+		"Bank Account": "83938439843"
+	}, {
+		"Name": "Ronald"
+	}, {
+		"Name": "Robert",
+		"Bank Account": "99000"
+	}];
+
+	var expectations = [{
+		name: "Reginald",
+		bank_account: "83938439843"
+	}, {
+		name: "Ronald",
+		bank_account: undefined
+	}, {
+		name: "Robert",
+		bank_account: "99000"
+	}];
+	var reader = Balanced.CsvReader.create({
+		rows: csvRows
+	});
+	var result = reader.mapRowsToAttributes({
+		name: "Name",
+		bank_account: "Bank Account"
+	});
+
+	assert.deepEqual(result, expectations);
+
 });
