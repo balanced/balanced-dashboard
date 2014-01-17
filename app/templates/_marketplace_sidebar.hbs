@@ -1,3 +1,5 @@
+<li class="pay-seller nav1a">{{#linkTo "marketplace.upload_payments_csv" }} Pay Multiple Sellers {{/linkTo}}</li>
+
 <li class="activity nav1a">{{#linkTo 'activity' model }} Activity {{/linkTo}}</li>
 <li class="logs nav1a">{{#linkTo 'logs.index' model }} Logs {{/linkTo}}</li>
 <li class="invoices nav1a">{{#linkTo 'invoices.index' model }} Invoices {{/linkTo}}</li>
@@ -5,7 +7,6 @@
 
 <li class="add-customer nav1a">{{#linkTo 'marketplace.add_customer' }}Add<br>Customer{{/linkTo}}</li>
 <li class="pay-seller nav1a"><a href="#" {{action openPaySellerModal}}>Pay A Seller</a></li>
-<li class="pay-seller nav1a"><a href="#" {{action openPayMultipleSellersModal}}>Pay Multiple Sellers</a></li>
 
 {{view Balanced.PaySellerModalView}}
 {{view Balanced.PayMultipleSellersModalView}}

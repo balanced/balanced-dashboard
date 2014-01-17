@@ -1,0 +1,57 @@
+<h1 class="page-title">Upload Payments Csv</h1>
+
+<form class="form-horizontal split-labels" {{action "save" target="view" on="submit"}}>
+    <div>
+      <h2>Step 1: Upload File</h2>
+      <div>
+          <label class="control-label">CSV File</label>
+          <div class="controls">
+              <input type="file" id="file" name="file" {{action fileSelectionChanged on="change"}}/>
+          </div>
+      </div>
+      <div class="actions">
+        <button class="btn" {{ action readFile }}>Upload</button>
+      </div>
+    </div>
+
+    <div>
+      <h2>Step 2: Confirm Fields</h2>
+      <div>
+        {{#if uploaded_column_names}}
+          <ul>
+            {{#each expected_column_fields}}
+                <li>{{this}} : {{../uploaded_column_names}}</li>
+            {{/each}}
+          </ul>
+        {{else}}
+          Upload a file first
+        {{/if}}
+      </div>
+      <div class="actions">
+        <button class="btn" {{ action mapFileColumns }}>Continue</button>
+      </div>
+    </div>
+
+    <div>
+      <h2>Step 3: Review Data</h2>
+      <div>
+        <h6>Please review the following information before proceeding</h6>
+        <p><em>Total payout balance</em> : {{formatCurrency total_payout_balance}}</p>
+        <p><em>Current Escrow balance</em> : {{formatCurrency current_escrow_balance}}</p>
+        <p><em>Number of customers</em> : {{total_number_of_customers}}</p>
+
+        {{#each upload_error_messages}}
+          <div>
+            <p>{{this}}</p>
+          </div>
+        {{else}}
+          <div>
+            <p>Data is ready to upload</p>
+          </div>
+        {{/each}}
+      </div>
+      <div class="actions">
+        <button class="btn" {{ action save }}>Continue to Upload</button>
+      </div>
+    </div>
+</form>

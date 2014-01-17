@@ -77,6 +77,9 @@ Balanced.Router.map(function() {
 			this.route('initial_deposit', {
 				path: '/initial_deposit'
 			});
+			this.route("upload_payments_csv", {
+				path: "upload_payments_csv"
+			});
 
 			this.resource('activity', {
 				path: '/activity'
