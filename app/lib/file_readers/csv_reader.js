@@ -8,9 +8,9 @@ Balanced.CsvReader = Ember.Object.extend({
 		return $.csv.toArrays(this.get("body"));
 	}.property("body"),
 
-	columnsMatch: function (other) {
+	columnsMatch: function(other) {
 		var columns = this.get("column_names");
-		return Ember.isArray(columns) && Ember.compare(other, columns) === 0;
+		return _.difference(columns, other).length === 0;
 	},
 
 	getObjects: function(mapping) {
@@ -19,7 +19,7 @@ Balanced.CsvReader = Ember.Object.extend({
 		return rows.map(function(row) {
 			var obj = {};
 			columnNames.forEach(function(columnName, i) {
-				if (!Ember.none(mapping) && !Ember.none(mapping[columnName])) {
+				if (!Ember.isNone(mapping) && !Ember.isNone(mapping[columnName])) {
 					columnName = mapping[columnName];
 				}
 				obj[columnName] = row[i];

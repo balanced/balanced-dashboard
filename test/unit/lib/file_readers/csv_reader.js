@@ -39,16 +39,16 @@ test("getObjects", function(assert) {
 		body: "User Name,Payment Amount\nJim Fish,10.00\nDoctor Grump,11.00"
 	});
 	assert.deepEqual(csvReader.getObjects({
-	    "User Name": "name",
+		"User Name": "name",
 		"Payment Amount": "amount"
 	}), expectations);
 });
 
-test("columnsMatch", function (assert) {
+test("columnsMatch", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
 		body: "column1,column2\ncell1:1,cell1:2"
 	});
 	assert.ok(csvReader.columnsMatch(["column1", "column2"]));
 	assert.ok(!csvReader.columnsMatch(["column1", "column2kjb"]));
-	assert.ok(csvReader.columnsMatch(["column1", "column1"]));
+	assert.ok(csvReader.columnsMatch(["column2", "column1"]));
 });
