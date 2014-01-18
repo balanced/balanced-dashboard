@@ -1,119 +1,101 @@
 <h1 class="page-title">Upload Payments Csv</h1>
 
-<form class="form-horizontal split-labels">
-    {{#if is_step_1}}
-      <div>
-        <h2>Step 1: Upload File</h2>
-        <div>
-            <label class="control-label">CSV File</label>
-            <div class="controls">
-                <input type="file" id="file" name="file" {{action fileSelectionChanged on="change"}}/>
-            </div>
-        </div>
-        <div class="actions">
-          <button class="btn" {{ action readFile }}>Upload</button>
-        </div>
-      </div>
-    {{/if}}
+{{#view Balanced.MarketplaceUploadPaymentsCsvFileSelectionView}}
+  <form {{action "submit" on="submit" target="view"}}>
+    <h2>Step 1: Upload File</h2>
+    <input type="file" id="file" name="file" {{action fileSelectionChanged on="change" target="view"}}/>
+    <button type="submit">Submit</button>
+  </form>
+{{/view}}
 
-    {{#if is_step_2}}
-      <div>
-        <h2>Step 2: Confirm Fields</h2>
-        <div>
-          {{#if csv.columns_valid}}
-            <p>Your column names look great</p>
-          {{else}}
-            <p>The column mapping functionality is not implemented yet.</p>
-            <p>Please relabel your columns with:
-              {{csv.expected_columns}}
-            </p>
-            <p>You used: {{csv.column_names}}</p>
-          {{/if}}
-        </div>
-        <table class="ember items">
-          <thead>
-            <tr>
-              {{#each csv.column_names}}
-                <th>{{this}}</th>
-              {{/each}}
-            </tr>
-          </thead>
-          <tbody>
-            {{#each csv.fields}}
-              <tr>
-                {{#each this}}
-                  <td>{{this}}</td>
-                {{/each}}
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-
-        <div class="actions">
-          <button class="btn" {{ action back }}>Back</button>
-          <button class="btn" {{ action mapFileColumns }}>Continue</button>
-        </div>
-      </div>
-    {{/if}}
-
-    {{#if is_step_3}}
-      <div>
-        <h2>Step 3: Review Data</h2>
-        <div>
-          <h6>Please review the following information before proceeding</h6>
-          <p><em>Total payout balance</em> : {{formatCurrency total_payout_balance}}</p>
-          <p><em>Current Escrow balance</em> : {{formatCurrency current_escrow_balance}}</p>
-          <p><em>Number of customers</em> : {{total_number_of_customers}}</p>
-
-          {{#each upload_error_messages}}
-            <div>
-              <p>{{this}}</p>
-            </div>
-          {{else}}
-            <div>
-              <p>Data is ready to upload</p>
-            </div>
+{{#view Balanced.MarketplaceUploadPaymentsCsvColumnsMapping}}
+  <form {{action "submit" on="submit" target="view"}}>
+    <h2>Step 2: Confirm Fields</h2>
+    <div>
+      {{#if reader.columns_valid}}
+        <p>Your column names look great</p>
+      {{else}}
+        <p>The column mapping functionality is not implemented yet.</p>
+        <p>Please relabel your columns with:
+          {{reader.expected_columns}}
+        </p>
+        <p>You used: {{reader.column_names}}</p>
+      {{/if}}
+    </div>
+    <table class="ember items">
+      <thead>
+        <tr>
+          {{#each reader.column_names}}
+            <th>{{this}}</th>
           {{/each}}
-        </div>
-        <div class="actions">
-          <button class="btn" {{ action back }}>Back</button>
-          <button class="btn" {{ action save }}>Continue to Upload</button>
-        </div>
-      </div>
-    {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each reader.fields}}
+          <tr>
+            {{#each this}}
+              <td>{{this}}</td>
+            {{/each}}
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
 
-    {{#if is_step_4}}
-        <div>
-          <h2>Uploading</h4>
+    <div class="actions">
+      <button class="btn" {{ action prevStep }}>Back</button>
+      <button type="submit">Continue</button>
+    </div>
+  </form>
+{{/view}}
 
-          <p><em>Data uploaded</em> : {{uploaded_count}}</p>
-          <p><em>Number of customers</em> : {{total_number_of_transactions}}</p>
-        </div>
-    {{/if}}
+{{#view Balanced.MarketplaceUploadPaymentsCsvReviewDataView}}
+  <form {{action "submit" on="submit" target="view"}}>
+    <h2>Step 3: Review Data</h2>
+    <div>
+      <h6>Please review the following information before proceeding</h6>
+      <p><em>Total payout balance</em> : {{formatCurrency view.payout_total}}</p>
+      <p><em>Current Escrow balance</em> : {{formatCurrency view.escrow_balance}}</p>
+      <p><em>Number of customers</em> : {{view.customers_total}}</p>
+      <p>Data is ready to upload</p>
+    </div>
+    <div class="actions">
+      <button class="btn" {{ action prevStep }}>Back</button>
+      <button type="submit">Continue</button>
+    </div>
+  </form>
+{{/view}}
 
-    {{#if is_step_5}}
-        <div class="results">
-          <h2>Finished</h4>
-          <table class="ember items">
-            <thead>
-              <tr>
-                <th>Customer</th>
-                <th>Bank account</th>
-                <th>Description</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each results}}
-                <tr>
-                  <td>{{bank_account.name}}</td>
-                  <td>{{bank_account.bank_name}}</td>
-                  <td>{{credit.description}}</td>
-                  <td>{{formatCurrency credit.amount}}</td>
-                </tr>
-              {{/each}}
-            </tbody>
-          </table>
-        </div>
-    {{/if}}
-</form>
+{{#if batch}}
+  <form class="form-horizontal split-labels">
+    <div>
+      <h2>Uploading</h4>
+
+      <p><em>Data uploaded</em> : {{batch.finished}}</p>
+      <p><em>Number of </em> : {{batch.collection.length}}</p>
+    </div>
+
+    <div class="results">
+      <h2>Finished</h4>
+      <table class="ember items">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Bank account</th>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each batch.results}}
+            <tr>
+              <td>{{bank_account.name}}</td>
+              <td>{{bank_account.bank_name}}</td>
+              <td>{{credit.description}}</td>
+              <td>{{formatCurrency credit.amount}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </form>
+{{/if}}

@@ -1,95 +1,71 @@
 // Ember port of https://github.com/jprichardson/node-batchflow
 Balanced.BatchProcessor = Ember.Object.extend({
+	results: [],
 
 	limit: 1,
 	finished: 0,
-	total: 0,
-	eachCallback: undefined,
 
-	errorCallback: function(err) {
-		throw err;
-	},
+	length: function() {
+		return this.collection.length;
+	}.property("collection"),
 
 	each: function(callback) {
 		var self = this;
 		this.eachCallback = function() {
-			try {
-				callback.apply(self, arguments);
-			} catch (err) {
-				this.errorCallback(err);
-			}
+			callback.apply(self, arguments);
 		};
 		return this;
 	},
 
-	error: function(error) {
-		this.error = error;
-		return this;
-	},
-
-
 	parallel: function(limit) {
-		this.limit = limit || Math.pow(2, 53); //2^53 is the largest integer
-		return this;
-	},
-
-	sequential: function() {
-		this.limit = 1;
+		// 2^53 is the largest integer
+		this.set("limit", limit || Math.pow(2, 53));
 		return this;
 	},
 
 	end: function(endCallback) {
 		var self = this,
-			collection = this.get("collection"),
 			running = 0,
 			started = 0,
-			results = [];
+			total = this.collection.length;
 
-		this.total = collection.length;
 		endCallback = endCallback || function() {};
 
-		if (this.total === 0) {
-			return endCallback([]);
+		if (total === 0) {
+			return endCallback(this.results);
 		}
 
-		function handleClientResult(err, result) {
-			self.finished += 1;
-			if (err instanceof Error) {
-				self.errorCallback(err);
-			} else {
-				result = err; //not an error, but the result
-			}
-
-			if (result) {
-				results.push(result);
+		function handleClientResult(result) {
+			if (arguments.length) {
+				self.results.pushObject(result);
 			}
 		}
 
-		function fireNext(idx, callback) {
-			//after process.nextTick was added to doneCallback below in 0.3.2, this line might be able to be removed, tests pass with and without it
-			//if (running + self.finished >= self.total) return //this is critical to fix a regression bug, fireNext may get fired more times than needed
-
+		function fireNext(index, callback) {
 			running += 1;
 			started += 1;
-			self.eachCallback(idx, collection[idx], callback);
+			if (self.eachCallback) {
+				self.eachCallback(index, self.collection[index], callback);
+			}
 		}
 
-		function doneCallback(err, result) {
+		function doneCallback(result) {
 			setTimeout(function() {
-				handleClientResult(err, result);
+				handleClientResult(result);
 				running -= 1;
+				self.set("finished", self.finished + 1);
 
-				if (self.finished < self.total) {
-					if (started < self.total && running < self.limit) {
+				if (self.finished < total) {
+					if (started < total && running < self.limit) {
 						fireNext(started, doneCallback);
 					}
-				} else if (self.finished === self.total) {
-					endCallback(results);
+				} else if (self.finished === total) {
+					endCallback(self.results);
 				}
 			}, 0);
 		}
 
-		var max = self.limit > self.total ? self.total : self.limit;
+		var max = self.limit > total ? total : self.limit;
 		for (var i = 0; i < max; ++i) {
 			fireNext(i, doneCallback);
 		}

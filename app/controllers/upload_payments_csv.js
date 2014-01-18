@@ -8,104 +8,101 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 
 	upload_error_messages: ["No file provided"],
 
-	current_step: "step-1",
+	addStep: function(stepView) {
+		this.steps = this.steps || [];
+		this.steps.push(stepView);
+		if (this.steps.length === 1) {
+			stepView.show();
+			this.current_index = 0;
+		} else {
+			stepView.hide();
+		}
+		return this;
+	},
 
-	is_step_1: function() {
-		return this.get("current_step") === "step-1";
-	}.property("current_step"),
+	nextStep: function() {
+		this.current_index++;
+		this.refreshViews();
+	},
 
-	is_step_2: function() {
-		return this.get("current_step") === "step-2";
-	}.property("current_step"),
+	prevStep: function() {
+		this.current_index--;
+		this.refreshViews();
+	},
 
-	is_step_3: function() {
-		return this.get("current_step") === "step-3";
-	}.property("current_step"),
-
-	is_step_4: function() {
-		return this.get("current_step") === "step-4";
-	}.property("current_step"),
-
-	is_step_5: function() {
-		return this.get("current_step") === "step-5";
-	}.property("current_step"),
+	refreshViews: function() {
+		var self = this;
+		this.steps.forEach(function(stepView, i) {
+			stepView.toggle(self.current_index === i);
+		});
+	},
 
 	current_escrow_balance: 100,
 
-	actions: {
-		back: function() {
-			var currentStep = this.get("current_step");
-			var nextStep = this.get("current_step") === "step-3" ?
-				"step-2" :
-				"step-1";
-			this.set("current_step", nextStep);
-		},
-		fileSelectionChanged: function() {
-			var file = event.target.files[0];
-			this.set("file", file);
-		},
-		readFile: function() {
-			var self = this;
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				var fullText = e.target.result;
-				var paymentsCsvReader = Balanced.PaymentsCsvReader.create({
-					body: fullText
-				});
+	// End of step 1
+	setPaymentsReader: function(reader) {
+		this.set("reader", reader);
+		this.nextStep();
+	},
 
-				self.set("csv", paymentsCsvReader);
+	// End of step 2
+	setColumnsMapping: function(mapping) {
+		this.nextStep();
+	},
 
-				self.set("payments_csv_reader", paymentsCsvReader);
-				self.set("uploaded_column_names", paymentsCsvReader.get("column_names"));
-				self.set("columns_valid", paymentsCsvReader.columnsMatch(self.get("expected_column_fields")));
-				self.set("current_step", "step-2");
-			};
-			reader.readAsText(this.get('file'));
-		},
+	// End of step 3
+	setStartProcessing: function() {
+		var self = this;
+		var paymentsCsvReader = this.get("reader");
+		var batch = Balanced.BatchProcessor.create({
+			collection: paymentsCsvReader.getObjects()
+		});
 
-		mapFileColumns: function() {
-			var paymentsCsvReader = this.get("payments_csv_reader");
-			this.set("total_payout_balance", paymentsCsvReader.totalPayoutBalance());
-			this.set("total_number_of_customers", paymentsCsvReader.totalNumberOfCustomers());
-			this.get("upload_error_messages").clear();
-			this.set("current_step", "step-3");
-		},
+		self.set("results", batch.results);
+		this.set("batch", batch);
+		this.process(batch).then(function() {
+			// Display Message
+		});
+		this.nextStep();
+	},
 
-		save: function() {
-			var self = this;
-			var paymentsCsvReader = this.get("payments_csv_reader");
-			var batch = Balanced.BatchProcessor.create({
-				collection: paymentsCsvReader.getObjects()
-			});
+	process: function(batch, eachCallback) {
+		var deferred = Ember.RSVP.defer();
 
-			batch
-				.parallel(2)
-				.each(function(index, row, done) {
-					self.set("uploaded_count", batch.finished);
-
-					var bankAccountUri = Balanced.BankAccount
-						.constructUri(row.bank_account_id);
-
-					Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
-						var credit = Balanced.Credit.create();
-						credit.set('destination', bankAccount);
-						credit.set('amount', parseFloat(row.amount) * 100);
-						credit.save().then(function() {
-							done({
-								bank_account: bankAccount,
-								credit: credit
-							});
-						});
+		batch
+			.parallel(2)
+			.each(function(index, row, done) {
+				var bankAccountUri = Balanced.BankAccount.constructUri(row.bank_account_id);
+				Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
+					var credit = Balanced.Credit.create();
+					credit.set('destination', bankAccount);
+					credit.set("appears_on_statement_as", row.bank_statement_descriptor);
+					credit.set("description", row.internal_description);
+					credit.set('amount', parseFloat(row.amount) * 100);
+					credit.save().then(function() {
+						var result = {
+							bank_account: bankAccount,
+							credit: credit
+						};
+						if (eachCallback) {
+							eachCallback(result);
+						}
+						done(result);
 					});
-				})
-				.end(function(results) {
-					self.set("results", results);
-					self.set("current_step", "step-5");
 				});
+			})
+			.end(function(results) {
+				deferred.resolve(results);
+			});
+		return deferred.promise;
+	},
 
-			self.set("uploaded_count", 0);
-			self.set("total_number_of_transactions", batch.total);
-			this.set("current_step", "step-4");
+	actions: {
+		nextStep: function() {
+			this.nextStep();
+		},
+		prevStep: function() {
+			this.prevStep();
 		}
 
 	}

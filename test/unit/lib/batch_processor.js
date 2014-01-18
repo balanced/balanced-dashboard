@@ -10,7 +10,7 @@ asyncTest("processing", 1, function(assert) {
 			done(i + num);
 		})
 		.end(function(results) {
-			assert.deepEqual(results, [10, 21, 32]);
+			assert.deepEqual(processor.results, [10, 21, 32]);
 			start();
 		});
 });
