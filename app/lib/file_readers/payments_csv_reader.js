@@ -21,19 +21,26 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 	},
 
 	save: function(callback) {
-		var totalUploaded = 0;
-		this.getObjects().forEach(function(obj) {
-			var bankAccountUri = Balanced.BankAccount.constructUri(obj.bank_account_id);
-			Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
-				var credit = Balanced.Credit.create();
-				credit.set('destination', bankAccount);
-				credit.set('amount', parseFloat(obj.amount) * 100);
-				credit.save().then(function() {
-					totalUploaded++;
-					callback(totalUploaded);
+		var self = this;
+		var promise = new Promise(function (resolve, reject) {
+			var totalUploaded = 0;
+			self.getObjects().forEach(function(obj) {
+				var bankAccountUri = Balanced.BankAccount.constructUri(obj.bank_account_id);
+				Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
+					var credit = Balanced.Credit.create();
+					credit.set('destination', bankAccount);
+					credit.set('amount', parseFloat(obj.amount) * 100);
+					credit.save().then(function() {
+						totalUploaded++;
+						callback(totalUploaded);
+						if (totalUploaded === self.getTotalNumberOfTransactions()) {
+							resolve();
+						}
+					});
 				});
 			});
 		});
+		return promise;
 	}
 
 });

@@ -65,10 +65,16 @@
 
     {{#if is_step_4}}
         <div>
-        <h2>Uploading</h4>
+          <h2>Uploading</h4>
 
           <p><em>Data uploaded</em> : {{uploaded_count}}</p>
           <p><em>Number of customers</em> : {{total_number_of_transactions}}</p>
+        </div>
+    {{/if}}
+
+    {{#if is_step_5}}
+        <div>
+          <h2>Finished</h4>
         </div>
     {{/if}}
 </form>
