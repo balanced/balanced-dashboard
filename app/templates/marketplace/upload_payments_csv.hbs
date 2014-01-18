@@ -20,16 +20,35 @@
       <div>
         <h2>Step 2: Confirm Fields</h2>
         <div>
-          {{#if columns_valid}}
+          {{#if csv.columns_valid}}
             <p>Your column names look great</p>
           {{else}}
             <p>The column mapping functionality is not implemented yet.</p>
             <p>Please relabel your columns with:
-              {{expected_column_fields}}
+              {{csv.expected_columns}}
             </p>
-            <p>You used: {{uploaded_column_names}}</p>
+            <p>You used: {{csv.column_names}}</p>
           {{/if}}
         </div>
+        <table class="ember items">
+          <thead>
+            <tr>
+              {{#each csv.column_names}}
+                <th>{{this}}</th>
+              {{/each}}
+            </tr>
+          </thead>
+          <tbody>
+            {{#each csv.fields}}
+              <tr>
+                {{#each this}}
+                  <td>{{this}}</td>
+                {{/each}}
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+
         <div class="actions">
           <button class="btn" {{ action back }}>Back</button>
           <button class="btn" {{ action mapFileColumns }}>Continue</button>
@@ -73,8 +92,28 @@
     {{/if}}
 
     {{#if is_step_5}}
-        <div>
+        <div class="results">
           <h2>Finished</h4>
+          <table class="ember items">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Bank account</th>
+                <th>Description</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each results}}
+                <tr>
+                  <td>{{bank_account.name}}</td>
+                  <td>{{bank_account.bank_name}}</td>
+                  <td>{{credit.description}}</td>
+                  <td>{{formatCurrency credit.amount}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
         </div>
     {{/if}}
 </form>

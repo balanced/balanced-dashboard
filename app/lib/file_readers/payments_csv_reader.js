@@ -4,6 +4,10 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 		"customer_id", "bank_account_id", "amount", "bank_statement_descriptor", "internal_description"
 	],
 
+	valid_columns: function() {
+		return this.columnsMatch(this.expected_columns);
+	}.property("column_names"),
+
 	totalPayoutBalance: function() {
 		var total = 0;
 		this.getObjects().forEach(function(hash) {
@@ -18,43 +22,6 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 
 	getTotalNumberOfTransactions: function() {
 		return this.getObjects().length;
-	},
-
-	executeSingleTransaction: function(object) {
-		var deferred = Ember.RSVP.defer();
-
-		var bankAccountUri = Balanced.BankAccount.constructUri(object.bank_account_id);
-		Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
-			var credit = Balanced.Credit.create();
-			credit.set('destination', bankAccount);
-			credit.set('amount', parseFloat(object.amount) * 100);
-			credit.save().then(function() {
-				deferred.resolve(credit);
-			});
-		});
-		return deferred.promise;
-	},
-
-	save: function(callback) {
-		var self = this;
-		var deferred = Ember.RSVP.defer();
-		var totalUploaded = 0;
-
-		var recursivePromises = function(current, rest) {
-			self.executeSingleTransaction(current).then(function(credit) {
-				totalUploaded++;
-				callback(totalUploaded);
-				if (rest.length > 0) {
-					recursivePromises(rest.shift(), rest);
-				} else {
-					deferred.resolve();
-				}
-			});
-		};
-
-		var objects = self.getObjects();
-		recursivePromises(objects.shift(), objects);
-		return deferred.promise;
 	}
 
 });

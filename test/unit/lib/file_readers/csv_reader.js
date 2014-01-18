@@ -12,6 +12,17 @@ test("rows", function(assert) {
 	assert.deepEqual(csvReader.get("rows"), expectations);
 });
 
+test("fields", function(assert) {
+	var csvReader = Balanced.CsvReader.create({
+		body: "animal,name\ncat,milo\ndog,fido"
+	});
+	var expectations = [
+		["cat", "milo"],
+		["dog", "fido"]
+	];
+	assert.deepEqual(csvReader.get("fields"), expectations);
+});
+
 test("column_names", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
 		body: "column1,column2\ncell1:1,cell1:2"
@@ -19,6 +30,16 @@ test("column_names", function(assert) {
 
 	var columns = csvReader.get("column_names");
 	assert.deepEqual(columns, ["column1", "column2"]);
+});
+
+test("column_names", function(assert) {
+	var csvReader = Balanced.CsvReader.create({
+		body: "column1,column2\ncell1:1,cell1:2"
+	});
+
+	csvReader.set("column_names", ["Column 1", "Column 2"]);
+	var columns = csvReader.get("column_names");
+	assert.deepEqual(columns, ["Column 1", "Column 2"]);
 });
 
 test("getObjects", function(assert) {

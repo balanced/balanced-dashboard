@@ -52,6 +52,9 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 				var paymentsCsvReader = Balanced.PaymentsCsvReader.create({
 					body: fullText
 				});
+
+				self.set("csv", paymentsCsvReader);
+
 				self.set("payments_csv_reader", paymentsCsvReader);
 				self.set("uploaded_column_names", paymentsCsvReader.get("column_names"));
 				self.set("columns_valid", paymentsCsvReader.columnsMatch(self.get("expected_column_fields")));
@@ -71,15 +74,37 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		save: function() {
 			var self = this;
 			var paymentsCsvReader = this.get("payments_csv_reader");
-			self.set("uploaded_count", 0);
-			self.set("total_number_of_transactions", paymentsCsvReader.getTotalNumberOfTransactions());
-			paymentsCsvReader
-				.save(function(uploaded, total) {
-					self.set("uploaded_count", uploaded);
+			var batch = Balanced.BatchProcessor.create({
+				collection: paymentsCsvReader.getObjects()
+			});
+
+			batch
+				.parallel(2)
+				.each(function(index, row, done) {
+					self.set("uploaded_count", batch.finished);
+
+					var bankAccountUri = Balanced.BankAccount
+						.constructUri(row.bank_account_id);
+
+					Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
+						var credit = Balanced.Credit.create();
+						credit.set('destination', bankAccount);
+						credit.set('amount', parseFloat(row.amount) * 100);
+						credit.save().then(function() {
+							done({
+								bank_account: bankAccount,
+								credit: credit
+							});
+						});
+					});
 				})
-				.then(function() {
+				.end(function(results) {
+					self.set("results", results);
 					self.set("current_step", "step-5");
 				});
+
+			self.set("uploaded_count", 0);
+			self.set("total_number_of_transactions", batch.total);
 			this.set("current_step", "step-4");
 		}
 
