@@ -42,12 +42,14 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 			var totalUploaded = 0;
 			var recursivePromises = function(current, rest) {
 				self.executeSingleTransaction(current).then(function(credit) {
+					var nextObject = rest.shift();
 					totalUploaded++;
 					callback(totalUploaded);
-					if (totalUploaded === self.getTotalNumberOfTransactions()) {
+					if (nextObject) {
+						recursivePromises(nextObject, rest);
+					} else {
 						resolve();
 					}
-					recursivePromises(rest.shift(), rest);
 				});
 			};
 
