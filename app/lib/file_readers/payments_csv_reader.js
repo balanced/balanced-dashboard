@@ -37,26 +37,24 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 
 	save: function(callback) {
 		var self = this;
+		var deferred = Ember.RSVP.defer();
+		var totalUploaded = 0;
 
-		var promise = new Promise(function(resolve, reject) {
-			var totalUploaded = 0;
-			var recursivePromises = function(current, rest) {
-				self.executeSingleTransaction(current).then(function(credit) {
-					var nextObject = rest.shift();
-					totalUploaded++;
-					callback(totalUploaded);
-					if (nextObject) {
-						recursivePromises(nextObject, rest);
-					} else {
-						resolve();
-					}
-				});
-			};
+		var recursivePromises = function(current, rest) {
+			self.executeSingleTransaction(current).then(function(credit) {
+				totalUploaded++;
+				callback(totalUploaded);
+				if (rest.length > 0) {
+					recursivePromises(rest.shift(), rest);
+				} else {
+					deferred.resolve();
+				}
+			});
+		};
 
-			var objects = self.getObjects();
-			recursivePromises(objects.shift(), objects);
-		});
-		return promise;
+		var objects = self.getObjects();
+		recursivePromises(objects.shift(), objects);
+		return deferred.promise;
 	}
 
 });
