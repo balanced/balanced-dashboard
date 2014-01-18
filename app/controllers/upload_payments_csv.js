@@ -26,7 +26,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		return this.get("current_step") === "step-4";
 	}.property("current_step"),
 
-	is_step_5: function () {
+	is_step_5: function() {
 		return this.get("current_step") === "step-5";
 	}.property("current_step"),
 
@@ -77,7 +77,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 				.save(function(uploaded, total) {
 					self.set("uploaded_count", uploaded);
 				})
-				.then(function () {
+				.then(function() {
 					self.set("current_step", "step-5");
 				});
 			this.set("current_step", "step-4");

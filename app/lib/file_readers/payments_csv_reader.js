@@ -20,25 +20,39 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 		return this.getObjects().length;
 	},
 
+	executeSingleTransaction: function(object) {
+		var deferred = Ember.RSVP.defer();
+
+		var bankAccountUri = Balanced.BankAccount.constructUri(object.bank_account_id);
+		Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
+			var credit = Balanced.Credit.create();
+			credit.set('destination', bankAccount);
+			credit.set('amount', parseFloat(object.amount) * 100);
+			credit.save().then(function() {
+				deferred.resolve(credit);
+			});
+		});
+		return deferred.promise;
+	},
+
 	save: function(callback) {
 		var self = this;
-		var promise = new Promise(function (resolve, reject) {
+
+		var promise = new Promise(function(resolve, reject) {
 			var totalUploaded = 0;
-			self.getObjects().forEach(function(obj) {
-				var bankAccountUri = Balanced.BankAccount.constructUri(obj.bank_account_id);
-				Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
-					var credit = Balanced.Credit.create();
-					credit.set('destination', bankAccount);
-					credit.set('amount', parseFloat(obj.amount) * 100);
-					credit.save().then(function() {
-						totalUploaded++;
-						callback(totalUploaded);
-						if (totalUploaded === self.getTotalNumberOfTransactions()) {
-							resolve();
-						}
-					});
+			var recursivePromises = function(current, rest) {
+				self.executeSingleTransaction(current).then(function(credit) {
+					totalUploaded++;
+					callback(totalUploaded);
+					if (totalUploaded === self.getTotalNumberOfTransactions()) {
+						resolve();
+					}
+					recursivePromises(rest.shift(), rest);
 				});
-			});
+			};
+
+			var objects = self.getObjects();
+			recursivePromises(objects.shift(), objects);
 		});
 		return promise;
 	}
