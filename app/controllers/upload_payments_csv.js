@@ -22,6 +22,10 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		return this.get("current_step") === "step-3";
 	}.property("current_step"),
 
+	is_step_4: function() {
+		return this.get("current_step") === "step-4";
+	}.property("current_step"),
+
 	current_escrow_balance: 100,
 
 	actions: {
@@ -64,6 +68,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 			var self = this;
 			var paymentsCsvReader = this.get("payments_csv_reader");
 			self.set("uploaded_count", 0);
+			self.set("total_number_of_transactions", paymentsCsvReader.getTotalNumberOfTransactions());
 			paymentsCsvReader.save(function(uploaded, total) {
 				self.set("uploaded_count", uploaded);
 			});

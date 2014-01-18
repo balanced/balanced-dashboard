@@ -16,6 +16,10 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 		return this.getObjects().mapBy("customer_id").uniq().length;
 	},
 
+	getTotalNumberOfTransactions: function() {
+		return this.getObjects().length;
+	},
+
 	save: function(callback) {
 		var totalUploaded = 0;
 		this.getObjects().forEach(function(obj) {
