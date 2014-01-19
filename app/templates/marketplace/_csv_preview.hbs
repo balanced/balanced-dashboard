@@ -1,0 +1,23 @@
+<div class="results">
+  <div class="items-wrapper">
+    <table class="items">
+      <thead>
+        <tr>
+          {{#each view.reader.column_names}}
+            <th class="label6a">{{this}}</th>
+          {{/each}}
+        </tr>
+      </thead>
+      <tbody>
+      {{#each view.reader.fields}}
+        <tr>
+          {{#each this}}
+            <td><a href="#"><span>{{this}}</span></a></td>
+          {{/each}}
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+

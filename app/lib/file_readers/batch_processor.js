@@ -5,9 +5,9 @@ Balanced.BatchProcessor = Ember.Object.extend({
 	limit: 1,
 	finished: 0,
 
-	length: function() {
-		return this.collection.length;
-	}.property("collection"),
+	is_complete: function() {
+		return this.finished === this.collection.length;
+	}.property("finished"),
 
 	each: function(callback) {
 		var self = this;

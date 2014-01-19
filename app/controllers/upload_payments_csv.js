@@ -2,10 +2,6 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	needs: ["marketplace"],
 
 	current_index: 0,
-	status: {
-		message: function () {}.property("current_index")
-	},
-
 
 	addStep: function(stepView) {
 		this.steps = this.steps || [];
@@ -47,18 +43,17 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	},
 
 	// End of step 3
-	setStartProcessing: function() {
+	startProcessing: function(reader) {
 		var self = this;
-		var paymentsCsvReader = this.get("reader");
 		var batch = Balanced.BatchProcessor.create({
-			collection: paymentsCsvReader.getObjects()
+			collection: reader.getObjects()
 		});
 
 		self.set("results", batch.results);
 		self.set("credits", []);
 
 		this.set("batch", batch);
-		this.process(batch, function (result) {
+		this.process(batch, function(result) {
 			self.credits.pushObject(result.credit);
 		}).then(function() {
 			// Display Message
@@ -75,10 +70,12 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 				var bankAccountUri = Balanced.BankAccount.constructUri(row.bank_account_id);
 				Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
 					var credit = Balanced.Credit.create();
-					credit.set('destination', bankAccount);
-					credit.set("appears_on_statement_as", row.bank_statement_descriptor);
-					credit.set("description", row.internal_description);
-					credit.set('amount', parseFloat(row.amount) * 100);
+					credit.setProperties({
+						destination: bankAccount,
+						appears_on_statement_as: row.bank_statement_descriptor,
+						description: row.internal_description,
+						amount: parseFloat(row.amount) * 100
+					});
 					credit.save().then(function() {
 						var result = {
 							bank_account: bankAccount,

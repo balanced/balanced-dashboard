@@ -1,91 +1,70 @@
 <div class="row">
   <div class="span20">
-
-    <h1 class="page-title">Upload Payments Csv</h1>
+    <h1 class="page-title">Upload Payments CSV</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvFileSelectionView}}
-  <form {{action "submit" on="submit" target="view"}}>
+  <form {{action "submit" on="submit" target="view"}} class="full-page-form">
     <h2>Step 1: Upload File</h2>
-    <input type="file" id="file" name="file" {{action fileSelectionChanged on="change" target="view"}}/>
-    <button type="submit">Submit</button>
-  </form>
-{{/view}}
 
-{{#view Balanced.MarketplaceUploadPaymentsCsvColumnsMapping}}
-  <form {{action "submit" on="submit" target="view"}}>
-    <h2>Step 2: Confirm Fields</h2>
-    <div>
-      {{#if reader.columns_valid}}
-        <p>Your column names look great</p>
-      {{else}}
-        <p>The column mapping functionality is not implemented yet.</p>
-        <p>Please relabel your columns with:
-          {{reader.expected_columns}}
-        </p>
-        <p>You used: {{reader.column_names}}</p>
+    <fieldset>
+      <div class="control-group">
+        <input type="file" name="file" {{action fileSelectionChanged on="change" target="view"}} />
+        <label class="control-label">Select a CSV File</label>
+      </div>
+
+      {{#if view.reader.fields.length}}
+        <div class="key-value-display mb-large">
+          <div class="key-value-row">
+            <label class="key">Payout Total</label>
+            <span class="value">{{formatCurrency view.payout_total}}</span>
+          </div>
+
+          <div class="key-value-row">
+            <label class="key">Current Escrow Balance</label>
+            <span class="value">{{controllers.marketplace.formattedEscrowAmount}}</span>
+          </div>
+
+          <div class="key-value-row">
+            <label class="key">Number of customers</label>
+            <span class="value">{{view.customers_total}}</span>
+          </div>
+        </div>
+
+        <div class="section-banner-header">
+           <p><strong>File Preview</strong></p>
+        </div>
+        {{#unless view.reader.valid_columns}}
+          <div class="alert alert-error">
+            <p>The column mapping functionality is not implemented yet.</p>
+            <p>Please relabel your columns with:
+              {{view.reader.expected_columns}}
+            </p>
+            <p>You used: {{view.reader.column_names}}</p>
+          </div>
+        {{/unless}}
+        {{partial "marketplace/csv_preview"}}
       {{/if}}
-    </div>
-    <table class="ember items">
-      <thead>
-        <tr>
-          {{#each reader.column_names}}
-            <th>{{this}}</th>
-          {{/each}}
-        </tr>
-      </thead>
-      <tbody>
-        {{#each reader.fields}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
+    </fieldset>
 
-    <div class="actions">
-      <button class="btn" {{ action prevStep }}>Back</button>
-      <button type="submit">Continue</button>
-    </div>
-  </form>
-{{/view}}
-
-{{#view Balanced.MarketplaceUploadPaymentsCsvReviewDataView}}
-  <form {{action "submit" on="submit" target="view"}}>
-    <h2>Step 3: Review Data</h2>
-
-    <h5>Please review the following information before proceeding</h5>
-    <div class="key-value-display mb-large">
-      <div class="key-value-row">
-        <label class="key">Payout Total</label>
-        <span class="value">{{formatCurrency view.payout_total}}</span>
+    {{#if view.reader.valid_columns}}
+      <div class="actions">
+        <button type="submit">Continue</button>
       </div>
-
-      <div class="key-value-row">
-        <label class="key">Current Escrow Balance</label>
-        <span class="value">{{controllers.marketplace.formattedEscrowAmount}}</span>
-      </div>
-
-      <div class="key-value-row">
-        <label class="key">Number of customers</label>
-        <span class="value">{{view.customers_total}}</span>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="btn" {{ action prevStep }}>Back</button>
-      <button type="submit">Continue</button>
-    </div>
+    {{/if}}
   </form>
 {{/view}}
 
 {{#view Balanced.WizardStepView}}
   <form class="form-horizontal split-labels">
     <h2>
-      Step 4: Uploading
+      Uploading
       <small>
-        {{batch.finished}} /
-        {{batch.collection.length}} transactions
+        {{#if batch.is_complete}}
+          Finished
+        {{else}}
+          {{batch.finished}} /
+          {{batch.collection.length}} transactions
+        {{/if}}
       </small>
     </h2>
 
