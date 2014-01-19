@@ -1,32 +1,30 @@
 Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	needs: ["marketplace"],
-	content: null,
 
-	expected_column_fields: function() {
-		return this.get("payments_csv_reader").expected_columns;
-	}.property("payments_csv_reader"),
+	current_index: 0,
+	status: {
+		message: function () {}.property("current_index")
+	},
 
-	upload_error_messages: ["No file provided"],
 
 	addStep: function(stepView) {
 		this.steps = this.steps || [];
 		this.steps.push(stepView);
-		if (this.steps.length === 1) {
-			stepView.show();
-			this.current_index = 0;
-		} else {
-			stepView.hide();
-		}
+		this.refreshViews();
 		return this;
 	},
 
 	nextStep: function() {
-		this.current_index++;
+		if (this.current_index < this.steps.length) {
+			this.set("current_index", this.current_index + 1);
+		}
 		this.refreshViews();
 	},
 
 	prevStep: function() {
-		this.current_index--;
+		if (this.current_index > 0) {
+			this.set("current_index", this.current_index - 1);
+		}
 		this.refreshViews();
 	},
 
@@ -36,8 +34,6 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 			stepView.toggle(self.current_index === i);
 		});
 	},
-
-	current_escrow_balance: 100,
 
 	// End of step 1
 	setPaymentsReader: function(reader) {
@@ -59,8 +55,12 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		});
 
 		self.set("results", batch.results);
+		self.set("credits", []);
+
 		this.set("batch", batch);
-		this.process(batch).then(function() {
+		this.process(batch, function (result) {
+			self.credits.pushObject(result.credit);
+		}).then(function() {
 			// Display Message
 		});
 		this.nextStep();

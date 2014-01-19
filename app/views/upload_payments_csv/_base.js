@@ -1,8 +1,9 @@
 Balanced.WizardStepView = Balanced.View.extend({
-	init: function() {
+	didInsertElement: function() {
 		this._super();
 		this.get("controller").addStep(this);
 	},
+
 	hide: function() {
 		$(this.get("element")).hide();
 	},

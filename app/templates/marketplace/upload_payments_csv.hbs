@@ -1,4 +1,7 @@
-<h1 class="page-title">Upload Payments Csv</h1>
+<div class="row">
+  <div class="span20">
+
+    <h1 class="page-title">Upload Payments Csv</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvFileSelectionView}}
   <form {{action "submit" on="submit" target="view"}}>
@@ -51,12 +54,23 @@
 {{#view Balanced.MarketplaceUploadPaymentsCsvReviewDataView}}
   <form {{action "submit" on="submit" target="view"}}>
     <h2>Step 3: Review Data</h2>
-    <div>
-      <h6>Please review the following information before proceeding</h6>
-      <p><em>Total payout balance</em> : {{formatCurrency view.payout_total}}</p>
-      <p><em>Current Escrow balance</em> : {{formatCurrency view.escrow_balance}}</p>
-      <p><em>Number of customers</em> : {{view.customers_total}}</p>
-      <p>Data is ready to upload</p>
+
+    <h5>Please review the following information before proceeding</h5>
+    <div class="key-value-display mb-large">
+      <div class="key-value-row">
+        <label class="key">Payout Total</label>
+        <span class="value">{{formatCurrency view.payout_total}}</span>
+      </div>
+
+      <div class="key-value-row">
+        <label class="key">Current Escrow Balance</label>
+        <span class="value">{{controllers.marketplace.formattedEscrowAmount}}</span>
+      </div>
+
+      <div class="key-value-row">
+        <label class="key">Number of customers</label>
+        <span class="value">{{view.customers_total}}</span>
+      </div>
     </div>
     <div class="actions">
       <button class="btn" {{ action prevStep }}>Back</button>
@@ -65,37 +79,24 @@
   </form>
 {{/view}}
 
-{{#if batch}}
+{{#view Balanced.WizardStepView}}
   <form class="form-horizontal split-labels">
-    <div>
-      <h2>Uploading</h4>
-
-      <p><em>Data uploaded</em> : {{batch.finished}}</p>
-      <p><em>Number of </em> : {{batch.collection.length}}</p>
-    </div>
+    <h2>
+      Step 4: Uploading
+      <small>
+        {{batch.finished}} /
+        {{batch.collection.length}} transactions
+      </small>
+    </h2>
 
     <div class="results">
-      <h2>Finished</h4>
-      <table class="ember items">
-        <thead>
-          <tr>
-            <th>Customer</th>
-            <th>Bank account</th>
-            <th>Description</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each batch.results}}
-            <tr>
-              <td>{{bank_account.name}}</td>
-              <td>{{bank_account.bank_name}}</td>
-              <td>{{credit.description}}</td>
-              <td>{{formatCurrency credit.amount}}</td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
+      {{view Balanced.TransactionsResultsView transactionsBinding="credits"}}
+    </div>
+    <div class="actions">
+      <button class="btn" {{ action prevStep }}>Back</button>
     </div>
   </form>
-{{/if}}
+{{/view}}
+
+  </div>
+</div>
