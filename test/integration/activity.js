@@ -68,11 +68,11 @@ test('add funds', function(assert) {
 					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
 					assert.equal(
 						$('label.control-label:contains(characters max):visible').text(),
-						'Appears on statement as (14 characters max)'
+						'Appears on statement as (18 characters max)'
 					);
 					assert.equal(
 						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-						'14'
+						'18'
 					);
 				})
 				.fillIn('#add-funds input', '55.55')
