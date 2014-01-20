@@ -6,11 +6,15 @@ module('Guest', {
 });
 
 test('visiting start creates a marketplace', function(assert) {
+	var spy = sinon.spy(Balanced.Marketplace, "populateWithTestTransactions");
+
 	visit('/start').then(function() {
 		assert.ok(window.location.hash.indexOf('start'), 'Transitioned to the start page');
 		assert.equal(Balanced.Auth.get('userId'), '/users/guest', 'Userid is guest');
 		assert.equal(Balanced.Auth.get('signedIn'), true, 'User is signed in');
 		assert.ok(Balanced.Auth.get('isGuest'));
+
+		assert.ok(spy.calledOnce, 'called populateWithTestTransactions');
 	});
 });
 
