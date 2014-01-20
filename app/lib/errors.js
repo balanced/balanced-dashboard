@@ -1,6 +1,6 @@
 if (typeof Raven !== typeof undefined) {
 	var reportError = function(error) {
-		if (!error) {
+		if (!error || error.message === 'TransitionAborted') {
 			return;
 		}
 
