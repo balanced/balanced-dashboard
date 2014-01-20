@@ -59,7 +59,7 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 			// Save the user
 			user.save().then(function() {
 				$(".change-password-modal.in").modal('hide');
-				Balanced.Auth.get('user').send('reload');
+				Balanced.Auth.get('user').reload();
 			}, function() {
 				user.setProperties({
 					displayErrorDescription: true,
