@@ -31,6 +31,17 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		});
 	},
 
+	reset: function() {
+		this.setProperties({
+			current_index: 0,
+			steps: [],
+			reader: null,
+			result: null,
+			batch: null
+		});
+		this.refreshViews();
+	},
+
 	// End of step 1
 	setPaymentsReader: function(reader) {
 		this.set("reader", reader);
