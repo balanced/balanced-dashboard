@@ -21,8 +21,8 @@ module.exports = function(config) {
 			'build/test/js/test-fixtures.js',
 			'test/support/testconfig.js',
 			'test/lib/*.js',
-      // 'test/unit/**/*',
-			'test/integration/invoices.js'
+      'test/unit/**/*',
+			'test/integration/**/*'
 		],
 
 		// list of files to exclude
