@@ -10,11 +10,14 @@
         </tr>
       </thead>
       <tbody>
-      {{#each view.table_rows}}
+      {{#each csvRowObjects}}
         <tr>
           <td>
             {{#if credit.isLoaded}}
-              <i class="icon icon-checkmark"></i>
+              {{#link-to credit.route_name credit}}
+                <i class="icon icon-checkmark"></i>
+                view
+              {{/link-to}}
             {{else}}
               {{#if credit.isSaving}}
                 <i class="icon icon-loading"></i>
@@ -27,9 +30,7 @@
           </td>
           {{#each columns}}
             <td>
-              {{#link-to credit.route_name credit}}
-                <span>{{this}}</span>
-              {{/link-to}}
+              <a><span>{{this}}</span></a>
             </td>
           {{/each}}
         </tr>

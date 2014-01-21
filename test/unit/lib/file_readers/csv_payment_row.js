@@ -34,7 +34,7 @@ test("isSubmittable", function(assert) {
 test("deserialize", function(assert) {
 	var subject = Balanced.CsvPaymentRow.create();
 	var values = [10, undefined, "crkjbvr", "-10"];
-	var expectations = [1000, undefined, undefined, undefined]
+	var expectations = [1000, undefined, undefined, undefined];
 
 	values.forEach(function(val, i) {
 		assert.deepEqual(subject.deserialize("credit.amount", val), expectations[i]);
