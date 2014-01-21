@@ -70,8 +70,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 				}, function() {
 					return credit;
 				});
-			}
-			else {
+			} else {
 				return null;
 			}
 		});

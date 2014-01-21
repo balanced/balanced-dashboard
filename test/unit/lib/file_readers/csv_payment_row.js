@@ -1,6 +1,6 @@
 module("Balanced.CsvPaymentRow");
 
-test("isValid", function (assert) {
+test("isValid", function(assert) {
 
 	var subject = Balanced.CsvPaymentRow.create({
 		baseObject: {
