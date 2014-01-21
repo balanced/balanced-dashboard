@@ -8,9 +8,9 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	isSubmittable: function () {
 		return this.get("table_rows").any(function (row) {
-			return row.get("isValid");
+			return row.get("isSubmittable");
 		});
-	}.property("table_rows.@each.isValid"),
+	}.property("table_rows.@each.isSubmittable"),
 
 	credits: function() {
 		return this.get("table_rows").mapBy("credit");
