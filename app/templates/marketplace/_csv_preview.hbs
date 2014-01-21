@@ -7,6 +7,7 @@
           {{#each view.table_headers}}
             <th class="label6a">{{this}}</th>
           {{/each}}
+          <th class="label6a">Messages</th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +34,11 @@
               <a><span>{{this}}</span></a>
             </td>
           {{/each}}
+          <td>
+            {{#each errors}}
+              {{this}}
+            {{/each}}
+          </td>
         </tr>
       {{/each}}
       </tbody>

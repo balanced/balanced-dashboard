@@ -1,9 +1,14 @@
 Balanced.CsvPaymentRow = Ember.Object.extend({
 
+	init: function() {
+		this._super();
+		this.set("errors", []);
+	},
+
 	isValid: function() {
 		var amount = this.get("credit.amount");
-		return amount !== undefined && amount > 0;
-	}.property("credit.amount"),
+		return amount !== undefined && amount > 0 && this.get("errors.length") === 0;
+	}.property("credit.amount", "errors.length"),
 
 	isSubmittable: function() {
 		return this.get("isValid") && this.get("credit.isNew");
@@ -65,18 +70,23 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 	process: function() {
 		var bankAccountUri = Balanced.BankAccount.constructUri(this.getDeepValue("bank_account.id"));
 		var self = this;
+		var credit = self.get("credit");
 		return Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
-			var credit = self.get("credit");
 			credit.set("destination", bankAccount);
 			if (self.get("isValid")) {
 				return credit.save().then(function(credit) {
 					return credit;
-				}, function() {
+				}, function(err) {
+					self.get("errors").pushObject("Unknown error.");
 					return credit;
 				});
 			} else {
+				self.get("errors").pushObject("The credit amount is not valid.");
 				return null;
 			}
+		}, function(err) {
+			self.get("errors").pushObject("Bank account problem");
+			return credit;
 		});
 	}
 
