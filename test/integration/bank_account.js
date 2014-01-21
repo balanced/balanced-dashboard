@@ -168,3 +168,27 @@ test('can confirm bank account verification', function(assert) {
 			});
 		});
 });
+
+test('renders metadata correctly', function(assert) {
+	var metaData = {
+		'key': 'value',
+		'other-keey': 'other-vaalue'
+	};
+	Ember.run(function() {
+		Balanced.BankAccount.findAll().then(function(accounts) {
+			var account = accounts.content[0];
+			account.set('meta', metaData);
+
+			account.save().then(function(account) {
+				var accountPageUrl = '/marketplaces/' + Testing.MARKETPLACE_ID + '/bank_accounts/' + account.get('id');
+				visit(accountPageUrl).then(function() {
+					var $controlGroups = $('.bank-account-info .control-group');
+					$.each(metaData, function(key, value) {
+						assert.equal($controlGroups.find('.control-label:contains("' + key + '")').length, 1);
+						assert.equal($controlGroups.find('.inline-label:contains("' + value + '")').length, 1);
+					});
+				});
+			});
+		});
+	});
+});
