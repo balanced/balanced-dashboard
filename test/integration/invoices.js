@@ -60,3 +60,21 @@ test('invoice detail page', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Refund, invoiceUri + '/refunds'));
 		});
 });
+
+test('change invoice funding source', function(assert) {
+	var invoiceUri = '/invoices/IVDOATjeyAPTJMJPnBR83uE';
+	var spy = sinon.spy(Balanced.Adapter, "get");
+	var stub = sinon.stub(Balanced.Adapter, "update");
+	stub.callsArg(3);
+
+	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl' + invoiceUri)
+		.click('.change-funding-source-btn')
+		.fillIn('#change-funding-source form select[name="source_uri"]', '123')
+		.click('#change-funding-source form button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
+			assert.equal(spy.callCount, 7);
+			assert.ok(stub.calledWith(Balanced.Invoice, invoiceUri));
+			assert.equal(stub.callCount, 1);
+		});
+});

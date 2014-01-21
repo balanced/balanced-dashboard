@@ -70,7 +70,7 @@
               <label class="key">From</label>
               <span class="value">
                 {{#if source}}{{ source.description }}{{else}}<i>Default</i>{{/if}}
-                {{#if is_not_paid}}({{change-funding-source-modal marketplaceBinding=marketplace sourceUriBinding=source.uri modelBinding=view.model}}){{/if}}
+                {{#if is_not_paid}}({{change-funding-source-modal marketplaceBinding="controllers.marketplace.model" source_uri=source.uri model=model}}){{/if}}
               </span>
             </div>
           </div>

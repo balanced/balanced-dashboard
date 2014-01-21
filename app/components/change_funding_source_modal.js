@@ -6,6 +6,7 @@ Balanced.ChangeFundingSourceModalComponent = Balanced.ModalComponent.extend({
 	source: function() {
 		var debitableBankAccounts = this.get('debitable_bank_accounts');
 		var sourceUri = this.get('source_uri');
+
 		var defaultSource = null;
 
 		if (!debitableBankAccounts) {
@@ -37,7 +38,13 @@ Balanced.ChangeFundingSourceModalComponent = Balanced.ModalComponent.extend({
 			var source = this.get('source');
 			var cents = null;
 
-			invoice.set('source_uri', source.get('debits_uri'));
+			var sourceUri = this.get('source_uri');
+
+			if (source) {
+				sourceUri = source.get('debits_uri');
+			}
+
+			invoice.set('source_uri', sourceUri);
 			invoice.on('didUpdate', function() {
 				invoice.reload();
 				self.hide();
