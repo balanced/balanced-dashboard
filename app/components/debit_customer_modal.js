@@ -52,6 +52,7 @@ Balanced.DebitCustomerModalComponent = Balanced.ModalComponent.extend({
 				return sourceUri === fundingInstrument.get('uri');
 			});
 		}
+		return this.get('customer.debitable_funding_instruments.0');
 	}.property('model.source_uri', 'customer.debitable_funding_instruments'),
 
 	can_debit: function() {

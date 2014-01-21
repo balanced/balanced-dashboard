@@ -56,5 +56,6 @@ Balanced.CreditCustomerModalComponent = Balanced.ModalComponent.extend({
 				return bankAccountUri === bankAccount.get('uri');
 			});
 		}
+		return this.get('customer.creditable_funding_instruments.0');
 	}.property('model.bank_account_uri', 'customer.bank_accounts')
 });

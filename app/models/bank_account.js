@@ -56,6 +56,18 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		var self = this;
 		var promise = this.resolveOn('didCreate');
 
+		function errorCreatingBankAccount(err) {
+			Ember.run.next(function() {
+				self.setProperties({
+					displayErrorDescription: true,
+					isSaving: false,
+					errorDescription: 'There was an error processing your bank account. ' + (Ember.get(err, 'errorDescription') || ''),
+					validationErrors: Ember.get(err, 'validationErrors') || {}
+				});
+			});
+			promise.reject(err);
+		}
+
 		this.set('isSaving', true);
 		var bankAccountData = {
 			type: this.get('type'),
@@ -81,7 +93,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					});
 				}
 
-				promise.reject();
+				promise.reject(validationErrors);
 			} else {
 				Balanced.BankAccount.find(response.bank_accounts[0].href)
 				// Now that it's been tokenized, we just need to associate it with the customer's account
@@ -96,24 +108,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 						});
 
 						self.trigger('didCreate');
-					}, function(err) {
-						self.setProperties({
-							displayErrorDescription: true,
-							isSaving: false,
-							errorDescription: 'There was an error processing your bank account. ' + Ember.get(err, 'errorDescription')
-						});
-
-						promise.reject();
-					});
-				}, function(err) {
-					self.setProperties({
-						displayErrorDescription: true,
-						isSaving: false,
-						errorDescription: 'There was an error processing your bank account. ' + Ember.get(err, 'errorDescription')
-					});
-
-					promise.reject();
-				});
+					}, errorCreatingBankAccount);
+				}, errorCreatingBankAccount);
 			}
 		});
 

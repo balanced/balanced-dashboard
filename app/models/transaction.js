@@ -57,5 +57,9 @@ Balanced.Transaction = Balanced.Model.extend({
 
 	is_failed: function() {
 		return this.get('status') === 'failed';
+	}.property('status'),
+
+	is_pending: function() {
+		return this.get('status') === 'pending';
 	}.property('status')
 });

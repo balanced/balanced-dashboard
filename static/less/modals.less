@@ -53,6 +53,11 @@ body .modal-backdrop.fade.in {
   &.fade.in {
     top: 10%;
   }
+  .alert-error {
+    background-color: transparent;
+    border-color: transparent;
+    color: @imperialRed100;
+  }
 }
 
 .modal-header {
@@ -250,6 +255,15 @@ body .modal-backdrop.fade.in {
 }
 
 .control-group {
+  &.error {
+    input, select, textarea {
+      border-color: @imperialRed100;
+      background-color: @imperialRed20;
+    }
+    .control-label {
+      color: @imperialRed100;
+    }
+  }
 
   &:first-of-type {
     margin: 0;

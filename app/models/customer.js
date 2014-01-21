@@ -24,6 +24,10 @@ Balanced.Customer = Balanced.Model.extend({
 		return this.get('debitable_bank_accounts').concat(this.get('cards.content'));
 	}.property('debitable_bank_accounts', 'cards.@each'),
 
+	creditable_funding_instruments: function() {
+		return this.get('bank_accounts.content');
+	}.property('bank_accounts'),
+
 	type: function() {
 		return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
 	}.property('ein', 'business_name'),
@@ -126,7 +130,11 @@ Balanced.Customer = Balanced.Model.extend({
 
 	dob_error: function() {
 		return this.get('validationErrors.dob_month') || this.get('validationErrors.dob_year');
-	}.property('validationErrors.dob_month', 'validationErrors.dob_year')
+	}.property('validationErrors.dob_month', 'validationErrors.dob_year'),
+
+	is_identity_verified: function() {
+		return this.get('merchant_status') === 'underwritten';
+	}.property('merchant_status')
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

@@ -29,8 +29,7 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Activity'), -1,
 				'Title is correct');
 
-			// TODO: Re-enable download link
-			// assert.ok($('#activity .download').length, "Download link is visible");
+			assert.ok($('#activity .download').length, "Download link is visible");
 		});
 });
 
@@ -67,6 +66,14 @@ test('add funds', function(assert) {
 				.then(function() {
 					assert.equal($('#add-funds').css('display'), 'block', 'add funds modal visible');
 					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
+					assert.equal(
+						$('label.control-label:contains(characters max):visible').text(),
+						'Appears on statement as (14 characters max)'
+					);
+					assert.equal(
+						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
+						'14'
+					);
 				})
 				.fillIn('#add-funds input', '55.55')
 				.fillIn('#add-funds input.description', 'Adding lots of money yo')
@@ -125,6 +132,14 @@ test('withdraw funds', function(assert) {
 				.then(function() {
 					assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
 					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
+					assert.equal(
+						$('label.control-label:contains(characters max):visible').text(),
+						'Appears on statement as (14 characters max)'
+					);
+					assert.equal(
+						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
+						'14'
+					);
 				})
 				.fillIn('#withdraw-funds input', '55.55')
 				.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
@@ -162,15 +177,13 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 	});
 });
 
-// TODO: Re-enable download link
-/*
 test('download activity', function(assert) {
 	assert.equal($(".alert span").length, 0);
 
 	// var searchUri = "/marketplaces/" + Testing.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund";
 
 	// HACK - we have to mess with the URI since the CSV download service doesn't support rev1. When it does, switch this back to the above
-	var searchUri = "/v1/marketplaces/" + Testing.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Chold%2Crefund";
+	// var searchUri = "/v1/marketplaces/" + Testing.MARKETPLACE_ID + "/search?limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Chold%2Crefund";
 
 	var stub = sinon.stub(Balanced.Adapter, "create");
 	stub.withArgs(Balanced.Download).callsArgWith(3, {
@@ -185,7 +198,8 @@ test('download activity', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
 				email_address: "test@example.com",
-				uri: searchUri
+				uri: "",
+				type: "transactions"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
@@ -206,7 +220,6 @@ test('download activity only runs once despite multiple clicks', function(assert
 			assert.ok(stub.calledOnce);
 		});
 });
-*/
 
 test('transactions date sort has two states', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
