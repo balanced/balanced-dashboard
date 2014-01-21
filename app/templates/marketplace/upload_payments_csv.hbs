@@ -18,9 +18,18 @@
       {{/if}}
     </fieldset>
 
-    <div class="actions">
-      <button type="submit">Continue</button>
-    </div>
+    {{#if view.table_rows.length}}
+      <div class="actions">
+        {{#if view.isSubmittable}}
+          <button type="submit">Continue</button>
+        {{else}}
+          <p>
+          There are no valid rows. Please make sure you are using the correct column names:
+          bank_account.id, credit.amount
+          </p>
+        {{/if}}
+      </div>
+    {{/if}}
   </form>
 {{/view}}
 

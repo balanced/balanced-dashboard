@@ -5,6 +5,8 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		return amount !== undefined && amount > 0;
 	}.property("credit.amount"),
 
+	isProcessed: false,
+
 	deserializers: {
 		"credit.amount": function(v) {
 			var value = parseFloat(v, 10);
@@ -66,11 +68,14 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 			credit.set("destination", bankAccount);
 			if (self.get("isValid")) {
 				return credit.save().then(function(credit) {
+					self.set("isProcessed", true);
 					return credit;
 				}, function() {
+					self.set("isProcessed", true);
 					return credit;
 				});
 			} else {
+				self.set("isProcessed", true);
 				return null;
 			}
 		});

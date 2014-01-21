@@ -6,6 +6,12 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		this.set("reader", reader);
 	},
 
+	isSubmittable: function () {
+		return this.get("table_rows").any(function (row) {
+			return row.get("isValid");
+		});
+	}.property("table_rows.@each.isValid"),
+
 	credits: function() {
 		return this.get("table_rows").mapBy("credit");
 	}.property("table_rows"),
