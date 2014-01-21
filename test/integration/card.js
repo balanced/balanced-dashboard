@@ -69,3 +69,23 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 			});
 		});
 });
+
+test('renders metadata correctly', function (assert) {
+  Balanced.Card.findAll().then(function (cards) {
+    Ember.run(function() {
+      var card = cards.content[0];
+      card.set('meta', {
+          'key': 'value',
+          'other-key': 'other-value'
+      });
+
+      card.save().then(function (debit) {
+        var cardUri = Testing.CARD_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/cards/' + card.get('id');
+        visit(cardUri).then(function () {
+					assert.equal($('.card-info').find('.control-label').last().text().trim(), 'other-key');
+					assert.equal($('.card-info').find('.inline-label').last().text().trim(), 'other-value');
+        });
+      });
+    });
+  });
+});
