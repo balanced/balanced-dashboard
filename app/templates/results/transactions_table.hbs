@@ -60,10 +60,10 @@
     {{else}}
         <tr>
             <td colspan="6" class="no-results">
-                {{# if view.transactions.isLoaded }}
-                    No results
-                {{else}}
+                {{#if isLoading }}
                     Loading...
+                {{else}}
+                    No results
                 {{/if}}
             </td>
         </tr>

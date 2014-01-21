@@ -96,8 +96,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		},
 
 		isLoading: function() {
-			return this.get('fetch_results') && this.get('results') && !this.get('results.isLoaded');
-		}.property('results.isLoaded'),
+			return this.get('fetch_results') && this.get('results') && !this.get('results.isLoaded') && !this.get('results.isError');
+		}.property('results.isLoaded', 'results.isError', 'results'),
 
 		displayResults: function() {
 			return this.get('fetch_results') && this.get('showResults');
