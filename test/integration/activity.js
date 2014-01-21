@@ -68,11 +68,11 @@ test('add funds', function(assert) {
 					assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
 					assert.equal(
 						$('label.control-label:contains(characters max):visible').text(),
-						'Appears on statement as (18 characters max)'
+						'Appears on statement as (14 characters max)'
 					);
 					assert.equal(
 						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-						'18'
+						'14'
 					);
 				})
 				.fillIn('#add-funds input', '55.55')
@@ -134,11 +134,11 @@ test('withdraw funds', function(assert) {
 					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
 					assert.equal(
 						$('label.control-label:contains(characters max):visible').text(),
-						'Appears on statement as (18 characters max)'
+						'Appears on statement as (14 characters max)'
 					);
 					assert.equal(
 						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-						'18'
+						'14'
 					);
 				})
 				.fillIn('#withdraw-funds input', '55.55')
