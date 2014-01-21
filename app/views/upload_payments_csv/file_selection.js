@@ -1,4 +1,4 @@
-Balanced.MarketplaceUploadPaymentsCsvFileSelectionView = Balanced.View.extend({
+Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	init: function() {
 		this._super();

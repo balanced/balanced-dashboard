@@ -1,8 +1,9 @@
 Balanced.CsvPaymentRow = Ember.Object.extend({
 
-	is_valid: function() {
-		return this.getDeepValue("credit.amount") > 0;
-	}.property("baseObject"),
+	isValid: function() {
+		var amount = this.get("credit.amount");
+		return amount !== undefined && amount > 0;
+	}.property("credit.amount"),
 
 	deserializers: {
 		"credit.amount": function(v) {
@@ -60,15 +61,19 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 	process: function() {
 		var bankAccountUri = Balanced.BankAccount.constructUri(this.getDeepValue("bank_account.id"));
 		var self = this;
-		self.set("is_saving", true);
 		return Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
 			var credit = self.get("credit");
 			credit.set("destination", bankAccount);
-			return credit.save().then(function(credit) {
-				return credit;
-			}, function() {
-				return credit;
-			});
+			if (self.get("isValid")) {
+				return credit.save().then(function(credit) {
+					return credit;
+				}, function() {
+					return credit;
+				});
+			}
+			else {
+				return null;
+			}
 		});
 	}
 

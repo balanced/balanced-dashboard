@@ -1,5 +1,21 @@
 module("Balanced.CsvPaymentRow");
 
+test("isValid", function (assert) {
+
+	var subject = Balanced.CsvPaymentRow.create({
+		baseObject: {
+			"credit.amount": "10.00",
+		}
+	});
+	assert.ok(subject.get("isValid"));
+	subject.set("baseObject", {});
+	assert.ok(!subject.get("isValid"));
+	subject.set("baseObject", {
+		"credit.amount": -100
+	});
+	assert.ok(!subject.get("isValid"));
+});
+
 test("getDeepObject", function(assert) {
 	var row = Balanced.CsvPaymentRow.create({
 		baseObject: {
