@@ -32,7 +32,9 @@ Balanced.BatchProcessor = Ember.Object.extend({
 
 		if (total === 0) {
 			setTimeout(function() {
-				deferred.resolve([]);
+				Ember.run(null, function() {
+					deferred.resolve([]);
+				});
 			}, 0);
 			return deferred.promise;
 		}
@@ -53,17 +55,19 @@ Balanced.BatchProcessor = Ember.Object.extend({
 
 		function doneCallback(result) {
 			setTimeout(function() {
-				handleClientResult(result);
-				running -= 1;
-				self.set("finished", self.finished + 1);
+				Ember.run(null, function() {
+					handleClientResult(result);
+					running -= 1;
+					self.set("finished", self.finished + 1);
 
-				if (self.finished < total) {
-					if (started < total && running < self.limit) {
-						fireNext(started, doneCallback);
+					if (self.finished < total) {
+						if (started < total && running < self.limit) {
+							fireNext(started, doneCallback);
+						}
+					} else if (self.finished === total) {
+						deferred.resolve(self.results);
 					}
-				} else if (self.finished === total) {
-					deferred.resolve(self.results);
-				}
+				});
 			}, 0);
 		}
 
