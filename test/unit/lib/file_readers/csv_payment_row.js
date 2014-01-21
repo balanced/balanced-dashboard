@@ -34,7 +34,7 @@ test("isSubmittable", function(assert) {
 test("deserialize", function(assert) {
 	var subject = Balanced.CsvPaymentRow.create();
 	var values = [10, undefined, "crkjbvr", "-10"];
-	var expectations = [1000, undefined, undefined, undefined];
+	var expectations = [10, undefined, undefined, undefined];
 
 	values.forEach(function(val, i) {
 		assert.deepEqual(subject.deserialize("credit.amount", val), expectations[i]);
@@ -56,7 +56,7 @@ test("getDeepValue", function(assert) {
 	var expectations = {
 		"bank_account.id": "cool id",
 		"credit.id": "10",
-		"credit.amount": 1000,
+		"credit.amount": 10,
 		"credit.client.name": "Dr. Giraffe"
 	};
 
@@ -71,7 +71,7 @@ test("getDeepObject", function(assert) {
 		baseObject: {
 			"bank_account.id": "cool id",
 			"credit.id": "10",
-			"credit.amount": "10.00",
+			"credit.amount": "131",
 			"credit.client.name": "Dr. Giraffe"
 		}
 	});
@@ -82,7 +82,7 @@ test("getDeepObject", function(assert) {
 		},
 		credit: {
 			id: "10",
-			amount: 1000,
+			amount: 131,
 			client: {
 				name: "Dr. Giraffe"
 			}

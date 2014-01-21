@@ -14,6 +14,31 @@
         <div class="section-banner-header">
            <p><strong>File Preview</strong></p>
         </div>
+
+        <header>
+          <h3>File Summary</h3>
+        </header>
+        <div class="control-group">
+            <label class="control-label">Total payout amount</label>
+            <div class="controls">
+              <span class="inline-label">{{formatCurrency view.payoutTotal}}</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Current Escrow Balance</label>
+            <div class="controls">
+              <span class="inline-label">
+                {{ controllers.marketplace.formattedEscrowAmount }}
+              </span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Number Of Customers</label>
+            <div class="controls">
+              <span class="inline-label">{{view.table_rows.length}}</span>
+            </div>
+        </div>
+
         {{partial "marketplace/csv_preview"}}
       {{/if}}
     </fieldset>

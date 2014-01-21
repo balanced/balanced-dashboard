@@ -20,7 +20,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 			if (isNaN(value) || value < 0) {
 				return undefined;
 			} else {
-				return value * 100;
+				return value;
 			}
 		}
 	},

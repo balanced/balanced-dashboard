@@ -14,6 +14,16 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return this.get("table_rows").mapBy("credit");
 	}.property("table_rows"),
 
+	payoutTotal: function() {
+		var total = 0;
+		this.get("credits").forEach(function(credit) {
+			if (credit.amount) {
+				total += credit.amount;
+			}
+		});
+		return total;
+	}.property("credits"),
+
 	table_headers: function() {
 		return this.get("reader.column_names");
 	}.property("reader.body"),
