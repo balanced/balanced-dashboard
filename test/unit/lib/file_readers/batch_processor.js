@@ -1,6 +1,6 @@
 module("Balanced.BatchProcessor");
 
-asyncTest("is_complete", 4, function (assert) {
+asyncTest("is_complete", 4, function(assert) {
 	var processor = Balanced.BatchProcessor.create({
 		collection: [10, 20, 30]
 	});

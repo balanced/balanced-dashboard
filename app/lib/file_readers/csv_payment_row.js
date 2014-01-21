@@ -5,7 +5,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		return amount !== undefined && amount > 0;
 	}.property("credit.amount"),
 
-	isSubmittable: function () {
+	isSubmittable: function() {
 		return this.get("isValid") && this.get("credit.isNew");
 	}.property("isValid", "credit.isNew", "credit.isSaving"),
 

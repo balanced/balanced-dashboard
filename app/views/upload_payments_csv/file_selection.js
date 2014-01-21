@@ -1,11 +1,11 @@
 Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
-	reader: function () {
+	reader: function() {
 		return this.get("controller.reader");
 	}.property("controller.reader"),
 
-	isSubmittable: function () {
-		return this.get("table_rows").any(function (row) {
+	isSubmittable: function() {
+		return this.get("table_rows").any(function(row) {
 			return row.get("isSubmittable");
 		});
 	}.property("table_rows.@each.isSubmittable"),
