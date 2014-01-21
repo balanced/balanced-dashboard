@@ -1,10 +1,8 @@
 Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
-	init: function() {
-		this._super();
-		var reader = Balanced.CsvReader.create();
-		this.set("reader", reader);
-	},
+	reader: function () {
+		return this.get("controller.reader");
+	}.property("controller.reader"),
 
 	isSubmittable: function () {
 		return this.get("table_rows").any(function (row) {
@@ -21,12 +19,8 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 	}.property("reader.body"),
 
 	table_rows: function() {
-		return this.get("reader").getObjects().map(function(object) {
-			return Balanced.CsvPaymentRow.create({
-				baseObject: object
-			});
-		});
-	}.property("reader.body"),
+		return this.get("controller.csvRowObjects");
+	}.property("controller.csvRowObjects"),
 
 	getFileText: function(file, cb) {
 		var reader = new FileReader();
@@ -41,7 +35,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 			var self = this;
 			var file = event.target.files[0];
 			this.getFileText(file, function(text) {
-				self.get("reader").set("body", text);
+				self.set("controller.reader.body", text);
 			});
 		},
 

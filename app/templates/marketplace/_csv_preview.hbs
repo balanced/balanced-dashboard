@@ -13,18 +13,24 @@
       {{#each view.table_rows}}
         <tr>
           <td>
-            {{#if isValid}}
-              {{#if credit.isNew}}
-                {{#if credit.isSaving}}<i class="icon icon-loading"></i>{{/if}}
-              {{else}}
-                <i class="icon icon-checkmark"></i>
-              {{/if}}
+            {{#if credit.isLoaded}}
+              <i class="icon icon-checkmark"></i>
             {{else}}
-              <i class="icon icon-alert"></i>
+              {{#if credit.isSaving}}
+                <i class="icon icon-loading"></i>
+              {{else}}
+                {{#unless isValid}}
+                  <i class="icon icon-alert"></i>
+                {{/unless}}
+              {{/if}}
             {{/if}}
           </td>
           {{#each columns}}
-            <td><a href="#"><span>{{this}}</span></a></td>
+            <td>
+              {{#link-to credit.route_name credit}}
+                <span>{{this}}</span>
+              {{/link-to}}
+            </td>
           {{/each}}
         </tr>
       {{/each}}

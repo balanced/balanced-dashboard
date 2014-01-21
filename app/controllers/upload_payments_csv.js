@@ -1,4 +1,18 @@
 Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
+	init: function() {
+		this._super();
+		var reader = Balanced.CsvReader.create();
+		this.set("reader", reader);
+	},
+
+	csvRowObjects: function () {
+		return this.get("reader").getObjects().map(function(object) {
+			return Balanced.CsvPaymentRow.create({
+				baseObject: object
+			});
+		});
+	}.property("reader.body"),
+
 	needs: ["marketplace"],
 
 	process: function(csvPaymentRows) {
