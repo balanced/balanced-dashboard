@@ -44,7 +44,7 @@
     </li>
     {{#if view.show_download_button}}
     <li class="download">
-        {{view Balanced.DownloadModalView}}
+        {{view Balanced.DownloadModalView noURIBinding=controller.noDownloadsUri}}
     </li>
     {{/if}}
 </nav>

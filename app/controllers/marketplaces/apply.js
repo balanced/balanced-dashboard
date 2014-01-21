@@ -1,7 +1,6 @@
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	isLoading: false,
-	kycError: false,
 	termsAndConditions: false,
 
 	actions: {
@@ -23,7 +22,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				$termsAndConditionsControlGroup.addClass(superError).focus();
 			}
 			if (model.validate() && this.get('termsAndConditions')) {
-				this.set('kycError', false);
+				this.resetError();
 				this.set('isLoading', true);
 
 				// persist the request to the server, this will ultimately
@@ -34,14 +33,27 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 					marketplace = this._extractMarketplacePayload(),
 					bankAccount = this._extractBankAccountPayload();
 
-				if (user) {
-					user.one('becameInvalid', $.proxy(this.userFailure, this));
-					user.one('becameError', $.proxy(this.userFailure, this));
-				}
-				apiKey.one('becameInvalid', $.proxy(this.apiKeyFailure, this));
-				apiKey.one('becameError', $.proxy(this.apiKeyFailure, this));
-				marketplace.one('becameInvalid', $.proxy(this.marketplaceFailure, this));
-				marketplace.one('becameError', $.proxy(this.marketplaceFailure, this));
+				var modelsAndErrorHandlers = [{
+					model: user,
+					handler: this.userFailure
+				}, {
+					model: apiKey,
+					handler: this.apiKeyFailure
+				}, {
+					model: marketplace,
+					handler: this.marketplaceFailure
+				}, {
+					model: bankAccount,
+					handler: this.bankingFailure
+				}];
+
+				var self = this;
+				$.each(modelsAndErrorHandlers, function(_, thing) {
+					if (thing.model) {
+						thing.model.one('becameInvalid', $.proxy(thing.handler, self));
+						thing.model.one('becameError', $.proxy(thing.handler, self));
+					}
+				});
 
 				// create user (check for duplicate email address)
 				// create api key (check for merchant underwrite failure)
@@ -61,6 +73,58 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			}
 		},
 	},
+
+	resetError: function() {
+		this.set('error', {
+			kyc: false,
+			unknown: false,
+			banking: false,
+			marketplace: false,
+			apiKey: false,
+			user: false
+		});
+	},
+
+	hasError: function() {
+		var obj = this.get('error');
+		var error = false;
+		for (var key in obj) {
+			if (obj[key] === true) {
+				error = true;
+			}
+		}
+		return error;
+	}.property(
+		'error.kyc', 'error.unknown', 'error.banking',
+		'error.marketplace', 'error.apiKey', 'error.user'
+	),
+
+	errorMessage: function() {
+		var obj = this.get('error');
+		var message = '';
+		if (this.get('hasError')) {
+			if (obj.unknown === true) {
+				message = 'An unknown error occurred.';
+			}
+			if (obj.banking === true) {
+				message = 'There was a problem creating the bank account.';
+			}
+			if (obj.marketplace === true) {
+				message = 'There was a problem creating the marketplace.';
+			}
+			if (obj.apiKey === true) {
+				message = 'There was a problem creating the API key.';
+			}
+			if (obj.user === true) {
+				message = 'There was a problem creating the user.';
+			}
+			if (obj.kyc === true) {
+				message = 'We could not verify your identity.';
+			}
+			message += ' Please check your information again and resubmit.';
+		}
+		return message;
+	}.property('hasError', 'error'),
 
 	selectedType: function() {
 		return this.get('applicationType');
@@ -132,7 +196,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 					errors[value] = 'Please check this entry';
 				});
 
-				self.set('kycError', true);
+				self.set('error.kyc', true);
 			}
 		}
 		_.each(errors, function(value, key) {
@@ -143,11 +207,22 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		self.highlightError();
 	},
 
-	marketplaceFailure: function(unparsedJson) {
+	marketplaceFailure: function(json) {
 		var self = this;
-		var json = JSON.parse(unparsedJson);
+		json = typeof json === 'object' ? json : JSON.parse(json);
 		_.each(json.extras, function(value, key) {
 			self.get('validationErrors').add('marketplace.%@'.fmt(key), 'invalid', null, value);
+		});
+		self.propertyDidChange('validationErrors');
+		self.set('isLoading', false);
+		self.highlightError();
+	},
+
+	bankingFailure: function(json) {
+		var self = this;
+		json = typeof json === 'object' ? json : JSON.parse(json);
+		_.each(json.extras, function(value, key) {
+			self.get('validationErrors').add('banking.%@'.fmt(key), 'invalid', null, value);
 		});
 		self.propertyDidChange('validationErrors');
 		self.set('isLoading', false);

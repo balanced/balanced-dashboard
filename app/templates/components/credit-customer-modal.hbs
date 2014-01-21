@@ -18,7 +18,7 @@
                 <label class="control-label">Account number</label>
                 <div class="controls">
                     {{view Ember.Select
-                        contentBinding="customer.bank_accounts"
+                        contentBinding="customer.creditable_funding_instruments"
                         valueBinding="model.bank_account_uri"
                         optionValuePath="content.uri"
                         optionLabelPath="content.description_with_type"
@@ -31,7 +31,7 @@
             <div class="control-group">
                 <label class="control-label">Account holder's name</label>
                 <div class="controls">
-                    <span class="label1a">{{selected_funding_instrument.name}}</span>
+                    <span class="label1a">{{ selected_funding_instrument.name }}</span>
                 </div>
             </div>
 
