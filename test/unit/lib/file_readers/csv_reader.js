@@ -1,5 +1,44 @@
 module("Balanced.CsvReader");
 
+test("getParsedColumnNames", function(assert) {
+	var values = [
+		"bank_account",
+		"bank_account.id",
+		"bank_account.credit.id"
+	];
+
+	var expectations = [
+		["bank_account"],
+		["bank_account", "id"],
+		["bank_account", "credit", "id"]
+	];
+
+	var reader = Balanced.CsvReader.create({
+		body: values.join(",")
+	});
+	assert.deepEqual(reader.getParsedColumnNames(), expectations);
+
+});
+
+test("getObjects", function(assert) {
+	var csv = [
+		"bank_account.id,credit.amount,credit.appears_on_statement_as,credit.description",
+		"cool id,10.00,COH 01-2014,January Payment User 1"
+	].join("\n");
+
+	var reader = Balanced.CsvReader.create({
+		body: csv
+	});
+
+	var objects = reader.getObjects();
+	assert.deepEqual(objects, [{
+		"bank_account.id": "cool id",
+		"credit.amount": "10.00",
+		"credit.appears_on_statement_as": "COH 01-2014",
+		"credit.description": "January Payment User 1",
+	}]);
+});
+
 test("rows", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
 		body: "animal,name\ncat,milo\ndog,fido"
@@ -30,46 +69,4 @@ test("column_names", function(assert) {
 
 	var columns = csvReader.get("column_names");
 	assert.deepEqual(columns, ["column1", "column2"]);
-});
-
-test("column_names", function(assert) {
-	var csvReader = Balanced.CsvReader.create({
-		body: "column1,column2\ncell1:1,cell1:2"
-	});
-
-	csvReader.set("column_names", ["Column 1", "Column 2"]);
-	var columns = csvReader.get("column_names");
-	assert.deepEqual(columns, ["Column 1", "Column 2"]);
-});
-
-test("getObjects", function(assert) {
-	var csvReader = Balanced.CsvReader.create({
-		body: "name,amount\nJim Fish,10.00\nDoctor Grump,11.00"
-	});
-	var expectations = [{
-		name: "Jim Fish",
-		amount: "10.00"
-	}, {
-		name: "Doctor Grump",
-		amount: "11.00"
-	}];
-
-	assert.deepEqual(csvReader.getObjects(), expectations);
-
-	csvReader = Balanced.CsvReader.create({
-		body: "User Name,Payment Amount\nJim Fish,10.00\nDoctor Grump,11.00"
-	});
-	assert.deepEqual(csvReader.getObjects({
-		"User Name": "name",
-		"Payment Amount": "amount"
-	}), expectations);
-});
-
-test("columnsMatch", function(assert) {
-	var csvReader = Balanced.CsvReader.create({
-		body: "column1,column2\ncell1:1,cell1:2"
-	});
-	assert.ok(csvReader.columnsMatch(["column1", "column2"]));
-	assert.ok(!csvReader.columnsMatch(["column1", "column2kjb"]));
-	assert.ok(csvReader.columnsMatch(["column2", "column1"]));
 });

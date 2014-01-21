@@ -9,7 +9,7 @@ asyncTest("processing", 1, function(assert) {
 		.each(function(i, num, done) {
 			done(i + num);
 		})
-		.end(function(results) {
+		.end().then(function(results) {
 			assert.deepEqual(processor.results, [10, 21, 32]);
 			start();
 		});

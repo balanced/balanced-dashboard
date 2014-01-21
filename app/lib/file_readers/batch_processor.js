@@ -23,16 +23,18 @@ Balanced.BatchProcessor = Ember.Object.extend({
 		return this;
 	},
 
-	end: function(endCallback) {
+	end: function() {
+		var deferred = Ember.RSVP.defer();
 		var self = this,
 			running = 0,
 			started = 0,
 			total = this.collection.length;
 
-		endCallback = endCallback || function() {};
-
 		if (total === 0) {
-			return endCallback(this.results);
+			setTimeout(function() {
+				deferred.resolve([]);
+			}, 0);
+			return deferred.promise;
 		}
 
 		function handleClientResult(result) {
@@ -60,7 +62,7 @@ Balanced.BatchProcessor = Ember.Object.extend({
 						fireNext(started, doneCallback);
 					}
 				} else if (self.finished === total) {
-					endCallback(self.results);
+					deferred.resolve(self.results);
 				}
 			}, 0);
 		}
@@ -70,7 +72,7 @@ Balanced.BatchProcessor = Ember.Object.extend({
 			fireNext(i, doneCallback);
 		}
 
-		return this;
+		return deferred.promise;
 	}
 
 });

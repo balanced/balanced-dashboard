@@ -1,27 +1,31 @@
-Balanced.MarketplaceUploadPaymentsCsvFileSelectionView = Balanced.WizardStepView.extend({
+Balanced.MarketplaceUploadPaymentsCsvFileSelectionView = Balanced.View.extend({
 
-	payout_total: function() {
-		var reader = this.get("reader");
-		return reader ?
-			reader.totalPayoutBalance() :
-			null;
-	}.property("reader"),
+	init: function() {
+		this._super();
+		var reader = Balanced.CsvReader.create();
+		this.set("reader", reader);
+	},
 
-	customers_total: function() {
-		var reader = this.get("reader");
-		return reader ?
-			reader.totalNumberOfCustomers() :
-			null;
-	}.property("reader"),
+	credits: function() {
+		return this.get("table_rows").mapBy("credit");
+	}.property("table_rows"),
 
-	readFile: function(file, callback) {
+	table_headers: function() {
+		return this.get("reader.column_names");
+	}.property("reader.body"),
+
+	table_rows: function() {
+		return this.get("reader").getObjects().map(function(object) {
+			return Balanced.CsvPaymentRow.create({
+				baseObject: object
+			});
+		});
+	}.property("reader.body"),
+
+	getFileText: function(file, cb) {
 		var reader = new FileReader();
 		reader.onload = function(event) {
-			var fullText = event.target.result;
-			var paymentsCsvReader = Balanced.PaymentsCsvReader.create({
-				body: fullText
-			});
-			callback(paymentsCsvReader);
+			cb(event.target.result);
 		};
 		reader.readAsText(file);
 	},
@@ -30,18 +34,13 @@ Balanced.MarketplaceUploadPaymentsCsvFileSelectionView = Balanced.WizardStepView
 		fileSelectionChanged: function() {
 			var self = this;
 			var file = event.target.files[0];
-			this.set("file", file);
-			this.readFile(file, function(reader) {
-				self.set("reader", reader);
+			this.getFileText(file, function(text) {
+				self.get("reader").set("body", text);
 			});
 		},
 
 		submit: function() {
-			var self = this;
-			self.readFile(this.get("file"), function(paymentsReader) {
-				var controller = self.get("controller");
-				controller.startProcessing(paymentsReader);
-			});
+			this.get("controller").process(this.get("table_rows"));
 		}
 	}
 });

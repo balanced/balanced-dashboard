@@ -4,75 +4,22 @@
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvFileSelectionView}}
   <form {{action "submit" on="submit" target="view"}} class="full-page-form">
-    <h2>Step 1: Upload File</h2>
-
     <fieldset>
       <div class="control-group">
         <input type="file" name="file" {{action fileSelectionChanged on="change" target="view"}} />
         <label class="control-label">Select a CSV File</label>
       </div>
 
-      {{#if view.reader.fields.length}}
-        <div class="key-value-display mb-large">
-          <div class="key-value-row">
-            <label class="key">Payout Total</label>
-            <span class="value">{{formatCurrency view.payout_total}}</span>
-          </div>
-
-          <div class="key-value-row">
-            <label class="key">Current Escrow Balance</label>
-            <span class="value">{{controllers.marketplace.formattedEscrowAmount}}</span>
-          </div>
-
-          <div class="key-value-row">
-            <label class="key">Number of customers</label>
-            <span class="value">{{view.customers_total}}</span>
-          </div>
-        </div>
-
+      {{#if view.table_rows.length}}
         <div class="section-banner-header">
            <p><strong>File Preview</strong></p>
         </div>
-        {{#unless view.reader.valid_columns}}
-          <div class="alert alert-error">
-            <p>The column mapping functionality is not implemented yet.</p>
-            <p>Please relabel your columns with:
-              {{view.reader.expected_columns}}
-            </p>
-            <p>You used: {{view.reader.column_names}}</p>
-          </div>
-        {{/unless}}
         {{partial "marketplace/csv_preview"}}
       {{/if}}
     </fieldset>
 
-    {{#if view.reader.valid_columns}}
-      <div class="actions">
-        <button type="submit">Continue</button>
-      </div>
-    {{/if}}
-  </form>
-{{/view}}
-
-{{#view Balanced.WizardStepView}}
-  <form class="form-horizontal split-labels">
-    <h2>
-      Uploading
-      <small>
-        {{#if batch.is_complete}}
-          Finished
-        {{else}}
-          {{batch.finished}} /
-          {{batch.collection.length}} transactions
-        {{/if}}
-      </small>
-    </h2>
-
-    <div class="results">
-      {{view Balanced.TransactionsResultsView transactionsBinding="credits"}}
-    </div>
     <div class="actions">
-      <button class="btn" {{ action prevStep }}>Back</button>
+      <button type="submit">Continue</button>
     </div>
   </form>
 {{/view}}

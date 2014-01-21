@@ -1,10 +1,27 @@
 Balanced.CsvReader = Ember.Object.extend({
 
-	column_names: function(key, value) {
-		if (arguments.length > 1) {
-			this.get("rows")[0] = value;
-		}
-		return this.get("rows")[0];
+	getParsedColumnNames: function() {
+		var self = this;
+		return (this.get("column_names") || []).map(function(columnName) {
+			return columnName.split(".");
+		});
+	},
+
+	getObjects: function() {
+		var columnNames = this.get("column_names");
+
+		var rows = this.get("fields");
+		return rows.map(function(columns) {
+			var object = {};
+			columnNames.forEach(function(name, i) {
+				object[name] = columns[i];
+			});
+			return object;
+		});
+	},
+
+	column_names: function() {
+		return this.get("rows")[0] || [];
 	}.property("rows"),
 
 	fields: function() {
@@ -12,28 +29,9 @@ Balanced.CsvReader = Ember.Object.extend({
 	}.property("rows"),
 
 	rows: function() {
-		return $.csv.toArrays(this.get("body"));
+		var body = this.get("body");
+		return body ?
+			$.csv.toArrays(body) : [];
 	}.property("body"),
-
-	columnsMatch: function(other) {
-		var columns = this.get("column_names");
-		return _.difference(columns, other).length === 0;
-	},
-
-	getObjects: function(mapping) {
-		var columnNames = this.get("column_names");
-		var rows = this.get("fields");
-
-		return rows.map(function(row) {
-			var obj = {};
-			columnNames.forEach(function(columnName, i) {
-				if (!Ember.isNone(mapping) && !Ember.isNone(mapping[columnName])) {
-					columnName = mapping[columnName];
-				}
-				obj[columnName] = row[i];
-			});
-			return obj;
-		});
-	}
 
 });
