@@ -37,14 +37,12 @@ test('view single marketplace', function(assert) {
 
 test('add test marketplace', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	var spy2 = sinon.spy(Balanced.Marketplace, "populateWithTestTransactions");
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.fillIn(".marketplace-list.test li.new input[name='name']", 'NEW MARKETPLACE')
 		.click(".marketplace-list.test li.new form button")
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Marketplace));
-			assert.equal(spy2.callCount, 0, 'Never called populateWithTestTransactions');
 		});
 });
 
