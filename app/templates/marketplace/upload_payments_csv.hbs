@@ -28,7 +28,7 @@
             <label class="control-label">Current Escrow Balance</label>
             <div class="controls">
               <span class="inline-label">
-                {{ controllers.marketplace.formattedEscrowAmount }}
+                {{ formatCurrency view.escrowTotal }}
               </span>
             </div>
         </div>
@@ -47,7 +47,11 @@
 
     {{#if results.length}}
       <div class="actions">
+        {{#if view.isEscrowValid}}
           <button type="submit">Continue</button>
+        {{else}}
+          There's not enough money on your escrow.
+        {{/if}}
       </div>
     {{/if}}
   </form>

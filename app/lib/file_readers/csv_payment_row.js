@@ -74,7 +74,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 	},
 
 	buildBankAccount: function() {
-		var attr = this.getDeepObject().bank_account;
+		var attr = this.getDeepObject().bank_account || {};
 		if (attr.id && attr.id.length > 0) {
 			var uri = Balanced.BankAccount.constructUri(attr.id);
 			return Balanced.BankAccount.find(uri).then(function(bankAccount) {
@@ -117,7 +117,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 	getCredit: function() {
 		var self = this;
 		var deepObject = this.getDeepObject();
-		var credit = Balanced.Credit.create(deepObject.credit);
+		var credit = Balanced.Credit.create(deepObject.credit || {});
 		var bankAccount, customer;
 
 		this.buildCustomer().then(function(result) {
@@ -127,7 +127,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		});
 
 		this.buildBankAccount().then(function(result) {
-			bankAccount = result.bankAccount
+			bankAccount = result.bankAccount;
 			self.setCreditBankAccount(credit, bankAccount);
 			self.setValidity(customer, bankAccount, credit);
 		});

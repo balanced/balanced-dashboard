@@ -10,6 +10,13 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total;
 	}.property("controller.results"),
 
+	escrowTotal: Ember.computed.alias("controller.controllers.marketplace.in_escrow"),
+	isEscrowValid: function() {
+		var total = this.get("payoutTotal");
+		var escrow = this.get("escrowTotal");
+		return total <= escrow;
+	}.property("payoutTotal", "escrowTotal"),
+
 	getFileText: function(file, cb) {
 		var reader = new FileReader();
 		reader.onload = function(event) {
