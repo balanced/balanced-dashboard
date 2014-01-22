@@ -154,7 +154,7 @@ asyncTest("buildBankAccount (new)", 3, function(assert) {
 
 	Ember.run(function() {
 		row.buildBankAccount().then(function(obj) {
-			var bankAccount = obj.bank;
+			var bankAccount = obj.bankAccount;
 			assert.ok(bankAccount);
 			assert.ok(!bankAccount.get("id"));
 			assert.equal(bankAccount.get("number"), "123123123");
