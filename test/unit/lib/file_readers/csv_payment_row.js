@@ -1,24 +1,5 @@
 module("Balanced.CsvPaymentRow");
 
-test("isNewCustomer", function(assert) {
-	var subject = Balanced.CsvPaymentRow.create();
-
-	subject.set("baseObject", {
-		"customer.name": "Jim"
-	});
-	assert.ok(subject.isNewCustomer());
-
-	subject.set("baseObject", {
-		"customer.name": ""
-	});
-	assert.ok(!subject.isNewCustomer());
-
-	subject.set("baseObject", {
-		"customer.email": "cekjbce"
-	});
-	assert.ok(subject.isNewCustomer());
-});
-
 test("isNewBankAccount", function(assert) {
 	var subject = Balanced.CsvPaymentRow.create();
 

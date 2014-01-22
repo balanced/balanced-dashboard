@@ -39,15 +39,15 @@
             </div>
         </div>
 
-        {{partial "marketplace/csv_preview"}}
+        <div class="results">
+          {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+        </div>
       {{/if}}
     </fieldset>
 
-    {{#if csvRowObjects.length}}
+    {{#if results.length}}
       <div class="actions">
-        {{#if view.isSubmittable}}
           <button type="submit">Continue</button>
-        {{/if}}
       </div>
     {{/if}}
   </form>

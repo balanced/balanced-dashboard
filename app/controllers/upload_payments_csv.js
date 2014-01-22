@@ -8,9 +8,12 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		this.set("reader", reader);
 	},
 
-	csvColumnNames: function() {
-		return [];
-	}.property("reader.body"),
+	results: function() {
+		var self = this;
+		return this.get("csvRowObjects").map(function(csvRowObject) {
+			return csvRowObject.get("credit");
+		});
+	}.property("csvRowObjects"),
 
 	csvRowObjects: function() {
 		var self = this;
@@ -30,14 +33,12 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 			};
 
 			_.each(object, function(value, key) {
-				if (i === 0) {
-					self.get("csvColumnNames").pushObject(key);
-				}
 				if (keysMapping[key]) {
 					key = keysMapping[key];
 				}
 				mappedObject[key] = value;
 			});
+
 			return Balanced.CsvPaymentRow.create({
 				baseObject: mappedObject
 			});
@@ -48,8 +49,8 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		submit: function() {
 			Balanced.BatchProcessor.create()
 				.parallel(2)
-				.each(this.get("csvRowObjects"), function(index, paymentRow, done) {
-					return paymentRow.process().then(done, done);
+				.each(this.get("csvRowObjects"), function(index, csvRowObject, done) {
+					return csvRowObject.save().then(done, done);
 				})
 				.end();
 		}
