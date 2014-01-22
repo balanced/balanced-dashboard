@@ -44,34 +44,23 @@
   #auth-form,
   #reset-password-form {
     overflow: auto;
-    background-color: @white;
-    border: 1px solid @gray3;
+    background-color: @egyptianBlue60;
     padding: 40px;
 
     &.error {
       background-color: @imperialRed20;
-      border-color: @imperialRed100;
     }
 
     input {
       .box-sizing(border-box);
       width: 100%;
-      color: @black;
-      background: @gray1;
-      border: 1px solid @gray2;
-      .placeholder(@gray5);
-      margin-bottom: 5px;
+      border: 0px;
+      margin-bottom: 0px;
+      .placeholder(@gray3);
 
       &:invalid {
         color: @black;
       }
-    }
-
-    a.forgot-password {
-      margin: 15px auto 0;
-      text-align: center;
-      display: block;
-      color: @pineGreen80;
     }
   }
 
@@ -224,7 +213,7 @@
     &.error {
       background-color: @imperialRed20;
     }
-    .error-message {
+    .kyc-error {
       float: left;
       padding: 5px 5px 0 0;
     }
