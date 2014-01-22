@@ -78,26 +78,34 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		}
 	},
 
+	setCreditCustomer: function(credit, customer) {
+		credit.setProperties({
+			customer: customer
+		});
+	},
+
+	setCreditBankAccount: function(credit, bankAccount) {
+		var options = {
+			destination: bankAccount,
+			bank_account: bankAccount
+		};
+		if (bankAccount.get("credits_uri")) {
+			options.uri = bankAccount.get("credits_uri");
+		}
+		credit.setProperties(options);
+	},
+
 	getCredit: function() {
+		var self = this;
 		var deepObject = this.getDeepObject();
 		var credit = Balanced.Credit.create(deepObject.credit);
 
 		this.buildCustomer().then(function(result) {
-			credit.setProperties({
-				customer: result.customer
-			});
+			self.setCreditCustomer(credit, result.customer);
 		});
 
 		this.buildBankAccount().then(function(result) {
-			var bank = result.bank;
-			var options = {
-				destination: bank,
-				bank_account: bank
-			};
-			if (bank.get("credits_uri")) {
-				options.uri = bank.get("credits_uri");
-			}
-			credit.setProperties(options);
+			self.setCreditBankAccount(credit, result.bank);
 		});
 
 		return credit;

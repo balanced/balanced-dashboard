@@ -33,9 +33,7 @@ Balanced.BatchProcessor = Ember.Object.extend({
 
 		if (total === 0) {
 			setTimeout(function() {
-				Ember.run(null, function() {
-					deferred.resolve([]);
-				});
+				deferred.resolve([]);
 			}, 0);
 			return deferred.promise;
 		}

@@ -1,24 +1,14 @@
 Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
-	isSubmittable: function() {
-		return this.get("controller.csvRowObjects").any(function(row) {
-			return row.get("isSubmittable");
-		});
-	}.property("controller.csvRowObjects.@each.isSubmittable"),
-
-	credits: function() {
-		return this.get("controller.csvRowObjects").mapBy("credit");
-	}.property("controller.csvRowObjects"),
-
 	payoutTotal: function() {
 		var total = 0;
-		this.get("credits").forEach(function(credit) {
+		this.get("controller.results").forEach(function(credit) {
 			if (credit.amount) {
 				total += credit.amount;
 			}
 		});
 		return total;
-	}.property("credits"),
+	}.property("controller.results"),
 
 	getFileText: function(file, cb) {
 		var reader = new FileReader();
