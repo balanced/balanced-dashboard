@@ -64,7 +64,7 @@ test("getDeepObject", function(assert) {
 	});
 });
 
-asyncTest("buildCustomer (empty)", 1, function (assert) {
+asyncTest("buildCustomer (empty)", 1, function(assert) {
 	var row = Balanced.CsvPaymentRow.create({
 		baseObject: {
 			"customer.name": " "
@@ -99,7 +99,7 @@ asyncTest("buildCustomer (data)", 3, function(assert) {
 	});
 });
 
-asyncTest("buildBankAccount (invalid)", 1, function(assert){
+asyncTest("buildBankAccount (invalid)", 1, function(assert) {
 	var row = Balanced.CsvPaymentRow.create({
 		baseObject: {
 			"bank_account.routing_number": "0000",

@@ -57,7 +57,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 
 
 	buildCustomer: function() {
-		var attr = this.getDeepObject().customer;
+		var attr = this.getDeepObject().customer || {};
 		var email = $.trim(attr.email || "");
 		var name = $.trim(attr.name || "");
 
@@ -118,13 +118,18 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		var self = this;
 		var deepObject = this.getDeepObject();
 		var credit = Balanced.Credit.create(deepObject.credit);
+		var bankAccount, customer;
 
 		this.buildCustomer().then(function(result) {
-			self.setCreditCustomer(credit, result.customer);
+			customer = result.customer;
+			self.setCreditCustomer(credit, customer);
+			self.setValidity(customer, bankAccount, credit);
 		});
 
 		this.buildBankAccount().then(function(result) {
-			self.setCreditBankAccount(credit, result.bankAccount);
+			bankAccount = result.bankAccount
+			self.setCreditBankAccount(credit, bankAccount);
+			self.setValidity(customer, bankAccount, credit);
 		});
 
 		return credit;
@@ -133,8 +138,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 	saveCustomer: function(customer) {
 		if (customer) {
 			return customer.save();
-		}
-		else {
+		} else {
 			return Ember.RSVP.resolve(null);
 		}
 	},
@@ -156,8 +160,16 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		return credit.save();
 	},
 
-	isValid: function (customer, bank, credit) {
+	isValid: function(customer, bank, credit) {
 		return bank && credit.get("amount") > 0;
+	},
+
+	setValidity: function(customer, bank, credit) {
+		if (!this.isValid(customer, bank, credit)) {
+			credit.set("status", "invalid");
+		} else {
+			credit.set("status", undefined);
+		}
 	},
 
 	save: function() {
@@ -175,8 +187,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 					bank = b;
 					return self.saveCredit(customer, bank, credit);
 				});
-		}
-		else {
+		} else {
 			return Ember.RSVP.resolve(null);
 		}
 	}
