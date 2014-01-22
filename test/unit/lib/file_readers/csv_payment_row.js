@@ -64,7 +64,23 @@ test("getDeepObject", function(assert) {
 	});
 });
 
-asyncTest("buildCustomer", 3, function(assert) {
+asyncTest("buildCustomer (empty)", 1, function (assert) {
+	var row = Balanced.CsvPaymentRow.create({
+		baseObject: {
+			"customer.name": " "
+		}
+	});
+
+	Ember.run(function() {
+		row.buildCustomer()
+			.then(function(obj) {
+				assert.deepEqual(obj.customer, undefined);
+				start();
+			});
+	});
+});
+
+asyncTest("buildCustomer (data)", 3, function(assert) {
 	var row = Balanced.CsvPaymentRow.create({
 		baseObject: {
 			"customer.name": "Mr. Turtle",
@@ -83,7 +99,23 @@ asyncTest("buildCustomer", 3, function(assert) {
 	});
 });
 
-asyncTest("buildBankAccount (existing)", 4, function(assert) {
+asyncTest("buildBankAccount (invalid)", 1, function(assert){
+	var row = Balanced.CsvPaymentRow.create({
+		baseObject: {
+			"bank_account.routing_number": "0000",
+			"bank_account.number": "000011110"
+		}
+	});
+
+	Ember.run(function() {
+		row.buildBankAccount().then(function(obj) {
+			assert.deepEqual(obj.bankAccount, undefined);
+			start();
+		});
+	});
+});
+
+asyncTest("buildBankAccount (existing)", 3, function(assert) {
 	var dummyBank = Balanced.BankAccount.create();
 	dummyBank.setProperties({
 		routing_number: '121000358',
@@ -101,10 +133,9 @@ asyncTest("buildBankAccount (existing)", 4, function(assert) {
 				}
 			});
 			row.buildBankAccount().then(function(obj) {
-				assert.ok(obj.bank);
-				assert.equal(obj.bank.get("id"), id);
-				assert.equal(obj.bank.get("routing_number"), "121000358");
-				assert.equal(obj.bank.get("account_number"), "xxxxx3123");
+				assert.equal(obj.bankAccount.get("id"), id);
+				assert.equal(obj.bankAccount.get("routing_number"), "121000358");
+				assert.equal(obj.bankAccount.get("account_number"), "xxxxx3123");
 				start();
 			});
 		});

@@ -48,7 +48,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	actions: {
 		submit: function() {
 			Balanced.BatchProcessor.create()
-				.parallel(2)
+				.parallel(4)
 				.each(this.get("csvRowObjects"), function(index, csvRowObject, done) {
 					return csvRowObject.save().then(done, done);
 				})
