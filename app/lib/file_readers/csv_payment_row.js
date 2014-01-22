@@ -77,9 +77,13 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 
 	isNewCustomer: function() {
 		var customer = this.getDeepObject().customer;
-		var name = customer.name && customer.name.length > 0;
-		var email = customer.email && customer.email.length > 0;
-		return customer && (name || email);
+		if (customer) {
+			var name = customer.name && customer.name.length > 0;
+			var email = customer.email && customer.email.length > 0;
+			return (name || email);
+		} else {
+			return false;
+		}
 	},
 
 	getCustomer: function() {
@@ -91,62 +95,50 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		}
 	},
 
-	getLinkedObjects: function() {
-		var self = this;
-		return new Ember.RSVP.Promise(function(resolve, reject) {
-			var resolver = function(customer, bank) {
-				var o = {
-					destination: bank
-				};
+	getBankAccount: function(customer) {
+		if (this.isNewBankAccount()) {
+			var b = Balanced.BankAccount.create(this.getDeepObject().bank_account);
+			return customer ?
+				b.tokenizeAndCreate(customer.get("id")) :
+				b.save();
+		} else {
+			var uri = Balanced.BankAccount.constructUri(this.getDeepValue("bank_account.id"));
+			return Balanced.BankAccount.find(uri);
+		}
+	},
 
-				if (customer) {
-					o.customer = customer;
-				}
-
-				resolve(o);
-			};
-			if (self.isNewBankAccount()) {
-				var b = Balanced.BankAccount.create(self.getDeepObject().bank_account);
-				self.getCustomer().then(function(customer) {
-					if (customer) {
-						b.tokenizeAndCreate(customer.get("id")).then(function(bankAccount) {
-							resolver(customer, bankAccount);
-						});
-					} else {
-						b.save().then(function(bankAccount) {
-							resolver(null, bankAccount);
-						});
-					}
-				});
-			} else {
-				var uri = Balanced.BankAccount.constructUri(self.getDeepValue("bank_account.id"));
-				return Balanced.BankAccount.find(uri).then(function(bankAccount) {
-					resolver(null, bankAccount);
-				});
-			}
-		});
+	saveCredit: function(linkedObjects) {
+		var credit = this.get("credit");
+		credit.setProperties(linkedObjects);
+		if (this.get("isValid")) {
+			return credit.save();
+		} else {
+			this.get("errors").pushObject("The credit amount is not valid.");
+			return Ember.RSVP.reject(credit);
+		}
 	},
 
 	process: function() {
 		var self = this;
-		var credit = self.get("credit");
-		return self.getLinkedObjects().then(function(linkedObjects) {
-			credit.setProperties(linkedObjects);
-			if (self.get("isValid")) {
-				return credit.save().then(function() {
-					return credit;
-				}, function(err) {
-					self.get("errors").pushObject("Unknown error.");
-					return credit;
-				});
-			} else {
-				self.get("errors").pushObject("The credit amount is not valid.");
-				return null;
-			}
-		}, function(err) {
-			self.get("errors").pushObject("Bank account problem");
-			return credit;
-		});
-	}
+		var customer;
 
+		return self.getCustomer()
+			.then(function(c) {
+				customer = c;
+				return self.getBankAccount(customer);
+			})
+			.then(function(bankAccount) {
+				var linkedObjects = {
+					destination: bankAccount,
+					customer: customer
+				}
+				return self.saveCredit(linkedObjects)
+			})
+			.then(function(credit) {
+				return credit;
+			}, function(err) {
+				var errorMessage = err.get("errorDescription") || "Unknown Error";
+				self.get("errors").pushObject(errorMessage);
+			});
+	}
 });
