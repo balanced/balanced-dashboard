@@ -178,7 +178,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		var bank = credit.get("bank_account");
 		var customer = credit.get("customer");
 
-		if (this.isValid(customer, bank, credit)) {
+		if (credit.get("isNew") && this.isValid(customer, bank, credit)) {
 			return this.saveCustomer(customer)
 				.then(function(c) {
 					customer = c;
