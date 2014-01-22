@@ -79,7 +79,7 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 			var uri = Balanced.BankAccount.constructUri(attr.id);
 			return Balanced.BankAccount.find(uri).then(function(bankAccount) {
 				return {
-					bankAccount: bank
+					bankAccount: bankAccount
 				};
 			});
 		} else if (balanced.bankAccount.validate(attr).length) {
