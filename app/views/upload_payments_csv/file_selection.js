@@ -1,18 +1,14 @@
 Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
-	reader: function() {
-		return this.get("controller.reader");
-	}.property("controller.reader"),
-
 	isSubmittable: function() {
-		return this.get("table_rows").any(function(row) {
+		return this.get("controller.csvRowObjects").any(function(row) {
 			return row.get("isSubmittable");
 		});
-	}.property("table_rows.@each.isSubmittable"),
+	}.property("controller.csvRowObjects.@each.isSubmittable"),
 
 	credits: function() {
-		return this.get("table_rows").mapBy("credit");
-	}.property("table_rows"),
+		return this.get("controller.csvRowObjects").mapBy("credit");
+	}.property("controller.csvRowObjects"),
 
 	payoutTotal: function() {
 		var total = 0;
@@ -23,14 +19,6 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		});
 		return total;
 	}.property("credits"),
-
-	table_headers: function() {
-		return this.get("reader.column_names");
-	}.property("reader.body"),
-
-	table_rows: function() {
-		return this.get("controller.csvRowObjects");
-	}.property("controller.csvRowObjects"),
 
 	getFileText: function(file, cb) {
 		var reader = new FileReader();

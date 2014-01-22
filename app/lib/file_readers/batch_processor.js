@@ -9,12 +9,13 @@ Balanced.BatchProcessor = Ember.Object.extend({
 		return this.finished === this.collection.length;
 	}.property("finished"),
 
-	each: function(callback) {
+	each: function(collection, callback) {
 		var self = this;
-		this.eachCallback = function() {
+		self.set("collection", collection);
+		self.eachCallback = function() {
 			callback.apply(self, arguments);
 		};
-		return this;
+		return self;
 	},
 
 	parallel: function(limit) {

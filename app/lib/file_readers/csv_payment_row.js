@@ -15,6 +15,9 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 	}.property("isValid", "credit.isNew", "credit.isSaving"),
 
 	deserializers: {
+		"bank_account.type": function(v) {
+			return v.toLowerCase();
+		},
 		"credit.amount": function(v) {
 			var value = parseFloat(v, 10);
 			if (isNaN(value) || value < 0) {
@@ -67,14 +70,70 @@ Balanced.CsvPaymentRow = Ember.Object.extend({
 		return Balanced.Credit.create(creditAttributes);
 	}.property("baseObject"),
 
+	isNewBankAccount: function() {
+		var bank = this.getDeepObject().bank_account;
+		return bank && (bank.id === undefined || bank.id.length === 0);
+	},
+
+	isNewCustomer: function() {
+		var customer = this.getDeepObject().customer;
+		var name = customer.name && customer.name.length > 0;
+		var email = customer.email && customer.email.length > 0;
+		return customer && (name || email);
+	},
+
+	getCustomer: function() {
+		if (this.isNewCustomer()) {
+			var customer = Balanced.Customer.create(this.getDeepObject().customer);
+			return customer.save()
+		} else {
+			return Ember.RSVP.resolve(null);
+		}
+	},
+
+	getLinkedObjects: function() {
+		var self = this;
+		return new Ember.RSVP.Promise(function(resolve, reject) {
+			var resolver = function(customer, bank) {
+				var o = {
+					destination: bank
+				};
+
+				if (customer) {
+					o.customer = customer;
+				}
+
+				resolve(o);
+			};
+			if (self.isNewBankAccount()) {
+				var b = Balanced.BankAccount.create(self.getDeepObject().bank_account);
+				self.getCustomer().then(function(customer) {
+					if (customer) {
+						b.tokenizeAndCreate(customer.get("id")).then(function(bankAccount) {
+							resolver(customer, bankAccount);
+						});
+					} else {
+						b.save().then(function(bankAccount) {
+							resolver(null, bankAccount);
+						});
+					}
+				});
+			} else {
+				var uri = Balanced.BankAccount.constructUri(self.getDeepValue("bank_account.id"));
+				return Balanced.BankAccount.find(uri).then(function(bankAccount) {
+					resolver(null, bankAccount);
+				});
+			}
+		});
+	},
+
 	process: function() {
-		var bankAccountUri = Balanced.BankAccount.constructUri(this.getDeepValue("bank_account.id"));
 		var self = this;
 		var credit = self.get("credit");
-		return Balanced.BankAccount.find(bankAccountUri).then(function(bankAccount) {
-			credit.set("destination", bankAccount);
+		return self.getLinkedObjects().then(function(linkedObjects) {
+			credit.setProperties(linkedObjects);
 			if (self.get("isValid")) {
-				return credit.save().then(function(credit) {
+				return credit.save().then(function() {
 					return credit;
 				}, function(err) {
 					self.get("errors").pushObject("Unknown error.");

@@ -3,16 +3,16 @@
     <h1 class="page-title">Upload Payments CSV</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvView}}
-  <form {{action "submit" on="submit" target="view"}} class="full-page-form">
+  <form {{action "submit" on="submit"}} class="full-page-form">
     <fieldset>
       <div class="control-group">
         <input type="file" name="file" {{action fileSelectionChanged on="change" target="view"}} />
         <label class="control-label">Select a CSV File</label>
       </div>
 
-      {{#if view.table_rows.length}}
+      {{#if csvRowObjects.length}}
         <div class="section-banner-header">
-           <p><strong>File Preview</strong></p>
+           <p>Please review the information below before proceeding</p>
         </div>
 
         <header>
@@ -35,7 +35,7 @@
         <div class="control-group">
             <label class="control-label">Number Of Customers</label>
             <div class="controls">
-              <span class="inline-label">{{view.table_rows.length}}</span>
+              <span class="inline-label">{{csvRowObjects.length}}</span>
             </div>
         </div>
 
@@ -43,7 +43,7 @@
       {{/if}}
     </fieldset>
 
-    {{#if view.table_rows.length}}
+    {{#if csvRowObjects.length}}
       <div class="actions">
         {{#if view.isSubmittable}}
           <button type="submit">Continue</button>
