@@ -8,40 +8,11 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		this.set("reader", reader);
 	},
 
-	results: function() {
-		var self = this;
-		return this.get("csvRowObjects").map(function(csvRowObject) {
-			return csvRowObject.get("credit");
-		});
-	}.property("csvRowObjects"),
+	results: Ember.computed.mapBy("creditCreators", "credit"),
 
-	csvRowObjects: function() {
-		var self = this;
+	creditCreators: function() {
 		return this.get("reader").getObjects().map(function(object, i) {
-			var mappedObject = {};
-			var keysMapping = {
-				"bank_account_id": "bank_account.id",
-				"amount_in_cents": "credit.amount",
-				"new_bank_account_routing_number": "bank_account.routing_number",
-				"new_bank_account_number": "bank_account.account_number",
-				"new_bank_account_name": "bank_account.name",
-				"new_bank_account_type": "bank_account.type",
-				"appears_on_statement_as": "credit.appears_on_statement_as",
-				"description": "credit.description",
-				"new_customer_email": "customer.email",
-				"new_customer_name": "customer.name"
-			};
-
-			_.each(object, function(value, key) {
-				if (keysMapping[key]) {
-					key = keysMapping[key];
-				}
-				mappedObject[key] = value;
-			});
-
-			return Balanced.CsvPaymentRow.create({
-				baseObject: mappedObject
-			});
+			return Balanced.CreditCreator.fromCsvRow(object);
 		});
 	}.property("reader.body"),
 
@@ -49,8 +20,8 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		submit: function() {
 			Balanced.BatchProcessor.create()
 				.parallel(4)
-				.each(this.get("csvRowObjects"), function(index, csvRowObject, done) {
-					return csvRowObject.save().then(done, done);
+				.each(this.get("creditCreators"), function(index, creditCreator, done) {
+					return creditCreator.save().then(done, done);
 				})
 				.end();
 		}

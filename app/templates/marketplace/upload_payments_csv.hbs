@@ -10,7 +10,7 @@
         <label class="control-label">Select a CSV File</label>
       </div>
 
-      {{#if csvRowObjects.length}}
+      {{#if results.length}}
         <div class="section-banner-header">
            <p>Please review the information below before proceeding</p>
         </div>
@@ -35,7 +35,7 @@
         <div class="control-group">
             <label class="control-label">Number Of Customers</label>
             <div class="controls">
-              <span class="inline-label">{{csvRowObjects.length}}</span>
+              <span class="inline-label">{{results.length}}</span>
             </div>
         </div>
 

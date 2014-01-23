@@ -1,90 +1,30 @@
-module("Balanced.CsvPaymentRow", {
+module("Balanced.CreditCreator", {
 	setup: function() {
 		Testing.setupMarketplace();
 	},
 	teardown: function() {}
 });
 
-test("deserialize", function(assert) {
-	var subject = Balanced.CsvPaymentRow.create();
-	var values = [10, undefined, "crkjbvr", "-10"];
-	var expectations = [10, undefined, undefined, undefined];
-
-	values.forEach(function(val, i) {
-		assert.deepEqual(subject.deserialize("credit.amount", val), expectations[i]);
-	});
-
-	assert.deepEqual(subject.deserialize("cool.beans", 10), 10);
-});
-
-test("getDeepValue", function(assert) {
-	var row = Balanced.CsvPaymentRow.create({
-		baseObject: {
-			"bank_account.id": "cool id",
-			"credit.id": "10",
-			"credit.amount": "10.00",
-			"credit.client.name": "Dr. Giraffe"
-		}
-	});
-
-	var expectations = {
-		"bank_account.id": "cool id",
-		"credit.id": "10",
-		"credit.amount": 10,
-		"credit.client.name": "Dr. Giraffe"
-	};
-
-	_.each(expectations, function(val, key) {
-		assert.deepEqual(row.getDeepValue(key), val);
-	});
-
-});
-
-test("getDeepObject", function(assert) {
-	var row = Balanced.CsvPaymentRow.create({
-		baseObject: {
-			"bank_account.id": "cool id",
-			"credit.id": "10",
-			"credit.amount": "131",
-			"credit.client.name": "Dr. Giraffe"
-		}
-	});
-
-	assert.deepEqual(row.getDeepObject(), {
-		bank_account: {
-			id: "cool id"
-		},
-		credit: {
-			id: "10",
-			amount: 131,
-			client: {
-				name: "Dr. Giraffe"
-			}
-		}
-	});
-});
-
 asyncTest("buildCustomer (empty)", 1, function(assert) {
-	var row = Balanced.CsvPaymentRow.create({
-		baseObject: {
-			"customer.name": " "
+	var row = Balanced.CreditCreator.build({
+		customer: {
+			name: "        "
 		}
 	});
 
 	Ember.run(function() {
-		row.buildCustomer()
-			.then(function(obj) {
-				assert.deepEqual(obj.customer, undefined);
-				start();
-			});
+		row.buildCustomer().then(function(obj) {
+			assert.deepEqual(obj.customer, undefined);
+			start();
+		});
 	});
 });
 
 asyncTest("buildCustomer (data)", 3, function(assert) {
-	var row = Balanced.CsvPaymentRow.create({
-		baseObject: {
-			"customer.name": "Mr. Turtle",
-			"customer.email": "mr.turtle@example.com"
+	var row = Balanced.CreditCreator.build({
+		customer: {
+			name: "Mr. Turtle",
+			email: "mr.turtle@example.com"
 		}
 	});
 
@@ -100,10 +40,10 @@ asyncTest("buildCustomer (data)", 3, function(assert) {
 });
 
 asyncTest("buildBankAccount (invalid)", 1, function(assert) {
-	var row = Balanced.CsvPaymentRow.create({
-		baseObject: {
-			"bank_account.routing_number": "0000",
-			"bank_account.number": "000011110"
+	var row = Balanced.CreditCreator.build({
+		bank_account: {
+			routing_number: "0000",
+			number: "000011110"
 		}
 	});
 
@@ -126,10 +66,10 @@ asyncTest("buildBankAccount (existing)", 3, function(assert) {
 	Ember.run(function() {
 		dummyBank.save().then(function(b) {
 			var id = b.get("id");
-			var row = Balanced.CsvPaymentRow.create({
-				baseObject: {
-					"bank_account.id": id,
-					"bank_account.account_number": "000011110"
+			var row = Balanced.CreditCreator.build({
+				bank_account: {
+					id: id,
+					account: "000011110"
 				}
 			});
 			row.buildBankAccount().then(function(obj) {
@@ -143,12 +83,12 @@ asyncTest("buildBankAccount (existing)", 3, function(assert) {
 });
 
 asyncTest("buildBankAccount (new)", 3, function(assert) {
-	var row = Balanced.CsvPaymentRow.create({
-		baseObject: {
-			"bank_account.id": "",
-			"bank_account.routing_number": '121000358',
-			"bank_account.number": '123123123',
-			"bank_account.name": 'Existing bank account man'
+	var row = Balanced.CreditCreator.build({
+		bank_account: {
+			id: "",
+			routing_number: '121000358',
+			number: '123123123',
+			name: 'Existing bank account man'
 		}
 	});
 
@@ -164,7 +104,7 @@ asyncTest("buildBankAccount (new)", 3, function(assert) {
 });
 
 test("setCreditCustomer", function(assert) {
-	var row = Balanced.CsvPaymentRow.create();
+	var row = Balanced.CreditCreator.create();
 	var customer = Balanced.Customer.create({
 		name: "Miss Happy Lady"
 	});
@@ -176,7 +116,7 @@ test("setCreditCustomer", function(assert) {
 });
 
 test("setCreditBankAccount", function(assert) {
-	var row = Balanced.CsvPaymentRow.create();
+	var row = Balanced.CreditCreator.create();
 	var bankAccount = Balanced.BankAccount.create({
 		"number": "11110000"
 	})
@@ -196,4 +136,55 @@ test("setCreditBankAccount", function(assert) {
 	assert.equal(credit.get("bank_account.number"), "00001111");
 	assert.equal(credit.get("destination.number"), "00001111");
 	assert.equal(credit.get("uri"), "/092379386");
+});
+
+test("Balanced.CsvObjectMapper.mapValue", function(assert) {
+	var subject = Balanced.CsvObjectMapper.create();
+	var values = [10, undefined, "crkjbvr", "-10"];
+	var expectations = [10, undefined, undefined, undefined];
+
+	values.forEach(function(val, i) {
+		assert.deepEqual(subject.mapValue("credit.amount", val), expectations[i]);
+	});
+
+	assert.deepEqual(subject.mapValue("cool.beans", 10), 10);
+});
+
+test("Balanced.CsvObjectMapper.getDeepObject", function(assert) {
+	var a = Balanced.CsvObjectMapper.create().getDeepObject({
+		"bank_account.id": "cool id",
+		"credit.id": "10",
+		"credit.amount": "131",
+		"credit.client.name": "Dr. Giraffe"
+	});
+
+	assert.deepEqual(a, {
+		bank_account: {
+			id: "cool id"
+		},
+		credit: {
+			id: "10",
+			amount: 131,
+			client: {
+				name: "Dr. Giraffe"
+			}
+		}
+	});
+});
+
+test("Balanced.CsvObjectMapper.getDeepObject", function(assert) {
+	var a = Balanced.CsvObjectMapper.create().getDeepObject({
+		"account.id": "10",
+		"credit.amount": "100",
+		"credit.name": "Jim"
+	});
+	assert.deepEqual(a, {
+		account: {
+			id: "10"
+		},
+		credit: {
+			amount: 100,
+			name: "Jim"
+		}
+	});
 });

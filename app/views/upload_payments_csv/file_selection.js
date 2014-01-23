@@ -17,25 +17,16 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total <= escrow;
 	}.property("payoutTotal", "escrowTotal"),
 
-	getFileText: function(file, cb) {
-		var reader = new FileReader();
-		reader.onload = function(event) {
-			cb(event.target.result);
-		};
-		reader.readAsText(file);
-	},
-
 	actions: {
 		fileSelectionChanged: function() {
 			var self = this;
 			var file = event.target.files[0];
-			this.getFileText(file, function(text) {
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				var text = event.target.result;
 				self.set("controller.reader.body", text);
-			});
-		},
-
-		submit: function() {
-			this.get("controller").process(this.get("table_rows"));
+			};
+			reader.readAsText(file);
 		}
 	}
 });
