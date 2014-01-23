@@ -102,7 +102,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 					// are forced to create it here.
 
 					Balanced.Verification.create({
-						uri: bankAccount.get('href') + '/verifications'
+						uri: bankAccount.get('bank_account_verifications_uri')
 					}).save().then(function() {
 						//  annnnd we're done
 						self.send('alert', {
