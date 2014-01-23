@@ -107,6 +107,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 							isLoaded: true
 						});
 
+						self.setProperties(response.bank_accounts[0]);
+
 						self.trigger('didCreate');
 					}, errorCreatingBankAccount);
 				}, errorCreatingBankAccount);
