@@ -2,6 +2,9 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 
 	needs: ["marketplace"],
 
+	processingCompleted: false,
+	processingInProgress: false,
+
 	init: function() {
 		this._super();
 		var reader = Balanced.CsvReader.create();
@@ -11,6 +14,8 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	results: Ember.computed.mapBy("creditCreators", "credit"),
 
 	creditCreators: function() {
+		this.set("processingCompleted", false);
+		this.set("processingInProgress", false);
 		return this.get("reader").getObjects().map(function(object, i) {
 			return Balanced.CreditCreator.fromCsvRow(object);
 		});
@@ -18,12 +23,21 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 
 	actions: {
 		submit: function() {
-			Balanced.BatchProcessor.create()
-				.parallel(4)
-				.each(this.get("creditCreators"), function(index, creditCreator, done) {
-					return creditCreator.save().then(done, done);
-				})
-				.end();
+			var self = this;
+			self.set("processingInProgress", true);
+			var creators = this.get("creditCreators").slice();
+
+			var r = function(creator, rest) {
+				creator.save().then(function() {
+					if (rest.length) {
+						r(rest.shift(), rest);
+					} else {
+						self.set("processingInProgress", false);
+						self.set("processingCompleted", true);
+					}
+				});
+			};
+			r(creators.shift(), creators);
 		}
 	}
 });

@@ -118,17 +118,18 @@ Balanced.CreditCreator = Ember.Object.extend({
 	save: function() {
 		var self = this;
 		var credit = this.get("credit");
-		var bank = credit.get("bank_account");
+		var bankAccount = credit.get("bank_account");
 		var customer = credit.get("customer");
-
-		if (credit.get("isNew") && this.isValid(customer, bank, credit)) {
+		var oldCustomer = customer;
+		var oldBank = bankAccount;
+		if (credit.get("isNew") && this.isValid(customer, bankAccount, credit)) {
 			return this.saveCustomer(customer)
 				.then(function(c) {
 					customer = c;
-					return self.saveBank(c, bank);
+					return self.saveBank(c, bankAccount);
 				}).then(function(b) {
-					bank = b;
-					return self.saveCredit(customer, bank, credit);
+					bankAccount = b;
+					return self.saveCredit(customer, bankAccount, credit);
 				});
 		} else {
 			return Ember.RSVP.resolve(null);
