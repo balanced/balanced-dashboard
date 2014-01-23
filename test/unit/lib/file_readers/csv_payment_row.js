@@ -119,7 +119,7 @@ test("setCreditBankAccount", function(assert) {
 	var row = Balanced.CreditCreator.create();
 	var bankAccount = Balanced.BankAccount.create({
 		"number": "11110000"
-	})
+	});
 	var credit = Balanced.Credit.create();
 
 	row.setCreditBankAccount(credit, bankAccount);

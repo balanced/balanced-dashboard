@@ -35,3 +35,30 @@ Balanced.CsvReader = Ember.Object.extend({
 	}.property("body"),
 
 });
+
+Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
+
+	getCreditCreators: function() {
+		return this.getObjects().map(function(row) {
+			return Balanced.CreditCreator.fromCsvRow(row);
+		});
+	},
+
+	saveCreditCreators: function(creators, callback) {
+		var savedCredits = [];
+
+		var saveSingle = function(creator, rest) {
+			creator.save().then(function(result) {
+				savedCredits.push(result);
+				if (rest.length > 0) {
+					saveSingle(rest[0], rest.slice(1));
+				} else {
+					callback(savedCredits);
+				}
+			});
+		};
+
+		saveSingle(creators[0], creators.slice(1));
+	}
+
+});

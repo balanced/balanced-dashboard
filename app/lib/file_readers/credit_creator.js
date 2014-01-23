@@ -2,21 +2,28 @@ Balanced.CreditCreator = Ember.Object.extend({
 
 	credit: function() {
 		var self = this;
-		var credit = Balanced.Credit.create(this.get("attributes.credit") || {});
-		var bankAccount, customer;
+		var customer, bankAccount;
+		var credit = Balanced.Credit.create(self.get("attributes.credit") || {});
+		self.set("credit", credit);
 
-		this.buildCustomer().then(function(result) {
-			customer = result.customer;
-			self.setCreditCustomer(credit, customer);
-			self.setValidity(customer, bankAccount, credit);
-		});
+		self.buildCustomer()
+			.then(function(result) {
+				customer = result.customer;
+				self.set("customer", customer);
+				self.setCreditCustomer(credit, customer);
+				self.setValidity(customer, bankAccount, credit);
+			});
 
-		this.buildBankAccount().then(function(result) {
-			bankAccount = result.bankAccount;
-			self.setCreditBankAccount(credit, bankAccount);
-			self.setValidity(customer, bankAccount, credit);
-		});
+		self.buildBankAccount()
+			.then(function(result) {
+				bankAccount = result.bankAccount;
+				self.set("bankAccount", bankAccount);
+				self.setCreditBankAccount(credit, bankAccount);
+				self.setValidity(customer, bankAccount, credit);
+				return bankAccount;
+			});
 
+		self.setValidity(customer, bankAccount, credit);
 		return credit;
 	}.property("attributes"),
 
@@ -78,37 +85,60 @@ Balanced.CreditCreator = Ember.Object.extend({
 		}
 	},
 
-	saveCustomer: function(customer) {
+	saveCustomer: function() {
+		var customer = this.get("customer");
 		if (customer) {
 			return customer.save();
 		} else {
-			return Ember.RSVP.resolve(null);
+			return Ember.RSVP.resolve();
 		}
 	},
 
-	saveBank: function(customer, bank) {
-		if (bank.get("isNew") && customer) {
-			return bank.tokenizeAndCreate(customer.get("id")).then(function(b) {
-				return b.reload();
-			});
-		} else if (bank.get("isNew")) {
-			return bank.save();
+	saveBank: function() {
+		var self = this;
+		var customer = this.get("customer");
+		var bankAccount = this.get("bankAccount");
+
+		if (bankAccount.get("isNew")) {
+			return bankAccount.save()
+				.then(function(bankAccount) {
+					if (customer) {
+						bankAccount.set("links.customer", customer.get("id"));
+						return bankAccount.save();
+					} else {
+						return bankAccount;
+					}
+				})
+				.then(function(bankAccount) {
+					return bankAccount.reload();
+				})
+				.then(function(bankAccount) {
+					self.set("bankAccount", bankAccount);
+					return bankAccount;
+				});
 		} else {
-			return bank;
+			return bankAccount;
 		}
 	},
 
-	saveCredit: function(customer, bank, credit) {
-		credit.set("uri", bank.get("credits_uri"));
+	saveCredit: function() {
+		var credit = this.get('credit');
+		var bankAccount = this.get("bankAccount");
+		credit.set("uri", bankAccount.get("credits_uri"));
+
 		return credit.save();
 	},
 
-	isValid: function(customer, bank, credit) {
-		return bank && credit.get("amount") > 0;
+	isValid: function() {
+		var credit = this.get('credit');
+		var customer = this.get("customer");
+		var bankAccount = this.get("bankAccount");
+		return bankAccount && credit.get("amount") > 0;
 	},
 
-	setValidity: function(customer, bank, credit) {
-		if (!this.isValid(customer, bank, credit)) {
+	setValidity: function() {
+		var credit = this.get('credit');
+		if (!this.isValid()) {
 			credit.set("status", "invalid");
 		} else {
 			credit.set("status", undefined);
@@ -117,19 +147,18 @@ Balanced.CreditCreator = Ember.Object.extend({
 
 	save: function() {
 		var self = this;
-		var credit = this.get("credit");
-		var bankAccount = credit.get("bank_account");
-		var customer = credit.get("customer");
-		var oldCustomer = customer;
-		var oldBank = bankAccount;
-		if (credit.get("isNew") && this.isValid(customer, bankAccount, credit)) {
-			return this.saveCustomer(customer)
+		var credit = this.get('credit');
+
+		var attr = this.get("attributes");
+
+		if (credit.get("isNew") && this.isValid()) {
+			return this.saveCustomer()
 				.then(function(c) {
-					customer = c;
-					return self.saveBank(c, bankAccount);
-				}).then(function(b) {
-					bankAccount = b;
-					return self.saveCredit(customer, bankAccount, credit);
+					self.set("customer", c);
+					return self.saveBank();
+				})
+				.then(function(b) {
+					return self.saveCredit();
 				});
 		} else {
 			return Ember.RSVP.resolve(null);
