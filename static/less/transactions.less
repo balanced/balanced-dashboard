@@ -125,6 +125,7 @@
             text-wrap: wrap;
             white-space: pre-wrap;
             white-space: -moz-pre-wrap;
+            overflow-wrap: break-word;
 
             &.failed {
               color: @imperialRed100;
@@ -147,6 +148,8 @@
 }
 
 .transaction-info {
+  overflow-wrap: break-word;
+
   ul#events {
     li.event {
       margin-bottom:10px;
