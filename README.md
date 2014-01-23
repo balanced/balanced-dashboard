@@ -1,6 +1,6 @@
 balanced-dashboard
 ==================
-
+ 
 The Balanced Dashboard
 
 [![Build Status](https://travis-ci.org/balanced/balanced-dashboard.png?branch=master)](https://travis-ci.org/balanced/balanced-dashboard)

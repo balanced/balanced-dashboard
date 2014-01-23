@@ -42,8 +42,6 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
 						uri: user.api_keys_uri,
 						secret: apiKeySecret
 					}).save().then(function() {
-						marketplace.populateWithTestTransactions();
-
 						self.set('isSubmitting', false);
 						self.set('name', null);
 						user.reload();
