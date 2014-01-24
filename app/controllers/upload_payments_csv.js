@@ -24,7 +24,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 			var self = this;
 			self.set("processingInProgress", true);
 			var creditCreators = self.get("creditCreators");
-			self.get("reader").saveCreditCreators(creditCreators).then(function() {
+			self.get("reader").saveCreditCreators(creditCreators, function() {
 				self.set("processingInProgress", false);
 				self.set("processingCompleted", true);
 			});
