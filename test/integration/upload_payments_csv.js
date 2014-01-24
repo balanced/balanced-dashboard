@@ -6,7 +6,35 @@ module("UploadPaymentsCsv", {
 	teardown: function() {}
 });
 
-asyncTest("Read and process CSV data", 21, function(assert) {
+test("Read and process CSV data", function(assert) {
+	stop();
+	var expectations = [
+		null, {
+			"customer.email": "harry.tan@example.com",
+			"bank_account.name": "Harry Tan",
+			"amount": 16
+		},
+		null,
+		null,
+		null, {
+			"customer.email": "dwyane.braggart@example.org",
+			"bank_account.name": "Dwyane Braggart",
+			"amount": 54
+		}, {
+			"customer.email": "charlie.chan@example.org",
+			"bank_account.name": "Charlie Chan",
+			"amount": 32
+		}, {
+			"customer.email": undefined,
+			"bank_account.name": "John Foo",
+			"amount": 17
+		}, {
+			"customer.email": "harrison.ford@example.org",
+			"bank_account.name": "Harrison Ford",
+			"amount": 43
+		}
+	];
+
 	var csvString = [
 		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_name,new_bank_account_type,amount_in_cents,appears_on_statement_as,description",
 		",,,,,Dwyane Braggart,CHECKING,15,Payment #1771,[INVALID] No Acct. No",
@@ -39,49 +67,25 @@ asyncTest("Read and process CSV data", 21, function(assert) {
 	});
 
 	var creators = reader.getCreditCreators();
-	var expectations = [
-		null, {
-			"customer.email": "harry.tan@example.com",
-			"bank_account.name": "Harry Tan",
-			"amount": 16
-		},
-		null,
-		null,
-		null, {
-			"customer.email": "dwyane.braggart@example.org",
-			"bank_account.name": "Dwyane Braggart",
-			"amount": 54
-		}, {
-			"customer.email": "charlie.chan@example.org",
-			"bank_account.name": "Charlie Chan",
-			"amount": 32
-		}, {
-			"customer.email": undefined,
-			"bank_account.name": "John Foo",
-			"amount": 17
-		}, {
-			"customer.email": "harrison.ford@example.org",
-			"bank_account.name": "Harrison Ford",
-			"amount": 43
-		}
-	];
-	// Wait for credits, customers and banks to be loaded.
-	setTimeout(function() {
+	creators.forEach(function(creator) {
 		Ember.run(function() {
-			reader.saveCreditCreators(creators, function(results) {
-				expectations.forEach(function(expectation, i) {
-					if (expectation === null) {
-						assert.deepEqual(results[i], null);
-					} else {
-						_.each(expectation, function(val, key) {
-							assert.deepEqual(results[i].get(key), val);
-						});
-					}
-				});
-				start();
-			});
+			creator.get("credit");
 		});
-	}, 3000);
+	});
 
-
+	// Wait for credits, customers and banks to be loaded.
+	Ember.run(function() {
+		reader.saveCreditCreators(creators, function(results) {
+			expectations.forEach(function(expectation, i) {
+				if (expectation === null || results[i] === null) {
+					assert.deepEqual(results[i], expectation);
+				} else {
+					_.each(expectation, function(val, key) {
+						assert.deepEqual(results[i].get(key), val);
+					});
+				}
+			});
+			start();
+		});
+	});
 });

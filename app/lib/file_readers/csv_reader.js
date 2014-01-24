@@ -1,14 +1,13 @@
 Balanced.CsvReader = Ember.Object.extend({
 
 	getParsedColumnNames: function() {
-		var self = this;
-		return (this.get("column_names") || []).map(function(columnName) {
+		return this.getColumnNames().map(function(columnName) {
 			return columnName.split(".");
 		});
 	},
 
 	getObjects: function() {
-		var columnNames = this.get("column_names");
+		var columnNames = this.getColumnNames();
 
 		var rows = this.get("fields");
 		return rows.map(function(columns) {
@@ -20,9 +19,9 @@ Balanced.CsvReader = Ember.Object.extend({
 		});
 	},
 
-	column_names: function() {
+	getColumnNames: function() {
 		return this.get("rows")[0] || [];
-	}.property("rows"),
+	},
 
 	fields: function() {
 		return this.get("rows").slice(1);
@@ -48,14 +47,16 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 		var savedCredits = [];
 
 		var saveSingle = function(creator, rest) {
-			creator.save().then(function(result) {
+			var innerCallback = function(result) {
 				savedCredits.push(result);
 				if (rest.length > 0) {
 					saveSingle(rest[0], rest.slice(1));
 				} else {
 					callback(savedCredits);
 				}
-			});
+			};
+
+			creator.save().then(innerCallback, innerCallback);
 		};
 
 		saveSingle(creators[0], creators.slice(1));

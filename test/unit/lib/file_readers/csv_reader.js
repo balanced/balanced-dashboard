@@ -62,12 +62,12 @@ test("fields", function(assert) {
 	assert.deepEqual(csvReader.get("fields"), expectations);
 });
 
-test("column_names", function(assert) {
+test("getColumnNames", function(assert) {
 	var csvReader = Balanced.CsvReader.create({
 		body: "column1,column2\ncell1:1,cell1:2"
 	});
 
-	var columns = csvReader.get("column_names");
+	var columns = csvReader.getColumnNames();
 	assert.deepEqual(columns, ["column1", "column2"]);
 	Ember.run(function() {
 		generateSampleFile();

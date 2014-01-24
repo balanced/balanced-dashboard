@@ -131,7 +131,6 @@ Balanced.CreditCreator = Ember.Object.extend({
 
 	isValid: function() {
 		var credit = this.get('credit');
-		var customer = this.get("customer");
 		var bankAccount = this.get("bankAccount");
 		return bankAccount && credit.get("amount") > 0;
 	},
