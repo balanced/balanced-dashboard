@@ -12,12 +12,19 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 	},
 
 	extra_filtering_params: function() {
+		// TODO add something for disputes here
 		var transactionType = this.get('transactionType');
+
 		if (transactionType === 'all') {
 			return {};
+		} else if (this.get('type') === 'dispute') {
+			return {
+				status: transactionType
+			};
 		}
+
 		return {
 			state: transactionType
 		};
-	}.property('transactionType')
+	}.property('transactionType', 'type')
 });

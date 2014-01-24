@@ -31,6 +31,16 @@
         <a href="#" {{action changeTransactionTypeFilter "refund" "all"}}>Refunds</a>
     </li>
 
+    {{#if view.showExtraTransactionTypes}}
+    <li {{bindAttr class=":filter :disputes-lost view.disputesTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "dispute" "lost"}}>Disputes: Lost</a>
+    </li>
+    {{else}}
+    <li {{bindAttr class=":filter :disputes view.disputesTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "dispute" "all"}}>Disputes</a>
+    </li>
+    {{/if}}
+
     {{#unless view.showExtraTransactionTypes}}
       <li class="timing dropdown label4a">
           {{view Balanced.DatePickerView viewName="dateTimePicker"}}

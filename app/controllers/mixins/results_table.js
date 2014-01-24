@@ -137,6 +137,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 				return 'Balanced.Log';
 			case 'order':
 				return 'Balanced.Order';
+			case 'dispute':
+				return 'Balanced.Dispute';
 			default:
 				return null;
 		}

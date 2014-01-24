@@ -131,6 +131,10 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 		return this.get('controller.type') === "refund";
 	}.property('controller.type'),
 
+	disputesTabSelected: function() {
+		return this.get('controller.type') === "dispute";
+	}.property('controller.type'),
+
 	debits_label: function() {
 		if (this.get('controller.type') === 'debit') {
 			return 'Debits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));

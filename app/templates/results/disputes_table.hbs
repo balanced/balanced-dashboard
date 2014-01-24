@@ -7,11 +7,11 @@
         {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
     </tr>
 </thead>
-{{#if view.transactions.hasNextPage}}
+{{#if view.dispute.hasNextPage}}
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if view.transactions.loadingNextPage }}
+            {{#if view.dispute.loadingNextPage }}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
@@ -26,7 +26,7 @@
     {{#each dispute in view.disputes }}
         <tr>
             <td class="span3 date">
-                {{#link-to transaction.route_name dispute}}<span>
+                {{#link-to dispute.route_name dispute}}<span>
                     <time {{bindAttr datetime="dispute.created_at"}} {{bindAttr title="dispute.created_at"}}>{{humanReadableDateShort dispute.created_at}}</time>
                 </span>{{/link-to}}
             </td>
