@@ -1,5 +1,5 @@
 Balanced.AccountSecurityController = Balanced.ObjectController.extend({
-	needs: ['marketplace'],
+	needs: ['marketplaces'],
 
 	error: function(field, prefix) {
 		var errors = this.get('validationErrors.' + field + '.messages');
