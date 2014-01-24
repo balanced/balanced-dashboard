@@ -28,6 +28,7 @@ test('invoice detail page', function(assert) {
 			assert.equal($(".invoice-balance-due-box .amount").text().trim(), "$17.85");
 			assert.equal($(".hold-details-row .total").text().trim(), "$17.85");
 			assert.equal($(".card-debit-details-row .total").text().trim(), "$2.45");
+			assert.equal($(".card-debit-details-row .total").prev().text().trim(), "3.5% of txn amount + 29 cents");
 			assert.equal($(".bank-account-debit-details-row .total").text().trim(), "$0.00");
 			assert.equal($(".succeeded-credit-details-row .total").text().trim(), "$0.00");
 			assert.equal($(".failed-credit-details-row .total").text().trim(), "$0.00");

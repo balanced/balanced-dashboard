@@ -144,7 +144,7 @@
           <td class="span4 label4a"><span>Debits: cards</span></td>
           <td class="span2"><span>{{formatNumber card_debits_count }}</span></td>
           <td class="span6"><span>{{formatCurrency card_debits_total_amount }}</span></td>
-          <td class="span6"><span>{{variable_fee_percentage}}% of txn amount</span></td>
+          <td class="span6"><span>{{variable_fee_percentage}}% of txn amount + {{card_debit_fixed_fee}} cents</span></td>
           <td class="span2 total number3a"><span>{{formatCurrency card_debits_total_fee }}</span></td>
         </tr>
         <tr class="bank-account-debit-details-row row">
