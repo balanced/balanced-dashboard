@@ -1,0 +1,43 @@
+<nav>
+  {{#unless view.showExtraTransactionTypes}}
+    <li {{bindAttr class=":filter :all view.allTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "transaction" "all"}}>All</a>
+    </li>
+  {{/unless}}
+
+    <li {{bindAttr class=":filter :holds view.holdsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "hold" "all"}}>Holds</a>
+    </li>
+
+    {{#if view.showExtraTransactionTypes}}
+      <li {{bindAttr class=":filter :debit-cards view.debitCardsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "card_debit" "all"}}>Debit: cards</a>
+      </li>
+
+      <li {{bindAttr class=":filter :debit-bank-accounts view.debitBankAccountsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "bank_account_debit" "all"}}>Debit: bank accounts</a>
+      </li>
+    {{else}}
+      <li {{bindAttr class=":filter :debits view.debitsTabSelected:selected"}} >
+          <a href="#" {{action changeTransactionTypeFilter "debit" "all"}}>Debits</a>
+      </li>
+    {{/if}}
+
+    <li {{bindAttr class=":filter :credits view.creditsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "credit" "all"}}>Credits</a>
+    </li>
+
+    <li {{bindAttr class=":filter :refunds view.refundsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "refund" "all"}}>Refunds</a>
+    </li>
+
+    {{#unless view.showExtraTransactionTypes}}
+      <li class="timing dropdown label4a">
+          {{view Balanced.DatePickerView viewName="dateTimePicker"}}
+      </li>
+
+      <li class="download">
+          {{view Balanced.DownloadModalView}}
+      </li>
+    {{/unless}}
+</nav>
