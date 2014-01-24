@@ -1,20 +1,7 @@
 module('Debits', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Ember.run(function() {
-			Testing._createCard().then(function(card) {
-				return Balanced.Debit.create({
-					uri: card.get('debits_uri'),
-					appears_on_statement_as: 'Pixie Dust',
-					amount: 10000,
-					description: 'Cocaine'
-				}).save();
-			}).then(function(debit) {
-				Testing.DEBIT_ID = debit.get('id');
-				Testing.DEBIT_URI = debit.get('uri');
-				Testing.DEBIT_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/debits/' + Testing.DEBIT_ID;
-			});
-		});
+		Testing.createDebit();
 	},
 	teardown: function() {}
 });

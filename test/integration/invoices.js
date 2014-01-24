@@ -58,5 +58,9 @@ test('invoice detail page', function(assert) {
 		.click('.activity .results header li.refunds a')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Refund, invoiceUri + '/refunds'));
+		})
+		.click('.activity .results header li.disputes-lost a')
+		.then(function() {
+			assert.ok(spy.calledWith(Balanced.Dispute, invoiceUri + '/disputes'));
 		});
 });

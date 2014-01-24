@@ -192,6 +192,16 @@ var Testing = {
 		});
 	},
 
+	createDebit: function() {
+		var _this = this;
+
+		return Ember.run(function() {
+			_this._createCard().then(function() {
+				return _this._createDebit();
+			});
+		});
+	},
+
 	createDebits: function(number) {
 		var _this = this;
 		number = number || 4;
