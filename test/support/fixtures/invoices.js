@@ -1249,7 +1249,7 @@ Balanced.Adapter.addFixtures([{
 		"failed_credits_total_amount": 0,
 		"failed_credits_total_fee": 0,
 		"failed_credits_uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/failed_credits",
-		"hold_fee": 35,
+		"hold_fee": 0,
 		"holds_count": 51,
 		"holds_total_amount": 72160,
 		"holds_total_fee": 1785,
