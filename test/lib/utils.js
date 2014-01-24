@@ -97,6 +97,22 @@ var Testing = {
 		});
 	},
 
+	_createDisputeCard: function() {
+		var _this = this;
+		return Balanced.Card.create({
+			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
+			number: '4444400012123434',
+			name: 'Test Card',
+			expiration_year: 2020,
+			expiration_month: 11
+		}).save().then(function(card) {
+			_this.CARD_ID = card.get('id');
+			_this.CARD_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+				'/cards/' + _this.CARD_ID;
+			return card;
+		});
+	},
+
 	_createBankAccount: function() {
 		var _this = this;
 		return Balanced.BankAccount.create({
@@ -196,7 +212,17 @@ var Testing = {
 		var _this = this;
 
 		return Ember.run(function() {
-			_this._createCard().then(function() {
+			return _this._createCard().then(function() {
+				return _this._createDebit();
+			});
+		});
+	},
+
+	createDispute: function() {
+		var _this = this;
+
+		return Ember.run(function() {
+			return _this._createDisputeCard().then(function() {
 				return _this._createDebit();
 			});
 		});

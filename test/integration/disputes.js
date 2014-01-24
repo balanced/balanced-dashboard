@@ -1,7 +1,7 @@
 module('Disputes', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Testing.createDebit();
+		Testing.createDispute();
 	},
 	teardown: function() {}
 });
