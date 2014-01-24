@@ -5,6 +5,7 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
+	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
