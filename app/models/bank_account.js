@@ -100,13 +100,14 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 				.then(function(bankAccount) {
 					bankAccount.set('links.customer', customerId);
 
-					bankAccount.save().then(function() {
+					bankAccount.save().then(function(account) {
 						self.setProperties({
 							isSaving: false,
 							isNew: false,
 							isLoaded: true
 						});
 
+						self.updateFromModel(account);
 						self.trigger('didCreate');
 					}, errorCreatingBankAccount);
 				}, errorCreatingBankAccount);
