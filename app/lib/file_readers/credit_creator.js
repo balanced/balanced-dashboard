@@ -239,4 +239,5 @@ Balanced.CsvObjectMapper = Ember.Object.extend({
 		});
 		return deepObject;
 	}
+
 });
