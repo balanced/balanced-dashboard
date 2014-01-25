@@ -30,8 +30,9 @@
                     <time {{bindAttr datetime="dispute.created_at"}} {{bindAttr title="dispute.created_at"}}>{{humanReadableDateShort dispute.created_at}}</time>
                 </span>{{/link-to}}
             </td>
-            <td {{bindAttr class=":span4 :label4a :type dispute.status_name"}}>
+            <td {{bindAttr class=":span4 :label4a :type dispute.status"}}>
                 {{#link-to dispute.route_name dispute}}<span>
+                    <span class="dot"></span>
                     {{dispute.status_name}}
                 </span>{{/link-to}}
             </td>

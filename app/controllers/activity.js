@@ -19,6 +19,8 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 				this.transitionToRoute('activity.customers');
 			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 				this.transitionToRoute('activity.funding_instruments');
+			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
+				this.transitionToRoute('activity.disputes');
 			}
 		}
 	}
@@ -51,6 +53,8 @@ Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControll
 	allowSortByNone: false,
 	noDownloadsUri: true
 });
+
+Balanced.ActivityDisputesController = Balanced.NestedActivityResultsControllers.extend({});
 
 Balanced.ActivityOrdersController = Balanced.NestedActivityResultsControllers.extend({});
 
