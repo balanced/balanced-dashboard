@@ -116,8 +116,8 @@ function generateSampleFile() {
 	payments.push([
 		bankAccount.get('id'), null, null,
 		null, null,
-		null, null, parseInt(Math.random(1, 10) * 100),
-		'Payment #' + parseInt(Math.random() * 10000),
+		null, null, parseInt(Math.random(1, 10) * 100, 10),
+		'Payment #' + parseInt(Math.random() * 10000, 10),
 		descriptions[Math.floor(Math.random() * descriptions.length)]
 	]);
 
@@ -129,21 +129,19 @@ function generateSampleFile() {
 			null, name, email,
 			'121000358', '123123123',
 			name, types[Math.floor(Math.random() * types.length)],
-			parseInt(Math.random(1, 10) * 100),
-			'Payment #' + parseInt(Math.random() * 10000),
+			parseInt(Math.random(1, 10) * 100, 10),
+			'Payment #' + parseInt(Math.random() * 10000, 10),
 			descriptions[Math.floor(Math.random() * descriptions.length)]
 		]);
 	}
-	console.log(payments);
-	var csvData = generateCSV(payments);
-	console.log(csvData);
 
+	var csvData = generateCSV(payments);
 
 	var download = document.createElement('a');
 	download.textContent = 'download';
 	download.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvData));
 	download.setAttribute('download', 'example.csv');
-	$('html').append(download)
+	$('html').append(download);
 
 }
 
@@ -157,10 +155,12 @@ function generateCSV(content) {
 		for (var j = 0; j < value.length; j++) {
 			var innerValue = (value[j] || '').toString();
 			var result = innerValue.replace(/"/g, '""');
-			if (result.search(/("|,|\n)/g) >= 0)
+			if (result.search(/("|,|\n)/g) >= 0) {
 				result = '"' + result + '"';
-			if (j > 0)
+			}
+			if (j > 0) {
 				finalVal += ',';
+			}
 			finalVal += result;
 		}
 
