@@ -17,7 +17,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	is_bank_account: true,
 
 	account_type_name: function() {
-		return this.get('type') || this.get('account_type');
+		return this.get('account_type');
 	}.property('type', 'account_type'),
 
 	appears_on_statement_max_length: function() {
