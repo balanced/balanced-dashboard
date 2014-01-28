@@ -2,7 +2,7 @@ require('app/models/mixins/meta_array');
 
 Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
-	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
+	// events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
