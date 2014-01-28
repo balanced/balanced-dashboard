@@ -1,5 +1,8 @@
+require('app/models/mixins/meta_array');
+
 Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
+	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
@@ -40,6 +43,18 @@ Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 	is_pending: function() {
 		return this.get('status') === 'pending';
 	}.property('status'),
+
+	type_name: function() {
+		return 'Dispute';
+	}.property(),
+
+	route_name: function() {
+		return 'disputes';
+	}.property(),
+
+	events_uri: function() {
+		return this.get('uri') + '/events';
+	}.property(),
 
 	uri: '/disputes'
 });

@@ -23,7 +23,18 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 				this.transitionToRoute('activity.disputes');
 			}
 		}
-	}
+	},
+
+	results_uri: function() {
+		if (this.get('type') === 'dispute') {
+			return '/disputes';
+		}
+
+		return Balanced.Utils.applyUriFilters(
+			this.get('results_base_uri'),
+			this.get('search_params')
+		);
+	}.property('type', 'results_base_uri', 'search_params')
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({

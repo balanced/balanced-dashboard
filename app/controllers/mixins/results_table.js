@@ -90,10 +90,6 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	}.property('controllers.marketplace.uri'),
 
 	results_uri: function() {
-		// if (this.get('type') === 'dispute') {
-		// return '/disputes';
-		// }
-
 		return Balanced.Utils.applyUriFilters(
 			this.get('results_base_uri'),
 			this.get('search_params')
