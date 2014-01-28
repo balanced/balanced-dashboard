@@ -230,7 +230,7 @@ var Testing = {
 				var evt = events.objectAt(0);
 				_this.EVENT_ID = evt.get('id');
 				_this.EVENT_URI = '/marketplace/' + _this.MARKETPLACE_ID +
-									'/events/' + _this.EVENT_ID;
+					'/events/' + _this.EVENT_ID;
 			});
 		});
 	},
