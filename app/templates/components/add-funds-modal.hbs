@@ -33,11 +33,13 @@
               </div>
 
               <div class="control-group">
-                  <label class="inline">Account holder's name</label> {{view.source.name}}
+                  <label class="control-label">Account holder's name</label>
+                  <div class="controls text-label">{{view.source.name}}</div>
               </div>
 
               <div class="control-group">
-                  <label class="inline">Bank</label> {{view.source.bank_name}}
+                  <label class="control-label">Bank</label>
+                  <div class="controls text-label">{{view.source.bank_name}}</div>
               </div>
 
               <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>

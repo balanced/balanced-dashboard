@@ -21,6 +21,12 @@
   }
 }
 
+.modal-container {
+  &.modal-open {
+    overflow: visible;
+  }
+}
+
 body .modal-backdrop,
 body .modal-backdrop.fade.in {
   .opacity(60);
@@ -124,6 +130,9 @@ body .modal-backdrop.fade.in {
 
     &.no-top-content {
       padding-top: 0;
+    }
+    &.no-bottom-content {
+      padding-bottom: 0;
     }
   }
   .modal-content-error {
