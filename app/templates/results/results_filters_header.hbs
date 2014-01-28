@@ -41,18 +41,6 @@
     </li>
     <li {{bindAttr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "dispute"}}> {{ view.dispute_type_label }} </a>
-
-        <div class="selector dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-            <ul class="dropdown-menu disputes-filter filter-choices">
-                <li><a href="#" {{action changeTypeFilter "all"}} {{bindAttr label="view.totalDisputesHeader"}}> All </a></li>
-
-                <li><a href="#" {{action changeTypeFilter "pending"}}> Pending </a></li>
-
-                <li><a href="#" {{action changeTypeFilter "won"}}> Won </a></li>
-                <li><a href="#" {{action changeTypeFilter "lost"}}> Lost </a></li>
-            </ul>
-        </div>
     </li>
     <li class="timing dropdown label4a">
         {{view Balanced.DatePickerView viewName="dateTimePicker" }}
