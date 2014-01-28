@@ -218,6 +218,15 @@ var Testing = {
 		});
 	},
 
+	setupEvent: function() {
+		return Ember.run(function() {
+			Balanced.Event.findAll().then(function(events) {
+				var evt = events.objectAt(0);
+				Testing.EVENT_ID = evt.get('id');
+			});
+		});
+	},
+
 	createDispute: function() {
 		var _this = this;
 

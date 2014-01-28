@@ -1,12 +1,7 @@
 module('Events', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Ember.run(function() {
-			Balanced.Event.findAll().then(function(events) {
-				var evt = events.objectAt(0);
-				Testing.EVENT_ID = evt.get('id');
-			});
-		});
+		Testing.setupEvent();
 	},
 	teardown: function() {}
 });
