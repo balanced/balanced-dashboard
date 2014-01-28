@@ -219,10 +219,18 @@ var Testing = {
 	},
 
 	setupEvent: function() {
+		var _this = this;
+
 		return Ember.run(function() {
 			Balanced.Event.findAll().then(function(events) {
+				if (!events.get('content').length) {
+					return setTimeout(_.bind(Testing.setupEvent, Testing), 1000);
+				}
+
 				var evt = events.objectAt(0);
-				Testing.EVENT_ID = evt.get('id');
+				_this.EVENT_ID = evt.get('id');
+				_this.EVENT_URI = '/marketplace/' + _this.MARKETPLACE_ID +
+									'/events/' + _this.EVENT_ID;
 			});
 		});
 	},
