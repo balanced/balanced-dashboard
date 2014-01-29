@@ -101,8 +101,8 @@ var Testing = {
 		var _this = this;
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
-			number: '4444400012123434',
-			name: 'Test Card',
+			number: '6500000000000002',
+			name: 'Dispute Card',
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {
@@ -240,7 +240,18 @@ var Testing = {
 
 		return Ember.run(function() {
 			return _this._createDisputeCard().then(function() {
-				return _this._createDebit();
+				return _this._createDebit().then(function() {
+					Balanced.Dispute.findAll().then(function(disputes) {
+						if (!disputes.get('content').length) {
+							return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
+						}
+
+						var evt = disputes.objectAt(0);
+						_this.DISPUTE_ID = evt.get('id');
+						_this.DISPUTE_URI = '/marketplace/' + _this.MARKETPLACE_ID +
+							'/disputes/' + _this.DISPUTE_ID;
+					});
+				});
 			});
 		});
 	},

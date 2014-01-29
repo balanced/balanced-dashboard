@@ -418,19 +418,19 @@ Balanced.Adapter.addFixtures([
 			}
 		],
 		"meta": {
-			"last": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/search?q=&sort=created_at%2Cdesc&type=dispute&limit=50&offset=0",
+			"last": "/disputes?limit=50&offset=0",
 			"next": null,
-			"href": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/search?q=&sort=created_at%2Cdesc&type=dispute&limit=50&offset=0",
+			"href": "/disputes?limit=50&offset=0",
 			"limit": 50,
 			"offset": 0,
 			"previous": null,
 			"total": 1,
-			"first": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/search?q=&sort=created_at%2Cdesc&type=dispute&limit=50&offset=0"
+			"first": "/disputes?limit=50&offset=0"
 		},
 		"links": {
 			"disputes.transaction": "/debits/{disputes.transaction}"
 		},
-		"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/search?limit=50&offset=0&q=&sort=created_at%2Cdesc&type=dispute"
+		"uri": "/disputes"
 	},
 	{
 		"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/search?limit=50&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Chold%2Crefund"
