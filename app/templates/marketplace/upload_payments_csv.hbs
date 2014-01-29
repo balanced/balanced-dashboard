@@ -1,13 +1,79 @@
 <div class="row">
-  <div class="span20">
-    <h1 class="page-title">Upload Payments CSV</h1>
+  <div class="span21">
+    <h1 class="page-title">Pay Multiple Sellers</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvView}}
   <form {{action "submit" on="submit"}} class="full-page-form">
+
     <fieldset>
+      <div class="main-header pay-multiple-sellers-header">
+        <div class="row">
+          <div class="span2 label">
+            <div class="icon icon-logs"></div>
+          </div>
+          <div class="span19 title">
+            <span class="nav3d">
+              Upload your file
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="control-group">
-        <input type="file" name="file" {{action fileSelectionChanged on="change" target="view"}} />
-        <label class="control-label">Select a CSV File</label>
+        <p>
+          Pay existing and new customers by formatting your CSV file with the
+          appropriate fields.
+        </p>
+        <p>
+          <a href="#">
+            <i class="icon icon-logs"></i>
+            Download sample file
+          </a>
+        </p>
+
+        <section class="payment-csv-format-info">
+          <div class="row">
+            <div class="span6">
+              <header>
+                <h3>Existing Customers:</h3>
+              </header>
+              <ul>
+                <li>bank_account_id</li>
+                <li>amount_in_cents</li>
+                <li>appears_on_statement_as</li>
+                <li>description</li>
+              </ul>
+            </div>
+            <div class="span10">
+              <header>
+                <h3>New Customers:</h3>
+              </header>
+              <div class="row">
+                <ul class="span5">
+                  <li>new_customer_name</li>
+                  <li>new_customer_email</li>
+                  <li>new_bank_account_routing_number</li>
+                  <li>new_bank_account_number</li>
+                </ul>
+                <ul class="span5">
+                  <li>new_bank_account_holders_name</li>
+                  <li>new_bank_account_type</li>
+                  <li>amount_in_cents</li>
+                  <li>appears_on_statement_as</li>
+                  <li>description</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="actions">
+        <label class="control-label control-styled-upload">
+          Please upload a CSV file
+          <span class="btn">
+            Choose file
+            <input type="file" name="file" {{action fileSelectionChanged on="change" target="view"}} />
+          </span>
+        </label>
       </div>
 
       {{#if results.length}}
