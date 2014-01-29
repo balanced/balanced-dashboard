@@ -16,20 +16,20 @@ Balanced.Adapter.addFixtures([{
 		"unsettled_fees": 0,
 		"id": "TEST-MP4cOZZqeAelhxXQzljLLtgl"
 	}],
-    "links": {
-      "marketplaces.debits": "/debits",
-      "marketplaces.reversals": "/reversals",
-      "marketplaces.customers": "/customers",
-      "marketplaces.credits": "/credits",
-      "marketplaces.cards": "/cards",
-      "marketplaces.card_holds": "/card_holds",
-      "marketplaces.refunds": "/refunds",
-      "marketplaces.owner_customer": "/customers/{marketplaces.owner_customer}",
-      "marketplaces.transactions": "/transactions",
-      "marketplaces.bank_accounts": "/bank_accounts",
-      "marketplaces.callbacks": "/callbacks",
-      "marketplaces.events": "/events",
-	  "marketplaces.disputes": "/disputes"
-    },
+	"links": {
+		"marketplaces.debits": "/debits",
+		"marketplaces.reversals": "/reversals",
+		"marketplaces.customers": "/customers",
+		"marketplaces.credits": "/credits",
+		"marketplaces.cards": "/cards",
+		"marketplaces.card_holds": "/card_holds",
+		"marketplaces.refunds": "/refunds",
+		"marketplaces.owner_customer": "/customers/{marketplaces.owner_customer}",
+		"marketplaces.transactions": "/transactions",
+		"marketplaces.bank_accounts": "/bank_accounts",
+		"marketplaces.callbacks": "/callbacks",
+		"marketplaces.events": "/events",
+		"marketplaces.disputes": "/disputes"
+	},
 	"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl"
 }]);

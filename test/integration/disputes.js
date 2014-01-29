@@ -24,7 +24,6 @@ test('exist on the activity page', function(assert) {
 		.then(function() {
 			Ember.run.next(function() {
 				_.each(activityDisputesPage, function(val, selector) {
-					console.log(selector);
 					assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
 				});
 			});
