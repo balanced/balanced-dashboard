@@ -7,4 +7,113 @@
   margin-left: auto;
   margin-right: auto;
   min-height: 100%;
+
+  h1.page-title {
+    width: auto;
+    text-align: center;
+
+    font-family: nimbussannov-reg, arial, sans-serif;
+    font-size: 50px;
+    line-height: 55px;
+  }
+
+  h3 {
+    font-size: 18px;
+    line-height: 22px;
+    color: @black;
+  }
+
+  p {
+    font-family: nimbussannov-med, arial, sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    color: @gray6;
+  }
+}
+
+#account_security {
+  padding-top: 48px;
+
+  .status-circles {
+    margin-top: 30px;
+    text-align: center;
+
+    h3 {
+      margin-left: auto;
+      margin-right: auto;
+
+      &.step {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .window-pane {
+    border-top: 5px solid @gray2;
+
+    .pane {
+      padding: 40px 0;
+      border-bottom: 1px solid @gray1;
+
+      .left-pane {
+        border-right: 1px solid @gray1;
+      }
+    }
+  }
+
+  #auth-form {
+    text-align: center;
+    margin-top: 20px;
+
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  &.disabled {
+    .window-pane {
+      display: none;
+      visibility: hidden;
+    }
+
+    #qrcode {
+
+    }
+
+    .regenerate-qrcode {
+      a {
+        pointer-events: none;
+        cursor: not-allowed;
+        color: @black;
+      }
+    }
+
+    #auth-form {
+      button {
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.window-pane {
+  .pane {
+    .left-pane {
+      padding: 0 20px;
+    }
+    .right-pane {
+      padding: 0 20px;
+    }
+  }
+}
+
+.status-circle {
+  width: 200px;
+  height: 200px;
+  .border-radius(50%);
+  border-color: #CAC9C4;
+  color: @gray6;
+  display: inline-block;
 }

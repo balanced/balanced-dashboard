@@ -159,6 +159,72 @@ Balanced.Auth = (function() {
 		}
 	}.observes('user', 'user.admin');
 
+	auth.enableMultiFactorAuthentication = function() {
+		var self = this;
+
+		return Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + '/users/' + Balanced.Auth.get('userId') + '/otp',
+			type: 'POST',
+			dataType: 'JSON'
+		}).done(function(response, status, jqxhr) {
+			self.set('OTPSecret', response);
+			self.trigger('enableAuthSuccess');
+		}).fail(function() {
+			self.trigger('enableAuthError');
+		}).always(function() {
+			self.trigger('enableAuthComplete');
+		});
+	};
+
+	auth.disableMultiFactorAuthentication = function() {
+		var self = this;
+
+		return Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + '/users/' + Balanced.Auth.get('userId') + '/otp',
+			type: 'DELETE',
+			dataType: 'JSON'
+		}).done(function(response, status, jqxhr) {
+			self.set('OTPSecret', null);
+			self.trigger('disableAuthSuccess');
+		}).fail(function() {
+			self.trigger('disableAuthError');
+		}).always(function() {
+			self.trigger('disableAuthComplete');
+		});
+	};
+
+	auth.confirmOTP = function(token) {
+		var self = this;
+
+		return Balanced.NET.ajax({
+			url: ENV.BALANCED.AUTH + Balanced.Auth.get('lastLoginUri'),
+			type: 'PUT',
+			data: {
+				confirm: token
+			},
+			dataType: 'JSON'
+		}).done(function(response, status, jqxhr) {
+			var user = this.get('user') || Balanced.User.create();
+			user.populateFromJsonResponse(response.user);
+
+			if (!this.get('signedIn')) {
+				self.setAuthProperties(true,
+					user,
+					response.user_id,
+					response.user_id,
+					false);
+
+				self.rememberLogin(response.uri);
+			}
+
+			self.trigger('confirmOTPSuccess');
+		}).fail(function() {
+			self.trigger('confirmOTPError');
+		}).always(function() {
+			self.trigger('confirmOTPComplete');
+		});
+	};
+
 	auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
 		auth.set('authToken', authToken);
 		auth.set('userId', userId);
@@ -171,6 +237,8 @@ Balanced.Auth = (function() {
 	};
 
 	auth.rememberLogin = function(token) {
+		auth.set('lastLoginUri', token);
+
 		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
 			expires: 1,
 			path: '/'
@@ -200,6 +268,8 @@ Balanced.Auth = (function() {
 		$.removeCookie(Balanced.COOKIE.SESSION, {
 			path: '/'
 		});
+
+		auth.set('lastLoginUri', null);
 
 		auth.unsetAPIKey();
 
