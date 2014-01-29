@@ -28,8 +28,8 @@ Balanced.CsvReader = Ember.Object.extend({
 	}.property("rows"),
 
 	rows: function() {
-		var body = this.get("body");
-		return body ?
+		var body = this.get("body") || "";
+		return body.length ?
 			$.csv.toArrays(body) : [];
 	}.property("body"),
 

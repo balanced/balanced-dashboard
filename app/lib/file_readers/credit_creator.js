@@ -27,6 +27,31 @@ Balanced.CreditCreator = Ember.Object.extend({
 		return credit;
 	}.property("attributes"),
 
+	attributes: function() {
+		var mapper = Balanced.CsvObjectMapper.create();
+		var mappedObject = {};
+		var object = this.get("csvFields");
+		var keysMapping = {
+			"bank_account_id": "bank_account.id",
+			"amount_in_cents": "credit.amount",
+			"new_bank_account_routing_number": "bank_account.routing_number",
+			"new_bank_account_number": "bank_account.account_number",
+			"new_bank_account_name": "bank_account.name",
+			"new_bank_account_type": "bank_account.type",
+			"appears_on_statement_as": "credit.appears_on_statement_as",
+			"description": "credit.description",
+			"new_customer_email": "customer.email",
+			"new_customer_name": "customer.name"
+		};
+		_.each(object, function(value, key) {
+			if (keysMapping[key]) {
+				key = keysMapping[key];
+			}
+			mappedObject[key] = value;
+		});
+		return mapper.getDeepObject(mappedObject);
+	}.property("csvFields"),
+
 	buildCustomer: function() {
 		var attr = this.get("attributes.customer") || {};
 		var email = $.trim(attr.email || "");
@@ -166,39 +191,17 @@ Balanced.CreditCreator = Ember.Object.extend({
 });
 
 Balanced.CreditCreator.reopenClass({
-	build: function(object) {
+	build: function(attributes) {
 		return this.create({
-			attributes: object
+			attributes: attributes
 		});
-	},
-
-	fromObject: function(object, keysMapping) {
-		var mappedObject = {};
-		_.each(object, function(value, key) {
-			if (keysMapping[key]) {
-				key = keysMapping[key];
-			}
-			mappedObject[key] = value;
-		});
-		var mapper = Balanced.CsvObjectMapper.create();
-		return this.build(mapper.getDeepObject(mappedObject));
 	},
 
 	fromCsvRow: function(object) {
-		var keysMapping = {
-			"bank_account_id": "bank_account.id",
-			"amount_in_cents": "credit.amount",
-			"new_bank_account_routing_number": "bank_account.routing_number",
-			"new_bank_account_number": "bank_account.account_number",
-			"new_bank_account_name": "bank_account.name",
-			"new_bank_account_type": "bank_account.type",
-			"appears_on_statement_as": "credit.appears_on_statement_as",
-			"description": "credit.description",
-			"new_customer_email": "customer.email",
-			"new_customer_name": "customer.name"
-		};
-		return this.fromObject(object, keysMapping);
-	},
+		return this.create({
+			csvFields: object
+		});
+	}
 });
 
 Balanced.CsvObjectMapper = Ember.Object.extend({

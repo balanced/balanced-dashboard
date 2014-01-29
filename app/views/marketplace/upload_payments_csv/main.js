@@ -17,14 +17,24 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total <= escrow;
 	}.property("payoutTotal", "escrowTotal"),
 
+	updateReaderBody: function(text) {
+		this.set("controller.reader.body", text);
+	},
+
+	displayCsvRows: Ember.computed.and("controller.results.length", "isEscrowValid"),
+
 	actions: {
+		reset: function() {
+			this.updateReaderBody(undefined);
+		},
+
 		fileSelectionChanged: function() {
 			var self = this;
 			var file = event.target.files[0];
 			var reader = new FileReader();
 			reader.onload = function(event) {
 				var text = event.target.result;
-				self.set("controller.reader.body", text);
+				self.updateReaderBody(text);
 			};
 			reader.readAsText(file);
 		}

@@ -1,0 +1,37 @@
+<fieldset>
+  <header>
+  </header>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>bank_account_id</th>
+        <th>new_customer_name</th>
+        <th>new_customer_email</th>
+        <th>new_bank_account_routing_number</th>
+        <th>new_bank_account_number</th>
+        <th>new_bank_account_holders_name</th>
+        <th>new_bank_account_type</th>
+        <th>amount_in_cents</th>
+        <th>appears_on_statement_as</th>
+        <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each creditCreators}}
+        <tr>
+          <td>{{csvFields.bank_account_id}}</td>
+          <td>{{csvFields.new_customer_name}}</td>
+          <td>{{csvFields.new_customer_email}}</td>
+          <td>{{csvFields.new_bank_account_routing_number}}</td>
+          <td>{{csvFields.new_bank_account_number}}</td>
+          <td>{{csvFields.new_bank_account_holders_name}}</td>
+          <td>{{csvFields.new_bank_account_type}}</td>
+          <td>{{csvFields.amount_in_cents}}</td>
+          <td>{{csvFields.appears_on_statement_as}}</td>
+          <td>{{csvFields.description}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</fieldset>
