@@ -1291,11 +1291,13 @@ Balanced.Adapter.addFixtures([{
 			"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/settlements/ST6KJstgXSFUJI4nJaZluQlG"
 		},
 		"settlements_uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/settlements",
-		"source": null,
-		"state": "paid",
+		"source": "/bank_accounts/123",
+		"state": "scheduled",
 		"total_fee": 1785,
 		"updated_at": "2013-01-11T02:01:51.739Z",
-		"variable_fee_percentage": 3.5
+		"variable_fee_percentage": 3.5,
+		"href": "/invoices/IVDOATjeyAPTJMJPnBR83uE",
+		"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE"
 	}],
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE"
 }, {
