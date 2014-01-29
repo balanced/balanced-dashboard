@@ -1,0 +1,43 @@
+<div class="modal hide" id="change-funding-source">
+    <form {{action "save" on="submit" target="view"}}>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h2>Pay with another bank account</h2>
+        </div>
+        <div class="modal-body">
+            {{#unless view.debitable_bank_accounts }}
+            <div class="alert alert-info row-full">
+                You must have at least one verified bank account to change funding sources.
+            </div>
+            {{/unless}}
+
+            {{partial "modals/modalErrors"}}
+
+            <div {{bindAttr class=":control-group view.model.validationErrors.source_uri:error"}}>
+                <label>Funding Source</label>
+
+                {{view Ember.Select
+                    contentBinding="view.debitable_bank_accounts"
+                    valueBinding="view.source_uri"
+                    optionValuePath="content.uri"
+                    optionLabelPath="content.description"
+                    viewName="source_uri"
+                    class="span8"
+                    name="source_uri"
+                }}
+            </div>
+
+            <div class="control-group">
+                <label class="inline">Account holder's name</label> {{view.source.name}}
+            </div>
+
+            <div class="control-group">
+                <label class="inline">Bank</label> {{view.source.bank_name}}
+            </div>
+        </div>
+        <div class="modal-footer">
+            {{view Balanced.ModalActionButtonsView submitTitle="Change"}}
+        </div>
+    </form>
+</div>
+<a href="#" class="change-funding-source-btn" {{action open}}>Change</a>

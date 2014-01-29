@@ -41,6 +41,10 @@ Balanced.Invoice = Balanced.Model.extend({
 		return this.get('state') === 'scheduled';
 	}.property('state'),
 
+	is_not_paid: function() {
+		return this.get('state') !== 'paid';
+	}.property('state'),
+
 	reversal_fee: function() {
 		return 0;
 	}.property(),
