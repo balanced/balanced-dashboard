@@ -452,7 +452,7 @@ Ember.Validations = Ember.Mixin.create(/**@scope Ember.Validations.prototype */{
 
     this.propertyWillChange('validationErrors');
 
-    errors.clear();
+    errors.clear && errors.clear();
 
     for (var attribute in validations) {
       if (!validations.hasOwnProperty(attribute)) continue;

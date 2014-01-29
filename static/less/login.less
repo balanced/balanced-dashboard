@@ -125,12 +125,24 @@
       border-bottom: 0;
     }
     &.error {
-      background-color: @imperialRed20;
       label, .control-label {
         color: @imperialRed100;
       }
       input {
-        border-color: @gray3;
+        border-color: @imperialRed100;
+        background: @imperialRed20;
+      }
+      ::-webkit-input-placeholder {
+          color: @imperialRed100;
+      }
+      :-moz-placeholder {
+          color: @imperialRed100;
+      }
+      ::-moz-placeholder {
+          color: @imperialRed100;
+      }
+      :-ms-input-placeholder {
+          color: @imperialRed100;
       }
     }
   }
@@ -201,7 +213,7 @@
     &.error {
       background-color: @imperialRed20;
     }
-    .kyc-error {
+    .error-message {
       float: left;
       padding: 5px 5px 0 0;
     }

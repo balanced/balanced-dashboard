@@ -46,17 +46,17 @@ body .modal-backdrop.fade.in {
   .background-clip(padding-box);
   // Remove focus outline from opened modal
   outline: none;
-  .alert-error {
-    background-color: transparent;
-    border-color: transparent;
-    color: @imperialRed100;
-  }
   &.fade {
     .transition(e('opacity .3s linear, top .3s ease-out'));
     top: -25%;
   }
   &.fade.in {
     top: 10%;
+  }
+  .alert-error {
+    background-color: transparent;
+    border-color: transparent;
+    color: @imperialRed100;
   }
 }
 
@@ -264,6 +264,7 @@ body .modal-backdrop.fade.in {
       color: @imperialRed100;
     }
   }
+
   &:first-of-type {
     margin: 0;
   }

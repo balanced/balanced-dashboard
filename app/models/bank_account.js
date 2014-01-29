@@ -16,6 +16,10 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	is_bank_account: true,
 
+	account_type_name: function() {
+		return this.get('account_type');
+	}.property('type', 'account_type'),
+
 	appears_on_statement_max_length: function() {
 		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT;
 	}.property(),
@@ -65,8 +69,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					validationErrors: Ember.get(err, 'validationErrors') || {}
 				});
 			});
-
-			promise.reject();
+			promise.reject(err);
 		}
 
 		this.set('isSaving', true);
@@ -81,12 +84,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		balanced.bankAccount.create(bankAccountData, function(response) {
 			if (response.errors) {
 				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
-				for(var property in validationErrors) {
-					var start = validationErrors[property].search(/-\s/);
-					if (start !== -1) {
-						validationErrors[property] = validationErrors[property].slice(start + 2);
-					}
-				}
 				self.setProperties({
 					validationErrors: validationErrors,
 					isSaving: false
@@ -100,20 +97,21 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 					});
 				}
 
-				promise.reject();
+				promise.reject(validationErrors);
 			} else {
 				Balanced.BankAccount.find(response.bank_accounts[0].href)
 				// Now that it's been tokenized, we just need to associate it with the customer's account
 				.then(function(bankAccount) {
 					bankAccount.set('links.customer', customerId);
 
-					bankAccount.save().then(function() {
+					bankAccount.save().then(function(account) {
 						self.setProperties({
 							isSaving: false,
 							isNew: false,
 							isLoaded: true
 						});
 
+						self.updateFromModel(account);
 						self.trigger('didCreate');
 					}, errorCreatingBankAccount);
 				}, errorCreatingBankAccount);

@@ -76,6 +76,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		return this.get('expiration_month') + '/' + this.get('expiration_year');
 	}.property('expiration_month', 'expiration_year'),
 
+
 	tokenizeAndCreate: function(customerId) {
 		var self = this;
 		var promise = this.resolveOn('didCreate');

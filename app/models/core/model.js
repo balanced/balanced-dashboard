@@ -167,6 +167,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		if (jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors.length > 0) {
 			this.set('validationErrors', Balanced.Utils.extractValidationErrorHash(jqXHR.responseJSON));
 			this.set('errorDescription', jqXHR.responseJSON.errors[0].description);
+			this.set('requestId', jqXHR.responseJSON.errors[0].request_id);
 		}
 	},
 
