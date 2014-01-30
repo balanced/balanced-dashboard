@@ -1,6 +1,6 @@
 Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 	deserializers: {
-	    string: function(val) {
+		string: function(val) {
 			return val.length ?
 				val : undefined;
 		},
@@ -18,7 +18,7 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 		}
 	},
 
-	deserialize: function (type, value) {
+	deserialize: function(type, value) {
 		value = value || "";
 		value = value
 			.replace(/^\s+/g, "")

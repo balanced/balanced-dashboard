@@ -7,8 +7,8 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
 	title: "Valid Entries",
 
-	items: function () {
-		return this.get("creditCreators").filter(function (creditCreator) {
+	items: function() {
+		return this.get("creditCreators").filter(function(creditCreator) {
 			return !creditCreator.get("isInvalid");
 		});
 	}.property("creditCreators")
@@ -19,8 +19,8 @@ Balanced.MarketplaceInvalidCsvPaymentsTableView = Balanced.MarketplaceCsvPayment
 
 	isError: true,
 
-	items: function () {
-		return this.get("creditCreators").filter(function (creditCreator) {
+	items: function() {
+		return this.get("creditCreators").filter(function(creditCreator) {
 			return creditCreator.get("isInvalid");
 		});
 	}.property("creditCreators")

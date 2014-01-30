@@ -14,8 +14,8 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 	}.observes("reader.body"),
 
 	actions: {
-		removeRow: function(creditCreator){
-			var items = this.get("creditCreators").filter(function (item) {
+		removeRow: function(creditCreator) {
+			var items = this.get("creditCreators").filter(function(item) {
 				return item !== creditCreator;
 			});
 			this.set("creditCreators", items);
@@ -23,11 +23,9 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 
 		submit: function() {
 			var self = this;
-			self.set("processingInProgress", true);
 			var creditCreators = self.get("creditCreators");
 			self.get("reader").saveCreditCreators(creditCreators, function() {
-				self.set("processingInProgress", false);
-				self.set("processingCompleted", true);
+				console.log("Finished");
 			});
 		}
 	}

@@ -137,31 +137,31 @@ Balanced.CreditCreator = Ember.Object.extend({
 		return credit.save();
 	},
 
-	isBankAccountLoaded: function () {
+	isBankAccountLoaded: function() {
 		return this.get("bankAccount") !== undefined;
 	},
 
-	isCustomerLoaded: function () {
+	isCustomerLoaded: function() {
 		return this.get("customer") !== undefined;
 	},
 
-	isCreditLoaded: function () {
+	isCreditLoaded: function() {
 		return this.get("credit") !== undefined
 	},
 
-	isLoaded: function () {
+	isLoaded: function() {
 		return this.isCreditLoaded() && this.isCustomerLoaded() && this.isBankAccountLoaded();
 	},
 
-	isCustomerValid: function () {
+	isCustomerValid: function() {
 		return this.isCustomerLoaded();
 	},
 
-	isBankAccountValid: function () {
+	isBankAccountValid: function() {
 		return this.isBankAccountLoaded() && this.get("bankAccount") !== null;
 	},
 
-	isCreditValid: function () {
+	isCreditValid: function() {
 		return this.isCreditLoaded() && this.get("credit.amount") > 0;
 	},
 
@@ -169,11 +169,11 @@ Balanced.CreditCreator = Ember.Object.extend({
 		return this.isCreditValid() && this.isCustomerValid() && this.isBankAccountValid();
 	},
 
-	isSaved: function () {
+	isSaved: function() {
 		return !this.get("credit.isNew");
 	},
 
-	refreshState: function (){
+	refreshState: function() {
 		if (!this.isLoaded()) {
 			this.set("state", "loading");
 		} else if (!this.isValid()) {
@@ -201,7 +201,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 				.then(function(b) {
 					return self.saveCredit();
 				})
-				.then(function () {
+				.then(function() {
 					self.refreshState();
 				});
 		} else {

@@ -1,12 +1,12 @@
 Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
-	hasItems: function(){
+	hasItems: function() {
 		return this.getCreditCreators().length > 0
 	}.property("controller.creditCreators"),
 
 	displayCsvRows: Ember.computed.and("hasItems", "isEscrowValid"),
 
-	getCreditCreators: function () {
+	getCreditCreators: function() {
 		return this.get("controller.creditCreators") || [];
 	},
 
@@ -40,7 +40,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return !creator.isValid();
 	}),
 
-	isAllValid: function () {
+	isAllValid: function() {
 		return this.get("invalidRows.length") === 0;
 	}.property("invalidRows.length"),
 

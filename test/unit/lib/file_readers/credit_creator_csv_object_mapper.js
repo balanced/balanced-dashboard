@@ -3,7 +3,7 @@ module("Balanced.CreditCreatorCsvObjectMapper");
 test("#deserialize('string')", function(assert) {
 	var values = {
 		"   cat   ": "cat",
-	    "dog  ": "dog",
+		"dog  ": "dog",
 		"    iguana": "iguana",
 		" mountain lion ": "mountain lion"
 	};
@@ -17,7 +17,7 @@ test("#deserialize('string')", function(assert) {
 test("#deserialize('lowerCaseString')", function(assert) {
 	var values = {
 		"   GIRAFFE   ": "giraffe",
-	    "   ": undefined,
+		"   ": undefined,
 		"    iguana": "iguana",
 		"Mountain Lion": "mountain lion"
 	};
@@ -33,8 +33,8 @@ test("#deserialize('number')", function(assert) {
 		"   -1   ": -1,
 		"10000": 10000,
 		"vrjknvr": undefined,
-	    "0  ": 0,
-	    "0931.90": 931.9
+		"0  ": 0,
+		"0931.90": 931.9
 	};
 
 	var subject = Balanced.CreditCreatorCsvObjectMapper.create();
@@ -74,7 +74,7 @@ test("#extractBankAccountAttributes", function(assert) {
 
 	var subject = Balanced.CreditCreatorCsvObjectMapper.create();
 
-	_.each(values, function (value, index) {
+	_.each(values, function(value, index) {
 		var results = subject.extractBankAccountAttributes(value);
 		assert.deepEqual(results, expectations[index]);
 	});
@@ -100,7 +100,7 @@ test("#extractCustomerAttributes", function(assert) {
 
 	var subject = Balanced.CreditCreatorCsvObjectMapper.create();
 
-	_.each(values, function (value, index) {
+	_.each(values, function(value, index) {
 		var results = subject.extractCustomerAttributes(value);
 		assert.deepEqual(results, expectations[index]);
 	});
@@ -129,7 +129,7 @@ test("#extractCreditAttributes", function(assert) {
 
 	var subject = Balanced.CreditCreatorCsvObjectMapper.create();
 
-	_.each(values, function (value, index) {
+	_.each(values, function(value, index) {
 		var results = subject.extractCreditAttributes(value);
 		assert.deepEqual(results, expectations[index]);
 	});
@@ -171,7 +171,7 @@ test("#convertCreditCsvRowToObject", function(assert) {
 	}];
 
 	var subject = Balanced.CreditCreatorCsvObjectMapper.create();
-	_.each(values, function (value, index) {
+	_.each(values, function(value, index) {
 		var results = subject.convertCreditCsvRowToObject(value);
 		assert.deepEqual(results, expectations[index]);
 	});
