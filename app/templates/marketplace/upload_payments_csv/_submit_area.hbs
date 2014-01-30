@@ -1,14 +1,14 @@
-<div {{bind-attr class=":actions :form-actions view.isProcessable::form-actions-error"}}>
-  {{#if isUnprocessable}}
+<div {{bind-attr class=":form-actions view.isUnprocessable:form-actions-error"}}>
+  {{#if view.isUnprocessable}}
     <div class="icon icon-alert"></div>
   {{/if}}
 
   <div class="pull-right">
     <button class="btn" {{action "reset" on="click" target="view"}}>Back</button>
-    <button class="btn" type="submit" {{bind-attr disabled="isUnprocessable"}}>Submit Payouts</button>
+    <button class="btn" type="submit" {{bind-attr disabled="view.isUnprocessable"}}>Submit Payouts</button>
   </div>
 
-  {{#if isUnprocessable}}
+  {{#if view.isUnprocessable}}
     <p>
       All entries must be valid to submit payouts. Go back to upload a new file
       or remove the invalid entries

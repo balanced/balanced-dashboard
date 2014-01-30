@@ -1,7 +1,7 @@
 <fieldset {{bind-attr class=":results :results-framed view.isError:results-error"}}>
   <header class="header">
-    <span class="count number2a">{{creditCreators.length}}</span>
-    <span class="title nav3d">Entries</span>
+    <span class="count number2a">{{view.items.length}}</span>
+    <span class="title nav3d">{{view.title}}</span>
   </header>
   <table class="table table-fixed table-border">
     <thead>
@@ -16,10 +16,11 @@
         <th class="label6a">appears_on_statement_as</th>
         <th class="label6a table-column-20percent">description</th>
         <th class="label6a">amount</th>
+        <th class=""></th>
       </tr>
     </thead>
     <tbody>
-      {{#each creditCreators}}
+      {{#each view.items}}
         <tr>
           <td>{{csvFields.bank_account_id}}</td>
           <td>{{csvFields.new_customer_name}}</td>
@@ -33,7 +34,7 @@
 
           <td>{{formatCurrency csvFields.amount_in_cents}}</td>
 
-          <td {{bind-attr class=":table-column :table-column-icon isInvalid:table-column-error isComplete:table-column-success"}}>
+          <td {{bind-attr class=":table-column isInvalid:table-column-error isComplete:table-column-success"}}>
             {{#if isInvalid}}
               <i class="icon icon-alert"></i>
             {{else}} {{#if isProcessing}}
@@ -41,6 +42,10 @@
             {{else}} {{#if isComplete}}
               <i class="icon icon-checkmark"></i>
             {{/if}} {{/if}} {{/if}}
+
+            {{#if view.isError}}
+              <a {{action "removeRow" this}}>&times;</a>
+            {{/if}}
           </td>
         </tr>
       {{/each}}

@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      {{#if results.length}}
+      {{#if view.hasItems}}
         {{partial 'marketplace/upload_payments_csv/account_summary'}}
       {{else}}
         {{partial 'marketplace/upload_payments_csv/instructions'}}
@@ -26,7 +26,11 @@
     </fieldset>
 
     {{#if view.displayCsvRows}}
-      {{partial "marketplace/upload_payments_csv/results_table"}}
+      {{#unless view.isAllValid}}
+        {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+      {{/unless}}
+
+      {{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
       {{partial "marketplace/upload_payments_csv/submit_area"}}
     {{/if}}
   </form>

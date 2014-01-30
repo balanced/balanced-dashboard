@@ -2,25 +2,25 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 
 	needs: ["marketplace"],
 
-	processingCompleted: false,
-	processingInProgress: false,
-
 	init: function() {
 		this._super();
 		var reader = Balanced.PaymentsCsvReader.create();
 		this.set("reader", reader);
-		reader.set("body", "");
 	},
-
-	results: Ember.computed.mapBy("creditCreators", "credit"),
 
 	updateCreditCreators: function() {
 		var creditCreators = this.get("reader").getCreditCreators();
 		this.set("creditCreators", creditCreators);
-		this.get("results");
 	}.observes("reader.body"),
 
 	actions: {
+		removeRow: function(creditCreator){
+			var items = this.get("creditCreators").filter(function (item) {
+				return item !== creditCreator;
+			});
+			this.set("creditCreators", items);
+		},
+
 		submit: function() {
 			var self = this;
 			self.set("processingInProgress", true);
