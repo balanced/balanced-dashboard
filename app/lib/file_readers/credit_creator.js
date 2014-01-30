@@ -3,7 +3,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 	isLoading: Ember.computed.equal("state", "loading"),
 	isInvalid: Ember.computed.equal("state", "invalid"),
 	isProcessing: Ember.computed.equal("state", "processing"),
-	isSaved: Ember.computed.equal("state", "complete"),
+	isComplete: Ember.computed.equal("state", "complete"),
 
 	credit: function() {
 		var self = this;
@@ -32,20 +32,9 @@ Balanced.CreditCreator = Ember.Object.extend({
 	}.property("attributes"),
 
 	attributes: function() {
-		var mapper = Balanced.CsvObjectMapper.create();
+		var mapper = Balanced.CreditCreatorCsvObjectMapper.create();
 		var object = this.get("csvFields");
-		return mapper.getDeepObject(object, {
-			"bank_account_id": "bank_account.id",
-			"amount_in_cents": "credit.amount",
-			"new_bank_account_routing_number": "bank_account.routing_number",
-			"new_bank_account_number": "bank_account.account_number",
-			"new_bank_account_holders_name": "bank_account.name",
-			"new_bank_account_type": "bank_account.type",
-			"appears_on_statement_as": "credit.appears_on_statement_as",
-			"description": "credit.description",
-			"new_customer_email": "customer.email",
-			"new_customer_name": "customer.name"
-		});
+		return mapper.convertCreditCsvRowToObject(object);
 	}.property("csvFields"),
 
 	buildCustomer: function() {
@@ -53,7 +42,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 		var email = $.trim(attr.email || "");
 		var name = $.trim(attr.name || "");
 
-		var resultAttributes;
+		var resultAttributes = null;
 		if (email.length > 0 && name.length > 0) {
 			resultAttributes = Balanced.Customer.create({
 				email: email,
@@ -76,7 +65,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 			});
 		} else if (balanced.bankAccount.validate(attr).length) {
 			return Ember.RSVP.resolve({
-				bankAccount: undefined
+				bankAccount: null
 			});
 		} else {
 			return Ember.RSVP.resolve({
@@ -108,11 +97,9 @@ Balanced.CreditCreator = Ember.Object.extend({
 
 	saveCustomer: function() {
 		var customer = this.get("customer");
-		if (customer) {
-			return customer.save();
-		} else {
-			return Ember.RSVP.resolve();
-		}
+		return customer === null ?
+			Ember.RSVP.resolve(null) :
+			customer.save();
 	},
 
 	saveBank: function() {
@@ -138,7 +125,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 					return bankAccount;
 				});
 		} else {
-			return bankAccount;
+			return Ember.RSVP.resolve(bankAccount);
 		}
 	},
 
@@ -150,31 +137,51 @@ Balanced.CreditCreator = Ember.Object.extend({
 		return credit.save();
 	},
 
-	isValid: function() {
-		var credit = this.get('credit');
-		var bankAccount = this.get("bankAccount");
-		return bankAccount && credit.get("amount") > 0;
+	isBankAccountLoaded: function () {
+		return this.get("bankAccount") !== undefined;
 	},
 
-	setValidity: function() {
-		if (this.isValid()) {
-			this.set("state", "valid");
-		} else {
-			this.set("state", "invalid");
-		}
+	isCustomerLoaded: function () {
+		return this.get("customer") !== undefined;
+	},
+
+	isCreditLoaded: function () {
+		return this.get("credit") !== undefined
+	},
+
+	isLoaded: function () {
+		return this.isCreditLoaded() && this.isCustomerLoaded() && this.isBankAccountLoaded();
+	},
+
+	isCustomerValid: function () {
+		return this.isCustomerLoaded();
+	},
+
+	isBankAccountValid: function () {
+		return this.isBankAccountLoaded() && this.get("bankAccount") !== null;
+	},
+
+	isCreditValid: function () {
+		return this.isCreditLoaded() && this.get("credit.amount") > 0;
+	},
+
+	isValid: function() {
+		return this.isCreditValid() && this.isCustomerValid() && this.isBankAccountValid();
+	},
+
+	isSaved: function () {
+		return !this.get("credit.isNew");
 	},
 
 	refreshState: function (){
-		var credit = this.get('credit');
-		var bankAccount = this.get("bankAccount");
-		var customer = this.get("customer");
-
-
-		if (credit && bankAccount && customer) {
-			this.set("state", this.isValid() ? "valid": "invalid");
-		}
-		else {
+		if (!this.isLoaded()) {
 			this.set("state", "loading");
+		} else if (!this.isValid()) {
+			this.set("state", "invalid");
+		} else if (this.isSaved()) {
+			this.set("state", "complete");
+		} else {
+			this.set("state", "idle");
 		}
 	},
 
@@ -195,7 +202,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 					return self.saveCredit();
 				})
 				.then(function () {
-					self.set("state", "complete");
+					self.refreshState();
 				});
 		} else {
 			return Ember.RSVP.resolve(null);
@@ -215,52 +222,4 @@ Balanced.CreditCreator.reopenClass({
 			csvFields: object
 		});
 	}
-});
-
-Balanced.CsvObjectMapper = Ember.Object.extend({
-	deserializers: {
-		"bank_account.type": function(v) {
-			return v.toLowerCase();
-		},
-		"credit.amount": function(v) {
-			var value = parseFloat(v, 10);
-			if (isNaN(value) || value < 0) {
-				return undefined;
-			} else {
-				return value;
-			}
-		}
-	},
-
-	mapValue: function(key, value) {
-		return this.deserializers[key] ?
-			this.deserializers[key].call(this, value) :
-			value;
-	},
-
-	getDeepObject: function(object, keysMapping) {
-		var self = this;
-		var mappedObject = {};
-		keysMapping = keysMapping || {};
-		_.each(object, function(value, key) {
-			if (keysMapping[key]) {
-				key = keysMapping[key];
-			}
-			mappedObject[key] = value;
-		});
-
-		_.each(mappedObject, function(fieldValue, fieldName) {
-			var object = mappedObject;
-			var columnKeys = fieldName.split(".");
-			columnKeys.slice(0, -1).forEach(function(key, i) {
-				if (!(key in object)) {
-					object[key] = {};
-				}
-				object = object[key];
-			});
-			object[columnKeys[columnKeys.length - 1]] = self.mapValue(fieldName, fieldValue);
-		});
-		return mappedObject;
-	}
-
 });

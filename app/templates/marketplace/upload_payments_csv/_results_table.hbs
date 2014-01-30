@@ -1,4 +1,4 @@
-<fieldset class="results results-framed">
+<fieldset {{bind-attr class=":results :results-framed view.isError:results-error"}}>
   <header class="header">
     <span class="count number2a">{{creditCreators.length}}</span>
     <span class="title nav3d">Entries</span>
@@ -16,7 +16,6 @@
         <th class="label6a">appears_on_statement_as</th>
         <th class="label6a table-column-20percent">description</th>
         <th class="label6a">amount</th>
-        <th class="table-column-icon"></th>
       </tr>
     </thead>
     <tbody>
@@ -31,19 +30,17 @@
           <td>{{csvFields.new_bank_account_type}}</td>
           <td>{{csvFields.appears_on_statement_as}}</td>
           <td>{{csvFields.description}}</td>
+
           <td>{{formatCurrency csvFields.amount_in_cents}}</td>
-          <td {{bind-attr class=":table-column :table-column-icon isInvalid:table-column-error"}}>
+
+          <td {{bind-attr class=":table-column :table-column-icon isInvalid:table-column-error isComplete:table-column-success"}}>
             {{#if isInvalid}}
               <i class="icon icon-alert"></i>
-            {{else}}
-              {{#if isProcessing}}
-                <i class="icon icon-loading"></i>
-              {{else}}
-                {{#if isSaved}}
-                <i class="icon icon-checkmark"></i>
-                {{/if}}
-              {{/if}}
-            {{/if}}
+            {{else}} {{#if isProcessing}}
+              <i class="icon icon-loading"></i>
+            {{else}} {{#if isComplete}}
+              <i class="icon icon-checkmark"></i>
+            {{/if}} {{/if}} {{/if}}
           </td>
         </tr>
       {{/each}}

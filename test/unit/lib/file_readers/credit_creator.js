@@ -14,7 +14,7 @@ asyncTest("buildCustomer (empty)", 1, function(assert) {
 
 	Ember.run(function() {
 		row.buildCustomer().then(function(obj) {
-			assert.deepEqual(obj.customer, undefined);
+			assert.deepEqual(obj.customer, null);
 			start();
 		});
 	});
@@ -49,7 +49,7 @@ asyncTest("buildBankAccount (invalid)", 1, function(assert) {
 
 	Ember.run(function() {
 		row.buildBankAccount().then(function(obj) {
-			assert.deepEqual(obj.bankAccount, undefined);
+			assert.deepEqual(obj.bankAccount, null);
 			start();
 		});
 	});
@@ -136,55 +136,4 @@ test("setCreditBankAccount", function(assert) {
 	assert.equal(credit.get("bank_account.number"), "00001111");
 	assert.equal(credit.get("destination.number"), "00001111");
 	assert.equal(credit.get("uri"), "/092379386");
-});
-
-test("Balanced.CsvObjectMapper.mapValue", function(assert) {
-	var subject = Balanced.CsvObjectMapper.create();
-	var values = [10, undefined, "crkjbvr", "-10"];
-	var expectations = [10, undefined, undefined, undefined];
-
-	values.forEach(function(val, i) {
-		assert.deepEqual(subject.mapValue("credit.amount", val), expectations[i]);
-	});
-
-	assert.deepEqual(subject.mapValue("cool.beans", 10), 10);
-});
-
-test("Balanced.CsvObjectMapper.getDeepObject", function(assert) {
-	var a = Balanced.CsvObjectMapper.create().getDeepObject({
-		"bank_account.id": "cool id",
-		"credit.id": "10",
-		"credit.amount": "131",
-		"credit.client.name": "Dr. Giraffe"
-	});
-
-	assert.deepEqual(a, {
-		bank_account: {
-			id: "cool id"
-		},
-		credit: {
-			id: "10",
-			amount: 131,
-			client: {
-				name: "Dr. Giraffe"
-			}
-		}
-	});
-});
-
-test("Balanced.CsvObjectMapper.getDeepObject", function(assert) {
-	var a = Balanced.CsvObjectMapper.create().getDeepObject({
-		"account.id": "10",
-		"credit.amount": "100",
-		"credit.name": "Jim"
-	});
-	assert.deepEqual(a, {
-		account: {
-			id: "10"
-		},
-		credit: {
-			amount: 100,
-			name: "Jim"
-		}
-	});
 });

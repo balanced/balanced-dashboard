@@ -24,8 +24,8 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return creator.get("isProcessable");
 	}),
 
-	validRows: Ember.computed.filter('controller.creditCreators', function(creator) {
-		return creator.get("isProcessable");
+	invalidRows: Ember.computed.filter('controller.creditCreators', function(creator) {
+		return !creator.get("isProcessable");
 	}),
 
 	updateReaderBody: function(text) {

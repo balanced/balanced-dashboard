@@ -12,31 +12,31 @@ test("Read and process CSV data", function(assert) {
 		null, {
 			"customer.email": "harry.tan@example.com",
 			"bank_account.name": "Harry Tan",
-			"amount": 16
+			"credit.amount": 16
 		},
 		null,
 		null,
 		null, {
 			"customer.email": "dwyane.braggart@example.org",
 			"bank_account.name": "Dwyane Braggart",
-			"amount": 54
+			"credit.amount": 54
 		}, {
 			"customer.email": "charlie.chan@example.org",
 			"bank_account.name": "Charlie Chan",
-			"amount": 32
+			"credit.amount": 32
 		}, {
 			"customer.email": undefined,
 			"bank_account.name": "John Foo",
-			"amount": 17
+			"credit.amount": 17
 		}, {
 			"customer.email": "harrison.ford@example.org",
 			"bank_account.name": "Harrison Ford",
-			"amount": 43
+			"credit.amount": 43
 		}
 	];
 
 	var csvString = [
-		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_name,new_bank_account_type,amount_in_cents,appears_on_statement_as,description",
+		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount_in_cents,appears_on_statement_as,description",
 		",,,,,Dwyane Braggart,CHECKING,15,Payment #1771,[INVALID] No Acct. No",
 		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,16,Payment #9746,[VALID]",
 		",Harry Tan,harry.tan@example.org,121000358,123123123,Harry Tan,CHECKING,-19,Payment #7891,[INVALID] Negative Amount",
@@ -59,7 +59,7 @@ test("Read and process CSV data", function(assert) {
 		new_customer_email: "",
 		new_bank_account_routing_number: "",
 		new_bank_account_number: "",
-		new_bank_account_name: "Dwyane Braggart",
+		new_bank_account_holders_name: "Dwyane Braggart",
 		new_bank_account_type: "CHECKING",
 		amount_in_cents: "15",
 		appears_on_statement_as: "Payment #1771",
