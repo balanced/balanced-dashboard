@@ -510,30 +510,27 @@ header.results-label h3 {
     background-color: @gray2;
     border: 0 solid transparent;
     float: none;
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .count {
+    background-color: @forestGreen100;
+    color: @white;
+    display: inline-block;
+    line-height: 40px;
+    text-align: center;
+    width: 65px;
   }
 
   .title {
     color: @black;
-    font-size: 22px;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 10px;
-  }
-
-  .count {
-    background-color: green;
-    color: @white;
-    float: left;
-    font-size: 24px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    width: 65px;
+    padding: 0 10px;
   }
 }
 
 .results.results-framed.results-error {
   .count {
-    background-color: #F00;
+    background-color: @imperialRed100;
   }
 }

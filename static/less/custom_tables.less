@@ -1,16 +1,3 @@
-table.table-summary {
-  background-color: #FFF;
-  th:first-child {
-    padding: 0;
-  }
-
-  th {
-    font-size: 16px;
-    color: #000;
-    font-style: italic;
-  }
-}
-
 .table.table-fixed {
   table-layout: fixed;
   width: 100%;
@@ -18,15 +5,19 @@ table.table-summary {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 0 5px;
   }
   tr {
     line-height: 36px;
   }
+  th {
+    height: 36px;
+  }
 }
 
-.table-header {
-  font-weight: bold;
-  font-family: nimbussancond-bol, arial, sans-serif
+.table-column-total {
+  text-align: right;
+  width: 100px;
 }
 
 .table-column-icon {
@@ -38,9 +29,10 @@ table.table-summary {
 }
 
 .table-column.table-column-error {
-  color: #F00;
+  color: @imperialRed100;
 }
 
-.table-border tr {
-  border-top: 1px solid #bfbeb9;
+.table-border tbody tr {
+  border-top: 1px solid @gray3;
 }
+

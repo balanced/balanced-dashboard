@@ -17,6 +17,17 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total <= escrow;
 	}.property("payoutTotal", "escrowTotal"),
 
+	isProcessable: Ember.computed.and("isEscrowValid", "isEscrowValid"),
+	isUnprocessable: Ember.computed.not("isProcessable"),
+
+	validRows: Ember.computed.filter('controller.creditCreators', function(creator) {
+		return creator.get("isProcessable");
+	}),
+
+	validRows: Ember.computed.filter('controller.creditCreators', function(creator) {
+		return creator.get("isProcessable");
+	}),
+
 	updateReaderBody: function(text) {
 		this.set("controller.reader.body", text);
 	},

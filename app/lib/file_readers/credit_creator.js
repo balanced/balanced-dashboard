@@ -1,41 +1,40 @@
 Balanced.CreditCreator = Ember.Object.extend({
 
+	isLoading: Ember.computed.equal("state", "loading"),
 	isInvalid: Ember.computed.equal("state", "invalid"),
 	isProcessing: Ember.computed.equal("state", "processing"),
 	isSaved: Ember.computed.equal("state", "complete"),
 
 	credit: function() {
 		var self = this;
-		var customer, bankAccount;
 		var credit = Balanced.Credit.create(self.get("attributes.credit") || {});
+
 		self.set("credit", credit);
 
 		self.buildCustomer()
 			.then(function(result) {
-				customer = result.customer;
+				var customer = result.customer;
 				self.set("customer", customer);
 				self.setCreditCustomer(credit, customer);
-				self.setValidity(customer, bankAccount, credit);
+				self.refreshState();
 			});
 
 		self.buildBankAccount()
 			.then(function(result) {
-				bankAccount = result.bankAccount;
+				var bankAccount = result.bankAccount;
 				self.set("bankAccount", bankAccount);
 				self.setCreditBankAccount(credit, bankAccount);
-				self.setValidity(customer, bankAccount, credit);
-				return bankAccount;
+				self.refreshState();
 			});
 
-		self.setValidity(customer, bankAccount, credit);
+		self.refreshState();
 		return credit;
 	}.property("attributes"),
 
 	attributes: function() {
 		var mapper = Balanced.CsvObjectMapper.create();
-		var mappedObject = {};
 		var object = this.get("csvFields");
-		var keysMapping = {
+		return mapper.getDeepObject(object, {
 			"bank_account_id": "bank_account.id",
 			"amount_in_cents": "credit.amount",
 			"new_bank_account_routing_number": "bank_account.routing_number",
@@ -46,14 +45,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 			"description": "credit.description",
 			"new_customer_email": "customer.email",
 			"new_customer_name": "customer.name"
-		};
-		_.each(object, function(value, key) {
-			if (keysMapping[key]) {
-				key = keysMapping[key];
-			}
-			mappedObject[key] = value;
 		});
-		return mapper.getDeepObject(mappedObject);
 	}.property("csvFields"),
 
 	buildCustomer: function() {
@@ -172,6 +164,20 @@ Balanced.CreditCreator = Ember.Object.extend({
 		}
 	},
 
+	refreshState: function (){
+		var credit = this.get('credit');
+		var bankAccount = this.get("bankAccount");
+		var customer = this.get("customer");
+
+
+		if (credit && bankAccount && customer) {
+			this.set("state", this.isValid() ? "valid": "invalid");
+		}
+		else {
+			this.set("state", "loading");
+		}
+	},
+
 	save: function() {
 		var self = this;
 		var credit = this.get('credit');
@@ -232,12 +238,19 @@ Balanced.CsvObjectMapper = Ember.Object.extend({
 			value;
 	},
 
-	getDeepObject: function(base) {
+	getDeepObject: function(object, keysMapping) {
 		var self = this;
-		var deepObject = {};
+		var mappedObject = {};
+		keysMapping = keysMapping || {};
+		_.each(object, function(value, key) {
+			if (keysMapping[key]) {
+				key = keysMapping[key];
+			}
+			mappedObject[key] = value;
+		});
 
-		_.each(base, function(fieldValue, fieldName) {
-			var object = deepObject;
+		_.each(mappedObject, function(fieldValue, fieldName) {
+			var object = mappedObject;
 			var columnKeys = fieldName.split(".");
 			columnKeys.slice(0, -1).forEach(function(key, i) {
 				if (!(key in object)) {
@@ -247,7 +260,7 @@ Balanced.CsvObjectMapper = Ember.Object.extend({
 			});
 			object[columnKeys[columnKeys.length - 1]] = self.mapValue(fieldName, fieldValue);
 		});
-		return deepObject;
+		return mappedObject;
 	}
 
 });
