@@ -11,10 +11,36 @@ table.table-summary {
   }
 }
 
+.table.table-fixed {
+  table-layout: fixed;
+  width: 100%;
+  th, td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  tr {
+    line-height: 36px;
+  }
+}
+
+.table-header {
+  font-weight: bold;
+  font-family: nimbussancond-bol, arial, sans-serif
+}
+
 .table-column-icon {
   width: 16px;
 }
 
+.table-column-20percent {
+  width: 20%;
+}
+
 .table-column.table-column-error {
   color: #F00;
+}
+
+.table-border tr {
+  border-top: 1px solid #bfbeb9;
 }

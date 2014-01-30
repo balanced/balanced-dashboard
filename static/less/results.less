@@ -499,3 +499,41 @@ header.results-label h3 {
     }
   }
 }
+
+.results.results-framed {
+  background-color: @white;
+  border: 5px solid @gray2;
+  float: none;
+  width: auto;
+
+  .header {
+    background-color: @gray2;
+    border: 0 solid transparent;
+    float: none;
+  }
+
+  .title {
+    color: @black;
+    font-size: 22px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+  }
+
+  .count {
+    background-color: green;
+    color: @white;
+    float: left;
+    font-size: 24px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 65px;
+  }
+}
+
+.results.results-framed.results-error {
+  .count {
+    background-color: #F00;
+  }
+}

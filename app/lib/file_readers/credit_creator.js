@@ -1,5 +1,9 @@
 Balanced.CreditCreator = Ember.Object.extend({
 
+	isInvalid: Ember.computed.equal("state", "invalid"),
+	isProcessing: Ember.computed.equal("state", "processing"),
+	isSaved: Ember.computed.equal("state", "complete"),
+
 	credit: function() {
 		var self = this;
 		var customer, bankAccount;
@@ -36,7 +40,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 			"amount_in_cents": "credit.amount",
 			"new_bank_account_routing_number": "bank_account.routing_number",
 			"new_bank_account_number": "bank_account.account_number",
-			"new_bank_account_name": "bank_account.name",
+			"new_bank_account_holders_name": "bank_account.name",
 			"new_bank_account_type": "bank_account.type",
 			"appears_on_statement_as": "credit.appears_on_statement_as",
 			"description": "credit.description",
@@ -161,11 +165,10 @@ Balanced.CreditCreator = Ember.Object.extend({
 	},
 
 	setValidity: function() {
-		var credit = this.get('credit');
-		if (!this.isValid()) {
-			credit.set("status", "invalid");
+		if (this.isValid()) {
+			this.set("state", "valid");
 		} else {
-			credit.set("status", undefined);
+			this.set("state", "invalid");
 		}
 	},
 
@@ -176,6 +179,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 		var attr = this.get("attributes");
 
 		if (credit.get("isNew") && this.isValid()) {
+			this.set("state", "processing");
 			return this.saveCustomer()
 				.then(function(c) {
 					self.set("customer", c);
@@ -183,6 +187,9 @@ Balanced.CreditCreator = Ember.Object.extend({
 				})
 				.then(function(b) {
 					return self.saveCredit();
+				})
+				.then(function () {
+					self.set("state", "complete");
 				});
 		} else {
 			return Ember.RSVP.resolve(null);

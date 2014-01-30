@@ -27,18 +27,7 @@
 
     {{#if view.displayCsvRows}}
       {{partial "marketplace/upload_payments_csv/results_table"}}
-    {{/if}}
-
-    {{#if results.length}}
-      <div class="actions">
-        {{#if processingInProgress}}
-          Processing in progress.
-        {{else}}
-          {{#if processingCompleted}}
-            All Items Processed
-          {{/if}}
-        {{/if}}
-      </div>
+      {{partial "marketplace/upload_payments_csv/submit_area"}}
     {{/if}}
   </form>
 {{/view}}

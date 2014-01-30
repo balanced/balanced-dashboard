@@ -1,19 +1,22 @@
-<fieldset>
-  <header>
+<fieldset class="results results-framed">
+  <header class="header">
+    <span class="count">10</span>
+    <span class="title">Entries</span>
   </header>
-  <table class="table">
+  <table class="table table-fixed table-border">
     <thead>
       <tr>
-        <th>bank_account_id</th>
-        <th>new_customer_name</th>
-        <th>new_customer_email</th>
-        <th>new_bank_account_routing_number</th>
-        <th>new_bank_account_number</th>
-        <th>new_bank_account_holders_name</th>
-        <th>new_bank_account_type</th>
-        <th>amount_in_cents</th>
-        <th>appears_on_statement_as</th>
-        <th>description</th>
+        <th class="table-header">bank_account_id</th>
+        <th class="table-header">new_customer_name</th>
+        <th class="table-header">new_customer_email</th>
+        <th class="table-header">new_bank_account_routing_number</th>
+        <th class="table-header">new_bank_account_number</th>
+        <th class="table-header">new_bank_account_holders_name</th>
+        <th class="table-header">new_bank_account_type</th>
+        <th class="table-header">appears_on_statement_as</th>
+        <th class="table-header table-column-20percent">description</th>
+        <th class="table-header">amount_in_cents</th>
+        <th class="table-column-icon"></th>
       </tr>
     </thead>
     <tbody>
@@ -26,12 +29,26 @@
           <td>{{csvFields.new_bank_account_number}}</td>
           <td>{{csvFields.new_bank_account_holders_name}}</td>
           <td>{{csvFields.new_bank_account_type}}</td>
-          <td>{{csvFields.amount_in_cents}}</td>
           <td>{{csvFields.appears_on_statement_as}}</td>
           <td>{{csvFields.description}}</td>
+          <td>{{formatCurrency csvFields.amount_in_cents}}</td>
+          {{#if isInvalid}}
+            <td class="table-column-icon table-column-error">
+              <i class="icon icon-alert"></i>
+            </td>
+          {{else}}
+            <td class="table-column-icon">
+              {{#if isProcessing}}
+                <i class="icon icon-loading"></i>
+              {{else}}
+                {{#if isSaved}}
+                  <i class="icon icon-checkmark"></i>
+                {{/if}}
+              {{/if}}
+            </td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>
   </table>
-
 </fieldset>
