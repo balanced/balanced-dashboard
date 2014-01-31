@@ -26,7 +26,7 @@
       <tr>
         <td class="">Invalid Entries: {{view.unprocessableRows.length}}</td>
         <td class="number3a table-column table-column-total">{{formatCurrency view.unprocessableTotal}}</td>
-        <td class="">
+        <td {{bind-attr class=":table-column :table-column-icon view.isAllValid::table-column-error"}}>
           {{#if view.unprocessableRows.length}}
             <i class="icon icon-alert"></i>
           {{/if}}

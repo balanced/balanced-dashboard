@@ -86,11 +86,19 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		},
 
 		submit: function() {
-			this.get("progressBarModal").send("open");
-			this.get("progressBarModal").update(0);
+			var self = this;
+			var modal = this.get("progressBarModal");
+			modal.send("open");
+			modal.update(0);
 
-			this.get("controller").save(function(resultsModel) {
-				console.log("finished");
+			this.get("controller").save(function () {
+				var count = self.get("validRows").length;
+				modal.send("close");
+				self.get('controller').send('alert', {
+					message: "" + count + " payouts were successfully submitted",
+					persists: false,
+					type: "success"
+				});
 			});
 		},
 
