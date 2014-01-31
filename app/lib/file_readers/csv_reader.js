@@ -37,6 +37,10 @@ Balanced.CsvReader = Ember.Object.extend({
 
 Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 
+	fraction: function() {
+		return this.get("completedItems") / this.getObjects().length;
+	}.property("completedItems"),
+
 	getCreditCreators: function() {
 		return this.getObjects().map(function(row) {
 			return Balanced.CreditCreator.fromCsvRow(row);
@@ -45,10 +49,12 @@ Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
 
 	saveCreditCreators: function(creators, callback) {
 		var savedCredits = [];
+		var self = this;
 
 		var saveSingle = function(creator, rest) {
 			var innerCallback = function(result) {
 				savedCredits.push(result);
+
 				if (rest.length > 0) {
 					saveSingle(rest[0], rest.slice(1));
 				} else {

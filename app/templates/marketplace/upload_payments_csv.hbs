@@ -3,9 +3,10 @@
     <h1 class="page-title">Pay Multiple Sellers</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvView}}
-  <form {{action "submit" on="submit"}} class="full-page-form">
+  {{progress-bar-modal viewName="progressBarModal" title="Submitting Payouts"}}
 
-    <fieldset>
+  <form {{action "submit" on="submit" target="view"}} class="full-page-form">
+    <fieldset class="pay-multiple-sellers-summary">
       <div class="main-header pay-multiple-sellers-header">
         <div class="row">
           <div class="span2 label">
@@ -26,11 +27,9 @@
     </fieldset>
 
     {{#if view.displayCsvRows}}
-      {{#unless view.isAllValid}}
-        {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-      {{/unless}}
-
+      {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
       {{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+
       {{partial "marketplace/upload_payments_csv/submit_area"}}
     {{/if}}
   </form>

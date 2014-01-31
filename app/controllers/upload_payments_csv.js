@@ -6,6 +6,7 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		this._super();
 		var reader = Balanced.PaymentsCsvReader.create();
 		this.set("reader", reader);
+		this.set("creditCreators", []);
 	},
 
 	updateCreditCreators: function() {
@@ -13,20 +14,15 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		this.set("creditCreators", creditCreators);
 	}.observes("reader.body"),
 
-	actions: {
-		removeRow: function(creditCreator) {
-			var items = this.get("creditCreators").filter(function(item) {
-				return item !== creditCreator;
-			});
-			this.set("creditCreators", items);
-		},
+	save: function(callback) {
+		var self = this;
+		var creditCreators = self.get("creditCreators");
+		self.get("reader").saveCreditCreators(creditCreators, callback);
+	},
 
-		submit: function() {
-			var self = this;
-			var creditCreators = self.get("creditCreators");
-			self.get("reader").saveCreditCreators(creditCreators, function() {
-				console.log("Finished");
-			});
+	actions: {
+		toggleCreditCreator: function(cc) {
+			cc.toggleRemove();
 		}
 	}
 });
