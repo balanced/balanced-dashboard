@@ -1,8 +1,9 @@
 <thead>
     <tr>
         {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Created{{/view}}
-        <th class="span4 label6a name">Name</th>
-        <th class="span8 label6a email">Email</th>
+        <th class="span3 label6a name">Customer Name</th>
+        <th class="span3 label6a name">Business Name</th>
+        <th class="span6 label6a email">Email</th>
     </tr>
 </thead>
 {{#if view.customers.hasNextPage}}
@@ -28,12 +29,17 @@
                     <time {{bindAttr datetime="customer.created_at"}} {{bindAttr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at }}</time>
                 </span>{{/link-to}}
             </td>
-            <td class="span4 name" {{bindAttr title="customer.display_me"}}>
+            <td class="span3 name" {{bindAttr title="customer.display_me"}}>
                 {{#link-to "customers" customer}}<span>
                     {{ customer.display_me }}
                 </span>{{/link-to}}
             </td>
-            <td class="span8 email" {{bindAttr title="customer.email"}}>
+            <td class="span3 business_name" {{bindAttr title="customer.business_name"}}>
+                {{#link-to "customers" customer}}<span>
+                    {{ customer.business_name }}
+                </span>{{/link-to}}
+            </td>
+            <td class="span6 email" {{bindAttr title="customer.email"}}>
                 {{#link-to "customers" customer}}<span>
                     {{ customer.email }}
                 </span>{{/link-to}}

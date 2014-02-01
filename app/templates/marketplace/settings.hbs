@@ -1,7 +1,7 @@
 <h1 class="page-title">Settings</h1>
 
 <div class="row">
-    <div class="span11">
+    <div class="span13">
         <section class="marketplace-info">
             <form class="form-horizontal edit-inline">
                 <header>
@@ -245,7 +245,7 @@
 </div>
 
 <div class="row">
-    <div class="span20">
+    <div class="span22">
         <section class="webhook-info">
             <header>
                 <h3>Webhooks
@@ -257,8 +257,6 @@
                     <li class="pending">
                         <div class="summary">
                           <a href="#" class="icon-delete" {{action promptToDeleteCallback callback}}>delete</a>
-                          <div class="expand"><!--<span class="caret"></span>--></div>
-                          <div class="state">pending</div>
                           <div class="callback-revision">Revision {{ callback.revision }}</div>
                           <div class="url"><span class="callback-method">{{ callback.method }}</span> {{ callback.url }}</div>
                         </div>
