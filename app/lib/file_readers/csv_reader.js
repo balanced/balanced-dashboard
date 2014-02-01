@@ -23,9 +23,7 @@ Balanced.CsvReader = Ember.Object.extend({
 		return this.get("rows")[0] || [];
 	},
 
-	fields: function() {
-		return this.get("rows").slice(1);
-	}.property("rows"),
+	fields: Balanced.computed.slice("rows", 1),
 
 	rows: function() {
 		var body = this.get("body") || "";
@@ -36,10 +34,6 @@ Balanced.CsvReader = Ember.Object.extend({
 });
 
 Balanced.PaymentsCsvReader = Balanced.CsvReader.extend({
-
-	fraction: function() {
-		return this.get("completedItems") / this.getObjects().length;
-	}.property("completedItems"),
 
 	getCreditCreators: function() {
 		return this.getObjects().map(function(row) {

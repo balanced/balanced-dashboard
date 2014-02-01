@@ -1,12 +1,18 @@
+var computedState = function (stateValue) {
+	return Ember.computed.equal("state", stateValue);
+};
+
 Balanced.CreditCreator = Ember.Object.extend({
 
 	isRemoved: function() {
 		return this.get("removed") || false;
 	}.property("removed"),
-	isLoading: Ember.computed.equal("state", "loading"),
-	isInvalid: Ember.computed.equal("state", "invalid"),
-	isProcessing: Ember.computed.equal("state", "processing"),
-	isComplete: Ember.computed.equal("state", "complete"),
+
+	isActive: Ember.computed.not("isRemoved"),
+	isLoading: computedState("loading"),
+	isInvalid: computedState("invalid"),
+	isProcessing: computedState("processing"),
+	isComplete: computedState("complete"),
 
 	toggleRemove: function() {
 		var value = this.get("removed");

@@ -2,24 +2,12 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	creditCreators: Ember.computed.alias("controller.creditCreators"),
 
-	hasItems: function() {
-		var array = this.get("creditCreators") || [];
-		return array.length > 0;
-	}.property("creditCreators"),
+	hasItems: Ember.computed.gt("creditCreators.length", 0),
 
 	displayCsvRows: Ember.computed.and("hasItems", "isEscrowValid"),
 
-	payoutTotal: function() {
-		var total = 0;
-
-		this.get("creditCreators").forEach(function(creditCreator) {
-			var amount = creditCreator.get("credit.amount");
-			if (amount) {
-				total += amount;
-			}
-		});
-		return total;
-	}.property("creditCreators"),
+	unprocessableTotal: Balanced.computed.sum("unprocessableRows", "credit.amount"),
+	payoutTotal: Balanced.computed.sum("processableRows", "credit.amount"),
 
 	isEscrowValid: function() {
 		var total = this.get("payoutTotal");
@@ -40,29 +28,23 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return !creator.isValid();
 	}),
 
-	unprocessableTotal: function() {
-		var total = 0;
+	unprocessableRows: Balanced.computed.filterEach("invalidRows.@each.isRemoved", "invalidRows", function(creator) {
+		return !creator.get("isRemoved");
+	}),
 
-		this.get("unprocessableRows").forEach(function(creditCreator) {
-			var amount = creditCreator.get("credit.amount");
-			if (amount) {
-				total += amount;
-			}
-		});
-		return total;
-	}.property("unprocessableRows"),
+	processableRows: Balanced.computed.filterEach("creditCreators.@each.isRemoved", "creditCreators", function(creator) {
+		return !creator.get("isRemoved");
+	}),
 
-	unprocessableRows: function() {
-		return this.get("invalidRows").filter(function(creator) {
-			return !creator.get("isRemoved");
-		});
-	}.property("invalidRows.@each.isRemoved"),
+	activeRows: Balanced.computed.filterEach("creditCreators.@each.isActive", "creditCreators", function(creator) {
+		return creator.get("isActive");
+	}),
 
 	isAllValid: function() {
 		return this.get("invalidRows").every(function(creator) {
 			return creator.get("isRemoved");
 		});
-	}.property("invalidRows", "invalidRows.@each", "invalidRows.@each.isRemoved"),
+	}.property("invalidRows.@each.isRemoved"),
 
 	updateReaderBody: function(text) {
 		this.set("controller.reader.body", text);
@@ -86,19 +68,12 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		},
 
 		submit: function() {
-			var self = this;
 			var modal = this.get("progressBarModal");
 			modal.send("open");
 			modal.update(0);
 
 			this.get("controller").save(function () {
-				var count = self.get("validRows").length;
 				modal.send("close");
-				self.get('controller').send('alert', {
-					message: "" + count + " payouts were successfully submitted",
-					persists: false,
-					type: "success"
-				});
 			});
 		},
 
