@@ -57,14 +57,17 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 	}.property('status'),
 
 	loadQRCode: function() {
-		console.log('loadQRCode');
-		var otpSecret = Balanced.Auth.get('OTPSecret');
+		var self = this;
 
-		if ($.fn.qrcode) {
-			$('#qrcode').qrcode(otpSecret.secret_uri);
-		} else {
-			setTimeout(this.loadQRCode, 100);
-		}
+		$.getScript('//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js', function() {
+			var otpSecret = Balanced.Auth.get('OTPSecret');
+
+			if ($.fn.qrcode) {
+				$('#qrcode').qrcode(otpSecret.secret_uri);
+			} else {
+				setTimeout(_.bind(self.loadQRCode, self), 100);
+			}
+		});
 	},
 
 	actions: {
@@ -88,11 +91,11 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 		},
 		activateAuth: function() {
 			var self = this;
-			console.log(this.get('auth_code_confirm'));
 			Balanced.Auth.confirmOTP(this.get('auth_code_confirm'));
 
 			Balanced.Auth.one('confirmOTP', function() {
 				self.set('status', 'enabled');
+				$('#qrcode').html('');
 			});
 		}
 	}

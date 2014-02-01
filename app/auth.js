@@ -204,10 +204,10 @@ Balanced.Auth = (function() {
 			},
 			dataType: 'JSON'
 		}).done(function(response, status, jqxhr) {
-			var user = this.get('user') || Balanced.User.create();
+			var user = self.get('user') || Balanced.User.create();
 			user.populateFromJsonResponse(response.user);
 
-			if (!this.get('signedIn')) {
+			if (!self.get('signedIn')) {
 				self.setAuthProperties(true,
 					user,
 					response.user_id,
