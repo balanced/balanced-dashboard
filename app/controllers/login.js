@@ -12,6 +12,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	actions: {
+		reset: function() {
+			this.reset();
+		},
+
 		signIn: function() {
 			var self = this;
 
