@@ -29,9 +29,9 @@
 
             <div class="auth">Enter the authentication code below.</div>
 
-            <form id="forgot-form" {{ bindAttr class="hasError:error" }}>
+            <form id="forgot-form" {{ bindAttr class=":otp-form hasError:error" }}>
               {{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
-              <button class="pull-right" {{action "otpSubmit"}} type="button">Continue To Dashboard</button>
+              <button {{action "otpSubmit"}} type="button">Continue To Dashboard</button>
             </form>
           </div>
         </div>

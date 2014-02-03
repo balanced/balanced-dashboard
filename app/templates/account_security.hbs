@@ -5,7 +5,7 @@
             <p>Set up two-factor authentication to add another layer of security to your dashboard account. In addition to your login email and password, you'll need to enter an authentication code from Balanced using your Google Authenticator app on your smartphone.</p>
             <div class="status-circles large">
                 <h3>Status</h3>
-                <div class="status-circle green"><a href="#" {{action "enableAuth"}}>{{enable_label}}</a></div>
+                <div class="status-circle green"><a href="#" class="bu" {{action "enableAuth"}}>{{enable_label}}</a></div>
                 <div class="status-circle red"><a href="#" {{action "disableAuth"}}>{{disable_label}}</a></div>
             </div>
             <div class="window-pane">
@@ -21,19 +21,19 @@
                         <img src="images/google_authenticator.png"/>
                     </div>
                 </div>
-                <div class="pane row">
+                <div class="pane row qrpane">
                     <div class="left-pane span7">
                         <h3 class="subhead step">Step 2:</h3>
                         <h3 class="subhead">Scan QR Code</h3>
                         <div class="description">
-                            <p>Open the Authenticator app. Tap on "begin setup" followed by "scan barcode." Scan the QR code to the right.</p>
+                            <p>Open your Authenticator app. Tap on "begin setup" followed by "scan barcode." Scan the QR code to the right.</p>
                         </div>
                     </div>
                     <div class="right-pane span7">
                         <div id="qrcode"></div>
                     </div>
                 </div>
-                <div class="pane row">
+                <div class="pane row form-pane">
                     <div class="left-pane span7">
                         <h3 class="subhead step">Step 3:</h3>
                         <h3 class="subhead">Enter Authentication Code</h3>

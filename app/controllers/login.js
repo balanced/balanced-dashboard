@@ -20,14 +20,14 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	afterLogin: function() {
-		self.set('loginError', false);
+		this.set('loginError', false);
 
 		var attemptedTransition = Balanced.Auth.get('attemptedTransition');
 		if (attemptedTransition) {
 			attemptedTransition.retry();
 			Balanced.Auth.set('attemptedTransition', null);
 		} else {
-			self.transitionToRoute('index');
+			this.transitionToRoute('index');
 		}
 	},
 

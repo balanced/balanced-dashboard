@@ -23,7 +23,15 @@ Balanced.Auth = (function() {
 			auth.rememberLogin(response.uri);
 
 			self.trigger('signInSuccess');
-		}).fail(function() {
+		}).fail(function(jqxhr) {
+			if (typeof jqxhr.responseText !== "undefined") {
+				var response = JSON.parse(jqxhr.responseText);
+
+				if (response.uri) {
+					self.rememberLogin(response.uri);
+				}
+			}
+
 			self.trigger('signInError');
 		}).always(function() {
 			self.trigger('signInComplete');
@@ -184,7 +192,11 @@ Balanced.Auth = (function() {
 			type: 'DELETE',
 			dataType: 'JSON'
 		}).done(function(response, status, jqxhr) {
-			self.set('OTPSecret', null);
+			auth.setProperties({
+				OTPSecret: null
+			});
+			auth.forgetLogin();
+
 			self.trigger('disableAuthSuccess');
 		}).fail(function() {
 			self.trigger('disableAuthError');
@@ -269,7 +281,10 @@ Balanced.Auth = (function() {
 			path: '/'
 		});
 
-		auth.set('lastLoginUri', null);
+		auth.setProperties({
+			lastLoginUri: null,
+			OTPSecret: null
+		});
 
 		auth.unsetAPIKey();
 
