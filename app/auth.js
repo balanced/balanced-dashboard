@@ -43,7 +43,7 @@ Balanced.Auth = (function() {
 	};
 
 	auth.rememberMeSignIn = function() {
-		var authCookie = this.retrieveLogin();
+		var authCookie = this.retrieveLogin() || 'current';
 		if (authCookie) {
 			return this._doSignIn({
 				data: {
@@ -245,7 +245,7 @@ Balanced.Auth = (function() {
 		auth.set('lastLoginUri', token);
 
 		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
-			expires: 1,
+			expires: 7,
 			path: '/'
 		});
 	};
