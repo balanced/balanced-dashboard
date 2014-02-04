@@ -11,7 +11,7 @@ Balanced.LoginView = Balanced.View.extend({
 		$('footer').css('display', 'block');
 		$('#content').removeClass('no-min-height');
 	},
-	keyDown: function(e){
+	keyDown: function(e) {
 		this.get('controller').send('reset');
 	}
 });
