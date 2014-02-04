@@ -19,6 +19,14 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		});
 	},
 
+	resetError: function() {
+		this.setProperties({
+			loginError: false,
+			otpError: false,
+			loginResponse: ''
+		});
+	},
+
 	afterLogin: function() {
 		this.set('loginError', false);
 
@@ -48,13 +56,13 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		},
 
 		reset: function() {
-			this.reset();
+			this.resetError();
 		},
 
 		signIn: function() {
 			var self = this;
 
-			this.reset();
+			this.resetError();
 
 			Balanced.Auth.forgetLogin();
 			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {

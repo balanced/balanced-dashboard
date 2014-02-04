@@ -7,11 +7,12 @@ Balanced.Auth = (function() {
 			opts = {};
 		}
 
-		return Balanced.NET.ajax($.extend(true, {
+		return this.request($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts)).done(function(response, status, jqxhr) {
+		}, opts), 'signIn', function(response, status, jqxhr) {
 			var user = Balanced.User.create();
+
 			user.populateFromJsonResponse(response.user);
 
 			self.setAuthProperties(true,
@@ -21,8 +22,6 @@ Balanced.Auth = (function() {
 				false);
 
 			auth.rememberLogin(response.uri);
-
-			self.trigger('signInSuccess');
 		}).fail(function(jqxhr) {
 			if (typeof jqxhr.responseText !== "undefined") {
 				var response = JSON.parse(jqxhr.responseText);
@@ -31,10 +30,6 @@ Balanced.Auth = (function() {
 					self.rememberLogin(response.uri);
 				}
 			}
-
-			self.trigger('signInError');
-		}).always(function() {
-			self.trigger('signInComplete');
 		});
 	};
 
@@ -125,16 +120,12 @@ Balanced.Auth = (function() {
 
 		this.forgetLogin();
 		auth.forgetLastUsedMarketplaceUri();
-		return Balanced.NET.ajax({
+
+		return this.request({
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
-		}).done(function() {
+		}, 'signOut', function() {
 			Balanced.NET.loadCSRFToken();
-			self.trigger('signOutSuccess');
-		}).fail(function() {
-			self.trigger('signOutError');
-		}).always(function() {
-			self.trigger('signOutComplete');
 		});
 	};
 
@@ -167,55 +158,63 @@ Balanced.Auth = (function() {
 		}
 	}.observes('user', 'user.admin');
 
+	auth.request = function(opts, eventName, successFn) {
+		var self = this;
+
+		if (!opts) {
+			opts = {};
+		}
+
+		return Balanced.NET.ajax(opts).done(successFn)
+		.done(function(response, status, jqxhr) {
+			self.trigger(eventName + 'Success');
+		}).fail(function() {
+			self.trigger(eventName + 'Error');
+		}).always(function() {
+			self.trigger(eventName + 'Complete');
+		});
+	};
+
 	auth.enableMultiFactorAuthentication = function() {
 		var self = this;
 
-		return Balanced.NET.ajax({
-			url: ENV.BALANCED.AUTH + '/users/' + Balanced.Auth.get('userId') + '/otp',
+		return this.request({
+			url: ENV.BALANCED.AUTH + '/users/' + this.get('userId') + '/otp',
 			type: 'POST',
 			dataType: 'JSON'
-		}).done(function(response, status, jqxhr) {
+		}, 'enableAuth', function(response, status, jqxhr) {
 			self.set('OTPSecret', response);
-			self.trigger('enableAuthSuccess');
-		}).fail(function() {
-			self.trigger('enableAuthError');
-		}).always(function() {
-			self.trigger('enableAuthComplete');
 		});
 	};
 
 	auth.disableMultiFactorAuthentication = function() {
 		var self = this;
 
-		return Balanced.NET.ajax({
-			url: ENV.BALANCED.AUTH + '/users/' + Balanced.Auth.get('userId') + '/otp',
+		return this.request({
+			url: ENV.BALANCED.AUTH + '/users/' + this.get('userId') + '/otp',
 			type: 'DELETE',
 			dataType: 'JSON'
-		}).done(function(response, status, jqxhr) {
-			auth.setProperties({
+		}, 'disableAuth', function() {
+			self.setProperties({
 				OTPSecret: null
 			});
-			auth.forgetLogin();
 
-			self.trigger('disableAuthSuccess');
-		}).fail(function() {
-			self.trigger('disableAuthError');
-		}).always(function() {
-			self.trigger('disableAuthComplete');
+			self.set('user.otp_enabled', false);
+			// auth.forgetLogin();
 		});
 	};
 
 	auth.confirmOTP = function(token) {
 		var self = this;
 
-		return Balanced.NET.ajax({
-			url: ENV.BALANCED.AUTH + Balanced.Auth.get('lastLoginUri'),
+		return this.request({
+			url: ENV.BALANCED.AUTH + this.get('lastLoginUri'),
 			type: 'PUT',
 			data: {
 				confirm: token
 			},
 			dataType: 'JSON'
-		}).done(function(response, status, jqxhr) {
+		}, 'confirmOTP', function(response, status, jqxhr) {
 			var user = self.get('user') || Balanced.User.create();
 			user.populateFromJsonResponse(response.user);
 
@@ -228,12 +227,6 @@ Balanced.Auth = (function() {
 
 				self.rememberLogin(response.uri);
 			}
-
-			self.trigger('confirmOTPSuccess');
-		}).fail(function() {
-			self.trigger('confirmOTPError');
-		}).always(function() {
-			self.trigger('confirmOTPComplete');
 		});
 	};
 

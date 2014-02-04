@@ -33,10 +33,10 @@
                         <div id="qrcode"></div>
                     </div>
                 </div>
-                <div class="pane row form-pane">
+                <div {{ bindAttr class=":pane :row :form-pane authError:error" }}>
                     <div class="left-pane span7">
                         <h3 class="subhead step">Step 3:</h3>
-                        <h3 class="subhead">Enter Authentication Code</h3>
+                        <h3 class="subhead">{{#if authError}}Invalid Authentication Code{{else}}Enter Authentication Code{{/if}}</h3>
                         <div class="description">
                             <p>Enter the authentication code from your smartphone. Code expires in thirty seconds.</p>
                         </div>

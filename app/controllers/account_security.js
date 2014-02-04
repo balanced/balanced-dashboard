@@ -6,9 +6,19 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 	submitted: false,
 	hasError: false,
 	status: 'disabled',
+	authError: false,
+
+	reset: function() {
+		this.setProperties({
+			submitted: false,
+			hasError: false,
+			authError: false
+		});
+	},
 
 	error: function(field, prefix) {
 		var errors = this.get('validationErrors.' + field + '.messages');
+
 		if (errors) {
 			var error = errors[0];
 			if (error.indexOf(prefix) !== 0) {
@@ -22,7 +32,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 		var status = this.get('status');
 
 		if (status === 'disabled') {
-			return 'Disabled';
+			return 'Off';
 		} else {
 			return 'Disable';
 		}
@@ -36,7 +46,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 		} else if (status === 'enabling') {
 			return 'Enabling';
 		} else {
-			return 'Enabled';
+			return 'On';
 		}
 	}.property('status'),
 
@@ -73,29 +83,31 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 	actions: {
 		enableAuth: function() {
 			var self = this;
-			Balanced.Auth.enableMultiFactorAuthentication();
 
-			Balanced.Auth.one('enableAuthSuccess', function() {
+			Balanced.Auth.enableMultiFactorAuthentication().done(function() {
 				self.set('status', 'enabling');
 				self.loadQRCode();
 			});
 		},
 		disableAuth: function() {
 			var self = this;
-			Balanced.Auth.disableMultiFactorAuthentication();
 
-			Balanced.Auth.one('disableAuthSuccess', function() {
+			Balanced.Auth.disableMultiFactorAuthentication().done(function() {
 				self.set('status', 'disabled');
 				$('#qrcode').html('');
 			});
 		},
 		activateAuth: function() {
 			var self = this;
-			Balanced.Auth.confirmOTP(this.get('auth_code_confirm'));
 
-			Balanced.Auth.one('confirmOTP', function() {
+			Balanced.Auth.confirmOTP(this.get('auth_code_confirm')).then(function() {
 				self.set('status', 'enabled');
 				$('#qrcode').html('');
+			}, function() {
+				self.setProperties({
+					authError: true,
+					auth_code_confirm: null
+				});
 			});
 		}
 	}
