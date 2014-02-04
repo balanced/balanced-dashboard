@@ -53,7 +53,7 @@
             </td>
             <td class="span2 amount num">
                 {{#link-to transaction.route_name transaction}}<span>
-                    ${{ transaction.amount_dollars }}
+                    {{formatCurrency  transaction.amount_dollars }}
                 </span>{{/link-to}}
             </td>
         </tr>

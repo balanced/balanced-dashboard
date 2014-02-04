@@ -86,14 +86,17 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	formatCurrency: function(cents) {
+		if (!cents) {
+			return '$0';
+		}
+
 		var prepend = '$';
 		if (cents < 0) {
 			cents = cents * -1;
 			prepend = '-$';
 		}
-		if (cents !== null) {
-			return prepend + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-		}
+
+		return prepend + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
 	},
 
 	formatNumber: function(number) {

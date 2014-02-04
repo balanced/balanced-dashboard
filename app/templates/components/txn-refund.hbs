@@ -5,7 +5,7 @@
         <span class="subhead2d">Refund</span>
       </div>
       <div class="span10 title">
-        <span class="transaction-description subhead2d">{{titleCase refund.status}}: ${{refund.amount_dollars}}</span>
+        <span class="transaction-description subhead2d">{{titleCase refund.status}}: {{formatCurrency refund.amount_dollars}}</span>
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container"></div>
