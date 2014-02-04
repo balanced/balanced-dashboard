@@ -14,7 +14,11 @@ test('getParamByName', function(assert) {
 });
 
 test('formatCurrency', function(assert) {
-	var cents = [-984526372, -10000, -105, -1,
+	var cents = [
+		-984526372,
+		-10000,
+		-105,
+		-1,
 		0,
 		1,
 		105,
@@ -33,7 +37,7 @@ test('formatCurrency', function(assert) {
 		'$1.05',
 		'$100.00',
 		'$9,847,263.72',
-		null
+		'$0.00'
 	];
 
 	for (var i = 0; i < cents.length; i++) {

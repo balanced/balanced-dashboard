@@ -87,7 +87,7 @@ Balanced.Utils = Ember.Namespace.create({
 
 	formatCurrency: function(cents) {
 		if (!cents) {
-			return '$0';
+			return '$0.00';
 		}
 
 		var prepend = '$';
