@@ -166,13 +166,13 @@ Balanced.Auth = (function() {
 		}
 
 		return Balanced.NET.ajax(opts).done(successFn)
-		.done(function(response, status, jqxhr) {
-			self.trigger(eventName + 'Success');
-		}).fail(function() {
-			self.trigger(eventName + 'Error');
-		}).always(function() {
-			self.trigger(eventName + 'Complete');
-		});
+			.done(function(response, status, jqxhr) {
+				self.trigger(eventName + 'Success');
+			}).fail(function() {
+				self.trigger(eventName + 'Error');
+			}).always(function() {
+				self.trigger(eventName + 'Complete');
+			});
 	};
 
 	auth.enableMultiFactorAuthentication = function() {

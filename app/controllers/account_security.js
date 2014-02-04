@@ -84,6 +84,8 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		openDisableMFAModal: function() {
 			if (this.get('isEnabled')) {
 				$('#disable-mfa').modal();
+			} else {
+				this.send('disableAuth');
 			}
 		},
 		enableAuth: function() {

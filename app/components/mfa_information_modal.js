@@ -2,13 +2,10 @@ Balanced.MFAInformationModalComponent = Ember.Component.extend({
 	classNames: ['modal-container'],
 
 	didInsertElement: function() {
-		console.log('inserted');
-		console.log(this.get('controller'), this, this.get('view'), this.get('targetObject'));
 		this.get('targetObject').on('openMFAInformationModal', this, this.open);
 	},
 
 	willDestroyElement: function() {
-		console.log('deserted');
 		this.get('targetObject').off('openMFAInformationModal', this, this.open);
 		$('#mfa-information').modal('hide');
 	},
@@ -29,13 +26,9 @@ Balanced.MFAInformationModalComponent = Ember.Component.extend({
 		}
 	},
 
-	// willDestroyElement: function() {
-	// 	$('#mfa-information').modal('hide');
-	// },
-
 	actions: {
 		submit: function() {
-
+			this.transitionToRoute('accountSecurity');
 		}
 	}
 });
