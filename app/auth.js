@@ -43,7 +43,7 @@ Balanced.Auth = (function() {
 	};
 
 	auth.rememberMeSignIn = function() {
-		var authCookie = this.retrieveLogin() || 'current';
+		var authCookie = this.retrieveLogin();
 		if (authCookie) {
 			return this._doSignIn({
 				data: {
@@ -52,6 +52,7 @@ Balanced.Auth = (function() {
 			});
 		} else {
 			var existingApiKey = this.getGuestAPIKey();
+
 			if (existingApiKey) {
 				return this.rememberGuestUser(existingApiKey);
 			}
@@ -245,7 +246,7 @@ Balanced.Auth = (function() {
 		auth.set('lastLoginUri', token);
 
 		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
-			expires: 7,
+			expires: Balanced.TIME.WEEK,
 			path: '/'
 		});
 	};
