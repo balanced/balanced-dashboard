@@ -6,7 +6,7 @@
             <div class="status-circles large">
                 <h3>Status</h3>
                 <div class="status-circle green"><a href="#" class="bu" {{action "enableAuth"}}>{{enable_label}}</a></div>
-                <div class="status-circle red"><a href="#" {{action "disableAuth"}}>{{disable_label}}</a></div>
+                <div class="status-circle red"><a href="#" {{action "openDisableMFAModal"}}>{{disable_label}}</a></div>
             </div>
             <div class="window-pane">
                 <div class="pane row">
@@ -52,3 +52,4 @@
         </div>
     </div>
 </section>
+{{disable-auth-modal}}

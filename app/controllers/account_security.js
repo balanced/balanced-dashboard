@@ -1,4 +1,4 @@
-Balanced.AccountSecurityController = Balanced.ObjectController.extend({
+Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplaces'],
 
 	content: null,
@@ -81,6 +81,11 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend({
 	},
 
 	actions: {
+		openDisableMFAModal: function() {
+			if (this.get('isEnabled')) {
+				$('#disable-mfa').modal();
+			}
+		},
 		enableAuth: function() {
 			var self = this;
 
