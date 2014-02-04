@@ -2,15 +2,14 @@
     <div class="search-field-container">
         <div class="search icon"></div>
         {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
-    </div>
-
-    <div class="results">
         {{# if isLoading }}
             <span class="loader loading query-loader"></span>
         {{else}}
             <span class="close" {{action clearSearch}}>×</span>
         {{/if}}
+    </div>
 
+    <div class="results">
         <!-- TODO - put the counts back when the API supports it -->
         {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
 

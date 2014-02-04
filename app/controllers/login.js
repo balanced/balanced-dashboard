@@ -46,8 +46,16 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				});
 			});
 		},
+
+		reset: function() {
+			this.reset();
+		},
+
 		signIn: function() {
 			var self = this;
+
+			this.reset();
+
 			Balanced.Auth.forgetLogin();
 			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {
 				// When we add the MFA modal to ask users to login
@@ -55,6 +63,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				// For now tho:
 				self.afterLogin();
 			}, function(jqxhr, status, message) {
+				self.set('password', null);
+
 				if (jqxhr.status === 401) {
 					self.setProperties({
 						loginError: true,

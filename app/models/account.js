@@ -8,6 +8,10 @@ Balanced.Account = Balanced.Model.extend({
 		return this.get('name') || this.get('id');
 	}.property('name', 'id'),
 
+	business_name: function() {
+		return this.get('business_name');
+	}.property('business_name'),
+
 	name_summary: function() {
 		var builtString;
 		var name = this.get('name'),
