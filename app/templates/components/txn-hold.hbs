@@ -7,7 +7,7 @@
       <div class="span10 title">
         <span class="transaction-description subhead2d">{{titleCase hold.status}}: ${{hold.amount_dollars}}</span>
       </div>
-      <div class="span8 border-adjust buttons">
+      <div class="span8 border-adjust buttons pull-right">
         <div class="buttons-container">
           {{#if hold.can_void_or_capture}}
             {{capture-hold-modal hold=hold}}
