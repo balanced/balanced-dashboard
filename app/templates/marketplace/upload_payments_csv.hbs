@@ -1,21 +1,21 @@
-<h1 class="page-title">Pay Multiple Sellers</h1>
+<h1 class="page-title">Pay multiple sellers</h1>
 
-{{#view Balanced.MarketplaceUploadPaymentsCsvView}}
+{{#view Balanced.MarketplaceUploadPaymentsCsvView id="upload-payments"}}
 {{progress-bar-modal viewName="progressBarModal" title="Submitting Payouts"}}
 
 <form {{action "submit" on="submit" target="view"}} class="full-page-form">
 <fieldset class="pay-multiple-sellers-summary">
   <div class="main-header pay-multiple-sellers-header">
-    <div class="row">
-      <div class="span2 label">
-        <div class="icon icon-logs"></div>
-      </div>
-      <div class="span19 title">
-        <span class="nav3d">
-          Upload your file
-        </span>
-      </div>
-    </div>
+    <span class="label">
+      <i class="icon icon-logs"></i>
+    </span>
+    <span class="title">
+      {{#if creditCreators.isEmpty}}
+        Upload your file
+      {{else}}
+        Payout Summary
+      {{/if}}
+    </span>
   </div>
   {{#if creditCreators.isEmpty}}
     {{partial 'marketplace/upload_payments_csv/instructions'}}
@@ -25,10 +25,14 @@
 </fieldset>
 
 {{#if view.displayCsvRows}}
-  {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-  {{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-
-  {{partial "marketplace/upload_payments_csv/submit_area"}}
+  <div class="pay-multiple-sellers-tables">
+    {{#if creditCreators.isInvalid}}
+      {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+    {{/if}}
+    {{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+    {{partial "marketplace/upload_payments_csv/submit_area"}}
+  </div>
 {{/if}}
+
 </form>
 {{/view}}

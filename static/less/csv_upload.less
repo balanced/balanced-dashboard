@@ -1,3 +1,100 @@
-.pay-multiple-sellers-summary {
-  margin-bottom: 40px;
+#upload-payments .pay-multiple-sellers-summary {
+  margin: 0 0 40px;
+}
+
+#upload-payments {
+  @mainHeaderHeight: 75px;
+
+  @backgroundColor100: #003262;
+  @backgroundColor60: #346E99;
+
+  .main-header {
+    background-color: @backgroundColor60;
+    color: #FFF;
+    font-family: @baseFontFamilyLight;
+    height: @mainHeaderHeight;
+    line-height: @mainHeaderHeight;
+    margin-bottom: 0;
+
+    .label {
+      background-color: @backgroundColor100;
+      float: left;
+      height: @mainHeaderHeight;
+      text-align: center;
+      width: @mainHeaderHeight;
+    }
+
+    .icon {
+      background-image: none;
+      font-size: 24px;
+      text-indent: 0;
+    }
+
+    .title {
+      display: inline-block;
+      font-size: 20px;
+      letter-spacing: 1px;
+      padding: 0 20px;
+    }
+  }
+
+  .payment-csv-format-info {
+    margin-top: 30px;
+  }
+
+  .pay-multiple-sellers-tables {
+    border: 5px solid @gray2;
+    background-color: @gray2;
+  }
+
+  .remove-icon {
+    color: @gray2;
+    cursor: pointer;
+    font-size: 28px;
+  }
+
+  .form-buttons {
+    float: right;
+    margin-right: 10px;
+  }
+
+  .form-actions {
+    @blockHeight: 50px;
+    background-color: @gray2;
+    height: @blockHeight;
+    line-height: @blockHeight;
+    margin: 0;
+    padding: 0;
+
+    &.form-actions-error {
+      background-color: @imperialRed100;
+      color: @white;
+    }
+
+    button[disabled] {
+      opacity: 0.5;
+    }
+
+    .icon {
+      float: left;
+      font-size: 18px;
+      padding-top: 1px;
+      text-align: center;
+      width: 35px;
+    }
+  }
+
+  .form-actions-2lines p {
+    line-height: 20px;
+    padding-top: 6px;
+  }
+
+  .table-column-icons {
+    text-align: center;
+    width: 36px;
+  }
+
+  .table-column-amount {
+    text-align: right;
+  }
 }
