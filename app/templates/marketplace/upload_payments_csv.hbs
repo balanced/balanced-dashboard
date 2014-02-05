@@ -1,7 +1,9 @@
 <h1 class="page-title">Pay multiple sellers</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvView id="upload-payments"}}
+
 {{progress-bar-modal viewName="progressBarModal" title="Submitting Payouts"}}
+{{confirm-modal viewName="confirmRemoveModal" title="Remove Entry" mainText="Remove this entry?"}}
 
 <form {{action "submit" on="submit" target="view"}} class="full-page-form">
 <fieldset class="pay-multiple-sellers-summary">

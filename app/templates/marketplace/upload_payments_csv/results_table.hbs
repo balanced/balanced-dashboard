@@ -42,7 +42,7 @@
 
           <td {{bind-attr class=":table-column :table-column-icons isInvalid:table-column-error isComplete:table-column-success"}}>
             {{#if isInvalid}}
-              <a {{action "removeCreditCreator" this}} class="remove-icon">&times;</a>
+              <a {{action "confirmRemoveCreditCreator" this target="view.parentView"}} class="remove-icon">&times;</a>
             {{else}} {{#if isProcessing}}
               <i class="icon icon-loading"></i>
             {{else}} {{#if isComplete}}

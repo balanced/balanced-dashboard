@@ -65,6 +65,21 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 			this.updateReaderBody(undefined);
 		},
 
+		confirmRemoveCreditCreator: function(creator) {
+			var self = this;
+			var modal = this.get("confirmRemoveModal");
+			modal.on("cancel", function () {
+				modal.send("close");
+				modal.reset();
+			});
+			modal.on("confirm", function () {
+				self.get("controller").send("removeCreditCreator", creator);
+				modal.send("close");
+				modal.reset();
+			});
+			modal.send("open");
+		},
+
 		submit: function() {
 			var modal = this.get("progressBarModal");
 			modal.send("open");
