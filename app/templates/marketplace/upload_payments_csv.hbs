@@ -1,39 +1,34 @@
-<div class="row">
-  <div class="span21">
-    <h1 class="page-title">Pay Multiple Sellers</h1>
+<h1 class="page-title">Pay Multiple Sellers</h1>
 
 {{#view Balanced.MarketplaceUploadPaymentsCsvView}}
-  {{progress-bar-modal viewName="progressBarModal" title="Submitting Payouts"}}
+{{progress-bar-modal viewName="progressBarModal" title="Submitting Payouts"}}
 
-  <form {{action "submit" on="submit" target="view"}} class="full-page-form">
-    <fieldset class="pay-multiple-sellers-summary">
-      <div class="main-header pay-multiple-sellers-header">
-        <div class="row">
-          <div class="span2 label">
-            <div class="icon icon-logs"></div>
-          </div>
-          <div class="span19 title">
-            <span class="nav3d">
-              Upload your file
-            </span>
-          </div>
-        </div>
+<form {{action "submit" on="submit" target="view"}} class="full-page-form">
+<fieldset class="pay-multiple-sellers-summary">
+  <div class="main-header pay-multiple-sellers-header">
+    <div class="row">
+      <div class="span2 label">
+        <div class="icon icon-logs"></div>
       </div>
-      {{#if view.hasItems}}
-        {{partial 'marketplace/upload_payments_csv/account_summary'}}
-      {{else}}
-        {{partial 'marketplace/upload_payments_csv/instructions'}}
-      {{/if}}
-    </fieldset>
-
-    {{#if view.displayCsvRows}}
-      {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-      {{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-
-      {{partial "marketplace/upload_payments_csv/submit_area"}}
-    {{/if}}
-  </form>
-{{/view}}
-
+      <div class="span19 title">
+        <span class="nav3d">
+          Upload your file
+        </span>
+      </div>
+    </div>
   </div>
-</div>
+  {{#if creditCreators.isEmpty}}
+    {{partial 'marketplace/upload_payments_csv/instructions'}}
+  {{else}}
+    {{partial 'marketplace/upload_payments_csv/account_summary'}}
+  {{/if}}
+</fieldset>
+
+{{#if view.displayCsvRows}}
+  {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+  {{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+
+  {{partial "marketplace/upload_payments_csv/submit_area"}}
+{{/if}}
+</form>
+{{/view}}

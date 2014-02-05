@@ -8,32 +8,14 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
 	title: "Valid Entries",
 
-	itemsCount: function() {
-		return this.get("items").length;
-	}.property("items"),
-
-	items: function() {
-		return this.get("creditCreators").filter(function(creditCreator) {
-			return !creditCreator.get("isInvalid");
-		});
-	}.property("creditCreators")
+	items: Ember.computed.alias("creditCreators.valid")
 });
 
 Balanced.MarketplaceInvalidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
 	title: "Invalid Entries",
 
 	isError: true,
-	isNeutral: Ember.computed.equal("itemsCount", 0),
+	isNeutral: Ember.computed.equal("items.length", 0),
 
-	itemsCount: function() {
-		return this.get("items").filter(function(item) {
-			return !item.get("isRemoved");
-		}).length;
-	}.property("items.@each.isRemoved"),
-
-	items: function() {
-		return this.get("creditCreators").filter(function(creditCreator) {
-			return creditCreator.get("isInvalid");
-		});
-	}.property("creditCreators")
+	items: Ember.computed.alias("creditCreators.invalid")
 });

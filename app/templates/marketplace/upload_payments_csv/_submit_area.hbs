@@ -1,14 +1,14 @@
-<div {{bind-attr class=":form-actions :form-actions-dark view.isUnprocessable:form-actions-error"}}>
-  {{#if view.isUnprocessable}}
+<div {{bind-attr class=":form-actions :form-actions-dark creditCreators.isInvalid:form-actions-error"}}>
+  {{#if creditCreators.isInvalid}}
     <div class="icon icon-alert"></div>
   {{/if}}
 
   <div class="pull-right">
     <button class="btn" {{action "reset" on="click" target="view"}}>Back</button>
-    <button class="btn" type="submit" {{bind-attr disabled="view.isUnprocessable"}}>Submit Payouts</button>
+    <button class="btn" type="submit" {{bind-attr disabled="view.isInvalid"}}>Submit Payouts</button>
   </div>
 
-  {{#if view.isUnprocessable}}
+  {{#if creditCreators.isInvalid}}
     <p>
       All entries must be valid to submit payouts. Go back to upload a new file
       or remove the invalid entries

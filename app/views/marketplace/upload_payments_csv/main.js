@@ -2,9 +2,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	creditCreators: Ember.computed.alias("controller.creditCreators"),
 
-	hasItems: Ember.computed.gt("creditCreators.length", 0),
-
-	displayCsvRows: Ember.computed.and("hasItems", "isEscrowValid"),
+	displayCsvRows: Ember.computed.and("creditCreators.hasItems", "isEscrowValid"),
 
 	unprocessableTotal: Balanced.computed.sum("unprocessableRows", "credit.amount"),
 	payoutTotal: Balanced.computed.sum("processableRows", "credit.amount"),
@@ -47,17 +45,17 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 	}.property("invalidRows.@each.isRemoved"),
 
 	updateReaderBody: function(text) {
-		this.set("controller.reader.body", text);
+		this.get("controller").refresh(text);
 	},
 
 	updateProgressFraction: function() {
 		var completedRows = this.get("creditCreators").filter(function(creator) {
 			return creator.get("isComplete");
 		});
-		var validRows = this.get("validRows");
+		var validLength = this.get("creditCreators.valid.length");
 
-		var fraction = completedRows.length / validRows.length;
-		var text = "" + completedRows.length + "/" + validRows.length;
+		var fraction = completedRows.length / validLength;
+		var text = "" + completedRows.length + "/" + validLength;
 
 		this.get("progressBarModal").update(fraction, text);
 	}.observes("creditCreators.@each.isComplete"),

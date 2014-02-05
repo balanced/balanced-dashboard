@@ -108,17 +108,17 @@ test("#extractCustomerAttributes", function(assert) {
 
 test("#extractCreditAttributes", function(assert) {
 	var values = [{
-		amount_in_cents: "  -1000",
+		amount: "  -1000",
 		description: "Important Credit",
 		appears_on_statement_as: "ZOO# Entrance"
 	}, {
-		amount_in_cents: "vrlohvkr",
+		amount: "vrlohvkr",
 		description: "Super Description",
 		appears_on_statement_as: "ZOO# Entrance"
 	}];
 
 	var expectations = [{
-		amount: -1000,
+		amount: -100000,
 		description: "Important Credit",
 		appears_on_statement_as: "ZOO# Entrance"
 	}, {
@@ -147,7 +147,7 @@ test("#convertCreditCsvRowToObject", function(assert) {
 		new_customer_email: "alfred@aardvark.com",
 		some_other_value: "vkrjbvkrb",
 
-		amount_in_cents: "  -1000",
+		amount: "  -1000",
 		description: "Important Credit",
 		appears_on_statement_as: "ZOO# Entrance"
 	}];
@@ -164,7 +164,7 @@ test("#convertCreditCsvRowToObject", function(assert) {
 			email: "alfred@aardvark.com"
 		},
 		credit: {
-			amount: -1000,
+			amount: -100000,
 			description: "Important Credit",
 			appears_on_statement_as: "ZOO# Entrance"
 		}

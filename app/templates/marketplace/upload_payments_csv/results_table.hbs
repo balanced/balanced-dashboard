@@ -1,6 +1,6 @@
 <div {{bind-attr class=":results :results-framed view.isError:results-error view.isNeutral:results-neutral"}}>
   <header class="header">
-    <span class="count number2a">{{view.itemsCount}}</span>
+    <span class="count number2a">{{view.items.length}}</span>
     <span class="title nav3d">{{view.title}}</span>
   </header>
   <table class="table table-fixed table-border">
@@ -34,22 +34,20 @@
 
           <td>
             {{#if credit.amount}}
-              {{formatCurrency csvFields.amount_in_cents}}
+              {{formatCurrency csvFields.amount}}
             {{else}}
-              {{csvFields.amount_in_cents}}
+              {{csvFields.amount}}
             {{/if}}
           </td>
 
           <td {{bind-attr class=":table-column isInvalid:table-column-error isComplete:table-column-success"}}>
-            {{#if isRemoved}}
-              <a {{action "toggleCreditCreator" this}}>undo</a>
-            {{else}} {{#if isInvalid}}
-              <a {{action "toggleCreditCreator" this}}>remove</a>
+            {{#if isInvalid}}
+              <a {{action "removeCreditCreator" this}}>remove</a>
             {{else}} {{#if isProcessing}}
               <i class="icon icon-loading"></i>
             {{else}} {{#if isComplete}}
               <i class="icon icon-checkmark"></i>
-            {{/if}} {{/if}} {{/if}} {{/if}}
+            {{/if}} {{/if}} {{/if}}
           </td>
         </tr>
       {{/each}}
