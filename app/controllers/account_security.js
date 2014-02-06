@@ -102,6 +102,14 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 			Balanced.Auth.disableMultiFactorAuthentication().done(function() {
 				self.set('status', 'disabled');
 				$('#qrcode').html('');
+
+				self.controllerFor('application').alert({
+					message: 'Two-factor authentication is now disabled.',
+					type: 'error',
+					persists: true
+				});
+
+				self.transitionTo('marketplaces');
 			});
 		},
 		activateAuth: function() {
@@ -110,6 +118,14 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 			Balanced.Auth.confirmOTP(this.get('auth_code_confirm')).then(function() {
 				self.set('status', 'enabled');
 				$('#qrcode').html('');
+
+				self.controllerFor('application').alert({
+					message: 'Two-factor authentication is now enabled.',
+					type: 'success',
+					persists: true
+				});
+
+				self.transitionTo('marketplaces');
 			}, function() {
 				self.setProperties({
 					authError: true,
