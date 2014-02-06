@@ -10,19 +10,7 @@ Balanced.Auth = (function() {
 		return this.request($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts), 'signIn', function(response, status, jqxhr) {
-			var user = Balanced.User.create();
-
-			user.populateFromJsonResponse(response.user);
-
-			self.setAuthProperties(true,
-				user,
-				response.user_id,
-				response.user_id,
-				false);
-
-			auth.rememberLogin(response.uri);
-		}).fail(function(jqxhr) {
+		}, opts), 'signIn', this.onSuccessfulLogin).fail(function(jqxhr) {
 			if (typeof jqxhr.responseText !== "undefined") {
 				var response = JSON.parse(jqxhr.responseText);
 
@@ -31,6 +19,26 @@ Balanced.Auth = (function() {
 				}
 			}
 		});
+	};
+
+	auth.onSuccessfulLogin = _.bind(function(response, status, jqxhr) {
+		var user = Balanced.User.create();
+
+		user.populateFromJsonResponse(response.user);
+
+		this.setAuthProperties(true,
+			user,
+			response.user_id,
+			response.user_id,
+			false);
+
+		this.rememberLogin(response.uri);
+	}, auth);
+
+	auth.getCurrentLogin = function() {
+		return this.request({
+			url: ENV.BALANCED.AUTH + '/logins/current'
+		}, 'signIn', this.onSuccessfulLogin);
 	};
 
 	auth.signIn = function(emailAddress, password) {
@@ -43,20 +51,25 @@ Balanced.Auth = (function() {
 	};
 
 	auth.rememberMeSignIn = function() {
-		var authCookie = this.retrieveLogin();
-		if (authCookie) {
-			return this._doSignIn({
-				data: {
-					uri: authCookie
-				}
-			});
-		} else {
-			var existingApiKey = this.getGuestAPIKey();
+		var self = this;
 
-			if (existingApiKey) {
-				return this.rememberGuestUser(existingApiKey);
+		this.getCurrentLogin().fail(function() {
+			var authCookie = self.retrieveLogin();
+
+			if (authCookie) {
+				return self._doSignIn({
+					data: {
+						uri: authCookie
+					}
+				});
+			} else {
+				var existingApiKey = self.getGuestAPIKey();
+
+				if (existingApiKey) {
+					return self.rememberGuestUser(existingApiKey);
+				}
 			}
-		}
+		});
 	};
 
 	auth.rememberGuestUser = function(apiKey) {
