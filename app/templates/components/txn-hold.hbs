@@ -5,7 +5,7 @@
         <span class="subhead2d">Hold</span>
       </div>
       <div class="span10 title">
-        <span class="transaction-description subhead2d">{{titleCase hold.status}}: ${{hold.amount_dollars}}</span>
+        <span class="transaction-description subhead2d">{{titleCase hold.status}}: {{formatCurrency hold.amount}}</span>
       </div>
       <div class="span8 border-adjust buttons">
         <div class="buttons-container">
