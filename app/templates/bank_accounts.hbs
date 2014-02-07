@@ -12,7 +12,7 @@
                 </span>
             </div>
 
-            <div class="span10 buttons">
+            <div class="span12 buttons">
                 <div class="buttons-container">
                     {{#if can_debit}}
                         <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="row">
-        <div class="span11">
+        <div class="span13">
             <section class="bank-account-info">
                 <form class="form-horizontal edit-inline">
                     <header>
@@ -88,7 +88,7 @@
                             <label class="control-label">Type</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{capitalize model.type }}
+                                    {{capitalize account_type_name}}
                                 </span>
                             </div>
                         </div>

@@ -1,7 +1,20 @@
 module('Debits', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Testing.createDebit();
+		Ember.run(function() {
+			Testing._createCard().then(function(card) {
+				return Balanced.Debit.create({
+					uri: card.get('debits_uri'),
+					appears_on_statement_as: 'Pixie Dust',
+					amount: 100000,
+					description: 'Cocaine'
+				}).save();
+			}).then(function(debit) {
+				Testing.DEBIT_ID = debit.get('id');
+				Testing.DEBIT_URI = debit.get('uri');
+				Testing.DEBIT_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/debits/' + Testing.DEBIT_ID;
+			});
+		});
 	},
 	teardown: function() {}
 });
@@ -9,7 +22,7 @@ module('Debits', {
 test('can visit page', function(assert) {
 	visit(Testing.DEBIT_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Debit'), -1, 'Title is not correct');
-		assert.equal($(".debit .transaction-description").text().trim(), 'Succeeded: $100.00');
+		assert.equal($(".debit .transaction-description").text().trim(), 'Succeeded: $1,000.00');
 	});
 });
 

@@ -4,9 +4,23 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	loginError: false,
 	loginResponse: '',
 
+	reset: function() {
+		this.setProperties({
+			loginError: false,
+			loginResponse: ''
+		});
+	},
+
 	actions: {
+		reset: function() {
+			this.reset();
+		},
+
 		signIn: function() {
 			var self = this;
+
+			this.reset();
+
 			Balanced.Auth.forgetLogin();
 			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {
 				self.set('loginError', false);
@@ -19,7 +33,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					self.transitionToRoute('index');
 				}
 			}, function(jqxhr, status, message) {
-				self.set('loginError', true);
+				self.setProperties({
+					loginError: true,
+					password: null
+				});
 
 				if (jqxhr.status === 401) {
 					self.set('loginResponse', 'Invalid e-mail address or password.');
