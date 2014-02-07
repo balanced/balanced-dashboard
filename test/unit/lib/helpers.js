@@ -33,7 +33,7 @@ test('formatCurrency', function(assert) {
 		'$1.05',
 		'$100.00',
 		'$9,847,263.72',
-		null
+		'$0.00'
 	];
 
 	for (var i = 0; i < cents.length; i++) {

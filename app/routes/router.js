@@ -160,6 +160,9 @@ Balanced.Router.map(function() {
 	this.route('claim', {
 		path: '/claim'
 	});
+	this.route('accountSecurity', {
+		path: '/security'
+	});
 
 	this.route("invalid", {
 		path: "*:"

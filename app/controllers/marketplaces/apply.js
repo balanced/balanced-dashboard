@@ -1,5 +1,4 @@
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
-
 	isLoading: false,
 	termsAndConditions: false,
 
