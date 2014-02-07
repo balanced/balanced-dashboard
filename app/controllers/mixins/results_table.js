@@ -10,8 +10,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	// override this if you want to allow the results table to be able to sort by none
 	allowSortByNone: false,
 
-	sortField: null,
-	sortOrder: null,
+	sortField: 'created_at',
+	sortOrder: 'desc',
 
 	// we use this so we can display counts without having them reset every time you filter
 	last_loaded_search_result: null,
@@ -64,7 +64,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			this.get('results_type')
 		);
 
-		if (['funding_instrument', 'transaction', 'search'].indexOf(this.get('type') || '') >= 0) {
+		if (['funding_instrument', 'customer', 'transaction', 'search'].indexOf(this.get('type') || '') >= 0) {
 			searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
 			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
 		}
