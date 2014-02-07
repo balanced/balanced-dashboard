@@ -41,30 +41,20 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 	enable_label: function() {
 		var status = this.get('status');
 
-		if (status === 'disabled') {
-			return 'Enable';
-		} else if (status === 'enabling') {
-			return 'Enabling';
-		} else {
-			return 'On';
-		}
+		return {
+			'disabled': 'Enable',
+			'enabling': 'Enabling',
+			'enabled': 'On'
+		}[status] || 'On';
 	}.property('status'),
 
-	isEnabling: function() {
-		return this.get('status') === 'enabling';
-	}.property('status'),
+	isEnabling: Ember.computed.equal('status', 'enabling'),
 
-	isNotEnabling: function() {
-		return this.get('status') !== 'enabling';
-	}.property('status'),
+	isNotEnabling: Ember.computed.not('isEnabling'),
 
-	isDisabled: function() {
-		return this.get('status') === 'disabled';
-	}.property('status'),
+	isDisabled: Ember.computed.equal('status', 'disabled'),
 
-	isEnabled: function() {
-		return this.get('status') === 'enabled';
-	}.property('status'),
+	isEnabled: Ember.computed.equal('status', 'enabled'),
 
 	loadQRCode: function() {
 		var self = this;

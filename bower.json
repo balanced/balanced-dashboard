@@ -15,8 +15,7 @@
     "google-code-prettify": "1.0.0",
     "jquery-hotkeys": "jeresig/jquery.hotkeys",
     "jquery.cookie": "1.3.1",
-    "strftime": "https://raw.github.com/mjallday/strftime/master/strftime.js",
-    "qrcodejs": "davidshimjs/qrcodejs"
+    "strftime": "https://raw.github.com/mjallday/strftime/master/strftime.js"
   },
   "resolutions": {
     "jquery": "2.0.3"
