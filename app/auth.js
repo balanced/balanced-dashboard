@@ -179,7 +179,7 @@ Balanced.Auth = (function() {
 		var self = this;
 
 		return this.request({
-			url: ENV.BALANCED.AUTH + '/users/' + this.get('userId') + '/otp',
+			url: this.get('user.multiFactorAuthUri'),
 			type: 'POST',
 			dataType: 'JSON'
 		}, 'enableAuth', function(response, status, jqxhr) {
@@ -191,7 +191,7 @@ Balanced.Auth = (function() {
 		var self = this;
 
 		return this.request({
-			url: ENV.BALANCED.AUTH + '/users/' + this.get('userId') + '/otp',
+			url: this.get('user.multiFactorAuthUri'),
 			type: 'DELETE',
 			dataType: 'JSON'
 		}, 'disableAuth', function() {
