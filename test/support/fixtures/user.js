@@ -5,6 +5,7 @@ Balanced.Adapter.addFixtures([{
 	"marketplaces_uri": "http://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/marketplaces",
 	"api_keys_uri": "http://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/api_keys",
 	"email_address": "foo@bar.com",
+	"otp_enabled": false,
 	"marketplaces": [{
 		"id": "MP5m04ORxNlNDm1bB7nkcgSY",
 		"uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
