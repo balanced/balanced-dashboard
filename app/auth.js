@@ -7,11 +7,12 @@ Balanced.Auth = (function() {
 			opts = {};
 		}
 
-		return Balanced.NET.ajax($.extend(true, {
+		return this.request($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts)).done(function(response, status, jqxhr) {
+		}, opts), 'signIn', function(response, status, jqxhr) {
 			var user = Balanced.User.create();
+
 			user.populateFromJsonResponse(response.user);
 
 			self.setAuthProperties(true,
@@ -21,12 +22,14 @@ Balanced.Auth = (function() {
 				false);
 
 			auth.rememberLogin(response.uri);
+		}).fail(function(jqxhr) {
+			if (typeof jqxhr.responseText !== "undefined") {
+				var response = JSON.parse(jqxhr.responseText);
 
-			self.trigger('signInSuccess');
-		}).fail(function() {
-			self.trigger('signInError');
-		}).always(function() {
-			self.trigger('signInComplete');
+				if (response.uri) {
+					self.rememberLogin(response.uri);
+				}
+			}
 		});
 	};
 
@@ -117,16 +120,12 @@ Balanced.Auth = (function() {
 
 		this.forgetLogin();
 		auth.forgetLastUsedMarketplaceUri();
-		return Balanced.NET.ajax({
+
+		return this.request({
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
-		}).done(function() {
+		}, 'signOut', function() {
 			Balanced.NET.loadCSRFToken();
-			self.trigger('signOutSuccess');
-		}).fail(function() {
-			self.trigger('signOutError');
-		}).always(function() {
-			self.trigger('signOutComplete');
 		});
 	};
 
@@ -159,6 +158,78 @@ Balanced.Auth = (function() {
 		}
 	}.observes('user', 'user.admin');
 
+	auth.request = function(opts, eventName, successFn) {
+		var self = this;
+
+		if (!opts) {
+			opts = {};
+		}
+
+		return Balanced.NET.ajax(opts).done(successFn)
+			.done(function(response, status, jqxhr) {
+				self.trigger(eventName + 'Success');
+			}).fail(function() {
+				self.trigger(eventName + 'Error');
+			}).always(function() {
+				self.trigger(eventName + 'Complete');
+			});
+	};
+
+	auth.enableMultiFactorAuthentication = function() {
+		var self = this;
+
+		return this.request({
+			url: this.get('user.multiFactorAuthUri'),
+			type: 'POST',
+			dataType: 'JSON'
+		}, 'enableAuth', function(response, status, jqxhr) {
+			self.set('OTPSecret', response);
+		});
+	};
+
+	auth.disableMultiFactorAuthentication = function() {
+		var self = this;
+
+		return this.request({
+			url: this.get('user.multiFactorAuthUri'),
+			type: 'DELETE',
+			dataType: 'JSON'
+		}, 'disableAuth', function() {
+			self.setProperties({
+				OTPSecret: null
+			});
+
+			self.set('user.otp_enabled', false);
+			// auth.forgetLogin();
+		});
+	};
+
+	auth.confirmOTP = function(token) {
+		var self = this;
+
+		return this.request({
+			url: ENV.BALANCED.AUTH + this.get('lastLoginUri'),
+			type: 'PUT',
+			data: {
+				confirm: token
+			},
+			dataType: 'JSON'
+		}, 'confirmOTP', function(response, status, jqxhr) {
+			var user = self.get('user') || Balanced.User.create();
+			user.populateFromJsonResponse(response.user);
+
+			if (!self.get('signedIn')) {
+				self.setAuthProperties(true,
+					user,
+					response.user_id,
+					response.user_id,
+					false);
+
+				self.rememberLogin(response.uri);
+			}
+		});
+	};
+
 	auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
 		auth.set('authToken', authToken);
 		auth.set('userId', userId);
@@ -171,6 +242,8 @@ Balanced.Auth = (function() {
 	};
 
 	auth.rememberLogin = function(token) {
+		auth.set('lastLoginUri', token);
+
 		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
 			expires: 1,
 			path: '/'
@@ -199,6 +272,11 @@ Balanced.Auth = (function() {
 
 		$.removeCookie(Balanced.COOKIE.SESSION, {
 			path: '/'
+		});
+
+		auth.setProperties({
+			lastLoginUri: null,
+			OTPSecret: null
 		});
 
 		auth.unsetAPIKey();
