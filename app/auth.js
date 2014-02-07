@@ -54,6 +54,8 @@ Balanced.Auth = (function() {
 		var self = this;
 
 		this.getCurrentLogin().fail(function() {
+			// Can't remove this code
+			// This code checks the current auth token
 			var authCookie = self.retrieveLogin();
 
 			if (authCookie) {
@@ -172,6 +174,12 @@ Balanced.Auth = (function() {
 		}
 	}.observes('user', 'user.admin');
 
+	auth.on('signInTransition', function() {
+		Ember.run.next(function() {
+			auth.loadAdminExtension();
+		});
+	});
+
 	auth.request = function(opts, eventName, successFn) {
 		var self = this;
 
@@ -245,14 +253,15 @@ Balanced.Auth = (function() {
 	};
 
 	auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
-		auth.set('authToken', authToken);
-		auth.set('userId', userId);
-		auth.set('signedIn', signedIn);
-		auth.set('user', user);
-		auth.set('isGuest', isGuest);
+		auth.setProperties({
+			authToken: authToken,
+			userId: userId,
+			signedIn: signedIn,
+			user: user,
+			isGuest: isGuest
+		});
 
 		auth.getExtensions();
-		auth.loadAdminExtension();
 	};
 
 	auth.rememberLogin = function(token) {

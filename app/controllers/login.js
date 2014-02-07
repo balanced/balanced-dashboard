@@ -34,8 +34,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		if (attemptedTransition) {
 			attemptedTransition.retry();
 			Balanced.Auth.set('attemptedTransition', null);
+			Balanced.Auth.trigger('signInTransition');
 		} else {
 			this.transitionToRoute('index');
+			Balanced.Auth.trigger('signInTransition');
 		}
 	},
 
