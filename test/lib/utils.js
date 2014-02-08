@@ -19,6 +19,26 @@ var Testing = {
 	DEBIT_ROUTE: null,
 	REVERSAL_ROUTE: null,
 
+	isStopped: false,
+
+	stop: function() {
+		if (this.isStopped) {
+			return;
+		}
+
+		stop();
+		this.isStopped = true;
+	},
+
+	start: function() {
+		if (!this.isStopped) {
+			return;
+		}
+
+		start();
+		this.isStopped = false;
+	},
+
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
 		$('#marketplaces ul a:contains("' + name + '")').click();
@@ -70,7 +90,7 @@ var Testing = {
 				_this.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
 				_this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
 				_this.MARKETPLACES_ROUTE = '/marketplaces';
-				_this.MARKETPLACE_ROUTE = '/marketplaces' + _this.MARKETPLACE_ID;
+				_this.MARKETPLACE_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID;
 				_this.ACTIVITY_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/activity/transactions';
 				_this.ADD_CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/add_customer';
 				_this.CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/customers/' + _this.CUSTOMER_ID;
@@ -172,6 +192,27 @@ var Testing = {
 		});
 	},
 
+	_createDispute: function() {
+		var _this = this;
+
+		return this._createDisputeCard().then(function() {
+			return _this._createDebit().then(function() {
+				return Balanced.Dispute.findAll().then(function(disputes) {
+					if (!disputes.get('content').length) {
+						return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
+					}
+
+					var evt = disputes.objectAt(0);
+					_this.DISPUTE_ID = evt.get('id');
+					_this.DISPUTE_URI = '/marketplaces/' + _this.MARKETPLACE_ID +
+						'/disputes/' + _this.DISPUTE_ID;
+
+					_this.start();
+				});
+			});
+		});
+	},
+
 	createCard: function() {
 		var _this = this;
 		Ember.run(function() {
@@ -237,22 +278,13 @@ var Testing = {
 
 	createDispute: function() {
 		var _this = this;
+		// Call stop to stop executing the tests before
+		// a dispute is created
+		this.stop();
 
+		// This automatically calls start();
 		return Ember.run(function() {
-			return _this._createDisputeCard().then(function() {
-				return _this._createDebit().then(function() {
-					Balanced.Dispute.findAll().then(function(disputes) {
-						if (!disputes.get('content').length) {
-							return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
-						}
-
-						var evt = disputes.objectAt(0);
-						_this.DISPUTE_ID = evt.get('id');
-						_this.DISPUTE_URI = '/marketplace/' + _this.MARKETPLACE_ID +
-							'/disputes/' + _this.DISPUTE_ID;
-					});
-				});
-			});
+			return _this._createDispute();
 		});
 	},
 

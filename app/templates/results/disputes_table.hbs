@@ -48,7 +48,7 @@
             </td>
             <td class="span2 amount num">
                 {{#link-to dispute.route_name dispute}}<span>
-                    ${{ dispute.amount_dollars }}
+                    {{formatCurrency dispute.amount}}
                 </span>{{/link-to}}
             </td>
         </tr>

@@ -29,6 +29,10 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		return '/invoices';
 	}.property('uri'),
 
+	disputes_uri: function() {
+		return '/disputes';
+	}.property('uri'),
+
 	populateWithTestTransactions: function() {
 		//  pre-populate marketplace with transactions
 		var uri = this.get('uri');
