@@ -10,8 +10,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	// override this if you want to allow the results table to be able to sort by none
 	allowSortByNone: false,
 
-	sortField: 'created_at',
-	sortOrder: 'desc',
+	sortField: null,
+	sortOrder: null,
 
 	// we use this so we can display counts without having them reset every time you filter
 	last_loaded_search_result: null,
