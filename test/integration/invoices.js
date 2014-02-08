@@ -67,11 +67,11 @@ test('invoice detail page', function(assert) {
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Refund, invoiceUri + '/refunds'));
 		});
-		// TODO: Tests for enabling invoice disputes
-		// .click('.activity .results header li.disputes-lost a')
-		// .then(function() {
-		// assert.ok(spy.calledWith(Balanced.Dispute, invoiceUri + '/disputes'));
-		// });
+	// TODO: Tests for enabling invoice disputes
+	// .click('.activity .results header li.disputes-lost a')
+	// .then(function() {
+	// assert.ok(spy.calledWith(Balanced.Dispute, invoiceUri + '/disputes'));
+	// });
 });
 
 test('change invoice funding source', function(assert) {

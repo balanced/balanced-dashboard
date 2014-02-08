@@ -33,7 +33,6 @@ test('can visit page', function(assert) {
 		'#dispute .transaction-details .debit .transaction-type-subheader .title': 1 // 'Succeeded: $13.30'
 	};
 
-	console.log(Testing.DISPUTE_URI);
 	visit(Testing.DISPUTE_URI)
 		.checkElements(disputePage, assert);
 });
