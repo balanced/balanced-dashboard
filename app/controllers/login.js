@@ -31,12 +31,15 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		this.set('loginError', false);
 
 		var attemptedTransition = Balanced.Auth.get('attemptedTransition');
+
 		if (attemptedTransition) {
 			attemptedTransition.retry();
 			Balanced.Auth.set('attemptedTransition', null);
 		} else {
 			this.transitionToRoute('index');
 		}
+
+		Balanced.Auth.trigger('signInTransition');
 	},
 
 	actions: {

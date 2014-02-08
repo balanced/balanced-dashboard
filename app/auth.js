@@ -10,19 +10,7 @@ Balanced.Auth = (function() {
 		return this.request($.extend(true, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts), 'signIn', function(response, status, jqxhr) {
-			var user = Balanced.User.create();
-
-			user.populateFromJsonResponse(response.user);
-
-			self.setAuthProperties(true,
-				user,
-				response.user_id,
-				response.user_id,
-				false);
-
-			auth.rememberLogin(response.uri);
-		}).fail(function(jqxhr) {
+		}, opts), 'signIn', this.onSuccessfulLogin).fail(function(jqxhr) {
 			if (typeof jqxhr.responseText !== "undefined") {
 				var response = JSON.parse(jqxhr.responseText);
 
@@ -31,6 +19,26 @@ Balanced.Auth = (function() {
 				}
 			}
 		});
+	};
+
+	auth.onSuccessfulLogin = _.bind(function(response, status, jqxhr) {
+		var user = Balanced.User.create();
+
+		user.populateFromJsonResponse(response.user);
+
+		this.setAuthProperties(true,
+			user,
+			response.user_id,
+			response.user_id,
+			false);
+
+		this.rememberLogin(response.uri);
+	}, auth);
+
+	auth.getCurrentLogin = function() {
+		return this.request({
+			url: ENV.BALANCED.AUTH + '/logins/current'
+		}, 'signIn', this.onSuccessfulLogin);
 	};
 
 	auth.signIn = function(emailAddress, password) {
@@ -43,19 +51,27 @@ Balanced.Auth = (function() {
 	};
 
 	auth.rememberMeSignIn = function() {
-		var authCookie = this.retrieveLogin();
-		if (authCookie) {
-			return this._doSignIn({
-				data: {
-					uri: authCookie
+		var self = this;
+
+		this.getCurrentLogin().fail(function() {
+			// Can't remove this code
+			// This code checks the current auth token
+			var authCookie = self.retrieveLogin();
+
+			if (authCookie) {
+				return self._doSignIn({
+					data: {
+						uri: authCookie
+					}
+				});
+			} else {
+				var existingApiKey = self.getGuestAPIKey();
+
+				if (existingApiKey) {
+					return self.rememberGuestUser(existingApiKey);
 				}
-			});
-		} else {
-			var existingApiKey = this.getGuestAPIKey();
-			if (existingApiKey) {
-				return this.rememberGuestUser(existingApiKey);
 			}
-		}
+		});
 	};
 
 	auth.rememberGuestUser = function(apiKey) {
@@ -158,6 +174,12 @@ Balanced.Auth = (function() {
 		}
 	}.observes('user', 'user.admin');
 
+	auth.on('signInTransition', function() {
+		Ember.run.next(function() {
+			auth.loadAdminExtension();
+		});
+	});
+
 	auth.request = function(opts, eventName, successFn) {
 		var self = this;
 
@@ -231,21 +253,22 @@ Balanced.Auth = (function() {
 	};
 
 	auth.setAuthProperties = function(signedIn, user, userId, authToken, isGuest) {
-		auth.set('authToken', authToken);
-		auth.set('userId', userId);
-		auth.set('signedIn', signedIn);
-		auth.set('user', user);
-		auth.set('isGuest', isGuest);
+		auth.setProperties({
+			authToken: authToken,
+			userId: userId,
+			signedIn: signedIn,
+			user: user,
+			isGuest: isGuest
+		});
 
 		auth.getExtensions();
-		auth.loadAdminExtension();
 	};
 
 	auth.rememberLogin = function(token) {
 		auth.set('lastLoginUri', token);
 
 		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
-			expires: 1,
+			expires: Balanced.TIME.WEEK,
 			path: '/'
 		});
 	};
