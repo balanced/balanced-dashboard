@@ -261,6 +261,9 @@ var Testing = {
 
 	setupEvent: function() {
 		var _this = this;
+		// Call stop to stop executing the tests before
+		// a dispute is created
+		this.stop();
 
 		return Ember.run(function() {
 			Balanced.Event.findAll().then(function(events) {
@@ -272,6 +275,8 @@ var Testing = {
 				_this.EVENT_ID = evt.get('id');
 				_this.EVENT_URI = '/marketplace/' + _this.MARKETPLACE_ID +
 					'/events/' + _this.EVENT_ID;
+
+				_this.start();
 			});
 		});
 	},
