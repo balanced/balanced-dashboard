@@ -168,6 +168,10 @@ Balanced.Auth = (function() {
 	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT');
 
 	auth.loadAdminExtension = function() {
+		if (!auth.get('user')) {
+			return;
+		}
+
 		var admin = 'balanced-admin';
 		if (auth.get('user.admin') && !Balanced.Shapeshifter.isLoaded(admin)) {
 			Balanced.Shapeshifter.load(admin);
