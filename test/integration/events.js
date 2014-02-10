@@ -8,8 +8,6 @@ module('Events', {
 });
 
 test('can visit page', function(assert) {
-
-	console.log(Testing.EVENT_URI);
 	visit(Testing.EVENT_URI)
 		.then(function() {
 			assert.notEqual($('#content h1').text().indexOf('account.created'), -1, 'Title is correct');
