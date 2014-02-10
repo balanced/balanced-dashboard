@@ -11,6 +11,15 @@ Balanced.NET = (function() {
 				Balanced.NET.csrfToken = response.csrf;
 			});
 		},
+		loadCSRFTokenIfNeed: function(fn) {
+			fn = fn || _.identity;
+
+			if (!Balanced.NET.csrfToken) {
+				return this.loadCSRFToken().success(fn);
+			} else {
+				return fn();
+			}
+		},
 		csrfToken: $.cookie(Balanced.COOKIE.CSRF_TOKEN),
 		defaultApiKey: null,
 
