@@ -19,6 +19,15 @@ Balanced.Test.asyncHelpers = {
 		}
 
 		return wait();
+	},
+	checkElements: function(app, hash, assert) {
+		_.each(hash, function(val, selector) {
+			if (_.isNumber(val)) {
+				assert.equal($(selector).length, val, 'Element exists ' + selector);
+			} else {
+				assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
+			}
+		});
 	}
 };
 

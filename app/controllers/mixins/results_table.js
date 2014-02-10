@@ -64,7 +64,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			this.get('results_type')
 		);
 
-		if (['funding_instrument', 'transaction', 'search'].indexOf(this.get('type') || '') >= 0) {
+		if (['funding_instrument', 'transaction', 'search', 'dispute'].indexOf(this.get('type') || '') >= 0) {
 			searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
 			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
 		}
@@ -137,6 +137,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 				return 'Balanced.Log';
 			case 'order':
 				return 'Balanced.Order';
+			case 'dispute':
+				return 'Balanced.Dispute';
 			default:
 				return null;
 		}
@@ -156,6 +158,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 		if (_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 			return 'funding_instrument';
+		}
+
+		if (_.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
+			return 'dispute';
 		}
 
 		return '';
