@@ -11,7 +11,7 @@ Balanced.NET = (function() {
 				Balanced.NET.csrfToken = response.csrf;
 			});
 		},
-		loadCSRFTokenIfNeed: function(fn) {
+		loadCSRFTokenIfNotLoaded: function(fn) {
 			fn = fn || _.identity;
 
 			if (!Balanced.NET.csrfToken) {

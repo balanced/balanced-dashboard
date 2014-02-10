@@ -45,5 +45,5 @@ window.setupBalanced = function(divSelector) {
 		// Advance the readiness
 		window.Balanced.advanceReadiness();
 	});
-	window.Balanced.NET.loadCSRFToken();
+	window.Balanced.NET.loadCSRFTokenIfNotLoaded();
 };
