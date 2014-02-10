@@ -1,0 +1,57 @@
+<div class="dispute">
+	<div {{bindAttr class=":main-header :transaction-type-subheader dispute.status"}}>
+		<div class="row">
+			<div class="span2 border-adjust label">
+				<span class="subhead2d">Dispute</span>
+			</div>
+			<div class="span10 title">
+				<span class="transaction-description subhead2d">{{titleCase dispute.status}}: {{formatCurrency dispute.amount}}</span>
+			</div>
+			<div class="span8 border-adjust buttons">
+				<div class="buttons-container"></div>
+			</div>
+		</div>
+	</div>
+	<div class="transaction-body">
+		<div class="row">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
+				<div class="row-fluid">
+					<div class="span16">
+						<section class="transaction-info">
+							<div class="key-value-display">
+								<header>
+									<h3>Dispute</h3>
+								</header>
+								<div class="key-value-row">
+									<label class="key">Initiated</label>
+									<span class="value">{{humanReadableDateLong dispute.created_at}}</span>
+								</div>
+								<div class="key-value-row">
+									<label class="key">Reason</label>
+									<span class="value">{{dispute.reason}}</span>
+								</div>
+								<div class="key-value-row">
+									<label class="key">ID</label>
+									<span class="value">{{dispute.id}}</span>
+								</div>
+								<div class="key-value-row meta">
+									<label class="key">Meta</label>
+									<span class="value">
+										{{#each meta in dispute.meta_array}}
+											{{meta.key}}: {{meta.value}}<br/>
+										{{/each}}
+									</span>
+								</div>
+							</div>
+						</section>
+						{{txn-funding-instrument funding_instrument=dispute.transaction.source}}
+					</div>
+					<div class="span10">
+						{{! view Balanced.EventsSideBarView contentBinding=dispute}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

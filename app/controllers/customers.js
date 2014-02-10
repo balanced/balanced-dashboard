@@ -42,6 +42,10 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 		},
 
 		results_base_uri: function() {
+			if (this.get('type') === 'dispute') {
+				return this.get('content.disputes_uri');
+			}
+
 			return this.get('content.transactions_uri');
 		}.property('content.transactions_uri')
 	}

@@ -32,6 +32,20 @@ Balanced.ActivityTransactionsRoute = Balanced.AuthRoute.extend({
 	}
 });
 
+Balanced.ActivityDisputesRoute = Balanced.AuthRoute.extend({
+	pageTitle: 'Activity',
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+
+		if (this.controllerFor('activity').get('category') !== 'dispute') {
+			this.controllerFor('activity').set('type', 'dispute');
+		} else {
+			this.controllerFor('activity').send('reload');
+		}
+	}
+});
+
 Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Activity',
 
