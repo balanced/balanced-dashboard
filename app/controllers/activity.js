@@ -25,16 +25,20 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		}
 	},
 
-	results_uri: function() {
+	results_base_uri: function() {
 		if (this.get('type') === 'dispute') {
 			return '/disputes';
 		}
 
+		return this._super();
+	}.property('type', 'controllers.marketplace.uri'),
+
+	results_uri: function() {
 		return Balanced.Utils.applyUriFilters(
 			this.get('results_base_uri'),
 			this.get('search_params')
 		);
-	}.property('type', 'results_base_uri', 'search_params')
+	}.property('results_base_uri', 'search_params')
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
