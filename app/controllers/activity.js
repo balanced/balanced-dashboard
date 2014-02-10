@@ -31,14 +31,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		}
 
 		return this._super();
-	}.property('type', 'controllers.marketplace.uri'),
-
-	results_uri: function() {
-		return Balanced.Utils.applyUriFilters(
-			this.get('results_base_uri'),
-			this.get('search_params')
-		);
-	}.property('results_base_uri', 'search_params')
+	}.property('type', 'controllers.marketplace.uri')
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
