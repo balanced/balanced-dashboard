@@ -71,6 +71,8 @@ Balanced.Auth = (function() {
 					return self.rememberGuestUser(existingApiKey);
 				}
 			}
+		}).always(function() {
+			Balanced.advanceReadiness();
 		});
 	};
 
@@ -349,6 +351,8 @@ Balanced.Auth = (function() {
 			path: '/'
 		});
 	};
+
+	auth.rememberMeSignIn();
 
 	return auth;
 }());

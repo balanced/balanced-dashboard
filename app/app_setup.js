@@ -23,6 +23,10 @@ window.setupBalanced = function(divSelector) {
 		}
 	});
 
+	// Defer the readiness until we know about login session
+	window.Balanced.deferReadiness();
+
+
 	window.Balanced.onLoad = function() {
 		//  initialize anything that needs to be done on application load
 		Balanced.Analytics.init(Ember.ENV.BALANCED);
@@ -31,7 +35,14 @@ window.setupBalanced = function(divSelector) {
 		$.fn.modal.defaults.manager = divSelector;
 	};
 
+	// Call the setup functions
 	_.each(window.balancedSetupFunctions, function(setupFunction) {
 		setupFunction();
+	});
+
+	// Get the current login if logged in
+	window.Balanced.Auth.getCurrentLogin().always(function() {
+		// Advance the readiness
+		window.Balanced.advanceReadiness();
 	});
 };
