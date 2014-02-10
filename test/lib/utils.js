@@ -1,4 +1,6 @@
 var Testing = {
+	marketplace: null,
+
 	// constant ids
 	MARKETPLACE_ID: null,
 	CARD_ID: null,
@@ -86,7 +88,9 @@ var Testing = {
 			return Balanced.Auth.createNewGuestUser().then(function() {
 				return Balanced.Marketplace.create().save();
 			}).then(function(marketplace) {
+				_this.marketplace = marketplace;
 				Balanced.Auth.setupGuestUserMarketplace(marketplace);
+
 				_this.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
 				_this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
 				_this.MARKETPLACES_ROUTE = '/marketplaces';
@@ -111,7 +115,7 @@ var Testing = {
 			expiration_month: 11
 		}).save().then(function(card) {
 			_this.CARD_ID = card.get('id');
-			_this.CARD_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+			_this.CARD_ROUTE = _this.MARKETPLACE_ROUTE +
 				'/cards/' + _this.CARD_ID;
 			return card;
 		});
@@ -127,7 +131,7 @@ var Testing = {
 			expiration_month: 11
 		}).save().then(function(card) {
 			_this.CARD_ID = card.get('id');
-			_this.CARD_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+			_this.CARD_ROUTE = _this.MARKETPLACE_ROUTE +
 				'/cards/' + _this.CARD_ID;
 			return card;
 		});
@@ -143,7 +147,7 @@ var Testing = {
 			type: 'checking'
 		}).save().then(function(bankAccount) {
 			_this.BANK_ACCOUNT_ID = bankAccount.get('id');
-			_this.BANK_ACCOUNT_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+			_this.BANK_ACCOUNT_ROUTE = _this.MARKETPLACE_ROUTE +
 				'/bank_accounts/' + _this.BANK_ACCOUNT_ID;
 			return bankAccount;
 		});
@@ -158,7 +162,7 @@ var Testing = {
 			amount: 10000
 		}).save().then(function(reversal) {
 			_this.REVERSAL_ID = reversal.get('id');
-			_this.REVERSAL_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+			_this.REVERSAL_ROUTE = _this.MARKETPLACE_ROUTE +
 				'/reversals/' + _this.REVERSAL_ID;
 			return reversal;
 		});
@@ -173,7 +177,7 @@ var Testing = {
 			description: 'Cocaine'
 		}).save().then(function(debit) {
 			_this.DEBIT_ID = debit.get('id');
-			_this.DEBIT_ROUTE = '/marketplace/' + _this.MARKETPLACE_ID +
+			_this.DEBIT_ROUTE = _this.MARKETPLACE_ROUTE +
 				'/debits/' + _this.DEBIT_ID;
 			return debit;
 		});
@@ -186,9 +190,19 @@ var Testing = {
 			amount: 10000
 		}).save().then(function(credit) {
 			_this.CREDIT_ID = credit.get('id');
-			_this.CREDIT_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID +
+			_this.CREDIT_ROUTE = _this.MARKETPLACE_ROUTE +
 				'/credits/' + _this.CREDIT_ID;
 			return credit;
+		});
+	},
+
+	_createCustomer: function() {
+		var _this = this;
+		return Balanced.Customer.create({
+			uri: this.marketplace.get('customers_uri'),
+			address: {}
+		}).save().then(function(customer) {
+			return customer;
 		});
 	},
 
@@ -204,7 +218,7 @@ var Testing = {
 
 					var evt = disputes.objectAt(0);
 					_this.DISPUTE_ID = evt.get('id');
-					_this.DISPUTE_URI = '/marketplaces/' + _this.MARKETPLACE_ID +
+					_this.DISPUTE_URI = _this.MARKETPLACE_ROUTE +
 						'/disputes/' + _this.DISPUTE_ID;
 
 					_this.start();
@@ -259,6 +273,14 @@ var Testing = {
 		});
 	},
 
+	createCustomer: function() {
+		var _this = this;
+
+		return Ember.run(function() {
+			return _this._createCustomer();
+		});
+	},
+
 	setupEvent: function() {
 		var _this = this;
 		// Call stop to stop executing the tests before
@@ -273,7 +295,7 @@ var Testing = {
 
 				var evt = events.objectAt(0);
 				_this.EVENT_ID = evt.get('id');
-				_this.EVENT_URI = '/marketplace/' + _this.MARKETPLACE_ID +
+				_this.EVENT_URI = _this.MARKETPLACE_ROUTE +
 					'/events/' + _this.EVENT_ID;
 
 				_this.start();
