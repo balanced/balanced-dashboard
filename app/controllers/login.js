@@ -7,6 +7,14 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	otpRequired: false,
 	otpCode: null,
 
+	init: function() {
+		if (Balanced.Auth.get('signedIn')) {
+			this.afterLogin();
+		} else {
+			Balanced.Auth.on('signInSuccess', _.bind(this.afterLogin, this));
+		}
+	},
+
 	reset: function() {
 		this.setProperties({
 			loginError: false,
