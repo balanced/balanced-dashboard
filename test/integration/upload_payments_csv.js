@@ -11,32 +11,33 @@ test("Read and process CSV data", function(assert) {
 	var expectations = [
 		null, {
 			"customer.email": "harry.tan@example.com",
-			"bank_account.name": "Harry Tan",
-			"credit.amount": 16
+			"bankAccount.name": "Harry Tan",
+			"credit.amount": 1600
 		},
 		null,
 		null,
 		null, {
 			"customer.email": "dwyane.braggart@example.org",
-			"bank_account.name": "Dwyane Braggart",
-			"credit.amount": 54
+			"bankAccount.name": "Dwyane Braggart",
+			"credit.amount": 5400
 		}, {
 			"customer.email": "charlie.chan@example.org",
-			"bank_account.name": "Charlie Chan",
-			"credit.amount": 32
+			"bankAccount.name": "Charlie Chan",
+			"credit.amount": 3200
 		}, {
-			"customer.email": undefined,
-			"bank_account.name": "John Foo",
-			"credit.amount": 17
+			"customer.email": null,
+			"bankAccount.name": "John Foo",
+			"credit.amount": 1700
 		}, {
 			"customer.email": "harrison.ford@example.org",
-			"bank_account.name": "Harrison Ford",
-			"credit.amount": 43
+			"bankAccount.name": "Harrison Ford",
+			"bankAccount.routing_number": "121000358",
+			"credit.amount": 4300
 		}
 	];
 
 	var csvString = [
-		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount_in_cents,appears_on_statement_as,description",
+		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
 		",,,,,Dwyane Braggart,CHECKING,15,Payment #1771,[INVALID] No Acct. No",
 		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,16,Payment #9746,[VALID]",
 		",Harry Tan,harry.tan@example.org,121000358,123123123,Harry Tan,CHECKING,-19,Payment #7891,[INVALID] Negative Amount",
@@ -48,12 +49,11 @@ test("Read and process CSV data", function(assert) {
 		",Harrison Ford,harrison.ford@example.org,121000358,123123000,Harrison Ford,CHECKING,43,Payment #2720,[VALID]"
 	].join("\n");
 
-	var reader = Balanced.PaymentsCsvReader.create();
-	reader.set("body", csvString);
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText(csvString);
+	var content = collection.get("content");
 
-	var rows = reader.getObjects();
-	assert.equal(rows.length, 9);
-	assert.deepEqual(rows[0], {
+	assert.equal(content.length, 9);
+	assert.deepEqual(content.get("0.csvFields"), {
 		bank_account_id: "",
 		new_customer_name: "",
 		new_customer_email: "",
@@ -61,13 +61,12 @@ test("Read and process CSV data", function(assert) {
 		new_bank_account_number: "",
 		new_bank_account_holders_name: "Dwyane Braggart",
 		new_bank_account_type: "CHECKING",
-		amount_in_cents: "15",
+		amount: "15",
 		appears_on_statement_as: "Payment #1771",
 		description: "[INVALID] No Acct. No"
 	});
 
-	var creators = reader.getCreditCreators();
-	creators.forEach(function(creator) {
+	content.forEach(function(creator) {
 		Ember.run(function() {
 			creator.get("credit");
 		});
@@ -75,7 +74,7 @@ test("Read and process CSV data", function(assert) {
 
 	// Wait for credits, customers and banks to be loaded.
 	Ember.run(function() {
-		reader.saveCreditCreators(creators, function(results) {
+		collection.save(function(results) {
 			expectations.forEach(function(expectation, i) {
 				if (expectation === null || results[i] === null) {
 					assert.deepEqual(results[i], expectation);

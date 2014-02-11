@@ -217,6 +217,7 @@ Balanced.CreditCreator = Ember.Object.extend({
 				})
 				.then(function() {
 					self.refreshState();
+					return self;
 				});
 		} else {
 			return Ember.RSVP.resolve(null);
