@@ -1,10 +1,11 @@
 <thead>
     <tr>
-        {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :date view.hideDateSort::sortable" field="created_at"}}Date Initiated{{/view}}
-        <th class="span4 label6a status">Status</th>
+        {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :initiated :date view.hideDateSort::sortable" field="initiated_at"}}Date Initiated{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :respond-by :date view.hideDateSort::sortable" field="respond_by"}}Respond By{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span4 label6a status sortable" field="status"}}Status{{/view}}
         <th class="span3 label6a account">Customer</th>
         <th class="span4 label6a funding-instrument">Card or Bank Account</th>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
+        {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount sortable num" field="amount"}}Amount{{/view}}
     </tr>
 </thead>
 {{#if view.disputes.hasNextPage}}
@@ -25,9 +26,14 @@
 <tbody>
     {{#each dispute in view.disputes }}
         <tr>
-            <td class="span3 date">
+            <td class="span3 date initiated">
                 {{#link-to dispute.route_name dispute}}<span>
-                    <time {{bindAttr datetime="dispute.created_at"}} {{bindAttr title="dispute.created_at"}}>{{humanReadableDateShort dispute.created_at}}</time>
+                    <time {{bindAttr datetime="dispute.initiated_at"}} {{bindAttr title="dispute.initiated_at"}}>{{humanReadableDateShort dispute.initiated_at}}</time>
+                </span>{{/link-to}}
+            </td>
+            <td class="span3 date respond-by">
+                {{#link-to dispute.route_name dispute}}<span>
+                    <time {{bindAttr datetime="dispute.respond_by"}} {{bindAttr title="dispute.respond_by"}}>{{humanReadableDateShort dispute.respond_by}}</time>
                 </span>{{/link-to}}
             </td>
             <td {{bindAttr class=":span4 :label4a :type dispute.status"}}>
