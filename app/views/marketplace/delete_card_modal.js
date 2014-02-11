@@ -3,10 +3,12 @@ Balanced.DeleteCardModalView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.get('controller').on('openDeleteCardModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').off('openDeleteCardModal', this, this.open);
+		this._super();
 	},
 
 	open: function(card) {

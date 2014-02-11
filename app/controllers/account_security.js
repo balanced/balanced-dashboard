@@ -1,5 +1,5 @@
 Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Evented, {
-	needs: ['marketplaces'],
+	needs: ['marketplaces', 'marketplace'],
 
 	content: null,
 	auth_code_confirm: null,

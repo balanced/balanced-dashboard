@@ -13,6 +13,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		} else {
 			Balanced.Auth.on('signInSuccess', _.bind(this.afterLogin, this));
 		}
+
+		this._super();
+
+		this.focus();
 	},
 
 	reset: function() {
@@ -33,6 +37,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			otpError: false,
 			loginResponse: ''
 		});
+	},
+
+	focus: function() {
+		$('form input[type=text]:first').focus();
 	},
 
 	afterLogin: function() {
@@ -59,6 +67,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			Balanced.Auth.confirmOTP(this.get('otpCode')).then(function() {
 				self.afterLogin();
 			}, function() {
+				this.focus();
 				Balanced.Auth.forgetLogin();
 				self.reset();
 				self.setProperties({
@@ -84,6 +93,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				// For now tho:
 				self.afterLogin();
 			}, function(jqxhr, status, message) {
+				this.focus();
 				self.set('password', null);
 
 				if (jqxhr.status === 401) {
