@@ -11,7 +11,6 @@
   .main-header {
     background-color: @backgroundColor60;
     color: #FFF;
-    font-family: @baseFontFamilyLight;
     height: @mainHeaderHeight;
     line-height: @mainHeaderHeight;
     margin-bottom: 0;
@@ -32,8 +31,6 @@
 
     .title {
       display: inline-block;
-      font-size: 20px;
-      letter-spacing: 1px;
       padding: 0 20px;
     }
   }
@@ -97,5 +94,14 @@
 
   .table-column-amount {
     text-align: right;
+  }
+
+  .label.label-error {
+    background-color: @imperialRed20;
+    color: @imperialRed100;
+  }
+
+  td .label.label-error {
+    padding: 7px;
   }
 }

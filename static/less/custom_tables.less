@@ -29,12 +29,16 @@
   width: 20%;
 }
 
-.table-column.table-column-error {
-  color: @imperialRed100;
-}
+.table-column {
+  .icon.icon-alert {
+    bottom: -2px;
+    color: @imperialRed100;
+    position: relative;
+  }
 
-.table-column.table-column-success {
-  color: @forestGreen100;
+  .icon.icon-checkmark {
+    color: @forestGreen100;
+  }
 }
 
 .table-border tbody tr {
@@ -43,14 +47,4 @@
 
 .table-row a{
   cursor: pointer;
-}
-
-.table-row.table-row-removed {
-  td {
-    text-decoration: line-through;
-    color: @gray3;
-  }
-  .table-column-error {
-    text-decoration: none;
-  }
 }
