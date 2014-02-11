@@ -181,9 +181,11 @@ Balanced.Auth = (function() {
 	}.observes('user', 'user.admin');
 
 	auth.on('signInTransition', function() {
-		Ember.run.next(function() {
-			auth.loadAdminExtension();
-		});
+		auth.set('signInTransitionCalled', true);
+
+		// Delay it for 500ms to give time for any
+		// transition to finish loading
+		Ember.run.next(_.delay(_.bind(auth.loadAdminExtension, auth), 500));
 	});
 
 	auth.request = function(opts, eventName, successFn) {
@@ -305,7 +307,8 @@ Balanced.Auth = (function() {
 
 		auth.setProperties({
 			lastLoginUri: null,
-			OTPSecret: null
+			OTPSecret: null,
+			signInTransitionCalled: false
 		});
 
 		auth.unsetAPIKey();

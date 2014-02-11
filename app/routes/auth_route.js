@@ -4,6 +4,7 @@ Balanced.AuthRoute = Ember.Route.extend({
 		if (Balanced.Auth.get('signedIn')) {
 			return;
 		}
+
 		Balanced.Auth.set('attemptedTransition', transition);
 		this.transitionTo('login');
 	}
