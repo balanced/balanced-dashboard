@@ -18,7 +18,6 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 	actions: {
 		error: function(error, transition) {
-
 			if (!window.TESTING) {
 				// Check for an infinite loop of error handling and short-circuit
 				// if we've seen too many errors in too short a period
