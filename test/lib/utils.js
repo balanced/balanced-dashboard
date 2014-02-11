@@ -303,6 +303,10 @@ var Testing = {
 		});
 	},
 
+	waitForSearch: function() {
+
+	},
+
 	createDispute: function() {
 		var _this = this;
 		// Call stop to stop executing the tests before
@@ -321,7 +325,13 @@ var Testing = {
 		Ember.run(function() {
 			var i = number;
 			while (i > 0) {
-				_this._createDebit();
+				var debit = _this._createDebit();
+				console.log(i, debit);
+				debit.then(function() {
+					console.log(i, 'sucess', arguments);
+				}, function() {
+					console.log(i, 'fail');
+				})
 				i--;
 			}
 		});
