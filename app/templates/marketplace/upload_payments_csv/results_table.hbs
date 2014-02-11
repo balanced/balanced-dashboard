@@ -21,9 +21,11 @@
     </thead>
     <tbody>
       {{#each view.items}}
-        <tr {{bind-attr class=":table-row isRemoved:table-row-removed"}}>
+        <tr class="table-row">
           <td>{{csvFields.bank_account_id}}</td>
-          <td>{{csvFields.new_customer_name}}</td>
+          <td>
+            <span class="label label-error">{{csvFields.new_customer_name}}</span>
+          </td>
           <td>{{csvFields.new_customer_email}}</td>
           <td>{{csvFields.new_bank_account_routing_number}}</td>
           <td>{{csvFields.new_bank_account_number}}</td>
@@ -40,7 +42,7 @@
             {{/if}}
           </td>
 
-          <td {{bind-attr class=":table-column :table-column-icons isInvalid:table-column-error isComplete:table-column-success"}}>
+          <td class="table-column table-column-icons">
             {{#if isInvalid}}
               <a {{action "confirmRemoveCreditCreator" this target="view.parentView"}} class="remove-icon">&times;</a>
             {{else}} {{#if isProcessing}}
