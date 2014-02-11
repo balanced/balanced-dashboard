@@ -185,7 +185,7 @@ Balanced.Auth = (function() {
 
 		// Delay it for 500ms to give time for any
 		// transition to finish loading
-		Ember.run.next(_.delay(_.bind(auth.loadAdminExtension, auth), 500));
+		_.delay(_.bind(auth.loadAdminExtension, auth), 500);
 	});
 
 	auth.request = function(opts, eventName, successFn) {
