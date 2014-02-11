@@ -29,18 +29,18 @@
         <tr>
             <td class="span3 date">
                 {{#link-to "orders" order}}<span>
-                    <time {{bindAttr datetime="order.created_at"}} {{bindAttr title="order.created_at"}}>{{humanReadableDateShort order.created_at }}</time>
+                    <time {{bind-attr datetime="order.created_at"}} {{bind-attr title="order.created_at"}}>{{humanReadableDateShort order.created_at }}</time>
                 </span>{{/link-to}}
             </td>
             <td class="span4 description">
                 <span>{{ order.page_title }}</span>
             </td>
-            <td class="span4 buyer" {{bindAttr title="order.buyer.firstObject.display_me"}}>
+            <td class="span4 buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
                 {{#link-to "orders" order}}<span>
                     {{ order.buyer.firstObject.display_me }}
                 </span>{{/link-to}}
             </td>
-            <td class="span4 seller" {{bindAttr title="order.seller.display_me"}}>
+            <td class="span4 seller" {{bind-attr title="order.seller.display_me"}}>
                 {{#link-to "orders" order}}<span>
                     {{ order.seller.display_me }}
                 </span>{{/link-to}}

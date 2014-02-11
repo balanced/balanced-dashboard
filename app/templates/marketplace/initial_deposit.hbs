@@ -31,7 +31,7 @@
             {{# if isLoading }}
                 <span class="loader loading"></span> <span class="message">{{loadingMessage}}</span>
             {{else}}
-                <button class="btn primary" {{action submit}} {{bindAttr disabled="isSaving"}}>Submit</button>
+                <button class="btn primary" {{action submit}} {{bind-attr disabled="isSaving"}}>Submit</button>
                 <button class="btn danger" {{action skip}}>Skip</button>
             {{/if}}
         </div>

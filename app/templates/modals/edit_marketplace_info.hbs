@@ -7,22 +7,22 @@
     <div class="modal-body">
         {{partial "modals/modalErrors"}}
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
+        <div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
             <label>Name</label>
             {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.support_email_address:error"}}>
+        <div {{bind-attr class=":control-group view.model.validationErrors.support_email_address:error"}}>
             <label>Support email</label>
             {{view Ember.TextField valueBinding="view.model.support_email_address" name="support_email_address" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.domain_url:error"}}>
+        <div {{bind-attr class=":control-group view.model.validationErrors.domain_url:error"}}>
             <label>Domain URL</label>
             {{view Ember.TextField valueBinding="view.model.domain_url" name="domain_url" class="full"}}
         </div>
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.support_phone_number:error"}}>
+        <div {{bind-attr class=":control-group view.model.validationErrors.support_phone_number:error"}}>
             <label>Support phone number</label>
             {{view Ember.TextField valueBinding="view.model.support_phone_number" name="support_phone_number" class="full"}}
         </div>

@@ -9,7 +9,7 @@
 			{{#each event in view.content.events}}
 				<li class="event">
 					<div>
-					  {{#linkTo 'events' event}}{{ event.type }}{{/linkTo}}
+					  {{#link-to 'events' event}}{{ event.type }}{{/link-to}}
 					</div>
 					<div>
 						{{ inflection event.eventCallbacks.length singular="webhook"}}:

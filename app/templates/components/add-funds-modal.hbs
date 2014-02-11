@@ -13,7 +13,7 @@
 
             {{partial "modals/modalErrors"}}
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.source_uri:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.source_uri:error"}}>
                 <label>Account number</label>
 
                 {{view Ember.Select
@@ -35,7 +35,7 @@
                 <label class="inline">Bank</label> {{view.source.bank_name}}
             </div>
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.amount:error"}}>
                 <label>Amount</label>
                 <div class="input-prepend">
                     <span class="add-on">$</span>
@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
                 <label class="control-label">Appears on statement as ({{view.source.appears_on_statement_max_length}} characters max)</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.source.appears_on_statement_max_length"}}

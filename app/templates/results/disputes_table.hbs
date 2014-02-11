@@ -27,16 +27,16 @@
         <tr>
             <td class="span3 date">
                 {{#link-to dispute.route_name dispute}}<span>
-                    <time {{bindAttr datetime="dispute.created_at"}} {{bindAttr title="dispute.created_at"}}>{{humanReadableDateShort dispute.created_at}}</time>
+                    <time {{bind-attr datetime="dispute.created_at"}} {{bind-attr title="dispute.created_at"}}>{{humanReadableDateShort dispute.created_at}}</time>
                 </span>{{/link-to}}
             </td>
-            <td {{bindAttr class=":span4 :label4a :type dispute.status"}}>
+            <td {{bind-attr class=":span4 :label4a :type dispute.status"}}>
                 {{#link-to dispute.route_name dispute}}<span>
                     <span class="dot"></span>
                     {{dispute.status_name}}
                 </span>{{/link-to}}
             </td>
-            <td {{bindAttr class=":span4 :account dispute.transaction.customer::null-field"}} {{bindAttr title="dispute.customer_name_summary"}}>
+            <td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
                 {{#link-to dispute.route_name dispute}}<span>
                     {{dispute.customer_name_summary}}
                 </span>{{/link-to}}

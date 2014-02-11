@@ -7,7 +7,7 @@
     <div class="modal-body">
         {{partial "modals/modalErrors"}}
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.url:error"}}>
+        <div {{bind-attr class=":control-group view.model.validationErrors.url:error"}}>
             <label>URI</label>
             {{view Ember.TextField valueBinding="view.model.url" name="url" class="full"}}
         </div>

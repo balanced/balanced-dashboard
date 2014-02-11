@@ -1,6 +1,6 @@
 <div class="key-value-row">
   <label class="key">Status</label>
-  <span {{bindAttr class=":value transaction.status"}}>{{ transaction.status_description }}{{#if type.credit}}{{#if transaction.is_pending}}
+  <span {{bind-attr class=":value transaction.status"}}>{{ transaction.status_description }}{{#if type.credit}}{{#if transaction.is_pending}}
           <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>{{/if}}{{/if}}</span>
 </div>
 <div class="key-value-row">

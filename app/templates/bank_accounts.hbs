@@ -4,7 +4,7 @@
     <div class="funding-instrument-header main-header">
         <div class="row">
             <div class="span2 label">
-                <div {{bindAttr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
+                <div {{bind-attr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
             </div>
             <div class="span8 title">
                 <span class="nav3d">
@@ -115,7 +115,7 @@
                                 <tr>
                                     <td class="status span10">
                                         {{# if verification.created_at }}
-                                            <time {{bindAttr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at }}</time>
+                                            <time {{bind-attr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at }}</time>
                                         {{else}}
                                             ---
                                         {{/if}}
@@ -155,7 +155,7 @@
             {{view Balanced.TransactionsFiltersHeaderView}}
 
             <div class="items-wrapper">
-                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+                {{view Balanced.TransactionsResultsView transactionsBinding="results"}}
             </div>
         </div>
     </section>
@@ -165,7 +165,7 @@
     {{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
-{{view Balanced.CreditBankAccountModalView funding_instrumentBinding=model}}
-{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding=model}}
-{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding=model}}
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
+{{view Balanced.CreditBankAccountModalView funding_instrumentBinding="model"}}
+{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding="model"}}
+{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding="model"}}

@@ -1,4 +1,4 @@
-<div id="search" {{bindAttr class="controller.displayResults:with-results"}}>
+<div id="search" {{bind-attr class="controller.displayResults:with-results"}}>
     <div class="search-field-container">
         <div class="search icon"></div>
         {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
@@ -11,29 +11,29 @@
 
     <div class="results">
         <!-- TODO - put the counts back when the API supports it -->
-        {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
+        {{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result"}}
 
         {{#if ordersTabSelected}}
         <div class="items-wrapper">
-            {{view Balanced.OrdersResultsView ordersBinding=results}}
+            {{view Balanced.OrdersResultsView ordersBinding="results"}}
         </div>
         {{/if}}
 
         {{#if transactionsTabSelected}}
         <div class="items-wrapper">
-            {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+            {{view Balanced.TransactionsResultsView transactionsBinding="results"}}
         </div>
         {{/if}}
 
         {{#if customersTabSelected}}
         <div class="items-wrapper">
-            {{view Balanced.CustomersResultsView customersBinding=results}}
+            {{view Balanced.CustomersResultsView customersBinding="results"}}
         </div>
         {{/if}}
 
         {{#if fundingInstrumentsTabSelected}}
         <div class="items-wrapper">
-            {{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding=results}}
+            {{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding="results"}}
         </div>
         {{/if}}
     </div>

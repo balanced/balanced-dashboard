@@ -1,15 +1,15 @@
 <nav>
 
-    <li {{bindAttr class=":orders view.ordersTabSelected:selected"}} >
+    <li {{bind-attr class=":orders view.ordersTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "order"}}> Orders </a>
     </li>
 
-    <li {{bindAttr class=":transactions :filter view.transactionsTabSelected:selected"}} >
+    <li {{bind-attr class=":transactions :filter view.transactionsTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "search"}}>{{ view.transaction_type_label }} </a>
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu transaction-filter filter-choices">
-                <li><a href="#" {{action changeTypeFilter "search"}} {{bindAttr label="view.totalTransactionsHeader"}}>All</a></li>
+                <li><a href="#" {{action changeTypeFilter "search"}} {{bind-attr label="view.totalTransactionsHeader"}}>All</a></li>
                 <li><a href="#" {{action changeTypeFilter "card_hold"}}> Holds </a></li>
 
                 <li><a href="#" {{action changeTypeFilter "debit"}}> Debits </a></li>
@@ -21,17 +21,17 @@
         </div>
     </li>
 
-    <li {{bindAttr class=":accounts view.customersTabSelected:selected"}} >
+    <li {{bind-attr class=":accounts view.customersTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "customer"}}> Customers </a>
     </li>
 
-    <li {{bindAttr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
+    <li {{bind-attr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "funding_instrument"}}> {{ view.funding_instrument_type_label }} </a>
 
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu funding-instruments-filter filter-choices">
-                <li><a href="#" {{action changeTypeFilter "funding_instrument"}} {{bindAttr label="view.totalFundingInstrumentsHeader"}}> Both </a></li>
+                <li><a href="#" {{action changeTypeFilter "funding_instrument"}} {{bind-attr label="view.totalFundingInstrumentsHeader"}}> Both </a></li>
 
                 <li><a href="#" {{action changeTypeFilter "card"}}> Cards </a></li>
 
@@ -39,7 +39,7 @@
             </ul>
         </div>
     </li>
-    <li {{bindAttr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
+    <li {{bind-attr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
         <a href="#" {{action changeTypeFilter "dispute"}}> {{ view.dispute_type_label }} </a>
     </li>
     <li class="timing dropdown label4a">
@@ -47,7 +47,7 @@
     </li>
     {{#if view.show_download_button}}
     <li class="download">
-        {{view Balanced.DownloadModalView noURIBinding=controller.noDownloadsUri}}
+        {{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
     </li>
     {{/if}}
 </nav>

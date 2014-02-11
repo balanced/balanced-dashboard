@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.amount:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.amount:error"}}>
                 <label class="control-label">Amount</label>
                 <div class="controls">
                     <div class="input-prepend">
@@ -38,14 +38,14 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
                 <label class="control-label">Appears on statement as ({{view.funding_instrument.appears_on_statement_max_length}} characters max)</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.funding_instrument.appears_on_statement_max_length"}}
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group view.model.validationErrors.description:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.description:error"}}>
                 <label class="control-label">Internal Description</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.description" name="description" class="full" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}

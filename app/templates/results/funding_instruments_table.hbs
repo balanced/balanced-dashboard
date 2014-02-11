@@ -25,28 +25,28 @@
     {{#each funding_instrument in view.fundingInstruments}}
         <tr>
             <td>
-                {{#linkTo funding_instrument.route_name funding_instrument}}<span>
-                    <time {{bindAttr datetime="funding_instrument.created_at"}} {{bindAttr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at }}</time>
-                </span>{{/linkTo}}
+                {{#link-to funding_instrument.route_name funding_instrument}}<span>
+                    <time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at }}</time>
+                </span>{{/link-to}}
             </td>
             <td>
-                {{#linkTo funding_instrument.route_name funding_instrument}}<span>
+                {{#link-to funding_instrument.route_name funding_instrument}}<span>
                     {{ funding_instrument.type_name }}
                     {{#if funding_instrument.is_bank_account }}
                         ({{ funding_instrument.account_type }})
                     {{/if}}
-                </span>{{/linkTo}}
+                </span>{{/link-to}}
             </td>
-            <td {{bindAttr title="funding_instrument.description"}}>
-                {{#linkTo funding_instrument.route_name funding_instrument}}<span>
+            <td {{bind-attr title="funding_instrument.description"}}>
+                {{#link-to funding_instrument.route_name funding_instrument}}<span>
                     {{ funding_instrument.description }}
-                </span>{{/linkTo}}
+                </span>{{/link-to}}
             </td>
             <td>
-                {{#linkTo funding_instrument.route_name funding_instrument}}<span>
+                {{#link-to funding_instrument.route_name funding_instrument}}<span>
                     {{ funding_instrument.customer.name }}
                     {{ funding_instrument.customer.email }}
-                </span>{{/linkTo}}
+                </span>{{/link-to}}
             </td>
         </tr>
     {{else}}

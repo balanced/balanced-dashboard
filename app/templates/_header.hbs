@@ -1,4 +1,4 @@
-<header id="header" {{ bindAttr class=":container headerClass"}}>
+<header id="header" {{ bind-attr class=":container headerClass"}}>
     <div class="row">
         <div id="balanced-address">
           <h3 class="physical-address">965 Mission St., Ste 425, San Francisco, CA 94103</h3>
@@ -6,7 +6,7 @@
         </div>
 
         <div id="logo" class="span2">
-            {{#linkTo 'index' class="img"}}Balanced Dashboard{{/linkTo}}
+            {{#link-to 'index' class="img"}}Balanced Dashboard{{/link-to}}
         </div>
 
         {{#if Balanced.Auth.isGuest}}
@@ -16,7 +16,7 @@
 
             <div id="site-nav" class="span6">
                 <div id="go-live-menu">
-                    {{#linkTo 'marketplaces.apply' class="nav1d"}}Register{{/linkTo}}
+                    {{#link-to 'marketplaces.apply' class="nav1d"}}Register{{/link-to}}
                 </div>
                 <div id="docs-menu">
                     <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>

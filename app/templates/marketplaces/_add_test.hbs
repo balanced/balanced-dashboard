@@ -1,4 +1,4 @@
-<div {{bindAttr class=":control-group"}}>
+<div {{bind-attr class=":control-group"}}>
     {{view Balanced.Forms.TextField valueBinding="view.name" name="name" placeholder="Enter test marketplace name"}}
     {{#if view.isSubmitting}}
         <span class="loader loading"></span>

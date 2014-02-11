@@ -4,7 +4,7 @@
     <div class="funding-instrument-header main-header">
         <div class="row">
             <div class="span2 label">
-                <div {{bindAttr class=":icon :card-info"}}>Card</div>
+                <div {{bind-attr class=":icon :card-info"}}>Card</div>
             </div>
             <div class="span10 title">
                 <span class="nav3d">
@@ -105,7 +105,7 @@
             {{view Balanced.TransactionsFiltersHeaderView}}
 
             <div class="items-wrapper">
-                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+                {{view Balanced.TransactionsResultsView transactionsBinding="results"}}
             </div>
         </div>
     </section>
@@ -115,5 +115,5 @@
     {{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
-{{view Balanced.HoldCardModalView funding_instrumentBinding=model}}
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
+{{view Balanced.HoldCardModalView funding_instrumentBinding="model"}}

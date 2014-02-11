@@ -3,15 +3,15 @@
     <div class="row">
       <div id="content" class="span26">
         <div class="row">
-          <div {{ bindAttr class=":offset9 :span8 otpRequired:hidden" }}>
+          <div {{ bind-attr class=":offset9 :span8 otpRequired:hidden" }}>
             <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
-            <form id="auth-form" {{ bindAttr class="loginError:error" }}>
+            <form id="auth-form" {{ bind-attr class="loginError:error" }}>
               {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
               {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
               <div class="clear"></div>
 
-              {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
+              {{#link-to "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/link-to}}
 
               <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
             </form>
@@ -24,12 +24,12 @@
 
             <p class="label4b" id="get-started">New to Balanced? <a href="#/start" class="linky">Click here to get started</a>.</p>
           </div>
-          <div {{ bindAttr class=":offset9 :span8 hasError:error otpRequired::hidden" }}>
+          <div {{ bind-attr class=":offset9 :span8 hasError:error otpRequired::hidden" }}>
             <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
             <div class="auth">Enter the authentication code below.</div>
 
-            <form id="forgot-form" {{ bindAttr class=":otp-form hasError:error" }}>
+            <form id="forgot-form" {{ bind-attr class=":otp-form hasError:error" }}>
               {{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
               <button {{action "otpSubmit"}} type="button">Continue To Dashboard</button>
             </form>

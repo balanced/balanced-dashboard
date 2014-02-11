@@ -26,20 +26,20 @@
         <tr>
             <td class="span3 date">
                 {{#link-to "customers" customer}}<span>
-                    <time {{bindAttr datetime="customer.created_at"}} {{bindAttr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at }}</time>
+                    <time {{bind-attr datetime="customer.created_at"}} {{bind-attr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at }}</time>
                 </span>{{/link-to}}
             </td>
-            <td class="span3 name" {{bindAttr title="customer.display_me"}}>
+            <td class="span3 name" {{bind-attr title="customer.display_me"}}>
                 {{#link-to "customers" customer}}<span>
                     {{ customer.display_me }}
                 </span>{{/link-to}}
             </td>
-            <td class="span3 business_name" {{bindAttr title="customer.business_name"}}>
+            <td class="span3 business_name" {{bind-attr title="customer.business_name"}}>
                 {{#link-to "customers" customer}}<span>
                     {{ customer.business_name }}
                 </span>{{/link-to}}
             </td>
-            <td class="span6 email" {{bindAttr title="customer.email"}}>
+            <td class="span6 email" {{bind-attr title="customer.email"}}>
                 {{#link-to "customers" customer}}<span>
                     {{ customer.email }}
                 </span>{{/link-to}}

@@ -5,7 +5,7 @@
           {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
               {{#if user_marketplace.production }}
             <li class="label2a">
-              {{#linkTo 'activity' user_marketplace.id }}{{user_marketplace.name}}{{/linkTo}}
+              {{#link-to 'activity' user_marketplace.id }}{{user_marketplace.name}}{{/link-to}}
             </li>
           {{/if}}
           {{/each}}
@@ -17,13 +17,13 @@
             {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
                 {{#unless user_marketplace.production }}
                     <li class="label2a">
-                        {{#linkTo 'activity' user_marketplace.id }}{{user_marketplace.name}}{{/linkTo}}
+                        {{#link-to 'activity' user_marketplace.id }}{{user_marketplace.name}}{{/link-to}}
                     </li>
                 {{/unless}}
             {{/each}}
         </ul>
     </li>
     {{#unless Balanced.Auth.isGuest}}
-    <li class="new label2d manage-marketplaces">{{#linkTo 'marketplaces' }}Manage marketplaces{{/linkTo}}</li>
+    <li class="new label2d manage-marketplaces">{{#link-to 'marketplaces' }}Manage marketplaces{{/link-to}}</li>
     {{/unless}}
 </ul>

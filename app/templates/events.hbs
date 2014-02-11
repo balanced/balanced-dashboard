@@ -25,7 +25,7 @@
 			<div class="control-group">
 				<label class="control-label">Reference #</label>
 				<div class="controls">
-					<span class="inline-label">{{#linkTo model.transaction.route_name model.transaction }}{{ model.entity.transaction_number }}{{/linkTo}}</span>
+					<span class="inline-label">{{#link-to model.transaction.route_name model.transaction }}{{ model.entity.transaction_number }}{{/link-to}}</span>
 				</div>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 	<header>
 	  <h3>Event data</h3>
 	</header>
-	{{view Balanced.PrettyPrintView contentBinding=controller.eventData}}
+	{{view Balanced.PrettyPrintView contentBinding="controller.eventData"}}
 </section>
 
 <section class="webhook-info">
@@ -45,7 +45,7 @@
 	</header>
 	<ul class="webhooks">
 		{{#each eventCallback in model.eventCallbacks}}
-			<li {{bindAttr class="eventCallback.status"}}>
+			<li {{bind-attr class="eventCallback.status"}}>
 				<div class="summary">
 					<div class="state">{{eventCallback.status}}</div>
 					<div class="url">

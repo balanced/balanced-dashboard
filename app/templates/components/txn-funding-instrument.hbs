@@ -4,7 +4,7 @@
       <h3>
         {{#if funding_instrument}}
         {{funding_instrument.type_name}}: <a href="#" {{action toggleFundingInstrumentDetails}}>{{funding_instrument.description}}</a>
-        <a href="#" {{bindAttr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
+        <a href="#" {{bind-attr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
         {{/if}}
       </h3>
     </header>
@@ -13,7 +13,7 @@
       {{#if funding_instrument.is_bank_account}}
         <div class="key-value-row">
           <label class="key">Account #</label>
-          <span class="value">{{#linkTo funding_instrument.route_name funding_instrument}} {{ funding_instrument.account_number }} {{/linkTo}}</span>
+          <span class="value">{{#link-to funding_instrument.route_name funding_instrument}} {{ funding_instrument.account_number }} {{/link-to}}</span>
         </div>
         <div class="key-value-row">
           <label class="key">Routing #</label>
@@ -42,7 +42,7 @@
       {{else}}
         <div class="key-value-row">
           <label class="key">Card #</label>
-          <span class="value">{{#linkTo funding_instrument.route_name funding_instrument}} {{ funding_instrument.number }} {{/linkTo}}</span>
+          <span class="value">{{#link-to funding_instrument.route_name funding_instrument}} {{ funding_instrument.number }} {{/link-to}}</span>
         </div>
         <div class="key-value-row">
           <label class="key">Created</label>

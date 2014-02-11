@@ -244,9 +244,9 @@
 
       <div class="items-wrapper">
 		{{#if results.isDisputeType}}
-			{{view Balanced.DisputesResultsView disputesBinding=results hideDateSort=true}}
+			{{view Balanced.DisputesResultsView disputesBinding="results" hideDateSort=true}}
 		{{else}}
-			{{view Balanced.TransactionsResultsView transactionsBinding=results hideDateSort=true}}
+			{{view Balanced.TransactionsResultsView transactionsBinding="results" hideDateSort=true}}
 		{{/if}}
       </div>
     </div>

@@ -30,22 +30,22 @@
 	    {{/if}}
 
 	    <div class="section-banner-header special-rollover"><a href="#" {{action toggleOptionalFields}}>
-		    <div {{bindAttr class=":disclosure-button optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
+		    <div {{bind-attr class=":disclosure-button optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
         <p><strong>Additional info</strong> (all fields are optional)</p></a>
       </div>
 
     	{{#if optionalFieldsOpen}}
-	    	{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 1)" field="address.line1" helpBinding=street_address_label recommendedField=true }}
-        {{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 2)" field="address.line2" helpBinding=street_address_label recommendedField=true }}
+	    	{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 1)" field="address.line1" helpBinding="street_address_label" recommendedField=true }}
+        {{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 2)" field="address.line2" helpBinding="street_address_label" recommendedField=true }}
 	    	{{view Balanced.ControlGroupFieldView placeholder="City" field="address.city" help="Enter the city. " recommendedField=true }}
-	    	<div {{bindAttr class=":control-group model.validationErrors.address.country_code:error"}}>
+	    	<div {{bind-attr class=":control-group model.validationErrors.address.country_code:error"}}>
 		        {{view Balanced.CountrySelectView valueBinding="address.country_code"}}
 	            <label class="control-label">Enter the country. <span class="recommended-field">Recommended field</span></label>
 	        </div>
 	    	{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.state" help="Enter the state or province. " recommendedField=true }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter the postal code. " recommendedField=true }}
 	        {{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true }}
-	        <div {{bindAttr class=":control-group model.dob_error:error"}}>
+	        <div {{bind-attr class=":control-group model.dob_error:error"}}>
 		        {{view Ember.TextField valueBinding="model.dob_month" name="dob_month" class="span2" placeholder="MM"}}
 	            {{view Ember.TextField valueBinding="model.dob_year" name="dob_year" class="span2" placeholder="YYYY"}}
 	            <label class="control-label">Enter the date of birth. <span class="recommended-field">Recommended field</span></label>
@@ -60,7 +60,7 @@
 	        <span class="loader loading"></span> <span class="message">Adding...</span>
 	    {{else}}
 	    	<div class="actions">
-		        <button class="btn" {{ action save }} {{bindAttr disabled="isSaving"}}>{{submitTitle}}</button>
+		        <button class="btn" {{ action save }} {{bind-attr disabled="isSaving"}}>{{submitTitle}}</button>
 	        </div>
 	    {{/if}}
 

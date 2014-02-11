@@ -14,7 +14,7 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.bank_account_uri:error"}}>
+            <div {{bind-attr class=":control-group model.validationErrors.bank_account_uri:error"}}>
                 <label class="control-label">Account number</label>
                 <div class="controls">
                     {{view Ember.Select
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.amount:error"}}>
+            <div {{bind-attr class=":control-group model.validationErrors.amount:error"}}>
                 <label class="control-label">Amount</label>
                 <div class="controls">
                     <div class="input-prepend">
@@ -52,14 +52,14 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.appears_on_statement_as:error"}}>
+            <div {{bind-attr class=":control-group model.validationErrors.appears_on_statement_as:error"}}>
                 <label class="control-label">Appears on statement as ({{selected_funding_instrument.appears_on_statement_max_length}} characters max)</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="selected_funding_instrument.appears_on_statement_max_length"}}
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.description:error"}}>
+            <div {{bind-attr class=":control-group model.validationErrors.description:error"}}>
                 <label class="control-label">Internal Description</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="model.description" name="description" class="full" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}

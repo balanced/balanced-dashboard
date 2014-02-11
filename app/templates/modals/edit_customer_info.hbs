@@ -17,25 +17,25 @@
               <p class="modal-informational-content fields-header"><strong>Basic info</strong> (all fields are optional)</p>
             </div>
             <div class="modal-content">
-            <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
                 <label class="control-label">Name</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
                 </div>
             </div>
-            <div {{bindAttr class=":control-group view.model.validationErrors.email:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.email:error"}}>
                 <label class="control-label">Email</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.email" name="email" class="full"}}
                 </div>
             </div>
-            <div {{bindAttr class=":control-group view.model.validationErrors.business_name:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.business_name:error"}}>
                 <label class="control-label">Business Name</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.business_name" name="business_name" class="full"}}
                 </div>
             </div>
-            <div {{bindAttr class=":control-group view.model.validationErrors.ein:error"}}>
+            <div {{bind-attr class=":control-group view.model.validationErrors.ein:error"}}>
                 <label class="control-label">EIN #</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="view.model.ein" name="ein" class="full"}}
@@ -43,60 +43,60 @@
             </div>
             </div>
             <div class="modal-informational modal-informational-light special-rollover"><a href="#" class="more-info" {{action toggleOptionalFields target="view"}}>
-                <div {{bindAttr class=":disclosure-button view.optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
+                <div {{bind-attr class=":disclosure-button view.optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
                 <p class="modal-informational-content fields-header"><strong>Additional info</strong> (all fields are optional)</p></a>
             </div>
-            <div {{bindAttr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.line1:error"}}>
+            <div {{bind-attr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.address.line1:error"}}>
                     <label class="control-label">Street address (line 1)</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.address.line1" name="line1" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.line2:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.address.line2:error"}}>
                     <label class="control-label">Street address (line 2)</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.address.line2" name="line2" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.city:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.address.city:error"}}>
                     <label class="control-label">City</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.address.city" name="city" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.state:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.address.state:error"}}>
                     <label class="control-label">State or Province</label>
                     <div class="controls">
                       {{view Ember.TextField valueBinding="view.model.address.state" name="state" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.country_code:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.address.country_code:error"}}>
                     <label class="control-label">Country</label>
                     <div class="controls">
                         {{view Balanced.CountrySelectView valueBinding="view.model.address.country_code" name="country_code" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.address.postal_code:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.address.postal_code:error"}}>
                     <label class="control-label">Postal code</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.address.postal_code" name="postal_code" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.phone:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.phone:error"}}>
                     <label class="control-label">Phone number</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.phone" name="phone" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.dob_error:error"}}>
+                <div {{bind-attr class=":control-group view.model.dob_error:error"}}>
                     <label class="control-label">Date of Birth</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.dob_month" name="dob_month" class="span2" placeholder="Month"}}
                         {{view Ember.TextField valueBinding="view.model.dob_year" name="dob_year" class="span2" placeholder="Year"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.ssn_last4:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.ssn_last4:error"}}>
                     <label class="control-label">SSN # (last 4 digits)</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.ssn_last4" name="ssn_last4" class="full"}}
@@ -104,13 +104,13 @@
                 </div>
 
                 {{#unless view.marketplaceOwner}}
-                <div {{bindAttr class=":control-group view.model.validationErrors.facebook:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.facebook:error"}}>
                     <label class="control-label">Facebook ID</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.meta.facebook" name="facebook" class="full"}}
                     </div>
                 </div>
-                <div {{bindAttr class=":control-group view.model.validationErrors.twitter:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.twitter:error"}}>
                     <label class="control-label">Twitter ID</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.meta.twitter" name="twitter" class="full"}}

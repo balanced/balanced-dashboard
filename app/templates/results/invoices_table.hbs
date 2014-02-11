@@ -27,34 +27,34 @@
     {{#each invoice in results}}
         <tr>
             <td class="span4 black">
-                {{#linkTo 'invoices.invoice' invoice}}
+                {{#link-to 'invoices.invoice' invoice}}
                 <span>{{humanReadableDateShort invoice.created_at }}</span>
-                {{/linkTo}}
+                {{/link-to}}
             </td>
             <td class="span2 black">
-                {{#linkTo 'invoices.invoice' invoice}}
+                {{#link-to 'invoices.invoice' invoice}}
                 {{ invoice.sequence_number }}
-                {{/linkTo}}
+                {{/link-to}}
             </td>
             <td class="span5 black">
-                {{#linkTo 'invoices.invoice' invoice}}
+                {{#link-to 'invoices.invoice' invoice}}
                 {{humanReadableDateShort invoice.from_date }}
-                {{/linkTo}}
+                {{/link-to}}
             </td>
             <td class="span5 black">
-                {{#linkTo 'invoices.invoice' invoice}}
+                {{#link-to 'invoices.invoice' invoice}}
                 {{humanReadableDateShort invoice.to_date }}
-                {{/linkTo}}
+                {{/link-to}}
             </td>
             <td class="span2 black amount">
-                {{#linkTo 'invoices.invoice' invoice}}
+                {{#link-to 'invoices.invoice' invoice}}
                 {{formatCurrency invoice.total_fee }}
-                {{/linkTo}}
+                {{/link-to}}
             </td>
             <td class="span2 black status">
-                {{#linkTo 'invoices.invoice' invoice}}
+                {{#link-to 'invoices.invoice' invoice}}
                 {{ invoice.state }}
-                {{/linkTo}}
+                {{/link-to}}
             </td>
         </tr>
     {{else}}

@@ -1,4 +1,4 @@
-<header id="header" {{ bindAttr class=":container headerClass"}}>
+<header id="header" {{ bind-attr class=":container headerClass"}}>
     <div class="row">
         <div id="logo" class="span2">
             <a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
@@ -26,8 +26,8 @@
             <h1>WELCOME to BALANCED</h1>
             <p class="label1a">Manage your customers and transactions, from charging buyers<br>
                 to paying sellers.
-                {{#linkTo 'activity' model class="linky"}}Get started by trying
-                    out the dashboard.{{/linkTo}}
+                {{#link-to 'activity' model class="linky"}}Get started by trying
+                    out the dashboard.{{/link-to}}
             </p>
             <div class="api-key">
                 <span class="title">API Key</span>
