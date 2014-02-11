@@ -19,7 +19,7 @@ test('exist on the activity page', function(assert) {
 
 	visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes')
 		.then(function() {
-			assert.equal($('table.disputes tbody').length, 1, 'Correct Rows');
+			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct Rows');
 		})
 		.checkElements(activityDisputesPage, assert);
 });

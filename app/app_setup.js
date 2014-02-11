@@ -23,6 +23,12 @@ window.setupBalanced = function(divSelector) {
 		}
 	});
 
+	if (!window.TESTING) {
+		// Defer the readiness until we know about login session
+		window.Balanced.deferReadiness();
+	}
+
+
 	window.Balanced.onLoad = function() {
 		//  initialize anything that needs to be done on application load
 		Balanced.Analytics.init(Ember.ENV.BALANCED);
@@ -31,7 +37,25 @@ window.setupBalanced = function(divSelector) {
 		$.fn.modal.defaults.manager = divSelector;
 	};
 
+	// Call the setup functions
 	_.each(window.balancedSetupFunctions, function(setupFunction) {
 		setupFunction();
 	});
+
+	if (!window.TESTING) {
+		// Get the current login if logged in
+		window.Balanced.Auth.getCurrentLogin().always(function() {
+			// Advance the readiness
+			window.Balanced.advanceReadiness();
+		}).done(function() {
+			// Trigger Sign In Transition Event manually
+			// Delay it for 200ms to give time for any
+			// transition to finish loading
+			_.delay(function() {
+				window.Balanced.Auth.trigger('signInTransition');
+			}, 200);
+		});
+
+		window.Balanced.NET.loadCSRFTokenIfNotLoaded();
+	}
 };

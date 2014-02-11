@@ -11,7 +11,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			return;
 		}
 
-		return Balanced.NET.loadCSRFToken().then(function(response, status, jqxhr) {
+		return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
 			return Balanced.Auth.rememberMeSignIn();
 		});
 	},
