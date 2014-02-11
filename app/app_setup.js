@@ -23,8 +23,10 @@ window.setupBalanced = function(divSelector) {
 		}
 	});
 
-	// Defer the readiness until we know about login session
-	window.Balanced.deferReadiness();
+	if (!window.TESTING) {
+		// Defer the readiness until we know about login session
+		window.Balanced.deferReadiness();
+	}
 
 
 	window.Balanced.onLoad = function() {
