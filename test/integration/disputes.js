@@ -31,7 +31,7 @@ test('exist on the activity page', function(assert) {
 		.checkElements(activityDisputesPage, assert)
 		.click('#activity .results table.disputes tfoot td.load-more-results a')
 		.then(function() {
-			assert.ok($('#activity .results table.disputes tbody tr').length >= 4, 'has 4 disputes');
+			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
 		});
 });
 
