@@ -40,10 +40,20 @@ window.setupBalanced = function(divSelector) {
 		setupFunction();
 	});
 
-	// Get the current login if logged in
-	window.Balanced.Auth.getCurrentLogin().always(function() {
-		// Advance the readiness
-		window.Balanced.advanceReadiness();
-	});
-	window.Balanced.NET.loadCSRFTokenIfNotLoaded();
+	if (!window.TESTING) {
+		// Get the current login if logged in
+		window.Balanced.Auth.getCurrentLogin().always(function() {
+			// Advance the readiness
+			window.Balanced.advanceReadiness();
+		}).done(function() {
+			// Trigger Sign In Transition Event manually
+			// Delay it for 200ms to give time for any
+			// transition to finish loading
+			_.delay(function() {
+				window.Balanced.Auth.trigger('signInTransition');
+			}, 200);
+		});
+
+		window.Balanced.NET.loadCSRFTokenIfNotLoaded();
+	}
 };

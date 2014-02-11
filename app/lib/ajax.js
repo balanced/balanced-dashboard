@@ -12,7 +12,7 @@ Balanced.NET = (function() {
 			});
 		},
 		loadCSRFTokenIfNotLoaded: function(fn) {
-			fn = fn || _.identity;
+			fn = fn || function() {};
 
 			if (!Balanced.NET.csrfToken) {
 				return this.loadCSRFToken().success(fn);
