@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="offset2 span20">
                     <h1>Claim your account</h1>
-                    <form id="claim-form" {{ bindAttr class=":full-page-form signUpError:error" }}>
+                    <form id="claim-form" {{ bindAttr class=":full-page-form signUpError:error" }} {{action signUp content on="submit"}}>
                         <fieldset>
                         <legend>Login info</legend>
 
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="actions">
-                            <button class="btn" {{action signUp content}}>Submit</button>
+                            <button class="btn" type="submit">Submit</button>
                         </div>
                         </fieldset>
                     </form>
