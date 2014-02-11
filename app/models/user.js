@@ -10,6 +10,10 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 		return Balanced.Utils.toGravatar(emailHash);
 	}.property('email_hash'),
 
+	multiFactorAuthUri: function() {
+		return ENV.BALANCED.AUTH + '/users/' + this.get('id') + '/otp';
+	}.property(),
+
 	validations: {
 		email_address: {
 			presence: true,

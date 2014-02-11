@@ -19,9 +19,22 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 				this.transitionToRoute('activity.customers');
 			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 				this.transitionToRoute('activity.funding_instruments');
+			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
+				this.transitionToRoute('activity.disputes');
 			}
 		}
-	}
+	},
+
+	results_uri: function() {
+		if (this.get('type') === 'dispute') {
+			return '/disputes';
+		}
+
+		return Balanced.Utils.applyUriFilters(
+			this.get('results_base_uri'),
+			this.get('search_params')
+		);
+	}.property('type', 'results_base_uri', 'search_params')
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
@@ -51,6 +64,8 @@ Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControll
 	allowSortByNone: false,
 	noDownloadsUri: true
 });
+
+Balanced.ActivityDisputesController = Balanced.NestedActivityResultsControllers.extend({});
 
 Balanced.ActivityOrdersController = Balanced.NestedActivityResultsControllers.extend({});
 

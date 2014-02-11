@@ -5,6 +5,7 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
+	// disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
@@ -26,6 +27,10 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	// TODO - take this out once marketplace has a link to invoices list
 	invoices_uri: function() {
 		return '/invoices';
+	}.property('uri'),
+
+	disputes_uri: function() {
+		return '/disputes';
 	}.property('uri'),
 
 	populateWithTestTransactions: function() {
