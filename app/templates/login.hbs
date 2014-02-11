@@ -6,14 +6,14 @@
           <div {{ bindAttr class=":offset9 :span8 otpRequired:hidden" }}>
             <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
-            <form id="auth-form" {{ bindAttr class="loginError:error" }}>
+            <form id="auth-form" method="POST" {{ bindAttr class="loginError:error" }} {{action "signIn" on="submit"}}>
               {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
               {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
               <div class="clear"></div>
 
               {{#linkTo "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/linkTo}}
 
-              <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
+              <button class="pull-right" type="submit">Sign In</button>
             </form>
 
             {{#if loginError}}
@@ -29,9 +29,9 @@
 
             <div class="auth">Enter the authentication code below.</div>
 
-            <form id="forgot-form" {{ bindAttr class=":otp-form hasError:error" }}>
+            <form id="forgot-form" {{ bindAttr class=":otp-form hasError:error" }} {{action "otpSubmit" on="submit"}}>
               {{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
-              <button {{action "otpSubmit"}} type="button">Continue To Dashboard</button>
+              <button type="submit">Continue To Dashboard</button>
             </form>
           </div>
         </div>
