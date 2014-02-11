@@ -145,12 +145,18 @@ Balanced.Auth = (function() {
 			return;
 		}
 
-		_.each(extensions, function(val, key) {
-			$.getScript(key);
+		var exts = _.map(extensions, function(val, key) {
+			return $.getScript(key);
 		});
+
+		// Ember.RSVP.all(exts).then(_.bind(auth.loadAdminExtension, auth));
 	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT');
 
 	auth.loadAdminExtension = function() {
+		if (!auth.get('user') || !auth.get('signInTransitionCalled')) {
+			return;
+		}
+
 		var admin = 'balanced-admin';
 		if (auth.get('user.admin') && !Balanced.Shapeshifter.isLoaded(admin)) {
 			Balanced.Shapeshifter.load(admin);
