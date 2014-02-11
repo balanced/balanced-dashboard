@@ -8,6 +8,14 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	baseClassSelector: '#activity',
 	noDownloadsUri: true,
 
+	refreshMarketplace: _.debounce(function() {
+		Balanced.currentMarketplace.reload();
+	}, 500),
+
+	refresh: function() {
+		this.refreshMarketplace();
+	},
+
 	actions: {
 		changeTypeFilter: function(type) {
 			this.set('type', type);
@@ -26,6 +34,8 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 				this.transitionToRoute('activity.disputes');
 			}
+
+			this.refreshMarketplace();
 		}
 	},
 
