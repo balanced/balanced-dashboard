@@ -1,6 +1,7 @@
 module('Balanced.Model', {
 	setup: function() {
 		Testing.setupFixtures();
+
 		Balanced.TestModel = Balanced.Model.extend({
 			basic_field: 1,
 			derived_field: function() {
@@ -94,6 +95,8 @@ test('create promises work if the model was previously invalid', function(assert
 
 	Ember.run(function() {
 		t.save().then(function(model) {
+			assert.ok(false);
+		}, function() {
 			assert.ok(true);
 		});
 	});
