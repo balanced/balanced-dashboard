@@ -1,4 +1,4 @@
-Balanced.LoadingRoute = Ember.Route.extend({
+Balanced.LoadingRoute = Balanced.Route.extend({
 	deactivate: function() {
 		var timer = this.get('timer');
 		if (timer) {
