@@ -7,11 +7,11 @@
         {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
     </tr>
 </thead>
-{{#if view.dispute.hasNextPage}}
+{{#if view.disputes.hasNextPage}}
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if view.dispute.loadingNextPage }}
+            {{#if view.disputes.loadingNextPage }}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>

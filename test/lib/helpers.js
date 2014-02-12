@@ -28,6 +28,20 @@ Balanced.Test.asyncHelpers = {
 				assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
 			}
 		});
+
+		return wait();
+	},
+	submitForm: function(app, form) {
+		var formEl = find(form);
+
+		var $form = $(formEl);
+		if (!$form.length) {
+			throw new Error('Element ' + form + ' not found.');
+		}
+
+		$form.submit();
+
+		return wait();
 	}
 };
 

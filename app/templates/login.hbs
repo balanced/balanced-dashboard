@@ -1,41 +1,39 @@
 <section id="main" class="container">
-  <div id="login">
-    <div class="row">
-      <div id="content" class="span26">
-        <div class="row">
-          <div {{ bind-attr class=":offset9 :span8 otpRequired:hidden" }}>
-            <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
+	<div id="login">
+		<div class="row">
+			<div id="content" class="span26">
+				<div class="row">
+					<div {{ bind-attr class=":offset9 :span8 otpRequired:hidden" }}>
+						<a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
+						<form id="auth-form" method="POST" {{ bind-attr class="loginError:error" }} {{action "signIn" on="submit"}}>
+							{{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
+							{{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
+							<div class="clear"></div>
 
-            <form id="auth-form" {{ bind-attr class="loginError:error" }}>
-              {{view Ember.TextField type="email" name="email" valueBinding="email" placeholder="Email"}}
-              {{view Ember.TextField type="password" name="password" valueBinding="password" placeholder="Password" action="signIn"}}
-              <div class="clear"></div>
+							{{#link-to "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/link-to}}
 
-              {{#link-to "forgotPassword" class="pull-left forgot-password" }}Forgot password?{{/link-to}}
+							<button class="pull-right" type="submit">Sign In</button>
+						</form>
 
-              <button class="pull-right" {{action "signIn"}} type="button">Sign In</button>
-            </form>
+						{{#if loginError}}
+						<div class="alert alert-error">
+							{{loginResponse}}
+						</div>
+						{{/if}}
 
-            {{#if loginError}}
-              <div class="alert alert-error">
-                {{loginResponse}}
-              </div>
-            {{/if}}
+						<p class="label4b" id="get-started">New to Balanced? <a href="#/start" class="linky">Click here to get started</a>.</p>
+					</div>
+					<div {{ bind-attr class=":offset9 :span8 hasError:error otpRequired::hidden" }}>
+						<a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
 
-            <p class="label4b" id="get-started">New to Balanced? <a href="#/start" class="linky">Click here to get started</a>.</p>
-          </div>
-          <div {{ bind-attr class=":offset9 :span8 hasError:error otpRequired::hidden" }}>
-            <a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
-
-            <div class="auth">Enter the authentication code below.</div>
-
-            <form id="forgot-form" {{ bind-attr class=":otp-form hasError:error" }}>
-              {{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
-              <button {{action "otpSubmit"}} type="button">Continue To Dashboard</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+						<div class="auth">Enter the authentication code below.</div>
+						<form id="forgot-form" {{ bind-attr class=":otp-form hasError:error" }} {{action "otpSubmit" on="submit"}}>
+							{{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
+							<button type="submit">Continue To Dashboard</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
