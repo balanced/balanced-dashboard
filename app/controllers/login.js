@@ -94,11 +94,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				// For now tho:
 				self.afterLogin();
 			}, function(jqxhr, status, message) {
-			console.log('login failed');
-			console.log(message);
-			console.log(status);
-			console.log(jqxhr);
-
 				self.focus();
 				self.set('password', null);
 
