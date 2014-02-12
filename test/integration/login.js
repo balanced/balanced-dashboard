@@ -19,7 +19,19 @@ test('login page exists and has correct fields', function(assert) {
 		.then(function() {
 			assert.equal(spy.callCount, 1, 'Login form correctly validated missing information.');
 			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".alert.alert-error").text().toLowerCase().indexOf('is required') > 0, 'Has error text');
+			assert.ok($(".alert.alert-error").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
+		});
+});
+
+test('login form submits correctly', function(assert) {
+	var spy = sinon.spy(Balanced.Auth, '_doSignIn');
+
+	visit('/login')
+		.submitForm('form#auth-form')
+		.then(function() {
+			assert.equal(spy.callCount, 1, 'Login form correctly validated missing information.');
+			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
+			assert.ok($(".alert.alert-error").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
 		});
 });
 
@@ -36,6 +48,6 @@ test('login page works', function(assert) {
 		.then(function() {
 			assert.equal(spy.callCount, 1, 'Login form correctly errored.');
 			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".alert.alert-error").text().toLowerCase().indexOf('invalid') > 0, 'Has error text');
+			assert.ok($(".alert.alert-error").text().trim().toLowerCase().indexOf('invalid') >= 0, 'Has error text');
 		});
 });
