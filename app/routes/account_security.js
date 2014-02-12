@@ -1,4 +1,4 @@
-var NOT_ALLOWED_ROUTES = ['shapeshifter'];
+var NOT_ALLOWED_ROUTES = ['shapeshifter', 'login', 'logout', 'claim', 'apply'];
 
 Balanced.AccountSecurityRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Account Security',
@@ -27,22 +27,23 @@ Balanced.AccountSecurityRoute = Balanced.AuthRoute.extend({
 		}
 
 		var previousHandler = currentHandlerInfos[currentHandlerInfos.length - 1];
-		if (NOT_ALLOWED_ROUTES.indexOf(previousHandler.name) >= 0) {
-			this.previousHandler = null;
-			return;
-		}
-
 		this.previousHandler = previousHandler;
 	},
 
 	goBack: function() {
 		var name = this.previousHandler && this.previousHandler.name;
 
+		if (NOT_ALLOWED_ROUTES.indexOf(name) >= 0) {
+			name = null;
+		}
+
 		if (!name) {
 			name = 'marketplaces';
 			return;
 		}
 
+		// If context is undefined, EmberJS errors out
+		// because it checks the arugments array
 		if (this.previousHandler.context) {
 			this.transitionTo(name, this.previousHandler.context);
 		} else {
