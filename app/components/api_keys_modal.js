@@ -1,6 +1,8 @@
 require('app/components/modal');
 
 Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
+	modalElement: '#api-keys',
+
 	keys: [],
 
 	addedKeys: [],
