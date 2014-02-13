@@ -41,6 +41,15 @@ var Testing = {
 		this.isStopped = false;
 	},
 
+	pause: function(number) {
+		if (!number) {
+			number = 1000;
+		}
+
+		this.stop();
+		_.delay(_.bind(this.start, this), number);
+	},
+
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
 		$('#marketplaces ul a:contains("' + name + '")').click();
@@ -305,10 +314,6 @@ var Testing = {
 		});
 	},
 
-	waitForSearch: function() {
-
-	},
-
 	createDispute: function() {
 		var _this = this;
 		// Call stop to stop executing the tests before
@@ -327,13 +332,7 @@ var Testing = {
 		Ember.run(function() {
 			var i = number;
 			while (i > 0) {
-				var debit = _this._createDebit();
-				console.log(i, debit);
-				debit.then(function() {
-					console.log(i, 'sucess', arguments);
-				}, function() {
-					console.log(i, 'fail');
-				})
+				_this._createDebit();
 				i--;
 			}
 		});
