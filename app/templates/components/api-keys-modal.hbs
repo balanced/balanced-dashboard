@@ -1,0 +1,77 @@
+<style type="text/css">
+	#api-keys {
+		width: 800px;
+		margin-left: -400px;
+	}
+	#api-keys input.key-name-input {
+		display: inline;
+		font-size: 14px;
+	}
+</style>
+<div class="modal hide" id="api-keys">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Manage API Keys</h2>
+	</div>
+	<div class="modal-body">
+		<p>View the Secret of your current key:</p>
+		<span>
+			{{#if view.keySecret }}
+				{{marketplaceSecret}}
+			{{else}}
+				<a href="#" {{action showKeySecret}}>Click to show</a>
+			{{/if}}
+		</span>
+		<br>
+		<table class="items">
+			<thead>
+				<tr>
+					<th class="span3">Created </th>
+					<th class="span5">Name </th>
+					<th class="span6">ID </th>
+					<th class="span1">Delete? </th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each key in keys}}
+					<tr>
+						<td class="span3">{{humanReadableDateShort key.created_at}}</td>
+						<td class="span5">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
+						<td class="span6">{{key.id}}</td>
+						<td class="span1"><a href="#" {{action "delete" key}}>X</a></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+		<br>
+		{{#if addedKeys}}
+			<p>Keys you just created. Copy their secret, this is your only chance to see it</p>
+			<table class="items">
+				<thead>
+					<tr>
+						<th class="span3">Name </th>
+						<th class="span4">ID </th>
+						<th class="span7">Secret </th>
+						<th class="span1">Delete? </th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each key in addedKeys}}
+						<tr>
+							<td class="span3">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
+							<td class="span4">{{key.id}}</td>
+							<td class="span7">{{key.secret}}</td>
+							<td class="span1"><a href="#" {{action "delete" key}}>X</a></td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		{{/if}}
+		<br>
+		<form {{action createKey on="submit"}}>
+		{{input type="text" placeholder="New Key Name (optional)" value=keyName class="key-name-input full"}}
+		<button type="submit" href="#" {{action createKey}}>Create New Key</a>
+		</form>
+	</div>
+</div>
+<a href="#" class="add" {{action open}}>Show Keys</a>
