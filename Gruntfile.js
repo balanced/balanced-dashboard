@@ -512,7 +512,14 @@ module.exports = function(grunt) {
 					'Gruntfile.js',
 					'app/**/*.js',
 					'test/**/*.js',
-					'!test/support/lib/*.js'
+					'!test/support/lib/*.js',
+					'bower.json',
+					'karma.conf.js',
+					'.bowerrc',
+					'.jsbeautifyrc',
+					'.jshintrc',
+					'package.json',
+					'npm-shrinkwrap.json'
 				],
 			},
 			update: {
@@ -523,7 +530,14 @@ module.exports = function(grunt) {
 					'Gruntfile.js',
 					'app/**/*.js',
 					'test/**/*.js',
-					'!test/support/lib/*.js'
+					'!test/support/lib/*.js',
+					'bower.json',
+					'karma.conf.js',
+					'.bowerrc',
+					'.jsbeautifyrc',
+					'.jshintrc',
+					'package.json',
+					'npm-shrinkwrap.json'
 				],
 			}
 		},
