@@ -29,9 +29,7 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 			key.delete();
 			var addedIndex = this.addedKeys.indexOf(key);
 			if(addedIndex >= 0) {
-				// this.addedKeys.arrayContentWillChange(addedIndex, 1, 0);
 				this.addedKeys.removeObject(key);
-				// this.addedKeys.arrayContentDidChange(addedIndex, 1, 0);
 			}
 		},
 		createKey: function() {
@@ -42,16 +40,8 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 				}
 			}).save()
 				.then(function(newKey) {
-					// self.addedKeys.arrayContentWillChange(self.addedKeys.length, 0, 1);
 					self.addedKeys.pushObject(newKey);
-					// self.addedKeys.arrayContentDidChange(self.addedKeys.length, 0, 1);
 					self.set('keyName', '');
-					// var addedKeys = [];
-					// $.each(self.addedKeys, function(i, key) {
-					// 	addedKeys.push(key);
-					// });
-					// addedKeys.push(newKey);
-					// self.set('addedKeys', addedKeys);
 				});
 		},
 		showKeySecret: function() {
