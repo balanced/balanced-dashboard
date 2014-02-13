@@ -515,9 +515,6 @@ module.exports = function(grunt) {
 					'!test/support/lib/*.js',
 					'bower.json',
 					'karma.conf.js',
-					'.bowerrc',
-					'.jsbeautifyrc',
-					'.jshintrc',
 					'package.json',
 					'npm-shrinkwrap.json'
 				],
@@ -533,9 +530,6 @@ module.exports = function(grunt) {
 					'!test/support/lib/*.js',
 					'bower.json',
 					'karma.conf.js',
-					'.bowerrc',
-					'.jsbeautifyrc',
-					'.jshintrc',
 					'package.json',
 					'npm-shrinkwrap.json'
 				],
