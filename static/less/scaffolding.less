@@ -1,12 +1,18 @@
-@import "/static/less/variables.less";
-@import "/static/less/mixins.less";
-
 /*
 * Site structure
 *
 * Behold, the structure of the site. The following defines the colors, the
 * look, and the feel of the main structural components of the site.
 */
+@searchBarBackground: @black;
+@searchBoxBackground: @gray5;
+@searchBarHeight: 60px;
+@searchBoxMargin: 5px;
+@searchBoxHeight: @searchBarHeight - @searchBoxMargin * 2;
+@marketplaceNavIconSize: 50px;
+@marketplaceNavBackground: @gray2;
+@marketplaceNavColor: @gray4;
+@marketplaceNavTriangleSize: 10px;
 
 #header {
   background-color: @searchBarBackground;
@@ -38,7 +44,7 @@
     margin: 0;
 
     a {
-      color: @skyBlue100;
+      color: @egyptianBlue100;
       display: block;
       padding: 5px 15px;
       &:hover {
@@ -113,7 +119,7 @@ footer {
         display: block;
         padding: 0 10px;
         text-transform: uppercase;
-        color: @balancedGray;
+        color: @gray5;
         font-family: nimbussannovcon-med;
         font-size: 12px;
         letter-spacing: 1px;
@@ -214,7 +220,6 @@ footer {
     border-width: 5px;
   }
   &.open {
-    // background: @menuBorder;
     background:white;
     span{
       color:@black;
@@ -238,7 +243,7 @@ footer {
       }
     }
     .new {
-      background-color: @skyBlue100;
+      background-color: @egyptianBlue100;
       a {
         color: white;
         padding: 10px 15px;
@@ -386,8 +391,6 @@ footer {
 #main {
   position: relative;
 }
-
-@marketplaceNavIconSize: 50px;
 
 .marketplaceIconActiveHighlight {
   &:after {
