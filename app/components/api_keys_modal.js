@@ -21,7 +21,6 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 			});
 			self.set('keys', keys);
 		});
-		window.debug = this;
 		this._super();
 	},
 

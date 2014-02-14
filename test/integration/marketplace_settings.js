@@ -40,9 +40,10 @@ test('can manage api keys', function(assert) {
 
 			var $createKeyButton = $('.create-key-button');
 			$createKeyButton.click();
+			assert.equal($('#api-keys .added-keys tbody tr').length, 1, 'API Key can be created');
 
 			var $deleteKeyButtons = $('.confirm-delete-key');
-			$deleteKeyButtons.first().click();
+			$deleteKeyButtons.eq(1).click();
 			assert.equal($('.modal.delete-key:visible').length, 1, 'Delete Key confirmation modal should be visible');
 
 		});
