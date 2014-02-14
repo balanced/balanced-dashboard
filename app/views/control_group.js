@@ -8,10 +8,14 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 	recommendedField: false,
 
 	init: function() {
-		console.log('initing', this.get('field'), this.get('controller.content.' + this.get('field')), this.get('controller'), this.get('controller.content'));
-		this.set('value', this.get('controller.content.' + this.get('field')));
+		var field = this.get('field');
+		// this.set('value', Ember.computed.alias('controller.' + field));
+		// this.reopenClass({
+		// 	value: Ember.computed.alias('controller.' + field)
+		// });
 
-		Ember.bind(this, 'value', 'controller.content.' + this.get('field'));
+		console.log('ran init');
+		console.log(field, this, this.get('value'));
 		this._super();
 	},
 
@@ -31,18 +35,39 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 		return this.get('controller.validationErrors.' + field);
 	}.property('controller.validationErrors.length'),
 
+	// fieldKey: function() {
+	// 	return "controller." + this.get('field');
+	// },
+
+	value: function() {
+		var field = this.get('field');
+
+		console.log('nnn', arguments, field);
+
+		return this.get('controller.content').get(field)
+	}.property('field'),
+
 	// value: function() {
 	// 	var field = this.get('field');
-	// 	console.log('nnn', field, arguments);
-	// 	return this.get('controller.content.' + field);
+	// 	var spt = field.split('.');
+	// 	if (spt && spt.length > 1) {
+	// 		console.log(this.get('controller.content').get('address')[spt[1]]);
+	// 	}
+	// 	console.log('nnn', field, arguments, this.get('controller.content.' + field), this.get('controller.content'), this, _.keys(this));
+	// 	return this.get('controller.content').get(field) || this.get('controller.content').get('address')[spt];
 	// }.property(),
-
-	// valueChange: function() {
-	// 	var field = this.get('field'),
-	// 		value = this.get('value');
-	// 		console.log('vvv', field, value, arguments);
-	// 	this.get('controller.content').set(field, value);
-	// }.observes('value'),
+	//
+	valueChange: function() {
+		var field = this.get('field'),
+			value = this.get('value');
+		// var spt = field.split('.');
+		// if (spt && spt.length > 1) {
+		// 	console.log(this.get('controller.content').get('address')[spt[1]]);
+		//
+		// }
+			console.log('vvv', field, value, arguments, this.get('controller.content.' + field));
+		this.get('controller.content').set(field, value);
+	}.observes('value'),
 
 	labelForField: function() {
 		var field = this.get('field'),
