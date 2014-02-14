@@ -13,8 +13,11 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 		var self = this;
 		Balanced.APIKey.findAll().then(function(result) {
 			var keys = result.content;
+			var date1, date2;
 			keys.sort(function(k1, k2) {
-				return k1.get('created_at') > k2.get('created_at');
+				date1 = k1.get('created_at');
+				date2 = k2.get('created_at');
+				return date1 > date2 ? 1 : -1;
 			});
 			self.set('keys', keys);
 		});

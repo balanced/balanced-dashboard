@@ -14,14 +14,15 @@
         <h2>Manage API Keys</h2>
 	</div>
 	<div class="modal-body">
-		<p>View the Secret of your current key:</p>
-		<span>
-			{{#if view.keySecret }}
-				{{marketplaceSecret}}
-			{{else}}
-				<a href="#" {{action showKeySecret}}>Click to show</a>
-			{{/if}}
-		</span>
+		<p>View the Secret of your current key:
+			<span>
+				{{#if view.keySecret }}
+					{{marketplaceSecret}}
+				{{else}}
+					<a href="#" {{action showKeySecret}}>Click to show</a>
+				{{/if}}
+			</span>
+		</p>
 		<br>
 		<table class="items">
 			<thead>
@@ -72,8 +73,8 @@
 		<br>
 		<form {{action createKey on="submit"}}>
 		{{input type="text" placeholder="New Key Name (optional)" value=keyName class="key-name-input full"}}
-		<button type="submit" href="#" {{action createKey}}>Create New Key</a>
+		<button type="submit" href="#" {{action createKey}} class="create-key-button">Create New Key</a>
 		</form>
 	</div>
 </div>
-<a href="#" class="add" {{action open}}>Show Keys</a>
+<a href="#" class="show-api-keys" {{action open}}>Show Keys</a>
