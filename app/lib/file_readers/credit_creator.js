@@ -12,7 +12,6 @@ var csvFieldValidation = function(fieldName, callback) {
 Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	validateAmount: csvFieldValidation("credit.amount", function(amount) {
-		var amount = this.get("credit.amount");
 		if (amount <= 0) {
 			this.get("validationErrors").add("csvFields.amount", "must be a positive number");
 		}
@@ -180,7 +179,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	},
 
 	isCreditLoaded: function() {
-		return this.get("credit") !== undefined
+		return this.get("credit") !== undefined;
 	},
 
 	isLoaded: function() {

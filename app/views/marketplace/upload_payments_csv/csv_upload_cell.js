@@ -3,7 +3,7 @@ Balanced.CsvUploadCellView = Balanced.View.extend({
 
 	errorMessages: function() {
 		var fieldName = this.get("fieldName");
-		var errors = this.get("context.validationErrors.csvFields")
+		var errors = this.get("context.validationErrors.csvFields");
 		if (errors) {
 			errors = errors.get(fieldName);
 		}

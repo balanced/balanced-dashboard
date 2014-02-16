@@ -8,7 +8,7 @@ Balanced.ProgressBarModalComponent = Balanced.ModalComponent.extend({
 	}.property("progressPercentage"),
 
 	progressPercentage: function() {
-		return parseInt(this.get("progressFraction") * 100);
+		return parseInt(this.get("progressFraction") * 100, 10);
 	}.property("progressFraction"),
 
 	update: function(fractionValue, text) {

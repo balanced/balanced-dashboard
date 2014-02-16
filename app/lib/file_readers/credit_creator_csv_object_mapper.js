@@ -47,7 +47,7 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 	extractCreditAttributes: function(object) {
 		var amount = this.deserialize("number", object.amount);
 		if (amount) {
-			amount = parseInt(amount * 100);
+			amount = parseInt(amount * 100, 10);
 		}
 		return {
 			amount: amount,
