@@ -7,12 +7,12 @@
     <thead>
       <tr>
         <th class="label6a">bank_account_id</th>
-        <th class="label6a">new_customer_name</th>
-        <th class="label6a">new_customer_email</th>
         <th class="label6a">new_bank_account_routing_number</th>
         <th class="label6a">new_bank_account_number</th>
         <th class="label6a">new_bank_account_holders_name</th>
         <th class="label6a">new_bank_account_type</th>
+        <th class="label6a">new_customer_name</th>
+        <th class="label6a">new_customer_email</th>
         <th class="label6a">appears_on_statement_as</th>
         <th class="label6a table-column-20percent">description</th>
         <th class="label6a table-column-amount">amount</th>
@@ -22,25 +22,27 @@
     <tbody>
       {{#each view.items}}
         <tr class="table-row">
-          <td>{{csvFields.bank_account_id}}</td>
-          <td>
-            <span class="label label-error">{{csvFields.new_customer_name}}</span>
-          </td>
-          <td>{{csvFields.new_customer_email}}</td>
-          <td>{{csvFields.new_bank_account_routing_number}}</td>
-          <td>{{csvFields.new_bank_account_number}}</td>
-          <td>{{csvFields.new_bank_account_holders_name}}</td>
-          <td>{{csvFields.new_bank_account_type}}</td>
-          <td>{{csvFields.appears_on_statement_as}}</td>
-          <td>{{csvFields.description}}</td>
+          {{view Balanced.DefaultCsvUploadCellView fieldName=bank_account_id}}
 
-          <td {{bind-attr class="credit.amount:table-column-amount"}}>
-            {{#if credit.amount}}
-              {{formatCurrency csvFields.amount}}
-            {{else}}
-              {{csvFields.amount}}
-            {{/if}}
-          </td>
+          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_routing_number}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_number}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_holders_name}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_type}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName=new_customer_name}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName=new_customer_email}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName=appears_on_statement_as}}
+
+          {{view Balanced.DefaultCsvUploadCellView fieldName=description}}
+
+          {{#view Balanced.CsvUploadCellView fieldName=amount class="table-column-amount"}}
+            <span {{bind-attr class="view.cssClasses"}}>
+              {{#if credit.amount}}
+                {{formatCurrency credit.amount}}
+              {{else}}
+                {{csvFields.amount}}
+              {{/if}}
+            </span>
+          {{/view}}
 
           <td class="table-column table-column-icons">
             {{#if isInvalid}}

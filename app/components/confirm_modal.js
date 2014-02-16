@@ -2,16 +2,16 @@ require('app/components/modal');
 
 Balanced.ConfirmModalComponent = Balanced.ModalComponent.extend({
 
-	reset: function () {
+	reset: function() {
 		this.off("cancel");
 		this.off("confirm");
 	},
 
 	actions: {
-		cancel: function () {
+		cancel: function() {
 			this.trigger("cancel");
 		},
-		confirm: function () {
+		confirm: function() {
 			this.trigger("confirm");
 		}
 	}

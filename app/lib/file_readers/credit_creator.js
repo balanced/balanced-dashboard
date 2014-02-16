@@ -1,8 +1,28 @@
-var computedState = function (stateValue) {
+var computedState = function(stateValue) {
 	return Ember.computed.equal("state", stateValue);
 };
 
-Balanced.CreditCreator = Ember.Object.extend({
+var csvFieldValidation = function(fieldName, callback) {
+	return function() {
+		var value = this.get(fieldName);
+		callback.call(this, value);
+	}.observes(fieldName);
+};
+
+Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
+
+	validateAmount: csvFieldValidation("credit.amount", function(amount) {
+		var amount = this.get("credit.amount");
+		if (amount <= 0) {
+			this.get("validationErrors").add("csvFields.amount", "must be a positive number");
+		}
+	}),
+
+	validateBankAccount: csvFieldValidation("bankAccount", function(bankAccount) {
+		if (bankAccount === null) {
+			this.get("validationErrors").add("csvFields.", "must provide bank account information");
+		}
+	}),
 
 	isRemoved: function() {
 		return this.get("removed") || false;
@@ -233,8 +253,9 @@ Balanced.CreditCreator.reopenClass({
 	},
 
 	fromCsvRow: function(object) {
-		return this.create({
+		var creditCreator = this.create({
 			csvFields: object
 		});
+		return creditCreator;
 	}
 });

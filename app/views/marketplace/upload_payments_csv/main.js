@@ -68,11 +68,11 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		confirmRemoveCreditCreator: function(creator) {
 			var self = this;
 			var modal = this.get("confirmRemoveModal");
-			modal.on("cancel", function () {
+			modal.on("cancel", function() {
 				modal.send("close");
 				modal.reset();
 			});
-			modal.on("confirm", function () {
+			modal.on("confirm", function() {
 				self.get("controller").send("removeCreditCreator", creator);
 				modal.send("close");
 				modal.reset();
@@ -85,7 +85,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 			modal.send("open");
 			modal.update(0);
 
-			this.get("controller").save(function () {
+			this.get("controller").save(function() {
 				modal.send("close");
 			});
 		},

@@ -1,5 +1,4 @@
-module("Balanced.CreditCreatorsCollection", {
-});
+module("Balanced.CreditCreatorsCollection", {});
 
 test(".fromCsvText", function(assert) {
 	var text = [
@@ -68,7 +67,7 @@ test("#invalid", function(assert) {
 	});
 });
 
-test("#total", function(assert){
+test("#total", function(assert) {
 	var collection = Balanced.CreditCreatorsCollection.create({
 		content: []
 	});

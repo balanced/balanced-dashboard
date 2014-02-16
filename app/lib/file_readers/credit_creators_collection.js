@@ -6,24 +6,24 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	isInvalid: Ember.computed.gt("invalid.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
 
-	valid: function(){
+	valid: function() {
 		return this.filterBy("isInvalid", false);
 	}.property("content.@each.isInvalid", "content.length"),
 
-	invalid: function(){
+	invalid: function() {
 		return this.filterBy("isInvalid");
 	}.property("content.@each.isInvalid", "content.length"),
 
 	total: function() {
 		var total = 0;
-		this.forEach(function (item) {
+		this.forEach(function(item) {
 			var amount = item.get("amount");
 			total += amount;
 		});
 		return total;
 	}.property("content.length", "content.@each.amount"),
 
-	save: function (callback){
+	save: function(callback) {
 		var savedCredits = [];
 		var self = this;
 		var creators = this.get("content");
@@ -47,11 +47,11 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 });
 
 Balanced.CreditCreatorsCollection.reopenClass({
-	fromCsvText: function (text) {
+	fromCsvText: function(text) {
 		var reader = Balanced.CsvReader.create({
 			body: text
 		});
-		var content = reader.getObjects().map(function (row) {
+		var content = reader.getObjects().map(function(row) {
 			return Balanced.CreditCreator.fromCsvRow(row);
 		});
 		return Balanced.CreditCreatorsCollection.create({
