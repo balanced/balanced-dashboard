@@ -62,7 +62,11 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 	show_download_button: function() {
 		return this.get('controller.category') === 'search';
-	}.property('controller.category')
+	}.property('controller.category'),
+
+    show_disputes_download_button: function() {
+        return this.get('controller.category') === 'dispute';
+    }.property('controller.category')
 });
 
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
