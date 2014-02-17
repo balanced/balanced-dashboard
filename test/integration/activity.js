@@ -214,6 +214,7 @@ test('download disputes', function(assert) {
     });
 
     visit(Testing.ACTIVITY_ROUTE)
+        .click("a:contains('Disputes')")
         .click("#activity .icon-download")
         .fillIn(".download-modal.in form input[name='email']", "test@example.com")
         .click('.download-modal.in .modal-footer button[name="modal-submit"]')
