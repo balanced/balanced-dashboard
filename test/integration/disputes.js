@@ -44,6 +44,6 @@ test('can visit page', function(assert) {
 		'#dispute .transaction-details .debit .transaction-type-subheader .title': 1 // 'Succeeded: $13.30'
 	};
 
-	visit(Testing.DISPUTE_URI)
+	visit(Testing.DISPUTE_ROUTE)
 		.checkElements(disputePage, assert);
 });

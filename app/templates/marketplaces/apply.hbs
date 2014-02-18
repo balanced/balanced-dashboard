@@ -13,7 +13,7 @@
 
                     <h1 class="page-title">Apply for a Production Marketplace</h1>
 
-                    <form class="full-page-form">
+                    <form class="full-page-form" method="POST" {{action submitApplication on="submit"}}>
 
                         {{#if isGuest}}
                         <fieldset>
@@ -128,7 +128,7 @@
                                 {{#if isLoading}}
                                     <span class="loader loading"></span> <span class="message">Verifying...</span>
                                 {{else}}
-                                    <button class="btn submit" {{ action submitApplication }}>Submit</button>
+                                    <button class="btn submit" type="submit">Submit</button>
                                 {{/if}}
                             {{/view}}
                         {{/if}}

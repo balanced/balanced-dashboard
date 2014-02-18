@@ -2,6 +2,7 @@ require('app/models/transaction');
 
 Balanced.Refund = Balanced.Transaction.extend({
 	debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
+	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
 
 	type_name: function() {
 		return "Refund";
