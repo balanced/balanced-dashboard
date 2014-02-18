@@ -1,78 +1,76 @@
 <section id="main" class="container marketplaces">
-    <div class="row">
+	<div class="row">
+		<nav id="marketplace-nav" class="span2"></nav>
+		<div id="content" class="span24">
+			{{partial "alert"}}
+			<div class="row">
+				<div class="offset1 span22">
+					{{view Balanced.SearchMarketplaceView}}
 
-        <nav id="marketplace-nav" class="span2"></nav>
-
-        <div id="content" class="span24">
-          {{partial "alert"}}
-            <div class="row">
-                <div class="offset1 span22">
-                    {{view Balanced.SearchMarketplaceView}}
-
-                    <h1>Add/Remove Marketplaces</h1>
-                    <div class="marketplace-list production">
-                        <div class="label7a">Production marketplace</div>
-                            <ul>
-                                {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
-                                    {{#if user_marketplace.production }}
-                                        <li>
-                                            <div class="span2 label">
-                                                <div class="icon"></div>
-                                            </div>
-                                            <div class="info">
-                                                <h3 class="label1d name">{{#link-to 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/link-to}}</h3>
-                                            </div>
-                                        </li>
-                                    {{/if}}
-                                {{/each}}
-                                <li class="new">
-                                    <div class="span2 label">
-                                        <div class="icon"></div>
-                                    </div>
-                                    <div class="info">
-                                        {{view Balanced.AddExistingMarketplaceView}}
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="marketplace-list test">
-                            <div class="label7a">Test marketplaces</div>
-                            <ul>
-                                {{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
-                                    {{#unless user_marketplace.production }}
-                                        <li>
-                                            <a href="#" class="icon-delete" {{action promptToDeleteMarketplace user_marketplace }}>&times;</a>
-                                            <div class="icon"></div>
-                                            <div class="info">
-                                                <h3 class="label1d name">{{#link-to 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/link-to}}</h3>
-                                            </div>
-                                        </li>
-                                    {{/unless}}
-                                {{/each}}
-                                <li class="new">
-                                    <div class="icon"></div>
-                                    <div class="info">
-                                        {{view Balanced.AddTestMarketplaceView}}
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="marketplace-list register">
-                            <div class="label7a">Register</div>
-                            <ul>
-                                <li>
-                                    <div class="icon"></div>
-                                    <div class="info">
-                                        <h2 class="label3d name">Not transacting yet? Register for production access.</h2>
-                                        {{#link-to 'marketplaces.apply' classNames="btn"}}Register{{/link-to}}
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+					<h1>Add/Remove Marketplaces</h1>
+					<div class="marketplace-list production">
+						<div class="label7a">Production marketplace</div>
+						<ul>
+							{{#each user_marketplace in Balanced.Auth.user.user_marketplaces }}
+								{{#if user_marketplace.production }}
+									<li>
+										<div class="span2 label">
+											<div class="icon"></div>
+										</div>
+										<div class="info">
+											<h3 class="label1d name">{{#link-to 'activity' user_marketplace.id }}{{ user_marketplace.name }}{{/link-to}}</h3>
+										</div>
+									</li>
+								{{/if}}
+							{{/each}}
+							<li class="new">
+								<div class="span2 label">
+									<div class="icon"></div>
+								</div>
+								<div class="info">
+									{{view Balanced.AddExistingMarketplaceView}}
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="marketplace-list test">
+						<div class="label7a">Test marketplaces</div>
+						<ul>
+							{{#each user_marketplace in Balanced.Auth.user.user_marketplaces}}
+								{{#unless user_marketplace.production}}
+									<li>
+										<a href="#" class="icon-delete" {{action promptToDeleteMarketplace user_marketplace}}>&times;</a>
+										<div class="icon"></div>
+										<div class="info">
+											<h3 class="label1d name">{{#link-to 'activity' user_marketplace.id}}{{ user_marketplace.name}}{{/link-to}}</h3>
+										</div>
+									</li>
+								{{/unless}}
+							{{/each}}
+							<li class="new">
+								<div class="icon"></div>
+								<div class="info">
+									{{view Balanced.AddTestMarketplaceView}}
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="marketplace-list register">
+						<div class="label7a">Register</div>
+						<ul>
+							<li>
+								<div class="icon"></div>
+								<div class="info">
+									<h2 class="label3d name">Not transacting yet? Register for production access.</h2>
+									{{#link-to 'marketplaces.apply' classNames="btn"}}Register{{/link-to}}
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 {{view Balanced.DeleteMarketplaceModalView}}
