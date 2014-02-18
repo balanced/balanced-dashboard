@@ -17,8 +17,10 @@ var formatValidator = function(callback) {
 
 var accountFieldRequired = function(fieldName) {
 	return formatValidator(function(object, attribute, value, cb) {
-		if (object.isExistingBankAccount() && value.length > 0) {
-			cb("cannot specify a bank_account_id and a " + fieldName);
+		if (object.isExistingBankAccount()) {
+			if (value.length > 0) {
+				cb("cannot specify a bank_account_id and a " + fieldName);
+			}
 		} else if (value.length === 0) {
 			cb("cannot be blank");
 		}
@@ -46,8 +48,10 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			format: formatValidator(function(object, attribute, value, cb) {
 				var validStrings = ["checking", "savings"];
 				value = value.toLowerCase();
-				if (object.isExistingBankAccount() && value.length > 0) {
-					cb("cannot specify a bank_account_id and a new_bank_account_type");
+				if (object.isExistingBankAccount()) {
+					if (value.length > 0) {
+						cb("cannot specify a bank_account_id and a new_bank_account_type");
+					}
 				} else if (value.length === 0) {
 					cb("cannot be blank");
 				} else if (validStrings.indexOf(value) < 0) {
