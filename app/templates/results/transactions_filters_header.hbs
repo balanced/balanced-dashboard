@@ -1,34 +1,34 @@
 <nav>
   {{#unless view.showExtraTransactionTypes}}
     <li {{bind-attr class=":filter :all view.allTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "transaction" "all"}}>All</a>
+        <a href="#" {{action "changeTransactionTypeFilter" "transaction" "all"}}>All</a>
     </li>
   {{/unless}}
 
     <li {{bind-attr class=":filter :holds view.holdsTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "hold" "all"}}>Holds</a>
+        <a href="#" {{action "changeTransactionTypeFilter" "hold" "all"}}>Holds</a>
     </li>
 
     {{#if view.showExtraTransactionTypes}}
       <li {{bind-attr class=":filter :debit-cards view.debitCardsTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "card_debit" "all"}}>Debit: cards</a>
+        <a href="#" {{action "changeTransactionTypeFilter" "card_debit" "all"}}>Debit: cards</a>
       </li>
 
       <li {{bind-attr class=":filter :debit-bank-accounts view.debitBankAccountsTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "bank_account_debit" "all"}}>Debit: bank accounts</a>
+        <a href="#" {{action "changeTransactionTypeFilter" "bank_account_debit" "all"}}>Debit: bank accounts</a>
       </li>
     {{else}}
       <li {{bind-attr class=":filter :debits view.debitsTabSelected:selected"}} >
-          <a href="#" {{action changeTransactionTypeFilter "debit" "all"}}>Debits</a>
+          <a href="#" {{action "changeTransactionTypeFilter" "debit" "all"}}>Debits</a>
       </li>
     {{/if}}
 
     <li {{bind-attr class=":filter :credits view.creditsTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "credit" "all"}}>Credits</a>
+        <a href="#" {{action "changeTransactionTypeFilter" "credit" "all"}}>Credits</a>
     </li>
 
     <li {{bind-attr class=":filter :refunds view.refundsTabSelected:selected"}} >
-        <a href="#" {{action changeTransactionTypeFilter "refund" "all"}}>Refunds</a>
+        <a href="#" {{action "changeTransactionTypeFilter" "refund" "all"}}>Refunds</a>
     </li>
 
     {{#unless view.showExtraTransactionTypes}}

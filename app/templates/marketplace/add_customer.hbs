@@ -1,12 +1,12 @@
 <h1 class="page-title">Add a customer</h1>
 
-<form id="add-customer" class="full-page-form" method="POST" {{action save on="submit"}}>
+<form id="add-customer" class="full-page-form" method="POST" {{action "save" on="submit"}}>
 	<fieldset class="application-type">
 		<legend>Who is this customer?</legend>
 		<div class="control-group">
-			<a href="#" {{action selectType "PERSON"}} class="person"><span class="icon"></span>Person</a>
+			<a href="#" {{action "selectType" "PERSON"}} class="person"><span class="icon"></span>Person</a>
 			<div class="or"><hr><span>OR</span><hr></div>
-			<a href="#" {{action selectType "BUSINESS"}} class="business"><span class="icon"></span>Business</a>
+			<a href="#" {{action "selectType" "BUSINESS"}} class="business"><span class="icon"></span>Business</a>
 		</div>
 	</fieldset>
 
@@ -28,7 +28,7 @@
 				{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the customer's email. " recommendedField=true}}
 			{{/if}}
 
-			<div class="section-banner-header special-rollover"><a href="#" {{action toggleOptionalFields}}>
+			<div class="section-banner-header special-rollover"><a href="#" {{action "toggleOptionalFields"}}>
 				<div {{bind-attr class=":disclosure-button optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
 				<p><strong>Additional info</strong> (all fields are optional)</p></a>
 			</div>
@@ -59,7 +59,7 @@
 			<span class="loader loading"></span> <span class="message">Adding...</span>
 		{{else}}
 			<div class="actions">
-				<button class="btn" {{action save}} {{bind-attr disabled="isSaving"}}>{{submitTitle}}</button>
+				<button class="btn" {{action "save"}} {{bind-attr disabled="isSaving"}}>{{submitTitle}}</button>
 			</div>
 		{{/if}}
 

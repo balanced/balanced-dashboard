@@ -42,7 +42,7 @@
                 </div>
             </div>
             </div>
-            <div class="modal-informational modal-informational-light special-rollover"><a href="#" class="more-info" {{action toggleOptionalFields target="view"}}>
+            <div class="modal-informational modal-informational-light special-rollover"><a href="#" class="more-info" {{action "toggleOptionalFields" target="view"}}>
                 <div {{bind-attr class=":disclosure-button view.optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
                 <p class="modal-informational-content fields-header"><strong>Additional info</strong> (all fields are optional)</p></a>
             </div>
@@ -124,4 +124,4 @@
         </div>
     </form>
 </div>
-<a class="edit" {{action open target="view"}}>Edit</a>
+<a class="edit" {{action "open" target="view"}}>Edit</a>

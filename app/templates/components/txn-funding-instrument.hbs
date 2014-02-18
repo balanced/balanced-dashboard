@@ -3,8 +3,8 @@
     <header>
       <h3>
         {{#if funding_instrument}}
-        {{funding_instrument.type_name}}: <a href="#" {{action toggleFundingInstrumentDetails}}>{{funding_instrument.description}}</a>
-        <a href="#" {{bind-attr class=":disclosure show_funding_instrument_details:open"}} {{action toggleFundingInstrumentDetails}}>Edit</a>
+        {{funding_instrument.type_name}}: <a href="#" {{action "toggleFundingInstrumentDetails"}}>{{funding_instrument.description}}</a>
+        <a href="#" {{bind-attr class=":disclosure show_funding_instrument_details:open"}} {{action "toggleFundingInstrumentDetails"}}>Edit</a>
         {{/if}}
       </h3>
     </header>

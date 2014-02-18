@@ -6,7 +6,7 @@
 			<div class="row">
 				<div class="offset1 span22" id="marketplace-apply">
 					<h1 class="page-title">Apply for a Production Marketplace</h1>
-					<form class="full-page-form" method="POST" {{action submitApplication on="submit"}}>
+					<form class="full-page-form" method="POST" {{action "submitApplication" on="submit"}}>
 						{{#if isGuest}}
 							<fieldset>
 								<legend>Login info</legend>
@@ -18,9 +18,9 @@
 						<fieldset class="application-type">
 							<legend>Who are you?</legend>
 							<div class="control-group">
-								<a href="#" {{action selectType "PERSON"}} class="person"><span class="icon"></span>Person</a>
+								<a href="#" {{action "selectType" "PERSON"}} class="person"><span class="icon"></span>Person</a>
 								<div class="or"><hr><span>OR</span><hr></div>
-								<a href="#" {{action selectType "BUSINESS"}} class="business"><span class="icon"></span>Business</a>
+								<a href="#" {{action "selectType" "BUSINESS"}} class="business"><span class="icon"></span>Business</a>
 							</div>
 						</fieldset>
 

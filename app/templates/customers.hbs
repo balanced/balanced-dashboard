@@ -137,7 +137,7 @@
                             {{#link-to 'bank_accounts' bank_account}}
                                 <div {{bind-attr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
 	                        {{/link-to}}
-                                <a href="#" class="icon-delete" {{action promptToDeleteBankAccount bank_account}}>delete</a>
+                                <a href="#" class="icon-delete" {{action "promptToDeleteBankAccount" bank_account}}>delete</a>
                             {{#link-to 'bank_accounts' bank_account}}
 	                            <div class="details">
 	                               <span class="name label2a">{{ bank_account.name }}</span>
@@ -168,7 +168,7 @@
 	            <ul class="sidebar-items">
 	                {{#each card in cards }}
 		                <li>
-			                <a href="#" class="icon-delete" {{action promptToDeleteCard card}}>delete</a>
+			                <a href="#" class="icon-delete" {{action "promptToDeleteCard" card}}>delete</a>
 	                		{{#link-to 'cards' card}}
 			                    <div class="icon">Credit card</div>
 			                    <div class="details">
