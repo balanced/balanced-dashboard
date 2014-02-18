@@ -1,7 +1,6 @@
 Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
 	isEmpty: Ember.computed.equal("content.length", 0),
-	hasItems: Ember.computed.not("isEmpty"),
 
 	isInvalid: Ember.computed.gt("invalid.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
@@ -14,18 +13,8 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 		return this.filterBy("isInvalid");
 	}.property("content.@each.isInvalid", "content.length"),
 
-	total: function() {
-		var total = 0;
-		this.forEach(function(item) {
-			var amount = item.get("amount");
-			total += amount;
-		});
-		return total;
-	}.property("content.length", "content.@each.amount"),
-
 	save: function(callback) {
 		var savedCredits = [];
-		var self = this;
 		var creators = this.get("content");
 
 		var saveSingle = function(creator, rest) {

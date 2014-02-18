@@ -215,7 +215,7 @@ test("#isExistingBankAccount", function(assert) {
 	assert.ok(!row.isExistingBankAccount());
 });
 
-test("isInvalid", function(assert) {
+test("#isInvalid", function(assert) {
 	var row = {
 		bank_account_id: "3333333",
 		new_customer_name: "Harry Tan",
@@ -245,4 +245,44 @@ test("isInvalid", function(assert) {
 	};
 	creditCreator = Balanced.CreditCreator.fromCsvRow(row);
 	assert.ok(!creditCreator.get("isInvalid"));
+});
+
+test("#isValid", function(assert) {
+	var creditCreator = Balanced.CreditCreator.create({
+		isInvalid: true
+	});
+	assert.ok(!creditCreator.get("isValid"));
+
+	creditCreator.set("isInvalid", false);
+	assert.ok(creditCreator.get("isValid"));
+});
+
+test("#isLoaded", function(assert) {
+	var creditCreator = Balanced.CreditCreator.create({
+		bankAccount: undefined,
+		credit: undefined,
+		customer: undefined,
+	});
+	assert.ok(!creditCreator.get("isLoaded"));
+	creditCreator.set("bankAccount", null)
+	assert.ok(!creditCreator.get("isLoaded"));
+	creditCreator.set("credit", null)
+	assert.ok(!creditCreator.get("isLoaded"));
+	creditCreator.set("customer", null)
+	assert.ok(creditCreator.get("isLoaded"));
+});
+
+test("#isSaveable", function(assert) {
+	var creditCreator = Balanced.CreditCreator.create({
+		credit: {
+			isNew: false
+		},
+		isValid: false
+	});
+
+	assert.ok(!creditCreator.get("isSaveable"));
+	creditCreator.set("isValid", true);
+	assert.ok(!creditCreator.get("isSaveable"));
+	creditCreator.set("credit.isNew", true);
+	assert.ok(creditCreator.get("isSaveable"));
 });

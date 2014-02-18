@@ -79,25 +79,24 @@ test("#invalid", function(assert) {
 	});
 });
 
-test("#total", function(assert) {
+test("#isEmpty", function(assert) {
 	var collection = Balanced.CreditCreatorsCollection.create({
 		content: []
 	});
-	collection.addObject(Ember.Object.create({
-		isValid: true,
-		amount: 10
-	}));
-	collection.addObject(Ember.Object.create({
-		isValid: true,
-		amount: 23
-	}));
+	assert.ok(collection.get("isEmpty"));
 
-	assert.equal(collection.get("total"), 33);
+	collection.set("content", [1]);
+	assert.ok(!collection.get("isEmpty"));
+});
 
-	collection.addObject(Ember.Object.create({
-		isValid: false,
-		amount: 15
-	}));
+test("#isInvalid", function(assert) {
+	var collection = Balanced.CreditCreatorsCollection.create({
+		invalid: [10, 39]
+	});
+	assert.ok(collection.get("isInvalid"));
+	assert.ok(!collection.get("isValid"));
 
-	assert.equal(collection.get("total"), 48);
+	collection.set("invalid", []);
+	assert.ok(!collection.get("isInvalid"));
+	assert.ok(collection.get("isValid"));
 });

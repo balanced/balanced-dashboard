@@ -95,9 +95,10 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	isProcessing: false,
 
 	isLoaded: function() {
+		var self = this;
 		var fields = ["credit", "bankAccount", "customer"];
-		return fields.every(function(field) {
-			return field !== undefined;
+		return !fields.any(function(field) {
+			return self.get(field) === undefined;
 		});
 	}.property("credit", "bankAccount", "customer"),
 

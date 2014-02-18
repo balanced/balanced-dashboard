@@ -20,7 +20,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total <= escrow;
 	}.property("payoutTotal", "escrowTotal"),
 
-	displayCsvRows: function(){
+	displayCsvRows: function() {
 		return this.get("creditCreators.length") > 0 && this.get("isEscrowValid");
 	}.property("creditCreators.length", "isEscrowValid"),
 
