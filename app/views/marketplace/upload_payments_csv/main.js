@@ -4,8 +4,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	displayCsvRows: Ember.computed.and("creditCreators.hasItems", "isEscrowValid"),
 
-	unprocessableTotal: Balanced.computed.sum("unprocessableRows", "credit.amount"),
-	payoutTotal: Balanced.computed.sum("processableRows", "credit.amount"),
+	payoutTotal: Balanced.computed.sum("validRows", "credit.amount"),
 
 	isEscrowValid: function() {
 		var total = this.get("payoutTotal");
@@ -24,18 +23,6 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	invalidRows: Ember.computed.filter('creditCreators', function(creator) {
 		return !creator.isValid();
-	}),
-
-	unprocessableRows: Balanced.computed.filterEach("invalidRows.@each.isRemoved", "invalidRows", function(creator) {
-		return !creator.get("isRemoved");
-	}),
-
-	processableRows: Balanced.computed.filterEach("creditCreators.@each.isRemoved", "creditCreators", function(creator) {
-		return !creator.get("isRemoved");
-	}),
-
-	activeRows: Balanced.computed.filterEach("creditCreators.@each.isActive", "creditCreators", function(creator) {
-		return creator.get("isActive");
 	}),
 
 	isAllValid: function() {

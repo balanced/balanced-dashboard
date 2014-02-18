@@ -73,12 +73,10 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		"csvFields.new_bank_account_holders_name": {
 			format: accountFieldRequired("new_bank_account_holders_name")
 		}
-		// bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description
 	},
 
-	isActive: Ember.computed.not("isRemoved"),
-	isLoading: computedState("loading"),
 	isInvalid: Ember.computed.gt("validationErrors.length", 0),
+	isLoading: computedState("loading"),
 	isProcessing: computedState("processing"),
 	isComplete: computedState("complete"),
 

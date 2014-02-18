@@ -3,28 +3,29 @@ require("app/views/popover");
 Balanced.CsvUploadCellView = Balanced.View.extend({
 	tagName: "td",
 
-	initializePopover: function(){
+	initializePopover: function() {
 		var self = this;
 		self.$().find("span").popover({
 			trigger: "hover",
 			placement: "top",
 			html: true,
-			content: function () {
+			content: function() {
 				var messages = [];
-				var wrap = function (m){
+				var wrap = function(m) {
 					var content = Ember.Handlebars.Utils.escapeExpression(m);;
 					messages.push("<p>" + content + "</p>");
 				};
 				wrap("Invalid field " + self.get("fieldName"));
-				self.get("errorMessages.fullMessages").forEach(function(m){
+				self.get("errorMessages.fullMessages").forEach(function(m) {
 					wrap(m);
 				});
-				return messages.join("");
+				messages = '<i class="icon icon-alert"></i>' + messages.join(" ");
+				return messages;
 			}
 		});
 	},
 
-	didInsertElement: function () {
+	didInsertElement: function() {
 		this._super();
 		if (this.get("isErrorField")) {
 			this.initializePopover();
