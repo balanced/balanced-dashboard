@@ -12,7 +12,7 @@ var formatValidator = function(callback) {
 				}
 			});
 		}
-	}
+	};
 };
 
 var accountFieldRequired = function(fieldName) {
