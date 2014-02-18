@@ -67,7 +67,7 @@ Balanced.InvoiceDownloadModalView = Balanced.DownloadModalView.extend({
 });
 
 Balanced.DisputeDownloadModalView = Balanced.DownloadModalView.extend({
-    templateName: 'modals/disputes_download',
-    type: 'disputes',
-    noURI: true
+	templateName: 'modals/disputes_download',
+	type: 'disputes',
+	noURI: true
 });

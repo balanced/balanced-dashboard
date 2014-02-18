@@ -130,8 +130,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 			return this.get('category') === "funding_instrument";
 		}.property('category'),
 
-        disputesTabSelected: function() {
-            return this.get('category') === "dispute";
-        }.property('category')
+		disputesTabSelected: function() {
+			return this.get('category') === "dispute";
+		}.property('category')
 	}
 );
