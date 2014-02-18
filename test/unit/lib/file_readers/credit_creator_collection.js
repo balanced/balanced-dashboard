@@ -3,12 +3,24 @@ module("Balanced.CreditCreatorsCollection", {});
 test(".fromCsvText", function(assert) {
 	var text = [
 		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
-		",,,,,Dwyane Braggart,CHEcking,15,Payment #1771,8 Ladies Dancing (Giggity)",
+		",,,,,Dwyane Braggart,invalid_account_type,15,Payment #1771,8 Ladies Dancing (Giggity)",
 		",,,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity)",
-		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKG,16,Payment #9746,5 Gold Rings"
+		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,Checking,16,Payment #9746,5 Gold Rings",
+		"3333,Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKG,16,Payment #9746,5 Gold Rings"
 	].join("\n");
 	var collection = Balanced.CreditCreatorsCollection.fromCsvText(text);
-	assert.equal(collection.get("length"), 3);
+	assert.deepEqual(collection.get("length"), 4);
+
+	var tests = {
+		"content.0.isInvalid": true,
+		"content.1.isInvalid": true,
+		"content.2.isInvalid": false,
+		"content.3.isInvalid": true
+	};
+
+	_.each(tests, function (value, attribute) {
+		assert.deepEqual(collection.get(attribute), value);
+	});
 });
 
 test("#valid", function(assert) {

@@ -137,3 +137,112 @@ test("setCreditBankAccount", function(assert) {
 	assert.equal(credit.get("destination.number"), "00001111");
 	assert.equal(credit.get("uri"), "/092379386");
 });
+
+test("amount validations", function(assert) {
+	var tests = {
+		"a lot  ": ["must be a positive number"],
+	    "0": ["must be a positive number"],
+	    "-10.00": ["must be a positive number"],
+	    "    ": ["can't be blank", "must be a positive number"],
+	    "10.00": undefined
+	};
+
+	_.each(tests, function (expectedMessage, value){
+		var creator = Balanced.CreditCreator.fromCsvRow({
+			amount: value
+		});
+		var messages = creator.get("validationErrors.csvFields.amount.messages");
+		assert.deepEqual(messages, expectedMessage);
+	});
+});
+
+test("new_bank_account_type validations", function(assert){
+	var tests = {
+		"   checking  ": undefined,
+		"   savings  ": undefined,
+		"   SAVINGS  ": undefined,
+		"   cheCKING  ": undefined,
+	    "  pork ": ["pork is not a valid bank account type"],
+	    "    ": ["cannot be blank"]
+	};
+
+	_.each(tests, function (expectedMessage, value){
+		var creator = Balanced.CreditCreator.fromCsvRow({
+			new_bank_account_type: value
+		});
+		var messages = creator.get("validationErrors.csvFields.new_bank_account_type.messages");
+		assert.deepEqual(messages, expectedMessage);
+	});
+
+	var creator = Balanced.CreditCreator.fromCsvRow({
+		new_bank_account_type: "credit",
+		bank_account_id: "309898264"
+	});
+	var messages = creator.get("validationErrors.csvFields.new_bank_account_type.messages");
+	assert.deepEqual(messages, ["cannot specify a bank_account_id and a new_bank_account_type"]);
+});
+
+test("new_customer_name validations", function(assert){
+	var tests = {
+		"  Alfred Pangolin  ": undefined,
+	    "    ": ["cannot be blank"]
+	};
+
+	_.each(tests, function (expectedMessage, value){
+		var creator = Balanced.CreditCreator.fromCsvRow({
+			new_customer_name: value
+		});
+		var messages = creator.get("validationErrors.csvFields.new_customer_name.messages");
+		assert.deepEqual(messages, expectedMessage);
+	});
+
+	var creator = Balanced.CreditCreator.fromCsvRow({
+		new_customer_name: " Alfred Pangolin",
+		bank_account_id: "309898264"
+	});
+	var messages = creator.get("validationErrors.csvFields.new_customer_name.messages");
+	assert.deepEqual(messages, ["cannot specify a bank_account_id and a new_customer_name"]);
+});
+
+test("#isExistingBankAccount", function(assert) {
+	var row = Balanced.CreditCreator.fromCsvRow({
+		bank_account_id: "  0937204yof4h4  "
+	});
+	assert.ok(row.isExistingBankAccount());
+	row = Balanced.CreditCreator.fromCsvRow({
+		bank_account_id: "   "
+	});
+	assert.ok(!row.isExistingBankAccount());
+});
+
+test("isInvalid", function (assert) {
+	var row = {
+		bank_account_id: "3333333",
+		new_customer_name: "Harry Tan",
+		new_customer_email: "harry.tan@example.com",
+		new_bank_account_routing_number: "121000358",
+		new_bank_account_number: "123123123",
+		new_bank_account_holders_name: "Harry Tan",
+		new_bank_account_type: "Checking",
+		amount: "100",
+		appears_on_statement_as: "Payment #9746",
+		description: "5 Gold Rings"
+	};
+	var creditCreator = Balanced.CreditCreator.fromCsvRow(row);
+	assert.ok(creditCreator.get("isInvalid"));
+
+	row = {
+		bank_account_id: "    ",
+		new_customer_name: "Harry Tan",
+		new_customer_email: "harry.tan@example.com",
+		new_bank_account_routing_number: "121000358",
+		new_bank_account_number: "123123123",
+		new_bank_account_holders_name: "Harry Tan",
+		new_bank_account_type: "Checking",
+		amount: "100",
+		appears_on_statement_as: "Payment #9746",
+		description: "5 Gold Rings"
+	};
+	creditCreator = Balanced.CreditCreator.fromCsvRow(row);
+	assert.ok(!creditCreator.get("isInvalid"));
+});

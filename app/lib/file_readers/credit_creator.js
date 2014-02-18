@@ -2,41 +2,85 @@ var computedState = function(stateValue) {
 	return Ember.computed.equal("state", stateValue);
 };
 
-var csvFieldValidation = function(fieldName, callback) {
-	return function() {
-		var value = this.get(fieldName);
-		callback.call(this, value);
-	}.observes(fieldName);
+var formatValidator = function(callback) {
+	return {
+		validator: function(object, attribute, value) {
+			value = (value || "").trim();
+			callback(object, attribute, value, function (message) {
+				if (message) {
+					object.get("validationErrors").add(attribute, attribute + "format", null, message);
+				}
+			});
+		}
+	}
+};
+
+var accountFieldRequired = function(fieldName) {
+	return formatValidator(function(object, attribute, value, cb) {
+		if (object.isExistingBankAccount() && value.length > 0) {
+			cb("cannot specify a bank_account_id and a " + fieldName);
+		}
+		else if (value.length === 0) {
+			cb("cannot be blank");
+		}
+	});
 };
 
 Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
-	validateAmount: csvFieldValidation("credit.amount", function(amount) {
-		if (amount <= 0) {
-			this.get("validationErrors").add("csvFields.amount", "must be a positive number");
-		}
-	}),
+	validations: {
+		// bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description
 
-	validateBankAccount: csvFieldValidation("bankAccount", function(bankAccount) {
-		if (bankAccount === null) {
-			this.get("validationErrors").add("csvFields.", "must provide bank account information");
+		"csvFields.bank_account_id": {
+			format: formatValidator(function(object, attribute, value) {})
+		},
+		"csvFields.amount": {
+			presence: true,
+			format: formatValidator(function(object, attribute, value, cb) {
+				var v = parseFloat(value, 10);
+				if (isNaN(v) || v <= 0) {
+					cb("must be a positive number");
+				}
+			})
+		},
+		"csvFields.new_bank_account_type": {
+			format: formatValidator(function(object, attribute, value, cb) {
+				var validStrings = ["checking", "savings"];
+				value = value.toLowerCase();
+				if (object.isExistingBankAccount() && value.length > 0) {
+					cb("cannot specify a bank_account_id and a new_bank_account_type");
+				}
+				else if (value.length === 0) {
+					cb("cannot be blank");
+				}
+				else if (validStrings.indexOf(value) < 0) {
+					cb("%@ is not a valid bank account type".fmt(value));
+				}
+			})
+		},
+		"csvFields.new_customer_name": {
+			format: accountFieldRequired("new_customer_name")
+		},
+		"csvFields.new_customer_email": {
+			format: accountFieldRequired("new_customer_email")
+		},
+		"csvFields.new_bank_account_routing_number": {
+			format: accountFieldRequired("new_bank_account_routing_number")
+		},
+		"csvFields.new_bank_account_number": {
+			format: accountFieldRequired("new_bank_account_number")
+		},
+		"csvFields.new_bank_account_holders_name": {
+			format: accountFieldRequired("new_bank_account_holders_name")
 		}
-	}),
-
-	isRemoved: function() {
-		return this.get("removed") || false;
-	}.property("removed"),
+		// bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description
+	},
 
 	isActive: Ember.computed.not("isRemoved"),
 	isLoading: computedState("loading"),
-	isInvalid: computedState("invalid"),
+	isInvalid: Ember.computed.gt("validationErrors.length", 0),
 	isProcessing: computedState("processing"),
 	isComplete: computedState("complete"),
-
-	toggleRemove: function() {
-		var value = this.get("removed");
-		this.set("removed", !value);
-	},
 
 	credit: function() {
 		var self = this;
@@ -87,9 +131,14 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		});
 	},
 
+	isExistingBankAccount: function () {
+		var id = (this.get("attributes.bank_account.id") || "").trim();
+		return id.length > 0;
+	},
+
 	buildBankAccount: function() {
 		var attr = this.get("attributes.bank_account") || {};
-		if (attr.id && attr.id.length > 0) {
+		if (this.isExistingBankAccount()) {
 			var uri = Balanced.BankAccount.constructUri(attr.id);
 			return Balanced.BankAccount.find(uri).then(function(bankAccount) {
 				return {
@@ -209,8 +258,6 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	refreshState: function() {
 		if (!this.isLoaded()) {
 			this.set("state", "loading");
-		} else if (!this.isValid()) {
-			this.set("state", "invalid");
 		} else if (this.isSaved()) {
 			this.set("state", "complete");
 		} else {
@@ -255,6 +302,7 @@ Balanced.CreditCreator.reopenClass({
 		var creditCreator = this.create({
 			csvFields: object
 		});
+		creditCreator.validate();
 		return creditCreator;
 	}
 });
