@@ -329,4 +329,28 @@ body .modal-backdrop.fade.in {
   padding: 20px 5px 19px 6px !important;
 }
 
+.modal-confirm {
+  width: 525px;
+  .modal-body {
+    padding: 30px 0;
+  }
+  .actions {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .btn {
+    display: inline-block;
+    width: 160px;
+  }
+
+  .btn-cancel {
+    border-color: @gray3;
+    color: @gray3;
+    &:hover {
+      background-color: @gray3;
+      color: @white;
+    }
+  }
+}
+
 @import "/static/less/bootstrap-modal/bootstrap-modal.less";

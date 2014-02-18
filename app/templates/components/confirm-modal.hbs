@@ -1,11 +1,11 @@
-<div class="modal hide" data-backdrop="static" data-keyboard="false">
+<div class="modal hide modal-confirm" data-backdrop="static" data-keyboard="false">
     <div class="modal-header">
         <h2>{{title}}</h2>
     </div>
     <div class="modal-body">
-      {{mainText}}
+      <p class="text-center label3a">{{mainText}}</p>
       <div class="actions">
-        <button class="btn" {{action "cancel" on="click" target="view"}}>Cancel</button>
+        <button class="btn btn-cancel" {{action "cancel" on="click" target="view"}}>Cancel</button>
         <button class="btn" {{action "confirm" on="click" target="view"}}>Yes</button>
       </div>
     </div>
