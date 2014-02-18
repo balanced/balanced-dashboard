@@ -13,9 +13,31 @@ window.setupBalanced = function(divSelector) {
 	// default to #balanced-app if not specified
 	divSelector = divSelector || '#balanced-app';
 	ENV.HELPER_PARAM_LOOKUPS = true;
+
+	// Uncomment to turn on logging for all object bindings
+	Ember.LOG_BINDINGS = true;
+
+	// Uncomment to log DEPRECATIONS
+	// ENV.RAISE_ON_DEPRECATION = true;
+	Ember.LOG_STACKTRACE_ON_DEPRECATION = true;
+
 	window.Balanced = Ember.Application.create({
 		rootElement: divSelector,
+
+		// Basic logging, e.g. "Transitioned into 'post'"
 		LOG_TRANSITIONS: true,
+
+		// Extremely detailed logging, highlighting every internal
+		// step made while transitioning into a route, including
+		// `beforeModel`, `model`, and `afterModel` hooks, and
+		// information about redirects and aborted transitions
+		LOG_TRANSITIONS_INTERNAL: true,
+
+		// LOG VIEW LOOKUPS
+		LOG_VIEW_LOOKUPS: true,
+
+		// LOG GENERATED CONTROLLERs
+		LOG_ACTIVE_GENERATION: true,
 
 		customEvents: {
 			// key is the jquery event, value is the name used in views

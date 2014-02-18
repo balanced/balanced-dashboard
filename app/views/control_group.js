@@ -16,6 +16,8 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 
 		console.log('ran init');
 		console.log(field, this, this.get('value'));
+
+		this.set('value', this.get('controller.content').get(field));
 		this._super();
 	},
 
@@ -39,13 +41,13 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 	// 	return "controller." + this.get('field');
 	// },
 
-	value: function() {
-		var field = this.get('field');
-
-		console.log('nnn', arguments, field);
-
-		return this.get('controller.content').get(field)
-	}.property('field'),
+	// value: function() {
+	// 	var field = this.get('field');
+	//
+	// 	console.log('nnn', arguments, field);
+	//
+	// 	return this.get('controller.content').get(field)
+	// },
 
 	// value: function() {
 	// 	var field = this.get('field');
