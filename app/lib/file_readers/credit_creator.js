@@ -8,7 +8,7 @@ var formatValidator = function(callback) {
 			value = (value || "").trim();
 			callback(object, attribute, value, function(message) {
 				if (message) {
-					object.get("validationErrors").add(attribute, attribute + "format", null, message);
+					object.get("validationErrors").add(attribute, "format", null, message);
 				}
 			});
 		}
@@ -30,7 +30,6 @@ var accountFieldRequired = function(fieldName) {
 Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	validations: {
-		// bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description
 
 		"csvFields.bank_account_id": {
 			format: formatValidator(function(object, attribute, value) {})
@@ -138,6 +137,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	},
 
 	buildBankAccount: function() {
+		var self = this;
 		var attr = this.get("attributes.bank_account") || {};
 		if (this.isExistingBankAccount()) {
 			var uri = Balanced.BankAccount.constructUri(attr.id);
@@ -145,6 +145,14 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				return {
 					bankAccount: bankAccount
 				};
+			}, function() {
+				var message = "bank account id %@ not found"
+					.fmt(self.get("csvFields.bank_account_id"));
+				self.get("validationErrors")
+					.add("csvFields.bank_account_id", "format", null, message);
+				return Ember.RSVP.resolve({
+					bankAccount: null
+				});
 			});
 		} else if (balanced.bankAccount.validate(attr).length) {
 			return Ember.RSVP.resolve({
