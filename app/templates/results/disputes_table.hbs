@@ -2,7 +2,7 @@
     <tr>
         {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :initiated :date view.hideDateSort::sortable" field="initiated_at"}}Date Initiated{{/view}}
         {{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :respond-by :date view.hideDateSort::sortable" field="respond_by"}}Respond By{{/view}}
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span4 label6a status sortable" field="status"}}Status{{/view}}
+        <th class="span4 label6a status">Status</th>
         <th class="span3 label6a account">Customer</th>
         <th class="span4 label6a funding-instrument">Card or Bank Account</th>
         {{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount sortable num" field="amount"}}Amount{{/view}}
