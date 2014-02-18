@@ -217,8 +217,9 @@ var Testing = {
 					}
 
 					var evt = disputes.objectAt(0);
+					_this.DISPUTE = evt;
 					_this.DISPUTE_ID = evt.get('id');
-					_this.DISPUTE_URI = _this.MARKETPLACE_ROUTE +
+					_this.DISPUTE_ROUTE = _this.MARKETPLACE_ROUTE +
 						'/disputes/' + _this.DISPUTE_ID;
 
 					_this.start();
@@ -295,7 +296,7 @@ var Testing = {
 
 				var evt = events.objectAt(0);
 				_this.EVENT_ID = evt.get('id');
-				_this.EVENT_URI = _this.MARKETPLACE_ROUTE +
+				_this.EVENT_ROUTE = _this.MARKETPLACE_ROUTE +
 					'/events/' + _this.EVENT_ID;
 
 				_this.start();

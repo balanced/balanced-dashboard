@@ -229,7 +229,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	},
 
 	highlightError: function() {
-		$('input', '#marketplace-apply .control-group.error:first').focus();
+		window.setTimeout(function() {
+			$('input', '#marketplace-apply .control-group.error:first').focus();
+		}, 0);
 	},
 
 	accountTypes: ['checking', 'savings'],
