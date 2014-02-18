@@ -1,9 +1,6 @@
 @import "/static/less/grid.less";
 @import "/static/less/bootstrap.less";
-@import "/static/less/fonts.less";
-@import "/static/less/variables.less";
-@import "/static/less/mixins.less";
-
+@import "/static/javascripts/strapped/static/less/strapped.less";
 /*
 * base.less
 *
@@ -47,49 +44,10 @@ footer {
 
 }
 
-a {
-  color: @linkColor;
-
-  &:hover {
-    color: @linkColorHover;
-    text-decoration: none;
-    &:visited {
-      color: @linkColorHover;
-      text-decoration: none;
-    }
-  }
-  &:active {
-    color: @linkColor;
-  }
-  &:visited {
-    color: @linkColor;
-  }
-}
-
 h1 {
-  font-family: nimbussannov-reg;
-  font-weight: normal;
-  font-size: 34px;
-  color: #000;
-  margin-bottom: 28px;
-
   &.page-title {
     width: @pageTitleWidth;
   }
-}
-
-h2 {
-  font-family: nimbussannov-sembol;
-  font-weight: normal;
-  font-size: 24px;
-  color: #000;
-}
-
-h3 {
-  font-family: nimbussannov-sembol;
-  font-weight: normal;
-  font-size: 15px;
-  color: #000;
 }
 
 ul, li {
@@ -106,35 +64,6 @@ input:focus, select:focus, textarea:focus, a:focus {
 
 .empty-field-label {
   font-style: italic;
-}
-
-.btn, button {
-  .button1;
-  border: 3px solid @buttonColor;
-  background-color: @buttonBackgroundColor;
-  color: @buttonColor;
-  text-align: center;
-  padding: 6px 13px;
-  line-height: 1em;
-  vertical-align: middle;
-  box-sizing: initial;
-  &:visited {
-    color: @buttonColor;
-  }
-  &:hover {
-    background-color: @buttonColor;
-    color: @buttonBackgroundColor;
-    text-decoration: none;
-  }
-  &.danger {
-    border-color: @buttonDangerColor;
-    color: @buttonDangerColor;
-    &:hover {
-      background-color: @buttonDangerColor;
-      border-color: @buttonDangerColor;
-      color: @buttonBackgroundColor;
-    }
-  }
 }
 
 hr {

@@ -22,7 +22,7 @@ Balanced.Analytics = (function() {
 
 	return {
 		init: function(settings) {
-			if (window.TESTING) {
+			if (window.TESTING || !window.mixpanel.init) {
 				return;
 			}
 
@@ -69,7 +69,7 @@ Balanced.Analytics = (function() {
 		},
 		trackPage: _.debounce(function(page) {
 			var currentLocation = page + location.hash;
-			if (window.TESTING) {
+			if (window.TESTING || !window.mixpanel.track_pageview) {
 				return;
 			}
 			window._gaq.push(['_trackPageview', currentLocation]);
@@ -78,7 +78,7 @@ Balanced.Analytics = (function() {
 		trackEvent: function(name, data) {
 			data = data || {};
 
-			if (window.TESTING) {
+			if (window.TESTING || !window.mixpanel.track) {
 				return;
 			}
 

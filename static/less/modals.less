@@ -1,10 +1,18 @@
-@import "/static/less/variables.less";
-@import "/static/less/mixins.less";
 @import "/static/less/icon_font.less";
 
 //
 // Modals
 // --------------------------------------------------
+
+@modalBackgroundColor: #d9d8d5;
+@modalBodyBackgroundColor: rgba(255, 255, 255, 0.9);
+@modalBorderColor: #000;
+@modalBorderWidth: 0;
+@modalOverlayColor: #000;
+@modalWidth: 430px;
+@wideModalWidth: 600px;
+@modalInformationalDarkBackground: #a5c9d0;
+@modalInformationalLightBackground: #e0ecef;
 
 // Background
 .modal-backdrop {
@@ -137,14 +145,14 @@ body .modal-backdrop.fade.in {
 
 .modal-section-header {
   background-color: @modalInformationalLightBackground;
-  border-top: 1px solid @balancedLightGray;
-  border-bottom: 1px solid @balancedLightGray;
+  border-top: 1px solid @gray2;
+  border-bottom: 1px solid @gray2;
 }
 
 .modal-informational {
   background-color: @modalInformationalDarkBackground;
-  border-top: 1px solid @balancedLightGray;
-  border-bottom: 1px solid @balancedLightGray;
+  border-top: 1px solid @gray2;
+  border-bottom: 1px solid @gray2;
 
   .disclosure-button {
     background-color: @egyptianBlue60 !important;
@@ -154,7 +162,7 @@ body .modal-backdrop.fade.in {
   p {
     padding: 20px 0 20px 0;
     text-align: center;
-    color: @balancedBlack;
+    color: @black;
     margin: 0;
 
     &.modal-informational-content {

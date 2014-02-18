@@ -1,6 +1,3 @@
-@import "/static/less/variables.less";
-@import "/static/less/mixins.less";
-
 @webhookBackground: rgb(224, 224, 221);
 @webhookExpandedBackground: rgb(142, 183, 167);
 @webhookDetailBackground: #fff;
@@ -17,17 +14,17 @@
     width: 100%;
     &.pending {
       .state {
-        color: @balancedYellow;
+        color: @turmericYellow80;
       }
     }
     &.succeeded {
       .state {
-        color: @balancedGreen;
+        color: @forestGreen100;
       }
     }
     &.failed {
       .state {
-        color: @balancedRed;
+        color: @imperialRed100;
       }
     }
     &.expanded {
@@ -36,7 +33,7 @@
         display: block;
       }
       .state {
-        color: @balancedWhite;
+        color: @white;
       }
       .expand {
         .caret {

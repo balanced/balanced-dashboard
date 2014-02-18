@@ -42,9 +42,9 @@
                         </div>
                     </div>
                     <div class="right-pane span7">
-                      <form id="auth-form" {{ bindAttr class="isEnabling::disabled authError:error" }}>
+                      <form id="auth-form" {{ bindAttr class="isEnabling::disabled authError:error" }} method="POST" {{action "activateAuth" on="submit"}}>
                         {{view Ember.TextField type="text" name="auth_code" valueBinding="auth_code_confirm" placeholder="Authentication Code" disabledBinding="isNotEnabling"}}
-                        <button {{action "activateAuth"}} type="button">Activate</button>
+                        <button type="submit">Activate</button>
                       </form>
                     </div>
                 </div>
