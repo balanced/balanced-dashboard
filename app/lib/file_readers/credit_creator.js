@@ -32,7 +32,11 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	validations: {
 
 		"csvFields.bank_account_id": {
-			format: formatValidator(function(object, attribute, value) {})
+			format: formatValidator(function(object, attribute, value, cb) {
+				if (value.length && object.get("bankAccount") === undefined) {
+					cb("bank account has not been loaded.");
+				}
+			})
 		},
 		"csvFields.amount": {
 			presence: true,
@@ -157,6 +161,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		if (this.isExistingBankAccount()) {
 			var uri = Balanced.BankAccount.constructUri(attr.id);
 			return Balanced.BankAccount.find(uri).then(function(bankAccount) {
+				self.get("validationErrors").remove("csvFields.bank_account_id");
 				return {
 					bankAccount: bankAccount
 				};
