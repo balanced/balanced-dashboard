@@ -6,7 +6,7 @@ var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {
 			value = (value || "").trim();
-			callback(object, attribute, value, function (message) {
+			callback(object, attribute, value, function(message) {
 				if (message) {
 					object.get("validationErrors").add(attribute, attribute + "format", null, message);
 				}
@@ -19,8 +19,7 @@ var accountFieldRequired = function(fieldName) {
 	return formatValidator(function(object, attribute, value, cb) {
 		if (object.isExistingBankAccount() && value.length > 0) {
 			cb("cannot specify a bank_account_id and a " + fieldName);
-		}
-		else if (value.length === 0) {
+		} else if (value.length === 0) {
 			cb("cannot be blank");
 		}
 	});
@@ -49,11 +48,9 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				value = value.toLowerCase();
 				if (object.isExistingBankAccount() && value.length > 0) {
 					cb("cannot specify a bank_account_id and a new_bank_account_type");
-				}
-				else if (value.length === 0) {
+				} else if (value.length === 0) {
 					cb("cannot be blank");
-				}
-				else if (validStrings.indexOf(value) < 0) {
+				} else if (validStrings.indexOf(value) < 0) {
 					cb("%@ is not a valid bank account type".fmt(value));
 				}
 			})
@@ -131,7 +128,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		});
 	},
 
-	isExistingBankAccount: function () {
+	isExistingBankAccount: function() {
 		var id = (this.get("attributes.bank_account.id") || "").trim();
 		return id.length > 0;
 	},

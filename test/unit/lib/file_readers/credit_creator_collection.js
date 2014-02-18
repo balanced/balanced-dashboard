@@ -18,7 +18,7 @@ test(".fromCsvText", function(assert) {
 		"content.3.isInvalid": true
 	};
 
-	_.each(tests, function (value, attribute) {
+	_.each(tests, function(value, attribute) {
 		assert.deepEqual(collection.get(attribute), value);
 	});
 });

@@ -141,13 +141,13 @@ test("setCreditBankAccount", function(assert) {
 test("amount validations", function(assert) {
 	var tests = {
 		"a lot  ": ["must be a positive number"],
-	    "0": ["must be a positive number"],
-	    "-10.00": ["must be a positive number"],
-	    "    ": ["can't be blank", "must be a positive number"],
-	    "10.00": undefined
+		"0": ["must be a positive number"],
+		"-10.00": ["must be a positive number"],
+		"    ": ["can't be blank", "must be a positive number"],
+		"10.00": undefined
 	};
 
-	_.each(tests, function (expectedMessage, value){
+	_.each(tests, function(expectedMessage, value) {
 		var creator = Balanced.CreditCreator.fromCsvRow({
 			amount: value
 		});
@@ -156,17 +156,17 @@ test("amount validations", function(assert) {
 	});
 });
 
-test("new_bank_account_type validations", function(assert){
+test("new_bank_account_type validations", function(assert) {
 	var tests = {
 		"   checking  ": undefined,
 		"   savings  ": undefined,
 		"   SAVINGS  ": undefined,
 		"   cheCKING  ": undefined,
-	    "  pork ": ["pork is not a valid bank account type"],
-	    "    ": ["cannot be blank"]
+		"  pork ": ["pork is not a valid bank account type"],
+		"    ": ["cannot be blank"]
 	};
 
-	_.each(tests, function (expectedMessage, value){
+	_.each(tests, function(expectedMessage, value) {
 		var creator = Balanced.CreditCreator.fromCsvRow({
 			new_bank_account_type: value
 		});
@@ -182,13 +182,13 @@ test("new_bank_account_type validations", function(assert){
 	assert.deepEqual(messages, ["cannot specify a bank_account_id and a new_bank_account_type"]);
 });
 
-test("new_customer_name validations", function(assert){
+test("new_customer_name validations", function(assert) {
 	var tests = {
 		"  Alfred Pangolin  ": undefined,
-	    "    ": ["cannot be blank"]
+		"    ": ["cannot be blank"]
 	};
 
-	_.each(tests, function (expectedMessage, value){
+	_.each(tests, function(expectedMessage, value) {
 		var creator = Balanced.CreditCreator.fromCsvRow({
 			new_customer_name: value
 		});
@@ -215,7 +215,7 @@ test("#isExistingBankAccount", function(assert) {
 	assert.ok(!row.isExistingBankAccount());
 });
 
-test("isInvalid", function (assert) {
+test("isInvalid", function(assert) {
 	var row = {
 		bank_account_id: "3333333",
 		new_customer_name: "Harry Tan",
