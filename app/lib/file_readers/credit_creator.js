@@ -65,7 +65,18 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			format: accountFieldRequired("new_customer_email")
 		},
 		"csvFields.new_bank_account_routing_number": {
-			format: accountFieldRequired("new_bank_account_routing_number")
+			format: formatValidator(function(object, attribute, value, cb) {
+				value = value.toLowerCase();
+				if (object.isExistingBankAccount()) {
+					if (value.length > 0) {
+						cb("cannot specify a bank_account_id and a new_bank_account_routing_number");
+					}
+				} else if (value.length === 0) {
+					cb("cannot be blank");
+				} else if (!balanced.bankAccount.validateRoutingNumber(value)) {
+					cb("%@ is not a valid bank account routing number".fmt(value));
+				}
+			})
 		},
 		"csvFields.new_bank_account_number": {
 			format: accountFieldRequired("new_bank_account_number")
@@ -76,9 +87,18 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	},
 
 	isInvalid: Ember.computed.gt("validationErrors.length", 0),
-	isLoading: computedState("loading"),
-	isProcessing: computedState("processing"),
-	isComplete: computedState("complete"),
+	isValid: Ember.computed.not("isInvalid"),
+	isProcessing: false,
+
+	isLoaded: function() {
+		var fields = ["credit", "bankAccount", "customer"];
+		return fields.every(function(field) {
+			return field !== undefined;
+		});
+	}.property("credit", "bankAccount", "customer"),
+
+	isSaved: Ember.computed.not("credit.isNew"),
+	isSaveable: Ember.computed.and("credit.isNew", "isValid"),
 
 	credit: function() {
 		var self = this;
@@ -91,7 +111,6 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				var customer = result.customer;
 				self.set("customer", customer);
 				self.setCreditCustomer(credit, customer);
-				self.refreshState();
 			});
 
 		self.buildBankAccount()
@@ -99,10 +118,8 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				var bankAccount = result.bankAccount;
 				self.set("bankAccount", bankAccount);
 				self.setCreditBankAccount(credit, bankAccount);
-				self.refreshState();
 			});
 
-		self.refreshState();
 		return credit;
 	}.property("attributes"),
 
@@ -222,64 +239,15 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		var credit = this.get('credit');
 		var bankAccount = this.get("bankAccount");
 		credit.set("uri", bankAccount.get("credits_uri"));
-
 		return credit.save();
-	},
-
-	isBankAccountLoaded: function() {
-		return this.get("bankAccount") !== undefined;
-	},
-
-	isCustomerLoaded: function() {
-		return this.get("customer") !== undefined;
-	},
-
-	isCreditLoaded: function() {
-		return this.get("credit") !== undefined;
-	},
-
-	isLoaded: function() {
-		return this.isCreditLoaded() && this.isCustomerLoaded() && this.isBankAccountLoaded();
-	},
-
-	isCustomerValid: function() {
-		return this.isCustomerLoaded();
-	},
-
-	isBankAccountValid: function() {
-		return this.isBankAccountLoaded() && this.get("bankAccount") !== null;
-	},
-
-	isCreditValid: function() {
-		return this.isCreditLoaded() && this.get("credit.amount") > 0;
-	},
-
-	isValid: function() {
-		return this.isCreditValid() && this.isCustomerValid() && this.isBankAccountValid();
-	},
-
-	isSaved: function() {
-		return !this.get("credit.isNew");
-	},
-
-	refreshState: function() {
-		if (!this.isLoaded()) {
-			this.set("state", "loading");
-		} else if (this.isSaved()) {
-			this.set("state", "complete");
-		} else {
-			this.set("state", "idle");
-		}
 	},
 
 	save: function() {
 		var self = this;
 		var credit = this.get('credit');
 
-		var attr = this.get("attributes");
-
-		if (credit.get("isNew") && this.isValid()) {
-			this.set("state", "processing");
+		if (this.get("isSaveable")) {
+			this.set("isProcessing", true);
 			return this.saveCustomer()
 				.then(function(c) {
 					self.set("customer", c);
@@ -289,7 +257,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 					return self.saveCredit();
 				})
 				.then(function() {
-					self.refreshState();
+					self.set("isProcessing", false);
 					return self;
 				});
 		} else {

@@ -24,11 +24,8 @@ test("Read and process CSV data", function(assert) {
 			"customer.email": "charlie.chan@example.org",
 			"bankAccount.name": "Charlie Chan",
 			"credit.amount": 3200
-		}, {
-			"customer.email": null,
-			"bankAccount.name": "John Foo",
-			"credit.amount": 1700
-		}, {
+		},
+		null, {
 			"customer.email": "harrison.ford@example.org",
 			"bankAccount.name": "Harrison Ford",
 			"bankAccount.routing_number": "121000358",
@@ -45,7 +42,7 @@ test("Read and process CSV data", function(assert) {
 		",Tommy Tang,tommy.tang@example.org,121000000,123123123,Tommy Tang,SAVINGS,1,Payment #5119,[INVALID] Invalid routing no",
 		",Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]",
 		",Charlie Chan,charlie.chan@example.org,121000358,123123123,Charlie Chan,CHECKING,32,Payment #4818,[VALID]",
-		",,,121000358,123123123,John Foo,SAVINGS,17,Payment #4805,[VALID] No customer.",
+		",,,121000358,123123123,John Foo,SAVINGS,17,Payment #4805,[INVALID] No customer.",
 		",Harrison Ford,harrison.ford@example.org,121000358,123123000,Harrison Ford,CHECKING,43,Payment #2720,[VALID]"
 	].join("\n");
 

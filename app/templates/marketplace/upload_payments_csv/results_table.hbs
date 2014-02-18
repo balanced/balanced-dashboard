@@ -49,7 +49,7 @@
               <a {{action "confirmRemoveCreditCreator" this target="view.parentView"}} class="remove-icon">&times;</a>
             {{else}} {{#if isProcessing}}
               <i class="icon icon-loading"></i>
-            {{else}} {{#if isComplete}}
+            {{else}} {{#if isSaved}}
               <i class="icon icon-checkmark"></i>
             {{/if}} {{/if}} {{/if}}
           </td>

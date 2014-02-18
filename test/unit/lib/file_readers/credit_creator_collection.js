@@ -28,15 +28,15 @@ test("#valid", function(assert) {
 		content: []
 	});
 	collection.addObject(Ember.Object.create({
-		isInvalid: false,
+		isValid: true,
 		amount: 10
 	}));
 	collection.addObject(Ember.Object.create({
-		isInvalid: true,
+		isValid: false,
 		amount: 15
 	}));
 	collection.addObject(Ember.Object.create({
-		isInvalid: false,
+		isValid: true,
 		amount: 23
 	}));
 
@@ -84,18 +84,18 @@ test("#total", function(assert) {
 		content: []
 	});
 	collection.addObject(Ember.Object.create({
-		isActive: true,
+		isValid: true,
 		amount: 10
 	}));
 	collection.addObject(Ember.Object.create({
-		isActive: true,
+		isValid: true,
 		amount: 23
 	}));
 
 	assert.equal(collection.get("total"), 33);
 
 	collection.addObject(Ember.Object.create({
-		isActive: false,
+		isValid: false,
 		amount: 15
 	}));
 

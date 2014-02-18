@@ -2,9 +2,17 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	creditCreators: Ember.computed.alias("controller.creditCreators"),
 
-	displayCsvRows: Ember.computed.and("creditCreators.hasItems", "isEscrowValid"),
+	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
 
-	payoutTotal: Balanced.computed.sum("validRows", "credit.amount"),
+	escrowTotal: Ember.computed.alias("controller.controllers.marketplace.in_escrow"),
+
+	isProcessable: Ember.computed.and("isEscrowValid", "isAllValid"),
+	isUnprocessable: Ember.computed.not("isProcessable"),
+
+	validRows: Ember.computed.filterBy('creditCreators.isValid'),
+	invalidRows: Ember.computed.filterBy('creditCreators.isInvalid'),
+
+	isAllValid: Ember.computed.equal("invalidRows.length", 0),
 
 	isEscrowValid: function() {
 		var total = this.get("payoutTotal");
@@ -12,24 +20,9 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total <= escrow;
 	}.property("payoutTotal", "escrowTotal"),
 
-	escrowTotal: Ember.computed.alias("controller.controllers.marketplace.in_escrow"),
-
-	isProcessable: Ember.computed.and("isEscrowValid", "isAllValid"),
-	isUnprocessable: Ember.computed.not("isProcessable"),
-
-	validRows: Ember.computed.filter('creditCreators', function(creator) {
-		return creator.isValid();
-	}),
-
-	invalidRows: Ember.computed.filter('creditCreators', function(creator) {
-		return !creator.isValid();
-	}),
-
-	isAllValid: function() {
-		return this.get("invalidRows").every(function(creator) {
-			return creator.get("isRemoved");
-		});
-	}.property("invalidRows.@each.isRemoved"),
+	displayCsvRows: function(){
+		return this.get("creditCreators.length") > 0 && this.get("isEscrowValid");
+	}.property("creditCreators.length", "isEscrowValid"),
 
 	updateReaderBody: function(text) {
 		this.get("controller").refresh(text);
@@ -37,7 +30,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	updateProgressFraction: function() {
 		var completedRows = this.get("creditCreators").filter(function(creator) {
-			return creator.get("isComplete");
+			return creator.get("isSaved");
 		});
 		var validLength = this.get("creditCreators.valid.length");
 
@@ -45,7 +38,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		var text = "" + completedRows.length + "/" + validLength;
 
 		this.get("progressBarModal").update(fraction, text);
-	}.observes("creditCreators.@each.isComplete"),
+	}.observes("creditCreators.@each.isSaved"),
 
 	actions: {
 		reset: function() {
@@ -70,7 +63,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		submit: function() {
 			var modal = this.get("progressBarModal");
 			modal.send("open");
-			modal.update(0);
+			this.updateProgressFraction();
 
 			this.get("controller").save(function() {
 				modal.send("close");

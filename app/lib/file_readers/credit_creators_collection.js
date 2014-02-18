@@ -7,8 +7,8 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	isValid: Ember.computed.not("isInvalid"),
 
 	valid: function() {
-		return this.filterBy("isInvalid", false);
-	}.property("content.@each.isInvalid", "content.length"),
+		return this.filterBy("isValid");
+	}.property("content.@each.isValid", "content.length"),
 
 	invalid: function() {
 		return this.filterBy("isInvalid");
