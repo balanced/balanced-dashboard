@@ -1,53 +1,55 @@
 <thead>
-    <tr>
-        <th class="span3 label6a">Status</th>
-        <th class="span11 label6a">Method &amp; URI</th>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a align-right sortable unsorted" field="created_at"}}Date{{/view}}
-    </tr>
+	<tr>
+		<th class="span3 label6a">Status</th>
+		<th class="span11 label6a">Method &amp; URI</th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a align-right sortable unsorted" field="created_at"}}Date{{/view}}
+	</tr>
 </thead>
+
 {{#if results.hasNextPage}}
-<tfoot>
-    <tr>
-        <td colspan="3" class="load-more-results">
-            {{#if results.loadingNextPage}}
-                <div class="loader-container">
-                    <span class="loader loading"></span>
-                </div>
-            {{else}}
-                <a {{action "loadMore" results}}>Load more</a>
-            {{/if}}
-        </td>
-    </tr>
-</tfoot>
+	<tfoot>
+		<tr>
+			<td colspan="3" class="load-more-results">
+				{{#if results.loadingNextPage}}
+					<div class="loader-container">
+						<span class="loader loading"></span>
+					</div>
+				{{else}}
+					<a {{action "loadMore" results}}>Load more</a>
+				{{/if}}
+			</td>
+		</tr>
+	</tfoot>
 {{/if}}
+
 <tbody>
-    {{#each log in results}}
-        <tr>
-            <td class="span3 black">
-                {{#link-to "logs.log" log}}
-                    {{colorizeStatus log.message.response.status}}
-                {{/link-to}}
-            </td>
-            <td class="span11">
-                {{#link-to "logs.log" log}}
-                    {{log.message.request.method}} {{log.condensed_request_url}}
-                {{/link-to}}
-            </td>
-            <td class="span3 align-right date">
-                {{#link-to "logs.log" log}}
-                    <time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
-                {{/link-to}}
-            </td>
-        </tr>
-    {{else}}
-        <tr>
-            <td colspan="3" class="no-results">
-                {{#if results.isLoaded}}
-                    No results
-                {{else}}
-                    Loading...
-                {{/if}}
-            </td>
-        </tr>
-    {{/each}}
+	{{#each log in results}}
+		<tr>
+			<td class="span3 black">
+				{{#link-to "logs.log" log}}
+				{{colorizeStatus log.message.response.status}}
+				{{/link-to}}
+			</td>
+			<td class="span11">
+				{{#link-to "logs.log" log}}
+				{{log.message.request.method}} {{log.condensed_request_url}}
+				{{/link-to}}
+			</td>
+			<td class="span3 align-right date">
+				{{#link-to "logs.log" log}}
+				<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
+				{{/link-to}}
+			</td>
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="3" class="no-results">
+				{{#if results.isLoaded}}
+					No results
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
 </tbody>
