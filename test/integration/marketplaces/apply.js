@@ -53,19 +53,22 @@ test('clicking business or personal shows data', function(assert) {
 });
 
 test('basic form validation and terms and conditions', function(assert) {
+	var submitButtonQuery = 'button:contains("Submit")';
+
 	visit(Testing.APPLY_ROUTE)
+		.click('a:contains("Person")')
 		.then(function() {
-			click('a:contains("Person")');
 
-			var $submitButton = $('button:contains("Submit")');
+			var $submitButton = $(submitButtonQuery);
 			assert.equal($submitButton.length, 1);
-
-			click($submitButton);
+		})
+		.click(submitButtonQuery)
+		.then(function() {
 			assert.equal($('.control-group.error').length, 13, 'expected error fields highlighted');
-
-			click('#terms-and-conditions');
-			click($submitButton);
-
+		})
+		.click('#terms-and-conditions')
+		.click(submitButtonQuery)
+		.then(function() {
 			assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
 		});
 });
