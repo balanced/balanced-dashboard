@@ -72,18 +72,6 @@
 			"version": "0.0.2",
 			"from": "recursive-readdir@"
 		},
-		"fsevents": {
-			"version": "0.2.0",
-			"from": "fsevents@",
-			"resolved": "https://registry.npmjs.org/fsevents/-/fsevents-0.2.0.tgz",
-			"dependencies": {
-				"nan": {
-					"version": "0.8.0",
-					"from": "nan@~0.8.0",
-					"resolved": "https://registry.npmjs.org/nan/-/nan-0.8.0.tgz"
-				}
-			}
-		},
 		"grunt-img": {
 			"version": "0.1.7",
 			"from": "grunt-img@0.1.7",

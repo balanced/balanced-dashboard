@@ -11,8 +11,7 @@
 	"dependencies": {
 		"pullstream": "~0.2.2",
 		"grunt-open": "~0.2.2",
-		"recursive-readdir": "0.0.2",
-		"fsevents": "~0.2.0"
+		"recursive-readdir": "0.0.2"
 	},
 	"devDependencies": {
 		"grunt": "0.4.1",
