@@ -13,7 +13,7 @@
 						<div class="label7a">Production marketplace</div>
 
 						<ul>
-							{{#each user_marketplace in user_marketplaces}}
+							{{#each user_marketplace in user.user_marketplaces}}
 								{{#if user_marketplace.production}}
 									<li>
 										<div class="span2 label">
@@ -41,7 +41,7 @@
 						<div class="label7a">Test marketplaces</div>
 
 						<ul>
-							{{#each user_marketplace in user_marketplaces}}
+							{{#each user_marketplace in user.user_marketplaces}}
 								{{#unless user_marketplace.production}}
 									<li>
 										<a href="#" class="icon-delete" {{action "promptToDeleteMarketplace" user_marketplace}}>&times;</a>

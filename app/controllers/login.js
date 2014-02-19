@@ -8,10 +8,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	otpCode: null,
 
 	init: function() {
-		if (Balanced.Auth.get('signedIn')) {
+		if (this.get('auth.signedIn')) {
 			this.afterLogin();
 		} else {
-			Balanced.Auth.on('signInSuccess', _.bind(this.afterLogin, this));
+			this.get('auth').on('signInSuccess', _.bind(this.afterLogin, this));
 		}
 
 		this._super();
@@ -44,30 +44,32 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	afterLogin: function() {
+		var auth = this.get('auth');
 		this.set('loginError', false);
 
-		var attemptedTransition = Balanced.Auth.get('attemptedTransition');
+		var attemptedTransition = auth.get('attemptedTransition');
 
 		if (attemptedTransition) {
 			Ember.run.next(function() {
 				attemptedTransition.retry();
-				Balanced.Auth.set('attemptedTransition', null);
-				Balanced.Auth.trigger('signInTransition');
+				auth.set('attemptedTransition', null);
+				auth.trigger('signInTransition');
 			});
 		} else {
 			this.transitionToRoute('index');
-			Balanced.Auth.trigger('signInTransition');
+			auth.trigger('signInTransition');
 		}
 	},
 
 	actions: {
 		otpSubmit: function() {
 			var self = this;
+			var auth = this.get('auth');
 
-			Balanced.Auth.confirmOTP(this.get('otpCode')).then(function() {
+			auth.confirmOTP(this.get('otpCode')).then(function() {
 				self.afterLogin();
 			}, function() {
-				Balanced.Auth.forgetLogin();
+				auth.forgetLogin();
 				self.reset();
 				self.setProperties({
 					loginError: true,
@@ -84,11 +86,12 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 		signIn: function() {
 			var self = this;
+			var auth = this.get('auth');
 
 			this.resetError();
 
-			Balanced.Auth.forgetLogin();
-			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {
+			auth.forgetLogin();
+			auth.signIn(this.get('email'), this.get('password')).then(function() {
 				// When we add the MFA modal to ask users to login
 				// self.send('openMFAInformationModal');
 				// For now tho:

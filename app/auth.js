@@ -272,6 +272,11 @@ Balanced.Auth = (function() {
 			isGuest: isGuest
 		});
 
+		Balanced.register('user:main', user || {}, {
+			instantiate: false,
+			singleton: true
+		});
+
 		auth.getExtensions();
 	};
 
@@ -352,6 +357,32 @@ Balanced.Auth = (function() {
 			path: '/'
 		});
 	};
+
+	Balanced.register('user:main', {}, {
+		instantiate: false,
+		singleton: true
+	});
+
+	Balanced.initializer({
+		name: 'injectUser',
+		initialize: function(container, App) {
+			container.typeInjection('controller', 'user', 'user:main');
+			container.typeInjection('route', 'user', 'user:main');
+		}
+	});
+
+	Balanced.register('auth:main', auth, {
+		instantiate: false,
+		singleton: true
+	});
+
+	Balanced.initializer({
+		name: 'injectAuth',
+		initialize: function(container, App) {
+			container.typeInjection('controller', 'auth', 'auth:main');
+			container.typeInjection('route', 'auth', 'auth:main');
+		}
+	});
 
 	return auth;
 }());

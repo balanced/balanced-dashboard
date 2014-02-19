@@ -2,7 +2,7 @@
 	<li>
 		<h4 class="label7a">Production</h4>
 		<ul>
-			{{#each user_marketplace in Balanced.Auth.user.user_marketplaces}}
+			{{#each user_marketplace in user.user_marketplaces}}
 				{{#if user_marketplace.production}}
 					<li class="label2a">
 						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
@@ -15,7 +15,7 @@
 	<li>
 		<h4 class="label7a">Test</h4>
 		<ul>
-			{{#each user_marketplace in Balanced.Auth.user.user_marketplaces}}
+			{{#each user_marketplace in user.user_marketplaces}}
 				{{#unless user_marketplace.production}}
 					<li class="label2a">
 						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
@@ -25,7 +25,7 @@
 		</ul>
 	</li>
 
-	{{#unless Balanced.Auth.isGuest}}
+	{{#unless auth.isGuest}}
 		<li class="new label2d manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
 	{{/unless}}
 </ul>

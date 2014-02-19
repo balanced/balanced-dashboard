@@ -7,12 +7,14 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 	},
 
 	beforeModel: function() {
-		if (window.TESTING || Balanced.Auth.get('signedIn')) {
+		if (window.TESTING || this.get('auth.signedIn')) {
 			return;
 		}
 
+		var self = this;
+
 		return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
-			return Balanced.Auth.rememberMeSignIn();
+			return self.get('auth').rememberMeSignIn();
 		});
 	},
 
@@ -31,7 +33,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 					this.set('errorTimestamps', filtered);
 					if (filtered.length > INFINITE_LOOP_NUM_ERRORS) {
-						Balanced.Auth.forgetLogin();
+						this.get('auth').forgetLogin();
 						this.transitionTo('login');
 
 						return;
@@ -47,8 +49,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 			// if we had a problem loading the marketplace, check that it's not the current
 			// marketplace, since that might send us into an infinite loop
-			if (error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
-				Balanced.Auth.forgetLastUsedMarketplaceUri();
+			if (error.get && error.get('uri') === this.get('auth').getLastUsedMarketplaceUri()) {
+				this.get('auth').forgetLastUsedMarketplaceUri();
 			}
 
 			Balanced.Analytics.trackEvent('route-error', {
@@ -60,7 +62,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			if (statusCode === 401 || statusCode === 403) {
 				if (error.get && error.get('uri')) {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
-					Balanced.Auth.set('attemptedTransition', null);
+					this.get('auth').set('attemptedTransition', null);
 
 					this.controllerFor('application').alert({
 						message: 'You are not permitted to access this resource.',
@@ -70,11 +72,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 					this.transitionTo('marketplaces');
 				} else if (transition) {
-					Balanced.Auth.set('attemptedTransition', transition);
+					this.get('auth').set('attemptedTransition', transition);
 
 					// If we're not authorized, need to log in (maybe as a different user),
 					// so let's log out
-					Balanced.Auth.forgetLogin();
+					this.get('auth').forgetLogin();
 					this.transitionTo('login');
 				}
 			} else if (statusCode === 404) {

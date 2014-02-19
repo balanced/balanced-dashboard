@@ -1,10 +1,10 @@
-{{#if Balanced.Auth.signedIn}}
+{{#if auth.signedIn}}
 	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-		<span class="icon profile"><img {{bind-attr src=Balanced.Auth.user.gravatar}}></span>
+		<span class="icon profile"><img {{bind-attr src=user.gravatar}}></span>
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		{{#if Balanced.Auth.isGuest}}
+		{{#if auth.isGuest}}
 			<li>{{#link-to 'claim' class="label2a"}}Claim account{{/link-to}}</li>
 		{{else}}
 			<li class="change-password">

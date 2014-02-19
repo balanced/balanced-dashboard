@@ -9,7 +9,7 @@
             {{#link-to 'index' class="img"}}Balanced Dashboard{{/link-to}}
         </div>
 
-        {{#if Balanced.Auth.isGuest}}
+        {{#if auth.isGuest}}
             <div id="marketplaces-and-search" class="span18">
                 {{partial "header_search"}}
             </div>
@@ -48,6 +48,6 @@
 
     </div>
 </header>
-{{#unless Balanced.Auth.isGuest}}
+{{#unless auth.isGuest}}
     {{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
 {{/unless}}

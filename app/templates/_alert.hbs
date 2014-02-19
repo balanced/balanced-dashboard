@@ -1,5 +1,5 @@
 <div class="alert-row">
-	{{#if Balanced.Auth.isGuest}}
+	{{#if auth.isGuest}}
 		{{#if controllers.application.showNotificationCenter}}
 			<div class="row notification-center notification-center-row">
 				<div class="span2">
@@ -32,7 +32,7 @@
 
 		<div {{bind-attr class=":alert controllers.application.alertObj.type"}}>
 			<div class="button-wrapper left">
-				{{#if Balanced.Auth.isGuest}}
+				{{#if auth.isGuest}}
 					{{#unless controllers.application.showNotificationCenter}}
 						<div class="notification-center">
 							<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
