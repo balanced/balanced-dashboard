@@ -318,6 +318,16 @@ var Testing = {
 		});
 	},
 
+	createDisputes: function(number) {
+		var _this = this;
+
+		Ember.run(function() {
+			for (number = number || 4; number >= 0; number--) {
+				_this.createDispute();
+			}
+		});
+	},
+
 	createDebits: function(number) {
 		var _this = this;
 		number = number || 4;
