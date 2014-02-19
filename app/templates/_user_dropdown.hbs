@@ -1,21 +1,20 @@
 {{#if Balanced.Auth.signedIn}}
-    <a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-        <span class="icon profile"><img {{bind-attr src=Balanced.Auth.user.gravatar}}></span>
-        <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
+	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
+		<span class="icon profile"><img {{bind-attr src=Balanced.Auth.user.gravatar}}></span>
+		<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu">
+		{{#if Balanced.Auth.isGuest}}
+			<li>{{#link-to 'claim' class="label2a"}}Claim account{{/link-to}}</li>
+		{{else}}
+			<li class="change-password">
+				<a class="label2a" href="#" {{action "openChangePasswordModal" target="controllers.marketplaces"}}>Change password</a>
+			</li>
+			<li>{{#link-to 'accountSecurity' class="label2a"}}Account Security{{/link-to}}</li>
+		{{/if}}
 
-        {{#if Balanced.Auth.isGuest}}
-        <li>{{#link-to 'claim' class="label2a"}}Claim account{{/link-to}}</li>
-        {{else}}
-        <li class="change-password">
-          <a class="label2a" href="#" {{action "openChangePasswordModal" target="controllers.marketplaces"}}>Change password</a>
-        </li>
-        <li>{{#link-to 'accountSecurity' class="label2a"}}Account Security{{/link-to}}</li>
-        {{/if}}
-        <li><a class="label2a" href="#" {{action "signOut"}}>Log Out</a></li>
-    </ul>
-
+		<li><a class="label2a" href="#" {{action "signOut"}}>Log Out</a></li>
+	</ul>
 {{else}}
-    {{#link-to 'login' class="nav1d"}}Login{{/link-to}}
+	{{#link-to 'login' class="nav1d"}}Login{{/link-to}}
 {{/if}}

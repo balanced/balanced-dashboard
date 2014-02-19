@@ -114,7 +114,7 @@
                             {{#each verification in verifications}}
                                 <tr>
                                     <td class="status span10">
-                                        {{# if verification.created_at}}
+                                        {{#if verification.created_at}}
                                             <time {{bind-attr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at}}</time>
                                         {{else}}
                                             ---
@@ -130,7 +130,7 @@
                             {{else}}
                                 <tr>
                                     <td colspan="2" class="span26 no-results">
-                                        {{# if verifications.isLoaded}}
+                                        {{#if verifications.isLoaded}}
                                             Unverified
                                         {{else}}
                                             Loading...

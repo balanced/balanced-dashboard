@@ -8,7 +8,11 @@
 			</div>
 			<div class="span10 title">
 				<span class="nav3d">
-					{{#if is_business}} {{business_name}} {{else}} {{name}} {{/if}}
+					{{#if is_business}}
+						{{business_name}}
+					{{else}}
+						{{name}}
+					{{/if}}
 				</span>
 			</div>
 
@@ -27,12 +31,18 @@
 				<div class="key-value-display">
 					<header>
 						<h3>Customer info:
-							<span {{bind-attr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">{{#if is_identity_verified}}VERIFIED{{else}}UNVERIFIED{{/if}}</span>
+							<span {{bind-attr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">
+								{{#if is_identity_verified}}
+									VERIFIED
+								{{else}}
+									UNVERIFIED
+								{{/if}}
+							</span>
 
 							{{#unless is_identity_verified}}
-							{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Identify Unverified" data-content="More information is necessary to verify the identity of this customer. You may continue paying this customer, but we recommend collecting the full legal name, email, and permanent street address. For a business, we also recommend collecting the full business name and EIN number. If verification is unsuccessful, try collecting the last four digits of the SSN."}}
-							Verification status
-							{{/view}}
+								{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Identify Unverified" data-content="More information is necessary to verify the identity of this customer. You may continue paying this customer, but we recommend collecting the full legal name, email, and permanent street address. For a business, we also recommend collecting the full business name and EIN number. If verification is unsuccessful, try collecting the last four digits of the SSN."}}
+									Verification status
+								{{/view}}
 							{{/unless}}
 
 							{{view Balanced.EditCustomerInfoModalView customerBinding="model"}}
@@ -105,7 +115,7 @@
 							<label class="key">Facebook ID</label>
 							<span class="value">
 								{{#if facebook_url}}
-								<a {{bind-attr href=facebook_url}}>{{facebook_id}}</a>
+									<a {{bind-attr href=facebook_url}}>{{facebook_id}}</a>
 								{{/if}}
 							</span>
 						</div>
@@ -113,18 +123,16 @@
 							<label class="key">Twitter ID</label>
 							<span class="value">
 								{{#if twitter_url}}
-								<a {{bind-attr href=twitter_url}}>{{twitter_id}}</a>
+									<a {{bind-attr href=twitter_url}}>{{twitter_id}}</a>
 								{{/if}}
 							</span>
 						</div>
 					</div>
 				</form>
 			</section>
-
 		</div>
 
 		<div class="offset1 span8">
-
 			<section class="bank-account-info">
 				<header>
 					<h3>Bank accounts
@@ -133,28 +141,30 @@
 				</header>
 				<ul class="sidebar-items">
 					{{#each bank_account in bank_accounts}}
-					<li class="bank-account">
-						{{#link-to 'bank_accounts' bank_account}}
-						<div {{bind-attr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
-						{{/link-to}}
-						<a href="#" class="icon-delete" {{action "promptToDeleteBankAccount" bank_account}}>delete</a>
-						{{#link-to 'bank_accounts' bank_account}}
-						<div class="details">
-							<span class="name label2a">{{bank_account.name}}</span>
-							<span class="summary">{{bank_account.description}}</span>
-						</div>
+						<li class="bank-account">
+							{{#link-to 'bank_accounts' bank_account}}
+								<div {{bind-attr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
+							{{/link-to}}
 
-						{{#unless bank_account.can_debit}}
-						<div class="actions">
-							{{#if bank_account.can_confirm_verification}}
-							Confirm verification
-							{{else}}
-							Verify to debit
-							{{/if}}
-						</div>
-						{{/unless}}
-						{{/link-to}}
-					</li>
+							<a href="#" class="icon-delete" {{action "promptToDeleteBankAccount" bank_account}}>delete</a>
+
+							{{#link-to 'bank_accounts' bank_account}}
+								<div class="details">
+									<span class="name label2a">{{bank_account.name}}</span>
+									<span class="summary">{{bank_account.description}}</span>
+								</div>
+
+								{{#unless bank_account.can_debit}}
+									<div class="actions">
+										{{#if bank_account.can_confirm_verification}}
+											Confirm verification
+										{{else}}
+											Verify to debit
+										{{/if}}
+									</div>
+								{{/unless}}
+							{{/link-to}}
+						</li>
 					{{/each}}
 				</ul>
 			</section>
@@ -167,16 +177,16 @@
 				</header>
 				<ul class="sidebar-items">
 					{{#each card in cards}}
-					<li>
-						<a href="#" class="icon-delete" {{action "promptToDeleteCard" card}}>delete</a>
-						{{#link-to 'cards' card}}
-						<div class="icon">Credit card</div>
-						<div class="details">
-							<span class="name label2a">{{card.name}}</span>
-							<span class="summary">{{card.description}}</span>
-						</div>
-						{{/link-to}}
-					</li>
+						<li>
+							<a href="#" class="icon-delete" {{action "promptToDeleteCard" card}}>delete</a>
+							{{#link-to 'cards' card}}
+								<div class="icon">Credit card</div>
+								<div class="details">
+									<span class="name label2a">{{card.name}}</span>
+									<span class="summary">{{card.description}}</span>
+								</div>
+							{{/link-to}}
+						</li>
 					{{/each}}
 				</ul>
 			</section>
