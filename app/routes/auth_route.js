@@ -6,6 +6,10 @@ Balanced.AuthRoute = Balanced.Route.extend({
 		}
 
 		Balanced.Auth.set('attemptedTransition', transition);
+
+		var e = new Error('Not Authenicated!');
+		transition.abort(e);
+
 		this.transitionTo('login');
 	}
 });

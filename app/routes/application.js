@@ -18,8 +18,6 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 	actions: {
 		error: function(error, transition) {
-			console.log(error, transition);
-			console.trace();
 			if (!window.TESTING) {
 				// Check for an infinite loop of error handling and short-circuit
 				// if we've seen too many errors in too short a period
@@ -42,14 +40,14 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			}
 
 			// the error object could be an ember object or a jqxhr
-			var statusCode = (error && (error.errorStatusCode || error.status)) || 0;
-			var uri = (error && error.uri) || window.location.toString();
+			var statusCode = error.errorStatusCode || error.status;
+			var uri = error.uri;
 
-			Ember.Logger.error("Error while loading route (%@: %@): ".fmt(statusCode, uri), ((error && (error.stack || error.message || error.name)) || error || ''));
+			Ember.Logger.error("Error while loading route (%@: %@): ".fmt(statusCode, uri), error.stack || error.message || error.name || error);
 
 			// if we had a problem loading the marketplace, check that it's not the current
 			// marketplace, since that might send us into an infinite loop
-			if (error && error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
+			if (error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
 				Balanced.Auth.forgetLastUsedMarketplaceUri();
 			}
 
@@ -63,11 +61,13 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 				if (error.get && error.get('uri')) {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
 					Balanced.Auth.set('attemptedTransition', null);
+
 					this.controllerFor('application').alert({
 						message: 'You are not permitted to access this resource.',
 						type: 'error',
 						persists: true
 					});
+
 					this.transitionTo('marketplaces');
 				} else if (transition) {
 					Balanced.Auth.set('attemptedTransition', transition);

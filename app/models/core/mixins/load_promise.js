@@ -30,21 +30,23 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		var deferred = Ember.Deferred.create();
 
 		function success() {
-			resetEventHandlers();
+			_.each(['becameError', 'becameInvalid'], function(name) {
+				this.off(name, error);
+			}, model);
+			// resetEventHandlers();
 			// console.log('success resolveOn', successEvent, deferred, deferred.resolve, model, deferred.get('_deferred'), model.get('_deferred'));
 			deferred.resolve(model);
 		}
 
 		function error() {
-			resetEventHandlers();
+			model.off(successEvent, success);
+			// resetEventHandlers();
 			// console.log('erorr resolveOn');
 			deferred.reject(model);
 		}
 
 		function resetEventHandlers() {
-			_.each(['becameError', 'becameInvalid'], function(name) {
-				this.off(name, error);
-			}, model);
+
 
 			_.each(['didLoad', 'didCreate'], function(name) {
 				this.off(name, success);
