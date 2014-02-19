@@ -6,6 +6,13 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 	addedKeys: [],
 	keyName: '',
 	keySecret: false,
+	oneKey: function() {
+		return (this.keys.length + this.addedKeys.length) === 1;
+	}.property('keys.@each', 'addedKeys.@each'),
+	haveOtherSecrets: function() {
+		return this.addedKeys.length > 0;
+	}.property('addedKeys.@each'),
+
 	init: function() {
 		var self = this;
 		Balanced.APIKey.findAll()
@@ -25,6 +32,16 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 	actions: {
 		delete: function(key) {
 			var addedIndex = this.addedKeys.indexOf(key);
+			var secret = key.get('secret');
+			var newKey;
+			if (secret === this.get('marketplaceSecret')) {
+				newKey = this.get('addedKeys')[0];
+				if (!newKey) {
+					return;
+				}
+				Balanced.Auth.setAPIKey(newKey.get('secret'));
+				this.userMarketplace.updateSecret(newKey.get('secret'));
+			}
 			key.delete();
 			if (addedIndex >= 0) {
 				this.addedKeys.removeObject(key);
@@ -41,6 +58,10 @@ Balanced.ApiKeysModalComponent = Balanced.ModalComponent.extend({
 				.then(function(newKey) {
 					self.addedKeys.pushObject(newKey);
 					self.set('keyName', '');
+					Balanced.UserMarketplace.create({
+						uri: Balanced.Auth.user.api_keys_uri,
+						secret: newKey.get('secret')
+					}).save();
 				});
 		},
 

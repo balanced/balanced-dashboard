@@ -20,4 +20,6 @@
     </div>
     </form>
 </div>
-<a href="#" {{action "open"}} class="confirm-delete-key">X</a>
+{{#if displayDelete}}
+    <a href="#" {{action "open"}} class="confirm-delete-key">&times;</a>
+{{/if}}

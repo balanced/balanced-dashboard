@@ -30,7 +30,7 @@
 						<td class="span5">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
 						<td class="span6">{{key.id}}</td>
 						<td class="span1">
-							{{api-key-delete-modal action="delete"  param=key key=key marketplaceSecret=marketplaceSecret}}
+							{{api-key-delete-modal action="delete"  param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
 						</td>
 					</tr>
 				{{/each}}
@@ -54,7 +54,7 @@
 							<td class="span3">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
 							<td class="span4">{{key.id}}</td>
 							<td class="span7">{{key.secret}}</td>
-							<td class="span1">{{api-key-delete-modal action="delete"  param=key key=key marketplaceSecret=marketplaceSecret}}</td>
+							<td class="span1">{{api-key-delete-modal action="delete"  param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}</td>
 						</tr>
 					{{/each}}
 				</tbody>

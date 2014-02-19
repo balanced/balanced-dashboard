@@ -1,20 +1,29 @@
 require('app/components/modal');
 
 Balanced.ApiKeyDeleteModalComponent = Balanced.ModalComponent.extend({
-	moreWarning: false,
+	moreWarning: function() {
+		return this.key.get('secret') === this.marketplaceSecret;
+	}.property('key'),
+	displayDelete: function() {
+		if (this.get('oneKey')) {
+			return false;
+		}
+		if (this.get('moreWarning') && !this.get('haveOtherSecrets')) {
+			return false;
+		}
+		return true;
+	}.property('moreWarning', 'key', 'oneKey', 'haveOtherSecrets'),
 
 	init: function() {
-		var secret = this.get('key').secret;
-		if (secret === this.get('marketplaceSecret')) {
-			this.set('moreWarning', true);
-		}
+		window.apikeydelc = window.apikeydelc || {};
+		window.apikeydelc[this.key.get('id')] = this;
 		this._super();
 	},
 
 	actions: {
 		confirm: function() {
-			this.sendAction('action', this.get('key'));
 			this.hide();
+			this.sendAction('action', this.get('key'));
 		}
 	}
 });
