@@ -42,8 +42,8 @@
 									{{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
 									<label>Enter your date of birth</label>
 								</div>
-								{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address_street_address" help="Enter your billing address including apartment, suite, or unit number"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address_postal_code" help="Enter your zip code"}}
+								{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number"}}
+								{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter your zip code"}}
 								{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
 								{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone_number" help="Enter your phone number"}}
 
