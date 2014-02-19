@@ -87,10 +87,16 @@ test('models have promises for create', function(assert) {
 	});
 });
 
-asyncTest('create promises work if the model was previously invalid', function(assert) {
-	expect(1);
+test('create promises work if the model was previously invalid', function(assert) {
+	expect(2);
 	var t = Balanced.TestModel.create({
 		uri: '/v1/woo'
+	});
+
+	t.then(function(model) {
+		assert.ok(false, 'This should not run...');
+	}, function(model) {
+		assert.ok(true, 'This should run...');
 	});
 
 	t._handleError({
@@ -100,17 +106,9 @@ asyncTest('create promises work if the model was previously invalid', function(a
 
 	Ember.run(function() {
 		t.save().then(function(model) {
-			console.trace();
-			console.log('successes', model, arguments);
-
 			assert.ok(true);
-			start();
 		}, function(model) {
-			console.trace();
-			console.log('failed', model, arguments);
-
 			assert.ok(false);
-			start();
 		});
 	});
 });

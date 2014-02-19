@@ -4,6 +4,11 @@ var Evented = Ember.Evented, // ember-runtime/mixins/evented
 	get = Ember.get, // ember-metal/accessors
 	set = Ember.set;
 
+var PENDING = void 0;
+var SEALED = 0;
+var FULFILLED = 1;
+var REJECTED = 2;
+
 var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 	init: function() {
 		this._super.apply(this, arguments);
@@ -17,6 +22,8 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		_.each(['becameError', 'becameInvalid'], function(name) {
 			this.one(name, this, function() {
 				run(this, 'reject', this);
+
+				this._resetPromise();
 			});
 		}, this);
 
@@ -30,23 +37,19 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		var deferred = Ember.Deferred.create();
 
 		function success() {
-			_.each(['becameError', 'becameInvalid'], function(name) {
-				this.off(name, error);
-			}, model);
-			// resetEventHandlers();
-			// console.log('success resolveOn', successEvent, deferred, deferred.resolve, model, deferred.get('_deferred'), model.get('_deferred'));
+			resetEventHandlers();
 			deferred.resolve(model);
 		}
 
 		function error() {
-			model.off(successEvent, success);
-			// resetEventHandlers();
-			// console.log('erorr resolveOn');
+			resetEventHandlers();
 			deferred.reject(model);
 		}
 
 		function resetEventHandlers() {
-
+			_.each(['becameError', 'becameInvalid'], function(name) {
+				this.off(name, error);
+			}, model);
 
 			_.each(['didLoad', 'didCreate'], function(name) {
 				this.off(name, success);
@@ -67,7 +70,9 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		// promise if it has already been rejected which can happen during
 		// model object validation.
 		var resolved = this.get('_deferred');
-		if (resolved && resolved.promise && resolved.promise.isRejected) {
+
+		// RSVP got rid of isRejected and uses _state to maintain a promise's state
+		if (resolved && resolved.promise && resolved.promise._state === REJECTED) {
 			set(this, '_deferred', Ember.RSVP.defer());
 		}
 	}

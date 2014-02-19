@@ -47,10 +47,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		var adapterFunc = creatingNewModel ? Balanced.Adapter.create : Balanced.Adapter.update;
 
 		var promise = this.resolveOn(resolveEvent);
-		console.log('saving...');
 
 		adapterFunc.call(Balanced.Adapter, this.constructor, uri, data, function(json) {
-			console.log('yoo success', arguments, resolveEvent);
 			var deserializedJson = self.constructor.serializer.extractSingle(json, this.constructor, (creatingNewModel ? null : self.get('href')));
 			self._updateFromJson(deserializedJson);
 
@@ -76,8 +74,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		var self = this;
 		var settings = settings || {};
 
-		self.set('isDeleted', true);
-		self.set('isSaving', true);
+		self.setProperties({
+			isDeleted: true,
+			isSaving: true
+		});
 
 		var promise = this.resolveOn('didDelete');
 
@@ -114,6 +114,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		var modelObject = this.constructor.create({
 			uri: this.get('uri')
 		});
+
 		modelObject._updateFromJson(this.get(JSON_PROPERTY_KEY));
 		return modelObject;
 	},
@@ -125,11 +126,15 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	populateFromJsonResponse: function(json) {
 		var decodingUri = this.get('isNew') ? null : this.get('uri');
 		var modelJson = this.constructor.serializer.extractSingle(json, this.constructor, decodingUri);
+
 		if (modelJson) {
 			this._updateFromJson(modelJson);
 		} else {
-			this.set('isNew', false);
-			this.set('isError', true);
+			this.setProperties({
+				isNew: false,
+				isError: true
+			});
+
 			this.trigger('becameError');
 		}
 	},
@@ -140,8 +145,10 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			return;
 		}
 
-		this.set('isNew', false);
-		this.set(JSON_PROPERTY_KEY, json);
+		this.setProperties({
+			isNew: false,
+			JSON_PROPERTY_KEY: json
+		});
 
 		Ember.changeProperties(function() {
 			for (var prop in json) {
@@ -160,22 +167,25 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	},
 
 	_handleError: function(jqXHR, textStatus, errorThrown) {
-		console.log('_handleError', arguments);
-		console.trace();
 		this.set('isSaving', false);
+
 		if (jqXHR.status === 400) {
 			this.set('isValid', false);
 			this.trigger('becameInvalid', jqXHR.responseText);
 		} else {
-			this.set('isError', true);
-			this.set('errorStatusCode', jqXHR.status);
+			this.setProperties({
+				isError: true,
+				errorStatusCode: jqXHR.status
+			});
 			this.trigger('becameError', jqXHR.responseText);
 		}
 
 		if (jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors.length > 0) {
-			this.set('validationErrors', Balanced.Utils.extractValidationErrorHash(jqXHR.responseJSON));
-			this.set('errorDescription', jqXHR.responseJSON.errors[0].description);
-			this.set('requestId', jqXHR.responseJSON.errors[0].request_id);
+			this.setProperties({
+				validationErrors: Balanced.Utils.extractValidationErrorHash(jqXHR.responseJSON),
+				errorDescription: jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors[0].description,
+				requestId: jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors[0].request_id
+			});
 		}
 	},
 
@@ -209,8 +219,11 @@ Balanced.Model.reopenClass({
 		var modelObject = modelClass.create({
 			uri: uri
 		});
-		modelObject.set('isLoaded', false);
-		modelObject.set('isNew', false);
+
+		modelObject.setProperties({
+			isLoaded: false,
+			isNew: false
+		});
 
 		Balanced.Adapter.get(modelClass, uri, function(json) {
 			modelObject.populateFromJsonResponse(json, uri);
@@ -221,9 +234,11 @@ Balanced.Model.reopenClass({
 
 	findAll: function(settings) {
 		var uri = this.create().get('uri');
+
 		if (!uri) {
 			throw new Error("Can't call findAll for class that doesn't have a default URI: %@".fmt(this));
 		}
+
 		return Balanced.ModelArray.newArrayLoadedFromUri(uri, this);
 	},
 
@@ -338,6 +353,7 @@ Balanced.Model.reopenClass({
 
 	_materializeLoadedObjectFromAPIResult: function(json) {
 		var objClass = this;
+
 		if (json._type) {
 			var mappedTypeClass = Balanced.TypeMappings.classForType(json._type);
 			if (mappedTypeClass) {
@@ -349,10 +365,12 @@ Balanced.Model.reopenClass({
 				Ember.Logger.warn("No _type field found on URI: " + json.uri);
 			}
 		}
+
 		var typedObj = objClass.create();
 		typedObj.set('isNew', false);
 		typedObj._updateFromJson(json);
 		typedObj.trigger('didLoad');
+
 		return typedObj;
 	},
 
