@@ -10,15 +10,29 @@ Balanced.Test.asyncHelpers = {
 	fillForm: function(app, form, params, options) {
 		wait();
 
+		if (form && _.isObject(form)) {
+			options = params;
+			params = form;
+			form = '';
+		}
+
 		options = _.extend({}, DEFAULT_FILL_FORM_OPTIONS, options);
 
 		_.each(params, function(val, name) {
 			fillIn(form + ' [' + options.attr + '="' + name + '"]', val);
+
 			wait();
 		});
 
 		if (options.click) {
-			click(form + ' ' + options.click);
+			if (_.isArray(options.click)) {
+				_.each(options.click, function(val) {
+					click(form + ' ' + val);
+					wait();
+				});
+			} else {
+				click(form + ' ' + options.click);
+			}
 		}
 
 		return wait();
@@ -47,6 +61,15 @@ Balanced.Test.asyncHelpers = {
 		}
 
 		$form.submit();
+
+		return wait();
+	},
+	clickMultiple: function(app, clickEl, number) {
+		for(number = number || 10; number > 0; number--) {
+			click(clickEl);
+
+			wait();
+		}
 
 		return wait();
 	}
