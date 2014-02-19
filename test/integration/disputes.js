@@ -7,7 +7,9 @@ module('Disputes', {
 
 		// Pause tests for 1000ms for disputes
 		// to be fully created
-		Testing.pause(1000);
+		// Testing.pause(1000);
+		stop();
+		setTimeout(start, 1000);
 	},
 	teardown: function() {}
 });
