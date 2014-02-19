@@ -4,6 +4,10 @@ module('Disputes', {
 		Testing.createDisputes();
 		// Testing.setupFixtures();
 		// Testing.fixtureLogin();
+
+		// Pause tests for 1000ms for disputes
+		// to be fully created
+		Testing.pause(1000);
 	},
 	teardown: function() {}
 });
@@ -16,7 +20,7 @@ test('exist on the activity page', function(assert) {
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
-		'#activity .results table.disputes tfoot td': 1
+		'table.disputes tfoot td': 1
 	};
 
 	visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes')
@@ -29,7 +33,7 @@ test('exist on the activity page', function(assert) {
 			assert.ok(activityController.get('results_uri').indexOf('sort=created_at') > 0, 'Disputes Sort is correct');
 		})
 		.checkElements(activityDisputesPage, assert)
-		.click('#activity .results table.disputes tfoot td.load-more-results a')
+		.click('table.disputes tfoot td.load-more-results a')
 		.then(function() {
 			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
 		});
