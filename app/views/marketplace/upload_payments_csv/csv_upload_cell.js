@@ -12,7 +12,7 @@ Balanced.CsvUploadCellView = Balanced.View.extend({
 			content: function() {
 				var messages = [];
 				var wrap = function(m) {
-					var content = Ember.Handlebars.Utils.escapeExpression(m);;
+					var content = Ember.Handlebars.Utils.escapeExpression(m);
 					messages.push("<p>" + content + "</p>");
 				};
 				wrap("Invalid field " + self.get("fieldName"));

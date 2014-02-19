@@ -2,7 +2,6 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 	templateName: "marketplace/upload_payments_csv/results_table",
 
 	isError: false,
-	isNeutral: false
 });
 
 Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
@@ -15,7 +14,6 @@ Balanced.MarketplaceInvalidCsvPaymentsTableView = Balanced.MarketplaceCsvPayment
 	title: "Invalid Entries",
 
 	isError: true,
-	isNeutral: Ember.computed.equal("items.length", 0),
 
 	items: Ember.computed.alias("creditCreators.invalid")
 });
