@@ -67,8 +67,12 @@ test('can delete api key', function(assert) {
 		.then(function() {
 			var $keySpan = $('.api-key-secret');
 			$keySpan.find('a.show-api-keys').first().click();
+			var $createKeyButton = $('.create-key-button');
+			$createKeyButton.click();
 			var $deleteKeyButtons = $('.confirm-delete-key');
-			$deleteKeyButtons.eq(1).click();
+			$deleteKeyButtons.eq(0).click();
+			var $confirmDelete = $('#api-keys button.delete-key-btn:visible');
+			$confirmDelete.click();
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.APIKey));
 		});
