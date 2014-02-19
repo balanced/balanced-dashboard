@@ -149,7 +149,7 @@ test('application submits properly', function(assert) {
 				name: "Balanced Test Marketplace",
 				support_email_address: "support@balancedpayments.com",
 				support_phone_number: "(650) 555-4444",
-				domain_url: "https://www.balancedpayments.com"
+				domain_url: "https://www.balancedpayments.com/"
 			})));
 
 			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
