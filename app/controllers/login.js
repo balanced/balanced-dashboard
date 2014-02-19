@@ -110,7 +110,11 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					if (!responseText) {
 						try {
 							responseText = JSON.parse(jqxhr.responseText);
-						} catch (e) {}
+						} catch (e) {
+							responseText = {
+								detail: jqxhr.responseText
+							};
+						}
 					}
 
 					if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
