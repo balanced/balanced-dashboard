@@ -363,17 +363,17 @@ Balanced.Auth = (function() {
 		singleton: true
 	});
 
+	Balanced.register('auth:main', auth, {
+		instantiate: false,
+		singleton: true
+	});
+
 	Balanced.initializer({
 		name: 'injectUser',
 		initialize: function(container, App) {
 			container.typeInjection('controller', 'user', 'user:main');
 			container.typeInjection('route', 'user', 'user:main');
 		}
-	});
-
-	Balanced.register('auth:main', auth, {
-		instantiate: false,
-		singleton: true
 	});
 
 	Balanced.initializer({
