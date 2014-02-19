@@ -42,8 +42,8 @@
 			<table class="items added-keys">
 				<thead>
 					<tr>
-						<th class="span3">Name </th>
-						<th class="span4">ID </th>
+						<th class="span2">Name </th>
+						<th class="span5">ID </th>
 						<th class="span7">Secret </th>
 						<th class="span1">Delete? </th>
 					</tr>
@@ -51,8 +51,8 @@
 				<tbody>
 					{{#each key in addedKeys}}
 						<tr>
-							<td class="span3">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
-							<td class="span4">{{key.id}}</td>
+							<td class="span2">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
+							<td class="span5">{{key.id}}</td>
 							<td class="span7">{{key.secret}}</td>
 							<td class="span1">{{api-key-delete-modal action="delete"  param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}</td>
 						</tr>

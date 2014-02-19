@@ -45,7 +45,32 @@ test('can manage api keys', function(assert) {
 			var $deleteKeyButtons = $('.confirm-delete-key');
 			$deleteKeyButtons.eq(1).click();
 			assert.equal($('.modal.delete-key:visible').length, 1, 'Delete Key confirmation modal should be visible');
+		});
+});
 
+test('can add api key', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, 'create');
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			var $keySpan = $('.api-key-secret');
+			$keySpan.find('a.show-api-keys').first().click();
+			var $createKeyButton = $('.create-key-button');
+			$createKeyButton.click();
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.APIKey));
+		});
+});
+
+test('can delete api key', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, 'delete');
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			var $keySpan = $('.api-key-secret');
+			$keySpan.find('a.show-api-keys').first().click();
+			var $deleteKeyButtons = $('.confirm-delete-key');
+			$deleteKeyButtons.eq(1).click();
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.APIKey));
 		});
 });
 
