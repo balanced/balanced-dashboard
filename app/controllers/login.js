@@ -105,8 +105,13 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					return;
 				}
 
-				if (typeof jqxhr.responseText !== "undefined") {
-					var responseText = jqxhr.responseJSON || JSON.parse(jqxhr.responseText);
+				if (typeof jqxhr.responseText !== "undefined" && jqxhr.responseText) {
+					var responseText = jqxhr.responseJSON;
+					if (!responseText) {
+						try {
+							responseText = JSON.parse(jqxhr.responseText);
+						} catch(e){}
+					}
 
 					if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
 						self.set('otpRequired', true);
