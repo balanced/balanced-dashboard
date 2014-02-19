@@ -11,6 +11,7 @@ Balanced.EditCustomerInfoModalView = Balanced.View.extend({
 
 	willDestroyElement: function() {
 		$('#edit-customer-info').modal('hide');
+		this._super();
 	},
 
 	actions: {
