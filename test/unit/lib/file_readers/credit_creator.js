@@ -264,11 +264,11 @@ test("#isLoaded", function(assert) {
 		customer: undefined,
 	});
 	assert.ok(!creditCreator.get("isLoaded"));
-	creditCreator.set("bankAccount", null)
+	creditCreator.set("bankAccount", null);
 	assert.ok(!creditCreator.get("isLoaded"));
-	creditCreator.set("credit", null)
+	creditCreator.set("credit", null);
 	assert.ok(!creditCreator.get("isLoaded"));
-	creditCreator.set("customer", null)
+	creditCreator.set("customer", null);
 	assert.ok(creditCreator.get("isLoaded"));
 });
 

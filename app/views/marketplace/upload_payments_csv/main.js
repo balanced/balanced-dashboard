@@ -82,14 +82,8 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		},
 
 		submit: function() {
-			var modal = this.get("progressBarModal");
-			modal.set("title", "Submitting Payouts");
-			modal.send("open");
 			this.updateProgressFraction();
-
-			this.get("controller").save(function() {
-				modal.send("close");
-			});
+			this.get("controller").save();
 		},
 
 		fileSelectionChanged: function() {

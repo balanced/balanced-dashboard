@@ -4,7 +4,6 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 
 	init: function() {
 		this._super();
-
 		this.refresh("");
 	},
 
@@ -13,11 +12,10 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		this.set("creditCreators", collection);
 	},
 
-	save: function(callback) {
+	save: function() {
 		var self = this;
 		var collection = self.get("creditCreators");
 		collection.save(function() {
-			callback();
 			var count = collection.filterBy("isSaved").get("length");
 			self.transitionToRoute('activity');
 			self.refresh("");
