@@ -39,6 +39,10 @@ Balanced.ModalComponent = Ember.Component.extend({
 			var self = this;
 
 			model.save().then(function() {
+				if (!self.get('submitAction')) {
+					return;
+				}
+
 				self.sendAction('submitAction', model);
 			});
 		}

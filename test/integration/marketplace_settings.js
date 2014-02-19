@@ -3,6 +3,7 @@ module('Marketplace Settings', {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
+
 		Ember.run(function() {
 			Balanced.Callback.create({
 				uri: '/callbacks',
@@ -12,14 +13,7 @@ module('Marketplace Settings', {
 		});
 	},
 	teardown: function() {
-		$("#add-bank-account").modal('hide');
-		$("#delete-bank-account").modal('hide');
-		$("#add-card").modal('hide');
-		$("#delete-card").modal('hide');
-		$("#add-callback").modal('hide');
-		$("#delete-callback").modal('hide');
-		$('#edit-marketplace-info').modal('hide');
-		$('#edit-owner-info').modal('hide');
+		$(".modal").modal('hide');
 	}
 });
 
