@@ -9,7 +9,7 @@ module('Disputes', {
 		// to be fully created
 		// Testing.pause(1000);
 		stop();
-		setTimeout(start, 1000);
+		setTimeout(start, 5000);
 	},
 	teardown: function() {}
 });
@@ -22,7 +22,7 @@ test('exist on the activity page', function(assert) {
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
-		'table.disputes tfoot td': 1
+		'table.disputes tfoot td:eq(0)': 1
 	};
 
 	visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes')

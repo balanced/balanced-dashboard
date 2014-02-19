@@ -320,7 +320,7 @@ var Testing = {
 		var _this = this;
 
 		Ember.run(function() {
-			for (number = number || 4; number > 0; number--) {
+			for (number = number || 4; number >= 0; number--) {
 				_this.createDispute();
 			}
 		});
