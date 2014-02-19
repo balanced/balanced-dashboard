@@ -1,4 +1,4 @@
-Balanced.AuthRoute = Ember.Route.extend({
+Balanced.AuthRoute = Balanced.Route.extend({
 	beforeModel: function(transition) {
 		var self = this;
 		if (Balanced.Auth.get('signedIn')) {

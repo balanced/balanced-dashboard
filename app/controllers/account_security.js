@@ -1,5 +1,5 @@
 Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Evented, {
-	needs: ['marketplaces'],
+	needs: ['marketplaces', 'marketplace', 'application'],
 
 	content: null,
 	auth_code_confirm: null,
@@ -7,6 +7,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 	hasError: false,
 	status: 'disabled',
 	authError: false,
+	application: Ember.computed.alias("controllers.application"),
 
 	reset: function() {
 		this.setProperties({
@@ -71,14 +72,14 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 	},
 
 	actions: {
-		openDisableMFAModal: function() {
+		openDisableMFAModal: function(router, evt) {
 			if (this.get('isEnabled')) {
 				$('#disable-mfa').modal();
 			} else {
 				this.send('disableAuth');
 			}
 		},
-		enableAuth: function() {
+		enableAuth: function(router, evt) {
 			var self = this;
 
 			Balanced.Auth.enableMultiFactorAuthentication().done(function() {
@@ -86,36 +87,36 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 				self.loadQRCode();
 			});
 		},
-		disableAuth: function() {
+		disableAuth: function(router, evt) {
 			var self = this;
 
 			Balanced.Auth.disableMultiFactorAuthentication().done(function() {
 				self.set('status', 'disabled');
 				$('#qrcode').html('');
 
-				self.controllerFor('application').alert({
+				self.get('application').alert({
 					message: 'Two-factor authentication is now disabled.',
 					type: 'error',
 					persists: true
 				});
 
-				self.transitionTo('marketplaces');
+				self.send('goBack');
 			});
 		},
-		activateAuth: function() {
+		activateAuth: function(router, evt) {
 			var self = this;
 
 			Balanced.Auth.confirmOTP(this.get('auth_code_confirm')).then(function() {
 				self.set('status', 'enabled');
 				$('#qrcode').html('');
 
-				self.controllerFor('application').alert({
+				self.get('application').alert({
 					message: 'Two-factor authentication is now enabled.',
 					type: 'success',
 					persists: true
 				});
 
-				self.transitionTo('marketplaces');
+				self.send('goBack');
 			}, function() {
 				self.setProperties({
 					authError: true,

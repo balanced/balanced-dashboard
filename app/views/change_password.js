@@ -8,6 +8,7 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 		}
 
 		controller.on('openChangePasswordModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
@@ -17,6 +18,7 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 		}
 
 		controller.off('openChangePasswordModal', this, this.open);
+		this._super();
 	},
 
 	open: function() {

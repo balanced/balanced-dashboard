@@ -5,10 +5,12 @@ Balanced.ConfirmVerificationModalView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.get('controller').on('openConfirmVerificationModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').off('openConfirmVerificationModal', this, this.open);
+		this._super();
 	},
 
 	open: function() {

@@ -5,5 +5,6 @@ Balanced.PopoverView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.$().popover();
+		this._super();
 	}
 });

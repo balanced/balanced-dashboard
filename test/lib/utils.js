@@ -85,22 +85,24 @@ var Testing = {
 	setupMarketplace: function() {
 		var _this = this;
 		Ember.run(function() {
-			return Balanced.Auth.createNewGuestUser().then(function() {
-				return Balanced.Marketplace.create().save();
-			}).then(function(marketplace) {
-				_this.marketplace = marketplace;
-				Balanced.Auth.setupGuestUserMarketplace(marketplace);
+			return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
+				return Balanced.Auth.createNewGuestUser().then(function() {
+					return Balanced.Marketplace.create().save();
+				}).then(function(marketplace) {
+					_this.marketplace = marketplace;
+					Balanced.Auth.setupGuestUserMarketplace(marketplace);
 
-				_this.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
-				_this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
-				_this.MARKETPLACES_ROUTE = '/marketplaces';
-				_this.MARKETPLACE_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID;
-				_this.ACTIVITY_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/activity/transactions';
-				_this.ADD_CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/add_customer';
-				_this.CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/customers/' + _this.CUSTOMER_ID;
-				_this.LOGS_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/logs';
-				_this.SETTINGS_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/settings';
-				_this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/initial_deposit';
+					_this.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
+					_this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
+					_this.MARKETPLACES_ROUTE = '/marketplaces';
+					_this.MARKETPLACE_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID;
+					_this.ACTIVITY_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/activity/transactions';
+					_this.ADD_CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/add_customer';
+					_this.CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/customers/' + _this.CUSTOMER_ID;
+					_this.LOGS_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/logs';
+					_this.SETTINGS_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/settings';
+					_this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/initial_deposit';
+				});
 			});
 		});
 	},

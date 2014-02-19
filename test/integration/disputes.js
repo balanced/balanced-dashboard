@@ -29,7 +29,7 @@ test('exist on the activity page', function(assert) {
 		.then(function() {
 			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct Rows');
 
-			// Manual check the disputes uri is correct
+			// Manually check the disputes uri is correct
 			var activityController = Balanced.__container__.lookup('controller:activity');
 			assert.equal(activityController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
 			assert.ok(activityController.get('results_uri').indexOf('sort=created_at') > 0, 'Disputes Sort is correct');

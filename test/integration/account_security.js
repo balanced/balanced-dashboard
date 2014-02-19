@@ -15,6 +15,9 @@ test('Can enable', function(assert) {
 			assert.ok($("#account_security").hasClass('disabled'), 'OTP is initially disabled.');
 			assert.equal($(".status-circle:visible").length, 2, 'Status Circles exist');
 			assert.equal($(".window-pane:visible").length, 0, 'Window Pane Hidden');
+
+			var currentRoute = Balanced.__container__.lookup('route:accountSecurity');
+			assert.equal(currentRoute.previousHandler.name, 'login', 'Route to go back correct');
 		})
 		.click('.status-circle.green a')
 		.then(function() {
@@ -32,6 +35,9 @@ test('Can disable', function(assert) {
 			assert.ok($("#account_security").hasClass('enabled'), 'OTP is initially disabled.');
 			assert.equal($(".status-circle:visible").length, 2, 'Status Circles exist');
 			assert.equal($(".window-pane:visible").length, 0, 'Window Pane Hidden');
+
+			var currentRoute = Balanced.__container__.lookup('route:accountSecurity');
+			assert.equal(currentRoute.previousHandler.name, 'login', 'Route to go back correct');
 		})
 		.click('.status-circle.red a')
 		.then(function() {
