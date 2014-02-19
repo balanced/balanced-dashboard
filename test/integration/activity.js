@@ -11,7 +11,7 @@ function setupMarketplaceController(bankAccounts) {
 module('Activity', {
 	setup: function() {
 		Testing.setupMarketplace();
-		// Testing.createDebits();
+		Testing.createDebits();
 
 		// add some delay, because the API takes some time to add things to search
 		var stop = window.stop;

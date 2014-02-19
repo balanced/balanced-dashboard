@@ -329,14 +329,12 @@ var Testing = {
 	createDebits: function(number) {
 		var _this = this;
 		number = number || 4;
-		// Ember.run(function() {
+		Ember.run(function() {
 			var i = number;
 			while (i > 0) {
-				Ember.run(function() {
-					_this._createDebit();
-				});
+				_this._createDebit();
 				i--;
 			}
-		// });
+		});
 	}
 };
