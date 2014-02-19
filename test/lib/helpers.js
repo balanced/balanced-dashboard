@@ -65,7 +65,7 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 	clickMultiple: function(app, clickEl, number) {
-		for(number = number || 10; number > 0; number--) {
+		for (number = number || 10; number > 0; number--) {
 			click(clickEl);
 
 			wait();
