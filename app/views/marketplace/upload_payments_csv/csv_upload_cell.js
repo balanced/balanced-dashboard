@@ -66,10 +66,12 @@ Balanced.CsvUploadCellView = Balanced.View.extend({
 		var fieldName = this.get("fieldName");
 		var fields = this.get("context.csvFields");
 		if (fields) {
-			return fields[fieldName];
-		} else {
-			return "";
+			var value = (fields[fieldName] || "").trim();
+			if (value.trim().length > 0) {
+				return Ember.Handlebars.Utils.escapeExpression(value);
+			}
 		}
+		return "&nbsp;";
 	}.property("context.csvFields")
 });
 

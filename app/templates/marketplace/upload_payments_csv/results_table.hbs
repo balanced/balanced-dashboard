@@ -35,11 +35,11 @@
           {{view Balanced.DefaultCsvUploadCellView fieldName=description}}
 
           {{#view Balanced.CsvUploadCellView fieldName=amount class="table-column-amount"}}
-            <span {{bind-attr class="view.cssClasses"}}>
-              {{#if credit.amount}}
-                {{formatCurrency credit.amount}}
+            <span {{bind-attr class="view.cssClasses"}} {{bind-attr title="view.value"}}>
+              {{#if view.isError}}
+                {{{view.value}}}
               {{else}}
-                {{csvFields.amount}}
+                {{formatCurrency credit.amount}}
               {{/if}}
             </span>
           {{/view}}
