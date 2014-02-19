@@ -511,7 +511,6 @@ module.exports = function(grunt) {
 					'app/**/*.js',
 					'test/**/*.js',
 					'!test/support/lib/*.js',
-					'bower.json',
 					'karma.conf.js',
 					'package.json',
 					'npm-shrinkwrap.json'
@@ -526,7 +525,6 @@ module.exports = function(grunt) {
 					'app/**/*.js',
 					'test/**/*.js',
 					'!test/support/lib/*.js',
-					'bower.json',
 					'karma.conf.js',
 					'package.json',
 					'npm-shrinkwrap.json'
