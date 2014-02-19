@@ -39,7 +39,10 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 			var card = this.get('model');
 
 			card.tokenizeAndCreate(this.get('customer.id')).then(function() {
-				self.get('customer.cards').reload();
+				if (self.get('customer')) {
+					self.get('customer.cards').reload();
+				}
+
 				self.hide();
 			});
 		}

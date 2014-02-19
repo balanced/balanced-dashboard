@@ -12,12 +12,12 @@
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if results.loadingNextPage }}
+            {{#if results.loadingNextPage}}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{action "loadMore" results }}>Load more</a>
+                <a {{action "loadMore" results}}>Load more</a>
             {{/if}}
         </td>
     </tr>
@@ -28,39 +28,39 @@
         <tr>
             <td class="span4 black">
                 {{#link-to 'invoices.invoice' invoice}}
-                <span>{{humanReadableDateShort invoice.created_at }}</span>
+                <span>{{humanReadableDateShort invoice.created_at}}</span>
                 {{/link-to}}
             </td>
             <td class="span2 black">
                 {{#link-to 'invoices.invoice' invoice}}
-                {{ invoice.sequence_number }}
+                {{invoice.sequence_number}}
                 {{/link-to}}
             </td>
             <td class="span5 black">
                 {{#link-to 'invoices.invoice' invoice}}
-                {{humanReadableDateShort invoice.from_date }}
+                {{humanReadableDateShort invoice.from_date}}
                 {{/link-to}}
             </td>
             <td class="span5 black">
                 {{#link-to 'invoices.invoice' invoice}}
-                {{humanReadableDateShort invoice.to_date }}
+                {{humanReadableDateShort invoice.to_date}}
                 {{/link-to}}
             </td>
             <td class="span2 black amount">
                 {{#link-to 'invoices.invoice' invoice}}
-                {{formatCurrency invoice.total_fee }}
+                {{formatCurrency invoice.total_fee}}
                 {{/link-to}}
             </td>
             <td class="span2 black status">
                 {{#link-to 'invoices.invoice' invoice}}
-                {{ invoice.state }}
+                {{invoice.state}}
                 {{/link-to}}
             </td>
         </tr>
     {{else}}
         <tr>
             <td colspan="6" class="no-results">
-                {{# if results.isLoaded }}
+                {{# if results.isLoaded}}
                     No results
                 {{else}}
                     Loading...

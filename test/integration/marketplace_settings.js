@@ -47,23 +47,24 @@ test('can update marketplace info', function(assert) {
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	visit(Testing.SETTINGS_ROUTE).then(function() {
-		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-		model.set('production', true);
-		stop();
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+			model.set('production', true);
+			stop();
 
-		Ember.run.next(function() {
-			start();
-			click('.marketplace-info a.edit')
-				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					assert.ok(stub.calledOnce);
-				});
+			Ember.run.next(function() {
+				start();
+				click('.marketplace-info a.edit')
+					.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
+					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+					});
+			});
 		});
-	});
 });
 
 test('can update owner info', function(assert) {
@@ -77,6 +78,7 @@ test('can update owner info', function(assert) {
 
 		Ember.run.next(function() {
 			start();
+
 			click('.owner-info a.edit')
 				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 				.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
@@ -132,23 +134,31 @@ test('can create checking accounts', function(assert) {
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
 		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
-		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			// test balanced.js
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
-				type: "checking",
-				name: "TEST",
-				account_number: "123",
-				routing_number: "123123123"
-			}));
-			balanced.bankAccount.create.restore();
-			/*
-			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
-				bank_account_uri: '/v1/bank_accounts/deadbeef'
-			}));
-			*/
+			stop();
+
+			Ember.run.next(function() {
+				start();
+
+				click('#add-bank-account .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						// test balanced.js
+						assert.ok(tokenizingStub.calledOnce);
+						assert.ok(tokenizingStub.calledWith({
+							type: "checking",
+							name: "TEST",
+							account_number: "123",
+							routing_number: "123123123"
+						}));
+						balanced.bankAccount.create.restore();
+						/*
+						assert.ok(createSpy.calledOnce);
+						assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
+							bank_account_uri: '/v1/bank_accounts/deadbeef'
+						}));
+						*/
+					});
+			});
 		});
 });
 

@@ -5,7 +5,7 @@
     </li>
 
     <li {{bind-attr class=":transactions :filter view.transactionsTabSelected:selected"}} >
-        <a href="#" {{action "changeTypeFilter" "search"}}>{{ view.transaction_type_label }} </a>
+        <a href="#" {{action "changeTypeFilter" "search"}}>{{view.transaction_type_label}} </a>
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
             <ul class="dropdown-menu transaction-filter filter-choices">
@@ -26,7 +26,7 @@
     </li>
 
     <li {{bind-attr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
-        <a href="#" {{action "changeTypeFilter" "funding_instrument"}}> {{ view.funding_instrument_type_label }} </a>
+        <a href="#" {{action "changeTypeFilter" "funding_instrument"}}> {{view.funding_instrument_type_label}} </a>
 
         <div class="selector dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -40,10 +40,10 @@
         </div>
     </li>
     <li {{bind-attr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
-        <a href="#" {{action "changeTypeFilter" "dispute"}}> {{ view.dispute_type_label }} </a>
+        <a href="#" {{action "changeTypeFilter" "dispute"}}> {{view.dispute_type_label}} </a>
     </li>
     <li class="timing dropdown label4a">
-        {{view Balanced.DatePickerView viewName="dateTimePicker" }}
+        {{view Balanced.DatePickerView viewName="dateTimePicker"}}
     </li>
     {{#if view.show_download_button}}
     <li class="download">

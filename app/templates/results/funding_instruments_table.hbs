@@ -10,12 +10,12 @@
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if view.fundingInstruments.loadingNextPage }}
+            {{#if view.fundingInstruments.loadingNextPage}}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{action "loadMore" view.fundingInstruments }}>Load more</a>
+                <a {{action "loadMore" view.fundingInstruments}}>Load more</a>
             {{/if}}
         </td>
     </tr>
@@ -26,33 +26,33 @@
         <tr>
             <td>
                 {{#link-to funding_instrument.route_name funding_instrument}}<span>
-                    <time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at }}</time>
+                    <time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at}}</time>
                 </span>{{/link-to}}
             </td>
             <td>
                 {{#link-to funding_instrument.route_name funding_instrument}}<span>
-                    {{ funding_instrument.type_name }}
-                    {{#if funding_instrument.is_bank_account }}
-                        ({{ funding_instrument.account_type }})
+                    {{funding_instrument.type_name}}
+                    {{#if funding_instrument.is_bank_account}}
+                        ({{funding_instrument.account_type}})
                     {{/if}}
                 </span>{{/link-to}}
             </td>
             <td {{bind-attr title="funding_instrument.description"}}>
                 {{#link-to funding_instrument.route_name funding_instrument}}<span>
-                    {{ funding_instrument.description }}
+                    {{funding_instrument.description}}
                 </span>{{/link-to}}
             </td>
             <td>
                 {{#link-to funding_instrument.route_name funding_instrument}}<span>
-                    {{ funding_instrument.customer.name }}
-                    {{ funding_instrument.customer.email }}
+                    {{funding_instrument.customer.name}}
+                    {{funding_instrument.customer.email}}
                 </span>{{/link-to}}
             </td>
         </tr>
     {{else}}
         <tr>
             <td colspan="4" class="no-results">
-                {{# if view.fundingInstruments.isLoaded }}
+                {{# if view.fundingInstruments.isLoaded}}
                     No results
                 {{else}}
                     Loading...

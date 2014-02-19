@@ -11,7 +11,7 @@
                 </div>
                 <div class="span10 amount">
                     <span class="number1d">
-                        {{ controllers.marketplace.formattedEscrowAmount }}
+                        {{controllers.marketplace.formattedEscrowAmount}}
                     </span>
                 </div>
 
@@ -28,7 +28,7 @@
             {{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result"}}
         </div>
 
-        {{ outlet }}
+        {{outlet}}
 
         {{#if show_download}}
             {{partial "modals/download"}}

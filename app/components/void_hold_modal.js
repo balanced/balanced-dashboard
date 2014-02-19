@@ -1,6 +1,8 @@
 require('app/components/modal');
 
 Balanced.VoidHoldModalComponent = Balanced.ModalComponent.extend({
+	submitAction: false,
+
 	actions: {
 		save: function() {
 			if (this.get('hold.isSaving')) {

@@ -41,14 +41,14 @@
                         <div class="control-group">
                             <label class="control-label">ID</label>
                             <div class="controls">
-                                <span class="inline-label">{{ id }}</span>
+                                <span class="inline-label">{{id}}</span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Created</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{humanReadableDateLong created_at }}
+                                    {{humanReadableDateLong created_at}}
                                 </span>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                             <label class="control-label">Name</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ name }}
+                                    {{name}}
                                 </span>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <label class="control-label">Account #</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ account_number }}
+                                    {{account_number}}
                                 </span>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <label class="control-label">Routing #</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ routing_number }}
+                                    {{routing_number}}
                                 </span>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                             <label class="control-label">Bank</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ bank_name }}
+                                    {{bank_name}}
                                 </span>
                             </div>
                         </div>
@@ -114,23 +114,23 @@
                             {{#each verification in verifications}}
                                 <tr>
                                     <td class="status span10">
-                                        {{# if verification.created_at }}
-                                            <time {{bind-attr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at }}</time>
+                                        {{# if verification.created_at}}
+                                            <time {{bind-attr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at}}</time>
                                         {{else}}
                                             ---
                                         {{/if}}
                                     </td>
                                     <td class="attempts span8">
-                                        {{ verification.attempts }} of {{ verification.allowed_attempts }} attempts
+                                        {{verification.attempts}} of {{verification.allowed_attempts}} attempts
                                     </td>
                                     <td class="status span8 label4a">
-                                        {{titleCase verification.display_state }}
+                                        {{titleCase verification.display_state}}
                                     </td>
                                 </tr>
                             {{else}}
                                 <tr>
                                     <td colspan="2" class="span26 no-results">
-                                        {{# if verifications.isLoaded }}
+                                        {{# if verifications.isLoaded}}
                                             Unverified
                                         {{else}}
                                             Loading...

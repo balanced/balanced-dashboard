@@ -8,6 +8,7 @@ Balanced.AddCallbackModalComponent = Balanced.ModalComponent.extend({
 		label: 'Revision 1.1',
 		value: '1.1'
 	}],
+	submitAction: false,
 
 	actions: {
 		open: function() {

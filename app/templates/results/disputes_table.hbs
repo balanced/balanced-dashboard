@@ -11,19 +11,19 @@
 <tfoot>
     <tr>
         <td colspan="6" class="load-more-results">
-            {{#if view.disputes.loadingNextPage }}
+            {{#if view.disputes.loadingNextPage}}
                 <div class="loader-container">
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{action "loadMore" view.disputes }}>Load more</a>
+                <a {{action "loadMore" view.disputes}}>Load more</a>
             {{/if}}
         </td>
     </tr>
 </tfoot>
 {{/if}}
 <tbody>
-    {{#each dispute in view.disputes }}
+    {{#each dispute in view.disputes}}
         <tr>
             <td class="span3 date">
                 {{#link-to dispute.route_name dispute}}<span>
@@ -55,7 +55,7 @@
     {{else}}
         <tr>
             <td colspan="6" class="no-results">
-                {{# if view.disputes.isLoaded }}
+                {{# if view.disputes.isLoaded}}
                     No results
                 {{else}}
                     Loading...

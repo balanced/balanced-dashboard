@@ -1,35 +1,35 @@
 <div class="key-value-row">
   <label class="key">Status</label>
-  <span {{bind-attr class=":value transaction.status"}}>{{ transaction.status_description }}{{#if type.credit}}{{#if transaction.is_pending}}
+  <span {{bind-attr class=":value transaction.status"}}>{{transaction.status_description}}{{#if type.credit}}{{#if transaction.is_pending}}
           <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>{{/if}}{{/if}}</span>
 </div>
 <div class="key-value-row">
   <label class="key">Created</label>
-  <span class="value">{{humanReadableDateLong transaction.created_at }}</span>
+  <span class="value">{{humanReadableDateLong transaction.created_at}}</span>
 </div>
 <div class="key-value-row">
   <label class="key">Internal Description</label>
-  <span class="value">{{ transaction.description }}</span>
+  <span class="value">{{transaction.description}}</span>
 </div>
 <div class="key-value-row">
   <label class="key">ID</label>
-  <span class="value">{{ transaction.id }}</span>
+  <span class="value">{{transaction.id}}</span>
 </div>
 <div class="key-value-row">
   <label class="key">Txn #</label>
-  <span class="value">{{ transaction.transaction_number }}</span>
+  <span class="value">{{transaction.transaction_number}}</span>
 </div>
 {{#unless type.refund}}{{#unless type.reversal}}
   <div class="key-value-row">
     <label class="key">On statement as</label>
-    <span class="value">{{ transaction.appears_on_statement_as }}</span>
+    <span class="value">{{transaction.appears_on_statement_as}}</span>
   </div>
 {{/unless}}{{/unless}}
 <div class="key-value-row meta">
   <label class="key">Meta</label>
   <span class="value">
     {{#each meta in transaction.meta_array}}
-      {{ meta.key }}: {{ meta.value }}<br/>
+      {{meta.key}}: {{meta.value}}<br/>
     {{/each}}
   </span>
 </div>

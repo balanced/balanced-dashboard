@@ -1,4 +1,4 @@
-{{#if Balanced.Auth.signedIn }}
+{{#if Balanced.Auth.signedIn}}
     <div id="marketplaces" class="dropdown">
         <a class="dropdown-toggle"
            data-toggle="dropdown"
@@ -11,6 +11,6 @@
         {{partial "marketplaces_list"}}
     </div>
 
-    {{#if controllers.marketplace.name}} {{ render "search" }} {{/if}}
+    {{#if controllers.marketplace.name}} {{render "search"}} {{/if}}
 
 {{/if}}

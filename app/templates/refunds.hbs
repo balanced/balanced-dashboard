@@ -25,14 +25,19 @@
 		{{#if dispute}}
 			{{txn-dispute dispute=dispute}}
 		{{/if}}
+
 		{{#if debit.dispute}}
 			{{txn-dispute dispute=debit.dispute}}
 		{{/if}}
+
 		{{txn-refund refund=model}}
+
 		{{#each refund in refunds_without_current}}
 			{{txn-refund refund=refund}}
 		{{/each}}
+
 		{{txn-debit debit=debit}}
+
 		{{#if debit.hold}}
 			{{txn-hold hold=debit.hold}}
 		{{/if}}

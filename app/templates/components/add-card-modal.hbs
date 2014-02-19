@@ -32,13 +32,13 @@
                 valueBinding="view.model.expiration_month"
                 prompt="Month"
                 name="expiration_month"
-            }}
+           }}
             {{view Ember.Select
                 contentBinding="view.validYears"
                 valueBinding="view.model.expiration_year"
                 prompt="Year"
                 name="expiration_year"
-            }}
+           }}
             <div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.expiration_month}}</div>
         </div>
 

@@ -12,21 +12,21 @@
 			<div class="row">
 				<div class="offset2 span20">
 					<h1>Claim your account</h1>
-					<form id="claim-form" method="POST" {{ bind-attr class=":full-page-form signUpError:error" }} {{action "signUp" content on="submit"}}>
+					<form id="claim-form" method="POST" {{bind-attr class=":full-page-form signUpError:error"}} {{action "signUp" content on="submit"}}>
 						<fieldset>
 							<legend>Login info</legend>
 
-							<div class="control-group" {{ bind-attr class="validationErrors.email_address:error" }}>
+							<div class="control-group" {{bind-attr class="validationErrors.email_address:error"}}>
 								{{view Balanced.Forms.TextField type="email" name="email_address" valueBinding="email_address" placeholder="Email" autofocus="autofocus"}}
 								<label class="control-label" for="email">{{emailLabel}}</label>
 							</div>
 
-							<div class="control-group" {{ bind-attr class="validationErrors.password:error" }}>
+							<div class="control-group" {{bind-attr class="validationErrors.password:error"}}>
 								{{view Balanced.Forms.TextField type="password" name="password" valueBinding="password" placeholder="Password"}}
 								<label class="control-label" for="password">{{passwordLabel}}</label>
 							</div>
 
-							<div class="control-group" {{ bind-attr class="validationErrors.passwordConfirm:error" }}>
+							<div class="control-group" {{bind-attr class="validationErrors.passwordConfirm:error"}}>
 								{{view Balanced.Forms.TextField type="password" name="passwordConfirm" valueBinding="passwordConfirm" placeholder="Confirm password"}}
 								<label class="control-label" for="passwordConfirm">{{passwordConfirmLabel}}</label>
 							</div>

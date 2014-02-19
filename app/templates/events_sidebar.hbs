@@ -5,20 +5,20 @@
 		</header>
 	</div>
 	<ul id="events">
-		{{#if view.content.events }}
+		{{#if view.content.events}}
 			{{#each event in view.content.events}}
 				<li class="event">
 					<div>
-					  {{#link-to 'events' event}}{{ event.type }}{{/link-to}}
+						{{#link-to 'events' event}}{{event.type}}{{/link-to}}
 					</div>
 					<div>
-						{{ inflection event.eventCallbacks.length singular="webhook"}}:
-						{{ humanReadableDateLong event.occurred_at }}
+						{{inflection event.eventCallbacks.length singular="webhook"}}:
+						{{humanReadableDateLong event.occurred_at}}
 					</div>
 				</li>
 			{{/each}}
-		{{ else }}
-			{{# if view.transactions.isLoaded }}
+		{{else}}
+			{{#if view.transactions.isLoaded}}
 				<em>None</em>
 			{{else}}
 				<em>Loading...</em>
