@@ -11,9 +11,7 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 		}
 	},
 
-	isDisputeType: function() {
-		return this.get('type') === 'dispute';
-	}.property('type'),
+	isDisputeType: Ember.computed.equal('type', 'dispute'),
 
 	extra_filtering_params: function() {
 		// TODO add something for disputes here
@@ -30,5 +28,13 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 		return {
 			state: transactionType
 		};
-	}.property('transactionType', 'isDisputeType')
+	}.property('transactionType', 'isDisputeType'),
+
+	results_base_uri: function() {
+		if (this.get('isDisputeType')) {
+			return '/disputes';
+		}
+
+		return this._super();
+	}.property('type', 'controllers.marketplace.uri')
 });
