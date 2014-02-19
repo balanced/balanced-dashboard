@@ -168,7 +168,7 @@ Balanced.Auth = (function() {
 		// Ember.RSVP.all(exts).then(_.bind(auth.loadAdminExtension, auth));
 	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT');
 
-	auth.loadAdminExtension = function() {
+	auth.loadAdminExtension = _.debounce(function() {
 		if (!auth.get('user') || !auth.get('signInTransitionCalled')) {
 			return;
 		}
@@ -179,14 +179,16 @@ Balanced.Auth = (function() {
 		} else if (!auth.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
 			Balanced.Shapeshifter.unload(admin);
 		}
-	}.observes('user', 'user.admin');
+	}, 500).observes('user', 'user.admin');
 
 	auth.on('signInTransition', function() {
 		auth.set('signInTransitionCalled', true);
 
 		// Delay it for 500ms to give time for any
 		// transition to finish loading
-		_.delay(_.bind(auth.loadAdminExtension, auth), 500);
+		Ember.run.next(function() {
+			_.delay(_.bind(auth.loadAdminExtension, auth), 500);
+		});
 	});
 
 	auth.request = function(opts, eventName, successFn) {
