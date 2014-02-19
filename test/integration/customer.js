@@ -165,8 +165,12 @@ test('can debit customer using bank account', function(assert) {
 			fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000');
 			fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit');
 
+			wait();
+
 			// click debit
 			click('#debit-customer .modal-footer button[name="modal-submit"]');
+
+			wait();
 
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
