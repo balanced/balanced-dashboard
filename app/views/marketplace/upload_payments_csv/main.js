@@ -6,13 +6,8 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 	escrowTotal: Ember.computed.alias("controller.controllers.marketplace.in_escrow"),
 
-	isProcessable: Ember.computed.and("isEscrowValid", "isAllValid"),
+	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
 	isUnprocessable: Ember.computed.not("isProcessable"),
-
-	validRows: Ember.computed.filterBy('creditCreators.isValid'),
-	invalidRows: Ember.computed.filterBy('creditCreators.isInvalid'),
-
-	isAllValid: Ember.computed.equal("invalidRows.length", 0),
 
 	isEscrowValid: function() {
 		var total = this.get("payoutTotal");
@@ -25,6 +20,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 	}.property("creditCreators.length", "isEscrowValid"),
 
 	updateReaderBody: function(text) {
+		this.get("progressBarModal").show();
 		this.get("controller").refresh(text);
 	},
 
@@ -40,8 +36,6 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 
 		if (num === den) {
 			modal.hide();
-		} else {
-			modal.show();
 		}
 	},
 
@@ -82,6 +76,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		},
 
 		submit: function() {
+			this.get("progressBarModal").show();
 			this.updateProgressFraction();
 			this.get("controller").save();
 		},
