@@ -9,7 +9,7 @@ module('Disputes', {
 		// to be fully created
 		// Testing.pause(1000);
 		stop();
-		setTimeout(start, 5000);
+		setTimeout(start, 2000);
 	},
 	teardown: function() {}
 });
