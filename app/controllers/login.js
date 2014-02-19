@@ -107,6 +107,11 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 				if (typeof jqxhr.responseText !== "undefined" && jqxhr.responseText) {
 					var responseText = jqxhr.responseJSON;
+
+					// What if responseJSON is null/undefined:
+					// 1. Try to parse it ourselves
+					// 2. If all else fails, assume that the responseText
+					//    is the error message to be shown
 					if (!responseText) {
 						try {
 							responseText = JSON.parse(jqxhr.responseText);
@@ -117,6 +122,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						}
 					}
 
+					// OTP Required Case
 					if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
 						self.set('otpRequired', true);
 					} else {

@@ -8,21 +8,17 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 	init: function() {
 		this._super.apply(this, arguments);
 
-		this.one('didLoad', this, function() {
-			run(this, 'resolve', this);
-		});
+		_.each(['didLoad', 'didCreate'], function(name) {
+			this.one(name, this, function() {
+				run(this, 'resolve', this);
+			});
+		}, this);
 
-		this.one('didCreate', this, function() {
-			run(this, 'resolve', this);
-		});
-
-		this.one('becameError', this, function() {
-			run(this, 'reject', this);
-		});
-
-		this.one('becameInvalid', this, function() {
-			run(this, 'reject', this);
-		});
+		_.each(['becameError', 'becameInvalid'], function(name) {
+			this.one(name, this, function() {
+				run(this, 'reject', this);
+			});
+		}, this);
 
 		if (get(this, 'isLoaded')) {
 			this.trigger('didLoad');
@@ -34,14 +30,25 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		var deferred = Ember.Deferred.create();
 
 		function success() {
-			model.off('becameError', error);
-			model.off('becameInvalid', error);
+			resetEventHandlers();
+			console.log('success resolveOn', successEvent, deferred, deferred.resolve, model, deferred.get('_deferred'), model.get('_deferred'));
 			deferred.resolve(model);
 		}
 
 		function error() {
-			model.off(successEvent, success);
+			resetEventHandlers();
+			console.log('erorr resolveOn');
 			deferred.reject(model);
+		}
+
+		function resetEventHandlers() {
+			_.each(['becameError', 'becameInvalid'], function(name) {
+				this.off(name, error);
+			}, model);
+
+			_.each(['didLoad', 'didCreate'], function(name) {
+				this.off(name, success);
+			}, model);
 		}
 
 		model._resetPromise();

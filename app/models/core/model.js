@@ -47,14 +47,20 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		var adapterFunc = creatingNewModel ? Balanced.Adapter.create : Balanced.Adapter.update;
 
 		var promise = this.resolveOn(resolveEvent);
+		console.log('saving...');
 
 		adapterFunc.call(Balanced.Adapter, this.constructor, uri, data, function(json) {
+			console.log('yoo success', arguments, resolveEvent);
 			var deserializedJson = self.constructor.serializer.extractSingle(json, this.constructor, (creatingNewModel ? null : self.get('href')));
 			self._updateFromJson(deserializedJson);
-			self.set('isNew', false);
-			self.set('isSaving', false);
-			self.set('isValid', true);
-			self.set('isError', false);
+
+			self.setProperties({
+				isNew: false,
+				isSaving: false,
+				isValid: true,
+				isError: false
+			});
+
 			self.trigger(resolveEvent);
 			Balanced.Model.Events.trigger(resolveEvent, self);
 		}, $.proxy(self._handleError, self), settings);
@@ -154,6 +160,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	},
 
 	_handleError: function(jqXHR, textStatus, errorThrown) {
+		console.log('_handleError', arguments);
+		console.trace();
 		this.set('isSaving', false);
 		if (jqXHR.status === 400) {
 			this.set('isValid', false);

@@ -18,6 +18,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 
 	actions: {
 		error: function(error, transition) {
+			console.log(error, transition);
+			console.trace();
 			if (!window.TESTING) {
 				// Check for an infinite loop of error handling and short-circuit
 				// if we've seen too many errors in too short a period
@@ -28,23 +30,26 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 					var filtered = _.filter(errorTimestamps, function(t) {
 						return t > currentTimestamp - INFINITE_LOOP_DURATION_MILLIS;
 					});
+
 					this.set('errorTimestamps', filtered);
 					if (filtered.length > INFINITE_LOOP_NUM_ERRORS) {
 						Balanced.Auth.forgetLogin();
 						this.transitionTo('login');
+
 						return;
 					}
 				}
 			}
 
 			// the error object could be an ember object or a jqxhr
-			var statusCode = error.errorStatusCode || error.status;
+			var statusCode = (error && (error.errorStatusCode || error.status)) || 0;
+			var uri = (error && error.uri) || window.location.toString();
 
-			Ember.Logger.error("Error while loading route (%@: %@): ".fmt(statusCode, error.uri), error.stack || error);
+			Ember.Logger.error("Error while loading route (%@: %@): ".fmt(statusCode, uri), ((error && (error.stack || error.message || error.name)) || error || ''));
 
 			// if we had a problem loading the marketplace, check that it's not the current
 			// marketplace, since that might send us into an infinite loop
-			if (error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
+			if (error && error.get && error.get('uri') === Balanced.Auth.getLastUsedMarketplaceUri()) {
 				Balanced.Auth.forgetLastUsedMarketplaceUri();
 			}
 
@@ -78,6 +83,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 					type: 'error',
 					persists: true
 				});
+
 				this.transitionTo('marketplaces');
 			} else {
 				this.controllerFor('application').alert({
@@ -85,6 +91,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 					type: 'error',
 					persists: true
 				});
+
 				this.transitionTo('marketplaces');
 			}
 		},

@@ -287,13 +287,13 @@ Balanced.Auth = (function() {
 	auth.forgetLogin = function() {
 		// Removing from the root domain since we were setting it on the root
 		// domain for a while. This line can be removed after Aug 23, 2013
-		_.each(['EMBER_AUTH_TOKEN', 'API_KEY_SECRET', 'SESSION'], function(val) {
-			$.removeCookie(Balanced.COOKIE[val], {
+		_.each([Balanced.COOKIE.EMBER_AUTH_TOKEN, Balanced.COOKIE.API_KEY_SECRET, Balanced.COOKIE.SESSION], function(CONST_VAR) {
+			$.removeCookie(CONST_VAR, {
 				path: '/'
 			});
 
 			// Just to be sure
-			$.removeCookie(Balanced.COOKIE[val], {
+			$.removeCookie(CONST_VAR, {
 				path: '/',
 				domain: 'balancedpayments.com'
 			});
