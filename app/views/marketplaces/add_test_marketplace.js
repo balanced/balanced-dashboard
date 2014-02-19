@@ -39,7 +39,7 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
 					var user = Balanced.Auth.get('user');
 
 					Balanced.UserMarketplace.create({
-						uri: user.api_keys_uri,
+						uri: user.get('api_keys_uri'),
 						secret: apiKeySecret
 					}).save().then(function() {
 						self.set('isSubmitting', false);
