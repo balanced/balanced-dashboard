@@ -8,10 +8,13 @@ var DEFAULT_FILL_FORM_OPTIONS = {
 
 Balanced.Test.asyncHelpers = {
 	fillForm: function(app, form, params, options) {
+		wait();
+
 		options = _.extend({}, DEFAULT_FILL_FORM_OPTIONS, options);
 
 		_.each(params, function(val, name) {
-			fillIn(form + ' [' + options.attr + '=' + name + ']', val);
+			fillIn(form + ' [' + options.attr + '="' + name + '"]', val);
+			wait();
 		});
 
 		if (options.click) {
@@ -21,6 +24,8 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 	checkElements: function(app, hash, assert) {
+		wait();
+
 		_.each(hash, function(val, selector) {
 			if (_.isNumber(val)) {
 				assert.equal($(selector).length, val, 'Element exists ' + selector);
@@ -32,6 +37,8 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 	submitForm: function(app, form) {
+		wait();
+
 		var formEl = find(form);
 
 		var $form = $(formEl) || $(form);

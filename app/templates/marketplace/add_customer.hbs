@@ -28,15 +28,17 @@
 				{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the customer's email. " recommendedField=true}}
 			{{/if}}
 
-			<div class="section-banner-header special-rollover"><a href="#" {{action "toggleOptionalFields"}}>
-				<div {{bind-attr class=":disclosure-button optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
-				<p><strong>Additional info</strong> (all fields are optional)</p></a>
+			<div class="section-banner-header special-rollover">
+				<a href="#" {{action "toggleOptionalFields"}}>
+					<div {{bind-attr class=":disclosure-button optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
+					<p><strong>Additional info</strong> (all fields are optional)</p>
+				</a>
 			</div>
 
 			{{#if optionalFieldsOpen}}
-				{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 1)" field="address_line1" helpBinding="street_address_label" recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 2)" field="address_line2" helpBinding="street_address_label" recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="City" field="address_city" help="Enter the city. " recommendedField=true}}
+				{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 1)" field="address.line1" helpBinding="street_address_label" recommendedField=true}}
+				{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 2)" field="address.line2" helpBinding="street_address_label" recommendedField=true}}
+				{{view Balanced.ControlGroupFieldView placeholder="City" field="address.city" help="Enter the city. " recommendedField=true}}
 				<div {{bind-attr class=":control-group model.validationErrors.address.country_code:error"}}>
 					{{view Balanced.CountrySelectView valueBinding="address.country_code"}}
 					<label class="control-label">Enter the country. <span class="recommended-field">Recommended field</span></label>

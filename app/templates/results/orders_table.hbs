@@ -18,7 +18,7 @@
                     <span class="loader loading"></span>
                 </div>
             {{else}}
-                <a {{ action loadMore view.orders }}>Load more</a>
+                <a {{action "loadMore" view.orders }}>Load more</a>
             {{/if}}
         </td>
     </tr>
