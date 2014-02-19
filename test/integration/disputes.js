@@ -15,7 +15,7 @@ test('exist on the activity page', function(assert) {
 		'table.disputes tbody tr:eq(0) td.type': 'Pending',
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
-		'table.disputes tbody tr:eq(0) td.amount': '-$100.00',
+		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
 		'#activity .results table.disputes tfoot td': 1
 	};
 
@@ -26,7 +26,7 @@ test('exist on the activity page', function(assert) {
 			// Manual check the disputes uri is correct
 			var activityController = Balanced.__container__.lookup('controller:activity');
 			assert.equal(activityController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
-			assert.ok(activityController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
+			assert.ok(activityController.get('results_uri').indexOf('sort=created_at') > 0, 'Disputes Sort is correct');
 		})
 		.checkElements(activityDisputesPage, assert)
 		.click('#activity .results table.disputes tfoot td.load-more-results a')
@@ -40,7 +40,7 @@ test('can visit page', function(assert) {
 		'#content h1': 'Dispute',
 		'#dispute > .main-header .title': 1, // 'Brand New Electric Guitar Rosewood Fingerboard Sunset Red',
 		'#dispute .customer-info .main-header .title': 1, // 'William Henry Cavendish III (whc@example.org)',
-		'#dispute .transaction-details .dispute .transaction-type-subheader .title': 'Pending: -$100.00',
+		'#dispute .transaction-details .dispute .transaction-type-subheader .title': 'Pending: $100.00',
 		'#dispute .transaction-details .debit .transaction-type-subheader .title': 1 // 'Succeeded: $13.30'
 	};
 
