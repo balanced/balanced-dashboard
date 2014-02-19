@@ -3,10 +3,12 @@ Balanced.DeleteCallbackModalView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.get('controller').on('openDeleteCallbackModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').off('openDeleteCallbackModal', this, this.open);
+		this._super();
 	},
 
 	open: function(callback) {

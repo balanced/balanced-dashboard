@@ -3,10 +3,12 @@ Balanced.DeleteBankAccountModalView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.get('controller').on('openDeleteBankAccountModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').off('openDeleteBankAccountModal', this, this.open);
+		this._super();
 	},
 
 	open: function(bankAccount) {

@@ -5,10 +5,12 @@ Balanced.CreditBankAccountModalView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.get('controller').on('openCreditBankAccountModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').off('openCreditBankAccountModal', this, this.open);
+		this._super();
 	},
 
 	open: function() {

@@ -15,7 +15,7 @@ module('Logs', {
 				logs = Balanced.Log.findAll();
 			});
 
-			if (logs && logs.toArray().length) {
+			if (logs && logs.toArray().length && logs.toArray().length >= 3) {
 				return start();
 			} else if (count < 300) {
 				count++;

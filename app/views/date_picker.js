@@ -8,14 +8,18 @@ Balanced.DatePickerView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		var now = new Date();
+
 		this.$('.before .dp').datepicker({
 			maxDate: now
 		});
+
 		this.$('.after .dp').datepicker({
 			maxDate: now
 		}).on('changeDate', $.proxy(function() {
 			this.$('.before .dp').focus();
 		}, this));
+
+		this._super();
 	},
 
 	actions: {

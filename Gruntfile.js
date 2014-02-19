@@ -75,8 +75,7 @@ module.exports = function(grunt) {
 					'static/javascripts/bootstrap/js/bootstrap-modal.js',
 					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
 					'static/javascripts/bootstrap/js/bootstrap-popover.js',
-					'static/javascripts/jquery.browser/jquery.browser.js',
-					'static/javascripts/underscore/underscore.js',
+					'static/javascripts/lodash/dist/lodash.underscore.js',
 					'static/javascripts/mixpanel/mixpanel.js',
 					'static/javascripts/google-code-prettify/src/prettify.js',
 					'static/javascripts/strftime/index.js',
@@ -100,8 +99,7 @@ module.exports = function(grunt) {
 					'static/javascripts/bootstrap/js/bootstrap-modal.js',
 					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
 					'static/javascripts/bootstrap/js/bootstrap-popover.js',
-					'static/javascripts/jquery.browser/jquery.browser.js',
-					'static/javascripts/underscore/underscore.js',
+					'static/javascripts/lodash/dist/lodash.underscore.min.js',
 					'static/javascripts/mixpanel/mixpanel.js',
 					'static/javascripts/google-code-prettify/src/prettify.js',
 					'static/javascripts/strftime/index.js',
@@ -527,7 +525,11 @@ module.exports = function(grunt) {
 					'Gruntfile.js',
 					'app/**/*.js',
 					'test/**/*.js',
-					'!test/support/lib/*.js'
+					'!test/support/lib/*.js',
+					'bower.json',
+					'karma.conf.js',
+					'package.json',
+					'npm-shrinkwrap.json'
 				],
 			},
 			update: {
@@ -538,7 +540,11 @@ module.exports = function(grunt) {
 					'Gruntfile.js',
 					'app/**/*.js',
 					'test/**/*.js',
-					'!test/support/lib/*.js'
+					'!test/support/lib/*.js',
+					'bower.json',
+					'karma.conf.js',
+					'package.json',
+					'npm-shrinkwrap.json'
 				],
 			}
 		},

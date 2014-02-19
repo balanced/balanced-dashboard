@@ -13,6 +13,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		} else {
 			Balanced.Auth.on('signInSuccess', _.bind(this.afterLogin, this));
 		}
+
+		this._super();
+
+		this.focus();
 	},
 
 	reset: function() {
@@ -33,6 +37,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			otpError: false,
 			loginResponse: ''
 		});
+	},
+
+	focus: function() {
+		$('form input[type=text]:first').focus();
 	},
 
 	afterLogin: function() {
@@ -65,6 +73,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					loginError: true,
 					loginResponse: 'Invalid OTP code. Please login again.'
 				});
+
+				self.focus();
 			});
 		},
 
@@ -84,6 +94,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				// For now tho:
 				self.afterLogin();
 			}, function(jqxhr, status, message) {
+				self.focus();
 				self.set('password', null);
 
 				if (jqxhr.status === 401) {
@@ -95,7 +106,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				}
 
 				if (typeof jqxhr.responseText !== "undefined") {
-					var responseText = JSON.parse(jqxhr.responseText);
+					var responseText = jqxhr.responseJSON || JSON.parse(jqxhr.responseText);
 
 					if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
 						self.set('otpRequired', true);
@@ -107,12 +118,21 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 							error = responseText.email_address[0].replace('This', 'Email');
 						} else if (typeof responseText.password !== 'undefined') {
 							error = responseText.password[0].replace('This', 'Password');
+						} else if (responseText.detail) {
+							error = responseText.detail;
 						}
 
 						if (error) {
 							self.set('loginResponse', error);
 						}
 					}
+				} else if (message || jqxhr.status < 100) {
+					message = message.message || message || 'Oops, something went wrong.';
+
+					self.setProperties({
+						loginError: true,
+						loginResponse: message
+					});
 				}
 			});
 		}
