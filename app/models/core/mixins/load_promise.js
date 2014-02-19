@@ -31,13 +31,13 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 
 		function success() {
 			resetEventHandlers();
-			console.log('success resolveOn', successEvent, deferred, deferred.resolve, model, deferred.get('_deferred'), model.get('_deferred'));
+			// console.log('success resolveOn', successEvent, deferred, deferred.resolve, model, deferred.get('_deferred'), model.get('_deferred'));
 			deferred.resolve(model);
 		}
 
 		function error() {
 			resetEventHandlers();
-			console.log('erorr resolveOn');
+			// console.log('erorr resolveOn');
 			deferred.reject(model);
 		}
 
