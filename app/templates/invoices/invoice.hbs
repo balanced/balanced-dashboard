@@ -251,7 +251,7 @@
 			{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
 
 			<div class="items-wrapper">
-				{{#if results.isDisputeType}}
+				{{#if isDisputeType}}
 					{{view Balanced.DisputesResultsView disputesBinding=results hideDateSort=true}}
 				{{else}}
 					{{view Balanced.TransactionsResultsView transactionsBinding=results hideDateSort=true}}
