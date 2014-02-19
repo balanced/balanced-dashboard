@@ -38,6 +38,9 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				}
 			})
 		},
+		"csvFields.appears_on_statement_as": {
+			presence: true
+		},
 		"csvFields.amount": {
 			presence: true,
 			format: formatValidator(function(object, attribute, value, cb) {

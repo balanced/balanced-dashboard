@@ -12,14 +12,6 @@ Balanced.computed = Ember.Namespace.create({
 		});
 	},
 
-	filterEach: function(dependentKey, arrayName, eachCallback) {
-		return Ember.computed(dependentKey, function() {
-			return this.get(arrayName).filter(function(item) {
-				return eachCallback(item);
-			});
-		});
-	},
-
 	slice: function(dependentKey, start, end) {
 		return Ember.computed(dependentKey, function() {
 			var array = this.get(dependentKey) || [];
