@@ -16,6 +16,7 @@
 						Test
 					{{/if}}
 				</div>
+
 				{{#if marketplace.owner_customer.is_business}}
 				<div>
 					{{#if marketplace.production}}
@@ -25,6 +26,7 @@
 					{{/if}}
 				</div>
 				{{/if}}
+
 				{{#if marketplace.owner_customer.address_string}}
 				<div>
 					{{#if marketplace.production}}
@@ -247,11 +249,12 @@
 		<header class="results-label">
 			<h3>Transactions</h3>
 		</header>
+
 		<div class="results">
 			{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
 
 			<div class="items-wrapper">
-				{{#if results.isDisputeType}}
+				{{#if isDisputeType}}
 					{{view Balanced.DisputesResultsView disputesBinding="results" hideDateSort=true}}
 				{{else}}
 					{{view Balanced.TransactionsResultsView transactionsBinding="results" hideDateSort=true}}

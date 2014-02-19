@@ -1,27 +1,44 @@
 module('Disputes', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Testing.createDispute();
+		Testing.createDisputes();
 		// Testing.setupFixtures();
 		// Testing.fixtureLogin();
+
+		// Pause tests for 1000ms for disputes
+		// to be fully created
+		// Testing.pause(1000);
+		stop();
+		setTimeout(start, 2000);
 	},
 	teardown: function() {}
 });
 
 test('exist on the activity page', function(assert) {
 	var activityDisputesPage = {
-		'table.disputes tbody tr:eq(0) td.date': 1,
+		'table.disputes tbody tr:eq(0) td.date.initiated': 1,
+		'table.disputes tbody tr:eq(0) td.date.respond-by': 1,
 		'table.disputes tbody tr:eq(0) td.type': 'Pending',
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
-		'table.disputes tbody tr:eq(0) td.amount': '$100.00'
+		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
+		'table.disputes tfoot td:eq(0)': 1
 	};
 
 	visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes')
 		.then(function() {
 			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct Rows');
+
+			// Manually check the disputes uri is correct
+			var activityController = Balanced.__container__.lookup('controller:activity');
+			assert.equal(activityController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
+			assert.ok(activityController.get('results_uri').indexOf('sort=created_at') > 0, 'Disputes Sort is correct');
 		})
-		.checkElements(activityDisputesPage, assert);
+		.checkElements(activityDisputesPage, assert)
+		.click('table.disputes tfoot td.load-more-results a')
+		.then(function() {
+			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
+		});
 });
 
 test('can visit page', function(assert) {
