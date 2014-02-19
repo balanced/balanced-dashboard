@@ -9,7 +9,9 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	noDownloadsUri: true,
 
 	refreshMarketplace: _.debounce(function() {
-		Balanced.currentMarketplace.reload();
+		Ember.run(function() {
+			Balanced.currentMarketplace.reload();
+		});
 	}, 500),
 
 	refresh: function() {
