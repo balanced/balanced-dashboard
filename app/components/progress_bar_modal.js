@@ -21,20 +21,13 @@ Balanced.ProgressBarModalComponent = Ember.Component.extend({
 		this.$modal("hide");
 	},
 
-	cssStyle: function() {
-		var percentage = this.get("progressPercentage");
-		return "width: %@%".fmt(percentage);
-	}.property("progressPercentage"),
-
-	progressPercentage: function() {
-		return parseInt(this.get("progressFraction") * 100, 10);
-	}.property("progressFraction"),
+	getProgressBar: function() {
+		return $(this.get("modalElement")).find(".progress-bar");
+	},
 
 	update: function(fractionValue, text) {
 		this.set("progressFraction", fractionValue);
-		if (text === undefined) {
-			text = this.get("progressPercentage") + "%";
-		}
+		this.getProgressBar().width((fractionValue * 100) + "%");
 		this.set("progressText", text);
 	}
 

@@ -28,34 +28,37 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		this.get("controller").refresh(text);
 	},
 
-	blockBankAccountLoad: function() {
-		var collection = this.get("creditCreators");
+	displayProgress: function(title, num, den) {
 		var modal = this.get("progressBarModal");
+		var text = "%@/%@".fmt(num, den);
+		modal.set("title", title);
+		if (den === 0) {
+			modal.update(0, text);
+		} else {
+			modal.update(num / den, text);
+		}
 
-		var loadedCount = collection.filterBy("isLoaded").get("length");
-		var total = collection.get("length");
-
-		var text = "%@/%@".fmt(loadedCount, total);
-		modal.update(loadedCount / total, text);
-
-		if (loadedCount === total) {
+		if (num === den) {
 			modal.hide();
 		} else {
-			modal.set("title", "Loading Data");
 			modal.show();
 		}
+	},
+
+	blockBankAccountLoad: function() {
+		var collection = this.get("creditCreators");
+		var finishedCount = collection.filterBy("isLoaded").get("length");
+		var total = collection.get("length");
+
+		this.displayProgress("Loading Data", finishedCount, total);
 	}.observes("creditCreators.@each.isLoaded"),
 
 	updateProgressFraction: function() {
-		var completedRows = this.get("creditCreators").filter(function(creator) {
-			return creator.get("isSaved");
-		});
-		var validLength = this.get("creditCreators.valid.length");
+		var collection = this.get("creditCreators.valid");
+		var finishedCount = collection.filterBy("isSaved").get("length");
+		var total = collection.get("length");
 
-		var fraction = completedRows.length / validLength;
-		var text = "%@/%@".fmt(completedRows.length, validLength);
-
-		this.get("progressBarModal").update(fraction, text);
+		this.displayProgress("Submitting Payouts", finishedCount, total);
 	}.observes("creditCreators.@each.isSaved"),
 
 	actions: {
