@@ -206,6 +206,30 @@ test('download activity', function(assert) {
 		});
 });
 
+test('download disputes', function(assert) {
+	assert.equal($(".alert span").length, 0);
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	stub.withArgs(Balanced.Download).callsArgWith(3, {
+		download: {}
+	});
+
+	visit(Testing.ACTIVITY_ROUTE)
+		.click("a:contains('Disputes')")
+		.click("#activity .icon-download")
+		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+				email_address: "test@example.com",
+				uri: "",
+				type: "disputes"
+			}));
+			assert.equal($(".alert span").length, 1);
+			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
+		});
+});
+
 test('download activity only runs once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 

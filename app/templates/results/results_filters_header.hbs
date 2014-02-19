@@ -50,4 +50,9 @@
         {{view Balanced.DownloadModalView noURIBinding=controller.noDownloadsUri}}
     </li>
     {{/if}}
+    {{#if view.show_disputes_download_button}}
+        <li class="download">
+            {{view Balanced.DisputeDownloadModalView}}
+        </li>
+    {{/if}}
 </nav>
