@@ -145,10 +145,12 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			return;
 		}
 
-		this.setProperties({
-			isNew: false,
-			JSON_PROPERTY_KEY: json
-		});
+		var changes = {
+			isNew: false
+		};
+		changes[JSON_PROPERTY_KEY] = json;
+
+		this.setProperties(changes);
 
 		Ember.changeProperties(function() {
 			for (var prop in json) {
