@@ -162,16 +162,14 @@ test('can debit customer using bank account', function(assert) {
 			fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
 			$("#debit-customer select[name='source_uri']").val(fundingInstrumentUri);
 
-			fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000');
-			fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit');
-
-			wait();
-
-			// click debit
-			click('#debit-customer .modal-footer button[name="modal-submit"]');
-
-			wait();
-
+		})
+		.fillForm('#debit-customer', {
+			dollar_amount: '1000',
+			description: 'Test debit'
+		}, {
+			click: '.modal-footer button[name="modal-submit"]'
+		})
+		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
 				amount: 100000,
@@ -191,6 +189,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 		.then(function() {
 			for (var i = 0; i < 20; i++) {
 				click('#debit-customer .modal-footer button[name="modal-submit"]');
+				wait();
 			}
 
 			assert.ok(stub.calledOnce);
