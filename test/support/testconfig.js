@@ -42,7 +42,7 @@ QUnit.testDone(function(test) {
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
-	Ember.Application.initializers = null;
+	Ember.Application.initializers = {};
 	Balanced = null;
 	Ember.$('#ember-testing-container, #ember-testing').remove();
 

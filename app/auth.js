@@ -272,6 +272,7 @@ Balanced.Auth = (function() {
 			isGuest: isGuest
 		});
 
+		Balanced.__container__.unregister('user:main');
 		Balanced.register('user:main', user || {}, {
 			instantiate: false,
 			singleton: true
