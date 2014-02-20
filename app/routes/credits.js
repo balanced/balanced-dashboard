@@ -11,20 +11,6 @@ Balanced.CreditsRoute = Balanced.AuthRoute.extend({
 		});
 	},
 
-	setupController: function(controller, model) {
-		this._super(controller, model);
-
-		if (controller && model) {
-			// HACK: to trigger binding again
-			Ember.run.next(function() {
-				controller.setProperties({
-					model: model,
-					content: model
-				});
-			});
-		}
-	},
-
 	model: function(params) {
 		var marketplace = this.modelFor('marketplace');
 
