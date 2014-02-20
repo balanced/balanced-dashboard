@@ -156,18 +156,19 @@ form {
 
   }
 }
-
-#api-keys {
-  width: 800px;
-  margin-left: -400px;
-  input.key-name-input {
-    display: inline;
-    font-size: 14px;
+.api-keys-info .warn {
+  color: @red;
+}
+.api-keys-table {
+  width: 100%;
+  tr{
+    border-bottom: 1px #bcbcbc solid;
   }
-  span.warn {
-    color: @red;
+  tr:last-child {
+    border-bottom: none;
   }
   .confirm-delete-key {
-    font-size: @fontSizeLarge;
+    font-size: 20px;
   }
 }
+

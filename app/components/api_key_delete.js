@@ -14,12 +14,6 @@ Balanced.ApiKeyDeleteModalComponent = Balanced.ModalComponent.extend({
 		return true;
 	}.property('moreWarning', 'key', 'oneKey', 'haveOtherSecrets'),
 
-	init: function() {
-		window.apikeydelc = window.apikeydelc || {};
-		window.apikeydelc[this.key.get('id')] = this;
-		this._super();
-	},
-
 	actions: {
 		confirm: function() {
 			this.hide();
