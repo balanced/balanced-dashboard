@@ -1,0 +1,15 @@
+<div class="modal hide create-api-key">
+    <form {{action createKey on="submit"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Create Key?</h2>
+    </div>
+    <div class="modal-body">
+        <span class="label7a">This will create a new API Key</span>
+    </div>
+    {{input type="text" placeholder="New Key Name (optional)" value=keyName class="key-name-input full"}}
+    <button type="submit" href="#" class="create-key-button">Save</a>
+    </form>
+    </form>
+</div>
+<a href="#" {{action "open"}} class="add create-api-key-btn">+ Add Key</a>

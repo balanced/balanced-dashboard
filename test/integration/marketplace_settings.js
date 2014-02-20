@@ -34,13 +34,11 @@ test('can visit page', function(assert) {
 test('can manage api keys', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
-			var $keySpan = $('.api-key-secret');
-			$keySpan.find('a.show-api-keys').first().click();
-			assert.equal($('#api-keys:visible').length, 1, 'API Key Modal should be visible');
 
-			var $createKeyButton = $('.create-key-button');
+			var $createKeyButton = $('.create-api-key-btn');
 			$createKeyButton.click();
-			assert.equal($('#api-keys .added-keys tbody tr').length, 1, 'API Key can be created');
+			$('.create-key-button').click()
+			assert.equal($('.api-keys-info tr').length, 2, 'API Key can be created');
 
 			var $deleteKeyButtons = $('.confirm-delete-key');
 			$deleteKeyButtons.eq(1).click();
@@ -52,10 +50,9 @@ test('can add api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'create');
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
-			var $keySpan = $('.api-key-secret');
-			$keySpan.find('a.show-api-keys').first().click();
-			var $createKeyButton = $('.create-key-button');
+			var $createKeyButton = $('.create-api-key-btn');
 			$createKeyButton.click();
+			$('.create-key-button').click()
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.APIKey));
 		});
@@ -65,14 +62,12 @@ test('can delete api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'delete');
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
-			var $keySpan = $('.api-key-secret');
-			$keySpan.find('a.show-api-keys').first().click();
-			var $createKeyButton = $('.create-key-button');
+			var $createKeyButton = $('.create-api-key-btn');
 			$createKeyButton.click();
+			$('.create-key-button').click()
 			var $deleteKeyButtons = $('.confirm-delete-key');
-			$deleteKeyButtons.eq(0).click();
-			var $confirmDelete = $('#api-keys button.delete-key-btn:visible');
-			$confirmDelete.click();
+			$deleteKeyButtons.eq(1).click();
+			$('.modal.delete-key .delete-key-btn:visible').click();
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.APIKey));
 		});

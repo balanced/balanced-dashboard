@@ -66,14 +66,6 @@
                             </span>
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label">API keys</label>
-                        <div class="controls">
-                            <span class="inline-label api-key-secret">
-                                {{api-keys-modal marketplaceSecret=marketplaceSecret marketplace=model userMarketplace=userMarketplace}}
-                            </span>
-                        </div>
-                    </div>
                 </div>
             </form>
         </section>
@@ -238,6 +230,20 @@
                 </ul>
             </section>
         </div>
+</div>
+
+<div class="row">
+    <div class="span22">
+        <section class="api-keys-info">
+            <header>
+                <h3>API Keys
+                  <span class="warn">(All keys have admin access to the dashboard)</span>
+                  {{api-key-create-modal keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+                </h3>
+            </header>
+              {{api-keys-table keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+        </section>
+    </div>
 </div>
 
 <div class="row">

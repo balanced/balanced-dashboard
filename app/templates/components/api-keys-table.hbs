@@ -1,0 +1,34 @@
+<style type="text/css">
+  .api-keys-info .warn {
+    color: red;
+  }
+  .api-keys-table {
+    width: 100%;
+  }
+  .api-keys-table tr{
+    border-bottom: 1px #bcbcbc solid;
+  }
+  .api-keys-table tr:last-child {
+    border-bottom: none;
+  }
+  .api-keys-table .confirm-delete-key {
+    font-size: 20px;
+  }
+</style>
+
+<table class="items api-keys-table">
+  <tbody>
+    {{#each key in keys}}
+      <tr>
+        <td class="span1"><img src="images/key.png"></td>
+        <td class="span3">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
+        <td class="span3">{{humanReadableDateShort key.created_at}}</td>
+        <td class="span6">{{key.id}}</td>
+        <td class="span7">{{api-key-secret-shower key=key}}</td>
+        <td class="span1">
+          {{api-key-delete-modal action="delete" param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
