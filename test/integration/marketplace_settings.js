@@ -37,7 +37,7 @@ test('can manage api keys', function(assert) {
 
 			var $createKeyButton = $('.create-api-key-btn');
 			$createKeyButton.click();
-			$('.create-key-button').click()
+			$('.create-key-button').click();
 			assert.equal($('.api-keys-info tr').length, 2, 'API Key can be created');
 
 			var $deleteKeyButtons = $('.confirm-delete-key');
@@ -52,7 +52,7 @@ test('can add api key', function(assert) {
 		.then(function() {
 			var $createKeyButton = $('.create-api-key-btn');
 			$createKeyButton.click();
-			$('.create-key-button').click()
+			$('.create-key-button').click();
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.APIKey));
 		});
@@ -64,7 +64,7 @@ test('can delete api key', function(assert) {
 		.then(function() {
 			var $createKeyButton = $('.create-api-key-btn');
 			$createKeyButton.click();
-			$('.create-key-button').click()
+			$('.create-key-button').click();
 			var $deleteKeyButtons = $('.confirm-delete-key');
 			$deleteKeyButtons.eq(1).click();
 			$('.modal.delete-key .delete-key-btn:visible').click();
