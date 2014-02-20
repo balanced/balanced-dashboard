@@ -50,10 +50,10 @@ test('add funds', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
 			// Escrow balances are now cached
 			// assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
@@ -93,10 +93,11 @@ test('add funds only adds once despite multiple clicks', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click('.activity-escrow-box .add-funds-btn')
 				.fillIn('#add-funds input', '55.55')
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
@@ -117,10 +118,10 @@ test('withdraw funds', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
 			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			// select the bank account
@@ -159,10 +160,11 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 
 	visit(Testing.ACTIVITY_ROUTE).then(function() {
 		setupMarketplaceController(bankAccounts);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click('.activity-escrow-box .withdraw-funds-btn')
 				.fillIn('#withdraw-funds input', '55.55')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')

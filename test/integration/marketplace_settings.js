@@ -29,10 +29,11 @@ test('can update marketplace info', function(assert) {
 	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('production', true);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click('.marketplace-info a.edit')
 				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -51,10 +52,11 @@ test('updating marketplace info only submits once despite multiple clicks', func
 		.then(function() {
 			var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('production', true);
-			stop();
+			Testing.stop();
 
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				click('.marketplace-info a.edit')
 					.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -74,10 +76,10 @@ test('can update owner info', function(assert) {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('owner_customer', Balanced.Customer.create());
 		model.set('production', true);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
 
 			click('.owner-info a.edit')
 				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
@@ -135,10 +137,10 @@ test('can create checking accounts', function(assert) {
 		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
 		.then(function() {
-			stop();
+			Testing.stop();
 
 			Ember.run.next(function() {
-				start();
+				Testing.start();
 
 				click('#add-bank-account .modal-footer button[name="modal-submit"]')
 					.then(function() {
@@ -274,10 +276,11 @@ test('can delete bank accounts', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('owner_customer', Ember.Object.create());
 			model.set('owner_customer.bank_accounts', bankAccounts);
-			stop();
+			Testing.stop();
 
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				initialLength = $('.bank-account-info .sidebar-items li').length;
 
 				click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
@@ -291,9 +294,10 @@ test('can delete bank accounts', function(assert) {
 							bankAccount.set('isSaving', true);
 						});
 
-						stop();
+						Testing.stop();
 						Ember.run.next(function() {
-							start();
+							Testing.start();
+
 							click('#delete-bank-account .modal-footer button[name="modal-submit"]');
 						});
 					})
@@ -334,9 +338,10 @@ test('can create cards', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('isSaving', true);
 
-			stop();
+			Testing.stop();
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				click('#add-card .modal-footer button[name="modal-submit"]');
 			});
 		})
@@ -372,10 +377,11 @@ test('can delete cards', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('owner_customer', Ember.Object.create());
 			model.set('owner_customer.cards', cards);
-			stop();
+			Testing.stop();
 
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				assert.equal($('.card-info .sidebar-items li').length, 1);
 
 				click(".card-info .sidebar-items li:eq(0) .icon-delete")
@@ -386,10 +392,11 @@ test('can delete cards', function(assert) {
 						 * lets force the model into a saving state.
 						 */
 						model.set('isSaving', true);
-						stop();
+						Testing.stop();
 
 						Ember.run.next(function() {
-							start();
+							Testing.start();
+
 							click('#delete-card .modal-footer button[name="modal-submit"]');
 						});
 					})

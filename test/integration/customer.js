@@ -235,9 +235,9 @@ test('when crediting customer triggers an error, the error is displayed to the u
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			stop();
+			Testing.stop();
 			Ember.run.next(function() {
-				start();
+				Testing.start();
 				assert.equal($('.alert-error').is(':visible'), true);
 			});
 		});

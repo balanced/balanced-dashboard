@@ -4,8 +4,7 @@ module('Logs', {
 		Testing.createDebits();
 
 		// add some delay, because the API takes some time to add things to logs
-		var stop = window.stop;
-		stop();
+		Testing.stop();
 
 		var count = 0;
 		var checkAndStart = function() {
@@ -16,7 +15,7 @@ module('Logs', {
 			});
 
 			if (logs && logs.toArray().length && logs.toArray().length >= 4) {
-				return start();
+				return Testing.start();
 			} else if (count < 300) {
 				count++;
 				return setTimeout(checkAndStart, 1000);
