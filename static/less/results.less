@@ -98,47 +98,31 @@ header.results-label h3 {
     }
   }
   table.items {
-    width: 100%;
-    display: table;
     background-color: @searchBodyBackground;
+    display: table;
     float: left;
+    width: 100%;
+
     th {
       padding-top: 30px;
     }
-    td {
 
-    }
-    thead {
-
-    }
     tfoot {
       tr {
         border-top: 1px solid @gray3;
       }
-      td {
-        &.load-more-results {
-          text-align: center;
-          padding: 12px 25px 12px 25px;
+      td.load-more-results {
+        padding: 12px 25px;
+        text-align: center;
 
-          a {
-            display: block;
-            cursor: pointer;
-
-            &:hover {
-              &:before {
-                background: @iconsFile -65px -485px no-repeat;
-              }
-            }
-
-            &:before {
-              content: ' ';
-              height: 25px;
-              width: 25px;
-              position: absolute;
-              background: @iconsFile -15px -485px no-repeat;
-              margin-left: -25px;
-              margin-top: -2px;
-            }
+        a {
+          cursor: pointer;
+          display: block;
+          &:before {
+            content: 'p ';
+            font-family: "balanced-icon-font";
+            font-size: 23px;
+            vertical-align: middle;
           }
         }
       }
