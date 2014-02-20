@@ -15,7 +15,6 @@ QUnit.testStart(function(test) {
 	Ember.$('<div id="ember-testing-container"><div id="ember-testing"></div></div>').appendTo('body');
 
 	Ember.run(function() {
-		window.Balanced.constructor.initializers
 		window.setupBalanced('#ember-testing');
 
 		Balanced.THROTTLE = 0;
