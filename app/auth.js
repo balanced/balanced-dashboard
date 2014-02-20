@@ -370,6 +370,7 @@ Balanced.Auth = (function() {
 
 	Balanced.initializer({
 		name: 'injectUser',
+
 		initialize: function(container, App) {
 			container.typeInjection('controller', 'user', 'user:main');
 			container.typeInjection('route', 'user', 'user:main');
@@ -378,6 +379,7 @@ Balanced.Auth = (function() {
 
 	Balanced.initializer({
 		name: 'injectAuth',
+
 		initialize: function(container, App) {
 			container.typeInjection('controller', 'auth', 'auth:main');
 			container.typeInjection('route', 'auth', 'auth:main');

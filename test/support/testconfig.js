@@ -15,11 +15,11 @@ QUnit.testStart(function(test) {
 	Ember.$('<div id="ember-testing-container"><div id="ember-testing"></div></div>').appendTo('body');
 
 	Ember.run(function() {
+		window.Balanced.constructor.initializers
 		window.setupBalanced('#ember-testing');
 
 		Balanced.THROTTLE = 0;
 		Balanced.setupForTesting();
-
 	});
 
 	Ember.run(function() {
@@ -43,6 +43,7 @@ QUnit.testDone(function(test) {
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
+	Ember.Application.initializers = null;
 	Balanced = null;
 	Ember.$('#ember-testing-container, #ember-testing').remove();
 
