@@ -36,9 +36,13 @@
                     {{ transaction.type_name }}{{#if transaction.status }}: {{transaction.status}}{{/if}}
                 </span>{{/link-to}}
             </td>
-            <td class="span4 description" {{bindAttr title="transaction.description"}}>
+            <td {{bindAttr title="transaction.description"}} {{bind-attr class=":span4 :description transaction.description::null-field"}}>
                 {{#link-to transaction.route_name transaction}}<span>
-                    {{ transaction.description }}
+                    {{#if transaction.description}}
+                        {{ transaction.description }}
+                    {{else}}
+                        None
+                    {{/if}}
                 </span>{{/link-to}}
             </td>
             <td {{bindAttr class=":span4 :account transaction.customer::null-field"}} {{bindAttr title="transaction.customer_name_summary"}}>
