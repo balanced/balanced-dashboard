@@ -3,11 +3,17 @@ Balanced.CreditsRoute = Balanced.AuthRoute.extend({
 
 	pageTitle: function(route, setTitle) {
 		var credit = route.controller.content;
+
 		return Balanced.Utils.maybeDeferredLoading(credit, setTitle, function() {
 			return 'Credit: loading ...';
 		}, function() {
 			return 'Credit: %@'.fmt(credit.get('page_title'));
 		});
+	},
+
+	setupController: function(controller, model) {
+		controller.set('content', model);
+		return this._super(controller, model);
 	},
 
 	model: function(params) {
