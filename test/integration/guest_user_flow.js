@@ -17,9 +17,9 @@ test('visiting start creates a marketplace', function(assert) {
 test('viewing settings page as guest, can view api secret key', function(assert) {
 	visit('/marketplaces/' + Testing.MARKETPLACE_ID)
 		.click('li.settings a')
-		.click('.control-group .controls .api-key-secret a')
+		.click('.api-key-secret a')
 		.then(function() {
-			var shown_api_secret_key = $('.control-group .controls .api-key-secret').text().trim();
+			var shown_api_secret_key = $('.api-key-secret').text().trim();
 
 			assert.ok(shown_api_secret_key, sinon.match(/^ak\-test/), 'shown api secret in settings for guest');
 		});
