@@ -1,8 +1,41 @@
-<li class="activity nav1a">{{#link-to 'activity' model}} Activity {{/link-to}}</li>
-<li class="logs nav1a">{{#link-to 'logs.index' model}} Logs {{/link-to}}</li>
-<li class="invoices nav1a">{{#link-to 'invoices.index' model}} Invoices {{/link-to}}</li>
-<li class="settings nav1a">{{#link-to 'marketplace.settings' model}} Settings {{/link-to}}</li>
-<li class="add-customer nav1a">{{#link-to 'marketplace.add_customer'}}Add<br>Customer{{/link-to}}</li>
-<li class="pay-seller nav1a"><a href="#" {{action "openPaySellerModal"}}>Pay A Seller</a></li>
+<li>
+	{{#link-to 'activity' model}}
+		<i class="icon-activity"></i>
+		<span class="nav1a nav-label">Activity</span>
+	{{/link-to}}
+</li>
+<li>
+	{{#link-to 'logs.index' model}}
+		<i class="icon-logs"></i>
+		<span class="nav1a nav-label">Logs</span>
+	{{/link-to}}
+</li>
+<li>
+	{{#link-to 'invoices.index' model}}
+		<i class="icon-invoices"></i>
+		<span class="nav1a nav-label">Invoices</span>
+	{{/link-to}}
+</li>
+<li>
+	{{#link-to 'marketplace.settings' model}}
+		<i class="icon-settings"></i>
+		<span class="nav1a nav-label">Settings</span>
+	{{/link-to}}
+</li>
+
+<li class="nav-separator"></li>
+
+<li>
+	{{#link-to 'marketplace.add_customer'}}
+		<i class="icon-addcustomer"></i>
+		<span class="nav1a nav-label">Add<br>Customer</span>
+	{{/link-to}}
+</li>
+<li>
+	<a href="#" {{action "openPaySellerModal"}}>
+		<i class="icon-bankaccount"></i>
+		<span class="nav1a nav-label">Pay A Seller</span>
+	</a>
+</li>
 
 {{view Balanced.PaySellerModalView}}

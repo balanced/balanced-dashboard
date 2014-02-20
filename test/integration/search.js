@@ -9,7 +9,7 @@ module('Search', {
 	},
 	teardown: function() {
 		Ember.run(function() {
-			$('#search span.close').click();
+			$('#search .search-close').click();
 		});
 	}
 });
@@ -44,7 +44,7 @@ test('search results hide on click [x]', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search span.close')
+		.click('#search .search-close')
 		.then(function() {
 			assert.equal($('#q').val(), '');
 			assert.equal($('#search').hasClass('with-results'), false);
