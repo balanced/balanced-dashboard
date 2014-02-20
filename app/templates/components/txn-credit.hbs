@@ -10,7 +10,7 @@
 			<div class="span8 border-adjust buttons">
 				<div class="buttons-container">
 					{{#if can_reverse_credit}}
-						{{reverse-credit-modal creditBinding="credit"}}
+						{{reverse-credit-modal credit=credit}}
 					{{/if}}
 				</div>
 			</div>
@@ -26,14 +26,14 @@
 							<div class="key-value-display">
 								<header>
 									<h3>Credit
-										{{edit-transaction-modal transactionBinding="credit"}}
+										{{edit-transaction-modal transaction=credit}}
 									</h3>
 								</header>
-								{{txn-description transactionBinding="credit"}}
+								{{txn-description transaction=credit}}
 							</div>
 						</section>
 
-						{{txn-funding-instrument funding_instrument="credit.bank_account"}}
+						{{txn-funding-instrument funding_instrument=credit.bank_account}}
 					</div>
 					<div class="span10">
 						{{view Balanced.EventsSideBarView contentBinding="credit"}}
