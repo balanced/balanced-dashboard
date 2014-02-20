@@ -147,7 +147,8 @@ Balanced.Auth = (function() {
 	};
 
 	auth.createNewGuestUser = function() {
-		Balanced.Auth.unsetAPIKey();
+		this.unsetAPIKey();
+
 		return Balanced.APIKey.create().save().then(function(apiKey) {
 			var secret = apiKey.get('secret');
 			auth.loginGuestUser(secret);
@@ -305,15 +306,15 @@ Balanced.Auth = (function() {
 			});
 		});
 
-		auth.setProperties({
+		this.setProperties({
 			lastLoginUri: null,
 			OTPSecret: null,
 			signInTransitionCalled: false
 		});
 
-		auth.unsetAPIKey();
+		this.unsetAPIKey();
 
-		auth.setAuthProperties(false, null, null, null, false);
+		this.setAuthProperties(false, null, null, null, false);
 
 		Balanced.Utils.setCurrentMarketplace(null);
 	};

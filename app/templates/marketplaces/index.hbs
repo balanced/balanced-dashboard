@@ -31,7 +31,7 @@
 									<div class="icon"></div>
 								</div>
 								<div class="info">
-									{{view Balanced.AddExistingMarketplaceView}}
+									{{view Balanced.AddExistingMarketplaceView user=user auth=auth}}
 								</div>
 							</li>
 						</ul>
@@ -56,7 +56,7 @@
 							<li class="new">
 								<div class="icon"></div>
 								<div class="info">
-									{{view Balanced.AddTestMarketplaceView}}
+									{{view Balanced.AddTestMarketplaceView user=user auth=auth}}
 								</div>
 							</li>
 						</ul>
@@ -81,4 +81,4 @@
 	</div>
 </section>
 
-{{view Balanced.DeleteMarketplaceModalView}}
+{{view Balanced.DeleteMarketplaceModalView user=user}}
