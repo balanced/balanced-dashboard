@@ -369,23 +369,27 @@ Balanced.Auth = (function() {
 		singleton: true
 	});
 
-	Balanced.initializer({
-		name: 'injectUser',
+	if (!Balanced.constructor.initializers.injectUser) {
+		Balanced.initializer({
+			name: 'injectUser',
 
-		initialize: function(container, App) {
-			container.typeInjection('controller', 'user', 'user:main');
-			container.typeInjection('route', 'user', 'user:main');
-		}
-	});
+			initialize: function(container, App) {
+				container.typeInjection('controller', 'user', 'user:main');
+				container.typeInjection('route', 'user', 'user:main');
+			}
+		});
+	}
 
-	Balanced.initializer({
-		name: 'injectAuth',
+	if (!Balanced.constructor.initializers.injectAuth) {
+		Balanced.initializer({
+			name: 'injectAuth',
 
-		initialize: function(container, App) {
-			container.typeInjection('controller', 'auth', 'auth:main');
-			container.typeInjection('route', 'auth', 'auth:main');
-		}
-	});
+			initialize: function(container, App) {
+				container.typeInjection('controller', 'auth', 'auth:main');
+				container.typeInjection('route', 'auth', 'auth:main');
+			}
+		});
+	}
 
 	return auth;
 }());
