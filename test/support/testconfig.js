@@ -1,4 +1,5 @@
 document.write('<script src="https:\/\/js.balancedpayments.com\/1.1\/balanced.js"><\/script>');
+var intialIntializers = false;
 
 QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';
@@ -15,6 +16,10 @@ QUnit.testStart(function(test) {
 	Ember.$('<div id="ember-testing-container"><div id="ember-testing"></div></div>').appendTo('body');
 
 	Ember.run(function() {
+		if (!intialIntializers) {
+			intialIntializers = Ember.Application.initializers;
+		}
+
 		window.setupBalanced('#ember-testing');
 
 		Balanced.THROTTLE = 0;
@@ -42,7 +47,7 @@ QUnit.testDone(function(test) {
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
-	Ember.Application.initializers = {};
+	Ember.Application.initializers = intialIntializers;
 	Balanced = null;
 	Ember.$('#ember-testing-container, #ember-testing').remove();
 
