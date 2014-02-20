@@ -392,46 +392,6 @@ footer {
   position: relative;
 }
 
-.marketplaceIconActiveHighlight {
-  &:after {
-    content: ' ';
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: @marketplaceNavTriangleSize solid transparent;
-    border-bottom: @marketplaceNavTriangleSize solid transparent;
-
-    border-left: @marketplaceNavTriangleSize solid @marketplaceNavBackground; /* Color of Triangle */
-
-    position: relative;
-    left: 90px;
-    top: -35px;
-  }
-}
-
-.marketplaceIcon(@index) {
-  &:hover {
-    > a, > span {
-      &:before {
-        background-position: @marketplaceNavIconSize * -@index 0;
-      }
-    }
-  }
-  > a, > span {
-    &:before {
-      background-position: @marketplaceNavIconSize * -@index -@marketplaceNavIconSize;
-    }
-  }
-  > a.active {
-    &:before {
-      background-position: @marketplaceNavIconSize * -@index 0;
-    }
-  }
-  > a.active {
-    .marketplaceIconActiveHighlight;
-  }
-}
-
 #marketplace-nav {
   background-color: @marketplaceNavBackground;
   min-height: @mainMinHeight;
@@ -442,102 +402,67 @@ footer {
     background-color: @contentBackground;
   }
 
+  li.nav-separator {
+    border-top: 1px solid #BBBAB8;
+  }
+
   li {
     display: block;
-    width: 90px;
-    height: 90px;
     text-align: center;
-    position: relative;
 
     &:first-of-type {
-      margin-top: 45px;
+      margin-top: 57px;
     }
 
-    > a, > span {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 30px;
-      margin: auto;
+    i {
+      font-size: 26px;
+      &.icon-addcustomer, &.icon-bankaccount {
+        color: @white;
+        display: inline-block;
+        height: 26px;
+        width: 26px;
+      }
+      &.icon-addcustomer {
+        background-color: @byzantiumPurple60;
+      }
+      &.icon-bankaccount {
+        background-color: @persianBlue60;
+        font-size: 16px;
+        line-height: 35px;
+        margin-bottom: 9px;
+      }
+    }
+
+    a {
       color: @marketplaceNavColor;
+      display: block;
+      padding: 20px 0;
+      position: relative;
       text-decoration: none;
-      &:before {
-        background: @iconsFile 0 0 no-repeat;
-        content: ' ';
-        display: block;
-        width: 50px;
-        height: 45px;
-        position: relative;
-        left: 20px; // 50px / 2 - 5px for width of icon
+      &:hover {
+        color: @black;
       }
       &.active {
         color: @black;
-      }
-    }
-    &:hover {
-      > a, > span {
-        color: @black;
-      }
-    }
-    &.activity {
-      .marketplaceIcon(0);
-    }
-    &.logs {
-      .marketplaceIcon(1);
-    }
-    &.invoices {
-      .marketplaceIcon(2);
-    }
-    &.settings {
-      .marketplaceIcon(3);
-    }
-    &.add-customer {
-      > a.active {
-        .marketplaceIconActiveHighlight;
-      }
-
-      border-top: 1px solid #BBBAB8;
-      margin-top: 30px;
-      > a, > span {
-        &:before {
-          margin-bottom: 10px;
-          margin-left: 12px;
-          background-position: -0px -940px;
-          background-color: @byzantiumPurple60;
-          width: 26px;
-          height: 26px;
-        }
-
-        &.active, &:hover {
-          &:before {
-            background-color: @black;
-          }
+        &:after {
+          @triangeColor: @marketplaceNavBackground;
+          border-bottom: @marketplaceNavTriangleSize solid transparent;
+          border-left: @marketplaceNavTriangleSize solid @triangeColor;
+          border-top: @marketplaceNavTriangleSize solid transparent;
+          content: ' ';
+          display: block;
+          height: 0;
+          left: 90px;
+          position: absolute;
+          top: 32px;
+          width: 0;
         }
       }
     }
-    &.pay-seller {
-      > a.active {
-        .marketplaceIconActiveHighlight;
-      }
 
-      > a, > span {
-        &:before {
-          margin-bottom: 10px;
-          margin-left: 12px;
-          background-position: -26px -940px;
-          background-color: @persianBlue60;
-          width: 26px;
-          height: 26px;
-        }
-
-        &.active, &:hover {
-          &:before {
-            background-color: @black;
-          }
-        }
-      }
+    .nav-label {
+      color: inherit;
+      display: block;
     }
   }
 }
