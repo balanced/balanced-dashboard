@@ -97,8 +97,27 @@ footer {
     border-right: 1px solid @marketplaceNavBackground;
     width: 89px !important;
   }
+  .social-icons {
+    float: right;
+    margin: 15px 20px;
+    a {
+      background-color: #b7bbbd;
+      color: #ffffff;
+      display: inline-block;
+      font-size: 20px;
+      height: 30px;
+      line-height: 38px;
+      overflow: hidden;
+      text-align: center;
+      width: 30px;
+      margin-left: 7px;
+      &:hover {
+        background-color: @black;
+        color: @white;
+      }
+    }
+  }
   .span24 {
-
     > ul {
       margin: 20px;
       float: left;
@@ -127,25 +146,6 @@ footer {
           color: black;
           text-decoration: none;
         }
-      }
-    }
-    > a {
-      float: right;
-      .cssicon(@iconsFile, 30px, 30px);
-      background-color: @gray3;
-      background-position: -10px -530px;
-      margin: 15px 5px;
-      &.quora {
-        background-position: -110px -530px;
-      }
-      &.github {
-        background-position: -60px -530px;
-      }
-      &.twitter {
-        margin-right: 20px;
-      }
-      &:hover {
-        background-color: #000;
       }
     }
   }
