@@ -1,44 +1,44 @@
 <div class="debit">
-  <div {{bind-attr class=":main-header :transaction-type-subheader debit.status"}}>
-    <div class="row">
-      <div class="span2 border-adjust label">
-        <span class="subhead2d">Debit</span>
-      </div>
-      <div class="span12 title">
-        <span class="transaction-description subhead2d">{{titleCase debit.status}}: {{formatCurrency debit.amount}}</span>
-      </div>
-      <div class="span8 border-adjust buttons">
-        <div class="buttons-container">
-          {{#if debit.can_refund}}
-            {{refund-debit-modal debit=debit}}
-          {{/if}}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="transaction-body">
-    <div class="row">
-      <div class="span2 border-adjust"></div>
-      <div class="span18 border-adjust">
-        <div class="row-fluid">
-          <div class="span16">
-            <section class="transaction-info">
-              <div class="key-value-display">
-                <header>
-                  <h3>Debit
-                    {{edit-transaction-modal transaction=debit}}
-                  </h3>
-                </header>
-                {{txn-description transaction=debit}}
-              </div>
-            </section>
-            {{txn-funding-instrument funding_instrument=debit.source}}
-          </div>
-          <div class="span10">
-            {{view Balanced.EventsSideBarView contentBinding="debit"}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div {{bind-attr class=":main-header :transaction-type-subheader debit.status"}}>
+		<div class="row">
+			<div class="span2 border-adjust label">
+				<span class="subhead2d">Debit</span>
+			</div>
+			<div class="span12 title">
+				<span class="transaction-description subhead2d">{{titleCase debit.status}}: {{formatCurrency debit.amount}}</span>
+			</div>
+			<div class="span8 border-adjust buttons">
+				<div class="buttons-container">
+					{{#if debit.can_refund}}
+					{{refund-debit-modal debit=debit}}
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="transaction-body">
+		<div class="row">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
+				<div class="row-fluid">
+					<div class="span16">
+						<section class="transaction-info">
+							<div class="key-value-display">
+								<header>
+									<h3>Debit
+										{{edit-transaction-modal transaction=debit}}
+									</h3>
+								</header>
+								{{txn-description transaction=debit}}
+							</div>
+						</section>
+						{{txn-funding-instrument funding_instrument=debit.source}}
+					</div>
+					<div class="span10">
+						{{view Balanced.EventsSideBarView contentBinding="debit"}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

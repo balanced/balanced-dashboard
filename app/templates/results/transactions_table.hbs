@@ -42,10 +42,14 @@
 					</span>
 				{{/link-to}}
 			</td>
-			<td class="span4 description" {{bind-attr title="transaction.description"}}>
+			<td {{bind-attr title="transaction.description"}} {{bind-attr class=":span4 :description transaction.description::null-field"}}>
 				{{#link-to transaction.route_name transaction}}
 					<span>
-						{{transaction.description}}
+						{{#if transaction.description}}
+							{{transaction.description}}
+						{{else}}
+							None
+						{{/if}}
 					</span>
 				{{/link-to}}
 			</td>
