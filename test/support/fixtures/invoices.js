@@ -1310,4 +1310,6 @@ Balanced.Adapter.addFixtures([{
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/card_debits"
 }, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/bank_account_debits"
+}, {
+	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/disputes"
 }]);

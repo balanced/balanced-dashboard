@@ -1,24 +1,24 @@
 {
-  "name": "Balanced Dashboard",
-  "version": "0.0.1",
-  "dependencies": {
-    "ember": "1.0.0",
-    "shapeshifter": "0.1.2",
-    "handlebars": "1.0.0",
-    "jquery": "2.0.3",
-    "bootstrap": "2.3.1",
-    "jquery.browser": "latest",
-    "bootstrap-modal": "2.1.0",
-    "bootstrap-datepicker": "1.2.0",
-    "underscore": "1.4.4",
-    "mixpanel": "2.2.0",
-    "google-code-prettify": "1.0.0",
-    "jquery-hotkeys": "jeresig/jquery.hotkeys",
-    "jquery.cookie": "1.3.1",
-    "strftime": "https://raw.github.com/mjallday/strftime/master/strftime.js",
-    "strapped": "balanced/strapped"
-  },
-  "resolutions": {
-    "jquery": "2.0.3"
-  }
+	"name": "Balanced Dashboard",
+	"version": "0.0.1",
+	"dependencies": {
+		"ember": "1.0.0",
+		"shapeshifter": "0.1.2",
+		"handlebars": "1.3.0",
+		"jquery": "2.0.3",
+		"bootstrap": "2.3.1",
+		"bootstrap-modal": "2.1.0",
+		"bootstrap-datepicker": "1.2.0",
+		"lodash": "2.4.1",
+		"mixpanel": "2.2.0",
+		"google-code-prettify": "1.0.0",
+		"jquery-hotkeys": "jeresig/jquery.hotkeys",
+		"jquery.cookie": "1.3.1",
+		"strftime": "https://raw.github.com/mjallday/strftime/master/strftime.js",
+		"strapped": "0.0.2"
+	},
+	"resolutions": {
+		"jquery": "2.0.3",
+		"handlebars": "1.3.0"
+	}
 }

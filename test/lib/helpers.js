@@ -34,7 +34,7 @@ Balanced.Test.asyncHelpers = {
 	submitForm: function(app, form) {
 		var formEl = find(form);
 
-		var $form = $(formEl);
+		var $form = $(formEl) || $(form);
 		if (!$form.length) {
 			throw new Error('Element ' + form + ' not found.');
 		}
