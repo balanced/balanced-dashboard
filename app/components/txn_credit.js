@@ -1,4 +1,5 @@
 Balanced.TxnCreditComponent = Ember.Component.extend({
+	templateName: 'components/txn-credit',
 	submitReverseCreditEvent: 'submitReverseCredit',
 
 	actions: {

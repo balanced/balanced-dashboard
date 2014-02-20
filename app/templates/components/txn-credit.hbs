@@ -4,9 +4,11 @@
 			<div class="span2 border-adjust label">
 				<span class="subhead2d">Credit</span>
 			</div>
+
 			<div class="span12 title">
 				<span class="transaction-description subhead2d">{{titleCase credit.status}}: {{formatCurrency credit.amount}}</span>
 			</div>
+
 			<div class="span8 border-adjust buttons">
 				<div class="buttons-container">
 					{{#if can_reverse_credit}}
@@ -16,6 +18,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="transaction-body">
 		<div class="row">
 			<div class="span2 border-adjust"></div>

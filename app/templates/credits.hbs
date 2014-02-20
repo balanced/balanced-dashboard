@@ -20,12 +20,11 @@
 
 	{{txn-customer customer=customer}}
 
-	<!-- BindAttr HACK: a rerendering bug that I cannot deal with anymore -->
-	<div class="transaction-details" {{bind-attr credit=model.id}}>
+	<div class="transaction-details">
 		{{#each reversal in model.reversals}}
 			{{txn-reversal reversal=reversal}}
 		{{/each}}
 
-		{{txn-credit credit=model marketplace=controllers.marketplace.model}}
+		{{txn-credit credit=model}}
 	</div>
 </div>
