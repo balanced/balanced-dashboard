@@ -1,11 +1,11 @@
 <div id="search" {{bindAttr class="controller.displayResults:with-results"}}>
     <div class="search-field-container">
-        <div class="search icon"></div>
+        <label for="q" class="icon-search"></label>
         {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
         {{# if isLoading }}
             <span class="loader loading query-loader"></span>
         {{else}}
-            <span class="close" {{action clearSearch}}>×</span>
+            <span class="search-close" {{action clearSearch}}>&times;</span>
         {{/if}}
     </div>
 
