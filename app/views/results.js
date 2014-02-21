@@ -1,10 +1,10 @@
 var Computed = {
-	isTypeSelected: function (type){
+	isTypeSelected: function(type) {
 		return function() {
 			return this.get('controller.type') === type;
 		}.property('controller.type');
 	},
-	isCategorySelected: function(type) {
+	isCategorySelected: function(category) {
 		return function() {
 			return this.get('controller.category') === category;
 		}.property('controller.category');
