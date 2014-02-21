@@ -1,27 +1,26 @@
+var Computed = {
+	isTypeSelected: function (type){
+		return function() {
+			return this.get('controller.type') === type;
+		}.property('controller.type');
+	},
+	isCategorySelected: function(type) {
+		return function() {
+			return this.get('controller.category') === category;
+		}.property('controller.category');
+	}
+};
+
 Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/results_filters_header',
 	tagName: 'header',
 
 	// UI computed properties
-	transactionsTabSelected: function() {
-		return this.get('controller.category') === "search";
-	}.property('controller.category'),
-
-	customersTabSelected: function() {
-		return this.get('controller.category') === "customer";
-	}.property('controller.category'),
-
-	ordersTabSelected: function() {
-		return this.get('controller.category') === "order";
-	}.property('controller.category'),
-
-	fundingInstrumentsTabSelected: function() {
-		return this.get('controller.category') === "funding_instrument";
-	}.property('controller.category'),
-
-	disputesTabSelected: function() {
-		return this.get('controller.category') === "dispute";
-	}.property('controller.category'),
+	transactionsTabSelected: Computed.isCategorySelected("search"),
+	customersTabSelected: Computed.isCategorySelected("customer"),
+	ordersTabSelected: Computed.isCategorySelected("order"),
+	fundingInstrumentsTabSelected: Computed.isCategorySelected("funding_instrument"),
+	disputesTabSelected: Computed.isCategorySelected("dispute"),
 
 	transaction_type_label: function() {
 		var typesToLabels = {
@@ -60,13 +59,8 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return (label) ? label : labelMapping.DEFAULT;
 	},
 
-	show_download_button: function() {
-		return this.get('controller.category') === 'search';
-	}.property('controller.category'),
-
-	show_disputes_download_button: function() {
-		return this.get('controller.category') === 'dispute';
-	}.property('controller.category')
+	show_download_button: Computed.isCategorySelected("search"),
+	show_disputes_download_button: Computed.isCategorySelected("dispute")
 });
 
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
@@ -107,37 +101,16 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/transactions_filters_header',
 	tagName: 'header',
 
-	allTabSelected: function() {
-		return this.get('controller.type') === "transaction";
-	}.property('controller.type'),
+	allTabSelected: Computed.isTypeSelected("transaction"),
+	holdsTabSelected: Computed.isTypeSelected("hold"),
+	creditsTabSelected: Computed.isTypeSelected("credit"),
+	failedCreditsTabSelected: Computed.isTypeSelected("failed_credit"),
+	debitBankAccountsTabSelected: Computed.isTypeSelected("bank_account_debit"),
+	debitCardsTabSelected: Computed.isTypeSelected("card_debit"),
 
-	holdsTabSelected: function() {
-		return this.get('controller.type') === "hold";
-	}.property('controller.type'),
-
-	creditsTabSelected: function() {
-		return this.get('controller.type') === "credit";
-	}.property('controller.type'),
-
-	debitBankAccountsTabSelected: function() {
-		return this.get('controller.type') === "bank_account_debit";
-	}.property('controller.type'),
-
-	debitCardsTabSelected: function() {
-		return this.get('controller.type') === "card_debit";
-	}.property('controller.type'),
-
-	debitsTabSelected: function() {
-		return this.get('controller.type') === "debit";
-	}.property('controller.type'),
-
-	refundsTabSelected: function() {
-		return this.get('controller.type') === "refund";
-	}.property('controller.type'),
-
-	disputesTabSelected: function() {
-		return this.get('controller.type') === "dispute";
-	}.property('controller.type'),
+	debitsTabSelected: Computed.isTypeSelected("debit"),
+	refundsTabSelected: Computed.isTypeSelected("refund"),
+	disputesTabSelected: Computed.isTypeSelected("dispute"),
 
 	debits_label: function() {
 		if (this.get('controller.type') === 'debit') {
