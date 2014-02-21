@@ -35,6 +35,10 @@
         <a href="#" {{action changeTransactionTypeFilter "refund" "all"}}>Refunds</a>
     </li>
 
+    <li {{bindAttr class=":filter :refunds view.reversalsTabSelected:selected"}} >
+        <a href="#" {{action changeTransactionTypeFilter "reversal" "all"}}>Reversals</a>
+    </li>
+
     {{#if view.showExtraTransactionTypes}}
       <li {{bindAttr class=":filter :disputes :disputes-lost view.disputesTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "dispute" "lost"}}>Disputes: Lost</a>

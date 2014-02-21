@@ -105,6 +105,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	holdsTabSelected: Computed.isTypeSelected("hold"),
 	creditsTabSelected: Computed.isTypeSelected("credit"),
 	failedCreditsTabSelected: Computed.isTypeSelected("failed_credit"),
+	reversalsTabSelected: Computed.isTypeSelected("reversal"),
 	debitBankAccountsTabSelected: Computed.isTypeSelected("bank_account_debit"),
 	debitCardsTabSelected: Computed.isTypeSelected("card_debit"),
 

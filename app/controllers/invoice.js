@@ -35,6 +35,7 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 				debit: "debits",
 				credit: "credits",
 				failed_credit: "failed_credits",
+				reversal: "reversals",
 				hold: "holds",
 				refund: "refunds",
 				card_debit: "card_debits",
