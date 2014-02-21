@@ -1,0 +1,33 @@
+<h1 class="page-title">Dispute</h1>
+
+<div id="dispute" class="transaction">
+
+	<div class="main-header transactions-header">
+		<div class="row">
+			<div class="span2 label">
+				<div class="icon">Dispute</div>
+			</div>
+			<div class="span10 title">
+				<span class="nav3d">
+					{{page_title}}
+				</span>
+			</div>
+
+			<div class="span8 buttons">
+				<div class="buttons-container"></div>
+			</div>
+		</div>
+	</div>
+
+	{{txn-customer customer=transaction.customer}}
+
+	<div class="transaction-details">
+		{{txn-dispute dispute=model}}
+
+		{{#each refund in transaction.refunds}}
+			{{txn-refund refund=refund}}
+		{{/each}}
+
+		{{txn-debit debit=transaction marketplace=controllers.marketplace.model}}
+	</div>
+</div>

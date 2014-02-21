@@ -2,33 +2,39 @@
 
 <div id="refund" class="transaction">
 
-  <div class="main-header transactions-header">
-    <div class="row">
-      <div class="span2 label">
-        <div class="icon">Refund</div>
-      </div>
-        <div class="span10 title">
-        <span class="nav3d">
-          {{page_title}}
-        </span>
-      </div>
+	<div class="main-header transactions-header">
+		<div class="row">
+			<div class="span2 label">
+				<div class="icon">Refund</div>
+			</div>
+			<div class="span10 title">
+				<span class="nav3d">
+					{{page_title}}
+				</span>
+			</div>
 
-        <div class="span8 buttons">
-          <div class="buttons-container"></div>
-        </div>
-    </div>
-  </div>
+			<div class="span8 buttons">
+				<div class="buttons-container"></div>
+			</div>
+		</div>
+	</div>
 
-  {{txn-customer customer=debit.customer}}
+	{{txn-customer customer=debit.customer}}
 
-  <div class="transaction-details">
-    {{txn-refund refund=model}}
-    {{#each refund in refunds_without_current}}
-      {{txn-refund refund=refund}}
-    {{/each}}
-    {{txn-debit debit=debit}}
-    {{#if debit.hold}}
-      {{txn-hold hold=debit.hold}}
-    {{/if}}
-  </div>
+	<div class="transaction-details">
+		{{#if dispute}}
+			{{txn-dispute dispute=dispute}}
+		{{/if}}
+		{{#if debit.dispute}}
+			{{txn-dispute dispute=debit.dispute}}
+		{{/if}}
+		{{txn-refund refund=model}}
+		{{#each refund in refunds_without_current}}
+			{{txn-refund refund=refund}}
+		{{/each}}
+		{{txn-debit debit=debit}}
+		{{#if debit.hold}}
+			{{txn-hold hold=debit.hold}}
+		{{/if}}
+	</div>
 </div>

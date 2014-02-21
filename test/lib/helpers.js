@@ -19,6 +19,29 @@ Balanced.Test.asyncHelpers = {
 		}
 
 		return wait();
+	},
+	checkElements: function(app, hash, assert) {
+		_.each(hash, function(val, selector) {
+			if (_.isNumber(val)) {
+				assert.equal($(selector).length, val, 'Element exists ' + selector);
+			} else {
+				assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
+			}
+		});
+
+		return wait();
+	},
+	submitForm: function(app, form) {
+		var formEl = find(form);
+
+		var $form = $(formEl) || $(form);
+		if (!$form.length) {
+			throw new Error('Element ' + form + ' not found.');
+		}
+
+		$form.submit();
+
+		return wait();
 	}
 };
 

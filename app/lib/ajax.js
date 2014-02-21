@@ -11,6 +11,15 @@ Balanced.NET = (function() {
 				Balanced.NET.csrfToken = response.csrf;
 			});
 		},
+		loadCSRFTokenIfNotLoaded: function(fn) {
+			fn = fn || function() {};
+
+			if (!this.csrfToken) {
+				return this.loadCSRFToken().success(fn);
+			} else {
+				return fn();
+			}
+		},
 		csrfToken: $.cookie(Balanced.COOKIE.CSRF_TOKEN),
 		defaultApiKey: null,
 
@@ -37,9 +46,17 @@ Balanced.NET = (function() {
 					def.headers['X-CSRFToken'] = this.csrfToken;
 				}
 
-				def.xhrFields = {
-					withCredentials: true
-				};
+				// This does NOT work in Firefox
+				// See http://stackoverflow.com/questions/16668386/cors-synchronous-requests-not-working-in-firefox
+				if (!window.TESTING) {
+					def.xhrFields = {
+						withCredentials: true
+					};
+				} else {
+					def.beforeSend = function(xhr) {
+						xhr.withCredentials = true;
+					};
+				}
 			}
 
 			if (settings.data && Ember.isNone(settings.contentType)) {

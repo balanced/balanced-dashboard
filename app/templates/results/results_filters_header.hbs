@@ -39,6 +39,9 @@
             </ul>
         </div>
     </li>
+    <li {{bindAttr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
+        <a href="#" {{action changeTypeFilter "dispute"}}> {{ view.dispute_type_label }} </a>
+    </li>
     <li class="timing dropdown label4a">
         {{view Balanced.DatePickerView viewName="dateTimePicker" }}
     </li>
@@ -46,5 +49,10 @@
     <li class="download">
         {{view Balanced.DownloadModalView noURIBinding=controller.noDownloadsUri}}
     </li>
+    {{/if}}
+    {{#if view.show_disputes_download_button}}
+        <li class="download">
+            {{view Balanced.DisputeDownloadModalView}}
+        </li>
     {{/if}}
 </nav>

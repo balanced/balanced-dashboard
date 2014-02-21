@@ -1,9 +1,6 @@
-@import "/static/less/variables.less";
-@import "/static/less/mixins.less";
-
 .transaction {
   .transactions-header {
-    background-color: @turquoise60;
+    background-color: @egyptianBlue60;
     -ms-word-break: break-all;
      word-break: break-all;
 
@@ -15,7 +12,7 @@
     hyphens: auto;
 
     div.label {
-      background-color: @turquoise100;
+      background-color: @egyptianBlue100;
 
       .icon {
         margin: 12px 22px 12px 22px;
@@ -85,10 +82,10 @@
       height: 40px;
       margin-bottom: 0;
 
-      background-color: @pineGreen60;
+      background-color: @forestGreen60;
 
       .label {
-        background-color: @pineGreen100;
+        background-color: @forestGreen100;
       }
 
       .title {
@@ -97,7 +94,7 @@
         }
       }
 
-      &.failed {
+      &.failed, &.lost {
         background-color: @imperialRed60;
         .label {
           background-color: @imperialRed100;
@@ -125,14 +122,7 @@
             text-wrap: wrap;
             white-space: pre-wrap;
             white-space: -moz-pre-wrap;
-            word-wrap: break-word;
-            word-break: break-all;
-            -ms-word-break: break-all;
-
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
-            -ms-hyphens: auto;
-            hyphens: auto;
+            overflow-wrap: break-word;
 
             &.failed {
               color: @imperialRed100;
@@ -155,16 +145,7 @@
 }
 
 .transaction-info {
-  -ms-word-break: break-all;
-  word-break: break-all;
-
-  /* Non standard for webkit */
-  word-break: break-word;
-
-  -webkit-hyphens: auto;
-  -moz-hyphens: auto;
-  -ms-hyphens: auto;
-  hyphens: auto;
+  overflow-wrap: break-word;
 
   ul#events {
     li.event {

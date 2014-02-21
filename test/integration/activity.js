@@ -56,7 +56,8 @@ test('add funds', function(assert) {
 
 		Ember.run.next(function() {
 			start();
-			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
+			// Escrow balances are now cached
+			// assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			// select the bank account
 			fundingInstrumentUri = $("#add-funds select[name='source_uri'] option").eq(0).val();
@@ -200,6 +201,30 @@ test('download activity', function(assert) {
 				email_address: "test@example.com",
 				uri: "",
 				type: "transactions"
+			}));
+			assert.equal($(".alert span").length, 1);
+			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
+		});
+});
+
+test('download disputes', function(assert) {
+	assert.equal($(".alert span").length, 0);
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	stub.withArgs(Balanced.Download).callsArgWith(3, {
+		download: {}
+	});
+
+	visit(Testing.ACTIVITY_ROUTE)
+		.click("a:contains('Disputes')")
+		.click("#activity .icon-download")
+		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+				email_address: "test@example.com",
+				uri: "",
+				type: "disputes"
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");

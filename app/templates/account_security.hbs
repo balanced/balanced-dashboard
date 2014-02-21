@@ -1,0 +1,66 @@
+{{partial "header"}}
+
+<section id="main" class="container account_security_page">
+    <div class="row">
+        <nav id="marketplace-nav" class="span2"></nav>
+        <div id="content" class="span24">
+            <div class="row">
+                <div class="offset2 span20">
+                    <div id="account_security"  {{ bindAttr class=":seperate-page :span16 isDisabled:disabled isEnabled:enabled" }}>
+                        <h1 class="page-title">Account Security</h1>
+                        <p>Set up two-factor authentication to add another layer of security to your dashboard account. In addition to your login email and password, you'll need to enter an authentication code from Balanced using your Google Authenticator app on your smartphone.</p>
+                        <div class="status-circles large">
+                            <h3>Status</h3>
+                            <div class="status-circle green"><a href="#" {{action "enableAuth"}}>{{enable_label}}</a></div>
+                            <div class="status-circle red"><a href="#" {{action "openDisableMFAModal"}}>{{disable_label}}</a></div>
+                        </div>
+                        <div class="window-pane">
+                            <div class="pane row">
+                                <div class="left-pane span7">
+                                    <h3 class="subhead step">Step 1:</h3>
+                                    <h3 class="subhead">Install Google Authenticator</h3>
+                                    <div class="description">
+                                        <p>To activate two-factor authentication for your Balanced Dashboard account, you will need to install Google Authenticator <i>(or any other comparable authenticaiton application)</i> on your mobile device. Download the app from the app store on your smartphone.</p>
+                                    </div>
+                                </div>
+                                <div class="right-pane span7">
+                                    <img src="images/google_authenticator.png"/>
+                                </div>
+                            </div>
+                            <div class="pane row qrpane">
+                                <div class="left-pane span7">
+                                    <h3 class="subhead step">Step 2:</h3>
+                                    <h3 class="subhead">Scan QR Code</h3>
+                                    <div class="description">
+                                        <p>Open your Authenticator app. Tap on "begin setup" followed by "scan barcode." Scan the QR code to the right.</p>
+                                    </div>
+                                </div>
+                                <div class="right-pane span7">
+                                    <div id="qrcode"></div>
+                                </div>
+                            </div>
+                            <div {{ bindAttr class=":pane :row :form-pane authError:error" }}>
+                                <div class="left-pane span7">
+                                    <h3 class="subhead step">Step 3:</h3>
+                                    <h3 class="subhead">{{#if authError}}Invalid Authentication Code{{else}}Enter Authentication Code{{/if}}</h3>
+                                    <div class="description">
+                                        <p>Enter the authentication code from your smartphone. Code expires in thirty seconds.</p>
+                                    </div>
+                                </div>
+                                <div class="right-pane span7">
+                                  <form id="auth-form" {{ bindAttr class="isEnabling::disabled authError:error" }} method="POST" {{action "activateAuth" on="submit"}}>
+                                    {{view Ember.TextField type="text" name="auth_code" valueBinding="auth_code_confirm" placeholder="Authentication Code" disabledBinding="isNotEnabling"}}
+                                    <button type="submit">Activate</button>
+                                  </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{{disable-auth-modal}}
+
+{{partial "footer"}}

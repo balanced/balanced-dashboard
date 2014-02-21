@@ -93,6 +93,9 @@ Balanced.Router.map(function() {
 				this.route('funding_instruments', {
 					path: '/funding_instruments'
 				});
+				this.route('disputes', {
+					path: '/disputes'
+				});
 			});
 
 			this.resource('customers', {
@@ -119,6 +122,9 @@ Balanced.Router.map(function() {
 			});
 			this.resource('debits', {
 				path: '/debits/:debit_id'
+			});
+			this.resource('disputes', {
+				path: '/disputes/:dispute_id'
 			});
 			this.resource('holds', {
 				path: '/holds/:hold_id'
@@ -159,6 +165,9 @@ Balanced.Router.map(function() {
 	});
 	this.route('claim', {
 		path: '/claim'
+	});
+	this.route('accountSecurity', {
+		path: '/security'
 	});
 
 	this.route("invalid", {

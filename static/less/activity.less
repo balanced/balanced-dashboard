@@ -1,8 +1,8 @@
 .activity-escrow-box {
-  background-color: @turquoise60;
+  background-color: @egyptianBlue60;
 
   div.label {
-    background-color: @turquoise100;
+    background-color: @egyptianBlue100;
   }
 
   div.amount {
@@ -13,6 +13,42 @@
       line-height: normal;
       display: table-cell;
       vertical-align: middle;
+    }
+  }
+}
+.dot(@size, @backColor, @margin) {
+  width: @size;
+  height: @size;
+  .border-radius(50%);
+  background-color: @backColor;
+  border: 1px solid @backColor;
+  padding: 0;
+  margin: 0;
+  margin-right: @margin;
+  .box-shadow(0 0 1px @backColor);
+  display: inline-block;
+}
+.disputes {
+  tbody {
+    tr {
+      td.type {
+        .dot {
+          .dot(6px, @pineGreen100, 4px);
+          position: relative;
+        }
+
+        &.lost {
+          .dot {
+            .dot(6px, @imperialRed100, 4px);
+          }
+        }
+
+        &.pending {
+          .dot {
+            .dot(6px, @turmericYellow100, 4px);
+          }
+        }
+      }
     }
   }
 }

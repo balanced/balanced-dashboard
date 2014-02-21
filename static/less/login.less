@@ -1,5 +1,3 @@
-@import "/static/less/variables.less";
-@import "/static/less/mixins.less";
 @import "/static/less/icon_font.less";
 
 #logo {
@@ -66,6 +64,10 @@
 
   #forgot-form,
   #reset-password-form {
+    &.otp-form {
+      text-align: center;
+    }
+
     input {
       &:last-of-type {
         margin-bottom: 15px;
@@ -118,19 +120,31 @@
   }
   .control-group {
     background-color: @white;
-    border-bottom: 1px solid @balancedLightGray;
+    border-bottom: 1px solid @gray2;
     padding: 25px 50px;
     margin: 0;
     &:last-child {
       border-bottom: 0;
     }
     &.error {
-      background-color: @imperialRed20;
       label, .control-label {
         color: @imperialRed100;
       }
       input {
-        border-color: @gray3;
+        border-color: @imperialRed100;
+        background: @imperialRed20;
+      }
+      ::-webkit-input-placeholder {
+          color: @imperialRed100;
+      }
+      :-moz-placeholder {
+          color: @imperialRed100;
+      }
+      ::-moz-placeholder {
+          color: @imperialRed100;
+      }
+      :-ms-input-placeholder {
+          color: @imperialRed100;
       }
     }
   }

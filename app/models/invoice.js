@@ -11,6 +11,7 @@ Balanced.Invoice = Balanced.Model.extend({
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 	settlements: Balanced.Model.hasMany('settlements', 'Balanced.Settlement'),
+	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 
 	from_date: function() {
 		var period = this.get('period');
@@ -39,6 +40,10 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	is_scheduled: function() {
 		return this.get('state') === 'scheduled';
+	}.property('state'),
+
+	is_not_paid: function() {
+		return this.get('state') !== 'paid';
 	}.property('state'),
 
 	reversal_fee: function() {
@@ -80,6 +85,10 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	reversals_uri: function() {
 		return this.get('uri') + '/reversals';
+	}.property('uri'),
+
+	disputes_uri: function() {
+		return this.get('uri') + '/disputes';
 	}.property('uri')
 });
 

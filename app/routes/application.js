@@ -11,14 +11,13 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 			return;
 		}
 
-		return Balanced.NET.loadCSRFToken().then(function(response, status, jqxhr) {
+		return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
 			return Balanced.Auth.rememberMeSignIn();
 		});
 	},
 
 	actions: {
 		error: function(error, transition) {
-
 			if (!window.TESTING) {
 				// Check for an infinite loop of error handling and short-circuit
 				// if we've seen too many errors in too short a period

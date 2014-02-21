@@ -19,11 +19,16 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return this.get('controller.category') === "funding_instrument";
 	}.property('controller.category'),
 
+	disputesTabSelected: function() {
+		return this.get('controller.category') === "dispute";
+	}.property('controller.category'),
+
 	transaction_type_label: function() {
 		var typesToLabels = {
 			DEFAULT: 'Transactions',
 			card_hold: 'Holds'
 		};
+
 		var types = Balanced.SEARCH.SEARCH_TYPES;
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
@@ -32,7 +37,17 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		var typesToLabels = {
 			DEFAULT: 'Cards & Bank Accounts'
 		};
+
 		var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
+		return this._getLabel(typesToLabels, types, this.get('controller.type'));
+	}.property('controller.type'),
+
+	dispute_type_label: function() {
+		var typesToLabels = {
+			DEFAULT: 'Disputes'
+		};
+
+		var types = Balanced.SEARCH.DISPUTE_TYPES;
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
@@ -41,11 +56,16 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		if (!label && acceptedTypes.indexOf(type) > -1) {
 			label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
 		}
+
 		return (label) ? label : labelMapping.DEFAULT;
 	},
 
 	show_download_button: function() {
 		return this.get('controller.category') === 'search';
+	}.property('controller.category'),
+
+	show_disputes_download_button: function() {
+		return this.get('controller.category') === 'dispute';
 	}.property('controller.category')
 });
 
@@ -60,6 +80,10 @@ Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.
 		return 'Cards & Bank Accounts (' + this.get('searchResult.total_funding_instruments') + ')';
 	}.property('searchResult.total_funding_instruments'),
 
+	totalDisputesHeader: function() {
+		return 'Disputes (' + this.get('searchResult.total_disputes') + ')';
+	}.property('searchResult.total_disputes'),
+
 	transaction_type_total: function() {
 		var types = Balanced.SEARCH.TRANSACTION_TYPES;
 		var type = this.get('controller.type');
@@ -70,6 +94,12 @@ Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.
 		var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
 		var type = this.get('controller.type');
 		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_funding_instruments');
+	}.property('controller.type', 'searchResult'),
+
+	dispute_type_total: function() {
+		var types = Balanced.SEARCH.DISPUTE_TYPES;
+		var type = this.get('controller.type');
+		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_disputes');
 	}.property('controller.type', 'searchResult')
 });
 
@@ -103,6 +133,10 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 
 	refundsTabSelected: function() {
 		return this.get('controller.type') === "refund";
+	}.property('controller.type'),
+
+	disputesTabSelected: function() {
+		return this.get('controller.type') === "dispute";
 	}.property('controller.type'),
 
 	debits_label: function() {
@@ -147,17 +181,17 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		var allowSortByNone = this.get('controller.allowSortByNone');
-		var nextSortOrder = "asc";
+		var nextSortOrder = "desc";
 		if (sortField === this.get('field')) {
 			switch (sortOrder) {
 				case 'asc':
 					nextSortOrder = 'desc';
-					break;
-				case 'desc':
-					nextSortOrder = 'asc';
 					if (allowSortByNone) {
 						nextSortOrder = 'none';
 					}
+					break;
+				case 'desc':
+					nextSortOrder = 'asc';
 					break;
 			}
 		}
@@ -188,6 +222,11 @@ Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
 Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'funding-instruments',
 	templateName: 'results/funding_instruments_table'
+});
+
+Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
+	classNames: 'disputes',
+	templateName: 'results/disputes_table'
 });
 
 Balanced.LogsResultsView = Balanced.ResultsTableView.extend({

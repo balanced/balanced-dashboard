@@ -12,7 +12,7 @@
 		        </span>
 		    </div>
 
-		    <div class="span8 buttons">
+		    <div class="span10 buttons">
 		    	<div class="buttons-container">
               {{debit-customer-modal customer=model}}
               {{credit-customer-modal customer=model}}
@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="row">
-	    <div class="span11">
+	    <div class="span13">
 	        <section class="customer-info">
 	            <div class="key-value-display">
 	                <header>
@@ -191,7 +191,11 @@
 		    {{view Balanced.TransactionsFiltersHeaderView}}
 
 			<div class="items-wrapper">
-			    {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+				{{#if results.isDisputeType}}
+					{{view Balanced.DisputesResultsView disputesBinding=results}}
+				{{else}}
+					{{view Balanced.TransactionsResultsView transactionsBinding=results}}
+				{{/if}}
 			</div>
 		</div>
 	</section>

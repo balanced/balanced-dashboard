@@ -1,5 +1,5 @@
 <div class="row">
-    <div id="activity" class="span20">
+    <div id="activity" class="span22">
         <h1 class="page-title">Activity
             {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
         </h1>
@@ -11,11 +11,11 @@
                 </div>
                 <div class="span10 amount">
                     <span class="number1d">
-                        {{ controllers.marketplace.formattedEscrowAmount }}
+                        {{controllers.marketplace.formattedEscrowAmount}}
                     </span>
                 </div>
 
-                <div class="span8 buttons">
+                <div class="span10 buttons">
                     <div class="buttons-container">
                         {{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
                         {{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}

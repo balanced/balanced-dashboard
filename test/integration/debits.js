@@ -6,7 +6,7 @@ module('Debits', {
 				return Balanced.Debit.create({
 					uri: card.get('debits_uri'),
 					appears_on_statement_as: 'Pixie Dust',
-					amount: 10000,
+					amount: 100000,
 					description: 'Cocaine'
 				}).save();
 			}).then(function(debit) {
@@ -22,7 +22,7 @@ module('Debits', {
 test('can visit page', function(assert) {
 	visit(Testing.DEBIT_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Debit'), -1, 'Title is not correct');
-		assert.equal($(".debit .transaction-description").text().trim(), 'Succeeded: $100.00');
+		assert.equal($(".debit .transaction-description").text().trim(), 'Succeeded: $1,000.00');
 	});
 });
 
@@ -66,6 +66,20 @@ test('failed debit shows failure information', function(assert) {
 		Ember.run.next(function() {
 			start();
 			assert.equal($('.value.failed').text().trim(), 'Foobar');
+		});
+	});
+});
+
+test('failed debit does not show refund modal', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	visit(Testing.DEBIT_ROUTE).then(function() {
+		var model = Balanced.__container__.lookup('controller:debits');
+		model.set('status', 'failed');
+		stop();
+		Ember.run.next(function() {
+			start();
+			assert.equal($('#refund-debit').is(':visible'), false);
 		});
 	});
 });

@@ -42,12 +42,14 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 					return this.get('card_debits');
 				case 'bank_account_debit':
 					return this.get('bank_account_debits');
+				case 'dispute':
+					return this.get('disputes');
 				default:
 					return null;
 			}
 		}.property(
 			'type', 'debits', 'credits', 'holds', 'refunds',
-			'card_debits', 'bank_account_debits'
+			'card_debits', 'bank_account_debits', 'disputes'
 		),
 
 		results_base_uri: function() {

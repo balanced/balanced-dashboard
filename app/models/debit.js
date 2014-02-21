@@ -4,6 +4,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
 	hold: Balanced.Model.belongsTo('hold', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
+	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
 
 	refund_amount: 0,
 
@@ -37,8 +38,8 @@ Balanced.Debit = Balanced.Transaction.extend({
 	}.on('didLoad'),
 
 	can_refund: function() {
-		return this.get('amount') > this.get('refund_amount');
-	}.property('amount', 'refund_amount')
+		return (this.get('status') === "succeeded") && (this.get('amount') !== this.get('refund_amount'));
+	}.property('amount', 'refund_amount', 'status')
 });
 
 Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');
