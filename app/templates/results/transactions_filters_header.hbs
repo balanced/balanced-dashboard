@@ -27,7 +27,7 @@
         <a href="#" {{action changeTransactionTypeFilter "credit" "all"}}>Credits: succeeded</a>
     </li>
 
-    <li {{bindAttr class=":filter :credits view.failedCreditsTabSelected:selected"}} >
+    <li {{bindAttr class=":filter :failed-credits view.failedCreditsTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "failed_credit" "all"}}>Credits: failed</a>
     </li>
 
@@ -35,7 +35,7 @@
         <a href="#" {{action changeTransactionTypeFilter "refund" "all"}}>Refunds</a>
     </li>
 
-    <li {{bindAttr class=":filter :refunds view.reversalsTabSelected:selected"}} >
+    <li {{bindAttr class=":filter :reversals view.reversalsTabSelected:selected"}} >
         <a href="#" {{action changeTransactionTypeFilter "reversal" "all"}}>Reversals</a>
     </li>
 
