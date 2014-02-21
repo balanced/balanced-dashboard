@@ -66,10 +66,10 @@ test('invoice detail page', function(assert) {
 
 			assert.ok(spy.getCall(1).calledWith(Balanced.Invoice, invoiceUri), "Load invoices index");
 
-			for (var i = 0; i < expectations.length; i++) {
+			expectations.forEach(function(expectation, i) {
 				var spyCall = spy.getCall(i + 3);
-				assert.ok(spyCall.calledWith(expectations[i][0], invoiceUri + expectations[i][1]));
-			}
+				assert.ok(spyCall.calledWith(expectation[0], invoiceUri + expectation[1]));
+			});
 		});
 });
 
