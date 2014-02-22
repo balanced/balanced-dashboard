@@ -67,8 +67,9 @@ test('invoice detail page', function(assert) {
 			assert.ok(spy.getCall(1).calledWith(Balanced.Invoice, invoiceUri), "Load invoices index");
 
 			expectations.forEach(function(expectation, i) {
-				var spyCall = spy.getCall(i + 3);
-				assert.ok(spyCall.calledWith(expectation[0], invoiceUri + expectation[1]));
+				var model = expectation[0];
+				var uri = invoiceUri + expectation[1];
+				assert.ok(spy.getCall(i+3).calledWith(model, uri));
 			});
 		});
 });
