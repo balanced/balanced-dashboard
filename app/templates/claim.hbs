@@ -1,42 +1,45 @@
 {{partial "header"}}
 
 <section id="main" class="container marketplaces">
-    <div class="row">
+	<div class="row">
+		<nav id="marketplace-nav" class="span2"></nav>
+		<section id="main" class="container marketplaces">
+			<div class="row">
+				<nav id="marketplace-nav" class="span2"></nav>
+				<div id="content" class="span24">
+					<div class="row">
+						<div class="offset2 span20">
+							<h1>Claim your account</h1>
+							<form id="claim-form" method="POST" {{bind-attr class=":full-page-form signUpError:error"}} {{action "signUp" content on="submit"}}>
+								<fieldset>
+									<legend>Login info</legend>
 
-        <nav id="marketplace-nav" class="span2"></nav>
+									<div class="control-group" {{bind-attr class="validationErrors.email_address:error"}}>
+										{{view Balanced.Forms.TextField type="email" name="email_address" valueBinding="email_address" placeholder="Email" autofocus="autofocus"}}
+										<label class="control-label" for="email">{{emailLabel}}</label>
+									</div>
 
-        <div id="content" class="span24">
-            <div class="row">
-                <div class="offset2 span20">
-                    <h1>Claim your account</h1>
-                    <form id="claim-form" {{ bindAttr class=":full-page-form signUpError:error" }} {{action signUp content on="submit"}}>
-                        <fieldset>
-                        <legend>Login info</legend>
+									<div class="control-group" {{bind-attr class="validationErrors.password:error"}}>
+										{{view Balanced.Forms.TextField type="password" name="password" valueBinding="password" placeholder="Password"}}
+										<label class="control-label" for="password">{{passwordLabel}}</label>
+									</div>
 
-                        <div class="control-group" {{ bindAttr class="validationErrors.email_address:error" }}>
-                            {{view Balanced.Forms.TextField type="email" name="email_address" valueBinding="email_address" placeholder="Email" autofocus="autofocus"}}
-                            <label class="control-label" for="email">{{ emailLabel }}</label>
-                        </div>
+									<div class="control-group" {{bind-attr class="validationErrors.passwordConfirm:error"}}>
+										{{view Balanced.Forms.TextField type="password" name="passwordConfirm" valueBinding="passwordConfirm" placeholder="Confirm password"}}
+										<label class="control-label" for="passwordConfirm">{{passwordConfirmLabel}}</label>
+									</div>
 
-                        <div class="control-group" {{ bindAttr class="validationErrors.password:error" }}>
-                            {{view Balanced.Forms.TextField type="password" name="password" valueBinding="password" placeholder="Password"}}
-                            <label class="control-label" for="password">{{ passwordLabel }}</label>
-                        </div>
-
-                        <div class="control-group" {{ bindAttr class="validationErrors.passwordConfirm:error" }}>
-                            {{view Balanced.Forms.TextField type="password" name="passwordConfirm" valueBinding="passwordConfirm" placeholder="Confirm password"}}
-                            <label class="control-label" for="passwordConfirm">{{ passwordConfirmLabel }}</label>
-                        </div>
-
-                        <div class="actions">
-                            <button class="btn" type="submit">Submit</button>
-                        </div>
-                        </fieldset>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+									<div class="actions">
+										<button class="btn" type="submit">Submit</button>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
 </section>
 
 {{partial "footer"}}

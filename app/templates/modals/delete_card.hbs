@@ -1,14 +1,16 @@
 <div class="modal hide" id="delete-card">
-    <form {{action "deleteCard" target="view" on="submit"}}>
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h2>Remove card</h2>
-    </div>
-    <div class="modal-body">
-        Are you sure you want to remove this card?
-    </div>
-    <div class="modal-footer">
-        {{view Balanced.ModalActionButtonsView submitTitle="Yes" submittingTitle="Deleting..."}}
-    </div>
-    </form>
+	<form {{action "deleteCard" target="view" on="submit"}}>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h2>Remove card</h2>
+		</div>
+
+		<div class="modal-body">
+			Are you sure you want to remove this card?
+		</div>
+
+		<div class="modal-footer">
+			{{view Balanced.ModalActionButtonsView submitTitle="Yes" submittingTitle="Deleting..."}}
+		</div>
+	</form>
 </div>

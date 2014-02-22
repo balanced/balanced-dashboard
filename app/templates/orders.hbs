@@ -1,7 +1,7 @@
 <div id="order">
 
 	<h1 class="page-title">Order</h1>
-	
+
 	<div class="order-header main-header">
 		<div class="row">
 			<div class="span2 label">
@@ -18,7 +18,7 @@
 	<div class="order-sub-header">
 		<span class="created">
 			Created:
-			<time {{bindAttr datetime="transaction.created_at"}} {{bindAttr title="transaction.created_at"}}>{{humanReadableDateShort created_at}}</time>
+			<time {{bind-attr datetime="transaction.created_at"}} {{bind-attr title="transaction.created_at"}}>{{humanReadableDateShort created_at}}</time>
 		</span>
 		<span class="order-id">Order ID: {{id}}</span>
 	</div>
@@ -29,12 +29,12 @@
 			<div class="span4">Quantity</div>
 			<div class="span4">Total</div>
 		</div>
-		<div {{bindAttr class=":row amounts.debits.quantity::empty"}}>
+		<div {{bind-attr class=":row amounts.debits.quantity::empty"}}>
 			<div class="span10">Debits</div>
 			<div class="span4">{{amounts.debits.quantity}}</div>
 			<div class="span4">{{amounts.debits.total}}</div>
 		</div>
-		<div {{bindAttr class=":row amounts.refunds.quantity::empty"}}>
+		<div {{bind-attr class=":row amounts.refunds.quantity::empty"}}>
 			<div class="span10">Refunds</div>
 			<div class="span4">{{amounts.refunds.quantity}}</div>
 			<div class="span4">{{amounts.refunds.total}}</div>
@@ -48,13 +48,13 @@
 				</div>
 			{{/each}}
 		{{else}}
-			<div {{bindAttr class=":row amounts.credits.quantity::empty"}}>
+			<div {{bind-attr class=":row amounts.credits.quantity::empty"}}>
 				<div class="span10">Credits to seller</div>
 				<div class="span4">{{amounts.credits.quantity}}</div>
 				<div class="span4">{{amounts.credits.total}}</div>
 			</div>
 		{{/if}}
-		<div {{bindAttr class=":row amounts.reversals.quantity::empty"}}>
+		<div {{bind-attr class=":row amounts.reversals.quantity::empty"}}>
 			<div class="span10">Reversals</div>
 			<div class="span4">{{amounts.reversals.quantity}}</div>
 			<div class="span4">{{amounts.reversals.total}}</div>
@@ -75,5 +75,4 @@
 
 	<h3 class="order-party">Seller</h3>
 	{{order-customer customer=seller credits=credits order=model}}
-
 </div>

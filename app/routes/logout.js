@@ -5,7 +5,7 @@ Balanced.LogoutRoute = Balanced.Route.extend({
 
 	redirect: function() {
 		var self = this;
-		Balanced.Auth.signOut().then(function() {
+		this.get('auth').signOut().then(function() {
 			self.transitionTo('login');
 		});
 	}

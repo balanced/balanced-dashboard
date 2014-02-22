@@ -5,7 +5,7 @@ Balanced.AccountSecurityRoute = Balanced.AuthRoute.extend({
 
 	setupController: function(controller, model) {
 		controller.reset();
-		controller.set('status', Balanced.Auth.get('user.otp_enabled') ? 'enabled' : 'disabled');
+		controller.set('status', this.get('auth.user.otp_enabled') ? 'enabled' : 'disabled');
 
 		this._super(controller, model.emptyModel);
 	},

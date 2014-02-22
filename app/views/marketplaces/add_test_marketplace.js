@@ -15,18 +15,20 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
 
 			var self = this;
 			var marketplaceName = this.get('name');
+			var auth = this.get('auth');
+
 			if (!marketplaceName) {
 				self.set('isSubmitting', false);
 				return;
 			}
 
 			Balanced.Utils.setCurrentMarketplace(null);
-			Balanced.Auth.unsetAPIKey();
+			auth.unsetAPIKey();
 
 			Balanced.APIKey.create().save().then(function(apiKey) {
 				var apiKeySecret = apiKey.get('secret');
 				//  set the api key for this request
-				Balanced.Auth.setAPIKey(apiKeySecret);
+				auth.setAPIKey(apiKeySecret);
 				var settings = {
 					headers: {
 						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
@@ -36,10 +38,10 @@ Balanced.AddTestMarketplaceView = Balanced.View.extend({
 				Balanced.Marketplace.create({
 					name: marketplaceName
 				}).save(settings).then(function(marketplace) {
-					var user = Balanced.Auth.get('user');
+					var user = self.get('user');
 
 					Balanced.UserMarketplace.create({
-						uri: user.api_keys_uri,
+						uri: user.get('api_keys_uri'),
 						secret: apiKeySecret
 					}).save().then(function() {
 						self.set('isSubmitting', false);
