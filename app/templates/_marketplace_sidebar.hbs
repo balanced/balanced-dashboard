@@ -1,11 +1,46 @@
-<li class="activity nav1a">{{#linkTo 'activity' model }} Activity {{/linkTo}}</li>
-<li class="logs nav1a">{{#linkTo 'logs.index' model }} Logs {{/linkTo}}</li>
-<li class="invoices nav1a">{{#linkTo 'invoices.index' model }} Invoices {{/linkTo}}</li>
-<li class="settings nav1a">{{#linkTo 'marketplace.settings' model }} Settings {{/linkTo}}</li>
+<li>
+	{{#linkTo 'activity' model }}
+		<i class="icon-activity"></i>
+		<span class="nav1a nav-label">Activity</span>
+	{{/linkTo}}
+</li>
+<li>
+	{{#linkTo 'logs.index' model }}
+		<i class="icon-logs"></i>
+		<span class="nav1a nav-label">Logs</span>
+	{{/linkTo}}
+</li>
+<li>
+	{{#linkTo 'invoices.index' model }}
+		<i class="icon-invoices"></i>
+		<span class="nav1a nav-label">Invoices</span>
+	{{/linkTo}}
+</li>
+<li>
+	{{#linkTo 'marketplace.settings' model }}
+		<i class="icon-settings"></i>
+		<span class="nav1a nav-label">Settings</span>
+	{{/linkTo}}
+</li>
 
-<li class="add-customer nav1a">{{#linkTo 'marketplace.add_customer' }}Add<br>Customer{{/linkTo}}</li>
-<li class="pay-seller nav1a"><a href="#" {{action openPaySellerModal}}>Pay A Seller</a></li>
-<li class="pay-seller nav1a">{{#linkTo "marketplace.upload_payments_csv" }} Pay Multiple Sellers {{/linkTo}}</li>
-
+<li class="nav-separator"></li>
+<li>
+	{{#linkTo 'marketplace.add_customer' }}
+		<i class="icon-addcustomer"></i>
+		<span class="nav1a nav-label">Add<br>Customer</span>
+	{{/linkTo}}
+</li>
+<li>
+	<a href="#" {{action openPaySellerModal}}>
+		<i class="icon-bankaccount"></i>
+		<span class="nav1a nav-label">Pay A Seller</span>
+	</a>
+</li>
+<li>
+	{{#linkTo "marketplace.upload_payments_csv" }}
+		<i class="icon-bankaccount"></i>
+		<span class="nav1a nav-label">Pay Multiple Sellers</span>
+	{{/linkTo}}
+</li>
 
 {{view Balanced.PaySellerModalView}}
