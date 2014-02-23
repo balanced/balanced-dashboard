@@ -5,7 +5,7 @@
 		</div>
 		<div class="span10 title">
 			<span class="nav3d">
-				{{#linkTo 'customers' customer}}{{title}}{{/linkTo}}
+				{{#link-to 'customers' customer}}{{title}}{{/link-to}}
 			</span>
 		</div>
 		<div class="span8 buttons">
@@ -32,7 +32,7 @@
 		</span>
 	{{/if}}
 	{{#if has_transactions}}
-		<a href="#" {{action "toggle_visibility"}} {{bindAttr class=":toggle is_visible:arrow-close:arrow-open"}}>
+		<a href="#" {{action "toggle_visibility"}} {{bind-attr class=":toggle is_visible:arrow-close:arrow-open"}}>
 			{{toggle_display}}<i></i>
 		</a>
 	{{/if}}

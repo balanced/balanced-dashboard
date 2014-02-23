@@ -1,9 +1,7 @@
 Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ["marketplace"],
 
-	can_edit: function() {
-		return this.get('production');
-	}.property('production'),
+	can_edit: Ember.computed.alias('production'),
 
 	actions: {
 		promptToDeleteCallback: function(callback) {
@@ -20,7 +18,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	},
 
 	marketplaceSecret: function() {
-		var user = Balanced.Auth.get('user');
+		var user = this.get('user');
 		var currentUserMarketplace = user.user_marketplace_for_id(this.get('id'));
 
 		if (currentUserMarketplace) {
@@ -28,5 +26,5 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 		}
 
 		return '';
-	}.property('id', 'Balanced.Auth.user.user_marketplaces.@each.id')
+	}.property('id', 'user.user_marketplaces.@each.id')
 });

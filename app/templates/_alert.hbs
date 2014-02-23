@@ -1,54 +1,53 @@
 <div class="alert-row">
-  {{#if Balanced.Auth.isGuest}}
+	{{#if auth.isGuest}}
+		{{#if controllers.application.showNotificationCenter}}
+			<div class="row notification-center notification-center-row">
+				<div class="span2">
+					<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
+						<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
+						<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
+					</div>
+				</div>
+				<div class="span20 notification-center-message">
+					<span> You're logged in as a temporary guest user. {{#link-to 'claim'}}Claim your account to save your data. >{{/link-to}}</span>
+				</div>
+				<div class="span2">
+					<button type="button" class="close" {{action "closeNotificationCenter" target="controllers.application"}}>&times;</button>
+				</div>
+			</div>
+		{{else}}
+			{{#unless controllers.application.alertObj}}
+				<div class="notification-center">
+					<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
+						<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
+						<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
+					</div>
+				</div>
+			{{/unless}}
+		{{/if}}
+	{{/if}}
 
-    {{#if controllers.application.showNotificationCenter}}
-      <div class="row notification-center notification-center-row">
-        <div class="span2">
-          <div {{bindAttr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
-            <button type="button" class="icon icon-notification notification-bell" {{action toggleNotificationCenter target="controllers.application"}}></button>
-            <button type="button" class="callout triangle-isosceles left" {{action toggleNotificationCenter target="controllers.application"}}>1</button>
-          </div>
-        </div>
-        <div class="span20 notification-center-message">
-          <span> You're logged in as a temporary guest user. {{#linkTo 'claim'}}Claim your account to save your data. >{{/linkTo}}</span>
-        </div>
-        <div class="span2">
-          <button type="button" class="close" {{action closeNotificationCenter target="controllers.application"}}>&times;</button>
-        </div>
-      </div>
+	{{#if controllers.application.alertObj}}
+		<div {{bind-attr class=":alert-strip controllers.application.alertObj.type"}}></div>
 
-    {{else}}
+		<div {{bind-attr class=":alert controllers.application.alertObj.type"}}>
+			<div class="button-wrapper left">
+				{{#if auth.isGuest}}
+					{{#unless controllers.application.showNotificationCenter}}
+						<div class="notification-center">
+							<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
+								<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
+								<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
+							</div>
+						</div>
+					{{/unless}}
+				{{/if}}
+			</div>
+			<div {{bind-attr class=":alert-text-wrapper controllers.application.alertObj.type"}}>
+				<span class="body1">{{controllers.application.alertObj.message}}</span>
+			</div>
 
-      {{#unless controllers.application.alertObj}}
-        <div class="notification-center">
-        <div {{bindAttr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
-          <button type="button" class="icon icon-notification notification-bell" {{action toggleNotificationCenter target="controllers.application"}}></button>
-          <button type="button" class="callout triangle-isosceles left" {{action toggleNotificationCenter target="controllers.application"}}>1</button>
-        </div>
-      {{/unless}}
-
-    {{/if}}
-  {{/if}}
-
-  {{#if controllers.application.alertObj}}
-    <div {{bindAttr class=":alert-strip controllers.application.alertObj.type"}}></div>
-    <div {{bindAttr class=":alert controllers.application.alertObj.type"}}>
-      <div class="button-wrapper left">
-        {{#if Balanced.Auth.isGuest}}
-          {{#unless controllers.application.showNotificationCenter}}
-          <div class="notification-center">
-            <div {{bindAttr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
-              <button type="button" class="icon icon-notification notification-bell" {{action toggleNotificationCenter target="controllers.application"}}></button>
-              <button type="button" class="callout triangle-isosceles left" {{action toggleNotificationCenter target="controllers.application"}}>1</button>
-            </div>
-          </div>
-          {{/unless}}
-        {{/if}}
-      </div>
-      <div {{bindAttr class=":alert-text-wrapper controllers.application.alertObj.type"}}>
-        <span class="body1">{{controllers.application.alertObj.message}}</span>
-      </div>
-      <div class="button-wrapper right"></div>
-    </div>
-  {{/if}}
+			<div class="button-wrapper right"></div>
+		</div>
+	{{/if}}
 </div>

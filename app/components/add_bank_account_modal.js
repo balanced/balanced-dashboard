@@ -27,7 +27,10 @@ Balanced.AddBankAccountModalComponent = Balanced.ModalComponent.extend({
 			bankAccount.set('type', $('#add-bank-account form input[name=account_type]:checked').val());
 
 			bankAccount.tokenizeAndCreate(this.get('customer.id')).then(function() {
-				self.get('customer.bank_accounts').reload();
+				if (self.get('customer')) {
+					self.get('customer.bank_accounts').reload();
+				}
+
 				self.hide();
 			});
 		}

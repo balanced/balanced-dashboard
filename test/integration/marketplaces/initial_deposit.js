@@ -35,11 +35,14 @@ test('payment success', function(assert) {
 	});
 
 	visit(Testing.INITIAL_DEPOSIT_ROUTE)
-		.fillIn('input[name="number"]', '4111111111111111')
-		.fillIn('input[name="security_code"]', '1234')
-		.fillIn('select[name="expiration_month"]', '12')
-		.fillIn('select[name="expiration_year"]', '2020')
-		.click('button:contains("Submit")')
+		.fillForm({
+			number: '4111111111111111',
+			security_code: '1234',
+			expiration_month: '12',
+			expiration_year: '2020'
+		}, {
+			click: 'button:contains("Submit")'
+		})
 		.then(function() {
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(spy.calledOnce);
@@ -48,12 +51,14 @@ test('payment success', function(assert) {
 });
 
 test('cancel', function(assert) {
-	visit(Testing.INITIAL_DEPOSIT_ROUTE).then(function() {
-		var $skipButton = $('button:contains("Skip")');
-		assert.equal($skipButton.length, 1, 'skip button exists');
-	}).then(function() {
+	visit(Testing.INITIAL_DEPOSIT_ROUTE)
+		.then(function() {
+			var $skipButton = $('button:contains("Skip")');
+			assert.equal($skipButton.length, 1, 'skip button exists');
+		})
+		.then(function() {
 
-		click('button:contains("Skip")');
-		assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
-	});
+			click('button:contains("Skip")');
+			assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
+		});
 });

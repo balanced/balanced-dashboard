@@ -129,13 +129,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return this.get('applicationType');
 	}.property('applicationType'),
 
-	isBusiness: function() {
-		return this.get('applicationType') === 'BUSINESS';
-	}.property('applicationType'),
+	isBusiness: Ember.computed.equal('applicationType', 'BUSINESS'),
 
-	isGuest: function() {
-		return Balanced.Auth.get('isGuest');
-	}.property('Balanced.Auth.isGuest'),
+	isGuest: Ember.computed.alias('auth.isGuest'),
 
 	dobYears: function() {
 		var start = new Date().getFullYear() - 17;
@@ -276,7 +272,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	},
 
 	_extractLoginPayload: function() {
-		if (Balanced.Auth.get('isGuest')) {
+		if (this.get('isGuest')) {
 			return Balanced.Claim.create({
 				email_address: this.get('email_address'),
 				password: this.get('password'),

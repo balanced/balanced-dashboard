@@ -162,12 +162,14 @@ test('can debit customer using bank account', function(assert) {
 			fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
 			$("#debit-customer select[name='source_uri']").val(fundingInstrumentUri);
 
-			fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000');
-			fillIn('#debit-customer .modal-body input[name="description"]', 'Test debit');
-
-			// click debit
-			click('#debit-customer .modal-footer button[name="modal-submit"]');
-
+		})
+		.fillForm('#debit-customer', {
+			dollar_amount: '1000',
+			description: 'Test debit'
+		}, {
+			click: '.modal-footer button[name="modal-submit"]'
+		})
+		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
 				amount: 100000,
@@ -187,6 +189,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 		.then(function() {
 			for (var i = 0; i < 20; i++) {
 				click('#debit-customer .modal-footer button[name="modal-submit"]');
+				wait();
 			}
 
 			assert.ok(stub.calledOnce);
@@ -232,9 +235,9 @@ test('when crediting customer triggers an error, the error is displayed to the u
 		.fillIn('#credit-customer .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			stop();
+			Testing.stop();
 			Ember.run.next(function() {
-				start();
+				Testing.start();
 				assert.equal($('.alert-error').is(':visible'), true);
 			});
 		});

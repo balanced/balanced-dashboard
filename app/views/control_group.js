@@ -2,7 +2,7 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 	tagName: 'div',
 	classNames: ['control-group'],
 	classNameBindings: ['cssError:error'],
-	layoutName: '_control_group_field',
+	templateName: '_control_group_field',
 	type: 'text',
 
 	recommendedField: false,
@@ -23,14 +23,19 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 		return this.get('controller.validationErrors.' + field);
 	}.property('controller.validationErrors.length'),
 
+	fieldKey: function() {
+		return "controller." + this.get('field');
+	},
+
 	value: function() {
 		var field = this.get('field');
-		return this.get('controller.content.' + field);
-	}.property(),
+		return this.get('controller.content').get(field);
+	}.property().volatile(),
 
 	valueChange: function() {
 		var field = this.get('field'),
 			value = this.get('value');
+
 		this.get('controller.content').set(field, value);
 	}.observes('value'),
 

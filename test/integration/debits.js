@@ -62,9 +62,9 @@ test('failed debit shows failure information', function(assert) {
 		var model = Balanced.__container__.lookup('controller:debits');
 		model.set('status', 'failed');
 		model.set('failure_reason', 'Foobar');
-		stop();
+		Testing.stop();
 		Ember.run.next(function() {
-			start();
+			Testing.start();
 			assert.equal($('.value.failed').text().trim(), 'Foobar');
 		});
 	});

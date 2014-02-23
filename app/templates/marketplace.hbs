@@ -1,26 +1,20 @@
-
 <section id="main" class="container">
+	<div id="main-overlay"></div>
 
-  <div id="main-overlay"></div>
+	<div class="row">
+		<nav id="marketplace-nav" class="span2">
+			<ul>
+				{{partial "marketplace_sidebar"}}
+			</ul>
+		</nav>
 
-  <div class="row">
-
-    <nav id="marketplace-nav" class="span2">
-        <ul>
-            {{partial "marketplace_sidebar"}}
-        </ul>
-    </nav>
-
-    <div id="content" class="span24">
-        {{partial "alert"}}
-        <div class="row">
-            <div class="offset1 span22">
-
-          {{outlet}}
-
-        </div>
-      </div>
-    </div>
-  </div>
-
+		<div id="content" class="span24">
+			{{partial "alert"}}
+			<div class="row">
+				<div class="offset1 span22">
+					{{outlet}}
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
