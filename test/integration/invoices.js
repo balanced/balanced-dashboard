@@ -69,7 +69,7 @@ test('invoice detail page', function(assert) {
 			expectations.forEach(function(expectation, i) {
 				var model = expectation[0];
 				var uri = invoiceUri + expectation[1];
-				assert.ok(spy.getCall(i+3).calledWith(model, uri));
+				assert.ok(spy.getCall(i + 3).calledWith(model, uri));
 			});
 		});
 });
