@@ -1,5 +1,5 @@
 <div class="modal hide delete-key">
-    <form {{action confirm on="submit"}}>
+    <form {{action "confirm" on="submit"}}>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h2>Delete this key?</h2>
@@ -16,7 +16,7 @@
     </div>
     <div class="modal-footer">
         <button class="btn danger" type="button" data-dismiss="modal">Cancel</button>
-        <button class="btn delete-key-btn" type="button" {{action confirm}}>Yes</button>
+        <button class="btn delete-key-btn" type="button" {{action "confirm"}}>Yes</button>
     </div>
     </form>
 </div>
