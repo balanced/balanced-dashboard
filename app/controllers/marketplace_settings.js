@@ -5,7 +5,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	can_edit: Ember.computed.alias('production'),
 
 	userMarketplace: function() {
-		var user = Balanced.Auth.get('user');
+		var user = this.get('user');
 		var currentUserMarketplace = user.user_marketplace_for_id(this.get('id'));
 		return currentUserMarketplace;
 	}.property(),
@@ -46,5 +46,5 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 		}
 
 		return '';
-	}.property('id', 'Balanced.Auth.user.user_marketplaces.@each.id', 'userMarketplace.secret')
+	}.property('id', 'user.user_marketplaces.@each.id', 'userMarketplace.secret')
 });
