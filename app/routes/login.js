@@ -11,5 +11,5 @@ Balanced.LoginRoute = Balanced.Route.extend({
 		if (this.get('auth.signedIn')) {
 			this.transitionTo('marketplaces');
 		}
-	}
+	},
 });

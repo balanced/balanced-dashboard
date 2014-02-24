@@ -72,6 +72,13 @@ Balanced.Test.asyncHelpers = {
 		}
 
 		return wait();
+	},
+	onUrl: function(app, route) {
+		wait();
+
+		assert.equal(location.hash, route, 'On correct url');
+
+		return wait();
 	}
 };
 

@@ -15,6 +15,11 @@ Balanced.LoginView = Balanced.View.extend({
 		this._super();
 	},
 	keyDown: function(e) {
+		// Lets make sure we are in the login view
+		if (this.templateName !== 'login') {
+			return;
+		}
+
 		this.get('controller').send('reset');
 	}
 });

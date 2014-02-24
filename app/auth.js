@@ -274,7 +274,7 @@ Balanced.Auth = (function() {
 		});
 
 		Balanced.__container__.unregister('user:main');
-		Balanced.register('user:main', user || {}, {
+		Balanced.register('user:main', user, {
 			instantiate: false,
 			singleton: true
 		});
@@ -360,7 +360,7 @@ Balanced.Auth = (function() {
 		});
 	};
 
-	Balanced.register('user:main', {}, {
+	Balanced.register('user:main', null, {
 		instantiate: false,
 		singleton: true
 	});

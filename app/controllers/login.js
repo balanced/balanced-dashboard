@@ -6,6 +6,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	otpError: false,
 	otpRequired: false,
 	otpCode: null,
+	fromForgotPassword: false,
 
 	init: function() {
 		if (this.get('auth.signedIn')) {
@@ -27,7 +28,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			email: null,
 			password: null,
 			otpRequired: false,
-			otpCode: null
+			otpCode: null,
+			fromForgotPassword: false
 		});
 	},
 
@@ -35,7 +37,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		this.setProperties({
 			loginError: false,
 			otpError: false,
-			loginResponse: ''
+			loginResponse: '',
+			fromForgotPassword: false
 		});
 	},
 
