@@ -51,7 +51,7 @@ test('invoice detail page', function(assert) {
 		.click('.activity .results header li.failed-credits a')
 		.click('.activity .results header li.refunds a')
 		.click('.activity .results header li.reversals a')
-		.click('.activity .results header li.disputes-lost a')
+		.click('.activity .results header li.disputes a')
 		.then(function() {
 			var expectations = [
 				[Balanced.Hold, "/holds"],
