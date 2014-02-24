@@ -5,7 +5,7 @@
 		<div class="key-value-row">
 			<label class="key">Date</label>
 			<span class="value">
-				<time {{bindAttr datetime="model.created_at"}} {{bindAttr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time>
+				<time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time>
 			</span>
 		</div>
 		<div class="key-value-row">
@@ -42,7 +42,7 @@
 				<h3>Request body</h3>
 			</header>
 
-			{{view Balanced.PrettyPrintView contentBinding=model.message.request.payload}}
+			{{view Balanced.PrettyPrintView contentBinding="model.message.request.payload"}}
 		</section>
 	</div>
 </div>
@@ -54,7 +54,7 @@
 				<h3>Response body</h3>
 			</header>
 
-			{{view Balanced.PrettyPrintView contentBinding=model.message.response.body}}
+			{{view Balanced.PrettyPrintView contentBinding="model.message.response.body"}}
 		</section>
 	</div>
 </div>

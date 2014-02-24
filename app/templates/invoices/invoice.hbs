@@ -16,6 +16,7 @@
 						Test
 					{{/if}}
 				</div>
+
 				{{#if marketplace.owner_customer.is_business}}
 				<div>
 					{{#if marketplace.production}}
@@ -25,6 +26,7 @@
 					{{/if}}
 				</div>
 				{{/if}}
+
 				{{#if marketplace.owner_customer.address_string}}
 				<div>
 					{{#if marketplace.production}}
@@ -90,7 +92,7 @@
 			<section class="total-info">
 				<header class="clearfix">
 					<h3 class="pull-left">Balance due</h3>
-					<h3 class="pull-right hidden-print"><a href="#" {{action printSummary}}>Print Summary</a></h3>
+					<h3 class="pull-right hidden-print"><a href="#" {{action "printSummary"}}>Print Summary</a></h3>
 				</header>
 
 				<div class="invoice-balance-due-box">
@@ -214,47 +216,48 @@
 
 
 	{{#if model.adjustments.length}}
-	<section class="activity row adjustment-details-table">
-		<header class="results-label span22">
-			<h3>Adjustments</h3>
-		</header>
-		<table class="span22 invoice-details">
-			<thead>
-				<tr class="row">
-					<th class="span18 label6a"><span>Description</span></th>
-					<th class="span2 label6a total"><span>Total</span></th>
-				</tr>
-			</thead>
-			<tbody>
-				{{#each adjustment in model.adjustments}}
-				<tr class="row">
-					<td class="span18 label4a"><span>{{adjustment.description}}</span></td>
-					<td class="span2 total number3a"><span>{{formatCurrency adjustment.amount}}</span></td>
-				</tr>
-				{{/each}}
-			</tbody>
-			<tfoot>
-				<tr class="adjustments-row row">
-					<td class="span18 label4a"><span>Total Adjustments</span></td>
-					<td class="span2 total number3a"><span>{{formatCurrency adjustments_total_fee}}</span></td>
-				</tr>
-			</tfoot>
-		</table>
-	</section>
+		<section class="activity row adjustment-details-table">
+			<header class="results-label span22">
+				<h3>Adjustments</h3>
+			</header>
+			<table class="span22 invoice-details">
+				<thead>
+					<tr class="row">
+						<th class="span18 label6a"><span>Description</span></th>
+						<th class="span2 label6a total"><span>Total</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each adjustment in model.adjustments}}
+					<tr class="row">
+						<td class="span18 label4a"><span>{{adjustment.description}}</span></td>
+						<td class="span2 total number3a"><span>{{formatCurrency adjustment.amount}}</span></td>
+					</tr>
+					{{/each}}
+				</tbody>
+				<tfoot>
+					<tr class="adjustments-row row">
+						<td class="span18 label4a"><span>Total Adjustments</span></td>
+						<td class="span2 total number3a"><span>{{formatCurrency adjustments_total_fee}}</span></td>
+					</tr>
+				</tfoot>
+			</table>
+		</section>
 	{{/if}}
 
 	<section class="activity">
 		<header class="results-label">
 			<h3>Transactions</h3>
 		</header>
+
 		<div class="results">
 			{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
 
 			<div class="items-wrapper">
 				{{#if isDisputeType}}
-					{{view Balanced.DisputesResultsView disputesBinding=results hideDateSort=true}}
+					{{view Balanced.DisputesResultsView disputesBinding="results" hideDateSort=true}}
 				{{else}}
-					{{view Balanced.TransactionsResultsView transactionsBinding=results hideDateSort=true}}
+					{{view Balanced.TransactionsResultsView transactionsBinding="results" hideDateSort=true}}
 				{{/if}}
 			</div>
 		</div>

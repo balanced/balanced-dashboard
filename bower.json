@@ -2,7 +2,7 @@
 	"name": "Balanced Dashboard",
 	"version": "0.0.1",
 	"dependencies": {
-		"ember": "1.0.0",
+		"ember": "1.4.0",
 		"shapeshifter": "0.1.2",
 		"handlebars": "1.3.0",
 		"jquery": "2.0.3",

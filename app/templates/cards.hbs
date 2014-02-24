@@ -4,7 +4,7 @@
     <div class="funding-instrument-header main-header">
         <div class="row">
             <div class="span2 label">
-                <div {{bindAttr class=":icon :card-info"}}>Card</div>
+                <div {{bind-attr class=":icon :card-info"}}>Card</div>
             </div>
             <div class="span10 title">
                 <span class="nav3d">
@@ -16,7 +16,7 @@
                 <div class="buttons-container">
                     {{#if customer}}
                         {{partial 'hold_card'}}
-                        <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                        <a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
                     {{/if}}
                 </div>
             </div>
@@ -34,14 +34,14 @@
                         <div class="control-group">
                             <label class="control-label">ID</label>
                             <div class="controls">
-                                <span class="inline-label">{{#if id}} {{ id }} {{ else }} <span class="text-error">DELETED</span> {{/if}}</span>
+                                <span class="inline-label">{{#if id}} {{id}} {{else}} <span class="text-error">DELETED</span> {{/if}}</span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Created</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{humanReadableDateLong created_at }}
+                                    {{humanReadableDateLong created_at}}
                                 </span>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                             <label class="control-label">Name</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ name }}
+                                    {{name}}
                                 </span>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                             <label class="control-label">Card #</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ number }}
+                                    {{number}}
                                 </span>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                             <label class="control-label">Expiration</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ human_readable_expiration }}
+                                    {{human_readable_expiration}}
                                 </span>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                             <label class="control-label">Billing Zip Code</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ postal_code }}
+                                    {{postal_code}}
                                 </span>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
             {{view Balanced.TransactionsFiltersHeaderView}}
 
             <div class="items-wrapper">
-                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+                {{view Balanced.TransactionsResultsView transactionsBinding="results"}}
             </div>
         </div>
     </section>
@@ -115,5 +115,5 @@
     {{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
-{{view Balanced.HoldCardModalView funding_instrumentBinding=model}}
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
+{{view Balanced.HoldCardModalView funding_instrumentBinding="model"}}

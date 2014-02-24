@@ -61,7 +61,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		var self = this;
 
 		$.getScript('//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js', function() {
-			var otpSecret = Balanced.Auth.get('OTPSecret');
+			var otpSecret = self.get('auth.OTPSecret');
 
 			if ($.fn.qrcode) {
 				$('#qrcode').qrcode(otpSecret.secret_uri);
@@ -82,7 +82,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		enableAuth: function(router, evt) {
 			var self = this;
 
-			Balanced.Auth.enableMultiFactorAuthentication().done(function() {
+			this.get('auth').enableMultiFactorAuthentication().done(function() {
 				self.set('status', 'enabling');
 				self.loadQRCode();
 			});
@@ -90,7 +90,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		disableAuth: function(router, evt) {
 			var self = this;
 
-			Balanced.Auth.disableMultiFactorAuthentication().done(function() {
+			this.get('auth').disableMultiFactorAuthentication().done(function() {
 				self.set('status', 'disabled');
 				$('#qrcode').html('');
 
@@ -106,7 +106,7 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		activateAuth: function(router, evt) {
 			var self = this;
 
-			Balanced.Auth.confirmOTP(this.get('auth_code_confirm')).then(function() {
+			this.get('auth').confirmOTP(this.get('auth_code_confirm')).then(function() {
 				self.set('status', 'enabled');
 				$('#qrcode').html('');
 

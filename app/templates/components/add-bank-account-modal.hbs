@@ -10,7 +10,7 @@
             </div>
 
             <div class="modal-content">
-                <div {{bindAttr class=":control-group view.model.validationErrors.name:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
                     <label class="control-label">Account holder's name</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
@@ -18,7 +18,7 @@
                     </div>
                 </div>
 
-                <div {{bindAttr class=":control-group view.model.validationErrors.routing_number:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.routing_number:error"}}>
                     <label class="control-label">Routing Number</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.routing_number" name="routing_number" class="full"}}
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div {{bindAttr class=":control-group view.model.validationErrors.account_number:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.account_number:error"}}>
                     <label class="control-label">Account number</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.account_number" name="account_number" class="full"}}
@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <div {{bindAttr class=":control-group view.model.validationErrors.type:error"}}>
+                <div {{bind-attr class=":control-group view.model.validationErrors.type:error"}}>
                     <label class="control-label">Account type</label>
                     <div class="controls">
                         <input type="radio" name="account_type" value="checking">
@@ -54,4 +54,4 @@
         </div>
     </form>
 </div>
-<a href="#" class="add" {{action open}}>Add a bank account</a>
+<a href="#" class="add" {{action "open"}}>Add a bank account</a>

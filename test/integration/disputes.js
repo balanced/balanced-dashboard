@@ -5,11 +5,9 @@ module('Disputes', {
 		// Testing.setupFixtures();
 		// Testing.fixtureLogin();
 
-		// Pause tests for 1000ms for disputes
+		// Pause tests for 2000ms for disputes
 		// to be fully created
-		// Testing.pause(1000);
-		stop();
-		setTimeout(start, 2000);
+		Testing.pause(2000);
 	},
 	teardown: function() {}
 });

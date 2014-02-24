@@ -19,21 +19,23 @@ test('can create person customer', function(assert) {
 	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.person")
 		.click(".disclosure-button")
-		.fillIn('#add-customer input[name="name"]', 'TEST')
-		.fillIn('#add-customer input[name="email"]', 'nick@example.com')
-		.fillIn('#add-customer input[name="address.line1"]', '1234 main street')
-		.fillIn('#add-customer input[name="address.line2"]', 'Ste 400')
-		.fillIn('#add-customer input[name="address.city"]', 'oakland')
+		.fillForm('#add-customer', {
+			name: 'TEST',
+			email: 'nick@example.com',
+			'address.line1': '1234 main street',
+			'address.line2': 'Ste 400',
+			'address.city': 'oakland',
+			'address.state': 'ca',
+			'address.postal_code': '94612',
+			phone: '1231231234',
+			dob_month: '12',
+			dob_year: '1930',
+			ssn_last4: '1234',
+			facebook: 'kleinsch',
+			twitter: 'kleinsch'
+		})
 		.fillIn('#add-customer .country-select', 'US')
-		.fillIn('#add-customer input[name="address.state"]', 'ca')
-		.fillIn('#add-customer input[name="address.postal_code"]', '94612')
-		.fillIn('#add-customer input[name="phone"]', '1231231234')
-		.fillIn('#add-customer input[name="dob_month"]', '12')
-		.fillIn('#add-customer input[name="dob_year"]', '1930')
-		.fillIn('#add-customer input[name="ssn_last4"]', '1234')
-		.fillIn('#add-customer input[name="facebook"]', 'kleinsch')
-		.fillIn('#add-customer input[name="twitter"]', 'kleinsch')
-		.click(".actions button")
+		.click('.actions button')
 		.then(function() {
 			// make sure we posted the customer
 			assert.ok(spy.calledOnce);
@@ -70,23 +72,25 @@ test('can create business customer', function(assert) {
 	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.business")
 		.click(".disclosure-button")
-		.fillIn('#add-customer input[name="business_name"]', 'Something Inc')
-		.fillIn('#add-customer input[name="ein"]', '123123123')
-		.fillIn('#add-customer input[name="name"]', 'TEST')
-		.fillIn('#add-customer input[name="email"]', 'nick@example.com')
-		.fillIn('#add-customer input[name="address.line1"]', '1234 main street')
-		.fillIn('#add-customer input[name="address.line2"]', 'Ste 200')
-		.fillIn('#add-customer input[name="address.city"]', 'oakland')
+		.fillForm('#add-customer', {
+			business_name: 'Something Inc',
+			ein: '123123123',
+			name: 'TEST',
+			email: 'nick@example.com',
+			'address.line1': '1234 main street',
+			'address.line2': 'Ste 200',
+			'address.city': 'oakland',
+			'address.state': 'ca',
+			'address.postal_code': '94612',
+			phone: '1231231234',
+			dob_month: '12',
+			dob_year: '1930',
+			ssn_last4: '1234',
+			facebook: 'kleinsch',
+			twitter: 'kleinsch'
+		})
 		.fillIn('#add-customer .country-select', 'USA')
-		.fillIn('#add-customer input[name="address.state"]', 'ca')
-		.fillIn('#add-customer input[name="address.postal_code"]', '94612')
-		.fillIn('#add-customer input[name="phone"]', '1231231234')
-		.fillIn('#add-customer input[name="dob_month"]', '12')
-		.fillIn('#add-customer input[name="dob_year"]', '1930')
-		.fillIn('#add-customer input[name="ssn_last4"]', '1234')
-		.fillIn('#add-customer input[name="facebook"]', 'kleinsch')
-		.fillIn('#add-customer input[name="twitter"]', 'kleinsch')
-		.click(".actions button")
+		.click('.actions button')
 		.then(function() {
 			// make sure we posted the customer
 			assert.ok(spy.calledOnce);

@@ -120,11 +120,11 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 				var password = models.user.password;
 				models.user.save().then(function(user) {
 					Balanced.Auth.signIn(models.user.email_address, password).then(function() {
-						persistMarketplace(Balanced.Auth.get('user'));
+						persistMarketplace(self.get('user'));
 					}, onUserError);
 				});
 			} else {
-				persistMarketplace(Balanced.Auth.get('user'));
+				persistMarketplace(self.get('user'));
 			}
 		}
 	}

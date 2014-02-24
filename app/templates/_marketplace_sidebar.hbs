@@ -1,37 +1,38 @@
 <li>
-	{{#linkTo 'activity' model }}
+	{{#link-to 'activity' model}}
 		<i class="icon-activity"></i>
 		<span class="nav1a nav-label">Activity</span>
-	{{/linkTo}}
+	{{/link-to}}
 </li>
 <li>
-	{{#linkTo 'logs.index' model }}
+	{{#link-to 'logs.index' model}}
 		<i class="icon-logs"></i>
 		<span class="nav1a nav-label">Logs</span>
-	{{/linkTo}}
+	{{/link-to}}
 </li>
 <li>
-	{{#linkTo 'invoices.index' model }}
+	{{#link-to 'invoices.index' model}}
 		<i class="icon-invoices"></i>
 		<span class="nav1a nav-label">Invoices</span>
-	{{/linkTo}}
+	{{/link-to}}
 </li>
 <li>
-	{{#linkTo 'marketplace.settings' model }}
+	{{#link-to 'marketplace.settings' model}}
 		<i class="icon-settings"></i>
 		<span class="nav1a nav-label">Settings</span>
-	{{/linkTo}}
+	{{/link-to}}
 </li>
 
 <li class="nav-separator"></li>
+
 <li>
-	{{#linkTo 'marketplace.add_customer' }}
+	{{#link-to 'marketplace.add_customer'}}
 		<i class="icon-addcustomer"></i>
 		<span class="nav1a nav-label">Add<br>Customer</span>
-	{{/linkTo}}
+	{{/link-to}}
 </li>
 <li>
-	<a href="#" {{action openPaySellerModal}}>
+	<a href="#" {{action "openPaySellerModal"}}>
 		<i class="icon-bankaccount"></i>
 		<span class="nav1a nav-label">Pay A Seller</span>
 	</a>

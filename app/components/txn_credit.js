@@ -1,4 +1,5 @@
 Balanced.TxnCreditComponent = Ember.Component.extend({
+	layoutName: 'components/txn-credit',
 	submitReverseCreditEvent: 'submitReverseCredit',
 
 	actions: {
@@ -7,7 +8,5 @@ Balanced.TxnCreditComponent = Ember.Component.extend({
 		},
 	},
 
-	can_reverse_credit: function() {
-		return this.get('credit.can_reverse');
-	}.property('credit.can_reverse')
+	can_reverse_credit: Ember.computed.alias('credit.can_reverse')
 });
