@@ -24,10 +24,13 @@
 		{{#if dispute}}
 			{{txn-dispute dispute=dispute}}
 		{{/if}}
+
 		{{#each refund in model.refunds}}
 			{{txn-refund refund=refund}}
 		{{/each}}
+
 		{{txn-debit debit=model}}
+
 		{{#if hold}}
 			{{txn-hold hold=hold}}
 		{{/if}}

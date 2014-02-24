@@ -1,5 +1,6 @@
 @searchActiveBackground: #a5cbcf;
 @searchHeaderBackground: #d4e5e6;
+@searchCloseBackground: rgb(116, 175, 183);
 @searchBodyBackground: @gray1;
 @searchTimingBackground: @gray6;
 @searchTimingBackgroundHover: #000;
@@ -22,12 +23,31 @@
     margin: @searchBoxMargin;
     position: relative;
 
-    .search.icon {
+    .icon-search {
+      color: @white;
+      display: inline-block;
       float: left;
-      width: 50px;
+      font-size: 16px;
       height: 50px;
-      background: @iconsFile -0px -100px no-repeat;
-      line-height: 1.5em;
+      line-height: 54px;
+      text-align: center;
+      width: 50px;
+    }
+  }
+  .search-close {
+    background-color: @searchCloseBackground;
+    color: @white;
+    cursor: pointer;
+    display: none;
+    font-size: 24px;
+    height: 22px;
+    line-height: 25px;
+    margin: 13px 0 0 6px;
+    text-align: center;
+    width: 22px;
+
+    &:hover {
+      background-color: @black;
     }
   }
   &.focus, &.with-results {
@@ -37,6 +57,9 @@
     }
   }
   &.with-results {
+    .search-close {
+      display: inline-block;
+    }
     .results {
       display: block;
       .items-wrapper {
@@ -47,22 +70,6 @@
     #q {
       &:focus {
         outline: none;
-      }
-    }
-    .close {
-      display: block;
-      right: 2px;
-      top: 13px;
-      height: 20px;
-      padding-top: 2px;
-      background-color: rgb(116, 175, 183);
-      text-indent: -4000px;
-      &:hover {
-        background-color: @black;
-        cursor: pointer;
-      }
-      &:after {
-        top: 6px;
       }
     }
     .query-loader {

@@ -2,9 +2,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	needs: ["marketplace"],
 	keys: [],
 
-	can_edit: function() {
-		return this.get('production');
-	}.property('production'),
+	can_edit: Ember.computed.alias('production'),
 
 	userMarketplace: function() {
 		var user = Balanced.Auth.get('user');

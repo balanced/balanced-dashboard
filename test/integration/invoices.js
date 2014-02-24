@@ -84,7 +84,7 @@ test('change invoice funding source', function(assert) {
 		.click('#change-funding-source form button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
-			assert.equal(spy.callCount, 8);
+			assert.equal(spy.callCount, 6);
 			assert.ok(stub.calledWith(Balanced.Invoice, invoiceUri));
 			assert.equal(stub.callCount, 1);
 		});

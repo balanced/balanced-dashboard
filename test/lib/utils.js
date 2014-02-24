@@ -41,6 +41,15 @@ var Testing = {
 		this.isStopped = false;
 	},
 
+	pause: function(number) {
+		if (!number) {
+			number = 1000;
+		}
+
+		this.stop();
+		_.delay(_.bind(this.start, this), number);
+	},
+
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
 		$('#marketplaces ul a:contains("' + name + '")').click();

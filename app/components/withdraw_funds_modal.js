@@ -59,6 +59,11 @@ Balanced.WithdrawFundsModalComponent = Balanced.ModalComponent.extend({
 		var fundingInstruments = this.get('bank_accounts');
 		var destinationUri = this.get('model.destination_uri');
 		var defaultDestination = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments.get('content')[0] : null;
+
+		if (!fundingInstruments) {
+			return defaultDestination;
+		}
+
 		return fundingInstruments.find(function(destination) {
 			if (destination) {
 				return destinationUri === destination.get('uri');

@@ -1,41 +1,41 @@
 <div class="reversal">
-  <div {{bindAttr class=":main-header :transaction-type-subheader reversal.status"}}>
-    <div class="row">
-      <div class="span2 border-adjust label">
-        <span class="subhead2d">Reversal</span>
-      </div>
-      <div class="span10 title">
-        <span class="transaction-description subhead2d">{{titleCase reversal.status}}: {{formatCurrency reversal.amount}}</span>
-      </div>
-      <div class="span8 border-adjust buttons">
-        <div class="buttons-container"></div>
-      </div>
-    </div>
-  </div>
-  <div class="transaction-body">
-    <div class="row">
-      <div class="span2 border-adjust"></div>
-      <div class="span18 border-adjust">
-        <div class="row-fluid">
-          <div class="span16">
-            <section class="transaction-info">
-              <div class="key-value-display">
-                <header>
-                  <h3>Reversal
-                    {{edit-transaction-modal transaction=reversal}}
-                  </h3>
-                </header>
-                {{txn-description transaction=reversal}}
-              </div>
-            </section>
+	<div {{bind-attr class=":main-header :transaction-type-subheader reversal.status"}}>
+		<div class="row">
+			<div class="span2 border-adjust label">
+				<span class="subhead2d">Reversal</span>
+			</div>
+			<div class="span10 title">
+				<span class="transaction-description subhead2d">{{titleCase reversal.status}}: {{formatCurrency reversal.amount}}</span>
+			</div>
+			<div class="span8 border-adjust buttons">
+				<div class="buttons-container"></div>
+			</div>
+		</div>
+	</div>
+	<div class="transaction-body">
+		<div class="row">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
+				<div class="row-fluid">
+					<div class="span16">
+						<section class="transaction-info">
+							<div class="key-value-display">
+								<header>
+									<h3>Reversal
+										{{edit-transaction-modal transaction=reversal}}
+									</h3>
+								</header>
+								{{txn-description transaction=reversal}}
+							</div>
+						</section>
 
-            {{txn-funding-instrument funding_instrument=reversal.credit.bank_account}}
-          </div>
-          <div class="span10">
-            {{view Balanced.EventsSideBarView contentBinding=reversal}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+						{{txn-funding-instrument funding_instrument=reversal.credit.bank_account}}
+					</div>
+					<div class="span10">
+						{{view Balanced.EventsSideBarView contentBinding="reversal"}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

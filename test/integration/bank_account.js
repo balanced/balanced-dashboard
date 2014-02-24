@@ -66,10 +66,11 @@ asyncTest('debit bank account', 4, function(assert) {
 		var controller = Balanced.__container__.lookup('controller:bankAccounts');
 		var model = controller.get('model');
 		model.set('can_debit', true);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click(".main-header .buttons a.debit-button")
 				.then(function() {
 					// opened the modal
@@ -105,10 +106,11 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 		var controller = Balanced.__container__.lookup('controller:bankAccounts');
 		var model = controller.get('model');
 		model.set('can_debit', true);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click(".main-header .buttons a.debit-button")
 				.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 				.fillIn('#debit-funding-instrument .modal-body input[name="description"]', 'Test debit')
@@ -133,11 +135,12 @@ test('can initiate bank account verification', function(assert) {
 			model.set('can_debit', false);
 			model.set('customer', true);
 			model.set('verification', false);
-			stop();
+			Testing.stop();
 
 			// wait for computed property to fire first
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				assert.equal($('#content h1').text().trim(), 'Bank Account');
 				assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
 				click(".main-header .buttons a.verify-button")
@@ -166,11 +169,13 @@ test('can confirm bank account verification', function(assert) {
 				verification_status: 'pending',
 				attempts_remaining: 1
 			}));
-			stop();
+
+			Testing.stop();
 
 			// wait for computed property to fire first
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				assert.equal($('#content h1').text().trim(), 'Bank Account');
 				assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
 

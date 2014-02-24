@@ -1,43 +1,45 @@
-<div id="search" {{bindAttr class="controller.displayResults:with-results"}}>
-    <div class="search-field-container">
-        <div class="search icon"></div>
-        {{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
-        {{# if isLoading }}
-            <span class="loader loading query-loader"></span>
-        {{else}}
-            <span class="close" {{action clearSearch}}>×</span>
-        {{/if}}
-    </div>
+<div id="search" {{bind-attr class="controller.displayResults:with-results"}}>
+	<div class="search-field-container">
+		<label for="q" class="icon-search"></label>
+		{{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
 
-    <div class="results">
-        <!-- TODO - put the counts back when the API supports it -->
-        {{view Balanced.ResultsFiltersHeaderView searchResultBinding=last_loaded_search_result}}
+		{{#if isLoading}}
+			<span class="loader loading query-loader"></span>
+		{{else}}
+			<span class="search-close" {{action "clearSearch"}}>&times;</span>
+		{{/if}}
+	</div>
 
-        {{#if ordersTabSelected}}
-        <div class="items-wrapper">
-            {{view Balanced.OrdersResultsView ordersBinding=results}}
-        </div>
-        {{/if}}
+	<div class="results">
+		<!-- TODO - put the counts back when the API supports it -->
+		{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result"}}
 
-        {{#if transactionsTabSelected}}
-        <div class="items-wrapper">
-            {{view Balanced.TransactionsResultsView transactionsBinding=results}}
-        </div>
-        {{/if}}
+		{{#if ordersTabSelected}}
+			<div class="items-wrapper">
+				{{view Balanced.OrdersResultsView ordersBinding="results"}}
+			</div>
+		{{/if}}
 
-        {{#if customersTabSelected}}
-        <div class="items-wrapper">
-            {{view Balanced.CustomersResultsView customersBinding=results}}
-        </div>
-        {{/if}}
+		{{#if transactionsTabSelected}}
+			<div class="items-wrapper">
+				{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
+			</div>
+		{{/if}}
 
-        {{#if fundingInstrumentsTabSelected}}
-        <div class="items-wrapper">
-            {{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding=results}}
-        </div>
-        {{/if}}
-    </div>
-    {{#if show_download}}
-        {{partial "modals/download"}}
-    {{/if}}
+		{{#if customersTabSelected}}
+			<div class="items-wrapper">
+				{{view Balanced.CustomersResultsView customersBinding="results"}}
+			</div>
+		{{/if}}
+
+		{{#if fundingInstrumentsTabSelected}}
+			<div class="items-wrapper">
+				{{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding="results"}}
+			</div>
+		{{/if}}
+	</div>
+
+	{{#if show_download}}
+		{{partial "modals/download"}}
+	{{/if}}
 </div>

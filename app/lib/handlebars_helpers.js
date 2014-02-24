@@ -19,6 +19,10 @@ Ember.Handlebars.registerBoundHelper('colorizeStatus', function(status) {
 	);
 });
 
+Ember.Handlebars.registerBoundHelper('stringify', function(obj) {
+	return new Ember.Handlebars.SafeString(JSON.stringify(obj, null, 4));
+});
+
 Ember.Handlebars.registerBoundHelper('humanReadableDateShort', Balanced.Utils.humanReadableDateShort);
 Ember.Handlebars.registerBoundHelper('humanReadableDateLong', Balanced.Utils.humanReadableDateLong);
 Ember.Handlebars.registerBoundHelper('inflection', function(property, options) {

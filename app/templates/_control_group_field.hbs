@@ -1,2 +1,8 @@
-{{view Ember.TextField valueBinding="view.value" placeholderBinding="view.placeholder" nameBinding="view.field" idBinding="view.field" typeBinding="view.type" }}
-<label class="control-label"  {{ bindAttr for="view.field" }}>{{ view.labelForField }} {{#if view.recommendedField}}<span class="recommended-field">Recommended field</span>{{/if}}</label>
+{{view Ember.TextField valueBinding="view.value" placeholderBinding="view.placeholder" nameBinding="view.field" typeBinding="view.type"}}
+<label class="control-label" {{bind-attr for="view.field"}}>
+	{{view.labelForField}}
+
+	{{#if view.recommendedField}}
+		<span class="recommended-field">Recommended field</span>
+	{{/if}}
+</label>
