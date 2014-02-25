@@ -115,8 +115,11 @@ Balanced.ErrorTooltipCsvUploadCellView = BaseCellView.extend({
 			content: function() {
 				var messages = [];
 				_.each(self.getSortedErrorMessages(), function(fieldNames, message) {
-					var str = "%@ %@".fmt(fieldNames.join(", "), message);
-					messages.push("<p>" + str + "</p>");
+					var str = "<p><span class='keys'>%@</span> %@</p>".fmt(
+						fieldNames.join(", "),
+						message
+					);
+					messages.push(str);
 				});
 				return messages.join("");
 			}
