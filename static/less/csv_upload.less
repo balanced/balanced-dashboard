@@ -1,22 +1,16 @@
-#upload-payments .pay-multiple-sellers-summary {
-  margin: 0 0 40px;
-}
-
 #upload-payments {
+  @backgroundDark: @gray7;
+  @backgroundLight: @gray2;
   @mainHeaderHeight: 75px;
 
-  @backgroundColor100: #003262;
-  @backgroundColor60: #346E99;
-
   .main-header {
-    background-color: @backgroundColor60;
-    color: #FFF;
+    background-color: @backgroundLight;
     height: @mainHeaderHeight;
     line-height: @mainHeaderHeight;
     margin-bottom: 0;
 
     .label {
-      background-color: @backgroundColor100;
+      background-color: @backgroundDark;
       float: left;
       height: @mainHeaderHeight;
       text-align: center;
@@ -25,11 +19,13 @@
 
     .icon {
       background-image: none;
+      color: @white;
       font-size: 24px;
       text-indent: 0;
     }
 
     .title {
+      color: @black;
       display: inline-block;
       padding: 0 20px;
     }
@@ -42,6 +38,10 @@
   .pay-multiple-sellers-tables {
     border: 5px solid @gray2;
     background-color: @gray2;
+  }
+
+  .pay-multiple-sellers-summary {
+    margin: 0 0 40px;
   }
 
   .remove-icon {

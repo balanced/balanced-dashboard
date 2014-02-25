@@ -1,3 +1,7 @@
 <span {{bind-attr class="view.cssClasses"}}>
-  {{{view.value}}}
+	{{#if view.value}}
+		{{{view.value}}}
+	{{else}}
+		-------
+	{{/if}}
 </span>

@@ -22,19 +22,19 @@
     <tbody>
       {{#each view.items}}
         <tr class="table-row">
-          {{view Balanced.DefaultCsvUploadCellView fieldName=bank_account_id}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="bank_account_id"}}
 
-          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_routing_number}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_number}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_holders_name}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName=new_bank_account_type}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName=new_customer_name}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName=new_customer_email}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName=appears_on_statement_as}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_routing_number"}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_number"}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_holders_name"}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_type"}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_name"}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="appears_on_statement_as"}}
 
-          {{view Balanced.DefaultCsvUploadCellView fieldName=description}}
+          {{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
 
-          {{#view Balanced.CsvUploadCellView fieldName=amount class="table-column-amount"}}
+          {{#view Balanced.CsvUploadCellView fieldName="amount" class="table-column-amount"}}
             <span {{bind-attr class="view.cssClasses"}}>
               {{#if view.isError}}
                 {{{view.value}}}

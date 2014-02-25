@@ -1,29 +1,41 @@
 .modal.modal-progress {
-  width: 545px;
-}
+  @barHeight: 20px;
 
-.progress-label {
-  color: @white;
-  font-family: @baseFontFamilyCondensed;
-  font-size: 23px;
-  height: 100%;
-  line-height: 30px;
-  padding-right: 20px;
-  position: absolute;
-  right: 0;
-  text-align: right;
-  white-space: nowrap;
-}
+  width: 600px;
 
-.progress {
-  background-color: @gray9;
-  border-radius: 25px;
-  margin: 35px 50px;
-  overflow: hidden;
-  position: relative;
-}
+  .label3a {
+    color: @white;
+    display: inline-block;
+    vertical-align: middle;
+    width: 100px;
+  }
 
-.progress-bar {
-  background-color: @pineGreen100;
-  height: 30px;
+  .modal-body {
+    background-color: @black;
+    line-height: 20px;
+    padding: 60px 13px;
+  }
+
+  .modal-actions {
+    background-color: @gray2;
+    padding: 12px;
+    text-align: right;
+  }
+
+  .progress, .progress-bar {
+    display: inline-block;
+    height: @barHeight;
+    vertical-align: middle;
+  }
+
+  .progress {
+    background-color: @gray5;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    width: 360px;
+  }
+  .progress-bar {
+    background-color: @pineGreen100;
+  }
 }
