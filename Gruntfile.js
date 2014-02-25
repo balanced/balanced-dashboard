@@ -495,32 +495,6 @@ module.exports = function(grunt) {
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js',
-			},
-			options: {
-				port: 9877,
-				files: (function() {
-					var file = grunt.option("file");
-					var files = [
-						'build/css/base.min.css',
-						'build/test/js/sinon.js',
-						'build/test/js/testenv.js',
-						'build/js/lib-dev.js',
-						'test/support/lib/balanced.min.js',
-						'build/js/dashboard-dev.js',
-						'build/test/js/test-fixtures.js',
-						'test/support/testconfig.js',
-						'test/lib/*.js',
-					];
-
-					if (file) {
-						files.push(file);
-					} else {
-						files.push('test/unit/**/*');
-						files.push('test/integration/**/*');
-					}
-
-					return files;
-				})()
 			}
 		},
 

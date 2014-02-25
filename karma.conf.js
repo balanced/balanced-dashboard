@@ -1,9 +1,48 @@
 // Karma configuration
 // Generated on Thu Aug 29 2013 15:59:23 GMT-0700 (PDT)
 
-module.exports = function(config) {
-	config.set({
+var find = function(arr, predicate) {
+	for (var i = 0, value, l = arr.length; i < l && i in arr; i++) {
+		value = arr[i];
 
+		if (predicate(value, i, arr)) {
+			return value;
+		}
+	}
+
+	return undefined;
+};
+
+module.exports = function(config) {
+	var files = [
+		'build/css/base.min.css',
+		'build/test/js/sinon.js',
+		'build/test/js/testenv.js',
+		'build/js/lib-dev.js',
+		'test/support/lib/balanced.min.js',
+		'build/js/dashboard-dev.js',
+		'build/test/js/test-fixtures.js',
+		'test/support/testconfig.js',
+		'test/lib/*.js'
+	];
+
+	var PARAMETER = '--file=';
+
+	var arg = find(process.argv, function(arg) {
+		return arg.indexOf(PARAMETER) >= 0
+	});
+
+	if (arg) {
+		var file = arg.substr(PARAMETER.length).split(',');
+		file.forEach(function(val) {
+			files.push(val);
+		});
+	} else {
+		files.push('test/unit/**/*');
+		files.push('test/integration/**/*');
+	}
+
+	config.set({
 		// base path, that will be used to resolve files and exclude
 		basePath: '',
 
@@ -11,7 +50,7 @@ module.exports = function(config) {
 		frameworks: ['qunit'],
 
 		// list of files / patterns to load in the browser
-		files: [],
+		files: files,
 
 		// list of files to exclude
 		exclude: [],
@@ -30,7 +69,7 @@ module.exports = function(config) {
 		},
 
 		// web server port
-		port: 9876,
+		port: 9877,
 
 		// enable / disable colors in the output (reporters and logs)
 		colors: true,
