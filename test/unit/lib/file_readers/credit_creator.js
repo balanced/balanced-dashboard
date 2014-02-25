@@ -163,7 +163,7 @@ test("new_bank_account_type validations", function(assert) {
 		"   SAVINGS  ": undefined,
 		"   cheCKING  ": undefined,
 		"  pork ": ["pork is not a valid bank account type"],
-		"    ": ["cannot be blank"]
+		"    ": ["can't be blank"]
 	};
 
 	_.each(tests, function(expectedMessage, value) {
@@ -185,7 +185,7 @@ test("new_bank_account_type validations", function(assert) {
 test("new_customer_name validations", function(assert) {
 	var tests = {
 		"  Alfred Pangolin  ": undefined,
-		"    ": ["cannot be blank"]
+		"    ": ["can't be blank"]
 	};
 
 	_.each(tests, function(expectedMessage, value) {
