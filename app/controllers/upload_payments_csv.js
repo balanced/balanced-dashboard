@@ -19,7 +19,9 @@ Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
 		var self = this;
 		var collection = self.get("creditCreators");
 		collection.save(function() {
-			callback && callback();
+			if (callback) {
+				callback();
+			}
 			var count = collection.filterBy("isSaved").get("length");
 			self.transitionToRoute('activity');
 			self.refresh("");

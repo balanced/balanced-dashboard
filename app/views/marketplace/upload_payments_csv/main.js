@@ -100,7 +100,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
 			self.trigger("saveStarted");
 			self.get("controller").save(function() {
 				self.trigger("saveCompleted");
-			})
+			});
 		},
 
 		fileSelectionChanged: function() {
