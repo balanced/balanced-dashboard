@@ -1,13 +1,53 @@
-Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
+require("app/views/modals/progress_bar_modal");
+
+Balanced.ParseCreditsCsvProgressBarModalView = Balanced.ProgressBarModalView.extend({
+	title: "Checking File",
+	isCancelable: "true",
+
+	loadedCount: function() {
+		var collection = this.get("collection") || [];
+		return collection.filterBy("isLoaded").get("length");
+	}.property("collection", "collection.@each.isLoaded"),
+
+	progressText: function() {
+		var num = this.get("loadedCount");
+		var den = this.get("collection.length") || 0;
+		return "%@/%@".fmt(num, den);
+	}.property("loadedCount", "collection.length"),
+
+	updateProgressBar: function() {
+		var num = this.get("loadedCount");
+		var den = this.get("collection.length") || 0;
+		this.setProgressBarFraction(num / den);
+	}.observes("progressText"),
+
+	loadedObserver: function() {
+		if (this.get("collection.isLoaded")) {
+			setTimeout(function() {
+				this.hide();
+			}.bind(this), 500);
+		}
+	}.observes("collection.isLoaded"),
+
+	actions: {
+		cancel: function() {
+			this.get("parentView.controller").refresh(undefined);
+			this.hide();
+		}
+	}
+});
+
+Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
 
 	creditCreators: Ember.computed.alias("controller.creditCreators"),
 
 	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
-
 	escrowTotal: Ember.computed.alias("controller.controllers.marketplace.in_escrow"),
 
 	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
 	isUnprocessable: Ember.computed.not("isProcessable"),
+
+	displayCsvRows: Ember.computed.and("creditCreators.length", "isEscrowValid", "creditCreators.isLoaded"),
 
 	isEscrowValid: function() {
 		var total = this.get("payoutTotal");
@@ -15,45 +55,24 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		return total <= escrow;
 	}.property("payoutTotal", "escrowTotal"),
 
-	displayCsvRows: function() {
-		return this.get("creditCreators.length") > 0 && this.get("isEscrowValid");
-	}.property("creditCreators.length", "isEscrowValid"),
-
 	updateReaderBody: function(text) {
-		this.get("progressBarModal").show();
-		this.get("controller").refresh(text);
-	},
+		var self = this;
+		var modal = this.get("parseProgressBarModal");
 
-	displayProgress: function(title, num, den) {
-		var modal = this.get("progressBarModal");
-		var text = "%@/%@".fmt(num, den);
-		modal.set("title", title);
-		if (den === 0) {
-			modal.update(0, text);
-		} else {
-			modal.update(num / den, text);
-		}
-
-		if (num === den) {
-			modal.hide();
-		}
-	},
-
-	blockBankAccountLoad: function() {
+		self.get("controller").refresh(text);
 		var collection = this.get("creditCreators");
-		var finishedCount = collection.filterBy("isLoaded").get("length");
-		var total = collection.get("length");
+		if (!collection.get("isEmpty")) {
+			modal.set("collection", collection);
+			modal.show();
+		}
+	},
 
-		this.displayProgress("Loading Data", finishedCount, total);
-	}.observes("creditCreators.@each.isLoaded"),
-
-	updateProgressFraction: function() {
-		var collection = this.get("creditCreators.valid");
-		var finishedCount = collection.filterBy("isSaved").get("length");
-		var total = collection.get("length");
-
-		this.displayProgress("Submitting Payouts", finishedCount, total);
-	}.observes("creditCreators.@each.isSaved"),
+	updateProgress: function(modalName, num, den) {
+		var modal = this.get(modalName);
+		var text = "%@/%@ rows".fmt(num, den);
+		var fraction = den > 0 ? num / den : 0;
+		modal.update(fraction, text);
+	},
 
 	actions: {
 		reset: function() {
@@ -76,9 +95,12 @@ Balanced.MarketplaceUploadPaymentsCsvView = Balanced.View.extend({
 		},
 
 		submit: function() {
-			this.get("progressBarModal").show();
-			this.updateProgressFraction();
-			this.get("controller").save();
+			var self = this;
+			self.updateProgressFraction();
+			self.trigger("saveStarted");
+			self.get("controller").save(function() {
+				self.trigger("saveCompleted");
+			})
 		},
 
 		fileSelectionChanged: function() {

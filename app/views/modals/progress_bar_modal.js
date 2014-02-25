@@ -1,6 +1,6 @@
-require('app/components/modal');
+Balanced.ProgressBarModalView = Ember.View.extend({
 
-Balanced.ProgressBarModalComponent = Ember.Component.extend({
+	templateName: "modals/progress_bar_modal",
 
 	classNames: ['modal-container'],
 
@@ -25,10 +25,14 @@ Balanced.ProgressBarModalComponent = Ember.Component.extend({
 		return $(this.get("modalElement")).find(".progress-bar");
 	},
 
-	update: function(fractionValue, text) {
-		this.set("progressFraction", fractionValue);
+	setProgressBarFraction: function(fractionValue) {
 		this.getProgressBar().width((fractionValue * 100) + "%");
-		this.set("progressText", text);
-	}
+	},
 
+	actions: {
+		cancel: function() {
+			this.hide();
+			this.trigger("cancel");
+		},
+	}
 });

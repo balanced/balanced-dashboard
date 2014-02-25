@@ -1,17 +1,26 @@
 Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
-	isEmpty: Ember.computed.equal("content.length", 0),
+	isLoading: Ember.computed.not("isLoaded"),
 
+	isLoaded: function() {
+		return this.isEvery("isLoaded");
+	}.property("@each.isLoaded"),
+
+	isSaved: function() {
+		return this.isEvery("isSaved");
+	}.property("@each.isSaved"),
+
+	isEmpty: Ember.computed.equal("content.length", 0),
 	isInvalid: Ember.computed.gt("invalid.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
 
 	valid: function() {
 		return this.filterBy("isValid");
-	}.property("content.@each.isValid", "content.length"),
+	}.property("content.@each.isValid"),
 
 	invalid: function() {
 		return this.filterBy("isInvalid");
-	}.property("content.@each.isInvalid", "content.length"),
+	}.property("content.@each.isInvalid"),
 
 	save: function(callback) {
 		var savedCredits = [];
