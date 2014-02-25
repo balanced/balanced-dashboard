@@ -1,48 +1,17 @@
-require("app/views/modals/progress_bar_modal");
-
-Balanced.ParseCreditsCsvProgressBarModalView = Balanced.ProgressBarModalView.extend({
-	title: "Checking File",
-	isCancelable: "true",
-
-	loadedCount: function() {
-		var collection = this.get("collection") || [];
-		return collection.filterBy("isLoaded").get("length");
-	}.property("collection", "collection.@each.isLoaded"),
-
-	progressText: function() {
-		var num = this.get("loadedCount");
-		var den = this.get("collection.length") || 0;
-		return "%@/%@".fmt(num, den);
-	}.property("loadedCount", "collection.length"),
-
-	updateProgressBar: function() {
-		var num = this.get("loadedCount");
-		var den = this.get("collection.length") || 0;
-		this.setProgressBarFraction(num / den);
-	}.observes("progressText"),
-
-	loadedObserver: function() {
-		if (this.get("collection.isLoaded")) {
-			setTimeout(function() {
-				this.hide();
-			}.bind(this), 500);
-		}
-	}.observes("collection.isLoaded"),
-
-	actions: {
-		cancel: function() {
-			this.get("parentView.controller").refresh(undefined);
-			this.hide();
-		}
+var Computed = {
+	readOnly: function(propertyName) {
+		return function() {
+			return this.get(propertyName);
+		}.property(propertyName);
 	}
-});
+};
 
 Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
 
-	creditCreators: Ember.computed.alias("controller.creditCreators"),
+	creditCreators: Computed.readOnly("controller.creditCreators"),
 
 	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
-	escrowTotal: Ember.computed.alias("controller.controllers.marketplace.in_escrow"),
+	escrowTotal: Computed.readOnly("controller.controllers.marketplace.in_escrow"),
 
 	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
 	isUnprocessable: Ember.computed.not("isProcessable"),
@@ -60,18 +29,7 @@ Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
 		var modal = this.get("parseProgressBarModal");
 
 		self.get("controller").refresh(text);
-		var collection = this.get("creditCreators");
-		if (!collection.get("isEmpty")) {
-			modal.set("collection", collection);
-			modal.show();
-		}
-	},
-
-	updateProgress: function(modalName, num, den) {
-		var modal = this.get(modalName);
-		var text = "%@/%@ rows".fmt(num, den);
-		var fraction = den > 0 ? num / den : 0;
-		modal.update(fraction, text);
+		modal.refresh(this.get("creditCreators"));
 	},
 
 	actions: {
@@ -95,11 +53,10 @@ Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
 		},
 
 		submit: function() {
-			var self = this;
-			self.updateProgressFraction();
-			self.trigger("saveStarted");
-			self.get("controller").save(function() {
-				self.trigger("saveCompleted");
+			var modal = this.get("saveProgressBarModal");
+			modal.refresh(this.get("creditCreators"));
+			this.get("controller").save(function() {
+				modal.hide();
 			});
 		},
 

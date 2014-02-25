@@ -1,0 +1,56 @@
+require("app/views/modals/progress_bar_modal");
+
+var Computed = {
+	completedFilter: function(propertyName) {
+		return function() {
+			return (this.get("collection") || []).filterBy(propertyName);
+		}.property("collection.@each." + propertyName);
+	}
+};
+
+var CsvProgressBarModalView = Balanced.ProgressBarModalView.extend({
+	refresh: function(collection) {
+		this.set("collection", collection);
+		this.updateProgressBar();
+		if (!collection.get("isEmpty")) {
+			this.show();
+		}
+	},
+
+	progressText: function() {
+		var num = this.get("completed.length") || 0;
+		var den = this.get("collection.length") || 0;
+		return "%@/%@".fmt(num, den);
+	}.property("completed.length", "collection.length"),
+
+	updateProgressBar: function() {
+		var num = this.get("completed.length") || 0;
+		var den = this.get("collection.length") || 0;
+		this.setProgressBarFraction(num / den);
+	}.observes("completed.length", "collection.length"),
+});
+
+Balanced.ParseCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
+	title: "Checking File",
+	isCancelable: true,
+	completed: Computed.completedFilter("isLoaded"),
+
+	loadedObserver: function() {
+		if (this.get("collection.isLoaded")) {
+			this.hide();
+		}
+	}.observes("collection.isLoaded"),
+
+	actions: {
+		cancel: function() {
+			this.get("parentView.controller").refresh(undefined);
+			this.hide();
+		}
+	}
+});
+
+Balanced.SaveCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
+	title: "Processing",
+	isCancelable: false,
+	completed: Computed.completedFilter("isSaved")
+});
