@@ -19,7 +19,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 				keys.sort(function(k1, k2) {
 					date1 = k1.get('created_at');
 					date2 = k2.get('created_at');
-					return date1 > date2 ? 1 : -1;
+					return date1 < date2 ? 1 : -1;
 				});
 				self.set('keys', keys);
 			});

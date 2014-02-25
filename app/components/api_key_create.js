@@ -12,7 +12,7 @@ Balanced.ApiKeyCreateModalComponent = Balanced.ModalComponent.extend({
 				}
 			}).save()
 				.then(function(newKey) {
-					self.get('keys').pushObject(newKey);
+					self.get('keys').unshiftObject(newKey);
 					self.set('keyName', '');
 					Balanced.UserMarketplace.create({
 						uri: Balanced.Auth.user.api_keys_uri,

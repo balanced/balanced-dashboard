@@ -2,13 +2,30 @@
   <tbody>
     {{#each key in keys}}
       <tr>
-        <td class="span1"><img src="images/key.png"></td>
-        <td class="span3">{{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
-        <td class="span3">{{humanReadableDateShort key.created_at}}</td>
-        <td class="span6">{{key.id}}</td>
-        <td class="span7">{{api-key-secret-shower key=key}}</td>
-        <td class="span1">
-          {{api-key-delete-modal action="delete" param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
+        <td class="span3" {{bind-attr title="key.meta.name"}}>
+          <span class="wrap">
+            <span class="icon-key"></span>
+            {{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
+          </span>
+        <td class="span4" {{bind-attr title="humanReadableDateShort(key.created_at)"}}>
+          <span class="wrap">
+            {{humanReadableDateShort key.created_at}}
+          </span>
+        </td>
+        <td class="span6" {{bind-attr title="key.id"}}>
+          <span class="wrap">
+            {{key.id}}
+          </span>
+        </td>
+        <td class="span7">
+          <span class="wrap">
+            {{api-key-secret-shower key=key}}
+          </span>
+          </td>
+        <td class="span1 delete-container">
+          <span class="wrap">
+            {{api-key-delete-modal action="delete" param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
+          </span>
         </td>
       </tr>
     {{/each}}

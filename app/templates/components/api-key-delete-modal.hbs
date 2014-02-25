@@ -8,11 +8,12 @@
 
         <span class="label7a">Are you sure you want to delete this key?</span>
         <br><span class="label7a warn">Clicking yes will delete this key immediately.</span>
-        <li>
-            <ul>ID: {{key.id}}</ul>
-            <ul>Name: {{key.meta.name}}</ul>
-            <ul>Created At: {{humanReadableDateShort key.created_at}}</ul>
-        </li>
+        <br>
+        <ul>
+            <li>ID: {{key.id}}</li>
+            <li>Name: {{key.meta.name}}</li>
+        </ul>
+        <br>
     </div>
     <div class="modal-footer">
         <button class="btn danger" type="button" data-dismiss="modal">Cancel</button>
@@ -21,5 +22,7 @@
     </form>
 </div>
 {{#if displayDelete}}
-    <a href="#" {{action "open"}} class="confirm-delete-key">&times;</a>
+	<div class="delete-key-outer">
+	    <a href="#" {{action "open"}} class="confirm-delete-key">&times;</a>
+	</div>
 {{/if}}
