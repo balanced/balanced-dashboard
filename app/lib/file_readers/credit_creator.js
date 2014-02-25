@@ -22,7 +22,7 @@ var accountFieldRequired = function(fieldName) {
 				cb("cannot specify a bank_account_id and a " + fieldName);
 			}
 		} else if (value.length === 0) {
-			cb("cannot be blank");
+			cb("can't be blank");
 		}
 	});
 };
@@ -59,7 +59,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 						cb("cannot specify a bank_account_id and a new_bank_account_type");
 					}
 				} else if (value.length === 0) {
-					cb("cannot be blank");
+					cb("can't be blank");
 				} else if (validStrings.indexOf(value) < 0) {
 					cb("%@ is not a valid bank account type".fmt(value));
 				}
@@ -79,7 +79,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 						cb("cannot specify a bank_account_id and a new_bank_account_routing_number");
 					}
 				} else if (value.length === 0) {
-					cb("cannot be blank");
+					cb("can't be blank");
 				} else if (!balanced.bankAccount.validateRoutingNumber(value)) {
 					cb("%@ is not a valid bank account routing number".fmt(value));
 				}
@@ -172,6 +172,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			}, function() {
 				var message = "bank account id %@ not found"
 					.fmt(self.get("csvFields.bank_account_id"));
+				self.get("validationErrors").remove("csvFields.bank_account_id");
 				self.get("validationErrors")
 					.add("csvFields.bank_account_id", "format", null, message);
 				return Ember.RSVP.resolve({

@@ -51,6 +51,10 @@
     vertical-align: bottom;
   }
 
+  .icon-alert {
+    color: @imperialRed100;
+  }
+
   .form-buttons {
     float: right;
     margin-right: 10px;
@@ -106,32 +110,28 @@
 
   td .label {
     display: inline-block;
-    margin: 0 -2px;
-    padding: 0 2px;
     width: 100%;
   }
 
   td .label.label-error {
-    background-color: @imperialRed20;
     color: @imperialRed100;
   }
 
+  td .label.label-blank {
+    letter-spacing: 2px;
+  }
+
+  td .label.label-required {
+    font-style: italic;
+  }
+
   td .popover {
+    p {
+      margin-bottom: 3px;
+    }
+
     p:last-child {
       margin-bottom: 0;
-    }
-
-    .popover-content {
-      padding-left: 40px;
-      position: relative;
-    }
-
-    .icon {
-      color: @imperialRed100;
-      font-size: 18px;
-      left: 20px;
-      position: absolute;
-      top: 16px;
     }
   }
 }

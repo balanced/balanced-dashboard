@@ -6,6 +6,7 @@
   <table class="table table-fixed table-border">
     <thead>
       <tr>
+        <th class="table-column table-column-icons"></th>
         <th class="label6a">bank_account_id</th>
         <th class="label6a">new_bank_account_routing_number</th>
         <th class="label6a">new_bank_account_number</th>
@@ -22,6 +23,7 @@
     <tbody>
       {{#each view.items}}
         <tr class="table-row">
+          {{view Balanced.ErrorTooltipCsvUploadCellView}}
           {{view Balanced.DefaultCsvUploadCellView fieldName="bank_account_id"}}
 
           {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_routing_number"}}
@@ -35,9 +37,9 @@
           {{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
 
           {{#view Balanced.CsvUploadCellView fieldName="amount" class="table-column-amount"}}
-            <span {{bind-attr class="view.cssClasses"}}>
+            <span {{bind-attr class="view.labelClasses"}}>
               {{#if view.isError}}
-                {{{view.value}}}
+                {{{view.displayValue}}}
               {{else}}
                 {{formatCurrency credit.amount}}
               {{/if}}
