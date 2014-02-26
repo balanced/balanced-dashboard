@@ -2,6 +2,7 @@ require('app/components/modal');
 
 Balanced.ChangeFundingSourceModalComponent = Balanced.ModalComponent.extend({
 	source_uri: null,
+	submitAction: false,
 
 	source: function() {
 		var debitableBankAccounts = this.get('debitable_bank_accounts');

@@ -37,6 +37,8 @@ test('view single marketplace', function(assert) {
 
 test('add test marketplace', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
+	Balanced.Auth.set('user.api_keys_uri', '/users/' +
+		Testing.CUSTOMER_ID + '/api_keys');
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.fillIn(".marketplace-list.test li.new input[name='name']", 'NEW MARKETPLACE')

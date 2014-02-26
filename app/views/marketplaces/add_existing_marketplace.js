@@ -20,14 +20,14 @@ Balanced.AddExistingMarketplaceView = Balanced.View.extend({
 				return;
 			}
 			var marketplace = Balanced.UserMarketplace.create({
-				uri: Balanced.Auth.get('user').get('marketplaces_uri'),
+				uri: this.get('user.marketplaces_uri'),
 				secret: secret
 			});
 
 			marketplace.save().then(function() {
 				self.set('isSubmitting', false);
 				self.set('secret', null);
-				Balanced.Auth.get('user').reload();
+				self.get('user').reload();
 			}, function() {
 				self.set('isSubmitting', false);
 			});

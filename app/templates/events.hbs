@@ -1,31 +1,31 @@
 <section class="event-info">
 	<header>
-		<h1 class="page-title">{{ model.type }}</h1>
+		<h1 class="page-title">{{model.type}}</h1>
 	</header>
 	<form class="form-horizontal edit-inline">
 		<div>
 			<div class="control-group">
 				<label class="control-label">ID</label>
 				<div class="controls">
-					<span class="inline-label">{{ model.id }}</span>
+					<span class="inline-label">{{model.id}}</span>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Type</label>
 				<div class="controls">
-					<span class="inline-label">{{ model.type }}</span>
+					<span class="inline-label">{{model.type}}</span>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Occurred at</label>
 				<div class="controls">
-					<span class="inline-label">{{ humanReadableDateLong model.occurred_at }}</span>
+					<span class="inline-label">{{humanReadableDateLong model.occurred_at}}</span>
 				</div>
 			</div>
 			<div class="control-group">
 				<label class="control-label">Reference #</label>
 				<div class="controls">
-					<span class="inline-label">{{#linkTo model.transaction.route_name model.transaction }}{{ model.entity.transaction_number }}{{/linkTo}}</span>
+					<span class="inline-label">{{#link-to model.transaction.route_name model.transaction}}{{model.entity.transaction_number}}{{/link-to}}</span>
 				</div>
 			</div>
 		</div>
@@ -34,18 +34,19 @@
 
 <section class="event-data-info">
 	<header>
-	  <h3>Event data</h3>
+		<h3>Event data</h3>
 	</header>
-	{{view Balanced.PrettyPrintView contentBinding=controller.eventData}}
+	{{view Balanced.PrettyPrintView contentBinding="controller.eventData"}}
 </section>
 
 <section class="webhook-info">
 	<header>
 		<h3>Webhooks</h3>
 	</header>
+
 	<ul class="webhooks">
 		{{#each eventCallback in model.eventCallbacks}}
-			<li {{bindAttr class="eventCallback.status"}}>
+			<li {{bind-attr class="eventCallback.status"}}>
 				<div class="summary">
 					<div class="state">{{eventCallback.status}}</div>
 					<div class="url">

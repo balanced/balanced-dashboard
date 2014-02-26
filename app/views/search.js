@@ -7,12 +7,14 @@ Balanced.SearchView = Balanced.View.extend({
 		$(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
 
 		this.get('controller').addObserver('displayResults', this, this._toggleDisplayResults);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').removeObserver('displayResults', this, this._toggleDisplayResults);
 
 		$(document).off('click.balanced-click-outside');
+		this._super();
 	},
 
 	clickOutsideSearchBox: function(e) {

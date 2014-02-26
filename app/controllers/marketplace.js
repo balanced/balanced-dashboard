@@ -12,6 +12,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented,
 		if (isNaN(escrow)) {
 			return '$--';
 		}
+
 		return Balanced.Utils.formatCurrency(escrow);
 	}.property('in_escrow'),
 });

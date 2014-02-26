@@ -9,7 +9,7 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 		Balanced.Utils.setCurrentMarketplace(model);
 	},
 
-	// if we passed a marketplace to #linkTo, need this to set current marketplace
+	// if we passed a marketplace to #link-to, need this to set current marketplace
 	setupController: function(controller, model) {
 		this._super(controller, model);
 

@@ -8,6 +8,20 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	baseClassSelector: '#activity',
 	noDownloadsUri: true,
 
+	refreshMarketplace: _.debounce(function() {
+		if (!Balanced.currentMarketplace) {
+			return;
+		}
+
+		Ember.run(function() {
+			Balanced.currentMarketplace.reload();
+		});
+	}, 500),
+
+	refresh: function() {
+		this.refreshMarketplace();
+	},
+
 	actions: {
 		changeTypeFilter: function(type) {
 			this.set('type', type);
@@ -20,8 +34,14 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 				this.transitionToRoute('activity.funding_instruments');
 			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
+				if (this.get('sortField') === 'created_at') {
+					this.set('sortField', 'initiated_at');
+				}
+
 				this.transitionToRoute('activity.disputes');
 			}
+
+			this.refreshMarketplace();
 		}
 	},
 

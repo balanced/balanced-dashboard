@@ -28,7 +28,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 	},
 
 	redirect: function() {
-		if (!Balanced.Auth.get('isGuest')) {
+		if (!this.get('auth.isGuest')) {
 			this.transitionTo('index');
 		}
 	},
@@ -37,7 +37,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 		signUp: function(someShitThatsNotTheModel, event) {
 			var self = this;
 			var model = this.currentModel.claim;
-			var authToken = Balanced.Auth.get('authToken');
+			var authToken = this.get('auth.authToken');
 
 			//  bug in ember-validation requires this extra check for length
 			if (!model.validate() && model.get('validationErrors.length')) {
@@ -45,7 +45,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 			}
 
 			model.save().then(function(user) {
-				Balanced.Auth.signIn(user.get('email_address'), user.get('passwordConfirm')).then(function() {
+				self.get('auth').signIn(user.get('email_address'), user.get('passwordConfirm')).then(function() {
 					// associate marketplace to user
 					if (authToken) {
 						var marketplace = Balanced.UserMarketplace.create({

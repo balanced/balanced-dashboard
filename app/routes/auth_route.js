@@ -1,11 +1,15 @@
-Balanced.AuthRoute = Ember.Route.extend({
+Balanced.AuthRoute = Balanced.Route.extend({
 	beforeModel: function(transition) {
 		var self = this;
-		if (Balanced.Auth.get('signedIn')) {
+		if (this.get('auth.signedIn')) {
 			return;
 		}
 
-		Balanced.Auth.set('attemptedTransition', transition);
+		this.set('auth.attemptedTransition', transition);
+
+		var e = new Error('Not Authenicated!');
+		transition.abort(e);
+
 		this.transitionTo('login');
 	}
 });

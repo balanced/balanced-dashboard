@@ -1,69 +1,71 @@
 <thead>
-    <tr>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
-        <th class="span4 label6a description">Description</th>
-        <th class="span4 label6a buyer">Customer (buyer)</th>
-        <th class="span4 label6a seller">Customer (seller)</th>
-        <th class="span2 label6a debits">Debits ($)</th>
-        <th class="span2 label6a credits">Credits ($)</th>
-        <th class="span2 label6a escrow">Escrow ($)</th>
-    </tr>
+	<tr>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}Date{{/view}}
+		<th class="span4 label6a description">Description</th>
+		<th class="span4 label6a buyer">Customer (buyer)</th>
+		<th class="span4 label6a seller">Customer (seller)</th>
+		<th class="span2 label6a debits">Debits ($)</th>
+		<th class="span2 label6a credits">Credits ($)</th>
+		<th class="span2 label6a escrow">Escrow ($)</th>
+	</tr>
 </thead>
+
 {{#if view.orders.hasNextPage}}
-<tfoot>
-    <tr>
-        <td colspan="7" class="load-more-results">
-            {{#if view.orders.loadingNextPage }}
-                <div class="loader-container">
-                    <span class="loader loading"></span>
-                </div>
-            {{else}}
-                <a {{ action loadMore view.orders }}>Load more</a>
-            {{/if}}
-        </td>
-    </tr>
-</tfoot>
+	<tfoot>
+		<tr>
+			<td colspan="7" class="load-more-results">
+				{{#if view.orders.loadingNextPage}}
+					<div class="loader-container">
+						<span class="loader loading"></span>
+					</div>
+				{{else}}
+					<a {{action "loadMore" view.orders}}>Load more</a>
+				{{/if}}
+			</td>
+		</tr>
+	</tfoot>
 {{/if}}
+
 <tbody>
-    {{#each order in view.orders}}
-        <tr>
-            <td class="span3 date">
-                {{#link-to "orders" order}}<span>
-                    <time {{bindAttr datetime="order.created_at"}} {{bindAttr title="order.created_at"}}>{{humanReadableDateShort order.created_at }}</time>
-                </span>{{/link-to}}
-            </td>
-            <td class="span4 description">
-                <span>{{ order.page_title }}</span>
-            </td>
-            <td class="span4 buyer" {{bindAttr title="order.buyer.firstObject.display_me"}}>
-                {{#link-to "orders" order}}<span>
-                    {{ order.buyer.firstObject.display_me }}
-                </span>{{/link-to}}
-            </td>
-            <td class="span4 seller" {{bindAttr title="order.seller.display_me"}}>
-                {{#link-to "orders" order}}<span>
-                    {{ order.seller.display_me }}
-                </span>{{/link-to}}
-            </td>
-            <td class="span2 debits">
-                {{#link-to "orders" order}}<span>{{order.debits_amount}}</span>{{/link-to}}
-            </td>
-            <td class="span2 credits">
-                {{#link-to "orders" order}}<span>{{order.credits_amount}}</span>{{/link-to}}
-            </td>
-            <td class="span2 escrow">
-                {{#link-to "orders" order}}<span>{{order.escrow_balance}}</span>{{/link-to}}
-            </td>
-        </tr>
-    {{else}}
-        <tr>
-            <td colspan="7" class="no-results">
-                {{#if view.orders.isLoaded }}
-                    No results
-                {{else}}
-                    Loading...
-                {{/if}}
-            </td>
-        </tr>
-    {{/each}}
+	{{#each order in view.orders}}
+		<tr>
+			<td class="span3 date">
+				{{#link-to "orders" order}}<span>
+					<time {{bind-attr datetime="order.created_at"}} {{bind-attr title="order.created_at"}}>{{humanReadableDateShort order.created_at}}</time>
+				</span>{{/link-to}}
+			</td>
+			<td class="span4 description">
+				<span>{{order.page_title}}</span>
+			</td>
+			<td class="span4 buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
+				{{#link-to "orders" order}}<span>
+					{{order.buyer.firstObject.display_me}}
+				</span>{{/link-to}}
+			</td>
+			<td class="span4 seller" {{bind-attr title="order.seller.display_me"}}>
+				{{#link-to "orders" order}}<span>
+					{{order.seller.display_me}}
+				</span>{{/link-to}}
+			</td>
+			<td class="span2 debits">
+				{{#link-to "orders" order}}<span>{{order.debits_amount}}</span>{{/link-to}}
+			</td>
+			<td class="span2 credits">
+				{{#link-to "orders" order}}<span>{{order.credits_amount}}</span>{{/link-to}}
+			</td>
+			<td class="span2 escrow">
+				{{#link-to "orders" order}}<span>{{order.escrow_balance}}</span>{{/link-to}}
+			</td>
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="7" class="no-results">
+				{{#if view.orders.isLoaded}}
+					No results
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
 </tbody>

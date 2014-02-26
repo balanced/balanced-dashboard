@@ -62,10 +62,24 @@ test('failed debit shows failure information', function(assert) {
 		var model = Balanced.__container__.lookup('controller:debits');
 		model.set('status', 'failed');
 		model.set('failure_reason', 'Foobar');
+		Testing.stop();
+		Ember.run.next(function() {
+			Testing.start();
+			assert.equal($('.value.failed').text().trim(), 'Foobar');
+		});
+	});
+});
+
+test('failed debit does not show refund modal', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	visit(Testing.DEBIT_ROUTE).then(function() {
+		var model = Balanced.__container__.lookup('controller:debits');
+		model.set('status', 'failed');
 		stop();
 		Ember.run.next(function() {
 			start();
-			assert.equal($('.value.failed').text().trim(), 'Foobar');
+			assert.equal($('#refund-debit').is(':visible'), false);
 		});
 	});
 });

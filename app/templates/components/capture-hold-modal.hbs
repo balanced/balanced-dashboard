@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.amount:error"}}>
+            <div {{bind-attr class=":control-group model.validationErrors.amount:error"}}>
                 <label class="control-label">Amount</label>
                 <div class="controls">
                     <div class="input-prepend">
@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <div {{bindAttr class=":control-group model.validationErrors.description:error"}}>
+            <div {{bind-attr class=":control-group model.validationErrors.description:error"}}>
                 <label class="control-label">Internal Description</label>
                 <div class="controls">
                     {{view Ember.TextField valueBinding="model.description" name="description" class="full" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}
@@ -57,4 +57,4 @@
         </div>
     </form>
 </div>
-<a class="btn capture-hold-button" {{action open}}>Capture</a>
+<a class="btn capture-hold-button" {{action "open"}}>Capture</a>

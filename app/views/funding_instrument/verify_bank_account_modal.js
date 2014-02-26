@@ -3,10 +3,12 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.get('controller').on('openVerifyBankAccountModal', this, this.open);
+		this._super();
 	},
 
 	willDestroyElement: function() {
 		this.get('controller').off('openVerifyBankAccountModal', this, this.open);
+		this._super();
 	},
 
 	open: function() {

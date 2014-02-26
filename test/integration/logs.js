@@ -4,8 +4,7 @@ module('Logs', {
 		Testing.createDebits();
 
 		// add some delay, because the API takes some time to add things to logs
-		var stop = window.stop;
-		stop();
+		Testing.stop();
 
 		var count = 0;
 		var checkAndStart = function() {
@@ -15,8 +14,8 @@ module('Logs', {
 				logs = Balanced.Log.findAll();
 			});
 
-			if (logs && logs.toArray().length) {
-				return start();
+			if (logs && logs.toArray().length && logs.toArray().length >= 4) {
+				return Testing.start();
 			} else if (count < 300) {
 				count++;
 				return setTimeout(checkAndStart, 1000);
@@ -34,7 +33,7 @@ test('can visit page', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav .logs a')
+		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
 			var $title = $('#content h1');
 			var logRequest = spy.getCall(spy.callCount - 1);
@@ -46,7 +45,7 @@ test('can visit page', function(assert) {
 
 test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav .logs a')
+		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
@@ -62,7 +61,7 @@ test('filter logs by endpoint bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav .logs a')
+		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
@@ -78,7 +77,7 @@ test('filter logs by request failed only', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav .logs a')
+		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
@@ -98,7 +97,7 @@ test('filter logs by request failed only', function(assert) {
 
 test('view a particular log entry', function(assert) {
 	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav .logs a')
+		.click('#marketplace-nav i.icon-logs')
 		.click('table.logs tbody tr:first-of-type a')
 		.then(function() {
 			assert.equal($('h1.page-title').text(), 'POST /customers/' + Testing.CUSTOMER_ID + '/debits', 'h1 title is correct');

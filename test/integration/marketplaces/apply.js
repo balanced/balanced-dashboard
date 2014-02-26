@@ -53,19 +53,22 @@ test('clicking business or personal shows data', function(assert) {
 });
 
 test('basic form validation and terms and conditions', function(assert) {
+	var submitButtonQuery = 'button:contains("Submit")';
+
 	visit(Testing.APPLY_ROUTE)
+		.click('a:contains("Person")')
 		.then(function() {
-			click('a:contains("Person")');
 
-			var $submitButton = $('button:contains("Submit")');
+			var $submitButton = $(submitButtonQuery);
 			assert.equal($submitButton.length, 1);
-
-			click($submitButton);
+		})
+		.click(submitButtonQuery)
+		.then(function() {
 			assert.equal($('.control-group.error').length, 13, 'expected error fields highlighted');
-
-			click('#terms-and-conditions');
-			click($submitButton);
-
+		})
+		.click('#terms-and-conditions')
+		.click(submitButtonQuery)
+		.then(function() {
 			assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
 		});
 });
@@ -101,25 +104,27 @@ test('application submits properly', function(assert) {
 
 	visit(Testing.APPLY_ROUTE)
 		.click('a:contains("Business")')
-		.fillIn('input[name="business_name"]', 'Balanced Inc')
-		.fillIn('input[name="ein"]', '123456789')
-		.fillIn('input[name="name"]', 'John Balanced')
-		.fillIn('select[name="dob_year"]', '1980')
-		.fillIn('select[name="dob_month"]', '5')
-		.fillIn('select[name="dob_day"]', '27')
-		.fillIn('input[name="address.street_address"]', '965 Mission St')
-		.fillIn('input[name="address.postal_code"]', '94103')
-		.fillIn('input[name="ssn_last4"]', '1234')
-		.fillIn('input[name="phone_number"]', '(904) 628 1796')
-		.fillIn('input[name="banking.account_name"]', 'Balanced Inc')
-		.fillIn('input[name="banking.routing_number"]', '321174851')
-		.fillIn('input[name="banking.account_number"]', '123123123')
-		.fillIn('input[name="marketplace.name"]', 'Balanced Test Marketplace')
-		.fillIn('input[name="marketplace.support_email_address"]', 'support@balancedpayments.com')
-		.fillIn('input[name="marketplace.support_phone_number"]', '(650) 555-4444')
-		.fillIn('input[name="marketplace.domain_url"]', 'https://www.balancedpayments.com')
-		.click("#terms-and-conditions")
-		.click('.submit')
+		.fillForm({
+			business_name: 'Balanced Inc',
+			ein: '123456789',
+			name: 'John Balanced',
+			dob_year: '1980',
+			dob_month: '5',
+			dob_day: '27',
+			'address.street_address': '965 Mission St',
+			'address.postal_code': '94103',
+			ssn_last4: '1234',
+			phone_number: '(904) 628 1796',
+			'banking.account_name': 'Balanced Inc',
+			'banking.routing_number': '321174851',
+			'banking.account_number': '123123123',
+			'marketplace.name': 'Balanced Test Marketplace',
+			'marketplace.support_email_address': 'support@balancedpayments.com',
+			'marketplace.support_phone_number': '(650) 555-4444',
+			'marketplace.domain_url': 'https://www.balancedpayments.com/'
+		}, {
+			click: ['#terms-and-conditions', '.submit']
+		})
 		.then(function() {
 			assert.equal(createStub.callCount, 3);
 			assert.ok(createStub.calledWith(Balanced.APIKey, '/api_keys', sinon.match({
@@ -144,7 +149,7 @@ test('application submits properly', function(assert) {
 				name: "Balanced Test Marketplace",
 				support_email_address: "support@balancedpayments.com",
 				support_phone_number: "(650) 555-4444",
-				domain_url: "https://www.balancedpayments.com"
+				domain_url: "https://www.balancedpayments.com/"
 			})));
 
 			assert.ok(createStub.calledWith(Balanced.UserMarketplace));
