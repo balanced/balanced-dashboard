@@ -1,0 +1,68 @@
+/*
+* forms.less
+*
+* Inputs, Buttons, Dropdowns
+*/
+
+.btn, button {
+  font-family: @baseFontFamilyCondensed;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  border: 3px solid @black;
+  background-color: @white;
+  color: @black;
+  text-align: center;
+  padding: 6px 13px;
+  line-height: 1em;
+  vertical-align: middle;
+  box-sizing: initial;
+  border-radius: 0;
+  background: @white;
+
+  &:hover {
+    background-color: @black;
+    color: @white;
+    text-decoration: none;
+  }
+  
+  &.danger {
+    border-color: @imperialRed100;
+    color: @imperialRed100;
+
+    &:hover {
+      background-color: @imperialRed100;
+      border-color: @imperialRed100;
+      color: @white;
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  background-color: @gray5;
+  border: 0;
+  font-size: 25px;
+  padding: 3px 0 0;
+  color: @gray5;
+  line-height: 21px;
+  &:after {
+    .cssicon(
+      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAAV0lEQVR42p2R4QlAIQiEHcERG6UNGqUR3giNdBUoTy76kR8IcqeRKgB0xWfRhNha8NXFgp9GxU6RCJu3R7ip46TLBZ9nwLBcUw2pL+WHJrMGvfJanw83AfPFCSKK6ozSAAAAAElFTkSuQmCC'),
+      @width: 12px,
+      @height: 10px,
+      @display: block
+    );
+    position: absolute;
+    top: 7px;
+    left: 5px;
+    content: ' ';
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.2);
+  }
+}
+

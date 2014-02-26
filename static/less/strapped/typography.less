@@ -1,0 +1,95 @@
+/*
+* typography.less
+* 
+* Links, Headers, Paragraphs, Labels
+*/
+
+@textColor: @gray8;
+@bodyBackground: @gray5;
+@linkColor: @persianBlue100;
+@linkColorHover: @black;
+
+@baseFontSize: 13px;
+@baseLineHeight: @baseFontSize * 1.4;
+
+@baseFontFamily: "NimbusSanNov-Med", arial, sans-serif;
+@baseFontFamilyReg: "NimbusSanNov-Reg", arial, sans-serif;
+@baseFontFamilyBold: "NimbusSanNov-Bol", arial, sans-serif;
+@baseFontFamilySemiBold: "NimbusSanNov-SemBol", arial, sans-serif;
+@baseFontFamilyCondensed: "NimbusSanNovCon-Med", arial, sans-serif;
+@baseFontFamilyCondensedBold: "NimbusSanConD-Bol", arial, sans-serif;
+@monoFontFamily: Consolas, Monaco, Menlo, "Courier New", monospace;
+@bitter: 'Bitter', serif;
+
+.fontyFont(label1; NimbusSanNov-Reg, Arial, sans-serif; 18px);
+.fontyFont(label1; NimbusSanNov-Reg, Arial, sans-serif; 18px);
+.fontyFont(label2; NimbusSanNov-Bol, Arial, sans-serif; 15px);
+.fontyFont(label3; NimbusSanNov-Med, Arial, sans-serif; 15px);
+.fontyFont(label4; NimbusSanNov-Med, Arial, sans-serif; 13px);
+.fontyFont(label6; NimbusSanNov-sembol, Arial, sans-serif; 13px);
+.fontyFont(label7; NimbusSanNov-sembol, Arial, sans-serif; 15px);
+.fontyFont(number1; NimbusSanConD-Bol, Arial, sans-serif; 56px);
+.fontyFont(number3; NimbusSanConD-Bol, Arial, sans-serif; 18px);
+.fontyFont(nav1; nimbussannovcon-Med, Arial, sans-serif; 12px; @textTransform: uppercase; @letterSpacing: 1px);
+.fontyFont(nav2; NimbusSanNov-Med, Arial, sans-serif; 18px);
+.fontyFont(nav3; NimbusSanNov-Med, Arial, sans-serif; 22px);
+.fontyFont(body1; NimbusSanNov-Med, Arial, sans-serif; 13px);
+.fontyFont(subhead2; NimbusSanNov-Med, Arial, sans-serif; 15px);
+
+.number1a {
+	line-height: 48px;
+}
+
+body {
+	font-family: @baseFontFamily;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 13px;
+	color: @gray8;
+}
+
+h1 {
+	font-family: @baseFontFamilyReg;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 34px;
+	line-height: 40px;
+	color: @black;
+}
+
+h2 {
+	font-family: @baseFontFamilyReg;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+	line-height: 30px;
+	color: @black;
+}
+
+h3 {
+	font-family: @baseFontFamily;
+	font-weight: normal;
+	font-style: normal;
+	font-size: 15px;
+	line-height: 21px;
+	color: @black;
+}
+
+a {
+	color: @linkColor;
+
+	&:hover {
+		color: @linkColorHover;
+		text-decoration: none;
+		&:visited {
+			color: @linkColorHover;
+			text-decoration: none;
+		}
+	}
+	&:active {
+		color: @linkColor;
+	}
+	&:visited {
+		color: @linkColor;
+	}
+}

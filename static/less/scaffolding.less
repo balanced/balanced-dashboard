@@ -97,6 +97,22 @@ footer {
     border-right: 1px solid @marketplaceNavBackground;
     width: 89px !important;
   }
+  .social-icons {
+    float: right;
+    margin: 15px 20px;
+    a {
+      color: @gray3;
+      display: inline-block;
+      font-size: 23px;
+      line-height: 38px;
+      overflow: hidden;
+      text-align: center;
+      margin-right: 17px;
+      &:hover {
+        color: @gray4;
+      }
+    }
+  }
   .span24 {
 
     > ul {
@@ -108,7 +124,7 @@ footer {
       float: left;
 
       span {
-        font-family: nimbussannovcon-med;
+        font-family: @baseFontFamilyCondensed;
         font-size: 12px;
         padding-right: 10px;
         color: black;
@@ -120,7 +136,7 @@ footer {
         padding: 0 10px;
         text-transform: uppercase;
         color: @gray5;
-        font-family: nimbussannovcon-med;
+        font-family: @baseFontFamilyCondensed;
         font-size: 12px;
         letter-spacing: 1px;
         &:hover {
