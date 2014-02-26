@@ -7,7 +7,7 @@
             <span class="icon-key"></span>
             {{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
           </span>
-        <td class="span4" {{bind-attr title="humanReadableDateShort(key.created_at)"}}>
+        <td class="span4" {{bind-attr title="key.created_at"}}>
           <span class="wrap">
             {{humanReadableDateShort key.created_at}}
           </span>
