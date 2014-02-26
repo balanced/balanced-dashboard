@@ -179,7 +179,7 @@ test("new_bank_account_type validations", function(assert) {
 		bank_account_id: "309898264"
 	});
 	var messages = creator.get("validationErrors.csvFields.new_bank_account_type.messages");
-	assert.deepEqual(messages, ["cannot specify a bank_account_id and a new_bank_account_type"]);
+	assert.deepEqual(messages, ["cannot specify a bank_account_id with this field"]);
 });
 
 test("new_customer_name validations", function(assert) {
@@ -201,7 +201,7 @@ test("new_customer_name validations", function(assert) {
 		bank_account_id: "309898264"
 	});
 	var messages = creator.get("validationErrors.csvFields.new_customer_name.messages");
-	assert.deepEqual(messages, ["cannot specify a bank_account_id and a new_customer_name"]);
+	assert.deepEqual(messages, ["cannot specify a bank_account_id with this field"]);
 });
 
 test("#isExistingBankAccount", function(assert) {
