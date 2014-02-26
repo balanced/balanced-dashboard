@@ -20,7 +20,7 @@ var CsvProgressBarModalView = Balanced.ProgressBarModalView.extend({
 	progressText: function() {
 		var num = this.get("completed.length") || 0;
 		var den = this.get("collection.length") || 0;
-		return "%@/%@".fmt(num, den);
+		return " %@/%@ rows".fmt(num, den);
 	}.property("completed.length", "collection.length"),
 
 	updateProgressBar: function() {

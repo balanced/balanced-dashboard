@@ -6,7 +6,19 @@ var Computed = {
 	}
 };
 
+var SAMPLE_FILE = [
+	"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
+	",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,16,Payment #9746,[VALID]",
+	",Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]",
+	",Charlie Chan,charlie.chan@example.org,121000358,123123123,Charlie Chan,CHECKING,32,Payment #4818,[VALID]",
+	",Harrison Ford,harrison.ford@example.org,121000358,123123000,Harrison Ford,CHECKING,43,Payment #2720,"
+].join("\n");
+
 Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
+
+	sampleFileUri: function() {
+		return "data:text/plain;charset=utf-8;base64," + window.btoa(SAMPLE_FILE);
+	}.property(),
 
 	creditCreators: Computed.readOnly("controller.creditCreators"),
 

@@ -1,12 +1,12 @@
 #upload-payments {
   @backgroundDark: @gray7;
   @backgroundLight: @gray2;
-  @mainHeaderHeight: 75px;
+  @mainHeaderHeight: 70px;
 
   .main-header {
     background-color: @backgroundLight;
     height: @mainHeaderHeight;
-    line-height: @mainHeaderHeight;
+    line-height: 80px;
     margin-bottom: 0;
 
     .label {
@@ -20,7 +20,7 @@
     .icon {
       background-image: none;
       color: @white;
-      font-size: 24px;
+      font-size: 36px;
       text-indent: 0;
     }
 
@@ -35,13 +35,17 @@
     margin-top: 30px;
   }
 
-  .pay-multiple-sellers-tables {
-    border: 5px solid @gray2;
-    background-color: @gray2;
-  }
-
   .pay-multiple-sellers-summary {
     margin: 0 0 40px;
+    border: 2px solid @gray2;
+
+    h3 {
+      padding: 18px 0;
+    }
+  }
+
+  .form-section {
+    border-width: 0 2px;
   }
 
   .remove-icon {
@@ -69,8 +73,10 @@
     padding: 0;
 
     &.form-actions-error {
-      background-color: @imperialRed100;
-      color: @white;
+      background-color: @imperialRed20;
+      color: @imperialRed100;
+      padding: 0 10px;
+      font-family: @baseFontFamilyBold;
     }
 
     button[disabled] {

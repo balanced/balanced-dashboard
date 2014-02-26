@@ -485,32 +485,25 @@ header.results-label h3 {
 }
 
 .results.results-framed {
+  @baseColor: @gray2;
+
   background-color: @white;
+  border: 1px solid @baseColor;
+  margin-bottom: 40px;
   float: none;
   width: auto;
 
   .header {
-    background-color: @gray2;
+    background-color: @baseColor;
     border: 0 solid transparent;
+    color: @black;
     float: none;
+    font-family: @baseFontFamilyBold;
+    font-size: 17px;
     height: 40px;
     line-height: 40px;
-  }
-
-  .count {
-    background-color: @forestGreen100;
-    color: @white;
-    display: inline-block;
-    font-family: @baseFontFamilyCondensedBold;
-    font-size: 18px;
-    line-height: 40px;
-    text-align: center;
-    width: 65px;
-  }
-
-  .title {
-    color: @black;
     padding: 0 10px;
+    width: auto;
   }
 }
 

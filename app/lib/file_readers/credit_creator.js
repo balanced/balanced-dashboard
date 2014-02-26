@@ -15,11 +15,13 @@ var formatValidator = function(callback) {
 	};
 };
 
+var BANK_ACCOUNT_ID_SPECIFIED_ERROR = "cannot specify a bank_account_id with this field";
+
 var accountFieldRequired = function(fieldName) {
 	return formatValidator(function(object, attribute, value, cb) {
 		if (object.isExistingBankAccount()) {
 			if (value.length > 0) {
-				cb("cannot specify a bank_account_id and a " + fieldName);
+				cb(BANK_ACCOUNT_ID_SPECIFIED_ERROR);
 			}
 		} else if (value.length === 0) {
 			cb("can't be blank");
@@ -56,7 +58,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				value = value.toLowerCase();
 				if (object.isExistingBankAccount()) {
 					if (value.length > 0) {
-						cb("cannot specify a bank_account_id and a new_bank_account_type");
+						cb(BANK_ACCOUNT_ID_SPECIFIED_ERROR);
 					}
 				} else if (value.length === 0) {
 					cb("can't be blank");
@@ -76,7 +78,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 				value = value.toLowerCase();
 				if (object.isExistingBankAccount()) {
 					if (value.length > 0) {
-						cb("cannot specify a bank_account_id and a new_bank_account_routing_number");
+						cb(BANK_ACCOUNT_ID_SPECIFIED_ERROR);
 					}
 				} else if (value.length === 0) {
 					cb("can't be blank");
