@@ -5,7 +5,7 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 });
 
 Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
-	title: function(){
+	title: function() {
 		var length = this.get("items.length");
 		var str = length === 1 ?
 			"Valid Entry: %@" :
@@ -16,7 +16,7 @@ Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsT
 });
 
 Balanced.MarketplaceInvalidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
-	title: function(){
+	title: function() {
 		var length = this.get("items.length");
 		var str = length === 1 ?
 			"Invalid Entry: %@" :
