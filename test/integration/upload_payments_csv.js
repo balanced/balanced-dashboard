@@ -91,7 +91,7 @@ test("Read and process CSV data", function(assert) {
 			});
 
 			var credits = Balanced.currentMarketplace.get("credits.content");
-			_.each(successfulEntries, function (expectation, index) {
+			_.each(successfulEntries, function(expectation, index) {
 				var credit = credits[3 - index];
 				var customer = Balanced.Customer.find(credit.get("customer_uri"));
 				var bankAccount = Balanced.BankAccount.find(credit.get("destination_uri"));
