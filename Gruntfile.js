@@ -82,7 +82,8 @@ module.exports = function(grunt) {
 					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
 					'static/javascripts/jquery.cookie/jquery.cookie.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js'
+					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
+					'static/javascripts/jquery-csv/src/jquery.csv.js'
 				],
 				dest: 'build/js/lib-dev.js'
 			},
@@ -105,7 +106,8 @@ module.exports = function(grunt) {
 					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
 					'static/javascripts/jquery.cookie/jquery.cookie.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js'
+					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
+					'static/javascripts/jquery-csv/src/jquery.csv.js'
 				],
 				dest: 'build/js/lib-prod.js'
 			},
@@ -195,6 +197,14 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
+			staticFiles: {
+				files: [{
+					cwd: 'static/files/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/files/'
+				}]
+			},
 			css: {
 				files: [{
 					cwd: 'build/css/',
@@ -248,6 +258,11 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'dist/images/'
+				}, {
+					cwd: 'build/files/',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/files/'
 				}, {
 					cwd: 'build/fonts/',
 					expand: true,
@@ -682,7 +697,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 
-	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML']);
+	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles']);
 
 	grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
 

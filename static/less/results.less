@@ -483,3 +483,38 @@ header.results-label h3 {
     }
   }
 }
+
+.results.results-framed {
+  @baseColor: @gray2;
+
+  background-color: @white;
+  border: 1px solid @baseColor;
+  margin-bottom: 40px;
+  float: none;
+  width: auto;
+
+  .header {
+    background-color: @baseColor;
+    border: 0 solid transparent;
+    color: @black;
+    float: none;
+    font-family: @baseFontFamilyBold;
+    font-size: 17px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    width: auto;
+  }
+}
+
+.results.results-framed.results-error {
+  .count {
+    background-color: @imperialRed100;
+  }
+}
+
+.results.results-framed.results-neutral {
+  .count {
+    background-color: @gray3;
+  }
+}
