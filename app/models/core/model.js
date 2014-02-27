@@ -281,7 +281,7 @@ Balanced.Model.reopenClass({
 			var uriPropertyValue = this.get(fullUriProperty);
 			if (embeddedPropertyValue) {
 				if (!embeddedPropertyValue._type) {
-					embeddedPropertyValue = typeClass.serializer.extractSingle(embeddedPropertyValue, typeClass);
+					embeddedPropertyValue = typeClass.serializer.extractSingle(embeddedPropertyValue, typeClass) || embeddedPropertyValue;
 				}
 
 				var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(embeddedPropertyValue);
