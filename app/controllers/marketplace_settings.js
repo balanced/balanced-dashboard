@@ -12,7 +12,6 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	}.property('id'),
 
 	keyUpdater: function() {
-		window.ms = this;
 		var self = this;
 		var knownKeys = this.get('userMarketplace.keys');
 		var secrets = {};
@@ -25,7 +24,6 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 				}
 			});
 		}
-		window.secrets = secrets;
 		Balanced.APIKey.findAll()
 			.then(function(result) {
 				var keys = result.content;
