@@ -32,8 +32,8 @@
 	</li>
 
 	{{#if view.showExtraTransactionTypes}}
-		<li {{bind-attr class=":filter :disputes :disputes-lost view.disputesTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "dispute" "lost"}}>Disputes: Lost</a>
+		<li {{bind-attr class=":filter :disputes view.disputesTabSelected:selected"}} >
+			<a href="#" {{action "changeTransactionTypeFilter" "dispute" "all"}}>Disputes</a>
 		</li>
 	{{/if}}
 
