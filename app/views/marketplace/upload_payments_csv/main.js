@@ -7,11 +7,11 @@ var Computed = {
 };
 
 var SAMPLE_FILE = [
-	"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
-	",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,16,Payment #9746,[VALID]",
-	",Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]",
-	",Charlie Chan,charlie.chan@example.org,121000358,123123123,Charlie Chan,CHECKING,32,Payment #4818,[VALID]",
-	",Harrison Ford,harrison.ford@example.org,121000358,123123000,Harrison Ford,CHECKING,43,Payment #2720,"
+	"bank_account_id,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,new_customer_name,new_customer_email,appears_on_statement_as,description,amount",
+	",123123123,123456789,William Henry Cavendish,Checking,William Henry Cavendish,whc@example.org,101Flowers.com,#0012345 ,41.35",
+	",123123123,234567890,Mark Feldman,Savings,Mark Feldman,mark@example.org,101Flowers.com,#0078453,55.74",
+	"BAmjovbXdpRsQUe1q34ee24,,,,,,,101Flowers.com,#0045795,57.73",
+	"BA7Cv3FMXaOcD17dMVbqAXLI,,,,,,,101Flowers.com,#0052323,21.03"
 ].join("\n");
 
 Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({

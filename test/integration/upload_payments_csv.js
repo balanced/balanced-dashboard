@@ -12,6 +12,7 @@ test("Read and process CSV data", function(assert) {
 		null, {
 			"customer.email": "harry.tan@example.com",
 			"bankAccount.name": "Harry Tan",
+			"credit.appears_on_statement_as": "Payment #9746",
 			"credit.amount": 1600
 		},
 		null,
@@ -19,19 +20,26 @@ test("Read and process CSV data", function(assert) {
 		null, {
 			"customer.email": "dwyane.braggart@example.org",
 			"bankAccount.name": "Dwyane Braggart",
+			"credit.appears_on_statement_as": "Payment #7050",
 			"credit.amount": 5400
 		}, {
 			"customer.email": "charlie.chan@example.org",
 			"bankAccount.name": "Charlie Chan",
+			"credit.appears_on_statement_as": "Payment #4818",
 			"credit.amount": 3200
 		},
 		null, {
 			"customer.email": "harrison.ford@example.org",
 			"bankAccount.name": "Harrison Ford",
 			"bankAccount.routing_number": "121000358",
+			"credit.appears_on_statement_as": "Payment #2720",
 			"credit.amount": 4300
 		}
 	];
+
+	var successfulEntries = expectations.filter(function(expectation) {
+		return expectation !== null;
+	});
 
 	var csvString = [
 		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
@@ -80,6 +88,17 @@ test("Read and process CSV data", function(assert) {
 						assert.deepEqual(results[i].get(key), val);
 					});
 				}
+			});
+
+			var credits = Balanced.currentMarketplace.get("credits.content");
+			_.each(successfulEntries, function (expectation, index) {
+				var credit = credits[3 - index];
+				var customer = Balanced.Customer.find(credit.get("customer_uri"));
+				var bankAccount = Balanced.BankAccount.find(credit.get("destination_uri"));
+				assert.deepEqual(customer.get("email"), expectation["customer.email"]);
+				assert.deepEqual(bankAccount.get("name"), expectation["bankAccount.name"]);
+				assert.deepEqual(credit.get("amount"), expectation["credit.amount"]);
+				assert.deepEqual(credit.get("appears_on_statement_as"), expectation["credit.appears_on_statement_as"]);
 			});
 			start();
 		});
