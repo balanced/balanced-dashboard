@@ -16,11 +16,16 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 		var self = this;
 		var knownKeys = this.get('userMarketplace.keys');
 		var secrets = {};
+		var keyID;
 		if (knownKeys) {
 			knownKeys.forEach(function(key) {
-				secrets[key.uri] = key.secret;
+				if (key.uri) {
+					keyID = key.uri.replace(/.*\//, '');
+					secrets[keyID] = key.secret;
+				}
 			});
 		}
+		window.secrets = secrets;
 		Balanced.APIKey.findAll()
 			.then(function(result) {
 				var keys = result.content;
@@ -32,7 +37,7 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 					return date1 < date2 ? 1 : -1;
 				});
 				keys.forEach(function(key) {
-					secret = secrets[key.get('uri')];
+					secret = secrets[key.get('id')];
 					if (secret) {
 						key.set('secret', secret);
 					}
