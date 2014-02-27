@@ -1,0 +1,57 @@
+<div class="form-section form-section-content">
+  <h3 class="label3a">
+    Pay existing and new customers by formatting your CSV file with the
+    appropriate fields.
+  </h3>
+  <p>
+    <a {{bind-attr href="view.sampleFileUri"}} download>
+      <i class="icon icon-document-upload"></i>
+      Download sample file
+    </a>
+  </p>
+
+  <section class="payment-csv-format-info">
+    <div class="row">
+      <div class="span6">
+        <header>
+          <h3>Existing Customers:</h3>
+        </header>
+        <ul>
+          <li>bank_account_id</li>
+          <li>amount</li>
+          <li>appears_on_statement_as</li>
+          <li>description</li>
+        </ul>
+      </div>
+      <div class="span10">
+        <header>
+          <h3>New Customers:</h3>
+        </header>
+        <div class="row">
+          <ul class="span5">
+            <li>new_customer_name</li>
+            <li>new_customer_email</li>
+            <li>new_bank_account_routing_number</li>
+            <li>new_bank_account_number</li>
+          </ul>
+          <ul class="span5">
+            <li>new_bank_account_holders_name</li>
+            <li>new_bank_account_type</li>
+            <li>amount</li>
+            <li>appears_on_statement_as</li>
+            <li>description</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="actions">
+  <label class="control-label control-styled-upload">
+    Please upload a CSV file
+    <span class="btn">
+      Choose file
+      <input id="csv-upload-field" type="file" name="file" {{action "fileSelectionChanged" on="change" target="view"}} />
+    </span>
+  </label>
+</div>

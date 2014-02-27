@@ -1,0 +1,44 @@
+.table.table-fixed {
+  table-layout: fixed;
+  width: 100%;
+  th, td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 9px 5px;
+  }
+}
+
+.table-column-total {
+  text-align: right;
+  width: 100px;
+}
+
+.table-column-icon {
+  text-align: center;
+  width: 16px;
+}
+
+.table-column-20percent {
+  width: 20%;
+}
+
+.table-column {
+  .icon.icon-alert {
+    bottom: -2px;
+    color: @imperialRed100;
+    position: relative;
+  }
+
+  .icon.icon-checkmark {
+    color: @forestGreen100;
+  }
+}
+
+.table-border tbody tr {
+  border-top: 1px solid @gray3;
+}
+
+.table-row a{
+  cursor: pointer;
+}
