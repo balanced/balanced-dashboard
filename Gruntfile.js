@@ -513,7 +513,10 @@ module.exports = function(grunt) {
 					];
 
 					if (file) {
-						files.push(file);
+						file = file.split(',');
+						file.forEach(function(val) {
+							files.push(val);
+						});
 					} else {
 						files.push('test/unit/**/*');
 						files.push('test/integration/**/*');
