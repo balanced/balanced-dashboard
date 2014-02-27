@@ -1,3 +1,8 @@
+var CUSTOMER_TYPES = {
+	BUSINESS: 'Business',
+	PERSON: 'Person'
+};
+
 Balanced.Customer = Balanced.Model.extend({
 	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
 	cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
@@ -30,16 +35,12 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('bank_accounts'),
 
 	type: function() {
-		return (this.get('ein') && this.get('business_name')) ? 'Business' : 'Person';
+		return (this.get('ein') || this.get('business_name')) ? CUSTOMER_TYPES.BUSINESS : CUSTOMER_TYPES.PERSON;
 	}.property('ein', 'business_name'),
 
-	is_business: function() {
-		return this.get('type') === 'Business';
-	}.property('type'),
+	is_business: Ember.computed.equal('type', CUSTOMER_TYPES.BUSINESS),
 
-	is_person: function() {
-		return this.get('type') === 'Person';
-	}.property('type'),
+	is_person: Ember.computed.equal('type', CUSTOMER_TYPES.PERSON),
 
 	display_me: function() {
 		return this.get('name') || this.get('id');
