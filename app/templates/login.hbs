@@ -12,7 +12,10 @@
 
 							{{#link-to "forgotPassword" class="pull-left forgot-password"}}Forgot password?{{/link-to}}
 
-							<button class="pull-right" type="submit">Sign In</button>
+							<button class="pull-right" type="submit" {{bind-attr disabled="isSubmitting"}}>Sign In</button>
+							{{#if isSubmitting}}
+								<div class="loader-container pull-right"><span class="loader loading"></span></div>
+							{{/if}}
 						</form>
 
 						{{#if loginError}}
@@ -25,6 +28,11 @@
 								We've sent you an e-mail with password reset instructions.
 							</div>
 						{{/if}}
+						{{#if fromResetPassword}}
+							<div class="alert alert-black">
+								Your password has successfully been updated.
+							</div>
+						{{/if}}
 
 						<p class="label4b" id="get-started">New to Balanced? <a href="#/start" class="linky">Click here to get started</a>.</p>
 					</div>
@@ -34,7 +42,13 @@
 						<div class="auth">Enter the authentication code below.</div>
 						<form id="forgot-form" {{bind-attr class=":otp-form hasError:error"}} {{action "otpSubmit" on="submit"}}>
 							{{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
-							<button type="submit">Continue To Dashboard</button>
+							<button type="submit" {{bind-attr disabled="isSubmitting"}}>
+								{{#if isSubmitting}}
+									<div class="loader-container"><span class="loader loading"></span></div>
+								{{else}}
+									Continue To Dashboard
+								{{/if}}
+							</button>
 						</form>
 					</div>
 				</div>

@@ -29,7 +29,7 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 					});
 
 					self.transitionToRoute('login').then(function(loginRoute) {
-						loginRoute.controller.set('fromForgotPassword', true);
+						loginRoute.controller.set('from', 'ForgotPassword');
 					});
 				});
 			} else {
