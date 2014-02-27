@@ -11,7 +11,19 @@ module.exports = function(config) {
 		frameworks: ['qunit'],
 
 		// list of files / patterns to load in the browser
-		files: [],
+		files: [
+			'build/css/base.min.css',
+			'build/test/js/sinon.js',
+			'build/test/js/testenv.js',
+			'build/js/lib-dev.js',
+			'test/support/lib/balanced.min.js',
+			'build/js/dashboard-dev.js',
+			'build/test/js/test-fixtures.js',
+			'test/support/testconfig.js',
+			'test/lib/*.js',
+			'test/unit/**/*',
+			'test/integration/**/*'
+		],
 
 		// list of files to exclude
 		exclude: [],

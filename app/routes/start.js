@@ -5,7 +5,9 @@ Balanced.StartRoute = Balanced.Route.extend({
 		if (this.get('auth.signedIn')) {
 			return Balanced.currentMarketplace;
 		} else {
-			return this.get('auth').createNewGuestUser().then(function(apiKey) {
+			var auth = this.get('auth');
+
+			return auth.createNewGuestUser().then(function(apiKey) {
 				var apiKeySecret = apiKey.get('secret');
 				var settings = {
 					headers: {
@@ -15,7 +17,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 				return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
 					marketplace.populateWithTestTransactions();
 
-					this.get('auth').setupGuestUserMarketplace(marketplace);
+					auth.setupGuestUserMarketplace(marketplace);
 
 					return marketplace;
 				});
