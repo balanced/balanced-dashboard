@@ -19,7 +19,13 @@
         </td>
         <td class="span7">
           <span class="wrap">
-            {{api-key-secret-shower key=key}}
+          	{{#if key.secret}}
+	            {{api-key-secret-shower key=key}}
+            {{else}}
+            	{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard, or created by other users."}}
+					No secret
+				{{/view}}
+            {{/if}}
           </span>
           </td>
         <td class="span1 delete-container">
