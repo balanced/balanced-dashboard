@@ -29,6 +29,11 @@ Balanced.ModalComponent = Ember.Component.extend({
 			});
 		},
 
+		close: function() {
+			var modalElement = this.get('modalElement');
+			this.$(modalElement).modal("hide");
+		},
+
 		save: function(model) {
 			model = model || this.get('model');
 
