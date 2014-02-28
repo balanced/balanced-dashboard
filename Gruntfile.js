@@ -633,6 +633,15 @@ module.exports = function(grunt) {
 					livereload: true,
 				}
 			},
+			fonts: {
+				files: [
+					'static/fonts/**/*'
+				],
+				tasks: ['_buildFonts'],
+				options: {
+					livereload: true,
+				}
+			},
 			html: {
 				files: [
 					'app/index.html.hbs'
