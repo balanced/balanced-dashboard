@@ -4,10 +4,6 @@ Balanced.MarketplaceSettingsView = Balanced.View.extend({
 	actions: {
 		openEditMarketplaceInfoModal: function() {
 			this.get('editMarketplaceInfoModal').send('open');
-		},
-
-		showKeySecret: function() {
-			this.set('keySecret', true);
 		}
 	}
 });
