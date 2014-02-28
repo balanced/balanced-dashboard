@@ -1,0 +1,28 @@
+<div class="modal hide delete-key">
+    <form {{action "confirm" on="submit"}}>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h2>Delete this key</h2>
+    </div>
+    <div class="modal-body">
+
+        <span class="label7a">Are you sure you want to delete this key?</span>
+        <br><span class="label7a">This key will be deleted immediately.</span>
+        <br>
+        <ul>
+            <li>ID: {{key.id}}</li>
+            <li>Name: {{key.meta.name}}</li>
+        </ul>
+        <br>
+    </div>
+    <div class="modal-footer">
+        <button class="btn danger" type="button" data-dismiss="modal">Cancel</button>
+        <button class="btn delete-key-btn" type="button" {{action "confirm"}}>Delete</button>
+    </div>
+    </form>
+</div>
+{{#if displayDelete}}
+	<div class="delete-key-outer">
+	    <a href="#" {{action "open"}} class="confirm-delete-key">&times;</a>
+	</div>
+{{/if}}
