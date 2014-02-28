@@ -84,8 +84,7 @@ test('filter logs by request failed only', function(assert) {
 		})
 		.click('.results .filter-status-rollup label.succeeded input[type="checkbox"]')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Log,
-				'/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx'));
+			assert.ok(spy.calledWith(Balanced.Log, '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx'));
 
 			assert.equal($('table.logs tbody tr').length, 1, 'has no failures');
 			assert.equal($('table.logs tfoot td').length, 0, 'no "load more"');

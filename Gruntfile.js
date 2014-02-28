@@ -228,24 +228,14 @@ module.exports = function(grunt) {
 			},
 			fonts: {
 				files: [{
-					cwd: 'static/fonts/',
+					cwd: 'static/javascripts/strapped/static/fonts',
 					expand: true,
-					src: [
-						'*.eot',
-						'*.svg',
-						'*.ttf',
-						'*.woff'
-					],
+					src: ['**'],
 					dest: 'build/fonts/'
 				}, {
-					cwd: 'static/fonts/',
+					cwd: 'static/javascripts/strapped/static/fonts',
 					expand: true,
-					src: [
-						'*.eot',
-						'*.svg',
-						'*.ttf',
-						'*.woff'
-					],
+					src: ['**'],
 					dest: 'build/test/fonts/'
 				}]
 			},
@@ -629,15 +619,6 @@ module.exports = function(grunt) {
 					'static/images/**/*'
 				],
 				tasks: ['_buildImages'],
-				options: {
-					livereload: true,
-				}
-			},
-			fonts: {
-				files: [
-					'static/fonts/**/*'
-				],
-				tasks: ['_buildFonts'],
 				options: {
 					livereload: true,
 				}
