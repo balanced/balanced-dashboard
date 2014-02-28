@@ -1,0 +1,53 @@
+
+[class^="icon"] {
+  &.right {
+    float: right;
+  }
+}
+
+.icon-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 0;
+  font-size: 25px;
+  padding: 0;
+  text-indent: -4000px;
+  &:after {
+    .cssicon(
+      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAAV0lEQVR42p2R4QlAIQiEHcERG6UNGqUR3giNdBUoTy76kR8IcqeRKgB0xWfRhNha8NXFgp9GxU6RCJu3R7ip46TLBZ9nwLBcUw2pL+WHJrMGvfJanw83AfPFCSKK6ozSAAAAAElFTkSuQmCC'),
+      @width: 12px,
+      @height: 10px,
+      @display: block
+    );
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    background-size: 11px;
+    background-repeat: no-repeat;
+    content: ' ';
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.2);
+  }
+}
+.icon-download {
+  .cssicon(@iconsFile, 30px, 30px);
+  background-position: -10px -580px;
+  background-color: rgb(165, 163, 163);
+  &:hover {
+    background-color: #000;
+  }
+}
+.icon-help {
+  .cssicon(@iconsFile, 20px, 20px);
+  background-position: -115px -115px;
+  &:hover {
+    cursor: pointer;
+    background-position: -165px -115px;
+  }
+}
