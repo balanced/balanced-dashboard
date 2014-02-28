@@ -14,7 +14,7 @@ var SAMPLE_FILE = [
 	"BA7Cv3FMXaOcD17dMVbqAXLI,,,,,,,101Flowers.com,#0052323,21.03"
 ].join("\n");
 
-Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
+Balanced.ImportPayoutsView = Ember.View.extend({
 
 	title: function(){
 		return this.get("creditCreators.isEmpty") ?

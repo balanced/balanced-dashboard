@@ -71,11 +71,11 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 });
 
 Balanced.DefaultCsvUploadCellView = Balanced.CsvUploadCellView.extend({
-	templateName: "marketplace/upload_payments_csv/default_csv_upload_cell",
+	templateName: "import_payouts/default_csv_upload_cell",
 });
 
 Balanced.ErrorTooltipCsvUploadCellView = BaseCellView.extend({
-	templateName: "marketplace/upload_payments_csv/error_tooltip_csv_upload_cell",
+	templateName: "import_payouts/error_tooltip_csv_upload_cell",
 	classNames: ["table-column", "table-column-icons"],
 
 	didInsertElement: function() {

@@ -1,0 +1,54 @@
+.tb, .title-bar {
+  height: 70px;
+  margin-bottom: 0;
+
+  .tb-label {
+    background-image: none;
+    color: @white;
+    display: block;
+    float: left;
+    font-size: 36px;
+    height: 70px;
+    line-height: 86px;
+    text-align: center;
+    text-indent: 0;
+    width: 70px;
+  }
+
+  .tb, .tb-content {
+    font-family: NimbusSanNov-Med,Arial,sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-height: 80px;
+    padding: 0 20px;
+    text-transform: inherit;
+  }
+
+
+
+  &, &.tb-default {
+    background-color: @gray2;
+    color: @black;
+    .tb-label {
+      background-color: @gray7;
+      color: @white;
+    }
+  }
+
+  &.tb-imperial-red {
+    background-color: @imperialRed60;
+    color: @white;
+    .tb-label {
+      background-color: @imperialRed100;
+    }
+  }
+
+  &.tb-egyptian-blue {
+    background-color: @egyptianBlue60;
+    .tb-label {
+      background-color: @egyptianBlue100;
+    }
+  }
+}
