@@ -16,7 +16,7 @@ var SAMPLE_FILE = [
 
 Balanced.ImportPayoutsView = Ember.View.extend({
 
-	title: function(){
+	title: function() {
 		return this.get("creditCreators.isEmpty") ?
 			"Upload your file" :
 			"Payout Summary";
