@@ -1,5 +1,6 @@
 .tb, .title-bar {
-  height: 70px;
+  @titleBarHeight: 70px;
+  height: @titleBarHeight;
   margin-bottom: 0;
 
   .tb-label {
@@ -8,25 +9,17 @@
     display: block;
     float: left;
     font-size: 36px;
-    height: 70px;
+    height: @titleBarHeight;
     line-height: 86px;
     text-align: center;
     text-indent: 0;
-    width: 70px;
+    width: @titleBarHeight;
   }
 
-  .tb, .tb-content {
-    font-family: NimbusSanNov-Med,Arial,sans-serif;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    line-height: 80px;
+  .tb-content {
+    font: normal normal normal 22px/80px NimbusSanNov-Med,Arial,sans-serif;
     padding: 0 20px;
-    text-transform: inherit;
   }
-
-
 
   &, &.tb-default {
     background-color: @gray2;
