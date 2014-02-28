@@ -95,7 +95,9 @@ var Testing = {
 		var _this = this;
 		Ember.run(function() {
 			return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
-				return Balanced.Auth.createNewGuestUser().then(function() {
+				return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+					_this.GUEST_USER_API_KEY = apiKey;
+
 					return Balanced.Marketplace.create().save();
 				}).then(function(marketplace) {
 					_this.marketplace = marketplace;
