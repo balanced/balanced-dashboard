@@ -156,3 +156,70 @@ form {
 
   }
 }
+.create-api-key {
+  .control-group {
+    margin-top: 20px;
+  }
+}
+.delete-key {
+  white-space: normal;
+  word-break: break-all;
+  ul {
+    margin-top: 20px;
+  }
+}
+.api-keys-info .warn {
+  color: @imperialRed100;
+}
+.api-keys-table {
+  width: 100%;
+  margin-top: -10px;
+  tr{
+    border-bottom: 1px #bcbcbc solid;
+  }
+  tr:last-child {
+    border-bottom: none;
+  }
+  .confirm-delete-key {
+    font-size: 20px;
+  }
+  .icon-key {
+    font-size: 22px;
+    margin-right: 5px;
+    position: absolute;
+    left: 0;
+    top: 9px;
+  }
+  td:first-child {
+    span.wrap {
+      position: relative;
+      padding-left: 30px;
+    }
+  }
+  span.wrap {
+    padding: 12px 0;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .no-secret {
+    color: @gray3;
+    &:hover {
+      color: @gray3;
+    }
+  }
+  .delete-container {
+    .delete-key-outer {
+      text-align: right;
+      width: 100%;
+      a.confirm-delete-key {
+        color: @gray3;
+      }
+    }
+    span.wrap {
+      padding-right: 0;
+    }
+  }
+}
+
