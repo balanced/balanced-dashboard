@@ -1,4 +1,15 @@
 require("app/views/modals/progress_bar_modal");
+require("app/components/title_bar");
+
+Balanced.TitleBars.define("ImportPayouts", {
+	wrapperClasses: "tb-default",
+	icon: "icon-document-upload",
+	title: function () {
+		return this.get("creditCreators.isEmpty") ?
+			"Upload your file" :
+			"Payout summary";
+	}.property("creditCreators.isEmpty")
+})
 
 var Computed = {
 	completedFilter: function(propertyName) {

@@ -7,9 +7,10 @@
 
 <h1 class="page-title">Import Payouts</h1>
 {{#if controllers.marketplace.production}}
-Payouts Import is only available on test marketplaces.
+	Payouts Import is only available on test marketplaces.
 {{else}}
 <form {{action "submit" on="submit" target="view"}} class="full-page-form">
+	{{title-bar icon="icon-document-upload"}}
 	<div class="main-header pay-multiple-sellers-header">
 	<span class="label">
 	  <i class="icon icon-document-upload"></i>
