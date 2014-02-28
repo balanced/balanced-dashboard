@@ -228,14 +228,24 @@ module.exports = function(grunt) {
 			},
 			fonts: {
 				files: [{
-					cwd: 'static/javascripts/strapped/static/fonts',
+					cwd: 'static/javascripts/strapped/static/fonts/',
 					expand: true,
-					src: ['**'],
+					src: [
+						'*.eot',
+						'*.svg',
+						'*.ttf',
+						'*.woff'
+					],
 					dest: 'build/fonts/'
 				}, {
-					cwd: 'static/javascripts/strapped/static/fonts',
+					cwd: 'static/javascripts/strapped/static/fonts/',
 					expand: true,
-					src: ['**'],
+					src: [
+						'*.eot',
+						'*.svg',
+						'*.ttf',
+						'*.woff'
+					],
 					dest: 'build/test/fonts/'
 				}]
 			},
