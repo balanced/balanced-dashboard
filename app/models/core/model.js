@@ -280,6 +280,10 @@ Balanced.Model.reopenClass({
 			var embeddedPropertyValue = this.get(embeddedProperty);
 			var uriPropertyValue = this.get(fullUriProperty);
 			if (embeddedPropertyValue) {
+				if (!embeddedPropertyValue._type) {
+					embeddedPropertyValue = typeClass.serializer.extractSingle(embeddedPropertyValue, typeClass) || embeddedPropertyValue;
+				}
+
 				var embeddedObj = typeClass._materializeLoadedObjectFromAPIResult(embeddedPropertyValue);
 				return embeddedObj;
 			} else if (uriPropertyValue) {
