@@ -10,9 +10,11 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 			var model = this.get('content');
 			var self = this;
 
-			model.set('uri', '/password/' + this.get('token'));
-			model.set('password', this.get('password'));
-			model.set('password_confirm', this.get('password_confirm'));
+			model.setProperties({
+				uri: '/password/' + this.get('token'),
+				password: this.get('password'),
+				password_confirm: this.get('password_confirm')
+			});
 
 			if (model.validate()) {
 				self.set('hasError', false);
@@ -26,9 +28,15 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 				});
 
 				model.save().then(function() {
-					self.set('password', '');
-					self.set('password_confirm', '');
-					self.set('submitted', true);
+					self.setProperties({
+						password: '',
+						password_confirm: '',
+						submitted: true
+					});
+
+					self.transitionToRoute('login').then(function(loginRoute) {
+						loginRoute.controller.set('from', 'ResetPassword');
+					});
 				});
 			} else {
 				self.set('hasError', true);
