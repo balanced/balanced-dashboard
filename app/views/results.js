@@ -1,27 +1,22 @@
+var Computed = {
+	categorySelected: function(category) {
+		return Ember.computed.equal('controller.category', category);
+	},
+	typeSelected: function(type) {
+		return Ember.computed.equal('controller.type', type);
+	}
+};
+
 Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/results_filters_header',
 	tagName: 'header',
 
 	// UI computed properties
-	transactionsTabSelected: function() {
-		return this.get('controller.category') === "search";
-	}.property('controller.category'),
-
-	customersTabSelected: function() {
-		return this.get('controller.category') === "customer";
-	}.property('controller.category'),
-
-	ordersTabSelected: function() {
-		return this.get('controller.category') === "order";
-	}.property('controller.category'),
-
-	fundingInstrumentsTabSelected: function() {
-		return this.get('controller.category') === "funding_instrument";
-	}.property('controller.category'),
-
-	disputesTabSelected: function() {
-		return this.get('controller.category') === "dispute";
-	}.property('controller.category'),
+	transactionsTabSelected: Computed.categorySelected('search'),
+	customersTabSelected: Computed.categorySelected('customer'),
+	ordersTabSelected: Computed.categorySelected('order'),
+	fundingInstrumentsTabSelected: Computed.categorySelected('funding_instrument'),
+	disputesTabSelected: Computed.categorySelected('dispute'),
 
 	transaction_type_label: function() {
 		var typesToLabels = {
@@ -107,37 +102,14 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/transactions_filters_header',
 	tagName: 'header',
 
-	allTabSelected: function() {
-		return this.get('controller.type') === "transaction";
-	}.property('controller.type'),
-
-	holdsTabSelected: function() {
-		return this.get('controller.type') === "hold";
-	}.property('controller.type'),
-
-	creditsTabSelected: function() {
-		return this.get('controller.type') === "credit";
-	}.property('controller.type'),
-
-	debitBankAccountsTabSelected: function() {
-		return this.get('controller.type') === "bank_account_debit";
-	}.property('controller.type'),
-
-	debitCardsTabSelected: function() {
-		return this.get('controller.type') === "card_debit";
-	}.property('controller.type'),
-
-	debitsTabSelected: function() {
-		return this.get('controller.type') === "debit";
-	}.property('controller.type'),
-
-	refundsTabSelected: function() {
-		return this.get('controller.type') === "refund";
-	}.property('controller.type'),
-
-	disputesTabSelected: function() {
-		return this.get('controller.type') === "dispute";
-	}.property('controller.type'),
+	allTabSelected: Computed.typeSelected('transaction'),
+	holdsTabSelected: Computed.typeSelected('hold'),
+	creditsTabSelected: Computed.typeSelected('credit'),
+	debitBankAccountsTabSelected: Computed.typeSelected('bank_account_debit'),
+	debitCardsTabSelected: Computed.typeSelected('card_debit'),
+	debitsTabSelected: Computed.typeSelected('debit'),
+	refundsTabSelected: Computed.typeSelected('refund'),
+	disputesTabSelected: Computed.typeSelected('dispute'),
 
 	debits_label: function() {
 		if (this.get('controller.type') === 'debit') {
