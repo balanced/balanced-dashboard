@@ -82,7 +82,8 @@ module.exports = function(grunt) {
 					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
 					'static/javascripts/jquery.cookie/jquery.cookie.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js'
+					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
+					'static/javascripts/jquery-csv/src/jquery.csv.js'
 				],
 				dest: 'build/js/lib-dev.js'
 			},
@@ -105,7 +106,8 @@ module.exports = function(grunt) {
 					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
 					'static/javascripts/jquery.cookie/jquery.cookie.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js'
+					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
+					'static/javascripts/jquery-csv/src/jquery.csv.js'
 				],
 				dest: 'build/js/lib-prod.js'
 			},
@@ -195,6 +197,14 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
+			staticFiles: {
+				files: [{
+					cwd: 'static/files/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/files/'
+				}]
+			},
 			css: {
 				files: [{
 					cwd: 'build/css/',
@@ -218,7 +228,7 @@ module.exports = function(grunt) {
 			},
 			fonts: {
 				files: [{
-					cwd: 'static/fonts/',
+					cwd: 'static/javascripts/strapped/static/fonts/',
 					expand: true,
 					src: [
 						'*.eot',
@@ -228,7 +238,7 @@ module.exports = function(grunt) {
 					],
 					dest: 'build/fonts/'
 				}, {
-					cwd: 'static/fonts/',
+					cwd: 'static/javascripts/strapped/static/fonts/',
 					expand: true,
 					src: [
 						'*.eot',
@@ -258,6 +268,11 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'dist/images/'
+				}, {
+					cwd: 'build/files/',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/files/'
 				}, {
 					cwd: 'build/fonts/',
 					expand: true,
@@ -513,7 +528,10 @@ module.exports = function(grunt) {
 					];
 
 					if (file) {
-						files.push(file);
+						file = file.split(',');
+						file.forEach(function(val) {
+							files.push(val);
+						});
 					} else {
 						files.push('test/unit/**/*');
 						files.push('test/integration/**/*');
@@ -537,7 +555,6 @@ module.exports = function(grunt) {
 					'app/**/*.js',
 					'test/**/*.js',
 					'!test/support/lib/*.js',
-					'bower.json',
 					'karma.conf.js',
 					'package.json',
 					'npm-shrinkwrap.json'
@@ -552,7 +569,6 @@ module.exports = function(grunt) {
 					'app/**/*.js',
 					'test/**/*.js',
 					'!test/support/lib/*.js',
-					'bower.json',
 					'karma.conf.js',
 					'package.json',
 					'npm-shrinkwrap.json'
@@ -613,15 +629,6 @@ module.exports = function(grunt) {
 					'static/images/**/*'
 				],
 				tasks: ['_buildImages'],
-				options: {
-					livereload: true,
-				}
-			},
-			fonts: {
-				files: [
-					'static/fonts/**/*'
-				],
-				tasks: ['_buildFonts'],
 				options: {
 					livereload: true,
 				}
@@ -700,7 +707,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 
-	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML']);
+	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles']);
 
 	grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
 

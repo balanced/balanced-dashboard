@@ -41,6 +41,15 @@ var Testing = {
 		this.isStopped = false;
 	},
 
+	pause: function(number) {
+		if (!number) {
+			number = 1000;
+		}
+
+		this.stop();
+		_.delay(_.bind(this.start, this), number);
+	},
+
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
 		$('#marketplaces ul a:contains("' + name + '")').click();
@@ -86,7 +95,9 @@ var Testing = {
 		var _this = this;
 		Ember.run(function() {
 			return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
-				return Balanced.Auth.createNewGuestUser().then(function() {
+				return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+					_this.GUEST_USER_API_KEY = apiKey;
+
 					return Balanced.Marketplace.create().save();
 				}).then(function(marketplace) {
 					_this.marketplace = marketplace;

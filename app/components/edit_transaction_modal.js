@@ -3,6 +3,8 @@ require('app/components/modal');
 Balanced.EditTransactionModalComponent = Balanced.ModalComponent.extend({
 	classNames: ['modal-container', 'header-action-container'],
 
+	submitAction: false,
+
 	actions: {
 		open: function() {
 			// operate on a copy so we don't mess up the original object

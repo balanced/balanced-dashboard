@@ -6,12 +6,17 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	otpError: false,
 	otpRequired: false,
 	otpCode: null,
+	from: null,
+	isSubmitting: false,
+
+	fromResetPassword: Ember.computed.equal('from', 'ResetPassword'),
+	fromForgotPassword: Ember.computed.equal('from', 'ForgotPassword'),
 
 	init: function() {
-		if (Balanced.Auth.get('signedIn')) {
+		if (this.get('auth.signedIn')) {
 			this.afterLogin();
 		} else {
-			Balanced.Auth.on('signInSuccess', _.bind(this.afterLogin, this));
+			this.get('auth').on('signInSuccess', _.bind(this.afterLogin, this));
 		}
 
 		this._super();
@@ -27,7 +32,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			email: null,
 			password: null,
 			otpRequired: false,
-			otpCode: null
+			otpCode: null,
+			from: null,
+			isSubmitting: false
 		});
 	},
 
@@ -35,7 +42,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		this.setProperties({
 			loginError: false,
 			otpError: false,
-			loginResponse: ''
+			loginResponse: '',
+			from: null,
+			isSubmitting: false
 		});
 	},
 
@@ -44,30 +53,37 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	afterLogin: function() {
-		this.set('loginError', false);
+		var auth = this.get('auth');
+		this.setProperties({
+			loginError: false,
+			isSubmitting: false
+		});
 
-		var attemptedTransition = Balanced.Auth.get('attemptedTransition');
+		var attemptedTransition = auth.get('attemptedTransition');
 
 		if (attemptedTransition) {
 			Ember.run.next(function() {
 				attemptedTransition.retry();
-				Balanced.Auth.set('attemptedTransition', null);
-				Balanced.Auth.trigger('signInTransition');
+				auth.set('attemptedTransition', null);
+				auth.trigger('signInTransition');
 			});
 		} else {
 			this.transitionToRoute('index');
-			Balanced.Auth.trigger('signInTransition');
+			auth.trigger('signInTransition');
 		}
 	},
 
 	actions: {
 		otpSubmit: function() {
 			var self = this;
+			var auth = this.get('auth');
 
-			Balanced.Auth.confirmOTP(this.get('otpCode')).then(function() {
+			this.set('isSubmitting', true);
+
+			auth.confirmOTP(this.get('otpCode')).then(function() {
 				self.afterLogin();
 			}, function() {
-				Balanced.Auth.forgetLogin();
+				auth.forgetLogin();
 				self.reset();
 				self.setProperties({
 					loginError: true,
@@ -75,6 +91,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				});
 
 				self.focus();
+			}).always(function() {
+				self.set('isSubmitting', false);
 			});
 		},
 
@@ -84,11 +102,13 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 		signIn: function() {
 			var self = this;
+			var auth = this.get('auth');
 
 			this.resetError();
+			this.set('isSubmitting', true);
 
-			Balanced.Auth.forgetLogin();
-			Balanced.Auth.signIn(this.get('email'), this.get('password')).then(function() {
+			auth.forgetLogin();
+			auth.signIn(this.get('email'), this.get('password')).then(function() {
 				// When we add the MFA modal to ask users to login
 				// self.send('openMFAInformationModal');
 				// For now tho:
@@ -105,9 +125,24 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					return;
 				}
 
-				if (typeof jqxhr.responseText !== "undefined") {
-					var responseText = jqxhr.responseJSON || JSON.parse(jqxhr.responseText);
+				if (typeof jqxhr.responseText !== "undefined" && jqxhr.responseText) {
+					var responseText = jqxhr.responseJSON;
 
+					// What if responseJSON is null/undefined:
+					// 1. Try to parse it ourselves
+					// 2. If all else fails, assume that the responseText
+					//    is the error message to be shown
+					if (!responseText) {
+						try {
+							responseText = JSON.parse(jqxhr.responseText);
+						} catch (e) {
+							responseText = {
+								detail: jqxhr.responseText
+							};
+						}
+					}
+
+					// OTP Required Case
 					if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
 						self.set('otpRequired', true);
 					} else {
@@ -134,6 +169,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						loginResponse: message
 					});
 				}
+			}).always(function() {
+				self.set('isSubmitting', false);
 			});
 		}
 	}

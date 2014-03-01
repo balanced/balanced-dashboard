@@ -7,7 +7,7 @@
     <div class="modal-body">
         {{partial "modals/modalErrors"}}
 
-        <div {{bindAttr class=":control-group view.model.validationErrors.url:error"}}>
+        <div {{bind-attr class=":control-group view.model.validationErrors.url:error"}}>
             <label>URI</label>
             {{view Ember.TextField valueBinding="view.model.url" name="url" class="full"}}
         </div>
@@ -20,7 +20,7 @@
               name="callback-revision"
               optionValuePath="content.value"
               optionLabelPath="content.label"
-          }}
+         }}
         </div>
     </div>
     <div class="modal-footer">
@@ -28,4 +28,4 @@
     </div>
     </form>
 </div>
-<a href="#" class="add" {{action open}}>Add a webhook</a>
+<a href="#" class="add" {{action "open"}}>Add a webhook</a>

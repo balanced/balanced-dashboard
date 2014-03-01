@@ -10,6 +10,10 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 	isEqual: function(a, b) {
 		b = b || this;
 		return Ember.get(a, 'secret') === Ember.get(b, 'secret');
+	},
+
+	updateSecret: function(newSecret) {
+		this.set('secret', newSecret);
 	}
 });
 

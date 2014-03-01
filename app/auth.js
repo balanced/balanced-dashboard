@@ -96,7 +96,8 @@ Balanced.Auth = (function() {
 
 		var guestUser = Balanced.User.create({
 			user_marketplaces: Ember.A(),
-			marketplaces_uri: '/users/guest/marketplaces'
+			marketplaces_uri: '/users/guest/marketplaces',
+			api_keys_uri: '/users/guest/api_keys'
 		});
 		auth.setAuthProperties(true, guestUser, '/users/guest', apiKey, true);
 	};
@@ -146,7 +147,8 @@ Balanced.Auth = (function() {
 	};
 
 	auth.createNewGuestUser = function() {
-		Balanced.Auth.unsetAPIKey();
+		this.unsetAPIKey();
+
 		return Balanced.APIKey.create().save().then(function(apiKey) {
 			var secret = apiKey.get('secret');
 			auth.loginGuestUser(secret);
@@ -167,7 +169,7 @@ Balanced.Auth = (function() {
 		// Ember.RSVP.all(exts).then(_.bind(auth.loadAdminExtension, auth));
 	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT');
 
-	auth.loadAdminExtension = function() {
+	auth.loadAdminExtension = _.debounce(function() {
 		if (!auth.get('user') || !auth.get('signInTransitionCalled')) {
 			return;
 		}
@@ -178,14 +180,16 @@ Balanced.Auth = (function() {
 		} else if (!auth.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
 			Balanced.Shapeshifter.unload(admin);
 		}
-	}.observes('user', 'user.admin');
+	}, 500).observes('user', 'user.admin');
 
 	auth.on('signInTransition', function() {
 		auth.set('signInTransitionCalled', true);
 
 		// Delay it for 500ms to give time for any
 		// transition to finish loading
-		_.delay(_.bind(auth.loadAdminExtension, auth), 500);
+		Ember.run.next(function() {
+			_.delay(_.bind(auth.loadAdminExtension, auth), 500);
+		});
 	});
 
 	auth.request = function(opts, eventName, successFn) {
@@ -269,6 +273,12 @@ Balanced.Auth = (function() {
 			isGuest: isGuest
 		});
 
+		Balanced.__container__.unregister('user:main');
+		Balanced.register('user:main', user, {
+			instantiate: false,
+			singleton: true
+		});
+
 		auth.getExtensions();
 	};
 
@@ -284,36 +294,27 @@ Balanced.Auth = (function() {
 	auth.forgetLogin = function() {
 		// Removing from the root domain since we were setting it on the root
 		// domain for a while. This line can be removed after Aug 23, 2013
-		$.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
-			path: '/',
-			domain: 'balancedpayments.com'
+		_.each([Balanced.COOKIE.EMBER_AUTH_TOKEN, Balanced.COOKIE.API_KEY_SECRET, Balanced.COOKIE.SESSION], function(CONST_VAR) {
+			$.removeCookie(CONST_VAR, {
+				path: '/'
+			});
+
+			// Just to be sure
+			$.removeCookie(CONST_VAR, {
+				path: '/',
+				domain: 'balancedpayments.com'
+			});
 		});
 
-		$.removeCookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, {
-			path: '/'
-		});
-
-		$.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
-			path: '/'
-		});
-		$.removeCookie(Balanced.COOKIE.API_KEY_SECRET, {
-			path: '/',
-			domain: 'balancedpayments.com'
-		});
-
-		$.removeCookie(Balanced.COOKIE.SESSION, {
-			path: '/'
-		});
-
-		auth.setProperties({
+		this.setProperties({
 			lastLoginUri: null,
 			OTPSecret: null,
 			signInTransitionCalled: false
 		});
 
-		auth.unsetAPIKey();
+		this.unsetAPIKey();
 
-		auth.setAuthProperties(false, null, null, null, false);
+		this.setAuthProperties(false, null, null, null, false);
 
 		Balanced.Utils.setCurrentMarketplace(null);
 	};
@@ -358,6 +359,38 @@ Balanced.Auth = (function() {
 			path: '/'
 		});
 	};
+
+	Balanced.register('user:main', null, {
+		instantiate: false,
+		singleton: true
+	});
+
+	Balanced.register('auth:main', auth, {
+		instantiate: false,
+		singleton: true
+	});
+
+	if (!Balanced.constructor.initializers.injectUser) {
+		Balanced.initializer({
+			name: 'injectUser',
+
+			initialize: function(container, App) {
+				container.typeInjection('controller', 'user', 'user:main');
+				container.typeInjection('route', 'user', 'user:main');
+			}
+		});
+	}
+
+	if (!Balanced.constructor.initializers.injectAuth) {
+		Balanced.initializer({
+			name: 'injectAuth',
+
+			initialize: function(container, App) {
+				container.typeInjection('controller', 'auth', 'auth:main');
+				container.typeInjection('route', 'auth', 'auth:main');
+			}
+		});
+	}
 
 	return auth;
 }());

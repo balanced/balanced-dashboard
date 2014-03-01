@@ -3,6 +3,7 @@ module('Marketplace Settings', {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
+
 		Ember.run(function() {
 			Balanced.Callback.create({
 				uri: '/callbacks',
@@ -12,14 +13,7 @@ module('Marketplace Settings', {
 		});
 	},
 	teardown: function() {
-		$("#add-bank-account").modal('hide');
-		$("#delete-bank-account").modal('hide');
-		$("#add-card").modal('hide');
-		$("#delete-card").modal('hide');
-		$("#add-callback").modal('hide');
-		$("#delete-callback").modal('hide');
-		$('#edit-marketplace-info').modal('hide');
-		$('#edit-owner-info').modal('hide');
+		$(".modal").modal('hide');
 	}
 });
 
@@ -31,14 +25,101 @@ test('can visit page', function(assert) {
 		});
 });
 
+test('can manage api keys', function(assert) {
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.equal($('.api-keys-info tr').length, 2, 'API Key can be created');
+		})
+		.click('.confirm-delete-key:first')
+		.then(function() {
+			assert.equal($('.modal.delete-key:visible').length, 1, 'Delete Key confirmation modal should be visible');
+		});
+});
+
+test('can add api key', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, 'create');
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.APIKey));
+		})
+		.click('.create-api-key-btn')
+		.fillIn('.key-name-input', 'Test1234')
+		.click('.create-key-button')
+		.then(function() {
+			assert.ok(stub.calledTwice);
+			assert.ok(stub.getCall(1).calledWith(
+				sinon.match.any,
+				sinon.match.any,
+				sinon.match.has('meta', {
+					name: 'Test1234'
+				})
+			));
+		});
+});
+
+test('adding api key updates auth', function(assert) {
+	var testSecret = 'amazing-secret';
+	var saveStub = sinon.stub(Balanced.APIKey.prototype, 'save');
+	var stub = sinon.stub(Balanced.Adapter, 'create');
+	saveStub.returns({
+		then: function(callback) {
+			callback(Ember.Object.create({
+				secret: testSecret
+			}));
+		}
+	});
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(
+				Balanced.UserMarketplace,
+				sinon.match.any,
+				sinon.match.has('secret', testSecret)
+			));
+		});
+});
+
+test('cannot delete current api key without a replacement', function(assert) {
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			assert.equal($('.confirm-delete-key').length, 0);
+		})
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.equal($('.confirm-delete-key').length, 2);
+		});
+});
+
+test('can delete api key', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, 'delete');
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.click('.confirm-delete-key:first')
+		.click('.modal.delete-key .delete-key-btn:visible')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.APIKey));
+		});
+});
+
 test('can update marketplace info', function(assert) {
 	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('production', true);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click('.marketplace-info a.edit')
 				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -53,23 +134,25 @@ test('can update marketplace info', function(assert) {
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	visit(Testing.SETTINGS_ROUTE).then(function() {
-		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-		model.set('production', true);
-		stop();
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+			model.set('production', true);
+			Testing.stop();
 
-		Ember.run.next(function() {
-			start();
-			click('.marketplace-info a.edit')
-				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					assert.ok(stub.calledOnce);
-				});
+			Ember.run.next(function() {
+				Testing.start();
+
+				click('.marketplace-info a.edit')
+					.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
+					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+					});
+			});
 		});
-	});
 });
 
 test('can update owner info', function(assert) {
@@ -79,10 +162,11 @@ test('can update owner info', function(assert) {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 		model.set('owner_customer', Balanced.Customer.create());
 		model.set('production', true);
-		stop();
+		Testing.stop();
 
 		Ember.run.next(function() {
-			start();
+			Testing.start();
+
 			click('.owner-info a.edit')
 				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 				.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
@@ -138,23 +222,31 @@ test('can create checking accounts', function(assert) {
 		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
 		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
 		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
-		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			// test balanced.js
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
-				type: "checking",
-				name: "TEST",
-				account_number: "123",
-				routing_number: "123123123"
-			}));
-			balanced.bankAccount.create.restore();
-			/*
-			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
-				bank_account_uri: '/v1/bank_accounts/deadbeef'
-			}));
-			*/
+			Testing.stop();
+
+			Ember.run.next(function() {
+				Testing.start();
+
+				click('#add-bank-account .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						// test balanced.js
+						assert.ok(tokenizingStub.calledOnce);
+						assert.ok(tokenizingStub.calledWith({
+							type: "checking",
+							name: "TEST",
+							account_number: "123",
+							routing_number: "123123123"
+						}));
+						balanced.bankAccount.create.restore();
+						/*
+						assert.ok(createSpy.calledOnce);
+						assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
+							bank_account_uri: '/v1/bank_accounts/deadbeef'
+						}));
+						*/
+					});
+			});
 		});
 });
 
@@ -270,10 +362,11 @@ test('can delete bank accounts', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('owner_customer', Ember.Object.create());
 			model.set('owner_customer.bank_accounts', bankAccounts);
-			stop();
+			Testing.stop();
 
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				initialLength = $('.bank-account-info .sidebar-items li').length;
 
 				click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
@@ -287,9 +380,10 @@ test('can delete bank accounts', function(assert) {
 							bankAccount.set('isSaving', true);
 						});
 
-						stop();
+						Testing.stop();
 						Ember.run.next(function() {
-							start();
+							Testing.start();
+
 							click('#delete-bank-account .modal-footer button[name="modal-submit"]');
 						});
 					})
@@ -330,9 +424,10 @@ test('can create cards', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('isSaving', true);
 
-			stop();
+			Testing.stop();
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				click('#add-card .modal-footer button[name="modal-submit"]');
 			});
 		})
@@ -368,10 +463,11 @@ test('can delete cards', function(assert) {
 			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			model.set('owner_customer', Ember.Object.create());
 			model.set('owner_customer.cards', cards);
-			stop();
+			Testing.stop();
 
 			Ember.run.next(function() {
-				start();
+				Testing.start();
+
 				assert.equal($('.card-info .sidebar-items li').length, 1);
 
 				click(".card-info .sidebar-items li:eq(0) .icon-delete")
@@ -382,10 +478,11 @@ test('can delete cards', function(assert) {
 						 * lets force the model into a saving state.
 						 */
 						model.set('isSaving', true);
-						stop();
+						Testing.stop();
 
 						Ember.run.next(function() {
-							start();
+							Testing.start();
+
 							click('#delete-card .modal-footer button[name="modal-submit"]');
 						});
 					})

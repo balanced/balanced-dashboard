@@ -50,6 +50,27 @@ test('belongsTo associations work for embedded objects', function(assert) {
 	Balanced.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_belongs_to_field: {
+			"tests": [{
+				_type: 'test',
+				basic_field: 234
+			}]
+		}
+	}]);
+
+	var t = TestModel2.find('/v1/testmodel2s/2');
+
+	assert.equal(t.get('my_belongs_to_field.basic_field'), 234);
+	assert.equal(t.get('my_belongs_to_field.derived_field'), 235);
+});
+
+test('belongsTo associations work for embedded objects of wrong type', function(assert) {
+	var TestModel2 = rev0Model.extend({
+		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
+	});
+
+	Balanced.Adapter.addFixtures([{
+		uri: '/v1/testmodel2s/2',
+		my_belongs_to_field: {
 			_type: 'test',
 			basic_field: 234
 		}

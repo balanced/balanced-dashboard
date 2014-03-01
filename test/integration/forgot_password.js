@@ -25,6 +25,7 @@ test('forgot password form submits', function(assert) {
 	visit('/forgot_password')
 		.fillIn("form#forgot-form input[name=email_address]", 'foo@bar.com')
 		.click("form#forgot-form button")
+		.onUrl('/login', assert)
 		.then(function() {
 			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
 

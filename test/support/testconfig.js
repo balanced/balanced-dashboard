@@ -19,7 +19,6 @@ QUnit.testStart(function(test) {
 
 		Balanced.THROTTLE = 0;
 		Balanced.setupForTesting();
-
 	});
 
 	Ember.run(function() {

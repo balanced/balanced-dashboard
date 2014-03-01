@@ -1,59 +1,61 @@
 <thead>
-    <tr>
-        {{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}Created{{/view}}
-        <th class="span3 label6a name">Customer Name</th>
-        <th class="span3 label6a name">Business Name</th>
-        <th class="span6 label6a email">Email</th>
-    </tr>
+	<tr>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}Created{{/view}}
+		<th class="span3 label6a name">Customer Name</th>
+		<th class="span3 label6a name">Business Name</th>
+		<th class="span6 label6a email">Email</th>
+	</tr>
 </thead>
+
 {{#if view.customers.hasNextPage}}
-<tfoot>
-    <tr>
-        <td colspan="6" class="load-more-results">
-            {{#if view.customers.loadingNextPage }}
-                <div class="loader-container">
-                    <span class="loader loading"></span>
-                </div>
-            {{else}}
-                <a {{ action loadMore view.customers }}>Load more</a>
-            {{/if}}
-        </td>
-    </tr>
-</tfoot>
+	<tfoot>
+		<tr>
+			<td colspan="6" class="load-more-results">
+				{{#if view.customers.loadingNextPage}}
+					<div class="loader-container">
+						<span class="loader loading"></span>
+					</div>
+				{{else}}
+					<a {{action "loadMore" view.customers}}>Load more</a>
+				{{/if}}
+			</td>
+		</tr>
+	</tfoot>
 {{/if}}
+
 <tbody>
-    {{#each customer in view.customers}}
-        <tr>
-            <td class="span3 date">
-                {{#link-to "customers" customer}}<span>
-                    <time {{bindAttr datetime="customer.created_at"}} {{bindAttr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at }}</time>
-                </span>{{/link-to}}
-            </td>
-            <td class="span3 name" {{bindAttr title="customer.display_me"}}>
-                {{#link-to "customers" customer}}<span>
-                    {{ customer.display_me }}
-                </span>{{/link-to}}
-            </td>
-            <td class="span3 business_name" {{bindAttr title="customer.business_name"}}>
-                {{#link-to "customers" customer}}<span>
-                    {{ customer.business_name }}
-                </span>{{/link-to}}
-            </td>
-            <td class="span6 email" {{bindAttr title="customer.email"}}>
-                {{#link-to "customers" customer}}<span>
-                    {{ customer.email }}
-                </span>{{/link-to}}
-            </td>
-        </tr>
-    {{else}}
-        <tr>
-            <td colspan="4" class="no-results">
-                {{# if view.customers.isLoaded }}
-                    No results
-                {{else}}
-                    Loading...
-                {{/if}}
-            </td>
-        </tr>
-    {{/each}}
+	{{#each customer in view.customers}}
+		<tr>
+			<td class="span3 date">
+				{{#link-to "customers" customer}}<span>
+					<time {{bind-attr datetime="customer.created_at"}} {{bind-attr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at}}</time>
+				</span>{{/link-to}}
+			</td>
+			<td class="span3 name" {{bind-attr title="customer.display_me"}}>
+				{{#link-to "customers" customer}}<span>
+					{{customer.display_me}}
+				</span>{{/link-to}}
+			</td>
+			<td class="span3 business_name" {{bind-attr title="customer.business_name"}}>
+				{{#link-to "customers" customer}}<span>
+					{{customer.business_name}}
+				</span>{{/link-to}}
+			</td>
+			<td class="span6 email" {{bind-attr title="customer.email"}}>
+				{{#link-to "customers" customer}}<span>
+					{{customer.email}}
+				</span>{{/link-to}}
+			</td>
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="4" class="no-results">
+				{{#if view.customers.isLoaded}}
+					No results
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
 </tbody>

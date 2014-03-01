@@ -2,10 +2,12 @@ Balanced.StartRoute = Balanced.Route.extend({
 	pageTitle: 'Getting started',
 
 	model: function() {
-		if (Balanced.Auth.get('signedIn')) {
+		if (this.get('auth.signedIn')) {
 			return Balanced.currentMarketplace;
 		} else {
-			return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+			var auth = this.get('auth');
+
+			return auth.createNewGuestUser().then(function(apiKey) {
 				var apiKeySecret = apiKey.get('secret');
 				var settings = {
 					headers: {
@@ -15,7 +17,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 				return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
 					marketplace.populateWithTestTransactions();
 
-					Balanced.Auth.setupGuestUserMarketplace(marketplace);
+					auth.setupGuestUserMarketplace(marketplace);
 
 					return marketplace;
 				});
@@ -23,7 +25,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 		}
 	},
 	redirect: function() {
-		if (Balanced.Auth.get('user') && !Balanced.Auth.get('isGuest')) {
+		if (this.get('user') && !this.get('auth.isGuest')) {
 			this.transitionTo('index');
 		}
 	},
@@ -39,7 +41,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 		},
 		goToLogin: function() {
 			// Since we already logged them in as guest, log them out so they can sign in as themselves
-			Balanced.Auth.forgetLogin();
+			this.get('auth').forgetLogin();
 			this.transitionTo('login');
 		}
 	}

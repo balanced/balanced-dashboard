@@ -59,6 +59,8 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 	_populateObject: function(modelObj, objType, rootJson) {
 		var linksValues = {};
 		linksValues[objType + '.id'] = modelObj.id;
+		linksValues[objType + '.self'] = modelObj.id;
+
 		if (modelObj.links) {
 			for (var key in modelObj.links) {
 				linksValues[objType + '.' + key] = modelObj.links[key];

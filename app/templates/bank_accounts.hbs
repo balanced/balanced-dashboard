@@ -4,7 +4,7 @@
     <div class="funding-instrument-header main-header">
         <div class="row">
             <div class="span2 label">
-                <div {{bindAttr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
+                <div {{bind-attr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
             </div>
             <div class="span8 title">
                 <span class="nav3d">
@@ -15,16 +15,16 @@
             <div class="span12 buttons">
                 <div class="buttons-container">
                     {{#if can_debit}}
-                        <a class="btn debit-button" {{action openDebitFundingInstrumentModal}}>Debit</a>
+                        <a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
                     {{else}}
                         {{#if can_verify}}
-                            <a class="btn verify-button" {{action openVerifyBankAccountModal}}>Verify to Debit</a>
+                            <a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to Debit</a>
                         {{/if}}
                         {{#if can_confirm_verification}}
-                            <a class="btn confirm-verification-button" {{action openConfirmVerificationModal}}>Confirm Verification</a>
+                            <a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm Verification</a>
                         {{/if}}
                     {{/if}}
-                    <a class="btn credit-button" {{action openCreditBankAccountModal}}>Credit</a>
+                    <a class="btn credit-button" {{action "openCreditBankAccountModal"}}>Credit</a>
                 </div>
             </div>
         </div>
@@ -41,14 +41,14 @@
                         <div class="control-group">
                             <label class="control-label">ID</label>
                             <div class="controls">
-                                <span class="inline-label">{{ id }}</span>
+                                <span class="inline-label">{{id}}</span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">Created</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{humanReadableDateLong created_at }}
+                                    {{humanReadableDateLong created_at}}
                                 </span>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                             <label class="control-label">Name</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ name }}
+                                    {{name}}
                                 </span>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <label class="control-label">Account #</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ account_number }}
+                                    {{account_number}}
                                 </span>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <label class="control-label">Routing #</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ routing_number }}
+                                    {{routing_number}}
                                 </span>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                             <label class="control-label">Bank</label>
                             <div class="controls">
                                 <span class="inline-label">
-                                    {{ bank_name }}
+                                    {{bank_name}}
                                 </span>
                             </div>
                         </div>
@@ -114,23 +114,23 @@
                             {{#each verification in verifications}}
                                 <tr>
                                     <td class="status span10">
-                                        {{# if verification.created_at }}
-                                            <time {{bindAttr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at }}</time>
+                                        {{#if verification.created_at}}
+                                            <time {{bind-attr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at}}</time>
                                         {{else}}
                                             ---
                                         {{/if}}
                                     </td>
                                     <td class="attempts span8">
-                                        {{ verification.attempts }} of {{ verification.allowed_attempts }} attempts
+                                        {{verification.attempts}} of {{verification.allowed_attempts}} attempts
                                     </td>
                                     <td class="status span8 label4a">
-                                        {{titleCase verification.display_state }}
+                                        {{titleCase verification.display_state}}
                                     </td>
                                 </tr>
                             {{else}}
                                 <tr>
                                     <td colspan="2" class="span26 no-results">
-                                        {{# if verifications.isLoaded }}
+                                        {{#if verifications.isLoaded}}
                                             Unverified
                                         {{else}}
                                             Loading...
@@ -155,7 +155,7 @@
             {{view Balanced.TransactionsFiltersHeaderView}}
 
             <div class="items-wrapper">
-                {{view Balanced.TransactionsResultsView transactionsBinding=results}}
+                {{view Balanced.TransactionsResultsView transactionsBinding="results"}}
             </div>
         </div>
     </section>
@@ -165,7 +165,7 @@
     {{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding=model}}
-{{view Balanced.CreditBankAccountModalView funding_instrumentBinding=model}}
-{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding=model}}
-{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding=model}}
+{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
+{{view Balanced.CreditBankAccountModalView funding_instrumentBinding="model"}}
+{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding="model"}}
+{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding="model"}}

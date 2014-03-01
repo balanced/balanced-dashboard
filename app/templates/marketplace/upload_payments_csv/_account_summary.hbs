@@ -1,0 +1,41 @@
+<div class="form-section form-section-content">
+  <table class="table table-fixed table-border">
+    <thead>
+      <tr>
+        <th class="label6a">Summary</th>
+        <th class="label6a table-column table-column-total">Total</th>
+        <th class="table-column table-column-icon"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="">Current Escrow Balance</td>
+        <td class="number3a table-column table-column-total">{{formatCurrency view.escrowTotal}}</td>
+
+        <td class="table-column table-column-icon">
+          {{#unless view.isEscrowValid}}
+            <i class="icon icon-alert"></i>
+          {{/unless}}
+        </td>
+      </tr>
+      <tr>
+        <td class="">Total Payouts: {{view.activeRows.length}}</td>
+        <td class="number3a table-column table-column-total">{{formatCurrency view.payoutTotal}}</td>
+        <td class=""></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{{#unless view.isEscrowValid}}
+  <div class="form-actions form-actions-error form-actions-2lines">
+    <div class="icon icon-alert"></div>
+    <div class="form-buttons">
+      <button class="btn" {{action "reset" on="click" target="view"}}>Back</button>
+    </div>
+    <p>
+      You do not have sufficient funds in escrow to submit this payout.<br/>
+      Add funds to proceed. Funds will appear in escrow in 3-5 business days.
+    </p>
+  </div>
+{{/unless}}
