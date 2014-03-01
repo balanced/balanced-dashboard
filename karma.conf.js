@@ -23,7 +23,12 @@ module.exports = function(config) {
 		'build/js/dashboard-dev.js',
 		'build/test/js/test-fixtures.js',
 		'test/support/testconfig.js',
-		'test/lib/*.js'
+		'test/lib/*.js', {
+			pattern: 'build/**/*',
+			watched: true,
+			included: false,
+			served: true
+		}
 	];
 
 	var PARAMETER = '--file=';
@@ -98,6 +103,11 @@ module.exports = function(config) {
 
 		// Continuous Integration mode
 		// if true, it capture browsers, run tests and exit
-		singleRun: true
+		singleRun: true,
+
+		proxies: {
+			'/build': 'http://localhost:9877/build',
+			'/images': 'http://localhost:9877/build/images'
+		}
 	});
 };

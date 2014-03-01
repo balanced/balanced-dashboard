@@ -1,0 +1,138 @@
+#upload-payments {
+  @backgroundDark: @gray7;
+  @backgroundLight: @gray2;
+  @mainHeaderHeight: 70px;
+
+  .main-header {
+    background-color: @backgroundLight;
+    height: @mainHeaderHeight;
+    line-height: 80px;
+    margin-bottom: 0;
+
+    .label {
+      background-color: @backgroundDark;
+      float: left;
+      height: @mainHeaderHeight;
+      text-align: center;
+      width: @mainHeaderHeight;
+    }
+
+    .icon {
+      background-image: none;
+      color: @white;
+      font-size: 36px;
+      text-indent: 0;
+    }
+
+    .title {
+      color: @black;
+      display: inline-block;
+      padding: 0 20px;
+    }
+  }
+
+  .payment-csv-format-info {
+    margin-top: 30px;
+  }
+
+  .pay-multiple-sellers-summary {
+    margin: 0 0 40px;
+    border: 2px solid @gray2;
+
+    h3 {
+      padding: 3px 0;
+    }
+  }
+
+  .form-section {
+    border-width: 0 2px;
+  }
+
+  .remove-icon {
+    color: @gray2;
+    cursor: pointer;
+    font-size: 28px;
+    vertical-align: bottom;
+  }
+
+  .icon-alert {
+    color: @imperialRed100;
+  }
+
+  .form-buttons {
+    float: right;
+    margin-right: 10px;
+  }
+
+  .form-actions {
+    @blockHeight: 50px;
+    background-color: @gray2;
+    height: @blockHeight;
+    line-height: @blockHeight;
+    margin: 0;
+    padding: 0;
+
+    &.form-actions-error {
+      background-color: @imperialRed20;
+      color: @imperialRed100;
+      padding: 0 10px;
+      font-family: @baseFontFamilyBold;
+    }
+
+    button[disabled] {
+      opacity: 0.5;
+      &:hover {
+        background-color: @white;
+        color: @black;
+      }
+    }
+
+    .icon {
+      float: left;
+      font-size: 18px;
+      padding-top: 1px;
+      text-align: center;
+      width: 35px;
+    }
+  }
+
+  .form-actions-2lines p {
+    line-height: 20px;
+    padding-top: 6px;
+  }
+
+  .table-column-icons {
+    text-align: center;
+    width: 36px;
+  }
+
+  .table-column-amount {
+    text-align: right;
+  }
+
+  td .label.label-error {
+    color: @imperialRed100;
+  }
+
+  td .label.label-blank {
+    color: @gray2;
+    letter-spacing: 2px;
+  }
+
+  td .label.label-required {
+    font-style: italic;
+  }
+
+  td .popover {
+    .keys {
+      color: @curryYellow80;
+    }
+    p {
+      margin-bottom: 3px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

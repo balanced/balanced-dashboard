@@ -15,7 +15,8 @@
 		"jquery-hotkeys": "jeresig/jquery.hotkeys",
 		"jquery.cookie": "1.3.1",
 		"strftime": "https://raw.github.com/mjallday/strftime/master/strftime.js",
-		"strapped": "0.0.2"
+		"jquery-csv": "",
+		"strapped": "0.0.4"
 	},
 	"resolutions": {
 		"jquery": "2.0.3",
