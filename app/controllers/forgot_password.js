@@ -23,8 +23,14 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 				});
 
 				model.save().then(function() {
-					self.set('email_address', '');
-					self.set('submitted', true);
+					self.setProperties({
+						email_address: '',
+						submitted: true
+					});
+
+					self.transitionToRoute('login').then(function(loginRoute) {
+						loginRoute.controller.set('from', 'ForgotPassword');
+					});
 				});
 			} else {
 				self.set('hasError', true);

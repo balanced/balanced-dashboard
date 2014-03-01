@@ -6,6 +6,11 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	otpError: false,
 	otpRequired: false,
 	otpCode: null,
+	from: null,
+	isSubmitting: false,
+
+	fromResetPassword: Ember.computed.equal('from', 'ResetPassword'),
+	fromForgotPassword: Ember.computed.equal('from', 'ForgotPassword'),
 
 	init: function() {
 		if (this.get('auth.signedIn')) {
@@ -27,7 +32,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			email: null,
 			password: null,
 			otpRequired: false,
-			otpCode: null
+			otpCode: null,
+			from: null,
+			isSubmitting: false
 		});
 	},
 
@@ -35,7 +42,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		this.setProperties({
 			loginError: false,
 			otpError: false,
-			loginResponse: ''
+			loginResponse: '',
+			from: null,
+			isSubmitting: false
 		});
 	},
 
@@ -45,7 +54,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 	afterLogin: function() {
 		var auth = this.get('auth');
-		this.set('loginError', false);
+		this.setProperties({
+			loginError: false,
+			isSubmitting: false
+		});
 
 		var attemptedTransition = auth.get('attemptedTransition');
 
@@ -66,6 +78,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			var self = this;
 			var auth = this.get('auth');
 
+			this.set('isSubmitting', true);
+
 			auth.confirmOTP(this.get('otpCode')).then(function() {
 				self.afterLogin();
 			}, function() {
@@ -77,6 +91,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				});
 
 				self.focus();
+			}).always(function() {
+				self.set('isSubmitting', false);
 			});
 		},
 
@@ -89,6 +105,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			var auth = this.get('auth');
 
 			this.resetError();
+			this.set('isSubmitting', true);
 
 			auth.forgetLogin();
 			auth.signIn(this.get('email'), this.get('password')).then(function() {
@@ -152,6 +169,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						loginResponse: message
 					});
 				}
+			}).always(function() {
+				self.set('isSubmitting', false);
 			});
 		}
 	}
