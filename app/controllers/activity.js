@@ -8,6 +8,8 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	baseClassSelector: '#activity',
 	noDownloadsUri: true,
 
+	transactionType: 'all',
+
 	refreshMarketplace: _.debounce(function() {
 		if (!Balanced.currentMarketplace) {
 			return;
@@ -51,7 +53,20 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		}
 
 		return this._super();
-	}.property('type', 'controllers.marketplace.uri')
+	}.property('type', 'controllers.marketplace.uri'),
+
+	extra_filtering_params: function() {
+		var transactionType = this.get('transactionType');
+		var type = this.get('type');
+
+		if (transactionType === 'all' || (type !== 'search' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type))) {
+			return {};
+		}
+
+		return {
+			status: transactionType
+		};
+	}.property('type', 'transactionType'),
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
@@ -79,7 +94,13 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
 	allowSortByNone: false,
-	noDownloadsUri: true
+	noDownloadsUri: true,
+
+	actions: {
+		changeTransactionStatusFilter: function(status) {
+			this.set('controllers.activity.transactionType', status);
+		}
+	}
 });
 
 Balanced.ActivityDisputesController = Balanced.NestedActivityResultsControllers.extend({});

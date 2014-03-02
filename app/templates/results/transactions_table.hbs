@@ -1,7 +1,32 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :date view.hideDateSort::sortable" field="created_at"}}Date{{/view}}
-		<th class="span4 label6a type">Transaction</th>
+		<th class="span3 label6a type">
+			Type
+			<div class="selector dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+				<ul class="dropdown-menu type-filter filter-choices">
+					<li><a href="#" {{action "changeTypeFilter" "search"}} {{bind-attr label="view.totalTransactionsHeader"}}>All</a></li>
+					<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
+				</ul>
+			</div>
+		</th>
+		<th class="span3 label6a status">
+			Status
+
+			<div class="selector dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+				<ul class="dropdown-menu status-filter filter-choices">
+					<li><a href="#" {{action "changeTransactionStatusFilter" "all"}} {{bind-attr label="view.totalTransactionsHeader"}}>All</a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
+				</ul>
+			</div>
+		</th>
 		<th class="span4 label6a description">Description</th>
 		<th class="span3 label6a account">Customer</th>
 		<th class="span4 label6a funding-instrument">Card or Bank Account</th>
@@ -35,10 +60,19 @@
 					</span>
 				{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span4 :label4a :type transaction.status"}}>
+			<td {{bind-attr class=":span3 :label4a :type transaction.type"}}>
 				{{#link-to transaction.route_name transaction}}
 					<span>
-						{{transaction.type_name}}{{#if transaction.status}}: {{transaction.status}}{{/if}}
+						{{transaction.type_name}}
+					</span>
+				{{/link-to}}
+			</td>
+			<td {{bind-attr class=":span3 :label4a :status transaction.status"}}>
+				{{#link-to transaction.route_name transaction}}
+					<span>
+						{{#if transaction.status}}
+							{{transaction.status}}
+						{{/if}}
 					</span>
 				{{/link-to}}
 			</td>

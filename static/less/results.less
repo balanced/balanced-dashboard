@@ -103,10 +103,6 @@ header.results-label h3 {
     float: left;
     width: 100%;
 
-    th {
-      padding-top: 30px;
-    }
-
     tfoot {
       tr {
         border-top: 1px solid @gray3;
@@ -128,6 +124,7 @@ header.results-label h3 {
       }
     }
     th {
+      padding-top: 30px;
       float: none;
       padding-left: 0;
       padding-right: 0;
@@ -139,6 +136,45 @@ header.results-label h3 {
         &.sortable {
           padding-right: 5px;
         }
+      }
+
+      .caret {
+        border-top-color: @white;
+        margin: 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: @gray5;
+        &:hover {
+          color: @black;
+        }
+        &.dropdown-toggle {
+          padding: 4px 2px 0;
+          display: inline-block;
+          height: 9px;
+        }
+      }
+
+      .dropdown-menu {
+        border: 5px solid @black;
+        border-radius: 0;
+        box-shadow: none;
+        text-align: left;
+        margin: 0;
+        top: 17px;
+
+        li {
+          margin: 0;
+          padding: 0;
+          border: 0;
+        }
+      }
+
+      .selector {
+        display: inline-block;
+        height: 13px;
+        vertical-align: middle;
       }
     }
     tbody td, th td {

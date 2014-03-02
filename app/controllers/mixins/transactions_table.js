@@ -8,7 +8,12 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 				type: type,
 				transactionType: transactionType
 			});
-		}
+		},
+		changeTransactionStatusFilter: function(status) {
+			this.setProperties({
+				transactionType: status
+			});
+		},
 	},
 
 	isDisputeType: Ember.computed.equal('type', 'dispute'),
