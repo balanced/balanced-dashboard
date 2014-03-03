@@ -29,23 +29,17 @@
 			</div>
 		</div>
 
-		<div class="pull-right">
-			{{#unless controllers.marketplace.production}}
-					{{#link-to "marketplace.import_payouts" class="btn btn-link" }}
-						<i class="icon icon-document-upload"></i>
-						Import payouts
-					{{/link-to}}
-			{{/unless}}
-
-			<a href="#" class="btn btn-link" {{action "open" target="view.downloadResultsModal"}}>
-				<i class="icon icon-csvexport"></i>
-				Export transactions
-			</a>
-		</div>
-		{{view Balanced.DownloadModalView viewName="downloadResultsModal" noUriBinding="controller.noDownloadsUri"}}
+		{{#unless controllers.marketplace.production}}
+			<div class="pull-right">
+				{{#link-to "marketplace.import_payouts" }}
+					<i class="icon-document-upload"></i>
+					Import Payouts
+				{{/link-to}}
+			</div>
+		{{/unless}}
 
 		<div class="results">
-			{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" show_download_button="false"}}
+			{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result"}}
 		</div>
 
 		{{outlet}}
