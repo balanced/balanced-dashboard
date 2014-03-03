@@ -25,6 +25,92 @@ test('can visit page', function(assert) {
 		});
 });
 
+test('can manage api keys', function(assert) {
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.equal($('.api-keys-info tr').length, 2, 'API Key can be created');
+		})
+		.click('.confirm-delete-key:first')
+		.then(function() {
+			assert.equal($('.modal.delete-key:visible').length, 1, 'Delete Key confirmation modal should be visible');
+		});
+});
+
+test('can add api key', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, 'create');
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.APIKey));
+		})
+		.click('.create-api-key-btn')
+		.fillIn('.key-name-input', 'Test1234')
+		.click('.create-key-button')
+		.then(function() {
+			assert.ok(stub.calledTwice);
+			assert.ok(stub.getCall(1).calledWith(
+				sinon.match.any,
+				sinon.match.any,
+				sinon.match.has('meta', {
+					name: 'Test1234'
+				})
+			));
+		});
+});
+
+test('adding api key updates auth', function(assert) {
+	var testSecret = 'amazing-secret';
+	var saveStub = sinon.stub(Balanced.APIKey.prototype, 'save');
+	var stub = sinon.stub(Balanced.Adapter, 'create');
+	saveStub.returns({
+		then: function(callback) {
+			callback(Ember.Object.create({
+				secret: testSecret
+			}));
+		}
+	});
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(
+				Balanced.UserMarketplace,
+				sinon.match.any,
+				sinon.match.has('secret', testSecret)
+			));
+		});
+});
+
+test('cannot delete current api key without a replacement', function(assert) {
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			assert.equal($('.confirm-delete-key').length, 0);
+		})
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.then(function() {
+			assert.equal($('.confirm-delete-key').length, 2);
+		});
+});
+
+test('can delete api key', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, 'delete');
+	visit(Testing.SETTINGS_ROUTE)
+		.click('.create-api-key-btn')
+		.click('.create-key-button')
+		.click('.confirm-delete-key:first')
+		.click('.modal.delete-key .delete-key-btn:visible')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.APIKey));
+		});
+});
+
 test('can update marketplace info', function(assert) {
 	visit(Testing.SETTINGS_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');

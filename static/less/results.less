@@ -120,7 +120,7 @@ header.results-label h3 {
           display: block;
           &:before {
             content: 'p ';
-            font-family: "balanced-icon-font";
+            font-family: "balanced-icon";
             font-size: 20px;
             vertical-align: middle;
           }
@@ -481,5 +481,40 @@ header.results-label h3 {
         background-image: none;
       }
     }
+  }
+}
+
+.results.results-framed {
+  @baseColor: @gray2;
+
+  background-color: @white;
+  border: 1px solid @baseColor;
+  margin-bottom: 40px;
+  float: none;
+  width: auto;
+
+  .header {
+    background-color: @baseColor;
+    border: 0 solid transparent;
+    color: @black;
+    float: none;
+    font-family: @baseFontFamilyBold;
+    font-size: 17px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+    width: auto;
+  }
+}
+
+.results.results-framed.results-error {
+  .count {
+    background-color: @imperialRed100;
+  }
+}
+
+.results.results-framed.results-neutral {
+  .count {
+    background-color: @gray3;
   }
 }
