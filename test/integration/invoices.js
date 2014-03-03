@@ -43,32 +43,34 @@ test('invoice detail page', function(assert) {
 			_.each(expectedValues, function(value, selector) {
 				assert.equal($(selector).text().trim(), value);
 			});
-
-			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
 		})
 		.click('.activity .results header li.debit-cards a')
-		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Debit, invoiceUri + '/card_debits'));
-		})
 		.click('.activity .results header li.holds a')
-		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Hold, invoiceUri + '/holds'));
-		})
 		.click('.activity .results header li.debit-bank-accounts a')
-		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Debit, invoiceUri + '/bank_account_debits'));
-		})
 		.click('.activity .results header li.credits a')
-		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Credit, invoiceUri + '/credits'));
-		})
+		.click('.activity .results header li.failed-credits a')
 		.click('.activity .results header li.refunds a')
-		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Refund, invoiceUri + '/refunds'));
-		})
+		.click('.activity .results header li.reversals a')
 		.click('.activity .results header li.disputes a')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Dispute, invoiceUri + '/disputes'));
+			var expectations = [
+				[Balanced.Hold, "/holds"],
+				[Balanced.Debit, '/card_debits'],
+				[Balanced.Debit, '/bank_account_debits'],
+				[Balanced.Credit, '/credits'],
+				[Balanced.Credit, '/failed_credits'],
+				[Balanced.Refund, '/refunds'],
+				[Balanced.Reversal, '/reversals'],
+				[Balanced.Dispute, '/disputes']
+			];
+
+			assert.ok(spy.getCall(1).calledWith(Balanced.Invoice, invoiceUri), "Load invoices index");
+
+			expectations.forEach(function(expectation, i) {
+				var model = expectation[0];
+				var uri = invoiceUri + expectation[1];
+				assert.ok(spy.getCall(i + 3).calledWith(model, uri));
+			});
 		});
 });
 
