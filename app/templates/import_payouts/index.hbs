@@ -1,4 +1,4 @@
-{{#view Balanced.MarketplaceUploadPaymentsCsvView id="upload-payments"}}
+{{#view Balanced.ImportPayoutsView id="upload-payments"}}
 
 {{view Balanced.ParseCreditsCsvProgressBarModalView viewName="parseProgressBarModal"}}
 {{view Balanced.SaveCreditsCsvProgressBarModalView viewName="saveProgressBarModal"}}
@@ -7,26 +7,15 @@
 
 <h1 class="page-title">Import Payouts</h1>
 {{#if controllers.marketplace.production}}
-Payouts Import is only available on test marketplaces.
+	Payouts Import is only available on test marketplaces.
 {{else}}
 <form {{action "submit" on="submit" target="view"}} class="full-page-form">
-	<div class="main-header pay-multiple-sellers-header">
-	<span class="label">
-	  <i class="icon icon-document-upload"></i>
-	</span>
-	<span class="title nav3d">
-	  {{#if creditCreators.isEmpty}}
-		Upload your file
-	  {{else}}
-		Payout Summary
-	  {{/if}}
-	</span>
-	</div>
+	{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
 	<fieldset class="pay-multiple-sellers-summary">
 	  {{#if creditCreators.isEmpty}}
-		{{partial 'marketplace/upload_payments_csv/instructions'}}
+		{{partial 'import_payouts/instructions'}}
 	  {{else}}
-		{{partial 'marketplace/upload_payments_csv/account_summary'}}
+		{{partial 'import_payouts/account_summary'}}
 	  {{/if}}
 	</fieldset>
 
@@ -36,7 +25,7 @@ Payouts Import is only available on test marketplaces.
 		  {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
 		{{/if}}
 		{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-		{{partial "marketplace/upload_payments_csv/submit_area"}}
+		{{partial "import_payouts/submit_area"}}
 	  </div>
 	{{/if}}
 

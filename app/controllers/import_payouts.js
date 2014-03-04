@@ -1,4 +1,4 @@
-Balanced.MarketplaceUploadPaymentsCsvController = Ember.Controller.extend({
+Balanced.MarketplaceImportPayoutsController = Ember.Controller.extend({
 
 	needs: ["marketplace"],
 
