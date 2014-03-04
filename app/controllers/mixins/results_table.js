@@ -101,10 +101,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	search_params: function() {
 		return _.extend({
-			type: type,
+			type: this.get('type'),
 			minDate: this.get('minDate'),
 			maxDate: this.get('maxDate'),
-			sortField: sortField,
+			sortField: this.get('sortField'),
 			sortOrder: this.get('sortOrder'),
 			limit: this.get('limit')
 		}, this.get('extra_filtering_params'));

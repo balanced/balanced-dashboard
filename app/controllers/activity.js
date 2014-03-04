@@ -26,10 +26,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		changeTypeFilter: function(type) {
 			this.set('type', type);
 
-			if (this.get('sortField') === 'initiated_at') {
-				this.set('sortField', 'created_at');
-			}
-
 			if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
 			} else if (type === 'order') {
@@ -39,10 +35,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 				this.transitionToRoute('activity.funding_instruments');
 			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
-				if (this.get('sortField') === 'created_at') {
-					this.set('sortField', 'initiated_at');
-				}
-
 				this.transitionToRoute('activity.disputes');
 			}
 
