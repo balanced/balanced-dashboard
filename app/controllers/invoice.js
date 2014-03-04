@@ -29,26 +29,26 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 		},
 
 		results: function() {
-			switch (this.get('type')) {
-				case 'debit':
-					return this.get('debits');
-				case 'credit':
-					return this.get('credits');
-				case 'hold':
-					return this.get('holds');
-				case 'refund':
-					return this.get('refunds');
-				case 'card_debit':
-					return this.get('card_debits');
-				case 'bank_account_debit':
-					return this.get('bank_account_debits');
-				case 'dispute':
-					return this.get('disputes');
-				default:
-					return null;
+			var result = null;
+			var type = this.get("type");
+			var typeMappings = {
+				debit: "debits",
+				credit: "credits",
+				failed_credit: "failed_credits",
+				reversal: "reversals",
+				hold: "holds",
+				refund: "refunds",
+				card_debit: "card_debits",
+				bank_account_debit: "bank_account_debits",
+				dispute: "disputes"
+			};
+
+			if (typeMappings[type] !== undefined) {
+				result = this.get(typeMappings[type]);
 			}
+			return result;
 		}.property(
-			'type', 'debits', 'credits', 'holds', 'refunds',
+			'type', 'debits', 'credits', 'holds', 'failed_credits', 'refunds',
 			'card_debits', 'bank_account_debits', 'disputes'
 		),
 
