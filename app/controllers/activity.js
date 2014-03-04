@@ -28,7 +28,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		changeTypeFilter: function(type) {
 			this.set('type', type);
 
-			if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
 			} else if (type === 'order') {
 				this.transitionToRoute('activity.orders');
@@ -49,7 +49,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 		if (type === 'dispute') {
 			return '/disputes';
-		} else if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+		} else if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 			return '/transactions';
 		}
 
@@ -90,6 +90,10 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
 		changeSortOrder: function(field, sortOrder) {
 			this.get('controllers.activity').send('changeSortOrder', field, sortOrder);
+		},
+
+		changeTypeFilter: function(type) {
+			this.get('controllers.activity').send('changeTypeFilter', type);
 		}
 	}
 });

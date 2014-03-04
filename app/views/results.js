@@ -12,7 +12,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	tagName: 'header',
 
 	// UI computed properties
-	transactionsTabSelected: Computed.isCategorySelected("search"),
+	transactionsTabSelected: Computed.isCategorySelected("transaction"),
 	customersTabSelected: Computed.isCategorySelected("customer"),
 	ordersTabSelected: Computed.isCategorySelected("order"),
 	fundingInstrumentsTabSelected: Computed.isCategorySelected("funding_instrument"),
