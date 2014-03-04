@@ -46,7 +46,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 				this.transitionToRoute('activity.disputes');
 			}
 
-			this.refreshMarketplace();
+			this.refresh();
 		}
 	},
 
