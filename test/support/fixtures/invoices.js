@@ -1305,6 +1305,8 @@ Balanced.Adapter.addFixtures([{
 }, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/credits"
 }, {
+	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/failed_credits"
+}, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/refunds"
 }, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/card_debits"
@@ -1312,4 +1314,6 @@ Balanced.Adapter.addFixtures([{
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/bank_account_debits"
 }, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/disputes"
+}, {
+	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/reversals"
 }]);
