@@ -22,12 +22,14 @@
 					<span class="inline-label">{{humanReadableDateLong model.occurred_at}}</span>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label">Reference #</label>
-				<div class="controls">
-					<span class="inline-label">{{#link-to model.transaction.route_name model.transaction}}{{model.entity.transaction_number}}{{/link-to}}</span>
+			{{#if model.transaction}}
+				<div class="control-group refrence-transaction">
+					<label class="control-label">Reference #</label>
+					<div class="controls">
+						<span class="inline-label">{{#link-to model.transaction.route_name model.transaction}}{{model.transaction.id}}{{/link-to}}</span>
+					</div>
 				</div>
-			</div>
+			{{/if}}
 		</div>
 	</form>
 </section>
@@ -36,6 +38,7 @@
 	<header>
 		<h3>Event data</h3>
 	</header>
+
 	{{view Balanced.PrettyPrintView contentBinding="controller.eventData"}}
 </section>
 
@@ -49,6 +52,15 @@
 			<li {{bind-attr class="eventCallback.status"}}>
 				<div class="summary">
 					<div class="state">{{eventCallback.status}}</div>
+					<div class="callback-replay action">
+						{{#if eventCallback.isSaving}}
+							<div class="loader-container">
+								<span class="loader loading"></span>
+							</div>
+						{{else}}
+							<a class="btn replay-button" {{action "replay" eventCallback}}>Replay</a>
+						{{/if}}
+					</div>
 					<div class="url">
 						<span class="callback-method">{{eventCallback.callback.method}}</span>
 						<span class="callback-url">{{eventCallback.callback.url}}</span>

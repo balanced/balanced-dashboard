@@ -41,9 +41,49 @@ Balanced.Test.asyncHelpers = {
 		wait();
 
 		_.each(hash, function(val, selector) {
-			if (_.isNumber(val)) {
+			if (_.isObject(val)) {
+				if (val.count) {
+					assert.equal($(selector).length, val.count, 'Element exists ' + selector);
+				}
+
+				if (val.text) {
+					assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
+				}
+
+				if (val.html) {
+					assert.equal($(selector).html().trim(), val, 'Html for ' + selector);
+				}
+
+				if (val.classNames) {
+					if (!_.isArray(val.classNames)) {
+						val.classNames = [val.classNames];
+					}
+
+					_.each(val.classNames, function(key) {
+						assert.ok($(selector).hasClass(key), selector + ' has class ' + key);
+					});
+				}
+
+				if (val.attr) {
+					_.each(val.attr, function(attrVal, attrName) {
+						assert.equal($(selector).prop(attrName), attrVal, selector + ' has ' + attrName + '=' + attrVal);
+					});
+				}
+
+				if (val.id) {
+					assert.equal($(selector).attr('id'), val.id, selector + ' has id=' + val.id);
+				}
+
+				if (val.hasText) {
+					assert.ok($(selector).text().trim().length > 0, selector + ' has text');
+				}
+
+				if (val.hasChildren) {
+					assert.ok($(selector).children().length > 0, selector + ' has children elements');
+				}
+			} else if (_.isNumber(val)) {
 				assert.equal($(selector).length, val, 'Element exists ' + selector);
-			} else {
+			} else if (_.isString(val)) {
 				assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
 			}
 		});
@@ -70,6 +110,13 @@ Balanced.Test.asyncHelpers = {
 
 			wait();
 		}
+
+		return wait();
+	},
+	onUrl: function(app, route, assert) {
+		wait();
+
+		assert.equal(Balanced.__container__.lookup('router:main').get('url'), route, 'On correct url');
 
 		return wait();
 	}
