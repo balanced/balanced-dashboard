@@ -1,13 +1,9 @@
 var Computed = {
 	isTypeSelected: function(type) {
-		return function() {
-			return this.get('controller.type') === type;
-		}.property('controller.type');
+		return Ember.computed.equal('controller.type', type);
 	},
 	isCategorySelected: function(category) {
-		return function() {
-			return this.get('controller.category') === category;
-		}.property('controller.category');
+		return Ember.computed.equal('controller.category', category);
 	}
 };
 

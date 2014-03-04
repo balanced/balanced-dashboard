@@ -147,6 +147,19 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		}
 	}.property('type'),
 
+	isLoaded: Ember.computed.not('isLoading'),
+
+	isLoading: function() {
+		return this.get('fetch_results') && this.get('results') && !this.get('results.isLoaded');
+	}.property('fetch_results', 'results.isLoaded', 'results'),
+
+	updateResultsIfErrored: function() {
+		var results = this.get('results');
+		if (results && results.get('isError') && this.get('fetch_results')) {
+			this.set('fetch_results', false);
+		}
+	}.observes('results', 'results.isError'),
+
 	// used for when filtering to one specific type. for example: if the user
 	// is viewing holds, type==hold category==transaction
 	category: function() {
