@@ -48,8 +48,12 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	},
 
 	results_base_uri: function() {
-		if (this.get('type') === 'dispute') {
+		var type = this.get('type');
+
+		if (type === 'dispute') {
 			return '/disputes';
+		} else if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return '/transactions';
 		}
 
 		return this._super();

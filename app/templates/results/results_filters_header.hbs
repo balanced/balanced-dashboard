@@ -5,19 +5,6 @@
 
 	<li {{bind-attr class=":transactions :filter view.transactionsTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "search"}}>{{view.transaction_type_label}} </a>
-		<div class="selector dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-			<ul class="dropdown-menu transaction-filter filter-choices">
-				<li><a href="#" {{action "changeTypeFilter" "search"}} {{bind-attr label="view.totalTransactionsHeader"}}>All</a></li>
-				<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
-
-				<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
-
-				<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
-
-				<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
-			</ul>
-		</div>
 	</li>
 
 	<li {{bind-attr class=":accounts view.customersTabSelected:selected"}} >
