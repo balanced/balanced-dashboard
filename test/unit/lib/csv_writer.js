@@ -1,6 +1,6 @@
 module("Balanced.CsvWriter");
 
-test("#addColumnName", function(assert){
+test("#addColumnName", function(assert) {
 	var subject = new Balanced.CsvWriter();
 	assert.deepEqual(subject.columnNames, []);
 	subject.addColumnName("id", "customer_id");
@@ -15,7 +15,7 @@ test("#addColumnName", function(assert){
 	}]);
 });
 
-test("#toCsvString without column names", function (assert) {
+test("#toCsvString without column names", function(assert) {
 	var subject = new Balanced.CsvWriter();
 	assert.deepEqual(subject.toCsvString(), "");
 

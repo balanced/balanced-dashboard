@@ -275,6 +275,41 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		} else {
 			return Ember.RSVP.resolve(null);
 		}
+	},
+
+	getSortedErrorMessages: function () {
+		var result = {};
+		var errors = this.get("validationErrors.allMessages");
+		errors.forEach(function(value) {
+			var key = value[0];
+			var message = value[1];
+
+			result[message] = result[message] || [];
+			result[message].push(key);
+		});
+		return result;
+	},
+
+	getErrorMessagesSentences: function() {
+		var results = [];
+		var errors = this.get("validationErrors.csvFields.allMessages");
+		errors.forEach(function(value) {
+			results.push(value.join(" "));
+		});
+		return results;
+	},
+
+	toLabeledCsvRowObject: function() {
+		var self = this;
+		var result = {};
+		var columnNames = "bank_account_id new_customer_name new_customer_email new_bank_account_routing_number new_bank_account_number new_bank_account_holders_name new_bank_account_type amount appears_on_statement_as description".split(" ");
+		columnNames.forEach(function(columnName) {
+			result[columnName] = self.get("csvFields." + columnName);
+		});
+
+		var errors = [];
+		result.errors = this.getErrorMessagesSentences().join("\n");
+		return result;
 	}
 });
 
