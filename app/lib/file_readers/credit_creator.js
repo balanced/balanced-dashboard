@@ -292,7 +292,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	getErrorMessagesSentences: function() {
 		var results = [];
-		var errors = this.get("validationErrors.csvFields.allMessages");
+		var errors = this.get("validationErrors.csvFields.allMessages") || [];
 		errors.forEach(function(value) {
 			results.push(value.join(" "));
 		});
