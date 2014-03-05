@@ -62,9 +62,11 @@
 			}
 			return csvRow.join(",");
 		})
-		rowCells.unshift(columnNames.map(function (col) {
-			return col.label;
-		}));
+		if (columnNames && columnNames.length > 0) {
+			rowCells.unshift(columnNames.map(function (col) {
+				return col.label;
+			}));
+		}
 		return rowCells.join("\n");
 	};
 
