@@ -16,7 +16,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		Ember.run(function() {
 			Balanced.currentMarketplace.reload();
 		});
-	}, 500),
+	}, Balanced.THROTTLE.REFRESH),
 
 	refresh: function() {
 		this.refreshMarketplace();
@@ -25,6 +25,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	actions: {
 		changeTypeFilter: function(type) {
 			this.set('type', type);
+
 			if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
 			} else if (type === 'order') {
@@ -34,14 +35,10 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
 				this.transitionToRoute('activity.funding_instruments');
 			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
-				if (this.get('sortField') === 'created_at') {
-					this.set('sortField', 'initiated_at');
-				}
-
 				this.transitionToRoute('activity.disputes');
 			}
 
-			this.refreshMarketplace();
+			this.refresh();
 		}
 	},
 
@@ -65,6 +62,7 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 	sortField: Ember.computed.alias('controllers.activity.sortField'),
 	sortOrder: Ember.computed.alias('controllers.activity.sortOrder'),
 	dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
+	isLoaded: Ember.computed.alias('controllers.activity.isLoaded'),
 
 	actions: {
 		loadMore: function(results) {
