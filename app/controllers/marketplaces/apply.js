@@ -6,9 +6,11 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		selectType: function(applicationType) {
 			var cls = 'selected';
 			this.set('applicationType', applicationType);
+
 			$('input:text', '#marketplace-apply').filter(function() {
 				return this.value === '';
 			}).first().focus();
+
 			$('a', '.application-type').removeClass(cls).parent().find('.' + (applicationType || '').toLowerCase()).addClass(cls);
 		},
 
@@ -125,12 +127,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return message;
 	}.property('hasError', 'error'),
 
-	selectedType: function() {
-		return this.get('applicationType');
-	}.property('applicationType'),
-
+	selectedType: Ember.computed.alias('applicationType'),
 	isBusiness: Ember.computed.equal('applicationType', 'BUSINESS'),
-
 	isGuest: Ember.computed.alias('auth.isGuest'),
 
 	dobYears: function() {
