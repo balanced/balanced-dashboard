@@ -1,4 +1,4 @@
-{{#if isSubmitting}}
+{{#if isSuccess}}
 {{partial "loading"}}
 {{else}}
 <section id="main" class="container">
@@ -15,10 +15,7 @@
 
 							{{#link-to "forgotPassword" class="pull-left forgot-password"}}Forgot password?{{/link-to}}
 
-							<button class="pull-right" type="submit" {{bind-attr disabled="isSubmitting"}}>Sign In</button>
-							{{#if isSubmitting}}
-								<div class="loader-container pull-right"><span class="loader loading"></span></div>
-							{{/if}}
+							<button type="submit" {{bind-attr disabled="isSubmitting"}}>Sign In</button>
 						</form>
 
 						{{#if loginError}}
