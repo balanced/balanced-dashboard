@@ -16,7 +16,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		Ember.run(function() {
 			Balanced.currentMarketplace.reload();
 		});
-	}, 1000),
+	}, Balanced.THROTTLE.REFRESH),
 
 	refresh: function() {
 		this.refreshMarketplace();
