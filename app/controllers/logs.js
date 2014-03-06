@@ -56,7 +56,15 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 		}
 
 		return params;
-	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed')
+	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed'),
+
+	/*
+	    Whether is this log index embedded under an object controller, such as
+	    DebitsController
+	*/
+	is_object_log: function() {
+		return this.parentController instanceof Balanced.ObjectController;
+	}.property()
 });
 
 Balanced.LogsLogController = Balanced.ObjectController.extend({

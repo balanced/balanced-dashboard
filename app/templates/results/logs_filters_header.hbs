@@ -1,4 +1,5 @@
 <nav>
+	{{#unless is_object_log }}
 	<div class="timing dropdown action filter-endpoints label6a pull-left">
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			<span>{{#if currentEndpointFilter}} {{currentEndpointFilter}} {{else}} All endpoints {{/if}}</span>
@@ -19,8 +20,8 @@
 			</li>
 		</ul>
 	</div>
-
-	<div class="timing dropdown action filter-datetime label6a pull-right">
+	{{/unless}}
+	<div class="timing dropdown action label6a">
 	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 	</div>
 
