@@ -1,6 +1,10 @@
 Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
+	userHasMarketplaces: function () {
+		return (user_marketplaces.length > 0) ?	true : false;
+	},
+
 	user_marketplace_for_id: function(id) {
 		return this.get('user_marketplaces').findBy('id', id);
 	},

@@ -1,16 +1,18 @@
 <ul class="dropdown-menu">
-	<li>
-		<h4 class="label7a">Production</h4>
-		<ul>
-			{{#each user_marketplace in user.user_marketplaces}}
-				{{#if user_marketplace.production}}
-					<li class="label2a">
-						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
-					</li>
-				{{/if}}
-			{{/each}}
-		</ul>
-	</li>
+	{{#if userHasMarketplaces}}
+		<li>
+			<h4 class="label7a">Production</h4>
+			<ul>
+				{{#each user_marketplace in user.user_marketplaces}}
+					{{#if user_marketplace.production}}
+						<li class="label2a">
+							{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
+						</li>
+					{{/if}}
+				{{/each}}
+			</ul>
+		</li>
+	{{/if}}
 
 	<li>
 		<h4 class="label7a">Test</h4>
@@ -26,6 +28,6 @@
 	</li>
 
 	{{#unless auth.isGuest}}
-		<li class="new label2d manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
+		<li class="label2d manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
 	{{/unless}}
 </ul>
