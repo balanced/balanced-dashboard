@@ -29,6 +29,7 @@ test('invoice detail page', function(assert) {
 		".hold-details-row td:eq(3)": "$0.00 per hold",
 		".card-debit-details-row .total": "$2.45",
 		".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29 cents",
+		".chargeback-details-row td:eq(1)": "1",
 		".bank-account-debit-details-row .total": "$0.00",
 		".succeeded-credit-details-row .total": "$0.00",
 		".failed-credit-details-row .total": "$0.00",
