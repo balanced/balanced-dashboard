@@ -27,9 +27,11 @@
 		<a href="#" {{action "changeTransactionTypeFilter" "credit" "all"}}>Credits: succeeded</a>
 	</li>
 
-	<li {{bind-attr class=":filter :failed-credits view.failedCreditsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "failed_credit" "all"}}>Credits: failed</a>
-	</li>
+	{{#if view.showExtraTransactionTypes}}
+		<li {{bind-attr class=":filter :failed-credits view.failedCreditsTabSelected:selected"}} >
+			<a href="#" {{action "changeTransactionTypeFilter" "failed_credit" "all"}}>Credits: failed</a>
+		</li>
+	{{/if}}
 
 	<li {{bind-attr class=":filter :refunds view.refundsTabSelected:selected"}} >
 		<a href="#" {{action "changeTransactionTypeFilter" "refund" "all"}}>Refunds</a>

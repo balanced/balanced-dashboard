@@ -111,40 +111,26 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	}.property('type', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'limit', 'extra_filtering_params'),
 
 	results_type: function() {
-		switch (this.get('type')) {
-			case 'transaction':
-				return 'Balanced.Transaction';
-			case 'search':
-				return 'Balanced.Transaction';
-			case 'debit':
-				return 'Balanced.Debit';
-			case 'credit':
-				return 'Balanced.Credit';
-			case 'card_hold':
-				return 'Balanced.Hold';
-			case 'hold':
-				return 'Balanced.Hold';
-			case 'refund':
-				return 'Balanced.Refund';
-			case 'account':
-				return 'Balanced.Account';
-			case 'customer':
-				return 'Balanced.Customer';
-			case 'funding_instrument':
-				return 'Balanced.FundingInstrument';
-			case 'bank_account':
-				return 'Balanced.BankAccount';
-			case 'card':
-				return 'Balanced.Card';
-			case 'log':
-				return 'Balanced.Log';
-			case 'order':
-				return 'Balanced.Order';
-			case 'dispute':
-				return 'Balanced.Dispute';
-			default:
-				return null;
-		}
+		var typeMappings = {
+			transaction: 'Balanced.Transaction',
+			'search': 'Balanced.Transaction',
+			debit: 'Balanced.Debit',
+			credit: 'Balanced.Credit',
+			failed_credit: 'Balanced.Credit',
+			card_hold: 'Balanced.Hold',
+			hold: 'Balanced.Hold',
+			refund: 'Balanced.Refund',
+			account: 'Balanced.Account',
+			customer: 'Balanced.Customer',
+			funding_instrument: 'Balanced.FundingInstrument',
+			bank_account: 'Balanced.BankAccount',
+			card: 'Balanced.Card',
+			log: 'Balanced.log',
+			order: 'Balanced.Order',
+			dispute: 'Balanced.Dispute'
+		};
+
+		return typeMappings[this.get('type')] || null;
 	}.property('type'),
 
 	isLoaded: Ember.computed.not('isLoading'),
