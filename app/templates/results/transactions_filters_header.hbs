@@ -37,11 +37,11 @@
 		<a href="#" {{action "changeTransactionTypeFilter" "refund" "all"}}>Refunds</a>
 	</li>
 
-	<li {{bind-attr class=":filter :reversals view.reversalsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "reversal" "all"}}>Reversals</a>
-	</li>
-
 	{{#if view.showExtraTransactionTypes}}
+		<li {{bind-attr class=":filter :reversals view.reversalsTabSelected:selected"}} >
+			<a href="#" {{action "changeTransactionTypeFilter" "reversal" "all"}}>Reversals</a>
+		</li>
+
 		<li {{bind-attr class=":filter :disputes view.disputesTabSelected:selected"}} >
 			<a href="#" {{action "changeTransactionTypeFilter" "dispute" "all"}}>Disputes</a>
 		</li>

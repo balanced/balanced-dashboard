@@ -127,7 +127,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			card: 'Balanced.Card',
 			log: 'Balanced.log',
 			order: 'Balanced.Order',
-			dispute: 'Balanced.Dispute'
+			dispute: 'Balanced.Dispute',
+			reversal: 'Balanced.Reversal'
 		};
 
 		return typeMappings[this.get('type')] || null;
