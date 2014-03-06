@@ -233,17 +233,30 @@
 </div>
 
 <div class="row">
-    <div class="span22">
-        <section class="api-keys-info">
-            <header>
-                <h3>API Keys
-                  <span class="warn">(All keys have admin access to the dashboard)</span>
-                  {{api-key-create-modal keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production}}
-                </h3>
-            </header>
-              {{api-keys-table keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
-        </section>
-    </div>
+	<div class="span22">
+		<section class="api-keys-info">
+			<header>
+				<h3>API Keys
+					<span class="warn">(All keys have admin access to the dashboard)</span>
+					{{api-key-create-modal keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
+				</h3>
+			</header>
+			{{api-keys-table keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+		</section>
+	</div>
+</div>
+
+<div class="row">
+	<div class="span22">
+		<section class="users-info">
+			<header>
+				<h3>Users
+					{{user-create-modal marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production}}
+				</h3>
+			</header>
+			{{users-table marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+		</section>
+	</div>
 </div>
 
 <div class="row">

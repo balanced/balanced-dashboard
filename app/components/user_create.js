@@ -1,21 +1,22 @@
 require('app/components/modal');
 
-Balanced.ApiKeyCreateModalComponent = Balanced.ModalComponent.extend({
-	keyName: '',
+Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
+	email: '',
+
 	actions: {
-		createKey: function() {
+		createUser: function() {
 			this.hide();
 			var self = this;
 			Balanced.APIKey.create({
 				meta: {
-					name: self.get('keyName')
+					name: self.keyName
 				}
 			}).save()
 				.then(function(newKey) {
 					self.get('keys').unshiftObject(newKey);
 					self.set('keyName', '');
 					Balanced.UserMarketplace.create({
-						uri: self.get('user.api_keys_uri'),
+						uri: Balanced.Auth.user.api_keys_uri,
 						secret: newKey.get('secret')
 					}).save();
 				});

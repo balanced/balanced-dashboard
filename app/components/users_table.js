@@ -1,4 +1,4 @@
-Balanced.ApiKeysTableComponent = Ember.Component.extend({
+Balanced.UsersTableComponent = Ember.Component.extend({
 	oneKey: function() {
 		return this.get('keys').length === 1;
 	}.property('keys.@each'),
