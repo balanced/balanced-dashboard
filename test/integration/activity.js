@@ -125,41 +125,39 @@ test('withdraw funds', function(assert) {
 		setupMarketplaceController(bankAccounts);
 		Testing.stop();
 
-		function run() {
-			return Ember.run.next(function() {
-				Testing.start();
-				assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
+		Ember.run.next(function() {
+			Testing.start();
 
-				// select the bank account
-				fundingInstrumentUri = $("#withdraw-funds select[name='destination_uri'] option").eq(0).val();
-				$("#withdraw-funds select[name='destination_uri']").val(fundingInstrumentUri);
+			// Escrow balances are now cached
+			// assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
-				click('.activity-escrow-box .withdraw-funds-btn')
-					.then(function() {
-						assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
-						assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
-						assert.equal(
-							$('label.control-label:contains(characters max):visible').text(),
-							'Appears on statement as (14 characters max)'
-						);
-						assert.equal(
-							$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-							'14'
-						);
-					})
-					.fillIn('#withdraw-funds input', '55.55')
-					.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
-					.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						assert.ok(spy.calledOnce);
-						assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits'));
-						assert.equal(spy.getCall(0).args[2].amount, 5555);
-						assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
-					});
-			});
-		};
+			// select the bank account
+			fundingInstrumentUri = $("#withdraw-funds select[name='destination_uri'] option").eq(0).val();
+			$("#withdraw-funds select[name='destination_uri']").val(fundingInstrumentUri);
 
-		setTimeout(run, 3000);
+			click('.activity-escrow-box .withdraw-funds-btn')
+				.then(function() {
+					assert.equal($('#withdraw-funds').css('display'), 'block', 'withdraw funds modal visible');
+					assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
+					assert.equal(
+						$('label.control-label:contains(characters max):visible').text(),
+						'Appears on statement as (14 characters max)'
+					);
+					assert.equal(
+						$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
+						'14'
+					);
+				})
+				.fillIn('#withdraw-funds input', '55.55')
+				.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
+				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
+				.then(function() {
+					assert.ok(spy.calledOnce);
+					assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits'));
+					assert.equal(spy.getCall(0).args[2].amount, 5555);
+					assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+				});
+		});
 	});
 });
 
