@@ -8,7 +8,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	otpCode: null,
 	from: null,
 	isSubmitting: false,
-	isSuccess: false,
 
 	fromResetPassword: Ember.computed.equal('from', 'ResetPassword'),
 	fromForgotPassword: Ember.computed.equal('from', 'ForgotPassword'),
@@ -35,8 +34,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			otpRequired: false,
 			otpCode: null,
 			from: null,
-			isSubmitting: false,
-			isSuccess: false
+			isSubmitting: false
 		});
 	},
 
@@ -46,8 +44,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			otpError: false,
 			loginResponse: '',
 			from: null,
-			isSubmitting: false,
-			isSuccess: false
+			isSubmitting: false
 		});
 	},
 
@@ -59,8 +56,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		var auth = this.get('auth');
 		this.setProperties({
 			loginError: false,
-			isSubmitting: false,
-			isSuccess: true
+			isSubmitting: false
 		});
 
 		var attemptedTransition = auth.get('attemptedTransition');
