@@ -277,7 +277,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		}
 	},
 
-	getSortedErrorMessages: function () {
+	getSortedErrorMessages: function() {
 		var result = {};
 		var errors = this.get("validationErrors.allMessages");
 		errors.forEach(function(value) {

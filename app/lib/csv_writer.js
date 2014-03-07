@@ -61,9 +61,9 @@
 				});
 			}
 			return csvRow.join(",");
-		})
+		});
 		if (columnNames && columnNames.length > 0) {
-			rowCells.unshift(columnNames.map(function (col) {
+			rowCells.unshift(columnNames.map(function(col) {
 				return col.label;
 			}));
 		}
