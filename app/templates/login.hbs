@@ -12,7 +12,10 @@
 
 							{{#link-to "forgotPassword" class="pull-left forgot-password"}}Forgot password?{{/link-to}}
 
-							<button type="submit" {{bind-attr disabled="isSubmitting"}}>Sign In</button>
+							<button class="pull-right" type="submit" {{bind-attr disabled="isSubmitting"}}>Sign In</button>
+ 							{{#if isSubmitting}}
+ 								<div class="loader-container pull-right"><span class="loader loading"></span></div>
+ 							{{/if}}
 						</form>
 
 						{{#if loginError}}
