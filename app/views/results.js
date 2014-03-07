@@ -10,6 +10,7 @@ var Computed = {
 Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/results_filters_header',
 	tagName: 'header',
+	from: 'activity',
 
 	// UI computed properties
 	transactionsTabSelected: Computed.isCategorySelected("search"),
@@ -17,6 +18,9 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	ordersTabSelected: Computed.isCategorySelected("order"),
 	fundingInstrumentsTabSelected: Computed.isCategorySelected("funding_instrument"),
 	disputesTabSelected: Computed.isCategorySelected("dispute"),
+
+	isSearch: Ember.computed.equal('from', 'search'),
+	isActivity: Ember.computed.equal('from', 'activity'),
 
 	transaction_type_label: function() {
 		var typesToLabels = {

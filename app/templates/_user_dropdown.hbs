@@ -6,14 +6,14 @@
 	<ul class="dropdown-menu">
 		<li>
 			{{#if auth.isGuest}}
-				{{#link-to 'claim' class="label2a"}}Claim account{{/link-to}}</li>
+				{{#link-to 'claim' class="label3a"}}Claim account{{/link-to}}</li>
 			{{else}}		
-				<a class="label2a" href="#" {{action "openChangePasswordModal" target="controllers.marketplaces"}}>Change password</a>
-				{{#link-to 'accountSecurity' class="label2a"}}Account Security{{/link-to}}
+				<a class="label3a" href="#" {{action "openChangePasswordModal" target="controllers.marketplaces"}}>Change password</a>
+				{{#link-to 'accountSecurity' class="label3a"}}Account Security{{/link-to}}
 			
 			{{/if}}
 
-			<a class="label2a" href="#" {{action "signOut"}}>Log Out</a>
+			<a class="label3a" href="#" {{action "signOut"}}>Log Out</a>
 		</li>
 	</ul>
 {{else}}

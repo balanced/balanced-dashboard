@@ -1,11 +1,11 @@
 <ul class="dropdown-menu">
 	{{#if user.hasProductionMarketplace}}
 		<li class="group">
-			<h4 class="label7a">Production</h4>
+			<h4 class="label4b">Production</h4>
 			<ul>
 				{{#each user_marketplace in user.user_marketplaces}}
 					{{#if user_marketplace.production}}
-						<li class="label2a">
+						<li class="label3a">
 							{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
 						</li>
 					{{/if}}
@@ -15,11 +15,11 @@
 	{{/if}}
 
 	<li class="group">
-		<h4 class="label7a">Test</h4>
+		<h4 class="label4b">Test</h4>
 		<ul>
 			{{#each user_marketplace in user.user_marketplaces}}
 				{{#unless user_marketplace.production}}
-					<li class="label2a">
+					<li class="label3a">
 						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
 					</li>
 				{{/unless}}
@@ -28,6 +28,6 @@
 	</li>
 
 	{{#unless auth.isGuest}}
-		<li class="label2d manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
+		<li class="label3a manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
 	{{/unless}}
 </ul>
