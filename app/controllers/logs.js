@@ -63,6 +63,12 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 	    DebitsController
 	*/
 	is_object_log: function() {
+        /* TODO: by doing this, we have a bug, when we display this log index
+        under resource first, then the `parentController` will be the resource
+        controller, and then we visit log page again, seems that a controller
+        will be created only once, its parent is still resource controller then.
+        we should find a way to solve this.
+        */
 		return this.parentController instanceof Balanced.ObjectController;
 	}.property()
 });
