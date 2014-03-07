@@ -1,8 +1,13 @@
 Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
-	userHasMarketplaces: function () {
-		return (user_marketplaces.length > 0) ?	true : false;
+	HasProductionMarketplace: function () {
+		user_marketplaces.forEach(function(user_marketplace) {
+			if (user_marketplace.production) {
+				return true;
+			}
+		});
+		return false;
 	},
 
 	user_marketplace_for_id: function(id) {

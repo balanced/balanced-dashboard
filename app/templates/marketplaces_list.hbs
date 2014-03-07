@@ -1,6 +1,6 @@
 <ul class="dropdown-menu">
-	{{#if userHasMarketplaces}}
-		<li>
+	{{#if hasProductionMarketplace}}
+		<li class="group">
 			<h4 class="label7a">Production</h4>
 			<ul>
 				{{#each user_marketplace in user.user_marketplaces}}
@@ -14,7 +14,7 @@
 		</li>
 	{{/if}}
 
-	<li>
+	<li class="group">
 		<h4 class="label7a">Test</h4>
 		<ul>
 			{{#each user_marketplace in user.user_marketplaces}}
