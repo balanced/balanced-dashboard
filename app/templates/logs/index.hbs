@@ -1,14 +1,18 @@
 {{#unless is_object_log }}
+
 <h1 class="page-title">Logs
 	{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
 </h1>
-{{/unless}}
+
+{{else}}
 
 {{#if is_object_log }}
+
 <h3 class="page-title">Logs
     {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
 </h3>
-{{/if}}
+
+{{/unless}}
 
 <div id="logs" class="results">
 	{{view Balanced.LogsFiltersHeaderView}}
