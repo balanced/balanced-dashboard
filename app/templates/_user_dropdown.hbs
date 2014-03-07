@@ -4,17 +4,16 @@
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
-		<li>
-			{{#if auth.isGuest}}
-				{{#link-to 'claim' class="label3a"}}Claim account{{/link-to}}</li>
-			{{else}}		
+		{{#if auth.isGuest}}
+			<li>{{#link-to 'claim' class="label3a"}}Claim account{{/link-to}}</li>
+		{{else}}
+			<li class="change-password">
 				<a class="label3a" href="#" {{action "openChangePasswordModal" target="controllers.marketplaces"}}>Change password</a>
-				{{#link-to 'accountSecurity' class="label3a"}}Account Security{{/link-to}}
-			
-			{{/if}}
+			</li>
+			<li>{{#link-to 'accountSecurity' class="label3a"}}Account Security{{/link-to}}</li>
+		{{/if}}
 
-			<a class="label3a" href="#" {{action "signOut"}}>Log Out</a>
-		</li>
+		<li><a class="label3a" href="#" {{action "signOut"}}>Log Out</a></li>
 	</ul>
 {{else}}
 	{{#link-to 'login' class="nav1d"}}Login{{/link-to}}

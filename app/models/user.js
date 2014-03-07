@@ -3,7 +3,7 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 
 	hasProductionMarketplace: function() {
 		var hasProductionMarketplace = false;
-		this.get('user_marketplaces').forEach(function(user_marketplace) {
+		this.get('user_marketplaces').find(function(user_marketplace) {
 			if (user_marketplace.get('production')) {
 				hasProductionMarketplace = true;
 			}
