@@ -31,6 +31,14 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 			});
 		}.observes('model', 'model.isLoaded'),
 
+		extra_filtering_params: function() {
+			var params = this._super();
+
+			return _.extend({
+				'status[in]': 'failed,succeeded,pending'
+			}, params || {});
+		}.property('transactionType', 'isDisputeType'),
+
 		actions: {
 			promptToDeleteBankAccount: function(bankAccount) {
 				this.trigger('openDeleteBankAccountModal', bankAccount);
