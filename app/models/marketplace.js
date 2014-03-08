@@ -27,10 +27,14 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	// TODO - take this out once marketplace has a link to invoices list
 	invoices_uri: function() {
 		return '/invoices';
-	}.property('uri'),
+	}.property(),
 
 	disputes_uri: function() {
 		return '/disputes';
+	}.property(),
+
+	users_uri: function() {
+		return this.get('uri') + '/users';
 	}.property('uri'),
 
 	populateWithTestTransactions: function() {
