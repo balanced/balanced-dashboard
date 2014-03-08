@@ -1,10 +1,27 @@
 Balanced.ActivityRoute = Balanced.AuthRoute.extend({
+	defaultSort: 'created_at',
+
 	setupController: function(controller, model) {
-		if (controller && controller.refresh) {
-			controller.refresh();
+		this._super(controller, model);
+
+		var activityController = this.controllerFor('activity');
+		activityController.refresh();
+
+		var defaultSort = this.get('defaultSort');
+		if (defaultSort && defaultSort !== activityController.get('sortField')) {
+			activityController.set('sortField', defaultSort);
 		}
 
-		this._super(controller, model);
+		var defaultType = this.get('defaultType');
+		if (!defaultType) {
+			return;
+		}
+
+		if (activityController.get('category') !== defaultType) {
+			activityController.set('type', defaultType);
+		} else {
+			activityController.send('reload');
+		}
 	}
 });
 
@@ -16,68 +33,26 @@ Balanced.ActivityIndexRoute = Balanced.ActivityRoute.extend({
 
 Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
-
-	setupController: function(controller, model) {
-		this._super(controller, model);
-
-		if (this.controllerFor('activity').get('category') !== 'order') {
-			this.controllerFor('activity').set('type', 'order');
-		}
-	}
+	defaultType: 'order'
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
-
-	setupController: function(controller, model) {
-		this._super(controller, model);
-
-		if (this.controllerFor('activity').get('category') !== 'search') {
-			this.controllerFor('activity').set('type', 'search');
-		} else {
-			this.controllerFor('activity').send('reload');
-		}
-	}
+	defaultType: 'search'
 });
 
 Balanced.ActivityDisputesRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
-
-	setupController: function(controller, model) {
-		this._super(controller, model);
-
-		if (this.controllerFor('activity').get('category') !== 'dispute') {
-			this.controllerFor('activity').set('type', 'dispute');
-		} else {
-			this.controllerFor('activity').send('reload');
-		}
-	}
+	defaultType: 'dispute',
+	defaultSort: 'initiated_at'
 });
 
 Balanced.ActivityCustomersRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
-
-	setupController: function(controller, model) {
-		this._super(controller, model);
-
-		if (this.controllerFor('activity').get('category') !== 'customer') {
-			this.controllerFor('activity').set('type', 'customer');
-		} else {
-			this.controllerFor('activity').send('reload');
-		}
-	}
+	defaultType: 'customer'
 });
 
 Balanced.ActivityFundingInstrumentsRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
-
-	setupController: function(controller, model) {
-		this._super(controller, model);
-
-		if (this.controllerFor('activity').get('category') !== 'funding_instrument') {
-			this.controllerFor('activity').set('type', 'funding_instrument');
-		} else {
-			this.controllerFor('activity').send('reload');
-		}
-	}
+	defaultType: 'funding_instrument'
 });

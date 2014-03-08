@@ -38,7 +38,10 @@ Balanced.SEARCH = {
 };
 
 //  time in ms to throttle between key presses for search
-Balanced.THROTTLE = 400;
+Balanced.THROTTLE = {
+	SEARCH: 400,
+	REFRESH: 1000
+};
 
 Balanced.PASSWORD = {
 	MIN_CHARS: 6,

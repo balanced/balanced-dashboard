@@ -7,14 +7,13 @@
 
 		<div class="modal-body modal-with-headers">
 			{{partial "modals/modalErrors"}}
-
 			<div class="modal-content">
 				<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
 					<label class="control-label">Card holder's name</label>
 
 					<div class="controls">
 						{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
-						<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.name}}</div>
+						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.name}}</div>
 					</div>
 				</div>
 
@@ -23,7 +22,7 @@
 
 					<div class="controls">
 						{{view Ember.TextField valueBinding="view.model.number" name="number" class="full"}}
-						<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.number}}</div>
+						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.number}}</div>
 					</div>
 				</div>
 
@@ -32,7 +31,7 @@
 
 					<div class="controls">
 						{{view Ember.TextField valueBinding="view.model.security_code" name="security_code" class="full"}}
-						<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.security_code}}</div>
+						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.security_code}}</div>
 					</div>
 				</div>
 
@@ -53,7 +52,7 @@
 							prompt="Year"
 							name="expiration_year"
 						}}
-						<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.expiration_month}}</div>
+						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.expiration_month}}</div>
 					</div>
 				</div>
 

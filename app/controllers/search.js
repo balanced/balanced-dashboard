@@ -22,8 +22,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				if (!self.get('isDestroyed')) {
 					self.runQuery();
 				}
-			}, Balanced.THROTTLE);
-			this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.runQuery, this));
+			}, Balanced.THROTTLE.SEARCH);
+			this.addObserver('search', Balanced.THROTTLE.SEARCH > 0 ? debouncedQuery : _.bind(this.runQuery, this));
 		},
 
 		actions: {
@@ -60,6 +60,13 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 			return this.get('debounced_search') && this.get('debounced_search').length > 0;
 		}.property('debounced_search'),
 
+		updateResultsIfErrored: function() {
+			var results = this.get('results');
+			if (results && results.get('isError') && this.get('fetch_results')) {
+				this.set('debounced_search', '');
+			}
+		}.observes('results', 'results.isError'),
+
 		extra_filtering_params: function() {
 			var query = this.get('debounced_search');
 
@@ -94,10 +101,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				last_loaded_search_result: null
 			});
 		},
-
-		isLoading: function() {
-			return this.get('fetch_results') && this.get('results') && !this.get('results.isLoaded');
-		}.property('results.isLoaded'),
 
 		displayResults: function() {
 			return this.get('fetch_results') && this.get('showResults');

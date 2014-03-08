@@ -27,26 +27,28 @@
 		<a href="#" {{action "changeTransactionTypeFilter" "credit" "all"}}>Credits: succeeded</a>
 	</li>
 
-	<li {{bind-attr class=":filter :failed-credits view.failedCreditsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "failed_credit" "all"}}>Credits: failed</a>
-	</li>
+	{{#if view.showExtraTransactionTypes}}
+		<li {{bind-attr class=":filter :failed-credits view.failedCreditsTabSelected:selected"}} >
+			<a href="#" {{action "changeTransactionTypeFilter" "failed_credit" "all"}}>Credits: failed</a>
+		</li>
+	{{/if}}
 
 	<li {{bind-attr class=":filter :refunds view.refundsTabSelected:selected"}} >
 		<a href="#" {{action "changeTransactionTypeFilter" "refund" "all"}}>Refunds</a>
 	</li>
 
-	<li {{bind-attr class=":filter :reversals view.reversalsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "reversal" "all"}}>Reversals</a>
-	</li>
-
 	{{#if view.showExtraTransactionTypes}}
+		<li {{bind-attr class=":filter :reversals view.reversalsTabSelected:selected"}} >
+			<a href="#" {{action "changeTransactionTypeFilter" "reversal" "all"}}>Reversals</a>
+		</li>
+
 		<li {{bind-attr class=":filter :disputes view.disputesTabSelected:selected"}} >
 			<a href="#" {{action "changeTransactionTypeFilter" "dispute" "all"}}>Disputes</a>
 		</li>
 	{{/if}}
 
 	{{#unless view.showExtraTransactionTypes}}
-		<li class="timing dropdown label4a">
+		<li class="timing dropdown action label4a">
 			{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 		</li>
 

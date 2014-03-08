@@ -35,6 +35,11 @@ test('Click load more shows 2 more and hides load more', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
+
+			// Manually check the transactions uri is correct
+			var activityController = Balanced.__container__.lookup('controller:activity');
+			assert.ok(activityController.get('results_base_uri').indexOf('/search') > 0, 'Activity Transactions URI is correct');
+			assert.ok(activityController.get('results_uri').indexOf('sort=created_at') > 0, 'Activity Transactions Sort is correct');
 		})
 		.click('#activity .results table.transactions tfoot td.load-more-results a')
 		.then(function() {
@@ -122,7 +127,9 @@ test('withdraw funds', function(assert) {
 
 		Ember.run.next(function() {
 			Testing.start();
-			assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
+
+			// Escrow balances are now cached
+			// assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
 
 			// select the bank account
 			fundingInstrumentUri = $("#withdraw-funds select[name='destination_uri'] option").eq(0).val();
