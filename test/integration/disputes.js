@@ -7,7 +7,7 @@ module('Disputes', {
 
 		// Pause tests for 2000ms for disputes
 		// to be fully created
-		Testing.pause(2000);
+		Testing.pause(5000);
 	},
 	teardown: function() {}
 });
