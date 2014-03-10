@@ -1,25 +1,55 @@
 require('app/components/modal');
 
 Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
-	email: '',
+	submitAction: false,
+	hasError: false,
+	isSubmitting: false,
 
 	actions: {
-		createUser: function() {
-			this.hide();
+		open: function() {
+			var inviteUser = Balanced.InviteUser.create({
+				uri: marketplace.get('users_uri'),
+				email_address: ''
+			});
+
+			this._super(inviteUser);
+		},
+
+		save: function() {
 			var self = this;
-			Balanced.APIKey.create({
-				meta: {
-					name: self.keyName
-				}
-			}).save()
-				.then(function(newKey) {
-					self.get('keys').unshiftObject(newKey);
-					self.set('keyName', '');
-					Balanced.UserMarketplace.create({
-						uri: Balanced.Auth.user.api_keys_uri,
-						secret: newKey.get('secret')
-					}).save();
+			var model = this.get('model');
+
+			if (model.validate()) {
+				self.setProperties({
+					hasError: false,
+					isSubmitting: true
 				});
+
+				model.one('becameInvalid', function() {
+					self.set('hasError', true);
+				});
+
+				model.one('becameError', function() {
+					self.set('hasError', true);
+				});
+
+				Balanced.APIKey.create({
+					meta: {
+						name: model.get('email_address')
+					}
+				}).save().then(function(apiKey) {
+					model.set('secret', apiKey.get('secret'));
+
+					model.save().then(function() {
+						self.setProperties({
+							hasError: false,
+							isSubmitting: false
+						});
+
+						self.hide();
+					});
+				});
+			}
 		}
 	}
 });
