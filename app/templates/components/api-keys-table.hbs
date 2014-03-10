@@ -1,39 +1,49 @@
 <table class="items api-keys-table">
-  <tbody>
-    {{#each key in keys}}
-      <tr>
-        <td class="span3" {{bind-attr title="key.meta.name"}}>
-          <span class="wrap">
-            <span class="icon-key"></span>
-            {{#if key.meta.name}}{{key.meta.name}}{{/if}}</td>
-          </span>
-        <td class="span4" {{bind-attr title="key.created_at"}}>
-          <span class="wrap">
-            {{humanReadableDateShort key.created_at}}
-          </span>
-        </td>
-        <td class="span6" {{bind-attr title="key.id"}}>
-          <span class="wrap">
-            {{key.id}}
-          </span>
-        </td>
-        <td class="span7">
-          <span class="wrap">
-          	{{#if key.secret}}
-	            {{api-key-secret-shower key=key}}
-            {{else}}
-            	{{#view Balanced.HoverPopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
-					Secret unavailable
-				{{/view}}
-            {{/if}}
-          </span>
-          </td>
-        <td class="span1 delete-container">
-          <span class="wrap">
-            {{api-key-delete-modal action="delete" param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
-          </span>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
+	<tbody>
+		{{#each key in keys}}
+			<tr>
+				<td class="span3" {{bind-attr title="key.meta.name"}}>
+					<span class="wrap">
+						<span class="icon-key"></span>
+
+						{{#if key.meta.name}}
+							{{key.meta.name}}
+						{{/if}}
+					</span>
+				</td>
+				<td class="span4" {{bind-attr title="key.created_at"}}>
+					<span class="wrap">
+						{{humanReadableDateShort key.created_at}}
+					</span>
+				</td>
+				<td class="span6" {{bind-attr title="key.id"}}>
+					<span class="wrap">
+						{{key.id}}
+					</span>
+				</td>
+				<td class="span7">
+					<span class="wrap">
+						{{#if key.secret}}
+							{{api-key-secret-shower key=key}}
+						{{else}}
+							{{#view Balanced.HoverPopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
+							Secret unavailable
+							{{/view}}
+						{{/if}}
+					</span>
+				</td>
+				<td class="span1 delete-container">
+					<span class="wrap">
+						{{api-key-delete-modal action="delete" param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
+					</span>
+				</td>
+			</tr>
+		{{else}}
+			<tr>
+				<td colspan="4" class="no-results">
+					<span class="wrap">No results</span>
+				</td>
+			</tr>
+		{{/each}}
+	</tbody>
 </table>

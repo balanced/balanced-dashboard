@@ -1,23 +1,29 @@
 require('app/components/modal');
 
 Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
-	moreWarning: function() {
-		return this.key.get('secret') === this.marketplaceSecret;
-	}.property('key', 'marketplaceSecret'),
-	displayDelete: function() {
-		if (this.get('oneKey')) {
-			return false;
-		}
-		if (this.get('moreWarning') && !this.get('haveOtherSecrets')) {
-			return false;
-		}
-		return true;
-	}.property('moreWarning', 'key', 'oneKey', 'haveOtherSecrets'),
+	isSubmitting: false,
+	hasError: false,
 
 	actions: {
 		confirm: function() {
-			this.hide();
-			this.sendAction('action', this.get('key'));
+			this.setProperties({
+				hasError: false,
+				isSubmitting: true
+			});
+
+			this.get('user').delete().then(function() {
+				this.setProperties({
+					hasError: false,
+					isSubmitting: false
+				});
+
+				self.hide();
+			}, function() {
+				this.setProperties({
+					hasError: true,
+					isSubmitting: false
+				});
+			});
 		}
 	}
 });

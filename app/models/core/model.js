@@ -70,7 +70,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		return this.get('uri');
 	},
 
-	delete: function() {
+	delete: function(settings) {
 		var self = this;
 		var settings = settings || {};
 

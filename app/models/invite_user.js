@@ -7,6 +7,16 @@ Balanced.InviteUser = Balanced.Model.extend(Ember.Validations, {
 			},
 			format: /.+@.+\..{2,4}/
 		}
+	},
+
+	delete: function(settings) {
+		settings = _.extend({
+			data: {
+				email_address: this.get('email_address')
+			}
+		}, settings || {});
+
+		this._super(settings);
 	}
 });
 

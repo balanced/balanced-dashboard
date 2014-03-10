@@ -34,13 +34,12 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	}.property(),
 
 	users_uri: function() {
-		return this.get('uri') + '/users';
-	}.property('uri'),
+		return '/marketplaces/%@/users'.fmt(this.get('id'));
+	}.property('id'),
 
 	populateWithTestTransactions: function() {
 		//  pre-populate marketplace with transactions
-		var uri = this.get('uri');
-		var id = uri.substr(uri.lastIndexOf('/') + 1);
+		var id = this.get('id');
 		Balanced.NET.ajax({
 			url: ENV.BALANCED.AUTH + '/marketplaces/%@/spam'.fmt(id),
 			type: 'PUT'

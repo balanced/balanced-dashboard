@@ -10,7 +10,7 @@
 			<br><span class="label7a">This user will no longer have access to the dashboard.</span>
 			<br>
 			<ul>
-				<li>Email: {{email}}</li>
+				<li>Email: {{user.email_address}}</li>
 			</ul>
 			<br>
 		</div>
@@ -22,8 +22,6 @@
 	</form>
 </div>
 
-{{#if displayDelete}}
-	<div class="delete-user-outer">
-		<a href="#" {{action "open"}} class="confirm-delete-user">&times;</a>
-	</div>
-{{/if}}
+<div class="delete-user-outer">
+	<a href="#" {{action "open"}} class="confirm-delete-user">&times;</a>
+</div>

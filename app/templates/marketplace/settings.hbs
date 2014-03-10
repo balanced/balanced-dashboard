@@ -238,10 +238,10 @@
 			<header>
 				<h3>API Keys
 					<span class="warn">(All keys have admin access to the dashboard)</span>
-					{{api-key-create-modal keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
+					{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
 				</h3>
 			</header>
-			{{api-keys-table keys=keys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+			{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
 		</section>
 	</div>
 </div>
@@ -251,10 +251,10 @@
 		<section class="users-info">
 			<header>
 				<h3>Users
-					{{user-create-modal marketplaceBinding="model"}}
+					{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
 				</h3>
 			</header>
-			{{users-table marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+			{{users-table users=userMarketplace.users}}
 		</section>
 	</div>
 </div>
@@ -276,6 +276,10 @@
 							<div class="url"><span class="callback-method">{{callback.method}}</span> {{callback.url}}</div>
 						</div>
 						<div class="detail"></div>
+					</li>
+				{{else}}
+					<li class="no-results">
+						No results
 					</li>
 				{{/each}}
 			</ul>

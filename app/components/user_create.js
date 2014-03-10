@@ -8,7 +8,7 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 	actions: {
 		open: function() {
 			var inviteUser = Balanced.InviteUser.create({
-				uri: marketplace.get('users_uri'),
+				uri: this.get('marketplace.users_uri'),
 				email_address: ''
 			});
 
@@ -46,7 +46,15 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 							isSubmitting: false
 						});
 
+						// Hack to make it reload users
+						self.get('userMarketplace').notifyPropertyChange('marketplace');
+
 						self.hide();
+					}, function() {
+						self.setProperties({
+							hasError: true,
+							isSubmitting: false
+						});
 					});
 				});
 			}
