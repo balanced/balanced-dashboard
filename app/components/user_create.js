@@ -19,45 +19,47 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 			var self = this;
 			var model = this.get('model');
 
-			if (model.validate()) {
-				self.setProperties({
-					hasError: false,
-					isSubmitting: true
-				});
+			if (!model.validate()) {
+				self.set('hasError', true);
+			}
 
-				model.one('becameInvalid', function() {
-					self.set('hasError', true);
-				});
+			self.setProperties({
+				hasError: false,
+				isSubmitting: true
+			});
 
-				model.one('becameError', function() {
-					self.set('hasError', true);
-				});
+			model.one('becameInvalid', function() {
+				self.set('hasError', true);
+			});
 
-				Balanced.APIKey.create({
-					meta: {
-						name: model.get('email_address')
-					}
-				}).save().then(function(apiKey) {
-					model.set('secret', apiKey.get('secret'));
+			model.one('becameError', function() {
+				self.set('hasError', true);
+			});
 
-					model.save().then(function() {
-						self.setProperties({
-							hasError: false,
-							isSubmitting: false
-						});
+			Balanced.APIKey.create({
+				meta: {
+					name: model.get('email_address')
+				}
+			}).save().then(function(apiKey) {
+				model.set('secret', apiKey.get('secret'));
 
-						// Hack to make it reload users
-						self.get('userMarketplace').notifyPropertyChange('marketplace');
+				model.save().then(function() {
+					self.setProperties({
+						hasError: false,
+						isSubmitting: false
+					});
 
-						self.hide();
-					}, function() {
-						self.setProperties({
-							hasError: true,
-							isSubmitting: false
-						});
+					// Hack to make it reload users
+					self.get('userMarketplace').notifyPropertyChange('marketplace');
+
+					self.hide();
+				}, function() {
+					self.setProperties({
+						hasError: true,
+						isSubmitting: false
 					});
 				});
-			}
+			});
 		}
 	}
 });

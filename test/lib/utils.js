@@ -41,13 +41,17 @@ var Testing = {
 		this.isStopped = false;
 	},
 
-	pause: function(number) {
+	pause: function(number, fn) {
 		if (!number) {
 			number = 1000;
 		}
 
 		this.stop();
 		_.delay(_.bind(this.start, this), number);
+
+		if (fn) {
+			_.delay(fn, number);
+		}
 	},
 
 	selectMarketplaceByName: function(name) {

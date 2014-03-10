@@ -5,13 +5,19 @@
 			<h2>Add user</h2>
 		</div>
 		<div class="modal-body">
+			{{#if hasError}}
+				<div class="alert alert-error modal-content-error">
+					Please check the email and try again.
+				</div>
+			{{/if}}
+
 			<div class="control-group">
 				<label class="control-label">Enter user's email</label>
 				{{input type="text" valueBinding="model.email_address" class="user-email-input full"}}
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" href="#" class="create-user-button">Add</button>
+			{{view Balanced.ModalActionButtonsView submitTitle="Add"}}
 		</div>
 	</form>
 </div>
