@@ -305,6 +305,9 @@ module.exports = function(grunt) {
 				}, {
 					src: 'static/javascripts/qunit/qunit/qunit.css',
 					dest: 'build/test/css/qunit.css'
+				}, {
+					src: 'static/javascripts/sinon/index.js',
+					dest: 'build/test/js/sinon.js'
 				}]
 			},
 			preUglify: {
