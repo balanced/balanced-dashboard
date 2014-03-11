@@ -21,6 +21,7 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 
 			if (!model.validate()) {
 				self.set('hasError', true);
+				return;
 			}
 
 			self.setProperties({
