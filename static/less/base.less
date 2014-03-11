@@ -1,4 +1,3 @@
-@import "/static/less/grid.less";
 @import "/static/less/bootstrap.less";
 @import "/static/javascripts/strapped/static/less/strapped.less";
 /*
@@ -8,10 +7,6 @@
 *
 * Styles for individual components/pages should go in their own file.
 */
-
-html {
-
-}
 
 body {
   &.light-bg {
@@ -40,16 +35,6 @@ body {
   margin: auto;
 }
 
-footer {
-
-}
-
-h1 {
-  &.page-title {
-    width: @pageTitleWidth;
-  }
-}
-
 ul, li {
   margin: 0;
   padding: 0;
@@ -64,12 +49,6 @@ input:focus, select:focus, textarea:focus, a:focus {
 
 .empty-field-label {
   font-style: italic;
-}
-
-hr {
-  &.seperation-line {
-    border-top: 2px solid #E4E4E0;
-  }
 }
 
 table {
@@ -99,6 +78,15 @@ strong {
 
 .loader-container {
   display: inline-block;
+}
+
+.container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.row {
+  width: 100% !important;
 }
 
 .window {
