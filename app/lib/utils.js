@@ -1,5 +1,9 @@
 Balanced.Utils = Ember.Namespace.create({
 
+	toDataUri: function(string) {
+		return "data:text/plain;charset=utf-8;base64," + window.btoa(string);
+	},
+
 	stripDomain: function(url) {
 		return url.replace(/^.*\/\/[^\/]+/, '');
 	},
