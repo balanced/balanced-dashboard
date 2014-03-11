@@ -29,7 +29,7 @@ test('users', function(assert) {
 
 test('isTest', function(assert) {
 	var userMarketplace = Balanced.Auth.get('user.user_marketplaces')[0];
-	assert.equal(userMarketplace.get('production'), false, 'Is Test Marketplace')
+	assert.equal(userMarketplace.get('production'), false, 'Is Test Marketplace');
 });
 
 test('marketplace', function(assert) {

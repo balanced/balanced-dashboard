@@ -6,6 +6,8 @@ Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
 
 	actions: {
 		confirm: function() {
+			var self = this;
+
 			this.setProperties({
 				hasError: false,
 				isSubmitting: true

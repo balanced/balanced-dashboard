@@ -41,11 +41,6 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 				}
 			}
 
-			if (!error) {
-				this.transitionTo('marketplaces');
-				return;
-			}
-
 			// the error object could be an ember object or a jqxhr
 			var statusCode = error.errorStatusCode || error.status;
 			var uri = error.uri;

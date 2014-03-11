@@ -1,4 +1,5 @@
 var Testing = {
+	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl',
 	marketplace: null,
 
 	// constant ids

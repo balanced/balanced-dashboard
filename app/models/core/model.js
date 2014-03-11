@@ -72,9 +72,9 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 	delete: function(settings) {
 		var self = this;
-		var settings = settings || {};
+		settings = settings || {};
 
-		self.setProperties({
+		this.setProperties({
 			isDeleted: true,
 			isSaving: true
 		});

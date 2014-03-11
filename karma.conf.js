@@ -16,7 +16,7 @@ var find = function(arr, predicate) {
 module.exports = function(config) {
 	var files = [
 		'build/css/base.min.css',
-		'build/test/js/sinon.js',
+		'build/test/js/test-runner.js',
 		'build/test/js/testenv.js',
 		'build/js/lib-dev.js',
 		'test/support/lib/balanced.min.js',

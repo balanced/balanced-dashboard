@@ -118,6 +118,13 @@ module.exports = function(grunt) {
 					'test/integration/**/*.js'
 				],
 				dest: 'build/test/js/tests.js'
+			},
+			libtest: {
+				src: [
+					'static/javascripts/sinon/index.js',
+					'static/javascripts/qunit/qunit/qunit.js'
+				],
+				dest: 'build/test/js/test-runner.js'
 			}
 		},
 
@@ -690,7 +697,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
 	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
-	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
+	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:libtest', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);
 	grunt.registerTask('_buildFonts', ['copy:fonts']);
