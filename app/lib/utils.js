@@ -260,7 +260,6 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	humanReadableDateShort: function(isoDate) {
-		console.log('humanReadableDateShort', isoDate);
 		if (isoDate) {
 			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.short);
 		} else {

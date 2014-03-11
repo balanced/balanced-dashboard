@@ -232,32 +232,34 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="span22">
-		<section class="api-keys-info">
-			<header>
-				<h3>API Keys
-					<span class="warn">(All keys have admin access to the dashboard)</span>
-					{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
-				</h3>
-			</header>
-			{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
-		</section>
+{{#unless auth.isGuest}}
+	<div class="row">
+		<div class="span22">
+			<section class="api-keys-info">
+				<header>
+					<h3>API Keys
+						<span class="warn">(All keys have admin access to the dashboard)</span>
+						{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
+					</h3>
+				</header>
+				{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+			</section>
+		</div>
 	</div>
-</div>
 
-<div class="row">
-	<div class="span22">
-		<section class="users-info">
-			<header>
-				<h3>Users
-					{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
-				</h3>
-			</header>
-			{{users-table users=userMarketplace.users}}
-		</section>
+	<div class="row">
+		<div class="span22">
+			<section class="users-info">
+				<header>
+					<h3>Users
+						{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
+					</h3>
+				</header>
+				{{users-table users=userMarketplace.users}}
+			</section>
+		</div>
 	</div>
-</div>
+{{/unless}}
 
 <div class="row">
 	<div class="span22">

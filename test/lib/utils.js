@@ -74,9 +74,9 @@ var Testing = {
 	},
 
 	fixtureLogin: function() {
-		var _this = this;
+		var self = this;
 		Ember.run(function() {
-			var userId = _this.FIXTURE_USER_ROUTE = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
+			var userId = self.FIXTURE_USER_ROUTE = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
 			Balanced.Auth.setAuthProperties(
 				true,
 				Balanced.User.find(userId),
@@ -84,7 +84,7 @@ var Testing = {
 				userId,
 				false);
 
-			_this.FIXTURE_USER_EMAIL = Balanced.Auth.user.email_address;
+			self.FIXTURE_USER_EMAIL = Balanced.Auth.user.email_address;
 		});
 	},
 
@@ -96,34 +96,98 @@ var Testing = {
 
 	// build up test fixtures
 	setupMarketplace: function() {
-		var _this = this;
+		var self = this;
 		Ember.run(function() {
 			return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
 				return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
-					_this.GUEST_USER_API_KEY = apiKey;
+					self.GUEST_USER_API_KEY = apiKey;
 
 					return Balanced.Marketplace.create().save();
 				}).then(function(marketplace) {
-					_this.marketplace = marketplace;
 					Balanced.Auth.setupGuestUserMarketplace(marketplace);
+					self.setupCreatedMarketplace(marketplace);
+				});
+			});
+		});
+	},
 
-					_this.MARKETPLACE_ID = marketplace.get('uri').split('/').pop();
-					_this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
-					_this.MARKETPLACES_ROUTE = '/marketplaces';
-					_this.MARKETPLACE_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID;
-					_this.ACTIVITY_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/activity/transactions';
-					_this.ADD_CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/add_customer';
-					_this.CUSTOMER_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/customers/' + _this.CUSTOMER_ID;
-					_this.LOGS_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/logs';
-					_this.SETTINGS_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/settings';
-					_this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + _this.MARKETPLACE_ID + '/initial_deposit';
+	setupCreatedMarketplace: function(marketplace) {
+		this.marketplace = marketplace;
+
+		this.MARKETPLACE_ID = marketplace.get('id');
+		this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
+		this.MARKETPLACES_ROUTE = '/marketplaces';
+		this.MARKETPLACE_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID;
+		this.ACTIVITY_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/activity/transactions';
+		this.ADD_CUSTOMER_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/add_customer';
+		this.CUSTOMER_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/customers/' + this.CUSTOMER_ID;
+		this.LOGS_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/logs';
+		this.SETTINGS_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/settings';
+		this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/initial_deposit';
+	},
+
+	login: function(useExistingMarketplace) {
+		if (!ENV.BALANCED.LOGIN) {
+			return;
+		}
+
+		var self = this;
+		var LOGIN_INFO = ENV.BALANCED.LOGIN;
+		this.stop();
+
+		return Ember.run(function() {
+			return Balanced.Auth.signIn(LOGIN_INFO.EMAIL, LOGIN_INFO.PASSWORD)
+				.then(function() {
+
+					if (useExistingMarketplace) {
+						var userMarketplaces = Balanced.Auth.get('user.user_marketplaces');
+						var userMarketplace = userMarketplaces.objectAt(0);
+						Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
+
+						var marketplace = userMarketplace.get('marketplace');
+
+						return marketplace.then(function() {
+							Balanced.Utils.setCurrentMarketplace(marketplace);
+							self.setupCreatedMarketplace(marketplace);
+							self.start();
+							return marketplace;
+						});
+					}
+
+					self.createTestMarketplace();
+				});
+		});
+	},
+
+	createTestMarketplace: function() {
+		Balanced.Utils.setCurrentMarketplace(null);
+		auth.unsetAPIKey();
+
+		return Balanced.APIKey.create().save().then(function(apiKey) {
+			var apiKeySecret = apiKey.get('secret');
+			//  set the api key for this request
+			auth.setAPIKey(apiKeySecret);
+			var settings = {
+				headers: {
+					Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+				}
+			};
+
+			return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
+				var user = Balanced.Auth.get('user');
+
+				return Balanced.UserMarketplace.create({
+					uri: user.get('api_keys_uri'),
+					secret: apiKeySecret
+				}).save().then(function() {
+					user.reload();
 				});
 			});
 		});
 	},
 
 	_createCard: function() {
-		var _this = this;
+		var self = this;
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '4444400012123434',
@@ -131,15 +195,15 @@ var Testing = {
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {
-			_this.CARD_ID = card.get('id');
-			_this.CARD_ROUTE = _this.MARKETPLACE_ROUTE +
-				'/cards/' + _this.CARD_ID;
+			self.CARD_ID = card.get('id');
+			self.CARD_ROUTE = self.MARKETPLACE_ROUTE +
+				'/cards/' + self.CARD_ID;
 			return card;
 		});
 	},
 
 	_createDisputeCard: function() {
-		var _this = this;
+		var self = this;
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '6500000000000002',
@@ -147,74 +211,74 @@ var Testing = {
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {
-			_this.CARD_ID = card.get('id');
-			_this.CARD_ROUTE = _this.MARKETPLACE_ROUTE +
-				'/cards/' + _this.CARD_ID;
+			self.CARD_ID = card.get('id');
+			self.CARD_ROUTE = self.MARKETPLACE_ROUTE +
+				'/cards/' + self.CARD_ID;
 			return card;
 		});
 	},
 
 	_createBankAccount: function() {
-		var _this = this;
+		var self = this;
 		return Balanced.BankAccount.create({
-			uri: '/customers/' + _this.CUSTOMER_ID + '/bank_accounts',
+			uri: '/customers/' + self.CUSTOMER_ID + '/bank_accounts',
 			name: 'Test Account',
 			account_number: '1234',
 			routing_number: '122242607',
 			type: 'checking'
 		}).save().then(function(bankAccount) {
-			_this.BANK_ACCOUNT_ID = bankAccount.get('id');
-			_this.BANK_ACCOUNT_ROUTE = _this.MARKETPLACE_ROUTE +
-				'/bank_accounts/' + _this.BANK_ACCOUNT_ID;
+			self.BANK_ACCOUNT_ID = bankAccount.get('id');
+			self.BANK_ACCOUNT_ROUTE = self.MARKETPLACE_ROUTE +
+				'/bank_accounts/' + self.BANK_ACCOUNT_ID;
 			return bankAccount;
 		});
 	},
 
 	_createReversal: function() {
-		var _this = this;
+		var self = this;
 
 		return Balanced.Reversal.create({
-			uri: '/credits/' + _this.CREDIT_ID + '/reversals',
-			credit_uri: '/credits/' + _this.CREDIT_ID,
+			uri: '/credits/' + self.CREDIT_ID + '/reversals',
+			credit_uri: '/credits/' + self.CREDIT_ID,
 			amount: 10000
 		}).save().then(function(reversal) {
-			_this.REVERSAL_ID = reversal.get('id');
-			_this.REVERSAL_ROUTE = _this.MARKETPLACE_ROUTE +
-				'/reversals/' + _this.REVERSAL_ID;
+			self.REVERSAL_ID = reversal.get('id');
+			self.REVERSAL_ROUTE = self.MARKETPLACE_ROUTE +
+				'/reversals/' + self.REVERSAL_ID;
 			return reversal;
 		});
 	},
 
 	_createDebit: function() {
-		var _this = this;
+		var self = this;
 		return Balanced.Debit.create({
-			uri: '/customers/' + _this.CUSTOMER_ID + '/debits',
+			uri: '/customers/' + self.CUSTOMER_ID + '/debits',
 			appears_on_statement_as: 'Pixie Dust',
 			amount: 10000,
 			description: 'Cocaine'
 		}).save().then(function(debit) {
-			_this.DEBIT_ID = debit.get('id');
-			_this.DEBIT_ROUTE = _this.MARKETPLACE_ROUTE +
-				'/debits/' + _this.DEBIT_ID;
+			self.DEBIT_ID = debit.get('id');
+			self.DEBIT_ROUTE = self.MARKETPLACE_ROUTE +
+				'/debits/' + self.DEBIT_ID;
 			return debit;
 		});
 	},
 
 	_createCredit: function() {
-		var _this = this;
+		var self = this;
 		return Balanced.Credit.create({
-			uri: '/bank_accounts/' + _this.BANK_ACCOUNT_ID + '/credits',
+			uri: '/bank_accounts/' + self.BANK_ACCOUNT_ID + '/credits',
 			amount: 10000
 		}).save().then(function(credit) {
-			_this.CREDIT_ID = credit.get('id');
-			_this.CREDIT_ROUTE = _this.MARKETPLACE_ROUTE +
-				'/credits/' + _this.CREDIT_ID;
+			self.CREDIT_ID = credit.get('id');
+			self.CREDIT_ROUTE = self.MARKETPLACE_ROUTE +
+				'/credits/' + self.CREDIT_ID;
 			return credit;
 		});
 	},
 
 	_createCustomer: function() {
-		var _this = this;
+		var self = this;
 		return Balanced.Customer.create({
 			uri: this.marketplace.get('customers_uri'),
 			address: {}
@@ -224,83 +288,83 @@ var Testing = {
 	},
 
 	_createDispute: function() {
-		var _this = this;
+		var self = this;
 
 		return this._createDisputeCard().then(function() {
-			return _this._createDebit().then(function() {
+			return self._createDebit().then(function() {
 				return Balanced.Dispute.findAll().then(function(disputes) {
 					if (!disputes.get('content').length) {
 						return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
 					}
 
 					var evt = disputes.objectAt(0);
-					_this.DISPUTE = evt;
-					_this.DISPUTE_ID = evt.get('id');
-					_this.DISPUTE_ROUTE = _this.MARKETPLACE_ROUTE +
-						'/disputes/' + _this.DISPUTE_ID;
+					self.DISPUTE = evt;
+					self.DISPUTE_ID = evt.get('id');
+					self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
+						'/disputes/' + self.DISPUTE_ID;
 
-					_this.start();
+					self.start();
 				});
 			});
 		});
 	},
 
 	createCard: function() {
-		var _this = this;
+		var self = this;
 		Ember.run(function() {
-			_this._createCard();
+			self._createCard();
 		});
 	},
 
 	createBankAccount: function() {
-		var _this = this;
+		var self = this;
 		Ember.run(function() {
-			_this._createBankAccount();
+			self._createBankAccount();
 		});
 	},
 
 	createReversal: function() {
 		this.createCredit();
 
-		var _this = this;
+		var self = this;
 		Ember.run(function() {
-			_this._createReversal();
+			self._createReversal();
 		});
 	},
 
 	createCredit: function() {
-		var _this = this;
+		var self = this;
 		Ember.run(function() {
-			_this._createCard().then(function() {
-				return _this._createDebit();
+			self._createCard().then(function() {
+				return self._createDebit();
 			}).then(function() {
-				return _this._createBankAccount();
+				return self._createBankAccount();
 			}).then(function() {
-				_this._createCredit();
+				self._createCredit();
 			});
 		});
 	},
 
 	createDebit: function() {
-		var _this = this;
+		var self = this;
 
 		return Ember.run(function() {
-			return _this._createCard().then(function() {
-				return _this._createDebit();
+			return self._createCard().then(function() {
+				return self._createDebit();
 			});
 		});
 	},
 
 	createCustomer: function() {
-		var _this = this;
+		var self = this;
 
 		return Ember.run(function() {
-			return _this._createCustomer();
+			return self._createCustomer();
 		});
 	},
 
 	setupEvent: function() {
-		var _this = this;
+		var self = this;
 		// Call stop to stop executing the tests before
 		// a dispute is created
 		this.stop();
@@ -312,44 +376,44 @@ var Testing = {
 				}
 
 				var evt = events.objectAt(0);
-				_this.EVENT_ID = evt.get('id');
-				_this.EVENT_ROUTE = _this.MARKETPLACE_ROUTE +
-					'/events/' + _this.EVENT_ID;
+				self.EVENT_ID = evt.get('id');
+				self.EVENT_ROUTE = self.MARKETPLACE_ROUTE +
+					'/events/' + self.EVENT_ID;
 
-				_this.start();
+				self.start();
 			});
 		});
 	},
 
 	createDispute: function() {
-		var _this = this;
+		var self = this;
 		// Call stop to stop executing the tests before
 		// a dispute is created
 		this.stop();
 
 		// This automatically calls start();
 		return Ember.run(function() {
-			return _this._createDispute();
+			return self._createDispute();
 		});
 	},
 
 	createDisputes: function(number) {
-		var _this = this;
+		var self = this;
 
 		Ember.run(function() {
 			for (number = number || 4; number >= 0; number--) {
-				_this.createDispute();
+				self.createDispute();
 			}
 		});
 	},
 
 	createDebits: function(number) {
-		var _this = this;
+		var self = this;
 		number = number || 4;
 		Ember.run(function() {
 			var i = number;
 			while (i > 0) {
-				_this._createDebit();
+				self._createDebit();
 				i--;
 			}
 		});
