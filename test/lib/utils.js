@@ -30,6 +30,7 @@ var Testing = {
 
 		stop();
 		this.isStopped = true;
+		Ember.Logger.log('Tests Stopped Running.');
 	},
 
 	start: function() {
@@ -39,6 +40,7 @@ var Testing = {
 
 		start();
 		this.isStopped = false;
+		Ember.Logger.log('Tests Started Running.');
 	},
 
 	pause: function(number, fn) {
@@ -52,6 +54,8 @@ var Testing = {
 		if (fn) {
 			_.delay(fn, number);
 		}
+
+		Ember.Logger.log('Tests Paused for %@ ms.'.fmt(number));
 	},
 
 	selectMarketplaceByName: function(name) {
@@ -136,51 +140,61 @@ var Testing = {
 		this.stop();
 
 		return Ember.run(function() {
-			return Balanced.Auth.signIn(LOGIN_INFO.EMAIL, LOGIN_INFO.PASSWORD)
-				.then(function() {
+			return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
+				return Balanced.Auth.signIn(LOGIN_INFO.EMAIL, LOGIN_INFO.PASSWORD)
+					.then(function() {
+						if (useExistingMarketplace) {
+							var userMarketplaces = Balanced.Auth.get('user.user_marketplaces');
+							var userMarketplace = userMarketplaces.objectAt(0);
+							Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
 
-					if (useExistingMarketplace) {
-						var userMarketplaces = Balanced.Auth.get('user.user_marketplaces');
-						var userMarketplace = userMarketplaces.objectAt(0);
-						Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
+							var marketplace = userMarketplace.get('marketplace');
 
-						var marketplace = userMarketplace.get('marketplace');
+							return marketplace.then(function() {
+								Balanced.Utils.setCurrentMarketplace(marketplace);
+								self.setupCreatedMarketplace(marketplace);
+								self.start();
 
-						return marketplace.then(function() {
-							Balanced.Utils.setCurrentMarketplace(marketplace);
-							self.setupCreatedMarketplace(marketplace);
-							self.start();
-							return marketplace;
-						});
-					}
+								return marketplace;
+							});
+						}
 
-					self.createTestMarketplace();
-				});
+						self.createTestMarketplace();
+						self.start();
+					});
+			});
 		});
 	},
 
 	createTestMarketplace: function() {
+		var self = this;
+
 		Balanced.Utils.setCurrentMarketplace(null);
-		auth.unsetAPIKey();
+		Balanced.Auth.unsetAPIKey();
 
-		return Balanced.APIKey.create().save().then(function(apiKey) {
-			var apiKeySecret = apiKey.get('secret');
-			//  set the api key for this request
-			auth.setAPIKey(apiKeySecret);
-			var settings = {
-				headers: {
-					Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-				}
-			};
+		return Ember.run(function() {
+			return Balanced.APIKey.create().save().then(function(apiKey) {
+				var apiKeySecret = apiKey.get('secret');
+				//  set the api key for this request
+				Balanced.Auth.setAPIKey(apiKeySecret);
+				var settings = {
+					headers: {
+						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+					}
+				};
 
-			return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
-				var user = Balanced.Auth.get('user');
+				return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
+					var user = Balanced.Auth.get('user');
 
-				return Balanced.UserMarketplace.create({
-					uri: user.get('api_keys_uri'),
-					secret: apiKeySecret
-				}).save().then(function() {
-					user.reload();
+					return Balanced.UserMarketplace.create({
+						uri: user.get('api_keys_uri'),
+						secret: apiKeySecret
+					}).save().then(function() {
+						return user.reload().then(function() {
+							Balanced.Utils.setCurrentMarketplace(marketplace);
+							self.setupCreatedMarketplace(marketplace);
+						});
+					});
 				});
 			});
 		});

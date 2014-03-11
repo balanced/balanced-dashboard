@@ -2,7 +2,7 @@ document.write('<script src="https:\/\/js.balancedpayments.com\/1.1\/balanced.js
 
 QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';
-	console.log('#' + module + " " + test.name + ": starting setup.");
+	Ember.Logger.log('#' + module + " " + test.name + ": starting setup.");
 
 	// Display an error if asynchronous operations are queued outside of
 	// Ember.run.  You need this if you want to stay sane.
@@ -34,11 +34,12 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
+	Ember.Logger.log('#' + module + " " + test.name + ": running.");
 });
 
 QUnit.testDone(function(test) {
 	var module = test.module ? test.module : '';
-	console.log('#%@ %@: tearing down.'.fmt(module, test.name));
+	Ember.Logger.log('#%@ %@: tearing down.'.fmt(module, test.name));
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
@@ -47,5 +48,5 @@ QUnit.testDone(function(test) {
 
 	Ember.testing = false;
 
-	console.log('#%@ %@: done.'.fmt(module, test.name));
+	Ember.Logger.log('#%@ %@: done.'.fmt(module, test.name));
 });
