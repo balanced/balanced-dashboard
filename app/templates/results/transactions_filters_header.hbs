@@ -1,49 +1,53 @@
 <nav>
 	{{#unless view.showExtraTransactionTypes}}
 		<li {{bind-attr class=":filter :all view.allTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "transaction" "all"}}>All</a>
+			<a href="#" {{action "changeTypeFilter" "transaction"}}>All</a>
 		</li>
 	{{/unless}}
 
 	<li {{bind-attr class=":filter :holds view.holdsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "hold" "all"}}>Holds</a>
+		<a href="#" {{action "changeTypeFilter" "hold"}}>Holds</a>
 	</li>
 
 	{{#if view.showExtraTransactionTypes}}
 		<li {{bind-attr class=":filter :debit-cards view.debitCardsTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "card_debit" "all"}}>Debit: cards</a>
+			<a href="#" {{action "changeTypeFilter" "card_debit"}}>Debit: cards</a>
 		</li>
 
 		<li {{bind-attr class=":filter :debit-bank-accounts view.debitBankAccountsTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "bank_account_debit" "all"}}>Debit: bank accounts</a>
+			<a href="#" {{action "changeTypeFilter" "bank_account_debit"}}>Debit: bank accounts</a>
 		</li>
 	{{else}}
 		<li {{bind-attr class=":filter :debits view.debitsTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "debit" "all"}}>Debits</a>
+			<a href="#" {{action "changeTypeFilter" "debit"}}>Debits</a>
 		</li>
 	{{/if}}
 
-	<li {{bind-attr class=":filter :credits view.creditsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "credit" "all"}}>Credits: succeeded</a>
-	</li>
-
 	{{#if view.showExtraTransactionTypes}}
+		<li {{bind-attr class=":filter :credits view.creditsTabSelected:selected"}} >
+			<a href="#" {{action "changeTypeFilter" "credit"}}>Credits: succeeded</a>
+		</li>
+
 		<li {{bind-attr class=":filter :failed-credits view.failedCreditsTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "failed_credit" "all"}}>Credits: failed</a>
+			<a href="#" {{action "changeTypeFilter" "failed_credit"}}>Credits: failed</a>
+		</li>
+	{{else}}
+		<li {{bind-attr class=":filter :credits view.creditsTabSelected:selected"}} >
+			<a href="#" {{action "changeTypeFilter" "credit"}}>Credits</a>
 		</li>
 	{{/if}}
 
 	<li {{bind-attr class=":filter :refunds view.refundsTabSelected:selected"}} >
-		<a href="#" {{action "changeTransactionTypeFilter" "refund" "all"}}>Refunds</a>
+		<a href="#" {{action "changeTypeFilter" "refund"}}>Refunds</a>
 	</li>
 
 	{{#if view.showExtraTransactionTypes}}
 		<li {{bind-attr class=":filter :reversals view.reversalsTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "reversal" "all"}}>Reversals</a>
+			<a href="#" {{action "changeTypeFilter" "reversal"}}>Reversals</a>
 		</li>
 
 		<li {{bind-attr class=":filter :disputes view.disputesTabSelected:selected"}} >
-			<a href="#" {{action "changeTransactionTypeFilter" "dispute" "all"}}>Disputes</a>
+			<a href="#" {{action "changeTypeFilter" "dispute"}}>Disputes</a>
 		</li>
 	{{/if}}
 
