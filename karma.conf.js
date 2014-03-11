@@ -19,7 +19,7 @@ module.exports = function(config) {
 		'build/test/js/test-runner.js',
 		'build/test/js/testenv.js',
 		'build/js/lib-dev.js',
-		'test/support/lib/balanced.min.js',
+		'https://js.balancedpayments.com/1.1/balanced.js',
 		'build/js/dashboard-dev.js',
 		'build/test/js/test-fixtures.js',
 		'test/support/testconfig.js',

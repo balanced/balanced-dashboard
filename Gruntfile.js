@@ -294,11 +294,6 @@ module.exports = function(grunt) {
 					src: ['**'],
 					dest: 'build/test/'
 				}, {
-					cwd: 'test/support/lib/',
-					expand: true,
-					src: ['**'],
-					dest: 'build/test/js'
-				}, {
 					src: 'test/support/testconfig.js',
 					dest: 'build/test/js/testconfig.js'
 				}, {
@@ -307,6 +302,9 @@ module.exports = function(grunt) {
 				}, {
 					src: 'test/support/fixturebrowserconfig.js',
 					dest: 'build/test/js/fixturebrowserconfig.js'
+				}, {
+					src: 'static/javascripts/qunit/qunit/qunit.css',
+					dest: 'build/test/css/qunit.css'
 				}]
 			},
 			preUglify: {
