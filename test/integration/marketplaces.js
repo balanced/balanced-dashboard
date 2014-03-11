@@ -41,8 +41,8 @@ test('add test marketplace', function(assert) {
 		Testing.CUSTOMER_ID + '/api_keys');
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.fillIn(".marketplace-list.test li.new input[name='name']", 'NEW MARKETPLACE')
-		.click(".marketplace-list.test li.new form button")
+		.fillIn(".marketplace-list.test li.mp-new input[name='name']", 'NEW MARKETPLACE')
+		.click(".marketplace-list.test li.mp-new form button")
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Marketplace));
 		});
@@ -54,8 +54,8 @@ test('add existing marketplace', function(assert) {
 		Testing.CUSTOMER_ID + '/marketplaces');
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.fillIn(".marketplace-list.production li.new input[name='secret']", '1234')
-		.click(".marketplace-list.production li.new form button")
+		.fillIn(".marketplace-list.production li.mp-new input[name='secret']", '1234')
+		.click(".marketplace-list.production li.mp-new form button")
 		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
