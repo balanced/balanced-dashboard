@@ -12,7 +12,7 @@
 
 	<div class="results">
 		<!-- TODO - put the counts back when the API supports it -->
-		{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result"}}
+		{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="search"}}
 
 		{{#if ordersTabSelected}}
 			<div class="items-wrapper">

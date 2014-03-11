@@ -23,7 +23,7 @@ Balanced.ImportPayoutsView = Ember.View.extend({
 	}.property("creditCreators.isEmpty"),
 
 	sampleFileUri: function() {
-		return "data:text/plain;charset=utf-8;base64," + window.btoa(SAMPLE_FILE);
+		return Balanced.Utils.toDataUri(SAMPLE_FILE);
 	}.property(),
 
 	creditCreators: Computed.readOnly("controller.creditCreators"),

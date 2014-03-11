@@ -15,9 +15,6 @@
 @marketplaceNavTriangleSize: 10px;
 
 #header {
-  background-color: @searchBarBackground;
-  height: @searchBarHeight;
-
   > div > div {
     height: @searchBarHeight;
     border-right: 1px solid @searchBoxBackground;
@@ -32,34 +29,6 @@
     &#balanced-address {
       display: none;
     }
-  }
-
-  .dropdown-menu {
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 0;
-    background: @white;
-    text-align: left;
-    margin: 0;
-
-    a {
-      color: @egyptianBlue100;
-      display: block;
-      padding: 5px 15px;
-      &:hover {
-        text-decoration: none;
-        background: @black;
-        color: @white;
-      }
-    }
-
-    > li {
-      border-bottom:1px solid @gray2;
-    }
-    > li:last-of-type {
-      border-bottom:none;
-    };
   }
 }
 
@@ -175,82 +144,6 @@ footer {
   }
 }
 
-// TODO: this is shaping up to be a general menu style. refactor if that's the
-// case
-#marketplaces {
-  #marketplace-name{
-    display: inline-block;
-    max-width: 215px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    line-height: normal;
-  }
-  text-align: center;
-  display: block;
-  float: left;
-  width: auto;
-  height: 60px;
-  border-right: 1px solid @searchBoxBackground;
-  > a {
-    display: block;
-    height: 100%;
-    padding: 18px 10px;
-    text-decoration: none;
-    &:active {
-      outline: 0;
-    }
-    &:hover{
-      background-color:white;
-      color:@black;
-      #marketplace-name{
-        color:@black;
-      }
-      .caret{
-        border-top-color: @black;
-      }
-    };
-  }
-  .caret {
-    border-top-color: @searchBoxBackground;
-    border-width: 5px;
-  }
-  &.open {
-    background:white;
-    span{
-      color:@black;
-    }
-    .caret{
-      color:@black;
-    }
-  }
-  .dropdown-menu {
-    padding: 5px 0 0;
-    width: 240px;
-
-    h4 {
-      margin: 10px 0;
-      padding: 0 15px; 
-    }
-    li ul {
-      margin-bottom: 20px;
-      a{
-        color:@turquoise60;
-      }
-    }
-    .new {
-      background-color: @egyptianBlue100;
-      a {
-        color: white;
-        padding: 10px 15px;
-        &:hover {
-          background-color: @black;
-        }
-      }
-    }
-  }
-}
-
 #search {
   text-align: left;
   display: block;
@@ -295,7 +188,7 @@ footer {
     > a, > span {
       padding: 19px 0;
       display: block;
-      border: 5px solid @black;
+      border: 5px solid transparent;
       &:hover {
          border:5px solid white;
       };
@@ -338,6 +231,7 @@ footer {
     padding-top: 10px;
     padding-bottom: 10px;
     opacity: 0.6;
+    
     &:hover {
       opacity: 1;
       .caret {
@@ -357,31 +251,8 @@ footer {
   }
   .caret {
     margin-top: 13px;
-    border-top-color: @gray4;
-    border-width: 5px;
   }
 
-  &.open {
-    a.dropdown-toggle.gravatar {
-      background:@white;
-      opacity: 1;
-      border-color:@white;
-    }
-    .caret {
-      border-top-color: @black;
-    }
-    .profile.icon {
-      border-color:@gray4;
-    }
-  }
-  .dropdown-menu {
-    min-width: 210px;
-    li {
-      a{
-        padding: 10px 20px;
-      }
-    }
-  }
 }
 
 #main {

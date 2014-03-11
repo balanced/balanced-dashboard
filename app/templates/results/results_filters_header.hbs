@@ -38,10 +38,13 @@
 			</ul>
 		</div>
 	</li>
-	<li {{bind-attr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "dispute"}}> {{view.dispute_type_label}} </a>
-	</li>
-	<li class="timing dropdown label4a">
+	{{#if view.isActivity}}
+		<li {{bind-attr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
+			<a href="#" {{action "changeTypeFilter" "dispute"}}> {{view.dispute_type_label}} </a>
+		</li>
+	{{/if}}
+
+	<li class="timing dropdown action label4a">
 		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 	</li>
 

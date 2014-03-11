@@ -2,6 +2,11 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 	templateName: "import_payouts/results_table",
 
 	isError: false,
+
+	errorReportUri: function() {
+		var csv = this.get("creditCreators").toCsvString();
+		return Balanced.Utils.toDataUri(csv);
+	}.property("creditCreators.length")
 });
 
 Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({

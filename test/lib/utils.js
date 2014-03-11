@@ -84,6 +84,11 @@ var Testing = {
 		});
 	},
 
+	useFixtureData: function() {
+		this.setupFixtures();
+		this.fixtureLogin();
+	},
+
 	logout: function() {
 		Ember.run(function() {
 			Balanced.Auth.setAuthProperties(false, null, null, null, false);

@@ -100,3 +100,19 @@ test("#isInvalid", function(assert) {
 	assert.ok(!collection.get("isInvalid"));
 	assert.ok(collection.get("isValid"));
 });
+
+test("#toCsvString", function(assert) {
+	var text = [
+		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
+		",,,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity)",
+	].join("\n");
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText(text);
+	var result = collection.toCsvString();
+	var expected = [
+		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description,errors",
+		",,,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity),\"new_customer_name can't be blank\nnew_customer_email can't be blank\"",
+	].join("\n");
+
+	assert.deepEqual(result, expected);
+
+});
