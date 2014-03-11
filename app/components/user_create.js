@@ -51,8 +51,6 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 
 					// Hack to make it reload users
 					self.get('userMarketplace').notifyPropertyChange('marketplace');
-
-					self.hide();
 				}, function() {
 					self.setProperties({
 						hasError: true,

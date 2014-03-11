@@ -367,7 +367,7 @@ Balanced.Model.reopenClass({
 			}
 		} else {
 			// HACK - once we fix the API response from the auth proxy, we should take out the if
-			if (objClass !== Balanced.UserMarketplace) {
+			if (objClass !== Balanced.UserMarketplace && objClass !== Balanced.InviteUser) {
 				Ember.Logger.warn("No _type field found on URI: " + json.uri);
 			}
 		}
