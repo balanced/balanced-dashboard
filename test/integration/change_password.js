@@ -1,7 +1,6 @@
 module('ChangePassword', {
 	setup: function() {
-		Testing.setupFixtures();
-		Testing.fixtureLogin();
+		Testing.useFixtureData();
 	},
 	teardown: function() {}
 });
