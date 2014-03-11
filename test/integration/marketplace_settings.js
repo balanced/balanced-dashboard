@@ -24,12 +24,12 @@ test('can add user', function(assert) {
 			{
 			"links": {},
 			"created_at": "2014-03-11T21:21:31.812354Z",
-			"secret": "ak-prod-1TdQWcAZZC4hagGxFnHStj8PHdTLyDSyJ",
-			"href": "/api_keys/AKUeJ64hhYvZ93OMuMOPrIc",
+			"secret": "ak-TEST-123",
+			"href": "/api_keys/AK123",
 			"meta": {
-				"name": "kjk"
+				"name": "AK123"
 			},
-			"id": "AKUeJ64hhYvZ93OMuMOPrIc"
+			"id": "AK123"
 		}
 	]});
 
@@ -37,16 +37,16 @@ test('can add user', function(assert) {
 
 	visit(SETTINGS_ROUTE)
 		.click('.create-user-btn')
+		.click('.modal.create-user:visible button[name="modal-submit"]')
+		.then(function() {
+			assert.equal(stub.callCount, 0);
+		})
+		.fillIn('.modal.create-user:visible input.full', 'Test1234')
 		.click('.modal.create-user button[name="modal-submit"]')
 		.then(function() {
 			assert.equal(stub.callCount, 0);
 		})
-		.fillIn('input.full', 'Test1234')
-		.click('.modal.create-user button[name="modal-submit"]')
-		.then(function() {
-			assert.equal(stub.callCount, 0);
-		})
-		.fillIn('input.full', TEST_EMAIL)
+		.fillIn('.modal.create-user:visible input.full', TEST_EMAIL)
 		.click('.modal.create-user button[name="modal-submit"]')
 		.then(function() {
 			assert.equal(stub.callCount, 0);
@@ -63,6 +63,15 @@ test('can add user', function(assert) {
 				}
 			));
 console.log(stub.getCall(1));
+			assert.ok(stub.getCall(1).calledWith(
+				Balanced.InviteUser,
+				sinon.match.any,
+				{
+					email_address: 'Test1234@example.com',
+					secret: ''
+				}
+			));
+
 			assert.ok(stub.getCall(1).calledWith(
 				Balanced.InviteUser,
 				sinon.match.any,

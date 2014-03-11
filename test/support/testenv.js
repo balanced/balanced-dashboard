@@ -7,10 +7,6 @@ var ENV = {
 		DOCS: 'https://docs.balancedpayments.com',
 		DEBUG: true,
 		MIXPANEL: '',
-		GOOGLE_ANALYTICS: '',
-		LOGIN: {
-			EMAIL: 'test@balancedpayments.com',
-			PASSWORD: 'testtest'
-		}
+		GOOGLE_ANALYTICS: ''
 	}
 };
