@@ -14,10 +14,16 @@ var SAMPLE_FILE = [
 	"BA7Cv3FMXaOcD17dMVbqAXLI,,,,,,,101Flowers.com,#0052323,21.03"
 ].join("\n");
 
-Balanced.MarketplaceUploadPaymentsCsvView = Ember.View.extend({
+Balanced.ImportPayoutsView = Ember.View.extend({
+
+	title: function() {
+		return this.get("creditCreators.isEmpty") ?
+			"Upload your file" :
+			"Payout Summary";
+	}.property("creditCreators.isEmpty"),
 
 	sampleFileUri: function() {
-		return "data:text/plain;charset=utf-8;base64," + window.btoa(SAMPLE_FILE);
+		return Balanced.Utils.toDataUri(SAMPLE_FILE);
 	}.property(),
 
 	creditCreators: Computed.readOnly("controller.creditCreators"),

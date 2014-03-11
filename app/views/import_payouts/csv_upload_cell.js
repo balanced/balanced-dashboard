@@ -71,11 +71,11 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 });
 
 Balanced.DefaultCsvUploadCellView = Balanced.CsvUploadCellView.extend({
-	templateName: "marketplace/upload_payments_csv/default_csv_upload_cell",
+	templateName: "import_payouts/default_csv_upload_cell",
 });
 
 Balanced.ErrorTooltipCsvUploadCellView = BaseCellView.extend({
-	templateName: "marketplace/upload_payments_csv/error_tooltip_csv_upload_cell",
+	templateName: "import_payouts/error_tooltip_csv_upload_cell",
 	classNames: ["table-column", "table-column-icons"],
 
 	didInsertElement: function() {
@@ -90,16 +90,7 @@ Balanced.ErrorTooltipCsvUploadCellView = BaseCellView.extend({
 	}.property("context"),
 
 	getSortedErrorMessages: function() {
-		var result = {};
-		var errors = this.get("fieldsErrors.allMessages");
-		errors.forEach(function(value) {
-			var key = value[0];
-			var message = value[1];
-
-			result[message] = result[message] || [];
-			result[message].push(key);
-		});
-		return result;
+		return this.get("context").getSortedErrorMessages();
 	},
 
 	initializePopover: function() {

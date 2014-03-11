@@ -73,28 +73,17 @@ header.results-label h3 {
         display: inline-block;
         height: 13px;
         vertical-align: middle;
-      }
-      .caret {
-        border-top-color: @white;
-        margin: 0;
+
+        .caret {
+          margin-top: 0;
+          border-top-color: @white;
+          border-width: 4px;
+          margin-left: 0px;
+        }
       }
     }
     a {
       color: @gray6;
-    }
-    .dropdown-menu {
-      border: 5px solid @black;
-      border-radius: 0;
-      box-shadow: none;
-      text-align: left;
-      margin: 0;
-      top: 17px;
-
-      li {
-        margin: 0;
-        padding: 0;
-        border: 0;
-      }
     }
   }
   table.items {
@@ -318,71 +307,20 @@ header.results-label h3 {
         border-left: 0px;
         border-right: 1px solid @marketplaceNavColor;
     }
-
+    height: 38px;
     padding: 5px;
     float: right;
     border-left: 1px solid @gray3;
     border-bottom: 0;
     margin: 0;
-    height: 38px;
-    font-family: nimbussannov-sembol;
-    font-size: 13px;
+
     &:hover {
       border-bottom: 0;
     }
-    a.dropdown-toggle {
-      color: @searchTimingColor;
-      display: inline-block;
-      font-family: NimbusSanNov-Med, arial, sans-serif;
-      font-size: 15px;
-      padding: 12px 10px;
-      white-space: nowrap;
-      padding-right: 30px;
-      text-decoration: none;
-    }
-    &:hover, &.open {
-      a.dropdown-toggle {
-        background-color: @searchTimingBackgroundHover;
-        color: @searchTimingColorHover;
-        text-decoration: none;
-      }
-      .caret {
-        border-top-color: @searchTimingColorHover;
-      }
-    }
-    .caret {
-      position: absolute;
-      top: 21px;
-      right: 22px;
-      border-top-color: @searchTimingColor;
-    }
 
     &.filter-endpoints {
-        .dropdown-toggle {
-            width: 100px;
-        }
-
         .dropdown-menu {
-            width: 130px;
-            background-color: @white;
-            top: 0px;
-            position: relative;
-            float: none;
-            min-width: 0;
-
-            li {
-                a {
-                    padding: 10px;
-                    color: @linkColor;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: @black;
-                        background-image: none;
-                        color: @white;
-                    }
-                }
-            }
+          width: 130px;
         }
     }
 
@@ -390,44 +328,24 @@ header.results-label h3 {
       //  120px = set timing width
       // 330px = width of date picker
       width: 120px + 330px + @searchBorderWidth * 8;
-      background-color: @searchBodyBackground;
       right: -@searchBorderWidth;
       padding: 0;
 
       &.date-picker {
-        top: 48px;
-        right: 0px;
+        top: 44px;
       }
 
       .set-times {
-        // wtf: where did this extra 2 px come from
-        height: 202px;
-        padding: 10px;
         background-color: @white;
         float: left;
         width: 120px;
-
-        li {
-          display: block;
-          float: none;
-          font-family: nimbussannov-med;
-          padding: 0 0 15px;
-          &.selected {
-            font-family: nimbussannov-bol;
-          }
-          a {
-            color: @gray5;
-            &:hover {
-              color: @black;
-              text-decoration: none;
-            }
-          }
-        }
+        height: 205px;
+        padding: 10px;
       }
       .date-picker {
         padding: 10px;
         float: right;
-        width: 330px;
+        width: 330px;        
       }
 
       .before, .after {
@@ -435,15 +353,17 @@ header.results-label h3 {
         height: 190px;
         width: 220px;
         padding-top: 10px;
+
         .datepicker {
-          background-color: @datePickerBackground;
+          .box-shadow(none);
+          background-color: @gray2;
           display: none;
         }
         .dt {
         }
         &.selected {
           .datepicker, .dt {
-            background-color: @datePickerBackground;
+            background-color: @gray2;
             display: block;
           }
         }

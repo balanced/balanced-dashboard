@@ -5,9 +5,7 @@
             <h2>Add a bank account</h2>
         </div>
         <div class="modal-body modal-with-headers">
-            <div class="modal-content-error">
-                {{partial "modals/modalErrors"}}
-            </div>
+            {{partial "modals/modalErrors"}}
 
             <div class="modal-content">
                 <div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>

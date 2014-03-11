@@ -41,7 +41,29 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 		};
 
 		saveSingle(creators[0], creators.slice(1));
+	},
+
+	toCsvString: function() {
+		var writer = new Balanced.CsvWriter();
+		writer.addColumnNames([
+			"bank_account_id",
+			"new_customer_name",
+			"new_customer_email",
+			"new_bank_account_routing_number",
+			"new_bank_account_number",
+			"new_bank_account_holders_name",
+			"new_bank_account_type",
+			"amount",
+			"appears_on_statement_as",
+			"description",
+			"errors"
+		]);
+		this.forEach(function(creditCreator) {
+			writer.addRow(creditCreator.toLabeledCsvRowObject());
+		});
+		return writer.toCsvString();
 	}
+
 });
 
 Balanced.CreditCreatorsCollection.reopenClass({

@@ -1,0 +1,81 @@
+.btn {
+  .icon {
+    display: inline-block;
+    font-size: 19px;
+    line-height: 27px;
+    vertical-align: bottom;
+  }
+
+  &.btn-link {
+    background-color: transparent;
+    border: 3px solid transparent;
+    color: @persianBlue100;
+    display: inline-block;
+    font: normal normal normal 13px/30px "NimbusSanNov-Med", arial, sans-serif;
+    letter-spacing: 0;
+    height: 30px;
+    padding: 0 13px;
+    text-align: center;
+    text-transform: none;
+
+    &:hover {
+      background-color: inherit;
+      color: @black !important;
+    }
+  }
+
+  &.btn-link-inline {
+    border: 0 solid transform;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.tb, .title-bar {
+  @titleBarHeight: 70px;
+  height: @titleBarHeight;
+  margin-bottom: 0;
+
+  .tb-label {
+    background-image: none;
+    color: @white;
+    display: block;
+    float: left;
+    font-size: 36px;
+    height: @titleBarHeight;
+    line-height: 86px;
+    text-align: center;
+    text-indent: 0;
+    width: @titleBarHeight;
+  }
+
+  .tb-content {
+    font: normal normal normal 22px/80px NimbusSanNov-Med,Arial,sans-serif;
+    padding: 0 20px;
+  }
+
+  &, &.tb-default {
+    background-color: @gray2;
+    color: @black;
+    .tb-label {
+      background-color: @gray7;
+      color: @white;
+    }
+  }
+
+  &.tb-imperial-red {
+    background-color: @imperialRed60;
+    color: @white;
+    .tb-label {
+      background-color: @imperialRed100;
+    }
+  }
+
+  &.tb-egyptian-blue {
+    background-color: @egyptianBlue60;
+    .tb-label {
+      background-color: @egyptianBlue100;
+    }
+  }
+}

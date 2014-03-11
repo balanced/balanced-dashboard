@@ -29,17 +29,17 @@
 			</div>
 		</div>
 
-		{{#unless controllers.marketplace.production}}
-			<div class="pull-right">
-				{{#link-to "marketplace.upload_payments_csv" }}
+		<div class="pull-right">
+			{{#unless controllers.marketplace.production}}
+				{{#link-to "marketplace.import_payouts" class="btn btn-link"}}
 					<i class="icon-document-upload"></i>
 					Import Payouts
 				{{/link-to}}
-			</div>
-		{{/unless}}
+			{{/unless}}
+		</div>
 
 		<div class="results">
-			{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result"}}
+			{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
 		</div>
 
 		{{outlet}}

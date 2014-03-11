@@ -286,3 +286,35 @@ test("#isSaveable", function(assert) {
 	creditCreator.set("credit.isNew", true);
 	assert.ok(creditCreator.get("isSaveable"));
 });
+
+test("#toLabeledCsvObject", function(assert) {
+	var object = Object.create({
+		bank_account_id: "    ",
+		new_customer_name: "",
+		new_customer_email: "harry.tan@example.com",
+		new_bank_account_routing_number: "121000358",
+		new_bank_account_number: "123123123",
+		new_bank_account_holders_name: "Harry Tan",
+		new_bank_account_type: "Checking",
+		amount: "100",
+		appears_on_statement_as: "Payment #9746",
+		description: "5 Gold Rings"
+	});
+	var expectation = {
+		bank_account_id: "    ",
+		new_customer_name: "",
+		new_customer_email: "harry.tan@example.com",
+		new_bank_account_routing_number: "121000358",
+		new_bank_account_number: "123123123",
+		new_bank_account_holders_name: "Harry Tan",
+		new_bank_account_type: "Checking",
+		amount: "100",
+		appears_on_statement_as: "Payment #9746",
+		description: "5 Gold Rings",
+		errors: "new_customer_name can't be blank"
+	};
+
+	var creditCreator = Balanced.CreditCreator.fromCsvRow(object);
+	var result = creditCreator.toLabeledCsvRowObject();
+	assert.deepEqual(result, expectation);
+});

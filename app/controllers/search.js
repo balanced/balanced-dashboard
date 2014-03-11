@@ -22,8 +22,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				if (!self.get('isDestroyed')) {
 					self.runQuery();
 				}
-			}, Balanced.THROTTLE);
-			this.addObserver('search', Balanced.THROTTLE > 0 ? debouncedQuery : _.bind(this.runQuery, this));
+			}, Balanced.THROTTLE.SEARCH);
+			this.addObserver('search', Balanced.THROTTLE.SEARCH > 0 ? debouncedQuery : _.bind(this.runQuery, this));
 		},
 
 		actions: {
