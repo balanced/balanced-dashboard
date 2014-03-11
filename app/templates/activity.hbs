@@ -1,51 +1,49 @@
-<div class="row">
-	<div id="activity" class="span22">
-		<h1 class="page-title">
-			Activity
-			{{#unless results.isLoaded}}
-				<div class="loader-container">
-					<span class="loader loading"></span>
-				</div>
-			{{/unless}}
-		</h1>
+<div id="activity">
+	<h1 class="page-title">
+		Activity
+		{{#unless results.isLoaded}}
+			<div class="loader-container">
+				<span class="loader loading"></span>
+			</div>
+		{{/unless}}
+	</h1>
 
-		<div class="main-header activity-escrow-box">
-			<div class="row">
-				<div class="span2 label">
-					<span class="subhead2d">Escrow</span>
-				</div>
-				<div class="span10 amount">
-					<span class="number1d">
-						{{controllers.marketplace.formattedEscrowAmount}}
-					</span>
-				</div>
+	<div class="main-header activity-escrow-box">
+		<div class="row">
+			<div class="span2 label">
+				<span class="subhead2d">Escrow</span>
+			</div>
+			<div class="span10 amount">
+				<span class="number1d">
+					{{controllers.marketplace.formattedEscrowAmount}}
+				</span>
+			</div>
 
-				<div class="buttons">
-					<div class="buttons-container">
-						{{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
-						{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
-					</div>
+			<div class="buttons">
+				<div class="buttons-container">
+					{{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
+					{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
 				</div>
 			</div>
 		</div>
-
-		<div class="pull-right">
-			{{#unless controllers.marketplace.production}}
-				{{#link-to "marketplace.import_payouts" class="btn btn-link"}}
-					<i class="icon-document-upload"></i>
-					Import Payouts
-				{{/link-to}}
-			{{/unless}}
-		</div>
-
-		<div class="results">
-			{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
-		</div>
-
-		{{outlet}}
-
-		{{#if show_download}}
-			{{partial "modals/download"}}
-		{{/if}}
 	</div>
+
+	<div class="pull-right">
+		{{#unless controllers.marketplace.production}}
+			{{#link-to "marketplace.import_payouts" class="btn btn-link"}}
+				<i class="icon-document-upload"></i>
+				Import Payouts
+			{{/link-to}}
+		{{/unless}}
+	</div>
+
+	<div class="results">
+		{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
+	</div>
+
+	{{outlet}}
+
+	{{#if show_download}}
+		{{partial "modals/download"}}
+	{{/if}}
 </div>
