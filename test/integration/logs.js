@@ -66,7 +66,7 @@ test('filter logs by endpoint bank accounts', function(assert) {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 		})
-		.click('.results li.filter-endpoints ul li.bank_accounts a')
+		.click('.results li.filter-endpoints ul a.bank_accounts')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Log, '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc'));
 			assert.equal($('table.logs tbody tr').length, 1, 'has 1 log');
