@@ -25,50 +25,16 @@
   }
 }
 
-.tb, .title-bar {
-  @titleBarHeight: 70px;
-  height: @titleBarHeight;
-  margin-bottom: 0;
-
-  .tb-label {
-    background-image: none;
-    color: @white;
-    display: block;
-    float: left;
-    font-size: 36px;
-    height: @titleBarHeight;
-    line-height: 86px;
-    text-align: center;
-    text-indent: 0;
-    width: @titleBarHeight;
-  }
-
-  .tb-content {
-    font: normal normal normal 22px/80px NimbusSanNov-Med,Arial,sans-serif;
-    padding: 0 20px;
-  }
-
-  &, &.tb-default {
-    background-color: @gray2;
-    color: @black;
-    .tb-label {
-      background-color: @gray7;
-      color: @white;
-    }
-  }
-
-  &.tb-imperial-red {
-    background-color: @imperialRed60;
-    color: @white;
-    .tb-label {
-      background-color: @imperialRed100;
-    }
-  }
-
-  &.tb-egyptian-blue {
-    background-color: @egyptianBlue60;
-    .tb-label {
-      background-color: @egyptianBlue100;
+.title-bar-color(@className, @bgColor, @detailColor, @textColor) {
+  .tb, .title-block {
+    &.@{className} {
+      background-color: @bgColor;
+      color: @textColor;
+      .tb-label, .tb-icon {
+        background-color: @detailColor;
+      }
     }
   }
 }
+
+.title-bar-color(tb-curry-yellow, @curryYellow60, @curryYellow100, @white);
