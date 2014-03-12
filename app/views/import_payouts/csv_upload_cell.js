@@ -90,16 +90,7 @@ Balanced.ErrorTooltipCsvUploadCellView = BaseCellView.extend({
 	}.property("context"),
 
 	getSortedErrorMessages: function() {
-		var result = {};
-		var errors = this.get("fieldsErrors.allMessages");
-		errors.forEach(function(value) {
-			var key = value[0];
-			var message = value[1];
-
-			result[message] = result[message] || [];
-			result[message].push(key);
-		});
-		return result;
+		return this.get("context").getSortedErrorMessages();
 	},
 
 	initializePopover: function() {
