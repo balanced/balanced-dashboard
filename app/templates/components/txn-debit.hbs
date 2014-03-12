@@ -6,7 +6,7 @@
 				{{titleCase debit.status}}: {{formatCurrency debit.amount}}
 			</span>
 			<div class="tt-buttons">
-				{{#if can_reverse_credit}}
+				{{#if debit.can_refund}}
 					{{refund-debit-modal debit=debit}}
 				{{/if}}
 			</div>
