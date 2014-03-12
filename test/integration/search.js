@@ -65,16 +65,15 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 		});
 });
 
-test('search "%", click accounts, returns 1 accounts total, showing 1 account in results, with no load more', function(assert) {
+test('search "%", click customers, returns 1 customer total, showing 1 customer in results, with no load more', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search .results li.accounts > a')
+		.click('#search .results li.customers > a')
 		.then(function() {
-			//assert.equal($('#search .results li.accounts > a:contains("1")').length, 1, 'has 1 account in header');
-			assert.equal($('#search .results table.accounts tbody tr').length, 1, 'has 1 account');
-			assert.equal($('#search .results table.accounts tfoot td').length, 0, 'no "load more"');
+			assert.equal($('#search .results table.customers tbody tr').length, 1, 'has 1 customer');
+			assert.equal($('#search .results table.customers tfoot td').length, 0, 'no "load more"');
 		});
 });
 
@@ -132,7 +131,7 @@ test('search click result', function(assert) {
 		Testing.runSearch('%');
 	})
 		.then(function() {
-			click('#search .results .accounts a');
+			click('#search .results .customers a');
 			click($('#search .results table.items tbody tr a').first());
 		})
 		.then(function() {

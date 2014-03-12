@@ -1,9 +1,17 @@
 <nav>
+    <li {{bindAttr class=":orders view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
+        {{#if view.searchResult.total_orders}}
+            <a href="#" {{action changeTypeFilter "order"}}> Orders ({{ formatNumber view.searchResult.total_orders }}) </a>
+        {{else}}
+            <a>Orders (0)</a>
+        {{/if}}
+    </li>
+
 	<li {{bind-attr class=":transactions :filter view.searchResult.total_transactions::disabled view.transactionsTabSelected:selected"}} >
 		{{#if view.searchResult.total_transactions}}
-			<a href="#" {{action "changeTypeFilter" "transaction"}}>{{view.transaction_type_label}} ({{formatNumber view.transaction_type_total}}) </a>
+			<a href="#" {{action "changeTypeFilter" "search"}}>{{view.transaction_type_label}} ({{formatNumber view.transaction_type_total}}) </a>
 		{{else}}
-			<span>Transactions (0)</span>
+			<a>Transactions (0)</a>
 		{{/if}}
 
 		<div class="selector dropdown">
@@ -11,38 +19,38 @@
 
 			<ul class="dropdown-menu transaction-filter filter-choices">
 				<li><a href="#" {{action "changeTypeFilter" "transaction"}} {{bind-attr label="view.totalTransactionsHeader"}}>All ({{view.searchResult.total_transactions}})</a></li>
-				{{#if view.searchResult.total_holds}}
-					<li><a href="#" {{action "changeTypeFilter" "hold"}}> Holds ({{view.searchResult.total_holds}}) </a></li>
+				{{#if view.searchResult.total_card_holds}}
+					<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds ({{view.searchResult.total_card_holds}}) </a></li>
 				{{else}}
-					<li class="disabled"><span>Holds ({{view.searchResult.total_holds}})</span></li>
+					<li class="disabled"><a>Holds ({{view.searchResult.total_card_holds}})</a></li>
 				{{/if}}
 
 				{{#if view.searchResult.total_debits}}
 					<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits ({{view.searchResult.total_debits}}) </a></li>
 				{{else}}
-					<li class="disabled"><span>Debits ({{view.searchResult.total_debits}})</span></li>
+					<li class="disabled"><a>Debits ({{view.searchResult.total_debits}})</a></li>
 				{{/if}}
 
 				{{#if view.searchResult.total_credits}}
 					<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits ({{view.searchResult.total_credits}}) </a></li>
 				{{else}}
-					<li class="disabled"><span>Credits ({{view.searchResult.total_credits}})</span></li>
+					<li class="disabled"><a>Credits ({{view.searchResult.total_credits}})</a></li>
 				{{/if}}
 
 				{{#if view.searchResult.total_refunds}}
 					<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds ({{view.searchResult.total_refunds}}) </a></li>
 				{{else}}
-					<li class="disabled"><span>Refunds ({{view.searchResult.total_refunds}})</span></li>
+					<li class="disabled"><a>Refunds ({{view.searchResult.total_refunds}})</a></li>
 				{{/if}}
 			</ul>
 		</div>
 	</li>
 
-	<li {{bind-attr class=":accounts view.searchResult.total_accounts::disabled view.customersTabSelected:selected"}} >
-		{{#if view.searchResult.total_accounts}}
-			<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber view.searchResult.total_accounts}}) </a>
+	<li {{bind-attr class=":customers view.searchResult.total_accounts::disabled view.customersTabSelected:selected"}} >
+		{{#if view.searchResult.total_customers}}
+			<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber view.searchResult.total_customers}}) </a>
 		{{else}}
-			<span>Customers (0)</span>
+			<a>Customers (0)</a>
 		{{/if}}
 	</li>
 
@@ -50,7 +58,7 @@
 		{{#if view.searchResult.total_funding_instruments}}
 			<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> {{view.funding_instrument_type_label}} ({{formatNumber view.funding_instrument_type_total}}) </a>
 		{{else}}
-			<span>Cards &amp; Bank Accounts (0)</span>
+			<a>Cards &amp; Bank Accounts (0)</a>
 		{{/if}}
 
 		<div class="selector dropdown">
@@ -61,13 +69,13 @@
 				{{#if view.searchResult.total_cards}}
 					<li><a href="#" {{action "changeTypeFilter" "card"}}> Cards ({{view.searchResult.total_cards}}) </a></li>
 				{{else}}
-					<li class="disabled"><span>Cards (0)</span></li>
+					<li class="disabled"><a>Cards (0)</a></li>
 				{{/if}}
 
 				{{#if view.searchResult.total_bank_accounts}}
 					<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts ({{view.searchResult.total_bank_accounts}}) </a></li>
 				{{else}}
-					<li class="disabled"><span>Bank Accounts (0)</span></li>
+					<li class="disabled"><a>Bank Accounts (0)</a></li>
 				{{/if}}
 			</ul>
 		</div>

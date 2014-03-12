@@ -47,12 +47,14 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 				_.each(vals, populateFunc);
 			}
 		}
-
+		
 		var nextUri = rootJson.meta ? rootJson.meta.next : null;
+		var counts = rootJson.meta ? rootJson.meta.counts : null;
 
 		return {
 			items: collection,
-			next_uri: nextUri
+			next_uri: nextUri,
+			counts: counts
 		};
 	},
 
