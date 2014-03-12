@@ -92,7 +92,7 @@ test('can delete user', function(assert) {
 			assert.equal($('.users-info table tr').length, 1, 'Single Users shown');
 		})
 		.click('.confirm-delete-user:first')
-		.click('.modal.delete-user:visible button[name="modal-submit"]:visible')
+		.click('.modal.delete-user button[name="modal-submit"]:visible')
 		.then(function() {
 			// assert.ok(stub.calledOnce);
 			// assert.ok(stub.calledWith(Balanced.InviteUser));

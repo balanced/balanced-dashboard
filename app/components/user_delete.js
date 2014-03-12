@@ -14,14 +14,14 @@ Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
 			});
 
 			this.get('user').delete().then(function() {
-				this.setProperties({
+				self.setProperties({
 					hasError: false,
 					isSubmitting: false
 				});
 
 				self.hide();
 			}, function() {
-				this.setProperties({
+				self.setProperties({
 					hasError: true,
 					isSubmitting: false
 				});

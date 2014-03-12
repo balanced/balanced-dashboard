@@ -16,7 +16,7 @@ Balanced.InviteUser = Balanced.Model.extend(Ember.Validations, {
 			}
 		}, settings || {});
 
-		this._super(settings);
+		return this._super(settings);
 	}
 });
 
