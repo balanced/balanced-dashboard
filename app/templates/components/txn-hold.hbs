@@ -2,7 +2,9 @@
 	<div {{bind-attr class=":transaction-type-subheader hold.status"}}>
 		<div class="tt-label">Hold</div>
 		<div class="tt-content">
-			{{titleCase hold.status}}: {{formatCurrency hold.amount}}
+			<span class="tt-title">
+				{{titleCase hold.status}}: {{formatCurrency hold.amount}}
+			</span>
 			<div class="tt-buttons">
 				{{#if hold.can_void_or_capture}}
 					{{capture-hold-modal hold=hold}}

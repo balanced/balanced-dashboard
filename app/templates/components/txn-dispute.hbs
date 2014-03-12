@@ -2,7 +2,9 @@
 	<div {{bind-attr class=":transaction-type-subheader dispute.status"}}>
 		<div class="tt-label">Dispute</div>
 		<div class="tt-content">
-			{{titleCase dispute.status}}: {{formatCurrency dispute.amount}}
+			<span class="tt-title">
+				{{titleCase dispute.status}}: {{formatCurrency dispute.amount}}
+			</span>
 		</div>
 	</div>
 	<div class="transaction-body">

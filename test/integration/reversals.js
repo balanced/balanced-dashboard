@@ -9,7 +9,7 @@ module('Reversals', {
 test('can visit page', function(assert) {
 	visit(Testing.REVERSAL_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Reversal'), -1, 'Title is not correct');
-		assert.equal($(".reversal .tt-content").text().trim(), 'Succeeded: $100.00');
+		assert.equal($(".reversal .tt-title").text().trim(), 'Succeeded: $100.00');
 	});
 });
 

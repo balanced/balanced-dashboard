@@ -1,7 +1,11 @@
 <div class="reversal">
 	<div {{bind-attr class=":transaction-type-subheader reversal.status"}}>
 		<div class="tt-label">Reversal</div>
-		<div class="tt-content">{{titleCase reversal.status}}: {{formatCurrency reversal.amount}}</div>
+		<div class="tt-content">
+			<span class="tt-title">
+				{{titleCase reversal.status}}: {{formatCurrency reversal.amount}}
+			</span>
+		</div>
 	</div>
 	<div class="transaction-body">
 		<div class="row-fluid">

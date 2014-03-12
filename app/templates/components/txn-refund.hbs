@@ -2,7 +2,9 @@
 	<div {{bind-attr class=":transaction-type-subheader refund.status"}}>
 		<div class="tt-label">Refund</div>
 		<div class="tt-content">
-			{{titleCase refund.status}}: {{formatCurrency refund.amount}}
+			<span class="tt-title">
+				{{titleCase refund.status}}: {{formatCurrency refund.amount}}
+			</span>
 		</div>
 	</div>
 	<div class="transaction-body">

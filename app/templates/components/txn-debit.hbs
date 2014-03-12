@@ -2,7 +2,9 @@
 	<div {{bind-attr class=":transaction-type-subheader credit.status"}}>
 		<div class="tt-label">Debit</div>
 		<div class="tt-content">
-			{{titleCase debit.status}}: {{formatCurrency debit.amount}}
+			<span class="tt-title">
+				{{titleCase debit.status}}: {{formatCurrency debit.amount}}
+			</span>
 			<div class="tt-buttons">
 				{{#if can_reverse_credit}}
 					{{refund-debit-modal debit=debit}}

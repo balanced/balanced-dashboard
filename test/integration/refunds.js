@@ -24,7 +24,7 @@ module('Refunds', {
 test('can visit page', function(assert) {
 	visit(Testing.REFUND_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Refund'), -1, 'Title is not correct');
-		assert.equal($(".refund .tt-content").text().trim(), 'Succeeded: $100.00');
+		assert.equal($(".refund .tt-title").text().trim(), 'Succeeded: $100.00');
 	});
 });
 

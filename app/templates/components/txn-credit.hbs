@@ -2,7 +2,9 @@
 	<div {{bind-attr class=":transaction-type-subheader credit.status"}}>
 		<div class="tt-label">Credit</div>
 		<div class="tt-content">
-			{{titleCase credit.status}}: {{formatCurrency credit.amount}}
+			<span class="tt-title">
+				{{titleCase credit.status}}: {{formatCurrency credit.amount}}
+			</span>
 			<div class="tt-buttons">
 				{{#if can_reverse_credit}}
 					{{reverse-credit-modal credit=credit}}
