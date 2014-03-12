@@ -85,7 +85,7 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 
 			// Check if we dont have status type
 			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
-		})
+		});
 });
 
 test('search "%", click accounts, returns 1 accounts total, showing 1 account in results, with no load more', function(assert) {
