@@ -163,6 +163,9 @@ Balanced.Router.map(function() {
 	this.route('resetPassword', {
 		path: '/password/:token'
 	});
+	this.route('resetPassword', {
+		path: '/invite/:token'
+	});
 	this.route('start', {
 		path: '/start'
 	});

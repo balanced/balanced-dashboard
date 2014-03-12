@@ -2,7 +2,7 @@ document.write('<script src="https:\/\/js.balancedpayments.com\/1.1\/balanced.js
 
 QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';
-	Ember.Logger.log('#' + module + " " + test.name + ": starting setup.");
+	console.log('#' + module + " " + test.name + ": starting setup.");
 
 	// Display an error if asynchronous operations are queued outside of
 	// Ember.run.  You need this if you want to stay sane.

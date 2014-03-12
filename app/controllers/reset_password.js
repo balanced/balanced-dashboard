@@ -10,8 +10,10 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 			var model = this.get('content');
 			var self = this;
 
+			var baseUri = location.hash.indexOf('invite') > 0 ? '/invite/' : '/password/';
+
 			model.setProperties({
-				uri: '/password/' + this.get('token'),
+				uri: baseUri + this.get('token'),
 				password: this.get('password'),
 				password_confirm: this.get('password_confirm')
 			});
