@@ -21,18 +21,13 @@ body {
 }
 
 #main-overlay {
+  background-color: @modalBodyBackgroundColor;
+  bottom: -61px;
   display: none;
   position: absolute;
-  top: @searchBarHeight;
-  background-color: @modalBodyBackgroundColor;
-
-  /* Not a fan of doing this, but width 100% does not work because of the right margin */
-  width: @mainWidth;
-
-  height: 100%;
-  min-height: 100%;
+  top: 0;
+  width: 100%;
   z-index: 10;
-  margin: auto;
 }
 
 ul, li {
