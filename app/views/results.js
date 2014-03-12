@@ -12,7 +12,7 @@ var Computed = {
 			} else {
 				return label + ': All';
 			}
-		}.property('controller.transactionType', 'controller.type')
+		}.property('controller.transactionType', 'controller.type');
 	}
 };
 
@@ -25,10 +25,10 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	transactionsTabSelected: function() {
 		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
 	}.property('controller.category'),
-	customersTabSelected: Computed.isCategorySelected("customer"),
-	ordersTabSelected: Computed.isCategorySelected("order"),
-	fundingInstrumentsTabSelected: Computed.isCategorySelected("funding_instrument"),
-	disputesTabSelected: Computed.isCategorySelected("dispute"),
+	customersTabSelected: Computed.isCategorySelected('customer'),
+	ordersTabSelected: Computed.isCategorySelected('order'),
+	fundingInstrumentsTabSelected: Computed.isCategorySelected('funding_instrument'),
+	disputesTabSelected: Computed.isCategorySelected('dispute'),
 
 	isSearch: Ember.computed.equal('from', 'search'),
 	isActivity: Ember.computed.equal('from', 'activity'),
@@ -75,8 +75,8 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		return (label) ? label : labelMapping.DEFAULT;
 	},
 
-	show_download_button: Computed.isCategorySelected("search"),
-	show_disputes_download_button: Computed.isCategorySelected("dispute")
+	show_download_button: Ember.computed.alias('transactionsTabSelected'),
+	show_disputes_download_button: Ember.computed.alias('disputesTabSelected')
 });
 
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
@@ -117,17 +117,17 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/transactions_filters_header',
 	tagName: 'header',
 
-	allTabSelected: Computed.isTypeSelected("transaction"),
-	holdsTabSelected: Computed.isTypeSelected("hold"),
-	creditsTabSelected: Computed.isTypeSelected("credit"),
-	failedCreditsTabSelected: Computed.isTypeSelected("failed_credit"),
-	reversalsTabSelected: Computed.isTypeSelected("reversal"),
-	debitBankAccountsTabSelected: Computed.isTypeSelected("bank_account_debit"),
-	debitCardsTabSelected: Computed.isTypeSelected("card_debit"),
+	allTabSelected: Computed.isTypeSelected('transaction'),
+	holdsTabSelected: Computed.isTypeSelected('hold'),
+	creditsTabSelected: Computed.isTypeSelected('credit'),
+	failedCreditsTabSelected: Computed.isTypeSelected('failed_credit'),
+	reversalsTabSelected: Computed.isTypeSelected('reversal'),
+	debitBankAccountsTabSelected: Computed.isTypeSelected('bank_account_debit'),
+	debitCardsTabSelected: Computed.isTypeSelected('card_debit'),
 
-	debitsTabSelected: Computed.isTypeSelected("debit"),
-	refundsTabSelected: Computed.isTypeSelected("refund"),
-	disputesTabSelected: Computed.isTypeSelected("dispute"),
+	debitsTabSelected: Computed.isTypeSelected('debit'),
+	refundsTabSelected: Computed.isTypeSelected('refund'),
+	disputesTabSelected: Computed.isTypeSelected('dispute'),
 
 	debits_label: Computed.label('debit', 'Debits'),
 	credits_label: Computed.label('credit', 'Credits')
@@ -146,7 +146,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		if (sortField !== this.get('field')) {
-			return "unsorted";
+			return 'unsorted';
 		} else {
 			return SORTS[sortOrder] || 'unsorted';
 		}
@@ -156,7 +156,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		var allowSortByNone = this.get('controller.allowSortByNone');
-		var nextSortOrder = "desc";
+		var nextSortOrder = 'desc';
 		if (sortField === this.get('field')) {
 			switch (sortOrder) {
 				case 'asc':

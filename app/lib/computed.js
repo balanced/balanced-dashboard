@@ -1,3 +1,4 @@
+// Use Ember.get because this.get might be over-ridden for custom objects
 var get = Ember.get;
 
 Balanced.computed = Ember.Namespace.create({

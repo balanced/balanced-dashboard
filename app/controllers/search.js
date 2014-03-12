@@ -2,7 +2,7 @@ var Computed = {
 	isCategory: function(category) {
 		return Ember.computed.equal('category', category);
 	}
-}
+};
 
 Balanced.SearchController = Balanced.ObjectController.extend(
 	Balanced.ResultsTable, {
