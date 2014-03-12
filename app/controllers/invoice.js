@@ -10,7 +10,6 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 		sortOrder: 'desc',
 		limit: 20,
 		transactionStatus: false,
-		transactionTypeFilter: false,
 
 		baseClassSelector: '#invoice',
 
