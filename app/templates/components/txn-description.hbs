@@ -1,35 +1,35 @@
-<div class="key-value-row">
-  <label class="key">Status</label>
-  <span {{bind-attr class=":value transaction.status"}}>{{transaction.status_description}}{{#if type.credit}}{{#if transaction.is_pending}}
-          <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a></span>{{/if}}{{/if}}</span>
-</div>
-<div class="key-value-row">
-  <label class="key">Created</label>
-  <span class="value">{{humanReadableDateLong transaction.created_at}}</span>
-</div>
-<div class="key-value-row">
-  <label class="key">Internal Description</label>
-  <span class="value">{{transaction.description}}</span>
-</div>
-<div class="key-value-row">
-  <label class="key">ID</label>
-  <span class="value">{{transaction.id}}</span>
-</div>
-<div class="key-value-row">
-  <label class="key">Txn #</label>
-  <span class="value">{{transaction.transaction_number}}</span>
-</div>
-{{#unless type.refund}}{{#unless type.reversal}}
-  <div class="key-value-row">
-    <label class="key">On statement as</label>
-    <span class="value">{{transaction.appears_on_statement_as}}</span>
-  </div>
-{{/unless}}{{/unless}}
-<div class="key-value-row meta">
-  <label class="key">Meta</label>
-  <span class="value">
+<dl class="dl-horizontal">
+  <dt>Status</dt>
+  <dd>
+	<span {{bind-attr class="transaction.status"}}>
+	  {{transaction.status_description}}
+	  {{#if type.credit}}{{#if transaction.is_pending}}
+	    <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a>
+	  {{/if}}{{/if}}
+	</span>
+  </dd>
+
+  <dt>Created</dt>
+  <dd>{{humanReadableDateLong transaction.created_at}} </dd>
+
+  <dt>Internal Description</dt>
+  <dd>{{transaction.description}} </dd>
+
+  <dt>ID</dt>
+  <dd>{{transaction.id}} </dd>
+
+  <dt>Txn #</dt>
+  <dd>{{transaction.transaction_number}} </dd>
+
+  {{#unless type.refund}}{{#unless type.reversal}}
+    <dt>On statement as</dt>
+    <dd>{{transaction.appears_on_statement_as}} </dd>
+  {{/unless}}{{/unless}}
+
+  <dt>Meta</dt>
+  <dd>
     {{#each meta in transaction.meta_array}}
       {{meta.key}}: {{meta.value}}<br/>
     {{/each}}
-  </span>
-</div>
+  </dd>
+</dl>

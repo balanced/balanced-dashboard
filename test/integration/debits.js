@@ -65,7 +65,7 @@ test('failed debit shows failure information', function(assert) {
 		Testing.stop();
 		Ember.run.next(function() {
 			Testing.start();
-			assert.equal($('.value.failed').text().trim(), 'Foobar');
+			assert.equal($('.dl-horizontal dd:first').text().trim(), 'Foobar');
 		});
 	});
 });

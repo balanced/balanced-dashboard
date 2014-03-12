@@ -8,6 +8,12 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	baseClassSelector: '#activity',
 	noDownloadsUri: true,
 
+	transactionStatus: 'all',
+
+	TYPE_TRANSLATION: {
+		'card_hold': 'hold'
+	},
+
 	refreshMarketplace: _.debounce(function() {
 		if (!Balanced.currentMarketplace) {
 			return;
@@ -24,9 +30,9 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 	actions: {
 		changeTypeFilter: function(type) {
-			this.set('type', type);
+			this._super(type);
 
-			if (type === 'search' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
 			} else if (type === 'order') {
 				this.transitionToRoute('activity.orders');
@@ -42,9 +48,32 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		}
 	},
 
+	extra_filtering_params: function() {
+		var transactionStatus = this.get('transactionStatus');
+		var type = this.get('type');
+
+		if (type !== 'transaction' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return {};
+		}
+
+		if (transactionStatus === 'all') {
+			return {
+				'status[in]': 'failed,succeeded,pending'
+			};
+		}
+
+		return {
+			status: transactionStatus
+		};
+	}.property('type', 'transactionStatus'),
+
 	results_base_uri: function() {
-		if (this.get('type') === 'dispute') {
+		var type = this.get('type');
+
+		if (type === 'dispute') {
 			return '/disputes';
+		} else if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return '/transactions';
 		}
 
 		return this._super();
@@ -71,13 +100,26 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 
 		changeSortOrder: function(field, sortOrder) {
 			this.get('controllers.activity').send('changeSortOrder', field, sortOrder);
+		},
+
+		changeTypeFilter: function(type) {
+			this.get('controllers.activity').send('changeTypeFilter', type);
 		}
 	}
 });
 
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
 	allowSortByNone: false,
-	noDownloadsUri: true
+	noDownloadsUri: true,
+
+	transactionStatus: Ember.computed.alias('controllers.activity.transactionStatus'),
+	transactionTypeFilter: Ember.computed.alias('controllers.activity.transactionTypeFilter'),
+
+	actions: {
+		changeTransactionStatusFilter: function(status) {
+			this.set('controllers.activity.transactionStatus', status);
+		}
+	}
 });
 
 Balanced.ActivityDisputesController = Balanced.NestedActivityResultsControllers.extend({});

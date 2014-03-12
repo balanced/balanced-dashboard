@@ -3,6 +3,9 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	type: 'transaction',
 
+	// override this if you dont want transaction type filter to appear
+	transactionTypeFilter: true,
+
 	minDate: null,
 	maxDate: null,
 	dateFilterTitle: 'Any time',
@@ -25,6 +28,11 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	// override this if you conditionally don't want to get results
 	fetch_results: true,
 
+	// override this if you want to translate this
+	TYPE_TRANSLATION: {
+		'hold': 'card_hold'
+	},
+
 	actions: {
 		changeDateFilter: function(minDate, maxDate, title) {
 			this.setProperties({
@@ -42,6 +50,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		},
 
 		changeTypeFilter: function(type) {
+			if (this.TYPE_TRANSLATION[type]) {
+				type = this.TYPE_TRANSLATION[type];
+			}
+
 			this.set('type', type);
 		},
 
@@ -64,10 +76,11 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			this.get('results_type')
 		);
 
-		if (['funding_instrument', 'customer', 'transaction', 'search'].indexOf(this.get('type') || '') >= 0) {
+		var type = this.get('type') || '';
+		if (['funding_instrument', 'customer', 'transaction', 'search'].indexOf(type) >= 0) {
 			searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
 			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
-		} else if (this.get('type') === 'dispute') {
+		} else if (type === 'dispute') {
 			searchArray.set('sortProperties', [this.get('sortField') || 'initiated_at']);
 			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
 		}
@@ -157,6 +170,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 		if (_.contains(Balanced.SEARCH.SEARCH_TYPES, type)) {
 			return 'search';
+		}
+
+		if (_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return 'transaction';
 		}
 
 		if (_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
