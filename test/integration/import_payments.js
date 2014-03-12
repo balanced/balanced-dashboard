@@ -1,4 +1,4 @@
-module("UploadPaymentsCsv", {
+module("ImportPayments", {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();

@@ -1,7 +1,6 @@
 module('Account Security', {
 	setup: function() {
-		Testing.setupFixtures();
-		Testing.fixtureLogin();
+		Testing.useFixtureData();
 	},
 	teardown: function() {}
 });

@@ -1,6 +1,15 @@
 <div {{bind-attr class=":results :results-framed view.isError:results-error"}}>
   <header class="header">
     <span class="title">{{view.title}}</span>
+
+	{{#if view.isError}}
+		<div class="pull-right">
+			<a {{bind-attr href="view.errorReportUri"}} download="payments_error_report.csv" class="btn btn-link">
+				<i class="icon icon-csvexport"></i>
+				Download error report
+			</a>
+		</div>
+	{{/if}}
   </header>
   <table class="table table-fixed table-border">
     <thead>
