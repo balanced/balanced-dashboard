@@ -25,6 +25,9 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	// override this if you conditionally don't want to get results
 	fetch_results: true,
 
+	// override this if you want to translate this
+	TYPE_TRANSLATION: {},
+
 	actions: {
 		changeDateFilter: function(minDate, maxDate, title) {
 			this.setProperties({
@@ -42,6 +45,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		},
 
 		changeTypeFilter: function(type) {
+			if (this.TYPE_TRANSLATION[type]) {
+				type = this.TYPE_TRANSLATION[type];
+			}
+
 			this.set('type', type);
 		},
 

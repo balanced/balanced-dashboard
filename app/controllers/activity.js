@@ -44,6 +44,25 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		}
 	},
 
+	extra_filtering_params: function() {
+		var transactionType = this.get('transactionType');
+		var type = this.get('type');
+
+		if (type !== 'transaction' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return {};
+		}
+
+		if (transactionType === 'all') {
+			return {
+				'status[in]': 'failed,succeeded,pending'
+			};
+		}
+
+		return {
+			status: transactionType
+		};
+	}.property('type', 'transactionType'),
+
 	results_base_uri: function() {
 		var type = this.get('type');
 
@@ -54,20 +73,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 		}
 
 		return this._super();
-	}.property('type', 'controllers.marketplace.uri'),
-
-	extra_filtering_params: function() {
-		var transactionType = this.get('transactionType');
-		var type = this.get('type');
-
-		if (transactionType === 'all' || (type !== 'search' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type))) {
-			return {};
-		}
-
-		return {
-			status: transactionType
-		};
-	}.property('type', 'transactionType'),
+	}.property('type', 'controllers.marketplace.uri')
 });
 
 Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({

@@ -52,10 +52,14 @@
 							<label class="key">Date</label>
 							<span class="value">{{humanReadableDateShort created_at}}</span>
 						</div>
-						<div class="key-value-row">
-							<label class="key">Period</label>
-							<span class="value">{{humanReadableDateShort from_date}} - {{humanReadableDateShort to_date}}</span>
-						</div>
+
+						{{#if period}}
+							<div class="key-value-row">
+								<label class="key">Period</label>
+								<span class="value">{{humanReadableDateShort from_date}} - {{humanReadableDateShort to_date}}</span>
+							</div>
+						{{/if}}
+
 						<div class="key-value-row">
 							<label class="key">Status</label>
 							<span class="value">

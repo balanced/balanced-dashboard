@@ -3,6 +3,10 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 	transactionType: 'all',
 	isDisputeType: Ember.computed.equal('type', 'dispute'),
 
+	TYPE_TRANSLATION: {
+		'card_hold': 'hold'
+	},
+
 	actions: {
 		changeTransactionStatusFilter: function(status) {
 			this.setProperties({
@@ -11,9 +15,24 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 		},
 	},
 
-	extra_filtering_params: {
-		'status[in]': 'failed,succeeded,pending'
-	},
+	extra_filtering_params: function() {
+		var transactionType = this.get('transactionType');
+		var type = this.get('type');
+
+		if (type !== 'transaction' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return {};
+		}
+
+		if (!transactionType || transactionType === 'all') {
+			return {
+				'status[in]': 'failed,succeeded,pending'
+			};
+		}
+
+		return {
+			status: transactionType
+		};
+	}.property('type', 'transactionType'),
 
 	results_base_uri: function() {
 		if (this.get('isDisputeType')) {
