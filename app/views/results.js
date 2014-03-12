@@ -4,6 +4,15 @@ var Computed = {
 	},
 	isCategorySelected: function(category) {
 		return Ember.computed.equal('controller.category', category);
+	},
+	label: function(type, label) {
+		return function() {
+			if (this.get('controller.type') === type) {
+				return label + ': %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
+			} else {
+				return label + ': All';
+			}
+		}.property('controller.transactionType', 'controller.type')
 	}
 };
 
@@ -13,7 +22,9 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	from: 'activity',
 
 	// UI computed properties
-	transactionsTabSelected: Computed.isCategorySelected("transaction"),
+	transactionsTabSelected: function() {
+		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
+	}.property('controller.category'),
 	customersTabSelected: Computed.isCategorySelected("customer"),
 	ordersTabSelected: Computed.isCategorySelected("order"),
 	fundingInstrumentsTabSelected: Computed.isCategorySelected("funding_instrument"),
@@ -29,6 +40,11 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 		};
 
 		var types = Balanced.SEARCH.SEARCH_TYPES;
+
+		if (this.get('isActivity')) {
+			types = Balanced.SEARCH.TRANSACTION_TYPES;
+		}
+
 		return this._getLabel(typesToLabels, types, this.get('controller.type'));
 	}.property('controller.type'),
 
@@ -113,21 +129,8 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	refundsTabSelected: Computed.isTypeSelected("refund"),
 	disputesTabSelected: Computed.isTypeSelected("dispute"),
 
-	debits_label: function() {
-		if (this.get('controller.type') === 'debit') {
-			return 'Debits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
-		} else {
-			return 'Debits: All';
-		}
-	}.property('controller.transactionType', 'controller.type'),
-
-	credits_label: function() {
-		if (this.get('controller.type') === 'credit') {
-			return 'Credits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
-		} else {
-			return 'Credits: All';
-		}
-	}.property('controller.transactionType', 'controller.type')
+	debits_label: Computed.label('debit', 'Debits'),
+	credits_label: Computed.label('credit', 'Credits')
 });
 
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
@@ -135,19 +138,17 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 	classNameBindings: 'sortClass',
 
 	sortClass: function() {
+		var SORTS = {
+			asc: 'ascending',
+			desc: 'descending'
+		};
+
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		if (sortField !== this.get('field')) {
 			return "unsorted";
 		} else {
-			switch (sortOrder) {
-				case 'asc':
-					return 'ascending';
-				case 'desc':
-					return 'descending';
-				default:
-					return 'unsorted';
-			}
+			return SORTS[sortOrder] || 'unsorted';
 		}
 	}.property('controller.sortField', 'controller.sortOrder'),
 

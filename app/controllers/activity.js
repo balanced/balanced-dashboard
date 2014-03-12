@@ -10,6 +10,10 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 	transactionType: 'all',
 
+	TYPE_TRANSLATION: {
+		'card_hold': 'hold'
+	},
+
 	refreshMarketplace: _.debounce(function() {
 		if (!Balanced.currentMarketplace) {
 			return;
@@ -26,7 +30,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 
 	actions: {
 		changeTypeFilter: function(type) {
-			this.set('type', type);
+			this._super(type);
 
 			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
@@ -107,6 +111,8 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
 	allowSortByNone: false,
 	noDownloadsUri: true,
+
+	transactionType: Ember.computed.alias('controllers.activity.transactionType'),
 
 	actions: {
 		changeTransactionStatusFilter: function(status) {

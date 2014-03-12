@@ -26,7 +26,9 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	fetch_results: true,
 
 	// override this if you want to translate this
-	TYPE_TRANSLATION: {},
+	TYPE_TRANSLATION: {
+		'hold': 'card_hold'
+	},
 
 	actions: {
 		changeDateFilter: function(minDate, maxDate, title) {
@@ -165,6 +167,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 		if (_.contains(Balanced.SEARCH.SEARCH_TYPES, type)) {
 			return 'search';
+		}
+
+		if (_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return 'transaction';
 		}
 
 		if (_.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
