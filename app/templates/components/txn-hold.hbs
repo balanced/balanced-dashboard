@@ -1,45 +1,34 @@
 <div class="hold">
-	<div {{bind-attr class=":main-header :transaction-type-subheader hold.status"}}>
-		<div class="row">
-			<div class="span2 border-adjust label">
-				<span class="subhead2d">Hold</span>
-			</div>
-			<div class="span10 title">
-				<span class="transaction-description subhead2d">{{titleCase hold.status}}: {{formatCurrency hold.amount}}</span>
-			</div>
-			<div class="span8 border-adjust buttons pull-right">
-				<div class="buttons-container">
-					{{#if hold.can_void_or_capture}}
-						{{capture-hold-modal hold=hold}}
-						{{void-hold-modal hold=hold}}
-					{{/if}}
-				</div>
+	<div {{bind-attr class=":transaction-type-subheader hold.status"}}>
+		<div class="tt-label">Hold</div>
+		<div class="tt-content">
+			{{titleCase hold.status}}: {{formatCurrency hold.amount}}
+			<div class="tt-buttons">
+				{{#if hold.can_void_or_capture}}
+					{{capture-hold-modal hold=hold}}
+					{{void-hold-modal hold=hold}}
+				{{/if}}
 			</div>
 		</div>
 	</div>
 	<div class="transaction-body">
-		<div class="row">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
-				<div class="row-fluid">
-					<div class="span16">
-						<section class="transaction-info">
-							<div class="key-value-display">
-								<header>
-									<h3>Authorization
-										{{edit-transaction-modal transaction=hold}}
-									</h3>
-								</header>
-								{{txn-description transaction=hold}}
-							</div>
-						</section>
+		<div class="row-fluid">
+			<div class="span16">
+				<section class="transaction-info">
+					<div class="key-value-display">
+						<header>
+							<h3>Authorization
+								{{edit-transaction-modal transaction=hold}}
+							</h3>
+						</header>
+						{{txn-description transaction=hold}}
+					</div>
+				</section>
 
-						{{txn-funding-instrument funding_instrument=hold.source}}
-					</div>
-					<div class="span10">
-						{{view Balanced.EventsSideBarView contentBinding="hold"}}
-					</div>
-				</div>
+				{{txn-funding-instrument funding_instrument=hold.source}}
+			</div>
+			<div class="span10">
+				{{view Balanced.EventsSideBarView contentBinding="hold"}}
 			</div>
 		</div>
 	</div>
