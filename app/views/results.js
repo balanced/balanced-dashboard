@@ -65,7 +65,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
 	templateName: 'results/results_filters_header_with_counts',
-	
+
 	totalOrdersTabHeader: function() {
 		return 'Orders (' + this.get('searchResult.total_orders') + ')';
 	}.property('searchResult.total_orders'),
