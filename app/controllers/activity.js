@@ -8,7 +8,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	baseClassSelector: '#activity',
 	noDownloadsUri: true,
 
-	transactionType: 'all',
+	transactionStatus: 'all',
 
 	TYPE_TRANSLATION: {
 		'card_hold': 'hold'
@@ -49,23 +49,23 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	},
 
 	extra_filtering_params: function() {
-		var transactionType = this.get('transactionType');
+		var transactionStatus = this.get('transactionStatus');
 		var type = this.get('type');
 
 		if (type !== 'transaction' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 			return {};
 		}
 
-		if (transactionType === 'all') {
+		if (transactionStatus === 'all') {
 			return {
 				'status[in]': 'failed,succeeded,pending'
 			};
 		}
 
 		return {
-			status: transactionType
+			status: transactionStatus
 		};
-	}.property('type', 'transactionType'),
+	}.property('type', 'transactionStatus'),
 
 	results_base_uri: function() {
 		var type = this.get('type');
@@ -112,11 +112,12 @@ Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControll
 	allowSortByNone: false,
 	noDownloadsUri: true,
 
-	transactionType: Ember.computed.alias('controllers.activity.transactionType'),
+	transactionStatus: Ember.computed.alias('controllers.activity.transactionStatus'),
+	transactionTypeFilter: Ember.computed.alias('controllers.activity.transactionTypeFilter'),
 
 	actions: {
 		changeTransactionStatusFilter: function(status) {
-			this.set('controllers.activity.transactionType', status);
+			this.set('controllers.activity.transactionStatus', status);
 		}
 	}
 });

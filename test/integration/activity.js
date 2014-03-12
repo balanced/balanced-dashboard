@@ -65,6 +65,9 @@ test('Filter Activity transactions table by type & status', function(assert) {
 
 			// Check if it filters
 			assert.equal($('#activity .results table.transactions tr td.no-results').length, 1, 'has "no results"');
+
+			// Check header labels
+			assert.equal($('#activity .results nav li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
 		})
 		.click('#activity .results table.transactions th.status .status-filter li a:contains(Succeeded)')
 		.then(function() {
@@ -75,6 +78,9 @@ test('Filter Activity transactions table by type & status', function(assert) {
 
 			// Check if it filters
 			assert.equal($('#activity .results table.transactions tr td.no-results').length, 1, 'has "no results"');
+
+			// Check header labels
+			assert.equal($('#activity .results nav li.transactions').text().indexOf('Succeeded') >= 0, 1, 'has correct text');
 		})
 		.click('#activity .results table.transactions th.type .type-filter li a:contains(Debits)')
 		.then(function() {

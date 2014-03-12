@@ -3,6 +3,9 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	type: 'transaction',
 
+	// override this if you dont want transaction type filter to appear
+	transactionTypeFilter: true,
+
 	minDate: null,
 	maxDate: null,
 	dateFilterTitle: 'Any time',

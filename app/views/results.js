@@ -8,11 +8,11 @@ var Computed = {
 	label: function(type, label) {
 		return function() {
 			if (this.get('controller.type') === type) {
-				return label + ': %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
+				return label + ': %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionStatus')));
 			} else {
 				return label + ': All';
 			}
-		}.property('controller.transactionType', 'controller.type');
+		}.property('controller.transactionStatus', 'controller.type');
 	}
 };
 
@@ -45,8 +45,14 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 			types = Balanced.SEARCH.TRANSACTION_TYPES;
 		}
 
-		return this._getLabel(typesToLabels, types, this.get('controller.type'));
-	}.property('controller.type'),
+		var label = this._getLabel(typesToLabels, types, this.get('controller.type'));
+		var status = this.get('controller.transactionStatus');
+		if (!status || status === 'all') {
+			return label;
+		}
+
+		return label + ': %@'.fmt(Balanced.Utils.toTitleCase(status));
+	}.property('controller.type', 'controller.transactionStatus'),
 
 	funding_instrument_type_label: function() {
 		var typesToLabels = {
