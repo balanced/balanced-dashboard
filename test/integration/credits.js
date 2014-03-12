@@ -9,7 +9,7 @@ module('Credits', {
 test('can visit page', function(assert) {
 	visit(Testing.CREDIT_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Credit'), -1, 'Title is not correct');
-		assert.equal($(".credit .transaction-description").text().trim(), 'Succeeded: $100.00');
+		assert.equal($(".credit .tt-content").text().trim(), 'Succeeded: $100.00');
 	});
 });
 

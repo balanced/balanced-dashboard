@@ -22,7 +22,7 @@ module('Debits', {
 test('can visit page', function(assert) {
 	visit(Testing.DEBIT_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Debit'), -1, 'Title is not correct');
-		assert.equal($(".debit .transaction-description").text().trim(), 'Succeeded: $1,000.00');
+		assert.equal($(".debit .tt-content").text().trim(), 'Succeeded: $1,000.00');
 	});
 });
 
