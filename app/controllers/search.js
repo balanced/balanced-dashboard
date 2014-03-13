@@ -1,3 +1,9 @@
+var Computed = {
+	isCategory: function(category) {
+		return Ember.computed.equal('category', category);
+	}
+};
+
 Balanced.SearchController = Balanced.ObjectController.extend(
 	Balanced.ResultsTable, {
 		needs: ['application', 'marketplace'],
@@ -53,7 +59,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
 				this.set('debounced_search', this.get('search'));
 				this.set('showResults', true);
-			},
+			}
 		},
 
 		fetch_results: function() {
@@ -117,24 +123,10 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		},
 
 		// UI properties
-		ordersTabSelected: function() {
-			return this.get('category') === "order";
-		}.property('category'),
-
-		transactionsTabSelected: function() {
-			return this.get('category') === "search";
-		}.property('category'),
-
-		customersTabSelected: function() {
-			return this.get('category') === "customer";
-		}.property('category'),
-
-		fundingInstrumentsTabSelected: function() {
-			return this.get('category') === "funding_instrument";
-		}.property('category'),
-
-		disputesTabSelected: function() {
-			return this.get('category') === "dispute";
-		}.property('category')
+		ordersTabSelected: Computed.isCategory('order'),
+		transactionsTabSelected: Computed.isCategory('search'),
+		customersTabSelected: Computed.isCategory('customer'),
+		fundingInstrumentsTabSelected: Computed.isCategory('funding_instrument'),
+		disputesTabSelected: Computed.isCategory('dispute')
 	}
 );

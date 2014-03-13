@@ -1,3 +1,9 @@
+var Computed = {
+	uri: function(key) {
+		return Balanced.computed.concat('uri', '/' + key);
+	}
+};
+
 Balanced.Invoice = Balanced.Model.extend({
 	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
 
@@ -51,45 +57,16 @@ Balanced.Invoice = Balanced.Model.extend({
 	}.property(),
 
 	// TODO - take all these URIs out once invoice has links for them
-	bank_account_debits_uri: function() {
-		return this.get('uri') + '/bank_account_debits';
-	}.property('uri'),
-
-	card_debits_uri: function() {
-		return this.get('uri') + '/card_debits';
-	}.property('uri'),
-
-	debits_uri: function() {
-		return this.get('uri') + '/debits';
-	}.property('uri'),
-
-	bank_account_credits_uri: function() {
-		return this.get('uri') + '/bank_account_credits';
-	}.property('uri'),
-
-	holds_uri: function() {
-		return this.get('uri') + '/holds';
-	}.property('uri'),
-
-	failed_credits_uri: function() {
-		return this.get('uri') + '/failed_credits';
-	}.property('uri'),
-
-	lost_debit_chargebacks_uri: function() {
-		return this.get('uri') + '/lost_debit_chargebacks';
-	}.property('uri'),
-
-	refunds_uri: function() {
-		return this.get('uri') + '/refunds';
-	}.property('uri'),
-
-	reversals_uri: function() {
-		return this.get('uri') + '/reversals';
-	}.property('uri'),
-
-	disputes_uri: function() {
-		return this.get('uri') + '/disputes';
-	}.property('uri')
+	bank_account_debits_uri: Computed.uri('bank_account_debits'),
+	card_debits_uri: Computed.uri('card_debits'),
+	debits_uri: Computed.uri('debits'),
+	bank_account_credits_uri: Computed.uri('bank_account_credits'),
+	holds_uri: Computed.uri('holds'),
+	failed_credits_uri: Computed.uri('failed_credits'),
+	lost_debit_chargebacks_uri: Computed.uri('lost_debit_chargebacks'),
+	refunds_uri: Computed.uri('refunds'),
+	reversals_uri: Computed.uri('reversals'),
+	disputes_uri: Computed.uri('disputes')
 });
 
 Balanced.TypeMappings.addTypeMapping('invoice', 'Balanced.Invoice');
