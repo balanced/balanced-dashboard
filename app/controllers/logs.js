@@ -55,16 +55,16 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 			params['status_rollup[in]'] = statusFilters;
 		}
 
-        if (this.get('model.id') !== null) {
-            params['resource_id'] = this.get('model.id');
-        }
+		if (this.get('model.id') !== null) {
+			params['resource_id'] = this.get('model.id');
+		}
 
 		return params;
 	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model'),
 
 	/*
-	    Whether is this log index embedded under an object controller, such as
-	    DebitsController
+		Whether is this log index embedded under an object controller, such as
+		DebitsController
 	*/
 	is_object_log: function() {
 		return this.get('model') !== null;
