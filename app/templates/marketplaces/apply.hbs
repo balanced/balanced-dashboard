@@ -1,128 +1,124 @@
 <section id="main" class="container">
 	<div id="main-overlay"></div>
-	<div class="row">
-		<nav id="marketplace-nav" class="span2"></nav>
-		<div id="content" class="span24">
-			<div class="row">
-				<div class="offset1 span22" id="marketplace-apply">
-					<h1 class="page-title">Apply for a Production Marketplace</h1>
-					<form class="full-page-form" method="POST" {{action "submitApplication" on="submit"}}>
-						{{#if isGuest}}
-							<fieldset>
-								<legend>Login info</legend>
-								{{view Balanced.ControlGroupFieldView placeholder="Email address" field="email_address" help="Enter your email address"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Password" field="password" help="Enter a secure password" type="password"}}
-							</fieldset>
-						{{/if}}
+	<div id="content">
+		<div id="marketplace-apply">
+			<h1 class="page-title">Apply for a Production Marketplace</h1>
+			<form class="full-page-form" method="POST" {{action "submitApplication" on="submit"}}>
+				{{#if isGuest}}
+					<fieldset>
+						<legend>Login info</legend>
+						{{view Balanced.ControlGroupFieldView placeholder="Email address" field="email_address" help="Enter your email address"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Password" field="password" help="Enter a secure password" type="password"}}
+					</fieldset>
+				{{/if}}
 
-						<fieldset class="application-type">
-							<legend>Who are you?</legend>
-							<div class="control-group">
-								<a href="#" {{action "selectType" "PERSON"}} class="person"><span class="icon"></span>Person</a>
-								<div class="or"><hr><span>OR</span><hr></div>
-								<a href="#" {{action "selectType" "BUSINESS"}} class="business"><span class="icon"></span>Business</a>
+				<fieldset class="application-type">
+					<legend>Who are you?</legend>
+					<div class="control-group">
+						<a href="#" {{action "selectType" "PERSON"}} class="person"><span class="icon"></span>Person</a>
+						<div class="or"><hr><span>OR</span><hr></div>
+						<a href="#" {{action "selectType" "BUSINESS"}} class="business"><span class="icon"></span>Business</a>
+					</div>
+				</fieldset>
+
+				{{#if selectedType}}
+					{{#if isBusiness}}
+						<fieldset>
+							<legend>Business info</legend>
+							{{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter your business name"}}
+							{{view Balanced.ControlGroupFieldView placeholder="EIN" field="ein" help="Enter your 9-digit employer identification number"}}
+						</fieldset>
+					{{/if}}
+
+					<fieldset>
+						<legend>Your personal info</legend>
+						{{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name"}}
+						<div class="control-group">
+							{{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year" class="span2"}}
+							{{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month" class="span2"}}
+							{{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
+							<label>Enter your date of birth</label>
+						</div>
+						{{#if isBusiness}}
+							{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your or another business representative's address including apartment, suite, or unit number, not the business address"}}
+						{{else}}
+							{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number"}}
+						{{/if}}
+						{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter your zip code"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone_number" help="Enter your phone number"}}
+
+					</fieldset>
+
+					<fieldset>
+						<legend>Banking info</legend>
+						{{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="banking.account_name" help="Enter the name on your bank account"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Account number" field="banking.account_number" help="Enter your bank account number"}}
+						{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="banking.routing_number" help="Enter your 9 digit routing number"}}
+						{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
+						<div class="control-group">
+							{{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}
+							<label>Specify your account type</label>
+						</div>
+					</fieldset>
+
+					<fieldset>
+						<legend>Marketplace info</legend>
+						{{view Balanced.ControlGroupFieldView placeholder="Marketplace name" field="marketplace.name" help="Enter your marketplace name"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Support email address" field="marketplace.support_email_address" help="Support requests and automated email messages are sent to this email address"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Support phone no." field="marketplace.support_phone_number" help="The support phone number will appear on credit card statements associated with your marketplace"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Domain name" field="marketplace.domain_url" help="The URL of your marketplace's website"}}
+					</fieldset>
+
+					<fieldset>
+						<legend>Terms &amp; Conditions + Privacy Policy</legend>
+						<div class="control-group">
+							<label for="terms-and-conditions">
+								{{view Ember.Checkbox checkedBinding="termsAndConditions" id="terms-and-conditions"}}
+								<strong>I accept the
+									<a href="https://www.balancedpayments.com/terms/" target="_blank">Terms &amp; Conditions</a>,
+									<a href="https://www.balancedpayments.com/terms/marketplaceagreement" target="_blank">Marketplace Agreement</a>, and
+									<a href="https://www.balancedpayments.com/privacy" target="_blank">Privacy Policy</a>.
+								</strong></label>
+								<p class="nested">
+									We respect your privacy. Your information is
+									stored securely and used only for transaction
+									processing, customer support, and fraud
+									prevention.
+								</p>
 							</div>
 						</fieldset>
 
-						{{#if selectedType}}
-							{{#if isBusiness}}
-								<fieldset>
-									<legend>Business info</legend>
-									{{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter your business name"}}
-									{{view Balanced.ControlGroupFieldView placeholder="EIN" field="ein" help="Enter your 9-digit employer identification number"}}
-								</fieldset>
-							{{/if}}
-
-							<fieldset>
-								<legend>Your personal info</legend>
-								{{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name"}}
-								<div class="control-group">
-									{{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year" class="span2"}}
-									{{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month" class="span2"}}
-									{{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
-									<label>Enter your date of birth</label>
+						<fieldset>
+							<legend>Next steps</legend>
+							<div class="control-group">
+								<strong>Your bank account will take 1-2 business days to confirm.<br>
+									We'll make 2 small deposits (each less than $1.00) to your account. You'll need to:
+								</strong>
+								<ol>
+									<li>Check your bank account in 1-2 business days for the exact amounts</li>
+									<li>Sign in to the Balanced dashboard</li>
+									<li>Click verify from the settings page and enter the deposit amounts</li>
+								</ol>
+							</div>
+						</fieldset>
+						{{#view Balanced.View classBinding=":actions hasError:error"}}
+							{{#if hasError}}
+								<div class="error-message">
+									<span class="icon warning"></span>
+									<span class="message">{{errorMessage}}</span>
 								</div>
-								{{#if isBusiness}}
-									{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your or another business representative's address including apartment, suite, or unit number, not the business address"}}
-								{{else}}
-									{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number"}}
-								{{/if}}
-								{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter your zip code"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone_number" help="Enter your phone number"}}
-
-							</fieldset>
-
-							<fieldset>
-								<legend>Banking info</legend>
-								{{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="banking.account_name" help="Enter the name on your bank account"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Account number" field="banking.account_number" help="Enter your bank account number"}}
-								{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="banking.routing_number" help="Enter your 9 digit routing number"}}
-								{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
-								<div class="control-group">
-									{{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}
-									<label>Specify your account type</label>
-								</div>
-							</fieldset>
-
-							<fieldset>
-								<legend>Marketplace info</legend>
-								{{view Balanced.ControlGroupFieldView placeholder="Marketplace name" field="marketplace.name" help="Enter your marketplace name"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Support email address" field="marketplace.support_email_address" help="Support requests and automated email messages are sent to this email address"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Support phone no." field="marketplace.support_phone_number" help="The support phone number will appear on credit card statements associated with your marketplace"}}
-								{{view Balanced.ControlGroupFieldView placeholder="Domain name" field="marketplace.domain_url" help="The URL of your marketplace's website"}}
-							</fieldset>
-
-							<fieldset>
-								<legend>Terms &amp; Conditions + Privacy Policy</legend>
-								<div class="control-group">
-									<label for="terms-and-conditions">
-										{{view Ember.Checkbox checkedBinding="termsAndConditions" id="terms-and-conditions"}}
-										<strong>I accept the
-											<a href="https://www.balancedpayments.com/terms/" target="_blank">Terms &amp; Conditions</a>,
-											<a href="https://www.balancedpayments.com/terms/marketplaceagreement" target="_blank">Marketplace Agreement</a>, and
-											<a href="https://www.balancedpayments.com/privacy" target="_blank">Privacy Policy</a>.
-										</strong></label>
-										<p class="nested">
-											We respect your privacy. Your information is
-											stored securely and used only for transaction
-											processing, customer support, and fraud
-											prevention.
-										</p>
-									</div>
-								</fieldset>
-
-								<fieldset>
-									<legend>Next steps</legend>
-									<div class="control-group">
-										<strong>Your bank account will take 1-2 business days to confirm.<br>
-											We'll make 2 small deposits (each less than $1.00) to your account. You'll need to:
-										</strong>
-										<ol>
-											<li>Check your bank account in 1-2 business days for the exact amounts</li>
-											<li>Sign in to the Balanced dashboard</li>
-											<li>Click verify from the settings page and enter the deposit amounts</li>
-										</ol>
-									</div>
-								</fieldset>
-								{{#view Balanced.View classBinding=":actions hasError:error"}}
-									{{#if hasError}}
-										<div class="error-message">
-											<span class="icon warning"></span>
-											<span class="message">{{errorMessage}}</span>
-										</div>
-									{{/if}}
-									{{#if isLoading}}
-										<span class="loader loading"></span> <span class="message">Verifying...</span>
-									{{else}}
-										<button class="btn submit" type="submit">Submit</button>
-									{{/if}}
-								{{/view}}
 							{{/if}}
-						</form>
-					</div>
-				</div>
+							{{#if isLoading}}
+								<span class="loader loading"></span> <span class="message">Verifying...</span>
+							{{else}}
+								<button class="btn submit" type="submit">Submit</button>
+							{{/if}}
+						{{/view}}
+					{{/if}}
+				</form>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>

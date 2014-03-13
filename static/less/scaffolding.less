@@ -35,6 +35,10 @@
   }
 }
 
+#marketplaces {
+  width: 200px;
+}
+
 #marketplaces-and-search {
   margin-left: 0;
 }
@@ -109,7 +113,6 @@ footer {
 }
 
 #logo, #flogo {
-  //  border-right: 1px solid @searchBoxBackground;
   .img {
     .cssicon(
       @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
@@ -124,13 +127,6 @@ footer {
   }
 }
 
-#search {
-  text-align: left;
-  display: block;
-  float: left;
-  width: 100%;
-  height: 100%;
-}
 #q {
   float: left;
   width: calc(~"100% - 85px");
@@ -146,22 +142,13 @@ footer {
 }
 
 #site-nav {
+  float: right;
   margin-left: 0;
 
-  &.span6 {
-    width: 390px;
-    max-width: 390px;
-  }
-
-  &.span4 {
-    width: 239px;
-    max-width: 239px;
-  }
-
-  [id$="menu"] {
+  .nav-item {
+    border-right: 1px solid @searchBoxBackground;
     float: left;
     height: @searchBarHeight;
-    border-right: 1px solid @searchBoxBackground;
     &:last-child {
       border-right: 0;
     }
@@ -189,14 +176,9 @@ footer {
   width: 150px;
 }
 
-#docs-menu {
+#docs-menu, #help-menu {
   text-align: center;
-  width: 72px;
-}
-
-#help-menu {
-  text-align: center;
-  width: 70px;
+  width: 75px;
 }
 
 #login-menu {
@@ -236,6 +218,7 @@ footer {
 }
 
 #main {
+  background-color: @contentBackground;
   position: relative;
 }
 
@@ -316,10 +299,10 @@ footer {
 }
 
 #content {
-  background-color: @contentBackground;
-  padding: @mainVerticalPadding;
-  min-height: @mainMinHeight;
   margin-left: @marketplaceNavWidth;
+  min-height: @mainMinHeight;
+  padding: @mainVerticalPadding;
+  position: relative;
 
   &.no-min-height {
     min-height: auto;

@@ -1,14 +1,14 @@
 <div class="alert-row">
 	{{#if auth.isGuest}}
 		{{#if controllers.application.showNotificationCenter}}
-			<div class="row notification-center notification-center-row">
+			<div class="row-fluid notification-center notification-center-row">
 				<div class="span2">
 					<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
 						<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
 						<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
 					</div>
 				</div>
-				<div class="span20 notification-center-message">
+				<div class="span22 notification-center-message">
 					<span> You're logged in as a temporary guest user. {{#link-to 'claim'}}Claim your account to save your data. >{{/link-to}}</span>
 				</div>
 				<div class="span2">
