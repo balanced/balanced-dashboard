@@ -15,7 +15,12 @@
   float: left;
   height: 100%;
   text-align: left;
-  width: 465px;
+  .header-user & {
+    width: calc(~"100% - 450px");
+  }
+  .header-guest & {
+    width: 465px;
+  }
 
   .results, .close {
     display: none;
