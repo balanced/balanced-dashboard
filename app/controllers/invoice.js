@@ -9,6 +9,7 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 		sortField: 'created_at',
 		sortOrder: 'desc',
 		limit: 20,
+		transactionStatus: false,
 
 		baseClassSelector: '#invoice',
 

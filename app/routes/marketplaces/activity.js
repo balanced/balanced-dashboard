@@ -38,7 +38,7 @@ Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
 
 Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
-	defaultType: 'search'
+	defaultType: 'transaction'
 });
 
 Balanced.ActivityDisputesRoute = Balanced.ActivityRoute.extend({
