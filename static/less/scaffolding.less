@@ -16,21 +16,27 @@
 @marketplaceNavWidth: 90px;
 
 #header {
-  > div > div {
-    height: @searchBarHeight;
-    border-right: 1px solid @searchBoxBackground;
-    &:last-child {
-      border-right: 0;
-    }
-    //  needed because ember inserts elements which mess up our :last-child selector
-    &#site-nav {
-      border-right: 0;
-    }
+  background-color: @black;
+  height: 60px;
+  padding-left: 90px;
+  position: relative;
 
-    &#balanced-address {
-      display: none;
-    }
+  #logo {
+    border-right: 1px solid @searchBoxBackground;
+    height: 60px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 90px;
   }
+
+  #balanced-address {
+    display: none;
+  }
+}
+
+#marketplaces-and-search {
+  margin-left: 0;
 }
 
 #flogo {
@@ -115,18 +121,6 @@ footer {
     &:hover {
       text-decoration: none;
     }
-  }
-}
-
-#marketplaces-and-search {
-  width: 673px;
-  //  needed because ember inserts elements which mess up our :first-child selector
-  margin-left: 0;
-  &.span20 {
-    width: 824px;
-  }
-  > .ember-view{
-    overflow: hidden;
   }
 }
 

@@ -1,20 +1,18 @@
 <header id="header" {{bind-attr class=":container headerClass"}}>
-    <div class="row">
-        <div id="balanced-address">
-          <h3 class="physical-address">965 Mission St., Ste 425, San Francisco, CA 94103</h3>
-          <h3 class="support-email">support@balancedpayments.com</h3>
-        </div>
-
-        <div id="logo" class="span2">
-            {{#link-to 'index' class="img"}}Balanced Dashboard{{/link-to}}
-        </div>
+	<div id="balanced-address">
+	  <h3 class="physical-address">965 Mission St., Ste 425, San Francisco, CA 94103</h3>
+	  <h3 class="support-email">support@balancedpayments.com</h3>
+	</div>
+	<div id="logo">
+		{{#link-to 'index' class="img"}}Balanced Dashboard{{/link-to}}
+	</div>
+    <div>
+		<div id="marketplaces-and-search">
+			{{partial "header_search"}}
+		</div>
 
         {{#if auth.isGuest}}
-            <div id="marketplaces-and-search" class="span18">
-                {{partial "header_search"}}
-            </div>
-
-            <div id="site-nav" class="span6">
+            <div id="site-nav">
                 <div id="go-live-menu">
                     {{#link-to 'marketplaces.apply' class="nav1d"}}Register{{/link-to}}
                 </div>
@@ -29,11 +27,7 @@
                 </div>
             </div>
         {{else}}
-            <div id="marketplaces-and-search" class="span20">
-                {{partial "header_search"}}
-            </div>
-
-            <div id="site-nav" class="span4">
+            <div id="site-nav">
                 <div id="docs-menu">
                     <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
                 </div>
