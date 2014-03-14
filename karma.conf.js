@@ -22,7 +22,7 @@ module.exports = function(config) {
 		'https://js.balancedpayments.com/1.1/balanced.js',
 		'build/js/dashboard-dev.js',
 		'build/test/js/test-fixtures.js',
-		'test/test/js/testconfig.js',
+		'build/test/js/testconfig.js',
 		'test/lib/*.js', {
 			pattern: 'build/**/*',
 			watched: true,
