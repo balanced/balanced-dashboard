@@ -18,11 +18,11 @@ module.exports = function(config) {
 		'build/css/base.min.css',
 		'build/test/js/sinon.js',
 		'build/test/js/testenv.js',
-		'https://js.balancedpayments.com/1.1/balanced.js',
 		'build/js/lib-dev.js',
+		'https://js.balancedpayments.com/1.1/balanced.js',
 		'build/js/dashboard-dev.js',
 		'build/test/js/test-fixtures.js',
-		'test/support/testconfig.js',
+		'test/test/js/testconfig.js',
 		'test/lib/*.js', {
 			pattern: 'build/**/*',
 			watched: true,
