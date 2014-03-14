@@ -19,7 +19,7 @@ module.exports = function(config) {
 		'build/test/js/sinon.js',
 		'build/test/js/testenv.js',
 		'build/js/lib-dev.js',
-		'https://js.balancedpayments.com/1.1/balanced.js',
+		'build/test/js/balanced.min.js',
 		'build/js/dashboard-dev.js',
 		'build/test/js/test-fixtures.js',
 		'build/test/js/testconfig.js',
