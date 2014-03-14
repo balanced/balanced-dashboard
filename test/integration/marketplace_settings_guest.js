@@ -543,7 +543,7 @@ test('can delete webhooks', function(assert) {
 		.click('ul.webhooks li:eq(0) a')
 		.click('#delete-callback:visible .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.equal($('ul.webhooks li').length, 0);
+			assert.equal($('ul.webhooks li.no-results').length, 1);
 		});
 });
 
