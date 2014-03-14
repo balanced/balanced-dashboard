@@ -541,7 +541,7 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 test('can delete webhooks', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
 		.click('ul.webhooks li:eq(0) a')
-		.click('#delete-callback .modal-footer button[name="modal-submit"]')
+		.click('#delete-callback:visible .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.equal($('ul.webhooks li').length, 0);
 		});
