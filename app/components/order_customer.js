@@ -70,15 +70,15 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		});
 
 		credits.forEach(function(credit) {
-			reversals.forEach(function(refund) {
-				var refund_amount = refund.get('amount');
-				if (refund.get('credit_uri') === credit.get('href')){
-					credit.set('amount', credit.get('amount') - refund_amount);
+			reversals.forEach(function(reversal) {
+				var reversal_amount = reversal.get('amount');
+				if (reversal.get('credit_uri') === credit.get('href')){
+					credit.set('amount', credit.get('amount') - reversal_amount);
 				}
 			});
 		});
 		return credits;
-	}.property('credits.@each', 'customer'),
+	}.property('credits.@each', 'reversals.@each', 'customer'),
 
 	// filter debits by those that belong to the customer
 	debits_list: function() {
@@ -101,17 +101,6 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		return debits;
 	}.property('debits.@each', 'refunds.@each', 'customer'),
-
-	// refunds_list: function() {
-	// 	var customer = this.get('customer');
-	// 	var refunds = this.get('refunds') || Ember.A();
-
-	// 	refunds = refunds.filter(function(refund) {
-	// 		return customer && refund.get('customer_uri') === customer.get('href');
-	// 	});
-
-	// 	return refunds;
-	// }.property('refunds.@each', 'customer'),
 
 	actions: {
 		toggle_visibility: function() {
