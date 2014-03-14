@@ -28,8 +28,10 @@ module('Order Page', {
 
 			}).then(function(bankAccount) {
 
+				Testing.BANK_ACCOUNT_ID = bankAccount.get('id');
+
 				return Balanced.Credit.create({
-					uri: bankAccount.get('credits_uri'),
+					uri: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits',
 					amount: 1000,
 					links: {
 						order: '/orders/' + Testing.ORDER_ID
@@ -50,8 +52,10 @@ module('Order Page', {
 
 			}).then(function(bankAccount) {
 
+				Testing.BANK_ACCOUNT_ID = bankAccount.get('id');
+
 				return Balanced.Credit.create({
-					uri: bankAccount.get('credits_uri'),
+					uri: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits',
 					amount: 1000,
 					links: {
 						order: '/orders/' + Testing.ORDER_ID
@@ -103,8 +107,6 @@ test('can visit order page', function(assert) {
 	visit(Testing.ORDER_ROUTE).then(function() {
 		assert.equal($('#content h1.page-title').text().trim(), 'Order', 'Page title is correct.');
 		assert.equal($('.order-customer').length, 2, 'Order page has a buyer and a seller.');
-		assert.equal($('#content .debit .transaction-description').text().trim(), 'Succeeded: $99.00', 'Debit amount is correct (with refund).');
-		assert.equal($('#content .credit .transaction-description').first().text().trim(), 'Succeeded: $9.00', 'Credit amount is correct (with reversal).');
 
 		var model = Balanced.__container__.lookup('controller:orders').get('model');
 		model.set('credits', Ember.A([
@@ -123,6 +125,8 @@ test('can visit order page', function(assert) {
 		Ember.run.next(function() {
 			Testing.start();
 			assert.equal($('.transaction-details').length, 2, 'There is a debit and a credit.');
+			assert.equal($('.transaction-details .debit .transaction-description').text().trim(), 'Succeeded: $99.00', 'Debit amount is correct (with refund).');
+			assert.equal($('.transaction-details .credit .transaction-description').first().text().trim(), 'Succeeded: $9.00', 'Credit amount is correct (with reversal).');
 		});
 	});
 });
