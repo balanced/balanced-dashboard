@@ -308,6 +308,9 @@ module.exports = function(grunt) {
 				}, {
 					src: 'static/javascripts/sinon/index.js',
 					dest: 'build/test/js/sinon.js'
+				}, {
+					src: 'test/support/lib/balanced.min.js',
+					dest: 'build/test/js/balanced.min.js'
 				}]
 			},
 			preUglify: {
