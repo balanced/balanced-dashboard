@@ -63,11 +63,20 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	credits_list: function() {
 		var customer = this.get('customer');
 		var credits = this.get('credits') || Ember.A();
+		var reversals = this.get('order').get('reversals') || Ember.A();
 
 		credits = credits.filter(function(credit) {
 			return customer && credit.get('customer_uri') === customer.get('href');
 		});
 
+		credits.forEach(function(credit) {
+			reversals.forEach(function(refund) {
+				var refund_amount = refund.get('amount');
+				if (refund.get('credit_uri') === credit.get('href')){
+					credit.amount -= refund_amount;
+				}
+			});
+		});
 		return credits;
 	}.property('credits.@each', 'customer'),
 
@@ -75,13 +84,34 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	debits_list: function() {
 		var customer = this.get('customer');
 		var debits = this.get('debits') || Ember.A();
+		var refunds = this.get('order').get('refunds') || Ember.A();
 
 		debits = debits.filter(function(debit) {
 			return customer && debit.get('customer_uri') === customer.get('href');
 		});
 
+		debits.forEach(function(debit) {
+			refunds.forEach(function(refund) {
+				var refund_amount = refund.get('amount');
+				if (refund.get('debit_uri') === debit.get('href')){
+					debit.amount -= refund_amount;
+				}
+			});
+		});
+
 		return debits;
-	}.property('debits.@each', 'customer'),
+	}.property('debits.@each', 'refunds.@each', 'customer'),
+
+	// refunds_list: function() {
+	// 	var customer = this.get('customer');
+	// 	var refunds = this.get('refunds') || Ember.A();
+
+	// 	refunds = refunds.filter(function(refund) {
+	// 		return customer && refund.get('customer_uri') === customer.get('href');
+	// 	});
+
+	// 	return refunds;
+	// }.property('refunds.@each', 'customer'),
 
 	actions: {
 		toggle_visibility: function() {
