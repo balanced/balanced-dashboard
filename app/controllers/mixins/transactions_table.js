@@ -1,6 +1,7 @@
 // Requires the results_table mixin also, but there's no inheritance allowed for mixins
 Balanced.TransactionsTable = Ember.Mixin.create({
 	transactionStatus: 'all',
+	transactionTypeFilter: false,
 	isDisputeType: Ember.computed.equal('type', 'dispute'),
 
 	TYPE_TRANSLATION: {
