@@ -34,12 +34,12 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
-	Ember.Logger.log('#' + module + " " + test.name + ": running.");
+	console.log('#' + module + " " + test.name + ": running.");
 });
 
 QUnit.testDone(function(test) {
 	var module = test.module ? test.module : '';
-	Ember.Logger.log('#%@ %@: tearing down.'.fmt(module, test.name));
+	console.log('#%@ %@: tearing down.'.fmt(module, test.name));
 
 	Balanced.removeTestHelpers();
 	Ember.run(Balanced, Balanced.destroy);
@@ -48,5 +48,5 @@ QUnit.testDone(function(test) {
 
 	Ember.testing = false;
 
-	Ember.Logger.log('#%@ %@: done.'.fmt(module, test.name));
+	console.log('#%@ %@: done.'.fmt(module, test.name));
 });
