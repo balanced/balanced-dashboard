@@ -96,10 +96,6 @@ header.results-label h3 {
     float: left;
     width: 100%;
 
-    th {
-      padding-top: 30px;
-    }
-
     tfoot {
       tr {
         border-top: 1px solid @gray3;
@@ -121,6 +117,7 @@ header.results-label h3 {
       }
     }
     th {
+      padding-top: 30px;
       float: none;
       padding-left: 0;
       padding-right: 0;
@@ -132,6 +129,34 @@ header.results-label h3 {
         &.sortable {
           padding-right: 5px;
         }
+      }
+
+      .caret {
+        border-top-color: @white;
+        margin: 0;
+      }
+
+      .dropdown .dropdown-menu a {
+        color: @black;
+      }
+
+      a {
+        text-decoration: none;
+        color: @gray5;
+        &:hover {
+          color: @black;
+        }
+        &.dropdown-toggle {
+          padding: 4px 2px 0;
+          display: inline-block;
+          height: 9px;
+        }
+      }
+
+      .selector {
+        display: inline-block;
+        height: 13px;
+        vertical-align: middle;
       }
     }
     tbody td, th td {
@@ -313,7 +338,7 @@ header.results-label h3 {
       .date-picker {
         padding: 10px;
         float: right;
-        width: 330px;        
+        width: 330px;
       }
 
       .before, .after {
