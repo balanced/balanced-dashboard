@@ -62,6 +62,30 @@ module('Order Page', {
 
 				Testing.CREDIT_2 = credit;
 
+				return Balanced.Refund.create({
+					uri: '/debits/' + Testing.DEBIT.get('id') + '/refunds',
+					amount: 100,
+					description: 'Cocaine refund',
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+
+			}).then(function(refund) {
+
+				Testing.REFUND = refund;
+
+				return Balanced.Reversal.create({
+					uri: '/credits/' + Testing.CREDIT_1.get('id') + '/reversals',
+					amount: 100,
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+			}).then(function(reversal) {
+
+				Testing.REVERSAL = reversal;
+
 				return Balanced.Customer.find('/customers/' + Testing.CUSTOMER_ID);
 
 			}).then(function(customer) {
@@ -79,6 +103,8 @@ test('can visit order page', function(assert) {
 	visit(Testing.ORDER_ROUTE).then(function() {
 		assert.equal($('#content h1.page-title').text().trim(), 'Order', 'Page title is correct.');
 		assert.equal($('.order-customer').length, 2, 'Order page has a buyer and a seller.');
+		assert.equal($('#content .debit .transaction-description').text().trim(), 'Succeeded: $99.00', 'Debit amount is correct (with refund).');
+		assert.equal($('#content .credit .transaction-description').first().text().trim(), 'Succeeded: $9.00', 'Credit amount is correct (with reversal).');
 
 		var model = Balanced.__container__.lookup('controller:orders').get('model');
 		model.set('credits', Ember.A([
