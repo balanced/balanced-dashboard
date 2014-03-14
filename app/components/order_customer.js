@@ -73,7 +73,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 			reversals.forEach(function(refund) {
 				var refund_amount = refund.get('amount');
 				if (refund.get('credit_uri') === credit.get('href')){
-					credit.amount -= refund_amount;
+					credit.set('amount', credit.get('amount') - refund_amount);
 				}
 			});
 		});
@@ -94,7 +94,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 			refunds.forEach(function(refund) {
 				var refund_amount = refund.get('amount');
 				if (refund.get('debit_uri') === debit.get('href')){
-					debit.amount -= refund_amount;
+					debit.set('amount', debit.get('amount') - refund_amount);
 				}
 			});
 		});
