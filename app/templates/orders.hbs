@@ -70,9 +70,9 @@
 
 	<h3 class="order-party">Buyer</h3>
 	{{#each buyer in buyers}}
-		{{order-customer customer=buyer debits=debits order=model}}
+		{{order-customer customer=buyer debits=debits refunds=refunds order=model}}
 	{{/each}}
 
 	<h3 class="order-party">Seller</h3>
-	{{order-customer customer=seller credits=credits order=model}}
+	{{order-customer customer=seller credits=credits reversals=reversals order=model}}
 </div>

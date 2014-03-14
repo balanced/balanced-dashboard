@@ -125,8 +125,7 @@ test('can visit order page', function(assert) {
 		Ember.run.next(function() {
 			Testing.start();
 			assert.equal($('.transaction-details').length, 2, 'There is a debit and a credit.');
-			assert.equal($('.transaction-details .debit .transaction-description').text().trim(), 'Succeeded: $96.00', 'Debit amount is correct (with refund).');
-			assert.equal($('.transaction-details .credit .transaction-description').first().text().trim(), 'Succeeded: $9.00', 'Credit amount is correct (with reversal).');
+			assert.equal($('.transaction-details > div').length, 5, 'There are total 5 resources (1 debit, 1 refund, 2 credits, and 1 reversal).');
 		});
 	});
 });

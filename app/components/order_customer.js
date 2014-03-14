@@ -29,10 +29,14 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		var amounts = {
 			credited: 0,
 			debited: 0,
+			refunded: 0,
+			reversed: 0,
 			pending: 0
 		};
 		var credits = this.get('credits_list');
 		var debits = this.get('debits_list');
+		var refunds = this.get('refunds_list');
+		var reversals = this.get('reversals_list');
 
 		debits.forEach(function(debit) {
 			var amount = debit.get('amount');
@@ -52,6 +56,24 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 			}
 		});
 
+		refunds.forEach(function(refund) {
+			var amount = refund.get('amount');
+			if (refund.get('status') === 'succeeded') {
+				amounts.refunded += amount;
+			} else {
+				amounts.pending += amount;
+			}
+		});
+
+		reversals.forEach(function(reversal) {
+			var amount = reversal.get('amount');
+			if (reversal.get('status') === 'succeeded') {
+				amounts.reversed += amount;
+			} else {
+				amounts.pending += amount;
+			}
+		});
+
 		_.each(amounts, function(amount, key) {
 			amounts[key] = Balanced.Utils.formatCurrency(amount);
 		});
@@ -63,44 +85,55 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	credits_list: function() {
 		var customer = this.get('customer');
 		var credits = this.get('credits') || Ember.A();
-		var reversals = this.get('order').get('reversals') || Ember.A();
 
 		credits = credits.filter(function(credit) {
 			return customer && credit.get('customer_uri') === customer.get('href');
 		});
 
-		credits.forEach(function(credit) {
-			reversals.forEach(function(reversal) {
-				var reversal_amount = reversal.get('amount');
-				if (reversal.get('credit_uri') === credit.get('href')){
-					credit.set('amount', credit.get('amount') - reversal_amount);
-				}
-			});
-		});
 		return credits;
-	}.property('credits.@each', 'reversals.@each', 'customer'),
+	}.property('credits.@each', 'customer'),
 
 	// filter debits by those that belong to the customer
 	debits_list: function() {
 		var customer = this.get('customer');
 		var debits = this.get('debits') || Ember.A();
-		var refunds = this.get('order').get('refunds') || Ember.A();
 
 		debits = debits.filter(function(debit) {
 			return customer && debit.get('customer_uri') === customer.get('href');
 		});
 
+		return debits;
+	}.property('debits.@each', 'customer'),
+
+	refunds_list: function() {
+		var debits = this.get('debits_list');
+		var refunds = Ember.A();
+
 		debits.forEach(function(debit) {
-			refunds.forEach(function(refund) {
-				var refund_amount = refund.get('amount');
-				if (refund.get('debit_uri') === debit.get('href')){
-					debit.set('amount', debit.get('amount') - refund_amount);
-				}
+			debit.get('refunds').then(function(r){
+				r.forEach(function(refund) {
+					refunds.push(refund);
+				});
 			});
 		});
 
-		return debits;
-	}.property('debits.@each', 'refunds.@each', 'customer'),
+		return refunds;
+	}.property('credits_list.@each', 'credits_list.@each.refunds.@each'),
+
+	reversals_list: function() {
+		var credits = this.get('credits_list');
+		var reversals = Ember.A();
+
+		credits.forEach(function(credit) {
+			credit.get('reversals').then(function(r){
+				r.forEach(function(reversal) {
+					reversals.push(reversal);
+				});
+			});
+		});
+
+		return reversals;
+	}.property('credits_list.@each', 'credits_list.@each.reversals.@each'),
 
 	actions: {
 		toggle_visibility: function() {
