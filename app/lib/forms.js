@@ -3,7 +3,15 @@ Ember.TextField.reopen({
 	didInsertElement: function() {
 		// Call hidden function _elementValueDidChange
 		// when value of textfield changes.
-		_.defer(_.bind(this._elementValueDidChange, this));
+		var self = this;
+		_.defer(function() {
+			// Check if the textfield is valid in DOM
+			if (!self.isVisible || self.isDestroyed || self.isDestroying) {
+				return;
+			}
+
+			self._elementValueDidChange();
+		});
 	}
 });
 
