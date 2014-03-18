@@ -282,6 +282,15 @@ var Testing = {
 		});
 	},
 
+	createRefund: function() {
+		this.createDebit();
+
+		var _this = this;
+		Ember.run(function() {
+			_this._createRefund();
+		});
+	},
+
 	createDebit: function() {
 		var _this = this;
 
