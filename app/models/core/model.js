@@ -70,11 +70,11 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 		return this.get('uri');
 	},
 
-	delete: function() {
+	delete: function(settings) {
 		var self = this;
-		var settings = settings || {};
+		settings = settings || {};
 
-		self.setProperties({
+		this.setProperties({
 			isDeleted: true,
 			isSaving: true
 		});
@@ -367,7 +367,7 @@ Balanced.Model.reopenClass({
 			}
 		} else {
 			// HACK - once we fix the API response from the auth proxy, we should take out the if
-			if (objClass !== Balanced.UserMarketplace) {
+			if (objClass !== Balanced.UserMarketplace && objClass !== Balanced.UserInvite) {
 				Ember.Logger.warn("No _type field found on URI: " + json.uri);
 			}
 		}

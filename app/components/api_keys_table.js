@@ -24,5 +24,4 @@ Balanced.ApiKeysTableComponent = Ember.Component.extend({
 			});
 		}
 	}
-
 });

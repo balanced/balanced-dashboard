@@ -1,0 +1,26 @@
+<div class="modal hide delete-user">
+	<form {{action "confirm" on="submit"}}>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h2>Remove user</h2>
+		</div>
+
+		<div class="modal-body">
+			<span class="label7a">Are you sure you want to remove user?</span>
+			<br><span class="label7a">This user will no longer have access to the dashboard.</span>
+			<br>
+			<ul>
+				<li>Email: {{user.email_address}}</li>
+			</ul>
+			<br>
+		</div>
+
+		<div class="modal-footer">
+			{{view Balanced.ModalActionButtonsView submitTitle="Remove"}}
+		</div>
+	</form>
+</div>
+
+<div class="delete-user-outer">
+	<a href="#" {{action "open"}} class="confirm-delete-user">&times;</a>
+</div>

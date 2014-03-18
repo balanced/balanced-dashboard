@@ -1,0 +1,25 @@
+<div class="modal hide create-user">
+	<form {{action "save" on="submit"}}>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">×</button>
+			<h2>Add user</h2>
+		</div>
+		<div class="modal-body">
+			{{#if hasError}}
+				<div class="alert alert-error modal-content-error">
+					Please check the email and try again.
+				</div>
+			{{/if}}
+
+			<div class="control-group">
+				<label class="control-label">Enter user's email</label>
+				{{view Ember.TextField type="email" valueBinding="model.email_address" class="full"}}
+			</div>
+		</div>
+		<div class="modal-footer">
+			{{view Balanced.ModalActionButtonsView submitTitle="Add"}}
+		</div>
+	</form>
+</div>
+
+<a href="#" {{action "open"}} class="add create-user-btn">Add User</a>
