@@ -59,11 +59,11 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 	}.property('marketplace', 'keys'),
 
 	users: function() {
-		Balanced.InviteUser.reopen({
+		Balanced.UserInvite.reopen({
 			uri: this.get('marketplace.users_uri')
 		});
 
-		return Balanced.InviteUser.findAll();
+		return Balanced.UserInvite.findAll();
 	}.property('marketplace')
 });
 

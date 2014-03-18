@@ -1,4 +1,4 @@
-Balanced.InviteUser = Balanced.Model.extend(Ember.Validations, {
+Balanced.UserInvite = Balanced.Model.extend(Ember.Validations, {
 	validations: {
 		email_address: {
 			presence: true,
@@ -20,8 +20,8 @@ Balanced.InviteUser = Balanced.Model.extend(Ember.Validations, {
 	}
 });
 
-Balanced.Adapter.registerHostForType(Balanced.InviteUser, ENV.BALANCED.AUTH);
+Balanced.Adapter.registerHostForType(Balanced.UserInvite, ENV.BALANCED.AUTH);
 
-Balanced.InviteUser.reopenClass({
+Balanced.UserInvite.reopenClass({
 	serializer: Balanced.Rev0Serializer.create()
 });

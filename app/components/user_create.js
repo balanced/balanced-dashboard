@@ -7,7 +7,7 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 
 	actions: {
 		open: function() {
-			var inviteUser = Balanced.InviteUser.create({
+			var inviteUser = Balanced.UserInvite.create({
 				uri: this.get('marketplace.users_uri'),
 				email_address: ''
 			});
