@@ -20,6 +20,12 @@ body {
   }
 }
 
+// Need to override the bootstrap default
+.container {
+  min-width: @mainWidth !important;
+  width: 100% !important;
+}
+
 #main-overlay {
   background-color: @modalBodyBackgroundColor;
   bottom: -61px;
