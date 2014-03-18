@@ -22,8 +22,8 @@ Balanced.OrdersController = Balanced.ObjectController.extend(Ember.Evented, {
 
 		return amounts;
 	}.property('debits', 'refunds', 'credits', 'reversals',
-			'debits.@each.amount', 'refunds.@each.amount',
-			'credits.@each.amount', 'reversals.@each.amount'),
+		'debits.@each.amount', 'refunds.@each.amount',
+		'credits.@each.amount', 'reversals.@each.amount'),
 
 	multiple_credits: function() {
 		return this.get('credits.length') > 1;

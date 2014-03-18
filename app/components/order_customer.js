@@ -15,7 +15,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	has_transactions: function() {
 		return this.get('credits_list.length') || this.get('debits_list.length');
 	}.property('credits_list', 'debits_list',
-			'credits_list.length', 'debits_list.length'),
+		'credits_list.length', 'debits_list.length'),
 
 	toggle_display: function() {
 		return this.get('is_visible') ? 'Hide details' : 'Show details';
@@ -36,7 +36,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 			};
 
 			var list = this.get(type) || Ember.A();
-			list.forEach(function (thing) {
+			list.forEach(function(thing) {
 				amounts[type].quantity++;
 
 				if (thing.get('is_succeeded')) {
@@ -47,10 +47,10 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		return amounts;
 	}.property('credits_list', 'debits_list', 'refunds_list', 'reversals_list',
-			'credits_list.@each.amount', 'debits_list.@each.amount',
-			'refunds_list.@each.amount', 'reversals_list.@each.amount',
-			'credits_list.@each.is_succeeded', 'debits_list.@each.is_succeeded',
-			'refunds_list.@each.is_succeeded', 'reversals_list.@each.is_succeeded'),
+		'credits_list.@each.amount', 'debits_list.@each.amount',
+		'refunds_list.@each.amount', 'reversals_list.@each.amount',
+		'credits_list.@each.is_succeeded', 'debits_list.@each.is_succeeded',
+		'refunds_list.@each.is_succeeded', 'reversals_list.@each.is_succeeded'),
 
 	// filter credits by those that belong to the customer
 	credits_list: function() {
