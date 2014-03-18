@@ -13,6 +13,7 @@
 				{{#if debits_list.length}}
 					{{debit-customer-modal customer=customer order=order}}
 				{{/if}}
+
 				{{#if credits_list.length}}
 					{{credit-customer-modal customer=customer order=order}}
 				{{/if}}
@@ -24,22 +25,22 @@
 <div class="order-customer-sub-header">
 	{{#if reversals_list.length}}
 		<span class="reversed">
-			Reversed: {{amounts.reversed}}
+			Reversed: {{formatCurrency amounts.reversed}}
 		</span>
 	{{/if}}
 	{{#if refunds_list.length}}
 		<span class="refunded">
-			Refunded: {{amounts.refunded}}
+			Refunded: {{formatCurrency amounts.refunded}}
 		</span>
 	{{/if}}
 	{{#if credits_list.length}}
 		<span class="credited">
-			Credited: {{amounts.credited}}
+			Credited: {{formatCurrency amounts.credited}}
 		</span>
 	{{/if}}
 	{{#if debits_list.length}}
 		<span class="debited">
-			Debited: {{amounts.debited}}
+			Debited: {{formatCurrency amounts.debited}}
 		</span>
 	{{/if}}
 	{{#if has_transactions}}

@@ -14,16 +14,16 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 	has_transactions: function() {
 		return this.get('credits_list.length') || this.get('debits_list.length');
-	}.property('credits_list.@each', 'debits_list.@each'),
+	}.property('credits_list', 'debits_list',
+			'credits_list.length', 'debits_list.length'),
 
 	toggle_display: function() {
 		return this.get('is_visible') ? 'Hide details' : 'Show details';
 	}.property('is_visible'),
 
 	title: function() {
-		var name = this.get('customer.name');
-		return name ? name : this.get('customer.id');
-	}.property('customer.name'),
+		return this.get('customer.name') || this.get('customer.id');
+	}.property('customer.name', 'customer.id', 'customer'),
 
 	amounts: function() {
 		var amounts = {
@@ -33,6 +33,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 			reversed: 0,
 			pending: 0
 		};
+
 		var credits = this.get('credits_list');
 		var debits = this.get('debits_list');
 		var refunds = this.get('refunds_list');
@@ -40,7 +41,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		debits.forEach(function(debit) {
 			var amount = debit.get('amount');
-			if (debit.get('status') === 'succeeded') {
+			if (debit.get('is_succeeded')) {
 				amounts.debited += amount;
 			} else {
 				amounts.pending += amount;
@@ -49,7 +50,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		credits.forEach(function(credit) {
 			var amount = credit.get('amount');
-			if (credit.get('status') === 'succeeded') {
+			if (credit.get('is_succeeded')) {
 				amounts.credited += amount;
 			} else {
 				amounts.pending += amount;
@@ -58,7 +59,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		refunds.forEach(function(refund) {
 			var amount = refund.get('amount');
-			if (refund.get('status') === 'succeeded') {
+			if (refund.get('is_succeeded')) {
 				amounts.refunded += amount;
 			} else {
 				amounts.pending += amount;
@@ -67,19 +68,19 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		reversals.forEach(function(reversal) {
 			var amount = reversal.get('amount');
-			if (reversal.get('status') === 'succeeded') {
+			if (reversal.get('is_succeeded')) {
 				amounts.reversed += amount;
 			} else {
 				amounts.pending += amount;
 			}
 		});
 
-		_.each(amounts, function(amount, key) {
-			amounts[key] = Balanced.Utils.formatCurrency(amount);
-		});
-
-		return Ember.Object.create(amounts);
-	}.property('credits_list.@each', 'debits_list.@each'),
+		return amounts;
+	}.property('credits_list', 'debits_list', 'refunds_list', 'reversals_list',
+			'credits_list.@each.amount', 'debits_list.@each.amount',
+			'refunds_list.@each.amount', 'reversals_list.@each.amount',
+			'credits_list.@each.is_succeeded', 'debits_list.@each.is_succeeded',
+			'refunds_list.@each.is_succeeded', 'reversals_list.@each.is_succeeded'),
 
 	// filter credits by those that belong to the customer
 	credits_list: function() {
@@ -119,10 +120,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		debits.forEach(function(debit) {
 			debit.get('refunds').then(function(r) {
-				console.log(r, r.get('length'));
-				r.forEach(function(refund) {
-					refunds.push(refund);
-				});
+				refunds.pushObjects(r.content);
 			});
 		});
 
@@ -135,10 +133,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 		credits.forEach(function(credit) {
 			credit.get('reversals').then(function(r) {
-				console.log(r, r.get('length'));
-				r.forEach(function(reversal) {
-					reversals.push(reversal);
-				});
+				reversals.pushObjects(r.content);
 			});
 		});
 
