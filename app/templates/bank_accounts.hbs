@@ -2,17 +2,17 @@
 
 <div id="bank-account">
     <div class="funding-instrument-header main-header">
-        <div class="row">
+        <div class="row-fluid">
             <div class="span2 label">
                 <div {{bind-attr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
             </div>
-            <div class="span8 title">
+            <div class="span14 title">
                 <span class="nav3d">
                     {{title_description}}
                 </span>
             </div>
 
-            <div class="span11 buttons">
+            <div class="span9 buttons">
                 <div class="buttons-container">
                     {{#if can_debit}}
                         <a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
@@ -30,8 +30,8 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="span12">
+    <div class="row-fluid">
+        <div class="span16">
             <section class="bank-account-info">
                 <form class="form-horizontal edit-inline">
                     <header>
