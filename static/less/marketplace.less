@@ -171,7 +171,7 @@ form {
 .api-keys-info .warn {
   color: @imperialRed100;
 }
-.api-keys-table {
+.api-keys-table, .users-table {
   width: 100%;
   margin-top: -10px;
   tr{
@@ -180,10 +180,10 @@ form {
   tr:last-child {
     border-bottom: none;
   }
-  .confirm-delete-key {
+  .confirm-delete-key, .confirm-delete-user {
     font-size: 20px;
   }
-  .icon-key {
+  .icon-key, .icon-avatar {
     font-size: 22px;
     margin-right: 5px;
     position: absolute;
@@ -209,11 +209,15 @@ form {
       color: @gray3;
     }
   }
+  td.no-results {
+    font-style: italic;
+    cursor: default;
+  }
   .delete-container {
-    .delete-key-outer {
+    .delete-key-outer, .delete-user-outer {
       text-align: right;
       width: 100%;
-      a.confirm-delete-key {
+      a.confirm-delete-key, a.confirm-delete-user {
         color: @gray3;
       }
     }
