@@ -42,6 +42,10 @@ window.setupBalanced = function(divSelector) {
 		customEvents: {
 			// key is the jquery event, value is the name used in views
 			changeDate: 'changeDate'
+		},
+
+		ready: function() {
+			$('#balanced-loading').remove();
 		}
 	});
 
