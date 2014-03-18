@@ -1,5 +1,11 @@
 require('app/models/mixins/meta_array');
 
+var Computed = {
+	isStatus: function(status) {
+		return Ember.computed.equal('status', status);
+	}
+};
+
 Balanced.Transaction = Balanced.Model.extend(
 	Balanced.MetaArrayMixin, {
 		account: Balanced.Model.belongsTo('account', 'Balanced.Account'),
@@ -26,9 +32,7 @@ Balanced.Transaction = Balanced.Model.extend(
 			return this.get('description') || this.get('id');
 		}.property('description', 'id'),
 
-		events_uri: function() {
-			return this.get('uri') + '/events';
-		}.property(),
+		events_uri: Balanced.computed.concat('uri', '/events'),
 
 		status_description: function() {
 			if (this.get('status') === 'failed') {
@@ -41,11 +45,7 @@ Balanced.Transaction = Balanced.Model.extend(
 			}
 		}.property('status', 'failure_reason', 'failure_reason_code'),
 
-		is_failed: function() {
-			return this.get('status') === 'failed';
-		}.property('status'),
-
-		is_pending: function() {
-			return this.get('status') === 'pending';
-		}.property('status')
+		is_failed: Computed.isStatus('failed'),
+		is_pending: Computed.isStatus('pending'),
+		is_succeeded: Computed.isStatus('succeeded')
 	});
