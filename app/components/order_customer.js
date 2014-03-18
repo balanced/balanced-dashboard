@@ -83,34 +83,43 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 
 	// filter credits by those that belong to the customer
 	credits_list: function() {
-		var customer = this.get('customer');
+		var customer = this.get('customer.href');
 		var credits = this.get('credits') || Ember.A();
 
+		if (!customer) {
+			return credits;
+		}
+
 		credits = credits.filter(function(credit) {
-			return customer && credit.get('customer_uri') === customer.get('href');
+			return credit.get('customer_uri') === customer;
 		});
 
 		return credits;
-	}.property('credits.@each', 'customer'),
+	}.property('credits', 'credits.@each.customer_uri', 'customer'),
 
 	// filter debits by those that belong to the customer
 	debits_list: function() {
-		var customer = this.get('customer');
+		var customer = this.get('customer.href');
 		var debits = this.get('debits') || Ember.A();
 
+		if (!customer) {
+			return debits;
+		}
+
 		debits = debits.filter(function(debit) {
-			return customer && debit.get('customer_uri') === customer.get('href');
+			return debit.get('customer_uri') === customer;
 		});
 
 		return debits;
-	}.property('debits.@each', 'customer'),
+	}.property('debits', 'debits.@each.customer_uri', 'customer'),
 
 	refunds_list: function() {
 		var debits = this.get('debits_list');
 		var refunds = Ember.A();
 
 		debits.forEach(function(debit) {
-			debit.get('refunds').then(function(r){
+			debit.get('refunds').then(function(r) {
+				console.log(r, r.get('length'));
 				r.forEach(function(refund) {
 					refunds.push(refund);
 				});
@@ -118,14 +127,15 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		});
 
 		return refunds;
-	}.property('credits_list.@each', 'credits_list.@each.refunds.@each'),
+	}.property('debits_list', 'debits_list.@each.refunds'),
 
 	reversals_list: function() {
 		var credits = this.get('credits_list');
 		var reversals = Ember.A();
 
 		credits.forEach(function(credit) {
-			credit.get('reversals').then(function(r){
+			credit.get('reversals').then(function(r) {
+				console.log(r, r.get('length'));
 				r.forEach(function(reversal) {
 					reversals.push(reversal);
 				});
@@ -133,7 +143,7 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		});
 
 		return reversals;
-	}.property('credits_list.@each', 'credits_list.@each.reversals.@each'),
+	}.property('credits_list', 'credits_list.@each.reversals'),
 
 	actions: {
 		toggle_visibility: function() {

@@ -20,6 +20,7 @@
 		</div>
 	</div>
 </div>
+
 <div class="order-customer-sub-header">
 	{{#if reversals_list.length}}
 		<span class="reversed">
@@ -47,21 +48,22 @@
 		</a>
 	{{/if}}
 </div>
+
 {{#if show_transactions}}
-<div class="transaction order">
-	<div class="transaction-details">
-		{{#each reversal in reversals_list}}
-			{{txn-reversal reversal=reversal}}
-		{{/each}}
-		{{#each credit in credits_list}}
-			{{txn-credit credit=credit}}
-		{{/each}}
-		{{#each refund in refunds_list}}
-			{{txn-refund refund=refund}}
-		{{/each}}
-		{{#each debit in debits_list}}
-			{{txn-debit debit=debit}}
-		{{/each}}
+	<div class="transaction order">
+		<div class="transaction-details">
+			{{#each reversal in reversals_list}}
+				{{txn-reversal reversal=reversal}}
+			{{/each}}
+			{{#each credit in credits_list}}
+				{{txn-credit credit=credit}}
+			{{/each}}
+			{{#each refund in refunds_list}}
+				{{txn-refund refund=refund}}
+			{{/each}}
+			{{#each debit in debits_list}}
+				{{txn-debit debit=debit}}
+			{{/each}}
+		</div>
 	</div>
-</div>
 {{/if}}
