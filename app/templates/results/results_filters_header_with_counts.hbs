@@ -1,17 +1,17 @@
 <nav>
-    <li {{bindAttr class=":orders view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
-        {{#if view.searchResult.total_orders}}
-            <a href="#" {{action changeTypeFilter "order"}}> Orders ({{ formatNumber view.searchResult.total_orders }}) </a>
-        {{else}}
-            <a>Orders (0)</a>
-        {{/if}}
-    </li>
+	<li {{bindAttr class=":orders view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
+		{{#if view.searchResult.total_orders}}
+			<a href="#" {{action changeTypeFilter "order"}}> Orders ({{formatNumber view.searchResult.total_orders}}) </a>
+		{{else}}
+			<a href="#" {{action changeTypeFilter "order"}}>Orders (0)</a>
+		{{/if}}
+	</li>
 
 	<li {{bind-attr class=":transactions :filter view.searchResult.total_transactions::disabled view.transactionsTabSelected:selected"}} >
 		{{#if view.searchResult.total_transactions}}
 			<a href="#" {{action "changeTypeFilter" "search"}}>{{view.transaction_type_label}} ({{formatNumber view.transaction_type_total}}) </a>
 		{{else}}
-			<a>Transactions (0)</a>
+			<a href="#" {{action "changeTypeFilter" "search"}}>Transactions (0)</a>
 		{{/if}}
 
 		<div class="selector dropdown">
@@ -46,11 +46,11 @@
 		</div>
 	</li>
 
-	<li {{bind-attr class=":customers view.searchResult.total_accounts::disabled view.customersTabSelected:selected"}} >
+	<li {{bind-attr class=":customers view.searchResult.total_customers::disabled view.customersTabSelected:selected"}} >
 		{{#if view.searchResult.total_customers}}
 			<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber view.searchResult.total_customers}}) </a>
 		{{else}}
-			<a>Customers (0)</a>
+			<a href="#" {{action "changeTypeFilter" "customer"}}>Customers (0)</a>
 		{{/if}}
 	</li>
 
@@ -58,7 +58,7 @@
 		{{#if view.searchResult.total_funding_instruments}}
 			<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> {{view.funding_instrument_type_label}} ({{formatNumber view.funding_instrument_type_total}}) </a>
 		{{else}}
-			<a>Cards &amp; Bank Accounts (0)</a>
+			<a href="#" {{action "changeTypeFilter" "funding_instrument"}}>Cards &amp; Bank Accounts (0)</a>
 		{{/if}}
 
 		<div class="selector dropdown">

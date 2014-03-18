@@ -35,10 +35,10 @@ Balanced.computed = Ember.Namespace.create({
 			properties   = a_slice.call(arguments, 0, -1);
 
 		computed = Ember.computed(function() {
-			var values = [], value;
+			var values = [];
+
 			for (var i = 0, l = properties.length; i < l; ++i) {
-				value = get(this, properties[i]);
-				values.push(value || '');
+				values.push(get(this, properties[i]) || '');
 			}
 
 			return Ember.String.fmt(formatString, values);
