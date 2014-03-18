@@ -20,7 +20,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		}
 
 		this._super();
-
 		this.focus();
 	},
 
@@ -49,7 +48,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	focus: function() {
-		$('form input[type=text]:first').focus();
+		$('form input:first').focus();
 	},
 
 	afterLogin: function() {
@@ -108,7 +107,10 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			this.set('isSubmitting', true);
 
 			auth.forgetLogin();
-			auth.signIn(this.get('email'), this.get('password')).then(function() {
+			auth.signIn(
+				this.get('email') || $('form input[type=email]').val(),
+				this.get('password') || $('form input[type=password]').val()
+			).then(function() {
 				// When we add the MFA modal to ask users to login
 				// self.send('openMFAInformationModal');
 				// For now tho:
