@@ -59,7 +59,7 @@ test('can add user', function(assert) {
 				}
 			));
 			assert.ok(stub.getCall(1).calledWith(
-				Balanced.InviteUser,
+				Balanced.UserInvite,
 				sinon.match.any, {
 					email_address: TEST_EMAIL,
 					secret: 'ak-TEST-123'
@@ -92,6 +92,6 @@ test('can delete user', function(assert) {
 		.then(function() {
 			// TODO Statements not working for some reason?
 			// assert.ok(stub.calledOnce);
-			// assert.ok(stub.calledWith(Balanced.InviteUser));
+			// assert.ok(stub.calledWith(Balanced.UserInvite));
 		});
 });
