@@ -29,11 +29,11 @@ Balanced.SearchView = Balanced.View.extend({
 	},
 
 	showResultsOverlay: function() {
-		$('body').addClass(this.overlayClass);
+		$(document.body).addClass(this.overlayClass);
 	},
 
 	hideResultsOverlay: function() {
-		$('body').removeClass(this.overlayClass);
+		$(document.body).removeClass(this.overlayClass);
 	},
 
 	_toggleDisplayResults: function() {
