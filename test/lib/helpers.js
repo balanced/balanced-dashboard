@@ -82,7 +82,7 @@ Balanced.Test.asyncHelpers = {
 					assert.ok($(selector).children().length > 0, selector + ' has children elements');
 				}
 			} else if (_.isNumber(val)) {
-				assert.equal($(selector).length, val, 'Element exists ' + selector);
+				assert.equal($(selector).length, val, 'Element exists ' + selector + ' ' + val + ' times');
 			} else if (_.isString(val)) {
 				assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
 			}

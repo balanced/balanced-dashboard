@@ -29,35 +29,35 @@
 			<div class="span4">Quantity</div>
 			<div class="span4">Total</div>
 		</div>
-		<div {{bind-attr class=":row amounts.debits.quantity::empty"}}>
+		<div {{bind-attr class=":row :debits amounts.debits.quantity::empty"}}>
 			<div class="span10">Debits</div>
-			<div class="span4">{{amounts.debits.quantity}}</div>
-			<div class="span4">{{amounts.debits.total}}</div>
+			<div class="span4 quantity">{{amounts.debits.quantity}}</div>
+			<div class="span4 total">{{amounts.debits.total}}</div>
 		</div>
-		<div {{bind-attr class=":row amounts.refunds.quantity::empty"}}>
+		<div {{bind-attr class=":row :refunds amounts.refunds.quantity::empty"}}>
 			<div class="span10">Refunds</div>
-			<div class="span4">{{amounts.refunds.quantity}}</div>
-			<div class="span4">{{amounts.refunds.total}}</div>
+			<div class="span4 quantity">{{amounts.refunds.quantity}}</div>
+			<div class="span4 total">{{amounts.refunds.total}}</div>
 		</div>
 		{{#if multiple_credits}}
 			{{#each credit in credits}}
-				<div class="row">
+				<div class="row :credits">
 					<div class="span10">Credit to {{credit.funding_instrument_description}}</div>
-					<div class="span4">1</div>
-					<div class="span4">{{credit.amount_dollars}}</div>
+					<div class="span4 quantity">1</div>
+					<div class="span4 total">{{credit.amount_dollars}}</div>
 				</div>
 			{{/each}}
 		{{else}}
-			<div {{bind-attr class=":row amounts.credits.quantity::empty"}}>
+			<div {{bind-attr class=":row :credits amounts.credits.quantity::empty"}}>
 				<div class="span10">Credits to seller</div>
-				<div class="span4">{{amounts.credits.quantity}}</div>
-				<div class="span4">{{amounts.credits.total}}</div>
+				<div class="span4 quantity">{{amounts.credits.quantity}}</div>
+				<div class="span4 total">{{amounts.credits.total}}</div>
 			</div>
 		{{/if}}
-		<div {{bind-attr class=":row amounts.reversals.quantity::empty"}}>
+		<div {{bind-attr class=":row :reversals amounts.reversals.quantity::empty"}}>
 			<div class="span10">Reversals</div>
-			<div class="span4">{{amounts.reversals.quantity}}</div>
-			<div class="span4">{{amounts.reversals.total}}</div>
+			<div class="span4 quantity">{{amounts.reversals.quantity}}</div>
+			<div class="span4 total">{{amounts.reversals.total}}</div>
 		</div>
 	</div>
 

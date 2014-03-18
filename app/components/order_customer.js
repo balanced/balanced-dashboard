@@ -26,54 +26,24 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	}.property('customer.name', 'customer.id', 'customer'),
 
 	amounts: function() {
-		var amounts = {
-			credited: 0,
-			debited: 0,
-			refunded: 0,
-			reversed: 0,
-			pending: 0
-		};
+		var amounts = {};
+		var lists = ['credits_list', 'debits_list', 'refunds_list', 'reversals_list'];
 
-		var credits = this.get('credits_list');
-		var debits = this.get('debits_list');
-		var refunds = this.get('refunds_list');
-		var reversals = this.get('reversals_list');
+		_.each(lists, function(type) {
+			amounts[type] = {
+				quantity: 0,
+				total: 0
+			};
 
-		debits.forEach(function(debit) {
-			var amount = debit.get('amount');
-			if (debit.get('is_succeeded')) {
-				amounts.debited += amount;
-			} else {
-				amounts.pending += amount;
-			}
-		});
+			var list = this.get(type) || Ember.A();
+			list.forEach(function (thing) {
+				amounts[type].quantity++;
 
-		credits.forEach(function(credit) {
-			var amount = credit.get('amount');
-			if (credit.get('is_succeeded')) {
-				amounts.credited += amount;
-			} else {
-				amounts.pending += amount;
-			}
-		});
-
-		refunds.forEach(function(refund) {
-			var amount = refund.get('amount');
-			if (refund.get('is_succeeded')) {
-				amounts.refunded += amount;
-			} else {
-				amounts.pending += amount;
-			}
-		});
-
-		reversals.forEach(function(reversal) {
-			var amount = reversal.get('amount');
-			if (reversal.get('is_succeeded')) {
-				amounts.reversed += amount;
-			} else {
-				amounts.pending += amount;
-			}
-		});
+				if (thing.get('is_succeeded')) {
+					amounts[type].total += thing.get('amount');
+				}
+			});
+		}, this);
 
 		return amounts;
 	}.property('credits_list', 'debits_list', 'refunds_list', 'reversals_list',

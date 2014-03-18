@@ -25,22 +25,22 @@
 <div class="order-customer-sub-header">
 	{{#if reversals_list.length}}
 		<span class="reversed">
-			Reversed: {{formatCurrency amounts.reversed}}
+			Reversed: {{formatCurrency amounts.reversals_list.total}}
 		</span>
 	{{/if}}
 	{{#if refunds_list.length}}
 		<span class="refunded">
-			Refunded: {{formatCurrency amounts.refunded}}
+			Refunded: {{formatCurrency amounts.refunds_list.total}}
 		</span>
 	{{/if}}
 	{{#if credits_list.length}}
 		<span class="credited">
-			Credited: {{formatCurrency amounts.credited}}
+			Credited: {{formatCurrency amounts.credits_list.total}}
 		</span>
 	{{/if}}
 	{{#if debits_list.length}}
 		<span class="debited">
-			Debited: {{formatCurrency amounts.debited}}
+			Debited: {{formatCurrency amounts.debits_list.total}}
 		</span>
 	{{/if}}
 	{{#if has_transactions}}
