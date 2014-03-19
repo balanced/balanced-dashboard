@@ -149,11 +149,22 @@ form {
 .api-keys-table, .users-table {
   width: 100%;
   margin-top: -10px;
-  tr{
+  tr {
     border-bottom: 1px #bcbcbc solid;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
-  tr:last-child {
-    border-bottom: none;
+  td {
+    float: none;
+
+    &:first-child {
+      padding-left: 20px;
+    }
+    &:last-child {
+      padding-right: 20px;
+    }
   }
   .confirm-delete-key, .confirm-delete-user {
     font-size: 20px;

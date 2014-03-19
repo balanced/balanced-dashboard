@@ -1,118 +1,84 @@
 <h1 class="page-title">Card</h1>
 
 <div id="card">
-    <div class="funding-instrument-header main-header">
-        <div class="row-fluid">
-            <div class="span2 label">
-                <div {{bind-attr class=":icon :card-info"}}>Card</div>
-            </div>
-            <div class="span14 title">
-                <span class="nav3d">
-                    {{title_description}}
-                </span>
-            </div>
+	<div class="funding-instrument-header main-header">
+		<div class="row-fluid">
+			<div class="span2 label">
+				<div {{bind-attr class=":icon :card-info"}}>Card</div>
+			</div>
+			<div class="span14 title">
+				<span class="nav3d">
+					{{title_description}}
+				</span>
+			</div>
 
-            <div class="span9 buttons">
-                <div class="buttons-container">
-                    {{#if customer}}
-                        {{partial 'hold_card'}}
-                        <a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-    </div>
+			<div class="span9 buttons">
+				<div class="buttons-container">
+					{{#if customer}}
+						{{partial 'hold_card'}}
+						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <div class="row-fluid">
-        <div class="span16">
-            <section class="card-info">
-                <form class="form-horizontal edit-inline">
-                    <header>
-                        <h3>Card info</h3>
-                    </header>
-                    <div>
-                        <div class="control-group">
-                            <label class="control-label">ID</label>
-                            <div class="controls">
-                                <span class="inline-label">{{#if id}} {{id}} {{else}} <span class="text-error">DELETED</span> {{/if}}</span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Created</label>
-                            <div class="controls">
-                                <span class="inline-label">
-                                    {{humanReadableDateLong created_at}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Name</label>
-                            <div class="controls">
-                                <span class="inline-label">
-                                    {{name}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Card #</label>
-                            <div class="controls">
-                                <span class="inline-label">
-                                    {{number}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Expiration</label>
-                            <div class="controls">
-                                <span class="inline-label">
-                                    {{human_readable_expiration}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Billing Zip Code</label>
-                            <div class="controls">
-                                <span class="inline-label">
-                                    {{postal_code}}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label">Type</label>
-                            <div class="controls">
-                                <span class="inline-label">
-                                    {{titleCase brand}}
-                                </span>
-                            </div>
-                        </div>
-                        {{partial 'meta'}}
-                    </div>
-                </form>
-            </section>
+	<div class="row-fluid">
+		<div class="span16">
+			<section class="card-info">
+				<div class="key-value-display">
+					<header>
+						<h3>Card info</h3>
+					</header>
+					<dl class="dl-horizontal">
+						<dt>ID</dt>
+						<dd>
+							{{#if id}}
+								{{id}}
+							{{else}}
+								<span class="text-error">DELETED</span>
+							{{/if}}
+						</dd>
+						<dt>Created</dt>
+						<dd>{{humanReadableDateLong created_at}}</dd>
+						<dt>Name</dt>
+						<dd>{{name}}</dd>
+						<dt>Card #</dt>
+						<dd>{{number}}</dd>
+						<dt>Expiration</dt>
+						<dd>{{human_readable_expiration}}</dd>
+						<dt>Billing Zip Code</dt>
+						<dd>{{postal_code}}</dd>
+						<dt>Type</dt>
+						<dd>{{titleCase brand}}</dd>
 
-        </div>
+						{{partial 'meta'}}
+					</dl>
+				</div>
+			</section>
+		</div>
 
-        <div class="offset1 span9">
-            {{partial 'customer_info'}}
-        </div>
-    </div>
+		<div class="offset1 span9">
+			{{partial 'customer_info'}}
+		</div>
+	</div>
 
-    <section class="activity">
-        <header>
-            <h3>Activity</h3>
-        </header>
-        <div class="results">
-            {{view Balanced.TransactionsFiltersHeaderView}}
+	<section class="activity">
+		<header class="results-label">
+			<h3>Activity</h3>
+		</header>
+		<div class="results">
+			{{view Balanced.TransactionsFiltersHeaderView}}
 
-            <div class="items-wrapper">
-                {{view Balanced.TransactionsResultsView transactionsBinding="results"}}
-            </div>
-        </div>
-    </section>
+			<div class="items-wrapper">
+				{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
+			</div>
+		</div>
+	</section>
 </div>
 
 {{#if show_download}}
-    {{partial "modals/download"}}
+	{{partial "modals/download"}}
 {{/if}}
 
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}

@@ -2,7 +2,7 @@
 	<tbody>
 		{{#each user in users}}
 			<tr>
-				<td class="span3">
+				<td class="span4">
 					<span class="wrap">
 						<span class="icon-avatar"></span>
 						&nbsp;
@@ -13,7 +13,6 @@
 						{{humanReadableDateShort user.created_at}}
 					</span>
 				</td>
-
 				<td class="span13" {{bind-attr title="user.email_address"}}>
 					<span class="wrap">
 						{{user.email_address}}
