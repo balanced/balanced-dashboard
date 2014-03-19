@@ -134,7 +134,9 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	tagName: 'header',
 
 	allTabSelected: Computed.isTypeSelected('transaction'),
-	holdsTabSelected: Computed.isTypeSelected('card_hold'),
+	holdsTabSelected: function() {
+		return ['hold', 'card_hold'].indexOf(this.get('controller.type')) >= 0;
+	}.property('controller.type'),
 	creditsTabSelected: Computed.isTypeSelected('credit'),
 	failedCreditsTabSelected: Computed.isTypeSelected('failed_credit'),
 	reversalsTabSelected: Computed.isTypeSelected('reversal'),
