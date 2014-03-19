@@ -5,14 +5,24 @@ var Computed = {
 	isCategorySelected: function(category) {
 		return Ember.computed.equal('controller.category', category);
 	},
-	label: function(type, label) {
+	label: function(type, label, prop) {
+		prop = prop || 'transactionStatus';
+
 		return function() {
 			if (this.get('controller.type') === type) {
-				return label + ': %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionStatus')));
+				return label + ': %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.' + prop)));
 			} else {
 				return label + ': All';
 			}
-		}.property('controller.transactionStatus', 'controller.type');
+		}.property('controller.' + prop, 'controller.type');
+	},
+	typeTotals: function(CONST_TYPES, defaultType) {
+		var defaultCount = Ember.String.fmt('searchResult.total_%@s', defaultType);
+
+		return Ember.computed(function() {
+			var type = this.get('controller.type');
+			return (CONST_TYPES.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get(defaultCount);
+		}).property('controller.type', 'searchResult')
 	}
 };
 
@@ -88,43 +98,15 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
 	templateName: 'results/results_filters_header_with_counts',
 
-	totalOrdersTabHeader: function() {
-		return 'Orders (' + this.get('searchResult.total_orders') + ')';
-	}.property('searchResult.total_orders'),
+	totalOrdersTabHeader: Balanced.computed.fmt('searchResult.total_orders', 'Orders (%@)'),
+	totalTransactionsHeader: Balanced.computed.fmt('searchResult.total_transactions', 'Transactions (%@)'),
+	totalCustomersTabHeader: Balanced.computed.fmt('searchResult.total_customers', 'Customers (%@)'),
+	totalFundingInstrumentsHeader: Balanced.computed.fmt('searchResult.total_funding_instruments', 'Cards & Bank Accounts (%@)'),
+	totalDisputesHeader: Balanced.computed.fmt('searchResult.total_disputes', 'Disputes (%@)'),
 
-	totalTransactionsHeader: function() {
-		return 'Transactions (' + this.get('searchResult.total_transactions') + ')';
-	}.property('searchResult.total_transactions'),
-
-	totalCustomersTabHeader: function() {
-		return 'Customers (' + this.get('searchResult.total_customers') + ')';
-	}.property('searchResult.total_customers'),
-
-	totalFundingInstrumentsHeader: function() {
-		return 'Cards & Bank Accounts (' + this.get('searchResult.total_funding_instruments') + ')';
-	}.property('searchResult.total_funding_instruments'),
-
-	totalDisputesHeader: function() {
-		return 'Disputes (' + this.get('searchResult.total_disputes') + ')';
-	}.property('searchResult.total_disputes'),
-
-	transaction_type_total: function() {
-		var types = Balanced.SEARCH.SEARCH_TYPES;
-		var type = this.get('controller.type');
-		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_transactions');
-	}.property('controller.type', 'searchResult.total_transactions'),
-
-	funding_instrument_type_total: function() {
-		var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
-		var type = this.get('controller.type');
-		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_funding_instruments');
-	}.property('controller.type', 'searchResult'),
-
-	dispute_type_total: function() {
-		var types = Balanced.SEARCH.DISPUTE_TYPES;
-		var type = this.get('controller.type');
-		return (types.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get('searchResult.total_disputes');
-	}.property('controller.type', 'searchResult')
+	transaction_type_total: Computed.typeTotals(Balanced.SEARCH.SEARCH_TYPES, 'transaction'),
+	funding_instrument_type_total: Computed.typeTotals(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, 'funding_instrument'),
+	dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
 });
 
 Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
@@ -143,18 +125,11 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	refundsTabSelected: Computed.isTypeSelected("refund"),
 	disputesTabSelected: Computed.isTypeSelected("dispute"),
 
-	debits_label: function() {
-		if (this.get('controller.type') === 'debit') {
-			return 'Debits: %@'.fmt(Balanced.Utils.toTitleCase(this.get('controller.transactionType')));
-		} else {
-			return 'Debits: All';
-		}
-	}.property('controller.transactionType', 'controller.type'),
-
 	debitsTabSelected: Computed.isTypeSelected('debit'),
 	refundsTabSelected: Computed.isTypeSelected('refund'),
 	disputesTabSelected: Computed.isTypeSelected('dispute'),
 
+	// debits_label: Computed.label('debit', 'Debits', 'transactionType'),
 	debits_label: Computed.label('debit', 'Debits'),
 	credits_label: Computed.label('credit', 'Credits')
 });
