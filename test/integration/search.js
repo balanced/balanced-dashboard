@@ -69,7 +69,7 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 			assert.ok(controller.get('results_base_uri').indexOf('/search') >= 0, 'Search Transactions URI is correct');
 			assert.ok(resultsUri.indexOf('card_hold') >= 0, 'Search URI filter by type is correct');
 		})
-		.click('#search .results table.transactions th.type .type-filter li a:contains(Holds)')
+		.click('#search .results li.transactions ul.dropdown-menu li a:contains(Holds)')
 		.then(function() {
 			// Manually check the transactions uri is correct
 			var controller = Balanced.__container__.lookup('controller:search');
@@ -82,6 +82,7 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 
 			// Check header labels
 			assert.equal($('#search .results li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
+			assert.equal($('#search .results li.transactions').text().indexOf('0') >= 0, 1, 'has correct text');
 
 			// Check if we dont have status type
 			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
