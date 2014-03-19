@@ -34,6 +34,7 @@ QUnit.testStart(function(test) {
 		async: false
 	});
 
+	console.log('#' + module + " " + test.name + ": running.");
 });
 
 QUnit.testDone(function(test) {

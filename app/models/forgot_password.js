@@ -3,7 +3,11 @@ Balanced.ForgotPassword = Balanced.Model.extend(Ember.Validations, {
 
 	validations: {
 		email_address: {
-			presence: true
+			presence: true,
+			length: {
+				minimum: 6
+			},
+			format: /.+@.+\..{2,4}/
 		}
 	}
 });

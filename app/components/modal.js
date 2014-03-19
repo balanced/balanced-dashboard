@@ -18,7 +18,7 @@ Balanced.ModalComponent = Ember.Component.extend({
 
 			if (model) {
 				model.on('didCreate', function() {
-					self.$(modalElement).modal('hide');
+					self.hide();
 				});
 
 				this.set('model', model);

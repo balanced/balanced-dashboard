@@ -14,5 +14,9 @@ Balanced.Adapter.addFixtures([{
 		"id": "TEST-MP3",
 		"uri": "/v1/marketplaces/TEST-MP3",
 		"name": "Third Marketplace"
+	}, {
+		"id": "TEST-MP4cOZZqeAelhxXQzljLLtgl",
+		"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl",
+		"name": "Real Marketplace"
 	}]
 }]);
