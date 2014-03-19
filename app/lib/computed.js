@@ -23,9 +23,14 @@ Balanced.computed = Ember.Namespace.create({
 		});
 	},
 
-	concat: function(dependentKey, key) {
+	concat: function(dependentKey, key, flip) {
 		return Ember.computed(dependentKey, function() {
 			var value = get(this, dependentKey) || '';
+
+			if (flip) {
+				return key + value;
+			}
+
 			return value + key;
 		});
 	},
