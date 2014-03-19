@@ -1,21 +1,25 @@
 {{#unless is_object_log }}
 
-<h1 class="page-title">Logs
-	{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
-</h1>
+    <h1 class="page-title">Logs
+    	{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+    </h1>
+    <div id="logs" class="results">
+        {{view Balanced.LogsFiltersHeaderView}}
+
+        <div class="items-wrapper">
+            {{view Balanced.LogsResultsView}}
+        </div>
+    </div>
 
 {{else}}
 
-<h3 class="page-title">Logs
-    {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
-</h3>
+    <h3 class="page-title">Logs
+        {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+    </h3>
+    <div id="logs" class="results">
+        <div class="items-wrapper">
+            {{view Balanced.LogsEmbeddedResultsView}}
+        </div>
+    </div>
 
 {{/unless}}
-
-<div id="logs" class="results">
-	{{view Balanced.LogsFiltersHeaderView}}
-
-	<div class="items-wrapper">
-		{{view Balanced.LogsResultsView}}
-	</div>
-</div>

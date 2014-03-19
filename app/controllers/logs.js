@@ -45,6 +45,17 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 			failed = this.get('statusRollupFilterFailed'),
 			statusFilters = [];
 
+		if (this.get('model.id') !== null) {
+			params['resource_id'] = this.get('model.id');
+			/*
+				statusRollupFilterSucceeded and statusRollupFilterFailed
+				checkboxes are not available if this log index is embedded
+				in other resource page, so we need to set them to true here
+			*/
+			succeeded = true;
+			failed = true;
+		}
+
 		if (succeeded && !failed) {
 			statusFilters.push('2xx');
 		}
@@ -53,10 +64,6 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 		}
 		if (statusFilters.length > 0) {
 			params['status_rollup[in]'] = statusFilters;
-		}
-
-		if (this.get('model.id') !== null) {
-			params['resource_id'] = this.get('model.id');
 		}
 
 		return params;

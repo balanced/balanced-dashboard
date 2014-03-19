@@ -15,7 +15,8 @@
 
 	<div class="transaction-body">
 		<div class="row-fluid">
-			<div class="span16">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
 				<section class="transaction-info">
 					<div class="key-value-display">
 						<header>
@@ -28,7 +29,16 @@
 				</section>
 				{{txn-funding-instrument funding_instrument=debit.source}}
 			</div>
-			<div class="span10">
+		</div>
+		<div class="row">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
+				{{render "logs.index" debit}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="span2 border-adjust"></div>
+			<div class="span18 border-adjust">
 				{{view Balanced.EventsSideBarView contentBinding="debit"}}
 			</div>
 		</div>
