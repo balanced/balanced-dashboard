@@ -120,11 +120,6 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	reversalsTabSelected: Computed.isTypeSelected('reversal'),
 	debitBankAccountsTabSelected: Computed.isTypeSelected('bank_account_debit'),
 	debitCardsTabSelected: Computed.isTypeSelected('card_debit'),
-
-	debitsTabSelected: Computed.isTypeSelected('debit'),
-	refundsTabSelected: Computed.isTypeSelected('refund'),
-	disputesTabSelected: Computed.isTypeSelected('dispute'),
-
 	debitsTabSelected: Computed.isTypeSelected('debit'),
 	refundsTabSelected: Computed.isTypeSelected('refund'),
 	disputesTabSelected: Computed.isTypeSelected('dispute'),
