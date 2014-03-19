@@ -1,6 +1,6 @@
 <nav>
 	<li {{bindAttr class=":orders view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
-		<a href="#" {{action changeTypeFilter "order"}}> Orders ({{formatNumber view.searchResult.total_orders}}) </a>
+		<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber view.searchResult.total_orders}}) </a>
 	</li>
 
 	<li {{bind-attr class=":transactions :filter view.searchResult.total_transactions::disabled view.transactionsTabSelected:selected"}} >

@@ -17,11 +17,27 @@ var Computed = {
 		}.property('controller.' + prop, 'controller.type');
 	},
 	typeTotals: function(CONST_TYPES, defaultType) {
-		var defaultCount = Ember.String.fmt('searchResult.total_%@s', defaultType);
+		var defaultCount = 'searchResult.total_%@s'.fmt(defaultType);
 
 		return Ember.computed(function() {
-			var type = this.get('controller.type');
-			return (CONST_TYPES.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get(defaultCount);
+			var type = this.get('controller.type'),
+				count;
+			if (CONST_TYPES.indexOf(type) >= 0) {
+				count = this.get('searchResult.total_%@s'.fmt(type));
+			}
+
+			if (_.isUndefined(count)) {
+				count = this.get(defaultCount);
+			}
+
+			if (_.isUndefined(count)) {
+				var self = this;
+				count = _.reduce(CONST_TYPES, function(memo, type) {
+					return memo + self.get('searchResult.total_%@s'.fmt(type));
+				}, 0);
+			}
+
+			return count;
 		}).property('controller.type', 'searchResult', defaultCount);
 	}
 };
@@ -98,15 +114,19 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
 	templateName: 'results/results_filters_header_with_counts',
 
-	totalOrdersTabHeader: Balanced.computed.fmt('searchResult.total_orders', 'Orders (%@)'),
+	// Not used anywhere
+	// totalOrdersTabHeader: Balanced.computed.fmt('searchResult.total_orders', 'Orders (%@)'),
 	totalTransactionsHeader: Balanced.computed.fmt('searchResult.total_transactions', 'Transactions (%@)'),
-	totalCustomersTabHeader: Balanced.computed.fmt('searchResult.total_customers', 'Customers (%@)'),
+	// Not used anywhere
+	// totalCustomersTabHeader: Balanced.computed.fmt('searchResult.total_customers', 'Customers (%@)'),
 	totalFundingInstrumentsHeader: Balanced.computed.fmt('searchResult.total_funding_instruments', 'Cards & Bank Accounts (%@)'),
-	totalDisputesHeader: Balanced.computed.fmt('searchResult.total_disputes', 'Disputes (%@)'),
+	// Search does not have disputes yet
+	// totalDisputesHeader: Balanced.computed.fmt('searchResult.total_disputes', 'Disputes (%@)'),
 
 	transaction_type_total: Computed.typeTotals(Balanced.SEARCH.SEARCH_TYPES, 'transaction'),
 	funding_instrument_type_total: Computed.typeTotals(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, 'funding_instrument'),
-	dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
+	// Search does not have disputes yet
+	// dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
 });
 
 Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
@@ -124,6 +144,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 	refundsTabSelected: Computed.isTypeSelected('refund'),
 	disputesTabSelected: Computed.isTypeSelected('dispute'),
 
+	// Was defined multiple times
 	// debits_label: Computed.label('debit', 'Debits', 'transactionType'),
 	debits_label: Computed.label('debit', 'Debits'),
 	credits_label: Computed.label('credit', 'Credits')
