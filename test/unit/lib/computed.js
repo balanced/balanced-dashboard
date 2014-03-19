@@ -1,5 +1,34 @@
 module('Balanced.computed');
 
+test('Balanced.computed.sum', function(assert) {
+	var TestObject = Ember.Object.extend({
+		part: Balanced.computed.sum('full', 'amount'),
+	});
+
+	t = TestObject.create();
+	assert.equal(t.get('part'), 0);
+
+	var ARRAY_LENGTH = 10, AMOUNT = 5;
+
+	var Credit = Ember.Object.extend({
+		amount: AMOUNT
+	});
+
+	var creditArr = [];
+	for (var i = ARRAY_LENGTH; i > 0; i--) {
+		creditArr.pushObject(Credit.create());
+	}
+
+
+	t = TestObject.create({
+		full: creditArr
+	});
+	assert.equal(t.get('part'), ARRAY_LENGTH * AMOUNT);
+
+	t.get('full').pushObject(Credit.create());
+	assert.equal(t.get('part'), (ARRAY_LENGTH + 1) * AMOUNT);
+});
+
 test('Balanced.computed.slice', function(assert) {
 	var TestObject = Ember.Object.extend({
 		part: Balanced.computed.slice('full', 1),

@@ -4,16 +4,21 @@ var get = Ember.get,
 
 Balanced.computed = Ember.Namespace.create({
 	sum: function(dependentKey, itemKey) {
-		return Ember.computed(dependentKey, function() {
-			var total = 0;
-			get(this, dependentKey).forEach(function(item) {
-				var number = item.get(itemKey);
+		// FIXME - should be wrapped in Ember.arrayComputed?
+		return Ember.computed(function() {
+			var total = 0,
+				arr = get(this, dependentKey) || [];
+
+			arr.forEach(function(item) {
+				var number = get(item, itemKey);
+
 				if (number) {
 					total += number;
 				}
 			});
+
 			return total;
-		});
+		}).property(dependentKey, dependentKey + '.length', dependentKey + '.@each.' + itemKey);
 	},
 
 	slice: function(dependentKey, start, end) {
