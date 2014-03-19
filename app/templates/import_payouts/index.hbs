@@ -9,26 +9,25 @@
 {{#if controllers.marketplace.production}}
 	Payouts Import is only available on test marketplaces.
 {{else}}
-<form {{action "submit" on="submit" target="view"}} class="full-page-form">
-	{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
-	<fieldset class="pay-multiple-sellers-summary">
-	  {{#if creditCreators.isEmpty}}
-		{{partial 'import_payouts/instructions'}}
-	  {{else}}
-		{{partial 'import_payouts/account_summary'}}
-	  {{/if}}
-	</fieldset>
+	<form {{action "submit" on="submit" target="view"}} class="full-page-form">
+		{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
+		<fieldset class="pay-multiple-sellers-summary">
+			{{#if creditCreators.isEmpty}}
+				{{partial 'import_payouts/instructions'}}
+			{{else}}
+				{{partial 'import_payouts/account_summary'}}
+			{{/if}}
+		</fieldset>
 
-	{{#if view.displayCsvRows}}
-	  <div class="pay-multiple-sellers-tables">
-		{{#if creditCreators.isInvalid}}
-		  {{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+		{{#if view.displayCsvRows}}
+			<div class="pay-multiple-sellers-tables">
+				{{#if creditCreators.isInvalid}}
+					{{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+				{{/if}}
+				{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+				{{partial "import_payouts/submit_area"}}
+			</div>
 		{{/if}}
-		{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
-		{{partial "import_payouts/submit_area"}}
-	  </div>
-	{{/if}}
-
-</form>
+	</form>
 {{/if}}
 {{/view}}
