@@ -20,7 +20,6 @@ test('Balanced.computed.sum', function(assert) {
 		creditArr.pushObject(Credit.create());
 	}
 
-
 	t = TestObject.create({
 		full: creditArr
 	});
