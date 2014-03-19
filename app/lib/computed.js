@@ -24,6 +24,7 @@ Balanced.computed = Ember.Namespace.create({
 	slice: function(dependentKey, start, end) {
 		return Ember.computed(dependentKey, function() {
 			var array = get(this, dependentKey) || [];
+			// array might be an Ember.ArrayProxy object so use native slice method here
 			return array.slice(start, end);
 		});
 	},
