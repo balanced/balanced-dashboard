@@ -10,11 +10,21 @@
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
 
 			<ul class="dropdown-menu transaction-filter filter-choices">
-				<li {{bind-attr class="view.searchResult.total_transactions::disabled"}}><a href="#" {{action "changeTypeFilter" "transaction"}} {{bind-attr label="view.totalTransactionsHeader"}}>All ({{formatNumber view.searchResult.total_transactions}})</a></li>
-				<li {{bind-attr class="view.searchResult.total_card_holds::disabled"}}><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds ({{formatNumber view.searchResult.total_card_holds}}) </a></li>
-				<li {{bind-attr class="view.searchResult.total_debits::disabled"}}><a href="#" {{action "changeTypeFilter" "debit"}}> Debits ({{formatNumber view.searchResult.total_debits}}) </a></li>
-				<li {{bind-attr class="view.searchResult.total_credits::disabled"}}><a href="#" {{action "changeTypeFilter" "credit"}}> Credits ({{formatNumber view.searchResult.total_credits}}) </a></li>
-				<li {{bind-attr class="view.searchResult.total_refunds::disabled"}}><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds ({{formatNumber view.searchResult.total_refunds}}) </a></li>
+				<li {{bind-attr class="view.searchResult.total_transactions::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "transaction"}} {{bind-attr label="view.totalTransactionsHeader"}}>All ({{formatNumber view.searchResult.total_transactions}})</a>
+				</li>
+				<li {{bind-attr class="view.searchResult.total_card_holds::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds ({{formatNumber view.searchResult.total_card_holds}}) </a>
+				</li>
+				<li {{bind-attr class="view.searchResult.total_debits::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "debit"}}> Debits ({{formatNumber view.searchResult.total_debits}}) </a>
+				</li>
+				<li {{bind-attr class="view.searchResult.total_credits::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "credit"}}> Credits ({{formatNumber view.searchResult.total_credits}}) </a>
+				</li>
+				<li {{bind-attr class="view.searchResult.total_refunds::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "refund"}}> Refunds ({{formatNumber view.searchResult.total_refunds}}) </a>
+				</li>
 			</ul>
 		</div>
 	</li>
@@ -29,9 +39,15 @@
 		<div class="selector dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
 			<ul class="dropdown-menu funding-instruments-filter filter-choices">
-				<li {{bind-attr class="view.searchResult.total_funding_instruments::disabled"}}><a href="#" {{action "changeTypeFilter" "funding_instrument"}} {{bind-attr label="view.totalFundingInstrumentsHeader"}}> Both ({{formatNumber view.searchResult.total_funding_instruments}}) </a></li>
-				<li {{bind-attr class="view.searchResult.total_cards::disabled"}}><a href="#" {{action "changeTypeFilter" "card"}}> Cards ({{formatNumber view.searchResult.total_cards}}) </a></li>
-				<li {{bind-attr class="view.searchResult.total_bank_accounts::disabled"}}><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts ({{formatNumber view.searchResult.total_bank_accounts}}) </a></li>
+				<li {{bind-attr class="view.searchResult.total_funding_instruments::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "funding_instrument"}} {{bind-attr label="view.totalFundingInstrumentsHeader"}}> Both ({{formatNumber view.searchResult.total_funding_instruments}}) </a>
+				</li>
+				<li {{bind-attr class="view.searchResult.total_cards::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "card"}}> Cards ({{formatNumber view.searchResult.total_cards}}) </a>
+				</li>
+				<li {{bind-attr class="view.searchResult.total_bank_accounts::disabled"}}>
+					<a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts ({{formatNumber view.searchResult.total_bank_accounts}}) </a>
+				</li>
 			</ul>
 		</div>
 	</li>
