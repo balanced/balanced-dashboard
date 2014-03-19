@@ -30,6 +30,37 @@ test('Balanced.computed.sum', function(assert) {
 	assert.equal(t.get('part'), (ARRAY_LENGTH + 1) * AMOUNT);
 });
 
+test('Balanced.computed.sumAll', function(assert) {
+	var TestObject = Ember.Object.extend({
+		total: Balanced.computed.sum('subtotal', 'tip', 'tax'),
+	});
+
+	var t = TestObject.create();
+	assert.equal(t.get('total'), 0);
+
+	Ember.run(function() {
+		t.set('subtotal', 5);
+	});
+	assert.equal(t.get('total'), 5);
+
+	Ember.run(function() {
+		t.set('tax', 1);
+	});
+	assert.equal(t.get('total'), 6);
+
+	Ember.run(function() {
+		t.set('tip', 1);
+	});
+	assert.equal(t.get('total'), 7);
+
+	t = TestObject.create({
+		subtotal: 3,
+		tip: 1,
+		tax: 0.01
+	});
+	assert.equal(t.get('total'), 4.01);
+});
+
 test('Balanced.computed.slice', function(assert) {
 	var TestObject = Ember.Object.extend({
 		part: Balanced.computed.slice('full', 1),

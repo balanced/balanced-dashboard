@@ -21,6 +21,22 @@ Balanced.computed = Ember.Namespace.create({
 		}).property(dependentKey, dependentKey + '.length', dependentKey + '.@each.' + itemKey);
 	},
 
+	sumAll, function() {
+		var args = a_slice.call(arguments);
+
+		var computed = Ember.computed(function() {
+			var total = 0;
+
+			for (var i = 0, l = args.length; i < l; ++i) {
+				total += (get(this, args[i]) || 0);
+			}
+
+			return total;
+		});
+
+		return computed.property.apply(computed, args);
+	},
+
 	slice: function(dependentKey, start, end) {
 		return Ember.computed(dependentKey, function() {
 			var array = get(this, dependentKey) || [];
