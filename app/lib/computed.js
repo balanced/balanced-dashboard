@@ -9,6 +9,10 @@ Balanced.computed = Ember.Namespace.create({
 			var total = 0,
 				arr = get(this, dependentKey) || [];
 
+			if (!arr || !arr.forEach) {
+				return 0;
+			}
+
 			arr.forEach(function(item) {
 				var number = get(item, itemKey);
 

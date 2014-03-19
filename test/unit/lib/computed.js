@@ -32,7 +32,7 @@ test('Balanced.computed.sum', function(assert) {
 
 test('Balanced.computed.sumAll', function(assert) {
 	var TestObject = Ember.Object.extend({
-		total: Balanced.computed.sum('subtotal', 'tip', 'tax'),
+		total: Balanced.computed.sumAll('subtotal', 'tip', 'tax'),
 	});
 
 	var t = TestObject.create();
