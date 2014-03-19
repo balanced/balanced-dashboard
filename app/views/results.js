@@ -22,7 +22,7 @@ var Computed = {
 		return Ember.computed(function() {
 			var type = this.get('controller.type');
 			return (CONST_TYPES.indexOf(type) >= 0 && this.get('searchResult.total_%@s'.fmt(type))) || this.get(defaultCount);
-		}).property('controller.type', 'searchResult')
+		}).property('controller.type', 'searchResult', defaultCount);
 	}
 };
 

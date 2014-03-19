@@ -5,10 +5,11 @@ test('Balanced.computed.sum', function(assert) {
 		part: Balanced.computed.sum('full', 'amount'),
 	});
 
-	t = TestObject.create();
+	var t = TestObject.create();
 	assert.equal(t.get('part'), 0);
 
-	var ARRAY_LENGTH = 10, AMOUNT = 5;
+	var ARRAY_LENGTH = 10,
+		AMOUNT = 5;
 
 	var Credit = Ember.Object.extend({
 		amount: AMOUNT
@@ -35,7 +36,7 @@ test('Balanced.computed.slice', function(assert) {
 		partWay: Balanced.computed.slice('full', 1, 3),
 	});
 
-	t = TestObject.create();
+	var t = TestObject.create();
 	assert.equal(t.get('part').length, 0);
 	assert.equal(t.get('partWay').length, 0);
 
@@ -55,7 +56,7 @@ test('Balanced.computed.concat', function(assert) {
 		href: Balanced.computed.concat('id', '/test/', true)
 	});
 
-	t = TestObject.create();
+	var t = TestObject.create();
 	assert.equal(t.get('href'), '/test/');
 	assert.equal(t.get('flippedHref'), '/test/');
 
