@@ -2,11 +2,11 @@
 
 <div id="customer">
 	<div class="main-header customer customer-header">
-		<div class="row">
+		<div class="row-fluid">
 			<div class="span2 label">
 				<div {{bind-attr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
 			</div>
-			<div class="span10 title">
+			<div class="span14 title">
 				<span class="nav3d">
 					{{#if is_business}}
 						{{business_name}}
@@ -16,7 +16,7 @@
 				</span>
 			</div>
 
-			<div class="buttons">
+			<div class="span9 buttons">
 				<div class="buttons-container">
 					{{debit-customer-modal customer=model}}
 					{{credit-customer-modal customer=model}}
