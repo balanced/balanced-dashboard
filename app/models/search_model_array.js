@@ -8,7 +8,7 @@ Balanced.SearchModelArray = Balanced.ModelArray.extend(Ember.SortableMixin, {
 	total_credits: readOnly('credit'),
 	total_debits: readOnly('debit'),
 	total_card_holds: readOnly('card_hold'),
-	total_refunds:  readOnly('refund'),
+	total_refunds: readOnly('refund'),
 	total_customers: readOnly('customer'),
 	total_bank_accounts: readOnly('bank_account'),
 	total_cards: readOnly('card'),

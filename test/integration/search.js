@@ -59,7 +59,7 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 			Testing.runSearch('%');
 		})
 		.then(function() {
-			//assert.equal($('#search .results li.transactions > a:contains("4")').length, 1, 'has 4 transactions in header');
+			assert.equal($('#search .results li.transactions > a:contains("4")').length, 1, 'has 4 transactions in header');
 			assert.equal($('#search .results table.transactions tbody tr').length, 2, 'has 2 transactions');
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 
@@ -81,7 +81,7 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 			assert.equal($('#search .results table.transactions tr td.no-results').length, 1, 'has "no results"');
 
 			// Check header labels
-			assert.equal($('#search .results nav li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
+			assert.equal($('#search .results li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
 
 			// Check if we dont have status type
 			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
@@ -92,6 +92,9 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
+		})
+		.then(function() {
+			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
 		.click('#search .results li.customers > a')
 		.then(function() {
