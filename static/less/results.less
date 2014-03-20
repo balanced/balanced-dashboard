@@ -468,3 +468,22 @@ header.results-label h3 {
     background-color: @gray3;
   }
 }
+.results.embedded {
+  table.items {
+    background-color: white;
+    tr {
+      border: 2px solid #e7e9ea;
+    }
+    td.url {
+      a {
+        color: @linkColor;
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: @linkColorHover;
+        text-decoration: underline;
+      }
+    }
+  }
+}
