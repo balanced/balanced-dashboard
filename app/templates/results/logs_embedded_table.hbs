@@ -1,19 +1,17 @@
 <tbody>
     {{#each log in results}}
         <tr>
-            <td class="span1">
-            </td>
-            <td class="span9 date">
+            <td class="first date">
                 {{#link-to "logs.log" log}}
                 <time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
                 {{/link-to}}
             </td>
-            <td class="span11 url">
+            <td class="url">
                 {{#link-to "logs.log" log}}
                 {{log.message.request.method}} {{log.condensed_request_url}}
                 {{/link-to}}
             </td>
-            <td class="span5 align-right black">
+            <td class="align-right black">
                 {{#link-to "logs.log" log}}
                 {{colorizeStatus log.message.response.status}}
                 {{/link-to}}

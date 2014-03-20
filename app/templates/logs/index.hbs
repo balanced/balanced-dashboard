@@ -13,10 +13,10 @@
 
 {{else}}
 
-    <h3 class="page-title">Logs
+    <h3 class="embedded-record-title">Logs
         {{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
     </h3>
-    <div id="logs" class="results embedded">
+    <div class="results embedded logs">
         <div class="items-wrapper">
             {{view Balanced.LogsEmbeddedResultsView}}
         </div>

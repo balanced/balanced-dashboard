@@ -1,28 +1,43 @@
-<section class="transaction-info">
-	<div class="form-horizontal key-value-display">
-		<header>
-			<h3>Events</h3>
-		</header>
-	</div>
-	<ul id="events">
-		{{#if view.content.events}}
-			{{#each event in view.content.events}}
-				<li class="event">
-					<div>
-						{{#link-to 'events' event}}{{event.type}}{{/link-to}}
-					</div>
-					<div>
-						{{inflection event.eventCallbacks.length singular="webhook"}}:
-						{{humanReadableDateLong event.occurred_at}}
-					</div>
-				</li>
-			{{/each}}
-		{{else}}
-			{{#if view.transactions.isLoaded}}
-				<em>None</em>
+<h3 class="embedded-record-title">Events
+    {{#unless view.transactions.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+</h3>
+<div class="results embedded events">
+	<div class="items-wrapper">
+		<table class="items">
+			<tbody>
+			{{#if view.content.events}}
+				{{#each event in view.content.events}}
+					<tr>
+						<td class="first date">
+							{{#link-to 'events' event}}
+							<time {{bind-attr datetime="event.occurred_at"}} {{bind-attr title="event.occurred_at"}}>
+							{{humanReadableDateShort event.occurred_at}}</time>
+							{{/link-to}}
+						</td>
+						<td class="url">
+							{{#link-to 'events' event}}
+							<span>{{event.type}}</span>
+							{{/link-to}}
+						</td>
+						<td class="align-right">
+							{{#link-to 'events' event}}
+							<span>{{inflection event.eventCallbacks.length singular="webhook"}}</span>
+							{{/link-to}}
+						</td>
+					</tr>
+				{{/each}}
 			{{else}}
-				<em>Loading...</em>
+		        <tr>
+		            <td colspan="3" class="no-results">
+		                {{#if view.transactions.isLoaded}}
+		                    No results
+		                {{else}}
+		                    Loading...
+		                {{/if}}
+		            </td>
+		        </tr>
 			{{/if}}
-		{{/if}}
-	</ul>
-</section>
+			</tbody>
+		</table>
+	</div>
+</div>
