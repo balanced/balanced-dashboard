@@ -293,8 +293,8 @@ test('formatNumber', function(assert) {
 		'1,000',
 		'10,000',
 		'984,726,372',
-		null,
-		undefined
+		'0',
+		'0'
 	];
 
 	for (var i = 0; i < number.length; i++) {

@@ -92,6 +92,7 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 	sortOrder: Ember.computed.alias('controllers.activity.sortOrder'),
 	dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
 	isLoaded: Ember.computed.alias('controllers.activity.isLoaded'),
+	allowSortByNone: Ember.computed.alias('controllers.activity.allowSortByNone'),
 
 	actions: {
 		loadMore: function(results) {
@@ -109,7 +110,6 @@ Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
 });
 
 Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
-	allowSortByNone: false,
 	noDownloadsUri: true,
 
 	transactionStatus: Ember.computed.alias('controllers.activity.transactionStatus'),

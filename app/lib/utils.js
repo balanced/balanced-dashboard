@@ -1,3 +1,19 @@
+var FORMAT_NUMBER_REGEX = /\B(?=(\d{3})+(?!\d))/g,
+	PRETTY_LOG_URL_REGEX = /\/marketplaces\/[^\/]*\/(.+)$/,
+	STRIP_DOMAIN_REGEX = /^.*\/\/[^\/]+/,
+	TO_TITLECASE_REGEX = /\w\S*/g,
+	UNDERSCORE_REPLACE_REGEX = /_/g,
+	PARAM_HELPER_1_REGEX = /[\[]/,
+	PARAM_HELPER_2_REGEX = /[\]]/,
+	PARAM_URI_DECODE_REGEX = /\+/g,
+	FORMAT_CURRENCY_REGEX = /(\d)(?=(\d{3})+\.)/g,
+	FORMAT_ERROR_REGEX = /-\s/,
+	REMOVE_COMMA_WHITESPACE_REGEX = /,|\s/g,
+	CURRENCY_TEST_REGEX = /^([0-9]*(\.[0-9]{0,2})?)$/,
+	HIDE_BA_NUMBER_REGEX = /([0-9])[\s+\-]([0-9])/g,
+	HIDE_CC_NUMBER_REGEX = /([0-9]*)([0-9]{4})/g;
+
+
 Balanced.Utils = Ember.Namespace.create({
 
 	toDataUri: function(string) {
@@ -5,11 +21,11 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	stripDomain: function(url) {
-		return url.replace(/^.*\/\/[^\/]+/, '');
+		return url.replace(STRIP_DOMAIN_REGEX, '');
 	},
 
 	prettyLogUrl: function(url) {
-		return Balanced.Utils.stripDomain(url).replace(/\/marketplaces\/[^\/]*\/(.+)$/, '/.../$1').split("?")[0];
+		return Balanced.Utils.stripDomain(url).replace(PRETTY_LOG_URL_REGEX, '/.../$1').split("?")[0];
 	},
 
 	prettyPrint: function(obj) {
@@ -18,12 +34,11 @@ Balanced.Utils = Ember.Namespace.create({
 
 	geoIP: function(ip, callback) {
 		if (window.TESTING) {
-			callback("(San Francisco, California, United States)");
-			return;
+			return callback("(San Francisco, California, United States)");
 		}
 
 		if (ip) {
-			$.ajax('https://freegeoip.net/json/' + ip, {
+			return $.ajax('https://freegeoip.net/json/' + ip, {
 				dataType: 'jsonp',
 				type: 'GET',
 				jsonp: 'callback'
@@ -36,8 +51,8 @@ Balanced.Utils = Ember.Namespace.create({
 					geoIpString = '(' + result.region_name + ', ' + result.country_name + ')';
 				}
 
-				if (callback && typeof(callback) === "function") {
-					callback(geoIpString);
+				if (_.isFunction(callback)) {
+					return callback(geoIpString);
 				} else {
 					return geoIpString;
 				}
@@ -49,16 +64,17 @@ Balanced.Utils = Ember.Namespace.create({
 		if (!str) {
 			return str;
 		}
-		return str.replace(/_/g, ' ').replace(/\w\S*/g, function(txt) {
+
+		return str.replace(UNDERSCORE_REPLACE_REGEX, ' ').replace(TO_TITLECASE_REGEX, function(txt) {
 			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 		});
 	},
 
 	getParamByName: function(uri, name) {
-		name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
+		name = name.replace(PARAM_HELPER_1_REGEX, "\\\\[").replace(PARAM_HELPER_2_REGEX, "\\\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 			results = regex.exec(uri);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		return results === null ? "" : decodeURIComponent(results[1].replace(PARAM_URI_DECODE_REGEX, " "));
 	},
 
 	/*
@@ -100,19 +116,20 @@ Balanced.Utils = Ember.Namespace.create({
 			prepend = '-$';
 		}
 
-		return prepend + (cents / 100).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+		return prepend + (cents / 100).toFixed(2).replace(FORMAT_CURRENCY_REGEX, '$1,');
 	},
 
 	formatNumber: function(number) {
-		if (number !== null && number !== undefined) {
-			return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		if (!number) {
+			return 0;
 		}
-		return number;
+
+		return ('' + number).replace(FORMAT_NUMBER_REGEX, ",");
 	},
 
 	formatError: function(error) {
 		if (error !== null && error !== undefined) {
-			var split = error.search(/-\s/);
+			var split = error.search(FORMAT_ERROR_REGEX);
 			if (split !== -1) {
 				return error.slice(split + 2);
 			}
@@ -134,10 +151,10 @@ Balanced.Utils = Ember.Namespace.create({
 		}
 
 		// remove commas and whitespace
-		dollars = dollars.replace(/,|\s/g, '');
+		dollars = dollars.replace(REMOVE_COMMA_WHITESPACE_REGEX, '');
 
 		// make sure our input looks reasonable now, or else fail
-		if (!/^([0-9]*(\.[0-9]{0,2})?)$/.test(dollars)) {
+		if (!CURRENCY_TEST_REGEX.test(dollars)) {
 			throw new Error('%@ is not a valid dollar amount'.fmt(dollars));
 		}
 
@@ -285,7 +302,7 @@ Balanced.Utils = Ember.Namespace.create({
 			return str;
 		}
 		var strValue = '' + str;
-		return strValue.replace(/([0-9])[\s+\-]([0-9])/g, '$1$2').replace(/([0-9]*)([0-9]{4})/g, 'XX-HIDE-XX-$2');
+		return strValue.replace(HIDE_BA_NUMBER_REGEX, '$1$2').replace(HIDE_CC_NUMBER_REGEX, 'XX-HIDE-XX-$2');
 	},
 
 	// Takes a hash and filters out all the sensitive data. Only preserves

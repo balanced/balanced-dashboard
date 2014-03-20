@@ -18,6 +18,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
 		baseClassSelector: '#search',
 
+		transactionTypeFilter: false,
+
 		init: function() {
 			this._super();
 
@@ -85,6 +87,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 			if (query === '%') {
 				query = '';
 			}
+
 			return {
 				query: query
 			};
