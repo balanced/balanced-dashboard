@@ -1,36 +1,22 @@
 <h1 class="page-title ellipsis">{{model.message.request.method}} {{model.condensed_request_url}}</h1>
 
 <div class="key-value-display mb-large">
-	<div class="key-value-row">
-		<label class="key">Date</label>
-		<span class="value">
-			<time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time>
-		</span>
-	</div>
-	<div class="key-value-row">
-		<label class="key">Method</label>
-		<span class="value">{{model.message.request.method}}</span>
-	</div>
-	<div class="key-value-row">
-		<label class="key">URI</label>
-		<span class="value">{{model.short_url}}</span>
-	</div>
-	<div class="key-value-row">
-		<label class="key">Status</label>
-		<span class="value">{{colorizeStatus model.message.response.status}}</span>
-	</div>
-	<div class="key-value-row">
-		<label class="key">Request ID</label>
-		<span id="log-request-id" class="value">{{model.guru_id}}</span>
-	</div>
-	<div class="key-value-row">
-		<label class="key">IP address</label>
-		<span class="value">{{model.message.request.headers.X-Real-Ip}} {{model.geo_ip}}</span>
-	</div>
-	<div class="key-value-row">
-		<label class="key">User-agent</label>
-		<span class="value">{{model.message.request.headers.User-Agent}}</span>
-	</div>
+	<dl class="dl-horizontal">
+		<dt>Date</dt>
+		<dd><time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time></dd>
+		<dt>Method</dt>
+		<dd>{{model.message.request.method}}</dd>
+		<dt>URI</dt>
+		<dd>{{model.short_url}}</dd>
+		<dt>Status</dt>
+		<dd>{{colorizeStatus model.message.response.status}}</dd>
+		<dt>Request ID</dt>
+		<dd>{{model.guru_id}}</dd>
+		<dt>IP address</dt>
+		<dd>{{model.message.request.headers.X-Real-Ip}} {{model.geo_ip}}</dd>
+		<dt>User-agent</dt>
+		<dd>{{model.message.request.headers.User-Agent}}</dd>
+	</dl>
 </div>
 
 <section class="request-info">
