@@ -51,7 +51,7 @@ Balanced.Utils = Ember.Namespace.create({
 					geoIpString = '(' + result.region_name + ', ' + result.country_name + ')';
 				}
 
-				if (callback && _.isFunction(callback)) {
+				if (_.isFunction(callback)) {
 					return callback(geoIpString);
 				} else {
 					return geoIpString;
@@ -64,6 +64,7 @@ Balanced.Utils = Ember.Namespace.create({
 		if (!str) {
 			return str;
 		}
+
 		return str.replace(UNDERSCORE_REPLACE_REGEX, ' ').replace(TO_TITLECASE_REGEX, function(txt) {
 			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 		});
