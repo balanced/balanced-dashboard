@@ -96,10 +96,10 @@ test('renders metadata correctly', function(assert) {
 			card.save().then(function(card) {
 				var cardPageUrl = Testing.CARD_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/cards/' + card.get('id');
 				visit(cardPageUrl).then(function() {
-					var $controlGroups = $('.card-info .control-group');
+					var $dl = $('.card-info .dl-horizontal');
 					$.each(metaData, function(key, value) {
-						assert.equal($controlGroups.find('.control-label:contains("' + key + '")').length, 1);
-						assert.equal($controlGroups.find('.inline-label:contains("' + value + '")').length, 1);
+						assert.equal($dl.find('dt:contains("' + key + '")').length, 1);
+						assert.equal($dl.find('dd:contains("' + value + '")').length, 1);
 					});
 				});
 			});
