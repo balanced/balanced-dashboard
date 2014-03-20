@@ -209,10 +209,10 @@ test('renders metadata correctly', function(assert) {
 			account.save().then(function(account) {
 				var accountPageUrl = '/marketplaces/' + Testing.MARKETPLACE_ID + '/bank_accounts/' + account.get('id');
 				visit(accountPageUrl).then(function() {
-					var $controlGroups = $('.bank-account-info .control-group');
+					var $controlGroups = $('.bank-account-info .dl-horizontal').children();
 					$.each(metaData, function(key, value) {
-						assert.equal($controlGroups.find('.control-label:contains("' + key + '")').length, 1);
-						assert.equal($controlGroups.find('.inline-label:contains("' + value + '")').length, 1);
+						assert.equal($controlGroups.find('dt:contains("' + key + '")').length, 1);
+						assert.equal($controlGroups.find('dd:contains("' + value + '")').length, 1);
 					});
 				});
 			});
