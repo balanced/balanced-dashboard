@@ -38,59 +38,51 @@
 		</div>
 	</section>
 
-	<div class="row">
-		<div class="span13">
+	<div class="row-fluid">
+		<div class="span16">
 			<section class="invoice-info">
 				<div class="key-value-display">
 					<header>
 						<h3>Summary</h3>
 					</header>
-					<div>
-						<div class="key-value-row">
-							<label class="key">Date</label>
-							<span class="value">{{humanReadableDateShort created_at}}</span>
-						</div>
+					<dl class="dl-horizontal">
+						<dt>Date</dt>
+						<dd>{{humanReadableDateShort created_at}}</dd>
 
 						{{#if period}}
-							<div class="key-value-row">
-								<label class="key">Period</label>
-								<span class="value">{{humanReadableDateShort from_date}} - {{humanReadableDateShort to_date}}</span>
-							</div>
+							<dt>Period</dt>
+							<dd>{{humanReadableDateShort from_date}} - {{humanReadableDateShort to_date}}</dd>
 						{{/if}}
 
-						<div class="key-value-row">
-							<label class="key">Status</label>
-							<span class="value">
-								{{#if is_scheduled}}
-									Scheduled for debit at
-								{{else}}
-									Debited at
-								{{/if}}
+						<dt>Status</dt>
+						<dd>
+							{{#if is_scheduled}}
+								Scheduled for debit at
+							{{else}}
+								Debited at
+							{{/if}}
 
-								{{humanReadableDateShort settle_at}}
-							</span>
-						</div>
+							{{humanReadableDateShort settle_at}}
+						</dd>
 
-						<div class="key-value-row">
-							<label class="key">From</label>
-							<span class="value">
-								{{#if source}}
-									{{source.description}}
-								{{else}}
-									<i>Default</i>
-								{{/if}}
+						<dt>From</dt>
+						<dd>
+							{{#if source}}
+								{{source.description}}
+							{{else}}
+								<i>Default</i>
+							{{/if}}
 
-								{{#if is_not_paid}}
-									({{change-funding-source-modal marketplaceBinding="controllers.marketplace.model" source_uri=source.uri model=model}})
-								{{/if}}
-							</span>
-						</div>
-					</div>
+							{{#if is_not_paid}}
+								<span class="hidden-print">({{change-funding-source-modal marketplaceBinding="controllers.marketplace.model" source_uri=source.uri model=model}})</span>
+							{{/if}}
+						</dd>
+					</dl>
 				</div>
 			</section>
 		</div>
 
-		<div class="span8">
+		<div class="offset1 span9">
 			<section class="total-info">
 				<header class="clearfix">
 					<h3 class="pull-left">Balance due</h3>
@@ -98,33 +90,32 @@
 				</header>
 
 				<div class="invoice-balance-due-box">
-					<div class="row">
+					<div class="row-fluid">
 						<div class="span2 label">
 							<div class="icon">Invoice</div>
 						</div>
-						<div class="span6 amount">
+						<div class="amount">
 							<span class="number1d">
 								{{formatCurrency total_fee}}
 							</span>
 						</div>
 					</div>
-					<table class="invoice-details row">
-						<tfoot class="span8">
+					<table class="invoice-details">
+						<tfoot class="">
 							<tr class="subtotal-row">
-								<td class="span6 label4a"><span>Total Transaction Fees</span></td>
-								<td class="span2 total number3a"><span>{{formatCurrency subtotal}}</span></td>
+								<td class="label4a"><span>Total Transaction Fees</span></td>
+								<td class="total number3a"><span>{{formatCurrency subtotal}}</span></td>
 							</tr>
 							<tr class="adjustments-row">
-								<td class="span6 label4a top-border"><span>Total Adjustments</span></td>
-								<td class="span2 total number3a top-border"><span>{{formatCurrency adjustments_total_fee}}</span></td>
+								<td class="label4a top-border"><span>Total Adjustments</span></td>
+								<td class="total number3a top-border"><span>{{formatCurrency adjustments_total_fee}}</span></td>
 							</tr>
 							<tr class="total-balance-row">
-								<td class="span6 label4a top-border"><span>Balance due</span></td>
-								<td class="span2 total number3a top-border"><span>{{formatCurrency total_fee}}</span></td>
+								<td class="label4a top-border"><span>Balance due</span></td>
+								<td class="total number3a top-border"><span>{{formatCurrency total_fee}}</span></td>
 							</tr>
 						</tfoot>
 					</table>
-
 				</div>
 			</section>
 		</div>
