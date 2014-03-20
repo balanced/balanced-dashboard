@@ -113,18 +113,8 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
 	templateName: 'results/results_filters_header_with_counts',
-
-	// Not used anywhere
-	// totalOrdersTabHeader: Balanced.computed.fmt('searchResult.total_orders', 'Orders (%@)'),
-	totalTransactionsHeader: Balanced.computed.fmt('searchResult.total_transactions', 'Transactions (%@)'),
-	// Not used anywhere
-	// totalCustomersTabHeader: Balanced.computed.fmt('searchResult.total_customers', 'Customers (%@)'),
-	totalFundingInstrumentsHeader: Balanced.computed.fmt('searchResult.total_funding_instruments', 'Cards & Bank Accounts (%@)'),
-	// Search does not have disputes yet
-	// totalDisputesHeader: Balanced.computed.fmt('searchResult.total_disputes', 'Disputes (%@)'),
-
 	transaction_type_total: Computed.typeTotals(Balanced.SEARCH.SEARCH_TYPES, 'transaction'),
-	funding_instrument_type_total: Computed.typeTotals(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, 'funding_instrument'),
+	funding_instrument_type_total: Computed.typeTotals(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, 'funding_instrument')
 	// Search does not have disputes yet
 	// dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
 });
