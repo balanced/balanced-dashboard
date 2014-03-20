@@ -1,11 +1,3 @@
-var Computed = {
-	readOnly: function(propertyName) {
-		return function() {
-			return this.get(propertyName);
-		}.property(propertyName);
-	}
-};
-
 var SAMPLE_FILE = [
 	"bank_account_id,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,new_customer_name,new_customer_email,appears_on_statement_as,description,amount",
 	",123123123,123456789,William Henry Cavendish,Checking,William Henry Cavendish,whc@example.org,101Flowers.com,#0012345 ,41.35",
@@ -26,10 +18,10 @@ Balanced.ImportPayoutsView = Ember.View.extend({
 		return Balanced.Utils.toDataUri(SAMPLE_FILE);
 	}.property(),
 
-	creditCreators: Computed.readOnly("controller.creditCreators"),
+	creditCreators: Ember.computed.oneWay("controller.creditCreators").readOnly(),
 
 	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
-	escrowTotal: Computed.readOnly("controller.controllers.marketplace.in_escrow"),
+	escrowTotal: Ember.computed.oneWay("controller.controllers.marketplace.in_escrow").readOnly(),
 
 	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
 	isUnprocessable: Ember.computed.not("isProcessable"),

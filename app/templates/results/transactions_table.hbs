@@ -8,7 +8,7 @@
 				<div class="selector dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
 					<ul class="dropdown-menu type-filter filter-choices">
-						<li><a href="#" {{action "changeTypeFilter" "transaction"}} {{bind-attr label="view.totalTransactionsHeader"}}>All</a></li>
+						<li><a href="#" {{action "changeTypeFilter" "transaction"}}>All</a></li>
 						<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
 						<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
 						<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
@@ -24,7 +24,7 @@
 				<div class="selector dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
 					<ul class="dropdown-menu status-filter filter-choices">
-						<li><a href="#" {{action "changeTransactionStatusFilter" "all"}} {{bind-attr label="view.totalTransactionsHeader"}}>All</a></li>
+						<li><a href="#" {{action "changeTransactionStatusFilter" "all"}}>All</a></li>
 						<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
 						<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
 						<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
