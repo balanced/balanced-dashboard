@@ -1,35 +1,35 @@
 <dl class="dl-horizontal">
   <dt>Status</dt>
-  <dd>
+  <dd><span>
 	<span {{bind-attr class="transaction.status"}}>
 	  {{transaction.status_description}}
 	  {{#if type.credit}}{{#if transaction.is_pending}}
 	    <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a>
 	  {{/if}}{{/if}}
 	</span>
-  </dd>
+  </span></dd>
 
   <dt>Created</dt>
-  <dd>{{humanReadableDateLong transaction.created_at}} </dd>
+  <dd><span>{{humanReadableDateLong transaction.created_at}} </span></dd>
 
   <dt>Internal Description</dt>
-  <dd>{{transaction.description}} </dd>
+  <dd><span>{{transaction.description}} </span></dd>
 
   <dt>ID</dt>
-  <dd>{{transaction.id}} </dd>
+  <dd><span>{{transaction.id}} </span></dd>
 
   <dt>Txn #</dt>
-  <dd>{{transaction.transaction_number}} </dd>
+  <dd><span>{{transaction.transaction_number}} </span></dd>
 
   {{#unless type.refund}}{{#unless type.reversal}}
     <dt>On statement as</dt>
-    <dd>{{transaction.appears_on_statement_as}} </dd>
+    <dd><span>{{transaction.appears_on_statement_as}} </span></dd>
   {{/unless}}{{/unless}}
 
   <dt>Meta</dt>
-  <dd>
+  <dd><span>
     {{#each meta in transaction.meta_array}}
       {{meta.key}}: {{meta.value}}<br/>
     {{/each}}
-  </dd>
+  </span></dd>
 </dl>

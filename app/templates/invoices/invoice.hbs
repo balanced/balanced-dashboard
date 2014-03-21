@@ -47,15 +47,15 @@
 					</header>
 					<dl class="dl-horizontal">
 						<dt>Date</dt>
-						<dd>{{humanReadableDateShort created_at}}</dd>
+						<dd><span>{{humanReadableDateShort created_at}}</span></dd>
 
 						{{#if period}}
 							<dt>Period</dt>
-							<dd>{{humanReadableDateShort from_date}} - {{humanReadableDateShort to_date}}</dd>
+							<dd><span>{{humanReadableDateShort from_date}} - {{humanReadableDateShort to_date}}</span></dd>
 						{{/if}}
 
 						<dt>Status</dt>
-						<dd>
+						<dd><span>
 							{{#if is_scheduled}}
 								Scheduled for debit at
 							{{else}}
@@ -63,10 +63,10 @@
 							{{/if}}
 
 							{{humanReadableDateShort settle_at}}
-						</dd>
+						</span></dd>
 
 						<dt>From</dt>
-						<dd>
+						<dd><span>
 							{{#if source}}
 								{{source.description}}
 							{{else}}
@@ -76,7 +76,7 @@
 							{{#if is_not_paid}}
 								<span class="hidden-print">({{change-funding-source-modal marketplaceBinding="controllers.marketplace.model" source_uri=source.uri model=model}})</span>
 							{{/if}}
-						</dd>
+						</span></dd>
 					</dl>
 				</div>
 			</section>

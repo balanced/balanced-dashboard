@@ -50,47 +50,47 @@
 					</header>
 					<dl class="dl-horizontal">
 						<dt>ID</dt>
-						<dd>{{id}}</dd>
+						<dd><span>{{id}}</span></dd>
 						<dt>Created</dt>
-						<dd>{{humanReadableDateLong created_at}}</dd>
+						<dd><span>{{humanReadableDateLong created_at}}</span></dd>
 						{{#if is_business}}
 							<dt>Business Name</dt>
-							<dd>{{business_name}}</dd>
+							<dd><span>{{business_name}}</span></dd>
 							<dt>EIN #</dt>
-							<dd>{{ein}}</dd>
+							<dd><span>{{ein}}</span></dd>
 						{{/if}}
 						<dt>Name</dt>
-						<dd>{{name}}</dd>
+						<dd><span>{{name}}</span></dd>
 						<dt>Email</dt>
-						<dd>{{email}}</dd>
+						<dd><span>{{email}}</span></dd>
 						<dt>Street Address</dt>
-						<dd>{{address.line1}} {{address.line2}}</dd>
+						<dd><span>{{address.line1}} {{address.line2}}</span></dd>
 						<dt>City</dt>
-						<dd>{{address.city}}</dd>
+						<dd><span>{{address.city}}</span></dd>
 						<dt>State</dt>
-						<dd>{{address.state}}</dd>
+						<dd><span>{{address.state}}</span></dd>
 						<dt>Postal Code</dt>
-						<dd>{{address.postal_code}}</dd>
+						<dd><span>{{address.postal_code}}</span></dd>
 						<dt>Country</dt>
-						<dd>{{country_name}}</dd>
+						<dd><span>{{country_name}}</span></dd>
 						<dt>Phone #</dt>
-						<dd>{{phone}}</dd>
+						<dd><span>{{phone}}</span></dd>
 						<dt>Date of birth</dt>
-						<dd>{{dob}}</dd>
+						<dd><span>{{dob}}</span></dd>
 						<dt>SSN #</dt>
-						<dd>{{ssn_last4}}</dd>
+						<dd><span>{{ssn_last4}}</span></dd>
 						<dt>Facebook ID</dt>
-						<dd>
+						<dd><span>
 							{{#if facebook_url}}
 								<a {{bind-attr href=facebook_url}}>{{facebook_id}}</a>
 							{{/if}}
-						</dd>
+						</span></dd>
 						<dt>Twitter ID</dt>
-						<dd>
+						<dd><span>
 							{{#if twitter_url}}
 								<a {{bind-attr href=twitter_url}}>{{twitter_id}}</a>
 							{{/if}}
-						</dd>
+						</span></dd>
 					</dl>
 				</div>
 			</section>
