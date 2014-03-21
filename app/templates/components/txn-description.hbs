@@ -1,35 +1,35 @@
 <dl class="dl-horizontal">
-  <dt>Status</dt>
-  <dd><span>
-	<span {{bind-attr class="transaction.status"}}>
-	  {{transaction.status_description}}
-	  {{#if type.credit}}{{#if transaction.is_pending}}
-	    <a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a>
-	  {{/if}}{{/if}}
-	</span>
-  </span></dd>
+	<dt>Status</dt>
+	<dd>
+		<span {{bind-attr class="transaction.status"}}>
+			{{transaction.status_description}}
+			{{#if type.credit}}{{#if transaction.is_pending}}
+			<a href="https://docs.balancedpayments.com/current/#submission-delivery-times" target="_blank" class="label4a linky">See payout schedule</a>
+			{{/if}}{{/if}}
+		</span>
+	</dd>
 
-  <dt>Created</dt>
-  <dd><span>{{humanReadableDateLong transaction.created_at}} </span></dd>
+	<dt>Created</dt>
+	<dd><span>{{humanReadableDateLong transaction.created_at}} </span></dd>
 
-  <dt>Internal Description</dt>
-  <dd><span>{{transaction.description}} </span></dd>
+	<dt>Internal Description</dt>
+	<dd><span>{{transaction.description}} </span></dd>
 
-  <dt>ID</dt>
-  <dd><span>{{transaction.id}} </span></dd>
+	<dt>ID</dt>
+	<dd><span>{{transaction.id}} </span></dd>
 
-  <dt>Txn #</dt>
-  <dd><span>{{transaction.transaction_number}} </span></dd>
+	<dt>Txn #</dt>
+	<dd><span>{{transaction.transaction_number}} </span></dd>
 
-  {{#unless type.refund}}{{#unless type.reversal}}
-    <dt>On statement as</dt>
-    <dd><span>{{transaction.appears_on_statement_as}} </span></dd>
-  {{/unless}}{{/unless}}
+	{{#unless type.refund}}{{#unless type.reversal}}
+	<dt>On statement as</dt>
+	<dd><span>{{transaction.appears_on_statement_as}} </span></dd>
+	{{/unless}}{{/unless}}
 
-  <dt>Meta</dt>
-  <dd><span>
-    {{#each meta in transaction.meta_array}}
-      {{meta.key}}: {{meta.value}}<br/>
-    {{/each}}
-  </span></dd>
+	<dt>Meta</dt>
+	<dd><span>
+		{{#each meta in transaction.meta_array}}
+		{{meta.key}}: {{meta.value}}<br/>
+		{{/each}}
+	</span></dd>
 </dl>
