@@ -1,9 +1,9 @@
-<div {{bind-attr class=":title-bar wrapperClasses"}}>
-	<span class="tb-label">
-		{{#if icon}}
+<div {{bind-attr class=":title-block wrapperClasses"}}>
+	{{#if icon}}
+		<span class="tb-icon">
 			<i {{bind-attr class=":icon icon"}}></i>
-		{{/if}}
-	</span>
+		</span>
+	{{/if}}
 	<span class="tb-content">
 		{{title}}
 	</span>

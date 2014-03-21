@@ -1,27 +1,23 @@
 #invoices {
-    margin-left: 0px;
-	th.amount {
-		padding-right: 0;
-	}
-	.amount {
-		text-align: right;
-		a {
-			font-family: @baseFontFamilyBold;
-			color: @black;
-		}
-	}
-	.status {
-		padding-left: 10px;
-	}
+  margin-left: 0px;
+  th.amount {
+    padding-right: 0;
+  }
+  .amount {
+    text-align: right;
+    a {
+      font-family: @baseFontFamilyBold;
+      color: @black;
+    }
+  }
+  .status {
+    padding-left: 10px;
+  }
 }
 
 #invoice {
   .customer-info {
     display: none;
-  }
-
-  .key-value-row {
-    margin: 6px 0 6px 0;
   }
 
   .total-info {
@@ -37,6 +33,8 @@
 
     div.label {
       background-color: @turquoise100;
+      width: 75px;
+
       .icon {
         width: 50px;
         height: 30px;
@@ -52,6 +50,7 @@
     div.amount {
       display: table;
       height: 100%;
+      float: right;
 
       span {
         line-height: normal;
@@ -82,11 +81,16 @@
   }
 
   .invoice-details {
+    width: 100%;
+    table-layout: fixed;
+
     td {
       padding: 0;
+      float: none;
 
       &:first-child {
         margin-left: 10px;
+        padding-left: 10px;
       }
 
       &:last-child {
@@ -97,9 +101,11 @@
       background-color: @egyptianBlue20;
       th {
         padding: 10px 0 10px 0;
+        float: none;
 
         &:first-child {
           margin-left: 10px;
+          padding-left: 10px;
         }
 
         &:last-child {

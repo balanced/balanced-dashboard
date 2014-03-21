@@ -1,9 +1,9 @@
 <h1 class="page-title">Settings</h1>
 
-<div class="row">
-	<div class="span13">
+<div class="row-fluid">
+	<div class="span16">
 		<section class="marketplace-info">
-			<form class="form-horizontal edit-inline">
+			<div class="key-value-display">
 				<header>
 					<h3>Marketplace info
 						{{#if can_edit}}
@@ -11,63 +11,52 @@
 						{{/if}}
 					</h3>
 				</header>
-				<div>
-					<div class="control-group">
-						<label class="control-label">ID</label>
-						<div class="controls">
-							<span class="inline-label">{{id}}</span>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label">Name</label>
-						<div class="controls">
-							<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
-								{{#if production}}
-									{{name}}
-								{{else}}
-									Test
-								{{/if}}
-							</span>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label">Support email</label>
-						<div class="controls">
-							<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
-								{{#if production}}
-									{{support_email_address}}
-								{{else}}
-									Test
-								{{/if}}
-							</span>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label">Domain URL</label>
-						<div class="controls">
-							<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
-								{{#if production}}
-									{{domain_url}}
-								{{else}}
-									Test
-								{{/if}}
-							</span>
-						</div>
-					</div>
-					<div class="control-group">
-						<label class="control-label">Support phone #</label>
-						<div class="controls">
-							<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
-								{{#if production}}
-									{{support_phone_number}}
-								{{else}}
-									Test
-								{{/if}}
-							</span>
-						</div>
-					</div>
-				</div>
-			</form>
+				<dl class="dl-horizontal">
+					<dt>ID</dt>
+					<dd>{{id}}</dd>
+
+					<dt>Name</dt>
+					<dd data-property="marketplace-name">
+						<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
+							{{#if production}}
+								{{name}}
+							{{else}}
+								Test
+							{{/if}}
+						</span>
+					</dd>
+					<dt>Support email</dt>
+					<dd>
+						<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
+							{{#if production}}
+								{{support_email_adtress}}
+							{{else}}
+								Test
+							{{/if}}
+						</span>
+					</dd>
+					<dt>Domain URL</dt>
+					<dd>
+						<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
+							{{#if production}}
+								{{domain_url}}
+							{{else}}
+								Test
+							{{/if}}
+						</span>
+					</dd>
+					<dt>Support phone #</dt>
+					<dd>
+						<span {{bind-attr class="production::test-marketplace-label :inline-label"}}>
+							{{#if production}}
+								{{support_phone_number}}
+							{{else}}
+								Test
+							{{/if}}
+						</span>
+					</dd>
+				</dl>
+			</div>
 		</section>
 
 		<section class="owner-info">
@@ -79,15 +68,15 @@
 						{{/if}}
 					</h3>
 				</header>
-				<div>
-					<div class="key-value-row">
-						<label class="key">Type</label>
+				<dl class="dl-horizontal">
+					<dt>Type</dt>
+					<dd>
 						<span class="value">
 							{{owner_customer.type}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Name</label>
+					</dd>
+					<dt>Name</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.display_me}}
@@ -95,9 +84,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Email</label>
+					</dd>
+					<dt>Email</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.email}}
@@ -105,9 +94,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Street Address</label>
+					</dd>
+					<dt>Street Address</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.address.line1}} {{owner_customer.address.line2}}
@@ -115,9 +104,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">City</label>
+					</dd>
+					<dt>City</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.address.city}}
@@ -125,9 +114,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Region</label>
+					</dd>
+					<dt>Region</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.address.state}}
@@ -135,9 +124,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Postal Code</label>
+					</dd>
+					<dt>Postal Code</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.address.postal_code}}
@@ -145,9 +134,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Country</label>
+					</dd>
+					<dt>Country</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.address.country_code}}
@@ -155,9 +144,9 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-					<div class="key-value-row">
-						<label class="key">Phone #</label>
+					</dd>
+					<dt>Phone #</dt>
+					<dd>
 						<span {{bind-attr class="production::test-marketplace-label :value"}}>
 							{{#if production}}
 								{{owner_customer.phone}}
@@ -165,13 +154,12 @@
 								Test
 							{{/if}}
 						</span>
-					</div>
-				</div>
+					</dd>
+				</dl>
 			</div>
 		</section>
 	</div>
-
-	<div class="offset1 span8">
+	<div class="offset1 span9">
 		<section class="bank-account-info">
 			<header>
 				<h3>Bank accounts
@@ -232,62 +220,50 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="span22">
-		<section class="api-keys-info">
-			<header>
-				<h3>API Keys
-					<span class="warn">(All keys have admin access to the dashboard)</span>
-					{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
-				</h3>
-			</header>
-			{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
-		</section>
-	</div>
-</div>
+<section class="api-keys-info">
+	<header>
+		<h3>API Keys
+			<span class="warn">(All keys have admin access to the dashboard)</span>
+			{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
+		</h3>
+	</header>
+	{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+</section>
 
 {{#unless auth.isGuest}}
-	<div class="row">
-		<div class="span22">
-			<section class="users-info">
-				<header>
-					<h3>Users
-						{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
-					</h3>
-				</header>
-				{{users-table users=userMarketplace.users}}
-			</section>
-		</div>
-	</div>
+	<section class="users-info">
+		<header>
+			<h3>Users
+				{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
+			</h3>
+		</header>
+		{{users-table users=userMarketplace.users}}
+	</section>
 {{/unless}}
 
-<div class="row">
-	<div class="span22">
-		<section class="webhook-info">
-			<header>
-				<h3>Webhooks
-					{{add-callback-modal marketplaceBinding="model"}}
-				</h3>
-			</header>
-			<ul class="webhooks">
-				{{#each callback in callbacks}}
-					<li class="pending">
-						<div class="summary">
-							<a href="#" class="icon-delete" {{action "promptToDeleteCallback" callback}}>delete</a>
-							<div class="callback-revision">Revision {{callback.revision}}</div>
-							<div class="url"><span class="callback-method">{{callback.method}}</span> {{callback.url}}</div>
-						</div>
-						<div class="detail"></div>
-					</li>
-				{{else}}
-					<li class="no-results">
-						No results
-					</li>
-				{{/each}}
-			</ul>
-		</section>
-	</div>
-</div>
+<section class="webhook-info">
+	<header>
+		<h3>Webhooks
+			{{add-callback-modal marketplaceBinding="model"}}
+		</h3>
+	</header>
+	<ul class="webhooks">
+		{{#each callback in callbacks}}
+			<li class="pending">
+				<div class="summary">
+					<a href="#" class="icon-delete" {{action "promptToDeleteCallback" callback}}>delete</a>
+					<div class="callback-revision">Revision {{callback.revision}}</div>
+					<div class="url"><span class="callback-method">{{callback.method}}</span> {{callback.url}}</div>
+				</div>
+				<div class="detail"></div>
+			</li>
+		{{else}}
+			<li class="no-results">
+				No results
+			</li>
+		{{/each}}
+	</ul>
+</section>
 
 {{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.DeleteBankAccountModalView}}

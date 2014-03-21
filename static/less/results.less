@@ -3,14 +3,11 @@ header.results-label h3 {
 }
 
 .results {
-  float: left;
-  width: 100%;
   header {
     border-top: 1px solid @gray3;
     border-bottom: 1px solid @gray3;
     background-color: @white;
-    float: left;
-    width: 100%;
+    height: 48px;
 
     nav > li {
       display: block;
@@ -92,8 +89,7 @@ header.results-label h3 {
   }
   table.items {
     background-color: @searchBodyBackground;
-    display: table;
-    float: left;
+    table-layout:fixed;
     width: 100%;
 
     tfoot {

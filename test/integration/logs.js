@@ -101,6 +101,6 @@ test('view a particular log entry', function(assert) {
 		.click('table.logs tbody tr:first-of-type a')
 		.then(function() {
 			assert.equal($('h1.page-title').text(), 'POST /customers/' + Testing.CUSTOMER_ID + '/debits', 'h1 title is correct');
-			assert.equal($('#log-request-id').text().length, 35, 'Log request id valid');
+			assert.equal($('dd[data-property="request-id"]').text().length, 35, 'Log request id valid');
 		});
 });

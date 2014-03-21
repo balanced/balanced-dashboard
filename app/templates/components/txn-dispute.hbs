@@ -1,56 +1,46 @@
 <div class="dispute">
-	<div {{bind-attr class=":main-header :transaction-type-subheader dispute.status"}}>
-		<div class="row">
-			<div class="span2 border-adjust label">
-				<span class="subhead2d">Dispute</span>
-			</div>
-			<div class="span10 title">
-				<span class="transaction-description subhead2d">{{titleCase dispute.status}}: {{formatCurrency dispute.amount}}</span>
-			</div>
-			<div class="span8 border-adjust buttons">
-				<div class="buttons-container"></div>
-			</div>
+	<div {{bind-attr class=":transaction-type-subheader dispute.status"}}>
+		<div class="tt-label">Dispute</div>
+		<div class="tt-content">
+			<span class="tt-title">
+				{{titleCase dispute.status}}: {{formatCurrency dispute.amount}}
+			</span>
 		</div>
 	</div>
 	<div class="transaction-body">
-		<div class="row">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
-				<div class="row-fluid">
-					<div class="span16">
-						<section class="transaction-info">
-							<div class="key-value-display">
-								<header>
-									<h3>Dispute</h3>
-								</header>
-								<dl class="dl-horizontal">
-									<dt>Initiated</dt>
-									<dd>{{humanReadableDateLong dispute.initiated_at}}</dd>
+		<div class="row-fluid">
+			<div class="span16">
+				<section class="transaction-info">
+					<div class="key-value-display">
+						<header>
+							<h3>Dispute</h3>
+						</header>
+						<dl class="dl-horizontal">
+							<dt>Initiated</dt>
+							<dd>{{humanReadableDateLong dispute.initiated_at}}</dd>
 
-									<dt>Respond By</dt>
-									<dd>{{humanReadableDateLong dispute.respond_by}}</dd>
+							<dt>Respond By</dt>
+							<dd>{{humanReadableDateLong dispute.respond_by}}</dd>
 
-									<dt>Reason</dt>
-									<dd>{{dispute.reason}}</dd>
+							<dt>Reason</dt>
+							<dd>{{dispute.reason}}</dd>
 
-									<dt>ID</dt>
-									<dd>{{dispute.id}}</dd>
+							<dt>ID</dt>
+							<dd>{{dispute.id}}</dd>
 
-									<dt>Meta</dt>
-									<dd>
-										{{#each meta in dispute.meta_array}}
-											{{meta.key}}: {{meta.value}}<br/>
-										{{/each}}
-									</dd>
-								</dl>
-							</div>
-						</section>
-						{{txn-funding-instrument funding_instrument=dispute.transaction.source}}
+							<dt>Meta</dt>
+							<dd>
+								{{#each meta in dispute.meta_array}}
+									{{meta.key}}: {{meta.value}}<br/>
+								{{/each}}
+							</dd>
+						</dl>
 					</div>
-					<div class="span10">
-						{{view Balanced.EventsSideBarView contentBinding="dispute"}}
-					</div>
-				</div>
+				</section>
+				{{txn-funding-instrument funding_instrument=dispute.transaction.source}}
+			</div>
+			<div class="span10">
+				{{view Balanced.EventsSideBarView contentBinding="dispute"}}
 			</div>
 		</div>
 	</div>

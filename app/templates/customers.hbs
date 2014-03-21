@@ -1,22 +1,22 @@
-<h1 class="page-title">Customer</h1>
+<h1>Customer</h1>
 
 <div id="customer">
 	<div class="main-header customer customer-header">
-		<div class="row">
+		<div class="row-fluid">
 			<div class="span2 label">
 				<div {{bind-attr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
 			</div>
-			<div class="span10 title">
+			<div class="span14 title">
 				<span class="nav3d">
 					{{#if is_business}}
 						{{business_name}}
 					{{else}}
-						{{name}}
+						{{display_me_with_email}}
 					{{/if}}
 				</span>
 			</div>
 
-			<div class="span10 buttons">
+			<div class="span9 buttons">
 				<div class="buttons-container">
 					{{debit-customer-modal customer=model}}
 					{{credit-customer-modal customer=model}}
@@ -25,8 +25,8 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="span13">
+	<div class="row-fluid">
+		<div class="span16">
 			<section class="customer-info">
 				<div class="key-value-display">
 					<header>
@@ -48,91 +48,55 @@
 							{{view Balanced.EditCustomerInfoModalView customerBinding="model"}}
 						</h3>
 					</header>
-					<div>
-						<div class="key-value-row">
-							<label class="key">ID</label>
-							<span class="value">{{id}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Created</label>
-							<span class="value">{{humanReadableDateLong created_at}}</span>
-						</div>
+					<dl class="dl-horizontal">
+						<dt>ID</dt>
+						<dd>{{id}}</dd>
+						<dt>Created</dt>
+						<dd>{{humanReadableDateLong created_at}}</dd>
 						{{#if is_business}}
-						<div class="key-value-row">
-							<label class="key">Business Name</label>
-							<span class="value">{{business_name}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">EIN #</label>
-							<span class="value">{{ein}}</span>
-						</div>
+							<dt>Business Name</dt>
+							<dd>{{business_name}}</dd>
+							<dt>EIN #</dt>
+							<dd>{{ein}}</dd>
 						{{/if}}
-						<div class="key-value-row">
-							<label class="key">Name</label>
-							<span class="value">{{name}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Email</label>
-							<span class="value">{{email}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Street Address</label>
-							<span class="value">
-								{{address.line1}} {{address.line2}}
-							</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">City</label>
-							<span class="value">{{address.city}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">State</label>
-							<span class="value">
-								{{address.state}}
-							</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Postal Code</label>
-							<span class="value">{{address.postal_code}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Country</label>
-							<span class="value">{{country_name}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Phone #</label>
-							<span class="value">{{phone}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Date of birth</label>
-							<span class="value">{{dob}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">SSN #</label>
-							<span class="value">{{ssn_last4}}</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Facebook ID</label>
-							<span class="value">
-								{{#if facebook_url}}
-									<a {{bind-attr href=facebook_url}}>{{facebook_id}}</a>
-								{{/if}}
-							</span>
-						</div>
-						<div class="key-value-row">
-							<label class="key">Twitter ID</label>
-							<span class="value">
-								{{#if twitter_url}}
-									<a {{bind-attr href=twitter_url}}>{{twitter_id}}</a>
-								{{/if}}
-							</span>
-						</div>
-					</div>
-				</form>
+						<dt>Name</dt>
+						<dd>{{name}}</dd>
+						<dt>Email</dt>
+						<dd>{{email}}</dd>
+						<dt>Street Address</dt>
+						<dd>{{address.line1}} {{address.line2}}</dd>
+						<dt>City</dt>
+						<dd>{{address.city}}</dd>
+						<dt>State</dt>
+						<dd>{{address.state}}</dd>
+						<dt>Postal Code</dt>
+						<dd>{{address.postal_code}}</dd>
+						<dt>Country</dt>
+						<dd>{{country_name}}</dd>
+						<dt>Phone #</dt>
+						<dd>{{phone}}</dd>
+						<dt>Date of birth</dt>
+						<dd>{{dob}}</dd>
+						<dt>SSN #</dt>
+						<dd>{{ssn_last4}}</dd>
+						<dt>Facebook ID</dt>
+						<dd>
+							{{#if facebook_url}}
+								<a {{bind-attr href=facebook_url}}>{{facebook_id}}</a>
+							{{/if}}
+						</dd>
+						<dt>Twitter ID</dt>
+						<dd>
+							{{#if twitter_url}}
+								<a {{bind-attr href=twitter_url}}>{{twitter_id}}</a>
+							{{/if}}
+						</dd>
+					</dl>
+				</div>
 			</section>
 		</div>
 
-		<div class="offset1 span8">
+		<div class="offset1 span9">
 			<section class="bank-account-info">
 				<header>
 					<h3>Bank accounts

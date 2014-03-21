@@ -23,7 +23,7 @@ module('Holds', {
 test('can visit page', function(assert) {
 	visit(Testing.HOLD_ROUTE).then(function() {
 		assert.notEqual($('#content h1').text().indexOf('Hold'), -1, 'Title is not correct');
-		assert.equal($(".transaction-description").text().trim(), 'Created: $100.00');
+		assert.equal($(".tt-title").text().trim(), 'Created: $100.00');
 	});
 });
 

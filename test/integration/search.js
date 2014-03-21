@@ -154,13 +154,12 @@ test('search date picker dropdown', function(assert) {
 });
 
 test('search click result', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-	})
+	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			click('#search .results .customers a');
-			click($('#search .results table.items tbody tr a').first());
+			Testing.runSearch('%');
 		})
+		.click('#search .results .customers a:first')
+		.click('#search .results table.items tbody tr a:first')
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
 			assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');

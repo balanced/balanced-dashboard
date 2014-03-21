@@ -1,40 +1,30 @@
 <div class="refund">
-	<div {{bind-attr class=":main-header :transaction-type-subheader refund.status"}}>
-		<div class="row">
-			<div class="span2 border-adjust label">
-				<span class="subhead2d">Refund</span>
-			</div>
-			<div class="span10 title">
-				<span class="transaction-description subhead2d">{{titleCase refund.status}}: {{formatCurrency refund.amount}}</span>
-			</div>
-			<div class="span8 border-adjust buttons">
-				<div class="buttons-container"></div>
-			</div>
+	<div {{bind-attr class=":transaction-type-subheader refund.status"}}>
+		<div class="tt-label">Refund</div>
+		<div class="tt-content">
+			<span class="tt-title">
+				{{titleCase refund.status}}: {{formatCurrency refund.amount}}
+			</span>
 		</div>
 	</div>
 	<div class="transaction-body">
-		<div class="row">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
-				<div class="row-fluid">
-					<div class="span16">
-						<section class="transaction-info">
-							<div class="key-value-display">
-								<header>
-									<h3>Refund
-										{{edit-transaction-modal transaction=refund}}
-									</h3>
-								</header>
-								{{txn-description transaction=refund}}
-							</div>
-						</section>
+		<div class="row-fluid">
+			<div class="span16">
+				<section class="transaction-info">
+					<div class="key-value-display">
+						<header>
+							<h3>Refund
+								{{edit-transaction-modal transaction=refund}}
+							</h3>
+						</header>
+						{{txn-description transaction=refund}}
+					</div>
+				</section>
 
-						{{txn-funding-instrument funding_instrument=refund.debit.source}}
-					</div>
-					<div class="span10">
-						{{view Balanced.EventsSideBarView contentBinding="refund"}}
-					</div>
-				</div>
+				{{txn-funding-instrument funding_instrument=refund.debit.source}}
+			</div>
+			<div class="span10">
+				{{view Balanced.EventsSideBarView contentBinding="refund"}}
 			</div>
 		</div>
 	</div>

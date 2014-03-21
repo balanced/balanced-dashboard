@@ -1,53 +1,37 @@
-<header id="header" {{bind-attr class=":container headerClass"}}>
-    <div class="row">
-        <div id="balanced-address">
-          <h3 class="physical-address">965 Mission St., Ste 425, San Francisco, CA 94103</h3>
-          <h3 class="support-email">support@balancedpayments.com</h3>
-        </div>
+<div class="container">
+	<header id="header" {{bind-attr class="auth.isGuest:header-guest:header-user headerClass"}}>
+		<div id="balanced-address">
+			<h3 class="physical-address">965 Mission St., Ste 425, San Francisco, CA 94103</h3>
+			<h3 class="support-email">support@balancedpayments.com</h3>
+		</div>
+		<div id="logo">
+			{{#link-to 'index' class="img"}}Balanced Dashboard{{/link-to}}
+		</div>
+		<div>
+			<div id="marketplaces-and-search">
+				{{partial "header_search"}}
+			</div>
 
-        <div id="logo" class="span2">
-            {{#link-to 'index' class="img"}}Balanced Dashboard{{/link-to}}
-        </div>
+			<div id="site-nav">
+				{{#if auth.isGuest}}
+					<div id="go-live-menu" class="nav-item">
+						{{#link-to 'marketplaces.apply' class="nav1d"}}Register{{/link-to}}
+					</div>
+				{{/if}}
+				<div id="docs-menu" class="nav-item">
+					<a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
+				</div>
+				<div id="help-menu" class="nav-item">
+					<a href="https://www.balancedpayments.com/help" class="nav1d" target="new">help</a>
+				</div>
+				<div id="user-menu" class="dropdown nav nav-item">
+					{{partial "user_dropdown"}}
+				</div>
+			</div>
+		</div>
+	</header>
+</div>
 
-        {{#if auth.isGuest}}
-            <div id="marketplaces-and-search" class="span18">
-                {{partial "header_search"}}
-            </div>
-
-            <div id="site-nav" class="span6">
-                <div id="go-live-menu">
-                    {{#link-to 'marketplaces.apply' class="nav1d"}}Register{{/link-to}}
-                </div>
-                <div id="docs-menu">
-                    <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
-                </div>
-                <div id="help-menu">
-                    <a href="https://www.balancedpayments.com/help" class="nav1d" target="new">help</a>
-                </div>
-                <div id="user-menu" class="dropdown nav pull-right">
-                    {{partial "user_dropdown"}}
-                </div>
-            </div>
-        {{else}}
-            <div id="marketplaces-and-search" class="span20">
-                {{partial "header_search"}}
-            </div>
-
-            <div id="site-nav" class="span4">
-                <div id="docs-menu">
-                    <a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
-                </div>
-                <div id="help-menu">
-                    <a href="https://www.balancedpayments.com/help" class="nav1d" target="new">help</a>
-                </div>
-                <div id="user-menu" class="dropdown nav pull-right">
-                    {{partial "user_dropdown"}}
-                </div>
-            </div>
-        {{/if}}
-
-    </div>
-</header>
 {{#unless auth.isGuest}}
-    {{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
+	{{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
 {{/unless}}

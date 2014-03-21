@@ -16,6 +16,11 @@ div.alert-strip {
 }
 
 .alert-row {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 0;
+
   .alert-text-wrapper, .alert-strip {
     &.success {
       background-color: @pineGreen100;
@@ -65,7 +70,7 @@ div.alert-strip {
 
 .notification-center {
   &.notification-center-row {
-    margin: 0 0 0 -15px;
+    margin: 0;
     padding: 14px 0px;
     font-size: 14px;
     font-family: nimbussannov-med, arial, sans-serif;

@@ -130,7 +130,7 @@ test('can update marketplace info', function(assert) {
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
 				.then(function() {
 					// Marketplace name should have changed
-					assert.equal($('.marketplace-info div.control-group:nth-child(2) .inline-label').text().trim(), 'Test');
+					assert.equal($('.marketplace-info dd[data-property="marketplace-name"]').text().trim(), 'Test');
 				});
 		});
 	});

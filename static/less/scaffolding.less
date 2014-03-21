@@ -13,40 +13,34 @@
 @marketplaceNavBackground: @gray2;
 @marketplaceNavColor: @gray4;
 @marketplaceNavTriangleSize: 10px;
+@marketplaceNavWidth: 90px;
 
 #header {
-  > div > div {
-    height: @searchBarHeight;
-    border-right: 1px solid @searchBoxBackground;
-    &:last-child {
-      border-right: 0;
-    }
-    //  needed because ember inserts elements which mess up our :last-child selector
-    &#site-nav {
-      border-right: 0;
-    }
+  background-color: @black;
+  height: 60px;
+  padding-left: 90px;
+  position: relative;
 
-    &#balanced-address {
-      display: none;
-    }
+  #logo {
+    border-right: 1px solid @searchBoxBackground;
+    height: 60px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 90px;
+  }
+
+  #balanced-address {
+    display: none;
   }
 }
 
-.container {
-  > .row {
-    > .span2 {
-      // push the background colour all the way to the edge of the column
-      &:first-child {
-        width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
-        max-width: @gridColumnWidth * 2 + @gridGutterWidth * 2;
-        // this col and the #marketplace-nav col are hard up against each other
-        // so no margin
-        &+[class*="span"] {
-          margin-left: 0;
-        }
-      }
-    }
-  }
+#marketplaces {
+  width: 200px;
+}
+
+#marketplaces-and-search {
+  margin-left: 0;
 }
 
 #flogo {
@@ -54,21 +48,25 @@
     margin: 20px auto !important;
   }
 }
+
 footer {
-  [class*="span"] {
-    height: 60px;
-  }
-  .span2, .span24 {
-    background-color: @white;
-    border-top: 1px solid @marketplaceNavBackground;
-  }
-  .span2 {
+  background-color: @white;
+  border-top: 1px solid @marketplaceNavBackground;
+  height: 60px;
+  padding-left: 90px;
+  position: relative;
+
+  #flogo {
     border-right: 1px solid @marketplaceNavBackground;
-    width: 89px !important;
+    height: 60px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 89px;
   }
   .social-icons {
     float: right;
-    margin: 15px 20px;
+    margin: 15px 20px 0;
     a {
       color: @gray3;
       display: inline-block;
@@ -82,42 +80,39 @@ footer {
       }
     }
   }
-  .span24 {
-    > ul {
-      margin: 20px;
-      float: left;
-    }
-    li {
-      display: block;
-      float: left;
+  ul {
+    margin: 20px;
+    float: left;
+  }
+  li {
+    display: block;
+    float: left;
 
-      span {
-        font-family: @baseFontFamilyCondensed;
-        font-size: 12px;
-        padding-right: 10px;
+    span {
+      font-family: @baseFontFamilyCondensed;
+      font-size: 12px;
+      padding-right: 10px;
+      color: black;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    a {
+      display: block;
+      padding: 0 10px;
+      text-transform: uppercase;
+      color: @gray5;
+      font-family: @baseFontFamilyCondensed;
+      font-size: 12px;
+      letter-spacing: 1px;
+      &:hover {
         color: black;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-      a {
-        display: block;
-        padding: 0 10px;
-        text-transform: uppercase;
-        color: @gray5;
-        font-family: @baseFontFamilyCondensed;
-        font-size: 12px;
-        letter-spacing: 1px;
-        &:hover {
-          color: black;
-          text-decoration: none;
-        }
+        text-decoration: none;
       }
     }
   }
 }
 
 #logo, #flogo {
-  //  border-right: 1px solid @searchBoxBackground;
   .img {
     .cssicon(
       @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
@@ -132,25 +127,6 @@ footer {
   }
 }
 
-#marketplaces-and-search {
-  width: 673px;
-  //  needed because ember inserts elements which mess up our :first-child selector
-  margin-left: 0;
-  &.span20 {
-    width: 824px;
-  }
-  > .ember-view{
-    overflow: hidden;
-  }
-}
-
-#search {
-  text-align: left;
-  display: block;
-  float: left;
-  width: 100%;
-  height: 100%;
-}
 #q {
   float: left;
   width: calc(~"100% - 85px");
@@ -166,22 +142,13 @@ footer {
 }
 
 #site-nav {
+  float: right;
   margin-left: 0;
 
-  &.span6 {
-    width: 390px;
-    max-width: 390px;
-  }
-
-  &.span4 {
-    width: 239px;
-    max-width: 239px;
-  }
-
-  [id$="menu"] {
+  .nav-item {
+    border-right: 1px solid @searchBoxBackground;
     float: left;
     height: @searchBarHeight;
-    border-right: 1px solid @searchBoxBackground;
     &:last-child {
       border-right: 0;
     }
@@ -209,14 +176,9 @@ footer {
   width: 150px;
 }
 
-#docs-menu {
+#docs-menu, #help-menu {
   text-align: center;
-  width: 72px;
-}
-
-#help-menu {
-  text-align: center;
-  width: 70px;
+  width: 75px;
 }
 
 #login-menu {
@@ -231,7 +193,7 @@ footer {
     padding-top: 10px;
     padding-bottom: 10px;
     opacity: 0.6;
-    
+
     &:hover {
       opacity: 1;
       .caret {
@@ -252,10 +214,14 @@ footer {
   .caret {
     margin-top: 13px;
   }
-
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
 }
 
 #main {
+  background-color: @contentBackground;
   position: relative;
 }
 
@@ -264,6 +230,7 @@ footer {
   min-height: @mainMinHeight;
   position: absolute;
   height: 100%;
+  width: @marketplaceNavWidth;
 
   &.noshow {
     background-color: @contentBackground;
@@ -335,16 +302,11 @@ footer {
 }
 
 #content {
-  background-color: @contentBackground;
-  padding: 0 0 @mainVerticalPadding 0;
+  margin-left: @marketplaceNavWidth;
   min-height: @mainMinHeight;
-  margin-left: 105px;
+  padding: @mainVerticalPadding;
+  position: relative;
 
-  &> .row {
-    &:last-child {
-      margin-top: @mainVerticalPadding;
-    }
-  }
   &.no-min-height {
     min-height: auto;
   }

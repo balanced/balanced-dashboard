@@ -70,7 +70,6 @@ test('can add user', function(assert) {
 
 test('can delete user', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'delete');
-
 	var TEST_EMAIL = 'Test1234@example.com';
 
 	var users = [{

@@ -46,114 +46,89 @@ form {
   }
 }
 
-.marketplaces {
-  .marketplace-list {
-    float: left;
-    clear: both;
-    margin-bottom: 60px;
-    & > div {
-      margin-bottom: 5px;
-    }
-    .loader {
-      float: right;
-      margin-top: 7px;
-    }
-    li {
-      float: left;
-      clear: both;
-      margin-bottom: 5px;
-      width: @pageTitleWidth;
-      position: relative;
-      .label{
-        width: 65px;
-        margin: 0;
-        height: 65px;
-      }
-      .icon {
-        float: left;
-        .cssicon(
-          @url: @iconsFile,
-          @width: 65px,
-          @height: 65px,
-          @display: block
-        );
-        background-position: 8px -662px;
-      }
-      .name {
-      }
-      .delete {
-        float: right;
-      }
-      .info {
-        float: left;
-        padding: 15px 15px 0;
-        width: 880px;
-        .name {
-            margin-left: 0;
-        }
-      }
-      input {
-        width: 325px;
-      }
-      .btn {
-        float: right;
-        width: 75px;
-        margin-top: 3px;
-        &:hover {
-        color: @white;
-        }
-      }
-    }
-    &.production {
-      li {
-        background-color: @pineGreen60;
-        &.new{
-          .icon {
-            background-position: -43px -716px;
-          }
-        }
-      }
-      .label{
-        background-color: @pineGreen100;
-      }
-      .icon {
-        background-position: 8px -716px;
-        height: 55px;
-        margin-top: 3px;
-      }
-    }
-    &.test {
-      li {
-        background-color: @curryYellow60;
-        &.new{
-          .icon {
-            background-position: -43px -662px;
-          }
-        }
-      }
-      .icon {
-        background-color: @curryYellow100;
-      }
-    }
-    li.new {
-      background-color: @white;
-      .icon, .label {
-        background-color: @gray3;
-      }
-    }
-    &.register {
-      li {
-        background-color: @turquoise60;
-      }
-      .icon {
-        background-color: @turquoise100;
-        background-position: -892px -662px;
-      }
-      .name {
-        float: left;
-      }
-    }
+.marketplace-list {
+  margin-bottom: 60px;
 
+  .icon-addproductionmp, .icon-addtestmp {
+    font-size: 54px;
+  }
+
+  .icon-productionmp, .icon-testmp {
+    font-size: 42px;
+  }
+
+  .icon-docs {
+    font-size: 33px;
+  }
+
+  .name {
+    font: normal normal normal 18px "Nimbus Sans", Arial, sans-serif;
+    color: #ffffff;
+  }
+
+  .icon {
+    display: block;
+    height: 65px;
+    width: 65px;
+  }
+
+  .label {
+    color: @white;
+    float: left;
+    height: 65px;
+    line-height: 83px;
+    text-align: center;
+    width: 65px;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .loader {
+    float: right;
+    margin-top: 7px;
+  }
+
+  li {
+    margin: 5px 0;
+    position: relative;
+    .delete {
+      float: right;
+    }
+    .info {
+      height: 65px;
+      line-height: 65px;
+      padding: 0 0 0 80px;
+    }
+    input {
+      width: 325px;
+    }
+    .btn {
+      margin: 17px 15px;
+      float: right;
+      width: 75px;
+    }
+  }
+
+  .mpTitleDefinition(@bgColor, @labelColor) {
+    background-color: @bgColor;
+    .label{
+      background-color: @labelColor;
+    }
+  }
+
+  .mp-production {
+    .mpTitleDefinition(@pineGreen60, @pineGreen100);
+  }
+  .mp-test {
+    .mpTitleDefinition(@curryYellow60, @curryYellow100);
+  }
+  .mp-new {
+    .mpTitleDefinition(@white, @gray3);
+  }
+  .mp-register {
+    .mpTitleDefinition(@turquoise60, @turquoise100);
   }
 }
 .create-api-key {
@@ -174,11 +149,22 @@ form {
 .api-keys-table, .users-table {
   width: 100%;
   margin-top: -10px;
-  tr{
+  tr {
     border-bottom: 1px #bcbcbc solid;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
-  tr:last-child {
-    border-bottom: none;
+  td {
+    float: none;
+
+    &:first-child {
+      padding-left: 20px;
+    }
+    &:last-child {
+      padding-right: 20px;
+    }
   }
   .confirm-delete-key, .confirm-delete-user {
     font-size: 20px;

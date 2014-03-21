@@ -1,4 +1,8 @@
 .transaction {
+  .title-block {
+    margin-bottom: 60px;
+  }
+
   .transactions-header {
     background-color: @egyptianBlue60;
     -ms-word-break: break-all;
@@ -56,53 +60,45 @@
   .transaction-details {
     @transactionDetailsBorder: 5px;
 
-    border-left: @transactionDetailsBorder solid @gray2;
-    border-right: @transactionDetailsBorder solid @gray2;
-    border-bottom: @transactionDetailsBorder solid @gray2;
-
-    // we need this hacky business because we want a border around the whole
-    // transaction details and the border f*#ks up our bootstrap grid
-    .span2.border-adjust {
-      width: 75px - @transactionDetailsBorder;
-    }
-
-    .span4.border-adjust {
-      width: 165px - @transactionDetailsBorder;
-    }
-
-    .span8.border-adjust {
-      width: 345px - @transactionDetailsBorder;
-    }
-
-    .span18.border-adjust {
-      width: 795px - @transactionDetailsBorder;
-    }
+    border: @transactionDetailsBorder solid @gray2;
+    border-width-top: 0;
 
     .transaction-type-subheader {
-      height: 40px;
-      margin-bottom: 0;
+      @subHeaderHeight: 40px;
 
       background-color: @forestGreen60;
+      color: @white;
+      font: normal normal 400 15px/@subHeaderHeight "Nimbus Sans", Arial, sans-serif;
+      height: @subHeaderHeight;
+      margin: 0;
 
-      .label {
+      .tt-label {
         background-color: @forestGreen100;
+        display: block;
+        float: left;
+        height: @subHeaderHeight;
+        text-align: center;
+        width: 70px;
       }
 
-      .title {
-        span {
-          line-height: 40px;
-        }
+      .tt-content {
+        padding-left: 85px;
+      }
+
+      .tt-buttons {
+        float: right;
+        margin-right: 3px;
       }
 
       &.failed, &.lost {
         background-color: @imperialRed60;
-        .label {
+        .tt-label {
           background-color: @imperialRed100;
         }
       }
       &.pending {
         background-color: @turmericYellow60;
-        .label {
+        .tt-label {
           background-color: @turmericYellow100;
         }
       }
@@ -110,7 +106,7 @@
 
     .transaction-body {
       background-color: @white;
-      padding-top: 20px;
+      padding: 20px 20px 20px 85px;
 
       .transaction-info, .funding-instrument-info {
         .key-value-display {

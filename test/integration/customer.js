@@ -11,7 +11,7 @@ test('can view customer page', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer');
-			assert.equal($(".title span").text().trim(), 'William Henry Cavendish III');
+			assert.equal($(".title span").text().trim(), 'William Henry Cavendish III (whc@example.org)');
 		});
 });
 
