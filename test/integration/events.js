@@ -11,11 +11,8 @@ module('Events', {
 
 test('can visit page', function(assert) {
 	var elements = {
-		'.event-info .control-group:last': {
-			classNames: 'refrence-transaction',
-			hasText: true,
-			hasChildren: true
-		},
+		'.event-info dl dt': 4,
+		'.event-info dl dd': 4,
 		'.prettyprint': {
 			count: 1,
 			classNames: 'lang-js',
