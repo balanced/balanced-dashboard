@@ -4,12 +4,14 @@
 		<fieldset>
 			<legend>Login info</legend>
 			<div class="control-group">
-				{{view Ember.Select
-					contentBinding="initialAmounts"
-					valueBinding="initial_amount"
-					optionValuePath="content.amount"
-					optionLabelPath="content.formatted"
-				}}
+				<div class="controls">
+					{{view Ember.Select
+						contentBinding="initialAmounts"
+						valueBinding="initial_amount"
+						optionValuePath="content.amount"
+						optionLabelPath="content.formatted"
+					}}
+				</div>
 				<label>How much do you want to add to your balance</label>
 			</div>
 				{{view Balanced.ControlGroupFieldView placeholder="Credit card number" field="number" help="Enter your credit card number"}}
@@ -17,8 +19,10 @@
 				{{view Balanced.PopoverView class="icon-tooltip tooltip_card" data-html="true" data-placement="top" data-title="Credit Card Security Code" data-content="<img class='card_security_image_tool_tip' src='/images/card_security_image_tool_tip.png'/>"}}
 				{{view Balanced.ControlGroupFieldView placeholder="U.S. postal code" field="postal_code" help="Enter your zip code if you are using a U.S. issued credit card"}}
 				{{#view Balanced.View classBinding=":control-group expirationError:error"}}
-					{{view Ember.Select contentBinding="expirationMonths" valueBinding="expiration_month" name="expiration_month" class="span2"}}
-					{{view Ember.Select contentBinding="expirationYears" valueBinding="expiration_year" name="expiration_year" class="span2"}}
+					<div class="controls">
+						{{view Ember.Select contentBinding="expirationMonths" valueBinding="expiration_month" name="expiration_month" class="span2"}}
+						{{view Ember.Select contentBinding="expirationYears" valueBinding="expiration_year" name="expiration_year" class="span2"}}
+					</div>
 					<label>Specify your card's expiration month and year</label>
 				{{/view}}
 			</fieldset>

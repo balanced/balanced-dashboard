@@ -122,6 +122,8 @@
     }
   }
   .control-group {
+    .clearfix();
+
     background-color: @white;
     border-bottom: 1px solid @gray2;
     padding: 25px 50px;
@@ -149,6 +151,12 @@
       :-ms-input-placeholder {
           color: @imperialRed100;
       }
+    }
+
+    > .controls {
+      width: 410px;
+      display: inline-block;
+      float: left;
     }
   }
   .section-banner-header {
@@ -193,9 +201,9 @@
   }
   label {
     display: inline-block;
-    float: right;
+    float: left;
+    width: 430px;
     padding-top: 10px;
-    width: 400px;
     &:after {
       content: '.';
     }
