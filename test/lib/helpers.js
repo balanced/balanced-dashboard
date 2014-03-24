@@ -113,6 +113,20 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
+	waitFor: function(app, cb, time) {
+		time = time || 3000;
+		var startTime = new Date();
+		var runInterval = function() {
+			var elapsed = new Date() - startTime;
+			if (cb() || elapsed >= time) {
+				Testing.start();
+			} else {
+				setTimeout(runInterval, 100);
+			}
+		};
+		setTimeout(runInterval, 0);
+		return Testing.stop();
+	},
 	onUrl: function(app, route, assert) {
 		wait();
 
