@@ -12,7 +12,7 @@
 				</span>
 			</div>
 
-			<div class="span9 buttons">
+			<div class="buttons">
 				<div class="buttons-container">
 					{{#if customer}}
 						{{partial 'hold_card'}}
@@ -32,25 +32,25 @@
 					</header>
 					<dl class="dl-horizontal">
 						<dt>ID</dt>
-						<dd>
+						<dd><span>
 							{{#if id}}
 								{{id}}
 							{{else}}
 								<span class="text-error">DELETED</span>
 							{{/if}}
-						</dd>
+						</span></dd>
 						<dt>Created</dt>
-						<dd>{{humanReadableDateLong created_at}}</dd>
+						<dd><span>{{humanReadableDateLong created_at}}</span></dd>
 						<dt>Name</dt>
-						<dd>{{name}}</dd>
+						<dd><span>{{name}}</span></dd>
 						<dt>Card #</dt>
-						<dd>{{number}}</dd>
+						<dd><span>{{number}}</span></dd>
 						<dt>Expiration</dt>
-						<dd>{{human_readable_expiration}}</dd>
+						<dd><span>{{human_readable_expiration}}</span></dd>
 						<dt>Billing Zip Code</dt>
-						<dd>{{postal_code}}</dd>
+						<dd><span>{{postal_code}}</span></dd>
 						<dt>Type</dt>
-						<dd>{{titleCase brand}}</dd>
+						<dd><span>{{titleCase brand}}</span></dd>
 
 						{{partial 'meta'}}
 					</dl>

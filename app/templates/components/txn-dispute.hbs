@@ -17,23 +17,23 @@
 						</header>
 						<dl class="dl-horizontal">
 							<dt>Initiated</dt>
-							<dd>{{humanReadableDateLong dispute.initiated_at}}</dd>
+							<dd><span>{{humanReadableDateLong dispute.initiated_at}}</span></dd>
 
 							<dt>Respond By</dt>
-							<dd>{{humanReadableDateLong dispute.respond_by}}</dd>
+							<dd><span>{{humanReadableDateLong dispute.respond_by}}</span></dd>
 
 							<dt>Reason</dt>
-							<dd>{{dispute.reason}}</dd>
+							<dd><span>{{dispute.reason}}</span></dd>
 
 							<dt>ID</dt>
-							<dd>{{dispute.id}}</dd>
+							<dd><span>{{dispute.id}}</span></dd>
 
 							<dt>Meta</dt>
-							<dd>
+							<dd><span>
 								{{#each meta in dispute.meta_array}}
 									{{meta.key}}: {{meta.value}}<br/>
 								{{/each}}
-							</dd>
+							</span></dd>
 						</dl>
 					</div>
 				</section>

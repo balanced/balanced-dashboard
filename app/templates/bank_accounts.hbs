@@ -12,7 +12,7 @@
 				</span>
 			</div>
 
-			<div class="span9 buttons">
+			<div class="buttons">
 				<div class="buttons-container">
 					{{#if can_debit}}
 						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
@@ -40,19 +40,19 @@
 					</header>
 					<dl class="dl-horizontal">
 						<dt>ID</dt>
-						<dd>{{id}}</dd>
+						<dd><span>{{id}}</span></dd>
 						<dt>Created</dt>
-						<dd>{{humanReadableDateLong created_at}}</dd>
+						<dd><span>{{humanReadableDateLong created_at}}</span></dd>
 						<dt>Name</dt>
-						<dd>{{name}}</dd>
+						<dd><span>{{name}}</span></dd>
 						<dt>Account #</dt>
-						<dd>{{account_number}}</dd>
+						<dd><span>{{account_number}}</span></dd>
 						<dt>Routing #</dt>
-						<dd>{{routing_number}}</dd>
+						<dd><span>{{routing_number}}</span></dd>
 						<dt>Bank</dt>
-						<dd>{{bank_name}}</dd>
+						<dd><span>{{bank_name}}</span></dd>
 						<dt>Type</dt>
-						<dd>{{capitalize account_type_name}}</dd>
+						<dd><span>{{capitalize account_type_name}}</span></dd>
 
 						{{partial 'meta'}}
 					</dl>

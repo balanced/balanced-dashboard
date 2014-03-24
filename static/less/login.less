@@ -7,8 +7,13 @@
 #forgot-password,
 #reset-password {
   #content {
-    margin-left: 15px;
+    margin: 0 auto;
     min-height: inherit;
+
+    > div {
+      margin: 0 auto;
+      width: 345px;
+    }
   }
 
   .logo {
@@ -117,6 +122,8 @@
     }
   }
   .control-group {
+    .clearfix();
+
     background-color: @white;
     border-bottom: 1px solid @gray2;
     padding: 25px 50px;
@@ -144,6 +151,12 @@
       :-ms-input-placeholder {
           color: @imperialRed100;
       }
+    }
+
+    > .controls {
+      width: 410px;
+      display: inline-block;
+      float: left;
     }
   }
   .section-banner-header {
@@ -188,9 +201,9 @@
   }
   label {
     display: inline-block;
-    float: right;
+    float: left;
+    width: 430px;
     padding-top: 10px;
-    width: 400px;
     &:after {
       content: '.';
     }
