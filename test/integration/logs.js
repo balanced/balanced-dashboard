@@ -46,9 +46,11 @@ test('can visit page', function(assert) {
 test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.waitFor(function() {
+			return $('table.logs tfoot td').length >= 1;
+		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 		})
 		.click('table.logs tfoot tr a')
 		.then(function() {
