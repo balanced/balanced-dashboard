@@ -23,6 +23,7 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 
 	open: function() {
 		var user = Ember.copy(Balanced.Auth.get('user'), true);
+		user.set('email', user.get('email_address'));
 		this.set('model', user);
 
 		this.$('.modal').modal({
