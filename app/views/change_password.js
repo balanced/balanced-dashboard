@@ -2,8 +2,8 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 	templateName: 'modals/change_password',
 
 	didInsertElement: function() {
-		var controller = this.get('controller');
-		if (!controller.on) {
+		var controller = this.get('controller.controllers.application');
+		if (!controller || !controller.on) {
 			return;
 		}
 
@@ -12,8 +12,8 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 	},
 
 	willDestroyElement: function() {
-		var controller = this.get('controller');
-		if (!controller.off) {
+		var controller = this.get('controller.controllers.application');
+		if (!controller || !controller.off) {
 			return;
 		}
 

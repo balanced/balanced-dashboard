@@ -24,6 +24,14 @@ test('Can enable', function(assert) {
 		});
 });
 
+test('Can see password change modal', function(assert) {
+	visit('/security')
+		.click('#user-menu .change-password a')
+		.then(function() {
+			assert.ok($('.change-password-modal.modal').is(':visible'), 'Can see password change modal');
+		});
+});
+
 test('Can disable', function(assert) {
 	var spy = sinon.spy(Balanced.Auth, 'disableMultiFactorAuthentication');
 	Balanced.Auth.set('user.otp_enabled', true);
