@@ -116,6 +116,11 @@ Balanced.Test.asyncHelpers = {
 	waitFor: function(app, cb, err, time) {
 		wait();
 
+		if (err && _.isNumber(err)) {
+			time = err;
+			err = null;
+		}
+
 		// Wait for up to 5 mins
 		time = time || 300000;
 
