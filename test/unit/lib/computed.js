@@ -132,3 +132,27 @@ test('Balanced.computed.fmt', function(assert) {
 	assert.equal(t.get('starred'), '**  **', 'injects empty string values into the format-string');
 	assert.equal(t.get('labeled'), ': ', 'injects empty string values into the format-string');
 });
+
+test('Balanced.computed.orProperties', function(assert) {
+	var TestObject = Ember.Object.extend({
+		id: Balanced.computed.orProperties('id_1', 'id_2'),
+	});
+
+	var t = TestObject.create();
+	assert.equal(t.get('id'), undefined);
+
+	t = TestObject.create({
+		id_2: 1
+	});
+	assert.equal(t.get('id'), 1);
+
+	Ember.run(function() {
+		t.set('id_1', '8');
+	});
+	assert.equal(t.get('id'), '8');
+
+	Ember.run(function() {
+		t.set('id_1', true);
+	});
+	assert.equal(t.get('id'), true);
+});

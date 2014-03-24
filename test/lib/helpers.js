@@ -113,18 +113,40 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
-	waitFor: function(app, cb, time) {
-		time = time || 3000;
+	waitFor: function(app, cb, err, time) {
+		wait();
+
+		if (err && _.isNumber(err)) {
+			time = err;
+			err = null;
+		}
+
+		// Wait for up to 5 mins
+		time = time || 300000;
+
 		var startTime = new Date();
 		var runInterval = function() {
 			var elapsed = new Date() - startTime;
-			if (cb() || elapsed >= time) {
+			if (cb()) {
 				Testing.start();
+			} else if (elapsed >= time) {
+				// If an error message is included
+				// then something failed so throw an error
+				// otherwise, just start it
+				if (err) {
+					var error = new Error(err);
+					throw error;
+				} else {
+					Testing.start();
+				}
 			} else {
+				Ember.Logger.debug('Tests still waiting for... %@ ms passed out of %@ ms'.fmt(elapsed, time));
 				setTimeout(runInterval, 100);
 			}
 		};
+
 		setTimeout(runInterval, 0);
+		Ember.Logger.debug('Tests waiting for...');
 		return Testing.stop();
 	},
 	onUrl: function(app, route, assert) {

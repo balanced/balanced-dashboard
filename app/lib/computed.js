@@ -76,5 +76,25 @@ Balanced.computed = Ember.Namespace.create({
 		});
 
 		return computed.property.apply(computed, properties);
+	},
+
+	orProperties: function() {
+		var args = a_slice.call(arguments);
+
+		var computed = Ember.computed(function() {
+			var result;
+
+			for (var i = 0, l = args.length; i < l; ++i) {
+				result = result || get(this, args[i]);
+
+				if (result) {
+					return result;
+				}
+			}
+
+			return result;
+		});
+
+		return computed.property.apply(computed, args);
 	}
 });
