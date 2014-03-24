@@ -9,17 +9,23 @@
 				<legend>Login info</legend>
 
 				<div class="control-group" {{bind-attr class="validationErrors.email_address:error"}}>
-					{{view Balanced.Forms.TextField type="email" name="email_address" valueBinding="email_address" placeholder="Email" autofocus="autofocus"}}
+					<div class="controls">
+						{{view Balanced.Forms.TextField type="email" name="email_address" valueBinding="email_address" placeholder="Email" autofocus="autofocus"}}
+					</div>
 					<label class="control-label" for="email">{{emailLabel}}</label>
 				</div>
 
 				<div class="control-group" {{bind-attr class="validationErrors.password:error"}}>
-					{{view Balanced.Forms.TextField type="password" name="password" valueBinding="password" placeholder="Password"}}
+					<div class="controls">
+						{{view Balanced.Forms.TextField type="password" name="password" valueBinding="password" placeholder="Password"}}
+					</div>
 					<label class="control-label" for="password">{{passwordLabel}}</label>
 				</div>
 
 				<div class="control-group" {{bind-attr class="validationErrors.passwordConfirm:error"}}>
-					{{view Balanced.Forms.TextField type="password" name="passwordConfirm" valueBinding="passwordConfirm" placeholder="Confirm password"}}
+					<div class="controls">
+						{{view Balanced.Forms.TextField type="password" name="passwordConfirm" valueBinding="passwordConfirm" placeholder="Confirm password"}}
+					</div>
 					<label class="control-label" for="passwordConfirm">{{passwordConfirmLabel}}</label>
 				</div>
 

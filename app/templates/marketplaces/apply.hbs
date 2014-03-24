@@ -34,9 +34,11 @@
 						<legend>Your personal info</legend>
 						{{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name"}}
 						<div class="control-group">
-							{{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year" class="span2"}}
-							{{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month" class="span2"}}
-							{{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
+							<div class="controls">
+								{{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year" class="span2"}}
+								{{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month" class="span2"}}
+								{{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
+							</div>
 							<label>Enter your date of birth</label>
 						</div>
 						{{#if isBusiness}}
@@ -58,7 +60,9 @@
 						{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="banking.routing_number" help="Enter your 9 digit routing number"}}
 						{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
 						<div class="control-group">
-							{{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}
+							<div class="controls">
+								{{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}
+							</div>
 							<label>Specify your account type</label>
 						</div>
 					</fieldset>

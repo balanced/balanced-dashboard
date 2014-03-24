@@ -2,36 +2,21 @@
 	<header>
 		<h1 class="page-title">{{model.type}}</h1>
 	</header>
-	<form class="form-horizontal edit-inline">
-		<div>
-			<div class="control-group">
-				<label class="control-label">ID</label>
-				<div class="controls">
-					<span class="inline-label">{{model.id}}</span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Type</label>
-				<div class="controls">
-					<span class="inline-label">{{model.type}}</span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Occurred at</label>
-				<div class="controls">
-					<span class="inline-label">{{humanReadableDateLong model.occurred_at}}</span>
-				</div>
-			</div>
+	<div class="key-value-display">
+		<dl class="dl-horizontal">
+			<dt>ID</dt>
+			<dd>{{model.id}}</dd>
+			<dt>Type</dt>
+			<dd>{{model.type}}</dd>
+			<dt>Occurred at</dt>
+			<dd>{{humanReadableDateLong model.occurred_at}}</dd>
+
 			{{#if model.transaction}}
-				<div class="control-group refrence-transaction">
-					<label class="control-label">Reference #</label>
-					<div class="controls">
-						<span class="inline-label">{{#link-to model.transaction.route_name model.transaction}}{{model.transaction.id}}{{/link-to}}</span>
-					</div>
-				</div>
+				<dt>Reference #</dt>
+				<dd>{{#link-to model.transaction.route_name model.transaction}}{{model.transaction.id}}{{/link-to}}</dd>
 			{{/if}}
-		</div>
-	</form>
+		</dl>
+	</div>
 </section>
 
 <section class="event-data-info">

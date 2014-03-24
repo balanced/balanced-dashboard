@@ -24,6 +24,13 @@ body {
 .container {
   min-width: @mainWidth !important;
   width: 100% !important;
+  // Support full max-width on Apple Cinema Displays
+  max-width: 2560px !important;
+
+  &.scale {
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
 }
 
 #main-overlay {

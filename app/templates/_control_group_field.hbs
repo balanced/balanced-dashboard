@@ -1,4 +1,6 @@
-{{view Ember.TextField valueBinding="view.value" placeholderBinding="view.placeholder" nameBinding="view.field" typeBinding="view.type"}}
+<div class="controls">
+	{{view Ember.TextField valueBinding="view.value" placeholderBinding="view.placeholder" nameBinding="view.field" typeBinding="view.type"}}
+</div>
 <label class="control-label" {{bind-attr for="view.field"}}>
 	{{view.labelForField}}
 

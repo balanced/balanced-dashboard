@@ -3,19 +3,19 @@
 <div class="key-value-display mb-large">
 	<dl class="dl-horizontal">
 		<dt>Date</dt>
-		<dd><time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time></dd>
+		<dd><span><time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time></span></dd>
 		<dt>Method</dt>
-		<dd>{{model.message.request.method}}</dd>
+		<dd><span>{{model.message.request.method}}</span></dd>
 		<dt>URI</dt>
-		<dd>{{model.short_url}}</dd>
+		<dd><span>{{model.short_url}}</span></dd>
 		<dt>Status</dt>
-		<dd>{{colorizeStatus model.message.response.status}}</dd>
+		<dd><span>{{colorizeStatus model.message.response.status}}</span></dd>
 		<dt>Request ID</dt>
-		<dd data-property="request-id">{{model.guru_id}}</dd>
+		<dd data-property="request-id"><span>{{model.guru_id}}</span></dd>
 		<dt>IP address</dt>
-		<dd>{{model.message.request.headers.X-Real-Ip}} {{model.geo_ip}}</dd>
+		<dd><span>{{model.message.request.headers.X-Real-Ip}} {{model.geo_ip}}</span></dd>
 		<dt>User-agent</dt>
-		<dd>{{model.message.request.headers.User-Agent}}</dd>
+		<dd><span>{{model.message.request.headers.User-Agent}}</span></dd>
 	</dl>
 </div>
 
