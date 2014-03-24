@@ -64,9 +64,11 @@ test('filter logs by endpoint bank accounts', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.waitFor(function() {
+			return $('table.logs tfoot td').length >= 1;
+		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 		})
 		.click('.results li.filter-endpoints ul a.bank_accounts')
 		.then(function() {
@@ -80,9 +82,11 @@ test('filter logs by request failed only', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.waitFor(function() {
+			return $('table.logs tfoot td').length >= 1;
+		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
 		})
 		.click('.results .filter-status-rollup label.succeeded input[type="checkbox"]')
 		.then(function() {
