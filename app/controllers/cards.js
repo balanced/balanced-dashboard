@@ -12,6 +12,9 @@ Balanced.CardsController = Balanced.ObjectController.extend(
 		actions: {
 			openDebitFundingInstrumentModal: function() {
 				this.trigger('openDebitFundingInstrumentModal');
+			},
+			openHoldCardModal: function() {
+				this.trigger('openHoldCardModal');
 			}
 		},
 
