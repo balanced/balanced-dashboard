@@ -1,3 +1,5 @@
+var MARKETPLACE_URI_REGEX = /\/marketplaces\/([^\/]+)/;
+
 Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 	initAdapter: function() {
 		this.hostsByType = {};
@@ -60,7 +62,7 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 			if (Balanced.Auth.get('signedIn')) {
 				var marketplaceId = Balanced.currentMarketplace ? Balanced.currentMarketplace.get('id') : null;
 
-				var matches = /\/marketplaces\/([^\/]+)/.exec(url);
+				var matches = MARKETPLACE_URI_REGEX.exec(url);
 				if (matches) {
 					marketplaceId = matches[1];
 				}
