@@ -97,4 +97,3 @@ test('change email errors if no existing password', function(assert) {
 			assert.equal(stub.callCount, 0);
 		});
 });
-
