@@ -27,6 +27,10 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 
 		openChangePasswordModal: function() {
 			this.trigger('openChangePasswordModal');
+		},
+
+		openChangeEmailModal: function() {
+			this.trigger('openChangeEmailModal');
 		}
 	}
 });
