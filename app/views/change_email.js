@@ -66,7 +66,7 @@ Balanced.ChangeEmailModalView = Balanced.View.extend({
 			}, function() {
 				user.setProperties({
 					displayErrorDescription: true,
-					errorDescription: 'Oops, we failed to change your password. Please try again.'
+					errorDescription: 'Oops, we failed to change your email. Please try again.'
 				});
 			});
 		}
