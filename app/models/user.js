@@ -25,7 +25,7 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	}.property(),
 
 	validations: {
-		email_address: {
+		email: {
 			presence: true,
 			length: {
 				minimum: 6
