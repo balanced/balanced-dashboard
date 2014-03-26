@@ -4,8 +4,6 @@ header.results-label h3 {
 
 .results {
   header {
-    border-top: 1px solid @gray3;
-    border-bottom: 1px solid @gray3;
     background-color: @white;
     height: 48px;
 
@@ -16,6 +14,14 @@ header.results-label h3 {
       border-bottom: @searchBorderWidth solid transparent;
       margin: 0 9px;
       color: @gray5;
+
+      &.filter:after {
+        content: '/';
+
+        &:last-of-type {
+          content: '';
+        }
+      }
 
       a {
         text-decoration: none;
@@ -100,7 +106,7 @@ header.results-label h3 {
 
     tfoot {
       tr {
-        border-top: 1px solid @gray3;
+        border-bottom: 1px solid @gray3;
       }
       td.load-more-results {
         padding: 12px 25px;
