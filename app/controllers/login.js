@@ -62,11 +62,19 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 		if (attemptedTransition) {
 			Ember.run.next(function() {
-				attemptedTransition.retry();
+				var transition = attemptedTransition.retry();
+
+				transition.then(function() {
+					auth.trigger('signInTransition');
+				}, function() {
+					transition.retry();
+					auth.trigger('signInTransition');
+				});
+
 				auth.set('attemptedTransition', null);
-				auth.trigger('signInTransition');
 			});
 		} else {
+		console.log('signInTransition3');
 			this.transitionToRoute('index');
 			auth.trigger('signInTransition');
 		}
