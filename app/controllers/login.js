@@ -74,7 +74,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				auth.set('attemptedTransition', null);
 			});
 		} else {
-		console.log('signInTransition3');
 			this.transitionToRoute('index');
 			auth.trigger('signInTransition');
 		}
