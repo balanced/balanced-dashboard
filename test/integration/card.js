@@ -49,6 +49,7 @@ test('debit card', function(assert) {
 							amount: 100000,
 							description: "Test debit"
 						})));
+
 						Balanced.Adapter.create.restore();
 					});
 			});
@@ -72,12 +73,73 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 				click(".main-header .buttons a.debit-button")
 					.fillIn('#debit-funding-instrument .modal-body input[name="dollar_amount"]', "1000")
 					.fillIn('#debit-funding-instrument .modal-body input[name="description"]', "Test debit")
-					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-					.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+					.clickMultiple('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
 					.then(function() {
 						assert.ok(stub.calledOnce);
+
+						Balanced.Adapter.create.restore();
+					});
+			});
+		});
+});
+
+test('hold card', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "create");
+
+	visit(Testing.CARD_ROUTE)
+		.then(function() {
+			var controller = Balanced.__container__.lookup('controller:cards');
+			var model = controller.get('model');
+			model.set('customer', true);
+			Testing.stop();
+
+			// wait for computed property to fire first
+			Ember.run.next(function() {
+				Testing.start();
+
+				click(".main-header .buttons a.hold-button")
+					.then(function() {
+						// opened the modal
+						assert.ok($('#hold-card').is(':visible'), 'Hold Card Modal Visible');
+					})
+					.fillIn('#hold-card .modal-body input[name="dollar_amount"]', "1000")
+					.fillIn('#hold-card .modal-body input[name="description"]', "Test Hold")
+					.click('#hold-card .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(spy.calledOnce);
+						assert.ok(spy.calledWith(Balanced.Hold, "/cards/" + Testing.CARD_ID + "/card_holds", sinon.match({
+							amount: 100000,
+							description: "Test Hold"
+						})));
+
+						Balanced.Adapter.create.restore();
+					});
+			});
+		});
+});
+
+test('holding only submits once despite multiple clicks', function(assert) {
+	var stub = sinon.stub(Balanced.Adapter, "create");
+
+	visit(Testing.CARD_ROUTE)
+		.then(function() {
+			var controller = Balanced.__container__.lookup('controller:cards');
+			var model = controller.get('model');
+			model.set('customer', true);
+			Testing.stop();
+
+			// wait for computed property to fire first
+			Ember.run.next(function() {
+				Testing.start();
+
+				click(".main-header .buttons a.hold-button")
+					.fillIn('#hold-card .modal-body input[name="dollar_amount"]', "1000")
+					.fillIn('#hold-card .modal-body input[name="description"]', "Test debit")
+					.clickMultiple('#hold-card .modal-footer button[name="modal-submit"]')
+					.then(function() {
+						assert.ok(stub.calledOnce);
+
+						Balanced.Adapter.create.restore();
 					});
 			});
 		});
