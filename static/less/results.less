@@ -10,26 +10,33 @@ header.results-label h3 {
     height: 48px;
 
     nav > li {
+      .sl-md;
       display: block;
       float: left;
       border-bottom: @searchBorderWidth solid transparent;
       margin: 0 9px;
       color: @gray5;
 
-      font-family: nimbussannov-med, arial, sans-serif;
-      font-weight: normal;
-      font-size: 15px;
       a {
         text-decoration: none;
         color: @gray5;
         display: inline-block;
+        
+        &:visited {
+          color: @gray5;
+        }
+
         &:hover {
           color: @black;
         }
+        
+        &:active {
+          color: @black;
+        }
+        
         &.dropdown-toggle {
           padding: 4px 2px 0;
           display: inline-block;
-          height: 9px;
           margin: 0;
         }
       }
@@ -88,7 +95,6 @@ header.results-label h3 {
     }
   }
   table.items {
-    background-color: @searchBodyBackground;
     table-layout:fixed;
     width: 100%;
 
@@ -113,10 +119,12 @@ header.results-label h3 {
       }
     }
     th {
-      padding-top: 30px;
+      .sl-sm-b;
+      color: @gray7;
       float: none;
-      padding-left: 0;
-      padding-right: 0;
+      padding: 8px 0;
+      background-color: @gray1;
+
       &:first-child {
         padding-left: 25px;
       }
@@ -173,10 +181,11 @@ header.results-label h3 {
     }
     tbody {
       tr {
-        border-top: 1px solid @gray3;
+        border-top: 1px solid @gray2;
+
         &:hover {
           cursor: pointer;
-          background-color: white;
+          background-color: @gray1;
         }
 
         td {
@@ -194,11 +203,13 @@ header.results-label h3 {
             height: 100%;
             width: 100%;
             text-decoration: none;
+
             span {
               padding: 12px 15px 12px 0;
               display: block;
             }
             &:link, &:visited, &:hover, &:active {
+              .sl;
               color: @textColor;
             }
           }
@@ -294,12 +305,7 @@ header.results-label h3 {
     &.pull-left {
         float: left;
         border-left: 0px;
-        border-right: 1px solid @marketplaceNavColor;
     }
-    height: 38px;
-    padding: 5px;
-    float: right;
-    border-left: 1px solid @gray3;
     border-bottom: 0;
     margin: 0;
 
@@ -408,9 +414,10 @@ header.results-label h3 {
 .filter-choices {
   background-color: @white;
   padding: 10px 0;
+
   li {
-    font-family: nimbussannov-med;
-    font-size: 13px;
+    .sl;
+
     span, a {
       display: block;
       padding: 5px 20px;
@@ -439,12 +446,10 @@ header.results-label h3 {
   width: auto;
 
   .header {
+    .sl-md-b;
     background-color: @baseColor;
     border: 0 solid transparent;
-    color: @black;
     float: none;
-    font-family: @baseFontFamilyBold;
-    font-size: 17px;
     height: 40px;
     line-height: 40px;
     padding: 0 10px;

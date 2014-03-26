@@ -1,7 +1,7 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :date view.hideDateSort::sortable" field="created_at"}}Date{{/view}}
-		<th class="span3 label6a type">
+		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :date view.hideDateSort::sortable" field="created_at"}}Date{{/view}}
+		<th class="span3 type">
 			Type
 
 			{{#if transactionTypeFilter}}
@@ -17,7 +17,7 @@
 				</div>
 			{{/if}}
 		</th>
-		<th class="span3 label6a status">
+		<th class="span3 status">
 			Status
 
 			{{#if transactionStatus}}
@@ -32,10 +32,10 @@
 				</div>
 			{{/if}}
 		</th>
-		<th class="span4 label6a description">Description</th>
-		<th class="span3 label6a account">Customer</th>
-		<th class="span4 label6a funding-instrument">Card or Bank Account</th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
+		<th class="span4 description">Description</th>
+		<th class="span3 account">Customer</th>
+		<th class="span4 funding-instrument">Card or Bank Account</th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 amount unsorted num" field="amount"}}Amount{{/view}}
 	</tr>
 </thead>
 

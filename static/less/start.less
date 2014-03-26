@@ -1,6 +1,7 @@
 #main.start {
   #content {
     height: 525px;
+    margin-left: 90px;
   }
   h1 {
     .cssicon(url('../images/welcome.png') -10px -90px, 285px, 110px);
@@ -16,21 +17,20 @@
   .api-key {
     margin-top: 50px;
     .title {
+      .sl-sb;
       float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
-      color: black;
-      font-family: nimbussannov-sembol;
     }
     .secret {
+      .sl-code;
+      font-size: 12px;
       float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
       background-color: @white;
-      font-family: consolas, 'Lucida Console', Monaco, monospace;
-      font-size: 12px;
     }
   }
   .span8 {
@@ -55,20 +55,19 @@
         opacity: 0.5;
       }
       h2 {
+        .sl;
         margin: 0;
         position: absolute;
         bottom: 45px;
         padding-left: 20px;
         color: @white;
-        font-family: nimbussannov-reg;
       }
       p {
+        .sl-md;
         position: absolute;
         bottom: 13px;
         padding-left: 20px;
         color: @white;
-        font-family: nimbussannov-med;
-        font-size: 15px;
       }
       .arrow {
         position: absolute;

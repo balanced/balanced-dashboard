@@ -78,8 +78,19 @@ body .modal-backdrop.fade.in {
   background-color: @modalBorderColor;
   // Close icon
   .close {
+    .sl-lg;
+    line-height: 26px;
+    color: @white;
+    position: absolute;
     right: 0;
     top: 0;
+    padding: 4px 8px;
+    background-color: @gray8;
+    border: none;
+
+    &:hover {
+      background-color: @gray7;
+    }
   }
   // Heading
   h2 {

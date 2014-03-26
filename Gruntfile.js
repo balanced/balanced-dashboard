@@ -5,7 +5,10 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		clean: {
 			files: {
-				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp']
+				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp'],
+			},
+			strapped: {
+				src: ['static/javascripts/strapped/']
 			}
 		},
 
@@ -231,7 +234,18 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'build/test/images/'
-				}]
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/images/'
+				}
+				]
 			},
 			fonts: {
 				files: [{

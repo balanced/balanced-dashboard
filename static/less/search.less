@@ -1,4 +1,9 @@
-@searchActiveBackground: #a5cbcf;
+@searchBoxBackground: @gray5;
+@searchBoxMargin: 5px;
+@searchBoxHeight: 40px;
+@headerHeight: 50px;
+
+@searchActiveBackground: @gray6;
 @searchHeaderBackground: #d4e5e6;
 @searchCloseBackground: rgb(116, 175, 183);
 @searchBodyBackground: @gray1;
@@ -27,7 +32,7 @@
   }
   .search-field-container {
     height: @searchBoxHeight;
-    background-color: @searchBoxBackground;
+    background-color: @gray7;
     margin: @searchBoxMargin;
     position: relative;
 
@@ -35,22 +40,21 @@
       color: @white;
       display: inline-block;
       float: left;
-      font-size: 16px;
-      height: 50px;
-      line-height: 54px;
+      height: @searchBoxHeight;
+      line-height: @searchBoxHeight + @searchBoxMargin;
       text-align: center;
       width: 50px;
     }
   }
   .search-close {
-    background-color: @searchCloseBackground;
+    background-color: @gray4;
     color: @white;
     cursor: pointer;
     display: none;
     font-size: 24px;
     height: 22px;
     line-height: 25px;
-    margin: 13px 0 0 6px;
+    margin: 8px 0 0 0;
     text-align: center;
     width: 22px;
 
@@ -60,6 +64,7 @@
   }
   &.focus, &.with-results {
     background: @searchActiveBackground;
+
     .search-field-container {
       background: @searchActiveBackground;
     }
@@ -89,7 +94,7 @@
 
   .query-loader {
     position: absolute;
-    top: 18px;
+    top: 10px;
     right: 10px;
 
     &.loading {
@@ -99,22 +104,22 @@
 
   .results {
     position: absolute;
-    top: 60px;
+    top: @headerHeight;
     left: 50%;
     margin-left: -45%;
     z-index: 11;
     display: none;
-    background-color: @searchActiveBackground;
+    background-color: @gray1;
     padding-top: 10px;
     width: 90%;
     min-width: 1000px;
-    border: @searchBorder;
+    border: 5px solid @gray9;
     border-top: 0;
 
     header {
-      border-top: 1px solid @marketplaceNavColor;
-      border-bottom: 1px solid @marketplaceNavColor;
-      background-color: @searchHeaderBackground;
+      border-top: 1px solid @gray4;
+      border-bottom: 1px solid @gray4;
+      background-color: @white;
     }
   }
   ::-webkit-input-placeholder {
@@ -139,19 +144,27 @@
 #q {
   display: inline-block;
   line-height: 1.5em;
-  background-color: @searchBoxBackground;
-  color: @white;
+  background-color: @gray7;
   border-radius: 0px;
+  float: left;
+  width: calc(~"100% - 85px");
+  padding: 0 5px 0 0;
+  margin: 0;
+  color: @white;
+  box-shadow: none;
+  border: 0;
+  height: @searchBoxHeight;
+  font-size: 18px;
 
   &:focus {
     background: @searchActiveBackground;
-    color: @black;
+    color: @white;
   }
 }
 
 .with-results {
   #q {
     background: @searchActiveBackground;
-    color: @black;
+    color: @white;
   }
 }
