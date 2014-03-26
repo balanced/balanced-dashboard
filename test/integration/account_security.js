@@ -24,11 +24,19 @@ test('Can enable', function(assert) {
 		});
 });
 
-test('Can see password change modal', function(assert) {
+test('Can see change password modal', function(assert) {
 	visit('/security')
 		.click('#user-menu .change-password a')
 		.then(function() {
-			assert.ok($('.change-password-modal.modal').is(':visible'), 'Can see password change modal');
+			assert.ok($('.change-password-modal.modal').is(':visible'), 'Can see change password modal');
+		});
+});
+
+test('Can see change email modal', function(assert) {
+	visit('/security')
+		.click('#user-menu .change-email a')
+		.then(function() {
+			assert.ok($('.change-email-modal.modal').is(':visible'), 'Can see change email modal');
 		});
 });
 

@@ -46,7 +46,6 @@ test('change email form submits', function(assert) {
 		});
 });
 
-
 test('change email form errors if no email', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
@@ -80,7 +79,8 @@ test('change email errors if no existing password', function(assert) {
 
 	stub.callsArgWith(3, {
 		"id": null,
-		"admin": false
+		"admin": false,
+		"email_address": USER_EMAIL
 	});
 
 	visit(Testing.MARKETPLACES_ROUTE)

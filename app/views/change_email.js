@@ -24,6 +24,8 @@ Balanced.ChangeEmailModalView = Balanced.View.extend({
 	open: function() {
 		var user = Ember.copy(Balanced.Auth.get('user'), true);
 		user.set('email', user.get('email_address'));
+		// Necessary hack to get the password correct
+		user.set('password', undefined);
 		this.set('model', user);
 
 		this.$('.modal').modal({
