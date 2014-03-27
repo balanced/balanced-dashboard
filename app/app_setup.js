@@ -48,6 +48,7 @@ window.setupBalanced = function(divSelector) {
 		}
 	});
 
+	/* istanbul ignore if */
 	if (!window.TESTING) {
 		// Defer the readiness until we know about login session
 		window.Balanced.deferReadiness();
@@ -66,6 +67,7 @@ window.setupBalanced = function(divSelector) {
 		setupFunction();
 	});
 
+	/* istanbul ignore if */
 	if (!window.TESTING) {
 		// Get the current login if logged in
 		window.Balanced.Auth.getCurrentLogin().always(function() {
