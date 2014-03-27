@@ -5,9 +5,9 @@ module('Disputes', {
 		// Testing.setupFixtures();
 		// Testing.fixtureLogin();
 
-		// Pause tests for 2000ms for disputes
+		// Pause tests for 10000ms for disputes
 		// to be fully created
-		Testing.pause(5000);
+		Testing.pause(10000);
 	},
 	teardown: function() {}
 });
@@ -20,7 +20,7 @@ test('exist on the activity page', function(assert) {
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 		'table.disputes tbody tr:eq(0) td.amount': '$100.00'
-		// 'table.disputes tfoot td:eq(0)': 1
+		'table.disputes tfoot td:eq(0)': 1
 	};
 
 	visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes')
