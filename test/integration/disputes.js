@@ -32,16 +32,16 @@ test('exist on the activity page', function(assert) {
 			assert.equal(activityController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
 			assert.ok(activityController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
 		})
-		// .waitFor(function() {
-		// visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes');
-		// wait();
-		// return $('table.disputes tfoot td:eq(0)').length >= 1;
-		// }, 'has "Load More" disputes')
+		.waitFor(function() {
+			visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes');
+			wait();
+			return $('table.disputes tfoot td:eq(0)').length >= 1;
+		}, 'has "Load More" disputes')
 		.checkElements(activityDisputesPage, assert)
-		// .click('table.disputes tfoot td.load-more-results a')
-		// .then(function() {
-		// assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
-		// });
+		.click('table.disputes tfoot td.load-more-results a')
+		.then(function() {
+			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
+		});
 });
 
 test('can visit page', function(assert) {
