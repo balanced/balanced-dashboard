@@ -656,8 +656,14 @@ module.exports = function(grunt) {
 					lines: 75,
 					functions: 70
 				},
-				dir: 'coverage',
+				dir: './coverage/',
 				root: '.'
+			}
+		},
+
+		coveralls: {
+			options: {
+				src: 'coverage/**/lcov.info'
 			}
 		}
 	});
@@ -681,6 +687,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-jsbeautifier');
 	grunt.loadNpmTasks('grunt-istanbul-coverage');
+	grunt.loadNpmTasks('grunt-coveralls');
 
 	grunt.registerMultiTask('clean', 'Deletes files', function() {
 		this.files.forEach(function(file) {
@@ -696,7 +703,7 @@ module.exports = function(grunt) {
 	A task to run the application's unit tests via the command line.
 	It will headlessy load the test runner page and print the test runner results
 	*/
-	grunt.registerTask('test', ['_devBuild', 'karma', 'coverage', 'verify']);
+	grunt.registerTask('test', ['_devBuild', 'karma', 'coverage', 'verify', 'coveralls']);
 
 	/*
 	Default task. Compiles templates, neuters application code, and begins

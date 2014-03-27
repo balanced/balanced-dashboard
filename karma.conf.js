@@ -80,6 +80,9 @@ module.exports = function(config) {
 				type: 'lcov',
 				dir: 'coverage/'
 			}, {
+				type: 'json',
+				dir: 'coverage/'
+			}, {
 				type: 'text'
 			}, {
 				type: 'text-summary'
