@@ -2,8 +2,6 @@ module('Disputes', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDisputes();
-		// Testing.setupFixtures();
-		// Testing.fixtureLogin();
 
 		// Pause tests for 10000ms for disputes
 		// to be fully created
@@ -25,7 +23,7 @@ test('exist on the activity page', function(assert) {
 
 	visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes')
 		.then(function() {
-			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct Rows');
+			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct # of Rows');
 
 			// Manually check the disputes uri is correct
 			var activityController = Balanced.__container__.lookup('controller:activity');
