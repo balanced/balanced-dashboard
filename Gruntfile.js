@@ -6,9 +6,6 @@ module.exports = function(grunt) {
 		clean: {
 			files: {
 				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp'],
-			},
-			strapped: {
-				src: ['static/javascripts/strapped/']
 			}
 		},
 
