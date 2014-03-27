@@ -38,10 +38,10 @@ test('exist on the activity page', function(assert) {
 		// return $('table.disputes tfoot td:eq(0)').length >= 1;
 		// }, 'has "Load More" disputes')
 		.checkElements(activityDisputesPage, assert)
-		.click('table.disputes tfoot td.load-more-results a')
-		.then(function() {
-			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
-		});
+		// .click('table.disputes tfoot td.load-more-results a')
+		// .then(function() {
+		// assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
+		// });
 });
 
 test('can visit page', function(assert) {
