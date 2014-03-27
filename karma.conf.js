@@ -69,7 +69,7 @@ module.exports = function(config) {
 		// This configuration setting is handed off to socket.io
 		// Default values are ['websocket', 'flashsocket', 'xhr-polling', 'jsonp-polling']
 		// Does not work!
-		transports: ['xhr-polling', 'jsonp-polling'],
+		// transports: ['xhr-polling', 'jsonp-polling'],
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
