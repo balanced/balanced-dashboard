@@ -33,6 +33,8 @@ test('exist on the activity page', function(assert) {
 			assert.ok(activityController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
 		})
 		.waitFor(function() {
+			visit(Testing.MARKETPLACE_ROUTE + '/activity/disputes');
+			wait();
 			return $('table.disputes tfoot td:eq(0)').length >= 1;
 		}, 'has "Load More" disputes')
 		.checkElements(activityDisputesPage, assert)
