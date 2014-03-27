@@ -16,7 +16,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" view.customers}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.customers}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -28,7 +28,10 @@
 		<tr>
 			<td class="span3 date">
 				{{#link-to "customers" customer}}<span>
-					<time {{bind-attr datetime="customer.created_at"}} {{bind-attr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at}}</time>
+					<time {{bind-attr datetime="customer.created_at"}} {{bind-attr title="customer.created_at"}}>			
+						<span class="primary">{{humanReadableDate customer.created_at}}</span>
+						<span class="secondary">{{humanReadableTime customer.created_at}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
 			<td class="span3 name" {{bind-attr title="customer.display_me"}}>

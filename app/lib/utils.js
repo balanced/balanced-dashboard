@@ -276,8 +276,26 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	date_formats: {
-		short: '%e %b \'%y %l:%M %p',
-		long: '%a, %e %b %Y, %l:%M %p',
+		date: '%b %e, %Y',
+		time: '%l:%M %p',
+		short: '%m/%e/%y, %l:%M %p',
+		long: '%B %e %Y, %l:%M %p',
+	},
+
+	humanReadableDate: function(isoDate) {
+		if (isoDate) {
+			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.date);
+		} else {
+			return isoDate;
+		}
+	},
+
+	humanReadableTime: function(isoDate) {
+		if (isoDate) {
+			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.time);
+		} else {
+			return isoDate;
+		}
 	},
 
 	humanReadableDateShort: function(isoDate) {

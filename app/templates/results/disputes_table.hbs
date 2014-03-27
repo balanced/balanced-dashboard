@@ -18,7 +18,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" view.disputes}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.disputes}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -30,12 +30,18 @@
 		<tr>
 			<td class="span3 date initiated">
 				{{#link-to dispute.route_name dispute}}<span>
-					<time {{bind-attr datetime="dispute.initiated_at"}} {{bind-attr title="dispute.initiated_at"}}>{{humanReadableDateShort dispute.initiated_at}}</time>
+					<time {{bind-attr datetime="dispute.initiated_at"}} {{bind-attr title="dispute.initiated_at"}}>
+						<span class="primary">{{humanReadableDate dispute.initiated_at}}</span>
+						<span class="secondary">{{humanReadableTime dispute.initiated_at}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
 			<td class="span3 date respond-by">
 				{{#link-to dispute.route_name dispute}}<span>
-					<time {{bind-attr datetime="dispute.respond_by"}} {{bind-attr title="dispute.respond_by"}}>{{humanReadableDateShort dispute.respond_by}}</time>
+					<time {{bind-attr datetime="dispute.respond_by"}} {{bind-attr title="dispute.respond_by"}}>
+						<span class="primary">{{humanReadableDate dispute.respond_by}}</span>
+						<span class="secondary">{{humanReadableTime dispute.respond_by}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span4 :label4a :type dispute.status"}}>
