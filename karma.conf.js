@@ -74,6 +74,8 @@ module.exports = function(config) {
 				type: 'html',
 				dir: 'coverage/'
 			}, {
+				type: 'text'
+			}, {
 				type: 'text-summary'
 			}]
 		},
