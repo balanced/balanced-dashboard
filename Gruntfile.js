@@ -662,8 +662,9 @@ module.exports = function(grunt) {
 		},
 
 		coveralls: {
-			options: {
-				src: 'coverage/**/lcov.info'
+			all: {
+				src: 'coverage/**/lcov.info',
+				force: true
 			}
 		}
 	});
@@ -703,7 +704,7 @@ module.exports = function(grunt) {
 	A task to run the application's unit tests via the command line.
 	It will headlessy load the test runner page and print the test runner results
 	*/
-	grunt.registerTask('test', ['_devBuild', 'karma', 'coverage', 'verify', 'coveralls']);
+	grunt.registerTask('test', ['_devBuild', 'verify', 'karma', 'coverage', 'coveralls:all']);
 
 	/*
 	Default task. Compiles templates, neuters application code, and begins
