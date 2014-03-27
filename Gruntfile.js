@@ -28,6 +28,13 @@ module.exports = function(grunt) {
 				src: ['app/dashboard.js'],
 				dest: 'build/js/includes-prod.js'
 			},
+			templates: {
+				options: {
+					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
+				},
+				src: ['build/js/compiled-templates.js'],
+				dest: 'build/js/test-templates.js'
+			},
 			testfixtures: {
 				options: {
 					template: "{%= src %} ;"
@@ -723,7 +730,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod']);
+	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod']);
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:libtest', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);
