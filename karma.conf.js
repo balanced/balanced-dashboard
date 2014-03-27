@@ -20,7 +20,8 @@ module.exports = function(config) {
 		'build/test/js/testenv.js',
 		'build/js/lib-dev.js',
 		'build/test/js/balanced.min.js',
-		'build/js/dashboard-dev.js',
+		'build/js/compiled-templates.js',
+		'build/js/dashboard-test.js',
 		'build/test/js/test-fixtures.js',
 		'build/test/js/testconfig.js',
 		'test/lib/*.js', {
