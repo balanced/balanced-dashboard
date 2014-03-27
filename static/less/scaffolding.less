@@ -148,9 +148,16 @@ footer {
   width: 150px;
 }
 
-#docs-menu, #help-menu {
+#help-menu {
   text-align: center;
-  width: 75px;
+
+  .icon-question-mark {
+    font-size: 16px;
+    color: @gray4;
+    background-color: @gray7;
+    .border-radius(100%);    
+    padding: 11px 8px 5px;
+  }
 }
 
 #login-menu {
@@ -167,16 +174,11 @@ footer {
     opacity: 0.6;
 
     &:hover {
-      opacity: 1;
- 
-      .profile.icon {
-        border-color:@gray3;
-      }
+      opacity: 1; 
     }
   }
 
   .profile.icon {
-    border: 1px solid @gray4;
     display: inline-block;
     width: 30px;
     height: 30px;

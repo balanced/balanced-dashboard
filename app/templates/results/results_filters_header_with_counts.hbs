@@ -1,5 +1,5 @@
 <nav>
-	<li {{bind-attr class=":orders view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
+	<li {{bind-attr class=":orders :filter view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber view.searchResult.total_orders}}) </a>
 	</li>
 
@@ -29,7 +29,7 @@
 		</div>
 	</li>
 
-	<li {{bind-attr class=":customers view.searchResult.total_customers::disabled view.customersTabSelected:selected"}} >
+	<li {{bind-attr class=":customers :filter view.searchResult.total_customers::disabled view.customersTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber view.searchResult.total_customers}}) </a>
 	</li>
 

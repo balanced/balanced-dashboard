@@ -8,30 +8,28 @@ header.results-label h3 {
     height: 48px;
 
     nav > li {
-      .sl-md;
-      display: block;
-      float: left;
-      border-bottom: @searchBorderWidth solid transparent;
-      margin-left: 9px;
-      color: @gray4;
+      &.filter {
+        .sl-md;
+        display: block;
+        float: left;
+        border-bottom: @searchBorderWidth solid transparent;
+        margin-left: 9px;
+        color: @gray4;        
+      }
+
+      &.filter:first-of-type:before {
+        content: ' ';
+      }
 
       &.filter:before {
         content: '/';
       }
 
-      &:first-of-type:before {
-        content: ' ';
-      }
-
-      a {
+      &.filter > a {
         .sl;
         text-decoration: none;
         display: inline-block;
         
-        &:visited {
-          color: @black;
-        }
-
         &:hover {
           color: @black;
         }
@@ -79,7 +77,12 @@ header.results-label h3 {
       &.download {
         float: right;
         padding: 9px 0 0;
-        margin: 0 10px;
+        margin: 0;
+
+        a {
+          padding-left: 0;
+        }
+
         &:hover {
           border-bottom: 0;
         }
@@ -96,9 +99,6 @@ header.results-label h3 {
           margin-left: 0px;
         }
       }
-    }
-    a {
-      color: @gray6;
     }
   }
   table.items {

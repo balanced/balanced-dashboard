@@ -28,15 +28,6 @@
 		</div>
 	</div>
 
-	<div class="clearfix">
-		{{#unless controllers.marketplace.production}}
-			{{#link-to "marketplace.import_payouts" class="btn btn-link pull-right"}}
-				<i class="icon-document-upload"></i>
-				Import Payouts
-			{{/link-to}}
-		{{/unless}}
-	</div>
-
 	<div class="results">
 		{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
 	</div>
