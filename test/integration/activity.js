@@ -247,7 +247,7 @@ test('download activity', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#activity .icon-download")
+		.click("#activity .icon-export")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -271,7 +271,7 @@ test('download disputes', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("a:contains('Disputes')")
-		.click("#activity .icon-download")
+		.click("#activity .icon-export")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -290,7 +290,7 @@ test('download activity only runs once despite multiple clicks', function(assert
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#activity .icon-download")
+		.click("#activity .icon-export")
 		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
