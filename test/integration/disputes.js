@@ -17,7 +17,7 @@ test('exist on the activity page', function(assert) {
 		'table.disputes tbody tr:eq(0) td.type': 'Pending',
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
-		'table.disputes tbody tr:eq(0) td.amount': '$100.00'
+		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
 		'table.disputes tfoot td:eq(0)': 1
 	};
 
