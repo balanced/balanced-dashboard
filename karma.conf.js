@@ -109,13 +109,13 @@ module.exports = function(config) {
 		captureTimeout: 60000,
 
 		// How long does Karma wait for a browser to reconnect (in ms).
-		browserDisconnectTimeout: 60000,
+		browserDisconnectTimeout: 180000,
 
 		// The number of disconnections tolerated
 		browserDisconnectTolerance: 100,
 
 		// How long does Karma wait for a message from a browser before disconnecting it (in ms).
-		browserNoActivityTimeout: 60000,
+		browserNoActivityTimeout: 300000,
 
 		client: {
 			useIframe: false,
