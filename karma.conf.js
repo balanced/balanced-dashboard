@@ -62,7 +62,7 @@ module.exports = function(config) {
 		exclude: [],
 
 		preprocessors: {
-			'build/js/dashboard-dev.js': ['coverage']
+			'build/js/dashboard-test.js': ['coverage']
 		},
 
 		// test results reporter to use

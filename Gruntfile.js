@@ -689,7 +689,7 @@ module.exports = function(grunt) {
 	A task to run the application's unit tests via the command line.
 	It will headlessy load the test runner page and print the test runner results
 	*/
-	grunt.registerTask('test', ['_devBuild', 'karma', 'verify']);
+	grunt.registerTask('test', ['_devBuild', 'karma', 'coverage', 'verify']);
 
 	/*
 	Default task. Compiles templates, neuters application code, and begins
