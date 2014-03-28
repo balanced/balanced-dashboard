@@ -15,7 +15,7 @@
 			<div class="buttons">
 				<div class="buttons-container">
 					{{#if customer}}
-						{{partial 'hold_card'}}
+						<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
 						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
 					{{/if}}
 				</div>

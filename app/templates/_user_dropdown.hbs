@@ -7,8 +7,11 @@
 		{{#if auth.isGuest}}
 			<li>{{#link-to 'claim' class="label4a"}}Claim account{{/link-to}}</li>
 		{{else}}
-			<li class="label4a" class="change-password">
-				<a href="#" {{action "openChangePasswordModal" target="controllers.marketplaces"}}>Change password</a>
+			<li class="change-email">
+				<a class="label3a" href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email</a>
+			</li>
+			<li class="change-password">
+				<a class="label3a" href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
 			</li>
 			<li class="label4a">{{#link-to 'accountSecurity'}}Account Security{{/link-to}}</li>
 		{{/if}}

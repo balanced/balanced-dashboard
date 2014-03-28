@@ -1,4 +1,4 @@
-Balanced.ApplicationController = Ember.Controller.extend({
+Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	showNotificationCenter: true,
 
 	alert: function(options) {
@@ -23,6 +23,14 @@ Balanced.ApplicationController = Ember.Controller.extend({
 
 		toggleNotificationCenter: function() {
 			this.set('showNotificationCenter', !this.get('showNotificationCenter'));
+		},
+
+		openChangePasswordModal: function() {
+			this.trigger('openChangePasswordModal');
+		},
+
+		openChangeEmailModal: function() {
+			this.trigger('openChangeEmailModal');
 		}
 	}
 });

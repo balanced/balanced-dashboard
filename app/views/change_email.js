@@ -1,5 +1,5 @@
-Balanced.ChangePasswordModalView = Balanced.View.extend({
-	templateName: 'modals/change_password',
+Balanced.ChangeEmailModalView = Balanced.View.extend({
+	templateName: 'modals/change_email',
 
 	didInsertElement: function() {
 		var controller = this.get('controller.controllers.application');
@@ -7,7 +7,7 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 			return;
 		}
 
-		controller.on('openChangePasswordModal', this, this.open);
+		controller.on('openChangeEmailModal', this, this.open);
 		this._super();
 	},
 
@@ -17,13 +17,15 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 			return;
 		}
 
-		controller.off('openChangePasswordModal', this, this.open);
+		controller.off('openChangeEmailModal', this, this.open);
 		this._super();
 	},
 
 	open: function() {
 		var user = Ember.copy(Balanced.Auth.get('user'), true);
 		user.set('email', user.get('email_address'));
+		// Necessary hack to get the password correct
+		user.set('password', undefined);
 		this.set('model', user);
 
 		this.$('.modal').modal({
@@ -61,12 +63,12 @@ Balanced.ChangePasswordModalView = Balanced.View.extend({
 
 			// Save the user
 			user.save().then(function() {
-				$(".change-password-modal.in").modal('hide');
+				$(".change-email-modal.in").modal('hide');
 				Balanced.Auth.get('user').reload();
 			}, function() {
 				user.setProperties({
 					displayErrorDescription: true,
-					errorDescription: 'Oops, we failed to change your password. Please try again.'
+					errorDescription: 'Oops, we failed to change your email. Please try again.'
 				});
 			});
 		}

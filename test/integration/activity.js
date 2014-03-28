@@ -248,7 +248,6 @@ test('download activity', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("#activity .icon-export")
-		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
