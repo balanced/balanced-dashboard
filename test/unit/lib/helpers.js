@@ -41,6 +41,38 @@ test('formatCurrency', function(assert) {
 	}
 });
 
+test('centsToDollars', function(assert) {
+	var cents = [
+		-984526372,
+		-10000,
+		-105,
+		-1,
+		0,
+		1,
+		105,
+		10000,
+		984726372,
+		null
+	];
+
+	var expected = [
+		'-9,845,263.72',
+		'-100.00',
+		'-1.05',
+		'-0.01',
+		'',
+		'0.01',
+		'1.05',
+		'100.00',
+		'9,847,263.72',
+		''
+	];
+
+	for (var i = 0; i < cents.length; i++) {
+		assert.equal(Balanced.Utils.centsToDollars(cents[i]), expected[i]);
+	}
+});
+
 test('dollarsToCents', function(assert) {
 	var dollars = [
 		'0',

@@ -14,9 +14,9 @@ Balanced.Debit = Balanced.Transaction.extend({
 	max_refund_amount_dollars: Balanced.computed.transform('refund_amount', Balanced.Utils.centsToDollars),
 
 	get_refunds: function() {
-		var _this = this;
+		var self = this;
 		this.get('refunds').then(function(refunds) {
-			_this.set('refund_amount', refunds.reduce(function(amount, refund) {
+			self.set('refund_amount', refunds.reduce(function(amount, refund) {
 				if (!refund.get('is_failed')) {
 					return amount + refund.get('amount');
 				} else {
