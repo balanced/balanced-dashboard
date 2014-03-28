@@ -6,18 +6,18 @@
 	</a>
 	<ul class="dropdown-menu">
 		{{#if auth.isGuest}}
-			<li>{{#link-to 'claim' class="label4a"}}Claim account{{/link-to}}</li>
+			<li>{{#link-to 'claim'}}Claim account{{/link-to}}</li>
 		{{else}}
 			<li class="change-email">
-				<a class="label4a" href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email</a>
+				<a href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email</a>
 			</li>
 			<li class="change-password">
-				<a class="label4a" href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
+				<a href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
 			</li>
-			<li class="label4a">{{#link-to 'accountSecurity'}}Account Security{{/link-to}}</li>
+			<li>{{#link-to 'accountSecurity'}}Account security{{/link-to}}</li>
 		{{/if}}
 
-		<li class="label4a"><a href="#" {{action "signOut"}}>Log Out</a></li>
+		<li><a href="#" {{action "signOut"}}>Log out</a></li>
 	</ul>
 {{else}}
 	{{#link-to 'login' class="nav1d"}}Login{{/link-to}}

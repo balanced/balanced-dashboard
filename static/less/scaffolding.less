@@ -44,6 +44,11 @@
 
   #marketplaces.dropdown {
     width: 150px;
+    .none {
+      padding: 10px 20px;
+      color: @gray4;
+      font-style: italic;
+    }
   }
 }
 
@@ -128,7 +133,6 @@ footer {
     height: @headerHeight;
 
     > a, > span {
-      padding: 18px 0;
       display: block;
     }
 
@@ -146,23 +150,40 @@ footer {
 #go-live-menu {
   text-align: center;
   width: 150px;
+
+  a:hover {
+    background-color: @lavenderPurple100 !important;
+   }
+
 }
 
 #help-menu {
   text-align: center;
 
+  a {
+    margin: 17px 5px 0px 17px;
+  }
   .icon-question-mark {
     font-size: 16px;
     color: @gray4;
     background-color: @gray7;
     .border-radius(100%);    
     padding: 11px 8px 5px;
+
+    &:hover {
+      color: @white;
+      background-color: @gray9;
+    }
   }
 }
 
 #login-menu {
   text-align: center;
   width: 88px;
+
+  a {
+    margin: 18px;
+  }
 }
 
 #user-menu {
