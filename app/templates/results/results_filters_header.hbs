@@ -12,18 +12,7 @@
 	</li>
 
 	<li {{bind-attr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> {{view.funding_instrument_type_label}} </a>
-
-		<div class="selector dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-			<ul class="dropdown-menu funding-instruments-filter filter-choices">
-				<li><a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Both </a></li>
-
-				<li><a href="#" {{action "changeTypeFilter" "card"}}> Cards </a></li>
-
-				<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts </a></li>
-			</ul>
-		</div>
+		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts </a>
 	</li>
 	{{#if view.isActivity}}
 		<li {{bind-attr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >

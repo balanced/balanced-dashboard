@@ -1,7 +1,19 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}Created{{/view}}
-		<th class="span4 label6a">Type</th>
+		<th class="span4 label6a">
+			Type
+			<div class="selector dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+				<ul class="dropdown-menu funding-instruments-filter filter-choices">
+					<li><a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Both </a></li>
+
+					<li><a href="#" {{action "changeTypeFilter" "card"}}> Cards </a></li>
+
+					<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts </a></li>
+				</ul>
+			</div>
+		</th>
 		<th class="span5 label6a">Card or bank account</th>
 		<th class="span8 label6a">Account holder's name</th>
 	</tr>
