@@ -1,6 +1,7 @@
 {{#if auth.signedIn}}
 	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-		<span class="icon profile"><img {{bind-attr src=user.gravatar}}></span>
+		<img {{bind-attr src=user.gravatar}} class="icon profile">
+		<span>{{user.email}}</span>
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
@@ -8,10 +9,10 @@
 			<li>{{#link-to 'claim' class="label4a"}}Claim account{{/link-to}}</li>
 		{{else}}
 			<li class="change-email">
-				<a class="label3a" href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email</a>
+				<a class="label4a" href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email</a>
 			</li>
 			<li class="change-password">
-				<a class="label3a" href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
+				<a class="label4a" href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
 			</li>
 			<li class="label4a">{{#link-to 'accountSecurity'}}Account Security{{/link-to}}</li>
 		{{/if}}

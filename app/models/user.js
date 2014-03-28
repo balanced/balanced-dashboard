@@ -9,6 +9,10 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 		return this.get('user_marketplaces').findBy('id', id);
 	},
 
+	email: function() {
+		return this.get('email_address');
+	}.property('email_address'),
+
 	gravatar: function() {
 		var emailHash = this.get('email_hash');
 		return Balanced.Utils.toGravatar(emailHash);
