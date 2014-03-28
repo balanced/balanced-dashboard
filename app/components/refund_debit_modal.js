@@ -11,7 +11,7 @@ Balanced.RefundDebitModalComponent = Balanced.ModalComponent.extend({
 				amount: null
 			});
 
-			this.set('dollar_amount', this.get('debit.amount_dollars'));
+			this.set('dollar_amount', this.get('debit.max_refund_amount_dollars'));
 			this._super(refund);
 		},
 

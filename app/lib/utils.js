@@ -116,7 +116,7 @@ Balanced.Utils = Ember.Namespace.create({
 			prepend = '-$';
 		}
 
-		return prepend + (cents / 100).toFixed(2).replace(FORMAT_CURRENCY_REGEX, '$1,');
+		return prepend + Balanced.Utils.centsToDollars(cents);
 	},
 
 	formatNumber: function(number) {
@@ -159,6 +159,10 @@ Balanced.Utils = Ember.Namespace.create({
 		}
 
 		return Math.round(100 * parseFloat(dollars));
+	},
+
+	centsToDollars: function(cents) {
+		return (cents / 100).toFixed(2).replace(FORMAT_CURRENCY_REGEX, '$1,');
 	},
 
 	toGravatar: function(emailHash) {
