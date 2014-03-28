@@ -247,8 +247,9 @@ test('download activity', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#activity .icon-export")
-		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click("#main #activity .icon-export.download")
+		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.click('.download-modal.in form .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
@@ -270,7 +271,7 @@ test('download disputes', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("a:contains('Disputes')")
-		.click("#activity .icon-export")
+		.click("#main #activity .icon-export.download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -289,7 +290,7 @@ test('download activity only runs once despite multiple clicks', function(assert
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#activity .icon-export")
+		.click("#main #activity .icon-export.download")
 		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
