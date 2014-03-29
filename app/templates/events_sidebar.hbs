@@ -1,5 +1,8 @@
 <h3 class="embedded-record-title">Events
-    {{#unless view.transactions.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+	{{#unless view.content.isLoaded}}
+		<h1>fuck {{ view }}</h1>
+		<div class="loader-container"><span class="loader loading"></span></div>
+	{{/unless}}
 </h3>
 <div class="results embedded events">
 	<div class="items-wrapper">
@@ -14,7 +17,7 @@
 							{{humanReadableDateShort event.occurred_at}}</time>
 							{{/link-to}}
 						</td>
-						<td class="url">
+						<td class="second">
 							{{#link-to 'events' event}}
 							<span>{{event.type}}</span>
 							{{/link-to}}
@@ -27,15 +30,15 @@
 					</tr>
 				{{/each}}
 			{{else}}
-		        <tr>
-		            <td colspan="3" class="no-results">
-		                {{#if view.transactions.isLoaded}}
-		                    No results
-		                {{else}}
-		                    Loading...
-		                {{/if}}
-		            </td>
-		        </tr>
+				<tr>
+					<td colspan="3" class="no-results">
+						{{#if view.content.isLoaded}}
+							No results
+						{{else}}
+							Loading...
+						{{/if}}
+					</td>
+				</tr>
 			{{/if}}
 			</tbody>
 		</table>

@@ -6,7 +6,7 @@
                 <time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
                 {{/link-to}}
             </td>
-            <td class="url">
+            <td class="second">
                 {{#link-to "logs.log" log}}
                 {{log.message.request.method}} {{log.condensed_request_url}}
                 {{/link-to}}

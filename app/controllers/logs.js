@@ -5,7 +5,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 	sortOrder: 'desc',
 	results_type: 'Balanced.Log',
 	type: null,
-	limit: 20,
+	_limit: 20,
 	endpoint: null,
 	status_rollup: null,
 
@@ -68,6 +68,10 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 
 		return params;
 	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model'),
+
+	limit: function() {
+		return this.get('is_object_log') ? 5 : this.get('_limit');
+	}.property('is_object_log'),
 
 	/*
 		Whether is this log index embedded under an object controller, such as
