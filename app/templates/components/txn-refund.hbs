@@ -9,8 +9,7 @@
 	</div>
 	<div class="transaction-body">
 		<div class="row-fluid">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
+			<div class="span25 border-adjust">
 				<section class="transaction-info">
 					<div class="key-value-display">
 						<header>
@@ -25,15 +24,13 @@
 				{{txn-funding-instrument funding_instrument=refund.debit.source}}
 			</div>
 		</div>
-		<div class="row">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
+		<div class="row-fluid">
+			<div class="span25 border-adjust">
 				{{render "logs.index" refund}}
 			</div>
 		</div>
-		<div class="row">
-			<div class="span2 border-adjust"></div>
-			<div class="span18 border-adjust">
+		<div class="row-fluid">
+			<div class="span25 border-adjust">
 				{{view Balanced.EventsSideBarView contentBinding="refund"}}
 			</div>
 		</div>
