@@ -1,2 +1,7 @@
+{{#if view.isSubmitting}}
+	<span class="btn btn-loader">
+		<span class="loader loading"></span>
+	</span>
+{{/if}}
 <button class="btn danger" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSubmitting"}}>Cancel</button>
 <button class="btn" name="modal-submit" {{bind-attr disabled="view.isSubmitting"}}>{{view._submitTitle}}</button>
