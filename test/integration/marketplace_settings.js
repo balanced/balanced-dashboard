@@ -87,10 +87,10 @@ test('can delete user', function(assert) {
 			assert.equal($('.users-info table tr').length, 1, 'Single Users shown');
 		})
 		.click('.confirm-delete-user:first')
-		.click('.modal.delete-user button[name="modal-submit"]:visible')
-		.then(function() {
-			// TODO Statements not working for some reason?
-			// assert.ok(stub.calledOnce);
-			// assert.ok(stub.calledWith(Balanced.UserInvite));
-		});
+		.click('.modal.delete-user button[name="modal-submit"]:visible');
+	// .then(function() {
+	// TODO Statements not working for some reason?
+	// assert.ok(stub.calledOnce);
+	// assert.ok(stub.calledWith(Balanced.UserInvite));
+	// });
 });
