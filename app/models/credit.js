@@ -1,7 +1,7 @@
 require('app/models/transaction');
 
 Balanced.Credit = Balanced.Transaction.extend({
-	reversal_amount: 0,
+	reversal_amount: Ember.computed.oneWay('amount'),
 	uri: '/credits',
 	type_name: "Credit",
 	route_name: "credits",
@@ -14,20 +14,21 @@ Balanced.Credit = Balanced.Transaction.extend({
 
 	get_reversals: function() {
 		var self = this;
+
 		this.get('reversals').then(function(reversals) {
 			self.set('reversal_amount', reversals.reduce(function(amount, reversal) {
 				if (!reversal.get('is_failed')) {
-					return amount + reversal.get('amount');
+					return amount - reversal.get('amount');
 				} else {
 					return amount;
 				}
-			}, 0));
+			}, self.get('amount')));
 		});
 	}.on('didLoad'),
 
 	can_reverse: function() {
-		return (!this.get('is_failed')) && this.get('reversals.isLoaded') && this.get('reversals.length');
-	}.property('is_failed', 'reversals.isLoaded', 'reversals.length'),
+		return (!this.get('is_failed')) && (this.get('reversal_amount') > 0);
+	}.property('is_failed', 'reversal_amount'),
 
 	status_description: function() {
 		if (this.get('is_pending')) {

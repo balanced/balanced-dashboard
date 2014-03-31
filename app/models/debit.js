@@ -1,7 +1,7 @@
 require('app/models/transaction');
 
 Balanced.Debit = Balanced.Transaction.extend({
-	refund_amount: 0,
+	refund_amount: Ember.computed.oneWay('amount'),
 	type_name: "Debit",
 	route_name: "debits",
 
@@ -15,19 +15,20 @@ Balanced.Debit = Balanced.Transaction.extend({
 
 	get_refunds: function() {
 		var self = this;
+
 		this.get('refunds').then(function(refunds) {
 			self.set('refund_amount', refunds.reduce(function(amount, refund) {
 				if (!refund.get('is_failed')) {
-					return amount + refund.get('amount');
+					return amount - refund.get('amount');
 				} else {
 					return amount;
 				}
-			}, 0));
+			}, self.get('amount')));
 		});
 	}.on('didLoad'),
 
 	can_refund: function() {
-		return this.get('is_succeeded') && (this.get('amount') > this.get('refund_amount'));
+		return this.get('is_succeeded') && (this.get('refund_amount') > 0);
 	}.property('amount', 'refund_amount', 'is_succeeded')
 });
 
