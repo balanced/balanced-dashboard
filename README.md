@@ -1,9 +1,11 @@
 balanced-dashboard
 ==================
- 
+
 The Balanced Dashboard
 
 [![Build Status](https://travis-ci.org/balanced/balanced-dashboard.png?branch=master)](https://travis-ci.org/balanced/balanced-dashboard)
+[![Coverage Status](https://coveralls.io/repos/balanced/balanced-dashboard/badge.png)](https://coveralls.io/r/balanced/balanced-dashboard)
+[![Code Climate](https://codeclimate.com/github/balanced/balanced-dashboard.png)](https://codeclimate.com/github/balanced/balanced-dashboard)
 
 ## What
 
