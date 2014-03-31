@@ -116,7 +116,7 @@ Balanced.computed = Ember.Namespace.create({
 				func = get(self || this, func);
 			}
 
-			return func.call(self || this, dependentKey);
+			return func.call(self || this, get(self || this, dependentKey));
 		});
 	}
 });
