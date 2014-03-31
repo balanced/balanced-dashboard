@@ -166,7 +166,7 @@ test('Balanced.computed.transform', function(assert) {
 	});
 
 	var t = TestObject.create();
-	assert.equal(t.get('count'), undefined);
+	assert.equal(t.get('count'), NaN);
 
 	t = TestObject.create({
 		length: 1
