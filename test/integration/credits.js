@@ -33,19 +33,28 @@ test('can reverse credit', function(assert) {
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '100')
+		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '10')
 		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Reversal));
-			assert.equal(spy.getCall(0).args[2].amount, 10000);
+			assert.equal(spy.getCall(0).args[2].amount, 1000);
 
 			assert.ok(!$('#reverse-credit.modal').is(':visible'), 'Modal Not Visible');
 		})
 		.click('.credit a.reverse-credit-button')
 		.then(function() {
-			assert.equal($('#reverse-credit .modal-body input[name="dollar_amount"]').val(), 0);
+			assert.equal($('#reverse-credit .modal-body input[name="dollar_amount"]').val(), '90.00');
 		})
+		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Reversal));
+			assert.equal(spy.getCall(0).args[2].amount, 9000);
+
+			assert.ok(!$('#reverse-credit.modal').is(':visible'), 'Modal Not Visible');
+			assert.equal($('.credit a.reverse-credit-button').length, 0, 'No reverse credit buttons');
+		});
 });
 
 test('credit reversal errors', function(assert) {
