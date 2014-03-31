@@ -41,7 +41,9 @@ test('can reverse credit', function(assert) {
 			assert.equal(spy.getCall(0).args[2].amount, 1000);
 
 			assert.ok(!$('#reverse-credit.modal').is(':visible'), 'Modal Not Visible');
-		})
+		});
+
+	visit(Testing.CREDIT_ROUTE)
 		.click('.credit a.reverse-credit-button')
 		.then(function() {
 			assert.equal($('#reverse-credit .modal-body input[name="dollar_amount"]').val(), '90.00');
@@ -53,6 +55,11 @@ test('can reverse credit', function(assert) {
 			assert.equal(spy.getCall(0).args[2].amount, 9000);
 
 			assert.ok(!$('#reverse-credit.modal').is(':visible'), 'Modal Not Visible');
+			assert.equal($('.credit a.reverse-credit-button').length, 0, 'No reverse credit buttons');
+		});
+
+	visit(Testing.CREDIT_ROUTE)
+		.then(function() {
 			assert.equal($('.credit a.reverse-credit-button').length, 0, 'No reverse credit buttons');
 		});
 });

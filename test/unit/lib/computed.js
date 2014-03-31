@@ -166,7 +166,7 @@ test('Balanced.computed.transform', function(assert) {
 	});
 
 	var t = TestObject.create();
-	assert.equal(t.get('count'), NaN);
+	assert.ok(_.isNaN(t.get('count')));
 
 	t = TestObject.create({
 		length: 1
