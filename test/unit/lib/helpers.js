@@ -42,11 +42,7 @@ test('formatCurrency', function(assert) {
 });
 
 test('centsToDollars', function(assert) {
-	var cents = [
-		-984526372,
-		-10000,
-		-105,
-		-1,
+	var cents = [-984526372, -10000, -105, -1,
 		0,
 		1,
 		105,

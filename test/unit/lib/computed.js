@@ -181,7 +181,7 @@ test('Balanced.computed.transform', function(assert) {
 	var TestObject2 = Ember.Object.extend({
 		count: Balanced.computed.transform('length', 'plusOne'),
 		plusOne: function(length) {
-			assert.ok(this instanceof TestObject2)
+			assert.ok(this instanceof TestObject2);
 			return length + 1;
 		}
 	});
