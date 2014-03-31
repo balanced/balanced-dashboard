@@ -33,7 +33,10 @@ Balanced.VerifyBankAccountModalView = Balanced.View.extend({
 				$('#verify-bank-account').modal('hide');
 			};
 
-			verification.save().then(after, after);
+			verification.save().then(after, function(err) {
+				console.log(err);
+				console.log('verify failure');
+			});
 		}
 	}
 });
