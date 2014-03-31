@@ -115,7 +115,8 @@ Balanced.Test.asyncHelpers = {
 	},
 	waitForVisit: function(app, url, cb, err, time) {
 		visit(url);
-		waitFor(function() {
+
+		return waitFor(function() {
 			if (cb()) {
 				return true;
 			}
