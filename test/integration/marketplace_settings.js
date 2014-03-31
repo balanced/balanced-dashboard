@@ -16,6 +16,16 @@ test('can manage users', function(assert) {
 		});
 });
 
+test('test marketplace info', function(assert) {
+	visit(SETTINGS_ROUTE)
+		.then(function() {
+			var arr = ['FIXTURED-MP4cOZZqeAelhxXQzljLLtgl', 'FIXTURED Marketplace', 'support@example.com', 'example.com', '+16505551234'];
+			$('.marketplace-info dl dd').each(function(i) {
+				assert.equal($(this).text().trim(), arr[i], 'Same text as ' + arr[i]);
+			});
+		});
+});
+
 test('can add user', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'create');
 	stub.onCall(0).callsArgWith(3, {

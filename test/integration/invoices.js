@@ -1,3 +1,5 @@
+var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/invoices';
+
 module('Invoices', {
 	setup: function() {
 		Testing.useFixtureData();
@@ -6,16 +8,18 @@ module('Invoices', {
 });
 
 test('can visit page', function(assert) {
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices').then(function() {
-		//  check the page title has been selected
-		assert.equal($('#content h1').text().trim(), 'Invoices');
-	});
+	visit(INVOICES_ROUTE)
+		.then(function() {
+			//  check the page title has been selected
+			assert.equal($('#content h1').text().trim(), 'Invoices');
+		});
 });
 
 test('shows invoices list', function(assert) {
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices').then(function() {
-		assert.equal($("#invoices table tbody tr").length, 20);
-	});
+	visit(INVOICES_ROUTE)
+		.then(function() {
+			assert.equal($("#invoices table tbody tr").length, 20);
+		});
 });
 
 test('invoice detail page', function(assert) {
@@ -38,7 +42,7 @@ test('invoice detail page', function(assert) {
 		".invoice-details-table .subtotal-row .total": "$17.85"
 	};
 
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl' + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
 		.then(function() {
 			_.each(expectedValues, function(value, selector) {
 				assert.equal($(selector).text().trim(), value);
@@ -80,7 +84,7 @@ test('change invoice funding source', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 	stub.callsArg(3);
 
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl' + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
 		.click('.change-funding-source-btn')
 		.fillIn('#change-funding-source form select[name="source_uri"]', '123')
 		.click('#change-funding-source form button[name="modal-submit"]')
