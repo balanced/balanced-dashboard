@@ -32,7 +32,9 @@ test('can visit page', function(assert) {
 });
 
 test('Click load more shows 2 more and hides load more', function(assert) {
-	visit(Testing.ACTIVITY_ROUTE)
+	waitForVisit(Testing.ACTIVITY_ROUTE, function() {
+		return $('#activity .results table.transactions tfoot td').length >= 1;
+	}, 'has "Load More"')
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
 

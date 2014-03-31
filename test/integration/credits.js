@@ -7,10 +7,11 @@ module('Credits', {
 });
 
 test('can visit page', function(assert) {
-	visit(Testing.CREDIT_ROUTE).then(function() {
-		assert.notEqual($('#content h1').text().indexOf('Credit'), -1, 'Title is not correct');
-		assert.equal($(".credit .tt-title").text().trim(), 'Succeeded: $100.00');
-	});
+	visit(Testing.CREDIT_ROUTE)
+		.then(function() {
+			assert.notEqual($('#content h1').text().indexOf('Credit'), -1, 'Title is not correct');
+			assert.equal($(".credit .tt-title").text().trim(), 'Succeeded: $100.00');
+		});
 });
 
 test('can edit credit', function(assert) {
@@ -38,7 +39,13 @@ test('can reverse credit', function(assert) {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Reversal));
 			assert.equal(spy.getCall(0).args[2].amount, 10000);
-		});
+
+			assert.ok(!$('#reverse-credit.modal').is(':visible'), 'Modal Not Visible');
+		})
+		.click('.credit a.reverse-credit-button')
+		.then(function() {
+			assert.equal($('#reverse-credit .modal-body input[name="dollar_amount"]').val(), 0);
+		})
 });
 
 test('credit reversal errors', function(assert) {
