@@ -141,7 +141,6 @@ Balanced.Test.asyncHelpers = {
 				}
 			} else {
 				wait();
-				Ember.Logger.debug('Tests still waiting for... %@ ms passed out of %@ ms'.fmt(elapsed, time));
 				setTimeout(runInterval, 100);
 			}
 		};
