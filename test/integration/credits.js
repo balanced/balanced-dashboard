@@ -50,9 +50,9 @@ test('can reverse credit', function(assert) {
 		})
 		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledTwice);
 			assert.ok(spy.calledWith(Balanced.Reversal));
-			assert.equal(spy.getCall(0).args[2].amount, 9000);
+			assert.equal(spy.getCall(1).args[2].amount, 9000);
 
 			assert.ok(!$('#reverse-credit.modal').is(':visible'), 'Modal Not Visible');
 			assert.equal($('.credit a.reverse-credit-button').length, 0, 'No reverse credit buttons');
