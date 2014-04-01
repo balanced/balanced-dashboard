@@ -17,6 +17,7 @@ Balanced.View = Ember.View.extend({
 Balanced.ModalView = Balanced.View.extend({
 	controllerEventName: 'openModal',
 	modalElement: '.modal',
+	defaultModelAction: 'save',
 
 	didInsertElement: function() {
 		this.get('controller').on(this.controllerEventName, this, this.open);
@@ -42,9 +43,18 @@ Balanced.ModalView = Balanced.View.extend({
 		var self = this;
 
 		if (model) {
-			model.on('didCreate', function() {
-				self.hide();
-			});
+			var eventName = this.get('defaultModelAction');
+			if (eventName) {
+				if (eventName === 'save') {
+					eventName = 'didCreate';
+				} else if (eventName === 'delete';) {
+					eventName = 'didDelete';
+				}
+
+				model.on(eventName, function() {
+					self.hide();
+				});
+			}
 
 			this.set('model', model);
 		}
@@ -57,7 +67,7 @@ Balanced.ModalView = Balanced.View.extend({
 			this.hide();
 		},
 
-		save: function(model) {
+		save: function(model, opts) {
 			model = model || this.get('model');
 
 			if (get(model, 'isSaving')) {
@@ -69,7 +79,7 @@ Balanced.ModalView = Balanced.View.extend({
 				return;
 			}
 
-			model.save().then(function(model) {
+			model[this.get('defaultModelAction')].call(model, opts).then(function(model) {
 				if (_.isFunction(this.afterSave)) {
 					this.afterSave(model);
 				}
@@ -82,4 +92,14 @@ Balanced.ModalView = Balanced.View.extend({
 			}, _.bind(this.errorSaving, this));
 		}
 	}
+});
+
+Balanced.ActionModalView = Balanced.ModalView.extend({
+	modalElement: Balanced.ccomputed.concat('idElement', '#', true),
+	templateName: 'modals/action_modal',
+
+	name: 'Override This',
+	description: 'Override This',
+	submitTitle: 'Confirm',
+	submittingTitle: 'Confirming'
 });
