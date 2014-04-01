@@ -95,7 +95,7 @@ Balanced.ModalView = Balanced.View.extend({
 });
 
 Balanced.ActionModalView = Balanced.ModalView.extend({
-	modalElement: Balanced.ccomputed.concat('idElement', '#', true),
+	modalElement: Balanced.computed.concat('idElement', '#', true),
 	templateName: 'modals/action_modal',
 
 	name: 'Override This',
