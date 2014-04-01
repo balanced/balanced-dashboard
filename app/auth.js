@@ -167,7 +167,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		});
 
 		// Ember.RSVP.all(exts).then(_.bind(this.loadAdminExtension, this));
-	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT');
+	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT'),
 
 	loadAdminExtension: _.debounce(function() {
 		if (!this.get('user') || !this.get('signInTransitionCalled')) {
@@ -180,7 +180,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		} else if (!this.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
 			Balanced.Shapeshifter.unload(admin);
 		}
-	}, 500).observes('user', 'user.admin');
+	}, 500).observes('user', 'user.admin'),
 
 	request: function(opts, eventName, successFn) {
 		var self = this;
