@@ -1,9 +1,9 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}Created{{/view}}
-		<th class="span3 label6a name">Customer Name</th>
-		<th class="span3 label6a name">Business Name</th>
-		<th class="span6 label6a email">Email</th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span4 label6a sortable" field="created_at"}}Created{{/view}}
+		<th class="fluid25 label6a name">Customer Name</th>
+		<th class="fluid25 label6a name">Business Name</th>
+		<th class="fluid50 label6a email">Email</th>
 	</tr>
 </thead>
 
@@ -26,22 +26,22 @@
 <tbody>
 	{{#each customer in view.customers}}
 		<tr>
-			<td class="span3 date">
+			<td class="span4 date">
 				{{#link-to "customers" customer}}<span>
 					<time {{bind-attr datetime="customer.created_at"}} {{bind-attr title="customer.created_at"}}>{{humanReadableDateShort customer.created_at}}</time>
 				</span>{{/link-to}}
 			</td>
-			<td class="span3 name" {{bind-attr title="customer.display_me"}}>
+			<td class="name" {{bind-attr title="customer.display_me"}}>
 				{{#link-to "customers" customer}}<span>
 					{{customer.display_me}}
 				</span>{{/link-to}}
 			</td>
-			<td class="span3 business_name" {{bind-attr title="customer.business_name"}}>
+			<td class="business_name" {{bind-attr title="customer.business_name"}}>
 				{{#link-to "customers" customer}}<span>
 					{{customer.business_name}}
 				</span>{{/link-to}}
 			</td>
-			<td class="span6 email" {{bind-attr title="customer.email"}}>
+			<td class="email" {{bind-attr title="customer.email"}}>
 				{{#link-to "customers" customer}}<span>
 					{{customer.email}}
 				</span>{{/link-to}}

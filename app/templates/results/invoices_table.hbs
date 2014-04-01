@@ -1,9 +1,9 @@
 <thead>
 	<tr>
 		<th class="span4 label6a">Date</th>
-		<th class="span3 label6a">Invoice #</th>
-		<th class="span3 label6a">From</th>
-		<th class="span3 label6a">To</th>
+		<th class="span2 label6a">Invoice #</th>
+		<th class="label6a">From</th>
+		<th class="label6a">To</th>
 		<th class="span2 label6a amount">Amount</th>
 		<th class="span2 label6a status"></th>
 	</tr>
@@ -37,12 +37,12 @@
 					{{invoice.sequence_number}}
 				{{/link-to}}
 			</td>
-			<td class="span5 black">
+			<td class="black">
 				{{#link-to 'invoices.invoice' invoice}}
 					{{humanReadableDateShort invoice.from_date}}
 				{{/link-to}}
 			</td>
-			<td class="span5 black">
+			<td class="black">
 				{{#link-to 'invoices.invoice' invoice}}
 					{{humanReadableDateShort invoice.to_date}}
 				{{/link-to}}
