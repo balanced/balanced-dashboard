@@ -47,7 +47,7 @@ Balanced.ModalView = Balanced.View.extend({
 			if (eventName) {
 				if (eventName === 'save') {
 					eventName = 'didCreate';
-				} else if (eventName === 'delete';) {
+				} else if (eventName === 'delete') {
 					eventName = 'didDelete';
 				}
 
