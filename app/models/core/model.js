@@ -194,7 +194,6 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 					requestId: res.errors[0].request_id
 				});
 			} else {
-			console.log(res);
 				if (res.description) {
 					this.set('errorDescription', res.description);
 				}

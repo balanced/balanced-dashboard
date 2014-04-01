@@ -13,8 +13,8 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				return;
 			}
 
-			if (jqxhr.responseJSON.response.uri) {
-				self.rememberLogin(response.uri);
+			if (jqxhr.responseJSON.uri) {
+				self.rememberLogin(jqxhr.responseJSON.uri);
 			}
 		});
 	},

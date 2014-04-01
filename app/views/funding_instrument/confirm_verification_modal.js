@@ -11,7 +11,7 @@ Balanced.ConfirmVerificationModalView = Balanced.ModalView.extend({
 
 	errorSaving: function(verification) {
 		if (verification.get('errorStatusCode') === 409) {
-			self.set('failedConfirmation', true);
+			this.set('failedConfirmation', true);
 		}
 
 		this.get('controller').reloadVerifications(verification);

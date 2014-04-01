@@ -79,7 +79,7 @@ Balanced.ModalView = Balanced.View.extend({
 				}
 
 				self.sendAction('submitAction', model);
-			}, this.errorSaving);
+			}, _.bind(this.errorSaving, this));
 		}
 	}
 });
