@@ -50,10 +50,13 @@
 		}
 		&:not(.head) .span4 {
 			.sl-b;
+			line-height: inherit;
 		}
 		&.head {
 			.sl;
 			font-style: italic;
+			line-height: 34px;
+			height: 34px;
 		}
 		&.empty {
 			.span4 {
@@ -128,7 +131,10 @@ table.orders {
 .order-customer-sub-header {
 	background-color: @gray2;
 	color: @black;
-	font-weight: bold;
+
+	> a {
+		line-height: inherit;
+	}
 	.owed {
 		color: @imperialRed100;
 	}

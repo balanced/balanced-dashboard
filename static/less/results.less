@@ -5,7 +5,7 @@ header.results-label h3 {
 .results {
   header {
     background-color: @white;
-    height: 48px;
+    height: 60px;
 
     nav > li {
       &.filter {
@@ -116,16 +116,17 @@ header.results-label h3 {
         }
       }
     }
+
     th {
-      .sl-sm-b;
-      color: @gray7;
       float: none;
       padding: 8px 0;
       background-color: @gray1;
+      border-bottom: 1px solid @gray2;
 
       &:first-child {
         padding-left: 25px;
       }
+
       &:last-child {
         padding-right: 25px;
         &.sortable {
@@ -133,8 +134,14 @@ header.results-label h3 {
         }
       }
 
+      > span {
+        .sl-sm-sb;
+        color: @black;
+        text-transform: uppercase;
+      }
+
       .caret {
-        border-top-color: @gray4;
+        border-top-color: @black;
         margin: 0;
       }
 
@@ -317,12 +324,13 @@ header.results-label h3 {
    }
 
   .timing {
+    border-bottom: 0;
+    margin: 0 9px 0 0;
+    
     &.pull-left {
         float: left;
         border-left: 0px;
     }
-    border-bottom: 0;
-    margin: 0;
 
     &:hover {
       border-bottom: 0;
@@ -350,7 +358,7 @@ header.results-label h3 {
         float: left;
         width: 120px;
         height: 205px;
-        padding: 10px;
+        padding: 10px 10px 57px 10px;
 
         > li a {
           padding: 10px 15px;
@@ -364,7 +372,6 @@ header.results-label h3 {
 
       .before, .after {
         position: absolute;
-        height: 190px;
         width: 220px;
         padding-top: 10px;
 
@@ -384,9 +391,8 @@ header.results-label h3 {
       }
       .go {
         position: absolute;
-        top: 172px;
-        right: -12px;
-        margin: 10px 20px 10px 10px;
+        bottom: 10px;
+        right: 10px;
       }
       .before {
         float: right;

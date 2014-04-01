@@ -1,8 +1,8 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}Date{{/view}}
-		<th class="span3 label6a">Status</th>
-		<th class="span11 label6a">Method &amp; URI</th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span3 label6a"><span>Status</span></th>
+		<th class="span11 label6a"><span>Method &amp; URI</span></th>
 	</tr>
 </thead>
 
@@ -27,7 +27,9 @@
 		<tr>
 			<td class="span3 date">
 				{{#link-to "logs.log" log}}<span>
-				<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
+				<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>
+					<span class="primary">{{humanReadableDate log.created_at}}</span>
+					<span class="secondary">{{humanReadableTime log.created_at}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td class="span3 black"><span>
