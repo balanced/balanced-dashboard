@@ -28,14 +28,11 @@ Balanced.Transaction = Balanced.Model.extend(
 			}
 		}.property('customer'),
 
-		page_title: function() {
-			return this.get('description') || this.get('id');
-		}.property('description', 'id'),
-
+		page_title: Balanced.computed.orProperties('description', 'id'),
 		events_uri: Balanced.computed.concat('uri', '/events'),
 
 		status_description: function() {
-			if (this.get('status') === 'failed') {
+			if (this.get('is_failed')) {
 				if (this.get('failure_reason') || this.get('failure_reason_code')) {
 					return this.get('failure_reason') || this.get('failure_reason_code');
 				}
@@ -43,7 +40,7 @@ Balanced.Transaction = Balanced.Model.extend(
 			} else {
 				return Ember.String.capitalize(this.get('status'));
 			}
-		}.property('status', 'failure_reason', 'failure_reason_code'),
+		}.property('is_failed', 'status', 'failure_reason', 'failure_reason_code'),
 
 		is_failed: Computed.isStatus('failed'),
 		is_pending: Computed.isStatus('pending'),

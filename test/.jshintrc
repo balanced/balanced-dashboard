@@ -30,6 +30,8 @@
 		"prettyPrint": true,
 
 		"test": true,
+		"waitFor": true,
+		"waitForVisit": true,
 		"asyncTest": true,
 		"start": true,
 		"stop": true,

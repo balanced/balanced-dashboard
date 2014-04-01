@@ -96,5 +96,27 @@ Balanced.computed = Ember.Namespace.create({
 		});
 
 		return computed.property.apply(computed, args);
+	},
+
+	ifThisOrThat: function(dependentKey, one, two, invert) {
+		return Ember.computed(dependentKey, function() {
+			var check = get(this, dependentKey);
+
+			if (invert) {
+				check = !check;
+			}
+
+			return check ? one : two;
+		});
+	},
+
+	transform: function(dependentKey, func, self) {
+		return Ember.computed(dependentKey, function() {
+			if (_.isString(func)) {
+				func = get(self || this, func);
+			}
+
+			return func.call(self || this, get(self || this, dependentKey));
+		});
 	}
 });

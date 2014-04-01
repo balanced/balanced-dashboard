@@ -156,3 +156,57 @@ test('Balanced.computed.orProperties', function(assert) {
 	});
 	assert.equal(t.get('id'), true);
 });
+
+test('Balanced.computed.transform', function(assert) {
+	var TestObject = Ember.Object.extend({
+		count: Balanced.computed.transform('length', 'plusOne'),
+		plusOne: function(length) {
+			return length + 1;
+		}
+	});
+
+	var t = TestObject.create();
+	assert.ok(_.isNaN(t.get('count')));
+
+	t = TestObject.create({
+		length: 1
+	});
+	assert.equal(t.get('count'), 2);
+
+	Ember.run(function() {
+		t.set('length', 0);
+	});
+	assert.equal(t.get('count'), 1);
+
+	var TestObject2 = Ember.Object.extend({
+		count: Balanced.computed.transform('length', 'plusOne'),
+		plusOne: function(length) {
+			assert.ok(this instanceof TestObject2);
+			return length + 1;
+		}
+	});
+
+	t = TestObject2.create({
+		length: 1
+	});
+	assert.equal(t.get('count'), 2);
+});
+
+test('Balanced.computed.ifThisOrThat', function(assert) {
+	var TestObject = Ember.Object.extend({
+		text: Balanced.computed.ifThisOrThat('length', 'has some', 'has none'),
+	});
+
+	var t = TestObject.create();
+	assert.equal(t.get('text'), 'has none');
+
+	t = TestObject.create({
+		length: 1
+	});
+	assert.equal(t.get('text'), 'has some');
+
+	Ember.run(function() {
+		t.set('length', false);
+	});
+	assert.equal(t.get('text'), 'has none');
+});
