@@ -119,7 +119,7 @@ header.results-label h3 {
 
     th {
       float: none;
-      padding: 8px 0;
+      padding: 0;
       background-color: @gray1;
       border-bottom: 1px solid @gray2;
 
@@ -138,52 +138,42 @@ header.results-label h3 {
         .sl-sm-sb;
         color: @black;
         text-transform: uppercase;
-      }
-
-      .caret {
-        border-top-color: @black;
-        margin: 0;
-      }
-
-      .dropdown .dropdown-menu a {
-        color: @black;
-      }
-
-      a {
-        text-decoration: none;
-        color: @gray5;
-        &:hover {
-          color: @black;
-        }
-        &.dropdown-toggle {
-          padding: 4px 2px 0;
-          display: inline-block;
-          height: 9px;
-        }
+        line-height: 35px;
       }
 
       .selector {
         display: inline-block;
-        height: 13px;
         vertical-align: middle;
-      }
-    }
-    tbody td, th td {
-      float: none;
-      &:first-child {
-        span {
-          padding-left: 25px;
-        }
-      }
-      &:last-child {
-        span {
-          padding-right: 25px;
-          &.sortable {
-            padding-right: 5px;
+        height: 100%;
+        box-sizing: border-box;
+
+        .dropdown-toggle {
+          color: @black;
+          padding: 8px 10px 4px;
+
+          span {
+            .sl-sm-sb;
+            color: @black;
+            text-transform: uppercase;
+            vertical-align: middle;
+          }
+
+          .caret {
+            border-top-color: @black;
+            margin-top: 6px;
           }
         }
+
+        &.open, &:hover {
+          background-color: @gray2;
+        }
+
+        .dropdown-menu a {
+          color: @black;
+        }
       }
     }
+
     tbody {
       tr {
         border-bottom: 1px solid @gray2;
@@ -299,7 +289,8 @@ header.results-label h3 {
       width: 14px;
       height: 14px;
       background: @iconsFile -18px -218px no-repeat;
-      margin-left: 5px;
+      margin-left: 8px;
+      margin-top: 10px;
       vertical-align: top;
     }
     &.ascending {
@@ -326,7 +317,7 @@ header.results-label h3 {
   .timing {
     border-bottom: 0;
     margin: 0 9px 0 0;
-    
+
     &.pull-left {
         float: left;
         border-left: 0px;

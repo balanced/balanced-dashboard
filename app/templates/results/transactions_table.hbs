@@ -1,36 +1,34 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :date view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}
-		<th class="span3 type">
-			<span>Type</span>
-
-			{{#if transactionTypeFilter}}
-				<div class="selector dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-					<ul class="dropdown-menu type-filter filter-choices">
-						<li><a href="#" {{action "changeTypeFilter" "transaction"}}>All</a></li>
-						<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
-						<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
-						<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
-						<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
-					</ul>
-				</div>
-			{{/if}}
+		<th class="span2 type">
+			<div class="selector dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Type</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu type-filter filter-choices">
+					<li><a href="#" {{action "changeTypeFilter" "transaction"}}>All</a></li>
+					<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
+				</ul>
+			</div>
 		</th>
 		<th class="span3 status">
-			<span>Status</span>
-
-			{{#if transactionStatus}}
-				<div class="selector dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-					<ul class="dropdown-menu status-filter filter-choices">
-						<li><a href="#" {{action "changeTransactionStatusFilter" "all"}}>All</a></li>
-						<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
-						<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
-						<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
-					</ul>
-				</div>
-			{{/if}}
+			<div class="selector dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Status</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu status-filter filter-choices">
+					<li><a href="#" {{action "changeTransactionStatusFilter" "all"}}>All</a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
+				</ul>
+			</div>
 		</th>
 		<th class="span4 description"><span>Description</span></th>
 		<th class="span3 account"><span>Customer</span></th>
@@ -68,7 +66,7 @@
 					</span>
 				{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span3 :label4a :type transaction.type"}}>
+			<td {{bind-attr class=":span2 :label4a :type transaction.type"}}>
 				{{#link-to transaction.route_name transaction}}
 					<span>
 						{{transaction.type_name}}

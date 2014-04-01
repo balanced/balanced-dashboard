@@ -20,16 +20,12 @@
   float: left;
   height: 100%;
   text-align: left;
-  .header-user & {
-    width: calc(~"100% - 450px");
-  }
-  .header-guest & {
-    width: 465px;
-  }
+  width: calc(~"100% - 480px");
 
   .results, .close {
     display: none;
   }
+
   .search-field-container {
     height: @searchBoxHeight;
     background-color: @gray7;
@@ -46,6 +42,7 @@
       width: 50px;
     }
   }
+
   .search-close {
     background-color: @gray4;
     color: @white;
@@ -62,6 +59,7 @@
       background-color: @black;
     }
   }
+
   &.focus, &.with-results {
     background: @searchActiveBackground;
 
@@ -69,6 +67,7 @@
       background: @searchActiveBackground;
     }
   }
+  
   &.with-results {
     .search-close {
       display: inline-block;
