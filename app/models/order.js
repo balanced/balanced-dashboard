@@ -8,9 +8,7 @@ Balanced.Order = Balanced.Model.extend({
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	seller: Balanced.Model.belongsTo('merchant', 'Balanced.Customer'),
 
-	page_title: function() {
-		return this.get('description') || this.get('id');
-	}.property('description', 'id'),
+	page_title: Balanced.computed.orProperties('description', 'id'),
 
 	debits_amount: function() {
 		return Balanced.Utils.formatCurrency(this.get('amount'));

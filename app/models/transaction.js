@@ -28,10 +28,7 @@ Balanced.Transaction = Balanced.Model.extend(
 			}
 		}.property('customer'),
 
-		page_title: function() {
-			return this.get('description') || this.get('id');
-		}.property('description', 'id'),
-
+		page_title: Balanced.computed.orProperties('description', 'id'),
 		events_uri: Balanced.computed.concat('uri', '/events'),
 
 		status_description: function() {
