@@ -118,6 +118,7 @@ header.results-label h3 {
 
       &:last-child {
         padding-right: 25px;
+
         &.sortable {
           padding-right: 5px;
         }
@@ -146,6 +147,15 @@ header.results-label h3 {
 
         td {
           padding: 0;
+
+          &:first-child {
+            padding-left: 25px;
+          }
+
+          &:last-child {
+            padding-right: 25px;
+          }
+
           &.no-results {
             padding: 12px 15px 12px 25px;
             font-style: italic;
@@ -159,7 +169,7 @@ header.results-label h3 {
             text-decoration: none;
 
             span {
-              padding: 12px 15px 12px 0;
+              padding: 12px 0;
               display: block;
             }
             &:link, &:visited, &:hover, &:active {
@@ -168,6 +178,7 @@ header.results-label h3 {
             }
           }
         }
+
         td.label4a {
           a {
             &:link, &:visited, &:hover, &:active {
