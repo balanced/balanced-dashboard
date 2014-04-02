@@ -87,20 +87,9 @@ header.results-label h3 {
           border-bottom: 0;
         }
       }
-      .selector {
-        display: inline-block;
-        height: 13px;
-        vertical-align: middle;
-
-        .caret {
-          margin-top: 0;
-          border-top-color: @white;
-          border-width: 4px;
-          margin-left: 0px;
-        }
-      }
     }
   }
+
   table.items {
     table-layout:fixed;
     width: 100%;
@@ -139,38 +128,6 @@ header.results-label h3 {
         color: @black;
         text-transform: uppercase;
         line-height: 35px;
-      }
-
-      .selector {
-        display: inline-block;
-        vertical-align: middle;
-        height: 100%;
-        box-sizing: border-box;
-
-        .dropdown-toggle {
-          color: @black;
-          padding: 8px 10px 4px;
-
-          span {
-            .sl-sm-sb;
-            color: @black;
-            text-transform: uppercase;
-            vertical-align: middle;
-          }
-
-          .caret {
-            border-top-color: @black;
-            margin-top: 6px;
-          }
-        }
-
-        &.open, &:hover {
-          background-color: @gray2;
-        }
-
-        .dropdown-menu a {
-          color: @black;
-        }
       }
     }
 
