@@ -30,7 +30,6 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 		},
 
 		results: function() {
-			var result = null;
 			var type = this.get("type");
 			var typeMappings = {
 				debit: "debits",
@@ -44,17 +43,16 @@ Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 				dispute: "disputes"
 			};
 
-			if (typeMappings[type] !== undefined) {
-				result = this.get(typeMappings[type]);
+			if (typeMappings[type]) {
+				return this.get(typeMappings[type]);
 			}
-			return result;
+
+			return null;
 		}.property(
 			'type', 'debits', 'credits', 'holds', 'failed_credits', 'refunds',
 			'card_debits', 'bank_account_debits', 'disputes'
 		),
 
-		results_base_uri: function() {
-			return this.get('controllers.marketplace.invoices_uri');
-		}.property('controllers.marketplace.invoices_uri')
+		results_base_uri: Ember.computed.alias('controllers.marketplace.invoices_uri')
 	}
 );

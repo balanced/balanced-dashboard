@@ -1,6 +1,5 @@
 // This is pulled out into a separate file so the Grunt neuter task doesn't
 // add templating code to it while building
-
 window.balancedSetupFunctions = [];
 
 /*
@@ -49,11 +48,11 @@ window.setupBalanced = function(divSelector) {
 		}
 	});
 
+	/* istanbul ignore if */
 	if (!window.TESTING) {
 		// Defer the readiness until we know about login session
 		window.Balanced.deferReadiness();
 	}
-
 
 	window.Balanced.onLoad = function() {
 		//  initialize anything that needs to be done on application load
@@ -68,6 +67,7 @@ window.setupBalanced = function(divSelector) {
 		setupFunction();
 	});
 
+	/* istanbul ignore if */
 	if (!window.TESTING) {
 		// Get the current login if logged in
 		window.Balanced.Auth.getCurrentLogin().always(function() {

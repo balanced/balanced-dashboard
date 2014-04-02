@@ -1,9 +1,25 @@
 .btn {
+  cursor: pointer;
+
   .icon {
     display: inline-block;
     font-size: 19px;
     line-height: 27px;
     vertical-align: bottom;
+  }
+
+  &.btn-loader {
+    background-color: transparent;
+    border: 3px solid transparent;
+    display: inline-block;
+    padding: 0 3px;
+    text-align: center;
+    text-transform: none;
+
+    &:hover {
+      background-color: inherit;
+      color: @black !important;
+    }
   }
 
   &.btn-link {
@@ -45,4 +61,4 @@
   }
 }
 
-.title-bar-color(tb-curry-yellow, @curryYellow60, @curryYellow100, @white);
+/*.title-bar-color(tb-curry-yellow, @curryYellow60, @curryYellow100, @white);*/

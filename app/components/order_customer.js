@@ -8,22 +8,10 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 	is_visible: true,
 	classNames: ['order-customer'],
 
-	show_transactions: function() {
-		return this.get('is_visible') && this.get('has_transactions');
-	}.property('is_visible', 'has_transactions'),
-
-	has_transactions: function() {
-		return this.get('credits_list.length') || this.get('debits_list.length');
-	}.property('credits_list', 'debits_list',
-		'credits_list.length', 'debits_list.length'),
-
-	toggle_display: function() {
-		return this.get('is_visible') ? 'Hide details' : 'Show details';
-	}.property('is_visible'),
-
-	title: function() {
-		return this.get('customer.name') || this.get('customer.id');
-	}.property('customer.name', 'customer.id', 'customer'),
+	show_transactions: Ember.computed.and('is_visible', 'has_transactions'),
+	has_transactions: Balanced.computed.orProperties('credits_list.length', 'debits_list.length'),
+	toggle_display: Balanced.computed.ifThisOrThat('is_visible', 'Hide details', 'Show details'),
+	title: Balanced.computed.orProperties('customer.name', 'customer.id'),
 
 	amounts: function() {
 		var amounts = {};

@@ -16,6 +16,16 @@ test('can manage users', function(assert) {
 		});
 });
 
+test('test marketplace info', function(assert) {
+	visit(SETTINGS_ROUTE)
+		.then(function() {
+			var arr = ['FIXTURED-MP4cOZZqeAelhxXQzljLLtgl', 'FIXTURED Marketplace', 'support@example.com', 'example.com', '+16505551234'];
+			$('.marketplace-info dl dd').each(function(i) {
+				assert.equal($(this).text().trim(), arr[i], 'Same text as ' + arr[i]);
+			});
+		});
+});
+
 test('can add user', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'create');
 	stub.onCall(0).callsArgWith(3, {
@@ -87,10 +97,10 @@ test('can delete user', function(assert) {
 			assert.equal($('.users-info table tr').length, 1, 'Single Users shown');
 		})
 		.click('.confirm-delete-user:first')
-		.click('.modal.delete-user button[name="modal-submit"]:visible')
-		.then(function() {
-			// TODO Statements not working for some reason?
-			// assert.ok(stub.calledOnce);
-			// assert.ok(stub.calledWith(Balanced.UserInvite));
-		});
+		.click('.modal.delete-user button[name="modal-submit"]:visible');
+	// .then(function() {
+	// TODO Statements not working for some reason?
+	// assert.ok(stub.calledOnce);
+	// assert.ok(stub.calledWith(Balanced.UserInvite));
+	// });
 });
