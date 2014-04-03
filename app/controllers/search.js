@@ -12,7 +12,7 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		search: null,
 		debounced_search: null,
 
-		allowSortByNone: true,
+		allowSortByNone: false,
 
 		showResults: false,
 
@@ -104,8 +104,8 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 				minDate: null,
 				maxDate: null,
 				dateFilterTitle: 'Any time',
-				sortField: null,
-				sortOrder: null,
+				sortField: 'created_at',
+				sortOrder: 'desc',
 				type: 'search',
 				last_loaded_search_result: null
 			});
