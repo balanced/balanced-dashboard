@@ -11,7 +11,7 @@ test('can pay a seller', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('li a i.icon-bankaccount')
+		.click('div a.pay-a-seller')
 		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
 		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
 		.fillIn('#pay-seller .modal-body input:eq(2)', '123123123')
@@ -38,7 +38,7 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('li a i.icon-bankaccount')
+		.click('div a.pay-a-seller')
 		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
 		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
 		.fillIn('#pay-seller .modal-body input:eq(2)', '123123123')

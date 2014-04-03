@@ -247,6 +247,16 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'build/test/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/images/'
 				}]
 			},
 			fonts: {
@@ -435,6 +445,7 @@ module.exports = function(grunt) {
 				access: 'public-read',
 				region: 'us-west-1',
 				gzip: true,
+				encodePaths: true,
 				headers: {
 					'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
 				}

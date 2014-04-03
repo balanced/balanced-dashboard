@@ -1,12 +1,12 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span4 label6a sortable" field="created_at"}}Date{{/view}}
-		<th class="label6a description">Description</th>
-		<th class="label6a buyer">Customer (buyer)</th>
-		<th class="label6a seller">Customer (seller)</th>
-		<th class="span2 label6a debits">Debits ($)</th>
-		<th class="span2 label6a credits">Credits ($)</th>
-		<th class="span2 label6a escrow">Escrow ($)</th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span4 label6a description"><span>Description</span></th>
+		<th class="span4 label6a buyer"><span>Customer (buyer)</span></th>
+		<th class="span4 label6a seller"><span>Customer (seller)</span></th>
+		<th class="span2 label6a debits"><span>Debits ($)</span></th>
+		<th class="span2 label6a credits"><span>Credits ($)</span></th>
+		<th class="span2 label6a escrow"><span>Escrow ($)</span></th>
 	</tr>
 </thead>
 
@@ -19,7 +19,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" view.orders}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.orders}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -29,20 +29,23 @@
 <tbody>
 	{{#each order in view.orders}}
 		<tr>
-			<td class="span4 date">
+			<td class="span3 date">
 				{{#link-to "orders" order}}<span>
-					<time {{bind-attr datetime="order.created_at"}} {{bind-attr title="order.created_at"}}>{{humanReadableDateShort order.created_at}}</time>
+					<time {{bind-attr datetime="order.created_at"}} {{bind-attr title="order.created_at"}}>
+						<span class="primary">{{humanReadableDate order.created_at}}</span>
+						<span class="secondary">{{humanReadableTime order.created_at}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
-			<td class="description">
+			<td class="span4 description">
 				<span>{{order.page_title}}</span>
 			</td>
-			<td class="buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
+			<td class="span4 buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
 				{{#link-to "orders" order}}<span>
 					{{order.buyer.firstObject.display_me}}
 				</span>{{/link-to}}
 			</td>
-			<td class="seller" {{bind-attr title="order.seller.display_me"}}>
+			<td class="span4 seller" {{bind-attr title="order.seller.display_me"}}>
 				{{#link-to "orders" order}}<span>
 					{{order.seller.display_me}}
 				</span>{{/link-to}}

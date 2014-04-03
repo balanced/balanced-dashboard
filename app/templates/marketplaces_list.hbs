@@ -1,33 +1,35 @@
 <ul class="dropdown-menu">
-	{{#if user.hasProductionMarketplace}}
-		<li class="group">
-			<h4 class="label4b">Production</h4>
-			<ul>
-				{{#each user_marketplace in user.user_marketplaces}}
-					{{#if user_marketplace.production}}
-						<li class="label3a">
-							{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
-						</li>
-					{{/if}}
-				{{/each}}
-			</ul>
-		</li>
-	{{/if}}
-
+	<li class="group">
+		<h4 class="label4b">Production</h4>
+		<ul>
+			{{#each user_marketplace in user.user_marketplaces}}
+				{{#if user_marketplace.production}}
+					<li class="label4a">
+						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
+					</li>
+				{{/if}}
+			{{/each}}
+			{{#unless user.hasProductionMarketplace}}
+				<li class="none">None</li>
+			{{/unless}}
+		</ul>
+	</li>
 	<li class="group">
 		<h4 class="label4b">Test</h4>
 		<ul>
 			{{#each user_marketplace in user.user_marketplaces}}
 				{{#unless user_marketplace.production}}
-					<li class="label3a">
+					<li class="label4a">
 						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
 					</li>
 				{{/unless}}
 			{{/each}}
+			{{#unless user.hasTestMarketplace}}
+				<li class="none">None</li>
+			{{/unless}}
 		</ul>
 	</li>
-
 	{{#unless auth.isGuest}}
-		<li class="label3a manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
+		<li class="label4a manage-marketplaces">{{#link-to 'marketplaces'}}Manage marketplaces{{/link-to}}</li>
 	{{/unless}}
 </ul>

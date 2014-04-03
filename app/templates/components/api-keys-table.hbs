@@ -11,7 +11,7 @@
 						{{/if}}
 					</span>
 				</td>
-				<td class="span4" {{bind-attr title="key.created_at"}}>
+				<td class="span3" {{bind-attr title="key.created_at"}}>
 					<span class="wrap">
 						{{humanReadableDateShort key.created_at}}
 					</span>
@@ -21,7 +21,7 @@
 						{{key.id}}
 					</span>
 				</td>
-				<td class="span7">
+				<td class="span8">
 					<span class="wrap">
 						{{#if key.secret}}
 							{{api-key-secret-shower key=key}}

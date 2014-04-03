@@ -1,11 +1,11 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span4 :label6a :initiated :date view.hideDateSort::sortable" field="initiated_at"}}Date Initiated{{/view}}
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span4 :label6a :respond-by :date view.hideDateSort::sortable" field="respond_by"}}Respond By{{/view}}
-		<th class="span3 label6a status">Status</th>
-		<th class="label6a account">Customer</th>
-		<th class="label6a funding-instrument">Card or Bank Account</th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount sortable num" field="amount"}}Amount{{/view}}
+		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :initiated :date view.hideDateSort::sortable" field="initiated_at"}}<span>Date Initiated</span>{{/view}}
+		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :respond-by :date view.hideDateSort::sortable" field="respond_by"}}<span>Respond By</span>{{/view}}
+		<th class="span4 label6a status"><span>Status</span></th>
+		<th class="span3 label6a account"><span>Customer</span></th>
+		<th class="span4 label6a funding-instrument"><span>Card or Bank Account</span></th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount sortable num" field="amount"}}<span>Amount</span>{{/view}}
 	</tr>
 </thead>
 
@@ -18,7 +18,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" view.disputes}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.disputes}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -28,28 +28,34 @@
 <tbody>
 	{{#each dispute in view.disputes}}
 		<tr>
-			<td class="span4 date initiated">
+			<td class="span3 date initiated">
 				{{#link-to dispute.route_name dispute}}<span>
-					<time {{bind-attr datetime="dispute.initiated_at"}} {{bind-attr title="dispute.initiated_at"}}>{{humanReadableDateShort dispute.initiated_at}}</time>
+					<time {{bind-attr datetime="dispute.initiated_at"}} {{bind-attr title="dispute.initiated_at"}}>
+						<span class="primary">{{humanReadableDate dispute.initiated_at}}</span>
+						<span class="secondary">{{humanReadableTime dispute.initiated_at}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
-			<td class="span4 date respond-by">
+			<td class="span3 date respond-by">
 				{{#link-to dispute.route_name dispute}}<span>
-					<time {{bind-attr datetime="dispute.respond_by"}} {{bind-attr title="dispute.respond_by"}}>{{humanReadableDateShort dispute.respond_by}}</time>
+					<time {{bind-attr datetime="dispute.respond_by"}} {{bind-attr title="dispute.respond_by"}}>
+						<span class="primary">{{humanReadableDate dispute.respond_by}}</span>
+						<span class="secondary">{{humanReadableTime dispute.respond_by}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span3 :label4a :type dispute.status"}}>
+			<td {{bind-attr class=":span4 :label4a :type dispute.status"}}>
 				{{#link-to dispute.route_name dispute}}<span>
 					<span class="dot"></span>
 					{{dispute.status_name}}
 				</span>{{/link-to}}
 			</td>
-			<td {{bind-attr class=":account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
+			<td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
 				{{#link-to dispute.route_name dispute}}<span>
 					{{dispute.customer_name_summary}}
 				</span>{{/link-to}}
 			</td>
-			<td class="funding-instrument">
+			<td class="span3 funding-instrument">
 				{{#link-to dispute.route_name dispute}}<span>
 					{{dispute.funding_instrument_description}}
 				</span>{{/link-to}}
