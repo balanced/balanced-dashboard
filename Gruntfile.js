@@ -445,7 +445,6 @@ module.exports = function(grunt) {
 				access: 'public-read',
 				region: 'us-west-1',
 				gzip: true,
-				encodePaths: true,
 				headers: {
 					'X-Employment': 'aXdhbnR0b21ha2VhZGlmZmVyZW5jZStobkBiYWxhbmNlZHBheW1lbnRzLmNvbQ=='
 				}
