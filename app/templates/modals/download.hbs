@@ -25,12 +25,12 @@
 </div>
 
 {{#unless controllers.marketplace.production}}
-	{{#link-to "marketplace.import_payouts" class="btn-link right"}}
+	{{#link-to "marketplace.import_payouts" class="sm btn-link right"}}
 		<i class="icon icon-document-upload import-payout"></i>
 		Import payouts
 	{{/link-to}}
 {{/unless}}
-<a href="#" {{action "open" target="view"}} class="btn-link right">
+<a href="#" {{action "open" target="view"}} class="sm btn-link right">
 	<i class="icon-export download"></i>
 	Download
 </a>
