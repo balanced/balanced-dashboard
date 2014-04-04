@@ -147,11 +147,11 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	createNewGuestUser: function() {
+		var self = this;
 		this.unsetAPIKey();
 
 		return Balanced.APIKey.create().save().then(function(apiKey) {
-			var secret = apiKey.get('secret');
-			this.loginGuestUser(secret);
+			self.loginGuestUser(apiKey.get('secret'));
 			return apiKey;
 		});
 	},
