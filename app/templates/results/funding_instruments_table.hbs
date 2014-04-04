@@ -1,6 +1,6 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Created</span>{{/view}}
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Created</span>{{/view}}
 		<th class="span4 label6a">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -16,7 +16,7 @@
 				</ul>
 			</div>
 		</th>
-		<th class="span5 label6a"><span>Card or bank account</span></th>
+		<th class="span5 label6a funding-instruments"><span>Card or bank account</span></th>
 		<th class="span8 label6a"><span>Account holder's name</span></th>
 	</tr>
 </thead>
@@ -40,7 +40,7 @@
 <tbody>
 	{{#each funding_instrument in view.fundingInstruments}}
 		<tr>
-			<td class="date">
+			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
 					<time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>
 						<span class="primary">{{humanReadableDate funding_instrument.created_at}}</span>
@@ -58,9 +58,8 @@
 			</td>
 			<td {{bind-attr title="funding_instrument.description"}}>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					{{funding_instrument.description}}
-					<span class="primary">{{transaction.last_four}}</span>
-					<span class="secondary">{{transaction.funding_instrument_name}}</span>
+					<span class="primary">{{funding_instrument.last_four}}</span>
+					<span class="secondary">{{funding_instrument.funding_instrument_name}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td>
