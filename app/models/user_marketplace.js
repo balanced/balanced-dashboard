@@ -3,6 +3,10 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 		return this.get('uri').indexOf('TEST') === -1;
 	}.property('uri'),
 
+	test: function() {
+		return this.get('uri').indexOf('TEST') > -1;
+	}.property('uri'),
+
 	marketplace: function() {
 		return Balanced.Marketplace.find(this.get('uri'));
 	}.property('uri'),

@@ -30,30 +30,17 @@
 
   .form-buttons {
     float: right;
-    margin-right: 10px;
   }
 
   .form-actions {
-    @blockHeight: 50px;
-    background-color: @gray2;
-    height: @blockHeight;
-    line-height: @blockHeight;
     margin: 0;
-    padding: 0;
+    padding: 10px;
+
 
     &.form-actions-error {
-      background-color: @imperialRed20;
+      .sl-b;
       color: @imperialRed100;
-      padding: 0 10px;
-      font-family: @baseFontFamilyBold;
-    }
-
-    button[disabled] {
-      opacity: 0.5;
-      &:hover {
-        background-color: @white;
-        color: @black;
-      }
+      background-color: @imperialRed20;
     }
 
     .icon {
@@ -64,10 +51,15 @@
       width: 35px;
     }
   }
-
+  p {
+    padding: 0;
+    margin: 0;
+  }
   .form-actions-2lines p {
     line-height: 20px;
-    padding-top: 6px;
+    padding: 0;
+    margin: 0;
+    float: left;
   }
 
   .table-column-icons {

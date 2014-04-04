@@ -10,11 +10,11 @@
 
 	<div class="main-header activity-escrow-box">
 		<div class="row">
-			<div class="span2 label">
-				<span class="subhead2d">Escrow</span>
+			<div class="span4 label">
+				<span>Current escrow balance:</span>
 			</div>
-			<div class="span10 amount">
-				<span class="number1d">
+			<div class="span8 amount">
+				<span>
 					{{controllers.marketplace.formattedEscrowAmount}}
 				</span>
 			</div>
@@ -26,15 +26,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="clearfix">
-		{{#unless controllers.marketplace.production}}
-			{{#link-to "marketplace.import_payouts" class="btn btn-link pull-right"}}
-				<i class="icon-document-upload"></i>
-				Import Payouts
-			{{/link-to}}
-		{{/unless}}
 	</div>
 
 	<div class="results">

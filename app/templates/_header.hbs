@@ -15,14 +15,13 @@
 			<div id="site-nav">
 				{{#if auth.isGuest}}
 					<div id="go-live-menu" class="nav-item">
-						{{#link-to 'marketplaces.apply' class="nav1d"}}Register{{/link-to}}
+						{{#link-to 'marketplaces.apply' class="btn special"}}Register{{/link-to}}
 					</div>
 				{{/if}}
-				<div id="docs-menu" class="nav-item">
-					<a href="https://docs.balancedpayments.com" class="nav1d" target="new">docs</a>
-				</div>
 				<div id="help-menu" class="nav-item">
-					<a href="https://www.balancedpayments.com/help" class="nav1d" target="new">help</a>
+					<a href="https://www.balancedpayments.com/help" target="new">
+						<i class="icon-question-mark"></i>
+					</a>
 				</div>
 				<div id="user-menu" class="dropdown nav nav-item">
 					{{partial "user_dropdown"}}

@@ -4,7 +4,7 @@
 
 	{{#if view.isError}}
 		<div class="pull-right">
-			<a {{bind-attr href="view.errorReportUri"}} download="payments_error_report.csv" class="btn btn-link">
+			<a {{bind-attr href="view.errorReportUri"}} download="payments_error_report.csv" class="btn-link">
 				<i class="icon icon-csvexport"></i>
 				Download error report
 			</a>
@@ -15,16 +15,16 @@
     <thead>
       <tr>
         <th class="table-column table-column-icons"></th>
-        <th class="label6a" title="bank_account_id">bank_account_id</th>
-        <th class="label6a" title="new_bank_account_routing_number">new_bank_account_routing_number</th>
-        <th class="label6a" title="new_bank_account_number">new_bank_account_number</th>
-        <th class="label6a" title="new_bank_account_holders_name">new_bank_account_holders_name</th>
-        <th class="label6a" title="new_bank_account_type">new_bank_account_type</th>
-        <th class="label6a" title="new_customer_name">new_customer_name</th>
-        <th class="label6a" title="new_customer_email">new_customer_email</th>
-        <th class="label6a" title="appears_on_statement_as">appears_on_statement_as</th>
-        <th class="label6a table-column-20percent" title="description">description</th>
-        <th class="label6a table-column-amount" title="amount">amount</th>
+        <th title="bank_account_id">bank_account_id</th>
+        <th title="new_bank_account_routing_number">new_bank_account_routing_number</th>
+        <th title="new_bank_account_number">new_bank_account_number</th>
+        <th title="new_bank_account_holders_name">new_bank_account_holders_name</th>
+        <th title="new_bank_account_type">new_bank_account_type</th>
+        <th title="new_customer_name">new_customer_name</th>
+        <th title="new_customer_email">new_customer_email</th>
+        <th title="appears_on_statement_as">appears_on_statement_as</th>
+        <th class="table-column-20percent" title="description">description</th>
+        <th class="table-column-amount" title="amount">amount</th>
         <th class="table-column table-column-icons"></th>
       </tr>
     </thead>

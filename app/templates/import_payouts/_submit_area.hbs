@@ -1,13 +1,11 @@
 <div {{bind-attr class=":form-actions creditCreators.isInvalid:form-actions-error"}}>
   <div class="form-buttons">
-    <button class="btn" {{action "reset" on="click" target="view"}}>Back</button>
-    <button class="btn" type="submit" {{bind-attr disabled="creditCreators.isInvalid"}}>Submit Payouts</button>
+    <button class="btn secondary" {{action "reset" on="click" target="view"}}>Back</button>
+    <button class="btn" type="submit" {{bind-attr disabled="creditCreators.isInvalid"}}>Submit payouts</button>
   </div>
 
   {{#if creditCreators.isInvalid}}
-    <p>
-      All entries must be valid to submit payouts. Go back to upload a new file
-      or remove the invalid entries
-    </p>
+    <div class="icon icon-alert"></div>
+    <p>All entries must be valid to submit payouts.<br/>Go back to upload a new file or remove the invalid entries.</p>
   {{/if}}
 </div>

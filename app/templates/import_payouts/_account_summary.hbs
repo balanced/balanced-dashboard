@@ -30,12 +30,9 @@
 {{#unless view.isEscrowValid}}
   <div class="form-actions form-actions-error form-actions-2lines">
     <div class="icon icon-alert"></div>
+    <p>You do not have sufficient funds in escrow to submit this payout.<br/>Add funds to proceed. Funds will appear in escrow in 3-5 business days.</p>
     <div class="form-buttons">
       <button class="btn" {{action "reset" on="click" target="view"}}>Back</button>
     </div>
-    <p>
-      You do not have sufficient funds in escrow to submit this payout.<br/>
-      Add funds to proceed. Funds will appear in escrow in 3-5 business days.
-    </p>
   </div>
 {{/unless}}

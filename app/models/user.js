@@ -5,6 +5,10 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 		return !!this.get('user_marketplaces').findBy('production', true);
 	}.property('user_marketplaces', 'user_marketplaces.@each.production'),
 
+	hasTestMarketplace: function() {
+		return !!this.get('user_marketplaces').findBy('test', true);
+	}.property('user_marketplaces', 'user_marketplaces.@each.test'),
+
 	user_marketplace_for_id: function(id) {
 		return this.get('user_marketplaces').findBy('id', id);
 	},

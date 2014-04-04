@@ -1,9 +1,23 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}Created{{/view}}
-		<th class="span4 label6a">Type</th>
-		<th class="span5 label6a">Card or bank account</th>
-		<th class="span8 label6a">Account holder's name</th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Created</span>{{/view}}
+		<th class="span4 label6a">
+			<div class="dropdown filter">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Type</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu funding-instruments-filter filter-choices">
+					<li><a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Both </a></li>
+
+					<li><a href="#" {{action "changeTypeFilter" "card"}}> Cards </a></li>
+
+					<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts </a></li>
+				</ul>
+			</div>
+		</th>
+		<th class="span5 label6a"><span>Card or bank account</span></th>
+		<th class="span8 label6a"><span>Account holder's name</span></th>
 	</tr>
 </thead>
 
@@ -16,7 +30,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" view.fundingInstruments}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.fundingInstruments}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -26,9 +40,12 @@
 <tbody>
 	{{#each funding_instrument in view.fundingInstruments}}
 		<tr>
-			<td>
+			<td class="date">
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					<time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>{{humanReadableDateShort funding_instrument.created_at}}</time>
+					<time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>
+						<span class="primary">{{humanReadableDate funding_instrument.created_at}}</span>
+						<span class="secondary">{{humanReadableTime funding_instrument.created_at}}</span>
+					</time>
 				</span>{{/link-to}}
 			</td>
 			<td>
@@ -46,8 +63,8 @@
 			</td>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					{{funding_instrument.customer.name}}
-					{{funding_instrument.customer.email}}
+						{{funding_instrument.customer.name}}
+						{{funding_instrument.customer.email}}
 				</span>{{/link-to}}
 			</td>
 		</tr>

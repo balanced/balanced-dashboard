@@ -247,6 +247,16 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'build/test/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/images/'
 				}]
 			},
 			fonts: {

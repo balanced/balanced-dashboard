@@ -47,16 +47,17 @@
 			box-sizing: border-box;
 			text-align: right;
 			padding-right: 15px;
+			float: right;
 		}
 		&:not(.head) .span4 {
-			font-weight: normal;
-			font-family: 'NimbusSanConD-Bol',arial,sans-serif;
-			font-size: @baseFontSize * 1.3;
+			.sl-b;
+			line-height: inherit;
 		}
 		&.head {
-			font-family: 'Droid Serif', serif;
+			.sl;
 			font-style: italic;
-			font-weight: normal;
+			line-height: 34px;
+			height: 34px;
 		}
 		&.empty {
 			.span4 {
@@ -94,11 +95,11 @@
 		line-height: @baseLineHeight;
 	}
 	h1 {
-		font-family: 'NimbusSanConD-Bol',arial,sans-serif;
-		float: right;
-		line-height: 75px;
-		margin: 0;
+		.sl-lg-b;
 		font-size: 56px;
+		line-height: 75px;
+		float: right;
+		margin: 0;
 	}
 }
 
@@ -131,7 +132,10 @@ table.orders {
 .order-customer-sub-header {
 	background-color: @gray2;
 	color: @black;
-	font-weight: bold;
+
+	> a {
+		line-height: inherit;
+	}
 	.owed {
 		color: @imperialRed100;
 	}
