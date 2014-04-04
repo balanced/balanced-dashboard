@@ -380,6 +380,10 @@ if (!Balanced.constructor.initializers.injectAuth) {
 	});
 }
 
+// Hack. Wait for route transition success callback before
+// loading any plugins/shapeshifter
+// because EmberJS Application can only rerender once
+// See https://github.com/emberjs/ember.js/issues/2267
 auth.on('signInTransition', function() {
 	auth.set('signInTransitionCalled', true);
 
