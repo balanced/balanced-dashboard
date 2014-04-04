@@ -108,7 +108,8 @@ header.results-label h3 {
 
     th {
       float: none;
-      padding: 0;
+      box-sizing: border-box;
+      padding: 0 10px;
       background-color: @gray1;
       border-bottom: 1px solid @gray2;
 
@@ -130,6 +131,10 @@ header.results-label h3 {
         text-transform: uppercase;
         line-height: 35px;
       }
+
+      &.type, &.status {
+        padding: 0;
+      }
     }
 
     tbody {
@@ -146,7 +151,7 @@ header.results-label h3 {
         }
 
         td {
-          padding: 0;
+          padding: 0 10px;
 
           &:first-child {
             padding-left: 25px;
@@ -177,6 +182,30 @@ header.results-label h3 {
               color: @textColor;
             }
           }
+
+          &.date, &.funding-instrument {
+             > a > span {
+              padding-top: 4px !important;
+              padding-bottom: 2px !important;
+             }
+
+          }
+
+           &.date .secondary {
+              text-transform: lowercase;
+           }
+
+          .primary {
+            line-height: 16px;
+            padding: 4px 0 1px !important;
+          }
+
+          .secondary {
+            .sl-sm;
+            line-height: 14px;
+            color: @gray4;
+            padding: 1px 0 4px !important;
+          }
         }
 
         td.label4a {
@@ -198,26 +227,6 @@ header.results-label h3 {
     }
     .highlight {
       background-color: #b3d1d5;
-    }
-  }
-
-  td.date {
-    > a > span {
-      padding-top: 4px !important;
-      padding-bottom: 2px !important;
-    }
-
-    .primary {
-      line-height: 16px;
-      padding: 4px 0 1px !important;
-    }
-
-    .secondary {
-      .sl-sm;
-      line-height: 14px;
-      color: @gray4;
-      text-transform: lowercase;  
-      padding: 1px 0 4px !important;
     }
   }
 

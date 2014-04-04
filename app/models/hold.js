@@ -29,6 +29,9 @@ Balanced.Hold = Balanced.Transaction.extend({
 		return "holds";
 	}.property(),
 
+	last_four: Ember.computed.alias('card.last_four'),
+	funding_instrument_name: Ember.computed.alias('card.brand'),
+
 	funding_instrument_description: function() {
 		return this.get('card.description');
 	}.property('card.description'),

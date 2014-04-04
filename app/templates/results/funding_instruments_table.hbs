@@ -59,6 +59,8 @@
 			<td {{bind-attr title="funding_instrument.description"}}>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
 					{{funding_instrument.description}}
+					<span class="primary">{{transaction.last_four}}</span>
+					<span class="secondary">{{transaction.funding_instrument_name}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td>
