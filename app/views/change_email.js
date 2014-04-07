@@ -39,6 +39,8 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 	},
 
 	errorSaving: function() {
+		var user = this.get('model');
+
 		user.setProperties({
 			displayErrorDescription: true,
 			errorDescription: 'Oops, we failed to change your email. Please try again.'
