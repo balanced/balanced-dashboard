@@ -2,7 +2,6 @@ Balanced.CustomersIndexRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Customers',
 
 	setupController: function(controller, model) {
-		this._super(controller, model);
 		controller.send('reload');
 	}
 });

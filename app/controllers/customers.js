@@ -1,4 +1,4 @@
-Balanced.CustomersIndexController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
+Balanced.CustomersIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
@@ -7,7 +7,11 @@ Balanced.CustomersIndexController = Balanced.ObjectController.extend(Balanced.Re
 	loadsCollections: ['cards', 'bank_accounts'],
 
 	baseClassSelector: "#customer",
-	noDownloadsUri: true
+	noDownloadsUri: true,
+
+	results_base_uri: function() {
+		return Balanced.Customer.create().get('uri');
+	}.property()
 });
 
 Balanced.CustomersCustomerController = Balanced.ObjectController.extend(

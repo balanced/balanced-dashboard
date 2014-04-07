@@ -1,0 +1,9 @@
+<h1 class="page-title">Customers
+	{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+</h1>
+
+<div class="results">
+	<div class="items-wrapper">
+		{{view Balanced.CustomersResultsView customersBinding="results"}}
+	</div>
+</div>
