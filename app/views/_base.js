@@ -79,9 +79,14 @@ Balanced.ModalView = Balanced.View.extend({
 				return;
 			}
 
+			var errorCallback = this.errorSaving;
+			if (_.isFunction(errorCallback)) {
+				errorCallback = _.bind(errorCallback, this);
+			}
+
 			model[this.get('defaultModelAction')].call(model, opts).then(function(model) {
-				if (_.isFunction(this.afterSave)) {
-					this.afterSave(model);
+				if (_.isFunction(self.afterSave)) {
+					self.afterSave(model);
 				}
 
 				if (!self.get('submitAction')) {
@@ -89,7 +94,7 @@ Balanced.ModalView = Balanced.View.extend({
 				}
 
 				self.sendAction('submitAction', model);
-			}, _.bind(this.errorSaving, this));
+			}, errorCallback);
 		}
 	}
 });

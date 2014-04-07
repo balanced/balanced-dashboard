@@ -109,7 +109,8 @@ test('hold card', function(assert) {
 						assert.ok(spy.calledOnce);
 						assert.ok(spy.calledWith(Balanced.Hold, "/cards/" + Testing.CARD_ID + "/card_holds", sinon.match({
 							amount: 100000,
-							description: "Test Hold"
+							description: "Test Hold",
+							source_uri: "/cards/" + Testing.CARD_ID
 						})));
 
 						Balanced.Adapter.create.restore();

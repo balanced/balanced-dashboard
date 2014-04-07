@@ -1,4 +1,4 @@
-Balanced.HoldCardModalView = Balanced.ModalView.extend({
+Balanced.HoldCardModalView = Balanced.FundingInstrumentModalView.extend({
 	templateName: 'modals/hold_card',
 	controllerEventName: 'openHoldCardModal',
 	modalElement: '#hold-card',

@@ -18,6 +18,5 @@ Balanced.ConfirmVerificationModalView = Balanced.ModalView.extend({
 	},
 
 	amount_1_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_1'),
-
-	amount_2_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_2'),
+	amount_2_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_2')
 });
