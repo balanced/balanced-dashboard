@@ -26,7 +26,7 @@
 						{{#if key.secret}}
 							{{api-key-secret-shower key=key}}
 						{{else}}
-							{{#view Balanced.HoverPopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
+							{{#view Balanced.PopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
 							Secret unavailable
 							{{/view}}
 						{{/if}}
