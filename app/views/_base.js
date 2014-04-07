@@ -18,14 +18,15 @@ Balanced.ModalView = Balanced.View.extend({
 	controllerEventName: 'openModal',
 	modalElement: '.modal',
 	defaultModelAction: 'save',
+	controllerKey: 'controller',
 
 	didInsertElement: function() {
-		this.get('controller').on(this.controllerEventName, this, this.open);
+		this.get(this.get('controllerKey')).on(this.controllerEventName, this, this.open);
 		this._super();
 	},
 
 	willDestroyElement: function() {
-		this.get('controller').off(this.controllerEventName, this, this.open);
+		this.get(this.get('controllerKey')).off(this.controllerEventName, this, this.open);
 		this._super();
 	},
 
