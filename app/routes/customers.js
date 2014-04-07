@@ -1,13 +1,4 @@
-Balanced.CustomersIndexRoute = Balanced.AuthRoute.extend({
-	pageTitle: 'Customers',
-
-	setupController: function(controller, model) {
-		this._super(controller, model);
-		controller.send('reload');
-	}
-});
-
-Balanced.CustomersCustomerRoute = Balanced.AuthRoute.extend({
+Balanced.CustomersRoute = Balanced.AuthRoute.extend({
 	pageTitle: function(route, setTitle) {
 		var customer = route.controller.content;
 		return Balanced.Utils.maybeDeferredLoading(customer, setTitle, function() {
@@ -23,5 +14,10 @@ Balanced.CustomersCustomerRoute = Balanced.AuthRoute.extend({
 			var customerUri = Balanced.Utils.combineUri(marketplace.get('customers_uri'), params.customer_id);
 			return Balanced.Customer.find(customerUri);
 		});
+	},
+
+	setupController: function(controller, model) {
+		this._super(controller, model);
+		controller.send('reload');
 	}
 });
