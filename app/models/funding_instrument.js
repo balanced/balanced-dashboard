@@ -3,7 +3,7 @@ require('app/models/mixins/meta_array');
 Balanced.FundingInstrument = Balanced.Model.extend(
 	Balanced.MetaArrayMixin, {
 		customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
-		
+
 		funding_instrument_name: function() {
 			return this.get('brand') || this.get('bank_account_name');
 		}.property('brand', 'bank_account_name'),
