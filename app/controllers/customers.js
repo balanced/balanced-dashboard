@@ -1,4 +1,16 @@
-Balanced.CustomersController = Balanced.ObjectController.extend(
+Balanced.CustomersIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
+	needs: ['marketplace'],
+
+	sortField: 'created_at',
+	sortOrder: 'desc',
+
+	loadsCollections: ['cards', 'bank_accounts'],
+
+	baseClassSelector: "#customer",
+	noDownloadsUri: true
+});
+
+Balanced.CustomersCustomerController = Balanced.ObjectController.extend(
 	Ember.Evented,
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {

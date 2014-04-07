@@ -2,8 +2,20 @@
 	<ul>
 		<li>
 			{{#link-to 'activity' model}}
-				<i class="icon-activity"></i>
-				<span>Activity</span>
+				<i class="icon-payments"></i>
+				<span>Payments</span>
+			{{/link-to}}
+		</li>
+		<li>
+			{{#link-to 'customers.index' model}}
+				<i class="icon-customers"></i>
+				<span>Customers</span>
+			{{/link-to}}
+		</li>
+		<li>
+			{{#link-to 'debits' model}}
+				<i class="icon-payment-methods"></i>
+				<span>Payment methods</span>
 			{{/link-to}}
 		</li>
 		<li>
