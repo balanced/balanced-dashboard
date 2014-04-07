@@ -1,4 +1,4 @@
-Balanced.DeleteBankAccountModalView = Balanced.DeleteModalView.extend({
+Balanced.DeleteMarketplaceModalView = Balanced.DeleteModalView.extend({
 	name: 'Remove marketplace',
 	description: 'This marketplace will be removed from your access list.',
 	controllerEventName: 'openDeleteMarketplaceModal',
