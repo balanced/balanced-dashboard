@@ -9,7 +9,7 @@
 	</div>
 	<div class="transaction-body">
 		<div class="row-fluid">
-			<div class="span16">
+			<div class="span25 border-adjust">
 				<section class="transaction-info">
 					<div class="key-value-display">
 						<header>
@@ -23,7 +23,14 @@
 
 				{{txn-funding-instrument funding_instrument=reversal.credit.bank_account}}
 			</div>
-			<div class="span10">
+		</div>
+		<div class="row-fluid">
+			<div class="span25 border-adjust">
+				{{render "logs.index" reversal}}
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span25 border-adjust">
 				{{view Balanced.EventsSideBarView contentBinding="reversal"}}
 			</div>
 		</div>
