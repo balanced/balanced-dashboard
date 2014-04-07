@@ -101,9 +101,6 @@ Balanced.Router.map(function() {
 				});
 			});
 
-			this.resource('customers', {
-				path: '/customers/:customer_id'
-			});
 			// exists to handle old URIs for accounts, redirects to the customers page
 			this.resource('accounts', {
 				path: '/accounts/:account_id'
@@ -141,6 +138,16 @@ Balanced.Router.map(function() {
 			this.resource('orders', {
 				path: '/orders/:order_id'
 			});
+
+			this.resource('funding_instruments', {
+				path: '/funding_instruments'
+			});
+			
+			makeNestedResource(this, 'funding_instruments', 'funding_instrument');
+
+			makeNestedResource(this, 'customers', 'customer');
+
+			makeNestedResource(this, 'disputes', 'dispute');
 
 			makeNestedResource(this, 'logs', 'log');
 

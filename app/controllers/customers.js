@@ -1,4 +1,4 @@
-Balanced.CustomersIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
+Balanced.CustomersIndexController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
