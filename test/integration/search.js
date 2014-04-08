@@ -5,7 +5,7 @@ module('Search', {
 		Balanced.Auth.set('signedIn', true);
 
 		// add some delay, because the API takes some time to add things to search
-		Testing.pause(1000);
+		Testing.pause(10000);
 	},
 	teardown: function() {
 		Ember.run(function() {
@@ -206,7 +206,7 @@ test('search date range pick', function(assert) {
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
 				'created_at%5B%3C%5D=' + end_iso + '&' +
 				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&offset=0&q=&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
+				'limit=2&offset=0&q=&sort=created_at&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
 
 			var request = spy.getCall(spy.callCount - 1);
 			assert.ok(spy.calledOnce);
