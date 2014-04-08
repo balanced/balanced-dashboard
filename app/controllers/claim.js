@@ -1,5 +1,5 @@
 Balanced.ClaimController = Balanced.ObjectController.extend({
-	needs: ['marketplace'],
+	needs: ['marketplace', 'application'],
 
 	error: function(field, prefix) {
 		var errors = this.get('validationErrors.' + field + '.messages');
