@@ -79,13 +79,6 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 
 			// Check if it filters
 			assert.equal($('#search .results table.transactions tr td.no-results').length, 1, 'has "no results"');
-
-			// Check header labels
-			assert.equal($('#search .results li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
-			assert.equal($('#search .results li.transactions').text().indexOf('0') >= 0, 1, 'has correct text');
-
-			// Check if we dont have status type
-			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
 		});
 });
 
@@ -206,7 +199,7 @@ test('search date range pick', function(assert) {
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
 				'created_at%5B%3C%5D=' + end_iso + '&' +
 				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&offset=0&q=&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
+				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
 
 			var request = spy.getCall(spy.callCount - 1);
 			assert.ok(spy.calledOnce);
