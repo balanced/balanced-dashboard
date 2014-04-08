@@ -184,12 +184,24 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			this.trigger('becameError', jqXHR.responseText);
 		}
 
-		if (jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors.length > 0) {
-			this.setProperties({
-				validationErrors: Balanced.Utils.extractValidationErrorHash(jqXHR.responseJSON),
-				errorDescription: jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors[0].description,
-				requestId: jqXHR.responseJSON && jqXHR.responseJSON.errors && jqXHR.responseJSON.errors[0].request_id
-			});
+		if (jqXHR.responseJSON) {
+			var res = jqXHR.responseJSON;
+
+			if (res.errors && res.errors.length > 0) {
+				this.setProperties({
+					validationErrors: Balanced.Utils.extractValidationErrorHash(res),
+					errorDescription: res.errors[0].description,
+					requestId: res.errors[0].request_id
+				});
+			} else {
+				if (res.description) {
+					this.set('errorDescription', res.description);
+				}
+
+				if (res.request_id) {
+					this.set('requestId', res.requestId);
+				}
+			}
 		}
 	},
 
