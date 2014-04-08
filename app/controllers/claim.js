@@ -1,7 +1,7 @@
 Balanced.ClaimController = Balanced.ObjectController.extend({
-	templateName: 'claim.hbs',
-
 	needs: ['marketplace', 'application'],
+
+	validationErrors: Ember.computed.alias('model.validationErrors'),
 
 	error: function(field, prefix) {
 		var errors = this.get('validationErrors.' + field + '.messages');
@@ -26,36 +26,48 @@ Balanced.ClaimController = Balanced.ObjectController.extend({
 		return this.error('passwordConfirm', 'Password') || 'Re-enter your password';
 	}.property('validationErrors.passwordConfirm'),
 
-	save: function() {
-		var self = this;
-		var model = this.get('model');
-		var authToken = this.get('auth.authToken');
+	parseError: function(unparsedJson) {
+		unparsedJson = unparsedJson || '{}';
+		var json = JSON.parse(unparsedJson);
+		_.each(json, function(val, key) {
+			this.add(key, 'invalid', null, val);
+		}, this.get('validationErrors'));
+		this.propertyDidChange('validationErrors');
+	},
 
-		//  bug in ember-validation requires this extra check for length
-		if (!model.validate() && model.get('validationErrors.length')) {
-			return;
-		}
+	actions: {
+		save: function() {
+			var self = this;
+			var model = this.get('model');
+			var authToken = this.get('auth.authToken');
 
-		model.save().then(function(user) {
-			self.get('auth').signIn(user.get('email_address'), user.get('passwordConfirm')).then(function() {
-				// associate marketplace to user
-				if (authToken) {
-					var marketplace = Balanced.UserMarketplace.create({
-						uri: user.api_keys_uri,
-						secret: authToken
-					});
+			//  bug in ember-validation requires this extra check for length
+			if (!model.validate() && model.get('validationErrors.length')) {
+				return;
+			}
 
-					marketplace.save().then(function() {
-						user.reload().then(function() {
-							self.transitionTo('index');
+			model.one('becameError', this.parseError);
+			model.one('becameInvalid', this.parseError);
+
+			model.save().then(function(user) {
+				self.get('auth').signIn(user.get('email_address'), user.get('passwordConfirm')).then(function() {
+					// associate marketplace to user
+					if (authToken) {
+						var marketplace = Balanced.UserMarketplace.create({
+							uri: user.api_keys_uri,
+							secret: authToken
 						});
-					});
-				} else {
-					self.transitionTo('index');
-				}
+
+						marketplace.save().then(function() {
+							user.reload().then(function() {
+								self.transitionTo('index');
+							});
+						});
+					} else {
+						self.transitionTo('index');
+					}
+				});
 			});
-		}, function(err) {
-			console.log('yo calim error', err);
-		});
+		}
 	}
 });
