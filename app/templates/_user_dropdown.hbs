@@ -1,7 +1,9 @@
 {{#if auth.signedIn}}
 	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-		<img {{bind-attr src=user.gravatar}} class="icon profile">
-		<span>{{user.email_address}}</span>
+		{{#unless auth.isGuest}}
+			<img {{bind-attr src=user.gravatar}} class="icon profile">
+			<span>{{user.email_address}}</span>
+		{{/unless}}
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
