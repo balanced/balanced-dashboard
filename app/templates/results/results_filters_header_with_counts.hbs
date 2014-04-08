@@ -12,7 +12,7 @@
 	</li>
 
 	<li {{bind-attr class=":funding-instruments :filter view.searchResult.total_funding_instruments::disabled view.fundingInstrumentsTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{formatNumber view.total_funding_instruments}}) </a>
+		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{formatNumber view.searchResult.total_funding_instruments}}) </a>
 	</li>
 
 	<li class="timing dropdown right">
