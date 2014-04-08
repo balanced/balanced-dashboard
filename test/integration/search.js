@@ -84,13 +84,6 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 
 			// Check if it filters
 			assert.equal($('#search .results table.transactions tr td.no-results').length, 1, 'has "no results"');
-
-			// Check header labels
-			assert.equal($('#search .results li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
-			assert.equal($('#search .results li.transactions').text().indexOf('0') >= 0, 1, 'has correct text');
-
-			// Check if we dont have status type
-			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
 		});
 });
 
