@@ -1,6 +1,9 @@
 Balanced.DisputesIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
+	sortField: 'initiated_at',
+	sortOrder: 'desc',
+
 	baseClassSelector: "#dispute",
 
 	results_base_uri: function() {
