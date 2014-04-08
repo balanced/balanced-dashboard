@@ -58,6 +58,11 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results table.transactions tbody tr').length > 1;
+		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.transactions > a:contains("4")').length, 1, 'has 4 transactions in header');
 			assert.equal($('#search .results table.transactions tbody tr').length, 2, 'has 2 transactions');
