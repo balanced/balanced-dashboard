@@ -10,11 +10,6 @@
 	<li {{bind-attr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts </a>
 	</li>
-	{{#if view.isActivity}}
-		<li {{bind-attr class=":funding-instruments :filter view.disputesTabSelected:selected"}} >
-			<a href="#" {{action "changeTypeFilter" "dispute"}}> {{view.dispute_type_label}} </a>
-		</li>
-	{{/if}}
 
 	<li class="timing dropdown action right">
 		{{view Balanced.DatePickerView viewName="dateTimePicker"}}

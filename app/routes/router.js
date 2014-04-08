@@ -93,9 +93,6 @@ Balanced.Router.map(function() {
 				this.route('funding_instruments', {
 					path: '/funding_instruments'
 				});
-				this.route('disputes', {
-					path: '/disputes'
-				});
 			});
 
 			// exists to handle old URIs for accounts, redirects to the customers page
@@ -120,9 +117,6 @@ Balanced.Router.map(function() {
 			this.resource('debits', {
 				path: '/debits/:debit_id'
 			});
-			this.resource('disputes', {
-				path: '/disputes/:dispute_id'
-			});
 			this.resource('holds', {
 				path: '/holds/:hold_id'
 			});
@@ -136,9 +130,6 @@ Balanced.Router.map(function() {
 				path: '/orders/:order_id'
 			});
 
-			this.resource('funding_instruments', {
-				path: '/funding_instruments'
-			});
 			makeNestedResource(this, 'funding_instruments', 'funding_instrument');
 			
 			makeNestedResource(this, 'customers', 'customer');
