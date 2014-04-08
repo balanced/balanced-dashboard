@@ -99,6 +99,11 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results li.customers > a').text().indexOf('0') < 0;
+		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
@@ -114,6 +119,11 @@ test('search "%" returns 4 transactions. Click load more shows 2 more and hides 
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results table.transactions tfoot td').length >= 1;
+		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
@@ -163,6 +173,11 @@ test('search click result', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results table.items tbody tr a').length > 1;
+		}, 'No Search Results')
 		.click('#search .results .customers a:first')
 		.click('#search .results table.items tbody tr a:first')
 		.then(function() {
