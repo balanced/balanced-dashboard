@@ -1,6 +1,6 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['application'],
-	
+
 	actions: {
 		openPaySellerModal: function() {
 			this.trigger('openPaySellerModal');

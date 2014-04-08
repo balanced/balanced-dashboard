@@ -131,7 +131,7 @@ Balanced.Router.map(function() {
 			});
 
 			makeNestedResource(this, 'funding_instruments', 'funding_instrument');
-			
+
 			makeNestedResource(this, 'customers', 'customer');
 
 			makeNestedResource(this, 'disputes', 'dispute');
