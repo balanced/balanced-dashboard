@@ -7,10 +7,6 @@
 		<a href="#" {{action "changeTypeFilter" "transaction"}}> Transactions </a>
 	</li>
 
-	<li {{bind-attr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts </a>
-	</li>
-
 	<li class="timing dropdown action right">
 		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 	</li>
