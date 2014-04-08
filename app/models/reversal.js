@@ -13,14 +13,8 @@ Balanced.Reversal = Balanced.Transaction.extend({
 
 	last_four: Ember.computed.alias('credit.last_four'),
 	funding_instrument_name: Ember.computed.alias('credit.funding_instrument_name'),
-
-	funding_instrument_description: function() {
-		return this.get('credit.funding_instrument_description');
-	}.property('credit.funding_instrument_description'),
-
-	customer: function() {
-		return this.get('credit.customer');
-	}.property('credit.customer')
+	funding_instrument_description: Ember.computed.readOnly('credit.funding_instrument_description');
+	customer: Ember.computed.readOnly('credit.customer');
 });
 
 Balanced.TypeMappings.addTypeMapping('reversal', 'Balanced.Reversal');
