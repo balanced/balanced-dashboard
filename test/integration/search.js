@@ -264,10 +264,9 @@ test('search date sort has three states', function(assert) {
 		}
 		states.sort();
 
-		var expectedStates = ["ascending", "descending", "unsorted"];
+		var expectedStates = ["ascending", "descending"];
 		assert.equal(states[0], expectedStates[0]);
 		assert.equal(states[1], expectedStates[1]);
-		assert.equal(states[2], expectedStates[2]);
 		assert.equal(states.length, 3);
 	});
 });
