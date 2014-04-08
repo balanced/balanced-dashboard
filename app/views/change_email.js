@@ -10,6 +10,10 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 		// Necessary hack to get the password correct
 		user.set('password', undefined);
 		this._super(user);
+
+		_.delay(_.bind(function() {
+			this.$('input:text').focus();
+		}, this));
 	},
 
 	beforeSave: function() {
@@ -43,12 +47,17 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 
 		user.setProperties({
 			displayErrorDescription: true,
-			errorDescription: 'Oops, we failed to change your email. Please try again.'
+			errorDescription: 'Oops, this email address is already associated to an account.'
 		});
 	},
 
 	afterSave: function() {
 		Balanced.Auth.get('user').reload();
 		this.hide();
+
+		this.get('controller.controllers.application').alert({
+			type: 'success',
+			message: 'The email address has been updated.'
+		});
 	}
 });
