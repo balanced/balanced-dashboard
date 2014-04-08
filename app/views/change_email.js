@@ -2,6 +2,8 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 	templateName: 'modals/change_email',
 	controllerKey: 'controller.controllers.application',
 	controllerEventName: 'openChangeEmailModal',
+	fieldName: 'email address',
+	defaultError: 'Oops, this email address is already associated to an account.',
 
 	open: function() {
 		var user = Ember.copy(Balanced.Auth.get('user'), true);
@@ -47,7 +49,7 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 
 		user.setProperties({
 			displayErrorDescription: true,
-			errorDescription: 'Oops, this email address is already associated to an account.'
+			errorDescription: this.get('defaultError')
 		});
 	},
 
@@ -57,7 +59,7 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 
 		this.get('controller.controllers.application').alert({
 			type: 'success',
-			message: 'The email address has been updated.'
+			message: 'Your ' + this.get('fieldName') + ' has been updated.'
 		});
 	}
 });
