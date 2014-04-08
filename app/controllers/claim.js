@@ -1,6 +1,5 @@
 Balanced.ClaimController = Balanced.ObjectController.extend({
 	needs: ['marketplace', 'application'],
-
 	validationErrors: Ember.computed.alias('model.validationErrors'),
 
 	error: function(field, prefix) {

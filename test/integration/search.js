@@ -5,7 +5,7 @@ module('Search', {
 		Balanced.Auth.set('signedIn', true);
 
 		// add some delay, because the API takes some time to add things to search
-		Testing.pause(1000);
+		Testing.pause(10000);
 	},
 	teardown: function() {
 		Ember.run(function() {
@@ -58,6 +58,11 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results table.transactions tbody tr').length > 1;
+		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.transactions > a:contains("4")').length, 1, 'has 4 transactions in header');
 			assert.equal($('#search .results table.transactions tbody tr').length, 2, 'has 2 transactions');
@@ -79,13 +84,6 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 
 			// Check if it filters
 			assert.equal($('#search .results table.transactions tr td.no-results').length, 1, 'has "no results"');
-
-			// Check header labels
-			assert.equal($('#search .results li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
-			assert.equal($('#search .results li.transactions').text().indexOf('0') >= 0, 1, 'has correct text');
-
-			// Check if we dont have status type
-			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
 		});
 });
 
@@ -94,6 +92,11 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results li.customers > a').text().indexOf('0') < 0;
+		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
@@ -109,6 +112,11 @@ test('search "%" returns 4 transactions. Click load more shows 2 more and hides 
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results table.transactions tfoot td').length >= 1;
+		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
@@ -158,6 +166,11 @@ test('search click result', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.waitFor(function() {
+			Testing.runSearch('%');
+			wait();
+			return $('#search .results table.items tbody tr a').length > 1;
+		}, 'No Search Results')
 		.click('#search .results .customers a:first')
 		.click('#search .results table.items tbody tr a:first')
 		.then(function() {
@@ -206,7 +219,7 @@ test('search date range pick', function(assert) {
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
 				'created_at%5B%3C%5D=' + end_iso + '&' +
 				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&offset=0&q=&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
+				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
 
 			var request = spy.getCall(spy.callCount - 1);
 			assert.ok(spy.calledOnce);
@@ -264,10 +277,9 @@ test('search date sort has three states', function(assert) {
 		}
 		states.sort();
 
-		var expectedStates = ["ascending", "descending", "unsorted"];
+		var expectedStates = ["ascending", "descending"];
 		assert.equal(states[0], expectedStates[0]);
 		assert.equal(states[1], expectedStates[1]);
-		assert.equal(states[2], expectedStates[2]);
-		assert.equal(states.length, 3);
+		assert.equal(states.length, 2);
 	});
 });
