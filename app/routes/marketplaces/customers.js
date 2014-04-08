@@ -19,7 +19,7 @@ Balanced.CustomersCustomerRoute = Balanced.AuthRoute.extend({
 	model: function(params) {
 		var marketplace = this.modelFor('marketplace');
 		return marketplace.then(function(marketplace) {
-			var customerUri = Balanced.Utils.combineUri(marketplace.get('customers_uri'), params.customer_id);
+			var customerUri = Balanced.Customer.constructUri(params.customer_id);
 			return Balanced.Customer.find(customerUri);
 		});
 	}

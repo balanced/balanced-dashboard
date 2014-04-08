@@ -7,10 +7,6 @@
 		<a href="#" {{action "changeTypeFilter" "transaction"}}> Transactions </a>
 	</li>
 
-	<li {{bind-attr class=":customers :filter view.customersTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "customer"}}> Customers </a>
-	</li>
-
 	<li {{bind-attr class=":funding-instruments :filter view.fundingInstrumentsTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts </a>
 	</li>

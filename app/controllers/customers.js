@@ -57,12 +57,6 @@ Balanced.CustomersCustomerController = Balanced.ObjectController.extend(
 			},
 		},
 
-		results_base_uri: function() {
-			if (this.get('isDisputeType')) {
-				return this.get('content.disputes_uri');
-			}
-
-			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri', 'content.disputes_uri')
+		results_base_uri: Ember.computed.alias('controllers.marketplace.customers_uri')
 	}
 );

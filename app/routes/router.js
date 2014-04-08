@@ -90,9 +90,6 @@ Balanced.Router.map(function() {
 				this.route('transactions', {
 					path: '/transactions'
 				});
-				this.route('customers', {
-					path: '/customers'
-				});
 				this.route('funding_instruments', {
 					path: '/funding_instruments'
 				});

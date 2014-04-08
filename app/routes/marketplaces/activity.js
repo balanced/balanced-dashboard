@@ -47,11 +47,6 @@ Balanced.ActivityDisputesRoute = Balanced.ActivityRoute.extend({
 	defaultSort: 'initiated_at'
 });
 
-Balanced.ActivityCustomersRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
-	defaultType: 'customer'
-});
-
 Balanced.ActivityFundingInstrumentsRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
 	defaultType: 'funding_instrument'
