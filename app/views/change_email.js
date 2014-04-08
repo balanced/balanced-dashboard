@@ -49,5 +49,6 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 
 	afterSave: function() {
 		Balanced.Auth.get('user').reload();
+		this.hide();
 	}
 });
