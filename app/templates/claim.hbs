@@ -4,7 +4,7 @@
 	<div id="main-overlay"></div>
 	<div id="content">
 		<h1>Claim your account</h1>
-		<form id="claim-form" method="POST" {{bind-attr class=":full-page-form signUpError:error"}} {{action "signUp" content on="submit"}}>
+		<form id="claim-form" method="POST" {{bind-attr class=":full-page-form signUpError:error"}} {{action "save" on="submit"}}>
 			<fieldset>
 				<legend>Login info</legend>
 
