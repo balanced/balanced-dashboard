@@ -214,7 +214,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 					var doesMatch = false;
 					if (_.function(ERROR_PARSER.match)) {
 						doesMatch = ERROR_PARSER.match(error);
-					} else if (_.isRegexp(ERROR_PARSER.match)) {
+					} else if (_.isRegExp(ERROR_PARSER.match)) {
 						doesMatch = ERROR_PARSER.match.test(error.category_code);
 					} else if (_.isString(ERROR_PARSER.match) && ERROR_PARSER.match === error.category_code) {
 						doesMatch = true;
