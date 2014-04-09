@@ -1,12 +1,9 @@
-var computedState = function(stateValue) {
-	return Ember.computed.equal("state", stateValue);
-};
-
 var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {
 			value = (value || "").trim();
 			callback(object, attribute, value, function(message) {
+				/* istanbul ignore else */
 				if (message) {
 					object.get("validationErrors").add(attribute, "format", null, message);
 				}
@@ -112,7 +109,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	credit: function() {
 		var self = this;
-		var credit = Balanced.Credit.create(self.get("attributes.credit") || {});
+		var credit = Balanced.Credit.create(self.get("attributes.credit") || /* istanbul ignore next */ {});
 
 		self.set("credit", credit);
 
@@ -140,7 +137,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	}.property("csvFields"),
 
 	buildCustomer: function() {
-		var attr = this.get("attributes.customer") || {};
+		var attr = this.get("attributes.customer") || /* istanbul ignore next */ {};
 		var email = $.trim(attr.email || "");
 		var name = $.trim(attr.name || "");
 
@@ -163,7 +160,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	buildBankAccount: function() {
 		var self = this;
-		var attr = this.get("attributes.bank_account") || {};
+		var attr = this.get("attributes.bank_account") || /* istanbul ignore next */ {};
 		if (this.isExistingBankAccount()) {
 			var uri = Balanced.BankAccount.constructUri(attr.id);
 			return Balanced.BankAccount.find(uri).then(function(bankAccount) {

@@ -51,6 +51,7 @@ Balanced.NET = Ember.Namespace.create({
 
 			// This does NOT work in Firefox
 			// See http://stackoverflow.com/questions/16668386/cors-synchronous-requests-not-working-in-firefox
+			/* istanbul ignore if */
 			if (!window.TESTING) {
 				def.xhrFields = {
 					withCredentials: true

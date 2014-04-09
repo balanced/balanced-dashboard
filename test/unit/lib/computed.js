@@ -27,6 +27,31 @@ test('Balanced.computed.sum', function(assert) {
 
 	t.get('full').pushObject(Credit.create());
 	assert.equal(t.get('part'), (ARRAY_LENGTH + 1) * AMOUNT);
+
+	t.get('full').pushObject(Credit.create({
+		amount: 0
+	}));
+	assert.equal(t.get('part'), (ARRAY_LENGTH + 1) * AMOUNT);
+
+	t = TestObject.create({
+		full: {}
+	});
+	assert.equal(t.get('part'), 0);
+
+	t = TestObject.create({
+		full: []
+	});
+	assert.equal(t.get('part'), 0);
+
+	t = TestObject.create({
+		full: null
+	});
+	assert.equal(t.get('part'), 0);
+
+	t = TestObject.create({
+		full: true
+	});
+	assert.equal(t.get('part'), 0);
 });
 
 test('Balanced.computed.sumAll', function(assert) {
@@ -207,6 +232,18 @@ test('Balanced.computed.ifThisOrThat', function(assert) {
 
 	Ember.run(function() {
 		t.set('length', false);
+	});
+	assert.equal(t.get('text'), 'has none');
+
+	var TestObject = Ember.Object.extend({
+		text: Balanced.computed.ifThisOrThat('length', 'has some', 'has none', true),
+	});
+
+	var t = TestObject.create();
+	assert.equal(t.get('text'), 'has some');
+
+	t = TestObject.create({
+		length: 1
 	});
 	assert.equal(t.get('text'), 'has none');
 });
