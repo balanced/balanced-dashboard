@@ -43,7 +43,10 @@ Balanced.Invoice = Balanced.Model.extend({
 	}.property('total_fee', 'adjustments_total_fee'),
 
 	is_scheduled: Ember.computed.equal('state', 'scheduled'),
-	is_not_paid: Ember.computed.notEqual('state', 'paid'),
+
+	is_not_paid: function() {
+		return this.get('state') !== 'pending';
+	}.property('state'),
 
 	reversal_fee: 0,
 
