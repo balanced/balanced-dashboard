@@ -5,7 +5,7 @@ Balanced.FundingInstrument = Balanced.Model.extend(
 		customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
 		funding_instrument_name: function() {
-			return this.get('brand') || this.get('bank_account_name');
+			return this.get('brand') || this.get('formatted_bank_name');
 		}.property('brand', 'bank_account_name'),
 
 		title_description: function() {
