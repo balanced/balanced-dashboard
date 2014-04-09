@@ -7,7 +7,7 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 	controllerEventName: false,
 
 	afterSave: function() {
-		self.confirmDownload();
+		this.confirmDownload();
 	},
 
 	beforeSave: function() {

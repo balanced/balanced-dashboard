@@ -23,7 +23,7 @@ Balanced.EditCustomerInfoModalView = Balanced.ModalView.extend({
 	},
 
 	afterSave: function() {
-		self.get('customer').reload();
+		this.get('customer').reload();
 	},
 
 	actions: {
