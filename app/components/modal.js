@@ -1,5 +1,3 @@
-var get = Ember.get;
-
 Balanced.ModalComponent = Ember.Component.extend({
 	submitAction: 'submit',
 	classNames: ['modal-container'],
@@ -38,7 +36,7 @@ Balanced.ModalComponent = Ember.Component.extend({
 		save: function(model) {
 			model = model || this.get('model');
 
-			if (get(model, 'isSaving')) {
+			if (Ember.get(model, 'isSaving')) {
 				return;
 			}
 
@@ -53,5 +51,4 @@ Balanced.ModalComponent = Ember.Component.extend({
 			});
 		}
 	}
-
 });
