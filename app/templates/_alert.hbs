@@ -4,8 +4,8 @@
 			<div class="row-fluid notification-center notification-center-row">
 				<div class="span2">
 					<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
-						<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
-						<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
+						<button type="button" class="icon icon-notification notification-bell btn-sm" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
+						<button type="button" class="callout btn-sm triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
 					</div>
 				</div>
 				<div class="span22 notification-center-message">
@@ -19,8 +19,8 @@
 			{{#unless controllers.application.alertObj}}
 				<div class="notification-center">
 					<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
-						<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
-						<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
+						<button type="button" class="icon icon-notification notification-bell btn-sm" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
+						<button type="button" class="callout btn-sm triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
 					</div>
 				</div>
 			{{/unless}}
@@ -36,8 +36,8 @@
 					{{#unless controllers.application.showNotificationCenter}}
 						<div class="notification-center">
 							<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>
-								<button type="button" class="icon icon-notification notification-bell" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
-								<button type="button" class="callout triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
+								<button type="button" class="icon icon-notification notification-bell btn-sm" {{action "toggleNotificationCenter" target="controllers.application"}}></button>
+								<button type="button" class="callout btn-sm triangle-isosceles left" {{action "toggleNotificationCenter" target="controllers.application"}}>1</button>
 							</div>
 						</div>
 					{{/unless}}

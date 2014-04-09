@@ -2,7 +2,7 @@
 	<li class="group">
 		<h4 class="label4b">Production</h4>
 		<ul>
-			{{#each user_marketplace in user.user_marketplaces}}
+			{{#each user_marketplace in auth.user.user_marketplaces}}
 				{{#if user_marketplace.production}}
 					<li class="label4a">
 						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
@@ -17,7 +17,7 @@
 	<li class="group">
 		<h4 class="label4b">Test</h4>
 		<ul>
-			{{#each user_marketplace in user.user_marketplaces}}
+			{{#each user_marketplace in auth.user.user_marketplaces}}
 				{{#unless user_marketplace.production}}
 					<li class="label4a">
 						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
