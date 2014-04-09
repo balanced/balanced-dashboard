@@ -26,6 +26,8 @@ Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 		}
 	}.property('transaction.customer', 'transaction'),
 
+	last_four: Ember.computed.alias('transaction.last_four'),
+	bank_name: Ember.computed.alias('transaction.bank_name'),
 	funding_instrument_description: Ember.computed.oneWay('transaction.funding_instrument_description').readOnly(),
 	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
 

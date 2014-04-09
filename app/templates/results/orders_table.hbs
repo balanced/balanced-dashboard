@@ -4,9 +4,9 @@
 		<th class="span4 label6a description"><span>Description</span></th>
 		<th class="span4 label6a buyer"><span>Customer (buyer)</span></th>
 		<th class="span4 label6a seller"><span>Customer (seller)</span></th>
-		<th class="span2 label6a debits"><span>Debits ($)</span></th>
-		<th class="span2 label6a credits"><span>Credits ($)</span></th>
-		<th class="span2 label6a escrow"><span>Escrow ($)</span></th>
+		<th class="span2 label6a debits"><span>Debits</span></th>
+		<th class="span2 label6a credits"><span>Credits</span></th>
+		<th class="span2 label6a escrow"><span>Escrow</span></th>
 	</tr>
 </thead>
 
@@ -42,7 +42,7 @@
 			</td>
 			<td class="span4 buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
 				{{#link-to "orders" order}}<span>
-					{{order.buyer.firstObject.display_me}}
+					{{order.buyers.firstObject.display_me}}
 				</span>{{/link-to}}
 			</td>
 			<td class="span4 seller" {{bind-attr title="order.seller.display_me"}}>
