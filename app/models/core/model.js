@@ -8,25 +8,23 @@ var URI_POSTFIX = '_uri';
 var URI_METADATA_PROPERTY = '_uris';
 var INTEGER_REGEX = /\b[0-9]+\b/;
 
-var AJAX_ERROR_PARSERS = [
-	{
-		match: /insufficient-funds/gi,
-		parse: function(error) {
-			if (error.description) {
-				error.description = error.description.replace(INTEGER_REGEX, function(m) {
-					try {
-						m = parseInt(m, 10);
-						return Balanced.Utils.formatCurrency(m);
-					} catch(e) {}
+var AJAX_ERROR_PARSERS = [{
+	match: /insufficient-funds/gi,
+	parse: function(error) {
+		if (error.description) {
+			error.description = error.description.replace(INTEGER_REGEX, function(m) {
+				try {
+					m = parseInt(m, 10);
+					return Balanced.Utils.formatCurrency(m);
+				} catch (e) {}
 
-					return m;
-				});
-			}
-
-			return error;
+				return m;
+			});
 		}
+
+		return error;
 	}
-];
+}];
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
@@ -213,7 +211,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 				_.each(AJAX_ERROR_PARSERS, function(ERROR_PARSER) {
 					var doesMatch = false;
-					if (_.function(ERROR_PARSER.match)) {
+					if (_.isFunction(ERROR_PARSER.match)) {
 						doesMatch = ERROR_PARSER.match(error);
 					} else if (_.isRegExp(ERROR_PARSER.match)) {
 						doesMatch = ERROR_PARSER.match.test(error.category_code);
