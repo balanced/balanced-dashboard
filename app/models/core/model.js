@@ -231,7 +231,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 					validationErrors: Balanced.Utils.extractValidationErrorHash(res),
 					errorDescription: error.description,
 					requestId: error.request_id,
-					errorCategoryCode: error.category_code
+					errorCategoryCode: error.category_code,
+					lastError: error
 				});
 			} else {
 				if (res.description) {
