@@ -10,7 +10,5 @@ Balanced.MarketplaceAddCustomerRoute = Balanced.AuthRoute.extend({
 		}));
 
 		controller.set('optionalFieldsOpen', false);
-
-		this._super(controller, model);
 	}
 });

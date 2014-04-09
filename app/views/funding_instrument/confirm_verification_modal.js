@@ -1,53 +1,22 @@
-Balanced.ConfirmVerificationModalView = Balanced.View.extend({
+Balanced.ConfirmVerificationModalView = Balanced.ModalView.extend({
 	templateName: 'modals/confirm_verification',
-
+	controllerEventName: 'openConfirmVerificationModal',
+	modalElement: '#confirm-verification',
 	failedConfirmation: false,
-
-	didInsertElement: function() {
-		this.get('controller').on('openConfirmVerificationModal', this, this.open);
-		this._super();
-	},
-
-	willDestroyElement: function() {
-		this.get('controller').off('openConfirmVerificationModal', this, this.open);
-		this._super();
-	},
 
 	open: function() {
 		this.set('failedConfirmation', false);
-		var verification = this.get('funding_instrument.verification');
-		this.set('model', verification);
-		$('#confirm-verification').modal({
-			manager: this.$()
-		});
+		this._super(this.get('funding_instrument.verification'));
 	},
 
-	actions: {
-		save: function() {
-			if (this.get('model.isSaving')) {
-				return;
-			}
-
-			var self = this;
-
-			var verification = this.get('model');
-			verification.save().then(function() {
-				$('#confirm-verification').modal('hide');
-			}, function() {
-				if (verification.get('errorStatusCode') === 409) {
-					self.set('failedConfirmation', true);
-				}
-
-				self.get('controller').reloadVerifications(verification);
-			});
+	errorSaving: function(verification) {
+		if (verification.get('errorStatusCode') === 409) {
+			this.set('failedConfirmation', true);
 		}
+
+		this.get('controller').reloadVerifications(verification);
 	},
 
-	amount_1_highlight: function() {
-		return this.get('failedConfirmation') || this.get('model.validationErrors.amount_1');
-	}.property('failedConfirmation', 'model.validationErrors.amount_1'),
-
-	amount_2_highlight: function() {
-		return this.get('failedConfirmation') || this.get('model.validationErrors.amount_2');
-	}.property('failedConfirmation', 'model.validationErrors.amount_12')
+	amount_1_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_1'),
+	amount_2_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_2')
 });

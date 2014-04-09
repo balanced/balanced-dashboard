@@ -69,16 +69,16 @@ Balanced.Router.map(function() {
 			path: '/:marketplace_id'
 		}, function() {
 			this.route('settings', {
-				path: 'settings'
+				path: '/settings'
 			});
 			this.route('add_customer', {
-				path: 'add_customer'
+				path: '/add_customer'
 			});
 			this.route('initial_deposit', {
 				path: '/initial_deposit'
 			});
-			this.route("import_payouts", {
-				path: "import_payouts"
+			this.route('import_payouts', {
+				path: '/import_payouts'
 			});
 
 			this.resource('activity', {
@@ -167,7 +167,7 @@ Balanced.Router.map(function() {
 		path: '/security'
 	});
 
-	this.route("invalid", {
-		path: "*:"
+	this.route('invalid', {
+		path: '*:'
 	});
 });

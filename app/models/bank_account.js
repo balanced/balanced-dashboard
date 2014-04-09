@@ -33,6 +33,14 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('account_number'),
 
+	formatted_bank_name: function() {
+		if (this.get('bank_name')) {
+			return Balanced.Utils.toTitleCase(this.get('bank_name'));
+		} else {
+			return 'None';
+		}
+	}.property('bank_name'),
+
 	description: function() {
 		if (this.get('bank_name')) {
 			return '%@ (%@)'.fmt(
