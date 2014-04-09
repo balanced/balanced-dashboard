@@ -235,11 +235,11 @@ test('Balanced.computed.ifThisOrThat', function(assert) {
 	});
 	assert.equal(t.get('text'), 'has none');
 
-	var TestObject = Ember.Object.extend({
+	TestObject = Ember.Object.extend({
 		text: Balanced.computed.ifThisOrThat('length', 'has some', 'has none', true),
 	});
 
-	var t = TestObject.create();
+	t = TestObject.create();
 	assert.equal(t.get('text'), 'has some');
 
 	t = TestObject.create({
