@@ -17,7 +17,7 @@ var reportError = function(error) {
 			data.marketplaceName = Balanced.currentMarketplace.get('name');
 		}
 
-		if (Raven) {
+		if ('undefined' !== typeof Raven) {
 			Raven.captureException(error, {
 				tags: data
 			});
@@ -29,7 +29,7 @@ var reportError = function(error) {
 	Ember.Logger.error(realError);
 };
 
-if (Raven) {
+if ('undefined' !== typeof Raven) {
 	Raven.config('https://c5e331a1bd9c47af85d481e46b415dab@app.getsentry.com/6353').install();
 }
 

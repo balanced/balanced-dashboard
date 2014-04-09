@@ -1,3 +1,4 @@
+/* istanbul ignore next: to be overridden */
 Balanced.BaseAdapter = Ember.Object.extend({
 	init: function() {
 		if (this.initAdapter) {
