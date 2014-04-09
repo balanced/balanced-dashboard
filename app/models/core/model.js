@@ -6,24 +6,25 @@ require('app/models/core/serializers/rev1');
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
 var URI_METADATA_PROPERTY = '_uris';
-var INSUFFICIENT_FUNDS_REGEX = /insufficient-funds/gi;
 var INTEGER_REGEX = /\b[0-9]+\b/;
 
 var AJAX_ERROR_PARSERS = [
-	match: INSUFFICIENT_FUNDS_REGEX,
-	parse: function(error) {
-		if (error.description) {
-			error.description = error.description.replace(INTEGER_REGEX, function(m) {
-				try {
-					m = parseInt(m, 10);
-					return Balanced.Utils.formatCurrency(m);
-				} catch(e) {}
+	{
+		match: /insufficient-funds/gi,
+		parse: function(error) {
+			if (error.description) {
+				error.description = error.description.replace(INTEGER_REGEX, function(m) {
+					try {
+						m = parseInt(m, 10);
+						return Balanced.Utils.formatCurrency(m);
+					} catch(e) {}
 
-				return m;
-			});
+					return m;
+				});
+			}
+
+			return error;
 		}
-
-		return error;
 	}
 ];
 
