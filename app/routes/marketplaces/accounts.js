@@ -1,3 +1,5 @@
+require('app/routes/customers');
+
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Accounts',
 
