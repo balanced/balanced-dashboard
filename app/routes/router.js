@@ -50,7 +50,7 @@ function makeNestedResource(that, plural, singular) {
 		path: '/' + plural
 	}, function() {
 		this.route(singular, {
-			path: '/:' + singular + '_id'
+			path: '/:item_id'
 		});
 	});
 }
