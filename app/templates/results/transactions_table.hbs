@@ -103,7 +103,8 @@
 			<td class="span3 funding-instrument">
 				{{#link-to transaction.route_name transaction}}
 					<span>
-						{{transaction.funding_instrument_description}}
+						<span class="primary">{{transaction.last_four}}</span>
+						<span class="secondary">{{transaction.funding_instrument_name}}</span>
 					</span>
 				{{/link-to}}
 			</td>

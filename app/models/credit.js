@@ -10,7 +10,10 @@ Balanced.Credit = Balanced.Transaction.extend({
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
 	funding_instrument_description: Ember.computed.alias('bank_account.description'),
+	last_four: Ember.computed.alias('bank_account.last_four'),
+	funding_instrument_name: Ember.computed.alias('bank_account.formatted_bank_name'),
 	max_reversal_amount_dollars: Balanced.computed.transform('reversal_amount', Balanced.Utils.centsToDollars),
+
 
 	get_reversals: function() {
 		var self = this;
