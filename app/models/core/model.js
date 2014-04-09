@@ -4,8 +4,10 @@ require('app/models/core/type_mappings');
 require('app/models/core/serializers/rev1');
 
 var JSON_PROPERTY_KEY = '__json';
-var URI_POSTFIX = "_uri";
-var URI_METADATA_PROPERTY = "_uris";
+var URI_POSTFIX = '_uri';
+var URI_METADATA_PROPERTY = '_uris';
+var INSUFFICIENT_FUNDS_REGEX = /insufficient-funds/gi;
+var INTEGER_REGEX = /\b[0-9]+\b/;
 
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
@@ -188,10 +190,23 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 			var res = jqXHR.responseJSON;
 
 			if (res.errors && res.errors.length > 0) {
+				var error = res.errors[0];
+				if (error.category_code && error.description && INSUFFICIENT_FUNDS_REGEX.test(error.category_code)) {
+					error.description = error.description.replace(INTEGER_REGEX, function(m) {
+						try {
+							m = parseInt(m, 10);
+							return Balanced.Utils.formatCurrency(m);
+						} catch(e) {}
+
+						return m;
+					});
+				}
+
 				this.setProperties({
 					validationErrors: Balanced.Utils.extractValidationErrorHash(res),
-					errorDescription: res.errors[0].description,
-					requestId: res.errors[0].request_id
+					errorDescription: error.description,
+					requestId: error.request_id,
+					errorCategoryCode: error.category_code
 				});
 			} else {
 				if (res.description) {
@@ -208,13 +223,13 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	_extractTypeClassFromUrisMetadata: function(uriProperty) {
 		var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
 
-		var metadataType = this.get(uriMetadataProperty + "." + uriProperty + "._type");
+		var metadataType = this.get(uriMetadataProperty + '.' + uriProperty + '._type');
 		if (metadataType) {
 			var mappedType = Balanced.TypeMappings.classForType(metadataType);
 			if (mappedType) {
 				return mappedType;
 			} else {
-				Ember.Logger.warn("Couldn't map _type of %@ for URI: %@".fmt(metadataType, this.get('uri')));
+				Ember.Logger.warn('Couldn\'t map _type of %@ for URI: %@'.fmt(metadataType, this.get('uri')));
 			}
 		}
 
@@ -252,7 +267,7 @@ Balanced.Model.reopenClass({
 		var uri = this.create().get('uri');
 
 		if (!uri) {
-			throw new Error("Can't call findAll for class that doesn't have a default URI: %@".fmt(this));
+			throw new Error('Can\'t call findAll for class that doesn\'t have a default URI: %@'.fmt(this));
 		}
 
 		return Balanced.ModelArray.newArrayLoadedFromUri(uri, this);
@@ -368,7 +383,7 @@ Balanced.Model.reopenClass({
 					typeClass: typeClass
 				});
 			}
-		}).property(embeddedProperty, uriProperty, fullUriProperty, uriMetadataProperty + ".@each");
+		}).property(embeddedProperty, uriProperty, fullUriProperty, uriMetadataProperty + '.@each');
 	},
 
 	_materializeLoadedObjectFromAPIResult: function(json) {
@@ -382,7 +397,7 @@ Balanced.Model.reopenClass({
 		} else {
 			// HACK - once we fix the API response from the auth proxy, we should take out the if
 			if (objClass !== Balanced.UserMarketplace && objClass !== Balanced.UserInvite) {
-				Ember.Logger.warn("No _type field found on URI: " + json.uri);
+				Ember.Logger.warn('No _type field found on URI: ' + json.uri);
 			}
 		}
 
