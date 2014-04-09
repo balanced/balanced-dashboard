@@ -19,8 +19,9 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 		signup: function(models) {
 			var self = this;
 
-			function trackApplyError(err) {
-				Balanced.Analytics.trackEvent('applyError', {
+			function trackApplyError(errorType, err) {
+				var message = "Marketplace apply for production access error: " + error;
+				Raven.captureMessage(message, {
 					request_id: err ? err.requestId : 'unknown',
 					err: err
 				});
@@ -28,24 +29,24 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 			function onUndeterminedError(err) {
 				self.set('controller.error.unknown', true);
-				trackApplyError(err);
+				trackApplyError("UndeterminedError", err);
 			}
 
 			function onBankingError(err) {
 				self.set('controller.error.banking', true);
-				trackApplyError(err);
+				trackApplyError("BankingError", err);
 				models.bankAccount.trigger('becameError', err || {});
 			}
 
 			function onMarketplaceError(err) {
 				self.set('controller.error.marketplace', true);
-				trackApplyError(err);
+				trackApplyError("MarketplaceError", err);
 				models.marketplace.trigger('becameError', err || {});
 			}
 
 			function onApiKeyError(err) {
 				self.set('controller.error.apiKey', true);
-				trackApplyError(err);
+				trackApplyError("ApiKeyError", err);
 				models.apiKey.trigger('becameError', err || {});
 			}
 
@@ -58,7 +59,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 			function onUserError(err) {
 				self.set('controller.error.user', true);
-				trackApplyError(err);
+				trackApplyError("UserError", err);
 				models.user.trigger('becameError', err || {});
 			}
 
