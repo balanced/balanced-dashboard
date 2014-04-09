@@ -1,9 +1,7 @@
 window.mixpanel = window.mixpanel || [];
 window._gaq = window._gaq || [];
 
-/* istanbul ignore next: not used for test purposes */
 Balanced.Analytics = (function() {
-	/* istanbul ignore if */
 	if (!window.TESTING) {
 		// This page will almost always be over https, so can just load this directly.
 		$.getScript('https://ssl.google-analytics.com/ga.js', {

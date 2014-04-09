@@ -32,7 +32,7 @@ Balanced.Utils = Ember.Namespace.create({
 		return JSON.stringify(obj, null, 2);
 	},
 
-	geoIP: /* istanbul ignore next: Isn't necessary */ function(ip, callback) {
+	geoIP: function(ip, callback) {
 		if (window.TESTING) {
 			return callback("(San Francisco, California, United States)");
 		}

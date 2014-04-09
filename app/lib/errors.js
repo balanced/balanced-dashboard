@@ -1,4 +1,3 @@
-/* istanbul ignore next: We are not triggering errors during testing */
 var reportError = function(error) {
 	if (!error || error.message === 'TransitionAborted') {
 		return;

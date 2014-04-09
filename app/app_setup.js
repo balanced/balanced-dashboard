@@ -10,7 +10,7 @@ should manage for you.
 window.setupBalanced = function(divSelector) {
 
 	// default to #balanced-app if not specified
-	divSelector = divSelector || /* istanbul ignore next: we would notice */ '#balanced-app';
+	divSelector = divSelector || '#balanced-app';
 	ENV.HELPER_PARAM_LOOKUPS = true;
 
 	// Uncomment to turn on logging for all object bindings
