@@ -9,6 +9,24 @@ var URI_METADATA_PROPERTY = '_uris';
 var INSUFFICIENT_FUNDS_REGEX = /insufficient-funds/gi;
 var INTEGER_REGEX = /\b[0-9]+\b/;
 
+var AJAX_ERROR_PARSERS = [
+	match: INSUFFICIENT_FUNDS_REGEX,
+	parse: function(error) {
+		if (error.description) {
+			error.description = error.description.replace(INTEGER_REGEX, function(m) {
+				try {
+					m = parseInt(m, 10);
+					return Balanced.Utils.formatCurrency(m);
+				} catch(e) {}
+
+				return m;
+			});
+		}
+
+		return error;
+	}
+];
+
 Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
 
 	isLoaded: false,
@@ -191,16 +209,23 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 			if (res.errors && res.errors.length > 0) {
 				var error = res.errors[0];
-				if (error.category_code && error.description && INSUFFICIENT_FUNDS_REGEX.test(error.category_code)) {
-					error.description = error.description.replace(INTEGER_REGEX, function(m) {
-						try {
-							m = parseInt(m, 10);
-							return Balanced.Utils.formatCurrency(m);
-						} catch(e) {}
 
-						return m;
-					});
-				}
+				_.each(AJAX_ERROR_PARSERS, function(ERROR_PARSER) {
+					var doesMatch = false;
+					if (_.function(ERROR_PARSER.match)) {
+						doesMatch = ERROR_PARSER.match(error);
+					} else if (_.isRegexp(ERROR_PARSER.match)) {
+						doesMatch = ERROR_PARSER.match.test(error.category_code);
+					} else if (_.isString(ERROR_PARSER.match) && ERROR_PARSER.match === error.category_code) {
+						doesMatch = true;
+					} else if (!ERROR_PARSER.match) {
+						doesMatch = true;
+					}
+
+					if (doesMatch) {
+						error = ERROR_PARSER.parse(error);
+					}
+				});
 
 				this.setProperties({
 					validationErrors: Balanced.Utils.extractValidationErrorHash(res),
