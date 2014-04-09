@@ -37,6 +37,8 @@ Balanced.SEARCH = {
 	DISPUTE_TYPES: ['pending', 'won', 'lost']
 };
 
+Balanced.PAYMENT_METHOD_ROUTES = ['funding_instruments.index', 'bank_accounts', 'cards'];
+
 //  time in ms to throttle between key presses for search
 Balanced.THROTTLE = {
 	SEARCH: 400,

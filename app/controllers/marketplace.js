@@ -1,12 +1,8 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['application'],
-	classNameBindings: ['active'],
-	active: function() {
+	fundingInstrumentSelected: function() {
 		var currentRouteName = this.get('controllers.application.currentRouteName');
-		console.log(currentRouteName);
-		if (currentRouteName == 'credits') {
-			return "active";
-		}
+		return _.contains(Balanced.PAYMENT_METHOD_ROUTES, currentRouteName);
 	}.property('controllers.application.currentRouteName'),
 
 	actions: {
