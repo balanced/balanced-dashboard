@@ -1,11 +1,9 @@
 Balanced.Verification = Balanced.Model.extend({
+	no_attempts_remaining: Ember.computed.equal('attempts_remaining', 0),
+
 	allowed_attempts: function() {
 		return this.get('attempts_remaining') + this.get('attempts');
 	}.property('attempts_remaining', 'attempts'),
-
-	no_attempts_remaining: function() {
-		return this.get('attempts_remaining') === 0;
-	}.property('attempts_remaining'),
 
 	// hide the deposit_succeeded state to keep things less confusing
 	display_state: function() {
@@ -14,8 +12,9 @@ Balanced.Verification = Balanced.Model.extend({
 		if (state === 'deposit_succeeded') {
 			return 'pending';
 		}
+
 		return state;
-	}.property('state')
+	}.property('verification_status')
 });
 
 Balanced.TypeMappings.addTypeMapping('bank_account_verification', 'Balanced.Verification');
