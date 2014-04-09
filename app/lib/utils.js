@@ -190,7 +190,6 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	applyUriFilters: function(uri, params) {
-		console.log('applyUriFilters', uri, params);
 		if (!uri) {
 			return uri;
 		}
