@@ -8,7 +8,7 @@ function setupMarketplaceController(bankAccounts) {
 	}));
 }
 
-module('Activity', {
+module('Payments', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
@@ -24,7 +24,7 @@ test('can visit page', function(assert) {
 		.then(function() {
 			var $title = $('#content h1');
 
-			assert.notEqual($title.text().indexOf('Activity'), -1,
+			assert.notEqual($title.text().indexOf('Payments'), -1,
 				'Title is correct');
 
 			assert.ok($('#activity .download').length, "Download link is visible");
@@ -247,7 +247,7 @@ test('download activity', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#main #activity .icon-export.download")
+		.click("#main #activity .download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in form .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -271,7 +271,7 @@ test('download disputes', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("a:contains('Disputes')")
-		.click("#main #activity .icon-export.download")
+		.click("#main #activity .download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -290,7 +290,7 @@ test('download activity only runs once despite multiple clicks', function(assert
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#main #activity .icon-export.download")
+		.click("#main #activity .download")
 		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
