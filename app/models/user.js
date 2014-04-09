@@ -13,14 +13,8 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 		return this.get('user_marketplaces').findBy('id', id);
 	},
 
-	gravatar: function() {
-		var emailHash = this.get('email_hash');
-		return Balanced.Utils.toGravatar(emailHash);
-	}.property('email_hash'),
-
-	multiFactorAuthUri: function() {
-		return ENV.BALANCED.AUTH + '/users/' + this.get('id') + '/otp';
-	}.property(),
+	gravatar: Balanced.computed.transform('email_hash', Balanced.Utils.toGravatar),
+	multiFactorAuthUri: Balanced.computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp'),
 
 	validations: {
 		email: {

@@ -10,20 +10,13 @@ Balanced.Order = Balanced.Model.extend({
 
 	page_title: Balanced.computed.orProperties('description', 'id'),
 
-	debits_amount: function() {
-		return Balanced.Utils.formatCurrency(this.get('amount'));
-	}.property('amount'),
-
-	credits_amount: function() {
-		return Balanced.Utils.formatCurrency(
-			this.get('amount') - this.get('amount_escrowed')
-		);
+	amount_credited: function() {
+		return this.get('amount') - this.get('amount_escrowed');
 	}.property('amount', 'amount_escrowed'),
 
-	escrow_balance: function() {
-		var cents = this.get('amount_escrowed');
-		return Balanced.Utils.formatCurrency(cents);
-	}.property('amount_escrowed')
+	debits_amount: Balanced.computed.transform('amount', Balanced.Utils.formatCurrency),
+	escrow_balance: Balanced.computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
+	credits_amount: Balanced.computed.transform('amount_credited', Balanced.Utils.formatCurrency)
 });
 
 Balanced.TypeMappings.addTypeMapping('order', 'Balanced.Order');

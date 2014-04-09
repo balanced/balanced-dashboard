@@ -15,7 +15,6 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
 	cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
 
-	owner_account: Balanced.Model.belongsTo('owner_account', 'Balanced.Account'),
 	owner_customer: Balanced.Model.belongsTo('owner_customer', 'Balanced.Customer'),
 
 	customers: Balanced.Model.hasMany('customers', 'Balanced.Customer'),
