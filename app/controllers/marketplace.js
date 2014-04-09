@@ -1,5 +1,13 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['application'],
+	classNameBindings: ['active'],
+	active: function() {
+		var currentRouteName = this.get('controllers.application.currentRouteName');
+		console.log(currentRouteName);
+		if (currentRouteName == 'credits') {
+			return "active";
+		}
+	}.property('controllers.application.currentRouteName'),
 
 	actions: {
 		openPaySellerModal: function() {

@@ -90,9 +90,6 @@ Balanced.Router.map(function() {
 				this.route('transactions', {
 					path: '/transactions'
 				});
-				this.route('funding_instruments', {
-					path: '/funding_instruments'
-				});
 			});
 
 			// exists to handle old URIs for accounts, redirects to the customers page
