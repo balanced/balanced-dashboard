@@ -24,7 +24,7 @@ Balanced.Hold = Balanced.Transaction.extend({
 	can_void_or_capture: Ember.computed.equal('status', 'created'),
 	type_name: 'Hold',
 	route_name: 'holds',
-	funding_instrument_description: Balanced.computed.alias('card.description'),
+	funding_instrument_description: Ember.computed.alias('card.description'),
 	customer: Balanced.computed.orProperties('debit.customer', 'card.customer'),
 });
 
