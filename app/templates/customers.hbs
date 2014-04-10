@@ -175,7 +175,7 @@
 	</section>
 </div>
 
-{{render "logs.index" model}}
+{{view Balanced.ResourceLogsView contentBinding="model"}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}

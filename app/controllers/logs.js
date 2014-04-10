@@ -5,7 +5,6 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 	sortOrder: 'desc',
 	results_type: 'Balanced.Log',
 	type: null,
-	_limit: 20,
 	endpoint: null,
 	status_rollup: null,
 
@@ -45,17 +44,6 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 			failed = this.get('statusRollupFilterFailed'),
 			statusFilters = [];
 
-		if (this.get('model.id') !== null) {
-			params['resource_id'] = this.get('model.id');
-			/*
-				statusRollupFilterSucceeded and statusRollupFilterFailed
-				checkboxes are not available if this log index is embedded
-				in other resource page, so we need to set them to true here
-			*/
-			succeeded = true;
-			failed = true;
-		}
-
 		if (succeeded && !failed) {
 			statusFilters.push('2xx');
 		}
@@ -67,19 +55,24 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 		}
 
 		return params;
-	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model'),
+	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model')
 
-	limit: function() {
-		return this.get('is_object_log') ? 5 : this.get('_limit');
-	}.property('is_object_log'),
+});
 
-	/*
-		Whether is this log index embedded under an object controller, such as
-		DebitsController
-	*/
-	is_object_log: function() {
-		return this.get('model') !== null;
-	}.property('model')
+
+/*
+	This controller provides embedded log records in resource pages
+*/
+Balanced.LogsEmbeddedController = Balanced.LogsIndexController.extend({
+	limit: 5,
+
+	extra_filtering_params: function() {
+		var params = this._super();
+		params['resource_id'] = this.get('model.id');
+		params['status_rollup[in]'] = ['2xx', '3xx', '4xx', '5xx'];
+		return params;
+	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model')
+
 });
 
 Balanced.LogsLogController = Balanced.ObjectController.extend({
