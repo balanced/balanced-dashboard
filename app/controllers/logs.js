@@ -5,6 +5,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 	sortOrder: 'desc',
 	results_type: 'Balanced.Log',
 	type: null,
+	limit: 20,
 	endpoint: null,
 	status_rollup: null,
 
