@@ -33,7 +33,7 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 		}, user);
 
 		//  bug in ember-validation requires this extra check for length
-		if ((!user.validate() && user.get('validationErrors.length')) || !user.get('email')) {
+		if (!user.validate() && user.get('validationErrors.length')) {
 			user.setProperties({
 				displayErrorDescription: true,
 				errorDescription: 'Please fix the errors below.'
