@@ -70,7 +70,6 @@ Balanced.LogsEmbeddedController = Balanced.LogsIndexController.extend({
 	extra_filtering_params: function() {
 		var params = this._super();
 		params['resource_id'] = this.get('model.id');
-		params['status_rollup[in]'] = ['2xx', '3xx', '4xx', '5xx'];
 		return params;
 	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model')
 
