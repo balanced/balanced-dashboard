@@ -22,6 +22,9 @@ test('can visit page', function(assert) {
 		.then(function() {
 			var $title = $('#content h1');
 			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
+
+			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
+			assert.equal($dropdown.text().trim().length, 0, 'No Email is shown');
 		});
 });
 

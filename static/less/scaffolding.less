@@ -44,6 +44,11 @@
 
   #marketplaces.dropdown {
     width: 150px;
+
+    &.open, .dropdown-toggle:hover {
+      background-color: @gray9;
+    }
+
     .none {
       .sl;
       color: @gray4;
@@ -63,7 +68,6 @@ footer {
   background-color: @white;
   border-top: 1px solid @marketplaceNavBackground;
   height: 60px;
-  padding-left: 90px;
   position: relative;
 
   #flogo {
