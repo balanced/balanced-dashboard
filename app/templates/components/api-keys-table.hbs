@@ -2,18 +2,17 @@
 	<tbody>
 		{{#each key in keys}}
 			<tr>
-				<td class="span4" {{bind-attr title="key.meta.name"}}>
+				<td class="span4" {{bind-attr title="key.created_at"}}>
 					<span class="wrap">
 						<span class="icon-key"></span>
-
+						{{humanReadableDateShort key.created_at}}
+					</span>
+				</td>
+				<td class="span3" {{bind-attr title="key.meta.name"}}>
+					<span class="wrap">
 						{{#if key.meta.name}}
 							{{key.meta.name}}
 						{{/if}}
-					</span>
-				</td>
-				<td class="span3" {{bind-attr title="key.created_at"}}>
-					<span class="wrap">
-						{{humanReadableDateShort key.created_at}}
 					</span>
 				</td>
 				<td class="span6" {{bind-attr title="key.id"}}>
