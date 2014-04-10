@@ -11,7 +11,7 @@ module('Disputes', {
 });
 
 test('exist on the activity page', function(assert) {
-	var DISPUTES_ROUTE = Testing.MARKETPLACE_ROUTE + '/activity/disputes';
+	var DISPUTES_ROUTE = Testing.MARKETPLACE_ROUTE + '/disputes';
 	var activityDisputesPage = {
 		'table.disputes tbody tr:eq(0) td.date.initiated': 1,
 		'table.disputes tbody tr:eq(0) td.date.respond-by': 1,
@@ -27,9 +27,9 @@ test('exist on the activity page', function(assert) {
 			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct # of Rows');
 
 			// Manually check the disputes uri is correct
-			var activityController = Balanced.__container__.lookup('controller:activity');
-			assert.equal(activityController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
-			assert.ok(activityController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
+			var disputesController = Balanced.__container__.lookup('controller:disputes');
+			assert.equal(disputesController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
+			assert.ok(disputesController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
 		})
 		.waitFor(function() {
 			var result = $('table.disputes tfoot td:eq(0)').length >= 1;
@@ -46,6 +46,30 @@ test('exist on the activity page', function(assert) {
 		.click('table.disputes tfoot td.load-more-results a')
 		.then(function() {
 			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
+		});
+});
+
+test('can download disputes', function(assert) {
+	assert.equal($(".alert span").length, 0);
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	stub.withArgs(Balanced.Download).callsArgWith(3, {
+		download: {}
+	});
+
+	visit(Testing.ACTIVITY_ROUTE)
+		.click("a:contains('Disputes')")
+		.click("#main #disputes .download")
+		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+				email_address: "test@example.com",
+				uri: "",
+				type: "disputes"
+			}));
+			assert.equal($(".alert span").length, 1);
+			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
 		});
 });
 
