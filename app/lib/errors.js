@@ -1,3 +1,16 @@
+Balanced.ErrorsLogger = (function() {
+	var delegateToRaven = function (methodName) {
+		var Raven = window.Raven;
+		return function() {
+			Raven && Raven[methodName].apply(Raven, arguments);
+		};
+	};
+
+	return {
+		captureMessage: delegateToRaven("captureMessage")
+	};
+})();
+
 if (typeof Raven !== typeof undefined) {
 	var reportError = function(error) {
 		if (!error || error.message === 'TransitionAborted') {

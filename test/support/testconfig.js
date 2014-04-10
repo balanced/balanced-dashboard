@@ -28,10 +28,6 @@ QUnit.testStart(function(test) {
 	Balanced.injectTestHelpers();
 
 	window.Balanced.onLoad();
-	window.Raven = {
-		captureMessage: function () {}
-	};
-
 	// turn off ajax async
 	$.ajaxSetup({
 		async: false
