@@ -5,12 +5,17 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 	fieldName: 'email address',
 	defaultError: 'Oops, this email address is already associated to an account.',
 
-	open: function() {
-		var user = Ember.copy(Balanced.Auth.get('user'), true);
-		user.set('email', user.get('email_address'));
+	open: function(model) {
+		var user = model;
 
-		// Necessary hack to get the password correct
-		user.set('password', undefined);
+		if (!user) {
+			user = Ember.copy(Balanced.Auth.get('user'), true);
+			user.set('email', user.get('email_address'));
+
+			// Necessary hack to get the password correct
+			user.set('password', undefined);
+		}
+
 		this._super(user);
 
 		_.delay(_.bind(function() {
