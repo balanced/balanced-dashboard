@@ -20,7 +20,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 			var self = this;
 
 			function trackApplyError(errorType, err) {
-				var message = "Marketplace apply for production access error: " + error;
+				var message = "Marketplace apply for production access error: " + errorType;
 				Raven.captureMessage(message, {
 					request_id: err ? err.requestId : 'unknown',
 					err: err
