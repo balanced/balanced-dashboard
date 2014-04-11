@@ -8,9 +8,9 @@ var delegateToRaven = function(methodName) {
 	};
 };
 
-Balanced.ErrorsLogger = Ember.Namespace.create(function() {
+Balanced.ErrorsLogger = Ember.Namespace.create({
 	captureMessage: delegateToRaven('captureMessage')
-};
+});
 
 var reportError = function(error) {
 	if (!error || error.message === 'TransitionAborted') {
