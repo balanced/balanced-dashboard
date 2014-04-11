@@ -24,9 +24,6 @@ test('can visit page', function(assert) {
 test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.waitFor(function() {
-			return $('table.logs tfoot td').length >= 1;
-		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -42,9 +39,6 @@ test('filter logs by endpoint bank accounts', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.waitFor(function() {
-			return $('table.logs tfoot td').length >= 1;
-		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -60,9 +54,6 @@ test('filter logs by request failed only', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.waitFor(function() {
-			return $('table.logs tfoot td').length >= 1;
-		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})

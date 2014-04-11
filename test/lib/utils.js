@@ -245,7 +245,7 @@ var Testing = {
 			return self._createDebit().then(function() {
 				return Balanced.Dispute.findAll().then(function(disputes) {
 					if (disputes.get('content').length < howMany) {
-						return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
+						return setTimeout(_.bind(Testing.createDispute, Testing, howMany), 1000);
 					}
 
 					var evt = disputes.objectAt(0);
@@ -335,7 +335,7 @@ var Testing = {
 			Balanced.Event.findAll().then(function(events) {
 				// Wait for atleast 2 events
 				if (events.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupEvent, Testing), 1000);
+					return setTimeout(_.bind(Testing.setupEvent, Testing, howMany), 1000);
 				}
 
 				var evt = events.objectAt(0);
@@ -360,7 +360,7 @@ var Testing = {
 			Balanced.Log.findAll().then(function(logs) {
 				// Wait for atleast 4 logs
 				if (logs.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupLogs, Testing), 1000);
+					return setTimeout(_.bind(Testing.setupLogs, Testing, howMany), 1000);
 				}
 
 				self.start();
@@ -377,16 +377,26 @@ var Testing = {
 		// a log is created
 		this.stop();
 
-		return Ember.run(function() {
-			var searchController = Balanced.__container__.lookup('controller:search');
+		// Visit the marketplace route to initialize everything
+		Ember.run(function() {
+			visit(Testing.MARKETPLACE_ROUTE);
+		});
+
+		var searchController = Balanced.__container__.lookup('controller:search');
+
+		Ember.run(function() {
 			searchController.setProperties({
 				type: type,
-				debounced_search: '%'
+				debounced_search: '%',
+				showResults: true
 			});
+		});
+
+		Ember.run(function() {
 			searchController.get('results').then(function(results) {
-				// Wait for atleast 4 logs
-				if (results.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupSearch, Testing), 1000);
+				// Wait for atleast 4 results
+				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
+					return setTimeout(_.bind(Testing.setupSearch, Testing, howMany, type), 1000);
 				}
 
 				self.start();
