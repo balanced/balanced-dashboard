@@ -13,6 +13,9 @@ test('can manage users', function(assert) {
 	visit(SETTINGS_ROUTE)
 		.then(function() {
 			assert.equal($('.users-info table tr td.no-results').length, 1, 'No Users shown');
+
+			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
+			assert.notEqual($dropdown.text().trim().length, 0, 'No Email is shown');
 		});
 });
 
