@@ -26,7 +26,12 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 
 		objType = objTypes[0];
 
-		modelObj = rootJson[objType][0];
+		modelObj = rootJson[objType] && rootJson[objType][0];
+
+		// Hack to make it serialize as rev0 just in case.
+		if (!modelObj) {
+			modelObj = rootJson;
+		}
 
 		this._populateObject(modelObj, objType, rootJson);
 
