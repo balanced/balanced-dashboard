@@ -2,29 +2,7 @@ module('Logs', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
-
-		// add some delay, because the API takes some time to add things to logs
-		Testing.stop();
-
-		var count = 0;
-		var checkAndStart = function() {
-			var logs;
-
-			Ember.run(function() {
-				logs = Balanced.Log.findAll();
-			});
-
-			if (logs && logs.toArray().length && logs.toArray().length >= 4) {
-				return Testing.start();
-			} else if (count < 300) {
-				count++;
-				return setTimeout(checkAndStart, 1000);
-			} else {
-				throw new Error('Logs not working');
-			}
-		};
-
-		setTimeout(checkAndStart, 1000);
+		Testing.setupLogs();
 	},
 	teardown: function() {}
 });

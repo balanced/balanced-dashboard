@@ -237,13 +237,14 @@ var Testing = {
 		});
 	},
 
-	_createDispute: function() {
+	_createDispute: function(howMany) {
 		var self = this;
+		howMany = howMany || 2;
 
 		return this._createDisputeCard().then(function() {
 			return self._createDebit().then(function() {
 				return Balanced.Dispute.findAll().then(function(disputes) {
-					if (!disputes.get('content').length) {
+					if (disputes.get('content').length < howMany) {
 						return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
 					}
 
@@ -322,15 +323,18 @@ var Testing = {
 		});
 	},
 
-	setupEvent: function() {
+	setupEvent: function(howMany) {
 		var self = this;
+		howMany = howMany || 2;
+
 		// Call stop to stop executing the tests before
-		// a dispute is created
+		// a event is created
 		this.stop();
 
 		return Ember.run(function() {
 			Balanced.Event.findAll().then(function(events) {
-				if (!events.get('content').length) {
+				// Wait for atleast 2 events
+				if (events.get('length') < howMany) {
 					return setTimeout(_.bind(Testing.setupEvent, Testing), 1000);
 				}
 
@@ -344,7 +348,47 @@ var Testing = {
 		});
 	},
 
-	createDispute: function() {
+	setupLogs: function(howMany) {
+		var self = this;
+		howMany = howMany || 4;
+
+		// Call stop to stop executing the tests before
+		// a log is created
+		this.stop();
+
+		return Ember.run(function() {
+			Balanced.Log.findAll().then(function(logs) {
+				// Wait for atleast 4 logs
+				if (logs.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupLogs, Testing), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	setupSearch: function(howMany, uri) {
+		var self = this;
+		howMany = howMany || 4;
+
+		// Call stop to stop executing the tests before
+		// a log is created
+		this.stop();
+
+		return Ember.run(function() {
+			Balanced.Log.findAll().then(function(logs) {
+				// Wait for atleast 4 logs
+				if (logs.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupLogs, Testing), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	createDispute: function(howMany) {
 		var self = this;
 		// Call stop to stop executing the tests before
 		// a dispute is created
@@ -352,16 +396,17 @@ var Testing = {
 
 		// This automatically calls start();
 		return Ember.run(function() {
-			return self._createDispute();
+			return self._createDispute(howMany);
 		});
 	},
 
 	createDisputes: function(number) {
 		var self = this;
+		var initialNumberDisputes = number || 4;
 
 		Ember.run(function() {
-			for (number = number || 4; number >= 0; number--) {
-				self.createDispute();
+			for (number = initialNumberDisputes; number >= 0; number--) {
+				self.createDispute(initialNumberDisputes);
 			}
 		});
 	},

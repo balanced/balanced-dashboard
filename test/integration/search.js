@@ -2,10 +2,9 @@ module('Search', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
-		Balanced.Auth.set('signedIn', true);
+		Testing.setupSearch(1);
 
-		// add some delay, because the API takes some time to add things to search
-		Testing.pause(10000);
+		Balanced.Auth.set('signedIn', true);
 	},
 	teardown: function() {
 		Ember.run(function() {
@@ -54,6 +53,8 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
+	Testing.setupSearch(4, 'search');
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -88,6 +89,8 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 });
 
 test('search "%", click customers, returns 1 customer total, showing 1 customer in results, with no load more', function(assert) {
+	Testing.setupSearch(1, 'customer');
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
