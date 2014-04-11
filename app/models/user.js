@@ -17,13 +17,6 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	multiFactorAuthUri: Balanced.computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp'),
 
 	validations: {
-		email: {
-			presence: true,
-			length: {
-				minimum: 6
-			},
-			format: /.+@.+\..{2,4}/
-		},
 		existing_password: {
 			presence: true
 		},

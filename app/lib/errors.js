@@ -1,3 +1,17 @@
+var delegateToRaven = function(methodName) {
+	var Raven = window.Raven;
+
+	return function() {
+		if (Raven) {
+			Raven[methodName].apply(Raven, arguments);
+		}
+	};
+};
+
+Balanced.ErrorsLogger = Ember.Namespace.create(function() {
+	captureMessage: delegateToRaven('captureMessage')
+};
+
 var reportError = function(error) {
 	if (!error || error.message === 'TransitionAborted') {
 		return;

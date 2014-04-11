@@ -158,3 +158,22 @@ test('models have promises for reload', function(assert) {
 		});
 	});
 });
+
+test('models handles error', function(assert) {
+	var t = Balanced.TestModel.create();
+	t._handleError({
+		responseJSON: {
+			errors: [{
+				category_code: 'insufficient-funds',
+				description: 'You dont have 1000 to withdraw.',
+				request_id: 'OHM1234567890',
+				myOwn: 123
+			}]
+		}
+	});
+
+	assert.equal(t.get('errorCategoryCode'), 'insufficient-funds', 'Parsed error category code');
+	assert.equal(t.get('errorDescription'), 'You dont have $10.00 to withdraw.', 'Parsed error description');
+	assert.equal(t.get('requestId'), 'OHM1234567890', 'Parsed error request id');
+	assert.equal(t.get('lastError.myOwn'), 123, 'Parsed last error');
+});

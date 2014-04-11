@@ -28,7 +28,6 @@ QUnit.testStart(function(test) {
 	Balanced.injectTestHelpers();
 
 	window.Balanced.onLoad();
-
 	// turn off ajax async
 	$.ajaxSetup({
 		async: false
