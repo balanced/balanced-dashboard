@@ -9,7 +9,8 @@ var delegateToRaven = function(methodName) {
 };
 
 Balanced.ErrorsLogger = Ember.Namespace.create({
-	captureMessage: delegateToRaven('captureMessage')
+	captureMessage: delegateToRaven('captureMessage'),
+	captureException: delegateToRaven('captureException')
 });
 
 var reportError = function(error) {
@@ -30,11 +31,9 @@ var reportError = function(error) {
 			data.marketplaceName = Balanced.currentMarketplace.get('name');
 		}
 
-		if ('undefined' !== typeof Raven) {
-			Raven.captureException(error, {
-				tags: data
-			});
-		}
+		Balanced.ErrorsLogger.captureException(error, {
+			tags: data
+		});
 
 		Balanced.Analytics.trackEvent('js-error', data);
 	}
