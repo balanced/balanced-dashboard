@@ -368,19 +368,25 @@ var Testing = {
 		});
 	},
 
-	setupSearch: function(howMany, uri) {
+	setupSearch: function(howMany, type) {
 		var self = this;
-		howMany = howMany || 4;
+		howMany = howMany || 1;
+		type = type || 'search';
 
 		// Call stop to stop executing the tests before
 		// a log is created
 		this.stop();
 
 		return Ember.run(function() {
-			Balanced.Log.findAll().then(function(logs) {
+			var searchController = Balanced.__container__.lookup('controller:search');
+			searchController.setProperties({
+				type: type,
+				debounced_search: '%'
+			});
+			searchController.get('results').then(function(results) {
 				// Wait for atleast 4 logs
-				if (logs.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupLogs, Testing), 1000);
+				if (results.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupSearch, Testing), 1000);
 				}
 
 				self.start();

@@ -53,7 +53,7 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
-	Testing.setupSearch(4, 'search');
+	Testing.setupSearch(4);
 
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
@@ -95,11 +95,6 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.waitFor(function() {
-			Testing.runSearch('%');
-			wait();
-			return $('#search .results li.customers > a').text().indexOf('0') < 0;
-		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
@@ -111,15 +106,12 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 });
 
 test('search "%" returns 4 transactions. Click load more shows 2 more and hides load more', function(assert) {
+	Testing.setupSearch(4);
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.waitFor(function() {
-			Testing.runSearch('%');
-			wait();
-			return $('#search .results table.transactions tfoot td').length >= 1;
-		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
