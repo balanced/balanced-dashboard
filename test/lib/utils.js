@@ -44,6 +44,29 @@ var Testing = {
 		Ember.Logger.log('Tests Started Running.');
 	},
 
+	waitForLoadMore: function(url, message, time) {
+		stop();
+		var startTime = new Date().getTime();
+		var interval = 200;
+		var runTest = function() {
+			visit(url).then(function () {
+				var currentTime = new Date().getTime();
+				var result = $("table.transactions tfoot td");
+				if (result.length > 0) {
+					start();
+				}
+				else if (currentTime - startTime < time) {
+					setTimeout(runTest, interval);
+				}
+				else {
+					console.log(message);
+					start();
+				}
+			});
+		};
+		runTest();
+	},
+
 	pause: function(number, fn) {
 		if (!number) {
 			number = 1000;

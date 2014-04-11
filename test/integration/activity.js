@@ -14,7 +14,7 @@ module('Activity', {
 		Testing.createDebits();
 
 		// add some delay, because the API takes some time to add things to search
-		Testing.pause(3000);
+		Testing.waitForLoadMore(Testing.ACTIVITY_ROUTE, "Activity page not loaded, continuing anyway.", 5000);
 	},
 	teardown: function() {}
 });
