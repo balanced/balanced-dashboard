@@ -1,8 +1,10 @@
 Balanced.ErrorsLogger = (function() {
-	var delegateToRaven = function (methodName) {
+	var delegateToRaven = function(methodName) {
 		var Raven = window.Raven;
 		return function() {
-			Raven && Raven[methodName].apply(Raven, arguments);
+			if (Raven) {
+				Raven[methodName].apply(Raven, arguments);
+			}
 		};
 	};
 

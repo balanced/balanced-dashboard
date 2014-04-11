@@ -14,7 +14,7 @@ module('Activity', {
 		Testing.createDebits();
 
 		// add some delay, because the API takes some time to add things to search
-		Testing.pause(1000);
+		Testing.pause(3000);
 	},
 	teardown: function() {}
 });
