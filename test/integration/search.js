@@ -4,8 +4,7 @@ module('Search', {
 		Testing.createDebits();
 		Balanced.Auth.set('signedIn', true);
 
-		// add some delay, because the API takes some time to add things to search
-		Testing.pause(10000);
+		Testing.setupSearch();
 	},
 	teardown: function() {
 		Ember.run(function() {
@@ -54,15 +53,12 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
+	Testing.setupSearch(4);
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.waitFor(function() {
-			Testing.runSearch('%');
-			wait();
-			return $('#search .results table.transactions tbody tr').length > 1;
-		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.transactions > a:contains("4")').length, 1, 'has 4 transactions in header');
 			assert.equal($('#search .results table.transactions tbody tr').length, 2, 'has 2 transactions');
@@ -88,15 +84,12 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 });
 
 test('search "%", click customers, returns 1 customer total, showing 1 customer in results, with no load more', function(assert) {
+	Testing.setupSearch(1, 'customer');
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.waitFor(function() {
-			Testing.runSearch('%');
-			wait();
-			return $('#search .results li.customers > a').text().indexOf('0') < 0;
-		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
@@ -108,15 +101,12 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 });
 
 test('search "%" returns 4 transactions. Click load more shows 2 more and hides load more', function(assert) {
+	Testing.setupSearch(4);
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.waitFor(function() {
-			Testing.runSearch('%');
-			wait();
-			return $('#search .results table.transactions tfoot td').length >= 1;
-		}, 'No Search Results')
 		.then(function() {
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
@@ -166,11 +156,6 @@ test('search click result', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.waitFor(function() {
-			Testing.runSearch('%');
-			wait();
-			return $('#search .results table.items tbody tr a').length > 1;
-		}, 'No Search Results')
 		.click('#search .results .customers a:first')
 		.click('#search .results table.items tbody tr a:first')
 		.then(function() {

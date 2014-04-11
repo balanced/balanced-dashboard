@@ -12,6 +12,15 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 			user = Ember.copy(Balanced.Auth.get('user'), true);
 			user.set('email', user.get('email_address'));
 
+			// HACK to validate user emails
+			user.validations.email = {
+				presence: true,
+				length: {
+					minimum: 6
+				},
+				format: /.+@.+\..{2,4}/
+			};
+
 			// Necessary hack to get the password correct
 			user.set('password', undefined);
 		}

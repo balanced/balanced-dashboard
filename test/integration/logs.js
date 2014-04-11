@@ -2,29 +2,7 @@ module('Logs', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
-
-		// add some delay, because the API takes some time to add things to logs
-		Testing.stop();
-
-		var count = 0;
-		var checkAndStart = function() {
-			var logs;
-
-			Ember.run(function() {
-				logs = Balanced.Log.findAll();
-			});
-
-			if (logs && logs.toArray().length && logs.toArray().length >= 4) {
-				return Testing.start();
-			} else if (count < 300) {
-				count++;
-				return setTimeout(checkAndStart, 1000);
-			} else {
-				throw new Error('Logs not working');
-			}
-		};
-
-		setTimeout(checkAndStart, 1000);
+		Testing.setupLogs();
 	},
 	teardown: function() {}
 });
@@ -46,9 +24,6 @@ test('can visit page', function(assert) {
 test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.waitFor(function() {
-			return $('table.logs tfoot td').length >= 1;
-		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -64,9 +39,6 @@ test('filter logs by endpoint bank accounts', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.waitFor(function() {
-			return $('table.logs tfoot td').length >= 1;
-		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -124,9 +96,6 @@ test('filter logs by request failed only', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.waitFor(function() {
-			return $('table.logs tfoot td').length >= 1;
-		}, 'has "load more"')
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})

@@ -237,14 +237,15 @@ var Testing = {
 		});
 	},
 
-	_createDispute: function() {
+	_createDispute: function(howMany) {
 		var self = this;
+		howMany = howMany || 2;
 
 		return this._createDisputeCard().then(function() {
 			return self._createDebit().then(function() {
 				return Balanced.Dispute.findAll().then(function(disputes) {
-					if (!disputes.get('content').length) {
-						return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
+					if (disputes.get('content').length < howMany) {
+						return setTimeout(_.bind(Testing.createDispute, Testing, howMany), 1000);
 					}
 
 					var evt = disputes.objectAt(0);
@@ -322,16 +323,19 @@ var Testing = {
 		});
 	},
 
-	setupEvent: function() {
+	setupEvent: function(howMany) {
 		var self = this;
+		howMany = howMany || 2;
+
 		// Call stop to stop executing the tests before
-		// a dispute is created
+		// a event is created
 		this.stop();
 
 		return Ember.run(function() {
 			Balanced.Event.findAll().then(function(events) {
-				if (!events.get('content').length) {
-					return setTimeout(_.bind(Testing.setupEvent, Testing), 1000);
+				// Wait for atleast 2 events
+				if (events.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupEvent, Testing, howMany), 1000);
 				}
 
 				var evt = events.objectAt(0);
@@ -344,7 +348,63 @@ var Testing = {
 		});
 	},
 
-	createDispute: function() {
+	setupLogs: function(howMany) {
+		var self = this;
+		howMany = howMany || 4;
+
+		// Call stop to stop executing the tests before
+		// a log is created
+		this.stop();
+
+		return Ember.run(function() {
+			Balanced.Log.findAll().then(function(logs) {
+				// Wait for atleast 4 logs
+				if (logs.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupLogs, Testing, howMany), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	setupSearch: function(howMany, type) {
+		var self = this;
+		howMany = howMany || 1;
+		type = type || 'search';
+
+		// Call stop to stop executing the tests before
+		// a log is created
+		this.stop();
+
+		// Visit the marketplace route to initialize everything
+		Ember.run(function() {
+			visit(Testing.MARKETPLACE_ROUTE);
+		});
+
+		var searchController = Balanced.__container__.lookup('controller:search');
+
+		Ember.run(function() {
+			searchController.setProperties({
+				type: type,
+				debounced_search: '%',
+				showResults: true
+			});
+		});
+
+		Ember.run(function() {
+			searchController.get('results').then(function(results) {
+				// Wait for atleast 4 results
+				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
+					return setTimeout(_.bind(Testing.setupSearch, Testing, howMany, type), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	createDispute: function(howMany) {
 		var self = this;
 		// Call stop to stop executing the tests before
 		// a dispute is created
@@ -352,16 +412,17 @@ var Testing = {
 
 		// This automatically calls start();
 		return Ember.run(function() {
-			return self._createDispute();
+			return self._createDispute(howMany);
 		});
 	},
 
 	createDisputes: function(number) {
 		var self = this;
+		var initialNumberDisputes = number || 4;
 
 		Ember.run(function() {
-			for (number = number || 4; number >= 0; number--) {
-				self.createDispute();
+			for (number = initialNumberDisputes; number >= 0; number--) {
+				self.createDispute(initialNumberDisputes);
 			}
 		});
 	},
