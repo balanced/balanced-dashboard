@@ -325,7 +325,7 @@ var Testing = {
 
 	setupEvent: function(howMany) {
 		var self = this;
-		howMany = howMany || 2;
+		howMany = howMany || 4;
 
 		// Call stop to stop executing the tests before
 		// a event is created
