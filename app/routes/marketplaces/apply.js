@@ -24,7 +24,8 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 	actions: {
 		signup: function(models) {
-			var self = this, marketplace;
+			var self = this;
+			var marketplace;
 
 			function logError(key, err) {
 				self.trackError(key, {
