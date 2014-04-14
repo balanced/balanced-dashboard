@@ -31,8 +31,8 @@
 
 		"test": true,
 		"waitFor": true,
-    "clickMultiple": true,
-    "fillForm": true,
+		"clickMultiple": true,
+		"fillForm": true,
 		"waitForVisit": true,
 		"asyncTest": true,
 		"start": true,
