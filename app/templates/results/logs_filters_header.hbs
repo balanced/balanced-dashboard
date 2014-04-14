@@ -1,5 +1,5 @@
 <nav>
-	<li class="timing dropdown action filter-endpoints label6a pull-left">
+	<div class="timing dropdown action filter-endpoints label6a pull-left">
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			<span>{{#if currentEndpointFilter}} {{currentEndpointFilter}} {{else}} All endpoints {{/if}}</span>
 			<b class="caret"></b>
@@ -19,11 +19,9 @@
 			</li>
 		</ul>
 	</li>
-	<!--
-	<li class="timing dropdown action label6a">
+	<div class="timing dropdown action label6a">
 	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	</li>
-	-->
+	</div>
 
 	<div class="pull-right filter-status-rollup">
 		<label class="checkbox inline succeeded">

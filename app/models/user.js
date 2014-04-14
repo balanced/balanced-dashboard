@@ -23,13 +23,6 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	}.property(),
 
 	validations: {
-		email: {
-			presence: true,
-			length: {
-				minimum: 6
-			},
-			format: /.+@.+\..{2,4}/
-		},
 		existing_password: {
 			presence: true
 		},

@@ -312,6 +312,11 @@ header.results-label h3 {
         }
     }
 
+    &.filter-datetime {
+        .dropdown-menu {
+        }
+    }
+
     .dropdown-menu {
       //  120px = set timing width
       // 330px = width of date picker
@@ -461,5 +466,32 @@ header.results-label h3 {
 .results.results-framed.results-neutral {
   .count {
     background-color: @gray3;
+  }
+}
+.results.embedded {
+  padding-bottom: 40px;
+  table.items {
+    background-color: white;
+    tr {
+      border: 2px solid @gray2;
+      .first {
+        width: 154px;
+        padding-left: 12px;
+      }
+    }
+    td.second {
+      a {
+        color: @linkColor;
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: @linkColorHover;
+        text-decoration: underline;
+      }
+    }
+    td.last {
+      width: 100px;
+    }
   }
 }

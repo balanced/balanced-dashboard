@@ -5,9 +5,6 @@ module('Events', {
 		Testing.createCustomer();
 		Testing.createCredit();
 		Testing.setupEvent();
-
-		// Wait for the api to catch up
-		Testing.pause(1000);
 	},
 	teardown: function() {}
 });

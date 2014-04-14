@@ -35,6 +35,10 @@ Balanced.Test.asyncHelpers = {
 			}
 		}
 
+		if (options.clickMultiple) {
+			clickMultiple(form + ' ' + options.clickMultiple);
+		}
+
 		return wait();
 	},
 	checkElements: function(app, hash, assert) {

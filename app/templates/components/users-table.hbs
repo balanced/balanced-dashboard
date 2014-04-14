@@ -5,22 +5,19 @@
 				<td class="span4">
 					<span class="wrap">
 						<span class="icon-avatar"></span>
-						&nbsp;
-					</span>
-				</td>
-				<td class="span4" {{bind-attr title="user.created_at"}}>
-					<span class="wrap">
 						{{humanReadableDateShort user.created_at}}
 					</span>
 				</td>
-				<td class="span13" {{bind-attr title="user.email_address"}}>
+				<td class="span17" {{bind-attr title="user.email_address"}}>
 					<span class="wrap">
 						{{user.email_address}}
 					</span>
 				</td>
 				<td class="span1 delete-container">
 					<span class="wrap">
-						{{user-delete-modal user=user}}
+						{{#unless user.noDelete}}
+							{{user-delete-modal user=user}}
+						{{/unless}}
 					</span>
 				</td>
 			</tr>
