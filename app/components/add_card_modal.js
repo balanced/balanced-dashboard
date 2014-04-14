@@ -35,8 +35,7 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 
 		toggleOptionalFields: function() {
 			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
-			// trigger a resize to reposition the dialog
-			$("body").trigger("resize");
+			this.reposition();
 		},
 
 		save: function() {
