@@ -2,6 +2,8 @@ require('app/components/modal');
 
 Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 	validMonths: Balanced.TIME.MONTHS,
+	optionalFieldsOpen: false,
+
 	validYears: function() {
 		var years = [];
 
@@ -24,10 +26,16 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 				security_code: '',
 				expiration_month: '',
 				expiration_year: '',
-				postal_code: ''
+				address: this.get('customer.address') || {}
 			});
+			this.set('optionalFieldsOpen', false);
 
 			this._super(card);
+		},
+
+		toggleOptionalFields: function() {
+			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
+			this.reposition();
 		},
 
 		save: function() {

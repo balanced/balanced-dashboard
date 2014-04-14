@@ -310,10 +310,15 @@ body .modal-backdrop.fade.in {
     .control-label {
       color: @imperialRed100;
     }
+    .controls {
+      .alert-error {
+        display: block;
+      }
+    }
   }
 
   &:first-of-type {
-    margin: 0;
+    margin-top: 0;
 
     .text-label {
       height: 30px;
@@ -325,6 +330,12 @@ body .modal-backdrop.fade.in {
   }
 
   margin: 10px 0 10px 0;
+
+  .controls {
+    .alert-error {
+      display: none;
+    }
+  }
 }
 
 #verify-bank-account {
