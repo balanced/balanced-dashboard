@@ -16,6 +16,14 @@ test('can manage users', function(assert) {
 
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
 			assert.notEqual($dropdown.text().trim().length, 0, 'No Email is shown');
+
+			assert.equal($('.notification-center-message').length, 0, 'Has No Notification');
+
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:application').set('currentMarketplaceHasNoDebitableBankAccount', true);
+			});
+
+			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
 		});
 });
 

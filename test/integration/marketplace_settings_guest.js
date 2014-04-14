@@ -25,6 +25,8 @@ test('can visit page', function(assert) {
 
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
 			assert.equal($dropdown.text().trim().length, 0, 'No Email is shown');
+
+			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
 		});
 });
 

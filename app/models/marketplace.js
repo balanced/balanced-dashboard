@@ -38,7 +38,10 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		});
 	},
 
-	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account')
+
+
+	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account'),
+	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account')
 });
 
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');

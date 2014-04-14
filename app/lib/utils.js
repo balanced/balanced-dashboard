@@ -176,7 +176,8 @@ Balanced.Utils = Ember.Namespace.create({
 	setCurrentMarketplace: function(marketplace) {
 		// Store the marketplace in a global so we can use it for auth.
 		// TODO: TAKE THIS OUT when we've moved to oAuth
-		Balanced.currentMarketplace = marketplace;
+		Ember.set(Balanced, 'currentMarketplace', marketplace);
+		Balanced.Auth.set('currentMarketplace', marketplace);
 		if (marketplace) {
 			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 

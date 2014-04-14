@@ -1,5 +1,6 @@
 Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	showNotificationCenter: true,
+	currentMarketplaceHasNoDebitableBankAccount: false,
 
 	alert: function(options) {
 		this.set('alertObj', options);
@@ -16,13 +17,20 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		}
 	},
 
-	marketplaceHasDebitableBankAccount: function() {
-		return Balanced.currentMarketplace && Balanced.currentMarketplace.get('has_debitable_bank_account');
-	}.property('Balanced.currentMarketplace.has_debitable_bank_account'),
+	marketplaceHasNoDebitableBankAccount: function() {
+		var currentMarketplace = this.get('auth.currentMarketplace');
 
-	hasNotification: function() {
-		return (!this.get('marketplaceHasDebitableBankAccount')) || this.get('auth.isGuest');
-	}.property('marketplaceHasDebitableBankAccount', 'auth.isGuest'),
+		if (currentMarketplace && !currentMarketplace.get('isLoaded')) {
+			return;
+		}
+
+		this.set('currentMarketplaceHasNoDebitableBankAccount',
+			currentMarketplace && currentMarketplace.get('has_bank_account') && !currentMarketplace.get('has_debitable_bank_account'));
+	}.observes('auth.currentMarketplace', 'auth.currentMarketplace.has_debitable_bank_account', 'auth.currentMarketplace.has_bank_account'),
+
+	hasGuestNotification: Ember.computed.readOnly('auth.isGuest'),
+	hasBankAccountNotification: Ember.computed.readOnly('currentMarketplaceHasNoDebitableBankAccount'),
+	hasNotification: Balanced.computed.orProperties('hasGuestNotification', 'hasBankAccountNotification'),
 
 	actions: {
 		closeNotificationCenter: function() {
