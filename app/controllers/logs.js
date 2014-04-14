@@ -56,7 +56,23 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Ember.Evented, B
 		}
 
 		return params;
-	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed')
+	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model')
+
+});
+
+
+/*
+	This controller provides embedded log records in resource pages
+*/
+Balanced.LogsEmbeddedController = Balanced.LogsIndexController.extend({
+	limit: 5,
+
+	extra_filtering_params: function() {
+		var params = this._super();
+		params['resource_id'] = this.get('model.id');
+		return params;
+	}.property('endpoint', 'statusRollupFilterSucceeded', 'statusRollupFilterFailed', 'model')
+
 });
 
 Balanced.LogsLogController = Balanced.ObjectController.extend({
