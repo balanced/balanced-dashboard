@@ -36,7 +36,9 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 			url: ENV.BALANCED.AUTH + '/marketplaces/%@/spam'.fmt(id),
 			type: 'PUT'
 		});
-	}
+	},
+
+	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account')
 });
 
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');

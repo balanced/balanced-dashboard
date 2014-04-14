@@ -17,12 +17,14 @@ Balanced.Customer = Balanced.Model.extend({
 	uri: '/customers',
 
 	debitable_bank_accounts: function() {
-		var bank_accounts = this.get('bank_accounts');
+		return _.filter(this.get('bank_accounts.content'), function(bankAcct) {
+			return bankAcct.get('can_debit')
+		});
+	}.property('bank_accounts.@each.can_debit'),
 
-		return _.filter(bank_accounts.get('content'), function(bank_account) {
-			if (bank_account.get('can_debit')) {
-				return bank_account;
-			}
+	has_debitable_bank_account: function() {
+		return _.some(this.get('bank_accounts.content'), function(bankAcct) {
+			return bankAcct.get('can_debit')
 		});
 	}.property('bank_accounts.@each.can_debit'),
 

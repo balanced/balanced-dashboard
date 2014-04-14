@@ -16,6 +16,14 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		}
 	},
 
+	marketplaceHasDebitableBankAccount: function() {
+		return Balanced.currentMarketplace && Balanced.currentMarketplace.get('has_debitable_bank_account');
+	}.property('Balanced.currentMarketplace.has_debitable_bank_account'),
+
+	hasNotification: function() {
+		return (!this.get('marketplaceHasDebitableBankAccount')) || this.get('auth.isGuest');
+	}.property('marketplaceHasDebitableBankAccount', 'auth.isGuest'),
+
 	actions: {
 		closeNotificationCenter: function() {
 			this.set('showNotificationCenter', false);
