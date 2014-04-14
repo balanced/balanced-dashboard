@@ -13,7 +13,7 @@ Balanced.ModalComponent = Ember.Component.extend({
 
 	reposition: function() {
 		// trigger a resize to reposition the dialog
-		$(document).trigger('resize');
+		$(document.body).trigger('resize');
 	},
 
 	actions: {
