@@ -67,4 +67,3 @@ Balanced.ActivityDisputesRoute = Balanced.ActivityRoute.extend({
 		this.transitionTo('disputes', this.modelFor('marketplace'));
 	}
 });
-
