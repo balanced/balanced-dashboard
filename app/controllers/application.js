@@ -49,6 +49,26 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 			this.trigger('openChangePasswordModal');
 		},
 
+		openVerifyBankAccountLink: function() {
+			this.transitionToRoute('bank_accounts', Balanced.currentMarketplace.get('owner_customer.bank_accounts.firstObject')).then(function(route) {
+				_.delay(function() {
+					var controller;
+
+					if (route) {
+						controller = route.get('controller');
+					} else {
+						controller = Balanced.__container__.lookup('controller:bank_accounts');
+					}
+
+					if (!controller) {
+						return;
+					}
+
+					controller.trigger('openConfirmVerificationModal');
+				});
+			});
+		},
+
 		openChangeEmailModal: function() {
 			if (this.get('auth.isGuest')) {
 				return;
