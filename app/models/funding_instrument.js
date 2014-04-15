@@ -4,20 +4,9 @@ Balanced.FundingInstrument = Balanced.Model.extend(
 	Balanced.MetaArrayMixin, {
 		customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
-		funding_instrument_name: function() {
-			return this.get('brand') || this.get('formatted_bank_name');
-		}.property('brand', 'bank_account_name'),
-
-		title_description: function() {
-			return '%@ (%@)'.fmt(
-				this.get('name'),
-				this.get('last_four')
-			);
-		}.property('name', 'last_four'),
-
-		description_with_type: function() {
-			return '%@: %@'.fmt(this.get('type_name'), this.get('description'));
-		}.property('description'),
+		title_description: Balanced.computed.fmt('name', 'last_four', '%@ (%@)'),
+		description_with_type: Balanced.computed.fmt('type_name', 'description', '%@: %@'),
+		funding_instrument_name: Balanced.computed.orProperties('brand', 'formatted_bank_name'),
 
 		// TODO - fix the API to return the transactions_uri, then get rid of this hack
 		transactions_uri: function() {
