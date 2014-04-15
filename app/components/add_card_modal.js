@@ -14,9 +14,7 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 		return years;
 	}.property(),
 
-	expiration_error: function() {
-		return this.get('model.validationErrors.expiration_month') || this.get('model.validationErrors.expiration_year');
-	}.property('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
+	expiration_error: Balanced.computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
 	actions: {
 		open: function() {

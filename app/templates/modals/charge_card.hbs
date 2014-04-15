@@ -1,47 +1,66 @@
-<div class="modal wide-modal hide" id="pay-seller">
+<div class="modal wide-modal hide" id="charge-card">
 	<form class="form-horizontal split-labels" {{action "save" target="view" on="submit"}}>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Pay a seller</h2>
+			<h2>Charge a card</h2>
 		</div>
 
 		<div class="modal-body">
 			{{partial "modals/modalErrors"}}
 
 			<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-				<label class="control-label">Account holder's name</label>
+				<label class="control-label">Card holder's name</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.destination.name" class="full"}}
+					{{view Ember.TextField valueBinding="view.model.source.name" name="name" class="full"}}
+					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.name}}</div>
 				</div>
 			</div>
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.routing_number:error"}}>
-				<label class="control-label">Routing Number</label>
+			<div {{bind-attr class=":control-group view.model.validationErrors.number:error"}}>
+				<label class="control-label">Card Number</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.destination.routing_number" class="full"}}
+					{{view Ember.TextField valueBinding="view.model.source.number" name="number" class="full"}}
+					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.number}}</div>
 				</div>
 			</div>
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.account_number:error"}}>
-				<label class="control-label">Account number</label>
+			<div {{bind-attr class=":control-group view.model.validationErrors.security_code:error"}}>
+				<label class="control-label">Security Code</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.destination.account_number" class="full"}}
+					{{view Ember.TextField valueBinding="view.model.source.security_code" name="security_code" class="full"}}
+					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.security_code}}</div>
 				</div>
 			</div>
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.type:error"}}>
-				<label class="control-label">Account type</label>
+			<div {{bind-attr class=":control-group view.expiration_error:error"}}>
+				<label class="control-label">Expiration Date</label>
 
-				<div class="controls">
+				<div class="controls inline-control">
 					{{view Ember.Select
-						contentBinding="Balanced.BANK_ACCOUNT_TYPES"
-						optionValuePath="content.value"
-						optionLabelPath="content.label"
-						valueBinding="view.model.destination.type"
+						contentBinding="view.validMonths"
+						valueBinding="view.model.source.expiration_month"
+						prompt="Month"
+						name="expiration_month"
 					}}
+					{{view Ember.Select
+						contentBinding="view.validYears"
+						valueBinding="view.model.source.expiration_year"
+						prompt="Year"
+						name="expiration_year"
+					}}
+					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.expiration_month}}</div>
+				</div>
+			</div>
+
+			<div {{bind-attr class=":control-group view.model.validationErrors.address.postal_code:error"}}>
+				<label class="control-label">Billing Zip Code</label>
+				<div class="controls">
+					<span>Required for American Express cards</span>
+
+					{{view Ember.TextField valueBinding="view.model.source.address.postal_code" name="postal_code" class="full"}}
 				</div>
 			</div>
 
@@ -51,16 +70,16 @@
 				<div class="controls">
 					<div class="input-prepend">
 						<span class="add-on">$</span>
-						{{view Ember.TextField valueBinding="view.amount_dollars" class="span3"}}
+						{{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
 					</div>
 				</div>
 			</div>
 
 			<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-				<label class="control-label">Appears on statement as ({{view.model.destination.appears_on_statement_max_length}} characters max)</label>
+				<label class="control-label">Appears on statement as ({{view.model.source.appears_on_statement_max_length}} characters max)</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.destination.appears_on_statement_max_length"}}
+					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.source.appears_on_statement_max_length"}}
 				</div>
 			</div>
 
@@ -83,7 +102,7 @@
 		</div>
 
 		<div class="modal-footer">
-			{{view Balanced.ModalActionButtonsView submitTitle="Credit"}}
+			{{view Balanced.ModalActionButtonsView submitTitle="Charge" submittingTitle="Charging"}}
 		</div>
 	</form>
 </div>
