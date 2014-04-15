@@ -2,10 +2,12 @@ var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {
 			value = (value || "").trim();
-			callback(object, attribute, value, function(message) {
-				if (message) {
+			callback(object, attribute, value, function(messages) {
+				messages = _.isArray(messages) ? messages : [messages];
+
+				messages.forEach(function(message) {
 					object.get("validationErrors").add(attribute, "format", null, message);
-				}
+				});
 			});
 		}
 	};
@@ -37,7 +39,21 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			})
 		},
 		"csvFields.appears_on_statement_as": {
-			presence: true
+			presence: true,
+			format: formatValidator(function(object, attribute, value, cb) {
+				var messages = [];
+				if (value.length > 14) {
+					messages.push("must be under 15 characters");
+				}
+
+				var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
+				if (invalidCharacters.length === 1) {
+					messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
+				} else if (invalidCharacters.length > 1) {
+					messages.push('"%@" are invalid characters'.fmt(invalidCharacters));
+				}
+				cb(messages);
+			})
 		},
 		"csvFields.amount": {
 			presence: true,
