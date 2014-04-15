@@ -1,5 +1,5 @@
 <div class="alert-row">
-	{{#if auth.isGuest}}
+	{{#if controllers.application.hasNotification}}
 		{{#if controllers.application.showNotificationCenter}}
 			<div class="row-fluid notification-center notification-center-row">
 				<div class="span2">
@@ -9,7 +9,11 @@
 					</div>
 				</div>
 				<div class="span22 notification-center-message">
-					<span> You're logged in as a temporary guest user. {{#link-to 'claim'}}Claim your account to save your data. >{{/link-to}}</span>
+					{{#if controllers.application.hasGuestNotification}}
+						<span> You're logged in as a temporary guest user. {{#link-to 'claim'}}Claim your account to save your data. >{{/link-to}}</span>
+					{{else}}
+						<span> Please verify your marketplace bank account by confirming the deposit amounts. <a href="#" {{action "openVerifyBankAccountLink" target="controllers.application"}}>Verify now.</a></span>
+					{{/if}}
 				</div>
 				<div class="span2">
 					<button type="button" class="close" {{action "closeNotificationCenter" target="controllers.application"}}>&times;</button>
@@ -32,7 +36,7 @@
 
 		<div {{bind-attr class=":alert controllers.application.alertObj.type"}}>
 			<div class="button-wrapper left">
-				{{#if auth.isGuest}}
+				{{#if controllers.application.hasNotification}}
 					{{#unless controllers.application.showNotificationCenter}}
 						<div class="notification-center">
 							<div {{bind-attr class=":icon-button-group controllers.application.showNotificationCenter:open"}}>

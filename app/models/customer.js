@@ -16,14 +16,14 @@ Balanced.Customer = Balanced.Model.extend({
 
 	uri: '/customers',
 
-	debitable_bank_accounts: function() {
-		var bank_accounts = this.get('bank_accounts');
+	has_bank_account: Ember.computed.and('bank_accounts.isLoaded', 'bank_accounts.length'),
 
-		return _.filter(bank_accounts.get('content'), function(bank_account) {
-			if (bank_account.get('can_debit')) {
-				return bank_account;
-			}
-		});
+	debitable_bank_accounts: function() {
+		return this.get('bank_accounts').filterBy('can_debit');
+	}.property('bank_accounts.@each.can_debit'),
+
+	has_debitable_bank_account: function() {
+		return this.get('bank_accounts').isAny('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
 
 	debitable_funding_instruments: function() {
