@@ -39,30 +39,24 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('ein', 'business_name'),
 
 	is_business: Ember.computed.equal('type', CUSTOMER_TYPES.BUSINESS),
-
 	is_person: Ember.computed.equal('type', CUSTOMER_TYPES.PERSON),
-
-	display_me: function() {
-		return this.get('name') || this.get('id');
-	}.property('name', 'id'),
+	display_me: Balanced.computed.orProperties('name', 'id'),
 
 	display_me_with_email: function() {
-		var name = this.get('name') || this.get('id');
+		var name = this.get('display_me');
 		var email = this.get('email');
+
 		if (email) {
 			return "%@ (%@)".fmt(name, email);
 		} else {
 			return name;
 		}
-	}.property('name', 'id', 'email'),
+	}.property('display_me', 'email'),
 
-	facebook_id: function() {
-		return this.get('facebook') || this.get('meta.facebook');
-	}.property('facebook', 'meta.facebook'),
+	page_title: Ember.computed.readOnly('displayName'),
 
-	twitter_id: function() {
-		return this.get('twitter') || this.get('meta.twitter');
-	}.property('twitter', 'meta.twitter'),
+	facebook_id: Balanced.computed.orProperties('facebook', 'meta.facebook'),
+	twitter_id: Balanced.computed.orProperties('twitter', 'meta.twitter'),
 
 	facebook_url: function() {
 		if (this.get('facebook_id')) {
@@ -130,13 +124,8 @@ Balanced.Customer = Balanced.Model.extend({
 		}
 	}.property('dob_month', 'dob_year'),
 
-	dob_error: function() {
-		return this.get('validationErrors.dob_month') || this.get('validationErrors.dob_year');
-	}.property('validationErrors.dob_month', 'validationErrors.dob_year'),
-
-	is_identity_verified: function() {
-		return this.get('merchant_status') === 'underwritten';
-	}.property('merchant_status')
+	dob_error: Balanced.computed.orProperties('validationErrors.dob_month', 'validationErrors.dob_year'),
+	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

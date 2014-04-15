@@ -9,36 +9,25 @@ Balanced.Hold = Balanced.Transaction.extend({
 		if (this.get('debit')) {
 			return 'captured';
 		} else if (this.get('is_void')) {
-			return "void";
-		} else if (Date.parseISO8601(this.get('expires_at')) < new Date()) {
-			return "expired";
+			return 'void';
+		} else if (this.get('is_expired')) {
+			return 'expired';
 		} else {
-			return "created";
+			return 'created';
 		}
-	}.property('debit', 'is_void', 'expires_at'),
+	}.property('debit', 'is_void', 'is_expired'),
 
-	can_void_or_capture: function() {
-		return this.get('status') === 'created';
-	}.property('status'),
+	is_expired: function() {
+		return Date.parseISO8601(this.get('expires_at')) < new Date();
+	}.property('expires_at'),
 
-	type_name: function() {
-		return "Hold";
-	}.property(),
-
-	route_name: function() {
-		return "holds";
-	}.property(),
-
-	last_four: Ember.computed.alias('card.last_four'),
-	funding_instrument_name: Ember.computed.alias('card.brand'),
-
-	funding_instrument_description: function() {
-		return this.get('card.description');
-	}.property('card.description'),
-
-	customer: function() {
-		return this.get('debit.customer') || this.get('card.customer');
-	}.property('debit.customer', 'card.customer')
+	can_void_or_capture: Ember.computed.equal('status', 'created'),
+	type_name: 'Hold',
+	route_name: 'holds',
+	funding_instrument_description: Ember.computed.readOnly('card.description'),
+	customer: Balanced.computed.orProperties('debit.customer', 'card.customer'),
+	last_four: Ember.computed.readOnly('card.last_four'),
+	funding_instrument_name: Ember.computed.readOnly('card.brand')
 });
 
 Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');

@@ -1,7 +1,3 @@
-var computedState = function(stateValue) {
-	return Ember.computed.equal("state", stateValue);
-};
-
 var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {

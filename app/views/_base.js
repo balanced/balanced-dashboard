@@ -21,12 +21,18 @@ Balanced.ModalView = Balanced.View.extend({
 	controllerKey: 'controller',
 
 	didInsertElement: function() {
-		this.get(this.get('controllerKey')).on(this.controllerEventName, this, this.open);
+		if (this.controllerEventName) {
+			this.get(this.get('controllerKey')).on(this.controllerEventName, this, this.open);
+		}
+
 		this._super();
 	},
 
 	willDestroyElement: function() {
-		this.get(this.get('controllerKey')).off(this.controllerEventName, this, this.open);
+		if (this.controllerEventName) {
+			this.get(this.get('controllerKey')).off(this.controllerEventName, this, this.open);
+		}
+
 		this._super();
 	},
 

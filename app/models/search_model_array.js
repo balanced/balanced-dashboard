@@ -1,7 +1,7 @@
 require('app/models/core/model_array');
 
 var readOnly = function(type) {
-	return Ember.computed.oneWay('counts.' + type).readOnly();
+	return Ember.computed.readOnly('counts.' + type);
 };
 
 Balanced.SearchModelArray = Balanced.ModelArray.extend(Ember.SortableMixin, {
