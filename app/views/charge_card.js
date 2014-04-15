@@ -1,7 +1,7 @@
-Balanced.PaySellerModalView = Balanced.ModalView.extend({
-	controllerEventName: 'openPaySellerModal',
-	modalElement: '#pay-seller',
-	templateName: 'modals/pay_seller',
+Balanced.ChargeCardModalView = Balanced.ModalView.extend({
+	controllerEventName: 'openChargeCardModal',
+	modalElement: '#charge-card',
+	templateName: 'modals/charge_card',
 	amount_dollars: 0,
 
 	open: function() {
@@ -13,6 +13,7 @@ Balanced.PaySellerModalView = Balanced.ModalView.extend({
 
 		this._super(credit);
 	},
+
 
 	afterSave: function() {
 		this.get('controller').transitionToRoute('credits', this.get('model'));
