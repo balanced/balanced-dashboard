@@ -19,16 +19,6 @@ var formatValidator = function(callback) {
 
 var BANK_ACCOUNT_ID_SPECIFIED_ERROR = "cannot specify a bank_account_id with this field";
 
-var findInvalidCharacters = function (originalString) {
-	// ASCII letters (a-z and A-Z)
-	// Digits (0-9)
-	// Special characters (.<>(){}[]+&!$;-%_?:#@~=\'" ^`|)
-	var SPECIAL_CHARS_REGEXP = /[.<>(){}\[\]+&!$;\-%_?:#@~=\\'" \^`|]/g;
-	return originalString
-		.replace(SPECIAL_CHARS_REGEXP, '')
-		.replace(/\w/g, '');
-};
-
 var accountFieldRequired = function(fieldName) {
 	return formatValidator(function(object, attribute, value, cb) {
 		if (object.isExistingBankAccount()) {
@@ -60,7 +50,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 					messages.push("must be under 15 characters");
 				}
 
-				var invalidCharacters = findInvalidCharacters(value);
+				var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
 				if (invalidCharacters.length === 1) {
 					messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
 				} else if (invalidCharacters.length > 1) {

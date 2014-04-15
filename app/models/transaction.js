@@ -46,3 +46,17 @@ Balanced.Transaction = Balanced.Model.extend(
 		is_pending: Computed.isStatus('pending'),
 		is_succeeded: Computed.isStatus('succeeded')
 	});
+
+Balanced.Transaction.reopenClass({
+	findAppearsOnStatementAsInvalidCharacters: function (originalString) {
+		// ASCII letters (a-z and A-Z)
+		// Digits (0-9)
+		// Special characters (.<>(){}[]+&!$;-%_?:#@~=\'" ^`|)
+		var SPECIAL_CHARS_REGEXP = /[.<>(){}\[\]+&!$;\-%_?:#@~=\\'" \^`|\w]/g;
+		return originalString
+			.replace(SPECIAL_CHARS_REGEXP, '')
+			.split("")
+			.uniq()
+			.join("");
+	}
+});
