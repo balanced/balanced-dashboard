@@ -17,7 +17,7 @@
 				{{view Balanced.ControlGroupFieldView placeholder="Credit card number" field="number" help="Enter your credit card number"}}
 				{{view Balanced.ControlGroupFieldView placeholder="Security code" field="security_code" help="Locate the security code on the front or back of your card"}}
 				{{view Balanced.PopoverView class="icon-tooltip tooltip_card" data-html="true" data-placement="top" data-title="Credit Card Security Code" data-content="<img class='card_security_image_tool_tip' src='/images/card_security_image_tool_tip.png'/>"}}
-				{{view Balanced.ControlGroupFieldView placeholder="U.S. postal code" field="postal_code" help="Enter your zip code if you are using a U.S. issued credit card"}}
+				{{view Balanced.ControlGroupFieldView placeholder="U.S. postal code" field="address.postal_code" help="Enter your zip code if you are using a U.S. issued credit card"}}
 				{{#view Balanced.View classBinding=":control-group expirationError:error"}}
 					<div class="controls">
 						{{view Ember.Select contentBinding="expirationMonths" valueBinding="expiration_month" name="expiration_month" class="span2"}}
