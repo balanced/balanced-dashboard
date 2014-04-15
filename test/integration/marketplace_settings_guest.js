@@ -448,7 +448,7 @@ test('can create cards', function(assert) {
 				cvv: "123",
 				expiration_month: 1,
 				expiration_year: 2020,
-				postal_code: ""
+				address: {}
 			})));
 			assert.ok(tokenizingStub.calledOnce);
 			/*assert.ok(createSpy.calledOnce);

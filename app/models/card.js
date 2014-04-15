@@ -101,8 +101,12 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			expiration_year: this.get('expiration_year'),
 			cvv: this.get('security_code'),
 			name: this.get('name'),
-			postal_code: this.get('postal_code')
+			address: this.get('address') || {}
 		};
+
+		if (customerId) {
+			cardData.customer = customerId;
+		}
 
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
