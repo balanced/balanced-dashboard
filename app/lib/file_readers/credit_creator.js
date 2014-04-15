@@ -6,16 +6,28 @@ var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {
 			value = (value || "").trim();
-			callback(object, attribute, value, function(message) {
-				if (message) {
+			callback(object, attribute, value, function(messages) {
+				messages = _.isArray(messages) ? messages : [messages];
+
+				messages.forEach(function (message) {
 					object.get("validationErrors").add(attribute, "format", null, message);
-				}
+				});
 			});
 		}
 	};
 };
 
 var BANK_ACCOUNT_ID_SPECIFIED_ERROR = "cannot specify a bank_account_id with this field";
+
+var findInvalidCharacters = function (originalString) {
+	// ASCII letters (a-z and A-Z)
+	// Digits (0-9)
+	// Special characters (.<>(){}[]+&!$;-%_?:#@~=\'" ^`|)
+	var SPECIAL_CHARS_REGEXP = /[.<>(){}\[\]+&!$;\-%_?:#@~=\\'" \^`|]/g;
+	return originalString
+		.replace(SPECIAL_CHARS_REGEXP, '')
+		.replace(/\w/g, '');
+};
 
 var accountFieldRequired = function(fieldName) {
 	return formatValidator(function(object, attribute, value, cb) {
@@ -41,7 +53,21 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			})
 		},
 		"csvFields.appears_on_statement_as": {
-			presence: true
+			presence: true,
+			format: formatValidator(function (object, attribute, value, cb) {
+				var messages = [];
+				if (value.length > 14) {
+					messages.push("must be under 15 characters");
+				}
+
+				var invalidCharacters = findInvalidCharacters(value);
+				if (invalidCharacters.length === 1) {
+					messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
+				} else if (invalidCharacters.length > 1) {
+					messages.push('"%@" are invalid characters'.fmt(invalidCharacters));
+				}
+				cb(messages);
+			})
 		},
 		"csvFields.amount": {
 			presence: true,

@@ -204,6 +204,24 @@ test("new_customer_name validations", function(assert) {
 	assert.deepEqual(messages, ["cannot specify a bank_account_id with this field"]);
 });
 
+test("appears_on_statement_as validation", function (assert) {
+	var tests = {
+		"  1-BANANA 'doc'  ": undefined,
+		"    ": ["can't be blank"],
+		"109uoihnkjvh98vohnv5ohvnrk": ["must be under 15 characters"],
+		" BALANCED, inc. ": ['"," is an invalid character'],
+		" BAL,inc./corp. ": ['",/" are invalid characters']
+	};
+
+	_.each(tests, function(expectedMessage, value) {
+		var creator = Balanced.CreditCreator.fromCsvRow({
+			appears_on_statement_as: value
+		});
+		var messages = creator.get("validationErrors.csvFields.appears_on_statement_as.messages");
+		assert.deepEqual(messages, expectedMessage);
+	});
+});
+
 test("#isExistingBankAccount", function(assert) {
 	var row = Balanced.CreditCreator.fromCsvRow({
 		bank_account_id: "  0937204yof4h4  "
@@ -214,6 +232,7 @@ test("#isExistingBankAccount", function(assert) {
 	});
 	assert.ok(!row.isExistingBankAccount());
 });
+
 
 test("#isInvalid", function(assert) {
 	var row = {
