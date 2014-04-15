@@ -14,7 +14,7 @@ header.results-label h3 {
         float: left;
         border-bottom: @searchBorderWidth solid transparent;
         margin-left: 9px;
-        color: @gray4;        
+        color: @gray4;
       }
 
       &.filter:first-of-type:before {
@@ -29,15 +29,15 @@ header.results-label h3 {
         .sl;
         text-decoration: none;
         display: inline-block;
-        
+
         &:hover {
           color: @black;
         }
-        
+
         &:active {
           color: @black;
         }
-        
+
         &.dropdown-toggle {
           padding: 4px 2px 0;
           display: inline-block;
@@ -221,15 +221,16 @@ header.results-label h3 {
           }
         }
       }
-      td, span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
     }
     .highlight {
       background-color: #b3d1d5;
     }
+  }
+
+  td, span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .date {
@@ -321,12 +322,7 @@ header.results-label h3 {
       //  120px = set timing width
       // 330px = width of date picker
       width: 120px + 330px + @searchBorderWidth * 8;
-      right: -@searchBorderWidth;
       padding: 0;
-
-      &.date-picker {
-        top: 44px;
-      }
 
       .set-times {
         background-color: @white;
@@ -466,5 +462,32 @@ header.results-label h3 {
 .results.results-framed.results-neutral {
   .count {
     background-color: @gray3;
+  }
+}
+.results.embedded {
+  padding-bottom: 40px;
+  table.items {
+    background-color: white;
+    tr {
+      border: 2px solid @gray2;
+      .first {
+        width: 154px;
+        padding-left: 12px;
+      }
+    }
+    td.second {
+      a {
+        color: @linkColor;
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: @linkColorHover;
+        text-decoration: underline;
+      }
+    }
+    td.last {
+      width: 100px;
+    }
   }
 }

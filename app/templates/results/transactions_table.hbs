@@ -33,7 +33,7 @@
 		<th class="span4 description"><span>Description</span></th>
 		<th class="span3 account"><span>Customer</span></th>
 		<th class="span4 funding-instrument"><span>Card or Bank Account</span></th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 amount unsorted num" field="amount"}}<span>Amount</span>{{/view}}
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 amount unsorted num" field="amount"}}<span>Amount</span>{{/view}}
 	</tr>
 </thead>
 
@@ -108,7 +108,7 @@
 					</span>
 				{{/link-to}}
 			</td>
-			<td class="span2 amount num">
+			<td class="span3 amount num">
 				{{#link-to transaction.route_name transaction}}
 					<span>
 						{{formatCurrency transaction.amount}}
