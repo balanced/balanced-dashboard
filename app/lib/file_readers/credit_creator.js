@@ -9,7 +9,7 @@ var formatValidator = function(callback) {
 			callback(object, attribute, value, function(messages) {
 				messages = _.isArray(messages) ? messages : [messages];
 
-				messages.forEach(function (message) {
+				messages.forEach(function(message) {
 					object.get("validationErrors").add(attribute, "format", null, message);
 				});
 			});
@@ -44,7 +44,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		},
 		"csvFields.appears_on_statement_as": {
 			presence: true,
-			format: formatValidator(function (object, attribute, value, cb) {
+			format: formatValidator(function(object, attribute, value, cb) {
 				var messages = [];
 				if (value.length > 14) {
 					messages.push("must be under 15 characters");

@@ -204,7 +204,7 @@ test("new_customer_name validations", function(assert) {
 	assert.deepEqual(messages, ["cannot specify a bank_account_id with this field"]);
 });
 
-test("appears_on_statement_as validation", function (assert) {
+test("appears_on_statement_as validation", function(assert) {
 	var tests = {
 		"  1-BANANA 'doc'  ": undefined,
 		"    ": ["can't be blank"],

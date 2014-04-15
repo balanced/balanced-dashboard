@@ -48,7 +48,7 @@ Balanced.Transaction = Balanced.Model.extend(
 	});
 
 Balanced.Transaction.reopenClass({
-	findAppearsOnStatementAsInvalidCharacters: function (originalString) {
+	findAppearsOnStatementAsInvalidCharacters: function(originalString) {
 		// ASCII letters (a-z and A-Z)
 		// Digits (0-9)
 		// Special characters (.<>(){}[]+&!$;-%_?:#@~=\'" ^`|)
