@@ -34,14 +34,14 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		var model = this;
 		var deferred = Ember.Deferred.create();
 
-		function success() {
+		function success(args) {
 			resetEventHandlers();
-			deferred.resolve(model);
+			deferred.resolve(args || model);
 		}
 
-		function error() {
+		function error(args) {
 			resetEventHandlers();
-			deferred.reject(model);
+			deferred.reject(args || model);
 		}
 
 		function resetEventHandlers() {
