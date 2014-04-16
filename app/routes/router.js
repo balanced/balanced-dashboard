@@ -151,7 +151,7 @@ Balanced.Router.map(function() {
 			});
 
 			this.route('funding_instruments', {
-				path: '/funding_instruments'
+				path: '/payment_methods'
 			});
 
 			makeNestedResource(this, 'customers', 'customer');

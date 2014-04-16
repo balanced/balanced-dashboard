@@ -25,12 +25,6 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 	}
 });
 
-Balanced.ActivityIndexRoute = Balanced.ActivityRoute.extend({
-	redirect: function() {
-		this.transitionTo('activity.transactions', this.modelFor('marketplace'));
-	}
-});
-
 Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Activity',
 	defaultType: 'order'
@@ -41,20 +35,7 @@ Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
 	defaultType: 'transaction'
 });
 
-Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
-	redirect: function() {
-		this.transitionTo('customers', this.modelFor('marketplace'));
-	}
-});
-
-Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
-	redirect: function() {
-		this.transitionTo('funding_instruments', this.modelFor('marketplace'));
-	}
-});
-
-Balanced.ActivityDisputesRoute = Balanced.AuthRoute.extend({
-	redirect: function() {
-		this.transitionTo('disputes', this.modelFor('marketplace'));
-	}
-});
+Balanced.ActivityIndexRoute = Balanced.RedirectRoute('activity.transactions');
+Balanced.ActivityCustomersRoute = Balanced.RedirectRoute('marketplace.customers');
+Balanced.ActivityFundingInstrumentsRoute = Balanced.RedirectRoute('marketplace.funding_instruments');
+Balanced.ActivityDisputesRoute = Balanced.RedirectRoute('marketplace.disputes');
