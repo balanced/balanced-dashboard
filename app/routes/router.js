@@ -152,7 +152,7 @@ Balanced.Router.map(function() {
 
 			this.route('funding_instruments', {
 				path: '/funding_instruments'
-			})
+			});
 
 			makeNestedResource(this, 'customers', 'customer');
 
