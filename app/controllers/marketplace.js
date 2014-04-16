@@ -1,5 +1,9 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['application'],
+	fundingInstrumentSelected: function() {
+		var currentRouteName = this.get('controllers.application.currentRouteName');
+		return _.contains(Balanced.PAYMENT_METHOD_ROUTES, currentRouteName);
+	}.property('controllers.application.currentRouteName'),
 
 	actions: {
 		openPaySellerModal: function() {

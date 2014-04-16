@@ -19,8 +19,6 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 
 	customers: Balanced.Model.hasMany('customers', 'Balanced.Customer'),
 
-	funding_instruments_uri: Balanced.computed.concat('uri', '/search?limit=10&offset=0&q=&type[in]=bank_account,card'),
-
 	// TODO - take this out once marketplace has a link to invoices list
 	users_uri: function() {
 		return '/marketplaces/%@/users'.fmt(this.get('id'));

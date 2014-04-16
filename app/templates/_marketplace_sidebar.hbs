@@ -2,18 +2,36 @@
 	<ul>
 		<li>
 			{{#link-to 'activity' model}}
-				<i class="icon-activity"></i>
-				<span>Activity</span>
+				<i class="icon-payments"></i>
+				<span>Payments</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'logs.index' model}}
+			{{#link-to 'customers' model}}
+				<i class="icon-customers"></i>
+				<span>Customers</span>
+			{{/link-to}}
+		</li>
+		<li>
+			{{#link-to 'funding_instruments' model active=fundingInstrumentSelected}}
+				<i class="icon-payment-methods"></i>
+				<span>Payment methods</span>
+			{{/link-to}}
+		</li>
+		<li>
+			{{#link-to 'disputes' model}}
+				<i class="icon-disputes"></i>
+				<span>Disputes</span>
+			{{/link-to}}
+		</li>
+		<li>
+			{{#link-to 'logs' model}}
 				<i class="icon-logs"></i>
 				<span>Logs</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'invoices.index' model}}
+			{{#link-to 'invoices' model}}
 				<i class="icon-invoices"></i>
 				<span>Invoices</span>
 			{{/link-to}}

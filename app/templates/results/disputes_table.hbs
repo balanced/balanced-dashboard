@@ -29,7 +29,7 @@
 	{{#each dispute in view.disputes}}
 		<tr>
 			<td class="span3 date initiated">
-				{{#link-to dispute.route_name dispute}}<span>
+				{{#link-to "disputes.dispute" dispute}}<span>
 					<time {{bind-attr datetime="dispute.initiated_at"}} {{bind-attr title="dispute.initiated_at"}}>
 						<span class="primary">{{humanReadableDate dispute.initiated_at}}</span>
 						<span class="secondary">{{humanReadableTime dispute.initiated_at}}</span>
@@ -37,7 +37,7 @@
 				</span>{{/link-to}}
 			</td>
 			<td class="span3 date respond-by">
-				{{#link-to dispute.route_name dispute}}<span>
+				{{#link-to "disputes.dispute" dispute}}<span>
 					<time {{bind-attr datetime="dispute.respond_by"}} {{bind-attr title="dispute.respond_by"}}>
 						<span class="primary">{{humanReadableDate dispute.respond_by}}</span>
 						<span class="secondary">{{humanReadableTime dispute.respond_by}}</span>
@@ -45,23 +45,23 @@
 				</span>{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span4 :label4a :type dispute.status"}}>
-				{{#link-to dispute.route_name dispute}}<span>
+				{{#link-to "disputes.dispute" dispute}}<span>
 					<span class="dot"></span>
 					{{dispute.status_name}}
 				</span>{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
-				{{#link-to dispute.route_name dispute}}<span>
+				{{#link-to "disputes.dispute" dispute}}<span>
 					{{dispute.customer_name_summary}}
 				</span>{{/link-to}}
 			</td>
 			<td class="span3 funding-instrument">
-				{{#link-to dispute.route_name dispute}}<span>
+				{{#link-to "disputes.dispute" dispute}}<span>
 					{{dispute.funding_instrument_description}}
 				</span>{{/link-to}}
 			</td>
 			<td class="span2 amount num">
-				{{#link-to dispute.route_name dispute}}<span>
+				{{#link-to "disputes.dispute" dispute}}<span>
 					{{formatCurrency dispute.amount}}
 				</span>{{/link-to}}
 			</td>

@@ -1,12 +1,11 @@
-<div id="logs">
-	<h1 class="page-title">Logs
+<div id="customers">
+	<h1 class="page-title">Customers
 		{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
 	</h1>
 
-	<div id="logs" class="results">
-		{{view Balanced.LogsFiltersHeaderView}}
+	<div class="results">
 		<div class="items-wrapper">
-			{{view Balanced.LogsResultsView}}
+			{{view Balanced.CustomersResultsView customersBinding="results"}}
 		</div>
 	</div>
 </div>

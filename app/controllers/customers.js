@@ -1,4 +1,20 @@
-Balanced.CustomersController = Balanced.ObjectController.extend(
+Balanced.CustomersIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+	needs: ['marketplace'],
+
+	sortField: 'created_at',
+	sortOrder: 'desc',
+
+	loadsCollections: ['cards', 'bank_accounts'],
+
+	baseClassSelector: "#customer",
+	noDownloadsUri: true,
+
+	results_base_uri: function() {
+		return Balanced.Customer.create().get('uri');
+	}.property()
+});
+
+Balanced.CustomersCustomerController = Balanced.ObjectController.extend(
 	Ember.Evented,
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {
@@ -41,12 +57,6 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 			},
 		},
 
-		results_base_uri: function() {
-			if (this.get('isDisputeType')) {
-				return this.get('content.disputes_uri');
-			}
-
-			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri', 'content.disputes_uri')
+		results_base_uri: Ember.computed.alias('controllers.marketplace.customers_uri')
 	}
 );

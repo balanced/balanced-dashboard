@@ -87,15 +87,22 @@ Balanced.Router.map(function() {
 				this.route('orders', {
 					path: '/orders'
 				});
+
 				this.route('transactions', {
 					path: '/transactions'
 				});
+
+				// exists to handle old URIs for customers, redirects to the customers page
 				this.route('customers', {
 					path: '/customers'
 				});
+
+				// exists to handle old URIs for funding instruments, redirects to the customers page
 				this.route('funding_instruments', {
 					path: '/funding_instruments'
 				});
+
+				// exists to handle old URIs for disputes, redirects to the customers page
 				this.route('disputes', {
 					path: '/disputes'
 				});
@@ -141,6 +148,12 @@ Balanced.Router.map(function() {
 			this.resource('orders', {
 				path: '/orders/:item_id'
 			});
+
+			makeNestedResource(this, 'funding_instruments', 'funding_instrument');
+
+			makeNestedResource(this, 'customers', 'customer');
+
+			makeNestedResource(this, 'disputes', 'dispute');
 
 			makeNestedResource(this, 'logs', 'log');
 

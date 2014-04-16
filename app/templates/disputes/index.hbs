@@ -1,0 +1,13 @@
+<div id="disputes">
+	<h1 class="page-title">Disputes
+		{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+	</h1>
+
+	{{view Balanced.DisputeDownloadModalView}}
+
+	<div class="results">
+		<div class="items-wrapper">
+			{{view Balanced.DisputesResultsView disputesBinding="results"}}
+		</div>
+	</div>
+</div>
