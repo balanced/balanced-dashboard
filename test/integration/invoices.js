@@ -64,7 +64,7 @@ test('invoice detail page', function(assert) {
 				[Balanced.Dispute, '/disputes']
 			];
 
-			var assertCall = function (callNumber, model, uri) {
+			var assertCall = function(callNumber, model, uri) {
 				var callArguments = spy.getCall(callNumber).args.slice(0, 2);
 				var expectation = [
 					model,
