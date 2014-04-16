@@ -1,6 +1,6 @@
-require('app/routes/customers');
+require('app/routes/marketplaces/customers');
 
-Balanced.AccountsRoute = Balanced.CustomersRoute.extend({
+Balanced.AccountsRoute = Balanced.CustomerRoute.extend({
 	redirect: function() {
 		this.transitionTo('customers', this.modelFor('accounts'));
 	}

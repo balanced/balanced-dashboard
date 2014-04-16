@@ -42,12 +42,7 @@ Balanced.BankAccountsController = Balanced.ObjectController.extend(
 			}
 		},
 
-		results_base_uri: function() {
-			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri'),
-
-		can_debit_or_verify: function() {
-			return this.get('content.can_debit') || this.get('content.can_verify');
-		}.property('content.can_debit', 'content.can_verify')
+		results_base_uri: Ember.computed.readOnly('content.transactions_uri'),
+		can_debit_or_verify: Balanced.computed.orProperties('content.can_debit', 'content.can_verify')
 	}
 );

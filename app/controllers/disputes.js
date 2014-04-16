@@ -1,4 +1,4 @@
-Balanced.DisputesIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'initiated_at',
@@ -6,24 +6,11 @@ Balanced.DisputesIndexController = Balanced.ObjectController.extend(Ember.Evente
 
 	baseClassSelector: "#dispute",
 
-	results_base_uri: function() {
-		return Balanced.Dispute.create().get('uri');
-	}.property()
+	results_base_uri: Ember.computed.readOnly('controllers.marketplace.disputes_uri')
 });
 
-Balanced.DisputesDisputeController = Balanced.ObjectController.extend(
+Balanced.DisputeController = Balanced.ObjectController.extend(
 	Ember.Evented, {
-		needs: ['marketplace'],
-
-		init: function() {
-			var self = this;
-			Balanced.Model.Events.on('didCreate', function(object) {
-				if (Balanced.Transaction.prototype.isPrototypeOf(object)) {
-					self.send('reload');
-				}
-			});
-		},
-
-		results_base_uri: Ember.computed.alias('controllers.marketplace.disputes_uri')
+		needs: ['marketplace']
 	}
 );

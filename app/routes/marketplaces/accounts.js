@@ -1,4 +1,4 @@
-require('app/routes/customers');
+require('app/routes/marketplaces/customers');
 
 Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
 	pageTitle: 'Accounts',
@@ -8,7 +8,7 @@ Balanced.AccountsIndexRoute = Balanced.AuthRoute.extend({
 	}
 });
 
-Balanced.AccountRoute = Balanced.CustomersRoute.extend({
+Balanced.AccountRoute = Balanced.CustomerRoute.extend({
 	redirect: function(params) {
 		this.transitionTo('customer', this.modelFor('account'));
 	}

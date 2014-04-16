@@ -41,28 +41,19 @@ Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
 	defaultType: 'transaction'
 });
 
-Balanced.ActivityCustomersRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Customers',
-	defaultType: 'customer',
-
+Balanced.ActivityCustomersRoute = Balanced.AuthRoute.extend({
 	redirect: function() {
 		this.transitionTo('customers', this.modelFor('marketplace'));
 	}
 });
 
-Balanced.ActivityFundingInstrumentsRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Payment Methods',
-	defaultType: 'funding_instrument',
-
+Balanced.ActivityFundingInstrumentsRoute = Balanced.AuthRoute.extend({
 	redirect: function() {
 		this.transitionTo('funding_instruments', this.modelFor('marketplace'));
 	}
 });
 
-Balanced.ActivityDisputesRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Disputes',
-	defaultType: 'dispute',
-
+Balanced.ActivityDisputesRoute = Balanced.AuthRoute.extend({
 	redirect: function() {
 		this.transitionTo('disputes', this.modelFor('marketplace'));
 	}

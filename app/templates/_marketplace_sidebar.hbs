@@ -7,31 +7,31 @@
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'customers' model}}
+			{{#link-to 'marketplace.customers' model active=customerSelected}}
 				<i class="icon-customers"></i>
 				<span>Customers</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'funding_instruments' model active=fundingInstrumentSelected}}
+			{{#link-to 'marketplace.funding_instruments' model active=fundingInstrumentSelected}}
 				<i class="icon-payment-methods"></i>
 				<span>Payment methods</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'disputes' model}}
+			{{#link-to 'marketplace.disputes' model active=disputeSelected}}
 				<i class="icon-disputes"></i>
 				<span>Disputes</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'logs' model}}
+			{{#link-to 'marketplace.logs' model active=logSelected}}
 				<i class="icon-logs"></i>
 				<span>Logs</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'invoices' model}}
+			{{#link-to 'marketplace.invoices' model active=invoiceSelected}}
 				<i class="icon-invoices"></i>
 				<span>Invoices</span>
 			{{/link-to}}

@@ -1,5 +1,7 @@
 Balanced.Log = Balanced.Model.extend({
 	uri: '/logs',
+	route_name: 'log',
+
 	page_title: Balanced.computed.fmt('message.request.method', 'short_url', '%@ %@'),
 	short_url: Balanced.computed.transform('message.request.url', Balanced.Utils.stripDomain),
 	condensed_request_url: Balanced.computed.transform('short_url', Balanced.Utils.prettyLogUrl),

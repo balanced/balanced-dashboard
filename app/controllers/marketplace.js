@@ -1,9 +1,21 @@
+var Computed = {
+	isSelected: function() {
+		var routes = _.toArray(arguments);
+
+		return function() {
+			return routes.indexOf(this.get('controllers.application.currentRouteName')) >= 0;
+		}.property('controllers.application.currentRouteName');
+	}
+};
+
 Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['application'],
-	fundingInstrumentSelected: function() {
-		var currentRouteName = this.get('controllers.application.currentRouteName');
-		return _.contains(Balanced.PAYMENT_METHOD_ROUTES, currentRouteName);
-	}.property('controllers.application.currentRouteName'),
+
+	fundingInstrumentSelected: Computed.isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),
+	invoiceSelected: Computed.isSelected('marketplace.invoices', 'invoice'),
+	logSelected: Computed.isSelected('marketplace.logs', 'log'),
+	disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),
+	customerSelected: Computed.isSelected('marketplace.customers', 'customer'),
 
 	actions: {
 		openPaySellerModal: function() {

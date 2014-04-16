@@ -46,12 +46,15 @@ Balanced.Router = Ember.Router.extend({
 });
 
 function makeNestedResource(that, plural, singular) {
-	that.resource(plural, {
+	// Instead of a nested resource, use 2 routes
+	// since elements don't share the same route/controller/view
+	// See http://discuss.emberjs.com/t/nested-resource-rendering-into-main-outlet-and-linkto-issue/1791
+	that.route(plural, {
 		path: '/' + plural
-	}, function() {
-		this.route(singular, {
-			path: '/:item_id'
-		});
+	});
+
+	that.resource(singular, {
+		path: '/' + plural + '/:item_id'
 	});
 }
 
@@ -119,7 +122,6 @@ Balanced.Router.map(function() {
 			this.resource('bank_accounts', {
 				path: '/bank_accounts/:item_id'
 			});
-
 			this.resource('cards', {
 				path: '/cards/:item_id'
 			});
@@ -133,23 +135,24 @@ Balanced.Router.map(function() {
 			this.resource('debits', {
 				path: '/debits/:item_id'
 			});
-			this.resource('disputes', {
-				path: '/disputes/:item_id'
-			});
 			this.resource('holds', {
 				path: '/holds/:item_id'
 			});
 			this.resource('refunds', {
 				path: '/refunds/:item_id'
 			});
+
 			this.resource('events', {
 				path: '/events/:item_id'
 			});
+
 			this.resource('orders', {
 				path: '/orders/:item_id'
 			});
 
-			makeNestedResource(this, 'funding_instruments', 'funding_instrument');
+			this.route('funding_instruments', {
+				path: '/funding_instruments'
+			})
 
 			makeNestedResource(this, 'customers', 'customer');
 

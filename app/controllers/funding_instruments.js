@@ -1,4 +1,4 @@
-Balanced.FundingInstrumentsIndexController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace', 'activity'],
 
 	sortField: 'created_at',
@@ -7,11 +7,5 @@ Balanced.FundingInstrumentsIndexController = Balanced.ObjectController.extend(Em
 	baseClassSelector: "#funding-instruments",
 	noDownloadsUri: true,
 
-	type: 'funding_instrument',
-
-	results_base_uri: function() {
-		return Balanced.FundingInstrument.create().get('uri');
-	}.property(),
+	type: 'funding_instrument'
 });
-
-Balanced.FundingInstrumentsController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {});

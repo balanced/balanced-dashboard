@@ -14,7 +14,9 @@ var Computed = {
 };
 
 Balanced.Invoice = Balanced.Model.extend({
-	page_title: Balanced.computed.fmt('sequence_number', '#@'),
+	route_name: 'invoice',
+
+	page_title: Balanced.computed.fmt('sequence_number', '#%@'),
 
 	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
 

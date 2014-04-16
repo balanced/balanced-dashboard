@@ -23,6 +23,7 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	users_uri: function() {
 		return '/marketplaces/%@/users'.fmt(this.get('id'));
 	}.property('id'),
+
 	invoices_uri: '/invoices',
 	disputes_uri: '/disputes',
 
@@ -34,8 +35,6 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 			type: 'PUT'
 		});
 	},
-
-
 
 	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account'),
 	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account')
