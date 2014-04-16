@@ -59,6 +59,6 @@ test('cancel', function(assert) {
 		.then(function() {
 
 			click('button:contains("Skip")');
-			assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
+			assert.equal($('.page-title').text().trim(), 'Payments', 'title is correct');
 		});
 });
