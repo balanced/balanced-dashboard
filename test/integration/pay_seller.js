@@ -13,12 +13,12 @@ test('can pay a seller', function(assert) {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.pay-a-seller')
 		.fillForm('#pay-seller', {
-			'input:eq(0)': 'TEST',
-			'input:eq(1)': '123123123',
-			'input:eq(2)': '123123123',
-			'select:eq(0)': 'checking',
-			'input:eq(3)': '98',
-			'input:eq(4)': 'Test Transaction'
+			'name': 'TEST',
+			'routing_number': '123123123',
+			'account_number': '123123123',
+			'account_type': 'checking',
+			'dollar_amount': '98',
+			'appears_on_statement_as': 'Test Transaction'
 		}, {
 			click: '.modal-footer button:eq(1)'
 		})
@@ -43,12 +43,12 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.pay-a-seller')
 		.fillForm('#pay-seller', {
-			'input:eq(0)': 'TEST',
-			'input:eq(1)': '123123123',
-			'input:eq(2)': '123123123',
-			'select:eq(0)': 'checking',
-			'input:eq(3)': '98',
-			'input:eq(4)': 'Test Transaction'
+			'name': 'TEST',
+			'routing_number': '123123123',
+			'account_number': '123123123',
+			'account_type': 'checking',
+			'dollar_amount': '98',
+			'appears_on_statement_as': 'Test Transaction'
 		}, {
 			clickMultiple: '.modal-footer button:eq(1)'
 		})

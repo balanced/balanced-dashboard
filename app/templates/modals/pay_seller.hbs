@@ -12,7 +12,7 @@
 				<label class="control-label">Account holder's name</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.destination.name" class="full"}}
+					{{view Ember.TextField valueBinding="view.model.destination.name" class="full" name="name"}}
 				</div>
 			</div>
 
@@ -20,7 +20,7 @@
 				<label class="control-label">Routing Number</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.destination.routing_number" class="full"}}
+					{{view Ember.TextField valueBinding="view.model.destination.routing_number" class="full" name="routing_number"}}
 				</div>
 			</div>
 
@@ -28,7 +28,7 @@
 				<label class="control-label">Account number</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.destination.account_number" class="full"}}
+					{{view Ember.TextField valueBinding="view.model.destination.account_number" class="full" name="account_number"}}
 				</div>
 			</div>
 
@@ -41,6 +41,7 @@
 						optionValuePath="content.value"
 						optionLabelPath="content.label"
 						valueBinding="view.model.destination.type"
+						name="account_type"
 					}}
 				</div>
 			</div>
@@ -51,7 +52,7 @@
 				<div class="controls">
 					<div class="input-prepend">
 						<span class="add-on">$</span>
-						{{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
+						{{view Ember.TextField valueBinding="view.dollar_amount" class="span3" name="dollar_amount"}}
 					</div>
 				</div>
 			</div>
@@ -60,7 +61,7 @@
 				<label class="control-label">Appears on statement as ({{view.model.destination.appears_on_statement_max_length}} characters max)</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.destination.appears_on_statement_max_length"}}
+					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.destination.appears_on_statement_max_length" name="appears_on_statement_as"}}
 				</div>
 			</div>
 
