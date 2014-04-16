@@ -181,9 +181,8 @@ test('errors are logged', function(assert) {
 
 	var message = "Marketplace apply for production access error: DirtySocksException";
 	assert.deepEqual(spy.firstCall.args, [message, {
-		"request_id": undefined,
-		"err": {
-			"email": "cool@cat.com"
+		extra: {
+			email: "cool@cat.com"
 		}
 	}]);
 });
