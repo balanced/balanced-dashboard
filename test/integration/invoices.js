@@ -43,13 +43,9 @@ test('invoice detail page', function(assert) {
 	};
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
-		.then(function() {
-			_.each(expectedValues, function(value, selector) {
-				assert.equal($(selector).text().trim(), value);
-			});
-		})
-		.click('.activity .results header li.debit-cards a')
+		.checkElements(expectedValues, assert)
 		.click('.activity .results header li.holds a')
+		.click('.activity .results header li.debit-cards a')
 		.click('.activity .results header li.debit-bank-accounts a')
 		.click('.activity .results header li.credits a')
 		.click('.activity .results header li.failed-credits a')
@@ -68,12 +64,17 @@ test('invoice detail page', function(assert) {
 				[Balanced.Dispute, '/disputes']
 			];
 
-			assert.ok(spy.getCall(1).calledWith(Balanced.Invoice, invoiceUri), "Load invoices index");
+			var assertCall = function (callNumber, model, uri) {
+				var callArguments = spy.getCall(callNumber).args.slice(0, 2);
+				var expectation = [
+					model,
+					invoiceUri + uri
+				];
+				assert.deepEqual(callArguments, expectation, "Call %@ Arguments".fmt(callNumber));
+			};
 
 			expectations.forEach(function(expectation, i) {
-				var model = expectation[0];
-				var uri = invoiceUri + expectation[1];
-				assert.ok(spy.getCall(i + 3).calledWith(model, uri));
+				assertCall(i + 3, expectation[0], expectation[1]);
 			});
 		});
 });
