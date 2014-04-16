@@ -126,7 +126,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 							isLoaded: true
 						});
 
-						self.trigger('didCreate');
+						self.trigger('didCreate', card);
 					}, errorCreatingCard);
 				}, errorCreatingCard);
 			}

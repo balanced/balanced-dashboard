@@ -5,7 +5,8 @@ Balanced.MarketplaceInitialDepositRoute = Balanced.AuthRoute.extend({
 		return Balanced.Card.create({
 			uri: marketplace.get('owner_customer.cards_uri'),
 			isLoaded: true,
-			isNew: false
+			isNew: false,
+			address: {}
 		});
 	},
 	actions: {

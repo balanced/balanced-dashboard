@@ -12,13 +12,16 @@ test('can pay a seller', function(assert) {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.pay-a-seller')
-		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
-		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
-		.fillIn('#pay-seller .modal-body input:eq(2)', '123123123')
-		.fillIn('#pay-seller .modal-body select:eq(0)', 'checking')
-		.fillIn('#pay-seller .modal-body input:eq(3)', '98')
-		.fillIn('#pay-seller .modal-body input:eq(4)', 'Test Transaction')
-		.click('#pay-seller .modal-footer button:eq(1)')
+		.fillForm('#pay-seller', {
+			'input:eq(0)': 'TEST',
+			'input:eq(1)': '123123123',
+			'input:eq(2)': '123123123',
+			'select:eq(0)': 'checking',
+			'input:eq(3)': '98',
+			'input:eq(4)': 'Test Transaction'
+		}, {
+			click: '.modal-footer button:eq(1)'
+		})
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Credit, "/credits", sinon.match({
@@ -39,16 +42,17 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.pay-a-seller')
-		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
-		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
-		.fillIn('#pay-seller .modal-body input:eq(2)', '123123123')
-		.fillIn('#pay-seller .modal-body select:eq(0)', 'checking')
-		.fillIn('#pay-seller .modal-body input:eq(3)', '98')
-		.fillIn('#pay-seller .modal-body input:eq(4)', 'Test Transaction')
+		.fillForm('#pay-seller', {
+			'input:eq(0)': 'TEST',
+			'input:eq(1)': '123123123',
+			'input:eq(2)': '123123123',
+			'select:eq(0)': 'checking',
+			'input:eq(3)': '98',
+			'input:eq(4)': 'Test Transaction'
+		}, {
+			clickMultiple: '.modal-footer button:eq(1)'
+		})
 		.then(function() {
-			for (var i = 0; i < 20; i++) {
-				click('#pay-seller .modal-footer button:eq(1)');
-			}
 			assert.ok(stub.calledOnce);
 		});
 });
