@@ -23,7 +23,7 @@ test('exist on the activity page', function(assert) {
 			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct # of Rows');
 
 			// Manually check the disputes uri is correct
-			var disputesController = Balanced.__container__.lookup('controller:disputes.index');
+			var disputesController = Balanced.__container__.lookup('controller:marketplaceDisputes');
 			assert.equal(disputesController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
 			assert.ok(disputesController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
 		})
