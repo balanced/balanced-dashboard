@@ -4,6 +4,11 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	modalElement: '#evidence-portal',
 	dispute: null,
 
+	didInsertElement: function() {
+		console.log(this.get('controller'), this.get('target'), this.get('view'));
+		this._super();
+	},
+
 	open: function(model) {
 		return this._super(model || this.get('dispute'));
 	}
