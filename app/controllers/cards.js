@@ -18,8 +18,6 @@ Balanced.CardsController = Balanced.ObjectController.extend(
 			}
 		},
 
-		results_base_uri: function() {
-			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri')
+		results_base_uri: Ember.computed.readOnly('content.transactions_uri')
 	}
 );

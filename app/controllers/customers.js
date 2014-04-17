@@ -1,4 +1,15 @@
-Balanced.CustomersController = Balanced.ObjectController.extend(
+Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+	needs: ['marketplace'],
+
+	sortField: 'created_at',
+	sortOrder: 'desc',
+	baseClassSelector: "#customer",
+	noDownloadsUri: true,
+
+	results_base_uri: Ember.computed.readOnly('controllers.marketplace.customers_uri')
+});
+
+Balanced.CustomerController = Balanced.ObjectController.extend(
 	Ember.Evented,
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {
@@ -31,6 +42,14 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 			});
 		}.observes('model', 'model.isLoaded'),
 
+		results_base_uri: function() {
+			if (this.get('isDisputeType')) {
+				return this.get('content.disputes_uri');
+			}
+
+			return this.get('content.transactions_uri');
+		}.property('content.transactions_uri', 'content.disputes_uri'),
+
 		actions: {
 			promptToDeleteBankAccount: function(bankAccount) {
 				this.trigger('openDeleteBankAccountModal', bankAccount);
@@ -39,14 +58,6 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 			promptToDeleteCard: function(card) {
 				this.trigger('openDeleteCardModal', card);
 			},
-		},
-
-		results_base_uri: function() {
-			if (this.get('isDisputeType')) {
-				return this.get('content.disputes_uri');
-			}
-
-			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri', 'content.disputes_uri')
+		}
 	}
 );

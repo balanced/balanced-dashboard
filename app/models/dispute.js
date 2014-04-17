@@ -40,7 +40,7 @@ Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 	is_pending: Computed.isStatus('pending'),
 
 	type_name: 'Dispute',
-	route_name: 'disputes',
+	route_name: 'dispute',
 	events_uri: Balanced.computed.concat('uri', '/events'),
 	uri: '/disputes'
 });

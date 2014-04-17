@@ -15,7 +15,7 @@
 	</div>
 
 	{{txn-customer customer=transaction.customer}}
-
+	
 	<div class="transaction-details">
 		{{txn-dispute dispute=model}}
 
@@ -26,5 +26,3 @@
 		{{txn-debit debit=transaction marketplace=controllers.marketplace.model}}
 	</div>
 </div>
-
-{{view Balanced.ResourceLogsView contentBinding="model"}}

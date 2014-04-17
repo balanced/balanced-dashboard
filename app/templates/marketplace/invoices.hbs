@@ -1,0 +1,12 @@
+<div id="invoices">
+	<h1 class="page-title">Invoices
+		{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+	</h1>
+
+	<div id="invoices" class="results row">
+		<div class="items-wrapper">
+			{{view Balanced.InvoiceDownloadModalView}}
+			{{view Balanced.InvoicesResultsView}}
+		</div>
+	</div>
+</div>

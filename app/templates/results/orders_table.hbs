@@ -30,7 +30,7 @@
 	{{#each order in view.orders}}
 		<tr>
 			<td class="span3 date">
-				{{#link-to "orders" order}}<span>
+				{{#link-to order.route_name order}}<span>
 					<time {{bind-attr datetime="order.created_at"}} {{bind-attr title="order.created_at"}}>
 						<span class="primary">{{humanReadableDate order.created_at}}</span>
 						<span class="secondary">{{humanReadableTime order.created_at}}</span>
@@ -41,23 +41,23 @@
 				<span>{{order.page_title}}</span>
 			</td>
 			<td class="span4 buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
-				{{#link-to "orders" order}}<span>
+				{{#link-to order.route_name order}}<span>
 					{{order.buyers.firstObject.display_me}}
 				</span>{{/link-to}}
 			</td>
 			<td class="span4 seller" {{bind-attr title="order.seller.display_me"}}>
-				{{#link-to "orders" order}}<span>
+				{{#link-to order.route_name order}}<span>
 					{{order.seller.display_me}}
 				</span>{{/link-to}}
 			</td>
 			<td class="span2 debits">
-				{{#link-to "orders" order}}<span>{{order.debits_amount}}</span>{{/link-to}}
+				{{#link-to order.route_name order}}<span>{{order.debits_amount}}</span>{{/link-to}}
 			</td>
 			<td class="span2 credits">
-				{{#link-to "orders" order}}<span>{{order.credits_amount}}</span>{{/link-to}}
+				{{#link-to order.route_name order}}<span>{{order.credits_amount}}</span>{{/link-to}}
 			</td>
 			<td class="span2 escrow">
-				{{#link-to "orders" order}}<span>{{order.escrow_balance}}</span>{{/link-to}}
+				{{#link-to order.route_name order}}<span>{{order.escrow_balance}}</span>{{/link-to}}
 			</td>
 		</tr>
 	{{else}}
