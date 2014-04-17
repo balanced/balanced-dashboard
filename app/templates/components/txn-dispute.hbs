@@ -10,6 +10,29 @@
 	<div class="transaction-body">
 		<div class="row-fluid">
 			<div class="span25 border-adjust">
+				{{#if dispute.is_pending}}
+					<section class="evidence-portal">
+						<div class="span12">
+							<header>
+								<h3>Please provide supporting documentation:</h3>
+							</header>
+							<ul>
+								<li>Shipping receipts with shipping address and tracking numbers</li>
+								<li>Evidence of received goods or services purchased</li>
+							</ul>
+						</div>
+						<div class="span12">
+							<header>
+								<h3>Submit documentation by:</h3>
+							</header>
+							<div>
+								<h4>{{humanReadableDateLong dispute.respond_by}}</h4>
+								<a class="btn" href="#" {{action "openEvidencePortal"}}>Attach Doc</a>
+								<p>The dispute will most likely result in a lost if you do not respond by this date.</p>
+							</div>
+						</div>
+					</section>
+				{{/if}}
 				<section class="transaction-info">
 					<div class="key-value-display">
 						<header>
@@ -45,4 +68,6 @@
 			</div>
 		</div>
 	</div>
+
+	{{view Balanced.EvidencePortalModalView disputeBinding="dispute"}}
 </div>
