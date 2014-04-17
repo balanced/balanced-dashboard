@@ -64,4 +64,4 @@ Balanced.RedirectRoute = function redirectRoute(routeName, modelFor, baseRoute) 
 			this.transitionTo(routeName, this.modelFor(modelFor));
 		}
 	});
-}
+};
