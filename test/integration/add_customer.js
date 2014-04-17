@@ -41,7 +41,7 @@ test('can create person customer', function(assert) {
 			assert.ok(spy.calledOnce);
 
 			// should end up on the customer page
-			assert.equal($('#content h1').text().trim(), 'Customers', 'Title is not correct');
+			assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
 			assert.ok(spy.calledWith(Balanced.Customer, '/customers', sinon.match({
@@ -96,7 +96,7 @@ test('can create business customer', function(assert) {
 			assert.ok(spy.calledOnce);
 
 			// should end up on the customer page
-			assert.equal($('#content h1').text().trim(), 'Customers', 'Title is not correct');
+			assert.equal($('#content h1').text().trim(), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
 			assert.ok(spy.calledWith(Balanced.Customer, '/customers', sinon.match({
