@@ -1,5 +1,7 @@
 document.write('<script src="https:\/\/js.balancedpayments.com\/1.1\/balanced.js"><\/script>');
 
+QUnit.config.testTimeout = 30000;
+
 QUnit.testStart(function(test) {
 	var module = test.module ? test.module : '';
 
