@@ -60,7 +60,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		);
 	}.property('name', 'last_four', 'brand'),
 
-	human_readable_expiration: Balanced.computed.fmt('expiration_month', 'expiration_year', '%@/$@'),
+	human_readable_expiration: Balanced.computed.fmt('expiration_month', 'expiration_year', '%@/%@'),
 
 	tokenizeAndCreate: function(customerId) {
 		var self = this;
