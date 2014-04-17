@@ -368,14 +368,15 @@ var Testing = {
 		});
 	},
 
-	setupResults: function(controller, cb, howMany, type) {
+	waitForResults: function(controller, howMany, type) {
 		var self = this;
 
 		Ember.run(function() {
 			controller.get('results').then(function(results) {
 				// Wait for atleast 4 results
 				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
-					return setTimeout(cb, 1000);
+					controller.send('reload');
+					return setTimeout(_.bind(self.waitForResults, self, controller, howMany, type), 1000);
 				}
 
 				self.start();
@@ -383,10 +384,9 @@ var Testing = {
 		});
 	},
 
-	setupSearch: function(howMany, type) {
-		var self = this;
+	setupResults: function(route, controllerKey, defaultType, howMany, type, setupControllerCall) {
 		howMany = howMany || 1;
-		type = type || 'search';
+		type = type || defaultType;
 
 		// Call stop to stop executing the tests before
 		// a log is created
@@ -394,47 +394,33 @@ var Testing = {
 
 		// Visit the marketplace route to initialize everything
 		Ember.run(function() {
-			visit(self.MARKETPLACE_ROUTE);
+			visit(route);
 		});
 
-		var searchController = Balanced.__container__.lookup('controller:search');
+		var controller = Balanced.__container__.lookup('controller:' + controllerKey);
 
 		Ember.run(function() {
+			controller.set('type', type);
+
+			if (_.isFunction(setupControllerCall)) {
+				setupControllerCall(controller, howMany, type);
+			}
+		});
+
+		this.waitForResults(controller, howMany, type);
+	},
+
+	setupSearch: function(howMany, type) {
+		this.setupResults(this.MARKETPLACE_ROUTE, 'search', 'search', howMany, type, function(searchController, howMany, type) {
 			searchController.setProperties({
-				type: type,
 				debounced_search: '%',
 				showResults: true
 			});
 		});
-
-		this.setupResults(searchController, _.bind(this.setupSearch, this, howMany, type), howMany, type);
 	},
 
 	setupActivity: function(howMany, type) {
-		var self = this;
-		howMany = howMany || 1;
-		type = type || 'transaction';
-
-		// Call stop to stop executing the tests before
-		// a log is created
-		this.stop();
-
-		// Visit the activity route to initialize everything
-		Ember.run(function() {
-			visit(self.ACTIVITY_ROUTE);
-		});
-
-		var activityController = Balanced.__container__.lookup('controller:activity');
-
-		Ember.run(function() {
-			activityController.setProperties({
-				type: type
-			});
-
-			activityController.send('reload');
-		});
-
-		this.setupResults(activityController, _.bind(this.setupActivity, this, howMany, type), howMany, type);
+		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
 	},
 
 	createDispute: function(howMany) {
