@@ -15,9 +15,9 @@ Balanced.ErrorsLogger = Ember.Namespace.create({
 
 var reportError = function(error) {
 	if (!error || error.message === 'TransitionAborted' ||
-	(error.get && error.get('isError') &&
-	(!error.validate() ||
-	(error.get('errorStatusCode') >= 400 && error.get('errorStatusCode') < 500)))) {
+		(error.get && error.get('isError') &&
+			(!error.validate() ||
+				(error.get('errorStatusCode') >= 400 && error.get('errorStatusCode') < 500)))) {
 		return;
 	}
 
