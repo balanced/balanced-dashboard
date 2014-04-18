@@ -15,7 +15,7 @@
 
 <section id="main" class="container start">
 	<div class="row-fluid">
-		<div id="content" class="span16">
+		<div id="content" class="span16 offset1">
 			<h1>WELCOME to BALANCED</h1>
 			<p class="label1a">Manage your customers and transactions, from charging buyers<br>
 				to paying sellers.
@@ -23,11 +23,11 @@
 					out the dashboard.{{/link-to}}
 			</p>
 			<div class="api-key">
-				<span class="title">API Key</span>
-				<span class="secret">{{Balanced.NET.defaultApiKey}}</span>
+				<span class="title">API Key</span><span class="secret">{{Balanced.NET.defaultApiKey}}</span>
 			</div>
+			{{partial "footer"}}
 		</div>
-		<div class="span8">
+		<div class="tiles span9">
 			<ul>
 				<li class="dashboard" {{action "goToDashboard"}}>
 					<div class="icon"> </div>
@@ -58,4 +58,3 @@
     </div>
 </section>
 
-{{partial "footer"}}

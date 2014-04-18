@@ -1,7 +1,7 @@
 #main.start {
   #content {
     height: 525px;
-    margin-left: 90px;
+    margin-left: 3.8961039%
   }
   h1 {
     .cssicon(url('../images/welcome.png') -10px -90px, 285px, 110px);
@@ -16,9 +16,11 @@
   }
   .api-key {
     margin-top: 50px;
+    .title, .secret {
+      display: inline-block;
+    }
     .title {
       .sl-sb;
-      float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
@@ -26,18 +28,14 @@
     .secret {
       .sl-code;
       font-size: 12px;
-      float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
       background-color: @white;
     }
   }
-  .span8 {
+  .tiles {
     background-color: @contentBackground;
-    margin-left: 0;
-    width: 360px;
-    max-width: 360px;
     li {
       height: 214px;
       position: relative;
