@@ -74,6 +74,7 @@ test('basic form validation and terms and conditions', function(assert) {
 });
 
 test('application submits properly', function(assert) {
+	var loggerSpy = sinon.spy(Balanced.ErrorsLogger, 'captureMessage');
 	var createStub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
@@ -126,6 +127,9 @@ test('application submits properly', function(assert) {
 			click: ['#terms-and-conditions', '.submit']
 		})
 		.then(function() {
+			var message = "Marketplace apply for production access error: BankingError";
+
+			assert.equal(loggerSpy.firstCall.args[0], message);
 			assert.equal(createStub.callCount, 3);
 			assert.ok(createStub.calledWith(Balanced.APIKey, '/api_keys', sinon.match({
 				merchant: {
@@ -165,4 +169,20 @@ test('application submits properly', function(assert) {
 
 			balanced.bankAccount.create.restore();
 		});
+});
+
+test('errors are logged', function(assert) {
+	var spy = sinon.spy(Balanced.ErrorsLogger, 'captureMessage');
+
+	var route = Balanced.MarketplacesApplyRoute.create();
+	route.trackError("DirtySocksException", {
+		email: "cool@cat.com"
+	});
+
+	var message = "Marketplace apply for production access error: DirtySocksException";
+	assert.deepEqual(spy.firstCall.args, [message, {
+		extra: {
+			email: "cool@cat.com"
+		}
+	}]);
 });

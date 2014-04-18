@@ -12,9 +12,6 @@ module('Activity', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
-
-		// add some delay, because the API takes some time to add things to search
-		Testing.pause(1000);
 	},
 	teardown: function() {}
 });
@@ -32,6 +29,8 @@ test('can visit page', function(assert) {
 });
 
 test('Click load more shows 2 more and hides load more', function(assert) {
+	Testing.setupActivity(4);
+
 	visit(Testing.ACTIVITY_ROUTE)
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
@@ -52,6 +51,8 @@ test('Click load more shows 2 more and hides load more', function(assert) {
 });
 
 test('Filter Activity transactions table by type & status', function(assert) {
+	Testing.setupActivity();
+
 	visit(Testing.ACTIVITY_ROUTE)
 		.click('#activity .results table.transactions th.type .type-filter li a:contains(Holds)')
 		.then(function() {
@@ -247,9 +248,9 @@ test('download activity', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#activity .icon-download")
+		.click("#main #activity .icon-export.download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
-		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click('.download-modal.in form .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
@@ -271,7 +272,7 @@ test('download disputes', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("a:contains('Disputes')")
-		.click("#activity .icon-download")
+		.click("#main #activity .icon-export.download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -290,7 +291,7 @@ test('download activity only runs once despite multiple clicks', function(assert
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#activity .icon-download")
+		.click("#main #activity .icon-export.download")
 		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')

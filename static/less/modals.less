@@ -69,6 +69,10 @@ body .modal-backdrop.fade.in {
     background-color: transparent;
     border-color: transparent;
     color: @imperialRed100;
+
+    &.row-full {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -78,8 +82,19 @@ body .modal-backdrop.fade.in {
   background-color: @modalBorderColor;
   // Close icon
   .close {
+    .sl-lg;
+    line-height: 26px;
+    color: @white;
+    position: absolute;
     right: 0;
     top: 0;
+    padding: 4px 8px 0 8px;
+    background-color: @gray8;
+    border: none;
+
+    &:hover {
+      background-color: @gray7;
+    }
   }
   // Heading
   h2 {
@@ -187,7 +202,7 @@ body .modal-backdrop.fade.in {
     }
   }
 
-  #add-bank-account &, #add-card & {
+  #add-bank-account &, #add-card &, #charge-card & {
     text-align: center;
   }
 
@@ -198,7 +213,7 @@ body .modal-backdrop.fade.in {
       #add-bank-account & {
         padding-top: 10px;
       }
-      #add-card & {
+      #add-card &, #charge-card & {
         padding-bottom: 10px;
       }
     }
@@ -247,7 +262,7 @@ body .modal-backdrop.fade.in {
   padding: 15px;
   margin-bottom: 0;
   text-align: right; // right align buttons
-  background-color: @modalBackgroundColor;
+  background-color: @white;
   border-top: 1px transparent;
   .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
@@ -295,10 +310,19 @@ body .modal-backdrop.fade.in {
     .control-label {
       color: @imperialRed100;
     }
+    .controls {
+      .alert-error {
+        display: block;
+      }
+    }
   }
 
   &:first-of-type {
-    margin: 0;
+    margin-top: 0;
+
+    .text-label {
+      height: 30px;
+    }
   }
 
   &:last-of-type {
@@ -306,6 +330,12 @@ body .modal-backdrop.fade.in {
   }
 
   margin: 10px 0 10px 0;
+
+  .controls {
+    .alert-error {
+      display: none;
+    }
+  }
 }
 
 #verify-bank-account {

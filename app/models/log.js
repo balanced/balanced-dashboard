@@ -1,13 +1,8 @@
 Balanced.Log = Balanced.Model.extend({
 	uri: '/logs',
-
-	short_url: function() {
-		return Balanced.Utils.stripDomain(this.get('message.request.url'));
-	}.property('log.message.request.url'),
-
-	condensed_request_url: function() {
-		return Balanced.Utils.prettyLogUrl(this.get('short_url'));
-	}.property('log.short_url'),
+	page_title: Balanced.computed.fmt('message.request.method', 'short_url', '%@ %@'),
+	short_url: Balanced.computed.transform('message.request.url', Balanced.Utils.stripDomain),
+	condensed_request_url: Balanced.computed.transform('short_url', Balanced.Utils.prettyLogUrl),
 
 	geo_ip: function() {
 		var ip = this.get('message.request.headers.X-Real-Ip');

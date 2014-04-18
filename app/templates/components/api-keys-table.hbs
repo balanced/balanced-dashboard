@@ -2,18 +2,17 @@
 	<tbody>
 		{{#each key in keys}}
 			<tr>
-				<td class="span4" {{bind-attr title="key.meta.name"}}>
+				<td class="span4" {{bind-attr title="key.created_at"}}>
 					<span class="wrap">
 						<span class="icon-key"></span>
-
+						{{humanReadableDateShort key.created_at}}
+					</span>
+				</td>
+				<td class="span3" {{bind-attr title="key.meta.name"}}>
+					<span class="wrap">
 						{{#if key.meta.name}}
 							{{key.meta.name}}
 						{{/if}}
-					</span>
-				</td>
-				<td class="span4" {{bind-attr title="key.created_at"}}>
-					<span class="wrap">
-						{{humanReadableDateShort key.created_at}}
 					</span>
 				</td>
 				<td class="span6" {{bind-attr title="key.id"}}>
@@ -21,12 +20,12 @@
 						{{key.id}}
 					</span>
 				</td>
-				<td class="span7">
+				<td class="span8">
 					<span class="wrap">
 						{{#if key.secret}}
 							{{api-key-secret-shower key=key}}
 						{{else}}
-							{{#view Balanced.HoverPopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
+							{{#view Balanced.PopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
 							Secret unavailable
 							{{/view}}
 						{{/if}}

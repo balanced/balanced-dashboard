@@ -1,5 +1,5 @@
 var Testing = {
-	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl',
+	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
 	marketplace: null,
 
 	// constant ids
@@ -237,14 +237,15 @@ var Testing = {
 		});
 	},
 
-	_createDispute: function() {
+	_createDispute: function(howMany) {
 		var self = this;
+		howMany = howMany || 2;
 
 		return this._createDisputeCard().then(function() {
 			return self._createDebit().then(function() {
 				return Balanced.Dispute.findAll().then(function(disputes) {
-					if (!disputes.get('content').length) {
-						return setTimeout(_.bind(Testing.createDispute, Testing), 1000);
+					if (disputes.get('content').length < howMany) {
+						return setTimeout(_.bind(Testing.createDispute, Testing, howMany), 1000);
 					}
 
 					var evt = disputes.objectAt(0);
@@ -322,16 +323,19 @@ var Testing = {
 		});
 	},
 
-	setupEvent: function() {
+	setupEvent: function(howMany) {
 		var self = this;
+		howMany = howMany || 4;
+
 		// Call stop to stop executing the tests before
-		// a dispute is created
+		// a event is created
 		this.stop();
 
 		return Ember.run(function() {
 			Balanced.Event.findAll().then(function(events) {
-				if (!events.get('content').length) {
-					return setTimeout(_.bind(Testing.setupEvent, Testing), 1000);
+				// Wait for atleast 2 events
+				if (events.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupEvent, Testing, howMany), 1000);
 				}
 
 				var evt = events.objectAt(0);
@@ -344,7 +348,82 @@ var Testing = {
 		});
 	},
 
-	createDispute: function() {
+	setupLogs: function(howMany) {
+		var self = this;
+		howMany = howMany || 4;
+
+		// Call stop to stop executing the tests before
+		// a log is created
+		this.stop();
+
+		return Ember.run(function() {
+			Balanced.Log.findAll().then(function(logs) {
+				// Wait for atleast 4 logs
+				if (logs.get('length') < howMany) {
+					return setTimeout(_.bind(Testing.setupLogs, Testing, howMany), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	waitForResults: function(controller, howMany, type) {
+		var self = this;
+
+		Ember.run(function() {
+			controller.get('results').then(function(results) {
+				// Wait for atleast 4 results
+				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
+					controller.send('reload');
+					return setTimeout(_.bind(self.waitForResults, self, controller, howMany, type), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	setupResults: function(route, controllerKey, defaultType, howMany, type, setupControllerCall) {
+		howMany = howMany || 1;
+		type = type || defaultType;
+
+		// Call stop to stop executing the tests before
+		// a log is created
+		this.stop();
+
+		// Visit the marketplace route to initialize everything
+		Ember.run(function() {
+			visit(route);
+		});
+
+		var controller = Balanced.__container__.lookup('controller:' + controllerKey);
+
+		Ember.run(function() {
+			controller.set('type', type);
+
+			if (_.isFunction(setupControllerCall)) {
+				setupControllerCall(controller, howMany, type);
+			}
+		});
+
+		this.waitForResults(controller, howMany, type);
+	},
+
+	setupSearch: function(howMany, type) {
+		this.setupResults(this.MARKETPLACE_ROUTE, 'search', 'search', howMany, type, function(searchController, howMany, type) {
+			searchController.setProperties({
+				debounced_search: '%',
+				showResults: true
+			});
+		});
+	},
+
+	setupActivity: function(howMany, type) {
+		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
+	},
+
+	createDispute: function(howMany) {
 		var self = this;
 		// Call stop to stop executing the tests before
 		// a dispute is created
@@ -352,16 +431,17 @@ var Testing = {
 
 		// This automatically calls start();
 		return Ember.run(function() {
-			return self._createDispute();
+			return self._createDispute(howMany);
 		});
 	},
 
 	createDisputes: function(number) {
 		var self = this;
+		var initialNumberDisputes = number || 4;
 
 		Ember.run(function() {
-			for (number = number || 4; number >= 0; number--) {
-				self.createDispute();
+			for (number = initialNumberDisputes; number >= 0; number--) {
+				self.createDispute(initialNumberDisputes);
 			}
 		});
 	},

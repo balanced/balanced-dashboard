@@ -10,7 +10,6 @@ Balanced.Analytics = (function() {
 	}
 
 	// links the current id with this specific id
-
 	function trackLogin(email) {
 		try {
 			window.mixpanel.identify(email);

@@ -5,14 +5,11 @@ Balanced.MetaArrayMixin = Ember.Mixin.create({
 			return meta;
 		}
 
-		var metaArray = [];
-
-		for (var key in meta) {
-			metaArray.push({
+		return _.map(meta, function(val, key) {
+			return {
 				key: key,
-				value: meta[key]
-			});
-		}
-		return metaArray;
+				value: val
+			};
+		}) || [];
 	}.property('meta')
 });

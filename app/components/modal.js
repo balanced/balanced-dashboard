@@ -11,6 +11,11 @@ Balanced.ModalComponent = Ember.Component.extend({
 		this.$(this.get('modalElement')).modal('hide');
 	},
 
+	reposition: function() {
+		// trigger a resize to reposition the dialog
+		$(document.body).trigger('resize');
+	},
+
 	actions: {
 		open: function(model) {
 			var self = this;
@@ -30,8 +35,7 @@ Balanced.ModalComponent = Ember.Component.extend({
 		},
 
 		close: function() {
-			var modalElement = this.get('modalElement');
-			this.$(modalElement).modal("hide");
+			this.hide();
 		},
 
 		save: function(model) {
@@ -52,5 +56,4 @@ Balanced.ModalComponent = Ember.Component.extend({
 			});
 		}
 	}
-
 });

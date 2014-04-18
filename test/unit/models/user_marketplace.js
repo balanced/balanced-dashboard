@@ -24,7 +24,7 @@ test('users', function(assert) {
 	});
 
 	var users = userMarketplace.get('users');
-	assert.equal(users.content.length, 0, 'Have No Other Users On Marketplace');
+	assert.equal(users.length, 1, 'Have No Other Users On Marketplace');
 });
 
 test('isTest', function(assert) {

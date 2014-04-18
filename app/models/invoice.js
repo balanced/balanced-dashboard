@@ -1,10 +1,21 @@
 var Computed = {
 	uri: function(key) {
 		return Balanced.computed.concat('uri', '/' + key);
+	},
+	date: function(p) {
+		return function() {
+			var period = this.get('period');
+			if (!period) {
+				return period;
+			}
+			return period[p];
+		}.property('period');
 	}
 };
 
 Balanced.Invoice = Balanced.Model.extend({
+	page_title: Balanced.computed.fmt('sequence_number', '#@'),
+
 	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
 
 	bank_account_debits: Balanced.Model.hasMany('bank_account_debits', 'Balanced.Debit'),
@@ -19,21 +30,8 @@ Balanced.Invoice = Balanced.Model.extend({
 	settlements: Balanced.Model.hasMany('settlements', 'Balanced.Settlement'),
 	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 
-	from_date: function() {
-		var period = this.get('period');
-		if (!period) {
-			return period;
-		}
-		return period[0];
-	}.property('period'),
-
-	to_date: function() {
-		var period = this.get('period');
-		if (!period) {
-			return period;
-		}
-		return period[1];
-	}.property('period'),
+	from_date: Computed.date(0),
+	to_date: Computed.date(1),
 
 	subtotal: function() {
 		var total = this.get('total_fee');
@@ -44,17 +42,13 @@ Balanced.Invoice = Balanced.Model.extend({
 		return total - adjustments;
 	}.property('total_fee', 'adjustments_total_fee'),
 
-	is_scheduled: function() {
-		return this.get('state') === 'scheduled';
-	}.property('state'),
+	is_scheduled: Ember.computed.equal('state', 'scheduled'),
 
 	is_not_paid: function() {
-		return this.get('state') !== 'paid';
+		return this.get('state') !== 'pending';
 	}.property('state'),
 
-	reversal_fee: function() {
-		return 0;
-	}.property(),
+	reversal_fee: 0,
 
 	// TODO - take all these URIs out once invoice has links for them
 	bank_account_debits_uri: Computed.uri('bank_account_debits'),

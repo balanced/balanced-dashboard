@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		clean: {
 			files: {
-				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp']
+				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp', 'coverage/']
 			}
 		},
 
@@ -27,6 +27,13 @@ module.exports = function(grunt) {
 				},
 				src: ['app/dashboard.js'],
 				dest: 'build/js/includes-prod.js'
+			},
+			templates: {
+				options: {
+					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
+				},
+				src: ['build/js/compiled-templates.js'],
+				dest: 'build/js/test-templates.js'
 			},
 			testfixtures: {
 				options: {
@@ -52,13 +59,22 @@ module.exports = function(grunt) {
 			dashboarddev: {
 				src: [
 					'app/app_setup.js',
+					'build/js/compiled-templates.js',
 					'build/js/includes-dev.js'
 				],
 				dest: 'build/js/dashboard-dev.js'
 			},
+			dashboardtest: {
+				src: [
+					'app/app_setup.js',
+					'build/js/includes-dev.js'
+				],
+				dest: 'build/js/dashboard-test.js'
+			},
 			dashboardprod: {
 				src: [
 					'app/app_setup.js',
+					'build/js/compiled-templates.js',
 					'build/js/includes-prod.js'
 				],
 				dest: 'build/js/dashboard-prod.js'
@@ -228,6 +244,16 @@ module.exports = function(grunt) {
 					dest: 'build/images/'
 				}, {
 					cwd: 'static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/test/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
+					expand: true,
+					src: ['**'],
+					dest: 'build/images/'
+				}, {
+					cwd: 'static/javascripts/strapped/static/images/',
 					expand: true,
 					src: ['**'],
 					dest: 'build/test/images/'
@@ -630,6 +656,26 @@ module.exports = function(grunt) {
 			dev: {
 				path: 'http://localhost:9876/build/dev.html'
 			},
+		},
+
+		coverage: {
+			options: {
+				thresholds: {
+					statements: 70,
+					branches: 60,
+					lines: 70,
+					functions: 70
+				},
+				dir: './coverage/',
+				root: '.'
+			}
+		},
+
+		coveralls: {
+			all: {
+				src: 'coverage/**/lcov.info',
+				force: true
+			}
 		}
 	});
 
@@ -651,6 +697,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-open');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-jsbeautifier');
+	grunt.loadNpmTasks('grunt-istanbul-coverage');
+	grunt.loadNpmTasks('grunt-coveralls');
 
 	grunt.registerMultiTask('clean', 'Deletes files', function() {
 		this.files.forEach(function(file) {
@@ -666,7 +714,7 @@ module.exports = function(grunt) {
 	A task to run the application's unit tests via the command line.
 	It will headlessy load the test runner page and print the test runner results
 	*/
-	grunt.registerTask('test', ['_devBuild', 'karma', 'jshint', 'verify']);
+	grunt.registerTask('test', ['_devBuild', 'verify', 'karma', 'coverage', 'coveralls:all']);
 
 	/*
 	Default task. Compiles templates, neuters application code, and begins
@@ -700,7 +748,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
+	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod']);
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:libtest', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);

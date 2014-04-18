@@ -30,23 +30,11 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		}
 	},
 
-	type_name: function() {
-		return 'Card';
-	}.property(),
-
-	route_name: function() {
-		return 'cards';
-	}.property(),
-
-	postal_code: function() {
-		return this.get('address.postal_code');
-	}.property('address.postal_code'),
-
+	type_name: 'Card',
+	route_name: 'cards',
+	postal_code: Ember.computed.alias('address.postal_code'),
 	is_bank_account: false,
-
-	appears_on_statement_max_length: function() {
-		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD;
-	}.property(),
+	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
 
 	last_four: function() {
 		var accountNumber = this.get('number');
@@ -72,10 +60,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		);
 	}.property('name', 'last_four', 'brand'),
 
-	human_readable_expiration: function() {
-		return this.get('expiration_month') + '/' + this.get('expiration_year');
-	}.property('expiration_month', 'expiration_year'),
-
+	human_readable_expiration: Balanced.computed.fmt('expiration_month', 'expiration_year', '%@/%@'),
 
 	tokenizeAndCreate: function(customerId) {
 		var self = this;
@@ -101,8 +86,12 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			expiration_year: this.get('expiration_year'),
 			cvv: this.get('security_code'),
 			name: this.get('name'),
-			postal_code: this.get('postal_code')
+			address: this.get('address') || {}
 		};
+
+		if (customerId) {
+			cardData.customer = customerId;
+		}
 
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
@@ -137,7 +126,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 							isLoaded: true
 						});
 
-						self.trigger('didCreate');
+						self.trigger('didCreate', card);
 					}, errorCreatingCard);
 				}, errorCreatingCard);
 			}

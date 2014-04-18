@@ -12,7 +12,28 @@ module('Marketplace Settings', {
 test('can manage users', function(assert) {
 	visit(SETTINGS_ROUTE)
 		.then(function() {
-			assert.equal($('.users-info table tr td.no-results').length, 1, 'No Users shown');
+			assert.equal($('.users-info table tr td.no-results').length, 0, '1 User Shown');
+
+			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
+			assert.notEqual($dropdown.text().trim().length, 0, 'No Email is shown');
+
+			assert.equal($('.notification-center-message').length, 0, 'Has No Notification');
+
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:application').set('currentMarketplaceHasNoDebitableBankAccount', true);
+			});
+
+			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
+		});
+});
+
+test('test marketplace info', function(assert) {
+	visit(SETTINGS_ROUTE)
+		.then(function() {
+			var arr = ['FIXTURED-MP4cOZZqeAelhxXQzljLLtgl', 'FIXTURED Marketplace', 'support@example.com', 'example.com', '+16505551234'];
+			$('.marketplace-info dl dd').each(function(i) {
+				assert.equal($(this).text().trim(), arr[i], 'Same text as ' + arr[i]);
+			});
 		});
 });
 
@@ -87,10 +108,10 @@ test('can delete user', function(assert) {
 			assert.equal($('.users-info table tr').length, 1, 'Single Users shown');
 		})
 		.click('.confirm-delete-user:first')
-		.click('.modal.delete-user button[name="modal-submit"]:visible')
-		.then(function() {
-			// TODO Statements not working for some reason?
-			// assert.ok(stub.calledOnce);
-			// assert.ok(stub.calledWith(Balanced.UserInvite));
-		});
+		.click('.modal.delete-user button[name="modal-submit"]:visible');
+	// .then(function() {
+	// TODO Statements not working for some reason?
+	// assert.ok(stub.calledOnce);
+	// assert.ok(stub.calledWith(Balanced.UserInvite));
+	// });
 });

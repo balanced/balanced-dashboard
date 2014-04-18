@@ -16,14 +16,14 @@ Balanced.Customer = Balanced.Model.extend({
 
 	uri: '/customers',
 
-	debitable_bank_accounts: function() {
-		var bank_accounts = this.get('bank_accounts');
+	has_bank_account: Ember.computed.and('bank_accounts.isLoaded', 'bank_accounts.length'),
 
-		return _.filter(bank_accounts.get('content'), function(bank_account) {
-			if (bank_account.get('can_debit')) {
-				return bank_account;
-			}
-		});
+	debitable_bank_accounts: function() {
+		return this.get('bank_accounts').filterBy('can_debit');
+	}.property('bank_accounts.@each.can_debit'),
+
+	has_debitable_bank_account: function() {
+		return this.get('bank_accounts').isAny('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
 
 	debitable_funding_instruments: function() {
@@ -39,30 +39,24 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('ein', 'business_name'),
 
 	is_business: Ember.computed.equal('type', CUSTOMER_TYPES.BUSINESS),
-
 	is_person: Ember.computed.equal('type', CUSTOMER_TYPES.PERSON),
-
-	display_me: function() {
-		return this.get('name') || this.get('id');
-	}.property('name', 'id'),
+	display_me: Balanced.computed.orProperties('name', 'id'),
 
 	display_me_with_email: function() {
-		var name = this.get('name') || this.get('id');
+		var name = this.get('display_me');
 		var email = this.get('email');
+
 		if (email) {
 			return "%@ (%@)".fmt(name, email);
 		} else {
 			return name;
 		}
-	}.property('name', 'id', 'email'),
+	}.property('display_me', 'email'),
 
-	facebook_id: function() {
-		return this.get('facebook') || this.get('meta.facebook');
-	}.property('facebook', 'meta.facebook'),
+	page_title: Ember.computed.readOnly('displayName'),
 
-	twitter_id: function() {
-		return this.get('twitter') || this.get('meta.twitter');
-	}.property('twitter', 'meta.twitter'),
+	facebook_id: Balanced.computed.orProperties('facebook', 'meta.facebook'),
+	twitter_id: Balanced.computed.orProperties('twitter', 'meta.twitter'),
 
 	facebook_url: function() {
 		if (this.get('facebook_id')) {
@@ -130,13 +124,8 @@ Balanced.Customer = Balanced.Model.extend({
 		}
 	}.property('dob_month', 'dob_year'),
 
-	dob_error: function() {
-		return this.get('validationErrors.dob_month') || this.get('validationErrors.dob_year');
-	}.property('validationErrors.dob_month', 'validationErrors.dob_year'),
-
-	is_identity_verified: function() {
-		return this.get('merchant_status') === 'underwritten';
-	}.property('merchant_status')
+	dob_error: Balanced.computed.orProperties('validationErrors.dob_month', 'validationErrors.dob_year'),
+	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
 });
 
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

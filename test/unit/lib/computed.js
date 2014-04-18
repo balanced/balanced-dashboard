@@ -27,6 +27,31 @@ test('Balanced.computed.sum', function(assert) {
 
 	t.get('full').pushObject(Credit.create());
 	assert.equal(t.get('part'), (ARRAY_LENGTH + 1) * AMOUNT);
+
+	t.get('full').pushObject(Credit.create({
+		amount: 0
+	}));
+	assert.equal(t.get('part'), (ARRAY_LENGTH + 1) * AMOUNT);
+
+	t = TestObject.create({
+		full: {}
+	});
+	assert.equal(t.get('part'), 0);
+
+	t = TestObject.create({
+		full: []
+	});
+	assert.equal(t.get('part'), 0);
+
+	t = TestObject.create({
+		full: null
+	});
+	assert.equal(t.get('part'), 0);
+
+	t = TestObject.create({
+		full: true
+	});
+	assert.equal(t.get('part'), 0);
 });
 
 test('Balanced.computed.sumAll', function(assert) {
@@ -155,4 +180,70 @@ test('Balanced.computed.orProperties', function(assert) {
 		t.set('id_1', true);
 	});
 	assert.equal(t.get('id'), true);
+});
+
+test('Balanced.computed.transform', function(assert) {
+	var TestObject = Ember.Object.extend({
+		count: Balanced.computed.transform('length', 'plusOne'),
+		plusOne: function(length) {
+			return length + 1;
+		}
+	});
+
+	var t = TestObject.create();
+	assert.ok(_.isNaN(t.get('count')));
+
+	t = TestObject.create({
+		length: 1
+	});
+	assert.equal(t.get('count'), 2);
+
+	Ember.run(function() {
+		t.set('length', 0);
+	});
+	assert.equal(t.get('count'), 1);
+
+	var TestObject2 = Ember.Object.extend({
+		count: Balanced.computed.transform('length', 'plusOne'),
+		plusOne: function(length) {
+			assert.ok(this instanceof TestObject2);
+			return length + 1;
+		}
+	});
+
+	t = TestObject2.create({
+		length: 1
+	});
+	assert.equal(t.get('count'), 2);
+});
+
+test('Balanced.computed.ifThisOrThat', function(assert) {
+	var TestObject = Ember.Object.extend({
+		text: Balanced.computed.ifThisOrThat('length', 'has some', 'has none'),
+	});
+
+	var t = TestObject.create();
+	assert.equal(t.get('text'), 'has none');
+
+	t = TestObject.create({
+		length: 1
+	});
+	assert.equal(t.get('text'), 'has some');
+
+	Ember.run(function() {
+		t.set('length', false);
+	});
+	assert.equal(t.get('text'), 'has none');
+
+	TestObject = Ember.Object.extend({
+		text: Balanced.computed.ifThisOrThat('length', 'has some', 'has none', true),
+	});
+
+	t = TestObject.create();
+	assert.equal(t.get('text'), 'has some');
+
+	t = TestObject.create({
+		length: 1
+	});
+	assert.equal(t.get('text'), 'has none');
 });

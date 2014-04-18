@@ -4,30 +4,34 @@
 * Behold, the structure of the site. The following defines the colors, the
 * look, and the feel of the main structural components of the site.
 */
-@searchBarBackground: @black;
-@searchBoxBackground: @gray5;
-@searchBarHeight: 60px;
-@searchBoxMargin: 5px;
-@searchBoxHeight: @searchBarHeight - @searchBoxMargin * 2;
 @marketplaceNavIconSize: 50px;
 @marketplaceNavBackground: @gray2;
 @marketplaceNavColor: @gray4;
 @marketplaceNavTriangleSize: 10px;
-@marketplaceNavWidth: 90px;
 
 #header {
-  background-color: @black;
-  height: 60px;
-  padding-left: 90px;
-  position: relative;
 
   #logo {
-    border-right: 1px solid @searchBoxBackground;
-    height: 60px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 90px;
+    height: @headerHeight;
+    width: 32px;
+    float: left;
+
+    .img {
+      .cssicon(
+        @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
+        @width: 16px,
+        @height: 16px,
+        @display: block
+      );
+
+      margin: 16px 0 16px 15px;
+      background-size: 16px;
+      background-repeat: no-repeat;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 
   #balanced-address {
@@ -35,12 +39,23 @@
   }
 }
 
-#marketplaces {
-  width: 200px;
-}
-
 #marketplaces-and-search {
   margin-left: 0;
+
+  #marketplaces.dropdown {
+    width: 150px;
+
+    &.open, .dropdown-toggle:hover {
+      background-color: @gray9;
+    }
+
+    .none {
+      .sl;
+      color: @gray4;
+      padding: 10px 20px;
+      font-style: italic;
+    }
+  }
 }
 
 #flogo {
@@ -53,7 +68,6 @@ footer {
   background-color: @white;
   border-top: 1px solid @marketplaceNavBackground;
   height: 60px;
-  padding-left: 90px;
   position: relative;
 
   #flogo {
@@ -89,56 +103,30 @@ footer {
     float: left;
 
     span {
-      font-family: @baseFontFamilyCondensed;
-      font-size: 12px;
+      .sl-sm;
       padding-right: 10px;
-      color: black;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      color: @gray4;
     }
     a {
+      .sl-sm;
       display: block;
       padding: 0 10px;
-      text-transform: uppercase;
-      color: @gray5;
-      font-family: @baseFontFamilyCondensed;
-      font-size: 12px;
-      letter-spacing: 1px;
+      color: @gray4;
+      
+      &:visited {
+        color: @gray4;
+      }
+
       &:hover {
-        color: black;
+        color: @black;
         text-decoration: none;
+      }
+
+      &:active {
+        color: @black;
       }
     }
   }
-}
-
-#logo, #flogo {
-  .img {
-    .cssicon(
-      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
-      @width: 22px,
-      @height: 20px,
-      @display: block
-    );
-    margin: 20px auto 0;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
-#q {
-  float: left;
-  width: calc(~"100% - 85px");
-  padding: 0 5px 0 0;
-  margin: 0;
-  color: @black;
-  box-shadow: none;
-  border: 0;
-  height: @searchBoxHeight;
-  font-family: nimbussannov-sembol;
-  font-weight: normal;
-  font-size: 18px;
 }
 
 #site-nav {
@@ -146,25 +134,18 @@ footer {
   margin-left: 0;
 
   .nav-item {
-    border-right: 1px solid @searchBoxBackground;
     float: left;
-    height: @searchBarHeight;
-    &:last-child {
-      border-right: 0;
-    }
+    height: @headerHeight;
+
     > a, > span {
-      padding: 19px 0;
       display: block;
-      border: 5px solid transparent;
-      &:hover {
-         border:5px solid white;
-      };
     }
+
     > a {
-      color: white;
+      color: @white;
+
       &:hover {
-        background-color:white;
-        color: @black;
+        background-color: @gray9;
         text-decoration: none;
       }
     }
@@ -174,130 +155,72 @@ footer {
 #go-live-menu {
   text-align: center;
   width: 150px;
+
+  a:hover {
+    background-color: @lavenderPurple100 !important;
+   }
+
 }
 
-#docs-menu, #help-menu {
+#help-menu {
   text-align: center;
-  width: 75px;
+
+  a {
+    margin: 17px 5px 0px 17px;
+  }
+  .icon-question-mark {
+    font-size: 16px;
+    color: @gray4;
+    background-color: @gray7;
+    .border-radius(100%);    
+    padding: 11px 8px 5px;
+
+    &:hover {
+      color: @white;
+      background-color: @gray8;
+    }
+  }
 }
 
 #login-menu {
   text-align: center;
   width: 88px;
+
+  a {
+    margin: 18px;
+  }
 }
 
 #user-menu {
   text-align: center;
-  width: 95px;
+  min-width: 90px;
+
   a.dropdown-toggle.gravatar {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 0;
     opacity: 0.6;
+    
+    span {
+      max-width: 175px;
+      padding-left: 5px
+    }
 
     &:hover {
-      opacity: 1;
-      .caret {
-        border-top-color: @black;
-      }
-      .profile.icon {
-        border-color:@gray3;
-      }
+      opacity: 1; 
     }
   }
+
   .profile.icon {
-    border: 1px solid @white;
     display: inline-block;
     width: 30px;
     height: 30px;
     background-position: -60px -160px;
+    margin: 10px 0 10px 10px;
+    .border-radius(100%);
   }
-  .caret {
-    margin-top: 13px;
-  }
+
   .dropdown-menu {
     right: 0;
     left: auto;
-  }
-}
-
-#main {
-  background-color: @contentBackground;
-  position: relative;
-}
-
-#marketplace-nav {
-  background-color: @marketplaceNavBackground;
-  min-height: @mainMinHeight;
-  position: absolute;
-  height: 100%;
-  width: @marketplaceNavWidth;
-
-  &.noshow {
-    background-color: @contentBackground;
-  }
-
-  li.nav-separator {
-    border-top: 1px solid @gray3;
-  }
-
-  li {
-    display: block;
-    text-align: center;
-
-    &:first-of-type {
-      margin-top: 57px;
-    }
-
-    i {
-      font-size: 26px;
-      &.icon-addcustomer, &.icon-bankaccount {
-        color: @white;
-        display: inline-block;
-        height: 26px;
-        width: 26px;
-      }
-      &.icon-addcustomer {
-        background-color: @byzantiumPurple60;
-      }
-      &.icon-bankaccount {
-        background-color: @persianBlue60;
-        font-size: 16px;
-        line-height: 35px;
-        margin-bottom: 9px;
-      }
-    }
-
-    a {
-      color: @marketplaceNavColor;
-      display: block;
-      padding: 20px 0;
-      position: relative;
-      text-decoration: none;
-      &:hover {
-        color: @black;
-      }
-      &.active {
-        color: @black;
-        &:after {
-          @triangeColor: @marketplaceNavBackground;
-          border-bottom: @marketplaceNavTriangleSize solid transparent;
-          border-left: @marketplaceNavTriangleSize solid @triangeColor;
-          border-top: @marketplaceNavTriangleSize solid transparent;
-          content: ' ';
-          display: block;
-          height: 0;
-          left: 90px;
-          position: absolute;
-          top: 32px;
-          width: 0;
-        }
-      }
-    }
-
-    .nav-label {
-      color: inherit;
-      display: block;
-    }
   }
 }
 

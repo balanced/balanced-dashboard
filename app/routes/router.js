@@ -50,7 +50,7 @@ function makeNestedResource(that, plural, singular) {
 		path: '/' + plural
 	}, function() {
 		this.route(singular, {
-			path: '/:' + singular + '_id'
+			path: '/:item_id'
 		});
 	});
 }
@@ -69,16 +69,16 @@ Balanced.Router.map(function() {
 			path: '/:marketplace_id'
 		}, function() {
 			this.route('settings', {
-				path: 'settings'
+				path: '/settings'
 			});
 			this.route('add_customer', {
-				path: 'add_customer'
+				path: '/add_customer'
 			});
 			this.route('initial_deposit', {
 				path: '/initial_deposit'
 			});
-			this.route("import_payouts", {
-				path: "import_payouts"
+			this.route('import_payouts', {
+				path: '/import_payouts'
 			});
 
 			this.resource('activity', {
@@ -102,44 +102,44 @@ Balanced.Router.map(function() {
 			});
 
 			this.resource('customers', {
-				path: '/customers/:customer_id'
+				path: '/customers/:item_id'
 			});
 			// exists to handle old URIs for accounts, redirects to the customers page
 			this.resource('accounts', {
-				path: '/accounts/:account_id'
+				path: '/accounts/:item_id'
 			});
 
 			this.resource('bank_accounts', {
-				path: '/bank_accounts/:bank_account_id'
+				path: '/bank_accounts/:item_id'
 			});
 
 			this.resource('cards', {
-				path: '/cards/:card_id'
+				path: '/cards/:item_id'
 			});
 
 			this.resource('credits', {
-				path: '/credits/:credit_id'
+				path: '/credits/:item_id'
 			});
 			this.resource('reversals', {
-				path: '/reversals/:reversal_id'
+				path: '/reversals/:item_id'
 			});
 			this.resource('debits', {
-				path: '/debits/:debit_id'
+				path: '/debits/:item_id'
 			});
 			this.resource('disputes', {
-				path: '/disputes/:dispute_id'
+				path: '/disputes/:item_id'
 			});
 			this.resource('holds', {
-				path: '/holds/:hold_id'
+				path: '/holds/:item_id'
 			});
 			this.resource('refunds', {
-				path: '/refunds/:refund_id'
+				path: '/refunds/:item_id'
 			});
 			this.resource('events', {
-				path: '/events/:event_id'
+				path: '/events/:item_id'
 			});
 			this.resource('orders', {
-				path: '/orders/:order_id'
+				path: '/orders/:item_id'
 			});
 
 			makeNestedResource(this, 'logs', 'log');
@@ -176,7 +176,7 @@ Balanced.Router.map(function() {
 		path: '/security'
 	});
 
-	this.route("invalid", {
-		path: "*:"
+	this.route('invalid', {
+		path: '*:'
 	});
 });

@@ -19,6 +19,7 @@ Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
 	},
 
 	setupController: function() {
+		Balanced.Utils.setCurrentMarketplace(null);
 		this.controllerFor('marketplace').set('content', null);
 	}
 });

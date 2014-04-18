@@ -6,23 +6,11 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
-	type_name: function() {
-		return 'Bank Account';
-	}.property(),
-
-	route_name: function() {
-		return 'bank_accounts';
-	}.property(),
-
+	type_name: 'Bank Account',
+	route_name: 'bank_accounts',
 	is_bank_account: true,
-
-	account_type_name: function() {
-		return this.get('account_type');
-	}.property('type', 'account_type'),
-
-	appears_on_statement_max_length: function() {
-		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT;
-	}.property(),
+	account_type_name: Ember.computed.alias('account_type'),
+	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 
 	last_four: function() {
 		var accountNumber = this.get('account_number');
@@ -32,6 +20,14 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 			return accountNumber.substr(accountNumber.length - 4, 4);
 		}
 	}.property('account_number'),
+
+	formatted_bank_name: function() {
+		if (this.get('bank_name')) {
+			return Balanced.Utils.toTitleCase(this.get('bank_name'));
+		} else {
+			return 'None';
+		}
+	}.property('bank_name'),
 
 	description: function() {
 		if (this.get('bank_name')) {

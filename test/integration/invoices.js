@@ -1,3 +1,5 @@
+var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/invoices';
+
 module('Invoices', {
 	setup: function() {
 		Testing.useFixtureData();
@@ -6,16 +8,18 @@ module('Invoices', {
 });
 
 test('can visit page', function(assert) {
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices').then(function() {
-		//  check the page title has been selected
-		assert.equal($('#content h1').text().trim(), 'Invoices');
-	});
+	visit(INVOICES_ROUTE)
+		.then(function() {
+			//  check the page title has been selected
+			assert.equal($('#content h1').text().trim(), 'Invoices');
+		});
 });
 
 test('shows invoices list', function(assert) {
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/invoices').then(function() {
-		assert.equal($("#invoices table tbody tr").length, 20);
-	});
+	visit(INVOICES_ROUTE)
+		.then(function() {
+			assert.equal($("#invoices table tbody tr").length, 20);
+		});
 });
 
 test('invoice detail page', function(assert) {
@@ -38,14 +42,10 @@ test('invoice detail page', function(assert) {
 		".invoice-details-table .subtotal-row .total": "$17.85"
 	};
 
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl' + invoiceUri)
-		.then(function() {
-			_.each(expectedValues, function(value, selector) {
-				assert.equal($(selector).text().trim(), value);
-			});
-		})
-		.click('.activity .results header li.debit-cards a')
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
+		.checkElements(expectedValues, assert)
 		.click('.activity .results header li.holds a')
+		.click('.activity .results header li.debit-cards a')
 		.click('.activity .results header li.debit-bank-accounts a')
 		.click('.activity .results header li.credits a')
 		.click('.activity .results header li.failed-credits a')
@@ -64,12 +64,17 @@ test('invoice detail page', function(assert) {
 				[Balanced.Dispute, '/disputes']
 			];
 
-			assert.ok(spy.getCall(1).calledWith(Balanced.Invoice, invoiceUri), "Load invoices index");
+			var assertCall = function(callNumber, model, uri) {
+				var callArguments = spy.getCall(callNumber).args.slice(0, 2);
+				var expectation = [
+					model,
+					invoiceUri + uri
+				];
+				assert.deepEqual(callArguments, expectation, "Call %@ Arguments".fmt(callNumber));
+			};
 
 			expectations.forEach(function(expectation, i) {
-				var model = expectation[0];
-				var uri = invoiceUri + expectation[1];
-				assert.ok(spy.getCall(i + 3).calledWith(model, uri));
+				assertCall(i + 3, expectation[0], expectation[1]);
 			});
 		});
 });
@@ -80,7 +85,7 @@ test('change invoice funding source', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 	stub.callsArg(3);
 
-	visit('/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl' + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
 		.click('.change-funding-source-btn')
 		.fillIn('#change-funding-source form select[name="source_uri"]', '123')
 		.click('#change-funding-source form button[name="modal-submit"]')

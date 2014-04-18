@@ -11,14 +11,17 @@ test('can pay a seller', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('li a i.icon-bankaccount')
-		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
-		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
-		.fillIn('#pay-seller .modal-body input:eq(2)', '123123123')
-		.fillIn('#pay-seller .modal-body select:eq(0)', 'checking')
-		.fillIn('#pay-seller .modal-body input:eq(3)', '98')
-		.fillIn('#pay-seller .modal-body input:eq(4)', 'Test Transaction')
-		.click('#pay-seller .modal-footer button:eq(1)')
+		.click('div a.pay-a-seller')
+		.fillForm('#pay-seller', {
+			'name': 'TEST',
+			'routing_number': '123123123',
+			'account_number': '123123123',
+			'account_type': 'checking',
+			'dollar_amount': '98',
+			'appears_on_statement_as': 'Test Transaction'
+		}, {
+			click: '.modal-footer button:eq(1)'
+		})
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Credit, "/credits", sinon.match({
@@ -38,17 +41,18 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('li a i.icon-bankaccount')
-		.fillIn('#pay-seller .modal-body input:eq(0)', 'TEST')
-		.fillIn('#pay-seller .modal-body input:eq(1)', '123123123')
-		.fillIn('#pay-seller .modal-body input:eq(2)', '123123123')
-		.fillIn('#pay-seller .modal-body select:eq(0)', 'checking')
-		.fillIn('#pay-seller .modal-body input:eq(3)', '98')
-		.fillIn('#pay-seller .modal-body input:eq(4)', 'Test Transaction')
+		.click('div a.pay-a-seller')
+		.fillForm('#pay-seller', {
+			'name': 'TEST',
+			'routing_number': '123123123',
+			'account_number': '123123123',
+			'account_type': 'checking',
+			'dollar_amount': '98',
+			'appears_on_statement_as': 'Test Transaction'
+		}, {
+			clickMultiple: '.modal-footer button:eq(1)'
+		})
 		.then(function() {
-			for (var i = 0; i < 20; i++) {
-				click('#pay-seller .modal-footer button:eq(1)');
-			}
 			assert.ok(stub.calledOnce);
 		});
 });

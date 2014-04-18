@@ -2,36 +2,21 @@ Balanced.User = Balanced.Model.extend(Ember.Validations, {
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace'),
 
 	hasProductionMarketplace: function() {
-		var hasProductionMarketplace = false;
-		this.get('user_marketplaces').find(function(user_marketplace) {
-			if (user_marketplace.get('production')) {
-				hasProductionMarketplace = true;
-			}
-		});
-		return hasProductionMarketplace;
-	}.property('user_marketplaces', 'production'),
+		return !!this.get('user_marketplaces').findBy('production', true);
+	}.property('user_marketplaces', 'user_marketplaces.@each.production'),
+
+	hasTestMarketplace: function() {
+		return !!this.get('user_marketplaces').findBy('test', true);
+	}.property('user_marketplaces', 'user_marketplaces.@each.test'),
 
 	user_marketplace_for_id: function(id) {
 		return this.get('user_marketplaces').findBy('id', id);
 	},
 
-	gravatar: function() {
-		var emailHash = this.get('email_hash');
-		return Balanced.Utils.toGravatar(emailHash);
-	}.property('email_hash'),
-
-	multiFactorAuthUri: function() {
-		return ENV.BALANCED.AUTH + '/users/' + this.get('id') + '/otp';
-	}.property(),
+	gravatar: Balanced.computed.transform('email_hash', Balanced.Utils.toGravatar),
+	multiFactorAuthUri: Balanced.computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp'),
 
 	validations: {
-		email_address: {
-			presence: true,
-			length: {
-				minimum: 6
-			},
-			format: /.+@.+\..{2,4}/
-		},
 		existing_password: {
 			presence: true
 		},

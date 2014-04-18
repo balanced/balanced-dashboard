@@ -22,6 +22,11 @@ test('can visit page', function(assert) {
 		.then(function() {
 			var $title = $('#content h1');
 			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
+
+			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
+			assert.equal($dropdown.text().trim().length, 0, 'No Email is shown');
+
+			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
 		});
 });
 
@@ -443,7 +448,7 @@ test('can create cards', function(assert) {
 				cvv: "123",
 				expiration_month: 1,
 				expiration_year: 2020,
-				postal_code: ""
+				address: {}
 			})));
 			assert.ok(tokenizingStub.calledOnce);
 			/*assert.ok(createSpy.calledOnce);

@@ -20,7 +20,8 @@ module.exports = function(config) {
 		'build/test/js/testenv.js',
 		'build/js/lib-dev.js',
 		'build/test/js/balanced.min.js',
-		'build/js/dashboard-dev.js',
+		'build/js/dashboard-test.js',
+		'build/js/test-templates.js',
 		'build/test/js/test-fixtures.js',
 		'build/test/js/testconfig.js',
 		'test/lib/*.js', {
@@ -61,16 +62,32 @@ module.exports = function(config) {
 		exclude: [],
 
 		preprocessors: {
-			'build/js/dashboard-dev.js': ['coverage']
+			'build/js/dashboard-test.js': ['coverage']
 		},
+
+		// An array of allowed transport methods between the browser and testing server.
+		// This configuration setting is handed off to socket.io
+		// Default values are ['websocket', 'flashsocket', 'xhr-polling', 'jsonp-polling']
+		// Does not work!
+		// transports: ['xhr-polling', 'jsonp-polling'],
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-		reporters: ['progress', 'coverage'],
+		reporters: ['dots', 'coverage'],
+		reportSlowerThan: 7000,
 
 		coverageReporter: {
-			type: 'html',
-			dir: 'coverage/'
+			reporters: [{
+				type: 'lcov',
+				dir: 'coverage/'
+			}, {
+				type: 'json',
+				dir: 'coverage/'
+			}, {
+				type: 'text'
+			}, {
+				type: 'text-summary'
+			}]
 		},
 
 		// web server port
@@ -101,10 +118,24 @@ module.exports = function(config) {
 		// If browser does not capture in given timeout [ms], kill it
 		captureTimeout: 60000,
 
+		// How long does Karma wait for a browser to reconnect (in ms).
+		browserDisconnectTimeout: 180000,
+
+		// The number of disconnections tolerated
+		browserDisconnectTolerance: 100,
+
+		// How long does Karma wait for a message from a browser before disconnecting it (in ms).
+		browserNoActivityTimeout: 300000,
+
+		client: {
+			useIframe: false,
+		},
+
 		// Continuous Integration mode
 		// if true, it capture browsers, run tests and exit
 		singleRun: true,
 
+		// Provide proxies
 		proxies: {
 			'/build': 'http://localhost:9877/build',
 			'/images': 'http://localhost:9877/build/images'

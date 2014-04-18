@@ -11,7 +11,7 @@ Balanced.ReverseCreditModalComponent = Balanced.ModalComponent.extend({
 				amount: null
 			});
 
-			this.set('dollar_amount', this.get('credit.amount_dollars'));
+			this.set('dollar_amount', this.get('credit.max_reversal_amount_dollars'));
 			this._super(reversal);
 		},
 

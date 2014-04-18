@@ -2,50 +2,60 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 	title: 'Apply for production access',
 	pageTitle: 'Apply for production access',
 	model: function() {
-		var request = Balanced.ProductionAccessRequest.create({
-
-		});
+		var request = Balanced.ProductionAccessRequest.create({});
 		return {
 			request: request,
 			title: this.title
 		};
 	},
+
 	setupController: function(controller, model) {
 		this._super(controller, model.request);
 		this.controllerFor('marketplace').set('content', null);
 		controller.resetError();
 	},
+
+	trackError: function(errorType, extra) {
+		var message = "Marketplace apply for production access error: " + errorType;
+		Balanced.ErrorsLogger.captureMessage(message, {
+			extra: extra
+		});
+	},
+
 	actions: {
 		signup: function(models) {
 			var self = this;
+			var marketplace;
 
-			function trackApplyError(err) {
-				Balanced.Analytics.trackEvent('applyError', {
+			function logError(key, err) {
+				self.trackError(key, {
+					err: err,
 					request_id: err ? err.requestId : 'unknown',
-					err: err
+					marketplace: models.marketplace,
+					marketplaceId: marketplace ? marketplace.get("id") : null
 				});
 			}
 
 			function onUndeterminedError(err) {
 				self.set('controller.error.unknown', true);
-				trackApplyError(err);
+				logError("UndeterminedError", err);
 			}
 
 			function onBankingError(err) {
 				self.set('controller.error.banking', true);
-				trackApplyError(err);
+				logError("BankingError", err);
 				models.bankAccount.trigger('becameError', err || {});
 			}
 
 			function onMarketplaceError(err) {
 				self.set('controller.error.marketplace', true);
-				trackApplyError(err);
+				logError("MarketplaceError", err);
 				models.marketplace.trigger('becameError', err || {});
 			}
 
 			function onApiKeyError(err) {
 				self.set('controller.error.apiKey', true);
-				trackApplyError(err);
+				logError("ApiKeyError", err);
 				models.apiKey.trigger('becameError', err || {});
 			}
 
@@ -58,12 +68,12 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 
 			function onUserError(err) {
 				self.set('controller.error.user', true);
-				trackApplyError(err);
+				logError("UserError", err);
 				models.user.trigger('becameError', err || {});
 			}
 
 			function persistMarketplace(user) {
-				var marketplace, apiKeySecret;
+				var apiKeySecret;
 
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();

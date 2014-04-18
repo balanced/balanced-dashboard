@@ -1,33 +1,44 @@
 require('app/models/transaction');
 
 Balanced.Credit = Balanced.Transaction.extend({
+	reversal_amount: Ember.computed.oneWay('amount'),
 	uri: '/credits',
+	type_name: "Credit",
+	route_name: "credits",
 
 	bank_account: Balanced.Model.belongsTo('destination', 'Balanced.BankAccount'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 
-	type_name: function() {
-		return "Credit";
-	}.property(),
+	funding_instrument_description: Ember.computed.alias('bank_account.description'),
+	last_four: Ember.computed.alias('bank_account.last_four'),
+	funding_instrument_name: Ember.computed.alias('bank_account.formatted_bank_name'),
+	max_reversal_amount_dollars: Balanced.computed.transform('reversal_amount', Balanced.Utils.centsToDollars),
 
-	route_name: function() {
-		return "credits";
-	}.property(),
 
-	funding_instrument_description: function() {
-		return this.get('bank_account.description');
-	}.property('bank_account.description'),
+	get_reversals: function() {
+		var self = this;
+
+		this.get('reversals').then(function(reversals) {
+			self.set('reversal_amount', reversals.reduce(function(amount, reversal) {
+				if (!reversal.get('is_failed')) {
+					return amount - reversal.get('amount');
+				} else {
+					return amount;
+				}
+			}, self.get('amount')));
+		});
+	}.on('didLoad'),
 
 	can_reverse: function() {
-		return this.get('status') !== 'failed' && this.get('reversals.isLoaded') && this.get('reversals.content') && this.get('reversals.content').length === 0;
-	}.property('status', 'reversals.isLoaded', 'reversals.content', 'reversals.@each'),
+		return (!this.get('is_failed')) && (this.get('reversal_amount') > 0);
+	}.property('is_failed', 'reversal_amount'),
 
 	status_description: function() {
-		if (this.get('status') === 'pending') {
+		if (this.get('is_pending')) {
 			return "Credit is processing, funds will be available the next business day unless there is an issue with the bank account.";
-		} else if (this.get('status') === 'succeeded') {
+		} else if (this.get('is_succeeded')) {
 			return "Funds are now available. If there is an issue with the bank account, a \"Failed\" status and rejection reason will be displayed here.";
-		} else if (this.get('status') === 'failed') {
+		} else if (this.get('is_failed')) {
 			if (this.get('failure_reason') || this.get('failure_reason_code')) {
 				return this.get('failure_reason') || this.get('failure_reason_code');
 			}
@@ -35,8 +46,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 		} else {
 			return undefined;
 		}
-	}.property('status', 'failure_reason', 'failure_reason_code'),
-
+	}.property('is_pending', 'is_succeeded', 'is_failed', 'failure_reason', 'failure_reason_code'),
 });
 
 Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');

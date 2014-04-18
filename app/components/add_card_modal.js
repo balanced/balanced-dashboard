@@ -2,6 +2,8 @@ require('app/components/modal');
 
 Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 	validMonths: Balanced.TIME.MONTHS,
+	optionalFieldsOpen: false,
+
 	validYears: function() {
 		var years = [];
 
@@ -12,9 +14,7 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 		return years;
 	}.property(),
 
-	expiration_error: function() {
-		return this.get('model.validationErrors.expiration_month') || this.get('model.validationErrors.expiration_year');
-	}.property('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
+	expiration_error: Balanced.computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
 	actions: {
 		open: function() {
@@ -24,10 +24,16 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 				security_code: '',
 				expiration_month: '',
 				expiration_year: '',
-				postal_code: ''
+				address: this.get('customer.address') || {}
 			});
+			this.set('optionalFieldsOpen', false);
 
 			this._super(card);
+		},
+
+		toggleOptionalFields: function() {
+			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
+			this.reposition();
 		},
 
 		save: function() {

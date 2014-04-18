@@ -1,8 +1,8 @@
 <thead>
 	<tr>
-		<th class="span3 label6a">Status</th>
-		<th class="span11 label6a">Method &amp; URI</th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a align-right sortable unsorted" field="created_at"}}Date{{/view}}
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span3 label6a"><span>Status</span></th>
+		<th class="span11 label6a"><span>Method &amp; URI</span></th>
 	</tr>
 </thead>
 
@@ -15,7 +15,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" results}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" results}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -25,20 +25,22 @@
 <tbody>
 	{{#each log in results}}
 		<tr>
-			<td class="span3 black">
+			<td class="span3 date">
+				{{#link-to "logs.log" log}}<span>
+				<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>
+					<span class="primary">{{humanReadableDate log.created_at}}</span>
+					<span class="secondary">{{humanReadableTime log.created_at}}</span>
+				</span>{{/link-to}}
+			</td>
+			<td class="span3 black"><span>
 				{{#link-to "logs.log" log}}
 				{{colorizeStatus log.message.response.status}}
-				{{/link-to}}
+				</span>{{/link-to}}
 			</td>
 			<td class="span11">
-				{{#link-to "logs.log" log}}
+				{{#link-to "logs.log" log}}<span>
 				{{log.message.request.method}} {{log.condensed_request_url}}
-				{{/link-to}}
-			</td>
-			<td class="span3 align-right date">
-				{{#link-to "logs.log" log}}
-				<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
-				{{/link-to}}
+				</span>{{/link-to}}
 			</td>
 		</tr>
 	{{else}}

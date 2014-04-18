@@ -3,6 +3,10 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 		return this.get('uri').indexOf('TEST') === -1;
 	}.property('uri'),
 
+	test: function() {
+		return this.get('uri').indexOf('TEST') > -1;
+	}.property('uri'),
+
 	marketplace: function() {
 		return Balanced.Marketplace.find(this.get('uri'));
 	}.property('uri'),
@@ -63,7 +67,24 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 			uri: this.get('marketplace.users_uri')
 		});
 
-		return Balanced.UserInvite.findAll();
+		var usersArr = [{
+			email_address: Balanced.Auth.get('user.email_address'),
+			created_at: this.get('keys.0.created_at'),
+			noDelete: true
+		}];
+
+		Balanced.UserInvite.findAll()
+			.then(function(result) {
+				var users = result.content;
+
+				users.sort(function(u1, u2) {
+					return u1.get('created_at') < u2.get('created_at') ? 1 : -1;
+				});
+
+				usersArr.pushObjects(users);
+			});
+
+		return usersArr;
 	}.property('marketplace')
 });
 

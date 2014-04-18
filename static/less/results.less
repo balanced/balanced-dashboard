@@ -4,47 +4,58 @@ header.results-label h3 {
 
 .results {
   header {
-    border-top: 1px solid @gray3;
-    border-bottom: 1px solid @gray3;
     background-color: @white;
-    height: 48px;
+    height: 60px;
 
     nav > li {
-      display: block;
-      float: left;
-      border-bottom: @searchBorderWidth solid transparent;
-      margin: 0 9px;
-      color: @gray5;
+      &.filter {
+        .sl-md;
+        display: block;
+        float: left;
+        border-bottom: @searchBorderWidth solid transparent;
+        margin-left: 9px;
+        color: @gray4;
+      }
 
-      font-family: nimbussannov-med, arial, sans-serif;
-      font-weight: normal;
-      font-size: 15px;
-      a {
+      &.filter:first-of-type:before {
+        content: ' ';
+      }
+
+      &.filter:before {
+        content: '/';
+      }
+
+      &.filter > a {
+        .sl;
         text-decoration: none;
-        color: @gray5;
         display: inline-block;
+
         &:hover {
           color: @black;
         }
+
+        &:active {
+          color: @black;
+        }
+
         &.dropdown-toggle {
           padding: 4px 2px 0;
           display: inline-block;
-          height: 9px;
           margin: 0;
         }
       }
+
       > a {
-        padding: 15px 10px 10px;
-      }
-      &:hover {
-        border-bottom: @searchBorder;
-        > a {
+        padding: 15px 5px 0;
+
+        &:hover {
+          border-bottom: @searchBorder;
           color: @black;
         }
       }
       &.selected {
-        border-bottom: @searchBorder;
         > a {
+          border-bottom: @searchBorder;
           color: @black;
 
           &:hover {
@@ -60,149 +71,145 @@ header.results-label h3 {
         }
       }
       &.disabled.selected {
-        border-bottom: @searchBorder;
+        > a {
+          border-bottom: @searchBorder;
+        }
       }
       &.download {
         float: right;
         padding: 9px 0 0;
-        margin: 0 10px;
+        margin: 0;
+
+        a {
+          padding-left: 0;
+        }
+
         &:hover {
           border-bottom: 0;
         }
       }
-      .selector {
-        display: inline-block;
-        height: 13px;
-        vertical-align: middle;
-
-        .caret {
-          margin-top: 0;
-          border-top-color: @white;
-          border-width: 4px;
-          margin-left: 0px;
-        }
-      }
-    }
-    a {
-      color: @gray6;
     }
   }
+
   table.items {
-    background-color: @searchBodyBackground;
     table-layout:fixed;
     width: 100%;
 
     tfoot {
-      tr {
-        border-top: 1px solid @gray3;
-      }
       td.load-more-results {
         padding: 12px 25px;
         text-align: center;
 
         a {
           cursor: pointer;
-          display: block;
-          &:before {
-            content: 'p ';
-            font-family: "balanced-icon";
-            font-size: 20px;
-            vertical-align: middle;
-          }
+          display: inline-block;
         }
       }
     }
+
     th {
-      padding-top: 30px;
       float: none;
-      padding-left: 0;
-      padding-right: 0;
+      box-sizing: border-box;
+      padding: 0 10px;
+      background-color: @gray1;
+      border-bottom: 1px solid @gray2;
+
       &:first-child {
         padding-left: 25px;
       }
+
       &:last-child {
         padding-right: 25px;
+
         &.sortable {
           padding-right: 5px;
         }
       }
 
-      .caret {
-        border-top-color: @white;
-        margin: 0;
-      }
-
-      .dropdown .dropdown-menu a {
+      > span {
+        .sl-sm-sb;
         color: @black;
+        text-transform: uppercase;
+        line-height: 35px;
       }
 
-      a {
-        text-decoration: none;
-        color: @gray5;
-        &:hover {
-          color: @black;
-        }
-        &.dropdown-toggle {
-          padding: 4px 2px 0;
-          display: inline-block;
-          height: 9px;
-        }
+      &.type, &.status {
+        padding: 0;
       }
+    }
 
-      .selector {
-        display: inline-block;
-        height: 13px;
-        vertical-align: middle;
-      }
-    }
-    tbody td, th td {
-      float: none;
-      &:first-child {
-        span {
-          padding-left: 25px;
-        }
-      }
-      &:last-child {
-        span {
-          padding-right: 25px;
-          &.sortable {
-            padding-right: 5px;
-          }
-        }
-      }
-    }
     tbody {
       tr {
-        border-top: 1px solid @gray3;
+        border-bottom: 1px solid @gray2;
+
         &:hover {
           cursor: pointer;
-          background-color: white;
+          background-color: @gray1;
+
+          .no-results {
+            background-color: @white;
+          }
         }
 
         td {
-          padding: 0;
+          padding: 0 10px;
+
+          &:first-child {
+            padding-left: 25px;
+          }
+
+          &:last-child {
+            padding-right: 25px;
+          }
+
           &.no-results {
             padding: 12px 15px 12px 25px;
             font-style: italic;
             cursor: default;
           }
-          &:last-child {
 
-          }
           a {
             display: block;
             height: 100%;
             width: 100%;
             text-decoration: none;
+
             span {
-              padding: 12px 15px 12px 0;
+              padding: 0;
               display: block;
+              line-height: 46px;
             }
             &:link, &:visited, &:hover, &:active {
+              .sl;
               color: @textColor;
             }
           }
+
+          &.date, &.funding-instrument {
+             > a > span {
+              padding-top: 4px !important;
+              padding-bottom: 2px !important;
+             }
+
+          }
+
+           &.date .secondary {
+              text-transform: lowercase;
+           }
+
+          .primary {
+            line-height: 16px;
+            padding: 4px 0 1px !important;
+          }
+
+          .secondary {
+            .sl-sm;
+            line-height: 14px;
+            color: @gray4;
+            padding: 1px 0 4px !important;
+          }
         }
+
         td.label4a {
           a {
             &:link, &:visited, &:hover, &:active {
@@ -214,19 +221,22 @@ header.results-label h3 {
           }
         }
       }
-      td, span {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
     }
     .highlight {
       background-color: #b3d1d5;
     }
   }
+
+  td, span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .date {
 
   }
+
   .type {
 
   }
@@ -259,7 +269,8 @@ header.results-label h3 {
       width: 14px;
       height: 14px;
       background: @iconsFile -18px -218px no-repeat;
-      margin-left: 5px;
+      margin-left: 8px;
+      margin-top: 10px;
       vertical-align: top;
     }
     &.ascending {
@@ -273,13 +284,6 @@ header.results-label h3 {
       }
     }
   }
-  .selector {
-    background-color: @searchSelectorBackground;
-    color: @searchTimingColor;
-    &:hover {
-      background-color: @searchTimingBackgroundHover;
-    }
-  }
 
    .filter-status-rollup {
         margin-right: 15px;
@@ -291,17 +295,13 @@ header.results-label h3 {
    }
 
   .timing {
+    border-bottom: 0;
+    margin: 0 9px 0 0;
+
     &.pull-left {
         float: left;
         border-left: 0px;
-        border-right: 1px solid @marketplaceNavColor;
     }
-    height: 38px;
-    padding: 5px;
-    float: right;
-    border-left: 1px solid @gray3;
-    border-bottom: 0;
-    margin: 0;
 
     &:hover {
       border-bottom: 0;
@@ -313,23 +313,27 @@ header.results-label h3 {
         }
     }
 
+    &.filter-datetime {
+        .dropdown-menu {
+        }
+    }
+
     .dropdown-menu {
       //  120px = set timing width
       // 330px = width of date picker
       width: 120px + 330px + @searchBorderWidth * 8;
-      right: -@searchBorderWidth;
       padding: 0;
-
-      &.date-picker {
-        top: 44px;
-      }
 
       .set-times {
         background-color: @white;
         float: left;
         width: 120px;
         height: 205px;
-        padding: 10px;
+        padding: 10px 10px 57px 10px;
+
+        > li a {
+          padding: 10px 15px;
+        }
       }
       .date-picker {
         padding: 10px;
@@ -339,7 +343,6 @@ header.results-label h3 {
 
       .before, .after {
         position: absolute;
-        height: 190px;
         width: 220px;
         padding-top: 10px;
 
@@ -359,9 +362,8 @@ header.results-label h3 {
       }
       .go {
         position: absolute;
-        top: 172px;
-        right: -12px;
-        margin: 10px 20px 10px 10px;
+        bottom: 10px;
+        right: 10px;
       }
       .before {
         float: right;
@@ -408,9 +410,10 @@ header.results-label h3 {
 .filter-choices {
   background-color: @white;
   padding: 10px 0;
+
   li {
-    font-family: nimbussannov-med;
-    font-size: 13px;
+    .sl;
+
     span, a {
       display: block;
       padding: 5px 20px;
@@ -439,12 +442,10 @@ header.results-label h3 {
   width: auto;
 
   .header {
+    .sl-md-b;
     background-color: @baseColor;
     border: 0 solid transparent;
-    color: @black;
     float: none;
-    font-family: @baseFontFamilyBold;
-    font-size: 17px;
     height: 40px;
     line-height: 40px;
     padding: 0 10px;
@@ -461,5 +462,32 @@ header.results-label h3 {
 .results.results-framed.results-neutral {
   .count {
     background-color: @gray3;
+  }
+}
+.results.embedded {
+  padding-bottom: 40px;
+  table.items {
+    background-color: white;
+    tr {
+      border: 2px solid @gray2;
+      .first {
+        width: 154px;
+        padding-left: 12px;
+      }
+    }
+    td.second {
+      a {
+        color: @linkColor;
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: @linkColorHover;
+        text-decoration: underline;
+      }
+    }
+    td.last {
+      width: 100px;
+    }
   }
 }

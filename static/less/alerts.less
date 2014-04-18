@@ -16,10 +16,13 @@ div.alert-strip {
 }
 
 .alert-row {
-  position: absolute;
-  top: 0;
   width: 100%;
-  left: 0;
+
+  &.top {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 
   .alert-text-wrapper, .alert-strip {
     &.success {
@@ -42,14 +45,13 @@ div.alert-strip {
   }
 
   .alert {
+    .sl;
+    color: @white;
     margin: 0;
     padding: 0;
-    font-size: 13px;
-    font-family: 'Droid Serif', serif;
     border-radius: 0;
     text-shadow: none;
     border: 0;
-    color: @white;
     text-align: center;
     background-color: transparent;
     height: 30px;
@@ -70,15 +72,16 @@ div.alert-strip {
 
 .notification-center {
   &.notification-center-row {
+    .sl;
     margin: 0;
-    padding: 14px 0px;
-    font-size: 14px;
-    font-family: nimbussannov-med, arial, sans-serif;
+    padding: 10px 0px;
     border-radius: 0;
     text-shadow: none;
     border: 0;
     color: @black;
     background-color: @curryYellow20;
+    text-align: center;
+    line-height: 20px;
   }
 
   button {
@@ -113,19 +116,14 @@ div.alert-strip {
     margin: 0 0 0 10px;
     font-size: 17px;
     color: @gray7;
-  }
-
-  .notification-center-message {
-    position: relative;
-    top: 3px;
+    .transition(none);
   }
 
   .callout {
+    .sl-sb;
     position: relative;
     float: left;
     margin: 0 0 0 10px;
-    font-family: nimbussannov-sembol, arial, sans-serif;
-    font-size: 13px;
     background-color: @curryYellow100;
     color: @white;
   }

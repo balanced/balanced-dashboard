@@ -35,6 +35,10 @@ Balanced.Test.asyncHelpers = {
 			}
 		}
 
+		if (options.clickMultiple) {
+			clickMultiple(form + ' ' + options.clickMultiple);
+		}
+
 		return wait();
 	},
 	checkElements: function(app, hash, assert) {
@@ -113,6 +117,19 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
+	waitForVisit: function(app, url, cb, err, time) {
+		visit(url);
+
+		return waitFor(function() {
+			if (cb()) {
+				return true;
+			}
+
+			visit(url);
+			wait();
+			return false;
+		}, err, time);
+	},
 	waitFor: function(app, cb, err, time) {
 		wait();
 
@@ -140,7 +157,7 @@ Balanced.Test.asyncHelpers = {
 					Testing.start();
 				}
 			} else {
-				Ember.Logger.debug('Tests still waiting for... %@ ms passed out of %@ ms'.fmt(elapsed, time));
+				wait();
 				setTimeout(runInterval, 100);
 			}
 		};

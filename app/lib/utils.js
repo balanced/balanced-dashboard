@@ -116,7 +116,7 @@ Balanced.Utils = Ember.Namespace.create({
 			prepend = '-$';
 		}
 
-		return prepend + (cents / 100).toFixed(2).replace(FORMAT_CURRENCY_REGEX, '$1,');
+		return prepend + Balanced.Utils.centsToDollars(cents);
 	},
 
 	formatNumber: function(number) {
@@ -161,6 +161,14 @@ Balanced.Utils = Ember.Namespace.create({
 		return Math.round(100 * parseFloat(dollars));
 	},
 
+	centsToDollars: function(cents) {
+		if (!cents) {
+			return '';
+		}
+
+		return (cents / 100).toFixed(2).replace(FORMAT_CURRENCY_REGEX, '$1,');
+	},
+
 	toGravatar: function(emailHash) {
 		return emailHash ? 'https://secure.gravatar.com/avatar/%@?s=30&d=mm'.fmt(emailHash) : 'https://secure.gravatar.com/avatar?s=30&d=mm';
 	},
@@ -168,7 +176,8 @@ Balanced.Utils = Ember.Namespace.create({
 	setCurrentMarketplace: function(marketplace) {
 		// Store the marketplace in a global so we can use it for auth.
 		// TODO: TAKE THIS OUT when we've moved to oAuth
-		Balanced.currentMarketplace = marketplace;
+		Ember.set(Balanced, 'currentMarketplace', marketplace);
+		Balanced.Auth.set('currentMarketplace', marketplace);
 		if (marketplace) {
 			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 
@@ -276,8 +285,26 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	date_formats: {
-		short: '%e %b \'%y %l:%M %p',
-		long: '%a, %e %b %Y, %l:%M %p',
+		date: '%b %e, %Y',
+		time: '%l:%M %p',
+		short: '%m/%e/%y, %l:%M %p',
+		long: '%B %e %Y, %l:%M %p',
+	},
+
+	humanReadableDate: function(isoDate) {
+		if (isoDate) {
+			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.date);
+		} else {
+			return isoDate;
+		}
+	},
+
+	humanReadableTime: function(isoDate) {
+		if (isoDate) {
+			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.time);
+		} else {
+			return isoDate;
+		}
 	},
 
 	humanReadableDateShort: function(isoDate) {

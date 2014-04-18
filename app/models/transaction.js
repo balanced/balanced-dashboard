@@ -8,7 +8,6 @@ var Computed = {
 
 Balanced.Transaction = Balanced.Model.extend(
 	Balanced.MetaArrayMixin, {
-		account: Balanced.Model.belongsTo('account', 'Balanced.Account'),
 		customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 		events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 
@@ -28,14 +27,11 @@ Balanced.Transaction = Balanced.Model.extend(
 			}
 		}.property('customer'),
 
-		page_title: function() {
-			return this.get('description') || this.get('id');
-		}.property('description', 'id'),
-
+		page_title: Balanced.computed.orProperties('description', 'id'),
 		events_uri: Balanced.computed.concat('uri', '/events'),
 
 		status_description: function() {
-			if (this.get('status') === 'failed') {
+			if (this.get('is_failed')) {
 				if (this.get('failure_reason') || this.get('failure_reason_code')) {
 					return this.get('failure_reason') || this.get('failure_reason_code');
 				}
@@ -43,9 +39,23 @@ Balanced.Transaction = Balanced.Model.extend(
 			} else {
 				return Ember.String.capitalize(this.get('status'));
 			}
-		}.property('status', 'failure_reason', 'failure_reason_code'),
+		}.property('is_failed', 'status', 'failure_reason', 'failure_reason_code'),
 
 		is_failed: Computed.isStatus('failed'),
 		is_pending: Computed.isStatus('pending'),
 		is_succeeded: Computed.isStatus('succeeded')
 	});
+
+Balanced.Transaction.reopenClass({
+	findAppearsOnStatementAsInvalidCharacters: function(originalString) {
+		// ASCII letters (a-z and A-Z)
+		// Digits (0-9)
+		// Special characters (.<>(){}[]+&!$;-%_?:#@~=\'" ^`|)
+		var SPECIAL_CHARS_REGEXP = /[.<>(){}\[\]+&!$;\-%_?:#@~=\\'" \^`|\w]/g;
+		return originalString
+			.replace(SPECIAL_CHARS_REGEXP, '')
+			.split("")
+			.uniq()
+			.join("");
+	}
+});

@@ -4,8 +4,7 @@ module('Search', {
 		Testing.createDebits();
 		Balanced.Auth.set('signedIn', true);
 
-		// add some delay, because the API takes some time to add things to search
-		Testing.pause(1000);
+		Testing.setupSearch();
 	},
 	teardown: function() {
 		Ember.run(function() {
@@ -54,6 +53,8 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
+	Testing.setupSearch(4);
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -69,7 +70,7 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 			assert.ok(controller.get('results_base_uri').indexOf('/search') >= 0, 'Search Transactions URI is correct');
 			assert.ok(resultsUri.indexOf('card_hold') >= 0, 'Search URI filter by type is correct');
 		})
-		.click('#search .results li.transactions ul.dropdown-menu li a:contains(Holds)')
+		.click('#search .results th.type ul.dropdown-menu li a:contains(Holds)')
 		.then(function() {
 			// Manually check the transactions uri is correct
 			var controller = Balanced.__container__.lookup('controller:search');
@@ -79,17 +80,12 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 
 			// Check if it filters
 			assert.equal($('#search .results table.transactions tr td.no-results').length, 1, 'has "no results"');
-
-			// Check header labels
-			assert.equal($('#search .results li.transactions').text().indexOf('Holds') >= 0, 1, 'has correct text');
-			assert.equal($('#search .results li.transactions').text().indexOf('0') >= 0, 1, 'has correct text');
-
-			// Check if we dont have status type
-			assert.equal($('#search .results table.transactions th.status .status-filter').length, 0, 'can not filter by status');
 		});
 });
 
 test('search "%", click customers, returns 1 customer total, showing 1 customer in results, with no load more', function(assert) {
+	Testing.setupSearch(1, 'customer');
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -105,6 +101,8 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 });
 
 test('search "%" returns 4 transactions. Click load more shows 2 more and hides load more', function(assert) {
+	Testing.setupSearch(4);
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -126,7 +124,7 @@ test('search "%" click filter by holds.', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search .results li.transactions a.dropdown-toggle')
+		.click('#search .results th.type a.dropdown-toggle')
 		.then(function() {
 			assert.equal($('#search .results li.transactions ul.transaction-filter').css('display'), 'block', 'transaction filter menu visible');
 		})
@@ -206,7 +204,7 @@ test('search date range pick', function(assert) {
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
 				'created_at%5B%3C%5D=' + end_iso + '&' +
 				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&offset=0&q=&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
+				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
 
 			var request = spy.getCall(spy.callCount - 1);
 			assert.ok(spy.calledOnce);
@@ -264,10 +262,9 @@ test('search date sort has three states', function(assert) {
 		}
 		states.sort();
 
-		var expectedStates = ["ascending", "descending", "unsorted"];
+		var expectedStates = ["ascending", "descending"];
 		assert.equal(states[0], expectedStates[0]);
 		assert.equal(states[1], expectedStates[1]);
-		assert.equal(states[2], expectedStates[2]);
-		assert.equal(states.length, 3);
+		assert.equal(states.length, 2);
 	});
 });

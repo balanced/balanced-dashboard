@@ -14,7 +14,7 @@ Balanced.Adapter.addFixtures([{
 	},
 	"links": {}
 }, {
-	"uri": "/marketplaces/TEST-MP4cOZZqeAelhxXQzljLLtgl/users"
+	"uri": "/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl/users"
 }, {
 	"uri": "/api_keys",
 	"meta": {

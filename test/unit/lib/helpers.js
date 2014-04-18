@@ -1,5 +1,15 @@
 module('Balanced.Utils');
 
+test('toDataUri', function(assert) {
+	var tests = {
+		'aabbcc': 'data:text/plain;charset=utf-8;base64,YWFiYmNj'
+	};
+
+	_.each(tests, function(val, key) {
+		assert.equal(val, Balanced.Utils.toDataUri(key));
+	});
+});
+
 test('getParamByName', function(assert) {
 	var uris = [
 		'/v1/marketplaces?query=123',
@@ -38,6 +48,34 @@ test('formatCurrency', function(assert) {
 
 	for (var i = 0; i < cents.length; i++) {
 		assert.equal(Balanced.Utils.formatCurrency(cents[i]), expected[i]);
+	}
+});
+
+test('centsToDollars', function(assert) {
+	var cents = [-984526372, -10000, -105, -1,
+		0,
+		1,
+		105,
+		10000,
+		984726372,
+		null
+	];
+
+	var expected = [
+		'-9,845,263.72',
+		'-100.00',
+		'-1.05',
+		'-0.01',
+		'',
+		'0.01',
+		'1.05',
+		'100.00',
+		'9,847,263.72',
+		''
+	];
+
+	for (var i = 0; i < cents.length; i++) {
+		assert.equal(Balanced.Utils.centsToDollars(cents[i]), expected[i]);
 	}
 });
 
@@ -353,13 +391,16 @@ test('applyUriFilters', function(assert) {
 		params: {
 			query: 'nick+test1@rasslingcats.com'
 		}
+	}, {
+		uri: null
 	}];
 
 	var expected = [
 		'http://example.com/something?limit=2&offset=0&q=hello',
 		'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=2&offset=87&q=hello&sortOder=asc&type=foobar',
 		'http://example.com/something?custom=woohoo&limit=2&offset=0&q=hello',
-		'http://example.com/something?limit=2&offset=0&q=nick%2Btest1%40rasslingcats.com'
+		'http://example.com/something?limit=2&offset=0&q=nick%2Btest1%40rasslingcats.com',
+		null
 	];
 
 	for (var i = 0; i < inputs.length; i++) {
@@ -400,6 +441,33 @@ test('filterSensitiveData', function(assert) {
 	for (var i = 0; i < inputs.length; i++) {
 		assert.equal(Balanced.Utils.filterSensitiveData(inputs[i]), expected[i]);
 	}
+});
+
+test('updateQueryStringParameter', function(assert) {
+	var uris = {
+		'/v1/marketplaces?query=123': '/v1/marketplaces?query=890',
+		'/v1/marketplaces?query=123&after=bar': '/v1/marketplaces?query=890&after=bar',
+		'/v1/marketplaces?infront=foo&query=123&after=bar': '/v1/marketplaces?infront=foo&query=890&after=bar'
+	};
+
+	_.each(uris, function(val, key) {
+		assert.equal(val, Balanced.Utils.updateQueryStringParameter(key, 'query', '890'));
+	});
+});
+
+test('toGravatar', function(assert) {
+	var hashs = {
+		'exampleHash': 'https://secure.gravatar.com/avatar/exampleHash?s=30&d=mm',
+		'': 'https://secure.gravatar.com/avatar?s=30&d=mm'
+	};
+
+	_.each(hashs, function(val, key) {
+		assert.equal(val, Balanced.Utils.toGravatar(key));
+	});
+});
+
+test('setCurrentMarketplace', function(assert) {
+	expect(0);
 });
 
 test('filterSensitivePropertiesMap', function(assert) {

@@ -1,41 +1,39 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :date view.hideDateSort::sortable" field="created_at"}}Date{{/view}}
-		<th class="span3 label6a type">
-			Type
-
-			{{#if transactionTypeFilter}}
-				<div class="selector dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-					<ul class="dropdown-menu type-filter filter-choices">
-						<li><a href="#" {{action "changeTypeFilter" "transaction"}}>All</a></li>
-						<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
-						<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
-						<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
-						<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
-					</ul>
-				</div>
-			{{/if}}
+		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :date view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span2 type">
+			<div class="dropdown filter">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Type</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu type-filter filter-choices">
+					<li><a href="#" {{action "changeTypeFilter" "transaction"}}>All</a></li>
+					<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
+				</ul>
+			</div>
 		</th>
-		<th class="span3 label6a status">
-			Status
-
-			{{#if transactionStatus}}
-				<div class="selector dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-					<ul class="dropdown-menu status-filter filter-choices">
-						<li><a href="#" {{action "changeTransactionStatusFilter" "all"}}>All</a></li>
-						<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
-						<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
-						<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
-					</ul>
-				</div>
-			{{/if}}
+		<th class="span3 status">
+			<div class="dropdown filter">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Status</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu status-filter filter-choices">
+					<li><a href="#" {{action "changeTransactionStatusFilter" "all"}}>All</a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
+					<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
+				</ul>
+			</div>
 		</th>
-		<th class="span4 label6a description">Description</th>
-		<th class="span3 label6a account">Customer</th>
-		<th class="span4 label6a funding-instrument">Card or Bank Account</th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount unsorted num" field="amount"}}Amount{{/view}}
+		<th class="span4 description"><span>Description</span></th>
+		<th class="span3 account"><span>Customer</span></th>
+		<th class="span4 funding-instrument"><span>Card or Bank Account</span></th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 amount unsorted num" field="amount"}}<span>Amount</span>{{/view}}
 	</tr>
 </thead>
 
@@ -48,7 +46,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a {{action "loadMore" view.transactions}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.transactions}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -61,11 +59,14 @@
 			<td class="span3 date">
 				{{#link-to transaction.route_name transaction}}
 					<span>
-						<time {{bind-attr datetime="transaction.created_at"}} {{bind-attr title="transaction.created_at"}}>{{humanReadableDateShort transaction.created_at}}</time>
+						<time {{bind-attr datetime="transaction.created_at"}} {{bind-attr title="transaction.created_at"}}>
+						<span class="primary">{{humanReadableDate transaction.created_at}}</span>
+						<span class="secondary">{{humanReadableTime transaction.created_at}}</span>
+						</time>
 					</span>
 				{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span3 :label4a :type transaction.type"}}>
+			<td {{bind-attr class=":span2 :label4a :type transaction.type"}}>
 				{{#link-to transaction.route_name transaction}}
 					<span>
 						{{transaction.type_name}}
@@ -102,11 +103,12 @@
 			<td class="span3 funding-instrument">
 				{{#link-to transaction.route_name transaction}}
 					<span>
-						{{transaction.funding_instrument_description}}
+						<span class="primary">{{transaction.last_four}}</span>
+						<span class="secondary">{{transaction.funding_instrument_name}}</span>
 					</span>
 				{{/link-to}}
 			</td>
-			<td class="span2 amount num">
+			<td class="span3 amount num">
 				{{#link-to transaction.route_name transaction}}
 					<span>
 						{{formatCurrency transaction.amount}}

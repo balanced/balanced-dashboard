@@ -1,13 +1,4 @@
 /*
- this file is generated as part of the build process.
- If you haven't run that yet, you won't see it.
-
- It is excluded from git commits since it's a
- generated file.
- */
-require('build/js/compiled-templates');
-
-/*
  * Helpers and utils - not static 3rd party libraries
  */
 
@@ -55,5 +46,5 @@ require('app/components/**/*');
  * actions.
  */
 require('app/routes/router');
-require('app/routes/auth_route');
+require('app/routes/_base');
 require('app/routes/**/*');

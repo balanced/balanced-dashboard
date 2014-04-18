@@ -26,13 +26,10 @@ Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 		}
 	}.property('transaction.customer', 'transaction'),
 
-	funding_instrument_description: function() {
-		return this.get('transaction.funding_instrument_description');
-	}.property('transaction.funding_instrument_description', 'transaction'),
-
-	page_title: function() {
-		return this.get('transaction.description') || this.get('transaction.id');
-	}.property('transaction.description', 'transaction.id', 'transaction'),
+	last_four: Ember.computed.alias('transaction.last_four'),
+	bank_name: Ember.computed.alias('transaction.bank_name'),
+	funding_instrument_description: Ember.computed.oneWay('transaction.funding_instrument_description').readOnly(),
+	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
 
 	status_name: function() {
 		return Balanced.Utils.capitalize(this.get('status'));
