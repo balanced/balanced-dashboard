@@ -23,15 +23,17 @@ test('forgot password form submits', function(assert) {
 	});
 
 	visit('/forgot_password')
-		.fillIn("form#forgot-form input[name=email_address]", 'foo@bar.com')
-		.click("form#forgot-form button")
+		.fillForm("#forgot-form", {
+			"email_address": "foo@bar.com"
+		}, {
+			click: "button"
+		})
 		.onUrl('/login', assert)
 		.then(function() {
 			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
-
 			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.ForgotPassword, '/password', sinon.match({
-				email_address: 'foo@bar.com'
-			})));
+			assert.deepEqual(stub.firstCall.args.slice(1, 3), ["/password", {
+				email_address: "foo@bar.com"
+			}])
 		});
 });
