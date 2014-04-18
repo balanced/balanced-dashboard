@@ -59,7 +59,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		});
 
 		var attemptedTransition = auth.get('attemptedTransition');
-		console.log('running afterlogin', attemptedTransition);
 
 		if (attemptedTransition) {
 			Ember.run.next(function() {
