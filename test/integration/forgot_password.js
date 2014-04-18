@@ -34,6 +34,6 @@ test('forgot password form submits', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.deepEqual(stub.firstCall.args.slice(1, 3), ["/password", {
 				email_address: "foo@bar.com"
-			}])
+			}]);
 		});
 });
