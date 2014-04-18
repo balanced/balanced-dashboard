@@ -1,22 +1,67 @@
-<div class="modal hide" id="evidence-portal">
+<div class="modal hide wide-modal" id="evidence-portal">
 	<form {{action "save" on="submit" target="view"}}>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
 			<h2>Attach documents</h2>
 		</div>
 
-		<div class="modal-body">
+		<div class="modal-body modal-with-headers">
 			{{#if view.model.displayErrorDescription}}
 				<div class="alert alert-error row-full">
 					{{view.model.errorDescription}}
 				</div>
 			{{/if}}
-			<div class="alert alert-info row-full">
-				Please attach supporting documentation to fight this dispute. You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."
+			<div class="modal-content">
+				<p>
+					Please attach supporting documentation to fight this dispute. You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."
+				</p>
+				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
+					<label class="control-label">
+						Total documents: {{formatNumber view.documentCount}} (Max: {{formatNumber view.maxDocumentCount}})
+						<div class="pull-right">
+							<span class="btn btn-link fileinput-button sm right">
+								<i class="icon icon-document-upload import-payout"></i>
+								<span>Attach documents</span>
+								<input id="fileupload" type="file" name="files[]" multiple>
+							</span>
+						</div>
+					</label>
+					<div class="controls results results-framed">
+						<table class="table table-fixed table-border">
+							<thead>
+								<tr>
+									<th class="span8">File</th>
+									<th class="span2">Size</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each document in view.documents}}
+									<tr class="table-row">
+										<td>
+											{{#if document.isUploading}}
+
+											{{/if}}
+											{{document.name}}
+										</td>
+										<td>{{document.size}}</td>
+									</tr>
+								{{else}}
+									<tr>
+										<td colspan="2" class="no-results">None</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
+					<label class="control-label">Note</label>
+					<div class="controls row-fluid">
+						{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span" placeholder="Describe your case."}}
+						<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.note}}</div>
+					</div>
+				</div>
 			</div>
-
-			<p class="label4a">A CSV file of your disputes set will be sent to:</p>
-
 		</div>
 
 		<div class="modal-footer">
