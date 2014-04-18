@@ -368,10 +368,25 @@ var Testing = {
 		});
 	},
 
-	setupSearch: function(howMany, type) {
+	waitForResults: function(controller, howMany, type) {
 		var self = this;
+
+		Ember.run(function() {
+			controller.get('results').then(function(results) {
+				// Wait for atleast 4 results
+				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
+					controller.send('reload');
+					return setTimeout(_.bind(self.waitForResults, self, controller, howMany, type), 1000);
+				}
+
+				self.start();
+			});
+		});
+	},
+
+	setupResults: function(route, controllerKey, defaultType, howMany, type, setupControllerCall) {
 		howMany = howMany || 1;
-		type = type || 'search';
+		type = type || defaultType;
 
 		// Call stop to stop executing the tests before
 		// a log is created
@@ -379,29 +394,33 @@ var Testing = {
 
 		// Visit the marketplace route to initialize everything
 		Ember.run(function() {
-			visit(Testing.MARKETPLACE_ROUTE);
+			visit(route);
 		});
 
-		var searchController = Balanced.__container__.lookup('controller:search');
+		var controller = Balanced.__container__.lookup('controller:' + controllerKey);
 
 		Ember.run(function() {
+			controller.set('type', type);
+
+			if (_.isFunction(setupControllerCall)) {
+				setupControllerCall(controller, howMany, type);
+			}
+		});
+
+		this.waitForResults(controller, howMany, type);
+	},
+
+	setupSearch: function(howMany, type) {
+		this.setupResults(this.MARKETPLACE_ROUTE, 'search', 'search', howMany, type, function(searchController, howMany, type) {
 			searchController.setProperties({
-				type: type,
 				debounced_search: '%',
 				showResults: true
 			});
 		});
+	},
 
-		Ember.run(function() {
-			searchController.get('results').then(function(results) {
-				// Wait for atleast 4 results
-				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
-					return setTimeout(_.bind(Testing.setupSearch, Testing, howMany, type), 1000);
-				}
-
-				self.start();
-			});
-		});
+	setupActivity: function(howMany, type) {
+		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
 	},
 
 	createDispute: function(howMany) {

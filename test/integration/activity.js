@@ -12,9 +12,6 @@ module('Activity', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
-
-		// add some delay, because the API takes some time to add things to search
-		Testing.pause(10000);
 	},
 	teardown: function() {}
 });
@@ -32,6 +29,8 @@ test('can visit page', function(assert) {
 });
 
 test('Click load more shows 2 more and hides load more', function(assert) {
+	Testing.setupActivity(4);
+
 	visit(Testing.ACTIVITY_ROUTE)
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
@@ -52,6 +51,8 @@ test('Click load more shows 2 more and hides load more', function(assert) {
 });
 
 test('Filter Activity transactions table by type & status', function(assert) {
+	Testing.setupActivity();
+
 	visit(Testing.ACTIVITY_ROUTE)
 		.click('#activity .results table.transactions th.type .type-filter li a:contains(Holds)')
 		.then(function() {
