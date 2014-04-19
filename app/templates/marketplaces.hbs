@@ -1,7 +1,8 @@
 {{partial "header"}}
 <section id="main" class="container marketplaces">
-	<nav id="marketplace-nav"></nav>
+	{{partial "marketplace_sidebar"}}
 	<div id="content">
+		{{partial "alert"}}
 		{{outlet}}
 		{{partial "footer"}}
 	</div>

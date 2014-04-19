@@ -2,6 +2,7 @@
 
 <section id="main" class="container marketplaces">
 	<div id="main-overlay"></div>
+	<nav id="marketplace-nav"></nav>
 	<div id="content">
 		<h1>Claim your account</h1>
 		<form id="claim-form" method="POST" {{bind-attr class=":full-page-form signUpError:error"}} {{action "save" on="submit"}}>
@@ -34,7 +35,7 @@
 				</div>
 			</fieldset>
 		</form>
+		{{partial "footer"}}
 	</div>
 </section>
 
-{{partial "footer"}}
