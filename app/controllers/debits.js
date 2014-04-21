@@ -1,5 +1,3 @@
-Balanced.DebitsController = Balanced.ObjectController.extend(
-	Ember.Evented, {
-		needs: ['marketplace']
-	}
-);
+Balanced.DebitsController = Balanced.ObjectController.extend({
+	needs: ['marketplace']
+});

@@ -1,15 +1,7 @@
-Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
+Balanced.MarketplaceController = Balanced.ObjectController.extend(
+	Balanced.ActionEvented('openPaySellerModal', 'openChargeCardModal'),
+	{
 	needs: ['application'],
-
-	actions: {
-		openPaySellerModal: function() {
-			this.trigger('openPaySellerModal');
-		},
-
-		openChargeCardModal: function() {
-			this.trigger('openChargeCardModal');
-		}
-	},
 
 	formattedEscrowAmount: function() {
 		var escrow = this.get('in_escrow');

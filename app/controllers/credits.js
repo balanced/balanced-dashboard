@@ -1,5 +1,3 @@
-Balanced.CreditsController = Balanced.ObjectController.extend(
-	Ember.Evented, {
-		needs: ['marketplace']
-	}
-);
+Balanced.CreditsController = Balanced.ObjectController.extend({
+	needs: ['marketplace']
+});

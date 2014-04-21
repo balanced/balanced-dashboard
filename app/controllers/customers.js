@@ -1,5 +1,5 @@
 Balanced.CustomersController = Balanced.ObjectController.extend(
-	Ember.Evented,
+	Balanced.ActionEvented('openDeleteBankAccountModal', 'openDeleteCardModal'),
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {
 		needs: ['marketplace'],
@@ -30,16 +30,6 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 				model.get(collectionName).loadAll();
 			});
 		}.observes('model', 'model.isLoaded'),
-
-		actions: {
-			promptToDeleteBankAccount: function(bankAccount) {
-				this.trigger('openDeleteBankAccountModal', bankAccount);
-			},
-
-			promptToDeleteCard: function(card) {
-				this.trigger('openDeleteCardModal', card);
-			},
-		},
 
 		results_base_uri: function() {
 			if (this.get('isDisputeType')) {

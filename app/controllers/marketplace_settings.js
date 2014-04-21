@@ -1,4 +1,6 @@
-Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.Evented, {
+Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(
+	Balanced.ActionEvented('openDeleteCardModal', 'openDeleteCallbackModal', 'openDeleteBankAccountModal'),
+	{
 	needs: ["marketplace"],
 
 	can_edit: Ember.computed.alias('production'),
@@ -10,24 +12,6 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(Ember.
 	}.property('id'),
 
 	marketplaceSecret: function() {
-		if (this.get('userMarketplace')) {
-			return this.get('userMarketplace.secret');
-		}
-
-		return '';
-	}.property('userMarketplace', 'userMarketplace.secret'),
-
-	actions: {
-		promptToDeleteCallback: function(callback) {
-			this.trigger('openDeleteCallbackModal', callback);
-		},
-
-		promptToDeleteBankAccount: function(bankAccount) {
-			this.trigger('openDeleteBankAccountModal', bankAccount);
-		},
-
-		promptToDeleteCard: function(card) {
-			this.trigger('openDeleteCardModal', card);
-		}
-	}
+		return this.get('userMarketplace.secret') || '';
+	}.property('userMarketplace', 'userMarketplace.secret')
 });
