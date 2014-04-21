@@ -1,0 +1,16 @@
+<div class="page-navigation">
+	<h2>
+		Payments:
+		<small>
+			<a href="#" {{bind-attr class=":filter view.isOrdersSelected:selected"}}{{action "changeTypeFilter" "order"}}>Orders</a>
+			/
+			<a href="#" {{bind-attr class=":filter view.isTransactionSelected:selected"}} {{action "changeTypeFilter" "transaction"}}>Transactions</a>
+		</small>
+		{{#if isLoading}}
+			Loading
+		{{/if}}
+	</h2>
+
+	<div class="page-actions">
+	</div>
+</div>

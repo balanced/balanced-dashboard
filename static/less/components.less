@@ -49,16 +49,28 @@
   }
 }
 
-.title-bar-color(@className, @bgColor, @detailColor, @textColor) {
-  .tb, .title-block {
-    &.@{className} {
-      background-color: @bgColor;
-      color: @textColor;
-      .tb-label, .tb-icon {
-        background-color: @detailColor;
-      }
+.page-navigation {
+  background-color: @gray1;
+  margin: -45px -45px 0 -45px;
+  padding: 35px 45px;
+  h2 {
+    color: @gray4;
+    margin: 0;
+    small {
+      font-size: 14.5px;
+    }
+  }
+
+  .filter {
+    .sl-md;
+    border-bottom: @searchBorderWidth solid transparent;
+    color: @gray4;
+    display: inline-block;
+    padding: 3px 0;
+    margin: 0 6px;
+    &.selected {
+      border-bottom-color: @black;
+      color: @black;
     }
   }
 }
-
-/*.title-bar-color(tb-curry-yellow, @curryYellow60, @curryYellow100, @white);*/
