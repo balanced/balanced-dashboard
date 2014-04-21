@@ -17,16 +17,6 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented,
 	disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),
 	customerSelected: Computed.isSelected('marketplace.customers', 'customer'),
 
-	actions: {
-		openPaySellerModal: function() {
-			this.trigger('openPaySellerModal');
-		},
-
-		openChargeCardModal: function() {
-			this.trigger('openChargeCardModal');
-		}
-	},
-
 	formattedEscrowAmount: function() {
 		var escrow = this.get('in_escrow');
 		if (isNaN(escrow)) {

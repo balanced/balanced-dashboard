@@ -1,4 +1,13 @@
 <div class="page-navigation">
+	<div class="page-actions">
+		<a class="btn" href="#" {{action "openChargeCardModal"}}>
+			Debit customer
+		</a>
+		<a class="btn" href="#" {{action "openPaySellerModal"}}>
+			Credit customer
+		</a>
+	</div>
+
 	<h2>
 		Payments:
 		<small>
@@ -10,7 +19,6 @@
 			Loading
 		{{/if}}
 	</h2>
-
-	<div class="page-actions">
-	</div>
 </div>
+{{view Balanced.PaySellerModalView}}
+{{view Balanced.ChargeCardModalView}}
