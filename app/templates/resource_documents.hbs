@@ -1,0 +1,39 @@
+<h3 class="embedded-record-title">Documents
+	{{#unless view.content.isLoaded}}
+		<div class="loader-container"><span class="loader loading"></span></div>
+	{{/unless}}
+</h3>
+<div class="results embedded documents">
+	<div class="items-wrapper">
+		<table class="items">
+			<tbody>
+			{{#if view.content.documents}}
+				{{#each doc in view.content.documents}}
+					<tr>
+						<td class="first date">
+							<a href=""><time {{bind-attr datetime="doc.created_at"}} {{bind-attr title="doc.created_at"}}>
+							{{humanReadableDateShort doc.created_at}}</time></a>
+						</td>
+						<td class="second">
+							<a href=""><span>{{doc.name}}</span></a>
+						</td>
+						<td class="align-right">
+							<a href=""><span>{{doc.size}}</span></a>
+						</td>
+					</tr>
+				{{/each}}
+			{{else}}
+				<tr>
+					<td colspan="3" class="no-results">
+						{{#if view.content.isLoaded}}
+							No results
+						{{else}}
+							Loading...
+						{{/if}}
+					</td>
+				</tr>
+			{{/if}}
+			</tbody>
+		</table>
+	</div>
+</div>
