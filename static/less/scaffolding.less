@@ -66,14 +66,24 @@
 
 #balanced-footer {
   @baseColor: @gray4;
-  border-top: 2px solid @marketplaceNavBackground;
-  margin-top: 63px;
-  padding: 10px 0;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  margin: 3px 0;
+
+  .info-links {
+    margin-bottom: 14px;
+  }
 
   span, a {
     .sl-sm;
     color: @baseColor;
-    padding-right: 10px;
+    display: block;
+    padding: 0 17px;
+  }
+
+  .copyright-label {
+    color: @white;
   }
 
   a {
