@@ -1,4 +1,4 @@
-Balanced.MarketplaceImportPayoutsController = Balanced.ObjectController.extend(Ember.Evented, {
+Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.Evented, {
 	needs: ['marketplace'],
 
 	init: function() {
