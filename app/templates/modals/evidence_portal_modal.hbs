@@ -15,9 +15,12 @@
 				<p>
 					Please attach supporting documentation to fight this dispute. You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."
 				</p>
+
+				<hr class="separation-line" />
+
 				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
 					<label class="control-label clearfix">
-						Total documents: {{formatNumber view.documentCount}} (Max: {{formatNumber view.maxDocumentCount}})
+						Total documents: {{formatNumber view.validDocumentCount}} (Max: {{formatNumber view.maxDocumentCount}})
 						<div class="pull-right">
 							<span class="btn btn-link fileinput-button sm right">
 								<i class="icon icon-document-upload import-payout"></i>
@@ -27,28 +30,26 @@
 						</div>
 					</label>
 					<div class="controls results results-framed">
-						<table class="table table-fixed table-border">
+						<table class="table table-fixed table-border items">
 							<thead>
 								<tr>
-									<th class="span8">File</th>
-									<th class="span2">Size</th>
-									<th class="span1">&nbsp;</th>
+									<th class="span8"><span>File (PDF / DOC / JPEG)</span></th>
+									<th class="span3"><span>Size (Max: 10 MB)</span></th>
+									<th class="span1"><span>&nbsp;</span></th>
 								</tr>
 							</thead>
 							<tbody>
 								{{#each document in view.documents}}
-									<tr class="table-row">
-										<td>
-											{{document.name}}
-										</td>
-										<td>{{document.size}}</td>
+									<tr {{bind-attr class=":table-row document.isError:error"}}>
+										<td class="name"><span>{{document.name}}</span></td>
+										<td class="size"><span>{{document.size}}</span></td>
 										<td>
 											{{#if document.isUploading}}
 												<div class="loader-container">
 													<span class="loader loading"></span>
 												</div>
 											{{else}}
-												<a href="#" {{action "deleteDocument" document target="view"}}>&times;</a>
+												<span><a class="delete" href="#" {{action "deleteDocument" document target="view"}}>&times;</a></span>
 											{{/if}}
 										</td>
 									</tr>
@@ -65,7 +66,7 @@
 					<label class="control-label">Note</label>
 					<div class="controls row-fluid">
 						{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span" placeholder="Describe your case."}}
-						<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.note}}</div>
+						<div {{bind-attr class=":alert :alert-error :row-full :label4b view.hasValidDocument::in"}}>Submitting without documentation will greatly reduce your chances of winning the dispute.</div>
 					</div>
 				</div>
 			</div>

@@ -8,6 +8,16 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	documentCount: Ember.computed.readOnly('model.documents.length'),
 	documents: Ember.computed.readOnly('model.documents'),
 
+	validDocumentCount: function() {
+		return this.get('documents').filter(function(doc, index, arr) {
+			return !(doc.get('isUploading') || doc.get('isError'));
+		}).length || 0;
+	}.property('model', 'documents', 'documents.@each'),
+
+	hasValidDocument: function() {
+		return this.get('validDocumentCount') > 0;
+	}.property('validDocumentCount'),
+
 	didInsertElement : function(){
 		this._super();
 		this.loadUploadScript();
@@ -45,28 +55,39 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			return;
 		}
 
-		console.log('http://localhost:3000' + this.get('model.dispute_documents_uri'));
 		$('#fileupload').fileupload({
 			url: 'http://localhost:3000' + this.get('model.dispute_documents_uri'),
-			autoUpload: true,
+			autoUpload: false,
 			done: _.bind(this.fileUploadDone, this),
-			add: _.bind(this.fileUploadAdd, this),
 			fail: _.bind(this.fileUploadFail, this),
 			always: _.bind(this.fileUploadAlways, this)
-		});
+		}).on('fileuploadadd', _.bind(this.fileUploadAdd, this));
 	}.observes('model'),
 
 	fileUploadFail: function(e, data) {
 		console.log('fail', e, data);
 
-		var documents = this.get('model.documents');
+		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
-		documents.removeObject(doc);
+
+		if (!doc) {
+			return;
+		}
+
+		doc.setProperties({
+			isError: true
+		});
 	},
 
 	fileUploadAdd: function(e, data) {
 		console.log('add', e, data);
-		var documents = this.get('model.documents');
+
+		// Dont add documents we've already seen
+		if (data.files[0].uuid) {
+			return;
+		}
+
+		var documents = this.get('documents');
 
 		// To remember the documents
 		data.files[0].uuid = _.uniqueId('DD');
@@ -74,11 +95,12 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		var doc = Balanced.DisputeDocument.create({
 			file_name: data.files[0].name,
 			file_size: data.files[0].size,
-			isUploading: true,
 			uuid: data.files[0].uuid
 		});
 
 		documents.pushObject(doc);
+
+		this.reposition();
 	},
 
 	fileUploadDone: function(e, data) {
@@ -87,12 +109,33 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 
 	fileUploadAlways: function(e, data) {
 		console.log('always', e, data);
-		var documents = this.get('model.documents');
+		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
 		if (!doc) {
 			return;
 		}
 
 		doc.set('isUploading', false);
+	},
+
+	actions: {
+		deleteDocument: function(doc) {
+			if (!doc) {
+				return;
+			}
+
+			var self = this;
+			doc.delete().then(function() {
+				self.get('documents').reload();
+			});
+		},
+
+		reload: function() {
+			this.get('documents').reload();
+		},
+
+		save: function() {
+
+		}
 	}
 });

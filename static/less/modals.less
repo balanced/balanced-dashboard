@@ -563,8 +563,48 @@ body .modal-backdrop.fade.in {
     cursor: pointer;
   }
 
-  td.no-results {
-    font-style: italic;
+  td {
+    position: relative;
+
+    .loader-container {
+      position: absolute;
+      top: 10px;
+    }
+
+    span {
+      padding: 0;
+      display: block;
+      line-height: 46px;
+
+      a.delete {
+        color: #B1B9BD;
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+        position: absolute;
+        top: 13px;
+
+        &:hover {
+          color: @black;
+        }
+      }
+    }
+  }
+
+  tr.error {
+    > td {
+      background-color: inherit;
+
+      &.name {
+        color: @imperialRed100;
+      }
+    }
+  }
+
+  .control-group {
+    .alert.alert-error.in {
+      display: block;
+    }
   }
 }
 

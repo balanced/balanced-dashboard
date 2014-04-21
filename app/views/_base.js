@@ -69,6 +69,11 @@ Balanced.ModalView = Balanced.View.extend({
 		this._createModal();
 	},
 
+	reposition: function() {
+		// trigger a resize to reposition the dialog
+		$(document.body).trigger('resize');
+	},
+
 	actions: {
 		close: function() {
 			this.hide();
