@@ -7,7 +7,7 @@ Balanced.ActionEvented = function() {
 		obj[val] = function() {
 			var args = _.toArray(arguments);
 			args.unshift(val);
-			return this.trigger.apply(this, args)
+			return this.trigger.apply(this, args);
 		};
 	});
 

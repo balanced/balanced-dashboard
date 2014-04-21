@@ -1,17 +1,16 @@
 Balanced.MarketplaceController = Balanced.ObjectController.extend(
-	Balanced.ActionEvented('openPaySellerModal', 'openChargeCardModal'),
-	{
-	needs: ['application'],
+	Balanced.ActionEvented('openPaySellerModal', 'openChargeCardModal'), {
+		needs: ['application'],
 
-	formattedEscrowAmount: function() {
-		var escrow = this.get('in_escrow');
-		if (isNaN(escrow)) {
-			return '$--';
-		}
+		formattedEscrowAmount: function() {
+			var escrow = this.get('in_escrow');
+			if (isNaN(escrow)) {
+				return '$--';
+			}
 
-		return Balanced.Utils.formatCurrency(escrow);
-	}.property('in_escrow'),
-});
+			return Balanced.Utils.formatCurrency(escrow);
+		}.property('in_escrow'),
+	});
 
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
 	needs: ['marketplace']
