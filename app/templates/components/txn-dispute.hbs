@@ -7,32 +7,34 @@
 			</span>
 		</div>
 	</div>
+	{{#if dispute.is_pending}}
+		<section class="evidence-portal-info">
+		<div class="row-fluid">
+			<div class="span12">
+				<header>
+					<h3>Please provide supporting documentation:</h3>
+				</header>
+				<ul class="styled">
+					<li>Shipping receipts with shipping address and tracking numbers</li>
+					<li>Evidence of received goods or services purchased</li>
+				</ul>
+			</div>
+			<div class="span12">
+				<header>
+					<a class="btn pull-right sm" href="#" {{action "openEvidencePortalModal"}}>Attach Doc</a>
+					<h3>Submit documentation by:</h3>
+				</header>
+				<div>
+					<h4>{{humanReadableDateLong dispute.respond_by}}</h4>
+					<p>The dispute will most likely result in a lost if you do not respond by this date.</p>
+				</div>
+			</div>
+		</div>
+		</section>
+	{{/if}}
 	<div class="transaction-body">
 		<div class="row-fluid">
 			<div class="span25 border-adjust">
-				{{#if dispute.is_pending}}
-					<section class="evidence-portal-info clearfix">
-						<div class="span13">
-							<header>
-								<h3>Please provide supporting documentation:</h3>
-							</header>
-							<ul>
-								<li>Shipping receipts with shipping address and tracking numbers</li>
-								<li>Evidence of received goods or services purchased</li>
-							</ul>
-						</div>
-						<div class="span12">
-							<header>
-								<h3>Submit documentation by:</h3>
-								<a class="btn pull-right sm" href="#" {{action "openEvidencePortalModal"}}>Attach Doc</a>
-							</header>
-							<div>
-								<h4>{{humanReadableDateLong dispute.respond_by}}</h4>
-								<p>The dispute will most likely result in a lost if you do not respond by this date.</p>
-							</div>
-						</div>
-					</section>
-				{{/if}}
 				<section class="transaction-info">
 					<div class="key-value-display">
 						<header>
@@ -69,5 +71,5 @@
 		</div>
 	</div>
 
-	{{view Balanced.EvidencePortalModalView disputeBinding="dispute"}}
+	{{view Balanced.EvidencePortalModalView modelBinding="dispute"}}
 </div>

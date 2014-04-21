@@ -163,7 +163,11 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		}
 
 		var exts = _.map(extensions, function(val, key) {
-			return $.getScript(key);
+			return $.ajax({
+				url: key,
+				dataType: 'script',
+				cache: true
+			});
 		});
 
 		// Ember.RSVP.all(exts).then(_.bind(this.loadAdminExtension, this));

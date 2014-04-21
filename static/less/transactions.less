@@ -63,6 +63,17 @@
     border: @transactionDetailsBorder solid @gray2;
     border-width-top: 0;
 
+    // Evidence portal styles
+    .dispute {
+      .evidence-portal-info {
+        background: #F0E4B8;
+
+        header {
+          border-bottom: 0;
+        }
+      }
+    }
+
     .transaction-type-subheader {
       .sl-md;
       @subHeaderHeight: 40px;
@@ -109,7 +120,7 @@
       }
     }
 
-    .transaction-body {
+    .transaction-body, .evidence-portal-info {
       background-color: @white;
       padding: 20px 20px 20px 85px;
 

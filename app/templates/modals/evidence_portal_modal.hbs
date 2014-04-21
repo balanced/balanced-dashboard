@@ -16,7 +16,7 @@
 					Please attach supporting documentation to fight this dispute. You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."
 				</p>
 				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
-					<label class="control-label">
+					<label class="control-label clearfix">
 						Total documents: {{formatNumber view.documentCount}} (Max: {{formatNumber view.maxDocumentCount}})
 						<div class="pull-right">
 							<span class="btn btn-link fileinput-button sm right">
@@ -32,22 +32,29 @@
 								<tr>
 									<th class="span8">File</th>
 									<th class="span2">Size</th>
+									<th class="span1">&nbsp;</th>
 								</tr>
 							</thead>
 							<tbody>
 								{{#each document in view.documents}}
 									<tr class="table-row">
 										<td>
-											{{#if document.isUploading}}
-
-											{{/if}}
 											{{document.name}}
 										</td>
 										<td>{{document.size}}</td>
+										<td>
+											{{#if document.isUploading}}
+												<div class="loader-container">
+													<span class="loader loading"></span>
+												</div>
+											{{else}}
+												<a href="#" {{action "deleteDocument" document target="view"}}>&times;</a>
+											{{/if}}
+										</td>
 									</tr>
 								{{else}}
 									<tr>
-										<td colspan="2" class="no-results">None</td>
+										<td colspan="3" class="no-results">None</td>
 									</tr>
 								{{/each}}
 							</tbody>
