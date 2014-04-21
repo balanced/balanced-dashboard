@@ -2,11 +2,11 @@
 
 {{view Balanced.ParseCreditsCsvProgressBarModalView viewName="parseProgressBarModal"}}
 {{view Balanced.SaveCreditsCsvProgressBarModalView viewName="saveProgressBarModal"}}
+{{view Balanced.AddFundsModalView marketplaceBinding="controllers.marketplace.model"}}
 
 {{confirm-modal viewName="confirmRemoveModal" title="Remove Entry" mainText="Remove this entry?"}}
 
 <h1 class="page-title">Import Payouts</h1>
-{{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
 {{#if controllers.marketplace.production}}
 	Payouts Import is only available on test marketplaces.
 {{else}}

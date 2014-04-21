@@ -36,6 +36,27 @@
     margin: 0;
     padding: 10px;
 
+    div.buttons {
+      margin-top: 5px;
+
+      .buttons-container {
+        height: 100%;
+        float: right;
+        a {
+          margin-right: 7px;
+          cursor: pointer;
+
+          &:last-of-type {
+            margin-right: 14px;
+          }
+        }
+
+        .modal-container {
+          display: inline-block;
+          overflow: visible;
+        }
+      }
+    }
 
     &.form-actions-error {
       .sl-b;
@@ -51,10 +72,16 @@
       width: 35px;
     }
   }
+
   p {
     padding: 0;
     margin: 0;
   }
+
+  .modal-informational p {
+    padding: 20px 0 20px 0;
+  }
+
   .form-actions-2lines p {
     line-height: 20px;
     padding: 0;

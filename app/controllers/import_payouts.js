@@ -1,4 +1,4 @@
-Balanced.MarketplaceImportPayoutsController = Ember.Controller.extend({
+Balanced.MarketplaceImportPayoutsController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
 
 	init: function() {
@@ -35,6 +35,10 @@ Balanced.MarketplaceImportPayoutsController = Ember.Controller.extend({
 	actions: {
 		removeCreditCreator: function(creator) {
 			this.get('creditCreators').removeObject(creator);
+		},
+
+		openAddFundsModal: function() {
+			this.trigger('openAddFundsModal');
 		}
 	}
 });
