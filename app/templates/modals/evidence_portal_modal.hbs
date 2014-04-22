@@ -18,16 +18,9 @@
 
 				<hr class="separation-line" />
 
-				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
+				<div {{bind-attr class=":clearfix :control-group view.model.validationErrors.note:error"}}>
 					<label class="control-label clearfix">
 						Total documents: {{formatNumber view.validDocumentCount}} (Max: {{formatNumber view.maxDocumentCount}})
-						<div class="pull-right">
-							<span class="btn btn-link fileinput-button sm right">
-								<i class="icon icon-document-upload import-payout"></i>
-								<span>Attach documents</span>
-								<input id="fileupload" type="file" name="files[]" multiple>
-							</span>
-						</div>
 					</label>
 					<div class="controls results results-framed">
 						<table class="table table-fixed table-border items">
@@ -60,6 +53,12 @@
 								{{/each}}
 							</tbody>
 						</table>
+					</div>
+					<div class="pull-right">
+						<span class="btn fileinput-button btn-sm right">
+							<span>Attach documents</span>
+							<input id="fileupload" type="file" name="files[]" multiple>
+						</span>
 					</div>
 				</div>
 				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
