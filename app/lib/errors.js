@@ -22,8 +22,7 @@ Balanced.ErrorsLogger = Ember.Namespace.create({
 		} else if (error.get) {
 			if (!error.get("isValid")) {
 				return true;
-			}
-			else if (error.get("isError")) {
+			} else if (error.get("isError")) {
 				return Balanced.ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
 			}
 			return false;
