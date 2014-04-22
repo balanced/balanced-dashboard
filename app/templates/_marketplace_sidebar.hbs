@@ -2,53 +2,48 @@
 {{#if marketplace}}
 	<ul>
 		<li>
-			{{#link-to 'activity' model}}
+			{{#link-to 'activity' marketplace}}
 				<i class="icon-payments"></i>
 				<span>Payments</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.customers' model active=customerSelected}}
+			{{#link-to 'marketplace.customers' marketplace active=customerSelected}}
 				<i class="icon-customers"></i>
 				<span>Customers</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.funding_instruments' model active=fundingInstrumentSelected}}
+			{{#link-to 'marketplace.funding_instruments' marketplace active=fundingInstrumentSelected}}
 				<i class="icon-payment-methods"></i>
 				<span>Payment methods</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.disputes' model active=disputeSelected}}
+			{{#link-to 'marketplace.disputes' marketplace active=disputeSelected}}
 				<i class="icon-disputes"></i>
 				<span>Disputes</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.logs' model active=logSelected}}
+			{{#link-to 'marketplace.logs' marketplace active=logSelected}}
 				<i class="icon-logs"></i>
 				<span>Logs</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.invoices' model active=invoiceSelected}}
+			{{#link-to 'marketplace.invoices' marketplace active=invoiceSelected}}
 				<i class="icon-invoices"></i>
 				<span>Fees</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.settings' model}}
+			{{#link-to 'marketplace.settings' marketplace}}
 				<i class="icon-settings"></i>
 				<span>Settings</span>
 			{{/link-to}}
 		</li>
 	</ul>
-	<div class="button-groups">
-		{{#link-to 'marketplace.add_customer' class='btn'}}
-			<span>Add a customer</span>
-		{{/link-to}}
-	</div>
 {{/if}}
 {{partial "_footer"}}
 </nav>
