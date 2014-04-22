@@ -13,22 +13,19 @@ Balanced.ErrorsLogger = Ember.Namespace.create({
 	captureException: delegateToRaven('captureException')
 });
 
-var isExpectedStatusCode = function (statusCode) {
+var isExpectedStatusCode = function(statusCode) {
 	return statusCode >= 400 && statusCode < 500;
-}
+};
 
-var isExpectedError = function (error) {
+var isExpectedError = function(error) {
 	if (error === undefined || error === null) {
 		return true;
-	}
-	else if (error.message === "TransitionAborted") {
-		return true
-	}
-	else if (error.get && error.get("isError")) {
+	} else if (error.message === "TransitionAborted") {
+		return true;
+	} else if (error.get && error.get("isError")) {
 		return !error.validate() || isExpectedStatusCode(error.get("errorStatusCode"));
-	}
-	else if (error.errors) {
-		return error.errors.every(function (err) {
+	} else if (error.errors) {
+		return error.errors.every(function(err) {
 			return isExpectedStatusCode(err.status_code);
 		});
 	}
