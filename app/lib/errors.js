@@ -10,30 +10,28 @@ var delegateToRaven = function(methodName) {
 
 Balanced.ErrorsLogger = Ember.Namespace.create({
 	captureMessage: delegateToRaven('captureMessage'),
-	captureException: delegateToRaven('captureException')
+	captureException: delegateToRaven('captureException'),
+	isExpectedStatusCode: function(statusCode) {
+		return statusCode >= 400 && statusCode < 500;
+	},
+	isExpectedError: function(error) {
+		if (error === undefined || error === null) {
+			return true;
+		} else if (error.message === "TransitionAborted") {
+			return true;
+		} else if (error.get && error.get("isError")) {
+			return (error.validate && !error.validate()) || Balanced.ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
+		} else if (error.errors) {
+			return error.errors.every(function(err) {
+				return Balanced.ErrorsLogger.isExpectedStatusCode(err.status_code);
+			});
+		}
+		return false;
+	}
 });
 
-var isExpectedStatusCode = function(statusCode) {
-	return statusCode >= 400 && statusCode < 500;
-};
-
-var isExpectedError = function(error) {
-	if (error === undefined || error === null) {
-		return true;
-	} else if (error.message === "TransitionAborted") {
-		return true;
-	} else if (error.get && error.get("isError")) {
-		return !error.validate() || isExpectedStatusCode(error.get("errorStatusCode"));
-	} else if (error.errors) {
-		return error.errors.every(function(err) {
-			return isExpectedStatusCode(err.status_code);
-		});
-	}
-	return false;
-};
-
 var reportError = function(error) {
-	if (isExpectedError(error)) {
+	if (Balanced.ErrorsLogger.isExpectedError(error)) {
 		return;
 	}
 
