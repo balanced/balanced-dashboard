@@ -1,3 +1,8 @@
 {{partial "header"}}
-{{outlet}}
-{{partial "footer"}}
+<section id="main" class="container marketplaces">
+	{{partial "marketplace_sidebar"}}
+	<div id="content">
+		{{partial "alert"}}
+		{{outlet}}
+	</div>
+</section>

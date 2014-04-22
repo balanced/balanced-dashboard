@@ -1,0 +1,24 @@
+<div class="page-navigation">
+	<div class="page-actions">
+		<a class="btn" href="#" {{action "openChargeCardModal"}}>
+			Debit customer
+		</a>
+		<a class="btn" href="#" {{action "openPaySellerModal"}}>
+			Credit customer
+		</a>
+	</div>
+
+	<h2>
+		Payments:
+		<small>
+			<a href="#" {{bind-attr class=":filter view.isOrdersSelected:selected"}}{{action "changeTypeFilter" "order"}}>Orders</a>
+			/
+			<a href="#" {{bind-attr class=":filter view.isTransactionSelected:selected"}} {{action "changeTypeFilter" "transaction"}}>Transactions</a>
+		</small>
+		{{#if isLoading}}
+			Loading
+		{{/if}}
+	</h2>
+</div>
+{{view Balanced.PaySellerModalView}}
+{{view Balanced.ChargeCardModalView}}

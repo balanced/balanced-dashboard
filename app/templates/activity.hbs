@@ -1,40 +1,31 @@
-<div id="activity">
-	<h1 class="page-title">
-		Payments
-		{{#unless results.isLoaded}}
-			<div class="loader-container">
-				<span class="loader loading"></span>
-			</div>
-		{{/unless}}
-	</h1>
+{{view Balanced.ActivityPageNavigationView resultsBinding="results"}}
 
-	<div class="main-header activity-escrow-box">
-		<div class="row">
-			<div class="span4 label">
-				<span>Current escrow balance:</span>
-			</div>
-			<div class="span8 amount">
-				<span>
-					{{controllers.marketplace.formattedEscrowAmount}}
-				</span>
-			</div>
+<div class="main-header activity-escrow-box">
+	<div class="row">
+		<div class="span4 label">
+			<span>Current escrow balance:</span>
+		</div>
+		<div class="span8 amount">
+			<span>
+				{{controllers.marketplace.formattedEscrowAmount}}
+			</span>
+		</div>
 
-			<div class="buttons">
-				<div class="buttons-container">
-					{{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
-					{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
-				</div>
+		<div class="buttons">
+			<div class="buttons-container">
+				{{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
+				{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
 			</div>
 		</div>
 	</div>
-
-	<div class="results">
-		{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
-	</div>
-
-	{{outlet}}
-
-	{{#if show_download}}
-		{{partial "modals/download"}}
-	{{/if}}
 </div>
+
+<div class="results">
+	{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
+</div>
+
+{{outlet}}
+
+{{#if show_download}}
+	{{partial "modals/download"}}
+{{/if}}

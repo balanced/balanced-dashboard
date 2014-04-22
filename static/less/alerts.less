@@ -16,10 +16,13 @@ div.alert-strip {
 }
 
 .alert-row {
-  position: absolute;
-  top: 0;
   width: 100%;
-  left: 0;
+
+  &.top {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 
   .alert-text-wrapper, .alert-strip {
     &.success {
@@ -71,12 +74,14 @@ div.alert-strip {
   &.notification-center-row {
     .sl;
     margin: 0;
-    padding: 14px 0px;
+    padding: 10px 0px;
     border-radius: 0;
     text-shadow: none;
     border: 0;
     color: @black;
     background-color: @curryYellow20;
+    text-align: center;
+    line-height: 20px;
   }
 
   button {
@@ -112,11 +117,6 @@ div.alert-strip {
     font-size: 17px;
     color: @gray7;
     .transition(none);
-  }
-
-  .notification-center-message {
-    position: relative;
-    top: 3px;
   }
 
   .callout {

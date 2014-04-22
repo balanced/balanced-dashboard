@@ -64,67 +64,36 @@
   }
 }
 
-footer {
-  background-color: @white;
-  border-top: 1px solid @marketplaceNavBackground;
-  height: 60px;
-  position: relative;
+#balanced-footer {
+  @baseColor: @gray4;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+  margin: 3px 0;
 
-  #flogo {
-    border-right: 1px solid @marketplaceNavBackground;
-    height: 60px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 89px;
+  .info-links {
+    margin-bottom: 14px;
   }
-  .social-icons {
-    float: right;
-    margin: 15px 20px 0;
-    a {
-      color: @gray3;
-      display: inline-block;
-      font-size: 23px;
-      line-height: 38px;
-      overflow: hidden;
-      text-align: center;
-      margin-right: 17px;
-      &:hover {
-        color: @gray4;
-      }
-    }
-  }
-  ul {
-    margin: 20px;
-    float: left;
-  }
-  li {
+
+  span, a {
+    .sl-sm;
+    color: @baseColor;
     display: block;
-    float: left;
+    padding: 0 17px;
+  }
 
-    span {
-      .sl-sm;
-      padding-right: 10px;
-      color: @gray4;
+  .copyright-label {
+    color: @white;
+  }
+
+  a {
+    &:visited {
+      color: @baseColor;
     }
-    a {
-      .sl-sm;
-      display: block;
-      padding: 0 10px;
-      color: @gray4;
-      
-      &:visited {
-        color: @gray4;
-      }
 
-      &:hover {
-        color: @black;
-        text-decoration: none;
-      }
-
-      &:active {
-        color: @black;
-      }
+    &:hover, &:active {
+      color: @black;
+      text-decoration: none;
     }
   }
 }
@@ -172,7 +141,7 @@ footer {
     font-size: 16px;
     color: @gray4;
     background-color: @gray7;
-    .border-radius(100%);    
+    .border-radius(100%);
     padding: 11px 8px 5px;
 
     &:hover {
@@ -198,14 +167,14 @@ footer {
   a.dropdown-toggle.gravatar {
     padding: 0;
     opacity: 0.6;
-    
+
     span {
       max-width: 175px;
       padding-left: 5px
     }
 
     &:hover {
-      opacity: 1; 
+      opacity: 1;
     }
   }
 

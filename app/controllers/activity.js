@@ -1,4 +1,4 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
@@ -29,6 +29,14 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 	},
 
 	actions: {
+		openPaySellerModal: function() {
+			this.trigger('openPaySellerModal');
+		},
+
+		openChargeCardModal: function() {
+			this.trigger('openChargeCardModal');
+		},
+
 		changeTypeFilter: function(type) {
 			this._super(type);
 
