@@ -114,8 +114,10 @@ test('hasMany associations work for embedded objects', function(assert) {
 	Balanced.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_embedded_field: [{
+			_type: "test",
 			basic_field: 123
 		}, {
+			_type: "test",
 			basic_field: 234
 		}]
 	}]);
@@ -138,8 +140,10 @@ test('hasMany associations work for URIs', function(assert) {
 	}, {
 		uri: '/v1/embedded/1',
 		items: [{
+			_type: "test",
 			basic_field: 123
 		}, {
+			_type: "test",
 			basic_field: 234
 		}]
 	}]);
@@ -226,19 +230,25 @@ test("hasMany associations don't share state", function(assert) {
 	}, {
 		uri: '/v1/testobjects/1',
 		items: [{
+			_type: "test",
 			basic_field: 123
 		}, {
+			_type: "test",
 			basic_field: 234
 		}]
 	}, {
 		uri: '/v1/testobjects/2',
 		items: [{
+			_type: "test",
 			basic_field: 1
 		}, {
+			_type: "test",
 			basic_field: 2
 		}, {
+			_type: "test",
 			basic_field: 3
 		}, {
+			_type: "test",
 			basic_field: 4
 		}]
 	}]);
@@ -263,8 +273,10 @@ test('Embedded hasMany associations work with fields of the same name', function
 	Balanced.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_has_many_field: [{
+			_type: "test",
 			basic_field: 123
 		}, {
+			_type: "test",
 			basic_field: 234
 		}]
 	}]);
@@ -397,8 +409,10 @@ test("hasMany associations have promises that resolve when they're loaded", func
 	}, {
 		uri: '/v1/testobjects/1',
 		items: [{
+			_type: "test",
 			basic_field: 123
 		}, {
+			_type: "test",
 			basic_field: 234
 		}]
 	}]);
@@ -585,9 +599,9 @@ test('hasMany collection can be reloaded', function(assert) {
 		uri: '/v1/transactions',
 		transactions_uri: '/v1/transactions',
 		items: [{
-			_type: 'balls'
+			_type: 'test'
 		}, {
-			_type: 'balls'
+			_type: 'test'
 		}]
 	}, {
 		uri: '/v1/obj',
@@ -617,8 +631,10 @@ test('hasMany URIs can be specified in the model object, not just the JSON', fun
 	}, {
 		uri: '/v1/embedded/1',
 		items: [{
+			_type: "test",
 			basic_field: 123
 		}, {
+			_type: "test",
 			basic_field: 234
 		}]
 	}]);

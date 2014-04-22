@@ -24,7 +24,7 @@ window.setupBalanced = function(divSelector) {
 		rootElement: divSelector,
 
 		// Basic logging, e.g. "Transitioned into 'post'"
-		LOG_TRANSITIONS: true,
+		LOG_TRANSITIONS: false,
 
 		// Extremely detailed logging, highlighting every internal
 		// step made while transitioning into a route, including

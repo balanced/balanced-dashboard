@@ -1,4 +1,5 @@
 <nav id="marketplace-nav">
+{{#if marketplace}}
 	<ul>
 		<li>
 			{{#link-to 'activity' model}}
@@ -48,4 +49,6 @@
 			<span>Add a customer</span>
 		{{/link-to}}
 	</div>
+{{/if}}
+{{partial "_footer"}}
 </nav>
