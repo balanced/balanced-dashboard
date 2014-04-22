@@ -1,4 +1,4 @@
-Balanced.MarketplacesController = Balanced.ArrayController.extend(Ember.Evented, {
+Balanced.MarketplacesController = Balanced.ArrayController.extend({
 	needs: ['marketplace', 'application', 'marketplaces'],
 	marketplaceBinding: 'controllers.marketplace'
 });

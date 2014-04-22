@@ -1,5 +1,3 @@
-Balanced.DisputesController = Balanced.ObjectController.extend(
-	Ember.Evented, {
-		needs: ['marketplace']
-	}
-);
+Balanced.DisputesController = Balanced.ObjectController.extend({
+	needs: ['marketplace']
+});

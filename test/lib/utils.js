@@ -363,7 +363,7 @@ var Testing = {
 					return setTimeout(_.bind(Testing.setupLogs, Testing, howMany), 1000);
 				}
 
-				self.start();
+				setTimeout(_.bind(self.start, self), 1000);
 			});
 		});
 	},
