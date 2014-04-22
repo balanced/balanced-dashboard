@@ -86,7 +86,7 @@ module.exports = function(grunt) {
 					'static/javascripts/ember/ember.js',
 					'static/javascripts/shapeshifter/shapeshifter.js',
 					'static/lib/ember-validations.prod.js',
-					'static/lib/bootstrap-datepicker.js',
+					// 'static/lib/bootstrap-datepicker.js',
 					'static/javascripts/bootstrap/js/bootstrap-dropdown.js',
 					'static/javascripts/bootstrap/js/bootstrap-modal.js',
 					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
@@ -99,7 +99,10 @@ module.exports = function(grunt) {
 					'static/javascripts/jquery.cookie/jquery.cookie.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
-					'static/javascripts/jquery-csv/src/jquery.csv.js'
+					'static/javascripts/jquery-csv/src/jquery.csv.js',
+					'static/javascripts/moment/moment.js',
+					'static/lib/daterangepicker.js',
+					'static/javascripts/timepicker/jquery.timepicker.js'
 				],
 				dest: 'build/js/lib-dev.js'
 			},
@@ -110,7 +113,7 @@ module.exports = function(grunt) {
 					'static/javascripts/ember/ember.prod.js',
 					'static/javascripts/shapeshifter/shapeshifter.js',
 					'static/lib/ember-validations.prod.js',
-					'static/lib/bootstrap-datepicker.js',
+					// 'static/lib/bootstrap-datepicker.js',
 					'static/javascripts/bootstrap/js/bootstrap-dropdown.js',
 					'static/javascripts/bootstrap/js/bootstrap-modal.js',
 					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
@@ -123,7 +126,10 @@ module.exports = function(grunt) {
 					'static/javascripts/jquery.cookie/jquery.cookie.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
 					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
-					'static/javascripts/jquery-csv/src/jquery.csv.js'
+					'static/javascripts/jquery-csv/src/jquery.csv.js',
+					'static/javascripts/moment/min/moment.min.js',
+					'static/lib/daterangepicker.js',
+					'static/javascripts/timepicker/jquery.timepicker.min.js'
 				],
 				dest: 'build/js/lib-prod.js'
 			},

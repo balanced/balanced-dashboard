@@ -1,32 +1,7 @@
-<div class="dropdown action">
-	<a class="dropdown-toggle" data-toggle="dropdown" href="#" {{action "toggleDateTimePicker" target="view"}}>
-		<span>{{dateFilterTitle}}</span>
-		<b class="caret"></b>
-	</a>
-	<ul class="dropdown-menu date-picker right">
-		<li>
-			<ul class="set-times">
-				{{#view Balanced.DatePickerPresetView}}<a href="#">Any time</a>{{/view}}
-				{{#view Balanced.DatePickerPresetView}}<a href="#">Past hour</a>{{/view}}
-				{{#view Balanced.DatePickerPresetView}}<a href="#">Past 24 hours</a>{{/view}}
-				{{#view Balanced.DatePickerPresetView}}<a href="#">Past week</a>{{/view}}
-				{{#view Balanced.DatePickerPresetView}}<a href="#">Past month</a>{{/view}}
-			</ul>
-			<div class="date-picker">
-				<div class="after selected">
-					{{#view Balanced.DatePickerDateFieldView class="dt"}}
-						<input type="text" name="after" class="dp" {{bind-attr data-element=view.afterSelector}}>
-					{{/view}}
-				</div>
-
-				<div class="before">
-					{{#view Balanced.DatePickerDateFieldView class="dt"}}
-						<input type="text" name="before" class="dp" {{bind-attr data-element=view.beforeSelector}}>
-					{{/view}}
-				</div>
-
-				<button class="btn btn-sm go" {{action "setDateVariable" target="view"}}>Go</button>
-			</div>
-		</li>
-	</ul>
+<div class="action pull-right datetime-picker">
+	<span class="title">Period:</span>
+	<time {{bind-attr datetime="view.minTime"}} class="min-date date">{{view.minDate}}</time>
+	<span class="sep">-</span>
+	<time {{bind-attr datetime="view.maxTime"}} class="max-date date">{{view.maxDate}}</time>
+	<b class="caret"></b>
 </div>

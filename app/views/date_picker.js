@@ -1,3 +1,13 @@
+var DEFAULT_MAX_TIME = new Date();
+var DEFAULT_MIN_TIME = new Date(DEFAULT_MAX_TIME.getTime() - 2592000000);
+
+var DEFAULT_LOCALE = {
+	monthNames: moment()._lang._months,
+	daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+	cancelLabel: false,
+	applyLabel: 'Update'
+};
+
 Balanced.DatePickerView = Balanced.View.extend({
 	templateName: 'date_picker',
 
@@ -6,20 +16,52 @@ Balanced.DatePickerView = Balanced.View.extend({
 	minTime: null,
 	maxTime: null,
 
+	format: 'MMM D, YYYY, h:mm a',
+
+	maxDate: function() {
+		return moment(this.get('maxTime')).format(this.get('format'));
+	}.property('maxTime', 'format'),
+
+	minDate: function() {
+		return moment(this.get('minTime')).format(this.get('format'));
+	}.property('minTime', 'format'),
+
 	didInsertElement: function() {
-		var now = new Date();
+		this.set('maxTime', (this.get('controller.maxDate') || DEFAULT_MAX_TIME).getTime());
+		this.set('minTime', (this.get('controller.minDate') || DEFAULT_MIN_TIME).getTime());
 
-		this.$('.before .dp').datepicker({
-			maxDate: now
-		});
+		Ember.run.scheduleOnce('afterRender', this, this.bindDatePicker);
 
-		this.$('.after .dp').datepicker({
-			maxDate: now
-		}).on('changeDate', $.proxy(function() {
-			this.$('.before .dp').focus();
-		}, this));
+		// var now = new Date();
+
+		// this.$('.before .dp').datepicker({
+		// 	maxDate: now
+		// });
+		//
+		// this.$('.after .dp').datepicker({
+		// 	maxDate: now
+		// }).on('changeDate', $.proxy(function() {
+		// 	this.$('.before .dp').focus();
+		// }, this));
+
+		console.log('minTime', this.get('minTime'));
+		console.log('maxTime', this.get('maxTime'));
 
 		this._super();
+	},
+
+	bindDatePicker: function() {
+		this.$('.datetime-picker').daterangepicker({
+			endDate: moment(this.get('maxTime')),
+			startDate: moment(this.get('minTime')),
+			locale: DEFAULT_LOCALE,
+			timePicker: true,
+			format: 'MMM D, YYYY'
+		}, _.bind(this.chooseDateTime, this));
+	},
+
+	chooseDateTime: function(start, end, label) {
+		console.log('chooseDateTime', start, end, label);
 	},
 
 	actions: {
