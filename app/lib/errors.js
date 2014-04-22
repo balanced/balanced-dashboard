@@ -19,8 +19,14 @@ Balanced.ErrorsLogger = Ember.Namespace.create({
 			return true;
 		} else if (error.message === "TransitionAborted") {
 			return true;
-		} else if (error.get && error.get("isError")) {
-			return (error.validate && !error.validate()) || Balanced.ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
+		} else if (error.get) {
+			if (!error.get("isValid")) {
+				return true;
+			}
+			else if (error.get("isError")) {
+				return Balanced.ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
+			}
+			return false;
 		} else if (error.errors) {
 			return error.errors.every(function(err) {
 				return Balanced.ErrorsLogger.isExpectedStatusCode(err.status_code);
