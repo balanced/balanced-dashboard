@@ -1,5 +1,5 @@
 Balanced.MarketplaceAddCustomerRoute = Balanced.AuthRoute.extend({
-	pageTitle: 'Add a Customer',
+	pageTitle: 'Add Customer',
 
 	setupController: function(controller, model) {
 		var marketplace = this.modelFor('marketplace');

@@ -1,8 +1,11 @@
 <div id="customers">
 	<h1 class="page-title">Customers
 		{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+		
+		{{#link-to 'marketplace.add_customer' class='btn pull-right'}}
+			<span>Add customer</span>
+		{{/link-to}}
 	</h1>
-
 	<div class="results">
 		<div class="items-wrapper">
 			{{view Balanced.CustomersResultsView customersBinding="results"}}
