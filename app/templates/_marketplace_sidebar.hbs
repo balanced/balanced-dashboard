@@ -2,43 +2,43 @@
 {{#if marketplace}}
 	<ul>
 		<li>
-			{{#link-to 'activity' marketplace}}
+			{{#link-to 'activity' marketplace.model}}
 				<i class="icon-payments"></i>
 				<span>Payments</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.customers' marketplace active=customerSelected}}
+			{{#link-to 'marketplace.customers' marketplace.model active=marketplace.customerSelected}}
 				<i class="icon-customers"></i>
 				<span>Customers</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.funding_instruments' marketplace active=fundingInstrumentSelected}}
+			{{#link-to 'marketplace.funding_instruments' marketplace.model active=marketplace.fundingInstrumentSelected}}
 				<i class="icon-payment-methods"></i>
 				<span>Payment methods</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.disputes' marketplace active=disputeSelected}}
+			{{#link-to 'marketplace.disputes' marketplace.model active=marketplace.disputeSelected}}
 				<i class="icon-disputes"></i>
 				<span>Disputes</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.logs' marketplace active=logSelected}}
+			{{#link-to 'marketplace.logs' marketplace.model active=marketplace.logSelected}}
 				<i class="icon-logs"></i>
 				<span>Logs</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.invoices' marketplace active=invoiceSelected}}
+			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
 				<i class="icon-invoices"></i>
 				<span>Fees</span>
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.settings' marketplace}}
+			{{#link-to 'marketplace.settings' marketplace.model}}
 				<i class="icon-settings"></i>
 				<span>Settings</span>
 			{{/link-to}}
