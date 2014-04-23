@@ -90,7 +90,7 @@
         }
 
         if (this.timePicker) {
-			this.container.find('.ranges .range_inputs').children().append('<div class="calendar-time"><input class="timePicker" type="text"/></div>');
+			this.container.find('.ranges .range_inputs .daterangepicker_inputs').children().append('<div class="calendar-time"><input class="timePicker" type="text"/></div>');
 			this.timePickerSettings.appendTo = this.container;
 			this.container.find('.timePicker').timepicker(this.timePickerSettings);
         }
