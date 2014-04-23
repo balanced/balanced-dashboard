@@ -6,10 +6,7 @@
 */
 
 .main-header {
-  width: 100%;
-  height: 75px;
-  margin-bottom: 35px;
-  border: 0px;
+  margin-top: 20px;
 
   >.row {
     height: 100%;
@@ -48,27 +45,22 @@
       overflow: hidden;
     }
   }
+}
 
-  div.buttons {
+div.buttons {
+  height: 100%;
+  margin-top: 28px;
+
+  .buttons-container {
     height: 100%;
-    margin-top: 28px;
 
-    .buttons-container {
-      height: 100%;
-      float: right;
-      a {
-        margin-right: 7px;
-        cursor: pointer;
+    > div {
+      display: inline-block;
+    }
 
-        &:last-of-type {
-          margin-right: 14px;
-        }
-      }
-
-      .modal-container {
-        display: inline-block;
-        overflow: visible;
-      }
+    .modal-container {
+      display: inline-block;
+      overflow: visible;
     }
   }
 }

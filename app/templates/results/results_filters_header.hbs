@@ -1,25 +1,19 @@
 <nav>
-	<li {{bind-attr class=":orders :filter view.ordersTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "order"}}> Orders </a>
-	</li>
-
-	<li {{bind-attr class=":transactions :filter view.transactionsTabSelected:selected"}} >
-		<a href="#" {{action "changeTypeFilter" "transaction"}}> Transactions </a>
-	</li>
-
-	<li class="timing dropdown action right">
-		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	</li>
-
-	{{#if view.show_download_button}}
-		<li class="download">
-			{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
+	<ul>
+		<li class="timing dropdown action right">
+			{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 		</li>
-	{{/if}}
 
-	{{#if view.show_disputes_download_button}}
-		<li class="download">
-			{{view Balanced.DisputeDownloadModalView}}
-		</li>
-	{{/if}}
+		{{#if view.show_download_button}}
+			<li class="download">
+				{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
+			</li>
+		{{/if}}
+
+		{{#if view.show_disputes_download_button}}
+			<li class="download">
+				{{view Balanced.DisputeDownloadModalView}}
+			</li>
+		{{/if}}
+	</ul>
 </nav>
