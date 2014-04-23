@@ -246,12 +246,10 @@ var Testing = {
 					if (disputes.get('length') < num) {
 						if (elapsedTime < timeout) {
 							setTimeout(findAll, 1000);
-						}
-						else {
+						} else {
 							reject();
 						}
-					}
-					else {
+					} else {
 						resolve(disputes);
 					}
 				});
@@ -262,23 +260,23 @@ var Testing = {
 
 	_createDispute: function(howMany) {
 		var self = this;
-		var createDisputesPromises = _.times(howMany, function () {
+		var createDisputesPromises = _.times(howMany, function() {
 			return self._createDisputeCard().then(function() {
 				return self._createDebit();
 			});
 		});
 
-		Ember.RSVP.all(createDisputesPromises).then(function (results) {
+		Ember.RSVP.all(createDisputesPromises).then(function(results) {
 			var timeout = 10000;
-			self.assertEnoughDisputesAvailable(howMany, timeout).then(function (disputes) {
+			self.assertEnoughDisputesAvailable(howMany, timeout).then(function(disputes) {
 				var evt = disputes.objectAt(0);
 				self.DISPUTE = evt;
 				self.DISPUTE_ID = evt.get('id');
 				self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
 					'/disputes/' + self.DISPUTE_ID;
 				self.start();
-			}, function () {
-				console.error("Couldn't find disputes after " + timeout + "ms");
+			}, function() {
+				window.console.error("Couldn't find disputes after " + timeout + "ms");
 				self.start();
 			});
 		});
