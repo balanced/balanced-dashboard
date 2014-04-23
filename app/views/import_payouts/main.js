@@ -6,7 +6,7 @@ var SAMPLE_FILE = [
 	"BA7Cv3FMXaOcD17dMVbqAXLI,,,,,,,101Flowers.com,#0052323,21.03"
 ].join("\n");
 
-Balanced.ImportPayoutsView = Ember.View.extend({
+Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	title: function() {
 		return this.get("creditCreators.isEmpty") ?

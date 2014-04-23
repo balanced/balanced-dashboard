@@ -1,4 +1,4 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
@@ -45,6 +45,10 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Balanced.ResultsT
 			}
 
 			this.refresh();
+		},
+
+		openAddFundsModal: function() {
+			this.trigger('openAddFundsModal');
 		}
 	},
 
