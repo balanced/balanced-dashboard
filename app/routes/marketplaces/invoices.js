@@ -1,5 +1,5 @@
 Balanced.InvoicesRoute = Balanced.ControllerRoute.extend({
-	pageTitle: 'Invoices'
+	pageTitle: 'Fees'
 });
 
 Balanced.InvoiceRoute = Balanced.ModelControllerRoute.extend({
