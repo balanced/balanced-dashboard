@@ -21,6 +21,7 @@
 		"Auth": true,
 		"Balanced": true,
 		"balanced": true,
+		"moment": true,
 		"DS": true,
 		"ENV": true,
 		"_": true,
