@@ -237,24 +237,32 @@ var Testing = {
 		});
 	},
 
-	assertEnoughDisputesAvailable: function(num, timeout) {
+	waitForState: function(intervalTimeout, errorTimeout, callback) {
 		var startDate = new Date();
 		return new Ember.RSVP.Promise(function(resolve, reject) {
-			var findAll = function() {
-				Balanced.Dispute.findAll().then(function(disputes) {
+			var execute = function() {
+				callback(resolve, function() {
 					var elapsedTime = new Date() - startDate;
-					if (disputes.get('length') < num) {
-						if (elapsedTime < timeout) {
-							setTimeout(findAll, 1000);
-						} else {
-							reject();
-						}
+					if (elapsedTime < errorTimeout) {
+						setTimeout(execute, intervalTimeout);
 					} else {
-						resolve(disputes);
+						reject();
 					}
 				});
 			};
-			findAll();
+			execute();
+		});
+	},
+
+	assertEnoughDisputesAvailable: function(num) {
+		return this.waitForState(1000, 10000, function(done, error) {
+			Balanced.Dispute.findAll().then(function(disputes) {
+				if (disputes.get("length") < num) {
+					error();
+				} else {
+					done(disputes.get("length"));
+				}
+			});
 		});
 	},
 
@@ -268,7 +276,7 @@ var Testing = {
 
 		Ember.RSVP.all(createDisputesPromises).then(function(results) {
 			var timeout = 10000;
-			self.assertEnoughDisputesAvailable(howMany, timeout).then(function(disputes) {
+			self.assertEnoughDisputesAvailable(howMany).then(function(disputes) {
 				var evt = disputes.objectAt(0);
 				self.DISPUTE = evt;
 				self.DISPUTE_ID = evt.get('id');
@@ -276,7 +284,7 @@ var Testing = {
 					'/disputes/' + self.DISPUTE_ID;
 				self.start();
 			}, function() {
-				window.console.error("Couldn't find disputes after " + timeout + "ms");
+				Ember.Logger.error("Couldn't find disputes after " + timeout + "ms");
 				self.start();
 			});
 		});
