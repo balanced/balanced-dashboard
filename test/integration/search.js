@@ -188,7 +188,7 @@ test('search date range pick', function(assert) {
 		.then(function() {
 			var begin = moment('8/1/2013').startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment('8/1/2013').endOf('day');
+			var end = moment('8/1/2013').endOf('day').startOf('minute');
 			var end_iso = encodeURIComponent(end.toISOString());
 
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
@@ -197,7 +197,6 @@ test('search date range pick', function(assert) {
 				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
 
 			var request = spy.getCall(spy.callCount - 1);
-			assert.ok(spy.calledOnce);
 			assert.equal(request.args[0], Balanced.Transaction);
 			assert.equal(request.args[1], expected_uri);
 		});
