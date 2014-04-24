@@ -74,7 +74,7 @@ module.exports = function(config) {
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
 		reporters: ['dots', 'coverage'],
-		reportSlowerThan: 7000,
+		reportSlowerThan: 12000,
 
 		coverageReporter: {
 			reporters: [{
