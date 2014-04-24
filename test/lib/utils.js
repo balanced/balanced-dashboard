@@ -276,7 +276,7 @@ var Testing = {
 					'/disputes/' + self.DISPUTE_ID;
 				self.start();
 			}, function() {
-				window.console.error("Couldn't find disputes after " + timeout + "ms");
+				Ember.Logger.error("Couldn't find disputes after " + timeout + "ms");
 				self.start();
 			});
 		});
