@@ -162,8 +162,10 @@ test('models have promises for reload', function(assert) {
 test('models handles error', function(assert) {
 	var t = Balanced.TestModel.create();
 	t._handleError({
+		status: 409,
 		responseJSON: {
 			errors: [{
+				status_code: 409,
 				category_code: 'insufficient-funds',
 				description: 'You dont have 1000 to withdraw.',
 				request_id: 'OHM1234567890',

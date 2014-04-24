@@ -21,7 +21,7 @@
 
 			<div class="buttons">
 				<div class="buttons-container">
-					{{add-funds-modal marketplaceBinding="controllers.marketplace.model"}}
+					<button class="btn add-funds-btn" {{action "openAddFundsModal"}}>Add funds</button>
 					{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
 				</div>
 			</div>
@@ -38,3 +38,5 @@
 		{{partial "modals/download"}}
 	{{/if}}
 </div>
+
+{{view Balanced.AddFundsModalView marketplaceBinding="controllers.marketplace.model"}}
