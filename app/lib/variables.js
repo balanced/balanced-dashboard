@@ -53,3 +53,10 @@ Balanced.MAXLENGTH = {
 	APPEARS_ON_STATEMENT_BANK_ACCOUNT: 14,
 	APPEARS_ON_STATEMENT_CARD: 18
 };
+
+Balanced.DATES = {
+	CREATED_AT: moment('2011-04-01').startOf('day').toDate(),
+
+	RESULTS_MAX_TIME: moment().add('hours', 2).startOf('hour').toDate(),
+	RESULTS_MIN_TIME: moment().subtract('months', 1).startOf('hour').toDate()
+};

@@ -69,8 +69,6 @@ test('filter logs by datetime range', function(assert) {
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			// Notice: month 7 is Aug here for JS Date, ugly javascript...
-			// As the date time is local, we need to convert it to ISO from in UTC timezone
 			var begin = moment('8/1/2013').startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
 			var end = moment('8/1/2013').endOf('day');

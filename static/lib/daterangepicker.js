@@ -427,7 +427,9 @@
         },
 
         updateView: function () {
-            this.leftCalendar.month.month(this.startDate.month()).year(this.startDate.year());
+			var left = this.endDate.clone().subtract('months', 1);
+
+            this.leftCalendar.month.month(left.month()).year(left.year());
             this.rightCalendar.month.month(this.endDate.month()).year(this.endDate.year());
             this.updateFormInputs();
         },
