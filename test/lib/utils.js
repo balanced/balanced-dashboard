@@ -237,25 +237,47 @@ var Testing = {
 		});
 	},
 
+	assertEnoughDisputesAvailable: function(num, timeout) {
+		var startDate = new Date();
+		return new Ember.RSVP.Promise(function(resolve, reject) {
+			var findAll = function() {
+				Balanced.Dispute.findAll().then(function(disputes) {
+					var elapsedTime = new Date() - startDate;
+					if (disputes.get('length') < num) {
+						if (elapsedTime < timeout) {
+							setTimeout(findAll, 1000);
+						} else {
+							reject();
+						}
+					} else {
+						resolve(disputes);
+					}
+				});
+			};
+			findAll();
+		});
+	},
+
 	_createDispute: function(howMany) {
 		var self = this;
-		howMany = howMany || 2;
+		var createDisputesPromises = _.times(howMany, function() {
+			return self._createDisputeCard().then(function() {
+				return self._createDebit();
+			});
+		});
 
-		return this._createDisputeCard().then(function() {
-			return self._createDebit().then(function() {
-				return Balanced.Dispute.findAll().then(function(disputes) {
-					if (disputes.get('content').length < howMany) {
-						return setTimeout(_.bind(Testing.createDispute, Testing, howMany), 1000);
-					}
-
-					var evt = disputes.objectAt(0);
-					self.DISPUTE = evt;
-					self.DISPUTE_ID = evt.get('id');
-					self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
-						'/disputes/' + self.DISPUTE_ID;
-
-					self.start();
-				});
+		Ember.RSVP.all(createDisputesPromises).then(function(results) {
+			var timeout = 10000;
+			self.assertEnoughDisputesAvailable(howMany, timeout).then(function(disputes) {
+				var evt = disputes.objectAt(0);
+				self.DISPUTE = evt;
+				self.DISPUTE_ID = evt.get('id');
+				self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
+					'/disputes/' + self.DISPUTE_ID;
+				self.start();
+			}, function() {
+				window.console.error("Couldn't find disputes after " + timeout + "ms");
+				self.start();
 			});
 		});
 	},
@@ -423,26 +445,13 @@ var Testing = {
 		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
 	},
 
-	createDispute: function(howMany) {
-		var self = this;
-		// Call stop to stop executing the tests before
-		// a dispute is created
-		this.stop();
-
-		// This automatically calls start();
-		return Ember.run(function() {
-			return self._createDispute(howMany);
-		});
-	},
-
 	createDisputes: function(number) {
 		var self = this;
 		var initialNumberDisputes = number || 4;
 
+		this.stop();
 		Ember.run(function() {
-			for (number = initialNumberDisputes; number >= 0; number--) {
-				self.createDispute(initialNumberDisputes);
-			}
+			self._createDispute(initialNumberDisputes);
 		});
 	},
 
