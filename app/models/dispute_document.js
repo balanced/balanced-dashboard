@@ -7,6 +7,9 @@ Balanced.DisputeDocument = Balanced.Model.extend({
 	size: Balanced.computed.transform('file_size', 'formatSize')
 });
 
+var ACCEPTED_MIME_TYPES = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg"];
+var MAX_FILE_SIZE = 10485760;
+
 // Copied from https://github.com/milanvrekic/JS-humanize/blob/master/humanize.js
 function number_format( number, decimals, dec_point, thousands_sep ) {
 	// http://kevin.vanzonneveld.net
@@ -38,6 +41,24 @@ Balanced.DisputeDocument.reopenClass({
 		}
 
 		return filesize;
+	},
+
+	isValidFile: function(file) {
+		var errors = [];
+
+		if (file.size > MAX_FILE_SIZE) {
+			errors.push('Max file size is 10MB');
+		}
+
+		if (ACCEPTED_MIME_TYPES.indexOf(file.type) < 0) {
+			errors.push('Invalid file format');
+		}
+
+		if (!errors.length) {
+			return false;
+		}
+
+		return errors;
 	}
 });
 

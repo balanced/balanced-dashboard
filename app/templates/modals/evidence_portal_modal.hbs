@@ -1,5 +1,5 @@
 <div class="modal hide wide-modal" id="evidence-portal">
-	<form {{action "save" on="submit" target="view"}}>
+	<form>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
 			<h2>Attach documents</h2>
@@ -34,7 +34,15 @@
 							<tbody>
 								{{#each doc in view.documents}}
 									<tr {{bind-attr class=":table-row doc.isError:error"}}>
-										<td class="name"><span>{{doc.name}}</span></td>
+										<td class="name">
+											<span>
+												{{doc.name}}
+
+												{{#if doc.errorDescription}}
+													<span class="error">({{doc.errorDescription}})</span>
+												{{/if}}
+											</span>
+										</td>
 										<td class="size"><span>{{doc.size}}</span></td>
 										<td>
 											{{#if doc.isUploading}}

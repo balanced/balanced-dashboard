@@ -580,7 +580,7 @@ body .modal-backdrop.fade.in {
       top: 10px;
     }
 
-    span {
+    > span {
       padding: 0;
       display: block;
       line-height: 46px;
@@ -606,6 +606,10 @@ body .modal-backdrop.fade.in {
 
       &.name {
         color: @imperialRed100;
+
+        .error {
+          color: @gray6;
+        }
       }
     }
   }

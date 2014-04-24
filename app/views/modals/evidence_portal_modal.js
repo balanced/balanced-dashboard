@@ -55,12 +55,13 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			return;
 		}
 
-		$('#fileupload').fileupload({
+		this.$('#fileupload').fileupload({
 			url: 'http://localhost:3000' + this.get('model.dispute_documents_uri'),
 			autoUpload: false,
 			done: _.bind(this.fileUploadDone, this),
 			fail: _.bind(this.fileUploadFail, this),
-			always: _.bind(this.fileUploadAlways, this)
+			always: _.bind(this.fileUploadAlways, this),
+			submit: _.bind(this.fileUploadSubmit, this)
 		}).on('fileuploadadd', _.bind(this.fileUploadAdd, this));
 	}.observes('model'),
 
@@ -79,26 +80,43 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		});
 	},
 
+	fileUploadSubmit: function(e, data) {
+		console.log('submit', e, data);
+	},
+
 	fileUploadAdd: function(e, data) {
 		console.log('add', e, data);
 
-		// Dont add documents we've already seen
-		if (data.files[0].uuid) {
-			return;
-		}
-
 		var documents = this.get('documents');
 
-		// To remember the documents
-		data.files[0].uuid = _.uniqueId('DD');
+		_.each(data.files, function(file) {
+			// Dont add documents we've already seen
+			if (file.uuid) {
+				return;
+			}
 
-		var doc = Balanced.DisputeDocument.create({
-			file_name: data.files[0].name,
-			file_size: data.files[0].size,
-			uuid: data.files[0].uuid
-		});
+			var errors = Balanced.DisputeDocument.isValidFile(file);
 
-		documents.pushObject(doc);
+			// To remember the documents
+			data.files[0].uuid = _.uniqueId('DD');
+
+			var doc = Balanced.DisputeDocument.create({
+				file_name: file.name,
+				file_size: file.size,
+				uuid: file.uuid,
+				file: file
+			});
+
+			if (errors) {
+				doc.setProperties({
+					isError: true,
+					errorDescription: errors[0],
+					isValid: false
+				});
+			}
+
+			documents.pushObject(doc);
+		}, this);
 
 		this.reposition();
 	},
@@ -124,10 +142,11 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 				return;
 			}
 
-			var self = this;
-			doc.delete().then(function() {
-				self.get('documents').reload();
-			});
+			this.get('documents').removeObject(doc);
+			// var self = this;
+			// doc.delete().then(function() {
+			// 	self.get('documents').reload();
+			// });
 		},
 
 		reload: function() {
@@ -135,7 +154,15 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		},
 
 		save: function() {
+			var documents = this.get('documents');
 
+			documents.filterBy('isValid', true).mapBy('file');
+
+			this.$('#fileupload').fileupload('send', {
+				files: fileList
+			}).done(function() {
+				documents.reload();
+			});
 		}
 	}
 });
