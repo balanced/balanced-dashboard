@@ -3,9 +3,7 @@ Balanced.PrettyPrintView = Balanced.View.extend({
 	content: null,
 
 	didInsertElement: function() {
-		console.log('didInsertElement');
 		Ember.run.scheduleOnce('afterRender', this, this.format);
-
 		this._super();
 	},
 
