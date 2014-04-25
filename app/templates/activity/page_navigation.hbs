@@ -8,17 +8,12 @@
 		</a>
 	</div>
 
-	<h2>
-		Payments:
-		<small>
-			<a href="#" {{bind-attr class=":filter view.isOrdersSelected:selected"}}{{action "changeTypeFilter" "order"}}>Orders</a>
-			/
-			<a href="#" {{bind-attr class=":filter view.isTransactionSelected:selected"}} {{action "changeTypeFilter" "transaction"}}>Transactions</a>
-		</small>
+	<h1 class="page-title">
+		Payments
 		{{#if isLoading}}
-			Loading
+			<div class="loader-container"><span class="loader loading"></span></div>
 		{{/if}}
-	</h2>
+	</h1>
 </div>
 {{view Balanced.PaySellerModalView}}
 {{view Balanced.ChargeCardModalView}}

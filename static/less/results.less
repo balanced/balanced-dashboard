@@ -265,23 +265,22 @@ header.results-label h3 {
       cursor: pointer;
     }
     &:after {
-      display: inline-block;
-      content: ' ';
-      width: 14px;
-      height: 14px;
-      background: @iconsFile -18px -218px no-repeat;
-      margin-left: 8px;
-      margin-top: 10px;
-      vertical-align: top;
+      font-family: 'Balanced-Icon';
+      color: @gray3;
+      content: '1';
+      margin-left: 5px;
+      vertical-align: sub;
     }
     &.ascending {
       &:after {
-        background-position: -68px -218px;
+        content: '0';
+        color: @black;
       }
     }
     &.descending {
       &:after {
-        background-position: -118px -218px;
+        content: 'Z';
+        color: @black;
       }
     }
   }
