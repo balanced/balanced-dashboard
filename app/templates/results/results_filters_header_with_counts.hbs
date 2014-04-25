@@ -1,4 +1,8 @@
-<nav>
+<nav class="search-table">
+	<div class="date-row">
+		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+	</div>
+
 	<li {{bind-attr class=":orders :filter view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber view.searchResult.total_orders}}) </a>
 	</li>
@@ -13,11 +17,6 @@
 
 	<li {{bind-attr class=":funding-instruments :filter view.searchResult.total_funding_instruments::disabled view.fundingInstrumentsTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{formatNumber view.searchResult.total_funding_instruments}}) </a>
-	</li>
-
-	<li class="timing dropdown right">
-		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	</li>
 
 	{{#if view.show_download_button}}
 		<li class="download">
