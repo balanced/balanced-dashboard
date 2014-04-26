@@ -66,7 +66,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	}.observes('model'),
 
 	fileUploadFail: function(e, data) {
-		console.log('fail', e, data);
+		// console.log('fail', e, data);
 
 		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
@@ -81,11 +81,11 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	fileUploadSubmit: function(e, data) {
-		console.log('submit', e, data);
+		// console.log('submit', e, data);
 	},
 
 	fileUploadAdd: function(e, data) {
-		console.log('add', e, data);
+		// console.log('add', e, data);
 
 		var documents = this.get('documents');
 
@@ -122,11 +122,11 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	fileUploadDone: function(e, data) {
-		console.log('done', e, data);
+		// console.log('done', e, data);
 	},
 
 	fileUploadAlways: function(e, data) {
-		console.log('always', e, data);
+		// console.log('always', e, data);
 		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
 		if (!doc) {
@@ -145,7 +145,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			this.get('documents').removeObject(doc);
 			// var self = this;
 			// doc.delete().then(function() {
-			// 	self.get('documents').reload();
+			// self.get('documents').reload();
 			// });
 		},
 
@@ -155,8 +155,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 
 		save: function() {
 			var documents = this.get('documents');
-
-			documents.filterBy('isValid', true).mapBy('file');
+			var fileList = documents.filterBy('isValid', true).mapBy('file');
 
 			this.$('#fileupload').fileupload('send', {
 				files: fileList

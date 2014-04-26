@@ -40,7 +40,7 @@ test('can visit page', function(assert) {
 		'#dispute > .main-header .title': 1, // 'Brand New Electric Guitar Rosewood Fingerboard Sunset Red',
 		'#dispute .customer-info .main-header .title': 1, // 'William Henry Cavendish III (whc@example.org)',
 		'#dispute .transaction-details .dispute .tt-title': 'Pending: $100.00',
-		'#dispute .transaction-details .debit .tt-title': 1 // 'Succeeded: $13.30',
+		'#dispute .transaction-details .debit .tt-title': 1, // 'Succeeded: $13.30',
 		'#dispute .evidence-portal-info': 1
 	};
 
@@ -48,6 +48,6 @@ test('can visit page', function(assert) {
 		.checkElements(disputePage, assert)
 		.click('#dispute .evidence-portal-info a')
 		.then(function() {
-
-		});
+			// Hey
+	});
 });
