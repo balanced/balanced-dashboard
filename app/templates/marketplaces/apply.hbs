@@ -25,7 +25,7 @@
 					{{#if isBusiness}}
 						<fieldset>
 							<legend>Business info</legend>
-							{{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter your business name"}}
+							{{view Balanced.ControlGroupFieldView placeholder="Legal business name" field="business_name" help="Enter your legal business name"}}
 							{{view Balanced.ControlGroupFieldView placeholder="EIN" field="ein" help="Enter your 9-digit employer identification number"}}
 						</fieldset>
 					{{/if}}
@@ -42,7 +42,7 @@
 							<label>Enter your date of birth</label>
 						</div>
 						{{#if isBusiness}}
-							{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your or another business representative's address including apartment, suite, or unit number, not the business address"}}
+							{{view Balanced.ControlGroupFieldView placeholder="Business street address" field="address.street_address" help="Enter your or another business representative's address including apartment, suite, or unit number, not the business address"}}
 						{{else}}
 							{{view Balanced.ControlGroupFieldView placeholder="Street address" field="address.street_address" help="Enter your billing address including apartment, suite, or unit number"}}
 						{{/if}}
