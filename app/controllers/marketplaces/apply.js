@@ -248,33 +248,45 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),
-			isBusiness = merchantType === 'BUSINESS';
+			isBusiness = (merchantType === 'BUSINESS'),
+			person = {
+				name: this.get('name'),
+				dob: this.get('dob'),
+				street_address: this.get('address.street_address'),
+				postal_code: this.get('address.postal_code'),
+				tax_id: this.get('ssn_last4'),
+				phone_number: this.get('phone_number')
+			},
+			apiKey = null,
+			merchant = null;
 
-		var person = isBusiness ? {
-			name: this.get('name'),
-			dob: this.get('dob'),
-			street_address: this.get('address.street_address'),
-			postal_code: this.get('address.postal_code'),
-			tax_id: this.get('ssn_last4'),
-			phone_number: this.get('phone_number')
-		} : null;
-		var apiKey = Balanced.APIKey.create({
-			merchant: {
+		if (isBusiness) {
+			merchant = {
+				person: person,
 				type: merchantType,
-				name: this.get(isBusiness ? 'business_name' : 'name'),
+				name: this.get('business_name'),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
 				tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
 				phone_number: this.get('phone_number'),
 				incorporation_date: this.get(isBusiness ? 'incorporation_date' : null),
 				company_type: this.get(isBusiness ? 'companyTypes' : null)
-			}
-		});
-		if (isBusiness) {
-			apiKey.set('merchant.person', person);
+			};
 		} else {
-			apiKey.set('merchant.dob', this.get('dob'));
+			merchant = {
+				type: merchantType,
+				name: person.name,
+				dob: person.dob,
+				street_address: person.street_address,
+				postal_code: person.postal_code,
+				tax_id: person.tax_id,
+				phone_number: person.phone_number,
+				incorporation_date: null,
+				company_type: null
+			};
 		}
+
+		apiKey = Balanced.APIKey.create({ merchant: merchant });
 		return apiKey;
 	},
 
