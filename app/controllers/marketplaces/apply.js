@@ -131,7 +131,16 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	isBusiness: Ember.computed.equal('applicationType', 'BUSINESS'),
 	isGuest: Ember.computed.alias('auth.isGuest'),
 
-	dobYears: function() {
+	years: function() {
+		var start = new Date().getFullYear();
+		var years = Ember.A();
+		for (var i = 0; i < 100; i++) {
+			years.push(start - i);
+		}
+		return years;
+	}.property(),
+
+	dob_years: function() {
 		var start = new Date().getFullYear() - 17;
 		var years = Ember.A();
 		for (var i = 0; i < 80; i++) {
@@ -140,9 +149,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return years;
 	}.property(),
 
-	dobMonths: Balanced.TIME.MONTHS,
+	months: Balanced.TIME.MONTHS,
 
-	dobDays: Balanced.TIME.DAYS_IN_MONTH,
+	days: Balanced.TIME.DAYS_IN_MONTH,
 
 	dob: function() {
 		var values = [
@@ -157,6 +166,20 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		});
 		return values.join('-');
 	}.property('dob_day', 'dob_month', 'dob_year'),
+
+	incorporationDate: function() {
+		var values = [
+			this.get('incorporation_year'),
+			this.get('incorporation_month'),
+			this.get('incorporation_day')
+		];
+		values = $.map(values, function(value) {
+			if (value) {
+				return value;
+			}
+		});
+		return values.join('-');
+	}.property('incorporation_day', 'incorporation_month', 'incorporation_year'),
 
 	userFailure: function(unparsedJson) {
 		var self = this;
@@ -228,7 +251,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		}, 0);
 	},
 
-	accountTypes: ['checking', 'savings'],
+	accountTypes: ['Checking', 'Savings'],
+	companyTypes: ['– Select –', 'LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
 
 	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),

@@ -27,6 +27,20 @@
 							<legend>Business info</legend>
 							{{view Balanced.ControlGroupFieldView placeholder="Legal business name" field="business_name" help="Enter your legal business name"}}
 							{{view Balanced.ControlGroupFieldView placeholder="EIN" field="ein" help="Enter your 9-digit employer identification number"}}
+							<div class="control-group">
+								<div class="controls">
+									{{view Ember.Select contentBinding="years" valueBinding="incorporation_year" name="incorporation_year" class="span2"}}
+									{{view Ember.Select contentBinding="months" valueBinding="incorporation_month" name="incorporation_month" class="span2"}}
+									{{view Ember.Select contentBinding="days" valueBinding="incorporation_day" name="incorporation_day" class="span2"}}
+								</div>
+								<label>Enter your incorporation date</label>
+							</div>
+							<div class="control-group">
+								<div class="controls">
+									{{view Ember.Select contentBinding="companyTypes" valueBinding="company_type"}}
+								</div>
+								<label>Specify your company type</label>
+							</div>
 						</fieldset>
 					{{/if}}
 
@@ -35,9 +49,9 @@
 						{{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter your full legal name"}}
 						<div class="control-group">
 							<div class="controls">
-								{{view Ember.Select contentBinding="dobYears" valueBinding="dob_year" name="dob_year" class="span2"}}
-								{{view Ember.Select contentBinding="dobMonths" valueBinding="dob_month" name="dob_month" class="span2"}}
-								{{view Ember.Select contentBinding="dobDays" valueBinding="dob_day" name="dob_day" class="span2"}}
+								{{view Ember.Select contentBinding="dob_years" valueBinding="dob_year" name="dob_year" class="span2"}}
+								{{view Ember.Select contentBinding="months" valueBinding="dob_month" name="dob_month" class="span2"}}
+								{{view Ember.Select contentBinding="days" valueBinding="dob_day" name="dob_day" class="span2"}}
 							</div>
 							<label>Enter your date of birth</label>
 						</div>
