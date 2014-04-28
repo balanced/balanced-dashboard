@@ -116,6 +116,10 @@ test('application submits properly', function(assert) {
 			'address.postal_code': '94103',
 			ssn_last4: '1234',
 			phone_number: '(904) 628 1796',
+			incorporation_year: '2013',
+			incorporation_month: '1',
+			incorporation_day: '1',
+			company_type: 'LLC',
 			'banking.account_name': 'Balanced Inc',
 			'banking.routing_number': '321174851',
 			'banking.account_number': '123123123',
@@ -146,7 +150,9 @@ test('application submits properly', function(assert) {
 					postal_code: "94103",
 					street_address: "965 Mission St",
 					tax_id: "123456789",
-					type: "BUSINESS"
+					type: "BUSINESS",
+					incorporation_date: "2013-1-1",
+					company_type: "LLC"
 				}
 			})));
 			assert.ok(createStub.calledWith(Balanced.Marketplace, "/marketplaces", sinon.match({
