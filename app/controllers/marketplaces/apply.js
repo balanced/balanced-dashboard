@@ -248,7 +248,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),
-			isBusiness = (merchantType === 'BUSINESS'),
+			isBusiness = this.get("isBusiness"),
 			person = {
 				name: this.get('name'),
 				dob: this.get('dob'),
@@ -267,10 +267,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				name: this.get('business_name'),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
-				tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
+				tax_id: this.get('ein'),
 				phone_number: this.get('phone_number'),
-				incorporation_date: this.get(isBusiness ? 'incorporation_date' : null),
-				company_type: this.get(isBusiness ? 'companyTypes' : null)
+				incorporation_date: this.get('incorporation_date'),
+				company_type: this.get('companyTypes')
 			};
 		} else {
 			merchant = {
