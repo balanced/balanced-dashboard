@@ -159,11 +159,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			this.get('dob_month'),
 			this.get('dob_day')
 		];
-		values = $.map(values, function(value) {
-			if (value) {
-				return value;
-			}
-		});
+		values.compact();
 		return values.join('-');
 	}.property('dob_day', 'dob_month', 'dob_year'),
 
@@ -173,11 +169,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			this.get('incorporation_month'),
 			this.get('incorporation_day')
 		];
-		values = $.map(values, function(value) {
-			if (value) {
-				return value;
-			}
-		});
+		values.compact();
 		return values.join('-');
 	}.property('incorporation_day', 'incorporation_month', 'incorporation_year'),
 
@@ -274,8 +266,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				postal_code: this.get('address.postal_code'),
 				tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
 				phone_number: this.get('phone_number'),
-				incorporation_date: this.get('incorporation_date'),
-				company_type: this.get('companyTypes')
+				incorporation_date: this.get(isBusiness ? 'incorporation_date' : null),
+				company_type: this.get(isBusiness ? 'companyTypes' : null)
 			}
 		});
 		if (isBusiness) {
