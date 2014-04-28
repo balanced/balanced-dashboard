@@ -1,4 +1,7 @@
-<nav>
+<div class="date-row">
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+</div>
+<nav class="date-row">
 	<div class="timing dropdown action filter-endpoints label6a pull-left">
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			<span>{{#if currentEndpointFilter}} {{currentEndpointFilter}} {{else}} All endpoints {{/if}}</span>
@@ -19,10 +22,6 @@
 			</li>
 		</ul>
 	</div>
-	<div class="timing dropdown action label6a pull-right">
-	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	</div>
-
 	<div class="pull-right filter-status-rollup">
 		<label class="checkbox inline succeeded">
 			{{view Ember.Checkbox checkedBinding="statusRollupFilterSucceeded" target="controller"}} Request succeeded
