@@ -252,7 +252,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	},
 
 	accountTypes: ['Checking', 'Savings'],
-	companyTypes: ['– Select –', 'LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
+	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
 
 	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),
