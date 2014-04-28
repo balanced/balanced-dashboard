@@ -30,7 +30,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				// be several requests so we need to be prepared on all of them for
 				// failure.
 				var user = this._extractLoginPayload(),
-					apiKey = this._extractApiKeyPayload(),
+					apiKey = this.get('isBusiness') ? this._extractBusinessApiKeyPayload() : this._extractPersonApiKeyPayload(),
 					marketplace = this._extractMarketplacePayload(),
 					bankAccount = this._extractBankAccountPayload();
 
@@ -246,24 +246,36 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	accountTypes: ['Checking', 'Savings'],
 	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
 
-	_extractApiKeyPayload: function() {
-		var merchantType = this.get('selectedType'),
-			isBusiness = this.get("isBusiness"),
-			person = {
+	_extractPersonApiKeyPayload: function() {
+		return Balanced.APIKey.create({ 
+			merchant: {
+				type: this.get('selectedType'),
 				name: this.get('name'),
 				dob: this.get('dob'),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
 				tax_id: this.get('ssn_last4'),
-				phone_number: this.get('phone_number')
-			},
-			apiKey = null,
-			merchant = null;
+				phone_number: this.get('phone_number'),
+				incorporation_date: null,
+				company_type: null
+			}
+		});
+	},
 
-		if (isBusiness) {
-			merchant = {
+	_extractBusinessApiKeyPayload: function() {
+		var person = {
+			name: this.get('name'),
+			dob: this.get('dob'),
+			street_address: this.get('address.street_address'),
+			postal_code: this.get('address.postal_code'),
+			tax_id: this.get('ssn_last4'),
+			phone_number: this.get('phone_number')
+		};
+
+		return Balanced.APIKey.create({ 
+			merchant: {
 				person: person,
-				type: merchantType,
+				type: this.get('selectedType'),
 				name: this.get('business_name'),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
@@ -271,23 +283,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				phone_number: this.get('phone_number'),
 				incorporation_date: this.get('incorporation_date'),
 				company_type: this.get('companyTypes')
-			};
-		} else {
-			merchant = {
-				type: merchantType,
-				name: person.name,
-				dob: person.dob,
-				street_address: person.street_address,
-				postal_code: person.postal_code,
-				tax_id: person.tax_id,
-				phone_number: person.phone_number,
-				incorporation_date: null,
-				company_type: null
-			};
-		}
-
-		apiKey = Balanced.APIKey.create({ merchant: merchant });
-		return apiKey;
+			}
+		});
 	},
 
 	_extractMarketplacePayload: function() {
