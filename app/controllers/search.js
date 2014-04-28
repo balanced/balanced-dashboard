@@ -12,8 +12,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 		search: null,
 		debounced_search: null,
 
-		minDate: Balanced.DATES.CREATED_AT,
-
 		allowSortByNone: false,
 
 		showResults: false,

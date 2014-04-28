@@ -13,6 +13,14 @@ test('can visit page', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
+		.then(function() {
 			var $title = $('#content h1');
 			var logRequest = spy.getCall(spy.callCount - 1);
 			assert.equal(logRequest.args[0], Balanced.Log);
@@ -24,6 +32,14 @@ test('can visit page', function(assert) {
 test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -39,6 +55,14 @@ test('filter logs by endpoint bank accounts', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -92,6 +116,14 @@ test('filter logs by request failed only', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
