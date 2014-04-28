@@ -251,8 +251,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		}, 0);
 	},
 
-	accountTypes: ['Checking', 'Savings'],
-	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
+	accountType: ['Checking', 'Savings'],
+	companyType: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
 
 	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),
@@ -275,7 +275,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
 				phone_number: this.get('phone_number'),
 				incorporation_date: this.get('incorporation_date'),
-				company_type: this.get('company_type')
+				company_type: this.get('companyType')
 			}
 		});
 		if (isBusiness) {
