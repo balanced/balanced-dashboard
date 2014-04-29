@@ -245,6 +245,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	accountTypes: ['Checking', 'Savings'],
 	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
+	
+	_extractValue: function(value) {
+		return Ember.empty(value) || null;
+	},
 
 	_extractPersonApiKeyPayload: function() {
 		return Balanced.APIKey.create({
@@ -276,10 +280,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			merchant: {
 				person: person,
 				type: this.get('selectedType'),
-				name: this.get('business_name'),
+				name: this._extractValue(this.get('business_name')),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
-				tax_id: this.get('ein'),
+				tax_id: this._extractValue(this.get('ein')),
 				phone_number: this.get('phone_number'),
 				incorporation_date: this.get('incorporation_date'),
 				company_type: this.get('companyTypes')
