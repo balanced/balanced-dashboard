@@ -120,6 +120,7 @@ test('application submits properly', function(assert) {
 			incorporation_month: '1',
 			incorporation_day: '1',
 			company_type: 'LLC',
+			'banking.account_type': 'Savings',
 			'banking.account_name': 'Balanced Inc',
 			'banking.routing_number': '321174851',
 			'banking.account_number': '123123123',
@@ -167,7 +168,7 @@ test('application submits properly', function(assert) {
 			// using balanced.js to create the bank account
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith({
-				type: "checking",
+				type: "savings",
 				name: "Balanced Inc",
 				account_number: "123123123",
 				routing_number: "321174851"
