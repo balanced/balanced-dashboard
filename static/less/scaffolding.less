@@ -200,15 +200,38 @@
 }
 
 #marketplace-nav {
+  li {
+    &:first-of-type {
+      border-top: 1px solid transparent;     
+    }
+  }
+
+  .expanded {
+    background-color: @gray9;
+
+    &:hover {
+      background-color: @gray9;
+      color: @gray3;
+    }
+  }
+
   .submenu {
     display: none;
 
-    &.selected {
+    &.expanded {
       display: block;
       background-color: @gray9;
+      padding: 10px 0;
+      border-top: 1px solid @gray6;
 
-      a.active, a:active {
-        color: @white;
+      a {
+        .sl-sm;
+        color: @gray3;
+        padding: 5px 10px 5px 42px;
+
+        &.active, &:active {
+          color: @white;
+        }
       }
     }
   }
