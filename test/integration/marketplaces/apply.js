@@ -107,7 +107,7 @@ test('application submits properly', function(assert) {
 		.click('a:contains("Business")')
 		.fillForm({
 			business_name: 'Balanced Inc',
-			ein: '123456789',
+			ein: '',
 			name: 'John Balanced',
 			dob_year: '1980',
 			dob_month: '5',
@@ -150,7 +150,7 @@ test('application submits properly', function(assert) {
 					phone_number: "(904) 628 1796",
 					postal_code: "94103",
 					street_address: "965 Mission St",
-					tax_id: "123456789",
+					tax_id: undefined,
 					type: "BUSINESS",
 					incorporation_date: "2013-1-1",
 					company_type: "LLC"

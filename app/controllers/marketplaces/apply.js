@@ -248,7 +248,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	
 	_extractValue: function(value) {
 		if(Ember.isEmpty(value)) { 
-			return null;
+			return undefined;
 		}
 		return value;
 	},

@@ -27,6 +27,18 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
+		incorporation_year: {
+			presence: true
+		},
+		incorporation_month: {
+			presence: true
+		},
+		incorporation_day: {
+			presence: true
+		},
+		company_type: {
+			presence: true
+		},
 		name: {
 			presence: true
 		},
