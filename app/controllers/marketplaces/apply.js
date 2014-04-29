@@ -247,7 +247,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
 	
 	_extractValue: function(value) {
-		return Ember.empty(value) || null;
+		if(Ember.isEmpty(value)) { 
+			return null;
+		}
+		return value;
 	},
 
 	_extractPersonApiKeyPayload: function() {
