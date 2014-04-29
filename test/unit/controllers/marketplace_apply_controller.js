@@ -7,7 +7,7 @@ module("Balanced.MarketplacesApplyController", {
 		this.controller.resetError();
 	}
 });
- 
+
 test("#_extractValue", function(assert) {
 	assert.deepEqual(this.controller._extractValue("cool"), "cool");
 	assert.deepEqual(this.controller._extractValue(""), undefined);
@@ -33,7 +33,7 @@ test("#_extractBusinessApiKeyPayload", function(assert) {
 		companyTypes: 'LLC'
 	});
 	this.controller._extractBusinessApiKeyPayload();
-	
+
 	assert.deepEqual(methodStub.firstCall.args[0], {
 		merchant: {
 			name: "Balanced Inc",
@@ -71,7 +71,7 @@ test("#_extractBusinessApiKeyPayload", function(assert) {
 		companyTypes: 'LLC'
 	});
 	this.controller._extractBusinessApiKeyPayload();
-	
+
 	assert.deepEqual(methodStub.secondCall.args[0], {
 		merchant: {
 			name: "Balanced Inc",
@@ -94,4 +94,3 @@ test("#_extractBusinessApiKeyPayload", function(assert) {
 	});
 
 });
-

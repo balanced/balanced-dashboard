@@ -245,9 +245,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	accountTypes: ['Checking', 'Savings'],
 	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
-	
+
 	_extractValue: function(value) {
-		if(Ember.isEmpty(value)) { 
+		if (Ember.isEmpty(value)) {
 			return undefined;
 		}
 		return value;
