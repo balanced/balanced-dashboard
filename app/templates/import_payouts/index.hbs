@@ -12,15 +12,15 @@
 {{else}}
 	<form {{action "submit" on="submit" target="view"}} class="full-page-form">
 		{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
-		<fieldset class="pay-multiple-sellers-summary">
-			{{#if creditCreators.isEmpty}}
-				{{partial 'import_payouts/instructions'}}
-			{{else}}
-				{{partial 'import_payouts/account_summary'}}
-			{{/if}}
-		</fieldset>
+
+		{{#if creditCreators.isEmpty}}
+			{{partial 'import_payouts/instructions'}}
+		{{else}}
+			{{partial 'import_payouts/account_summary'}}
+		{{/if}}
 
 		{{#if view.displayCsvRows}}
+			<h3>Preview Data</h3>
 			<div class="pay-multiple-sellers-tables">
 				{{#if creditCreators.isInvalid}}
 					{{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}

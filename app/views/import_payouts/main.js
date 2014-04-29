@@ -11,7 +11,7 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 	title: function() {
 		return this.get("creditCreators.isEmpty") ?
 			"Upload your file" :
-			"Payout Summary";
+			"Payout summary";
 	}.property("creditCreators.isEmpty"),
 
 	sampleFileUri: function() {
@@ -22,17 +22,14 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
 	escrowTotal: Ember.computed.oneWay("controller.controllers.marketplace.in_escrow").readOnly(),
+	escrowDifference: Balanced.computed.substract("escrowTotal", "payoutTotal"),
 
 	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
 	isUnprocessable: Ember.computed.not("isProcessable"),
 
 	displayCsvRows: Ember.computed.and("creditCreators.length", "isEscrowValid", "creditCreators.isLoaded"),
 
-	isEscrowValid: function() {
-		var total = this.get("payoutTotal");
-		var escrow = this.get("escrowTotal");
-		return total <= escrow;
-	}.property("payoutTotal", "escrowTotal"),
+	isEscrowValid: Ember.computed.gte("escrowDifference", 0),
 
 	updateReaderBody: function(text) {
 		var self = this;

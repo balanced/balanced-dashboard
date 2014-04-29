@@ -7,13 +7,43 @@
     margin-top: 30px;
   }
 
-  .pay-multiple-sellers-summary {
-    margin: 0 0 40px;
-    border: 2px solid @gray2;
-    border-width: 0 2px 2px;
+  .form-footer {
+    padding: 15px 0;
+    line-height: 34px;
+    .message-error {
+      color: @imperialRed100;
+    }
+  }
+
+  .form-section {
+    border: 1px solid @gray2;
+    padding: 45px;
 
     h3 {
       padding: 3px 0;
+    }
+  }
+
+  .column-total {
+    text-align: right;
+  }
+  .column-error {
+    color: @imperialRed100;
+  }
+
+  .table-summary {
+    background-color: @gray1;
+    padding: 0 10px;
+    tr {
+      border-bottom: 1px solid @gray2;
+    }
+    tr:last-child {
+      border-style: none;
+    }
+    td {
+      border-style: none;
+      padding: 0;
+      line-height: 34px;
     }
   }
 
