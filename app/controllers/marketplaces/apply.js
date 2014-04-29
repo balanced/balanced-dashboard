@@ -247,7 +247,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	companyTypes: ['LLC', 'S Corp', 'C Corp', 'Partnership', 'Sole proprietorship'],
 
 	_extractPersonApiKeyPayload: function() {
-		return Balanced.APIKey.create({ 
+		return Balanced.APIKey.create({
 			merchant: {
 				type: this.get('selectedType'),
 				name: this.get('name'),
@@ -272,7 +272,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			phone_number: this.get('phone_number')
 		};
 
-		return Balanced.APIKey.create({ 
+		return Balanced.APIKey.create({
 			merchant: {
 				person: person,
 				type: this.get('selectedType'),
