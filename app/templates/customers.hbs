@@ -142,7 +142,7 @@
 				<ul class="sidebar-items">
 					{{#each card in cards}}
 						<li>
-							<a href="#" class="icon-delete" {{action "promptToDeleteCard" card}}>delete</a>
+							<a href="#" class="icon-delete" {{action "openDeleteCardModal" card}}>delete</a>
 							{{#link-to 'cards' card}}
 								<div class="icon">Credit card</div>
 								<div class="details">

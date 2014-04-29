@@ -447,6 +447,25 @@ test('can add card with address', function(assert) {
 		});
 });
 
+test('can delete bank accounts', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "create");
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "delete");
+	tokenizingStub.callsArgWith(1, {
+		status: 201,
+		bank_accounts: [{
+			href: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID
+		}]
+	});
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.click('.bank-account-info a.icon-delete')
+		.click('button[name]=modal-submit')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);	
+		});
+});
+
 test('verification renders properly against rev1', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
