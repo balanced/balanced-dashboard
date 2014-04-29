@@ -198,3 +198,18 @@
 .hidden {
   display: none;
 }
+
+#marketplace-nav {
+  .submenu {
+    display: none;
+
+    &.selected {
+      display: block;
+      background-color: @gray9;
+
+      a.active, a:active {
+        color: @white;
+      }
+    }
+  }
+}

@@ -24,7 +24,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented,
 		}
 
 		return Balanced.Utils.formatCurrency(escrow);
-	}.property('in_escrow'),
+	}.property('in_escrow')
 });
 
 Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({

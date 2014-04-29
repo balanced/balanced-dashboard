@@ -2,10 +2,24 @@
 {{#if marketplace}}
 	<ul>
 		<li>
-			{{#link-to 'activity' marketplace.model}}
+			<a href="#" {{action "expand" "payments"}}>
 				<i class="icon-payments"></i>
 				<span>Payments</span>
-			{{/link-to}}
+			</a>
+			<ul class="submenu payments">
+				<li>
+					{{#link-to 'activity' marketplace.model}}
+						<i class="icon-payments"></i>
+						<span>Transactions</span>
+					{{/link-to}}
+				</li>
+				<li>
+					{{#link-to 'activity' marketplace.model}}
+						<i class="icon-payments"></i>
+						<span>Orders</span>
+					{{/link-to}}
+				</li>
+			</ul>
 		</li>
 		<li>
 			{{#link-to 'marketplace.customers' marketplace.model active=marketplace.customerSelected}}
