@@ -1,8 +1,19 @@
 module("Balanced.CreditCreator", {
 	setup: function() {
 		Testing.setupMarketplace();
-	},
-	teardown: function() {}
+	}
+});
+
+test(".fromCsvRow", function(assert) {
+	var row = Balanced.CreditCreator.fromCsvRow({
+		existing_customer_name_or_email: "dr.plant@example.com"
+	});
+	assert.equal(row.constructor, Balanced.ExistingCustomerCreditCreator);
+
+	row = Balanced.CreditCreator.fromCsvRow({
+		new_customer_name: "Doctor Plant"
+	});
+	assert.equal(row.constructor, Balanced.NewCustomerCreditCreator);
 });
 
 asyncTest("buildCustomer (empty)", 1, function(assert) {
@@ -337,3 +348,22 @@ test("#toLabeledCsvObject", function(assert) {
 	var result = creditCreator.toLabeledCsvRowObject();
 	assert.deepEqual(result, expectation);
 });
+
+
+module("Balanced.ExistingCreditCreator", {
+	setup: function() {
+		Testing.setupMarketplace();
+	}
+});
+
+test("#customer", function(assert) {
+	var customer = Balanced.Customer.create({
+		email: "cool.customer@example.com"
+	});
+	assert.ok(false);
+});
+
+test("#fundingInstrument", function(assert) {
+
+});
+

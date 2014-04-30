@@ -325,6 +325,40 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	}
 });
 
+Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
+	isExisting: true,
+	fields: ["existing_customer_name_or_email", "appears_on_statement_as", "description", "amount"],
+
+	attributes: function() {
+		var mapper = Balanced.CreditCreatorCsvObjectMapper.create();
+		var object = this.get("csvFields");
+		return mapper.convertCreditCsvRowToObject(object);
+	}.property("csvFields"),
+
+	credit: function () {
+		var customer = this.get("customer");
+		var bankAccount = this.get("bankAccount");
+		var attributes = _.extend({}, this.get("attributes.credit"), {
+			customer: customer,
+			destination: bankAccount,
+			bank_account: bankAccount,
+			uri: bankAccount.get("credits_uri")
+		});
+
+		return Balanced.Credit.create(attributes);
+	}.property("bankAccount", "bankAccount.credits_uri", "customer"),
+
+	save: function() {
+		var self = this;
+		var credit = this.get('credit');
+		return credit.save();
+	}
+});
+
+Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
+	isExisting: false,
+});
+
 Balanced.CreditCreator.reopenClass({
 	build: function(attributes) {
 		return this.create({
@@ -333,9 +367,14 @@ Balanced.CreditCreator.reopenClass({
 	},
 
 	fromCsvRow: function(object) {
-		var creditCreator = this.create({
+		var klass = (object.existing_customer_name_or_email !== undefined) ?
+			Balanced.ExistingCustomerCreditCreator :
+			Balanced.NewCustomerCreditCreator;
+
+		var creditCreator = klass.create({
 			csvFields: object
 		});
+
 		creditCreator.validate();
 		return creditCreator;
 	}

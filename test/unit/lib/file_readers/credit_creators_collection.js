@@ -1,5 +1,16 @@
 module("Balanced.CreditCreatorsCollection", {});
 
+test("#isExistingCustomers", function(assert) {
+	var text = [
+		"existing_customer_name_or_email,appears_on_statement_as,description,amount",
+		"Cliff Lee,marketplacesite.co,Order #001231,63.28",
+		"carlos.ruiz@example.com,marketplacesite.co,Order #001232,52.19",
+	].join("\n");
+
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText(text);
+	assert.ok(collection.get("isExistingCustomers"), "csv parsed as isExistingCustomers");
+});
+
 test(".fromCsvText", function(assert) {
 	var text = [
 		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
