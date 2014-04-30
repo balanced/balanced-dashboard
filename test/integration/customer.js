@@ -451,7 +451,7 @@ test('can delete bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "delete");
 	var initialLength = $('.bank-account-info .sidebar-items li').length;
-	
+
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		bank_accounts: [{
@@ -464,7 +464,7 @@ test('can delete bank accounts', function(assert) {
 		.click('button[name]="modal-submit"')
 		.then(function() {
 			assert.ok(tokenizingStub.calledOnce);
-			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);	
+			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
 		});
 });
 
