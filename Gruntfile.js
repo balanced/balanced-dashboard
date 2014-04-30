@@ -286,6 +286,14 @@ module.exports = function(grunt) {
 					dest: 'build/test/fonts/'
 				}]
 			},
+			notfound: {
+				files: [{
+					cwd: 'static/javascripts/strapped/notfound',
+					expand: true,
+					src: ['**'],
+					dest: 'build/notfound'
+				}]
+			},
 			dist: {
 				files: [{
 					cwd: 'build/js/',
@@ -315,6 +323,11 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'dist/fonts/'
+				}, {
+					cwd: 'build/notfound.html',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/notfound.html'
 				}]
 			},
 			test: {
@@ -741,7 +754,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 
-	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles']);
+	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles', 'copy:notfound']);
 
 	grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
 
