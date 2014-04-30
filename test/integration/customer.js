@@ -448,7 +448,7 @@ test('can add card with address', function(assert) {
 });
 
 test('can delete bank accounts', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(Balanced.Adapter, "delete");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "delete");
 	var initialLength = $('.bank-account-info .sidebar-items li').length;
 
@@ -465,6 +465,27 @@ test('can delete bank accounts', function(assert) {
 		.then(function() {
 			assert.ok(tokenizingStub.calledOnce);
 			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+		});
+});
+
+test('can delete cards', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var tokenizingStub = sinon.stub(balanced.bankAccount, "delete");
+	var initialLength = $('.card-info .sidebar-items li').length;
+
+	tokenizingStub.callsArgWith(1, {
+		status: 201,
+		bank_accounts: [{
+			href: '/cards/' + Testing.CARD_ID
+		}]
+	});
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.click('.card-info a.icon-delete')
+		.click('button[name]="modal-submit"')
+		.then(function() {
+			assert.ok(tokenizingStub.calledOnce);
+			assert.equal($('.card-info .sidebar-items li').length, initialLength - 1);
 		});
 });
 
