@@ -93,7 +93,7 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
-		.click('#search .results li.customers > a')
+		.click('#search .results .customers > a')
 		.then(function() {
 			assert.equal($('#search .results table.customers tbody tr').length, 1, 'has 1 customer');
 			assert.equal($('#search .results table.customers tfoot td').length, 0, 'no "load more"');
@@ -155,7 +155,7 @@ test('search date picker dropdown', function(assert) {
 			assert.equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
 			Testing.runSearch('%');
 		})
-		.click('#search .timing .datetime-picker')
+		.click('#search .datetime-picker')
 		.then(function() {
 			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
 			assert.equal($('.daterangepicker:visible .calendar').length, 2, 'Date Picker has 2 calendars visible');
@@ -176,7 +176,7 @@ test('search date range pick', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE).then(function() {
 		Testing.runSearch('%');
 	})
-		.click('#search .results .timing .datetime-picker')
+		.click('#search .datetime-picker')
 		.then(function() {
 			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
 			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
