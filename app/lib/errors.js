@@ -10,14 +10,33 @@ var delegateToRaven = function(methodName) {
 
 Balanced.ErrorsLogger = Ember.Namespace.create({
 	captureMessage: delegateToRaven('captureMessage'),
-	captureException: delegateToRaven('captureException')
+	captureException: delegateToRaven('captureException'),
+	isExpectedStatusCode: function(statusCode) {
+		return statusCode >= 400 && statusCode < 500;
+	},
+	isExpectedError: function(error) {
+		if (error === undefined || error === null) {
+			return true;
+		} else if (error.message === "TransitionAborted") {
+			return true;
+		} else if (error.get) {
+			if (!error.get("isValid")) {
+				return true;
+			} else if (error.get("isError")) {
+				return Balanced.ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
+			}
+			return false;
+		} else if (error.errors) {
+			return error.errors.every(function(err) {
+				return Balanced.ErrorsLogger.isExpectedStatusCode(err.status_code);
+			});
+		}
+		return false;
+	}
 });
 
 var reportError = function(error) {
-	if (!error || error.message === 'TransitionAborted' ||
-		(error.get && error.get('isError') &&
-			(!error.validate() ||
-				(error.get('errorStatusCode') >= 400 && error.get('errorStatusCode') < 500)))) {
+	if (Balanced.ErrorsLogger.isExpectedError(error)) {
 		return;
 	}
 

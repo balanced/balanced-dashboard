@@ -93,7 +93,7 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
-		.click('#search .results li.customers > a')
+		.click('#search .results .customers > a')
 		.then(function() {
 			assert.equal($('#search .results table.customers tbody tr').length, 1, 'has 1 customer');
 			assert.equal($('#search .results table.customers tfoot td').length, 0, 'no "load more"');
@@ -136,21 +136,6 @@ test('search "%" click filter by holds.', function(assert) {
 });
 */
 
-test('search date picker dropdown', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-
-		var toggle = $('#search .timing .dropdown-toggle');
-		toggle.click();
-		assert.ok(toggle.parent().hasClass('open'));
-
-		var dp = toggle.parent().find('div.date-picker');
-		dp.find('[name="after"]').click().focus();
-		assert.ok(dp.find('.after').hasClass('selected'), 'after is selected');
-		assert.ok(toggle.parent().hasClass('open'), 'date picker is still showing');
-	});
-});
-
 test('search click result', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
@@ -164,14 +149,25 @@ test('search click result', function(assert) {
 		});
 });
 
-test('search and click go with empty date range', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-	})
-		.click('#search .results .timing a.dropdown-toggle')
-		.click('#search .results button.go')
+test('search date picker dropdown', function(assert) {
+	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			assert.equal($('#search .results .timing a.dropdown-toggle span').text().trim(), 'Any time');
+			assert.equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
+			Testing.runSearch('%');
+		})
+		.click('#search .datetime-picker')
+		.then(function() {
+			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
+			assert.equal($('.daterangepicker:visible .calendar').length, 2, 'Date Picker has 2 calendars visible');
+			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
+			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
+		})
+		.then(function() {
+			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
+		})
+		.click('.daterangepicker:visible .buttons button.applyBtn')
+		.then(function() {
+			assert.equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
 		});
 });
 
@@ -180,25 +176,19 @@ test('search date range pick', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE).then(function() {
 		Testing.runSearch('%');
 	})
-		.click('#search .results .timing a.dropdown-toggle')
+		.click('#search .datetime-picker')
 		.then(function() {
-			$('#search .results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
+			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
+			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
-		.click('#search .results .timing td.active.day')
-		.then(function() {
-			$('#search .results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
-		})
-		.click('#search .results .timing td.active.day')
 		.then(function() {
 			spy = sinon.spy(Balanced.Adapter, 'get');
 		})
-		.click('#search .results button.go')
+		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			// Notice: month 7 is Aug here for JS Date, ugly javascript...
-			// As the date time is local, we need to convert it to ISO from in UTC timezone
-			var begin = new Date(2013, 7, 1);
+			var begin = moment('8/1/2013').startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = new Date(2013, 7, 2);
+			var end = moment('8/1/2013').endOf('day').startOf('minute');
 			var end_iso = encodeURIComponent(end.toISOString());
 
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
@@ -207,27 +197,8 @@ test('search date range pick', function(assert) {
 				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
 
 			var request = spy.getCall(spy.callCount - 1);
-			assert.ok(spy.calledOnce);
 			assert.equal(request.args[0], Balanced.Transaction);
 			assert.equal(request.args[1], expected_uri);
-		});
-});
-
-test('search date preset pick', function(assert) {
-	var spy;
-
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-	})
-		.click('#search .results .set-times a:contains("Past hour")')
-		.then(function() {
-			spy = sinon.spy(Balanced.Adapter, 'get');
-		})
-		.click('#search .results button.go')
-		.then(function() {
-			assert.ok(spy.called);
-			var request = spy.getCall(0);
-			assert.equal(request.args[0], Balanced.Transaction);
 		});
 });
 

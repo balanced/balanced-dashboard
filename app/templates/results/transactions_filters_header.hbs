@@ -1,3 +1,6 @@
+<div class="date-row">
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+</div>
 <nav>
 	{{#unless view.showExtraTransactionTypes}}
 		<li {{bind-attr class=":filter :all view.allTabSelected:selected"}} >
@@ -52,10 +55,6 @@
 	{{/if}}
 
 	{{#unless view.showExtraTransactionTypes}}
-		<li class="timing dropdown action right label4a">
-			{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-		</li>
-
 		<li class="download">
 			{{view Balanced.DownloadModalView}}
 		</li>

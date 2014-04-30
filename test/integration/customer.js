@@ -454,3 +454,74 @@ test('verification renders properly against rev1', function(assert) {
 			assert.equal($('.verification-status').text().trim(), 'VERIFIED', 'Customer has been verified');
 		});
 });
+
+module('Customer Page – Delete', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
+		Testing.createCard();
+	},
+	teardown: function() {}
+});
+
+test('can delete bank accounts', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var bankAccounts = Balanced.BankAccount.findAll();
+	var initialLength, model;
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.then(function() {
+			model = Balanced.__container__.lookup('controller:customers').get('model');
+			model.set('bank_accounts', bankAccounts);
+			Testing.stop();
+
+			Ember.run.next(function() {
+				Testing.start();
+
+				initialLength = $('.bank-account-info .sidebar-items li').length;
+
+				click(".bank-account-info a.icon-delete")
+					.click('button[name="modal-submit"]')
+					.then(function() {
+						bankAccounts.get('content').forEach(function(bankAccount) {
+							bankAccount.set('isSaving', true);
+						});
+					})
+					.then(function() {
+						assert.ok(spy.calledOnce);
+						assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+					});
+			});
+		});
+});
+
+test('can delete cards', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var cards = Balanced.Card.findAll();
+	var initialLength, model;
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.then(function() {
+			model = Balanced.__container__.lookup('controller:customers').get('model');
+			model.set('cards', cards);
+			Testing.stop();
+
+			Ember.run.next(function() {
+				Testing.start();
+
+				initialLength = $('.card-info .sidebar-items li').length;
+
+				click(".card-info a.icon-delete")
+					.click('button[name="modal-submit"]')
+					.then(function() {
+						cards.get('content').forEach(function(card) {
+							card.set('isSaving', true);
+						});
+					})
+					.then(function() {
+						assert.ok(spy.calledOnce);
+						assert.equal($('.card-info .sidebar-items li').length, initialLength - 1);
+					});
+			});
+		});
+});

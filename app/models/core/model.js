@@ -192,15 +192,15 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	_handleError: function(jqXHR, textStatus, errorThrown) {
 		this.set('isSaving', false);
 
-		if (jqXHR.status === 400) {
+		if (jqXHR.status >= 400 && jqXHR.status < 500) {
 			this.set('isValid', false);
-			this.trigger('becameInvalid', jqXHR.responseText);
+			this.trigger('becameInvalid', jqXHR.responseJSON || jqXHR.responseText);
 		} else {
 			this.setProperties({
 				isError: true,
 				errorStatusCode: jqXHR.status
 			});
-			this.trigger('becameError', jqXHR.responseText);
+			this.trigger('becameError', jqXHR.responseJSON || jqXHR.responseText);
 		}
 
 		if (jqXHR.responseJSON) {

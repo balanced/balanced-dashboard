@@ -1,3 +1,15 @@
+var BALANCED_CREATED_AT = Balanced.DATES.CREATED_AT;
+
+var DEFAULT_MAX_TIME = Balanced.DATES.RESULTS_MAX_TIME;
+var DEFAULT_MIN_TIME = BALANCED_CREATED_AT;
+
+var DEFAULT_LOCALE = {
+	monthNames: moment()._lang._months,
+	daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+	cancelLabel: false,
+	applyLabel: 'Update'
+};
+
 Balanced.DatePickerView = Balanced.View.extend({
 	templateName: 'date_picker',
 
@@ -6,165 +18,66 @@ Balanced.DatePickerView = Balanced.View.extend({
 	minTime: null,
 	maxTime: null,
 
+	format: 'MMM D, YYYY, h:mm a',
+
+	maxDate: function() {
+		return moment(this.get('maxTime')).format(this.get('format'));
+	}.property('maxTime', 'format'),
+
+	minDate: function() {
+		return moment(this.get('minTime')).format(this.get('format'));
+	}.property('minTime', 'format'),
+
 	didInsertElement: function() {
-		var now = new Date();
+		this.set('maxTime', (this.get('controller.maxDate') || DEFAULT_MAX_TIME).getTime());
+		this.set('minTime', (this.get('controller.minDate') || moment(Balanced.currentMarketplace.get('created_at')).toDate() || DEFAULT_MIN_TIME).getTime());
 
-		this.$('.before .dp').datepicker({
-			maxDate: now
-		});
-
-		this.$('.after .dp').datepicker({
-			maxDate: now
-		}).on('changeDate', $.proxy(function() {
-			this.$('.before .dp').focus();
-		}, this));
+		Ember.run.scheduleOnce('afterRender', this, this.bindDatePicker);
+		this._changeDateFilter('');
 
 		this._super();
 	},
 
-	actions: {
-		toggleDateTimePicker: function() {
-			this.$('.timing').find('.selected .dp').datepicker('show');
-		},
-
-		setDateVariable: function() {
-			this._changeDateFilter(this._extractVariableTimePeriod(), true);
-		},
-	},
-
-	selectDateTimePicker: function(datePickerSelector) {
-		this.$('.date-picker').children().removeClass('selected').find('.dp').datepicker('hide');
-		datePickerSelector.parent().addClass('selected').find('.dp').focus().datepicker('show');
-	},
-
-	changeDate: function(e) {
-		var date = e.date;
-		if ($(e.target).attr('name') === 'before') {
-			this._setMaxDate(date);
-		} else {
-			this._setMinDate(date);
+	willDestroyElement: function() {
+		var dateRangePicker = this.$('.datetime-picker').data('daterangepicker');
+		if (!dateRangePicker) {
+			return;
 		}
+
+		dateRangePicker.remove();
+
+		this._super();
 	},
 
-	resetDateTimePicker: function() {
-		this.$('.dp').val('');
-		this.selectDateTimePicker(this.$('.after input'));
-		this.send('toggleDateTimePicker');
+	bindDatePicker: function() {
+		this.$('.datetime-picker').daterangepicker({
+			endDate: moment(this.get('maxTime')),
+			startDate: moment(this.get('minTime')),
+			locale: DEFAULT_LOCALE,
+			timePicker: true,
+			format: 'MMM D, YYYY',
+			minDate: BALANCED_CREATED_AT,
+			maxDate: moment().add('days', 2),
+			parentEl: '.ember-application'
+		}, _.bind(this.chooseDateTime, this)).on('apply.daterangepicker', _.bind(this.applyDateTime, this));
+	},
+
+	applyDateTime: function(e, dateRangePicker) {
+		this.chooseDateTime(dateRangePicker.startDate.valueOf(), dateRangePicker.endDate.valueOf());
+	},
+
+	chooseDateTime: function(start, end) {
 		this.setProperties({
-			minTime: null,
-			maxTime: null
-		});
-	},
-
-	setDateFixed: function(presetText) {
-		this._setMaxDate(null);
-		var hours = 0;
-		switch (presetText) {
-			case 'Past hour':
-				hours = -1;
-				break;
-			case 'Past 24 hours':
-				hours = -24;
-				break;
-			case 'Past week':
-				hours = -24 * 7;
-				break;
-			case 'Past month':
-				hours = -24 * 31;
-				break;
-		}
-		var minDate = (hours) ? new Date(new Date().getTime() + (hours * 60 * 60 * 1000)) : null;
-		this._setMinDate(minDate);
-		this._changeDateFilter(presetText);
-	},
-
-	_changeDateFilter: function(label, date_range) {
-		/* as this is a date range, we want to include the end date (maxTime here),
-		 * for example, 2013/07/01 to 2013/07/31, the 31st should also
-		 * be included, so we need to advance the maxTime by one day
-		 */
-		if (date_range && this.maxTime) {
-			/*
-			 * Notice: date 32end is okay, js should handle this for us
-			 */
-			this.maxTime.setDate(this.maxTime.getDate() + 1);
-		}
-		this.get('controller').send('changeDateFilter', this.minTime, this.maxTime, label);
-		this.resetDateTimePicker();
-	},
-
-	_setMinDate: function(minDate) {
-		this.minTime = minDate;
-	},
-
-	_setMaxDate: function(maxDate) {
-		this.maxTime = maxDate;
-	},
-
-	_extractVariableTimePeriod: function() {
-		var min = this.minTime < this.maxTime ? this.minTime : this.maxTime;
-		var max = this.minTime < this.maxTime ? this.maxTime : this.minTime;
-		var dates = [];
-		if (min) {
-			dates.push(min);
-		}
-		if (max) {
-			dates.push(max);
-		}
-		dates = $.map(dates, function(date) {
-			return date.strftime('%d %b %Y');
+			minTime: start.valueOf(),
+			maxTime: end.valueOf()
 		});
 
-		//  check for uniques, if both the same we'll pop one
-		if (dates.length === 2 && dates[0] === dates[1]) {
-			dates.pop();
-		}
-		if (!dates.length) {
-			return 'Any time';
-		}
-		return dates.join(' - ');
-	}
-});
-
-Balanced.DatePickerPresetView = Balanced.View.extend({
-	tagName: 'li',
-	classNameBindings: 'isSelected',
-
-	isSelected: function() {
-		if (!this.get('elementInDom')) {
-			return null;
-		}
-		return this.get('controller.dateFilterTitle') === this.$().text() ? "selected" : null;
-	}.property('controller.dateFilterTitle', 'elementInDom'),
-
-	click: function(e) {
-		e.preventDefault();
-		var $t = $(e.currentTarget);
-		var presetText = $t.text();
-		this.get('parentView').setDateFixed(presetText);
-	}
-});
-
-Balanced.DatePickerDateFieldView = Balanced.View.extend({
-	beforeSelector: function() {
-		return this.get('controller.baseClassSelector') + ' .timing .before';
-	}.property(),
-
-	afterSelector: function() {
-		return this.get('controller.baseClassSelector') + ' .timing .after';
-	}.property(),
-
-	click: function(e) {
-		e.preventDefault();
-		this.get('parentView').selectDateTimePicker($(e.currentTarget));
-		return false;
+		this._changeDateFilter('');
 	},
 
-	change: function(e) {
-		this.get('parentView').selectDateTimePicker($(e.currentTarget));
-	},
-
-	focusIn: function(e) {
-		this.get('parentView').selectDateTimePicker($(e.currentTarget));
+	_changeDateFilter: function(label) {
+		var maxTime = new Date(this.get('maxTime'));
+		var minTime = new Date(this.get('minTime'));
+		this.get('controller').send('changeDateFilter', minTime, maxTime, label);
 	}
 });

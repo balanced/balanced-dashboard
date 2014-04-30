@@ -13,6 +13,14 @@ test('can visit page', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
+		.then(function() {
 			var $title = $('#content h1');
 			var logRequest = spy.getCall(spy.callCount - 1);
 			assert.equal(logRequest.args[0], Balanced.Log);
@@ -24,6 +32,14 @@ test('can visit page', function(assert) {
 test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -39,6 +55,14 @@ test('filter logs by endpoint bank accounts', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -57,22 +81,21 @@ test('filter logs by datetime range', function(assert) {
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
-		.click('.results .timing a.dropdown-toggle')
+		.click('.results .timing .datetime-picker')
 		.then(function() {
-			$('.results .timing input[name="after"]').val('08/01/2013').trigger('keyup');
+			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
+			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
-		.click('.results .timing td.active.day')
 		.then(function() {
-			$('.results .timing input[name="before"]').val('08/01/2013').trigger('keyup');
+			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker is still visible');
+			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
+			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
-		.click('.results .timing td.active.day')
-		.click('.results button.go')
+		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			// Notice: month 7 is Aug here for JS Date, ugly javascript...
-			// As the date time is local, we need to convert it to ISO from in UTC timezone
-			var begin = new Date(2013, 7, 1);
+			var begin = moment('8/1/2013').startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = new Date(2013, 7, 2);
+			var end = moment('8/1/2013').endOf('day');
 			var end_iso = encodeURIComponent(end.toISOString());
 
 			var expected_uri = '/logs?' +
@@ -93,6 +116,14 @@ test('filter logs by request failed only', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:logsIndex').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
+		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
@@ -116,5 +147,11 @@ test('view a particular log entry', function(assert) {
 		.then(function() {
 			assert.equal($('h1.page-title').text(), 'POST /customers/' + Testing.CUSTOMER_ID + '/debits', 'h1 title is correct');
 			assert.equal($('dd[data-property="request-id"]').text().length, 35, 'Log request id valid');
+
+			// Check request/response bodies
+			assert.ok($('.request-info .prettyprint').text().length > 3, 'Has Request Body');
+			assert.ok($('.response-info .prettyprint').text().length > 3, 'Has Response Body');
+			assert.ok($('.request-info .prettyprint').children().length > 3, 'Request Body Is Highlighted');
+			assert.ok($('.response-info .prettyprint').children().length > 3, 'Response Body Is Highlighted');
 		});
 });

@@ -228,7 +228,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		}, 0);
 	},
 
-	accountTypes: ['checking', 'savings'],
+	accountTypes: ['Checking', 'Savings'],
 
 	_extractApiKeyPayload: function() {
 		var merchantType = this.get('selectedType'),
@@ -284,7 +284,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			name: this.get('banking.account_name'),
 			routing_number: this.get('banking.routing_number'),
 			account_number: this.get('banking.account_number'),
-			type: this.get('banking.account_type')
+			type: this.get('banking.account_type').toLowerCase()
 		});
 	}
 });
