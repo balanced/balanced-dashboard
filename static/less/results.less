@@ -7,18 +7,33 @@ header.results-label h3 {
   header {
     padding: 20px 10px;
 
+    nav.search-table {
+        padding: 0 10px;
+    }
+
+    .date-row {
+      margin-bottom: 20px;
+    }
+
     nav > li {
       &.filter {
         .sl-md;
         display: block;
         float: left;
         border-bottom: @searchBorderWidth solid transparent;
-        margin-left: 9px;
+        margin-right: 9px;
+        margin-bottom: 9px;
         color: @gray4;
       }
 
-      &.filter:first-of-type:before {
-        content: ' ';
+      &.filter:first-of-type {
+        a {
+          padding-left: 0;
+        }
+
+        &:before {
+          content: ' ';
+        }
       }
 
       &.filter:before {
@@ -46,7 +61,8 @@ header.results-label h3 {
       }
 
       > a {
-        padding: 15px 5px 0;
+        padding: 0 5px;
+        white-space: pre;
 
         &:hover {
           border-bottom: @searchBorder;
@@ -77,7 +93,6 @@ header.results-label h3 {
       }
       &.download {
         float: right;
-        padding: 9px 0 0;
         margin: 0;
 
         a {
@@ -94,6 +109,9 @@ header.results-label h3 {
   table.items {
     table-layout:fixed;
     width: 100%;
+    &.logs {
+      margin-top: 50px;
+    }
 
     tfoot {
       td.load-more-results {

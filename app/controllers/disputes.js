@@ -14,3 +14,6 @@ Balanced.DisputeController = Balanced.ObjectController.extend(
 		needs: ['marketplace']
 	}
 );
+// Balanced.DisputesController = Balanced.ObjectController.extend({
+// 	needs: ['marketplace']
+// });

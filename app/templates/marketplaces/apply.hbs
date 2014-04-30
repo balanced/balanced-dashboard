@@ -59,7 +59,7 @@
 				{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
 				<div class="control-group">
 					<div class="controls">
-						{{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type"}}
+						{{view Ember.Select contentBinding="accountTypes" valueBinding="banking.account_type" name="banking.account_type"}}
 					</div>
 					<label>Specify your account type</label>
 				</div>

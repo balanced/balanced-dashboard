@@ -237,25 +237,55 @@ var Testing = {
 		});
 	},
 
+	waitForState: function(intervalTimeout, errorTimeout, callback) {
+		var startDate = new Date();
+		return new Ember.RSVP.Promise(function(resolve, reject) {
+			var execute = function() {
+				callback(resolve, function() {
+					var elapsedTime = new Date() - startDate;
+					if (elapsedTime < errorTimeout) {
+						setTimeout(execute, intervalTimeout);
+					} else {
+						reject();
+					}
+				});
+			};
+			execute();
+		});
+	},
+
+	assertEnoughDisputesAvailable: function(num) {
+		return this.waitForState(1000, 10000, function(done, error) {
+			Balanced.Dispute.findAll().then(function(disputes) {
+				if (disputes.get("length") < num) {
+					error();
+				} else {
+					done(disputes.get("length"));
+				}
+			});
+		});
+	},
+
 	_createDispute: function(howMany) {
 		var self = this;
-		howMany = howMany || 2;
+		var createDisputesPromises = _.times(howMany, function() {
+			return self._createDisputeCard().then(function() {
+				return self._createDebit();
+			});
+		});
 
-		return this._createDisputeCard().then(function() {
-			return self._createDebit().then(function() {
-				return Balanced.Dispute.findAll().then(function(disputes) {
-					if (disputes.get('content').length < howMany) {
-						return setTimeout(_.bind(Testing.createDispute, Testing, howMany), 1000);
-					}
-
-					var evt = disputes.objectAt(0);
-					self.DISPUTE = evt;
-					self.DISPUTE_ID = evt.get('id');
-					self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
-						'/disputes/' + self.DISPUTE_ID;
-
-					self.start();
-				});
+		Ember.RSVP.all(createDisputesPromises).then(function(results) {
+			var timeout = 10000;
+			self.assertEnoughDisputesAvailable(howMany).then(function(disputes) {
+				var evt = disputes.objectAt(0);
+				self.DISPUTE = evt;
+				self.DISPUTE_ID = evt.get('id');
+				self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
+					'/disputes/' + self.DISPUTE_ID;
+				self.start();
+			}, function() {
+				Ember.Logger.error("Couldn't find disputes after " + timeout + "ms");
+				self.start();
 			});
 		});
 	},
@@ -363,7 +393,7 @@ var Testing = {
 					return setTimeout(_.bind(Testing.setupLogs, Testing, howMany), 1000);
 				}
 
-				self.start();
+				setTimeout(_.bind(self.start, self), 1000);
 			});
 		});
 	},
@@ -423,26 +453,13 @@ var Testing = {
 		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
 	},
 
-	createDispute: function(howMany) {
-		var self = this;
-		// Call stop to stop executing the tests before
-		// a dispute is created
-		this.stop();
-
-		// This automatically calls start();
-		return Ember.run(function() {
-			return self._createDispute(howMany);
-		});
-	},
-
 	createDisputes: function(number) {
 		var self = this;
 		var initialNumberDisputes = number || 4;
 
+		this.stop();
 		Ember.run(function() {
-			for (number = initialNumberDisputes; number >= 0; number--) {
-				self.createDispute(initialNumberDisputes);
-			}
+			self._createDispute(initialNumberDisputes);
 		});
 	},
 

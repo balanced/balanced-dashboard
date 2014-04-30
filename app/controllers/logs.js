@@ -1,4 +1,4 @@
-Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.LogsIndexController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
@@ -64,7 +64,7 @@ Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Even
 /*
 	This controller provides embedded log records in resource pages
 */
-Balanced.LogsEmbeddedController = Balanced.MarketplaceLogsController.extend({
+Balanced.LogsEmbeddedController = Balanced.LogsIndexController.extend({
 	limit: 5,
 
 	extra_filtering_params: function() {
@@ -75,6 +75,6 @@ Balanced.LogsEmbeddedController = Balanced.MarketplaceLogsController.extend({
 
 });
 
-Balanced.LogController = Balanced.ObjectController.extend({
+Balanced.LogsLogController = Balanced.ObjectController.extend({
 	needs: ['marketplace']
 });

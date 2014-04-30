@@ -1,3 +1,3 @@
-Balanced.ReversalsController = Balanced.ObjectController.extend(Ember.Evented, {
+Balanced.ReversalsController = Balanced.ObjectController.extend({
 	needs: ['marketplace']
 });

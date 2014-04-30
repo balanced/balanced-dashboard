@@ -1,5 +1,4 @@
-Balanced.InvoiceController = Balanced.ObjectController.extend(
-	Ember.Evented,
+Balanced.InvoicesInvoiceController = Balanced.ObjectController.extend(
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {
 		needs: ['marketplace'],
