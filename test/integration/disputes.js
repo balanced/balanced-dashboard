@@ -28,7 +28,14 @@ test('exist on the activity page', function(assert) {
 			assert.ok(disputesController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
 		})
 		.checkElements(activityDisputesPage, assert)
-		.click('table.disputes tfoot td.load-more-results a')
+		.then(function() {
+			var clickEl = 'table.disputes tfoot td.load-more-results a';
+			if ($(clickEl).length > 0) {
+				click(clickEl);
+			} else {
+				Ember.Logger.error("Element " + clickEl + " does not exist");
+			}
+		})
 		.then(function() {
 			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
 		});

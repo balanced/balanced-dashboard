@@ -1,4 +1,4 @@
-Balanced.OrdersController = Balanced.ObjectController.extend(Ember.Evented, {
+Balanced.OrdersController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
 
 	amounts: function() {

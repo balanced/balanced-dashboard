@@ -1,5 +1,7 @@
 Balanced.BankAccountsController = Balanced.ObjectController.extend(
-	Ember.Evented,
+	Balanced.ActionEvented('openDebitFundingInstrumentModal',
+		'openCreditBankAccountModal', 'openVerifyBankAccountModal',
+		'openConfirmVerificationModal'),
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {
 		needs: ['marketplace'],
@@ -12,24 +14,6 @@ Balanced.BankAccountsController = Balanced.ObjectController.extend(
 		init: function() {
 			Balanced.Model.Events.on('didCreate', this, this.reloadVerifications);
 			Balanced.Model.Events.on('didUpdate', this, this.reloadVerifications);
-		},
-
-		actions: {
-			openDebitFundingInstrumentModal: function() {
-				this.trigger('openDebitFundingInstrumentModal');
-			},
-
-			openCreditBankAccountModal: function() {
-				this.trigger('openCreditBankAccountModal');
-			},
-
-			openVerifyBankAccountModal: function() {
-				this.trigger('openVerifyBankAccountModal');
-			},
-
-			openConfirmVerificationModal: function() {
-				this.trigger('openConfirmVerificationModal');
-			},
 		},
 
 		reloadVerifications: function(object) {

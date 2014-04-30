@@ -8,7 +8,9 @@ var Computed = {
 	}
 };
 
-Balanced.MarketplaceController = Balanced.ObjectController.extend(Ember.Evented, {
+Balanced.MarketplaceController = Balanced.ObjectController.extend(
+	Balanced.ActionEvented('openPaySellerModal', 'openChargeCardModal'), {
+
 	needs: ['application'],
 
 	fundingInstrumentSelected: Computed.isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),

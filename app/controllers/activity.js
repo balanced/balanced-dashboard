@@ -47,6 +47,10 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			}
 
 			this.refresh();
+		},
+
+		openAddFundsModal: function() {
+			this.trigger('openAddFundsModal');
 		}
 	},
 
