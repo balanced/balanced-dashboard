@@ -230,9 +230,54 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	accountTypes: ['Checking', 'Savings'],
 
+	_extractPersonApiKeyPayload: function() {
+		return {
+			merchant: {
+				type: this.get("selectedType"),
+				name: this.get('name'),
+				street_address: this.get('address.street_address'),
+				postal_code: this.get('address.postal_code'),
+				tax_id: this.get('ssn_last4'),
+				phone_number: this.get('phone_number'),
+				dob: this.get("dob")
+			}
+		};
+	},
+
+	_extractBusinessApiKeyPayload: function() {
+		var optionalValue = function(val) {
+			return val ?
+				val :
+				null;
+		};
+		return {
+			merchant: {
+				person: {
+					name: this.get('name'),
+					dob: this.get('dob'),
+					street_address: this.get('address.street_address'),
+					postal_code: this.get('address.postal_code'),
+					tax_id: this.get('ssn_last4'),
+					phone_number: this.get('phone_number')
+				},
+				type: this.get("selectedType"),
+				name: optionalValue(this.get('business_name')),
+				street_address: this.get('address.street_address'),
+				postal_code: this.get('address.postal_code'),
+				tax_id: optionalValue(this.get('ein')),
+				phone_number: this.get('phone_number')
+			}
+		};
+	},
+
 	_extractApiKeyPayload: function() {
-		var merchantType = this.get('selectedType'),
-			isBusiness = merchantType === 'BUSINESS';
+		var isBusiness = this.get("selectedType") === 'BUSINESS';
+
+		var attributes = isBusiness ?
+			this._extractBusinessApiKeyPayload() :
+			this._extractPersonApiKeyPayload();
+
+		return Balanced.APIKey.create(attributes);
 
 		var person = isBusiness ? {
 			name: this.get('name'),
@@ -284,7 +329,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			name: this.get('banking.account_name'),
 			routing_number: this.get('banking.routing_number'),
 			account_number: this.get('banking.account_number'),
-			type: this.get('banking.account_type').toLowerCase()
+			account_type: this.get('banking.account_type').toLowerCase()
 		});
 	}
 });
