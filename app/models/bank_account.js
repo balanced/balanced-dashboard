@@ -70,7 +70,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 		this.set('isSaving', true);
 		var bankAccountData = {
-			type: this.get('type'),
+			account_type: this.get('account_type'),
 			name: this.get('name'),
 			account_number: $.trim(this.get('account_number')),
 			routing_number: $.trim(this.get('routing_number'))

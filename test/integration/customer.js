@@ -277,13 +277,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 
 test('can add bank account', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		bank_accounts: [{
-			href: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID
-		}]
-	});
+	var tokenizingSpy = sinon.spy(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.bank-account-info a.add')
@@ -292,24 +286,21 @@ test('can add bank account', function(assert) {
 			account_number: "123",
 			routing_number: "123123123"
 		}, {
-			click: ['input[name="account_type"][value="checking"]', '.modal-footer button[name="modal-submit"]']
+			click: ['#account_type_savings', '.modal-footer button[name="modal-submit"]']
 		})
 		.then(function() {
-			var input = {
-				type: "checking",
+			var expectedArgs = {
+				account_type: "savings",
 				name: "TEST",
 				account_number: "123",
 				routing_number: "123123123"
 			};
+			var callArgs = tokenizingSpy.firstCall.args[0];
+			assert.ok(tokenizingSpy.calledOnce);
 
-			// this tests balanced.js
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(input));
-
-			//assert.ok(spy.calledOnce);
-			//assert.ok(spy.calledWith(Balanced.BankAccount, '/bank_accounts', sinon.match(input)));
-
-			balanced.bankAccount.create.restore();
+			_.each(expectedArgs, function(val, key) {
+				assert.equal(callArgs[key], val);
+			});
 		});
 });
 

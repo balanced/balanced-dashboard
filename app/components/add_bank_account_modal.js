@@ -1,18 +1,24 @@
 require('app/components/modal');
 
 Balanced.AddBankAccountModalComponent = Balanced.ModalComponent.extend({
+
+	// There's no good ember view for handling radio buttons so we're
+	// using a dumb hack.
+	getAccountType: function () {
+		return this.$(".account-type:checked").val();
+	},
+
 	actions: {
 		open: function() {
 			var bankAccount = Balanced.BankAccount.create({
 				name: '',
 				account_number: '',
 				routing_number: '',
-				type: ''
+				account_type: ''
 			});
 
 			this._super(bankAccount);
-
-			this.$('form input:radio[name=account_type][value=checking]').prop('checked', true);
+			this.$(".account-type:first").prop("checked", true);
 		},
 
 		save: function() {
@@ -22,9 +28,7 @@ Balanced.AddBankAccountModalComponent = Balanced.ModalComponent.extend({
 
 			var self = this;
 			var bankAccount = this.get('model');
-
-			// this isn't an ember widget, so have to grab it ourselves
-			bankAccount.set('type', $('#add-bank-account form input[name=account_type]:checked').val());
+			bankAccount.set("account_type", this.getAccountType());
 
 			bankAccount.tokenizeAndCreate(this.get('customer.id')).then(function() {
 				if (self.get('customer')) {
