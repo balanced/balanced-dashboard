@@ -391,7 +391,6 @@ test('can delete bank accounts', function(assert) {
 });
 
 test('can create cards', function(assert) {
-	//var createSpy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -403,9 +402,11 @@ test('can create cards', function(assert) {
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.card-info a.add')
-		.fillIn('#add-card .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-card .modal-body input[name="number"]', '1234123412341234')
-		.fillIn('#add-card .modal-body input[name="security_code"]', '123')
+		.fillForm("#add-card", {
+			name: "TEST",
+			number: "1234123412341234",
+			security_code: "123"
+		})
 		.then(function() {
 			$('#add-card .modal-body select[name="expiration_month"]').val('1').change();
 			$('#add-card .modal-body select[name="expiration_year"]').val('2020').change();
@@ -436,10 +437,6 @@ test('can create cards', function(assert) {
 				address: {}
 			})));
 			assert.ok(tokenizingStub.calledOnce);
-			/*assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.Card, '/v1/customers/' + Testing.CUSTOMER_ID + '/cards', {
-				card_uri: '/v1/cards/deadbeef'
-			}));*/
 			balanced.card.create.restore();
 		});
 });
