@@ -4,7 +4,7 @@ Balanced.AddBankAccountModalComponent = Balanced.ModalComponent.extend({
 
 	// There's no good ember view for handling radio buttons so we're
 	// using a dumb hack.
-	getAccountType: function () {
+	getAccountType: function() {
 		return this.$(".account-type:checked").val();
 	},
 
