@@ -255,7 +255,7 @@ test('download activity', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("#main #activity .icon-export.download")
 		.fillForm(".download-modal.in form", {
-			name: "test@example.com"
+			email: "test@example.com"
 		})
 		.click('.download-modal.in form .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -281,7 +281,7 @@ test('download disputes', function(assert) {
 		.click("a:contains('Disputes')")
 		.click("#main #activity .icon-export.download")
 		.fillForm(".download-modal.in form", {
-			name: "test@example.com"
+			email: "test@example.com"
 		})
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
