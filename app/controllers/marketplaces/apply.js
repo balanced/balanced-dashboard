@@ -232,42 +232,50 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	_extractPersonApiKeyPayload: function() {
 		return {
-			merchant: {
-				type: this.get("selectedType"),
-				name: this.get('name'),
-				street_address: this.get('address.street_address'),
-				postal_code: this.get('address.postal_code'),
-				tax_id: this.get('ssn_last4'),
-				phone_number: this.get('phone_number'),
-				dob: this.get("dob")
-			}
+			type: this.get("selectedType"),
+			name: this.get('name'),
+			street_address: this.get('address.street_address'),
+			postal_code: this.get('address.postal_code'),
+			tax_id: this.get('ssn_last4'),
+			phone_number: this.get('phone_number'),
+			dob: this.get("dob")
 		};
 	},
 
 	_extractBusinessApiKeyPayload: function() {
-		var optionalValue = function(val) {
+		var self = this;
+		var optionalValue = function(valueName) {
+			var val = self.get(valueName);
 			return val ?
 				val :
 				null;
 		};
-		return {
-			merchant: {
-				person: {
-					name: this.get('name'),
-					dob: this.get('dob'),
-					street_address: this.get('address.street_address'),
-					postal_code: this.get('address.postal_code'),
-					tax_id: this.get('ssn_last4'),
-					phone_number: this.get('phone_number')
-				},
-				type: this.get("selectedType"),
-				name: optionalValue(this.get('business_name')),
+
+		var businessName = optionalValue("business_name");
+		var taxId = optionalValue("ein");
+
+		var attributes = {
+			person: {
+				name: this.get('name'),
+				dob: this.get('dob'),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
-				tax_id: optionalValue(this.get('ein')),
+				tax_id: this.get('ssn_last4'),
 				phone_number: this.get('phone_number')
-			}
+			},
+			type: this.get("selectedType"),
+			street_address: this.get('address.street_address'),
+			postal_code: this.get('address.postal_code'),
+			phone_number: this.get('phone_number')
 		};
+
+		if (taxId) {
+			attributes.tax_id = taxId;
+		}
+		if (businessName) {
+			attributes.name = businessName;
+		}
+		return attributes;
 	},
 
 	_extractApiKeyPayload: function() {
@@ -277,7 +285,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			this._extractBusinessApiKeyPayload() :
 			this._extractPersonApiKeyPayload();
 
-		return Balanced.APIKey.create(attributes);
+		return Balanced.APIKey.create({
+			merchant: attributes
+		});
 
 		var person = isBusiness ? {
 			name: this.get('name'),
