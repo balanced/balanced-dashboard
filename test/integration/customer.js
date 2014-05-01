@@ -194,9 +194,8 @@ test("can't debit customer multiple times using the same modal", function(assert
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
-		}, {
-			clickMultiple: '.modal-footer button[name="modal-submit"]'
 		})
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
@@ -206,7 +205,7 @@ test("debit customer triggers reload of transactions", function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "get");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(0))
+		.click(".customer-header .buttons a:first")
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
@@ -261,22 +260,21 @@ test('when crediting customer triggers an error, the error is displayed to the u
 test("can't credit customer multiple times using the same modal", function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	// click the credit customer button
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(1))
+		.click(".customer-header .buttons a:first")
 		.fillForm('#credit-customer', {
 			dollar_amount: '1000',
 			description: 'Test credit'
-		}, {
-			clickMultiple: '.modal-footer button[name="modal-submit"]'
 		})
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
+			stub.restore();
 		});
 });
 
 test('can add bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var stub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingSpy = sinon.spy(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -285,9 +283,9 @@ test('can add bank account', function(assert) {
 			name: "TEST",
 			account_number: "123",
 			routing_number: "123123123"
-		}, {
-			click: ['#account_type_savings', '.modal-footer button[name="modal-submit"]']
 		})
+		.click('#account_type_savings')
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
 			var expectedArgs = {
 				account_type: "savings",
@@ -301,25 +299,20 @@ test('can add bank account', function(assert) {
 			_.each(expectedArgs, function(val, key) {
 				assert.equal(callArgs[key], val);
 			});
+			tokenizingSpy.restore();
+			stub.restore();
 		});
 });
 
 test('can add card', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		cards: [{
-			href: '/cards/' + Testing.CARD_ID
-		}]
-	});
-	var input = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		security_code: '123',
-		name: 'TEST'
-	};
+	var stub =
+		tokenizingStub.callsArgWith(1, {
+			status: 201,
+			cards: [{
+				href: '/cards/' + Testing.CARD_ID
+			}]
+		});
 	var expected = {
 		number: '1234123412341234',
 		expiration_month: 1,
@@ -331,15 +324,18 @@ test('can add card', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
-		.fillForm('#add-card', input, {
-			click: '.modal-footer button[name="modal-submit"]'
+		.fillForm('#add-card', {
+			number: '1234123412341234',
+			expiration_month: 1,
+			expiration_year: 2020,
+			security_code: '123',
+			name: 'TEST'
 		})
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
-
-			// this tests balanced.js
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
-			balanced.card.create.restore();
+			tokenizingStub.restore();
 		});
 });
 
@@ -373,9 +369,8 @@ test('can add card with postal code', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
-		.fillForm('#add-card', input, {
-			click: '.modal-footer button[name="modal-submit"]'
-		})
+		.fillForm('#add-card', input)
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
 
 			// this tests balanced.js

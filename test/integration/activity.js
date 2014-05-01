@@ -20,7 +20,7 @@ test('can visit page', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.checkElements({
 			"#content h1": "Activity",
-			'#activity .download': 1
+			'#activity li.download': 1
 		}, assert);
 });
 
