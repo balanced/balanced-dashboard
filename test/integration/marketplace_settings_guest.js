@@ -227,10 +227,12 @@ test('can create checking accounts', function(assert) {
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
-		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
-		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
+		.fillForm({
+			name: "TEST",
+			account_number: "123",
+			routing_number: "123123123"
+		})
+		.click('#account_type_checking')
 		.then(function() {
 			Testing.stop();
 
@@ -273,10 +275,12 @@ test('can fail at creating bank accounts', function(assert) {
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
-		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123abc')
-		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
+		.fillForm({
+			name: "TEST",
+			account_number: "123",
+			routing_number: "123123123abc"
+		})
+		.click('#account_type_checking')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(tokenizingStub.calledOnce);
@@ -305,10 +309,12 @@ test('can create savings accounts', function(assert) {
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
-		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
-		.click('#add-bank-account .modal-body input[name="account_type"][value="savings"]')
+		.fillForm({
+			name: "TEST",
+			account_number: "123",
+			routing_number: "123123123"
+		})
+		.click('#account_type_savings')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			// test balanced.js
@@ -329,10 +335,12 @@ test('create bank account only submits once when clicked multiple times', functi
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')
-		.fillIn('#add-bank-account .modal-body input[name="name"]', 'TEST')
-		.fillIn('#add-bank-account .modal-body input[name="account_number"]', '123')
-		.fillIn('#add-bank-account .modal-body input[name="routing_number"]', '123123123')
-		.click('#add-bank-account .modal-body input[name="account_type"][value="checking"]')
+		.fillForm({
+			name: "TEST",
+			account_number: "123",
+			routing_number: "123123123"
+		})
+		.click('#account_type_checking')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')

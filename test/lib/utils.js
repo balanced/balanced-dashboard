@@ -31,7 +31,6 @@ var Testing = {
 
 		stop();
 		this.isStopped = true;
-		Ember.Logger.log('Tests Stopped Running.');
 	},
 
 	start: function() {
@@ -41,7 +40,6 @@ var Testing = {
 
 		start();
 		this.isStopped = false;
-		Ember.Logger.log('Tests Started Running.');
 	},
 
 	pause: function(number, fn) {
@@ -55,8 +53,6 @@ var Testing = {
 		if (fn) {
 			_.delay(fn, number);
 		}
-
-		Ember.Logger.log('Tests Paused for %@ ms.'.fmt(number));
 	},
 
 	selectMarketplaceByName: function(name) {
