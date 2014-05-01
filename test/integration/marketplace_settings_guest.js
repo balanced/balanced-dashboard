@@ -295,7 +295,6 @@ test('can fail at creating bank accounts', function(assert) {
 });
 
 test('can create savings accounts', function(assert) {
-	//var createSpy = sinon.spy(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -315,18 +314,12 @@ test('can create savings accounts', function(assert) {
 			// test balanced.js
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith({
-				type: "savings",
+				account_type: "savings",
 				name: "TEST",
 				account_number: "123",
 				routing_number: "123123123"
 			}));
 			balanced.bankAccount.create.restore();
-			/*
-			assert.ok(createSpy.calledOnce);
-			assert.ok(createSpy.calledWith(Balanced.BankAccount, '/v1/customers/' + Testing.CUSTOMER_ID + '/bank_accounts', {
-				bank_account_uri: '/v1/bank_accounts/deadbeef'
-			}));
-			*/
 		});
 });
 
