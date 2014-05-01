@@ -18,13 +18,9 @@ module('Activity', {
 
 test('can visit page', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
-		.then(function() {
-			var $title = $('#content h1');
-
-			assert.notEqual($title.text().indexOf('Activity'), -1,
-				'Title is correct');
-
-			assert.ok($('#activity .download').length, "Download link is visible");
+		.checkElements({
+			"#content h1": "Activity",
+			'#activity .download': 1
 		});
 });
 
@@ -108,12 +104,8 @@ test('add funds', function(assert) {
 
 		Ember.run.next(function() {
 			Testing.start();
-			// Escrow balances are now cached
-			// assert.equal($('.activity-escrow-box .amount .number1d').text().trim(), '$400.00', 'escrow amount is $400.00');
-
-			// select the bank account
-			fundingInstrumentUri = $("#add-funds select[name='source_uri'] option").eq(0).val();
-			$("#add-funds select[name='source_uri']").val(fundingInstrumentUri);
+			fundingInstrumentUri = $("#add_funds_bank_account option:first").val();
+			$("#add_funds_bank_account").val(fundingInstrumentUri);
 
 			click('.activity-escrow-box .add-funds-btn')
 				.then(function() {
@@ -128,14 +120,18 @@ test('add funds', function(assert) {
 						'14'
 					);
 				})
-				.fillIn('#add-funds input', '55.55')
-				.fillIn('#add-funds input.description', 'Adding lots of money yo')
-				.click('#add-funds .modal-footer button[name="modal-submit"]')
+				.fillForm("#add-funds form", {
+					"dollar_amount": "55.55",
+					"appears_on_statement_as": "BALANCED TEST",
+					"description": 'Adding lots of money yo'
+				})
+				.click("#add-funds [name=modal-submit]")
 				.then(function() {
 					assert.ok(spy.calledOnce);
 					assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits'));
 					assert.equal(spy.getCall(0).args[2].amount, 5555);
 					assert.equal(spy.getCall(0).args[2].description, 'Adding lots of money yo');
+					spy.restore();
 				});
 		});
 	});
@@ -153,13 +149,16 @@ test('add funds only adds once despite multiple clicks', function(assert) {
 			Testing.start();
 
 			click('.activity-escrow-box .add-funds-btn')
-				.fillIn('#add-funds input', '55.55')
+				.fillForm("#add-funds", {
+					dollar_amount: "55.55"
+				})
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
 				.click('#add-funds .modal-footer button[name="modal-submit"]')
 				.then(function() {
 					assert.ok(stub.calledOnce);
+					stub.restore();
 				});
 		});
 	});
@@ -197,14 +196,18 @@ test('withdraw funds', function(assert) {
 						'14'
 					);
 				})
-				.fillIn('#withdraw-funds input', '55.55')
-				.fillIn('#withdraw-funds input.description', 'Withdrawing some monies')
+				.fillForm("#withdraw-funds form", {
+					"dollar_amount": "55.55",
+					"appears_on_statement_as": "BALANCED TEST",
+					"description": 'Withdrawing some monies'
+				})
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 				.then(function() {
 					assert.ok(spy.calledOnce);
 					assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits'));
 					assert.equal(spy.getCall(0).args[2].amount, 5555);
 					assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+					spy.restore();
 				});
 		});
 	});
@@ -222,7 +225,9 @@ test('withdraw funds only withdraws once despite multiple clicks', function(asse
 			Testing.start();
 
 			click('.activity-escrow-box .withdraw-funds-btn')
-				.fillIn('#withdraw-funds input', '55.55')
+				.fillForm('#withdraw-funds', {
+					dollar_amount: "55.55"
+				})
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
 				.click('#withdraw-funds .modal-footer button[name="modal-submit"]')
@@ -249,7 +254,9 @@ test('download activity', function(assert) {
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("#main #activity .icon-export.download")
-		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.fillForm(".download-modal.in form", {
+			name: "test@example.com"
+		})
 		.click('.download-modal.in form .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
@@ -273,7 +280,9 @@ test('download disputes', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("a:contains('Disputes')")
 		.click("#main #activity .icon-export.download")
-		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
+		.fillForm(".download-modal.in form", {
+			name: "test@example.com"
+		})
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
@@ -284,6 +293,7 @@ test('download disputes', function(assert) {
 			}));
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
+			stub.restore();
 		});
 });
 
@@ -292,13 +302,16 @@ test('download activity only runs once despite multiple clicks', function(assert
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.click("#main #activity .icon-export.download")
-		.fillIn(".download-modal.in form input[name='email']", 'test@example.com')
+		.fillForm(".download-modal.in form", {
+			email: 'test@example.com'
+		})
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
+			stub.restore();
 		});
 });
 
