@@ -21,7 +21,7 @@ test('can visit page', function(assert) {
 		.checkElements({
 			"#content h1": "Activity",
 			'#activity .download': 1
-		});
+		}, assert);
 });
 
 test('Click load more shows 2 more and hides load more', function(assert) {
