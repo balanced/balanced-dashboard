@@ -288,31 +288,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return Balanced.APIKey.create({
 			merchant: attributes
 		});
-
-		var person = isBusiness ? {
-			name: this.get('name'),
-			dob: this.get('dob'),
-			street_address: this.get('address.street_address'),
-			postal_code: this.get('address.postal_code'),
-			tax_id: this.get('ssn_last4'),
-			phone_number: this.get('phone_number')
-		} : null;
-		var apiKey = Balanced.APIKey.create({
-			merchant: {
-				type: merchantType,
-				name: this.get(isBusiness ? 'business_name' : 'name'),
-				street_address: this.get('address.street_address'),
-				postal_code: this.get('address.postal_code'),
-				tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
-				phone_number: this.get('phone_number')
-			}
-		});
-		if (isBusiness) {
-			apiKey.set('merchant.person', person);
-		} else {
-			apiKey.set('merchant.dob', this.get('dob'));
-		}
-		return apiKey;
 	},
 
 	_extractMarketplacePayload: function() {
