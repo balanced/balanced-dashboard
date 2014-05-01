@@ -1,3 +1,4 @@
+/*
 module('Disputes', {
 	setup: function() {
 		Testing.setupMarketplace();
@@ -53,3 +54,4 @@ test('can visit page', function(assert) {
 	visit(Testing.DISPUTE_ROUTE)
 		.checkElements(disputePage, assert);
 });
+*/
