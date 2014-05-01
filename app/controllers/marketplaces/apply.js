@@ -230,34 +230,64 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	accountTypes: ['Checking', 'Savings'],
 
-	_extractApiKeyPayload: function() {
-		var merchantType = this.get('selectedType'),
-			isBusiness = merchantType === 'BUSINESS';
-
-		var person = isBusiness ? {
+	_extractPersonApiKeyPayload: function() {
+		return {
+			type: this.get("selectedType"),
 			name: this.get('name'),
-			dob: this.get('dob'),
 			street_address: this.get('address.street_address'),
 			postal_code: this.get('address.postal_code'),
 			tax_id: this.get('ssn_last4'),
-			phone_number: this.get('phone_number')
-		} : null;
-		var apiKey = Balanced.APIKey.create({
-			merchant: {
-				type: merchantType,
-				name: this.get(isBusiness ? 'business_name' : 'name'),
+			phone_number: this.get('phone_number'),
+			dob: this.get("dob")
+		};
+	},
+
+	_extractBusinessApiKeyPayload: function() {
+		var self = this;
+		var optionalValue = function(valueName) {
+			var val = self.get(valueName);
+			return val ?
+				val :
+				null;
+		};
+
+		var businessName = optionalValue("business_name");
+		var taxId = optionalValue("ein");
+
+		var attributes = {
+			person: {
+				name: this.get('name'),
+				dob: this.get('dob'),
 				street_address: this.get('address.street_address'),
 				postal_code: this.get('address.postal_code'),
-				tax_id: this.get(isBusiness ? 'ein' : 'ssn_last4'),
+				tax_id: this.get('ssn_last4'),
 				phone_number: this.get('phone_number')
-			}
-		});
-		if (isBusiness) {
-			apiKey.set('merchant.person', person);
-		} else {
-			apiKey.set('merchant.dob', this.get('dob'));
+			},
+			type: this.get("selectedType"),
+			street_address: this.get('address.street_address'),
+			postal_code: this.get('address.postal_code'),
+			phone_number: this.get('phone_number')
+		};
+
+		if (taxId) {
+			attributes.tax_id = taxId;
 		}
-		return apiKey;
+		if (businessName) {
+			attributes.name = businessName;
+		}
+		return attributes;
+	},
+
+	_extractApiKeyPayload: function() {
+		var isBusiness = this.get("selectedType") === 'BUSINESS';
+
+		var attributes = isBusiness ?
+			this._extractBusinessApiKeyPayload() :
+			this._extractPersonApiKeyPayload();
+
+		return Balanced.APIKey.create({
+			merchant: attributes
+		});
 	},
 
 	_extractMarketplacePayload: function() {
@@ -284,7 +314,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			name: this.get('banking.account_name'),
 			routing_number: this.get('banking.routing_number'),
 			account_number: this.get('banking.account_number'),
-			type: this.get('banking.account_type').toLowerCase()
+			account_type: this.get('banking.account_type').toLowerCase()
 		});
 	}
 });
