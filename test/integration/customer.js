@@ -3,6 +3,10 @@ module('Customer Page', {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
+
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
 	},
 	teardown: function() {}
 });
@@ -268,7 +272,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 		})
 		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledOnce, "create was called multiple times");
 			stub.restore();
 		});
 });
