@@ -34,7 +34,7 @@ Balanced.ParseCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
 	title: "Checking File",
 	isCancelable: true,
 
-	isCompleted: function () {
+	isCompleted: function() {
 		return this.get("collection").isEvery("isLoaded");
 	}.property("collection.@each.isLoaded"),
 

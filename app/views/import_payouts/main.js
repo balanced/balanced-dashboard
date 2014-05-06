@@ -26,7 +26,7 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 		self.get("controller").refresh(text);
 		modal.refresh(this.get("creditCreators"));
 
-		setTimeout(function () {
+		setTimeout(function() {
 			if (modal.get("isCompleted")) {
 				modal.hide();
 			}

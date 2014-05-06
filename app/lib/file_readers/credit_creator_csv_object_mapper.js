@@ -29,7 +29,6 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 
 	extractBankAccountAttributes: function(object) {
 		return {
-			id: this.deserialize("string", object.bank_account_id),
 			routing_number: this.deserialize("string", object.new_bank_account_routing_number),
 			account_number: this.deserialize("string", object.new_bank_account_number),
 			name: this.deserialize("string", object.new_bank_account_holders_name),

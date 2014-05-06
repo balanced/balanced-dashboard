@@ -1,5 +1,5 @@
 var Computed = {
-	isEvery: function(propertyName)  {
+	isEvery: function(propertyName) {
 		return function() {
 			return this.isEvery(propertyName);
 		}.property("@each." + propertyName);

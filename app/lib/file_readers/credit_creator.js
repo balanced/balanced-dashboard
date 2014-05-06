@@ -59,7 +59,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	isSaved: Ember.computed.not("credit.isNew"),
 	isSaveable: Ember.computed.and("credit.isNew", "isValid"),
 
-	credit: function () {
+	credit: function() {
 		var mapper = Balanced.CreditCreatorCsvObjectMapper.create();
 		var attr = mapper.extractCreditAttributes(this.get("csvFields"));
 		var customer = this.get("customer");
@@ -117,6 +117,12 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 });
 
 Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
+	validations: {
+		"csvFields.existing_customer_name_or_email": {
+			presence: true
+		}
+	},
+
 	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
 	isExisting: true,
 
@@ -198,7 +204,7 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		results.addObserver("isLoaded", function() {
 			var customer = results.get("content")[0];
 			creator.set("customer", customer);
-			customer.get("bank_accounts").then(function(bankAccountsCollection){
+			customer.get("bank_accounts").then(function(bankAccountsCollection) {
 				var bankAccount = bankAccountsCollection.get("content")[0];
 				creator.set("bankAccount", bankAccount);
 			});
@@ -209,19 +215,12 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 });
 
 Balanced.CreditCreator.reopenClass({
-	build: function(attributes) {
-		return this.create({
-			attributes: attributes
-		});
-	},
-
 	fromCsvRow: function(marketplace, object) {
 		var creditCreator = null;
 
 		if (object.existing_customer_name_or_email !== undefined) {
 			creditCreator = Balanced.ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
-		}
-		else {
+		} else {
 			creditCreator = Balanced.NewCustomerCreditCreator.create({
 				csvFields: object
 			});
