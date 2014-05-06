@@ -33,6 +33,15 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 	},
 
 	actions: {
+		clearAll: function(){
+			var self = this;
+
+			var collection = this.get("creditCreators");
+			collection.get("invalid").forEach(function(creator, index) {
+				collection.removeObject(creator);
+			});
+		},
+
 		removeCreditCreator: function(creator) {
 			this.get('creditCreators').removeObject(creator);
 		},
