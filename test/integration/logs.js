@@ -81,7 +81,7 @@ test('filter logs by datetime range', function(assert) {
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
-		.click('.results .timing .datetime-picker')
+		.click('#content .datetime-picker')
 		.then(function() {
 			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
 			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
