@@ -7,8 +7,7 @@ module('Customer Page', {
 		if (Balanced.Adapter.create.restore) {
 			Balanced.Adapter.create.restore();
 		}
-	},
-	teardown: function() {}
+	}
 });
 
 test('can view customer page', function(assert) {
@@ -265,14 +264,17 @@ test("can't credit customer multiple times using the same modal", function(asser
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click(".customer-header .buttons a:first")
+		.click(".customer-header .buttons a.credit-customer")
 		.fillForm('#credit-customer', {
 			dollar_amount: '1000',
 			description: 'Test credit'
 		})
-		.click('.modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(stub.calledOnce, "create was called multiple times");
+			assert.deepEqual(stub.callCount, 1, "Create is created only once");
 			stub.restore();
 		});
 });
