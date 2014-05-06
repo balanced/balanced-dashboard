@@ -6,8 +6,8 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 		this.refresh();
 	},
 
-	refresh: function(text, callback) {
-		var collection = Balanced.CreditCreatorsCollection.fromCsvText(text);
+	refresh: function(text) {
+		var collection = Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
 		this.set('creditCreators', collection);
 		if (!collection.get('isEmpty')) {
 			collection.addObserver('isLoaded', function() {});

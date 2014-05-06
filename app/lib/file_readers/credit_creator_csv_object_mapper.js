@@ -3,7 +3,7 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 	deserializers: {
 		string: function(val) {
 			return val.length ?
-				val : undefined;
+				$.trim(val) : undefined;
 		},
 		lowerCaseString: function(string) {
 			var v = this.string(string);

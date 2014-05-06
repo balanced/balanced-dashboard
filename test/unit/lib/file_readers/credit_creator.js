@@ -233,18 +233,6 @@ test("appears_on_statement_as validation", function(assert) {
 	});
 });
 
-test("#isExistingBankAccount", function(assert) {
-	var row = Balanced.CreditCreator.fromCsvRow({
-		bank_account_id: "  0937204yof4h4  "
-	});
-	assert.ok(row.isExistingBankAccount());
-	row = Balanced.CreditCreator.fromCsvRow({
-		bank_account_id: "   "
-	});
-	assert.ok(!row.isExistingBankAccount());
-});
-
-
 test("#isInvalid", function(assert) {
 	var row = {
 		bank_account_id: "3333333",
@@ -348,22 +336,3 @@ test("#toLabeledCsvObject", function(assert) {
 	var result = creditCreator.toLabeledCsvRowObject();
 	assert.deepEqual(result, expectation);
 });
-
-
-module("Balanced.ExistingCreditCreator", {
-	setup: function() {
-		Testing.setupMarketplace();
-	}
-});
-
-test("#customer", function(assert) {
-	var customer = Balanced.Customer.create({
-		email: "cool.customer@example.com"
-	});
-	assert.ok(false);
-});
-
-test("#fundingInstrument", function(assert) {
-
-});
-

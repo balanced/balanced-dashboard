@@ -1,11 +1,3 @@
-var SAMPLE_FILE = [
-	"bank_account_id,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,new_customer_name,new_customer_email,appears_on_statement_as,description,amount",
-	",123123123,123456789,William Henry Cavendish,Checking,William Henry Cavendish,whc@example.org,101Flowers.com,#0012345 ,41.35",
-	",123123123,234567890,Mark Feldman,Savings,Mark Feldman,mark@example.org,101Flowers.com,#0078453,55.74",
-	"BAmjovbXdpRsQUe1q34ee24,,,,,,,101Flowers.com,#0045795,57.73",
-	"BA7Cv3FMXaOcD17dMVbqAXLI,,,,,,,101Flowers.com,#0052323,21.03"
-].join("\n");
-
 Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	title: function() {
@@ -13,10 +5,6 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 			"Upload your file" :
 			"Payout summary";
 	}.property("creditCreators.isEmpty"),
-
-	sampleFileUri: function() {
-		return Balanced.Utils.toDataUri(SAMPLE_FILE);
-	}.property(),
 
 	creditCreators: Ember.computed.oneWay("controller.creditCreators").readOnly(),
 
@@ -37,6 +25,12 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 
 		self.get("controller").refresh(text);
 		modal.refresh(this.get("creditCreators"));
+
+		setTimeout(function () {
+			if (modal.get("isCompleted")) {
+				modal.hide();
+			}
+		}, 300);
 	},
 
 	actions: {

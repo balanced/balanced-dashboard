@@ -14,53 +14,60 @@
   <table class="table table-fixed table-border">
     <thead>
       <tr>
-        <th title="new_customer_name">new_customer_name</th>
-        <th title="new_customer_email">new_customer_email</th>
-        <th title="new_bank_account_routing_number">new_bank_account_routing_number</th>
-        <th title="new_bank_account_number">new_bank_account_number</th>
-        <th title="new_bank_account_holders_name">new_bank_account_holders_name</th>
-        <th title="new_bank_account_type">new_bank_account_type</th>
-        <th class="table-column-20percent" title="description">description</th>
-        <th title="appears_on_statement_as">appears_on_statement_as</th>
-        <th class="table-column-amount" title="amount">amount</th>
-        <th class="table-column table-column-icons"></th>
+		{{#if view.isExisting}}
+			<th title="">existing_customer_name_or_email</th>
+		{{else}}
+			<th title="new_customer_name">new_customer_name</th>
+			<th title="new_customer_email">new_customer_email</th>
+			<th title="new_bank_account_routing_number">new_bank_account_routing_number</th>
+			<th title="new_bank_account_number">new_bank_account_number</th>
+			<th title="new_bank_account_holders_name">new_bank_account_holders_name</th>
+			<th title="new_bank_account_type">new_bank_account_type</th>
+		{{/if}}
+		<th class="table-column-20percent" title="description">description</th>
+		<th title="appears_on_statement_as">appears_on_statement_as</th>
+		<th class="table-column-amount" title="amount">amount</th>
+		<th class="table-column table-column-icons"></th>
       </tr>
     </thead>
     <tbody>
       {{#each view.items}}
         <tr class="table-row">
-          {{view Balanced.ErrorTooltipCsvUploadCellView}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="bank_account_id"}}
+			{{#if view.isExisting}}
+				<td>
+					{{customer.name}}<br/>
+					{{bankAccount.description}}
+				</td>
+			{{else}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_name"}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_routing_number"}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_number"}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_holders_name"}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_type"}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
+			{{/if}}
+			{{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
+			{{view Balanced.DefaultCsvUploadCellView fieldName="appears_on_statement_as"}}
 
-          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_routing_number"}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_number"}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_holders_name"}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_type"}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_name"}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
-          {{view Balanced.DefaultCsvUploadCellView fieldName="appears_on_statement_as"}}
+			{{#view Balanced.CsvUploadCellView fieldName="amount" class="table-column-amount"}}
+				<span {{bind-attr class="view.labelClasses"}}>
+					{{#if view.isError}}
+						{{{view.displayValue}}}
+					{{else}}
+						{{formatCurrency credit.amount}}
+					{{/if}}
+				</span>
+			{{/view}}
 
-          {{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
-
-          {{#view Balanced.CsvUploadCellView fieldName="amount" class="table-column-amount"}}
-            <span {{bind-attr class="view.labelClasses"}}>
-              {{#if view.isError}}
-                {{{view.displayValue}}}
-              {{else}}
-                {{formatCurrency credit.amount}}
-              {{/if}}
-            </span>
-          {{/view}}
-
-          <td class="table-column table-column-icons">
-            {{#if isInvalid}}
-              <a {{action "confirmRemoveCreditCreator" this target="view.parentView"}} class="remove-icon">&times;</a>
-            {{else}} {{#if isProcessing}}
-              <i class="icon icon-loading"></i>
-            {{else}} {{#if isSaved}}
-              <i class="icon icon-checkmark"></i>
-            {{/if}} {{/if}} {{/if}}
-          </td>
+			<td class="table-column table-column-icons">
+				{{#if isInvalid}}
+					<a {{action "confirmRemoveCreditCreator" this target="view.parentView"}} class="remove-icon">&times;</a>
+				{{else}} {{#if isProcessing}}
+					<i class="icon icon-loading"></i>
+				{{else}} {{#if isSaved}}
+					<i class="icon icon-checkmark"></i>
+				{{/if}} {{/if}} {{/if}}
+			</td>
         </tr>
       {{/each}}
     </tbody>

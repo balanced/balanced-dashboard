@@ -1,14 +1,18 @@
+var Computed = {
+	isEvery: function(propertyName)  {
+		return function() {
+			return this.isEvery(propertyName);
+		}.property("@each." + propertyName);
+	}
+};
 Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
+	isExistingCustomers: Computed.isEvery("isExisting"),
+
 	isLoading: Ember.computed.not("isLoaded"),
+	isLoaded: Computed.isEvery("isLoaded"),
 
-	isLoaded: function() {
-		return this.isEvery("isLoaded");
-	}.property("@each.isLoaded"),
-
-	isSaved: function() {
-		return this.isEvery("isSaved");
-	}.property("@each.isSaved"),
+	isSaved: Computed.isEvery("isSaved"),
 
 	isEmpty: Ember.computed.equal("content.length", 0),
 	isInvalid: Ember.computed.gt("invalid.length", 0),
@@ -67,12 +71,12 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 });
 
 Balanced.CreditCreatorsCollection.reopenClass({
-	fromCsvText: function(text) {
+	fromCsvText: function(marketplace, text) {
 		var reader = Balanced.CsvReader.create({
 			body: text
 		});
 		var content = reader.getObjects().map(function(row) {
-			return Balanced.CreditCreator.fromCsvRow(row);
+			return Balanced.CreditCreator.fromCsvRow(marketplace, row);
 		});
 		return Balanced.CreditCreatorsCollection.create({
 			content: content

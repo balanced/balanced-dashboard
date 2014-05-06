@@ -1,6 +1,8 @@
 Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 	templateName: "import_payouts/results_table",
 
+	isExisting: Ember.computed.readOnly("creditCreators.isExistingCustomers"),
+
 	isError: false,
 
 	errorReportUri: function() {
