@@ -1,0 +1,5 @@
+bank_account_id,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,new_customer_name,new_customer_email,appears_on_statement_as,description,amount
+,123123123,123456789,William Henry Cavendish,Checking,William Henry Cavendish,whc@example.org,101Flowers.com,#0012345 ,41.35
+,123123123,234567890,Mark Feldman,Savings,Mark Feldman,mark@example.org,101Flowers.com,#0078453,55.74
+BAmjovbXdpRsQUe1q34ee24,,,,,,,101Flowers.com,#0045795,57.73
+BA7Cv3FMXaOcD17dMVbqAXLI,,,,,,,101Flowers.com,#0052323,21.03
