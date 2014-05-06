@@ -54,6 +54,5 @@ test("existing_customer_name_or_email validation", function(assert) {
 	});
 
 	cc.validate();
-	console.log(cc.get("validationErrors"));
 	assert.deepEqual(cc.get("validationErrors.csvFields.existing_customer_name_or_email.messages"), ["can't be blank"]);
 });

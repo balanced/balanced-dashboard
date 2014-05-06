@@ -25,7 +25,7 @@ test("#escrowDifference", function(assert) {
 				}
 			}
 		}
-	})
+	});
 	assert.equal(view.get("escrowDifference"), -500);
 });
 
@@ -39,7 +39,7 @@ test("#isEscrowValid", function(assert) {
 				}
 			}
 		}
-	})
+	});
 	assert.ok(!view.get("isEscrowValid"));
 	view.set("controller.controllers.marketplace.in_escrow", 1500);
 	assert.ok(view.get("isEscrowValid"));

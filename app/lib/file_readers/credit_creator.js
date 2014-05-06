@@ -140,7 +140,7 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 			format: formatValidator(function(object, attribute, value, cb) {
 				var validStrings = ["checking", "savings"];
 				value = value.toLowerCase();
-				if (validStrings.indexOf(value) < 0) {
+				if (validStrings.length > 0 && validStrings.indexOf(value) < 0) {
 					cb("%@ is not a valid bank account type".fmt(value));
 				}
 			})
