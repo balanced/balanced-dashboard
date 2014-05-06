@@ -40,7 +40,7 @@ var baseValidationsObject = {
 				cb("must be a positive number");
 			}
 		})
-	},
+	}
 };
 
 Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
@@ -117,11 +117,11 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 });
 
 Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
-	validations: {
+	validations: _.extend({}, baseValidationsObject, {
 		"csvFields.existing_customer_name_or_email": {
 			presence: true
 		}
-	},
+	}),
 
 	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
 	isExisting: true,
@@ -133,6 +133,7 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 
 Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 	fieldNames: ["new_customer_name", "new_customer_email", "new_bank_account_routing_number", "new_bank_account_number", "new_bank_account_holders_name", "new_bank_account_type", "amount", "appears_on_statement_as", "description"],
+
 	validations: _.extend({}, baseValidationsObject, {
 		"csvFields.new_bank_account_type": {
 			presence: true,

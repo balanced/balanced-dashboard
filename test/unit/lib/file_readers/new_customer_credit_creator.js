@@ -1,7 +1,7 @@
 module("Balanced.NewCustomerCreditCreator");
 
-var generateTestSubject = function() {
-	var row = {
+var generateTestSubject = function(row) {
+	row = row || {
 		new_customer_name: "Harry Tan",
 		new_customer_email: "harry.tan@example.com",
 		new_bank_account_routing_number: "121000358",
@@ -31,7 +31,7 @@ test("#bankAccount", function(assert) {
 		routing_number: "121000358",
 		account_number: "123123123",
 		name: "Harry S. Tan",
-		type: "Checking"
+		type: "checking"
 	};
 
 	_.each(expectations, function(value, key) {
@@ -56,9 +56,9 @@ test("#customer", function(assert) {
 test("#credit", function(assert) {
 	var cc = generateTestSubject();
 
-	assert.deepEqual(cc.get("credit.amount"), 10000);
-	assert.deepEqual(cc.get("customer"), undefined);
-	assert.deepEqual(cc.get("credit.uri"), "/credits/uri");
+	assert.deepEqual(cc.get("credit.amount"), 10000, "Amount is set");
+	assert.ok(cc.get("credit.customer"), "Customer is present");
+	assert.deepEqual(cc.get("credit.uri"), undefined, "Credit.uri is set");
 });
 
 test("new_bank_account_type validations", function(assert) {
@@ -68,23 +68,19 @@ test("new_bank_account_type validations", function(assert) {
 		"   SAVINGS  ": undefined,
 		"   cheCKING  ": undefined,
 		"  pork ": ["pork is not a valid bank account type"],
-		"    ": ["can't be blank"]
+		"    ": ["can't be blank", " is not a valid bank account type"]
 	};
 
 	_.each(tests, function(expectedMessage, value) {
-		var creator = Balanced.CreditCreator.fromCsvRow({
-			new_bank_account_type: value
+		var creator = Balanced.NewCustomerCreditCreator.create({
+			csvFields: {
+				new_bank_account_type: value
+			}
 		});
+		creator.validate();
 		var messages = creator.get("validationErrors.csvFields.new_bank_account_type.messages");
 		assert.deepEqual(messages, expectedMessage);
 	});
-
-	var creator = Balanced.CreditCreator.fromCsvRow({
-		new_bank_account_type: "credit",
-		bank_account_id: "309898264"
-	});
-	var messages = creator.get("validationErrors.csvFields.new_bank_account_type.messages");
-	assert.deepEqual(messages, ["cannot specify a bank_account_id with this field"]);
 });
 
 test("new_customer_name validations", function(assert) {
@@ -94,17 +90,11 @@ test("new_customer_name validations", function(assert) {
 	};
 
 	_.each(tests, function(expectedMessage, value) {
-		var creator = Balanced.CreditCreator.fromCsvRow({
+		var creator = generateTestSubject({
 			new_customer_name: value
 		});
+		creator.validate();
 		var messages = creator.get("validationErrors.csvFields.new_customer_name.messages");
-		assert.deepEqual(messages, expectedMessage);
+		assert.deepEqual(messages, expectedMessage, "Testing %s".fmt(expectedMessage));
 	});
-
-	var creator = Balanced.CreditCreator.fromCsvRow({
-		new_customer_name: " Alfred Pangolin",
-		bank_account_id: "309898264"
-	});
-	var messages = creator.get("validationErrors.csvFields.new_customer_name.messages");
-	assert.deepEqual(messages, ["cannot specify a bank_account_id with this field"]);
 });

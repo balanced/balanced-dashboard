@@ -46,12 +46,14 @@ test("#save", function(assert) {
 	assert.ok(credit.save.calledOnce);
 });
 
-test("existing_customer_name_or_email validation", function() {
+test("existing_customer_name_or_email validation", function(assert) {
 	var cc = Balanced.ExistingCustomerCreditCreator.create({
 		csvFields: {
-			existing_customer_name_or_email: "Milo Cat",
+			existing_customer_name_or_email: "",
 		}
 	});
 
-	assert.deepEqual(cc.get("validationErrors.csvFields.allMessages"), []);
+	cc.validate();
+	console.log(cc.get("validationErrors"));
+	assert.deepEqual(cc.get("validationErrors.csvFields.existing_customer_name_or_email.messages"), ["can't be blank"]);
 });
