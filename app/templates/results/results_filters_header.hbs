@@ -1,22 +1,13 @@
-<div class="date-row">
-	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-</div>
 <nav>
-	<ul>
-		<li class="timing dropdown action right">
-			{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-		</li>
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 
+	<div class="download pull-right">
 		{{#if view.show_download_button}}
-			<li class="download">
-				{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
-			</li>
+			{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
 		{{/if}}
 
 		{{#if view.show_disputes_download_button}}
-			<li class="download">
-				{{view Balanced.DisputeDownloadModalView}}
-			</li>
+			{{view Balanced.DisputeDownloadModalView}}
 		{{/if}}
-	</ul>
+	</div>
 </nav>
