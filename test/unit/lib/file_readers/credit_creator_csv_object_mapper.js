@@ -45,13 +45,11 @@ test("#deserialize('number')", function(assert) {
 
 test("#extractBankAccountAttributes", function(assert) {
 	var values = [{
-		bank_account_id: "3092370",
 		new_bank_account_routing_number: "125000000",
 		new_bank_account_number: "999999",
 		new_bank_account_holders_name: "Robert Duck",
 		new_bank_account_type: "CREDIT"
 	}, {
-		bank_account_id: "3092370",
 		new_bank_account_routing_number: "     ",
 		new_bank_account_number: "",
 		new_bank_account_holders_name: "",
@@ -60,13 +58,11 @@ test("#extractBankAccountAttributes", function(assert) {
 
 	var expectations = [{
 		account_number: "999999",
-		id: "3092370",
 		name: "Robert Duck",
 		routing_number: "125000000",
 		type: "credit"
 	}, {
 		account_number: undefined,
-		id: "3092370",
 		name: undefined,
 		routing_number: undefined,
 		type: "credit"
@@ -131,48 +127,6 @@ test("#extractCreditAttributes", function(assert) {
 
 	_.each(values, function(value, index) {
 		var results = subject.extractCreditAttributes(value);
-		assert.deepEqual(results, expectations[index]);
-	});
-});
-
-test("#convertCreditCsvRowToObject", function(assert) {
-	var values = [{
-		bank_account_id: "3092370",
-		new_bank_account_routing_number: "125000000",
-		new_bank_account_number: "999999",
-		new_bank_account_holders_name: "Robert Duck",
-		new_bank_account_type: "CREDIT",
-
-		new_customer_name: "Alfred Aardvark",
-		new_customer_email: "alfred@aardvark.com",
-		some_other_value: "vkrjbvkrb",
-
-		amount: "  -1000",
-		description: "Important Credit",
-		appears_on_statement_as: "ZOO# Entrance"
-	}];
-	var expectations = [{
-		bank_account: {
-			account_number: "999999",
-			id: "3092370",
-			name: "Robert Duck",
-			routing_number: "125000000",
-			type: "credit"
-		},
-		customer: {
-			name: "Alfred Aardvark",
-			email: "alfred@aardvark.com"
-		},
-		credit: {
-			amount: -100000,
-			description: "Important Credit",
-			appears_on_statement_as: "ZOO# Entrance"
-		}
-	}];
-
-	var subject = Balanced.CreditCreatorCsvObjectMapper.create();
-	_.each(values, function(value, index) {
-		var results = subject.convertCreditCsvRowToObject(value);
 		assert.deepEqual(results, expectations[index]);
 	});
 });

@@ -53,13 +53,5 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 			appears_on_statement_as: this.deserialize("string", object.appears_on_statement_as),
 			description: this.deserialize("string", object.description)
 		};
-	},
-
-	convertCreditCsvRowToObject: function(object) {
-		return {
-			credit: this.extractCreditAttributes(object),
-			bank_account: this.extractBankAccountAttributes(object),
-			customer: this.extractCustomerAttributes(object)
-		};
 	}
 });
