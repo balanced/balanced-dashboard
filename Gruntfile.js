@@ -324,10 +324,10 @@ module.exports = function(grunt) {
 					src: ['**'],
 					dest: 'dist/fonts/'
 				}, {
-					cwd: 'build/notfound.html',
+					cwd: 'build/notfound/',
 					expand: true,
 					src: ['**'],
-					dest: 'dist/notfound.html'
+					dest: 'dist/notfound/'
 				}]
 			},
 			test: {
@@ -485,6 +485,10 @@ module.exports = function(grunt) {
 				}, {
 					src: 'dist/fonts/**/*',
 					dest: 'fonts/'
+				}, {
+					src: 'dist/notfound/**/*',
+					rel: 'dist/notfound',
+					dest: 'notfound/'
 				}]
 			},
 			previewUncached: {
@@ -518,6 +522,10 @@ module.exports = function(grunt) {
 				}, {
 					src: 'dist/fonts/**/*',
 					dest: 'fonts/'
+				}, {
+					src: 'dist/notfound/**/*',
+					rel: 'dist/notfound',
+					dest: 'notfound/'
 				}]
 			},
 			productionUncached: {
