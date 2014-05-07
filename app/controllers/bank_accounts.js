@@ -1,6 +1,6 @@
 Balanced.BankAccountsController = Balanced.ObjectController.extend(
 	Balanced.ActionEvented('openDebitFundingInstrumentModal',
-		'openCreditBankAccountModal', 'openVerifyBankAccountModal',
+		'openCreditFundingInstrumentModal', 'openVerifyBankAccountModal',
 		'openConfirmVerificationModal'),
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {

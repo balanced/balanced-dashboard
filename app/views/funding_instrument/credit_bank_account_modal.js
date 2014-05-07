@@ -1,7 +1,7 @@
-Balanced.CreditBankAccountModalView = Balanced.FundingInstrumentModalView.extend({
-	templateName: 'modals/credit_bank_account',
-	controllerEventName: 'openCreditBankAccountModal',
-	modalElement: '#credit-bank-account',
+Balanced.CreditFundingInstrumentModalView = Balanced.FundingInstrumentModalView.extend({
+	templateName: 'modals/credit_funding_instrument',
+	controllerEventName: 'openCreditFundingInstrumentModal',
+	modalElement: '#credit-funding-instrument',
 
 	open: function() {
 		var credit = Balanced.Credit.create({

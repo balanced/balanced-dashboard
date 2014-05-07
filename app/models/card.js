@@ -30,7 +30,29 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		}
 	},
 
-	type_name: 'Card',
+	// type_name: 'Card',
+	type_name: function () {
+		if(this.get('can_credit')) {
+			return 'Debit card';
+		} else {
+			return 'Credit card';
+		}
+	}.property('can_credit'),
+
+	can_credit: true, // TODO: remove this
+
+	isDebit: function() {
+		return this.get('can_credit');
+	}.property('can_credit'),
+
+	card_type: function() {
+		if(this.get('can_credit')) {
+			return 'Debit';
+		} else {
+			return 'Credit';
+		}
+	}.property('can_credit'),
+
 	route_name: 'cards',
 	postal_code: Ember.computed.alias('address.postal_code'),
 	is_bank_account: false,
@@ -44,9 +66,8 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			return accountNumber.substr(accountNumber.length - 4, 4);
 		}
 	}.property('account_number'),
-
-	description: function() {
-		return '%@ (%@)'.fmt(
+description: function() {
+		return '%@ %@'.fmt(
 			this.get('last_four'),
 			Balanced.Utils.toTitleCase(this.get('brand'))
 		);

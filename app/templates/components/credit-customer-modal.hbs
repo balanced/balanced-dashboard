@@ -15,7 +15,7 @@
             </div>
 
             <div {{bind-attr class=":control-group model.validationErrors.bank_account_uri:error"}}>
-                <label class="control-label">Account number</label>
+                <label class="control-label">Payment method</label>
                 <div class="controls">
                     {{view Ember.Select
                         contentBinding="customer.creditable_funding_instruments"
@@ -29,7 +29,7 @@
             </div>
 
             <div class="control-group">
-                <label class="control-label">Account holder's name</label>
+                <label class="control-label">Name on account</label>
                 <div class="controls">
                     <span class="label1a">{{selected_funding_instrument.name}}</span>
                 </div>
@@ -38,7 +38,7 @@
             <div class="control-group">
                 <label class="control-label">Bank</label>
                 <div class="controls">
-                    <span class="label1a">{{selected_funding_instrument.bank_name}}</span>
+                    <span class="label1a">{{selected_funding_instrument.funding_instrument_name}}</span>
                 </div>
             </div>
 

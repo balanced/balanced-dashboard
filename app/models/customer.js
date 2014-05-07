@@ -22,6 +22,10 @@ Balanced.Customer = Balanced.Model.extend({
 		return this.get('bank_accounts').filterBy('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
 
+	creditable_cards: function() {
+		return this.get('cards').filterBy('can_credit');
+	}.property('cards.@each.can_credit'),
+
 	has_debitable_bank_account: function() {
 		return this.get('bank_accounts').isAny('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
@@ -31,8 +35,8 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('debitable_bank_accounts', 'cards.@each'),
 
 	creditable_funding_instruments: function() {
-		return this.get('bank_accounts.content');
-	}.property('bank_accounts'),
+		return this.get('bank_accounts.content').concat(this.get('creditable_cards'));
+	}.property('bank_accounts', 'creditable_cards'),
 
 	type: function() {
 		return (this.get('ein') || this.get('business_name')) ? CUSTOMER_TYPES.BUSINESS : CUSTOMER_TYPES.PERSON;

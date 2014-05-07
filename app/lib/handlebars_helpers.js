@@ -8,6 +8,8 @@ Ember.Handlebars.registerBoundHelper('formatError', Balanced.Utils.formatError);
 
 Ember.Handlebars.registerBoundHelper('capitalize', Balanced.Utils.capitalize);
 
+Ember.Handlebars.registerBoundHelper('lowerCase', Balanced.Utils.toLowerCase);
+
 Ember.Handlebars.registerBoundHelper('titleCase', Balanced.Utils.toTitleCase);
 
 Ember.Handlebars.registerBoundHelper('prettyPrint', Balanced.Utils.prettyPrint);

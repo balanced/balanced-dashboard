@@ -6,7 +6,15 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
-	type_name: 'Bank Account',
+	// type_name: 'Bank account',
+	type_name: function () {
+		if (this.get('isSaving')) {
+			return 'Savings account';
+		} else {
+			return 'Checking account';
+		}
+	}.property('isSaving'),
+
 	route_name: 'bank_accounts',
 	is_bank_account: true,
 	account_type_name: Ember.computed.alias('account_type'),
@@ -31,7 +39,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	description: function() {
 		if (this.get('bank_name')) {
-			return '%@ (%@)'.fmt(
+			return '%@ %@'.fmt(
 				this.get('last_four'),
 				Balanced.Utils.toTitleCase(this.get('bank_name'))
 			);

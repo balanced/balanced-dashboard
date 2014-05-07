@@ -30,9 +30,9 @@ test('credit bank account', function(assert) {
 				'14'
 			);
 		})
-		.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
-		.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
-		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
+		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
+		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
+		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			// should be one create for the debit
 			assert.ok(stub.calledOnce);
@@ -48,12 +48,12 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.click(".main-header .buttons a.credit-button")
-		.fillIn('#credit-bank-account .modal-body input[name="dollar_amount"]', '1000')
-		.fillIn('#credit-bank-account .modal-body input[name="description"]', 'Test credit')
-		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
-		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
-		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
-		.click('#credit-bank-account .modal-footer button[name="modal-submit"]')
+		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
+		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
+		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
