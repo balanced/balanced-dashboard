@@ -50,7 +50,6 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	toCsvString: function() {
 		var writer = new Balanced.CsvWriter();
 		writer.addColumnNames([
-			"bank_account_id",
 			"new_customer_name",
 			"new_customer_email",
 			"new_bank_account_routing_number",

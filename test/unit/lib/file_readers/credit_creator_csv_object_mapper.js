@@ -45,12 +45,12 @@ test("#deserialize('number')", function(assert) {
 
 test("#extractBankAccountAttributes", function(assert) {
 	var values = [{
-		new_bank_account_routing_number: "125000000",
+		new_bank_routing_number: "125000000",
 		new_bank_account_number: "999999",
 		new_bank_account_holders_name: "Robert Duck",
 		new_bank_account_type: "CREDIT"
 	}, {
-		new_bank_account_routing_number: "     ",
+		new_bank_routing_number: "     ",
 		new_bank_account_number: "",
 		new_bank_account_holders_name: "",
 		new_bank_account_type: "CREDIT"

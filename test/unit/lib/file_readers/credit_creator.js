@@ -64,7 +64,7 @@ test("#isInvalid", function(assert) {
 		csvFields: {
 			new_customer_name: "",
 			new_customer_email: "harry.tan@example.com",
-			new_bank_account_routing_number: "121000358",
+			new_bank_routing_number: "121000358",
 			new_bank_account_number: "123123123",
 			new_bank_account_holders_name: "Harry Tan",
 			new_bank_account_type: "Checking",
@@ -89,10 +89,9 @@ test("#isInvalid", function(assert) {
 
 	creditCreator = Balanced.NewCustomerCreditCreator.create({
 		csvFields: {
-			bank_account_id: "    ",
 			new_customer_name: "Harry Tan",
 			new_customer_email: "harry.tan@example.com",
-			new_bank_account_routing_number: "121000358",
+			new_bank_routing_number: "121000358",
 			new_bank_account_number: "123123123",
 			new_bank_account_holders_name: "Harry Tan",
 			new_bank_account_type: "Checking",
@@ -149,7 +148,7 @@ test("#toLabeledCsvObject", function(assert) {
 	var object = Object.create({
 		new_customer_name: "",
 		new_customer_email: "harry.tan@example.com",
-		new_bank_account_routing_number: "121000358",
+		new_bank_routing_number: "121000358",
 		new_bank_account_number: "123123123",
 		new_bank_account_holders_name: "Harry Tan",
 		new_bank_account_type: "Checking",
@@ -160,7 +159,7 @@ test("#toLabeledCsvObject", function(assert) {
 	var expectation = {
 		new_customer_name: "",
 		new_customer_email: "harry.tan@example.com",
-		new_bank_account_routing_number: "121000358",
+		new_bank_routing_number: "121000358",
 		new_bank_account_number: "123123123",
 		new_bank_account_holders_name: "Harry Tan",
 		new_bank_account_type: "Checking",
