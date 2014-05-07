@@ -212,7 +212,11 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 			creator.set("customer", customer);
 			customer.get("bank_accounts").then(function(bankAccountsCollection) {
 				var bankAccount = bankAccountsCollection.objectAt(0);
-				creator.set("bankAccount", bankAccount);
+				if (bankAccount === undefined) {
+					creator.set("bankAccount", null);
+				} else {
+					creator.set("bankAccount", bankAccount);
+				}
 			});
 		});
 
