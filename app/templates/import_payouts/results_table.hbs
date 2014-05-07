@@ -7,7 +7,7 @@
 					<i class="icon icon-csvexport"></i>
 					Download error report
 				</a>
-				<a {{action "clearAll"}} class="btn btn-link">Clear all</a>
+				<a {{action "confirmClearAll" target="view.parentView"}} class="btn btn-link">Clear all</a>
 			{{/if}}
 		</div>
 	</header>
@@ -46,18 +46,10 @@
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_type"}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
 			{{/if}}
+
 			{{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
 			{{view Balanced.DefaultCsvUploadCellView fieldName="appears_on_statement_as"}}
-
-			{{#view Balanced.CsvUploadCellView fieldName="amount" class="table-column-amount"}}
-				<span {{bind-attr class="view.labelClasses"}}>
-					{{#if view.isError}}
-						{{{view.displayValue}}}
-					{{else}}
-						{{formatCurrency credit.amount}}
-					{{/if}}
-				</span>
-			{{/view}}
+			{{view Balanced.CurrencyCsvUploadCellView fieldName="amount" class="table-column-amount"}}
 
 			<td class="table-column table-column-icons">
 				{{#if isInvalid}}

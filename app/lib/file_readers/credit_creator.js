@@ -189,6 +189,11 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 				return self.get("bankAccount").save();
 			})
 			.then(function() {
+				var bankAccount = self.get("bankAccount");
+				bankAccount.set("links.customer", self.get("customer.id"));
+				return bankAccount.save();
+			})
+			.then(function() {
 				return self.get("credit").save();
 			});
 	}
@@ -203,10 +208,11 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
 		// TODO[carlos] this should check for arrays being length === 1
 		results.addObserver("isLoaded", function() {
-			var customer = results.get("content")[0];
+			var customer = results.objectAt(0);
 			creator.set("customer", customer);
 			customer.get("bank_accounts").then(function(bankAccountsCollection) {
-				var bankAccount = bankAccountsCollection.get("content")[0];
+				var bankAccount = bankAccountsCollection.objectAt(0);
+				console.log(bankAccount, bankAccountsCollection.get("content"));
 				creator.set("bankAccount", bankAccount);
 			});
 		});

@@ -7,12 +7,13 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 	},
 
 	refresh: function(text) {
-		var collection = Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
-		this.set('creditCreators', collection);
-		if (!collection.get('isEmpty')) {
-			collection.addObserver('isLoaded', function() {});
-		}
+		this.set("csvText", text || "");
 	},
+
+	creditCreators: function() {
+		var text = this.get("csvText");
+		return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
+	}.property("csvText"),
 
 	save: function(callback) {
 		var self = this;

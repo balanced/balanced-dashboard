@@ -8,6 +8,13 @@ var BaseCellView = Balanced.View.extend({
 });
 
 Balanced.CsvUploadCellView = BaseCellView.extend({
+	didInsertElement: function() {
+		this._super();
+		if (this.get("isError")) {
+			this.initializePopover();
+		}
+	},
+
 	labelClasses: function() {
 		var classes = ["label"];
 		if (this.get("isError")) {
@@ -22,8 +29,7 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 		return classes.join(" ");
 	}.property("fieldValue", "isError"),
 
-	isErrorField: Ember.computed.gt("errorMessages.length", 0),
-
+	isError: Ember.computed.gt("errorMessages.length", 0),
 	errorMessages: function() {
 		var fieldName = this.get("fieldName");
 		var errors = this.get("fieldsErrors");
@@ -33,17 +39,12 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 		return errors || [];
 	}.property("fieldName", "fieldsErrors"),
 
-	isError: function() {
-		var length = this.get("errorMessages.length");
-		return length > 0;
-	}.property("errorMessages"),
-
 	fieldValue: function() {
 		var fieldName = this.get("fieldName");
 		var fields = this.get("context.csvFields");
 		if (fields) {
 			var value = (fields[fieldName] || "").trim();
-			if (value.trim().length > 0) {
+			if (value.length > 0) {
 				return value;
 			}
 		}
@@ -52,11 +53,12 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 
 	hasIsRequiredError: function() {
 		var messages = this.get("errorMessages.allMessages") || [];
-		var fname = this.get("fieldName");
 		return messages.any(function(array, index) {
 			return array[1] === "can't be blank";
 		});
 	}.property("errorMessages"),
+
+	titleValue: Ember.computed.readOnly("fieldValue"),
 
 	displayValue: function() {
 		var f = this.get("fieldValue");
@@ -67,53 +69,36 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 		} else {
 			return "----------";
 		}
-	}.property("fieldValue", "hasIsRequiredError")
+	}.property("fieldValue", "hasIsRequiredError"),
+
+	initializePopover: function() {
+		var self = this;
+		this.$("[data-tooltip]").popover({
+			trigger: "hover",
+			placement: "top",
+			title: "Error",
+			html: true,
+			content: function () {
+				var messages = self.get("errorMessages.messages");
+				return messages.join(", ");
+			}
+		});
+	}
 });
 
 Balanced.DefaultCsvUploadCellView = Balanced.CsvUploadCellView.extend({
 	templateName: "import_payouts/default_csv_upload_cell",
 });
 
-Balanced.ErrorTooltipCsvUploadCellView = BaseCellView.extend({
-	templateName: "import_payouts/error_tooltip_csv_upload_cell",
-	classNames: ["table-column", "table-column-icons"],
+Balanced.CurrencyCsvUploadCellView = Balanced.CsvUploadCellView.extend({
+	templateName: "import_payouts/default_csv_upload_cell",
 
-	didInsertElement: function() {
-		this._super();
+	displayValue: function() {
 		if (this.get("isError")) {
-			this.initializePopover();
+			return this._super();
 		}
-	},
-
-	isError: function() {
-		return this.get("context.isInvalid");
-	}.property("context"),
-
-	getSortedErrorMessages: function() {
-		return this.get("context").getSortedErrorMessages();
-	},
-
-	initializePopover: function() {
-		var self = this;
-		var title = this.get("fieldsErrors.length") === 1 ?
-			"Invalid field:" : "Invalid fields:";
-
-		self.$("[data-tooltip]").popover({
-			trigger: "hover",
-			placement: "top",
-			title: title,
-			html: true,
-			content: function() {
-				var messages = [];
-				_.each(self.getSortedErrorMessages(), function(fieldNames, message) {
-					var str = "<p><span class='keys'>%@</span> %@</p>".fmt(
-						fieldNames.join(", "),
-						message
-					);
-					messages.push(str);
-				});
-				return messages.join("");
-			}
-		});
-	}
+		else {
+			return Balanced.Utils.formatCurrency(this.get("fieldValue"));
+		}
+	}.property("fieldValue", "hasIsRequiredError", "isError")
 });

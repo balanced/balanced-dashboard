@@ -38,6 +38,21 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 			this.updateReaderBody(undefined);
 		},
 
+		confirmClearAll: function() {
+			var self = this;
+			var modal = this.get("confirmClearAllModal");
+			modal.on("cancel", function() {
+				modal.send("close");
+				modal.reset();
+			});
+			modal.on("confirm", function() {
+				self.get("controller").send("clearAll");
+				modal.send("close");
+				modal.reset();
+			});
+			modal.send("open");
+		},
+
 		confirmRemoveCreditCreator: function(creator) {
 			var self = this;
 			var modal = this.get("confirmRemoveModal");

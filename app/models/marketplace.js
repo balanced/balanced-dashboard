@@ -42,7 +42,8 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		var searchParams = _.extend({
 			sortField: "created_at",
 			sortOrder: "desc",
-			limit: 10
+			limit: 10,
+			query: query
 		}, params);
 
 		var resultsUri = Balanced.Utils.applyUriFilters(baseUri, searchParams);
