@@ -3,6 +3,42 @@
   @backgroundLight: @gray2;
   @mainHeaderHeight: 70px;
 
+  h3.header-separator {
+    border-bottom: 2px solid @backgroundLight;
+  }
+
+  .instructions-text {
+    margin: 30px 120px;
+  }
+  .instructions-image {
+    margin: 0 100px;
+  }
+  .instructions-top-padded {
+    margin-top: 75px;
+  }
+
+  .readable-block {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 24px;
+    max-width: 610px;
+    p {
+      margin-bottom: 24px;
+    }
+    .download-label {
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .icon::before {
+      vertical-align: middle;
+    }
+  }
+
+  h3 {
+    font-weight: bold;
+  }
+
   .payment-csv-format-info {
     margin-top: 30px;
   }
@@ -33,7 +69,7 @@
 
   .table-summary {
     background-color: @gray1;
-    padding: 0 10px;
+    padding: 0 15px;
     tr {
       border-bottom: 1px solid @gray2;
     }
@@ -43,19 +79,90 @@
     td {
       border-style: none;
       padding: 0;
-      line-height: 34px;
+      line-height: 38px;
+    }
+    .number3a {
+      font-size: 14px;
+    }
+  }
+
+  .csv-preview {
+    margin: 70px 0;
+  }
+
+  header.table-header {
+    border-bottom: 2px solid @black;
+    height: 35px;
+    line-height: 35px;
+    .title {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .icon {
+      font-size: 18px;
+      &::before {
+        vertical-align: middle;
+      }
+    }
+    .link-action {
+      font-size: 12px;
+      margin-left: 20px;
+    }
+  }
+
+  .results-error {
+    .title {
+      color: @imperialRed100;
+    }
+  }
+  .title {
+    color: @pineGreen100;
+  }
+
+  .results {
+    margin-bottom: 60px;
+
+    thead tr {
+      line-height: 39px;
+      font-weight: bold;
+    }
+    tbody tr {
+      line-height: 48px;
+      border: 1px solid @gray2;
+      border-width: 2px 0;
+    }
+    td {
+      line-height: 48px;
+      padding: 0 5px;
+    }
+    th {
+      font-size: 11px;
+      font-weight: bold;
+    }
+    th, td {
+      &.table-column-icons {
+        padding: 0;
+        width: 16px;
+      }
+      &.table-column-amount {
+        text-align: right;
+      }
     }
   }
 
   .remove-icon {
     color: @gray2;
     cursor: pointer;
+    display: block;
     font-size: 28px;
-    vertical-align: bottom;
+    line-height: 48px;
   }
 
   .icon-alert {
     color: @imperialRed100;
+  }
+  .icon-checkmark {
+    color: @pineGreen100;
   }
 
   .form-buttons {
@@ -63,8 +170,12 @@
   }
 
   .form-actions {
+    background-color: transparent;
     margin: 0;
     padding: 10px;
+    p {
+      line-height: 34px;
+    }
 
     div.buttons {
       margin-top: 5px;
@@ -83,7 +194,6 @@
     &.form-actions-error {
       .sl-b;
       color: @imperialRed100;
-      background-color: @imperialRed20;
     }
 
     .icon {
@@ -102,22 +212,6 @@
 
   .modal-informational p {
     padding: 20px 0 20px 0;
-  }
-
-  .form-actions-2lines p {
-    line-height: 20px;
-    padding: 0;
-    margin: 0;
-    float: left;
-  }
-
-  .table-column-icons {
-    text-align: center;
-    width: 36px;
-  }
-
-  .table-column-amount {
-    text-align: right;
   }
 
   td .label.label-error {

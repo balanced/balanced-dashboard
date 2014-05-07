@@ -21,12 +21,13 @@
 		{{/if}}
 
 		{{#if view.displayCsvRows}}
-			<h3>Preview Data</h3>
-			<div class="pay-multiple-sellers-tables">
+			<div class="csv-preview">
+				<h3>Preview Data</h3>
 				{{#if creditCreators.isInvalid}}
 					{{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
 				{{/if}}
 				{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+				{{partial 'import_payouts/account_summary'}}
 				{{partial "import_payouts/submit_area"}}
 			</div>
 		{{/if}}

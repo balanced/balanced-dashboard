@@ -1,13 +1,20 @@
-<div {{bind-attr class=":results :results-framed view.isError:results-error"}}>
-	<header class="header">
-		<span class="title">{{view.title}}</span>
+<div {{bind-attr class=":results view.isError:results-error"}}>
+	<header class="table-header">
+		<span class="title">
+			{{#if view.isError}}
+				<i class="icon icon-alert"></i>
+			{{else}}
+				<i class="icon icon-checkmark"></i>
+			{{/if}}
+			{{view.title}}
+		</span>
 		<div class="pull-right">
 			{{#if view.isError}}
-				<a {{bind-attr href="view.errorReportUri"}} download="payments_error_report.csv" class="btn-link">
+				<a {{bind-attr href="view.errorReportUri"}} download="payments_error_report.csv" class="link-action">
 					<i class="icon icon-csvexport"></i>
 					Download error report
 				</a>
-				<a {{action "confirmClearAll" target="view.parentView"}} class="btn btn-link">Clear all</a>
+				<a {{action "confirmClearAll" target="view.parentView"}} class="link-action">Clear all</a>
 			{{/if}}
 		</div>
 	</header>
