@@ -4,7 +4,7 @@ var generateTestSubject = function(row) {
 	row = row || {
 		new_customer_name: "Harry Tan",
 		new_customer_email: "harry.tan@example.com",
-		new_bank_account_routing_number: "121000358",
+		new_bank_routing_number: "121000358",
 		new_bank_account_number: "123123123",
 		new_bank_account_holders_name: "Harry S. Tan",
 		new_bank_account_type: "Checking",
