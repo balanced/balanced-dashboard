@@ -78,7 +78,7 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 			placement: "top",
 			title: "Error",
 			html: true,
-			content: function () {
+			content: function() {
 				var messages = self.get("errorMessages.messages");
 				return messages.join(", ");
 			}
@@ -96,8 +96,7 @@ Balanced.CurrencyCsvUploadCellView = Balanced.CsvUploadCellView.extend({
 	displayValue: function() {
 		if (this.get("isError")) {
 			return this._super();
-		}
-		else {
+		} else {
 			return Balanced.Utils.formatCurrency(this.get("fieldValue"));
 		}
 	}.property("fieldValue", "hasIsRequiredError", "isError")
