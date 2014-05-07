@@ -15,17 +15,17 @@
     <thead>
       <tr>
 		{{#if view.isExisting}}
-			<th title="">existing_customer_name_or_email</th>
+			<th title="existing_customer_name_or_email">existing_customer_name_or_email</th>
 		{{else}}
 			<th title="new_customer_name">new_customer_name</th>
 			<th title="new_customer_email">new_customer_email</th>
-			<th title="new_bank_account_routing_number">new_bank_account_routing_number</th>
+			<th title="new_bank_routing_number">new_bank_routing_number</th>
 			<th title="new_bank_account_number">new_bank_account_number</th>
 			<th title="new_bank_account_holders_name">new_bank_account_holders_name</th>
 			<th title="new_bank_account_type">new_bank_account_type</th>
 		{{/if}}
-		<th class="table-column-20percent" title="description">description</th>
 		<th title="appears_on_statement_as">appears_on_statement_as</th>
+		<th class="table-column-20percent" title="description">description</th>
 		<th class="table-column-amount" title="amount">amount</th>
 		<th class="table-column table-column-icons"></th>
       </tr>
@@ -40,15 +40,16 @@
 				</td>
 			{{else}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_name"}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_routing_number"}}
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
+
+				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_routing_number"}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_number"}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_holders_name"}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_type"}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
 			{{/if}}
 
-			{{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
 			{{view Balanced.DefaultCsvUploadCellView fieldName="appears_on_statement_as"}}
+			{{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
 			{{view Balanced.CurrencyCsvUploadCellView fieldName="amount" class="table-column-amount"}}
 
 			<td class="table-column table-column-icons">

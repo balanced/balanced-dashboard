@@ -132,7 +132,7 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 });
 
 Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
-	fieldNames: ["new_customer_name", "new_customer_email", "new_bank_account_routing_number", "new_bank_account_number", "new_bank_account_holders_name", "new_bank_account_type", "amount", "appears_on_statement_as", "description"],
+	fieldNames: ["new_customer_name", "new_customer_email", "new_bank_routing_number", "new_bank_account_number", "new_bank_account_holders_name", "new_bank_account_type", "amount", "appears_on_statement_as", "description"],
 
 	validations: _.extend({}, baseValidationsObject, {
 		"csvFields.new_bank_account_type": {
@@ -151,12 +151,12 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 		"csvFields.new_customer_email": {
 			presence: true
 		},
-		"csvFields.new_bank_account_routing_number": {
+		"csvFields.new_bank_routing_number": {
 			presence: true,
 			format: formatValidator(function(object, attribute, value, cb) {
 				value = value.toLowerCase();
 				if (!balanced.bankAccount.validateRoutingNumber(value)) {
-					cb("%@ is not a valid bank account routing number".fmt(value));
+					cb("%@ is not a valid bank routing number".fmt(value));
 				}
 			})
 		},
@@ -212,7 +212,6 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 			creator.set("customer", customer);
 			customer.get("bank_accounts").then(function(bankAccountsCollection) {
 				var bankAccount = bankAccountsCollection.objectAt(0);
-				console.log(bankAccount, bankAccountsCollection.get("content"));
 				creator.set("bankAccount", bankAccount);
 			});
 		});
