@@ -128,10 +128,10 @@ test('can debit customer using card', function(assert) {
 		assert.equal(options.length, 3);
 
 		// bank accounts first
-		assert.equal(options.eq(0).text(), "Bank Account: 1234 (Wells Fargo Bank)");
+		assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
 
 		// cards second
-		assert.equal(options.eq(2).text(), "Card: 3434 (Visa)");
+		assert.equal(options.eq(2).text(), "Credit card: 3434 Visa");
 
 		// select the card
 		fundingInstrumentUri = options.eq(2).val();
@@ -163,10 +163,10 @@ test('can debit customer using bank account', function(assert) {
 		})
 		.then(function() {
 			// bank accounts first
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Bank Account: 1234 (Wells Fargo Bank)");
+			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
 
 			// cards second
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Bank Account: 5555 (Wells Fargo Bank Na)");
+			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "5555 Wells Fargo Bank Na");
 
 			// select the bank account
 			fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();

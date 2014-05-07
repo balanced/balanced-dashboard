@@ -9,8 +9,8 @@ module('Bank Account Page', {
 test('can view bank account page', function(assert) {
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
-			assert.equal($("#content h1").text().trim(), 'Bank Account');
-			assert.equal($(".title span").text().trim(), 'Test Account (1234)');
+			assert.equal($("#content h1").text().trim(), 'Bank account');
+			assert.equal($(".title span").text().trim(), '1234 Wells Fargo Bank');
 		});
 });
 
@@ -141,7 +141,7 @@ test('can initiate bank account verification', function(assert) {
 			Ember.run.next(function() {
 				Testing.start();
 
-				assert.equal($('#content h1').text().trim(), 'Bank Account');
+				assert.equal($('#content h1').text().trim(), 'Bank account');
 				assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
 				click(".main-header .buttons a.verify-button")
 					.then(function() {
@@ -176,7 +176,7 @@ test('can confirm bank account verification', function(assert) {
 			Ember.run.next(function() {
 				Testing.start();
 
-				assert.equal($('#content h1').text().trim(), 'Bank Account');
+				assert.equal($('#content h1').text().trim(), 'Bank account');
 				assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
 
 				click(".main-header .buttons a.confirm-verification-button")
