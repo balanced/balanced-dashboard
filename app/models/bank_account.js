@@ -6,7 +6,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
-	// type_name: 'Bank account',
 	type_name: function () {
 		if (this.get('isSaving')) {
 			return 'Savings account';

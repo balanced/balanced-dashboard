@@ -1,4 +1,4 @@
-<h1 class="page-title">{{titleCase card_type}} card</h1>
+<h1 class="page-title">{{type_name}}</h1>
 
 <div id="card">
 	<div class="funding-instrument-header main-header">
@@ -17,7 +17,7 @@
 					{{#if customer}}
 						<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
 						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-						{{#if isDebit}}
+						{{#if is_debit}}
 							<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
 						{{/if}}
 					{{/if}}
@@ -53,9 +53,9 @@
 						<dt>Billing Zip Code</dt>
 						<dd><span>{{postal_code}}</span></dd>
 						<dt>Type</dt>
-						<dd><span>{{titleCase card_type}}</span></dd>
+						<dd><span>{{card_type}}</span></dd>
 						<dt>Brand</dt>
-						<dd><span>{{titleCase brand}}</span></dd>
+						<dd><span>{{brand}}</span></dd>
 
 						{{partial 'meta'}}
 					</dl>
@@ -85,7 +85,7 @@
 {{#if show_download}}
 	{{partial "modals/download"}}
 {{/if}}
-{{#if isDebit}}
+{{#if is_debit}}
 	{{view Balanced.CreditFundingInstrumentModalView funding_instrumentBinding="model"}}
 {{/if}}
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}

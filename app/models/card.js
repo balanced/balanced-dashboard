@@ -30,27 +30,23 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		}
 	},
 
-	// type_name: 'Card',
 	type_name: function () {
-		if(this.get('can_credit')) {
-			return 'Debit card';
-		} else {
-			return 'Credit card';
-		}
-	}.property('can_credit'),
-
-	can_credit: true, // TODO: remove this
-
-	isDebit: function() {
-		return this.get('can_credit');
-	}.property('can_credit'),
+		return this.get('card_type') + ' card';
+	}.property('card_type'),
 
 	card_type: function() {
-		if(this.get('can_credit')) {
+		if(this.get('is_debit')) {
 			return 'Debit';
 		} else {
 			return 'Credit';
 		}
+	}.property('is_debit'),
+
+	is_debit: function () {
+		if (!this.get('can_credit')) {
+			return false;
+		}
+		return this.get('can_credit');
 	}.property('can_credit'),
 
 	route_name: 'cards',
@@ -66,7 +62,8 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			return accountNumber.substr(accountNumber.length - 4, 4);
 		}
 	}.property('account_number'),
-description: function() {
+
+	description: function() {
 		return '%@ %@'.fmt(
 			this.get('last_four'),
 			Balanced.Utils.toTitleCase(this.get('brand'))
