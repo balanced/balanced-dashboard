@@ -30,8 +30,6 @@ test(".fromCsvText", function(assert) {
 	var tests = [true, true, false, true];
 
 	_.each(tests, function(value, index) {
-		var obj = collection.objectAt(index);
-		console.log(obj, obj.get("validationErrors.allMessages"));
 		assert.deepEqual(collection.objectAt(index).get("isInvalid"), value);
 	});
 });
