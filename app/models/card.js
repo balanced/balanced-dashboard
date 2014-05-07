@@ -30,19 +30,19 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		}
 	},
 
-	type_name: function () {
+	type_name: function() {
 		return this.get('card_type') + ' card';
 	}.property('card_type'),
 
 	card_type: function() {
-		if(this.get('is_debit')) {
+		if (this.get('is_debit')) {
 			return 'Debit';
 		} else {
 			return 'Credit';
 		}
 	}.property('is_debit'),
 
-	is_debit: function () {
+	is_debit: function() {
 		if (!this.get('can_credit')) {
 			return false;
 		}
