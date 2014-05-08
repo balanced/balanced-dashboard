@@ -166,7 +166,7 @@ test('can debit customer using bank account', function(assert) {
 			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
 
 			// cards second
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "5555 Wells Fargo Bank Na");
+			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Checking account: 5555 Wells Fargo Bank Na");
 
 			// select the bank account
 			fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
@@ -220,8 +220,21 @@ test("debit customer triggers reload of transactions", function(assert) {
 		});
 });
 
+module('Customer Page: Credit', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createCreditCard();
+		Testing.createDebitCard();
+
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
+	}
+});
+
 test('can credit customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
+	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
@@ -233,8 +246,29 @@ test('can credit customer', function(assert) {
 		})
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			var fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
+			fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
+			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
+				amount: 100000,
+				description: "Test credit"
+			})));
+		});
+});
 
+test('can credit customer using debit card', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "create");
+	var fundingInstrumentUri;
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.click($(".customer-header .buttons a").eq(1))
+		.fillForm('#credit-customer', {
+			dollar_amount: '1000',
+			description: 'Test credit'
+		}, {
+			click: '.modal-footer button[name="modal-submit"]'
+		})
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
 			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
 				amount: 100000,
 				description: "Test credit"
@@ -277,6 +311,18 @@ test("can't credit customer multiple times using the same modal", function(asser
 			assert.deepEqual(stub.callCount, 1, "Create is created only once");
 			stub.restore();
 		});
+});
+
+module('Customer Page: Add', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
+		Testing.createCard();
+
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
+	}
 });
 
 test('can add bank account', function(assert) {
@@ -447,7 +493,7 @@ test('verification renders properly against rev1', function(assert) {
 		});
 });
 
-module('Customer Page – Delete', {
+module('Customer Page: Delete', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();

@@ -132,7 +132,7 @@ var Testing = {
 		this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/initial_deposit';
 	},
 
-	_createCard: function() {
+	_createCard: function(type) {
 		var self = this;
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
@@ -141,10 +141,16 @@ var Testing = {
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {
+			if(type) {
+				card.type = type;
+				card.can_credit = (type === 'debit') ? true : false;
+			}
 			self.CARD_ID = card.get('id');
 			self.CARD_ROUTE = self.MARKETPLACE_ROUTE +
 				'/cards/' + self.CARD_ID;
-			return card;
+			card.save().then(function(card){
+				return card;	
+			});
 		});
 	},
 
@@ -290,6 +296,20 @@ var Testing = {
 		var self = this;
 		Ember.run(function() {
 			self._createCard();
+		});
+	},
+
+	createDebitCard: function() {
+		var self = this;
+		Ember.run(function() {
+			self._createCard('debit');
+		});
+	},
+
+	createCreditCard: function() {
+		var self = this;
+		Ember.run(function() {
+			self._createCard('credit');
 		});
 	},
 
