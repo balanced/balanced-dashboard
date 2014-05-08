@@ -25,8 +25,6 @@ test('can visit page', function(assert) {
 });
 
 test('Click load more shows 2 more and hides load more', function(assert) {
-	Testing.setupActivity(4);
-
 	visit(Testing.ACTIVITY_ROUTE)
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tfoot td').length, 1, 'has "load more"');
