@@ -76,11 +76,16 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 		this.$("[data-tooltip]").popover({
 			trigger: "hover",
 			placement: "top",
-			title: "Error",
 			html: true,
 			content: function() {
 				var messages = self.get("errorMessages.messages");
-				return messages.join(", ");
+				var label = messages.get("length") > 1 ?
+					"Errors" :
+					"Error";
+				return "<span class='label'>%@: </span> %@".fmt(
+					label,
+					messages.join(", ")
+				);
 			}
 		});
 	}
