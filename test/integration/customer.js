@@ -347,12 +347,12 @@ test('can add card', function(assert) {
 		cvv: '123',
 		name: 'TEST',
 		address: {
-		  "city": "Nowhere",
-		  "country_code": undefined,
-		  "line1": null,
-		  "line2": null,
-		  "postal_code": "90210",
-		  "state": null
+			"city": "Nowhere",
+			"country_code": undefined,
+			"line1": null,
+			"line2": null,
+			"postal_code": "90210",
+			"state": null
 		}
 	};
 
@@ -399,12 +399,12 @@ test('can add card with postal code', function(assert) {
 		cvv: '123',
 		name: 'TEST',
 		address: {
-		  "city": "Nowhere",
-		  "country_code": undefined,
-		  "line1": null,
-		  "line2": null,
-		  "postal_code": "94612",
-		  "state": null
+			"city": "Nowhere",
+			"country_code": undefined,
+			"line1": null,
+			"line2": null,
+			"postal_code": "94612",
+			"state": null
 		}
 	};
 
