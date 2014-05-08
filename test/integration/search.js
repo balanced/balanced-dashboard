@@ -175,7 +175,7 @@ test('search date range pick', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search .results .timing .datetime-picker')
+		.click('#search .datetime-picker')
 		.then(function() {
 			var dp = $("#search .datetime-picker").data("daterangepicker");
 			dp.setStartDate("Aug 01, 2013");
