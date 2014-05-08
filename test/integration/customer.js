@@ -269,6 +269,8 @@ test('can credit customer using debit card', function(assert) {
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
+			console.log($("#credit-customer form select[name='source_uri'] option").eq(1));
+			console.log($("#credit-customer form select[name='source_uri'] option").eq(2));
 			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
 				amount: 100000,
 				description: "Test credit"
