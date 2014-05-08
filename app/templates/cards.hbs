@@ -17,7 +17,7 @@
 					{{#if customer}}
 						<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
 						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-						{{#if is_debit}}
+						{{#if can_credit}}
 							<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
 						{{/if}}
 					{{/if}}
@@ -55,7 +55,13 @@
 						<dt>Bank</dt>
 						<dd><span>{{bank_name}}</span></dd>
 						<dt>Type</dt>
-						<dd><span>{{card_type}}</span></dd>
+						<dd><span>
+						{{#if is_prepaid}}
+							Prepaid card (You can't credit to a prepaid card.)
+						{{else}}
+							{{type_name}}
+						{{/if}}
+						</span></dd>
 						<dt>Brand</dt>
 						<dd><span>{{brand}}</span></dd>
 
@@ -87,7 +93,7 @@
 {{#if show_download}}
 	{{partial "modals/download"}}
 {{/if}}
-{{#if is_debit}}
+{{#if can_credit}}
 	{{view Balanced.CreditFundingInstrumentModalView funding_instrumentBinding="model"}}
 {{/if}}
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}

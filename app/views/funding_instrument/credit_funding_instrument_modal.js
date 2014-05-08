@@ -6,7 +6,7 @@ Balanced.CreditFundingInstrumentModalView = Balanced.FundingInstrumentModalView.
 	open: function() {
 		var credit = Balanced.Credit.create({
 			uri: this.get('funding_instrument.credits_uri'),
-			bank_account_uri: this.get('funding_instrument.uri'),
+			source_uri: this.get('funding_instrument.uri'),
 			amount: null
 		});
 

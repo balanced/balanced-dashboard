@@ -19,11 +19,11 @@
                 <div class="controls">
                     {{view Ember.Select
                         contentBinding="customer.creditable_funding_instruments"
-                        valueBinding="model.bank_account_uri"
+                        valueBinding="model.source_uri"
                         optionValuePath="content.uri"
                         optionLabelPath="content.description_with_type"
                         class="span"
-                        name="bank_account_uri"
+                        name="source_uri"
                    }}
                 </div>
             </div>

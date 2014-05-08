@@ -31,23 +31,12 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	},
 
 	type_name: function() {
-		return this.get('card_type') + ' card';
-	}.property('card_type'),
+		return this.get('type').capitalize() + ' card';
+	}.property('type'),
 
-	card_type: function() {
-		if (this.get('is_debit')) {
-			return 'Debit';
-		} else {
-			return 'Credit';
-		}
-	}.property('is_debit'),
-
-	is_debit: function() {
-		if (!this.get('can_credit')) {
-			return false;
-		}
-		return this.get('can_credit');
-	}.property('can_credit'),
+	is_prepaid: function() {
+		return this.get('category') === "prepaid";
+	}.property('category'),
 
 	route_name: 'cards',
 	postal_code: Ember.computed.alias('address.postal_code'),
