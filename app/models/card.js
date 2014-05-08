@@ -29,12 +29,6 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			}
 		}
 	},
-
-	type: 'debit',
-	category: 'other',
-	bank_name: 'Wells Fargo',
-	can_credit: true,
-
 	type_name: function() {
 		return this.get('type').capitalize() + ' card';
 	}.property('type'),
