@@ -35,10 +35,12 @@
                 <div {{bind-attr class=":control-group view.model.validationErrors.type:error"}}>
                     <label class="control-label">Account type</label>
                     <div class="controls">
-                        <input type="radio" name="account_type" value="checking">
-                        <label for="checking" class="radio-label">Checking</label>
-                        <input type="radio" name="account_type" value="savings">
-                        <label for="savings" class="radio-label">Savings</label>
+                        <input id="account_type_checking" class="account-type" type="radio" name="account_type" value="checking">
+                        <label for="account_type_checking" class="radio-label">Checking</label>
+
+                        <input id="account_type_savings" class="account-type" type="radio" name="account_type" value="savings">
+                        <label for="account_type_savings" class="radio-label">Savings</label>
+
                         <div class="alert alert-error row-full">{{formatError view.model.validationErrors.type}}</div>
                     </div>
                 </div>

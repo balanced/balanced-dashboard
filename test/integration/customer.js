@@ -3,8 +3,11 @@ module('Customer Page', {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
-	},
-	teardown: function() {}
+
+		if (Balanced.Adapter.create.restore) {
+			Balanced.Adapter.create.restore();
+		}
+	}
 });
 
 test('can view customer page', function(assert) {
@@ -194,9 +197,8 @@ test("can't debit customer multiple times using the same modal", function(assert
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
-		}, {
-			clickMultiple: '.modal-footer button[name="modal-submit"]'
 		})
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
@@ -206,7 +208,7 @@ test("debit customer triggers reload of transactions", function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "get");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(0))
+		.click(".customer-header .buttons a:first")
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
@@ -261,29 +263,25 @@ test('when crediting customer triggers an error, the error is displayed to the u
 test("can't credit customer multiple times using the same modal", function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	// click the credit customer button
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(1))
+		.click(".customer-header .buttons a.credit-customer")
 		.fillForm('#credit-customer', {
 			dollar_amount: '1000',
 			description: 'Test credit'
-		}, {
-			clickMultiple: '.modal-footer button[name="modal-submit"]'
 		})
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
+			assert.deepEqual(stub.callCount, 1, "Create is created only once");
+			stub.restore();
 		});
 });
 
 test('can add bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
-	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		bank_accounts: [{
-			href: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID
-		}]
-	});
+	var stub = sinon.stub(Balanced.Adapter, "create");
+	var tokenizingSpy = sinon.spy(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.bank-account-info a.add')
@@ -291,44 +289,36 @@ test('can add bank account', function(assert) {
 			name: "TEST",
 			account_number: "123",
 			routing_number: "123123123"
-		}, {
-			click: ['input[name="account_type"][value="checking"]', '.modal-footer button[name="modal-submit"]']
 		})
+		.click('#account_type_savings')
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
-			var input = {
-				type: "checking",
+			var expectedArgs = {
+				account_type: "savings",
 				name: "TEST",
 				account_number: "123",
 				routing_number: "123123123"
 			};
+			var callArgs = tokenizingSpy.firstCall.args[0];
+			assert.ok(tokenizingSpy.calledOnce);
 
-			// this tests balanced.js
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(input));
-
-			//assert.ok(spy.calledOnce);
-			//assert.ok(spy.calledWith(Balanced.BankAccount, '/bank_accounts', sinon.match(input)));
-
-			balanced.bankAccount.create.restore();
+			_.each(expectedArgs, function(val, key) {
+				assert.equal(callArgs[key], val);
+			});
+			tokenizingSpy.restore();
+			stub.restore();
 		});
 });
 
 test('can add card', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		cards: [{
-			href: '/cards/' + Testing.CARD_ID
-		}]
-	});
-	var input = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		security_code: '123',
-		name: 'TEST'
-	};
+	var stub =
+		tokenizingStub.callsArgWith(1, {
+			status: 201,
+			cards: [{
+				href: '/cards/' + Testing.CARD_ID
+			}]
+		});
 	var expected = {
 		number: '1234123412341234',
 		expiration_month: 1,
@@ -340,15 +330,18 @@ test('can add card', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
-		.fillForm('#add-card', input, {
-			click: '.modal-footer button[name="modal-submit"]'
+		.fillForm('#add-card', {
+			number: '1234123412341234',
+			expiration_month: 1,
+			expiration_year: 2020,
+			security_code: '123',
+			name: 'TEST'
 		})
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
-
-			// this tests balanced.js
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
-			balanced.card.create.restore();
+			tokenizingStub.restore();
 		});
 });
 
@@ -382,9 +375,8 @@ test('can add card with postal code', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
-		.fillForm('#add-card', input, {
-			click: '.modal-footer button[name="modal-submit"]'
-		})
+		.fillForm('#add-card', input)
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
 
 			// this tests balanced.js
@@ -452,5 +444,76 @@ test('verification renders properly against rev1', function(assert) {
 		.then(function() {
 			assert.ok($('.verification-status').hasClass('verified'), 'Customer has been verified');
 			assert.equal($('.verification-status').text().trim(), 'VERIFIED', 'Customer has been verified');
+		});
+});
+
+module('Customer Page – Delete', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
+		Testing.createCard();
+	},
+	teardown: function() {}
+});
+
+test('can delete bank accounts', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var bankAccounts = Balanced.BankAccount.findAll();
+	var initialLength, model;
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.then(function() {
+			model = Balanced.__container__.lookup('controller:customers').get('model');
+			model.set('bank_accounts', bankAccounts);
+			Testing.stop();
+
+			Ember.run.next(function() {
+				Testing.start();
+
+				initialLength = $('.bank-account-info .sidebar-items li').length;
+
+				click(".bank-account-info a.icon-delete")
+					.click('button[name="modal-submit"]')
+					.then(function() {
+						bankAccounts.get('content').forEach(function(bankAccount) {
+							bankAccount.set('isSaving', true);
+						});
+					})
+					.then(function() {
+						assert.ok(spy.calledOnce);
+						assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+					});
+			});
+		});
+});
+
+test('can delete cards', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "delete");
+	var cards = Balanced.Card.findAll();
+	var initialLength, model;
+
+	visit(Testing.CUSTOMER_ROUTE)
+		.then(function() {
+			model = Balanced.__container__.lookup('controller:customers').get('model');
+			model.set('cards', cards);
+			Testing.stop();
+
+			Ember.run.next(function() {
+				Testing.start();
+
+				initialLength = $('.card-info .sidebar-items li').length;
+
+				click(".card-info a.icon-delete")
+					.click('button[name="modal-submit"]')
+					.then(function() {
+						cards.get('content').forEach(function(card) {
+							card.set('isSaving', true);
+						});
+					})
+					.then(function() {
+						assert.ok(spy.calledOnce);
+						assert.equal($('.card-info .sidebar-items li').length, initialLength - 1);
+					});
+			});
 		});
 });

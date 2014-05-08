@@ -53,8 +53,6 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
-	Testing.setupSearch(4);
-
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -93,7 +91,7 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 		.then(function() {
 			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
 		})
-		.click('#search .results li.customers > a')
+		.click('#search .results .customers > a')
 		.then(function() {
 			assert.equal($('#search .results table.customers tbody tr').length, 1, 'has 1 customer');
 			assert.equal($('#search .results table.customers tfoot td').length, 0, 'no "load more"');
@@ -155,7 +153,7 @@ test('search date picker dropdown', function(assert) {
 			assert.equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
 			Testing.runSearch('%');
 		})
-		.click('#search .timing .datetime-picker')
+		.click('#search .datetime-picker')
 		.then(function() {
 			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
 			assert.equal($('.daterangepicker:visible .calendar').length, 2, 'Date Picker has 2 calendars visible');
@@ -173,22 +171,22 @@ test('search date picker dropdown', function(assert) {
 
 test('search date range pick', function(assert) {
 	var spy;
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-	})
+	visit(Testing.MARKETPLACE_ROUTE)
+		.then(function() {
+			Testing.runSearch('%');
+		})
 		.click('#search .results .timing .datetime-picker')
 		.then(function() {
-			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
-			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
-		})
-		.then(function() {
+			var dp = $("#search .datetime-picker").data("daterangepicker");
+			dp.setStartDate("Aug 01, 2013");
+			dp.setEndDate("Aug 02, 2013");
 			spy = sinon.spy(Balanced.Adapter, 'get');
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			var begin = moment('8/1/2013').startOf('day');
+			var begin = moment("Aug 01, 2013").startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment('8/1/2013').endOf('day').startOf('minute');
+			var end = moment("Aug 02, 2013").startOf('day');
 			var end_iso = encodeURIComponent(end.toISOString());
 
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +

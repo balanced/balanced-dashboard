@@ -32,6 +32,8 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 					err: err,
 					request_id: err ? err.requestId : 'unknown',
 					marketplace: models.marketplace,
+					apiKey: models.apiKey,
+					user: models.user,
 					marketplaceId: marketplace ? marketplace.get("id") : null
 				});
 			}
