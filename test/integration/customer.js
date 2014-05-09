@@ -234,23 +234,34 @@ module('Customer Page: Credit', {
 
 test('can credit customer', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(1))
-		.fillForm('#credit-customer', {
-			dollar_amount: '1000',
-			description: 'Test credit'
-		}, {
-			click: '.modal-footer button[name="modal-submit"]'
-		})
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
-			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
-				amount: 100000,
-				description: "Test credit"
-			})));
+			var controller = Balanced.__container__.lookup('controller:customers');
+			var model = controller.get('model');
+			model.get('cards').forEach(function(card) {
+				console.log(card.get('can_credit'))
+			});
+			Testing.stop();
+
+			Ember.run.next(function() {
+				Testing.start();
+				click($(".customer-header .buttons a").eq(1))
+				.fillForm('#credit-customer', {
+					dollar_amount: '1000',
+					description: 'Test credit'
+				}, {
+					click: '.modal-footer button[name="modal-submit"]'
+				})
+				.then(function() {
+					assert.ok(spy.calledOnce);
+					fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
+					assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
+						amount: 100000,
+						description: "Test credit"
+					})));
+				});
+			});
 		});
 });
 

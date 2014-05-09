@@ -146,11 +146,9 @@ var Testing = {
 				'/cards/' + self.CARD_ID;
 			if (type) {
 				card.type = type;
-				card.can_credit = (type === 'debit') ? true : false;
+				card.set('can_credit', type === 'debit');
 			}
-			card.save().then(function(card) {
-				return card;
-			});
+			return card;
 		});
 	},
 
