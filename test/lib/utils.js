@@ -137,17 +137,14 @@ var Testing = {
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '4444400012123434',
-			name: 'Test Card',
+			// TODO: This is a workaround. Find a better way to set debit/credit card
+			name: 'Test Card: ' + type,
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {
 			self.CARD_ID = card.get('id');
 			self.CARD_ROUTE = self.MARKETPLACE_ROUTE +
 				'/cards/' + self.CARD_ID;
-			if (type) {
-				card.type = type;
-				card.set('can_credit', type === 'debit');
-			}
 			return card;
 		});
 	},

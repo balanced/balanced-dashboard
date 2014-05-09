@@ -232,16 +232,24 @@ module('Customer Page: Credit', {
 	}
 });
 
-test('can credit customer', function(assert) {
+test('can credit to a debit card', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
+	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
 			var controller = Balanced.__container__.lookup('controller:customers');
 			var model = controller.get('model');
+
+			// manually setting can_credit value for testing purposes
 			model.get('cards').forEach(function(card) {
-				console.log(card.get('can_credit'))
+				if (card.get('name').indexOf('debit') > -1) {
+					card.set('can_credit', true);
+				} else {
+					card.set('can_credit', false);
+				}
 			});
+
 			Testing.stop();
 
 			Ember.run.next(function() {
@@ -255,7 +263,13 @@ test('can credit customer', function(assert) {
 				})
 				.then(function() {
 					assert.ok(spy.calledOnce);
+					console.log($("#credit-customer form select[name='source_uri'] option").eq(0)[0].outerText);
+					console.log($("#credit-customer form select[name='source_uri'] option").eq(1)[0].outerText);
+					console.log($("#credit-customer form select[name='source_uri'] option").eq(2)[0].outerText);
+					assert.equal($("#credit-customer form select[name='source_uri'] option").eq(2)[0].outerText, "Credit card: 3434 Visa");
+					assert.equal($("#credit-customer form select[name='source_uri'] option").eq(1)[0].outerText, "Debit card: 3434 Visa");
 					fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
+
 					assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
 						amount: 100000,
 						description: "Test credit"
