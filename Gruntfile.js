@@ -447,6 +447,10 @@ module.exports = function(grunt) {
 			fonts: {
 				src: ['build/fonts/**/*'],
 				dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
+			},
+			notfound: {
+				src: ['build/notfound/images/*.png', 'build/notfound/fonts/**/*', 'build/notfound/css/*.css'],
+				dest: ['build/notfound/*.html', 'build/notfound/css/*.css']
 			}
 		},
 
