@@ -3,10 +3,19 @@ module('Customer Page', {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
+	},
+	teardown: function() {
+		var methods = [
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			balanced.card.create
+		];
 
-		if (Balanced.Adapter.create.restore) {
-			Balanced.Adapter.create.restore();
-		}
+		methods.forEach(function(method) {
+			if (method.restore) {
+				method.restore();
+			}
+		});
 	}
 });
 
@@ -28,7 +37,7 @@ test('can edit customer info', function(assert) {
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Customer));
-			assert.ok(spy.getCall(0).args[2].name, 'TEST');
+			assert.ok(spy.firstCall.args[2].name, 'TEST');
 		});
 });
 
@@ -57,22 +66,31 @@ test('can update customer info', function(assert) {
 			click: '.modal-footer button[name="modal-submit"]'
 		})
 		.then(function() {
+			var argsObject = {
+				name: "TEST",
+				email: "TEST@example.com",
+				business_name: "TEST",
+				ein: "1234",
+				phone: "1231231234",
+				dob_month: "12",
+				dob_year: "1924",
+				ssn_last4: "1234",
+				address: {
+					line1: "600 William St",
+					line2: "Apt 400",
+					city: "Oakland",
+					state: "CA",
+					country_code: "US",
+					postal_code: "12345",
+				},
+			};
+
 			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Customer));
-			assert.equal(stub.getCall(0).args[2].name, "TEST");
-			assert.equal(stub.getCall(0).args[2].email, "TEST@example.com");
-			assert.equal(stub.getCall(0).args[2].business_name, "TEST");
-			assert.equal(stub.getCall(0).args[2].ein, "1234");
-			assert.equal(stub.getCall(0).args[2].address.line1, "600 William St");
-			assert.equal(stub.getCall(0).args[2].address.line2, "Apt 400");
-			assert.equal(stub.getCall(0).args[2].address.city, "Oakland");
-			assert.equal(stub.getCall(0).args[2].address.state, "CA");
-			assert.equal(stub.getCall(0).args[2].address.country_code, "US");
-			assert.equal(stub.getCall(0).args[2].address.postal_code, "12345");
-			assert.equal(stub.getCall(0).args[2].phone, "1231231234");
-			assert.equal(stub.getCall(0).args[2].dob_month, "12");
-			assert.equal(stub.getCall(0).args[2].dob_year, "1924");
-			assert.equal(stub.getCall(0).args[2].ssn_last4, "1234");
+			assert.ok(stub.args[0], Balanced.Customer);
+
+			_.each(argsObject, function(val, key) {
+				assert.deepEqual(stub.getCall(0).args[2][key], val);
+			});
 		});
 });
 
@@ -188,19 +206,24 @@ test('can debit customer using bank account', function(assert) {
 		});
 });
 
-test("can't debit customer multiple times using the same modal", function(assert) {
+test("can't debit customer multiple times using the same modal", 4, function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	// click the debit customer button
 	visit(Testing.CUSTOMER_ROUTE)
-		.click(".customer-header .buttons a")
+		.click(".customer-header .buttons .debit-customer")
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
 		})
-		.click('.modal-footer button[name="modal-submit"]')
+		.click('#debit-customer .modal-footer button[name="modal-submit"]')
+		.click('#debit-customer .modal-footer button[name="modal-submit"]')
+		.click('#debit-customer .modal-footer button[name="modal-submit"]')
+		.click('#debit-customer .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
+			assert.deepEqual(stub.firstCall.args[0], Balanced.Debit, "Creates a Balanced.Debit");
+			assert.deepEqual(stub.firstCall.args[2].amount, 100000);
+			assert.deepEqual(stub.firstCall.args[2].description, "Test debit");
 		});
 });
 
@@ -291,7 +314,7 @@ test('can add bank account', function(assert) {
 			routing_number: "123123123"
 		})
 		.click('#account_type_savings')
-		.click('.modal-footer button[name="modal-submit"]')
+		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			var expectedArgs = {
 				account_type: "savings",
@@ -305,27 +328,32 @@ test('can add bank account', function(assert) {
 			_.each(expectedArgs, function(val, key) {
 				assert.equal(callArgs[key], val);
 			});
-			tokenizingSpy.restore();
-			stub.restore();
 		});
 });
 
 test('can add card', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
-	var stub =
-		tokenizingStub.callsArgWith(1, {
-			status: 201,
-			cards: [{
-				href: '/cards/' + Testing.CARD_ID
-			}]
-		});
-	var expected = {
+	var stub = tokenizingStub.callsArgWith(1, {
+		status: 201,
+		cards: [{
+			href: '/cards/' + Testing.CARD_ID
+		}]
+	});
+
+	var expectedArgs = {
 		number: '1234123412341234',
 		expiration_month: 1,
 		expiration_year: 2020,
 		cvv: '123',
 		name: 'TEST',
-		address: {}
+		address: {
+			"city": "Nowhere",
+			"country_code": undefined,
+			"line1": null,
+			"line2": null,
+			"postal_code": "90210",
+			"state": null
+		}
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -337,11 +365,13 @@ test('can add card', function(assert) {
 			security_code: '123',
 			name: 'TEST'
 		})
-		.click('.modal-footer button[name="modal-submit"]')
+		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
+			var callArgs = tokenizingStub.firstCall.args;
 			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
-			tokenizingStub.restore();
+			_.each(expectedArgs, function(val, key) {
+				assert.deepEqual(callArgs[0][key], val);
+			});
 		});
 });
 
@@ -369,20 +399,25 @@ test('can add card with postal code', function(assert) {
 		cvv: '123',
 		name: 'TEST',
 		address: {
-			postal_code: '94612'
+			"city": "Nowhere",
+			"country_code": undefined,
+			"line1": null,
+			"line2": null,
+			"postal_code": "94612",
+			"state": null
 		}
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.card-info a.add')
 		.fillForm('#add-card', input)
-		.click('.modal-footer button[name="modal-submit"]')
+		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
-
-			// this tests balanced.js
+			var callArgs = tokenizingStub.firstCall.args;
 			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
-			balanced.card.create.restore();
+			_.each(expected, function(val, key) {
+				assert.deepEqual(callArgs[0][key], val);
+			});
 		});
 });
 
@@ -435,7 +470,11 @@ test('can add card with address', function(assert) {
 			// this tests balanced.js
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
-			balanced.card.create.restore();
+			var callArgs = tokenizingStub.firstCall.args;
+			assert.ok(tokenizingStub.calledOnce);
+			_.each(expected, function(val, key) {
+				assert.deepEqual(callArgs[0][key], val);
+			});
 		});
 });
 

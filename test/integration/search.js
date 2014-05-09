@@ -143,7 +143,7 @@ test('search click result', function(assert) {
 		.click('#search .results table.items tbody tr a:first')
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
-			assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
+			assert.equal($('#search .results:visible').length, 0, 'search result should be hidden');
 		});
 });
 
@@ -175,7 +175,7 @@ test('search date range pick', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click("#search .datetime-picker")
+		.click('#search .datetime-picker')
 		.then(function() {
 			var dp = $("#search .datetime-picker").data("daterangepicker");
 			dp.setStartDate("Aug 01, 2013");
