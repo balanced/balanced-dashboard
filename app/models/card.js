@@ -29,6 +29,27 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			}
 		}
 	},
+	// Note: Push to card API will include the following properties. We need to stub them while we wait for the API to work.
+	// TODO: Remove this once API works
+	type: function() {
+		if (this.get("name").indexOf("debit") > -1) {
+			return 'debit';
+		}
+		return 'credit';
+	}.property('name'),
+
+	// TODO: Remove this once API works
+	can_credit: function() {
+		return this.get("name").indexOf("debit") > -1; 
+	}.property('name'),
+
+	// TODO: Remove this once API works
+	credits_uri: function() {
+		if (this.get("name").indexOf("debit") > -1) {
+			return '/cards/%@/credits'.fmt(this.get('id'));
+		}
+		return undefined;
+	}.property('name', 'id'),
 
 	type_name: function() {
 		return this.get('type').capitalize() + ' card';

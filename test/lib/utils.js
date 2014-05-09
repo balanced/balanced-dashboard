@@ -137,7 +137,8 @@ var Testing = {
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '4444400012123434',
-			// TODO: This is a workaround. Find a better way to set debit/credit card
+			// Note: We need to stub this while we wait for the Push to card API to work.
+			// TODO: Remove this once API works
 			name: 'Test Card: ' + type,
 			expiration_year: 2020,
 			expiration_month: 11

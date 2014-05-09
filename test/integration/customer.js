@@ -117,7 +117,7 @@ test('can update customer info only some fields', function(assert) {
 });
 
 test('can debit customer using card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.stub(Balanced.Adapter, "create");
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE).then(function() {
@@ -233,49 +233,32 @@ module('Customer Page: Credit', {
 });
 
 test('can credit to a debit card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.stub(Balanced.Adapter, "create");
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
+		.click($(".customer-header .buttons a").eq(1))
 		.then(function() {
-			var controller = Balanced.__container__.lookup('controller:customers');
-			var model = controller.get('model');
+			var option = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
+			$("#credit-customer form select[name=source_uri]").val(option).change();
+		})
+		.fillForm('#credit-customer', {
+			dollar_amount: '1',
+			description: 'Test credit to a debit card'
+		}, {
+			click: '.modal-footer button[name="modal-submit"]'
+		})
+		.then(function() {
+			assert.ok(spy.calledOnce, "Create was called once");
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 3434 Visa");
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 3434 Visa");
+			fundingInstrumentUri = $("#credit-customer form select[name='source_uri']").val();
 
-			// manually setting can_credit value for testing purposes
-			model.get('cards').forEach(function(card) {
-				if (card.get('name').indexOf('debit') > -1) {
-					card.set('can_credit', true);
-				} else {
-					card.set('can_credit', false);
-				}
-			});
+			assert.equal(spy.firstCall.args[0], Balanced.Credit);
+			assert.equal(spy.firstCall.args[1], fundingInstrumentUri + '/credits');
 
-			Testing.stop();
-
-			Ember.run.next(function() {
-				Testing.start();
-				click($(".customer-header .buttons a").eq(1))
-				.fillForm('#credit-customer', {
-					dollar_amount: '1000',
-					description: 'Test credit'
-				}, {
-					click: '.modal-footer button[name="modal-submit"]'
-				})
-				.then(function() {
-					assert.ok(spy.calledOnce);
-					console.log($("#credit-customer form select[name='source_uri'] option").eq(0)[0].outerText);
-					console.log($("#credit-customer form select[name='source_uri'] option").eq(1)[0].outerText);
-					console.log($("#credit-customer form select[name='source_uri'] option").eq(2)[0].outerText);
-					assert.equal($("#credit-customer form select[name='source_uri'] option").eq(2)[0].outerText, "Credit card: 3434 Visa");
-					assert.equal($("#credit-customer form select[name='source_uri'] option").eq(1)[0].outerText, "Debit card: 3434 Visa");
-					fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
-
-					assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
-						amount: 100000,
-						description: "Test credit"
-					})));
-				});
-			});
+			assert.deepEqual(spy.firstCall.args[2].amount, 100);
+			assert.deepEqual(spy.firstCall.args[2].description, "Test credit to a debit card");
 		});
 });
 
