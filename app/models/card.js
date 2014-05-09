@@ -40,7 +40,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 	// TODO: Remove this once API works
 	can_credit: function() {
-		return this.get("name").indexOf("debit") > -1; 
+		return this.get("name").indexOf("debit") > -1;
 	}.property('name'),
 
 	// TODO: Remove this once API works
