@@ -37,7 +37,7 @@ test('Click load more shows 2 more and hides load more', function(assert) {
 			assert.ok(results_uri.indexOf('card_hold') < 0, 'Activity URI filter by type is correct');
 			assert.ok(results_uri.indexOf('status%5Bin%5D=failed%2Csucceeded%2Cpending') >= 0, 'Activity URI filter by status is correct');
 		})
-		.click('#activity .results table.transactions tfoot td.load-more-results a')
+		.assertClick('#activity .results table.transactions tfoot td.load-more-results a', assert)
 		.then(function() {
 			assert.equal($('#activity .results table.transactions tbody tr').length, 4, 'has 4 transactions');
 			assert.equal($('#activity .results table.transactions tfoot td').length, 0, 'does not have "load more"');
