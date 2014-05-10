@@ -114,8 +114,7 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 		var object = this.get("bankAccount");
 		if (object === null || object === undefined) {
 			return "required";
-		}
-		else {
+		} else {
 			return object.get("description");
 		}
 	}.property("bankAccount"),
@@ -124,8 +123,7 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 		var object = this.get("customer");
 		if (object === null || object === undefined) {
 			return this.get("context.csvFields.existing_customer_name_or_email");
-		}
-		else {
+		} else {
 			return object.get("name");
 		}
 	}.property("customer"),
