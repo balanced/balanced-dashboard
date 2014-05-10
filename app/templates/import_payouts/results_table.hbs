@@ -40,11 +40,21 @@
     <tbody>
       {{#each view.items}}
         <tr class="table-row">
+
 			{{#if view.isExisting}}
-				<td>
-					{{customer.name}}<br/>
-					{{bankAccount.description}}
-				</td>
+				{{#view Balanced.ExistingCustomerIdentityCsvUploadCellView}}
+					<span {{bind-attr class="view.customerLabelClasses"}}>
+						<span class="customer-name-tooltip" data-tooltip>
+							{{view.customerDisplayValue}}
+						</span>
+					</span>
+					<br/>
+					<span {{bind-attr class="view.bankAccountLabelClasses"}}>
+						<span class="bank-description-tooltip" data-tooltip>
+							{{view.bankAccountDisplayValue}}
+						</span>
+					</span>
+				{{/view}}
 			{{else}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_name"}}
 				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}

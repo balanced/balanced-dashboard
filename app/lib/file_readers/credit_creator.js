@@ -116,18 +116,19 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	}
 });
 
-Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
-	validations: _.extend({}, baseValidationsObject, {
-		"csvFields.existing_customer_name_or_email": {
-			presence: true
+Balanced.CreditCreator.reopenClass({
+	fromCsvRow: function(marketplace, object) {
+		var creditCreator = null;
+
+		if (object.existing_customer_name_or_email !== undefined) {
+			creditCreator = Balanced.ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
+		} else {
+			creditCreator = Balanced.NewCustomerCreditCreator.create({
+				csvFields: object
+			});
 		}
-	}),
-
-	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
-	isExisting: true,
-
-	save: function() {
-		return this.get('credit').save();
+		creditCreator.validate();
+		return creditCreator;
 	}
 });
 
@@ -199,6 +200,27 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 	}
 });
 
+Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
+	validations: _.extend({}, baseValidationsObject, {
+		"customer": {
+			presence: true
+		},
+		"bankAccount": {
+			presence: true
+		},
+		"csvFields.existing_customer_name_or_email": {
+			presence: true
+		}
+	}),
+
+	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
+	isExisting: true,
+
+	save: function() {
+		return this.get('credit').save();
+	}
+});
+
 Balanced.ExistingCustomerCreditCreator.reopenClass({
 	createFromQuery: function(marketplace, attributes) {
 		var creator = this.create({
@@ -208,34 +230,28 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
 		// TODO[carlos] this should check for arrays being length === 1
 		results.addObserver("isLoaded", function() {
-			var customer = results.objectAt(0);
-			creator.set("customer", customer);
-			customer.get("bank_accounts").then(function(bankAccountsCollection) {
-				var bankAccount = bankAccountsCollection.objectAt(0);
-				if (bankAccount === undefined) {
-					creator.set("bankAccount", null);
-				} else {
-					creator.set("bankAccount", bankAccount);
-				}
-			});
+			var customer = results.get("lastObject");
+
+			if (customer) {
+				creator.set("customer", customer);
+				customer.get("bank_accounts").then(function(bankAccountsCollection) {
+					var bankAccount = bankAccountsCollection.objectAt(0);
+					if (bankAccount === undefined) {
+						creator.set("bankAccount", null);
+					} else {
+						creator.set("bankAccount", bankAccount);
+					}
+					creator.validate();
+				});
+			} else {
+				creator.setProperties({
+					bankAccount: null,
+					customer: null
+				});
+			}
+			creator.validate();
 		});
 
 		return creator;
-	}
-});
-
-Balanced.CreditCreator.reopenClass({
-	fromCsvRow: function(marketplace, object) {
-		var creditCreator = null;
-
-		if (object.existing_customer_name_or_email !== undefined) {
-			creditCreator = Balanced.ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
-		} else {
-			creditCreator = Balanced.NewCustomerCreditCreator.create({
-				csvFields: object
-			});
-		}
-		creditCreator.validate();
-		return creditCreator;
 	}
 });

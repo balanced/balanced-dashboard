@@ -26,6 +26,8 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 		return this.filterBy("isInvalid");
 	}.property("content.@each.isInvalid"),
 
+	hasValid: Ember.computed.gt("valid.length", 0),
+
 	save: function(callback) {
 		var savedCredits = [];
 		var creators = this.get("content");

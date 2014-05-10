@@ -26,7 +26,10 @@
 				{{#if creditCreators.isInvalid}}
 					{{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
 				{{/if}}
-				{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+
+				{{#if creditCreators.valid.length}}
+					{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+				{{/if}}
 				{{partial 'import_payouts/account_summary'}}
 				{{partial "import_payouts/submit_area"}}
 			</div>

@@ -1,13 +1,11 @@
 require("app/views/popover");
 
-var BaseCellView = Balanced.View.extend({
+Balanced.CsvUploadCellView = Balanced.View.extend({
 	tagName: "td",
 	fieldsErrors: function() {
 		return this.get("context.validationErrors.csvFields");
-	}.property("context")
-});
+	}.property("context"),
 
-Balanced.CsvUploadCellView = BaseCellView.extend({
 	didInsertElement: function() {
 		this._super();
 		if (this.get("isError")) {
@@ -20,7 +18,6 @@ Balanced.CsvUploadCellView = BaseCellView.extend({
 		if (this.get("isError")) {
 			classes.push("label-error");
 		}
-
 		if (this.get("hasIsRequiredError")) {
 			classes.push("label-required");
 		} else if (!this.get("fieldValue")) {
@@ -105,4 +102,78 @@ Balanced.CurrencyCsvUploadCellView = Balanced.CsvUploadCellView.extend({
 			return Balanced.Utils.formatCurrency(this.get("fieldValue"));
 		}
 	}.property("fieldValue", "hasIsRequiredError", "isError")
+});
+
+Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.extend({
+	classNames: ["csv-customer-profile"],
+
+	customer: Ember.computed.readOnly("context.customer"),
+	bankAccount: Ember.computed.readOnly("context.bankAccount"),
+
+	bankAccountDisplayValue: function() {
+		var object = this.get("bankAccount");
+		if (object === null || object === undefined) {
+			return "required";
+		}
+		else {
+			return object.get("description");
+		}
+	}.property("bankAccount"),
+
+	customerDisplayValue: function() {
+		var object = this.get("customer");
+		if (object === null || object === undefined) {
+			return this.get("context.csvFields.existing_customer_name_or_email");
+		}
+		else {
+			return object.get("name");
+		}
+	}.property("customer"),
+
+	bankAccountLabelClasses: function() {
+		var array = ["label", "label-bank-account"];
+		var object = this.get("bankAccount");
+		if (object === null || object === undefined) {
+			array.push("label-required");
+			array.push("label-error");
+		}
+		return array.join(" ");
+	}.property("bankAccount"),
+
+	customerLabelClasses: function() {
+		var array = ["label"];
+		var object = this.get("customer");
+		if (object === null || object === undefined) {
+			array.push("label-required");
+			array.push("label-error");
+		}
+		return array.join(" ");
+	}.property("customer"),
+
+	initializeCustomerPopover: function() {},
+
+	initializeBankAccountPopover: function() {
+		var self = this;
+		this.$(".bank-description-tooltip[data-tooltip]").popover({
+			trigger: "hover",
+			placement: "top",
+			html: true,
+			content: function() {
+				var messages = self.get("context.validationErrors.bankAccount.errorMessages");
+				var label = messages.get("length") > 1 ?
+					"Errors" :
+					"Error";
+				return "<span class='label'>%@: </span> %@".fmt(
+					label,
+					messages.join(", ")
+				);
+			}
+		});
+
+	},
+
+	initializePopover: function() {
+		this.initializeBankAccountPopover();
+		this.initializeCustomerPopover();
+	}
 });
