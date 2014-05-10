@@ -497,62 +497,42 @@ module('Customer Page – Delete', {
 
 test('can delete bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var bankAccounts = Balanced.BankAccount.findAll();
-	var initialLength, model;
+	var initialLength, bankAccountId;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
-			model = Balanced.__container__.lookup('controller:customers').get('model');
-			model.set('bank_accounts', bankAccounts);
-			Testing.stop();
-
-			Ember.run.next(function() {
-				Testing.start();
-
-				initialLength = $('.bank-account-info .sidebar-items li').length;
-
-				click(".bank-account-info a.icon-delete")
-					.click('button[name="modal-submit"]')
-					.then(function() {
-						bankAccounts.get('content').forEach(function(bankAccount) {
-							bankAccount.set('isSaving', true);
-						});
-					})
-					.then(function() {
-						assert.ok(spy.calledOnce);
-						assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-					});
-			});
+			initialLength = $('.bank-account-info .sidebar-items li').length;
+			bankAccountId = $(".bank-account-info .sidebar-items li:first a:first").attr("href");
+			bankAccountId = "/" + bankAccountId.split("/").slice(-2).join("/");
+		})
+		.click(".bank-account-info .bank-account:first a.icon-delete")
+		.click('#delete-bank-account button[name=modal-submit]')
+		.then(function() {
+			var args = spy.firstCall.args;
+			assert.ok(spy.calledOnce);
+			assert.equal(spy.firstCall.args[1], bankAccountId);
+			assert.equal(spy.firstCall.args[0], Balanced.BankAccount);
+			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
 		});
 });
 
 test('can delete cards', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var cards = Balanced.Card.findAll();
-	var initialLength, model;
+	var initialLength, cardId;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
-			model = Balanced.__container__.lookup('controller:customers').get('model');
-			model.set('cards', cards);
-			Testing.stop();
-
-			Ember.run.next(function() {
-				Testing.start();
-
-				initialLength = $('.card-info .sidebar-items li').length;
-
-				click(".card-info a.icon-delete")
-					.click('button[name="modal-submit"]')
-					.then(function() {
-						cards.get('content').forEach(function(card) {
-							card.set('isSaving', true);
-						});
-					})
-					.then(function() {
-						assert.ok(spy.calledOnce);
-						assert.equal($('.card-info .sidebar-items li').length, initialLength - 1);
-					});
-			});
+			initialLength = $('.card-info .sidebar-items li').length;
+			cardId = $(".card-info .sidebar-items li:first a:last").attr("href");
+			cardId = "/" + cardId.split("/").slice(-2).join("/");
+		})
+		.click(".card-info .sidebar-items > li:first a.icon-delete")
+		.click('#delete-card button[name=modal-submit]')
+		.then(function() {
+			var args = spy.firstCall.args;
+			assert.ok(spy.calledOnce, "Balanced.Adapter.deleted calledOnce");
+			assert.equal(spy.firstCall.args[1], cardId, "");
+			assert.equal(spy.firstCall.args[0], Balanced.Card);
+			assert.equal($('.card-info .sidebar-items li').length, initialLength - 1);
 		});
 });
