@@ -41,7 +41,7 @@
 		"grunt-jsbeautifier": "0.2.6",
 		"grunt-istanbul-coverage": "0.0.5",
 		"grunt-coveralls": "~0.3.0",
-		"karma-story-reporter": "~0.2.2"
+		"karma-spec-reporter": "0.0.12"
 	},
 	"optionalDependencies": {
 		"grunt-img": "0.1.7"
