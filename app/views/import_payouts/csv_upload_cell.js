@@ -87,7 +87,7 @@ Balanced.CsvUploadCellView = Balanced.View.extend({
 	}.property("fieldValue", "hasIsRequiredError"),
 
 	initializePopover: function() {
-		initializePopover(self, "[data-tooltip]", 'errorMessages.messages');
+		initializePopover(this, "[data-tooltip]", 'errorMessages.messages');
 	}
 });
 
