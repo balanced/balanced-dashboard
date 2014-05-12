@@ -102,7 +102,7 @@ Balanced.CurrencyCsvUploadCellView = Balanced.CsvUploadCellView.extend({
 		if (this.get("isError")) {
 			return this._super();
 		} else {
-			return Balanced.Utils.formatCurrency(this.get("fieldValue"));
+			return Balanced.Utils.formatCurrency(this.get("context.credit.amount"));
 		}
 	}.property("fieldValue", "hasIsRequiredError", "isError")
 });
@@ -113,12 +113,20 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 	customer: Ember.computed.readOnly("context.customer"),
 	bankAccount: Ember.computed.readOnly("context.bankAccount"),
 
+	hasBankAccountRequiredError: function() {
+		var customer = this.get("customer");
+		var bankAccount = this.get("bankAccount");
+		return customer && !bankAccount;
+	},
+
 	bankAccountDisplayValue: function() {
 		var object = this.get("bankAccount");
-		if (object === null || object === undefined) {
-			return "------------";
-		} else {
+		if (object) {
 			return object.get("description");
+		} else if (this.hasBankAccountRequiredError()) {
+			return "required";
+		} else {
+			return "------------";
 		}
 	}.property("bankAccount"),
 
@@ -137,6 +145,10 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 			array.push("label-blank");
 		} else if (this.get("bankAccountErrorMessages.length")) {
 			array.push("label-error");
+		}
+
+		if (this.hasBankAccountRequiredError()) {
+			array.push("label-required");
 		}
 		return array.join(" ");
 	}.property("bankAccountErrorMessages"),
