@@ -52,12 +52,17 @@
 		<img src="images/csv_table_existing.png">
 	</div>
 </div>
-<div class="actions">
-	<label class="control-label control-styled-upload">
-		Please upload a CSV file
-		<span class="btn">
-			Choose file
-			<input id="csv-upload-field" type="file" name="file" {{action "fileSelectionChanged" on="change" target="view"}} />
-		</span>
-	</label>
+<div {{bind-attr class=":upload-form-actions :form-actions errorMessage:form-actions-error"}}>
+	<div class="form-buttons">
+		<label class="control-label control-styled-upload">
+			Please upload a CSV file
+			<span class="btn">
+				Choose file
+				<input id="csv-upload-field" type="file" name="file" {{action "fileSelectionChanged" on="change" target="view"}} />
+			</span>
+		</label>
+	</div>
+	{{#if errorMessage}}
+	    <p>{{errorMessage}}</p>
+	{{/if}}
 </div>

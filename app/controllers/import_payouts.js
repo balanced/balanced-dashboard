@@ -12,7 +12,15 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 
 	creditCreators: function() {
 		var text = this.get("csvText");
-		return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
+		this.set("errorMessage", null);
+
+		try {
+			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
+		}
+		catch (e) {
+			this.set("errorMessage", "There was an error reading your CSV file");
+			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, "");
+		}
 	}.property("csvText"),
 
 	save: function(callback) {
