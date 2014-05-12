@@ -132,6 +132,14 @@ var Testing = {
 		this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/initial_deposit';
 	},
 
+	restoreMethods: function() {
+		_.each(arguments, function(method) {
+			if (method.restore) {
+				method.restore();
+			}
+		});
+	},
+
 	_createCard: function() {
 		var self = this;
 		return Balanced.Card.create({
