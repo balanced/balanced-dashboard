@@ -11,17 +11,15 @@ module('Marketplace Settings Guest', {
 				revision: '1.0'
 			}).save();
 		});
+
+		sinon.stub(Ember.Logger, "error");
 	},
 	teardown: function() {
-		var needRestore = [
+		Testing.restoreMethods(
 			Balanced.Adapter.create,
-			balanced.bankAccount.create
-		];
-		needRestore.forEach(function(method) {
-			if (method.restore) {
-				method.restore();
-			}
-		});
+			balanced.bankAccount.create,
+			Ember.Logger.error
+		);
 	}
 });
 
