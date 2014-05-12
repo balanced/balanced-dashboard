@@ -1,10 +1,28 @@
 require("app/views/popover");
 
+var initializePopover = function(self, selector, messagesProperty) {
+	return self.$(selector).popover({
+		trigger: "hover",
+		placement: "top",
+		html: true,
+		content: function() {
+			var messages = self.get(messagesProperty);
+			var label = messages.get("length") === 1 ?
+				"Error" :
+				"Errors";
+			return "<span class='label'>%@: </span> %@".fmt(
+				label,
+				messages.join(", ")
+			);
+		}
+	});
+};
+
 Balanced.CsvUploadCellView = Balanced.View.extend({
 	tagName: "td",
 	fieldsErrors: function() {
 		return this.get("context.validationErrors.csvFields");
-	}.property("context"),
+	}.property("context", "context.validationErrors.csvFields"),
 
 	didInsertElement: function() {
 		this._super();
@@ -69,22 +87,7 @@ Balanced.CsvUploadCellView = Balanced.View.extend({
 	}.property("fieldValue", "hasIsRequiredError"),
 
 	initializePopover: function() {
-		var self = this;
-		this.$("[data-tooltip]").popover({
-			trigger: "hover",
-			placement: "top",
-			html: true,
-			content: function() {
-				var messages = self.get("errorMessages.messages");
-				var label = messages.get("length") > 1 ?
-					"Errors" :
-					"Error";
-				return "<span class='label'>%@: </span> %@".fmt(
-					label,
-					messages.join(", ")
-				);
-			}
-		});
+		initializePopover(self, "[data-tooltip]", 'errorMessages.messages');
 	}
 });
 
@@ -113,7 +116,7 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 	bankAccountDisplayValue: function() {
 		var object = this.get("bankAccount");
 		if (object === null || object === undefined) {
-			return "required";
+			return "------------";
 		} else {
 			return object.get("description");
 		}
@@ -130,13 +133,13 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 
 	bankAccountLabelClasses: function() {
 		var array = ["label", "label-bank-account"];
-		var object = this.get("bankAccount");
-		if (object === null || object === undefined) {
-			array.push("label-required");
+		if (this.get("customer") === null) {
+			array.push("label-blank");
+		} else if (this.get("bankAccountErrorMessages.length")) {
 			array.push("label-error");
 		}
 		return array.join(" ");
-	}.property("bankAccount"),
+	}.property("bankAccountErrorMessages"),
 
 	customerLabelClasses: function() {
 		var array = ["label"];
@@ -148,30 +151,27 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 		return array.join(" ");
 	}.property("customer"),
 
-	initializeCustomerPopover: function() {},
-
-	initializeBankAccountPopover: function() {
-		var self = this;
-		this.$(".bank-description-tooltip[data-tooltip]").popover({
-			trigger: "hover",
-			placement: "top",
-			html: true,
-			content: function() {
-				var messages = self.get("context.validationErrors.bankAccount.errorMessages");
-				var label = messages.get("length") > 1 ?
-					"Errors" :
-					"Error";
-				return "<span class='label'>%@: </span> %@".fmt(
-					label,
-					messages.join(", ")
-				);
-			}
-		});
-
+	initializeCustomerPopover: function() {
+		initializePopover(this, ".customer-name-tooltip", "customerErrorMessages");
 	},
 
+	initializeBankAccountPopover: function() {
+		initializePopover(this, ".bank-description-tooltip", 'bankAccountErrorMessages');
+	},
+
+	bankAccountErrorMessages: Ember.computed.readOnly("context.validationErrors.bankAccount.messages"),
+	customerErrorMessages: Ember.computed.readOnly("context.validationErrors.customer.messages"),
+
+	isError: function() {
+		return this.get("bankAccountErrorMessages.length") || this.get("customerErrorMessages.length");
+	}.property("bankAccountErrorMessages.lenght", "customerErrorMessages.length"),
+
 	initializePopover: function() {
-		this.initializeBankAccountPopover();
-		this.initializeCustomerPopover();
+		if (this.get("bankAccountErrorMessages.length")) {
+			this.initializeBankAccountPopover();
+		}
+		if (this.get("customerErrorMessages.length")) {
+			this.initializeCustomerPopover();
+		}
 	}
 });

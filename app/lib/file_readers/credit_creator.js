@@ -203,10 +203,22 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 	validations: _.extend({}, baseValidationsObject, {
 		"customer": {
-			presence: true
+			presence: {
+				validator: function(object, attribute, value) {
+					if (value === null) {
+						object.get("validationErrors").add(attribute, "presence", null, "no matching customer found");
+					}
+				}
+			}
 		},
 		"bankAccount": {
-			presence: true
+			presence: {
+				validator: function(object, attribute, value) {
+					if (value === null && object.get("customer")) {
+						object.get("validationErrors").add(attribute, "presence", null, "no bank accounts available");
+					}
+				}
+			}
 		},
 		"csvFields.existing_customer_name_or_email": {
 			presence: true
