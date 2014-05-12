@@ -94,12 +94,15 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	},
 
 	getErrorMessagesSentences: function() {
-		var results = [];
-		var errors = this.get("validationErrors.csvFields.allMessages") || [];
-		errors.forEach(function(value) {
-			results.push(value.join(" "));
+		var self = this;
+		var errors = [];
+		["csvFields", "bankAccount", "customer"].forEach(function(name) {
+			var messages = self.get("validationErrors." + name + ".allMessages") || [];
+			errors = errors.concat(messages);
 		});
-		return results;
+		return errors.map(function(value) {
+			return value.join(" ");
+		});
 	},
 
 	toLabeledCsvRowObject: function() {
@@ -202,16 +205,19 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 
 Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 	validations: _.extend({}, baseValidationsObject, {
-		"customer": {
-			presence: {
-				validator: function(object, attribute, value) {
-					if (value === null) {
-						object.get("validationErrors").add(attribute, "presence", null, "no matching customer found");
+		"csvFields.existing_customer_name_or_email": {
+			presence: true,
+		},
+		customer: {
+			existence: {
+				validator: function(object, attribute, customer) {
+					if (customer === null) {
+						object.get("validationErrors").add("csvFields.existing_customer_name_or_email", "existence", null, "no matching customer found");
 					}
 				}
 			}
 		},
-		"bankAccount": {
+		bankAccount: {
 			presence: {
 				validator: function(object, attribute, value) {
 					if (value === null && object.get("customer")) {
@@ -220,9 +226,6 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 				}
 			}
 		},
-		"csvFields.existing_customer_name_or_email": {
-			presence: true
-		}
 	}),
 
 	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],

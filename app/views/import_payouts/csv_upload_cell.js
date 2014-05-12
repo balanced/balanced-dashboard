@@ -1,9 +1,11 @@
 require("app/views/popover");
 
 var initializePopover = function(self, selector, messagesProperty) {
-	return self.$(selector).popover({
+	var $element = self.$(selector);
+	var position = $element.attr("data-position") || "top";
+	return $element.popover({
 		trigger: "hover",
-		placement: "top",
+		placement: position,
 		html: true,
 		content: function() {
 			var messages = self.get(messagesProperty);
@@ -172,7 +174,7 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 	},
 
 	bankAccountErrorMessages: Ember.computed.readOnly("context.validationErrors.bankAccount.messages"),
-	customerErrorMessages: Ember.computed.readOnly("context.validationErrors.customer.messages"),
+	customerErrorMessages: Ember.computed.readOnly("context.validationErrors.csvFields.existing_customer_name_or_email.messages"),
 
 	isError: function() {
 		return this.get("bankAccountErrorMessages.length") || this.get("customerErrorMessages.length");
