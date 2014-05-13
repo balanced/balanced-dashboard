@@ -63,7 +63,6 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 		});
 		return writer.toCsvString();
 	}
-
 });
 
 Balanced.CreditCreatorsCollection.reopenClass({

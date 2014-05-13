@@ -15,9 +15,12 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
 	isUnprocessable: Ember.computed.not("isProcessable"),
 
-	displayCsvRows: Ember.computed.and("creditCreators.length", "isEscrowValid", "creditCreators.isLoaded"),
+	displayCsvRows: Ember.computed.and("creditCreators", "isEscrowValid", "creditCreators.isLoaded"),
 
 	isEscrowValid: Ember.computed.gte("escrowDifference", 0),
+	isDisplayInstructions: function() {
+		return !this.get("controller.csvText");
+	}.property("controller.csvText"),
 
 	updateReaderBody: function(text) {
 		var self = this;

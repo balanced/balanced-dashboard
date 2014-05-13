@@ -18,6 +18,8 @@
 			{{/if}}
 		</div>
 	</header>
+
+{{#if view.items.length}}
   <table class="table table-fixed table-border">
     <thead>
       <tr>
@@ -81,4 +83,7 @@
       {{/each}}
     </tbody>
   </table>
+{{else}}
+	<div class="no-results">No results</div>
+{{/if}}
 </div>
