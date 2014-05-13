@@ -462,14 +462,13 @@ var Testing = {
 						if (results.get('length') < howMany) {
 							controller.send('reload');
 							error();
-						}
-						else {
+						} else {
 							done();
 						}
 					});
 				});
 			})
-			.then(function () {
+			.then(function() {
 				start();
 			}, function() {
 				Ember.Logger.error("Failed to setupSearch because no results were returned");
