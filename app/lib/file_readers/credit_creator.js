@@ -61,7 +61,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	canSave: function() {
 		var self = this;
-		return this.get("isValid") && _.every(["bankAccount", "credit", "customer"], function (key) {
+		return this.get("isValid") && _.every(["bankAccount", "credit", "customer"], function(key) {
 			return self.get(key).get("isValid");
 		});
 	},

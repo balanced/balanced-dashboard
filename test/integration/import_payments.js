@@ -11,7 +11,7 @@ var matchProperties = function(object, properties) {
 	properties.forEach(function(propName) {
 		result[propName] = object.get(propName);
 	});
-	return result
+	return result;
 };
 
 var assertProperties = function(assert, object, expectedProperties, message) {
@@ -103,7 +103,7 @@ asyncTest("Read and process CSV data", function(assert) {
 	var collection = Balanced.CreditCreatorsCollection.fromCsvText(mp, csvString);
 
 	expectations.forEach(function(objects, index) {
-		var obj = collection.objectAt(index)
+		var obj = collection.objectAt(index);
 		_.each(objects, function(expectedProperties, keyName) {
 			assertProperties(assert, obj.get(keyName), expectedProperties, "Properties of object %@.%@ ".fmt(index, keyName));
 		});
