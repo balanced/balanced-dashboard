@@ -59,6 +59,13 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	isSaved: Ember.computed.not("credit.isNew"),
 	isSaveable: Ember.computed.and("credit.isNew", "isValid"),
 
+	canSave: function() {
+		var self = this;
+		return this.get("isValid") && _.every(["bankAccount", "credit", "customer"], function (key) {
+			return self.get(key).get("isValid");
+		});
+	},
+
 	credit: function() {
 		var mapper = Balanced.CreditCreatorCsvObjectMapper.create();
 		var attr = mapper.extractCreditAttributes(this.get("csvFields"));
@@ -188,6 +195,11 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 
 	save: function() {
 		var self = this;
+
+		if (!self.canSave()) {
+			return Ember.RSVP.reject();
+		}
+
 		return self.get("customer").save()
 			.then(function() {
 				return self.get("bankAccount").save();

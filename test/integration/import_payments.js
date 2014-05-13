@@ -6,101 +6,126 @@ module("ImportPayments", {
 	teardown: function() {}
 });
 
-test("Read and process CSV data", function(assert) {
-	stop();
-	var expectations = [
-		null, {
-			"customer.email": "harry.tan@example.com",
-			"bankAccount.name": "Harry Tan",
-			"credit.appears_on_statement_as": "Payment #9746",
-			"credit.amount": 1600
+var matchProperties = function(object, properties) {
+	var result = {};
+	properties.forEach(function(propName) {
+		result[propName] = object.get(propName);
+	});
+	return result
+};
+
+var assertProperties = function(assert, object, expectedProperties, message) {
+	var actualProperties = matchProperties(object, _.keys(expectedProperties));
+	assert.deepEqual(actualProperties, expectedProperties, message);
+};
+
+asyncTest("Read and process CSV data", function(assert) {
+	var expectations = [{
+		customer: {
+			name: "Harry Tan",
+			email: "harry.tan@example.com"
 		},
-		null,
-		null,
-		null, {
-			"customer.email": "dwyane.braggart@example.org",
-			"bankAccount.name": "Dwyane Braggart",
-			"credit.appears_on_statement_as": "Payment #7050",
-			"credit.amount": 5400
-		}, {
-			"customer.email": "charlie.chan@example.org",
-			"bankAccount.name": "Charlie Chan",
-			"credit.appears_on_statement_as": "Payment #4818",
-			"credit.amount": 3200
+		bankAccount: {
+			name: "Harry Tan",
+			routing_number: "121000358",
+			account_number: "123123123",
+			type: "checking"
 		},
-		null, {
-			"customer.email": "harrison.ford@example.org",
-			"bankAccount.name": "Harrison Ford",
-			"bankAccount.routing_number": "121000358",
-			"credit.appears_on_statement_as": "Payment #2720",
-			"credit.amount": 4300
+		credit: {
+			appears_on_statement_as: "Payment #9746",
+			amount: 1600,
+			description: "[VALID]"
 		}
-	];
+	}, {
+		customer: {
+			name: "Harry Tan",
+			email: "harry.tan@example.org"
+		},
+		bankAccount: {
+			name: "Harry Tan",
+			routing_number: "121000358",
+			account_number: "123123123",
+			type: "checking"
+		},
+		credit: {
+			appears_on_statement_as: "Payment #7891",
+			amount: -1900,
+			description: "[INVALID] Negative Amount"
+		}
+	}, {
+		customer: {
+			name: "Harry Tan",
+			email: "harry.tan@example.com"
+		},
+		bankAccount: {
+			name: "Harry Tan",
+			routing_number: "121000358",
+			account_number: "123123123",
+			type: "checking"
+		},
+		credit: {
+			appears_on_statement_as: "Payment #5425",
+			amount: undefined,
+			description: "[INVALID] Non numeric amount"
+		}
+	}, {
+		customer: {
+			name: "Dwyane Braggart",
+			email: 'dwyane.braggart@example.org'
+		},
+		bankAccount: {
+			name: "Dwyane Braggart",
+			routing_number: "121000358",
+			account_number: "123123123",
+			type: "savings"
+		},
+		credit: {
+			appears_on_statement_as: "Payment #7050",
+			amount: 5400,
+			description: '[VALID]'
+		}
+	}];
 
 	var successfulEntries = expectations.filter(function(expectation) {
 		return expectation !== null;
 	});
 
+	var mp = Balanced.currentMarketplace;
+
 	var csvString = [
-		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
-		",,,,,Dwyane Braggart,CHECKING,15,Payment #1771,[INVALID] No Acct. No",
-		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,16,Payment #9746,[VALID]",
-		",Harry Tan,harry.tan@example.org,121000358,123123123,Harry Tan,CHECKING,-19,Payment #7891,[INVALID] Negative Amount",
-		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,nuce,Payment #5425,[INVALID] Non numeric amount",
-		",Tommy Tang,tommy.tang@example.org,121000000,123123123,Tommy Tang,SAVINGS,1,Payment #5119,[INVALID] Invalid routing no",
-		",Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]",
-		",Charlie Chan,charlie.chan@example.org,121000358,123123123,Charlie Chan,CHECKING,32,Payment #4818,[VALID]",
-		",,,121000358,123123123,John Foo,SAVINGS,17,Payment #4805,[INVALID] No customer.",
-		",Harrison Ford,harrison.ford@example.org,121000358,123123000,Harrison Ford,CHECKING,43,Payment #2720,[VALID]"
+		"new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
+		"Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,16,Payment #9746,[VALID]",
+		"Harry Tan,harry.tan@example.org,121000358,123123123,Harry Tan,CHECKING,-19,Payment #7891,[INVALID] Negative Amount",
+		"Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKING,nuce,Payment #5425,[INVALID] Non numeric amount",
+		"Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]"
 	].join("\n");
 
-	var collection = Balanced.CreditCreatorsCollection.fromCsvText(csvString);
-	var content = collection.get("content");
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText(mp, csvString);
 
-	assert.equal(content.length, 9);
-	assert.deepEqual(content.get("0.csvFields"), {
-		bank_account_id: "",
-		new_customer_name: "",
-		new_customer_email: "",
-		new_bank_account_routing_number: "",
-		new_bank_account_number: "",
-		new_bank_account_holders_name: "Dwyane Braggart",
+	expectations.forEach(function(objects, index) {
+		var obj = collection.objectAt(index)
+		_.each(objects, function(expectedProperties, keyName) {
+			assertProperties(assert, obj.get(keyName), expectedProperties, "Properties of object %@.%@ ".fmt(index, keyName));
+		});
+	});
+
+	assert.equal(collection.get("length"), 4, "Is correct length");
+	assert.deepEqual(collection.objectAt(0).get("csvFields"), {
+		new_customer_name: "Harry Tan",
+		new_customer_email: "harry.tan@example.com",
+		new_bank_routing_number: "121000358",
+		new_bank_account_number: "123123123",
+		new_bank_account_holders_name: "Harry Tan",
 		new_bank_account_type: "CHECKING",
-		amount: "15",
-		appears_on_statement_as: "Payment #1771",
-		description: "[INVALID] No Acct. No"
-	});
+		amount: "16",
+		appears_on_statement_as: "Payment #9746",
+		description: "[VALID]"
+	}, "CSV fields are correct");
 
-	content.forEach(function(creator) {
-		Ember.run(function() {
-			creator.get("credit");
-		});
-	});
-
-	// Wait for credits, customers and banks to be loaded.
-	Ember.run(function() {
-		collection.save(function(results) {
-			expectations.forEach(function(expectation, i) {
-				if (expectation === null || results[i] === null) {
-					assert.deepEqual(results[i], expectation);
-				} else {
-					_.each(expectation, function(val, key) {
-						assert.deepEqual(results[i].get(key), val);
-					});
-				}
-			});
-
-			var credits = Balanced.currentMarketplace.get("credits.content");
-			_.each(successfulEntries, function(expectation, index) {
-				var credit = credits[3 - index];
-				var customer = Balanced.Customer.find(credit.get("customer_uri"));
-				var bankAccount = Balanced.BankAccount.find(credit.get("destination_uri"));
-				assert.deepEqual(customer.get("email"), expectation["customer.email"]);
-				assert.deepEqual(bankAccount.get("name"), expectation["bankAccount.name"]);
-				assert.deepEqual(credit.get("amount"), expectation["credit.amount"]);
-				assert.deepEqual(credit.get("appears_on_statement_as"), expectation["credit.appears_on_statement_as"]);
-			});
-			start();
-		});
+	collection.save(function(results) {
+		var credits = Balanced.currentMarketplace.get("credits");
+		assertProperties(assert, credits.objectAt(1), expectations[0].credit, "Saved credit 0");
+		assertProperties(assert, credits.objectAt(0), expectations[3].credit, "Saved credit 1");
+		start();
 	});
 });

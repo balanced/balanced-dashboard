@@ -472,6 +472,9 @@ module.exports = function(grunt) {
 				}, {
 					src: 'dist/fonts/**/*',
 					dest: 'fonts/'
+				}, {
+					src: 'dist/files/**/*',
+					dest: 'files/'
 				}]
 			},
 			previewUncached: {
