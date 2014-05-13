@@ -43,7 +43,7 @@
 
 				<div class="auth">Enter the authentication code below.</div>
 				<form id="forgot-form" {{bind-attr class=":otp-form hasError:error"}} {{action "otpSubmit" on="submit"}}>
-					{{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code"}}
+					{{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code" autocomplete="off"}}
 					<button type="submit" {{bind-attr disabled="isSubmitting"}}>
 						{{#if isSubmitting}}
 							<div class="loader-container"><span class="loader loading"></span></div>
