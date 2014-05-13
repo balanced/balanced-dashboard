@@ -16,8 +16,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 
 		try {
 			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
-		}
-		catch (e) {
+		} catch (e) {
 			this.set("errorMessage", "There was an error reading your CSV file");
 			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, "");
 		}

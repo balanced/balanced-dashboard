@@ -53,8 +53,7 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 		var writer = new Balanced.CsvWriter();
 		var firstObject = this.get("firstObject");
 		var fieldNames = firstObject ?
-			firstObject.get("fieldNames").slice() :
-			[];
+			firstObject.get("fieldNames").slice() : [];
 
 		fieldNames.push("errors");
 		writer.addColumnNames(fieldNames);
