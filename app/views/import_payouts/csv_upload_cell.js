@@ -1,6 +1,6 @@
 require("app/views/popover");
 
-var initializePopover = function(self, selector, messagesProperty) {
+var initializePopover = function(self, label, selector, messagesProperty) {
 	var $element = self.$(selector);
 	var position = $element.attr("data-position") || "top";
 	return $element.popover({
@@ -9,9 +9,6 @@ var initializePopover = function(self, selector, messagesProperty) {
 		html: true,
 		content: function() {
 			var messages = self.get(messagesProperty);
-			var label = messages.get("length") === 1 ?
-				"Error" :
-				"Errors";
 			return "<span class='label'>%@: </span> %@".fmt(
 				label,
 				messages.join(", ")
@@ -89,7 +86,7 @@ Balanced.CsvUploadCellView = Balanced.View.extend({
 	}.property("fieldValue", "hasIsRequiredError"),
 
 	initializePopover: function() {
-		initializePopover(this, "[data-tooltip]", 'errorMessages.messages');
+		initializePopover(this, this.get("fieldName"), "[data-tooltip]", 'errorMessages.messages');
 	}
 });
 
@@ -166,11 +163,11 @@ Balanced.ExistingCustomerIdentityCsvUploadCellView = Balanced.CsvUploadCellView.
 	}.property("customer"),
 
 	initializeCustomerPopover: function() {
-		initializePopover(this, ".customer-name-tooltip", "customerErrorMessages");
+		initializePopover(this, "existing_customer_name_or_email", ".customer-name-tooltip", "customerErrorMessages");
 	},
 
 	initializeBankAccountPopover: function() {
-		initializePopover(this, ".bank-description-tooltip", 'bankAccountErrorMessages');
+		initializePopover(this, "Bank account", ".bank-description-tooltip", 'bankAccountErrorMessages');
 	},
 
 	bankAccountErrorMessages: Ember.computed.readOnly("context.validationErrors.bankAccount.messages"),
