@@ -1,4 +1,4 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',

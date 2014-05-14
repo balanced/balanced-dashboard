@@ -2,10 +2,10 @@
 {{#if marketplace}}
 	<ul>
 		<li>
-			<a href="#" {{action "expand"}}>
+			{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
 				<i class="icon-payments"></i>
 				<span>Payments</span>
-			</a>
+			{{/link-to}}
 			<ul class="submenu payments">
 				<li>
 					{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
@@ -45,15 +45,21 @@
 		</li>
 		<li>
 			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
-				<i class="icon-invoices"></i>
-				<span>Fees</span>
+				<i class="icon-my-marketplace"></i>
+				<span>My marketplace</span>
 			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'marketplace.settings' marketplace.model}}
-				<i class="icon-settings"></i>
-				<span>Settings</span>
-			{{/link-to}}
+			<ul class="submenu my-marketplace">
+				<li>
+					{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
+						<span>Account statements</span>
+					{{/link-to}}
+				</li>
+				<li>
+				{{#link-to 'marketplace.settings' marketplace.model}}
+					<span>Settings</span>
+				{{/link-to}}
+				</li>
+			</ul>
 		</li>
 	</ul>
 {{/if}}
