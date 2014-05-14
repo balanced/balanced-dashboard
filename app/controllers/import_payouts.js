@@ -7,7 +7,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 	},
 
 	refresh: function(text) {
-		this.set("csvText", text || "");
+		this.set("csvText", text);
 	},
 
 	creditCreators: function() {
@@ -18,7 +18,9 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
 		} catch (e) {
 			this.set("errorMessage", "There was an error reading your CSV file");
-			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, "");
+			return Balanced.CreditCreatorsCollection.create({
+				content: []
+			});
 		}
 	}.property("csvText"),
 
@@ -33,7 +35,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 			self.transitionToRoute('activity');
 			self.refresh('');
 			self.send('alert', {
-				message: '%@ payouts were successfully submitted'.fmt(count),
+				message: '%@ payouts were successfully submitted. Credits might take a couple seconds to appear in the transactions list.'.fmt(count),
 				persists: false,
 				type: 'success'
 			});

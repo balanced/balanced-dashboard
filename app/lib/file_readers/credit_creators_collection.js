@@ -7,6 +7,9 @@ var Computed = {
 };
 Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
+	isDataPresent: false,
+	isDataMissing: Ember.computed.not("isDataPresent"),
+
 	isExistingCustomers: Computed.isEvery("isExisting"),
 
 	isLoading: Ember.computed.not("isLoaded"),
@@ -70,13 +73,25 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
 Balanced.CreditCreatorsCollection.reopenClass({
 	fromCsvText: function(marketplace, text) {
+		if (text === undefined) {
+			return Balanced.CreditCreatorsCollection.create({
+				content: []
+			});
+		}
 		var reader = Balanced.CsvReader.create({
 			body: text
 		});
+
+		var columnNames = reader.getColumnNames();
+		if (!Balanced.CreditCreator.isValidCreditCreatorColumns(columnNames)) {
+			throw new Error("ColumnsMissing");
+		}
+
 		var content = reader.getObjects().map(function(row) {
 			return Balanced.CreditCreator.fromCsvRow(marketplace, row);
 		});
 		return Balanced.CreditCreatorsCollection.create({
+			isDataPresent: true,
 			content: content
 		});
 	}

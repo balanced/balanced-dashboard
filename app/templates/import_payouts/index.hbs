@@ -13,11 +13,12 @@
 {{else}}
 	<form {{action "submit" on="submit" target="view"}} class="full-page-form">
 		{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
-		{{#if view.isDisplayInstructions}}
+
+		{{#if creditCreators.isDataMissing}}
 			{{partial 'import_payouts/instructions'}}
 		{{else}}
 			{{partial 'import_payouts/account_summary'}}
-			{{#if view.displayCsvRows}}
+			{{#if view.isPreviewable}}
 				<div class="csv-preview">
 					<h3>Preview Data</h3>
 					{{#if creditCreators.isInvalid}}
@@ -30,7 +31,6 @@
 				</div>
 			{{/if}}
 		{{/if}}
-
 	</form>
 {{/if}}
 {{/view}}

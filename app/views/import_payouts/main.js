@@ -1,32 +1,24 @@
 Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	title: function() {
-		return this.get("creditCreators.isEmpty") ?
+		return this.get("creditCreators.isDataMissing") ?
 			"Upload your file" :
 			"Payout summary";
-	}.property("creditCreators.isEmpty"),
+	}.property("creditCreators.isDataMissing"),
 
-	creditCreators: Ember.computed.oneWay("controller.creditCreators").readOnly(),
+	creditCreators: Ember.computed.readOnly("controller.creditCreators"),
 
-	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
+	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount").readOnly(),
 	escrowTotal: Ember.computed.oneWay("controller.controllers.marketplace.in_escrow").readOnly(),
-	escrowDifference: Balanced.computed.substract("escrowTotal", "payoutTotal"),
-
-	isProcessable: Ember.computed.and("isEscrowValid", "creditCreators.isValid"),
-	isUnprocessable: Ember.computed.not("isProcessable"),
-
-	displayCsvRows: Ember.computed.and("creditCreators", "isEscrowValid", "creditCreators.isLoaded"),
+	escrowDifference: Balanced.computed.substract("escrowTotal", "payoutTotal").readOnly(),
 
 	isEscrowValid: Ember.computed.gte("escrowDifference", 0),
-	isDisplayInstructions: function() {
-		return !this.get("controller.csvText");
-	}.property("controller.csvText"),
+	isPreviewable: Ember.computed.and("isEscrowValid", "creditCreators.isLoaded"),
 
 	updateReaderBody: function(text) {
-		var self = this;
 		var modal = this.get("parseProgressBarModal");
 
-		self.get("controller").refresh(text);
+		this.get("controller").refresh(text);
 		modal.refresh(this.get("creditCreators"));
 
 		setTimeout(function() {
@@ -38,7 +30,7 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	actions: {
 		reset: function() {
-			this.updateReaderBody(undefined);
+			this.updateReaderBody();
 		},
 
 		confirmClearAll: function() {

@@ -127,6 +127,15 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 });
 
 Balanced.CreditCreator.reopenClass({
+	isValidCreditCreatorColumns: function(csvColumns) {
+		var requiredColumns = [
+			Balanced.ExistingCustomerCreditCreator.fieldNames,
+			Balanced.NewCustomerCreditCreator.fieldNames
+		];
+		return requiredColumns.any(function(requiredColumns) {
+			return _.difference(requiredColumns, csvColumns).length === 0;
+		});
+	},
 	fromCsvRow: function(marketplace, object) {
 		var creditCreator = null;
 
@@ -215,6 +224,10 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 	}
 });
 
+Balanced.NewCustomerCreditCreator.reopenClass({
+	fieldNames: ["new_customer_name", "new_customer_email", "new_bank_routing_number", "new_bank_account_number", "new_bank_account_holders_name", "new_bank_account_type", "amount", "appears_on_statement_as", "description"]
+});
+
 Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 	validations: _.extend({}, baseValidationsObject, {
 		"csvFields.existing_customer_name_or_email": {
@@ -249,6 +262,7 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 });
 
 Balanced.ExistingCustomerCreditCreator.reopenClass({
+	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
 	createFromQuery: function(marketplace, attributes) {
 		var creator = this.create({
 			csvFields: attributes
