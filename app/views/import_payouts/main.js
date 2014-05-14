@@ -8,7 +8,7 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	creditCreators: Ember.computed.readOnly("controller.creditCreators"),
 
-	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount").readOnly(),
+	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
 	escrowTotal: Ember.computed.oneWay("controller.controllers.marketplace.in_escrow").readOnly(),
 	escrowDifference: Balanced.computed.substract("escrowTotal", "payoutTotal").readOnly(),
 

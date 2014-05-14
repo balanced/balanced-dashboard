@@ -4,14 +4,14 @@ test("#title", function(assert) {
 	var view = Balanced.ImportPayoutsView.create({
 		controller: {
 			creditCreators: {
-				isEmpty: true
+				isDataMissing: true
 			}
 		}
 	});
 
 	assert.equal(view.get("title"), "Upload your file");
 
-	view.set("creditCreators.isEmpty", false);
+	view.set("creditCreators.isDataMissing", false);
 	assert.equal(view.get("title"), "Payout summary");
 });
 

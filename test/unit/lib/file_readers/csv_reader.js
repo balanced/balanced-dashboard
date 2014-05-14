@@ -1,29 +1,9 @@
 module("Balanced.CsvReader");
 
-test("getParsedColumnNames", function(assert) {
-	var values = [
-		"bank_account",
-		"bank_account.id",
-		"bank_account.credit.id"
-	];
-
-	var expectations = [
-		["bank_account"],
-		["bank_account", "id"],
-		["bank_account", "credit", "id"]
-	];
-
-	var reader = Balanced.CsvReader.create({
-		body: values.join(",")
-	});
-	assert.deepEqual(reader.getParsedColumnNames(), expectations);
-
-});
-
 test("getObjects", function(assert) {
 	var csv = [
-		"bank_account.id,credit.amount,credit.appears_on_statement_as,credit.description",
-		"cool id,10.00,COH 01-2014,January Payment User 1"
+		"amount,appears_on_statement_as,description",
+		"10.00,COH 01-2014,January Payment User 1"
 	].join("\n");
 
 	var reader = Balanced.CsvReader.create({
@@ -32,10 +12,9 @@ test("getObjects", function(assert) {
 
 	var objects = reader.getObjects();
 	assert.deepEqual(objects, [{
-		"bank_account.id": "cool id",
-		"credit.amount": "10.00",
-		"credit.appears_on_statement_as": "COH 01-2014",
-		"credit.description": "January Payment User 1",
+		"amount": "10.00",
+		"appears_on_statement_as": "COH 01-2014",
+		"description": "January Payment User 1",
 	}]);
 });
 
