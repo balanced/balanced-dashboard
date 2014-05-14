@@ -14,10 +14,15 @@ Balanced.ApiKeyCreateModalComponent = Balanced.ModalComponent.extend({
 				.then(function(newKey) {
 					self.get('keys').unshiftObject(newKey);
 					self.set('keyName', '');
+
 					Balanced.UserMarketplace.create({
 						uri: self.get('user.api_keys_uri'),
 						secret: newKey.get('secret')
-					}).save();
+					}).save().then(function() {}, function(error) {
+						if (error.error !== "Unauthorized") {
+							Balanced.ErrorsLogger.captureMessage(error);
+						}
+					});
 				});
 		}
 	}

@@ -12,21 +12,13 @@ module('Balanced.Marketplaces.apply', {
 				true,
 				false);
 		});
-
-		if (balanced.bankAccount.create.restore) {
-			balanced.bankAccount.create.restore();
-		}
-		if (Balanced.Adapter.create.restore) {
-			Balanced.Adapter.create.restore();
-		}
 	},
 	teardown: function() {
-		if (balanced.bankAccount.create.restore) {
-			balanced.bankAccount.create.restore();
-		}
-		if (Balanced.Adapter.create.restore) {
-			Balanced.Adapter.create.restore();
-		}
+		Testing.restoreMethods(
+			balanced.bankAccount.create,
+			Balanced.Adapter.create,
+			Ember.Logger.error
+		);
 	}
 });
 
@@ -74,7 +66,9 @@ test('basic form validation and terms and conditions', function(assert) {
 });
 
 test('application submits properly', function(assert) {
-	var loggerSpy = sinon.spy(Balanced.ErrorsLogger, 'captureMessage');
+	// Stubbing Ember.logger.error to reduce console output
+	sinon.stub(Ember.Logger, "error");
+	var loggerStub = sinon.stub(Balanced.ErrorsLogger, 'captureMessage');
 	var createStub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
@@ -124,7 +118,7 @@ test('application submits properly', function(assert) {
 		.then(function() {
 			var message = "Marketplace apply for production access error: BankingError";
 
-			assert.equal(loggerSpy.firstCall.args[0], message);
+			assert.equal(loggerStub.firstCall.args[0], message);
 			assert.equal(createStub.callCount, 3);
 			assert.ok(createStub.calledWith(Balanced.APIKey, '/api_keys', sinon.match({
 				merchant: {
@@ -161,8 +155,6 @@ test('application submits properly', function(assert) {
 				account_number: "123123123",
 				routing_number: "321174851"
 			}));
-
-			balanced.bankAccount.create.restore();
 		});
 });
 
