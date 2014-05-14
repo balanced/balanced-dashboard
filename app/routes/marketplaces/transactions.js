@@ -5,7 +5,6 @@ Balanced.MarketplaceTransactionsRoute = Balanced.AuthRoute.extend({
 		this._super(controller, model);
 
 		var activityController = controller;
-		console.log(controller, model);
 		activityController.refresh();
 
 		var defaultSort = this.get('defaultSort');
