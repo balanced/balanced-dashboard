@@ -31,7 +31,7 @@ test('can edit customer info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.customer-info a.edit')
+		.click('.customer-info a.icon-edit')
 		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -45,7 +45,7 @@ test('can update customer info', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.customer-info a.edit')
+		.click('.customer-info a.icon-edit')
 		.click('#edit-customer-info a.more-info')
 		.fillForm('#edit-customer-info', {
 			name: 'TEST',
@@ -98,7 +98,7 @@ test('can update customer info only some fields', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.customer-info a.edit')
+		.click('.customer-info a.icon-edit')
 		.click('#edit-customer-info a.more-info')
 		.fillForm('#edit-customer-info', {
 			business_name: '',
