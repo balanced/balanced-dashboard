@@ -84,31 +84,18 @@ Balanced.Router.map(function() {
 				path: '/import_payouts'
 			});
 
+			// exists to handle old URIs
+			this.route("redirect_activity_transactions", { path: '/activity/transactions'});
+			this.route("redirect_activity_orders", { path: '/activity/orders'});
+			this.route("redirect_activity_customers", {path: 'activity/customers'});
+			this.route("redirect_activity_funding_instruments", {path: 'activity/funding_instruments'});
+			this.route("redirect_activity_disputes", {path: 'activity/disputes'});
+
 			this.resource('activity', {
-				path: '/activity'
+				path: '/'
 			}, function() {
-				this.route('orders', {
-					path: '/orders'
-				});
-
-				this.route('transactions', {
-					path: '/transactions'
-				});
-
-				// exists to handle old URIs for customers, redirects to the customers page
-				this.route('customers', {
-					path: '/customers'
-				});
-
-				// exists to handle old URIs for funding instruments, redirects to the customers page
-				this.route('funding_instruments', {
-					path: '/funding_instruments'
-				});
-
-				// exists to handle old URIs for disputes, redirects to the customers page
-				this.route('disputes', {
-					path: '/disputes'
-				});
+				this.route('orders');
+				this.route('transactions');
 			});
 
 			this.resource('customers', {

@@ -26,16 +26,19 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 });
 
 Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
+	pageTitle: 'Orders',
 	defaultType: 'order'
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
+	pageTitle: 'Transactions',
 	defaultType: 'transaction'
 });
 
+Balanced.MarketplaceRedirectActivityTransactionsRoute = Balanced.RedirectRoute("activity.transactions");
+Balanced.MarketplaceRedirectActivityOrdersRoute = Balanced.RedirectRoute("activity.orders");
+Balanced.MarketplaceRedirectActivityCustomersRoute = Balanced.RedirectRoute('marketplace.customers');
+Balanced.MarketplaceRedirectActivityFundingInstrumentsRoute = Balanced.RedirectRoute('marketplace.funding_instruments');
+Balanced.MarketplaceRedirectActivityDisputesRoute = Balanced.RedirectRoute('marketplace.disputes');
+
 Balanced.ActivityIndexRoute = Balanced.RedirectRoute('activity.transactions');
-Balanced.ActivityCustomersRoute = Balanced.RedirectRoute('marketplace.customers');
-Balanced.ActivityFundingInstrumentsRoute = Balanced.RedirectRoute('marketplace.funding_instruments');
-Balanced.ActivityDisputesRoute = Balanced.RedirectRoute('marketplace.disputes');
