@@ -10,6 +10,15 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 		this.set("csvText", text);
 	},
 
+	validateCreditCreators: function() {
+		var creditCreators = this.get("creditCreators");
+		if (creditCreators.get("isLoaded")) {
+			creditCreators.forEach(function(item) {
+				item.validate();
+			});
+		}
+	}.observes("creditCreators.isLoaded"),
+
 	creditCreators: function() {
 		var text = this.get("csvText");
 		this.set("errorMessage", null);

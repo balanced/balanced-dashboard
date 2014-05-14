@@ -21,7 +21,7 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	isInvalid: Ember.computed.gt("invalid.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
 
-	canSubmit: function(){
+	canSubmit: function() {
 		return this.get("isValid") && (this.get("valid.length") > 0);
 	}.property("isInvalid", "valid.length"),
 

@@ -236,17 +236,25 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 		customer: {
 			existence: {
 				validator: function(object, attribute, customer) {
-					if (customer === null) {
+					var matchesLength = object.get("customersCollection.length");
+
+					if (matchesLength === 0) {
 						object.get("validationErrors").add("csvFields.existing_customer_name_or_email", "existence", null, "no matching customer found");
+					} else if (matchesLength > 1) {
+						object.get("validationErrors").add("csvFields.existing_customer_name_or_email", "existence", null, "multiple customers found");
 					}
 				}
 			}
 		},
 		bankAccount: {
-			presence: {
+			existence: {
 				validator: function(object, attribute, value) {
-					if (value === null && object.get("customer")) {
-						object.get("validationErrors").add(attribute, "presence", null, "no bank accounts available");
+					var matchesLength = object.get("customer.bank_accounts.length");
+
+					if (matchesLength === 0) {
+						object.get("validationErrors").add("bankAccount", "existence", null, "no bank accounts available");
+					} else if (matchesLength > 1) {
+						object.get("validationErrors").add("bankAccount", "existence", null, "multiple bank accounts found");
 					}
 				}
 			}
@@ -258,7 +266,32 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 
 	save: function() {
 		return this.get('credit').save();
-	}
+	},
+
+	customer: function() {
+		var collection = this.get("customersCollection");
+
+		if (collection) {
+			return collection.get("length") === 1 ?
+				collection.objectAt(0) :
+				null;
+		}
+		return undefined;
+	}.property("customersCollection", "customersCollection.length"),
+
+	bankAccount: function() {
+		var customer = this.get("customer");
+		var collection = this.get("customer.bank_accounts");
+
+		if (customer === null) {
+			return null;
+		} else if (collection) {
+			return collection.get("length") === 1 ?
+				collection.objectAt(0) :
+				null;
+		}
+		return undefined;
+	}.property("customer", "customer.bank_accounts", "customer.bank_accounts.length")
 });
 
 Balanced.ExistingCustomerCreditCreator.reopenClass({
@@ -269,28 +302,8 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		});
 
 		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
-		// TODO[carlos] this should check for arrays being length === 1
 		results.addObserver("isLoaded", function() {
-			var customer = results.get("lastObject");
-
-			if (customer) {
-				creator.set("customer", customer);
-				customer.get("bank_accounts").then(function(bankAccountsCollection) {
-					var bankAccount = bankAccountsCollection.objectAt(0);
-					if (bankAccount === undefined) {
-						creator.set("bankAccount", null);
-					} else {
-						creator.set("bankAccount", bankAccount);
-					}
-					creator.validate();
-				});
-			} else {
-				creator.setProperties({
-					bankAccount: null,
-					customer: null
-				});
-			}
-			creator.validate();
+			creator.set("customersCollection", results);
 		});
 
 		return creator;
