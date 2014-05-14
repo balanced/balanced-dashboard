@@ -13,11 +13,13 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 
 	needs: ['application'],
 
-	fundingInstrumentSelected: Computed.isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),
-	invoiceSelected: Computed.isSelected('marketplace.invoices', 'invoice'),
-	logSelected: Computed.isSelected('marketplace.logs', 'log'),
-	disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),
+	transactionSelected: Computed.isSelected('activity.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
+	orderSelected: Computed.isSelected('activity.orders', 'orders'),
 	customerSelected: Computed.isSelected('marketplace.customers', 'customer'),
+	fundingInstrumentSelected: Computed.isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),
+	disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),
+	logSelected: Computed.isSelected('marketplace.logs', 'log'),
+	invoiceSelected: Computed.isSelected('marketplace.invoices', 'invoice'),
 
 	formattedEscrowAmount: function() {
 		var escrow = this.get('in_escrow');

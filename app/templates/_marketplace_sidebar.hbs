@@ -8,12 +8,12 @@
 			</a>
 			<ul class="submenu payments">
 				<li>
-					{{#link-to 'activity' marketplace.model}}
+					{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
 						<span>Transactions</span>
 					{{/link-to}}
 				</li>
 				<li>
-					{{#link-to 'activity.orders' marketplace.model}}
+					{{#link-to 'activity.orders' marketplace.model active=marketplace.orderSelected}}
 						<span>Orders</span>
 					{{/link-to}}
 				</li>
