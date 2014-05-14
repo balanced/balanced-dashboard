@@ -146,7 +146,7 @@ test('can update marketplace info', function(assert) {
 		Ember.run.next(function() {
 			Testing.start();
 
-			click('.marketplace-info a.edit')
+			click('.marketplace-info a.icon-edit')
 				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
 				.then(function() {
@@ -169,7 +169,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 			Ember.run.next(function() {
 				Testing.start();
 
-				click('.marketplace-info a.edit')
+				click('.marketplace-info a.icon-edit')
 					.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
 					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -194,7 +194,7 @@ test('can update owner info', function(assert) {
 		Ember.run.next(function() {
 			Testing.start();
 
-			click('.owner-info a.edit')
+			click('.owner-info a.icon-edit')
 				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 				.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
 				.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')

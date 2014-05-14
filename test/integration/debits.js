@@ -45,7 +45,7 @@ test('can edit debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
-		.click('.debit .transaction-info a.edit')
+		.click('.debit .transaction-info a.icon-edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
