@@ -262,28 +262,6 @@ test('can credit to a debit card', function(assert) {
 		});
 });
 
-test('can credit customer using debit card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
-	var fundingInstrumentUri;
-
-	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(1))
-		.fillForm('#credit-customer', {
-			dollar_amount: '1000',
-			description: 'Test credit'
-		}, {
-			click: '.modal-footer button[name="modal-submit"]'
-		})
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			fundingInstrumentUri = $("#credit-customer form select[name='source_uri'] option").eq(1).val();
-			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
-				amount: 100000,
-				description: "Test credit"
-			})));
-		});
-});
-
 test('when crediting customer triggers an error, the error is displayed to the user', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
