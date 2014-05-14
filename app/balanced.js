@@ -18,5 +18,5 @@
 			activeCategory.addClass('expanded');
 			activeCategory.prev().addClass('expanded');
 		}
-	}
+	};
 })(window);
