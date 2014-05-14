@@ -85,11 +85,21 @@ Balanced.Router.map(function() {
 			});
 
 			// exists to handle old URIs
-			this.route("redirect_activity_transactions", { path: '/activity/transactions'});
-			this.route("redirect_activity_orders", { path: '/activity/orders'});
-			this.route("redirect_activity_customers", {path: 'activity/customers'});
-			this.route("redirect_activity_funding_instruments", {path: 'activity/funding_instruments'});
-			this.route("redirect_activity_disputes", {path: 'activity/disputes'});
+			this.route("redirect_activity_transactions", {
+				path: '/activity/transactions'
+			});
+			this.route("redirect_activity_orders", {
+				path: '/activity/orders'
+			});
+			this.route("redirect_activity_customers", {
+				path: 'activity/customers'
+			});
+			this.route("redirect_activity_funding_instruments", {
+				path: 'activity/funding_instruments'
+			});
+			this.route("redirect_activity_disputes", {
+				path: 'activity/disputes'
+			});
 
 			this.resource('activity', {
 				path: '/'
