@@ -3,12 +3,12 @@
 	<div id="content">
 		<div id="marketplace-apply">
 			<h1 class="page-title">Apply for a Production Marketplace</h1>
-			<form class="full-page-form" method="POST" {{action "submitApplication" on="submit"}}>
+			<form class="full-page-form" method="POST" {{action "save" on="submit"}}>
 				{{#if isGuest}}
 					<fieldset>
 						<legend>Login info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Email address" field="email_address" help="Enter your email address"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Password" field="password" help="Enter a secure password" type="password"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Email address" field="claimEmailAddress" help="Enter your email address"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Password" field="claimPassword" help="Enter a secure password" type="password"}}
 					</fieldset>
 				{{/if}}
 
@@ -29,14 +29,14 @@
 					{{#if model.isBusiness}}
 						<fieldset>
 							<legend>Business info</legend>
-							{{view Balanced.ControlGroupFieldView placeholder="Business name" field="businessInformation.name" help="Enter your business name"}}
-							{{view Balanced.ControlGroupFieldView placeholder="EIN" field="businessInformation.ein" help="Enter your 9-digit employer identification number"}}
+							{{view Balanced.ControlGroupFieldView placeholder="Business name" field="businessName" help="Enter your business name"}}
+							{{view Balanced.ControlGroupFieldView placeholder="EIN" field="employerIdentificationNumber" help="Enter your 9-digit employer identification number"}}
 						</fieldset>
 					{{/if}}
 
 					<fieldset>
 						<legend>Your personal info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Name" field="personalInformation.name" help="Enter your full legal name"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Name" field="personName" help="Enter your full legal name"}}
 						<div class="control-group">
 							<div class="controls">
 								{{view Ember.Select contentBinding="dobYears" valueBinding="model.dobYear" name="dob_year" class="span2"}}
@@ -52,21 +52,21 @@
 						{{/if}}
 						{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="postalCode" help="Enter your zip code"}}
 
-						{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="personalInformation.socialSecurityNumber" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="socialSecurityNumber" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
 						{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phoneNumber" help="Enter your phone number"}}
 
 					</fieldset>
 
 					<fieldset>
 						<legend>Banking info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="bankAccountInformation.accountName" help="Enter the name on your bank account"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Account number" field="bankAccountInformation.accountNumber" help="Enter your bank account number"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="bankAccountName" help="Enter the name on your bank account"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Account number" field="bankAccountNumber" help="Enter your bank account number"}}
 						{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="bankAccountInformation.routingNumber" help="Enter your 9 digit routing number"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="bankRoutingNumber" help="Enter your 9 digit routing number"}}
 						{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
 						<div class="control-group">
 							<div class="controls">
-								{{view Ember.Select contentBinding="accountTypes" valueBinding="model.bankAccountInformation.accountType" name="banking.account_type"}}
+								{{view Ember.Select contentBinding="accountTypes" valueBinding="model.bankAccountType" name="banking.account_type"}}
 							</div>
 							<label>Specify your account type</label>
 						</div>
@@ -74,10 +74,10 @@
 
 					<fieldset>
 						<legend>Marketplace info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Marketplace name" field="marketplaceInformation.name" help="Enter your marketplace name"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Support email address" field="marketplaceInformation.supportEmailAddress" help="Support requests and automated email messages are sent to this email address"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Support phone no." field="marketplaceInformation.supportPhoneNumber" help="The support phone number will appear on credit card statements associated with your marketplace"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Domain name" field="marketplaceInformation.domainUrl" help="The URL of your marketplace's website"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Marketplace name" field="marketplaceName" help="Enter your marketplace name"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Support email address" field="supportEmailAddress" help="Support requests and automated email messages are sent to this email address"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Support phone no." field="supportPhoneNumber" help="The support phone number will appear on credit card statements associated with your marketplace"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Domain name" field="marketplaceDomainUrl" help="The URL of your marketplace's website"}}
 					</fieldset>
 
 					<fieldset>
@@ -113,13 +113,13 @@
 							</div>
 						</fieldset>
 						{{#view Balanced.View classBinding=":actions hasError:error"}}
-							{{#if hasError}}
+							{{#each model.requestErrors}}
 								<div class="error-message">
 									<span class="icon warning"></span>
-									<span class="message">{{errorMessage}}</span>
+									<span class="message">{{message}}</span>
 								</div>
-							{{/if}}
-							{{#if isLoading}}
+							{{/each}}
+							{{#if isSaving}}
 								<span class="loader loading"></span> <span class="message">Verifying...</span>
 							{{else}}
 								<button class="btn submit" type="submit">Submit</button>

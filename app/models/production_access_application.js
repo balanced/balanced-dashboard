@@ -1,7 +1,6 @@
-var objectProperty = function() {
-	return function() {
-		return Ember.Object.create({});
-	}.property();
+var resolver = function(obj) {
+	console.log("resolver", obj);
+	return obj;
 };
 
 Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
@@ -9,10 +8,29 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isBusiness: Ember.computed.equal("applicationType", "BUSINESS"),
 	isType: Ember.computed.or("isPerson", "isBusiness"),
 
-	businessInformation: objectProperty(),
-	personalInformation: objectProperty(),
-	bankAccountInformation: objectProperty(),
-	marketplaceInformation: objectProperty(),
+	getErrorObject: function() {
+		var props = this.getProperties(
+			"personName",
+			// "socialSecurityNumber",
+			"streetAddress",
+			"postalCode",
+			"phoneNumber",
+			"dobYear",
+			"dobMonth",
+			"dobDay",
+
+			"bankAccountType",
+			"bankAccountNumber",
+			"bankRoutingNumber",
+			"bankAccountName",
+
+			"marketplaceName",
+			"supportEmailAddress",
+			"supportPhoneNumber",
+			"marketplaceDomainUrl"
+		);
+		return props;
+	},
 
 	saveUser: function() {
 		return Ember.RSVP.resolve();
@@ -26,7 +44,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				("0"+ value) :
 				value;
 		}).join('-');
-	}.property('personalInformation.dobYear', 'personalInformation.dobMonth', 'personalInformation.dobDay'),
+	}.property('dobYear', 'dobMonth', 'dobDay'),
 
 	getPersonAttributes: function() {
 		return {
@@ -34,8 +52,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
 
-			name: this.get('personalInformation.name'),
-			tax_id: this.get('personalInformation.socialSecurityNumber'),
+			name: this.get('personName'),
+			tax_id: this.get('socialSecurityNumber'),
 			dob: this.get("dob")
 		};
 	},
@@ -51,7 +69,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 		var setOptionalValue = function(attributes, valueName, keyName) {
 			var value = self.get(valueName);
-			if (value) {
+			if (value && _.isString(value) && value.length > 0) {
 				attributes[keyName] = value;
 			}
 		};
@@ -60,48 +78,172 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			type: "BUSINESS",
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
-			phone_number: this.get('personalInformation.phoneNumber'),
+			phone_number: this.get('phoneNumber'),
 			person: this.getPersonAttributes(),
 		};
 
-		setOptionalValue(attributes, "businessInformation.name", "name");
-		setOptionalValue(attributes, "businessInformation.tax_id", "ein");
+		setOptionalValue(attributes, "businessName", "name");
+		setOptionalValue(attributes, "employerIdentificationNumber", "ein");
 		return attributes;
 	},
 
-	saveApiKey: function() {
-		var attributes = this.get("isBusiness") ?
+	getApiKeyAttributes: function() {
+		return this.get("isBusiness") ?
 			this.getBusinessApiKeyAttributes() :
 			this.getPersonApiKeyAttributes();
+	},
 
-		return Balanced.APIKey.create({
-			merchant: attributes
+	getMarketplaceAttributes: function() {
+		return {
+			name: this.get('marketplaceName'),
+			support_email_address: this.get('supportEmailAddress'),
+			support_phone_number: this.get('supportPhoneNumber'),
+			domain_url: this.get('marketplaceDomainUrl')
+		};
+	},
+
+	getBankAccountAttributes: function() {
+		return {
+			name: this.get('bankAccountName'),
+			routing_number: this.get('bankRoutingNumber'),
+			account_number: this.get('bankAccountNumber'),
+			account_type: this.get('bankAccountType').toLowerCase()
+		};
+	},
+
+	saveApiKey: function() {
+		var object = Balanced.APIKey.create({
+			merchant: this.getApiKeyAttributes()
+		});
+		return object.save();
+	},
+
+	saveUser: function() {
+		if (this.get("user")) {
+			return Ember.RSVP.resolve(this.get("user"));
+		}
+		else {
+			return Balanced.Claim.create({
+				email_address: this.get('claimEmailAddress'),
+				password: this.get('claimPassword'),
+				passwordConfirm: this.get('claimPassword')
+			});
+		}
+	},
+
+	saveMarketplace: function(settings) {
+		var object = Balanced.Marketplace.create(this.getMarketplaceAttributes());
+		return object.save(settings);
+	},
+
+	saveUserMarketplace: function(apiKeySecret) {
+		var self = this;
+		var object = Balanced.UserMarketplace.create({
+			uri: this.get("user.api_keys_uri"),
+			secret: apiKeySecret
+		});
+		return object.save();
+	},
+
+	saveBankAccount: function(marketplace) {
+		var self = this;
+		var object = Balanced.BankAccount.create(this.getBankAccountAttributes());
+		object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
+
+		return object.save();
+	},
+
+	saveVerification: function(bankAccount) {
+		var self = this;
+		var object = Balanced.Verification.create({
+			uri: bankAccount.get('bank_account_verifications_uri')
+		});
+		return object.save();
+	},
+
+	handleSaveError: function(error) {
+		var message = "There was an unknown error creating your Marketplace. We have logged an error and will look into it. Please try again."
+
+		if (error.description === "Person KYC failed.") {
+			message = "We could not verify your identity. Please check your information again and resubmit.";
+		}
+
+		this.requestErrors.addObject({
+			object: error,
+			message: message
 		});
 	},
 
+	requestErrors: [],
+
 	save: function() {
 		var self = this;
-		return Ember.RSVP.resolve();
+		var apiKeySecret, marketplace, user, bankAccount;
+
+		self.set("isSaving", true);
+		self.requestErrors.clear();
+
+		return self.saveUser()
+			.then(function(response) {
+				Balanced.Auth.unsetAPIKey();
+				user = response;
+				return self.saveApiKey()
+			})
+			.then(function(response) {
+				apiKeySecret = response.get('secret');
+				Balanced.Auth.setAPIKey(apiKeySecret);
+				var settings = {
+					headers: {
+						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+					}
+				};
+				return self.saveMarketplace(settings);
+			})
+			.then(function(mp) {
+				marketplace = mp;
+				return self.saveUserMarketplace(apiKeySecret);
+			})
+			.then(function() {
+				Balanced.Auth.setAPIKey(apiKeySecret);
+				//  we need the api key to be associated with the user before we can create the bank account
+				return user.reload();
+			})
+			.then(function() {
+				return self.saveBankAccount(marketplace);
+			})
+			.then(function(response) {
+				bankAccount = response;
+				return self.saveVerification(bankAccount);
+			})
+			.then(function () {
+				return marketplace;
+			})
+			.catch(function(error) {
+				self.handleSaveError(error);
+				return Ember.RSVP.reject(error);
+			})
+			.finally(function() {
+				self.set("isSaving", false);
+			});
 	},
 
 	validations: {
-
-		"personalInformation.name": {
+		personName: {
 			presence: true,
 		},
-		"personalInformation.socialSecurityNumber": {
+		socialSecurityNumber: {
 			presence: true,
 			length: 4,
 			numericality: true
 		},
-		"phoneNumber": {
+		phoneNumber: {
 			presence: true,
 		},
 
-		"streetAddress": {
+		streetAddress: {
 			presence: true,
 		},
-		"postalCode": {
+		postalCode: {
 			presence: true,
 			length: {
 				minimum: 5,
@@ -110,13 +252,13 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			format: /^\d{5}([\-]?\d{4})?$/
 		},
 
-		"bankAccountInformation.accountName": {
+		bankAccountName: {
 			presence: true,
 		},
-		"bankAccountInformation.accountNumber": {
+		bankAccountNumber: {
 			presence: true,
 		},
-		"bankAccountInformation.routingNumber": {
+		bankRoutingNumber: {
 			presence: true,
 			length: 9,
 			matches: {
@@ -127,20 +269,28 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-		"bankAccountInformation.accountType": {
+		bankAccountType: {
 			presence: true,
+			matches: {
+				validator: function(object, attribute, value) {
+					if (Balanced.BankAccount.ACCOUNT_TYPES.indexOf(value) < 0) {
+						object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid bank acount type');
+					}
+				}
+
+			}
 		},
 
-		"marketplaceInformation.name": {
+		marketplaceName: {
 			presence: true,
 		},
-		"marketplaceInformation.supportEmailAddress": {
+		supportEmailAddress: {
 			presence: true,
 		},
-		"marketplaceInformation.supportPhoneNumber": {
+		supportPhoneNumber: {
 			presence: true,
 		},
-		"marketplaceInformation.domainUrl": {
+		marketplaceDomainUrl: {
 			presence: true,
 		},
 
