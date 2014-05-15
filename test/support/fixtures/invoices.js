@@ -1172,8 +1172,7 @@ Balanced.Adapter.addFixtures([{
 		"first": "/invoices?q=&sort=created_at%2Cdesc&limit=20&offset=0"
 	},
 	"links": {
-		"invoices.source": "/resources/{invoices.source}",
-		"invoices.settlement": "/invoice_settlements/{invoices.invoice_settlement}"
+		"invoices.source": "/resources/{invoices.source}"
 	}
 }, {
 	"invoices": [{

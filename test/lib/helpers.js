@@ -94,6 +94,15 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
+	assertClick: function(app, selector, assert, message) {
+		message = message || "Clickable element " + selector + " exists";
+
+		var isPresent = $(selector).length > 0;
+		assert.ok(isPresent, message);
+		if (isPresent) {
+			click(selector);
+		}
+	},
 	submitForm: function(app, form) {
 		wait();
 

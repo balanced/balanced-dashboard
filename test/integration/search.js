@@ -53,8 +53,6 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
-	Testing.setupSearch(4);
-
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -145,7 +143,7 @@ test('search click result', function(assert) {
 		.click('#search .results table.items tbody tr a:first')
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
-			assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
+			assert.equal($('#search .results:visible').length, 0, 'search result should be hidden');
 		});
 });
 
@@ -173,22 +171,22 @@ test('search date picker dropdown', function(assert) {
 
 test('search date range pick', function(assert) {
 	var spy;
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-	})
+	visit(Testing.MARKETPLACE_ROUTE)
+		.then(function() {
+			Testing.runSearch('%');
+		})
 		.click('#search .datetime-picker')
 		.then(function() {
-			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
-			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
-		})
-		.then(function() {
+			var dp = $("#search .datetime-picker").data("daterangepicker");
+			dp.setStartDate("Aug 01, 2013");
+			dp.setEndDate("Aug 02, 2013");
 			spy = sinon.spy(Balanced.Adapter, 'get');
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			var begin = moment('8/1/2013').startOf('day');
+			var begin = moment("Aug 01, 2013").startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment('8/1/2013').endOf('day').startOf('minute');
+			var end = moment("Aug 02, 2013").startOf('day');
 			var end_iso = encodeURIComponent(end.toISOString());
 
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +

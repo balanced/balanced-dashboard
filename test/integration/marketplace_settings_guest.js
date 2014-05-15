@@ -12,15 +12,14 @@ module('Marketplace Settings Guest', {
 			}).save();
 		});
 
-		if (balanced.bankAccount.create.restore) {
-			balanced.bankAccount.create.restore();
-		}
-		if (Balanced.Adapter.create.restore) {
-			Balanced.Adapter.create.restore();
-		}
+		sinon.stub(Ember.Logger, "error");
 	},
 	teardown: function() {
-		$(".modal").modal('hide');
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			Ember.Logger.error
+		);
 	}
 });
 
@@ -39,10 +38,16 @@ test('can visit page', function(assert) {
 
 test('can manage api keys', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name="modal-submit"]')
 		.then(function() {
-			assert.ok($('.api-keys-info tr').length > 1, 'API Key can be created');
+			assert.equal($('.api-keys-info tr').length, 1, 'API Keys present');
+		})
+		.click('.create-api-key-btn')
+		.fillIn(".modal.create-api-key", {
+			apiKeyName: "Cool Api Key"
+		})
+		.click('.modal.create-api-key button[name=modal-submit]')
+		.then(function() {
+			assert.equal($('.api-keys-info tr').length, 2, 'API Key can be created');
 		})
 		.click('.confirm-delete-key:first')
 		.then(function() {
@@ -50,7 +55,7 @@ test('can manage api keys', function(assert) {
 		})
 		.click('.modal.delete-key:visible button[name="modal-submit"]')
 		.then(function() {
-			assert.ok($('.api-keys-info tr').length === 1, 'API Key can be deleted');
+			assert.equal($('.api-keys-info tr').length, 1, 'API Key can be deleted');
 		});
 });
 
@@ -141,7 +146,7 @@ test('can update marketplace info', function(assert) {
 		Ember.run.next(function() {
 			Testing.start();
 
-			click('.marketplace-info a.edit')
+			click('.marketplace-info a.icon-edit')
 				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
 				.then(function() {
@@ -164,7 +169,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 			Ember.run.next(function() {
 				Testing.start();
 
-				click('.marketplace-info a.edit')
+				click('.marketplace-info a.icon-edit')
 					.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
 					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
 					.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
@@ -189,7 +194,7 @@ test('can update owner info', function(assert) {
 		Ember.run.next(function() {
 			Testing.start();
 
-			click('.owner-info a.edit')
+			click('.owner-info a.icon-edit')
 				.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
 				.fillIn('#edit-customer-info .modal-body input[name="email"]', 'TEST@example.com')
 				.fillIn('#edit-customer-info .modal-body input[name="business_name"]', 'TEST')

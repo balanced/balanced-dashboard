@@ -5,6 +5,11 @@ module('Marketplaces.Index', {
 	},
 	teardown: function() {
 		$("#delete-marketplace").modal('hide');
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			Balanced.Adapter.delete,
+			Ember.Logger.error
+		);
 	}
 });
 
@@ -36,12 +41,17 @@ test('view single marketplace', function(assert) {
 });
 
 test('add test marketplace', function(assert) {
+	// Stub error logger to reduce console noise.
+	sinon.stub(Ember.Logger, "error");
+
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.Auth.set('user.api_keys_uri', '/users/' +
 		Testing.CUSTOMER_ID + '/api_keys');
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.fillIn(".marketplace-list.test li.mp-new input[name='name']", 'NEW MARKETPLACE')
+		.fillForm(".marketplace-list.test li.mp-new form", {
+			name: "NEW MARKETPLACE"
+		})
 		.click(".marketplace-list.test li.mp-new form button")
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Marketplace));

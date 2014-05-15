@@ -71,23 +71,6 @@ test('login transition works', function(assert) {
 		});
 });
 
-test('login afterLogin triggers auth.signInTransition', function(assert) {
-	expect(1);
-
-	visit('/login')
-		.then(function() {
-			var loginController = Balanced.__container__.lookup('controller:login');
-
-			Balanced.Auth.one('signInTransition', function() {
-				assert.ok(true);
-			});
-
-			Ember.run(function() {
-				loginController.afterLogin();
-			});
-		});
-});
-
 test('login afterLogin with transition works', function(assert) {
 	var loginResponse = {
 		"id": "ULxxx",
