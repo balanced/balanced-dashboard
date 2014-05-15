@@ -44,7 +44,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 			self.transitionToRoute('activity');
 			self.refresh('');
 			self.send('alert', {
-				message: '%@ payouts were successfully submitted. Credits might take a couple seconds to appear in the transactions list.'.fmt(count),
+				message: '%@ payouts were successfully submitted. Payouts might take a couple seconds to appear in the transactions list.'.fmt(count),
 				persists: false,
 				type: 'success'
 			});

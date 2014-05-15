@@ -7,7 +7,7 @@
 {{confirm-modal viewName="confirmRemoveModal" title="Remove Entry" mainText="Remove this entry?"}}
 {{confirm-modal viewName="confirmClearAllModal" title="Clear all entries" mainText="Clear all error entries?"}}
 
-<h1 class="page-title">Import Payouts</h1>
+<h1 class="page-title">Import payouts</h1>
 {{#if controllers.marketplace.production}}
 	Payouts Import is only available on test marketplaces.
 {{else}}
@@ -20,7 +20,7 @@
 			{{partial 'import_payouts/account_summary'}}
 			{{#if view.isPreviewable}}
 				<div class="csv-preview">
-					<h3>Preview Data</h3>
+					<h3>Preview data</h3>
 					{{#if creditCreators.isInvalid}}
 						{{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
 					{{/if}}

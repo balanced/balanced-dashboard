@@ -5,6 +5,19 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 
 	isError: false,
 
+	title: function() {
+		var length = this.get("items.length");
+		var validityAdjective = this.get("validityAdjective")
+		var customersType = this.get("isExisting") ?
+			"existing" :
+			"new";
+
+		var pattern = length === 1 ?
+			"%@ %@ payout to %@ customers" :
+			"%@ %@ payouts to %@ customers";
+		return pattern.fmt(length, validityAdjective, customersType);
+	}.property("items", "items.length", "isExisting", "validityAdjective"),
+
 	errorReportUri: function() {
 		var csv = this.get("creditCreators").toCsvString();
 		return Balanced.Utils.toDataUri(csv);
@@ -12,26 +25,12 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 });
 
 Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
-	title: function() {
-		var length = this.get("items.length");
-		var str = length === 1 ?
-			"%@ valid payout to new customers" :
-			"%@ valid payouts to new customers";
-		return str.fmt(length);
-	}.property("items", "items.length"),
+	validityAdjective: "valid",
 	items: Ember.computed.alias("creditCreators.valid")
 });
 
 Balanced.MarketplaceInvalidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
-	title: function() {
-		var length = this.get("items.length");
-		var str = length === 1 ?
-			"%@ invalid payout to new customers" :
-			"%@ invalid payouts to new customers";
-		return str.fmt(length);
-	}.property("items", "items.length"),
-
+	validityAdjective: "invalid",
 	isError: true,
-
 	items: Ember.computed.alias("creditCreators.invalid")
 });
