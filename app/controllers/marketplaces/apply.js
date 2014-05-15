@@ -4,18 +4,22 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	actions: {
 		selectType: function(applicationType) {
-			var cls = 'selected';
-			this.set('applicationType', applicationType);
+			this.get('content').set('applicationType', applicationType);
 
-			$('input:text', '#marketplace-apply').filter(function() {
-				return this.value === '';
+			$('#marketplace-apply input:text').filter(function() {
+				return $(this).val() === "";
 			}).first().focus();
-
-			$('a', '.application-type').removeClass(cls).parent().find('.' + (applicationType || '').toLowerCase()).addClass(cls);
 		},
 
 		submitApplication: function() {
-			var model = this.get('content');
+			var model = this.get("model");
+			model.validate();
+			console.log(model, model.get("validationErrors.termsAndConditions"));
+			if (model.get("isValid")) {
+				model.save();
+			}
+			return;
+
 			var superError = 'error critical';
 			var $termsAndConditionsControlGroup = $('#terms-and-conditions').closest('.control-group');
 			$termsAndConditionsControlGroup.removeClass(superError);
@@ -129,6 +133,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	selectedType: Ember.computed.alias('applicationType'),
 	isBusiness: Ember.computed.equal('applicationType', 'BUSINESS'),
+	isPerson: Ember.computed.equal('applicationType', 'PERSON'),
 	isGuest: Ember.computed.alias('auth.isGuest'),
 
 	dobYears: function() {
