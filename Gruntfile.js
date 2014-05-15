@@ -100,6 +100,7 @@ module.exports = function(grunt) {
 					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
 					'static/javascripts/jquery-csv/src/jquery.csv.js',
 					'static/javascripts/moment/moment.js',
+					'static/lib/moment-business-days.js',
 					'static/lib/daterangepicker.js',
 					'static/javascripts/timepicker/jquery.timepicker.js'
 				],
@@ -126,6 +127,7 @@ module.exports = function(grunt) {
 					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
 					'static/javascripts/jquery-csv/src/jquery.csv.js',
 					'static/javascripts/moment/min/moment.min.js',
+					'static/lib/moment-business-days.js',
 					'static/lib/daterangepicker.js',
 					'static/javascripts/timepicker/jquery.timepicker.min.js'
 				],
