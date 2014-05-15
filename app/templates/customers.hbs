@@ -135,7 +135,7 @@
 
 			<section class="card-info">
 				<header>
-					<h3>Credit cards
+					<h3>Cards
 						{{add-card-modal customerBinding="model"}}
 					</h3>
 				</header>
@@ -147,7 +147,7 @@
 								<div class="icon">Credit card</div>
 								<div class="details">
 									<span class="name label2a">{{card.name}}</span>
-									<span class="summary">{{card.description}} ({{card.type}})</span>
+									<span class="summary">{{card.description}} ({{capitalize card.type}})</span>
 								</div>
 							{{/link-to}}
 						</li>
