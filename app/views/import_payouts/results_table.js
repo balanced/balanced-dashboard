@@ -7,7 +7,7 @@ Balanced.MarketplaceCsvPaymentsTableView = Balanced.View.extend({
 
 	title: function() {
 		var length = this.get("items.length");
-		var validityAdjective = this.get("validityAdjective")
+		var validityAdjective = this.get("validityAdjective");
 		var customersType = this.get("isExisting") ?
 			"existing" :
 			"new";
