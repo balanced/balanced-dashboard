@@ -41,7 +41,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 				model.save()
 					.then(function(marketplace) {
 						if (marketplace) {
-							console.log("ready to transition", marketplace);
 							self.transitionToRoute('marketplace.initial_deposit', marketplace);
 							self.send('alert', {
 								type: 'success',
