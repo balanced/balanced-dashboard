@@ -37,6 +37,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"marketplaceName",
 			"supportEmailAddress",
 			"supportPhoneNumber",
+
+			"termsAndConditions",
 			"marketplaceDomainUrl"
 		);
 		if (this.get("socialSecurityNumber")) {
@@ -110,15 +112,15 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	saveUser: function() {
 		var self = this;
-		if (this.get("user")) {
-			return Ember.RSVP.resolve(this.get("user"));
+
+		if (self.get("user")) {
+			return Ember.RSVP.resolve(self.get("user"));
 		} else {
 			var claim = Balanced.Claim.create({
 				email_address: this.get('claimEmailAddress'),
 				password: this.get('claimPassword'),
 				passwordConfirm: this.get('claimPassword')
 			});
-
 			return claim
 				.save()
 				.then(function(user) {
@@ -203,7 +205,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	createMarketplace: function() {
 		var self = this;
 		var apiKeySecret, marketplace;
-
 		return self
 			.saveUser()
 			.then(function(response) {
@@ -358,7 +359,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-		
+
 		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {
