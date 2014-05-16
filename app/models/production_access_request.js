@@ -2,13 +2,12 @@ var errorHasCategoryCode = function(error, categoryCode) {
 	return error.errors && error.errors.any(function(e) {
 		return e.category_code === categoryCode;
 	});
-}
+};
 
 var getErrorCategoryCode = function(error) {
 	if (error.errors && error.errors[0]) {
 		return error.errors[0].category_code;
-	}
-	else {
+	} else {
 		return "UNKNOW CATEGORY";
 	}
 };
@@ -239,15 +238,16 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			.then(function(bankAccount) {
 				return self.saveVerification(bankAccount);
 			})
-			.catch(function(error) {
-				Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
-					extra: {
-						response: error,
-						formFields: self.getErrorObject(),
-						marketplaceId: self.get("marketplace.id")
-					}
-				});
-			})
+			.
+		catch (function(error) {
+			Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
+				extra: {
+					response: error,
+					formFields: self.getErrorObject(),
+					marketplaceId: self.get("marketplace.id")
+				}
+			});
+		})
 			.then(function() {
 				return marketplace;
 			});
@@ -265,8 +265,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		// continue to the success process
 		return self.createMarketplace()
 			.then(function(mp) {
-				marketplace = mp
-				return self.verifyBankAccount(marketplace).catch(function(error) {
+				marketplace = mp;
+				return self.verifyBankAccount(marketplace).
+				catch (function(error) {
 					self.logSaveError(error);
 				});
 			}, function(error) {
@@ -274,10 +275,11 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				self.logSaveError(error);
 				return Ember.RSVP.reject(marketplace);
 			})
-			.finally(function() {
-				self.set("isSaving", false);
-				return marketplace;
-			});
+			.
+		finally(function() {
+			self.set("isSaving", false);
+			return marketplace;
+		});
 	},
 
 	validations: {
