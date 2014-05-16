@@ -115,7 +115,7 @@ test("#getPersonAttributes", function(assert) {
 	});
 });
 
-test("#getPersonApiKeyAttributes", function (assert) {
+test("#getPersonApiKeyAttributes", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
 		personName: "Big Bird",
 		socialSecurityNumber: "1111",
@@ -139,7 +139,7 @@ test("#getPersonApiKeyAttributes", function (assert) {
 	});
 });
 
-test("#getBusinessApiKeyAttributes", function (assert) {
+test("#getBusinessApiKeyAttributes", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
 		personName: "Big Bird",
 		socialSecurityNumber: "1111",

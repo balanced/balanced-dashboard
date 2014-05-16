@@ -7,8 +7,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	streetAddressHint: function() {
 		if (this.get("model.isBusiness")) {
 			return "Enter your or another business representative's address including apartment, suite, or unit number, not the business address";
-		}
-		else {
+		} else {
 			return "Enter your billing address including apartment, suite, or unit number";
 		}
 	}.property("model.isBusiness"),
@@ -17,8 +16,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	dobMonths: Balanced.TIME.MONTHS,
 	dobYears: function() {
 		var start = new Date().getFullYear() - 17;
-		return _.times(80, function (i) {
-			return start - i
+		return _.times(80, function(i) {
+			return start - i;
 		});
 	}.property(),
 
@@ -47,14 +46,15 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 							message: 'We\'ve received your information. In the meantime, you may fund your balance with your credit card to transact right away.'
 						});
 					})
-					.catch(function(error) {
-						Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
-							extra: {
-								formFields: model.getErrorObject(),
-								marketplaceId: model.get("marketplace.id")
-							}
-						});
+					.
+				catch (function(error) {
+					Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
+						extra: {
+							formFields: model.getErrorObject(),
+							marketplaceId: model.get("marketplace.id")
+						}
 					});
+				});
 			}
 		},
 	},

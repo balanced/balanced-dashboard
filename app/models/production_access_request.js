@@ -26,8 +26,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		);
 		if (this.get("socialSecurityNumber")) {
 			props.socialSecurityNumber = "HIDDEN";
-		}
-		else {
+		} else {
 			props.socialSecurityNumber = "EMPTY";
 		}
 		return props;
@@ -38,7 +37,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		return ["dobYear", "dobMonth", "dobDay"].map(function(key) {
 			var value = self.get(key).toString();
 			return value.length === 1 ?
-				("0"+ value) :
+				("0" + value) :
 				value;
 		}).join('-');
 	}.property('dobYear', 'dobMonth', 'dobDay'),
@@ -118,8 +117,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		var self = this;
 		if (this.get("user")) {
 			return Ember.RSVP.resolve(this.get("user"));
-		}
-		else {
+		} else {
 			var claim = Balanced.Claim.create({
 				email_address: this.get('claimEmailAddress'),
 				password: this.get('claimPassword'),
@@ -231,16 +229,18 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				bankAccount = response;
 				return self.saveVerification(bankAccount);
 			})
-			.then(function () {
+			.then(function() {
 				return marketplace;
 			})
-			.catch(function(error) {
-				self.handleSaveError(error);
-				return Ember.RSVP.reject(error);
-			})
-			.finally(function() {
-				self.set("isSaving", false);
-			});
+			.
+		catch (function(error) {
+			self.handleSaveError(error);
+			return Ember.RSVP.reject(error);
+		})
+			.
+		finally(function() {
+			self.set("isSaving", false);
+		});
 	},
 
 	validations: {
