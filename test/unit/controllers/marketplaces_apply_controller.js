@@ -9,9 +9,10 @@ test("#dobYears", function(assert) {
 });
 
 test("#save (valid request)", function(assert) {
+	var marketplace = Ember.Object.create({});
 	var productionAccessRequest = Ember.Object.create({
 		isValid: true,
-		save: sinon.stub(),
+		save: sinon.stub().returns(Ember.RSVP.resolve(null)),
 		validate: sinon.stub()
 	});
 	var subject = Balanced.MarketplacesApplyController.create();
