@@ -45,11 +45,7 @@
 							</div>
 							<label>Enter your date of birth</label>
 						</div>
-						{{#if model.isBusiness}}
-							{{view Balanced.ControlGroupFieldView placeholder="Street address" field="streetAddress" help="Enter your or another business representative's address including apartment, suite, or unit number, not the business address"}}
-						{{else}}
-							{{view Balanced.ControlGroupFieldView placeholder="Street address" field="streetAddress" help="Enter your billing address including apartment, suite, or unit number"}}
-						{{/if}}
+						{{view Balanced.ControlGroupFieldView placeholder="Street address" field="streetAddress" helpBinding="streetAddressHint"}}
 						{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="postalCode" help="Enter your zip code"}}
 
 						{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="socialSecurityNumber" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
@@ -82,7 +78,7 @@
 
 					<fieldset>
 						<legend>Terms &amp; Conditions + Privacy Policy</legend>
-						<div {{bind-attr class=":control-group model.validationErrors.termsAndConditions:error model.validationErrors.termsAndConditions:critical"}}>
+						<div {{bind-attr class=":control-group model.validationErrors.termsAndConditions:error"}}>
 							<label for="terms-and-conditions">
 								{{view Ember.Checkbox checkedBinding="model.termsAndConditions" id="terms-and-conditions"}}
 								<strong>I accept the

@@ -3,14 +3,14 @@ module("Balanced.ProductionAccessRequest");
 test("#getErrorObject", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
 		personName: "Big Bird",
-		socialSecurityNumber: "1111",
+		socialSecurityNumber: "HIDDEN",
 		streetAddress: "123 Sesame St",
 		postalCode: "98210",
 		phoneNumber: "111 234 0099",
-		dobYear: 1980,
-		dobMonth: 1,
-		dobDay: 31,
-		
+		dobYear: "1980",
+		dobMonth: "1",
+		dobDay: "31",
+
 		marketplaceName: "Big Bird's Pillows",
 		supportEmailAddress: "bird@example.com",
 		supportPhoneNumber: "900 123 0099",
@@ -19,13 +19,13 @@ test("#getErrorObject", function(assert) {
 
 	assert.deepEqual(subject.getErrorObject(), {
 		personName: "Big Bird",
-		socialSecurityNumber: "1111",
+		socialSecurityNumber: "HIDDEN",
 		streetAddress: "123 Sesame St",
 		postalCode: "98210",
 		phoneNumber: "111 234 0099",
-		dobYear: 1980,
-		dobMonth: 1,
-		dobDay: 31,
+		dobYear: "1980",
+		dobMonth: "1",
+		dobDay: "31",
 
 		bankAccountName: undefined,
 		bankAccountNumber: undefined,

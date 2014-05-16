@@ -1,5 +1,17 @@
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
-	isGuest: Ember.computed.oneWay('auth.isGuest'),
+	isGuest: function() {
+		var result = this.get('auth.isGuest');
+		return result === undefined || result;
+	}.property("auth.isGuest").readOnly(),
+
+	streetAddressHint: function() {
+		if (this.get("model.isBusiness")) {
+			return "Enter your or another business representative's address including apartment, suite, or unit number, not the business address";
+		}
+		else {
+			return "Enter your billing address including apartment, suite, or unit number";
+		}
+	}.property("model.isBusiness"),
 
 	dobDays: Balanced.TIME.DAYS_IN_MONTH,
 	dobMonths: Balanced.TIME.MONTHS,
@@ -12,15 +24,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	accountTypes: Balanced.BankAccount.ACCOUNT_TYPES,
 
-	getUser: function() {
-		var self = this;
-		return new Ember.RSVP.Promise(function(reseolve, reject) {
-			if (self.get("isGuest")) {
-
-			}
-		});
-	},
-
 	actions: {
 		selectType: function(applicationType) {
 			this.get('content').set('applicationType', applicationType);
@@ -31,8 +34,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		},
 
 		save: function() {
-			var model = this.get("model");
 			var self = this;
+			var model = this.get("model");
+
 			model.validate();
 			if (model.get("isValid")) {
 				model.save()
