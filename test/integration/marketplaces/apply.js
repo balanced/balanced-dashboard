@@ -63,30 +63,7 @@ test('application submits properly', function(assert) {
 		false
 	);
 
-
 	var controller = Balanced.__container__.lookup('controller:marketplaces_apply');
-	// var createSpy = sinon.spy(Balanced.Adapter, "create");
-
-	// var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
-	//
-	// createStub.withArgs(Balanced.APIKey).callsArgWith(3, {});
-	// createStub.withArgs(Balanced.Marketplace).callsArgWith(3, {
-	// 	owner_customer: [{
-	// 		bank_accounts_uri: "/marketplaces/deadbeef/bank_accounts"
-	// 	}]
-	// });
-	// createStub.withArgs(Balanced.UserMarketplace).callsArgWith(3, {});
-	// createStub.withArgs(Balanced.BankAccount).callsArgWith(3, {
-	// 	bank_account_verifications_uri: "/bank_accounts/deadbeef/verifications"
-	// });
-	// createStub.withArgs(Balanced.Verification).callsArgWith(3, {});
-	//
-	// tokenizingStub.callsArgWith(1, {
-	// 	status: 201,
-	// 	bank_accounts: [{
-	// 		href: "/bank_accounts/deadbeef"
-	// 	}]
-	// });
 
 	var model;
 
@@ -159,13 +136,5 @@ test('application submits properly', function(assert) {
 				account_number: "123123123",
 				routing_number: "321174851"
 			};
-
-			// assert.ok(createSpy.calledWith(Balanced.APIKey, '/api_keys', sinon.match(expectedApiKeysAttributes)));
-			// assert.ok(createSpy.calledWith(Balanced.Marketplace, "/marketplaces", sinon.match(expectedMarketplaceAttributes)));
-			// assert.ok(createSpy.calledWith(Balanced.UserMarketplace));
-			// console.dir(createSpy);
-			// using balanced.js to create the bank account
-			// assert.ok(tokenizingStub.calledOnce);
-			// assert.ok(tokenizingStub.calledWith(expectedBankAccountAttributes));
 		});
 });
