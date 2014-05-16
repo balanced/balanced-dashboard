@@ -38,7 +38,9 @@ test("#getErrorObject", function(assert) {
 		marketplaceName: "Big Bird's Pillows",
 		supportEmailAddress: "bird@example.com",
 		supportPhoneNumber: "900 123 0099",
-		marketplaceDomainUrl: "example.domain"
+		marketplaceDomainUrl: "example.domain",
+
+		termsAndConditions: undefined
 	});
 
 });
