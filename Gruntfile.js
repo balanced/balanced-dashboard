@@ -490,6 +490,9 @@ module.exports = function(grunt) {
 					src: 'dist/fonts/**/*',
 					dest: 'fonts/'
 				}, {
+					src: 'dist/files/**/*',
+					dest: 'files/'
+				}, {
 					src: 'dist/notfound/**/*',
 					rel: 'dist/notfound',
 					dest: 'notfound/'
