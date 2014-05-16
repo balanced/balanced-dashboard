@@ -2,8 +2,7 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 	title: 'Apply for production access',
 
 	setupController: function(controller) {
-		var model = Balanced.ProductionAccessRequest.create({
-		});
+		var model = Balanced.ProductionAccessRequest.create({});
 
 		model.set("user", this.get("user"));
 
