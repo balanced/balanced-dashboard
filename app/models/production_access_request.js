@@ -358,6 +358,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
+		
 		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {

@@ -1,4 +1,5 @@
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
+	// When the user visits the page directly the auth.isGuest variable is not setup.
 	isGuest: function() {
 		var result = this.get('auth.isGuest');
 		return result === undefined || result;

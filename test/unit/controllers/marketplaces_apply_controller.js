@@ -27,7 +27,6 @@ test("#save (valid request)", function(assert) {
 test("#save (invalid request)", function(assert) {
 	var productionAccessRequest = Ember.Object.create({
 		isValid: false,
-		save: sinon.stub(),
 		validate: sinon.stub()
 	});
 	var subject = Balanced.MarketplacesApplyController.create();
@@ -36,5 +35,4 @@ test("#save (invalid request)", function(assert) {
 	subject.send("save");
 
 	assert.ok(productionAccessRequest.validate.calledOnce);
-	assert.ok(!productionAccessRequest.save.calledOnce);
 });

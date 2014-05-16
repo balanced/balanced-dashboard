@@ -32,28 +32,15 @@ test("#getErrorObject", function(assert) {
 		bankAccountType: undefined,
 		bankRoutingNumber: undefined,
 
+		businessName: undefined,
+		employerIdentificationNumber: undefined,
+
 		marketplaceName: "Big Bird's Pillows",
 		supportEmailAddress: "bird@example.com",
 		supportPhoneNumber: "900 123 0099",
 		marketplaceDomainUrl: "example.domain"
 	});
 
-});
-
-test("#getMarketplaceAttributes", function(assert) {
-	var model = Balanced.ProductionAccessRequest.create({
-		marketplaceName: "Big Bird's Pillows",
-		supportEmailAddress: "bird@example.com",
-		supportPhoneNumber: "900 123 0099",
-		marketplaceDomainUrl: "example.domain"
-	});
-
-	assert.deepEqual(model.getMarketplaceAttributes(), {
-		name: "Big Bird's Pillows",
-		support_email_address: "bird@example.com",
-		support_phone_number: "900 123 0099",
-		domain_url: "example.domain"
-	});
 });
 
 test("#isBusiness", function(assert) {
