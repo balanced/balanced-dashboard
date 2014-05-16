@@ -1,3 +1,18 @@
+var errorHasCategoryCode = function(error, categoryCode) {
+	return error.errors && error.errors.any(function(e) {
+		return e.category_code === categoryCode;
+	});
+}
+
+var getErrorCategoryCode = function(error) {
+	if (error.errors && error.errors[0]) {
+		return error.errors[0].category_code;
+	}
+	else {
+		return "UNKNOW CATEGORY";
+	}
+};
+
 Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isPerson: Ember.computed.equal("applicationType", "PERSON"),
 	isBusiness: Ember.computed.equal("applicationType", "BUSINESS"),
@@ -5,8 +20,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	getErrorObject: function() {
 		var props = this.getProperties(
+			"businessName",
+			"employerIdentificationNumber",
 			"personName",
-			// "socialSecurityNumber",
 			"streetAddress",
 			"postalCode",
 			"phoneNumber",
@@ -83,33 +99,13 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		return attributes;
 	},
 
-	getApiKeyAttributes: function() {
-		return this.get("isBusiness") ?
+	saveApiKey: function() {
+		var attributes = this.get("isBusiness") ?
 			this.getBusinessApiKeyAttributes() :
 			this.getPersonApiKeyAttributes();
-	},
 
-	getMarketplaceAttributes: function() {
-		return {
-			name: this.get('marketplaceName'),
-			support_email_address: this.get('supportEmailAddress'),
-			support_phone_number: this.get('supportPhoneNumber'),
-			domain_url: this.get('marketplaceDomainUrl')
-		};
-	},
-
-	getBankAccountAttributes: function() {
-		return {
-			name: this.get('bankAccountName'),
-			routing_number: this.get('bankRoutingNumber'),
-			account_number: this.get('bankAccountNumber'),
-			account_type: this.get('bankAccountType').toLowerCase()
-		};
-	},
-
-	saveApiKey: function() {
 		return Balanced.APIKey.create({
-			merchant: this.getApiKeyAttributes()
+			merchant: attributes
 		}).save();
 	},
 
@@ -127,15 +123,20 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			return claim
 				.save()
 				.then(function(user) {
-					self.set("user", user);
 					Balanced.Auth.signIn(self.get("claimEmailAddress"), self.get("claimPassword"));
+					self.set("user", user);
 					return user;
 				});
 		}
 	},
 
 	saveMarketplace: function(apiKeySecret) {
-		var object = Balanced.Marketplace.create(this.getMarketplaceAttributes());
+		var object = Balanced.Marketplace.create({
+			name: this.get('marketplaceName'),
+			support_email_address: this.get('supportEmailAddress'),
+			support_phone_number: this.get('supportPhoneNumber'),
+			domain_url: this.get('marketplaceDomainUrl')
+		});
 		var settings = {
 			headers: {
 				Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
@@ -155,26 +156,32 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	saveBankAccount: function(marketplace) {
 		var self = this;
-		var object = Balanced.BankAccount.create(this.getBankAccountAttributes());
+		var object = Balanced.BankAccount.create({
+			name: this.get('bankAccountName'),
+			routing_number: this.get('bankRoutingNumber'),
+			account_number: this.get('bankAccountNumber'),
+			account_type: this.get('bankAccountType').toLowerCase()
+		});
 		object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
-
 		return object.save();
 	},
 
 	saveVerification: function(bankAccount) {
-		var self = this;
-		var object = Balanced.Verification.create({
+		return Balanced.Verification.create({
 			uri: bankAccount.get('bank_account_verifications_uri')
-		});
-		return object.save().then(undefined, function(response) {
-			// If we got to this point the user already has a marketplace. We catch the
-			// error so we can take them to the MP page even if the verification failed to create.
-			Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest#saveVerification", {
-				extra: {
-					formFields: self.getErrorObject(),
-					marketplaceId: self.get("marketplace.id")
-				}
-			});
+		}).save();
+	},
+
+	logSaveError: function(error) {
+		var message = "Balanced.ProductionAccessRequest#" + getErrorCategoryCode(error);
+		var attributes = {
+			response: error,
+			formFields: this.getErrorObject(),
+			marketplaceId: this.get("marketplace.id")
+		};
+
+		Balanced.ErrorsLogger.captureMessage(message, {
+			extra: attributes
 		});
 	},
 
@@ -191,19 +198,16 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		});
 	},
 
+
 	requestErrors: [],
 
-	save: function() {
+	createMarketplace: function() {
 		var self = this;
-		var apiKeySecret, marketplace, bankAccount, user;
-
-		self.set("isSaving", true);
-		self.requestErrors.clear();
+		var apiKeySecret, marketplace;
 
 		return self
 			.saveUser()
 			.then(function(response) {
-				user = response;
 				Balanced.Auth.unsetAPIKey();
 				return self.saveApiKey();
 			})
@@ -219,28 +223,61 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			})
 			.then(function() {
 				Balanced.Auth.setAPIKey(apiKeySecret);
-				//  we need the api key to be associated with the user before we can create the bank account
-				return user.reload();
-			})
-			.then(function() {
-				return self.saveBankAccount(marketplace);
-			})
-			.then(function(response) {
-				bankAccount = response;
-				return self.saveVerification(bankAccount);
+				// we need the api key to be associated with the user before we can
+				// create the bank account
+				return self.get("user").reload();
 			})
 			.then(function() {
 				return marketplace;
+			});
+	},
+
+	verifyBankAccount: function(marketplace) {
+		var self = this;
+		return self
+			.saveBankAccount(marketplace)
+			.then(function(bankAccount) {
+				return self.saveVerification(bankAccount);
 			})
-			.
-		catch (function(error) {
-			self.handleSaveError(error);
-			return Ember.RSVP.reject(error);
-		})
-			.
-		finally(function() {
-			self.set("isSaving", false);
-		});
+			.catch(function(error) {
+				Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
+					extra: {
+						response: error,
+						formFields: self.getErrorObject(),
+						marketplaceId: self.get("marketplace.id")
+					}
+				});
+			})
+			.then(function() {
+				return marketplace;
+			});
+	},
+
+	save: function() {
+		var self = this;
+		var marketplace;
+
+		self.set("isSaving", true);
+		self.requestErrors.clear();
+
+		// Once the Marketplace is created and linked we take the user to the MP
+		// page. We rescue the bank account creation and verification process and
+		// continue to the success process
+		return self.createMarketplace()
+			.then(function(mp) {
+				marketplace = mp
+				return self.verifyBankAccount(marketplace).catch(function(error) {
+					self.logSaveError(error);
+				});
+			}, function(error) {
+				self.handleSaveError(error);
+				self.logSaveError(error);
+				return Ember.RSVP.reject(marketplace);
+			})
+			.finally(function() {
+				self.set("isSaving", false);
+				return marketplace;
+			});
 	},
 
 	validations: {
@@ -319,7 +356,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-		email_address: {
+		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {
 					if (Balanced.Auth.get('isGuest') && !value) {
@@ -328,7 +365,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-		password: {
+		claimPassword: {
 			presence: {
 				validator: function(object, attribute, value) {
 					if (Balanced.Auth.get('isGuest') && !value) {

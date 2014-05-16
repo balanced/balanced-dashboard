@@ -40,21 +40,15 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			if (model.get("isValid")) {
 				model.save()
 					.then(function(marketplace) {
-						self.transitionTo('marketplace.initial_deposit', marketplace);
-						self.send('alert', {
-							type: 'success',
-							message: 'We\'ve received your information. In the meantime, you may fund your balance with your credit card to transact right away.'
-						});
-					})
-					.
-				catch (function(error) {
-					Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
-						extra: {
-							formFields: model.getErrorObject(),
-							marketplaceId: model.get("marketplace.id")
+						if (marketplace) {
+							console.log("ready to transition", marketplace);
+							self.transitionToRoute('marketplace.initial_deposit', marketplace);
+							self.send('alert', {
+								type: 'success',
+								message: 'We\'ve received your information. In the meantime, you may fund your balance with your credit card to transact right away.'
+							});
 						}
 					});
-				});
 			}
 		},
 	},
