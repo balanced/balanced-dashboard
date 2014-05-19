@@ -169,6 +169,12 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	logSaveError: function(error) {
 		var message = "Balanced.ProductionAccessRequest#" + getErrorCategoryCode(error);
+		this.logSaveMessage(getErrorCategoryCode(error), error);
+	},
+
+	logSaveMessage: function(message, error) {
+		error = error || "Response not specified";
+
 		var attributes = {
 			response: error,
 			formFields: this.getErrorObject(),
@@ -261,6 +267,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		return self.createMarketplace()
 			.then(function(mp) {
 				marketplace = mp;
+				self.logSaveMessage("Successful Marketplace Signup");
 				return self.verifyBankAccount(marketplace).
 				catch (function(error) {
 					self.logSaveError(error);
