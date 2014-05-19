@@ -43,11 +43,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			var message = "HIDDEN";
 			if (value === undefined) {
 				message = "undefined";
-			}
-			else if (value === null) {
+			} else if (value === null) {
 				message = "null";
-			}
-			else if (value.length === 0) {
+			} else if (value.length === 0) {
 				message = "empty string";
 			}
 			props[fieldName] = message;
