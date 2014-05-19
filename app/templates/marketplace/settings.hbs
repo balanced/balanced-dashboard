@@ -196,7 +196,7 @@
 
 		<section class="card-info">
 			<header>
-				<h3>Credit cards
+				<h3>Cards
 					{{add-card-modal customerBinding="controller.model.owner_customer"}}
 				</h3>
 			</header>
@@ -210,7 +210,7 @@
 						{{#link-to 'cards' card}}
 							<div class="details">
 								<span class="name"><span class="label2a">{{card.name}}</span></span>
-								<span class="summary">{{card.description}} ({{card.type}})</span>
+								<span class="summary">{{card.description}} ({{capitalize card.type}})</span>
 							</div>
 						{{/link-to}}
 					</li>
