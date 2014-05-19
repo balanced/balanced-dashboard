@@ -8,7 +8,7 @@ Balanced.CreditCustomerModalComponent = Balanced.ModalComponent.extend({
 	actions: {
 		open: function() {
 			var fundingInstruments = this.get('customer.creditable_funding_instruments');
-			var creditUri = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments[0].get('credits_uri') : null;
+			var creditUri = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments.objectAt(0).get('credits_uri') : null;
 
 			var credit = Balanced.Credit.create({
 				uri: creditUri,

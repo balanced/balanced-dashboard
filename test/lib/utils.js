@@ -145,9 +145,6 @@ var Testing = {
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '4444400012123434',
-			// Note: We need to stub this while we wait for the Push to card API to work.
-			// TODO: Remove this once API works
-			name: 'Test Card: ' + type,
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {

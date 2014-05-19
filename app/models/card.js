@@ -42,7 +42,9 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	postal_code: Ember.computed.alias('address.postal_code'),
 	is_bank_account: false,
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
-	expected_credit_date: Balanced.EXPECTED_CREDIT_DATE.DEBIT_CARD,
+	expected_credit_date: function() {
+		return moment().addBusinessDays(EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD).format();
+	}.property(),
 
 	last_four: function() {
 		var accountNumber = this.get('number');
