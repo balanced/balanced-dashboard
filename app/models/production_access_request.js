@@ -1,3 +1,7 @@
+var isBlank = function(value) {
+	return $.trim(value).length === 0;
+};
+
 var getErrorCategoryCode = function(error) {
 	if (error.errors && error.errors[0]) {
 		return error.errors[0].category_code;
@@ -104,7 +108,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		};
 
 		setOptionalValue(attributes, "businessName", "name");
-		setOptionalValue(attributes, "employerIdentificationNumber", "ein");
+		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
 		return attributes;
 	},
 
@@ -203,7 +207,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	handleSaveError: function(error) {
 		var message = "There was an unknown error creating your Marketplace. We have logged an error and will look into it. Please try again.";
 
-		if (error.description === "Person KYC failed.") {
+		if (error.description === "Person KYC failed." || error.description === "Business principal failed KYC.") {
 			message = "We could not verify your identity. Please check your information again and resubmit.";
 		}
 
@@ -299,6 +303,26 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	},
 
 	validations: {
+
+		employerIdentificationNumber: {
+			presence: {
+				validator: function(object, attribute, value) {
+					if (object.get("isBusiness") && isBlank(value)) {
+						object.get('validationErrors').add(attribute, 'blank');
+					}
+				}
+			}
+		},
+		businessName: {
+			presence: {
+				validator: function(object, attribute, value) {
+					if (object.get("isBusiness") && isBlank(value)) {
+						object.get('validationErrors').add(attribute, 'blank');
+					}
+				}
+			}
+		},
+
 		personName: {
 			presence: true,
 		},
