@@ -149,7 +149,7 @@ test('can debit customer using card', function(assert) {
 		assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
 
 		// cards second
-		assert.equal(options.eq(2).text(), "Credit card: 3434 Visa");
+		assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
 
 		// select the card
 		fundingInstrumentUri = options.eq(2).val();
@@ -273,8 +273,8 @@ test('can credit to a debit card', function(assert) {
 		})
 		.then(function() {
 			assert.ok(spy.calledOnce, "Create was called once");
-			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 3434 Visa");
-			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 3434 Visa");
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 1111 Visa");
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 5556 Visa");
 			fundingInstrumentUri = $("#credit-customer form select[name='source_uri']").val();
 
 			assert.equal(spy.firstCall.args[0], Balanced.Credit);

@@ -10,7 +10,7 @@ test('can view card page', function(assert) {
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Credit card');
-			assert.equal($(".title span").text().trim(), '3434 Visa');
+			assert.equal($(".title span").text().trim(), '1111 Visa');
 		});
 });
 
