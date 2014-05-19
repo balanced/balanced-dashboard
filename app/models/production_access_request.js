@@ -51,7 +51,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				message = "empty string";
 			}
 			props[fieldName] = message;
-		}
+		};
 
 		hideField("socialSecurityNumber");
 		hideField("bankAccountNumber");
