@@ -28,7 +28,7 @@ test("#getErrorObject", function(assert) {
 		dobDay: "31",
 
 		bankAccountName: undefined,
-		bankAccountNumber: undefined,
+		bankAccountNumber: "undefined",
 		bankAccountType: undefined,
 		bankRoutingNumber: undefined,
 
