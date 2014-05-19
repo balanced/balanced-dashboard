@@ -1,14 +1,8 @@
-var errorHasCategoryCode = function(error, categoryCode) {
-	return error.errors && error.errors.any(function(e) {
-		return e.category_code === categoryCode;
-	});
-};
-
 var getErrorCategoryCode = function(error) {
 	if (error.errors && error.errors[0]) {
 		return error.errors[0].category_code;
 	} else {
-		return "UNKNOW CATEGORY";
+		return "UNKNOWN CATEGORY";
 	}
 };
 
