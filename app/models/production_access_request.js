@@ -1,6 +1,8 @@
 var getErrorCategoryCode = function(error) {
 	if (error.errors && error.errors[0]) {
 		return error.errors[0].category_code;
+	} else if (error.description) {
+		return error.description;
 	} else {
 		return "UNKNOWN CATEGORY";
 	}
@@ -12,6 +14,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isType: Ember.computed.or("isPerson", "isBusiness"),
 
 	getErrorObject: function() {
+		var self = this;
 		var props = this.getProperties(
 			"businessName",
 			"employerIdentificationNumber",
@@ -24,7 +27,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"dobDay",
 
 			"bankAccountType",
-			"bankAccountNumber",
 			"bankRoutingNumber",
 			"bankAccountName",
 
@@ -35,11 +37,25 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"termsAndConditions",
 			"marketplaceDomainUrl"
 		);
-		if (this.get("socialSecurityNumber")) {
-			props.socialSecurityNumber = "HIDDEN";
-		} else {
-			props.socialSecurityNumber = "EMPTY";
+
+		var hideField = function(fieldName) {
+			var value = self.get(fieldName);
+			var message = "HIDDEN";
+			if (value === undefined) {
+				message = "undefined";
+			}
+			else if (value === null) {
+				message = "null";
+			}
+			else if (value.length === 0) {
+				message = "empty string";
+			}
+			props[fieldName] = message;
 		}
+
+		hideField("socialSecurityNumber");
+		hideField("bankAccountNumber");
+
 		return props;
 	},
 
@@ -169,7 +185,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	logSaveError: function(error) {
 		var message = "Balanced.ProductionAccessRequest#" + getErrorCategoryCode(error);
-		this.logSaveMessage(getErrorCategoryCode(error), error);
+		this.logSaveMessage(message, error);
 	},
 
 	logSaveMessage: function(message, error) {
