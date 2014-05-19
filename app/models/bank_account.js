@@ -18,9 +18,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	is_bank_account: true,
 	account_type_name: Ember.computed.alias('account_type'),
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
-	expected_credit_date: function() {
-		return moment().addBusinessDays(EXPECTED_CREDIT_DAYS_OFFSET.ACH).format();
-	}.property(),
+	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
 
 	last_four: function() {
 		var accountNumber = this.get('account_number');
