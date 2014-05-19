@@ -3,7 +3,7 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 	deserializers: {
 		string: function(val) {
 			return val.length ?
-				val : undefined;
+				$.trim(val) : undefined;
 		},
 		lowerCaseString: function(string) {
 			var v = this.string(string);
@@ -29,8 +29,7 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 
 	extractBankAccountAttributes: function(object) {
 		return {
-			id: this.deserialize("string", object.bank_account_id),
-			routing_number: this.deserialize("string", object.new_bank_account_routing_number),
+			routing_number: this.deserialize("string", object.new_bank_routing_number),
 			account_number: this.deserialize("string", object.new_bank_account_number),
 			name: this.deserialize("string", object.new_bank_account_holders_name),
 			type: this.deserialize("lowerCaseString", object.new_bank_account_type)
@@ -53,14 +52,6 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 			amount: amount,
 			appears_on_statement_as: this.deserialize("string", object.appears_on_statement_as),
 			description: this.deserialize("string", object.description)
-		};
-	},
-
-	convertCreditCsvRowToObject: function(object) {
-		return {
-			credit: this.extractCreditAttributes(object),
-			bank_account: this.extractBankAccountAttributes(object),
-			customer: this.extractCustomerAttributes(object)
 		};
 	}
 });

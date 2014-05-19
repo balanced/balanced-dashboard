@@ -126,4 +126,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	}
 });
 
+Balanced.BankAccount.reopenClass({
+	ACCOUNT_TYPES: ["Checking", "Savings"]
+});
+
 Balanced.TypeMappings.addTypeMapping('bank_account', 'Balanced.BankAccount');

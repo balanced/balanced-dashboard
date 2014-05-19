@@ -1,11 +1,5 @@
 Balanced.CsvReader = Ember.Object.extend({
 
-	getParsedColumnNames: function() {
-		return this.getColumnNames().map(function(columnName) {
-			return columnName.split(".");
-		});
-	},
-
 	getObjects: function() {
 		var columnNames = this.getColumnNames();
 
