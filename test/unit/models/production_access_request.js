@@ -33,7 +33,7 @@ test("#getErrorObject", function(assert) {
 		bankRoutingNumber: undefined,
 
 		businessName: undefined,
-		employerIdentificationNumber: undefined,
+		employerIdentificationNumber: "undefined",
 
 		marketplaceName: "Big Bird's Pillows",
 		supportEmailAddress: "bird@example.com",
@@ -147,7 +147,7 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 		street_address: "123 Sesame St",
 		postal_code: "98210",
 		phone_number: "111 234 0099",
-		ein: "000001111",
+		tax_id: "000001111",
 		name: "Street Enterprises",
 
 		person: {
@@ -178,7 +178,7 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 		street_address: "123 Sesame St",
 		postal_code: "98210",
 		phone_number: "111 234 0099",
-		ein: "000001111",
+		tax_id: "000001111",
 		person: {
 			street_address: "123 Sesame St",
 			postal_code: "98210",
