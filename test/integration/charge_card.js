@@ -8,7 +8,7 @@ module('Charge Card', {
 	}
 });
 
-test('form validation', function(assert) {
+test('form validation', 2, function(assert) {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.charge-a-card')
 		.then(function() {
@@ -21,7 +21,7 @@ test('form validation', function(assert) {
 		});
 });
 
-test('can charge a card', function(assert) {
+test('can charge a card', 3, function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -59,7 +59,7 @@ test('can charge a card', function(assert) {
 		});
 });
 
-test('charge a card only submits once despite multiple button clicks', function(assert) {
+test('charge a card only submits once despite multiple button clicks', 2, function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -68,7 +68,6 @@ test('charge a card only submits once despite multiple button clicks', function(
 			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
-
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.charge-a-card')
@@ -82,9 +81,10 @@ test('charge a card only submits once despite multiple button clicks', function(
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
 			amount: '12.00'
-		}, {
-			clickMultiple: '.modal-footer button:eq(1)'
 		})
+		.click('#charge-card .modal-footer button:eq(1)')
+		.click('#charge-card .modal-footer button:eq(1)')
+		.click('#charge-card .modal-footer button:eq(1)')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({

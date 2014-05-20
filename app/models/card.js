@@ -31,7 +31,11 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	},
 
 	type_name: function() {
-		return this.get('type').capitalize() + ' card';
+		if (this.get('type')) {
+			return this.get('type').capitalize() + ' card';
+		} else {
+			return 'Card';
+		}
 	}.property('type'),
 
 	is_prepaid: function() {

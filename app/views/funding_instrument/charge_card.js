@@ -51,7 +51,13 @@ Balanced.ChargeCardModalView = Balanced.FundingInstrumentModalView.extend({
 					source_uri: card.get('uri')
 				});
 
-				model.save().then(_.bind(self.afterSave, self));
+				model.save()
+					.then(function() {
+						return model.get('source').reload();
+					})
+					.then(function(card) {
+						self.afterSave(model);
+					});
 			});
 		}
 	}
