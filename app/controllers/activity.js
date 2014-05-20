@@ -47,6 +47,10 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 
 		openAddFundsModal: function() {
 			this.trigger('openAddFundsModal');
+		},
+
+		openWithdrawFundsModal: function() {
+			this.trigger('openWithdrawFundsModal');
 		}
 	},
 

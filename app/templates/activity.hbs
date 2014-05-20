@@ -1,10 +1,10 @@
 <div class="page-navigation">
 	<div class="page-actions">
-		<a class="btn" href="#" {{action "openChargeCardModal"}}>
-			Charge
+		<a class="btn sm" href="#" {{action "openChargeCardModal"}}>
+			Debit a card
 		</a>
-		<a class="btn" href="#" {{action "openPaySellerModal"}}>
-			Pay out
+		<a class="btn sm" href="#" {{action "openPaySellerModal"}}>
+			Credit a bank account
 		</a>
 	</div>
 
@@ -15,16 +15,20 @@
 {{view Balanced.PaySellerModalView}}
 {{view Balanced.ChargeCardModalView}}
 
-<div class="main-header activity-escrow-box">
-	<div class="row">
-		<span>Escrow: {{controllers.marketplace.formattedEscrowAmount}}</span>
-
-		<div class="buttons">
-			<div class="buttons-container">
-				<a class="btn add-funds-btn" {{action "openAddFundsModal"}}>Add funds</a>
+<div class="main-header activity-escrow-box clearfix">
+	<div class="inline dropdown borderless right">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<span>Escrow: {{controllers.marketplace.formattedEscrowAmount}}</span>
+			<b class="caret"></b>
+		</a>
+		<ul class="dropdown-menu right">
+			<li>
+				<a class="add-funds-btn" {{action "openAddFundsModal"}}>Add funds</a>
+			</li>
+			<li>
 				{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
-			</div>
-		</div>
+			</li>
+		</ul>
 	</div>
 </div>
 
