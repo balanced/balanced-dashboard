@@ -21,7 +21,7 @@ test('can visit page', function(assert) {
 		.then(function() {
 			var $title = $('#content h1');
 
-			assert.notEqual($title.text().indexOf('Payments'), -1,
+			assert.notEqual($title.text().indexOf('Transactions'), -1,
 				'Title is correct');
 
 			assert.ok($('#activity .download').length, "Download link is visible");

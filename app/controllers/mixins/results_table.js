@@ -3,6 +3,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	type: 'transaction',
 
+	pageTitle: function() {
+		return "%@s".fmt(this.get('type').capitalize());
+	}.property('type'),
+
 	// override this if you dont want transaction type filter to appear
 	transactionTypeFilter: true,
 
