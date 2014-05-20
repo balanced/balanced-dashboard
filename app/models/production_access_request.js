@@ -57,6 +57,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 		hideField("socialSecurityNumber");
 		hideField("bankAccountNumber");
+		hideField("employerIdentificationNumber");
 
 		return props;
 	},
@@ -206,9 +207,12 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	handleSaveError: function(error) {
 		var message = "There was an unknown error creating your Marketplace. We have logged an error and will look into it. Please try again.";
+		var category = getErrorCategoryCode(error);
 
-		if (error.description === "Person KYC failed." || error.description === "Business principal failed KYC.") {
+		if (category === "Person KYC failed." || category === "Business principal failed KYC.") {
 			message = "We could not verify your identity. Please check your information again and resubmit.";
+		} else if (category === "marketplace-already-created") {
+			message = "A marketplace has already been created with this information. If you cannot access it please contact support at support@balancedpayments.com";
 		}
 
 		this.requestErrors.addObject({
