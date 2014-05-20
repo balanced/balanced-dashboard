@@ -1,10 +1,11 @@
 Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 	defaultSort: 'created_at',
+	controllerName: 'activity',
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		var activityController = this.controllerFor('activity');
+		var activityController = this.controllerFor(this.get('controllerName'));
 		activityController.refresh();
 
 		var defaultSort = this.get('defaultSort');
@@ -27,12 +28,14 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 
 Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Orders',
-	defaultType: 'order'
+	defaultType: 'order',
+	controllerName: 'activity_orders'
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
 	pageTitle: 'Transactions',
-	defaultType: 'transaction'
+	defaultType: 'transaction',
+	controllerName: 'activity_transactions'
 });
 
 Balanced.MarketplaceRedirectActivityTransactionsRoute = Balanced.RedirectRoute("activity.transactions");

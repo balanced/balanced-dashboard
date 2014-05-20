@@ -20,6 +20,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 		disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),
 		logSelected: Computed.isSelected('marketplace.logs', 'log'),
 		invoiceSelected: Computed.isSelected('marketplace.invoices', 'invoice'),
+		settingsSelected: Computed.isSelected('marketplace.settings'),
 
 		formattedEscrowAmount: function() {
 			var escrow = this.get('in_escrow');

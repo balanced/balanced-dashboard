@@ -44,20 +44,20 @@
 			{{/link-to}}
 		</li>
 		<li>
-			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
+			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.settingsSelected}}
 				<i class="icon-my-marketplace"></i>
 				<span>My marketplace</span>
 			{{/link-to}}
 			<ul class="submenu my-marketplace">
 				<li>
-					{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
-						<span>Account statements</span>
+					{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingsSelected}}
+						<span>Settings</span>
 					{{/link-to}}
 				</li>
 				<li>
-				{{#link-to 'marketplace.settings' marketplace.model}}
-					<span>Settings</span>
-				{{/link-to}}
+					{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
+						<span>Account statements</span>
+					{{/link-to}}
 				</li>
 			</ul>
 		</li>

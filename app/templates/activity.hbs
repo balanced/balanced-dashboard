@@ -1,15 +1,23 @@
-{{view Balanced.ActivityPageNavigationView resultsBinding="results"}}
+<div class="page-navigation">
+	<div class="page-actions">
+		<a class="btn" href="#" {{action "openChargeCardModal"}}>
+			Charge
+		</a>
+		<a class="btn" href="#" {{action "openPaySellerModal"}}>
+			Pay out
+		</a>
+	</div>
+
+	<h1 class="page-title">
+		{{pageTitle}}
+	</h1>
+</div>
+{{view Balanced.PaySellerModalView}}
+{{view Balanced.ChargeCardModalView}}
 
 <div class="main-header activity-escrow-box">
 	<div class="row">
-		<div class="span4 label">
-			<span>Current escrow balance:</span>
-		</div>
-		<div class="span8 amount">
-			<span>
-				{{controllers.marketplace.formattedEscrowAmount}}
-			</span>
-		</div>
+		<span>Escrow: {{controllers.marketplace.formattedEscrowAmount}}</span>
 
 		<div class="buttons">
 			<div class="buttons-container">

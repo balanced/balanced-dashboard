@@ -10,10 +10,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 
 	transactionStatus: 'all',
 
-	TYPE_TRANSLATION: {
-		'card_hold': 'hold'
-	},
-
 	refreshMarketplace: _.debounce(function() {
 		if (!Balanced.currentMarketplace) {
 			return;
