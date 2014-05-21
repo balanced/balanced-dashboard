@@ -1,7 +1,7 @@
 @searchBoxBackground: @gray5;
 @searchBoxMargin: 5px;
-@searchBoxHeight: 40px;
-@headerHeight: 50px;
+@searchBoxHeight: 70px;
+@headerHeight: 70px;
 
 @searchActiveBackground: @gray6;
 @searchHeaderBackground: #d4e5e6;
@@ -16,11 +16,12 @@
 @searchBorder: @searchBorderWidth solid @black;
 
 #search {
+  position: absolute;
   display: block;
   float: left;
   height: 100%;
   text-align: left;
-  width: calc(~"100% - 480px");
+  width: calc(~"100% - 45px");
 
   .results, .close {
     display: none;
@@ -28,18 +29,19 @@
 
   .search-field-container {
     height: @searchBoxHeight;
-    background-color: @gray7;
-    margin: @searchBoxMargin;
+    background-color: @white;
+    border-bottom: 1px solid @gray2;
+    margin-left: 45px;
     position: relative;
 
     .icon-search {
-      color: @white;
+      .sl-24;
+      color: @gray4;
       display: inline-block;
       float: left;
-      height: @searchBoxHeight;
-      line-height: @searchBoxHeight + @searchBoxMargin;
       text-align: center;
       width: 50px;
+      margin-top: 21px;
     }
   }
 
@@ -51,7 +53,7 @@
     font-size: 24px;
     height: 22px;
     line-height: 25px;
-    margin: 8px 0 0 0;
+    margin-top: 24px;
     text-align: center;
     width: 22px;
 
@@ -60,14 +62,6 @@
     }
   }
 
-  &.focus, &.with-results {
-    background: @searchActiveBackground;
-
-    .search-field-container {
-      background: @searchActiveBackground;
-    }
-  }
-  
   &.with-results {
     .search-close {
       display: inline-block;
@@ -87,8 +81,8 @@
     }
     .query-loader {
       position: absolute;
-      right: 2px;
-      top: 13px;
+      right: 5px;
+      top: 24px;
     }
   }
 
@@ -105,13 +99,12 @@
   .results {
     position: absolute;
     top: @headerHeight;
-    left: 50%;
-    margin-left: -45%;
+    left: 45px;
     z-index: 11;
     display: none;
     background-color: @white;
     padding-top: 10px;
-    width: 90%;
+    width: calc(~"100%-45px");
     min-width: 1000px;
     border: 5px solid @gray9;
     border-top: 0;
@@ -141,28 +134,26 @@
 
 #q {
   display: inline-block;
+  background-color: transparent;
   line-height: 1.5em;
-  background-color: @gray7;
   border-radius: 0px;
   float: left;
   width: calc(~"100% - 85px");
   padding: 0 5px 0 0;
   margin: 0;
-  color: @white;
+  color: @gray7;
   box-shadow: none;
   border: 0;
   height: @searchBoxHeight;
   font-size: 18px;
 
   &:focus {
-    background: @searchActiveBackground;
-    color: @white;
+    color: @gray7;
   }
 }
 
 .with-results {
   #q {
-    background: @searchActiveBackground;
-    color: @white;
+    color: @gray7;
   }
 }

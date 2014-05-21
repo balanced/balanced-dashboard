@@ -1,7 +1,24 @@
 <nav id="marketplace-nav">
-{{#if marketplace}}
-	<ul>
-		<li>
+	<div id="marketplaces" class="dropdown nav">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<div id="logo"></div>
+			<span id="marketplace-name">
+				{{#if controllers.marketplace.name}}
+					{{controllers.marketplace.name}}
+				{{else}}
+					Marketplaces
+				{{/if}}
+			</span>
+
+			<b class="caret"></b>
+		</a>
+		{{partial "marketplaces_list"}}
+	</div>
+
+	{{#if marketplace}}
+	<ul class="sidebar">
+
+		<li {{bind-attr class="marketplace.transactionSelected:menu-active marketplace.orderSelected:menu-active"}}>
 			{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
 				<i class="icon-payments"></i>
 				<span>Payments</span>
@@ -19,32 +36,32 @@
 				</li>
 			</ul>
 		</li>
-		<li>
+		<li {{bind-attr class="marketplace.customerSelected:menu-active"}}>
 			{{#link-to 'marketplace.customers' marketplace.model active=marketplace.customerSelected}}
 				<i class="icon-customers"></i>
 				<span>Customers</span>
 			{{/link-to}}
 		</li>
-		<li>
+		<li {{bind-attr class="marketplace.fundingInstrumentSelected:menu-active"}}>
 			{{#link-to 'marketplace.funding_instruments' marketplace.model active=marketplace.fundingInstrumentSelected}}
 				<i class="icon-card"></i>
 				<span>Payment methods</span>
 			{{/link-to}}
 		</li>
-		<li>
+		<li {{bind-attr class="marketplace.disputeSelected:menu-active"}}>
 			{{#link-to 'marketplace.disputes' marketplace.model active=marketplace.disputeSelected}}
 				<i class="icon-disputes"></i>
 				<span>Disputes</span>
 			{{/link-to}}
 		</li>
-		<li>
+		<li {{bind-attr class="marketplace.logSelected:menu-active"}}>
 			{{#link-to 'marketplace.logs' marketplace.model active=marketplace.logSelected}}
 				<i class="icon-logs"></i>
 				<span>Logs</span>
 			{{/link-to}}
 		</li>
-		<li>
-			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.settingsSelected}}
+		<li {{bind-attr class="marketplace.settingsSelected:menu-active marketplace.invoiceSelected:menu-active"}}>
+			{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingsSelected}}
 				<i class="icon-my-marketplace"></i>
 				<span>My marketplace</span>
 			{{/link-to}}
@@ -62,6 +79,7 @@
 			</ul>
 		</li>
 	</ul>
-{{/if}}
-{{partial "_footer"}}
+	{{/if}}
+
+	{{partial "_footer"}}
 </nav>

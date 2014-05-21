@@ -1,9 +1,8 @@
+<div id="user-menu" class="dropdown borderless nav-item">
 {{#if auth.signedIn}}
 	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-		{{#unless auth.isGuest}}
-			<img {{bind-attr src=auth.user.gravatar}} class="icon profile">
-			<span>{{auth.user.email_address}}</span>
-		{{/unless}}
+		<i class="icon-customers"></i>
+		<span>{{auth.user.email_address}}</span>
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
@@ -17,6 +16,7 @@
 				<a href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
 			</li>
 			<li>{{#link-to 'accountSecurity'}}Account security{{/link-to}}</li>
+			<li><a href="https://support.balancedpayments.com">Help center</a></li>
 		{{/if}}
 
 		<li><a href="#" {{action "signOut"}}>Log out</a></li>
@@ -24,3 +24,4 @@
 {{else}}
 	{{#link-to 'login' class="nav1d"}}Login{{/link-to}}
 {{/if}}
+</div>
