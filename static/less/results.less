@@ -113,140 +113,11 @@ header.results-label h3 {
   }
 
   table.items {
-    table-layout:fixed;
-    width: 100%;
+
     &.logs {
       margin-top: 50px;
     }
 
-    tfoot {
-      td.load-more-results {
-        padding: 12px 25px;
-        text-align: center;
-
-        a {
-          cursor: pointer;
-          display: inline-block;
-        }
-      }
-    }
-
-    th {
-      float: none;
-      box-sizing: border-box;
-      padding: 0 10px;
-      background-color: @white;
-      border-top: 2px solid @black;
-      border-bottom: 1px solid @gray2;
-
-      &:first-child {
-        padding-left: 25px;
-      }
-
-      &:last-child {
-        padding-right: 25px;
-
-        &.sortable {
-          padding-right: 5px;
-        }
-      }
-
-      > span {
-        .sl-sm-sb;
-        color: @black;
-        text-transform: uppercase;
-        line-height: 35px;
-      }
-
-      &.type, &.status {
-        padding: 0;
-      }
-    }
-
-    tbody {
-      tr {
-        border-bottom: 1px solid @gray2;
-
-        &:hover {
-          cursor: pointer;
-          background-color: @gray1;
-
-          .no-results {
-            background-color: @white;
-          }
-        }
-
-        td {
-          padding: 0 10px;
-
-          &:first-child {
-            padding-left: 25px;
-          }
-
-          &:last-child {
-            padding-right: 25px;
-          }
-
-          &.no-results {
-            padding: 12px 15px 12px 25px;
-            font-style: italic;
-            cursor: default;
-          }
-
-          a {
-            display: block;
-            height: 100%;
-            width: 100%;
-            text-decoration: none;
-
-            span {
-              padding: 0;
-              display: block;
-              line-height: 46px;
-            }
-            &:link, &:visited, &:hover, &:active {
-              .sl;
-              color: @textColor;
-            }
-          }
-
-          &.date, &.funding-instrument {
-             > a > span {
-              padding-top: 4px !important;
-              padding-bottom: 2px !important;
-             }
-
-          }
-
-           &.date .secondary {
-              text-transform: lowercase;
-           }
-
-          .primary {
-            line-height: 16px;
-            padding: 4px 0 1px !important;
-          }
-
-          .secondary {
-            .sl-sm;
-            line-height: 14px;
-            color: @gray4;
-            padding: 1px 0 4px !important;
-          }
-        }
-
-        td.label4a {
-          a {
-            &:link, &:visited, &:hover, &:active {
-              color: @black;
-            }
-          }
-          &.black {
-            color: @black;
-          }
-        }
-      }
-    }
     .highlight {
       background-color: #b3d1d5;
     }
@@ -291,19 +162,19 @@ header.results-label h3 {
     &:after {
       font-family: 'Balanced-Icon';
       color: @gray3;
-      content: '1';
+      content: '0';
       margin-left: 5px;
       vertical-align: sub;
     }
     &.ascending {
       &:after {
-        content: '0';
+        content: 'Z';
         color: @black;
       }
     }
     &.descending {
       &:after {
-        content: 'Z';
+        content: 'Y';
         color: @black;
       }
     }
