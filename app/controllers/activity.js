@@ -89,8 +89,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 	needs: ['marketplace', 'activity'],
 	type: 'transaction',
-	noDownloadsUri: true,
-	results_base_uri: '/transactions'
+	noDownloadsUri: true
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({

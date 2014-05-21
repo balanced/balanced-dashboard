@@ -1,7 +1,6 @@
-<div class="date-row">
-	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-</div>
-<nav class="date-row">
+{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+
+<nav class="logs-filters-header clearfix">
 	<div class="timing dropdown action filter-endpoints label6a pull-left">
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			<span>{{#if currentEndpointFilter}} {{currentEndpointFilter}} {{else}} All endpoints {{/if}}</span>

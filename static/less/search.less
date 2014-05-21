@@ -29,8 +29,6 @@
 
   .search-field-container {
     height: @searchBoxHeight;
-    background-color: @white;
-    border-bottom: 1px solid @gray2;
     margin-left: 45px;
     position: relative;
 
@@ -38,7 +36,7 @@
       .sl-24;
       color: @gray4;
       display: inline-block;
-      float: left;
+      position: absolute;
       text-align: center;
       width: 50px;
       margin-top: 21px;
@@ -74,10 +72,10 @@
         width: 100%;
       }
     }
+
     #q {
-      &:focus {
-        outline: none;
-      }
+      color: @gray7;
+      border-bottom: 1px solid @black;
     }
     .query-loader {
       position: absolute;
@@ -133,27 +131,23 @@
 }
 
 #q {
+  .sl-lg;
+  color: @gray7;
   display: inline-block;
   background-color: transparent;
   line-height: 1.5em;
   border-radius: 0px;
   float: left;
-  width: calc(~"100% - 85px");
-  padding: 0 5px 0 0;
+  width: 100%;
   margin: 0;
-  color: @gray7;
-  box-shadow: none;
+  padding: 0 55px;
   border: 0;
+  border-bottom: 1px solid @gray2;
+  box-shadow: none;
   height: @searchBoxHeight;
-  font-size: 18px;
 
   &:focus {
     color: @gray7;
-  }
-}
-
-.with-results {
-  #q {
-    color: @gray7;
+    border-bottom: 1px solid @black;
   }
 }

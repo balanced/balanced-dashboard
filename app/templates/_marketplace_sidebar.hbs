@@ -61,13 +61,13 @@
 			{{/link-to}}
 		</li>
 		<li {{bind-attr class="marketplace.settingsSelected:menu-active marketplace.invoiceSelected:menu-active"}}>
-			{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingsSelected}}
+			{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
 				<i class="icon-my-marketplace"></i>
 				<span>My marketplace</span>
 			{{/link-to}}
 			<ul class="submenu my-marketplace">
 				<li>
-					{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingsSelected}}
+					{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
 						<span>Settings</span>
 					{{/link-to}}
 				</li>

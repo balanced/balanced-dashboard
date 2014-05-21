@@ -1,13 +1,18 @@
 <nav>
 	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 
-	<div class="download pull-right">
-		{{#if view.show_download_button}}
-			{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
-		{{/if}}
+	<div>
+	{{#if view.show_download_button}}
+		{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
+	{{/if}}
 
-		{{#if view.show_disputes_download_button}}
-			{{view Balanced.DisputeDownloadModalView}}
-		{{/if}}
+	{{#unless auth.isGuest}}
+		{{#unless controllers.marketplace.production}}
+			{{#link-to "marketplace.import_payouts" class="btn-link sm pull-right"}}
+				<i class="icon icon-document-upload import-payout"></i>
+				Import payouts
+			{{/link-to}}
+		{{/unless}}
+	{{/unless}}
 	</div>
 </nav>

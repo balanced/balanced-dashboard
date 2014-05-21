@@ -4,150 +4,104 @@ header.results-label h3 {
 
 .results {
 
-  header {
-    padding: 20px 10px;
+  .search-filters-header {
+      padding: 0 10px;
+  }
 
-    nav.search-table {
-        padding: 0 10px;
+  .logs-filters-header {
+      margin-bottom: 10px;
+  }
+
+  nav > li {
+    &.filter {
+      .sl-md;
+      display: block;
+      float: left;
+      border-bottom: @searchBorderWidth solid transparent;
+      margin-right: 9px;
+      margin-bottom: 9px;
+      color: @gray4;
     }
 
-    .date-row {
-      margin-bottom: 20px;
+    &.filter:first-of-type {
+      a {
+        padding-left: 0;
+      }
+
+      &:before {
+        content: ' ';
+      }
     }
 
-    nav {
-      > div {
+    &.filter:before {
+      content: '/';
+    }
+
+    &.filter > a {
+      .sl;
+      text-decoration: none;
+      display: inline-block;
+
+      &:hover {
+        color: @black;
+      }
+
+      &:active {
+        color: @black;
+      }
+
+      &.dropdown-toggle {
+        padding: 4px 2px 0;
         display: inline-block;
-      }
-    }
-
-    nav > li {
-      &.filter {
-        .sl-md;
-        display: block;
-        float: left;
-        border-bottom: @searchBorderWidth solid transparent;
-        margin-right: 9px;
-        margin-bottom: 9px;
-        color: @gray4;
-      }
-
-      &.filter:first-of-type {
-        a {
-          padding-left: 0;
-        }
-
-        &:before {
-          content: ' ';
-        }
-      }
-
-      &.filter:before {
-        content: '/';
-      }
-
-      &.filter > a {
-        .sl;
-        text-decoration: none;
-        display: inline-block;
-
-        &:hover {
-          color: @black;
-        }
-
-        &:active {
-          color: @black;
-        }
-
-        &.dropdown-toggle {
-          padding: 4px 2px 0;
-          display: inline-block;
-          margin: 0;
-        }
-      }
-
-      > a {
-        padding: 0 5px;
-        white-space: pre;
-
-        &:hover {
-          border-bottom: @searchBorder;
-          color: @black;
-        }
-      }
-      &.selected {
-        > a {
-          border-bottom: @searchBorder;
-          color: @black;
-
-          &:hover {
-            cursor: default;
-          }
-        }
-      }
-      &.disabled {
-        color: @gray6;
-        border-bottom-color: transparent;
-        .selector {
-          display: none;
-        }
-      }
-      &.disabled.selected {
-        > a {
-          border-bottom: @searchBorder;
-        }
-      }
-      &.download {
-        float: right;
         margin: 0;
+      }
+    }
 
-        a {
-          padding-left: 0;
-        }
+    > a {
+      padding: 0 5px;
+      white-space: pre;
+
+      &:hover {
+        border-bottom: @searchBorder;
+        color: @black;
+      }
+    }
+    &.selected {
+      > a {
+        border-bottom: @searchBorder;
+        color: @black;
 
         &:hover {
-          border-bottom: 0;
+          cursor: default;
         }
+      }
+    }
+    &.disabled {
+      color: @gray6;
+      border-bottom-color: transparent;
+      .selector {
+        display: none;
+      }
+    }
+    &.disabled.selected {
+      > a {
+        border-bottom: @searchBorder;
+      }
+    }
+    &.download {
+      float: right;
+      margin: 0;
+
+      a {
+        padding-left: 0;
+      }
+
+      &:hover {
+        border-bottom: 0;
       }
     }
   }
 
-  table.items {
-
-    &.logs {
-      margin-top: 50px;
-    }
-
-    .highlight {
-      background-color: #b3d1d5;
-    }
-  }
-
-  td, span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .date {
-
-  }
-
-  .type {
-
-  }
-  .description {
-
-  }
-  .account {
-
-  }
-  .funding-instrument {
-
-  }
-  .amount {
-
-  }
   .num, .align-right {
     text-align: right;
   }
@@ -385,4 +339,8 @@ header.results-label h3 {
       width: 100px;
     }
   }
+}
+
+.datetime-picker {
+  margin-bottom: 20px;
 }
