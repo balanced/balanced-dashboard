@@ -18,7 +18,7 @@
 	{{#if marketplace}}
 	<ul class="sidebar">
 
-		<li {{bind-attr class="marketplace.transactionSelected:menu-active marketplace.orderSelected:menu-active"}}>
+		<li {{bind-attr class="marketplace.paymentSelected:menu-active"}}>
 			{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
 				<i class="icon-payments"></i>
 				<span>Payments</span>
@@ -60,7 +60,7 @@
 				<span>Logs</span>
 			{{/link-to}}
 		</li>
-		<li {{bind-attr class="marketplace.settingSelected:menu-active marketplace.invoiceSelected:menu-active"}}>
+		<li {{bind-attr class="marketplace.myMarketplaceSelected:menu-active"}}>
 			{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
 				<i class="icon-my-marketplace"></i>
 				<span>My marketplace</span>

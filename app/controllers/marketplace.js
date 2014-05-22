@@ -22,6 +22,10 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 		invoiceSelected: Computed.isSelected('marketplace.invoices', 'invoice'),
 		settingSelected: Computed.isSelected('marketplace.settings'),
 
+		// Note: need this since bind-attr only works for a single property
+		paymentSelected: Ember.computed.or('transactionSelected', 'orderSelected'),
+		myMarketplaceSelected: Ember.computed.or('settingSelected', 'invoiceSelected'),
+
 		formattedEscrowAmount: function() {
 			var escrow = this.get('in_escrow');
 			if (isNaN(escrow)) {
