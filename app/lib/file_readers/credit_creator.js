@@ -87,19 +87,6 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 		return Balanced.Credit.create(attributes);
 	}.property("csvFields", "bankAccount", "bankAccount.credits_uri", "customer"),
 
-	getSortedErrorMessages: function() {
-		var result = {};
-		var errors = this.get("validationErrors.allMessages");
-		errors.forEach(function(value) {
-			var key = value[0];
-			var message = value[1];
-
-			result[message] = result[message] || [];
-			result[message].push(key);
-		});
-		return result;
-	},
-
 	getErrorMessagesSentences: function() {
 		var self = this;
 		var errors = [];
@@ -107,6 +94,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			var messages = self.get("validationErrors." + name + ".allMessages") || [];
 			errors = errors.concat(messages);
 		});
+
 		return errors.map(function(value) {
 			return value.join(" ");
 		});
@@ -153,6 +141,26 @@ Balanced.CreditCreator.reopenClass({
 
 Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 	fieldNames: ["new_customer_name", "new_customer_email", "new_bank_routing_number", "new_bank_account_number", "new_bank_account_holders_name", "new_bank_account_type", "amount", "appears_on_statement_as", "description"],
+
+	getErrorObject: function() {
+		var properties = this.getProperties(
+			"new_customer_name",
+			"new_customer_email",
+			"new_bank_routing_number",
+			"new_bank_account_holders_name",
+			"new_bank_account_type",
+			"amount",
+			"appears_on_statement_as",
+			"description"
+		);
+
+		var bankAccountNumber = this.get("new_bank_account_number");
+
+		properties.new_bank_account_number = bankAccountNumber && bankAccountNumber.length > 0 ?
+			"HIDDEN" :
+			"EMPTY";
+		return properties;
+	},
 
 	validations: _.extend({}, baseValidationsObject, {
 		"csvFields.new_bank_account_type": {
@@ -304,6 +312,7 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
 		results.addObserver("isLoaded", function() {
 			creator.set("customersCollection", results);
+			creator.validate();
 		});
 
 		return creator;
