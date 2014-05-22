@@ -2,7 +2,11 @@ module('Login', {
 	setup: function() {
 		Testing.setupMarketplace();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Auth._doSignIn
+		);
+	}
 });
 
 test('login page exists and has correct fields', function(assert) {
@@ -71,7 +75,7 @@ test('login transition works', function(assert) {
 		});
 });
 
-test('login afterLogin with transition works', function(assert) {
+asyncTest('login afterLogin with transition works', 1, function(assert) {
 	var loginResponse = {
 		"id": "ULxxx",
 		"email_address": "xxx@gmail.com",
@@ -103,7 +107,6 @@ test('login afterLogin with transition works', function(assert) {
 			_.delay(function() {
 				Ember.run(function() {
 					self.resolve(loginResponse);
-					Testing.stop();
 				});
 			});
 		});
@@ -116,9 +119,8 @@ test('login afterLogin with transition works', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.click('form#auth-form button')
 		.then(function() {
-			Testing.start();
-
 			var app = Balanced.__container__.lookup('controller:application');
 			assert.equal(app.get('currentRouteName'), 'activity.transactions');
+			start();
 		});
 });

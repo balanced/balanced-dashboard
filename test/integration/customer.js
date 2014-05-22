@@ -5,17 +5,11 @@ module('Customer Page', {
 		Testing.createCard();
 	},
 	teardown: function() {
-		var methods = [
+		Testing.restoreMethods(
 			Balanced.Adapter.create,
 			balanced.bankAccount.create,
 			balanced.card.create
-		];
-
-		methods.forEach(function(method) {
-			if (method.restore) {
-				method.restore();
-			}
-		});
+		);
 	}
 });
 

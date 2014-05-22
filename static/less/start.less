@@ -1,7 +1,18 @@
 #main.start {
-  #content {
+  @sidebarWidth: 360px;
+
+  #start-content {
     height: 525px;
-    margin-left: 90px;
+    margin-right: @sidebarWidth;
+  }
+
+  #start-message {
+    padding: 0 180px;
+  }
+
+  #start-sidebar {
+    float: right;
+    width: @sidebarWidth;
   }
   h1 {
     .cssicon(url('../images/welcome.png') -10px -90px, 285px, 110px);
@@ -33,11 +44,8 @@
       background-color: @white;
     }
   }
-  .span8 {
+  #start-sidebar {
     background-color: @contentBackground;
-    margin-left: 0;
-    width: 360px;
-    max-width: 360px;
     li {
       height: 214px;
       position: relative;
@@ -107,9 +115,6 @@
     }
     .registration {
       background-color: @forestGreen60;
-      > .icon {
-        background-position: -167px 0;
-      }
       .arrow {
         background-color: @forestGreen100;
       }

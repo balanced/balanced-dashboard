@@ -42,7 +42,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 
 		this.trackCollectionEvent("Csv import started");
 		collection.save(function() {
-			self.trackCollectionEvent("Csv import finished")
+			self.trackCollectionEvent("Csv import finished");
 			if (callback) {
 				callback();
 			}
