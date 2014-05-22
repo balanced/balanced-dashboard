@@ -95,7 +95,6 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 			errors = errors.concat(messages);
 		});
 
-		console.log(self.get("validationErrors.length"))
 		return errors.map(function(value) {
 			return value.join(" ");
 		});
@@ -157,7 +156,7 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 
 		var bankAccountNumber = this.get("new_bank_account_number");
 
-		properties.new_bank_account_number = bankAccount && bankAccount.length > 0 ?
+		properties.new_bank_account_number = bankAccountNumber && bankAccountNumber.length > 0 ?
 			"HIDDEN" :
 			"EMPTY";
 		return properties;
