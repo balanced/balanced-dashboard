@@ -118,13 +118,16 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 	clickMultiple: function(app, clickEl, number) {
-		for (number = number || 10; number > 0; number--) {
-			click(clickEl);
+		var clickCaller = function(number) {
+			if (number > 0) {
+				return click(clickEl).then(function() {
+					clickCaller(number - 1);
+				});
+			}
+		};
+		number = number || 10;
 
-			wait();
-		}
-
-		return wait();
+		clickCaller(number);
 	},
 	waitForVisit: function(app, url, cb, err, time) {
 		visit(url);

@@ -22,24 +22,21 @@ var Testing = {
 	DEBIT_ROUTE: null,
 	REVERSAL_ROUTE: null,
 
-	isStopped: false,
+	// isStopped: false,
+	isStopped: function() {
+		return window.QUnit.config.semaphore !== 0;
+	},
 
 	stop: function() {
-		if (this.isStopped) {
-			return;
+		if (!this.isStopped()) {
+			stop();
 		}
-
-		stop();
-		this.isStopped = true;
 	},
 
 	start: function() {
-		if (!this.isStopped) {
-			return;
+		if (this.isStopped()) {
+			start();
 		}
-
-		start();
-		this.isStopped = false;
 	},
 
 	pause: function(number, fn) {
@@ -382,26 +379,6 @@ var Testing = {
 		});
 	},
 
-	setupLogs: function(howMany) {
-		var self = this;
-		howMany = howMany || 4;
-
-		// Call stop to stop executing the tests before
-		// a log is created
-		this.stop();
-
-		return Ember.run(function() {
-			Balanced.Log.findAll().then(function(logs) {
-				// Wait for atleast 4 logs
-				if (logs.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupLogs, Testing, howMany), 1000);
-				}
-
-				setTimeout(_.bind(self.start, self), 1000);
-			});
-		});
-	},
-
 	waitForResults: function(controller, howMany, type) {
 		var self = this;
 
@@ -493,12 +470,13 @@ var Testing = {
 	createDebits: function(number) {
 		var self = this;
 		number = number || 4;
-		Ember.run(function() {
-			var i = number;
-			while (i > 0) {
-				self._createDebit();
-				i--;
-			}
+
+		var promises = _.times(number, function() {
+			return self._createDebit();
+		});
+		self.stop();
+		Ember.RSVP.all(promises).then(function() {
+			self.start();
 		});
 	}
 };

@@ -2,10 +2,22 @@ module('Logs', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
-		Testing.setupLogs();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.get
+		);
+	}
 });
+
+var setLogsProperties = function() {
+	Ember.run(function() {
+		Balanced.__container__.lookup('controller:logsIndex').setProperties({
+			minDate: null,
+			maxDate: null
+		});
+	});
+};
 
 test('can visit page', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
@@ -13,12 +25,7 @@ test('can visit page', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
-			Ember.run(function() {
-				Balanced.__container__.lookup('controller:logsIndex').setProperties({
-					minDate: null,
-					maxDate: null
-				});
-			});
+			setLogsProperties();
 		})
 		.then(function() {
 			var $title = $('#content h1');
@@ -29,16 +36,11 @@ test('can visit page', function(assert) {
 		});
 });
 
-test('has logs in table', function(assert) {
+test('has logs in table', 3, function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
-			Ember.run(function() {
-				Balanced.__container__.lookup('controller:logsIndex').setProperties({
-					minDate: null,
-					maxDate: null
-				});
-			});
+			setLogsProperties();
 		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
@@ -56,12 +58,7 @@ test('filter logs by endpoint bank accounts', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
-			Ember.run(function() {
-				Balanced.__container__.lookup('controller:logsIndex').setProperties({
-					minDate: null,
-					maxDate: null
-				});
-			});
+			setLogsProperties();
 		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
@@ -117,12 +114,7 @@ test('filter logs by request failed only', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
-			Ember.run(function() {
-				Balanced.__container__.lookup('controller:logsIndex').setProperties({
-					minDate: null,
-					maxDate: null
-				});
-			});
+			setLogsProperties();
 		})
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');

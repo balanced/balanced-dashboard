@@ -2,7 +2,11 @@ module('Login', {
 	setup: function() {
 		Testing.setupMarketplace();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Auth._doSignIn
+		);
+	}
 });
 
 test('login page exists and has correct fields', function(assert) {
