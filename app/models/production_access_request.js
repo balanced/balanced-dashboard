@@ -176,8 +176,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			account_number: this.get('bankAccountNumber'),
 			account_type: this.get('bankAccountType').toLowerCase()
 		});
-		object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
-		return object.save();
+		return object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
 	},
 
 	saveVerification: function(bankAccount) {
