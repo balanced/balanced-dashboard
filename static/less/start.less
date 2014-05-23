@@ -78,46 +78,37 @@
         color: @white;
       }
       .arrow {
-        position: absolute;
-        top: 0;
+        @font-size: 28px;
         bottom: 0;
+        color: @white;
+        font-size: 24px;
+        line-height: 228px;
+        position: absolute;
         right: 0;
+        text-align: center;
+        top: 0;
         width: 40px;
-        .icon {
-          .cssicon(url('../images/welcome.png') -275px -30px, 10px, 20px);
-          margin: auto;
-          opacity: 0.5;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          left: 0;
-        }
       }
     }
-    .dashboard {
-      background-color: @egyptianBlue60;
+
+    .start-sidebar-item(@bgColorLight, @bgColorDark, @bgPosition) {
+      background-color: @bgColorLight;
       > .icon {
-        background-position: -7px 0;
+        background-position: @bgPosition;
       }
       .arrow {
-        background-color: @egyptianBlue100;
+        background-color: @bgColorDark;
       }
+    }
+
+    .dashboard {
+      .start-sidebar-item(@egyptianBlue60, @egyptianBlue100, -7px 0);
     }
     .documentation {
-      background-color: @curryYellow60;
-      > .icon {
-        background-position: -84px 0;
-      }
-      .arrow {
-        background-color: @curryYellow100;
-      }
+      .start-sidebar-item(@curryYellow60, @curryYellow100, -84px 0);
     }
     .registration {
-      background-color: @forestGreen60;
-      .arrow {
-        background-color: @forestGreen100;
-      }
+      .start-sidebar-item(@forestGreen60, @forestGreen100, -167px 0);
     }
   }
 }

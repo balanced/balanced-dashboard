@@ -1,14 +1,14 @@
 <div class="container">
-<header id="header" {{bind-attr class="headerClass"}}>
-	<div id="logo">
-		<a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
-	</div>
-	<div id="site-nav">
-		<div id="login-menu" class="nav-item">
-			<a {{action "goToLogin"}} class="nav1d">sign in</a>
+	<header id="header" {{bind-attr class="headerClass"}}>
+		<div id="logo">
+			<a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
 		</div>
-	</div>
-</header>
+		<div id="site-nav">
+			<div id="login-menu" class="nav-item">
+				<a {{action "goToLogin"}} class="nav1d">sign in</a>
+			</div>
+		</div>
+	</header>
 </div>
 
 <section id="main" class="container start">
@@ -19,7 +19,7 @@
 				<h2>Demo Dashboard</h2>
 				<p>Explore the dashboard with sample data</p>
 				<div class="arrow">
-					<div class="icon"> </div>
+					<i class="icon icon-arrow-thin-forward"></i>
 				</div>
 			</li>
 			<li class="documentation" {{action "goToDocumentation"}}>
@@ -27,7 +27,7 @@
 				<h2>Integrate</h2>
 				<p>Check out the document and tutorials</p>
 				<div class="arrow">
-					<div class="icon"> </div>
+					<i class="icon icon-arrow-thin-forward"></i>
 				</div>
 			</li>
 			<li class="registration" {{action "goToApply"}}>
@@ -35,7 +35,7 @@
 				<h2>Register</h2>
 				<p>Register for production access</p>
 				<div class="arrow">
-					<div class="icon"> </div>
+					<i class="icon icon-arrow-thin-forward"></i>
 				</div>
 			</li>
 		</ul>
