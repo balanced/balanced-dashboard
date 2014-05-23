@@ -46,6 +46,15 @@ body .modal-backdrop.fade.in {
   z-index: @zindexModal;
   width: @modalWidth;
   margin-left: -@modalWidth / 2;
+  &.full-screen-modal {
+    width: 100%;
+    height: 100%;
+    background-color: @white;
+    margin: 0;
+    padding: 50px 100px;
+    top: 0;
+    left: 0;
+  }
   &.wide-modal {
     width: @wideModalWidth;
     margin-left: -@wideModalWidth / 2;
@@ -411,5 +420,21 @@ body .modal-backdrop.fade.in {
     }
   }
 }
+
+#new-updates {
+  text-align: center;
+
+  h1 {
+    .sl-lg-sb;
+    padding-bottom: 20px;
+  }
+
+  p {
+    .sl-md;
+    color: @gray6;
+    padding-bottom: 20px;
+  }
+}
+
 
 @import "/static/less/bootstrap-modal/bootstrap-modal.less";

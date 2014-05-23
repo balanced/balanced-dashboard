@@ -28,6 +28,20 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 			currentMarketplace && currentMarketplace.get('has_bank_account') && !currentMarketplace.get('has_debitable_bank_account'));
 	}.observes('auth.currentMarketplace', 'auth.currentMarketplace.has_debitable_bank_account', 'auth.currentMarketplace.has_bank_account'),
 
+	newUpdatesModal: function(key, token) {
+		if(arguments.length === 1) { // get
+			return $.cookie(Balanced.COOKIE.NEW_UPDATES);
+		} else { // set
+			$.cookie(Balanced.COOKIE.NEW_UPDATES, token, {
+				path: '/',
+				expires: Balanced.TIME.WEEK * 4,
+			});
+		}
+	}.property(),
+	displayNewUpdatesModal: function() {
+		return this.get('newUpdatesModal') ? false : true;
+	}.property('newUpdatesModal'),
+
 	hasGuestNotification: Ember.computed.readOnly('auth.isGuest'),
 	hasBankAccountNotification: Ember.computed.readOnly('currentMarketplaceHasNoDebitableBankAccount'),
 	hasNotification: Balanced.computed.orProperties('hasGuestNotification', 'hasBankAccountNotification'),
@@ -39,6 +53,12 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 
 		toggleNotificationCenter: function() {
 			this.set('showNotificationCenter', !this.get('showNotificationCenter'));
+		},
+
+		closeNewUpdatesModal: function() {
+			var date = JSON.stringify(moment());
+			this.set('newUpdatesModal', date);
+			this.set('auth.newUpdates');
 		},
 
 		openChangePasswordModal: function() {
