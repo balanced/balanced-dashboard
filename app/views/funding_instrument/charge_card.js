@@ -3,7 +3,7 @@ Balanced.ChargeCardModalView = Balanced.FundingInstrumentModalView.extend({
 	modalElement: '#charge-card',
 	templateName: 'modals/charge_card',
 	validMonths: Balanced.TIME.MONTHS,
-	expiration_error: Balanced.computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
+	expiration_error: Balanced.computed.orProperties('model.source.validationErrors.expiration_month', 'model.source.validationErrors.expiration_year'),
 
 	validYears: function() {
 		var years = [];
@@ -20,7 +20,7 @@ Balanced.ChargeCardModalView = Balanced.FundingInstrumentModalView.extend({
 		debit.set('source', Balanced.Card.create({
 			name: '',
 			number: '',
-			security_code: '',
+			cvv: '',
 			expiration_month: '',
 			expiration_year: '',
 			address: {}
@@ -33,10 +33,6 @@ Balanced.ChargeCardModalView = Balanced.FundingInstrumentModalView.extend({
 			var self = this;
 			var card = this.get('model.source');
 			if (this.beforeSave(this.get('model')) === false) {
-				return;
-			}
-
-			if (!card.validate() && card.get('validationErrors.length')) {
 				return;
 			}
 

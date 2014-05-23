@@ -21,7 +21,7 @@ Balanced.AddCardModalComponent = Balanced.ModalComponent.extend({
 			var card = Balanced.Card.create({
 				name: '',
 				number: '',
-				security_code: '',
+				cvv: '',
 				expiration_month: '',
 				expiration_year: '',
 				address: this.get('customer.address') || {}

@@ -424,7 +424,7 @@ test('can create cards', function(assert) {
 		.fillForm("#add-card", {
 			name: "TEST",
 			number: "1234123412341234",
-			security_code: "123"
+			cvv: "123"
 		})
 		.then(function() {
 			$('#add-card .modal-body select[name="expiration_month"]').val('1').change();

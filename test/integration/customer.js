@@ -335,7 +335,7 @@ test('can add card', function(assert) {
 			number: '1234123412341234',
 			expiration_month: 1,
 			expiration_year: 2020,
-			security_code: '123',
+			cvv: '123',
 			name: 'TEST'
 		})
 		.click('#add-card .modal-footer button[name="modal-submit"]')
@@ -361,7 +361,7 @@ test('can add card with postal code', function(assert) {
 		number: '1234123412341234',
 		expiration_month: 1,
 		expiration_year: 2020,
-		security_code: '123',
+		cvv: '123',
 		name: 'TEST',
 		postal_code: '94612'
 	};
@@ -407,7 +407,7 @@ test('can add card with address', function(assert) {
 		number: '1234123412341234',
 		expiration_month: 1,
 		expiration_year: 2020,
-		security_code: '123',
+		cvv: '123',
 		name: 'TEST',
 		postal_code: '94612',
 		line1: '600 William St',

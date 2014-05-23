@@ -17,21 +17,21 @@
 				</div>
 			</div>
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.number:error"}}>
+			<div {{bind-attr class=":control-group view.model.source.validationErrors.number:error"}}>
 				<label class="control-label">Card Number</label>
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.source.number" name="number" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.number}}</div>
+					<div class="alert alert-error label4b">{{formatError view.model.source.validationErrors.number}}</div>
 				</div>
 			</div>
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.security_code:error"}}>
+			<div {{bind-attr class=":control-group view.model.source.validationErrors.cvv:error"}}>
 				<label class="control-label">Security Code</label>
 
 				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.source.security_code" name="security_code" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.security_code}}</div>
+					{{view Ember.TextField valueBinding="view.model.source.cvv" name="cvv" class="full"}}
+					<div class="alert alert-error label4b">{{formatError view.model.source.validationErrors.cvv}}</div>
 				</div>
 			</div>
 
