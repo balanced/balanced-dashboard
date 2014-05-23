@@ -116,19 +116,19 @@ header.results-label h3 {
     &:after {
       font-family: 'Balanced-Icon';
       color: @gray3;
-      content: '0';
+      content: 'W';
       margin-left: 5px;
       vertical-align: sub;
     }
     &.ascending {
       &:after {
-        content: 'Z';
+        content: 'V';
         color: @black;
       }
     }
     &.descending {
       &:after {
-        content: 'Y';
+        content: 'U';
         color: @black;
       }
     }
@@ -344,4 +344,9 @@ header.results-label h3 {
 .datetime-picker {
   display: inline-block;
   margin-bottom: 20px;
+
+  [class^="icon-"] {
+    vertical-align: super;
+    color: @gray4;
+  }
 }
