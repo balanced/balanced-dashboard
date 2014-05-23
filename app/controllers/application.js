@@ -50,21 +50,23 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		},
 
 		openVerifyBankAccountLink: function() {
-			this.transitionToRoute('bank_accounts', Balanced.currentMarketplace.get('owner_customer.bank_accounts.firstObject')).then(function(route) {
+			var bankAccount = Balanced.currentMarketplace.get('owner_customer.bank_accounts.firstObject');
+			this.transitionToRoute('bank_accounts', bankAccount).then(function(route) {
 				_.delay(function() {
-					var controller;
-
-					if (route) {
-						controller = route.get('controller');
-					} else {
-						controller = Balanced.__container__.lookup('controller:bank_accounts');
-					}
+					var controller = route && route.routeName ?
+						route.get('controller') :
+						Balanced.__container__.lookup('controller:bank_accounts');
 
 					if (!controller) {
 						return;
 					}
 
-					controller.trigger('openConfirmVerificationModal');
+					if (bankAccount.get("can_verify")) {
+						controller.trigger('openVerifyBankAccountModal');
+					} else if (bankAccount.get("can_confirm_verification")) {
+						controller.trigger("openConfirmVerificationModal");
+					}
+
 				});
 			});
 		},
