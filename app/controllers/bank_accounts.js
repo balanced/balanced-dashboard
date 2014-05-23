@@ -16,17 +16,24 @@ Balanced.BankAccountsController = Balanced.ObjectController.extend(
 			Balanced.Model.Events.on('didUpdate', this, this.reloadVerifications);
 		},
 
-		reloadVerifications: function(object) {
-			if (Balanced.Verification.prototype.isPrototypeOf(object) && this.get('content')) {
-				var self = this;
-				this.get('content').reload().then(function() {
-					self.get('verification').reload();
-					self.get('verifications').reload();
+		reloadVerifications: function(verification) {
+			var bankAccount = this.get("content");
+			var reloadIfPresent = function(propertyName) {
+				var property = bankAccount.get(propertyName);
+				if (property !== undefined) {
+					property.reload();
+				}
+			};
+
+			if (Balanced.Verification.prototype.isPrototypeOf(verification) && bankAccount) {
+
+				bankAccount.reload().then(function() {
+					reloadIfPresent("verifications");
+					reloadIfPresent("verification");
 				});
 			}
 		},
 
-		results_base_uri: Ember.computed.readOnly('content.transactions_uri'),
-		can_debit_or_verify: Balanced.computed.orProperties('content.can_debit', 'content.can_verify')
+		results_base_uri: Ember.computed.readOnly('content.transactions_uri')
 	}
 );
