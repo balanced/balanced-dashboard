@@ -5,7 +5,7 @@ Balanced.SidebarItemView = Ember.View.extend({
 		var router = Balanced.Router.router;
 		return router.generate.apply(router, arguments);
 	},
-	
+
 });
 
 Balanced.BasicLinkSidebarItemView = Balanced.SidebarItemView.extend({
