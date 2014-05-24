@@ -1,31 +1,12 @@
 <nav id="marketplace-nav">
-	<ul>
-		{{view Balanced.BasicLinkSidebarItemView}}
-		<li>
-			{{#link-to 'activity' model}}
-				<i class="icon-activity"></i>
-				<span>Activity</span>
-			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'logs.index' model}}
-				<i class="icon-logs"></i>
-				<span>Logs</span>
-			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'invoices.index' model}}
-				<i class="icon-invoices"></i>
-				<span>Invoices</span>
-			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'marketplace.settings' model}}
-				<i class="icon-settings"></i>
-				<span>Settings</span>
-			{{/link-to}}
-		</li>
-	</ul>
+	{{#view Balanced.MarketplaceSidebarView}}
+		<ul>
+			{{#each view.items}}
+				{{view this}}
+			{{/each}}
+		</ul>
+	{{/view}}
+	
 	<div class="button-groups">
 		{{#link-to 'marketplace.add_customer' class='btn'}}
 			<span>Add a customer</span>

@@ -1,6 +1,4 @@
-<li>
-	{{#link-to view.route view.model}}
-		<i {{bind-attr class="view.linkIcon"}}></i>
-		<span>{{view.linkText}}</span>
-	{{/link-to}}
-</li>
+{{#link-to view.routeName}}
+	<i {{bind-attr class="view.linkIcon"}}></i>
+	<span>{{view.linkText}}</span>
+{{/link-to}}
