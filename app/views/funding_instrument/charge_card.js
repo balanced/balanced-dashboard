@@ -30,25 +30,28 @@ Balanced.ChargeCardModalView = Balanced.FundingInstrumentModalView.extend({
 
 	actions: {
 		save: function() {
+			var model = this.get('model');
 			var self = this;
 			var card = this.get('model.source');
-			if (this.beforeSave(this.get('model')) === false) {
+
+			if (card.get('isSaving') || model.get('isSaving')) {
 				return;
 			}
 
-			if (card.get('isSaving') || this.get('model.isSaving')) {
-				return;
-			}
+			card.validate();
+			this.beforeSave(model);
 
-			return card.tokenizeAndCreate().then(function(card) {
-				var model = self.get('model');
-				model.setProperties({
-					uri: card.get('debits_uri'),
-					source_uri: card.get('uri')
+			if (card.get('isValid') && model.get('isValid')) {
+				return card.tokenizeAndCreate().then(function(card) {
+					var model = self.get('model');
+					model.setProperties({
+						uri: card.get('debits_uri'),
+						source_uri: card.get('uri')
+					});
+
+					model.save().then(_.bind(self.afterSave, self));
 				});
-
-				model.save().then(_.bind(self.afterSave, self));
-			});
+			}
 		}
 	}
 });

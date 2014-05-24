@@ -6,14 +6,13 @@
 		</div>
 
 		<div class="modal-body">
-			{{partial "modals/modalErrors"}}
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
+			<div {{bind-attr class=":control-group view.model.source.validationErrors.name:error"}}>
 				<label class="control-label">Card holder's name</label>
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.source.name" name="name" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.name}}</div>
+					<div class="alert alert-error label4b">{{formatError view.model.source.validationErrors.name}}</div>
 				</div>
 			</div>
 
@@ -22,7 +21,9 @@
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.source.number" name="number" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.source.validationErrors.number}}</div>
+					<div class="alert alert-error label4b">
+						{{formatError view.model.source.validationErrors.number}}
+					</div>
 				</div>
 			</div>
 
@@ -51,11 +52,12 @@
 						prompt="Year"
 						name="expiration_year"
 					}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.expiration_month}}</div>
+					<div class="alert alert-error label4b">
+					{{formatError view.model.source.validationErrors.expiration_month}}</div>
 				</div>
 			</div>
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.address.postal_code:error"}}>
+			<div {{bind-attr class=":control-group view.model.source.validationErrors.address.postal_code:error"}}>
 				<label class="control-label">Billing Zip Code</label>
 				<div class="controls">
 					<span>Required for American Express cards</span>
@@ -72,6 +74,9 @@
 						<span class="add-on">$</span>
 						{{view Ember.TextField valueBinding="view.dollar_amount" class="span3" name="amount"}}
 					</div>
+					<div class="alert alert-error label4b">
+						{{formatError view.model.validationErrors.amount}}
+					</div>
 				</div>
 			</div>
 
@@ -80,6 +85,9 @@
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.source.appears_on_statement_max_length"}}
+					<div class="alert alert-error label4b">
+						{{formatError view.model.validationErrors.appears_on_statement_as}}
+					</div>
 				</div>
 			</div>
 
