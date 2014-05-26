@@ -26,23 +26,13 @@
 	{{#each log in results}}
 		<tr>
 			{{view Balanced.LinkedDateCellView
-				itemBinding=log
+				item=log
 				classNames="span3"
 				routeName="logs.log"
-				dateBinding=log.created_at
+				date=log.created_at
 			}}
-			<td class="span3 black">
-				{{#link-to "logs.log" log}}
-					<span>
-						{{colorizeStatus log.message.response.status}}
-					</span>
-				{{/link-to}}
-			</td>
-			<td class="span11">
-				{{#link-to "logs.log" log}}<span>
-				{{log.message.request.method}} {{log.condensed_request_url}}
-				</span>{{/link-to}}
-			</td>
+			{{view Balanced.LogStatusCellView item=log classNames="span3"}}
+			{{view Balanced.LogDescriptionCellView item=log}}
 		</tr>
 	{{else}}
 		<tr>
