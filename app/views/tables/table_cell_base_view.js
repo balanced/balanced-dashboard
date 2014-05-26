@@ -14,3 +14,8 @@ Balanced.LinkedTextCellView = Balanced.TableCellBaseView.extend({
 Balanced.LinkedTwoLinesCellView = Balanced.TableCellBaseView.extend({
 	templateName: "tables/cells/linked_two_lines_cell"
 });
+
+Balanced.TitledLinkedCellView = Balanced.LinkedTextCellView.extend({
+	title: Ember.computed.oneWay("labelText"),
+	attributeBindings: ['title'],
+});

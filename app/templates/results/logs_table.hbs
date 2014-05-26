@@ -25,12 +25,7 @@
 <tbody>
 	{{#each log in results}}
 		<tr>
-			{{view Balanced.LinkedDateCellView
-				item=log
-				classNames="span3"
-				routeName="logs.log"
-				date=log.created_at
-			}}
+			{{view Balanced.LinkedDateCellView routeName="logs.log" date=log.created_at item=log classNames="span3"}}
 			{{view Balanced.LogStatusCellView item=log classNames="span3"}}
 			{{view Balanced.LogDescriptionCellView item=log}}
 		</tr>
