@@ -1,7 +1,7 @@
 var SIDEBAR_ITEMS = [{
 	linkText: "Activity",
 	linkIcon: "icon-activity",
-	routeName: "activity.transactions",
+	routeName: "activity.transactions"
 }, {
 	linkText: "Logs",
 	linkIcon: "icon-logs",

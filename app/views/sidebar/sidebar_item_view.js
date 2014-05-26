@@ -1,11 +1,19 @@
 Balanced.SidebarItemView = Ember.View.extend({
 	tagName: "li",
+	children: function() {
+		return [];
+	}.property(),
+
+	childViewItems: function() {
+		return this.get("children").map(function(child) {
+			return Balanced.BasicLinkSidebarItemView.create(child);
+		});
+	}.property("children.@each"),
 
 	getRoute: function(routeName, model) {
 		var router = Balanced.Router.router;
 		return router.generate.apply(router, arguments);
 	},
-
 });
 
 Balanced.BasicLinkSidebarItemView = Balanced.SidebarItemView.extend({
