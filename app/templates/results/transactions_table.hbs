@@ -57,60 +57,24 @@
 	{{#each transaction in view.transactions}}
 		<tr>
 			{{view Balanced.LinkedDateCellView
-				itemBinding=transaction
+				item=transaction
 				classNames="span3"
-				routeNameBinding=transaction.route_name
-				dateBinding=transaction.created_at
+				routeName=transaction.route_name
+				date=transaction.created_at
 			}}
-			<td {{bind-attr class=":span2 :label4a :type transaction.type"}}>
-				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{transaction.type_name}}
-					</span>
-				{{/link-to}}
-			</td>
-			<td {{bind-attr class=":span3 :label4a :status transaction.status"}}>
-				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{#if transaction.status}}
-							{{transaction.status}}
-						{{/if}}
-					</span>
-				{{/link-to}}
-			</td>
-			<td {{bind-attr title="transaction.description"}} {{bind-attr class=":span4 :description transaction.description::null-field"}}>
-				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{#if transaction.description}}
-							{{transaction.description}}
-						{{else}}
-							None
-						{{/if}}
-					</span>
-				{{/link-to}}
-			</td>
-			<td {{bind-attr class=":span4 :account transaction.customer::null-field"}} {{bind-attr title="transaction.customer_name_summary"}}>
-				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{transaction.customer_name_summary}}
-					</span>
-				{{/link-to}}
-			</td>
-			<td class="span3 funding-instrument">
-				{{#link-to transaction.route_name transaction}}
-					<span>
-						<span class="primary">{{transaction.last_four}}</span>
-						<span class="secondary">{{transaction.funding_instrument_name}}</span>
-					</span>
-				{{/link-to}}
-			</td>
-			<td class="span3 amount num">
-				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{formatCurrency transaction.amount}}
-					</span>
-				{{/link-to}}
-			</td>
+			{{view Balanced.TransactionTypeCellView item=transaction classNames="span2"}}
+			{{view Balanced.TransactionStatusCellView item=transaction classNames="span3"}}
+			{{view Balanced.TransactionDescriptionCellView item=transaction classNames="span4"}}
+			{{view Balanced.TransactionCustomerCellView item=transaction classNames="span4"}}
+
+			{{view Balanced.LinkedTwoLinesCellView
+				item=transaction
+				routeName=transaction.route_name
+				classNames="span3 funding-instrument"
+				primaryLabelText=transaction.last_four
+				secondaryLabelText=transaction.funding_instrument_name
+			}}
+			{{view Balanced.TransactionAmountCellView item=transaction classNames="span3"}}
 		</tr>
 	{{else}}
 		<tr>
