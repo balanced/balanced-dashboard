@@ -1,0 +1,8 @@
+{{#link-to view.routeName view.item}}
+	<span>
+		<time {{bind-attr datetime="view.date" title="view.date"}}>
+			<span class="primary">{{humanReadableDate view.date}}</span>
+			<span class="secondary">{{humanReadableTime view.date}}</span>
+		</time>
+	</span>
+{{/link-to}}
