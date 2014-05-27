@@ -14,6 +14,7 @@
 			});
 
 			var activeCategory = submenu.find('.active').parent().parent();
+
 			activeCategory.addClass('expanded');
 			activeCategory.prev().addClass('expanded');
 		}
