@@ -30,17 +30,19 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 
 	newUpdatesModal: function(key, token) {
 		if (arguments.length === 1) { // get
-			return $.cookie(Balanced.COOKIE.NEW_UPDATES);
+			return $.cookie(Balanced.COOKIE.NEW_UPDATES) ? $.cookie(Balanced.COOKIE.NEW_UPDATES) : undefined;
 		} else { // set
 			$.cookie(Balanced.COOKIE.NEW_UPDATES, token, {
 				path: '/',
 				expires: Balanced.TIME.WEEK * 4,
 			});
+			return $.cookie(Balanced.COOKIE.NEW_UPDATES);
 		}
 	}.property(),
 
 	displayNewUpdatesModal: function() {
-		return this.get('newUpdatesModal') ? false : true;
+		return this.get('newUpdatesModal') === undefined;
+		// return this.get('newUpdatesModal') ? false : true;
 	}.property('newUpdatesModal'),
 
 	hasGuestNotification: Ember.computed.readOnly('auth.isGuest'),
@@ -57,9 +59,9 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		},
 
 		closeNewUpdatesModal: function() {
-			var date = JSON.stringify(moment());
+			var date = new Date();
 			this.set('newUpdatesModal', date);
-			this.set('auth.newUpdates');
+			this.set('auth.newUpdates', date);
 		},
 
 		openChangePasswordModal: function() {
