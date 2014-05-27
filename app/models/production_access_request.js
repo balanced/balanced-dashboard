@@ -227,10 +227,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	createMarketplace: function() {
 		var self = this;
 		var apiKeySecret, marketplace;
+
 		return self
 			.saveUser()
 			.then(function(response) {
-				Balanced.Auth.unsetAPIKey();
 				return self.saveApiKey();
 			})
 			.then(function(response) {

@@ -39,6 +39,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 			model.validate();
 			if (model.get("isValid")) {
+
+				Balanced.Utils.setCurrentMarketplace(null);
+				Balanced.Auth.unsetAPIKey();
 				model.save()
 					.then(function(marketplace) {
 						if (marketplace) {
