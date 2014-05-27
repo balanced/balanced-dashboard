@@ -119,6 +119,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			this.getPersonApiKeyAttributes();
 
 		return Balanced.APIKey.create({
+			production: true,
 			merchant: attributes
 		}).save();
 	},
@@ -226,10 +227,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	createMarketplace: function() {
 		var self = this;
 		var apiKeySecret, marketplace;
+
 		return self
 			.saveUser()
 			.then(function(response) {
-				Balanced.Auth.unsetAPIKey();
 				return self.saveApiKey();
 			})
 			.then(function(response) {
@@ -240,6 +241,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			.then(function(mp) {
 				self.set("marketplace", mp);
 				marketplace = mp;
+				self.logSaveMessage("MarketplaceCreated");
 				return self.saveUserMarketplace(apiKeySecret);
 			})
 			.then(function() {
