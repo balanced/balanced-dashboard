@@ -422,17 +422,100 @@ body .modal-backdrop.fade.in {
 }
 
 #new-updates {
+
+
   text-align: center;
 
   h1 {
     .sl-lg-sb;
-    padding-bottom: 20px;
+    margin-bottom: 0;
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background-color: @gray2;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   p {
     .sl-md-sb;
     color: @gray6;
     padding-bottom: 20px;
+  }
+
+  .content {
+    position: relative;
+    padding-top: 80px;
+
+    .navigation-img {
+      width: 180px;
+      height: 370px;
+    }
+
+    [class^="text-"] {
+      margin-top: 30px;
+      width: 292px;
+    }
+
+    [class^="icon-"], [class^="text-"] {
+      position: absolute;
+      left: 50%;
+      font-size: 60px;
+      color: @gray3;
+
+      &:nth-of-type(1) {
+        top: 105px;
+      }
+
+      &:nth-of-type(2) {
+        top: 210px;
+      }
+
+      &:nth-of-type(3) {
+        top: 305px;
+      }
+
+      &:nth-of-type(4) {
+        top: 155px;
+      }
+
+      &:nth-of-type(5) {
+        top: 255px;
+      }
+
+      &:nth-of-type(6) {
+        top: 360px;
+      }
+    }
+
+    .icon-right-arc-arrow {
+      margin-left: -165px;
+    }
+
+    .icon-left-arc-arrow {
+      margin-left: 105px;
+    }
+
+    .text-right {
+      margin-left: -465px;
+    }
+
+    .text-left {
+      margin-left: 175px;
+    }
+
+    h3 {
+      .sl-sb;
+      margin-bottom: 5px;
+    }
+
+    p {
+      .sl-sm;
+    }
   }
 
   .icon-x {
