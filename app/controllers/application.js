@@ -29,7 +29,7 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	}.observes('auth.currentMarketplace', 'auth.currentMarketplace.has_debitable_bank_account', 'auth.currentMarketplace.has_bank_account'),
 
 	newUpdatesModal: function(key, token) {
-		if(arguments.length === 1) { // get
+		if (arguments.length === 1) { // get
 			return $.cookie(Balanced.COOKIE.NEW_UPDATES);
 		} else { // set
 			$.cookie(Balanced.COOKIE.NEW_UPDATES, token, {
@@ -38,6 +38,7 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 			});
 		}
 	}.property(),
+
 	displayNewUpdatesModal: function() {
 		return this.get('newUpdatesModal') ? false : true;
 	}.property('newUpdatesModal'),
