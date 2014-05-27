@@ -41,9 +41,12 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	}.property(),
 
 	displayNewUpdatesModal: function() {
+		if (this.get('auth.newUpdates')) {
+			this.set('newUpdatesModal', this.get('auth.newUpdates'));
+		}
+
 		return this.get('newUpdatesModal') === undefined;
-		// return this.get('newUpdatesModal') ? false : true;
-	}.property('newUpdatesModal'),
+	}.property('newUpdatesModal', 'auth.newUpdates'),
 
 	hasGuestNotification: Ember.computed.readOnly('auth.isGuest'),
 	hasBankAccountNotification: Ember.computed.readOnly('currentMarketplaceHasNoDebitableBankAccount'),
