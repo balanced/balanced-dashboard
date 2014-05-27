@@ -24,14 +24,10 @@
 	</form>
 </div>
 
-{{#unless auth.isGuest}}
-	{{#unless controllers.marketplace.production}}
-		{{#link-to "marketplace.import_payouts" class="btn-link sm right"}}
-			<i class="icon icon-document-upload import-payout"></i>
-			Import payouts
-		{{/link-to}}
-	{{/unless}}
-{{/unless}}
+{{#link-to "marketplace.import_payouts" class="btn-link sm right"}}
+	<i class="icon icon-document-upload import-payout"></i>
+	Import payouts
+{{/link-to}}
 <a href="#" {{action "open" target="view"}} class="btn-link sm right">
 	<i class="icon-export download"></i>
 	Download

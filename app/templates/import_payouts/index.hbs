@@ -8,9 +8,6 @@
 {{confirm-modal viewName="confirmClearAllModal" title="Clear all entries" mainText="Clear all error entries?"}}
 
 <h1 class="page-title">Import payouts</h1>
-{{#if controllers.marketplace.production}}
-	Payouts Import is only available on test marketplaces.
-{{else}}
 	<form {{action "submit" on="submit" target="view"}} class="full-page-form">
 		{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
 
@@ -32,5 +29,4 @@
 			{{/if}}
 		{{/if}}
 	</form>
-{{/if}}
 {{/view}}
