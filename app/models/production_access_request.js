@@ -119,6 +119,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			this.getPersonApiKeyAttributes();
 
 		return Balanced.APIKey.create({
+			production: true,
 			merchant: attributes
 		}).save();
 	},
