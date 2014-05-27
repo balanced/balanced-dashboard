@@ -13,11 +13,6 @@
 			{{/if}}
 
 			<div id="site-nav">
-				{{#if auth.isGuest}}
-					<div id="go-live-menu" class="nav-item">
-						{{#link-to 'marketplaces.apply' class="btn special"}}Register{{/link-to}}
-					</div>
-				{{/if}}
 				{{partial "user_dropdown"}}
 			</div>
 		</div>
