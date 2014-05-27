@@ -241,6 +241,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			.then(function(mp) {
 				self.set("marketplace", mp);
 				marketplace = mp;
+				self.logSaveMessage("MarketplaceCreated");
 				return self.saveUserMarketplace(apiKeySecret);
 			})
 			.then(function() {
