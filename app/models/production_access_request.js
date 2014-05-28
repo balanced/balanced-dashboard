@@ -1,3 +1,4 @@
+var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
 var isBlank = function(value) {
 	return $.trim(value).length === 0;
 };
@@ -7,6 +8,8 @@ var getErrorCategoryCode = function(error) {
 		return error.errors[0].category_code;
 	} else if (error.description) {
 		return error.description;
+	} else if (error.email_address && error.email_address[0] === "Email address already exists") {
+		return ERROR_CATEGORY_EMAIL_EXISTS;
 	} else {
 		return "UNKNOWN CATEGORY";
 	}
@@ -17,9 +20,17 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isBusiness: Ember.computed.equal("applicationType", "BUSINESS"),
 	isType: Ember.computed.or("isPerson", "isBusiness"),
 
+	isCreateUserAccount: function() {
+		var result = Balanced.Auth.get('isGuest');
+		return result === undefined || result;
+	},
+
 	getErrorObject: function() {
 		var self = this;
 		var props = this.getProperties(
+
+			'claimEmailAddress',
+
 			"businessName",
 			"employerIdentificationNumber",
 			"personName",
@@ -55,6 +66,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			props[fieldName] = message;
 		};
 
+		hideField("claimPassword");
 		hideField("socialSecurityNumber");
 		hideField("bankAccountNumber");
 		hideField("employerIdentificationNumber");
@@ -213,6 +225,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			message = "We could not verify your identity. Please check your information again and resubmit.";
 		} else if (category === "marketplace-already-created") {
 			message = "A marketplace has already been created with this information. If you cannot access it please contact support at support@balancedpayments.com";
+		} else if (category === ERROR_CATEGORY_EMAIL_EXISTS) {
+			message = "An account with that email address already exists. Please log-in first.";
 		}
 
 		this.requestErrors.addObject({
@@ -407,16 +421,17 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (Balanced.Auth.get('isGuest') && !value) {
+					if (object.isCreateUserAccount() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
 			}
 		},
+
 		claimPassword: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (Balanced.Auth.get('isGuest') && !value) {
+					if (object.isCreateUserAccount() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}

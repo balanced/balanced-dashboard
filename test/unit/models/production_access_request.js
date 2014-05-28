@@ -14,7 +14,10 @@ test("#getErrorObject", function(assert) {
 		marketplaceName: "Big Bird's Pillows",
 		supportEmailAddress: "bird@example.com",
 		supportPhoneNumber: "900 123 0099",
-		marketplaceDomainUrl: "example.domain"
+		marketplaceDomainUrl: "example.domain",
+
+		claimPassword: "password",
+		claimEmailAddress: "bird@example.com"
 	});
 
 	assert.deepEqual(subject.getErrorObject(), {
@@ -40,7 +43,10 @@ test("#getErrorObject", function(assert) {
 		supportPhoneNumber: "900 123 0099",
 		marketplaceDomainUrl: "example.domain",
 
-		termsAndConditions: undefined
+		termsAndConditions: undefined,
+
+		claimPassword: "HIDDEN",
+		claimEmailAddress: "bird@example.com"
 	});
 
 });
