@@ -26,29 +26,10 @@
 <tbody>
 	{{#each customer in view.customers}}
 		<tr>
-			<td class="span3 date">
-				{{#link-to "customers" customer}}<span>
-					<time {{bind-attr datetime="customer.created_at"}} {{bind-attr title="customer.created_at"}}>			
-						<span class="primary">{{humanReadableDate customer.created_at}}</span>
-						<span class="secondary">{{humanReadableTime customer.created_at}}</span>
-					</time>
-				</span>{{/link-to}}
-			</td>
-			<td class="span3 name" {{bind-attr title="customer.display_me"}}>
-				{{#link-to "customers" customer}}<span>
-					{{customer.display_me}}
-				</span>{{/link-to}}
-			</td>
-			<td class="span3 business_name" {{bind-attr title="customer.business_name"}}>
-				{{#link-to "customers" customer}}<span>
-					{{customer.business_name}}
-				</span>{{/link-to}}
-			</td>
-			<td class="span6 email" {{bind-attr title="customer.email"}}>
-				{{#link-to "customers" customer}}<span>
-					{{customer.email}}
-				</span>{{/link-to}}
-			</td>
+			{{view Balanced.LinkedDateCellView routeName="customers" date=customer.created_at item=customer classNames="span3"}}
+			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.display_me classNames="span3 name"}}
+			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.business_name classNames="span3 business_name"}}
+			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.email classNames="span3 email"}}
 		</tr>
 	{{else}}
 		<tr>

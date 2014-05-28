@@ -25,23 +25,9 @@
 <tbody>
 	{{#each log in results}}
 		<tr>
-			<td class="span3 date">
-				{{#link-to "logs.log" log}}<span>
-				<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>
-					<span class="primary">{{humanReadableDate log.created_at}}</span>
-					<span class="secondary">{{humanReadableTime log.created_at}}</span>
-				</span>{{/link-to}}
-			</td>
-			<td class="span3 black"><span>
-				{{#link-to "logs.log" log}}
-				{{colorizeStatus log.message.response.status}}
-				</span>{{/link-to}}
-			</td>
-			<td class="span11">
-				{{#link-to "logs.log" log}}<span>
-				{{log.message.request.method}} {{log.condensed_request_url}}
-				</span>{{/link-to}}
-			</td>
+			{{view Balanced.LinkedDateCellView routeName="logs.log" date=log.created_at item=log classNames="span3"}}
+			{{view Balanced.LogStatusCellView item=log classNames="span3"}}
+			{{view Balanced.LogDescriptionCellView item=log}}
 		</tr>
 	{{else}}
 		<tr>

@@ -119,6 +119,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			this.getPersonApiKeyAttributes();
 
 		return Balanced.APIKey.create({
+			production: true,
 			merchant: attributes
 		}).save();
 	},
@@ -176,8 +177,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			account_number: this.get('bankAccountNumber'),
 			account_type: this.get('bankAccountType').toLowerCase()
 		});
-		object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
-		return object.save();
+		return object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
 	},
 
 	saveVerification: function(bankAccount) {
@@ -227,10 +227,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	createMarketplace: function() {
 		var self = this;
 		var apiKeySecret, marketplace;
+
 		return self
 			.saveUser()
 			.then(function(response) {
-				Balanced.Auth.unsetAPIKey();
 				return self.saveApiKey();
 			})
 			.then(function(response) {
@@ -241,6 +241,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			.then(function(mp) {
 				self.set("marketplace", mp);
 				marketplace = mp;
+				self.logSaveMessage("MarketplaceCreated");
 				return self.saveUserMarketplace(apiKeySecret);
 			})
 			.then(function() {
