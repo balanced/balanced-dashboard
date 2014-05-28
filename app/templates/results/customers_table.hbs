@@ -1,9 +1,9 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Created</span>{{/view}}
-		<th class="span3 label6a name"><span>Customer Name</span></th>
-		<th class="span3 label6a name"><span>Business Name</span></th>
-		<th class="span6 label6a email"><span>Email</span></th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span3 label6a name"><span>Customer</span></th>
+		<th class="span3 label6a name"><span>Business</span></th>
+		<th class="span6 label6a email"><span>Recent payment method</span></th>
 	</tr>
 </thead>
 
@@ -34,20 +34,35 @@
 					</time>
 				</span>{{/link-to}}
 			</td>
-			<td class="span3 name" {{bind-attr title="customer.display_me"}}>
+			<td class="span3 customer" {{bind-attr title="customer.display_me"}}>
 				{{#link-to customer.route_name customer}}<span>
-					{{customer.display_me}}
+					{{#if customer.display_me}}
+						<span class="primary">{{customer.display_me}}</span>
+						{{#if customer.email}}
+							<span class="secondary">{{customer.email}}</span>
+						{{/if}}
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
 				</span>{{/link-to}}
 			</td>
-			<td class="span3 business_name" {{bind-attr title="customer.business_name"}}>
-				{{#link-to customer.route_name customer}}<span>
-					{{customer.business_name}}
-				</span>{{/link-to}}
+			<td class="span3 business" {{bind-attr title="customer.business_name"}}>
+				{{#link-to customer.route_name customer}}
+					{{#if customer.business_name}}
+						<span>{{customer.business_name}}</span>
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
+				{{/link-to}}
 			</td>
-			<td class="span6 email" {{bind-attr title="customer.email"}}>
-				{{#link-to customer.route_name customer}}<span>
-					{{customer.email}}
-				</span>{{/link-to}}
+			<td class="span6 recent-payment-method" {{bind-attr title="customer.email"}}>
+				{{#link-to customer.route_name customer}}
+					{{#if customer.business_name}}
+						<span>{{customer.business_name}}</span>
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
+				{{/link-to}}
 			</td>
 		</tr>
 	{{else}}

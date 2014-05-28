@@ -30,6 +30,14 @@ Balanced.Transaction = Balanced.Model.extend(
 		page_title: Balanced.computed.orProperties('description', 'id'),
 		events_uri: Balanced.computed.concat('uri', '/events'),
 
+		dasherized_funding_instrument_type: function() {
+			if (this.get('funding_instrument_type')) {
+				return Ember.String.dasherize(this.get('funding_instrument_type'));
+			} else {
+				return '';
+			}
+		}.property('funding_instrument_type'),
+
 		status_description: function() {
 			if (this.get('is_failed')) {
 				if (this.get('failure_reason') || this.get('failure_reason_code')) {

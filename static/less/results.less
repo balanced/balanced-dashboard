@@ -112,13 +112,13 @@ header.results-label h3 {
       margin-right: 3px;
     }
 
-    .succeeded, .captured, .created {
+    .succeeded, .captured, .created, .won {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .failed, .expired {
+    .failed, .expired, lost {
       &:before {
         background-color: @imperialRed80;
       }
@@ -126,6 +126,10 @@ header.results-label h3 {
 
     .pending:before {
       background-color: @curryYellow80;
+    }
+
+    .representment:before {
+      background-color: @byzantiumPurple80;
     }
   }
 
@@ -139,12 +143,12 @@ header.results-label h3 {
       line-height: 36px;
     }
 
-    .cards:before {
+    .card:before {
       font-family: 'Balanced-Icon';
       &:extend(.icon-card:before);
     }
 
-    .bank_accounts:before {
+    .bank-account:before {
       font-family: 'Balanced-Icon';
       &:extend(.icon-bank-account:before);
     }

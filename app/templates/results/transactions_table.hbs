@@ -84,13 +84,11 @@
 			</td>
 			<td {{bind-attr title="transaction.description"}} {{bind-attr class=":span4 :description transaction.description::null-field"}}>
 				{{#link-to transaction.route_name transaction}}
-					<span>
 						{{#if transaction.description}}
-							{{transaction.description}}
+							<span>{{transaction.description}}</span>
 						{{else}}
-							None
+							<span class="sl-none">none</span>
 						{{/if}}
-					</span>
 				{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span4 :account transaction.customer::null-field"}} {{bind-attr title="transaction.customer_name_summary"}}>
@@ -102,7 +100,7 @@
 			</td>
 			<td class="span3 funding-instrument">
 				{{#link-to transaction.route_name transaction}}
-					<span {{bind-attr class="transaction.funding_instrument_type"}}>
+					<span {{bind-attr class="transaction.dasherized_funding_instrument_type"}}>
 						<span class="primary">{{transaction.last_four}}</span>
 						<span class="secondary">{{transaction.funding_instrument_name}}</span>
 					</span>
