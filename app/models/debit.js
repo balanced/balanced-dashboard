@@ -1,6 +1,7 @@
 require('app/models/transaction');
 
 Balanced.Debit = Balanced.Transaction.extend({
+
 	refund_amount: Ember.computed.oneWay('amount'),
 	type_name: "Debit",
 	route_name: "debits",

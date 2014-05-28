@@ -36,7 +36,7 @@ test('can charge a card', function(assert) {
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry',
 			number: '4111111111111111',
-			security_code: '123',
+			cvv: '123',
 			expiration_month: '12',
 			expiration_year: '2016',
 			postal_code: '95014',
@@ -75,7 +75,7 @@ test('charge a card only submits once despite multiple button clicks', function(
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry',
 			number: '4111111111111111',
-			security_code: '123',
+			cvv: '123',
 			expiration_month: '12',
 			expiration_year: '2016',
 			postal_code: '95014',
@@ -94,5 +94,22 @@ test('charge a card only submits once despite multiple button clicks', function(
 				source_uri: '/cards/' + Testing.CARD_ID
 			})));
 			tokenizingStub.restore();
+		});
+});
+
+test('when charge a card triggers an error, the error is displayed to the user', function(assert) {
+	visit(Testing.MARKETPLACES_ROUTE)
+		.click('div a.charge-a-card')
+		.fillForm('#charge-card', {
+			name: 'Tarun Chaudhry'
+		}, {
+			click: '.modal-footer button:eq(1)'
+		})
+		.then(function() {
+			Testing.stop();
+			Ember.run.next(function() {
+				Testing.start();
+				assert.equal($('.alert-error').is(':visible'), true);
+			});
 		});
 });

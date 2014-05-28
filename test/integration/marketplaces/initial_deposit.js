@@ -37,7 +37,7 @@ test('payment success', function(assert) {
 	visit(Testing.INITIAL_DEPOSIT_ROUTE)
 		.fillForm({
 			number: '4111111111111111',
-			security_code: '1234',
+			cvv: '1234',
 			expiration_month: '12',
 			expiration_year: '2020'
 		}, {
