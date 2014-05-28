@@ -20,7 +20,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isBusiness: Ember.computed.equal("applicationType", "BUSINESS"),
 	isType: Ember.computed.or("isPerson", "isBusiness"),
 
-	isGuest: function() {
+	isCreateUserAccount: function() {
 		var result = Balanced.Auth.get('isGuest');
 		return result === undefined || result;
 	},
@@ -421,7 +421,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (object.isGuest() && !value) {
+					if (object.isCreateUserAccount() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
@@ -431,7 +431,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		claimPassword: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (object.isGuest() && !value) {
+					if (object.isCreateUserAccount() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
