@@ -17,9 +17,17 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isBusiness: Ember.computed.equal("applicationType", "BUSINESS"),
 	isType: Ember.computed.or("isPerson", "isBusiness"),
 
+	isGuest: function() {
+		var result = Balanced.Auth.get('isGuest');
+		return result === undefined || result;
+	},
+
 	getErrorObject: function() {
 		var self = this;
 		var props = this.getProperties(
+
+			'claimEmailAddress',
+
 			"businessName",
 			"employerIdentificationNumber",
 			"personName",
@@ -55,6 +63,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			props[fieldName] = message;
 		};
 
+		hideField("claimPassword");
 		hideField("socialSecurityNumber");
 		hideField("bankAccountNumber");
 		hideField("employerIdentificationNumber");
@@ -407,16 +416,17 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (Balanced.Auth.get('isGuest') && !value) {
+					if (object.isGuest() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
 			}
 		},
+
 		claimPassword: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (Balanced.Auth.get('isGuest') && !value) {
+					if (object.isGuest() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
