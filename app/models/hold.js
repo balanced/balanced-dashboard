@@ -27,7 +27,8 @@ Balanced.Hold = Balanced.Transaction.extend({
 	funding_instrument_description: Ember.computed.readOnly('card.description'),
 	customer: Balanced.computed.orProperties('debit.customer', 'card.customer'),
 	last_four: Ember.computed.readOnly('card.last_four'),
-	funding_instrument_name: Ember.computed.readOnly('card.brand')
+	funding_instrument_name: Ember.computed.readOnly('card.brand'),
+	funding_instrument_type: Ember.computed.alias('card.route_name')
 });
 
 Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');

@@ -102,6 +102,54 @@ header.results-label h3 {
     }
   }
 
+  td.status {
+    span:before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius:100%;
+      margin-right: 3px;
+    }
+
+    .succeeded, .captured {
+      &:before {
+        background-color: @pineGreen80;
+      }
+    }
+
+    .failed, .expired {
+      &:before {
+        background-color: @imperialRed80;
+      }
+    }
+
+    .pending:before {
+      background-color: @curryYellow80;
+    }
+  }
+
+  td.funding-instrument {
+    span:before {
+      content: '';
+      display: inline-block;
+      margin-right: 9px;
+      float: left;
+      color: @gray4;
+      line-height: 36px;
+    }
+
+    .cards:before {
+      font-family: 'Balanced-Icon';
+      &:extend(.icon-card:before);
+    }
+
+    .bank_accounts:before {
+      font-family: 'Balanced-Icon';
+      &:extend(.icon-bank-account:before);
+    }
+  }
+
   .num, .align-right {
     text-align: right;
   }
@@ -115,21 +163,23 @@ header.results-label h3 {
     }
     &:after {
       font-family: 'Balanced-Icon';
+      &:extend(.icon-sort-none:before);
       color: @gray3;
-      content: 'W';
       margin-left: 5px;
       vertical-align: sub;
     }
     &.ascending {
       &:after {
-        content: 'V';
-        color: @black;
+        font-family: 'Balanced-Icon';
+        &:extend(.icon-sort-ascending:before);
+        color: @gray6;
       }
     }
     &.descending {
       &:after {
-        content: 'U';
-        color: @black;
+        font-family: 'Balanced-Icon';
+        &:extend(.icon-sort-descending:before);
+        color: @gray6;
       }
     }
   }

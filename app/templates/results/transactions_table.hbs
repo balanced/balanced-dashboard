@@ -73,11 +73,11 @@
 					</span>
 				{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span3 :label4a :status transaction.status"}}>
+			<td {{bind-attr class=":span3 :label4a :status"}}>
 				{{#link-to transaction.route_name transaction}}
-					<span>
+					<span {{bind-attr class="transaction.status"}}>
 						{{#if transaction.status}}
-							{{transaction.status}}
+							{{capitalize transaction.status}}
 						{{/if}}
 					</span>
 				{{/link-to}}
@@ -102,7 +102,7 @@
 			</td>
 			<td class="span3 funding-instrument">
 				{{#link-to transaction.route_name transaction}}
-					<span>
+					<span {{bind-attr class="transaction.funding_instrument_type"}}>
 						<span class="primary">{{transaction.last_four}}</span>
 						<span class="secondary">{{transaction.funding_instrument_name}}</span>
 					</span>

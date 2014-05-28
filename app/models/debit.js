@@ -13,6 +13,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 	funding_instrument_description: Ember.computed.alias('source.description'),
 	last_four: Ember.computed.alias('source.last_four'),
 	funding_instrument_name: Ember.computed.alias('source.brand'),
+	funding_instrument_type: Ember.computed.alias('source.route_name'),
 	max_refund_amount_dollars: Balanced.computed.transform('refund_amount', Balanced.Utils.centsToDollars),
 
 	get_refunds: function() {
