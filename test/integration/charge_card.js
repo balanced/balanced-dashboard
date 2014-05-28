@@ -96,3 +96,20 @@ test('charge a card only submits once despite multiple button clicks', function(
 			tokenizingStub.restore();
 		});
 });
+
+test('when charge a card triggers an error, the error is displayed to the user', function(assert) {
+	visit(Testing.MARKETPLACES_ROUTE)
+		.click('div a.charge-a-card')
+		.fillForm('#charge-card', {
+			name: 'Tarun Chaudhry'
+		}, {
+			click: '.modal-footer button:eq(1)'
+		})
+		.then(function() {
+			Testing.stop();
+			Ember.run.next(function() {
+				Testing.start();
+				assert.equal($('.alert-error').is(':visible'), true);
+			});
+		});
+});
