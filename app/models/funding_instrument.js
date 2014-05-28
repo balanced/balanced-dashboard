@@ -7,6 +7,7 @@ Balanced.FundingInstrument = Balanced.Model.extend(
 		title_description: Balanced.computed.fmt('name', 'last_four', '%@ (%@)'),
 		description_with_type: Balanced.computed.fmt('type_name', 'description', '%@: %@'),
 		funding_instrument_name: Balanced.computed.orProperties('brand', 'formatted_bank_name'),
+		funding_instrument_type: Balanced.computed.orProperties('type_name'),
 
 		// TODO - fix the API to return the transactions_uri, then get rid of this hack
 		transactions_uri: function() {

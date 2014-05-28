@@ -1,7 +1,7 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Date</span>{{/view}}
-		<th class="span5 label6a funding-instruments">
+		<th class="span4 label6a funding-instruments">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<span>Payment method</span>
@@ -51,25 +51,34 @@
 			</td>
 			<td {{bind-attr title="funding_instrument.description"}}>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					<span class="primary">{{funding_instrument.last_four}}</span>
-					<span class="secondary">{{funding_instrument.funding_instrument_name}}</span>
+					<span class="primary">{{funding_instrument.last_four}} {{funding_instrument.funding_instrument_name}}</span>
+					<span class="secondary">{{funding_instrument.funding_instrument_type}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-						{{funding_instrument.bank}}
+						{{funding_instrument.bank_name}}
 				</span>{{/link-to}}
 			</td>
 			<td>
-				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-						{{funding_instrument.customer.name}}
-						{{funding_instrument.customer.email}}
-				</span>{{/link-to}}
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					{{#if funding_instrument.name}}
+						<span>{{funding_instrument.name}}</span>
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
+				{{/link-to}}
 			</td>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-						{{funding_instrument.customer.name}}
-						{{funding_instrument.customer.email}}
+						{{#if funding_instrument.customer.display_me}}
+							<span class="primary">{{funding_instrument.customer.display_me}}</span>
+							{{#if funding_instrument.customer.email}}
+								<span class="secondary">{{funding_instrument.customer.email}}</span>
+							{{/if}}
+						{{else}}
+							<span class="sl-none">none</span>
+						{{/if}}
 				</span>{{/link-to}}
 			</td>
 		</tr>
