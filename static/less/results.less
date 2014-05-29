@@ -102,10 +102,20 @@ header.results-label h3 {
     }
   }
 
-  td > a > div {
-    display: inline-block;
+  td {
+    span.date {
+      display: inline-block;
+
+      &.em-dash {
+        vertical-align: top;
+        margin: 0 6px;
+      }
+    }
   }
+
   td.status {
+    text-transform: capitalize;
+
     span:before {
       content: '';
       display: inline-block;
@@ -115,7 +125,7 @@ header.results-label h3 {
       margin-right: 3px;
     }
 
-    .succeeded, .captured, .created, .won {
+    .succeeded, .captured, .created, .won, .paid {
       &:before {
         background-color: @pineGreen80;
       }

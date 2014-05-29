@@ -3,8 +3,8 @@
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Date</span>{{/view}}
 		<th class="span3 label6a"><span>Status</span></th>
 		<th class="span2 label6a"><span>Invoice #</span></th>
-		<th class="span8 label6a"><span>Statement period</span></th>
-		<th class="span3 label6a amount"><span>Amount</span></th>
+		<th class="span5 label6a"><span>Statement period</span></th>
+		<th class="span3 num"><span>Amount</span></th>
 	</tr>
 </thead>
 {{#if results.hasNextPage}}
@@ -32,30 +32,30 @@
 					<span class="secondary">{{humanReadableTime invoice.created_at}}</span>
 				{{/link-to}}
 			</td>
-			<td class="span3 black status">
+			<td class="span3 status">
 				{{#link-to invoice.route_name invoice}}
-					{{invoice.state}}
+					<span {{bind-attr class="invoice.state"}}>{{invoice.state}}</span>
 				{{/link-to}}
 			</td>
-			<td class="span2 black">
+			<td class="span2">
 				{{#link-to invoice.route_name invoice}}
 					{{invoice.sequence_number}}
 				{{/link-to}}
 			</td>
-			<td class="span8 black">
-				{{#link-to invoice.route_name invoice}}
-					<div>
+			<td class="span5">
+				{{#link-to date invoice.route_name invoice}}
+					<span class="date">
 						<span class="primary">{{humanReadableDate invoice.from_date}}</span>
 						<span class="secondary">{{humanReadableTime invoice.to_date}}</span>
-					</div>
-					<div class="em-dash">—</div>
-					<div>
+					</span>
+					<span class="date em-dash">—</span>
+					<span class="date">
 						<span class="primary">{{humanReadableDate invoice.to_date}}</span>
 						<span class="secondary">{{humanReadableTime invoice.to_date}}</span>
-					</div>
+					</span>
 				{{/link-to}}
 			</td>
-			<td class="span3 black amount">
+			<td class="span3 amount num">
 				{{#link-to invoice.route_name invoice}}
 					{{formatCurrency invoice.total_fee}}
 				{{/link-to}}
