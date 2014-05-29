@@ -93,9 +93,14 @@
 			</td>
 			<td {{bind-attr class=":span4 :account transaction.customer::null-field"}} {{bind-attr title="transaction.customer_name_summary"}}>
 				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{transaction.customer_name_summary}}
-					</span>
+					{{#if transaction.customer_display_me}}
+						<span class="primary">{{transaction.customer_display_me}}</span>
+						{{#if transaction.customer_email}}
+							<span class="secondary">{{transaction.customer_email}}</span>
+						{{/if}}
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
 				{{/link-to}}
 			</td>
 			<td class="span3 funding-instrument">

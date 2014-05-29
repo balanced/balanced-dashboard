@@ -22,8 +22,18 @@ Balanced.Transaction = Balanced.Model.extend(
 		customer_name_summary: function() {
 			if (this.get('customer')) {
 				return this.get('customer.display_me_with_email');
-			} else {
-				return 'None';
+			}
+		}.property('customer'),
+
+		customer_display_me: function() {
+			if (this.get('customer')) {
+				return this.get('customer.display_me');
+			}
+		}.property('customer'),
+
+		customer_email: function() {
+			if (this.get('customer')) {
+				return this.get('customer.email');
 			}
 		}.property('customer'),
 
