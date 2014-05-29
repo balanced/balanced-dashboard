@@ -18,13 +18,8 @@ Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 		}
 	}.property('amount'),
 
-	customer_name_summary: function() {
-		if (this.get('transaction.customer')) {
-			return this.get('transaction.customer.display_me_with_email');
-		} else {
-			return 'None';
-		}
-	}.property('transaction.customer', 'transaction'),
+	customer_display_me: Ember.computed.alias('transaction.customer.display_me'),
+	customer_email: Ember.computed.alias('transaction.customer.email'),
 
 	last_four: Ember.computed.alias('transaction.last_four'),
 	bank_name: Ember.computed.alias('transaction.bank_name'),
