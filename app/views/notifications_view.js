@@ -22,11 +22,11 @@ Balanced.NotificationsView = Balanced.View.extend({
 	hasGuestNotification: Ember.computed.readOnly('applicationController.auth.isGuest'),
 
 	hasUnverifiedBankAccount: isAnyBankAccount("marketplaceBankAccounts.@each.bank_account_verification_uri", function(bankAccount) {
-		var uri = bankAccount.get("bank_account_verification_uri")
+		var uri = bankAccount.get("bank_account_verification_uri");
 		return uri === undefined || uri === null;
 	}),
 	hasBankAccountVerification: isAnyBankAccount("marketplaceBankAccounts.@each.bank_account_verification_uri", function(bankAccount) {
-		var uri = bankAccount.get("bank_account_verification_uri")
+		var uri = bankAccount.get("bank_account_verification_uri");
 		return !(uri === undefined || uri === null);
 	}),
 
