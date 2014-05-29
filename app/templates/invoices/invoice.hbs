@@ -222,14 +222,14 @@
 				</thead>
 				<tbody>
 					{{#each adjustment in model.adjustments}}
-					<tr class="row">
+					<tr>
 						<td class="span18 label4a"><span>{{adjustment.description}}</span></td>
 						<td class="span2 total number3a"><span>{{formatCurrency adjustment.amount}}</span></td>
 					</tr>
 					{{/each}}
 				</tbody>
 				<tfoot>
-					<tr class="adjustments-row row">
+					<tr class="adjustments-row">
 						<td class="span18 label4a"><span>Total Adjustments</span></td>
 						<td class="span2 total number3a"><span>{{formatCurrency adjustments_total_fee}}</span></td>
 					</tr>
