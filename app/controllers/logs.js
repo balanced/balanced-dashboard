@@ -24,6 +24,19 @@ Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Even
 				this.set('currentEndpointFilter', null);
 				this.set('endpoint', null);
 			}
+		},
+
+		changeLogStatusFilter: function(status) {
+			if (status === 'succeeded') {
+				this.set('statusRollupFilterSucceeded', true);
+				this.set('statusRollupFilterFailed', false);
+			} else if (status === 'failed') {
+				this.set('statusRollupFilterSucceeded', false);
+				this.set('statusRollupFilterFailed', true);
+			} else if (status === 'all') {
+				this.set('statusRollupFilterSucceeded', true);
+				this.set('statusRollupFilterFailed', true);
+			}
 		}
 	},
 

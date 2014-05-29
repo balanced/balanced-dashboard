@@ -1,7 +1,38 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}
-		<th class="span3 label6a"><span>Status</span></th>
+		<th class="span3 label6a">
+			<div class="dropdown filter">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Endpoint</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu status-filter filter-choices">
+					<li><a {{action "setEndPointFilter" "" target="controller"}} href="#" class="all">All endpoints</a></li>
+					<li><a {{action "setEndPointFilter" "debits" target="controller"}} href="#" class="debits">Debits</a></li>
+					<li><a {{action "setEndPointFilter" "credits" target="controller"}} href="#" class="credits">Credits</a></li>
+					<li><a {{action "setEndPointFilter" "refunds" target="controller"}} href="#" class="refunds">Refunds</a></li>
+					<li><a {{action "setEndPointFilter" "holds" target="controller"}} href="#" class="holds">Holds</a></li>
+					<li><a {{action "setEndPointFilter" "customers" target="controller"}} href="#" class="customers">Customers</a></li>
+					<li><a {{action "setEndPointFilter" "accounts" target="controller"}} href="#" class="accounts">Accounts</a></li>
+					<li><a {{action "setEndPointFilter" "bank_accounts" target="controller"}} href="#" class="bank_accounts">Bank Accounts</a></li>
+					<li><a {{action "setEndPointFilter" "cards" target="controller"}} href="#" class="cards">Cards</a></li>
+				</ul>
+			</div>
+		</th>
+		<th class="span3 label6a">
+			<div class="dropdown filter">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Status</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu status-filter filter-choices">
+					<li><a href="#" {{action "changeLogStatusFilter" "all"}}>All</a></li>
+					<li><a href="#" {{action "changeLogStatusFilter" "succeeded"}}> Succeeded </a></li>
+					<li><a href="#" {{action "changeLogStatusFilter" "failed"}}> Failed </a></li>
+				</ul>
+			</div>
+		</th>
 		<th class="span11 label6a"><span>Method &amp; URI</span></th>
 	</tr>
 </thead>
@@ -9,7 +40,7 @@
 {{#if results.hasNextPage}}
 	<tfoot>
 		<tr>
-			<td colspan="3" class="load-more-results">
+			<td colspan="4" class="load-more-results">
 				{{#if results.loadingNextPage}}
 					<div class="loader-container">
 						<span class="loader loading"></span>
@@ -32,12 +63,18 @@
 					<span class="secondary">{{humanReadableTime log.created_at}}</span>
 				</span>{{/link-to}}
 			</td>
-			<td class="span3 black"><span>
-				{{#link-to log.route_name log}}
-					{{colorizeStatus log.message.response.status}}
+			<td class="span3 endpoint">
+				{{#link-to log.route_name log}}<span>
+					{{log.endpoint}}
 				</span>{{/link-to}}
 			</td>
-			<td class="span11">
+			<td class="span3 status">
+				{{#link-to log.route_name log}}
+				<span {{bind-attr class="log.status"}}>
+					{{log.message.response.status}}
+				</span>{{/link-to}}
+			</td>
+			<td class="span11 uri">
 				{{#link-to log.route_name log}}<span>
 					{{log.message.request.method}} {{log.condensed_request_url}}
 				</span>{{/link-to}}
@@ -45,7 +82,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="3" class="no-results">
+			<td colspan="4" class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}
