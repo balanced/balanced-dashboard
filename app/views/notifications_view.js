@@ -1,3 +1,12 @@
+var isAnyBankAccount = function(propertyName, callback) {
+	return function() {
+		var bankAccounts = this.get("marketplaceBankAccounts");
+		return bankAccounts ?
+			bankAccounts.any(callback) :
+			false;
+	}.property(propertyName);
+};
+
 Balanced.NotificationsView = Balanced.View.extend({
 	templateName: "notifications/messages",
 
@@ -12,25 +21,14 @@ Balanced.NotificationsView = Balanced.View.extend({
 
 	hasGuestNotification: Ember.computed.readOnly('applicationController.auth.isGuest'),
 	isBankAccountsEmpty: Ember.computed.equal('marketplaceBankAccounts.length', 0),
-	isNeedsStartVerification: function(){
-		var bankAccounts = this.get("marketplaceBankAccounts");
-		if (bankAccounts) {
-			return bankAccounts.any(function(bankAccount) {
-					return bankAccount.get("can_verify");
-			});
-		}
-		return false;
-	}.property("marketplaceBankAccounts.@each.can_verify"),
 
-	isNeedsConfirmVerification: function() {
-		var bankAccounts = this.get("marketplaceBankAccounts");
-		if (bankAccounts) {
-			return bankAccounts.any(function(bankAccount) {
-					return bankAccount.get("can_confirm_verification");
-			});
-		}
-		return false;
-	}.property("marketplaceBankAccounts.@each.can_confirm_verification"),
+	isNeedsStartVerification: isAnyBankAccount("marketplaceBankAccounts.@each.can_verify", function(bankAccount) {
+		return bankAccount.get("can_verify");
+	}),
+
+	isNeedsConfirmVerification: isAnyBankAccount("marketplaceBankAccounts.@each.can_confirm_verification", function(bankAccount) {
+		return bankAccount.get("can_confirm_verification");
+	}),
 });
 
 Balanced.NotificationMessageView = Balanced.View.extend({
