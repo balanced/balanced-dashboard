@@ -7,7 +7,8 @@
 
 {{#if view.isBankAccountsEmpty}}
 	{{#view Balanced.NotificationMessageView}}
-		Please add a bank account by visiting the
+		Your marketplace is not linked to any bank accounts.
+		Add a bank account by visiting the
 		{{#link-to 'marketplace.settings'}}settings page{{/link-to}}.
 	{{/view}}
 {{/if}}
@@ -22,6 +23,6 @@
 {{#if view.isNeedsConfirmVerification}}
 	{{#view Balanced.NotificationMessageView}}
 		Please verify your marketplace bank account by confirming the deposit amounts.
-		<a {{action "openVerifyBankAccountLink" target="controllers.application"}}>Verify now.</a>
+		<a {{action "openVerifyBankAccountLink" target="controllers.application"}}>Verify now</a>
 	{{/view}}
 {{/if}}
