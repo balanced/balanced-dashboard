@@ -9,7 +9,7 @@ Balanced.Log = Balanced.Model.extend({
 		var status_code = this.get('status_rollup');
 		if (status_code === '2XX') {
 			return 'succeeded';
-		} else if (status_code === '3XX' || '4XX') {
+		} else if (status_code === '3XX' || status_code === '4XX') {
 			return 'failed';
 		}
 	}.property('status_rollup'),
