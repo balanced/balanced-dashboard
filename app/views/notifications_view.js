@@ -20,11 +20,20 @@ Balanced.NotificationsView = Balanced.View.extend({
 	}.property("marketplaceOwnerCustomer.bank_accounts.isLoaded"),
 
 	hasGuestNotification: Ember.computed.readOnly('applicationController.auth.isGuest'),
-	isBankAccountsEmpty: Ember.computed.equal('marketplaceBankAccounts.length', 0),
 
-	isNeedsStartVerification: isAnyBankAccount("marketplaceBankAccounts.@each.can_verify", function(bankAccount) {
-		return bankAccount.get("can_verify");
+	hasUnverifiedBankAccount: isAnyBankAccount("marketplaceBankAccounts.@each.bank_account_verification_uri", function(bankAccount) {
+		var uri = bankAccount.get("bank_account_verification_uri")
+		return uri === undefined || uri === null;
 	}),
+	hasBankAccountVerification: isAnyBankAccount("marketplaceBankAccounts.@each.bank_account_verification_uri", function(bankAccount) {
+		var uri = bankAccount.get("bank_account_verification_uri")
+		return !(uri === undefined || uri === null);
+	}),
+
+	isBankAccountsEmpty: Ember.computed.equal('marketplaceBankAccounts.length', 0),
+	isNeedsStartVerification: function() {
+		return this.get("hasUnverifiedBankAccount") && !this.get("hasBankAccountVerification");
+	}.property("hasUnverifiedBankAccount", "hasBankAccountVerification"),
 
 	isNeedsConfirmVerification: isAnyBankAccount("marketplaceBankAccounts.@each.can_confirm_verification", function(bankAccount) {
 		return bankAccount.get("can_confirm_verification");
