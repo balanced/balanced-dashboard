@@ -6,72 +6,47 @@ Balanced.WithdrawFundsModalView = Balanced.FundingInstrumentModalView.extend({
 	submitAction: 'submitCreditCustomer',
 	dollar_amount: null,
 
+	open: function() {
+		var self = this;
+		var credit = Balanced.Credit.create({
+			amount: null,
+			description: null
+		});
+
+		self.set('dollar_amount', null);
+		self._super(credit);
+	},
+
+	afterSave: function(model) {
+		this.get('controller').transitionToRoute("credits", model);
+	},
+
 	actions: {
-		open: function() {
-			var self = this;
-			var credit = Balanced.Credit.create({
-				amount: null,
-				description: null
-			});
-
-			self.set('dollar_amount', null);
-			self._super(credit);
-		},
-
 		save: function() {
-			if (this.get('model.isSaving')) {
-				return;
-			}
-
-			var self = this;
 			var credit = this.get('model');
-			var cents = null;
-			var destination = this.get('destination');
-
-			if (!destination) {
-				return;
-			}
-
-			try {
-				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
-			} catch (error) {
-				credit.set('validationErrors', {
-					'amount': error
-				});
-				return;
-			}
-
-			credit.set('uri', destination.get('credits_uri'));
-			credit.set('amount', cents);
-
-			credit.on('didCreate', function() {
-				self.get('marketplace').reload();
-				self.hide();
-			});
-
+			credit.set("uri", this.get("destination.credits_uri"));
 			this._super(credit);
 		}
 	},
 
+	// Note: sendAction is a component method and the BaseModal#save assumes that we are a component
+	// We need to stub this so that BaseModal#save doesn't break.
+	sendAction: function() {},
+
 	destination: function() {
-		if (!this.get('model')) {
+		var fundingInstruments = this.get('bank_accounts');
+		var destinationUri = this.get('destination_uri');
+		if (fundingInstruments) {
+			var destination = fundingInstruments.find(function(destination) {
+				return destinationUri === destination.get('uri');
+			});
+			return destination || fundingInstruments.objectAt(0);
+		}
+		else {
 			return null;
 		}
 
-		var fundingInstruments = this.get('bank_accounts');
-		var destinationUri = this.get('model.destination_uri');
-		var defaultDestination = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments.get('content')[0] : null;
-
-		if (!fundingInstruments) {
-			return defaultDestination;
-		}
-
-		return fundingInstruments.find(function(destination) {
-			if (destination) {
-				return destinationUri === destination.get('uri');
-			}
-		}) || defaultDestination;
-	}.property('model', 'model.destination_uri', 'bank_accounts'),
+	}.property('destination_uri', 'bank_accounts', 'bank_accounts.isLoaded'),
 
 	bank_accounts: Ember.computed.readOnly('marketplace.owner_customer.bank_accounts')
 });
