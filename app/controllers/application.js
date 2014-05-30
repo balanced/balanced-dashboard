@@ -41,6 +41,14 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	}.property(),
 
 	displayNewUpdatesModal: function() {
+		if (!this.get('auth.signedIn')) {
+			return false;
+		}
+
+		if (this.get('currentRouteName') === 'marketplaces.index') {
+			return false;
+		}
+
 		if (this.get('auth.newUpdates')) {
 			this.set('newUpdatesModal', this.get('auth.newUpdates'));
 		}

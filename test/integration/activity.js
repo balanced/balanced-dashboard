@@ -59,7 +59,6 @@ test('Filter Activity transactions table by type & status', function(assert) {
 			// Manually check the transactions uri is correct
 			var activityController = Balanced.__container__.lookup('controller:activity_transactions');
 			var results_uri = activityController.get('results_uri');
-			console.log(results_uri);
 			assert.ok(activityController.get('results_base_uri').indexOf('/transactions') >= 0, 'Activity Transactions URI is correct');
 			assert.ok(results_uri.indexOf('sort=created_at') > 0, 'Activity Transactions Sort is correct');
 			assert.ok(results_uri.indexOf('type=card_hold') > 0, 'Activity Transactions Type is correct');
