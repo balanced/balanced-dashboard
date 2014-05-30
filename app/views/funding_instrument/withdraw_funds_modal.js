@@ -41,8 +41,7 @@ Balanced.WithdrawFundsModalView = Balanced.FundingInstrumentModalView.extend({
 				return destinationUri === destination.get('uri');
 			});
 			return destination || fundingInstruments.objectAt(0);
-		}
-		else {
+		} else {
 			return null;
 		}
 
