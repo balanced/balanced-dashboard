@@ -1,6 +1,8 @@
-require('app/components/modal');
+Balanced.WithdrawFundsModalView = Balanced.FundingInstrumentModalView.extend({
+	templateName: 'modals/withdraw_funds',
+	controllerEventName: 'openWithdrawFundsModal',
+	modalElement: '#withdraw-funds',
 
-Balanced.WithdrawFundsModalComponent = Balanced.ModalComponent.extend({
 	submitAction: 'submitCreditCustomer',
 	dollar_amount: null,
 
@@ -71,7 +73,5 @@ Balanced.WithdrawFundsModalComponent = Balanced.ModalComponent.extend({
 		}) || defaultDestination;
 	}.property('model', 'model.destination_uri', 'bank_accounts'),
 
-	bank_accounts: function() {
-		return this.get('marketplace.owner_customer.bank_accounts');
-	}.property('marketplace.owner_customer.bank_accounts')
+	bank_accounts: Ember.computed.readOnly('marketplace.owner_customer.bank_accounts')
 });

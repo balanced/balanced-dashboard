@@ -26,7 +26,7 @@
 				<a class="add-funds-btn" {{action "openAddFundsModal"}}>Add funds</a>
 			</li>
 			<li>
-				{{withdraw-funds-modal marketplaceBinding="controllers.marketplace.model"}}
+				<a class="withdraw-funds-btn" {{action "openWithdrawFundsModal"}}>Withdraw funds</a>
 			</li>
 		</ul>
 	</div>
@@ -41,3 +41,4 @@
 </div>
 
 {{view Balanced.AddFundsModalView marketplaceBinding="controllers.marketplace.model"}}
+{{view Balanced.WithdrawFundsModalView marketplaceBinding="controllers.marketplace.model"}}
