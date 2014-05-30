@@ -14,20 +14,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 		'card_hold': 'hold'
 	},
 
-	refreshMarketplace: _.debounce(function() {
-		if (!Balanced.currentMarketplace) {
-			return;
-		}
-
-		Ember.run(function() {
-			Balanced.currentMarketplace.reload();
-		});
-	}, Balanced.THROTTLE.REFRESH),
-
-	refresh: function() {
-		this.refreshMarketplace();
-	},
-
 	actions: {
 		changeTypeFilter: function(type) {
 			this._super(type);
@@ -43,8 +29,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
 				this.transitionToRoute('activity.disputes');
 			}
-
-			this.refresh();
 		},
 
 		openAddFundsModal: function() {
