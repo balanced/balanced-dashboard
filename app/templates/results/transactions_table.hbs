@@ -1,7 +1,7 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :date view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}
-		<th class="span2 type">
+		<th class="span2 type has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<span>Type</span>
@@ -16,7 +16,7 @@
 				</ul>
 			</div>
 		</th>
-		<th class="span3 status">
+		<th class="span3 status has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<span>Status</span>
@@ -106,8 +106,8 @@
 			<td class="span3 funding-instrument">
 				{{#link-to transaction.route_name transaction}}
 					<span {{bind-attr class="transaction.dasherized_funding_instrument_type"}}>
-						<span class="primary">{{transaction.last_four}}</span>
-						<span class="secondary">{{transaction.funding_instrument_name}}</span>
+						<span class="primary">{{transaction.last_four}} {{transaction.brand}}</span>
+						<span class="secondary">{{transaction.funding_instrument_type}}</span>
 					</span>
 				{{/link-to}}
 			</td>

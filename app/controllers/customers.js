@@ -1,6 +1,6 @@
 Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
-
+	limit: 50,
 	sortField: 'created_at',
 	sortOrder: 'desc',
 	baseClassSelector: "#customer",

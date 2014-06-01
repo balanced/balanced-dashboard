@@ -1,7 +1,7 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Date</span>{{/view}}
-		<th class="span4 label6a funding-instruments">
+		<th class="span4 label6a funding-instruments has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<span>Payment method</span>
@@ -49,16 +49,20 @@
 					</time>
 				</span>{{/link-to}}
 			</td>
-			<td {{bind-attr title="funding_instrument.description"}}>
-				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					<span class="primary">{{funding_instrument.last_four}} {{funding_instrument.funding_instrument_name}}</span>
+			<td>
+				{{#link-to funding_instrument.route_name funding_instrument}}<span {{bind-attr title="funding_instrument.description"}}>
+					<span class="primary">{{funding_instrument.last_four}} {{#if funding_instrument.brand}}{{funding_instrument.brand}}{{/if}}</span>
 					<span class="secondary">{{funding_instrument.funding_instrument_type}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td>
-				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-						{{funding_instrument.bank_name}}
-				</span>{{/link-to}}
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					{{#if funding_instrument.formatted_bank_name}}
+						<span>{{funding_instrument.formatted_bank_name}}</span>
+					{{else}}
+						<span class="none">none</span>
+					{{/if}}
+				{{/link-to}}
 			</td>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}

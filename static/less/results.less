@@ -146,27 +146,6 @@ header.results-label h3 {
     }
   }
 
-  td.funding-instrument {
-    span:before {
-      content: '';
-      display: inline-block;
-      margin-right: 9px;
-      float: left;
-      color: @gray4;
-      line-height: 36px;
-    }
-
-    .card:before {
-      font-family: 'Balanced-Icon';
-      &:extend(.icon-card:before);
-    }
-
-    .bank-account:before {
-      font-family: 'Balanced-Icon';
-      &:extend(.icon-bank-account:before);
-    }
-  }
-
   td.endpoint {
     span {
       padding-left: 10px;
@@ -411,7 +390,8 @@ header.results-label h3 {
   margin-bottom: 20px;
 
   [class^="icon-"] {
-    vertical-align: super;
+    font-size: 18px;
     color: @gray4;
-  }
+    vertical-align: text-bottom;
+ }
 }
