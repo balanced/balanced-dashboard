@@ -129,4 +129,12 @@ Balanced.Customer = Balanced.Model.extend({
 	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
 });
 
+Balanced.Customer.reopenClass({
+	findByNameOrEmail: function(marketplace, query) {
+		return marketplace.search(query, "Balanced.Customer", {
+			type: "customer"
+		});
+	}
+});
+
 Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');

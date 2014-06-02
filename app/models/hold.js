@@ -8,14 +8,14 @@ Balanced.Hold = Balanced.Transaction.extend({
 	status: function() {
 		if (this.get('debit')) {
 			return 'captured';
-		} else if (this.get('is_void')) {
+		} else if (this.get('voided_at')) {
 			return 'void';
 		} else if (this.get('is_expired')) {
 			return 'expired';
 		} else {
 			return 'created';
 		}
-	}.property('debit', 'is_void', 'is_expired'),
+	}.property('debit', 'voided_at', 'is_expired'),
 
 	is_expired: function() {
 		return Date.parseISO8601(this.get('expires_at')) < new Date();

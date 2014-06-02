@@ -458,7 +458,6 @@ Ember.Validations = Ember.Mixin.create(/**@scope Ember.Validations.prototype */{
       if (!validations.hasOwnProperty(attribute)) continue;
       this._validateProperty(attribute);
     }
-
     this.propertyDidChange('validationErrors');
     return get(this, 'isValid');
   },

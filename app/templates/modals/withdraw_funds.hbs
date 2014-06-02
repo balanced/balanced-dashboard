@@ -61,7 +61,7 @@
 
 						<div class="input-prepend">
 							<span class="add-on">$</span>
-							{{view Ember.TextField valueBinding="view.dollar_amount" class="span3"}}
+							{{view Ember.TextField name="dollar_amount" valueBinding="view.dollar_amount" class="span3"}}
 						</div>
 					</div>
 				</div>
@@ -78,7 +78,7 @@
 					<label class="control-label">Internal Description</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.description" class="full description" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}
+						{{view Ember.TextField name="description" valueBinding="view.model.description" class="full description" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}
 					</div>
 				</div>
 			</div>

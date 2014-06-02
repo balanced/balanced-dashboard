@@ -16,7 +16,12 @@ module('Debits', {
 			});
 		});
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			Balanced.Adapter.update
+		);
+	}
 });
 
 test('can visit page', function(assert) {
@@ -45,7 +50,7 @@ test('can edit debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
-		.click('.debit .transaction-info a.edit')
+		.click('.debit .transaction-info a.icon-edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -62,9 +67,7 @@ test('failed debit shows failure information', function(assert) {
 		var model = Balanced.__container__.lookup('controller:debits');
 		model.set('status', 'failed');
 		model.set('failure_reason', 'Foobar');
-		Testing.stop();
 		Ember.run.next(function() {
-			Testing.start();
 			assert.equal($('.dl-horizontal dd:first').text().trim(), 'Foobar');
 		});
 	});
@@ -76,9 +79,7 @@ test('failed debit does not show refund modal', function(assert) {
 	visit(Testing.DEBIT_ROUTE).then(function() {
 		var model = Balanced.__container__.lookup('controller:debits');
 		model.set('status', 'failed');
-		stop();
 		Ember.run.next(function() {
-			start();
 			assert.equal($('#refund-debit').is(':visible'), false);
 		});
 	});

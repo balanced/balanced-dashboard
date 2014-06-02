@@ -2,22 +2,11 @@ module('Search', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
+		Testing.createCustomer();
 		Balanced.Auth.set('signedIn', true);
 
 		Testing.setupSearch();
-	},
-	teardown: function() {
-		Ember.run(function() {
-			$('#search .search-close').click();
-		});
 	}
-});
-
-test('search box exists', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-			assert.equal($('#q').length, 1);
-		});
 });
 
 test('search results show and hide', function(assert) {
@@ -26,15 +15,15 @@ test('search results show and hide', function(assert) {
 			Testing.runSearch('Cocaine');
 		})
 		.then(function() {
-			assert.equal($('#search').hasClass('with-results'), true, 'search has no results');
-			assert.equal($('body').hasClass('overlaid'), true, 'overlay not showing');
+			assert.ok($('#search').hasClass('with-results'), 'search has no results');
+			assert.ok($('body').hasClass('overlaid'), 'overlay not showing');
 		})
 		.then(function() {
 			Testing.runSearch('');
 		})
 		.then(function() {
-			assert.equal($('#search').hasClass('with-results'), false, 'blank search has results');
-			assert.equal($('body').hasClass('overlaid'), false, 'overlay still showing');
+			assert.ok(!$('#search').hasClass('with-results'), 'blank search has results');
+			assert.ok(!$('body').hasClass('overlaid'), 'overlay still showing');
 		});
 });
 
@@ -53,8 +42,6 @@ test('search results hide on click [x]', function(assert) {
 });
 
 test('search "%" returns 4 transactions total, showing 2 transactions in results, with load more', function(assert) {
-	Testing.setupSearch(4);
-
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -84,8 +71,6 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 });
 
 test('search "%", click customers, returns 1 customer total, showing 1 customer in results, with no load more', function(assert) {
-	Testing.setupSearch(1, 'customer');
-
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -101,8 +86,6 @@ test('search "%", click customers, returns 1 customer total, showing 1 customer 
 });
 
 test('search "%" returns 4 transactions. Click load more shows 2 more and hides load more', function(assert) {
-	Testing.setupSearch(4);
-
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -110,7 +93,7 @@ test('search "%" returns 4 transactions. Click load more shows 2 more and hides 
 		.then(function() {
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
-		.click('#search .results table.transactions tfoot td.load-more-results a')
+		.assertClick('#search .results table.transactions tfoot td.load-more-results a', assert)
 		.then(function() {
 			assert.equal($('#search .results table.transactions tbody tr').length, 4, 'has 4 transactions');
 			assert.equal($('#search .results table.transactions tfoot td').length, 0, 'does not have "load more"');
@@ -141,11 +124,11 @@ test('search click result', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search .results .customers a:first')
-		.click('#search .results table.items tbody tr a:first')
+		.assertClick('#search .results .customers a:first', assert)
+		.assertClick('#search .results table.items tbody tr a:first', assert)
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
-			assert.equal($('#search .results').css('display'), 'none', 'search result should be hidden');
+			assert.equal($('#search .results:visible').length, 0, 'search result should be hidden');
 		});
 });
 
@@ -173,22 +156,22 @@ test('search date picker dropdown', function(assert) {
 
 test('search date range pick', function(assert) {
 	var spy;
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
-	})
-		.click('#search .datetime-picker')
+	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
-			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
+			Testing.runSearch('%');
 		})
+		.assertClick('#search .datetime-picker', assert)
 		.then(function() {
+			var dp = $("#search .datetime-picker").data("daterangepicker");
+			dp.setStartDate("Aug 01, 2013");
+			dp.setEndDate("Aug 02, 2013");
 			spy = sinon.spy(Balanced.Adapter, 'get');
 		})
-		.click('.daterangepicker:visible .buttons button.applyBtn')
+		.assertClick('.daterangepicker:visible .buttons button.applyBtn', assert)
 		.then(function() {
-			var begin = moment('8/1/2013').startOf('day');
+			var begin = moment("Aug 01, 2013").startOf('day');
 			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment('8/1/2013').endOf('day').startOf('minute');
+			var end = moment("Aug 02, 2013").startOf('day');
 			var end_iso = encodeURIComponent(end.toISOString());
 
 			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +

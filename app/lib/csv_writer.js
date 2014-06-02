@@ -13,6 +13,8 @@
 	var cellNeedsQuoting = function(cellValue) {
 		// Fields containing a line-break, double-quote, and/or commas should be quoted.
 		var regexp = /(\n|"|,)/g;
+
+		cellValue = cellValue || "";
 		return cellValue.match(regexp) !== null;
 	};
 

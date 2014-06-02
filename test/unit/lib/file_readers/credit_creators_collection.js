@@ -1,25 +1,36 @@
 module("Balanced.CreditCreatorsCollection", {});
 
-test(".fromCsvText", function(assert) {
+test("#isExistingCustomers", function(assert) {
 	var text = [
-		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
-		",,,,,Dwyane Braggart,invalid_account_type,15,Payment #1771,8 Ladies Dancing (Giggity)",
-		",,,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity)",
-		",Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,Checking,16,Payment #9746,5 Gold Rings",
-		"3333,Harry Tan,harry.tan@example.com,121000358,123123123,Harry Tan,CHECKG,16,Payment #9746,5 Gold Rings"
+		"existing_customer_name_or_email,appears_on_statement_as,description,amount",
+		"Cliff Lee,marketplacesite.co,Order #001231,63.28",
+		"carlos.ruiz@example.com,marketplacesite.co,Order #001232,52.19",
 	].join("\n");
-	var collection = Balanced.CreditCreatorsCollection.fromCsvText(text);
-	assert.deepEqual(collection.get("length"), 4);
-
-	var tests = {
-		"content.0.isInvalid": true,
-		"content.1.isInvalid": true,
-		"content.2.isInvalid": false,
-		"content.3.isInvalid": true
+	var mp = {
+		search: sinon.stub().returns({
+			addObserver: sinon.stub()
+		})
 	};
 
-	_.each(tests, function(value, attribute) {
-		assert.deepEqual(collection.get(attribute), value);
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText(mp, text);
+	assert.ok(collection.get("isExistingCustomers"), "csv parsed as isExistingCustomers");
+});
+
+test(".fromCsvText", function(assert) {
+	var text = [
+		"new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
+		"Superman,,122100024,1100223344,Superman,SAVINGS,200,1800Balanced,Order #4001",
+		"Bat Man,batman@example.com,122100024,1100223344,Bat Man,SAVINGS,-450,1800Balanced,Order #4000",
+		"Robin,robin@example.com,122100024,1100223344,Robin,CHECKING,100,1800Balanced,Order #4001",
+		"The Flash,theflash@example.com,122100024,1100223344,The Flash,invalid type,200,1800Balanced,Order #4002"
+	].join("\n");
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText({}, text);
+	assert.deepEqual(collection.get("length"), 4);
+
+	var tests = [true, true, false, true];
+
+	_.each(tests, function(value, index) {
+		assert.deepEqual(collection.objectAt(index).get("isInvalid"), value);
 	});
 });
 
@@ -103,16 +114,15 @@ test("#isInvalid", function(assert) {
 
 test("#toCsvString", function(assert) {
 	var text = [
-		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
-		",,,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity)",
+		"new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
+		",,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity)",
 	].join("\n");
-	var collection = Balanced.CreditCreatorsCollection.fromCsvText(text);
+	var collection = Balanced.CreditCreatorsCollection.fromCsvText({}, text);
 	var result = collection.toCsvString();
 	var expected = [
-		"bank_account_id,new_customer_name,new_customer_email,new_bank_account_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description,errors",
-		",,,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity),\"new_customer_name can't be blank\nnew_customer_email can't be blank\"",
+		"new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description,errors",
+		",,121000358,123123123,Dwyane Braggart,CHECKING,15,Payment #1771,8 Ladies Dancing (Giggity),\"new_customer_name can't be blank\nnew_customer_email can't be blank\""
 	].join("\n");
 
 	assert.deepEqual(result, expected);
-
 });

@@ -61,7 +61,7 @@ test('can edit hold', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.HOLD_ROUTE)
-		.click('.hold .transaction-info a.edit')
+		.click('.hold .transaction-info a.icon-edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
