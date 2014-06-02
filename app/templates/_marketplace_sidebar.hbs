@@ -61,19 +61,19 @@
 			{{/link-to}}
 		</li>
 		<li {{bind-attr class="marketplace.myMarketplaceSelected:menu-active"}}>
-			{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
+			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
 				<i class="icon-my-marketplace"></i>
 				My marketplace
 			{{/link-to}}
 			<ul class="submenu my-marketplace">
 				<li>
-					{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
-						Settings
+					{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
+						Account statements
 					{{/link-to}}
 				</li>
 				<li>
-					{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
-						Account statements
+					{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
+						Settings
 					{{/link-to}}
 				</li>
 			</ul>

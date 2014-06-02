@@ -6,7 +6,7 @@ var Computed = {
 		return function() {
 			var period = this.get('period');
 			if (!period) {
-				return period;
+				return this.get('created_at');
 			}
 			return period[p];
 		}.property('period');
@@ -34,6 +34,16 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	from_date: Computed.date(0),
 	to_date: Computed.date(1),
+
+	type: function() {
+		if (this.get('disputes_total_fee') != 0) {
+			return 'Dispute';
+		} else {
+			return 'Transaction'
+		}
+	}.property('disputes_total_fee'),
+
+	isDispute: Ember.computed.equal('type', 'Dispute'),
 
 	subtotal: function() {
 		var total = this.get('total_fee');

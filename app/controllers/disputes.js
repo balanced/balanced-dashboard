@@ -1,5 +1,6 @@
 Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
+	limit: 50,
 	type: 'dispute',
 	sortField: 'initiated_at',
 	sortOrder: 'desc',
