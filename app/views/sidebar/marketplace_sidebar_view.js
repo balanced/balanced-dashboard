@@ -20,7 +20,7 @@ var SIDEBAR_ITEMS = [{
 	linkIcon: "icon-card",
 	routeName: "marketplace.funding_instruments",
 	isSelectedBinding: "controller.marketplace.fundingInstrumentSelected"
-},{
+}, {
 	linkText: "Disputes",
 	linkIcon: "icon-disputes",
 	routeName: "marketplace.disputes",
