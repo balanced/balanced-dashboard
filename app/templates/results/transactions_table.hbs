@@ -1,7 +1,7 @@
 <thead>
 	<tr>
 		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :date view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}
-		<th class="span2 type">
+		<th class="span2 type has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<span>Type</span>
@@ -16,7 +16,7 @@
 				</ul>
 			</div>
 		</th>
-		<th class="span3 status">
+		<th class="span3 status has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					<span>Status</span>
@@ -32,7 +32,7 @@
 		</th>
 		<th class="span4 description"><span>Description</span></th>
 		<th class="span3 account"><span>Customer</span></th>
-		<th class="span4 funding-instrument"><span>Card or Bank Account</span></th>
+		<th class="span3 funding-instrument"><span>Payment method</span></th>
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 amount unsorted num" field="amount"}}<span>Amount</span>{{/view}}
 	</tr>
 </thead>
@@ -73,38 +73,41 @@
 					</span>
 				{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span3 :label4a :status transaction.status"}}>
+			<td {{bind-attr class=":span3 :label4a :status"}}>
 				{{#link-to transaction.route_name transaction}}
-					<span>
+					<span {{bind-attr class="transaction.status"}}>
 						{{#if transaction.status}}
-							{{transaction.status}}
+							{{capitalize transaction.status}}
 						{{/if}}
 					</span>
 				{{/link-to}}
 			</td>
 			<td {{bind-attr title="transaction.description"}} {{bind-attr class=":span4 :description transaction.description::null-field"}}>
 				{{#link-to transaction.route_name transaction}}
-					<span>
 						{{#if transaction.description}}
-							{{transaction.description}}
+							<span>{{transaction.description}}</span>
 						{{else}}
-							None
+							<span class="sl-none">none</span>
 						{{/if}}
-					</span>
 				{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span4 :account transaction.customer::null-field"}} {{bind-attr title="transaction.customer_name_summary"}}>
 				{{#link-to transaction.route_name transaction}}
-					<span>
-						{{transaction.customer_name_summary}}
-					</span>
+					{{#if transaction.customer_display_me}}
+						<span class="primary">{{transaction.customer_display_me}}</span>
+						{{#if transaction.customer_email}}
+							<span class="secondary">{{transaction.customer_email}}</span>
+						{{/if}}
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
 				{{/link-to}}
 			</td>
 			<td class="span3 funding-instrument">
 				{{#link-to transaction.route_name transaction}}
-					<span>
-						<span class="primary">{{transaction.last_four}}</span>
-						<span class="secondary">{{transaction.funding_instrument_name}}</span>
+					<span {{bind-attr class="transaction.dasherized_funding_instrument_type"}}>
+						<span class="primary">{{transaction.last_four}} {{transaction.brand}}</span>
+						<span class="secondary">{{transaction.funding_instrument_type}}</span>
 					</span>
 				{{/link-to}}
 			</td>

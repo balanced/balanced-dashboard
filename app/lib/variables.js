@@ -3,7 +3,7 @@ Balanced.COOKIE = {
 	EMBER_AUTH_TOKEN: 'ember-auth-rememberable',
 	MARKETPLACE_URI: 'mru',
 	API_KEY_SECRET: 'apiKeySecret',
-
+	NEW_UPDATES: 'new-updates',
 	// read only (set by the auth proxy)
 	CSRF_TOKEN: 'csrftoken',
 	SESSION: 'session'
@@ -32,7 +32,7 @@ Balanced.BANK_ACCOUNT_TYPES = [{
 Balanced.SEARCH = {
 	CATEGORIES: ['order', 'transaction', 'search', 'customer', 'funding_instrument', 'dispute'],
 	SEARCH_TYPES: ['debit', 'credit', 'card_hold', 'refund'],
-	TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
+	TRANSACTION_TYPES: ['debit', 'credit', 'card_hold', 'refund'],
 	FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card'],
 	DISPUTE_TYPES: ['pending', 'won', 'lost']
 };

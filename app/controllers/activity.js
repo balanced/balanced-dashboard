@@ -1,6 +1,8 @@
 Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
 	needs: ['marketplace'],
 
+	type: 'activity',
+
 	sortField: 'created_at',
 	sortOrder: 'desc',
 	limit: 50,
@@ -88,12 +90,15 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 
 Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 	needs: ['marketplace', 'activity'],
+	baseClassSelector: '#transactions',
 	type: 'transaction',
-	noDownloadsUri: true,
-	results_base_uri: '/transactions'
+	pageTitle: 'Transactions',
+	noDownloadsUri: true
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({
 	needs: ['marketplace', 'activity'],
-	type: 'order'
+	baseClassSelector: '#orders',
+	type: 'order',
+	pageTitle: 'Orders'
 });

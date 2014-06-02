@@ -5,25 +5,15 @@
 			<h3 class="physical-address">965 Mission St., Ste 425, San Francisco, CA 94103</h3>
 			<h3 class="support-email">support@balancedpayments.com</h3>
 		</div>
-		<div>
-			<div id="marketplaces-and-search">
-				{{partial "header_search"}}
-			</div>
+		<div id="marketplaces-and-search">
+			{{#if auth.signedIn}}
+				{{#if controllers.marketplace.name}}
+					{{render "search"}}
+				{{/if}}
+			{{/if}}
 
 			<div id="site-nav">
-				{{#if auth.isGuest}}
-					<div id="go-live-menu" class="nav-item">
-						{{#link-to 'marketplaces.apply' class="btn special"}}Register{{/link-to}}
-					</div>
-				{{/if}}
-				<div id="help-menu" class="nav-item">
-					<a href="https://support.balancedpayments.com/" target="new">
-						<i class="icon-question-mark"></i>
-					</a>
-				</div>
-				<div id="user-menu" class="dropdown nav nav-item">
-					{{partial "user_dropdown"}}
-				</div>
+				{{partial "user_dropdown"}}
 			</div>
 		</div>
 	</header>

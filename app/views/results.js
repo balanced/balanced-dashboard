@@ -44,7 +44,7 @@ var Computed = {
 
 Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/results_filters_header',
-	tagName: 'header',
+	tagName: 'div',
 	from: 'activity',
 
 	// UI computed properties
@@ -227,8 +227,8 @@ Balanced.LogsEmbeddedResultsView = Balanced.ResultsTableView.extend({
 	templateName: 'results/logs_embedded_table'
 });
 
-Balanced.LogsFiltersHeaderView = Balanced.View.extend({
-	templateName: 'results/logs_filters_header',
+Balanced.DateFilterHeaderView = Balanced.View.extend({
+	templateName: 'results/date_filter_header',
 	tagName: 'header'
 });
 

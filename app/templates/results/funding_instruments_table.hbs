@@ -1,10 +1,10 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Created</span>{{/view}}
-		<th class="span4 label6a">
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span4 label6a funding-instruments has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Type</span>
+					<span>Payment method</span>
 					<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu funding-instruments-filter filter-choices">
@@ -16,15 +16,16 @@
 				</ul>
 			</div>
 		</th>
-		<th class="span5 label6a funding-instruments"><span>Card or bank account</span></th>
-		<th class="span8 label6a"><span>Account holder's name</span></th>
+		<th class="span5 label6a"><span>Bank</span></th>
+		<th class="span4 label6a"><span>Account holder</span></th>
+		<th class="span4 label6a"><span>Customer</span></th>
 	</tr>
 </thead>
 
 {{#if view.fundingInstruments.hasNextPage}}
 	<tfoot>
 		<tr>
-			<td colspan="4" class="load-more-results">
+			<td colspan="5" class="load-more-results">
 				{{#if view.fundingInstruments.loadingNextPage}}
 					<div class="loader-container">
 						<span class="loader loading"></span>
@@ -49,29 +50,45 @@
 				</span>{{/link-to}}
 			</td>
 			<td>
-				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					{{funding_instrument.type_name}}
-					{{#if funding_instrument.is_bank_account}}
-						({{funding_instrument.account_type}})
-					{{/if}}
-				</span>{{/link-to}}
-			</td>
-			<td {{bind-attr title="funding_instrument.description"}}>
-				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-					<span class="primary">{{funding_instrument.last_four}}</span>
-					<span class="secondary">{{funding_instrument.funding_instrument_name}}</span>
+				{{#link-to funding_instrument.route_name funding_instrument}}<span {{bind-attr title="funding_instrument.description"}}>
+					<span class="primary">{{funding_instrument.last_four}} {{#if funding_instrument.brand}}{{funding_instrument.brand}}{{/if}}</span>
+					<span class="secondary">{{funding_instrument.funding_instrument_type}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td>
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					{{#if funding_instrument.formatted_bank_name}}
+						<span>{{funding_instrument.formatted_bank_name}}</span>
+					{{else}}
+						<span class="none">none</span>
+					{{/if}}
+				{{/link-to}}
+			</td>
+			<td>
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					{{#if funding_instrument.name}}
+						<span>{{funding_instrument.name}}</span>
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
+				{{/link-to}}
+			</td>
+			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
-						{{funding_instrument.customer.name}}
-						{{funding_instrument.customer.email}}
+						{{#if funding_instrument.customer.display_me}}
+							<span class="primary">{{funding_instrument.customer.display_me}}</span>
+							{{#if funding_instrument.customer.email}}
+								<span class="secondary">{{funding_instrument.customer.email}}</span>
+							{{/if}}
+						{{else}}
+							<span class="sl-none">none</span>
+						{{/if}}
 				</span>{{/link-to}}
 			</td>
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="4" class="no-results">
+			<td colspan="5" class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}
