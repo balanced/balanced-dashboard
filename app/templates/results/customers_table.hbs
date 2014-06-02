@@ -26,10 +26,10 @@
 <tbody>
 	{{#each customer in view.customers}}
 		<tr>
-			{{view Balanced.LinkedDateCellView routeName="customers" date=customer.created_at item=customer classNames="span3"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.display_me classNames="span3 name"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.business_name classNames="span3 business_name"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.email classNames="span3 email"}}
+			{{view Balanced.LinkedDateCellView routeName=customer.route_name date=customer.created_at item=customer classNames="span3"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.display_me classNames="span3 name"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.business_name classNames="span3 business_name"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.email classNames="span3 email"}}
 		</tr>
 	{{else}}
 		<tr>
