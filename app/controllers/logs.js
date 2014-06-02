@@ -1,11 +1,10 @@
 Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
-
 	sortField: 'created_at',
 	sortOrder: 'desc',
 	results_type: 'Balanced.Log',
 	type: null,
-	limit: 20,
+	limit: 50,
 	endpoint: null,
 	status_rollup: null,
 
