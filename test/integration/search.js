@@ -60,19 +60,6 @@ test('search "%" click filter by holds.', function(assert) {
 });
 */
 
-test('search click result', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-			Testing.runSearch('%');
-		})
-		.assertClick('#search .results .customers a:first', assert)
-		.assertClick('#search .results table.items tbody tr a:first', assert)
-		.then(function() {
-			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
-			assert.equal($('#search .results:visible').length, 0, 'search result should be hidden');
-		});
-});
-
 test('search date picker dropdown', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {

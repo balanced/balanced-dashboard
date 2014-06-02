@@ -67,3 +67,16 @@ test('search "%" returns 4 transactions. Click load more shows 2 more and hides 
 			assert.equal($('#search .results table.transactions tfoot td').length, 0, 'does not have "load more"');
 		});
 });
+
+test('search click result', function(assert) {
+	visit(Testing.MARKETPLACE_ROUTE)
+		.then(function() {
+			Testing.runSearch('%');
+		})
+		.assertClick('#search .results .customers a:first', assert)
+		.assertClick('#search .results table.items tbody tr a:first', assert)
+		.then(function() {
+			assert.equal($('#content h1').text().trim(), 'Customer', 'transition to customer page');
+			assert.equal($('#search .results:visible').length, 0, 'search result should be hidden');
+		});
+});
