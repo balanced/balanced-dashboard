@@ -14,6 +14,7 @@ var find = function(arr, predicate) {
 };
 
 module.exports = function(config) {
+	var skipFiles = [];
 	var files = [
 		'build/css/base.min.css',
 		'build/test/js/sinon.js',
@@ -33,19 +34,28 @@ module.exports = function(config) {
 	];
 
 	var PARAMETER = '--file=';
+	var TEST_MATRIX = '--skip=';
 
-	var arg = find(process.argv, function(arg) {
-		return arg.indexOf(PARAMETER) >= 0
+	var filesQuery = find(process.argv, function(arg) {
+		return arg.indexOf(PARAMETER) >= 0;
+	});
+	var filesRemove = find(process.argv, function(arg) {
+		return arg.indexOf(TEST_MATRIX) >= 0;
 	});
 
-	if (arg) {
-		var file = arg.substr(PARAMETER.length).split(',');
-		file.forEach(function(val) {
+	if (filesQuery) {
+		filesQuery.substr(PARAMETER.length).split(',').forEach(function(val) {
 			files.push(val);
 		});
 	} else {
 		files.push('test/unit/**/*');
 		files.push('test/integration/**/*');
+	}
+
+	if (filesRemove) {
+		filesRemove.substr(TEST_MATRIX.length).split(',').forEach(function(val) {
+			skipFiles.push(val);
+		})
 	}
 
 	config.set({
@@ -59,7 +69,7 @@ module.exports = function(config) {
 		files: files,
 
 		// list of files to exclude
-		exclude: [],
+		exclude: skipFiles,
 
 		preprocessors: {
 			'build/js/dashboard-test.js': ['coverage']
@@ -73,8 +83,8 @@ module.exports = function(config) {
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-		reporters: ['dots', 'coverage'],
-		reportSlowerThan: 12000,
+		reporters: ['spec', 'coverage'],
+		reportSlowerThan: 20000,
 
 		coverageReporter: {
 			reporters: [{

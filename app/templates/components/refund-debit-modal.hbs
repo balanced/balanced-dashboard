@@ -2,15 +2,15 @@
     <form class="form-horizontal split-labels" {{action "save" on="submit"}}>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h2>Refund this customer</h2>
+            	<h2>Refund this {{debit.recipient}}</h2>
         </div>
         <div class="modal-body">
             {{partial "modals/modalErrors"}}
 
             <div class="control-group">
-                <label class="control-label">Customer</label>
+                <label class="control-label">{{capitalize debit.recipient}}</label>
                 <div class="controls">
-                    <span class="label1a">{{debit.customer.display_me}} ({{debit.customer.email}})</span>
+                    <span class="label1a">{{debit.recipient_name}}</span>
                 </div>
             </div>
 

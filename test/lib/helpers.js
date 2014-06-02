@@ -94,6 +94,15 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
+	assertClick: function(app, selector, assert, message) {
+		message = message || "Clickable element " + selector + " exists";
+
+		var isPresent = $(selector).length > 0;
+		assert.ok(isPresent, message);
+		if (isPresent) {
+			click(selector);
+		}
+	},
 	submitForm: function(app, form) {
 		wait();
 
@@ -109,13 +118,16 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 	clickMultiple: function(app, clickEl, number) {
-		for (number = number || 10; number > 0; number--) {
-			click(clickEl);
+		var clickCaller = function(number) {
+			if (number > 0) {
+				return click(clickEl).then(function() {
+					clickCaller(number - 1);
+				});
+			}
+		};
+		number = number || 10;
 
-			wait();
-		}
-
-		return wait();
+		clickCaller(number);
 	},
 	waitForVisit: function(app, url, cb, err, time) {
 		visit(url);

@@ -6,8 +6,6 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 		this._super(controller, model);
 
 		var activityController = this.controllerFor(this.get('controllerName'));
-		activityController.refresh();
-
 		var defaultSort = this.get('defaultSort');
 		if (defaultSort && defaultSort !== activityController.get('sortField')) {
 			activityController.set('sortField', defaultSort);
@@ -20,8 +18,6 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 
 		if (activityController.get('category') !== defaultType) {
 			activityController.set('type', defaultType);
-		} else {
-			activityController.send('reload');
 		}
 	}
 });

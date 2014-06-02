@@ -12,20 +12,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 
 	transactionStatus: 'all',
 
-	refreshMarketplace: _.debounce(function() {
-		if (!Balanced.currentMarketplace) {
-			return;
-		}
-
-		Ember.run(function() {
-			Balanced.currentMarketplace.reload();
-		});
-	}, Balanced.THROTTLE.REFRESH),
-
-	refresh: function() {
-		this.refreshMarketplace();
-	},
-
 	actions: {
 		openPaySellerModal: function() {
 			this.trigger('openPaySellerModal');
@@ -43,8 +29,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			} else if (type === 'order') {
 				this.transitionToRoute('activity.orders');
 			}
-
-			this.refresh();
 		},
 
 		openAddFundsModal: function() {

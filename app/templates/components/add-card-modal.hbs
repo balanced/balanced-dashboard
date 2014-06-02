@@ -26,12 +26,12 @@
 					</div>
 				</div>
 
-				<div {{bind-attr class=":control-group view.model.validationErrors.security_code:error"}}>
+				<div {{bind-attr class=":control-group view.model.validationErrors.cvv:error"}}>
 					<label class="control-label">Security Code</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.security_code" name="security_code" class="full"}}
-						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.security_code}}</div>
+						{{view Ember.TextField valueBinding="view.model.cvv" name="cvv" class="full"}}
+						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.cvv}}</div>
 					</div>
 				</div>
 

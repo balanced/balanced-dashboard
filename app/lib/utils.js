@@ -130,9 +130,18 @@ Balanced.Utils = Ember.Namespace.create({
 
 	formatError: function(error) {
 		if (error !== null && error !== undefined) {
-			var split = error.search(FORMAT_ERROR_REGEX);
-			if (split !== -1) {
-				return error.slice(split + 2);
+			if (error.message) {
+				// amount validation
+				return error.message;
+			} else if (error.search === undefined) {
+				// ember validation
+				return (error.get("messages") || []).join(", ");
+			} else {
+				// server-side validation
+				var split = error.search(FORMAT_ERROR_REGEX);
+				if (split !== -1) {
+					return error.slice(split + 2);
+				}
 			}
 		}
 		return error;
