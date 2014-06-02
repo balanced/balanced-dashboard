@@ -1,59 +1,44 @@
+var isAnyBankAccount = function(propertyName) {
+	return function() {
+		var accounts = this.get("bankAccounts") || [];
+		return accounts.isAny(propertyName);
+	}.property("bankAccounts.@each." + propertyName);
+};
+
+var BankAccountsNotificationsManager = Ember.Object.extend({
+	isProduction: Ember.computed.readOnly("marketplace.production"),
+	isBankAccountsLoaded: Ember.computed.readOnly("bankAccounts.isLoaded"),
+
+	isShowBankAccountNotifications: Ember.computed.and("isProduction", "isBankAccountsLoaded"),
+
+	isAnyCanDebit: isAnyBankAccount("can_debit"),
+	isAnyCanVerify: isAnyBankAccount("can_verify"),
+	isAnyCanConfirmVerification: isAnyBankAccount("can_confirm_verification"),
+
+	isBankAccountsEmpty: Ember.computed.equal("bankAccounts.length", 0),
+	isNeedsStartVerification: function() {
+		return this.get("isAnyCanVerify") && !this.get("isAnyCanDebit") && !this.get("isAnyCanConfirmVerification");
+	}.property("isAnyCanVerify", "isAnyCanDebit", "isAnyCanConfirmVerification"),
+
+	isNeedsConfirmVerification: function() {
+		return this.get("isAnyCanConfirmVerification") && !this.get("isAnyCanDebit");
+	}.property("isAnyCanConfirmVerification", "isAnyCanDebit")
+});
+
 Balanced.NotificationsView = Balanced.View.extend({
 	templateName: "notifications/messages",
 
-	marketplaceOwnerCustomer: Ember.computed.readOnly("marketplace.owner_customer"),
-	marketplace: Ember.computed.readOnly("applicationController.auth.currentMarketplace"),
-
-	marketplaceBankAccounts: function() {
-		return this.get("isMarketplaceBankAccountsLoaded") ?
-			this.get("marketplaceOwnerCustomer.bank_accounts") :
-			undefined;
-	}.property("isMarketplaceBankAccountsLoaded"),
-
-	isMarketplaceProduction: Ember.computed.readOnly("marketplace.production"),
-	isMarketplaceMissingDebitableBankAccount: Ember.computed.not("isMarketplaceHasDebitableBankAccount"),
-	isMarketplaceBankAccountsLoaded: Ember.computed.readOnly("marketplaceOwnerCustomer.bank_accounts.isLoaded"),
-	isMarketplaceBankAccountsEmpty: Ember.computed.equal('marketplaceBankAccounts.length', 0),
-	isMarketplaceBankAccountsFull: Ember.computed.gt('marketplaceBankAccounts.length', 0),
-
-	isMarketplaceHasDebitableBankAccount: function() {
-		var bankAccounts = this.get("marketplaceBankAccounts");
-		return bankAccounts ?
-			bankAccounts.filterBy("can_debit").length > 0 :
-			false;
-	}.property("marketplaceBankAccounts.@each.can_debit"),
+	marketplace: Ember.computed.oneWay("applicationController.auth.currentMarketplace"),
+	bankAccountsNotificationsManager: function() {
+		var marketplace = this.get("marketplace");
+		var bankAccounts = this.get("marketplace.owner_customer.bank_accounts");
+		return BankAccountsNotificationsManager.create({
+			marketplace: marketplace,
+			bankAccounts: bankAccounts
+		});
+	}.property("marketplace", "marketplace.owner_customer.bank_accounts"),
 
 	hasGuestNotification: Ember.computed.readOnly('applicationController.auth.isGuest'),
-
-	isMarketplaceVerificationMissing: Ember.computed.not("isMarketplaceBankAccountsVerificationStarted"),
-	isMarketplaceBankAccountsVerificationStarted: function() {
-		var bankAccounts = this.get("marketplaceBankAccounts") || [];
-		return bankAccounts.any(function(bankAccount) {
-			return bankAccount.get("bank_account_verification_uri") !== null;
-		})
-	}.property("marketplaceBankAccounts.@each.bank_account_verification_uri"),
-
-	isBankAccountsEmpty: Ember.computed.and(
-		"isMarketplaceProduction",
-		"isMarketplaceBankAccountsLoaded",
-		"isMarketplaceBankAccountsEmpty"
-	),
-
-	isNeedsStartVerification: Ember.computed.and(
-		"isMarketplaceProduction",
-		"isMarketplaceBankAccountsLoaded",
-		"isMarketplaceBankAccountsFull",
-		"isMarketplaceMissingDebitableBankAccount",
-		"isMarketplaceVerificationMissing"
-	),
-
-	isNeedsConfirmVerification: Ember.computed.and(
-		"isMarketplaceProduction",
-		"isMarketplaceBankAccountsLoaded",
-		"isMarketplaceBankAccountsFull",
-		"isMarketplaceMissingDebitableBankAccount",
-		"isMarketplaceBankAccountsVerificationStarted"
-	),
 });
 
 Balanced.NotificationMessageView = Balanced.View.extend({
