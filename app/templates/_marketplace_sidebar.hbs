@@ -16,69 +16,13 @@
 	</div>
 
 	{{#if marketplace}}
-	<ul class="sidebar">
-
-		<li {{bind-attr class="marketplace.paymentSelected:menu-active"}}>
-			{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
-				<i class="icon-payments"></i>
-				Payments
-			{{/link-to}}
-			<ul class="submenu payments">
-				<li>
-					{{#link-to 'activity.transactions' marketplace.model active=marketplace.transactionSelected}}
-						Transactions
-					{{/link-to}}
-				</li>
-				<li>
-					{{#link-to 'activity.orders' marketplace.model active=marketplace.orderSelected}}
-						Orders
-					{{/link-to}}
-				</li>
+		{{#view Balanced.MarketplaceSidebarView}}
+			<ul class="sidebar">
+				{{#each view.items}}
+					{{view this}}
+				{{/each}}
 			</ul>
-		</li>
-		<li {{bind-attr class="marketplace.customerSelected:menu-active"}}>
-			{{#link-to 'marketplace.customers' marketplace.model active=marketplace.customerSelected}}
-				<i class="icon-customers"></i>
-				Customers
-			{{/link-to}}
-		</li>
-		<li {{bind-attr class="marketplace.fundingInstrumentSelected:menu-active"}}>
-			{{#link-to 'marketplace.funding_instruments' marketplace.model active=marketplace.fundingInstrumentSelected}}
-				<i class="icon-card"></i>
-				Payment methods
-			{{/link-to}}
-		</li>
-		<li {{bind-attr class="marketplace.disputeSelected:menu-active"}}>
-			{{#link-to 'marketplace.disputes' marketplace.model active=marketplace.disputeSelected}}
-				<i class="icon-disputes"></i>
-				Disputes
-			{{/link-to}}
-		</li>
-		<li {{bind-attr class="marketplace.logSelected:menu-active"}}>
-			{{#link-to 'marketplace.logs' marketplace.model active=marketplace.logSelected}}
-				<i class="icon-logs"></i>
-				Logs
-			{{/link-to}}
-		</li>
-		<li {{bind-attr class="marketplace.myMarketplaceSelected:menu-active"}}>
-			{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
-				<i class="icon-my-marketplace"></i>
-				My marketplace
-			{{/link-to}}
-			<ul class="submenu my-marketplace">
-				<li>
-					{{#link-to 'marketplace.invoices' marketplace.model active=marketplace.invoiceSelected}}
-						Account statements
-					{{/link-to}}
-				</li>
-				<li>
-					{{#link-to 'marketplace.settings' marketplace.model active=marketplace.settingSelected}}
-						Settings
-					{{/link-to}}
-				</li>
-			</ul>
-		</li>
-	</ul>
+		{{/view}}
 	{{/if}}
 
 	{{partial "_footer"}}
