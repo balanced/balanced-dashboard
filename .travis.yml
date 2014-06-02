@@ -6,10 +6,11 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 script: "grunt test $TEST_SUITE"
 env:
-  global:
-    - COVERALLS_REPO_TOKEN=m3Z9p5t4SQLKw22IE9mkdr1iFSVpeJPoV
   matrix:
     - TEST_SUITE=--skip=test/integration/**/*_nd*
     - TEST_SUITE=--file=test/integration/**/*_nd*
+  global:
+    - COVERALLS_REPO_TOKEN=m3Z9p5t4SQLKw22IE9mkdr1iFSVpeJPoV
+matrix:
   allow_failures:
-    - TEST_SUITE=--file=test/integration/**/*_nd*
+    - env: TEST_SUITE=--file=test/integration/**/*_nd*
