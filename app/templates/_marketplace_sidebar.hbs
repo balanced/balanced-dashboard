@@ -16,6 +16,14 @@
 	</div>
 
 	{{#if marketplace}}
+		{{#view Balanced.MarketplaceSidebarView}}
+			<ul class="sidebar">
+				{{#each view.items}}
+					{{view this}}
+				{{/each}}
+			</ul>
+		{{/view}}
+
 	<ul class="sidebar">
 
 		<li {{bind-attr class="marketplace.paymentSelected:menu-active"}}>
