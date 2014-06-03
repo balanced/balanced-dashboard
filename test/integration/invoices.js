@@ -44,10 +44,6 @@ test('invoice detail page', function(assert) {
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
 		.checkElements(expectedValues, assert)
-		.then(function() {
-			var a = $('.activity .results header').text();
-			console.log(a)
-		})
 		.click('.activity .results .type-filter :contains(Holds)')
 		.click('.activity .results .type-filter :contains(Credits)')
 		.click('.activity .results .type-filter :contains(Refunds)')
