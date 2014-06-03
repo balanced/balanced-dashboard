@@ -165,7 +165,7 @@ test('can debit customer using bank account', function(assert) {
 		.checkElements({
 			"#debit-customer form select[name=source_uri] option": 3,
 			"#debit-customer form select[name=source_uri] option:eq(0)": "Bank account: 1234 (Wells Fargo Bank)",
-			"#debit-customer form select[name=source_uri] option:eq(1)": "Bank account: 5555 (Wells Fargo Bank)"
+			"#debit-customer form select[name=source_uri] option:eq(1)": "Bank account: 5555 (Wells Fargo Bank Na)"
 		}, assert)
 		.then(function() {
 			fundingInstrumentUri = $("#debit-customer form select[name=source_uri] option").eq(0).val();
