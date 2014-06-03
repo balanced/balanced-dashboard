@@ -32,7 +32,7 @@ Balanced.TransactionDescriptionCellView = Balanced.LinkedTransactionCellView.ext
 
 	labelText: function() {
 		if (this.get('hasDescription')) {
-			return this.get("item.description")
+			return this.get("item.description");
 		} else {
 			return "none";
 		}
