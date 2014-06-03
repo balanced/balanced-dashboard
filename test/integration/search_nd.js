@@ -4,8 +4,6 @@ module('Search (non-deterministic)', {
 		Testing.createDebits();
 		Testing.createCustomer();
 		Balanced.Auth.set('signedIn', true);
-
-		Testing.setupSearch();
 	}
 });
 

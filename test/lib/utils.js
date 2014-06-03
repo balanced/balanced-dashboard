@@ -421,38 +421,6 @@ var Testing = {
 		this.waitForResults(controller, howMany, type);
 	},
 
-	setupSearch: function(howMany) {
-		howMany = howMany || 4;
-		stop();
-		visit(this.MARKETPLACES_ROUTE)
-			.then(function() {
-				var controller = Balanced.__container__.lookup('controller:search');
-				controller.setProperties({
-					debounced_search: '%',
-					showResults: true
-				});
-			})
-			.then(function() {
-				return Testing.waitForState(1000, 10000, function(done, error) {
-					var controller = Balanced.__container__.lookup('controller:search');
-					controller.get('results').then(function(results) {
-						if (results.get('length') < howMany) {
-							controller.send('reload');
-							error();
-						} else {
-							done();
-						}
-					});
-				});
-			})
-			.then(function() {
-				start();
-			}, function() {
-				Ember.Logger.error("Failed to setupSearch because no results were returned");
-				start();
-			});
-	},
-
 	setupActivity: function(howMany, type) {
 		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
 	},

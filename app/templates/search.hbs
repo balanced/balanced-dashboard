@@ -3,9 +3,10 @@
 	<div class="search-field-container">
 		<label for="q" class="icon-search"></label>
 		{{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
-
 		{{#if isLoading}}
-			<span class="loader loading query-loader"></span>
+			<span class="query-loader">
+				<span class="loader loading"></span>
+			</span>
 		{{else}}
 			<span class="search-close" {{action "clearSearch"}}>&times;</span>
 		{{/if}}

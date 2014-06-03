@@ -3,9 +3,12 @@ module('Search', {
 		Testing.setupMarketplace();
 		Testing.createDebits();
 		Testing.createCustomer();
-		Balanced.Auth.set('signedIn', true);
-
-		Testing.setupSearch();
+		Ember.run(function() {
+			Balanced.Auth.setProperties({
+				signedIn: true,
+				isGuest: false
+			});
+		});
 	}
 });
 
@@ -32,33 +35,19 @@ test('search results hide on click [x]', function(assert) {
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.checkElements({
+			"#search.with-results": 1,
+			"body.overlaid": 1
+		}, assert)
 		.click('#search .search-close')
 		.then(function() {
-			assert.equal($('#q').val(), '');
-			assert.equal($('#search').hasClass('with-results'), false);
-			assert.equal($('#main-overlay').css('display'), 'none');
-			assert.equal($('body').hasClass('overlaid'), false);
-		});
-});
-
-// can't create a hold at the moment
-/*
-test('search "%" click filter by holds.', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-			Testing.runSearch('%');
+			assert.equal($('#q').val(), '', "Search query is reset");
 		})
-		.click('#search .results th.type a.dropdown-toggle')
-		.then(function() {
-			assert.equal($('#search .results li.transactions ul.transaction-filter').css('display'), 'block', 'transaction filter menu visible');
-		})
-		.click('#search .results li.transactions ul.transaction-filter a:contains("Holds")')
-		.then(function() {
-			assert.equal($('#search .results li.transactions > a:contains("1")').length, 1, 'has 1 hold transactions in header');
-			assert.equal($('#search .results table.transactions tbody tr').length, 1, 'has 1 hold transactions');
-		});
+		.checkElements({
+			"#search.with-results": 0,
+			"body.overlaid": 0
+		}, assert);
 });
-*/
 
 test('search date picker dropdown', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
