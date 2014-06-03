@@ -1,7 +1,8 @@
 Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
+
 	needs: ['marketplace'],
 
-	type: 'activity',
+	type: 'transaction',
 
 	sortField: 'created_at',
 	sortOrder: 'desc',
@@ -64,7 +65,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 
 		if (type === 'dispute') {
 			return '/disputes';
-		} else if (_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+		} else if (type === "transaction" || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 			return '/transactions';
 		}
 

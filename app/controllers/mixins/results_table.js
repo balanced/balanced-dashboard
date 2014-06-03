@@ -130,7 +130,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	results_type: function() {
 		var typeMappings = {
 			transaction: 'Balanced.Transaction',
-			'search': 'Balanced.Transaction',
+			search: 'Balanced.Transaction',
 			debit: 'Balanced.Debit',
 			credit: 'Balanced.Credit',
 			failed_credit: 'Balanced.Credit',
