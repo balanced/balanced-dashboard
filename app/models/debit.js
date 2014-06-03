@@ -1,6 +1,7 @@
 require('app/models/transaction');
 
 Balanced.Debit = Balanced.Transaction.extend({
+
 	refund_amount: Ember.computed.oneWay('amount'),
 	type_name: "Debit",
 	route_name: "debits",
@@ -14,6 +15,17 @@ Balanced.Debit = Balanced.Transaction.extend({
 	last_four: Ember.computed.alias('source.last_four'),
 	funding_instrument_name: Ember.computed.alias('source.brand'),
 	max_refund_amount_dollars: Balanced.computed.transform('refund_amount', Balanced.Utils.centsToDollars),
+	recipient: function() {
+		return this.get('customer') ? 'customer' : 'card';
+	}.property('customer'),
+
+	recipient_name: function() {
+		if (this.get('customer')) {
+			return this.get('customer.display_me_with_email');
+		} else {
+			return '%@ (%@)'.fmt(this.get('last_four'), this.get('funding_instrument_name'));
+		}
+	}.property('customer.display_me_with_email', 'last_four', 'funding_instrument_name'),
 
 	get_refunds: function() {
 		var self = this;

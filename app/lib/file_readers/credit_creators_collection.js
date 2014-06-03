@@ -1,18 +1,29 @@
+var Computed = {
+	isEvery: function(propertyName) {
+		return function() {
+			return this.isEvery(propertyName);
+		}.property("@each." + propertyName);
+	}
+};
 Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
+	isDataPresent: false,
+	isDataMissing: Ember.computed.not("isDataPresent"),
+
+	isExistingCustomers: Computed.isEvery("isExisting"),
+
 	isLoading: Ember.computed.not("isLoaded"),
+	isLoaded: Computed.isEvery("isLoaded"),
 
-	isLoaded: function() {
-		return this.isEvery("isLoaded");
-	}.property("@each.isLoaded"),
-
-	isSaved: function() {
-		return this.isEvery("isSaved");
-	}.property("@each.isSaved"),
+	isSaved: Computed.isEvery("isSaved"),
 
 	isEmpty: Ember.computed.equal("content.length", 0),
 	isInvalid: Ember.computed.gt("invalid.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
+
+	canSubmit: function() {
+		return this.get("isValid") && (this.get("valid.length") > 0);
+	}.property("isInvalid", "valid.length"),
 
 	valid: function() {
 		return this.filterBy("isValid");
@@ -21,6 +32,8 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	invalid: function() {
 		return this.filterBy("isInvalid");
 	}.property("content.@each.isInvalid"),
+
+	hasValid: Ember.computed.gt("valid.length", 0),
 
 	save: function(callback) {
 		var savedCredits = [];
@@ -45,36 +58,40 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
 	toCsvString: function() {
 		var writer = new Balanced.CsvWriter();
-		writer.addColumnNames([
-			"bank_account_id",
-			"new_customer_name",
-			"new_customer_email",
-			"new_bank_account_routing_number",
-			"new_bank_account_number",
-			"new_bank_account_holders_name",
-			"new_bank_account_type",
-			"amount",
-			"appears_on_statement_as",
-			"description",
-			"errors"
-		]);
+		var firstObject = this.get("firstObject");
+		var fieldNames = firstObject ?
+			firstObject.get("fieldNames").slice() : [];
+
+		fieldNames.push("errors");
+		writer.addColumnNames(fieldNames);
 		this.forEach(function(creditCreator) {
 			writer.addRow(creditCreator.toLabeledCsvRowObject());
 		});
 		return writer.toCsvString();
 	}
-
 });
 
 Balanced.CreditCreatorsCollection.reopenClass({
-	fromCsvText: function(text) {
+	fromCsvText: function(marketplace, text) {
+		if (text === undefined) {
+			return Balanced.CreditCreatorsCollection.create({
+				content: []
+			});
+		}
 		var reader = Balanced.CsvReader.create({
 			body: text
 		});
+
+		var columnNames = reader.getColumnNames();
+		if (!Balanced.CreditCreator.isValidCreditCreatorColumns(columnNames)) {
+			throw new Error("ColumnsMissing");
+		}
+
 		var content = reader.getObjects().map(function(row) {
-			return Balanced.CreditCreator.fromCsvRow(row);
+			return Balanced.CreditCreator.fromCsvRow(marketplace, row);
 		});
 		return Balanced.CreditCreatorsCollection.create({
+			isDataPresent: true,
 			content: content
 		});
 	}

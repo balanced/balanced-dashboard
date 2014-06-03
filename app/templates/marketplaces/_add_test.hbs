@@ -1,8 +1,8 @@
 <div {{bind-attr class=":control-group"}}>
-	{{view Balanced.Forms.TextField valueBinding="view.name" name="name" placeholder="Enter test marketplace name"}}
 	{{#if view.isSubmitting}}
 		<span class="loader loading"></span>
 	{{else}}
 		<button class="btn" {{action "add" target="view"}}>Add</button>
 	{{/if}}
+	{{view Balanced.Forms.TextField valueBinding="view.name" name="name" placeholder="Enter test marketplace name"}}
 </div>

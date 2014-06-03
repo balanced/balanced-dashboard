@@ -37,7 +37,18 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		});
 	},
 
+	search: function(query, resultsType, params) {
+		var baseUri = this.get("uri") + "/search";
+		var searchParams = _.extend({
+			sortField: "created_at",
+			sortOrder: "desc",
+			limit: 10,
+			query: query
+		}, params);
 
+		var resultsUri = Balanced.Utils.applyUriFilters(baseUri, searchParams);
+		return Balanced.SearchModelArray.newArrayLoadedFromUri(resultsUri, resultsType);
+	},
 
 	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account'),
 	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account')
@@ -46,5 +57,7 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
 
 Balanced.Marketplace.reopenClass({
-	serializer: Balanced.Rev1Serializer.create()
-});
+		serializer: Balanced.Rev1Serializer.create(),
+	}, {
+		COMPANY_TYPES: ['Corporation', 'Partnership', 'Non-profit', 'Other']
+	});

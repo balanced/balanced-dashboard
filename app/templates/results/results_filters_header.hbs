@@ -1,3 +1,6 @@
+<div class="date-row">
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+</div>
 <nav>
 	<li {{bind-attr class=":orders :filter view.ordersTabSelected:selected"}} >
 		<a href="#" {{action "changeTypeFilter" "order"}}> Orders </a>
@@ -19,10 +22,6 @@
 			<a href="#" {{action "changeTypeFilter" "dispute"}}> {{view.dispute_type_label}} </a>
 		</li>
 	{{/if}}
-
-	<li class="timing dropdown action right">
-		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	</li>
 
 	{{#if view.show_download_button}}
 		<li class="download">

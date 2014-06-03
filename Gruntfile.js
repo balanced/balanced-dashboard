@@ -286,6 +286,14 @@ module.exports = function(grunt) {
 					dest: 'build/test/fonts/'
 				}]
 			},
+			notfound: {
+				files: [{
+					cwd: 'static/javascripts/strapped/notfound',
+					expand: true,
+					src: ['**'],
+					dest: 'build/notfound'
+				}]
+			},
 			dist: {
 				files: [{
 					cwd: 'build/js/',
@@ -315,6 +323,11 @@ module.exports = function(grunt) {
 					expand: true,
 					src: ['**'],
 					dest: 'dist/fonts/'
+				}, {
+					cwd: 'build/notfound/',
+					expand: true,
+					src: ['**'],
+					dest: 'dist/notfound/'
 				}]
 			},
 			test: {
@@ -434,6 +447,10 @@ module.exports = function(grunt) {
 			fonts: {
 				src: ['build/fonts/**/*'],
 				dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
+			},
+			notfound: {
+				src: ['build/notfound/images/*.png', 'build/notfound/fonts/**/*', 'build/notfound/css/*.css'],
+				dest: ['build/notfound/*.html', 'build/notfound/css/*.css']
 			}
 		},
 
@@ -472,6 +489,13 @@ module.exports = function(grunt) {
 				}, {
 					src: 'dist/fonts/**/*',
 					dest: 'fonts/'
+				}, {
+					src: 'dist/files/**/*',
+					dest: 'files/'
+				}, {
+					src: 'dist/notfound/**/*',
+					rel: 'dist/notfound',
+					dest: 'notfound/'
 				}]
 			},
 			previewUncached: {
@@ -505,6 +529,13 @@ module.exports = function(grunt) {
 				}, {
 					src: 'dist/fonts/**/*',
 					dest: 'fonts/'
+				}, {
+					src: 'dist/files/**/*',
+					dest: 'files/'
+				}, {
+					src: 'dist/notfound/**/*',
+					rel: 'dist/notfound',
+					dest: 'notfound/'
 				}]
 			},
 			productionUncached: {
@@ -741,7 +772,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 
-	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles']);
+	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles', 'copy:notfound']);
 
 	grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
 

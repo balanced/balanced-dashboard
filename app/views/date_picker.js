@@ -1,7 +1,7 @@
 var BALANCED_CREATED_AT = Balanced.DATES.CREATED_AT;
 
 var DEFAULT_MAX_TIME = Balanced.DATES.RESULTS_MAX_TIME;
-var DEFAULT_MIN_TIME = Balanced.DATES.RESULTS_MIN_TIME;
+var DEFAULT_MIN_TIME = BALANCED_CREATED_AT;
 
 var DEFAULT_LOCALE = {
 	monthNames: moment()._lang._months,
@@ -30,7 +30,7 @@ Balanced.DatePickerView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		this.set('maxTime', (this.get('controller.maxDate') || DEFAULT_MAX_TIME).getTime());
-		this.set('minTime', (this.get('controller.minDate') || DEFAULT_MIN_TIME).getTime());
+		this.set('minTime', (this.get('controller.minDate') || moment(Balanced.currentMarketplace.get('created_at')).toDate() || DEFAULT_MIN_TIME).getTime());
 
 		Ember.run.scheduleOnce('afterRender', this, this.bindDatePicker);
 		this._changeDateFilter('');

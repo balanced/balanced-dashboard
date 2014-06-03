@@ -1,5 +1,5 @@
 Balanced.MarketplaceImportPayoutsRoute = Balanced.AuthRoute.extend({
-	pageTitle: 'Import Payouts',
+	pageTitle: 'Import payouts',
 
 	setupController: function(controller, model) {
 		controller.refresh();

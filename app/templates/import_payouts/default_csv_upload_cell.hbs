@@ -1,1 +1,6 @@
-<span {{bind-attr class="view.labelClasses" title="view.displayValue"}}>{{view.displayValue}}</span>
+<span data-tooltip {{bind-attr data-position="view.position"}}>
+	<span {{bind-attr class="view.labelClasses" title="view.titleValue"}}>
+		{{view.displayValue}}
+	</span>
+</span>
+
