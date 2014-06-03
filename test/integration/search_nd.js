@@ -45,9 +45,6 @@ test('search "%", click customers, returns 2 customer total, showing 2 customer 
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.then(function() {
-
-		})
 		.checkElements({
 			"#search .results .customers.filter": "Customers (2)",
 		}, assert)
