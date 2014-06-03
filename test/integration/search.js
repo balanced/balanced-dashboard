@@ -3,11 +3,9 @@ module('Search', {
 		Testing.setupMarketplace();
 		Testing.createDebits();
 		Testing.createCustomer();
-		Ember.run(function() {
-			Balanced.Auth.setProperties({
-				signedIn: true,
-				isGuest: false
-			});
+		Balanced.Auth.setProperties({
+			signedIn: true,
+			isGuest: false
 		});
 	}
 });

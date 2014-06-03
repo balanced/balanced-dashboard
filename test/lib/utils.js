@@ -228,16 +228,6 @@ var Testing = {
 		});
 	},
 
-	_createCustomer: function() {
-		var self = this;
-		return Balanced.Customer.create({
-			uri: this.marketplace.get('customers_uri'),
-			address: {}
-		}).save().then(function(customer) {
-			return customer;
-		});
-	},
-
 	waitForState: function(intervalTimeout, errorTimeout, callback) {
 		var startDate = new Date();
 		return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -349,9 +339,10 @@ var Testing = {
 	createCustomer: function() {
 		var self = this;
 
-		return Ember.run(function() {
-			return self._createCustomer();
-		});
+		return Balanced.Customer.create({
+			uri: this.marketplace.get('customers_uri'),
+			address: {}
+		}).save();
 	},
 
 	setupEvent: function(howMany) {
