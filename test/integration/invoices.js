@@ -11,7 +11,7 @@ test('can visit page', function(assert) {
 	visit(INVOICES_ROUTE)
 		.then(function() {
 			//  check the page title has been selected
-			assert.equal($('#content h1').text().trim(), 'Invoices');
+			assert.equal($('#content h1').text().trim(), 'Account statements');
 		});
 });
 
@@ -44,23 +44,19 @@ test('invoice detail page', function(assert) {
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
 		.checkElements(expectedValues, assert)
-		.click('.activity .results header li.holds a')
-		.click('.activity .results header li.debit-cards a')
-		.click('.activity .results header li.debit-bank-accounts a')
-		.click('.activity .results header li.credits a')
-		.click('.activity .results header li.failed-credits a')
-		.click('.activity .results header li.refunds a')
-		.click('.activity .results header li.reversals a')
-		.click('.activity .results header li.disputes a')
+		.then(function() {
+			var a = $('.activity .results header').text();
+			console.log(a)
+		})
+		.click('.activity .results .type-filter :contains(Holds)')
+		.click('.activity .results .type-filter :contains(Credits)')
+		.click('.activity .results .type-filter :contains(Refunds)')
+		.click('.activity .results .type-filter :contains(Disputes)')
 		.then(function() {
 			var expectations = [
 				[Balanced.Hold, "/holds"],
-				[Balanced.Debit, '/card_debits'],
-				[Balanced.Debit, '/bank_account_debits'],
 				[Balanced.Credit, '/credits'],
-				[Balanced.Credit, '/failed_credits'],
 				[Balanced.Refund, '/refunds'],
-				[Balanced.Reversal, '/reversals'],
 				[Balanced.Dispute, '/disputes']
 			];
 
