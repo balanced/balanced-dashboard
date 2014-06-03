@@ -1,7 +1,6 @@
 Balanced.SidebarItemView = Ember.View.extend({
 	tagName: "li",
 	classNameBindings: ["isSelected:menu-active"],
-	hasIcon: Ember.computed.gt("linkIcon.length", 0),
 
 	children: function() {
 		return [];
