@@ -11,16 +11,18 @@ module('Bank Account Page', {
 });
 
 var setBankAccountProperties = function(properties) {
-	Balanced.__container__.lookup('controller:bankAccounts')
-		.get('model').setProperties(properties);
+	Ember.run(function() {
+		Balanced.__container__.lookup('controller:bankAccounts')
+			.get('model').setProperties(properties);
+	});
 };
 
 test('can view bank account page', function(assert) {
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.then(function() {
-			assert.equal($("#content h1").text().trim(), 'Bank Account');
-			assert.equal($(".title span").text().trim(), 'Test Account (1234)');
-		});
+		.checkElements({
+			"#content h1": "Bank account",
+			".title span": "Test Account (1234)"
+		}, assert);
 });
 
 test('credit bank account', function(assert) {
@@ -136,19 +138,19 @@ test('can initiate bank account verification', function(assert) {
 				customer: true,
 				verification: false
 			});
-			Ember.run.next(function() {
-				assert.equal($('#content h1').text().trim(), 'Bank Account');
-				assert.equal($(".main-header .buttons a.verify-button").length, 1, 'has verify button');
-				click(".main-header .buttons a.verify-button")
-					.then(function() {
-						assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
-					})
-					.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						assert.ok(stub.calledOnce);
-						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/verifications'));
-					});
-			});
+		})
+		.then(function() {
+			assert.deepEqual($("#content h1").text().trim(), "Bank account")
+			assert.deepEqual($(".main-header .buttons a.verify-button").length, 1)
+		})
+		.click(".main-header .buttons a.verify-button")
+		.then(function() {
+			assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
+		})
+		.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/verifications'));
 		});
 });
 
@@ -164,26 +166,26 @@ test('can confirm bank account verification', function(assert) {
 					verification_status: 'pending',
 					attempts_remaining: 1
 				})
-			});
-			Ember.run.next(function() {
-				assert.equal($('#content h1').text().trim(), 'Bank Account');
-				assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
-				click(".main-header .buttons a.confirm-verification-button")
-					.then(function() {
-						assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
-					})
-					.fillForm("#confirm-verification", {
-						amount_1: "1.00",
-						amount_2: "1.00"
-					})
-					.click('#confirm-verification .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						assert.ok(stub.calledOnce);
-						assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/bank_account_verifications'));
-						assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
-						assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
-					});
-			});
+			})
+		})
+		.then(function() {
+			assert.equal($('#content h1').text().trim(), 'Bank account');
+			assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
+		})
+		.click(".main-header .buttons a.confirm-verification-button")
+		.then(function() {
+			assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
+		})
+		.fillForm("#confirm-verification", {
+			amount_1: "1.00",
+			amount_2: "1.00"
+		})
+		.click('#confirm-verification .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok(stub.calledOnce);
+			assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/bank_account_verifications'));
+			assert.ok(stub.getCall(0).args[2].amount_1, "1.00");
+			assert.ok(stub.getCall(0).args[2].amount_2, "1.00");
 		});
 });
 
