@@ -140,8 +140,8 @@ test('can initiate bank account verification', function(assert) {
 			});
 		})
 		.then(function() {
-			assert.deepEqual($("#content h1").text().trim(), "Bank account")
-			assert.deepEqual($(".main-header .buttons a.verify-button").length, 1)
+			assert.deepEqual($("#content h1").text().trim(), "Bank account");
+			assert.deepEqual($(".main-header .buttons a.verify-button").length, 1);
 		})
 		.click(".main-header .buttons a.verify-button")
 		.then(function() {
@@ -166,7 +166,7 @@ test('can confirm bank account verification', function(assert) {
 					verification_status: 'pending',
 					attempts_remaining: 1
 				})
-			})
+			});
 		})
 		.then(function() {
 			assert.equal($('#content h1').text().trim(), 'Bank account');
