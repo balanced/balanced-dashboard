@@ -17,6 +17,7 @@
 					<li><a {{action "setEndPointFilter" "accounts" target="controller"}} href="#" class="accounts">Accounts</a></li>
 					<li><a {{action "setEndPointFilter" "bank_accounts" target="controller"}} href="#" class="bank_accounts">Bank Accounts</a></li>
 					<li><a {{action "setEndPointFilter" "cards" target="controller"}} href="#" class="cards">Cards</a></li>
+					<li><a {{action "setEndPointFilter" "verifications" target="controller"}} href="#" class="cards">Verifications</a></li>
 				</ul>
 			</div>
 		</th>
@@ -58,7 +59,7 @@
 		<tr>
 			{{view Balanced.LinkedDateCellView routeName=log.route_name date=log.created_at item=log classNames="span3"}}
 			{{view Balanced.TitledLinkedCellView routeName=log.route_name item=log labelText=log.endpoint classNames="span3 endpoint"}}
-			{{view Balanced.LogStatusCellView item=log classNames="span3"}}
+			{{view Balanced.LogStatusCellView item=log classNames="span3 status"}}
 			{{view Balanced.LogDescriptionCellView item=log}}
 		</tr>
 	{{else}}
