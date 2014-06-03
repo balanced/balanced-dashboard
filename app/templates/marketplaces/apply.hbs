@@ -1,7 +1,7 @@
 <section id="main" class="container">
 	<div id="main-overlay"></div>
 	<div id="marketplace-apply">
-		<h1 class="page-title">Apply for a Production Marketplace</h1>
+		<h1 class="page-title">Apply for a production marketplace</h1>
 		<form class="full-page-form" method="POST" {{action "save" on="submit"}}>
 			{{#if isGuest}}
 				<fieldset>
@@ -76,7 +76,7 @@
 				</fieldset>
 
 				<fieldset>
-					<legend>Terms &amp; Conditions + Privacy Policy</legend>
+					<legend>Terms &amp; Conditions and Privacy Policy</legend>
 					<div {{bind-attr class=":control-group model.validationErrors.termsAndConditions:error"}}>
 						<label for="terms-and-conditions">
 							{{view Ember.Checkbox checkedBinding="model.termsAndConditions" id="terms-and-conditions"}}
