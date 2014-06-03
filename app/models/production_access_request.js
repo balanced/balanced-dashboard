@@ -37,7 +37,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"incorporationYear",
 			"incorporationMonth",
 			"incorporationDay",
-			"personName",
+			"personFirstName",
+			"personMiddleName",
+			"personLastName",
 			"streetAddress",
 			"postalCode",
 			"phoneNumber",
@@ -103,8 +105,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
-
-			name: this.get('personName'),
+			first_name: this.get('personFirstName'),
+			middle_name: this.get('personMiddleName'),
+			last_name: this.get('personLastName'),
 			tax_id: this.get('socialSecurityNumber'),
 			dob: this.get("dob")
 		};
@@ -363,7 +366,13 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			}
 		},
 
-		personName: {
+		personFirstName: {
+			presence: true,
+		},
+		personMiddleName: {
+			presence: true,
+		},
+		personLastName: {
 			presence: true,
 		},
 		socialSecurityNumber: {
@@ -386,7 +395,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			},
 			format: /^\d{5}([\-]?\d{4})?$/
 		},
-
+		companyType: {
+			presence: true
+		},
 		bankAccountName: {
 			presence: true,
 		},

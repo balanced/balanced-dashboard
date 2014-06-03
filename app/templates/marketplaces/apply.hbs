@@ -54,7 +54,14 @@
 
 					<fieldset>
 						<legend>Your personal info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Name" field="personName" help="Enter your full legal name"}}
+						<div class="control-group">
+							<div class="controls">
+							{{view Ember.TextField placeholder="First name" name="personFirstName" class="span3"}}
+							{{view Ember.TextField placeholder="Middle name" name="personMiddleName" class="span3"}}
+							{{view Ember.TextField placeholder="Last name" name="personLastName" class="span3"}}
+							</div>
+							<label>Enter your full legal name</label>
+						</div>
 						<div class="control-group">
 							<div class="controls">
 								{{view Ember.Select contentBinding="dobYears" valueBinding="model.dobYear" name="dobYear" class="span2"}}
