@@ -1,14 +1,16 @@
 var SIDEBAR_ITEMS = [{
-	linkText: "Activity",
-	linkIcon: "icon-activity",
+	linkText: "Payments",
+	linkIcon: "icon-payments",
 	routeName: "activity.transactions",
 	isSelectedBinding: "controller.marketplace.paymentSelected",
 	children: [{
 		routeName: "activity.transactions",
 		linkText: "Transactions",
+		isSelectedBinding: "controller.marketplace.transactionSelected"
 	}, {
 		routeName: "activity.orders",
-		linkText: "Orders"
+		linkText: "Orders",
+		isSelectedBinding: "controller.marketplace.orderSelected"
 	}]
 }, {
 	linkText: "Customers",
@@ -31,18 +33,20 @@ var SIDEBAR_ITEMS = [{
 	routeName: "marketplace.logs",
 	isSelectedBinding: "controller.marketplace.logSelected"
 }, {
-	linkText: "My Marketplace",
+	linkText: "My marketplace",
 	linkIcon: "icon-my-marketplace",
-	routeName: "marketplace.settings",
+	routeName: "marketplace.invoices",
 	isSelectedBinding: "controller.marketplace.myMarketplaceSelected",
 	children: [{
-		routeName: "marketplace.settings",
-		linkIcon: 'icon-settings',
-		linkText: 'Settings'
-	}, {
 		routeName: 'marketplace.invoices',
 		linkIcon: "icon-invoices",
-		linkText: "Invoices",
+		linkText: "Account statements",
+		isSelectedBinding: "controller.marketplace.invoiceSelected"
+	}, {
+		routeName: "marketplace.settings",
+		linkIcon: 'icon-settings',
+		linkText: 'Settings',
+		isSelectedBinding: "controller.marketplace.settingSelected"
 	}]
 }];
 
