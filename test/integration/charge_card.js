@@ -12,10 +12,9 @@ test('form validation', function(assert) {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.charge-a-card')
 		.then(function() {
-			var $submitButton = $('button:contains("Charge")');
-			assert.equal($submitButton.length, 1, 'submit button exists');
+			assert.equal($('button:contains(Debit)').length, 1, 'submit button exists');
 		})
-		.click($('button:contains("Charge")'))
+		.click('button:contains(Debit)')
 		.then(function() {
 			assert.ok($('.control-group.error').length > 0, 'errors are displayed');
 		});
@@ -69,7 +68,6 @@ test('charge a card only submits once despite multiple button clicks', function(
 		}]
 	});
 
-
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.charge-a-card')
 		.fillForm('#charge-card', {
@@ -82,17 +80,19 @@ test('charge a card only submits once despite multiple button clicks', function(
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
 			amount: '12.00'
-		}, {
-			clickMultiple: '.modal-footer button:eq(1)'
+		})
+		.assertClick("#charge-card .modal-footer .btn:last", assert)
+		.then(function() {
+			assert.equal($("#charge-card .modal-footer .btn:last").length, 0, "Button not present");
 		})
 		.then(function() {
-			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledOnce, "Called once");
 			assert.ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
 				amount: 1200,
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID
-			})));
+			})), "Called with right arguments");
 			tokenizingStub.restore();
 		});
 });
