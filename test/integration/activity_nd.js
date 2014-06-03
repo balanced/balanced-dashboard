@@ -60,13 +60,13 @@ test('Filter Activity transactions table by type & status', function(assert) {
 
 			assert.equal($('#activity .results table.transactions tr td.no-results').length, 1, 'has "no results"');
 		})
+		.click('#activity .results table.transactions th.type .type-filter li a:contains(All)')
 		.click('#activity .results table.transactions th.status .status-filter li a:contains(Succeeded)')
 		.then(function() {
 			var activityController = Balanced.__container__.lookup('controller:activity_transactions');
 			var results_uri = activityController.get('results_uri');
 			assert.ok(results_uri.indexOf('status=succeeded') >= 0, 'Activity URI filter by status is correct');
-			assert.ok(results_uri.indexOf('status%5Bin%5D=failed%2Csucceeded%2Cpending') < 0, 'Activity URI filter by status is correct');
-
+			assert.ok(results_uri.indexOf('status%5Bin%5=succeeded') >= 0, 'Activity URI filter by status is correct');
 			assert.equal($('#activity .results table.transactions tr td.no-results').length, 1, 'has "no results"');
 		})
 		.click('#activity .results table.transactions th.type .type-filter li a:contains(Debits)')
