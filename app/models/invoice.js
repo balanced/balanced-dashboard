@@ -36,10 +36,10 @@ Balanced.Invoice = Balanced.Model.extend({
 	to_date: Computed.date(1),
 
 	type: function() {
-		if (this.get('disputes_total_fee') != 0) {
+		if (this.get('disputes_total_fee') !== 0) {
 			return 'Dispute';
 		} else {
-			return 'Transaction'
+			return 'Transaction';
 		}
 	}.property('disputes_total_fee'),
 
