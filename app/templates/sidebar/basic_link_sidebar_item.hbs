@@ -1,12 +1,12 @@
 {{#link-to view.routeName}}
-	{{#if view.linkIcon}}
+	{{#if view.hasIcon}}
 		<i {{bind-attr class="view.linkIcon"}}></i>
 	{{/if}}
 	<span>{{view.linkText}}</span>
 {{/link-to}}
 
 {{#if view.childViewItems.length}}
-	<ul class="submenu">
+	<ul {{bind-attr class=":submenu view.isSelected:expanded"}}>
 		{{#each childView in view.childViewItems}}
 			{{view childView}}
 		{{/each}}
