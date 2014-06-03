@@ -37,15 +37,15 @@
 							{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phoneNumber" help="Enter your phone number"}}
 							<div class="control-group">
 								<div class="controls">
-									{{view Ember.Select contentBinding="incorporationYears" valueBinding="model.incorporationYear" name="incorporationYear" class="span2"}}
-									{{view Ember.Select contentBinding="incorporationMonths" valueBinding="model.incorporationMonth" name="incorporationMonth" class="span2"}}
-									{{view Ember.Select contentBinding="incorporationDays" valueBinding="model.incorporationDay" name="incorporationDay" class="span2"}}
+									{{view Ember.Select contentBinding="incorporationYears" valueBinding="model.incorporationYear" field="incorporationYear" class="span2"}}
+									{{view Ember.Select contentBinding="incorporationMonths" valueBinding="model.incorporationMonth" field="incorporationMonth" class="span2"}}
+									{{view Ember.Select contentBinding="incorporationDays" valueBinding="model.incorporationDay" field="incorporationDay" class="span2"}}
 								</div>
 								<label>Enter your incorporation date</label>
 							</div>
 							<div class="control-group">
 								<div class="controls">
-									{{view Ember.Select contentBinding="companyTypes" valueBinding="model.companyType" name="companyType"}}
+									{{view Ember.Select contentBinding="companyTypes" valueBinding="model.companyType" field="companyType"}}
 								</div>
 								<label>Specify your company type</label>
 							</div>
@@ -56,9 +56,9 @@
 						<legend>Your personal info</legend>
 						<div class="control-group">
 							<div class="controls">
-							{{view Ember.TextField placeholder="First name" name="personFirstName" class="span3"}}
-							{{view Ember.TextField placeholder="Middle name" name="personMiddleName" class="span3"}}
-							{{view Ember.TextField placeholder="Last name" name="personLastName" class="span3"}}
+							{{view Ember.TextField placeholder="First name" class="cssError:error" name="personFirstName" class="span3"}}
+							{{view Ember.TextField placeholder="Middle name" class="cssError:error" name="personMiddleName" class="span3"}}
+							{{view Ember.TextField placeholder="Last name" class="cssError:error" name="personLastName" class="span3"}}
 							</div>
 							<label>Enter your full legal name</label>
 						</div>

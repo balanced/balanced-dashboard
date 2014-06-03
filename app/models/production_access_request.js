@@ -365,15 +365,14 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-
-		personFirstName: {
-			presence: true,
+		principalOwnerName: {
+			presence: true
 		},
-		personMiddleName: {
-			presence: true,
+		personFirstName: {
+			presence: true
 		},
 		personLastName: {
-			presence: true,
+			presence: true
 		},
 		socialSecurityNumber: {
 			presence: true,
@@ -385,7 +384,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		},
 
 		streetAddress: {
-			presence: true,
+			presence: true
 		},
 		postalCode: {
 			presence: true,
@@ -399,10 +398,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			presence: true
 		},
 		bankAccountName: {
-			presence: true,
+			presence: true
 		},
 		bankAccountNumber: {
-			presence: true,
+			presence: true
 		},
 		bankRoutingNumber: {
 			presence: true,
