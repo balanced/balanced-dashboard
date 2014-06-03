@@ -48,6 +48,6 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 			}
 
 			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri', 'content.disputes_uri')
+		}.property('content.transactions_uri', 'content.disputes_uri', "isDisputeType")
 	}
 );

@@ -12,7 +12,7 @@ module('Logs', {
 
 var setLogsProperties = function() {
 	Ember.run(function() {
-		Balanced.__container__.lookup('controller:logsIndex').setProperties({
+		Balanced.__container__.lookup('controller:marketplaceLogs').setProperties({
 			minDate: null,
 			maxDate: null
 		});
@@ -63,7 +63,7 @@ test('filter logs by endpoint bank accounts', function(assert) {
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
-		.click('.results div.filter-endpoints ul a.bank_accounts')
+		.click('.results .status-filter a.bank_accounts')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Log, '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc'));
 			assert.equal($('table.logs tbody tr').length, 1, 'has 1 log');
@@ -119,7 +119,7 @@ test('filter logs by request failed only', function(assert) {
 		.then(function() {
 			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
-		.click('.results .filter-status-rollup label.succeeded input[type="checkbox"]')
+		.click('.results .status-filter a:contains(Failed)')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Log,
 				'/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx'));

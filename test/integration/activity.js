@@ -26,7 +26,7 @@ test('can visit page', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.checkElements({
 			"#content h1": "Transactions",
-			'#activity li.download': 1
+			'#activity .download': 1
 		}, assert);
 });
 
@@ -177,19 +177,24 @@ test('download disputes', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("a:contains('Disputes')")
+		.click("#main #activity a:contains(Disputes)")
 		.click("#main #activity .icon-export.download")
 		.fillForm(".download-modal.in form", {
 			email: "test@example.com"
 		})
-		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click('.download-modal.in .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+			var args = stub.firstCall.args;
+
+			assert.ok(stub.calledOnce, "Called Once");
+			assert.deepEqual(args[0], Balanced.Download);
+			assert.deepEqual(args[1], "/downloads");
+			assert.deepEqual(args[2], {
 				email_address: "test@example.com",
 				uri: "",
 				type: "disputes"
-			}));
+			}, "Called with the right arguments");
+
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
 		});

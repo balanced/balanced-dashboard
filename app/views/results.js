@@ -49,7 +49,7 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 	// UI computed properties
 	transactionsTabSelected: function() {
-		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
+		return ['search', 'transaction', 'dispute'].indexOf(this.get('controller.category')) >= 0;
 	}.property('controller.category'),
 	customersTabSelected: Computed.isCategorySelected('customer'),
 	ordersTabSelected: Computed.isCategorySelected('order'),

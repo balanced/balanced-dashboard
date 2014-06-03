@@ -71,18 +71,10 @@ Balanced.Router.map(function() {
 		this.resource('marketplace', {
 			path: '/:marketplace_id'
 		}, function() {
-			this.route('settings', {
-				path: '/settings'
-			});
-			this.route('add_customer', {
-				path: '/add_customer'
-			});
-			this.route('initial_deposit', {
-				path: '/initial_deposit'
-			});
-			this.route('import_payouts', {
-				path: '/import_payouts'
-			});
+			this.route('settings');
+			this.route('add_customer');
+			this.route('initial_deposit');
+			this.route('import_payouts');
 
 			// exists to handle old URIs
 			this.route("redirect_activity_transactions", {

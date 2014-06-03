@@ -3,9 +3,10 @@ module('Search (non-deterministic)', {
 		Testing.setupMarketplace();
 		Testing.createDebits();
 		Testing.createCustomer();
-		Balanced.Auth.set('signedIn', true);
-
-		Testing.setupSearch();
+		Balanced.Auth.setProperties({
+			signedIn: true,
+			isGuest: false
+		});
 	}
 });
 
@@ -14,11 +15,12 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 		.then(function() {
 			Testing.runSearch('%');
 		})
+		.checkElements({
+			"#search .results .transactions.filter": "Transactions (4)",
+			'#search .results table.transactions tbody tr': 2,
+			'#search .results table.transactions tfoot td': 1
+		}, assert)
 		.then(function() {
-			assert.equal($('#search .results li.transactions > a:contains("4")').length, 1, 'has 4 transactions in header');
-			assert.equal($('#search .results table.transactions tbody tr').length, 2, 'has 2 transactions');
-			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
-
 			// Manually check the transactions uri is correct
 			var controller = Balanced.__container__.lookup('controller:search');
 			var resultsUri = controller.get('results_uri');
@@ -38,19 +40,23 @@ test('search "%" returns 4 transactions total, showing 2 transactions in results
 		});
 });
 
-test('search "%", click customers, returns 1 customer total, showing 1 customer in results, with no load more', function(assert) {
+test('search "%", click customers, returns 2 customer total, showing 2 customer in results, with no load more', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
 		.then(function() {
-			assert.equal($('#search .results li.customers > a:contains("1")').length, 1, 'has 1 customer in header');
+
 		})
+		.checkElements({
+			"#search .results .customers.filter": "Customers (2)",
+		}, assert)
 		.click('#search .results .customers > a')
-		.then(function() {
-			assert.equal($('#search .results table.customers tbody tr').length, 1, 'has 1 customer');
-			assert.equal($('#search .results table.customers tfoot td').length, 0, 'no "load more"');
-		});
+		.checkElements({
+			'#search .results table.customers tbody tr:last td:eq(1)': 'William Henry Cavendish III',
+			'#search .results table.customers tbody tr': 2,
+			'#search .results table.customers tfoot td': 0
+		}, assert);
 });
 
 test('search "%" returns 4 transactions. Click load more shows 2 more and hides load more', function(assert) {
