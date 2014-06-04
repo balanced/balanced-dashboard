@@ -9,6 +9,10 @@ Balanced.CardsController = Balanced.ObjectController.extend(
 
 		baseClassSelector: "#card",
 
-		results_base_uri: Ember.computed.readOnly('content.transactions_uri')
+		results_base_uri: function() {
+			return this.get('type') === 'dispute' ?
+				'/disputes':
+				this.get("content.transactions_uri");
+		}.property("type", "content.transactions_uri")
 	}
 );

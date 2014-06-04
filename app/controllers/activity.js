@@ -59,6 +59,18 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			status: transactionStatus
 		};
 	}.property('type', 'transactionStatus'),
+
+	results_base_uri: function() {
+		var type = this.get('type');
+
+		if (type === 'dispute') {
+			return '/disputes';
+		} else if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+			return '/transactions';
+		} else {
+			return this._super();
+		}
+	}.property('type', 'controllers.marketplace.uri')
 });
 
 Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
@@ -67,14 +79,6 @@ Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 	type: 'transaction',
 	pageTitle: 'Transactions',
 	noDownloadsUri: true,
-
-	results_base_uri: function() {
-		var type = this.get('type');
-
-		return type === 'dispute' ?
-			'/disputes' :
-			'/transactions';
-	}.property('type')
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({
