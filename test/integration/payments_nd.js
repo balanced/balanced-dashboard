@@ -1,4 +1,4 @@
-module('Payments (non non-deterministic)', {
+module('Payments (non-deterministic)', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
@@ -85,7 +85,7 @@ test('Filter Activity transactions table by type & status', function(assert) {
 			}, assert);
 		})
 		.checkElements({
-			'#activity .results table.transactions tr td.no-results': 1
+			'#activity .results table.transactions tr td.load-more-results': 1
 		}, assert)
 		.click('#activity .results table.transactions th.type .type-filter li a:contains(Debits)')
 		.then(function() {
