@@ -3,7 +3,9 @@ Balanced.InvoicesRoute = Balanced.ControllerRoute.extend({
 });
 
 Balanced.InvoiceRoute = Balanced.ModelControllerRoute.extend({
-	title: 'Invoice',
+	title: 'Account statement',
 	modelObject: Balanced.Invoice,
 	marketplaceUri: 'invoices_uri'
 });
+
+Balanced.MarketplaceRedirectInvoicesRoute = Balanced.RedirectRoute("marketplace.invoices");

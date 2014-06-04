@@ -92,6 +92,9 @@ Balanced.Router.map(function() {
 			this.route("redirect_activity_disputes", {
 				path: 'activity/disputes'
 			});
+			this.route("redirect_invoices", {
+				path: 'invoices'
+			});
 
 			this.resource('activity', {
 				path: '/'
@@ -143,13 +146,21 @@ Balanced.Router.map(function() {
 				path: '/payment_methods'
 			});
 
+			this.route('invoices', {
+				path: '/account_statements'
+			});
+
+			this.resource('invoice', {
+				path: '/account_statements/:item_id'
+			});
+
+			makeNestedResource(this, 'customers', 'customer');
+
 			makeNestedResource(this, 'customers', 'customer');
 
 			makeNestedResource(this, 'disputes', 'dispute');
 
 			makeNestedResource(this, 'logs', 'log');
-
-			makeNestedResource(this, 'invoices', 'invoice');
 		});
 
 	});

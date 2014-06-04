@@ -1,4 +1,4 @@
-{{#link-to view.routeName activeBinding="view.isSelected"}}
+{{#link-to view.routeName activeBinding="view.isSelected" classBinding="view.childViewItems.length:expanded"}}
 	{{#if view.linkIcon}}
 		<i {{bind-attr class="linkIcon"}}></i>
 	{{/if}}
