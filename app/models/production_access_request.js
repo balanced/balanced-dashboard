@@ -138,6 +138,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		};
 
 		setOptionalValue(attributes, "businessName", "name");
+		setOptionalValue(attributes, "marketplaceName", "doing_business_as");
 		setOptionalValue(attributes, "principalOwnerName", "principal_owner_name");
 		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
 		setOptionalValue(attributes, "streetAddress", "street_address");
