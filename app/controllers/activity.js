@@ -62,7 +62,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 });
 
 Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
-	needs: ['marketplace', 'activity'],
+	needs: ['marketplace'],
 	baseClassSelector: '#transactions',
 	type: 'transaction',
 	pageTitle: 'Transactions',
@@ -78,7 +78,7 @@ Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({
-	needs: ['marketplace', 'activity'],
+	needs: ['marketplace'],
 	baseClassSelector: '#orders',
 	type: 'order',
 	pageTitle: 'Orders'

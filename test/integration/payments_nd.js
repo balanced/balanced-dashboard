@@ -1,4 +1,4 @@
-module('Activity (non non-deterministic)', {
+module('Payments (non non-deterministic)', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
@@ -43,8 +43,6 @@ test('Click load more shows 2 more and hides load more', function(assert) {
 			var resultsUri = getResultsUri();
 			assertQueryString(resultsUri, {
 				limit: "2",
-				offset: "2",
-				q: "",
 				sort: "created_at,desc",
 				"status[in]": "failed,succeeded,pending",
 				"type[in]": "debit,credit,hold,refund"

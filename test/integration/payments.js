@@ -22,12 +22,35 @@ module('Payments', {
 	}
 });
 
+var assertQueryString = function(string, expected, assert) {
+	var qsParameters = Balanced.Utils.queryStringToObject(string);
+	_.each(expected, function(value, key) {
+		assert.deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
+	});
+};
+
+var getResultsUri = function() {
+	return Balanced.__container__.lookup('controller:activity_transactions').get("results_uri");
+};
+
 test('can visit page', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.checkElements({
 			"#content h1": "Transactions",
 			'#activity .download': 1
-		}, assert);
+		}, assert)
+		.then(function() {
+			var resultsUri = getResultsUri();
+			assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
+			assertQueryString(resultsUri, {
+				limit: "2",
+				offset: "0",
+				q: "",
+				sort: "created_at,desc",
+				"status[in]": "failed,succeeded,pending",
+				"type[in]": "debit,credit,hold,refund"
+			}, assert);
+		});
 });
 
 test('add funds', function(assert) {
