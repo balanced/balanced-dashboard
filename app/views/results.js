@@ -143,7 +143,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 });
 
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
-	tagName: 'th',
+	tagName: 'div',
 	classNameBindings: 'sortClass',
 
 	sortClass: function() {

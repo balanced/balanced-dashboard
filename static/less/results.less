@@ -151,9 +151,23 @@ header.results-label h3 {
   }
 
   .sortable {
+    line-height: 51px;
+    display: inline-block;
+    padding: 0 10px;
+
+    & > span {
+      .sl-sm-sb;
+      color: @gray6;
+      line-height: 35px;
+    }
+
     &:hover {
       cursor: pointer;
       background-color: @gray2;
+
+      > span {
+        color: @black;
+      }
     }
     &:after {
       font-family: 'Balanced-Icon';

@@ -5,10 +5,13 @@ Balanced.SearchView = Balanced.View.extend({
 
 	didInsertElement: function() {
 		$(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
+
+		var serachFieldContainer = $('.search-field-container');
+		var iconSearch = $('.icon-search')
+
 		$('#search').hover(function() {
-			$('.search-field-container', '.icon-search').addClass('highlight');
-		}, function() {
-			$('.search-field-container', '.icon-search').removeClass('highlight');
+			serachFieldContainer.toggleClass('search-highlight');
+			$(iconSearch).toggleClass('search-highlight');
 		});
 
 		this.get('controller').addObserver('displayResults', this, this._toggleDisplayResults);
