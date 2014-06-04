@@ -8,6 +8,12 @@ module('Invoices', {
 });
 
 test('can visit page', function(assert) {
+	var invoicesController = Balanced.__container__.lookup('controller:marketplace_invoices');
+	invoicesController.reopen({
+		minDate: moment('8/1/2013').startOf('day').toDate(),
+		maxDate: moment('8/1/2013').endOf('day').toDate(),
+	});
+
 	visit(INVOICES_ROUTE)
 		.checkElements({
 			"#content h1": "Account statements",

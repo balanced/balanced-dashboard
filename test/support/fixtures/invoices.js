@@ -1160,7 +1160,7 @@ Balanced.Adapter.addFixtures([{
 		"debits_total_amount": 0,
 		"sequence_number": 4
 	}],
-	"uri": "/invoices?created_at%5B%3C%5D=2014-06-04T05%3A00%3A00.000Z&created_at%5B%3E%5D=2013-11-06T23%3A52%3A48.396Z&limit=20&offset=0&q=&sort=created_at%2Cdesc",
+	"uri": "/invoices?created_at%5B%3C%5D=2013-08-02T06%3A59%3A59.999Z&created_at%5B%3E%5D=2013-08-01T07%3A00%3A00.000Z&limit=20&offset=0&q=&sort=created_at%2Cdesc",
 	"meta": {
 		"last": "/invoices?q=&sort=created_at%2Cdesc&limit=20&offset=20",
 		"next": "/invoices?q=&sort=created_at%2Cdesc&limit=20&offset=20",
