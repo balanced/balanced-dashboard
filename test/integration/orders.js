@@ -89,7 +89,6 @@ module('Order Page', {
 
 var assertQueryString = function(string, expected, assert) {
 	var qsParameters = Balanced.Utils.queryStringToObject(string);
-	console.log(qsParameters)
 	_.each(expected, function(value, key) {
 		assert.deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
 	});
@@ -136,7 +135,6 @@ test("can visit orders page", function(assert) {
 			assertQueryString(resultsUri, {
 				limit: "5",
 				offset: "0",
-				limit: "2",
 				type: "order"
 			}, assert);
 		});

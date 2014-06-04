@@ -25,12 +25,12 @@ Balanced.Utils = Ember.Namespace.create({
 		if (string === undefined) {
 			return undefined;
 		}
-		
+
 		var results = {};
 		var pairs = string.split("?")[1].split("&");
 		pairs.forEach(function(str) {
 			var pair = str.split("=").map(function(s) {
-				return window.decodeURIComponent(s)
+				return window.decodeURIComponent(s);
 			});
 			results[pair[0]] = pair[1];
 		});

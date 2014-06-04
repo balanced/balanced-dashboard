@@ -82,7 +82,7 @@ test('Filter Activity transactions table by type & status', function(assert) {
 				offset: "0",
 				q: "",
 				sort: "created_at,desc"
-			}, assert)
+			}, assert);
 		})
 		.checkElements({
 			'#activity .results table.transactions tr td.no-results': 1
@@ -92,9 +92,9 @@ test('Filter Activity transactions table by type & status', function(assert) {
 			assertQueryString(getResultsUri(), {
 				status: "succeeded",
 				type: "debit"
-			}, assert)
+			}, assert);
 		})
 		.checkElements({
 			'#activity .results table.transactions tr td.no-results': 0
-		}, assert)
+		}, assert);
 });
