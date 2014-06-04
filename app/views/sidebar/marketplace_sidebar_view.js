@@ -18,7 +18,7 @@ var SIDEBAR_ITEMS = [{
 	routeName: "marketplace.customers",
 	isSelectedBinding: "controller.marketplace.customerSelected"
 }, {
-	linkText: "Payment Methods",
+	linkText: "Payment methods",
 	linkIcon: "icon-card",
 	routeName: "marketplace.funding_instruments",
 	isSelectedBinding: "controller.marketplace.fundingInstrumentSelected"
