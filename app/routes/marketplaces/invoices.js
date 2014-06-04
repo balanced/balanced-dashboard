@@ -8,4 +8,4 @@ Balanced.InvoiceRoute = Balanced.ModelControllerRoute.extend({
 	marketplaceUri: 'invoices_uri'
 });
 
-Balanced.RedirectInvoicesRoute = Balanced.RedirectRoute("marketplace.invoices");
+Balanced.MarketplaceRedirectInvoicesRoute = Balanced.RedirectRoute("marketplace.invoices");
