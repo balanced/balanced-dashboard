@@ -9,17 +9,10 @@ module('Invoices', {
 
 test('can visit page', function(assert) {
 	visit(INVOICES_ROUTE)
-		.then(function() {
-			//  check the page title has been selected
-			assert.equal($('#content h1').text().trim(), 'Account statements');
-		});
-});
-
-test('shows invoices list', function(assert) {
-	visit(INVOICES_ROUTE)
-		.then(function() {
-			assert.equal($("#invoices table tbody tr").length, 20);
-		});
+		.checkElements({
+			"#content h1": "Account statements",
+			"#invoices table tbody tr": 20
+		}, assert);
 });
 
 test('invoice detail page', function(assert) {
