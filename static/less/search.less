@@ -44,6 +44,27 @@
 #search {
   @searchIconWidth: 50px;
   @searchPostLabelWidth: 50px;
+
+  &.focus {
+    .icon-search {
+      color: @black;
+    }
+
+    .search-field-container {
+      border-bottom: 1px solid @gray2;
+    }
+  }
+
+  .highlight {
+    &.icon-search {
+      color: @black;
+    }
+
+    &.search-field-container {
+      border-bottom: 1px solid @gray2;
+    }
+  }
+
   .search-field-container {
     height: @searchBoxHeight;
     margin: 0;
@@ -104,13 +125,6 @@
   &.with-results .search-field-container {
     border-bottom: 1px solid @black;
   }
-
-  .search-close {
-    display: none;
-  }
-  &.with-results .search-close {
-    display: block;
-  }
 }
 
 #q {
@@ -129,6 +143,5 @@
 
   &:focus {
     color: @gray7;
-    border-bottom: 1px solid @black;
   }
 }
