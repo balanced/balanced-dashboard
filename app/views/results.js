@@ -44,12 +44,12 @@ var Computed = {
 
 Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	templateName: 'results/results_filters_header',
-	tagName: 'header',
+	tagName: 'div',
 	from: 'activity',
 
 	// UI computed properties
 	transactionsTabSelected: function() {
-		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
+		return ['search', 'transaction', 'dispute'].indexOf(this.get('controller.category')) >= 0;
 	}.property('controller.category'),
 	customersTabSelected: Computed.isCategorySelected('customer'),
 	ordersTabSelected: Computed.isCategorySelected('order'),
@@ -143,7 +143,7 @@ Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
 });
 
 Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
-	tagName: 'th',
+	tagName: 'div',
 	classNameBindings: 'sortClass',
 
 	sortClass: function() {
@@ -165,7 +165,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 		var sortField = this.get('controller.sortField');
 		var sortOrder = this.get('controller.sortOrder');
 		var allowSortByNone = this.get('controller.allowSortByNone');
-		var nextSortOrder = 'asc';
+		var nextSortOrder = 'desc';
 
 		if (sortField === this.get('field')) {
 			switch (sortOrder) {
@@ -227,8 +227,8 @@ Balanced.LogsEmbeddedResultsView = Balanced.ResultsTableView.extend({
 	templateName: 'results/logs_embedded_table'
 });
 
-Balanced.LogsFiltersHeaderView = Balanced.View.extend({
-	templateName: 'results/logs_filters_header',
+Balanced.DateFilterHeaderView = Balanced.View.extend({
+	templateName: 'results/date_filter_header',
 	tagName: 'header'
 });
 

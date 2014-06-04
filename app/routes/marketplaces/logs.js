@@ -1,8 +1,8 @@
-Balanced.LogsIndexRoute = Balanced.ControllerRoute.extend({
+Balanced.LogsRoute = Balanced.ControllerRoute.extend({
 	pageTitle: 'Logs'
 });
 
-Balanced.LogsLogRoute = Balanced.TitleRoute.extend({
+Balanced.LogRoute = Balanced.TitleRoute.extend({
 	title: 'Log',
 
 	model: function(params) {

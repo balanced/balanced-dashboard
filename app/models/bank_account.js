@@ -16,9 +16,10 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	route_name: 'bank_accounts',
 	is_bank_account: true,
-	account_type_name: Ember.computed.alias('account_type'),
+	account_type_name: Ember.computed.alias('type_name'),
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
+	page_title: Ember.computed.readOnly('description'),
 
 	last_four: function() {
 		var accountNumber = this.get('account_number');
@@ -28,14 +29,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 			return accountNumber.substr(accountNumber.length - 4, 4);
 		}
 	}.property('account_number'),
-
-	formatted_bank_name: function() {
-		if (this.get('bank_name')) {
-			return Balanced.Utils.toTitleCase(this.get('bank_name'));
-		} else {
-			return 'None';
-		}
-	}.property('bank_name'),
 
 	description: function() {
 		if (this.get('bank_name')) {

@@ -1,7 +1,5 @@
-<nav class="search-table">
-	<div class="date-row">
-		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	</div>
+<nav class="search-filters-header">
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 	<ul>
 		<li {{bind-attr class=":orders :filter view.searchResult.total_orders::disabled view.ordersTabSelected:selected"}} >
 			<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber view.searchResult.total_orders}}) </a>

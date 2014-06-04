@@ -18,10 +18,10 @@
 						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
 					{{else}}
 						{{#if can_verify}}
-							<a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to Debit</a>
+							<a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to debit</a>
 						{{/if}}
 						{{#if can_confirm_verification}}
-							<a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm Verification</a>
+							<a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm verification</a>
 						{{/if}}
 					{{/if}}
 
@@ -50,7 +50,7 @@
 						<dt>Routing #</dt>
 						<dd><span>{{routing_number}}</span></dd>
 						<dt>Bank</dt>
-						<dd><span>{{bank_name}}</span></dd>
+						<dd><span>{{formatted_bank_name}}</span></dd>
 						<dt>Type</dt>
 						<dd><span>{{capitalize account_type_name}}</span></dd>
 

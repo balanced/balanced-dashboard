@@ -1,4 +1,4 @@
-var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/invoices';
+var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/account_statements';
 
 module('Invoices', {
 	setup: function() {
@@ -7,18 +7,20 @@ module('Invoices', {
 	teardown: function() {}
 });
 
-test('can visit page', function(assert) {
-	visit(INVOICES_ROUTE)
-		.then(function() {
-			//  check the page title has been selected
-			assert.equal($('#content h1').text().trim(), 'Invoices');
-		});
-});
+asyncTest('can visit page', 2, function(assert) {
+	var invoicesController = Balanced.__container__.lookup('controller:marketplace_invoices');
+	invoicesController.reopen({
+		minDate: moment('2013-08-01T00:00:00.000Z').toDate(),
+		maxDate: moment('2013-08-01T23:59:59.999Z').toDate()
+	});
 
-test('shows invoices list', function(assert) {
 	visit(INVOICES_ROUTE)
+		.checkElements({
+			"#content h1": "Account statements",
+			"#invoices table tbody tr": 20
+		}, assert)
 		.then(function() {
-			assert.equal($("#invoices table tbody tr").length, 20);
+			start();
 		});
 });
 
@@ -42,25 +44,17 @@ test('invoice detail page', function(assert) {
 		".invoice-details-table .subtotal-row .total": "$17.85"
 	};
 
-	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.checkElements(expectedValues, assert)
-		.click('.activity .results header li.holds a')
-		.click('.activity .results header li.debit-cards a')
-		.click('.activity .results header li.debit-bank-accounts a')
-		.click('.activity .results header li.credits a')
-		.click('.activity .results header li.failed-credits a')
-		.click('.activity .results header li.refunds a')
-		.click('.activity .results header li.reversals a')
-		.click('.activity .results header li.disputes a')
+		.click('.activity .results .type-filter :contains(Holds)')
+		.click('.activity .results .type-filter :contains(Credits)')
+		.click('.activity .results .type-filter :contains(Refunds)')
+		.click('.activity .results .type-filter :contains(Disputes)')
 		.then(function() {
 			var expectations = [
 				[Balanced.Hold, "/holds"],
-				[Balanced.Debit, '/card_debits'],
-				[Balanced.Debit, '/bank_account_debits'],
 				[Balanced.Credit, '/credits'],
-				[Balanced.Credit, '/failed_credits'],
 				[Balanced.Refund, '/refunds'],
-				[Balanced.Reversal, '/reversals'],
 				[Balanced.Dispute, '/disputes']
 			];
 
@@ -85,10 +79,10 @@ test('change invoice funding source', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 	stub.callsArg(3);
 
-	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.click('.change-funding-source-btn')
-		.fillIn('#change-funding-source form select[name="source_uri"]', '123')
-		.click('#change-funding-source form button[name="modal-submit"]')
+		.fillIn('#change-funding-source form select[name=source_uri]', '123')
+		.click('#change-funding-source form button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
 			assert.equal(spy.callCount, 6);

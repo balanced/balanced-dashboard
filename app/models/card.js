@@ -20,7 +20,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		expiration_year: {
 			presence: true
 		},
-		security_code: {
+		cvv: {
 			presence: true,
 			numericality: true,
 			length: {
@@ -47,6 +47,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	is_bank_account: false,
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
 	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD,
+	page_title: Ember.computed.readOnly('displayName'),
 
 	last_four: function() {
 		var accountNumber = this.get('number');
@@ -96,7 +97,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 			number: this.get('number'),
 			expiration_month: this.get('expiration_month'),
 			expiration_year: this.get('expiration_year'),
-			cvv: this.get('security_code'),
+			cvv: this.get('cvv'),
 			name: this.get('name'),
 			address: this.get('address') || {}
 		};
@@ -123,7 +124,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 					});
 				}
 
-				promise.reject();
+				promise.reject(validationErrors);
 			} else {
 				Balanced.Card.find(response.cards[0].href)
 

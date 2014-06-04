@@ -11,6 +11,13 @@ Balanced.FundingInstrument = Balanced.Model.extend(
 		expected_credit_date: function() {
 			return moment().addBusinessDays(this.get('expected_credit_days_offset')).format();
 		}.property('expected_credit_days_offset'),
+		formatted_bank_name: function() {
+			if (this.get('bank_name')) {
+				return Balanced.Utils.toTitleCase(this.get('bank_name'));
+			} else {
+				return null;
+			}
+		}.property('bank_name'),
 
 		// TODO - fix the API to return the transactions_uri, then get rid of this hack
 		transactions_uri: function() {

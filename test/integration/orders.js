@@ -84,9 +84,15 @@ module('Order Page', {
 
 		// Pause for 100ms to allow API to catch up
 		Testing.pause(100);
-	},
-	teardown: function() {}
+	}
 });
+
+var assertQueryString = function(string, expected, assert) {
+	var qsParameters = Balanced.Utils.queryStringToObject(string);
+	_.each(expected, function(value, key) {
+		assert.deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
+	});
+};
 
 test('can visit order page', function(assert) {
 	var elements = {
@@ -114,4 +120,22 @@ test('can visit order page', function(assert) {
 
 	visit(Testing.ORDER_ROUTE)
 		.checkElements(elements, assert);
+});
+
+test("can visit orders page", function(assert) {
+	visit(Testing.ACTIVITY_ROUTE)
+		.click(".sidebar a:contains(Orders)")
+		.checkElements({
+			"#activity h1": "Orders"
+		}, assert)
+		.then(function() {
+			var resultsUri = Balanced.__container__.lookup('controller:activity_orders').get("results_uri");
+			assert.deepEqual(resultsUri.split("?")[0], "/marketplaces/" + Testing.MARKETPLACE_ID + "/search");
+
+			assertQueryString(resultsUri, {
+				limit: "2",
+				offset: "0",
+				type: "order"
+			}, assert);
+		});
 });

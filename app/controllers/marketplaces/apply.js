@@ -25,6 +25,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	accountTypes: Balanced.BankAccount.ACCOUNT_TYPES,
 
 	actions: {
+		goToHome: function() {
+			this.transitionToRoute('marketplaces');
+		},
+
 		selectType: function(applicationType) {
 			this.get('content').set('applicationType', applicationType);
 
@@ -39,6 +43,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 			model.validate();
 			if (model.get("isValid")) {
+
+				Balanced.Utils.setCurrentMarketplace(null);
+				Balanced.Auth.unsetAPIKey();
 				model.save()
 					.then(function(marketplace) {
 						if (marketplace) {

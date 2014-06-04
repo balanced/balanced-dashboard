@@ -1,7 +1,27 @@
+#header.start, #header.apply {
+  background-color: @gray1;
+  margin: 0;
+
+  #logo {
+    margin: 25px 0 0 90px;
+  }
+}
+
 #main.start {
-  #content {
+  @sidebarWidth: 360px;
+
+  #start-content {
     height: 525px;
-    margin-left: 90px;
+    margin-right: @sidebarWidth;
+  }
+
+  #start-message {
+    padding: 0 180px;
+  }
+
+  #start-sidebar {
+    float: right;
+    width: @sidebarWidth;
   }
   h1 {
     .cssicon(url('../images/welcome.png') -10px -90px, 285px, 110px);
@@ -16,9 +36,11 @@
   }
   .api-key {
     margin-top: 50px;
+    .title, .secret {
+      display: inline-block;
+    }
     .title {
       .sl-sb;
-      float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
@@ -26,18 +48,14 @@
     .secret {
       .sl-code;
       font-size: 12px;
-      float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
       background-color: @white;
     }
   }
-  .span8 {
+  #start-sidebar {
     background-color: @contentBackground;
-    margin-left: 0;
-    width: 360px;
-    max-width: 360px;
     li {
       height: 214px;
       position: relative;
@@ -70,49 +88,37 @@
         color: @white;
       }
       .arrow {
-        position: absolute;
-        top: 0;
+        @font-size: 28px;
         bottom: 0;
+        color: @white;
+        font-size: 24px;
+        line-height: 228px;
+        position: absolute;
         right: 0;
+        text-align: center;
+        top: 0;
         width: 40px;
-        .icon {
-          .cssicon(url('../images/welcome.png') -275px -30px, 10px, 20px);
-          margin: auto;
-          opacity: 0.5;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          left: 0;
-        }
       }
     }
-    .dashboard {
-      background-color: @egyptianBlue60;
+
+    .start-sidebar-item(@bgColorLight, @bgColorDark, @bgPosition) {
+      background-color: @bgColorLight;
       > .icon {
-        background-position: -7px 0;
+        background-position: @bgPosition;
       }
       .arrow {
-        background-color: @egyptianBlue100;
+        background-color: @bgColorDark;
       }
+    }
+
+    .dashboard {
+      .start-sidebar-item(@egyptianBlue60, @egyptianBlue100, -7px 0);
     }
     .documentation {
-      background-color: @curryYellow60;
-      > .icon {
-        background-position: -84px 0;
-      }
-      .arrow {
-        background-color: @curryYellow100;
-      }
+      .start-sidebar-item(@curryYellow60, @curryYellow100, -84px 0);
     }
     .registration {
-      background-color: @forestGreen60;
-      > .icon {
-        background-position: -167px 0;
-      }
-      .arrow {
-        background-color: @forestGreen100;
-      }
+      .start-sidebar-item(@forestGreen60, @forestGreen100, -167px 0);
     }
   }
 }

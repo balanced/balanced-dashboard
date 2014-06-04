@@ -1,41 +1,29 @@
 <nav id="marketplace-nav">
-	<ul>
-		<li>
-			{{#link-to 'activity' model}}
-				<i class="icon-activity"></i>
-				<span>Activity</span>
-			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'logs.index' model}}
-				<i class="icon-logs"></i>
-				<span>Logs</span>
-			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'invoices.index' model}}
-				<i class="icon-invoices"></i>
-				<span>Invoices</span>
-			{{/link-to}}
-		</li>
-		<li>
-			{{#link-to 'marketplace.settings' model}}
-				<i class="icon-settings"></i>
-				<span>Settings</span>
-			{{/link-to}}
-		</li>
-	</ul>
-	<div class="button-groups">
-		{{#link-to 'marketplace.add_customer' class='btn'}}
-			<span>Add a customer</span>
-		{{/link-to}}
-		<a class="btn pay-a-seller" href="#" {{action "openPaySellerModal"}}>
-			<span>Pay a seller</span>
+	<div id="marketplaces" class="dropdown nav">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			<div id="logo"></div>
+			<span id="marketplace-name">
+				{{#if controllers.marketplace.name}}
+					{{controllers.marketplace.name}}
+				{{else}}
+					Marketplaces
+				{{/if}}
+			</span>
+
+			<b class="caret"></b>
 		</a>
-		<a class="btn charge-a-card" href="#" {{action "openChargeCardModal"}}>
-			<span>Charge a card</span>
-		</a>
+		{{partial "marketplaces_list"}}
 	</div>
-	{{view Balanced.PaySellerModalView}}
-	{{view Balanced.ChargeCardModalView}}
+
+	{{#if marketplace}}
+		{{#view Balanced.MarketplaceSidebarView}}
+			<ul class="sidebar">
+				{{#each view.items}}
+					{{view this}}
+				{{/each}}
+			</ul>
+		{{/view}}
+	{{/if}}
+
+	{{partial "_footer"}}
 </nav>

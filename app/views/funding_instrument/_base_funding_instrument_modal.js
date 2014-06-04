@@ -9,17 +9,26 @@ Balanced.FundingInstrumentModalView = Balanced.ModalView.extend({
 	beforeSave: function(model) {
 		var cents = null;
 
+		model.setProperties({
+			validationErrors: undefined,
+			isValid: true
+		});
+
 		try {
 			cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
 		} catch (error) {
-			model.set('validationErrors', {
-				'amount': error
+			model.setProperties({
+				validationErrors: {
+					amount: error
+				},
+				isValid: false
 			});
 
 			return false;
 		}
 
 		model.set('amount', cents);
+		return true;
 	},
 
 	afterSave: function(model) {

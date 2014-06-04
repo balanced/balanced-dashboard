@@ -1,7 +1,7 @@
 {{partial "header"}}
 
 <section id="main" class="container account_security_page">
-	<nav id="marketplace-nav"></nav>
+	{{partial "marketplace_sidebar"}}
 	<div id="content">
 		<div id="account_security" {{bind-attr class=":seperate-page isDisabled:disabled isEnabled:enabled"}}>
 			<h1 class="page-title">Account Security</h1>
@@ -56,5 +56,3 @@
 	</div>
 </section>
 {{disable-auth-modal}}
-
-{{partial "footer"}}

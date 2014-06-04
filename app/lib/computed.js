@@ -67,6 +67,12 @@ Balanced.computed = Ember.Namespace.create({
 		});
 	},
 
+	downcase: function(dependentKey) {
+		return Ember.computed(dependentKey, function() {
+			return (get(this, dependentKey) || "").toLowerCase();
+		});
+	},
+
 	fmt: function() {
 		var formatString = '' + a_slice.call(arguments, -1),
 			properties = a_slice.call(arguments, 0, -1);

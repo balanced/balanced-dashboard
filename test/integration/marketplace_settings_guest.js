@@ -30,7 +30,7 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
 
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
-			assert.equal($dropdown.text().trim().length, 0, 'No Email is shown');
+			assert.equal($dropdown.text().trim(), "Guest user", 'No Email is shown');
 
 			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
 		});
@@ -424,7 +424,7 @@ test('can create cards', function(assert) {
 		.fillForm("#add-card", {
 			name: "TEST",
 			number: "1234123412341234",
-			security_code: "123"
+			cvv: "123"
 		})
 		.then(function() {
 			$('#add-card .modal-body select[name="expiration_month"]').val('1').change();

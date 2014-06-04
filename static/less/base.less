@@ -8,6 +8,19 @@
 * Styles for individual components/pages should go in their own file.
 */
 
+// TODO: find a better way to make the sidebar full height
+html, body {
+  height: 100%;
+}
+
+#balanced-app, #balanced-app > div.ember-view {
+  height: 100%;
+  
+  #main {
+    height: calc(~"100% - 50px");
+  }
+}
+
 body {
   &.light-bg {
     background-color: @contentBackground;

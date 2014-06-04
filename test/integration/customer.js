@@ -5,17 +5,11 @@ module('Customer Page', {
 		Testing.createCard();
 	},
 	teardown: function() {
-		var methods = [
+		Testing.restoreMethods(
 			Balanced.Adapter.create,
 			balanced.bankAccount.create,
 			balanced.card.create
-		];
-
-		methods.forEach(function(method) {
-			if (method.restore) {
-				method.restore();
-			}
-		});
+		);
 	}
 });
 
@@ -32,12 +26,12 @@ test('can edit customer info', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.customer-info a.icon-edit')
-		.fillIn('#edit-customer-info .modal-body input[name="name"]', 'TEST')
-		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
+		.fillIn('#edit-customer-info .modal-body input[name=name]', 'TEST')
+		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Customer));
-			assert.ok(spy.firstCall.args[2].name, 'TEST');
+			assert.equal(spy.firstCall.args[0], Balanced.Customer);
+			assert.equal(spy.firstCall.args[2].name, 'TEST');
 		});
 });
 
@@ -63,7 +57,7 @@ test('can update customer info', function(assert) {
 			dob_year: '1924',
 			ssn_last4: '1234'
 		}, {
-			click: '.modal-footer button[name="modal-submit"]'
+			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
 			var argsObject = {
@@ -110,10 +104,9 @@ test('can update customer info only some fields', function(assert) {
 			country_code: '',
 			postal_code: '',
 			phone: '1231231234'
-		}, {
-			click: '.modal-footer button[name="modal-submit"]'
 		})
-		.click('#edit-customer-info .modal-footer button[name="modal-submit"]')
+		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
+		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Customer));
@@ -138,35 +131,29 @@ test('can debit customer using card', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "create");
 	var fundingInstrumentUri;
 
-	visit(Testing.CUSTOMER_ROUTE).then(function() {
-		// click the debit customer button
-		return click(".customer-header .buttons a.debit-customer");
-	}).then(function() {
-		var options = $("#debit-customer form select[name='source_uri'] option");
-		assert.equal(options.length, 3);
+	visit(Testing.CUSTOMER_ROUTE)
+		.click(".customer-header .buttons a.debit-customer")
+		.then(function() {
+			var options = $("#debit-customer form select[name=source_uri] option");
+			assert.equal(options.length, 3);
+			assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
+			assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
 
-		// bank accounts first
-		assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
-
-		// cards second
-		assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
-
-		// select the card
-		fundingInstrumentUri = options.eq(2).val();
-		$("#debit-customer form select[name='source_uri']").val(fundingInstrumentUri).change();
-		fillIn('#debit-customer .modal-body input[name="dollar_amount"]', '1000');
-		fillIn('#debit-customer .modal-body input[name="description"]', 'Card debit');
-
-		// click debit
-		return click('#debit-customer .modal-footer button[name="modal-submit"]');
-	}).then(function() {
-		// should be one create for the debit
-		assert.ok(spy.calledOnce);
-		assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
-			amount: 100000,
+			fundingInstrumentUri = options.eq(2).val();
+			$("#debit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
+		})
+		.fillForm("#debit-customer", {
+			dollar_amount: "1000",
 			description: "Card debit"
-		})));
-	});
+		})
+		.click('#debit-customer .modal-footer button[name=modal-submit]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
+				amount: 100000,
+				description: "Card debit"
+			})));
+		});
 });
 
 test('can debit customer using bank account', function(assert) {
@@ -174,28 +161,22 @@ test('can debit customer using bank account', function(assert) {
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
-	// click the debit customer button
-	.click($(".customer-header .buttons a").eq(0))
+		.click($(".customer-header .buttons a").eq(0))
+		.checkElements({
+			"#debit-customer form select[name=source_uri] option": 3,
+			"#debit-customer form select[name=source_uri] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
+			"#debit-customer form select[name=source_uri] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
+		}, assert)
 		.then(function() {
-			assert.equal($("#debit-customer form select[name='source_uri'] option").length, 3);
-		})
-		.then(function() {
-			// bank accounts first
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
 
-			// cards second
-			assert.equal($("#debit-customer form select[name='source_uri'] option").eq(1).text(), "Checking account: 5555 Wells Fargo Bank Na");
-
-			// select the bank account
-			fundingInstrumentUri = $("#debit-customer form select[name='source_uri'] option").eq(0).val();
-			$("#debit-customer select[name='source_uri']").val(fundingInstrumentUri);
-
+			fundingInstrumentUri = $("#debit-customer form select[name=source_uri] option").eq(0).val();
+			$("#debit-customer select[name=source_uri]").val(fundingInstrumentUri);
 		})
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
 		}, {
-			click: '.modal-footer button[name="modal-submit"]'
+			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
 			assert.ok(spy.calledOnce);
@@ -215,10 +196,10 @@ test("can't debit customer multiple times using the same modal", 4, function(ass
 			dollar_amount: '1000',
 			description: 'Test debit'
 		})
-		.click('#debit-customer .modal-footer button[name="modal-submit"]')
-		.click('#debit-customer .modal-footer button[name="modal-submit"]')
-		.click('#debit-customer .modal-footer button[name="modal-submit"]')
-		.click('#debit-customer .modal-footer button[name="modal-submit"]')
+		.click('#debit-customer .modal-footer button[name=modal-submit]')
+		.click('#debit-customer .modal-footer button[name=modal-submit]')
+		.click('#debit-customer .modal-footer button[name=modal-submit]')
+		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.deepEqual(stub.firstCall.args[0], Balanced.Debit, "Creates a Balanced.Debit");
@@ -236,7 +217,7 @@ test("debit customer triggers reload of transactions", function(assert) {
 			dollar_amount: '1000',
 			description: 'Test debit'
 		}, {
-			click: '.modal-footer button[name="modal-submit"]'
+			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Transaction));
@@ -262,21 +243,21 @@ test('can credit to a debit card', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
 		.then(function() {
-			var option = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
-			$("#credit-customer form select[name=source_uri]").val(option).change();
+			var fundingInstrumentUri = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
+			$("#credit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
+		})
+		.then(function() {
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 1111 Visa");
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 5556 Visa");
 		})
 		.fillForm('#credit-customer', {
 			dollar_amount: '1',
 			description: 'Test credit to a debit card'
 		}, {
-			click: '.modal-footer button[name="modal-submit"]'
+			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
 			assert.ok(spy.calledOnce, "Create was called once");
-			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 1111 Visa");
-			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 5556 Visa");
-			fundingInstrumentUri = $("#credit-customer form select[name='source_uri']").val();
-
 			assert.equal(spy.firstCall.args[0], Balanced.Credit);
 			assert.equal(spy.firstCall.args[1], fundingInstrumentUri + '/credits');
 
@@ -292,14 +273,10 @@ test('when crediting customer triggers an error, the error is displayed to the u
 			dollar_amount: '10000',
 			description: 'Test credit'
 		}, {
-			click: '.modal-footer button[name="modal-submit"]'
+			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			Testing.stop();
-			Ember.run.next(function() {
-				Testing.start();
-				assert.equal($('.alert-error').is(':visible'), true);
-			});
+			assert.equal($('.alert-error').is(':visible'), true);
 		});
 });
 
@@ -312,13 +289,12 @@ test("can't credit customer multiple times using the same modal", function(asser
 			dollar_amount: '1000',
 			description: 'Test credit'
 		})
-		.click('#credit-customer .modal-footer button[name="modal-submit"]')
-		.click('#credit-customer .modal-footer button[name="modal-submit"]')
-		.click('#credit-customer .modal-footer button[name="modal-submit"]')
-		.click('#credit-customer .modal-footer button[name="modal-submit"]')
+		.click('#credit-customer .modal-footer button[name=modal-submit]')
+		.click('#credit-customer .modal-footer button[name=modal-submit]')
+		.click('#credit-customer .modal-footer button[name=modal-submit]')
+		.click('#credit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.deepEqual(stub.callCount, 1, "Create is created only once");
-			stub.restore();
 		});
 });
 
@@ -394,7 +370,7 @@ test('can add card', function(assert) {
 			number: '1234123412341234',
 			expiration_month: 1,
 			expiration_year: 2020,
-			security_code: '123',
+			cvv: '123',
 			name: 'TEST'
 		})
 		.click('#add-card .modal-footer button[name="modal-submit"]')
@@ -420,7 +396,7 @@ test('can add card with postal code', function(assert) {
 		number: '1234123412341234',
 		expiration_month: 1,
 		expiration_year: 2020,
-		security_code: '123',
+		cvv: '123',
 		name: 'TEST',
 		postal_code: '94612'
 	};
@@ -466,7 +442,7 @@ test('can add card with address', function(assert) {
 		number: '1234123412341234',
 		expiration_month: 1,
 		expiration_year: 2020,
-		security_code: '123',
+		cvv: '123',
 		name: 'TEST',
 		postal_code: '94612',
 		line1: '600 William St',

@@ -37,7 +37,7 @@ test('payment success', function(assert) {
 	visit(Testing.INITIAL_DEPOSIT_ROUTE)
 		.fillForm({
 			number: '4111111111111111',
-			security_code: '1234',
+			cvv: '1234',
 			expiration_month: '12',
 			expiration_year: '2020'
 		}, {
@@ -56,9 +56,8 @@ test('cancel', function(assert) {
 			var $skipButton = $('button:contains("Skip")');
 			assert.equal($skipButton.length, 1, 'skip button exists');
 		})
+		.click('button:contains("Skip")')
 		.then(function() {
-
-			click('button:contains("Skip")');
-			assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
+			assert.equal($('.page-title').text().trim(), 'Transactions', 'title is correct');
 		});
 });

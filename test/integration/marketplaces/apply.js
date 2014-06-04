@@ -13,7 +13,7 @@ module('Balanced.Marketplaces.apply', {
 test('we are on the correct page', function(assert) {
 	visit(Testing.APPLY_ROUTE)
 		.then(function() {
-			assert.equal($('#marketplace-apply h1').text(), 'Apply for a Production Marketplace');
+			assert.equal($('#marketplace-apply h1').text(), 'Apply for a production marketplace');
 		});
 });
 
@@ -44,12 +44,12 @@ test('basic form validation and terms and conditions', function(assert) {
 		})
 		.click(submitButtonQuery)
 		.then(function() {
-			assert.equal($('.control-group.error').length, 13, 'expected error fields highlighted');
+			assert.equal($('.control-group.error').length, 15, 'expected error fields highlighted');
 		})
 		.click('#terms-and-conditions')
 		.click(submitButtonQuery)
 		.then(function() {
-			assert.equal($('.control-group.error').length, 12, 'expected error fields highlighted but not t&c');
+			assert.equal($('.control-group.error').length, 14, 'expected error fields highlighted but not t&c');
 		});
 });
 

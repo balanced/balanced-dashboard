@@ -1,11 +1,24 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :initiated :date view.hideDateSort::sortable" field="initiated_at"}}<span>Date Initiated</span>{{/view}}
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :label6a :respond-by :date view.hideDateSort::sortable" field="respond_by"}}<span>Respond By</span>{{/view}}
-		<th class="span4 label6a status"><span>Status</span></th>
-		<th class="span3 label6a account"><span>Customer</span></th>
-		<th class="span4 label6a funding-instrument"><span>Card or Bank Account</span></th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span2 label6a amount sortable num" field="amount"}}<span>Amount</span>{{/view}}
+		<th class="span3 label6a initiated date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="initiated_at"}}<span>Date initiated</span>{{/view}}</th>
+		<th class="span3 label6a respond-by date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="respond_by"}}<span>Respond by</span>{{/view}}</th>
+		<th class="span3 label6a status has-filter">
+			<div class="dropdown filter">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span>Status</span>
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu status-filter filter-choices">
+					<li><a href="#" {{action "changeDisputeStatusFilter" "all"}}>All</a></li>
+					<li><a href="#" {{action "changeDisputeStatusFilter" "pending"}}> Pending </a></li>
+					<li><a href="#" {{action "changeDisputeStatusFilter" "won"}}> Won </a></li>
+					<li><a href="#" {{action "changeDisputeStatusFilter" "lost"}}> Lost </a></li>
+				</ul>
+			</div>
+		</th>
+		<th class="span4 label6a account"><span>Customer</span></th>
+		<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
+		<th class="span2 label6a amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="amount"}}<span>Amount</span>{{/view}}</th>
 	</tr>
 </thead>
 
@@ -18,7 +31,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a class="btn secondary" {{action "loadMore" view.disputes}}>Load more</a>
+					<a class="btn sm secondary" {{action "loadMore" view.disputes}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -44,20 +57,30 @@
 					</time>
 				</span>{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span4 :label4a :type dispute.status"}}>
+			<td {{bind-attr class=":span3 :label4a :type dispute.status"}}>
 				{{#link-to dispute.route_name dispute}}<span>
 					<span class="dot"></span>
 					{{dispute.status_name}}
 				</span>{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
-				{{#link-to dispute.route_name dispute}}<span>
-					{{dispute.customer_name_summary}}
-				</span>{{/link-to}}
+				{{#link-to dispute.route_name dispute}}
+					{{#if dispute.customer_display_me}}
+						<span class="primary">{{dispute.customer_display_me}}</span>
+						{{#if dispute.customer_email}}
+							<span class="secondary">{{dispute.customer_email}}</span>
+						{{/if}}
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
+					<!-- {{dispute.customer_name_summary}} -->
+				{{/link-to}}
 			</td>
 			<td class="span3 funding-instrument">
-				{{#link-to dispute.route_name dispute}}<span>
-					{{dispute.funding_instrument_description}}
+				{{#link-to dispute.route_name dispute}}
+				<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
+					<span class="primary">{{dispute.last_four}} {{dispute.funding_instrument_name}}</span>
+					<span class="secondary">{{dispute.funding_instrument_type}}</span>
 				</span>{{/link-to}}
 			</td>
 			<td class="span2 amount num">

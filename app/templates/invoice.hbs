@@ -1,4 +1,4 @@
-<h1>Invoice #{{sequence_number}}</h1>
+<h1>Statement #{{sequence_number}}</h1>
 
 <div id="invoice">
 	<section class="customer-info clearfix">
@@ -92,7 +92,7 @@
 				<div class="invoice-balance-due-box">
 					<div class="row-fluid">
 						<div class="span2 label">
-							<div class="icon">Invoice</div>
+							<div class="icon">Statement</div>
 						</div>
 						<div class="amount">
 							<span class="number1d">
@@ -169,6 +169,13 @@
 					<td class="span7"><span>{{formatCurrency bank_account_credit_fee}} per credit</span></td>
 					<td class="span3 total number3a"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
 				</tr>
+				<tr class="push-to-card-details-row">
+					<td class="span4 label4a"><span>Push to card</span></td>
+					<td class="span2"><span>{{formatNumber card_credit_count}}</span></td>
+					<td class="span6"><span>{{formatCurrency card_credits_total_amount}}</span></td>
+					<td class="span7"><span>{{formatCurrency card_credit_fee}} per push to card</span></td>
+					<td class="span3 total number3a"><span>{{formatCurrency card_credits_total_fee}}</span></td>
+				</tr>
 				<tr class="failed-credit-details-row">
 					<td class="span4 label4a"><span>Credits: failed</span></td>
 					<td class="span2"><span>{{formatNumber failed_credits_count}}</span></td>
@@ -197,13 +204,7 @@
 					<td class="span7"><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
 					<td class="span3 total number3a"><span>{{formatCurrency disputes_total_fee}}</span></td>
 				</tr>
-				<tr class="push-to-card-details-row">
-					<td class="span4 label4a"><span>Push to card</span></td>
-					<td class="span2"><span>{{formatNumber card_credit_count}}</span></td>
-					<td class="span6"><span>{{formatCurrency card_credits_total_amount}}</span></td>
-					<td class="span7"><span>{{formatCurrency card_credit_fee}} per push to card</span></td>
-					<td class="span3 total number3a"><span>{{formatCurrency card_credits_total_fee}}</span></td>
-				</tr>
+
 			</tbody>
 			<tfoot>
 				<tr class="subtotal-row">
@@ -229,14 +230,14 @@
 				</thead>
 				<tbody>
 					{{#each adjustment in model.adjustments}}
-					<tr class="row">
+					<tr>
 						<td class="span18 label4a"><span>{{adjustment.description}}</span></td>
 						<td class="span2 total number3a"><span>{{formatCurrency adjustment.amount}}</span></td>
 					</tr>
 					{{/each}}
 				</tbody>
 				<tfoot>
-					<tr class="adjustments-row row">
+					<tr class="adjustments-row">
 						<td class="span18 label4a"><span>Total Adjustments</span></td>
 						<td class="span2 total number3a"><span>{{formatCurrency adjustments_total_fee}}</span></td>
 					</tr>

@@ -8,9 +8,11 @@
 				<div {{bind-attr class=":icon customer.is_business:business-info:person-info"}}>Customer</div>
 			</div>
 			<div class="span18 title label7a">
-				<span>
-					{{#link-to 'customers' customer class="linky"}}{{customer.display_me_with_email}}{{/link-to}}
-				</span>
+				{{#if customer}}
+					<span>{{#link-to customer.route_name customer class="linky"}}{{customer.display_me_with_email}}{{/link-to}}</span>
+				{{else}}
+					<span class="none">None</span>
+				{{/if}}
 			</div>
 		</div>
 	</div>

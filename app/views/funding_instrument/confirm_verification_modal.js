@@ -9,8 +9,9 @@ Balanced.ConfirmVerificationModalView = Balanced.ModalView.extend({
 		this._super(this.get('funding_instrument.verification'));
 	},
 
-	errorSaving: function(verification) {
-		if (verification.get('errorStatusCode') === 409) {
+	errorSaving: function(error) {
+		var verification = this.get('funding_instrument.verification');
+		if (verification.get('errorCategoryCode') === "bank-account-authentication-failed") {
 			this.set('failedConfirmation', true);
 		}
 

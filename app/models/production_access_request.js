@@ -1,8 +1,15 @@
+var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
+var isBlank = function(value) {
+	return $.trim(value).length === 0;
+};
+
 var getErrorCategoryCode = function(error) {
 	if (error.errors && error.errors[0]) {
 		return error.errors[0].category_code;
 	} else if (error.description) {
 		return error.description;
+	} else if (error.email_address && error.email_address[0] === "Email address already exists") {
+		return ERROR_CATEGORY_EMAIL_EXISTS;
 	} else {
 		return "UNKNOWN CATEGORY";
 	}
@@ -13,9 +20,17 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	isBusiness: Ember.computed.equal("applicationType", "BUSINESS"),
 	isType: Ember.computed.or("isPerson", "isBusiness"),
 
+	isCreateUserAccount: function() {
+		var result = Balanced.Auth.get('isGuest');
+		return result === undefined || result;
+	},
+
 	getErrorObject: function() {
 		var self = this;
 		var props = this.getProperties(
+
+			'claimEmailAddress',
+
 			"businessName",
 			"employerIdentificationNumber",
 			"personName",
@@ -51,8 +66,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			props[fieldName] = message;
 		};
 
+		hideField("claimPassword");
 		hideField("socialSecurityNumber");
 		hideField("bankAccountNumber");
+		hideField("employerIdentificationNumber");
 
 		return props;
 	},
@@ -104,7 +121,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		};
 
 		setOptionalValue(attributes, "businessName", "name");
-		setOptionalValue(attributes, "employerIdentificationNumber", "ein");
+		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
 		return attributes;
 	},
 
@@ -114,6 +131,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			this.getPersonApiKeyAttributes();
 
 		return Balanced.APIKey.create({
+			production: true,
 			merchant: attributes
 		}).save();
 	},
@@ -171,8 +189,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			account_number: this.get('bankAccountNumber'),
 			account_type: this.get('bankAccountType').toLowerCase()
 		});
-		object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
-		return object.save();
+		return object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
 	},
 
 	saveVerification: function(bankAccount) {
@@ -202,9 +219,14 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	handleSaveError: function(error) {
 		var message = "There was an unknown error creating your Marketplace. We have logged an error and will look into it. Please try again.";
+		var category = getErrorCategoryCode(error);
 
-		if (error.description === "Person KYC failed.") {
+		if (category === "Person KYC failed." || category === "Business principal failed KYC.") {
 			message = "We could not verify your identity. Please check your information again and resubmit.";
+		} else if (category === "marketplace-already-created") {
+			message = "A marketplace has already been created with this information. If you cannot access it please contact support at support@balancedpayments.com";
+		} else if (category === ERROR_CATEGORY_EMAIL_EXISTS) {
+			message = "An account with that email address already exists. Please log-in first.";
 		}
 
 		this.requestErrors.addObject({
@@ -219,10 +241,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	createMarketplace: function() {
 		var self = this;
 		var apiKeySecret, marketplace;
+
 		return self
 			.saveUser()
 			.then(function(response) {
-				Balanced.Auth.unsetAPIKey();
 				return self.saveApiKey();
 			})
 			.then(function(response) {
@@ -233,6 +255,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			.then(function(mp) {
 				self.set("marketplace", mp);
 				marketplace = mp;
+				self.logSaveMessage("MarketplaceCreated");
 				return self.saveUserMarketplace(apiKeySecret);
 			})
 			.then(function() {
@@ -299,6 +322,26 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	},
 
 	validations: {
+
+		employerIdentificationNumber: {
+			presence: {
+				validator: function(object, attribute, value) {
+					if (object.get("isBusiness") && isBlank(value)) {
+						object.get('validationErrors').add(attribute, 'blank');
+					}
+				}
+			}
+		},
+		businessName: {
+			presence: {
+				validator: function(object, attribute, value) {
+					if (object.get("isBusiness") && isBlank(value)) {
+						object.get('validationErrors').add(attribute, 'blank');
+					}
+				}
+			}
+		},
+
 		personName: {
 			presence: true,
 		},
@@ -378,16 +421,17 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		claimEmailAddress: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (Balanced.Auth.get('isGuest') && !value) {
+					if (object.isCreateUserAccount() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
 			}
 		},
+
 		claimPassword: {
 			presence: {
 				validator: function(object, attribute, value) {
-					if (Balanced.Auth.get('isGuest') && !value) {
+					if (object.isCreateUserAccount() && !value) {
 						object.get('validationErrors').add(attribute, 'blank');
 					}
 				}
