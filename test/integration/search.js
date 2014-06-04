@@ -28,7 +28,7 @@ test('search results show and hide', function(assert) {
 		});
 });
 
-test('search results hide on click [x]', function(assert) {
+test('search results hide when backdrop is clicked', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
@@ -37,10 +37,7 @@ test('search results hide on click [x]', function(assert) {
 			"#search.with-results": 1,
 			"body.overlaid": 1
 		}, assert)
-		.click('#search .search-close')
-		.then(function() {
-			assert.equal($('#q').val(), '', "Search query is reset");
-		})
+		.click('#search .modal-backdrop')
 		.checkElements({
 			"#search.with-results": 0,
 			"body.overlaid": 0
@@ -101,39 +98,17 @@ test('search date range pick', function(assert) {
 });
 
 test('search date sort has three states', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
+	var objectPath = "#search .results th.date .sortable";
 
-		var objectPath = "#search .results th.date";
-		var states = [];
-		var getState = function() {
-			if ($(objectPath).hasClass("unsorted")) {
-				if ($.inArray("unsorted", states) === -1) {
-					states.push("unsorted");
-				}
-			} else if ($(objectPath).hasClass("ascending")) {
-				if ($.inArray("ascending", states) === -1) {
-					states.push("ascending");
-				}
-			} else if ($(objectPath).hasClass("descending")) {
-				if ($.inArray("descending", states) === -1) {
-					states.push("descending");
-				}
-			}
-		};
-
-		var count = 0;
-		var testAmount = 5;
-		while (count !== testAmount) {
-			$(objectPath).click();
-			getState();
-			count++;
-		}
-		states.sort();
-
-		var expectedStates = ["ascending", "descending"];
-		assert.equal(states[0], expectedStates[0]);
-		assert.equal(states[1], expectedStates[1]);
-		assert.equal(states.length, 2);
-	});
+	visit(Testing.MARKETPLACE_ROUTE)
+		.then(function() {
+			Testing.runSearch('%');
+		})
+		.then(function() {
+			assert.ok($(objectPath).is(".descending"), "Search defaults to descending");
+		})
+		.click(objectPath)
+		.then(function() {
+			assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+		});
 });

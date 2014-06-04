@@ -1,6 +1,6 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView classBinding=":span3 :date view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span3 date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
 		<th class="span2 type has-filter">
 			<div class="dropdown filter">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -35,7 +35,7 @@
 		<th class="span4 description"><span>Description</span></th>
 		<th class="span3 account"><span>Customer</span></th>
 		<th class="span3 funding-instrument"><span>Payment method</span></th>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 amount unsorted num" field="amount"}}<span>Amount</span>{{/view}}
+		<th class="span3 amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="amount"}}<span>Amount</span>{{/view}}</th>
 	</tr>
 </thead>
 

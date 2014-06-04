@@ -102,17 +102,6 @@ header.results-label h3 {
     }
   }
 
-  td {
-    span.date {
-      display: inline-block;
-
-      &.em-dash {
-        vertical-align: top;
-        margin: 0 6px;
-      }
-    }
-  }
-
   td.status {
     text-transform: capitalize;
 
@@ -122,7 +111,7 @@ header.results-label h3 {
       width: 8px;
       height: 8px;
       border-radius:100%;
-      margin-right: 3px;
+      margin-right: 6px;
     }
 
     .succeeded, .captured, .created, .won, .paid {
@@ -137,8 +126,10 @@ header.results-label h3 {
       }
     }
 
-    .pending:before {
-      background-color: @curryYellow80;
+    .pending, .scheduled {
+      &:before {
+        background-color: @curryYellow80;
+      }
     }
 
     .representment:before {
@@ -160,8 +151,23 @@ header.results-label h3 {
   }
 
   .sortable {
+    line-height: 51px;
+    display: inline-block;
+    padding: 0 10px;
+
+    & > span {
+      .sl-sm-sb;
+      color: @gray6;
+      line-height: 35px;
+    }
+
     &:hover {
       cursor: pointer;
+      background-color: @gray2;
+
+      > span {
+        color: @black;
+      }
     }
     &:after {
       font-family: 'Balanced-Icon';
