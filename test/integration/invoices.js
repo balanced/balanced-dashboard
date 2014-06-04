@@ -7,7 +7,7 @@ module('Invoices', {
 	teardown: function() {}
 });
 
-test('can visit page', function(assert) {
+asyncTest('can visit page', 2, function(assert) {
 	var invoicesController = Balanced.__container__.lookup('controller:marketplace_invoices');
 	invoicesController.reopen({
 		minDate: moment('8/1/2013').startOf('day').toDate(),
@@ -18,7 +18,10 @@ test('can visit page', function(assert) {
 		.checkElements({
 			"#content h1": "Account statements",
 			"#invoices table tbody tr": 20
-		}, assert);
+		}, assert)
+		.then(function() {
+			start();
+		});
 });
 
 test('invoice detail page', function(assert) {
