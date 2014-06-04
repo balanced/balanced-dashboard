@@ -1,8 +1,4 @@
-Balanced.BankAccountsIndexRoute = Balanced.AuthRoute.extend({
-	redirect: function() {
-		this.transitionTo('activity.funding_instruments', this.modelFor('marketplace'));
-	}
-});
+Balanced.BankAccountsIndexRoute = Balanced.RedirectRoute('activity.funding_instruments');
 
 Balanced.BankAccountsRoute = Balanced.ModelControllerRoute.extend({
 	title: 'Bank Account',

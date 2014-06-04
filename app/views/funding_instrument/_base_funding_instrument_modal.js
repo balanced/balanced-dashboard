@@ -28,6 +28,7 @@ Balanced.FundingInstrumentModalView = Balanced.ModalView.extend({
 		}
 
 		model.set('amount', cents);
+		return true;
 	},
 
 	afterSave: function(model) {

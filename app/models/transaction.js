@@ -22,13 +22,31 @@ Balanced.Transaction = Balanced.Model.extend(
 		customer_name_summary: function() {
 			if (this.get('customer')) {
 				return this.get('customer.display_me_with_email');
-			} else {
-				return 'None';
+			}
+		}.property('customer'),
+
+		customer_display_me: function() {
+			if (this.get('customer')) {
+				return this.get('customer.display_me');
+			}
+		}.property('customer'),
+
+		customer_email: function() {
+			if (this.get('customer')) {
+				return this.get('customer.email');
 			}
 		}.property('customer'),
 
 		page_title: Balanced.computed.orProperties('description', 'id'),
 		events_uri: Balanced.computed.concat('uri', '/events'),
+
+		dasherized_funding_instrument_type: function() {
+			if (this.get('funding_instrument_type')) {
+				return Ember.String.dasherize(this.get('funding_instrument_type'));
+			} else {
+				return '';
+			}
+		}.property('funding_instrument_type'),
 
 		status_description: function() {
 			if (this.get('is_failed')) {

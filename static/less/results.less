@@ -3,274 +3,155 @@ header.results-label h3 {
 }
 
 .results {
-  header {
-    background-color: @white;
-    height: 60px;
-    margin-bottom: 25px;
 
-    nav.search-table {
-        padding: 0 10px;
-    }
-
-    .date-row {
-      margin-bottom: 20px;
-    }
-
-    nav li {
-      &.filter {
-        .sl-md;
-        display: block;
-        float: left;
-        border-bottom: @searchBorderWidth solid transparent;
-        margin-right: 9px;
-        margin-bottom: 9px;
-        color: @gray4;
-      }
-
-      &.filter:first-of-type {
-        a {
-          padding-left: 0;
-        }
-
-        &:before {
-          content: ' ';
-        }
-      }
-
-      &.filter:before {
-        content: '/';
-      }
-
-      &.filter > a {
-        .sl;
-        text-decoration: none;
-        display: inline-block;
-
-        &:hover {
-          color: @black;
-        }
-
-        &:active {
-          color: @black;
-        }
-
-        &.dropdown-toggle {
-          padding: 4px 2px 0;
-          display: inline-block;
-          margin: 0;
-        }
-      }
-
-      > a {
-        padding: 0 5px;
-        white-space: pre;
-
-        &:hover {
-          border-bottom: @searchBorder;
-          color: @black;
-        }
-      }
-      &.selected {
-        > a {
-          border-bottom: @searchBorder;
-          color: @black;
-
-          &:hover {
-            cursor: default;
-          }
-        }
-      }
-      &.disabled {
-        color: @gray6;
-        border-bottom-color: transparent;
-        .selector {
-          display: none;
-        }
-      }
-      &.disabled.selected {
-        > a {
-          border-bottom: @searchBorder;
-        }
-      }
-      &.download {
-        float: right;
-        margin: 0;
-
-        a {
-          padding-left: 0;
-        }
-
-        &:hover {
-          border-bottom: 0;
-        }
-      }
-    }
-  }
-
-  table.items {
-    table-layout:fixed;
-    width: 100%;
-    &.logs {
-      margin-top: 50px;
-    }
-
-    tfoot {
-      td.load-more-results {
-        padding: 12px 25px;
-        text-align: center;
-
-        a {
-          cursor: pointer;
-          display: inline-block;
-        }
-      }
-    }
-
-    th {
-      float: none;
-      box-sizing: border-box;
+  .search-filters-header {
       padding: 0 10px;
-      background-color: @gray1;
-      border-bottom: 1px solid @gray2;
+  }
 
-      &:first-child {
-        padding-left: 25px;
+  .logs-filters-header {
+      margin-bottom: 10px;
+  }
+
+  nav > ul > li {
+    &.filter {
+      .sl-md;
+      display: block;
+      float: left;
+      border-bottom: @searchBorderWidth solid transparent;
+      margin-right: 9px;
+      margin-bottom: 9px;
+      color: @gray4;
+    }
+
+    &.filter:first-of-type {
+      a {
+        padding-left: 0;
       }
 
-      &:last-child {
-        padding-right: 25px;
-
-        &.sortable {
-          padding-right: 5px;
-        }
-      }
-
-      > span {
-        .sl-sm-sb;
-        color: @black;
-        text-transform: uppercase;
-        line-height: 35px;
-      }
-
-      &.type, &.status {
-        padding: 0;
+      &:before {
+        content: ' ';
       }
     }
 
-    tbody {
-      tr {
-        border-bottom: 1px solid @gray2;
+    &.filter:before {
+      content: '/';
+    }
+
+    &.filter > a {
+      .sl;
+      text-decoration: none;
+      display: inline-block;
+
+      &:hover {
+        color: @black;
+      }
+
+      &:active {
+        color: @black;
+      }
+
+      &.dropdown-toggle {
+        padding: 4px 2px 0;
+        display: inline-block;
+        margin: 0;
+      }
+    }
+
+    > a {
+      padding: 0 5px;
+      white-space: pre;
+
+      &:hover {
+        border-bottom: @searchBorder;
+        color: @black;
+      }
+    }
+    &.selected {
+      > a {
+        border-bottom: @searchBorder;
+        color: @black;
 
         &:hover {
-          cursor: pointer;
-          background-color: @gray1;
-
-          .no-results {
-            background-color: @white;
-          }
-        }
-
-        td {
-          padding: 0 10px;
-
-          &:first-child {
-            padding-left: 25px;
-          }
-
-          &:last-child {
-            padding-right: 25px;
-          }
-
-          &.no-results {
-            padding: 12px 15px 12px 25px;
-            font-style: italic;
-            cursor: default;
-          }
-
-          a {
-            display: block;
-            height: 100%;
-            width: 100%;
-            text-decoration: none;
-
-            span {
-              padding: 0;
-              display: block;
-              line-height: 46px;
-            }
-            &:link, &:visited, &:hover, &:active {
-              .sl;
-              color: @textColor;
-            }
-          }
-
-          &.date, &.funding-instrument {
-             > a > span {
-              padding-top: 4px !important;
-              padding-bottom: 2px !important;
-             }
-
-          }
-
-           &.date .secondary {
-              text-transform: lowercase;
-           }
-
-          .primary {
-            line-height: 16px;
-            padding: 4px 0 1px !important;
-          }
-
-          .secondary {
-            .sl-sm;
-            line-height: 14px;
-            color: @gray4;
-            padding: 1px 0 4px !important;
-          }
-        }
-
-        td.label4a {
-          a {
-            &:link, &:visited, &:hover, &:active {
-              color: @black;
-            }
-          }
-          &.black {
-            color: @black;
-          }
+          cursor: default;
         }
       }
     }
-    .highlight {
-      background-color: #b3d1d5;
+    &.disabled {
+      color: @gray6;
+      border-bottom-color: transparent;
+      .selector {
+        display: none;
+      }
+    }
+    &.disabled.selected {
+      > a {
+        border-bottom: @searchBorder;
+      }
+    }
+    &.download {
+      float: right;
+      margin: 0;
+
+      a {
+        padding-left: 0;
+      }
+
+      &:hover {
+        border-bottom: 0;
+      }
     }
   }
 
-  td, span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  td {
+    span.date {
+      display: inline-block;
+
+      &.em-dash {
+        vertical-align: top;
+        margin: 0 6px;
+      }
+    }
   }
 
-  .date {
+  td.status {
+    text-transform: capitalize;
 
+    span:before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius:100%;
+      margin-right: 3px;
+    }
+
+    .succeeded, .captured, .created, .won, .paid {
+      &:before {
+        background-color: @pineGreen80;
+      }
+    }
+
+    .failed, .expired, lost {
+      &:before {
+        background-color: @imperialRed80;
+      }
+    }
+
+    .pending:before {
+      background-color: @curryYellow80;
+    }
+
+    .representment:before {
+      background-color: @byzantiumPurple80;
+    }
   }
 
-  .type {
-
+  td.endpoint {
+    span {
+      text-transform: capitalize;
+    }
   }
-  .description {
 
-  }
-  .account {
-
-  }
-  .funding-instrument {
-
-  }
-  .amount {
-
-  }
   .num, .align-right {
     text-align: right;
   }
@@ -283,35 +164,27 @@ header.results-label h3 {
       cursor: pointer;
     }
     &:after {
-      display: inline-block;
-      content: ' ';
-      width: 14px;
-      height: 14px;
-      background: @iconsFile -18px -218px no-repeat;
-      margin-left: 8px;
-      margin-top: 10px;
-      vertical-align: top;
+      font-family: 'Balanced-Icon';
+      &:extend(.icon-sort-none:before);
+      color: @gray3;
+      margin-left: 5px;
+      vertical-align: sub;
     }
     &.ascending {
       &:after {
-        background-position: -68px -218px;
+        font-family: 'Balanced-Icon';
+        &:extend(.icon-sort-ascending:before);
+        color: @gray6;
       }
     }
     &.descending {
       &:after {
-        background-position: -118px -218px;
+        font-family: 'Balanced-Icon';
+        &:extend(.icon-sort-descending:before);
+        color: @gray6;
       }
     }
   }
-
-   .filter-status-rollup {
-        margin-right: 15px;
-        margin-top: 10px;
-
-        label {
-            color: @black;
-        }
-   }
 
   .timing {
     border-bottom: 0;
@@ -509,4 +382,15 @@ header.results-label h3 {
       width: 100px;
     }
   }
+}
+
+.datetime-picker {
+  display: inline-block;
+  margin-bottom: 20px;
+
+  [class^="icon-"] {
+    font-size: 18px;
+    color: @gray4;
+    vertical-align: text-bottom;
+ }
 }

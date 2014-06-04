@@ -1,9 +1,9 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Created</span>{{/view}}
-		<th class="span3 label6a name"><span>Customer Name</span></th>
-		<th class="span3 label6a name"><span>Business Name</span></th>
-		<th class="span6 label6a email"><span>Email</span></th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span3 label6a name"><span>Customer</span></th>
+		<th class="span3 label6a name"><span>Business</span></th>
+		<th class="span6 label6a email"><span>Recent payment method</span></th>
 	</tr>
 </thead>
 
@@ -16,7 +16,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a class="btn secondary" {{action "loadMore" view.customers}}>Load more</a>
+					<a class="btn sm secondary" {{action "loadMore" view.customers}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -26,10 +26,10 @@
 <tbody>
 	{{#each customer in view.customers}}
 		<tr>
-			{{view Balanced.LinkedDateCellView routeName="customers" date=customer.created_at item=customer classNames="span3"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.display_me classNames="span3 name"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.business_name classNames="span3 business_name"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.email classNames="span3 email"}}
+			{{view Balanced.LinkedDateCellView routeName=customer.route_name date=customer.created_at item=customer classNames="span3"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.display_me classNames="span3 name"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.business_name classNames="span3 business_name"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.email classNames="span3 email"}}
 		</tr>
 	{{else}}
 		<tr>

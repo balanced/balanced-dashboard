@@ -1,10 +1,11 @@
 Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 	defaultSort: 'created_at',
+	controllerName: 'activity',
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		var activityController = this.controllerFor('activity');
+		var activityController = this.controllerFor(this.get('controllerName'));
 		var defaultSort = this.get('defaultSort');
 		if (defaultSort && defaultSort !== activityController.get('sortField')) {
 			activityController.set('sortField', defaultSort);
@@ -21,34 +22,22 @@ Balanced.ActivityRoute = Balanced.AuthRoute.extend({
 	}
 });
 
-Balanced.ActivityIndexRoute = Balanced.ActivityRoute.extend({
-	redirect: function() {
-		this.transitionTo('activity.transactions', this.modelFor('marketplace'));
-	}
-});
-
 Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
-	defaultType: 'order'
+	pageTitle: 'Orders',
+	defaultType: 'order',
+	controllerName: 'activity_orders'
 });
 
 Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
-	defaultType: 'transaction'
+	pageTitle: 'Transactions',
+	defaultType: 'transaction',
+	controllerName: 'activity_transactions'
 });
 
-Balanced.ActivityDisputesRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
-	defaultType: 'dispute',
-	defaultSort: 'initiated_at'
-});
+Balanced.MarketplaceRedirectActivityTransactionsRoute = Balanced.RedirectRoute("activity.transactions");
+Balanced.MarketplaceRedirectActivityOrdersRoute = Balanced.RedirectRoute("activity.orders");
+Balanced.MarketplaceRedirectActivityCustomersRoute = Balanced.RedirectRoute('marketplace.customers');
+Balanced.MarketplaceRedirectActivityFundingInstrumentsRoute = Balanced.RedirectRoute('marketplace.funding_instruments');
+Balanced.MarketplaceRedirectActivityDisputesRoute = Balanced.RedirectRoute('marketplace.disputes');
 
-Balanced.ActivityCustomersRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
-	defaultType: 'customer'
-});
-
-Balanced.ActivityFundingInstrumentsRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Activity',
-	defaultType: 'funding_instrument'
-});
+Balanced.ActivityIndexRoute = Balanced.RedirectRoute('activity.transactions');

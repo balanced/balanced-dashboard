@@ -1,3 +1,13 @@
-{{partial "header"}}
-{{outlet}}
-{{partial "footer"}}
+<section id="main" class="container marketplaces">
+	{{#if isApplyPage}}
+		{{partial "header"}}
+		{{outlet}}
+	{{else}}
+		{{partial "marketplace_sidebar"}}
+		{{partial "header"}}
+		<div id="content">
+			{{partial "alert"}}
+			{{outlet}}
+		</div>
+	{{/if}}
+</section>

@@ -11,6 +11,15 @@
 .daterangepicker.dropdown-menu {
   max-width: none;
   z-index: 3000;
+  .sl;
+  position: absolute;
+  padding: 5px 0 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: @white;
+  text-align: left;
+  .box-shadow(0px, 2px, 3px, @gray2);
 }
 
 .daterangepicker.opensleft .calendar {
@@ -94,7 +103,7 @@
   .border-radius(0);
 
   .calendars {
-    margin: 0 25px;
+    margin: 0 16px;
   }
 
   hr {
@@ -305,36 +314,6 @@ li.ui-timepicker-selected .ui-timepicker-duration,
       text-align: right;
       margin-bottom: 10px;
       margin-right: 10px;
-    }
-  }
-}
-
-.datetime-picker {
-
-  #logs & {
-    padding-top: 15px;
-  }
-
-  .title {
-    text-transform: uppercase;
-    .sl-sm-sb;
-    cursor: pointer;
-  }
-
-  time {
-    cursor: pointer;
-    .sl-sb;
-    color: @gray6;
-  }
-
-  .caret {
-    margin-top: 8px;
-    margin-left: 2px;
-  }
-  
-  &:hover {
-    time {
-      color: @black;
     }
   }
 }

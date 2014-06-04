@@ -9,7 +9,7 @@
 			</div>
 			<div class="span18 title label7a">
 				{{#if customer}}
-					<span>{{#link-to 'customers' customer class="linky"}}{{customer.display_me_with_email}}{{/link-to}}</span>
+					<span>{{#link-to customer.route_name customer class="linky"}}{{customer.display_me_with_email}}{{/link-to}}</span>
 				{{else}}
 					<span class="none">None</span>
 				{{/if}}

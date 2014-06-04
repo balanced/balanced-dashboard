@@ -16,6 +16,34 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		}
 	},
 
+	newUpdatesModal: function(key, token) {
+		if (arguments.length === 1) { // get
+			return $.cookie(Balanced.COOKIE.NEW_UPDATES) ? $.cookie(Balanced.COOKIE.NEW_UPDATES) : undefined;
+		} else { // set
+			$.cookie(Balanced.COOKIE.NEW_UPDATES, token, {
+				path: '/',
+				expires: Balanced.TIME.WEEK * 4,
+			});
+			return $.cookie(Balanced.COOKIE.NEW_UPDATES);
+		}
+	}.property(),
+
+	displayNewUpdatesModal: function() {
+		if (!this.get('auth.signedIn')) {
+			return false;
+		}
+
+		if (this.get('currentRouteName') === 'marketplaces.index') {
+			return false;
+		}
+
+		if (this.get('auth.newUpdates')) {
+			this.set('newUpdatesModal', this.get('auth.newUpdates'));
+		}
+
+		return this.get('newUpdatesModal') === undefined;
+	}.property('newUpdatesModal', 'auth.newUpdates'),
+
 	actions: {
 		closeNotificationCenter: function() {
 			this.set('showNotificationCenter', false);
@@ -23,6 +51,12 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 
 		toggleNotificationCenter: function() {
 			this.set('showNotificationCenter', !this.get('showNotificationCenter'));
+		},
+
+		closeNewUpdatesModal: function() {
+			var date = new Date();
+			this.set('newUpdatesModal', date);
+			this.set('auth.newUpdates', date);
 		},
 
 		openChangePasswordModal: function() {

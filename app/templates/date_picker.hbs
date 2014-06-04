@@ -1,7 +1,9 @@
-<div class="action datetime-picker">
-	<span class="title">Period:</span>
-	<time {{bind-attr datetime="view.minTime"}} class="min-date date">{{view.minDate}}</time>
-	<span class="sep">-</span>
-	<time {{bind-attr datetime="view.maxTime"}} class="max-date date">{{view.maxDate}}</time>
-	<b class="caret"></b>
+<div class="dropdown borderless datetime-picker">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    	<i class="icon-calendar"></i>
+		<span {{bind-attr datetime="view.minTime"}} class="min-date date">{{view.minDate}}</span>
+		<span class="sep">–</span>
+		<span {{bind-attr datespan="view.maxTime"}} class="max-date date">{{view.maxDate}}</span>
+		<b class="caret"></b>
+    </a>
 </div>

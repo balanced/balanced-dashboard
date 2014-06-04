@@ -4,10 +4,6 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 	transactionTypeFilter: false,
 	isDisputeType: Ember.computed.equal('type', 'dispute'),
 
-	TYPE_TRANSLATION: {
-		'card_hold': 'hold'
-	},
-
 	actions: {
 		changeTransactionStatusFilter: function(status) {
 			this.setProperties({

@@ -60,7 +60,8 @@ module.exports = function(grunt) {
 				src: [
 					'app/app_setup.js',
 					'build/js/compiled-templates.js',
-					'build/js/includes-dev.js'
+					'build/js/includes-dev.js',
+					'app/balanced.js'
 				],
 				dest: 'build/js/dashboard-dev.js'
 			},
@@ -75,7 +76,8 @@ module.exports = function(grunt) {
 				src: [
 					'app/app_setup.js',
 					'build/js/compiled-templates.js',
-					'build/js/includes-prod.js'
+					'build/js/includes-prod.js',
+					'app/balanced.js'
 				],
 				dest: 'build/js/dashboard-prod.js'
 			},

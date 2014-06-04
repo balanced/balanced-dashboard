@@ -1,4 +1,15 @@
-Balanced.CustomersController = Balanced.ObjectController.extend(
+Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+	needs: ['marketplace'],
+	limit: 50,
+	sortField: 'created_at',
+	sortOrder: 'desc',
+	baseClassSelector: "#customer",
+	noDownloadsUri: true,
+
+	results_base_uri: Ember.computed.readOnly('controllers.marketplace.customers_uri')
+});
+
+Balanced.CustomerController = Balanced.ObjectController.extend(
 	Balanced.ActionEvented('openDeleteBankAccountModal', 'openDeleteCardModal'),
 	Balanced.ResultsTable,
 	Balanced.TransactionsTable, {
@@ -37,6 +48,6 @@ Balanced.CustomersController = Balanced.ObjectController.extend(
 			}
 
 			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri', 'content.disputes_uri')
+		}.property('content.transactions_uri', 'content.disputes_uri', "isDisputeType")
 	}
 );

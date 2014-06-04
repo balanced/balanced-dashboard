@@ -1,1 +1,5 @@
-Balanced.MarketplaceView = Balanced.View.extend({});
+Balanced.MarketplaceView = Balanced.View.extend({
+	didInsertElement: function() {
+		$(balanced.menu);
+	}
+});

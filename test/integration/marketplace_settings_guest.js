@@ -30,7 +30,7 @@ test('can visit page', function(assert) {
 			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
 
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
-			assert.equal($dropdown.text().trim().length, 0, 'No Email is shown');
+			assert.equal($dropdown.text().trim(), "Guest user", 'No Email is shown');
 
 			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
 		});

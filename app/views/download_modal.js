@@ -3,7 +3,12 @@ var CARD_HOLD_REGEX = /card_hold/g;
 Balanced.DownloadModalView = Balanced.ModalView.extend({
 	templateName: 'modals/download',
 	noURI: false,
-	type: 'transactions',
+	type: function() {
+		var type = this.get("controller.type");
+		return type === "dispute" ?
+			"disputes" : "transactions";
+	}.property("controller.type"),
+
 	controllerEventName: false,
 
 	afterSave: function() {
@@ -31,11 +36,12 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 	actions: {
 		open: function() {
 			var download;
+			var type = this.get("type");
 
 			if (this.get('noURI')) {
 				download = Balanced.Download.create({
 					email_address: null,
-					type: this.type
+					type: type
 				});
 			} else {
 				var uri = this.get('controller.results_uri') || this.getSearchUri();
@@ -47,7 +53,7 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 				download = Balanced.Download.create({
 					uri: uri,
 					email_address: null,
-					type: this.type
+					type: type
 				});
 			}
 

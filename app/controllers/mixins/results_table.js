@@ -3,6 +3,10 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 	type: 'transaction',
 
+	pageTitle: function() {
+		return "%@s".fmt(this.get('type').capitalize());
+	}.property('type'),
+
 	// override this if you dont want transaction type filter to appear
 	transactionTypeFilter: true,
 
@@ -63,7 +67,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 
 		reload: function() {
 			this.notifyPropertyChange('search_params');
-		},
+		}
 	},
 
 	results: function() {
@@ -126,7 +130,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	results_type: function() {
 		var typeMappings = {
 			transaction: 'Balanced.Transaction',
-			'search': 'Balanced.Transaction',
+			search: 'Balanced.Transaction',
 			debit: 'Balanced.Debit',
 			credit: 'Balanced.Credit',
 			failed_credit: 'Balanced.Credit',

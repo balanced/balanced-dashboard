@@ -1,11 +1,11 @@
 <thead>
 	<tr>
-		<th class="span4 label6a"><span>Date</span></th>
-		<th class="span3 label6a"><span>Invoice #</span></th>
-		<th class="span3 label6a"><span>From</span></th>
-		<th class="span3 label6a"><span>To</span></th>
-		<th class="span2 label6a amount"><span>Amount</span></th>
-		<th class="span2 label6a status"></th>
+		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Date</span>{{/view}}
+		<th class="span3 label6a"><span>Type</span></th>
+		<th class="span3 label6a"><span>Status</span></th>
+		<th class="span2 label6a"><span>Invoice #</span></th>
+		<th class="span5 label6a"><span>Statement period</span></th>
+		<th class="span3 num"><span>Amount</span></th>
 	</tr>
 </thead>
 {{#if results.hasNextPage}}
@@ -17,7 +17,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a class="btn secondary" {{action "loadMore" results}}>Load more</a>
+					<a class="btn sm secondary" {{action "loadMore" results}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -27,34 +27,43 @@
 <tbody>
 	{{#each invoice in results}}
 		<tr>
-			<td class="span4 black">
-				{{#link-to 'invoices.invoice' invoice}}
-					<span>{{humanReadableDateShort invoice.created_at}}</span>
+			<td class="span3">
+				{{#link-to invoice.route_name invoice}}
+					<span class="primary">{{humanReadableDate invoice.created_at}}</span>
+					<span class="secondary">{{humanReadableTime invoice.created_at}}</span>
 				{{/link-to}}
 			</td>
-			<td class="span2 black">
-				{{#link-to 'invoices.invoice' invoice}}
+			<td class="span3 type">
+				{{#link-to invoice.route_name invoice}}
+					<span>{{invoice.type}}</span>
+				{{/link-to}}
+			</td>
+			<td class="span3 status">
+				{{#link-to invoice.route_name invoice}}
+					<span {{bind-attr class="invoice.state"}}> {{invoice.state}}</span>
+				{{/link-to}}
+			</td>
+			<td class="span2">
+				{{#link-to invoice.route_name invoice}}
 					{{invoice.sequence_number}}
 				{{/link-to}}
 			</td>
-			<td class="span5 black">
-				{{#link-to 'invoices.invoice' invoice}}
-					{{humanReadableDateShort invoice.from_date}}
+			<td class="span5">
+				{{#link-to date invoice.route_name invoice}}
+					<span class="date">
+						<span class="primary">{{humanReadableDate invoice.from_date}}</span>
+						<span class="secondary">5:00 PM</span>
+					</span>
+					<span class="date em-dash">—</span>
+					<span class="date">
+						<span class="primary">{{humanReadableDate invoice.to_date}}</span>
+						<span class="secondary">5:00 PM</span>
+					</span>
 				{{/link-to}}
 			</td>
-			<td class="span5 black">
-				{{#link-to 'invoices.invoice' invoice}}
-					{{humanReadableDateShort invoice.to_date}}
-				{{/link-to}}
-			</td>
-			<td class="span2 black amount">
-				{{#link-to 'invoices.invoice' invoice}}
+			<td class="span3 amount num">
+				{{#link-to invoice.route_name invoice}}
 					{{formatCurrency invoice.total_fee}}
-				{{/link-to}}
-			</td>
-			<td class="span2 black status">
-				{{#link-to 'invoices.invoice' invoice}}
-					{{invoice.state}}
 				{{/link-to}}
 			</td>
 		</tr>

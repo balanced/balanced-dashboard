@@ -1,0 +1,14 @@
+<div id="logs">
+	<div class="page-navigation">
+		<h1 class="page-title">Logs
+			{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
+		</h1>
+	</div>
+
+	<div id="logs" class="results">
+		{{view Balanced.DateFilterHeaderView}}
+		<div class="items-wrapper">
+			{{view Balanced.LogsResultsView}}
+		</div>
+	</div>
+</div>

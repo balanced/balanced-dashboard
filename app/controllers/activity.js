@@ -1,4 +1,4 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
@@ -9,12 +9,19 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 	noDownloadsUri: true,
 
 	transactionStatus: 'all',
-
 	TYPE_TRANSLATION: {
-		'card_hold': 'hold'
+		card_hold: 'hold'
 	},
 
 	actions: {
+		openPaySellerModal: function() {
+			this.trigger('openPaySellerModal');
+		},
+
+		openChargeCardModal: function() {
+			this.trigger('openChargeCardModal');
+		},
+
 		changeTypeFilter: function(type) {
 			this._super(type);
 
@@ -22,17 +29,15 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 				this.transitionToRoute('activity.transactions');
 			} else if (type === 'order') {
 				this.transitionToRoute('activity.orders');
-			} else if (type === 'customer') {
-				this.transitionToRoute('activity.customers');
-			} else if (type === 'funding_instrument' || _.contains(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, type)) {
-				this.transitionToRoute('activity.funding_instruments');
-			} else if (type === 'dispute' || _.contains(Balanced.SEARCH.DISPUTE_TYPES, type)) {
-				this.transitionToRoute('activity.disputes');
 			}
 		},
 
 		openAddFundsModal: function() {
 			this.trigger('openAddFundsModal');
+		},
+
+		openWithdrawFundsModal: function() {
+			this.trigger('openWithdrawFundsModal');
 		}
 	},
 
@@ -62,58 +67,23 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			return '/disputes';
 		} else if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 			return '/transactions';
+		} else {
+			return this._super();
 		}
-
-		return this._super();
 	}.property('type', 'controllers.marketplace.uri')
 });
 
-Balanced.NestedActivityResultsControllers = Balanced.ObjectController.extend({
-	needs: ['marketplace', 'activity'],
-
-	results: Ember.computed.alias('controllers.activity.results'),
-	search_result: Ember.computed.alias('controllers.activity.search_result'),
-	last_loaded_search_result: Ember.computed.alias('controllers.activity.last_loaded_search_result'),
-	type: Ember.computed.alias('controllers.activity.type'),
-	category: Ember.computed.alias('controllers.activity.category'),
-	sortField: Ember.computed.alias('controllers.activity.sortField'),
-	sortOrder: Ember.computed.alias('controllers.activity.sortOrder'),
-	dateFilterTitle: Ember.computed.alias('controllers.activity.dateFilterTitle'),
-	isLoaded: Ember.computed.alias('controllers.activity.isLoaded'),
-	allowSortByNone: Ember.computed.alias('controllers.activity.allowSortByNone'),
-
-	actions: {
-		loadMore: function(results) {
-			this.get('controllers.activity').send('loadMore', results);
-		},
-
-		changeSortOrder: function(field, sortOrder) {
-			this.get('controllers.activity').send('changeSortOrder', field, sortOrder);
-		},
-
-		changeTypeFilter: function(type) {
-			this.get('controllers.activity').send('changeTypeFilter', type);
-		}
-	}
-});
-
-Balanced.ActivityTransactionsController = Balanced.NestedActivityResultsControllers.extend({
+Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
+	needs: ['marketplace'],
+	baseClassSelector: '#transactions',
+	type: 'transaction',
+	pageTitle: 'Transactions',
 	noDownloadsUri: true,
-
-	transactionStatus: Ember.computed.alias('controllers.activity.transactionStatus'),
-	transactionTypeFilter: Ember.computed.alias('controllers.activity.transactionTypeFilter'),
-
-	actions: {
-		changeTransactionStatusFilter: function(status) {
-			this.set('controllers.activity.transactionStatus', status);
-		}
-	}
 });
 
-Balanced.ActivityDisputesController = Balanced.NestedActivityResultsControllers.extend({});
-
-Balanced.ActivityOrdersController = Balanced.NestedActivityResultsControllers.extend({});
-
-Balanced.ActivityCustomersController = Balanced.NestedActivityResultsControllers.extend({});
-
-Balanced.ActivityFundingInstrumentsController = Balanced.NestedActivityResultsControllers.extend({});
+Balanced.ActivityOrdersController = Balanced.ActivityController.extend({
+	needs: ['marketplace'],
+	baseClassSelector: '#orders',
+	type: 'order',
+	pageTitle: 'Orders'
+});

@@ -1,13 +1,20 @@
+<div id="user-menu" class="dropdown borderless nav-item">
 {{#if auth.signedIn}}
+
 	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-		{{#unless auth.isGuest}}
-			<img {{bind-attr src=auth.user.gravatar}} class="icon profile">
-			<span>{{auth.user.email_address}}</span>
-		{{/unless}}
+		<i class="icon-customers"></i>
+		<span>
+			{{#if auth.isGuest}}
+				Guest user
+			{{else}}
+				{{auth.user.email_address}}
+			{{/if}}
+		</span>
 		<b class="caret"></b>
 	</a>
 	<ul class="dropdown-menu">
 		{{#if auth.isGuest}}
+			<li>{{#link-to 'marketplaces.apply'}}Register{{/link-to}}</li>
 			<li>{{#link-to 'claim'}}Claim account{{/link-to}}</li>
 		{{else}}
 			<li class="change-email">
@@ -18,9 +25,10 @@
 			</li>
 			<li>{{#link-to 'accountSecurity'}}Account security{{/link-to}}</li>
 		{{/if}}
-
+		<li><a href="https://support.balancedpayments.com" target='_blank'>Help center</a></li>
 		<li><a href="#" {{action "signOut"}}>Log out</a></li>
 	</ul>
 {{else}}
-	{{#link-to 'login' class="nav1d nav-login"}}Login{{/link-to}}
+	{{#link-to 'login' class="nav1d nav-login"}}Log in{{/link-to}}
 {{/if}}
+</div>
