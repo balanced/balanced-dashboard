@@ -25,18 +25,8 @@
   background-repeat: no-repeat;
 }
 
-#header {
-  height: auto !important;
-}
-
 #balanced-address {
   display: none;
-}
-
-.none {
-  .sl;
-  color: @gray5;
-  font-style: italic;
 }
 
 #flogo {
@@ -79,11 +69,11 @@
 }
 
 #site-nav {
-  float: right;
   margin-right: 45px;
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 1;
 
   .nav-login {
     line-height: @headerHeight;
@@ -113,13 +103,6 @@
 #user-menu {
   min-width: 90px;
 
-  .icon-customers {
-    color: @gray4;
-    position: absolute;
-    top: 9px;
-    left: -10px;
-  }
-
   span {
     font-size: 12px;
   }
@@ -142,7 +125,7 @@
 }
 
 #marketplace-apply {
-  margin: 0 150px;
+  margin: 50px 150px;
 }
 
 .hidden {

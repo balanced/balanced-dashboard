@@ -26,7 +26,7 @@ Balanced.TransactionDescriptionCellView = Balanced.LinkedTransactionCellView.ext
 
 	linkSpanClassNames: function() {
 		if (!this.get('hasDescription')) {
-			return "none";
+			return "sl-none";
 		}
 	}.property("hasDescription"),
 

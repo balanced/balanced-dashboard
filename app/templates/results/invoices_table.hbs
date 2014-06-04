@@ -3,15 +3,16 @@
 		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a date sortable" field="created_at"}}<span>Date</span>{{/view}}
 		<th class="span3 label6a"><span>Type</span></th>
 		<th class="span3 label6a"><span>Status</span></th>
-		<th class="span2 label6a"><span>Invoice #</span></th>
-		<th class="span5 label6a"><span>Statement period</span></th>
+		<th class="span2 label6a"><span>Statement #</span></th>
+		<th class="span3 label6a"><span>From</span></th>
+		<th class="span3 label6a"><span>To</span></th>
 		<th class="span3 num"><span>Amount</span></th>
 	</tr>
 </thead>
 {{#if results.hasNextPage}}
 	<tfoot>
 		<tr>
-			<td colspan="6" class="load-more-results">
+			<td colspan="7" class="load-more-results">
 				{{#if results.loadingNextPage}}
 					<div class="loader-container">
 						<span class="loader loading"></span>
@@ -40,7 +41,7 @@
 			</td>
 			<td class="span3 status">
 				{{#link-to invoice.route_name invoice}}
-					<span {{bind-attr class="invoice.state"}}> {{invoice.state}}</span>
+					<span {{bind-attr class="invoice.state"}}>{{invoice.state}}</span>
 				{{/link-to}}
 			</td>
 			<td class="span2">
@@ -48,17 +49,16 @@
 					{{invoice.sequence_number}}
 				{{/link-to}}
 			</td>
-			<td class="span5">
+			<td class="span3">
 				{{#link-to date invoice.route_name invoice}}
-					<span class="date">
-						<span class="primary">{{humanReadableDate invoice.from_date}}</span>
-						<span class="secondary">5:00 PM</span>
-					</span>
-					<span class="date em-dash">—</span>
-					<span class="date">
-						<span class="primary">{{humanReadableDate invoice.to_date}}</span>
-						<span class="secondary">5:00 PM</span>
-					</span>
+					<span class="primary">{{humanReadableDate invoice.from_date}}</span>
+					<span class="secondary">5:00 PM</span>
+				{{/link-to}}
+			</td>
+			<td class="span3">
+				{{#link-to date invoice.route_name invoice}}
+					<span class="primary">{{humanReadableDate invoice.to_date}}</span>
+					<span class="secondary">5:00 PM</span>
 				{{/link-to}}
 			</td>
 			<td class="span3 amount num">
@@ -69,7 +69,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="6" class="no-results">
+			<td colspan="7" class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}

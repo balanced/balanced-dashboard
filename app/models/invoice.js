@@ -37,9 +37,9 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	type: function() {
 		if (this.get('disputes_total_fee') !== 0) {
-			return 'Dispute';
+			return 'Disputes';
 		} else {
-			return 'Transaction';
+			return 'Transactions';
 		}
 	}.property('disputes_total_fee'),
 
