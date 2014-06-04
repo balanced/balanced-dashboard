@@ -251,5 +251,5 @@ test('transactions date sort has different states', function(assert) {
 		.click(objectPath)
 		.then(function() {
 			assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
-		})
+		});
 });
