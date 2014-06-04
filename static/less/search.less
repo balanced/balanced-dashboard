@@ -46,15 +46,17 @@
   @searchPostLabelWidth: 50px;
   .search-field-container {
     height: @searchBoxHeight;
-    margin: 0 45px;
+    margin: 0;
     padding: 0 @searchPostLabelWidth 0 @searchIconWidth;
     position: relative;
+    z-index: 2;
+
     .icon-search {
       .sl-24;
       color: @gray4;
       display: inline-block;
       height: @searchBoxHeight;
-      left: 0;
+      left: 32px;
       margin-top: 21px;
       position: absolute;
       text-align: center;
@@ -89,11 +91,14 @@
   .results {
     display: none;
   }
-  &.with-results .results {
-    display: block;
+  &.with-results {
+    .results, .results-backdrop {
+      display: block;
+    }
   }
 
   .search-field-container {
+    background-color: @white;
     border-bottom: 1px solid @gray2;
   }
   &.with-results .search-field-container {
@@ -117,12 +122,13 @@
   border-radius: 0px;
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding-left: 40px;
   border: 0;
   box-shadow: none;
   height: @searchBoxHeight;
 
   &:focus {
     color: @gray7;
+    border-bottom: 1px solid @black;
   }
 }

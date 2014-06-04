@@ -10,6 +10,7 @@
 		{{/if}}
 	</div>
 
+	<div class="modal-backdrop results-backdrop in" {{action "closeSearch"}}></div>
 	<div class="results">
 		{{view Balanced.ResultsFiltersHeaderWithCountsView searchResultBinding="last_loaded_search_result" from="search"}}
 
