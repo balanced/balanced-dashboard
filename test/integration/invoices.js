@@ -1,4 +1,4 @@
-var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/invoices';
+var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/account_statements';
 
 module('Invoices', {
 	setup: function() {
@@ -44,7 +44,7 @@ test('invoice detail page', function(assert) {
 		".invoice-details-table .subtotal-row .total": "$17.85"
 	};
 
-	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.checkElements(expectedValues, assert)
 		.click('.activity .results .type-filter :contains(Holds)')
 		.click('.activity .results .type-filter :contains(Credits)')
@@ -79,10 +79,10 @@ test('change invoice funding source', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 	stub.callsArg(3);
 
-	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + invoiceUri)
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.click('.change-funding-source-btn')
-		.fillIn('#change-funding-source form select[name="source_uri"]', '123')
-		.click('#change-funding-source form button[name="modal-submit"]')
+		.fillIn('#change-funding-source form select[name=source_uri]', '123')
+		.click('#change-funding-source form button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
 			assert.equal(spy.callCount, 6);
