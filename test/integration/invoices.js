@@ -10,8 +10,8 @@ module('Invoices', {
 asyncTest('can visit page', 2, function(assert) {
 	var invoicesController = Balanced.__container__.lookup('controller:marketplace_invoices');
 	invoicesController.reopen({
-		minDate: moment('8/1/2013').startOf('day').toDate(),
-		maxDate: moment('8/1/2013').endOf('day').toDate(),
+		minDate: moment('2013-08-01T00:00:00.000Z').toDate(),
+		maxDate: moment('2013-08-01T23:59:59.999Z').toDate()
 	});
 
 	visit(INVOICES_ROUTE)
