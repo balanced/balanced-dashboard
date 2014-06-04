@@ -8,11 +8,11 @@
 					<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu funding-instruments-filter filter-choices">
-					<li><a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Both </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "funding_instrument"}}> All </a></li>
 
 					<li><a href="#" {{action "changeTypeFilter" "card"}}> Cards </a></li>
 
-					<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank Accounts </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank accounts </a></li>
 				</ul>
 			</div>
 		</th>
@@ -60,7 +60,7 @@
 					{{#if funding_instrument.formatted_bank_name}}
 						<span>{{funding_instrument.formatted_bank_name}}</span>
 					{{else}}
-						<span class="none">none</span>
+						<span class="sl-none">unknown</span>
 					{{/if}}
 				{{/link-to}}
 			</td>
