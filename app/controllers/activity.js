@@ -1,8 +1,5 @@
 Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
-
 	needs: ['marketplace'],
-
-	type: 'transaction',
 
 	sortField: 'created_at',
 	sortOrder: 'desc',
@@ -12,6 +9,9 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 	noDownloadsUri: true,
 
 	transactionStatus: 'all',
+	TYPE_TRANSLATION: {
+		card_hold: 'hold'
+	},
 
 	actions: {
 		openPaySellerModal: function() {
@@ -59,18 +59,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			status: transactionStatus
 		};
 	}.property('type', 'transactionStatus'),
-
-	results_base_uri: function() {
-		var type = this.get('type');
-
-		if (type === 'dispute') {
-			return '/disputes';
-		} else if (type === "transaction" || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
-			return '/transactions';
-		}
-
-		return this._super();
-	}.property('type', 'controllers.marketplace.uri')
 });
 
 Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
@@ -78,7 +66,15 @@ Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 	baseClassSelector: '#transactions',
 	type: 'transaction',
 	pageTitle: 'Transactions',
-	noDownloadsUri: true
+	noDownloadsUri: true,
+
+	results_base_uri: function() {
+		var type = this.get('type');
+
+		return type === 'dispute' ?
+			'/disputes' :
+			'/transactions';
+	}.property('type')
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({

@@ -21,6 +21,23 @@ Balanced.Utils = Ember.Namespace.create({
 		return "data:text/plain;charset=utf-8;base64," + window.btoa(string);
 	},
 
+	queryStringToObject: function(string) {
+		if (string === undefined) {
+			return undefined;
+		}
+		
+		var results = {};
+		var pairs = string.split("?")[1].split("&");
+		pairs.forEach(function(str) {
+			var pair = str.split("=").map(function(s) {
+				return window.decodeURIComponent(s)
+			});
+			results[pair[0]] = pair[1];
+		});
+
+		return results;
+	},
+
 	stripDomain: function(url) {
 		return url.replace(STRIP_DOMAIN_REGEX, '');
 	},
