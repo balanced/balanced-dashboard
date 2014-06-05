@@ -243,7 +243,7 @@ test('can credit to a debit card', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
 		.then(function() {
-			var fundingInstrumentUri = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
+			fundingInstrumentUri = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
 			$("#credit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
 		})
 		.then(function() {
