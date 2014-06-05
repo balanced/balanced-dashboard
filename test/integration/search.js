@@ -83,8 +83,8 @@ test('search date range pick', function(assert) {
 		.assertClick('#search .datetime-picker', assert)
 		.then(function() {
 			var dp = $("#search .datetime-picker").data("daterangepicker");
-			dp.setStartDate("Aug 01, 2013");
-			dp.setEndDate("Aug 02, 2013");
+			dp.setStartDate(moment('2013-08-01T00:00:00.000Z').toDate());
+			dp.setEndDate(moment('2013-08-01T23:59:59.999Z').toDate());
 			spy = sinon.spy(Balanced.Adapter, 'get');
 		})
 		.assertClick('.daterangepicker:visible .buttons button.applyBtn', assert)
@@ -94,8 +94,8 @@ test('search date range pick', function(assert) {
 			assert.equal(request.args[0], Balanced.Transaction);
 			assert.deepEqual(request.args[1].split("?")[0], '/marketplaces/%@/search'.fmt(Testing.MARKETPLACE_ID));
 			assertQueryString(request.args[1], {
-				"created_at[<]": "2013-08-02T07:00:00.000Z",
-				"created_at[>]": "2013-08-01T07:00:00.000Z",
+				"created_at[<]": "2013-08-01T23:59:00.000Z",
+				"created_at[>]": "2013-08-01T00:00:00.000Z",
 				limit: "2",
 				offset: "0",
 				q: "",
