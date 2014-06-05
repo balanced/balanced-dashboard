@@ -10,6 +10,14 @@ module('Search', {
 	}
 });
 
+
+var assertQueryString = function(string, expected, assert) {
+	var qsParameters = Balanced.Utils.queryStringToObject(string);
+	_.each(expected, function(value, key) {
+		assert.deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
+	});
+};
+
 test('search results show and hide', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
@@ -81,19 +89,19 @@ test('search date range pick', function(assert) {
 		})
 		.assertClick('.daterangepicker:visible .buttons button.applyBtn', assert)
 		.then(function() {
-			var begin = moment("Aug 01, 2013").startOf('day');
-			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment("Aug 02, 2013").startOf('day');
-			var end_iso = encodeURIComponent(end.toISOString());
-
-			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
-				'created_at%5B%3C%5D=' + end_iso + '&' +
-				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
-
 			var request = spy.getCall(spy.callCount - 1);
+
 			assert.equal(request.args[0], Balanced.Transaction);
-			assert.equal(request.args[1], expected_uri);
+			assert.deepEqual(request.args[1].split("?")[0], '/marketplaces/%@/search'.fmt(Testing.MARKETPLACE_ID));
+			assertQueryString(request.args[1], {
+				"created_at[<]": "2013-08-02T07:00:00.000Z",
+				"created_at[>]": "2013-08-01T07:00:00.000Z",
+				limit: "2",
+				offset: "0",
+				q: "",
+				sort: "created_at,desc",
+				"type[in]": "debit,credit,card_hold,refund,reversal"
+			}, assert);
 		});
 });
 
