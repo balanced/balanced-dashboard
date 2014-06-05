@@ -27,7 +27,7 @@ test('clicking business or personal shows data', function(assert) {
 	visit(Testing.APPLY_ROUTE)
 		.then(assertInputsCount(2))
 		.click('a:contains("Business")')
-		.then(assertInputsCount(17))
+		.then(assertInputsCount(20))
 		.click('a:contains("Person")')
 		.then(assertInputsCount(15));
 });
