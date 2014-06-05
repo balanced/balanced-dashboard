@@ -29,7 +29,7 @@ test('clicking business or personal shows data', function(assert) {
 		.click('a:contains("Business")')
 		.then(assertInputsCount(20))
 		.click('a:contains("Person")')
-		.then(assertInputsCount(15));
+		.then(assertInputsCount(18));
 });
 
 test('basic form validation and terms and conditions', function(assert) {
@@ -44,12 +44,12 @@ test('basic form validation and terms and conditions', function(assert) {
 		})
 		.click(submitButtonQuery)
 		.then(function() {
-			assert.equal($('.control-group.error').length, 15, 'expected error fields highlighted');
+			assert.equal($('.control-group.error').length, 18, 'expected error fields highlighted');
 		})
 		.click('#terms-and-conditions')
 		.click(submitButtonQuery)
 		.then(function() {
-			assert.equal($('.control-group.error').length, 14, 'expected error fields highlighted but not t&c');
+			assert.equal($('.control-group.error').length, 17, 'expected error fields highlighted but not t&c');
 		});
 });
 
