@@ -1,32 +1,22 @@
-var ValidationHelpers = Balanced.ValidationHelpers
+var ValidationHelpers = Balanced.ValidationHelpers;
 
 var CreditBankAccountBuilder = Ember.Object.extend(Ember.Validations, {
-	isSaving: false,
 	amount: function() {
 		try {
-			return Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
-		} catch(e) {
-			return NaN;
+			return "" + Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+		} catch (e) {
+			return undefined;
 		}
 	}.property("dollar_amount"),
 
+	destination: Balanced.computed.getProperties("account_number", "name", "routing_number", "account_type"),
+
 	getAttributes: function() {
-		return {
-			amount: this.get("amount"),
-			appears_on_statement_as: this.get("appears_on_statement_as"),
-			description: this.get("description"),
-			destination: this.getProperties("account_number", "name", "routing_number", "account_type")
-		};
+		return this.getProperties("amount", "appears_on_statement_as", "description", "destination");
 	},
 
 	save: function() {
-		var self = this;
-		var credit = Balanced.Credit.create(this.getAttributes());
-		this.set("isSaving", true);
-		return credit.save().then(function(model) {
-			self.set("isSaving", false);
-			return model;
-		});
+		return Balanced.Credit.create(this.getAttributes()).save();
 	},
 
 	validations: {
@@ -39,26 +29,14 @@ var CreditBankAccountBuilder = Ember.Object.extend(Ember.Validations, {
 	}
 });
 
-Balanced.CreditBankAccountModalView = Balanced.ModalBaseView.extend({
+Balanced.CreditBankAccountModalView = Balanced.ObjectCreatorModalBaseView.extend({
 	title: "Credit a bank account",
 	templateName: "modals/credit_bank_account",
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 
-	model: function() {
-		return CreditBankAccountBuilder.create();
-	}.property(),
+	model_class: CreditBankAccountBuilder,
+});
 
-	actions: {
-		submit: function() {
-			var self = this;
-			var model = this.get("model");
-			model.validate();
-			if (model.get("isValid")) {
-				model.save().then(function(credit) {
-					self.get('controller').transitionToRoute(credit.get('route_name'), credit);
-					self.close();
-				});
-			}
-		}
-	}
+Balanced.CreditBankAccountModalView.reopenClass({
+	ObjectCreatorClass: CreditBankAccountBuilder
 });

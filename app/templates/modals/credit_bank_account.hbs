@@ -4,28 +4,28 @@
 		{{view.model.validationErrors.fullMessages}}
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-			<label class="control-label" {{bind-attr for=view.fieldName.elementId}}>Account holder's name</label>
+			<label class="control-label" {{bind-attr for=view.name.elementId}}>Account holder's name</label>
 			<div class="controls">
-				{{input valueBinding="view.model.name" class="full" name="name" viewName="fieldName"}}
+				{{input valueBinding="view.model.name" class="full" name="name" viewName="name"}}
 			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.routing_number:error"}}>
-			<label class="control-label">Routing Number</label>
+			<label class="control-label" {{bind-attr for=view.routingNumber.elementId}}>Routing Number</label>
 			<div class="controls">
 				{{input valueBinding="view.model.routing_number" class="full" name="routing_number" viewName="routingNumber"}}
 			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.account_number:error"}}>
-			<label class="control-label">Account number</label>
+			<label class="control-label" {{bind-attr for=view.accountName.elementId}}>Account number</label>
 			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.account_number" class="full" name="account_number"}}
+				{{view Ember.TextField valueBinding="view.model.account_number" class="full" name="account_number" viewName="accountName"}}
 			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.type:error"}}>
-			<label class="control-label">Account type</label>
+			<label class="control-label" {{bind-attr for=view.accountType.elementId}}>Account type</label>
 
 			<div class="controls">
 				{{view Ember.Select
@@ -34,34 +34,48 @@
 					optionLabelPath="content.label"
 					valueBinding="view.model.account_type"
 					name="account_type"
+					viewName="accountType"
 				}}
 			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.dollar_amount:error"}}>
-			<label class="control-label">Amount</label>
+			<label class="control-label" {{bind-attr for=view.dollarAmount.elementId}}>Amount</label>
 
 			<div class="controls">
 				<div class="input-prepend">
 					<span class="add-on">$</span>
-					{{view Ember.TextField valueBinding="view.model.dollar_amount" class="span3" name="dollar_amount"}}
+					{{view Ember.TextField valueBinding="view.model.dollar_amount" class="span3" name="dollar_amount" viewName="dollarAmount"}}
 				</div>
 			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-			<label class="control-label">Appears on statement as ({{view.model.destination.appears_on_statement_max_length}} characters max)</label>
+			<label class="control-label" {{bind-attr for=view.dollarAmount.elementId}}>Appears on statement as ({{view.model.destination.appears_on_statement_max_length}} characters max)</label>
 
 			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.model.destination.appears_on_statement_max_length" name="appears_on_statement_as"}}
+				{{view Ember.TextField
+					valueBinding="view.model.appears_on_statement_as"
+					name="appears_on_statement_as"
+					class="full"
+					maxlengthBinding="view.model.destination.appears_on_statement_max_length"
+					name="appears_on_statement_as"
+					viewName="dollarAmount"
+				}}
 			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.description:error"}}>
-			<label class="control-label">Internal Description</label>
+			<label class="control-label" {{bind-attr for=view.description.elementId}}>Internal Description</label>
 
 			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.description" class="full" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"}}
+				{{view Ember.TextField
+					valueBinding="view.model.description"
+					name="description"
+					class="full"
+					maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION"
+					viewName="description"
+				}}
 			</div>
 		</div>
 	</div>
@@ -76,7 +90,7 @@
 	</div>
 
 	<div class="modal-footer">
-		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.model.isSaving"}}>Cancel</button>
-		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.model.isSaving"}}>Credit</button>
+		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
+		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Credit</button>
 	</div>
 </form>

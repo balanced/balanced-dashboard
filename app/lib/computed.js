@@ -3,6 +3,14 @@ var get = Ember.get,
 	a_slice = Array.prototype.slice;
 
 Balanced.computed = Ember.Namespace.create({
+	getProperties: function() {
+		var propertyNames = _.toArray(arguments);
+		var method = function() {
+			return this.getProperties.apply(this, propertyNames);
+		};
+		return method.property.apply(method, propertyNames);
+	},
+
 	sum: function(dependentKey, itemKey) {
 		// FIXME - should be wrapped in Ember.arrayComputed?
 		return Ember.computed(function() {

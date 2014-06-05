@@ -18,11 +18,11 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 		presence: true,
 		format: formatValidator(function(object, attribute, value, cb) {
 			try {
-					var v = Balanced.Utils.dollarsToCents(value);
-					if (isNaN(v) || v <= 0) {
-						cb("must be a positive number");
-					}
-			} catch(e) {
+				var v = Balanced.Utils.dollarsToCents(value);
+				if (isNaN(v) || v <= 0) {
+					cb("must be a positive number");
+				}
+			} catch (e) {
 				cb(e.message.replace("Error: ", ""));
 			}
 		})
@@ -72,5 +72,4 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 			}
 		})
 	},
-
-})
+});
