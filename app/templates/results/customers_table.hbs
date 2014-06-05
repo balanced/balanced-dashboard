@@ -26,7 +26,14 @@
 	{{#each customer in view.customers}}
 		<tr>
 			{{view Balanced.LinkedDateCellView routeName=customer.route_name date=customer.created_at item=customer classNames="span3"}}
-			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.display_me classNames="span4 name"}}
+			{{view Balanced.LinkedTwoLinesCellView
+				item=customer
+				routeName=customer.route_name
+				classNames="span4 name"
+				primaryLabelText=customer.display_me
+				secondaryLabelText=customer.email
+				title=customer.display_me_with_email
+			}}
 			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.business_name classNames="span4 business_name"}}
 		</tr>
 	{{else}}
