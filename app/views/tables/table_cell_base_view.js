@@ -33,5 +33,3 @@ Balanced.LinkedTwoLinesCellView = Balanced.LinkedTextCellView.extend({
 Balanced.TitledLinkedCellView = Balanced.LinkedTextCellView.extend({
 	title: Ember.computed.oneWay("labelText"),
 });
-a = "<h1>cc</h1>".htmlSafe()
-Ember.Handlebars.Utils.escapeExpression("<h1></h1>")
