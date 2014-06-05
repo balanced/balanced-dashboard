@@ -399,6 +399,13 @@ Balanced.Utils = Ember.Namespace.create({
 				Balanced.Utils.traverse(val, fn, ctx, key + '.');
 			}
 		}, ctx);
+	},
+
+	safeFormat: function(template) {
+		var args = _.toArray(arguments).slice(1).map(function(str) {
+			return Ember.Handlebars.Utils.escapeExpression(str);
+		});
+		return template.fmt.apply(template, args);
 	}
 
 });

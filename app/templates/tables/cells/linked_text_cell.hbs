@@ -1,7 +1,5 @@
 {{#link-to view.routeName view.item}}
-	{{#if view.isNone}}
-		<span class="sl-none">none</span>
-	{{else}}
-		<span>{{view.labelText}}</span>
-	{{/if}}
+	<span {{bind-attr class="view.isBlank:sl-none view.spanClassNames"}}>
+		{{view.displayValue}}
+	</span>
 {{/link-to}}
