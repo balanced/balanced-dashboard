@@ -20,30 +20,18 @@ Balanced.TransactionDescriptionCellView = Balanced.LinkedTransactionCellView.ext
 	title: Ember.computed.oneWay("item.description"),
 	classNameBindings: [":description", "item.description::null-field"],
 	attributeBindings: ["title"],
-	hasDescription: function() {
-		return !_.isEmpty(this.get("item.description"));
-	}.property("item.description"),
-
-	linkSpanClassNames: function() {
-		if (!this.get('hasDescription')) {
-			return "sl-none";
-		}
-	}.property("hasDescription"),
-
-	labelText: function() {
-		if (this.get('hasDescription')) {
-			return this.get("item.description");
-		} else {
-			return "none";
-		}
-	}.property("item.description", "hasDescription")
+	labelText: Ember.computed.oneWay("item.description"),
+	isNone: Ember.computed.none("labelText")
 });
 
-Balanced.TransactionCustomerCellView = Balanced.LinkedTransactionCellView.extend({
+Balanced.TransactionCustomerCellView = Balanced.LinkedTwoLinesCellView.extend({
+	routeName: Ember.computed.oneWay("item.route_name"),
 	title: Ember.computed.oneWay("item.customer_name_summary"),
 	classNameBindings: [":account", "item.customer::null-field"],
 	attributeBindings: ['title'],
-	labelText: Ember.computed.oneWay("item.customer_name_summary")
+	primaryLabelText: Ember.computed.oneWay("item.customer_display_me"),
+	secondaryLabelText: Ember.computed.oneWay("item.customer_email"),
+	isNone: Ember.computed.none('primaryLabelText', 'secondaryLabelText')
 });
 
 Balanced.TransactionAmountCellView = Balanced.LinkedTransactionCellView.extend({

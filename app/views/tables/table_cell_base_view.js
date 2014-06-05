@@ -1,5 +1,6 @@
 Balanced.TableCellBaseView = Ember.View.extend({
 	tagName: "td",
+	isNone: false
 });
 
 Balanced.LinkedDateCellView = Balanced.TableCellBaseView.extend({
@@ -8,11 +9,11 @@ Balanced.LinkedDateCellView = Balanced.TableCellBaseView.extend({
 
 Balanced.LinkedTextCellView = Balanced.TableCellBaseView.extend({
 	templateName: "tables/cells/linked_text_cell",
-	classNames: ["label4a"]
+	classNames: ["label4a"],
 });
 
 Balanced.LinkedTwoLinesCellView = Balanced.TableCellBaseView.extend({
-	templateName: "tables/cells/linked_two_lines_cell"
+	templateName: "tables/cells/linked_two_lines_cell",
 });
 
 Balanced.TitledLinkedCellView = Balanced.LinkedTextCellView.extend({

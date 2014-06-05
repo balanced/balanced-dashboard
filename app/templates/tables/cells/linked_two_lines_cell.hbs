@@ -1,6 +1,10 @@
 {{#link-to view.routeName view.item}}
-	<span>
-		<span class="primary">{{view.primaryLabelText}}</span>
-		<span class="secondary">{{view.secondaryLabelText}}</span>
-	</span>
+	{{#if view.isNone}}
+		<span class="sl-none">none</span>
+	{{else}}
+		<span>
+			<span class="primary">{{view.primaryLabelText}}</span>
+			<span class="secondary">{{view.secondaryLabelText}}</span>
+		</span>
+	{{/if}}
 {{/link-to}}
