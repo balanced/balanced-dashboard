@@ -18,7 +18,7 @@ Balanced.LogStatusCellView = Balanced.LinkedTextCellView.extend({
 	classNameBindings: [":black"],
 	isBlank: false,
 	primaryLabelText: Ember.computed.oneWay('item.message.response.status'),
-	secondaryLabelText: function () {
+	secondaryLabelText: function() {
 		if (this.get('item.message.response.body.category_code')) {
 			return this.get('item.message.response.body.category_code').replace(/-/g, ' ');
 		} else {
