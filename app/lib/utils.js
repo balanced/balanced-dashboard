@@ -406,6 +406,17 @@ Balanced.Utils = Ember.Namespace.create({
 			return Ember.Handlebars.Utils.escapeExpression(str);
 		});
 		return template.fmt.apply(template, args);
+	},
+
+	sanitizeBankName: function(bankName) {
+		var sanitizedBankName;
+		_.each(Balanced.BANK_NAMES, function (unsanitized, sanitized) {
+			// if (str.match(/un/gi))
+			if( _.contains(unsanitized, bankName) ) {
+				sanitizedBankName = sanitized;
+			}
+		});
+		return sanitizedBankName || bankName;
 	}
 
 });

@@ -60,3 +60,9 @@ Balanced.DATES = {
 	RESULTS_MAX_TIME: moment().add('hours', 2).startOf('hour').toDate(),
 	RESULTS_MIN_TIME: moment().subtract('months', 1).startOf('hour').toDate()
 };
+
+Balanced.BANK_NAMES = {
+	// sanitized : [ unsanitized, unSaniTizEd ]
+	"Citibank FSB": [ "Citibank Fsb"],
+	"Union Bank": ["Union Bank Na"]
+};
