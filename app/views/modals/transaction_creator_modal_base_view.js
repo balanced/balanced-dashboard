@@ -81,6 +81,7 @@ Balanced.DebitNewFundingInstrumentModalView = CreateTransactionModalView.extend(
 	title: "Debit a card",
 	templateName: "modals/debit_new_funding_instrument",
 	model_class: DebitCardBuilder,
+	elementId: "charge-card",
 
 	validMonths: Balanced.TIME.MONTHS,
 	validYears: function() {
