@@ -43,7 +43,6 @@ Balanced.ObjectCreatorModalBaseView = Balanced.ModalBaseView.extend({
 			var self = this;
 			var model = this.get("model");
 			model.validate();
-
 			if (model.get("isValid")) {
 				self.set("isSaving", true);
 				model.save().then(function(credit) {

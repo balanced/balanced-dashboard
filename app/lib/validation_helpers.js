@@ -45,6 +45,47 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 			cb(messages);
 		})
 	},
+
+	cardName: {
+		presence: true
+	},
+	cardNumber: {
+		presence: true,
+		format: {
+			validator: function(object, attribute, value) {
+				if (!balanced.card.isCardNumberValid(value)) {
+					object.get('validationErrors').add(attribute, 'blank', null, 'is not valid');
+				}
+			}
+		}
+	},
+	cardCvv: {
+		presence: true,
+		numericality: true,
+		length: {
+			minimum: 3,
+			maximum: 4
+		}
+	},
+	cardExpirationDate: {
+		format: {
+			validator: function(object, attribute, value) {
+				var month = object.get("expiration_month");
+				var year = object.get("expiration_year");
+				if (Ember.isEmpty(month)) {
+					object.get("validationErrors").add("expiration_date", "date", null, "month is required");
+				}
+				if (Ember.isEmpty(year)) {
+					object.get("validationErrors").add("expiration_date", "date", null, "year is required");
+				}
+				if (month && year && (moment("" + month + "/" + year, "MM/YYYY").toDate() < (new Date()))) {
+					object.get("validationErrors").add("expiration_date", "date", null, "card is expired");
+				}
+			}
+		}
+	},
+	cardZipCode: {},
+
 	bankAccountType: {
 		presence: true,
 		format: formatValidator(function(object, attribute, value, cb) {

@@ -1,12 +1,12 @@
 <form class="form-horizontal split-labels" {{action "submit" on="submit" target="view"}}>
 	<div class="modal-body">
-		{{partial "modals/modalErrors"}}
-		{{view.model.validationErrors.fullMessages}}
-
 		<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
 			<label class="control-label" {{bind-attr for=view.name.elementId}}>Account holder's name</label>
 			<div class="controls">
 				{{input valueBinding="view.model.name" class="full" name="name" viewName="name"}}
+				<div class="alert alert-error label4b">
+					{{formatError view.model.validationErrors.name}}
+				</div>
 			</div>
 		</div>
 
@@ -14,6 +14,9 @@
 			<label class="control-label" {{bind-attr for=view.routingNumber.elementId}}>Routing Number</label>
 			<div class="controls">
 				{{input valueBinding="view.model.routing_number" class="full" name="routing_number" viewName="routingNumber"}}
+				<div class="alert alert-error label4b">
+					{{formatError view.model.validationErrors.routing_number}}
+				</div>
 			</div>
 		</div>
 
@@ -21,6 +24,9 @@
 			<label class="control-label" {{bind-attr for=view.accountName.elementId}}>Account number</label>
 			<div class="controls">
 				{{view Ember.TextField valueBinding="view.model.account_number" class="full" name="account_number" viewName="accountName"}}
+				<div class="alert alert-error label4b">
+					{{formatError view.model.validationErrors.account_number}}
+				</div>
 			</div>
 		</div>
 
@@ -37,6 +43,9 @@
 					viewName="accountType"
 				}}
 			</div>
+			<div class="alert alert-error label4b">
+				{{formatError view.model.validationErrors.type}}
+			</div>
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.dollar_amount:error"}}>
@@ -46,6 +55,9 @@
 				<div class="input-prepend">
 					<span class="add-on">$</span>
 					{{view Ember.TextField valueBinding="view.model.dollar_amount" class="span3" name="dollar_amount" viewName="dollarAmount"}}
+				</div>
+				<div class="alert alert-error label4b">
+					{{formatError view.model.validationErrors.dollar_amount}}
 				</div>
 			</div>
 		</div>
@@ -58,10 +70,13 @@
 					valueBinding="view.model.appears_on_statement_as"
 					name="appears_on_statement_as"
 					class="full"
-					maxlengthBinding="view.model.destination.appears_on_statement_max_length"
+					maxlengthBinding="view.model.appears_on_statement_max_length"
 					name="appears_on_statement_as"
 					viewName="dollarAmount"
 				}}
+				<div class="alert alert-error label4b">
+					{{formatError view.model.validationErrors.appears_on_statement_as}}
+				</div>
 			</div>
 		</div>
 
