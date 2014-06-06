@@ -1,7 +1,7 @@
 module("Balanced.CreditNewFundingInstrumentModalView.CreditBankAccountBuilder");
 
 test("#amount", function(assert) {
-	var subject = Balanced.CreditNewFundingInstrumentModalView.ObjectCreatorClass.create();
+	var subject = Balanced.CreditNewFundingInstrumentModalView.create().get("model");
 
 	subject.set("dollar_amount", "10.00");
 	assert.deepEqual(subject.get("amount"), "1000");
