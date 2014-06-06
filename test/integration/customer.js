@@ -153,6 +153,7 @@ test('can debit customer using card', function(assert) {
 				amount: 100000,
 				description: "Card debit"
 			})));
+			spy.restore();
 		});
 });
 
