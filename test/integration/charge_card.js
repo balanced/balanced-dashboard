@@ -55,6 +55,7 @@ test('can charge a card', 3, function(assert) {
 				source_uri: '/cards/' + Testing.CARD_ID
 			})));
 			tokenizingStub.restore();
+			spy.restore();
 		});
 });
 
@@ -94,6 +95,7 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 				source_uri: '/cards/' + Testing.CARD_ID
 			})), "Called with right arguments");
 			tokenizingStub.restore();
+			spy.restore();
 		});
 });
 
