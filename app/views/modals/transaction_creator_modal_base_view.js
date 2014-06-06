@@ -10,6 +10,8 @@ Balanced.DebitNewFundingInstrumentModalView = Balanced.TransactionCreatorModalVi
 	model_class: Balanced.CardDebitTransactionFactory,
 	elementId: "charge-card",
 
+	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
+
 	validMonths: Balanced.TIME.MONTHS,
 	validYears: function() {
 		var years = [];
@@ -24,5 +26,7 @@ Balanced.CreditNewFundingInstrumentModalView = Balanced.TransactionCreatorModalV
 	title: "Credit a bank account",
 	templateName: "modals/credit_new_funding_instrument",
 	model_class: Balanced.CreditBankAccountTransactionFactory,
-	elementId: "pay-seller"
+	elementId: "pay-seller",
+
+	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 });
