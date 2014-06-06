@@ -7,8 +7,8 @@ module('Customer Page', {
 	teardown: function() {
 		Testing.restoreMethods(
 			Balanced.Adapter.create,
-			Balanced.bankAccount.create,
-			Balanced.card.create
+			balanced.bankAccount.create,
+			balanced.card.create
 		);
 	}
 });

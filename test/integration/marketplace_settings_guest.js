@@ -17,7 +17,7 @@ module('Marketplace Settings Guest', {
 	teardown: function() {
 		Testing.restoreMethods(
 			Balanced.Adapter.create,
-			Balanced.bankAccount.create,
+			balanced.bankAccount.create,
 			Ember.Logger.error
 		);
 	}
