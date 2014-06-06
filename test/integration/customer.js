@@ -229,10 +229,13 @@ module('Customer Page: Credit', {
 		Testing.setupMarketplace();
 		Testing.createCreditCard();
 		Testing.createDebitCard();
-
-		if (Balanced.Adapter.create.restore) {
-			Balanced.Adapter.create.restore();
-		}
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			balanced.card.create
+		);
 	}
 });
 
@@ -303,10 +306,13 @@ module('Customer Page: Add', {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
-
-		if (Balanced.Adapter.create.restore) {
-			Balanced.Adapter.create.restore();
-		}
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			balanced.card.create
+		);
 	}
 });
 
