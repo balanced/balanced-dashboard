@@ -62,7 +62,22 @@ Balanced.DATES = {
 };
 
 Balanced.BANK_NAMES = {
-	// sanitized : [ unsanitized, unSaniTizEd ]
-	"Citibank FSB": [ "Citibank Fsb"],
-	"Union Bank": ["Union Bank Na"]
+	// formatted : [ unformatted ]
+	'': ['Na', ', N.a.', 'N.a.', 'N. a.'],
+	'of': ['Of'],
+	'and': ['And'],
+	'U.S.': ['U.s.'],
+	'USAA': ['Usaa'],
+	'USA': ['Usa'],
+	'National': ['tional'],
+	'Credit Union': ['C.u.', 'C.u'],
+	'Federal Credit Union': ['F.c.u'],
+	'GE': ['Ge'],
+	'TD': ['Td'],
+	'PNC': ['Pnc'],
+	'FSB': [ 'Fsb'],
+	'RBS': ['Rbs'],
+	'FIA': ['Fia'],
+	'HSBC': ['Hsbc'],
+	'J.P. Morgan': ['Jpmorgan', 'J.p. Morgan'],
 };
