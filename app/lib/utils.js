@@ -411,8 +411,8 @@ Balanced.Utils = Ember.Namespace.create({
 	formatBankName: function(bankName) {
 		var formattedBankName = Balanced.Utils.toTitleCase(bankName);
 
-		_.each(Balanced.BANK_NAMES, function (unformattedArr, formattedStr) {
-			_.each(unformattedArr, function (unformattedStr) {
+		_.each(Balanced.BANK_NAMES, function(unformattedArr, formattedStr) {
+			_.each(unformattedArr, function(unformattedStr) {
 				formattedBankName = formattedBankName.replace(unformattedStr, formattedStr);
 			});
 		});

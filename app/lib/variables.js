@@ -75,7 +75,7 @@ Balanced.BANK_NAMES = {
 	'GE': ['Ge'],
 	'TD': ['Td'],
 	'PNC': ['Pnc'],
-	'FSB': [ 'Fsb'],
+	'FSB': ['Fsb'],
 	'RBS': ['Rbs'],
 	'FIA': ['Fia'],
 	'HSBC': ['Hsbc'],
