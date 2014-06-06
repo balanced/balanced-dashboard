@@ -9,5 +9,5 @@ test("#amount", function(assert) {
 	assert.deepEqual(subject.get("amount"), undefined);
 
 	subject.set("dollar_amount", 100);
-	assert.deepEqual(subject.get("amount"), "100");
+	assert.deepEqual(subject.get("amount"), "10000");
 });
