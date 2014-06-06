@@ -4,7 +4,7 @@ module('Pay Seller', {
 	},
 });
 
-test('can pay a seller', 2, function(assert) {
+test('can pay a seller', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)

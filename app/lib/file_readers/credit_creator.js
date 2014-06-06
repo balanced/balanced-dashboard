@@ -11,9 +11,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	isInvalid: Ember.computed.gt("validationErrors.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
 
-	appears_on_statement_max_length: function() {
-		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT;
-	}.property(),
+	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 
 	isLoaded: function() {
 		var self = this;
