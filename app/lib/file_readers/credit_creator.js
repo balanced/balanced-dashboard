@@ -1,52 +1,19 @@
-var formatValidator = function(callback) {
-	return {
-		validator: function(object, attribute, value) {
-			value = (value || "").trim();
-			callback(object, attribute, value, function(messages) {
-				messages = _.isArray(messages) ? messages : [messages];
-
-				messages.forEach(function(message) {
-					object.get("validationErrors").add(attribute, "format", null, message);
-				});
-			});
-		}
-	};
-};
+require("app/lib/validation_helpers");
+var ValidationHelpers = Balanced.ValidationHelpers;
 
 var baseValidationsObject = {
-	"csvFields.appears_on_statement_as": {
-		presence: true,
-		format: formatValidator(function(object, attribute, value, cb) {
-			var messages = [];
-			if (value.length > 14) {
-				messages.push("must be under 15 characters");
-			}
-
-			var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
-			if (invalidCharacters.length === 1) {
-				messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
-			} else if (invalidCharacters.length > 1) {
-				messages.push('"%@" are invalid characters'.fmt(invalidCharacters));
-			}
-			cb(messages);
-		})
-	},
-
-	"csvFields.amount": {
-		presence: true,
-		format: formatValidator(function(object, attribute, value, cb) {
-			var v = parseFloat(value, 10);
-			if (isNaN(v) || v <= 0) {
-				cb("must be a positive number");
-			}
-		})
-	}
+	"csvFields.appears_on_statement_as": ValidationHelpers.transactionAppearsOnStatementAs,
+	"csvFields.amount": ValidationHelpers.positiveDollarAmount,
 };
 
 Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 
 	isInvalid: Ember.computed.gt("validationErrors.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
+
+	appears_on_statement_max_length: function() {
+		return Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT;
+	}.property(),
 
 	isLoaded: function() {
 		var self = this;
@@ -163,37 +130,16 @@ Balanced.NewCustomerCreditCreator = Balanced.CreditCreator.extend({
 	},
 
 	validations: _.extend({}, baseValidationsObject, {
-		"csvFields.new_bank_account_type": {
-			presence: true,
-			format: formatValidator(function(object, attribute, value, cb) {
-				var validStrings = ["checking", "savings"];
-				value = value.toLowerCase();
-				if (validStrings.length > 0 && validStrings.indexOf(value) < 0) {
-					cb("%@ is not a valid bank account type".fmt(value));
-				}
-			})
-		},
 		"csvFields.new_customer_name": {
 			presence: true
 		},
 		"csvFields.new_customer_email": {
 			presence: true
 		},
-		"csvFields.new_bank_routing_number": {
-			presence: true,
-			format: formatValidator(function(object, attribute, value, cb) {
-				value = value.toLowerCase();
-				if (!balanced.bankAccount.validateRoutingNumber(value)) {
-					cb("%@ is not a valid bank routing number".fmt(value));
-				}
-			})
-		},
-		"csvFields.new_bank_account_number": {
-			presence: true
-		},
-		"csvFields.new_bank_account_holders_name": {
-			presence: true
-		}
+		"csvFields.new_bank_routing_number": ValidationHelpers.bankAccountRoutingNumber,
+		"csvFields.new_bank_account_number": ValidationHelpers.bankAccountNumber,
+		"csvFields.new_bank_account_holders_name": ValidationHelpers.bankAccountName,
+		"csvFields.new_bank_account_type": ValidationHelpers.bankAccountType,
 	}),
 
 	isExisting: false,

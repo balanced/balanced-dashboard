@@ -32,8 +32,8 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 		format: formatValidator(function(object, attribute, value, cb) {
 			var maxLength = object.get("appears_on_statement_max_length");
 			var messages = [];
-			if (value.length > maxLength) {
-				messages.push("must be under %@ characters".fmt(maxLength));
+			if (maxLength < value.length) {
+				messages.push("must be under %@ characters".fmt(maxLength + 1));
 			}
 
 			var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
