@@ -74,7 +74,7 @@ var CreditBankAccountBuilder = TransactionBuilder.extend({
 });
 
 var CreateTransactionModalView = Balanced.ObjectCreatorModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"]
+	classNameBindings: [":wide-modal", ":modal-overflow"],
 });
 
 Balanced.DebitNewFundingInstrumentModalView = CreateTransactionModalView.extend({
@@ -96,4 +96,5 @@ Balanced.CreditNewFundingInstrumentModalView = CreateTransactionModalView.extend
 	title: "Credit a bank account",
 	templateName: "modals/credit_new_funding_instrument",
 	model_class: CreditBankAccountBuilder,
+	elementId: "pay-seller"
 });
