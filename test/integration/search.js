@@ -3,11 +3,20 @@ module('Search', {
 		Testing.setupMarketplace();
 		Testing.createDebits();
 		Testing.createCustomer();
-		Balanced.Auth.set('signedIn', true);
-
-		Testing.setupSearch();
+		Balanced.Auth.setProperties({
+			signedIn: true,
+			isGuest: false
+		});
 	}
 });
+
+
+var assertQueryString = function(string, expected, assert) {
+	var qsParameters = Balanced.Utils.queryStringToObject(string);
+	_.each(expected, function(value, key) {
+		assert.deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
+	});
+};
 
 test('search results show and hide', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
@@ -27,38 +36,21 @@ test('search results show and hide', function(assert) {
 		});
 });
 
-test('search results hide on click [x]', function(assert) {
+test('search results hide when backdrop is clicked', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search .search-close')
-		.then(function() {
-			assert.equal($('#q').val(), '');
-			assert.equal($('#search').hasClass('with-results'), false);
-			assert.equal($('#main-overlay').css('display'), 'none');
-			assert.equal($('body').hasClass('overlaid'), false);
-		});
+		.checkElements({
+			"#search.with-results": 1,
+			"body.overlaid": 1
+		}, assert)
+		.click('#search .modal-backdrop')
+		.checkElements({
+			"#search.with-results": 0,
+			"body.overlaid": 0
+		}, assert);
 });
-
-// can't create a hold at the moment
-/*
-test('search "%" click filter by holds.', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-			Testing.runSearch('%');
-		})
-		.click('#search .results th.type a.dropdown-toggle')
-		.then(function() {
-			assert.equal($('#search .results li.transactions ul.transaction-filter').css('display'), 'block', 'transaction filter menu visible');
-		})
-		.click('#search .results li.transactions ul.transaction-filter a:contains("Holds")')
-		.then(function() {
-			assert.equal($('#search .results li.transactions > a:contains("1")').length, 1, 'has 1 hold transactions in header');
-			assert.equal($('#search .results table.transactions tbody tr').length, 1, 'has 1 hold transactions');
-		});
-});
-*/
 
 test('search date picker dropdown', function(assert) {
 	visit(Testing.MARKETPLACE_ROUTE)
@@ -91,62 +83,40 @@ test('search date range pick', function(assert) {
 		.assertClick('#search .datetime-picker', assert)
 		.then(function() {
 			var dp = $("#search .datetime-picker").data("daterangepicker");
-			dp.setStartDate("Aug 01, 2013");
-			dp.setEndDate("Aug 02, 2013");
+			dp.setStartDate(moment('2013-08-01T00:00:00.000Z').toDate());
+			dp.setEndDate(moment('2013-08-01T23:59:59.999Z').toDate());
 			spy = sinon.spy(Balanced.Adapter, 'get');
 		})
 		.assertClick('.daterangepicker:visible .buttons button.applyBtn', assert)
 		.then(function() {
-			var begin = moment("Aug 01, 2013").startOf('day');
-			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment("Aug 02, 2013").startOf('day');
-			var end_iso = encodeURIComponent(end.toISOString());
-
-			var expected_uri = '/marketplaces/' + Testing.MARKETPLACE_ID + '/search?' +
-				'created_at%5B%3C%5D=' + end_iso + '&' +
-				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&offset=0&q=&sort=created_at%2Cdesc&type%5Bin%5D=debit%2Ccredit%2Ccard_hold%2Crefund';
-
 			var request = spy.getCall(spy.callCount - 1);
+
 			assert.equal(request.args[0], Balanced.Transaction);
-			assert.equal(request.args[1], expected_uri);
+			assert.deepEqual(request.args[1].split("?")[0], '/marketplaces/%@/search'.fmt(Testing.MARKETPLACE_ID));
+			assertQueryString(request.args[1], {
+				"created_at[<]": "2013-08-01T23:59:00.000Z",
+				"created_at[>]": "2013-08-01T00:00:00.000Z",
+				limit: "2",
+				offset: "0",
+				q: "",
+				sort: "created_at,desc",
+				"type[in]": "debit,credit,card_hold,refund,reversal"
+			}, assert);
 		});
 });
 
 test('search date sort has three states', function(assert) {
-	visit(Testing.MARKETPLACE_ROUTE).then(function() {
-		Testing.runSearch('%');
+	var objectPath = "#search .results th.date .sortable";
 
-		var objectPath = "#search .results th.date";
-		var states = [];
-		var getState = function() {
-			if ($(objectPath).hasClass("unsorted")) {
-				if ($.inArray("unsorted", states) === -1) {
-					states.push("unsorted");
-				}
-			} else if ($(objectPath).hasClass("ascending")) {
-				if ($.inArray("ascending", states) === -1) {
-					states.push("ascending");
-				}
-			} else if ($(objectPath).hasClass("descending")) {
-				if ($.inArray("descending", states) === -1) {
-					states.push("descending");
-				}
-			}
-		};
-
-		var count = 0;
-		var testAmount = 5;
-		while (count !== testAmount) {
-			$(objectPath).click();
-			getState();
-			count++;
-		}
-		states.sort();
-
-		var expectedStates = ["ascending", "descending"];
-		assert.equal(states[0], expectedStates[0]);
-		assert.equal(states[1], expectedStates[1]);
-		assert.equal(states.length, 2);
-	});
+	visit(Testing.MARKETPLACE_ROUTE)
+		.then(function() {
+			Testing.runSearch('%');
+		})
+		.then(function() {
+			assert.ok($(objectPath).is(".descending"), "Search defaults to descending");
+		})
+		.click(objectPath)
+		.then(function() {
+			assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+		});
 });

@@ -1,11 +1,10 @@
-Balanced.LogsIndexController = Balanced.ObjectController.extend(Balanced.ResultsTable, {
+Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
-
 	sortField: 'created_at',
 	sortOrder: 'desc',
 	results_type: 'Balanced.Log',
 	type: null,
-	limit: 20,
+	limit: 50,
 	endpoint: null,
 	status_rollup: null,
 
@@ -23,6 +22,25 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Balanced.Results
 			} else {
 				this.set('currentEndpointFilter', null);
 				this.set('endpoint', null);
+			}
+		},
+
+		changeLogStatusFilter: function(status) {
+			if (status === 'succeeded') {
+				this.setProperties({
+					statusRollupFilterSucceeded: true,
+					statusRollupFilterFailed: false
+				});
+			} else if (status === 'failed') {
+				this.setProperties({
+					statusRollupFilterSucceeded: false,
+					statusRollupFilterFailed: true
+				});
+			} else if (status === 'all') {
+				this.setProperties({
+					statusRollupFilterSucceeded: true,
+					statusRollupFilterFailed: true
+				});
 			}
 		}
 	},
@@ -64,7 +82,7 @@ Balanced.LogsIndexController = Balanced.ObjectController.extend(Balanced.Results
 /*
 	This controller provides embedded log records in resource pages
 */
-Balanced.LogsEmbeddedController = Balanced.LogsIndexController.extend({
+Balanced.LogsEmbeddedController = Balanced.MarketplaceLogsController.extend({
 	limit: 5,
 
 	extra_filtering_params: function() {
@@ -75,6 +93,6 @@ Balanced.LogsEmbeddedController = Balanced.LogsIndexController.extend({
 
 });
 
-Balanced.LogsLogController = Balanced.ObjectController.extend({
+Balanced.LogController = Balanced.ObjectController.extend({
 	needs: ['marketplace']
 });

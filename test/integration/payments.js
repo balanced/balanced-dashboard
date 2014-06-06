@@ -10,7 +10,7 @@ var setupMarketplaceController = function(bankAccounts) {
 	});
 };
 
-module('Activity', {
+module('Payments', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
@@ -22,12 +22,35 @@ module('Activity', {
 	}
 });
 
+var assertQueryString = function(string, expected, assert) {
+	var qsParameters = Balanced.Utils.queryStringToObject(string);
+	_.each(expected, function(value, key) {
+		assert.deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
+	});
+};
+
+var getResultsUri = function() {
+	return Balanced.__container__.lookup('controller:activity_transactions').get("results_uri");
+};
+
 test('can visit page', function(assert) {
 	visit(Testing.ACTIVITY_ROUTE)
 		.checkElements({
-			"#content h1": "Activity",
-			'#activity li.download': 1
-		}, assert);
+			"#content h1": "Transactions",
+			'#activity .download': 1
+		}, assert)
+		.then(function() {
+			var resultsUri = getResultsUri();
+			assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
+			assertQueryString(resultsUri, {
+				limit: "2",
+				offset: "0",
+				q: "",
+				sort: "created_at,desc",
+				"status[in]": "failed,succeeded,pending",
+				"type[in]": "debit,credit,hold,refund"
+			}, assert);
+		});
 });
 
 test('add funds', function(assert) {
@@ -152,7 +175,7 @@ test('download activity', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("#main #activity .icon-export.download")
+		.click("#main #activity .download")
 		.fillForm(".download-modal.in form", {
 			email: "test@example.com"
 		})
@@ -177,19 +200,24 @@ test('download disputes', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("a:contains('Disputes')")
+		.click("#main #activity a:contains(Disputes)")
 		.click("#main #activity .icon-export.download")
 		.fillForm(".download-modal.in form", {
 			email: "test@example.com"
 		})
-		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
+		.click('.download-modal.in .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+			var args = stub.firstCall.args;
+
+			assert.ok(stub.calledOnce, "Called Once");
+			assert.deepEqual(args[0], Balanced.Download);
+			assert.deepEqual(args[1], "/downloads");
+			assert.deepEqual(args[2], {
 				email_address: "test@example.com",
 				uri: "",
 				type: "disputes"
-			}));
+			}, "Called with the right arguments");
+
 			assert.equal($(".alert span").length, 1);
 			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
 		});
@@ -210,40 +238,18 @@ test('download activity only runs once despite multiple clicks', function(assert
 		});
 });
 
-test('transactions date sort has two states', function(assert) {
-	var objectPath = "#activity .results th.date";
+test('transactions date sort has different states', function(assert) {
+	var objectPath = "#activity .results th.date .sortable";
 	var states = [];
 	var count = 0;
 	var testAmount = 5;
 
-	var getState = function() {
-		if ($(objectPath).hasClass("unsorted")) {
-			if ($.inArray("unsorted", states) === -1) {
-				states.push("unsorted");
-			}
-		} else if ($(objectPath).hasClass("ascending")) {
-			if ($.inArray("ascending", states) === -1) {
-				states.push("ascending");
-			}
-		} else if ($(objectPath).hasClass("descending")) {
-			if ($.inArray("descending", states) === -1) {
-				states.push("descending");
-			}
-		}
-
-		count++;
-		if (count !== testAmount) {
-			click($(objectPath)).then(getState);
-		} else {
-			states.sort();
-
-			var expectedStates = ["ascending", "descending"];
-			assert.equal(states[0], expectedStates[0]);
-			assert.equal(states[1], expectedStates[1]);
-			assert.equal(states.length, 2);
-		}
-	};
-
 	visit(Testing.ACTIVITY_ROUTE)
-		.click($(objectPath)).then(getState);
+		.then(function() {
+			assert.ok($(objectPath).is(".descending"), "Search defaults to descending");
+		})
+		.click(objectPath)
+		.then(function() {
+			assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+		});
 });

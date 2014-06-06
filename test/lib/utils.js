@@ -228,16 +228,6 @@ var Testing = {
 		});
 	},
 
-	_createCustomer: function() {
-		var self = this;
-		return Balanced.Customer.create({
-			uri: this.marketplace.get('customers_uri'),
-			address: {}
-		}).save().then(function(customer) {
-			return customer;
-		});
-	},
-
 	waitForState: function(intervalTimeout, errorTimeout, callback) {
 		var startDate = new Date();
 		return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -349,9 +339,10 @@ var Testing = {
 	createCustomer: function() {
 		var self = this;
 
-		return Ember.run(function() {
-			return self._createCustomer();
-		});
+		return Balanced.Customer.create({
+			uri: this.marketplace.get('customers_uri'),
+			address: {}
+		}).save();
 	},
 
 	setupEvent: function(howMany) {
@@ -419,38 +410,6 @@ var Testing = {
 		});
 
 		this.waitForResults(controller, howMany, type);
-	},
-
-	setupSearch: function(howMany) {
-		howMany = howMany || 4;
-		stop();
-		visit(this.MARKETPLACES_ROUTE)
-			.then(function() {
-				var controller = Balanced.__container__.lookup('controller:search');
-				controller.setProperties({
-					debounced_search: '%',
-					showResults: true
-				});
-			})
-			.then(function() {
-				return Testing.waitForState(1000, 10000, function(done, error) {
-					var controller = Balanced.__container__.lookup('controller:search');
-					controller.get('results').then(function(results) {
-						if (results.get('length') < howMany) {
-							controller.send('reload');
-							error();
-						} else {
-							done();
-						}
-					});
-				});
-			})
-			.then(function() {
-				start();
-			}, function() {
-				Ember.Logger.error("Failed to setupSearch because no results were returned");
-				start();
-			});
 	},
 
 	setupActivity: function(howMany, type) {

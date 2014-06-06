@@ -1,22 +1,21 @@
 <thead>
 	<tr>
-		{{#view Balanced.ResultsSortableColumnHeaderView class="span3 label6a sortable" field="created_at"}}<span>Created</span>{{/view}}
-		<th class="span3 label6a name"><span>Customer Name</span></th>
-		<th class="span3 label6a name"><span>Business Name</span></th>
-		<th class="span6 label6a email"><span>Email</span></th>
+		<th class="span3 label6a has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="span4 label6a name"><span>Customer</span></th>
+		<th class="span4 label6a name"><span>Business</span></th>
 	</tr>
 </thead>
 
 {{#if view.customers.hasNextPage}}
 	<tfoot>
 		<tr>
-			<td colspan="4" class="load-more-results">
+			<td colspan="3" class="load-more-results">
 				{{#if view.customers.loadingNextPage}}
 					<div class="loader-container">
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a class="btn secondary" {{action "loadMore" view.customers}}>Load more</a>
+					<a class="btn sm secondary" {{action "loadMore" view.customers}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -26,14 +25,13 @@
 <tbody>
 	{{#each customer in view.customers}}
 		<tr>
-			{{view Balanced.LinkedDateCellView routeName="customers" date=customer.created_at item=customer classNames="span3"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.display_me classNames="span3 name"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.business_name classNames="span3 business_name"}}
-			{{view Balanced.TitledLinkedCellView routeName="customers" item=customer labelText=customer.email classNames="span3 email"}}
+			{{view Balanced.LinkedDateCellView routeName=customer.route_name date=customer.created_at item=customer classNames="span3"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.display_me classNames="span4 name"}}
+			{{view Balanced.TitledLinkedCellView routeName=customer.route_name item=customer labelText=customer.business_name classNames="span4 business_name"}}
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="4" class="no-results">
+			<td colspan="3" class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}

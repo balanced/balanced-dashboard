@@ -12,17 +12,31 @@ Balanced.TransactionTypeCellView = Balanced.LinkedTransactionCellView.extend({
 
 Balanced.TransactionStatusCellView = Balanced.LinkedTransactionCellView.extend({
 	labelText: Ember.computed.oneWay("item.status"),
-	classNameBindings: [":status", "statusClass"],
-	statusClass: Balanced.computed.downcase("item.status")
+	classNameBindings: [":status"],
+	linkSpanClassNames: Balanced.computed.downcase("item.status")
 });
 
 Balanced.TransactionDescriptionCellView = Balanced.LinkedTransactionCellView.extend({
 	title: Ember.computed.oneWay("item.description"),
 	classNameBindings: [":description", "item.description::null-field"],
 	attributeBindings: ["title"],
+	hasDescription: function() {
+		return !_.isEmpty(this.get("item.description"));
+	}.property("item.description"),
+
+	linkSpanClassNames: function() {
+		if (!this.get('hasDescription')) {
+			return "sl-none";
+		}
+	}.property("hasDescription"),
+
 	labelText: function() {
-		return this.get("item.description") || "None";
-	}.property("item.description")
+		if (this.get('hasDescription')) {
+			return this.get("item.description");
+		} else {
+			return "none";
+		}
+	}.property("item.description", "hasDescription")
 });
 
 Balanced.TransactionCustomerCellView = Balanced.LinkedTransactionCellView.extend({

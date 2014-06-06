@@ -1,3 +1,12 @@
+#header.start, #header.apply {
+  background-color: @gray1;
+  margin: 0;
+
+  #logo {
+    margin: 25px 0 0 90px;
+  }
+}
+
 #main.start {
   @sidebarWidth: 360px;
 
@@ -27,9 +36,11 @@
   }
   .api-key {
     margin-top: 50px;
+    .title, .secret {
+      display: inline-block;
+    }
     .title {
       .sl-sb;
-      float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;
@@ -37,7 +48,6 @@
     .secret {
       .sl-code;
       font-size: 12px;
-      float: left;
       padding: 5px 10px;
       border: 1px solid @gray3;
       border-bottom-width: 2px;

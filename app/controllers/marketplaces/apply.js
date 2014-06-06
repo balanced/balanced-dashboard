@@ -36,6 +36,10 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	companyTypes: Balanced.Marketplace.COMPANY_TYPES,
 
 	actions: {
+		goToHome: function() {
+			this.transitionToRoute('marketplaces');
+		},
+
 		selectType: function(applicationType) {
 			this.get('content').set('applicationType', applicationType);
 

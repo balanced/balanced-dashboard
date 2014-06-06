@@ -1,4 +1,5 @@
-Balanced.InvoicesIndexController = Balanced.ObjectController.extend(
+Balanced.MarketplaceInvoicesController = Balanced.ObjectController.extend(
+	Ember.Evented,
 	Balanced.ResultsTable, {
 		needs: ['marketplace'],
 
@@ -9,7 +10,6 @@ Balanced.InvoicesIndexController = Balanced.ObjectController.extend(
 		limit: 20,
 
 		baseClassSelector: '#invoices',
-
 		results_base_uri: Ember.computed.readOnly('controllers.marketplace.invoices_uri')
 	}
 );

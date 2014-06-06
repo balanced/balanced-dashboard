@@ -1,7 +1,7 @@
 require("./table_cell_base_view");
 
 Balanced.LogsTableCellView = Balanced.LinkedTextCellView.extend({
-	routeName: "logs.log",
+	routeName: Ember.computed.oneWay("item.route_name"),
 });
 
 Balanced.LogDescriptionCellView = Balanced.LogsTableCellView.extend({
@@ -15,11 +15,8 @@ Balanced.LogDescriptionCellView = Balanced.LogsTableCellView.extend({
 
 Balanced.LogStatusCellView = Balanced.LogsTableCellView.extend({
 	classNameBindings: [":black"],
-	labelText: function() {
-		var status = this.get("item.message.response.status");
-		var statusClass = status.match(/2\d\d/) ? 'ok' : 'error';
-		return new Ember.Handlebars.SafeString(
-			'<span class="status-%@">%@</span>'.fmt(statusClass, status)
-		);
-	}.property("item.message.response.status")
+	labelText: Ember.computed.oneWay('item.message.response.status'),
+	linkSpanClassNames: function() {
+		return this.get('labelText').match(/2\d\d/) ? 'succeeded' : 'failed';
+	}.property('labelText')
 });

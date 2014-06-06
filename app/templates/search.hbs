@@ -1,15 +1,16 @@
+{{#unless auth.isGuest}}
 <div id="search" {{bind-attr class="controller.displayResults:with-results"}}>
 	<div class="search-field-container">
 		<label for="q" class="icon-search"></label>
 		{{view Balanced.SearchQueryInputView valueBinding="search" action="query" name="q" id="q" autocomplete="off"}}
-
 		{{#if isLoading}}
-			<span class="loader loading query-loader"></span>
-		{{else}}
-			<span class="search-close" {{action "clearSearch"}}>&times;</span>
+			<span class="query-loader">
+				<span class="loader loading"></span>
+			</span>
 		{{/if}}
 	</div>
 
+	<div class="modal-backdrop results-backdrop in" {{action "closeSearch"}}></div>
 	<div class="results">
 		{{view Balanced.ResultsFiltersHeaderWithCountsView searchResultBinding="last_loaded_search_result" from="search"}}
 
@@ -42,3 +43,4 @@
 		{{partial "modals/download"}}
 	{{/if}}
 </div>
+{{/unless}}

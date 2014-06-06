@@ -56,9 +56,8 @@ test('cancel', function(assert) {
 			var $skipButton = $('button:contains("Skip")');
 			assert.equal($skipButton.length, 1, 'skip button exists');
 		})
+		.click('button:contains("Skip")')
 		.then(function() {
-
-			click('button:contains("Skip")');
-			assert.equal($('.page-title').text().trim(), 'Activity', 'title is correct');
+			assert.equal($('.page-title').text().trim(), 'Transactions', 'title is correct');
 		});
 });

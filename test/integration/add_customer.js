@@ -9,7 +9,7 @@ test('can visit page', function(assert) {
 	// check the page title has been selected
 	visit(Testing.ADD_CUSTOMER_ROUTE).then(function() {
 		var $title = $('#content h1');
-		assert.equal($title.text().trim(), 'Add a customer', 'Title is not correct');
+		assert.equal($title.text().trim(), 'Add customer', 'Title is not correct');
 	});
 });
 

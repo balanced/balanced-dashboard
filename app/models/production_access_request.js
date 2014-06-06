@@ -38,7 +38,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"incorporationMonth",
 			"incorporationDay",
 			"personFirstName",
-			"personMiddleName",
 			"personLastName",
 			"streetAddress",
 			"postalCode",

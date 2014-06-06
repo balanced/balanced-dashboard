@@ -9,59 +9,24 @@
 @marketplaceNavColor: @gray4;
 @marketplaceNavTriangleSize: 10px;
 
-#header {
+#logo {
+  height: @headerHeight;
+  width: 32px;
+  float: left;
 
-  #logo {
-    height: @headerHeight;
-    width: 32px;
-    float: left;
-
-    .img {
-      .cssicon(
-        @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
-        @width: 16px,
-        @height: 16px,
-        @display: block
-      );
-
-      margin: 16px 0 16px 15px;
-      background-size: 16px;
-      background-repeat: no-repeat;
-
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
-
-  #balanced-address {
-    display: none;
-  }
+  .cssicon(
+    @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAMAAAC+oj0CAAAAV1BMVEVymix4oi/vQDXjPDJ4oi94oi/vQDXvQDXvQDXvQDV4oi91ni7vQDXqPjN4oi/foRLanRHopxNznC3mPTPopxPopxMAAABwmCzgPDHanRHopxN4oi/vQDXwPhJhAAAAF3RSTlPbICDbYBBQYEAQgLOAs1DH7hDHx6CAAHwvTFAAAABmSURBVHja1cjXDYAwDABR01sCpAEh2X9ObCFkJLMA93cPSpcPtb0a92QLqDLWsdYJA8iUY7aJulkzTzdr4p55Jp1gUM61uOzWjg1sn/2Iw7IEyeHEguCVeBUciaNgT+wFG49qnrsAe+cllBc1FLYAAAAASUVORK5CYII='),
+    @width: 14px,
+    @height: 14px,
+    @display: block
+  );
+  margin: 25px 0 0 17px;
+  background-size: 14px;
+  background-repeat: no-repeat;
 }
 
-#marketplaces-and-search {
-  margin-left: 0;
-
-  #marketplaces.dropdown {
-    width: 150px;
-
-    &.open, .dropdown-toggle:hover {
-      background-color: @gray9;
-    }
-
-    .none {
-      .sl;
-      color: @gray4;
-      padding: 10px 20px;
-      font-style: italic;
-    }
-  }
-}
-
-.none {
-  .sl;
-  color: @gray5;
-  font-style: italic;
+#balanced-address {
+  display: none;
 }
 
 #flogo {
@@ -70,93 +35,54 @@
   }
 }
 
-footer {
-  background-color: @white;
-  border-top: 1px solid @marketplaceNavBackground;
-  height: 60px;
-  position: relative;
+#balanced-footer {
+  @baseColor: @gray4;
+  bottom: 17px;
+  position: absolute;
+  width: 100%;
 
-  #flogo {
-    border-right: 1px solid @marketplaceNavBackground;
-    height: 60px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 89px;
+  .info-links {
+    margin-bottom: 14px;
   }
-  .social-icons {
-    float: right;
-    margin: 15px 20px 0;
-    a {
-      color: @gray3;
-      display: inline-block;
-      font-size: 23px;
-      line-height: 38px;
-      overflow: hidden;
-      text-align: center;
-      margin-right: 17px;
-      &:hover {
-        color: @gray4;
-      }
-    }
-  }
-  ul {
-    margin: 20px;
-    float: left;
-  }
-  li {
+
+  span, a {
+    .sl-sm;
+    color: @baseColor;
     display: block;
-    float: left;
+    padding: 1px 17px;
+  }
 
-    span {
-      .sl-sm;
-      padding-right: 10px;
-      color: @gray4;
+  .copyright-label {
+    color: @white;
+  }
+
+  a {
+    &:visited {
+      color: @baseColor;
     }
-    a {
-      .sl-sm;
-      display: block;
-      padding: 0 10px;
-      color: @gray4;
 
-      &:visited {
-        color: @gray4;
-      }
-
-      &:hover {
-        color: @black;
-        text-decoration: none;
-      }
-
-      &:active {
-        color: @black;
-      }
+    &:hover, &:active {
+      color: @white;
+      text-decoration: none;
     }
   }
 }
 
 #site-nav {
-  float: right;
-  margin-left: 0;
+  margin-right: 45px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
 
   .nav-login {
     line-height: @headerHeight;
   }
   .nav-item {
     float: left;
-    height: @headerHeight;
 
     > a, > span {
       display: block;
-    }
-
-    > a {
-      color: @white;
-
-      &:hover {
-        background-color: @gray9;
-        text-decoration: none;
-      }
     }
   }
 }
@@ -166,60 +92,19 @@ footer {
   width: 150px;
 }
 
-#help-menu {
-  text-align: center;
-
-  a {
-    margin: 17px 5px 0px 17px;
-  }
-  .icon-question-mark {
-    font-size: 16px;
-    color: @gray4;
-    background-color: @gray7;
-    .border-radius(100%);
-    padding: 11px 8px 5px;
-
-    &:hover {
-      color: @white;
-      background-color: @gray8;
-    }
-  }
-}
-
 #login-menu {
   text-align: center;
-  width: 88px;
 
   a {
-    margin: 18px;
+    line-height: 70px;
   }
 }
 
 #user-menu {
-  text-align: center;
   min-width: 90px;
 
-  a.dropdown-toggle.gravatar {
-    padding: 0;
-    opacity: 0.6;
-
-    span {
-      max-width: 175px;
-      padding-left: 5px
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  .profile.icon {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background-position: -60px -160px;
-    margin: 10px 0 10px 10px;
-    .border-radius(100%);
+  span {
+    font-size: 12px;
   }
 
   .dropdown-menu {
@@ -238,6 +123,11 @@ footer {
     min-height: auto;
   }
 }
+
+#marketplace-apply {
+  margin: 50px 150px;
+}
+
 .hidden {
   display: none;
 }
