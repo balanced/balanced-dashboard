@@ -105,13 +105,25 @@ header.results-label h3 {
   td.status {
     text-transform: capitalize;
 
-    span:before {
+    a > span:before {
       content: '';
       display: inline-block;
       width: 8px;
       height: 8px;
       border-radius:100%;
       margin-right: 6px;
+    }
+
+    &.two-line {
+      a > span:before {
+          float: left;
+          margin-top: 7px;
+      }
+
+      a > span.failed:before {
+          float: left;
+          margin-top: 14px;
+      }
     }
 
     .succeeded, .captured, .created, .won, .paid {
@@ -137,12 +149,6 @@ header.results-label h3 {
     }
   }
 
-  td.endpoint {
-    span {
-      text-transform: capitalize;
-    }
-  }
-
   .num, .align-right {
     text-align: right;
   }
@@ -156,9 +162,7 @@ header.results-label h3 {
     padding: 0 10px;
 
     & > span {
-      .sl-sm-sb;
-      color: @gray6;
-      line-height: 35px;
+      &:extend(table.items th > span);
     }
 
     &:hover {
@@ -173,7 +177,7 @@ header.results-label h3 {
       font-family: 'Balanced-Icon';
       &:extend(.icon-sort-none:before);
       color: @gray3;
-      margin-left: 5px;
+      margin-left: 2px;
       vertical-align: sub;
     }
     &.ascending {

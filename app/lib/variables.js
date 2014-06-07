@@ -60,3 +60,24 @@ Balanced.DATES = {
 	RESULTS_MAX_TIME: moment().add('hours', 2).startOf('hour').toDate(),
 	RESULTS_MIN_TIME: moment().subtract('months', 1).startOf('hour').toDate()
 };
+
+Balanced.BANK_NAMES = {
+	// formatted : [ unformatted ]
+	'': ['Na', ', N.a.', 'N.a.', 'N. a.'],
+	'of': ['Of'],
+	'and': ['And'],
+	'U.S.': ['U.s.'],
+	'USAA': ['Usaa'],
+	'USA': ['Usa'],
+	'National': ['tional'],
+	'Credit Union': ['C.u.', 'C.u'],
+	'Federal Credit Union': ['F.c.u'],
+	'GE': ['Ge'],
+	'TD': ['Td'],
+	'PNC': ['Pnc'],
+	'FSB': ['Fsb'],
+	'RBS': ['Rbs'],
+	'FIA': ['Fia'],
+	'HSBC': ['Hsbc'],
+	'J.P. Morgan': ['Jpmorgan', 'J.p. Morgan'],
+};

@@ -190,6 +190,8 @@ form {
   }
   .confirm-delete-key, .confirm-delete-user {
     font-size: 20px;
+    color: @gray4;
+    vertical-align: middle;
   }
   .icon-key, .icon-avatar {
     font-size: 22px;
@@ -222,13 +224,8 @@ form {
     cursor: default;
   }
   .delete-container {
-    .delete-key-outer, .delete-user-outer {
-      text-align: right;
-      width: 100%;
-      a.confirm-delete-key, a.confirm-delete-user {
-        color: @gray3;
-      }
-    }
+    padding: 0 !important;
+
     span.wrap {
       padding-right: 0;
     }
