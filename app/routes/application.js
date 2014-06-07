@@ -1,7 +1,7 @@
 var INFINITE_LOOP_DURATION_MILLIS = 2500;
 var INFINITE_LOOP_NUM_ERRORS = 5;
 
-Balanced.ApplicationRoute = Balanced.Route.extend({
+Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	init: function() {
 		this.set('errorTimestamps', []);
 	},
@@ -19,6 +19,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend({
 	},
 
 	actions: {
+		openModal: function() {
+			var args = ["openModal"].concat(_.toArray(arguments));
+			this.trigger.apply(this, args);
+		},
+
 		error: function(error, transition) {
 			if (!window.TESTING) {
 				// Check for an infinite loop of error handling and short-circuit
