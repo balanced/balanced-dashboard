@@ -13,6 +13,23 @@ var formatValidator = function(callback) {
 	};
 };
 
+var generateTransactionAppearsOnStatementAsValidation = function(maxLength) {
+	return formatValidator(function(object, attribute, value, cb) {
+		var messages = [];
+		if (maxLength < value.length) {
+			messages.push("must be under %@ characters".fmt(maxLength + 1));
+		}
+
+		var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
+		if (invalidCharacters.length === 1) {
+			messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
+		} else if (invalidCharacters.length > 1) {
+			messages.push('"%@" are invalid characters'.fmt(invalidCharacters));
+		}
+		cb(messages);
+	});
+};
+
 Balanced.ValidationHelpers = Ember.Namespace.create({
 	positiveDollarAmount: {
 		presence: true,
@@ -27,23 +44,15 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 			}
 		})
 	},
-	transactionAppearsOnStatementAs: {
-		presence: true,
-		format: formatValidator(function(object, attribute, value, cb) {
-			var maxLength = object.get("appears_on_statement_max_length");
-			var messages = [];
-			if (maxLength < value.length) {
-				messages.push("must be under %@ characters".fmt(maxLength + 1));
-			}
 
-			var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
-			if (invalidCharacters.length === 1) {
-				messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
-			} else if (invalidCharacters.length > 1) {
-				messages.push('"%@" are invalid characters'.fmt(invalidCharacters));
-			}
-			cb(messages);
-		})
+	bankTransactionAppearsOnStatementAs: {
+		presence: true,
+		format: generateTransactionAppearsOnStatementAsValidation(Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT),
+	},
+
+	cardTransactionAppearsOnStatementAs: {
+		presence: true,
+		format: generateTransactionAppearsOnStatementAsValidation(Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD),
 	},
 
 	cardName: {
