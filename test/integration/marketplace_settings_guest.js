@@ -140,7 +140,7 @@ test('can update marketplace info', function(assert) {
 			Ember.run(function() {
 				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 				model.set('production', true);
-			})
+			});
 		})
 		.click('.marketplace-info a.icon-edit')
 		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
