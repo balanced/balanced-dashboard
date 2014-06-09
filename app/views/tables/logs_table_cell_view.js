@@ -13,10 +13,33 @@ Balanced.LogDescriptionCellView = Balanced.LogsTableCellView.extend({
 	}.property("item.condensed_request_url", "item.message.request.method"),
 });
 
-Balanced.LogStatusCellView = Balanced.LogsTableCellView.extend({
+Balanced.LogStatusCellView = Balanced.LinkedTextCellView.extend({
+	routeName: Ember.computed.oneWay("item.route_name"),
 	classNameBindings: [":black"],
-	labelText: Ember.computed.oneWay('item.message.response.status'),
-	linkSpanClassNames: function() {
-		return this.get('labelText').match(/2\d\d/) ? 'succeeded' : 'failed';
-	}.property('labelText')
+	isBlank: false,
+	primaryLabelText: Ember.computed.oneWay('item.message.response.status'),
+	secondaryLabelText: function() {
+		if (this.get('item.message.response.body.category_code')) {
+			return this.get('item.message.response.body.category_code').replace(/-/g, ' ');
+		} else {
+			return undefined;
+		}
+	}.property('item.message.response.body.category_code'),
+
+	spanClassNames: function() {
+		return this.get('primaryLabelText').match(/2\d\d/) ? 'succeeded' : 'failed';
+	}.property('labelText'),
+
+	displayValue: function() {
+		var label = '<span class="primary">%@</span><span class="secondary">%@</span>';
+		return Balanced.Utils.safeFormat(label, this.get('primaryLabelText'), this.get('secondaryLabelText')).htmlSafe();
+	}.property('primaryLabelText', 'secondaryLabelText'),
+
+	title: function() {
+		if (this.get('secondaryLabelText')) {
+			return '%@ (%@)'.fmt(this.get('primaryLabelText'), this.get('secondaryLabelText'));
+		} else {
+			return this.get('primaryLabelText');
+		}
+	}.property('primaryLabelText', 'secondaryLabelText')
 });

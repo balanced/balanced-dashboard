@@ -14,6 +14,7 @@
 					<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
 					<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
 					<li><a href="#" {{action "changeTypeFilter" "dispute"}}> Disputes </a></li>
+					<li><a href="#" {{action "changeTypeFilter" "reversal"}}> Reversals </a></li>
 				</ul>
 			</div>
 		</th>
@@ -63,9 +64,22 @@
 				routeName=transaction.route_name
 				date=transaction.created_at
 			}}
-			{{view Balanced.TransactionTypeCellView item=transaction classNames="span2"}}
-			{{view Balanced.TransactionStatusCellView item=transaction classNames="span3"}}
-			{{view Balanced.TransactionDescriptionCellView item=transaction classNames="span4"}}
+			{{view Balanced.LinkedTextCellView
+				labelText=transaction.type_name
+				classNames="span2 type"
+				title=transaction.type_name
+			}}
+			{{view Balanced.LinkedTextCellView
+				labelText=transaction.status
+				spanClassNamesBinding="transaction.status"
+				classNames="span3 status"
+				titleBinding="transaction.status"
+			}}
+			{{view Balanced.LinkedTextCellView
+				labelText=transaction.description
+				classNames="span4"
+				titleBinding="transaction.description"
+			}}
 			{{view Balanced.TransactionCustomerCellView item=transaction classNames="span4"}}
 
 			{{view Balanced.LinkedTwoLinesCellView
@@ -73,7 +87,8 @@
 				routeName=transaction.route_name
 				classNames="span3 funding-instrument"
 				primaryLabelText=transaction.last_four
-				secondaryLabelText=transaction.funding_instrument_name
+				secondaryLabelText=transaction.funding_instrument_type
+				title=transaction.funding_instrument_type
 			}}
 			{{view Balanced.TransactionAmountCellView item=transaction classNames="span3"}}
 		</tr>

@@ -407,6 +407,25 @@ Balanced.Utils = Ember.Namespace.create({
 				Balanced.Utils.traverse(val, fn, ctx, key + '.');
 			}
 		}, ctx);
+	},
+
+	safeFormat: function(template) {
+		var args = _.toArray(arguments).slice(1).map(function(str) {
+			return Ember.Handlebars.Utils.escapeExpression(str);
+		});
+		return template.fmt.apply(template, args);
+	},
+
+	formatBankName: function(bankName) {
+		var formattedBankName = Balanced.Utils.toTitleCase(bankName);
+
+		_.each(Balanced.BANK_NAMES, function(unformattedArr, formattedStr) {
+			_.each(unformattedArr, function(unformattedStr) {
+				formattedBankName = formattedBankName.replace(unformattedStr, formattedStr);
+			});
+		});
+
+		return formattedBankName;
 	}
 
 });

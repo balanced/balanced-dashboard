@@ -238,40 +238,18 @@ test('download activity only runs once despite multiple clicks', function(assert
 		});
 });
 
-test('transactions date sort has two states', function(assert) {
-	var objectPath = "#activity .results th.date";
+test('transactions date sort has different states', function(assert) {
+	var objectPath = "#activity .results th.date .sortable";
 	var states = [];
 	var count = 0;
 	var testAmount = 5;
 
-	var getState = function() {
-		if ($(objectPath).hasClass("unsorted")) {
-			if ($.inArray("unsorted", states) === -1) {
-				states.push("unsorted");
-			}
-		} else if ($(objectPath).hasClass("ascending")) {
-			if ($.inArray("ascending", states) === -1) {
-				states.push("ascending");
-			}
-		} else if ($(objectPath).hasClass("descending")) {
-			if ($.inArray("descending", states) === -1) {
-				states.push("descending");
-			}
-		}
-
-		count++;
-		if (count !== testAmount) {
-			click($(objectPath)).then(getState);
-		} else {
-			states.sort();
-
-			var expectedStates = ["ascending", "descending"];
-			assert.equal(states[0], expectedStates[0]);
-			assert.equal(states[1], expectedStates[1]);
-			assert.equal(states.length, 2);
-		}
-	};
-
 	visit(Testing.ACTIVITY_ROUTE)
-		.click($(objectPath)).then(getState);
+		.then(function() {
+			assert.ok($(objectPath).is(".descending"), "Search defaults to descending");
+		})
+		.click(objectPath)
+		.then(function() {
+			assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+		});
 });

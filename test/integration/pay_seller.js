@@ -2,9 +2,6 @@ module('Pay Seller', {
 	setup: function() {
 		Testing.setupMarketplace();
 	},
-	teardown: function() {
-		$("#pay-seller").modal('hide');
-	}
 });
 
 test('can pay a seller', function(assert) {
@@ -18,22 +15,23 @@ test('can pay a seller', function(assert) {
 			'account_number': '123123123',
 			'account_type': 'checking',
 			'dollar_amount': '98',
-			'appears_on_statement_as': 'Test Transaction'
-		}, {
-			click: '.modal-footer button:eq(1)'
+			'appears_on_statement_as': 'Test Transaction',
+			'description': "Cool"
 		})
+		.click('#pay-seller .modal-footer button:eq(1)')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Credit, "/credits", sinon.match({
-				amount: 9800,
+			assert.ok(stub.calledOnce, "Called Once");
+			assert.deepEqual(stub.firstCall.args.slice(0, 3), [Balanced.Credit, "/credits", {
+				amount: "9800",
 				appears_on_statement_as: "Test Transaction",
+				description: "Cool",
 				destination: {
 					account_number: "123123123",
 					name: "TEST",
 					routing_number: "123123123",
-					type: "checking"
+					account_type: "checking"
 				}
-			})));
+			}]);
 		});
 });
 

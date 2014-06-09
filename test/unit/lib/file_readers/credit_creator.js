@@ -19,10 +19,10 @@ test(".fromCsvRow", function(assert) {
 
 test("amount validations", function(assert) {
 	var tests = {
-		"a lot  ": ["must be a positive number"],
+		"a lot  ": ["alot is not a valid dollar amount"],
 		"0": ["must be a positive number"],
-		"-10.00": ["must be a positive number"],
-		"    ": ["can't be blank", "must be a positive number"],
+		"-10.00": ["-10.00 is not a valid dollar amount"],
+		"    ": ["can't be blank", " is not a valid dollar amount"],
 		"10.00": undefined
 	};
 

@@ -2,9 +2,6 @@ module('Charge Card', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createCard();
-	},
-	teardown: function() {
-		$('#charge-card').modal('hide');
 	}
 });
 
@@ -41,7 +38,7 @@ test('can charge a card', 3, function(assert) {
 			postal_code: '95014',
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
-			amount: '12.00'
+			dollar_amount: '12.00'
 		}, {
 			click: '.modal-footer button:eq(1)'
 		})
@@ -49,7 +46,7 @@ test('can charge a card', 3, function(assert) {
 			assert.ok(tokenizingStub.calledOnce);
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
-				amount: 1200,
+				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID
@@ -80,7 +77,7 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 			postal_code: '95014',
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
-			amount: '12.00'
+			dollar_amount: '12.00'
 		})
 		.assertClick("#charge-card .modal-footer .btn:last", assert)
 		.then(function() {
@@ -89,7 +86,7 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 		.then(function() {
 			assert.ok(spy.calledOnce, "Called once");
 			assert.ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
-				amount: 1200,
+				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID

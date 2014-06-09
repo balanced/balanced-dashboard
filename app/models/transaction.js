@@ -19,23 +19,9 @@ Balanced.Transaction = Balanced.Model.extend(
 			}
 		}.property('amount'),
 
-		customer_name_summary: function() {
-			if (this.get('customer')) {
-				return this.get('customer.display_me_with_email');
-			}
-		}.property('customer'),
-
-		customer_display_me: function() {
-			if (this.get('customer')) {
-				return this.get('customer.display_me');
-			}
-		}.property('customer'),
-
-		customer_email: function() {
-			if (this.get('customer')) {
-				return this.get('customer.email');
-			}
-		}.property('customer'),
+		customer_name_summary: Ember.computed.oneWay('customer.display_me_with_email'),
+		customer_display_me: Ember.computed.oneWay('customer.display_me'),
+		customer_email: Ember.computed.oneWay('customer.email'),
 
 		page_title: Balanced.computed.orProperties('description', 'id'),
 		events_uri: Balanced.computed.concat('uri', '/events'),

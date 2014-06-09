@@ -1,9 +1,9 @@
 <div class="page-navigation">
 	<div class="page-actions">
-		<a class="btn sm charge-a-card" href="#" {{action "openChargeCardModal"}}>
+		<a class="btn sm charge-a-card" {{action "openModal" Balanced.DebitNewFundingInstrumentModalView}}>
 			Debit a card
 		</a>
-		<a class="btn sm pay-a-seller" href="#" {{action "openPaySellerModal"}}>
+		<a class="btn sm pay-a-seller" {{action "openModal" Balanced.CreditNewFundingInstrumentModalView}}>
 			Credit a bank account
 		</a>
 	</div>
@@ -12,8 +12,6 @@
 		{{pageTitle}}
 	</h1>
 </div>
-{{view Balanced.PaySellerModalView}}
-{{view Balanced.ChargeCardModalView}}
 
 <div class="main-header activity-escrow-box">
 	<div class="inline dropdown borderless right">
