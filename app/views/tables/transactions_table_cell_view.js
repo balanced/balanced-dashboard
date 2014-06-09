@@ -4,46 +4,12 @@ Balanced.LinkedTransactionCellView = Balanced.LinkedTextCellView.extend({
 	routeName: Ember.computed.oneWay("item.route_name"),
 });
 
-Balanced.TransactionTypeCellView = Balanced.LinkedTransactionCellView.extend({
-	labelText: Ember.computed.oneWay("item.type_name"),
-	classNameBindings: [":type", "transactionTypeClass"],
-	transactionTypeClass: Balanced.computed.downcase("item.type_name")
-});
-
-Balanced.TransactionStatusCellView = Balanced.LinkedTransactionCellView.extend({
-	labelText: Ember.computed.oneWay("item.status"),
-	classNameBindings: [":status"],
-	linkSpanClassNames: Balanced.computed.downcase("item.status")
-});
-
-Balanced.TransactionDescriptionCellView = Balanced.LinkedTransactionCellView.extend({
-	title: Ember.computed.oneWay("item.description"),
-	classNameBindings: [":description", "item.description::null-field"],
-	attributeBindings: ["title"],
-	hasDescription: function() {
-		return !_.isEmpty(this.get("item.description"));
-	}.property("item.description"),
-
-	linkSpanClassNames: function() {
-		if (!this.get('hasDescription')) {
-			return "sl-none";
-		}
-	}.property("hasDescription"),
-
-	labelText: function() {
-		if (this.get('hasDescription')) {
-			return this.get("item.description");
-		} else {
-			return "none";
-		}
-	}.property("item.description", "hasDescription")
-});
-
-Balanced.TransactionCustomerCellView = Balanced.LinkedTransactionCellView.extend({
+Balanced.TransactionCustomerCellView = Balanced.LinkedTwoLinesCellView.extend({
+	routeName: Ember.computed.oneWay("item.route_name"),
 	title: Ember.computed.oneWay("item.customer_name_summary"),
 	classNameBindings: [":account", "item.customer::null-field"],
-	attributeBindings: ['title'],
-	labelText: Ember.computed.oneWay("item.customer_name_summary")
+	primaryLabelText: Ember.computed.oneWay("item.customer_display_me"),
+	secondaryLabelText: Ember.computed.oneWay("item.customer_email"),
 });
 
 Balanced.TransactionAmountCellView = Balanced.LinkedTransactionCellView.extend({
