@@ -34,9 +34,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"businessName",
 			"principalOwnerName",
 			"employerIdentificationNumber",
-			"incorporationYear",
-			"incorporationMonth",
-			"incorporationDay",
 			"personFirstName",
 			"personLastName",
 			"streetAddress",
@@ -45,6 +42,10 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"dobYear",
 			"dobMonth",
 			"dobDay",
+			"incorporationYear",
+			"incorporationMonth",
+			"incorporationDay",
+			"companyType",
 
 			"bankAccountType",
 			"bankRoutingNumber",
@@ -130,21 +131,18 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 		var attributes = {
 			type: "BUSINESS",
+			name: this.get('businessName'),
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
+			principal_owner_name: this.get('principalOwnerName'),
+			doing_business_as: this.get('marketplaceName'),
+			company_type: this.get('companyType'),
+			incorporation_date: this.get('incorporationDate'),
 			person: _.omit(this.getPersonAttributes(), ['street_address', 'postal_code', 'phone_number'])
 		};
 
-		setOptionalValue(attributes, "businessName", "name");
-		setOptionalValue(attributes, "marketplaceName", "doing_business_as");
-		setOptionalValue(attributes, "principalOwnerName", "principal_owner_name");
 		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
-		setOptionalValue(attributes, "streetAddress", "street_address");
-		setOptionalValue(attributes, "postalCode", "postal_code");
-		setOptionalValue(attributes, "phoneNumber", "phone_number");
-		setOptionalValue(attributes, "incorporationDate", "incorporation_date");
-		setOptionalValue(attributes, "companyType", "company_type");
 
 		return attributes;
 	},

@@ -60,7 +60,7 @@
 
 						<div class="control-group">
 							<div class="controls">
-								{{view Ember.Select contentBinding="companyTypes" valueBinding="model.companyType" field="companyType"}}
+								{{view Ember.Select contentBinding="companyTypes" valueBinding="model.companyType" name="companyType"}}
 							</div>
 							<label>Specify your company type</label>
 						</div>
@@ -80,9 +80,9 @@
 
 					{{view Balanced.DateSelectView
 							yearContentBinding="dobYears"
-							yearValueBinding="model.dobYear"
+							yearValueBinding="model.model.dobYear"
 							monthContentBinding="dobMonths"
-							monthValueBinding="model.dobMonth"
+							monthValueBinding="model.model.dobMonth"
 							dayContentBinding="dobDays"
 							dayValueBinding="model.dobDay"
 							model=model
