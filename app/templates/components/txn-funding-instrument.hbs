@@ -33,10 +33,12 @@
 					<dd><span>{{humanReadableDateLong funding_instrument.created_at}}</span></dd>
 					<dt>ID</dt>
 					<dd><span>{{funding_instrument.id}}</span></dd>
-					<dt>Card holder's name</dt>
+					<dt>Name on account</dt>
 					<dd><span>{{funding_instrument.name}}</span></dd>
+					<dt>Bank</dt>
+					<dd><span>{{funding_instrument.bank_name}}</span></dd>
 					<dt>Type</dt>
-					<dd><span>{{funding_instrument.brand}}</span></dd>
+					<dd><span>{{funding_instrument.brand}}</span></dd>					
 					<dt>Expiration</dt>
 					<dd><span>{{funding_instrument.human_readable_expiration}}</span></dd>
 				{{/if}}

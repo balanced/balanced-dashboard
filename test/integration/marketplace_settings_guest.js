@@ -18,45 +18,43 @@ module('Marketplace Settings Guest', {
 		Testing.restoreMethods(
 			Balanced.Adapter.create,
 			balanced.bankAccount.create,
-			Ember.Logger.error
+			Balanced.Adapter['delete'],
+			Ember.Logger.error,
+			Balanced.APIKey.prototype.save
 		);
 	}
 });
 
 test('can visit page', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			var $title = $('#content h1');
-			assert.notEqual($title.text().indexOf('Settings'), -1, 'Title is not correct');
-
-			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
-			assert.equal($dropdown.text().trim(), "Guest user", 'No Email is shown');
-
-			assert.equal($('.notification-center-message').length, 1, 'Has Notification');
-		});
+		.checkElements({
+			"#content h1": "Settings",
+			'#user-menu > a.dropdown-toggle.gravatar': "Guest user",
+			'.notification-center-message': 1
+		}, assert);
 });
 
 test('can manage api keys', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			assert.equal($('.api-keys-info tr').length, 1, 'API Keys present');
-		})
+		.checkElements({
+			'.api-keys-info tr': 1
+		}, assert)
 		.click('.create-api-key-btn')
 		.fillIn(".modal.create-api-key", {
 			apiKeyName: "Cool Api Key"
 		})
 		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('.api-keys-info tr').length, 2, 'API Key can be created');
-		})
+		.checkElements({
+			'.api-keys-info tr': 2
+		}, assert)
 		.click('.confirm-delete-key:first')
-		.then(function() {
-			assert.equal($('.modal.delete-key:visible').length, 1, 'Delete Key confirmation modal should be visible');
-		})
-		.click('.modal.delete-key:visible button[name="modal-submit"]')
-		.then(function() {
-			assert.equal($('.api-keys-info tr').length, 1, 'API Key can be deleted');
-		});
+		.checkElements({
+			'.modal.delete-key:visible': 1
+		}, assert)
+		.click('.modal.delete-key:visible button[name=modal-submit]')
+		.checkElements({
+			'.api-keys-info tr': 1
+		}, assert);
 });
 
 test('can add api key', function(assert) {
@@ -80,7 +78,6 @@ test('can add api key', function(assert) {
 					name: 'Test1234'
 				})
 			));
-			stub.restore();
 		});
 });
 
@@ -98,7 +95,7 @@ test('adding api key updates auth', function(assert) {
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name="modal-submit"]')
+		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(
@@ -106,55 +103,51 @@ test('adding api key updates auth', function(assert) {
 				sinon.match.any,
 				sinon.match.has('secret', testSecret)
 			));
-			saveStub.restore();
-			stub.restore();
 		});
 });
 
 test('cannot delete current api key without a replacement', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
+		.checkElements({
+			".confirm-delete-key": 0
+		}, assert)
 		.then(function() {
 			assert.equal($('.confirm-delete-key').length, 0);
 		})
 		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name="modal-submit"]')
-		.then(function() {
-			assert.equal($('.confirm-delete-key').length, 2);
-		});
+		.click('.modal.create-api-key button[name=modal-submit]')
+		.checkElements({
+			".confirm-delete-key": 2
+		}, assert);
 });
 
 test('can delete api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'delete');
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name="modal-submit"]')
+		.click('.modal.create-api-key button[name=modal-submit]')
 		.click('.confirm-delete-key:first')
-		.click('.modal.delete-key button[name="modal-submit"]:visible')
+		.click('.modal.delete-key button[name=modal-submit]:visible')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.APIKey));
-			stub.restore();
 		});
 });
 
 test('can update marketplace info', function(assert) {
-	visit(Testing.SETTINGS_ROUTE).then(function() {
-		var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-		model.set('production', true);
-		Testing.stop();
-
-		Ember.run.next(function() {
-			Testing.start();
-
-			click('.marketplace-info a.icon-edit')
-				.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
-				.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
-				.then(function() {
-					// Marketplace name should have changed
-					assert.equal($('.marketplace-info dd[data-property="marketplace-name"]').text().trim(), 'Test');
-				});
-		});
-	});
+	visit(Testing.SETTINGS_ROUTE)
+		.then(function() {
+			Ember.run(function() {
+				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+				model.set('production', true);
+			});
+		})
+		.click('.marketplace-info a.icon-edit')
+		.fillIn('#edit-marketplace-info .modal-body input[name="name"]', 'Test')
+		.click('#edit-marketplace-info .modal-footer button[name="modal-submit"]')
+		.checkElements({
+			'.marketplace-info dd[data-property=marketplace-name]': 'Test'
+		}, assert);
 });
 
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
