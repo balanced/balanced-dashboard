@@ -3,15 +3,20 @@ module('Credits', {
 		Testing.setupMarketplace();
 		Testing.createCredit();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.update,
+			Balanced.Adapter.create
+		);
+	}
 });
 
 test('can visit page', function(assert) {
 	visit(Testing.CREDIT_ROUTE)
-		.then(function() {
-			assert.notEqual($('#content h1').text().indexOf('Credit'), -1, 'Title is not correct');
-			assert.equal($(".credit .tt-title").text().trim(), 'Succeeded: $100.00');
-		});
+		.checkElements({
+			"#content h1": "Credit",
+			".credit .tt-title": 'Succeeded: $100.00'
+		}, assert);
 });
 
 test('can edit credit', function(assert) {
@@ -19,8 +24,8 @@ test('can edit credit', function(assert) {
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.credit .transaction-info a.icon-edit')
-		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
-		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
+		.fillIn('.edit-transaction.in .modal-body input[name=description]', "changing desc")
+		.click('.edit-transaction.in .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Credit));
@@ -33,8 +38,8 @@ test('can reverse credit', function(assert) {
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '10')
-		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+		.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', '10')
+		.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Reversal));
@@ -46,9 +51,9 @@ test('can reverse credit', function(assert) {
 	visit(Testing.CREDIT_ROUTE)
 		.click('.credit a.reverse-credit-button')
 		.then(function() {
-			assert.equal($('#reverse-credit .modal-body input[name="dollar_amount"]').val(), '90.00');
+			assert.equal($('#reverse-credit .modal-body input[name=dollar_amount]').val(), '90.00');
 		})
-		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+		.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledTwice);
 			assert.ok(spy.calledWith(Balanced.Reversal));
@@ -68,8 +73,8 @@ test('credit reversal errors', function(assert) {
 	$.each(['-10000', '0'], function(e, amount) {
 		visit(Testing.CREDIT_ROUTE)
 			.click('.credit a.reverse-credit-button')
-			.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', amount)
-			.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+			.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', amount)
+			.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
 			.then(function() {
 				assert.equal($('.control-group.error').is(':visible'), true);
 			});
@@ -82,8 +87,8 @@ test('reversing a credit with a comma in the amount will succeed', function(asse
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name="dollar_amount"]', '1,000')
-		.click('#reverse-credit.in .modal-footer button[name="modal-submit"]')
+		.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', '1,000')
+		.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Reversal));
