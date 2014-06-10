@@ -4,9 +4,8 @@ Balanced.CreditFundingInstrumentModalView = Balanced.FundingInstrumentModalView.
 	modalElement: '#credit-funding-instrument',
 
 	open: function() {
-		console.log(this.get('funding_instrument.uri') + '/credits')
 		var credit = Balanced.Credit.create({
-			uri: this.get('funding_instrument.uri') + '/credits',
+			uri: this.get('funding_instrument.credits_uri'),
 			source_uri: this.get('funding_instrument.uri'),
 			amount: null
 		});
