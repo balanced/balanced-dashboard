@@ -42,6 +42,15 @@ Balanced.ControlGroupFieldView = Balanced.View.extend({
 	labelForField: function() {
 		var field = this.get('field'),
 			prefix = this.get('placeholder') || field;
-		return this.error(field, prefix) || this.get('help');
+		return this.error(field, prefix) || this.get('help') + '.';
 	}.property('controller.validationErrors.length')
+});
+
+
+Balanced.DateSelectView = Balanced.ControlGroupFieldView.extend({
+	tagName: 'div',
+	classNames: ['control-group'],
+	classNameBindings: ['cssError:error'],
+	templateName: '_date_select_field',
+	type: 'select'
 });

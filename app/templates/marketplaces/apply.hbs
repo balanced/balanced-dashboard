@@ -36,37 +36,74 @@
 				{{#if model.isBusiness}}
 					<fieldset>
 						<legend>Business info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Business name" field="businessName" help="Enter your business name"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Legal business name" field="businessName" help="Enter your legal business name"}}
+
+						{{view Balanced.ControlGroupFieldView placeholder="Principal owner name" field="principalOwnerName" help="Enter principal business owner name"}}
+
 						{{view Balanced.ControlGroupFieldView placeholder="EIN" field="employerIdentificationNumber" help="Enter your 9-digit employer identification number"}}
+
+						{{view Balanced.ControlGroupFieldView placeholder="Street address" field="streetAddress" helpBinding="streetAddressHint"}}
+
+						{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="postalCode" help="Enter your zip code"}}
+
+						{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phoneNumber" help="Enter your phone number"}}
+
+						{{view Balanced.DateSelectView
+								yearContentBinding="incorporationYears"
+								yearValueBinding="incorporationYear"
+								monthContentBinding="incorporationMonths"
+								monthValueBinding="incorporationMonth"
+								dayContentBinding="incorporationDays"
+								dayValueBinding="incorporationDay"
+								model=model
+								help="Enter your incorporation date"}}
+
+						<div class="control-group">
+							<div class="controls">
+								{{view Ember.Select contentBinding="companyTypes" valueBinding="model.companyType" name="companyType"}}
+							</div>
+							<label>Specify your company type</label>
+						</div>
 					</fieldset>
 				{{/if}}
 
 				<fieldset>
 					<legend>Your personal info</legend>
-					{{view Balanced.ControlGroupFieldView placeholder="Name" field="personName" help="Enter your full legal name"}}
-					<div class="control-group">
+					<div {{bind-attr class=":control-group model.validationErrors.personFirstName:error"}}>
 						<div class="controls">
-							{{view Ember.Select contentBinding="dobYears" valueBinding="model.dobYear" name="dobYear" class="span2"}}
-							{{view Ember.Select contentBinding="dobMonths" valueBinding="model.dobMonth" name="dobMonth" class="span2"}}
-							{{view Ember.Select contentBinding="dobDays" valueBinding="model.dobDay" name="dobDay" class="span2"}}
+							{{view Ember.TextField placeholder="First name" class="cssError:error" name="personFirstName" class="span3"}}
+							{{view Ember.TextField placeholder="Middle name" class="cssError:error" name="personMiddleName" class="span3"}}
+							{{view Ember.TextField placeholder="Last name" class="cssError:error" name="personLastName" class="span3"}}
 						</div>
-						<label>Enter your date of birth</label>
+						<label>Enter your full legal name</label>
 					</div>
-					{{view Balanced.ControlGroupFieldView placeholder="Street address" field="streetAddress" helpBinding="streetAddressHint"}}
-					{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="postalCode" help="Enter your zip code"}}
+
+					{{view Balanced.DateSelectView
+							yearContentBinding="dobYears"
+							yearValueBinding="model.model.dobYear"
+							monthContentBinding="dobMonths"
+							monthValueBinding="model.model.dobMonth"
+							dayContentBinding="dobDays"
+							dayValueBinding="model.dobDay"
+							model=model
+							help="Enter your date of birth"}}
 
 					{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="socialSecurityNumber" help="A verifiable social security number is needed to underwrite your application. No credit checks will be performed"}}
-					{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phoneNumber" help="Enter your phone number"}}
 
+					{{#unless model.isBusiness}}
+						{{view Balanced.ControlGroupFieldView placeholder="Street address" field="streetAddress" helpBinding="streetAddressHint"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="postalCode" help="Enter your zip code"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phoneNumber" help="Enter your phone number"}}
+					{{/unless}}
 				</fieldset>
 
 				<fieldset>
 					<legend>Banking info</legend>
-					{{view Balanced.ControlGroupFieldView placeholder="Account holder's name" field="bankAccountName" help="Enter the name on your bank account"}}
+					{{view Balanced.ControlGroupFieldView placeholder="Name on account" field="bankAccountName" help="Enter the name on your bank account"}}
 					{{view Balanced.ControlGroupFieldView placeholder="Account number" field="bankAccountNumber" help="Enter your bank account number"}}
-					{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='images/check_image_tool_tip.png'/>"}}
+					{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
 					{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="bankRoutingNumber" help="Enter your 9 digit routing number"}}
-					{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='images/check_image_tool_tip.png'/>"}}
+					{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
 					<div class="control-group">
 						<div class="controls">
 							{{view Ember.Select contentBinding="accountTypes" valueBinding="model.bankAccountType" name="bankAccountType"}}
@@ -99,44 +136,37 @@
 								processing, customer support, and fraud
 								prevention.
 							</p>
-						</div>
-					</fieldset>
+						</label>
+					</div>
+				</fieldset>
+				<fieldset>
+					<legend>Next steps</legend>
+					<div class="control-group">
+						<strong>Your bank account will take 1-2 business days to confirm.<br>
+							We'll make 2 small deposits (each less than $1.00) to your account. You'll need to:
+						</strong>
+						<ol>
+							<li>Check your bank account in 1-2 business days for the exact amounts</li>
+							<li>Sign in to the Balanced dashboard</li>
+							<li>Click verify from the settings page and enter the deposit amounts</li>
+						</ol>
+					</div>
+				</fieldset>
 
-					<fieldset>
-						<legend>Banking info</legend>
-						{{view Balanced.ControlGroupFieldView placeholder="Name on account" field="bankAccountName" help="Enter the name on your bank account"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Account number" field="bankAccountNumber" help="Enter your bank account number"}}
-						{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
-						{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="bankRoutingNumber" help="Enter your 9 digit routing number"}}
-						{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
-
-						<legend>Next steps</legend>
-						<div class="control-group">
-							<strong>Your bank account will take 1-2 business days to confirm.<br>
-								We'll make 2 small deposits (each less than $1.00) to your account. You'll need to:
-							</strong>
-							<ol>
-								<li>Check your bank account in 1-2 business days for the exact amounts</li>
-								<li>Sign in to the Balanced dashboard</li>
-								<li>Click verify from the settings page and enter the deposit amounts</li>
-							</ol>
+				{{#view Balanced.View classBinding=":actions hasError:error"}}
+					{{#each model.requestErrors}}
+						<div class="error-message">
+							<span class="icon warning"></span>
+							<span class="message">{{message}}</span>
 						</div>
-					</fieldset>
-					{{#view Balanced.View classBinding=":actions hasError:error"}}
-						{{#each model.requestErrors}}
-							<div class="error-message">
-								<span class="icon warning"></span>
-								<span class="message">{{message}}</span>
-							</div>
-						{{/each}}
-						{{#if isSaving}}
-							<span class="loader loading"></span> <span class="message">Verifying...</span>
-						{{else}}
-							<button class="btn submit" type="submit">Submit</button>
-						{{/if}}
-					{{/view}}
-				{{/if}}
-			</form>
-		</div>
+					{{/each}}
+					{{#if isSaving}}
+						<span class="loader loading"></span> <span class="message">Verifying...</span>
+					{{else}}
+						<button class="btn submit" type="submit">Submit</button>
+					{{/if}}
+				{{/view}}
+			{{/if}}
+		</form>
 	</div>
 </section>

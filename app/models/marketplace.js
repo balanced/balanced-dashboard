@@ -57,4 +57,6 @@ Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
 
 Balanced.Marketplace.reopenClass({
 	serializer: Balanced.Rev1Serializer.create(),
+}, {
+	COMPANY_TYPES: ['Corporation', 'Partnership', 'Non-profit', 'Other']
 });

@@ -7,7 +7,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	streetAddressHint: function() {
 		if (this.get("model.isBusiness")) {
-			return "Enter your or another business representative's address including apartment, suite, or unit number, not the business address";
+			return "Enter your business address";
 		} else {
 			return "Enter your billing address including apartment, suite, or unit number";
 		}
@@ -22,7 +22,18 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		});
 	}.property(),
 
+	incorporationDays: Balanced.TIME.DAYS_IN_MONTH,
+	incorporationMonths: Balanced.TIME.MONTHS,
+	incorporationYears: function() {
+		var start = new Date().getFullYear();
+		return _.times(80, function(i) {
+			return start - i;
+		});
+	}.property(),
+
 	accountTypes: Balanced.BankAccount.ACCOUNT_TYPES,
+
+	companyTypes: Balanced.Marketplace.COMPANY_TYPES,
 
 	actions: {
 		goToHome: function() {
