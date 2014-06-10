@@ -2,7 +2,7 @@ require("app/lib/validation_helpers");
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 var baseValidationsObject = {
-	"csvFields.appears_on_statement_as": ValidationHelpers.bankTransactionAppearsOnStatementAs, 
+	"csvFields.appears_on_statement_as": ValidationHelpers.bankTransactionAppearsOnStatementAs,
 	"csvFields.amount": ValidationHelpers.positiveDollarAmount,
 };
 
