@@ -2,6 +2,12 @@ module('Charge Card', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createCard();
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			balanced.card.create,
+			Balanced.Adapter.create
+		);
 	}
 });
 
