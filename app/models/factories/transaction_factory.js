@@ -10,7 +10,29 @@ Balanced.TransactionFactory = Ember.Object.extend(Ember.Validations, {
 	}.property("dollar_amount"),
 });
 
-Balanced.CardDebitTransactionFactory = Balanced.TransactionFactory.extend({
+Balanced.CardDebitBaseTransactionFactory = Balanced.TransactionFactory.extend({
+	save: function() {
+		var deferred = Ember.RSVP.defer();
+		var self = this;
+		var card = Balanced.Card.create(this.getDestinationAttributes());
+		card.tokenizeAndCreate().then(function(card) {
+			var debitAttributes = _.extend(self.getDebitAttributes(), {
+				uri: card.get('debits_uri'),
+				source_uri: card.get('uri')
+			});
+
+			return Balanced.Debit
+				.create(debitAttributes)
+				.save()
+				.then(function(debit) {
+					deferred.resolve(debit);
+				});
+		});
+		return deferred.promise;
+	},
+});
+
+Balanced.CardDebitTransactionFactory = Balanced.CardDebitBaseTransactionFactory.extend({
 	getDestinationAttributes: function() {
 		var attributes = this.getProperties("name", "number", "cvv", "expiration_month", "expiration_year");
 		attributes.address = {
@@ -23,28 +45,37 @@ Balanced.CardDebitTransactionFactory = Balanced.TransactionFactory.extend({
 		return this.getProperties("amount", "appears_on_statement_as", "description");
 	},
 
-	save: function() {
-		var deferred = Ember.RSVP.defer();
-		var self = this;
-		var card = Balanced.Card.create(this.getDestinationAttributes());
-		card.tokenizeAndCreate().then(function(card) {
-			var debit = Balanced.Debit.create(self.getDebitAttributes());
-			debit.setProperties({
-				uri: card.get('debits_uri'),
-				source_uri: card.get('uri')
-			});
-			return debit.save().then(function(debit) {
-				deferred.resolve(debit);
-			});
-		});
-		return deferred.promise;
-	},
-
 	validations: {
 		dollar_amount: ValidationHelpers.positiveDollarAmount,
 		appears_on_statement_as: ValidationHelpers.transactionAppearsOnStatementAs,
 
 		name: ValidationHelpers.cardName,
+		number: ValidationHelpers.cardNumber,
+		cvv: ValidationHelpers.cardCvv,
+		expiration_date: ValidationHelpers.cardExpirationDate,
+	}
+});
+
+Balanced.InitialDepositTransactionFactory = Balanced.CardDebitBaseTransactionFactory.extend({
+	card_uri: Ember.computed.oneWay("marketplace.owner_customer.cards_uri"),
+
+	getDestinationAttributes: function() {
+		var attributes = this.getProperties("number", "cvv", "expiration_month", "expiration_year");
+		_.extend(attributes, {
+			uri: this.get("card_uri"),
+			address: {
+				postal_code: this.get("postal_code")
+			}
+		});
+		return attributes;
+	},
+
+	getDebitAttributes: function() {
+		return this.getProperties("amount");
+	},
+
+	validations: {
+		dollar_amount: ValidationHelpers.positiveDollarAmount,
 		number: ValidationHelpers.cardNumber,
 		cvv: ValidationHelpers.cardCvv,
 		expiration_date: ValidationHelpers.cardExpirationDate,
