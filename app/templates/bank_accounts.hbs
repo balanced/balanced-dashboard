@@ -36,7 +36,7 @@
 			<section class="bank-account-info">
 				<div class="key-value-display">
 					<header>
-						<h3>Bank account info</h3>
+						<h3>Details</h3>
 					</header>
 					<dl class="dl-horizontal">
 						<dt>ID</dt>
@@ -53,10 +53,21 @@
 						<dd><span>{{formatted_bank_name}}</span></dd>
 						<dt>Type</dt>
 						<dd><span>{{capitalize account_type_name}}</span></dd>
-
-						{{partial 'meta'}}
+						<dt>Address line 1</dt>
+						<dd><span>{{address.line1}}</span></dd>
+						<dt>Address line 2</dt>
+						<dd><span>{{address.line2}}</span></dd>
+						<dt>City</dt>
+						<dd><span>{{address.city}}</span></dd>
+						<dt>State</dt>
+						<dd><span>{{address.state}}</span></dd>
+						<dt>Zip code</dt>
+						<dd><span>{{address.postal_code}}</span></dd>
+						<dt>Country</dt>
+						<dd><span>{{address.country_code}}</span></dd>
 					</dl>
 				</div>
+				{{partial 'meta'}}
 			</section>
 
 		</div>
@@ -110,7 +121,7 @@
 
 	<section class="activity">
 		<header class="results-label">
-			<h3>Activity</h3>
+			<h3>Payments</h3>
 		</header>
 		<div class="results">
 			{{view Balanced.TransactionsFiltersHeaderView}}

@@ -24,10 +24,10 @@
 							</h3>
 						</header>
 						{{txn-description transaction=hold}}
+						{{txn-funding-instrument funding_instrument=hold.source}}
 					</div>
+					{{partial 'meta' meta_array=hold.meta_array}}
 				</section>
-
-				{{txn-funding-instrument funding_instrument=hold.source}}
 			</div>
 		</div>
 		<div class="row-fluid">
