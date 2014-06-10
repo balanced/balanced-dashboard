@@ -5,7 +5,6 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 	marketplace: Ember.computed.oneWay("controllers.marketplace.model"),
 
 	initialAmounts: function() {
-		var self = this;
 		return _.map([10, 25, 50, 100], function(amount) {
 			return {
 				amount: "" + amount,

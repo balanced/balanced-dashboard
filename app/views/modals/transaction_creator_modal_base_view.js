@@ -30,3 +30,18 @@ Balanced.CreditNewFundingInstrumentModalView = Balanced.TransactionCreatorModalV
 
 	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 });
+
+Balanced.CreateEscrowCreditModalView = Balanced.TransactionCreatorModalView.extend({
+	title: "Add funds",
+	templateName: "modals/create_escrow_credit",
+
+	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	marketplace: function() {
+		return Balanced.currentMarketplace;
+	}.property(),
+
+	debitableBankAccounts: Ember.computed.readOnly("marketplace.owner_customer.debitable_bank_accounts"),
+
+	model_class: Balanced.DebitExistingBankAccountTransactionFactory,
+	elementId: "add-funds"
+});

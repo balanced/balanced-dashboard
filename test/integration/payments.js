@@ -56,40 +56,34 @@ test('can visit page', function(assert) {
 test('add funds', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	var bankAccounts = Balanced.BankAccount.findAll();
-	var fundingInstrumentUri;
 
 	visit(Testing.ACTIVITY_ROUTE)
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
 		.click('.activity-escrow-box .add-funds-btn')
-		.then(function() {
-			assert.ok($('#add-funds').is(':visible'), 'add funds modal visible');
-			assert.equal($('#add-funds select option').length, 1, 'bank accounts in account dropdown');
-			assert.equal(
-				$('label.control-label:contains(characters max):visible').text(),
-				'Appears on statement as (14 characters max)'
-			);
-			assert.equal(
-				$('input[name=appears_on_statement_as]:visible').attr('maxlength'),
-				'14'
-			);
-			fundingInstrumentUri = $("#add_funds_bank_account option").first().val();
-		})
+		.checkElements({
+			"#add-funds:visible": 1,
+			'#add-funds select option': 1,
+			'#add-funds label.control-label:contains(characters max)': 'Appears on statement as (14 characters max)',
+			'#add-funds input[name=appears_on_statement_as][maxlength=14]': 1
+		}, assert)
 		.fillForm("#add-funds form", {
-			"source_uri": fundingInstrumentUri,
 			"dollar_amount": "55.55",
 			"appears_on_statement_as": "BALANCED TEST",
 			"description": 'Adding lots of money yo'
 		})
 		.click("#add-funds [name=modal-submit]")
 		.then(function() {
+			var fundingInstrumentUri = bankAccounts.objectAt(0).get("uri");
 			var call = spy.firstCall;
 			assert.ok(spy.calledOnce);
-			assert.equal(call.args[0], Balanced.Debit);
-			assert.equal(call.args[1], fundingInstrumentUri + '/debits');
-			assert.equal(call.args[2].amount, 5555, "Amount received is correct");
-			assert.equal(call.args[2].description, 'Adding lots of money yo', "Description is correct");
+			assert.deepEqual(call.args.slice(0, 3), [Balanced.Debit, fundingInstrumentUri + '/debits', {
+				"source_uri": fundingInstrumentUri,
+				"amount": "5555",
+				"appears_on_statement_as": "BALANCED TEST",
+				"description": 'Adding lots of money yo'
+			}]);
 		});
 });
 
@@ -103,7 +97,9 @@ test('add funds only adds once despite multiple clicks', function(assert) {
 		})
 		.click('.activity-escrow-box .add-funds-btn')
 		.fillForm("#add-funds", {
-			dollar_amount: "55.55"
+			dollar_amount: "55.55",
+			appears_on_statement_as: "BALANCED TEST",
+			description: 'Adding lots of money yo'
 		})
 		.clickMultiple('#add-funds .modal-footer button[name=modal-submit]', 4)
 		.then(function() {
