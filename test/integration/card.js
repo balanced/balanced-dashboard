@@ -13,8 +13,8 @@ module('Card Page', {
 test('can view card page', function(assert) {
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
-			assert.equal($('#content h1').text().trim(), 'Card');
-			assert.equal($(".title span").text().trim(), 'Test Card (3434)');
+			assert.equal($('#content h1').text().trim(), 'Credit card');
+			assert.equal($(".title span").text().trim(), '1111 Visa');
 		});
 });
 

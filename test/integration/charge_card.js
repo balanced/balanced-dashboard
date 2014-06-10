@@ -2,10 +2,16 @@ module('Charge Card', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createCard();
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			balanced.card.create,
+			Balanced.Adapter.create
+		);
 	}
 });
 
-test('form validation', function(assert) {
+test('form validation', 2, function(assert) {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('div a.charge-a-card')
 		.then(function() {
@@ -17,7 +23,7 @@ test('form validation', function(assert) {
 		});
 });
 
-test('can charge a card', function(assert) {
+test('can charge a card', 3, function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -52,10 +58,11 @@ test('can charge a card', function(assert) {
 				source_uri: '/cards/' + Testing.CARD_ID
 			})));
 			tokenizingStub.restore();
+			spy.restore();
 		});
 });
 
-test('charge a card only submits once despite multiple button clicks', function(assert) {
+test('charge a card button is hidden after submit', 4, function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -91,6 +98,7 @@ test('charge a card only submits once despite multiple button clicks', function(
 				source_uri: '/cards/' + Testing.CARD_ID
 			})), "Called with right arguments");
 			tokenizingStub.restore();
+			spy.restore();
 		});
 });
 

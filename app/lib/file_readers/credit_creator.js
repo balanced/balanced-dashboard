@@ -256,6 +256,8 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
 		results.addObserver("isLoaded", function() {
 			creator.set("customersCollection", results);
+		});
+		creator.addObserver("isLoaded", function() {
 			creator.validate();
 		});
 

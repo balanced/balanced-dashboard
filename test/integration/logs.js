@@ -28,12 +28,13 @@ test('can visit page', function(assert) {
 			setLogsProperties();
 		})
 		.then(function() {
-			var $title = $('#content h1');
 			var logRequest = spy.getCall(spy.callCount - 1);
 			assert.equal(logRequest.args[0], Balanced.Log);
 			assert.equal(logRequest.args[1], '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc');
-			assert.notEqual($title.text().indexOf('Logs'), -1, 'Title is correct');
-		});
+		})
+		.checkElements({
+			'#content h1': "Logs"
+		}, assert);
 });
 
 test('has logs in table', 3, function(assert) {
@@ -42,14 +43,14 @@ test('has logs in table', 3, function(assert) {
 		.then(function() {
 			setLogsProperties();
 		})
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-		})
+		.checkElements({
+			'table.logs tbody tr': 2
+		}, assert)
 		.click('table.logs tfoot tr a')
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 4, 'has 4 logs');
-			assert.equal($('table.logs tfoot td').length, 1, 'has "load more"');
-		});
+		.checkElements({
+			'table.logs tbody tr': 4,
+			'table.logs tfoot td': 1
+		}, assert);
 });
 
 test('filter logs by endpoint bank accounts', function(assert) {
@@ -60,14 +61,17 @@ test('filter logs by endpoint bank accounts', function(assert) {
 		.then(function() {
 			setLogsProperties();
 		})
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-		})
+		.checkElements({
+			'table.logs tbody tr': 2
+		}, assert)
 		.click('.results .status-filter a.bank_accounts')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Log, '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc'));
-			assert.equal($('table.logs tbody tr').length, 1, 'has 1 log');
-		});
+		})
+		.checkElements({
+			'table.logs tbody tr': 1
+		}, assert);
+
 });
 
 test('filter logs by datetime range', function(assert) {

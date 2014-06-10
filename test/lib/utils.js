@@ -137,12 +137,16 @@ var Testing = {
 		});
 	},
 
-	_createCard: function() {
+	_createCard: function(type) {
 		var self = this;
+		var number = '4111111111111111';
+		if (type === 'debit') {
+			number = '4000056655665556';
+		}
+
 		return Balanced.Card.create({
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
-			number: '4444400012123434',
-			name: 'Test Card',
+			number: number,
 			expiration_year: 2020,
 			expiration_month: 11
 		}).save().then(function(card) {
@@ -285,6 +289,20 @@ var Testing = {
 		var self = this;
 		Ember.run(function() {
 			self._createCard();
+		});
+	},
+
+	createDebitCard: function() {
+		var self = this;
+		Ember.run(function() {
+			self._createCard('debit');
+		});
+	},
+
+	createCreditCard: function() {
+		var self = this;
+		Ember.run(function() {
+			self._createCard('credit');
 		});
 	},
 

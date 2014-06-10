@@ -65,18 +65,24 @@
 				date=transaction.created_at
 			}}
 			{{view Balanced.LinkedTextCellView
+				item=transaction
 				labelText=transaction.type_name
+				routeName=transaction.route_name
 				classNames="span2 type"
 				title=transaction.type_name
 			}}
 			{{view Balanced.LinkedTextCellView
+				item=transaction
 				labelText=transaction.status
+				routeName=transaction.route_name
 				spanClassNamesBinding="transaction.status"
 				classNames="span3 status"
 				titleBinding="transaction.status"
 			}}
 			{{view Balanced.LinkedTextCellView
+				item=transaction
 				labelText=transaction.description
+				routeName=transaction.route_name
 				classNames="span4"
 				titleBinding="transaction.description"
 			}}

@@ -28,9 +28,7 @@ Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),
 	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
 
-	status_name: function() {
-		return Balanced.Utils.capitalize(this.get('status'));
-	}.property('status'),
+	status_name: Ember.computed.alias('status'),
 
 	is_lost: Computed.isStatus('lost'),
 	is_won: Computed.isStatus('won'),
