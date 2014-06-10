@@ -54,6 +54,11 @@ Balanced.MAXLENGTH = {
 	APPEARS_ON_STATEMENT_CARD: 18
 };
 
+Balanced.EXPECTED_CREDIT_DAYS_OFFSET = {
+	ACH: 1,
+	DEBIT_CARD: 2
+};
+
 Balanced.DATES = {
 	CREATED_AT: moment('2011-04-01').startOf('day').toDate(),
 

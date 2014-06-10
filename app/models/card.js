@@ -30,11 +30,23 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		}
 	},
 
-	type_name: 'Card',
+	type_name: function() {
+		if (this.get('type')) {
+			return this.get('type').capitalize() + ' card';
+		} else {
+			return 'Card';
+		}
+	}.property('type'),
+
+	is_prepaid: function() {
+		return this.get('category') === "prepaid";
+	}.property('category'),
+
 	route_name: 'cards',
 	postal_code: Ember.computed.alias('address.postal_code'),
 	is_bank_account: false,
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
+	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD,
 	page_title: Ember.computed.readOnly('displayName'),
 
 	last_four: function() {
@@ -47,7 +59,7 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	}.property('account_number'),
 
 	description: function() {
-		return '%@ (%@)'.fmt(
+		return '%@ %@'.fmt(
 			this.get('last_four'),
 			Balanced.Utils.toTitleCase(this.get('brand'))
 		);

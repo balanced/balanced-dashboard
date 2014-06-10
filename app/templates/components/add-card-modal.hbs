@@ -2,14 +2,14 @@
 	<form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Add a credit card</h2>
+			<h2>Add a card</h2>
 		</div>
 
 		<div class="modal-body modal-with-headers">
 			{{partial "modals/modalErrors"}}
 			<div class="modal-content">
 				<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-					<label class="control-label">Card holder's name</label>
+					<label class="control-label">Name on account</label>
 
 					<div class="controls">
 						{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}

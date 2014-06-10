@@ -1,4 +1,4 @@
-<h1 class="page-title">Card</h1>
+<h1 class="page-title">{{type_name}}</h1>
 
 <div id="card">
 	<div class="funding-instrument-header main-header">
@@ -6,7 +6,7 @@
 			<div class="span2 label">
 				<div {{bind-attr class=":icon :card-info"}}>Card</div>
 			</div>
-			<div class="span18 title">
+			<div class="span14 title">
 				<span class="nav3d">
 					{{title_description}}
 				</span>
@@ -17,6 +17,9 @@
 					{{#if customer}}
 						<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
 						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+						{{#if can_credit}}
+							<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+						{{/if}}
 					{{/if}}
 				</div>
 			</div>
@@ -49,8 +52,18 @@
 						<dd><span>{{human_readable_expiration}}</span></dd>
 						<dt>Billing Zip Code</dt>
 						<dd><span>{{postal_code}}</span></dd>
+						<dt>Bank</dt>
+						<dd><span>{{bank_name}}</span></dd>
 						<dt>Type</dt>
-						<dd><span>{{titleCase brand}}</span></dd>
+						<dd><span>
+						{{#if is_prepaid}}
+							Prepaid card (You can't credit to a prepaid card.)
+						{{else}}
+							{{type_name}}
+						{{/if}}
+						</span></dd>
+						<dt>Brand</dt>
+						<dd><span>{{brand}}</span></dd>
 
 						{{partial 'meta'}}
 					</dl>
@@ -80,6 +93,8 @@
 {{#if show_download}}
 	{{partial "modals/download"}}
 {{/if}}
-
+{{#if can_credit}}
+	{{view Balanced.CreditFundingInstrumentModalView funding_instrumentBinding="model"}}
+{{/if}}
 {{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
 {{view Balanced.HoldCardModalView funding_instrumentBinding="model"}}

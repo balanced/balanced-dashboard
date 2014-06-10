@@ -88,6 +88,14 @@ Balanced.Utils = Ember.Namespace.create({
 		});
 	},
 
+	toLowerCase: function(str) {
+		if (!str) {
+			return str;
+		}
+
+		return str.toLowerCase();
+	},
+
 	getParamByName: function(uri, name) {
 		name = name.replace(PARAM_HELPER_1_REGEX, "\\\\[").replace(PARAM_HELPER_2_REGEX, "\\\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

@@ -103,6 +103,13 @@
 					</fieldset>
 
 					<fieldset>
+						<legend>Banking info</legend>
+						{{view Balanced.ControlGroupFieldView placeholder="Name on account" field="bankAccountName" help="Enter the name on your bank account"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Account number" field="bankAccountNumber" help="Enter your bank account number"}}
+						{{view Balanced.PopoverView class="icon-tooltip tooltip_account_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Routing number" field="bankRoutingNumber" help="Enter your 9 digit routing number"}}
+						{{view Balanced.PopoverView class="icon-tooltip tooltip_routing_number" data-html="true" data-placement="top" data-title="Account &amp; Routing Number" data-content="<img class='check_image_tool_tip' src='/images/check_image_tool_tip.png'/>"}}
+
 						<legend>Next steps</legend>
 						<div class="control-group">
 							<strong>Your bank account will take 1-2 business days to confirm.<br>
