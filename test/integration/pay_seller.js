@@ -20,7 +20,7 @@ test('can pay a seller', function(assert) {
 			'account_number': '123123123',
 			'account_type': 'checking',
 			'dollar_amount': '98',
-			'appears_on_statement_as': 'Test Transaction',
+			'appears_on_statement_as': 'Transaction',
 			'description': "Cool"
 		})
 		.click('#pay-seller .modal-footer button:eq(1)')
@@ -28,7 +28,7 @@ test('can pay a seller', function(assert) {
 			assert.ok(stub.calledOnce, "Called Once");
 			assert.deepEqual(stub.firstCall.args.slice(0, 3), [Balanced.Credit, "/credits", {
 				amount: "9800",
-				appears_on_statement_as: "Test Transaction",
+				appears_on_statement_as: "Transaction",
 				description: "Cool",
 				destination: {
 					account_number: "123123123",
@@ -51,7 +51,7 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 			'account_number': '123123123',
 			'account_type': 'checking',
 			'dollar_amount': '98',
-			'appears_on_statement_as': 'Test Transaction'
+			'appears_on_statement_as': 'Transaction'
 		}, {
 			clickMultiple: '.modal-footer button:eq(1)'
 		})
