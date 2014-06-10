@@ -1,48 +1,10 @@
-<section class="funding-instrument-info">
-	<div class="key-value-display">
-		<header>
-			<h3>
-				{{#if funding_instrument}}
-					{{funding_instrument.type_name}}: <a href="#" {{action "toggleFundingInstrumentDetails"}}>{{funding_instrument.description}}</a>
-					<a href="#" {{bind-attr class=":disclosure show_funding_instrument_details:open"}} {{action "toggleFundingInstrumentDetails"}}>Edit</a>
-				{{/if}}
-			</h3>
-		</header>
-
-		{{#if show_funding_instrument_details}}
-			<dl class="dl-horizontal">
-				{{#if funding_instrument.is_bank_account}}
-					<dt>Account #</dt>
-					<dd><span>{{#link-to funding_instrument.route_name funding_instrument}} {{funding_instrument.account_number}} {{/link-to}}</span></dd>
-					<dt>Routing #</dt>
-					<dd><span>{{funding_instrument.routing_number}}</span></dd>
-					<dt>Created</dt>
-					<dd><span>{{humanReadableDateLong funding_instrument.created_at}}</span></dd>
-					<dt>ID</dt>
-					<dd><span>{{funding_instrument.id}}</span></dd>
-					<dt>Name</dt>
-					<dd><span>{{funding_instrument.name}}</span></dd>
-					<dt>Bank</dt>
-					<dd><span>{{funding_instrument.bank_name}}</span></dd>
-					<dt>Type</dt>
-					<dd><span>{{capitalize funding_instrument.account_type}}</span></dd>
-				{{else}}
-					<dt>Card #</dt>
-					<dd><span>{{#link-to funding_instrument.route_name funding_instrument}} {{funding_instrument.number}} {{/link-to}}</span></dd>
-					<dt>Created</dt>
-					<dd><span>{{humanReadableDateLong funding_instrument.created_at}}</span></dd>
-					<dt>ID</dt>
-					<dd><span>{{funding_instrument.id}}</span></dd>
-					<dt>Name on account</dt>
-					<dd><span>{{funding_instrument.name}}</span></dd>
-					<dt>Bank</dt>
-					<dd><span>{{funding_instrument.bank_name}}</span></dd>
-					<dt>Type</dt>
-					<dd><span>{{funding_instrument.brand}}</span></dd>					
-					<dt>Expiration</dt>
-					<dd><span>{{funding_instrument.human_readable_expiration}}</span></dd>
-				{{/if}}
-			</dl>
-		{{/if}}
-	</div>
-</section>
+<dl class="dl-horizontal">
+	<dt>Payment method</dt>
+	<dd>
+		<span>
+		{{#link-to funding_instrument.route_name funding_instrument}}
+			{{funding_instrument.last_four}} {{funding_instrument.brand}} ({{funding_instrument.type_name}})
+		{{/link-to}}
+		</span>
+	</dd>
+</dl>

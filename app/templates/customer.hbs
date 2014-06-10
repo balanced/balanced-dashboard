@@ -30,7 +30,7 @@
 			<section class="customer-info">
 				<div class="key-value-display">
 					<header>
-						<h3>Customer info:
+						<h3>Details
 							<span {{bind-attr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">
 								{{#if is_identity_verified}}
 									VERIFIED
@@ -93,6 +93,7 @@
 						</span></dd>
 					</dl>
 				</div>
+				{{partial 'meta'}}
 			</section>
 		</div>
 

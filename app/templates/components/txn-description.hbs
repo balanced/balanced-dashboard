@@ -25,11 +25,4 @@
 	<dt>On statement as</dt>
 	<dd><span>{{transaction.appears_on_statement_as}} </span></dd>
 	{{/unless}}{{/unless}}
-
-	<dt>Meta</dt>
-	<dd><span>
-		{{#each meta in transaction.meta_array}}
-		{{meta.key}}: {{meta.value}}<br/>
-		{{/each}}
-	</span></dd>
 </dl>
