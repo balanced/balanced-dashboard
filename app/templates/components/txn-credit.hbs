@@ -24,7 +24,7 @@
 							</h3>
 						</header>
 						{{txn-description transaction=credit}}
-						{{txn-funding-instrument funding_instrument=credit.bank_account}}
+						{{txn-funding-instrument funding_instrument=credit.destination}}
 					</div>
 					{{partial 'meta' meta_array=credit.meta_array}}
 				</section>

@@ -1,15 +1,15 @@
-<div class="modal wide-modal hide" id="credit-bank-account">
+<div class="modal wide-modal hide" id="credit-funding-instrument">
 	<form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Credit Bank Account</h2>
+			<h2>Credit this {{lowerCase type_name}}</h2>
 		</div>
 
 		<div class="modal-body">
 			{{partial "modals/modalErrors"}}
 
 			<div class="control-group">
-				<label class="control-label">Bank Account</label>
+				<label class="control-label">{{type_name}}</label>
 
 				<div class="controls">
 					<span class="label1a">{{view.funding_instrument.title_description}}</span>
@@ -17,7 +17,7 @@
 			</div>
 
 			<div class="control-group">
-				<label class="control-label">Account holder's name</label>
+				<label class="control-label">Name on account</label>
 
 				<div class="controls">
 					<span class="label1a">{{view.funding_instrument.name}}</span>
@@ -25,10 +25,10 @@
 			</div>
 
 			<div class="control-group">
-				<label class="control-label">Type</label>
+				<label class="control-label">Bank</label>
 
 				<div class="controls">
-					<span class="label1a">{{capitalize view.funding_instrument.type}}</span>
+					<span class="label1a">{{capitalize view.funding_instrument.formatted_bank_name}}</span>
 				</div>
 			</div>
 
@@ -61,7 +61,7 @@
 		</div>
 
 		<div class="modal-informational">
-			<p class="modal-informational-content">Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
+			<p class="modal-informational-content">This credit is expected to appear on {{humanReadableDate view.funding_instrument.expected_credit_date}}.</p>
 		</div>
 
 		<div class="modal-footer">

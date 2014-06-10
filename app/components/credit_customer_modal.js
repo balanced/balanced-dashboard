@@ -7,8 +7,8 @@ Balanced.CreditCustomerModalComponent = Balanced.ModalComponent.extend({
 
 	actions: {
 		open: function() {
-			var bankAccounts = this.get('customer.bank_accounts');
-			var creditUri = (bankAccounts && bankAccounts.get('length') > 0) ? bankAccounts.get('content')[0].get('credits_uri') : null;
+			var fundingInstruments = this.get('customer.creditable_funding_instruments');
+			var creditUri = (fundingInstruments && fundingInstruments.get('length') > 0) ? fundingInstruments.objectAt(0).get('credits_uri') : null;
 
 			var credit = Balanced.Credit.create({
 				uri: creditUri,
@@ -50,12 +50,12 @@ Balanced.CreditCustomerModalComponent = Balanced.ModalComponent.extend({
 	},
 
 	selected_funding_instrument: function() {
-		var bankAccountUri = this.get('model.bank_account_uri');
-		if (bankAccountUri) {
-			return this.get('customer.bank_accounts').find(function(bankAccount) {
-				return bankAccountUri === bankAccount.get('uri');
+		var sourceUri = this.get('model.source_uri');
+		if (sourceUri) {
+			return this.get('customer.creditable_funding_instruments').find(function(fundingInstrument) {
+				return sourceUri === fundingInstrument.get('uri');
 			});
 		}
 		return this.get('customer.creditable_funding_instruments.0');
-	}.property('model.bank_account_uri', 'customer.bank_accounts')
+	}.property('model.source_uri', 'customer.creditable_funding_instruments')
 });

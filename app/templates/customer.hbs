@@ -6,7 +6,7 @@
 			<div class="span2 label">
 				<div {{bind-attr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
 			</div>
-			<div class="span18 title">
+			<div class="span14 title">
 				<span class="nav3d">
 					{{#if is_business}}
 						{{business_name}}
@@ -136,7 +136,7 @@
 
 			<section class="card-info">
 				<header>
-					<h3>Credit cards
+					<h3>Cards
 						{{add-card-modal customerBinding="model"}}
 					</h3>
 				</header>
@@ -148,7 +148,7 @@
 								<div class="icon">Credit card</div>
 								<div class="details">
 									<span class="name label2a">{{card.name}}</span>
-									<span class="summary">{{card.description}}</span>
+									<span class="summary">{{card.description}} ({{capitalize card.type}})</span>
 								</div>
 							{{/link-to}}
 						</li>

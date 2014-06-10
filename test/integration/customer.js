@@ -128,7 +128,7 @@ test('can update customer info only some fields', function(assert) {
 });
 
 test('can debit customer using card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.stub(Balanced.Adapter, "create");
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -136,8 +136,8 @@ test('can debit customer using card', function(assert) {
 		.then(function() {
 			var options = $("#debit-customer form select[name=source_uri] option");
 			assert.equal(options.length, 3);
-			assert.equal(options.eq(0).text(), "Bank account: 1234 (Wells Fargo Bank)");
-			assert.equal(options.eq(2).text(), "Card: 3434 (Visa)");
+			assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
+			assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
 
 			fundingInstrumentUri = options.eq(2).val();
 			$("#debit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
@@ -153,6 +153,7 @@ test('can debit customer using card', function(assert) {
 				amount: 100000,
 				description: "Card debit"
 			})));
+			spy.restore();
 		});
 });
 
@@ -164,10 +165,11 @@ test('can debit customer using bank account', function(assert) {
 		.click($(".customer-header .buttons a").eq(0))
 		.checkElements({
 			"#debit-customer form select[name=source_uri] option": 3,
-			"#debit-customer form select[name=source_uri] option:eq(0)": "Bank account: 1234 (Wells Fargo Bank)",
-			"#debit-customer form select[name=source_uri] option:eq(1)": "Bank account: 5555 (Wells Fargo Bank Na)"
+			"#debit-customer form select[name=source_uri] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
+			"#debit-customer form select[name=source_uri] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
 		}, assert)
 		.then(function() {
+
 			fundingInstrumentUri = $("#debit-customer form select[name=source_uri] option").eq(0).val();
 			$("#debit-customer select[name=source_uri]").val(fundingInstrumentUri);
 		})
@@ -223,25 +225,48 @@ test("debit customer triggers reload of transactions", function(assert) {
 		});
 });
 
-test('can credit customer', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+module('Customer Page: Credit', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createCreditCard();
+		Testing.createDebitCard();
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			balanced.card.create
+		);
+	}
+});
+
+test('can credit to a debit card', function(assert) {
+	var spy = sinon.stub(Balanced.Adapter, "create");
+	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click($(".customer-header .buttons a").eq(1))
+		.then(function() {
+			fundingInstrumentUri = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
+			$("#credit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
+		})
+		.then(function() {
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 1111 Visa");
+			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 5556 Visa");
+		})
 		.fillForm('#credit-customer', {
-			dollar_amount: '1000',
-			description: 'Test credit'
+			dollar_amount: '1',
+			description: 'Test credit to a debit card'
 		}, {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			var fundingInstrumentUri = $("#debit-customer form select[name=source_uri] option").eq(0).val();
+			assert.ok(spy.calledOnce, "Create was called once");
+			assert.equal(spy.firstCall.args[0], Balanced.Credit);
+			assert.equal(spy.firstCall.args[1], fundingInstrumentUri + '/credits');
 
-			assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits', sinon.match({
-				amount: 100000,
-				description: "Test credit"
-			})));
+			assert.deepEqual(spy.firstCall.args[2].amount, 100);
+			assert.deepEqual(spy.firstCall.args[2].description, "Test credit to a debit card");
 		});
 });
 
@@ -275,6 +300,21 @@ test("can't credit customer multiple times using the same modal", function(asser
 		.then(function() {
 			assert.deepEqual(stub.callCount, 1, "Create is created only once");
 		});
+});
+
+module('Customer Page: Add', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
+		Testing.createCard();
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			balanced.card.create
+		);
+	}
 });
 
 test('can add bank account', function(assert) {
@@ -461,7 +501,7 @@ test('verification renders properly against rev1', function(assert) {
 		});
 });
 
-module('Customer Page – Delete', {
+module('Customer Page: Delete', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();

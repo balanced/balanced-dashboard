@@ -9,7 +9,7 @@
 
             <div class="modal-content">
                 <div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-                    <label class="control-label">Account holder's name</label>
+                    <label class="control-label">Name on account</label>
                     <div class="controls">
                         {{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
                         <div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.name}}</div>

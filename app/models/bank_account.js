@@ -6,11 +6,19 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
-	type_name: 'Bank account',
+	type_name: function() {
+		if (this.get('isSaving')) {
+			return 'Savings account';
+		} else {
+			return 'Checking account';
+		}
+	}.property('isSaving'),
+
 	route_name: 'bank_accounts',
 	is_bank_account: true,
-	account_type_name: Ember.computed.alias('account_type'),
+	account_type_name: Ember.computed.alias('type_name'),
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
 	page_title: Ember.computed.readOnly('description'),
 
 	last_four: function() {
@@ -24,7 +32,7 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	description: function() {
 		if (this.get('bank_name')) {
-			return '%@ (%@)'.fmt(
+			return '%@ %@'.fmt(
 				this.get('last_four'),
 				Balanced.Utils.toTitleCase(this.get('bank_name'))
 			);
