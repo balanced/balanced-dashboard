@@ -64,7 +64,11 @@ Balanced.Credit.reopenClass({
 
 			var fundingInstrument = record.get('destination');
 			if (fundingInstrument) {
-				json.destination = fundingInstrument.constructor.serializer.serialize(fundingInstrument);
+				if (fundingInstrument.constructor.serializer) {
+					json.destination = fundingInstrument.constructor.serializer.serialize(fundingInstrument);
+				} else {
+					json.destination = fundingInstrument;
+				}
 			}
 
 			return json;

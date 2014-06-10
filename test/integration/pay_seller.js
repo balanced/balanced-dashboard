@@ -2,6 +2,11 @@ module('Pay Seller', {
 	setup: function() {
 		Testing.setupMarketplace();
 	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create
+		);
+	}
 });
 
 test('can pay a seller', function(assert) {
