@@ -57,9 +57,8 @@
 					</time>
 				</span>{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span3 :label4a :type dispute.status"}}>
-				{{#link-to dispute.route_name dispute}}<span>
-					<span class="dot"></span>
+			<td {{bind-attr class=":span3 :label4a :status"}}>
+				{{#link-to dispute.route_name dispute}}<span {{bind-attr class="dispute.status_name"}}>
 					{{dispute.status_name}}
 				</span>{{/link-to}}
 			</td>
