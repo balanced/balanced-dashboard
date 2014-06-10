@@ -63,14 +63,16 @@
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-			<label class="control-label" {{bind-attr for=view.dollarAmount.elementId}}>Appears on statement as ({{view.model.destination.appears_on_statement_max_length}} characters max)</label>
+			<label class="control-label" {{bind-attr for=view.dollarAmount.elementId}}>
+				Appears on statement as ({{view.appearsOnStatementAsMaxLength}} characters max)
+			</label>
 
 			<div class="controls">
 				{{view Ember.TextField
 					valueBinding="view.model.appears_on_statement_as"
 					name="appears_on_statement_as"
 					class="full"
-					maxlengthBinding="view.model.appears_on_statement_max_length"
+					maxlengthBinding="view.appearsOnStatementAsMaxLength"
 					name="appears_on_statement_as"
 					viewName="dollarAmount"
 				}}
