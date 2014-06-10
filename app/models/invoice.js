@@ -56,6 +56,14 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	is_scheduled: Ember.computed.equal('state', 'scheduled'),
 
+	status: function() {
+		if (this.get('total_fee') === 0) {
+			return 'paid';
+		} else {
+			return this.get('state');
+		}
+	}.property('state', 'total_fee'),
+
 	is_not_paid: function() {
 		return this.get('state') !== 'pending';
 	}.property('state'),
