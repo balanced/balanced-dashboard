@@ -187,9 +187,8 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 		company_type: "Corporation",
 		person: {
 			dob: "1980-01-31",
-			first_name: "Big",
-			middle_name: undefined,
-			last_name: "Bird",
+			name: "Big  Bird",
+			postal_code: "98210",
 			tax_id: "1111"
 		}
 	});
@@ -227,9 +226,8 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 		company_type: "Corporation",
 		person: {
 			dob: "1980-01-31",
-			first_name: "Big",
-			middle_name: undefined,
-			last_name: "Bird",
+			name: "Big  Bird",
+			postal_code: "98210",
 			tax_id: "1111"
 		}
 	});
@@ -267,9 +265,8 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 		company_type: "Corporation",
 		person: {
 			dob: "1980-01-31",
-			first_name: "Big",
-			middle_name: undefined,
-			last_name: "Bird",
+			name: "Big  Bird",
+			postal_code: "98210",
 			tax_id: "1111"
 		}
 	});
