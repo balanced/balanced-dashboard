@@ -113,7 +113,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		};
 	},
 
-	getBusinessPersonAttributes: function () {
+	getBusinessPersonAttributes: function() {
 		return {
 			name: [this.get("personFirstName"), this.get("personMiddleName"), this.get("personLastName")].join(" "),
 			tax_id: this.get('socialSecurityNumber'),
