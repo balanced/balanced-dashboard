@@ -69,11 +69,14 @@
 
 				<fieldset>
 					<legend>Your personal info</legend>
-					<div {{bind-attr class=":control-group model.validationErrors.personFirstName:error"}}>
+					<div {{bind-attr class=":control-group model.validationErrors.personFullName:error"}}>
 						<div class="controls">
-							{{view Ember.TextField placeholder="First name" class="cssError:error" name="personFirstName" class="span3"}}
-							{{view Ember.TextField placeholder="Middle name" class="cssError:error" name="personMiddleName" class="span3"}}
-							{{view Ember.TextField placeholder="Last name" class="cssError:error" name="personLastName" class="span3"}}
+							{{view Ember.TextField placeholder="First name" valueBinding="model.personFirstName" name="personFirstName" class="span3"}}
+							{{view Ember.TextField placeholder="Middle name" valueBinding="model.personMiddleName" name="personMiddleName" class="span3"}}
+							{{view Ember.TextField placeholder="Last name" valueBinding="model.personLastName" name="personLastName" class="span3"}}
+
+							<div class="alert alert-error label4b">{{formatError model.validationErrors.allMessages}}</div>
+							<div class="alert alert-error label4b">{{formatError model.validationErrors.personFullName}}</div>
 						</div>
 						<label>Enter your full legal name</label>
 					</div>

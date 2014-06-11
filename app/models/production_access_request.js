@@ -366,11 +366,16 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		principalOwnerName: {
 			presence: true
 		},
-		personFirstName: {
-			presence: true
-		},
-		personLastName: {
-			presence: true
+		personFullName: {
+			presence: {
+				validator: function(object, attribute, value) {
+					var emptyFirstName = !(object.get("personFirstName.length") > 0);
+					var emptyLastName = !(object.get("personLastName.length") > 0);
+					if (emptyFirstName || emptyLastName) {
+						object.get("validationErrors").add(attribute, "blank", null, "must include first and last name");
+					}
+				}
+			}
 		},
 		socialSecurityNumber: {
 			presence: true,
@@ -441,7 +446,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			presence: {
 				validator: function(object, attribute, value) {
 					if (value !== true) {
-						object.get('validationErrors').add(attribute, 'must be checked');
+						object.get('validationErrors').add(attribute, 'checked', null, "must be checked");
 					}
 				}
 			}
