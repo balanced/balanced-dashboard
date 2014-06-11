@@ -1,7 +1,4 @@
-require('app/models/mixins/meta_array');
-
-Balanced.FundingInstrument = Balanced.Model.extend(
-	Balanced.MetaArrayMixin, {
+Balanced.FundingInstrument = Balanced.Model.extend({
 		customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
 
 		title_description: Balanced.computed.fmt('last_four', 'funding_instrument_name', '%@ %@'),
