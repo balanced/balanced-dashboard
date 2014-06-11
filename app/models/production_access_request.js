@@ -113,6 +113,15 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		};
 	},
 
+	getBusinessPersonAttributes: function () {
+		return {
+			name: [this.get("personFirstName"), this.get("personMiddleName"), this.get("personLastName")].join(" "),
+			tax_id: this.get('socialSecurityNumber'),
+			dob: this.get("dob"),
+			postal_code: this.get('postalCode'),
+		};
+	},
+
 	getPersonApiKeyAttributes: function() {
 		var attributes = this.getPersonAttributes();
 		attributes.type = "PERSON";
@@ -139,7 +148,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			doing_business_as: this.get('marketplaceName'),
 			company_type: this.get('companyType'),
 			incorporation_date: this.get('incorporationDate'),
-			person: _.omit(this.getPersonAttributes(), ['street_address', 'postal_code', 'phone_number'])
+			person: this.getBusinessPersonAttributes()
 		};
 
 		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
