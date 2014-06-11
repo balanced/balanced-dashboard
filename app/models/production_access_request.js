@@ -83,7 +83,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	dob: function() {
 		var self = this;
 		return ["dobYear", "dobMonth", "dobDay"].map(function(key) {
-			var value = self.get(key).toString();
+			var value = (self.get(key) || "").toString();
 			return value.length === 1 ?
 				("0" + value) :
 				value;
