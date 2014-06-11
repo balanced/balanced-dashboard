@@ -5,7 +5,7 @@
 	{{#if view.meta_array}}
 	<dl class="dl-horizontal">
 		{{#each meta in view.meta_array}}
-			<dt>{{meta.key}}</dt>
+			<dt {{bind-attr title="meta.key"}}>{{meta.key}}</dt>
 			<dd><span>{{meta.value}}</span></dd>
 		{{/each}}
 	</dl>
