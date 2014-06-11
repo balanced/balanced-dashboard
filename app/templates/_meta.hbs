@@ -3,7 +3,7 @@
 		<h3>Meta</h3>
 	</header>
 	{{#if view.meta_array}}
-	<dl class="dl-horizontal">
+	<dl class="dl-horizontal meta">
 		{{#each meta in view.meta_array}}
 			<dt {{bind-attr title="meta.key"}}>{{meta.key}}</dt>
 			<dd><span>{{meta.value}}</span></dd>
