@@ -136,6 +136,15 @@
 				</tr>
 			</thead>
 			<tbody>
+			{{#if isDispute}}
+				<tr class="chargeback-details-row">
+					<td class="span4 label4a"><span>Disputes</span></td>
+					<td class="span2"><span>{{formatNumber disputes_count}}</span></td>
+					<td class="span6"><span>{{formatCurrency disputes_total_amount}}</span></td>
+					<td class="span7"><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
+					<td class="span3 total number3a"><span>{{formatCurrency disputes_total_fee}}</span></td>
+				</tr>
+			{{else}}
 				<tr class="hold-details-row">
 					<td class="span4 label4a"><span>Holds</span></td>
 					<td class="span2"><span>{{formatNumber holds_count}}</span></td>
@@ -197,14 +206,7 @@
 					<td class="span7"><span>{{formatCurrency reversal_fee}} per reversal</span></td>
 					<td class="span3 total number3a"><span>{{formatCurrency reversals_total_fee}}</span></td>
 				</tr>
-				<tr class="chargeback-details-row">
-					<td class="span4 label4a"><span>Disputes</span></td>
-					<td class="span2"><span>{{formatNumber disputes_count}}</span></td>
-					<td class="span6"><span>{{formatCurrency disputes_total_amount}}</span></td>
-					<td class="span7"><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
-					<td class="span3 total number3a"><span>{{formatCurrency disputes_total_fee}}</span></td>
-				</tr>
-
+			{{/if}}
 			</tbody>
 			<tfoot>
 				<tr class="subtotal-row">
@@ -248,19 +250,19 @@
 
 	<section class="activity">
 		<header class="results-label">
-			<h3>Transactions</h3>
+			<h3>{{invoice_type}}</h3>
 		</header>
-
 		<div class="results">
-			{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
-
-			<div class="items-wrapper">
-				{{#if isDisputeType}}
-					{{view Balanced.DisputesResultsView disputesBinding="results"}}
-				{{else}}
+			{{#if isDispute}}
+				<div class="items-wrapper">
+					{{view Balanced.DisputesResultsView disputesBinding="dispute_results"}}
+				</div>
+			{{else}}
+				{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
+				<div class="items-wrapper">
 					{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
-				{{/if}}
-			</div>
+				</div>
+			{{/if}}
 		</div>
 	</section>
 </div>
