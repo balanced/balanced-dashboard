@@ -38,17 +38,26 @@ test('basic form validation and terms and conditions', function(assert) {
 	visit(Testing.APPLY_ROUTE)
 		.click('a:contains("Person")')
 		.then(function() {
-
 			var $submitButton = $(submitButtonQuery);
 			assert.equal($submitButton.length, 1);
 		})
 		.click(submitButtonQuery)
-		.then(function() {
-			assert.equal($('.control-group.error').length, 15, 'expected error fields highlighted');
+		.checkElements({
+			".control-group.error": 15
+		}, assert)
+		.fillForm(".full-page-form", {
+			personFirstName: "Carlos"
 		})
 		.click('#terms-and-conditions')
 		.click(submitButtonQuery)
-		.then(function() {
-			assert.equal($('.control-group.error').length, 14, 'expected error fields highlighted but not t&c');
-		});
+		.checkElements({
+			".control-group.error": 14
+		}, assert)
+		.fillForm(".full-page-form", {
+			personLastName: "Pig"
+		})
+		.click(submitButtonQuery)
+		.checkElements({
+			".control-group.error": 13
+		}, assert);
 });
