@@ -1,63 +1,64 @@
 module('Balanced.Marketplaces.initial_deposit', {
 	setup: function() {
 		Testing.setupMarketplace();
+		Testing.createCard();
 	},
 	teardown: function() {
-
+		Testing.restoreMethods(
+			Balanced.Debit.create,
+			balanced.card.create
+		);
 	}
 });
 
 test('on the correct page', function(assert) {
-	visit(Testing.INITIAL_DEPOSIT_ROUTE).then(function() {
-		assert.equal($('h1', '#marketplace-initial-deposit').text(), 'Make an initial deposit', 'title is correct');
-	});
+	visit(Testing.INITIAL_DEPOSIT_ROUTE)
+		.checkElements({
+			"h1.page-title": "Make an initial deposit"
+		}, assert);
 });
 
 test('form validation', function(assert) {
-	visit(Testing.INITIAL_DEPOSIT_ROUTE).then(function() {
-		var $submitButton = $('button:contains("Submit")');
-		assert.equal($submitButton.length, 1, 'submit button exists');
-	})
-		.then(function() {
-			click($('button:contains("Submit")'));
-			assert.ok($('.control-group.error').length > 0, 'errors are displayed');
-		});
+	visit(Testing.INITIAL_DEPOSIT_ROUTE)
+		.click("#marketplace-initial-deposit button[name=modal-submit]")
+		.checkElements({
+			'.control-group.error': 3
+		}, assert);
 });
 
 test('payment success', function(assert) {
+	var CARD_URL = "/cards/" + Testing.CARD_ID;
 	var spy = sinon.spy(Balanced.Debit, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		cards: [{
-			href: '/cards/' + Testing.CARD_ID
+			href: CARD_URL
 		}]
 	});
 
 	visit(Testing.INITIAL_DEPOSIT_ROUTE)
 		.fillForm({
-			number: '4111111111111111',
-			cvv: '1234',
+			number: '4111 1111 1111 1111',
+			cvv: '124',
 			expiration_month: '12',
 			expiration_year: '2020'
-		}, {
-			click: 'button:contains("Submit")'
 		})
+		.click("#marketplace-initial-deposit button[name=modal-submit]")
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(spy.calledOnce);
-			assert.equal(spy.getCall(0).args[0].amount, "1000");
+			assert.ok(tokenizingStub.calledOnce, "Card was tokenized");
+			assert.deepEqual(spy.firstCall.args[0], {
+				amount: "1000",
+				source_uri: CARD_URL,
+				uri: CARD_URL + "/debits"
+			});
 		});
 });
 
 test('cancel', function(assert) {
 	visit(Testing.INITIAL_DEPOSIT_ROUTE)
-		.then(function() {
-			var $skipButton = $('button:contains("Skip")');
-			assert.equal($skipButton.length, 1, 'skip button exists');
-		})
-		.click('button:contains("Skip")')
-		.then(function() {
-			assert.equal($('.page-title').text().trim(), 'Transactions', 'title is correct');
-		});
+		.click('a.btn.secondary')
+		.checkElements({
+			"h1.page-title": "Transactions"
+		}, assert);
 });
