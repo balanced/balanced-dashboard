@@ -369,9 +369,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		personFullName: {
 			presence: {
 				validator: function(object, attribute, value) {
-					var emptyFirstName = !(object.get("personFirstName.length") > 0);
-					var emptyLastName = !(object.get("personLastName.length") > 0);
-					if (emptyFirstName || emptyLastName) {
+					var isFirstName = object.get("personFirstName.length") > 0;
+					var isLastName = object.get("personLastName.length") > 0;
+					if (!isFirstName || !isLastName) {
 						object.get("validationErrors").add(attribute, "blank", null, "must include first and last name");
 					}
 				}
