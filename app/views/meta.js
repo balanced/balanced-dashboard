@@ -16,4 +16,3 @@ Balanced.MetaView = Ember.View.extend({
 	}.property('type.meta')
 
 });
-
