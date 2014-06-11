@@ -67,4 +67,3 @@ test('renders metadata correctly', function(assert) {
 		});
 	});
 });
-
