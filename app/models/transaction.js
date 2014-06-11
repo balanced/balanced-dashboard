@@ -1,3 +1,5 @@
+require('app/models/mixins/meta_array');
+
 var Computed = {
 	isStatus: function(status) {
 		return Ember.computed.equal('status', status);
