@@ -26,7 +26,7 @@
 						{{txn-description transaction=credit}}
 						{{txn-funding-instrument funding_instrument=credit.destination}}
 					</div>
-					{{partial 'meta' meta_array=credit.meta_array}}
+					{{view Balanced.MetaView type=credit}}
 				</section>
 			</div>
 		</div>

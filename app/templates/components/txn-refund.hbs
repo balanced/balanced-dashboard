@@ -20,7 +20,7 @@
 						{{txn-description transaction=refund}}
 						{{txn-funding-instrument funding_instrument=refund.debit.source}}
 					</div>
-					{{partial 'meta' meta_array=refund.meta_array}}
+					{{view Balanced.MetaView type=refund}}
 				</section>
 			</div>
 		</div>

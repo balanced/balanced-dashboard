@@ -1,12 +1,10 @@
-require('app/models/mixins/meta_array');
-
 var Computed = {
 	isStatus: function(status) {
 		return Ember.computed.equal('status', status);
 	}
 };
 
-Balanced.Dispute = Balanced.Model.extend(Balanced.MetaArrayMixin, {
+Balanced.Dispute = Balanced.Model.extend({
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 
