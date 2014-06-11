@@ -26,7 +26,7 @@
 						{{txn-description transaction=debit}}
 						{{txn-funding-instrument funding_instrument=debit.source}}
 					</div>
-					{{partial 'meta' meta_array=debit.meta_array}}
+					{{view Balanced.MetaView type=debit}}
 				</section>
 
 

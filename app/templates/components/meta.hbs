@@ -1,0 +1,15 @@
+<div class="key-value-display">
+	<header>
+		<h3>Meta</h3>
+	</header>
+	{{#if view.meta_array}}
+	<dl class="dl-horizontal">
+		{{#each meta in view.meta_array}}
+			<dt>{{meta.key}}</dt>
+			<dd><span>{{meta.value}}</span></dd>
+		{{/each}}
+	</dl>
+	{{else}}
+		<span class="sl-none">none</span>
+	{{/if}}
+</div>
