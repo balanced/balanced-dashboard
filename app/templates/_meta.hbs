@@ -2,13 +2,13 @@
 	<header>
 		<h3>Meta</h3>
 	</header>
-	{{#if meta_array}}
-		<dl class="dl-horizontal">
-			{{#each meta in meta_array}}
-				<dt>{{meta.key}}</dt>
-				<dd><span>{{meta.value}}</span></dd>
-			{{/each}}
-		</dl>
+	{{#if view.meta_array}}
+	<dl class="dl-horizontal meta">
+		{{#each meta in view.meta_array}}
+			<dt {{bind-attr title="meta.key"}}>{{meta.key}}</dt>
+			<dd><span>{{meta.value}}</span></dd>
+		{{/each}}
+	</dl>
 	{{else}}
 		<span class="sl-none">none</span>
 	{{/if}}

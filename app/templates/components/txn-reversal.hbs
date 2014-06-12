@@ -20,7 +20,7 @@
 						{{txn-description transaction=reversal}}
 						{{txn-funding-instrument funding_instrument=reversal.credit.bank_account}}
 					</div>
-					{{partial 'meta' meta_array=reversal.meta_array}}
+					{{view Balanced.MetaView type=reversal}}
 				</section>
 			</div>
 		</div>

@@ -18,7 +18,11 @@ module('Refunds', {
 			});
 		});
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.update
+		);
+	}
 });
 
 test('can visit page', function(assert) {
@@ -40,4 +44,26 @@ test('can edit refund', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Refund));
 			assert.equal(spy.getCall(0).args[2].description, "changing desc");
 		});
+});
+
+test('renders metadata correctly', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	var metaData = {
+		'key': 'value',
+		'other-keey': 'other-vaalue'
+	};
+
+	visit(Testing.REFUND_ROUTE).then(function() {
+		var model = Balanced.__container__.lookup('controller:refunds');
+		model.set('meta', metaData);
+
+		Ember.run.next(function() {
+			var $dl = $('.dl-horizontal.meta');
+			$.each(metaData, function(key, value) {
+				assert.equal($dl.find('dt:contains(' + key + ')').length, 1);
+				assert.equal($dl.find('dd:contains(' + value + ')').length, 1);
+			});
+		});
+	});
 });

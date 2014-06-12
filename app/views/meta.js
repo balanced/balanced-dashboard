@@ -1,6 +1,7 @@
-Balanced.MetaArrayMixin = Ember.Mixin.create({
+Balanced.MetaView = Ember.View.extend({
+	templateName: "_meta",
 	meta_array: function() {
-		var meta = this.get('meta');
+		var meta = this.get('type.meta');
 		if (!meta) {
 			return meta;
 		}
@@ -11,5 +12,6 @@ Balanced.MetaArrayMixin = Ember.Mixin.create({
 				value: val
 			};
 		}) || [];
-	}.property('meta')
+	}.property('type.meta')
+
 });

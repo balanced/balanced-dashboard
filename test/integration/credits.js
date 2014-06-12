@@ -95,3 +95,25 @@ test('reversing a credit with a comma in the amount will succeed', function(asse
 			assert.equal(spy.getCall(0).args[2].amount, 100000);
 		});
 });
+
+test('renders metadata correctly', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	var metaData = {
+		'key': 'value',
+		'other-keey': 'other-vaalue'
+	};
+
+	visit(Testing.CREDIT_ROUTE).then(function() {
+		var model = Balanced.__container__.lookup('controller:credits');
+		model.set('meta', metaData);
+
+		Ember.run.next(function() {
+			var $dl = $('.dl-horizontal.meta');
+			$.each(metaData, function(key, value) {
+				assert.equal($dl.find('dt:contains(' + key + ')').length, 1);
+				assert.equal($dl.find('dd:contains(' + value + ')').length, 1);
+			});
+		});
+	});
+});
