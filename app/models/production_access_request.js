@@ -32,14 +32,20 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			'claimEmailAddress',
 
 			"businessName",
+			"principalOwnerName",
 			"employerIdentificationNumber",
-			"personName",
+			"personFirstName",
+			"personLastName",
 			"streetAddress",
 			"postalCode",
 			"phoneNumber",
 			"dobYear",
 			"dobMonth",
 			"dobDay",
+			"incorporationYear",
+			"incorporationMonth",
+			"incorporationDay",
+			"companyType",
 
 			"bankAccountType",
 			"bankRoutingNumber",
@@ -77,22 +83,42 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	dob: function() {
 		var self = this;
 		return ["dobYear", "dobMonth", "dobDay"].map(function(key) {
-			var value = self.get(key).toString();
+			var value = (self.get(key) || "").toString();
 			return value.length === 1 ?
 				("0" + value) :
 				value;
 		}).join('-');
 	}.property('dobYear', 'dobMonth', 'dobDay'),
 
+	incorporationDate: function() {
+		var self = this;
+		return ["incorporationYear", "incorporationMonth", "incorporationDay"].map(function(key) {
+			var value = self.get(key).toString();
+			return value.length === 1 ?
+				("0" + value) :
+				value;
+		}).join('-');
+	}.property('incorporationYear', 'incorporationMonth', 'incorporationDay'),
+
 	getPersonAttributes: function() {
 		return {
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
-
-			name: this.get('personName'),
+			first_name: this.get('personFirstName'),
+			middle_name: this.get('personMiddleName'),
+			last_name: this.get('personLastName'),
 			tax_id: this.get('socialSecurityNumber'),
 			dob: this.get("dob")
+		};
+	},
+
+	getBusinessPersonAttributes: function() {
+		return {
+			name: [this.get("personFirstName"), this.get("personMiddleName"), this.get("personLastName")].join(" "),
+			tax_id: this.get('socialSecurityNumber'),
+			dob: this.get("dob"),
+			postal_code: this.get('postalCode'),
 		};
 	},
 
@@ -114,14 +140,19 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 		var attributes = {
 			type: "BUSINESS",
+			name: this.get('businessName'),
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
-			person: this.getPersonAttributes(),
+			principal_owner_name: this.get('principalOwnerName'),
+			doing_business_as: this.get('marketplaceName'),
+			company_type: this.get('companyType'),
+			incorporation_date: this.get('incorporationDate'),
+			person: this.getBusinessPersonAttributes()
 		};
 
-		setOptionalValue(attributes, "businessName", "name");
 		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
+
 		return attributes;
 	},
 
@@ -341,9 +372,19 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-
-		personName: {
-			presence: true,
+		principalOwnerName: {
+			presence: true
+		},
+		personFullName: {
+			presence: {
+				validator: function(object, attribute, value) {
+					var isFirstName = object.get("personFirstName.length") > 0;
+					var isLastName = object.get("personLastName.length") > 0;
+					if (!isFirstName || !isLastName) {
+						object.get("validationErrors").add(attribute, "blank", null, "must include first and last name");
+					}
+				}
+			}
 		},
 		socialSecurityNumber: {
 			presence: true,
@@ -355,7 +396,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		},
 
 		streetAddress: {
-			presence: true,
+			presence: true
 		},
 		postalCode: {
 			presence: true,
@@ -365,12 +406,14 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			},
 			format: /^\d{5}([\-]?\d{4})?$/
 		},
-
+		companyType: {
+			presence: true
+		},
 		bankAccountName: {
-			presence: true,
+			presence: true
 		},
 		bankAccountNumber: {
-			presence: true,
+			presence: true
 		},
 		bankRoutingNumber: {
 			presence: true,
@@ -412,7 +455,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			presence: {
 				validator: function(object, attribute, value) {
 					if (value !== true) {
-						object.get('validationErrors').add(attribute, 'must be checked');
+						object.get('validationErrors').add(attribute, 'checked', null, "must be checked");
 					}
 				}
 			}

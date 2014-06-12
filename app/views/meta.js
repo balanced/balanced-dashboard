@@ -1,5 +1,5 @@
 Balanced.MetaView = Ember.View.extend({
-	templateName: "components/meta",
+	templateName: "_meta",
 	meta_array: function() {
 		var meta = this.get('type.meta');
 		if (!meta) {

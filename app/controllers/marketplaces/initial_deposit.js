@@ -2,59 +2,48 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 	needs: ['marketplace'],
 	loadingMessage: 'Verifying...',
 
+	marketplace: Ember.computed.oneWay("controllers.marketplace.model"),
+
+	initialAmounts: function() {
+		return _.map([10, 25, 50, 100], function(amount) {
+			return {
+				amount: "" + amount,
+				formatted: Balanced.Utils.formatCurrency(amount * 100)
+			};
+		});
+	}.property(),
+
 	expirationMonths: Balanced.TIME.MONTHS,
+	expirationYears: function() {
+		var start = new Date().getFullYear();
+		return _.times(10, function(i) {
+			return start + i;
+		});
+	}.property(),
+
+	transactionModel: function() {
+		return Balanced.InitialDepositTransactionFactory.create();
+	}.property(),
+
+	isSaving: false,
 
 	actions: {
 		submit: function() {
-			var card = this.get('model');
+			var self = this;
+			var model = this.get("transactionModel");
+			var marketplace = this.get("marketplace");
+			model.set("marketplace", marketplace);
+			model.validate();
 
-			if (card.validate()) {
-				var debit = Balanced.Debit.create({
-					amount: this.get('initial_amount') * 100
+			if (model.get("isValid")) {
+				self.set("isSaving", true);
+				model.save().then(function(credit) {
+					self.transitionToRoute('activity', marketplace);
+				}).
+				finally(function() {
+					self.set("isSaving", false);
 				});
-
-				var proxy = $.proxy(this.onDebitFailed, this);
-				card.one('becameInvalid', proxy);
-				card.one('becameError', proxy);
-				debit.one('becameInvalid', proxy);
-				debit.one('becameError', proxy);
-
-				this.send('onSubmit', card, debit);
 			}
 		},
-
-		skip: function() {
-			this.send('onSkip');
-		}
 	},
-
-	expirationYears: function() {
-		var start = new Date().getFullYear();
-		var years = Ember.A();
-		for (var i = 0; i < 10; i++) {
-			years.push(start + i);
-		}
-		return years;
-	}.property(),
-
-	initialAmounts: [{
-		amount: 10,
-		formatted: '$10.00'
-	}, {
-		amount: 25,
-		formatted: '$25.00'
-	}, {
-		amount: 50,
-		formatted: '$50.00'
-	}, {
-		amount: 100,
-		formatted: '$100.00'
-	}],
-
-	onDebitFailed: function() {
-		this.send('alert', {
-			message: 'Sorry, there was an error charging this card.',
-			type: 'error'
-		});
-	}
 });
