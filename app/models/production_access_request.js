@@ -28,7 +28,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	getErrorObject: function() {
 		var self = this;
 		var props = this.getProperties(
-
 			'claimEmailAddress',
 
 			"businessName",
@@ -170,7 +169,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	saveUser: function() {
 		var self = this;
 
-		if (self.get("user")) {
+		if (!self.isCreateUserAccount()) {
 			return Ember.RSVP.resolve(self.get("user"));
 		} else {
 			var claim = Balanced.Claim.create({
@@ -329,6 +328,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		self.set("isSaving", true);
 		self.requestErrors.clear();
 
+		self.logSaveMessage("Started Marketplace Creation");
 		// Once the Marketplace is created and linked we take the user to the MP
 		// page. We rescue the bank account creation and verification process and
 		// continue to the success process
