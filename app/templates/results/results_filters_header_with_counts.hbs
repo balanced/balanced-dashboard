@@ -9,10 +9,6 @@
 			<a href="#" {{action "changeTypeFilter" "search"}}>Transactions ({{formatNumber view.searchResult.total_transactions}}) </a>
 		</li>
 
-		<li {{bind-attr class=":disputes :filter view.searchResult.total_disputes::disabled view.disputesTabSelected:selected"}} >
-			<a href="#" {{action "changeTypeFilter" "dispute"}}> Disputes ({{formatNumber view.searchResult.total_disputes}})</a>
-		</li>
-
 		<li {{bind-attr class=":customers :filter view.searchResult.total_customers::disabled view.customersTabSelected:selected"}} >
 			<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber view.searchResult.total_customers}}) </a>
 		</li>
