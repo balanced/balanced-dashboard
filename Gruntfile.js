@@ -647,7 +647,7 @@ module.exports = function(grunt) {
 					'app/**/*.js',
 					'static/lib/**/*.js'
 				],
-				tasks: ['_buildJSAfterTemplates'],
+				tasks: ['format', '_buildJSAfterTemplates'],
 				options: {
 					livereload: true,
 				}
@@ -657,7 +657,7 @@ module.exports = function(grunt) {
 					'test/support/**/*',
 					'test/**/*.js'
 				],
-				tasks: ['_buildTests'],
+				tasks: ['format', '_buildTests'],
 				options: {
 					livereload: true,
 				}

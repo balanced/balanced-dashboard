@@ -35,7 +35,7 @@ Balanced.Invoice = Balanced.Model.extend({
 	from_date: Computed.date(0),
 	to_date: Computed.date(1),
 
-	type: function() {
+	invoice_type: function() {
 		if (this.get('disputes_total_fee') !== 0) {
 			return 'Disputes';
 		} else {
@@ -43,7 +43,7 @@ Balanced.Invoice = Balanced.Model.extend({
 		}
 	}.property('disputes_total_fee'),
 
-	isDispute: Ember.computed.equal('type', 'Dispute'),
+	isDispute: Ember.computed.equal('invoice_type', 'Disputes'),
 
 	subtotal: function() {
 		var total = this.get('total_fee');
@@ -55,6 +55,14 @@ Balanced.Invoice = Balanced.Model.extend({
 	}.property('total_fee', 'adjustments_total_fee'),
 
 	is_scheduled: Ember.computed.equal('state', 'scheduled'),
+
+	status: function() {
+		if (this.get('total_fee') === 0) {
+			return 'paid';
+		} else {
+			return this.get('state');
+		}
+	}.property('state', 'total_fee'),
 
 	is_not_paid: function() {
 		return this.get('state') !== 'pending';

@@ -17,6 +17,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 0,
+		"disputes_total_fee": 0,
 		"id": "IV1kXBhMkmFnsAyOg9bY9xKE",
 		"holds_total_amount": 0,
 		"reversals_total_fee": 0,
@@ -75,6 +76,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 1,
+		"disputes_total_fee": 0,
 		"id": "IV6IpTgBduxaOZku4PisgRiU",
 		"holds_total_amount": 100,
 		"reversals_total_fee": 0,
@@ -133,6 +135,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 2,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 8,
+		"disputes_total_fee": 0,
 		"id": "IV54rw6E1iNeWrqR1BkB9aSy",
 		"holds_total_amount": 305,
 		"reversals_total_fee": 0,
@@ -191,6 +194,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 0,
+		"disputes_total_fee": 0,
 		"id": "IV1R3TljKtg275LpKV6jBtEK",
 		"holds_total_amount": 0,
 		"reversals_total_fee": 0,
@@ -249,6 +253,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 0,
+		"disputes_total_fee": 0,
 		"id": "IV3wBmYdVrqdG0x3ogb3IJFm",
 		"holds_total_amount": 0,
 		"reversals_total_fee": 0,
@@ -307,6 +312,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 0,
+		"disputes_total_fee": 0,
 		"id": "IV4cpgGl8JrCQf43mSQ2wT0I",
 		"holds_total_amount": 0,
 		"reversals_total_fee": 0,
@@ -365,6 +371,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 7,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 7,
+		"disputes_total_fee": 0,
 		"id": "IV1Lh1rVlyG0xK8DjrBVExia",
 		"holds_total_amount": 700,
 		"reversals_total_fee": 0,
@@ -423,6 +430,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 3,
+
 		"id": "IV2Zy1LFV2BMosqIIwi8nsIM",
 		"holds_total_amount": 200,
 		"reversals_total_fee": 0,
@@ -481,6 +489,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 6,
+		"disputes_total_fee": 0,
 		"id": "IV7xT2Dq4BOMNqDdo2vqLC1O",
 		"holds_total_amount": 300,
 		"reversals_total_fee": 0,
@@ -539,6 +548,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 2,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 2,
+		"disputes_total_fee": 0,
 		"id": "IV5ykuNZ8T5B4kOGQ2C1lMca",
 		"holds_total_amount": 1000,
 		"reversals_total_fee": 0,
@@ -597,6 +607,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 1,
+		"disputes_total_fee": 0,
 		"id": "IV26bPYgyDJmEbk8YyJA05vA",
 		"holds_total_amount": 100,
 		"reversals_total_fee": 0,
@@ -655,6 +666,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 1,
+		"disputes_total_fee": 0,
 		"id": "IV1Y52ltWuYwU7IYHvUQHXnQ",
 		"holds_total_amount": 500,
 		"reversals_total_fee": 0,
@@ -713,6 +725,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 1,
+		"disputes_total_fee": 0,
 		"id": "IV22A77AKEdRDQ8KlCFzo7Lc",
 		"holds_total_amount": 100,
 		"reversals_total_fee": 0,
@@ -771,6 +784,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 2,
+		"disputes_total_fee": 0,
 		"id": "IV1LdmsPDBxwhL3Wgz6AUoIu",
 		"holds_total_amount": 200,
 		"reversals_total_fee": 0,
@@ -829,6 +843,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 2,
+		"disputes_total_fee": 0,
 		"id": "IV3QLLsXE9Q8TJMBNKMMbLqG",
 		"holds_total_amount": 300,
 		"reversals_total_fee": 0,
@@ -887,6 +902,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 1,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 1,
+		"disputes_total_fee": 0,
 		"id": "IV1ORiC7teWAnjQsRr8wvC1a",
 		"holds_total_amount": 500,
 		"reversals_total_fee": 0,
@@ -945,6 +961,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 2600,
 		"holds_count": 0,
+		"disputes_total_fee": 0,
 		"id": "IV7M2eMzSfyfAc1Ydsg2Hv0m",
 		"holds_total_amount": 0,
 		"reversals_total_fee": 0,
@@ -1003,6 +1020,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 1,
+		"disputes_total_fee": 0,
 		"id": "IV1QMrEwoOXjryYjV7Yaonin",
 		"holds_total_amount": 1500,
 		"reversals_total_fee": 0,
@@ -1061,6 +1079,7 @@ Balanced.Adapter.addFixtures([{
 		"refunds_count": 0,
 		"bank_account_debits_total_amount": 0,
 		"holds_count": 2,
+		"disputes_total_fee": 0,
 		"id": "IV5XZKBVWW4d68cJOtcEotSw",
 		"holds_total_amount": 3000,
 		"reversals_total_fee": 0,
@@ -1101,64 +1120,6 @@ Balanced.Adapter.addFixtures([{
 		"failed_credits_total_fee": 0,
 		"debits_total_amount": 0,
 		"sequence_number": 5
-	}, {
-		"bank_account_credits_count": 0,
-		"lost_debit_chargebacks_total_fee": 0,
-		"links": {
-			"source": null,
-			"settlement": null
-		},
-		"updated_at": "2013-01-11T02:01:40.508248Z",
-		"adjustments": [],
-		"period": [
-			"2012-12-26T20:36:29.644500Z",
-			"2012-12-26T20:36:29.644500Z"
-		],
-		"marketplace_uri": "/marketplaces/MP5Pg8XIUxdZn4L8gbcIfy2t",
-		"bank_account_debit_variable_fee_cap": null,
-		"refunds_count": 0,
-		"bank_account_debits_total_amount": 0,
-		"holds_count": 1,
-		"id": "IV7GSC6Fm4gx7UxjnmNXJ54X",
-		"holds_total_amount": 1800,
-		"reversals_total_fee": 0,
-		"lost_debit_chargebacks_total_amount": 0,
-		"refund_fee": true,
-		"state": "paid",
-		"settle_at": "2012-12-27T01:01:46.670385Z",
-		"card_debits_total_amount": 0,
-		"holds_total_fee": 35,
-		"bank_account_debits_count": 0,
-		"card_debits_count": 0,
-		"debits_total_fee": 0,
-		"bank_account_credit_fee": 0,
-		"refunds_total_fee": 0,
-		"href": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X",
-		"bank_account_credits_total_fee": 0,
-		"failed_credits_total_amount": 0,
-		"failed_credits_count": 0,
-		"refunds_total_amount": 0,
-		"card_debit_fixed_fee": 0,
-		"adjustments_total_fee": 0,
-		"failed_credit_fee": 0,
-		"reversals_count": 0,
-		"bank_account_debits_total_fee": 0,
-		"lost_debit_chargebacks_count": 0,
-		"hold_fee": 35,
-		"reversals_total_amount": 0,
-		"bank_account_credits_total_amount": 0,
-		"created_at": "2012-12-27T01:01:46.694227Z",
-		"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X",
-		"card_debits_total_fee": 0,
-		"bank_account_debit_variable_fee_percentage": 1.00,
-		"chargeback_fixed_fee": 1500,
-		"adjustments_count": 0,
-		"total_fee": 35,
-		"variable_fee_percentage": 3.50,
-		"debits_count": 0,
-		"failed_credits_total_fee": 0,
-		"debits_total_amount": 0,
-		"sequence_number": 4
 	}],
 	"uri": "/invoices?created_at%5B%3C%5D=2013-08-01T23%3A59%3A59.999Z&created_at%5B%3E%5D=2013-08-01T00%3A00%3A00.000Z&limit=20&offset=0&q=&sort=created_at%2Cdesc",
 	"meta": {
@@ -1175,6 +1136,7 @@ Balanced.Adapter.addFixtures([{
 		"invoices.source": "/resources/{invoices.source}"
 	}
 }, {
+	// test transactions invoice
 	"invoices": [{
 		"_type": "invoice",
 		"_uris": {
@@ -1250,6 +1212,7 @@ Balanced.Adapter.addFixtures([{
 		"failed_credits_uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/failed_credits",
 		"hold_fee": 0,
 		"holds_count": 51,
+		"disputes_total_fee": 0,
 		"holds_total_amount": 72160,
 		"holds_total_fee": 1785,
 		"holds_uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/holds",
@@ -1316,6 +1279,152 @@ Balanced.Adapter.addFixtures([{
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/disputes"
 }, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/reversals"
+}, {
+	"uri": "/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc",
+}, {
+	// test disputes invoice
+	"invoices": [{
+		"_type": "invoice",
+		"_uris": {
+			"bank_account_debits_uri": {
+				"_type": "page",
+				"key": "bank_account_debits"
+			},
+			"card_debits_uri": {
+				"_type": "page",
+				"key": "card_debits"
+			},
+			"bank_account_credits_uri": {
+				"_type": "page",
+				"key": "bank_account_credits"
+			},
+			"debits_uri": {
+				"_type": "page",
+				"key": "debits"
+			},
+			"failed_credits_uri": {
+				"_type": "page",
+				"key": "failed_credits"
+			},
+			"holds_uri": {
+				"_type": "page",
+				"key": "holds"
+			},
+			"lost_debit_chargebacks_uri": {
+				"_type": "page",
+				"key": "lost_debit_chargebacks"
+			},
+			"refunds_uri": {
+				"_type": "page",
+				"key": "refunds"
+			},
+			"reversals_uri": {
+				"_type": "page",
+				"key": "reversals"
+			},
+			"settlements_uri": {
+				"_type": "page",
+				"key": "settlements"
+			}
+		},
+		"adjustments": [],
+		"adjustments_count": 0,
+		"adjustments_total_fee": 0,
+		"bank_account_debit_variable_fee_cap": null,
+		"bank_account_debit_variable_fee_percentage": 1.0,
+		"bank_account_debits_count": 0,
+		"bank_account_debits_total_amount": 0,
+		"bank_account_debits_total_fee": 0,
+		"bank_account_debits_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/bank_account_debits",
+		"card_debits_count": 6,
+		"card_debits_total_amount": 0,
+		"card_debits_total_fee": 245,
+		"card_debits_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits",
+		"chargeback_fixed_fee": 1500,
+		"created_at": "2012-12-08T00:34:53.121Z",
+		"credit_fee": 0,
+		"bank_account_credits_count": 0,
+		"bank_account_credits_total_amount": 0,
+		"bank_account_credits_total_fee": 0,
+		"bank_account_credits_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/credits",
+		"debits_count": 6,
+		"debits_total_amount": 0,
+		"debits_total_fee": 245,
+		"debits_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits",
+		"failed_credit_fee": 0,
+		"failed_credits_count": 0,
+		"failed_credits_total_amount": 0,
+		"failed_credits_total_fee": 0,
+		"failed_credits_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/failed_credits",
+		"hold_fee": 0,
+		"holds_count": 51,
+		"disputes_total_fee": 123,
+		"holds_total_amount": 0,
+		"holds_total_fee": 1785,
+		"holds_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds",
+		"id": "IV7GSC6Fm4gx7UxjnmNXJ54X",
+		"lost_debit_chargebacks_count": 0,
+		"lost_debit_chargebacks_total_amount": 0,
+		"lost_debit_chargebacks_total_fee": 0,
+		"lost_debit_chargebacks_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/lost_debit_chargebacks",
+		"marketplace_uri": "/marketplaces/MP5Pg8XIUxdZn4L8gbcIfy2t",
+		"meta": {},
+		"period": [
+			"2012-05-24T17:50:00.084673Z",
+			"2012-11-27T16:46:15.375576Z"
+		],
+		"refund_fee": true,
+		"refunds_count": 7,
+		"refunds_total_amount": 0,
+		"card_debit_fixed_fee": 29,
+		"refunds_total_fee": -245,
+		"refunds_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/refunds",
+		"reversals_count": 0,
+		"disputes_count": 1,
+		"reversals_total_amount": 0,
+		"reversals_total_fee": 0,
+		"reversals_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals",
+		"sequence_number": 1,
+		"settle_at": "2012-12-20T21:36:33.034Z",
+		"settlement": {
+			"_type": "settlement",
+			"_uris": {},
+			"amount": 0,
+			"created_at": "2013-01-11T02:01:52.087Z",
+			"events_uri": "/settlements/ST6KJstgXSFUJI4nJaZluQlG/events",
+			"id": "ST6KJstgXSFUJI4nJaZluQlG",
+			"invoice_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X",
+			"marketplace_uri": "/marketplaces/MP5Pg8XIUxdZn4L8gbcIfy2t",
+			"state": "submitted",
+			"updated_at": "2013-01-12T00:38:40.134Z",
+			"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/settlements/ST6KJstgXSFUJI4nJaZluQlG"
+		},
+		"settlements_uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/settlements",
+		"source": "/bank_accounts/123",
+		"state": "scheduled",
+		"total_fee": 123,
+		"updated_at": "2013-01-11T02:01:51.739Z",
+		"variable_fee_percentage": 3.5,
+		"href": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X",
+		"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
+	}],
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/credits"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/failed_credits"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/refunds"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/bank_account_debits"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals"
 }, {
 	"uri": "/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc",
 }]);

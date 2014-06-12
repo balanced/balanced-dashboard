@@ -39,19 +39,16 @@ Balanced.InvoiceController = Balanced.ObjectController.extend(
 				hold: "holds",
 				refund: "refunds",
 				card_debit: "card_debits",
-				bank_account_debit: "bank_account_debits",
-				dispute: "disputes"
+				bank_account_debit: "bank_account_debits"
 			};
-
 			if (typeMappings[type]) {
 				return this.get(typeMappings[type]);
 			}
 
 			return null;
-		}.property(
-			'type', 'debits', 'credits', 'holds', 'failed_credits', 'refunds',
-			'card_debits', 'bank_account_debits', 'disputes'
-		),
+		}.property('type', 'debits', 'credits', 'holds', 'failed_credits', 'refunds', 'card_debits', 'bank_account_debits'),
+
+		dispute_results: Ember.computed.alias('disputes'),
 
 		results_base_uri: Ember.computed.alias('controllers.marketplace.invoices_uri')
 	}
