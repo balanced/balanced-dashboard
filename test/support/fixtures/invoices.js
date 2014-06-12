@@ -1427,5 +1427,4 @@ Balanced.Adapter.addFixtures([{
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals"
 }, {
 	"uri": "/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc",
-}
-]);
+}]);
