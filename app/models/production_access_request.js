@@ -40,7 +40,6 @@ var createMarketplace = function(data, secret) {
 	return new Ember.RSVP.Promise(function(resolve, reject) {
 		return post("https://api.balancedpayments.com/marketplaces", data, secret)
 			.then(function(response) {
-				console.log(response);
 				var mp = Balanced.Marketplace.create({
 					uri: response.marketplaces[0].uri
 				});
@@ -49,6 +48,13 @@ var createMarketplace = function(data, secret) {
 			})
 			.then(resolve, reject);
 	});
+};
+
+var createUserMarketplace = function(user, secret) {
+	return Balanced.UserMarketplace.create({
+		uri: user.get('api_keys_uri'),
+		secret: secret
+	}).save();
 };
 
 var post = function(url, data, apiKey) {
@@ -97,7 +103,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	getErrorObject: function() {
 		var self = this;
 		var props = this.getProperties(
-
 			'claimEmailAddress',
 
 			"businessName",
@@ -209,7 +214,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	saveUser: function() {
 		var self = this;
 
-		if (self.get("user")) {
+		if (!self.isCreateUserAccount()) {
 			return Ember.RSVP.resolve(self.get("user"));
 		} else {
 			var claim = Balanced.Claim.create({
@@ -233,15 +238,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			support_phone_number: this.get('supportPhoneNumber'),
 			domain_url: this.get('marketplaceDomainUrl')
 		}
-	},
-
-	saveUserMarketplace: function(apiKeySecret) {
-		var self = this;
-		var object = Balanced.UserMarketplace.create({
-			uri: this.get("user.api_keys_uri"),
-			secret: apiKeySecret
-		});
-		return object.save();
 	},
 
 	logSaveError: function(error) {
@@ -283,9 +279,15 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	requestErrors: [],
 
-	createMarketplace: function() {
+	save: function() {
+		var self = this;
 		var self = this;
 		var apiKeySecret, marketplace;
+
+		self.set("isSaving", true);
+		self.requestErrors.clear();
+
+		self.logSaveMessage("Started Marketplace Creation");
 
 		return createApiKey(this.getMerchantAttributes())
 			.then(function(secretApiKey) {
@@ -294,17 +296,14 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			})
 			.then(function(mp) {
 				marketplace = mp;
-				self.logSaveMessage("MarketplaceCreate", mp.get("id"));
+				self.logSaveMessage("MarketplaceCreated", mp.get("id"));
 				return mp;
 			})
 			.then(function() {
 				return self.saveUser();
 			})
 			.then(function(user) {
-				return Balanced.UserMarketplace.create({
-					uri: user.get('api_keys_uri'),
-					secret: apiKeySecret
-				}).save();
+				createUserMarketplace(user, apiKeySecret);
 			})
 			.then(function() {
 				Balanced.Auth.setAPIKey(apiKeySecret);
@@ -319,18 +318,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				self.handleSaveError(error);
 				self.logSaveError(error);
 				return Ember.RSVP.reject(marketplace);
-			});
-	},
-
-	save: function() {
-		var self = this;
-		self.set("isSaving", true);
-		self.requestErrors.clear();
-
-		return self
-			.createMarketplace()
+			})
 			.
-		finally(function(marketplace) {
+		finally(function() {
 			self.set("isSaving", false);
 			return marketplace;
 		});
