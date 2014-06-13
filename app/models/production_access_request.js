@@ -80,6 +80,23 @@ var createUserMarketplace = function(user, secret) {
 	}).save();
 };
 
+var createUser = function(email, password) {
+	var url = ENV.BALANCED.AUTH + "/users";
+	var data = {
+		email_address: email,
+		password: password,
+		passwordConfirm: password
+	};
+
+	return post(url, data)
+		.then(function(response) {
+			var user = Balanced.User.create();
+			user.populateFromJsonResponse(response);
+			Balanced.Auth.signIn(email, password);
+			return user;
+		});
+};
+
 var getErrorCategoryCode = function(error) {
 	if (error.errors && error.errors[0]) {
 		return error.errors[0].category_code;
@@ -205,13 +222,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		if (!self.isCreateUserAccount()) {
 			return Ember.RSVP.resolve(self.get("user"));
 		} else {
-			var claim = Balanced.Claim.create({
-				email_address: this.get('claimEmailAddress'),
-				password: this.get('claimPassword'),
-				passwordConfirm: this.get('claimPassword')
-			});
-			return claim
-				.save()
+			return createUser(this.get('claimEmailAddress'), this.get('claimPassword'))
 				.then(function(user) {
 					self.set("user", user);
 					return user;
@@ -277,14 +288,16 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	requestErrors: [],
 
 	save: function() {
-		var apiKeySecret, marketplace, self = this;
-
+		var apiKeySecret, marketplace, user, self = this;
 		self.set("isSaving", true);
 		self.requestErrors.clear();
-
 		self.logSaveMessage("Started Marketplace Creation");
 
-		return createApiKey(this.getMerchantAttributes())
+		return self.saveUser()
+			.then(function(u) {
+				user = u;
+				return createApiKey(self.getMerchantAttributes())
+			})
 			.then(function(secretApiKey) {
 				apiKeySecret = secretApiKey;
 				return createMarketplace(self.getMarketplaceAttributes(), secretApiKey);
@@ -295,22 +308,14 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				return mp;
 			})
 			.then(function() {
-				return self.saveUser();
-			})
-			.then(function(user) {
-				createUserMarketplace(user, apiKeySecret);
+				return createUserMarketplace(user, apiKeySecret);
 			})
 			.then(function() {
-				Balanced.Auth.setAPIKey(apiKeySecret);
-
-				if (self.get("claimEmailAddress") && self.get("claimPassword")) {
-					Balanced.Auth.signIn(self.get("claimEmailAddress"), self.get("claimPassword"));
-				}
-				self.get("user").reload();
+				return Balanced.Auth.setAPIKey(apiKeySecret);
 			})
 			.then(function() {
 				self.set("isSaving", false);
-				return marketplace.reload();
+				return marketplace;
 			}, function(error) {
 				self.set("isSaving", false);
 				self.handleSaveError(error);
