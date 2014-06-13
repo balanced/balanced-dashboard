@@ -1,11 +1,21 @@
-var VALIDATE_PRESENCE = {
-	presence: true
-};
-var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
 var isBlank = function(value) {
 	return $.trim(value).length === 0;
 };
 
+var VALIDATE_PRESENCE = {
+	presence: true
+};
+var VALIDATE_PRESENCE_BUSINESS = {
+	presence: {
+		validator: function(object, attribute, value) {
+			if (object.get("isBusiness") && isBlank(value)) {
+				object.get('validationErrors').add(attribute, 'blank');
+			}
+		}
+	}
+};
+
+var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
 var serializePersonFullName = function(self) {
 	return ['personFirstName', 'personMiddleName', 'personLastName'].map(function(key) {
 		return self.get(key);
@@ -40,35 +50,33 @@ var post = function(url, data, apiKey) {
 		});
 	}
 
-	return $.ajax(url, options);
+	return new Ember.RSVP.Promise(function(resolve, reject) {
+		return $.ajax(url, options).then(resolve, reject);
+	});
 };
 
 var createApiKey = function(merchantInformation) {
+	var url = ENV.BALANCED.API + "/api_keys";
 	var data = {
 		production: true,
 		merchant: merchantInformation
 	};
-	return new Ember.RSVP.Promise(function(resolve, reject) {
-		return post("https://api.balancedpayments.com/api_keys", data)
-			.then(function(response) {
-				return response.api_keys[0].secret;
-			})
-			.then(resolve, reject);
-	});
+	return post(url, data)
+		.then(function(response) {
+			return response.api_keys[0].secret;
+		});
 };
 
 var createMarketplace = function(data, secret) {
-	return new Ember.RSVP.Promise(function(resolve, reject) {
-		return post("https://api.balancedpayments.com/marketplaces", data, secret)
-			.then(function(response) {
-				var mp = Balanced.Marketplace.create({
-					uri: response.marketplaces[0].uri
-				});
-				mp.populateFromJsonResponse(response);
-				return mp;
-			})
-			.then(resolve, reject);
-	});
+	var url = ENV.BALANCED.API + "/marketplaces";
+	return post(url, data, secret)
+		.then(function(response) {
+			var mp = Balanced.Marketplace.create({
+				uri: response.marketplaces[0].uri
+			});
+			mp.populateFromJsonResponse(response);
+			return mp;
+		});
 };
 
 var createUserMarketplace = function(user, secret) {
@@ -248,6 +256,15 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		});
 	},
 
+	logValidationErrors: function() {
+		var errorsArray = this.get("validationErrors.allMessages").map(function(a) {
+			return a.join(": ");
+		});
+		this.logSaveMessage("Balanced.ProductionAccessRequest#ValidationError", {
+			validationErrors: errorsArray
+		});
+	},
+
 	handleSaveError: function(error) {
 		var message = "There was an unknown error creating your Marketplace. We have logged an error and will look into it. Please try again.";
 		var category = getErrorCategoryCode(error);
@@ -312,25 +329,12 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	},
 
 	validations: {
-		employerIdentificationNumber: {
-			presence: {
-				validator: function(object, attribute, value) {
-					if (object.get("isBusiness") && isBlank(value)) {
-						object.get('validationErrors').add(attribute, 'blank');
-					}
-				}
-			}
-		},
-		businessName: {
-			presence: {
-				validator: function(object, attribute, value) {
-					if (object.get("isBusiness") && isBlank(value)) {
-						object.get('validationErrors').add(attribute, 'blank');
-					}
-				}
-			}
-		},
-		principalOwnerName: VALIDATE_PRESENCE,
+		employerIdentificationNumber: VALIDATE_PRESENCE_BUSINESS,
+		businessName: VALIDATE_PRESENCE_BUSINESS,
+		principalOwnerName: VALIDATE_PRESENCE_BUSINESS,
+		companyType: VALIDATE_PRESENCE_BUSINESS,
+
+
 		personFullName: {
 			presence: {
 				validator: function(object, attribute, value) {
@@ -358,7 +362,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			},
 			format: /^\d{5}([\-]?\d{4})?$/
 		},
-		companyType: VALIDATE_PRESENCE,
 
 		marketplaceName: VALIDATE_PRESENCE,
 		supportEmailAddress: VALIDATE_PRESENCE,
