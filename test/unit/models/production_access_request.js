@@ -2,8 +2,7 @@ module("Balanced.ProductionAccessRequest");
 
 test("#getErrorObject", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
-		personFirstName: "Big",
-		personLastName: "Bird",
+		personFullName: "Big Bird",
 
 		socialSecurityNumber: "HIDDEN",
 		streetAddress: "123 Sesame St",
@@ -28,8 +27,7 @@ test("#getErrorObject", function(assert) {
 	});
 
 	assert.deepEqual(subject.getErrorObject(), {
-		personFirstName: "Big",
-		personLastName: "Bird",
+		personFullName: "Big Bird",
 		socialSecurityNumber: "HIDDEN",
 		streetAddress: "123 Sesame St",
 		postalCode: "98210",
@@ -97,8 +95,7 @@ test("#dob", function(assert) {
 
 test("#getPersonApiKeyAttributes", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
-		personFirstName: "Big",
-		personLastName: "Bird",
+		personFullName: "Big Bird",
 		socialSecurityNumber: "1111",
 		streetAddress: "123 Sesame St",
 		postalCode: "98210",
@@ -115,17 +112,14 @@ test("#getPersonApiKeyAttributes", function(assert) {
 		phone_number: "111 234 0099",
 
 		dob: "1980-01-31",
-		first_name: "Big",
-		middle_name: undefined,
-		last_name: "Bird",
+		name: "Big Bird",
 		tax_id: "1111",
 	});
 });
 
 test("#getBusinessApiKeyAttributes", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
-		personFirstName: "Big",
-		personLastName: "Bird",
+		personFullName: "Big Bird",
 		socialSecurityNumber: "1111",
 		marketplaceName: "Bird Pillows",
 		employerIdentificationNumber: "000001111",
@@ -162,8 +156,7 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 	});
 
 	subject = Balanced.ProductionAccessRequest.create({
-		personFirstName: "Big",
-		personLastName: "Bird",
+		personFullName: "Big Bird",
 		socialSecurityNumber: "1111",
 		employerIdentificationNumber: "000001111",
 		streetAddress: "123 Sesame St",
@@ -200,8 +193,7 @@ test("#getBusinessApiKeyAttributes", function(assert) {
 	});
 
 	subject = Balanced.ProductionAccessRequest.create({
-		personFirstName: "Big",
-		personLastName: "Bird",
+		personFullName: "Big Bird",
 		socialSecurityNumber: "1111",
 		employerIdentificationNumber: "000001111",
 		streetAddress: "123 Sesame St",

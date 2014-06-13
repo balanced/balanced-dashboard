@@ -70,14 +70,7 @@
 
 				<fieldset>
 					<legend>Your personal info</legend>
-					<div {{bind-attr class=":control-group model.validationErrors.personFullName:error"}}>
-						<div class="controls">
-							{{view Ember.TextField placeholder="First name" valueBinding="model.personFirstName" name="personFirstName" class="span3"}}
-							{{view Ember.TextField placeholder="Middle name" valueBinding="model.personMiddleName" name="personMiddleName" class="span3"}}
-							{{view Ember.TextField placeholder="Last name" valueBinding="model.personLastName" name="personLastName" class="span3"}}
-						</div>
-						<label>Enter your full legal name</label>
-					</div>
+					{{view Balanced.ControlGroupFieldView placeholder="Email address" field="personFullName" help="Enter your full legal name"}}
 
 					{{view Balanced.DateSelectView
 							yearContentBinding="dobYears"

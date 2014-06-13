@@ -2,6 +2,7 @@ var isBlank = function(value) {
 	return $.trim(value).length === 0;
 };
 
+var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
 var VALIDATE_PRESENCE = {
 	presence: true
 };
@@ -13,13 +14,6 @@ var VALIDATE_PRESENCE_BUSINESS = {
 			}
 		}
 	}
-};
-
-var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
-var serializePersonFullName = function(self) {
-	return ['personFirstName', 'personMiddleName', 'personLastName'].map(function(key) {
-		return self.get(key);
-	}).compact().join(" ");
 };
 
 var serializeDateFields = function(self) {
@@ -116,8 +110,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"businessName",
 			"principalOwnerName",
 			"employerIdentificationNumber",
-			"personFirstName",
-			"personLastName",
+			"personFullName",
 			"streetAddress",
 			"postalCode",
 			"phoneNumber",
@@ -171,9 +164,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
-			first_name: this.get('personFirstName'),
-			middle_name: this.get('personMiddleName'),
-			last_name: this.get('personLastName'),
+			name: this.get("personFullName"),
 			tax_id: this.get('socialSecurityNumber'),
 			dob: this.get("dob")
 		};
@@ -194,7 +185,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			company_type: this.get('companyType'),
 
 			person: {
-				name: serializePersonFullName(this),
+				name: this.get("personFullName"),
 				tax_id: this.get('socialSecurityNumber'),
 				dob: this.get("dob"),
 				postal_code: this.get('postalCode'),
@@ -319,7 +310,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			})
 			.then(function() {
 				self.set("isSaving", false);
-				return marketplace;
+				return marketplace.reload();
 			}, function(error) {
 				self.set("isSaving", false);
 				self.handleSaveError(error);
@@ -334,18 +325,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		principalOwnerName: VALIDATE_PRESENCE_BUSINESS,
 		companyType: VALIDATE_PRESENCE_BUSINESS,
 
+		personFullName: VALIDATE_PRESENCE,
 
-		personFullName: {
-			presence: {
-				validator: function(object, attribute, value) {
-					var isFirstName = object.get("personFirstName.length") > 0;
-					var isLastName = object.get("personLastName.length") > 0;
-					if (!isFirstName || !isLastName) {
-						object.get("validationErrors").add(attribute, "blank", null, "must include first and last name");
-					}
-				}
-			}
-		},
 		socialSecurityNumber: {
 			presence: true,
 			length: 4,
