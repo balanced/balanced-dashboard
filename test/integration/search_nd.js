@@ -50,7 +50,7 @@ test('search "%", click customers, returns 2 customer total, showing 2 customer 
 		}, assert)
 		.click('#search .results .customers > a')
 		.checkElements({
-			'#search .results table.customers tbody tr:last td:eq(1)': 'William Henry Cavendish III',
+			'#search .results table.customers tbody tr:last td:eq(1)': 'William Henry Cavendish IIIwhc@example.org',
 			'#search .results table.customers tbody tr': 2,
 			'#search .results table.customers tfoot td': 0
 		}, assert);
