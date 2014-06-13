@@ -1,3 +1,7 @@
+var isBlank = function(value) {
+	return $.trim(value).length === 0;
+};
+
 var VALIDATE_PRESENCE = {
 	presence: true
 };
@@ -12,10 +16,6 @@ var VALIDATE_PRESENCE_BUSINESS = {
 };
 
 var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
-var isBlank = function(value) {
-	return $.trim(value).length === 0;
-};
-
 var serializePersonFullName = function(self) {
 	return ['personFirstName', 'personMiddleName', 'personLastName'].map(function(key) {
 		return self.get(key);
@@ -64,7 +64,7 @@ var createApiKey = function(merchantInformation) {
 	return post(url, data)
 		.then(function(response) {
 			return response.api_keys[0].secret;
-		})
+		});
 };
 
 var createMarketplace = function(data, secret) {
