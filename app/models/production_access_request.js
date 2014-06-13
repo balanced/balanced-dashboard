@@ -22,6 +22,27 @@ var serializeDateFields = function(self) {
 	}).join('-');
 };
 
+var post = function(url, data, apiKey) {
+	var options = {
+		type: "POST",
+		dataType: 'json',
+		contentType: 'application/json; charset=UTF-8',
+		accepts: {
+			json: 'application/vnd.balancedpayments+json; version=1.1'
+		},
+		headers: {},
+		data: JSON.stringify(data)
+	};
+
+	if (apiKey !== undefined) {
+		_.extend(options.headers, {
+			"Authorization": Balanced.Utils.encodeAuthorization(apiKey)
+		});
+	}
+
+	return $.ajax(url, options);
+};
+
 var createApiKey = function(merchantInformation) {
 	var data = {
 		production: true,
@@ -55,27 +76,6 @@ var createUserMarketplace = function(user, secret) {
 		uri: user.get('api_keys_uri'),
 		secret: secret
 	}).save();
-};
-
-var post = function(url, data, apiKey) {
-	var options = {
-		type: "POST",
-		dataType: 'json',
-		contentType: 'application/json; charset=UTF-8',
-		accepts: {
-			json: 'application/vnd.balancedpayments+json; version=1.1'
-		},
-		headers: {},
-		data: JSON.stringify(data)
-	};
-
-	if (apiKey !== undefined) {
-		_.extend(options.headers, {
-			"Authorization": Balanced.Utils.encodeAuthorization(apiKey)
-		});
-	}
-
-	return $.ajax(url, options);
 };
 
 var getErrorCategoryCode = function(error) {
@@ -172,16 +172,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	},
 
 	getBusinessApiKeyAttributes: function() {
-		var self = this;
-
-		var setOptionalValue = function(attributes, valueName, keyName) {
-			var value = self.get(valueName);
-			if (value && _.isString(value) && value.length > 0) {
-				attributes[keyName] = value;
-			}
-		};
-
-		var attributes = {
+		return {
 			type: "BUSINESS",
 			name: this.get('businessName'),
 			principal_owner_name: this.get('principalOwnerName'),
@@ -200,9 +191,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				dob: this.get("dob"),
 				postal_code: this.get('postalCode'),
 			}
-		}
-
-		return attributes;
+		};
 	},
 
 	getMerchantAttributes: function() {
@@ -237,7 +226,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			support_email_address: this.get('supportEmailAddress'),
 			support_phone_number: this.get('supportPhoneNumber'),
 			domain_url: this.get('marketplaceDomainUrl')
-		}
+		};
 	},
 
 	logSaveError: function(error) {
@@ -280,9 +269,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	requestErrors: [],
 
 	save: function() {
-		var self = this;
-		var self = this;
-		var apiKeySecret, marketplace;
+		var apiKeySecret, marketplace, self = this;
 
 		self.set("isSaving", true);
 		self.requestErrors.clear();
@@ -307,23 +294,21 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			})
 			.then(function() {
 				Balanced.Auth.setAPIKey(apiKeySecret);
+
 				if (self.get("claimEmailAddress") && self.get("claimPassword")) {
 					Balanced.Auth.signIn(self.get("claimEmailAddress"), self.get("claimPassword"));
 				}
 				self.get("user").reload();
 			})
 			.then(function() {
+				self.set("isSaving", false);
 				return marketplace;
 			}, function(error) {
+				self.set("isSaving", false);
 				self.handleSaveError(error);
 				self.logSaveError(error);
 				return Ember.RSVP.reject(marketplace);
-			})
-			.
-		finally(function() {
-			self.set("isSaving", false);
-			return marketplace;
-		});
+			});
 	},
 
 	validations: {
