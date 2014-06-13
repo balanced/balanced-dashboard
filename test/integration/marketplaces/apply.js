@@ -27,9 +27,9 @@ test('clicking business or personal shows data', function(assert) {
 	visit(Testing.APPLY_ROUTE)
 		.then(assertInputsCount(2))
 		.click('a:contains("Business")')
-		.then(assertInputsCount(17))
+		.then(assertInputsCount(15))
 		.click('a:contains("Person")')
-		.then(assertInputsCount(14));
+		.then(assertInputsCount(12));
 });
 
 test('basic form validation and terms and conditions', function(assert) {
@@ -46,16 +46,9 @@ test('basic form validation and terms and conditions', function(assert) {
 			".control-group.error": 12
 		}, assert)
 		.fillForm(".full-page-form", {
-			personFirstName: "Carlos"
+			personFullName: "Carlos"
 		})
 		.click('#terms-and-conditions')
-		.click(submitButtonQuery)
-		.checkElements({
-			".control-group.error": 11
-		}, assert)
-		.fillForm(".full-page-form", {
-			personLastName: "Pig"
-		})
 		.click(submitButtonQuery)
 		.checkElements({
 			".control-group.error": 10
