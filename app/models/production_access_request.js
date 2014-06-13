@@ -1,6 +1,81 @@
+var VALIDATE_PRESENCE = {
+	presence: true
+};
 var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
 var isBlank = function(value) {
 	return $.trim(value).length === 0;
+};
+
+var serializePersonFullName = function(self) {
+	return ['personFirstName', 'personMiddleName', 'personLastName'].map(function(key) {
+		return self.get(key);
+	}).compact().join(" ");
+};
+
+var serializeDateFields = function(self) {
+	var fields = _.toArray(arguments).slice(1);
+	return fields.map(function(key) {
+		var value = (self.get(key) || "").toString();
+		return value.length === 1 ?
+			("0" + value) :
+			value;
+	}).join('-');
+};
+
+var post = function(url, data, apiKey) {
+	var options = {
+		type: "POST",
+		dataType: 'json',
+		contentType: 'application/json; charset=UTF-8',
+		accepts: {
+			json: 'application/vnd.balancedpayments+json; version=1.1'
+		},
+		headers: {},
+		data: JSON.stringify(data)
+	};
+
+	if (apiKey !== undefined) {
+		_.extend(options.headers, {
+			"Authorization": Balanced.Utils.encodeAuthorization(apiKey)
+		});
+	}
+
+	return $.ajax(url, options);
+};
+
+var createApiKey = function(merchantInformation) {
+	var data = {
+		production: true,
+		merchant: merchantInformation
+	};
+	return new Ember.RSVP.Promise(function(resolve, reject) {
+		return post("https://api.balancedpayments.com/api_keys", data)
+			.then(function(response) {
+				return response.api_keys[0].secret;
+			})
+			.then(resolve, reject);
+	});
+};
+
+var createMarketplace = function(data, secret) {
+	return new Ember.RSVP.Promise(function(resolve, reject) {
+		return post("https://api.balancedpayments.com/marketplaces", data, secret)
+			.then(function(response) {
+				var mp = Balanced.Marketplace.create({
+					uri: response.marketplaces[0].uri
+				});
+				mp.populateFromJsonResponse(response);
+				return mp;
+			})
+			.then(resolve, reject);
+	});
+};
+
+var createUserMarketplace = function(user, secret) {
+	return Balanced.UserMarketplace.create({
+		uri: user.get('api_keys_uri'),
+		secret: secret
+	}).save();
 };
 
 var getErrorCategoryCode = function(error) {
@@ -46,10 +121,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			"incorporationDay",
 			"companyType",
 
-			"bankAccountType",
-			"bankRoutingNumber",
-			"bankAccountName",
-
 			"marketplaceName",
 			"supportEmailAddress",
 			"supportPhoneNumber",
@@ -73,34 +144,22 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 		hideField("claimPassword");
 		hideField("socialSecurityNumber");
-		hideField("bankAccountNumber");
 		hideField("employerIdentificationNumber");
 
 		return props;
 	},
 
 	dob: function() {
-		var self = this;
-		return ["dobYear", "dobMonth", "dobDay"].map(function(key) {
-			var value = (self.get(key) || "").toString();
-			return value.length === 1 ?
-				("0" + value) :
-				value;
-		}).join('-');
+		return serializeDateFields(this, "dobYear", "dobMonth", "dobDay");
 	}.property('dobYear', 'dobMonth', 'dobDay'),
 
 	incorporationDate: function() {
-		var self = this;
-		return ["incorporationYear", "incorporationMonth", "incorporationDay"].map(function(key) {
-			var value = self.get(key).toString();
-			return value.length === 1 ?
-				("0" + value) :
-				value;
-		}).join('-');
+		return serializeDateFields(this, "incorporationYear", "incorporationMonth", "incorporationDay");
 	}.property('incorporationYear', 'incorporationMonth', 'incorporationDay'),
 
-	getPersonAttributes: function() {
+	getPersonApiKeyAttributes: function() {
 		return {
+			type: "PERSON",
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
@@ -112,58 +171,33 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		};
 	},
 
-	getBusinessPersonAttributes: function() {
-		return {
-			name: [this.get("personFirstName"), this.get("personMiddleName"), this.get("personLastName")].join(" "),
-			tax_id: this.get('socialSecurityNumber'),
-			dob: this.get("dob"),
-			postal_code: this.get('postalCode'),
-		};
-	},
-
-	getPersonApiKeyAttributes: function() {
-		var attributes = this.getPersonAttributes();
-		attributes.type = "PERSON";
-		return attributes;
-	},
-
 	getBusinessApiKeyAttributes: function() {
-		var self = this;
-
-		var setOptionalValue = function(attributes, valueName, keyName) {
-			var value = self.get(valueName);
-			if (value && _.isString(value) && value.length > 0) {
-				attributes[keyName] = value;
-			}
-		};
-
-		var attributes = {
+		return {
 			type: "BUSINESS",
 			name: this.get('businessName'),
+			principal_owner_name: this.get('principalOwnerName'),
+			tax_id: this.get("employerIdentificationNumber"),
+
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
-			principal_owner_name: this.get('principalOwnerName'),
-			doing_business_as: this.get('marketplaceName'),
-			company_type: this.get('companyType'),
+
 			incorporation_date: this.get('incorporationDate'),
-			person: this.getBusinessPersonAttributes()
+			company_type: this.get('companyType'),
+
+			person: {
+				name: serializePersonFullName(this),
+				tax_id: this.get('socialSecurityNumber'),
+				dob: this.get("dob"),
+				postal_code: this.get('postalCode'),
+			}
 		};
-
-		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
-
-		return attributes;
 	},
 
-	saveApiKey: function() {
-		var attributes = this.get("isBusiness") ?
+	getMerchantAttributes: function() {
+		return this.get("isBusiness") ?
 			this.getBusinessApiKeyAttributes() :
 			this.getPersonApiKeyAttributes();
-
-		return Balanced.APIKey.create({
-			production: true,
-			merchant: attributes
-		}).save();
 	},
 
 	saveUser: function() {
@@ -180,52 +214,19 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			return claim
 				.save()
 				.then(function(user) {
-					Balanced.Auth.signIn(self.get("claimEmailAddress"), self.get("claimPassword"));
 					self.set("user", user);
 					return user;
 				});
 		}
 	},
 
-	saveMarketplace: function(apiKeySecret) {
-		var object = Balanced.Marketplace.create({
+	getMarketplaceAttributes: function() {
+		return {
 			name: this.get('marketplaceName'),
 			support_email_address: this.get('supportEmailAddress'),
 			support_phone_number: this.get('supportPhoneNumber'),
 			domain_url: this.get('marketplaceDomainUrl')
-		});
-		var settings = {
-			headers: {
-				Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-			}
 		};
-		return object.save(settings);
-	},
-
-	saveUserMarketplace: function(apiKeySecret) {
-		var self = this;
-		var object = Balanced.UserMarketplace.create({
-			uri: this.get("user.api_keys_uri"),
-			secret: apiKeySecret
-		});
-		return object.save();
-	},
-
-	saveBankAccount: function(marketplace) {
-		var self = this;
-		var object = Balanced.BankAccount.create({
-			name: this.get('bankAccountName'),
-			routing_number: this.get('bankRoutingNumber'),
-			account_number: this.get('bankAccountNumber'),
-			account_type: this.get('bankAccountType').toLowerCase()
-		});
-		return object.tokenizeAndCreate(marketplace.get('links.owner_customer'));
-	},
-
-	saveVerification: function(bankAccount) {
-		return Balanced.Verification.create({
-			uri: bankAccount.get('bank_account_verifications_uri')
-		}).save();
 	},
 
 	logSaveError: function(error) {
@@ -265,95 +266,52 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		});
 	},
 
-
 	requestErrors: [],
 
-	createMarketplace: function() {
-		var self = this;
-		var apiKeySecret, marketplace;
-
-		return self
-			.saveUser()
-			.then(function(response) {
-				return self.saveApiKey();
-			})
-			.then(function(response) {
-				apiKeySecret = response.get('secret');
-				Balanced.Auth.setAPIKey(apiKeySecret);
-				return self.saveMarketplace(apiKeySecret);
-			})
-			.then(function(mp) {
-				self.set("marketplace", mp);
-				marketplace = mp;
-				self.logSaveMessage("MarketplaceCreated");
-				return self.saveUserMarketplace(apiKeySecret);
-			})
-			.then(function() {
-				Balanced.Auth.setAPIKey(apiKeySecret);
-				// we need the api key to be associated with the user before we can
-				// create the bank account
-				return self.get("user").reload();
-			})
-			.then(function() {
-				return marketplace;
-			});
-	},
-
-	verifyBankAccount: function(marketplace) {
-		var self = this;
-		return self
-			.saveBankAccount(marketplace)
-			.then(function(bankAccount) {
-				return self.saveVerification(bankAccount);
-			})
-			.
-		catch (function(error) {
-			Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
-				extra: {
-					response: error,
-					formFields: self.getErrorObject(),
-					marketplaceId: self.get("marketplace.id")
-				}
-			});
-		})
-			.then(function() {
-				return marketplace;
-			});
-	},
-
 	save: function() {
-		var self = this;
-		var marketplace;
+		var apiKeySecret, marketplace, self = this;
 
 		self.set("isSaving", true);
 		self.requestErrors.clear();
 
 		self.logSaveMessage("Started Marketplace Creation");
-		// Once the Marketplace is created and linked we take the user to the MP
-		// page. We rescue the bank account creation and verification process and
-		// continue to the success process
-		return self.createMarketplace()
+
+		return createApiKey(this.getMerchantAttributes())
+			.then(function(secretApiKey) {
+				apiKeySecret = secretApiKey;
+				return createMarketplace(self.getMarketplaceAttributes(), secretApiKey);
+			})
 			.then(function(mp) {
 				marketplace = mp;
-				self.logSaveMessage("Successful Marketplace Signup");
-				return self.verifyBankAccount(marketplace).
-				catch (function(error) {
-					self.logSaveError(error);
-				});
+				self.logSaveMessage("MarketplaceCreated", mp.get("id"));
+				return mp;
+			})
+			.then(function() {
+				return self.saveUser();
+			})
+			.then(function(user) {
+				createUserMarketplace(user, apiKeySecret);
+			})
+			.then(function() {
+				Balanced.Auth.setAPIKey(apiKeySecret);
+
+				if (self.get("claimEmailAddress") && self.get("claimPassword")) {
+					Balanced.Auth.signIn(self.get("claimEmailAddress"), self.get("claimPassword"));
+				}
+				self.get("user").reload();
+			})
+			.then(function() {
+				self.set("isSaving", false);
+				return marketplace;
 			}, function(error) {
+				self.set("isSaving", false);
 				self.handleSaveError(error);
 				self.logSaveError(error);
 				return Ember.RSVP.reject(marketplace);
-			})
-			.
-		finally(function() {
-			self.set("isSaving", false);
-			return marketplace;
-		});
+			});
 	},
 
 	validations: {
-
 		employerIdentificationNumber: {
 			presence: {
 				validator: function(object, attribute, value) {
@@ -372,9 +330,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-		principalOwnerName: {
-			presence: true
-		},
+		principalOwnerName: VALIDATE_PRESENCE,
 		personFullName: {
 			presence: {
 				validator: function(object, attribute, value) {
@@ -391,13 +347,9 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			length: 4,
 			numericality: true
 		},
-		phoneNumber: {
-			presence: true,
-		},
+		phoneNumber: VALIDATE_PRESENCE,
 
-		streetAddress: {
-			presence: true
-		},
+		streetAddress: VALIDATE_PRESENCE,
 		postalCode: {
 			presence: true,
 			length: {
@@ -406,50 +358,12 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			},
 			format: /^\d{5}([\-]?\d{4})?$/
 		},
-		companyType: {
-			presence: true
-		},
-		bankAccountName: {
-			presence: true
-		},
-		bankAccountNumber: {
-			presence: true
-		},
-		bankRoutingNumber: {
-			presence: true,
-			length: 9,
-			matches: {
-				validator: function(object, attribute, value) {
-					if (window.balanced !== undefined && !balanced.bankAccount.validateRoutingNumber(value)) {
-						object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid routing number');
-					}
-				}
-			}
-		},
-		bankAccountType: {
-			presence: true,
-			matches: {
-				validator: function(object, attribute, value) {
-					if (Balanced.BankAccount.ACCOUNT_TYPES.indexOf(value) < 0) {
-						object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid bank acount type');
-					}
-				}
+		companyType: VALIDATE_PRESENCE,
 
-			}
-		},
-
-		marketplaceName: {
-			presence: true,
-		},
-		supportEmailAddress: {
-			presence: true,
-		},
-		supportPhoneNumber: {
-			presence: true,
-		},
-		marketplaceDomainUrl: {
-			presence: true,
-		},
+		marketplaceName: VALIDATE_PRESENCE,
+		supportEmailAddress: VALIDATE_PRESENCE,
+		supportPhoneNumber: VALIDATE_PRESENCE,
+		marketplaceDomainUrl: VALIDATE_PRESENCE,
 
 		termsAndConditions: {
 			presence: {
@@ -470,7 +384,6 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				}
 			}
 		},
-
 		claimPassword: {
 			presence: {
 				validator: function(object, attribute, value) {
