@@ -54,12 +54,12 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 			model.validate();
 			if (model.get("isValid")) {
-
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();
 				model.save()
 					.then(function(marketplace) {
 						if (marketplace) {
+							Balanced.Utils.setCurrentMarketplace(marketplace);
 							self.transitionToRoute('marketplace.initial_deposit', marketplace);
 							self.send('alert', {
 								type: 'success',
@@ -67,6 +67,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 							});
 						}
 					});
+			} else {
+				model.logValidationErrors();
 			}
 		},
 	},

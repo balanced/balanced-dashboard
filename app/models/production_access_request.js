@@ -256,6 +256,15 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		});
 	},
 
+	logValidationErrors: function() {
+		var errorsArray = this.get("validationErrors.allMessages").map(function(a) {
+			return a.join(": ");
+		});
+		this.logSaveMessage("Balanced.ProductionAccessRequest#ValidationError", {
+			validationErrors: errorsArray
+		});
+	},
+
 	handleSaveError: function(error) {
 		var message = "There was an unknown error creating your Marketplace. We have logged an error and will look into it. Please try again.";
 		var category = getErrorCategoryCode(error);
