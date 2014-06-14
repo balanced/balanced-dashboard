@@ -7,7 +7,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 	streetAddressHint: function() {
 		if (this.get("model.isBusiness")) {
-			return "Enter your business address";
+			return "Enter your or another business representative's address including apartment, suite, or unit number, not the business address";
 		} else {
 			return "Enter your billing address including apartment, suite, or unit number";
 		}
@@ -22,24 +22,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		});
 	}.property(),
 
-	incorporationDays: Balanced.TIME.DAYS_IN_MONTH,
-	incorporationMonths: Balanced.TIME.MONTHS,
-	incorporationYears: function() {
-		var start = new Date().getFullYear();
-		return _.times(80, function(i) {
-			return start - i;
-		});
-	}.property(),
-
 	accountTypes: Balanced.BankAccount.ACCOUNT_TYPES,
 
-	companyTypes: Balanced.Marketplace.COMPANY_TYPES,
-
 	actions: {
-		goToHome: function() {
-			this.transitionToRoute('marketplaces');
-		},
-
 		selectType: function(applicationType) {
 			this.get('content').set('applicationType', applicationType);
 
@@ -54,12 +39,12 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 
 			model.validate();
 			if (model.get("isValid")) {
+
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();
 				model.save()
 					.then(function(marketplace) {
 						if (marketplace) {
-							Balanced.Utils.setCurrentMarketplace(marketplace);
 							self.transitionToRoute('marketplace.initial_deposit', marketplace);
 							self.send('alert', {
 								type: 'success',
@@ -67,8 +52,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 							});
 						}
 					});
-			} else {
-				model.logValidationErrors();
 			}
 		},
 	},
