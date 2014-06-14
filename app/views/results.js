@@ -49,63 +49,13 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 
 	// UI computed properties
 	transactionsTabSelected: function() {
-		return ['search', 'transaction', 'dispute'].indexOf(this.get('controller.category')) >= 0;
+		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
 	}.property('controller.category'),
+	customersTabSelected: Computed.isCategorySelected('dispute'),
 	customersTabSelected: Computed.isCategorySelected('customer'),
 	ordersTabSelected: Computed.isCategorySelected('order'),
 	fundingInstrumentsTabSelected: Computed.isCategorySelected('funding_instrument'),
 	disputesTabSelected: Computed.isCategorySelected('dispute'),
-
-	isSearch: Ember.computed.equal('from', 'search'),
-	isActivity: Ember.computed.equal('from', 'activity'),
-
-	transaction_type_label: function() {
-		var typesToLabels = {
-			DEFAULT: 'Transactions',
-			card_hold: 'Holds'
-		};
-
-		var types = Balanced.SEARCH.SEARCH_TYPES;
-
-		if (this.get('isActivity')) {
-			types = Balanced.SEARCH.TRANSACTION_TYPES;
-		}
-
-		var label = this._getLabel(typesToLabels, types, this.get('controller.type'));
-		var status = this.get('controller.transactionStatus');
-		if (!status || status === 'all') {
-			return label;
-		}
-
-		return label + ': %@'.fmt(Balanced.Utils.toTitleCase(status));
-	}.property('controller.type', 'controller.transactionStatus'),
-
-	funding_instrument_type_label: function() {
-		var typesToLabels = {
-			DEFAULT: 'Cards & Bank Accounts'
-		};
-
-		var types = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES;
-		return this._getLabel(typesToLabels, types, this.get('controller.type'));
-	}.property('controller.type'),
-
-	dispute_type_label: function() {
-		var typesToLabels = {
-			DEFAULT: 'Disputes'
-		};
-
-		var types = Balanced.SEARCH.DISPUTE_TYPES;
-		return this._getLabel(typesToLabels, types, this.get('controller.type'));
-	}.property('controller.type'),
-
-	_getLabel: function(labelMapping, acceptedTypes, type) {
-		var label = labelMapping[type];
-		if (!label && acceptedTypes.indexOf(type) > -1) {
-			label = Balanced.Utils.toTitleCase(type.replace('_', ' ')) + 's';
-		}
-
-		return (label) ? label : labelMapping.DEFAULT;
-	},
 
 	show_download_button: Ember.computed.alias('transactionsTabSelected'),
 	show_disputes_download_button: Ember.computed.alias('disputesTabSelected')

@@ -18,8 +18,6 @@ Balanced.SearchController = Balanced.ObjectController.extend(
 
 		baseClassSelector: '#search',
 
-		transactionTypeFilter: true,
-
 		init: function() {
 			this._super();
 
