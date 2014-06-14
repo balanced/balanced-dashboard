@@ -139,7 +139,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	saveUser: function() {
 		var self = this;
 
-		if (self.get("user")) {
+		if (!self.isCreateUserAccount()) {
 			return Ember.RSVP.resolve(self.get("user"));
 		} else {
 			var claim = Balanced.Claim.create({
