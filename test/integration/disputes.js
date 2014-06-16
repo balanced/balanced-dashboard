@@ -1,4 +1,3 @@
-/*
 module('Disputes', {
 	setup: function() {
 		Testing.setupMarketplace();
@@ -7,12 +6,12 @@ module('Disputes', {
 	teardown: function() {}
 });
 
-test('exist on the activity page', function(assert) {
+test('exist on the dispute page', function(assert) {
 	var DISPUTES_ROUTE = Testing.MARKETPLACE_ROUTE + '/disputes';
 	var activityDisputesPage = {
 		'table.disputes tbody tr:eq(0) td.date.initiated': 1,
 		'table.disputes tbody tr:eq(0) td.date.respond-by': 1,
-		'table.disputes tbody tr:eq(0) td.type': 'Pending',
+		'table.disputes tbody tr:eq(0) td.status': 'Pending',
 		'table.disputes tbody tr:eq(0) td.account': 1,
 		'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
@@ -78,4 +77,3 @@ test('can visit page', function(assert) {
 	visit(Testing.DISPUTE_ROUTE)
 		.checkElements(disputePage, assert);
 });
-*/
