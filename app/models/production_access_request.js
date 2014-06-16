@@ -200,7 +200,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	logValidationErrors: function() {
 		this.logSaveMessage("Balanced.ProductionAccessRequest#ValidationError", {
-			validationMessages: this.get("validationMessages.allMessages")
+			validationMessages: this.get("validationErrors.allMessages")
 		});
 	},
 
@@ -418,7 +418,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			presence: {
 				validator: function(object, attribute, value) {
 					if (value !== true) {
-						object.get('validationErrors').add(attribute, 'must be checked');
+						object.get('validationErrors').add(attribute, 'checked', null, 'must be checked');
 					}
 				}
 			}
