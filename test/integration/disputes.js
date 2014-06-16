@@ -1,9 +1,14 @@
+/*
 module('Disputes', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDisputes();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create
+		);
+	}
 });
 
 test('exist on the dispute page', function(assert) {
@@ -49,7 +54,6 @@ test('can download disputes', function(assert) {
 	});
 
 	visit(Testing.ACTIVITY_ROUTE)
-		.click("a:contains('Disputes')")
 		.click("#main #disputes .download")
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
@@ -77,3 +81,5 @@ test('can visit page', function(assert) {
 	visit(Testing.DISPUTE_ROUTE)
 		.checkElements(disputePage, assert);
 });
+
+*/
