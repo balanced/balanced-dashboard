@@ -51,8 +51,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 							});
 						}
 					});
-			}
-			else {
+			} else {
 				model.logValidationErrors();
 			}
 		},
