@@ -5,6 +5,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		return result === undefined || result;
 	}.property("auth.isGuest").readOnly(),
 
+	companyTypes: Balanced.Marketplace.COMPANY_TYPES,
+
 	streetAddressHint: function() {
 		if (this.get("model.isBusiness")) {
 			return "Enter your or another business representative's address including apartment, suite, or unit number, not the business address";
@@ -13,9 +15,9 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		}
 	}.property("model.isBusiness"),
 
-	dobDays: Balanced.TIME.DAYS_IN_MONTH,
-	dobMonths: Balanced.TIME.MONTHS,
-	dobYears: function() {
+	dateDays: Balanced.TIME.DAYS_IN_MONTH,
+	dateMonths: Balanced.TIME.MONTHS,
+	dateYears: function() {
 		var start = new Date().getFullYear() - 17;
 		return _.times(80, function(i) {
 			return start - i;

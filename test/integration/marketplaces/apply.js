@@ -64,13 +64,12 @@ test('application submits properly', function(assert) {
 	);
 
 	var controller = Balanced.__container__.lookup('controller:marketplaces_apply');
-
 	var model;
 
 	visit(Testing.APPLY_ROUTE)
 		.then(function() {
 			model = controller.get("model");
-			sinon.spy(model, "save");
+			sinon.stub(model, "save");
 			sinon.spy(model, "validate");
 			assert.equal(model.get("user"), user);
 		})
@@ -78,6 +77,7 @@ test('application submits properly', function(assert) {
 		.fillForm({
 			businessName: "Balanced Inc",
 			employerIdentificationNumber: '123456789',
+			principalOwnerName: "Jim Box",
 
 			personName: "John Balanced",
 			socialSecurityNumber: "1234",
@@ -87,6 +87,10 @@ test('application submits properly', function(assert) {
 			dobYear: 1980,
 			dobMonth: 1,
 			dobDay: 31,
+
+			incorporationDay: 4,
+			incorporationYear: 2000,
+			incorporationMonth: 12,
 
 			bankAccountName: "Balanced Inc",
 			bankAccountNumber: "123123123",
@@ -107,6 +111,9 @@ test('application submits properly', function(assert) {
 			var expectedApiKeysAttributes = {
 				merchant: {
 					name: "Balanced Inc",
+					company_type: "llc",
+					principal_owner_name: "Jim Box",
+					incorporation_date: "2000-12-04",
 					person: {
 						dob: "1980-5-27",
 						name: "John Balanced",
@@ -123,18 +130,6 @@ test('application submits properly', function(assert) {
 				}
 			};
 
-			var expectedMarketplaceAttributes = {
-				name: "Balanced Test Marketplace",
-				support_email_address: "support@balancedpayments.com",
-				support_phone_number: "(650) 555-4444",
-				domain_url: "https://www.balancedpayments.com/"
-			};
-
-			var expectedBankAccountAttributes = {
-				account_type: "savings",
-				name: "Balanced Inc",
-				account_number: "123123123",
-				routing_number: "321174851"
-			};
+			assert.deepEqual(model.getBusinessApiKeyAttributes(), expectedApiKeysAttributes);
 		});
 });

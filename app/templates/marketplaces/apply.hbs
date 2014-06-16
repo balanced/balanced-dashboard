@@ -30,6 +30,28 @@
 						<legend>Business info</legend>
 						{{view Balanced.ControlGroupFieldView placeholder="Business name" field="businessName" help="Enter your business name"}}
 						{{view Balanced.ControlGroupFieldView placeholder="EIN" field="employerIdentificationNumber" help="Enter your 9-digit employer identification number"}}
+						{{view Balanced.ControlGroupFieldView placeholder="Principal owner name" field="principalOwnerName" help="Enter the principal business owner name"}}
+
+						<div {{bind-attr class=":control-group model.validationErrors.companyType:error"}}>
+							<div class="controls">
+								{{view Ember.Select contentBinding="companyTypes"
+									optionValuePath="content.value"
+									optionLabelPath="content.label"
+									valueBinding="model.companyType"
+									name="companyTypes"
+								}}
+							</div>
+							<label>Select the company type</label>
+						</div>
+
+						<div {{bind-attr class=":control-group model.validationErrors.incorporationDate:error"}}>
+							<div class="controls">
+								{{view Ember.Select contentBinding="dateYears" valueBinding="model.incorporationYear" name="incorporationYear" class="span2"}}
+								{{view Ember.Select contentBinding="dateMonths" valueBinding="model.incorporationMonth" name="incorporationMonth" class="span2"}}
+								{{view Ember.Select contentBinding="dateDays" valueBinding="model.incorporationDay" name="incorporationDay" class="span2"}}
+							</div>
+							<label>Enter the incorporation date of the company</label>
+						</div>
 					</fieldset>
 				{{/if}}
 
@@ -38,9 +60,9 @@
 					{{view Balanced.ControlGroupFieldView placeholder="Name" field="personName" help="Enter your full legal name"}}
 					<div class="control-group">
 						<div class="controls">
-							{{view Ember.Select contentBinding="dobYears" valueBinding="model.dobYear" name="dobYear" class="span2"}}
-							{{view Ember.Select contentBinding="dobMonths" valueBinding="model.dobMonth" name="dobMonth" class="span2"}}
-							{{view Ember.Select contentBinding="dobDays" valueBinding="model.dobDay" name="dobDay" class="span2"}}
+							{{view Ember.Select contentBinding="dateYears" valueBinding="model.dobYear" name="dobYear" class="span2"}}
+							{{view Ember.Select contentBinding="dateMonths" valueBinding="model.dobMonth" name="dobMonth" class="span2"}}
+							{{view Ember.Select contentBinding="dateDays" valueBinding="model.dobDay" name="dobDay" class="span2"}}
 						</div>
 						<label>Enter your date of birth</label>
 					</div>
