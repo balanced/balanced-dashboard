@@ -36,5 +36,4 @@ test("#save (invalid request)", function(assert) {
 	subject.send("save");
 
 	assert.ok(productionAccessRequest.validate.calledOnce, "validate was called");
-	assert.ok(productionAccessRequest.logValidationErrors.calledOnce, "logValidationErrors was called");
 });
