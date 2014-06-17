@@ -9,6 +9,10 @@ Balanced.CreditExistingFundingInstrumentTransactionFactory = Balanced.Transactio
 	getCreditAttributes: function() {
 		var properties = this.getProperties("amount", "appears_on_statement_as", "description", "destination_uri");
 		properties.uri = this.get("destination.credits_uri");
+
+		if (this.get("order.href")) {
+			properties.order = this.get("order.href");
+		}
 		return properties;
 	},
 

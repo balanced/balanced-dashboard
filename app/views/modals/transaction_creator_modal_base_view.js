@@ -57,9 +57,10 @@ Balanced.CreditCustomerModalView = Balanced.TransactionCreatorModalView.extend({
 });
 
 Balanced.CreditCustomerModalView.reopenClass({
-	open: function(customer) {
+	open: function(customer, order) {
 		return this.create({
-			customer: customer
+			customer: customer,
+			order: order
 		});
 	},
 });
