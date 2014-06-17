@@ -1,6 +1,25 @@
+var PRESENCE_VALIDATOR = {
+	presence: true
+};
+var BUSINESS_PRESENCE_VALIDATOR = {
+	presence: {
+		validator: function(object, attribute, value) {
+			if (object.get("isBusiness") && $.trim(value).length === 0) {
+				object.get('validationErrors').add(attribute, 'blank');
+			}
+		}
+	}
+};
+
 var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
-var isBlank = function(value) {
-	return $.trim(value).length === 0;
+
+var serializeDate = function(self, fieldNames) {
+	return fieldNames.map(function(key) {
+		var value = self.get(key).toString();
+		return value.length === 1 ?
+			("0" + value) :
+			value;
+	}).join('-');
 };
 
 var getErrorCategoryCode = function(error) {
@@ -33,6 +52,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 			"businessName",
 			"employerIdentificationNumber",
+			"companyType",
+
 			"personName",
 			"streetAddress",
 			"postalCode",
@@ -75,14 +96,12 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	},
 
 	dob: function() {
-		var self = this;
-		return ["dobYear", "dobMonth", "dobDay"].map(function(key) {
-			var value = self.get(key).toString();
-			return value.length === 1 ?
-				("0" + value) :
-				value;
-		}).join('-');
+		return serializeDate(this, ["dobYear", "dobMonth", "dobDay"]);
 	}.property('dobYear', 'dobMonth', 'dobDay'),
+
+	incorporationDate: function() {
+		return serializeDate(this, ["incorporationYear", "incorporationMonth", "incorporationDay"]);
+	}.property("incorporationYear", "incorporationMonth", "incorporationDay"),
 
 	getPersonAttributes: function() {
 		return {
@@ -104,24 +123,21 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	getBusinessApiKeyAttributes: function() {
 		var self = this;
-
-		var setOptionalValue = function(attributes, valueName, keyName) {
-			var value = self.get(valueName);
-			if (value && _.isString(value) && value.length > 0) {
-				attributes[keyName] = value;
-			}
-		};
-
 		var attributes = {
 			type: "BUSINESS",
 			street_address: this.get('streetAddress'),
 			postal_code: this.get('postalCode'),
 			phone_number: this.get('phoneNumber'),
 			person: this.getPersonAttributes(),
+
+			principal_owner_name: this.get('principalOwnerName'),
+			name: this.get("businessName"),
+
+			company_type: this.get('companyType'),
+			incorporation_date: this.get('incorporationDate'),
+			tax_id: this.get("employerIdentificationNumber")
 		};
 
-		setOptionalValue(attributes, "businessName", "name");
-		setOptionalValue(attributes, "employerIdentificationNumber", "tax_id");
 		return attributes;
 	},
 
@@ -328,41 +344,31 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 	},
 
 	validations: {
-
-		employerIdentificationNumber: {
-			presence: {
-				validator: function(object, attribute, value) {
-					if (object.get("isBusiness") && isBlank(value)) {
-						object.get('validationErrors').add(attribute, 'blank');
-					}
-				}
-			}
-		},
-		businessName: {
-			presence: {
-				validator: function(object, attribute, value) {
-					if (object.get("isBusiness") && isBlank(value)) {
-						object.get('validationErrors').add(attribute, 'blank');
-					}
-				}
-			}
-		},
-
-		personName: {
+		businessName: BUSINESS_PRESENCE_VALIDATOR,
+		employerIdentificationNumber: BUSINESS_PRESENCE_VALIDATOR,
+		principalOwnerName: BUSINESS_PRESENCE_VALIDATOR,
+		companyType: {
 			presence: true,
+			included: {
+				validator: function(object, attribute, value) {
+					var acceptedValues = Balanced.Marketplace.COMPANY_TYPES.map(function(v) {
+						return v.value;
+					});
+					if (!Balanced.Marketplace.COMPANY_TYPES.isAny("value", value)) {
+						object.get('validationErrors').add(attribute, 'included', null, 'must be one of %@'.fmt(acceptedValues.join(", ")));
+					}
+				},
+			}
 		},
+
+		personName: PRESENCE_VALIDATOR,
 		socialSecurityNumber: {
 			presence: true,
 			length: 4,
 			numericality: true
 		},
-		phoneNumber: {
-			presence: true,
-		},
-
-		streetAddress: {
-			presence: true,
-		},
+		phoneNumber: PRESENCE_VALIDATOR,
+		streetAddress: PRESENCE_VALIDATOR,
 		postalCode: {
 			presence: true,
 			length: {
@@ -372,12 +378,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 			format: /^\d{5}([\-]?\d{4})?$/
 		},
 
-		bankAccountName: {
-			presence: true,
-		},
-		bankAccountNumber: {
-			presence: true,
-		},
+		bankAccountName: PRESENCE_VALIDATOR,
+		bankAccountNumber: PRESENCE_VALIDATOR,
 		bankRoutingNumber: {
 			presence: true,
 			length: 9,
@@ -397,22 +399,13 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 						object.get('validationErrors').add(attribute, 'invalid', null, 'Invalid bank acount type');
 					}
 				}
-
 			}
 		},
 
-		marketplaceName: {
-			presence: true,
-		},
-		supportEmailAddress: {
-			presence: true,
-		},
-		supportPhoneNumber: {
-			presence: true,
-		},
-		marketplaceDomainUrl: {
-			presence: true,
-		},
+		marketplaceName: PRESENCE_VALIDATOR,
+		supportEmailAddress: PRESENCE_VALIDATOR,
+		supportPhoneNumber: PRESENCE_VALIDATOR,
+		marketplaceDomainUrl: PRESENCE_VALIDATOR,
 
 		termsAndConditions: {
 			presence: {

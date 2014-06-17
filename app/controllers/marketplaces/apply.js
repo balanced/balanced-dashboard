@@ -1,9 +1,17 @@
+var generateYears = function(times, start) {
+	return _.times(times, function(i) {
+		return start - i;
+	});
+};
+
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	// When the user visits the page directly the auth.isGuest variable is not setup.
 	isGuest: function() {
 		var result = this.get('auth.isGuest');
 		return result === undefined || result;
 	}.property("auth.isGuest").readOnly(),
+
+	companyTypes: Balanced.Marketplace.COMPANY_TYPES,
 
 	streetAddressHint: function() {
 		if (this.get("model.isBusiness")) {
@@ -13,13 +21,14 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 		}
 	}.property("model.isBusiness"),
 
-	dobDays: Balanced.TIME.DAYS_IN_MONTH,
-	dobMonths: Balanced.TIME.MONTHS,
-	dobYears: function() {
-		var start = new Date().getFullYear() - 17;
-		return _.times(80, function(i) {
-			return start - i;
-		});
+	dateDays: Balanced.TIME.DAYS_IN_MONTH,
+	dateMonths: Balanced.TIME.MONTHS,
+	dateYears: function() {
+		return generateYears(80, new Date().getFullYear() - 17);
+	}.property(),
+
+	incorporationDateYears: function() {
+		return generateYears(80, new Date().getFullYear());
 	}.property(),
 
 	accountTypes: Balanced.BankAccount.ACCOUNT_TYPES,
