@@ -4,7 +4,7 @@ var PRESENCE_VALIDATOR = {
 var BUSINESS_PRESENCE_VALIDATOR = {
 	presence: {
 		validator: function(object, attribute, value) {
-			if (object.get("isBusiness") && isBlank(value)) {
+			if (object.get("isBusiness") && $.trim(value).length === 0) {
 				object.get('validationErrors').add(attribute, 'blank');
 			}
 		}
@@ -12,13 +12,9 @@ var BUSINESS_PRESENCE_VALIDATOR = {
 };
 
 var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
-var isBlank = function(value) {
-	return $.trim(value).length === 0;
-};
 
 var serializeDate = function(self, fieldNames) {
 	return fieldNames.map(function(key) {
-		console.log(fieldNames, key)
 		var value = self.get(key).toString();
 		return value.length === 1 ?
 			("0" + value) :
