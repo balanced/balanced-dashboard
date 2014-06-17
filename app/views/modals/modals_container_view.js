@@ -8,7 +8,7 @@ Balanced.ModalsContainerView = Ember.ContainerView.extend({
 		var route = Balanced.__container__.lookup("route:application");
 		route.on("openModal", function(klass, attributes) {
 			attributes = attributes || {};
-			var view = klass.create(attributes);
+			var view = klass.open(attributes);
 			view.open(self);
 		});
 		this._super();

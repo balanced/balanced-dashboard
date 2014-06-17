@@ -16,6 +16,10 @@ var formatValidator = function(callback) {
 var generateTransactionAppearsOnStatementAsValidation = function(maxLength) {
 	return formatValidator(function(object, attribute, value, cb) {
 		var messages = [];
+		maxLength = _.isString(maxLength) ?
+			object.get(maxLength) :
+			maxLength;
+
 		if (maxLength < value.length) {
 			messages.push("must be under %@ characters".fmt(maxLength + 1));
 		}
@@ -44,6 +48,8 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 			}
 		})
 	},
+
+	generateTransactionAppearsOnStatementFormatValidation: generateTransactionAppearsOnStatementAsValidation,
 
 	bankTransactionAppearsOnStatementAs: {
 		presence: true,

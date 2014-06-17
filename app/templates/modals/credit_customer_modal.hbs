@@ -1,0 +1,79 @@
+<form class="form-horizontal split-labels" {{action "submit" target="view" on="submit"}}>
+	<div class="modal-body">
+		<div class="control-group">
+			<label class="control-label">Customer</label>
+			<div class="controls">
+				<span class="label1a">{{view.customer.display_me_with_email}}</span>
+			</div>
+		</div>
+
+		{{#if view.fundingInstruments}}
+			<div {{bind-attr class=":control-group view.model.validationErrors.destination_uri:error"}}>
+				<label class="control-label" {{bind-attr for=view.destination.elementId}}>Funding instrument</label>
+				<div class="controls">
+					{{view Ember.Select
+						contentBinding="view.fundingInstruments"
+						valueBinding="view.model.destination"
+						optionValuePath="content"
+						optionLabelPath="content.description"
+						viewName="destination"
+						class="span8"
+						name="destination"
+					}}
+					{{modalFieldErrors view.model.validationErrors.destination_uri}}
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Account holder's name</label>
+				<div class="controls text-label">{{view.model.destination.name}}</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Bank</label>
+				<div class="controls text-label">{{view.model.destination.formatted_bank_name}}</div>
+			</div>
+		{{else}}
+			<div class="alert alert-error">
+				The customer must have at least one funding instrument to credit.
+			</div>
+		{{/if}}
+
+		<div {{bind-attr class=":control-group view.model.validationErrors.dollar_amount:error"}}>
+			<label class="control-label" {{bind-attr for=view.amount.elementId}}>Amount</label>
+			<div class="controls">
+				<div class="input-prepend">
+					<span class="add-on">$</span>
+					{{view Ember.TextField valueBinding="view.model.dollar_amount" name="dollar_amount" class="span" viewName="amount"}}
+					{{modalFieldErrors view.model.validationErrors.dollar_amount}}
+				</div>
+			</div>
+		</div>
+
+		<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
+			<label class="control-label" {{bind-attr for=view.appearsOnStatementAs.elementId}}>Appears on statement as ({{view.appearsOnStatementAsMaxLength}} characters max)</label>
+			<div class="controls">
+				{{view Ember.TextField valueBinding="view.model.appears_on_statement_as"
+				viewName="appearsOnStatementAs"
+				name="appears_on_statement_as" class="full" maxlengthBinding="view.appearsOnStatementAsMaxLength"}}
+				{{modalFieldErrors view.model.validationErrors.appears_on_statement_as}}
+			</div>
+		</div>
+
+		<div {{bind-attr class=":control-group view.model.validationErrors.description:error"}}>
+			<label class="control-label" {{bind-attr for=view.description.elementId}}>Internal Description</label>
+			<div class="controls">
+				{{view Ember.TextField valueBinding="view.model.description" name="description" class="full"
+					maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION" viewName="description"}}
+				{{modalFieldErrors view.model.validationErrors.description}}
+			</div>
+		</div>
+	</div>
+	<div class="modal-informational">
+		<p class="modal-informational-content">Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
+		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Credit</button>
+	</div>
+</form>
