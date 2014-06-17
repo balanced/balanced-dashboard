@@ -8,7 +8,7 @@ test("companyType validation", function(assert) {
 	subject.validateProperty('companyType');
 	assert.deepEqual(subject.get("validationErrors.fullMessages"), ["companyType must be one of llc, s-corp, c-corp, partnership, sole-proprietorship"]);
 
-	var subject = Balanced.ProductionAccessRequest.create({
+	subject = Balanced.ProductionAccessRequest.create({
 		companyType: "llc"
 	});
 
