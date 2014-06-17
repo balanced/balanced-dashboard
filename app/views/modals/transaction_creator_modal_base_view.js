@@ -48,7 +48,7 @@ Balanced.CreateEscrowCreditModalView = Balanced.TransactionCreatorModalView.exte
 
 Balanced.CreditCustomerModalView = Balanced.TransactionCreatorModalView.extend({
 	title: "Credit this customer",
-	elementId: "credit-customer-modal",
+	elementId: "credit-customer",
 	templateName: "modals/credit_customer_modal",
 
 	appearsOnStatementAsMaxLength: Ember.computed.oneWay("model.appears_on_statement_max_length"),

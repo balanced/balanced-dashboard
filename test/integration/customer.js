@@ -246,55 +246,56 @@ module('Customer Page: Credit', {
 
 test('can credit to a debit card', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "create");
-	var fundingInstrumentUri;
-
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(1))
+		.click("a.credit-customer")
+		.checkElements({
+			"#credit-customer form select[name=destination] option:contains(Checking account: 5555 Wells Fargo Bank Na)": 1,
+			"#credit-customer form select[name=destination] option:contains(Debit card: 5556 Visa)": 1
+		}, assert)
 		.then(function() {
-			fundingInstrumentUri = $("#credit-customer form select[name=source_uri] option:contains(Debit)").val();
-			$("#credit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
-		})
-		.then(function() {
-			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Credit)").text(), "Credit card: 1111 Visa");
-			assert.equal($("#credit-customer form select[name='source_uri'] option:contains(Debit)").text(), "Debit card: 5556 Visa");
+			var fundingInstrument = $("#credit-customer form select[name=destination] option:contains(Debit card: 5556 Visa)").val();
+			$("#credit-customer form select[name=destination]").val(fundingInstrument).change();
 		})
 		.fillForm('#credit-customer', {
 			dollar_amount: '1',
+			appears_on_statement_as: "DEBIT",
 			description: 'Test credit to a debit card'
 		}, {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
+			var card = Balanced.__container__.lookup("controller:customer").get("model.creditable_cards").objectAt(0);
 			assert.ok(spy.calledOnce, "Create was called once");
 			assert.equal(spy.firstCall.args[0], Balanced.Credit);
-			assert.equal(spy.firstCall.args[1], fundingInstrumentUri + '/credits');
+			assert.equal(spy.firstCall.args[1], card.get("uri") + '/credits');
 
-			assert.deepEqual(spy.firstCall.args[2].amount, 100);
+			assert.deepEqual(spy.firstCall.args[2].amount, '100');
 			assert.deepEqual(spy.firstCall.args[2].description, "Test credit to a debit card");
 		});
 });
 
 test('when crediting customer triggers an error, the error is displayed to the user', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(1))
+		.click("a.credit-customer")
 		.fillForm('#credit-customer', {
-			dollar_amount: '10000',
+			dollar_amount: '10',
 			description: 'Test credit'
 		}, {
 			click: '.modal-footer button[name=modal-submit]'
 		})
-		.then(function() {
-			assert.equal($('.alert-error').is(':visible'), true);
-		});
+		.checkElements({
+			"#credit-customer .alert-error:contains(can't be blank)": 1
+		}, assert);
 });
 
 test("can't credit customer multiple times using the same modal", function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click(".customer-header .buttons a.credit-customer")
+		.click("a.credit-customer")
 		.fillForm('#credit-customer', {
 			dollar_amount: '1000',
+			appears_on_statement_as: "SODA",
 			description: 'Test credit'
 		})
 		.click('#credit-customer .modal-footer button[name=modal-submit]')
