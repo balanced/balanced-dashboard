@@ -18,6 +18,15 @@ test('on the correct page', function(assert) {
 		}, assert);
 });
 
+
+test('can cancel inital deposit', function(assert) {
+	visit(Testing.INITIAL_DEPOSIT_ROUTE)
+		.click('a.btn.secondary')
+		.checkElements({
+			"h1.page-title": "Transactions"
+		}, assert);
+});
+
 test('form validation', function(assert) {
 	visit(Testing.INITIAL_DEPOSIT_ROUTE)
 		.click("#marketplace-initial-deposit button[name=modal-submit]")
@@ -53,12 +62,4 @@ test('payment success', function(assert) {
 				uri: CARD_URL + "/debits"
 			});
 		});
-});
-
-test('cancel', function(assert) {
-	visit(Testing.INITIAL_DEPOSIT_ROUTE)
-		.click('a.btn.secondary')
-		.checkElements({
-			"h1.page-title": "Transactions"
-		}, assert);
 });
