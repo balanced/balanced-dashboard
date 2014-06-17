@@ -1,10 +1,10 @@
 module("Balanced.MarketplacesApplyController");
 
-test("#dobYears", function(assert) {
+test("#dateYears", function(assert) {
 	var subject = Balanced.MarketplacesApplyController.create();
-
+	var dobYears = subject.get("dateYears");
 	[1997, 1996, 1992, 1930].forEach(function(year) {
-		assert.ok(_.include(subject.get("dobYears"), year));
+		assert.ok(_.include(dobYears, year));
 	});
 });
 
