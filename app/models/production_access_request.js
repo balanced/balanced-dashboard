@@ -15,7 +15,6 @@ var ERROR_CATEGORY_EMAIL_EXISTS = "EmailAddressExists";
 
 var serializeDate = function(self, fieldNames) {
 	return fieldNames.map(function(key) {
-		console.log(key, self.get(key));
 		var value = self.get(key).toString();
 		return value.length === 1 ?
 			("0" + value) :

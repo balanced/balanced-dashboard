@@ -2,7 +2,7 @@ var generateYears = function(times, start) {
 	return _.times(times, function(i) {
 		return start - i;
 	});
-}
+};
 
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	// When the user visits the page directly the auth.isGuest variable is not setup.
