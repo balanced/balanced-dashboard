@@ -46,7 +46,7 @@
 
 						<div {{bind-attr class=":control-group model.validationErrors.incorporationDate:error"}}>
 							<div class="controls">
-								{{view Ember.Select contentBinding="dateYears" valueBinding="model.incorporationYear" name="incorporationYear" class="span2"}}
+								{{view Ember.Select contentBinding="incorporationDateYears" valueBinding="model.incorporationYear" name="incorporationYear" class="span2"}}
 								{{view Ember.Select contentBinding="dateMonths" valueBinding="model.incorporationMonth" name="incorporationMonth" class="span2"}}
 								{{view Ember.Select contentBinding="dateDays" valueBinding="model.incorporationDay" name="incorporationDay" class="span2"}}
 							</div>

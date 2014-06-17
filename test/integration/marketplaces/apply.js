@@ -27,30 +27,26 @@ test('clicking business or personal shows data', function(assert) {
 	visit(Testing.APPLY_ROUTE)
 		.then(assertInputsCount(2))
 		.click('a:contains("Business")')
-		.then(assertInputsCount(17))
+		.then(assertInputsCount(18))
 		.click('a:contains("Person")')
 		.then(assertInputsCount(15));
 });
 
 test('basic form validation and terms and conditions', function(assert) {
-	var submitButtonQuery = 'button:contains("Submit")';
-
 	visit(Testing.APPLY_ROUTE)
 		.click('a:contains("Person")')
-		.then(function() {
-
-			var $submitButton = $(submitButtonQuery);
-			assert.equal($submitButton.length, 1);
-		})
-		.click(submitButtonQuery)
-		.then(function() {
-			assert.equal($('.control-group.error').length, 15, 'expected error fields highlighted');
-		})
+		.checkElements({
+			'button.submit': 1
+		}, assert)
+		.click('button.submit')
+		.checkElements({
+			'.control-group.error': 15
+		}, assert)
 		.click('#terms-and-conditions')
-		.click(submitButtonQuery)
-		.then(function() {
-			assert.equal($('.control-group.error').length, 14, 'expected error fields highlighted but not t&c');
-		});
+		.click('button.submit')
+		.checkElements({
+			'.control-group.error': 14
+		}, assert);
 });
 
 test('application submits properly', function(assert) {
@@ -70,6 +66,9 @@ test('application submits properly', function(assert) {
 		.then(function() {
 			model = controller.get("model");
 			sinon.stub(model, "save");
+			model.save.returns({
+				then: function() {}
+			});
 			sinon.spy(model, "validate");
 			assert.equal(model.get("user"), user);
 		})
@@ -85,8 +84,8 @@ test('application submits properly', function(assert) {
 			postalCode: "94103",
 			phoneNumber: "(904) 628 1796",
 			dobYear: 1980,
-			dobMonth: 1,
-			dobDay: 31,
+			dobMonth: 5,
+			dobDay: 27,
 
 			incorporationDay: 4,
 			incorporationYear: 2000,
@@ -109,25 +108,23 @@ test('application submits properly', function(assert) {
 			assert.ok(model.save.calledOnce, "ProductionAccessRequest saved");
 
 			var expectedApiKeysAttributes = {
-				merchant: {
-					name: "Balanced Inc",
-					company_type: "llc",
-					principal_owner_name: "Jim Box",
-					incorporation_date: "2000-12-04",
-					person: {
-						dob: "1980-5-27",
-						name: "John Balanced",
-						phone_number: "(904) 628 1796",
-						postal_code: "94103",
-						street_address: "965 Mission St",
-						tax_id: "1234"
-					},
+				name: "Balanced Inc",
+				company_type: "llc",
+				principal_owner_name: "Jim Box",
+				incorporation_date: "2000-12-04",
+				person: {
+					dob: "1980-05-27",
+					name: "John Balanced",
 					phone_number: "(904) 628 1796",
 					postal_code: "94103",
 					street_address: "965 Mission St",
-					tax_id: "123456789",
-					type: "BUSINESS"
-				}
+					tax_id: "1234"
+				},
+				phone_number: "(904) 628 1796",
+				postal_code: "94103",
+				street_address: "965 Mission St",
+				tax_id: "123456789",
+				type: "BUSINESS"
 			};
 
 			assert.deepEqual(model.getBusinessApiKeyAttributes(), expectedApiKeysAttributes);

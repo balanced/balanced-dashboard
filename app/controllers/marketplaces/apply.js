@@ -1,3 +1,9 @@
+var generateYears = function(times, start) {
+	return _.times(times, function(i) {
+		return start - i;
+	});
+}
+
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	// When the user visits the page directly the auth.isGuest variable is not setup.
 	isGuest: function() {
@@ -18,10 +24,11 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 	dateDays: Balanced.TIME.DAYS_IN_MONTH,
 	dateMonths: Balanced.TIME.MONTHS,
 	dateYears: function() {
-		var start = new Date().getFullYear() - 17;
-		return _.times(80, function(i) {
-			return start - i;
-		});
+		return generateYears(80, new Date().getFullYear() - 17);
+	}.property(),
+
+	incorporationDateYears: function() {
+		return generateYears(80, new Date().getFullYear());
 	}.property(),
 
 	accountTypes: Balanced.BankAccount.ACCOUNT_TYPES,
