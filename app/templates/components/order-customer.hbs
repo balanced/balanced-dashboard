@@ -15,7 +15,7 @@
 				{{/if}}
 
 				{{#if credits_list.length}}
-					{{credit-customer-modal customer=customer order=order}}
+					<a class="btn credit-customer" {{action "openModal" Balanced.CreditCustomerModalView customer order}}>Credit</a>
 				{{/if}}
 			</div>
 		</div>
