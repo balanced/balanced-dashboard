@@ -6,6 +6,7 @@ module('Customer Page', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
+			Balanced.Adapter.update,
 			Balanced.Adapter.create,
 			balanced.bankAccount.create,
 			balanced.card.create
@@ -15,10 +16,10 @@ module('Customer Page', {
 
 test('can view customer page', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			assert.equal($('#content h1').text().trim(), 'Customer');
-			assert.equal($(".title span").text().trim(), 'William Henry Cavendish III (whc@example.org)');
-		});
+		.checkElements({
+			"#content h1": "Customer",
+			"#customer .title": 'William Henry Cavendish III (whc@example.org)'
+		}, assert);
 });
 
 test('can edit customer info', function(assert) {
@@ -26,7 +27,9 @@ test('can edit customer info', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.customer-info a.icon-edit')
-		.fillIn('#edit-customer-info .modal-body input[name=name]', 'TEST')
+		.fillForm('#edit-customer-info', {
+			name: "TEST"
+		})
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
@@ -110,6 +113,7 @@ test('can update customer info only some fields', function(assert) {
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Customer));
+
 			assert.equal(stub.getCall(0).args[2].name, "William Henry Cavendish III");
 			assert.equal(stub.getCall(0).args[2].email, "whc@example.org");
 			assert.equal(stub.getCall(0).args[2].business_name, null);
