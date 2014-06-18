@@ -24,20 +24,15 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('bank_accounts.@each.can_debit'),
 
 	creditable_cards: function() {
-		return this.get('cards');
+		return this.get('cards').filterBy("can_credit");
 	}.property('cards'),
 
 	has_debitable_bank_account: function() {
 		return this.get('bank_accounts').isAny('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
 
-	debitable_funding_instruments: function() {
-		return this.get('debitable_bank_accounts').concat(this.get('cards.content'));
-	}.property('debitable_bank_accounts', 'cards.@each'),
-
-	creditable_funding_instruments: function() {
-		return this.get('bank_accounts.content').concat(this.get('creditable_cards.content'));
-	}.property('bank_accounts.@each', 'creditable_cards.@each'),
+	debitable_funding_instruments: Ember.computed.union('debitable_bank_accounts', 'cards'),
+	creditable_funding_instruments: Ember.computed.union('bank_accounts', 'creditable_cards'),
 
 	type: function() {
 		return (this.get('ein') || this.get('business_name')) ? CUSTOMER_TYPES.BUSINESS : CUSTOMER_TYPES.PERSON;

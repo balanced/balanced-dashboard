@@ -30,6 +30,12 @@ Balanced.ModalBaseView = Ember.View.extend({
 	}
 });
 
+Balanced.ModalBaseView.reopenClass({
+	open: function(attributes) {
+		return this.create(attributes);
+	}
+});
+
 Balanced.ObjectCreatorModalBaseView = Balanced.ModalBaseView.extend({
 	title: "Create an object",
 	model: function() {

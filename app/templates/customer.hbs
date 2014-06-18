@@ -19,7 +19,8 @@
 			<div class="buttons">
 				<div class="buttons-container">
 					{{debit-customer-modal customer=model}}
-					{{credit-customer-modal customer=model}}
+
+					<a class="btn credit-customer" {{action "openModal" Balanced.CreditCustomerModalView model}}>Credit</a>
 				</div>
 			</div>
 		</div>

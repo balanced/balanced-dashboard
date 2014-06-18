@@ -45,3 +45,22 @@ Balanced.CreateEscrowCreditModalView = Balanced.TransactionCreatorModalView.exte
 	model_class: Balanced.DebitExistingBankAccountTransactionFactory,
 	elementId: "add-funds"
 });
+
+Balanced.CreditCustomerModalView = Balanced.TransactionCreatorModalView.extend({
+	title: "Credit this customer",
+	elementId: "credit-customer",
+	templateName: "modals/credit_customer_modal",
+
+	appearsOnStatementAsMaxLength: Ember.computed.oneWay("model.appears_on_statement_max_length"),
+	model_class: Balanced.CreditExistingFundingInstrumentTransactionFactory,
+	fundingInstruments: Ember.computed.oneWay('customer.creditable_funding_instruments'),
+});
+
+Balanced.CreditCustomerModalView.reopenClass({
+	open: function(customer, order) {
+		return this.create({
+			customer: customer,
+			order: order
+		});
+	},
+});

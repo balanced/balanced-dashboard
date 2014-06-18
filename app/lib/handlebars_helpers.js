@@ -21,6 +21,14 @@ Ember.Handlebars.registerBoundHelper('colorizeStatus', function(status) {
 	);
 });
 
+Ember.Handlebars.registerBoundHelper('modalFieldErrors', function(errorsList) {
+	var errors = Balanced.Utils.formatError(errorsList);
+	errors = Ember.Handlebars.Utils.escapeExpression(errors);
+	return new Ember.Handlebars.SafeString(
+		'<div class="alert alert-error label4b">%@</div>'.fmt(errors)
+	);
+});
+
 Ember.Handlebars.registerBoundHelper('stringify', function(obj) {
 	return new Ember.Handlebars.SafeString(JSON.stringify(obj, null, 4));
 });
