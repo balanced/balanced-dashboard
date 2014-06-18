@@ -2,7 +2,6 @@
 Balanced.TransactionsTable = Ember.Mixin.create({
 	transactionStatus: 'all',
 	transactionTypeFilter: false,
-	isDisputeType: Ember.computed.equal('type', 'dispute'),
 
 	actions: {
 		changeTransactionStatusFilter: function(status) {
@@ -29,13 +28,5 @@ Balanced.TransactionsTable = Ember.Mixin.create({
 		return {
 			status: transactionStatus
 		};
-	}.property('type', 'transactionStatus'),
-
-	results_base_uri: function() {
-		if (this.get('isDisputeType')) {
-			return '/disputes';
-		}
-
-		return this._super();
-	}.property('type', 'controllers.marketplace.uri')
+	}.property('type', 'transactionStatus')
 });

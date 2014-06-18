@@ -79,9 +79,6 @@ test('filter logs by datetime range', function(assert) {
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
-		})
 		.click('#content .datetime-picker')
 		.then(function() {
 			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
@@ -119,9 +116,6 @@ test('filter logs by request failed only', function(assert) {
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
 			setLogsProperties();
-		})
-		.then(function() {
-			assert.equal($('table.logs tbody tr').length, 2, 'has 2 logs');
 		})
 		.click('.results .status-filter a:contains(Failed)')
 		.then(function() {

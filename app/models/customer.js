@@ -12,7 +12,7 @@ Balanced.Customer = Balanced.Model.extend({
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	orders: Balanced.Model.hasMany('orders', 'Balanced.Order'),
-	// disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
+	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 
 	uri: '/customers',
 	route_name: 'customer',

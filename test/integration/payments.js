@@ -188,37 +188,6 @@ test('download activity', function(assert) {
 		});
 });
 
-test('download disputes', function(assert) {
-	assert.equal($(".alert span").length, 0);
-	var stub = sinon.stub(Balanced.Adapter, "create");
-	stub.withArgs(Balanced.Download).callsArgWith(3, {
-		download: {}
-	});
-
-	visit(Testing.ACTIVITY_ROUTE)
-		.click("#main #activity a:contains(Disputes)")
-		.click("#main #activity .icon-export.download")
-		.fillForm(".download-modal.in form", {
-			email: "test@example.com"
-		})
-		.click('.download-modal.in .modal-footer button[name=modal-submit]')
-		.then(function() {
-			var args = stub.firstCall.args;
-
-			assert.ok(stub.calledOnce, "Called Once");
-			assert.deepEqual(args[0], Balanced.Download);
-			assert.deepEqual(args[1], "/downloads");
-			assert.deepEqual(args[2], {
-				email_address: "test@example.com",
-				uri: "",
-				type: "disputes"
-			}, "Called with the right arguments");
-
-			assert.equal($(".alert span").length, 1);
-			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
-		});
-});
-
 test('download activity only runs once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 

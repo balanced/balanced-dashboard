@@ -42,12 +42,8 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 			});
 		}.observes('model', 'model.isLoaded'),
 
-		results_base_uri: function() {
-			if (this.get('isDisputeType')) {
-				return this.get('content.disputes_uri');
-			}
+		results_base_uri: Ember.computed.alias('content.transactions_uri'),
 
-			return this.get('content.transactions_uri');
-		}.property('content.transactions_uri', 'content.disputes_uri', "isDisputeType")
+		dispute_results: Ember.computed.alias('disputes'),
 	}
 );

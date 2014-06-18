@@ -167,11 +167,16 @@
 			{{view Balanced.TransactionsFiltersHeaderView}}
 
 			<div class="items-wrapper">
-				{{#if results.isDisputeType}}
-					{{view Balanced.DisputesResultsView disputesBinding="results"}}
-				{{else}}
-					{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
-				{{/if}}
+				{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
+			</div>
+		</div>
+
+		<header class="results-label">
+			<h3>Disputes</h3>
+		</header>
+		<div class="results">
+			<div class="items-wrapper">
+				{{view Balanced.DisputesResultsView disputesBinding="dispute_results"}}
 			</div>
 		</div>
 	</section>
