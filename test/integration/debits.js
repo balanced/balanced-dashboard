@@ -25,10 +25,11 @@ module('Debits', {
 });
 
 test('can visit page', function(assert) {
-	visit(Testing.DEBIT_ROUTE).then(function() {
-		assert.notEqual($('#content h1').text().indexOf('Debit'), -1, 'Title is not correct');
-		assert.equal($(".debit .tt-title").text().trim(), 'Succeeded: $1,000.00');
-	});
+	visit(Testing.DEBIT_ROUTE)
+		.checkElements({
+			"#content h1": "Debit",
+			".debit .tt-title": 'Succeeded: $1,000.00'
+		}, assert);
 });
 
 test('can refund debit', function(assert) {
@@ -66,26 +67,34 @@ test('failed debit shows failure information', function(assert) {
 	visit(Testing.DEBIT_ROUTE)
 		.then(function() {
 			var model = Balanced.__container__.lookup('controller:debits');
-			model.setProperties({
-				status: "failed",
-				failure_reason: "Foobar"
+			Ember.run(function() {
+				model.setProperties({
+					status: "failed",
+					failure_reason: "Foobar"
+				});
 			});
 		})
 		.checkElements({
 			'.dl-horizontal dd:first': "Foobar"
-		});
+		}, assert);
 });
 
 test('failed debit does not show refund modal', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
-	visit(Testing.DEBIT_ROUTE).then(function() {
-		var model = Balanced.__container__.lookup('controller:debits');
-		model.set('status', 'failed');
-		Ember.run.next(function() {
-			assert.equal($('#refund-debit').is(':visible'), false);
-		});
-	});
+	visit(Testing.DEBIT_ROUTE)
+		.then(function() {
+			var model = Balanced.__container__.lookup('controller:debits');
+			Ember.run(function() {
+				model.setProperties({
+					status: "failed",
+					failure_reason: "Foobar"
+				});
+			});
+		})
+		.checkElements({
+			'#refund-debit:visible': 0
+		}, assert);
 });
 
 test('renders metadata correctly', function(assert) {
@@ -96,16 +105,18 @@ test('renders metadata correctly', function(assert) {
 		'other-keey': 'other-vaalue'
 	};
 
-	visit(Testing.DEBIT_ROUTE).then(function() {
-		var model = Balanced.__container__.lookup('controller:debits');
-		model.set('meta', metaData);
-
-		Ember.run.next(function() {
+	visit(Testing.DEBIT_ROUTE)
+		.then(function() {
+			var model = Balanced.__container__.lookup('controller:debits');
+			Ember.run(function() {
+				model.set('meta', metaData);
+			});
+		})
+		.then(function() {
 			var $dl = $('.dl-horizontal.meta');
 			$.each(metaData, function(key, value) {
 				assert.equal($dl.find('dt:contains(' + key + ')').length, 1);
 				assert.equal($dl.find('dd:contains(' + value + ')').length, 1);
 			});
 		});
-	});
 });
