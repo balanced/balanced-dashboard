@@ -348,7 +348,13 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 		employerIdentificationNumber: BUSINESS_PRESENCE_VALIDATOR,
 		principalOwnerName: BUSINESS_PRESENCE_VALIDATOR,
 		companyType: {
-			presence: true,
+			presence: {
+				validator: function(object, attribute, value) {
+					if (object.get("isBusiness") && $.trim(value).length === 0) {
+						object.get('validationErrors').add(attribute, 'blank');
+					}
+				}
+			},
 			included: {
 				validator: function(object, attribute, value) {
 					var acceptedValues = Balanced.Marketplace.COMPANY_TYPES.map(function(v) {
