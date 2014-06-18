@@ -67,7 +67,7 @@ test('failed debit shows failure information', function(assert) {
 		.then(function() {
 			var model = Balanced.__container__.lookup('controller:debits');
 			model.setProperties({
-				status: failed,
+				status: "failed",
 				failure_reason: "Foobar"
 			});
 		})
