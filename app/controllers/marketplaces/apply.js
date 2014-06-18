@@ -47,6 +47,8 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 			var model = this.get("model");
 
 			model.validate();
+			model.logValidationErrors();
+
 			if (model.get("isValid")) {
 				Balanced.Utils.setCurrentMarketplace(null);
 				Balanced.Auth.unsetAPIKey();
@@ -60,8 +62,6 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 							});
 						}
 					});
-			} else {
-				model.logValidationErrors();
 			}
 		},
 	},

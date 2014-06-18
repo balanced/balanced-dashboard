@@ -13,7 +13,8 @@ test("#save (valid request)", function(assert) {
 	var productionAccessRequest = Ember.Object.create({
 		isValid: true,
 		save: sinon.stub().returns(Ember.RSVP.resolve(null)),
-		validate: sinon.stub()
+		validate: sinon.stub(),
+		logValidationErrors: sinon.stub()
 	});
 	var subject = Balanced.MarketplacesApplyController.create();
 	subject.set("model", productionAccessRequest);
