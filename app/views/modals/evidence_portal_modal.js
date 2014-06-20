@@ -55,9 +55,23 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			return;
 		}
 
+		var marketplaceId = Balanced.currentMarketplace.get('id');
+		var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
+		var secret = userMarketplace.get('secret');
+		var auth = Balanced.Utils.encodeAuthorization(secret);
+		var params = [];
+		for (var index = 0; index < 50; ++index) {
+			params.push('documents[' + index + ']');
+		}
+
 		this.$('#fileupload').fileupload({
+			// TODO: read the URL from config or what
 			url: 'http://localhost:3000' + this.get('model.dispute_documents_uri'),
 			autoUpload: false,
+			headers: {
+				'Authorization': auth
+			},
+			paramName: params,
 			done: _.bind(this.fileUploadDone, this),
 			fail: _.bind(this.fileUploadFail, this),
 			always: _.bind(this.fileUploadAlways, this),
