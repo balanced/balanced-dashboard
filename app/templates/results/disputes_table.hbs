@@ -16,8 +16,12 @@
 				</ul>
 			</div>
 		</th>
-		<th class="span4 label6a account"><span>Customer</span></th>
-		<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
+		{{#unless view.excludeCustomer}}
+			<th class="span4 label6a account"><span>Customer</span></th>
+		{{/unless}}
+		{{#unless view.excludePaymentMethod}}
+			<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
+		{{/unless}}
 		<th class="span2 label6a amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="amount"}}<span>Amount</span>{{/view}}</th>
 	</tr>
 </thead>
@@ -25,7 +29,7 @@
 {{#if view.disputes.hasNextPage}}
 	<tfoot>
 		<tr>
-			<td colspan="6" class="load-more-results">
+			<td {{bind-attr colspan=view.colspan}} class="load-more-results">
 				{{#if view.disputes.loadingNextPage}}
 					<div class="loader-container">
 						<span class="loader loading"></span>
@@ -62,26 +66,30 @@
 					{{dispute.status_name}}
 				</span>{{/link-to}}
 			</td>
-			<td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
-				{{#link-to dispute.route_name dispute}}
-					{{#if dispute.customer_display_me}}
-						<span class="primary">{{dispute.customer_display_me}}</span>
-						{{#if dispute.customer_email}}
-							<span class="secondary">{{dispute.customer_email}}</span>
+			{{#unless view.excludeCustomer}}
+				<td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
+					{{#link-to dispute.route_name dispute}}
+						{{#if dispute.customer_display_me}}
+							<span class="primary">{{dispute.customer_display_me}}</span>
+							{{#if dispute.customer_email}}
+								<span class="secondary">{{dispute.customer_email}}</span>
+							{{/if}}
+						{{else}}
+							<span class="sl-none">none</span>
 						{{/if}}
-					{{else}}
-						<span class="sl-none">none</span>
-					{{/if}}
-					<!-- {{dispute.customer_name_summary}} -->
-				{{/link-to}}
-			</td>
-			<td class="span3 funding-instrument">
-				{{#link-to dispute.route_name dispute}}
-				<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
-					<span class="primary">{{dispute.last_four}} {{dispute.funding_instrument_name}}</span>
-					<span class="secondary">{{dispute.funding_instrument_type}}</span>
-				</span>{{/link-to}}
-			</td>
+						<!-- {{dispute.customer_name_summary}} -->
+					{{/link-to}}
+				</td>
+			{{/unless}}
+			{{#unless view.excludePaymentMethod}}
+				<td class="span3 funding-instrument">
+					{{#link-to dispute.route_name dispute}}
+					<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
+						<span class="primary">{{dispute.last_four}} {{dispute.funding_instrument_name}}</span>
+						<span class="secondary">{{dispute.funding_instrument_type}}</span>
+					</span>{{/link-to}}
+				</td>
+			{{/unless}}
 			<td class="span2 amount num">
 				{{#link-to dispute.route_name dispute}}<span>
 					{{formatCurrency dispute.amount}}
@@ -90,7 +98,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="6" class="no-results">
+			<td {{bind-attr colspan=view.colspan}} class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}

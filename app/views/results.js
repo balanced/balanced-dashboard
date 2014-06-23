@@ -136,7 +136,7 @@ Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
 
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
-	classNames: 'items'
+	classNames: 'items',
 });
 
 Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
@@ -146,6 +146,14 @@ Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'transactions',
+	templateName: 'results/transactions_table',
+	colspan: 7
+});
+
+Balanced.CustomerTransactionsResultsView = Balanced.ResultsTableView.extend({
+	excludeCustomer: true,
+	excludePaymentMethod: true,
+	colspan: 5,
 	templateName: 'results/transactions_table'
 });
 
@@ -161,6 +169,15 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
 
 Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'disputes',
+	templateName: 'results/disputes_table',
+	colspan: 6
+});
+
+Balanced.CustomerDisputesResultsView = Balanced.ResultsTableView.extend({
+	columns: ['date'],
+	excludeCustomer: true,
+	excludePaymentMethod: true,
+	colspan: 4,
 	templateName: 'results/disputes_table'
 });
 

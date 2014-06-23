@@ -1,10 +1,4 @@
 .btn {
-  cursor: pointer;
-
-  &:visited {
-    color: @white;
-  }
-
   .icon {
     display: inline-block;
     font-size: 19px;
@@ -25,21 +19,23 @@
       color: @black !important;
     }
   }
-
-  &.btn-link-inline {
-    border: 0 solid transform;
-    height: 36px;
-    margin: 0;
-    padding: 0;
-  }
 }
 
 .page-navigation {
   margin-bottom: 10px;
 
+  &.details-page {
+    margin-bottom: 45px;
+  }
+
   h1.page-title {
     .sl-lg-sb;
     margin: 0;
+
+    .page-type {
+      .sl-sb;
+      margin-bottom: 5px;
+    }
   }
 
   .filter {

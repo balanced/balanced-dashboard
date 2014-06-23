@@ -31,13 +31,8 @@
 				</ul>
 			</div>
 		</th>
-		<th class="span4 description"><span>Description</span></th>
-		{{#unless view.excludeCustomer}}
-			<th class="span3 account"><span>Customer</span></th>
-		{{/unless}}
-		{{#unless view.excludePaymentMethod}}
-			<th class="span3 funding-instrument"><span>Payment method</span></th>
-		{{/unless}}
+		<th class="span2 description"><span>Description</span></th>
+		<th class="span3 funding-instrument"><span>Payment method</span></th>
 		<th class="span3 amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="amount"}}<span>Amount</span>{{/view}}</th>
 	</tr>
 </thead>
@@ -45,7 +40,7 @@
 {{#if view.transactions.hasNextPage}}
 	<tfoot>
 		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="load-more-results">
+			<td colspan="6" class="load-more-results">
 				{{#if view.transactions.loadingNextPage}}
 					<div class="loader-container">
 						<span class="loader loading"></span>
@@ -86,30 +81,23 @@
 				item=transaction
 				labelText=transaction.description
 				routeName=transaction.route_name
-				classNames="span4"
+				classNames="span2"
 				titleBinding="transaction.description"
 			}}
 
-			{{#unless view.excludeCustomer}}
-				{{view Balanced.TransactionCustomerCellView item=transaction classNames="span4"}}
-			{{/unless}}
-
-			{{#unless view.excludePaymentMethod}}
-				{{view Balanced.LinkedTwoLinesCellView
-					item=transaction
-					routeName=transaction.route_name
-					classNames="span3 funding-instrument"
-					primaryLabelText=transaction.last_four
-					secondaryLabelText=transaction.funding_instrument_type
-					title=transaction.funding_instrument_type
-				}}
-			{{/unless}}
-
+			{{view Balanced.LinkedTwoLinesCellView
+				item=transaction
+				routeName=transaction.route_name
+				classNames="span3 funding-instrument"
+				primaryLabelText=transaction.last_four
+				secondaryLabelText=transaction.funding_instrument_type
+				title=transaction.funding_instrument_type
+			}}
 			{{view Balanced.TransactionAmountCellView item=transaction classNames="span3"}}
 		</tr>
 	{{else}}
 		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="no-results">
+			<td colspan="6" class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}

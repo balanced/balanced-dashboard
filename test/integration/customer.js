@@ -501,8 +501,8 @@ test('can add card with address', function(assert) {
 test('verification renders properly against rev1', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
-			assert.ok($('.verification-status').hasClass('verified'), 'Customer has been verified');
-			assert.equal($('.verification-status').text().trim(), 'VERIFIED', 'Customer has been verified');
+			assert.ok($('.status').hasClass('verified'), 'Customer has been verified');
+			assert.equal($('.status').text().trim(), 'Verified', 'Customer has been verified');
 		});
 });
 

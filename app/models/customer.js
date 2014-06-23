@@ -126,6 +126,10 @@ Balanced.Customer = Balanced.Model.extend({
 
 	dob_error: Balanced.computed.orProperties('validationErrors.dob_month', 'validationErrors.dob_year'),
 	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
+
+	status: function() {
+		return this.get('is_identity_verified') ? 'Verified' : 'Unverified';
+	}.property('is_identity_verified')
 });
 
 Balanced.Customer.reopenClass({
