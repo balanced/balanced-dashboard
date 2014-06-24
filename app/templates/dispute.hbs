@@ -15,7 +15,7 @@
 	</div>
 
 	{{txn-customer customer=transaction.customer}}
-	
+
 	<div class="transaction-details">
 		{{txn-dispute dispute=model}}
 
@@ -24,5 +24,9 @@
 		{{/each}}
 
 		{{txn-debit debit=transaction marketplace=controllers.marketplace.model}}
+
+		{{#if transaction.hold}}
+			{{txn-hold hold=transaction.hold}}
+		{{/if}}
 	</div>
 </div>
