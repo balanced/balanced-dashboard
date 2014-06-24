@@ -9,7 +9,7 @@ Balanced.ModalActionButtonsView = Balanced.View.extend({
 
 	isSubmitting: Balanced.computed.orProperties('parentView.model.isSaving', 'parentView.isSubmitting'),
 
-	disabled: Balanced.computed.orProperties('parentView.hasValidDocument', 'isSubmitting'),
+	disabled: Balanced.computed.orProperties('parentView.noValidDocument', 'isSubmitting'),
 
 	_submitTitle: function() {
 		if (this.get('isSubmitting')) {

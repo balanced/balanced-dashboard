@@ -39,7 +39,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each doc in view.documents}}
+								{{#each doc in view.documentsToUpload}}
 									<tr {{bind-attr class=":table-row doc.isError:error"}}>
 										<td class="name">
 											<span>
@@ -57,7 +57,7 @@
 													<span class="loader loading"></span>
 												</div>
 											{{else}}
-												<a href="#" {{action "deleteDocument" doc target="view"}}>
+												<a href="#" {{action "remove" doc target="view"}}>
 													<i class="icon-small-x"></i>
 												</a>
 											{{/if}}

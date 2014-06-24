@@ -2,7 +2,7 @@ Balanced.Dispute = Balanced.Model.extend({
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
-
+	documents_to_upload: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
 	type_name: 'Dispute',
 	route_name: 'dispute',
 	events_uri: Balanced.computed.concat('uri', '/events'),
@@ -31,13 +31,13 @@ Balanced.Dispute = Balanced.Model.extend({
 
 	status_name: Ember.computed.alias('status'),
 
-	has_expired: function() {
-		return moment(this.get('respond_by')).toDate() < moment().toDate();
+	hasNotExpired: function() {
+		return moment(this.get('respond_by')).toDate() > moment().toDate();
 	}.property('respond_by'),
 
-	is_pending: function() {
-		return !this.get('has_expired') && Ember.computed.equal('status', 'pending');
-	}.property('has_expired', 'status')
+	canUploadDocuments: function() {
+		return this.get('hasNotExpired') && (this.get('status') === 'pending') && (this.get('documents.length') === 0);
+	}.property('hasNotExpired', 'status', 'documents.length')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');

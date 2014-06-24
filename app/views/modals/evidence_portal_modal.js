@@ -13,18 +13,22 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		return message.fmt(errorCount) + 'Please only attach .pdf, .doc, or .jpeg files less than 10 mb.';
 	}.property('errorCount'),
 
-	documentCount: Ember.computed.readOnly('model.documents.length'),
 	documents: Ember.computed.readOnly('model.documents'),
+	documentsToUpload: Ember.computed.readOnly('model.documents_to_upload'),
 
 	modalMessage: 'Please provide shipping receipts with shipping address, tracking numbers and any evidence of received goods or services purchased. This dispute will most likely result in a lost if you do not respond by',
 
 	validDocumentCount: function() {
-		return this.get('documents').filter(function(doc, index, arr) {
+		var documentsToUpload = this.get('documentsToUpload');
+		if (!documentsToUpload) {
+			return 0;
+		}
+		return documentsToUpload.filter(function(doc, index, arr) {
 			return !(doc.get('isUploading') || doc.get('isError'));
 		}).length || 0;
-	}.property('model', 'documents', 'documents.@each'),
+	}.property('model', 'documentsToUpload', 'documentsToUpload.@each'),
 
-	hasValidDocument: Ember.computed.gt('validDocumentCount', 0),
+	noValidDocument: Ember.computed.equal('validDocumentCount', 0),
 
 	didInsertElement: function() {
 		this._super();
@@ -88,7 +92,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	}.observes('model'),
 
 	fileUploadFail: function(e, data) {
-		// console.log('fail', e, data);
+		console.log('fail', e, data);
 
 		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
@@ -103,13 +107,12 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	fileUploadSubmit: function(e, data) {
-		// console.log('submit', e, data);
+		console.log('submit', e, data);
 	},
 
 	fileUploadAdd: function(e, data) {
-		// console.log('add', e, data);
 		var self = this;
-		var documents = this.get('documents');
+		var documentsToUpload = this.get('documentsToUpload');
 
 		_.each(data.files, function(file) {
 			// Dont add documents we've already seen
@@ -131,7 +134,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 					uuid: file.uuid,
 					file: file
 				});
-				documents.pushObject(doc);
+				documentsToUpload.pushObject(doc);
 			}
 		}, this);
 
@@ -139,11 +142,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	fileUploadDone: function(e, data) {
-		// console.log('done', e, data);
+		this.hide();
 	},
 
 	fileUploadAlways: function(e, data) {
-		// console.log('always', e, data);
 		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
 		if (!doc) {
@@ -154,30 +156,26 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	actions: {
-		deleteDocument: function(doc) {
+		remove: function(doc) {
 			if (!doc) {
 				return;
 			}
 
-			this.get('documents').removeObject(doc);
-			// var self = this;
-			// doc.delete().then(function() {
-			// self.get('documents').reload();
-			// });
+			this.get('documentsToUpload').removeObject(doc);
 		},
 
 		reload: function() {
-			this.get('documents').reload();
+			this.get('documentsToUpload').reload();
 		},
 
 		save: function() {
-			var documents = this.get('documents');
-			var fileList = documents.filterBy('isValid', true).mapBy('file');
+			var documentsToUpload = this.get('documentsToUpload');
+			var fileList = documentsToUpload.filterBy('isValid', true).mapBy('file');
 
 			this.$('#fileupload').fileupload('send', {
 				files: fileList
 			}).done(function() {
-				documents.reload();
+				documentsToUpload.reload();
 			});
 		}
 	}
