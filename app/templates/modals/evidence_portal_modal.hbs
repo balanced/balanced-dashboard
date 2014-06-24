@@ -42,12 +42,8 @@
 								{{#each doc in view.documentsToUpload}}
 									<tr {{bind-attr class=":table-row doc.isError:error"}}>
 										<td class="name">
-											<span>
+											<span {{bind-attr class="doc.isError:error"}}>
 												{{doc.name}}
-
-												{{#if doc.errorDescription}}
-													<span class="error">({{doc.errorDescription}})</span>
-												{{/if}}
 											</span>
 										</td>
 										<td class="size"><span>{{doc.size}}</span></td>

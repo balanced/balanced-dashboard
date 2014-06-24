@@ -92,6 +92,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	}.observes('model'),
 
 	fileUploadFail: function(e, data) {
+		var documentsToUpload = this.get('documentsToUpload');
+		var doc = documentsToUpload.findBy('uuid', data.files[0].uuid);
+		doc.set('isError', true);
+
 		this.setProperties({
 			displayErrorDescription: true,
 			errorDescription: data._response.jqXHR.responseJSON.message.htmlSafe()
@@ -135,7 +139,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 
 	fileUploadDone: function(e, data) {
 		this.hide();
-		this.reload()
+		this.get('model').reload();
 	},
 
 	fileUploadAlways: function(e, data) {
