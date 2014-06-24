@@ -92,17 +92,9 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	}.observes('model'),
 
 	fileUploadFail: function(e, data) {
-		console.log('fail', e, data);
-
-		var documents = this.get('documents');
-		var doc = documents.findBy('uuid', data.files[0].uuid);
-
-		if (!doc) {
-			return;
-		}
-
-		doc.setProperties({
-			isError: true
+		this.setProperties({
+			displayErrorDescription: true,
+			errorDescription: data._response.jqXHR.responseJSON.message.htmlSafe()
 		});
 	},
 
@@ -143,6 +135,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 
 	fileUploadDone: function(e, data) {
 		this.hide();
+		this.reload()
 	},
 
 	fileUploadAlways: function(e, data) {
@@ -170,7 +163,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 
 		save: function() {
 			var documentsToUpload = this.get('documentsToUpload');
-			var fileList = documentsToUpload.filterBy('isValid', true).mapBy('file');
+			var fileList = documentsToUpload.mapBy('file');
 
 			this.$('#fileupload').fileupload('send', {
 				files: fileList
