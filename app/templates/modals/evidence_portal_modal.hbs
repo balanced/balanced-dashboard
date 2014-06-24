@@ -6,14 +6,9 @@
 		</div>
 
 		<div class="modal-body modal-with-headers">
-			{{#if view.errorCount}}
+			{{#if view.model.displayErrorDescription}}
 				<div class="alert alert-error">
-					<p>{{view.errorDescription}}</p>
-				</div>
-			{{/if}}
-			{{#if view.displayErrorDescription}}
-				<div class="alert alert-error">
-					<p>{{view.errorDescription}}</p>
+					<p>{{view.model.errorDescription}}</p>
 				</div>
 			{{/if}}
 			<div class="modal-content">

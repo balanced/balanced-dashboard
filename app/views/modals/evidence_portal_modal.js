@@ -4,14 +4,6 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	modalElement: '#evidence-portal',
 
 	maxDocumentCount: 50,
-	errorCount: null,
-
-	errorDescription: function() {
-		var errorCount = this.get('errorCount');
-		var message = (errorCount === 1) ? '%@ file is invalid.' : '%@ files are invalid. ';
-
-		return message.fmt(errorCount) + 'Please only attach .pdf, .doc, or .jpeg files less than 10 mb.';
-	}.property('errorCount'),
 
 	documents: Ember.computed.readOnly('model.documents'),
 	documentsToUpload: Ember.computed.readOnly('model.documents_to_upload'),
@@ -96,7 +88,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		var doc = documentsToUpload.findBy('uuid', data.files[0].uuid);
 		doc.set('isError', true);
 
-		this.setProperties({
+		this.get('model').setProperties({
 			displayErrorDescription: true,
 			errorDescription: data._response.jqXHR.responseJSON.message.htmlSafe()
 		});
@@ -107,8 +99,8 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	fileUploadAdd: function(e, data) {
-		var self = this;
 		var documentsToUpload = this.get('documentsToUpload');
+		var errorCount = 0;
 
 		_.each(data.files, function(file) {
 			// Dont add documents we've already seen
@@ -118,11 +110,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			// To remember the documents
 			data.files[0].uuid = _.uniqueId('DD');
 
-			var hasErrors = Balanced.DisputeDocument.hasErrors(file);
-			var errorCount = this.get('errorCount');
+			var documentHasErrors = Balanced.DisputeDocument.hasErrors(file);
 
-			if (hasErrors) {
-				self.set('errorCount', errorCount ? (errorCount + 1) : 1);
+			if (documentHasErrors) {
+				errorCount++;
 			} else {
 				var doc = Balanced.DisputeDocument.create({
 					file_name: file.name,
@@ -133,6 +124,16 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 				documentsToUpload.pushObject(doc);
 			}
 		}, this);
+
+		if (errorCount > 0) {
+			var invalidFileMessage = (errorCount === 1) ? '%@ file is invalid.' : '%@ files are invalid. ';
+			invalidFileMessage = invalidFileMessage.fmt(errorCount) + 'Please only attach .pdf, .doc, or .jpeg files less than 10 mb.';
+
+			this.get('model').setProperties({
+				displayErrorDescription: true,
+				errorDescription: invalidFileMessage
+			});
+		}
 
 		this.reposition();
 	},
