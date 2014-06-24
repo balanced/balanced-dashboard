@@ -808,7 +808,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod', 'concat:fileupload',]);
+	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod', 'concat:fileupload', ]);
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:libtest', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);

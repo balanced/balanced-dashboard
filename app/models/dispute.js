@@ -1,14 +1,12 @@
-var Computed = {
-	isStatus: function(status) {
-		return Ember.computed.equal('status', status);
-	}
-};
-
 Balanced.Dispute = Balanced.Model.extend({
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
 
+	type_name: 'Dispute',
+	route_name: 'dispute',
+	events_uri: Balanced.computed.concat('uri', '/events'),
+	uri: '/disputes',
 	dispute_documents_uri: function() {
 		return '/disputes/' + this.get('id');
 	}.property('id'),
@@ -33,14 +31,13 @@ Balanced.Dispute = Balanced.Model.extend({
 
 	status_name: Ember.computed.alias('status'),
 
-	is_lost: Computed.isStatus('lost'),
-	is_won: Computed.isStatus('won'),
-	is_pending: Computed.isStatus('pending'),
+	has_expired: function() {
+		return moment(this.get('respond_by')).toDate() < moment().toDate();
+	}.property('respond_by'),
 
-	type_name: 'Dispute',
-	route_name: 'dispute',
-	events_uri: Balanced.computed.concat('uri', '/events'),
-	uri: '/disputes'
+	is_pending: function() {
+		return !this.get('has_expired') && Ember.computed.equal('status', 'pending');
+	}.property('has_expired', 'status')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');

@@ -49,5 +49,5 @@ test('can visit page', function(assert) {
 		.click('#dispute .evidence-portal-info a')
 		.then(function() {
 			// Hey
-	});
+		});
 });

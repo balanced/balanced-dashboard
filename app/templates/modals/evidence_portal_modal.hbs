@@ -2,28 +2,35 @@
 	<form {{action "save" on="submit" target="view"}}>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Attach documents</h2>
+			<h2>Attach docs</h2>
 		</div>
 
 		<div class="modal-body modal-with-headers">
+			{{#if view.errorCount}}
+				<div class="alert alert-error">
+					<p>{{view.errorDescription}}</p>
+				</div>
+			{{/if}}
 			{{#if view.model.displayErrorDescription}}
-				<div class="alert alert-error row-full">
-					{{view.model.errorDescription}}
+				<div class="alert alert-error">
+					<p>{{view.model.errorDescription}}</p>
 				</div>
 			{{/if}}
 			<div class="modal-content">
-				<p>
-					Please attach supporting documentation to fight this dispute. You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."
-				</p>
+				<p>{{view.modalMessage}}: <span class="sl-sb">{{humanReadableDateShort view.model.respond_by}}</span></p>
 
 				<hr class="separation-line" />
 
 				<div {{bind-attr class=":clearfix :control-group view.model.validationErrors.note:error"}}>
 					<label class="control-label clearfix">
-						Total documents: {{formatNumber view.validDocumentCount}} (Max: {{formatNumber view.maxDocumentCount}})
+						Documents
+
+						<a class="fileinput-button pull-right">Attach docs
+							<input id="fileupload" type="file" name="files[]" multiple>
+						</a>
 					</label>
-					<div class="controls results results-framed">
-						<table class="table table-fixed table-border items">
+					<div class="controls results">
+						<table class="items">
 							<thead>
 								<tr>
 									<th class="span8"><span>File (PDF / DOC / JPEG)</span></th>
@@ -50,7 +57,9 @@
 													<span class="loader loading"></span>
 												</div>
 											{{else}}
-												<span><a class="delete" href="#" {{action "deleteDocument" doc target="view"}}>&times;</a></span>
+												<a href="#" {{action "deleteDocument" doc target="view"}}>
+													<i class="icon-small-x"></i>
+												</a>
 											{{/if}}
 										</td>
 									</tr>
@@ -62,19 +71,15 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="pull-right">
-						<span class="btn fileinput-button btn-sm right">
-							<span>Attach documents</span>
-							<input id="fileupload" type="file" name="files[]" multiple>
-						</span>
-					</div>
 				</div>
 				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
 					<label class="control-label">Note</label>
 					<div class="controls row-fluid">
 						{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span" placeholder="Describe your case."}}
-						<div {{bind-attr class=":alert :alert-error :row-full :label4b view.hasValidDocument::in"}}>Submitting without documentation will greatly reduce your chances of winning the dispute.</div>
 					</div>
+				</div>
+				<div class="control-group">
+					<p>You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."</p>
 				</div>
 			</div>
 		</div>

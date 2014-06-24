@@ -4,9 +4,19 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	modalElement: '#evidence-portal',
 
 	maxDocumentCount: 50,
+	errorCount: null,
+
+	errorDescription: function() {
+		var errorCount = this.get('errorCount');
+		var message = (errorCount === 1) ? '%@ file is invalid.' : '%@ files are invalid. ';
+
+		return message.fmt(errorCount) + 'Please only attach .pdf, .doc, or .jpeg files less than 10 mb.';
+	}.property('errorCount'),
 
 	documentCount: Ember.computed.readOnly('model.documents.length'),
 	documents: Ember.computed.readOnly('model.documents'),
+
+	modalMessage: 'Please provide shipping receipts with shipping address, tracking numbers and any evidence of received goods or services purchased. This dispute will most likely result in a lost if you do not respond by',
 
 	validDocumentCount: function() {
 		return this.get('documents').filter(function(doc, index, arr) {
@@ -14,11 +24,9 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		}).length || 0;
 	}.property('model', 'documents', 'documents.@each'),
 
-	hasValidDocument: function() {
-		return this.get('validDocumentCount') > 0;
-	}.property('validDocumentCount'),
+	hasValidDocument: Ember.computed.gt('validDocumentCount', 0),
 
-	didInsertElement : function(){
+	didInsertElement: function() {
 		this._super();
 		this.loadUploadScript();
 
@@ -100,7 +108,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 
 	fileUploadAdd: function(e, data) {
 		// console.log('add', e, data);
-
+		var self = this;
 		var documents = this.get('documents');
 
 		_.each(data.files, function(file) {
@@ -108,28 +116,23 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			if (file.uuid) {
 				return;
 			}
-
-			var errors = Balanced.DisputeDocument.isValidFile(file);
-
 			// To remember the documents
 			data.files[0].uuid = _.uniqueId('DD');
 
-			var doc = Balanced.DisputeDocument.create({
-				file_name: file.name,
-				file_size: file.size,
-				uuid: file.uuid,
-				file: file
-			});
+			var hasErrors = Balanced.DisputeDocument.hasErrors(file);
+			var errorCount = this.get('errorCount');
 
-			if (errors) {
-				doc.setProperties({
-					isError: true,
-					errorDescription: errors[0],
-					isValid: false
+			if (hasErrors) {
+				self.set('errorCount', errorCount ? (errorCount + 1) : 1);
+			} else {
+				var doc = Balanced.DisputeDocument.create({
+					file_name: file.name,
+					file_size: file.size,
+					uuid: file.uuid,
+					file: file
 				});
+				documents.pushObject(doc);
 			}
-
-			documents.pushObject(doc);
 		}, this);
 
 		this.reposition();

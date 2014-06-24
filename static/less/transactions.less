@@ -66,10 +66,14 @@
     // Evidence portal styles
     .dispute {
       .evidence-portal-info {
-        background: #F0E4B8;
+        background: @curryYellow20;
 
         header {
           border-bottom: 0;
+        }
+
+        .btn {
+          margin-top: 40px;
         }
       }
     }
@@ -123,6 +127,7 @@
     .transaction-body, .evidence-portal-info {
       background-color: @white;
       padding: 20px 20px 20px 85px;
+      margin: 0;
 
       .transaction-info, .funding-instrument-info {
         .key-value-display {
