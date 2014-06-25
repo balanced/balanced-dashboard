@@ -42,16 +42,13 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			if (documentHasErrors) {
 				errorCount++;
 			} else {
-				var reader = new FileReader();
-				reader.readAsDataURL(file);
-
 				var doc = Balanced.DisputeDocument.create({
 					file_name: file.name,
 					file_size: file.size,
 					uuid: file.uuid,
 					file: file
 				});
-				console.log(doc);
+
 				documentsToUpload.pushObject(doc);
 			}
 		}, this);
@@ -69,23 +66,20 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 		this.reposition();
 	},
 
-	uploadFail: function(e, data) {
-		var documentsToUpload = this.get('documentsToUpload');
-		var doc = documentsToUpload.findBy('uuid', data.files[0].uuid);
-		doc.set('isError', true);
-
+	uploadError: function(data, status, jqxhr) {
 		this.get('model').setProperties({
 			displayErrorDescription: true,
-			errorDescription: data._response.jqXHR.responseJSON.message.htmlSafe()
+			errorDescription: data.responseJSON.message.htmlSafe()
 		});
 	},
 
-	uploadDone: function(e, data) {
-		this.hide();
+	uploadSuccess: function(data, status, jqxhr) {
 		this.get('model').reload();
+		this.close();
 	},
 
-	uploadAlways: function(e, data) {
+	uploadAlways: function(data, status, jqxhr) {
+
 		var documents = this.get('documents');
 		var doc = documents.findBy('uuid', data.files[0].uuid);
 		if (!doc) {
@@ -113,29 +107,30 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 		},
 
 		save: function() {
+			var formData = new FormData();
+			formData.append('note', this.get('model.note'));
+
 			var marketplaceId = Balanced.currentMarketplace.get('id');
 			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
 			var secret = userMarketplace.get('secret');
 			var auth = Balanced.Utils.encodeAuthorization(secret);
-			var params = [];
-			for (var index = 0; index < 50; ++index) {
-				params.push('documents[' + index + ']');
-			}
+
 			var documentsToUpload = this.get('documentsToUpload');
-			var fileList = documentsToUpload.mapBy('file');
-			console.log(params, fileList);
+			documentsToUpload.mapBy('file').forEach(function(file, index) {
+				formData.append("documents[%@]".fmt(index), file);
+			});
 
 			$.ajax('http://localhost:3000' + this.get('model.dispute_documents_uri'), {
 				headers: {
 					'Authorization': auth
 				},
 				type: 'post',
-				data: fileList,
+				data: formData,
 				processData: false,
 				contentType: false,
-				done: this.uploadDone,
-				fail: this.uploadFail,
-				always: this.uploadAlways
+				success: _.bind(this.uploadSuccess, this),
+				error: _.bind(this.uploadError, this),
+				always: _.bind(this.uploadAlways, this)
 			});
 		}
 	}

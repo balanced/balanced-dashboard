@@ -2,13 +2,11 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
-	documents_to_upload: function() {
-		return [];
-	}.property(),
 	type_name: 'Dispute',
 	route_name: 'dispute',
 	events_uri: Balanced.computed.concat('uri', '/events'),
 	uri: '/disputes',
+	dispute_note: Ember.computed.oneWay('note'),
 	dispute_documents_uri: function() {
 		return '/disputes/' + this.get('id');
 	}.property('id'),

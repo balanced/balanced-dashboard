@@ -5,6 +5,15 @@
 </h3>
 <div class="results embedded documents">
 	<div class="items-wrapper">
+		{{#if view.content.dispute_note}}
+		<div class="key-value-display">
+			<dl class="dl-horizontal">
+				<dt>Note</dt>
+				<dd><span>{{view.content.dispute_note}}</span></dd>
+			</dl>
+		</div>
+		{{/if}}
+
 		<table class="items">
 			<tbody>
 			{{#if view.content.documents}}
