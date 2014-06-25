@@ -29,21 +29,30 @@ test('can visit page', function(assert) {
 		}, assert);
 });
 
-// test('can visit page', function(assert) {
-// 	var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
-// 	var disputePage = {
-// 		'#content h1': 'Dispute',
-// 		'#dispute > .main-header .title': 1, // 'Brand New Electric Guitar Rosewood Fingerboard Sunset Red',
-// 		'#dispute .customer-info .main-header .title': 1, // 'William Henry Cavendish III (whc@example.org)',
-// 		'#dispute .transaction-details .dispute .tt-title': 'Pending: $100.00',
-// 		'#dispute .transaction-details .debit .tt-title': 1, // 'Succeeded: $13.30',
-// 		'#dispute .evidence-portal-info': 1
-// 	};
+test('can upload a dispute document', function(assert) {
+	var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
+	var disputePage = {
+		'#content h1': 'Dispute',
+		'#dispute > .main-header .title': 1,
+		'#dispute .customer-info .main-header .title': 1,
+		'#dispute .transaction-details .dispute .tt-title': 'Pending: $12.00',
+		'#dispute .transaction-details .debit .tt-title': 1,
+		'#dispute .evidence-portal-info': 1
+	};
 
-// 	visit(Testing.DISPUTE_ROUTE)
-// 		.checkElements(disputePage, assert)
-// 		.click('#dispute .evidence-portal-info a')
-// 		.then(function() {
-// 			assert.ok($('.modal-header h2'), 'Attach docs');
-// 		});
-// });
+	visit(Testing.DISPUTE_ROUTE)
+		.checkElements(disputePage, assert)
+		.click('#dispute .evidence-portal-info a')
+		.then(function() {
+			assert.ok($('.modal-header h2'), 'Attach docs');
+		})
+		.click('#evidence-portal .fileinput-button')
+		.then(function() {
+
+		})
+		.click('#evidence-portal .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.ok($('#dispute div.documents table tr'), 1, 'attached doc is displayed');
+			assert.ok($('#dispute .evidence-portal-info a'), [], 'cannot attach docs after docs are uploaded');
+		});
+});

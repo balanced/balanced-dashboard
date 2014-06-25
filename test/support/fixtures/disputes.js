@@ -27,7 +27,8 @@ Balanced.Adapter.addFixtures([{
 		"amount": 200,
 		"meta": {},
 		"href": "/disputes/DT2i1GU1dayFu9xx9VA5cB5p",
-		"initiated_at": "2014-06-25T18:48:17.213579Z"
+		"initiated_at": "2014-06-25T18:48:17.213579Z",
+		"uri": "/disputes/DT2xOc7zAdgufK4XsCIW5QgD"
 	}, {
 		"status": "pending",
 		"links": {
@@ -42,6 +43,7 @@ Balanced.Adapter.addFixtures([{
 		"amount": 1200,
 		"meta": {},
 		"href": "/disputes/DT2xOc7zAdgufK4XsCIW5QgD",
-		"initiated_at": "2014-06-16T23:09:37.214301Z"
+		"initiated_at": "2014-06-16T23:09:37.214301Z",
+		"uri": "/disputes/DT2xOc7zAdgufK4XsCIW5QgD"
 	}]
 }]);
