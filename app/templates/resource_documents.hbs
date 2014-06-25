@@ -20,14 +20,14 @@
 				{{#each doc in view.content.documents}}
 					<tr>
 						<td class="first date">
-							<a href=""><time {{bind-attr datetime="doc.created_at"}} {{bind-attr title="doc.created_at"}}>
+							<a {{bind-attr href="doc.file_url"}}><time {{bind-attr datetime="doc.created_at"}} {{bind-attr title="doc.created_at"}}>
 							{{humanReadableDateShort doc.created_at}}</time></a>
 						</td>
 						<td class="second">
-							<a href=""><span>{{doc.name}}</span></a>
+							<a {{bind-attr href="doc.file_url"}}><span>{{doc.name}}</span></a>
 						</td>
 						<td class="align-right">
-							<a href=""><span>{{doc.size}}</span></a>
+							<a {{bind-attr href="doc.file_url"}}><span>{{doc.size}}</span></a>
 						</td>
 					</tr>
 				{{/each}}
