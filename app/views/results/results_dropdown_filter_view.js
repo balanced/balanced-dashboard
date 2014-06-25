@@ -5,7 +5,6 @@ Balanced.ResultsDropdownFilterView = Balanced.View.extend({
 	actions: {
 		setFilter: function(value) {
 			var model = this.get("model");
-			console.log
 			model.set(this.get("filter"), value);
 		}
 	}
