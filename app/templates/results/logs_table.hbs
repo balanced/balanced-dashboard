@@ -2,57 +2,16 @@
 	<tr>
 		<th class="span3 label6a has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}</th>
 		<th class="span3 label6a has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Endpoint</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu status-filter filter-choices">
-					<li><a {{action "setEndPointFilter" "" target="controller"}} href="#" class="all">All endpoints</a></li>
-					<li><a {{action "setEndPointFilter" "debits" target="controller"}} href="#" class="debits">debits</a></li>
-					<li><a {{action "setEndPointFilter" "credits" target="controller"}} href="#" class="credits">credits</a></li>
-					<li><a {{action "setEndPointFilter" "refunds" target="controller"}} href="#" class="refunds">refunds</a></li>
-					<li><a {{action "setEndPointFilter" "holds" target="controller"}} href="#" class="holds">holds</a></li>
-					<li><a {{action "setEndPointFilter" "customers" target="controller"}} href="#" class="customers">customers</a></li>
-					<li><a {{action "setEndPointFilter" "accounts" target="controller"}} href="#" class="accounts">accounts</a></li>
-					<li><a {{action "setEndPointFilter" "bank_accounts" target="controller"}} href="#" class="bank_accounts">bank_accounts</a></li>
-					<li><a {{action "setEndPointFilter" "cards" target="controller"}} href="#" class="cards">cards</a></li>
-					<li><a {{action "setEndPointFilter" "verifications" target="controller"}} href="#" class="cards">verifications</a></li>
-				</ul>
-			</div>
+			{{view Balanced.LogsEndpointResultsDropdownFilterView model=resultsLoader}}
 		</th>
 		<th class="span3 label6a has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Status</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu status-filter filter-choices">
-					<li><a href="#" {{action "changeLogStatusFilter" "all"}}>All</a></li>
-					<li><a href="#" {{action "changeLogStatusFilter" "succeeded"}}> Succeeded </a></li>
-					<li><a href="#" {{action "changeLogStatusFilter" "failed"}}> Failed </a></li>
-				</ul>
-			</div>
+			{{view Balanced.LogsStatusResultsDropdownFilterView model=resultsLoader}}
 		</th>
 		<th class="span11 label6a"><span>Method &amp; URI</span></th>
 	</tr>
 </thead>
 
-{{#if results.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td colspan="4" class="load-more-results">
-				{{#if results.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" results}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
-{{/if}}
+{{view Balanced.ResultsLoadMoreView results=results columns=4}}
 
 <tbody>
 	{{#each log in results}}
