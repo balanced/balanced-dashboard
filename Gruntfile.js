@@ -149,14 +149,6 @@ module.exports = function(grunt) {
 					'static/javascripts/qunit/qunit/qunit.js'
 				],
 				dest: 'build/test/js/test-runner.js'
-			},
-			fileupload: {
-				src: [
-					'static/javascripts/jquery-ui/ui/minified/jquery.ui.widget.min.js',
-					'static/javascripts/blueimp-file-upload/js/jquery.iframe-transport.js',
-					'static/javascripts/blueimp-file-upload/js/jquery.fileupload.js'
-				],
-				dest: 'build/js/fileupload.js'
 			}
 		},
 
@@ -171,19 +163,6 @@ module.exports = function(grunt) {
 				files: {
 					'js/dashboard-prod.min.js': [
 						'js/dashboard-prod.js'
-					]
-				}
-			},
-			fileUpload: {
-				options: {
-					sourceMap: 'js/fileupload.map.js',
-					sourceMapRoot: '/js/',
-					sourceMappingURL: '/js/fileupload.map.js',
-					sourceMapPrefix: 1
-				},
-				files: {
-					'js/fileupload.js': [
-						'js/fileupload.js'
 					]
 				}
 			},
@@ -808,7 +787,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod', 'concat:fileupload', ]);
+	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod']);
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:libtest', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);
