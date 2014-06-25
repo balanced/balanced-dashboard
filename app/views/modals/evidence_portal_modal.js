@@ -1,12 +1,14 @@
-Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
+Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 	templateName: 'modals/evidence_portal_modal',
-	controllerEventName: 'openEvidencePortalModal',
-	modalElement: '#evidence-portal',
-
+	title: 'Attach docs',
+	elementId: 'evidence-portal',
+	classNameBindings: [":wide-modal", ":modal-overflow"],
 	maxDocumentCount: 50,
 
 	documents: Ember.computed.readOnly('model.documents'),
-	documentsToUpload: Ember.computed.readOnly('model.documents_to_upload'),
+	documentsToUpload: function() {
+		return [];
+	}.property(), // Ember.computed.readOnly('model.documents_to_upload'),
 
 	modalMessage: 'Please provide shipping receipts with shipping address, tracking numbers and any evidence of received goods or services purchased. This dispute will most likely result in a lost if you do not respond by',
 
@@ -21,41 +23,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	}.property('model', 'documentsToUpload', 'documentsToUpload.@each'),
 
 	noValidDocument: Ember.computed.equal('validDocumentCount', 0),
+	isDisabled: Balanced.computed.orProperties('noValidDocument', 'model.isSaving'),
 
-	didInsertElement: function() {
-		this._super();
-		this.loadUploadScript();
-
-		Ember.run.scheduleOnce('afterRender', this, this.bindUpload);
-	},
-
-	loadUploadScript: function() {
-		if ($.fn.fileupload) {
-			return;
-		}
-
-		var scripts = [
-			'js/fileupload.js'
-		];
-
-		var exts = _.map(scripts, function(val) {
-			return $.ajax({
-				url: val,
-				dataType: 'script',
-				cache: true
-			});
-		});
-
-		return Ember.RSVP.all(exts).then(_.bind(this.bindUpload, this), _.bind(this.loadUploadScript, this));
-	},
-
-	bindUpload: function() {
+	upload: function() {
 		if (!this.get('model.dispute_documents_uri')) {
-			return;
-		}
-
-		if (!$.fn.fileupload) {
-			this.loadUploadScript();
 			return;
 		}
 
@@ -126,7 +97,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 		}, this);
 
 		if (errorCount > 0) {
-			var invalidFileMessage = (errorCount === 1) ? '%@ file is invalid.' : '%@ files are invalid. ';
+			var invalidFileMessage = (errorCount === 1) ? '%@ file is invalid. ' : '%@ files are invalid. ';
 			invalidFileMessage = invalidFileMessage.fmt(errorCount) + 'Please only attach .pdf, .doc, or .jpeg files less than 10 mb.';
 
 			this.get('model').setProperties({
@@ -154,6 +125,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 	},
 
 	actions: {
+		fileSelectionChanged: function() {
+			this.fileUploadAdd(event, event.target);
+		},
+
 		remove: function(doc) {
 			if (!doc) {
 				return;
@@ -177,4 +152,12 @@ Balanced.EvidencePortalModalView = Balanced.ModalView.extend({
 			});
 		}
 	}
+});
+
+Balanced.EvidencePortalModalView.reopenClass({
+	open: function(dispute) {
+		return this.create({
+			model: dispute
+		});
+	},
 });

@@ -1,7 +1,8 @@
 Balanced.TxnDisputeComponent = Ember.Component.extend({
+	openModalEvent: "openModal",
 	actions: {
-		openEvidencePortalModal: function() {
-			this.trigger('openEvidencePortalModal');
+		openModal: function(modalClass, dispute) {
+			this.sendAction('openModalEvent', modalClass, dispute);
 		}
 	}
 });

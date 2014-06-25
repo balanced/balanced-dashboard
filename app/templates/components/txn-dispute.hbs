@@ -28,7 +28,7 @@
 					<p>The dispute will most likely result in a lost if you do not respond by this date.</p>
 				</div>
 			</div>
-			<a class="btn pull-right sm" href="#" {{action "openEvidencePortalModal"}}>Attach docs</a>
+			<a class="btn pull-right sm" {{action "openModal" Balanced.EvidencePortalModalView dispute}}>Attach docs</a>
 		</div>
 		</section>
 	{{/if}}
@@ -75,6 +75,4 @@
 			</div>
 		</div>
 	</div>
-
-	{{view Balanced.EvidencePortalModalView modelBinding="dispute"}}
 </div>

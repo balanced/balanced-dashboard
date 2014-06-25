@@ -1,82 +1,76 @@
-<div class="modal hide wide-modal" id="evidence-portal">
-	<form {{action "save" on="submit" target="view"}}>
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Attach docs</h2>
-		</div>
+<form {{action "save" on="submit" target="view"}}>
+	<div class="modal-body modal-with-headers">
+		{{#if view.model.displayErrorDescription}}
+			<div class="alert alert-error">
+				<p>{{view.model.errorDescription}}</p>
+			</div>
+		{{/if}}
+		<div class="modal-content">
+			<p>{{view.modalMessage}}: <span class="sl-sb">{{humanReadableDateShort view.model.respond_by}}</span></p>
 
-		<div class="modal-body modal-with-headers">
-			{{#if view.model.displayErrorDescription}}
-				<div class="alert alert-error">
-					<p>{{view.model.errorDescription}}</p>
-				</div>
-			{{/if}}
-			<div class="modal-content">
-				<p>{{view.modalMessage}}: <span class="sl-sb">{{humanReadableDateShort view.model.respond_by}}</span></p>
+			<hr class="separation-line" />
 
-				<hr class="separation-line" />
+			<div {{bind-attr class=":clearfix :control-group view.model.validationErrors.note:error"}}>
+				<label class="control-label clearfix">
+					Documents
 
-				<div {{bind-attr class=":clearfix :control-group view.model.validationErrors.note:error"}}>
-					<label class="control-label clearfix">
-						Documents
-
-						<a class="fileinput-button pull-right">Attach docs
-							<input id="fileupload" type="file" name="files[]" multiple>
-						</a>
-					</label>
-					<div class="controls results">
-						<table class="items">
-							<thead>
-								<tr>
-									<th class="span8"><span>File (PDF / DOC / JPEG)</span></th>
-									<th class="span3"><span>Size (Max: 10 MB)</span></th>
-									<th class="span1"><span>&nbsp;</span></th>
+					<a class="fileinput-button pull-right">Attach docs
+						<input id="fileupload" type="file" name="files[]" multiple {{action 'fileSelectionChanged' on="change" target="view"}}>
+					</a>
+				</label>
+				<div class="controls results">
+					<table class="items">
+						<thead>
+							<tr>
+								<th class="span8"><span>File (PDF / DOC / JPEG)</span></th>
+								<th class="span3"><span>Size (Max: 10 MB)</span></th>
+								<th class="span1"><span>&nbsp;</span></th>
+							</tr>
+						</thead>
+						<tbody>
+							{{#each doc in view.documentsToUpload}}
+								<tr {{bind-attr class=":table-row doc.isError:error"}}>
+									<td class="name">
+										<span {{bind-attr class="doc.isError:error"}}>
+											{{doc.name}}
+										</span>
+									</td>
+									<td class="size"><span>{{doc.size}}</span></td>
+									<td>
+										{{#if doc.isUploading}}
+											<div class="loader-container">
+												<span class="loader loading"></span>
+											</div>
+										{{else}}
+											<a href="#" {{action "remove" doc target="view"}}>
+												<i class="icon-small-x"></i>
+											</a>
+										{{/if}}
+									</td>
 								</tr>
-							</thead>
-							<tbody>
-								{{#each doc in view.documentsToUpload}}
-									<tr {{bind-attr class=":table-row doc.isError:error"}}>
-										<td class="name">
-											<span {{bind-attr class="doc.isError:error"}}>
-												{{doc.name}}
-											</span>
-										</td>
-										<td class="size"><span>{{doc.size}}</span></td>
-										<td>
-											{{#if doc.isUploading}}
-												<div class="loader-container">
-													<span class="loader loading"></span>
-												</div>
-											{{else}}
-												<a href="#" {{action "remove" doc target="view"}}>
-													<i class="icon-small-x"></i>
-												</a>
-											{{/if}}
-										</td>
-									</tr>
-								{{else}}
-									<tr>
-										<td colspan="3" class="no-results">None</td>
-									</tr>
-								{{/each}}
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
-					<label class="control-label">Note</label>
-					<div class="controls row-fluid">
-						{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span" placeholder="Describe your case."}}
-					</div>
-				</div>
-				<div class="control-group">
-					<p>You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."</p>
+							{{else}}
+								<tr>
+									<td colspan="3" class="no-results">None</td>
+								</tr>
+							{{/each}}
+						</tbody>
+					</table>
 				</div>
 			</div>
+			<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
+				<label class="control-label">Note</label>
+				<div class="controls row-fluid">
+					{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span" placeholder="Describe your case."}}
+				</div>
+			</div>
+			<div class="control-group">
+				<p>You can only submit this information once. You will not be able to add to or modify your files once you click "Submit."</p>
+			</div>
 		</div>
+	</div>
 
-		<div class="modal-footer">
-			{{view Balanced.ModalActionButtonsView submitTitle="Submit"}}
-		</div>
-	</form>
-</div>
+	<div class="modal-footer">
+		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSubmitting"}}>Cancel</button>
+		<button {{bind-attr class=":btn view.isDisabled:disabled"}} type="submit" name="modal-submit" {{bind-attr disabled="view.isDisabled"}}>Attach</button>
+	</div>
+</form>
