@@ -393,6 +393,7 @@ module.exports = function(grunt) {
 						BALANCED: {\
 							API: 'https://api.balancedpayments.com',\
 							AUTH: 'https://auth.balancedpayments.com',\
+							JUSTITIA: 'https://justitia.balancedpayments.com',\
 							WWW: 'https://www.balancedpayments.com',\
 							DOCS: 'https://docs.balancedpayments.com',\
 							DEBUG: true,\
@@ -416,6 +417,7 @@ module.exports = function(grunt) {
 						BALANCED: {\
 							API: 'https://api.balancedpayments.com',\
 							AUTH: 'https://auth.balancedpayments.com',\
+							JUSTITIA: 'https://justitia.balancedpayments.com',\
 							WWW: 'https://www.balancedpayments.com',\
 							DOCS: 'https://docs.balancedpayments.com',\
 							DEBUG: false,\

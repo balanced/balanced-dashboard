@@ -120,7 +120,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 				formData.append("documents[%@]".fmt(index), file);
 			});
 
-			$.ajax('http://localhost:3000' + this.get('model.dispute_documents_uri'), {
+			$.ajax(ENV.BALANCED.JUSTITIA + this.get('model.dispute_documents_uri'), {
 				headers: {
 					'Authorization': auth
 				},
