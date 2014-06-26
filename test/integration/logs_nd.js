@@ -30,4 +30,3 @@ test('has logs in table', 3, function(assert) {
 			'table.logs tfoot td': 1
 		}, assert);
 });
-
