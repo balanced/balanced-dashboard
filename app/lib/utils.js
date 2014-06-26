@@ -426,6 +426,13 @@ Balanced.Utils = Ember.Namespace.create({
 		});
 
 		return formattedBankName;
-	}
+	},
 
+	formatStatusCode: function(statusCode) {
+		if (statusCode) {
+			return Balanced.Utils.capitalize(statusCode.replace(/-/g, ' '));
+		} else {
+			return null;
+		}
+	}
 });
