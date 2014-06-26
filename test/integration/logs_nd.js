@@ -14,7 +14,12 @@ test('has logs in table', 3, function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
-			setLogsProperties();
+			Ember.run(function() {
+				Balanced.__container__.lookup('controller:marketplaceLogs').setProperties({
+					minDate: null,
+					maxDate: null
+				});
+			});
 		})
 		.checkElements({
 			'table.logs tbody tr': 2
