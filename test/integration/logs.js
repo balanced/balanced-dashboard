@@ -12,9 +12,11 @@ module('Logs', {
 
 var setLogsProperties = function() {
 	Ember.run(function() {
-		Balanced.__container__.lookup('controller:marketplaceLogs').setProperties({
-			minDate: null,
-			maxDate: null
+		var controller = Balanced.__container__.lookup('controller:marketplaceLogs');
+		controller.get("resultsLoader").setProperties({
+			limit: 2,
+			startTime: null,
+			endTime: null
 		});
 	});
 };
@@ -30,7 +32,7 @@ test('can visit page', function(assert) {
 		.then(function() {
 			var logRequest = spy.getCall(spy.callCount - 1);
 			assert.equal(logRequest.args[0], Balanced.Log);
-			assert.equal(logRequest.args[1], '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc');
+			assert.equal(logRequest.args[1], "/logs?limit=2&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete");
 		})
 		.checkElements({
 			'#content h1': "Logs"
@@ -64,9 +66,9 @@ test('filter logs by endpoint bank accounts', function(assert) {
 		.checkElements({
 			'table.logs tbody tr': 2
 		}, assert)
-		.click('.results .status-filter a.bank_accounts')
+		.click('.results .endpoint-filter a:contains(Bank accounts)')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Log, '/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc'));
+			assert.ok(spy.calledWith(Balanced.Log, "/logs?limit=2&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&endpoint=bank_accounts"));
 		})
 		.checkElements({
 			'table.logs tbody tr': 1
@@ -91,15 +93,7 @@ test('filter logs by datetime range', function(assert) {
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			var begin = moment('8/1/2013').startOf('day');
-			var begin_iso = encodeURIComponent(begin.toISOString());
-			var end = moment('8/1/2013').endOf('day');
-			var end_iso = encodeURIComponent(end.toISOString());
-
-			var expected_uri = '/logs?' +
-				'created_at%5B%3C%5D=' + end_iso + '&' +
-				'created_at%5B%3E%5D=' + begin_iso + '&' +
-				'limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc';
+			var expected_uri = "/logs?limit=50&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&created_at%5B%3E%5D=2013-08-01T07%3A00%3A00.000Z&created_at%5B%3C%5D=2013-08-02T06%3A59%3A59.999Z";
 
 			var request = spy.getCall(spy.callCount - 1);
 			assert.ok(spy.callCount, 2);
@@ -117,17 +111,15 @@ test('filter logs by request failed only', function(assert) {
 		.then(function() {
 			setLogsProperties();
 		})
-		.click('.results .status-filter a:contains(Failed)')
+		.click('#logs .results .status-filter a:contains(Failed)')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Log,
-				'/logs?limit=2&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&sort=created_at%2Cdesc&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx'));
-
-			assert.equal($('table.logs tbody tr').length, 1, 'has no failures');
-			assert.equal($('table.logs tfoot td').length, 0, 'no "load more"');
-
-			// check the first row is the log we expect
-			assert.equal($('table.logs tbody tr td').first().text().trim(), 'No results');
-		});
+			assert.ok(spy.calledWith(Balanced.Log, "/logs?limit=2&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx"));
+		})
+		.checkElements({
+			'table.logs tbody tr': 1,
+			'table.logs tfoot td': "",
+			'table.logs tbody tr td': 'No results'
+		}, assert);
 });
 
 test('view a particular log entry', function(assert) {

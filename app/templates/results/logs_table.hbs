@@ -1,10 +1,10 @@
 <thead>
 	<tr>
 		<th class="span3 label6a has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}</th>
-		<th class="span3 label6a has-filter">
+		<th class="span3 label6a has-filter endpoint-filter">
 			{{view Balanced.LogsEndpointResultsDropdownFilterView model=resultsLoader}}
 		</th>
-		<th class="span3 label6a has-filter">
+		<th class="span3 label6a has-filter status-filter">
 			{{view Balanced.LogsStatusResultsDropdownFilterView model=resultsLoader}}
 		</th>
 		<th class="span11 label6a"><span>Method &amp; URI</span></th>
@@ -24,7 +24,7 @@
 	{{else}}
 		<tr>
 			<td colspan="4" class="no-results">
-				{{#if isLoaded}}
+				{{#if results.isLoaded}}
 					No results
 				{{else}}
 					Loading...
