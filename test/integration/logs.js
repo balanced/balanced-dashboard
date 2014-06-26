@@ -100,9 +100,11 @@ test('filter logs by datetime range', function(assert) {
 			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
 		.then(function() {
-			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker is still visible');
-			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
-			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
+			var controller = Balanced.__container__.lookup('controller:marketplaceLogs');
+			controller.get("resultsLoader").setProperties({
+				startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+				endTime: moment('2013-08-01T23:59:59.999Z').toDate()
+			});
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
@@ -112,8 +114,8 @@ test('filter logs by datetime range', function(assert) {
 
 			var query = Balanced.Utils.queryStringToObject(request.args[1]);
 			assert.deepEqual(query, {
-				"created_at[<]": "2013-08-02T06:59:59.999Z",
-				"created_at[>]": "2013-08-01T07:00:00.000Z",
+				"created_at[<]": "2013-08-01T23:59:59.999Z",
+				"created_at[>]": "2013-08-01T00:00:00.000Z",
 				limit: "50",
 				"method[in]": "post,put,delete",
 				offset: "0",
