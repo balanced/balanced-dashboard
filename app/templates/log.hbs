@@ -9,7 +9,11 @@
 		<dt>URI</dt>
 		<dd><span>{{model.short_url}}</span></dd>
 		<dt>Status</dt>
-		<dd><span>{{colorizeStatus model.message.response.status}}</span></dd>
+		<dd><span>{{colorizeStatus model.status_code}}</span></dd>
+		<dt>Category code</dt>
+		<dd>{{model.category_code}}</dd>
+		<dt>Description</dt>
+		<dd>{{model.description}}</dd>
 		<dt>Request ID</dt>
 		<dd data-property="request-id"><span>{{model.guru_id}}</span></dd>
 		<dt>IP address</dt>
