@@ -31,15 +31,21 @@ test('can visit page', function(assert) {
 		})
 		.then(function() {
 			var logRequest = spy.getCall(spy.callCount - 1);
+			var query = Balanced.Utils.queryStringToObject(logRequest.args[1]);
 			assert.equal(logRequest.args[0], Balanced.Log);
-			assert.equal(logRequest.args[1], "/logs?limit=2&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete");
+			assert.deepEqual(query, {
+				limit: "2",
+				sort: "created_at,desc",
+				offset: "0",
+				"method[in]": "post,put,delete"
+			});
 		})
 		.checkElements({
 			'#content h1': "Logs"
 		}, assert);
 });
 
-test('has logs in table', 3, function(assert) {
+test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
@@ -68,7 +74,14 @@ test('filter logs by endpoint bank accounts', function(assert) {
 		}, assert)
 		.click('.results .endpoint-filter a:contains(Bank accounts)')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Log, "/logs?limit=2&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&endpoint=bank_accounts"));
+			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
+			assert.deepEqual(query, {
+				endpoint: "bank_accounts",
+				limit: "2",
+				"method[in]": "post,put,delete",
+				offset: "0",
+				sort: "created_at,desc"
+			});
 		})
 		.checkElements({
 			'table.logs tbody tr': 1
@@ -93,12 +106,19 @@ test('filter logs by datetime range', function(assert) {
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
-			var expected_uri = "/logs?limit=50&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&created_at%5B%3E%5D=2013-08-01T07%3A00%3A00.000Z&created_at%5B%3C%5D=2013-08-02T06%3A59%3A59.999Z";
-
-			var request = spy.getCall(spy.callCount - 1);
-			assert.ok(spy.callCount, 2);
+			var request = spy.lastCall;
+			assert.equal(spy.callCount, 5);
 			assert.equal(request.args[0], Balanced.Log);
-			assert.equal(request.args[1], expected_uri);
+
+			var query = Balanced.Utils.queryStringToObject(request.args[1]);
+			assert.deepEqual(query, {
+				"created_at[<]": "2013-08-02T06:59:59.999Z",
+				"created_at[>]": "2013-08-01T07:00:00.000Z",
+				limit: "50",
+				"method[in]": "post,put,delete",
+				offset: "0",
+				sort: "created_at,desc"
+			});
 		});
 });
 
@@ -113,7 +133,15 @@ test('filter logs by request failed only', function(assert) {
 		})
 		.click('#logs .results .status-filter a:contains(Failed)')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Log, "/logs?limit=2&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&status_rollup%5Bin%5D=3xx%2C4xx%2C5xx"));
+			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
+			assert.equal(spy.lastCall.args[0], Balanced.Log);
+			assert.deepEqual(query, {
+				limit: "2",
+				sort: "created_at,desc",
+				offset: "0",
+				"method[in]": "post,put,delete",
+				"status_rollup[in]": "3xx,4xx,5xx"
+			});
 		})
 		.checkElements({
 			'table.logs tbody tr': 1,
