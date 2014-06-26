@@ -1,0 +1,14 @@
+<div id="search" {{bind-attr class="view.isOpen:with-results"}}>
+	<div {{bind-attr class=":search-field-container view.isHighlight:search-highlight"}}>
+		<label {{bind-attr for=view.queryField.elementId class=":icon-search view.isHighlight:search-highlight"}}></label>
+    {{input type="text" id="q" autocomplete="off" name="search_query" viewName="queryField" value=view.value}}
+		{{#if view.isLoading}}
+			<span class="query-loader">
+				<span class="loader loading"></span>
+			</span>
+		{{/if}}
+	</div>
+
+	<div class="modal-backdrop results-backdrop in" {{action "closeSearch"}}></div>
+	<div class="results">{{yield}}</div>
+</div>
