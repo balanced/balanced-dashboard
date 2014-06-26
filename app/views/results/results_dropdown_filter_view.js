@@ -10,97 +10,29 @@ Balanced.ResultsDropdownFilterView = Balanced.View.extend({
 	}
 });
 
-Balanced.TransactionTypesResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
-	toggleText: "Type",
-	filter: "typeFilters",
-	filters: function() {
-		var filters = [];
-		var addFilter = function(text, value) {
-			filters.push({
-				value: value.split(","),
-				text: text
-			});
-		};
-
-		addFilter("All", "debit,credit,hold,refund");
-		addFilter("Holds", "hold");
-		addFilter("Debits", "debit");
-		addFilter("Credits", "credit");
-		addFilter("Refunds", "refund");
-		addFilter("Reversals", "reversal");
-
-		return filters;
-	}.property(),
-});
-
-Balanced.FundingInstrumentTypesResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
-	toggleText: "Payment method",
-	filter: "typeFilters",
-	filters: function() {
-		var filters = [];
-		var addFilter = function(text, value) {
-			filters.push({
-				value: value.split(","),
-				text: text
-			});
-		};
-
-		addFilter("All", "card,bank_account");
-		addFilter("Cards", "card");
-		addFilter("Bank accounts", "bank_account");
-
-		return filters;
-	}.property(),
-});
-
-Balanced.TransactionStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
-	toggleText: "Status",
-	filter: "statusFilters",
-	filters: function() {
-		var filters = [];
-		var addFilter = function(text, value) {
-			filters.push({
-				value: value.split(","),
-				text: text
-			});
-		};
-
-		addFilter("All", "pending,succeeded,failed");
-		addFilter("Pending", "pending");
-		addFilter("Succeeded", "succeeded");
-		addFilter("Failed", "failed");
-
-		return filters;
-	}.property(),
-});
+var defineFilter = function(text, value) {
+	return {
+		value: value,
+		text: text
+	};
+};
 
 Balanced.LogsEndpointResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
 	toggleText: "Endpoint",
 	filter: "endpointFilters",
 	filters: function() {
-		var filters = [];
-		var addFilter = function(text, value) {
-			filters.push({
-				value: value.split(","),
-				text: text
-			});
-		};
-
-		filters.push({
-			value: undefined,
-			text: "All"
-		});
-		addFilter("Debits", "debits");
-		addFilter("Credits", "credits");
-		addFilter("Refunds", "refunds");
-		addFilter("Holds", "holds");
-		addFilter("Customers", "customers");
-		addFilter("Accounts", "accounts");
-		addFilter("Bank accounts", "bank_accounts");
-		addFilter("Cards", "Cards");
-		addFilter("Verifications", "verifications");
-
-		return filters;
+		return [
+			defineFilter("All", undefined),
+			defineFilter("Debits", ["debits"]),
+			defineFilter("Credits", ["credits"]),
+			defineFilter("Refunds", ["refunds"]),
+			defineFilter("Holds", ["holds"]),
+			defineFilter("Customers", ["customers"]),
+			defineFilter("Accounts", ["accounts"]),
+			defineFilter("Bank accounts", ["bank_accounts"]),
+			defineFilter("Cards", ["Cards"]),
+			defineFilter("Verifications", ["verifications"])
+		];
 	}.property(),
 });
 
@@ -108,21 +40,10 @@ Balanced.LogsStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilterVie
 	toggleText: "Status",
 	filter: "statusRollupFilters",
 	filters: function() {
-		var filters = [];
-		var addFilter = function(text, value) {
-			filters.push({
-				value: value.split(","),
-				text: text
-			});
-		};
-
-		filters.push({
-			value: undefined,
-			text: "All"
-		});
-		addFilter("Succeeded", "2xx");
-		addFilter("Failed", "3xx,4xx,5xx");
-
-		return filters;
+		return [
+			defineFilter("All", undefined),
+			defineFilter("Succeeded", ["2xx"]),
+			defineFilter("Failed", ["3xx", "4xx", "5xx"])
+		];
 	}.property(),
 });
