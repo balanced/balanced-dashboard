@@ -95,7 +95,7 @@ Balanced.LogsResultsLoader = Balanced.ResultsLoader.extend({
 		}
 		return attributes;
 
-	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit")
+	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit", "resource", "resource.id")
 });
 
 Balanced.SearchResultsLoader = Balanced.ResultsLoader.extend({
