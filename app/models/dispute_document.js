@@ -50,6 +50,6 @@ Balanced.DisputeDocument.reopenClass({
 	}
 });
 
-Balanced.Adapter.registerHostForType(Balanced.DisputeDocument, 'http://localhost:3000');
+Balanced.Adapter.registerHostForType(Balanced.DisputeDocument, ENV.BALANCED.JUSTITIA);
 
-Balanced.TypeMappings.addTypeMapping('dispute_documents', ENV.BALANCED.JUSTITIA);
+Balanced.TypeMappings.addTypeMapping('dispute_documents', 'Balanced.DisputeDocument');
