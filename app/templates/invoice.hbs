@@ -145,13 +145,15 @@
 					<td class="span3 total number3a"><span>{{formatCurrency disputes_total_fee}}</span></td>
 				</tr>
 			{{else}}
-				<tr class="hold-details-row">
-					<td class="span4 label4a"><span>Holds</span></td>
-					<td class="span2"><span>{{formatNumber holds_count}}</span></td>
-					<td class="span6"><span>{{formatCurrency holds_total_amount}}</span></td>
-					<td class="span7"><span>{{formatCurrency hold_fee}} per hold</span></td>
-					<td class="span3 total number3a"><span>{{formatCurrency holds_total_fee}}</span></td>
-				</tr>
+				{{#if hasHoldsFee}}
+					<tr class="hold-details-row">
+						<td class="span4 label4a"><span>Holds</span></td>
+						<td class="span2"><span>{{formatNumber holds_count}}</span></td>
+						<td class="span6"><span>{{formatCurrency holds_total_amount}}</span></td>
+						<td class="span7"><span>{{formatCurrency hold_fee}} per hold</span></td>
+						<td class="span3 total number3a"><span>{{formatCurrency holds_total_fee}}</span></td>
+					</tr>
+				{{/if}}
 				<tr class="card-debit-details-row">
 					<td class="span4 label4a"><span>Debits: cards</span></td>
 					<td class="span2"><span>{{formatNumber card_debits_count}}</span></td>
@@ -177,13 +179,6 @@
 					<td class="span6"><span>{{formatCurrency bank_account_credits_total_amount}}</span></td>
 					<td class="span7"><span>{{formatCurrency bank_account_credit_fee}} per credit</span></td>
 					<td class="span3 total number3a"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
-				</tr>
-				<tr class="push-to-card-details-row">
-					<td class="span4 label4a"><span>Push to card</span></td>
-					<td class="span2"><span>{{formatNumber card_credit_count}}</span></td>
-					<td class="span6"><span>{{formatCurrency card_credits_total_amount}}</span></td>
-					<td class="span7"><span>{{formatCurrency card_credit_fee}} per push to card</span></td>
-					<td class="span3 total number3a"><span>{{formatCurrency card_credits_total_fee}}</span></td>
 				</tr>
 				<tr class="failed-credit-details-row">
 					<td class="span4 label4a"><span>Credits: failed</span></td>
