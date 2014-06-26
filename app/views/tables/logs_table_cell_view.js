@@ -19,12 +19,12 @@ Balanced.LogStatusCellView = Balanced.LinkedTextCellView.extend({
 	isBlank: false,
 	primaryLabelText: Ember.computed.oneWay('item.message.response.status'),
 	secondaryLabelText: function() {
-		if (this.get('item.message.response.body.category_code')) {
-			return this.get('item.message.response.body.category_code').replace(/-/g, ' ');
+		if (this.get('item.message.response.body.errors')) {
+			return this.get('item.message.response.body.errors.0.description');
 		} else {
 			return undefined;
 		}
-	}.property('item.message.response.body.category_code'),
+	}.property('item.message.response.body.errors.status'),
 
 	spanClassNames: function() {
 		return this.get('primaryLabelText').match(/2\d\d/) ? 'succeeded' : 'failed';
