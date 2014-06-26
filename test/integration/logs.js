@@ -37,22 +37,6 @@ test('can visit page', function(assert) {
 		}, assert);
 });
 
-test('has logs in table', 3, function(assert) {
-	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav i.icon-logs')
-		.then(function() {
-			setLogsProperties();
-		})
-		.checkElements({
-			'table.logs tbody tr': 2
-		}, assert)
-		.click('table.logs tfoot tr a')
-		.checkElements({
-			'table.logs tbody tr': 4,
-			'table.logs tfoot td': 1
-		}, assert);
-});
-
 test('filter logs by endpoint bank accounts', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, 'get');
 
