@@ -36,7 +36,7 @@ test('disputes invoice details page', function(assert) {
 
 test("transactions invoice detail page filters", function(assert) {
 	var invoiceUri = '/invoices/IVDOATjeyAPTJMJPnBR83uE';
-	var spy = undefined;
+	var spy;
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.then(function() {
