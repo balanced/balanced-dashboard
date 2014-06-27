@@ -81,13 +81,8 @@ Balanced.ResultsTable = Ember.Mixin.create({
 		);
 
 		var type = this.get('type') || '';
-		if (['funding_instrument', 'customer', 'transaction', 'search'].indexOf(type) >= 0) {
-			searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
-			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
-		} else if (type === 'dispute') {
-			searchArray.set('sortProperties', 'initiated_at');
-			searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
-		}
+		searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
+		searchArray.set('sortAscending', this.get('sortOrder') === 'asc');
 
 		return searchArray;
 	}.property('fetch_results', 'results_uri', 'results_type', 'sortField', 'sortOrder'),
@@ -120,25 +115,14 @@ Balanced.ResultsTable = Ember.Mixin.create({
 	}.property('results_base_uri', 'search_params'),
 
 	search_params: function() {
-		if (this.get('type') === 'dispute') {
-			return _.extend({
-				type: this.get('type'),
-				minDate: this.get('minDate'),
-				maxDate: this.get('maxDate'),
-				sortField: 'initiated_at',
-				sortOrder: this.get('sortOrder'),
-				limit: this.get('limit')
-			});
-		} else {
-			return _.extend({
-				type: this.get('type'),
-				minDate: this.get('minDate'),
-				maxDate: this.get('maxDate'),
-				sortField: this.get('sortField'),
-				sortOrder: this.get('sortOrder'),
-				limit: this.get('limit')
-			}, this.get('extra_filtering_params'));
-		}
+		return _.extend({
+			type: this.get('type'),
+			minDate: this.get('minDate'),
+			maxDate: this.get('maxDate'),
+			sortField: this.get('sortField'),
+			sortOrder: this.get('sortOrder'),
+			limit: this.get('limit')
+		}, this.get('extra_filtering_params'));
 	}.property('type', 'minDate', 'maxDate', 'sortField', 'sortOrder', 'limit', 'extra_filtering_params'),
 
 	results_type: function() {
