@@ -445,7 +445,7 @@ Balanced.Utils = Ember.Namespace.create({
 			bytes = (bytes / 1000).toFixed(2) + ' kb';
 		} else if (bytes > 1) {
 			bytes = bytes + ' bytes';
-		} else if (bytes == 1) {
+		} else if (bytes === 1) {
 			bytes = bytes + ' byte';
 		} else {
 			bytes = '0 byte';

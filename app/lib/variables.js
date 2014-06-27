@@ -90,4 +90,4 @@ Balanced.BANK_NAMES = {
 Balanced.DISPUTE_DOCUMENTS = {
 	ACCEPTED_MIME_TYPES: ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg"],
 	MAX_FILE_SIZE_BYTES: 10485760
-}
+};
