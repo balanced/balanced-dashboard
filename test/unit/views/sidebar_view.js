@@ -1,7 +1,7 @@
-module("Balanced.MarketplaceSidebarView");
+module("Balanced.SidebarView");
 
 test("#dropdownDisplayLabel", function(assert) {
-	var view = Balanced.MarketplaceSidebarView.create();
+	var view = Balanced.SidebarView.create();
 
 	assert.deepEqual(view.get("dropdownDisplayLabel"), "Marketplaces");
 
