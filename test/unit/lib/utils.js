@@ -501,3 +501,12 @@ test('filterSensitivePropertiesMap', function(assert) {
 		assert.deepEqual(Balanced.Utils.filterSensitivePropertiesMap(inputs[i]), expected[i]);
 	}
 });
+
+test("#buildUri", function(assert) {
+	assert.deepEqual(Balanced.Utils.buildUri("/path"), "/path");
+	assert.deepEqual(Balanced.Utils.buildUri("/path", {}), "/path");
+	assert.deepEqual(Balanced.Utils.buildUri("/path", {
+		object: 1,
+		another: "2"
+	}), "/path?object=1&another=2");
+});

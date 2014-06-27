@@ -273,10 +273,12 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	buildUri: function(path, queryStringObject) {
-		var queryString = $.map(queryStringObject, function(v, k) {
+		var queryString = _.map(queryStringObject, function(v, k) {
 			return encodeURIComponent(k) + '=' + encodeURIComponent(v);
 		}).join('&');
-		return path + "?" + queryString;
+		return queryString ?
+			path + "?" + queryString :
+			path;
 	},
 
 	/*
