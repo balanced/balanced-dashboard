@@ -17,14 +17,8 @@ Balanced.LogStatusCellView = Balanced.LinkedTextCellView.extend({
 	routeName: Ember.computed.oneWay("item.route_name"),
 	classNameBindings: [":black"],
 	isBlank: false,
-	primaryLabelText: Ember.computed.oneWay('item.message.response.status'),
-	secondaryLabelText: function() {
-		if (this.get('item.message.response.body.category_code')) {
-			return this.get('item.message.response.body.category_code').replace(/-/g, ' ');
-		} else {
-			return undefined;
-		}
-	}.property('item.message.response.body.category_code'),
+	primaryLabelText: Ember.computed.oneWay('item.status_code'),
+	secondaryLabelText: Balanced.computed.transform('item.category_code', Balanced.Utils.formatStatusCode),
 
 	spanClassNames: function() {
 		return this.get('primaryLabelText').match(/2\d\d/) ? 'succeeded' : 'failed';

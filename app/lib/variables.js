@@ -34,7 +34,7 @@ Balanced.SEARCH = {
 	SEARCH_TYPES: ['debit', 'credit', 'card_hold', 'refund', "reversal"],
 	TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
 	FUNDING_INSTRUMENT_TYPES: ['bank_account', 'card'],
-	DISPUTE_TYPES: ['pending', 'won', 'lost']
+	DISPUTE_TYPES: ['pending', 'won', 'lost', 'arbitration']
 };
 
 //  time in ms to throttle between key presses for search

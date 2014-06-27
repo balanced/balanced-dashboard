@@ -3,27 +3,17 @@
 		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			<div id="logo"></div>
 			<span id="marketplace-name">
-				{{#if controllers.marketplace.name}}
-					{{controllers.marketplace.name}}
-				{{else}}
-					Marketplaces
-				{{/if}}
+				{{view.dropdownDisplayLabel}}
 			</span>
-
 			<b class="caret"></b>
 		</a>
 		{{partial "marketplaces_list"}}
 	</div>
 
-	{{#if marketplace}}
-		{{#view Balanced.MarketplaceSidebarView}}
-			<ul class="sidebar">
-				{{#each view.items}}
-					{{view this}}
-				{{/each}}
-			</ul>
-		{{/view}}
-	{{/if}}
-
+	<ul class="sidebar">
+		{{#each view.items}}
+			{{view this}}
+		{{/each}}
+	</ul>
 	{{partial "_footer"}}
 </nav>

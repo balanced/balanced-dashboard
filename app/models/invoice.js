@@ -45,6 +45,8 @@ Balanced.Invoice = Balanced.Model.extend({
 
 	isDispute: Ember.computed.equal('invoice_type', 'Disputes'),
 
+	hasHoldsFee: Ember.computed.gt('holds_total_fee', 0),
+
 	subtotal: function() {
 		var total = this.get('total_fee');
 		var adjustments = this.get('adjustments_total_fee');
