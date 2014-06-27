@@ -24,10 +24,10 @@
 							{{humanReadableDateShort doc.created_at}}</time></a>
 						</td>
 						<td class="second">
-							<a {{bind-attr href="doc.file_url"}}><span>{{doc.name}}</span></a>
+							<a {{bind-attr href="doc.file_url"}}><span>{{doc.file_name}}</span></a>
 						</td>
 						<td class="align-right">
-							<a {{bind-attr href="doc.file_url"}}><span>{{doc.size}}</span></a>
+							<a {{bind-attr href="doc.file_url"}}><span>{{doc.file_size}}</span></a>
 						</td>
 					</tr>
 				{{/each}}

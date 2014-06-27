@@ -86,3 +86,8 @@ Balanced.BANK_NAMES = {
 	'HSBC': ['Hsbc'],
 	'J.P. Morgan': ['Jpmorgan', 'J.p. Morgan'],
 };
+
+Balanced.DISPUTE_DOCUMENTS = {
+	ACCEPTED_MIME_TYPES: ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg"],
+	MAX_FILE_SIZE_BYTES: 10485760
+}

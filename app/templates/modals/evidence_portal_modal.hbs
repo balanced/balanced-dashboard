@@ -32,10 +32,10 @@
 								<tr {{bind-attr class=":table-row doc.isError:error"}}>
 									<td class="name">
 										<span {{bind-attr class="doc.isError:error"}}>
-											{{doc.name}}
+											{{doc.file_name}}
 										</span>
 									</td>
-									<td class="size"><span>{{doc.size}}</span></td>
+									<td class="size"><span>{{doc.file_size}}</span></td>
 									<td>
 										{{#if doc.isUploading}}
 											<div class="loader-container">
