@@ -150,6 +150,11 @@ Balanced.Router.map(function() {
 				path: '/account_statements'
 			});
 
+			this.route("logs");
+			this.resource("log", {
+				path: "/logs/:item_id"
+			});
+
 			this.resource('invoice', {
 				path: '/account_statements/:item_id'
 			});
@@ -160,7 +165,6 @@ Balanced.Router.map(function() {
 
 			makeNestedResource(this, 'disputes', 'dispute');
 
-			makeNestedResource(this, 'logs', 'log');
 		});
 
 	});
