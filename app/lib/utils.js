@@ -268,16 +268,15 @@ Balanced.Utils = Ember.Namespace.create({
 		}
 
 		filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));
-
 		filteringParams = Balanced.Utils.sortDict(filteringParams);
+		return this.buildUri(uri, filteringParams);
+	},
 
-		var queryString = $.map(filteringParams, function(v, k) {
+	buildUri: function(path, queryStringObject) {
+		var queryString = $.map(queryStringObject, function(v, k) {
 			return encodeURIComponent(k) + '=' + encodeURIComponent(v);
 		}).join('&');
-
-		uri += '?' + queryString;
-
-		return uri;
+		return path + "?" + queryString;
 	},
 
 	/*
