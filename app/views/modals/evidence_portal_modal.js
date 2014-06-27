@@ -25,11 +25,11 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 	noValidDocument: Ember.computed.equal('validDocumentCount', 0),
 	isDisabled: Balanced.computed.orProperties('noValidDocument', 'model.isSaving'),
 
-	addFiles: function(e, data) {
+	addFiles: function(files) {
 		var documentsToUpload = this.get('documentsToUpload');
 		var errorCount = 0;
 
-		_.each(data.files, function(file) {
+		_.each(files, function(file) {
 			// Dont add documents we've already seen
 			if (file.uuid) {
 				return;
@@ -91,7 +91,8 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 
 	actions: {
 		fileSelectionChanged: function() {
-			this.addFiles(event, event.target);
+			var fileInput = this.$("#fileupload").get(0);
+			this.addFiles(fileInput.files);
 		},
 
 		remove: function(doc) {
