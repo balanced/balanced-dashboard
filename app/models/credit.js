@@ -48,7 +48,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 			if (this.get('failure_reason') || this.get('failure_reason_code')) {
 				return this.get('failure_reason') || this.get('failure_reason_code');
 			}
-			return "Update the customer account with corrected bank account information. Then resubmit the credit.";
+			return "The transaction failed, no failure reason was given.";
 		} else {
 			return undefined;
 		}

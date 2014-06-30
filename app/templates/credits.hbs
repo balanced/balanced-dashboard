@@ -17,7 +17,7 @@
 	{{txn-customer customer=customer}}
 
 	<div class="transaction-details">
-		{{#each reversal in model.reversals}}
+		{{#each reversal in reversalsLoader.results}}
 			{{txn-reversal reversal=reversal}}
 		{{/each}}
 
