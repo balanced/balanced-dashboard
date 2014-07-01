@@ -83,6 +83,19 @@ Balanced.DisputesResultsLoader = Balanced.ResultsLoader.extend({
 	typeFilters: ["debit"],
 });
 
+Balanced.CreditReversalsResultsLoader = Balanced.ResultsLoader.extend({
+	resultsType: function() {
+		return Balanced.Reversal;
+	}.property(),
+	path: Ember.computed.oneWay("credit.reversals_uri"),
+	statusFilters: ["failed", "succeeded", "pending"],
+	queryStringArguments: function() {
+		return {
+			"status[in]": this.get("statusFilters").join(",")
+		};
+	}.property("statusFilters")
+});
+
 Balanced.LogsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Log,
 	path: "/logs",
