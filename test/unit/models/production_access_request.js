@@ -2,6 +2,7 @@ module("Balanced.ProductionAccessRequest");
 
 test("companyType validation", function(assert) {
 	var subject = Balanced.ProductionAccessRequest.create({
+		isBusiness: true,
 		companyType: "other"
 	});
 
@@ -12,6 +13,13 @@ test("companyType validation", function(assert) {
 		companyType: "llc"
 	});
 
+	subject.validateProperty('companyType');
+	assert.deepEqual(subject.get("validationErrors.fullMessages"), []);
+
+	subject = Balanced.ProductionAccessRequest.create({
+		isBusiness: false,
+		companyType: "other"
+	});
 	subject.validateProperty('companyType');
 	assert.deepEqual(subject.get("validationErrors.fullMessages"), []);
 });
