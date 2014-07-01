@@ -360,7 +360,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 					var acceptedValues = Balanced.Marketplace.COMPANY_TYPES.map(function(v) {
 						return v.value;
 					});
-					if (!Balanced.Marketplace.COMPANY_TYPES.isAny("value", value)) {
+					if (object.get("isBusiness") && !Balanced.Marketplace.COMPANY_TYPES.isAny("value", value)) {
 						object.get('validationErrors').add(attribute, 'included', null, 'must be one of %@'.fmt(acceptedValues.join(", ")));
 					}
 				},
