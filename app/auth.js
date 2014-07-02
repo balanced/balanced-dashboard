@@ -1,3 +1,15 @@
+var request = function(opts) {
+	var deferred = Ember.RSVP.defer();
+	Balanced.NET.ajax(opts || {})
+		.done(function(response) {
+			deferred.resolve(response);
+		})
+		.fail(function(response) {
+			deferred.reject(response);
+		});
+	return deferred.promise;
+};
+
 var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 	signInRequest: function(options) {
 		var self = this;
@@ -5,8 +17,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
 		}, options);
-		return this
-			.request(attributes)
+		return request(attributes)
 			.then(function(response) {
 				var user = Balanced.User.create();
 				user.populateFromJsonResponse(response.user);
@@ -16,7 +27,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 					response.user_id,
 					response.user_id,
 					false
-				)
+				);
 				self.rememberLogin(response.uri);
 				return user;
 			})
@@ -24,7 +35,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 				return self.loadExtensions(user);
 			})
 			.
-		catch (function(jqxhr) {
+		catch(function(jqxhr) {
 			if (jqxhr.responseJSON && jqxhr.responseJSON.uri) {
 				self.rememberLogin(jqxhr.responseJSON.uri);
 			}
@@ -43,28 +54,28 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 	getCurrentLogin: function() {
 		var self = this;
 
+
 		return this
 			.signInRequest({
 				url: ENV.BALANCED.AUTH + '/logins/current',
 				type: 'GET'
 			})
-			.
-		catch (function() {
-			var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
-			if (authCookie) {
-				return self._doSignIn({
-					data: {
-						uri: authCookie
-					}
-				});
-			} else {
-				var existingApiKey = self.getGuestAPIKey();
+			.then(undefined, function() {
+				var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
+				if (authCookie) {
+					return self.signInRequest({
+						data: {
+							uri: authCookie
+						}
+					});
+				} else {
+					var existingApiKey = self.getGuestAPIKey();
 
-				if (existingApiKey) {
-					return self.rememberGuestUser(existingApiKey);
+					if (existingApiKey) {
+						return self.rememberGuestUser(existingApiKey);
+					}
 				}
-			}
-		});
+			});
 	},
 
 	rememberGuestUser: function(apiKey) {
@@ -135,7 +146,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
 		};
-		return this.request(attributes)
+		return request(attributes)
 			.then(function() {
 				Balanced.NET.loadCSRFToken();
 			});
@@ -161,26 +172,12 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 	loadExtensions: function() {
 		var promises = _.map(this.getExtensions(), function(val, key) {
 			var deferred = Ember.RSVP.defer();
-			var resolve = _.bind(deferred.resolve, deferred);
-			$.getScript(key).then(resolve, resolve);
+			$.getScript(key).always(function() {
+				deferred.resolve();
+			});
 			return deferred.promise;
 		});
 		return Ember.RSVP.allSettled(promises);
-	},
-
-	request: function(opts) {
-		var self = this;
-		var deferred = Ember.RSVP.defer();
-
-		Balanced.NET.ajax(opts || {})
-			.done(function(response) {
-				deferred.resolve(response);
-			})
-			.fail(function(response) {
-				deferred.reject(response);
-			});
-
-		return deferred.promise;
 	},
 
 	enableMultiFactorAuthentication: function() {
@@ -190,7 +187,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			type: 'POST',
 		};
 
-		return this.request(attributes)
+		return request(attributes)
 			.then(function(response) {
 				self.set('OTPSecret', response);
 			});
@@ -203,7 +200,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			type: 'DELETE',
 		};
 
-		return this.request(attributes)
+		return request(attributes)
 			.then(function() {
 				self.set('OTPSecret', null);
 				self.set('user.otp_enabled', false);
@@ -220,7 +217,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			},
 			dataType: 'JSON'
 		};
-		return this.request(attributes)
+		return request(attributes)
 			.then(function(response) {
 				var user = self.get('user') || Balanced.User.create();
 				user.populateFromJsonResponse(response.user);
