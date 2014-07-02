@@ -1,23 +1,22 @@
-var request = function(opts) {
-	var deferred = Ember.RSVP.defer();
-	Balanced.NET.ajax(opts || {})
-		.done(function(response) {
-			deferred.resolve(response);
-		})
-		.fail(function(response) {
-			deferred.reject(response);
-		});
-	return deferred.promise;
-};
-
 var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
+	request: function(opts) {
+		var deferred = Ember.RSVP.defer();
+		Balanced.NET.ajax(opts || {})
+			.done(function(response) {
+				deferred.resolve(response);
+			})
+			.fail(function(response) {
+				deferred.reject(response);
+			});
+		return deferred.promise;
+	},
 	signInRequest: function(options) {
 		var self = this;
 		var attributes = _.extend({}, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
 		}, options);
-		return request(attributes)
+		return this.request(attributes)
 			.then(function(response) {
 				var user = Balanced.User.create();
 				user.populateFromJsonResponse(response.user);
@@ -38,6 +37,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 				if (jqxhr.responseJSON && jqxhr.responseJSON.uri) {
 					self.rememberLogin(jqxhr.responseJSON.uri);
 				}
+				return Ember.RSVP.reject(jqxhr);
 			});
 	},
 
@@ -143,7 +143,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
 		};
-		return request(attributes)
+		return this.request(attributes)
 			.then(function() {
 				Balanced.NET.loadCSRFToken();
 			});
@@ -184,7 +184,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			type: 'POST',
 		};
 
-		return request(attributes)
+		return this.request(attributes)
 			.then(function(response) {
 				self.set('OTPSecret', response);
 			});
@@ -197,7 +197,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			type: 'DELETE',
 		};
 
-		return request(attributes)
+		return this.request(attributes)
 			.then(function() {
 				self.set('OTPSecret', null);
 				self.set('user.otp_enabled', false);
@@ -214,7 +214,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			},
 			dataType: 'JSON'
 		};
-		return request(attributes)
+		return this.request(attributes)
 			.then(function(response) {
 				var user = self.get('user') || Balanced.User.create();
 				user.populateFromJsonResponse(response.user);
