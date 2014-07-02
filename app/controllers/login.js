@@ -178,7 +178,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						loginResponse: message
 					});
 				}
-			}).always(function() {
+			}).
+			finally(function() {
 				self.set('isSubmitting', false);
 			});
 		}

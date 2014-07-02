@@ -6,18 +6,6 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 		this.set('errorTimestamps', []);
 	},
 
-	beforeModel: function() {
-		if (window.TESTING || this.get('auth.signedIn')) {
-			return;
-		}
-
-		var self = this;
-
-		return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
-			return self.get('auth').rememberMeSignIn();
-		});
-	},
-
 	actions: {
 		openModal: function() {
 			var args = ["openModal"].concat(_.toArray(arguments));

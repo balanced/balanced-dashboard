@@ -1,46 +1,38 @@
-var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
-	_doSignIn: function(opts) {
+var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
+	signInRequest: function(options) {
 		var self = this;
-		if (null == opts) {
-			opts = {};
-		}
-
-		return this.request($.extend(true, {
+		var attributes = _.extend({}, {
 			url: ENV.BALANCED.AUTH + '/logins',
 			type: 'POST'
-		}, opts), 'signIn', _.bind(this.onSuccessfulLogin, this)).fail(function(jqxhr) {
-			if (!jqxhr.responseJSON) {
-				return;
-			}
-
-			if (jqxhr.responseJSON.uri) {
+		}, options);
+		return this
+			.request(attributes)
+			.then(function(response) {
+				var user = Balanced.User.create();
+				user.populateFromJsonResponse(response.user);
+				self.setAuthProperties(
+					true,
+					user,
+					response.user_id,
+					response.user_id,
+					false
+				)
+				self.rememberLogin(response.uri);
+				return user;
+			})
+			.then(function(user) {
+				return self.loadExtensions(user);
+			})
+			.
+		catch (function(jqxhr) {
+			if (jqxhr.responseJSON && jqxhr.responseJSON.uri) {
 				self.rememberLogin(jqxhr.responseJSON.uri);
 			}
 		});
 	},
 
-	onSuccessfulLogin: function(response, status, jqxhr) {
-		var user = Balanced.User.create();
-
-		user.populateFromJsonResponse(response.user);
-
-		this.setAuthProperties(true,
-			user,
-			response.user_id,
-			response.user_id,
-			false);
-
-		this.rememberLogin(response.uri);
-	},
-
-	getCurrentLogin: function() {
-		return this.request({
-			url: ENV.BALANCED.AUTH + '/logins/current'
-		}, 'signIn', _.bind(this.onSuccessfulLogin, this));
-	},
-
 	signIn: function(emailAddress, password) {
-		return this._doSignIn({
+		return this.signInRequest({
 			data: {
 				email_address: emailAddress,
 				password: password
@@ -48,14 +40,17 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		});
 	},
 
-	rememberMeSignIn: function() {
+	getCurrentLogin: function() {
 		var self = this;
 
-		this.getCurrentLogin().fail(function() {
-			// Can't remove this code
-			// This code checks the current auth token
-			var authCookie = self.retrieveLogin();
-
+		return this
+			.signInRequest({
+				url: ENV.BALANCED.AUTH + '/logins/current',
+				type: 'GET'
+			})
+			.
+		catch (function() {
+			var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
 			if (authCookie) {
 				return self._doSignIn({
 					data: {
@@ -76,17 +71,18 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		var self = this;
 		this.setAPIKey(apiKey);
 
-		return Balanced.APIKey.findAll().then(function(apiKeys) {
-			var apiKeysWithSecrets = apiKeys.filterBy('secret');
-			var secret = apiKeysWithSecrets.length ? apiKeysWithSecrets[0].get('secret') : null;
-
-			self.loginGuestUser(secret);
-			return Balanced.Marketplace.findAll().then(function(marketplaces) {
+		return Balanced.APIKey.findAll()
+			.then(function(apiKeys) {
+				var apiKeysWithSecrets = apiKeys.filterBy('secret');
+				var secret = apiKeysWithSecrets.length ? apiKeysWithSecrets[0].get('secret') : null;
+				self.loginGuestUser(secret);
+				return Balanced.Marketplace.findAll();
+			})
+			.then(function(marketplaces) {
 				var marketplace = marketplaces.get('length') ? marketplaces.objectAt(0) : null;
 				self.setupGuestUserMarketplace(marketplace);
 				return marketplace;
 			});
-		});
 	},
 
 	loginGuestUser: function(apiKey) {
@@ -133,130 +129,120 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	signOut: function() {
-		var self = this;
-
 		this.forgetLogin();
 		this.forgetLastUsedMarketplaceUri();
-
-		return this.request({
+		var attributes = {
 			url: ENV.BALANCED.AUTH + '/logins/current',
 			type: 'DELETE'
-		}, 'signOut', function() {
-			Balanced.NET.loadCSRFToken();
-		});
+		};
+		return this.request(attributes)
+			.then(function() {
+				Balanced.NET.loadCSRFToken();
+			});
 	},
 
 	createNewGuestUser: function() {
 		var self = this;
 		this.unsetAPIKey();
 
-		return Balanced.APIKey.create().save().then(function(apiKey) {
-			self.loginGuestUser(apiKey.get('secret'));
-			return apiKey;
-		});
+		return Balanced.APIKey
+			.create()
+			.save()
+			.then(function(apiKey) {
+				self.loginGuestUser(apiKey.get('secret'));
+				return apiKey;
+			});
 	},
 
 	getExtensions: function() {
-		var extensions = ENV.BALANCED.EXT || this.get('user.ext');
-		if (!extensions || !_.isObject(extensions)) {
-			return;
-		}
+		return ENV.BALANCED.EXT || this.get("user.ext");
+	},
 
-		var exts = _.map(extensions, function(val, key) {
-			return $.getScript(key);
+	loadExtensions: function() {
+		var promises = _.map(this.getExtensions(), function(val, key) {
+			var deferred = Ember.RSVP.defer();
+			var resolve = _.bind(deferred.resolve, deferred);
+			$.getScript(key).then(resolve, resolve);
+			return deferred.promise;
 		});
+		return Ember.RSVP.allSettled(promises);
+	},
 
-		// Ember.RSVP.all(exts).then(_.bind(this.loadAdminExtension, this));
-	}.observes('user', 'user.ext', 'ENV.BALANCED.EXT'),
-
-	loadAdminExtension: _.debounce(function() {
-		if (!this.get('user') || !this.get('signInTransitionCalled')) {
-			return;
-		}
-
-		var admin = 'balanced-admin';
-		if (this.get('user.admin') && !Balanced.Shapeshifter.isLoaded(admin)) {
-			Balanced.Shapeshifter.load(admin);
-		} else if (!this.get('user.admin') && Balanced.Shapeshifter.isLoaded(admin)) {
-			Balanced.Shapeshifter.unload(admin);
-		}
-	}, 500).observes('user', 'user.admin'),
-
-	request: function(opts, eventName, successFn) {
+	request: function(opts) {
 		var self = this;
+		var deferred = Ember.RSVP.defer();
 
-		if (!opts) {
-			opts = {};
-		}
-
-		return Balanced.NET.ajax(opts).done(successFn)
-			.done(function(response, status, jqxhr) {
-				self.trigger(eventName + 'Success');
-			}).fail(function() {
-				self.trigger(eventName + 'Error');
-			}).always(function() {
-				self.trigger(eventName + 'Complete');
+		Balanced.NET.ajax(opts || {})
+			.done(function(response) {
+				deferred.resolve(response);
+			})
+			.fail(function(response) {
+				deferred.reject(response);
 			});
+
+		return deferred.promise;
 	},
 
 	enableMultiFactorAuthentication: function() {
 		var self = this;
-
-		return this.request({
+		var attributes = {
 			url: this.get('user.multiFactorAuthUri'),
 			type: 'POST',
-		}, 'enableAuth', function(response, status, jqxhr) {
-			self.set('OTPSecret', response);
-		});
+		};
+
+		return this.request(attributes)
+			.then(function(response) {
+				self.set('OTPSecret', response);
+			});
 	},
 
 	disableMultiFactorAuthentication: function() {
 		var self = this;
-
-		return this.request({
+		var attributes = {
 			url: this.get('user.multiFactorAuthUri'),
 			type: 'DELETE',
-		}, 'disableAuth', function() {
-			self.setProperties({
-				OTPSecret: null
-			});
+		};
 
-			self.set('user.otp_enabled', false);
-		});
+		return this.request(attributes)
+			.then(function() {
+				self.set('OTPSecret', null);
+				self.set('user.otp_enabled', false);
+			});
 	},
 
 	confirmOTP: function(token) {
 		var self = this;
-
-		return this.request({
+		var attributes = {
 			url: ENV.BALANCED.AUTH + this.get('lastLoginUri'),
 			type: 'PUT',
 			data: {
 				confirm: token
 			},
 			dataType: 'JSON'
-		}, 'confirmOTP', function(response, status, jqxhr) {
-			var user = self.get('user') || Balanced.User.create();
-			user.populateFromJsonResponse(response.user);
+		};
+		return this.request(attributes)
+			.then(function(response) {
+				var user = self.get('user') || Balanced.User.create();
+				user.populateFromJsonResponse(response.user);
 
-			if (!self.get('signedIn')) {
-				self.setAuthProperties(true,
-					user,
-					response.user_id,
-					response.user_id,
-					false);
+				if (!self.get('signedIn')) {
+					self.setAuthProperties(true,
+						user,
+						response.user_id,
+						response.user_id,
+						false);
 
-				self.rememberLogin(response.uri);
-			}
-		});
+					self.rememberLogin(response.uri);
+				}
+			});
 	},
 
 	setAuthProperties: function(signedIn, user, userId, authToken, isGuest) {
 		this.setProperties({
-			authToken: authToken,
-			userId: userId,
 			signedIn: signedIn,
 			user: user,
+			userId: userId,
+			authToken: authToken,
 			isGuest: isGuest
 		});
 
@@ -265,8 +251,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			instantiate: false,
 			singleton: true
 		});
-
-		this.getExtensions();
 	},
 
 	rememberLogin: function(token) {
@@ -279,17 +263,9 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	forgetLogin: function() {
-		// Removing from the root domain since we were setting it on the root
-		// domain for a while. This line can be removed after Aug 23, 2013
 		_.each([Balanced.COOKIE.EMBER_AUTH_TOKEN, Balanced.COOKIE.API_KEY_SECRET, Balanced.COOKIE.SESSION], function(CONST_VAR) {
 			$.removeCookie(CONST_VAR, {
 				path: '/'
-			});
-
-			// Just to be sure
-			$.removeCookie(CONST_VAR, {
-				path: '/',
-				domain: 'balancedpayments.com'
 			});
 		});
 
@@ -304,10 +280,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		this.setAuthProperties(false, null, null, null, false);
 
 		Balanced.Utils.setCurrentMarketplace(null);
-	},
-
-	retrieveLogin: function() {
-		return $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
 	},
 
 	setAPIKey: function(apiKeySecret) {
@@ -346,7 +318,13 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			path: '/'
 		});
 	}
+
 });
+
+
+var auth = Balanced.Auth = AuthenticationModel.create();
+// Ember.Namespace.extend(Ember.Evented).create({
+//});
 
 Balanced.register('user:main', null, {
 	instantiate: false,
@@ -379,17 +357,3 @@ if (!Balanced.constructor.initializers.injectAuth) {
 		}
 	});
 }
-
-// Hack. Wait for route transition success callback before
-// loading any plugins/shapeshifter
-// because EmberJS Application can only rerender once
-// See https://github.com/emberjs/ember.js/issues/2267
-auth.on('signInTransition', function() {
-	auth.set('signInTransitionCalled', true);
-
-	// Delay it for 500ms to give time for any
-	// transition to finish loading
-	Ember.run.next(function() {
-		_.delay(_.bind(auth.loadAdminExtension, auth), 500);
-	});
-});
