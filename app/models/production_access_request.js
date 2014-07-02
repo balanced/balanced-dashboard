@@ -299,7 +299,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				return self.saveVerification(bankAccount);
 			})
 			.
-		catch(function(error) {
+		catch (function(error) {
 			Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
 				extra: {
 					response: error,
@@ -328,7 +328,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				marketplace = mp;
 				self.logSaveMessage("Successful Marketplace Signup");
 				return self.verifyBankAccount(marketplace).
-				catch(function(error) {
+				catch (function(error) {
 					self.logSaveError(error);
 				});
 			}, function(error) {
