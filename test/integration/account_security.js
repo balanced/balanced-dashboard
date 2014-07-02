@@ -52,7 +52,7 @@ test('Can see change email modal', function(assert) {
 
 test('Can disable', function(assert) {
 	var spy = sinon.stub(Balanced.Auth, 'request')
-		.returns(Ember.RSVP.resolve());;
+		.returns(Ember.RSVP.resolve());
 	Balanced.Auth.set('user.otp_enabled', true);
 
 	visit('/security')
