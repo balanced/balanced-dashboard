@@ -4,14 +4,18 @@ module('Account Security', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Auth.enableMultiFactorAuthentication,
-			Balanced.Auth.disableMultiFactorAuthentication
+			Balanced.Auth.request
 		);
 	}
 });
 
 test('Can enable', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, 'enableMultiFactorAuthentication');
+	var spy = sinon.stub(Balanced.Auth, 'request')
+		.returns(Ember.RSVP.resolve({
+			id: "USxxxxxxxxxxxxxxx",
+			secret: "VERYSECRET",
+			secret_uri: "otpauth://xxxxxxxxxxxxxxxxxxxxxxx"
+		}));
 
 	visit('/security')
 		.checkElements({
@@ -47,7 +51,8 @@ test('Can see change email modal', function(assert) {
 });
 
 test('Can disable', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, 'disableMultiFactorAuthentication');
+	var spy = sinon.stub(Balanced.Auth, 'request')
+		.returns(Ember.RSVP.resolve());;
 	Balanced.Auth.set('user.otp_enabled', true);
 
 	visit('/security')

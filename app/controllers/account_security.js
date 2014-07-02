@@ -60,15 +60,16 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 	loadQRCode: function() {
 		var self = this;
 
-		$.getScript('//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js', function() {
-			var otpSecret = self.get('auth.OTPSecret');
+		$.getScript('//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js')
+			.then(function() {
+				var otpSecret = self.get('auth.OTPSecret');
 
-			if ($.fn.qrcode) {
-				$('#qrcode').qrcode(otpSecret.secret_uri);
-			} else {
-				setTimeout(_.bind(self.loadQRCode, self), 100);
-			}
-		});
+				if ($.fn.qrcode) {
+					$('#qrcode').qrcode(otpSecret.secret_uri);
+				} else {
+					setTimeout(_.bind(self.loadQRCode, self), 100);
+				}
+			});
 	},
 
 	actions: {

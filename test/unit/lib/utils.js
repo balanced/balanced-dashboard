@@ -201,7 +201,7 @@ test('stripDomain', function(assert) {
 		'https://api.balancedpayments.com/v1/marketplaces',
 		'http://api.balancedpayments.com/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
 		'https://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
-		'http://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s&limit=2&offset=0',
+		'http://api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s&limit=10&offset=0',
 		'/v1/customers',
 		'api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk'
 	];
@@ -210,7 +210,7 @@ test('stripDomain', function(assert) {
 		'/v1/marketplaces',
 		'/v1/marketplaces/TEST-MP5noKWGqLyLOLKkQkJmKg9s',
 		'/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts',
-		'/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s&limit=2&offset=0',
+		'/v1/customers/AC5npjjazD5O0cKfEkizNghk/bank_accounts?marketplace=TEST-MP5noKWGqLyLOLKkQkJmKg9s&limit=10&offset=0',
 		'/v1/customers',
 		'api.balancedpayments.com/v1/customers/AC5npjjazD5O0cKfEkizNghk'
 	];
@@ -397,7 +397,7 @@ test('applyUriFilters', function(assert) {
 
 	var expected = [
 		'http://example.com/something?limit=10&offset=0&q=hello',
-		'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=10&offset=87&q=hello&sortOder=asc&type=foobar',
+		'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=23&offset=87&q=hello&sortOder=asc&type=foobar',
 		'http://example.com/something?custom=woohoo&limit=10&offset=0&q=hello',
 		'http://example.com/something?limit=10&offset=0&q=nick%2Btest1%40rasslingcats.com',
 		null
