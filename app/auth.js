@@ -34,12 +34,11 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			.then(function(user) {
 				return self.loadExtensions(user);
 			})
-			.
-		catch(function(jqxhr) {
-			if (jqxhr.responseJSON && jqxhr.responseJSON.uri) {
-				self.rememberLogin(jqxhr.responseJSON.uri);
-			}
-		});
+			.then(undefined, function(jqxhr) {
+				if (jqxhr.responseJSON && jqxhr.responseJSON.uri) {
+					self.rememberLogin(jqxhr.responseJSON.uri);
+				}
+			});
 	},
 
 	signIn: function(emailAddress, password) {
@@ -53,8 +52,6 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 
 	getCurrentLogin: function() {
 		var self = this;
-
-
 		return this
 			.signInRequest({
 				url: ENV.BALANCED.AUTH + '/logins/current',
