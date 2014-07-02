@@ -216,7 +216,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	logValidationErrors: function() {
 		this.logSaveMessage("Balanced.ProductionAccessRequest#ValidationError", {
-			validationMessages: this.get("validationErrors.allMessages")
+			validationMessages: this.get("validationErrors.allMessages"),
+			isValid: this.get("isValid")
 		});
 	},
 
