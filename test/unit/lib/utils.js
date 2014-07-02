@@ -396,10 +396,10 @@ test('applyUriFilters', function(assert) {
 	}];
 
 	var expected = [
-		'http://example.com/something?limit=2&offset=0&q=hello',
-		'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=2&offset=87&q=hello&sortOder=asc&type=foobar',
-		'http://example.com/something?custom=woohoo&limit=2&offset=0&q=hello',
-		'http://example.com/something?limit=2&offset=0&q=nick%2Btest1%40rasslingcats.com',
+		'http://example.com/something?limit=10&offset=0&q=hello',
+		'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=10&offset=87&q=hello&sortOder=asc&type=foobar',
+		'http://example.com/something?custom=woohoo&limit=10&offset=0&q=hello',
+		'http://example.com/something?limit=10&offset=0&q=nick%2Btest1%40rasslingcats.com',
 		null
 	];
 
