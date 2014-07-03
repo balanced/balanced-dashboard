@@ -31,7 +31,16 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				return user;
 			})
 			.then(function(user) {
-				return self.loadExtensions(user);
+				return self.loadExtensions(user)
+					.then(function() {
+						return user;
+					});
+			})
+			.then(function(user) {
+				if (user.get("admin")) {
+					Balanced.Shapeshifter.load("balanced-admin", true);
+				}
+				return user;
 			})
 			.then(undefined, function(jqxhr) {
 				if (jqxhr.responseJSON && jqxhr.responseJSON.uri) {
