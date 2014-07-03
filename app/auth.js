@@ -1,4 +1,4 @@
-var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
+var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	request: function(opts) {
 		var deferred = Ember.RSVP.defer();
 		Balanced.NET.ajax(opts || {})
@@ -312,13 +312,7 @@ var AuthenticationModel = Ember.Object.extend(Ember.Evented, {
 			path: '/'
 		});
 	}
-
 });
-
-
-var auth = Balanced.Auth = AuthenticationModel.create();
-// Ember.Namespace.extend(Ember.Evented).create({
-//});
 
 Balanced.register('user:main', null, {
 	instantiate: false,
