@@ -43,7 +43,7 @@ test('can visit page', function(assert) {
 			var resultsUri = getResultsUri();
 			assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
 			assertQueryString(resultsUri, {
-				limit: "2",
+				limit: "50",
 				offset: "0",
 				q: "",
 				sort: "created_at,desc",
