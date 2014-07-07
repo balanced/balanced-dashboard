@@ -117,68 +117,71 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			auth.signIn(
 				this.get('email') || $('form input[type=email]').val(),
 				this.get('password') || $('form input[type=password]').val()
-			).then(function() {
-				// When we add the MFA modal to ask users to login
-				// self.send('openMFAInformationModal');
-				// For now tho:
-				self.afterLogin();
-			}, function(jqxhr, status, message) {
-				self.focus();
-				self.set('password', null);
+			)
+				.then(function() {
+					// When we add the MFA modal to ask users to login
+					// self.send('openMFAInformationModal');
+					// For now tho:
+					self.afterLogin();
+				}, function(jqxhr, status, message) {
+					self.focus();
+					self.set('password', null);
 
-				if (jqxhr.status === 401) {
-					self.setProperties({
-						loginError: true,
-						loginResponse: 'Invalid e-mail address or password.'
-					});
-					return;
-				}
-
-				if (typeof jqxhr.responseText !== "undefined" && jqxhr.responseText) {
-					var responseText = jqxhr.responseJSON;
-
-					// What if responseJSON is null/undefined:
-					// 1. Try to parse it ourselves
-					// 2. If all else fails, assume that the responseText
-					//    is the error message to be shown
-					if (!responseText) {
-						try {
-							responseText = JSON.parse(jqxhr.responseText);
-						} catch (e) {
-							responseText = {
-								detail: jqxhr.responseText
-							};
-						}
+					if (jqxhr.status === 401) {
+						self.setProperties({
+							loginError: true,
+							loginResponse: 'Invalid e-mail address or password.'
+						});
+						return;
 					}
 
-					// OTP Required Case
-					if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
-						self.set('otpRequired', true);
-					} else {
-						self.set('loginError', true);
+					if (jqxhr.responseText !== "undefined" && jqxhr.responseText) {
+						var responseText = jqxhr.responseJSON;
 
-						var error;
-						if (typeof responseText.email_address !== 'undefined') {
-							error = responseText.email_address[0].replace('This', 'Email');
-						} else if (typeof responseText.password !== 'undefined') {
-							error = responseText.password[0].replace('This', 'Password');
-						} else if (responseText.detail) {
-							error = responseText.detail;
+						// What if responseJSON is null/undefined:
+						// 1. Try to parse it ourselves
+						// 2. If all else fails, assume that the responseText
+						//    is the error message to be shown
+						if (!responseText) {
+							try {
+								responseText = JSON.parse(jqxhr.responseText);
+							} catch (e) {
+								responseText = {
+									detail: jqxhr.responseText
+								};
+							}
 						}
 
-						if (error) {
-							self.set('loginResponse', error);
+						// OTP Required Case
+						if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
+							self.set('otpRequired', true);
+						} else {
+							self.set('loginError', true);
+
+							var error;
+							if (typeof responseText.email_address !== 'undefined') {
+								error = responseText.email_address[0].replace('This', 'Email');
+							} else if (typeof responseText.password !== 'undefined') {
+								error = responseText.password[0].replace('This', 'Password');
+							} else if (responseText.detail) {
+								error = responseText.detail;
+							}
+
+							if (error) {
+								self.set('loginResponse', error);
+							}
 						}
+					} else if (message || jqxhr.status < 100) {
+						message = message.message || message || 'Oops, something went wrong.';
+
+						self.setProperties({
+							loginError: true,
+							loginResponse: message
+						});
 					}
-				} else if (message || jqxhr.status < 100) {
-					message = message.message || message || 'Oops, something went wrong.';
-
-					self.setProperties({
-						loginError: true,
-						loginResponse: message
-					});
-				}
-			}).always(function() {
+				})
+				.
+			finally(function() {
 				self.set('isSubmitting', false);
 			});
 		}

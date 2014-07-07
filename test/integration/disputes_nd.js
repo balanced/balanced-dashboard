@@ -1,4 +1,4 @@
-module('Disputes non deterministic', {
+module('Disputes (non-deterministic)', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDisputes();
@@ -21,6 +21,10 @@ test('exist on the dispute page', function(assert) {
 		'table.disputes tbody tr:eq(0) td.amount': '$100.00',
 		'table.disputes tfoot td:eq(0)': 1
 	};
+	Ember.run(function() {
+		var disputesController = Balanced.__container__.lookup('controller:marketplaceDisputes');
+		disputesController.set("limit", 2);
+	});
 
 	visit(DISPUTES_ROUTE)
 		.then(function() {

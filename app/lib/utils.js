@@ -233,7 +233,7 @@ Balanced.Utils = Ember.Namespace.create({
 		var transformedParams = ['limit', 'offset', 'sortField', 'sortOrder', 'minDate', 'maxDate', 'type', 'query'];
 
 		var filteringParams = {
-			limit: ( !! Ember.testing && !Balanced.Adapter.dataMap) ? 2 : (params.limit || 10),
+			limit: params.limit || 10,
 			offset: params.offset || 0
 		};
 
@@ -268,16 +268,17 @@ Balanced.Utils = Ember.Namespace.create({
 		}
 
 		filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));
-
 		filteringParams = Balanced.Utils.sortDict(filteringParams);
+		return this.buildUri(uri, filteringParams);
+	},
 
-		var queryString = $.map(filteringParams, function(v, k) {
+	buildUri: function(path, queryStringObject) {
+		var queryString = _.map(queryStringObject, function(v, k) {
 			return encodeURIComponent(k) + '=' + encodeURIComponent(v);
 		}).join('&');
-
-		uri += '?' + queryString;
-
-		return uri;
+		return queryString ?
+			path + "?" + queryString :
+			path;
 	},
 
 	/*

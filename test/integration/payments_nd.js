@@ -2,6 +2,10 @@ module('Payments (non-deterministic)', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
+		Ember.run(function() {
+			var controller = Balanced.__container__.lookup('controller:activity_transactions');
+			controller.set("limit", 2);
+		});
 	},
 	teardown: function() {
 		Testing.restoreMethods(

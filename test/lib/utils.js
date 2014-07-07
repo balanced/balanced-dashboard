@@ -101,16 +101,18 @@ var Testing = {
 	setupMarketplace: function() {
 		var self = this;
 		Ember.run(function() {
-			return Balanced.NET.loadCSRFTokenIfNotLoaded(function() {
-				return Balanced.Auth.createNewGuestUser().then(function(apiKey) {
+			return Balanced.NET.loadCSRFTokenIfNotLoaded()
+				.then(function() {
+					return Balanced.Auth.createNewGuestUser();
+				})
+				.then(function(apiKey) {
 					self.GUEST_USER_API_KEY = apiKey;
-
 					return Balanced.Marketplace.create().save();
-				}).then(function(marketplace) {
+				})
+				.then(function(marketplace) {
 					Balanced.Auth.setupGuestUserMarketplace(marketplace);
 					self.setupCreatedMarketplace(marketplace);
 				});
-			});
 		});
 	},
 

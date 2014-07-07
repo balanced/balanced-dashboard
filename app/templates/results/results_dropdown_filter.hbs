@@ -1,0 +1,11 @@
+<div class="dropdown filter">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<span>{{view.toggleText}}</span>
+		<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu type-filter filter-choices">
+		{{#each filterLink in view.filters}}
+			<li><a href="#" {{action "setFilter" filterLink.value target=view}}>{{filterLink.text}}</a></li>
+		{{/each}}
+	</ul>
+</div>

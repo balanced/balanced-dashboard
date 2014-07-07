@@ -1,5 +1,5 @@
 <tbody>
-	{{#each log in results}}
+	{{#each log in view.results}}
 		<tr>
 			<td class="first date">
 				{{#link-to log.route_name log}}
@@ -20,7 +20,7 @@
 	{{else}}
 		<tr>
 			<td colspan="3" class="no-results">
-				{{#if isLoaded}}
+				{{#if view.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...
