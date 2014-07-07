@@ -79,6 +79,10 @@ Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 			if (json && json.items && $.isArray(json.items)) {
 				itemsArray = json.items;
 
+				if (json.linked) {
+					this.set('linked', json.linked);
+				}
+
 				if (json.next_uri) {
 					this.set('next_uri', json.next_uri);
 					this.set('hasNextPage', true);

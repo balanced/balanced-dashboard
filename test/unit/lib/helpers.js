@@ -340,6 +340,28 @@ test('formatNumber', function(assert) {
 	}
 });
 
+test('formatFileSize', function(assert) {
+	var bytes = [
+		null,
+		undefined,
+		0,
+		93065,
+		1000000000
+	];
+
+	var expected = [
+		null,
+		undefined,
+		"0 byte",
+		"93.06 kb",
+		"1.00 gb"
+	];
+
+	for (var i = 0; i < bytes.length; i++) {
+		assert.equal(Balanced.Utils.formatFileSize(bytes[i]), expected[i]);
+	}
+});
+
 test('formatError', function(assert) {
 	var error = [
 		null,

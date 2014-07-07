@@ -7,6 +7,7 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	events_uri: Balanced.computed.concat('uri', '/events'),
 	uri: '/disputes',
 	dispute_note: Ember.computed.oneWay('note'),
+	dispute_documents: Ember.computed.alias('documents.linked.documents'),
 	dispute_documents_uri: function() {
 		return '/disputes/' + this.get('id');
 	}.property('id'),

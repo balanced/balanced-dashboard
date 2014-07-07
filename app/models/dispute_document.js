@@ -1,5 +1,4 @@
 Balanced.DisputeDocument = Balanced.Model.extend({
-	uri: '/dispute_documents',
 	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
 	isUploading: false,
 	file_size: Balanced.computed.transform('size', Balanced.Utils.formatFileSize)

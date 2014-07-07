@@ -16,8 +16,8 @@
 
 		<table class="items">
 			<tbody>
-			{{#if view.content.documents}}
-				{{#each doc in view.content.documents}}
+			{{#if view.content.dispute_documents}}
+				{{#each doc in view.content.dispute_documents}}
 					<tr>
 						<td class="first date">
 							<a {{bind-attr href="doc.file_url"}}><time {{bind-attr datetime="doc.created_at"}} {{bind-attr title="doc.created_at"}}>
@@ -27,7 +27,7 @@
 							<a {{bind-attr href="doc.file_url"}}><span>{{doc.file_name}}</span></a>
 						</td>
 						<td class="align-right">
-							<a {{bind-attr href="doc.file_url"}}><span>{{doc.file_size}}</span></a>
+							<a {{bind-attr href="doc.file_url"}}><span>{{formatFileSize doc.size}}</span></a>
 						</td>
 					</tr>
 				{{/each}}
