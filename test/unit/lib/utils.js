@@ -350,8 +350,8 @@ test('formatFileSize', function(assert) {
 	];
 
 	var expected = [
-		null,
-		undefined,
+		"0 byte",
+		"0 byte",
 		"0 byte",
 		"93.06 kb",
 		"1.00 gb"
