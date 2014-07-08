@@ -86,18 +86,21 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 			this.set('isSubmitting', true);
 
-			auth.confirmOTP(this.get('otpCode')).then(function() {
-				self.afterLogin();
-			}, function() {
-				auth.forgetLogin();
-				self.reset();
-				self.setProperties({
-					loginError: true,
-					loginResponse: 'Invalid OTP code. Please login again.'
-				});
+			auth.confirmOTP(this.get('otpCode'))
+				.then(function() {
+					self.afterLogin();
+				}, function() {
+					auth.forgetLogin();
+					self.reset();
+					self.setProperties({
+						loginError: true,
+						loginResponse: 'Invalid OTP code. Please login again.'
+					});
 
-				self.focus();
-			}).always(function() {
+					self.focus();
+				})
+				.
+			finally(function() {
 				self.set('isSubmitting', false);
 			});
 		},
