@@ -79,6 +79,10 @@ Balanced.Adapter.addFixtures([{
 }, {
 	"uri": "/logs?limit=5&method%5Bin%5D=post%2Cput%2Cdelete&offset=0&q=&resource_id=undefined&sort=created_at%2Cdesc"
 }, {
+	"uri": "/logs?limit=5&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete&resource_id=DT2xOc7zAdgufK4XsCIW5QgD"
+}, {
+	"uri": "/logs?limit=5&sort=created_at%2Cdesc&offset=0&method%5Bin%5D=post%2Cput%2Cdelete"
+}, {
 	"uri": "/resources/WD2e4R5qiBO754zsgNg0xizv",
 	"debits": [{
 		"status": "succeeded",

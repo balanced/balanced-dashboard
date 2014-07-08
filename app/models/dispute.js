@@ -1,13 +1,16 @@
 Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
-	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
+	documents: function() {
+		return Balanced.DisputeDocument.loadFromUri(this.get('dispute_documents_uri'));
+	}.property("dispute_documents_uri"),
+	isDocumentsLoaded: Ember.computed.alias('documents.isLolded'),
 	type_name: 'Dispute',
 	route_name: 'dispute',
 	events_uri: Balanced.computed.concat('uri', '/events'),
 	uri: '/disputes',
 	dispute_note: Ember.computed.oneWay('note'),
-	dispute_documents: Ember.computed.alias('documents.linked.documents'),
+
 	dispute_documents_uri: function() {
 		return '/disputes/' + this.get('id');
 	}.property('id'),
@@ -37,8 +40,8 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		return this.get('hasNotExpired') && (this.get('status') === 'pending') && (this.get('documents.length') === 0);
-	}.property('hasNotExpired', 'status', 'documents.length')
+		return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'pending') && (this.get('documents.length') === 0);
+	}.property('isDocumentsLoaded', 'hasNotExpired', 'status', 'documents.length')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');
