@@ -6,24 +6,24 @@ Balanced.NET = Ember.Namespace.create({
 
 	loadCSRFToken: function() {
 		var self = this;
-
+		var deferred = Ember.RSVP.defer();
 		// POSTing to / will return a csrf token
-		return this.ajax({
-			type: 'POST',
-			url: Ember.ENV.BALANCED.AUTH
-		}).success(function(response, status, jqxhr) {
-			self.csrfToken = response.csrf;
-		});
+		this
+			.ajax({
+				type: 'POST',
+				url: Ember.ENV.BALANCED.AUTH
+			})
+			.then(function(response) {
+				self.csrfToken = response.csrf;
+				deferred.resolve();
+			});
+		return deferred.promise;
 	},
 
-	loadCSRFTokenIfNotLoaded: function(fn) {
-		fn = fn || function() {};
-
-		if (!this.csrfToken) {
-			return this.loadCSRFToken().success(fn);
-		} else {
-			return fn();
-		}
+	loadCSRFTokenIfNotLoaded: function() {
+		return this.csrfToken ?
+			Ember.RSVP.resolve() :
+			this.loadCSRFToken();
 	},
 
 	ajax: function(settings) {

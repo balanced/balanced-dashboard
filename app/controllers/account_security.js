@@ -60,15 +60,16 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 	loadQRCode: function() {
 		var self = this;
 
-		$.getScript('//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js', function() {
-			var otpSecret = self.get('auth.OTPSecret');
+		$.getScript('//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js')
+			.then(function() {
+				var otpSecret = self.get('auth.OTPSecret');
 
-			if ($.fn.qrcode) {
-				$('#qrcode').qrcode(otpSecret.secret_uri);
-			} else {
-				setTimeout(_.bind(self.loadQRCode, self), 100);
-			}
-		});
+				if ($.fn.qrcode) {
+					$('#qrcode').qrcode(otpSecret.secret_uri);
+				} else {
+					setTimeout(_.bind(self.loadQRCode, self), 100);
+				}
+			});
 	},
 
 	actions: {
@@ -82,26 +83,28 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		enableAuth: function(router, evt) {
 			var self = this;
 
-			this.get('auth').enableMultiFactorAuthentication().done(function() {
-				self.set('status', 'enabling');
-				self.loadQRCode();
-			});
+			this.get('auth').enableMultiFactorAuthentication()
+				.then(function() {
+					self.set('status', 'enabling');
+					self.loadQRCode();
+				});
 		},
 		disableAuth: function(router, evt) {
 			var self = this;
 
-			this.get('auth').disableMultiFactorAuthentication().done(function() {
-				self.set('status', 'disabled');
-				$('#qrcode').html('');
+			this.get('auth').disableMultiFactorAuthentication()
+				.then(function() {
+					self.set('status', 'disabled');
+					$('#qrcode').html('');
 
-				self.get('application').alert({
-					message: 'Two-factor authentication is now disabled.',
-					type: 'error',
-					persists: true
+					self.get('application').alert({
+						message: 'Two-factor authentication is now disabled.',
+						type: 'error',
+						persists: true
+					});
+
+					self.send('goBack');
 				});
-
-				self.send('goBack');
-			});
 		},
 		activateAuth: function(router, evt) {
 			var self = this;
