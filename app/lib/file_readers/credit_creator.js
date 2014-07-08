@@ -213,6 +213,15 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 		},
 	}),
 
+	getErrorObject: function() {
+		return this.getProperties(
+			"existing_customer_name_or_email",
+			"amount",
+			"appears_on_statement_as",
+			"description"
+		);
+	},
+
 	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
 	isExisting: true,
 
