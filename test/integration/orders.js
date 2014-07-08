@@ -133,7 +133,7 @@ test("can visit orders page", function(assert) {
 			assert.deepEqual(resultsUri.split("?")[0], "/marketplaces/" + Testing.MARKETPLACE_ID + "/search");
 
 			assertQueryString(resultsUri, {
-				limit: "2",
+				limit: "50",
 				offset: "0",
 				type: "order"
 			}, assert);
