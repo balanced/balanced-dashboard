@@ -2,10 +2,10 @@
 	<tr>
 		<th class="span3 date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
 		<th class="span2 type has-filter">
-			{{view Balanced.TransactionsTypeResultsDropdownFilterView model=resultsLoader}}
+			{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
 		</th>
 		<th class="span3 status has-filter">
-			{{view Balanced.TransactionsStatusResultsDropdownFilterView model=resultsLoader}}
+			{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
 		</th>
 		<th class="span4 description"><span>Description</span></th>
 		<th class="span3 account"><span>Customer</span></th>

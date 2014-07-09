@@ -3,7 +3,7 @@
 		<th class="span3 label6a initiated date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="initiated_at"}}<span>Date initiated</span>{{/view}}</th>
 		<th class="span3 label6a respond-by date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="respond_by"}}<span>Respond by</span>{{/view}}</th>
 		<th class="span3 label6a status has-filter">
-			{{view Balanced.DisputesStatusResultsDropdownFilterView model=resultsLoader}}
+			{{view Balanced.DisputesStatusResultsDropdownFilterView}}
 		</th>
 		<th class="span4 label6a account"><span>Customer</span></th>
 		<th class="span4 label6a funding-instrument"><span>Payment method</span></th>

@@ -4,6 +4,6 @@
 </a>
 <ul class="dropdown-menu type-filter filter-choices">
 	{{#each filterLink in view.filters}}
-		<li><a href="#" {{bind-attr class="filterLink.isSelected:active"}} {{action "setFilter" filterLink.value target=view}}>{{filterLink.text}}</a></li>
+		<li><a href="#" {{bind-attr class="filterLink.isSelected:active"}} {{action "setFilter" filterLink target=view}}>{{filterLink.text}}</a></li>
 	{{/each}}
 </ul>

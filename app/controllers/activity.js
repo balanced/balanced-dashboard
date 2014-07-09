@@ -22,6 +22,20 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			this.trigger('openChargeCardModal');
 		},
 
+		changeTypeFilter: function(type) {
+			this._super(type);
+
+			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
+				this.transitionToRoute('activity.transactions');
+			} else if (type === 'order') {
+				this.transitionToRoute('activity.orders');
+			}
+		},
+
+		changeStatusFilter: function(status) {
+			this.set('transactionStatus', status);
+		},
+
 		openAddFundsModal: function() {
 			this.trigger('openAddFundsModal');
 		},
@@ -60,7 +74,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 		} else {
 			return this._super();
 		}
-	}.property('type', 'controllers.marketplace.uri'),
+	}.property('type', 'controllers.marketplace.uri')
 });
 
 Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
@@ -69,13 +83,6 @@ Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 	type: 'transaction',
 	pageTitle: 'Transactions',
 	noDownloadsUri: true,
-
-	resultsLoader: function() {
-		var marketplace = this.modelFor("marketplace");
-		return Balanced.TransactionsResultsLoader.create({
-			marketplace: marketplace
-		});
-	},
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({

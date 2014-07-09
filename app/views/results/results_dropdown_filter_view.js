@@ -4,19 +4,21 @@ Balanced.ResultsDropdownFilterView = Balanced.View.extend({
 	isSelected: false,
 
 	actions: {
-		setFilter: function(value) {
+		setFilter: function(filterLink) {
 			var model = this.get("model");
-			model.set(this.get("filter"), value);
-
+			model.set(this.get("filter"), filterLink.value);
+			this.send('toggleSelected', filterLink);
+		},
+		toggleSelected: function(filterLink) {
 			var filters = this.get("filters");
+
 			filters.map(function(filter) {
 				filter.set("isSelected", false);
 			});
 
-			var filter = filters.findBy("value", value);
-			filter.set("isSelected", true);
+			filterLink.set("isSelected", true);
 
-			if (filter.get('text') === "All") {
+			if (filterLink.get('text') === "All") {
 				this.set("isSelected", false);
 			} else {
 				this.set("isSelected", true);
@@ -46,6 +48,14 @@ Balanced.TransactionsTypeResultsDropdownFilterView = Balanced.ResultsDropdownFil
 			defineFilter("Reversals", ["reversal"])
 		];
 	}.property(),
+
+	actions: {
+		setFilter: function(filterLink) {
+			var controller = this.get('controller');
+			controller.send('changeTypeFilter', filterLink.value);
+			this.send('toggleSelected', filterLink);
+		}
+	}
 });
 
 Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
@@ -59,6 +69,14 @@ Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownF
 			defineFilter("Failed", ["failed"])
 		];
 	}.property(),
+
+	actions: {
+		setFilter: function(filterLink) {
+			var controller = this.get('controller');
+			controller.send('changeStatusFilter', filterLink.value);
+			this.send('toggleSelected', filterLink);
+		}
+	}
 });
 
 Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
@@ -71,6 +89,14 @@ Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 			defineFilter("Bank accounts", ["bank_account"])
 		];
 	}.property(),
+
+	actions: {
+		setFilter: function(filterLink) {
+			var controller = this.get('controller');
+			controller.send('changePaymentMethodFilter', filterLink.value);
+			this.send('toggleSelected', filterLink);
+		}
+	}
 });
 
 Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
@@ -85,6 +111,14 @@ Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 			defineFilter("Arbitration", ["arbitration"])
 		];
 	}.property(),
+
+	actions: {
+		setFilter: function(filterLink) {
+			var controller = this.get('controller');
+			controller.send('changeDisputeStatusFilter', filterLink.value);
+			this.send('toggleSelected', filterLink);
+		}
+	}
 });
 
 Balanced.LogsEndpointResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
