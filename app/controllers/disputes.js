@@ -24,6 +24,13 @@ Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.
 		};
 	}.property('disputeStatus'),
 
+	resultsLoader: function() {
+		var marketplace = this.modelFor("marketplace");
+		return Balanced.DisputesResultsLoader.create({
+			marketplace: marketplace
+		});
+	},
+
 	actions: {
 		changeDisputeStatusFilter: function(status) {
 			this.set('disputeStatus', status);

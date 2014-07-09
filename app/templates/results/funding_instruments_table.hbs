@@ -2,19 +2,7 @@
 	<tr>
 		<th class="span3 label6a date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
 		<th class="span4 label6a funding-instruments has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Payment method</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu funding-instruments-filter filter-choices">
-					<li><a href="#" {{action "changeTypeFilter" "funding_instrument"}}> All </a></li>
-
-					<li><a href="#" {{action "changeTypeFilter" "card"}}> Cards </a></li>
-
-					<li><a href="#" {{action "changeTypeFilter" "bank_account"}}> Bank accounts </a></li>
-				</ul>
-			</div>
+			{{view Balanced.PaymentMethodsResultsDropdownFilterView model=model}}
 		</th>
 		<th class="span5 label6a"><span>Bank</span></th>
 		<th class="span4 label6a"><span>Account holder</span></th>

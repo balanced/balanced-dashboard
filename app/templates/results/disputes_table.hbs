@@ -3,19 +3,7 @@
 		<th class="span3 label6a initiated date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="initiated_at"}}<span>Date initiated</span>{{/view}}</th>
 		<th class="span3 label6a respond-by date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="respond_by"}}<span>Respond by</span>{{/view}}</th>
 		<th class="span3 label6a status has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Status</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu status-filter filter-choices">
-					<li><a href="#" {{action "changeDisputeStatusFilter" "all"}}>All</a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "pending"}}>Pending</a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "won"}}>Won</a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "lost"}}>Lost</a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "arbitration"}}>Arbitration</a></li>
-				</ul>
-			</div>
+			{{view Balanced.DisputesStatusResultsDropdownFilterView model=resultsLoader}}
 		</th>
 		<th class="span4 label6a account"><span>Customer</span></th>
 		<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
@@ -40,7 +28,7 @@
 {{/if}}
 
 <tbody>
-	{{#each dispute in view.disputes}}
+	{{#each dispute in results}}
 		<tr>
 			<td class="span3 date initiated">
 				{{#link-to dispute.route_name dispute}}<span>
@@ -73,7 +61,6 @@
 					{{else}}
 						<span class="sl-none">none</span>
 					{{/if}}
-					<!-- {{dispute.customer_name_summary}} -->
 				{{/link-to}}
 			</td>
 			<td class="span3 funding-instrument">
