@@ -59,7 +59,7 @@ test('can upload a dispute document', function(assert) {
 			Ember.run(function() {
 				disputeController.get('model').set('documents', [Balanced.DisputeDocument.create({
 					"created_at": "2014-06-26T00:27:30.544797+00:00",
-					"file_name": "registration_flow_wireframe copy.jpg",
+					"file_name": "test.jpg",
 					"file_url": "http://www.balancedpayments.com",
 					"guid": "DO9dJjGmyqbzDK5kXdp3fniy",
 					"mime_type": "image/jpeg",

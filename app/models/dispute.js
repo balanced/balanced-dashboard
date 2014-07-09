@@ -1,18 +1,23 @@
 Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
-	documents: function() {
-		return Balanced.DisputeDocument.loadFromUri(this.get('dispute_documents_uri'));
-	}.property("dispute_documents_uri"),
-	isDocumentsLoaded: Ember.computed.alias('documents.isLolded'),
+	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
+	dispute_note: Ember.computed.oneWay('note'),
+	isDocumentsLoaded: function() {
+		if (this.get('documents.length') > 0) {
+			return this.get('documents.isLoaded');
+		} else {
+			return true;
+		}
+	}.property('documents.length', 'documents.isLoaded'),
+
 	type_name: 'Dispute',
 	route_name: 'dispute',
-	events_uri: Balanced.computed.concat('uri', '/events'),
-	uri: '/disputes',
-	dispute_note: Ember.computed.oneWay('note'),
 
+	uri: '/disputes',
+	events_uri: Balanced.computed.concat('uri', '/events'),
 	dispute_documents_uri: function() {
-		return '/disputes/' + this.get('id');
+		return '/disputes/' + this.get('id') + '/documents';
 	}.property('id'),
 
 	amount_dollars: function() {

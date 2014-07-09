@@ -36,7 +36,6 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			}
 			// To remember the documents
 			file.uuid = _.uniqueId('DD');
-
 			var documentHasErrors = Balanced.DisputeDocument.hasErrors(file);
 
 			if (documentHasErrors) {
@@ -48,7 +47,6 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 					uuid: file.uuid,
 					file: file
 				});
-
 				documentsToUpload.pushObject(doc);
 			}
 		}, this);
@@ -109,7 +107,9 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 
 		save: function() {
 			var formData = new FormData();
-			formData.append('note', this.get('model.note'));
+
+			var note = this.get('model.note') ? this.get('model.note') : null;
+			formData.append('note', note);
 
 			var marketplaceId = Balanced.currentMarketplace.get('id');
 			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
