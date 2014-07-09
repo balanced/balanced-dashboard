@@ -11,7 +11,7 @@ Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.ext
 	type: 'funding_instrument',
 	actions: {
 		changePaymentMethodFilter: function(type) {
-			this.set('type', type)
+			this.set('type', type);
 		}
 	}
 });
