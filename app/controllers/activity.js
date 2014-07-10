@@ -9,9 +9,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 	noDownloadsUri: true,
 
 	transactionStatus: 'all',
-	TYPE_TRANSLATION: {
-		card_hold: 'hold'
-	},
 
 	actions: {
 		openPaySellerModal: function() {
