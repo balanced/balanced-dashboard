@@ -3,26 +3,27 @@ Balanced.ResultsDropdownFilterView = Balanced.View.extend({
 	classNameBindings: [":dropdown", ":filter"],
 	isSelected: false,
 
+	toggleSelected: function(filterLink) {
+		var filters = this.get("filters");
+
+		filters.map(function(filter) {
+			filter.set("isSelected", false);
+		});
+
+		filterLink.set("isSelected", true);
+
+		if (filterLink.get('text') === "All") {
+			this.set("isSelected", false);
+		} else {
+			this.set("isSelected", true);
+		}
+	},
+
 	actions: {
 		setFilter: function(filterLink) {
 			var model = this.get("model");
 			model.set(this.get("filter"), filterLink.value);
-			this.send('toggleSelected', filterLink);
-		},
-		toggleSelected: function(filterLink) {
-			var filters = this.get("filters");
-
-			filters.map(function(filter) {
-				filter.set("isSelected", false);
-			});
-
-			filterLink.set("isSelected", true);
-
-			if (filterLink.get('text') === "All") {
-				this.set("isSelected", false);
-			} else {
-				this.set("isSelected", true);
-			}
+			this.toggleSelected(filterLink);
 		}
 	}
 });
@@ -53,7 +54,7 @@ Balanced.TransactionsTypeResultsDropdownFilterView = Balanced.ResultsDropdownFil
 		setFilter: function(filterLink) {
 			var controller = this.get('controller');
 			controller.send('changeTypeFilter', filterLink.value);
-			this.send('toggleSelected', filterLink);
+			this.toggleSelected(filterLink);
 		}
 	}
 });
@@ -74,7 +75,7 @@ Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownF
 		setFilter: function(filterLink) {
 			var controller = this.get('controller');
 			controller.send('changeStatusFilter', filterLink.value);
-			this.send('toggleSelected', filterLink);
+			this.toggleSelected(filterLink);
 		}
 	}
 });
