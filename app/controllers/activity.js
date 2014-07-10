@@ -1,4 +1,4 @@
-Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, Balanced.TransactionsTable, {
+Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
 	needs: ['marketplace'],
 
 	sortField: 'created_at',
@@ -30,6 +30,10 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			} else if (type === 'order') {
 				this.transitionToRoute('activity.orders');
 			}
+		},
+
+		changeStatusFilter: function(status) {
+			this.set('transactionStatus', status);
 		},
 
 		openAddFundsModal: function() {
