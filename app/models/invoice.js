@@ -43,7 +43,7 @@ Balanced.Invoice = Balanced.Model.extend({
 		}
 	}.property('disputes_total_fee'),
 
-	isDispute: Ember.computed.equal('invoice_type', 'Disputes'),
+	isDispute: Ember.computed.equal('type', 'dispute'),
 
 	hasHoldsFee: Ember.computed.gt('holds_total_fee', 0),
 
