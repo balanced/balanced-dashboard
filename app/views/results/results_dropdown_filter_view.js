@@ -23,7 +23,7 @@ Balanced.ResultsDropdownFilterView = Balanced.View.extend({
 		setFilter: function(filterLink) {
 			var model = this.get("model");
 			model.set(this.get("filter"), filterLink.value);
-			this.toggleSelected(filterLink);
+			toggleSelected(filterLink);
 		}
 	}
 });
@@ -54,7 +54,7 @@ Balanced.TransactionsTypeResultsDropdownFilterView = Balanced.ResultsDropdownFil
 		setFilter: function(filterLink) {
 			var controller = this.get('controller');
 			controller.send('changeTypeFilter', filterLink.value);
-			this.toggleSelected(filterLink);
+			toggleSelected(filterLink);
 		}
 	}
 });
@@ -75,7 +75,7 @@ Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownF
 		setFilter: function(filterLink) {
 			var controller = this.get('controller');
 			controller.send('changeStatusFilter', filterLink.value);
-			this.toggleSelected(filterLink);
+			toggleSelected(filterLink);
 		}
 	}
 });
@@ -95,7 +95,7 @@ Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 		setFilter: function(filterLink) {
 			var controller = this.get('controller');
 			controller.send('changePaymentMethodFilter', filterLink.value);
-			this.send('toggleSelected', filterLink);
+			toggleSelected(filterLink);
 		}
 	}
 });
@@ -117,7 +117,7 @@ Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 		setFilter: function(filterLink) {
 			var controller = this.get('controller');
 			controller.send('changeDisputeStatusFilter', filterLink.value);
-			this.send('toggleSelected', filterLink);
+			toggleSelected(filterLink);
 		}
 	}
 });
