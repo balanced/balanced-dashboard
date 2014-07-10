@@ -378,7 +378,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-
 		/*jshint multistr: true */
 		'compile-handlebars': {
 			dev: {
