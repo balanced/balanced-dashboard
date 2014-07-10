@@ -67,7 +67,7 @@ Balanced.ResultsLoader = Ember.Object.extend({
 Balanced.TransactionsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Transaction,
 	path: Ember.computed.oneWay("marketplace.transactions_uri"),
-	typeFilters: ["debit", "credit", "hold", "refund"],
+	typeFilters: ["transaction", "credit", "debit", "card_hold", "refund", "reversal"],
 	statusFilters: ["failed", "succeeded", "pending"],
 });
 
@@ -81,6 +81,7 @@ Balanced.DisputesResultsLoader = Balanced.ResultsLoader.extend({
 	path: Ember.computed.oneWay("marketplace.disputes_uri"),
 	sort: "initiated_at,desc",
 	typeFilters: ["debit"],
+	statusFilters: ["pending", "won", "lost", "arbitration"]
 });
 
 Balanced.CreditReversalsResultsLoader = Balanced.ResultsLoader.extend({
@@ -119,5 +120,5 @@ Balanced.SearchResultsLoader = Balanced.ResultsLoader.extend({
 
 Balanced.FundingInstrumentsResultsLoader = Balanced.SearchResultsLoader.extend({
 	resultsType: Balanced.FundingInstrument,
-	typeFilters: ["bank_account", "card"]
+	typeFilters: ["funding_instrument", "bank_account", "card"]
 });

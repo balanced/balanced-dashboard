@@ -1,7 +1,6 @@
 Balanced.InvoiceController = Balanced.ObjectController.extend(
 	Ember.Evented,
-	Balanced.ResultsTable,
-	Balanced.TransactionsTable, {
+	Balanced.ResultsTable, {
 		needs: ['marketplace'],
 		marketplace: Ember.computed.alias('controllers.marketplace.content'),
 
