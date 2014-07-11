@@ -1,0 +1,26 @@
+<form {{action "save" marketplaceFactory target=view on="submit"}}>
+	{{view Balanced.FormValidationErrorsView model=marketplaceFactory}}
+	{{view Balanced.TextFormFieldView
+		labelText="Name"
+		explanationText="Startupl.io"
+		model=marketplaceFactory
+		field="name"}}
+
+	{{view Balanced.TextFormFieldView
+		labelText="Domain url"
+		explanationText="startupl.io"
+		model=marketplaceFactory
+		field="domain_url"}}
+
+	{{view Balanced.TextFormFieldView
+		labelText="Support email address"
+		model=marketplaceFactory
+		field="support_email_address"}}
+
+	{{view Balanced.TextFormFieldView
+		labelText="Support phone number"
+		model=marketplaceFactory
+		field="support_phone_number"}}
+	<hr>
+	<button type="submit">Submit</button>
+</form>

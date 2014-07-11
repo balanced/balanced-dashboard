@@ -1,0 +1,14 @@
+<label class="control-label" {{bind-attr for=view.inputElement.elementId}}>
+	{{view.labelText}}
+</label>
+<div>
+	{{yield}}
+</div>
+
+{{#if view.explanationText}}
+	<div class="alert alert-info">{{view.explanationText}}</div>
+{{/if}}
+
+{{#each message in view.errorMessages}}
+	<div class="alert alert-error">{{message}}</div>
+{{/each}}

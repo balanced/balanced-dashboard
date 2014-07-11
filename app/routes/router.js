@@ -64,6 +64,8 @@ Balanced.Router.map(function() {
 		path: '/marketplaces'
 	}, function() {
 
+		this.route("new");
+
 		this.route('apply', {
 			path: '/apply'
 		});
@@ -75,6 +77,10 @@ Balanced.Router.map(function() {
 			this.route('add_customer');
 			this.route('initial_deposit');
 			this.route('import_payouts');
+
+			this.route("bank_account_new", {
+				path: "/bank_account/new"
+			});
 
 			// exists to handle old URIs
 			this.route("redirect_activity_transactions", {
