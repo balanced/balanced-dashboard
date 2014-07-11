@@ -250,7 +250,7 @@
 		<div class="results">
 			{{#if isDispute}}
 				<div class="items-wrapper">
-					{{view Balanced.DisputesResultsView disputes=dispute_results}}
+					{{view Balanced.DisputesResultsView disputes=disputesResultsLoader.results}}
 				</div>
 			{{else}}
 				{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}

@@ -20,9 +20,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 		},
 
 		changeTypeFilter: function(type) {
-			// this._super(type);
 			this.set('type', type);
-
 
 			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
