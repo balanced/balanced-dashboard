@@ -8,7 +8,7 @@ Balanced.InvoiceController = Balanced.ObjectController.extend(
 		sortField: 'created_at',
 		sortOrder: 'desc',
 		limit: 20,
-		transactionStatus: false,
+		transactionStatus: 'all',
 
 		baseClassSelector: '#invoice',
 
@@ -22,9 +22,27 @@ Balanced.InvoiceController = Balanced.ObjectController.extend(
 			});
 		},
 
+		extra_filtering_params: function() {
+			var transactionStatus = this.get("transactionStatus");
+			if (transactionStatus === 'all') {
+				return {
+					'status[in]': 'failed,succeeded,pending'
+				};
+			}
+			return {
+				status: transactionStatus
+			};
+		}.property("transactionStatus"),
+
 		actions: {
 			printSummary: function() {
 				window.print();
+			},
+			changeStatusFilter: function(status) {
+				this.set('transactionStatus', status);
+			},
+			changeDisputeStatusFilter: function(status) {
+				this.set('disputesResultsLoader.statusFilters', status);
 			}
 		},
 

@@ -21,6 +21,9 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 
 		baseClassSelector: "#customer",
 
+		transactionStatus: 'all',
+		disputeStatus: 'all',
+
 		init: function() {
 			var self = this;
 			Balanced.Model.Events.on('didCreate', function(object) {
@@ -44,5 +47,28 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 		results_base_uri: Ember.computed.alias('content.transactions_uri'),
 
 		dispute_results: Ember.computed.alias('disputes'),
+
+		extra_filtering_params: function() {
+			var transactionStatus = this.get("transactionStatus");
+
+			if (transactionStatus === 'all') {
+				return {
+					'status[in]': 'failed,succeeded,pending'
+				};
+			}
+			return {
+				status: transactionStatus
+			};
+		}.property("transactionStatus"),
+
+		actions: {
+			changeStatusFilter: function(status) {
+				this.set('transactionStatus', status);
+			},
+
+			changeDisputeStatusFilter: function(status) {
+				this.set('disputesResultsLoader.statusFilters', status);
+			}
+		}
 	}
 );

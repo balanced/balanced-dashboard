@@ -38,15 +38,14 @@ var defineFilter = function(text, value, isSelected) {
 
 Balanced.TransactionsTypeResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
 	toggleText: "Type",
-	filter: "typeFilters",
 	filters: function() {
 		return [
-			defineFilter("All", ["transaction"], true),
-			defineFilter("Credits", ["credit"]),
-			defineFilter("Debits", ["debit"]),
-			defineFilter("Holds", ["card_hold"]),
-			defineFilter("Refunds", ["refund"]),
-			defineFilter("Reversals", ["reversal"])
+			defineFilter("All", "transaction", true),
+			defineFilter("Credits", "credit"),
+			defineFilter("Debits", "debit"),
+			defineFilter("Holds", "hold"),
+			defineFilter("Refunds", "refund"),
+			defineFilter("Reversals", "reversal")
 		];
 	}.property(),
 
@@ -61,13 +60,12 @@ Balanced.TransactionsTypeResultsDropdownFilterView = Balanced.ResultsDropdownFil
 
 Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
 	toggleText: "Status",
-	filter: "statusFilters",
 	filters: function() {
 		return [
-			defineFilter("All", ["all"], true),
-			defineFilter("Pending", ["pending"]),
-			defineFilter("Succeeded", ["succeeded"]),
-			defineFilter("Failed", ["failed"])
+			defineFilter("All", "all", true),
+			defineFilter("Pending", "pending"),
+			defineFilter("Succeeded", "succeeded"),
+			defineFilter("Failed", "failed")
 		];
 	}.property(),
 
@@ -82,7 +80,6 @@ Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownF
 
 Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
 	toggleText: "Payment method",
-	filter: "typeFilters",
 	filters: function() {
 		return [
 			defineFilter("All", ["funding_instrument"], true),
@@ -102,10 +99,9 @@ Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 
 Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilterView.extend({
 	toggleText: "Status",
-	filter: "statusFilters",
 	filters: function() {
 		return [
-			defineFilter("All", ["all"], true),
+			defineFilter("All", Balanced.SEARCH.DISPUTE_TYPES, true),
 			defineFilter("Pending", ["pending"]),
 			defineFilter("Won", ["won"]),
 			defineFilter("Lost", ["lost"]),

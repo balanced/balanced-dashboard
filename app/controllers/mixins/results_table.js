@@ -57,7 +57,7 @@ Balanced.ResultsTable = Ember.Mixin.create({
 			if (this.TYPE_TRANSLATION[type]) {
 				type = this.TYPE_TRANSLATION[type];
 			}
-
+			console.log(type)
 			this.set('type', type);
 		},
 
