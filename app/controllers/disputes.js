@@ -8,19 +8,19 @@ Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.
 	baseClassSelector: "#dispute",
 
 	results_base_uri: Ember.computed.readOnly('controllers.marketplace.disputes_uri'),
-	disputeStatus: 'all',
+	disputeStatus: Balanced.SEARCH.DISPUTE_TYPES,
 
 	extra_filtering_params: function() {
 		var disputeStatus = this.get('disputeStatus');
 
-		if (disputeStatus === 'all') {
+		if (disputeStatus.length > 1) {
 			return {
-				'status[in]': Balanced.SEARCH.DISPUTE_TYPES.join()
+				'status[in]': disputeStatus.join(',')
 			};
 		}
 
 		return {
-			status: disputeStatus
+			status: disputeStatus[0]
 		};
 	}.property('disputeStatus'),
 

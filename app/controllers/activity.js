@@ -9,9 +9,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 	noDownloadsUri: true,
 
 	transactionStatus: 'all',
-	TYPE_TRANSLATION: {
-		card_hold: 'hold'
-	},
 
 	actions: {
 		openPaySellerModal: function() {
@@ -23,7 +20,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 		},
 
 		changeTypeFilter: function(type) {
-			this._super(type);
+			this.set('type', type);
 
 			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
 				this.transitionToRoute('activity.transactions');
@@ -46,23 +43,8 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 	},
 
 	extra_filtering_params: function() {
-		var transactionStatus = this.get('transactionStatus');
-		var type = this.get('type');
-
-		if (type !== 'transaction' && !_.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
-			return {};
-		}
-
-		if (transactionStatus === 'all') {
-			return {
-				'status[in]': 'failed,succeeded,pending'
-			};
-		}
-
-		return {
-			status: transactionStatus
-		};
-	}.property('type', 'transactionStatus'),
+		return {};
+	}.property(),
 
 	results_base_uri: function() {
 		var type = this.get('type');
@@ -83,6 +65,21 @@ Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
 	type: 'transaction',
 	pageTitle: 'Transactions',
 	noDownloadsUri: true,
+	category: "transaction",
+	results_base_uri: "/transactions",
+
+	extra_filtering_params: function() {
+		var transactionStatus = this.get("transactionStatus");
+
+		if (transactionStatus === 'all') {
+			return {
+				'status[in]': 'failed,succeeded,pending'
+			};
+		}
+		return {
+			status: transactionStatus
+		};
+	}.property("transactionStatus")
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({

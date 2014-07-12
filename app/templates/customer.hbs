@@ -167,7 +167,7 @@
 			{{view Balanced.TransactionsFiltersHeaderView}}
 
 			<div class="items-wrapper">
-				{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
+				{{view Balanced.TransactionsResultsView transactions=results}}
 			</div>
 		</div>
 
@@ -176,7 +176,7 @@
 		</header>
 		<div class="results">
 			<div class="items-wrapper">
-				{{view Balanced.DisputesResultsView disputesBinding="dispute_results"}}
+				{{view Balanced.DisputesResultsView disputes=disputesResultsLoader.results}}
 			</div>
 		</div>
 	</section>
