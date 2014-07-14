@@ -1386,8 +1386,6 @@ Balanced.Adapter.addFixtures([{
 		"bank_account_debits_count": 0,
 		"sequence_number": 476,
 		"source": "/bank_accounts/123",
-		"href": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X",
-		"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
 	}],
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
 }, {
