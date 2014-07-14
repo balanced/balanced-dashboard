@@ -120,5 +120,5 @@ Balanced.SearchResultsLoader = Balanced.ResultsLoader.extend({
 
 Balanced.FundingInstrumentsResultsLoader = Balanced.SearchResultsLoader.extend({
 	resultsType: Balanced.FundingInstrument,
-	typeFilters: ["funding_instrument", "bank_account", "card"]
+	typeFilters: ["funding_instrument", "bank_account", "card"],
 });

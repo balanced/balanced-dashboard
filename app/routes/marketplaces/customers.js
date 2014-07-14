@@ -8,6 +8,7 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 	marketplaceUri: 'customers_uri',
 	setupController: function(controller, model) {
 		this._super(controller, model);
+
 		var disputesResultsLoader = Balanced.DisputesResultsLoader.create({
 			path: model.get("disputes_uri")
 		});

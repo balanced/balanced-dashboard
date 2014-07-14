@@ -68,6 +68,9 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 
 			changeDisputeStatusFilter: function(status) {
 				this.set('disputesResultsLoader.statusFilters', status);
+			},
+			changePaymentMethodFilter: function(type) {
+				this.set('fundingInstrumentsResultsLoader.typeFilters', type);
 			}
 		}
 	}

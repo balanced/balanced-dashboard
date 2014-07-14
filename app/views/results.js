@@ -150,10 +150,9 @@ Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
 	colspan: 7
 });
 
-Balanced.CustomerTransactionsResultsView = Balanced.ResultsTableView.extend({
+Balanced.CustomerTransactionsResultsView = Balanced.TransactionsResultsView.extend({
 	isSmallTable: true,
-	colspan: 5,
-	templateName: 'results/transactions_table'
+	colspan: 5
 });
 
 Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
@@ -166,16 +165,20 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
 	templateName: 'results/funding_instruments_table'
 });
 
+Balanced.CustomerFundingInstrumentsResultsView = Balanced.FundingInstrumentsResultsView.extend({
+	isSmallTable: true,
+	templateName: 'results/embedded_funding_instruments_table'
+});
+
 Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'disputes',
 	templateName: 'results/disputes_table',
 	colspan: 6
 });
 
-Balanced.CustomerDisputesResultsView = Balanced.ResultsTableView.extend({
+Balanced.CustomerDisputesResultsView = Balanced.DisputesResultsView.extend({
 	isSmallTable: true,
-	colspan: 4,
-	templateName: 'results/disputes_table'
+	colspan: 4
 });
 
 Balanced.LogsResultsView = Balanced.ResultsTableView.extend({

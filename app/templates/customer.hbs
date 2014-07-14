@@ -54,7 +54,6 @@
 		</div>
 		<div class="panel main-panel span16">
 			<h3>Payments</h3>
-
 			<div class="results">
 				<div class="items-wrapper">
 					{{view Balanced.CustomerTransactionsResultsView transactions=results}}
@@ -62,7 +61,6 @@
 			</div>
 
 			<h3>Disputes</h3>
-
 			<div class="results">
 				<div class="items-wrapper">
 					{{view Balanced.CustomerDisputesResultsView disputes=disputesResultsLoader.results}}
@@ -70,48 +68,7 @@
 			</div>
 
 			<h3>Payment methods</h3>
-
-			{{view Balanced.FundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
-
-			{{#each bank_account in bank_accounts}}
-				<li class="bank-account">
-					{{#link-to 'bank_accounts' bank_account}}
-						<div {{bind-attr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
-					{{/link-to}}
-
-					<a href="#" class="icon-delete" {{action "openDeleteBankAccountModal" bank_account}}>delete</a>
-
-					{{#link-to 'bank_accounts' bank_account}}
-						<div class="details">
-							<span class="name label2a">{{bank_account.name}}</span>
-							<span class="summary">{{bank_account.description}}</span>
-						</div>
-
-						{{#unless bank_account.can_debit}}
-							<div class="actions">
-								{{#if bank_account.can_confirm_verification}}
-									Confirm verification
-								{{else}}
-									Verify to debit
-								{{/if}}
-							</div>
-						{{/unless}}
-					{{/link-to}}
-				</li>
-			{{/each}}
-
-			{{#each card in cards}}
-				<li>
-					<a href="#" class="icon-delete" {{action "openDeleteCardModal" card}}>delete</a>
-					{{#link-to 'cards' card}}
-						<div class="icon">Credit card</div>
-						<div class="details">
-							<span class="name label2a">{{card.name}}</span>
-							<span class="summary">{{card.description}} ({{capitalize card.type}})</span>
-						</div>
-					{{/link-to}}
-				</li>
-			{{/each}}
+			{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=funding_instruments}}
 		</div>
 	</div>
 </div>

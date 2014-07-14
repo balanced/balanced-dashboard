@@ -31,6 +31,7 @@ Balanced.Customer = Balanced.Model.extend({
 		return this.get('bank_accounts').isAny('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
 
+	funding_instruments: Ember.computed.union('bank_accounts', 'cards'),
 	debitable_funding_instruments: Ember.computed.union('debitable_bank_accounts', 'cards'),
 	creditable_funding_instruments: Ember.computed.union('bank_accounts', 'creditable_cards'),
 
