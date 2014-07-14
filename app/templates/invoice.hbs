@@ -100,19 +100,19 @@
 							</span>
 						</div>
 					</div>
-					<table class="invoice-details">
+					<table class="items non-interactive">
 						<tfoot class="">
 							<tr class="subtotal-row">
-								<td class="label4a"><span>Total Transaction Fees</span></td>
-								<td class="total number3a"><span>{{formatCurrency subtotal}}</span></td>
+								<td class="label4a"><span>Total transaction fees</span></td>
+								<td class="total sl-sb"><span>{{formatCurrency subtotal}}</span></td>
 							</tr>
 							<tr class="adjustments-row">
-								<td class="label4a top-border"><span>Total Adjustments</span></td>
-								<td class="total number3a top-border"><span>{{formatCurrency adjustments_total_fee}}</span></td>
+								<td class="label4a top-border"><span>Total adjustments</span></td>
+								<td class="total sl-sb top-border"><span>{{formatCurrency adjustments_total_fee}}</span></td>
 							</tr>
 							<tr class="total-balance-row">
 								<td class="label4a top-border"><span>Balance due</span></td>
-								<td class="total number3a top-border"><span>{{formatCurrency total_fee}}</span></td>
+								<td class="total sl-sb top-border"><span>{{formatCurrency total_fee}}</span></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -132,17 +132,17 @@
 					<th class="span2 label6a num"><span>Quantity</span></th>
 					<th class="span3 label6a num"><span>Transaction amount</span></th>
 					<th class="span7 label6a"><span>Fee</span></th>
-					<th class="span3 label6a num"><span>Total</span></th>
+					<th class="span3 label6a num total"><span>Total</span></th>
 				</tr>
 			</thead>
 			<tbody>
 			{{#if isDispute}}
-				<tr class="chargeback-details-row">
+				<tr class="dispute-details-row">
 					<td class="span4 label4a"><span>Disputes</span></td>
 					<td class="span2 num"><span>{{formatNumber disputes_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency disputes_total_amount}}</span></td>
 					<td class="span7"><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
-					<td class="span3 num"><span>{{formatCurrency disputes_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency disputes_total_fee}}</span></td>
 				</tr>
 			{{else}}
 				{{#if hasHoldsFee}}
@@ -151,7 +151,7 @@
 						<td class="span2 num"><span>{{formatNumber holds_count}}</span></td>
 						<td class="span6 num"><span>{{formatCurrency holds_total_amount}}</span></td>
 						<td class="span7"><span>{{formatCurrency hold_fee}} per hold</span></td>
-						<td class="span3 num"><span>{{formatCurrency holds_total_fee}}</span></td>
+						<td class="span3 num total"><span>{{formatCurrency holds_total_fee}}</span></td>
 					</tr>
 				{{/if}}
 				<tr class="card-debit-details-row">
@@ -159,7 +159,7 @@
 					<td class="span2 num"><span>{{formatNumber card_debits_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency card_debits_total_amount}}</span></td>
 					<td class="span7"><span>{{variable_fee_percentage}}% of txn amount + {{card_debit_fixed_fee}} cents</span></td>
-					<td class="span3 num"><span>{{formatCurrency card_debits_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency card_debits_total_fee}}</span></td>
 				</tr>
 				<tr class="bank-account-debit-details-row">
 					<td class="span4 label4a"><span>Debits: bank accounts</span></td>
@@ -171,49 +171,49 @@
 							(max {{formatCurrency bank_account_debit_variable_fee_cap}} per debit)
 						{{/if}}
 					</span></td>
-					<td class="span3 num"><span>{{formatCurrency bank_account_debits_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency bank_account_debits_total_fee}}</span></td>
 				</tr>
-				<tr class="succeeded-credit-details-row">
+				<tr class="succeeded-bank-account-credit-details-row">
 					<td class="span4 label4a"><span>Credits: bank accounts (succeeded)</span></td>
 					<td class="span2 num"><span>{{formatNumber bank_account_credits_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency bank_account_credits_total_amount}}</span></td>
 					<td class="span7"><span>{{formatCurrency bank_account_credit_fee}} per credit</span></td>
-					<td class="span3 num"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
 				</tr>
-				<tr class="succeeded-credit-details-row">
+				<tr class="succeeded-card-credit-details-row">
 					<td class="span4 label4a"><span>Credits: push to card (succeeded)</span></td>
 					<td class="span2 num"><span>{{formatNumber card_credits_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency card_credits_total_amount}}</span></td>
 					<td class="span7"><span>{{formatCurrency card_credit_fixed_fee}} per credit</span></td>
-					<td class="span3 num"><span>{{formatCurrency card_credits_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency card_credits_total_fee}}</span></td>
 				</tr>
 				<tr class="failed-credit-details-row">
 					<td class="span4 label4a"><span>Credits: failed</span></td>
 					<td class="span2 num"><span>{{formatNumber failed_credits_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency failed_credits_total_amount}}</span></td>
 					<td class="span7"><span>{{formatCurrency failed_credit_fee}} per failed credit</span></td>
-					<td class="span3 num"><span>{{formatCurrency failed_credits_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency failed_credits_total_fee}}</span></td>
 				</tr>
 				<tr class="refund-details-row">
 					<td class="span4 label4a"><span>Refunds</span></td>
 					<td class="span2 num"><span>{{formatNumber refunds_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency refunds_total_amount}}</span></td>
 					<td class="span7"><span>{{variable_fee_percentage}}% of txn amount returned</span></td>
-					<td class="span3 num"><span>{{formatCurrency refunds_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency refunds_total_fee}}</span></td>
 				</tr>
 				<tr class="reversal-details-row">
 					<td class="span4 label4a"><span>Reversals</span></td>
 					<td class="span2 num"><span>{{formatNumber reversals_count}}</span></td>
 					<td class="span6 num"><span>{{formatCurrency reversals_total_amount}}</span></td>
 					<td class="span7"><span>{{formatCurrency reversal_fee}} per reversal</span></td>
-					<td class="span3 num"><span>{{formatCurrency reversals_total_fee}}</span></td>
+					<td class="span3 num total"><span>{{formatCurrency reversals_total_fee}}</span></td>
 				</tr>
 			{{/if}}
 			</tbody>
 			<tfoot>
 				<tr class="subtotal-row">
-					<td class="span19 label4a sl-sb" colspan="4"><span>Total Transaction Fees</span></td>
-					<td class="span3 num sl-sb"><span>{{formatCurrency subtotal}}</span></td>
+					<td class="span19 label4a sl-sb" colspan="4"><span>Total transaction fees</span></td>
+					<td class="span3 num total sl-sb"><span>{{formatCurrency subtotal}}</span></td>
 				</tr>
 			</tfoot>
 		</table>
@@ -229,21 +229,21 @@
 				<thead>
 					<tr>
 						<th class="span18 label6a"><span>Description</span></th>
-						<th class="span2 label6a num"><span>Total</span></th>
+						<th class="span2 label6a num total"><span>Total</span></th>
 					</tr>
 				</thead>
 				<tbody>
 					{{#each adjustment in model.adjustments}}
 					<tr>
 						<td class="span18 label4a"><span>{{adjustment.description}}</span></td>
-						<td class="span2 num number3a"><span>{{formatCurrency adjustment.amount}}</span></td>
+						<td class="span2 num total"><span>{{formatCurrency adjustment.amount}}</span></td>
 					</tr>
 					{{/each}}
 				</tbody>
 				<tfoot>
 					<tr class="adjustments-row">
-						<td class="span18 label4a"><span>Total Adjustments</span></td>
-						<td class="span2 num number3a"><span>{{formatCurrency adjustments_total_fee}}</span></td>
+						<td class="span18 sl-sb label4a"><span>Total adjustments</span></td>
+						<td class="span2 num sl-sb total"><span>{{formatCurrency adjustments_total_fee}}</span></td>
 					</tr>
 				</tfoot>
 			</table>
