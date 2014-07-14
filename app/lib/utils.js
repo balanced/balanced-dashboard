@@ -435,5 +435,22 @@ Balanced.Utils = Ember.Namespace.create({
 		} else {
 			return null;
 		}
+	},
+
+	formatFileSize: function(bytes) {
+		if (bytes >= 1000000000) {
+			bytes = (bytes / 1000000000).toFixed(2) + ' gb';
+		} else if (bytes >= 1000000) {
+			bytes = (bytes / 1000000).toFixed(2) + ' mb';
+		} else if (bytes >= 1000) {
+			bytes = (bytes / 1000).toFixed(2) + ' kb';
+		} else if (bytes > 1) {
+			bytes = bytes + ' bytes';
+		} else if (bytes === 1) {
+			bytes = bytes + ' byte';
+		} else {
+			bytes = '0 byte';
+		}
+		return bytes;
 	}
 });

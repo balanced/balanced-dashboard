@@ -63,6 +63,21 @@
     border: @transactionDetailsBorder solid @gray2;
     border-width-top: 0;
 
+    // Evidence portal styles
+    .dispute {
+      .evidence-portal-info {
+        background: @curryYellow20;
+
+        header {
+          border-bottom: 0;
+        }
+
+        .btn {
+          margin-top: 40px;
+        }
+      }
+    }
+
     .transaction-type-subheader {
       .sl-md;
       @subHeaderHeight: 40px;
@@ -89,6 +104,7 @@
       .tt-buttons {
         float: right;
         margin-right: 3px;
+        margin-top: -5px;
 
         > div {
           display: inline-block;
@@ -109,9 +125,10 @@
       }
     }
 
-    .transaction-body {
+    .transaction-body, .evidence-portal-info {
       background-color: @white;
       padding: 20px 20px 20px 85px;
+      margin: 0;
 
       .transaction-info, .funding-instrument-info {
         .key-value-display {

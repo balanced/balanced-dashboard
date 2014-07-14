@@ -125,7 +125,7 @@ Balanced.computed = Ember.Namespace.create({
 	transform: function(dependentKey, func, self) {
 		return Ember.computed(dependentKey, function() {
 			if (_.isString(func)) {
-				func = get(self || this, func);
+				func = get(self || this, func) || get(this.constructor, func);
 			}
 
 			return func.call(self || this, get(self || this, dependentKey));

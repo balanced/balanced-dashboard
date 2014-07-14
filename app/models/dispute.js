@@ -1,12 +1,29 @@
-var Computed = {
-	isStatus: function(status) {
-		return Ember.computed.equal('status', status);
-	}
-};
-
-Balanced.Dispute = Balanced.Model.extend({
+Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
+	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
+	dispute_note: Ember.computed.oneWay('note'),
+	isDocumentsLoaded: function() {
+		if (this.get('documents.length') > 0) {
+			return this.get('documents.isLoaded');
+		} else {
+			return true;
+		}
+	}.property('documents.length', 'documents.isLoaded'),
+
+	type_name: 'Dispute',
+	route_name: 'dispute',
+
+	uri: '/disputes',
+	events_uri: Balanced.computed.concat('uri', '/events'),
+
+	dispute_uri: function() {
+		return '/disputes/' + this.get('id');
+	}.property('id'),
+
+	dispute_documents_uri: function() {
+		return '/disputes/' + this.get('id') + '/documents';
+	}.property('id'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
@@ -28,14 +45,13 @@ Balanced.Dispute = Balanced.Model.extend({
 
 	status_name: Ember.computed.alias('status'),
 
-	is_lost: Computed.isStatus('lost'),
-	is_won: Computed.isStatus('won'),
-	is_pending: Computed.isStatus('pending'),
+	hasNotExpired: function() {
+		return moment(this.get('respond_by')).toDate() > moment().toDate();
+	}.property('respond_by'),
 
-	type_name: 'Dispute',
-	route_name: 'dispute',
-	events_uri: Balanced.computed.concat('uri', '/events'),
-	uri: '/disputes'
+	canUploadDocuments: function() {
+		return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'pending') && (this.get('documents.length') === 0);
+	}.property('isDocumentsLoaded', 'hasNotExpired', 'status', 'documents.length')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');

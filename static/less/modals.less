@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 @modalBackgroundColor: #d9d8d5;
-@modalBodyBackgroundColor: rgba(255, 255, 255, 0.9);
+@modalBodyBackgroundColor: @white;
 @modalBorderColor: #000;
 @modalBorderWidth: 0;
 @modalOverlayColor: #000;
@@ -66,7 +66,7 @@ body .modal-backdrop.fade.in {
     width: @wideModalWidth;
     margin-left: -@wideModalWidth / 2;
   }
-  background-color: @modalBackgroundColor;
+  background-color: @modalBodyBackgroundColor;
   border: @modalBorderWidth solid;
   border: @modalBorderWidth solid;
   *border: @modalBorderWidth solid;
@@ -275,11 +275,13 @@ body .modal-backdrop.fade.in {
 
 // Footer (for actions)
 .modal-footer {
-  padding: 15px;
+  padding: 15px 0;
   margin-bottom: 0;
+  margin-left: 35px;
+  margin-right: 35px;
   text-align: right; // right align buttons
   background-color: @white;
-  border-top: 1px transparent;
+  border-top: 1px solid @gray2;
   .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
   // Properly space out buttons
@@ -554,6 +556,43 @@ body .modal-backdrop.fade.in {
   .modal.full-screen-modal.modal-overflow   {
     width: 100% !important;
     height: 100% !important;
+  }
+}
+
+#evidence-portal {
+
+  .fileinput-button {
+    position: relative;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    input#fileupload {
+      position: absolute;
+      right: 0;
+      width: 74px;
+      opacity: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  td {
+    position: relative;
+
+    .loader-container {
+      position: absolute;
+      top: 10px;
+    }
+
+    > span {
+      padding: 0;
+      display: block;
+      line-height: 46px;
+    }
   }
 }
 

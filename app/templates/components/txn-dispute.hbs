@@ -7,6 +7,31 @@
 			</span>
 		</div>
 	</div>
+	{{#if dispute.canUploadDocuments}}
+		<section class="evidence-portal-info">
+		<div class="row-fluid">
+			<div class="span12">
+				<header>
+					<h3>Please provide supporting documentation:</h3>
+				</header>
+				<ul class="styled">
+					<li>Shipping receipts with shipping address and tracking numbers</li>
+					<li>Evidence of received goods or services purchased</li>
+				</ul>
+			</div>
+			<div class="span8">
+				<header>
+					<h3>Submit documentation by:</h3>
+				</header>
+				<div>
+					<h4>{{humanReadableDateLong dispute.respond_by}}</h4>
+					<p>The dispute will most likely result in a lost if you do not respond by this date.</p>
+				</div>
+			</div>
+			<a class="btn pull-right sm" {{action "openModal" Balanced.EvidencePortalModalView dispute}}>Attach docs</a>
+		</div>
+		</section>
+	{{/if}}
 	<div class="transaction-body">
 		<div class="row-fluid">
 			<div class="span25 border-adjust">
@@ -22,7 +47,7 @@
 							<dt>Initiated</dt>
 							<dd><span>{{humanReadableDateLong dispute.initiated_at}}</span></dd>
 
-							<dt>Respond By</dt>
+							<dt>Respond by</dt>
 							<dd><span>{{humanReadableDateLong dispute.respond_by}}</span></dd>
 
 							<dt>Reason</dt>
@@ -32,6 +57,11 @@
 					</div>
 					{{view Balanced.MetaView type=dispute}}
 				</section>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span25 border-adjust">
+				{{view Balanced.ResourceDocumentsView contentBinding="dispute"}}
 			</div>
 		</div>
 		<div class="row-fluid">
