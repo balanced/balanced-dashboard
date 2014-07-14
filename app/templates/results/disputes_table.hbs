@@ -5,10 +5,8 @@
 		<th class="span3 label6a status has-filter">
 			{{view Balanced.DisputesStatusResultsDropdownFilterView}}
 		</th>
-		{{#unless view.excludeCustomer}}
+		{{#unless view.isSmallTable}}
 			<th class="span4 label6a account"><span>Customer</span></th>
-		{{/unless}}
-		{{#unless view.excludePaymentMethod}}
 			<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
 		<th class="span2 label6a amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="amount"}}<span>Amount</span>{{/view}}</th>
@@ -55,7 +53,7 @@
 					{{dispute.status}}
 				</span>{{/link-to}}
 			</td>
-			{{#unless view.excludeCustomer}}
+			{{#unless view.isSmallTable}}
 				<td {{bind-attr class=":span4 :account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
 					{{#link-to dispute.route_name dispute}}
 						{{#if dispute.customer_display_me}}
@@ -68,8 +66,7 @@
 						{{/if}}
 					{{/link-to}}
 				</td>
-			{{/unless}}
-			{{#unless view.excludePaymentMethod}}
+
 				<td class="span3 funding-instrument">
 					{{#link-to dispute.route_name dispute}}
 					<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>

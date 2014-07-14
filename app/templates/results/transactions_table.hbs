@@ -8,10 +8,8 @@
 			{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
 		</th>
 		<th class="span4 description"><span>Description</span></th>
-		{{#unless view.excludeCustomer}}
+		{{#unless view.isSmallTable}}
 			<th class="span3 account"><span>Customer</span></th>
-		{{/unless}}
-		{{#unless view.excludePaymentMethod}}
 			<th class="span3 funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
 		<th class="span3 amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="amount"}}<span>Amount</span>{{/view}}</th>
@@ -66,11 +64,9 @@
 				titleBinding="transaction.description"
 			}}
 
-			{{#unless view.excludeCustomer}}
+			{{#unless view.isSmallTable}}
 				{{view Balanced.TransactionCustomerCellView item=transaction classNames="span4"}}
-			{{/unless}}
 
-			{{#unless view.excludePaymentMethod}}
 				{{view Balanced.LinkedTwoLinesCellView
 					item=transaction
 					routeName=transaction.route_name
@@ -85,7 +81,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="no-results">
+			<td {{bind-attr colspan=view.isSmallTable::5:7}} class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}

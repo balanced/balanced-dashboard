@@ -52,7 +52,7 @@
 
 			{{view Balanced.MetaView type=model}}
 		</div>
-		<div class="panel main-panel span">
+		<div class="panel main-panel span16">
 			<h3>Payments</h3>
 
 			<div class="results">
@@ -69,7 +69,9 @@
 				</div>
 			</div>
 
-			<h3>Bank accounts</h3>
+			<h3>Payment methods</h3>
+
+			{{view Balanced.FundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
 
 			{{#each bank_account in bank_accounts}}
 				<li class="bank-account">
@@ -97,8 +99,6 @@
 					{{/link-to}}
 				</li>
 			{{/each}}
-
-			<h3>Cards</h3>
 
 			{{#each card in cards}}
 				<li>

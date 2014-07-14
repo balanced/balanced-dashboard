@@ -151,8 +151,7 @@ Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
 });
 
 Balanced.CustomerTransactionsResultsView = Balanced.ResultsTableView.extend({
-	excludeCustomer: true,
-	excludePaymentMethod: true,
+	isSmallTable: true,
 	colspan: 5,
 	templateName: 'results/transactions_table'
 });
@@ -174,9 +173,7 @@ Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
 });
 
 Balanced.CustomerDisputesResultsView = Balanced.ResultsTableView.extend({
-	columns: ['date'],
-	excludeCustomer: true,
-	excludePaymentMethod: true,
+	isSmallTable: true,
 	colspan: 4,
 	templateName: 'results/disputes_table'
 });
