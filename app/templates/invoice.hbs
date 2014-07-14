@@ -257,12 +257,12 @@
 		<div class="results">
 			{{#if isDispute}}
 				<div class="items-wrapper">
-					{{view Balanced.DisputesResultsView disputesBinding="dispute_results"}}
+					{{view Balanced.DisputesResultsView disputes=disputesResultsLoader.results}}
 				</div>
 			{{else}}
 				{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
 				<div class="items-wrapper">
-					{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
+					{{view Balanced.TransactionsResultsView transactions=results}}
 				</div>
 			{{/if}}
 		</div>
