@@ -2,34 +2,10 @@
 	<tr>
 		<th class="span3 date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
 		<th class="span2 type has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Type</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu type-filter filter-choices">
-					<li><a href="#" {{action "changeTypeFilter" "transaction"}}>All</a></li>
-					<li><a href="#" {{action "changeTypeFilter" "card_hold"}}> Holds </a></li>
-					<li><a href="#" {{action "changeTypeFilter" "debit"}}> Debits </a></li>
-					<li><a href="#" {{action "changeTypeFilter" "credit"}}> Credits </a></li>
-					<li><a href="#" {{action "changeTypeFilter" "refund"}}> Refunds </a></li>
-					<li><a href="#" {{action "changeTypeFilter" "reversal"}}> Reversals </a></li>
-				</ul>
-			</div>
+			{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
 		</th>
 		<th class="span3 status has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Status</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu status-filter filter-choices">
-					<li><a href="#" {{action "changeTransactionStatusFilter" "all"}}>All</a></li>
-					<li><a href="#" {{action "changeTransactionStatusFilter" "pending"}}> Pending </a></li>
-					<li><a href="#" {{action "changeTransactionStatusFilter" "succeeded"}}> Succeeded </a></li>
-					<li><a href="#" {{action "changeTransactionStatusFilter" "failed"}}> Failed </a></li>
-				</ul>
-			</div>
+			{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
 		</th>
 		<th class="span4 description"><span>Description</span></th>
 		{{#unless view.excludeCustomer}}

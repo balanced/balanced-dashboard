@@ -334,7 +334,7 @@ test('can create savings accounts', function(assert) {
 });
 
 test('create bank account only submits once when clicked multiple times', function(assert) {
-	var spy = sinon.spy(balanced.bankAccount, 'create');
+	var spy = sinon.stub(balanced.bankAccount, 'create');
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.bank-account-info a.add')

@@ -216,7 +216,8 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 
 	logValidationErrors: function() {
 		this.logSaveMessage("Balanced.ProductionAccessRequest#ValidationError", {
-			validationMessages: this.get("validationErrors.allMessages")
+			validationMessages: this.get("validationErrors.allMessages"),
+			isValid: this.get("isValid")
 		});
 	},
 
@@ -299,7 +300,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				return self.saveVerification(bankAccount);
 			})
 			.
-		catch (function(error) {
+		catch(function(error) {
 			Balanced.ErrorsLogger.captureMessage("Balanced.ProductionAccessRequest", {
 				extra: {
 					response: error,
@@ -328,7 +329,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 				marketplace = mp;
 				self.logSaveMessage("Successful Marketplace Signup");
 				return self.verifyBankAccount(marketplace).
-				catch (function(error) {
+				catch(function(error) {
 					self.logSaveError(error);
 				});
 			}, function(error) {
@@ -360,7 +361,7 @@ Balanced.ProductionAccessRequest = Balanced.Model.extend(Ember.Validations, {
 					var acceptedValues = Balanced.Marketplace.COMPANY_TYPES.map(function(v) {
 						return v.value;
 					});
-					if (!Balanced.Marketplace.COMPANY_TYPES.isAny("value", value)) {
+					if (object.get("isBusiness") && !Balanced.Marketplace.COMPANY_TYPES.isAny("value", value)) {
 						object.get('validationErrors').add(attribute, 'included', null, 'must be one of %@'.fmt(acceptedValues.join(", ")));
 					}
 				},

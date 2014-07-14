@@ -13,17 +13,17 @@
 						<td class="first date">
 							{{#link-to 'events' event}}
 							<time {{bind-attr datetime="event.occurred_at"}} {{bind-attr title="event.occurred_at"}}>
-							{{humanReadableDateShort event.occurred_at}}</time>
+								{{humanReadableDateShort event.occurred_at}}</time>
 							{{/link-to}}
 						</td>
 						<td class="second">
 							{{#link-to 'events' event}}
-							<span>{{event.type}}</span>
+								<span>{{event.type}}</span>
 							{{/link-to}}
 						</td>
 						<td class="align-right">
 							{{#link-to 'events' event}}
-							<span>{{inflection event.eventCallbacks.length singular="webhook"}}</span>
+								<span>{{inflection event.eventCallbacks.length singular="webhook"}}</span>
 							{{/link-to}}
 						</td>
 					</tr>

@@ -4,13 +4,14 @@ module('Login', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Auth._doSignIn
+			Balanced.Auth.signInRequest,
+			Balanced.Auth.request
 		);
 	}
 });
 
 test('login page exists and has correct fields', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, '_doSignIn');
+	var spy = sinon.spy(Balanced.Auth, 'signInRequest');
 	Testing.logout();
 
 	visit('/login')
@@ -28,7 +29,7 @@ test('login page exists and has correct fields', function(assert) {
 });
 
 test('login form submits correctly', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, '_doSignIn');
+	var spy = sinon.spy(Balanced.Auth, 'signInRequest');
 	Testing.logout();
 
 	visit('/login')
@@ -41,7 +42,7 @@ test('login form submits correctly', function(assert) {
 });
 
 test('login page works', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, '_doSignIn');
+	var spy = sinon.spy(Balanced.Auth, 'signInRequest');
 	Testing.logout();
 
 	visit('/login')
@@ -98,21 +99,8 @@ asyncTest('login afterLogin with transition works', 1, function(assert) {
 		"status": "OK"
 	};
 
-	var stub = sinon.stub(Balanced.Auth, '_doSignIn', function() {
-		Balanced.Auth.onSuccessfulLogin(loginResponse);
-
-		var promise = $.Deferred(function() {
-			var self = this;
-
-			_.delay(function() {
-				Ember.run(function() {
-					self.resolve(loginResponse);
-				});
-			});
-		});
-
-		return promise;
-	});
+	var stub = sinon.stub(Balanced.Auth, 'request')
+		.returns(Ember.RSVP.resolve(loginResponse));
 
 	Testing.logout();
 

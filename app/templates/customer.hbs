@@ -57,7 +57,7 @@
 
 			<div class="results">
 				<div class="items-wrapper">
-					{{view Balanced.CustomerTransactionsResultsView transactionsBinding="results"}}
+					{{view Balanced.CustomerTransactionsResultsView transactions=results}}
 				</div>
 			</div>
 
@@ -65,11 +65,11 @@
 
 			<div class="results">
 				<div class="items-wrapper">
-					{{view Balanced.CustomerDisputesResultsView disputesBinding="dispute_results"}}
+					{{view Balanced.CustomerDisputesResultsView disputes=disputesResultsLoader.results}}
 				</div>
 			</div>
 
-			<h3>Back accounts</h3>
+			<h3>Bank accounts</h3>
 
 			{{#each bank_account in bank_accounts}}
 				<li class="bank-account">

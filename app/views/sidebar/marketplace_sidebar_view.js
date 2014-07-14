@@ -50,10 +50,28 @@ var SIDEBAR_ITEMS = [{
 	}]
 }];
 
-Balanced.MarketplaceSidebarView = Ember.View.extend({
+Balanced.SidebarView = Ember.View.extend({
+	templateName: "sidebar/marketplace_sidebar",
 	items: function() {
-		return SIDEBAR_ITEMS.map(function(itemHash) {
-			return Balanced.BasicLinkSidebarItemView.create(itemHash);
-		});
-	}.property()
+		return [];
+	}.property(),
+	dropdownDisplayLabel: function() {
+		return this.get("marketplace") ?
+			this.get("marketplace.name") :
+			"Marketplaces";
+	}.property("marketplace", "marketplace.name"),
+});
+
+Balanced.MarketplaceSidebarView = Balanced.SidebarView.extend({
+	sidebarItemsDefinition: function() {
+		return this.get("marketplace") ?
+			SIDEBAR_ITEMS : [];
+	}.property("marketplace"),
+
+	items: function() {
+		return this.get("sidebarItemsDefinition")
+			.map(function(itemHash) {
+				return Balanced.BasicLinkSidebarItemView.create(itemHash);
+			});
+	}.property("sidebarItemsDefinition")
 });

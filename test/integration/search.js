@@ -96,7 +96,7 @@ test('search date range pick', function(assert) {
 			assertQueryString(request.args[1], {
 				"created_at[<]": "2013-08-01T23:59:00.000Z",
 				"created_at[>]": "2013-08-01T00:00:00.000Z",
-				limit: "2",
+				limit: "10",
 				offset: "0",
 				q: "",
 				sort: "created_at,desc",

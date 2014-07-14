@@ -2,7 +2,7 @@
 	{{#if isApplyPage}}
 		{{outlet}}
 	{{else}}
-		{{partial "marketplace_sidebar"}}
+		{{view Balanced.MarketplaceSidebarView marketplace=controllers.marketplace.marketplace}}
 		{{partial "header"}}
 		<div id="content">
 			{{partial "alert"}}

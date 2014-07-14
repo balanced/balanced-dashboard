@@ -3,18 +3,7 @@
 		<th class="span3 label6a initiated date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="initiated_at"}}<span>Date initiated</span>{{/view}}</th>
 		<th class="span3 label6a respond-by date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="respond_by"}}<span>Respond by</span>{{/view}}</th>
 		<th class="span3 label6a status has-filter">
-			<div class="dropdown filter">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<span>Status</span>
-					<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu status-filter filter-choices">
-					<li><a href="#" {{action "changeDisputeStatusFilter" "all"}}>All</a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "pending"}}> Pending </a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "won"}}> Won </a></li>
-					<li><a href="#" {{action "changeDisputeStatusFilter" "lost"}}> Lost </a></li>
-				</ul>
-			</div>
+			{{view Balanced.DisputesStatusResultsDropdownFilterView}}
 		</th>
 		{{#unless view.excludeCustomer}}
 			<th class="span4 label6a account"><span>Customer</span></th>
@@ -62,8 +51,8 @@
 				</span>{{/link-to}}
 			</td>
 			<td {{bind-attr class=":span3 :label4a :status"}}>
-				{{#link-to dispute.route_name dispute}}<span {{bind-attr class="dispute.status_name"}}>
-					{{dispute.status_name}}
+				{{#link-to dispute.route_name dispute}}<span {{bind-attr class="dispute.status"}}>
+					{{dispute.status}}
 				</span>{{/link-to}}
 			</td>
 			{{#unless view.excludeCustomer}}
@@ -77,7 +66,6 @@
 						{{else}}
 							<span class="sl-none">none</span>
 						{{/if}}
-						<!-- {{dispute.customer_name_summary}} -->
 					{{/link-to}}
 				</td>
 			{{/unless}}
@@ -90,6 +78,7 @@
 					</span>{{/link-to}}
 				</td>
 			{{/unless}}
+
 			<td class="span2 amount num">
 				{{#link-to dispute.route_name dispute}}<span>
 					{{formatCurrency dispute.amount}}
