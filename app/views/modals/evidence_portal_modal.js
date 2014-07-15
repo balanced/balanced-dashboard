@@ -60,11 +60,11 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 				errorDescription: invalidFileMessage
 			});
 
-			this.trackCollectionEvent("Dispute Document: Files upload failed (client)", {
+			this.trackCollectionEvent("EvidencePortal: Files upload failed (client)", {
 				error: invalidFileMessage
 			});
 		} else {
-			this.trackCollectionEvent("Dispute Document: File added", {
+			this.trackCollectionEvent("EvidencePortal: File added", {
 				documentCount: this.get('documentsToUpload').length
 			});
 		}
@@ -78,13 +78,19 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			errorDescription: data.responseJSON.message.htmlSafe()
 		});
 
-		this.trackCollectionEvent("Dispute Document: File upload failed (server)", {
+		this.trackCollectionEvent("EvidencePortal: File upload failed (server)", {
 			error: data.responseJSON.message.htmlSafe()
+		});
+
+		Balanced.ErrorsLogger.captureMessage("Balanced.EvidencePortalModalView#uploadError", {
+			extra: {
+				validationMessages: data.responseJSON.message
+			}
 		});
 	},
 
 	uploadSuccess: function(data, status, jqxhr) {
-		this.trackCollectionEvent("Dispute Document: Upload completed");
+		this.trackCollectionEvent("EvidencePortal: Upload completed");
 
 		this.get('model').reload();
 		this.close();
@@ -103,12 +109,12 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 
 	open: function(container) {
 		this._super(container);
-		this.trackCollectionEvent("Dispute Document: Modal opened");
+		this.trackCollectionEvent("EvidencePortal: Modal opened");
 	},
 
 	close: function() {
 		this._super();
-		this.trackCollectionEvent("Dispute Document: Modal closed");
+		this.trackCollectionEvent("EvidencePortal: Modal closed");
 	},
 
 	trackCollectionEvent: function(message, extra) {
@@ -131,7 +137,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			}
 
 			this.get('documentsToUpload').removeObject(doc);
-			this.trackCollectionEvent("Dispute Document: File removed", {
+			this.trackCollectionEvent("EvidencePortal: File removed", {
 				document: doc
 			});
 		},
