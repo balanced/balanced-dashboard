@@ -62,6 +62,14 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 		}.property("transactionStatus"),
 
 		actions: {
+			openDeleteModal: function(funding_instrument) {
+				if (funding_instrument.get('type_name').indexOf('card') >= 0) {
+					this.trigger('openDeleteCardModal', funding_instrument);
+				} else if (funding_instrument.get('type_name').indexOf('account') >= 0) {
+					this.trigger('openDeleteBankAccountModal', funding_instrument);
+				}
+			},
+
 			changeStatusFilter: function(status) {
 				this.set('transactionStatus', status);
 			},
@@ -69,8 +77,9 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 			changeDisputeStatusFilter: function(status) {
 				this.set('disputesResultsLoader.statusFilters', status);
 			},
+
 			changePaymentMethodFilter: function(type) {
-				this.set('fundingInstrumentsResultsLoader.typeFilters', type);
+				this.set('funding_instruments.type', type);
 			}
 		}
 	}

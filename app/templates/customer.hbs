@@ -10,8 +10,8 @@
 		</div>
 	</div>
 
-	<div class="body-panel clearfix">
-		<div class="panel side-panel span8">
+	{{#view Balanced.BodyPanelView}}
+		<div class="side-panel span8">
 			<h3>{{humanReadableDateLong created_at}}</h3>
 
 			<h3 {{bind-attr class=":status is_identity_verified:verified:unverified"}}>
@@ -49,10 +49,10 @@
 					{{view Balanced.LinkedKeyValueView key="Twitter ID" link=twitter_url value=twitter_id}}
 				</dl>
 			</div>
-
 			{{view Balanced.MetaView type=model}}
 		</div>
-		<div class="panel main-panel span16">
+
+		<div class="main-panel span">
 			<h3>Payments</h3>
 			<div class="results">
 				<div class="items-wrapper">
@@ -70,7 +70,7 @@
 			<h3>Payment methods</h3>
 			{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=funding_instruments}}
 		</div>
-	</div>
+	{{/view}}
 </div>
 
 {{#if show_download}}
