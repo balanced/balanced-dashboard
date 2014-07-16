@@ -23,21 +23,21 @@
 					{{modalFieldErrors view.model.validationErrors.destination_uri}}
 				</div>
 			</div>
-
-			<div class="control-group">
-				<label class="control-label">Name on account</label>
-				<div class="controls text-label">{{view.model.destination.name}}</div>
-			</div>
-
-			<div class="control-group">
-				<label class="control-label">Bank</label>
-				<div class="controls text-label">{{view.model.destination.formatted_bank_name}}</div>
-			</div>
 		{{else}}
 			<div class="alert alert-error">
 				The customer must have at least one funding instrument to credit.
 			</div>
 		{{/if}}
+
+		<div class="control-group">
+			<label class="control-label">Name on account</label>
+			<div class="controls text-label">{{view.model.destination.name}}</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">Bank</label>
+			<div class="controls text-label">{{view.model.destination.formatted_bank_name}}</div>
+		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.dollar_amount:error"}}>
 			<label class="control-label" {{bind-attr for=view.amount.elementId}}>Amount</label>
