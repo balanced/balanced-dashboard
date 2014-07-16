@@ -80,6 +80,10 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 
 			changePaymentMethodFilter: function(type) {
 				this.set('funding_instruments.type', type);
+			},
+
+			toggleDrawer: function(className) {
+				$('.' + className).slideToggle();
 			}
 		}
 	}

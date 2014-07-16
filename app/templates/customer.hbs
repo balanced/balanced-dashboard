@@ -10,14 +10,17 @@
 				{{status}}
 			</h3>
 			{{#unless is_identity_verified}}
-				<p>You may continue paying this customer, but we recommend collecting more information of this customer for underwriting purposes. (For an individual, you may collect full legal name, email, permanent street address, and last four digits of SSN. For a business, we also recommend collecting the full business name and EIN number.)</p>
+				<p>You may credit this customer, but we recommend collecting more information of this customer for underwriting purposes. <a {{action 'toggleDrawer' 'learn-more-unverified'}}>Learn more</a></p>
+				<p class="drawer learn-more-unverified">
+					For an individual, you may collect full legal name, email, permanent street address, and last four digits of SSN. For a business, we also recommend collecting the full business name and EIN number.
+				</p>
 			{{/unless}}
 			</div>
 
 			<div class="key-value-display">
 				<h3>
 					Customer information
-					{{view Balanced.EditCustomerInfoModalView customerBinding="model"}}
+					{{view Balanced.EditCustomerInfoModalView customer=model}}
 				</h3>
 				<dl class="dl-horizontal">
 					{{view Balanced.KeyValueView key="Customer ID" value=id}}
