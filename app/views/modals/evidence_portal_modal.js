@@ -59,6 +59,14 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 				displayErrorDescription: true,
 				errorDescription: invalidFileMessage
 			});
+
+			this.trackCollectionEvent("EvidencePortal: Files upload failed (client)", {
+				error: invalidFileMessage
+			});
+		} else {
+			this.trackCollectionEvent("EvidencePortal: File added", {
+				documentCount: this.get('documentsToUpload').length
+			});
 		}
 
 		this.reposition();
@@ -69,9 +77,21 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			displayErrorDescription: true,
 			errorDescription: data.responseJSON.message.htmlSafe()
 		});
+
+		this.trackCollectionEvent("EvidencePortal: File upload failed (server)", {
+			error: data.responseJSON.message.htmlSafe()
+		});
+
+		Balanced.ErrorsLogger.captureMessage("Balanced.EvidencePortalModalView#uploadError", {
+			extra: {
+				validationMessages: data.responseJSON.message
+			}
+		});
 	},
 
 	uploadSuccess: function(data, status, jqxhr) {
+		this.trackCollectionEvent("EvidencePortal: Upload completed");
+
 		this.get('model').reload();
 		this.close();
 	},
@@ -87,6 +107,24 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 		doc.set('isUploading', false);
 	},
 
+	open: function(container) {
+		this._super(container);
+		this.trackCollectionEvent("EvidencePortal: Modal opened");
+	},
+
+	close: function() {
+		this._super();
+		this.trackCollectionEvent("EvidencePortal: Modal closed");
+	},
+
+	trackCollectionEvent: function(message, extra) {
+		var attributes = {
+			email: Balanced.Auth.get('user.email_address')
+		};
+		_.extend(attributes, extra);
+		Balanced.Analytics.trackEvent(message, attributes);
+	},
+
 	actions: {
 		fileSelectionChanged: function() {
 			var fileInput = this.$("#fileupload").get(0);
@@ -99,6 +137,9 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			}
 
 			this.get('documentsToUpload').removeObject(doc);
+			this.trackCollectionEvent("EvidencePortal: File removed", {
+				document: doc
+			});
 		},
 
 		reload: function() {
@@ -142,5 +183,5 @@ Balanced.EvidencePortalModalView.reopenClass({
 		return this.create({
 			model: dispute
 		});
-	},
+	}
 });

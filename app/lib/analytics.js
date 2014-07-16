@@ -2,7 +2,11 @@ window.mixpanel = window.mixpanel || [];
 window._gaq = window._gaq || [];
 
 Balanced.Analytics = (function() {
-	if (!window.TESTING) {
+	var isMixpanelLoaded = !Ember.isBlank(ENV.BALANCED.MIXPANEL);
+	var isGoogleAnalyticsLoaded = !Ember.isBlank(ENV.BALANCED.GOOGLE_ANALYTICS);
+
+
+	if (isGoogleAnalyticsLoaded) {
 		// This page will almost always be over https, so can just load this directly.
 		$.getScript('https://ssl.google-analytics.com/ga.js', {
 			cache: true
@@ -12,7 +16,10 @@ Balanced.Analytics = (function() {
 	// links the current id with this specific id
 	function trackLogin(email) {
 		try {
-			window.mixpanel.identify(email);
+			if (isMixpanelLoaded) {
+				window.mixpanel.identify(email);
+			}
+
 			Raven.setUser({
 				email: email
 			});
@@ -21,15 +28,16 @@ Balanced.Analytics = (function() {
 
 	return {
 		init: function(settings) {
-			if (window.TESTING || !window.mixpanel.init) {
-				return;
+
+			if (isMixpanelLoaded) {
+				window.mixpanel.init(settings.MIXPANEL);
 			}
 
-			window.mixpanel.init(settings.MIXPANEL);
-
-			window._gaq.push(['_setAccount', settings.GOOGLE_ANALYTICS]);
-			window._gaq.push(['_setDomainName', 'balancedpayments.com']);
-			window._gaq.push(['_trackPageview']);
+			if (isGoogleAnalyticsLoaded) {
+				window._gaq.push(['_setAccount', settings.GOOGLE_ANALYTICS]);
+				window._gaq.push(['_setDomainName', 'balancedpayments.com']);
+				window._gaq.push(['_trackPageview']);
+			}
 
 			Balanced.Auth.on('signInSuccess', function() {
 				Balanced.Analytics.trackEvent('login-success', {
@@ -68,18 +76,16 @@ Balanced.Analytics = (function() {
 		},
 		trackPage: _.debounce(function(page) {
 			var currentLocation = page + location.hash;
-			if (window.TESTING || !window.mixpanel.track_pageview) {
-				return;
+
+			if (isGoogleAnalyticsLoaded) {
+				window._gaq.push(['_trackPageview', currentLocation]);
 			}
-			window._gaq.push(['_trackPageview', currentLocation]);
-			window.mixpanel.track_pageview(currentLocation);
+			if (isMixpanelLoaded) {
+				window.mixpanel.track_pageview(currentLocation);
+			}
 		}, 500),
 		trackEvent: function(name, data) {
 			data = data || {};
-
-			if (window.TESTING || !window.mixpanel.track) {
-				return;
-			}
 
 			if (Balanced.currentMarketplace) {
 				data.marketplaceId = Balanced.currentMarketplace.get('id');
@@ -87,8 +93,13 @@ Balanced.Analytics = (function() {
 			}
 
 			var filteredData = Balanced.Utils.filterSensitivePropertiesMap(data);
-			window.mixpanel.track(name, filteredData);
-			window._gaq.push(['_trackEvent', 'dashboard', name]);
+			if (isMixpanelLoaded) {
+				window.mixpanel.track(name, filteredData);
+			}
+
+			if (isGoogleAnalyticsLoaded) {
+				window._gaq.push(['_trackEvent', 'dashboard', name]);
+			}
 		}
 	};
 
