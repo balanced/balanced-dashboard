@@ -10,7 +10,7 @@ Balanced.BodyPanelView = Ember.View.extend({
 			$(window).resize(function() {
 				self.updatePanelHeight();
 			});
-		})
+		});
 	},
 
 	updatePanelHeight: function() {

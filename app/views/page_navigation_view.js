@@ -13,6 +13,6 @@ Balanced.CustomerPageNavigationView = Balanced.PageNavigationView.extend({
 		}, {
 			modalViewName: Balanced.DebitCustomerModalView,
 			buttonName: 'Debit'
-		}]
+		}];
 	}.property()
 });
