@@ -21,11 +21,7 @@
 
 			<div class="summary">
 				<i class="icon-customers non-interactive"></i>
-				{{#link-to customer.route_name customer}}{{customer.display_me}}{{/link-to}}
-
-				{{#if status}}
-					<span {{bind-attr class=":status status"}}>{{status}}</span>
-				{{/if}}
+				{{#link-to customer.route_name customer title=customer.display_me_with_email}}{{customer.display_me}}{{/link-to}}
 			</div>
 
 			<div class="key-value-display">
