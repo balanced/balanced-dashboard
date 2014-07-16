@@ -47,14 +47,7 @@
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}
 					<span>
-					{{#unless funding_instrument.can_debit}}
-						{{#if funding_instrument.can_confirm_verification}}
-							Confirm verification
-						{{else}}
-							Unverified
-						{{/if}}
-					{{/unless}}
-						Verified
+						{{capitalize funding_instrument.status}}
 					</span>
 				{{/link-to}}
 			</td>

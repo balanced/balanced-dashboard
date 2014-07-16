@@ -73,9 +73,16 @@
 }
 
 .side-panel {
-  h3.status {
+  .summary {
     margin: 40px 0;
 
+    p {
+      color: @gray6;
+      padding-left: 22px;
+    }
+  }
+
+  .status {
     &:before {
       content: '';
       display: inline-block;
@@ -171,11 +178,6 @@ section[class$="-info"] {
     color: @white;
     font-style: italic;
   }
-}
-
-.icon-edit {
-  font-size: 12px;
-  margin-top: 2px;
 }
 
 .bank-account-info {

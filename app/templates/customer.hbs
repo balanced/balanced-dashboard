@@ -5,12 +5,14 @@
 		<div class="side-panel span8">
 			<h3>{{humanReadableDateLong created_at}}</h3>
 
+			<div class="summary">
 			<h3 {{bind-attr class=":status is_identity_verified:verified:unverified"}}>
 				{{status}}
 			</h3>
 			{{#unless is_identity_verified}}
 				<p>You may continue paying this customer, but we recommend collecting more information of this customer for underwriting purposes. (For an individual, you may collect full legal name, email, permanent street address, and last four digits of SSN. For a business, we also recommend collecting the full business name and EIN number.)</p>
 			{{/unless}}
+			</div>
 
 			<div class="key-value-display">
 				<h3>
