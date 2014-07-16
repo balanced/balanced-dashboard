@@ -83,6 +83,8 @@
   }
 
   .status {
+    text-transform: capitalize;
+
     &:before {
       content: '';
       display: inline-block;
@@ -90,15 +92,18 @@
       height: 12px;
       border-radius:100%;
       margin-right: 6px;
-      text-transform: capitalize;
     }
 
     &.verified:before {
-      background-color: @pineGreen100;
+      background-color: @pineGreen80;
+    }
+
+    &.pending:before {
+      background-color: @curryYellow80;
     }
 
     &.unverified:before {
-      background-color: @imperialRed100;
+      background-color: @imperialRed80;
     }
   }
 }

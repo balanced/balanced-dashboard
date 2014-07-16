@@ -25,10 +25,10 @@
 			<h3>{{humanReadableDateLong created_at}}</h3>
 
 			<div class="summary">
-				<i class="icon-customers non-interactive"></i>
-				{{#link-to customer.route_name customer title=customer.display_me_with_email}}{{customer.display_me}}{{/link-to}}
-
 				<h3 {{bind-attr class=":status status"}}>{{status}}</h3>
+
+				<i class="icon-customers non-interactive" title="Customer"></i>
+				{{#link-to customer.route_name customer title=customer.display_me_with_email}}{{customer.display_me}}{{/link-to}}
 			</div>
 
 			<div class="key-value-display">
@@ -60,8 +60,9 @@
 			<div class="results">
 				{{view Balanced.CustomerTransactionsResultsView transactions=results}}
 			</div>
-			<h3>Verification</h3>
 
+			{{#if verifications}}
+			<h3>Verification</h3>
 			<table class="items">
 				<tbody>
 					{{#each verification in verifications}}
@@ -93,6 +94,7 @@
 					{{/each}}
 				</tbody>
 			</table>
+			{{/if}}
 		</div>
 	{{/view}}
 </div>
