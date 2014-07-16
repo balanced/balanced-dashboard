@@ -1,0 +1,13 @@
+<div class="page-navigation details-page clearfix">
+	<h1 class="page-title">
+		<div class="page-type">{{pageType}}</div>
+		{{name}}
+	</h1>
+	<div class="buttons page-actions">
+		{{#each actionButton in view.actionButtons}}
+			<a class="btn sm view.actionClassNames" {{action "openModal" actionButton.modalViewName model}}>{{actionButton.buttonName}}</a>
+		{{/each}}
+
+		{{debit-customer-modal customer=model}}
+	</div>
+</div>

@@ -9,7 +9,7 @@
 
 		{{#if view.fundingInstruments}}
 			<div {{bind-attr class=":control-group view.model.validationErrors.destination_uri:error"}}>
-				<label class="control-label" {{bind-attr for=view.destination.elementId}}>Funding instrument</label>
+				<label class="control-label" {{bind-attr for=view.destination.elementId}}>Payment method</label>
 				<div class="controls">
 					{{view Ember.Select
 						contentBinding="view.fundingInstruments"
@@ -25,7 +25,7 @@
 			</div>
 
 			<div class="control-group">
-				<label class="control-label">Account holder's name</label>
+				<label class="control-label">Name on account</label>
 				<div class="controls text-label">{{view.model.destination.name}}</div>
 			</div>
 
