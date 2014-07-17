@@ -44,6 +44,10 @@ Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 			this.set('disputesResultsLoader.statusFilters', status);
 		},
 
+		changePaymentMethodFilter: function(method) {
+			this.set("fundingInstrumentsResultsLoader.type", method);
+		},
+
 		toggleDrawer: function(className) {
 			$('.' + className).slideToggle();
 		}

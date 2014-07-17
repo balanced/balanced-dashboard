@@ -17,17 +17,12 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 			path: model.get("transactions_uri")
 		});
 
-		var bankAccounts = Balanced.CustomerBankAccountsResultsLoader.create({
-			customer: model
-		});
-
-		var cards = Balanced.CustomerCardsResultsLoader.create({
+		var fundingInstruments = Balanced.CustomerFundingInstrumentsResultsLoader.create({
 			customer: model
 		});
 
 		controller.setProperties({
-			bankAccountsResultsLoader: bankAccounts,
-			cardsResultsLoader: cards,
+			fundingInstrumentsResultsLoader: fundingInstruments,
 			disputesResultsLoader: disputes,
 			transactionsResultsLoader: transactions
 		});

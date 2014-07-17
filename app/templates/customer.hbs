@@ -30,13 +30,8 @@
 			</div>
 
 			<h3>Payment methods</h3>
-			<h4>Bank Accounts</h4>
 			<div class="results">
-				{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=bankAccountsResultsLoader.results}}
-			</div>
-			<h4>Cards</h4>
-			<div class="results">
-				{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=cardsResultsLoader.results}}
+				{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
 			</div>
 		{{/view}}
 	{{/view}}
