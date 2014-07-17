@@ -21,47 +21,18 @@
 	</div>
 
 	{{#view Balanced.BodyPanelView}}
-		<div class="side-panel span8">
-			<h3>{{humanReadableDateLong created_at}}</h3>
-
-			<div class="summary">
-				<h3 {{bind-attr class=":status status"}}>{{status}}</h3>
-
-				<i class="icon-customers non-interactive" title="Customer"></i>
-				{{customer.id}}
-				{{#link-to customer.route_name customer title=customer.display_me_with_email}}{{customer.display_me}}{{/link-to}}
-			</div>
-
-			<div class="key-value-display">
-				<h3>
-					Card information
-				</h3>
-				<dl class="dl-horizontal">
-					{{view Balanced.KeyValueView key="Card ID" value=id}}
-					{{view Balanced.KeyValueView key="Name on account" value=name}}
-					{{view Balanced.KeyValueView key="Account number" value=account_number}}
-					{{view Balanced.KeyValueView key="Routing number" value=routing_number}}
-					{{view Balanced.KeyValueView key="Type" value=account_type_name}}
-					{{view Balanced.KeyValueView key="Bank" value=formatted_bank_name}}
-					{{view Balanced.KeyValueView key="Expiration date" value=human_readable_expiration}}
-					{{view Balanced.KeyValueView key="Address line 1" value=address.line1}}
-					{{view Balanced.KeyValueView key="Address line 2" value=address.line2}}
-					{{view Balanced.KeyValueView key="City" value=address.city}}
-					{{view Balanced.KeyValueView key="State" value=address.state}}
-					{{view Balanced.KeyValueView key="Postal code" value=address.postal_code}}
-					{{view Balanced.KeyValueView key="Country" value=address.country_code}}
-				</dl>
-			</div>
-
+		{{#view Balanced.ApiModelPanelView model=model}}
+			{{view Balanced.BankAccountSummarySectionView model=model}}
+			{{view Balanced.BankAccountTitledKeyValuesSectionView model=model}}
 			{{view Balanced.MetaView type=model}}
-		</div>
+		{{/view}}
 
-		<div class="main-panel span">
+		{{#view Balanced.MainPanelView}}
 			<h3>Payments</h3>
 			<div class="results">
 				{{view Balanced.CustomerTransactionsResultsView transactions=results}}
 			</div>
-		</div>
+		{{/view}}
 	{{/view}}
 </div>
 

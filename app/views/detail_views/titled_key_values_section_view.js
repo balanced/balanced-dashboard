@@ -52,3 +52,45 @@ Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionVie
 		];
 	}.property("model")
 });
+
+Balanced.CardTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Card information",
+
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Card ID", "id"),
+			this.getKeyValueView("Name on account", "name"),
+			this.getKeyValueView("Type", "type_name"),
+			this.getKeyValueView("Bank", "formatted_bank_name"),
+			this.getKeyValueView("Expiration date", "human_readable_expiration"),
+			this.getKeyValueView("Address line 1", "address.line1"),
+			this.getKeyValueView("Address line 2", "address.line2"),
+			this.getKeyValueView("City", "address.city"),
+			this.getKeyValueView("State", "address.state"),
+			this.getKeyValueView("Postal code", "address.postal_code"),
+			this.getKeyValueView("Country", "address.country_code")
+		];
+	}.property("model")
+});
+
+Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Bank account information",
+
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Bank account ID", "id"),
+			this.getKeyValueView("Name on account", "name"),
+			this.getKeyValueView("Account number", "account_number"),
+			this.getKeyValueView("Routing number", "routing_number"),
+			this.getKeyValueView("Type", "account_type_name"),
+			this.getKeyValueView("Bank", "formatted_bank_name"),
+			this.getKeyValueView("Expiration date", "human_readable_expiration"),
+			this.getKeyValueView("Address line 1", "address.line1"),
+			this.getKeyValueView("Address line 2", "address.line2"),
+			this.getKeyValueView("City", "address.city"),
+			this.getKeyValueView("State", "address.state"),
+			this.getKeyValueView("Postal code", "address.postal_code"),
+			this.getKeyValueView("Country", "address.country_code")
+		];
+	}.property("model")
+});

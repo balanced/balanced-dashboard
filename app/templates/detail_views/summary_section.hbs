@@ -1,0 +1,37 @@
+<div class="summary">
+	{{#if status}}
+		<h3 {{bind-attr class=":status status"}}>{{capitalize status}}</h3>
+
+		{{#if view.statusText}}
+			<p>
+				{{view.statusText}}
+
+				{{#if view.learnMore}}
+					<a {{action "toggleDrawer" view.learnMore.className}}>Learn more</a>
+				{{/if}}
+			</p>
+		{{/if}}
+
+		{{#if view.learnMore}}
+			<p {{bind-attr class=":drawer view.learnMore.className"}}>
+				{{view.learnMore.text}}
+			</p>
+		{{/if}}
+	{{/if}}
+
+	{{#if view.linkedResources}}
+		<dl>
+			{{#each linkedResource in view.linkedResources}}
+				<dt>
+					<i {{bind-attr class="linkedResource.className :non-interactive"}}></i>
+					{{linkedResource.title}}
+				</dt>
+				<dd>
+					{{#link-to linkedResource.resourceModelPath linkedResource.resourceModel}}
+						{{linkedResource.value}}
+					{{/link-to}}
+				</dd>
+			{{/each}}
+		<dl>
+	{{/if}}
+</div>

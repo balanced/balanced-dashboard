@@ -129,7 +129,7 @@ Balanced.Customer = Balanced.Model.extend({
 	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
 
 	status: function() {
-		return this.get('is_identity_verified') ? 'Verified' : 'Unverified';
+		return this.get('is_identity_verified') ? 'verified' : 'unverified';
 	}.property('is_identity_verified')
 });
 
