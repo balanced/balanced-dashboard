@@ -8,4 +8,3 @@ Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend(Ember
 
 	results_base_uri: Ember.computed.readOnly('controllers.marketplace.customers_uri')
 });
-

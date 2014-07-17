@@ -38,6 +38,15 @@ Balanced.Utils = Ember.Namespace.create({
 		return results;
 	},
 
+	objectToQueryString: function(object) {
+		return _.map(object, function(v, k) {
+			var value = Ember.isBlank(v) ?
+				"" :
+				v;
+			return encodeURIComponent(k) + '=' + encodeURIComponent(value);
+		}).join('&');
+	},
+
 	stripDomain: function(url) {
 		return url.replace(STRIP_DOMAIN_REGEX, '');
 	},
@@ -273,12 +282,12 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	buildUri: function(path, queryStringObject) {
-		var queryString = _.map(queryStringObject, function(v, k) {
-			return encodeURIComponent(k) + '=' + encodeURIComponent(v);
-		}).join('&');
-		return queryString ?
-			path + "?" + queryString :
-			path;
+		var queryString = _.isString(queryStringObject) ?
+			queryStringObject :
+			this.objectToQueryString(queryStringObject);
+		return Ember.isBlank(queryString) ?
+			path :
+			path + "?" + queryString;
 	},
 
 	/*

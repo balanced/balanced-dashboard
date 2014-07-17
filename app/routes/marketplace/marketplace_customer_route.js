@@ -12,6 +12,9 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 		var disputesResultsLoader = Balanced.DisputesResultsLoader.create({
 			path: model.get("disputes_uri")
 		});
-		controller.set("disputesResultsLoader", disputesResultsLoader);
+
+		controller.setProperties({
+			disputesResultsLoader: disputesResultsLoader,
+		});
 	}
 });
