@@ -1,4 +1,4 @@
-Balanced.CustomersRoute = Balanced.ControllerRoute.extend({
+Balanced.MarketplaceCustomersRoute = Balanced.ControllerRoute.extend({
 	pageTitle: 'Customers'
 });
 
