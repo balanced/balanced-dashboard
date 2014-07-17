@@ -32,6 +32,7 @@ Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 
 Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
+		console.log(this.linkedResource('icon-customers', 'Customer', 'customer', 'display_me'))
 		return [
 			this.linkedResource('icon-customers', 'Customer', 'customer', 'display_me')
 		];
