@@ -1,5 +1,5 @@
 Balanced.KeyValueView = Ember.View.extend({
-	templateName: "key_value",
+	templateName: "detail_views/key_value",
 	hasLink: false
 });
 

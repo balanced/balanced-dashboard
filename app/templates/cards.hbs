@@ -16,9 +16,7 @@
 	</div>
 
 	{{#view Balanced.BodyPanelView}}
-		<div class="side-panel span8">
-			<h3>{{humanReadableDateLong created_at}}</h3>
-
+		{{#view Balanced.ApiModelPanelView model=model}}
 			<div class="summary">
 				<i class="icon-customers non-interactive" title="Customer"></i>
 				{{#link-to customer.route_name customer title=customer.display_me_with_email}}{{customer.display_me}}{{/link-to}}
@@ -44,7 +42,7 @@
 			</div>
 
 			{{view Balanced.MetaView type=model}}
-		</div>
+		{{/view}}
 
 		<div class="main-panel span">
 			<h3>Payments</h3>

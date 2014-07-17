@@ -1,0 +1,13 @@
+<div class="key-value-display">
+	<h3>
+		{{view.title}}
+		{{#if view.titleModalLinkView}}
+			{{view view.titleModalLinkView}}
+		{{/if}}
+	</h3>
+	<dl class="dl-horizontal">
+		{{#each	item in view.keyValueListViews}}
+			{{view item}}
+		{{/each}}
+	</dl>
+</div>

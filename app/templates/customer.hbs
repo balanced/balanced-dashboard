@@ -2,51 +2,23 @@
 	{{view Balanced.CustomerPageNavigationView}}
 
 	{{#view Balanced.BodyPanelView}}
-		<div class="side-panel span8">
-			<h3>{{humanReadableDateLong created_at}}</h3>
-
+		{{#view Balanced.ApiModelPanelView model=model}}
 			<div class="summary">
-			<h3 {{bind-attr class=":status is_identity_verified:verified:unverified"}}>
-				{{status}}
-			</h3>
-			{{#unless is_identity_verified}}
-				<p>You may credit this customer, but we recommend collecting more information of this customer for underwriting purposes. <a {{action 'toggleDrawer' 'learn-more-unverified'}}>Learn more</a></p>
-				<p class="drawer learn-more-unverified">
-					For an individual, you may collect full legal name, email, permanent street address, and last four digits of SSN. For a business, we also recommend collecting the full business name and EIN number.
-				</p>
-			{{/unless}}
-			</div>
-
-			<div class="key-value-display">
-				<h3>
-					Customer information
-					{{view Balanced.EditCustomerInfoModalView customer=model}}
+				<h3 {{bind-attr class=":status is_identity_verified:verified:unverified"}}>
+					{{status}}
 				</h3>
-				<dl class="dl-horizontal">
-					{{view Balanced.KeyValueView key="Customer ID" value=id}}
-					{{view Balanced.KeyValueView key="Business Name" value=business_name}}
-					{{view Balanced.KeyValueView key="EIN" value=ein}}
-					{{view Balanced.KeyValueView key="Name" value=name}}
-					{{view Balanced.KeyValueView key="Email" value=email}}
-					{{view Balanced.KeyValueView key="Address line 1" value=address.line1}}
-					{{view Balanced.KeyValueView key="Address line 2" value=address.line2}}
-					{{view Balanced.KeyValueView key="City" value=address.city}}
-					{{view Balanced.KeyValueView key="State" value=address.state}}
-					{{view Balanced.KeyValueView key="Postal code" value=address.postal_code}}
-					{{view Balanced.KeyValueView key="Country" value=country_name}}
-					{{view Balanced.KeyValueView key="Phone number" value=phone}}
-					{{view Balanced.KeyValueView key="Date of birth" value=dob}}
-					{{view Balanced.KeyValueView key="SSN" value=ssn_last4}}
-					{{view Balanced.KeyValueView key="Country" value=country_name}}
-					{{view Balanced.LinkedKeyValueView key="Facebook ID" link=facebook_url value=facebook_id}}
-					{{view Balanced.LinkedKeyValueView key="Twitter ID" link=twitter_url value=twitter_id}}
-				</dl>
+				{{#unless is_identity_verified}}
+					<p>You may credit this customer, but we recommend collecting more information of this customer for underwriting purposes. <a {{action 'toggleDrawer' 'learn-more-unverified'}}>Learn more</a></p>
+					<p class="drawer learn-more-unverified">
+						For an individual, you may collect full legal name, email, permanent street address, and last four digits of SSN. For a business, we also recommend collecting the full business name and EIN number.
+					</p>
+				{{/unless}}
 			</div>
 
+			{{view Balanced.CustomerTitledKeyValuesSectionView model=model}}
 			{{view Balanced.MetaView type=model}}
-		</div>
-
-		<div class="main-panel span">
+		{{/view}}
+		{{#view Balanced.MainPanelView}}
 			<h3>Payments</h3>
 			<div class="results">
 				{{view Balanced.CustomerTransactionsResultsView transactions=results}}
@@ -61,7 +33,7 @@
 			<div class="results">
 				{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=funding_instruments}}
 			</div>
-		</div>
+		{{/view}}
 	{{/view}}
 </div>
 
