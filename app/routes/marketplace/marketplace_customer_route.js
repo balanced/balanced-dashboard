@@ -13,6 +13,10 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 			path: model.get("disputes_uri")
 		});
 
+		var transactions = Balanced.TransactionsResultsLoader.create({
+			path: model.get("transactions_uri")
+		});
+
 		var bankAccounts = Balanced.CustomerBankAccountsResultsLoader.create({
 			customer: model
 		});
@@ -25,6 +29,7 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 			bankAccountsResultsLoader: bankAccounts,
 			cardsResultsLoader: cards,
 			disputesResultsLoader: disputes,
+			transactionsResultsLoader: transactions
 		});
 	}
 });
