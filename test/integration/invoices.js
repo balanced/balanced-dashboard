@@ -29,8 +29,8 @@ test('can visit page', function(assert) {
 test('disputes invoice details page', function(assert) {
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IV7GSC6Fm4gx7UxjnmNXJ54X")
 		.checkElements({
-			".chargeback-details-row td:eq(1)": "1",
-			".chargeback-details-row .total": "$1.23",
+			".dispute-details-row td:eq(1)": "1",
+			".dispute-details-row .total": "$113.10",
 		}, assert);
 });
 
@@ -61,12 +61,11 @@ test('transactions invoice detail page', function(assert) {
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.checkElements({
 			".invoice-balance-due-box .amount": "$17.85",
-			".hold-details-row .total": "$17.85",
-			".hold-details-row td:eq(3)": "$0.00 per hold",
 			".card-debit-details-row .total": "$2.45",
 			".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29 cents",
 			".bank-account-debit-details-row .total": "$0.00",
-			".succeeded-credit-details-row .total": "$0.00",
+			".succeeded-bank-account-credit-details-row .total": "$0.00",
+			".succeeded-card-credit-details-row .total": "$0.00",
 			".failed-credit-details-row .total": "$0.00",
 			".refund-details-row .total": "-$2.45",
 			".reversal-details-row .total": "$0.00",
