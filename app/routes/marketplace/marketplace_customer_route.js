@@ -9,12 +9,22 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		var disputesResultsLoader = Balanced.DisputesResultsLoader.create({
+		var disputes = Balanced.DisputesResultsLoader.create({
 			path: model.get("disputes_uri")
 		});
 
+		var bankAccounts = Balanced.CustomerBankAccountsResultsLoader.create({
+			customer: model
+		});
+
+		var cards = Balanced.CustomerCardsResultsLoader.create({
+			customer: model
+		});
+
 		controller.setProperties({
-			disputesResultsLoader: disputesResultsLoader,
+			bankAccountsResultsLoader: bankAccounts,
+			cardsResultsLoader: cards,
+			disputesResultsLoader: disputes,
 		});
 	}
 });

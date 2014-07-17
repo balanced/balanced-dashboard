@@ -82,9 +82,9 @@ Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 	toggleText: "Payment method",
 	filters: function() {
 		return [
-			defineFilter("All", ["funding_instrument"], true),
-			defineFilter("Card", ["card"]),
-			defineFilter("Bank accounts", ["bank_account"])
+			defineFilter("All", null, true),
+			defineFilter("Card", "card"),
+			defineFilter("Bank accounts", "bank_account")
 		];
 	}.property(),
 

@@ -35,8 +35,6 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 
 		results_base_uri: Ember.computed.alias('content.transactions_uri'),
 
-		dispute_results: Ember.computed.alias('disputes'),
-
 		extra_filtering_params: function() {
 			var transactionStatus = this.get("transactionStatus");
 
@@ -65,10 +63,6 @@ Balanced.CustomerController = Balanced.ObjectController.extend(
 
 			changeDisputeStatusFilter: function(status) {
 				this.set('disputesResultsLoader.statusFilters', status);
-			},
-
-			changePaymentMethodFilter: function(type) {
-				this.set('funding_instruments.type', type);
 			},
 
 			toggleDrawer: function(className) {

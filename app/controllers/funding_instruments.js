@@ -1,17 +1,28 @@
-Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
-	needs: ['marketplace', 'activity'],
-	limit: 50,
-
-	sortField: 'created_at',
-	sortOrder: 'desc',
-
-	baseClassSelector: "#funding-instruments",
+Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(Ember.Evented, {
+	needs: ['marketplace'],
 	noDownloadsUri: true,
+	resultsLoader: Ember.computed.oneWay("model"),
+	sortField: Ember.computed.oneWay("resultsLoader.sortField"),
+	sortOrder: Ember.computed.oneWay("resultsLoader.sortDirection"),
 
-	type: 'funding_instrument',
 	actions: {
 		changePaymentMethodFilter: function(type) {
-			this.set('type', type);
-		}
+			this.set('model.type', type);
+		},
+		changeDateFilter: function(startTime, endTime) {
+			this.get("model").setProperties({
+				endTime: endTime,
+				startTime: startTime
+			});
+		},
+		changeSortOrder: function(field, direction) {
+			this.get("resultsLoader").setProperties({
+				sortField: field,
+				sortDirection: direction
+			});
+		},
+		loadMore: function() {
+			this.get("resultsLoader.results").loadNextPage();
+		},
 	}
 });
