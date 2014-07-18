@@ -1,14 +1,30 @@
 Balanced.SummarySectionView = Balanced.View.extend({
 	templateName: "detail_views/summary_section",
-	linkedResource: function(className, title, resourceModel, value) {
-		var model = this.get('model');
 
+	resourceLinks: function() {
+		var self = this;
+		var args = _.toArray(arguments);
+
+		return args.map(function(resourceName) {
+			return self.generateResourceLink(self.get(resourceName));
+		}).compact();
+	},
+
+	generateResourceLink: function(model) {
+		if (Ember.isBlank(model)) {
+			return;
+		}
+		if (model.constructor === Balanced.Customer) {
+			return this.linkedResource('icon-customers', 'Customer', model, model.get('display_me'));
+		}
+	},
+
+	linkedResource: function(className, title, resourceModel, value) {
 		return {
 			className: className,
 			title: title,
-			resourceModelPath: model.get(resourceModel + '.route_name'),
-			resourceModel: model.get(resourceModel),
-			value: model.get(resourceModel + '.' + value)
+			resource: resourceModel,
+			value: value
 		};
 	}
 });
@@ -32,17 +48,12 @@ Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 
 Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
-		console.log(this.linkedResource('icon-customers', 'Customer', 'customer', 'display_me'))
-		return [
-			this.linkedResource('icon-customers', 'Customer', 'customer', 'display_me')
-		];
-	}.property()
+		return this.resourceLinks("model.customer");
+	}.property("model.customer")
 });
 
 Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
-		return [
-			this.linkedResource('icon-customers', 'Customer', 'customer', 'display_me')
-		];
-	}.property()
+		return this.resourceLinks("model.customer");
+	}.property('model.customer')
 });

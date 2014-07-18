@@ -23,8 +23,6 @@ Balanced.TransactionsResultsLoader = Balanced.ResultsLoader.extend({
 			"created_at[<]": this.get("endTime"),
 		});
 
-		console.log(queryStringBuilder.getQueryStringAttributes());
-
 		return queryStringBuilder.getQueryStringAttributes();
 	}.property("sort", "startTime", "endTime", "type", "status", "limit")
 });

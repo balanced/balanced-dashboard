@@ -10,11 +10,13 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 		this._super(controller, model);
 
 		var disputes = Balanced.DisputesResultsLoader.create({
-			path: model.get("disputes_uri")
+			path: model.get("disputes_uri"),
+			limit: 10
 		});
 
 		var transactions = Balanced.TransactionsResultsLoader.create({
-			path: model.get("transactions_uri")
+			path: model.get("transactions_uri"),
+			limit: 10,
 		});
 
 		var fundingInstruments = Balanced.CustomerFundingInstrumentsResultsLoader.create({
