@@ -62,5 +62,14 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		});
 
 		return queryStringBuilder.getQueryStringAttributes();
-	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit")
+	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit"),
+
+	postCsvExport: function(emailAddress) {
+		var download = Balanced.Download.create({
+			uri: "/v1" + this.get("resultsUri"),
+			email_address: emailAddress,
+			type: "transactions"
+		});
+		download.save();
+	}
 });

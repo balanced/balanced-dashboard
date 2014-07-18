@@ -26,19 +26,11 @@
 </thead>
 
 {{#if view.disputes.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="load-more-results">
-				{{#if view.disputes.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" view.disputes}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
+	{{#if view.isSmallTable}}
+		{{view Balanced.ResultsLoadMoreView results=view.disputes columns=4}}
+	{{else}}
+		{{view Balanced.ResultsLoadMoreView results=view.disputes columns=6}}
+	{{/if}}
 {{/if}}
 
 <tbody>

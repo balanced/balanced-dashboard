@@ -1,5 +1,6 @@
-<div class="page-navigation">
-	<div class="page-actions">
+<div class="page-navigation clearfix">
+	<h1 class="page-title">Transactions</h1>
+	<div class="buttons page-actions">
 		<a class="btn sm charge-a-card" {{action "openModal" Balanced.DebitNewFundingInstrumentModalView}}>
 			Debit a card
 		</a>
@@ -7,10 +8,6 @@
 			Credit a bank account
 		</a>
 	</div>
-
-	<h1 class="page-title">
-		{{pageTitle}}
-	</h1>
 </div>
 
 <div class="main-header activity-escrow-box">
@@ -31,7 +28,17 @@
 </div>
 
 <div class="results">
-	{{view Balanced.ResultsFiltersHeaderView searchResultBinding="last_loaded_search_result" from="activity"}}
+	<nav>
+		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+		{{#unless auth.isGuest}}
+			{{#unless controllers.marketplace.production}}
+				{{#link-to "marketplace.import_payouts" class="btn-link sm pull-right"}}
+					<i class="icon icon-document-upload import-payout"></i>
+					Import payouts
+				{{/link-to}}
+			{{/unless}}
+		{{/unless}}
+	</nav>
 </div>
 
 <div class="results">

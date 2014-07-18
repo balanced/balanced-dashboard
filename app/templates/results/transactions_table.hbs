@@ -21,21 +21,12 @@
 		</th>
 	</tr>
 </thead>
-
 {{#if view.transactions.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="load-more-results">
-				{{#if view.transactions.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" view.transactions}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
+	{{#if view.isSmallTable}}
+		{{view Balanced.ResultsLoadMoreView results=view.transactions columns=5}}
+	{{else}}
+		{{view Balanced.ResultsLoadMoreView results=view.transactions columns=7}}
+	{{/if}}
 {{/if}}
 
 <tbody>
