@@ -1,14 +1,4 @@
-<div class="page-navigation clearfix">
-	<h1 class="page-title">Transactions</h1>
-	<div class="buttons page-actions">
-		<a class="btn sm charge-a-card" {{action "openModal" Balanced.DebitNewFundingInstrumentModalView}}>
-			Debit a card
-		</a>
-		<a class="btn sm pay-a-seller" {{action "openModal" Balanced.CreditNewFundingInstrumentModalView}}>
-			Credit a bank account
-		</a>
-	</div>
-</div>
+{{view Balanced.TransactionsPageNavigationView}}
 
 <div class="main-header activity-escrow-box">
 	<div class="inline dropdown borderless right">
@@ -42,7 +32,5 @@
 </div>
 
 <div class="results">
-	{{view Balanced.TransactionsResultsView transactions=resultsLoader.results resultsLoader=resultsLoader}}
+	{{view Balanced.TransactionsResultsView loader=resultsLoader}}
 </div>
-
-{{view Balanced.WithdrawFundsModalView marketplaceBinding="controllers.marketplace.model"}}

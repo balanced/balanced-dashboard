@@ -1,12 +1,12 @@
 <thead>
 	<tr>
 		<th class="span3 label6a initiated date has-filter">
-			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="initiated_at" actionName="changeDisputesSort"}}
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="initiated_at" actionName="changeDisputesSort"}}
 				<span>Date initiated</span>
 			{{/view}}
 		</th>
 		<th class="span3 label6a respond-by date has-filter">
-			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="respond_by" actionName="changeDisputesSort"}}
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="respond_by" actionName="changeDisputesSort"}}
 				<span>Respond by</span>
 			{{/view}}
 		</th>
@@ -18,23 +18,23 @@
 			<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
 		<th class="span2 label6a amount num has-filter">
-			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="amount" actionName="changeDisputesSort"}}
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="amount" actionName="changeDisputesSort"}}
 				<span>Amount</span>
 			{{/view}}
 		</th>
 	</tr>
 </thead>
 
-{{#if view.disputes.hasNextPage}}
+{{#if view.loader.results.hasNextPage}}
 	{{#if view.isSmallTable}}
-		{{view Balanced.ResultsLoadMoreView results=view.disputes columns=4}}
+		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=4}}
 	{{else}}
-		{{view Balanced.ResultsLoadMoreView results=view.disputes columns=6}}
+		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=6}}
 	{{/if}}
 {{/if}}
 
 <tbody>
-	{{#each dispute in view.disputes}}
+	{{#each dispute in view.loader.results}}
 		<tr>
 			<td class="span3 date initiated">
 				{{#link-to dispute.route_name dispute}}<span>
@@ -89,7 +89,7 @@
 	{{else}}
 		<tr>
 			<td {{bind-attr colspan=view.colspan}} class="no-results">
-				{{#if isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

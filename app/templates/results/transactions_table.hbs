@@ -1,7 +1,7 @@
 <thead>
 	<tr>
 		<th class="span3 date has-filter">
-			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="created_at" actionName="changeTransactionsSort"}}
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
 				<span>Date</span>
 			{{/view}}
 		</th>
@@ -21,16 +21,16 @@
 		</th>
 	</tr>
 </thead>
-{{#if view.transactions.hasNextPage}}
+{{#if view.loader.results.hasNextPage}}
 	{{#if view.isSmallTable}}
-		{{view Balanced.ResultsLoadMoreView results=view.transactions columns=5}}
+		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
 	{{else}}
-		{{view Balanced.ResultsLoadMoreView results=view.transactions columns=7}}
+		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=7}}
 	{{/if}}
 {{/if}}
 
 <tbody>
-	{{#each transaction in view.transactions}}
+	{{#each transaction in view.loader.results}}
 		<tr>
 			{{view Balanced.LinkedDateCellView
 				item=transaction
@@ -79,7 +79,7 @@
 	{{else}}
 		<tr>
 			<td {{bind-attr colspan=view.colspan}} class="no-results">
-				{{#if isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

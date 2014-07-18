@@ -1,16 +1,9 @@
-<div id="disputes">
-	<div class="page-navigation">
-		<h1 class="page-title">Disputes
-			{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
-		</h1>
-	</div>
+{{view Balanced.PageNavigationView title="Disputes"}}
+{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 
-	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	{{view Balanced.DisputeDownloadModalView}}
-
-	<div class="results">
-		<div class="items-wrapper">
-			{{view Balanced.DisputesResultsView resultsLoader=resultsLoader disputes=resultsLoader.results}}
-		</div>
+{{view Balanced.DisputeDownloadModalView}}
+<div class="results">
+	<div class="items-wrapper">
+		{{view Balanced.DisputesResultsView loader=resultsLoader}}
 	</div>
 </div>
