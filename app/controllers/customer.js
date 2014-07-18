@@ -18,17 +18,17 @@ Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 			this.set("transactionsResultsLoader.type", type);
 		},
 
-		changeTransactionsSortOrder: function(sortField, sortDirection) {
-			this.get("transactionsResultsLoader").setProperties({
-				sortField: sortField,
-				sortDirection: sortDirection
-			});
+		changeTransactionsSort: function(column) {
+			this.get("transactionsResultsLoader").setSortField(column);
 		},
 
 		changeSortOrder: function(sortField, sortDirection) {},
 
 		changeStatusFilter: function(status) {
-			this.set('transactionStatus', status);
+			if (status === "all") {
+				status = null;
+			}
+			this.set("transactionsResultsLoader.status", status);
 		},
 
 		changeDisputeStatusFilter: function(status) {

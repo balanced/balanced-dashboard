@@ -1,6 +1,10 @@
 <thead>
 	<tr>
-		<th class="span3 date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="span3 date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="created_at" actionName="changeTransactionsSort"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
 		<th class="span2 type has-filter">
 			{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
 		</th>
@@ -12,7 +16,9 @@
 			<th class="span3 account"><span>Customer</span></th>
 			<th class="span3 funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
-		<th class="span3 amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="amount"}}<span>Amount</span>{{/view}}</th>
+		<th class="span3 amount num">
+			<span>Amount</span>
+		</th>
 	</tr>
 </thead>
 

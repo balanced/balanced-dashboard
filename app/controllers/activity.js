@@ -23,7 +23,7 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			this.set('type', type);
 
 			if (type === 'transaction' || _.contains(Balanced.SEARCH.TRANSACTION_TYPES, type)) {
-				this.transitionToRoute('activity.transactions');
+				this.transitionToRoute('marketplace.transactions');
 			} else if (type === 'order') {
 				this.transitionToRoute('activity.orders');
 			}
@@ -57,29 +57,6 @@ Balanced.ActivityController = Balanced.ObjectController.extend(Ember.Evented, Ba
 			return this._super();
 		}
 	}.property('type', 'controllers.marketplace.uri')
-});
-
-Balanced.ActivityTransactionsController = Balanced.ActivityController.extend({
-	needs: ['marketplace'],
-	baseClassSelector: '#transactions',
-	type: 'transaction',
-	pageTitle: 'Transactions',
-	noDownloadsUri: true,
-	category: "transaction",
-	results_base_uri: "/transactions",
-
-	extra_filtering_params: function() {
-		var transactionStatus = this.get("transactionStatus");
-
-		if (transactionStatus === 'all') {
-			return {
-				'status[in]': 'failed,succeeded,pending'
-			};
-		}
-		return {
-			status: transactionStatus
-		};
-	}.property("transactionStatus")
 });
 
 Balanced.ActivityOrdersController = Balanced.ActivityController.extend({
