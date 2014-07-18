@@ -101,7 +101,7 @@ Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 	toggleText: "Status",
 	filters: function() {
 		return [
-			defineFilter("All", Balanced.SEARCH.DISPUTE_TYPES, true),
+			defineFilter("All", null, true),
 			defineFilter("Pending", ["pending"]),
 			defineFilter("Won", ["won"]),
 			defineFilter("Lost", ["lost"]),

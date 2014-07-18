@@ -10,7 +10,7 @@
 
 	<div class="results">
 		<div class="items-wrapper">
-			{{view Balanced.DisputesResultsView disputesBinding="results"}}
+			{{view Balanced.DisputesResultsView resultsLoader=resultsLoader disputes=resultsLoader.results}}
 		</div>
 	</div>
 </div>

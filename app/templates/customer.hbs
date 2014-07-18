@@ -15,7 +15,9 @@
 
 			<h3>Disputes</h3>
 			<div class="results">
-				{{view Balanced.CustomerDisputesResultsView disputes=disputesResultsLoader.results}}
+				{{view Balanced.CustomerDisputesResultsView
+					resultsLoader=disputesResultsLoader
+					disputes=disputesResultsLoader.results}}
 			</div>
 
 			<h3>Payment methods</h3>

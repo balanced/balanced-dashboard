@@ -1,38 +1,22 @@
-Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
-	limit: 50,
-	type: 'dispute',
-	sortField: 'initiated_at',
-	sortOrder: 'desc',
-
-	baseClassSelector: "#dispute",
-
-	results_base_uri: Ember.computed.readOnly('controllers.marketplace.disputes_uri'),
-	disputeStatus: Balanced.SEARCH.DISPUTE_TYPES,
-
-	extra_filtering_params: function() {
-		var disputeStatus = this.get('disputeStatus');
-
-		if (disputeStatus.length > 1) {
-			return {
-				'status[in]': disputeStatus.join(',')
-			};
-		}
-
-		return {
-			status: disputeStatus[0]
-		};
-	}.property('disputeStatus'),
-
+	resultsLoader: Ember.computed.oneWay("model"),
 	actions: {
+		changeDisputesSort: function(column) {
+			this.get("resultsLoader").setSortField(column);
+		},
 		changeDisputeStatusFilter: function(status) {
-			this.set('disputeStatus', status);
-		}
+			this.set('resultsLoader.statusFilters', status);
+		},
+		changeDateFilter: function(startTime, endTime) {
+			this.get("resultsLoader").setProperties({
+				endTime: endTime,
+				startTime: startTime
+			});
+		},
 	}
 });
 
-Balanced.DisputeController = Balanced.ObjectController.extend(
-	Ember.Evented, {
-		needs: ['marketplace']
-	}
-);
+Balanced.DisputeController = Balanced.ObjectController.extend(Ember.Evented, {
+	needs: ['marketplace']
+});

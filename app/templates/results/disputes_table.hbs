@@ -1,7 +1,15 @@
 <thead>
 	<tr>
-		<th class="span3 label6a initiated date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="initiated_at"}}<span>Date initiated</span>{{/view}}</th>
-		<th class="span3 label6a respond-by date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="respond_by"}}<span>Respond by</span>{{/view}}</th>
+		<th class="span3 label6a initiated date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="initiated_at" actionName="changeDisputesSort"}}
+				<span>Date initiated</span>
+			{{/view}}
+		</th>
+		<th class="span3 label6a respond-by date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="respond_by" actionName="changeDisputesSort"}}
+				<span>Respond by</span>
+			{{/view}}
+		</th>
 		<th class="span3 label6a status has-filter">
 			{{view Balanced.DisputesStatusResultsDropdownFilterView}}
 		</th>
@@ -9,7 +17,11 @@
 			<th class="span4 label6a account"><span>Customer</span></th>
 			<th class="span4 label6a funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
-		<th class="span2 label6a amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="amount"}}<span>Amount</span>{{/view}}</th>
+		<th class="span2 label6a amount num has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.resultsLoader field="amount" actionName="changeDisputesSort"}}
+				<span>Amount</span>
+			{{/view}}
+		</th>
 	</tr>
 </thead>
 
