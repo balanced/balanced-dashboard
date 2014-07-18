@@ -52,7 +52,6 @@
 .buttons {
   float: right;
   display: inline-block;
-  margin-top: -41px;
 
   > div {
     display: inline-block;
@@ -79,6 +78,21 @@
     p {
       color: @gray6;
       padding-left: 22px;
+    }
+  }
+
+  dl.linked-resources {
+    dt, dd {
+      display: inline-block;
+    }
+
+    dt {
+      .sl-sb;
+      width: 50%;
+
+      [class^="icon-"] {
+        color: @black;
+      }
     }
   }
 

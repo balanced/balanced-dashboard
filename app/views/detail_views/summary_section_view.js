@@ -15,17 +15,13 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			return;
 		}
 		if (model.constructor === Balanced.Customer) {
-			return this.linkedResource('icon-customers', 'Customer', model, model.get('display_me'));
+			return {
+				className: 'icon-customers',
+				title: 'Customer',
+				resource: model,
+				value: model.get('display_me')
+			};
 		}
-	},
-
-	linkedResource: function(className, title, resourceModel, value) {
-		return {
-			className: className,
-			title: title,
-			resource: resourceModel,
-			value: value
-		};
 	}
 });
 

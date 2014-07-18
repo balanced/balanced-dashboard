@@ -20,7 +20,7 @@
 	{{/if}}
 
 	{{#if view.linkedResources}}
-		<dl>
+		<dl class="linked-resources">
 			{{#each linkedResource in view.linkedResources}}
 				<dt>
 					<i {{bind-attr class="linkedResource.className :non-interactive"}}></i>
