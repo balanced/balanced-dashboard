@@ -4,10 +4,6 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		return this.get("sortField") + "," + this.get("sortDirection");
 	}.property("sortField", "sortDirection"),
 
-	toggleSortDirection: function() {
-		this.set("sortDirection", direction);
-	},
-
 	setSortField: function(field) {
 		var oldValue = this.get("sortField");
 		var direction = "desc";
