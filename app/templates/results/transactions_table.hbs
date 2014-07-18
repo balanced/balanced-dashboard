@@ -1,6 +1,10 @@
 <thead>
 	<tr>
-		<th class="span3 date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView classBinding="view.hideDateSort::sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="span3 date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
 		<th class="span2 type has-filter">
 			{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
 		</th>
@@ -12,28 +16,21 @@
 			<th class="span3 account"><span>Customer</span></th>
 			<th class="span3 funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
-		<th class="span3 amount num has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="amount"}}<span>Amount</span>{{/view}}</th>
+		<th class="span3 amount num">
+			<span>Amount</span>
+		</th>
 	</tr>
 </thead>
-
-{{#if view.transactions.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="load-more-results">
-				{{#if view.transactions.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" view.transactions}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
+{{#if view.loader.results.hasNextPage}}
+	{{#if view.isSmallTable}}
+		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
+	{{else}}
+		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=7}}
+	{{/if}}
 {{/if}}
 
 <tbody>
-	{{#each transaction in view.transactions}}
+	{{#each transaction in view.loader.results}}
 		<tr>
 			{{view Balanced.LinkedDateCellView
 				item=transaction
@@ -82,7 +79,7 @@
 	{{else}}
 		<tr>
 			<td {{bind-attr colspan=view.colspan}} class="no-results">
-				{{#if isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

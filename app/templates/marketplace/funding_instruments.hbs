@@ -1,11 +1,6 @@
-<div id="payment-methods">
-	<div class="page-navigation">
-		<h1 class="page-title">Payment methods
-			{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
-		</h1>
-	</div>
-	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
-	<div class="results">
-		{{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding="results"}}
-	</div>
+{{view Balanced.PageNavigationView title="Payment methods"}}
+{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+
+<div class="results">
+	{{view Balanced.FundingInstrumentsResultsView fundingInstrumentsBinding="results"}}
 </div>

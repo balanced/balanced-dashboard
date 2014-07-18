@@ -1,0 +1,9 @@
+<div class="page-navigation clearfix">
+	<h1 class="page-title">
+		{{#if view.pageType}}
+			<div class="page-type">{{view.pageType}}</div>
+		{{/if}}
+		{{view.title}}
+	</h1>
+	{{yield}}
+</div>

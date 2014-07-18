@@ -2,19 +2,21 @@
 	<tr>
 		<th class="span3 label6a has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}</th>
 		<th class="span3 label6a has-filter endpoint-filter">
-			{{view Balanced.LogsEndpointResultsDropdownFilterView model=resultsLoader}}
+			{{view Balanced.LogsEndpointResultsDropdownFilterView model=view.loader}}
 		</th>
 		<th class="span3 label6a has-filter status-filter">
-			{{view Balanced.LogsStatusResultsDropdownFilterView model=resultsLoader}}
+			{{view Balanced.LogsStatusResultsDropdownFilterView model=view.loader}}
 		</th>
 		<th class="span11 label6a"><span>Method &amp; URI</span></th>
 	</tr>
 </thead>
 
-{{view Balanced.ResultsLoadMoreView results=results columns=4}}
+{{#if view.loader.results.hasNextPage}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=4}}
+{{/if}}
 
 <tbody>
-	{{#each log in results}}
+	{{#each log in view.loader.results}}
 		<tr>
 			{{view Balanced.LinkedDateCellView routeName=log.route_name date=log.created_at item=log classNames="span3"}}
 			{{view Balanced.TitledLinkedCellView routeName=log.route_name item=log labelText=log.endpoint classNames="span3 endpoint"}}
@@ -24,7 +26,7 @@
 	{{else}}
 		<tr>
 			<td colspan="4" class="no-results">
-				{{#if results.isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

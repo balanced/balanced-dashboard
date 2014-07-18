@@ -3,8 +3,27 @@ Balanced.ResultsLoader = Ember.Object.extend({
 	sort: function() {
 		return this.get("sortField") + "," + this.get("sortDirection");
 	}.property("sortField", "sortDirection"),
-	sortField: "created_at",
+
+	toggleSortDirection: function() {
+		this.set("sortDirection", direction);
+	},
+
+	setSortField: function(field) {
+		var oldValue = this.get("sortField");
+		var direction = "desc";
+		if (field === oldValue) {
+			direction = this.get("sortDirection") === "asc" ?
+				"desc" :
+				"asc";
+		}
+		this.setProperties({
+			sortDirection: direction,
+			sortField: field
+		});
+	},
+
 	sortDirection: "desc",
+	sortField: "created_at",
 
 	resultsUri: function() {
 		var path = this.get("path");
@@ -43,5 +62,14 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		});
 
 		return queryStringBuilder.getQueryStringAttributes();
-	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit")
+	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit"),
+
+	postCsvExport: function(emailAddress) {
+		var download = Balanced.Download.create({
+			uri: "/v1" + this.get("resultsUri"),
+			email_address: emailAddress,
+			type: "transactions"
+		});
+		download.save();
+	}
 });
