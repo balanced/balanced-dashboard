@@ -31,7 +31,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				className: 'icon-customers',
 				title: 'Customer',
 				resource: model,
-				value: model.get('display_me')
+				value: model.get('display_me'),
+				hoverValue: model.get('display_me_with_email')
 			};
 		}
 
@@ -40,7 +41,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				className: 'icon-payments',
 				title: 'Dispute',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -49,7 +51,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				className: 'icon-payments',
 				title: 'Debit',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -58,7 +61,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				className: 'icon-payments',
 				title: 'Credit',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -69,7 +73,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 						className: 'icon-payments',
 						title: 'Other refund',
 						resource: model,
-						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+						hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 					};
 				}
 				return undefined;
@@ -78,7 +83,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 					className: 'icon-payments',
 					title: 'Refund',
 					resource: model,
-					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+					hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 				};
 			}
 		}
@@ -90,7 +96,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 						className: 'icon-payments',
 						title: 'Other reversal',
 						resource: model,
-						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+						hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 					};
 				}
 				return undefined;
@@ -99,7 +106,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 					className: 'icon-payments',
 					title: 'Reversal',
 					resource: model,
-					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+					hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 				};
 			}
 		}
@@ -109,7 +117,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				className: 'icon-card',
 				title: model.get('type_name'),
 				resource: model,
-				value: '%@ %@'.fmt(model.get('last_four'), model.get('brand'))
+				value: '%@ %@'.fmt(model.get('last_four'), model.get('brand')),
+				hoverValue: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('brand'), model.get('type_name')),
 			};
 		}
 
@@ -118,7 +127,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				className: 'icon-bank-account',
 				title: model.get('type_name'),
 				resource: model,
-				value: '%@ %@'.fmt(model.get('last_four'), model.get('formatted_bank_name'))
+				value: '%@ %@'.fmt(model.get('last_four'), model.get('formatted_bank_name')),
+				value: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('formatted_bank_name'), model.get('type_name'))
 			};
 		}
 	}
