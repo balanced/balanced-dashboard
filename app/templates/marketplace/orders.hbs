@@ -1,0 +1,12 @@
+{{view Balanced.PageNavigationView title="Orders"}}
+
+<div class="results">
+	<nav>
+		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+		{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
+	</nav>
+</div>
+
+<div class="results">
+	{{view Balanced.OrdersResultsView loader=resultsLoader}}
+</div>

@@ -8,7 +8,7 @@ var SIDEBAR_ITEMS = [{
 		linkText: "Transactions",
 		isSelectedBinding: "controller.marketplace.transactionSelected"
 	}, {
-		routeName: "activity.orders",
+		routeName: "marketplace.orders",
 		linkText: "Orders",
 		isSelectedBinding: "controller.marketplace.orderSelected"
 	}]

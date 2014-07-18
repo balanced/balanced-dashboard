@@ -1,15 +1,32 @@
+var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
 Balanced.CustomerFundingInstrumentsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.FundingInstrument,
-	results: function() {
+	path: function() {
+		return this.get("customer.href") + "/search";
+	}.property("customer.href"),
+
+	getTypeFilterValue: function() {
 		var type = this.get("type");
-		var customer = this.get("customer");
+		if (!FUNDING_INSTRUMENT_TYPES.contains(type)) {
+			type = FUNDING_INSTRUMENT_TYPES;
+		}
+		return type;
+	},
 
-		var mappings = {
-			card: "cards",
-			bank_account: "bank_accounts"
-		};
+	queryStringArguments: function() {
+		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
 
-		type = mappings[type] || "funding_instruments";
-		return customer.get(type);
-	}.property("customer", "type")
+		queryStringBuilder.addValues({
+			limit: this.get("limit"),
+			sort: this.get("sort"),
+			offset: 0,
+
+			type: this.getTypeFilterValue(),
+
+			"created_at[>]": this.get("startTime"),
+			"created_at[<]": this.get("endTime"),
+		});
+
+		return queryStringBuilder.getQueryStringAttributes();
+	}.property("limit", "sort", "type", "startTime", "endTime")
 });

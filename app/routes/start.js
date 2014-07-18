@@ -31,7 +31,7 @@ Balanced.StartRoute = Balanced.Route.extend({
 	},
 	actions: {
 		goToDashboard: function() {
-			this.transitionTo('activity', this.currentModel);
+			this.transitionTo('marketplace', this.currentModel);
 		},
 		goToDocumentation: function() {
 			window.location = 'https://docs.balancedpayments.com';

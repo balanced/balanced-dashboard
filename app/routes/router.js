@@ -97,12 +97,7 @@ Balanced.Router.map(function() {
 			});
 
 			this.route("transactions");
-
-			this.resource('activity', {
-				path: '/'
-			}, function() {
-				this.route('orders');
-			});
+			this.route("orders");
 
 			this.resource('customers', {
 				path: '/customers/:item_id'

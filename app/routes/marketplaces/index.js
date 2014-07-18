@@ -1,1 +1,1 @@
-Balanced.MarketplaceIndexRoute = Balanced.RedirectRoute('activity');
+Balanced.MarketplaceIndexRoute = Balanced.RedirectRoute('marketplace.transactions');

@@ -25,7 +25,7 @@
 		{{#view Balanced.MainPanelView}}
 			<h3>Payments</h3>
 			<div class="results">
-				{{view Balanced.CustomerTransactionsResultsView transactions=results}}
+				{{view Balanced.CustomerTransactionsResultsView loader=transactionsResultsLoader}}
 			</div>
 		{{/view}}
 	{{/view}}
