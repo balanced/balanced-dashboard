@@ -1,19 +1,28 @@
-<h1 class="page-title">Reversal</h1>
-
-<div id="reversal" class="transaction">
-	<div class="title-block tb-egyptian-blue">
-		<span class="tb-icon">
-			<i class="icon icon-order"></i>
-		</span>
-		<span class="tb-content">
-			{{page_title}}
-		</span>
+<div id="refund">
+	<div class="page-navigation details-page clearfix">
+		<h1 class="page-title">
+			<div class="page-type">{{capitalize type_name}}</div>
+			{{formatCurrency amount}}
+		</h1>
 	</div>
 
-	{{txn-customer customer=credit.customer}}
+	{{#view Balanced.BodyPanelView}}
+		{{#view Balanced.ApiModelPanelView model=model}}
+			{{view Balanced.ReversalSummarySectionView model=model}}
+			{{view Balanced.ReversalTitledKeyValuesSectionView model=model}}
+			{{view Balanced.MetaView type=model}}
+		{{/view}}
 
-	<div class="transaction-details">
-		{{txn-reversal reversal=model}}
-		{{txn-credit credit=credit marketplace=controllers.marketplace.model}}
-	</div>
+		{{#view Balanced.MainPanelView}}
+			<h3>Logs</h3>
+			<div class="results">
+				{{view Balanced.ResourceLogsView content=model}}
+			</div>
+
+			<h3>Events</h3>
+			<div class="results">
+				{{view Balanced.ResourceEventsView content=model}}
+			</div>
+		{{/view}}
+	{{/view}}
 </div>

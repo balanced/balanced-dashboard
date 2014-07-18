@@ -10,18 +10,18 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			if (resource && _.isArray(resource.content)) {
 				var resources = [];
 				_.each(resource.content, function(content) {
-					resources.push(self.generateResourceLink(content));
+					resources.push(self.generateResourceLink(self.model, content));
 				});
 				return resources;
 			} else {
-				return self.generateResourceLink(resource);
+				return self.generateResourceLink(self.model, resource);
 			}
-		}).compact();
+		});
 
-		return _.flatten(result);
+		return _.flatten(result).compact();
 	},
 
-	generateResourceLink: function(model) {
+	generateResourceLink: function(parentModel, model) {
 		if (Ember.isBlank(model)) {
 			return;
 		}
@@ -53,28 +53,61 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			};
 		}
 
-		if (model.constructor === Balanced.Refund) {
+		if (model.constructor === Balanced.Credit) {
 			return {
 				className: 'icon-payments',
-				title: 'Refund',
+				title: 'Credit',
 				resource: model,
 				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
 			};
 		}
 
+		if (model.constructor === Balanced.Refund) {
+			if (parentModel.constructor === Balanced.Refund) {
+				if (parentModel.uri !== model.uri) {
+					return {
+						className: 'icon-payments',
+						title: 'Other refund',
+						resource: model,
+						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+					};
+				}
+				return undefined;
+			} else {
+				return {
+					className: 'icon-payments',
+					title: 'Refund',
+					resource: model,
+					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+				};
+			}
+		}
+
 		if (model.constructor === Balanced.Reversal) {
-			return {
-				className: 'icon-payments',
-				title: 'Reversal',
-				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
-			};
+			if (parentModel.constructor === Balanced.Reversal) {
+				if (parentModel.uri !== model.uri) {
+					return {
+						className: 'icon-payments',
+						title: 'Other reversal',
+						resource: model,
+						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+					};
+				}
+				return undefined;
+			} else {
+				return {
+					className: 'icon-payments',
+					title: 'Reversal',
+					resource: model,
+					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount')))
+				};
+			}
 		}
 
 		if (model.constructor === Balanced.Card) {
 			return {
 				className: 'icon-card',
-				title: 'Payment method',
+				title: model.get('type_name'),
 				resource: model,
 				value: '%@ %@'.fmt(model.get('last_four'), model.get('brand'))
 			};
@@ -83,7 +116,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		if (model.constructor === Balanced.BankAccount) {
 			return {
 				className: 'icon-bank-account',
-				title: 'Payment method',
+				title: model.get('type_name'),
 				resource: model,
 				value: '%@ %@'.fmt(model.get('last_four'), model.get('formatted_bank_name'))
 			};
@@ -102,10 +135,9 @@ Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: Ember.computed.alias('model.status_description'),
 
 	// Note: missing order links
-	// Note: missing reversal links
 	linkedResources: function() {
-		return this.resourceLinks("model.customer", "model.destination");
-	}.property("model.customer", "model.destination")
+		return this.resourceLinks("model.reversals", "model.customer", "model.destination");
+	}.property("model.reversals.@each", "model.customer", "model.destination")
 });
 
 Balanced.RefundSummarySectionView = Balanced.SummarySectionView.extend({
@@ -118,8 +150,8 @@ Balanced.RefundSummarySectionView = Balanced.SummarySectionView.extend({
 Balanced.ReversalSummarySectionView = Balanced.SummarySectionView.extend({
 	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model.customer", "model.destination");
-	}.property("model.customer", "model.destination")
+		return this.resourceLinks("model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination");
+	}.property("model.credit", "model.credit.reversals.@each", "model.credit.customer", "model.credit.destination")
 });
 
 Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
