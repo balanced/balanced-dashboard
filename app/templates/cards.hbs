@@ -1,35 +1,29 @@
-<div id="card">
-	<div class="page-navigation details-page clearfix">
-		<h1 class="page-title">
-			<div class="page-type">{{type_name}}</div>
-			{{title_description}}
-		</h1>
-		<div class="buttons page-actions">
-			{{#if customer}}
-				<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
-				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-				{{#if can_credit}}
-					<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
-				{{/if}}
+{{#view Balanced.PageNavigationView pageType=type_name title=title_description}}
+	<div class="buttons page-actions">
+		{{#if customer}}
+			<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
+			<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+			{{#if can_credit}}
+				<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
 			{{/if}}
-		</div>
+		{{/if}}
 	</div>
+{{/view}}
 
-	{{#view Balanced.BodyPanelView}}
-		{{#view Balanced.ApiModelPanelView model=model}}
-			{{view Balanced.CardSummarySectionView model=model}}
-			{{view Balanced.CardTitledKeyValuesSectionView model=model}}
-			{{view Balanced.MetaView type=model}}
-		{{/view}}
-
-		{{#view Balanced.MainPanelView}}
-			<h3>Payments</h3>
-			<div class="results">
-				{{view Balanced.CustomerTransactionsResultsView loader=transactionsResultsLoader}}
-			</div>
-		{{/view}}
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.ApiModelPanelView model=model}}
+		{{view Balanced.CardSummarySectionView model=model}}
+		{{view Balanced.CardTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
 	{{/view}}
-</div>
+
+	{{#view Balanced.MainPanelView}}
+		<h3>Payments</h3>
+		<div class="results">
+			{{view Balanced.CustomerTransactionsResultsView loader=transactionsResultsLoader}}
+		</div>
+	{{/view}}
+{{/view}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}
