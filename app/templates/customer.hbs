@@ -1,30 +1,28 @@
-<div id="customer">
-	{{view Balanced.CustomerPageNavigationView}}
+{{view Balanced.CustomerPageNavigationView model=model}}
 
-	{{#view Balanced.BodyPanelView}}
-		{{#view Balanced.ApiModelPanelView model=model}}
-			{{view Balanced.CustomerSummarySectionView model=model}}
-			{{view Balanced.CustomerTitledKeyValuesSectionView model=model}}
-			{{view Balanced.MetaView type=model}}
-		{{/view}}
-		{{#view Balanced.MainPanelView}}
-			<h3>Payments</h3>
-			<div class="results">
-				{{view Balanced.CustomerTransactionsResultsView transactions=transactionsResultsLoader.results}}
-			</div>
-
-			<h3>Disputes</h3>
-			<div class="results">
-				{{view Balanced.CustomerDisputesResultsView disputes=disputesResultsLoader.results}}
-			</div>
-
-			<h3>Payment methods</h3>
-			<div class="results">
-				{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
-			</div>
-		{{/view}}
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.ApiModelPanelView model=model}}
+		{{view Balanced.CustomerSummarySectionView model=model}}
+		{{view Balanced.CustomerTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
 	{{/view}}
-</div>
+	{{#view Balanced.MainPanelView}}
+		<h3>Payments</h3>
+		<div class="results">
+			{{view Balanced.CustomerTransactionsResultsView loader=transactionsResultsLoader}}
+		</div>
+
+		<h3>Disputes</h3>
+		<div class="results">
+			{{view Balanced.CustomerDisputesResultsView loader=disputesResultsLoader}}
+		</div>
+
+		<h3>Payment methods</h3>
+		<div class="results">
+			{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
+		</div>
+	{{/view}}
+{{/view}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}

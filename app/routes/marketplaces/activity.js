@@ -28,16 +28,10 @@ Balanced.ActivityOrdersRoute = Balanced.ActivityRoute.extend({
 	controllerName: 'activity_orders'
 });
 
-Balanced.ActivityTransactionsRoute = Balanced.ActivityRoute.extend({
-	pageTitle: 'Transactions',
-	defaultType: 'transaction',
-	controllerName: 'activity_transactions'
-});
-
-Balanced.MarketplaceRedirectActivityTransactionsRoute = Balanced.RedirectRoute("activity.transactions");
+Balanced.MarketplaceRedirectActivityTransactionsRoute = Balanced.RedirectRoute("marketplace.transactions");
 Balanced.MarketplaceRedirectActivityOrdersRoute = Balanced.RedirectRoute("activity.orders");
 Balanced.MarketplaceRedirectActivityCustomersRoute = Balanced.RedirectRoute('marketplace.customers');
 Balanced.MarketplaceRedirectActivityFundingInstrumentsRoute = Balanced.RedirectRoute('marketplace.funding_instruments');
 Balanced.MarketplaceRedirectActivityDisputesRoute = Balanced.RedirectRoute('marketplace.disputes');
 
-Balanced.ActivityIndexRoute = Balanced.RedirectRoute('activity.transactions');
+Balanced.ActivityIndexRoute = Balanced.RedirectRoute('marketplace.transactions');

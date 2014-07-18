@@ -96,11 +96,12 @@ Balanced.Router.map(function() {
 				path: 'invoices'
 			});
 
+			this.route("transactions");
+
 			this.resource('activity', {
 				path: '/'
 			}, function() {
 				this.route('orders');
-				this.route('transactions');
 			});
 
 			this.resource('customers', {

@@ -1,18 +1,6 @@
 var actionsMixin = Balanced.ActionEvented('openDeleteBankAccountModal', 'openDeleteCardModal');
 Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 	needs: ['marketplace'],
-	extra_filtering_params: function() {
-		var transactionStatus = this.get("transactionStatus");
-
-		if (transactionStatus === 'all') {
-			return {
-				'status[in]': 'failed,succeeded,pending'
-			};
-		}
-		return {
-			status: transactionStatus
-		};
-	}.property("transactionStatus"),
 
 	actions: {
 		openDeleteModal: function(funding_instrument) {
@@ -29,19 +17,25 @@ Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 			}
 			this.set("transactionsResultsLoader.type", type);
 		},
-		changeSortOrder: function(sortField, sortDirection) {
-			this.get("transactionsResultsLoader").setProperties({
-				sortField: sortField,
-				sortDirection: sortDirection
-			});
+
+		changeTransactionsSort: function(column) {
+			this.get("transactionsResultsLoader").setSortField(column);
 		},
 
+		changeSortOrder: function(sortField, sortDirection) {},
+
 		changeStatusFilter: function(status) {
-			this.set('transactionStatus', status);
+			if (status === "all") {
+				status = null;
+			}
+			this.set("transactionsResultsLoader.status", status);
 		},
 
 		changeDisputeStatusFilter: function(status) {
 			this.set('disputesResultsLoader.statusFilters', status);
+		},
+		changeDisputesSort: function(column) {
+			this.get("disputesResultsLoader").setSortField(column);
 		},
 
 		changePaymentMethodFilter: function(method) {
