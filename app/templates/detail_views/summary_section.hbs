@@ -1,22 +1,24 @@
 <div class="summary">
 	{{#if status}}
-		<h3 {{bind-attr class=":status status"}}>{{capitalize status}}</h3>
+		<div class="status">
+			<h3 {{bind-attr class=":status status"}}>{{capitalize status}}</h3>
 
-		{{#if view.statusText}}
-			<p>
-				{{view.statusText}}
+			{{#if view.statusText}}
+				<p>
+					{{view.statusText}}
 
-				{{#if view.learnMore}}
-					<a {{action "toggleDrawer" view.learnMore.className}}>Learn more</a>
-				{{/if}}
-			</p>
-		{{/if}}
+					{{#if view.learnMore}}
+						<a {{action "toggleDrawer" view.learnMore.className}}>Learn more</a>
+					{{/if}}
+				</p>
+			{{/if}}
 
-		{{#if view.learnMore}}
-			<p {{bind-attr class=":drawer view.learnMore.className"}}>
-				{{view.learnMore.text}}
-			</p>
-		{{/if}}
+			{{#if view.learnMore}}
+				<p {{bind-attr class=":drawer view.learnMore.className"}}>
+					{{view.learnMore.text}}
+				</p>
+			{{/if}}
+		</div>
 	{{/if}}
 
 	{{#if view.linkedResources}}

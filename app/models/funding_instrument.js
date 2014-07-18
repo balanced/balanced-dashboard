@@ -13,7 +13,7 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 		if (this.get('bank_name')) {
 			return Balanced.Utils.formatBankName(this.get('bank_name'));
 		} else {
-			return null;
+			return undefined;
 		}
 	}.property('bank_name'),
 

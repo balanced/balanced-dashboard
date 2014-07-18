@@ -1,29 +1,34 @@
-<h1 class="page-title">Hold</h1>
-
-<div id="hold" class="transaction">
-	<div class="title-block tb-egyptian-blue">
-		<span class="tb-icon">
-			<i class="icon icon-order"></i>
-		</span>
-		<span class="tb-content">
-			{{page_title}}
-		</span>
+<div id="hold">
+	<div class="page-navigation details-page clearfix">
+		<h1 class="page-title">
+			<div class="page-type">{{capitalize type_name}}</div>
+			{{formatCurrency amount}}
+		</h1>
+		<div class="buttons page-actions">
+			{{#if can_void_or_capture}}
+				{{capture-hold-modal hold=model}}
+				{{void-hold-modal hold=model}}
+			{{/if}}
+		</div>
 	</div>
 
-	{{txn-customer customer=customer}}
+	{{#view Balanced.BodyPanelView}}
+		{{#view Balanced.ApiModelPanelView model=model}}
+			{{view Balanced.HoldSummarySectionView model=model}}
+			{{view Balanced.HoldTitledKeyValuesSectionView model=model}}
+			{{view Balanced.MetaView type=model}}
+		{{/view}}
 
-	<div class="transaction-details">
-		{{#if debit.dispute}}
-			{{txn-dispute dispute=debit.dispute}}
-		{{/if}}
+		{{#view Balanced.MainPanelView}}
+			<h3>Logs</h3>
+			<div class="results">
+				{{view Balanced.ResourceLogsView content=model}}
+			</div>
 
-		{{#if debit}}
-			{{#each refund in debit.refunds}}
-				{{txn-refund refund=refund}}
-			{{/each}}
-			{{txn-debit debit=debit}}
-		{{/if}}
-
-		{{txn-hold hold=model}}
-	</div>
+			<h3>Events</h3>
+			<div class="results">
+				{{view Balanced.ResourceEventsView content=model}}
+			</div>
+		{{/view}}
+	{{/view}}
 </div>

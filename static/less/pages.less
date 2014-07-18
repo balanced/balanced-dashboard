@@ -81,43 +81,63 @@
     }
   }
 
-  dl.linked-resources {
+  .linked-resources {
     dt, dd {
+      .sl-sb;
+      font-size: 13px;
       display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     dt {
-      .sl-sb;
-      width: 50%;
+      width: 116px;
+      float: left;
 
       [class^="icon-"] {
         color: @black;
+        margin-right: 2px;
+        vertical-align: -2px;
       }
+    }
+
+    dd {
+      width: 128px;
+      margin-left: 10px;
     }
   }
 
-  .status {
-    text-transform: capitalize;
+  div.status {
+    padding-bottom: 30px;
 
-    &:before {
-      content: '';
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border-radius:100%;
-      margin-right: 6px;
-    }
+    h3.status {
+      text-transform: capitalize;
 
-    &.verified:before {
-      background-color: @pineGreen80;
-    }
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius:100%;
+        margin-right: 6px;
+      }
 
-    &.pending:before {
-      background-color: @curryYellow80;
-    }
+      &.verified, &.captured, &.succeeded {
+        &:before {
+          background-color: @pineGreen80;
+        }
+      }
 
-    &.unverified:before {
-      background-color: @imperialRed80;
+      &.pending:before {
+        background-color: @curryYellow80;
+      }
+
+      &.unverified, &.failed {
+        &:before {
+          background-color: @imperialRed80;
+        }
+      }
     }
   }
 }
