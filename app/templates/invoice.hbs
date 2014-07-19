@@ -260,7 +260,9 @@
 					{{view Balanced.DisputesResultsView disputes=disputesResultsLoader.results}}
 				</div>
 			{{else}}
-				{{view Balanced.TransactionsFiltersHeaderView showExtraTransactionTypes=true}}
+				<div class="download">
+					{{view Balanced.DownloadModalView}}
+				</div>
 				<div class="items-wrapper">
 					{{view Balanced.TransactionsResultsView transactions=results}}
 				</div>
