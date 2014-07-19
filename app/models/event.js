@@ -3,7 +3,10 @@ Balanced.Event = Balanced.Model.extend({
 	eventCallbacks: Balanced.Model.hasMany('callbacks', 'Balanced.EventCallback'),
 	uri: '/events',
 	route_name: 'events',
-	page_title: Balanced.computed.fmt('type', 'id', '%@ #%@')
+	page_title: Balanced.computed.fmt('type', 'id', '%@ #%@'),
+	status: function() {
+		return this.get('type').split('.')[1];
+	}.property('type')
 });
 
 Balanced.TypeMappings.addTypeMapping('event', 'Balanced.Event');

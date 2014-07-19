@@ -128,7 +128,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				title: model.get('type_name'),
 				resource: model,
 				value: '%@ %@'.fmt(model.get('last_four'), model.get('formatted_bank_name')),
-				value: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('formatted_bank_name'), model.get('type_name'))
+				hoverValue: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('formatted_bank_name'), model.get('type_name'))
 			};
 		}
 	}

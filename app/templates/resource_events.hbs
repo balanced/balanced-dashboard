@@ -1,40 +1,45 @@
-<div class="results embedded events">
-	<div class="items-wrapper">
-		<table class="items">
-			<tbody>
-			{{#if view.content.events}}
-				{{#each event in view.content.events}}
-					<tr>
-						<td class="first date">
-							{{#link-to 'events' event}}
-							<time {{bind-attr datetime="event.occurred_at"}} {{bind-attr title="event.occurred_at"}}>
-								{{humanReadableDateShort event.occurred_at}}</time>
-							{{/link-to}}
-						</td>
-						<td class="second">
-							{{#link-to 'events' event}}
-								<span>{{event.type}}</span>
-							{{/link-to}}
-						</td>
-						<td class="align-right">
-							{{#link-to 'events' event}}
-								<span>{{inflection event.eventCallbacks.length singular="webhook"}}</span>
-							{{/link-to}}
-						</td>
-					</tr>
-				{{/each}}
-			{{else}}
-				<tr>
-					<td colspan="3" class="no-results">
-						{{#if view.content.isLoaded}}
-							No results
-						{{else}}
-							Loading...
-						{{/if}}
-					</td>
-				</tr>
-			{{/if}}
-			</tbody>
-		</table>
-	</div>
-</div>
+<table class="items">
+	<thead>
+		<tr>
+			<th class="span3 date">
+				<span>Date</span>
+			</th>
+			<th class="span3 status">
+				<span>Status</span>
+			</th>
+			<th class="span6 event"><span>Event name</span></th>
+		</tr>
+	</thead>
+	<tbody>
+	{{#each event in view.content.events}}
+		<tr>
+			{{view Balanced.LinkedDateCellView
+				item=event
+				classNames="span3"
+				routeName=event.route_name
+				date=event.occurred_at
+			}}
+			<td class="status">
+				{{#link-to 'events' event}}
+					<span {{bind-attr class="event.status"}}>{{event.status}}</span>
+				{{/link-to}}
+			</td>
+			<td>
+				{{#link-to 'events' event}}
+					<span>{{event.type}}</span>
+				{{/link-to}}
+			</td>
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="3" class="no-results">
+				{{#if view.content.isLoaded}}
+					No results
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
+	</tbody>
+</table>

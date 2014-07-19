@@ -68,29 +68,6 @@ Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.
 	// dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
 });
 
-Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
-	templateName: 'results/transactions_filters_header',
-	tagName: 'header',
-
-	allTabSelected: Computed.isTypeSelected('transaction'),
-	holdsTabSelected: function() {
-		return ['hold', 'card_hold'].indexOf(this.get('controller.type')) >= 0;
-	}.property('controller.type'),
-	creditsTabSelected: Computed.isTypeSelected('credit'),
-	failedCreditsTabSelected: Computed.isTypeSelected('failed_credit'),
-	reversalsTabSelected: Computed.isTypeSelected('reversal'),
-	debitBankAccountsTabSelected: Computed.isTypeSelected('bank_account_debit'),
-	debitCardsTabSelected: Computed.isTypeSelected('card_debit'),
-	debitsTabSelected: Computed.isTypeSelected('debit'),
-	refundsTabSelected: Computed.isTypeSelected('refund'),
-	disputesTabSelected: Computed.isTypeSelected('dispute'),
-
-	// Was defined multiple times
-	// debits_label: Computed.label('debit', 'Debits', 'transactionType'),
-	debits_label: Computed.label('debit', 'Debits'),
-	credits_label: Computed.label('credit', 'Credits')
-});
-
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
 	classNames: 'items',
@@ -145,7 +122,6 @@ Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
 });
 
 Balanced.LogsEmbeddedResultsView = Balanced.ResultsTableView.extend({
-	classNames: 'logs',
 	classNameBindings: 'selected',
 	templateName: 'results/logs_embedded_table'
 });
