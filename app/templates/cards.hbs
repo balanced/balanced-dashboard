@@ -1,9 +1,9 @@
-{{#view Balanced.PageNavigationView pageType=type_name title=title_description}}
+{{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
 	<div class="buttons page-actions">
-		{{#if customer}}
+		{{#if model.customer}}
 			<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
 			<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-			{{#if can_credit}}
+			{{#if model.can_credit}}
 				<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
 			{{/if}}
 		{{/if}}
