@@ -1,8 +1,6 @@
 Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 	model: function(params) {
-		var marketplaceURI = Balanced.Marketplace.constructUri(params.marketplace_id);
-		var marketplace = Balanced.Marketplace.find(marketplaceURI);
-		return marketplace;
+		return this.getUser().get("marketplacesLoader").find(params.marketplace_id);
 	},
 
 	afterModel: function(model) {
