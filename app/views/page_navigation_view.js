@@ -21,7 +21,6 @@ Balanced.CustomerPageNavigationView = Balanced.PageNavigationView.extend({
 	templateName: 'page_navigations/page_navigation_actions',
 	pageType: 'Customer',
 	title: Ember.computed.oneWay("model.display_me"),
-	actionClassNames: ['credit-customer'],
 	actionButtons: function() {
 		return [{
 			modalViewName: Balanced.CreditCustomerModalView,

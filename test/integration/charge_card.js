@@ -13,10 +13,10 @@ module('Charge Card', {
 
 test('form validation', 2, function(assert) {
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('div a.charge-a-card')
-		.then(function() {
-			assert.equal($('button:contains(Debit)').length, 1, 'submit button exists');
-		})
+		.click('.page-navigation a:contains(Debit a card)')
+		.checkElements({
+			"#charge-card button:contains(Debit)": 1
+		}, assert)
 		.click('button:contains(Debit)')
 		.then(function() {
 			assert.ok($('.control-group.error').length > 0, 'errors are displayed');
@@ -34,7 +34,7 @@ test('can charge a card', 3, function(assert) {
 	});
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('div a.charge-a-card')
+		.click('.page-navigation a:contains(Debit a card)')
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry',
 			number: '4111111111111111',
@@ -46,7 +46,7 @@ test('can charge a card', 3, function(assert) {
 			description: 'Internal',
 			dollar_amount: '12.00'
 		}, {
-			click: '.modal-footer button:eq(1)'
+			click: 'button:contains(Debit)'
 		})
 		.then(function() {
 			assert.ok(tokenizingStub.calledOnce);
@@ -73,7 +73,7 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 	});
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('div a.charge-a-card')
+		.click('.page-navigation a:contains(Debit a card)')
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry',
 			number: '4111111111111111',
@@ -104,17 +104,13 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 
 test('when charge a card triggers an error, the error is displayed to the user', function(assert) {
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('div a.charge-a-card')
+		.click('.page-navigation a:contains(Debit a card)')
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry'
 		}, {
 			click: '.modal-footer button:eq(1)'
 		})
 		.then(function() {
-			Testing.stop();
-			Ember.run.next(function() {
-				Testing.start();
-				assert.equal($('.alert-error').is(':visible'), true);
-			});
+			assert.equal($('.alert-error').is(':visible'), true);
 		});
 });
