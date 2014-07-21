@@ -1,7 +1,7 @@
 {{#view Balanced.TransactionPageNavigationView model=model}}
 	<div class="buttons page-actions">
-		{{#if can_refund}}
-			{{refund-debit-modal debit=model}}
+		{{#if model.can_refund}}
+			<a class="btn sm" {{action "openModal" Balanced.Modals.RefundDebitModalView model}}>Refund</a>
 		{{/if}}
 	</div>
 {{/view}}

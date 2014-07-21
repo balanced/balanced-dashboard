@@ -26,10 +26,7 @@ module('Debits', {
 
 test('can visit page', function(assert) {
 	visit(Testing.DEBIT_ROUTE)
-		.checkElements({
-			"#content h1": "Debit",
-			".debit .tt-title": 'Succeeded: $1,000.00'
-		}, assert);
+		.checkPageTitle("Debit $1,000.00", assert);
 });
 
 test('can refund debit', function(assert) {
@@ -51,6 +48,10 @@ test('can edit debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
+		.then(function() {
+			assert.ok(false, "Fix this test");
+		});
+	/*
 		.click('.debit .transaction-info a.icon-edit')
 		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
@@ -59,6 +60,7 @@ test('can edit debit', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Debit));
 			assert.equal(spy.getCall(0).args[2].description, "changing desc");
 		});
+		*/
 });
 
 test('failed debit shows failure information', function(assert) {
@@ -75,7 +77,7 @@ test('failed debit shows failure information', function(assert) {
 			});
 		})
 		.checkElements({
-			'.dl-horizontal dd:first': "Foobar"
+			'.summary .status p:contains(Foobar)': 1
 		}, assert);
 });
 
@@ -112,11 +114,11 @@ test('renders metadata correctly', function(assert) {
 				model.set('meta', metaData);
 			});
 		})
-		.then(function() {
-			var $dl = $('.dl-horizontal.meta');
-			$.each(metaData, function(key, value) {
-				assert.equal($dl.find('dt:contains(' + key + ')').length, 1);
-				assert.equal($dl.find('dd:contains(' + value + ')').length, 1);
-			});
-		});
+		.checkElements({
+			".dl-horizontal dt:contains(key)": 1,
+			".dl-horizontal dd:contains(value)": 1,
+
+			".dl-horizontal dt:contains(other-keey)": 1,
+			".dl-horizontal dd:contains(other-vaalue)": 1,
+		}, assert);
 });
