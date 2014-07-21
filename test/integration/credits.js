@@ -94,18 +94,26 @@ test('credit reversal errors', function(assert) {
 	});
 });
 
-
 test('reversing a credit with a comma in the amount will succeed', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(Testing.CREDIT_ROUTE)
-		.click('.credit a.reverse-credit-button')
-		.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', '1,000')
-		.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
+		.click('.page-navigation a:contains(Reverse)')
+		.fillForm('#reverse-credit', {
+			dollar_amount: "1,0",
+			description: "Cool Reversal"
+		})
+		.click('#reverse-credit .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Reversal));
-			assert.equal(spy.getCall(0).args[2].amount, 100000);
+			var firstCall = spy.getCall(0);
+			console.dir(spy);
+
+			assert.equal(firstCall.args[1], Balanced.Reversal);
+			assert.deepEqual(firstCall.args[2], {
+				amount: 1000,
+				description: "Cool Reversal"
+			});
 		});
 });
 

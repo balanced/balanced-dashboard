@@ -1,6 +1,7 @@
 Balanced.Modals.RefundDebitModalView = Balanced.ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	templateName: 'modals/refund_debit_modal',
+	elementId: "refund-debit",
 	title: function() {
 		return "Refund this %@".fmt(this.get("recipient"));
 	}.property("recipient"),
