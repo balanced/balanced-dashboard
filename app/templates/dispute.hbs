@@ -8,6 +8,11 @@
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
+		<h3>Documents</h3>
+		<div class="results">
+			{{view Balanced.ResourceDocumentsView content=dispute}}
+		</div>
+
 		<h3>Logs</h3>
 		<div class="results">
 			{{view Balanced.ResourceLogsView content=model}}
