@@ -4,9 +4,6 @@ Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
 	isAmountOverMaximum: function() {
 		return this.get("amount") > this.get("credit.reversal_amount");
 	},
-	isAmountPositive: function() {
-		return this.get("amount") > 0;
-	},
 
 	validations: {
 		dollar_amount: {

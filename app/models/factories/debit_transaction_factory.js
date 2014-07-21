@@ -53,30 +53,6 @@ Balanced.DebitExistingCardTransactionFactory = Balanced.DebitExistingFundingInst
 	}
 });
 
-Balanced.CardDebitTransactionFactory = Balanced.CardDebitBaseTransactionFactory.extend({
-	getDestinationAttributes: function() {
-		var attributes = this.getProperties("name", "number", "cvv", "expiration_month", "expiration_year");
-		attributes.address = {
-			postal_code: this.get("postal_code")
-		};
-		return attributes;
-	},
-
-	getDebitAttributes: function() {
-		return this.getProperties("amount", "appears_on_statement_as", "description");
-	},
-
-	validations: {
-		dollar_amount: ValidationHelpers.positiveDollarAmount,
-		appears_on_statement_as: ValidationHelpers.cardTransactionAppearsOnStatementAs,
-
-		name: ValidationHelpers.cardName,
-		number: ValidationHelpers.cardNumber,
-		cvv: ValidationHelpers.cardCvv,
-		expiration_date: ValidationHelpers.cardExpirationDate,
-	}
-});
-
 Balanced.InitialDepositTransactionFactory = Balanced.CardDebitBaseTransactionFactory.extend({
 	card_uri: Ember.computed.oneWay("marketplace.owner_customer.cards_uri"),
 
