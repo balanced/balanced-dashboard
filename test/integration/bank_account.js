@@ -19,7 +19,7 @@ var setBankAccountProperties = function(properties) {
 
 test('can view bank account page', function(assert) {
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.checkPageTitle("Checking account 1234 Wells Fargo Bank");
+		.checkPageTitle("Checking account 1234 Wells Fargo Bank", assert);
 });
 
 test('credit bank account', function(assert) {
