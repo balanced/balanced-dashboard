@@ -129,8 +129,14 @@
         }
       }
 
-      &.pending:before {
-        background-color: @curryYellow80;
+      &.pending, &.new, &.scheduled {
+        &:before {
+          background-color: @curryYellow80;
+        }
+      }
+
+      &.representment:before {
+        background-color: @byzantiumPurple80;
       }
 
       &.unverified, &.failed {
@@ -248,5 +254,8 @@ section[class$="-info"] {
   .notification-center-message {
     text-align: left;
     margin: 0 45px;
+  }
+  .btn {
+    margin-left: 30px;
   }
 }

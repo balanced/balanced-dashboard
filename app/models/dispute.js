@@ -25,6 +25,18 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		return '/disputes/' + this.get('id') + '/documents';
 	}.property('id'),
 
+	statusChanged: function() {
+		var status = this.get('status');
+
+		if (status === 'pending') {
+			if (this.get('hasNotExpired')) {
+				this.set('status', 'new');
+			} else {
+				this.set('status', 'representment');
+			}
+		}
+	}.observes('status').on('init'),
+
 	amount_dollars: function() {
 		if (this.get('amount')) {
 			return (this.get('amount') / 100).toFixed(2);
@@ -43,16 +55,14 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),
 	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
 
-	status_name: Ember.computed.alias('status'),
-
 	hasNotExpired: function() {
 		return moment(this.get('respond_by')).toDate() > moment().toDate();
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
 		return false;
-		// Note: Temporarily removing evidence portal.
-		// return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'pending') && (this.get('documents.length') === 0);
+		// Note: Temporarily removing the evidence portal functionality.
+		// return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'new') && (this.get('documents.length') === 0);
 	}.property('isDocumentsLoaded', 'hasNotExpired', 'status', 'documents.length')
 });
 

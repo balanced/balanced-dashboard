@@ -2,13 +2,13 @@
 
 {{#view Balanced.BodyPanelView}}
 	{{#view Balanced.ApiModelPanelView model=model}}
-		{{view Balanced.DisputeSummarySectionView model=transaction}}
+		{{view Balanced.DisputeSummarySectionView model=model}}
 		{{view Balanced.DisputeTitledKeyValuesSectionView model=model}}
 		{{view Balanced.MetaView type=model}}
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
-		{{#if dispute.canUploadDocuments}}
+		{{#if canUploadDocuments}}
 			<div class="dispute-alert">
 				{{#view Balanced.NotificationMessageView}}
 					Provide documentation by this date to avoid a loss: <span class="sl-sb">{{humanReadableDateLong respond_by}}</span>.

@@ -172,10 +172,21 @@ Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
 });
 
 Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
+	statusText: function() {
+		var status = this.get('model.status');
+		// Note: Temporarily removing the evidence portal functionality.
+		// if (status === 'new') {
+		// 	return 'Provide documentation to avoid a loss.'
+		// } else if (status === 'representment') {
+		// 	return 'This dispute is under review. After the card provider reviews the case, the status will transition to either won or lost.';
+		// }
+		return null;
+	}.property('model.status'),
+
 	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model", "model.refunds", "model.hold", "model.customer", "model.source");
-	}.property("model", "model.refunds", "model.hold", "model.customer", "model.source")
+		return this.resourceLinks("model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source");
+	}.property("model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source")
 });
 
 Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({

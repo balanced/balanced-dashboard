@@ -102,10 +102,9 @@ Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 	filters: function() {
 		return [
 			defineFilter("All", null, true),
-			defineFilter("Pending", ["pending"]),
+			defineFilter("New & Representment", ["pending"]),
 			defineFilter("Won", ["won"]),
-			defineFilter("Lost", ["lost"]),
-			defineFilter("Arbitration", ["arbitration"])
+			defineFilter("Lost", ["lost"])
 		];
 	}.property(),
 
