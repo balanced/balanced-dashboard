@@ -1,4 +1,4 @@
-{{#view Balanced.PageNavigationView pageType=pageType title=pageTitle}}
+{{#view Balanced.TransactionPageNavigationView model=model}}
 	<div class="buttons page-actions">
 		{{#if model.can_reverse}}
 			<a class="btn sm" {{action "openModal" Balanced.Modals.ReverseCreditModalView model}}>Reverse</a>
