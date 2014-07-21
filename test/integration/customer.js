@@ -16,17 +16,14 @@ module('Customer Page', {
 
 test('can view customer page', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.checkElements({
-			"#content h1": "Customer",
-			"#customer .title": 'William Henry Cavendish III (whc@example.org)'
-		}, assert);
+		.checkPageTitle("Customer William Henry Cavendish III", assert);
 });
 
 test('can edit customer info', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.customer-info a.icon-edit')
+		.click('.side-panel a.icon-edit')
 		.fillForm('#edit-customer-info', {
 			name: "TEST"
 		})
@@ -42,7 +39,7 @@ test('can update customer info', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.customer-info a.icon-edit')
+		.click('.side-panel a.icon-edit')
 		.click('#edit-customer-info a.more-info')
 		.fillForm('#edit-customer-info', {
 			name: 'TEST',
@@ -95,7 +92,7 @@ test('can update customer info only some fields', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.customer-info a.icon-edit')
+		.click('.side-panel a.icon-edit')
 		.click('#edit-customer-info a.more-info')
 		.fillForm('#edit-customer-info', {
 			business_name: '',
@@ -136,16 +133,17 @@ test('can debit customer using card', function(assert) {
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click(".customer-header .buttons a.debit-customer")
-		.then(function() {
-			var options = $("#debit-customer form select[name=source_uri] option");
-			assert.equal(options.length, 3);
-			assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
-			assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
+		.click(".page-navigation a:contains(Debit)")
 
-			fundingInstrumentUri = options.eq(2).val();
-			$("#debit-customer form select[name=source_uri]").val(fundingInstrumentUri).change();
-		})
+	.then(function() {
+		var options = $("#debit-customer form select[name=source] option");
+		assert.equal(options.length, 3);
+		assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
+		assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
+
+		fundingInstrumentUri = options.eq(2).val();
+		$("#debit-customer form select[name=source]").val(fundingInstrumentUri).change();
+	})
 		.fillForm("#debit-customer", {
 			dollar_amount: "1000",
 			description: "Card debit"
@@ -166,16 +164,15 @@ test('can debit customer using bank account', function(assert) {
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click($(".customer-header .buttons a").eq(0))
+		.click(".page-navigation a:contains(Debit)")
 		.checkElements({
-			"#debit-customer form select[name=source_uri] option": 3,
-			"#debit-customer form select[name=source_uri] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
-			"#debit-customer form select[name=source_uri] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
+			"#debit-customer form select[name=source] option": 3,
+			"#debit-customer form select[name=source] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
+			"#debit-customer form select[name=source] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
 		}, assert)
 		.then(function() {
-
-			fundingInstrumentUri = $("#debit-customer form select[name=source_uri] option").eq(0).val();
-			$("#debit-customer select[name=source_uri]").val(fundingInstrumentUri);
+			fundingInstrumentUri = $("#debit-customer form select[name=source] option").eq(0).val();
+			$("#debit-customer select[name=source]").val(fundingInstrumentUri);
 		})
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
@@ -196,7 +193,7 @@ test("can't debit customer multiple times using the same modal", 4, function(ass
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click(".customer-header .buttons .debit-customer")
+		.click(".page-navigation a:contains(Debit)")
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
@@ -217,7 +214,7 @@ test("debit customer triggers reload of transactions", function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "get");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click(".customer-header .buttons a:first")
+		.click(".page-navigation a:contains(Debit)")
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit'
@@ -247,7 +244,7 @@ module('Customer Page: Credit', {
 test('can credit to a debit card', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "create");
 	visit(Testing.CUSTOMER_ROUTE)
-		.click("a.credit-customer")
+		.click(".page-navigation a:contains(Credit)")
 		.checkElements({
 			"#credit-customer form select[name=destination] option:contains(Checking account: 5555 Wells Fargo Bank Na)": 1,
 			"#credit-customer form select[name=destination] option:contains(Debit card: 5556 Visa)": 1
@@ -276,7 +273,7 @@ test('can credit to a debit card', function(assert) {
 
 test('when crediting customer triggers an error, the error is displayed to the user', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.click("a.credit-customer")
+		.click(".page-navigation a:contains(Credit)")
 		.fillForm('#credit-customer', {
 			dollar_amount: '10',
 			description: 'Test credit'
@@ -292,7 +289,7 @@ test("can't credit customer multiple times using the same modal", function(asser
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click("a.credit-customer")
+		.click(".page-navigation a:contains(Credit)")
 		.fillForm('#credit-customer', {
 			dollar_amount: '1000',
 			appears_on_statement_as: "SODA",

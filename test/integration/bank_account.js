@@ -19,17 +19,14 @@ var setBankAccountProperties = function(properties) {
 
 test('can view bank account page', function(assert) {
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.checkElements({
-			"#content h1": "Bank account",
-			".title span": "1234 Wells Fargo Bank"
-		}, assert);
+		.checkPageTitle("Checking account 1234 Wells Fargo Bank", assert);
 });
 
 test('credit bank account', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.click(".main-header .buttons a.credit-button")
+		.click(".page-navigation a.credit-button")
 		.then(function() {
 			// opened the modal
 			assert.equal(
@@ -58,7 +55,7 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.click(".main-header .buttons a.credit-button")
+		.click(".page-navigation a.credit-button")
 		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
 		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
@@ -79,7 +76,7 @@ test('debit bank account', 4, function(assert) {
 				can_debit: true
 			});
 		})
-		.click(".main-header .buttons a.debit-button")
+		.click(".page-navigation a.debit-button")
 		.then(function() {
 			// opened the modal
 			assert.equal(
@@ -114,7 +111,7 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 				can_debit: true
 			});
 		})
-		.click(".main-header .buttons a.debit-button")
+		.click(".page-navigation a.debit-button")
 		.fillForm("#debit-funding-instrument", {
 			dollar_amount: '1000',
 			description: 'Test debit'
@@ -139,13 +136,12 @@ test('can initiate bank account verification', function(assert) {
 				verification: false
 			});
 		})
+		.checkElements({
+			".page-navigation a.verify-button": 1,
+		}, assert)
+		.click(".page-navigation a.verify-button")
 		.then(function() {
-			assert.deepEqual($("#content h1").text().trim(), "Bank account");
-			assert.deepEqual($(".main-header .buttons a.verify-button").length, 1);
-		})
-		.click(".main-header .buttons a.verify-button")
-		.then(function() {
-			assert.equal($('#verify-bank-account').css('display'), 'block', 'verify bank account modal visible');
+			assert.ok($('#verify-bank-account:visible'), 'verify bank account modal visible');
 		})
 		.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -168,11 +164,10 @@ test('can confirm bank account verification', function(assert) {
 				})
 			});
 		})
-		.then(function() {
-			assert.equal($('#content h1').text().trim(), 'Bank account');
-			assert.equal($(".main-header .buttons a.confirm-verification-button").length, 1, 'has confirm button');
-		})
-		.click(".main-header .buttons a.confirm-verification-button")
+		.checkElements({
+			".page-navigation a.confirm-verification-button": 1,
+		}, assert)
+		.click(".page-navigation a.confirm-verification-button")
 		.then(function() {
 			assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
 		})
@@ -194,21 +189,18 @@ test('renders metadata correctly', function(assert) {
 		'key': 'value',
 		'other-keey': 'other-vaalue'
 	};
-	Ember.run(function() {
-		Balanced.BankAccount.findAll().then(function(accounts) {
-			var account = accounts.content[0];
-			account.set('meta', metaData);
-
-			account.save().then(function(account) {
-				var accountPageUrl = '/marketplaces/' + Testing.MARKETPLACE_ID + '/bank_accounts/' + account.get('id');
-				visit(accountPageUrl).then(function() {
-					var $dl = $('.bank-account-info .dl-horizontal');
-					$.each(metaData, function(key, value) {
-						assert.equal($dl.find('dt:contains("' + key + '")').length, 1);
-						assert.equal($dl.find('dd:contains("' + value + '")').length, 1);
-					});
-				});
+	visit(Testing.BANK_ACCOUNT_ROUTE)
+		.then(function() {
+			var controller = Balanced.__container__.lookup("controller:bank_accounts");
+			Ember.run(function() {
+				controller.get("model").set("meta", metaData);
 			});
-		});
-	});
+		})
+		.checkElements({
+			".dl-horizontal dt:contains(key)": 1,
+			".dl-horizontal dd:contains(value)": 1,
+
+			".dl-horizontal dt:contains(other-keey)": 1,
+			".dl-horizontal dd:contains(other-vaalue)": 1,
+		}, assert);
 });

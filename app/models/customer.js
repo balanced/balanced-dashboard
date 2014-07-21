@@ -35,6 +35,26 @@ Balanced.Customer = Balanced.Model.extend({
 	debitable_funding_instruments: Ember.computed.union('debitable_bank_accounts', 'cards'),
 	creditable_funding_instruments: Ember.computed.union('bank_accounts', 'creditable_cards'),
 
+
+	getFundingInstrumentsLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("uri") + "/search"
+		}, attributes);
+		return Balanced.FundingInstrumentsResultsLoader.create(attributes);
+	},
+	getDisputesLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("disputes_uri"),
+		}, attributes);
+		return Balanced.DisputesResultsLoader.create(attributes);
+	},
+	getTransactionsLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("transactions_uri"),
+		}, attributes);
+		return Balanced.TransactionsResultsLoader.create(attributes);
+	},
+
 	type: function() {
 		return (this.get('ein') || this.get('business_name')) ? CUSTOMER_TYPES.BUSINESS : CUSTOMER_TYPES.PERSON;
 	}.property('ein', 'business_name'),

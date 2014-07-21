@@ -1,33 +1,27 @@
-<div id="credit">
-	<div class="page-navigation details-page clearfix">
-		<h1 class="page-title">
-			<div class="page-type">{{capitalize type_name}}</div>
-			{{formatCurrency amount}}
-		</h1>
-		<div class="buttons page-actions">
-			{{#if can_reverse}}
-				{{reverse-credit-modal credit=model}}
-			{{/if}}
-		</div>
+{{#view Balanced.TransactionPageNavigationView model=model}}
+	<div class="buttons page-actions">
+		{{#if model.can_reverse}}
+			<a class="btn sm" {{action "openModal" Balanced.Modals.ReverseCreditModalView model}}>Reverse</a>
+		{{/if}}
 	</div>
+{{/view}}
 
-	{{#view Balanced.BodyPanelView}}
-		{{#view Balanced.ApiModelPanelView model=model}}
-			{{view Balanced.CreditSummarySectionView model=model}}
-			{{view Balanced.CreditTitledKeyValuesSectionView model=model}}
-			{{view Balanced.MetaView type=model}}
-		{{/view}}
-
-		{{#view Balanced.MainPanelView}}
-			<h3>Logs</h3>
-			<div class="results">
-				{{view Balanced.ResourceLogsView content=model}}
-			</div>
-
-			<h3>Events</h3>
-			<div class="results">
-				{{view Balanced.ResourceEventsView content=model}}
-			</div>
-		{{/view}}
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.ApiModelPanelView model=model}}
+		{{view Balanced.CreditSummarySectionView model=model}}
+		{{view Balanced.CreditTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
 	{{/view}}
-</div>
+
+	{{#view Balanced.MainPanelView}}
+		<h3>Logs</h3>
+		<div class="results">
+			{{view Balanced.ResourceLogsView content=model}}
+		</div>
+
+		<h3>Events</h3>
+		<div class="results">
+			{{view Balanced.ResourceEventsView content=model}}
+		</div>
+	{{/view}}
+{{/view}}

@@ -22,8 +22,6 @@ Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 			this.get("transactionsResultsLoader").setSortField(column);
 		},
 
-		changeSortOrder: function(sortField, sortDirection) {},
-
 		changeStatusFilter: function(status) {
 			if (status === "all") {
 				status = null;

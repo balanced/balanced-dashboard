@@ -14,7 +14,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 		needs: ['application'],
 
 		transactionSelected: Computed.isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
-		orderSelected: Computed.isSelected('activity.orders', 'orders'),
+		orderSelected: Computed.isSelected('marketplace.orders', 'orders'),
 		customerSelected: Computed.isSelected('marketplace.customers', 'customer'),
 		fundingInstrumentSelected: Computed.isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),
 		disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),

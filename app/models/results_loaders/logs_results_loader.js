@@ -1,3 +1,4 @@
+require("app/model/log");
 Balanced.LogsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Log,
 	path: "/logs",

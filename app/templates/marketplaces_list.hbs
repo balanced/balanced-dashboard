@@ -5,7 +5,7 @@
 			{{#each user_marketplace in auth.user.user_marketplaces}}
 				{{#if user_marketplace.production}}
 					<li class="label4a">
-						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
+						{{#link-to 'marketplace' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
 					</li>
 				{{/if}}
 			{{/each}}
@@ -20,7 +20,7 @@
 			{{#each user_marketplace in auth.user.user_marketplaces}}
 				{{#unless user_marketplace.production}}
 					<li class="label4a">
-						{{#link-to 'activity' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
+						{{#link-to 'marketplace' user_marketplace.id}}{{user_marketplace.name}}{{/link-to}}
 					</li>
 				{{/unless}}
 			{{/each}}

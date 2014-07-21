@@ -1,5 +1,16 @@
+require("app/model/funding_instrument");
+var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
+
 Balanced.FundingInstrumentsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.FundingInstrument,
+	getTypeFilterValue: function() {
+		var type = this.get("type");
+		if (!FUNDING_INSTRUMENT_TYPES.contains(type)) {
+			type = FUNDING_INSTRUMENT_TYPES;
+		}
+		return type;
+	},
+
 	queryStringArguments: function() {
 		var type = this.get("type");
 		if (Ember.isBlank(type)) {
@@ -11,7 +22,7 @@ Balanced.FundingInstrumentsResultsLoader = Balanced.ResultsLoader.extend({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
 			offset: 0,
-			type: type,
+			type: this.getTypeFilterValue(),
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime"),
 		});

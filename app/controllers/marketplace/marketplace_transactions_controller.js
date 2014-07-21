@@ -6,7 +6,7 @@ Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend(Em
 	actions: {
 		changeTypeFilter: function(type) {
 			if (type === "transaction") {
-				type = null
+				type = null;
 			}
 			this.set("resultsLoader.type", type);
 		},

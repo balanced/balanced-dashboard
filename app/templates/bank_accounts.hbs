@@ -1,40 +1,34 @@
-<div id="card">
-	<div class="page-navigation details-page clearfix">
-		<h1 class="page-title">
-			<div class="page-type">{{type_name}}</div>
-			{{title_description}}
-		</h1>
-		<div class="buttons page-actions">
-			{{#if can_debit}}
-				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-			{{else}}
-				{{#if can_verify}}
-					<a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to debit</a>
-				{{/if}}
-				{{#if can_confirm_verification}}
-					<a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm verification</a>
-				{{/if}}
+{{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
+	<div class="buttons page-actions">
+		{{#if can_debit}}
+			<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+		{{else}}
+			{{#if can_verify}}
+				<a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to debit</a>
 			{{/if}}
+			{{#if can_confirm_verification}}
+				<a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm verification</a>
+			{{/if}}
+		{{/if}}
 
-			<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
-		</div>
+		<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
 	</div>
+{{/view}}
 
-	{{#view Balanced.BodyPanelView}}
-		{{#view Balanced.ApiModelPanelView model=model}}
-			{{view Balanced.BankAccountSummarySectionView model=model}}
-			{{view Balanced.BankAccountTitledKeyValuesSectionView model=model}}
-			{{view Balanced.MetaView type=model}}
-		{{/view}}
-
-		{{#view Balanced.MainPanelView}}
-			<h3>Payments</h3>
-			<div class="results">
-				{{view Balanced.CustomerTransactionsResultsView transactions=results}}
-			</div>
-		{{/view}}
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.ApiModelPanelView model=model}}
+		{{view Balanced.BankAccountSummarySectionView model=model}}
+		{{view Balanced.BankAccountTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
 	{{/view}}
-</div>
+
+	{{#view Balanced.MainPanelView}}
+		<h3>Payments</h3>
+		<div class="results">
+			{{view Balanced.CustomerTransactionsResultsView loader=transactionsResultsLoader}}
+		</div>
+	{{/view}}
+{{/view}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}

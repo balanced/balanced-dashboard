@@ -2,33 +2,12 @@ Balanced.PageNavigationView = Ember.View.extend({
 	layoutName: "page_navigations/page_navigation_layout",
 });
 
-Balanced.TransactionsPageNavigationView = Balanced.PageNavigationView.extend({
-	templateName: 'page_navigations/page_navigation_actions',
-	title: "Transactions",
-	actionButtons: function() {
-		return [{
-			modalViewName: Balanced.DebitNewFundingInstrumentModalView,
-			buttonName: 'Debit a card'
-		}, {
-			modalViewName: Balanced.CreditNewFundingInstrumentModalView,
-			buttonName: 'Credit a bank account'
-		}];
-	}.property()
+Balanced.TransactionPageNavigationView = Balanced.PageNavigationView.extend({
+	pageType: function() {
+		return Balanced.Utils.capitalize(this.get("model.type_name"));
+	}.property("model.type_name"),
 
-});
-
-Balanced.CustomerPageNavigationView = Balanced.PageNavigationView.extend({
-	templateName: 'page_navigations/page_navigation_actions',
-	pageType: 'Customer',
-	title: Ember.computed.oneWay("model.display_me"),
-	actionClassNames: ['credit-customer'],
-	actionButtons: function() {
-		return [{
-			modalViewName: Balanced.CreditCustomerModalView,
-			buttonName: 'Credit'
-		}, {
-			modalViewName: Balanced.DebitCustomerModalView,
-			buttonName: 'Debit'
-		}];
-	}.property()
+	title: function() {
+		return Balanced.Utils.formatCurrency(this.get("model.amount"));
+	}.property("model.amount"),
 });

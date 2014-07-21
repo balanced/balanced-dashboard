@@ -1,0 +1,11 @@
+{{#if isTest}}
+	<a href="#" class="icon-delete" {{action "promptToDeleteMarketplace" marketplace}}>&times;</a>
+{{/if}}
+<div class="label">
+	<i {{bind-attr class=":icon view.isProduction:icon-productionmp:icon-testmp"}}></i>
+</div>
+<div class="info">
+	{{#link-to 'marketplace' view.marketplace.id class="name"}}
+		{{view.marketplace.name}}
+	{{/link-to}}
+</div>

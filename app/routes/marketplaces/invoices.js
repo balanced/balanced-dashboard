@@ -18,5 +18,3 @@ Balanced.InvoiceRoute = Balanced.ModelControllerRoute.extend({
 		controller.set("disputesResultsLoader", disputesResultsLoader);
 	}
 });
-
-Balanced.MarketplaceRedirectInvoicesRoute = Balanced.RedirectRoute("marketplace.invoices");
