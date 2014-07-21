@@ -19,10 +19,7 @@ var setBankAccountProperties = function(properties) {
 
 test('can view bank account page', function(assert) {
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.then(function() {
-			var h1Text = $("#content h1").text().trim().replace(/\s+/gm, " ");
-			assert.deepEqual(h1Text, "Checking account 1234 Wells Fargo Bank");
-		});
+		.checkPageTitle("Checking account 1234 Wells Fargo Bank");
 });
 
 test('credit bank account', function(assert) {

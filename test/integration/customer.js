@@ -16,10 +16,7 @@ module('Customer Page', {
 
 test('can view customer page', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			var h1Text = $("#content h1").text().trim().replace(/\s+/gm, " ");
-			assert.deepEqual(h1Text, "Customer William Henry Cavendish III");
-		});
+		.checkPageTitle("Customer William Henry Cavendish III");
 });
 
 test('can edit customer info', function(assert) {

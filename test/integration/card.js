@@ -12,10 +12,7 @@ module('Card Page', {
 
 test('can view card page', function(assert) {
 	visit(Testing.CARD_ROUTE)
-		.then(function() {
-			var h1Text = $("#content h1").text().trim().replace(/\s+/gm, " ");
-			assert.deepEqual(h1Text, "Credit card 1111 Visa");
-		});
+		.checkPageTitle("Credit card 1111 Visa", assert);
 });
 
 test('debit card', function(assert) {

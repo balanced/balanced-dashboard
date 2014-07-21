@@ -13,17 +13,18 @@ module('Credits', {
 
 test('can visit page', function(assert) {
 	visit(Testing.CREDIT_ROUTE)
-		.checkElements({
-			"#content h1": "Credit",
-			".credit .tt-title": 'Succeeded: $100.00'
-		}, assert);
+		.checkPageTitle("Credit $100.00", assert);
 });
 
 test('can edit credit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.CREDIT_ROUTE)
-		.click('.credit .transaction-info a.icon-edit')
+		.then(function() {
+			assert.ok(false, "Implement credit editing");
+		})
+	/*
+		.click('.side-panel a.icon-edit')
 		.fillIn('.edit-transaction.in .modal-body input[name=description]', "changing desc")
 		.click('.edit-transaction.in .modal-footer button[name=modal-submit]')
 		.then(function() {
@@ -31,12 +32,18 @@ test('can edit credit', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Credit));
 			assert.equal(spy.getCall(0).args[2].description, "changing desc");
 		});
+		*/
 });
 
 test('can reverse credit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(Testing.CREDIT_ROUTE)
+		.then(function() {
+			assert.ok(false, "Implement credit editing");
+		})
+
+	/*
 		.click('.credit a.reverse-credit-button')
 		.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', '10')
 		.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
@@ -67,17 +74,23 @@ test('can reverse credit', function(assert) {
 		.then(function() {
 			assert.equal($('.credit a.reverse-credit-button').length, 0, 'No reverse credit buttons');
 		});
+		*/
 });
 
 test('credit reversal errors', function(assert) {
 	$.each(['-10000', '0'], function(e, amount) {
 		visit(Testing.CREDIT_ROUTE)
+			.then(function() {
+				assert.ok(false, "Implement credit editing");
+			})
+		/*
 			.click('.credit a.reverse-credit-button')
 			.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', amount)
 			.click('#reverse-credit.in .modal-footer button[name=modal-submit]')
 			.then(function() {
 				assert.equal($('.control-group.error').is(':visible'), true);
 			});
+			*/
 	});
 });
 
@@ -103,17 +116,18 @@ test('renders metadata correctly', function(assert) {
 		'key': 'value',
 		'other-keey': 'other-vaalue'
 	};
-
-	visit(Testing.CREDIT_ROUTE).then(function() {
-		var model = Balanced.__container__.lookup('controller:credits');
-		model.set('meta', metaData);
-
-		Ember.run.next(function() {
-			var $dl = $('.dl-horizontal.meta');
-			$.each(metaData, function(key, value) {
-				assert.equal($dl.find('dt:contains(' + key + ')').length, 1);
-				assert.equal($dl.find('dd:contains(' + value + ')').length, 1);
+	visit(Testing.CREDIT_ROUTE)
+		.then(function() {
+			var controller = Balanced.__container__.lookup("controller:credits");
+			Ember.run(function() {
+				controller.get("model").set("meta", metaData);
 			});
-		});
-	});
+		})
+		.checkElements({
+			".dl-horizontal dt:contains(key)": 1,
+			".dl-horizontal dd:contains(value)": 1,
+
+			".dl-horizontal dt:contains(other-keey)": 1,
+			".dl-horizontal dd:contains(other-vaalue)": 1,
+		}, assert);
 });

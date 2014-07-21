@@ -41,6 +41,11 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
+
+	checkPageTitle: function(app, text, assert) {
+		var h1Text = $("#content h1").text().trim().replace(/\s+/gm, " ");
+		assert.deepEqual(h1Text, text);
+	},
 	checkElements: function(app, hash, assert) {
 		wait();
 
