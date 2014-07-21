@@ -51,7 +51,8 @@ Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
 			return Balanced.Reversal.create({
 				uri: this.get('credit.reversals_uri'),
 				credit_uri: this.get('credit.uri'),
-				amount: this.get("amount")
+				amount: this.get("amount"),
+				description: this.get("description")
 			}).save().then(function(reversal) {
 				return reversal;
 			});

@@ -107,13 +107,14 @@ test('reversing a credit with a comma in the amount will succeed', function(asse
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			var firstCall = spy.getCall(0);
-			console.dir(spy);
-
-			assert.equal(firstCall.args[1], Balanced.Reversal);
-			assert.deepEqual(firstCall.args[2], {
-				amount: 1000,
-				description: "Cool Reversal"
-			});
+			assert.deepEqual(firstCall.args.slice(0, 3), [
+				Balanced.Reversal,
+				"/credits/" + Testing.CREDIT_ID + "/reversals", {
+					amount: "1000",
+					description: "Cool Reversal",
+					credit_uri: "/credits/" + Testing.CREDIT_ID
+				}
+			]);
 		});
 });
 
