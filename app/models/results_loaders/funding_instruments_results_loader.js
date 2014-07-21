@@ -1,3 +1,4 @@
+require("app/model/funding_instrument");
 var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
 
 Balanced.FundingInstrumentsResultsLoader = Balanced.ResultsLoader.extend({

@@ -1,3 +1,4 @@
+require("app/model/transaction");
 Balanced.TransactionsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Transaction,
 	typeFilters: undefined, // ["transaction", "credit", "debit", "card_hold", "refund", "reversal"],

@@ -1,3 +1,5 @@
+require("app/models/order");
+
 Balanced.OrdersResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Order,
 	path: "/search",
