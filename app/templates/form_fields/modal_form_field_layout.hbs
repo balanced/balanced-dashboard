@@ -1,0 +1,9 @@
+<label class="control-label" {{bind-attr for=view.inputElement.elementId}}>
+	{{view.label}}
+</label>
+<div class="controls">
+	{{yield}}
+	{{#each errorMessage in view.errorMessages}}
+		<div class="alert alert-error label4b">{{errorMessage}}</div>
+	{{/each}}
+</div>
