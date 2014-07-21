@@ -22,7 +22,7 @@ test('can edit credit', function(assert) {
 	visit(Testing.CREDIT_ROUTE)
 		.then(function() {
 			assert.ok(false, "Implement credit editing");
-		})
+		});
 	/*
 		.click('.side-panel a.icon-edit')
 		.fillIn('.edit-transaction.in .modal-body input[name=description]', "changing desc")
@@ -41,7 +41,7 @@ test('can reverse credit', function(assert) {
 	visit(Testing.CREDIT_ROUTE)
 		.then(function() {
 			assert.ok(false, "Implement credit editing");
-		})
+		});
 
 	/*
 		.click('.credit a.reverse-credit-button')
@@ -82,7 +82,7 @@ test('credit reversal errors', function(assert) {
 		visit(Testing.CREDIT_ROUTE)
 			.then(function() {
 				assert.ok(false, "Implement credit editing");
-			})
+			});
 		/*
 			.click('.credit a.reverse-credit-button')
 			.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', amount)
