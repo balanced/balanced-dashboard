@@ -47,7 +47,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 				callback();
 			}
 			var count = collection.filterBy('isSaved').get('length');
-			self.transitionToRoute('activity');
+			self.transitionToRoute('transactions');
 
 			self.refresh('');
 			self.send('alert', {
