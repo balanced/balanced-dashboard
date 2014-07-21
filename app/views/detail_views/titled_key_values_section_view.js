@@ -1,11 +1,17 @@
 Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	templateName: "detail_views/titled_key_values_section",
 
-	getKeyValueView: function(label, field) {
+	getKeyValueView: function(label, field, format) {
 		var model = this.get("model");
+		var value = model.get(field);
+
+		if (format === "date") {
+			value = Balanced.Utils.humanReadableDateLong(value);
+		}
+
 		return Balanced.KeyValueView.create({
 			key: label,
-			value: model.get(field)
+			value: value
 		});
 	},
 
@@ -79,6 +85,19 @@ Balanced.HoldTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.ex
 			this.getKeyValueView("Transaction number", "transaction_number"),
 			this.getKeyValueView("Internal description", "description"),
 			this.getKeyValueView("On statement as", "appears_on_statement_as")
+		];
+	}.property("model")
+});
+
+Balanced.DisputeTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Dispute information",
+
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Dispute ID", "id"),
+			this.getKeyValueView("Initiated at", "initiated_at", "date"),
+			this.getKeyValueView("Respond by", "respond_by", "date"),
+			this.getKeyValueView("Reason", "reason")
 		];
 	}.property("model")
 });

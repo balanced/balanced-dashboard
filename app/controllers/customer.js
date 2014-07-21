@@ -41,7 +41,7 @@ Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 		},
 
 		toggleDrawer: function(className) {
-			$('.' + className).slideToggle();
+			$('.' + className).slideToggle(200);
 		}
 	}
 });

@@ -171,6 +171,13 @@ Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
 	}.property("model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source")
 });
 
+Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
+	// Note: missing order links
+	linkedResources: function() {
+		return this.resourceLinks("model", "model.refunds", "model.hold", "model.customer", "model.source");
+	}.property("model", "model.refunds", "model.hold", "model.customer", "model.source")
+});
+
 Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: function() {
 		if (this.get('model.status') === 'unverified') {
