@@ -1,33 +1,27 @@
-<div id="debit">
-	<div class="page-navigation details-page clearfix">
-		<h1 class="page-title">
-			<div class="page-type">{{capitalize type_name}}</div>
-			{{formatCurrency amount}}
-		</h1>
-		<div class="buttons page-actions">
-			{{#if can_refund}}
-				{{refund-debit-modal debit=model}}
-			{{/if}}
-		</div>
+{{#view Balanced.PageNavigationView pageType=pageType title=pageTitle}}
+	<div class="buttons page-actions">
+		{{#if can_refund}}
+			{{refund-debit-modal debit=model}}
+		{{/if}}
 	</div>
+{{/view}}
 
-	{{#view Balanced.BodyPanelView}}
-		{{#view Balanced.ApiModelPanelView model=model}}
-			{{view Balanced.DebitSummarySectionView model=model}}
-			{{view Balanced.DebitTitledKeyValuesSectionView model=model}}
-			{{view Balanced.MetaView type=model}}
-		{{/view}}
-
-		{{#view Balanced.MainPanelView}}
-			<h3>Logs</h3>
-			<div class="results">
-				{{view Balanced.ResourceLogsView content=model}}
-			</div>
-
-			<h3>Events</h3>
-			<div class="results">
-				{{view Balanced.ResourceEventsView content=model}}
-			</div>
-		{{/view}}
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.ApiModelPanelView model=model}}
+		{{view Balanced.DebitSummarySectionView model=model}}
+		{{view Balanced.DebitTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
 	{{/view}}
-</div>
+
+	{{#view Balanced.MainPanelView}}
+		<h3>Logs</h3>
+		<div class="results">
+			{{view Balanced.ResourceLogsView content=model}}
+		</div>
+
+		<h3>Events</h3>
+		<div class="results">
+			{{view Balanced.ResourceEventsView content=model}}
+		</div>
+	{{/view}}
+{{/view}}
