@@ -38,7 +38,7 @@ Balanced.MarketplaceInitialDepositController = Balanced.ObjectController.extend(
 			if (model.get("isValid")) {
 				self.set("isSaving", true);
 				model.save().then(function(credit) {
-					self.transitionToRoute('transactions', marketplace);
+					self.transitionToRoute('marketplace');
 				}).
 				finally(function() {
 					self.set("isSaving", false);

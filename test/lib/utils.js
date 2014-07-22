@@ -433,7 +433,7 @@ var Testing = {
 	},
 
 	setupActivity: function(howMany, type) {
-		this.setupResults(this.ACTIVITY_ROUTE, 'activity', 'transaction', howMany, type);
+		this.setupResults(this.ACTIVITY_ROUTE, 'marketplace', 'transaction', howMany, type);
 	},
 
 	createDisputes: function(number) {
