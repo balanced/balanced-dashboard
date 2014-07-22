@@ -48,19 +48,14 @@ test('can edit debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
-		.then(function() {
-			assert.ok(false, "Fix this test");
-		});
-	/*
-		.click('.debit .transaction-info a.icon-edit')
-		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
-		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
+		.clickEditTransaction()
+		.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
+		.click('#edit-transaction .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.Debit));
 			assert.equal(spy.getCall(0).args[2].description, "changing desc");
 		});
-		*/
 });
 
 test('failed debit shows failure information', function(assert) {

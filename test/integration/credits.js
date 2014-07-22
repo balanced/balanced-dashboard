@@ -16,25 +16,6 @@ test('can visit page', function(assert) {
 		.checkPageTitle("Credit $100.00", assert);
 });
 
-test('can edit credit', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
-
-	visit(Testing.CREDIT_ROUTE)
-		.then(function() {
-			assert.ok(false, "Implement credit editing");
-		});
-	/*
-		.click('.side-panel a.icon-edit')
-		.fillIn('.edit-transaction.in .modal-body input[name=description]', "changing desc")
-		.click('.edit-transaction.in .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Credit));
-			assert.equal(spy.getCall(0).args[2].description, "changing desc");
-		});
-		*/
-});
-
 test('can reverse credit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
