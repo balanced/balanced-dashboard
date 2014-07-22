@@ -1,11 +1,9 @@
 <form class="form-horizontal split-labels" {{action "save" target="view" on="submit"}}>
 	<div class="modal-body">
-		<div class="control-group">
-			<label class="control-label">Customer</label>
-			<div class="controls">
-				<span class="label1a">{{view.customer.display_me_with_email}}</span>
-			</div>
-		</div>
+		{{view Balanced.FormFields.StaticTextModalFormFieldView
+			label="Customer"
+			displayText=view.customer.display_me_with_email
+		}}
 
 		{{#if view.fundingInstruments}}
 			<div {{bind-attr class=":control-group view.model.validationErrors.source_uri:error"}}>
@@ -29,43 +27,30 @@
 			</div>
 		{{/if}}
 
-		<div class="control-group">
-			<label class="control-label">Name on account</label>
-			<div class="controls text-label">{{view.model.source.name}}</div>
-		</div>
+		{{view Balanced.FormFields.StaticTextModalFormFieldView
+			label="Name on account"
+			displayText=view.model.source.name
+		}}
+		{{view Balanced.FormFields.StaticTextModalFormFieldView
+			label="Bank"
+			displayText=view.model.source.formatted_bank_name
+		}}
 
-		<div class="control-group">
-			<label class="control-label">Bank</label>
-			<div class="controls text-label">{{view.model.source.formatted_bank_name}}</div>
-		</div>
-
-		<div {{bind-attr class=":control-group view.model.validationErrors.amount:error"}}>
-			<label class="control-label" {{bind-attr for=view.amount.elementId}}>Amount</label>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">$</span>
-					{{view Ember.TextField valueBinding="view.model.dollar_amount" name="dollar_amount" class="span" viewName="amount"}}
-					{{modalFieldErrors view.model.validationErrors.dollar_amount}}
-				</div>
+		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="dollar_amount" label="Amount"}}
+			<div class="input-prepend">
+				<span class="add-on">$</span>
+				{{view Ember.TextField value=view.value class="span3" name="dollar_amount" viewName="inputElement"}}
 			</div>
-		</div>
+		{{/view}}
 
-		<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-			<label class="control-label" {{bind-attr for=view.appearsOnStatementAs.elementId}}>Appears on statement as ({{view.appearsOnStatementAsMaxLength}} characters max)</label>
-			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" viewName="appearsOnStatementAs"
-				name="appears_on_statement_as" class="full" maxlengthBinding="view.appearsOnStatementAsMaxLength"}}
-				{{modalFieldErrors view.model.validationErrors.appears_on_statement_as}}
-			</div>
-		</div>
 
-		<div {{bind-attr class=":control-group view.model.validationErrors.description:error"}}>
-			<label class="control-label" {{bind-attr for=view.description.elementId}}>Internal Description</label>
-			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.description" name="description" class="full" maxlengthBinding="Balanced.MAXLENGTH.DESCRIPTION" viewName="description"}}
-				{{modalFieldErrors view.model.validationErrors.description}}
-			</div>
-		</div>
+		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
+			{{view Ember.TextField value=view.value name="appears_on_statement_as"  viewName="inputElement" class="full" maxlength=view.maxLength}}
+		{{/view}}
+
+		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="description" label="Internal description"}}
+			{{view Ember.TextField value=view.value class="full" maxlength=Balanced.MAXLENGTH.DESCRIPTION viewName="inputElement" name="description"}}
+		{{/view}}
 	</div>
 	<div class="modal-footer">
 		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>

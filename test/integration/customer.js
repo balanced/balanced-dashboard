@@ -145,17 +145,19 @@ test('can debit customer using card', function(assert) {
 		})
 		.fillForm("#debit-customer", {
 			dollar_amount: "1000",
-			description: "Card debit"
+			description: "Card debit",
+			appears_on_statement_as: "Cool"
 		})
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
 			var firstCall = spy.firstCall;
-			assert.deepEqual(firstCall.slice(0, 3), [Balanced.Debit, fundingInstrumentUri + '/debits', {
+			assert.deepEqual(firstCall.args.slice(0, 3), [Balanced.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID), {
 				amount: "100000",
-				description: "Card debit"
+				description: "Card debit",
+				appears_on_statement_as: "Cool",
+				source_uri: "/cards/%@".fmt(Testing.CARD_ID)
 			}]);
-			spy.restore();
 		});
 });
 

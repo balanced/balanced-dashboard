@@ -1,5 +1,3 @@
-var ValidationHelpers = Balanced.ValidationHelpers;
-
 Balanced.TransactionFactory = Ember.Object.extend(Ember.Validations, {
 	isAmountPositive: function() {
 		return this.get("amount") > 0;

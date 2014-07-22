@@ -1,7 +1,7 @@
 Balanced.Modals.ReverseCreditModalView = Balanced.ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
-	templateName: 'modals/reverse_credit_modal',
 	elementId: "reverse-credit",
+	templateName: 'modals/reverse_credit_modal',
 	title: "Reverse credit",
 
 	model: function() {

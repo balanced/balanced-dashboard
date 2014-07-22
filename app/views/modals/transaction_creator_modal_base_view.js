@@ -4,25 +4,6 @@ Balanced.TransactionCreatorModalView = Balanced.ObjectCreatorModalBaseView.exten
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 });
 
-Balanced.DebitCustomerModalView = Balanced.TransactionCreatorModalView.extend({
-	title: "Debit this customer",
-	elementId: "debit-customer",
-	templateName: "modals/debit_customer_modal",
-
-	appearsOnStatementAsMaxLength: Ember.computed.oneWay("model.appears_on_statement_max_length"),
-	model_class: Balanced.DebitExistingFundingInstrumentTransactionFactory,
-	fundingInstruments: Ember.computed.oneWay('customer.debitable_funding_instruments'),
-});
-
-Balanced.DebitCustomerModalView.reopenClass({
-	open: function(customer, order) {
-		return this.create({
-			customer: customer,
-			order: order
-		});
-	},
-});
-
 Balanced.CreditNewFundingInstrumentModalView = Balanced.TransactionCreatorModalView.extend({
 	title: "Credit a bank account",
 	templateName: "modals/credit_new_funding_instrument",

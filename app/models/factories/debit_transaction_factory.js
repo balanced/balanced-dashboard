@@ -17,20 +17,6 @@ Balanced.CardDebitBaseTransactionFactory = Balanced.TransactionFactory.extend({
 	}
 });
 
-Balanced.DebitExistingFundingInstrumentTransactionFactory = Balanced.TransactionFactory.extend({
-	appears_on_statement_max_length: Ember.computed.oneWay("source.appears_on_statement_max_length"),
-	source_uri: Ember.computed.readOnly("source.uri"),
-	getDebitAttributes: function() {
-		var properties = this.getProperties("amount", "appears_on_statement_as", "description", "source_uri");
-		properties.uri = this.get("source.debits_uri");
-		return properties;
-	},
-
-	save: function() {
-		return Balanced.Debit.create(this.getDebitAttributes()).save();
-	},
-});
-
 Balanced.DebitExistingBankAccountTransactionFactory = Balanced.DebitExistingFundingInstrumentTransactionFactory.extend({
 	validations: {
 		dollar_amount: ValidationHelpers.positiveDollarAmount,
