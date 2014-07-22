@@ -30,7 +30,7 @@ test('can edit customer info', function(assert) {
 		})
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
-			var args = spy.firstCall.args
+			var args = spy.firstCall.args;
 			assert.ok(spy.calledOnce);
 			assert.deepEqual(args.slice(0, 2), [
 				Balanced.Customer,
