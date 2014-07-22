@@ -1,10 +1,16 @@
-Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend(Ember.Evented, Balanced.ResultsTable, {
+Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
-	limit: 50,
-	sortField: 'created_at',
-	sortOrder: 'desc',
-	baseClassSelector: "#customer",
 	noDownloadsUri: true,
-
-	results_base_uri: Ember.computed.readOnly('controllers.marketplace.customers_uri')
+	resultsLoader: Ember.computed.oneWay("model"),
+	actions: {
+		changeSortOrder: function(column) {
+			this.get("resultsLoader").setSortField(column);
+		},
+		changeDateFilter: function(startTime, endTime) {
+			this.get("resultsLoader").setProperties({
+				endTime: endTime,
+				startTime: startTime
+			});
+		},
+	}
 });

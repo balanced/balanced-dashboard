@@ -1,7 +1,3 @@
-Balanced.MarketplaceCustomersRoute = Balanced.ControllerRoute.extend({
-	pageTitle: 'Customers',
-});
-
 Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 	title: 'Customer',
 	modelObject: Balanced.Customer,
