@@ -12,14 +12,14 @@
 			<div class="dispute-alert">
 				{{#view Balanced.NotificationMessageView}}
 					Provide documentation by this date to avoid a loss: <span class="sl-sb">{{humanReadableDateLong respond_by}}</span>.
-					<a class="btn sm" {{action "openModal" Balanced.EvidencePortalModalView dispute}}>Attach docs</a>
+					<a class="btn sm" {{action "openModal" Balanced.EvidencePortalModalView model}}>Attach docs</a>
 				{{/view}}
 			</div>
 		{{/if}}
 
 		<h3>Documents</h3>
 		<div class="results">
-			{{view Balanced.ResourceDocumentsView content=documents}}
+			{{view Balanced.ResourceDocumentsView content=model}}
 		</div>
 
 		<h3>Logs</h3>

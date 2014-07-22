@@ -60,9 +60,9 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		return false;
+		// return false;
 		// Note: Temporarily removing the evidence portal functionality.
-		// return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'new') && (this.get('documents.length') === 0);
+		return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'new') && (this.get('documents.length') === 0);
 	}.property('isDocumentsLoaded', 'hasNotExpired', 'status', 'documents.length')
 });
 

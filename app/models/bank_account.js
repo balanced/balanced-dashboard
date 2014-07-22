@@ -41,6 +41,22 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('last_four', 'bank_name'),
 
+	status: function() {
+		if (this.get('can_verify')) {
+			if (this.get('can_debit')) {
+				return 'verified';
+			} else {
+				if (this.get('can_confirm_verification')) {
+					return 'pending';
+				} else {
+					return 'unverified';
+				}
+			}
+		} else {
+			return undefined;
+		}
+	}.property('can_verify', 'can_debit', 'can_confirm_verification', 'funding_instrument_type'),
+
 	can_verify: function() {
 		return !this.get('can_debit') && !this.get('can_confirm_verification') &&
 			this.get('customer');

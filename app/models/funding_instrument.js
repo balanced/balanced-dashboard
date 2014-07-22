@@ -17,22 +17,6 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 		}
 	}.property('bank_name'),
 
-	status: function() {
-		if (this.get('funding_instrument_type').indexOf('card') >= 0) {
-			return null;
-		}
-
-		if (this.get('can_debit')) {
-			return 'verified';
-		} else {
-			if (this.get('can_confirm_verification')) {
-				return 'pending';
-			} else {
-				return 'unverified';
-			}
-		}
-	}.property('can_debit', 'can_confirm_verification', 'funding_instrument_type'),
-
 	// TODO - fix the API to return the transactions_uri, then get rid of this hack
 	transactions_uri: function() {
 		var id = this.get('id');

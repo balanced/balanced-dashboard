@@ -128,13 +128,13 @@ header.results-label h3 {
       }
     }
 
-    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified {
+    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified, .verified {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .failed, .expired, .lost, .arbitration, .failed, .canceled, .voided, .invalidated {
+    .failed, .expired, .lost, .arbitration, .canceled, .voided, .invalidated, .unverified {
       &:before {
         background-color: @imperialRed80;
       }
@@ -148,6 +148,16 @@ header.results-label h3 {
 
     .representment:before {
       background-color: @byzantiumPurple80;
+    }
+
+    .n\/a {
+      .sl-none;
+      text-transform: lowercase;
+      letter-spacing: 0.1em;
+
+      &:before {
+        content: none;
+      }
     }
   }
 

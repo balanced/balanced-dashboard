@@ -44,9 +44,9 @@
 					{{/if}}
 				{{/link-to}}
 			</td>
-			<td>
+			<td class="status">
 				{{#link-to funding_instrument.route_name funding_instrument}}
-					<span>
+					<span {{bind-attr class="funding_instrument.status"}}>
 						{{capitalize funding_instrument.status}}
 					</span>
 				{{/link-to}}

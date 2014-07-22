@@ -42,6 +42,8 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 		}
 	}.property('type', 'is_prepaid'),
 
+	status: 'n/a',
+
 	is_prepaid: function() {
 		return this.get('category') === "prepaid";
 	}.property('category'),

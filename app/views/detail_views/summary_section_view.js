@@ -174,12 +174,12 @@ Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
 Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: function() {
 		var status = this.get('model.status');
-		// Note: Temporarily removing the evidence portal functionality.
-		// if (status === 'new') {
-		// 	return 'Provide documentation to avoid a loss.'
-		// } else if (status === 'representment') {
-		// 	return 'This dispute is under review. After the card provider reviews the case, the status will transition to either won or lost.';
-		// }
+
+		if (status === 'new') {
+			return 'Provide documentation to fight this dispute'
+		} else if (status === 'representment') {
+			return 'This dispute is under review. Once the card holder issues a decision, the status will update to won or lost.';
+		}
 		return null;
 	}.property('model.status'),
 
@@ -213,6 +213,16 @@ Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({
 });
 
 Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
+	statusText: function() {
+		var status = this.get('model.status');
+
+		if (status === 'pending') {
+			return 'Two deposits have been made to your bank account. Verify this bank account by entering the amounts.'
+		} else if (status === 'unverified') {
+			return 'Verify this bank account to debit'
+		}
+	}.property('model.status'),
+
 	linkedResources: function() {
 		return this.resourceLinks("model.customer");
 	}.property('model.customer')
