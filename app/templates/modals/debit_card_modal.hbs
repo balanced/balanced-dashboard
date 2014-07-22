@@ -48,7 +48,7 @@
 		{{/view}}
 
 		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="description" label="Internal description"}}
-			{{view Ember.TextField value=view.value class="full" maxlength=Balanced.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
+			{{view Ember.TextField value=view.value class="full" name="description" maxlength=Balanced.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
 		{{/view}}
 	</div>
 

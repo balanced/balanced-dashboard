@@ -135,6 +135,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 });
 
 Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
+	statusText: Ember.computed.alias('model.status_description'),
 	// Note: missing order links
 	linkedResources: function() {
 		return this.resourceLinks("model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");

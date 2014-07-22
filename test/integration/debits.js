@@ -33,7 +33,7 @@ test('can refund debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(Testing.DEBIT_ROUTE)
-		.click(".refund-debit-button")
+		.click(".page-navigation a:contains(Refund)")
 		.fillIn('#refund-debit .modal-body input[name="dollar_amount"]', "10")
 		.click('#refund-debit .modal-footer button[name="modal-submit"]')
 		.then(function() {
