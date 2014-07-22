@@ -38,7 +38,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 		if (model.constructor === Balanced.Dispute) {
 			return {
-				className: 'icon-payments',
+				className: 'icon-single-transaction',
 				title: 'Dispute',
 				resource: model,
 				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -48,7 +48,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 		if (model.constructor === Balanced.Debit) {
 			return {
-				className: 'icon-payments',
+				className: 'icon-single-transaction',
 				title: 'Debit',
 				resource: model,
 				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -58,7 +58,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 		if (model.constructor === Balanced.Credit) {
 			return {
-				className: 'icon-payments',
+				className: 'icon-single-transaction',
 				title: 'Credit',
 				resource: model,
 				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -70,7 +70,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			if (parentModel.constructor === Balanced.Refund) {
 				if (parentModel.uri !== model.uri) {
 					return {
-						className: 'icon-payments',
+						className: 'icon-single-transaction',
 						title: 'Other refund',
 						resource: model,
 						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -80,7 +80,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				return undefined;
 			} else {
 				return {
-					className: 'icon-payments',
+					className: 'icon-single-transaction',
 					title: 'Refund',
 					resource: model,
 					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -93,7 +93,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			if (parentModel.constructor === Balanced.Reversal) {
 				if (parentModel.uri !== model.uri) {
 					return {
-						className: 'icon-payments',
+						className: 'icon-single-transaction',
 						title: 'Other reversal',
 						resource: model,
 						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -103,7 +103,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 				return undefined;
 			} else {
 				return {
-					className: 'icon-payments',
+					className: 'icon-single-transaction',
 					title: 'Reversal',
 					resource: model,
 					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
@@ -219,7 +219,7 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		if (status === 'pending') {
 			return 'Two deposits have been made to your bank account. Verify this bank account by entering the amounts.'
 		} else if (status === 'unverified') {
-			return 'Verify this bank account to debit'
+			return 'You may credit this bank account, but you need to verify this bank account to debit.'
 		}
 	}.property('model.status'),
 
