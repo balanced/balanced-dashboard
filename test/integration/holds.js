@@ -1,4 +1,3 @@
-/*
 module('Holds', {
 	setup: function() {
 		Testing.setupMarketplace();
@@ -16,15 +15,16 @@ module('Holds', {
 		});
 	},
 	teardown: function() {
-
+		Testing.restoreMethods(
+			Balanced.Adapter.update,
+			Balanced.Adapter.create
+		)
 	}
 });
 
 test('can visit page', function(assert) {
-	visit(Testing.HOLD_ROUTE).then(function() {
-		assert.notEqual($('#content h1').text().indexOf('Hold'), -1, 'Title is not correct');
-		assert.equal($(".tt-title").text().trim(), 'Created: $100.00');
-	});
+	visit(Testing.HOLD_ROUTE)
+		.checkPageTitle("Hold $100.00", assert);
 });
 
 test('can void hold', function(assert) {
@@ -56,18 +56,3 @@ test('can capture hold', function(assert) {
 			assert.equal(spy.getCall(0).args[2].hold_uri, hold.get('uri'));
 		});
 });
-
-test('can edit hold', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
-
-	visit(Testing.HOLD_ROUTE)
-		.click('.hold .transaction-info a.icon-edit')
-		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
-		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Hold));
-			assert.equal(spy.getCall(0).args[2].description, "changing desc");
-		});
-});
-*/

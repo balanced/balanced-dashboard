@@ -42,20 +42,18 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 
-	clickEditTransaction: function(app) {
-		return click('.side-panel .edit-model-link');
-	},
-
-	testEditTransaction: function(app, klass, url, assert) {
+	testEditTransaction: function(app, transaction, assert) {
 		var spy = sinon.spy(Balanced.Adapter, "update");
-
 		return click(".side-panel .edit-model-link")
 			.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
 			.click('#edit-transaction .modal-footer button[name=modal-submit]')
 			.then(function() {
+				var firstCall = spy.getCall(0);
 				assert.ok(spy.calledOnce);
-				assert.deepEqual(spy.getCall(0).args.slice(0, 2), [Balanced.Credit, "/credits/%@".fmt(Testing.CREDIT_ID)]);
-				assert.equal(spy.getCall(0).args[2].description, "changing desc");
+				assert.equal(firstCall.args[0], transaction.constructor);
+				assert.equal(firstCall.args[1], transaction.get("uri"));
+				assert.equal(firstCall.args[2].description, "changing desc");
+				Testing.restoreMethods(Balanced.Adapter.update);
 			});
 	},
 

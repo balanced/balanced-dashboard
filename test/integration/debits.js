@@ -44,20 +44,6 @@ test('can refund debit', function(assert) {
 		});
 });
 
-test('can edit debit', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
-
-	visit(Testing.DEBIT_ROUTE)
-		.clickEditTransaction()
-		.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
-		.click('#edit-transaction .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit));
-			assert.equal(spy.getCall(0).args[2].description, "changing desc");
-		});
-});
-
 test('failed debit shows failure information', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
