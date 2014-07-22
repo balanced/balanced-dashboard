@@ -135,13 +135,13 @@ test('can debit customer using card', function(assert) {
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
+		.checkElements({
+			"#debit-customer form select[name=source] option": 3,
+			"#debit-customer form select[name=source] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
+			"#debit-customer form select[name=source] option:eq(2)": "Credit card: 1111 Visa"
+		}, assert)
 		.then(function() {
-			var options = $("#debit-customer form select[name=source] option");
-			assert.equal(options.length, 3);
-			assert.equal(options.eq(0).text(), "Checking account: 1234 Wells Fargo Bank");
-			assert.equal(options.eq(2).text(), "Credit card: 1111 Visa");
-
-			fundingInstrumentUri = options.eq(2).val();
+			fundingInstrumentUri = $("#debit-customer form select[name=source] option:eq(2)").val();
 			$("#debit-customer form select[name=source]").val(fundingInstrumentUri).change();
 		})
 		.fillForm("#debit-customer", {
@@ -164,7 +164,6 @@ test('can debit customer using card', function(assert) {
 
 test('can debit customer using bank account', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -174,21 +173,25 @@ test('can debit customer using bank account', function(assert) {
 			"#debit-customer form select[name=source] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
 		}, assert)
 		.then(function() {
-			fundingInstrumentUri = $("#debit-customer form select[name=source] option").eq(0).val();
-			$("#debit-customer select[name=source]").val(fundingInstrumentUri);
+			var fundingInstrument = $("#debit-customer form select[name=source] option").eq(0).val();
+			$("#debit-customer select[name=source]").val(fundingInstrument);
 		})
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
-			description: 'Test debit'
+			description: 'Test debit',
+			appears_on_statement_as: "Cool"
 		}, {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, fundingInstrumentUri + '/debits', sinon.match({
-				amount: 100000,
-				description: "Test debit"
-			})));
+			var firstCall = spy.firstCall;
+			assert.deepEqual(firstCall.args.slice(0, 3), [Balanced.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID), {
+				amount: "100000",
+				description: "Test debit",
+				appears_on_statement_as: "Cool",
+				source_uri: "/bank_accounts/%@".fmt(Testing.BANK_ACCOUNT_ID)
+			}]);
 		});
 });
 
