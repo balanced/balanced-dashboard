@@ -1,8 +1,15 @@
 <div class="key-value-display">
 	<h3>
 		{{view.title}}
+
 		{{#if view.titleModalLinkView}}
 			{{view view.titleModalLinkView}}
+		{{/if}}
+
+		{{#if view.editModelModalClass}}
+			<a {{action "openModal" view.editModelModalClass model}}>
+				<i class="icon-edit pull-right"></i>
+			</a>
 		{{/if}}
 	</h3>
 	<dl class="dl-horizontal">
