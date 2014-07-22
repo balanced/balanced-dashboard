@@ -66,6 +66,6 @@ Balanced.ResultsLoader = Ember.Object.extend({
 			email_address: emailAddress,
 			type: "transactions"
 		});
-		download.save();
+		return download.save();
 	}
 });
