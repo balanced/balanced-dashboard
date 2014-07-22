@@ -8,6 +8,7 @@ module('Customer Page', {
 		Testing.restoreMethods(
 			Balanced.Adapter.update,
 			Balanced.Adapter.create,
+			Balanced.Adapter["delete"],
 			balanced.bankAccount.create,
 			balanced.card.create
 		);
@@ -236,9 +237,7 @@ module('Customer Page: Credit', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create,
-			balanced.bankAccount.create,
-			balanced.card.create
+			Balanced.Adapter.create
 		);
 	}
 });
@@ -499,10 +498,10 @@ test('can add card with address', function(assert) {
 
 test('verification renders properly against rev1', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			assert.ok($('.status').hasClass('verified'), 'Customer has been verified');
-			assert.equal($('.status').text().trim(), 'Verified', 'Customer has been verified');
-		});
+		.checkElements({
+			".status.verified": 1,
+			".status": "Verified"
+		}, assert);
 });
 
 module('Customer Page: Delete', {
@@ -511,47 +510,51 @@ module('Customer Page: Delete', {
 		Testing.createBankAccount();
 		Testing.createCard();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter["delete"]
+		);
+	}
 });
 
-test('can delete bank accounts', function(assert) {
+test('can delete bank account', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var initialLength, bankAccountId;
+	var initialLength, href;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
-			initialLength = $('.bank-account-info .sidebar-items li').length;
-			bankAccountId = $(".bank-account-info .sidebar-items li:first a:first").attr("href");
-			bankAccountId = "/" + bankAccountId.split("/").slice(-2).join("/");
+			var elements = $('.results .funding-instruments tr.type-bank-account .funding-instrument-delete');
+			initialLength = elements.length;
+			href = elements.last().attr("data-item-href");
 		})
-		.click(".bank-account-info .bank-account:first a.icon-delete")
+		.click('.results .funding-instruments tr.type-bank-account .funding-instrument-delete:last')
 		.click('#delete-bank-account button[name=modal-submit]')
 		.then(function() {
 			var args = spy.firstCall.args;
-			assert.ok(spy.calledOnce);
-			assert.equal(spy.firstCall.args[1], bankAccountId);
-			assert.equal(spy.firstCall.args[0], Balanced.BankAccount);
-			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+
+			assert.equal($(".results .funding-instruments tr.type-bank-account").length, initialLength - 1);
+			assert.ok(spy.calledOnce, "Balanced.Adapter.deleted calledOnce");
+			assert.deepEqual(args.slice(0, 2), [Balanced.BankAccount, href]);
 		});
 });
 
 test('can delete cards', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var initialLength, cardId;
+	var initialLength, href;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
-			initialLength = $('.card-info .sidebar-items li').length;
-			cardId = $(".card-info .sidebar-items li:first a:last").attr("href");
-			cardId = "/" + cardId.split("/").slice(-2).join("/");
+			var elements = $('.results .funding-instruments tr.type-card .funding-instrument-delete');
+			initialLength = elements.length;
+			href = elements.last().attr("data-item-href");
 		})
-		.click(".card-info .sidebar-items > li:first a.icon-delete")
+		.click('.results .funding-instruments tr.type-card .funding-instrument-delete:last')
 		.click('#delete-card button[name=modal-submit]')
 		.then(function() {
 			var args = spy.firstCall.args;
+
+			assert.equal($(".results .funding-instruments tr.type-card").length, initialLength - 1);
 			assert.ok(spy.calledOnce, "Balanced.Adapter.deleted calledOnce");
-			assert.equal(spy.firstCall.args[1], cardId, "");
-			assert.equal(spy.firstCall.args[0], Balanced.Card);
-			assert.equal($('.card-info .sidebar-items li').length, initialLength - 1);
+			assert.deepEqual(args.slice(0, 2), [Balanced.Card, href]);
 		});
 });

@@ -28,7 +28,7 @@
 
 <tbody>
 	{{#each funding_instrument in view.fundingInstruments}}
-		<tr>
+		<tr {{bind-attr class="funding_instrument.isCard:type-card funding_instrument.isBankAccount:type-bank-account"}}>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span {{bind-attr title="funding_instrument.description"}}>
 					<span class="primary">{{funding_instrument.last_four}} {{#if funding_instrument.brand}}{{funding_instrument.brand}}{{/if}}</span>
@@ -61,7 +61,7 @@
 				{{/link-to}}
 			</td>
 			<td>
-				<a {{action "openDeleteModal" funding_instrument}}>
+				<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openDeleteModal" funding_instrument}}>
 					<i class="icon-table-x"></i>
 				</a>
 			</td>

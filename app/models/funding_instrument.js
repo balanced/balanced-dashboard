@@ -9,6 +9,8 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 		return moment().addBusinessDays(this.get('expected_credit_days_offset')).format();
 	}.property('expected_credit_days_offset'),
 
+	isCard: false,
+	isBankAccount: false,
 	formatted_bank_name: function() {
 		if (this.get('bank_name')) {
 			return Balanced.Utils.formatBankName(this.get('bank_name'));
