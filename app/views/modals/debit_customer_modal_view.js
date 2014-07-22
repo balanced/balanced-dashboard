@@ -13,7 +13,7 @@ Balanced.Modals.DebitCustomerModalView = Balanced.ModalBaseView.extend({
 	model: function() {
 		return Balanced.DebitExistingFundingInstrumentTransactionFactory.create({
 			customer: this.get("customer")
-		})
+		});
 	}.property("customer"),
 	fundingInstruments: Ember.computed.oneWay('customer.debitable_funding_instruments'),
 
