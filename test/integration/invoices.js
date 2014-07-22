@@ -22,7 +22,7 @@ test('can visit page', function(assert) {
 	visit(INVOICES_ROUTE)
 		.checkElements({
 			"#content h1": "Account statements",
-			"#invoices table tbody tr": 19
+			"table.invoices tbody tr": 19
 		}, assert);
 });
 
