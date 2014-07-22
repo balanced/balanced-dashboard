@@ -1,5 +1,5 @@
 Balanced.Adapter.addFixtures([{
-	"uri": "/disputes?created_at%5B%3C%5D=2013-08-01T23%3A59%3A59.999Z&created_at%5B%3E%5D=2013-08-01T00%3A00%3A00.000Z&limit=50&offset=0&q=&sort=initiated_at%2Cdesc&status%5Bin%5D=pending%2Cwon%2Clost%2Carbitration&type=dispute",
+	"uri": "/disputes?limit=50&sort=initiated_at%2Cdesc&created_at%5B%3E%5D=2013-11-06T23%3A52%3A48.396Z&created_at%5B%3C%5D=2014-07-22T08%3A00%3A00.000Z",
 	"meta": {
 		"last": "/disputes?sort=initiated_at%2Cdesc&offset=0&q=&limit=50&created_at%5B%3C%5D=2014-06-26T00%3A00%3A00.000Z&type=dispute&created_at%5B%3E%5D=2014-01-22T23%3A00%3A24.645Z",
 		"next": null,
@@ -47,6 +47,8 @@ Balanced.Adapter.addFixtures([{
 		"initiated_at": "2014-06-16T23:09:37.214301Z",
 		"uri": "/disputes/DT2xOc7zAdgufK4XsCIW5QgD"
 	}]
+}, {
+	"uri": "/disputes?limit=50&sort=initiated_at%2Cdesc"
 }, {
 	"uri": "/disputes?limit=50&offset=0&q=&sort=initiated_at%2Cdesc&type=dispute"
 }, {

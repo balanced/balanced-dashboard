@@ -43,7 +43,6 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
-			offset: 0,
 
 			type: this.get("typeFilters"),
 			status: this.get("statusFilters"),
