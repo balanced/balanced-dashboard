@@ -30,10 +30,22 @@ test('can edit customer info', function(assert) {
 		})
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
+			var args = spy.firstCall.args
 			assert.ok(spy.calledOnce);
-			assert.deepEqual(spy.firstCall.args.slice(0, 3), [Balanced.Customer, "/customer/%@".fmt(Testing.CUSTOMER_ID), {
-				name: "Test"
-			}]);
+			assert.deepEqual(args.slice(0, 2), [
+				Balanced.Customer,
+				"/customers/%@".fmt(Testing.CUSTOMER_ID)
+			]);
+			assert.deepEqual(args[2].name, "TEST");
+			assert.deepEqual(args[2].email, "whc@example.org");
+			assert.deepEqual(args[2].address, {
+				"city": "Nowhere",
+				"country_code": null,
+				"line1": null,
+				"line2": null,
+				"postal_code": "90210",
+				"state": null
+			});
 		});
 });
 
