@@ -37,7 +37,7 @@ Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend({
 				.save()
 				.then(function() {
 					controller.send('alert', alertMessage);
-				})
+				});
 		},
 	}
 });
