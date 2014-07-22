@@ -179,7 +179,7 @@ test('can debit customer using bank account', function(assert) {
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
 			description: 'Test debit',
-			appears_on_statement_as: "Cool"
+			appears_on_statement_as: "Cool",
 		}, {
 			click: '.modal-footer button[name=modal-submit]'
 		})
@@ -195,14 +195,19 @@ test('can debit customer using bank account', function(assert) {
 		});
 });
 
-test("can't debit customer multiple times using the same modal", 4, function(assert) {
+test("can't debit customer multiple times using the same modal", function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
+		.then(function() {
+			var fundingInstrument = $("#debit-customer form select[name=source] option").eq(0).val();
+			$("#debit-customer select[name=source]").val(fundingInstrument);
+		})
 		.fillForm('#debit-customer', {
 			dollar_amount: '1000',
-			description: 'Test debit'
+			description: 'Test debit',
+			appears_on_statement_as: "Cool",
 		})
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
@@ -210,9 +215,12 @@ test("can't debit customer multiple times using the same modal", 4, function(ass
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
-			assert.deepEqual(stub.firstCall.args[0], Balanced.Debit, "Creates a Balanced.Debit");
-			assert.deepEqual(stub.firstCall.args[2].amount, 100000);
-			assert.deepEqual(stub.firstCall.args[2].description, "Test debit");
+			assert.deepEqual(stub.firstCall.args.slice(0, 3), [Balanced.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID), {
+				amount: "100000",
+				appears_on_statement_as: "Cool",
+				description: "Test debit",
+				source_uri: "/bank_accounts/%@".fmt(Testing.BANK_ACCOUNT_ID)
+			}]);
 		});
 });
 
