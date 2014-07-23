@@ -14,10 +14,8 @@ module('Invoices', {
 
 test('can visit page', function(assert) {
 	var invoicesController = Balanced.__container__.lookup('controller:marketplace_invoices');
-	invoicesController.setProperties({
-		minDate: moment('2013-08-01T00:00:00.000Z').toDate(),
-		maxDate: moment('2013-08-01T23:59:59.999Z').toDate()
-	});
+	invoicesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
+	invoicesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
 
 	visit(INVOICES_ROUTE)
 		.checkElements({

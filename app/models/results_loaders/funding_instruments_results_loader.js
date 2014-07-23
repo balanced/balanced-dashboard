@@ -12,11 +12,6 @@ Balanced.FundingInstrumentsResultsLoader = Balanced.ResultsLoader.extend({
 	},
 
 	queryStringArguments: function() {
-		var type = this.get("type");
-		if (Ember.isBlank(type)) {
-			type = ["bank_account", "card"];
-		}
-
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),

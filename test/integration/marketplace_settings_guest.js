@@ -453,7 +453,7 @@ test('can delete cards', function(assert) {
 				model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 				model.set('owner_customer', Ember.Object.create());
 				model.set('owner_customer.cards', cards);
-			})
+			});
 		})
 		.then(function() {
 			assert.equal($('.card-info .sidebar-items li').length, 1);

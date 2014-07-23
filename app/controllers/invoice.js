@@ -6,10 +6,13 @@ Balanced.InvoiceController = Balanced.ObjectController.extend(Ember.Evented, {
 			window.print();
 		},
 		changeTypeFilter: function(type) {
-			this.set('type', type);
+			this.set("transactionsResultsLoader.type", type);
 		},
 		changeStatusFilter: function(status) {
-			this.set('transactionStatus', status);
+			if (status === "all") {
+				status = null;
+			}
+			this.set("transactionsResultsLoader.status", status);
 		},
 		changeDisputeStatusFilter: function(status) {
 			this.set('disputesResultsLoader.statusFilters', status);

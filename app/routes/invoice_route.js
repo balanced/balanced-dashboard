@@ -6,7 +6,7 @@ Balanced.InvoiceRoute = Balanced.ModelRoute.extend({
 		this._super(controller, model);
 		controller.setProperties({
 			disputesResultsLoader: model.getInvoicesLoader(),
-			transactionResultsLoader: model.getTransactionsLoader()
+			transactionsResultsLoader: model.getTransactionsLoader()
 		});
 	}
 });

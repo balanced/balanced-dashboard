@@ -62,10 +62,11 @@ Balanced.Invoice = Balanced.Model.extend({
 		});
 	},
 
-	getTransactionsLoader: function() {
-		return Balanced.TransactionsResultsLoader.create({
-			path: this.get("transactions_uri")
-		});
+	getTransactionsLoader: function(attributes) {
+		attributes = _.extend({
+			invoice: this
+		}, attributes);
+		return Balanced.InvoiceTransactionsResultsLoader.create(attributes);
 	},
 
 	isDispute: Ember.computed.equal('type', 'dispute'),
