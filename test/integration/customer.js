@@ -345,8 +345,7 @@ module('Customer Page: Add', {
 });
 
 test('can add bank account', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-	var tokenizingSpy = sinon.spy(balanced.bankAccount, "create");
+	var tokenizingSpy = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.main-panel a:contains(Add bank account)')
@@ -420,6 +419,7 @@ test('can add card', function(assert) {
 test('can add card with postal code', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
+
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
 		cards: [{
@@ -442,7 +442,7 @@ test('can add card with postal code', function(assert) {
 		name: 'TEST',
 		address: {
 			"city": "Nowhere",
-			"country_code": undefined,
+			"country_code": null,
 			"line1": null,
 			"line2": null,
 			"postal_code": "94612",

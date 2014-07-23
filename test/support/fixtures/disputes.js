@@ -1,5 +1,5 @@
 Balanced.Adapter.addFixtures([{
-	"uri": "/disputes?limit=50&sort=initiated_at%2Cdesc&created_at%5B%3E%5D=2013-11-06T23%3A52%3A48.396Z&created_at%5B%3C%5D=2014-07-22T08%3A00%3A00.000Z",
+	"uri": "/disputes?limit=50&sort=initiated_at%2Cdesc&created_at%5B%3E%5D=2013-08-01T00%3A00%3A00.000Z&created_at%5B%3C%5D=2013-08-01T23%3A59%3A59.999Z",
 	"meta": {
 		"last": "/disputes?sort=initiated_at%2Cdesc&offset=0&q=&limit=50&created_at%5B%3C%5D=2014-06-26T00%3A00%3A00.000Z&type=dispute&created_at%5B%3E%5D=2014-01-22T23%3A00%3A24.645Z",
 		"next": null,
