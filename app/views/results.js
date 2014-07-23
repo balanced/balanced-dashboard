@@ -84,7 +84,7 @@ Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
 	colspan: 7
 });
 
-Balanced.CustomerTransactionsResultsView = Balanced.TransactionsResultsView.extend({
+Balanced.EmbeddedTransactionsResultsView = Balanced.TransactionsResultsView.extend({
 	isSmallTable: true,
 	colspan: 5
 });
@@ -99,7 +99,7 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
 	templateName: 'results/funding_instruments_table'
 });
 
-Balanced.CustomerFundingInstrumentsResultsView = Balanced.FundingInstrumentsResultsView.extend({
+Balanced.EmbeddedFundingInstrumentsResultsView = Balanced.FundingInstrumentsResultsView.extend({
 	isSmallTable: true,
 	templateName: 'results/embedded_funding_instruments_table'
 });
@@ -110,7 +110,7 @@ Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
 	colspan: 6
 });
 
-Balanced.CustomerDisputesResultsView = Balanced.DisputesResultsView.extend({
+Balanced.EmbeddedDisputesResultsView = Balanced.DisputesResultsView.extend({
 	isSmallTable: true,
 	colspan: 4
 });

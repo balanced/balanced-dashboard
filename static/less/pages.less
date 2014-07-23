@@ -111,7 +111,7 @@
   div.status {
     padding-bottom: 30px;
 
-    h3.status {
+    h3 {
       text-transform: capitalize;
 
       &:before {
@@ -122,27 +122,27 @@
         border-radius:100%;
         margin-right: 6px;
       }
+    }
 
-      &.verified, &.captured, &.succeeded {
-        &:before {
-          background-color: @pineGreen80;
-        }
+    .verified, .captured, .succeeded, .paid {
+      &:before {
+        background-color: @pineGreen80;
       }
+    }
 
-      &.pending, &.new, &.scheduled, &.unverified {
-        &:before {
-          background-color: @curryYellow80;
-        }
+    .pending, .new, .scheduled, .unverified {
+      &:before {
+        background-color: @curryYellow80;
       }
+    }
 
-      &.representment:before {
-        background-color: @byzantiumPurple80;
-      }
+    .representment:before {
+      background-color: @byzantiumPurple80;
+    }
 
-      &.failed {
-        &:before {
-          background-color: @imperialRed80;
-        }
+    .failed {
+      &:before {
+        background-color: @imperialRed80;
       }
     }
   }

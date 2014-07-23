@@ -28,28 +28,21 @@
     margin-bottom: 45px;
   }
 
-  h1.page-title {
+  .page-title {
     .sl-lg-sb;
     margin: 0;
     float: left;
-
-    .page-type {
-      .sl-sb;
-      margin-bottom: 5px;
-    }
   }
 
-  .filter {
-    .sl-md;
-    border-bottom: @searchBorderWidth solid transparent;
-    color: @gray4;
-    display: inline-block;
-    padding: 3px 0;
-    margin: 0 6px;
-    &.selected {
-      border-bottom-color: @black;
-      color: @black;
-    }
+  .page-type {
+    .sl-sb;
+    margin-bottom: 5px;
+  }
+
+  .page-value {
+    .sl-lg-sb;
+    text-align: right;
+    float: right;
   }
 
   .page-actions {
@@ -61,8 +54,6 @@
     }
   }
 }
-
-/*.title-bar-color(tb-curry-yellow, @curryYellow60, @curryYellow100, @white);*/
 
 ul.styled {
   list-style: initial;

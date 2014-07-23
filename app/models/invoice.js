@@ -16,7 +16,8 @@ var Computed = {
 Balanced.Invoice = Balanced.Model.extend({
 	route_name: 'invoice',
 
-	page_title: Balanced.computed.fmt('sequence_number', '#%@'),
+	page_title: Balanced.computed.fmt('sequence_number', 'No. %@'),
+	type_name: 'Account statement',
 
 	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
 
@@ -32,16 +33,24 @@ Balanced.Invoice = Balanced.Model.extend({
 	settlements: Balanced.Model.hasMany('settlements', 'Balanced.Settlement'),
 	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 
+	payment_method: function() {
+		if (!this.get('source')) {
+			return 'Manual';
+		}
+
+		return this.get('source.description');
+	}.property('source', 'source.description'),
+
 	from_date: Computed.date(0),
 	to_date: Computed.date(1),
 
 	invoice_type: function() {
-		if (this.get('disputes_total_fee') !== 0) {
+		if (this.get('isDispute')) {
 			return 'Disputes';
 		} else {
 			return 'Transactions';
 		}
-	}.property('disputes_total_fee'),
+	}.property('isDispute'),
 
 	isDispute: Ember.computed.equal('type', 'dispute'),
 

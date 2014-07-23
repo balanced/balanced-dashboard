@@ -48,7 +48,7 @@ Balanced.ModalView = Balanced.View.extend({
 
 	open: function(model) {
 		var self = this;
-
+		console.log(model)
 		if (model) {
 			var eventName = this.get('defaultModelAction');
 			if (eventName) {

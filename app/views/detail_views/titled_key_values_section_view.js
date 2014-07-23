@@ -24,6 +24,17 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 			link: model.get(hrefField)
 		});
 	},
+
+	getEditableKeyValueView: function(label, field, modalView, className) {
+		var model = this.get("model");
+
+		return Balanced.EditableKeyValueView.create({
+			key: label,
+			value: model.get(field),
+			modalView: modalView,
+			className: className
+		});
+	}
 });
 
 Balanced.DebitTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
@@ -173,6 +184,19 @@ Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 			this.getKeyValueView("State", "address.state"),
 			this.getKeyValueView("Postal code", "address.postal_code"),
 			this.getKeyValueView("Country", "address.country_code")
+		];
+	}.property("model")
+});
+
+Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Account statement information",
+
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Invoice ID", "id"),
+			this.getKeyValueView("From", "from_date", "date"),
+			this.getKeyValueView("To", "to_date", "date"),
+			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView.create(), "change-funding-source-btn")
 		];
 	}.property("model")
 });

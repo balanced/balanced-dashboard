@@ -14,17 +14,17 @@
 	{{#view Balanced.MainPanelView}}
 		<h3>Payments</h3>
 		<div class="results">
-			{{view Balanced.CustomerTransactionsResultsView loader=transactionsResultsLoader}}
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
 		</div>
 
 		<h3>Disputes</h3>
 		<div class="results">
-			{{view Balanced.CustomerDisputesResultsView loader=disputesResultsLoader}}
+			{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
 		</div>
 
 		<h3>Payment methods</h3>
 		<div class="results">
-			{{view Balanced.CustomerFundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
+			{{view Balanced.EmbeddedFundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
 		</div>
 	{{/view}}
 {{/view}}

@@ -227,3 +227,10 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		return this.resourceLinks("model.customer");
 	}.property('model.customer')
 });
+
+Balanced.InvoiceSummarySectionView = Balanced.SummarySectionView.extend({
+	statusText: function() {
+		var createdAt = Balanced.Utils.humanReadableDateLong(this.get('model.settle_at'));
+		return 'on %@'.fmt(createdAt);
+	}.property('model.settle_at')
+});
