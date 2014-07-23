@@ -22,22 +22,22 @@
 			</ul>
 		</div>
 	</div>
-	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 </nav>
 
 <nav class="results-actions-bar">
 	<div class="pull-right">
-		<a {{action "openModal" Balanced.Modals.ExportCsvModalView resultsLoader}} class="btn-link sm">
-			<i class="icon icon-export"></i>
-			Export
-		</a>
 		{{#unless auth.isGuest}}
 			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
 				<i class="icon icon-document-upload import-payout"></i>
 				Import payouts
 			{{/link-to}}
 		{{/unless}}
+		<a {{action "openModal" Balanced.Modals.ExportCsvModalView resultsLoader}} class="btn-link sm">
+			<i class="icon icon-export"></i>
+			Export
+		</a>
 	</div>
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
 </nav>
 <div class="results">
 	{{view Balanced.TransactionsResultsView loader=resultsLoader}}

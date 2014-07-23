@@ -218,18 +218,17 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		var status = this.get('model.status');
 
 		if (status === 'pending') {
-			return 'Two deposits have been made to your bank account. Confirm verification by entering the amounts.'
+			return 'Two deposits have been made to your bank account. Confirm verification by entering the amounts.';
 		} else if (status === 'unverified') {
-			return 'You may credit this bank account. Verify this bank account to debit.'
+			return 'You may credit this bank account. Verify this bank account to debit.';
 		} else if (status === 'unverifiable') {
-			return 'You may credit this bank account. This bank account is unverifiable because it\'s missing a customer.'
+			return 'You may credit this bank account. This bank account is unverifiable because it\'s missing a customer.';
 		}
 		return undefined;
 	}.property('model.status'),
 
 	statusButtonModalView: function() {
 		var status = this.get('model.status');
-
 		if (status === 'unverified') {
 			return Balanced.VerifyBankAccountModalView.create({
 				funding_instrument: this.get("model")

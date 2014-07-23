@@ -26,7 +26,9 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 
 	resultsLoader: function() {
 		var marketplace = this.get("marketplace");
-		return marketplace.getSearchLoader({});
+		return marketplace ?
+			marketplace.getSearchLoader({}) :
+			undefined;
 	}.property("marketplace"),
 
 	actions: {

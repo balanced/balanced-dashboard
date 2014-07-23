@@ -2,7 +2,13 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	showNotificationCenter: true,
 
 	alert: function(options) {
+		var self = this;
 		this.set('alertObj', options);
+		if (options.reset > 0) {
+			setTimeout(function() {
+				self.set("alertObj", null);
+			}, options.reset);
+		}
 	},
 
 	alertTransition: function() {
