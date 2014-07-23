@@ -38,20 +38,13 @@ test("transactions invoice detail page filters", function(assert) {
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.then(function() {
-			spy = sinon.spy(Balanced.Adapter, "get");
+			spy = sinon.stub(Balanced.Adapter, "get");
 		})
-		.click('.activity .results .type-filter :contains(Holds)')
-		.click('.activity .results .type-filter :contains(Credits)')
+		.click('.activity .results .type-filter :contains(Debits)')
 		.click('.activity .results .type-filter :contains(Refunds)')
 		.then(function() {
-			var expectations = [
-				[Balanced.Credit, invoiceUri + '/credits'],
-				[Balanced.Refund, invoiceUri + '/refunds']
-			];
-
-			expectations.forEach(function(expectation, i) {
-				assert.deepEqual(spy.args[i].slice(0, 2), expectation, "Call %@ Arguments".fmt(i));
-			});
+			assert.deepEqual(spy.getCall(0).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/debits?limit=50&sort=created_at%2Cdesc']);
+			assert.deepEqual(spy.getCall(1).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
 		});
 });
 
@@ -83,7 +76,7 @@ test('change invoice funding source', function(assert) {
 		.click('#change-funding-source form button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
-			assert.equal(spy.callCount, 7);
+			assert.equal(spy.callCount, 6);
 			assert.ok(stub.calledWith(Balanced.Invoice, invoiceUri));
 			assert.equal(stub.callCount, 1);
 		});

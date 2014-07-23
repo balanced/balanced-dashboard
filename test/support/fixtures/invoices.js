@@ -1266,22 +1266,6 @@ Balanced.Adapter.addFixtures([{
 	}],
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE"
 }, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/holds"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/credits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/failed_credits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/refunds"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/card_debits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/bank_account_debits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/disputes"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/reversals"
-}, {
 	// test disputes invoice
 	"invoices": [{
 		"_type": "invoice",
@@ -1389,21 +1373,23 @@ Balanced.Adapter.addFixtures([{
 	}],
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds"
+	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/holds?limit=50&sort=created_at%2Cdesc",
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/credits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/failed_credits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/credits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/refunds"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/failed_credits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/refunds?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/bank_account_debits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/bank_account_debits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals?limit=50&sort=created_at%2Cdesc"
 }, {
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc&offset=0&type=debit&status%5Bin%5D=pending%2Cwon%2Clost%2Carbitration"
 }, {
