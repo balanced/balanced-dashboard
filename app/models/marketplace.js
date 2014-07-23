@@ -13,6 +13,7 @@ var generateResultsLoader = function(klass, uriFieldName) {
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	uri: '/marketplaces',
 
+	getInvoicesLoader: generateResultsLoader(Balanced.InvoicesResultsLoader, "invoices_uri"),
 	getCustomersLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "customers_uri"),
 	getDisputesLoader: generateResultsLoader(Balanced.DisputesResultsLoader, "disputes_uri"),
 	getTransactionsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "transactions_uri"),
