@@ -5,6 +5,7 @@ var ORDER_TYPES = ["order"];
 
 Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 	searchType: "transaction",
+	limit: null,
 
 	type: function() {
 		var mapping = {
