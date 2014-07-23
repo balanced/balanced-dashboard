@@ -67,6 +67,10 @@ test('change invoice funding source', function(assert) {
 	stub.callsArg(3);
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
+		.then(function() {
+			assert.ok(false, "Pending");
+		});
+/*
 		.click('.change-funding-source-btn')
 		.fillIn('#change-funding-source form select[name=source_uri]', '123')
 		.click('#change-funding-source form button[name=modal-submit]')
@@ -76,4 +80,5 @@ test('change invoice funding source', function(assert) {
 			assert.ok(stub.calledWith(Balanced.Invoice, invoiceUri));
 			assert.equal(stub.callCount, 1);
 		});
+		*/
 });
