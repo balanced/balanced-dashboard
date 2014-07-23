@@ -40,8 +40,8 @@ test("transactions invoice detail page filters", function(assert) {
 		.then(function() {
 			spy = sinon.stub(Balanced.Adapter, "get");
 		})
-		.click('.activity .results .type-filter :contains(Debits)')
-		.click('.activity .results .type-filter :contains(Refunds)')
+		.click('.results .type-filter a:contains(Debits)')
+		.click('.results .type-filter a:contains(Refunds)')
 		.then(function() {
 			assert.deepEqual(spy.getCall(0).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/debits?limit=50&sort=created_at%2Cdesc']);
 			assert.deepEqual(spy.getCall(1).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
@@ -51,16 +51,12 @@ test("transactions invoice detail page filters", function(assert) {
 test('transactions invoice detail page', function(assert) {
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.checkElements({
-			".invoice-balance-due-box .amount": "$17.85",
 			".card-debit-details-row .total": "$2.45",
-			".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29 cents",
+			".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29¢",
 			".bank-account-debit-details-row .total": "$0.00",
 			".succeeded-bank-account-credit-details-row .total": "$0.00",
 			".succeeded-card-credit-details-row .total": "$0.00",
-			".failed-credit-details-row .total": "$0.00",
 			".refund-details-row .total": "-$2.45",
-			".reversal-details-row .total": "$0.00",
-			".invoice-details-table .subtotal-row .total": "$17.85"
 		}, assert);
 });
 
