@@ -70,7 +70,7 @@ test('change invoice funding source', function(assert) {
 		.then(function() {
 			assert.ok(false, "Pending");
 		});
-/*
+	/*
 		.click('.change-funding-source-btn')
 		.fillIn('#change-funding-source form select[name=source_uri]', '123')
 		.click('#change-funding-source form button[name=modal-submit]')
