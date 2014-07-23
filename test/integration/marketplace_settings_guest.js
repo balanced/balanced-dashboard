@@ -237,31 +237,23 @@ test('can create checking accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.bank-account-info a.add')
+		.click(".bank-account-info a:contains(Add bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
-			routing_number: "123123123"
+			routing_number: "123123123",
+			account_type: "checking",
 		})
-		.click('#account_type_checking')
+		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			Testing.stop();
-
-			Ember.run.next(function() {
-				Testing.start();
-
-				click('#add-bank-account .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						assert.ok(tokenizingStub.calledOnce);
-						assert.ok(tokenizingStub.calledWith({
-							account_type: "checking",
-							name: "TEST",
-							account_number: "123",
-							routing_number: "123123123"
-						}));
-						tokenizingStub.restore();
-					});
-			});
+			assert.ok(tokenizingStub.calledOnce);
+			assert.ok(tokenizingStub.calledWith({
+				account_type: "checking",
+				name: "TEST",
+				account_number: "123",
+				routing_number: "123123123"
+			}));
+			tokenizingStub.restore();
 		});
 });
 
@@ -285,13 +277,13 @@ test('can fail at creating bank accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.bank-account-info a.add')
+		.click(".bank-account-info a:contains(Add bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
-			routing_number: "123123123abc"
+			routing_number: "123123123abc",
+			account_type: "checking"
 		})
-		.click('#account_type_checking')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(tokenizingStub.calledOnce);
@@ -312,13 +304,13 @@ test('can create savings accounts', function(assert) {
 	var tokenizingSpy = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.bank-account-info a.add')
+		.click(".bank-account-info a:contains(Add bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
-			routing_number: "123123123"
+			routing_number: "123123123",
+			account_type: "savings",
 		})
-		.click('#account_type_savings')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			// test balanced.js
@@ -337,13 +329,13 @@ test('create bank account only submits once when clicked multiple times', functi
 	var spy = sinon.stub(balanced.bankAccount, 'create');
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.bank-account-info a.add')
+		.click(".bank-account-info a:contains(Add bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
-			routing_number: "123123123"
+			routing_number: "123123123",
+			account_type: "savings"
 		})
-		.click('#account_type_checking')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
@@ -365,40 +357,33 @@ test('can delete bank accounts', function(assert) {
 			 * WORKAROUND: I think there may be something weird happening
 			 * with the custom models when it is in synchronous mode.
 			 */
-			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-			model.set('owner_customer', Ember.Object.create());
-			model.set('owner_customer.bank_accounts', bankAccounts);
-			Testing.stop();
-
-			Ember.run.next(function() {
-				Testing.start();
-
-				initialLength = $('.bank-account-info .sidebar-items li').length;
-
-				click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
-					.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						/**
-						 * WORKAROUND: since the test runner is synchronous,
-						 * lets force the model into a saving state.
-						 */
-						bankAccounts.get('content').forEach(function(bankAccount) {
-							bankAccount.set('isSaving', true);
-						});
-
-						Testing.stop();
-						Ember.run.next(function() {
-							Testing.start();
-
-							click('#delete-bank-account .modal-footer button[name="modal-submit"]');
-						});
-					})
-					.then(function() {
-						assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-						assert.ok(spy.calledOnce, "Delete should have been called once");
-						spy.restore();
-					});
+			Ember.run(function() {
+				model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+				model.set('owner_customer', Ember.Object.create());
+				model.set('owner_customer.bank_accounts', bankAccounts);
 			});
+		})
+		.then(function() {
+			initialLength = $('.bank-account-info .sidebar-items li').length;
+		})
+		.click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
+		.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			/**
+			 * WORKAROUND: since the test runner is synchronous,
+			 * lets force the model into a saving state.
+			 */
+			bankAccounts.get('content').forEach(function(bankAccount) {
+				Ember.run(function() {
+					bankAccount.set('isSaving', true);
+				});
+			});
+		})
+		.click('#delete-bank-account .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
+			assert.ok(spy.calledOnce, "Delete should have been called once");
+			spy.restore();
 		});
 });
 
@@ -413,7 +398,7 @@ test('can create cards', function(assert) {
 	var model;
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.card-info a.add')
+		.click('.card-info a:contains(Add card)')
 		.fillForm("#add-card", {
 			name: "TEST",
 			number: "1234123412341234",
@@ -464,38 +449,31 @@ test('can delete cards', function(assert) {
 			 * WORKAROUND: I think there may be something weird happening
 			 * with the custom models when it is in synchronous mode.
 			 */
-			model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-			model.set('owner_customer', Ember.Object.create());
-			model.set('owner_customer.cards', cards);
-			Testing.stop();
-
-			Ember.run.next(function() {
-				Testing.start();
-
-				assert.equal($('.card-info .sidebar-items li').length, 1);
-
-				click(".card-info .sidebar-items li:eq(0) .icon-delete")
-					.click('#delete-card .modal-footer button[name="modal-submit"]')
-					.then(function() {
-						/**
-						 * WORKAROUND: since the test runner is synchronous,
-						 * lets force the model into a saving state.
-						 */
-						model.set('isSaving', true);
-						Testing.stop();
-
-						Ember.run.next(function() {
-							Testing.start();
-
-							click('#delete-card .modal-footer button[name="modal-submit"]');
-						});
-					})
-					.then(function() {
-						assert.equal($('.card-info .sidebar-items li').length, 0);
-						assert.ok(spy.calledOnce, "Delete should have been called once");
-						spy.restore();
-					});
+			Ember.run(function() {
+				model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+				model.set('owner_customer', Ember.Object.create());
+				model.set('owner_customer.cards', cards);
+			})
+		})
+		.then(function() {
+			assert.equal($('.card-info .sidebar-items li').length, 1);
+		})
+		.click(".card-info .sidebar-items li:eq(0) .icon-delete")
+		.click('#delete-card .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			/**
+			 * WORKAROUND: since the test runner is synchronous,
+			 * lets force the model into a saving state.
+			 */
+			Ember.run(function() {
+				model.set('isSaving', true);
 			});
+		})
+		.click('#delete-card .modal-footer button[name="modal-submit"]')
+		.then(function() {
+			assert.equal($('.card-info .sidebar-items li').length, 0);
+			assert.ok(spy.calledOnce, "Delete should have been called once");
+			spy.restore();
 		});
 });
 
