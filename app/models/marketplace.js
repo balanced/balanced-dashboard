@@ -31,6 +31,13 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		attributes = _.extend({}, attributes);
 		return Balanced.OrdersResultsLoader.create(attributes);
 	},
+	getSearchLoader: function(attributes) {
+		attributes = _.extend({
+			marketplace: this,
+			resultsType: Balanced.Transaction
+		}, attributes);
+		return Balanced.MarketplaceSearchResultsLoader.create(attributes);
+	},
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),

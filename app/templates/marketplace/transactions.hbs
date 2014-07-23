@@ -32,12 +32,10 @@
 			Export
 		</a>
 		{{#unless auth.isGuest}}
-			{{#unless controllers.marketplace.production}}
-				{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
-					<i class="icon icon-document-upload import-payout"></i>
-					Import payouts
-				{{/link-to}}
-			{{/unless}}
+			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
+				<i class="icon icon-document-upload import-payout"></i>
+				Import payouts
+			{{/link-to}}
 		{{/unless}}
 	</div>
 </nav>

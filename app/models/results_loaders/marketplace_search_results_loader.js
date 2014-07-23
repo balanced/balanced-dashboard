@@ -1,0 +1,45 @@
+var TRANSACTION_TYPES = ["credit", "debit", "card_hold", "refund", "reversal"];
+var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
+var CUSTOMER_TYPES = ["customer"];
+var ORDER_TYPES = ["order"];
+
+Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
+	searchType: "transaction",
+
+	type: function() {
+		var mapping = {
+			"funding_instrument": FUNDING_INSTRUMENT_TYPES,
+			"customer": CUSTOMER_TYPES,
+			"order": ORDER_TYPES
+		};
+
+		return mapping[this.get("searchType")] || TRANSACTION_TYPES;
+	}.property("searchType"),
+
+	resultsType: function() {
+		var mapping = {
+			"funding_instrument": Balanced.FundingInstrument,
+			"customer": Balanced.Customer,
+			"order": Balanced.Order
+		};
+		return mapping[this.get("searchType")] || Balanced.Transaction;
+	}.property("searchType"),
+
+	queryStringArguments: function() {
+		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		queryStringBuilder.addValues({
+			limit: this.get("limit"),
+			sort: this.get("sort"),
+			type: this.get("type"),
+			"created_at[>]": this.get("startTime"),
+			"created_at[<]": this.get("endTime"),
+			q: this.get("query")
+		});
+
+		return queryStringBuilder.getQueryStringAttributes();
+	}.property("type", "limit", "sort", "startTime", "endTime", "query"),
+
+	path: function() {
+		return this.get("marketplace.uri") + "/search";
+	}.property("marketplace.uri"),
+});
