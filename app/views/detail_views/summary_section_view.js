@@ -135,6 +135,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 });
 
 Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
+	statusText: Ember.computed.alias('model.status_description'),
 	// Note: missing order links
 	linkedResources: function() {
 		return this.resourceLinks("model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");
@@ -176,7 +177,7 @@ Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 		var status = this.get('model.status');
 
 		if (status === 'new') {
-			return 'Provide documentation to fight this dispute'
+			return 'Provide documentation to fight this dispute';
 		} else if (status === 'representment') {
 			return 'This dispute is under review. Once the card holder issues a decision, the status will update to won or lost.';
 		}

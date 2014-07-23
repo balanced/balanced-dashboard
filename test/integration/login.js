@@ -72,7 +72,7 @@ test('login transition works', function(assert) {
 		.visit('/login')
 		.then(function() {
 			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'activity.transactions');
+			assert.equal(app.get('currentRouteName'), 'marketplace.transactions');
 		});
 });
 
@@ -108,7 +108,7 @@ asyncTest('login afterLogin with transition works', 1, function(assert) {
 		.click('form#auth-form button')
 		.then(function() {
 			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'activity.transactions');
+			assert.equal(app.get('currentRouteName'), 'marketplaces.index');
 			start();
 		});
 });

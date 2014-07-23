@@ -1,0 +1,14 @@
+<form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
+	<div class="modal-body">
+		<div class="control-group">
+			<label class="control-label">Internal description</label>
+			<div class="controls">
+				{{view Ember.TextField name="description" value=view.model.description class="full" maxlength=Balanced.MAXLENGTH.DESCRIPTION}}
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
+		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Reverse</button>
+	</div>
+</form>

@@ -5,37 +5,40 @@
 	</div>
 {{/view}}
 
-<div class="main-header activity-escrow-box">
-	<div class="inline dropdown borderless right">
-		<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			<span>Escrow: {{controllers.marketplace.formattedEscrowAmount}}</span>
-			<b class="caret"></b>
-		</a>
-		<ul class="dropdown-menu right">
-			<li>
-				<a class="add-funds-btn" {{action "openModal" Balanced.CreateEscrowCreditModalView}}>Add funds</a>
-			</li>
-			<li>
-				<a class="withdraw-funds-btn" {{action "openWithdrawFundsModal"}}>Withdraw funds</a>
-			</li>
-		</ul>
+<nav class="results-actions-bar">
+	<div class="main-header">
+		<div class="inline dropdown borderless right">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<span>Escrow: {{controllers.marketplace.formattedEscrowAmount}}</span>
+				<b class="caret"></b>
+			</a>
+			<ul class="dropdown-menu right">
+				<li>
+					<a class="add-funds-btn" {{action "openModal" Balanced.CreateEscrowCreditModalView}}>Add funds</a>
+				</li>
+				<li>
+					<a class="withdraw-funds-btn" {{action "openWithdrawFundsModal"}}>Withdraw funds</a>
+				</li>
+			</ul>
+		</div>
 	</div>
-</div>
+	{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+</nav>
 
-<div class="results">
-	<nav>
-		{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+<nav class="results-actions-bar">
+	<div class="pull-right">
+		<a {{action "openModal" Balanced.Modals.ExportCsvModalView resultsLoader}} class="btn-link sm">
+			<i class="icon icon-export"></i>
+			Export
+		</a>
 		{{#unless auth.isGuest}}
-			{{#unless controllers.marketplace.production}}
-				{{#link-to "marketplace.import_payouts" class="btn-link sm pull-right"}}
-					<i class="icon icon-document-upload import-payout"></i>
-					Import payouts
-				{{/link-to}}
-			{{/unless}}
+			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
+				<i class="icon icon-document-upload import-payout"></i>
+				Import payouts
+			{{/link-to}}
 		{{/unless}}
-	</nav>
-</div>
-
+	</div>
+</nav>
 <div class="results">
 	{{view Balanced.TransactionsResultsView loader=resultsLoader}}
 </div>

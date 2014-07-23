@@ -1,8 +1,12 @@
 <thead>
 	<tr>
-		<th class="span3 label6a date has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="span3 date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeFundingInstrumentsSort"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
 		<th class="span4 label6a funding-instruments has-filter">
-			{{view Balanced.PaymentMethodsResultsDropdownFilterView model=model}}
+			{{view Balanced.PaymentMethodsResultsDropdownFilterView model=view.loader}}
 		</th>
 		<th class="span3 label6a"><span>Status</span></th>
 		<th class="span4 label6a"><span>Bank</span></th>
@@ -11,24 +15,12 @@
 	</tr>
 </thead>
 
-{{#if view.fundingInstruments.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td colspan="5" class="load-more-results">
-				{{#if view.fundingInstruments.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn secondary" {{action "loadMore" view.fundingInstruments}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
+{{#if view.loader.results.hasNextPage}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
 {{/if}}
 
 <tbody>
-	{{#each funding_instrument in view.fundingInstruments}}
+	{{#each funding_instrument in view.loader.results}}
 		<tr>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
@@ -83,7 +75,7 @@
 	{{else}}
 		<tr>
 			<td colspan="6" class="no-results">
-				{{#if isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

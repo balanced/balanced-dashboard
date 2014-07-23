@@ -37,13 +37,14 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
 	}.property("resultsUri", "resultsType"),
 
+	isLoading: Ember.computed.not("results.isLoaded"),
+
 	queryStringArguments: function() {
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
 
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
-			offset: 0,
 
 			type: this.get("typeFilters"),
 			status: this.get("statusFilters"),
@@ -60,12 +61,18 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		return queryStringBuilder.getQueryStringAttributes();
 	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit"),
 
+	getCsvExportType: function() {
+		return this.get("resultsType") === Balanced.Dispute ?
+			"disputes" :
+			"transactions";
+	},
+
 	postCsvExport: function(emailAddress) {
 		var download = Balanced.Download.create({
 			uri: "/v1" + this.get("resultsUri"),
 			email_address: emailAddress,
-			type: "transactions"
+			type: this.getCsvExportType()
 		});
-		download.save();
+		return download.save();
 	}
 });

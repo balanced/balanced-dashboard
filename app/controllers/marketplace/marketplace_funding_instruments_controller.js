@@ -1,6 +1,5 @@
 Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
-	noDownloadsUri: true,
 	resultsLoader: Ember.computed.oneWay("model"),
 	sortField: Ember.computed.oneWay("resultsLoader.sortField"),
 	sortOrder: Ember.computed.oneWay("resultsLoader.sortDirection"),

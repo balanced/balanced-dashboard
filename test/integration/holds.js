@@ -1,4 +1,3 @@
-/*
 module('Holds', {
 	setup: function() {
 		Testing.setupMarketplace();
@@ -12,19 +11,21 @@ module('Holds', {
 				}).save();
 			}).then(function(hold) {
 				Testing.HOLD_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/holds/' + hold.get('id');
+				Testing.HOLD_URI = hold.get("uri");
 			});
 		});
 	},
 	teardown: function() {
-
+		Testing.restoreMethods(
+			Balanced.Adapter.update,
+			Balanced.Adapter.create
+		);
 	}
 });
 
 test('can visit page', function(assert) {
-	visit(Testing.HOLD_ROUTE).then(function() {
-		assert.notEqual($('#content h1').text().indexOf('Hold'), -1, 'Title is not correct');
-		assert.equal($(".tt-title").text().trim(), 'Created: $100.00');
-	});
+	visit(Testing.HOLD_ROUTE)
+		.checkPageTitle("Hold $100.00", assert);
 });
 
 test('can void hold', function(assert) {
@@ -35,7 +36,8 @@ test('can void hold', function(assert) {
 		.click('#void-hold .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Hold, hold.get('uri')));
+			assert.deepEqual(spy.firstCall.args[0], Balanced.Hold);
+			assert.deepEqual(spy.firstCall.args[1], Testing.HOLD_URI);
 			assert.ok(spy.getCall(0).args[2].is_void);
 		});
 });
@@ -53,21 +55,6 @@ test('can capture hold', function(assert) {
 			assert.ok(spy.calledWith(Balanced.Debit));
 			assert.equal(spy.getCall(0).args[2].amount, 1000);
 			assert.equal(spy.getCall(0).args[2].description, "Test debit");
-			assert.equal(spy.getCall(0).args[2].hold_uri, hold.get('uri'));
+			assert.equal(spy.getCall(0).args[2].hold_uri, Testing.HOLD_URI);
 		});
 });
-
-test('can edit hold', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
-
-	visit(Testing.HOLD_ROUTE)
-		.click('.hold .transaction-info a.icon-edit')
-		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
-		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Hold));
-			assert.equal(spy.getCall(0).args[2].description, "changing desc");
-		});
-});
-*/

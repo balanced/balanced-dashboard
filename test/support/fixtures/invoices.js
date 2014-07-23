@@ -1,4 +1,6 @@
 Balanced.Adapter.addFixtures([{
+	"uri": "/invoices?limit=50&sort=created_at%2Cdesc"
+}, {
 	"invoices": [{
 		"bank_account_credits_count": 1,
 		"lost_debit_chargebacks_total_fee": 0,
@@ -1121,7 +1123,7 @@ Balanced.Adapter.addFixtures([{
 		"debits_total_amount": 0,
 		"sequence_number": 5
 	}],
-	"uri": "/invoices?created_at%5B%3C%5D=2013-08-01T23%3A59%3A59.999Z&created_at%5B%3E%5D=2013-08-01T00%3A00%3A00.000Z&limit=20&offset=0&q=&sort=created_at%2Cdesc",
+	"uri": "/invoices?limit=50&sort=created_at%2Cdesc&created_at%5B%3E%5D=2013-08-01T00%3A00%3A00.000Z&created_at%5B%3C%5D=2013-08-01T23%3A59%3A59.999Z",
 	"meta": {
 		"last": "/invoices?q=&sort=created_at%2Cdesc&limit=20&offset=20",
 		"next": "/invoices?q=&sort=created_at%2Cdesc&limit=20&offset=20",
@@ -1264,24 +1266,6 @@ Balanced.Adapter.addFixtures([{
 	}],
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE"
 }, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/holds"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/credits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/failed_credits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/refunds"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/card_debits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/bank_account_debits"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/disputes"
-}, {
-	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/reversals"
-}, {
-	"uri": "/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc",
-}, {
 	// test disputes invoice
 	"invoices": [{
 		"_type": "invoice",
@@ -1389,23 +1373,25 @@ Balanced.Adapter.addFixtures([{
 	}],
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds"
+	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/holds?limit=50&sort=created_at%2Cdesc",
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/credits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/failed_credits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/credits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/refunds"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/failed_credits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/refunds?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/bank_account_debits"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/card_debits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/bank_account_debits?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals"
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc"
 }, {
-	"uri": "/invoices?limit=20&offset=0&q=&sort=created_at%2Cdesc",
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/reversals?limit=50&sort=created_at%2Cdesc"
 }, {
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc&offset=0&type=debit&status%5Bin%5D=pending%2Cwon%2Clost%2Carbitration"
+}, {
+	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc"
 }]);

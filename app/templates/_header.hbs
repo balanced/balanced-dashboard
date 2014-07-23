@@ -8,7 +8,7 @@
 		<div id="marketplaces-and-search">
 			{{#if auth.signedIn}}
 				{{#if controllers.marketplace.name}}
-					{{render "search"}}
+					{{render "marketplace/search" marketplace}}
 				{{/if}}
 			{{/if}}
 

@@ -168,9 +168,9 @@
 			<h3>{{invoice_type}}</h3>
 			<div class="results">
 				{{#if isDispute}}
-					{{view Balanced.EmbeddedDisputesResultsView disputes=disputesResultsLoader.results}}
+					{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
 				{{else}}
-					{{view Balanced.EmbeddedTransactionsResultsView transactions=results}}
+					{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
 				{{/if}}
 			</div>
 		{{/view}}

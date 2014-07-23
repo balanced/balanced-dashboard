@@ -13,6 +13,8 @@ var generateResultsLoader = function(klass, uriFieldName) {
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	uri: '/marketplaces',
 
+	getInvoicesLoader: generateResultsLoader(Balanced.InvoicesResultsLoader, "invoices_uri"),
+	getCustomersLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "customers_uri"),
 	getDisputesLoader: generateResultsLoader(Balanced.DisputesResultsLoader, "disputes_uri"),
 	getTransactionsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "transactions_uri"),
 	getFundingInstrumentsLoader: function(attributes) {
@@ -28,6 +30,13 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	getOrdersLoader: function(attributes) {
 		attributes = _.extend({}, attributes);
 		return Balanced.OrdersResultsLoader.create(attributes);
+	},
+	getSearchLoader: function(attributes) {
+		attributes = _.extend({
+			marketplace: this,
+			resultsType: Balanced.Transaction
+		}, attributes);
+		return Balanced.MarketplaceSearchResultsLoader.create(attributes);
 	},
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),

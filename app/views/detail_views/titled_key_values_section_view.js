@@ -37,67 +37,24 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	}
 });
 
-Balanced.DebitTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Debit information",
+Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: function() {
+		return "%@ information".fmt(this.get("model.type_name"));
+	}.property("model.type_name"),
+
+	editModelModalClass: function() {
+		return Balanced.Modals.EditTransactionModalView;
+	}.property(),
 
 	keyValueListViews: function() {
+		var idTitle = "%@ ID".fmt(this.get("model.type_name"));
 		return [
-			this.getKeyValueView("Debit ID", "id"),
+			this.getKeyValueView(idTitle, "id"),
 			this.getKeyValueView("Transaction number", "transaction_number"),
 			this.getKeyValueView("Internal description", "description"),
 			this.getKeyValueView("On statement as", "appears_on_statement_as")
 		];
-	}.property("model")
-});
-
-Balanced.CreditTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Credit information",
-
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Credit ID", "id"),
-			this.getKeyValueView("Transaction number", "transaction_number"),
-			this.getKeyValueView("Internal description", "description"),
-			this.getKeyValueView("On statement as", "appears_on_statement_as")
-		];
-	}.property("model")
-});
-
-Balanced.RefundTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Debit information",
-
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Refund ID", "id"),
-			this.getKeyValueView("Transaction number", "transaction_number"),
-			this.getKeyValueView("Internal description", "description")
-		];
-	}.property("model")
-});
-
-Balanced.ReversalTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Reversal information",
-
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Reversal ID", "id"),
-			this.getKeyValueView("Transaction number", "transaction_number"),
-			this.getKeyValueView("Internal description", "description")
-		];
-	}.property("model")
-});
-
-Balanced.HoldTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Hold information",
-
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Hold ID", "id"),
-			this.getKeyValueView("Transaction number", "transaction_number"),
-			this.getKeyValueView("Internal description", "description"),
-			this.getKeyValueView("On statement as", "appears_on_statement_as")
-		];
-	}.property("model")
+	}.property("model", "model.id", "model.transaction_number", "model.description", "model.appears_on_statement_as")
 });
 
 Balanced.DisputeTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
@@ -196,7 +153,7 @@ Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 			this.getKeyValueView("Invoice ID", "id"),
 			this.getKeyValueView("From", "from_date", "date"),
 			this.getKeyValueView("To", "to_date", "date"),
-			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView.create(), "change-funding-source-btn")
+			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView, "change-funding-source-btn")
 		];
 	}.property("model")
 });
