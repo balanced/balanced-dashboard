@@ -220,7 +220,7 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		if (status === 'pending') {
 			return 'Two deposits have been made to your bank account. Verify this bank account by entering the amounts.';
 		} else if (status === 'unverified') {
-			return 'You may credit this bank account, but you need to verify this bank account to debit.'
+			return 'You may credit this bank account, but you need to verify this bank account to debit.';
 		}
 	}.property('model.status'),
 
