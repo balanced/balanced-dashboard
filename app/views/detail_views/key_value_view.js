@@ -10,9 +10,4 @@ Balanced.LinkedKeyValueView = Balanced.KeyValueView.extend({
 
 Balanced.EditableKeyValueView = Balanced.KeyValueView.extend({
 	isEditable: true,
-	actions: {
-		openModal: function(modalView, model) {
-			this.send("openModal", modelView, model);
-		}
-	}
 });
