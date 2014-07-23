@@ -47,9 +47,9 @@ Balanced.Modals.CustomerAddCardModalView = Balanced.ModalBaseView.extend({
 				.tokenizeAndCreate(this.get('customer.id'))
 				.then(function(model) {
 					self.get("controller").transitionToRoute(model.get("route_name"), model);
+					self.set("isSaving", false);
 					self.close();
-				}, function() {})
-				.then(function() {
+				}, function() {
 					self.set("isSaving", false);
 				});
 		}

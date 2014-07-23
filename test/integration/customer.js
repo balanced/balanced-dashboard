@@ -349,17 +349,13 @@ test('can add bank account', function(assert) {
 	var tokenizingSpy = sinon.spy(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			assert.ok(false, "Pending");
-		});
-	/*
-		.click('.bank-account-info a.add')
+		.click('.main-panel a:contains(Add bank account)')
 		.fillForm('#add-bank-account', {
 			name: "TEST",
 			account_number: "123",
-			routing_number: "123123123"
+			routing_number: "123123123",
+			account_type: "savings"
 		})
-		.click('#account_type_savings')
 		.click('#add-bank-account .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			var expectedArgs = {
@@ -375,7 +371,6 @@ test('can add bank account', function(assert) {
 				assert.equal(callArgs[key], val);
 			});
 		});
-		*/
 });
 
 test('can add card', function(assert) {
@@ -395,7 +390,7 @@ test('can add card', function(assert) {
 		name: 'TEST',
 		address: {
 			"city": "Nowhere",
-			"country_code": undefined,
+			"country_code": null,
 			"line1": null,
 			"line2": null,
 			"postal_code": "90210",
@@ -404,11 +399,7 @@ test('can add card', function(assert) {
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			assert.ok(false, "Pending");
-		});
-	/*
-		.click('.card-info a.add')
+		.click('.main-panel a:contains(Add card)')
 		.fillForm('#add-card', {
 			number: '1234123412341234',
 			expiration_month: 1,
@@ -424,7 +415,6 @@ test('can add card', function(assert) {
 				assert.deepEqual(callArgs[0][key], val);
 			});
 		});
-		*/
 });
 
 test('can add card with postal code', function(assert) {
@@ -461,11 +451,7 @@ test('can add card with postal code', function(assert) {
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			assert.ok(false, "Pending");
-		});
-	/*
-		.click('.card-info a.add')
+		.click('.main-panel a:contains(Add card)')
 		.fillForm('#add-card', input)
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -475,7 +461,6 @@ test('can add card with postal code', function(assert) {
 				assert.deepEqual(callArgs[0][key], val);
 			});
 		});
-		*/
 });
 
 test('can add card with address', function(assert) {
@@ -517,11 +502,7 @@ test('can add card with address', function(assert) {
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.then(function() {
-			assert.ok(false, "Pending");
-		});
-	/*
-		.click('.card-info a.add')
+		.click('.main-panel a:contains(Add card)')
 		.click('#add-card a.more-info')
 		.fillForm('#add-card', input, {
 			click: '.modal-footer button[name="modal-submit"]'
@@ -537,7 +518,6 @@ test('can add card with address', function(assert) {
 				assert.deepEqual(callArgs[0][key], val);
 			});
 		});
-		*/
 });
 
 test('verification renders properly against rev1', function(assert) {
