@@ -165,7 +165,7 @@
 		<section class="bank-account-info">
 			<header>
 				<h3>Bank accounts
-					{{add-bank-account-modal customerBinding="controller.model.owner_customer"}}
+					<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerAddBankAccountModalView owner_customer}}>Add bank account</a>
 				</h3>
 			</header>
 			<ul class="sidebar-items">
@@ -199,7 +199,7 @@
 		<section class="card-info">
 			<header>
 				<h3>Cards
-					{{add-card-modal customerBinding="controller.model.owner_customer"}}
+					<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerAddCardModalView owner_customer}}>Add card</a>
 				</h3>
 			</header>
 			<ul class="sidebar-items">
