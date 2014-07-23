@@ -153,7 +153,7 @@ Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 			this.getKeyValueView("Invoice ID", "id"),
 			this.getKeyValueView("From", "from_date", "date"),
 			this.getKeyValueView("To", "to_date", "date"),
-			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView.create(), "change-funding-source-btn")
+			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView, "change-funding-source-btn")
 		];
 	}.property("model")
 });
