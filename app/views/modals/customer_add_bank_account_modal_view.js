@@ -4,12 +4,20 @@ Balanced.Modals.CustomerAddBankAccountModalView = Balanced.ModalBaseView.extend(
 	elementId: "add-bank-account",
 	title: "Add a bank account",
 
+	bankAccountTypes: [{
+		value: "checking",
+		label: "Checking",
+	}, {
+		value: "savings",
+		label: "Savings"
+	}],
+
 	model: function() {
 		return Balanced.BankAccount.create({
 			name: '',
 			account_number: '',
 			routing_number: '',
-			account_type: 'Checking'
+			account_type: 'checking'
 		});
 	}.property(),
 
