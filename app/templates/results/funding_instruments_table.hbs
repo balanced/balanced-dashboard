@@ -4,7 +4,8 @@
 		<th class="span4 label6a funding-instruments has-filter">
 			{{view Balanced.PaymentMethodsResultsDropdownFilterView model=model}}
 		</th>
-		<th class="span5 label6a"><span>Bank</span></th>
+		<th class="span3 label6a"><span>Status</span></th>
+		<th class="span4 label6a"><span>Bank</span></th>
 		<th class="span4 label6a"><span>Account holder</span></th>
 		<th class="span4 label6a"><span>Customer</span></th>
 	</tr>
@@ -19,7 +20,7 @@
 						<span class="loader loading"></span>
 					</div>
 				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" view.fundingInstruments}}>Load more</a>
+					<a class="btn secondary" {{action "loadMore" view.fundingInstruments}}>Load more</a>
 				{{/if}}
 			</td>
 		</tr>
@@ -42,6 +43,11 @@
 					<span class="primary">{{funding_instrument.last_four}} {{#if funding_instrument.brand}}{{funding_instrument.brand}}{{/if}}</span>
 					<span class="secondary">{{funding_instrument.funding_instrument_type}}</span>
 				</span>{{/link-to}}
+			</td>
+			<td class="status">
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					<span {{bind-attr class="funding_instrument.status"}}>{{funding_instrument.status}}</span>
+				{{/link-to}}
 			</td>
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}
@@ -76,7 +82,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="5" class="no-results">
+			<td colspan="6" class="no-results">
 				{{#if isLoaded}}
 					No results
 				{{else}}

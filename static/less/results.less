@@ -128,36 +128,26 @@ header.results-label h3 {
       }
     }
 
-    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified, .verified {
+    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified, .active {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .failed, .expired, .lost, .arbitration, .canceled, .voided, .invalidated {
-      &:before {
-        background-color: @imperialRed80;
-      }
-    }
-
-    .new, .pending, .scheduled, .unverified {
+    .new, .pending, .scheduled, .unverified, .unverifiable {
       &:before {
         background-color: @curryYellow80;
       }
     }
 
-    .representment:before {
-      background-color: @byzantiumPurple80;
+    .failed, .expired, .lost, .arbitration, .canceled, .voided, .invalidated, .removed {
+      &:before {
+        background-color: @imperialRed80;
+      }
     }
 
-    .n\/a {
-      .sl-none;
-      text-transform: lowercase;
-      letter-spacing: 0.1em;
-
-      &:before {
-        content: none;
-      }
+    .representment:before {
+      background-color: @byzantiumPurple80;
     }
   }
 

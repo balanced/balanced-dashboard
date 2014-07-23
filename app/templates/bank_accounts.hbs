@@ -2,16 +2,10 @@
 	<div class="buttons page-actions">
 		{{#if can_debit}}
 			<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-		{{else}}
-			{{#if can_verify}}
-				<a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to debit</a>
-			{{/if}}
-			{{#if can_confirm_verification}}
-				<a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm verification</a>
-			{{/if}}
 		{{/if}}
-
-		<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+		{{#if can_credit}}
+			<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+		{{/if}}
 	</div>
 {{/view}}
 

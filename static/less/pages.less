@@ -124,13 +124,18 @@
       }
     }
 
-    .verified, .captured, .succeeded, .paid {
+    .btn {
+      margin-top: -3px;
+      float: right;
+    }
+
+    .verified, .captured, .succeeded, .paid, .active {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .pending, .new, .scheduled, .unverified {
+    .pending, .new, .scheduled, .unverified, .unverifiable {
       &:before {
         background-color: @curryYellow80;
       }
@@ -140,7 +145,7 @@
       background-color: @byzantiumPurple80;
     }
 
-    .failed {
+    .failed, .removed {
       &:before {
         background-color: @imperialRed80;
       }

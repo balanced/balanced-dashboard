@@ -1,7 +1,13 @@
 <div class="summary">
 	{{#if status}}
 		<div class="status">
-			<h3 {{bind-attr class=":status status"}}>{{capitalize status}}</h3>
+			<h3 {{bind-attr class=":status status"}}>
+				{{capitalize status}}
+
+				{{#if view.statusButton}}
+					<a {{bind-attr class=":btn :sm view.statusButton.actionName"}} {{action "handleAction" view.statusButton.actionName target="view"}}>{{view.statusButton.buttonText}}</a>
+				{{/if}}
+			</h3>
 
 			{{#if view.statusText}}
 				<p>

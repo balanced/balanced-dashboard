@@ -217,15 +217,42 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		var status = this.get('model.status');
 
 		if (status === 'pending') {
-			return 'Two deposits have been made to your bank account. Verify this bank account by entering the amounts.'
+			return 'Two deposits have been made to your bank account. Confirm verification by entering the amounts.'
 		} else if (status === 'unverified') {
-			return 'You may credit this bank account, but you need to verify this bank account to debit.'
+			return 'You may credit this bank account. Verify this bank account to debit.'
+		} else if (status === 'unverifiable') {
+			return 'You may credit this bank account. This bank account is unverifiable because it\'s missing a customer.'
 		}
+		return undefined;
+	}.property('model.status'),
+
+	statusButton: function() {
+		var status = this.get('model.status')
+		if (status === 'unverified') {
+			return {
+				className: 'verify-button',
+				actionName: 'openVerifyBankAccountModal',
+				buttonText: 'Verify'
+			};
+		} else if (status === 'pending') {
+			return {
+				className: 'confirm-verification-button',
+				actionName: 'openConfirmVerificationModal',
+				buttonText: 'Confirm'
+			};
+		}
+		return undefined;
 	}.property('model.status'),
 
 	linkedResources: function() {
 		return this.resourceLinks("model.customer");
-	}.property('model.customer')
+	}.property('model.customer'),
+
+	actions: {
+		handleAction: function(actionName) {
+			this.send(actionName);
+		}
+	}
 });
 
 Balanced.InvoiceSummarySectionView = Balanced.SummarySectionView.extend({
