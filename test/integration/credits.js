@@ -27,7 +27,7 @@ test('can reverse credit', function(assert) {
 		.then(function() {
 			var firstCall = spy.firstCall;
 			assert.ok(spy.calledOnce);
-			assert.deepEqual(firstCall.args[0], Balanced.Reversal)
+			assert.deepEqual(firstCall.args[0], Balanced.Reversal);
 			assert.deepEqual(firstCall.args[2].amount, "1000");
 		})
 		.checkElements({
