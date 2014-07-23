@@ -1,8 +1,20 @@
 Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
 
-	displayResults: true,
+	// UI properties
+	selectedTabType: "transaction",
 
+	isOrdersTabSelected: Ember.computed.equal("selectedTabType", "order"),
+	isTransactionsTabSelected: Ember.computed.equal("selectedTabType", "transaction"),
+	isCustomersTabSelected: Ember.computed.equal("selectedTabType", "customer"),
+	isFundingInstrumentsTabSelected: Ember.computed.equal("selectedTabType", "funding_instrument"),
+
+	totalOrders: Ember.computed.oneWay("resultsLoader.results.total_orders"),
+	totalTransactions: Ember.computed.oneWay("resultsLoader.results.total_transactions"),
+	totalCustomers: Ember.computed.oneWay("resultLoader.results.counts.customer"),
+	totalFundingInstruments: Ember.computed.oneWay("resultsLoader.results.total_funding_instruments"),
+
+	displayResults: false,
 	isResultsOpen: function() {
 		var queryLength = this.get("resultsLoader.query.length");
 		return (queryLength > 0) && this.get("displayResults");
@@ -16,21 +28,6 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 		var marketplace = this.get("marketplace");
 		return marketplace.getSearchLoader({});
 	}.property("marketplace"),
-
-	selectedTabType: "transaction",
-
-	// UI properties
-	isOrdersTabSelected: Ember.computed.equal("selectedTabType", "order"),
-	isTransactionsTabSelected: Ember.computed.equal("selectedTabType", "transaction"),
-	isCustomersTabSelected: Ember.computed.equal("selectedTabType", "customer"),
-	isFundingInstrumentsTabSelected: Ember.computed.equal("selectedTabType", "funding_instrument"),
-
-	totalOrders: Ember.computed.oneWay("resultsLoader.results.total_orders"),
-	totalTransactions: Ember.computed.oneWay("resultsLoader.results.total_transactions"),
-	totalCustomers: Ember.computed.oneWay("resultLoader.results.total_customers"),
-	totalFundingInstruments: Ember.computed.oneWay("resultsLoader.results.total_funding_instruments"),
-
-	displayResults: false,
 
 	actions: {
 		closeSearch: function() {

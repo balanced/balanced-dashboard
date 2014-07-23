@@ -1,4 +1,5 @@
 {{#view Balanced.SearchBarView value=resultsLoader.query isLoading=resultsLoader.isLoading isOpen=isResultsOpen}}
+    {{view Balanced.DatePickerView viewName="dateTimePicker"}}
 	<nav class="search-filters-header">
 		<ul>
 			<li {{bind-attr class=":orders :filter totalOrders::disabled isOrdersTabSelected:selected"}} >
@@ -10,7 +11,7 @@
 			</li>
 
 			<li {{bind-attr class=":customers :filter totalCustomers::disabled isCustomersTabSelected:selected"}} >
-				<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber totalCustomers}}) </a>
+				<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber resultsLoader.results.counts.customer}}) </a>
 			</li>
 
 			<li {{bind-attr class=":funding-instruments :filter totalFundingInstruments::disabled isFundingInstrumentsTabSelected:selected"}} >

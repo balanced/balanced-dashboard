@@ -26,6 +26,10 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 	}.property("searchType"),
 
 	queryStringArguments: function() {
+		var q = this.get("query");
+		if (q === "%") {
+			q = "";
+		}
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
@@ -33,7 +37,7 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 			type: this.get("type"),
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime"),
-			q: this.get("query")
+			q: q
 		});
 
 		return queryStringBuilder.getQueryStringAttributes();
