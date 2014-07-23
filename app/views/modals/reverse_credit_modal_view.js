@@ -1,7 +1,7 @@
 Balanced.Modals.ReverseCreditModalView = Balanced.ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
-	templateName: 'modals/reverse_credit_modal',
 	elementId: "reverse-credit",
+	templateName: 'modals/reverse_credit_modal',
 	title: "Reverse credit",
 
 	model: function() {
@@ -32,9 +32,9 @@ Balanced.Modals.ReverseCreditModalView = Balanced.ModalBaseView.extend({
 			this.set("isSaving", true);
 			this.get("model")
 				.save()
-				.then(function(reversal) {
+				.then(function(model) {
 					self.set("isSaving", false);
-					self.get("controller").transitionToRoute(reversal.get("route_name"), reversal);
+					self.get("controller").transitionToRoute(model.get("route_name"), model);
 					self.close();
 				}, function(errors) {
 					self.set("isSaving", false);

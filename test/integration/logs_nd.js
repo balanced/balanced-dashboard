@@ -4,23 +4,27 @@ module('Logs (non-deterministic)', {
 		Testing.createDebits();
 	},
 	teardown: function() {
-		Testing.restoreMethods(
-			Balanced.Adapter.get
-		);
+
 	}
 });
 
-test('has logs in table', 3, function(assert) {
+var setLogsProperties = function() {
+	Ember.run(function() {
+		var controller = Balanced.__container__.lookup('controller:marketplaceLogs');
+		controller.get("model").setProperties({
+			limit: 2,
+			startTime: null,
+			endTime: null
+		});
+	});
+};
+
+test('has logs in table', function(assert) {
 	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav i.icon-logs')
 		.then(function() {
-			Ember.run(function() {
-				Balanced.__container__.lookup('controller:marketplaceLogs').setProperties({
-					minDate: null,
-					maxDate: null
-				});
-			});
+			setLogsProperties();
 		})
+		.click('#marketplace-nav i.icon-logs')
 		.checkElements({
 			'table.logs tbody tr': 2
 		}, assert)

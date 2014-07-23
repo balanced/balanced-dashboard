@@ -4,9 +4,7 @@ Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
 	isAmountOverMaximum: function() {
 		return this.get("amount") > this.get("debit.refund_amount");
 	},
-	isAmountPositive: function() {
-		return this.get("amount") > 0;
-	},
+
 	validations: {
 		dollar_amount: {
 			format: {

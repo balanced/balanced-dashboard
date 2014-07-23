@@ -43,9 +43,11 @@
 					viewName="accountType"
 				}}
 			</div>
-			<div class="alert alert-error label4b">
-				{{formatError view.model.validationErrors.type}}
-			</div>
+			{{#each message in view.model.validationErrors.type.fullMessages}}
+				<div class="alert alert-error label4b">
+					{{formatError message}}
+				</div>
+			{{/each}}
 		</div>
 
 		<div {{bind-attr class=":control-group view.model.validationErrors.dollar_amount:error"}}>

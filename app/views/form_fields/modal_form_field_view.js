@@ -18,7 +18,9 @@ Balanced.FormFields.ModalFormFieldView = Balanced.FormFields.BaseFormFieldView.e
 		var errorObject = model.get("validationErrors").get(fieldName);
 
 		if (errorObject) {
-			return errorObject.get("allMessages");
+			return errorObject.get("fullMessages").map(function(m) {
+				return fieldName + " " + m;
+			});
 		}
 	}.property("model.validationErrors", "fieldName")
 });

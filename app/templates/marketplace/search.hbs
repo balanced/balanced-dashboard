@@ -1,0 +1,52 @@
+{{#view Balanced.SearchBarView value=resultsLoader.query isLoading=resultsLoader.isLoading isOpen=isResultsOpen}}
+    {{view Balanced.DatePickerView viewName="dateTimePicker"}}
+	<nav class="search-filters-header">
+		<ul>
+			<li {{bind-attr class=":orders :filter totalOrders::disabled isOrdersTabSelected:selected"}} >
+				<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber totalOrders}}) </a>
+			</li>
+
+			<li {{bind-attr class=":transactions :filter totalTransactions::disabled isTransactionsTabSelected:selected"}} >
+				<a href="#" {{action "changeTypeFilter" "transaction"}}>Transactions ({{formatNumber totalTransactions}}) </a>
+			</li>
+
+			<li {{bind-attr class=":customers :filter totalCustomers::disabled isCustomersTabSelected:selected"}} >
+				<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber totalCustomers}}) </a>
+			</li>
+
+			<li {{bind-attr class=":funding-instruments :filter totalFundingInstruments::disabled isFundingInstrumentsTabSelected:selected"}} >
+				<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{formatNumber totalFundingInstruments}}) </a>
+			</li>
+
+			<li class="download">
+				<a {{action "openModal" Balanced.Modals.ExportCsvModalView resultsLoader}} class="btn-link sm">
+					<i class="icon icon-export"></i> Export
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	{{#if isOrdersTabSelected}}
+		<div class="items-wrapper">
+			{{view Balanced.OrdersResultsView loader=resultsLoader}}
+		</div>
+	{{/if}}
+
+	{{#if isTransactionsTabSelected}}
+		<div class="items-wrapper">
+			{{view Balanced.TransactionsResultsView loader=resultsLoader}}
+		</div>
+	{{/if}}
+
+	{{#if isCustomersTabSelected}}
+		<div class="items-wrapper">
+			{{view Balanced.CustomersResultsView loader=resultsLoader}}
+		</div>
+	{{/if}}
+
+	{{#if isFundingInstrumentsTabSelected}}
+		<div class="items-wrapper">
+			{{view Balanced.FundingInstrumentsResultsView loader=resultsLoader}}
+		</div>
+	{{/if}}
+{{/view}}

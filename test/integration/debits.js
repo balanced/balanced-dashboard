@@ -33,7 +33,7 @@ test('can refund debit', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "create");
 
 	visit(Testing.DEBIT_ROUTE)
-		.click(".refund-debit-button")
+		.click(".page-navigation a:contains(Refund)")
 		.fillIn('#refund-debit .modal-body input[name="dollar_amount"]', "10")
 		.click('#refund-debit .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -42,25 +42,6 @@ test('can refund debit', function(assert) {
 			assert.equal(spy.getCall(0).args[2].debit_uri, Testing.DEBIT_URI);
 			assert.equal(spy.getCall(0).args[2].amount, '1000');
 		});
-});
-
-test('can edit debit', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
-
-	visit(Testing.DEBIT_ROUTE)
-		.then(function() {
-			assert.ok(false, "Fix this test");
-		});
-	/*
-		.click('.debit .transaction-info a.icon-edit')
-		.fillIn('.edit-transaction.in .modal-body input[name="description"]', "changing desc")
-		.click('.edit-transaction.in .modal-footer button[name="modal-submit"]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit));
-			assert.equal(spy.getCall(0).args[2].description, "changing desc");
-		});
-		*/
 });
 
 test('failed debit shows failure information', function(assert) {

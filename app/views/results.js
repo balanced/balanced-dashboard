@@ -60,14 +60,6 @@ Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
 	show_disputes_download_button: Ember.computed.alias('disputesTabSelected')
 });
 
-Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
-	templateName: 'results/results_filters_header_with_counts',
-	transaction_type_total: Computed.typeTotals(Balanced.SEARCH.SEARCH_TYPES, 'transaction'),
-	funding_instrument_type_total: Computed.typeTotals(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, 'funding_instrument')
-	// Search does not have disputes yet
-	// dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
-});
-
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
 	classNames: 'items',

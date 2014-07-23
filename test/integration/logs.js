@@ -36,7 +36,6 @@ test('can visit page', function(assert) {
 			assert.deepEqual(query, {
 				limit: "2",
 				sort: "created_at,desc",
-				offset: "0",
 				"method[in]": "post,put,delete"
 			});
 		})
@@ -63,7 +62,6 @@ test('filter logs by endpoint bank accounts', function(assert) {
 				endpoint: "bank_accounts",
 				limit: "2",
 				"method[in]": "post,put,delete",
-				offset: "0",
 				sort: "created_at,desc"
 			});
 		})
@@ -102,7 +100,6 @@ test('filter logs by datetime range', function(assert) {
 				"created_at[>]": "2013-08-01T00:00:00.000Z",
 				limit: "50",
 				"method[in]": "post,put,delete",
-				offset: "0",
 				sort: "created_at,desc"
 			});
 		});
@@ -117,14 +114,13 @@ test('filter logs by request failed only', function(assert) {
 		.then(function() {
 			setLogsProperties();
 		})
-		.click('#logs .results .status-filter a:contains(Failed)')
+		.click('.results .status-filter a:contains(Failed)')
 		.then(function() {
 			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
 			assert.equal(spy.lastCall.args[0], Balanced.Log);
 			assert.deepEqual(query, {
 				limit: "2",
 				sort: "created_at,desc",
-				offset: "0",
 				"method[in]": "post,put,delete",
 				"status_rollup[in]": "3xx,4xx,5xx"
 			});

@@ -1,7 +1,7 @@
-module("Balanced.CardDebitTransactionFactory");
+module("Balanced.DebitCardTransactionFactory");
 
 test("#getDestinationAttributes", function(assert) {
-	var subject = Balanced.CardDebitTransactionFactory.create({
+	var subject = Balanced.DebitCardTransactionFactory.create({
 		name: "King K. Rool",
 		number: "4111 1111 1111 1111",
 		cvv: "900",
@@ -23,7 +23,7 @@ test("#getDestinationAttributes", function(assert) {
 });
 
 test("#getDebitAttributes", function(assert) {
-	var subject = Balanced.CardDebitTransactionFactory.create({
+	var subject = Balanced.DebitCardTransactionFactory.create({
 		dollar_amount: "1.54",
 		appears_on_statement_as: "Pirate Crocodile",
 	});

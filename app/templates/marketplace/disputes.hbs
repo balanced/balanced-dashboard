@@ -1,7 +1,10 @@
 {{view Balanced.PageNavigationView title="Disputes"}}
 {{view Balanced.DatePickerView viewName="dateTimePicker"}}
 
-{{view Balanced.DisputeDownloadModalView}}
+<a {{action "openModal" Balanced.Modals.ExportCsvModalView resultsLoader "disputes"}} class="btn-link sm">
+	<i class="icon icon-export"></i>
+	Export
+</a>
 <div class="results">
 	<div class="items-wrapper">
 		{{view Balanced.DisputesResultsView loader=resultsLoader}}

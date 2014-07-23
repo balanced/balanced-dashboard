@@ -1,0 +1,13 @@
+<form {{action "save" on="submit" target=view}}>
+	<div class="modal-body">
+		<p class="label4a">A CSV file of your current data set will be sent to:</p>
+		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="emailAddress" label="Email address"}}
+			{{view Ember.TextField name="emailAdress" value=view.value class="full" viewName="inputElement"}}
+		{{/view}}
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
+		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Export</button>
+	</div>
+</form>

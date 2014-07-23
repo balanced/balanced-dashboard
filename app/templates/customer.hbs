@@ -1,7 +1,7 @@
 {{#view Balanced.PageNavigationView pageType="Customer" title=model.display_me}}
 	<div class="buttons page-actions">
 		<a class="btn sm" {{action "openModal" Balanced.CreditCustomerModalView model}}>Credit</a>
-		<a class="btn sm" {{action "openModal" Balanced.DebitCustomerModalView model}}>Debit</a>
+		<a class="btn sm" {{action "openModal" Balanced.Modals.DebitCustomerModalView model}}>Debit</a>
 	</div>
 {{/view}}
 
@@ -22,9 +22,13 @@
 			{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
 		</div>
 
+		<div class="pull-right">
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerAddBankAccountModalView model}}>Add bank account</a>
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerAddCardModalView model}}>Add card</a>
+		</div>
 		<h3>Payment methods</h3>
 		<div class="results">
-			{{view Balanced.EmbeddedFundingInstrumentsResultsView fundingInstruments=fundingInstrumentsResultsLoader.results}}
+			{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
 		</div>
 	{{/view}}
 {{/view}}

@@ -26,7 +26,7 @@ test('debit card', function(assert) {
 				model.set('customer', true);
 			});
 		})
-		.click(".page-actions a.debit-button")
+		.click(".page-actions a:contains(Debit)")
 		.checkElements({
 			'label.control-label:contains(characters max):visible': "Appears on statement as (18 characters max)",
 		}, assert)
@@ -61,7 +61,7 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 				model.set('customer', true);
 			});
 		})
-		.click(".page-actions a.debit-button")
+		.click(".page-actions a:contains(Debit)")
 		.fillForm("#debit-funding-instrument", {
 			dollar_amount: "1000",
 			description: "Test debit"
@@ -83,7 +83,7 @@ test('hold card', function(assert) {
 				model.set('customer', true);
 			});
 		})
-		.click(".page-actions a.hold-button")
+		.click(".page-actions a:contains(Hold)")
 		.then(function() {
 			assert.ok($('#hold-card').is(':visible'), 'Hold Card Modal Visible');
 		})
@@ -120,7 +120,7 @@ test('holding only submits once despite multiple clicks', function(assert) {
 				model.set('customer', true);
 			});
 		})
-		.click(".page-actions a.hold-button")
+		.click(".page-actions a:contains(Hold)")
 		.fillForm("#hold-card", {
 			dollar_amount: "1000",
 			description: "Test debit"
