@@ -18,6 +18,7 @@ var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
 Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend({
 	templateName: "modals/export_csv_modal",
 	title: "Export data",
+	elementId: "download-csv",
 
 	model: function() {
 		return ExportTransactionCreator.create({
