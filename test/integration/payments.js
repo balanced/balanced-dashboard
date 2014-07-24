@@ -33,7 +33,7 @@ module('Payments', {
 	};
 
 	var getResultsUri = function() {
-		var controller = Balanced.__container__.lookup("controller:marketplace_transactions")
+		var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
 		return controller.get("resultsLoader.resultsUri");
 	};
 
@@ -175,7 +175,7 @@ module('Payments', {
 
 		visit(Testing.ACTIVITY_ROUTE)
 			.then(function() {
-				var controller = Balanced.__container__.lookup("controller:marketplace_transactions")
+				var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
 				Ember.run(function() {
 					controller.get("resultsLoader").setProperties({
 						startTime: null,
@@ -199,7 +199,6 @@ module('Payments', {
 				});
 			})
 			.checkElements({
-				".alert span": 1,
 				".alert span": "We're processing your request. We will email you once the exported data is ready to view."
 			}, assert);
 	});
