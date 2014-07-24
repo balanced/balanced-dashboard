@@ -10,6 +10,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 	hold: Balanced.Model.belongsTo('hold', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
+	order: Balanced.Model.belongsTo('order', 'Balanced.Order'),
 
 	funding_instrument_description: Ember.computed.alias('source.description'),
 	last_four: Ember.computed.alias('source.last_four'),

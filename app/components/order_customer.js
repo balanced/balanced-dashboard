@@ -72,32 +72,6 @@ Balanced.OrderCustomerComponent = Ember.Component.extend({
 		return debits;
 	}.property('debits', 'debits.@each.customer_uri', 'customer'),
 
-	refunds_list: function() {
-		var debits = this.get('debits_list');
-		var refunds = Ember.A();
-
-		debits.forEach(function(debit) {
-			debit.get('refunds').then(function(r) {
-				refunds.pushObjects(r.content);
-			});
-		});
-
-		return refunds;
-	}.property('debits_list', 'debits_list.@each.refunds'),
-
-	reversals_list: function() {
-		var credits = this.get('credits_list');
-		var reversals = Ember.A();
-
-		credits.forEach(function(credit) {
-			credit.get('reversals').then(function(r) {
-				reversals.pushObjects(r.content);
-			});
-		});
-
-		return reversals;
-	}.property('credits_list', 'credits_list.@each.reversals'),
-
 	actions: {
 		toggle_visibility: function() {
 			var visibility = this.get('is_visible');

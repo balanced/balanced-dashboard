@@ -8,7 +8,11 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 		var result = args.map(function(resourceName) {
 			var resource = self.get(resourceName);
-			if (resource && _.isArray(resource.content)) {
+			if (!resource) {
+				return undefined;
+			}
+
+			if (_.isArray(resource.content)) {
 				var resources = [];
 				_.each(resource.content, function(content) {
 					resources.push(self.generateResourceLink(self.model, content));
@@ -23,36 +27,16 @@ Balanced.SummarySectionView = Balanced.View.extend({
 	},
 
 	generateResourceLink: function(parentModel, model) {
-		if (Ember.isBlank(model)) {
+		if (Ember.isBlank(model) || parentModel.uri === model.uri) {
 			return;
 		}
 
-		if (model.constructor === Balanced.Customer) {
-			if (parentModel.constructor === Balanced.Order) {
-				return {
-					className: 'icon-customers',
-					title: 'Seller',
-					resource: model,
-					value: model.get('display_me'),
-					hoverValue: model.get('display_me_with_email')
-				};
-			} else {
-				return {
-					className: 'icon-customers',
-					title: 'Customer',
-					resource: model,
-					value: model.get('display_me'),
-					hoverValue: model.get('display_me_with_email')
-				};
-			}
-		}
-
-		if (model.constructor === Balanced.Dispute) {
+		if (model.constructor === Balanced.Order) {
 			return {
 				className: 'icon-single-transaction',
-				title: 'Dispute',
+				title: 'Order',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount_escrowed'))),
 				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
 			};
 		}
@@ -78,49 +62,53 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		}
 
 		if (model.constructor === Balanced.Refund) {
-			if (parentModel.constructor === Balanced.Refund) {
-				if (parentModel.uri !== model.uri) {
-					return {
-						className: 'icon-single-transaction',
-						title: 'Other refund',
-						resource: model,
-						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-						hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
-					};
-				}
-				return undefined;
-			} else {
-				return {
-					className: 'icon-single-transaction',
-					title: 'Refund',
-					resource: model,
-					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-					hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
-				};
-			}
+			var title = (parentModel.constructor === Balanced.Refund) ? 'Other refund' : 'Refund';
+
+			return {
+				className: 'icon-single-transaction',
+				title: title,
+				resource: model,
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+			};
 		}
 
 		if (model.constructor === Balanced.Reversal) {
-			if (parentModel.constructor === Balanced.Reversal) {
-				if (parentModel.uri !== model.uri) {
-					return {
-						className: 'icon-single-transaction',
-						title: 'Other reversal',
-						resource: model,
-						value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-						hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
-					};
-				}
-				return undefined;
-			} else {
-				return {
-					className: 'icon-single-transaction',
-					title: 'Reversal',
-					resource: model,
-					value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-					hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
-				};
+			var title = (parentModel.constructor === Balanced.Reversal) ? 'Other reversal' : 'Reversal';
+
+			return {
+				className: 'icon-single-transaction',
+				title: title,
+				resource: model,
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+			};
+		}
+
+		if (model.constructor === Balanced.Dispute) {
+			return {
+				className: 'icon-single-transaction',
+				title: 'Dispute',
+				resource: model,
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+			};
+		}
+
+		if (model.constructor === Balanced.Customer) {
+			var title = 'Customer'
+
+			if (parentModel.constructor === Balanced.Order) {
+				title = (model.get('id') === parentModel.get('seller.id')) ? 'Seller' : 'Buyer';
 			}
+
+			return {
+				className: 'icon-customers',
+				title: title,
+				resource: model,
+				value: model.get('display_me'),
+				hoverValue: model.get('display_me_with_email')
+			};
 		}
 
 		if (model.constructor === Balanced.Card) {
@@ -147,46 +135,42 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 Balanced.OrderSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
-		return this.resourceLinks("model.seller", "model.debits_list", "model.credits_list", "model.refunds_list", "model.reversals_list");
-	}.property("model.seller", "model.debits_list", "model.credits_list", "model.refunds_list", "model.reversals_list")
+		return this.resourceLinks("model.seller", "model.buyers", "model.debits_list", "model.credits_list", "model.refunds", "model.reversals");
+	}.property("model.seller", "model.buyers", "model.debits_list", "model.credits_list", "model.refunds", "model.reversals")
 });
 
 Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: Ember.computed.alias('model.status_description'),
-	// Note: missing order links
+
 	linkedResources: function() {
-		return this.resourceLinks("model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");
-	}.property("model.dispute", "model.refunds", "model.hold", "model.customer", "model.source")
+		return this.resourceLinks("model.order", "model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");
+	}.property("model.order", "model.dispute", "model.refunds", "model.hold", "model.customer", "model.source")
 });
 
 Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: Ember.computed.alias('model.status_description'),
 
-	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model.reversals", "model.customer", "model.destination");
-	}.property("model.reversals", "model.customer", "model.destination")
+		return this.resourceLinks("model.order", "model.reversals", "model.customer", "model.destination");
+	}.property("model.order", "model.reversals", "model.customer", "model.destination")
 });
 
 Balanced.RefundSummarySectionView = Balanced.SummarySectionView.extend({
-	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source");
-	}.property("model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source")
+		return this.resourceLinks("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source");
+	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source")
 });
 
 Balanced.ReversalSummarySectionView = Balanced.SummarySectionView.extend({
-	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination");
-	}.property("model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination")
+		return this.resourceLinks("model.credit.order", "model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination");
+	}.property("model.credit.order", "model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination")
 });
 
 Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
-	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source");
-	}.property("model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source")
+		return this.resourceLinks("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source");
+	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source")
 });
 
 Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
@@ -201,10 +185,9 @@ Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 		return null;
 	}.property('model.status'),
 
-	// Note: missing order links
 	linkedResources: function() {
-		return this.resourceLinks("model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source");
-	}.property("model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source")
+		return this.resourceLinks("model.transaction.order", "model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source");
+	}.property("model.transaction.order", "model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source")
 });
 
 Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
@@ -220,8 +203,11 @@ Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 			className: 'learn-more-unverified',
 			text: "For an individual, you may collect full legal name, email, permanent street address, and last four digits of SSN. For a business, we also recommend collecting the full business name and EIN number."
 		};
-	}.property()
+	}.property(),
 
+	linkedResources: function() {
+		return this.resourceLinks("model.orders");
+	}.property("model.orders")
 });
 
 Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({

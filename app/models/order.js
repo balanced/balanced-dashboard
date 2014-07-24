@@ -18,7 +18,65 @@ Balanced.Order = Balanced.Model.extend({
 
 	debits_amount: Balanced.computed.transform('amount', Balanced.Utils.formatCurrency),
 	escrow_balance: Balanced.computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
-	credits_amount: Balanced.computed.transform('amount_credited', Balanced.Utils.formatCurrency)
+	credits_amount: Balanced.computed.transform('amount_credited', Balanced.Utils.formatCurrency),
+
+	// filter credits by those that belong to the customer
+	credits_list: function() {
+		var customer = this.get('customer.href');
+		var credits = this.get('credits') || Ember.A();
+
+		if (!customer) {
+			return credits;
+		}
+
+		credits = credits.filter(function(credit) {
+			return credit.get('customer_uri') === customer;
+		});
+
+		return credits;
+	}.property('credits', 'credits.@each.customer_uri', 'customer'),
+
+	// filter debits by those that belong to the customer
+	debits_list: function() {
+		var customer = this.get('customer.href');
+		var debits = this.get('debits') || Ember.A();
+
+		if (!customer) {
+			return debits;
+		}
+
+		debits = debits.filter(function(debit) {
+			return debit.get('customer_uri') === customer;
+		});
+
+		return debits;
+	}.property('debits', 'debits.@each.customer_uri', 'customer'),
+
+	refunds_list: function() {
+		var debits = this.get('debits_list');
+		var refunds = Ember.A();
+
+		debits.forEach(function(debit) {
+			debit.get('refunds').then(function(refund) {
+				refunds.pushObjects(refund.content);
+			});
+		});
+		console.log(refunds)
+		return refunds;
+	}.property('debits_list', 'debits_list.@each.refunds'),
+
+	reversals_list: function() {
+		var credits = this.get('credits_list');
+		var reversals = Ember.A();
+
+		credits.forEach(function(credit) {
+			credit.get('reversals').then(function(reversal) {
+				reversals.pushObjects(reversal.content);
+			});
+		});
+
+		return reversals;
+	}.property('credits_list', 'credits_list.@each.reversals')
 });
 
 Balanced.TypeMappings.addTypeMapping('order', 'Balanced.Order');

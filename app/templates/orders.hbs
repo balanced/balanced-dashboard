@@ -1,7 +1,7 @@
 {{#view Balanced.PageNavigationView pageType=model.type_name title=model.page_title}}
 	<h1 class="page-value">
 		<div class="page-type">Order escrow</div>
-		{{formatCurrency escrow_balance}}
+		{{escrow_balance}}
 	</h1>
 {{/view}}
 
@@ -29,58 +29,3 @@
 		</div>
 	{{/view}}
 {{/view}}
-
-<div id="order">
-	<div class="order-summary">
-		<div class="row head">
-			<div class="span">Summary</div>
-			<div class="span4">Quantity</div>
-			<div class="span4">Total</div>
-		</div>
-		<div {{bind-attr class=":row :debits amounts.debits.quantity::empty"}}>
-			<div class="span">Debits</div>
-			<div class="span4 quantity">{{amounts.debits.quantity}}</div>
-			<div class="span4 total">{{amounts.debits.total}}</div>
-		</div>
-		<div {{bind-attr class=":row :refunds amounts.refunds.quantity::empty"}}>
-			<div class="span10">Refunds</div>
-			<div class="span4 quantity">{{amounts.refunds.quantity}}</div>
-			<div class="span4 total">{{amounts.refunds.total}}</div>
-		</div>
-		{{#if multiple_credits}}
-			{{#each credit in credits}}
-				<div class="row :credits">
-					<div class="span">Credit to {{credit.funding_instrument_description}}</div>
-					<div class="span4 quantity">1</div>
-					<div class="span4 total">{{credit.amount_dollars}}</div>
-				</div>
-			{{/each}}
-		{{else}}
-			<div {{bind-attr class=":row :credits amounts.credits.quantity::empty"}}>
-				<div class="span">Credits to seller</div>
-				<div class="span4 quantity">{{amounts.credits.quantity}}</div>
-				<div class="span4 total">{{amounts.credits.total}}</div>
-			</div>
-		{{/if}}
-		<div {{bind-attr class=":row :reversals amounts.reversals.quantity::empty"}}>
-			<div class="span">Reversals</div>
-			<div class="span4 quantity">{{amounts.reversals.quantity}}</div>
-			<div class="span4 total">{{amounts.reversals.total}}</div>
-		</div>
-	</div>
-
-	<div class="order-total">
-		<h1>{{escrow_balance}}</h1>
-		<p>
-			Escrow balance for this order
-		</p>
-	</div>
-
-	<h3 class="order-party">Buyer</h3>
-	{{#each buyer in buyers}}
-		{{order-customer customer=buyer debits=debits refunds=refunds order=model}}
-	{{/each}}
-
-	<h3 class="order-party">Seller</h3>
-	{{order-customer customer=seller credits=credits reversals=reversals order=model}}
-</div>
