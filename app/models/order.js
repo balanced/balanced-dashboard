@@ -61,7 +61,6 @@ Balanced.Order = Balanced.Model.extend({
 				refunds.pushObjects(refund.content);
 			});
 		});
-		console.log(refunds)
 		return refunds;
 	}.property('debits_list', 'debits_list.@each.refunds'),
 

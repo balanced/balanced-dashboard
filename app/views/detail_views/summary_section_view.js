@@ -27,6 +27,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 	},
 
 	generateResourceLink: function(parentModel, model) {
+		var title;
 		if (Ember.isBlank(model) || parentModel.uri === model.uri) {
 			return;
 		}
@@ -62,7 +63,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		}
 
 		if (model.constructor === Balanced.Refund) {
-			var title = (parentModel.constructor === Balanced.Refund) ? 'Other refund' : 'Refund';
+			title = (parentModel.constructor === Balanced.Refund) ? 'Other refund' : 'Refund';
 
 			return {
 				className: 'icon-single-transaction',
@@ -74,7 +75,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		}
 
 		if (model.constructor === Balanced.Reversal) {
-			var title = (parentModel.constructor === Balanced.Reversal) ? 'Other reversal' : 'Reversal';
+			title = (parentModel.constructor === Balanced.Reversal) ? 'Other reversal' : 'Reversal';
 
 			return {
 				className: 'icon-single-transaction',
@@ -96,7 +97,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		}
 
 		if (model.constructor === Balanced.Customer) {
-			var title = 'Customer'
+			title = 'Customer';
 
 			if (parentModel.constructor === Balanced.Order) {
 				title = (model.get('id') === parentModel.get('seller.id')) ? 'Seller' : 'Buyer';
