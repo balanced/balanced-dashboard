@@ -13,7 +13,7 @@ test('can pay a seller', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('div a.pay-a-seller')
+		.click(".page-navigation a:contains(Credit a bank account)")
 		.fillForm('#pay-seller', {
 			'name': 'TEST',
 			'routing_number': '123123123',
@@ -44,7 +44,7 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click('div a.pay-a-seller')
+		.click(".page-navigation a:contains(Credit a bank account)")
 		.fillForm('#pay-seller', {
 			'name': 'TEST',
 			'routing_number': '123123123',
