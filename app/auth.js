@@ -275,7 +275,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		this.setProperties({
 			lastLoginUri: null,
 			OTPSecret: null,
-			signInTransitionCalled: false
 		});
 
 		this.unsetAPIKey();
