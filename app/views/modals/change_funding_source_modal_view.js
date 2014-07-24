@@ -63,7 +63,3 @@ Balanced.ChangeFundingSourceModalView.reopenClass({
 		});
 	}
 });
-
-// {{#if is_not_paid}}
-// 	<span class="hidden-print">{{change-funding-source-modal marketplace=controllers.marketplace.model source_uri=source.uri model=model}}</span>
-// {{/if}}
