@@ -8,7 +8,6 @@ Balanced.ChangeFundingSourceModalView = Balanced.ModalBaseView.extend({
 	source: function() {
 		var debitableBankAccounts = this.get('debitable_bank_accounts');
 		var sourceUri = this.get('source_uri');
-		console.log(debitableBankAccounts, sourceUri)
 		var defaultSource = null;
 
 		if (!debitableBankAccounts) {

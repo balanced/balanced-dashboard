@@ -1,5 +1,6 @@
 Balanced.SummarySectionView = Balanced.View.extend({
 	templateName: "detail_views/summary_section",
+	status: Ember.computed.oneWay("model.status"),
 
 	resourceLinks: function() {
 		var self = this;
@@ -215,7 +216,7 @@ Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({
 
 Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: function() {
-		var status = this.get('model.status');
+		var status = this.get('status');
 
 		if (status === 'pending') {
 			return 'Two deposits have been made to your bank account. Confirm verification by entering the amounts.';
@@ -225,21 +226,27 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 			return 'You may credit this bank account. This bank account is unverifiable because it\'s missing a customer.';
 		}
 		return undefined;
-	}.property('model.status'),
+	}.property('status'),
 
 	statusButtonModalView: function() {
-		var status = this.get('model.status');
+		var status = this.get('status');
 		if (status === 'unverified') {
-			return Balanced.VerifyBankAccountModalView.create({
-				funding_instrument: this.get("model")
-			});
+			return Balanced.Modals.VerifyBankAccountModalView;
 		} else if (status === 'pending') {
-			return Balanced.ConfirmVerificationModalView.create({
-				funding_instrument: this.get("model")
-			});
+			return Balanced.Modals.ConfirmVerificationModalView;
 		}
 		return undefined;
-	}.property('model', 'model.status'),
+	}.property('status'),
+
+	statusButtonText: function() {
+		var status = this.get('status');
+		if (status === 'unverified') {
+			return "Verify";
+		} else if (status === 'pending') {
+			return "Confirm verification";
+		}
+		return undefined;
+	}.property("status"),
 
 	linkedResources: function() {
 		return this.resourceLinks("model.customer");
