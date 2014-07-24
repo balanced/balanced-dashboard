@@ -81,59 +81,49 @@ body, #header {
   }
 }
 
-#invoice {
-  .customer-info {
-    display: block;
-    position: relative;
-    top: -50px;
+.hidden-invoice {
+  display: block;
+  position: relative;
+  top: -50px;
 
-    h3 {
-      margin-bottom: 0;
-    }
-
-    > div {
-      h4 {
-        font-style: italic;
-        font-weight: 300;
-        margin-top: 0;
-      }
-    }
+  h3 {
+    margin-bottom: 0;
   }
 
-  .invoice-balance-due-box {
-    background-color: #2A727E !important;
-
-    .number1d {
-      color: #FFF !important;
+  > div {
+    h4 {
+      font-style: italic;
+      font-weight: 300;
+      margin-top: 0;
     }
+  }
+}
 
-    div.label {
-      background-color: #003f48 !important;
+.invoice-balance-due-box {
+  background-color: #2A727E !important;
 
-      .icon {
-        background-image: url('../images/icons.png') !important;
-        background-position: -200px -60px !important;
-      }
-    }
+  .number1d {
+    color: #FFF !important;
+  }
 
-    .invoice-details {
-      border-bottom: 0;
+  div.label {
+    background-color: #003f48 !important;
+
+    .icon {
+      background-image: url('../images/icons.png') !important;
+      background-position: -200px -60px !important;
     }
   }
 
   .invoice-details {
-    border-bottom: 3px solid #000000;
-
-    thead, tfoot {
-      background-color: @egyptianBlue20 !important;
-    }
+    border-bottom: 0;
   }
+}
 
-  .activity {
-    display: none;
+.invoice-details {
+  border-bottom: 3px solid #000000;
 
-    &.invoice-details-table, &.adjustment-details-table {
-      display: block;
-    }
+  thead, tfoot {
+    background-color: @egyptianBlue20 !important;
   }
 }

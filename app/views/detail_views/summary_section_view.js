@@ -227,33 +227,24 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		return undefined;
 	}.property('model.status'),
 
-	statusButton: function() {
-		var status = this.get('model.status')
+	statusButtonModalView: function() {
+		var status = this.get('model.status');
+
 		if (status === 'unverified') {
-			return {
-				className: 'verify-button',
-				actionName: 'openVerifyBankAccountModal',
-				buttonText: 'Verify'
-			};
+			return Balanced.VerifyBankAccountModalView.create({
+				funding_instrument: this.get("model")
+			});
 		} else if (status === 'pending') {
-			return {
-				className: 'confirm-verification-button',
-				actionName: 'openConfirmVerificationModal',
-				buttonText: 'Confirm'
-			};
+			return Balanced.ConfirmVerificationModalView.create({
+				funding_instrument: this.get("model")
+			});
 		}
 		return undefined;
-	}.property('model.status'),
+	}.property('model', 'model.status'),
 
 	linkedResources: function() {
 		return this.resourceLinks("model.customer");
 	}.property('model.customer'),
-
-	actions: {
-		handleAction: function(actionName) {
-			this.send(actionName);
-		}
-	}
 });
 
 Balanced.InvoiceSummarySectionView = Balanced.SummarySectionView.extend({

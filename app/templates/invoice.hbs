@@ -1,178 +1,173 @@
-<div id="invoice">
-	{{#view Balanced.InvoicePageNavigationView model=model}}
-		<h1 class="page-value">
-			<div class="page-type">Total transaction fees</div>
-			{{formatCurrency total_fee}}
-		</h1>
+{{#view Balanced.InvoicePageNavigationView model=model}}
+	<h1 class="page-value">
+		<div class="page-type">Total transaction fees</div>
+		{{formatCurrency total_fee}}
+	</h1>
+{{/view}}
+
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.ApiModelPanelView model=model}}
+		{{#if marketplace.production}}
+			<section class="hidden-invoice">
+				<h3>Bill to</h3>
+				<p>
+					{{marketplace.owner_customer.display_me}}
+
+					{{#if marketplace.owner_customer.is_business}}
+						{{marketplace.owner_customer.business_name}}
+					{{/if}}
+
+					{{#if marketplace.owner_customer.address_string}}
+						<div>{{marketplace.owner_customer.address_string}}</div>
+					{{/if}}
+				</p>
+			</section>
+		{{/if}}
+		{{view Balanced.InvoiceSummarySectionView model=model}}
+		{{view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
 	{{/view}}
 
-	{{#view Balanced.BodyPanelView}}
-		{{#view Balanced.ApiModelPanelView model=model}}
-			{{#if marketplace.production}}
-				<section class="customer-info">
-					<h3>Bill to</h3>
-					<p>
-						{{marketplace.owner_customer.display_me}}
+	{{#view Balanced.MainPanelView}}
+		<h3>Fees</h3>
+		<div class="results">
+			<div class="pull-right hidden-print">
+				<a href="#" {{action "printSummary"}}>
+					<i class="icon-print"></i>
+					Print
+				</a>
+			</div>
+			<table class="items non-interactive">
+				<thead>
+					<tr>
+						<th class="span2"><span>Type</span></th>
+						<th class="span1 num"><span>Quantity</span></th>
+						<th class="span2 num"><span>Txn amount</span></th>
+						<th class="span3"><span>Fee</span></th>
+						<th class="span2 num total"><span>Amount</span></th>
+					</tr>
+				</thead>
+				<tbody>
+				{{#if isDispute}}
+					<tr class="dispute-details-row">
+						<td class="span3"><span>Disputes</span></td>
+						<td class="span2 num"><span>{{formatNumber disputes_count}}</span></td>
+						<td class="num"><span>{{formatCurrency disputes_total_amount}}</span></td>
+						<td><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
+						<td class="span3 num total"><span>{{formatCurrency disputes_total_fee}}</span></td>
+					</tr>
+				{{else}}
+					{{#if hasHoldsFee}}
+						<tr class="hold-details-row">
+							<td><span>Holds</span></td>
+							<td class="num"><span>{{formatNumber holds_count}}</span></td>
+							<td class="num"><span>{{formatCurrency holds_total_amount}}</span></td>
+							<td><span>{{formatCurrency hold_fee}} per hold</span></td>
+							<td class="num total"><span>{{formatCurrency holds_total_fee}}</span></td>
+						</tr>
+					{{/if}}
+					<tr class="card-debit-details-row">
+						<td class="two-line">
+							<span>
+								<span class="primary">Debit</span>
+								<span class="secondary">Cards</span>
+							</span>
+						</td>
+						<td class="num"><span>{{formatNumber card_debits_count}}</span></td>
+						<td class="num"><span>{{formatCurrency card_debits_total_amount}}</span></td>
+						<td><span>{{variable_fee_percentage}}% of txn amount + {{card_debit_fixed_fee}}&cent;</span></td>
+						<td class="num total"><span>{{formatCurrency card_debits_total_fee}}</span></td>
+					</tr>
+					<tr class="bank-account-debit-details-row">
+						<td class="two-line">
+							<span>
+								<span class="primary">Debit</span>
+								<span class="secondary">Bank accounts</span>
+							</span>
+						</td>
+						<td class="num"><span>{{formatNumber bank_account_debits_count}}</span></td>
+						<td class="num"><span>{{formatCurrency bank_account_debits_total_amount}}</span></td>
+						<td><span>
+							{{bank_account_debit_variable_fee_percentage}}% of debit amount + 30&cent;
+						</span></td>
+						<td class="num total"><span>{{formatCurrency bank_account_debits_total_fee}}</span></td>
+					</tr>
+					<tr class="succeeded-bank-account-credit-details-row">
+						<td class="two-line">
+							<span>
+								<span class="primary">Credit</span>
+								<span class="secondary">Succeeded</span>
+							</span>
+						</td>
+						<td class="num"><span>{{formatNumber bank_account_credits_count}}</span></td>
+						<td class="num"><span>{{formatCurrency bank_account_credits_total_amount}}</span></td>
+						<td><span>{{bank_account_credit_fee}}&cent; per credit</span></td>
+						<td class="num total"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
+					</tr>
+					<tr class="succeeded-card-credit-details-row">
+						<td class="two-line">
+							<span>
+								<span class="primary">Credit</span>
+								<span class="secondary">Push to card</span>
+							</span>
+						</td>
+						<td class="num"><span>{{formatNumber card_credits_count}}</span></td>
+						<td class="num"><span>{{formatCurrency card_credits_total_amount}}</span></td>
+						<td><span>{{card_credit_fixed_fee}}&cent; per credit</span></td>
+						<td class="num total"><span>{{formatCurrency card_credits_total_fee}}</span></td>
+					</tr>
+					<tr class="refund-details-row">
+						<td><span>Refund</span></td>
+						<td class="num"><span>{{formatNumber refunds_count}}</span></td>
+						<td class="num"><span>{{formatCurrency refunds_total_amount}}</span></td>
+						<td><span>{{variable_fee_percentage}}% of txn amount returned</span></td>
+						<td class="num total"><span>{{formatCurrency refunds_total_fee}}</span></td>
+					</tr>
+				{{/if}}
+				</tbody>
+				<tfoot>
+					<tr class="subtotal-row">
+						<td class="sl-sb" colspan="4"><span>Total fees</span></td>
+						<td class="num total sl-sb"><span>{{formatCurrency subtotal}}</span></td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
 
-						{{#if marketplace.owner_customer.is_business}}
-							{{marketplace.owner_customer.business_name}}
-						{{/if}}
-
-						{{#if marketplace.owner_customer.address_string}}
-							<div>{{marketplace.owner_customer.address_string}}</div>
-						{{/if}}
-					</p>
-				</section>
-			{{/if}}
-			{{view Balanced.InvoiceSummarySectionView model=model}}
-			{{view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
-			{{#if is_not_paid}}
-				<span class="hidden-print">{{change-funding-source-modal marketplace=controllers.marketplace.model source_uri=source.uri model=model}}</span>
-			{{/if}}
-		{{/view}}
-
-		{{#view Balanced.MainPanelView}}
-			<h3>Fees</h3>
+		{{#if adjustments.length}}
+			<h3>Adjustments</h3>
 			<div class="results">
-				<div class="pull-right hidden-print">
-					<a href="#" {{action "printSummary"}}>
-						<i class="icon-print"></i>
-						Print
-					</a>
-				</div>
 				<table class="items non-interactive">
 					<thead>
 						<tr>
-							<th class="span2"><span>Type</span></th>
-							<th class="span1 num"><span>Quantity</span></th>
-							<th class="span2 num"><span>Txn amount</span></th>
-							<th class="span3"><span>Fee</span></th>
-							<th class="span2 num total"><span>Amount</span></th>
+							<th class="span18"><span>Description</span></th>
+							<th class="span2 num total"><span>Total</span></th>
 						</tr>
 					</thead>
 					<tbody>
-					{{#if isDispute}}
-						<tr class="dispute-details-row">
-							<td class="span3"><span>Disputes</span></td>
-							<td class="span2 num"><span>{{formatNumber disputes_count}}</span></td>
-							<td class="num"><span>{{formatCurrency disputes_total_amount}}</span></td>
-							<td><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
-							<td class="span3 num total"><span>{{formatCurrency disputes_total_fee}}</span></td>
+						{{#each adjustment in model.adjustments}}
+						<tr>
+							<td><span>{{adjustment.description}}</span></td>
+							<td class="num total"><span>{{formatCurrency adjustment.amount}}</span></td>
 						</tr>
-					{{else}}
-						{{#if hasHoldsFee}}
-							<tr class="hold-details-row">
-								<td><span>Holds</span></td>
-								<td class="num"><span>{{formatNumber holds_count}}</span></td>
-								<td class="num"><span>{{formatCurrency holds_total_amount}}</span></td>
-								<td><span>{{formatCurrency hold_fee}} per hold</span></td>
-								<td class="num total"><span>{{formatCurrency holds_total_fee}}</span></td>
-							</tr>
-						{{/if}}
-						<tr class="card-debit-details-row">
-							<td class="two-line">
-								<span>
-									<span class="primary">Debit</span>
-									<span class="secondary">Cards</span>
-								</span>
-							</td>
-							<td class="num"><span>{{formatNumber card_debits_count}}</span></td>
-							<td class="num"><span>{{formatCurrency card_debits_total_amount}}</span></td>
-							<td><span>{{variable_fee_percentage}}% of txn amount + {{card_debit_fixed_fee}}&cent;</span></td>
-							<td class="num total"><span>{{formatCurrency card_debits_total_fee}}</span></td>
-						</tr>
-						<tr class="bank-account-debit-details-row">
-							<td class="two-line">
-								<span>
-									<span class="primary">Debit</span>
-									<span class="secondary">Bank accounts</span>
-								</span>
-							</td>
-							<td class="num"><span>{{formatNumber bank_account_debits_count}}</span></td>
-							<td class="num"><span>{{formatCurrency bank_account_debits_total_amount}}</span></td>
-							<td><span>
-								{{bank_account_debit_variable_fee_percentage}}% of debit amount + 30&cent;
-							</span></td>
-							<td class="num total"><span>{{formatCurrency bank_account_debits_total_fee}}</span></td>
-						</tr>
-						<tr class="succeeded-bank-account-credit-details-row">
-							<td class="two-line">
-								<span>
-									<span class="primary">Credit</span>
-									<span class="secondary">Succeeded</span>
-								</span>
-							</td>
-							<td class="num"><span>{{formatNumber bank_account_credits_count}}</span></td>
-							<td class="num"><span>{{formatCurrency bank_account_credits_total_amount}}</span></td>
-							<td><span>{{bank_account_credit_fee}}&cent; per credit</span></td>
-							<td class="num total"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
-						</tr>
-						<tr class="succeeded-card-credit-details-row">
-							<td class="two-line">
-								<span>
-									<span class="primary">Credit</span>
-									<span class="secondary">Push to card</span>
-								</span>
-							</td>
-							<td class="num"><span>{{formatNumber card_credits_count}}</span></td>
-							<td class="num"><span>{{formatCurrency card_credits_total_amount}}</span></td>
-							<td><span>{{card_credit_fixed_fee}}&cent; per credit</span></td>
-							<td class="num total"><span>{{formatCurrency card_credits_total_fee}}</span></td>
-						</tr>
-						<tr class="refund-details-row">
-							<td><span>Refund</span></td>
-							<td class="num"><span>{{formatNumber refunds_count}}</span></td>
-							<td class="num"><span>{{formatCurrency refunds_total_amount}}</span></td>
-							<td><span>{{variable_fee_percentage}}% of txn amount returned</span></td>
-							<td class="num total"><span>{{formatCurrency refunds_total_fee}}</span></td>
-						</tr>
-					{{/if}}
+						{{/each}}
 					</tbody>
 					<tfoot>
-						<tr class="subtotal-row">
-							<td class="sl-sb" colspan="4"><span>Total fees</span></td>
-							<td class="num total sl-sb"><span>{{formatCurrency subtotal}}</span></td>
+						<tr>
+							<td class="sl-sb"><span>Total adjustments</span></td>
+							<td class="num sl-sb total"><span>{{formatCurrency adjustments_total_fee}}</span></td>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
+		{{/if}}
 
-			{{#if adjustments.length}}
-				<h3>Adjustments</h3>
-				<div class="results">
-					<table class="items non-interactive">
-						<thead>
-							<tr>
-								<th class="span18"><span>Description</span></th>
-								<th class="span2 num total"><span>Total</span></th>
-							</tr>
-						</thead>
-						<tbody>
-							{{#each adjustment in model.adjustments}}
-							<tr>
-								<td><span>{{adjustment.description}}</span></td>
-								<td class="num total"><span>{{formatCurrency adjustment.amount}}</span></td>
-							</tr>
-							{{/each}}
-						</tbody>
-						<tfoot>
-							<tr>
-								<td class="sl-sb"><span>Total adjustments</span></td>
-								<td class="num sl-sb total"><span>{{formatCurrency adjustments_total_fee}}</span></td>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
+		<h3>{{invoice_type}}</h3>
+		<div class="results">
+			{{#if isDispute}}
+				{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
+			{{else}}
+				{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
 			{{/if}}
-
-			<h3>{{invoice_type}}</h3>
-			<div class="results">
-				{{#if isDispute}}
-					{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
-				{{else}}
-					{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
-				{{/if}}
-			</div>
-		{{/view}}
+		</div>
 	{{/view}}
-</div>
+{{/view}}

@@ -4,8 +4,8 @@
 			<h3 {{bind-attr class=":status status"}}>
 				{{capitalize status}}
 
-				{{#if view.statusButton}}
-					<a {{bind-attr class=":btn :sm view.statusButton.actionName"}} {{action "handleAction" view.statusButton.actionName target="view"}}>{{view.statusButton.buttonText}}</a>
+				{{#if view.statusButtonModalView}}
+					{{view view.statusButtonModalView}}
 				{{/if}}
 			</h3>
 

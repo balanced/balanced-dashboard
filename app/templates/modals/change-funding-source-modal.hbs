@@ -1,18 +1,17 @@
-<div class="modal hide" id="change-funding-source">
-	<form {{action "save" on="submit" target="view"}}>
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Pay with another bank account</h2>
-		</div>
-		<div class="modal-body">
-			{{#unless view.debitable_bank_accounts}}
-				<div class="alert alert-info row-full">
-					You must have at least one verified bank account to change funding sources.
-				</div>
-			{{/unless}}
+<form {{action "save" on="submit" target="view"}}>
+	<div class="modal-body">
+		{{#unless view.debitable_bank_accounts}}
+			<div class="alert alert-info row-full">
+				You must have at least one verified bank account to change funding sources.
+			</div>
+		{{/unless}}
+		{{#if view.model.displayErrorDescription}}
+			<div class="alert alert-error">
+				<p>{{view.model.errorDescription}}</p>
+			</div>
+		{{/if}}
 
-			{{partial "modals/modalErrors"}}
-
+		<div class="modal-content">
 			<div {{bind-attr class=":control-group view.model.validationErrors.source_uri:error"}}>
 				<label>Funding Source</label>
 
@@ -28,16 +27,15 @@
 			</div>
 
 			<div class="control-group">
-				<label class="inline">Name on account</label> {{view.source.name}}
+				<label class="inline">Name on account</label> {{view.model.source.name}}
 			</div>
 
 			<div class="control-group">
-				<label class="inline">Bank</label> {{view.source.bank_name}}
+				<label class="inline">Bank</label> {{view.model.source.bank_name}}
 			</div>
 		</div>
-		<div class="modal-footer">
-			{{view Balanced.ModalActionButtonsView submitTitle="Change"}}
-		</div>
-	</form>
-</div>
-<a href="#" class="change-funding-source-btn" {{action "open"}}>Change</a>
+	</div>
+	<div class="modal-footer">
+		{{view Balanced.ModalActionButtonsView submitTitle="Change"}}
+	</div>
+</form>

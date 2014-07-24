@@ -9,5 +9,5 @@ Balanced.LinkedKeyValueView = Balanced.KeyValueView.extend({
 });
 
 Balanced.EditableKeyValueView = Balanced.KeyValueView.extend({
-	isEditable: true,
+	isEditable: true
 });

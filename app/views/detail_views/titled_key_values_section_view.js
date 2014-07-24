@@ -32,6 +32,7 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 			key: label,
 			value: model.get(field),
 			modalView: modalView,
+			model: model.get('source'),
 			className: className
 		});
 	}
@@ -57,8 +58,10 @@ Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 	}.property("model", "model.id", "model.transaction_number", "model.description", "model.appears_on_statement_as")
 });
 
-Balanced.DisputeTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Dispute information",
+Balanced.DisputeTitledKeyValuesSectionView = Balanced.TransactionTitledKeyValuesSectionView.extend({
+	editModelModalClass: function() {
+		return undefined;
+	}.property(),
 
 	keyValueListViews: function() {
 		return [
@@ -67,7 +70,7 @@ Balanced.DisputeTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 			this.getKeyValueView("Respond by", "respond_by", "date"),
 			this.getKeyValueView("Reason", "reason")
 		];
-	}.property("model")
+	}.property("model", "model.id", "model.initiated_at", "model.respond_by", "model.reason")
 });
 
 Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
@@ -155,5 +158,5 @@ Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 			this.getKeyValueView("To", "to_date", "date"),
 			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView, "change-funding-source-btn")
 		];
-	}.property("model")
+	}.property("model", "model.source")
 });
