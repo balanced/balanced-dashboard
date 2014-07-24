@@ -20,7 +20,9 @@ test('can edit reversal', function(assert) {
 
 	visit(Testing.REVERSAL_ROUTE)
 		.click('.key-value-display .edit-model-link')
-		.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
+		.fillForm("#edit-transaction", {
+			description: "changing desc"
+		})
 		.click('#edit-transaction .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(spy.calledOnce);
@@ -30,8 +32,6 @@ test('can edit reversal', function(assert) {
 });
 
 test('renders metadata correctly', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
-
 	var metaData = {
 		'key': 'value',
 		'other-keey': 'other-vaalue'
@@ -39,9 +39,9 @@ test('renders metadata correctly', function(assert) {
 
 	visit(Testing.REVERSAL_ROUTE)
 		.then(function() {
-			var model = Balanced.__container__.lookup('controller:reversals').get("model");
+			var controller = Balanced.__container__.lookup('controller:reversals');
 			Ember.run(function() {
-				model.set('meta', metaData);
+				controller.set('model.meta', metaData);
 			});
 		})
 		.checkElements({

@@ -6,7 +6,9 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		this.set('alertObj', options);
 		if (options.reset > 0) {
 			setTimeout(function() {
-				self.set("alertObj", null);
+				if (!self.get("isDestroyed")) {
+					self.set("alertObj", null);
+				}
 			}, options.reset);
 		}
 	},
