@@ -28,7 +28,9 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 
 	results: function() {
 		if (Ember.isBlank(this.get("query"))) {
-			return Balanced.SearchModelArray.create();
+			return Balanced.SearchModelArray.create({
+				isLoaded: true
+			});
 		} else {
 			var uri = this.get('resultsUri');
 			var type = this.get('resultsType');

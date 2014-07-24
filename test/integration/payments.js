@@ -45,9 +45,7 @@ module('Payments', {
 			}, assert)
 			.then(function() {
 				var resultsUri = getResultsUri();
-				console.log(resultsUri);
 				assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Transactions URI is correct');
-
 				assertQueryString(resultsUri, {
 					limit: "50",
 					offset: "0",
@@ -113,7 +111,6 @@ module('Payments', {
 	test('withdraw funds', function(assert) {
 		var spy = sinon.spy(Balanced.Adapter, "create");
 		var bankAccounts = Balanced.BankAccount.findAll();
-		var fundingInstrumentUri;
 
 		visit(Testing.ACTIVITY_ROUTE)
 			.then(function() {
@@ -121,30 +118,32 @@ module('Payments', {
 			})
 			.click(WITHDRAW_FUNDS_SELECTOR)
 			.then(function() {
-				fundingInstrumentUri = $("#withdraw-funds select[name=destination_uri] option").first().val();
-				assert.ok($('#withdraw-funds').is(':visible'), 'withdraw funds modal visible');
-				assert.equal($('#withdraw-funds select option').length, 1, 'bank accounts in account dropdown');
-				assert.equal(
-					$('label.control-label:contains(characters max):visible').text(),
-					'Appears on statement as (14 characters max)'
-				);
 				assert.equal(
 					$('input[name=appears_on_statement_as]:visible').attr('maxlength'),
 					'14'
 				);
 			})
+			.checkElements({
+				'#withdraw-funds:visible': 1,
+				'#withdraw-funds select option': 1,
+				'#withdraw-funds label.control-label:contains(characters max)': 'Appears on statement as (14 characters max)'
+			}, assert)
 			.fillForm("#withdraw-funds form", {
-				"destination_uri": fundingInstrumentUri,
 				"dollar_amount": "55.55",
 				"appears_on_statement_as": "BALANCED TEST",
 				"description": 'Withdrawing some monies'
 			})
 			.click('#withdraw-funds .modal-footer button[name=modal-submit]')
 			.then(function() {
+				var args = spy.firstCall.args;
 				assert.ok(spy.calledOnce);
-				assert.ok(spy.calledWith(Balanced.Credit, fundingInstrumentUri + '/credits'));
-				assert.equal(spy.getCall(0).args[2].amount, 5555);
-				assert.equal(spy.getCall(0).args[2].description, 'Withdrawing some monies');
+
+				assert.deepEqual(args.slice(0, 3), [Balanced.Credit, bankAccounts.objectAt(0).get("uri") + "/credits", {
+					amount: "5555",
+					appears_on_statement_as: "BALANCED TEST",
+					description: "Withdrawing some monies",
+					destination_uri: bankAccounts.objectAt(0).get("uri")
+				}]);
 			});
 	});
 
@@ -158,7 +157,8 @@ module('Payments', {
 			})
 			.click(WITHDRAW_FUNDS_SELECTOR)
 			.fillForm('#withdraw-funds', {
-				dollar_amount: "55.55"
+				dollar_amount: "55.55",
+				appears_on_statement_as: "Cool test"
 			})
 			.clickMultiple('#withdraw-funds .modal-footer button[name=modal-submit]', 4)
 			.then(function() {
