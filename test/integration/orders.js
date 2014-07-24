@@ -83,7 +83,7 @@ module('Order Page', {
 		});
 
 		// Pause for 100ms to allow API to catch up
-		Testing.pause(100);
+		// Testing.pause(100);
 	}
 });
 
@@ -117,21 +117,21 @@ test('can visit order page', function(assert) {
 		'.order-customer:last .order-customer-sub-header .reversed': 'Reversed: $1.00',
 		'.order-customer:last .order-customer-sub-header .credited': 'Credited: $20.00'
 	};
+	assert.ok(false, "Pending test");
 
+	/*
 	visit(Testing.ORDER_ROUTE)
-		.then(function() {
-			assert.ok(false, "Pending test");
-		});
-	//		.checkElements(elements, assert);
+		.checkElements(elements, assert);
+		*/
 });
 
 test("can visit orders page", function(assert) {
+	assert.ok(false, "Pending test");
+	/*
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			assert.ok(false, "Pending test");
 		});
 
-	/*
 		.click(".sidebar a:contains(Orders)")
 		.checkElements({
 			"#activity h1": "Orders"
