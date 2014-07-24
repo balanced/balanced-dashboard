@@ -28,7 +28,5 @@
 	{{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
-{{view Balanced.CreditFundingInstrumentModalView funding_instrumentBinding="model"}}
-{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding="model"}}
-{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding="model"}}
+{{view Balanced.DebitFundingInstrumentModalView funding_instrument=model}}
+{{view Balanced.CreditFundingInstrumentModalView funding_instrument=model}}

@@ -12,7 +12,7 @@ module('Charge Card', {
 });
 
 test('form validation', 2, function(assert) {
-	visit(Testing.MARKETPLACES_ROUTE)
+	visit(Testing.MARKETPLACE_ROUTE)
 		.click('.page-navigation a:contains(Debit a card)')
 		.checkElements({
 			"#charge-card button:contains(Debit)": 1

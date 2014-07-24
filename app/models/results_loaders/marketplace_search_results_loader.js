@@ -26,6 +26,16 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 		return mapping[this.get("searchType")] || Balanced.Transaction;
 	}.property("searchType"),
 
+	results: function() {
+		if (Ember.isBlank(this.get("query"))) {
+			return Balanced.SearchModelArray.create();
+		} else {
+			var uri = this.get('resultsUri');
+			var type = this.get('resultsType');
+			return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+		}
+	}.property("query", "resultsUri", "resultsType"),
+
 	queryStringArguments: function() {
 		var q = this.get("query");
 		if (q === "%") {

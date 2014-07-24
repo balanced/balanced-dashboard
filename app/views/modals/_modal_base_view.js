@@ -68,3 +68,8 @@ Balanced.ObjectCreatorModalBaseView = Balanced.ModalBaseView.extend({
 		}
 	}
 });
+
+Balanced.Modals.ModalBaseFooter = Balanced.View.extend({
+	classNameBindings: [":modal-footer"],
+	templateName: "modals/modal_base_footer"
+});

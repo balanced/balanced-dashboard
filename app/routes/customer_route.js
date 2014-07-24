@@ -6,7 +6,9 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 		this._super(controller, customer);
 
 		controller.setProperties({
-			fundingInstrumentsResultsLoader: customer.getFundingInstrumentsLoader({}),
+			fundingInstrumentsResultsLoader: customer.getFundingInstrumentsLoader({
+				limit: 10
+			}),
 			disputesResultsLoader: customer.getDisputesLoader({
 				limit: 10
 			}),

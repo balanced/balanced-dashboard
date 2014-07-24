@@ -1,11 +1,15 @@
 <div class="summary">
-	{{#if status}}
+	{{#if view.status}}
 		<div class="status">
-			<h3 {{bind-attr class=":status status"}}>
-				{{capitalize status}}
+			<h3 {{bind-attr class=":status view.status"}}>
+				{{capitalize view.status}}
 
 				{{#if view.statusButtonModalView}}
-					{{view view.statusButtonModalView}}
+					<div class="pull-right">
+						<a class="btn sm" {{action "openModal" view.statusButtonModalView view.model}}>
+							{{view.statusButtonText}}
+						</a>
+					</div>
 				{{/if}}
 			</h3>
 

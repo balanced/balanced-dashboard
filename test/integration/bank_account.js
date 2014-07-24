@@ -40,7 +40,7 @@ test('credit bank account', function(assert) {
 		})
 		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
-		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
 			// should be one create for the debit
 			assert.ok(stub.calledOnce);
@@ -58,10 +58,10 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 		.click(".page-navigation a.credit-button")
 		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
 		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
-		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#credit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
@@ -92,7 +92,7 @@ test('debit bank account', 4, function(assert) {
 			dollar_amount: '1000',
 			description: 'Test debit'
 		})
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Debit, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/debits', sinon.match({
@@ -116,10 +116,10 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 			dollar_amount: '1000',
 			description: 'Test debit'
 		})
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
-		.click('#debit-funding-instrument .modal-footer button[name="modal-submit"]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 		});
@@ -136,14 +136,11 @@ test('can initiate bank account verification', function(assert) {
 				verification: false
 			});
 		})
-		.checkElements({
-			".page-navigation a.verify-button": 1,
-		}, assert)
-		.click(".page-navigation a.verify-button")
+		.click(".status a:contains(Verify)")
 		.then(function() {
 			assert.ok($('#verify-bank-account:visible'), 'verify bank account modal visible');
 		})
-		.click('#verify-bank-account .modal-footer button[name="modal-submit"]')
+		.click('#verify-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/verifications'));
@@ -157,6 +154,7 @@ test('can confirm bank account verification', function(assert) {
 		.then(function() {
 			setBankAccountProperties({
 				can_debit: false,
+				status: "pending",
 				verification: Balanced.Verification.create({
 					uri: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/bank_account_verifications',
 					verification_status: 'pending',
@@ -164,18 +162,15 @@ test('can confirm bank account verification', function(assert) {
 				})
 			});
 		})
+		.click(".status a:contains(Confirm verification)")
 		.checkElements({
-			".page-navigation a.confirm-verification-button": 1,
+			"#confirm-verification:visible": 1
 		}, assert)
-		.click(".page-navigation a.confirm-verification-button")
-		.then(function() {
-			assert.equal($('#confirm-verification').css('display'), 'block', 'confirm verification modal visible');
-		})
 		.fillForm("#confirm-verification", {
 			amount_1: "1.00",
 			amount_2: "1.00"
 		})
-		.click('#confirm-verification .modal-footer button[name="modal-submit"]')
+		.click('#confirm-verification .modal-footer button[name=modal-submit]')
 		.then(function() {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/bank_account_verifications'));

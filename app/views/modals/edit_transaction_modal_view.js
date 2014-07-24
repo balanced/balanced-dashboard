@@ -13,6 +13,7 @@ Balanced.Modals.EditTransactionModalView = Balanced.ModalBaseView.extend({
 				.then(function() {
 					model.reload();
 					self.get('controller').alert({
+						reset: 5000,
 						type: 'success',
 						message: 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase())
 					});

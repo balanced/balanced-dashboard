@@ -92,7 +92,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 		},
 
 		willTransition: function() {
-			this.controllerFor('search').send('closeSearch');
+			this.controllerFor('marketplace.search').send('closeSearch');
 			this.controllerFor('application').alertTransition();
 		},
 
