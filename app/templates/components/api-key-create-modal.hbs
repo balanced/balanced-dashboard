@@ -2,11 +2,11 @@
 	<form {{action "createKey" on="submit"}}>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Create key</h2>
+			<h2>Add a API key</h2>
 		</div>
 		<div class="modal-body">
 			<div class="control-group">
-				<label class="control-label">Key Name (Optional)</label>
+				<label class="control-label">Name (Optional)</label>
 				{{view Ember.TextField type="text" value=keyName class="full" name="apiKeyName"}}
 			</div>
 		</div>
@@ -16,4 +16,4 @@
 	</form>
 </div>
 
-<a href="#" {{action "open"}} class="add create-api-key-btn">Add a key</a>
+<a href="#" {{action "open"}} class="add pull-right sm create-api-key-btn">Add a key</a>

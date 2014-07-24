@@ -8,7 +8,7 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 	expected_credit_date: function() {
 		return moment().addBusinessDays(this.get('expected_credit_days_offset')).format();
 	}.property('expected_credit_days_offset'),
-
+	isRemoved: Ember.computed.oneWay('status'),
 	isCard: false,
 	isBankAccount: false,
 	formatted_bank_name: function() {

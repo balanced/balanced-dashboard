@@ -165,3 +165,34 @@ Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 		];
 	}.property("model", "model.source")
 });
+
+Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Marketplace information",
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Marketplace ID", "id"),
+			this.getKeyValueView("Name", "name"),
+			this.getKeyValueView("Support email", "support_email_address"),
+			this.getKeyValueView("Domain URL", "domain_url"),
+			this.getKeyValueView("Support phone number", "support_phone_number")
+		];
+	}.property("model")
+});
+
+Balanced.SettingsOwnerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Owner information",
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Type", "owner_customer.type"),
+			this.getKeyValueView("Name", "owner_customer.display_me"),
+			this.getKeyValueView("Support email", "owner_customer.email"),
+			this.getKeyValueView("Address line 1", "owner_customer.address.line1"),
+			this.getKeyValueView("Address line 2", "owner_customer.address.line2"),
+			this.getKeyValueView("City", "owner_customer.address.city"),
+			this.getKeyValueView("State", "owner_customer.address.state"),
+			this.getKeyValueView("Postal code", "owner_customer.address.postal_code"),
+			this.getKeyValueView("Country", "owner_customer.address.country_code"),
+			this.getKeyValueView("Phone number", "owner_customer.phone")
+		];
+	}.property("model.owner_customer")
+});
