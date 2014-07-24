@@ -13,12 +13,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	fromForgotPassword: Ember.computed.equal('from', 'ForgotPassword'),
 
 	init: function() {
-		if (this.get('auth.signedIn')) {
-			this.afterLogin();
-		} else {
-			this.get('auth').on('signInSuccess', _.bind(this.afterLogin, this));
-		}
-
 		this._super();
 		this.focus();
 	},
@@ -52,31 +46,24 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	afterLogin: function() {
-		var auth = this.get('auth');
-		this.setProperties({
-			loginError: false,
-			isSubmitting: false
+		var self = this;
+
+		Ember.run(function() {
+			self.setProperties({
+				loginError: false,
+				isSubmitting: false
+			});
 		});
 
-		var attemptedTransition = auth.get('attemptedTransition');
+		this.transitionToRoute('marketplaces.index');
+	},
 
-		if (attemptedTransition) {
-			Ember.run.next(function() {
-				var transition = attemptedTransition.retry();
+	getEmail: function() {
+		return this.get('email') || $('form input[type=email]').val();
+	},
 
-				transition.then(function() {
-					auth.trigger('signInTransition');
-				}, function() {
-					transition.retry();
-					auth.trigger('signInTransition');
-				});
-
-				auth.set('attemptedTransition', null);
-			});
-		} else {
-			this.transitionToRoute('index');
-			auth.trigger('signInTransition');
-		}
+	getPassword: function() {
+		return this.get('password') || $('form input[type=password]').val();
 	},
 
 	actions: {
@@ -117,10 +104,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			this.set('isSubmitting', true);
 
 			auth.forgetLogin();
-			auth.signIn(
-				this.get('email') || $('form input[type=email]').val(),
-				this.get('password') || $('form input[type=password]').val()
-			)
+			auth
+				.signIn(this.getEmail(), this.getPassword())
 				.then(function() {
 					// When we add the MFA modal to ask users to login
 					// self.send('openMFAInformationModal');

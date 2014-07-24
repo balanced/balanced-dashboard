@@ -83,7 +83,7 @@ module('Order Page', {
 		});
 
 		// Pause for 100ms to allow API to catch up
-		Testing.pause(100);
+		// Testing.pause(100);
 	}
 });
 
@@ -117,19 +117,27 @@ test('can visit order page', function(assert) {
 		'.order-customer:last .order-customer-sub-header .reversed': 'Reversed: $1.00',
 		'.order-customer:last .order-customer-sub-header .credited': 'Credited: $20.00'
 	};
+	assert.ok(false, "Pending test");
 
+	/*
 	visit(Testing.ORDER_ROUTE)
 		.checkElements(elements, assert);
+		*/
 });
 
 test("can visit orders page", function(assert) {
-	visit(Testing.ACTIVITY_ROUTE)
+	assert.ok(false, "Pending test");
+	/*
+	visit(Testing.MARKETPLACE_ROUTE)
+		.then(function() {
+		});
+
 		.click(".sidebar a:contains(Orders)")
 		.checkElements({
 			"#activity h1": "Orders"
 		}, assert)
 		.then(function() {
-			var resultsUri = Balanced.__container__.lookup('controller:activity_orders').get("results_uri");
+			var resultsUri = Balanced.__container__.lookup('controller:marketplace_orders').get("results_uri");
 			assert.deepEqual(resultsUri.split("?")[0], "/marketplaces/" + Testing.MARKETPLACE_ID + "/search");
 
 			assertQueryString(resultsUri, {
@@ -138,4 +146,5 @@ test("can visit orders page", function(assert) {
 				type: "order"
 			}, assert);
 		});
+		*/
 });

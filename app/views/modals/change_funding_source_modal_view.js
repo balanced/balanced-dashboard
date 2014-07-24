@@ -8,7 +8,6 @@ Balanced.ChangeFundingSourceModalView = Balanced.ModalBaseView.extend({
 	source: function() {
 		var debitableBankAccounts = this.get('debitable_bank_accounts');
 		var sourceUri = this.get('source_uri');
-		console.log(debitableBankAccounts, sourceUri)
 		var defaultSource = null;
 
 		if (!debitableBankAccounts) {
@@ -64,7 +63,3 @@ Balanced.ChangeFundingSourceModalView.reopenClass({
 		});
 	}
 });
-
-// {{#if is_not_paid}}
-// 	<span class="hidden-print">{{change-funding-source-modal marketplace=controllers.marketplace.model source_uri=source.uri model=model}}</span>
-// {{/if}}

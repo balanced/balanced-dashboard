@@ -92,7 +92,6 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
 });
 
 Balanced.EmbeddedFundingInstrumentsResultsView = Balanced.FundingInstrumentsResultsView.extend({
-	isSmallTable: true,
 	templateName: 'results/embedded_funding_instruments_table'
 });
 
