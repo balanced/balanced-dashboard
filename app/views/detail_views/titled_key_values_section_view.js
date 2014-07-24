@@ -1,6 +1,10 @@
 Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	templateName: "detail_views/titled_key_values_section",
 
+	title: function() {
+		return "%@ information".fmt(this.get("model.type_name"));
+	}.property("model.type_name"),
+
 	getKeyValueView: function(label, field, format) {
 		var model = this.get("model");
 		var value = model.get(field);
@@ -38,11 +42,16 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	}
 });
 
-Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: function() {
-		return "%@ information".fmt(this.get("model.type_name"));
-	}.property("model.type_name"),
+Balanced.OrderTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	keyValueListViews: function() {
+		return [
+			this.getKeyValueView("Order ID", "id"),
+			this.getKeyValueView("Internal description", "description")
+		];
+	}.property("model", "model.id", "model.description")
+});
 
+Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	editModelModalClass: function() {
 		return Balanced.Modals.EditTransactionModalView;
 	}.property(),
@@ -74,8 +83,6 @@ Balanced.DisputeTitledKeyValuesSectionView = Balanced.TransactionTitledKeyValues
 });
 
 Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Customer information",
-
 	titleModalLinkView: function() {
 		return Balanced.EditCustomerInfoModalView.create({
 			customer: this.get("model")
@@ -149,8 +156,6 @@ Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 });
 
 Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	title: "Account statement information",
-
 	keyValueListViews: function() {
 		return [
 			this.getKeyValueView("Invoice ID", "id"),

@@ -1,6 +1,7 @@
 Balanced.Order = Balanced.Model.extend({
 	uri: '/orders',
 	route_name: 'orders',
+	type_name: 'Order',
 
 	buyers: Balanced.Model.hasMany('buyers', 'Balanced.Customer'),
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),

@@ -1,28 +1,36 @@
-<div id="order">
+{{#view Balanced.PageNavigationView pageType=model.type_name title=model.page_title}}
+	<h1 class="page-value">
+		<div class="page-type">Order escrow</div>
+		{{formatCurrency escrow_balance}}
+	</h1>
+{{/view}}
 
-	<h1 class="page-title">Order</h1>
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.OrderPanelView model=model}}
+		{{view Balanced.OrderSummarySectionView model=model}}
+		{{view Balanced.OrderTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
+	{{/view}}
 
-	<div class="order-header main-header">
-		<div class="row">
-			<div class="span2 label">
-				<i class="icon-order"></i>
-			</div>
-			<div class="span8 title">
-				<span class="nav3d">
-					{{page_title}}
-				</span>
-			</div>
+	{{#view Balanced.MainPanelView}}
+		<h3>Transactions</h3>
+		<div class="results">
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
 		</div>
-	</div>
 
-	<div class="order-sub-header">
-		<span class="created">
-			Created:
-			<time {{bind-attr datetime="transaction.created_at"}} {{bind-attr title="transaction.created_at"}}>{{humanReadableDateShort created_at}}</time>
-		</span>
-		<span class="order-id">Order ID: {{id}}</span>
-	</div>
+		<h3>Logs</h3>
+		<div class="results">
+			{{view Balanced.ResourceLogsView content=model}}
+		</div>
 
+		<h3>Events</h3>
+		<div class="results">
+			{{view Balanced.ResourceEventsView content=model}}
+		</div>
+	{{/view}}
+{{/view}}
+
+<div id="order">
 	<div class="order-summary">
 		<div class="row head">
 			<div class="span">Summary</div>
@@ -76,5 +84,3 @@
 	<h3 class="order-party">Seller</h3>
 	{{order-customer customer=seller credits=credits reversals=reversals order=model}}
 </div>
-
-{{view Balanced.ResourceLogsView contentBinding="model"}}

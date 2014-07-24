@@ -27,13 +27,23 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		}
 
 		if (model.constructor === Balanced.Customer) {
-			return {
-				className: 'icon-customers',
-				title: 'Customer',
-				resource: model,
-				value: model.get('display_me'),
-				hoverValue: model.get('display_me_with_email')
-			};
+			if (parentModel.constructor === Balanced.Order) {
+				return {
+					className: 'icon-customers',
+					title: 'Seller',
+					resource: model,
+					value: model.get('display_me'),
+					hoverValue: model.get('display_me_with_email')
+				};
+			} else {
+				return {
+					className: 'icon-customers',
+					title: 'Customer',
+					resource: model,
+					value: model.get('display_me'),
+					hoverValue: model.get('display_me_with_email')
+				};
+			}
 		}
 
 		if (model.constructor === Balanced.Dispute) {
@@ -134,12 +144,18 @@ Balanced.SummarySectionView = Balanced.View.extend({
 	}
 });
 
+Balanced.OrderSummarySectionView = Balanced.SummarySectionView.extend({
+	linkedResources: function() {
+		return this.resourceLinks("model.seller", "model.debits_list", "model.credits_list", "model.refunds_list", "model.reversals_list");
+	}.property("model.seller", "model.debits_list", "model.credits_list", "model.refunds_list", "model.reversals_list")
+});
+
 Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: Ember.computed.alias('model.status_description'),
 	// Note: missing order links
 	linkedResources: function() {
 		return this.resourceLinks("model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");
-	}.property("model.dispute", "model.refunds.@each", "model.hold", "model.customer", "model.source")
+	}.property("model.dispute", "model.refunds", "model.hold", "model.customer", "model.source")
 });
 
 Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({
@@ -148,21 +164,21 @@ Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({
 	// Note: missing order links
 	linkedResources: function() {
 		return this.resourceLinks("model.reversals", "model.customer", "model.destination");
-	}.property("model.reversals.@each", "model.customer", "model.destination")
+	}.property("model.reversals", "model.customer", "model.destination")
 });
 
 Balanced.RefundSummarySectionView = Balanced.SummarySectionView.extend({
 	// Note: missing order links
 	linkedResources: function() {
 		return this.resourceLinks("model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source");
-	}.property("model.debit.dispute", "model.debit", "model.debit.refunds.@each", "model.debit.customer", "model.debit.source")
+	}.property("model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source")
 });
 
 Balanced.ReversalSummarySectionView = Balanced.SummarySectionView.extend({
 	// Note: missing order links
 	linkedResources: function() {
 		return this.resourceLinks("model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination");
-	}.property("model.credit", "model.credit.reversals.@each", "model.credit.customer", "model.credit.destination")
+	}.property("model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination")
 });
 
 Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
