@@ -26,11 +26,6 @@ Balanced.ChangeFundingSourceModalView = Balanced.ModalBaseView.extend({
 	}.property("model.source.id"),
 	sourceBankAccountName: Ember.computed.oneWay("model.source.name"),
 	sourceBankName: Ember.computed.oneWay("model.source.bank_name"),
-	source: function() {
-		var sourceUri = this.get("source_uri");
-		console.log(sourceUri);
-		return this.get("debitable_bank_accounts").findBy("uri", sourceUri);
-	}.property("source_uri"),
 
 	debitable_bank_accounts: Ember.computed.filterBy("marketplace.owner_customer.bank_accounts", "can_debit"),
 

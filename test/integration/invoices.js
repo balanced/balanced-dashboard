@@ -85,7 +85,6 @@ test('change invoice funding source', function(assert) {
 		.click('#change-funding-source form button[name=modal-submit]')
 		.then(function() {
 			var args = stub.firstCall.args;
-			console.log(stub.firstCall.args);
 			assert.equal(stub.callCount, 1);
 			assert.deepEqual(args.slice(0, 2), [Balanced.Invoice, invoiceUri]);
 			assert.equal(args[2].source_uri, "/bank_accounts/xxxxxxxxxx");
