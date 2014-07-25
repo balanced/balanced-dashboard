@@ -24,7 +24,14 @@
 			</section>
 		{{/if}}
 		{{view Balanced.InvoiceSummarySectionView model=model}}
-		{{view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
+		{{#view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
+			<dt>Payment method
+				<a class="change-funding-source" {{action "openModal" Balanced.ChangeFundingSourceModalView model controllers.marketplace.model}}>
+					<i class="icon-edit"></i>
+				</a>
+			</dt>
+			<dd>{{model.source.description_with_type}}</dd>
+		{{/view}}
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}

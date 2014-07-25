@@ -62,23 +62,32 @@ test('transactions invoice detail page', function(assert) {
 
 test('change invoice funding source', function(assert) {
 	var invoiceUri = '/invoices/IVDOATjeyAPTJMJPnBR83uE';
-	var spy = sinon.spy(Balanced.Adapter, "get");
 	var stub = sinon.stub(Balanced.Adapter, "update");
 	stub.callsArg(3);
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.then(function() {
-			assert.ok(false, "Pending");
-		});
-	/*
-		.click('.change-funding-source-btn')
-		.fillIn('#change-funding-source form select[name=source_uri]', '123')
+			var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
+			Ember.run(function() {
+				var customer = Balanced.Customer.create();
+				marketplace.set("owner_customer", customer);
+				customer.set("bank_accounts", [
+					Ember.Object.create({
+						can_debit: true,
+						uri: "/bank_accounts/xxxxxxxxxx",
+						description: "Super cool"
+					})
+				]);
+			});
+		})
+		.click(".change-funding-source")
+		.fillIn('#change-funding-source form select[name=source]', '123')
 		.click('#change-funding-source form button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
-			assert.equal(spy.callCount, 6);
-			assert.ok(stub.calledWith(Balanced.Invoice, invoiceUri));
+			var args = stub.firstCall.args;
+			console.log(stub.firstCall.args);
 			assert.equal(stub.callCount, 1);
+			assert.deepEqual(args.slice(0, 2), [Balanced.Invoice, invoiceUri]);
+			assert.equal(args[2].source_uri, "/bank_accounts/xxxxxxxxxx");
 		});
-		*/
 });

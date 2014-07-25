@@ -1,5 +1,5 @@
 Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
-	templateName: "detail_views/titled_key_values_section",
+	layoutName: "detail_views/titled_key_values_section",
 
 	title: function() {
 		return "%@ information".fmt(this.get("model.type_name"));
@@ -28,18 +28,6 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 			link: model.get(hrefField)
 		});
 	},
-
-	getEditableKeyValueView: function(label, field, modalView, className) {
-		var model = this.get("model");
-
-		return Balanced.EditableKeyValueView.create({
-			key: label,
-			value: model.get(field),
-			modalView: modalView,
-			model: model.get('source'),
-			className: className
-		});
-	}
 });
 
 Balanced.OrderTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
@@ -160,8 +148,7 @@ Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 		return [
 			this.getKeyValueView("Invoice ID", "id"),
 			this.getKeyValueView("From", "from_date", "date"),
-			this.getKeyValueView("To", "to_date", "date"),
-			this.getEditableKeyValueView("Payment method", "payment_method", Balanced.ChangeFundingSourceModalView, "change-funding-source-btn")
+			this.getKeyValueView("To", "to_date", "date")
 		];
 	}.property("model", "model.source")
 });
@@ -170,7 +157,7 @@ Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValue
 	classNameBindings: [":marketplace-info"],
 	title: "Marketplace information",
 	editModelModalClass: function() {
-		return Balanced.Modals.MarketplaceEditModalView
+		return Balanced.Modals.MarketplaceEditModalView;
 	}.property("model"),
 
 	keyValueListViews: function() {
