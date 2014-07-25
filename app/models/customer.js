@@ -20,6 +20,18 @@ Balanced.Customer = Balanced.Model.extend({
 
 	has_bank_account: Ember.computed.and('bank_accounts.isLoaded', 'bank_accounts.length'),
 
+	orders_list: function() {
+		customer_uri = this.get('href');
+		var orders = this.get('orders') || Ember.A();
+
+		if (customer_uri) {
+			orders = orders.filter(function(order) {
+				return order.get('merchant_uri') === customer_uri;
+			});
+		}
+		return orders;
+	}.property('orders', 'orders.@each.merchant_uri'),
+
 	debitable_bank_accounts: function() {
 		return this.get('bank_accounts').filterBy('can_debit');
 	}.property('bank_accounts.@each.can_debit'),

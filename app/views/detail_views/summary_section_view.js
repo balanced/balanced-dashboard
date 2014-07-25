@@ -13,8 +13,12 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			}
 
 			if (_.isArray(resource.content)) {
+				resource = resource.content;
+			}
+
+			if (resource.length > 0) {
 				var resources = [];
-				_.each(resource.content, function(content) {
+				_.each(resource, function(content) {
 					resources.push(self.generateResourceLink(self.model, content));
 				});
 				return resources;
@@ -136,8 +140,8 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 Balanced.OrderSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
-		return this.resourceLinks("model.seller", "model.buyers", "model.debits_list", "model.credits_list", "model.refunds", "model.reversals");
-	}.property("model.seller", "model.buyers", "model.debits_list", "model.credits_list", "model.refunds", "model.reversals")
+		return this.resourceLinks("model.seller", "model.buyers");
+	}.property("model.seller", "model.buyers")
 });
 
 Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
@@ -207,8 +211,8 @@ Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 	}.property(),
 
 	linkedResources: function() {
-		return this.resourceLinks("model.orders");
-	}.property("model.orders")
+		return this.resourceLinks("model.orders_list");
+	}.property("model.orders_list")
 });
 
 Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({
