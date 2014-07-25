@@ -3,7 +3,7 @@ module("Balanced.ResultsLoader", {
 		Testing.restoreMethods(
 			Balanced.ModelArray.newArrayLoadedFromUri,
 			Balanced.ModelArray.create
-		)
+		);
 	},
 });
 

@@ -3,7 +3,7 @@ module("Balanced.MarketplaceSearchResultsLoader", {
 		Testing.restoreMethods(
 			Balanced.SearchModelArray.newArrayLoadedFromUri,
 			Balanced.SearchModelArray.create
-		)
+		);
 	},
 });
 
