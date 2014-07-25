@@ -50,11 +50,9 @@
 			</td>
 			<td>
 				<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openDeleteModal" funding_instrument}}>
-					<span>
-						{{#unless funding_instrument.isRemoved}}
-							<i class="icon-table-x"></i>
-						{{/unless}}
-					</span>
+					{{#unless funding_instrument.isRemoved}}
+						<i class="icon-table-x"></i>
+					{{/unless}}
 				</a>
 			</td>
 		</tr>
