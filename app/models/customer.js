@@ -21,7 +21,7 @@ Balanced.Customer = Balanced.Model.extend({
 	has_bank_account: Ember.computed.and('bank_accounts.isLoaded', 'bank_accounts.length'),
 
 	orders_list: function() {
-		customer_uri = this.get('href');
+		var customer_uri = this.get('href');
 		var orders = this.get('orders') || Ember.A();
 
 		if (customer_uri) {

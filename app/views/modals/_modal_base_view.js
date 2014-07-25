@@ -53,7 +53,7 @@ Balanced.Modals.ObjectSaveMixin = Ember.Mixin.create({
 				return Ember.RSVP.resolve(savedModel);
 			}, function(errors) {
 				self.set("isSaving", false);
-				return Ember.RSVP.reject(model);
+				return Ember.RSVP.reject(errors);
 			});
 	}
 });

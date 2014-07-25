@@ -39,11 +39,11 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		var uri = this.get('resultsUri');
 		var type = this.get('resultsType');
 		if (Ember.isBlank(uri)) {
-			return Balanced.SearchModelArray.create({
+			return Balanced.ModelArray.create({
 				isLoaded: true
 			});
 		} else {
-			return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+			return Balanced.ModelArray.newArrayLoadedFromUri(uri, type);
 		}
 	}.property("resultsUri", "resultsType"),
 
@@ -71,18 +71,36 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		return queryStringBuilder.getQueryStringAttributes();
 	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit"),
 
+
+	isBulkDownloadCsv: function() {
+		return !Ember.isBlank(this.getCsvExportType());
+	},
+
 	getCsvExportType: function() {
-		return this.get("resultsType") === Balanced.Dispute ?
-			"disputes" :
-			"transactions";
+		var type = this.get("resultsType");
+		if (type === Balanced.Dispute) {
+			return "disputes";
+		} else if (type === Balanced.Transaction) {
+			return "transactions";
+		} else if (type === Balanced.Invoice) {
+			return "invoices";
+		}
 	},
 
 	postCsvExport: function(emailAddress) {
-		var download = Balanced.Download.create({
+		var downloadAttributes = {
 			uri: "/v1" + this.get("resultsUri"),
-			email_address: emailAddress,
-			type: this.getCsvExportType()
-		});
+			email_address: emailAddress
+		};
+		if (this.isBulkDownloadCsv()) {
+			downloadAttributes = {
+				email_address: emailAddress,
+				beginning: this.get("startTime"),
+				ending: this.get("endTime"),
+				type: this.getCsvExportType()
+			};
+		}
+		var download = Balanced.Download.create(downloadAttributes);
 		return download.save();
 	}
 });

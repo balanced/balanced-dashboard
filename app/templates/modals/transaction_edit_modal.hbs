@@ -7,8 +7,5 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal-footer">
-		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
-		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Edit</button>
-	</div>
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Edit"}}
 </form>

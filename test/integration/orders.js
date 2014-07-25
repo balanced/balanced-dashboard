@@ -96,12 +96,7 @@ var assertQueryString = function(string, expected, assert) {
 
 test('can visit order page', function(assert) {
 	visit(Testing.ORDER_ROUTE)
-		.checkPageTitle("Order #123", assert)
-		.assertDictionaryExists(".linked-resources", {
-			"Debit": "$100.00",
-			"Reversal": "$1.00",
-			"Refund": "$2.00",
-		}, assert);
+		.checkPageTitle("Order #123", assert);
 });
 
 test("can visit orders page", function(assert) {
@@ -114,8 +109,6 @@ test("can visit orders page", function(assert) {
 
 			assertQueryString(resultsUri, {
 				limit: "50",
-				offset: "0",
-				type: "order"
 			}, assert);
 		});
 });

@@ -2,7 +2,6 @@ require("app/models/order");
 
 Balanced.OrdersResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Order,
-	path: Ember.computed.oneWay("marketplaces.orders_uri"),
 
 	queryStringArguments: function() {
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
@@ -10,8 +9,6 @@ Balanced.OrdersResultsLoader = Balanced.ResultsLoader.extend({
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
-			type: "order",
-			offset: 0,
 
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime"),
