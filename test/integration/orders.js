@@ -114,8 +114,6 @@ test("can visit orders page", function(assert) {
 
 			assertQueryString(resultsUri, {
 				limit: "50",
-				offset: "0",
-				type: "order"
 			}, assert);
 		});
 });
