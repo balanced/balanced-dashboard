@@ -18,19 +18,20 @@ Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
 				return;
 			}
 
-			user.delete().then(function() {
-				self.setProperties({
-					hasError: false,
-					isSubmitting: false
+			user.delete()
+				.then(function() {
+					self.setProperties({
+						hasError: false,
+						isSubmitting: false
+					});
+					self.get('userMarketplace').notifyPropertyChange('marketplace');
+					self.hide();
+				}, function() {
+					self.setProperties({
+						hasError: true,
+						isSubmitting: false
+					});
 				});
-
-				self.hide();
-			}, function() {
-				self.setProperties({
-					hasError: true,
-					isSubmitting: false
-				});
-			});
 		}
 	}
 });

@@ -62,7 +62,7 @@ Balanced.Test.asyncHelpers = {
 
 		_.each(dictionary, function(value, label) {
 			var labelElement = dl.find("dt:contains(%@)".fmt(label));
-			var valueElement = labelElement.next("dd");
+			var valueElement = labelElement.nextAll("dd:first");
 			assert.equal($.trim(labelElement.text()), label, "%@ contains dt with text \"%@\"".fmt("baseDl", label));
 			assert.equal($.trim(valueElement.text()), value, "%@ contains dd with text \"%@\"".fmt("baseDl", value));
 		});

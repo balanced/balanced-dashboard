@@ -24,7 +24,11 @@ Balanced.ResultsLoader = Ember.Object.extend({
 	resultsUri: function() {
 		var path = this.get("path");
 		var query = this.get("queryStringArguments");
-		return Balanced.Utils.buildUri(path, query);
+		if (path === undefined) {
+			return undefined;
+		} else {
+			return Balanced.Utils.buildUri(path, query);
+		}
 	}.property("path", "queryStringArguments"),
 
 	queryString: function() {
@@ -34,7 +38,13 @@ Balanced.ResultsLoader = Ember.Object.extend({
 	results: function() {
 		var uri = this.get('resultsUri');
 		var type = this.get('resultsType');
-		return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+		if (Ember.isBlank(uri)) {
+			return Balanced.SearchModelArray.create({
+				isLoaded: true
+			});
+		} else {
+			return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+		}
 	}.property("resultsUri", "resultsType"),
 
 	isLoading: Ember.computed.not("results.isLoaded"),

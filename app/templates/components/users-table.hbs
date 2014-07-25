@@ -21,7 +21,7 @@
 				<td class="delete-container">
 					<span>
 						{{#unless user.noDelete}}
-							{{user-delete-modal user=user}}
+							{{user-delete-modal user=user usersList=users userMarketplace=userMarketplace}}
 						{{/unless}}
 					</span>
 				</td>

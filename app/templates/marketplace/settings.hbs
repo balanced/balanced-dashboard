@@ -8,6 +8,10 @@
 
 	{{#view Balanced.MainPanelView}}
 		<h3>Payment methods</h3>
+		<div class="pull-right">
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerAddBankAccountModalView model.owner_customer}}>Add bank account</a>
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerAddCardModalView model.owner_customer}}>Add card</a>
+		</div>
 		<div class="results">
 			{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
 		</div>
@@ -24,7 +28,7 @@
 				<h3>Users
 					{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
 				</h3>
-				{{users-table users=userMarketplace.users}}
+				{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
 			</section>
 		{{/unless}}
 

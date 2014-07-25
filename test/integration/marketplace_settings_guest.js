@@ -29,8 +29,8 @@ module('Marketplace Settings Guest', {
 
 test('can visit page', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
+		.checkPageTitle("Settings", assert)
 		.checkElements({
-			"#content h1": "Settings",
 			'#user-menu > a.dropdown-toggle.gravatar': "Guest user",
 			'.notification-center-message': 1
 		}, assert);
@@ -232,7 +232,7 @@ test('can create checking accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
+		.click('.main-panel a:contains(Add bank account)')
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -271,7 +271,7 @@ test('can fail at creating bank accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
+		.click('.main-panel a:contains(Add bank account)')
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -297,7 +297,7 @@ test('can create savings accounts', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
+		.click(".main-panel a:contains(Add bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -317,54 +317,6 @@ test('can create savings accounts', function(assert) {
 		});
 });
 
-test('create bank account only submits once when clicked multiple times', function(assert) {
-	var spy = sinon.stub(balanced.bankAccount, 'create');
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
-		.fillForm({
-			name: "TEST",
-			account_number: "123",
-			routing_number: "123123123",
-			account_type: "savings"
-		})
-		.click('#add-bank-account .modal-footer button[name=modal-submit]')
-		.click('#add-bank-account .modal-footer button[name=modal-submit]')
-		.click('#add-bank-account .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-		});
-});
-
-test('can delete bank accounts', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var initialLength;
-	var bank;
-
-	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			return Balanced.BankAccount.findAll();
-		})
-		.then(function(bankAccounts) {
-			Ember.run(function() {
-				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-				model.set('owner_customer', Ember.Object.create());
-				model.set('owner_customer.bank_accounts', bankAccounts);
-				bank = bankAccounts.objectAt(0);
-			});
-		})
-		.then(function() {
-			initialLength = $('.bank-account-info .sidebar-items li').length;
-		})
-		.click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-bank-account .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-			assert.ok(spy.calledOnce, "Delete should have been called once");
-			assert.deepEqual(spy.args[0].slice(0, 2), [Balanced.BankAccount, bank.get("href")]);
-		});
-});
-
 test('can create cards', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -375,7 +327,7 @@ test('can create cards', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.card-info a:contains(Add card)')
+		.click('.main-panel a:contains(Add card)')
 		.fillForm("#add-card", {
 			name: "TEST",
 			number: "1234123412341234",
@@ -394,29 +346,6 @@ test('can create cards', function(assert) {
 				address: {}
 			})));
 			assert.ok(tokenizingStub.calledOnce);
-		});
-});
-
-test('can delete cards', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var cards = Balanced.Card.findAll();
-
-	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			Ember.run(function() {
-				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-				model.set('owner_customer', Ember.Object.create());
-				model.set('owner_customer.cards', cards);
-			});
-		})
-		.then(function() {
-			assert.equal($('.card-info .sidebar-items li').length, 1);
-		})
-		.click(".card-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-card .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('.card-info .sidebar-items li').length, 0);
-			assert.ok(spy.calledOnce, "Delete should have been called once");
 		});
 });
 
