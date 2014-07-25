@@ -1,9 +1,10 @@
-Balanced.ChangeFundingSourceModalView = Balanced.ModalBaseView.extend({
-	templateName: 'modals/change_funding_source_modal',
+var Wide = Balanced.Modals.WideModalMixin;
+var Save = Balanced.Modals.ObjectSaveMixin;
+
+Balanced.Modals.InvoiceFundingSourceEditModalView = Balanced.ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/invoice_funding_source_edit_modal',
 	title: 'Change default payment method',
 	elementId: 'change-funding-source',
-	classNameBindings: [":wide-modal", ":modal-overflow"],
-	submitAction: false,
 
 	model: function() {
 		// operate on a copy so we don't mess up the original object
@@ -29,25 +30,14 @@ Balanced.ChangeFundingSourceModalView = Balanced.ModalBaseView.extend({
 
 	debitable_bank_accounts: Ember.computed.filterBy("marketplace.owner_customer.bank_accounts", "can_debit"),
 
-	isSaving: false,
 	actions: {
 		save: function() {
-			var self = this;
-			var invoice = this.get('model');
-			self.set("isSaving", true);
-			invoice
-				.save()
-				.then(function(model) {
-					self.set("isSaving", false);
-					self.close();
-				}, function(errors) {
-					self.set("isSaving", false);
-				});
+			this.save(this.get("model"));
 		}
 	}
 });
 
-Balanced.ChangeFundingSourceModalView.reopenClass({
+Balanced.Modals.InvoiceFundingSourceEditModalView.reopenClass({
 	open: function(invoice, marketplace) {
 		var view = this.create({
 			invoice: invoice,

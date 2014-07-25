@@ -72,11 +72,11 @@
 		<p>If the deposits are not received after five business days, the transactions may have failed because of incorrect bank account information. Remove the erroneous bank account and add a new bank account.</p>
 	</div>
 
-	<div class="modal-footer">
-		{{#unless view.verification.no_attempts_remaining}}
-			{{view Balanced.ModalActionButtonsView submitTitle="Confirm"}}
-		{{else}}
+	{{#if view.verification.no_attempts_remaining}}
+		<div class="modal-footer">
 			<button class="btn secondary" name="modal-submit" data-dismiss="modal" aria-hidden="true">Close</button>
-		{{/unless}}
-	</div>
+		</div>
+	{{else}}
+		{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Confirm"}}
+	{{/if}}
 </form>

@@ -26,7 +26,7 @@
 		{{view Balanced.InvoiceSummarySectionView model=model}}
 		{{#view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
 			<dt>Payment method
-				<a class="change-funding-source" {{action "openModal" Balanced.ChangeFundingSourceModalView model controllers.marketplace.model}}>
+				<a class="change-funding-source" {{action "openModal" Balanced.Modals.InvoiceFundingSourceEditModalView model controllers.marketplace.model}}>
 					<i class="icon-edit"></i>
 				</a>
 			</dt>
