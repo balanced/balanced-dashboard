@@ -1,6 +1,8 @@
-Balanced.Modals.ConfirmVerificationModalView = Balanced.ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
-	templateName: 'modals/confirm_verification_modal',
+var Wide = Balanced.Modals.WideModalMixin;
+var Save = Balanced.Modals.ObjectSaveMixin;
+
+Balanced.Modals.BankAccountVerificationConfirmModalView = Balanced.ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/bank_account_verification_confirm_modal',
 	elementId: 'confirm-verification',
 	title: "Confirm your bank account",
 
@@ -17,23 +19,16 @@ Balanced.Modals.ConfirmVerificationModalView = Balanced.ModalBaseView.extend({
 
 	amount_1_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_1'),
 	amount_2_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_2'),
-	isSaving: false,
 	actions: {
 		save: function() {
 			var self = this;
-			self.set("isSaving", true);
 			var verification = this.get("verification");
-			verification
-				.save()
+			var bankAccount = this.get("bankAccount");
+
+			this.save(verification)
 				.then(function() {
-					self.get("bankAccount").reload();
-					self.setProperties({
-						failedConfirmation: false,
-						isSaving: false
-					});
-					self.close();
+					bankAccount.reload();
 				}, function(errors) {
-					self.errorSaving(errors);
 					self.setProperties({
 						failedConfirmation: true,
 						isSaving: false
@@ -43,7 +38,7 @@ Balanced.Modals.ConfirmVerificationModalView = Balanced.ModalBaseView.extend({
 	}
 });
 
-Balanced.Modals.ConfirmVerificationModalView.reopenClass({
+Balanced.Modals.BankAccountVerificationConfirmModalView.reopenClass({
 	open: function(bankAccount) {
 		return this.create({
 			bankAccount: bankAccount

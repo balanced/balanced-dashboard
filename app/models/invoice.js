@@ -33,14 +33,6 @@ Balanced.Invoice = Balanced.Model.extend({
 	settlements: Balanced.Model.hasMany('settlements', 'Balanced.Settlement'),
 	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 
-	payment_method: function() {
-		if (!this.get('source')) {
-			return 'Manual';
-		}
-
-		return this.get('source.description');
-	}.property('source', 'source.description'),
-
 	from_date: Computed.date(0),
 	to_date: Computed.date(1),
 

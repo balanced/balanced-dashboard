@@ -1,5 +1,16 @@
+var resultsLoaderProperty = function(methodName) {
+	return function() {
+		return this.get("model")[methodName]();
+	}.property("model");
+};
+
 Balanced.OrdersController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
+
+	debitsResultsLoader: resultsLoaderProperty("getDebitsResultsLoader"),
+	creditsResultsLoader: resultsLoaderProperty("getCreditsResultsLoader"),
+	reversalsResultsLoader: resultsLoaderProperty("getReversalsResultsLoader"),
+	refundsResultsLoader: resultsLoaderProperty("getRefundsResultsLoader"),
 
 	amounts: function() {
 		var amounts = {};

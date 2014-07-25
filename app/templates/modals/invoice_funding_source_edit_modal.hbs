@@ -1,0 +1,47 @@
+<form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
+	<div class="modal-body">
+		{{#if view.model.displayErrorDescription}}
+			<div class="alert alert-error">
+				<p>{{view.model.errorDescription}}</p>
+			</div>
+		{{/if}}
+
+		{{#if view.debitable_bank_accounts}}
+			<div {{bind-attr class=":control-group view.model.validationErrors.source_uri:error"}}>
+				<label class="control-label" {{bind-attr for=view.source.elementId}}>Funding source</label>
+
+
+				<div class="controls">
+					{{view Ember.Select
+						content=view.debitable_bank_accounts
+						value=view.sourceId
+						optionValuePath="content.id"
+						optionLabelPath="content.description"
+						prompt="Manual"
+						viewName="source"
+						class="span8"
+						name="source"
+					}}
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Name on account</label>
+				<div class="controls">
+					<span class="label1a">{{view.model.source.name}}</span>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label">Bank</label>
+				<div class="controls">
+					<span class="label1a">{{view.model.source.bank_name}}</span>
+				</div>
+			</div>
+		{{else}}
+			<div class="alert alert-info row-full">
+				You must have at least one verified bank account to change funding sources.
+			</div>
+		{{/if}}
+	</div>
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Change"}}
+</form>

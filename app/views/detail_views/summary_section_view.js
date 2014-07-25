@@ -236,7 +236,7 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		if (status === 'unverified') {
 			return Balanced.Modals.VerifyBankAccountModalView;
 		} else if (status === 'pending') {
-			return Balanced.Modals.ConfirmVerificationModalView;
+			return Balanced.Modals.BankAccountVerificationConfirmModalView;
 		}
 		return undefined;
 	}.property('status'),

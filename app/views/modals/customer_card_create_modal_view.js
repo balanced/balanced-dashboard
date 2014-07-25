@@ -1,6 +1,8 @@
-Balanced.Modals.CustomerAddCardModalView = Balanced.ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
-	templateName: 'modals/customer_add_card_modal',
+var Wide = Balanced.Modals.WideModalMixin;
+var Save = Balanced.Modals.ObjectSaveMixin;
+
+Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/customer_card_create_modal',
 	elementId: "add-card",
 	title: "Add a card",
 
@@ -31,7 +33,22 @@ Balanced.Modals.CustomerAddCardModalView = Balanced.ModalBaseView.extend({
 	expiration_error: Balanced.computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
 
-	isSaving: false,
+	save: function(bankAccount) {
+		var self = this;
+		this.set("isSaving", true);
+		bankAccount.set("validationErrors", null);
+		return bankAccount
+			.tokenizeAndCreate(this.get('customer.id'))
+			.then(function(model) {
+				self.set("isSaving", false);
+				self.close();
+				return model;
+			}, function() {
+				self.set("isSaving", false);
+				return Ember.RSVP.reject();
+			});
+	},
+
 	actions: {
 		toggleOptionalFields: function() {
 			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
@@ -39,24 +56,16 @@ Balanced.Modals.CustomerAddCardModalView = Balanced.ModalBaseView.extend({
 		},
 
 		save: function() {
-			var self = this;
-			var card = this.get('model');
-			card.set("validationErrors", undefined);
-			this.set("isSaving", true);
-			card
-				.tokenizeAndCreate(this.get('customer.id'))
+			var controller = this.get("controller");
+			this.save(this.get("model"))
 				.then(function(model) {
-					self.get("controller").transitionToRoute(model.get("route_name"), model);
-					self.set("isSaving", false);
-					self.close();
-				}, function() {
-					self.set("isSaving", false);
+					controller.transitionToRoute(model.get("route_name"), model);
 				});
 		}
 	}
 });
 
-Balanced.Modals.CustomerAddCardModalView.reopenClass({
+Balanced.Modals.CustomerCardCreateModalView.reopenClass({
 	open: function(customer) {
 		return this.create({
 			customer: customer

@@ -4,14 +4,6 @@ module('Marketplace Settings Guest', {
 		Testing.createBankAccount();
 		Testing.createCard();
 
-		Ember.run(function() {
-			Balanced.Callback.create({
-				uri: '/callbacks',
-				url: 'http://api.com/something',
-				revision: '1.0'
-			}).save();
-		});
-
 		sinon.stub(Ember.Logger, "error");
 	},
 	teardown: function() {
@@ -29,111 +21,11 @@ module('Marketplace Settings Guest', {
 
 test('can visit page', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
+		.checkPageTitle("Settings", assert)
 		.checkElements({
-			"#content h1": "Settings",
 			'#user-menu > a.dropdown-toggle.gravatar': "Guest user",
 			'.notification-center-message': 1
 		}, assert);
-});
-
-test('can manage api keys', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.checkElements({
-			'.api-keys-info tr': 1
-		}, assert)
-		.click('.create-api-key-btn')
-		.fillIn(".modal.create-api-key", {
-			apiKeyName: "Cool Api Key"
-		})
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.checkElements({
-			'.api-keys-info tr': 2
-		}, assert)
-		.click('.confirm-delete-key:first')
-		.checkElements({
-			'.modal.delete-key:visible': 1
-		}, assert)
-		.click('.modal.delete-key:visible button[name=modal-submit]')
-		.checkElements({
-			'.api-keys-info tr': 1
-		}, assert);
-});
-
-test('can add api key', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'create');
-	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.APIKey));
-		})
-		.click('.create-api-key-btn')
-		.fillIn('.modal.create-api-key input.full', 'Test1234')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledTwice);
-			assert.ok(stub.getCall(1).calledWith(
-				sinon.match.any,
-				sinon.match.any,
-				sinon.match.has('meta', {
-					name: 'Test1234'
-				})
-			));
-		});
-});
-
-test('adding api key updates auth', function(assert) {
-	var testSecret = 'amazing-secret';
-	var saveStub = sinon.stub(Balanced.APIKey.prototype, 'save');
-	var stub = sinon.stub(Balanced.Adapter, 'create');
-	saveStub.returns({
-		then: function(callback) {
-			callback(Ember.Object.create({
-				secret: testSecret
-			}));
-		}
-	});
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(
-				Balanced.UserMarketplace,
-				sinon.match.any,
-				sinon.match.has('secret', testSecret)
-			));
-		});
-});
-
-test('cannot delete current api key without a replacement', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.checkElements({
-			".confirm-delete-key": 0
-		}, assert)
-		.then(function() {
-			assert.equal($('.confirm-delete-key').length, 0);
-		})
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.checkElements({
-			".confirm-delete-key": 2
-		}, assert);
-});
-
-test('can delete api key', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'delete');
-	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.click('.confirm-delete-key:first')
-		.click('.modal.delete-key button[name=modal-submit]:visible')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.APIKey));
-		});
 });
 
 test('can update marketplace info', function(assert) {
@@ -144,11 +36,11 @@ test('can update marketplace info', function(assert) {
 				model.set('production', true);
 			});
 		})
-		.click('.marketplace-info a.icon-edit')
-		.fillIn('#edit-marketplace-info .modal-body input[name=name]', 'Test')
+		.click(".marketplace-info .edit-model-link")
+		.fillIn('#edit-marketplace-info .modal-body input[name=name]', 'Test boogie boo')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.checkElements({
-			'.marketplace-info dd[data-property=marketplace-name]': 'Test'
+			'.key-value-display:first dd:contains(Test boogie boo)': 1
 		}, assert);
 });
 
@@ -162,7 +54,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 				model.set('production', true);
 			});
 		})
-		.click('.marketplace-info a.icon-edit')
+		.click(".key-value-display:first .edit-model-link")
 		.fillIn('#edit-marketplace-info .modal-body input[name=name]', 'Test')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
@@ -232,7 +124,7 @@ test('can create checking accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
+		.click('.main-panel a:contains(Add bank account)')
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -271,7 +163,7 @@ test('can fail at creating bank accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
+		.click('.main-panel a:contains(Add bank account)')
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -297,7 +189,7 @@ test('can create savings accounts', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
+		.click(".main-panel a:contains(Add bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -317,54 +209,6 @@ test('can create savings accounts', function(assert) {
 		});
 });
 
-test('create bank account only submits once when clicked multiple times', function(assert) {
-	var spy = sinon.stub(balanced.bankAccount, 'create');
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".bank-account-info a:contains(Add bank account)")
-		.fillForm({
-			name: "TEST",
-			account_number: "123",
-			routing_number: "123123123",
-			account_type: "savings"
-		})
-		.click('#add-bank-account .modal-footer button[name=modal-submit]')
-		.click('#add-bank-account .modal-footer button[name=modal-submit]')
-		.click('#add-bank-account .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
-		});
-});
-
-test('can delete bank accounts', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var initialLength;
-	var bank;
-
-	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			return Balanced.BankAccount.findAll();
-		})
-		.then(function(bankAccounts) {
-			Ember.run(function() {
-				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-				model.set('owner_customer', Ember.Object.create());
-				model.set('owner_customer.bank_accounts', bankAccounts);
-				bank = bankAccounts.objectAt(0);
-			});
-		})
-		.then(function() {
-			initialLength = $('.bank-account-info .sidebar-items li').length;
-		})
-		.click(".bank-account-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-bank-account .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('.bank-account-info .sidebar-items li').length, initialLength - 1);
-			assert.ok(spy.calledOnce, "Delete should have been called once");
-			assert.deepEqual(spy.args[0].slice(0, 2), [Balanced.BankAccount, bank.get("href")]);
-		});
-});
-
 test('can create cards', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
@@ -375,7 +219,7 @@ test('can create cards', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.card-info a:contains(Add card)')
+		.click('.main-panel a:contains(Add card)')
 		.fillForm("#add-card", {
 			name: "TEST",
 			number: "1234123412341234",
@@ -394,90 +238,5 @@ test('can create cards', function(assert) {
 				address: {}
 			})));
 			assert.ok(tokenizingStub.calledOnce);
-		});
-});
-
-test('can delete cards', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "delete");
-	var cards = Balanced.Card.findAll();
-
-	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			Ember.run(function() {
-				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
-				model.set('owner_customer', Ember.Object.create());
-				model.set('owner_customer.cards', cards);
-			});
-		})
-		.then(function() {
-			assert.equal($('.card-info .sidebar-items li').length, 1);
-		})
-		.click(".card-info .sidebar-items li:eq(0) .icon-delete")
-		.click('#delete-card .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('.card-info .sidebar-items li').length, 0);
-			assert.ok(spy.calledOnce, "Delete should have been called once");
-		});
-});
-
-test('shows webhooks', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			assert.equal($('ul.webhooks li').length, 1);
-		});
-});
-
-test('can add webhooks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".webhook-info .add")
-		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
-		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.0')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.equal(stub.getCall(0).args[2].revision, '1.0');
-			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
-		});
-});
-
-test('webhooks get created once if submit button is clicked multiple times', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".webhook-info .add")
-		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
-		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.1')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.equal(stub.getCall(0).args[2].revision, '1.1');
-			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
-		});
-});
-
-test('can delete webhooks', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.click('ul.webhooks li:eq(0) a')
-		.click('#delete-callback:visible .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('ul.webhooks li.no-results').length, 1);
-		});
-});
-
-test('delete webhooks only submits once even if clicked multiple times', function(assert) {
-	var spy = sinon.stub(Balanced.Adapter, "delete");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click('ul.webhooks li:eq(0) a')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
 		});
 });

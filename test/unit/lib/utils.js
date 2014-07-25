@@ -546,3 +546,58 @@ test("#buildUri", function(assert) {
 	}, "/path?milo=cat&roger=dog");
 	test("/path", "milo=cat&roger=dog", "/path?milo=cat&roger=dog");
 });
+
+test("#formatDate", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.formatDate(value, f), expectation);
+	};
+
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "April 1 2011, 12:00 AM");
+	test("2014-07-23T08:39:14+00:00", "July 23 2014,  1:39 AM");
+	test(1000, 1000);
+});
+
+test("#humanReadableDate", function(assert) {
+	var test = function(value, expectation) {
+		assert.deepEqual(Balanced.Utils.humanReadableDate(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "Apr 1, 2011");
+	test("2014-07-23T08:39:14+00:00", "Jul 23, 2014");
+	test(1000, 1000);
+});
+
+test("#humanReadableTime", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.humanReadableTime(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "12:00 AM");
+	test("2014-07-23T18:39:14+00:00", "11:39 AM");
+	test(1000, 1000);
+});
+
+test("#humanReadableDateShort", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.humanReadableDateShort(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "04/1/11, 12:00 AM");
+	test("2014-07-23T08:39:14+00:00", "07/23/14,  1:39 AM");
+	test(1000, 1000);
+});
+
+test("#humanReadableDateLong", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.humanReadableDateLong(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "April 1 2011, 12:00 AM");
+	test("2014-07-23T08:39:14+00:00", "July 23 2014,  1:39 AM");
+	test(1000, 1000);
+});

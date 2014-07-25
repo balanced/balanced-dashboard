@@ -3,11 +3,15 @@
 {{#view Balanced.BodyPanelView}}
 	{{#view Balanced.ApiModelPanelView model=model}}
 		{{view Balanced.SettingsMarketplaceTitledKeyValuesSectionView model=model}}
-		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model}}
+		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model.owner_customer}}
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
 		<h3>Payment methods</h3>
+		<div class="pull-right">
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model.owner_customer}}>Add bank account</a>
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model.owner_customer}}>Add card</a>
+		</div>
 		<div class="results">
 			{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
 		</div>
@@ -24,7 +28,7 @@
 				<h3>Users
 					{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
 				</h3>
-				{{users-table users=userMarketplace.users}}
+				{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
 			</section>
 		{{/unless}}
 
@@ -47,7 +51,7 @@
 								<span class="callback-method"><span class="uppercase">{{callback.method}}</span> {{callback.url}}</span>
 							</td>
 							<td>
-								<a href="#" {{action "openDeleteCallbackModal" callback}}><i class="icon-table-x"></i></a>
+								<a class="delete-callback-link" href="#" {{action "openDeleteCallbackModal" callback}}><i class="icon-table-x"></i></a>
 							</td>
 						</tr>
 					{{else}}
@@ -63,7 +67,6 @@
 	{{/view}}
 {{/view}}
 
-{{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.DeleteCardModalView}}
 {{view Balanced.DeleteCallbackModalView}}

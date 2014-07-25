@@ -22,7 +22,7 @@
 					<label class="control-label">Name</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
+						{{view Ember.TextField value=view.model.name name="name" class="full"}}
 					</div>
 				</div>
 
@@ -30,7 +30,7 @@
 					<label class="control-label">Email</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.email" name="email" class="full"}}
+						{{view Ember.TextField value=view.model.email name="email" class="full"}}
 					</div>
 				</div>
 
@@ -38,7 +38,7 @@
 					<label class="control-label">Business Name</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.business_name" name="business_name" class="full"}}
+						{{view Ember.TextField value=view.model.business_name name="business_name" class="full"}}
 					</div>
 				</div>
 
@@ -46,7 +46,7 @@
 					<label class="control-label">EIN #</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.ein" name="ein" class="full"}}
+						{{view Ember.TextField value=view.model.ein name="ein" class="full"}}
 					</div>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 					<label class="control-label">Street address (line 1)</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.address.line1" name="line1" class="full"}}
+						{{view Ember.TextField value=view.model.address.line1 name="line1" class="full"}}
 					</div>
 				</div>
 
@@ -69,7 +69,7 @@
 					<label class="control-label">Street address (line 2)</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.address.line2" name="line2" class="full"}}
+						{{view Ember.TextField value=view.model.address.line2 name="line2" class="full"}}
 					</div>
 				</div>
 
@@ -77,7 +77,7 @@
 					<label class="control-label">City</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.address.city" name="city" class="full"}}
+						{{view Ember.TextField value=view.model.address.city name="city" class="full"}}
 					</div>
 				</div>
 
@@ -85,7 +85,7 @@
 					<label class="control-label">State or Province</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.address.state" name="state" class="full"}}
+						{{view Ember.TextField value=view.model.address.state name="state" class="full"}}
 					</div>
 				</div>
 
@@ -93,7 +93,7 @@
 					<label class="control-label">Country</label>
 
 					<div class="controls">
-						{{view Balanced.CountrySelectView valueBinding="view.model.address.country_code" name="country_code" class="full"}}
+						{{view Balanced.CountrySelectView value=view.model.address.country_code name="country_code" class="full"}}
 					</div>
 				</div>
 
@@ -101,7 +101,7 @@
 					<label class="control-label">Postal code</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.address.postal_code" name="postal_code" class="full"}}
+						{{view Ember.TextField value=view.model.address.postal_code name="postal_code" class="full"}}
 					</div>
 				</div>
 
@@ -109,7 +109,7 @@
 					<label class="control-label">Phone number</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.phone" name="phone" class="full"}}
+						{{view Ember.TextField value=view.model.phone name="phone" class="full"}}
 					</div>
 				</div>
 
@@ -117,8 +117,8 @@
 					<label class="control-label">Date of Birth</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.dob_month" name="dob_month" placeholder="Month" class="half"}}
-						{{view Ember.TextField valueBinding="view.model.dob_year" name="dob_year" placeholder="Year" class="half"}}
+						{{view Ember.TextField value=view.model.dob_month name="dob_month" placeholder="Month" class="half"}}
+						{{view Ember.TextField value=view.model.dob_year name="dob_year" placeholder="Year" class="half"}}
 					</div>
 				</div>
 
@@ -126,7 +126,7 @@
 					<label class="control-label">SSN # (last 4 digits)</label>
 
 					<div class="controls">
-						{{view Ember.TextField valueBinding="view.model.ssn_last4" name="ssn_last4" class="full"}}
+						{{view Ember.TextField value=view.model.ssn_last4 name="ssn_last4" class="full"}}
 					</div>
 				</div>
 
@@ -134,14 +134,14 @@
 					<div {{bind-attr class=":control-group view.model.validationErrors.facebook:error"}}>
 						<label class="control-label">Facebook ID</label>
 						<div class="controls">
-							{{view Ember.TextField valueBinding="view.model.meta.facebook" name="facebook" class="full"}}
+							{{view Ember.TextField value=view.model.meta.facebook name="facebook" class="full"}}
 						</div>
 					</div>
 
 					<div {{bind-attr class=":control-group view.model.validationErrors.twitter:error"}}>
 						<label class="control-label">Twitter ID</label>
 						<div class="controls">
-							{{view Ember.TextField valueBinding="view.model.meta.twitter" name="twitter" class="full"}}
+							{{view Ember.TextField value=view.model.meta.twitter name="twitter" class="full"}}
 						</div>
 					</div>
 				{{/unless}}

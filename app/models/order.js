@@ -1,14 +1,26 @@
+require("./results_loaders/*");
+
+var generateResultsLoader = function(klass, uriFieldName) {
+	return function(attributes) {
+		attributes = _.extend({
+			path: this.get(uriFieldName)
+		}, attributes);
+		return klass.create(attributes);
+	};
+};
+
 Balanced.Order = Balanced.Model.extend({
 	uri: '/orders',
 	route_name: 'orders',
 	type_name: 'Order',
 
 	buyers: Balanced.Model.hasMany('buyers', 'Balanced.Customer'),
+	seller: Balanced.Model.belongsTo('merchant', 'Balanced.Customer'),
+
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
-	seller: Balanced.Model.belongsTo('merchant', 'Balanced.Customer'),
 
 	page_title: Balanced.computed.orProperties('description', 'id'),
 
@@ -19,6 +31,11 @@ Balanced.Order = Balanced.Model.extend({
 	debits_amount: Balanced.computed.transform('amount', Balanced.Utils.formatCurrency),
 	escrow_balance: Balanced.computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
 	credits_amount: Balanced.computed.transform('amount_credited', Balanced.Utils.formatCurrency),
+
+	getCreditsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "credits_uri"),
+	getDebitsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "debits_uri"),
+	getRefundsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "refunds_uri"),
+	getReversalsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "reversals_uri"),
 
 	// filter credits by those that belong to the customer
 	credits_list: function() {

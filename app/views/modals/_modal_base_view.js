@@ -14,6 +14,7 @@ Balanced.ModalBaseView = Ember.View.extend({
 	reposition: function() {
 		$(window).resize();
 	},
+
 	open: function(container) {
 		var self = this;
 
@@ -32,6 +33,28 @@ Balanced.ModalBaseView = Ember.View.extend({
 		if (modal) {
 			modal.modal('hide');
 		}
+	}
+});
+
+Balanced.Modals.WideModalMixin = Ember.Mixin.create({
+	classNameBindings: [":wide-modal", ":modal-overflow"],
+});
+
+Balanced.Modals.ObjectSaveMixin = Ember.Mixin.create({
+	isSaving: false,
+	save: function(model) {
+		var self = this;
+		this.set("isSaving", true);
+		return model
+			.save()
+			.then(function(savedModel) {
+				self.set("isSaving", false);
+				self.close();
+				return Ember.RSVP.resolve(savedModel);
+			}, function(errors) {
+				self.set("isSaving", false);
+				return Ember.RSVP.reject(model);
+			});
 	}
 });
 

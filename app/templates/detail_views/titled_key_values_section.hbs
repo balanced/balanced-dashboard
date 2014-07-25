@@ -7,7 +7,13 @@
 		{{/if}}
 
 		{{#if view.editModelModalClass}}
-			<a class="pull-right edit-model-link" {{action "openModal" view.editModelModalClass model}}>
+			<a class="pull-right edit-model-link" {{action "openModal" view.editModelModalClass view.model}}>
+				<i class="icon-edit"></i>
+			</a>
+		{{/if}}
+
+		{{#if view.editActionTrigger}}
+			<a class="pull-right edit-model-link" {{action view.editActionTrigger target="view"}}>
 				<i class="icon-edit"></i>
 			</a>
 		{{/if}}
@@ -16,5 +22,6 @@
 		{{#each	item in view.keyValueListViews}}
 			{{view item}}
 		{{/each}}
+		{{yield}}
 	</dl>
 </div>

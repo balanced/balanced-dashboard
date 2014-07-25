@@ -1,9 +1,6 @@
 {{#if view.value}}
 	<dt>
 		{{view.key}}
-		{{#if view.isEditable}}
-			<a {{bind-attr class=view.className}} {{action "openModal" view.modalView model}}><i class="icon-edit"></i></a>
-		{{/if}}
 	</dt>
 	{{#if view.hasLink}}
 		<dd><a {{bind-attr href=view.link}}>{{view.value}}</a></dd>
