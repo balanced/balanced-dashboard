@@ -4,14 +4,6 @@ module('Marketplace Settings Guest', {
 		Testing.createBankAccount();
 		Testing.createCard();
 
-		Ember.run(function() {
-			Balanced.Callback.create({
-				uri: '/callbacks',
-				url: 'http://api.com/something',
-				revision: '1.0'
-			}).save();
-		});
-
 		sinon.stub(Ember.Logger, "error");
 	},
 	teardown: function() {
@@ -36,106 +28,6 @@ test('can visit page', function(assert) {
 		}, assert);
 });
 
-test('can manage api keys', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.checkElements({
-			'.api-keys-info tr': 1
-		}, assert)
-		.click('.create-api-key-btn')
-		.fillIn(".modal.create-api-key", {
-			apiKeyName: "Cool Api Key"
-		})
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.checkElements({
-			'.api-keys-info tr': 2
-		}, assert)
-		.click('.confirm-delete-key:first')
-		.checkElements({
-			'.modal.delete-key:visible': 1
-		}, assert)
-		.click('.modal.delete-key:visible button[name=modal-submit]')
-		.checkElements({
-			'.api-keys-info tr': 1
-		}, assert);
-});
-
-test('can add api key', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'create');
-	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.APIKey));
-		})
-		.click('.create-api-key-btn')
-		.fillIn('.modal.create-api-key input.full', 'Test1234')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledTwice);
-			assert.ok(stub.getCall(1).calledWith(
-				sinon.match.any,
-				sinon.match.any,
-				sinon.match.has('meta', {
-					name: 'Test1234'
-				})
-			));
-		});
-});
-
-test('adding api key updates auth', function(assert) {
-	var testSecret = 'amazing-secret';
-	var saveStub = sinon.stub(Balanced.APIKey.prototype, 'save');
-	var stub = sinon.stub(Balanced.Adapter, 'create');
-	saveStub.returns({
-		then: function(callback) {
-			callback(Ember.Object.create({
-				secret: testSecret
-			}));
-		}
-	});
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(
-				Balanced.UserMarketplace,
-				sinon.match.any,
-				sinon.match.has('secret', testSecret)
-			));
-		});
-});
-
-test('cannot delete current api key without a replacement', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.checkElements({
-			".confirm-delete-key": 0
-		}, assert)
-		.then(function() {
-			assert.equal($('.confirm-delete-key').length, 0);
-		})
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.checkElements({
-			".confirm-delete-key": 2
-		}, assert);
-});
-
-test('can delete api key', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'delete');
-	visit(Testing.SETTINGS_ROUTE)
-		.click('.create-api-key-btn')
-		.click('.modal.create-api-key button[name=modal-submit]')
-		.click('.confirm-delete-key:first')
-		.click('.modal.delete-key button[name=modal-submit]:visible')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.APIKey));
-		});
-});
-
 test('can update marketplace info', function(assert) {
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
@@ -144,11 +36,11 @@ test('can update marketplace info', function(assert) {
 				model.set('production', true);
 			});
 		})
-		.click('.marketplace-info a.icon-edit')
-		.fillIn('#edit-marketplace-info .modal-body input[name=name]', 'Test')
+		.click(".marketplace-info .edit-model-link")
+		.fillIn('#edit-marketplace-info .modal-body input[name=name]', 'Test boogie boo')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.checkElements({
-			'.marketplace-info dd[data-property=marketplace-name]': 'Test'
+			'.key-value-display:first dd:contains(Test boogie boo)': 1
 		}, assert);
 });
 
@@ -162,7 +54,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 				model.set('production', true);
 			});
 		})
-		.click('.marketplace-info a.icon-edit')
+		.click(".key-value-display:first .edit-model-link")
 		.fillIn('#edit-marketplace-info .modal-body input[name=name]', 'Test')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
@@ -346,67 +238,5 @@ test('can create cards', function(assert) {
 				address: {}
 			})));
 			assert.ok(tokenizingStub.calledOnce);
-		});
-});
-
-test('shows webhooks', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			assert.equal($('ul.webhooks li').length, 1);
-		});
-});
-
-test('can add webhooks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".webhook-info .add")
-		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
-		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.0')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.equal(stub.getCall(0).args[2].revision, '1.0');
-			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
-		});
-});
-
-test('webhooks get created once if submit button is clicked multiple times', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".webhook-info .add")
-		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
-		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.1')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.equal(stub.getCall(0).args[2].revision, '1.1');
-			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
-		});
-});
-
-test('can delete webhooks', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
-		.click('ul.webhooks li:eq(0) a')
-		.click('#delete-callback:visible .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.equal($('ul.webhooks li.no-results').length, 1);
-		});
-});
-
-test('delete webhooks only submits once even if clicked multiple times', function(assert) {
-	var spy = sinon.stub(Balanced.Adapter, "delete");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click('ul.webhooks li:eq(0) a')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.click('#delete-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			assert.ok(spy.calledOnce);
 		});
 });

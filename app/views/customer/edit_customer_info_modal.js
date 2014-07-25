@@ -7,16 +7,6 @@ Balanced.EditCustomerInfoModalView = Balanced.ModalView.extend({
 	optionalFieldsOpen: false,
 	controllerEventName: false,
 
-	beforeSave: function() {
-		var customer = this.get('model');
-
-		Balanced.Utils.traverse(customer, function(val, key) {
-			if (!customer.get(key)) {
-				customer.set(key, null);
-			}
-		});
-	},
-
 	afterSave: function() {
 		this.get('customer').reload();
 		this.hide();

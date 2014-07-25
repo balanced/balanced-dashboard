@@ -3,7 +3,7 @@
 {{#view Balanced.BodyPanelView}}
 	{{#view Balanced.ApiModelPanelView model=model}}
 		{{view Balanced.SettingsMarketplaceTitledKeyValuesSectionView model=model}}
-		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model}}
+		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model.owner_customer}}
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
@@ -51,7 +51,7 @@
 								<span class="callback-method"><span class="uppercase">{{callback.method}}</span> {{callback.url}}</span>
 							</td>
 							<td>
-								<a href="#" {{action "openDeleteCallbackModal" callback}}><i class="icon-table-x"></i></a>
+								<a class="delete-callback-link" href="#" {{action "openDeleteCallbackModal" callback}}><i class="icon-table-x"></i></a>
 							</td>
 						</tr>
 					{{else}}
@@ -67,7 +67,6 @@
 	{{/view}}
 {{/view}}
 
-{{view Balanced.EditMarketplaceInfoModalView contentBinding="model" viewName="editMarketplaceInfoModal"}}
 {{view Balanced.DeleteBankAccountModalView}}
 {{view Balanced.DeleteCardModalView}}
 {{view Balanced.DeleteCallbackModalView}}

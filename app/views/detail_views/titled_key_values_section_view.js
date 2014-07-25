@@ -167,7 +167,12 @@ Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView
 });
 
 Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	classNameBindings: [":marketplace-info"],
 	title: "Marketplace information",
+	editModelModalClass: function() {
+		return Balanced.Modals.MarketplaceEditModalView
+	}.property("model"),
+
 	keyValueListViews: function() {
 		return [
 			this.getKeyValueView("Marketplace ID", "id"),
@@ -176,23 +181,41 @@ Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValue
 			this.getKeyValueView("Domain URL", "domain_url"),
 			this.getKeyValueView("Support phone number", "support_phone_number")
 		];
-	}.property("model")
+	}.property("model.id", "model.name", "model.support_phone_number", "model.support_email_address", "model.domain_url"),
 });
 
 Balanced.SettingsOwnerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	classNameBindings: [":owner-info"],
 	title: "Owner information",
+	titleModalLinkView: function() {
+		if (Ember.isBlank(this.get("model"))) {
+			return undefined;
+		}
+		return Balanced.EditCustomerInfoModalView.create({
+			customer: this.get("model"),
+			marketplaceOwner: true
+		});
+	}.property("model"),
 	keyValueListViews: function() {
+		if (Ember.isBlank(this.get("model"))) {
+			return undefined;
+		}
 		return [
-			this.getKeyValueView("Type", "owner_customer.type"),
-			this.getKeyValueView("Name", "owner_customer.display_me"),
-			this.getKeyValueView("Support email", "owner_customer.email"),
-			this.getKeyValueView("Address line 1", "owner_customer.address.line1"),
-			this.getKeyValueView("Address line 2", "owner_customer.address.line2"),
-			this.getKeyValueView("City", "owner_customer.address.city"),
-			this.getKeyValueView("State", "owner_customer.address.state"),
-			this.getKeyValueView("Postal code", "owner_customer.address.postal_code"),
-			this.getKeyValueView("Country", "owner_customer.address.country_code"),
-			this.getKeyValueView("Phone number", "owner_customer.phone")
+			this.getKeyValueView("Type", "type"),
+			this.getKeyValueView("Name", "display_me"),
+			this.getKeyValueView("Support email", "email"),
+			this.getKeyValueView("Address line 1", "address.line1"),
+			this.getKeyValueView("Address line 2", "address.line2"),
+			this.getKeyValueView("City", "address.city"),
+			this.getKeyValueView("State", "address.state"),
+			this.getKeyValueView("Postal code", "address.postal_code"),
+			this.getKeyValueView("Country", "address.country_code"),
+			this.getKeyValueView("Phone number", "phone")
 		];
-	}.property("model.owner_customer")
+	}.property(
+		"model.type", "model.display_me", "model.email", "model.address.line1",
+		"model.address.line2", "model.address.city", "model.address.state",
+		"model.address.postal_code", "model.address.country_code",
+		"model.phone"
+	)
 });
