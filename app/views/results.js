@@ -42,24 +42,6 @@ var Computed = {
 	}
 };
 
-Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
-	templateName: 'results/results_filters_header',
-	tagName: 'div',
-	from: 'activity',
-
-	// UI computed properties
-	transactionsTabSelected: function() {
-		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
-	}.property('controller.category'),
-	customersTabSelected: Computed.isCategorySelected('customer'),
-	ordersTabSelected: Computed.isCategorySelected('order'),
-	fundingInstrumentsTabSelected: Computed.isCategorySelected('funding_instrument'),
-	disputesTabSelected: Computed.isCategorySelected('dispute'),
-
-	show_download_button: Ember.computed.alias('transactionsTabSelected'),
-	show_disputes_download_button: Ember.computed.alias('disputesTabSelected')
-});
-
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
 	classNames: 'items',

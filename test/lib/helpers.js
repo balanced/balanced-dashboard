@@ -57,8 +57,20 @@ Balanced.Test.asyncHelpers = {
 			});
 	},
 
+	assertDictionaryExists: function(app, baseDl, dictionary, assert) {
+		var dl = $(baseDl);
+
+		_.each(dictionary, function(value, label) {
+			var labelElement = dl.find("dt:contains(%@)".fmt(label));
+			var valueElement = labelElement.next("dd");
+			assert.equal($.trim(labelElement.text()), label, "%@ contains dt with text \"%@\"".fmt("baseDl", label));
+			assert.equal($.trim(valueElement.text()), value, "%@ contains dd with text \"%@\"".fmt("baseDl", value));
+		});
+		return;
+	},
+
 	checkPageTitle: function(app, text, assert) {
-		var h1Text = $("#content h1").text().trim().replace(/\s+/gm, " ");
+		var h1Text = $("#content h1.page-title").text().trim().replace(/\s+/gm, " ");
 		assert.deepEqual(h1Text, text);
 	},
 	checkElements: function(app, hash, assert) {

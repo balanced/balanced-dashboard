@@ -17,6 +17,7 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	getCustomersLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "customers_uri"),
 	getDisputesLoader: generateResultsLoader(Balanced.DisputesResultsLoader, "disputes_uri"),
 	getTransactionsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "transactions_uri"),
+	getOrdersLoader: generateResultsLoader(Balanced.OrdersResultsLoader, "orders_uri"),
 	getFundingInstrumentsLoader: function(attributes) {
 		attributes = _.extend({
 			marketplace: this
@@ -26,10 +27,6 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	getLogsLoader: function(attributes) {
 		attributes = _.extend({}, attributes);
 		return Balanced.LogsResultsLoader.create(attributes);
-	},
-	getOrdersLoader: function(attributes) {
-		attributes = _.extend({}, attributes);
-		return Balanced.OrdersResultsLoader.create(attributes);
 	},
 	getSearchLoader: function(attributes) {
 		attributes = _.extend({

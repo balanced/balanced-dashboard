@@ -10,4 +10,13 @@ Balanced.TransactionFactory = Ember.Object.extend(Ember.Validations, {
 			return undefined;
 		}
 	}.property("dollar_amount"),
+
+	validateAndSave: function() {
+		this.validate();
+		if (this.get("isValid")) {
+			return this.save();
+		} else {
+			return Ember.RSVP.reject();
+		}
+	}
 });

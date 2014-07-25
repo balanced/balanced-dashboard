@@ -1,0 +1,67 @@
+<form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
+	<div class="modal-body modal-with-headers">
+		<div class="modal-content">
+			{{partial "modals/modalErrors"}}
+
+			{{#if view.bank_accounts}}
+				<div {{bind-attr class=":control-group view.model.validationErrors.destination_uri:error"}}>
+					<label class="control-label" {{bind-attr for=view.destinationUri.elementId}}>Account number</label>
+
+					<div class="controls">
+						{{view Ember.Select
+							content=view.bank_accounts
+							value=view.model.destination
+							optionValuePath="content"
+							optionLabelPath="content.description"
+							viewName="destinationUri"
+							class="span8"
+							name="destination_uri"
+						}}
+					</div>
+				</div>
+
+				{{view Balanced.FormFields.StaticTextModalFormFieldView
+					label="Name on account"
+					displayText=view.model.destination.name
+				}}
+				{{view Balanced.FormFields.StaticTextModalFormFieldView
+					label="Bank"
+					displayText=view.model.destination.formatted_bank_name
+				}}
+			{{else}}
+				<div class="alert alert-info">
+					You must have at least one bank account to withdraw funds.
+				</div>
+			{{/if}}
+			<hr class="separation-line" />
+
+			<div class="control-group">
+				<label class="control-label">Available balance</label>
+				<div class="controls">
+					<div class="number3a">{{formatCurrency view.marketplace.in_escrow}}</div>
+				</div>
+			</div>
+
+			{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="dollar_amount" label="Amount"}}
+				<div class="input-prepend">
+					<span class="add-on">$</span>
+					{{view Ember.TextField value=view.value class="span3" name="dollar_amount" viewName="inputElement"}}
+				</div>
+			{{/view}}
+
+			{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
+				{{view Ember.TextField value=view.value name="appears_on_statement_as"  viewName="inputElement" class="full" maxlength=view.maxLength}}
+			{{/view}}
+
+			{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="description" label="Internal description"}}
+				{{view Ember.TextField value=view.value class="full" name="description" maxlength=Balanced.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
+			{{/view}}
+		</div>
+	</div>
+
+	<div class="modal-informational">
+		<p>Funds will appear in your balance in 1-2 business days.</p>
+	</div>
+
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Withdraw"}}
+</form>
