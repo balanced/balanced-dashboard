@@ -85,7 +85,7 @@ Balanced.OrderTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.e
 
 Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	editModelModalClass: function() {
-		return Balanced.Modals.EditTransactionModalView;
+		return Balanced.Modals.TransactionEditModalView;
 	}.property(),
 
 	keyValueListViews: function() {
