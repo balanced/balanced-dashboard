@@ -95,50 +95,22 @@ var assertQueryString = function(string, expected, assert) {
 };
 
 test('can visit order page', function(assert) {
-	var elements = {
-		'#content h1.page-title': 'Order',
-		'.order-header .title .nav3d': '#123',
-		'.order-summary .row.debits .quantity': '1',
-		'.order-summary .row.reversals .quantity': '1',
-		'.order-summary .row.refunds .quantity': '1',
-		'.order-summary .row.debits .total': '$100.00',
-		'.order-summary .row.reversals .total': '$1.00',
-		'.order-summary .row.refunds .total': '$2.00',
-		'.order-total h1': '$79.00',
-		'.order-customer': 2,
-		'.transaction-details': 2,
-		'.transaction-details > .ember-view > .refund': 1,
-		'.transaction-details > .ember-view > .debit': 1,
-		'.transaction-details > .ember-view > .credit': 2,
-		'.transaction-details > .ember-view > .reversal': 1,
-		'.transaction-details > div': 5,
-		'.order-customer:first .order-customer-sub-header .refunded': 'Refunded: $2.00',
-		'.order-customer:first .order-customer-sub-header .debited': 'Debited: $100.00',
-		'.order-customer:last .order-customer-sub-header .reversed': 'Reversed: $1.00',
-		'.order-customer:last .order-customer-sub-header .credited': 'Credited: $20.00'
-	};
-	assert.ok(false, "Pending test");
-
-	/*
 	visit(Testing.ORDER_ROUTE)
-		.checkElements(elements, assert);
-		*/
+		.checkPageTitle("Order #123", assert)
+		.assertDictionaryExists(".linked-resources", {
+			"Debit": "$100.00",
+			"Reversal": "$1.00",
+			"Refund": "$2.00",
+		}, assert);
 });
 
 test("can visit orders page", function(assert) {
-	assert.ok(false, "Pending test");
-	/*
 	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-		});
-
 		.click(".sidebar a:contains(Orders)")
-		.checkElements({
-			"#activity h1": "Orders"
-		}, assert)
+		.checkPageTitle("Orders", assert)
 		.then(function() {
-			var resultsUri = Balanced.__container__.lookup('controller:marketplace_orders').get("results_uri");
-			assert.deepEqual(resultsUri.split("?")[0], "/marketplaces/" + Testing.MARKETPLACE_ID + "/search");
+			var resultsUri = Balanced.__container__.lookup('controller:marketplace_orders').get("resultsLoader.resultsUri");
+			assert.deepEqual(resultsUri.split("?")[0], "/orders");
 
 			assertQueryString(resultsUri, {
 				limit: "50",
@@ -146,5 +118,4 @@ test("can visit orders page", function(assert) {
 				type: "order"
 			}, assert);
 		});
-		*/
 });

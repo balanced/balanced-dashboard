@@ -2,7 +2,7 @@ require("app/models/order");
 
 Balanced.OrdersResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Order,
-	path: "/search",
+	path: Ember.computed.oneWay("marketplaces.orders_uri"),
 
 	queryStringArguments: function() {
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
