@@ -1,5 +1,7 @@
-Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
+var Save = Balanced.Modals.ObjectSaveMixin;
+var Wide = Balanced.Modals.WideModalMixin;
+
+Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend(Save, Wide, {
 	templateName: 'modals/marketplace_edit_modal',
 	elementId: "edit-marketplace-info",
 	title: "Edit marketplace information",
@@ -11,18 +13,12 @@ Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend({
 		return marketplace;
 	}.property("marketplace"),
 
-	isSaving: false,
 	actions: {
 		save: function() {
-			var self = this;
-			this.set("isSaving", true);
-			this.get("model")
-				.save()
+			var marketplace = this.get("marketplace");
+			this.save(this.get("model"))
 				.then(function(model) {
-					self.get("marketplace").reload();
-					self.close();
-				}, function(errors) {
-					self.set("isSaving", false);
+					marketplace.reload();
 				});
 		}
 	}

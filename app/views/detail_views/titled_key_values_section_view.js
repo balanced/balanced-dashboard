@@ -7,8 +7,11 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 
 	getFieldValue: function(fieldName) {
 		var model = this.get("model");
-		var value = Ember.get(model, fieldName);
 
+		if (model === undefined) {
+			return;
+		}
+		var value = Ember.get(model, fieldName);
 		if (_.isDate(value)) {
 			value = Balanced.Utils.humanReadableDateLong(value);
 		}
@@ -56,8 +59,9 @@ ListValueGenerator.prototype.add = function(label, fieldName, hrefField) {
 ListValueGenerator.prototype.toProperty = function() {
 	var values = this.values;
 	var fieldNames = values.mapBy("fieldName").map(function(name) {
-		return "model." + name
+		return "model." + name;
 	});
+	fieldNames.push("model");
 	var method = function() {
 		var view = this;
 		return values.map(function(value) {
