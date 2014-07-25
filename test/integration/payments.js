@@ -11,8 +11,8 @@ module('Payments', {
 });
 
 (function() {
-	var ADD_FUNDS_SELECTOR = ".results-actions-bar a:contains(Add funds)";
-	var WITHDRAW_FUNDS_SELECTOR = ".results-actions-bar a:contains(Withdraw funds)";
+	var ADD_FUNDS_SELECTOR = ".nav-item .add-funds-btn";
+	var WITHDRAW_FUNDS_SELECTOR = ".nav-item .withdraw-funds-btn";
 
 	var setupMarketplaceController = function(bankAccounts) {
 		Ember.run(function() {
