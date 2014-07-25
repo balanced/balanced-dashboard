@@ -1,4 +1,4 @@
-module("Customer Page: Delete", {
+module("Customer Page: Delete (Non deterministic)", {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createBankAccount();

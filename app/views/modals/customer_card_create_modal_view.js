@@ -33,11 +33,11 @@ Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide
 	expiration_error: Balanced.computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
 
-	save: function(bankAccount) {
+	save: function(fundingInstrument) {
 		var self = this;
 		this.set("isSaving", true);
-		bankAccount.set("validationErrors", null);
-		return bankAccount
+		fundingInstrument.set("validationErrors", null);
+		return fundingInstrument
 			.tokenizeAndCreate(this.get('customer.id'))
 			.then(function(model) {
 				self.set("isSaving", false);
