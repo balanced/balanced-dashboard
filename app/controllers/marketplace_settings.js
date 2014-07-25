@@ -1,5 +1,5 @@
 Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(
-	Balanced.ActionEvented('openDeleteCardModal', 'openDeleteCallbackModal', 'openDeleteBankAccountModal'), {
+	Balanced.ActionEvented('openDeleteModal', 'openDeleteCallbackModal'), {
 		needs: ["marketplace"],
 
 		can_edit: Ember.computed.alias('production'),
