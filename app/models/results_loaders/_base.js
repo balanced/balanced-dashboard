@@ -39,11 +39,11 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		var uri = this.get('resultsUri');
 		var type = this.get('resultsType');
 		if (Ember.isBlank(uri)) {
-			return Balanced.SearchModelArray.create({
+			return Balanced.ModelArray.create({
 				isLoaded: true
 			});
 		} else {
-			return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+			return Balanced.ModelArray.newArrayLoadedFromUri(uri, type);
 		}
 	}.property("resultsUri", "resultsType"),
 
