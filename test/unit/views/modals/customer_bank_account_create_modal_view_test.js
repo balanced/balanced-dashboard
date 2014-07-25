@@ -1,12 +1,12 @@
-module("Balanced.Modals.CustomerAddBankAccountModalView");
+module("Balanced.Modals.CustomerBankAccountCreateModalView");
 
 test("#model", function(assert) {
-	var subject = Balanced.Modals.CustomerAddBankAccountModalView.create();
+	var subject = Balanced.Modals.CustomerBankAccountCreateModalView.create();
 	assert.equal(subject.get("model.constructor"), Balanced.BankAccount);
 });
 
 test("#save invalid", function(assert) {
-	var view = Balanced.Modals.CustomerAddBankAccountModalView.create();
+	var view = Balanced.Modals.CustomerBankAccountCreateModalView.create();
 	view.get("model").setProperties({
 		account_number: "xxxxxxx",
 		routing_number: "xxxxxxx",
@@ -30,7 +30,7 @@ test("#save", function(assert) {
 		transitionToRoute: sinon.stub()
 	};
 
-	var view = Balanced.Modals.CustomerAddBankAccountModalView.create({
+	var view = Balanced.Modals.CustomerBankAccountCreateModalView.create({
 		model: model,
 		controller: controller,
 		customer: {
