@@ -13,9 +13,8 @@
 		</div>
 
 		<h3>API keys</h3>
-		<span class="warn">(All keys have admin access to the dashboard)</span>
 		{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
-
+		<span>(All keys have admin access to the dashboard)</span>
 		<div class="results">
 			{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
 		</div>
@@ -30,9 +29,8 @@
 		{{/unless}}
 
 		<section class="webhook-info">
-			<h3>Webhooks
-				{{add-callback-modal marketplaceBinding="model"}}
-			</h3>
+			<h3>Webhooks</h3>
+			{{add-callback-modal marketplaceBinding="model"}}
 			<table class="items non-interactive webhooks">
 				<thead>
 					<th class="span3"><span>Version</span></th>

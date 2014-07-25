@@ -16,6 +16,7 @@ Balanced.Customer = Balanced.Model.extend({
 
 	uri: '/customers',
 	route_name: 'customer',
+	type_name: 'Customer',
 
 	has_bank_account: Ember.computed.and('bank_accounts.isLoaded', 'bank_accounts.length'),
 

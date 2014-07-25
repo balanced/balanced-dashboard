@@ -6,25 +6,6 @@
 {{/view}}
 
 <nav class="results-actions-bar">
-	<div class="main-header">
-		<div class="inline dropdown borderless right">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				<span>Escrow: {{controllers.marketplace.formattedEscrowAmount}}</span>
-				<b class="caret"></b>
-			</a>
-			<ul class="dropdown-menu right">
-				<li>
-					<a class="add-funds-btn" {{action "openModal" Balanced.CreateEscrowCreditModalView controllers.marketplace.model}}>Add funds</a>
-				</li>
-				<li>
-					<a class="withdraw-funds-btn" {{action "openModal" Balanced.Modals.MarketplaceEscrowWithdrawalModalView controllers.marketplace.model}}>Withdraw funds</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-</nav>
-
-<nav class="results-actions-bar">
 	<div class="pull-right">
 		{{#unless auth.isGuest}}
 			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
