@@ -5,38 +5,78 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 		return "%@ information".fmt(this.get("model.type_name"));
 	}.property("model.type_name"),
 
-	getKeyValueView: function(label, field, format) {
+	getFieldValue: function(fieldName) {
 		var model = this.get("model");
-		var value = model.get(field);
+		var value = Ember.get(model, fieldName);
 
-		if (format === "date") {
+		if (_.isDate(value)) {
 			value = Balanced.Utils.humanReadableDateLong(value);
 		}
 
+		return value;
+	},
+
+	getKeyValueView: function(label, fieldName) {
+		var value = this.getFieldValue(fieldName);
 		return Balanced.KeyValueView.create({
 			key: label,
 			value: value
 		});
 	},
 
-	getLinkedKeyValueView: function(label, field, hrefField) {
-		var model = this.get("model");
+	getLinkedKeyValueView: function(label, fieldName, hrefFieldName) {
+		var value = this.getFieldValue(fieldName);
+		var link = Ember.get(this.get("model"), hrefFieldName);
 
 		return Balanced.LinkedKeyValueView.create({
 			key: label,
-			value: model.get(field),
-			link: model.get(hrefField)
+			value: value,
+			link: link
 		});
 	},
 });
 
+var ListValueGenerator = function() {
+	this.values = [];
+};
+
+ListValueGenerator.create = function() {
+	return new this();
+};
+
+ListValueGenerator.prototype.add = function(label, fieldName, hrefField) {
+	this.values.push({
+		label: label,
+		fieldName: fieldName,
+		hrefField: hrefField
+	});
+	return this;
+};
+
+ListValueGenerator.prototype.toProperty = function() {
+	var values = this.values;
+	var fieldNames = values.mapBy("fieldName").map(function(name) {
+		return "model." + name
+	});
+	var method = function() {
+		var view = this;
+		return values.map(function(value) {
+			if (Ember.isBlank(value.hrefField)) {
+				return view.getKeyValueView(value.label, value.fieldName);
+			} else {
+				return view.getLinkedKeyValueView(value.label, value.fieldName, value.hrefField);
+			}
+		});
+	};
+
+	return method.property.apply(method, fieldNames);
+};
+
 Balanced.OrderTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Order ID", "id"),
-			this.getKeyValueView("Internal description", "description")
-		];
-	}.property("model", "model.id", "model.description")
+	keyValueListViews: ListValueGenerator.create()
+		.add("Order ID", "id")
+		.add("Internal description", "description")
+		.toProperty()
 });
 
 Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
@@ -60,97 +100,88 @@ Balanced.DisputeTitledKeyValuesSectionView = Balanced.TransactionTitledKeyValues
 		return undefined;
 	}.property(),
 
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Dispute ID", "id"),
-			this.getKeyValueView("Initiated at", "initiated_at", "date"),
-			this.getKeyValueView("Respond by", "respond_by", "date"),
-			this.getKeyValueView("Reason", "reason")
-		];
-	}.property("model", "model.id", "model.initiated_at", "model.respond_by", "model.reason")
+	keyValueListViews: ListValueGenerator.create()
+		.add("Dispute ID", "id")
+		.add("Initiated at", "initiated_at", "date")
+		.add("Respond by", "respond_by", "date")
+		.add("Reason", "reason")
+		.toProperty()
 });
 
 Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
+	title: "Customer information",
 	titleModalLinkView: function() {
 		return Balanced.EditCustomerInfoModalView.create({
 			customer: this.get("model")
 		});
 	}.property("model"),
 
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Customer ID", "id"),
-			this.getKeyValueView("Business Name", "business_name"),
-			this.getKeyValueView("EIN", "ein"),
-			this.getKeyValueView("Name", "name"),
-			this.getKeyValueView("Email", "email"),
-			this.getKeyValueView("Address line 1", "address.line1"),
-			this.getKeyValueView("Address line 2", "address.line2"),
-			this.getKeyValueView("City", "address.city"),
-			this.getKeyValueView("State", "address.state"),
-			this.getKeyValueView("Postal code", "address.postal_code"),
-			this.getKeyValueView("Country", "country_name"),
-			this.getKeyValueView("Phone number", "phone"),
-			this.getKeyValueView("Date of birth", "dob"),
-			this.getKeyValueView("SSN", "ssn_last4"),
-			this.getKeyValueView("Country", "country_name"),
+	keyValueListViews: ListValueGenerator.create()
+		.add("Customer ID", "id")
+		.add("Business Name", "business_name")
+		.add("EIN", "ein")
+		.add("Name", "name")
+		.add("Email", "email")
+		.add("Address line 1", "address.line1")
+		.add("Address line 2", "address.line2")
+		.add("City", "address.city")
+		.add("State", "address.state")
+		.add("Postal code", "address.postal_code")
+		.add("Country", "country_name")
+		.add("Phone number", "phone")
+		.add("Date of birth", "dob")
+		.add("SSN", "ssn_last4")
+		.add("Country", "country_name")
 
-			this.getLinkedKeyValueView("Facebook ID", "facebook_id", "facebook_url"),
-			this.getLinkedKeyValueView("Twitter ID", "twitter_id", "twitter_url")
-		];
-	}.property("model")
+	.add("Facebook ID", "facebook_id", "facebook_url")
+		.add("Twitter ID", "twitter_id", "twitter_url")
+		.toProperty()
 });
 
 Balanced.CardTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	title: "Card information",
 
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Card ID", "id"),
-			this.getKeyValueView("Name on account", "name"),
-			this.getKeyValueView("Type", "type_name"),
-			this.getKeyValueView("Bank", "formatted_bank_name"),
-			this.getKeyValueView("Expiration date", "human_readable_expiration"),
-			this.getKeyValueView("Address line 1", "address.line1"),
-			this.getKeyValueView("Address line 2", "address.line2"),
-			this.getKeyValueView("City", "address.city"),
-			this.getKeyValueView("State", "address.state"),
-			this.getKeyValueView("Postal code", "address.postal_code"),
-			this.getKeyValueView("Country", "address.country_code")
-		];
-	}.property("model")
+	keyValueListViews: ListValueGenerator.create()
+		.add("Card ID", "id")
+		.add("Name on account", "name")
+		.add("Type", "type_name")
+		.add("Bank", "formatted_bank_name")
+		.add("Expiration date", "human_readable_expiration")
+		.add("Address line 1", "address.line1")
+		.add("Address line 2", "address.line2")
+		.add("City", "address.city")
+		.add("State", "address.state")
+		.add("Postal code", "address.postal_code")
+		.add("Country", "address.country_code")
+		.toProperty()
 });
 
 Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	title: "Bank account information",
 
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Bank account ID", "id"),
-			this.getKeyValueView("Name on account", "name"),
-			this.getKeyValueView("Account number", "account_number"),
-			this.getKeyValueView("Routing number", "routing_number"),
-			this.getKeyValueView("Type", "account_type_name"),
-			this.getKeyValueView("Bank", "formatted_bank_name"),
-			this.getKeyValueView("Expiration date", "human_readable_expiration"),
-			this.getKeyValueView("Address line 1", "address.line1"),
-			this.getKeyValueView("Address line 2", "address.line2"),
-			this.getKeyValueView("City", "address.city"),
-			this.getKeyValueView("State", "address.state"),
-			this.getKeyValueView("Postal code", "address.postal_code"),
-			this.getKeyValueView("Country", "address.country_code")
-		];
-	}.property("model")
+	keyValueListViews: ListValueGenerator.create()
+		.add("Bank account ID", "id")
+		.add("Name on account", "name")
+		.add("Account number", "account_number")
+		.add("Routing number", "routing_number")
+		.add("Type", "account_type_name")
+		.add("Bank", "formatted_bank_name")
+		.add("Expiration date", "human_readable_expiration")
+		.add("Address line 1", "address.line1")
+		.add("Address line 2", "address.line2")
+		.add("City", "address.city")
+		.add("State", "address.state")
+		.add("Postal code", "address.postal_code")
+		.add("Country", "address.country_code")
+		.toProperty()
 });
 
 Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Invoice ID", "id"),
-			this.getKeyValueView("From", "from_date", "date"),
-			this.getKeyValueView("To", "to_date", "date")
-		];
-	}.property("model", "model.source")
+	keyValueListViews: ListValueGenerator.create()
+		.add("Invoice ID", "id")
+		.add("From", "from_date", "date")
+		.add("To", "to_date", "date")
+		.toProperty()
 });
 
 Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
@@ -160,20 +191,19 @@ Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValue
 		return Balanced.Modals.MarketplaceEditModalView;
 	}.property("model"),
 
-	keyValueListViews: function() {
-		return [
-			this.getKeyValueView("Marketplace ID", "id"),
-			this.getKeyValueView("Name", "name"),
-			this.getKeyValueView("Support email", "support_email_address"),
-			this.getKeyValueView("Domain URL", "domain_url"),
-			this.getKeyValueView("Support phone number", "support_phone_number")
-		];
-	}.property("model.id", "model.name", "model.support_phone_number", "model.support_email_address", "model.domain_url"),
+	keyValueListViews: ListValueGenerator.create()
+		.add("Marketplace ID", "id")
+		.add("Name", "name")
+		.add("Support email", "support_email_address")
+		.add("Domain URL", "domain_url")
+		.add("Support phone number", "support_phone_number")
+		.toProperty()
 });
 
 Balanced.SettingsOwnerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	classNameBindings: [":owner-info"],
 	title: "Owner information",
+
 	titleModalLinkView: function() {
 		if (Ember.isBlank(this.get("model"))) {
 			return undefined;
@@ -183,26 +213,17 @@ Balanced.SettingsOwnerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSecti
 			marketplaceOwner: true
 		});
 	}.property("model"),
-	keyValueListViews: function() {
-		if (Ember.isBlank(this.get("model"))) {
-			return undefined;
-		}
-		return [
-			this.getKeyValueView("Type", "type"),
-			this.getKeyValueView("Name", "display_me"),
-			this.getKeyValueView("Support email", "email"),
-			this.getKeyValueView("Address line 1", "address.line1"),
-			this.getKeyValueView("Address line 2", "address.line2"),
-			this.getKeyValueView("City", "address.city"),
-			this.getKeyValueView("State", "address.state"),
-			this.getKeyValueView("Postal code", "address.postal_code"),
-			this.getKeyValueView("Country", "address.country_code"),
-			this.getKeyValueView("Phone number", "phone")
-		];
-	}.property(
-		"model.type", "model.display_me", "model.email", "model.address.line1",
-		"model.address.line2", "model.address.city", "model.address.state",
-		"model.address.postal_code", "model.address.country_code",
-		"model.phone"
-	)
+
+	keyValueListViews: ListValueGenerator.create()
+		.add("Type", "type")
+		.add("Name", "display_me")
+		.add("Support email", "email")
+		.add("Address line 1", "address.line1")
+		.add("Address line 2", "address.line2")
+		.add("City", "address.city")
+		.add("State", "address.state")
+		.add("Postal code", "address.postal_code")
+		.add("Country", "address.country_code")
+		.add("Phone number", "phone")
+		.toProperty()
 });

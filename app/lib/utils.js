@@ -336,36 +336,30 @@ Balanced.Utils = Ember.Namespace.create({
 		long: '%B %e %Y, %l:%M %p',
 	},
 
-	humanReadableDate: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.date);
+	formatDate: function(date, format) {
+		if (_.isDate(date)) {
+			return date.strftime(format);
+		} else if (_.isString(date)) {
+			return Date.parseISO8601(date).strftime(format);
 		} else {
-			return isoDate;
+			return date;
 		}
+	},
+
+	humanReadableDate: function(isoDate) {
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.date);
 	},
 
 	humanReadableTime: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.time);
-		} else {
-			return isoDate;
-		}
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.time);
 	},
 
 	humanReadableDateShort: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.short);
-		} else {
-			return isoDate;
-		}
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.short);
 	},
 
 	humanReadableDateLong: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.long);
-		} else {
-			return isoDate;
-		}
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.long);
 	},
 
 	// filters any number that is in the form of a string and longer than 4 digits (bank codes, ccard numbers etc)
