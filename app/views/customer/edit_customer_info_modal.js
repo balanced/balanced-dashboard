@@ -12,6 +12,16 @@ Balanced.EditCustomerInfoModalView = Balanced.ModalView.extend({
 		this.hide();
 	},
 
+	beforeSave: function() {
+		var customer = this.get('model');
+
+		Balanced.Utils.traverse(customer, function(val, key) {
+			if (!customer.get(key)) {
+				customer.set(key, null);
+			}
+		});
+	},
+
 	actions: {
 		open: function() {
 			var customer = Ember.copy(this.get('customer'), true);

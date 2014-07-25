@@ -125,20 +125,20 @@ test('can update customer info only some fields', function(assert) {
 			assert.ok(stub.calledOnce);
 			assert.ok(stub.calledWith(Balanced.Customer));
 
-			assert.equal(stub.getCall(0).args[2].name, "William Henry Cavendish III");
-			assert.equal(stub.getCall(0).args[2].email, "whc@example.org");
-			assert.equal(stub.getCall(0).args[2].business_name, null);
-			assert.equal(stub.getCall(0).args[2].ein, null);
-			assert.equal(stub.getCall(0).args[2].address.line1, '1 1st St');
-			assert.equal(stub.getCall(0).args[2].address.line2, null);
-			assert.equal(stub.getCall(0).args[2].address.city, null);
-			assert.equal(stub.getCall(0).args[2].address.state, null);
-			assert.equal(stub.getCall(0).args[2].address.country_code, null);
-			assert.equal(stub.getCall(0).args[2].address.postal_code, null);
-			assert.equal(stub.getCall(0).args[2].phone, "1231231234");
-			assert.equal(stub.getCall(0).args[2].dob_month, 2);
-			assert.equal(stub.getCall(0).args[2].dob_year, 1947);
-			assert.equal(stub.getCall(0).args[2].ssn_last4, "xxxx");
+			assert.deepEqual(stub.getCall(0).args[2].name, "William Henry Cavendish III");
+			assert.deepEqual(stub.getCall(0).args[2].email, "whc@example.org");
+			assert.deepEqual(stub.getCall(0).args[2].business_name, null);
+			assert.deepEqual(stub.getCall(0).args[2].ein, null);
+			assert.deepEqual(stub.getCall(0).args[2].address.line1, '1 1st St');
+			assert.deepEqual(stub.getCall(0).args[2].address.line2, null);
+			assert.deepEqual(stub.getCall(0).args[2].address.city, null);
+			assert.deepEqual(stub.getCall(0).args[2].address.state, null);
+			assert.deepEqual(stub.getCall(0).args[2].address.country_code, null);
+			assert.deepEqual(stub.getCall(0).args[2].address.postal_code, null);
+			assert.deepEqual(stub.getCall(0).args[2].phone, "1231231234");
+			assert.deepEqual(stub.getCall(0).args[2].dob_month, 2);
+			assert.deepEqual(stub.getCall(0).args[2].dob_year, 1947);
+			assert.deepEqual(stub.getCall(0).args[2].ssn_last4, "xxxx");
 		});
 });
 
