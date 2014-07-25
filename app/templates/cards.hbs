@@ -1,13 +1,15 @@
 {{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
-	<div class="buttons page-actions">
-		{{#if model.customer}}
-			<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
-			<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-			{{#if model.can_credit}}
-				<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+	{{#unless model.isRemoved}}
+		<div class="buttons page-actions">
+			{{#if model.customer}}
+				<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
+				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+				{{#if model.can_credit}}
+					<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+				{{/if}}
 			{{/if}}
-		{{/if}}
-	</div>
+		</div>
+	{{/unless}}
 {{/view}}
 
 {{#view Balanced.BodyPanelView}}

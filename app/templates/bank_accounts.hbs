@@ -1,12 +1,14 @@
 {{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
-	<div class="buttons page-actions">
-		{{#if can_debit}}
-			<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-		{{/if}}
-		{{#if can_credit}}
-			<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
-		{{/if}}
-	</div>
+	{{#unless model.isRemoved}}
+		<div class="buttons page-actions">
+			{{#if can_debit}}
+				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+			{{/if}}
+			{{#if can_credit}}
+				<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+			{{/if}}
+		</div>
+	{{/unless}}
 {{/view}}
 
 {{#view Balanced.BodyPanelView}}
