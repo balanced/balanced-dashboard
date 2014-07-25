@@ -25,6 +25,9 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	},
 
 	actions: {
+		alert: function(options) {
+			this.alert(options);
+		},
 		closeNotificationCenter: function() {
 			this.set('showNotificationCenter', false);
 		},
