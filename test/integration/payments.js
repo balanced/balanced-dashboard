@@ -193,9 +193,11 @@ module('Payments', {
 				assert.equal(stub.firstCall.args[0], Balanced.Download);
 				assert.equal(stub.firstCall.args[1], "/downloads");
 				assert.deepEqual(stub.firstCall.args[2], {
-					email_address: "test@example.com",
-					uri: "/v1/transactions?limit=50&sort=created_at%2Cdesc&offset=0",
-					type: "transactions"
+					"beginning": null,
+					"email_address": "test@example.com",
+					"ending": null,
+					"type": "transactions",
+					"uri": ""
 				});
 			})
 			.checkElements({
