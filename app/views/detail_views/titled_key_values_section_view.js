@@ -7,12 +7,14 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 
 	getFieldValue: function(fieldName) {
 		var model = this.get("model");
+		var dateFields = ["initiated_at", "respond_by", "from_date", "to_date"];
 
 		if (model === undefined) {
 			return;
 		}
 		var value = Ember.get(model, fieldName);
-		if (_.isDate(value)) {
+
+		if (_.contains(dateFields, fieldName)) {
 			value = Balanced.Utils.humanReadableDateLong(value);
 		}
 
@@ -106,8 +108,8 @@ Balanced.DisputeTitledKeyValuesSectionView = Balanced.TransactionTitledKeyValues
 
 	keyValueListViews: ListValueGenerator.create()
 		.add("Dispute ID", "id")
-		.add("Initiated at", "initiated_at", "date")
-		.add("Respond by", "respond_by", "date")
+		.add("Initiated at", "initiated_at")
+		.add("Respond by", "respond_by")
 		.add("Reason", "reason")
 		.toProperty()
 });
@@ -183,8 +185,8 @@ Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	keyValueListViews: ListValueGenerator.create()
 		.add("Invoice ID", "id")
-		.add("From", "from_date", "date")
-		.add("To", "to_date", "date")
+		.add("From", "from_date")
+		.add("To", "to_date")
 		.toProperty()
 });
 
