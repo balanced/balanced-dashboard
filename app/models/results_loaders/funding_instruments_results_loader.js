@@ -16,7 +16,6 @@ Balanced.FundingInstrumentsResultsLoader = Balanced.ResultsLoader.extend({
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
-			offset: 0,
 			type: this.getTypeFilterValue(),
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime"),

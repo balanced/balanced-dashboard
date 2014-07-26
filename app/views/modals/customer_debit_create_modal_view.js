@@ -1,7 +1,9 @@
-Balanced.Modals.DebitCustomerModalView = Balanced.ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
+var Wide = Balanced.Modals.WideModalMixin;
+var Save = Balanced.Modals.ObjectSaveMixin;
+
+Balanced.Modals.CustomerDebitCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
 	elementId: "debit-customer",
-	templateName: "modals/debit_customer_modal",
+	templateName: "modals/customer_debit_create_modal",
 	title: "Debit this customer",
 
 	appearsOnStatementAsMaxLength: Ember.computed.oneWay("model.appears_on_statement_max_length"),
@@ -17,25 +19,19 @@ Balanced.Modals.DebitCustomerModalView = Balanced.ModalBaseView.extend({
 	}.property("customer"),
 	fundingInstruments: Ember.computed.oneWay('customer.debitable_funding_instruments'),
 
-	isSaving: false,
 	actions: {
 		save: function() {
-			var self = this;
-			this.set("isSaving", true);
-			this.get("model")
-				.save()
+			var controller = this.get("controller");
+
+			this.save(this.get("model"))
 				.then(function(model) {
-					self.set("isSaving", false);
-					self.get("controller").transitionToRoute(model.get("route_name"), model);
-					self.close();
-				}, function(errors) {
-					self.set("isSaving", false);
+					controller.transitionToRoute(model.get("route_name"), model);
 				});
 		},
 	}
 });
 
-Balanced.Modals.DebitCustomerModalView.reopenClass({
+Balanced.Modals.CustomerDebitCreateModalView.reopenClass({
 	open: function(customer, order) {
 		return this.create({
 			customer: customer,

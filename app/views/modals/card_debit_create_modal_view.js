@@ -26,7 +26,6 @@ Balanced.Modals.CardDebitCreateModalView = Balanced.ModalBaseView.extend(Save, W
 
 	actions: {
 		save: function() {
-			var self = this;
 			var controller = this.get("controller");
 			this.save(this.get("model"))
 				.then(function(model) {
