@@ -6,7 +6,12 @@
 			</div>
 		{{/if}}
 		<div class="modal-content">
-			<p>{{view.modalMessage}}: <span class="sl-sb">{{humanReadableDateShort view.model.respond_by}}</span></p>
+			<p>{{view.modalMessage}}</p>
+			<ul>
+				{{#each requirement in view.documentRequirements}}
+					<li>{{requirement}}</li>
+				{{/each}}
+			</ul>
 
 			<hr class="separation-line" />
 
@@ -22,8 +27,8 @@
 					<table class="items">
 						<thead>
 							<tr>
-								<th class="span8"><span>File (PDF / DOC / JPEG)</span></th>
-								<th class="span3"><span>Size (Max: 10 MB)</span></th>
+								<th class="span8"><span>File (PDF or JPEG)</span></th>
+								<th class="span3"><span>Size (Max: 1 MB)</span></th>
 								<th class="span1"><span>&nbsp;</span></th>
 							</tr>
 						</thead>
@@ -58,7 +63,7 @@
 				</div>
 			</div>
 			<div {{bind-attr class=":control-group view.model.validationErrors.note:error"}}>
-				<label class="control-label">Note</label>
+				<label class="control-label clearfix">Note</label>
 				<div class="controls row-fluid">
 					{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span" placeholder="Describe your case."}}
 				</div>
@@ -71,6 +76,6 @@
 
 	<div class="modal-footer">
 		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSubmitting"}}>Cancel</button>
-		<button {{bind-attr class=":btn view.isDisabled:disabled"}} type="submit" name="modal-submit" {{bind-attr disabled="view.isDisabled"}}>Attach</button>
+		<button {{bind-attr class=":btn view.isDisabled:disabled"}} type="submit" name="modal-submit" {{bind-attr disabled="view.isDisabled"}}>Submit</button>
 	</div>
 </form>
