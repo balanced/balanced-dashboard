@@ -11,7 +11,7 @@
 		{{#if canUploadDocuments}}
 			<div class="dispute-alert">
 				{{#view Balanced.NotificationMessageView}}
-					Provide documentation by this date to avoid a loss: <span class="sl-sb">{{humanReadableDateLong respond_by}}</span>.
+					Provide documentation by <span class="sl-sb">{{humanReadableDateLong respond_by}}</span> to avoid a loss.
 					<a class="btn" {{action "openModal" Balanced.EvidencePortalModalView model}}>Attach docs</a>
 				{{/view}}
 			</div>
