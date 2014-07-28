@@ -40,7 +40,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 			if (this.get('funding_instrument_type') === 'Debit card') {
 				return "Funds will be available within 2-3 business days";
 			} else {
-				return "Credit is processing, funds will be available the next business day unless there is an issue with the bank account.";
+				return "Credit is processing. Funds will be available the next business day unless there is an issue with the bank account.";
 			}
 
 		} else if (this.get('is_succeeded')) {
@@ -49,7 +49,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 			if (this.get('failure_reason') || this.get('failure_reason_code')) {
 				return this.get('failure_reason') || this.get('failure_reason_code');
 			}
-			return "The transaction failed, no failure reason was given.";
+			return "The transaction failed. No failure reason was given.";
 		} else {
 			return undefined;
 		}
