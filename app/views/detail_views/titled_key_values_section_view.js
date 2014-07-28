@@ -7,7 +7,7 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 
 	getFieldValue: function(fieldName) {
 		var model = this.get("model");
-		var dateFields = ["initiated_at", "respond_by", "from_date", "to_date"];
+		var dateFields = ["created_at", "initiated_at", "respond_by", "from_date", "to_date"];
 
 		if (model === undefined) {
 			return;
