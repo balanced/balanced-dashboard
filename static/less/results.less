@@ -1,6 +1,5 @@
 header.results-label h3 {
-  float: left;
-  margin: 10px 0;
+  margin: 0px;
 }
 
 .results {
@@ -106,7 +105,7 @@ header.results-label h3 {
   td.status {
     text-transform: capitalize;
 
-    a > span:before {
+    span:before {
       content: '';
       display: inline-block;
       width: 8px;
@@ -127,13 +126,13 @@ header.results-label h3 {
       }
     }
 
-    .succeeded, .captured, .created, .won, .paid {
+    .succeeded, .captured, .created, .won, .paid, .good {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .failed, .expired, .lost, .arbitration {
+    .failed, .expired, .lost, .arbitration, .bad {
       &:before {
         background-color: @imperialRed80;
       }
@@ -158,6 +157,7 @@ header.results-label h3 {
   }
 
   .sortable {
+    line-height: 51px;
     display: inline-block;
     padding: 0 10px;
 
@@ -403,4 +403,19 @@ header.results-label h3 {
     color: @gray4;
     vertical-align: text-bottom;
  }
+}
+
+
+/* admin */
+
+.admin-results {
+  td {
+    &:first-child {
+      padding: 10px 10px 10px 25px !important;
+    }
+    a {
+      display: inline !important;
+      text-decoration: underline !important;
+    }
+  }
 }
