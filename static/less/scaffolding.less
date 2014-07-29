@@ -71,9 +71,11 @@
 #site-nav {
   margin-right: 45px;
   position: absolute;
-  top: 0;
+  top: 10px;
+  bottom: 10px;
   right: 0;
   z-index: 2;
+  border-left: 1px solid @gray2;
 
   .nav-login {
     line-height: @headerHeight;
@@ -81,6 +83,14 @@
   .nav-item {
     float: left;
     margin-left: 30px;
+
+    .dropdown-toggle {
+      line-height: 50px;
+
+      .caret {
+        margin-top: 16px;
+      }
+    }
 
     [class^="icon-"] {
       font-size: 12px;

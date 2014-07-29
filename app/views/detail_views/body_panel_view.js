@@ -14,12 +14,10 @@ Balanced.BodyPanelView = Ember.View.extend({
 	},
 
 	updatePanelHeight: function() {
-		var windowHeight = $(window).height();
-		var sidePanelBottom = $('.side-panel').height() + $('.side-panel').offset().top;
-
-		if (windowHeight > sidePanelBottom) {
-			var positionTop = $('.side-panel').offset().top;
-			$('.side-panel').height(windowHeight - positionTop);
-		}
+		var documentHeight = document.body.scrollHeight;
+		var sidePanelTop = $('.side-panel').offset().top;
+		// var sidePanelBottom = $('.side-panel').height() + sidePanelTop;
+		console.log(documentHeight, sidePanelTop, documentHeight - sidePanelTop)
+		$('.side-panel').height(documentHeight - sidePanelTop);
 	}
 });
