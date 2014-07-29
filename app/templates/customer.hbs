@@ -6,7 +6,7 @@
 {{/view}}
 
 {{#view Balanced.BodyPanelView}}
-	{{#view Balanced.ApiModelPanelView model=model}}
+	{{#view Balanced.SidePanelView model=model}}
 		{{view Balanced.CustomerSummarySectionView model=model}}
 		{{view Balanced.CustomerTitledKeyValuesSectionView model=model}}
 		{{view Balanced.MetaView type=model}}
@@ -23,8 +23,8 @@
 		</div>
 
 		<div class="pull-right">
-			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model}}>Add bank account</a>
-			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model}}>Add card</a>
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model}}>Add a bank account</a>
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model}}>Add a card</a>
 		</div>
 		<h3>Payment methods</h3>
 		<div class="results">

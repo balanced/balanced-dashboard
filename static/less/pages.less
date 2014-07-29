@@ -73,10 +73,10 @@
 
 .side-panel {
   .summary {
-    margin: 40px 0;
+    margin-bottom: 40px;
 
     p {
-      color: @gray6;
+      .sl-note;
       padding-left: 17px;
     }
   }
@@ -92,7 +92,7 @@
     }
 
     dt {
-      width: 116px;
+      width: 100px;
       float: left;
 
       [class^="icon-"] {
@@ -103,13 +103,14 @@
     }
 
     dd {
-      width: 128px;
+      width: 144px;
       margin-left: 10px;
     }
   }
 
   div.status {
-    padding-bottom: 30px;
+    .clearfix();
+    margin-bottom: 30px;
 
     h3 {
       text-transform: capitalize;
@@ -117,8 +118,8 @@
       &:before {
         content: '';
         display: inline-block;
-        width: 8px;
-        height: 8px;
+        width: 10px;
+        height: 10px;
         border-radius:100%;
         margin-right: 2px;
         margin-left: 3px;
@@ -126,8 +127,7 @@
     }
 
     .btn {
-      margin-top: -3px;
-      float: right;
+      margin-left: 17px;
     }
 
     .verified, .captured, .succeeded, .paid, .active {
@@ -157,7 +157,7 @@
 //  each section of information should look like
 //  <section class="thisthing-info">...</section>
 section[class$="-info"] {
-  margin: 4em 0;
+  margin: 0 0 4em;
 
   header {
     h3 {
@@ -255,11 +255,12 @@ section[class$="-info"] {
 }
 
 .dispute-alert {
-  margin: -45px -45px 0 -45px;
+  margin: -45px -45px 45px -45px;
 
   .notification-center-message {
     text-align: left;
     margin: 0 45px;
+    line-height: 33px;
   }
   .btn {
     margin-left: 30px;

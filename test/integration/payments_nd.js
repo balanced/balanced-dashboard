@@ -44,7 +44,7 @@
 					"type[in]": "debit,credit,hold,refund"
 				}, assert);
 			})
-			.assertClick('#activity .results table.transactions tfoot td.load-more-results a', assert)
+			.assertClick('#activity .results table.transactions tfoot tr.load-more-results a', assert)
 			.then(function() {
 				var resultsUri = getResultsUri();
 				assertQueryString(resultsUri, {
@@ -91,7 +91,7 @@
 				}, assert);
 			})
 			.checkElements({
-				'#activity .results table.transactions tr td.load-more-results': 1
+				'#activity .results table.transactions tr tr.load-more-results': 1
 			}, assert)
 			.click('#activity .results table.transactions th.type .type-filter li a:contains(Debits)')
 			.then(function() {

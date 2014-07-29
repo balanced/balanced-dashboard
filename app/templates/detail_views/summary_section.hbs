@@ -3,14 +3,6 @@
 		<div class="status">
 			<h3 {{bind-attr class=":status view.status"}}>
 				{{capitalize view.status}}
-
-				{{#if view.statusButtonModalView}}
-					<div class="pull-right">
-						<a class="btn sm" {{action "openModal" view.statusButtonModalView view.model}}>
-							{{view.statusButtonText}}
-						</a>
-					</div>
-				{{/if}}
 			</h3>
 
 			{{#if view.statusText}}
@@ -21,6 +13,12 @@
 						<a {{action "toggleDrawer" view.learnMore.className}}>Learn more</a>
 					{{/if}}
 				</p>
+			{{/if}}
+
+			{{#if view.statusButtonModalView}}
+				<a class="btn sm pull-left" {{action "openModal" view.statusButtonModalView view.model}}>
+					{{view.statusButtonText}}
+				</a>
 			{{/if}}
 
 			{{#if view.learnMore}}

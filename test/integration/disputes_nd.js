@@ -37,7 +37,7 @@ test('exist on the dispute page', function(assert) {
 		})
 		.checkElements(activityDisputesPage, assert)
 		.then(function() {
-			var clickEl = 'table.disputes tfoot td.load-more-results a';
+			var clickEl = 'table.disputes tfoot tr.load-more-results a';
 			if ($(clickEl).length > 0) {
 				click(clickEl);
 			} else {

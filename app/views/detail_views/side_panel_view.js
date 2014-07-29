@@ -9,10 +9,3 @@ Balanced.ApiModelPanelView = Balanced.SidePanelView.extend({
 		return Balanced.Utils.humanReadableDateLong(createdAt);
 	}.property("model.created_at")
 });
-
-Balanced.OrderPanelView = Balanced.ApiModelPanelView.extend({
-	panelTitle: function() {
-		var createdAt = this.get("model.transaction.created_at");
-		return Balanced.Utils.humanReadableDateLong(createdAt);
-	}.property("model.transaction.created_at")
-});

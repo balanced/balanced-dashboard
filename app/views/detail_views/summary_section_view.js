@@ -129,7 +129,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 		if (model.constructor === Balanced.BankAccount) {
 			return {
 				className: 'icon-bank-account',
-				title: model.get('type_name'),
+				title: model.get('type_name').split(' ')[0],
 				resource: model,
 				value: '%@ %@'.fmt(model.get('last_four'), model.get('formatted_bank_name')),
 				hoverValue: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('formatted_bank_name'), model.get('type_name'))
@@ -198,7 +198,7 @@ Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: function() {
 		if (this.get('model.status') === 'unverified') {
-			return 'You may credit this customer, but we recommend collecting more information of this customer for underwriting purposes.';
+			return 'You may credit this customer, but we recommend collecting more information from this customer for underwriting purposes.';
 		}
 		return null;
 	}.property('model.status'),
@@ -228,9 +228,9 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 		if (status === 'pending') {
 			return 'Two deposits have been made to your bank account. Confirm verification by entering the amounts.';
 		} else if (status === 'unverified') {
-			return 'You may credit this bank account. Verify this bank account to debit.';
+			return 'You may only credit to this bank account. You must verify this bank account to debit from it.';
 		} else if (status === 'unverifiable') {
-			return 'You may credit this bank account. This bank account is unverifiable because it\'s missing a customer.';
+			return 'You may only credit to this bank account. This bank account is unverifiable because it\'s not associated with a customer.';
 		}
 		return undefined;
 	}.property('status'),
@@ -247,10 +247,8 @@ Balanced.BankAccountSummarySectionView = Balanced.SummarySectionView.extend({
 
 	statusButtonText: function() {
 		var status = this.get('status');
-		if (status === 'unverified') {
+		if (status === 'unverified' || status === 'pending') {
 			return "Verify";
-		} else if (status === 'pending') {
-			return "Confirm verification";
 		}
 		return undefined;
 	}.property("status"),

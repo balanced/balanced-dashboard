@@ -1,9 +1,19 @@
 <div class="page-navigation clearfix">
-	<h1 class="page-title">
+	<div class="left-page-navigation">
 		{{#if view.pageType}}
 			<div class="page-type">{{view.pageType}}</div>
 		{{/if}}
-		{{view.title}}
-	</h1>
+
+		<h1 class="page-title">
+			{{view.title}}
+		</h1>
+
+		{{#unless view.hideDateFilter}}
+			{{#unless view.pageType}}
+				{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+			{{/unless}}
+		{{/unless}}
+	</div>
+
 	{{yield}}
 </div>

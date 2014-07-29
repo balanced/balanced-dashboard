@@ -1,34 +1,39 @@
-{{view Balanced.PageNavigationView title="Settings"}}
+{{view Balanced.PageNavigationView title="Settings" hideDateFilter=true}}
 
 {{#view Balanced.BodyPanelView}}
-	{{#view Balanced.ApiModelPanelView model=model}}
+	{{#view Balanced.SidePanelView model=model}}
 		{{view Balanced.SettingsMarketplaceTitledKeyValuesSectionView model=model}}
 		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model.owner_customer}}
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
-		<h3>Payment methods</h3>
-		<div class="pull-right">
-			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model.owner_customer}}>Add bank account</a>
-			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model.owner_customer}}>Add card</a>
-		</div>
-		<div class="results">
-			{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
-		</div>
+		<section class="payment-method-info">
+			<h3>Payment methods</h3>
+			<div class="pull-right">
+				<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model.owner_customer}}>Add a bank account</a>
+				<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model.owner_customer}}>Add a card</a>
+			</div>
+			<div class="results">
+				{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
+			</div>
+		</section>
 
-		<h3>API keys</h3>
-		{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
-		<span>(All keys have admin access to the dashboard)</span>
-		<div class="results">
-			{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
-		</div>
+		<section class="api-key-info">
+			<h3>API keys</h3>
+			{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
+			<span class="sl-note">(All keys have admin access to the dashboard)</span>
+			<div class="results">
+				{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
+			</div>
+		</section>
 
 		{{#unless auth.isGuest}}
 			<section class="users-info">
-				<h3>Users
-					{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
-				</h3>
-				{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
+				<h3>Users</h3>
+				{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
+				<div class="results">
+					{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
+				</div>
 			</section>
 		{{/unless}}
 
