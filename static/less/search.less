@@ -45,8 +45,6 @@
 
   &.focus {
     .search-field-container {
-      border-bottom: 1px solid @black;
-
       .icon-search {
         color: @black;
       }
@@ -59,10 +57,6 @@
     padding: 0 @searchPostLabelWidth 0 @searchIconWidth;
     position: relative;
     z-index: 2;
-
-    &.search-highlight {
-      border-bottom: 1px solid @black;
-    }
 
     .icon-search {
       .sl-24;
@@ -118,14 +112,11 @@
     background-color: @white;
     border-bottom: 1px solid @gray2;
   }
-  &.with-results .search-field-container {
-    border-bottom: 1px solid @black;
-  }
 }
 
 #q {
   .sl-lg;
-  color: @gray3;
+  color: @gray2;
   display: inline-block;
   background-color: transparent;
   line-height: 1.5em;
@@ -138,6 +129,6 @@
   height: @searchBoxHeight;
 
   &:focus {
-    color: @gray7;
+    color: @black;
   }
 }

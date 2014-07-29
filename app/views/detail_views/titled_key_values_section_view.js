@@ -93,8 +93,8 @@ Balanced.TransactionTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 	keyValueListViews: function() {
 		var idTitle = "%@ ID".fmt(this.get("model.type_name"));
 		return [
-			this.getKeyValueView(idTitle, "id"),
 			this.getKeyValueView("Created at", "created_at"),
+			this.getKeyValueView(idTitle, "id"),
 			this.getKeyValueView("Transaction number", "transaction_number"),
 			this.getKeyValueView("Internal description", "description"),
 			this.getKeyValueView("On statement as", "appears_on_statement_as")
@@ -108,8 +108,8 @@ Balanced.DisputeTitledKeyValuesSectionView = Balanced.TransactionTitledKeyValues
 	}.property(),
 
 	keyValueListViews: ListValueGenerator.create()
-		.add("Dispute ID", "id")
 		.add("Created at", "created_at")
+		.add("Dispute ID", "id")
 		.add("Initiated at", "initiated_at")
 		.add("Respond by", "respond_by")
 		.add("Reason", "reason")
@@ -125,8 +125,8 @@ Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionVie
 	}.property("model"),
 
 	keyValueListViews: ListValueGenerator.create()
-		.add("Customer ID", "id")
 		.add("Created at", "created_at")
+		.add("Customer ID", "id")
 		.add("Business Name", "business_name")
 		.add("EIN", "ein")
 		.add("Name", "name")
@@ -151,8 +151,8 @@ Balanced.CardTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.ex
 	title: "Card information",
 
 	keyValueListViews: ListValueGenerator.create()
-		.add("Card ID", "id")
 		.add("Created at", "created_at")
+		.add("Card ID", "id")
 		.add("Name on account", "name")
 		.add("Type", "type_name")
 		.add("Bank", "formatted_bank_name")
@@ -170,8 +170,8 @@ Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 	title: "Bank account information",
 
 	keyValueListViews: ListValueGenerator.create()
-		.add("Bank account ID", "id")
 		.add("Created at", "created_at")
+		.add("Bank account ID", "id")
 		.add("Name on account", "name")
 		.add("Account number", "account_number")
 		.add("Routing number", "routing_number")
@@ -189,8 +189,8 @@ Balanced.BankAccountTitledKeyValuesSectionView = Balanced.TitledKeyValuesSection
 
 Balanced.InvoiceTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionView.extend({
 	keyValueListViews: ListValueGenerator.create()
-		.add("Invoice ID", "id")
 		.add("Created at", "created_at")
+		.add("Invoice ID", "id")
 		.add("From", "from_date")
 		.add("To", "to_date")
 		.toProperty()
@@ -204,8 +204,8 @@ Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValue
 	}.property("model"),
 
 	keyValueListViews: ListValueGenerator.create()
-		.add("Marketplace ID", "id")
 		.add("Created at", "created_at")
+		.add("Marketplace ID", "id")
 		.add("Name", "name")
 		.add("Support email", "support_email_address")
 		.add("Domain URL", "domain_url")
