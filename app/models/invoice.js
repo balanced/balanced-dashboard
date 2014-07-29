@@ -85,8 +85,8 @@ Balanced.Invoice = Balanced.Model.extend({
 	}.property('state', 'total_fee'),
 
 	is_not_paid: function() {
-		return this.get('state') !== 'pending';
-	}.property('state'),
+		return this.get('status') !== 'paid';
+	}.property('status'),
 
 	reversal_fee: 0,
 

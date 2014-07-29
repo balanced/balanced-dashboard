@@ -26,11 +26,13 @@
 		{{view Balanced.InvoiceSummarySectionView model=model}}
 		{{#view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
 			<dt>Payment method
-				<a class="change-funding-source" {{action "openModal" Balanced.Modals.InvoiceFundingSourceEditModalView model controllers.marketplace.model}}>
-					<i class="icon-edit"></i>
-				</a>
+				{{#if is_not_paid}}
+					<a class="change-funding-source" {{action "openModal" Balanced.Modals.InvoiceFundingSourceEditModalView model controllers.marketplace.model}}>
+						<i class="icon-edit"></i>
+					</a>
+				{{/if}}
 			</dt>
-			<dd>{{model.source.description_with_type}}</dd>
+			<dd>{{#link-to model.source.route_name model.source}}{{model.source.title_description}}{{/link-to}}</dd>
 		{{/view}}
 	{{/view}}
 
