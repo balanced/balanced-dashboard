@@ -12,7 +12,8 @@ module('Reversals', {
 
 test('can visit page', function(assert) {
 	visit(Testing.REVERSAL_ROUTE)
-		.checkPageTitle("Reversal $100.00", assert);
+		.checkPageType("Reversal", assert)
+		.checkPageTitle("$100.00", assert);
 });
 
 test('can edit reversal', function(assert) {

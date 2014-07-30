@@ -13,7 +13,8 @@ module('Credits', {
 
 test('can visit page', function(assert) {
 	visit(Testing.CREDIT_ROUTE)
-		.checkPageTitle("Credit $100.00", assert);
+		.checkPageType("Credit", assert)
+		.checkPageTitle("$100.00", assert);
 });
 
 test('can reverse credit', function(assert) {

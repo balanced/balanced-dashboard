@@ -12,7 +12,8 @@ module('Card Page', {
 
 test('can view card page', function(assert) {
 	visit(Testing.CARD_ROUTE)
-		.checkPageTitle("Credit card 1111 Visa", assert);
+		.checkPageType("Credit card", assert)
+		.checkPageTitle("1111 Visa", assert);
 });
 
 test('debit card', function(assert) {

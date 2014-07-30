@@ -69,6 +69,10 @@ Balanced.Test.asyncHelpers = {
 		return;
 	},
 
+	checkPageType: function(app, text, assert) {
+		var h1Text = $("#content .page-type").text().trim().replace(/\s+/gm, " ");
+		assert.deepEqual(h1Text, text);
+	},
 	checkPageTitle: function(app, text, assert) {
 		var h1Text = $("#content h1.page-title").text().trim().replace(/\s+/gm, " ");
 		assert.deepEqual(h1Text, text);

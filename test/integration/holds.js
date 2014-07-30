@@ -25,7 +25,8 @@ module('Holds', {
 
 test('can visit page', function(assert) {
 	visit(Testing.HOLD_ROUTE)
-		.checkPageTitle("Hold $100.00", assert);
+		.checkPageType("Hold", assert)
+		.checkPageTitle("$100.00", assert);
 });
 
 test('can void hold', function(assert) {

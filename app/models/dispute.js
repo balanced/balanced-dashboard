@@ -32,7 +32,7 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 			if (this.get('hasNotExpired')) {
 				this.set('status', 'new');
 			} else {
-				this.set('status', 'representment');
+				this.set('status', 'submitted');
 			}
 		}
 	}.observes('status').on('init'),

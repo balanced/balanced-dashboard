@@ -17,7 +17,8 @@ module('Customer Page', {
 
 test('can view customer page', function(assert) {
 	visit(Testing.CUSTOMER_ROUTE)
-		.checkPageTitle("Customer William Henry Cavendish III", assert);
+		.checkPageType("Customer", assert)
+		.checkPageTitle("William Henry Cavendish III", assert);
 });
 
 test('can edit customer info', function(assert) {

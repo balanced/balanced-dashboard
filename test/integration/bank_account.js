@@ -19,7 +19,8 @@ var setBankAccountProperties = function(properties) {
 
 test('can view bank account page', function(assert) {
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.checkPageTitle("Checking account 1234 Wells Fargo Bank", assert);
+		.checkPageType("Checking account", assert)
+		.checkPageTitle("1234 Wells Fargo Bank", assert);
 });
 
 test('credit bank account', function(assert) {
@@ -162,7 +163,7 @@ test('can confirm bank account verification', function(assert) {
 				})
 			});
 		})
-		.click(".status a:contains(Confirm verification)")
+		.click(".status a:contains(Verify)")
 		.checkElements({
 			"#confirm-verification:visible": 1
 		}, assert)

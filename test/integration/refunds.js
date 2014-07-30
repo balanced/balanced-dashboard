@@ -27,7 +27,8 @@ module('Refunds', {
 
 test('can visit page', function(assert) {
 	visit(Testing.REFUND_ROUTE)
-		.checkPageTitle("Refund $100.00", assert);
+		.checkPageType("Refund", assert)
+		.checkPageTitle("$100.00", assert);
 });
 
 test('can edit refund', function(assert) {

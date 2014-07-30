@@ -26,7 +26,8 @@ module('Debits', {
 
 test('can visit page', function(assert) {
 	visit(Testing.DEBIT_ROUTE)
-		.checkPageTitle("Debit $1,000.00", assert);
+		.checkPageType("Debit", assert)
+		.checkPageTitle("$1,000.00", assert);
 });
 
 test('can refund debit', function(assert) {

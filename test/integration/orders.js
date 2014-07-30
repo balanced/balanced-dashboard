@@ -96,7 +96,8 @@ var assertQueryString = function(string, expected, assert) {
 
 test('can visit order page', function(assert) {
 	visit(Testing.ORDER_ROUTE)
-		.checkPageTitle("Order #123", assert);
+		.checkPageType("Order", assert)
+		.checkPageTitle("#123", assert);
 });
 
 test("can visit orders page", function(assert) {
