@@ -156,3 +156,15 @@ hr {
 .uppercase {
   text-transform: uppercase;
 }
+
+.body-panel {
+  &:before {
+    display: inline-block;
+    width: 0px;
+    height: calc(~"100% - 146px");
+    content: "";
+    border-left: 1px solid @gray2;
+    position: absolute;
+    left: 344px;
+  }
+}
