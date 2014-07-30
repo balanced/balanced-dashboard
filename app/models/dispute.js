@@ -2,7 +2,11 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
-	dispute_note: Ember.computed.oneWay('note'),
+	dispute_note: function() {
+		var note = this.get('note');
+		return note ? note : 'none';
+	}.property('note'),
+
 	isDocumentsLoaded: function() {
 		if (this.get('documents.length') > 0) {
 			return this.get('documents.isLoaded');
@@ -28,14 +32,14 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	statusChanged: function() {
 		var status = this.get('status');
 
-		if (status === 'pending') {
-			if (this.get('hasNotExpired')) {
-				this.set('status', 'new');
-			} else {
+		if (this.get('isDocumentsLoaded') && status === 'pending') {
+			if (this.get('hasExpired') || this.get('documents.length') > 0) {
 				this.set('status', 'submitted');
+			} else {
+				this.set('status', 'new');
 			}
 		}
-	}.observes('status').on('init'),
+	}.observes('isDocumentsLoaded', 'status', 'documents.length', 'hasExpired').on('init'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
@@ -55,15 +59,17 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),
 	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
 
-	hasNotExpired: function() {
-		return moment(this.get('respond_by')).toDate() > moment().toDate();
+	hasExpired: function() {
+		return moment(this.get('respond_by')).toDate() < moment().toDate();
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		// return false;
-		// Note: Temporarily removing the evidence portal functionality.
-		return this.get('isDocumentsLoaded') && this.get('hasNotExpired') && (this.get('status') === 'new') && (this.get('documents.length') === 0);
-	}.property('isDocumentsLoaded', 'hasNotExpired', 'status', 'documents.length')
+		if (this.get('isDocumentsLoaded')) {
+			return !this.get('hasExpired') && (this.get('status') === 'new') && (this.get('documents.length') === 0);
+		} else {
+			return false;
+		}
+	}.property('isDocumentsLoaded', 'hasExpired', 'status', 'documents.length')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');

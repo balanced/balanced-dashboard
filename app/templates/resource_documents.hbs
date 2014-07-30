@@ -1,12 +1,3 @@
-{{#if view.content.dispute_note}}
-	<div class="key-value-display">
-		<dl class="dl-horizontal">
-			<dt>Note</dt>
-			<dd><span>{{view.content.dispute_note}}</span></dd>
-		</dl>
-	</div>
-{{/if}}
-
 <table class="items">
 	<thead>
 		<tr>
@@ -46,3 +37,7 @@
 	{{/each}}
 	</tbody>
 </table>
+{{#if view.content.documents}}
+	<span class="sl-sm">Note:</span>
+	<span class="sl-note">{{view.content.dispute_note}}</span>
+{{/if}}
