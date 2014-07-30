@@ -7,14 +7,6 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		return note ? note : 'none';
 	}.property('note'),
 
-	isDocumentsLoaded: function() {
-		if (this.get('documents.length') > 0) {
-			return this.get('documents.isLoaded');
-		} else {
-			return true;
-		}
-	}.property('documents.length', 'documents.isLoaded'),
-
 	type_name: 'Dispute',
 	route_name: 'dispute',
 
@@ -30,16 +22,12 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('id'),
 
 	statusChanged: function() {
-		var status = this.get('status');
-
-		if (this.get('isDocumentsLoaded') && status === 'pending') {
-			if (this.get('hasExpired') || this.get('documents.length') > 0) {
-				this.set('status', 'submitted');
-			} else {
-				this.set('status', 'new');
-			}
+		if (this.get('canUploadDocuments')) {
+			this.set('status', 'new');
+		} else {
+			this.set('status', 'submitted');
 		}
-	}.observes('isDocumentsLoaded', 'status', 'documents.length', 'hasExpired').on('init'),
+	}.observes('canUploadDocuments', 'status').on('init'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
@@ -64,12 +52,15 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		if (this.get('isDocumentsLoaded')) {
-			return !this.get('hasExpired') && (this.get('status') === 'new') && (this.get('documents.length') === 0);
-		} else {
-			return false;
+		var status = this.get('status');
+		var expired = ['won', 'lost'];
+
+		if (!this.get('documents.isLoaded')) {
+			return _.contains(expired, status) ? false : true;
 		}
-	}.property('isDocumentsLoaded', 'hasExpired', 'status', 'documents.length')
+
+		return !this.get('hasExpired') && (this.get('documents.length') === 0);
+	}.property('status', 'documents.isLoaded', 'hasExpired', 'documents.length')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');
