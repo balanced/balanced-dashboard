@@ -20,6 +20,7 @@ Balanced.BodyPanelView = Ember.View.extend({
 
 		if (windowHeight > sidePanelBottom) {
 			$('.side-panel').height(windowHeight - sidePanelTop);
+			$('.main-panel').height($('.side-panel').height());
 		}
 	}
 });
