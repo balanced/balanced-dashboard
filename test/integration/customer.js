@@ -349,7 +349,7 @@ test('can add bank account', function(assert) {
 	var tokenizingSpy = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.main-panel a:contains(Add bank account)')
+		.click('.main-panel a:contains(Add a bank account)')
 		.fillForm('#add-bank-account', {
 			name: "TEST",
 			account_number: "123",
@@ -399,7 +399,7 @@ test('can add card', function(assert) {
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.main-panel a:contains(Add card)')
+		.click('.main-panel a:contains(Add a card)')
 		.fillForm('#add-card', {
 			number: '1234123412341234',
 			expiration_month: 1,
@@ -452,7 +452,7 @@ test('can add card with postal code', function(assert) {
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.main-panel a:contains(Add card)')
+		.click('.main-panel a:contains(Add a card)')
 		.fillForm('#add-card', input)
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
@@ -503,7 +503,7 @@ test('can add card with address', function(assert) {
 	};
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.main-panel a:contains(Add card)')
+		.click('.main-panel a:contains(Add a card)')
 		.click('#add-card a.more-info')
 		.fillForm('#add-card', input, {
 			click: '.modal-footer button[name="modal-submit"]'

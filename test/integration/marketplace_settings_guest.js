@@ -124,7 +124,7 @@ test('can create checking accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.main-panel a:contains(Add bank account)')
+		.click('.main-panel a:contains(Add a bank account)')
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -163,7 +163,7 @@ test('can fail at creating bank accounts', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.main-panel a:contains(Add bank account)')
+		.click('.main-panel a:contains(Add a bank account)')
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -189,7 +189,7 @@ test('can create savings accounts', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click(".main-panel a:contains(Add bank account)")
+		.click(".main-panel a:contains(Add a bank account)")
 		.fillForm({
 			name: "TEST",
 			account_number: "123",
@@ -219,7 +219,7 @@ test('can create cards', function(assert) {
 	});
 
 	visit(Testing.SETTINGS_ROUTE)
-		.click('.main-panel a:contains(Add card)')
+		.click('.main-panel a:contains(Add a card)')
 		.fillForm("#add-card", {
 			name: "TEST",
 			number: "1234123412341234",
