@@ -10,7 +10,7 @@ Balanced.ImportPayoutsView = Balanced.View.extend({
 
 	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
 	escrowTotal: Ember.computed.oneWay("controller.controllers.marketplace.in_escrow").readOnly(),
-	escrowDifference: Balanced.computed.substract("escrowTotal", "payoutTotal").readOnly(),
+	escrowDifference: Balanced.computed.subtract("escrowTotal", "payoutTotal").readOnly(),
 
 	isEscrowValid: Ember.computed.gte("escrowDifference", 0),
 	isPreviewable: Ember.computed.and("isEscrowValid", "creditCreators.isLoaded"),

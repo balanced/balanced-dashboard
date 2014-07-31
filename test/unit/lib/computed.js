@@ -248,9 +248,9 @@ test('Balanced.computed.ifThisOrThat', function(assert) {
 	assert.equal(t.get('text'), 'has none');
 });
 
-test("Balanced.computed.substract", function(assert) {
+test("Balanced.computed.subtract", function(assert) {
 	var TestObject = Ember.Object.extend({
-		difference: Balanced.computed.substract('num1', 'num2'),
+		difference: Balanced.computed.subtract('num1', 'num2'),
 	});
 
 	var t = TestObject.create({
