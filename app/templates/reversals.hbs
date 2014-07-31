@@ -1,19 +1,21 @@
-<h1 class="page-title">Reversal</h1>
+{{view Balanced.TransactionPageNavigationView model=model}}
 
-<div id="reversal" class="transaction">
-	<div class="title-block tb-egyptian-blue">
-		<span class="tb-icon">
-			<i class="icon icon-order"></i>
-		</span>
-		<span class="tb-content">
-			{{page_title}}
-		</span>
-	</div>
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.SidePanelView model=model}}
+		{{view Balanced.ReversalSummarySectionView model=model}}
+		{{view Balanced.TransactionTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
+	{{/view}}
 
-	{{txn-customer customer=credit.customer}}
+	{{#view Balanced.MainPanelView}}
+		<h3>Logs</h3>
+		<div class="results">
+			{{view Balanced.ResourceLogsView content=model}}
+		</div>
 
-	<div class="transaction-details">
-		{{txn-reversal reversal=model}}
-		{{txn-credit credit=credit marketplace=controllers.marketplace.model}}
-	</div>
-</div>
+		<h3>Events</h3>
+		<div class="results">
+			{{view Balanced.ResourceEventsView content=model}}
+		</div>
+	{{/view}}
+{{/view}}

@@ -1,0 +1,11 @@
+<tr class="load-more-results">
+	<td {{bind-attr colspan=view.columns}}>
+		{{#if view.results.loadingNextPage}}
+			<div class="loader-container">
+				<span class="loader loading"></span>
+			</div>
+		{{else}} {{#if view.results.hasNextPage}}
+			<a class="btn secondary" {{action "loadMore" view.results target=view}}>Load more</a>
+		{{/if}} {{/if}}
+	</td>
+</tr>

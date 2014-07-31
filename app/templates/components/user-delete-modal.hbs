@@ -6,23 +6,23 @@
 		</div>
 
 		<div class="modal-body">
-			<span class="label7a">Are you sure you want to remove user?</span>
-			<br><span class="label7a">This user will no longer have access to the dashboard.</span>
+			<span>Are you sure you want to remove user?</span>
+			<br><span>This user will no longer have access to the dashboard.</span>
 			<br>
 			<ul>
-				<li>Email: {{user.email_address}}</li>
+				<li class="sl-sb">Email: {{user.email_address}}</li>
 			</ul>
 			<br>
 		</div>
 
 		<div class="modal-footer">
-			{{view Balanced.ModalActionButtonsView submitTitle="Remove"}}
+			{{view Balanced.ModalActionButtonsView submitTitle="Remove" submittingTitle="Remove"}}
 		</div>
 	</form>
 </div>
 
 <div class="delete-user-outer">
 	<a {{action "open"}}>
-		<i class="confirm-delete-user icon-small-x action"></i>
+		<i class="confirm-delete-user icon-table-x action"></i>
 	</a>
 </div>

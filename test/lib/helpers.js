@@ -41,6 +41,42 @@ Balanced.Test.asyncHelpers = {
 
 		return wait();
 	},
+
+	testEditTransaction: function(app, transaction, assert) {
+		var spy = sinon.spy(Balanced.Adapter, "update");
+		return click(".side-panel .edit-model-link")
+			.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
+			.click('#edit-transaction .modal-footer button[name=modal-submit]')
+			.then(function() {
+				var firstCall = spy.getCall(0);
+				assert.ok(spy.calledOnce);
+				assert.equal(firstCall.args[0], transaction.constructor);
+				assert.equal(firstCall.args[1], transaction.get("uri"));
+				assert.equal(firstCall.args[2].description, "changing desc");
+				Testing.restoreMethods(Balanced.Adapter.update);
+			});
+	},
+
+	assertDictionaryExists: function(app, baseDl, dictionary, assert) {
+		var dl = $(baseDl);
+
+		_.each(dictionary, function(value, label) {
+			var labelElement = dl.find("dt:contains(%@)".fmt(label));
+			var valueElement = labelElement.nextAll("dd:first");
+			assert.equal($.trim(labelElement.text()), label, "%@ contains dt with text \"%@\"".fmt("baseDl", label));
+			assert.equal($.trim(valueElement.text()), value, "%@ contains dd with text \"%@\"".fmt("baseDl", value));
+		});
+		return;
+	},
+
+	checkPageType: function(app, text, assert) {
+		var h1Text = $("#content .page-type").text().trim().replace(/\s+/gm, " ");
+		assert.deepEqual(h1Text, text);
+	},
+	checkPageTitle: function(app, text, assert) {
+		var h1Text = $("#content h1.page-title").text().trim().replace(/\s+/gm, " ");
+		assert.deepEqual(h1Text, text);
+	},
 	checkElements: function(app, hash, assert) {
 		wait();
 

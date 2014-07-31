@@ -23,17 +23,15 @@ test('search results show and hide', function(assert) {
 		.then(function() {
 			Testing.runSearch('Cocaine');
 		})
-		.then(function() {
-			assert.ok($('#search').hasClass('with-results'), 'search has no results');
-			assert.ok($('body').hasClass('overlaid'), 'overlay not showing');
-		})
+		.checkElements({
+			"#search.with-results": 1,
+		}, assert)
 		.then(function() {
 			Testing.runSearch('');
 		})
-		.then(function() {
-			assert.ok(!$('#search').hasClass('with-results'), 'blank search has results');
-			assert.ok(!$('body').hasClass('overlaid'), 'overlay still showing');
-		});
+		.checkElements({
+			"#search.with-results": 0,
+		}, assert);
 });
 
 test('search results hide when backdrop is clicked', function(assert) {
@@ -43,12 +41,10 @@ test('search results hide when backdrop is clicked', function(assert) {
 		})
 		.checkElements({
 			"#search.with-results": 1,
-			"body.overlaid": 1
 		}, assert)
 		.click('#search .modal-backdrop')
 		.checkElements({
 			"#search.with-results": 0,
-			"body.overlaid": 0
 		}, assert);
 });
 
@@ -96,11 +92,8 @@ test('search date range pick', function(assert) {
 			assertQueryString(request.args[1], {
 				"created_at[<]": "2013-08-01T23:59:00.000Z",
 				"created_at[>]": "2013-08-01T00:00:00.000Z",
-				limit: "10",
-				offset: "0",
-				q: "",
 				sort: "created_at,desc",
-				"type[in]": "debit,credit,card_hold,refund,reversal"
+				"type[in]": "credit,debit,card_hold,refund,reversal"
 			}, assert);
 		});
 });

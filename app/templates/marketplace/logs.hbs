@@ -1,17 +1,7 @@
-<div id="logs">
-	<div class="page-navigation">
-		<h1 class="page-title">
-			Logs
-			{{#if resultsLoader.isLoading}}
-				<span class="loader loading"></span>
-			{{/if}}
-		</h1>
-	</div>
+{{view Balanced.PageNavigationView title="Logs"}}
 
-	<div id="logs" class="results">
-		{{view Balanced.DateFilterHeaderView}}
-		<div class="items-wrapper">
-			{{view Balanced.LogsResultsView results=resultsLoader.results}}
-		</div>
-	</div>
+<nav class="results-actions-bar"></nav>
+
+<div class="results">
+	{{view Balanced.LogsResultsView loader=resultsLoader}}
 </div>

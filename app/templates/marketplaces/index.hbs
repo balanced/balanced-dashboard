@@ -7,17 +7,8 @@
 	<div class="label7a">Production marketplace</div>
 
 	<ul>
-		{{#each user_marketplace in auth.user.user_marketplaces}}
-			{{#if user_marketplace.production}}
-				<li class="mp-production">
-					<div class="label">
-						<i class="icon icon-productionmp"></i>
-					</div>
-					<div class="info">
-						{{#link-to 'activity' user_marketplace.id class="name"}}{{user_marketplace.name}}{{/link-to}}
-					</div>
-				</li>
-			{{/if}}
+		{{#each marketplace in productionMarketplaces}}
+	        {{view Balanced.MarketplaceLinkBarView marketplace=marketplace}}
 		{{/each}}
 
 		<li class="mp-new">
@@ -35,18 +26,8 @@
 	<div class="label7a">Test marketplaces</div>
 
 	<ul>
-		{{#each user_marketplace in auth.user.user_marketplaces}}
-			{{#unless user_marketplace.production}}
-				<li class="mp-test">
-					<a href="#" class="icon-delete" {{action "promptToDeleteMarketplace" user_marketplace}}>&times;</a>
-					<div class="label">
-						<i class="icon icon-testmp"></i>
-					</div>
-					<div class="info">
-						{{#link-to 'activity' user_marketplace.id class="name"}}{{user_marketplace.name}}{{/link-to}}
-					</div>
-				</li>
-			{{/unless}}
+		{{#each marketplace in testMarketplaces}}
+	        {{view Balanced.MarketplaceLinkBarView marketplace=marketplace}}
 		{{/each}}
 
 		<li class="mp-new">

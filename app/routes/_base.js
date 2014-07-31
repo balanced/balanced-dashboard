@@ -1,16 +1,11 @@
 Balanced.AuthRoute = Balanced.Route.extend({
+	getUser: function() {
+		return this.get("auth.user");
+	},
 	beforeModel: function(transition) {
-		var self = this;
-		if (this.get('auth.signedIn')) {
-			return;
+		if (!this.get('auth.signedIn')) {
+			this.transitionTo('login');
 		}
-
-		this.set('auth.attemptedTransition', transition);
-
-		var e = new Error('Not Authenicated!');
-		transition.abort(e);
-
-		this.transitionTo('login');
 	}
 });
 

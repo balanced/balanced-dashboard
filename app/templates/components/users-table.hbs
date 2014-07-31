@@ -1,30 +1,35 @@
-<table class="items users-table">
+<table class="items non-interactive">
+	<thead>
+		<th class="span3"><span>Date</span></th>
+		<th class="span9"><span>Email</span></th>
+		<th class="span1"><span></span></th>
+	</thead>
 	<tbody>
 		{{#each user in users}}
 			<tr>
-				<td class="span4">
-					<span class="wrap">
+				<td>
+					<span>
 						<span class="icon-avatar"></span>
 						{{humanReadableDateShort user.created_at}}
 					</span>
 				</td>
-				<td class="span17" {{bind-attr title="user.email_address"}}>
+				<td {{bind-attr title="user.email_address"}}>
 					<span class="wrap">
 						{{user.email_address}}
 					</span>
 				</td>
-				<td class="span1 delete-container">
-					<span class="wrap">
+				<td class="delete-container">
+					<span>
 						{{#unless user.noDelete}}
-							{{user-delete-modal user=user}}
+							{{user-delete-modal user=user usersList=users userMarketplace=userMarketplace}}
 						{{/unless}}
 					</span>
 				</td>
 			</tr>
 		{{else}}
 			<tr>
-				<td colspan="4" class="no-results">
-					<span class="wrap">No results</span>
+				<td colspan="3" class="no-results">
+					<span>No results</span>
 				</td>
 			</tr>
 		{{/each}}

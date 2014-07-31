@@ -1,34 +1,27 @@
-<h1 class="page-title">Debit</h1>
+{{#view Balanced.TransactionPageNavigationView model=model}}
+	<div class="buttons page-actions">
+		{{#if model.can_refund}}
+			<a class="btn" {{action "openModal" Balanced.Modals.RefundDebitModalView model}}>Refund</a>
+		{{/if}}
+	</div>
+{{/view}}
 
-<div id="debit" class="transaction">
-	<div class="main-header transactions-header">
-		<div class="row">
-			<div class="span2 label">
-				<div class="icon">Debit</div>
-			</div>
-			<div class="span title">
-				<span class="nav3d">
-					{{page_title}}
-				</span>
-			</div>
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.SidePanelView model=model}}
+		{{view Balanced.DebitSummarySectionView model=model}}
+		{{view Balanced.TransactionTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
+	{{/view}}
+
+	{{#view Balanced.MainPanelView}}
+		<h3>Logs</h3>
+		<div class="results">
+			{{view Balanced.ResourceLogsView content=model}}
 		</div>
-	</div>
 
-	{{txn-customer customer=customer}}
-
-	<div class="transaction-details">
-		{{#if dispute}}
-			{{txn-dispute dispute=dispute}}
-		{{/if}}
-
-		{{#each refund in model.refunds}}
-			{{txn-refund refund=refund}}
-		{{/each}}
-
-		{{txn-debit debit=model}}
-
-		{{#if hold}}
-			{{txn-hold hold=hold}}
-		{{/if}}
-	</div>
-</div>
+		<h3>Events</h3>
+		<div class="results">
+			{{view Balanced.ResourceEventsView content=model}}
+		</div>
+	{{/view}}
+{{/view}}

@@ -1,7 +1,40 @@
 require('app/models/user_marketplace');
+require("./results_loaders/*");
+
+var generateResultsLoader = function(klass, uriFieldName) {
+	return function(attributes) {
+		attributes = _.extend({
+			path: this.get(uriFieldName)
+		}, attributes);
+		return klass.create(attributes);
+	};
+};
 
 Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	uri: '/marketplaces',
+
+	getInvoicesLoader: generateResultsLoader(Balanced.InvoicesResultsLoader, "invoices_uri"),
+	getCustomersLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "customers_uri"),
+	getDisputesLoader: generateResultsLoader(Balanced.DisputesResultsLoader, "disputes_uri"),
+	getTransactionsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "transactions_uri"),
+	getOrdersLoader: generateResultsLoader(Balanced.OrdersResultsLoader, "orders_uri"),
+	getFundingInstrumentsLoader: function(attributes) {
+		attributes = _.extend({
+			marketplace: this
+		}, attributes);
+		return Balanced.FundingInstrumentsResultsLoader.create(attributes);
+	},
+	getLogsLoader: function(attributes) {
+		attributes = _.extend({}, attributes);
+		return Balanced.LogsResultsLoader.create(attributes);
+	},
+	getSearchLoader: function(attributes) {
+		attributes = _.extend({
+			marketplace: this,
+			resultsType: Balanced.Transaction
+		}, attributes);
+		return Balanced.MarketplaceSearchResultsLoader.create(attributes);
+	},
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
@@ -56,6 +89,10 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
 
 Balanced.Marketplace.reopenClass({
+	findById: function(id) {
+		var uri = this.constructUri(id);
+		return this.find(uri);
+	},
 	serializer: Balanced.Rev1Serializer.create(),
 }, {
 	COMPANY_TYPES: [{

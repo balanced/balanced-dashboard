@@ -6,6 +6,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
 	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
 
+	isBankAccount: true,
+
 	type_name: function() {
 		if (this.get('account_type') === 'savings') {
 			return 'Savings account';
@@ -41,9 +43,26 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('last_four', 'bank_name'),
 
+	status: function() {
+		if (this.get('can_debit')) {
+			return 'verified';
+		} else if (this.get('customer')) {
+			if (this.get('can_confirm_verification')) {
+				return 'pending';
+			} else {
+				return 'unverified';
+			}
+		} else {
+			if (!this.get('can_credit')) {
+				return 'removed';
+			}
+
+			return 'unverifiable';
+		}
+	}.property('can_credit', 'can_debit', 'customer', 'can_confirm_verification'),
+
 	can_verify: function() {
-		return !this.get('can_debit') && !this.get('can_confirm_verification') &&
-			this.get('customer');
+		return !this.get('can_debit') && !this.get('can_confirm_verification') && this.get('customer');
 	}.property('can_debit', 'can_confirm_verification', 'customer'),
 
 	can_confirm_verification: function() {

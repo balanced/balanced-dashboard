@@ -42,101 +42,9 @@ var Computed = {
 	}
 };
 
-Balanced.ResultsFiltersHeaderView = Balanced.View.extend({
-	templateName: 'results/results_filters_header',
-	tagName: 'div',
-	from: 'activity',
-
-	// UI computed properties
-	transactionsTabSelected: function() {
-		return ['search', 'transaction'].indexOf(this.get('controller.category')) >= 0;
-	}.property('controller.category'),
-	customersTabSelected: Computed.isCategorySelected('customer'),
-	ordersTabSelected: Computed.isCategorySelected('order'),
-	fundingInstrumentsTabSelected: Computed.isCategorySelected('funding_instrument'),
-	disputesTabSelected: Computed.isCategorySelected('dispute'),
-
-	show_download_button: Ember.computed.alias('transactionsTabSelected'),
-	show_disputes_download_button: Ember.computed.alias('disputesTabSelected')
-});
-
-Balanced.ResultsFiltersHeaderWithCountsView = Balanced.ResultsFiltersHeaderView.extend({
-	templateName: 'results/results_filters_header_with_counts',
-	transaction_type_total: Computed.typeTotals(Balanced.SEARCH.SEARCH_TYPES, 'transaction'),
-	funding_instrument_type_total: Computed.typeTotals(Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES, 'funding_instrument')
-	// Search does not have disputes yet
-	// dispute_type_total: Computed.typeTotals(Balanced.SEARCH.DISPUTE_TYPES, 'dispute')
-});
-
-Balanced.TransactionsFiltersHeaderView = Balanced.View.extend({
-	templateName: 'results/transactions_filters_header',
-	tagName: 'header',
-
-	allTabSelected: Computed.isTypeSelected('transaction'),
-	holdsTabSelected: function() {
-		return ['hold', 'card_hold'].indexOf(this.get('controller.type')) >= 0;
-	}.property('controller.type'),
-	creditsTabSelected: Computed.isTypeSelected('credit'),
-	failedCreditsTabSelected: Computed.isTypeSelected('failed_credit'),
-	reversalsTabSelected: Computed.isTypeSelected('reversal'),
-	debitBankAccountsTabSelected: Computed.isTypeSelected('bank_account_debit'),
-	debitCardsTabSelected: Computed.isTypeSelected('card_debit'),
-	debitsTabSelected: Computed.isTypeSelected('debit'),
-	refundsTabSelected: Computed.isTypeSelected('refund'),
-	disputesTabSelected: Computed.isTypeSelected('dispute'),
-
-	// Was defined multiple times
-	// debits_label: Computed.label('debit', 'Debits', 'transactionType'),
-	debits_label: Computed.label('debit', 'Debits'),
-	credits_label: Computed.label('credit', 'Credits')
-});
-
-Balanced.ResultsSortableColumnHeaderView = Balanced.View.extend({
-	tagName: 'div',
-	classNameBindings: 'sortClass',
-
-	sortClass: function() {
-		var SORTS = {
-			asc: 'ascending',
-			desc: 'descending'
-		};
-
-		var sortField = this.get('controller.sortField');
-		var sortOrder = this.get('controller.sortOrder');
-		if (sortField !== this.get('field')) {
-			return 'unsorted';
-		} else {
-			return SORTS[sortOrder] || 'unsorted';
-		}
-	}.property('controller.sortField', 'controller.sortOrder'),
-
-	click: function(e) {
-		var sortField = this.get('controller.sortField');
-		var sortOrder = this.get('controller.sortOrder');
-		var allowSortByNone = this.get('controller.allowSortByNone');
-		var nextSortOrder = 'desc';
-
-		if (sortField === this.get('field')) {
-			switch (sortOrder) {
-				case 'asc':
-					nextSortOrder = 'desc';
-					break;
-				case 'desc':
-					nextSortOrder = 'asc';
-					if (allowSortByNone) {
-						nextSortOrder = 'none';
-					}
-					break;
-			}
-		}
-
-		this.get('controller').send('changeSortOrder', this.get('field'), nextSortOrder);
-	}
-});
-
 Balanced.ResultsTableView = Balanced.View.extend({
 	tagName: 'table',
-	classNames: 'items'
+	classNames: 'items',
 });
 
 Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
@@ -146,7 +54,13 @@ Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
 
 Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'transactions',
-	templateName: 'results/transactions_table'
+	templateName: 'results/transactions_table',
+	colspan: 7
+});
+
+Balanced.EmbeddedTransactionsResultsView = Balanced.TransactionsResultsView.extend({
+	isSmallTable: true,
+	colspan: 5
 });
 
 Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
@@ -159,9 +73,19 @@ Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
 	templateName: 'results/funding_instruments_table'
 });
 
+Balanced.EmbeddedFundingInstrumentsResultsView = Balanced.FundingInstrumentsResultsView.extend({
+	templateName: 'results/embedded_funding_instruments_table'
+});
+
 Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'disputes',
-	templateName: 'results/disputes_table'
+	templateName: 'results/disputes_table',
+	colspan: 6
+});
+
+Balanced.EmbeddedDisputesResultsView = Balanced.DisputesResultsView.extend({
+	isSmallTable: true,
+	colspan: 4
 });
 
 Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
@@ -171,7 +95,6 @@ Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
 });
 
 Balanced.LogsEmbeddedResultsView = Balanced.ResultsTableView.extend({
-	classNames: 'logs',
 	classNameBindings: 'selected',
 	templateName: 'results/logs_embedded_table'
 });

@@ -72,11 +72,11 @@ test('login transition works', function(assert) {
 		.visit('/login')
 		.then(function() {
 			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'activity.transactions');
+			assert.equal(app.get('currentRouteName'), 'marketplace.transactions');
 		});
 });
 
-asyncTest('login afterLogin with transition works', 1, function(assert) {
+test('login afterLogin with transition works', 1, function(assert) {
 	var loginResponse = {
 		"id": "ULxxx",
 		"email_address": "xxx@gmail.com",
@@ -99,16 +99,14 @@ asyncTest('login afterLogin with transition works', 1, function(assert) {
 		"status": "OK"
 	};
 
-	var stub = sinon.stub(Balanced.Auth, 'request')
-		.returns(Ember.RSVP.resolve(loginResponse));
+	var promise = Ember.RSVP.resolve(loginResponse);
+	var stub = sinon.stub(Balanced.Auth, 'request').returns(promise);
 
 	Testing.logout();
-
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.MARKETPLACE_ROUTE)
 		.click('form#auth-form button')
 		.then(function() {
 			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'activity.transactions');
-			start();
+			assert.equal(app.get('currentRouteName'), "marketplaces.index");
 		});
 });

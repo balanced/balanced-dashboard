@@ -1,187 +1,37 @@
-<h1>Customer</h1>
-
-<div id="customer">
-	<div class="main-header customer customer-header">
-		<div class="row-fluid">
-			<div class="span2 label">
-				<div {{bind-attr class=":icon is_business:business-info:person-info is_identity_verified:verified:unverified"}}>Business</div>
-			</div>
-			<div class="span14 title">
-				<span class="nav3d">
-					{{#if is_business}}
-						{{business_name}}
-					{{else}}
-						{{display_me_with_email}}
-					{{/if}}
-				</span>
-			</div>
-
-			<div class="buttons">
-				<div class="buttons-container">
-					{{debit-customer-modal customer=model}}
-
-					<a class="btn credit-customer" {{action "openModal" Balanced.CreditCustomerModalView model}}>Credit</a>
-				</div>
-			</div>
-		</div>
+{{#view Balanced.PageNavigationView pageType="Customer" title=model.display_me}}
+	<div class="buttons page-actions">
+		<a class="btn" {{action "openModal" Balanced.CreditCustomerModalView model}}>Credit</a>
+		<a class="btn" {{action "openModal" Balanced.Modals.CustomerDebitCreateModalView model}}>Debit</a>
 	</div>
+{{/view}}
 
-	<div class="row-fluid">
-		<div class="span16">
-			<section class="customer-info">
-				<div class="key-value-display">
-					<header>
-						<h3>Details
-							<span {{bind-attr class=":verification-status is_identity_verified:verified:unverified"}} class="verification-status unverified">
-								{{#if is_identity_verified}}
-									VERIFIED
-								{{else}}
-									UNVERIFIED
-								{{/if}}
-							</span>
-
-							{{#unless is_identity_verified}}
-								{{#view Balanced.PopoverView class="icon-help" data-placement="top" data-original-title="Identify Unverified" data-content="More information is necessary to verify the identity of this customer. You may continue paying this customer, but we recommend collecting the full legal name, email, and permanent street address. For a business, we also recommend collecting the full business name and EIN number. If verification is unsuccessful, try collecting the last four digits of the SSN."}}
-									Verification status
-								{{/view}}
-							{{/unless}}
-
-							{{view Balanced.EditCustomerInfoModalView customerBinding="model"}}
-						</h3>
-					</header>
-					<dl class="dl-horizontal">
-						<dt>ID</dt>
-						<dd><span>{{id}}</span></dd>
-						<dt>Created</dt>
-						<dd><span>{{humanReadableDateLong created_at}}</span></dd>
-						{{#if is_business}}
-							<dt>Business Name</dt>
-							<dd><span>{{business_name}}</span></dd>
-							<dt>EIN #</dt>
-							<dd><span>{{ein}}</span></dd>
-						{{/if}}
-						<dt>Name</dt>
-						<dd><span>{{name}}</span></dd>
-						<dt>Email</dt>
-						<dd><span>{{email}}</span></dd>
-						<dt>Street Address</dt>
-						<dd><span>{{address.line1}} {{address.line2}}</span></dd>
-						<dt>City</dt>
-						<dd><span>{{address.city}}</span></dd>
-						<dt>State</dt>
-						<dd><span>{{address.state}}</span></dd>
-						<dt>Postal Code</dt>
-						<dd><span>{{address.postal_code}}</span></dd>
-						<dt>Country</dt>
-						<dd><span>{{country_name}}</span></dd>
-						<dt>Phone #</dt>
-						<dd><span>{{phone}}</span></dd>
-						<dt>Date of birth</dt>
-						<dd><span>{{dob}}</span></dd>
-						<dt>SSN #</dt>
-						<dd><span>{{ssn_last4}}</span></dd>
-						<dt>Facebook ID</dt>
-						<dd><span>
-							{{#if facebook_url}}
-								<a {{bind-attr href=facebook_url}}>{{facebook_id}}</a>
-							{{/if}}
-						</span></dd>
-						<dt>Twitter ID</dt>
-						<dd><span>
-							{{#if twitter_url}}
-								<a {{bind-attr href=twitter_url}}>{{twitter_id}}</a>
-							{{/if}}
-						</span></dd>
-					</dl>
-				</div>
-				{{view Balanced.MetaView type=model}}
-			</section>
-		</div>
-
-		<div class="offset1 span9">
-			<section class="bank-account-info">
-				<header>
-					<h3>Bank accounts
-						{{add-bank-account-modal customerBinding="model"}}
-					</h3>
-				</header>
-				<ul class="sidebar-items">
-					{{#each bank_account in bank_accounts}}
-						<li class="bank-account">
-							{{#link-to 'bank_accounts' bank_account}}
-								<div {{bind-attr class=":icon bank_account.can_debit:icon-verified"}}>Bank account</div>
-							{{/link-to}}
-
-							<a href="#" class="icon-delete" {{action "openDeleteBankAccountModal" bank_account}}>delete</a>
-
-							{{#link-to 'bank_accounts' bank_account}}
-								<div class="details">
-									<span class="name label2a">{{bank_account.name}}</span>
-									<span class="summary">{{bank_account.description}}</span>
-								</div>
-
-								{{#unless bank_account.can_debit}}
-									<div class="actions">
-										{{#if bank_account.can_confirm_verification}}
-											Confirm verification
-										{{else}}
-											Verify to debit
-										{{/if}}
-									</div>
-								{{/unless}}
-							{{/link-to}}
-						</li>
-					{{/each}}
-				</ul>
-			</section>
-
-			<section class="card-info">
-				<header>
-					<h3>Cards
-						{{add-card-modal customerBinding="model"}}
-					</h3>
-				</header>
-				<ul class="sidebar-items">
-					{{#each card in cards}}
-						<li>
-							<a href="#" class="icon-delete" {{action "openDeleteCardModal" card}}>delete</a>
-							{{#link-to 'cards' card}}
-								<div class="icon">Credit card</div>
-								<div class="details">
-									<span class="name label2a">{{card.name}}</span>
-									<span class="summary">{{card.description}} ({{capitalize card.type}})</span>
-								</div>
-							{{/link-to}}
-						</li>
-					{{/each}}
-				</ul>
-			</section>
-		</div>
-	</div>
-
-	<section class="activity">
-		<header class="results-label">
-			<h3>Payments</h3>
-		</header>
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.SidePanelView model=model}}
+		{{view Balanced.CustomerSummarySectionView model=model}}
+		{{view Balanced.CustomerTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
+	{{/view}}
+	{{#view Balanced.MainPanelView}}
+		<h3>Payments</h3>
 		<div class="results">
-			{{view Balanced.TransactionsFiltersHeaderView}}
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
+		</div>
 
-			<div class="items-wrapper">
-				{{view Balanced.TransactionsResultsView transactions=results}}
-			</div>
-		</div>
-	</section>
-	<section class="activity">
-		<header class="results-label">
-			<h3>Disputes</h3>
-		</header>
+		<h3>Disputes</h3>
 		<div class="results">
-			<div class="items-wrapper">
-				{{view Balanced.DisputesResultsView disputes=disputesResultsLoader.results}}
-			</div>
+			{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
 		</div>
-	</section>
-</div>
+
+		<div class="pull-right">
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model}}>Add a bank account</a>
+			<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model}}>Add a card</a>
+		</div>
+		<h3>Payment methods</h3>
+		<div class="results">
+			{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
+		</div>
+	{{/view}}
+{{/view}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}

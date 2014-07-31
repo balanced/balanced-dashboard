@@ -1,19 +1,31 @@
+<thead>
+	<tr>
+		<th class="span3 date">
+			<span>Date</span>
+		</th>
+		<th class="span3 status">
+			<span>Status</span>
+		</th>
+		<th class="span6 description"><span>Method and URI</span></th>
+	</tr>
+</thead>
 <tbody>
 	{{#each log in view.results}}
 		<tr>
-			<td class="first date">
+			{{view Balanced.LinkedDateCellView
+				item=log
+				classNames="span3"
+				routeName=log.route_name
+				date=log.created_at
+			}}
+			<td class="status">
 				{{#link-to log.route_name log}}
-					<time {{bind-attr datetime="log.created_at"}} {{bind-attr title="log.created_at"}}>{{humanReadableDateShort log.created_at}}</time>
+					<span {{bind-attr class="log.status"}}>{{log.message.response.status}}</span>
 				{{/link-to}}
 			</td>
-			<td class="second">
+			<td>
 				{{#link-to log.route_name log}}
-					{{log.message.request.method}} {{log.condensed_request_url}}
-				{{/link-to}}
-			</td>
-			<td class="last align-right black">
-				{{#link-to log.route_name log}}
-					{{colorizeStatus log.message.response.status}}
+					<span>{{log.message.request.method}} {{log.condensed_request_url}}</span>
 				{{/link-to}}
 			</td>
 		</tr>

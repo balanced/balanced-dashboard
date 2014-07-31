@@ -45,8 +45,7 @@ test('add test marketplace', function(assert) {
 	sinon.stub(Ember.Logger, "error");
 
 	var spy = sinon.spy(Balanced.Adapter, "create");
-	Balanced.Auth.set('user.api_keys_uri', '/users/' +
-		Testing.CUSTOMER_ID + '/api_keys');
+	Balanced.Auth.set('user.api_keys_uri', '/users/%@/api_keys'.fmt(Testing.CUSTOMER_ID));
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.fillForm(".marketplace-list.test li.mp-new form", {

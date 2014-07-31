@@ -17,19 +17,6 @@ Balanced.CardDebitBaseTransactionFactory = Balanced.TransactionFactory.extend({
 	}
 });
 
-Balanced.DebitExistingFundingInstrumentTransactionFactory = Balanced.TransactionFactory.extend({
-	source_uri: Ember.computed.readOnly("source.uri"),
-	getDebitAttributes: function() {
-		var properties = this.getProperties("amount", "appears_on_statement_as", "description", "source_uri");
-		properties.uri = this.get("source.debits_uri");
-		return properties;
-	},
-
-	save: function() {
-		return Balanced.Debit.create(this.getDebitAttributes()).save();
-	},
-});
-
 Balanced.DebitExistingBankAccountTransactionFactory = Balanced.DebitExistingFundingInstrumentTransactionFactory.extend({
 	validations: {
 		dollar_amount: ValidationHelpers.positiveDollarAmount,
@@ -49,30 +36,6 @@ Balanced.DebitExistingCardTransactionFactory = Balanced.DebitExistingFundingInst
 		source_uri: {
 			presence: true
 		}
-	}
-});
-
-Balanced.CardDebitTransactionFactory = Balanced.CardDebitBaseTransactionFactory.extend({
-	getDestinationAttributes: function() {
-		var attributes = this.getProperties("name", "number", "cvv", "expiration_month", "expiration_year");
-		attributes.address = {
-			postal_code: this.get("postal_code")
-		};
-		return attributes;
-	},
-
-	getDebitAttributes: function() {
-		return this.getProperties("amount", "appears_on_statement_as", "description");
-	},
-
-	validations: {
-		dollar_amount: ValidationHelpers.positiveDollarAmount,
-		appears_on_statement_as: ValidationHelpers.cardTransactionAppearsOnStatementAs,
-
-		name: ValidationHelpers.cardName,
-		number: ValidationHelpers.cardNumber,
-		cvv: ValidationHelpers.cardCvv,
-		expiration_date: ValidationHelpers.cardExpirationDate,
 	}
 });
 

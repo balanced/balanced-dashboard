@@ -45,28 +45,32 @@ Balanced.Router = Ember.Router.extend({
 	}
 });
 
-function makeNestedResource(that, plural, singular) {
-	// Instead of a nested resource, use 2 routes
-	// since elements don't share the same route/controller/view
-	// See http://discuss.emberjs.com/t/nested-resource-rendering-into-main-outlet-and-linkto-issue/1791
-	that.route(plural, {
-		path: '/' + plural
-	});
-
-	that.resource(singular, {
-		path: '/' + plural + '/:item_id'
-	});
-}
-
 Balanced.Router.map(function() {
+	// signup related
+	this.route('login');
+	this.route('logout');
+
+	this.route('claim');
+	this.route('start');
+
+	this.route('forgotPassword', {
+		path: '/forgot_password'
+	});
+	this.route('resetPassword', {
+		path: '/password/:token'
+	});
+	this.route('resetPassword', {
+		path: '/invite/:token'
+	});
+	this.route('accountSecurity', {
+		path: '/security'
+	});
 
 	this.resource('marketplaces', {
 		path: '/marketplaces'
 	}, function() {
 
-		this.route('apply', {
-			path: '/apply'
-		});
+		this.route('apply');
 
 		this.resource('marketplace', {
 			path: '/:marketplace_id'
@@ -77,6 +81,9 @@ Balanced.Router.map(function() {
 			this.route('import_payouts');
 
 			// exists to handle old URIs
+			this.resource('accounts', {
+				path: '/accounts/:item_id'
+			});
 			this.route("redirect_activity_transactions", {
 				path: '/activity/transactions'
 			});
@@ -96,21 +103,24 @@ Balanced.Router.map(function() {
 				path: 'invoices'
 			});
 
-			this.resource('activity', {
-				path: '/'
-			}, function() {
-				this.route('orders');
-				this.route('transactions');
+			this.route("orders");
+			this.resource('orders', {
+				path: '/orders/:item_id'
 			});
 
-			this.resource('customers', {
+			this.route("customers");
+			this.resource('customer', {
 				path: '/customers/:item_id'
 			});
-			// exists to handle old URIs for accounts, redirects to the customers page
-			this.resource('accounts', {
-				path: '/accounts/:item_id'
+
+			this.route("disputes");
+			this.resource('dispute', {
+				path: '/disputes/:item_id'
 			});
 
+			this.route('funding_instruments', {
+				path: '/payment_methods'
+			});
 			this.resource('bank_accounts', {
 				path: '/bank_accounts/:item_id'
 			});
@@ -118,6 +128,7 @@ Balanced.Router.map(function() {
 				path: '/cards/:item_id'
 			});
 
+			this.route("transactions");
 			this.resource('credits', {
 				path: '/credits/:item_id'
 			});
@@ -138,64 +149,20 @@ Balanced.Router.map(function() {
 				path: '/events/:item_id'
 			});
 
-			this.resource('orders', {
-				path: '/orders/:item_id'
-			});
-
-			this.route('funding_instruments', {
-				path: '/payment_methods'
-			});
-
-			this.route('invoices', {
-				path: '/account_statements'
-			});
-
 			this.route("logs");
 			this.resource("log", {
 				path: "/logs/:item_id"
 			});
 
+			this.route('invoices', {
+				path: '/account_statements'
+			});
 			this.resource('invoice', {
 				path: '/account_statements/:item_id'
 			});
-
-			makeNestedResource(this, 'customers', 'customer');
-
-			makeNestedResource(this, 'customers', 'customer');
-
-			makeNestedResource(this, 'disputes', 'dispute');
-
 		});
 
 	});
-
-	// signup related
-	this.route('login', {
-		path: '/login'
-	});
-	this.route('logout', {
-		path: '/logout'
-	});
-
-	this.route('forgotPassword', {
-		path: '/forgot_password'
-	});
-	this.route('resetPassword', {
-		path: '/password/:token'
-	});
-	this.route('resetPassword', {
-		path: '/invite/:token'
-	});
-	this.route('start', {
-		path: '/start'
-	});
-	this.route('claim', {
-		path: '/claim'
-	});
-	this.route('accountSecurity', {
-		path: '/security'
-	});
-
 	this.route('invalid', {
 		path: '*:'
 	});

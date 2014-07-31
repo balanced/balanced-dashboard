@@ -82,9 +82,9 @@ Balanced.PaymentMethodsResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 	toggleText: "Payment method",
 	filters: function() {
 		return [
-			defineFilter("All", ["funding_instrument"], true),
-			defineFilter("Card", ["card"]),
-			defineFilter("Bank accounts", ["bank_account"])
+			defineFilter("All", null, true),
+			defineFilter("Card", "card"),
+			defineFilter("Bank accounts", "bank_account")
 		];
 	}.property(),
 
@@ -101,11 +101,10 @@ Balanced.DisputesStatusResultsDropdownFilterView = Balanced.ResultsDropdownFilte
 	toggleText: "Status",
 	filters: function() {
 		return [
-			defineFilter("All", Balanced.SEARCH.DISPUTE_TYPES, true),
-			defineFilter("Pending", ["pending"]),
+			defineFilter("All", null, true),
+			defineFilter("New & Submitted", ["pending"]),
 			defineFilter("Won", ["won"]),
-			defineFilter("Lost", ["lost"]),
-			defineFilter("Arbitration", ["arbitration"])
+			defineFilter("Lost", ["lost"])
 		];
 	}.property(),
 

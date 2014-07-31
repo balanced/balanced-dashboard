@@ -14,15 +14,13 @@ module('Invoices', {
 
 test('can visit page', function(assert) {
 	var invoicesController = Balanced.__container__.lookup('controller:marketplace_invoices');
-	invoicesController.setProperties({
-		minDate: moment('2013-08-01T00:00:00.000Z').toDate(),
-		maxDate: moment('2013-08-01T23:59:59.999Z').toDate()
-	});
+	invoicesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
+	invoicesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
 
 	visit(INVOICES_ROUTE)
 		.checkElements({
 			"#content h1": "Account statements",
-			"#invoices table tbody tr": 19
+			"table.invoices tbody tr": 19
 		}, assert);
 });
 
@@ -40,53 +38,55 @@ test("transactions invoice detail page filters", function(assert) {
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.then(function() {
-			spy = sinon.spy(Balanced.Adapter, "get");
+			spy = sinon.stub(Balanced.Adapter, "get");
 		})
-		.click('.activity .results .type-filter :contains(Holds)')
-		.click('.activity .results .type-filter :contains(Credits)')
-		.click('.activity .results .type-filter :contains(Refunds)')
+		.click('.results .type-filter a:contains(Debits)')
+		.click('.results .type-filter a:contains(Refunds)')
 		.then(function() {
-			var expectations = [
-				[Balanced.Credit, invoiceUri + '/credits'],
-				[Balanced.Refund, invoiceUri + '/refunds']
-			];
-
-			expectations.forEach(function(expectation, i) {
-				assert.deepEqual(spy.args[i].slice(0, 2), expectation, "Call %@ Arguments".fmt(i));
-			});
+			assert.deepEqual(spy.getCall(0).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/debits?limit=50&sort=created_at%2Cdesc']);
+			assert.deepEqual(spy.getCall(1).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
 		});
 });
 
 test('transactions invoice detail page', function(assert) {
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.checkElements({
-			".invoice-balance-due-box .amount": "$17.85",
 			".card-debit-details-row .total": "$2.45",
-			".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29 cents",
+			".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29¢",
 			".bank-account-debit-details-row .total": "$0.00",
 			".succeeded-bank-account-credit-details-row .total": "$0.00",
 			".succeeded-card-credit-details-row .total": "$0.00",
-			".failed-credit-details-row .total": "$0.00",
 			".refund-details-row .total": "-$2.45",
-			".reversal-details-row .total": "$0.00",
-			".invoice-details-table .subtotal-row .total": "$17.85"
 		}, assert);
 });
 
 test('change invoice funding source', function(assert) {
 	var invoiceUri = '/invoices/IVDOATjeyAPTJMJPnBR83uE';
-	var spy = sinon.spy(Balanced.Adapter, "get");
 	var stub = sinon.stub(Balanced.Adapter, "update");
 	stub.callsArg(3);
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
-		.click('.change-funding-source-btn')
-		.fillIn('#change-funding-source form select[name=source_uri]', '123')
+		.then(function() {
+			var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
+			Ember.run(function() {
+				var customer = Balanced.Customer.create();
+				marketplace.set("owner_customer", customer);
+				customer.set("bank_accounts", [
+					Ember.Object.create({
+						can_debit: true,
+						uri: "/bank_accounts/xxxxxxxxxx",
+						description: "Super cool"
+					})
+				]);
+			});
+		})
+		.click(".change-funding-source")
+		.fillIn('#change-funding-source form select[name=source]', '123')
 		.click('#change-funding-source form button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Invoice, invoiceUri));
-			assert.equal(spy.callCount, 7);
-			assert.ok(stub.calledWith(Balanced.Invoice, invoiceUri));
+			var args = stub.firstCall.args;
 			assert.equal(stub.callCount, 1);
+			assert.deepEqual(args.slice(0, 2), [Balanced.Invoice, invoiceUri]);
+			assert.equal(args[2].source_uri, "/bank_accounts/xxxxxxxxxx");
 		});
 });

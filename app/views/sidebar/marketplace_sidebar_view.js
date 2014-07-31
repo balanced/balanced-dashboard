@@ -1,14 +1,14 @@
 var SIDEBAR_ITEMS = [{
 	linkText: "Payments",
 	linkIcon: "icon-payments",
-	routeName: "activity.transactions",
+	routeName: "marketplace.transactions",
 	isSelectedBinding: "controller.marketplace.paymentSelected",
 	children: [{
-		routeName: "activity.transactions",
+		routeName: "marketplace.transactions",
 		linkText: "Transactions",
 		isSelectedBinding: "controller.marketplace.transactionSelected"
 	}, {
-		routeName: "activity.orders",
+		routeName: "marketplace.orders",
 		linkText: "Orders",
 		isSelectedBinding: "controller.marketplace.orderSelected"
 	}]

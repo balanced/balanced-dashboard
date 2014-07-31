@@ -38,7 +38,7 @@ Balanced.Transaction = Balanced.Model.extend({
 			}
 			return 'The transaction failed, no failure reason was given.';
 		} else {
-			return Ember.String.capitalize(this.get('status'));
+			return undefined;
 		}
 	}.property('is_failed', 'status', 'failure_reason', 'failure_reason_code'),
 

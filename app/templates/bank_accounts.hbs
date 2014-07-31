@@ -1,143 +1,34 @@
-<h1 class="page-title">Bank account</h1>
-
-<div id="bank-account">
-	<div class="funding-instrument-header main-header">
-		<div class="row-fluid">
-			<div class="span2 label">
-				<div {{bind-attr class=":icon :bank-account-info can_debit:icon-verified"}}>Bank Account</div>
-			</div>
-			<div class="span14 title">
-				<span class="nav3d">
-					{{title_description}}
-				</span>
-			</div>
-
-			<div class="buttons">
-				<div class="buttons-container">
-					{{#if can_debit}}
-						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-					{{else}}
-						{{#if can_verify}}
-							<a class="btn verify-button" {{action "openVerifyBankAccountModal"}}>Verify to debit</a>
-						{{/if}}
-						{{#if can_confirm_verification}}
-							<a class="btn confirm-verification-button" {{action "openConfirmVerificationModal"}}>Confirm verification</a>
-						{{/if}}
-					{{/if}}
-
-					<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
-				</div>
-			</div>
+{{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
+	{{#unless model.isRemoved}}
+		<div class="buttons page-actions">
+			{{#if can_debit}}
+				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+			{{/if}}
+			{{#if can_credit}}
+				<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+			{{/if}}
 		</div>
-	</div>
+	{{/unless}}
+{{/view}}
 
-	<div class="row-fluid">
-		<div class="span16">
-			<section class="bank-account-info">
-				<div class="key-value-display">
-					<header>
-						<h3>Details</h3>
-					</header>
-					<dl class="dl-horizontal">
-						<dt>ID</dt>
-						<dd><span>{{id}}</span></dd>
-						<dt>Created</dt>
-						<dd><span>{{humanReadableDateLong created_at}}</span></dd>
-						<dt>Name</dt>
-						<dd><span>{{name}}</span></dd>
-						<dt>Account #</dt>
-						<dd><span>{{account_number}}</span></dd>
-						<dt>Routing #</dt>
-						<dd><span>{{routing_number}}</span></dd>
-						<dt>Bank</dt>
-						<dd><span>{{formatted_bank_name}}</span></dd>
-						<dt>Type</dt>
-						<dd><span>{{capitalize account_type_name}}</span></dd>
-						<dt>Address line 1</dt>
-						<dd><span>{{address.line1}}</span></dd>
-						<dt>Address line 2</dt>
-						<dd><span>{{address.line2}}</span></dd>
-						<dt>City</dt>
-						<dd><span>{{address.city}}</span></dd>
-						<dt>State</dt>
-						<dd><span>{{address.state}}</span></dd>
-						<dt>Zip code</dt>
-						<dd><span>{{address.postal_code}}</span></dd>
-						<dt>Country</dt>
-						<dd><span>{{address.country_code}}</span></dd>
-					</dl>
-				</div>
-				{{view Balanced.MetaView type=model}}
-			</section>
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.SidePanelView model=model}}
+		{{view Balanced.BankAccountSummarySectionView model=model}}
+		{{view Balanced.BankAccountTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
+	{{/view}}
 
-		</div>
-
-		<div class="offset1 span9">
-			{{partial 'customer_info'}}
-
-			<section class="verifications-info">
-				<header>
-					<h3>Bank account verifications</h3>
-				</header>
-
-				<div class="row-fluid">
-					<table class="items">
-						<tbody>
-							{{#each verification in verifications}}
-							<tr>
-								<td class="status span12">
-									{{#if verification.created_at}}
-									<time {{bind-attr datetime="verification.created_at"}}>{{humanReadableDateShort verification.created_at}}</time>
-									{{else}}
-									---
-									{{/if}}
-								</td>
-								<td class="attempts span10">
-									{{verification.attempts}} of {{verification.allowed_attempts}} attempts
-								</td>
-								<td class="status span4 label4a">
-									{{titleCase verification.display_state}}
-								</td>
-							</tr>
-							{{else}}
-							<tr>
-								<td colspan="3" class="span26 no-results">
-									{{#if verifications.isLoaded}}
-									Unverified
-									{{else}}
-									Loading...
-									{{/if}}
-								</td>
-							</tr>
-							{{/each}}
-						</tbody>
-					</table>
-				</div>
-
-			</section>
-		</div>
-
-	</div>
-
-	<section class="activity">
-		<header class="results-label">
-			<h3>Payments</h3>
-		</header>
+	{{#view Balanced.MainPanelView}}
+		<h3>Payments</h3>
 		<div class="results">
-			{{view Balanced.TransactionsFiltersHeaderView}}
-
-			<div class="items-wrapper">
-				{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
-			</div>
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
 		</div>
-	</section>
-</div>
+	{{/view}}
+{{/view}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}
 {{/if}}
 
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
-{{view Balanced.CreditFundingInstrumentModalView funding_instrumentBinding="model"}}
-{{view Balanced.VerifyBankAccountModalView funding_instrumentBinding="model"}}
-{{view Balanced.ConfirmVerificationModalView funding_instrumentBinding="model"}}
+{{view Balanced.DebitFundingInstrumentModalView funding_instrument=model}}
+{{view Balanced.CreditFundingInstrumentModalView funding_instrument=model}}

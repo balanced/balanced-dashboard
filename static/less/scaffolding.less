@@ -71,15 +71,36 @@
 #site-nav {
   margin-right: 45px;
   position: absolute;
-  top: 0;
+  top: 15px;
+  bottom: 15px;
   right: 0;
   z-index: 2;
+  border-left: 1px solid @gray2;
 
   .nav-login {
     line-height: @headerHeight;
   }
   .nav-item {
     float: left;
+    margin-left: 25px;
+
+    .dropdown-toggle {
+      line-height: 40px;
+
+      .caret {
+        margin-top: 11px;
+      }
+    }
+
+    [class^="icon-"] {
+      font-size: 12px;
+      line-height: 22px;
+      margin-right: -2px;
+    }
+
+    span {
+      font-size: 12px;
+    }
 
     > a, > span {
       display: block;
@@ -102,10 +123,6 @@
 
 #user-menu {
   min-width: 90px;
-
-  span {
-    font-size: 12px;
-  }
 
   .dropdown-menu {
     right: 0;
@@ -134,4 +151,8 @@
 
 hr {
   border-top: 1px solid @gray2;
+}
+
+.uppercase {
+  text-transform: uppercase;
 }

@@ -10,7 +10,14 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 		return [];
 	}.property(), // Ember.computed.readOnly('model.documents_to_upload'),
 
-	modalMessage: 'Please provide shipping receipts with shipping address, tracking numbers and any evidence of received goods or services purchased. This dispute will most likely result in a lost if you do not respond by',
+	modalMessage: 'The following types of documentation can help you win a dispute:',
+
+	documentRequirements: function() {
+		return ['Tracking information for goods that are physically delivered, such as a FedEx/UPS tracking number',
+			'Email exchanges between yourself and the customer where you remind them of the initial charge',
+			'Order receipts emailed to the cardholder upon completion of the purchase process'
+		];
+	}.property(),
 
 	validDocumentCount: function() {
 		var documentsToUpload = this.get('documentsToUpload');
@@ -161,7 +168,6 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 			documentsToUpload.mapBy('file').forEach(function(file, index) {
 				formData.append("documents[%@]".fmt(index), file);
 			});
-
 			$.ajax(ENV.BALANCED.JUSTITIA + this.get('model.dispute_uri'), {
 				headers: {
 					'Authorization': auth

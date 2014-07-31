@@ -6,11 +6,9 @@ Balanced.SearchView = Balanced.View.extend({
 	didInsertElement: function() {
 		$(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
 
-		var serachFieldContainer = $('.search-field-container');
 		var iconSearch = $('.icon-search');
 
 		$('#search').hover(function() {
-			serachFieldContainer.toggleClass('search-highlight');
 			$(iconSearch).toggleClass('search-highlight');
 		});
 

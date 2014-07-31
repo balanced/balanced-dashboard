@@ -64,7 +64,7 @@ test('search "%" returns 4 transactions. Click load more shows 2 more and hides 
 		.then(function() {
 			assert.equal($('#search .results table.transactions tfoot td').length, 1, 'has "load more"');
 		})
-		.assertClick('#search .results table.transactions tfoot td.load-more-results a', assert)
+		.assertClick('#search .results table.transactions tfoot tr.load-more-results a', assert)
 		.then(function() {
 			assert.equal($('#search .results table.transactions tbody tr').length, 4, 'has 4 transactions');
 			assert.equal($('#search .results table.transactions tfoot td').length, 0, 'does not have "load more"');

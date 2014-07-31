@@ -1,49 +1,37 @@
-.dl-horizontal {
-  dt {
-    .sl-sb;
-    clear: left;
-    float: left;
-    margin-bottom: 0;
-    overflow: hidden;
-    text-align: left;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 160px;
-  }
-
-  dd {
-    margin-left: 180px;
-    min-height: 20px;
-
-    > span {
-      display: block;
-    }
-
-    .modal-container {
-      display: inline-block;
-    }
-  }
-}
-
-.key-value-display .dl-horizontal {
-  dt {
-    color: #000;
-/*    width: 25%;*/
-    &:after {
-      content: ":";
-    }
-  }
-
-  dd {
-/*    margin-left: 25%;*/
-  }
-}
-
 .key-value-display {
-  margin-bottom: 30px;
+  margin-bottom: 45px;
 
-  .header-action-container {
-    display: inline;
+  h3 {
+    .sl-sb;
+    line-height: 17px;
+    padding-bottom: 3px;
+    border-bottom: solid 1px @gray2;
+    margin-top: 0;
+    margin-bottom: 20px;
+
+    > div {
+      display: inline;
+    }
+  }
+
+  .dl-horizontal {
+    dt {
+      .sl-sm;
+      margin-bottom: 0;
+      text-align: left;
+      float: none;
+      width: 100%;
+    }
+
+    dd {
+      color: @gray6;
+      margin-left: 0;
+      margin-bottom: 13px;
+
+      .modal-container {
+        display: inline-block;
+      }
+    }
   }
 
   a.disclosure {
@@ -67,8 +55,10 @@
       }
     }
   }
+
   &.edit {
     .inline-label {
+      padding-top: 5px;
       display: none;
     }
     .inline-edit {
@@ -76,9 +66,11 @@
       color: #d9d9d9;
     }
   }
+
   .inline-label {
     display: inline-block;
   }
+
   .help-inline {
     margin: 0;
   }

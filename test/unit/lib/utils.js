@@ -23,6 +23,27 @@ test('getParamByName', function(assert) {
 	}
 });
 
+test("objectToQueryString", function(assert) {
+	var testExpectation = function(value, expectation) {
+		var result = Balanced.Utils.objectToQueryString(value);
+		assert.equal(result, expectation);
+	};
+
+	testExpectation({
+		milo: "cat"
+	}, "milo=cat");
+
+	testExpectation({
+		one: "two",
+		three: undefined
+	}, "one=two&three=");
+	testExpectation({
+		roger: "dog",
+		milo: "cat",
+		"princesMonsterTruck&lil Bub": "cat>dog"
+	}, "roger=dog&milo=cat&princesMonsterTruck%26lil%20Bub=cat%3Edog");
+});
+
 test('formatCurrency', function(assert) {
 	var cents = [-984526372, -10000, -105, -1,
 		0,
@@ -385,49 +406,34 @@ test('formatError', function(assert) {
 });
 
 test('applyUriFilters', function(assert) {
-	var inputs = [{
-		uri: 'http://example.com/something',
-		params: {
-			query: 'hello',
-		}
-	}, {
-		uri: 'http://example.com/something',
-		params: {
-			query: 'hello',
-			limit: 23,
-			offset: 87,
-			sortField: 'foo',
-			sortOder: 'asc',
-			minDate: new Date(1231231231231),
-			maxDate: new Date(1231231231231),
-			type: 'foobar'
-		}
-	}, {
-		uri: 'http://example.com/something',
-		params: {
-			query: 'hello',
-			custom: 'woohoo'
-		}
-	}, {
-		uri: 'http://example.com/something',
-		params: {
-			query: 'nick+test1@rasslingcats.com'
-		}
-	}, {
-		uri: null
-	}];
+	var test = function(uri, query, expectation) {
+		var result = Balanced.Utils.applyUriFilters(uri, query);
+		assert.equal(result, expectation);
+	};
 
-	var expected = [
-		'http://example.com/something?limit=10&offset=0&q=hello',
-		'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=23&offset=87&q=hello&sortOder=asc&type=foobar',
-		'http://example.com/something?custom=woohoo&limit=10&offset=0&q=hello',
-		'http://example.com/something?limit=10&offset=0&q=nick%2Btest1%40rasslingcats.com',
-		null
-	];
+	test('http://example.com/something', {
+		query: 'hello',
+	}, 'http://example.com/something?limit=10&offset=0&q=hello');
 
-	for (var i = 0; i < inputs.length; i++) {
-		assert.equal(Balanced.Utils.applyUriFilters(inputs[i].uri, inputs[i].params), expected[i]);
-	}
+	test('http://example.com/something', {
+		query: 'hello',
+		limit: 23,
+		offset: 87,
+		sortField: 'foo',
+		sortOder: 'asc',
+		minDate: new Date(1231231231231),
+		maxDate: new Date(1231231231231),
+		type: 'foobar'
+	}, 'http://example.com/something?created_at%5B%3C%5D=2009-01-06T08%3A40%3A31.231Z&created_at%5B%3E%5D=2009-01-06T08%3A40%3A31.231Z&limit=23&offset=87&q=hello&sortOder=asc&type=foobar');
+
+	test('http://example.com/something', {
+		query: 'hello',
+		custom: 'woohoo'
+	}, 'http://example.com/something?custom=woohoo&limit=10&offset=0&q=hello');
+
+	test('http://example.com/something', {
+		query: 'nick+test1@rasslingcats.com'
+	}, 'http://example.com/something?limit=10&offset=0&q=nick%2Btest1%40rasslingcats.com');
 });
 
 
@@ -525,10 +531,75 @@ test('filterSensitivePropertiesMap', function(assert) {
 });
 
 test("#buildUri", function(assert) {
-	assert.deepEqual(Balanced.Utils.buildUri("/path"), "/path");
-	assert.deepEqual(Balanced.Utils.buildUri("/path", {}), "/path");
-	assert.deepEqual(Balanced.Utils.buildUri("/path", {
-		object: 1,
-		another: "2"
-	}), "/path?object=1&another=2");
+	var test = function(path, query, expectation) {
+		var result = Balanced.Utils.buildUri(path, query);
+		assert.equal(result, expectation);
+	};
+
+	test("/path", undefined, "/path");
+	test("/path", {}, "/path");
+	test("/path", "", "/path");
+
+	test("/path", {
+		milo: "cat",
+		roger: "dog"
+	}, "/path?milo=cat&roger=dog");
+	test("/path", "milo=cat&roger=dog", "/path?milo=cat&roger=dog");
 });
+
+/*
+test("#formatDate", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.formatDate(value, f), expectation);
+	};
+
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "April 1 2011, 12:00 AM");
+	test("2014-07-23T08:39:14+00:00", "July 23 2014,  1:39 AM");
+	test(1000, 1000);
+});
+
+test("#humanReadableDate", function(assert) {
+	var test = function(value, expectation) {
+		assert.deepEqual(Balanced.Utils.humanReadableDate(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "Apr 1, 2011");
+	test("2014-07-23T08:39:14+00:00", "Jul 23, 2014");
+	test(1000, 1000);
+});
+
+test("#humanReadableTime", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.humanReadableTime(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "12:00 AM");
+	test("2014-07-23T18:39:14+00:00", "11:39 AM");
+	test(1000, 1000);
+});
+
+test("#humanReadableDateShort", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.humanReadableDateShort(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "04/1/11, 12:00 AM");
+	test("2014-07-23T08:39:14+00:00", "07/23/14,  1:39 AM");
+	test(1000, 1000);
+});
+
+test("#humanReadableDateLong", function(assert) {
+	var test = function(value, expectation) {
+		var f = '%B %e %Y, %l:%M %p';
+		assert.deepEqual(Balanced.Utils.humanReadableDateLong(value), expectation);
+	};
+	var date = moment('2011-04-01 00:00:00').toDate();
+	test(date, "April 1 2011, 12:00 AM");
+	test("2014-07-23T08:39:14+00:00", "July 23 2014,  1:39 AM");
+	test(1000, 1000);
+});
+*/

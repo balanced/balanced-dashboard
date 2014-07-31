@@ -1,0 +1,10 @@
+{{#if view.value}}
+	<dt>
+		{{view.key}}
+	</dt>
+	{{#if view.hasLink}}
+		<dd><a {{bind-attr href=view.link}}>{{view.value}}</a></dd>
+	{{else}}
+		<dd>{{view.value}}</dd>
+	{{/if}}
+{{/if}}

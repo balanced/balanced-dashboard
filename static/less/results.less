@@ -1,8 +1,16 @@
+.results-actions-bar {
+  .clearfix();
+  line-height: 40px;
+  height: 40px;
+}
+
 header.results-label h3 {
-  margin: 0px;
+  float: left;
+  margin: 10px 0;
 }
 
 .results {
+  margin-bottom: 55px;
 
   .search-filters-header {
       padding: 0 10px;
@@ -105,7 +113,7 @@ header.results-label h3 {
   td.status {
     text-transform: capitalize;
 
-    span:before {
+    a > span:before {
       content: '';
       display: inline-block;
       width: 8px;
@@ -126,25 +134,25 @@ header.results-label h3 {
       }
     }
 
-    .succeeded, .captured, .created, .won, .paid, .good {
+    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified, .active, .good {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .failed, .expired, .lost, .arbitration, .bad {
-      &:before {
-        background-color: @imperialRed80;
-      }
-    }
-
-    .new, .pending, .scheduled {
+    .new, .pending, .scheduled, .unverified, .unverifiable {
       &:before {
         background-color: @curryYellow80;
       }
     }
 
-    .representment:before {
+    .failed, .expired, .lost, .arbitration, .canceled, .voided, .invalidated, .removed, .bad {
+      &:before {
+        background-color: @imperialRed80;
+      }
+    }
+
+    .submitted:before {
       background-color: @byzantiumPurple80;
     }
   }
@@ -157,7 +165,6 @@ header.results-label h3 {
   }
 
   .sortable {
-    line-height: 51px;
     display: inline-block;
     padding: 0 10px;
 
@@ -366,37 +373,9 @@ header.results-label h3 {
     background-color: @gray3;
   }
 }
-.results.embedded {
-  padding-bottom: 40px;
-  table.items {
-    background-color: white;
-    tr {
-      border: 2px solid @gray2;
-      .first {
-        width: 154px;
-        padding-left: 12px;
-      }
-    }
-    td.second {
-      a {
-        color: @linkColor;
-        text-decoration: none;
-      }
-      a:hover,
-      a:focus {
-        color: @linkColorHover;
-        text-decoration: underline;
-      }
-    }
-    td.last {
-      width: 100px;
-    }
-  }
-}
 
 .datetime-picker {
   display: inline-block;
-  margin-bottom: 20px;
 
   [class^="icon-"] {
     font-size: 18px;
@@ -416,6 +395,42 @@ header.results-label h3 {
     a {
       display: inline !important;
       text-decoration: underline !important;
+    }
+  }
+}
+
+.btn-group {
+  &.toggle-switch {
+    .btn {
+      .border-radius(0);
+      width: 50px;
+      min-width: 50px;
+      max-width: 50px;
+      padding: 10px;
+      .sl;
+      color: @gray4;
+      border-color: @gray2;
+      background-color: @white;
+
+      &.yes, &.no-good {
+        &.active {
+          color: @white;
+          border-color: @pineGreen60;
+          background-color: @pineGreen60;
+        }
+      }
+
+      &.no, &.yes-bad {
+        &.active {
+          color: @white;
+          border-color: @imperialRed60;
+          background-color: @imperialRed60;
+        }
+      }
+
+      &:disabled {
+        cursor: default;
+      }
     }
   }
 }

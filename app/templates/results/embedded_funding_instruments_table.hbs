@@ -1,0 +1,70 @@
+<thead>
+	<tr>
+		<th class="span4 label6a funding-instruments has-filter">
+			{{view Balanced.PaymentMethodsResultsDropdownFilterView model=view.loader}}
+		</th>
+		<th class="span4 label6a"><span>Bank</span></th>
+		<th class="span3 label6a"><span>Status</span></th>
+		<th class="span3 label6a"><span>Name on account</span></th>
+		<th class="span1 label6a"><span></span></th>
+	</tr>
+</thead>
+
+{{#if view.loader.results.hasNextPage}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
+{{/if}}
+
+<tbody>
+	{{#each funding_instrument in view.loader.results}}
+		<tr {{bind-attr class="funding_instrument.isCard:type-card funding_instrument.isBankAccount:type-bank-account"}}>
+			<td>
+				{{#link-to funding_instrument.route_name funding_instrument}}<span {{bind-attr title="funding_instrument.description"}}>
+					<span class="primary">{{funding_instrument.last_four}} {{#if funding_instrument.brand}}{{funding_instrument.brand}}{{/if}}</span>
+					<span class="secondary">{{funding_instrument.funding_instrument_type}}</span>
+				</span>{{/link-to}}
+			</td>
+			<td>
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					{{#if funding_instrument.formatted_bank_name}}
+						<span>{{funding_instrument.formatted_bank_name}}</span>
+					{{else}}
+						<span class="sl-none">unknown</span>
+					{{/if}}
+				{{/link-to}}
+			</td>
+			<td class="status">
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					<span {{bind-attr class="funding_instrument.status"}}>
+						{{capitalize funding_instrument.status}}
+					</span>
+				{{/link-to}}
+			</td>
+			<td>
+				{{#link-to funding_instrument.route_name funding_instrument}}
+					{{#if funding_instrument.name}}
+						<span>{{funding_instrument.name}}</span>
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
+				{{/link-to}}
+			</td>
+			<td>
+				<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openDeleteModal" funding_instrument}}>
+					{{#unless funding_instrument.isRemoved}}
+						<i class="icon-table-x"></i>
+					{{/unless}}
+				</a>
+			</td>
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="5" class="no-results">
+				{{#if view.loader.results.isLoaded}}
+					No results
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
+</tbody>

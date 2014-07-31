@@ -22,8 +22,7 @@
 	<div class="form-footer">
 		<div class="pull-right">
 			<button class="btn secondary" {{action "reset" target="view"}}>Back</button>
-			<button class="add-funds-btn" {{action "openModal" Balanced.CreateEscrowCreditModalView}}>Add funds</button>
-
+			<button class="add-funds-btn" {{action "openModal" Balanced.CreateEscrowCreditModalView controllers.marketplace.model}}>Add funds</button>
 		</div>
 
 		<div class="message-error">

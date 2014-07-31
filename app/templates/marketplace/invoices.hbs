@@ -1,15 +1,11 @@
-<div id="invoices">
-	<div class="page-navigation">
-		<h1 class="page-title">Account statements
-			{{#unless results.isLoaded}}<div class="loader-container"><span class="loader loading"></span></div>{{/unless}}
-		</h1>
-	</div>
+{{view Balanced.PageNavigationView title="Account statements"}}
 
-	<div id="invoices" class="results row">
-		{{view Balanced.DateFilterHeaderView}}
-		<div class="items-wrapper">
-			{{view Balanced.InvoiceDownloadModalView}}
-			{{view Balanced.InvoicesResultsView}}
-		</div>
+<nav class="results-actions-bar">
+	{{view Balanced.InvoiceDownloadModalView}}
+</nav>
+
+<div class="results">
+	<div class="items-wrapper">
+		{{view Balanced.InvoicesResultsView loader=resultsLoader}}
 	</div>
 </div>

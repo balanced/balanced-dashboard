@@ -1,31 +1,31 @@
-<table class="items api-keys-table">
+<table class="items non-interactive api-keys-info">
+	<thead>
+		<th class="span3"><span>Date</span></th>
+		<th class="span3"><span>Name</span></th>
+		<th class="span8"><span>Secret</span></th>
+		<th class="span1"><span></span></th>
+	</thead>
 	<tbody>
 		{{#each key in keys}}
 			<tr>
-				<td class="span4" {{bind-attr title="key.created_at"}}>
-					<span class="wrap">
-						<span class="icon-key"></span>
-						{{humanReadableDateShort key.created_at}}
-					</span>
+				{{view Balanced.LinkedDateCellView
+					item=key
+					classNames="span3"
+					date=key.created_at
+				}}
+				<td {{bind-attr title="key.meta.name"}}>
+					{{#if key.meta.name}}
+						<span>{{key.meta.name}}</span>
+					{{else}}
+						<span class="sl-none">none</span>
+					{{/if}}
 				</td>
-				<td class="span3" {{bind-attr title="key.meta.name"}}>
-					<span class="wrap">
-						{{#if key.meta.name}}
-							{{key.meta.name}}
-						{{/if}}
-					</span>
-				</td>
-				<td class="span6" {{bind-attr title="key.id"}}>
-					<span class="wrap">
-						{{key.id}}
-					</span>
-				</td>
-				<td class="span8">
-					<span class="wrap">
+				<td>
+					<span>
 						{{#if key.secret}}
 							{{api-key-secret-shower key=key}}
 						{{else}}
-							{{#view Balanced.PopoverView class="no-secret" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
+							{{#view Balanced.PopoverView class="sl-none" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
 							Secret unavailable
 							{{/view}}
 						{{/if}}
@@ -38,7 +38,7 @@
 		{{else}}
 			<tr>
 				<td colspan="5" class="no-results">
-					<span class="wrap">No results</span>
+					<span>No results</span>
 				</td>
 			</tr>
 		{{/each}}

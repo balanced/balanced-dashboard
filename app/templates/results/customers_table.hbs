@@ -1,29 +1,21 @@
 <thead>
 	<tr>
-		<th class="span3 label6a has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="span3 label6a has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
 		<th class="span4 label6a name"><span>Customer</span></th>
 		<th class="span4 label6a name"><span>Business</span></th>
 	</tr>
 </thead>
 
-{{#if view.customers.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td colspan="3" class="load-more-results">
-				{{#if view.customers.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" view.customers}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
+{{#if view.loader.results.hasNextPage}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=3}}
 {{/if}}
 
 <tbody>
-	{{#each customer in view.customers}}
+	{{#each customer in view.loader.results}}
 		<tr>
 			{{view Balanced.LinkedDateCellView routeName=customer.route_name date=customer.created_at item=customer classNames="span3"}}
 			{{view Balanced.LinkedTwoLinesCellView
@@ -39,7 +31,7 @@
 	{{else}}
 		<tr>
 			<td colspan="3" class="no-results">
-				{{#if isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

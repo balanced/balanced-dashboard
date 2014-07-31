@@ -1,10 +1,4 @@
 .btn {
-  cursor: pointer;
-
-  &:visited {
-    color: @white;
-  }
-
   .icon {
     display: inline-block;
     font-size: 19px;
@@ -25,46 +19,47 @@
       color: @black !important;
     }
   }
-
-  &.btn-link-inline {
-    border: 0 solid transform;
-    height: 36px;
-    margin: 0;
-    padding: 0;
-  }
 }
 
 .page-navigation {
-  margin-bottom: 10px;
+  margin: -45px -45px 0 -45px;
+  padding: 30px 45px;
+  background-color: @gray1;
+  border-bottom: 1px solid @gray2;
 
-  h1.page-title {
+  &.details-page {
+    margin-bottom: 45px;
+  }
+  .left-page-navigation {
+    float: left;
+    margin-top: 8px;
+  }
+
+  .page-title {
     .sl-lg-sb;
     margin: 0;
   }
 
-  .filter {
-    .sl-md;
-    border-bottom: @searchBorderWidth solid transparent;
-    color: @gray4;
-    display: inline-block;
-    padding: 3px 0;
-    margin: 0 6px;
-    &.selected {
-      border-bottom-color: @black;
-      color: @black;
-    }
+  .page-type {
+    .sl-sb;
+    line-height: 30px;
+  }
+
+  .page-value {
+    .sl-lg-sb;
+    text-align: right;
+    float: right;
   }
 
   .page-actions {
     float: right;
-    line-height: 34px;
+    line-height: 85px;
+
     .btn {
       margin-right: 4px;
     }
   }
 }
-
-/*.title-bar-color(tb-curry-yellow, @curryYellow60, @curryYellow100, @white);*/
 
 ul.styled {
   list-style: initial;

@@ -1,6 +1,10 @@
 <thead>
 	<tr>
-		<th class="span3 label6a has-filter">{{#view Balanced.ResultsSortableColumnHeaderView class="sortable" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="span3 date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeOrdersSort"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
 		<th class="span4 label6a description"><span>Description</span></th>
 		<th class="span4 label6a buyer"><span>Customer (buyer)</span></th>
 		<th class="span4 label6a seller"><span>Customer (seller)</span></th>
@@ -10,60 +14,25 @@
 	</tr>
 </thead>
 
-{{#if view.orders.hasNextPage}}
-	<tfoot>
-		<tr>
-			<td colspan="7" class="load-more-results">
-				{{#if view.orders.loadingNextPage}}
-					<div class="loader-container">
-						<span class="loader loading"></span>
-					</div>
-				{{else}}
-					<a class="btn sm secondary" {{action "loadMore" view.orders}}>Load more</a>
-				{{/if}}
-			</td>
-		</tr>
-	</tfoot>
+{{#if view.loader.results.hasNextPage}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=7}}
 {{/if}}
 
 <tbody>
-	{{#each order in view.orders}}
+	{{#each order in view.loader.results}}
 		<tr>
-			<td class="span3 date">
-				{{#link-to order.route_name order}}<span>
-					<time {{bind-attr datetime="order.created_at"}} {{bind-attr title="order.created_at"}}>
-						<span class="primary">{{humanReadableDate order.created_at}}</span>
-						<span class="secondary">{{humanReadableTime order.created_at}}</span>
-					</time>
-				</span>{{/link-to}}
-			</td>
-			<td class="span4 description">
-				<span>{{order.page_title}}</span>
-			</td>
-			<td class="span4 buyer" {{bind-attr title="order.buyer.firstObject.display_me"}}>
-				{{#link-to order.route_name order}}<span>
-					{{order.buyers.firstObject.display_me}}
-				</span>{{/link-to}}
-			</td>
-			<td class="span4 seller" {{bind-attr title="order.seller.display_me"}}>
-				{{#link-to order.route_name order}}<span>
-					{{order.seller.display_me}}
-				</span>{{/link-to}}
-			</td>
-			<td class="span2 debits">
-				{{#link-to order.route_name order}}<span>{{order.debits_amount}}</span>{{/link-to}}
-			</td>
-			<td class="span2 credits">
-				{{#link-to order.route_name order}}<span>{{order.credits_amount}}</span>{{/link-to}}
-			</td>
-			<td class="span2 escrow">
-				{{#link-to order.route_name order}}<span>{{order.escrow_balance}}</span>{{/link-to}}
-			</td>
+			{{view Balanced.LinkedDateCellView routeName=order.route_name date=order.created_at item=order classNames="span3"}}
+			{{view Balanced.TitledLinkedCellView routeName=order.route_name item=order labelText=order.page_title classNames="span4"}}
+			{{view Balanced.TitledLinkedCellView routeName=order.route_name item=order labelText=order.buyers.firstObject.display_me classNames="span4"}}
+			{{view Balanced.TitledLinkedCellView routeName=order.route_name item=order labelText=order.seller.display_me classNames="span4"}}
+			{{view Balanced.TitledLinkedCellView routeName=order.route_name item=order labelText=order.debits_amount classNames="span4"}}
+			{{view Balanced.TitledLinkedCellView routeName=order.route_name item=order labelText=order.credits_amount classNames="span4"}}
+			{{view Balanced.TitledLinkedCellView routeName=order.route_name item=order labelText=order.escrow_balance classNames="span4"}}
 		</tr>
 	{{else}}
 		<tr>
 			<td colspan="7" class="no-results">
-				{{#if isLoaded}}
+				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
 					Loading...

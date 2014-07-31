@@ -5,7 +5,10 @@ module('Marketplace Settings', {
 		Testing.useFixtureData();
 	},
 	teardown: function() {
-		$(".modal").modal('hide');
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			Balanced.Adapter.delete
+		);
 	}
 });
 
@@ -21,12 +24,13 @@ test('can manage users', function(assert) {
 
 test('test marketplace info', function(assert) {
 	visit(SETTINGS_ROUTE)
-		.then(function() {
-			var arr = ['FIXTURED-MP4cOZZqeAelhxXQzljLLtgl', 'FIXTURED Marketplace', 'support@example.com', 'example.com', '+16505551234'];
-			$('.marketplace-info dl dd').each(function(i) {
-				assert.equal($(this).text().trim(), arr[i], 'Same text as ' + arr[i]);
-			});
-		});
+		.assertDictionaryExists(".dl-horizontal", {
+			"Marketplace ID": 'FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
+			"Name": 'FIXTURED Marketplace',
+			"Support email": 'support@example.com',
+			"Domain URL": 'example.com',
+			"Support phone number": '+16505551234'
+		}, assert);
 });
 
 test('can add user', function(assert) {
@@ -95,15 +99,10 @@ test('can delete user', function(assert) {
 	});
 
 	visit(SETTINGS_ROUTE)
-		.then(function() {
-			assert.equal($('.users-info table tr td.no-results').length, 0, 'Users shown');
-			assert.equal($('.users-info table tr').length, 1, 'Single Users shown');
-		})
+		.checkElements({
+			'.users-info table tr td.no-results': 0,
+			'.users-info table tr': 2
+		}, assert)
 		.click('.confirm-delete-user:first')
 		.click('.modal.delete-user button[name="modal-submit"]:visible');
-	// .then(function() {
-	// TODO Statements not working for some reason?
-	// assert.ok(stub.calledOnce);
-	// assert.ok(stub.calledWith(Balanced.UserInvite));
-	// });
 });

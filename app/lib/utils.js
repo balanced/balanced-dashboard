@@ -38,6 +38,15 @@ Balanced.Utils = Ember.Namespace.create({
 		return results;
 	},
 
+	objectToQueryString: function(object) {
+		return _.map(object, function(v, k) {
+			var value = Ember.isBlank(v) ?
+				"" :
+				v;
+			return encodeURIComponent(k) + '=' + encodeURIComponent(value);
+		}).join('&');
+	},
+
 	stripDomain: function(url) {
 		return url.replace(STRIP_DOMAIN_REGEX, '');
 	},
@@ -273,12 +282,12 @@ Balanced.Utils = Ember.Namespace.create({
 	},
 
 	buildUri: function(path, queryStringObject) {
-		var queryString = _.map(queryStringObject, function(v, k) {
-			return encodeURIComponent(k) + '=' + encodeURIComponent(v);
-		}).join('&');
-		return queryString ?
-			path + "?" + queryString :
-			path;
+		var queryString = _.isString(queryStringObject) ?
+			queryStringObject :
+			this.objectToQueryString(queryStringObject);
+		return Ember.isBlank(queryString) ?
+			path :
+			path + "?" + queryString;
 	},
 
 	/*
@@ -327,36 +336,30 @@ Balanced.Utils = Ember.Namespace.create({
 		long: '%B %e %Y, %l:%M %p',
 	},
 
-	humanReadableDate: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.date);
+	formatDate: function(date, format) {
+		if (_.isDate(date)) {
+			return date.strftime(format);
+		} else if (_.isString(date)) {
+			return Date.parseISO8601(date).strftime(format);
 		} else {
-			return isoDate;
+			return date;
 		}
+	},
+
+	humanReadableDate: function(isoDate) {
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.date);
 	},
 
 	humanReadableTime: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.time);
-		} else {
-			return isoDate;
-		}
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.time);
 	},
 
 	humanReadableDateShort: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.short);
-		} else {
-			return isoDate;
-		}
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.short);
 	},
 
 	humanReadableDateLong: function(isoDate) {
-		if (isoDate) {
-			return Date.parseISO8601(isoDate).strftime(Balanced.Utils.date_formats.long);
-		} else {
-			return isoDate;
-		}
+		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.long);
 	},
 
 	// filters any number that is in the form of a string and longer than 4 digits (bank codes, ccard numbers etc)

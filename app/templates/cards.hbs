@@ -1,103 +1,31 @@
-<h1 class="page-title">{{type_name}}</h1>
-
-<div id="card">
-	<div class="funding-instrument-header main-header">
-		<div class="row-fluid">
-			<div class="span2 label">
-				<div {{bind-attr class=":icon :card-info"}}>Card</div>
-			</div>
-			<div class="span14 title">
-				<span class="nav3d">
-					{{title_description}}
-				</span>
-			</div>
-
-			<div class="buttons">
-				<div class="buttons-container">
-					{{#if customer}}
-						<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
-						<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
-						{{#if can_credit}}
-							<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
-						{{/if}}
-					{{/if}}
-				</div>
-			</div>
+{{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
+	{{#unless model.isRemoved}}
+		<div class="buttons page-actions">
+			{{#if model.customer}}
+				<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
+				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+				{{#if model.can_credit}}
+					<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+				{{/if}}
+			{{/if}}
 		</div>
-	</div>
+	{{/unless}}
+{{/view}}
 
-	<div class="row-fluid">
-		<div class="span16">
-			<section class="card-info">
-				<div class="key-value-display">
-					<header>
-						<h3>Details</h3>
-					</header>
-					<dl class="dl-horizontal">
-						<dt>ID</dt>
-						<dd><span>
-							{{#if id}}
-								{{id}}
-							{{else}}
-								<span class="text-error">DELETED</span>
-							{{/if}}
-						</span></dd>
-						<dt>Created</dt>
-						<dd><span>{{humanReadableDateLong created_at}}</span></dd>
-						<dt>Name</dt>
-						<dd><span>{{name}}</span></dd>
-						<dt>Card #</dt>
-						<dd><span>{{number}}</span></dd>
-						<dt>Bank</dt>
-						<dd><span>{{formatted_bank_name}}</span></dd>
-						<dt>Type</dt>
-						<dd><span>
-						{{#if is_prepaid}}
-							Prepaid card (You can't credit to a prepaid card.)
-						{{else}}
-							{{type_name}}
-						{{/if}}
-						</span></dd>
-						<dt>Brand</dt>
-						<dd><span>{{brand}}</span></dd>
-						<dt>Expiration</dt>
-						<dd><span>{{human_readable_expiration}}</span></dd>
-						<dt>Address line 1</dt>
-						<dd><span>{{address.line1}}</span></dd>
-						<dt>Address line 2</dt>
-						<dd><span>{{address.line2}}</span></dd>
-						<dt>City</dt>
-						<dd><span>{{address.city}}</span></dd>
-						<dt>State</dt>
-						<dd><span>{{address.state}}</span></dd>
-						<dt>Zip code</dt>
-						<dd><span>{{address.postal_code}}</span></dd>
-						<dt>Country</dt>
-						<dd><span>{{address.country_code}}</span></dd>
-					</dl>
-				</div>
-				{{view Balanced.MetaView type=model}}
-			</section>
-		</div>
+{{#view Balanced.BodyPanelView}}
+	{{#view Balanced.SidePanelView model=model}}
+		{{view Balanced.CardSummarySectionView model=model}}
+		{{view Balanced.CardTitledKeyValuesSectionView model=model}}
+		{{view Balanced.MetaView type=model}}
+	{{/view}}
 
-		<div class="offset1 span9">
-			{{partial 'customer_info'}}
-		</div>
-	</div>
-
-	<section class="activity">
-		<header class="results-label">
-			<h3>Payments</h3>
-		</header>
+	{{#view Balanced.MainPanelView}}
+		<h3>Payments</h3>
 		<div class="results">
-			{{view Balanced.TransactionsFiltersHeaderView}}
-
-			<div class="items-wrapper">
-				{{view Balanced.TransactionsResultsView transactionsBinding="results"}}
-			</div>
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
 		</div>
-	</section>
-</div>
+	{{/view}}
+{{/view}}
 
 {{#if show_download}}
 	{{partial "modals/download"}}

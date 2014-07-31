@@ -16,8 +16,21 @@ Balanced.Customer = Balanced.Model.extend({
 
 	uri: '/customers',
 	route_name: 'customer',
+	type_name: 'Customer',
 
 	has_bank_account: Ember.computed.and('bank_accounts.isLoaded', 'bank_accounts.length'),
+
+	orders_list: function() {
+		var customer_uri = this.get('href');
+		var orders = this.get('orders') || Ember.A();
+
+		if (customer_uri) {
+			orders = orders.filter(function(order) {
+				return order.get('merchant_uri') === customer_uri;
+			});
+		}
+		return orders;
+	}.property('orders', 'orders.@each.merchant_uri'),
 
 	debitable_bank_accounts: function() {
 		return this.get('bank_accounts').filterBy('can_debit');
@@ -31,8 +44,29 @@ Balanced.Customer = Balanced.Model.extend({
 		return this.get('bank_accounts').isAny('can_debit');
 	}.property('bank_accounts.@each.can_debit'),
 
+	funding_instruments: Ember.computed.union('bank_accounts', 'cards'),
 	debitable_funding_instruments: Ember.computed.union('debitable_bank_accounts', 'cards'),
 	creditable_funding_instruments: Ember.computed.union('bank_accounts', 'creditable_cards'),
+
+
+	getFundingInstrumentsLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("uri") + "/search"
+		}, attributes);
+		return Balanced.FundingInstrumentsResultsLoader.create(attributes);
+	},
+	getDisputesLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("disputes_uri"),
+		}, attributes);
+		return Balanced.DisputesResultsLoader.create(attributes);
+	},
+	getTransactionsLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("transactions_uri"),
+		}, attributes);
+		return Balanced.TransactionsResultsLoader.create(attributes);
+	},
 
 	type: function() {
 		return (this.get('ein') || this.get('business_name')) ? CUSTOMER_TYPES.BUSINESS : CUSTOMER_TYPES.PERSON;
@@ -126,6 +160,10 @@ Balanced.Customer = Balanced.Model.extend({
 
 	dob_error: Balanced.computed.orProperties('validationErrors.dob_month', 'validationErrors.dob_year'),
 	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
+
+	status: function() {
+		return this.get('is_identity_verified') ? 'verified' : 'unverified';
+	}.property('is_identity_verified')
 });
 
 Balanced.Customer.reopenClass({
