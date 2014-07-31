@@ -41,7 +41,7 @@ Balanced.computed = Ember.Namespace.create({
 		return computed.property.apply(computed, args);
 	},
 
-	substract: function(key1, key2) {
+	subtract: function(key1, key2) {
 		return Ember.computed(function() {
 			return this.get(key1) - this.get(key2);
 		}).property(key1, key2);
