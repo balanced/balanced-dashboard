@@ -48,6 +48,10 @@ Balanced.Adapter.addFixtures([{
 		"uri": "/disputes/DT2xOc7zAdgufK4XsCIW5QgD"
 	}]
 }, {
+	"uri": "/disputes/disputes/documents"
+}, {
+	"uri": "/disputes/DT2i1GU1dayFu9xx9VA5cB5p/documents"
+}, {
 	"uri": "/disputes?limit=50&sort=initiated_at%2Cdesc"
 }, {
 	"uri": "/disputes?limit=50&offset=0&q=&sort=initiated_at%2Cdesc&type=dispute"
