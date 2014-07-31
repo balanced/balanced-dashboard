@@ -25,7 +25,8 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 					user,
 					response.user_id,
 					response.user_id,
-					false
+					false,
+					response.user.admin
 				);
 				self.rememberLogin(response.uri);
 				return user;
@@ -39,6 +40,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			.then(function(user) {
 				if (user.get("admin")) {
 					Balanced.Shapeshifter.load("balanced-admin", true);
+					self.setAPIKey(user.get("admin"));
 				}
 				return user;
 			})
@@ -111,7 +113,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			marketplaces_uri: '/users/guest/marketplaces',
 			api_keys_uri: '/users/guest/api_keys'
 		});
-		this.setAuthProperties(true, guestUser, '/users/guest', apiKey, true);
+		this.setAuthProperties(true, guestUser, '/users/guest', apiKey, true, false);
 	},
 
 	setupGuestUserMarketplace: function(marketplace) {
@@ -233,20 +235,22 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 						user,
 						response.user_id,
 						response.user_id,
-						false);
+						false,
+						response.admin);
 
 					self.rememberLogin(response.uri);
 				}
 			});
 	},
 
-	setAuthProperties: function(signedIn, user, userId, authToken, isGuest) {
+	setAuthProperties: function(signedIn, user, userId, authToken, isGuest, isAdmin) {
 		this.setProperties({
 			signedIn: signedIn,
 			user: user,
 			userId: userId,
 			authToken: authToken,
-			isGuest: isGuest
+			isGuest: isGuest,
+			isAdmin: isAdmin
 		});
 
 		Balanced.__container__.unregister('user:main');
@@ -279,7 +283,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 
 		this.unsetAPIKey();
 
-		this.setAuthProperties(false, null, null, null, false);
+		this.setAuthProperties(false, null, null, null, false, false);
 
 		Balanced.Utils.setCurrentMarketplace(null);
 	},

@@ -9,12 +9,12 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	isBankAccount: true,
 
 	type_name: function() {
-		if (this.get('isSaving')) {
+		if (this.get('account_type') === 'savings') {
 			return 'Savings account';
 		} else {
 			return 'Checking account';
 		}
-	}.property('isSaving'),
+	}.property('account_type'),
 
 	route_name: 'bank_accounts',
 	is_bank_account: true,

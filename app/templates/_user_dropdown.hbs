@@ -17,6 +17,11 @@
 			<li>{{#link-to 'marketplaces.apply'}}Register{{/link-to}}</li>
 			<li>{{#link-to 'claim'}}Claim account{{/link-to}}</li>
 		{{else}}
+      {{#if auth.isAdmin}}
+	      <li class="administration">
+	        {{#link-to 'administrator'}}Administration{{/link-to}}
+        </li>
+      {{/if}}
 			<li class="change-email">
 				<a href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email address</a>
 			</li>
