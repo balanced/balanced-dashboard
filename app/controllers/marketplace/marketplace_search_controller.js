@@ -11,7 +11,7 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 
 	totalOrders: Ember.computed.oneWay("resultsLoader.results.total_orders"),
 	totalTransactions: Ember.computed.oneWay("resultsLoader.results.total_transactions"),
-	totalCustomers: Ember.computed.oneWay("resultLoader.results.counts.customer"),
+	totalCustomers: Ember.computed.oneWay("resultsLoader.results.counts.customer"),
 	totalFundingInstruments: Ember.computed.oneWay("resultsLoader.results.total_funding_instruments"),
 
 	displayResults: false,
