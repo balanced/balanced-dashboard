@@ -38,14 +38,18 @@ Balanced.ResultsLoader = Ember.Object.extend({
 	results: function() {
 		var uri = this.get('resultsUri');
 		var type = this.get('resultsType');
+
 		if (Ember.isBlank(uri)) {
 			return Balanced.ModelArray.create({
 				isLoaded: true
 			});
 		} else {
-			return Balanced.ModelArray.newArrayLoadedFromUri(uri, type);
+			var searchArray = Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+			searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
+			searchArray.set('sortAscending', this.get('sortDirection') === 'asc');
+			return searchArray;
 		}
-	}.property("resultsUri", "resultsType"),
+	}.property("resultsUri", "resultsType", "sortField", "sortDirection"),
 
 	isLoading: Ember.computed.not("results.isLoaded"),
 
@@ -70,7 +74,6 @@ Balanced.ResultsLoader = Ember.Object.extend({
 
 		return queryStringBuilder.getQueryStringAttributes();
 	}.property("sort", "startTime", "endTime", "typeFilters", "statusFilters", "endpointFilters", "statusRollupFilters", "limit"),
-
 
 	isBulkDownloadCsv: function() {
 		return !Ember.isBlank(this.getCsvExportType());
