@@ -35,6 +35,6 @@ test('can visit page', function(assert) {
 			'table.disputes tbody tr:eq(0) td.status': 'lost',
 			'table.disputes tbody tr:eq(0) td.account': 1,
 			'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
-			'table.disputes tbody tr:eq(0) td.amount': '$2.00',
+			'table.disputes tbody tr:eq(0) td.amount': '$12.00',
 		}, assert);
 });
