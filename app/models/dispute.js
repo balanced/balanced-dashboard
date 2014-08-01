@@ -24,10 +24,12 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	statusChanged: function() {
 		if (this.get('canUploadDocuments')) {
 			this.set('status', 'new');
-		} else {
+		} else if (this.get('documents.length') > 0) {
 			this.set('status', 'submitted');
+		} else {
+			this.set('status', 'lost');
 		}
-	}.observes('canUploadDocuments', 'status').on('init'),
+	}.observes('canUploadDocuments', 'documents.length', 'status').on('init'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
@@ -53,13 +55,22 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 
 	canUploadDocuments: function() {
 		var status = this.get('status');
-		var expired = ['won', 'lost'];
+		var completed = ['won', 'lost'];
 
-		if (!this.get('documents.isLoaded')) {
-			return _.contains(expired, status) ? false : true;
+		if (this.get('hasExpired')) {
+			return false;
 		}
 
-		return !this.get('hasExpired') && (this.get('documents.length') === 0);
+		if (_.contains(completed, status)) {
+			return false;
+		}
+
+		if (this.get('documents.isLoaded') && this.get('documents.length') > 0) {
+			return false;
+		} else {
+			return true;
+		}
+
 	}.property('status', 'documents.isLoaded', 'hasExpired', 'documents.length')
 });
 
