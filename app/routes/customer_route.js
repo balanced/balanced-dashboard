@@ -13,7 +13,8 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 				limit: 10
 			}),
 			transactionsResultsLoader: customer.getTransactionsLoader({
-				limit: 10
+				limit: 10,
+				status: ['pending', 'succeeded', 'failed']
 			})
 		});
 	}
