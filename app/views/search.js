@@ -1,37 +1,37 @@
+var isTriggersSearchBoxClose = function(element) {
+	var target = $(element);
+
+	var isOutsideSearch = target.closest("#search").length === 0;
+	var isInsideTable = true;
+	return target.closest("body").length > 0 && (isOutsideSearch || isInsideTable);
+};
+
 Balanced.SearchView = Balanced.View.extend({
 	templateName: 'search',
 
 	overlayClass: 'overlaid',
 
 	didInsertElement: function() {
-		$(document).on('click.balanced-click-outside', $.proxy(this.clickOutsideSearchBox, this));
+		var self = this;
 
-		var iconSearch = $('.icon-search');
-
-		$('#search').hover(function() {
-			$(iconSearch).toggleClass('search-highlight');
+		$(document).on('click.balanced-click-outside', function(event) {
+			if (isTriggersSearchBoxClose(event.target)) {
+				self.get('controller').send('closeSearch');
+			}
 		});
 
-		this.get('controller').addObserver('displayResults', this, this._toggleDisplayResults);
+		var iconSearch = this.$('.icon-search');
+
+		this.$('#search').hover(function() {
+			iconSearch.toggleClass('search-highlight');
+		});
+
 		this._super();
 	},
 
 	willDestroyElement: function() {
-		this.get('controller').removeObserver('displayResults', this, this._toggleDisplayResults);
-
 		$(document).off('click.balanced-click-outside');
 		this._super();
-	},
-
-	clickOutsideSearchBox: function(e) {
-		if (this.get('controller.displayResults')) {
-			var $target = $(e.target);
-			// sometimes ember likes to remove nodes from the dom when you click on
-			// them so the body check will make sure it's legit.
-			if ($target.closest('#search').length === 0 && $target.closest('body').length > 0) {
-				this.get('controller').send('closeSearch');
-			}
-		}
 	},
 
 	showResultsOverlay: function() {
@@ -43,13 +43,14 @@ Balanced.SearchView = Balanced.View.extend({
 	},
 
 	_toggleDisplayResults: function() {
-		if (this.get('controller.displayResults')) {
+		if (this.get('controller.isResultsOpen')) {
 			this.showResultsOverlay();
 		} else {
 			this.hideResultsOverlay();
 		}
-	}
+	}.observes("controller.isResultsOpen")
 });
+
 
 Balanced.SearchQueryInputView = Balanced.Forms.TextField.extend({
 	attributeBindings: ['autocomplete'],

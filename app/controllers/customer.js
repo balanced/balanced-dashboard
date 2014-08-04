@@ -11,6 +11,13 @@ Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
 			}
 		},
 
+		changeDateFilter: function(startTime, endTime) {
+			this.get("transactionsResultsLoader").setProperties({
+				endTime: endTime,
+				startTime: startTime
+			});
+		},
+
 		changeTypeFilter: function(type) {
 			if (type === "transaction") {
 				type = null;
