@@ -63,6 +63,10 @@ Balanced.EmbeddedTransactionsResultsView = Balanced.TransactionsResultsView.exte
 	colspan: 5
 });
 
+Balanced.InvoiceTransactionsResultsView = Balanced.ResultsTableView.extend({
+	templateName: "results/invoice_transactions_table"
+});
+
 Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
 	classNames: 'customers',
 	templateName: 'results/customers_table'
