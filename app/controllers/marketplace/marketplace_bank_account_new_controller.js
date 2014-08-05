@@ -117,7 +117,7 @@ Balanced.MarketplaceBankAccountNewController = Balanced.Controller.extend({
 				return verification.save();
 			})
 			.then(function() {
-				self.transitionToRoute("activity.transactions");
+				self.transitionToRoute("marketplace");
 			});
 	},
 
