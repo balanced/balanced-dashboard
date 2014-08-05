@@ -1,0 +1,81 @@
+<form {{action "save" model target=view on="submit"}}>
+	{{view Balanced.FormValidationErrorsView model=model}}
+
+	{{view Balanced.SelectFormFieldView
+		labelText="Who are you?"
+		inputClassNames="span10"
+		content=view.apiKeyTypes
+		model=model
+		field="merchant.type"}}
+
+	{{#if model.isBusiness}}
+		<h2>Business information</h2>
+		{{view Balanced.TextFormFieldView
+			labelText="Legal business name"
+			model=model
+			field="business.name"
+			inputClassNames="full"}}
+
+		{{view Balanced.TextFormFieldView
+			labelText="Employer identification number"
+			model=model
+			field="business.tax_id"
+			inputClassNames="full"}}
+
+		{{view Balanced.TextFormFieldView labelText="Business address" model=model field="business.address" inputClassNames="full"}}
+		{{view Balanced.TextFormFieldView labelText="Postal code" model=model field="business.postal_code"}}
+
+		{{view Balanced.SelectFormFieldView
+			labelText="Company type"
+			model=model
+			content=view.businessTypes
+			field="business.company_type"}}
+
+		{{view Balanced.DateFormFieldView
+			allowEmpty=true
+			labelText="Incorporation date"
+			model=model
+			field="business.incorporation_date"}}
+
+		{{view Balanced.TextFormFieldView
+			explanationText="(555) 555-5555"
+			labelText="Phone number"
+			model=model
+			field="merchant.phone_number"}}
+	{{/if}}
+
+	<h2>Personal information:</h2>
+	{{view Balanced.TextFormFieldView
+		labelText="Full name"
+		model=model
+		field="person.name"}}
+
+	{{view Balanced.TextFormFieldView
+		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
+		labelText="Last 4 of SSN"
+		model=model
+		field="person.ssn_last_4"}}
+
+	{{view Balanced.DateFormFieldView
+		allowEmpty=true
+		labelText="Date of birth"
+		model=model
+		field="person.dob"}}
+
+	{{view Balanced.TextFormFieldView
+		labelText="Postal Code"
+		model=model
+		field="person.postal_code"}}
+
+	{{#unless model.isBusiness}}
+		{{view Balanced.TextFormFieldView
+			explanationText="(555) 555-5555"
+			labelText="Phone number"
+			model=model
+			field="merchant.phone_number"}}
+	{{/unless}}
+	<hr>
+	<div class="pull-right">
+		<button type="submit">Submit</button>
+	</div>
+</form>

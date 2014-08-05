@@ -1,0 +1,58 @@
+// Form groups
+//
+// Designed to help with the organization and spacing of vertical forms. For
+// horizontal forms, use the predefined grid classes.
+@padding-base-vertical: 10px;
+
+.form-errors {
+  background-color: @imperialRed20;
+  color: @imperialRed100;
+}
+
+.form-group {
+  margin-bottom: 10px;
+
+  label {
+    display: inline;
+  }
+
+  label:after {
+    content: "";
+  }
+
+  input.span10 {
+
+  }
+
+  .alert {
+    .sl-none;
+    background-color: transparent;
+    border-style: none;
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+  }
+
+  .alert.alert-error {
+    color: @imperialRed100;
+  }
+}
+
+.form-group.has-error {
+  label {
+    color: @imperialRed100;
+  }
+  input, select, textarea {
+    border-color: @imperialRed100;
+    background-color: @imperialRed20;
+    color: @imperialRed100;
+  }
+}
+
+.form-horizontal {
+  .control-label {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: (@padding-base-vertical + 1); // Default padding plus a border
+  }
+}

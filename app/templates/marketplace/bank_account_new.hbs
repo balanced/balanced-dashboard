@@ -1,0 +1,43 @@
+{{#if model.isComplete}}
+	{{#if loaderState.isError}}
+		{{#each error in loaderState.errorMessages}}
+			<p>error: {{error}}</p>
+		{{/each}}
+		<button {{action "retry" loaderState.callback}}>Retry</button>
+	{{/if}}
+	{{#if loaderState.isLoading}}
+		{{loaderState.message}}
+	{{/if}}
+{{else}}
+	{{#if isSaving}}
+		SAVING..........
+	{{/if}}
+	<form {{action "save" on="submit"}}>
+		{{view Balanced.FormValidationErrorsView model=model}}
+		{{view Balanced.TextFormFieldView
+			labelText="Account holder's name"
+			model=model
+			field="name"}}
+
+		{{view Balanced.TextFormFieldView
+			labelText="Account number"
+			model=model
+			field="account_number"}}
+
+		{{view Balanced.SelectFormFieldView
+			labelText="Bank account type"
+			model=model
+			content=accountTypes
+			field="account_type"
+		}}
+
+		{{view Balanced.TextFormFieldView
+			labelText="Routing number"
+			model=model
+			field="routing_number"}}
+		<hr>
+		<div class="pull-right">
+			<button type="submit">Submit</button>
+		</div>
+	</form>
+{{/if}}
