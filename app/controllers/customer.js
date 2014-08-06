@@ -1,5 +1,4 @@
-var actionsMixin = Balanced.ActionEvented('openDeleteBankAccountModal', 'openDeleteCardModal');
-Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
+Balanced.CustomerController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
 
 	actions: {
