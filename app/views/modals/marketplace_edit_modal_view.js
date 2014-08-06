@@ -1,4 +1,4 @@
-var Save = Balanced.Modals.ObjectSaveMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 var Wide = Balanced.Modals.WideModalMixin;
 
 Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend(Save, Wide, {
