@@ -16,11 +16,7 @@
 	</tr>
 </thead>
 {{#if view.loader.results.hasNextPage}}
-	{{#if view.isSmallTable}}
-		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
-	{{else}}
-		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=7}}
-	{{/if}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
 {{/if}}
 
 <tbody>
@@ -52,7 +48,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="no-results">
+			<td colspan="5" class="no-results">
 				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}

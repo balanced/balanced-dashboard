@@ -6,20 +6,20 @@ Balanced.ListSectionView = Balanced.SummarySectionView.extend({
 
 Balanced.OrderBuyersSectionView = Balanced.ListSectionView.extend({
 	title: function() {
-		var titleText = '<i class="icon-customers non-interactive"></i>%@';
+		var titleText = '<i class="icon-customers non-interactive"></i> %@ ';
 		var total = this.get('total');
 
 		if (total) {
-			titleText += ' (%@)'.fmt(total);
+			titleText += '(%@)'.fmt(total);
 		}
 
 		return Balanced.Utils.safeFormat(titleText, "Buyers").htmlSafe();
 	}.property('total'),
 
 	resources: Ember.computed.alias("model.buyers"),
-	total: Ember.computed.alias("model.buyers.total"),
+	total: Ember.computed.alias("model.buyers.meta.total"),
 
 	linkedResources: function() {
 		return this.resourceLinks("model.buyers");
-	}.property("model.buyers", "model.buyers.length", "model.meta")
+	}.property("model.buyers", "model.buyers.length")
 });
