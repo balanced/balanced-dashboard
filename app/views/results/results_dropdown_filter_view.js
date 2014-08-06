@@ -62,7 +62,7 @@ Balanced.TransactionsStatusResultsDropdownFilterView = Balanced.ResultsDropdownF
 	toggleText: "Status",
 	filters: function() {
 		return [
-			defineFilter("All", ["succeeded", "failed", "pending"], true),
+			defineFilter("All", undefined, true),
 			defineFilter("Pending", "pending"),
 			defineFilter("Succeeded", "succeeded"),
 			defineFilter("Failed", "failed")
