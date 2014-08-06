@@ -54,7 +54,7 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 
 		var linked = rootJson.linked ? rootJson.linked : null;
 		var nextUri = rootJson.meta ? rootJson.meta.next : null;
-		var counts = rootJson.meta ? rootJson.meta.counts : null;
+		var counts = rootJson.meta ? (rootJson.meta.counts || rootJson.meta.total) : null;
 
 		return {
 			items: collection,
