@@ -16,10 +16,18 @@ Balanced.OrderBuyersSectionView = Balanced.ListSectionView.extend({
 		return Balanced.Utils.safeFormat(titleText, "Buyers").htmlSafe();
 	}.property('total'),
 
-	resources: Ember.computed.alias("model.buyers"),
-	total: Ember.computed.alias("model.buyers.meta.total"),
+	resources: Ember.computed.alias("buyersResults"),
+
+	total: Ember.computed.alias("buyersResults.total"),
+
+	buyersResults: function() {
+		return this.get("model").getBuyersResultsLoader({
+			limit: 20
+		}).get("results");
+	}.property("model"),
+
 
 	linkedResources: function() {
-		return this.resourceLinks("model.buyers");
-	}.property("model.buyers", "model.buyers.length")
+		return this.resourceLinks("buyersResults");
+	}.property("buyersResults", "buyersResults.length")
 });

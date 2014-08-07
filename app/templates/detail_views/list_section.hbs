@@ -13,7 +13,7 @@
 		</ul>
 
 		{{#if view.resources.hasNextPage}}
-			<a class="btn sm secondary" {{action 'loadMore' view.resources}}>Load more</a>
+			<a {{action 'loadMore' view.resources}}>Load more</a>
 		{{/if}}
 	{{/if}}
 </div>
