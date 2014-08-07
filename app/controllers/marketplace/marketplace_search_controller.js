@@ -14,14 +14,13 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 	totalCustomers: Ember.computed.oneWay("resultsLoader.results.counts.customer"),
 	totalFundingInstruments: Ember.computed.oneWay("resultsLoader.results.total_funding_instruments"),
 
-	displayResults: false,
-	isResultsOpen: function() {
-		var queryLength = this.get("resultsLoader.query.length");
-		return (queryLength > 0) && this.get("displayResults");
-	}.property("resultsLoader.query", "displayResults"),
+	isDisplayResults: false,
+
+	isQueryPresent: Ember.computed.oneWay("resultsLoader.query.length"),
+	isResultsOpen: Ember.computed.and("isQueryPresent", "isDisplayResults"),
 
 	queryChanged: function(a, value) {
-		this.set("displayResults", true);
+		this.set("isDisplayResults", true);
 	}.observes("resultsLoader.query"),
 
 	resultsLoader: function() {
@@ -33,7 +32,7 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 
 	actions: {
 		closeSearch: function() {
-			this.set("displayResults", false);
+			this.set("isDisplayResults", false);
 		},
 		changeTypeFilter: function(type) {
 			this.set("selectedTabType", type);

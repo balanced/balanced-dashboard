@@ -17,7 +17,6 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	}.property('account_type'),
 
 	route_name: 'bank_accounts',
-	is_bank_account: true,
 	account_type_name: Ember.computed.alias('type_name'),
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
@@ -43,9 +42,14 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 		}
 	}.property('last_four', 'bank_name'),
 
-	status: function() {
-		if (this.get('can_debit')) {
-			return 'verified';
+
+	status: Ember.computed.oneWay("verificationStatus"),
+
+	verificationStatus: function() {
+		if (this.get("isRemoved")) {
+			return "removed";
+		} else if (this.get("isVerified")) {
+			return "verified";
 		} else if (this.get('customer')) {
 			if (this.get('can_confirm_verification')) {
 				return 'pending';
@@ -53,13 +57,12 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 				return 'unverified';
 			}
 		} else {
-			if (!this.get('can_credit')) {
-				return 'removed';
-			}
-
 			return 'unverifiable';
 		}
-	}.property('can_credit', 'can_debit', 'customer', 'can_confirm_verification'),
+	}.property('isRemoved', 'isVerified', 'customer', 'can_confirm_verification'),
+
+	isVerified: Ember.computed.oneWay("can_debit"),
+	isRemoved: Ember.computed.not("can_credit"),
 
 	can_verify: function() {
 		return !this.get('can_debit') && !this.get('can_confirm_verification') && this.get('customer');

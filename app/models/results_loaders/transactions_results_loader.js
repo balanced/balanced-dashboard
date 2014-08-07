@@ -5,7 +5,7 @@ Balanced.TransactionsResultsLoader = Balanced.ResultsLoader.extend({
 	statusFilters: undefined, // ["failed", "succeeded", "pending"],
 
 	status: function() {
-		return this.get("statusFilters");
+		return this.get("statusFilters") || ["failed", "succeeded", "pending"];
 	}.property("statusFilters"),
 
 	queryStringArguments: function() {
