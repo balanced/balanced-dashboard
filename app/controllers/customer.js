@@ -21,10 +21,7 @@ Balanced.CustomerController = Balanced.ObjectController.extend({
 		},
 
 		changeStatusFilter: function(status) {
-			if (status === "all") {
-				status = null;
-			}
-			this.set("transactionsResultsLoader.status", status);
+			this.get("transactionsResultsLoader").setStatusFilter(status);
 		},
 
 		changeDisputeStatusFilter: function(status) {
