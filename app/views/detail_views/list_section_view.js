@@ -4,21 +4,31 @@ Balanced.ListSectionView = Balanced.SummarySectionView.extend({
 	templateName: "detail_views/list_section",
 });
 
+Balanced.OrderSellerSectionView = Balanced.ListSectionView.extend({
+	title: "Seller",
+
+	linkedResources: function() {
+		return this.resourceLinks("model.seller");
+	}.property("model.seller")
+});
+
 Balanced.OrderBuyersSectionView = Balanced.ListSectionView.extend({
 	title: function() {
-		var titleText = '<i class="icon-customers non-interactive"></i> %@ ';
-		var total = this.get('total');
+		var titleText = ' %@ ';
+		var totalBuyers = this.get('totalBuyers');
 
-		if (total) {
-			titleText += '(%@)'.fmt(total);
+		if (totalBuyers) {
+			titleText += '(%@)'.fmt(totalBuyers);
 		}
 
 		return Balanced.Utils.safeFormat(titleText, "Buyers").htmlSafe();
-	}.property('total'),
+	}.property('totalBuyers'),
 
 	resources: Ember.computed.alias("buyersResults"),
 
-	total: Ember.computed.alias("buyersResults.total"),
+	totalBuyers: function() {
+		return this.get("buyersResults.total") - 1;
+	}.property("buyersResults.total"),
 
 	buyersResults: function() {
 		return this.get("model").getBuyersResultsLoader({
