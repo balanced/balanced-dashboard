@@ -4,35 +4,16 @@ Balanced.ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base_modal_layout",
 	classNames: "modal",
 
-	modalElement: function() {
-		var el = this.get("element");
-		if (el) {
-			return this.$(el).modal();
-		}
-	}.property("element"),
-
 	reposition: function() {
 		$(window).resize();
 	},
 
 	open: function(container) {
-		var self = this;
-
-		Ember.run(function() {
-			container.pushObject(self);
-		});
-
-		var modal = this.get("modalElement");
-		modal.on("hidden.bs.modal", function() {
-			container.removeObject(self);
-		});
+		return this.$().modal("show");
 	},
 
 	close: function() {
-		var modal = this.get("modalElement");
-		if (modal) {
-			modal.modal('hide');
-		}
+		return this.$().modal("hide");
 	}
 });
 
