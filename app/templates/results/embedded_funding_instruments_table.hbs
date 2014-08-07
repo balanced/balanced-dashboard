@@ -49,11 +49,11 @@
 				{{/link-to}}
 			</td>
 			<td>
-				<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openDeleteModal" funding_instrument}}>
-					{{#unless funding_instrument.isRemoved}}
+				{{#unless funding_instrument.isRemoved}}
+					<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openModal" Balanced.FundingInstrumentDeleteModalView funding_instrument}}>
 						<i class="icon-table-x"></i>
-					{{/unless}}
-				</a>
+					</a>
+				{{/unless}}
 			</td>
 		</tr>
 	{{else}}

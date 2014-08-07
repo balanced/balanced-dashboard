@@ -1,5 +1,5 @@
 var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectSaveMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 
 Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
 	templateName: 'modals/customer_card_create_modal',

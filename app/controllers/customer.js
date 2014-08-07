@@ -1,16 +1,7 @@
-var actionsMixin = Balanced.ActionEvented('openDeleteBankAccountModal', 'openDeleteCardModal');
-Balanced.CustomerController = Balanced.ObjectController.extend(actionsMixin, {
+Balanced.CustomerController = Balanced.ObjectController.extend({
 	needs: ['marketplace'],
 
 	actions: {
-		openDeleteModal: function(funding_instrument) {
-			if (funding_instrument.get('type_name').indexOf('card') >= 0) {
-				this.trigger('openDeleteCardModal', funding_instrument);
-			} else if (funding_instrument.get('type_name').indexOf('account') >= 0) {
-				this.trigger('openDeleteBankAccountModal', funding_instrument);
-			}
-		},
-
 		changeDateFilter: function(startTime, endTime) {
 			this.get("transactionsResultsLoader").setProperties({
 				endTime: endTime,
