@@ -1,0 +1,59 @@
+<thead>
+	<tr>
+		<th class="span3 date has-filter">
+			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
+		<th class="span3 status has-filter">
+			{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
+		</th>
+		<th class="span4 description"><span>Description</span></th>
+		<th class="span3 amount num">
+			<span>Amount</span>
+		</th>
+	</tr>
+</thead>
+{{#if view.loader.results.hasNextPage}}
+	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=4}}
+{{/if}}
+
+<tbody>
+	{{#each transaction in view.loader.results}}
+		<tr>
+			{{view Balanced.LinkedDateCellView
+				item=transaction
+				classNames="span3"
+				routeName=transaction.route_name
+				date=transaction.created_at
+			}}
+			{{view Balanced.LinkedTextCellView
+				item=transaction
+				labelText=transaction.status
+				routeName=transaction.route_name
+				spanClassNamesBinding="transaction.status"
+				classNames="span3 status"
+				titleBinding="transaction.status"
+			}}
+			{{view Balanced.LinkedTextCellView
+				item=transaction
+				labelText=transaction.description
+				routeName=transaction.route_name
+				classNames="span4"
+				titleBinding="transaction.description"
+			}}
+
+			{{view Balanced.TransactionAmountCellView item=transaction classNames="span3"}}
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="4" class="no-results">
+				{{#if view.loader.results.isLoaded}}
+					No results
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
+</tbody>

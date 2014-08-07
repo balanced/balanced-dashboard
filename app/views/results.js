@@ -63,6 +63,10 @@ Balanced.EmbeddedTransactionsResultsView = Balanced.TransactionsResultsView.exte
 	colspan: 5
 });
 
+Balanced.InvoiceTransactionsResultsView = Balanced.ResultsTableView.extend({
+	templateName: "results/invoice_transactions_table"
+});
+
 Balanced.OrderTransactionsResultsView = Balanced.TransactionsResultsView.extend({
 	templateName: 'results/order_transactions_table'
 });

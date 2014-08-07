@@ -1,27 +1,27 @@
 require("app/model/transaction");
-var TYPES = ["credit", "debit"];
+
 
 Balanced.InvoiceTransactionsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Transaction,
-	type: "hold",
+	type: "bank_account_credits",
 
 	path: function() {
-		var uriProperty = this.get("type") + 's_uri';
-		return this.get("invoice").get(uriProperty);
-	}.property("invoice", "type"),
+		var uriBase = this.get("invoice.uri");
+		var type = this.get("type");
+		return uriBase + "/" + type;
+	}.property("invoice.uri", "type"),
 
 	queryStringArguments: function() {
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
 
-		queryStringBuilder.addValues({
-			limit: this.get("limit"),
-			sort: this.get("sort"),
-			status: this.get("status"),
-
+		var attributes = this.getProperties("limit", "sort", "status");
+		_.extend(attributes, {
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime")
 		});
 
+		queryStringBuilder.addValues(attributes);
+
 		return queryStringBuilder.getQueryStringAttributes();
-	}.property("status", "limit", "sort"),
+	}.property("type", "status", "limit", "sort"),
 });
