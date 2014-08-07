@@ -177,12 +177,12 @@
 			{{else}}
 				<nav class="search-filters-header">
 					<ul>
-						{{view Balanced.ResultsFilterListItemView text="Bank account credits" resultsLoader=transactionsResultsLoader filterValue="bank_account_credits"}}
-						{{view Balanced.ResultsFilterListItemView text="Bank account debits" resultsLoader=transactionsResultsLoader filterValue="bank_account_debits"}}
+						{{view Balanced.ResultsFilterListItemView text="Credits (Bank accounts)" resultsLoader=transactionsResultsLoader filterValue="bank_account_credits"}}
+						{{view Balanced.ResultsFilterListItemView text="Credits (Cards)" resultsLoader=transactionsResultsLoader filterValue="card_debits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Card debits" resultsLoader=transactionsResultsLoader filterValue="card_debits"}}
+						{{view Balanced.ResultsFilterListItemView text="Debits (Bank accounts)" resultsLoader=transactionsResultsLoader filterValue="bank_account_debits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Failed credits" resultsLoader=transactionsResultsLoader filterValue="failed_credits"}}
+						{{view Balanced.ResultsFilterListItemView text="Credits (Failed)" resultsLoader=transactionsResultsLoader filterValue="failed_credits"}}
 
 						{{view Balanced.ResultsFilterListItemView text="Holds" resultsLoader=transactionsResultsLoader filterValue="holds"}}
 						{{view Balanced.ResultsFilterListItemView text="Refunds" resultsLoader=transactionsResultsLoader filterValue="refunds"}}
