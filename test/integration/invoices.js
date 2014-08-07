@@ -40,10 +40,10 @@ test("transactions invoice detail page filters", function(assert) {
 		.then(function() {
 			spy = sinon.stub(Balanced.Adapter, "get");
 		})
-		.click('.results .type-filter a:contains(Debits)')
-		.click('.results .type-filter a:contains(Refunds)')
+		.click('.main-panel .search-filters-header a:contains(Debits)')
+		.click('.main-panel .search-filters-header a:contains(Refunds)')
 		.then(function() {
-			assert.deepEqual(spy.getCall(0).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/debits?limit=50&sort=created_at%2Cdesc']);
+			assert.deepEqual(spy.getCall(0).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/bank_account_debits?limit=50&sort=created_at%2Cdesc']);
 			assert.deepEqual(spy.getCall(1).args.slice(0, 2), [Balanced.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
 		});
 });
