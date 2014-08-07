@@ -32,6 +32,7 @@ Balanced.Order = Balanced.Model.extend({
 	escrow_balance: Balanced.computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
 	credits_amount: Balanced.computed.transform('amount_credited', Balanced.Utils.formatCurrency),
 
+	getBuyersResultsLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "buyers_uri"),
 	getCreditsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "credits_uri"),
 	getDebitsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "debits_uri"),
 	getRefundsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "refunds_uri"),
