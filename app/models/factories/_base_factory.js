@@ -8,7 +8,9 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 	},
 
 	getConnection: function() {
-		return new Balanced.AjaxConnection(ENV.BALANCED.API);
+		return Balanced.Connections.ApiConnection.create({
+			apiKey: null
+		});
 	},
 
 	handleResponse: function(response) {

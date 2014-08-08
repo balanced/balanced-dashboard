@@ -1,3 +1,11 @@
+var DEFAULT_SETTINGS = {
+	dataType: 'json',
+	contentType: 'application/json; charset=UTF-8',
+	accepts: {
+		json: 'application/vnd.balancedpayments+json; version=1.1'
+	},
+};
+
 Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend({
 	getEncodedAuthorization: function() {
 		var apiKey = this.get("apiKey");
@@ -14,14 +22,8 @@ Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend(
 			headers["Authorization"] = this.getEncodedAuthorization();
 		}
 		var settings = _.extend({
-			dataType: 'json',
-			contentType: 'application/json; charset=UTF-8',
-			type: "GET",
-			accepts: {
-				json: 'application/vnd.balancedpayments+json; version=1.1'
-			},
 			headers: headers
-		}, additionalSettings);
+		}, DEFAULT_SETTINGS, additionalSettings);
 
 		if (settings.data && settings.type.toUpperCase() !== "GET") {
 			settings.data = JSON.stringify(settings.data);

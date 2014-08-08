@@ -11,11 +11,12 @@ Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 	},
 
 	getConnection: function() {
-		var apiKeySecret = this.get("apiKeySecret");
-		return new Balanced.AuthenticatedConnection(ENV.BALANCED.API, apiKeySecret);
+		return Balanced.Connections.ApiConnection.create({
+			apiKey: this.get("apiKeySecret")
+		});
 	},
 	getPostUrl: function() {
-		return "/marketplaces";
+		return "%@/marketplaces".fmt(ENV.BALANCED.API);
 	},
 	getPostAttributes: function() {
 		return this.getProperties("name", "support_phone_number", "support_email_address", "domain_url");
