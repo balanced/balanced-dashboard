@@ -1,7 +1,7 @@
-var Wide = Balanced.Modals.WideModalMixin;
+var Full = Balanced.Modals.FullModalMixin;
 var Save = Balanced.Modals.ValidateAndSaveMixin;
 
-Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
+Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
 	templateName: "register_flow/user_create_modal",
 	title: "Create your account",
 

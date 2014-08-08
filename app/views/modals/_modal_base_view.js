@@ -21,6 +21,10 @@ Balanced.Modals.WideModalMixin = Ember.Mixin.create({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 });
 
+Balanced.Modals.FullModalMixin = Ember.Mixin.create({
+	classNameBindings: [":modal-full"],
+});
+
 Balanced.Modals.ObjectSaveMixin = Ember.Mixin.create({
 	isSaving: false,
 	save: function(model) {
