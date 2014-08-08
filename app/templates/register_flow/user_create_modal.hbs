@@ -1,0 +1,35 @@
+<form {{action "save" on="submit" target=view}}>
+	<div class="modal-body">
+		{{view.model.email}}
+
+		{{view Balanced.TextFormFieldView
+			model=view.model
+			field="email_address"
+			labelText="Email"}}
+
+		{{#view Balanced.BaseFormFieldView
+			model=view.model
+			field="password"
+			labelText="Password"}}
+			{{input
+				type="password"
+				value=view.value
+				viewName="inputElement"
+				class=view.inputClassNames
+			}}
+		{{/view}}
+
+		{{#view Balanced.BaseFormFieldView
+			model=view.model
+			field="passwordConfirm"
+			labelText="Re-enter password"}}
+			{{input
+				type="password"
+				value=view.value
+				viewName="inputElement"
+				class=view.inputClassNames
+			}}
+		{{/view}}
+	</div>
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Create account"}}
+</form>

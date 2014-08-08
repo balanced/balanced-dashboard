@@ -39,6 +39,28 @@ Balanced.Modals.ObjectSaveMixin = Ember.Mixin.create({
 	}
 });
 
+Balanced.Modals.ValidateAndSaveMixin = Ember.Mixin.create({
+	isSaving: false,
+	save: function(model) {
+		var self = this;
+		this.set("isSaving", true);
+		model.validate();
+		if (model.get("isValid")) {
+			return model.save()
+				.then(function(savedModel) {
+					self.set("isSaving", false);
+					self.close();
+					return Ember.RSVP.resolve(savedModel);
+				}, function(errors) {
+					return Ember.RSVP.reject(errors);
+				});
+		} else {
+			self.set("isSaving", false);
+			return Ember.RSVP.reject();
+		}
+	}
+});
+
 Balanced.ModalBaseView.reopenClass({
 	open: function(attributes) {
 		return this.create(attributes);
