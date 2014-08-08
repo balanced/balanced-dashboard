@@ -1,0 +1,7 @@
+<form {{action "save" target=view on="submit"}}>
+	<div class="modal-body">
+		<p>{{view.message}}</p>
+	</div>
+
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Link"}}
+</form>

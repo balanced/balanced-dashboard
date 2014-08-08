@@ -1,6 +1,6 @@
 <form {{action "save" on="submit" target=view}}>
 	<div class="modal-body">
-		{{view.model.email}}
+		{{view Balanced.FormValidationErrorsView model=view.model}}
 
 		{{view Balanced.TextFormFieldView
 			model=view.model

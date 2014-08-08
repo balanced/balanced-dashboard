@@ -1,5 +1,5 @@
 var Full = Balanced.Modals.FullModalMixin;
-var Save = Balanced.Modals.ValidateAndSaveMixin;
+var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
 
 Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
 	templateName: "register_flow/user_create_modal",
