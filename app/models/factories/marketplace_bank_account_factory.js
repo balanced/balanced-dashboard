@@ -38,11 +38,6 @@ Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
 		);
 	},
 
-	handleResponse: function(response) {
-		return response;
-	},
-
-	isComplete: false,
 	save: function() {
 		var self = this;
 		var deferred = Ember.RSVP.defer();
