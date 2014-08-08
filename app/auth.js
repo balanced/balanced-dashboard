@@ -246,7 +246,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	isUnregistered: function() {
 		var isUserEmpty = Ember.isNone(this.get("user"));
 		var isUserGuest = !!this.get("isGuest");
-		console.log(isUserEmpty, isUserGuest);
 		return isUserEmpty || isUserGuest;
 	},
 

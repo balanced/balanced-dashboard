@@ -3,17 +3,24 @@ var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
 
 Balanced.MarketplaceCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
 	templateName: "register_flow/marketplace_create_modal",
-	title: "Create marketplace",
+	title: "Step 2 of 3: Provide marketplace information",
 
 	actions: {
+		nextStep: function(marketplaceUri) {
+			var controller = this.get("container").lookup("controller:application");
+			var userMarketplace = Balanced.UserMarketplace.create({
+				secret: this.get("model.apiKeySecret"),
+				uri: Balanced.Auth.get("user.api_keys_uri")
+			});
+			controller.send("openModal", Balanced.ApiKeyLinkIntermediateStateModalView, userMarketplace, marketplaceUri);
+		},
+
 		save: function() {
 			var self = this;
-			var controller = this.get("controller");
 			var model = this.get("model");
-			var apiKeySecret = model.get("apiKeySecret");
 			this.save(model)
-				.then(function(href) {
-					controller.send("openModal", Balanced.ApiKeyLinkIntermediateStateModalView, href, apiKeySecret);
+				.then(function(marketplaceUri) {
+					self.send("nextStep", marketplaceUri, model.get("apiKeySecret"));
 				});
 		}
 	}
@@ -21,12 +28,11 @@ Balanced.MarketplaceCreateModalView = Balanced.ModalBaseView.extend(Full, Save, 
 
 Balanced.MarketplaceCreateModalView.reopenClass({
 	open: function(apiKeySecret) {
-		console.log(apiKeySecret);
 		var model = Balanced.MarketplaceFactory.create({
 			name: "startupl.io",
 			domain_url: "startupl.io",
 			support_email_address: "carlosrr@gmail.com",
-			support_phone_number: "111.2222",
+			support_phone_number: "1112222",
 			apiKeySecret: apiKeySecret
 		})
 		return this.create({

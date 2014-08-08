@@ -1,0 +1,28 @@
+<form {{action "save" target=view on="submit"}}>
+	<div class="modal-body">
+		{{view Balanced.FormValidationErrorsView model=view.model}}
+		{{view Balanced.TextFormFieldView
+			labelText="Account holder's name"
+			model=view.model
+			field="name"}}
+
+		{{view Balanced.TextFormFieldView
+			labelText="Account number"
+			model=view.model
+			field="account_number"}}
+
+		{{view Balanced.SelectFormFieldView
+			labelText="Bank account type"
+			model=view.model
+			content=view.accountTypes
+			field="account_type"
+		}}
+
+		{{view Balanced.TextFormFieldView
+			labelText="Routing number"
+			model=view.model
+			field="routing_number"}}
+
+	</div>
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Create bank account"}}
+</form>

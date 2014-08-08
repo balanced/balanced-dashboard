@@ -5,10 +5,8 @@ Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
 	templateName: "register_flow/user_create_modal",
 	title: "Create your account",
 
-	auth: Ember.computed.oneWay("Balanced.Auth"),
-
 	bindUserMarketplace: function(user) {
-		var authToken = this.get('auth.authToken');
+		var authToken = Balanced.Auth.get('authToken');
 		var apiKeysUri = user.get("api_keys_uri");
 
 		if (authToken) {

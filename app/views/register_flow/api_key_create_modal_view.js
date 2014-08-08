@@ -16,13 +16,16 @@ Balanced.ApiKeyCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
 	businessTypes: Balanced.Marketplace.COMPANY_TYPES,
 
 	actions: {
+		nextStep: function(apiKeySecret) {
+			var controller = Balanced.__container__.lookup("controller:application");
+			controller.send("openModal", Balanced.MarketplaceCreateModalView, apiKeySecret);
+		},
 		save: function() {
-			var controller = this.get("controller");
+			var self = this;
 			var model = this.get("model");
 			this.save(model)
 				.then(function(apiKeySecret) {
-					var klass = Balanced.MarketplaceCreateModalView;
-					controller.send("openModal", klass, apiKeySecret);
+					self.send("nextStep", apiKeySecret);
 				});
 		}
 	}
@@ -32,7 +35,7 @@ Balanced.ApiKeyCreateModalView.reopenClass({
 	open: function() {
 		var apiKeyFactory = Balanced.ApiKeyFactory.create({
 			merchant: {
-				type: "business",
+				type: "person",
 				phone_number: "11111",
 				postal_code: ""
 			},

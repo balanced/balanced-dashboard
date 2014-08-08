@@ -1,34 +1,13 @@
-var validation = function(callback) {
-	return {
-		format: {
-			validator: function(object, attribute, value) {
-				var errors = object.get("validationErrors");
-				callback(object, attribute, $.trim(value), errors);
-			}
-		}
-	};
-};
-
-var isRequiredValidation = function(value, attribute, validationErrors) {
-	if (value.length === 0) {
-		validationErrors.add(attribute, "presence", null, "must be present");
-	}
+var PRESENCE_VALIDATION = {
+	presence: true
 };
 
 Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 	validations: {
-		name: validation(function(object, attribute, value, validationErrors) {
-			isRequiredValidation(value, attribute, validationErrors);
-		}),
-		support_email_address: validation(function(object, attribute, value, validationErrors) {
-			isRequiredValidation(value, attribute, validationErrors);
-		}),
-		support_phone_number: validation(function(object, attribute, value, validationErrors) {
-			isRequiredValidation(value, attribute, validationErrors);
-		}),
-		domain_url: validation(function(object, attribute, value, validationErrors) {
-			isRequiredValidation(value, attribute, validationErrors);
-		})
+		name: PRESENCE_VALIDATION,
+		support_email_address: PRESENCE_VALIDATION,
+		support_phone_number: PRESENCE_VALIDATION,
+		domain_url: PRESENCE_VALIDATION
 	},
 
 	getConnection: function() {
