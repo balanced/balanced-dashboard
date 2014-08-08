@@ -16,10 +16,7 @@ Balanced.CardsController = Balanced.ObjectController.extend(EventMixin, {
 		},
 
 		changeStatusFilter: function(status) {
-			if (status === "all") {
-				status = null;
-			}
-			this.set("transactionsResultsLoader.status", status);
+			this.get("transactionsResultsLoader").setStatusFilter(status);
 		},
 	}
 });

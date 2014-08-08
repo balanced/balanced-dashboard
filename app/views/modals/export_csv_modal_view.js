@@ -15,7 +15,7 @@ var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
 	},
 });
 
-var Save = Balanced.Modals.ObjectSaveMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 
 Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend(Save, {
 	templateName: "modals/export_csv_modal",

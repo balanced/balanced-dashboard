@@ -21,16 +21,6 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		return '/disputes/' + this.get('id') + '/documents';
 	}.property('id'),
 
-	statusChanged: function() {
-		if (this.get('canUploadDocuments')) {
-			this.set('status', 'new');
-		} else if (this.get('documents.length') > 0) {
-			this.set('status', 'submitted');
-		} else {
-			this.set('status', 'lost');
-		}
-	}.observes('canUploadDocuments', 'documents.length', 'status').on('init'),
-
 	amount_dollars: function() {
 		if (this.get('amount')) {
 			return (this.get('amount') / 100).toFixed(2);

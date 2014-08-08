@@ -1,5 +1,5 @@
 var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectSaveMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 
 Balanced.Modals.BankAccountVerificationConfirmModalView = Balanced.ModalBaseView.extend(Wide, Save, {
 	templateName: 'modals/bank_account_verification_confirm_modal',
