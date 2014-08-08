@@ -4,7 +4,10 @@ Balanced.BankAccountLinkIntermediateStateModalView = Balanced.IntermediateStateB
 	actions: {
 		nextStep: function(bankAccount) {
 			var marketplace = this.get("marketplace");
-			this.openNext(Balanced.BankAccountVerificationCreateIntermediateStateModalView, marketplace, bankAccount);
+			this.openNext(Balanced.BankAccountVerificationCreateIntermediateStateModalView, {
+				marketplace: marketplace,
+				bankAccount: bankAccount
+			});
 		},
 		save: function() {
 			var self = this;
@@ -17,20 +20,9 @@ Balanced.BankAccountLinkIntermediateStateModalView = Balanced.IntermediateStateB
 				.execute(function() {
 					return bankAccount.save();
 				})
-				.then(function(bankAccount) {
+				.then(function() {
 					self.send("nextStep", bankAccount);
 				});
 		}
-	}
-});
-
-Balanced.BankAccountLinkIntermediateStateModalView.reopenClass({
-	open: function(marketplace, bankAccount) {
-		var view = this.create({
-			marketplace: marketplace,
-			bankAccount: bankAccount
-		});
-		view.send("save");
-		return view;
 	}
 });

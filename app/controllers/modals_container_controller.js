@@ -15,5 +15,7 @@ Balanced.ModalsContainerController = Ember.Controller.extend({
 			.on("hidden.bs.modal", function() {
 				modalsContainer.removeObject(modalView);
 			});
+
+		return modalView;
 	},
 });

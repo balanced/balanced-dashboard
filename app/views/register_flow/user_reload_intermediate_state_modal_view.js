@@ -4,7 +4,9 @@ Balanced.UserReloadIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 	actions: {
 		nextStep: function() {
 			var href = this.get("marketplaceHref");
-			this.openNext(Balanced.MarketplaceFindIntermediateStateModalView, href);
+			this.openNext(Balanced.MarketplaceFindIntermediateStateModalView, {
+				marketplaceHref: href
+			});
 		},
 		save: function() {
 			var self = this;
@@ -17,15 +19,5 @@ Balanced.UserReloadIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 					self.send("nextStep");
 				});
 		}
-	}
-});
-
-Balanced.UserReloadIntermediateStateModalView.reopenClass({
-	open: function(marketplaceHref) {
-		var view = this.create({
-			marketplaceHref: marketplaceHref
-		});
-		view.send("save");
-		return view;
 	}
 });

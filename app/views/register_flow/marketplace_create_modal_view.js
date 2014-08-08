@@ -1,18 +1,22 @@
 var Full = Balanced.Modals.FullModalMixin;
 var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
+var OpenNext = Balanced.Modals.OpenNextModalMixin;
 
-Balanced.MarketplaceCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
+Balanced.MarketplaceCreateModalView = Balanced.ModalBaseView.extend(OpenNext, Full, Save, {
 	templateName: "register_flow/marketplace_create_modal",
 	title: "Step 2 of 3: Provide marketplace information",
 
 	actions: {
 		nextStep: function(marketplaceUri) {
-			var controller = this.get("container").lookup("controller:application");
 			var userMarketplace = Balanced.UserMarketplace.create({
 				secret: this.get("model.apiKeySecret"),
 				uri: Balanced.Auth.get("user.api_keys_uri")
 			});
-			controller.send("openModal", Balanced.ApiKeyLinkIntermediateStateModalView, userMarketplace, marketplaceUri);
+
+			this.openNext(Balanced.ApiKeyLinkIntermediateStateModalView, {
+				model: userMarketplace,
+				marketplaceHref: marketplaceUri
+			});
 		},
 
 		save: function() {

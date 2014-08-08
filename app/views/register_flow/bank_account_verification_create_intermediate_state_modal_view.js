@@ -25,14 +25,3 @@ Balanced.BankAccountVerificationCreateIntermediateStateModalView = Balanced.Inte
 		}
 	}
 });
-
-Balanced.BankAccountVerificationCreateIntermediateStateModalView.reopenClass({
-	open: function(marketplace, bankAccount) {
-		var view = this.create({
-			bankAccount: bankAccount,
-			marketplace: marketplace
-		});
-		view.send("save");
-		return view;
-	}
-});

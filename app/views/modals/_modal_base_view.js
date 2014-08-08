@@ -17,12 +17,28 @@ Balanced.ModalBaseView = Ember.View.extend({
 	}
 });
 
+Balanced.ModalBaseView.reopenClass({
+	open: function(attributes) {
+		return this.create(attributes);
+	}
+});
+
+
 Balanced.Modals.WideModalMixin = Ember.Mixin.create({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 });
 
 Balanced.Modals.FullModalMixin = Ember.Mixin.create({
 	classNameBindings: [":modal-full"],
+});
+
+Balanced.Modals.OpenNextModalMixin = Ember.Mixin.create({
+	openNext: function() {
+		var controller = this.get("container").lookup("controller:application");
+		var args = _.toArray(arguments);
+		args.unshift("openModal");
+		return controller.send.apply(controller, args);
+	},
 });
 
 Balanced.Modals.ObjectActionMixin = Ember.Mixin.create({
@@ -77,12 +93,6 @@ Balanced.Modals.ObjectValidateAndSaveMixin = Ember.Mixin.create({
 			self.set("isSaving", false);
 			return Ember.RSVP.reject();
 		}
-	}
-});
-
-Balanced.ModalBaseView.reopenClass({
-	open: function(attributes) {
-		return this.create(attributes);
 	}
 });
 

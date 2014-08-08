@@ -5,7 +5,9 @@ Balanced.MarketplaceFindIntermediateStateModalView = Balanced.IntermediateStateB
 
 	actions: {
 		nextStep: function(marketplace) {
-			this.openNext(Balanced.MarketplaceBankAccountCreateModalView, marketplace);
+			this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
+				marketplace: marketplace
+			});
 		},
 		save: function() {
 			var self = this;
@@ -18,15 +20,5 @@ Balanced.MarketplaceFindIntermediateStateModalView = Balanced.IntermediateStateB
 					self.send("nextStep", marketplace);
 				});
 		}
-	}
-});
-
-Balanced.MarketplaceFindIntermediateStateModalView.reopenClass({
-	open: function(marketplaceHref) {
-		var view = this.create({
-			marketplaceHref: marketplaceHref
-		});
-		view.send("save");
-		return view;
 	}
 });

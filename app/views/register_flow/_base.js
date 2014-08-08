@@ -1,19 +1,13 @@
 var Full = Balanced.Modals.FullModalMixin;
+var OpenNext = Balanced.Modals.OpenNextModalMixin;
 
-Balanced.IntermediateStateBaseModalView = Balanced.ModalBaseView.extend(Full, {
+Balanced.IntermediateStateBaseModalView = Balanced.ModalBaseView.extend(OpenNext, Full, {
 	templateName: "register_flow/intermediate_state_modal",
 	title: "Intermediate state",
 
 	errorMessages: function() {
 		return Balanced.ErrorMessagesCollection.create();
 	}.property(),
-
-	openNext: function() {
-		var controller = this.get("container").lookup("controller:application");
-		var args = _.toArray(arguments);
-		args.unshift("openModal");
-		controller.send.apply(controller, args);
-	},
 
 	isSaving: false,
 	execute: function(callback) {
@@ -24,10 +18,20 @@ Balanced.IntermediateStateBaseModalView = Balanced.ModalBaseView.extend(Full, {
 		this.set("isSaving", true);
 
 		return callback()
-			.then(function() {
+			.then(function(response) {
 				self.close();
+				return Ember.RSVP.resolve(response);
 			}, function(response) {
 				errors.populate(response);
+				return Ember.RSVP.reject();
 			});
+	},
+});
+
+Balanced.IntermediateStateBaseModalView.reopenClass({
+	open: function(attributes) {
+		var view = this.create(attributes);
+		view.send("save");
+		return view;
 	},
 });

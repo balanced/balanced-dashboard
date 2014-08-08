@@ -30,14 +30,13 @@ Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Save, {
 
 			this.save(model)
 				.then(function() {
-					Balanced.Auth
-						.signIn(model.get('email_address'), model.get('passwordConfirm'))
-						.then(function() {
-							return self.bindUserMarketplace(model);
-						})
-						.then(function() {
-							return controller.transitionToRoute('index');
-						});
+					return Balanced.Auth.signIn(model.get('email_address'), model.get('passwordConfirm'));
+				})
+				.then(function() {
+					return self.bindUserMarketplace(model);
+				})
+				.then(function() {
+					return controller.transitionToRoute('index');
 				});
 		}
 	}
