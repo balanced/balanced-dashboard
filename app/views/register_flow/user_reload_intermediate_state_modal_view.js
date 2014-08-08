@@ -4,23 +4,17 @@ Balanced.UserReloadIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 	actions: {
 		nextStep: function() {
 			var href = this.get("marketplaceHref");
-			var controller = this.get("container").lookup("controller:application");
-			controller
-				.send("openModal", Balanced.MarketplaceFindIntermediateStateModalView, href);
+			this.openNext(Balanced.MarketplaceFindIntermediateStateModalView, href);
 		},
 		save: function() {
 			var self = this;
-			var errors = this.get("errorMessages");
-			errors.clear();
 
-			return Balanced.Auth.get("user")
-				.reload()
-				.then(function() {
-					self.close();
-					self.send("nextStep");
+			this
+				.execute(function() {
+					return Balanced.Auth.get("user").reload();
 				})
-				.then(undefined, function(response) {
-					errors.populate(response);
+				.then(function() {
+					self.send("nextStep");
 				});
 		}
 	}

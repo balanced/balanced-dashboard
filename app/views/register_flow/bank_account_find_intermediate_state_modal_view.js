@@ -6,23 +6,18 @@ Balanced.BankAccountFindIntermediateStateModalView = Balanced.IntermediateStateB
 	actions: {
 		nextStep: function(bankAccount) {
 			var marketplace = this.get("marketplace");
-			var controller = this.get("container").lookup("controller:application");
-			controller
-				.send("openModal", Balanced.BankAccountLinkIntermediateStateModalView, marketplace, bankAccount);
+			this.openNext(Balanced.BankAccountLinkIntermediateStateModalView, marketplace, bankAccount);
 		},
+
 		save: function() {
 			var self = this;
-			var errors = this.get("errorMessages");
-			errors.clear();
 
-			return Balanced.BankAccount
-				.find(this.get("bankAccountHref"))
-				.then(function(bankAccount) {
-					self.close();
-					self.send("nextStep", bankAccount);
+			this
+				.execute(function() {
+					return Balanced.BankAccount.find(self.get("bankAccountHref"));
 				})
-				.then(undefined, function(response) {
-					errors.populate(response);
+				.then(function(bankAccount) {
+					self.send("nextStep", bankAccount);
 				});
 		}
 	}

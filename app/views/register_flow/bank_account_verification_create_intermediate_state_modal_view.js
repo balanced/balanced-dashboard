@@ -11,21 +11,16 @@ Balanced.BankAccountVerificationCreateIntermediateStateModalView = Balanced.Inte
 
 		save: function() {
 			var self = this;
-			var errors = this.get("errorMessages");
-			errors.clear();
+			var verification = Balanced.Verification.create({
+				uri: this.get("bankAccountVerificationsUri")
+			});
 
-			Balanced.Verification
-				.create({
-					uri: this.get("bankAccountVerificationsUri")
+			this
+				.execute(function() {
+					return verification.save();
 				})
-				.save()
 				.then(function(verification) {
-					self.close();
-					console.log(verification);
 					self.send("nextStep");
-				})
-				.then(undefined, function(response) {
-					errors.populate(response);
 				});
 		}
 	}

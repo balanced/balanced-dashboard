@@ -3,27 +3,22 @@ Balanced.BankAccountLinkIntermediateStateModalView = Balanced.IntermediateStateB
 
 	actions: {
 		nextStep: function(bankAccount) {
-			var controller = this.get("container").lookup("controller:application");
 			var marketplace = this.get("marketplace");
-			controller
-				.send("openModal", Balanced.BankAccountVerificationCreateIntermediateStateModalView, marketplace, bankAccount);
+			this.openNext(Balanced.BankAccountVerificationCreateIntermediateStateModalView, marketplace, bankAccount);
 		},
 		save: function() {
 			var self = this;
-			var errors = this.get("errorMessages");
-			errors.clear();
 
 			var customerLink = this.get("marketplace.links.owner_customer");
-			return this
-				.get("bankAccount")
-				.set("links.customer", customerLink)
-				.save()
-				.then(function(bankAccount) {
-					self.close();
-					self.send("nextStep", bankAccount);
+			var bankAccount = this.get("bankAccount");
+			bankAccount.set("links.customer", customerLink);
+
+			this
+				.execute(function() {
+					return bankAccount.save();
 				})
-				.then(undefined, function(response) {
-					errors.populate(response);
+				.then(function(bankAccount) {
+					self.send("nextStep", bankAccount);
 				});
 		}
 	}

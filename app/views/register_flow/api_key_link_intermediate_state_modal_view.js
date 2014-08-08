@@ -1,6 +1,4 @@
-var Save = Balanced.Modals.ObjectSaveMixin;
-
-Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseModalView.extend(Save, {
+Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseModalView.extend({
 	message: function() {
 		return "%@ - %@".fmt(this.get("marketplaceHref"), this.get("apiKeySecret"));
 	}.property("marketplaceHref", "apiKeySecret"),
@@ -9,16 +7,18 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 
 	actions: {
 		nextStep: function() {
-			var controller = this.get("container").lookup("controller:application");
 			var marketplaceHref = this.get("marketplaceHref");
-			controller.send("openModal", Balanced.UserReloadIntermediateStateModalView, marketplaceHref);
+			this.openNext(Balanced.UserReloadIntermediateStateModalView, marketplaceHref);
 		},
+
 		save: function() {
 			var self = this;
-			var errors = this.get("errorMessages");
-			errors.clear();
+			var model = this.get("model");
 
-			this.save(this.get("model"))
+			this
+				.execute(function() {
+					return model.save();
+				})
 				.then(function() {
 					return Ember.run(function() {
 						Balanced.Auth.setAPIKey(self.get("apiKeySecret"));
@@ -27,9 +27,6 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 				.then(function() {
 					self.send("nextStep");
 				})
-				.then(undefined, function(response) {
-					errors.populate(response);
-				});
 		}
 	}
 });
