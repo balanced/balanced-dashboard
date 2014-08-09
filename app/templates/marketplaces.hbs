@@ -3,6 +3,7 @@
 		{{outlet}}
 	{{else}}
 		{{view Balanced.MarketplaceSidebarView marketplace=controllers.marketplace.marketplace}}
+		{{partial "header"}}
 		<div id="content">
 			{{render "temporary_alerts"}}
 			{{outlet}}
