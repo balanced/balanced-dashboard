@@ -38,5 +38,11 @@ Balanced.OrdersController = Balanced.ObjectController.extend({
 
 	multiple_credits: function() {
 		return this.get('credits.length') > 1;
-	}.property('credits', 'credits.length')
+	}.property('credits', 'credits.length'),
+
+	actions: {
+		loadMore: function(results) {
+			results.loadNextPage();
+		}
+	}
 });

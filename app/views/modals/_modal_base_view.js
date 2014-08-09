@@ -4,44 +4,59 @@ Balanced.ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base_modal_layout",
 	classNames: "modal",
 
-	modalElement: function() {
-		var el = this.get("element");
-		if (el) {
-			return this.$(el).modal();
-		}
-	}.property("element"),
-
 	reposition: function() {
 		$(window).resize();
 	},
 
 	open: function(container) {
-		var self = this;
-
-		Ember.run(function() {
-			container.pushObject(self);
-		});
-
-		var modal = this.get("modalElement");
-		modal.on("hidden.bs.modal", function() {
-			container.removeObject(self);
-		});
+		return this.$().modal("show");
 	},
 
 	close: function() {
-		var modal = this.get("modalElement");
-		if (modal) {
-			modal.modal('hide');
-		}
+		return this.$().modal("hide");
 	}
 });
+
+Balanced.ModalBaseView.reopenClass({
+	open: function(attributes) {
+		return this.create(attributes);
+	}
+});
+
 
 Balanced.Modals.WideModalMixin = Ember.Mixin.create({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 });
 
-Balanced.Modals.ObjectSaveMixin = Ember.Mixin.create({
+Balanced.Modals.FullModalMixin = Ember.Mixin.create({
+	classNameBindings: [":modal-full"],
+});
+
+Balanced.Modals.OpenNextModalMixin = Ember.Mixin.create({
+	openNext: function() {
+		var controller = this.get("container").lookup("controller:application");
+		var args = _.toArray(arguments);
+		args.unshift("openModal");
+		return controller.send.apply(controller, args);
+	},
+});
+
+Balanced.Modals.ObjectActionMixin = Ember.Mixin.create({
 	isSaving: false,
+	delete: function(model) {
+		var self = this;
+		this.set("isSaving", true);
+		return model
+			.delete()
+			.then(function(savedModel) {
+				self.set("isSaving", false);
+				self.close();
+				return Ember.RSVP.resolve(savedModel);
+			}, function(errors) {
+				self.set("isSaving", false);
+				return Ember.RSVP.reject(errors);
+			});
+	},
 	save: function(model) {
 		var self = this;
 		this.set("isSaving", true);
@@ -58,9 +73,26 @@ Balanced.Modals.ObjectSaveMixin = Ember.Mixin.create({
 	}
 });
 
-Balanced.ModalBaseView.reopenClass({
-	open: function(attributes) {
-		return this.create(attributes);
+Balanced.Modals.ObjectValidateAndSaveMixin = Ember.Mixin.create({
+	isSaving: false,
+	save: function(model) {
+		var self = this;
+		this.set("isSaving", true);
+		model.validate();
+		if (model.get("isValid")) {
+			return model.save()
+				.then(function(savedModel) {
+					self.set("isSaving", false);
+					self.close();
+					return Ember.RSVP.resolve(savedModel);
+				}, function(errors) {
+					self.set("isSaving", false);
+					return Ember.RSVP.reject(errors);
+				});
+		} else {
+			self.set("isSaving", false);
+			return Ember.RSVP.reject();
+		}
 	}
 });
 

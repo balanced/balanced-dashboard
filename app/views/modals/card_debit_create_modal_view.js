@@ -1,5 +1,5 @@
 var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectSaveMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 
 Balanced.Modals.CardDebitCreateModalView = Balanced.ModalBaseView.extend(Save, Wide, {
 	title: "Debit a card",

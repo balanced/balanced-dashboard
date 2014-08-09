@@ -48,7 +48,6 @@ module('Payments', {
 				assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Transactions URI is correct');
 				assertQueryString(resultsUri, {
 					limit: "50",
-					offset: "0",
 					sort: "created_at,desc"
 				}, assert);
 			});

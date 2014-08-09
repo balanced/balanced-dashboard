@@ -7,9 +7,12 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	},
 
 	actions: {
-		openModal: function() {
-			var args = ["openModal"].concat(_.toArray(arguments));
-			this.trigger.apply(this, args);
+		openModal: function(klass) {
+			var args = _.toArray(arguments).slice(1);
+			return this
+				.container
+				.lookup("controller:modals_container")
+				.open(klass, args);
 		},
 
 		error: function(error, transition) {

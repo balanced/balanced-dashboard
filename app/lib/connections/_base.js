@@ -5,7 +5,16 @@ Balanced.Connections.BaseConnection = Ember.Object.extend({
 		return settings;
 	},
 
+	post: function(url, data) {
+		return this.ajax({
+			url: url,
+			data: data,
+			type: "POST"
+		});
+	},
+
 	ajax: function(settings) {
-		return $.ajax(this.settings(settings));
+		settings = this.settings(settings);
+		return $.ajax(settings);
 	},
 });

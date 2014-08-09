@@ -14,10 +14,7 @@ Balanced.MarketplaceTransactionsController = Balanced.ObjectController.extend(Em
 			this.get("resultsLoader").setSortField(column);
 		},
 		changeStatusFilter: function(status) {
-			if (status === "all") {
-				status = null;
-			}
-			this.set("resultsLoader.status", status);
+			this.get("resultsLoader").setStatusFilter(status);
 		},
 		changeDateFilter: function(startTime, endTime) {
 			this.get("resultsLoader").setProperties({

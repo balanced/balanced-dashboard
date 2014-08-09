@@ -7,30 +7,32 @@
 
 {{#view Balanced.BodyPanelView}}
 	{{#view Balanced.SidePanelView model=model}}
-		{{view Balanced.OrderSummarySectionView model=model}}
+		{{view Balanced.OrderSellerSectionView model=model}}
+		{{view Balanced.OrderBuyersSectionView model=model}}
 		{{view Balanced.OrderTitledKeyValuesSectionView model=model}}
 		{{view Balanced.MetaView type=model}}
+
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
 		<h3>Credits</h3>
 		<div class="results">
-			{{view Balanced.EmbeddedTransactionsResultsView loader=creditsResultsLoader}}
+			{{view Balanced.OrderTransactionsResultsView loader=creditsResultsLoader}}
 		</div>
 
 		<h3>Debits</h3>
 		<div class="results">
-			{{view Balanced.EmbeddedTransactionsResultsView loader=debitsResultsLoader}}
+			{{view Balanced.OrderTransactionsResultsView loader=debitsResultsLoader}}
 		</div>
 
 		<h3>Refunds</h3>
 		<div class="results">
-			{{view Balanced.EmbeddedTransactionsResultsView loader=refundsResultsLoader}}
+			{{view Balanced.OrderTransactionsResultsView loader=refundsResultsLoader}}
 		</div>
 
 		<h3>Reversal</h3>
 		<div class="results">
-			{{view Balanced.EmbeddedTransactionsResultsView loader=reversalsResultsLoader}}
+			{{view Balanced.OrderTransactionsResultsView loader=reversalsResultsLoader}}
 		</div>
 
 		<h3>Logs</h3>
