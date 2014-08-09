@@ -24,7 +24,7 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 				.then(function() {
 					Balanced.Auth.setAPIKey(self.get("apiKeySecret"));
 					self.send("nextStep");
-				})
+				});
 		}
 	}
 });

@@ -38,7 +38,7 @@ Balanced.MarketplaceCreateModalView.reopenClass({
 			support_email_address: "carlosrr@gmail.com",
 			support_phone_number: "1112222",
 			apiKeySecret: apiKeySecret
-		})
+		});
 		return this.create({
 			model: model
 		});
