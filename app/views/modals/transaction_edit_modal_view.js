@@ -8,15 +8,12 @@ Balanced.Modals.TransactionEditModalView = Balanced.ModalBaseView.extend(Wide, S
 
 	actions: {
 		save: function() {
-			var controller = this.get("controller");
+			var controller = this.get("controller.controllers.temporary_alerts");
 			this.save(this.get("model"))
 				.then(function(model) {
+					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
-					controller.alert({
-						reset: 5000,
-						type: 'success',
-						message: 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase())
-					});
+					controller.alertSuccess(message).expires();
 				});
 		}
 	}
