@@ -19,11 +19,11 @@ Balanced.IntermediateStateBaseModalView = Balanced.ModalBaseView.extend(OpenNext
 
 		return callback()
 			.then(function(response) {
-				this.set("isSaving", false);
+				self.set("isSaving", false);
 				self.close();
 				return Ember.RSVP.resolve(response);
 			}, function(response) {
-				this.set("isSaving", false);
+				self.set("isSaving", false);
 				errors.populate(response);
 				return Ember.RSVP.reject();
 			});
