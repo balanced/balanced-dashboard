@@ -1,16 +1,34 @@
 <thead>
 	<tr>
-		<th class="span3 date has-filter">
-			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+		{{#if view.hasNoFilter}}
+			<th class="span3 date">
 				<span>Date</span>
-			{{/view}}
-		</th>
-		<th class="span2 type has-filter">
-			{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
-		</th>
-		<th class="span3 status has-filter">
-			{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
-		</th>
+			</th>
+		{{else}}
+			<th class="span3 date has-filter">
+				{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+					<span>Date</span>
+				{{/view}}
+			</th>
+		{{/if}}
+		{{#if view.hasNoFilter}}
+			<th class="span3 type">
+				<span>Type</span>
+			</th>
+		{{else}}
+			<th class="span2 type has-filter">
+				{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
+			</th>
+		{{/if}}
+		{{#if view.hasNoFilter}}
+			<th class="span3 status">
+				<span>Status</span>
+			</th>
+		{{else}}
+			<th class="span3 status has-filter">
+				{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
+			</th>
+		{{/if}}
 		<th class="span4 description"><span>Description</span></th>
 		{{#unless view.isSmallTable}}
 			<th class="span3 account"><span>Customer</span></th>
