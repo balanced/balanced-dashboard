@@ -12,7 +12,7 @@ Balanced.ClaimRoute = Balanced.Route.extend({
 	},
 
 	redirect: function() {
-		if (!this.get('auth.isGuest')) {
+		if (!this.get("auth").isUnregistered()) {
 			this.transitionTo('index');
 		}
 	},

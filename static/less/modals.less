@@ -66,6 +66,16 @@ body .modal-backdrop.fade.in {
     width: @wideModalWidth;
     margin-left: -@wideModalWidth / 2;
   }
+  &.modal-full {
+    height: 100%;
+    margin: 0 0 0 0;
+    min-width: 600px;
+    overflow: auto;
+    position: relative;
+    right: 0;
+    top: 0;
+    width: 50%;
+  }
   background-color: @modalBodyBackgroundColor;
   border: @modalBorderWidth solid;
   border: @modalBorderWidth solid;

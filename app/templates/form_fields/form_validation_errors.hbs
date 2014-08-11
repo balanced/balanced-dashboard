@@ -1,0 +1,10 @@
+{{#if view.errorMessages}}
+	<div class="form-errors">
+		<h3>Please fix the following errors in your form:</h3>
+		<ul>
+			{{#each message in view.errorMessages}}
+				<li>{{message}}</li>
+			{{/each}}
+		</ul>
+	</div>
+{{/if}}

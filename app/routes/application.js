@@ -7,9 +7,12 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	},
 
 	actions: {
-		openModal: function() {
-			var args = ["openModal"].concat(_.toArray(arguments));
-			this.trigger.apply(this, args);
+		openModal: function(klass) {
+			var args = _.toArray(arguments).slice(1);
+			return this
+				.container
+				.lookup("controller:modals_container")
+				.open(klass, args);
 		},
 
 		error: function(error, transition) {
@@ -57,12 +60,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
 					this.get('auth').set('attemptedTransition', null);
 
-					this.controllerFor('application').alert({
-						message: 'You are not permitted to access this resource.',
-						type: 'error',
-						persists: true
-					});
-
+					this.controllerFor("temporary_alerts")
+						.alertError('You are not permitted to access this resource.');
 					this.transitionTo('marketplaces');
 				} else if (transition) {
 					this.get('auth').set('attemptedTransition', transition);
@@ -73,31 +72,19 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 					this.transitionTo('login');
 				}
 			} else if (statusCode === 404) {
-				this.controllerFor('application').alert({
-					message: "Couldn't find the resource for this page, please make sure the URL is valid.",
-					type: 'error',
-					persists: true
-				});
-
+				this.controllerFor("temporary_alerts")
+					.alertError("Couldn't find the resource for this page, please make sure the URL is valid.");
 				this.transitionTo('marketplaces');
 			} else {
-				this.controllerFor('application').alert({
-					message: 'There was an error loading this page.',
-					type: 'error',
-					persists: true
-				});
-
+				this.controllerFor("temporary_alerts")
+					.alertError('There was an error loading this page.');
 				this.transitionTo('marketplaces');
 			}
 		},
 
 		willTransition: function() {
 			this.controllerFor('marketplace.search').send('closeSearch');
-			this.controllerFor('application').alertTransition();
-		},
-
-		alert: function(options) {
-			this.controllerFor('application').alert(options);
+			this.controllerFor('temporary_alerts').expireAlerts();
 		},
 
 		signOut: function() {

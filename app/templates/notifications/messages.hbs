@@ -1,7 +1,9 @@
 {{#if view.hasGuestNotification}}
 	{{#view Balanced.NotificationMessageView}}
 		You're logged in as a temporary guest user.
-		{{#link-to 'claim'}}Claim your account to save your data.{{/link-to}}
+		<a class="linky" {{action "openModal" Balanced.UserCreateModalView}}>
+			Claim your account to save your data.
+		</a>
 	{{/view}}
 {{/if}}
 
