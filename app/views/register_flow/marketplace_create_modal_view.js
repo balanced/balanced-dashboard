@@ -1,8 +1,6 @@
-var Full = Balanced.Modals.FullModalMixin;
 var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
-var OpenNext = Balanced.Modals.OpenNextModalMixin;
 
-Balanced.MarketplaceCreateModalView = Balanced.ModalBaseView.extend(OpenNext, Full, Save, {
+Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	templateName: "register_flow/marketplace_create_modal",
 	title: "Step 2 of 3: Provide marketplace information",
 

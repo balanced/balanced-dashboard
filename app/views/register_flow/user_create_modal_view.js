@@ -1,6 +1,7 @@
 var Full = Balanced.Modals.FullModalMixin;
+var Form = Balanced.Modals.FormModalMixin;
 
-Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, {
+Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Form, {
 	templateName: "register_flow/user_create_modal",
 	title: "Create your account",
 
@@ -11,9 +12,14 @@ Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, {
 	}.property(),
 
 	isSaving: false,
+
+	getUserController: function() {
+		return this.get("container").lookup("controller:user");
+	},
+
 	save: function(model, apiKey) {
 		var self = this;
-		var userController = this.container.lookup("controller:user");
+		var userController = this.getUserController();
 		this.set("isSaving", true);
 
 		return userController
@@ -41,7 +47,6 @@ Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, {
 			var apiKey = this.get("auth.authToken");
 			this.save(model, apiKey)
 				.then(function(marketplace) {
-					console.log("ready to jump", marketplace);
 					self.send("nextStep", marketplace);
 				});
 		}

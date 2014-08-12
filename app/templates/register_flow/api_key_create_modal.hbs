@@ -1,80 +1,73 @@
-<form {{action "save" target=view on="submit"}}>
-	<div class="modal-body">
-		{{view Balanced.FormValidationErrorsView model=view.model}}
+{{view Balanced.SelectFormFieldView
+	labelText="Who are you?"
+	inputClassNames="span10"
+	content=view.apiKeyTypes
+	model=view.model
+	field="merchant.type"}}
 
-		{{view Balanced.SelectFormFieldView
-			labelText="Who are you?"
-			inputClassNames="span10"
-			content=view.apiKeyTypes
-			model=view.model
-			field="merchant.type"}}
+{{#if view.model.isBusiness}}
+	<h2>Business information</h2>
+	{{view Balanced.TextFormFieldView
+		labelText="Legal business name"
+		model=view.model
+		field="business.name"
+		inputClassNames="full"}}
 
-		{{#if view.model.isBusiness}}
-			<h2>Business information</h2>
-			{{view Balanced.TextFormFieldView
-				labelText="Legal business name"
-				model=view.model
-				field="business.name"
-				inputClassNames="full"}}
+	{{view Balanced.TextFormFieldView
+		labelText="Employer identification number"
+		model=view.model
+		field="business.tax_id"
+		inputClassNames="full"}}
 
-			{{view Balanced.TextFormFieldView
-				labelText="Employer identification number"
-				model=view.model
-				field="business.tax_id"
-				inputClassNames="full"}}
+	{{view Balanced.TextFormFieldView labelText="Business address" model=view.model field="business.address" inputClassNames="full"}}
+	{{view Balanced.TextFormFieldView labelText="Postal code" model=view.model field="business.postal_code"}}
 
-			{{view Balanced.TextFormFieldView labelText="Business address" model=view.model field="business.address" inputClassNames="full"}}
-			{{view Balanced.TextFormFieldView labelText="Postal code" model=view.model field="business.postal_code"}}
+	{{view Balanced.SelectFormFieldView
+		labelText="Company type"
+		model=view.model
+		content=view.businessTypes
+		field="business.company_type"}}
 
-			{{view Balanced.SelectFormFieldView
-				labelText="Company type"
-				model=view.model
-				content=view.businessTypes
-				field="business.company_type"}}
+	{{view Balanced.DateFormFieldView
+		allowEmpty=true
+		labelText="Incorporation date"
+		model=view.model
+		field="business.incorporation_date"}}
 
-			{{view Balanced.DateFormFieldView
-				allowEmpty=true
-				labelText="Incorporation date"
-				model=view.model
-				field="business.incorporation_date"}}
+	{{view Balanced.TextFormFieldView
+		explanationText="(555) 555-5555"
+		labelText="Phone number"
+		model=view.model
+		field="merchant.phone_number"}}
+{{/if}}
 
-			{{view Balanced.TextFormFieldView
-				explanationText="(555) 555-5555"
-				labelText="Phone number"
-				model=view.model
-				field="merchant.phone_number"}}
-		{{/if}}
+<h2>Personal information:</h2>
+{{view Balanced.TextFormFieldView
+	labelText="Full name"
+	model=view.model
+	field="person.name"}}
 
-		<h2>Personal information:</h2>
-		{{view Balanced.TextFormFieldView
-			labelText="Full name"
-			model=view.model
-			field="person.name"}}
+{{view Balanced.TextFormFieldView
+	explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
+	labelText="Last 4 of SSN"
+	model=view.model
+	field="person.ssn_last_4"}}
 
-		{{view Balanced.TextFormFieldView
-			explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
-			labelText="Last 4 of SSN"
-			model=view.model
-			field="person.ssn_last_4"}}
+{{view Balanced.DateFormFieldView
+	allowEmpty=true
+	labelText="Date of birth"
+	model=view.model
+	field="person.dob"}}
 
-		{{view Balanced.DateFormFieldView
-			allowEmpty=true
-			labelText="Date of birth"
-			model=view.model
-			field="person.dob"}}
+{{view Balanced.TextFormFieldView
+	labelText="Postal Code"
+	model=view.model
+	field="person.postal_code"}}
 
-		{{view Balanced.TextFormFieldView
-			labelText="Postal Code"
-			model=view.model
-			field="person.postal_code"}}
-
-		{{#unless view.model.isBusiness}}
-			{{view Balanced.TextFormFieldView
-				explanationText="(555) 555-5555"
-				labelText="Phone number"
-				model=view.model
-				field="merchant.phone_number"}}
-		{{/unless}}
-	</div>
-	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Create api key"}}
-</form>
+{{#unless view.model.isBusiness}}
+	{{view Balanced.TextFormFieldView
+		explanationText="(555) 555-5555"
+		labelText="Phone number"
+		model=view.model
+		field="merchant.phone_number"}}
+{{/unless}}

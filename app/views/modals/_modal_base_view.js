@@ -23,13 +23,15 @@ Balanced.ModalBaseView.reopenClass({
 	}
 });
 
+Balanced.Modals.FormModalMixin = Ember.Mixin.create({
+	layoutName: "modals/form_modal_layout",
+});
 
 Balanced.Modals.WideModalMixin = Ember.Mixin.create({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 });
 
 Balanced.Modals.FullModalMixin = Ember.Mixin.create({
-	layoutName: "modals/new_base_modal_layout",
 	classNameBindings: [":half-screen-modal"],
 });
 

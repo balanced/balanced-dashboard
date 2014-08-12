@@ -1,8 +1,6 @@
-var Full = Balanced.Modals.FullModalMixin;
 var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
-var OpenNext = Balanced.Modals.OpenNextModalMixin;
 
-Balanced.ApiKeyCreateModalView = Balanced.ModalBaseView.extend(OpenNext, Full, Save, {
+Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	templateName: "register_flow/api_key_create_modal",
 	title: "Apply for production access",
 

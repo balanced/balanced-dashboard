@@ -1,25 +1,28 @@
 Balanced.BankAccountVerificationCreateIntermediateStateModalView = Balanced.IntermediateStateBaseModalView.extend({
 	message: "Creating bank account verification",
 
+	getOwnerCustomerController: function() {
+		return this.lookupController("controller:owner_customer_bank_account");
+	},
+
 	actions: {
-		nextStep: function() {
+		nextStep: function(marketplace) {
 			this.get("container")
 				.lookup("controller:application")
-				.transitionToRoute("marketplace", this.get("marketplace"));
+				.transitionToRoute("marketplace", marketplace);
 		},
 
 		save: function() {
 			var self = this;
 			var bankAccount = this.get("bankAccount");
-			var controller = this.get("container")
-				.lookup("controller:owner_customer_bank_account");
+			var marketplace = this.get("marketplace");
 
 			this
 				.execute(function() {
-					return controller.verify(bankAccount);
+					return self.getOwnerCustomerController().verify(bankAccount);
 				})
 				.then(function(verification) {
-					self.send("nextStep");
+					self.send("nextStep", marketplace);
 				});
 		}
 	}

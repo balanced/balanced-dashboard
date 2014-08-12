@@ -1,9 +1,12 @@
 Balanced.BankAccountLinkIntermediateStateModalView = Balanced.IntermediateStateBaseModalView.extend({
 	message: "Linking bank account to owner_customer",
 
+	getOwnerCustomerController: function() {
+		return this.lookupController("controller:owner_customer_bank_account");
+	},
+
 	actions: {
-		nextStep: function(bankAccount) {
-			var marketplace = this.get("marketplace");
+		nextStep: function(marketplace, bankAccount) {
 			this.openNext(Balanced.BankAccountVerificationCreateIntermediateStateModalView, {
 				marketplace: marketplace,
 				bankAccount: bankAccount
@@ -11,15 +14,16 @@ Balanced.BankAccountLinkIntermediateStateModalView = Balanced.IntermediateStateB
 		},
 		save: function() {
 			var self = this;
-			var controller = this.container.lookup("controller:owner_customer_bank_accounr");
+			var controller = this.getOwnerCustomerController();
 			var bankAccount = this.get("bankAccount");
+			var marketplace = this.get("marketplace");
 
 			this
 				.execute(function() {
 					return controller.link(marketplace, bankAccount);
 				})
 				.then(function() {
-					self.send("nextStep", bankAccount);
+					self.send("nextStep", marketplace, bankAccount);
 				});
 		}
 	}

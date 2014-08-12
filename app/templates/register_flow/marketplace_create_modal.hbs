@@ -1,27 +1,21 @@
-<form {{action "save" target=view on="submit"}}>
-	<div class="modal-body">
-		{{view Balanced.FormValidationErrorsView model=view.model}}
-		{{view Balanced.TextFormFieldView
-			labelText="Name"
-			explanationText="Startupl.io"
-			model=view.model
-			field="name"}}
+{{view Balanced.TextFormFieldView
+	labelText="Name"
+	explanationText="Startupl.io"
+	model=view.model
+	field="name"}}
 
-		{{view Balanced.TextFormFieldView
-			labelText="Domain url"
-			explanationText="startupl.io"
-			model=view.model
-			field="domain_url"}}
+{{view Balanced.TextFormFieldView
+	labelText="Domain url"
+	explanationText="startupl.io"
+	model=view.model
+	field="domain_url"}}
 
-		{{view Balanced.TextFormFieldView
-			labelText="Support email address"
-			model=view.model
-			field="support_email_address"}}
+{{view Balanced.TextFormFieldView
+	labelText="Support email address"
+	model=view.model
+	field="support_email_address"}}
 
-		{{view Balanced.TextFormFieldView
-			labelText="Support phone number"
-			model=view.model
-			field="support_phone_number"}}
-	</div>
-	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Create marketplace"}}
-</form>
+{{view Balanced.TextFormFieldView
+	labelText="Support phone number"
+	model=view.model
+	field="support_phone_number"}}

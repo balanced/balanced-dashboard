@@ -1,8 +1,6 @@
-var Full = Balanced.Modals.FullModalMixin;
 var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
-var OpenNext = Balanced.Modals.OpenNextModalMixin;
 
-Balanced.MarketplaceBankAccountCreateModalView = Balanced.ModalBaseView.extend(OpenNext, Full, Save, {
+Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	templateName: "register_flow/marketplace_bank_account_create_modal",
 	title: "Step 3 of 3: Link your bank account",
 	accountTypes: [{
@@ -23,8 +21,7 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.ModalBaseView.extend(O
 	}.property(),
 
 	actions: {
-		nextStep: function(bankAccountHref) {
-			var marketplace = this.get("marketplace");
+		nextStep: function(marketplace, bankAccountHref) {
 			this.openNext(Balanced.BankAccountFindIntermediateStateModalView, {
 				marketplace: marketplace,
 				bankAccountHref: bankAccountHref
@@ -33,9 +30,11 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.ModalBaseView.extend(O
 		save: function() {
 			var self = this;
 			var model = this.get("model");
+			var marketplace = this.get("marketplace");
+
 			this.save(model)
 				.then(function(bankAccountHref) {
-					self.send("nextStep", bankAccountHref);
+					self.send("nextStep", marketplace, bankAccountHref);
 				});
 		}
 	}

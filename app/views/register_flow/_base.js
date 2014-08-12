@@ -1,9 +1,16 @@
 var Full = Balanced.Modals.FullModalMixin;
 var OpenNext = Balanced.Modals.OpenNextModalMixin;
+var Form = Balanced.Modals.FormModalMixin;
 
-Balanced.IntermediateStateBaseModalView = Balanced.ModalBaseView.extend(OpenNext, Full, {
+Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, {});
+
+Balanced.IntermediateStateBaseModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/intermediate_state_modal",
 	title: "Intermediate state",
+
+	lookupController: function(name) {
+		return Balanced.__container__.lookup(name);
+	},
 
 	errorMessages: function() {
 		return Balanced.ErrorMessagesCollection.create();
