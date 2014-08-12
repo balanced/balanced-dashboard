@@ -11,14 +11,12 @@ Balanced.BankAccountLinkIntermediateStateModalView = Balanced.IntermediateStateB
 		},
 		save: function() {
 			var self = this;
-
-			var customerLink = this.get("marketplace.links.owner_customer");
+			var controller = this.container.lookup("controller:owner_customer_bank_accounr");
 			var bankAccount = this.get("bankAccount");
-			bankAccount.set("links.customer", customerLink);
 
 			this
 				.execute(function() {
-					return bankAccount.save();
+					return controller.link(marketplace, bankAccount);
 				})
 				.then(function() {
 					self.send("nextStep", bankAccount);

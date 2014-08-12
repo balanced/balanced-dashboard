@@ -6,10 +6,13 @@ Balanced.Connections.BaseConnection = Ember.Object.extend({
 	},
 
 	post: function(url, data) {
-		return this.ajax({
-			url: url,
-			data: data,
-			type: "POST"
+		var self = this;
+		return new Ember.RSVP.Promise(function(resolve, reject) {
+			return self.ajax({
+				url: url,
+				data: data,
+				type: "POST"
+			}).then(resolve, reject);
 		});
 	},
 

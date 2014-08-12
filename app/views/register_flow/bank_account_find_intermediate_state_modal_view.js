@@ -14,10 +14,11 @@ Balanced.BankAccountFindIntermediateStateModalView = Balanced.IntermediateStateB
 
 		save: function() {
 			var self = this;
+			var controller = this.container.lookup("controller:owner_customer_bank_account");
 
 			this
 				.execute(function() {
-					return Balanced.BankAccount.find(self.get("bankAccountHref"));
+					return controller.find(self.get("bankAccountHref"));
 				})
 				.then(function(bankAccount) {
 					self.send("nextStep", bankAccount);

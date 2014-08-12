@@ -10,51 +10,39 @@ Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, {
 		return Balanced.UserAccountFactory.create();
 	}.property(),
 
-	save: function(model) {
-		model.validate();
-		if (model.get("isValid")) {
-			return model.save()
-				.then(function(userUri) {
-					return Ember.RSVP.resolve(userUri);
-				}, function(errors) {
-					return Ember.RSVP.reject(errors);
-				});
-		} else {
-			return Ember.RSVP.reject();
-		}
+	isSaving: false,
+	save: function(model, apiKey) {
+		var self = this;
+		var userController = this.container.lookup("controller:user");
+		this.set("isSaving", true);
+
+		return userController
+			.join(model, apiKey)
+			.then(function(marketplace) {
+				self.set("isSaving", false);
+				self.close();
+				return Ember.RSVP.resolve(marketplace);
+			}, function() {
+				self.set("isSaving", false);
+				return Ember.RSVP.reject()
+			});
 	},
 
-	isSaving: false,
 	actions: {
-		save: function() {
-			var controller = this.get("controller");
+		nextStep: function(marketplace) {
+			this.get("container")
+				.lookup("controller:application")
+				.transitionToRoute('marketplace', marketplace);
+		},
 
+		save: function() {
 			var self = this;
 			var model = this.get("model");
-			var authToken = this.get("auth.authToken");
-
-			this.save(model)
-				.then(function(userUri) {
-					return Balanced.Auth.signIn(model.get('email_address'), model.get('passwordConfirm'));
-				})
-				.then(function(user) {
-					var apiKeysUri = user.get("api_keys_uri");
-
-					if (authToken) {
-						return Balanced.UserMarketplace
-							.create({
-								uri: apiKeysUri,
-								secret: authToken
-							})
-							.save()
-							.then(function() {
-								return user.reload();
-							});
-					}
-				})
-				.then(function() {
-					self.close();
-					return controller.transitionToRoute('index');
+			var apiKey = this.get("auth.authToken");
+			this.save(model, apiKey)
+				.then(function(marketplace) {
+					console.log("ready to jump", marketplace);
+					self.send("nextStep", marketplace);
 				});
 		}
 	}
