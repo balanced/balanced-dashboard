@@ -81,6 +81,55 @@ test('failed debit does not show refund modal', function(assert) {
 		}, assert);
 });
 
+test('fully refunded debit not show refund modal', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+	var REFUNDED_DEBIT_ID, REFUNDED_DEBIT_ROUTE, REFUND_ROUTE;
+
+	Ember.run(function() {
+		Testing._createCard().then(function(card) {
+			return Balanced.Debit.create({
+				uri: card.get('debits_uri'),
+				appears_on_statement_as: 'Pixie Dust',
+				amount: 10000,
+				description: 'Cocaine'
+			}).save();
+		}).then(function(debit) {
+			REFUNDED_DEBIT_ID = debit.get('id');
+			REFUNDED_DEBIT_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/debits/' + REFUNDED_DEBIT_ID;
+
+			return Balanced.Refund.create({
+				uri: debit.get('refunds_uri'),
+				debit_uri: debit.get('uri'),
+				amount: 10000
+			}).save();
+		}).then(function(refund) {
+			REFUND_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/refunds/' + refund.get('id');
+		});
+	});
+
+	visit(REFUNDED_DEBIT_ROUTE)
+		.checkElements({
+			'#refund-debit:visible': 0
+		}, assert);
+});
+
+test('disputed debit does not show refund modal', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	visit(Testing.DEBIT_ROUTE)
+		.then(function() {
+			var model = Balanced.__container__.lookup('controller:debits');
+			Ember.run(function() {
+				model.setProperties({
+					dispute: Balanced.Dispute.create()
+				});
+			});
+		})
+		.checkElements({
+			'#refund-debit:visible': 0
+		}, assert);
+});
+
 test('renders metadata correctly', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
