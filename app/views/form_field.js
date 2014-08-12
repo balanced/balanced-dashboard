@@ -1,3 +1,7 @@
+Balanced.FormSectionView = Balanced.View.extend({
+	layoutName: "form_fields/form_section"
+});
+
 Balanced.BaseFormFieldView = Balanced.View.extend({
 	layoutName: "form_fields/form_field_layout",
 	classNameBindings: [":form-group", "isError:has-error"],

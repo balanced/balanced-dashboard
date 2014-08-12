@@ -20,21 +20,48 @@
     content: "";
   }
 
-  input.span10 {
-
-  }
-
   .alert {
-    .sl-none;
     background-color: transparent;
     border-style: none;
     margin: 0;
     padding: 0;
     text-shadow: none;
-  }
 
-  .alert.alert-error {
-    color: @imperialRed100;
+    &.alert-error {
+      background-color: @imperialRed80;
+      color: @white;
+      padding: 8px 10px;
+      display: inline;
+      position: absolute;
+      margin-top: -36px;
+      margin-left: -238px;
+      width: 210px;
+      .border-radius(0);
+
+      p {
+        color: @imperialRed100;
+
+        &:last-of-type {
+          margin-bottom: 0px;
+        }
+      }
+
+      ul {
+        padding-left: 15px;
+      }
+
+      &:after {
+        content: '';
+        display: inline-block;
+        background-color: @imperialRed80;
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        right: -5px;
+        top: 12px;
+        .rotate(45deg);
+      }
+    }
   }
 }
 
