@@ -30,6 +30,12 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 		if (validationErrors) {
 			var errors = validationErrors.get(this.get("field"));
 			if (errors) {
+				var controller = Balanced.__container__.lookup("controller:notification_center");
+
+				errors.forEach(function(error) {
+					controller.alertError(errors.get("fullMessages"));
+				});
+
 				return errors.get("fullMessages");
 			}
 		}
@@ -41,17 +47,15 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 	}.property("errorMessages.length"),
 
 	didInsertElement: function() {
-		if ($('.has-error').length > 0) {
-			$('.form-group').hover(function(event) {
-				$('.alert-error').css('display', 'none');
-				$(event.currentTarget).find('.alert-error').css('display', 'inline');
-			});
+		$('.form-group').hover(function(event) {
+			$('.alert-error').css('display', 'none');
+			$(event.currentTarget).find('.alert-error').css('display', 'inline');
+		});
 
-			$('.form-group input').focus(function(event) {
-				$('.alert-error').css('display', 'none');
-				$(event.currentTarget).parents('.form-group').find('.alert-error').css('display', 'inline');
-			});
-		}
+		$('.form-group input').focus(function(event) {
+			$('.alert-error').css('display', 'none');
+			$(event.currentTarget).parents('.form-group').find('.alert-error').css('display', 'inline');
+		});
 	}
 });
 

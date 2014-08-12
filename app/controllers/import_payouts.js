@@ -1,5 +1,5 @@
 Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.Evented, {
-	needs: ['marketplace', "temporary_alerts"],
+	needs: ['marketplace', "notification_center"],
 
 	init: function() {
 		this._super();
@@ -51,7 +51,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 
 			self.refresh('');
 			var message = '%@ payouts were successfully submitted. Payouts might take a couple seconds to appear in the transactions list.'.fmt(count);
-			self.get("controllers.temporary_alerts")
+			self.get("controllers.notification_center")
 				.alertSuccess(message, 5000);
 		});
 	},

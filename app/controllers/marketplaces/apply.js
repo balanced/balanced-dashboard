@@ -5,7 +5,7 @@ var generateYears = function(times, start) {
 };
 
 Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
-	needs: ["temporary_alerts"],
+	needs: ["notification_center"],
 
 	// When the user visits the page directly the auth.isGuest variable is not setup.
 	isGuest: function() {
@@ -59,7 +59,7 @@ Balanced.MarketplacesApplyController = Balanced.ObjectController.extend({
 						var message = 'We\'ve received your information. In the meantime, you may fund your balance with your credit card to transact right away.';
 						if (marketplace) {
 							self.transitionToRoute('marketplace.initial_deposit', marketplace);
-							self.get("controllers.temporary_alerts").alertSucces(message);
+							self.get("controllers.notification_center").alertSuccess(message);
 						}
 					});
 			}
