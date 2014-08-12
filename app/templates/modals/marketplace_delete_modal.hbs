@@ -1,0 +1,7 @@
+<form {{action "save" target="view" on="submit"}}>
+	<div class="modal-body modal-info">
+		<p>Are you sure you want to remove the marketplace {{view.marketplace.name}} from your access list?</p>
+	</div>
+
+	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Delete"}}
+</form>
