@@ -191,8 +191,8 @@ Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 	}.property('model.status'),
 
 	linkedResources: function() {
-		return this.resourceLinks("model.transaction.order", "model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source");
-	}.property("model.transaction.order", "model.transaction", "model.transaction.refunds", "model.transaction.refunds.length", "model.transaction.hold", "model.transaction.customer", "model.transaction.source")
+		return this.resourceLinks("model.transaction.order", "model.transaction.customer", "model.transaction.source");
+	}.property("model.transaction.order", "model.transaction.customer", "model.transaction.source")
 });
 
 Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({

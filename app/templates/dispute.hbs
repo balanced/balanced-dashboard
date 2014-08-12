@@ -8,6 +8,11 @@
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
+		<h3>Associated transactions</h3>
+		<div class="results">
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader hasNoFilter=true}}
+		</div>
+
 		<h3>Logs</h3>
 		<div class="results">
 			{{view Balanced.ResourceLogsView content=model}}

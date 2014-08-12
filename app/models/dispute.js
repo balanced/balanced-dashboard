@@ -39,6 +39,14 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),
 	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
 
+	getTransactionsLoader: function(attributes) {
+		attributes = _.extend({
+			dispute: this
+		}, attributes);
+
+		return Balanced.DisputeTransactionsResultsLoader.create(attributes);
+	},
+
 	hasExpired: function() {
 		return moment(this.get('respond_by')).toDate() < moment().toDate();
 	}.property('respond_by'),

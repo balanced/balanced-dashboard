@@ -44,8 +44,8 @@ Balanced.Debit = Balanced.Transaction.extend({
 	}.on('didLoad'),
 
 	can_refund: function() {
-		return this.get('is_succeeded') && (this.get('refund_amount') > 0);
-	}.property('amount', 'refund_amount', 'is_succeeded')
+		return this.get('is_succeeded') && (this.get('refund_amount') > 0) && !this.get('dispute');
+	}.property('amount', 'refund_amount', 'is_succeeded', 'dispute')
 });
 
 Balanced.TypeMappings.addTypeMapping('debit', 'Balanced.Debit');
