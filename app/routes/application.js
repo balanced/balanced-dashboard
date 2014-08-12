@@ -7,6 +7,12 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	},
 
 	actions: {
+		closeModal: function() {
+			return this
+				.container
+				.lookup("controller:modals_container")
+				.close();
+		},
 		openModal: function(klass) {
 			var args = _.toArray(arguments).slice(1);
 			return this
