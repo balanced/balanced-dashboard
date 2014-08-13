@@ -13,16 +13,16 @@ Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Form, {
 
 	isSaving: false,
 
-	getUserController: function() {
-		return this.get("container").lookup("controller:user");
+	getRegistrationController: function() {
+		return this.get("container").lookup("controller:registration");
 	},
 
 	save: function(model, apiKey) {
 		var self = this;
-		var userController = this.getUserController();
+		var controller = this.getRegistrationController();
 		this.set("isSaving", true);
 
-		return userController
+		return controller
 			.join(model, apiKey)
 			.then(function(marketplace) {
 				self.set("isSaving", false);

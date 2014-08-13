@@ -1,7 +1,6 @@
-Balanced.BaseFormFieldView = Balanced.View.extend({
-	layoutName: "form_fields/form_field_layout",
-	templateName: "form_fields/base_form_field",
-	classNameBindings: [":form-group", "isError:has-error"],
+Balanced.SimpleCheckboxFormFieldView = Balanced.View.extend({
+	templateName: "form_fields/simple_checkbox_form_field",
+	classNameBindings: [":form-group", "isError:has-error", ":checkbox"],
 
 	setModelValue: function(value) {
 		var model = this.get("model");

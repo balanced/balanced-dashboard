@@ -1,21 +1,32 @@
-{{view Balanced.TextFormFieldView
-	labelText="Name"
-	explanationText="Startupl.io"
-	model=view.model
-	field="name"}}
+<h3>Step 2 of 3: Provide marketplace information</h3>
+{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Marketplace information"}}
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Name"
+		field="name"
+		explanationText="Startupl.io"
+	}}
 
-{{view Balanced.TextFormFieldView
-	labelText="Domain url"
-	explanationText="startupl.io"
-	model=view.model
-	field="domain_url"}}
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Domain url"
+		field="domain_url"
+		explanationText="startupl.io"
+	}}
 
-{{view Balanced.TextFormFieldView
-	labelText="Support email address"
-	model=view.model
-	field="support_email_address"}}
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Support email address"
+		field="support_email_address"
+	}}
 
-{{view Balanced.TextFormFieldView
-	labelText="Support phone number"
-	model=view.model
-	field="support_phone_number"}}
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Support phone number"
+		field="support_phone_number"
+	}}
+{{/view}}
+
+{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Terms & Conditions / Privacy Policy"}}
+	{{view Balanced.SimpleCheckboxFormFieldView model=view.model
+		labelText="I accept the Terms & Conditions, Marketplace Agreement and Privacy Policy"
+		field="isTermsAccepted"
+		explanationText="Some exmplantojbvrkjbv klvbsrvkjbsl kvjbsd lkvjbs lvkjsdbvl ksjdbvl sdkjvb lskdjvb sdlkvjbs dlvkjbsd vlskjbv lsdkjvb sdv"
+	}}
+{{/view}}

@@ -50,7 +50,9 @@ Balanced.Router.map(function() {
 	this.route('login');
 	this.route('logout');
 
-	this.route('claim');
+	this.route('sign_up', {
+		path: "/claim"
+	});
 	this.route('start');
 
 	this.route('forgotPassword', {

@@ -1,14 +1,13 @@
 <div class="container">
-	<header id="header" {{bind-attr class=":start headerClass"}}>
-		<div id="logo">
-			<a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
+	<div id="logo">
+		<a href="https://www.balancedpayments.com" class="img">Balanced Dashboard</a>
+	</div>
+	<div class="pull-right">
+		<div id="login-menu" class="nav-item">
+			{{#link-to "sign_up" class="btn btn-link"}}Claim{{/link-to}}
+			{{#link-to "login" class="btn btn-link"}}Log in{{/link-to}}
 		</div>
-		<div id="site-nav">
-			<div id="login-menu" class="nav-item">
-				<a href="#" {{action "goToLogin"}}>Log in</a>
-			</div>
-		</div>
-	</header>
+	</div>
 </div>
 
 <section id="main" class="container start">
@@ -30,7 +29,7 @@
 					<i class="icon icon-arrow-thin-forward"></i>
 				</div>
 			</li>
-			<li class="registration" {{action "goToApply"}}>
+			<li class="registration" {{action "goToSignUp"}}>
 				<div class="icon"> </div>
 				<h2>Register</h2>
 				<p>Register for production access</p>
