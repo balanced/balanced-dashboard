@@ -1,14 +1,15 @@
-var Full = Balanced.Modals.FullModalMixin;
-var Form = Balanced.Modals.FormModalMixin;
-
-Balanced.UserCreateModalView = Balanced.ModalBaseView.extend(Full, Form, {
+Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/user_create_modal",
 	title: "Create your account",
 
 	auth: Balanced.Auth,
 
 	model: function() {
-		return Balanced.UserAccountFactory.create();
+		return Balanced.UserAccountFactory.create({
+			email_address: "carlos",
+			password: "vlrjnvrljknvr",
+			passwordConfirm: "vlrjnvrljknvr"
+		});
 	}.property(),
 
 	isSaving: false,

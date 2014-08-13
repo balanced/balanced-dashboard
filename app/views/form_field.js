@@ -27,12 +27,6 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 		if (validationErrors) {
 			var errors = validationErrors.get(this.get("field"));
 			if (errors) {
-				var controller = Balanced.__container__.lookup("controller:notification_center");
-
-				errors.forEach(function(error) {
-					controller.alertError(errors.get("fullMessages"));
-				});
-
 				return errors.get("fullMessages");
 			}
 		}

@@ -1,4 +1,18 @@
 Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
+
+	needs: ["notification_center"],
+	updateGuestNotification: function() {
+		var name = "GuestNotification";
+		this.clearNamedAlert(name);
+
+		if (this.get('auth.isGuest')) {
+			this.get("controllers.notification_center")
+				.alertError("You're logged in as a temporary guest user. Claim your account to save your data.", {
+					name: name
+				});
+		}
+	}.observes("auth.isGuest"),
+
 	actions: {
 		openChangePasswordModal: function() {
 			if (this.get('auth.isGuest')) {

@@ -13,7 +13,10 @@ Balanced.ModalBaseView = Ember.View.extend({
 	},
 
 	close: function() {
-		return this.$().modal("hide");
+		var element = this.$();
+		if (element) {
+			return element.modal("hide");
+		}
 	}
 });
 
@@ -35,8 +38,22 @@ Balanced.Modals.FullModalMixin = Ember.Mixin.create({
 	classNameBindings: [":half-screen-modal"],
 });
 
+Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
+	updateErrorsBar: function() {
+		var controller = this.get("container").lookup("controller:modal_notification_center");
+		controller.clear();
+		this.get("model.validationErrors.allMessages").forEach(function(error) {
+			if (Ember.isBlank(error[0])) {
+				controller.alertError(error[1]);
+			}
+		});
+
+	}.observes("model.validationErrors.allMessages"),
+});
+
 Balanced.Modals.OpenNextModalMixin = Ember.Mixin.create({
 	openNext: function() {
+		this.close();
 		var controller = this.get("container").lookup("controller:application");
 		var args = _.toArray(arguments);
 		args.unshift("openModal");

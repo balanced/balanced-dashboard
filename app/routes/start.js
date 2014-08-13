@@ -26,15 +26,4 @@ Balanced.StartRoute = Balanced.Route.extend({
 			this.transitionTo('index');
 		}
 	},
-	actions: {
-		goToDashboard: function() {
-			this.transitionTo('marketplace', this.currentModel);
-		},
-		goToDocumentation: function() {
-			window.location = 'https://docs.balancedpayments.com';
-		},
-		goToSignUp: function() {
-			this.transitionTo('sign_up');
-		},
-	}
 });
