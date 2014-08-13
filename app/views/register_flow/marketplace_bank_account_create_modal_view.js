@@ -1,6 +1,4 @@
-var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
-
-Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
+Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/marketplace_bank_account_create_modal",
 	title: "Step 3 of 3: Link your bank account",
 	accountTypes: [{
@@ -20,6 +18,69 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		});
 	}.property(),
 
+	isInitialDepositCreate: true,
+	isInitialDepositTransactionCreated: false,
+	initialDepositModel: function() {
+		return Balanced.InitialDepositTransactionFactory.create({
+			number: "4111 1111 1111 1111",
+			cvv: "111",
+			expiration_month: 1,
+			expiration_year: "2014",
+			dollar_amount: 10
+		});
+	}.property(),
+
+	expirationMonths: Balanced.TIME.MONTHS,
+	expirationYears: function() {
+		var start = new Date().getFullYear();
+		return _.times(10, function(i) {
+			return start + i;
+		});
+	}.property(),
+
+
+	validate: function(bankAccountModel, initialDepositModel) {
+		var validate = function(model) {
+			if (model) {
+				model.validate();
+				return model.get("isValid");
+			}
+			return true;
+		};
+
+		if (validate(bankAccountModel) && validate(initialDepositModel)) {
+			return Ember.RSVP.resolve();
+		} else {
+			return Ember.RSVP.reject();
+		}
+	},
+
+	isSaving: false,
+	save: function(bankAccountModel, initialDepositModel) {
+		var self = this;
+		self.set("isSaving", true);
+		return this
+			.validate(bankAccountModel, initialDepositModel)
+			.then(function() {
+				if (initialDepositModel) {
+					return initialDepositModel.save();
+				}
+			})
+			.then(function() {
+				return self.set("isInitialDepositTransactionCreated", true);
+			})
+			.then(function() {
+				return bankAccountModel.save();
+			})
+			.then(function(result) {
+				self.set("isSaving", false);
+				return result;
+			}, function(errors) {
+				self.set("isSaving", false);
+				return Ember.RSVP.reject(errors);
+			});
+	},
+
 	actions: {
 		nextStep: function(marketplace, bankAccountHref) {
 			this.openNext(Balanced.BankAccountFindIntermediateStateModalView, {
@@ -29,10 +90,13 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		},
 		save: function() {
 			var self = this;
-			var model = this.get("model");
 			var marketplace = this.get("marketplace");
 
-			this.save(model)
+			var model = this.get("model");
+			var initialDepositModel = this.get("isInitialDepositCreate") ?
+				this.get("initialDepositModel") : undefined;
+
+			this.save(model, initialDepositModel)
 				.then(function(bankAccountHref) {
 					self.send("nextStep", marketplace, bankAccountHref);
 				});

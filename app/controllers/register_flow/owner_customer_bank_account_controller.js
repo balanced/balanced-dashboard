@@ -1,4 +1,13 @@
 Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
+	openModal: function() {
+		var application = this.get("container").lookup("controller:application");
+		var uri = this.get("container").lookup("controller:marketplace").get("marketplace.uri");
+		application
+			.send("openModal", Balanced.MarketplaceFindIntermediateStateModalView, {
+				marketplaceHref: uri
+			});
+	},
+
 	find: function(bankAccountHref) {
 		return Balanced.BankAccount.find(bankAccountHref);
 	},

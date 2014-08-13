@@ -1,7 +1,7 @@
 var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {
-			value = (value || "").trim();
+			value = (value || "").toString().trim();
 			callback(object, attribute, value, function(messages) {
 				messages = _.isArray(messages) ? messages : [messages];
 
