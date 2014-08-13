@@ -1,8 +1,9 @@
 var Full = Balanced.Modals.FullModalMixin;
 var OpenNext = Balanced.Modals.OpenNextModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
+var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
 
-Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, {});
+Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {});
 
 Balanced.IntermediateStateBaseModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/intermediate_state_modal",

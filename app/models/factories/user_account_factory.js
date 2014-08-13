@@ -35,9 +35,10 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 	handleResponse: function(response) {
 		return response.uri;
 	},
-	handleErrorResponse: function() {
+	handleErrorResponse: function(response) {
 		var validationErrors = this.get("validationErrors");
 		validationErrors.clear();
 		validationErrors.add("", "serverError", null, "There was an error creating your account.");
+		this.setValidationErrorsFromServer(response);
 	},
 });

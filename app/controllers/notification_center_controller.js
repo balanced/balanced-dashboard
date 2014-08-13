@@ -8,6 +8,11 @@ var AlertMessage = Ember.Object.extend({
 Balanced.NotificationCenterController = Ember.ArrayController.extend({
 	content: [],
 
+	clearNamedAlert: function(name) {
+		var cleanAlerts = this.rejectBy("name", name);
+		this.set("content", cleanAlerts);
+	},
+
 	expireAlerts: function() {
 		var cleanAlerts = this.rejectBy("expire");
 		this.set("content", cleanAlerts);
@@ -20,16 +25,23 @@ Balanced.NotificationCenterController = Ember.ArrayController.extend({
 		return message;
 	},
 
-	alertError: function(message) {
-		return this.alert({
+	alertError: function(message, options) {
+		options = _.extend({
 			message: message,
 			type: "error"
-		});
+		}, options);
+
+		return this.alert(options);
 	},
-	alertSuccess: function(message) {
-		return this.alert({
+	alertSuccess: function(message, options) {
+		options = _.extend({
 			message: message,
 			type: "success"
-		});
+		}, options);
+		return this.alert(options);
 	},
+});
+
+Balanced.ModalNotificationCenterController = Balanced.NotificationCenterController.extend({
+	content: []
 });

@@ -4,14 +4,7 @@ var INFINITE_LOOP_NUM_ERRORS = 5;
 Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	init: function() {
 		this.set('errorTimestamps', []);
-
-		if (this.get('hasGuestNotification')) {
-			this.controllerFor("notification_center")
-				.alertError("You're logged in as a temporary guest user. Claim your account to save your data.");
-		}
 	},
-
-	hasGuestNotification: Ember.computed.readOnly('auth.isGuest'),
 
 	actions: {
 		closeModal: function() {
