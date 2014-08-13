@@ -249,6 +249,10 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		return isUserEmpty || isUserGuest;
 	},
 
+	isRegistered: function() {
+		return !this.isUnregistered();
+	},
+
 	setAuthProperties: function(signedIn, user, userId, authToken, isGuest, isAdmin) {
 		this.setProperties({
 			signedIn: signedIn,

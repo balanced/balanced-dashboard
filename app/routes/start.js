@@ -2,30 +2,27 @@ Balanced.StartRoute = Balanced.Route.extend({
 	pageTitle: 'Getting started',
 
 	model: function() {
-		if (this.get('auth.signedIn')) {
+		var controller = Balanced.__container__.lookup("controller:registration");
+		var auth = this.get('auth');
+
+		if (auth.get('signedIn')) {
 			return Balanced.currentMarketplace;
 		} else {
-			var auth = this.get('auth');
-
-			return auth.createNewGuestUser().then(function(apiKey) {
-				var apiKeySecret = apiKey.get('secret');
-				var settings = {
-					headers: {
-						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
-					}
-				};
-				return Balanced.Marketplace.create().save(settings).then(function(marketplace) {
+			return auth
+				.createNewGuestUser()
+				.then(function(apiKey) {
+					var apiKeySecret = apiKey.get('secret');
+					return controller.createMarketplaceForApiKeySecret(apiKeySecret)
+				})
+				.then(function(marketplace) {
 					marketplace.populateWithTestTransactions();
-
 					auth.setupGuestUserMarketplace(marketplace);
-
 					return marketplace;
 				});
-			});
 		}
 	},
 	redirect: function() {
-		if (this.get('user') && !this.get('auth.isGuest')) {
+		if (Balanced.Auth.isRegistered()) {
 			this.transitionTo('index');
 		}
 	},
@@ -36,13 +33,8 @@ Balanced.StartRoute = Balanced.Route.extend({
 		goToDocumentation: function() {
 			window.location = 'https://docs.balancedpayments.com';
 		},
-		goToApply: function() {
-			this.transitionTo('marketplaces.apply');
+		goToSignUp: function() {
+			this.transitionTo('sign_up');
 		},
-		goToLogin: function() {
-			// Since we already logged them in as guest, log them out so they can sign in as themselves
-			this.get('auth').forgetLogin();
-			this.transitionTo('login');
-		}
 	}
 });
