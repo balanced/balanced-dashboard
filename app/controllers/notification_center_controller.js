@@ -5,7 +5,7 @@ var AlertMessage = Ember.Object.extend({
 	}
 });
 
-Balanced.TemporaryAlertsController = Ember.ArrayController.extend({
+Balanced.NotificationCenterController = Ember.ArrayController.extend({
 	content: [],
 
 	expireAlerts: function() {

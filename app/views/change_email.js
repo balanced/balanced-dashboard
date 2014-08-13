@@ -72,6 +72,6 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 		this.hide();
 
 		var message = 'Your %@ has been updated.'.fmt(this.get("fieldName"));
-		this.get('controller.controllers.temporary_alerts').alertSuccess(message);
+		this.get('controller.controllers.notification_center').alertSuccess(message);
 	}
 });

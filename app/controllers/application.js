@@ -1,15 +1,5 @@
 Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
-	showNotificationCenter: true,
-
 	actions: {
-		closeNotificationCenter: function() {
-			this.set('showNotificationCenter', false);
-		},
-
-		toggleNotificationCenter: function() {
-			this.set('showNotificationCenter', !this.get('showNotificationCenter'));
-		},
-
 		openChangePasswordModal: function() {
 			if (this.get('auth.isGuest')) {
 				return;

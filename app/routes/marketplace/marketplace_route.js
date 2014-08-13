@@ -12,6 +12,7 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 		this._super(controller, model);
 
 		Balanced.Utils.setCurrentMarketplace(model);
+		controller.updateBankAccountNotifications();
 	},
 
 	actions: {

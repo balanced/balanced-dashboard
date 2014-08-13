@@ -4,7 +4,14 @@ var INFINITE_LOOP_NUM_ERRORS = 5;
 Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	init: function() {
 		this.set('errorTimestamps', []);
+
+		if (this.get('hasGuestNotification')) {
+			this.controllerFor("notification_center")
+				.alertError("You're logged in as a temporary guest user. Claim your account to save your data.");
+		}
 	},
+
+	hasGuestNotification: Ember.computed.readOnly('auth.isGuest'),
 
 	actions: {
 		closeModal: function() {
@@ -66,7 +73,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 					// if we loaded an ember object and got a 401/403, let's forget about the transition
 					this.get('auth').set('attemptedTransition', null);
 
-					this.controllerFor("temporary_alerts")
+					this.controllerFor("notification_center")
 						.alertError('You are not permitted to access this resource.');
 					this.transitionTo('marketplaces');
 				} else if (transition) {
@@ -78,11 +85,11 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 					this.transitionTo('login');
 				}
 			} else if (statusCode === 404) {
-				this.controllerFor("temporary_alerts")
+				this.controllerFor("notification_center")
 					.alertError("Couldn't find the resource for this page, please make sure the URL is valid.");
 				this.transitionTo('marketplaces');
 			} else {
-				this.controllerFor("temporary_alerts")
+				this.controllerFor("notification_center")
 					.alertError('There was an error loading this page.');
 				this.transitionTo('marketplaces');
 			}
@@ -90,7 +97,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 
 		willTransition: function() {
 			this.controllerFor('marketplace.search').send('closeSearch');
-			this.controllerFor('temporary_alerts').expireAlerts();
+			this.controllerFor('notification_center').expireAlerts();
 		},
 
 		signOut: function() {

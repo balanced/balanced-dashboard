@@ -27,6 +27,12 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 		if (validationErrors) {
 			var errors = validationErrors.get(this.get("field"));
 			if (errors) {
+				var controller = Balanced.__container__.lookup("controller:notification_center");
+
+				errors.forEach(function(error) {
+					controller.alertError(errors.get("fullMessages"));
+				});
+
 				return errors.get("fullMessages");
 			}
 		}
@@ -35,5 +41,17 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 
 	isError: function() {
 		return this.get("errorMessages.length") > 0;
-	}.property("errorMessages.length")
+	}.property("errorMessages.length"),
+
+	didInsertElement: function() {
+		$('.form-group').hover(function(event) {
+			$('.alert-error').css('display', 'none');
+			$(event.currentTarget).find('.alert-error').css('display', 'inline');
+		});
+
+		$('.form-group input').focus(function(event) {
+			$('.alert-error').css('display', 'none');
+			$(event.currentTarget).parents('.form-group').find('.alert-error').css('display', 'inline');
+		});
+	}
 });

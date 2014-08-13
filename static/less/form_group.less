@@ -5,7 +5,8 @@
 @padding-base-vertical: 10px;
 
 .form-errors {
-  background-color: @imperialRed20;
+  background-color: @white;
+  border: 1px solid @imperialRed80;
   color: @imperialRed100;
 }
 
@@ -28,10 +29,11 @@
     text-shadow: none;
 
     &.alert-error {
-      background-color: @imperialRed80;
-      color: @white;
+      display: none;
+      background-color: @white;
+      border: 1px solid @imperialRed80;
+      color: @imperialRed100;
       padding: 8px 10px;
-      display: inline;
       position: absolute;
       margin-top: -36px;
       margin-left: -238px;
@@ -50,16 +52,29 @@
         padding-left: 15px;
       }
 
-      &:after {
-        content: '';
-        display: inline-block;
-        background-color: @imperialRed80;
-        width: 12px;
-        height: 12px;
+      // right arrow
+      &:before, &:after {
+        content: "";
         position: absolute;
-        right: -5px;
-        top: 12px;
-        .rotate(45deg);
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent;
+        border-right: 0;
+      }
+
+      &:before {
+        top: 10px;
+        right: -8px;
+        border-left-color: @imperialRed80;
+        border-width: 8px;
+      }
+
+      &:after {
+        top: 11px;
+        right: -7px;
+        border-left-color: @white;
+        border-width: 7px;
       }
     }
   }
@@ -70,8 +85,8 @@
     color: @imperialRed100;
   }
   input, select, textarea {
-    border-color: @imperialRed100;
-    background-color: @imperialRed20;
+    border-color: @imperialRed80;
+    background-color: @imperialRed10;
     color: @imperialRed100;
   }
 }
