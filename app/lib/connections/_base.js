@@ -18,6 +18,6 @@ Balanced.Connections.BaseConnection = Ember.Object.extend({
 
 	ajax: function(settings) {
 		settings = this.settings(settings);
-		return $.ajax(settings);
+		return Balanced.Adapter.load(settings);
 	},
 });

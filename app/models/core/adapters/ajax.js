@@ -103,6 +103,10 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 		this.hostsByType[type] = host;
 	},
 
+	load: function(settings) {
+		return jQuery.ajax(settings);
+	},
+
 	getHostForType: function(type) {
 		var host = ENV.BALANCED.API;
 		if (this.hostsByType[type]) {
