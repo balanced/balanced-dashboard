@@ -135,7 +135,7 @@ body .modal-backdrop.fade.in {
 .half-screen-modal {
   .modal-header {
     position: relative;
-    padding: 70px 45px 0;
+    padding: 70px 45px 60px;
     background-color: transparent;
 
     .close {
@@ -155,9 +155,12 @@ body .modal-backdrop.fade.in {
 
     h2 {
       .sl-lg-sb;
-      line-height: 106px;
       padding: 0;
-      margin: 0;
+      margin: 40px 0 0 0;
+    }
+
+    h3 {
+      .sl-16-sb;
     }
   }
 }
@@ -207,7 +210,7 @@ body .modal-backdrop.fade.in {
 
   &:not(.modal-with-headers) {
     background-color: @modalBodyBackgroundColor;
-    padding: 20px 35px 20px 35px;
+    padding: 0 45px;
   }
 
   .modal-content {
@@ -325,10 +328,10 @@ body .modal-backdrop.fade.in {
 
 // Footer (for actions)
 .modal-footer {
-  padding: 15px 0;
+  padding: 15px 0 45px;
   margin-bottom: 0;
-  margin-left: 35px;
-  margin-right: 35px;
+  margin-left: 45px;
+  margin-right: 45px;
   text-align: right; // right align buttons
   background-color: @white;
   border-top: 1px solid @gray2;

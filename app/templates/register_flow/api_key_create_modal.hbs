@@ -1,4 +1,3 @@
-<h3>Step 1 of 3: Provide business information</h3>
 {{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Business type"}}
 	{{view Balanced.SelectFormFieldView model=view.model inputClassNames="full"
 		content=view.apiKeyTypes
@@ -51,12 +50,6 @@
 		field="person.name"
 	}}
 
-	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
-		labelText="Last 4 of SSN"
-		field="person.ssn_last_4"
-		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
-	}}
-
 	{{view Balanced.DateFormFieldView
 		allowEmpty=true
 		labelText="Date of birth"
@@ -66,6 +59,12 @@
 	{{view Balanced.TextFormFieldView model=view.model
 		labelText="Postal Code"
 		field="person.postal_code"
+	}}
+
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Last 4 of SSN"
+		field="person.ssn_last_4"
+		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
 	}}
 
 	{{#unless view.model.isBusiness}}

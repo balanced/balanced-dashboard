@@ -1,10 +1,9 @@
 {{#each alert in controller}}
 	<div class="alert-row">
-		<div class="row-fluid notification-center notification-center-row">
-			<div {{bind-attr class=":notification-center-message alert.type"}}>
+		<div {{bind-attr class=":row-fluid :notification-center alert.type"}}>
+			<div class="notification-center-message">
 				<span>{{alert.message}}</span>
 			</div>
-			<div class="button-wrapper right"></div>
 		</div>
 	</div>
 {{/each}}

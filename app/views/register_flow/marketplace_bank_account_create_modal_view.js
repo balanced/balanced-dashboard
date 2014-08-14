@@ -2,7 +2,10 @@ var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
 
 Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	templateName: "register_flow/marketplace_bank_account_create_modal",
-	title: "Step 3 of 3: Link your bank account",
+	title: "Register for a production marketplace",
+	subtitle: "Step 3 of 3: Add your bank account",
+	submitButtonText: "Complete registration",
+
 	accountTypes: [{
 		value: "checking",
 		label: "Checking"
