@@ -18,7 +18,7 @@ test("setValidationErrorsFromServer", function(assert) {
 
 	var messages = subject.get("validationErrors.fullMessages");
 	assert.deepEqual(messages, [
-		"Invalid field merchant[phone_number] - \"99.99\" is not an E.164 formatted phone number",
-		"Invalid field merchant[honorific] - Doctor Parrot is not a real doctor."
+		"\"99.99\" is not an E.164 formatted phone number",
+		"Doctor Parrot is not a real doctor."
 	]);
 });

@@ -29,7 +29,7 @@ Balanced.SessionsController = Ember.Controller.extend({
 		}
 	},
 
-	destroy: function() {
+	nuke: function() {
 		Balanced.Auth.forgetLogin();
 	},
 

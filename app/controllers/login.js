@@ -103,7 +103,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			this.resetError();
 			this.set('isSubmitting', true);
 
-			sessionsController.destroy();
+			sessionsController.nuke();
 			sessionsController
 				.login({
 					email_address: this.getEmail(),
