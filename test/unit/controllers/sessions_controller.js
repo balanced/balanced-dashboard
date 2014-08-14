@@ -29,10 +29,10 @@ test("#login", function(assert) {
 	loginStub.restore();
 });
 
-test("#destroy", function(assert) {
+test("#nuke", function(assert) {
 	var controller = this.controller;
 	var stub = sinon.stub(Balanced.Auth, "forgetLogin");
-	controller.destroy();
+	controller.nuke();
 	assert.deepEqual(stub.args[0], []);
 });
 
