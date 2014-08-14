@@ -17,6 +17,7 @@
   border: 0;
   color: @black;
   background-color: @curryYellow20;
+  border-bottom: 1px solid @white;
   text-align: center;
   line-height: 20px;
 
@@ -57,8 +58,24 @@
     }
   }
 
+  &.warning {
+    color: @gray8;
+    background-color: @curryYellow20;
+
+    .message:before {
+      &:extend(.icon-alert:before);
+      color: @curryYellow80;
+    }
+  }
+
   &.info {
-    background-color: @egyptianBlue20;
+    color: @gray8;
+    background-color: @persianBlue10;
+
+    .message:before {
+      &:extend(.icon-notification:before);
+      color: @persianBlue80;
+    }
   }
 
   button {

@@ -25,6 +25,24 @@ Balanced.NotificationCenterController = Ember.ArrayController.extend({
 		return message;
 	},
 
+	alertInfo: function(message, options) {
+		options = _.extend({
+			message: message,
+			type: "info"
+		}, options);
+
+		return this.alert(options);
+	},
+
+	alertWarning: function(message, options) {
+		options = _.extend({
+			message: message,
+			type: "warning"
+		}, options);
+
+		return this.alert(options);
+	},
+
 	alertError: function(message, options) {
 		options = _.extend({
 			message: message,
@@ -33,6 +51,7 @@ Balanced.NotificationCenterController = Ember.ArrayController.extend({
 
 		return this.alert(options);
 	},
+
 	alertSuccess: function(message, options) {
 		options = _.extend({
 			message: message,
