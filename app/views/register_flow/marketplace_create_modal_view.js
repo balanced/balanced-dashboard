@@ -2,7 +2,9 @@ var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
 
 Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	templateName: "register_flow/marketplace_create_modal",
-	title: "Step 2 of 3: Provide marketplace information",
+	title: "Register for a production marketplace",
+	subtitle: "Step 2 of 3: Provide marketplace information",
+	submitButtonText: "Continue",
 
 	actions: {
 		nextStep: function(marketplaceUri) {

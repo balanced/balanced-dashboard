@@ -2,7 +2,9 @@ var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
 
 Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	templateName: "register_flow/api_key_create_modal",
-	title: "Apply for production access",
+	title: "Register for a production marketplace",
+	subtitle: "Step 1 of 3: Provide business information",
+	submitButtonText: "Continue",
 
 	apiKeyTypes: [{
 		value: "person",

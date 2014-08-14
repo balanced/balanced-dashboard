@@ -1,84 +1,56 @@
-div.alert-strip {
-  width: 100%;
-  height: 3px;
-}
-
 .alert-row {
   width: 100%;
+}
 
-  &.top {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  .alert-text-wrapper, .alert-strip {
-    &.success {
-      background-color: @pineGreen100;
-    }
-    &.error {
-      background-color: @imperialRed80;
-    }
-    &.info {
-      background-color: @egyptianBlue60;
-    }
-    &.warning {
-      background-color: @curryYellow100;
-    }
-  }
-
-  .alert-text-wrapper {
-    display: inline-block;
-    padding: 6px 10px;
-  }
-
-  .alert {
-    .sl;
-    color: @white;
-    margin: 0;
-    padding: 0;
-    border-radius: 0;
-    text-shadow: none;
-    border: 0;
-    text-align: center;
-    background-color: transparent;
-    height: 30px;
-
-    .button-wrapper {
-      width: 75px;
-      height: 30px;
-
-      &.left {
-        float: left;
-      }
-      &.right {
-        float: right;
-      }
-    }
+.modal {
+  .notification-center {
+    text-align: left;
   }
 }
 
 .notification-center {
-  &.notification-center-row {
-    .sl;
-    margin: 0;
-    padding: 10px 0px;
-    border-radius: 0;
-    text-shadow: none;
-    border: 0;
-    color: @black;
-    background-color: @curryYellow20;
-    text-align: center;
-    line-height: 20px;
+  .sl;
+  margin: 0;
+  padding: 10px 0px;
+  border-radius: 0;
+  text-shadow: none;
+  border: 0;
+  color: @black;
+  background-color: @curryYellow20;
+  text-align: center;
+  line-height: 20px;
+
+  &:before {
+    font-family: 'Balanced-Icon';
+    font-size: 20px;
+    padding: 10px 10px 10px 45px;
+    float: left;
   }
 
   &.error {
+    .sl;
     color: @imperialRed100;
     background-color: @imperialRed10;
+
+    &:before {
+      &:extend(.icon-alert:before);
+      color: @imperialRed100;
+    }
   }
 
-  &.confirm {
+  &.success {
+    .sl;
+    color: @gray8;
     background-color: @pineGreen20;
+
+    &:before {
+      &:extend(.icon-checkmark:before);
+      color: @pineGreen100;
+    }
+  }
+
+  &.info {
+    background-color: @egyptianBlue20;
   }
 
   button {
@@ -104,64 +76,6 @@ div.alert-strip {
     }
     &:after {
       display: none;
-    }
-  }
-
-  .notification-bell {
-    float: left;
-    position: relative;
-    margin: 0 0 0 10px;
-    font-size: 17px;
-    color: @gray7;
-    .transition(none);
-  }
-
-  .callout {
-    .sl-sb;
-    position: relative;
-    float: left;
-    margin: 0 0 0 10px;
-    background-color: @curryYellow100;
-    color: @white;
-  }
-
-  // Puts the arrow on the left side of the callout
-  .callout:after {
-    content: ' ';
-    height: 0;
-    width: 0;
-    position: absolute;
-
-    border: 5px solid transparent;
-    border-right-color: @curryYellow100;
-    top: 6px;
-    left: -10px;
-  }
-
-  .icon-button-group {
-    margin-top: 13px;
-    &.open {
-      margin-top: 0px;
-      .callout {
-        background-color: @gray7;
-      }
-      .callout:after {
-        border-right-color: @gray7;
-      }
-    }
-  }
-
-  .icon-button-group:hover {
-    .callout {
-      background-color: @black;
-      color: @white;
-    }
-    .callout:after {
-      border-right-color: @black;
-    }
-    .notification-bell {
-      background-color: transparent;
-      color: @black;
     }
   }
 }
