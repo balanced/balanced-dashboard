@@ -91,6 +91,7 @@ Balanced.ResultsLoader = Ember.Object.extend({
 	},
 
 	postCsvExport: function(emailAddress) {
+		var DATE_FORMAT = "YYYY-MM-DD HH:mm:ss.SSS";
 		var downloadAttributes = {
 			uri: "/v1" + this.get("resultsUri"),
 			email_address: emailAddress
@@ -98,8 +99,8 @@ Balanced.ResultsLoader = Ember.Object.extend({
 		if (this.isBulkDownloadCsv()) {
 			downloadAttributes = {
 				email_address: emailAddress,
-				beginning: this.get("startTime"),
-				ending: this.get("endTime"),
+				beginning: moment(this.get("startTime")).utc().toISOString(),
+				ending: moment(this.get("endTime")).utc().toISOString(),
 				type: this.getCsvExportType()
 			};
 		}
