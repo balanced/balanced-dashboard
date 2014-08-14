@@ -6,12 +6,15 @@ module('Guest', {
 });
 
 test('visiting start creates a marketplace', function(assert) {
-	visit('/start').then(function() {
-		assert.ok(window.location.hash.indexOf('start'), 'Transitioned to the start page');
-		assert.equal(Balanced.Auth.get('userId'), '/users/guest', 'Userid is guest');
-		assert.equal(Balanced.Auth.get('signedIn'), true, 'User is signed in');
-		assert.ok(Balanced.Auth.get('isGuest'));
-	});
+	visit('/start')
+		.then(function() {
+			var session = Balanced.__container__.lookup("controller:sessions");
+
+			assert.deepEqual(session.getProperties("isUserGuest", "isUserPresent"), {
+				isUserPresent: true,
+				isUserGuest: true
+			});
+		});
 });
 
 test('viewing settings page as guest, can view api secret key', function(assert) {
@@ -60,5 +63,6 @@ test('claim account creates a login', function(assert) {
 				"type": "POST",
 				"url": "https://auth.balancedpayments.com/users"
 			}]);
+			stub.restore();
 		});
 });
