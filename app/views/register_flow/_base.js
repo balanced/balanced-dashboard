@@ -3,7 +3,14 @@ var OpenNext = Balanced.Modals.OpenNextModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
 var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
 
-Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {});
+Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification_center");
+	},
+	getModalNotificationController: function() {
+		return this.get("container").lookup("controller:modal_notification_center");
+	},
+});
 
 Balanced.IntermediateStateBaseModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/intermediate_state_modal",

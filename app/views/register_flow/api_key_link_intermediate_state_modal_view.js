@@ -11,6 +11,11 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 			this.openNext(Balanced.UserReloadIntermediateStateModalView, {
 				marketplaceHref: marketplaceHref
 			});
+
+			var apiKeySecret = this.get('apiKeySecret');
+			var message = 'Marketplace created. API key: <span class="sl-sb">%@</span>';
+			var controller = this.getModalNotificationController();
+			controller.alertSuccess(new Ember.Handlebars.SafeString(message.fmt(apiKeySecret)));
 		},
 
 		save: function() {
