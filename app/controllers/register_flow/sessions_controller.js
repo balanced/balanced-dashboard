@@ -1,8 +1,22 @@
+var oneWayGlobal = function(globalName) {
+	return Ember.computed(globalName, function() {
+		return Ember.get(globalName);
+	});
+};
+
 Balanced.SessionsController = Ember.Controller.extend({
 	needs: ["registration"],
-	isRegistered: function() {
-		return Balanced.Auth.isRegistered();
-	},
+
+	currentUser: oneWayGlobal("Balanced.Auth.user"),
+	isUserGuest: oneWayGlobal("Balanced.Auth.isGuest"),
+
+	isUserMissing: Ember.computed.none("currentUser"),
+	isUserPresent: Ember.computed.not("isUserMissing"),
+
+	isUserUnregistered: Ember.computed.not("isUserRegistered"),
+	isUserRegistered: function() {
+		return this.get("isUserPresent") && !this.get("isUserGuest");
+	}.property("isUserPresent", "isUserGuest"),
 
 	login: function(value) {
 		if (Ember.typeOf(value) === "string") {

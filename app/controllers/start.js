@@ -1,6 +1,4 @@
 Balanced.StartController = Balanced.Controller.extend({
-	needs: ["registration"],
-
 	marketplace: function() {
 		var secretApiKey = this.get("secretApiKey");
 		var userMarketplace = Balanced.Auth.get("user.user_marketplaces").findBy("secret", secretApiKey)
