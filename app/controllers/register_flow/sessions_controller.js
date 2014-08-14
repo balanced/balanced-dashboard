@@ -58,7 +58,7 @@ Balanced.SessionsController = Ember.Controller.extend({
 	actions: {
 		afterLoginTransition: function() {
 			var pendingTransition = this.get("transitionPendingLogin");
-			this.get("transitionPendingLogin", null);
+			this.set("transitionPendingLogin", null);
 
 			if (pendingTransition) {
 				pendingTransition.retry();

@@ -22,10 +22,6 @@
 	}}
 {{/view}}
 
-{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Terms & Conditions / Privacy Policy"}}
-	{{view Balanced.SimpleCheckboxFormFieldView model=view.model
-		labelText="I accept the Terms & Conditions, Marketplace Agreement and Privacy Policy"
-		field="isTermsAccepted"
-		explanationText="Some exmplantojbvrkjbv klvbsrvkjbsl kvjbsd lkvjbs lvkjsdbvl ksjdbvl sdkjvb lskdjvb sdlkvjbs dlvkjbsd vlskjbv lsdkjvb sdv"
-	}}
+{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Terms & Conditions / Privacy policy"}}
+	{{view Balanced.TocCheckboxFormFieldView model=view.model}}
 {{/view}}

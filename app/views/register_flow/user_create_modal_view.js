@@ -38,6 +38,9 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 
 	actions: {
 		nextStep: function(marketplace) {
+			var controller = this.get("getNotificationController");
+			controller.alertSuccess("Login created");
+
 			this.get("container")
 				.lookup("controller:application")
 				.transitionToRoute('marketplace', marketplace);
