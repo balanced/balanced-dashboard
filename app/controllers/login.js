@@ -55,8 +55,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				isSubmitting: false
 			});
 		});
-
-		this.transitionToRoute('marketplaces.index');
+		this.get("controllers.sessions").send("afterLoginTransition");
 	},
 
 	getEmail: function() {

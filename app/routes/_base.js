@@ -1,9 +1,7 @@
 Balanced.AuthRoute = Balanced.Route.extend({
-	getUser: function() {
-		return this.get("auth.user");
-	},
 	beforeModel: function(transition) {
-		if (!this.get('auth.signedIn')) {
+		if (!this.controllerFor("sessions").get("isUserPresent")) {
+			this.controllerFor("sessions").set("transitionPendingLogin", transition);
 			this.transitionTo('login');
 		}
 	}

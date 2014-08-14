@@ -18,6 +18,8 @@ Balanced.SessionsController = Ember.Controller.extend({
 		return this.get("isUserPresent") && !this.get("isUserGuest");
 	}.property("isUserPresent", "isUserGuest"),
 
+	transitionPendingLogin: null,
+
 	login: function(value) {
 		if (Ember.typeOf(value) === "string") {
 			Balanced.Auth.loginGuestUser(value);
@@ -51,5 +53,18 @@ Balanced.SessionsController = Ember.Controller.extend({
 					return;
 				});
 		}
+	},
+
+	actions: {
+		afterLoginTransition: function() {
+			var pendingTransition = this.get("transitionPendingLogin");
+			this.get("transitionPendingLogin", null);
+
+			if (pendingTransition) {
+				pendingTransition.retry();
+			} else {
+				this.transitionToRoute("marketplaces.index");
+			}
+		},
 	},
 });
