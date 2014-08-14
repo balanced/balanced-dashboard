@@ -11,7 +11,7 @@
 .notification-center {
   .sl;
   margin: 0;
-  padding: 10px 0px;
+  padding: 10px 45px;
   border-radius: 0;
   text-shadow: none;
   border: 0;
@@ -20,11 +20,19 @@
   text-align: center;
   line-height: 20px;
 
-  &:before {
-    font-family: 'Balanced-Icon';
-    font-size: 20px;
-    padding: 10px 10px 0px 45px;
-    float: left;
+  .notification-center-message {
+    padding-left: 30px;
+
+    .message {
+      position: relative;
+
+      &:before {
+        font-family: 'Balanced-Icon';
+        font-size: 20px;
+        position: absolute;
+        margin-left: -30px;
+      }
+    }
   }
 
   &.error {
@@ -32,7 +40,7 @@
     color: @imperialRed100;
     background-color: @imperialRed10;
 
-    &:before {
+    .message:before {
       &:extend(.icon-alert:before);
       color: @imperialRed100;
     }
@@ -43,7 +51,7 @@
     color: @gray8;
     background-color: @pineGreen20;
 
-    &:before {
+    .message:before {
       &:extend(.icon-checkmark:before);
       color: @pineGreen100;
     }

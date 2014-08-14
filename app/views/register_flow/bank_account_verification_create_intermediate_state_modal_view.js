@@ -10,6 +10,9 @@ Balanced.BankAccountVerificationCreateIntermediateStateModalView = Balanced.Inte
 			this.get("container")
 				.lookup("controller:application")
 				.transitionToRoute("marketplace", marketplace);
+
+			var controller = this.getNotificationController();
+			controller.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
 		},
 
 		save: function() {

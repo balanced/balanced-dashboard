@@ -42,7 +42,7 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 		nextStep: function(apiKeySecret) {
 			this.openNext(Balanced.MarketplaceCreateModalView, apiKeySecret);
 
-			var controller = this.getNotificationController();
+			var controller = this.getModalNotificationController();
 			controller.alertSuccess("Business information confirmed");
 		},
 		save: function() {
