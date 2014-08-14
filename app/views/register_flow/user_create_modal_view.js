@@ -32,7 +32,7 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 				return Ember.RSVP.resolve(marketplace);
 			}, function() {
 				self.set("isSaving", false);
-				return Ember.RSVP.reject()
+				return Ember.RSVP.reject();
 			});
 	},
 

@@ -172,10 +172,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						});
 					}
 				})
-				.
-			finally(function() {
-				self.set('isSubmitting', false);
-			});
+				.finally(function() {
+					self.set('isSubmitting', false);
+				});
 		}
 	}
 });

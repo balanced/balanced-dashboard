@@ -45,7 +45,7 @@ Balanced.SessionsController = Ember.Controller.extend({
 				.then(function(apiKey) {
 					var secret = apiKey.get("secret");
 					self.login(apiKey.get("secret"));
-					return registrationController.createMarketplaceForApiKeySecret(secret)
+					return registrationController.createMarketplaceForApiKeySecret(secret);
 				})
 				.then(function(mp) {
 					return;

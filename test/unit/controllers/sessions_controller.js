@@ -16,7 +16,7 @@ test("#login", function(assert) {
 	var loginStub = sinon.stub(Balanced.Auth, "signIn");
 
 	controller.login("some string");
-	assert.deepEqual(guestStub.args[0], ["some string"])
+	assert.deepEqual(guestStub.args[0], ["some string"]);
 
 	controller.login({
 		email_address: "jim@example.com",
