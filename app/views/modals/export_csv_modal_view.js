@@ -22,6 +22,10 @@ Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend(Save, {
 	title: "Export data",
 	elementId: "download-csv",
 
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification_center");
+	},
+
 	model: function() {
 		return ExportTransactionCreator.create({
 			loader: this.get("loader")
@@ -30,7 +34,7 @@ Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend(Save, {
 
 	actions: {
 		save: function() {
-			var alertsController = this.get("controller.controllers.temporary_alert");
+			var alertsController = this.getNotificationController();
 			var message = "We're processing your request. We will email you once the exported data is ready to view.";
 			this.save(this.get("model"))
 				.then(function() {
