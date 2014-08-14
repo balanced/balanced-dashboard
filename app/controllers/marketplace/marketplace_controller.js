@@ -65,7 +65,6 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 		bankAccountsNotificationsManager: function() {
 			var marketplace = this.get("model");
 			var bankAccounts = this.get("model.owner_customer.bank_accounts");
-			console.log(bankAccounts); // undefined
 
 			return BankAccountsNotificationsManager.create({
 				marketplace: marketplace,

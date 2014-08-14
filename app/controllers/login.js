@@ -1,4 +1,5 @@
 Balanced.LoginController = Balanced.ObjectController.extend({
+	needs: ["sessions"],
 	email: null,
 	password: null,
 	loginError: false,
@@ -98,14 +99,17 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 		signIn: function() {
 			var self = this;
-			var auth = this.get('auth');
+			var sessionsController = this.get("controllers.sessions");
 
 			this.resetError();
 			this.set('isSubmitting', true);
 
-			auth.forgetLogin();
-			auth
-				.signIn(this.getEmail(), this.getPassword())
+			sessionsController.destroy();
+			sessionsController
+				.login({
+					email_address: this.getEmail(),
+					password: this.getPassword()
+				})
 				.then(function() {
 					// When we add the MFA modal to ask users to login
 					// self.send('openMFAInformationModal');

@@ -4,7 +4,6 @@
 	</div>
 	<div class="pull-right">
 		<div id="login-menu" class="nav-item">
-			{{#link-to "sign_up" class="btn btn-link"}}Claim{{/link-to}}
 			{{#link-to "login" class="btn btn-link"}}Log in{{/link-to}}
 		</div>
 	</div>
@@ -46,12 +45,12 @@
 			<p class="label1a">
 				Manage your customers and transactions, from charging buyers<br>
 				to paying sellers.
-				{{#link-to 'marketplace' model class="linky"}}
+				{{#link-to 'marketplace' marketplace class="linky"}}
 					Get started by trying out the dashboard.
 				{{/link-to}}
 			</p>
 			<div class="api-key">
-				<span class="title">API Key</span><span class="secret">{{Balanced.NET.defaultApiKey}}</span>
+				<span class="title">API Key</span><span class="secret">{{secretApiKey}}</span>
 			</div>
 		</div>
 	</div>
