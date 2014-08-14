@@ -27,24 +27,38 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 });
 
 test('claim account creates a login', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub;
+
 	var emailAddress = 'marshall@example.com',
 		password = 'SupahSecret123~!';
 
 	visit('/claim')
-		.then(function() {
-			assert.notEqual($('h1').text().trim().indexOf('Claim your account'), -1, 'title is correct');
-			assert.equal($('[name="email_address"]').length, 1, 'email address is visible');
+		.checkElements({
+			"#account-create h2": "Create your account"
+		}, assert)
+		.fillForm("#account-create", {
+			email_address: emailAddress,
+			password: password,
+			passwordConfirm: password
 		})
-		.fillIn('[name="email_address"]', emailAddress)
-		.fillIn('[name="password"]', password)
-		.fillIn('[name="passwordConfirm"]', password)
-		.click('#claim-form button')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Claim, '/users', sinon.match({
-				email_address: emailAddress,
-				password: password
-			})));
+			stub = sinon.stub(jQuery, "ajax");
+			stub.returns(Ember.RSVP.resolve({
+				uri: "",
+			}));
+		})
+		.click('#account-create [name=modal-submit]')
+		.then(function() {
+			assert.deepEqual(stub.args[0], [{
+				"accepts": {
+					"json": "application/vnd.balancedpayments+json; version=1.1"
+				},
+				"contentType": "application/json; charset=UTF-8",
+				"data": '{"email_address":"marshall@example.com","password":"SupahSecret123~!","passwordConfirm":"SupahSecret123~!"}',
+				"dataType": "json",
+				"headers": {},
+				"type": "POST",
+				"url": "https://auth.balancedpayments.com/users"
+			}]);
 		});
 });

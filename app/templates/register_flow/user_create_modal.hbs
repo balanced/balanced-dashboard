@@ -1,7 +1,10 @@
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Login information"}}
-	{{view Balanced.TextFormFieldView model=view.model field="email_address" labelText="Email" inputClassNames="full"}}
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		inputName="email_address" field="email_address" labelText="Email" inputClassNames="full"}}
 
-	{{view Balanced.BaseFormFieldView model=view.model inputType="password" inputClassNames="full" field="password" labelText="Password"}}
+	{{view Balanced.BaseFormFieldView model=view.model inputClassNames="full" inputType="password"
+		inputName="password" field="password" labelText="Password"}}
 
-	{{view Balanced.BaseFormFieldView model=view.model inputType="password" inputClassNames="full" field="passwordConfirm" labelText="Re-enter password"}}
+	{{view Balanced.BaseFormFieldView model=view.model inputClassNames="full" inputType="password"
+		inputName="passwordConfirm" field="passwordConfirm" labelText="Re-enter password"}}
 {{/view}}
