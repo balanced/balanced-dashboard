@@ -4,7 +4,6 @@ module('Marketplaces.Index', {
 		Balanced.Utils.setCurrentMarketplace(null);
 	},
 	teardown: function() {
-		$("#delete-marketplace").modal('hide');
 		Testing.restoreMethods(
 			Balanced.Adapter.create,
 			Balanced.Adapter.delete,
@@ -85,15 +84,14 @@ test('delete marketplace', function(assert) {
 
 test('delete marketplace only deletes once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
-	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
-		Testing.CUSTOMER_ID + '/marketplaces');
+	Balanced.Auth.set('user.marketplaces_uri', '/users/%@/marketplaces'.fmt(Testing.CUSTOMER_ID));
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".marketplace-list.test li:first-of-type .icon-delete")
+		.click('#delete-marketplace [name="modal-submit"]')
+		.click('#delete-marketplace [name="modal-submit"]')
+		.click('#delete-marketplace [name="modal-submit"]')
 		.then(function() {
-			for (var i = 0; i < 20; i++) {
-				click('#delete-marketplace .modal-footer button[name="modal-submit"]');
-			}
 			assert.ok(stub.calledOnce, "Delete should have been called once");
 		});
 });
