@@ -84,7 +84,6 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 
 	load: function(settings) {
 		var uri = settings.uri;
-		console.log(uri);
 		var json = this.dataMap[uri];
 		var clonedJson = this._cloneObject(json);
 		if (!json) {
