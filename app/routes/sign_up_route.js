@@ -1,9 +1,18 @@
-require("app/routes/start");
+Balanced.SignUpRoute = Balanced.Route.extend({
+	beforeModel: function() {
+		if (this.controllerFor("sessions").get("isUserRegistered")) {
+			this.transitionTo('index');
+		}
+	},
 
-Balanced.SignUpRoute = Balanced.StartRoute.extend({
+	model: function() {
+		return this.controllerFor("sessions").createGuestUser();
+	},
+
 	renderTemplate: function() {
 		var self = this;
-		this.render("start");
+		this.transitionTo("marketplace", this.controllerFor("guest_user").get('marketplace'));
+
 		Ember.run.next(function() {
 			self.send("openModal", Balanced.UserCreateModalView);
 		});

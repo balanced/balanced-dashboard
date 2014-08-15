@@ -14,8 +14,7 @@
 	</a>
 	<ul class="dropdown-menu">
 		{{#if auth.isGuest}}
-			<li>{{#link-to 'marketplaces.apply'}}Register{{/link-to}}</li>
-			<li>{{#link-to 'sign_up'}}Claim account{{/link-to}}</li>
+			<li>{{#link-to 'sign_up'}}Create an account{{/link-to}}</li>
 		{{else}}
       {{#if auth.isAdmin}}
 	      <li class="administration">

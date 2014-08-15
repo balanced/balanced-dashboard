@@ -9,7 +9,7 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		controller.clearNamedAlert(name);
 
 		if (this.get('auth.isGuest')) {
-			controller.alertError(message, {
+			controller.alertInfo(message, {
 				name: name
 			});
 		}
