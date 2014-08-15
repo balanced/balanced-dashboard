@@ -79,7 +79,6 @@ Balanced.Router.map(function() {
 		}, function() {
 			this.route('settings');
 			this.route('add_customer');
-			this.route('initial_deposit');
 			this.route('import_payouts');
 
 			// exists to handle old URIs

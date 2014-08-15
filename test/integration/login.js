@@ -107,6 +107,6 @@ test('login afterLogin with transition works', 1, function(assert) {
 		.click('form#auth-form button')
 		.then(function() {
 			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), "marketplaces.index");
+			assert.equal(app.get('currentRouteName'), "marketplace.transactions");
 		});
 });
