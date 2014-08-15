@@ -1,22 +1,17 @@
 var DATE_FORMAT = /^(\d\d\d\d)-(\d\d)$/;
 var IS_PRODUCTION = false;
-var validation = function(callback) {
+
+var isBusinessValidation = function(callback) {
 	return {
 		format: {
 			validator: function(object, attribute, value) {
-				var errors = object.get("validationErrors");
-				callback(object, attribute, $.trim(value), errors);
+				if (object.get("isBusiness")) {
+					var errors = object.get("validationErrors");
+					callback(object, attribute, $.trim(value), errors);
+				}
 			}
 		}
 	};
-};
-
-var isBusinessValidation = function(callback) {
-	return validation(function(object, attribute, value, validationErrors) {
-		if (object.get("isBusiness")) {
-			callback(object, attribute, value, validationErrors);
-		}
-	});
 };
 
 var dateFormatValidation = function(value, attribute, validationErrors) {
@@ -45,19 +40,33 @@ var VALID_COMPANY_TYPE_VALUES = [];
 
 Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 	validations: {
-		"merchant.type": validation(function(object, attribute, value, validationErrors) {
-			if (!VALID_TYPE_VALUES.contains(value)) {
-				var message = "must be person or business".fmt(VALID_TYPE_VALUES.join(", "));
-				validationErrors.add(attribute, "inclusion", null, message);
+		"merchant.type": {
+			presence: true,
+			inclusion: {
+				validator: function(object, attribute, value) {
+					var errors = object.get("validationErrors");
+					if (!VALID_TYPE_VALUES.contains(value)) {
+						var message = "must be person or business";
+						errors.add(attribute, "inclusion", null, message);
+					}
+				}
 			}
-		}),
-		"merchant.phone_number": validation(function(object, attribute, value, validationErrors) {
-			if (value.length === 0) {
-				validationErrors.add(attribute, "presence", null, "must be present");
-			} else if (value.length > 15) {
-				validationErrors.add(attribute, "length", null, "is too long");
+		},
+		"merchant.phone_number": {
+			presence: true,
+			length: {
+				maximum: 15,
+			},
+			format: {
+				validator: function(object, attribute, value) {
+					var errors = object.get("validationErrors");
+					var stripped = $.trim(value).replace(/[\d- ()+]/g, "");
+					if (stripped.length > 0) {
+						errors.add(attribute, "format", null, 'has invalid characters (only "+", "-", "(", ")" spaces and numbers are accepted)');
+					}
+				}
 			}
-		}),
+		},
 
 		"business.name": isBusinessValidation(function(object, attribute, value, validationErrors) {
 			if (value.length === 0) {
@@ -77,18 +86,21 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 			}
 		}),
 
-		"person.dob": validation(function(object, attribute, value, validationErrors) {
-			if (value.length === 0) {
-				validationErrors.add(attribute, "presence", null, "must be present");
-			} else {
-				dateFormatValidation(value, attribute, validationErrors);
+		"person.dob": {
+			presence: true,
+			format: {
+				validator: function(object, attribute, value) {
+					var validationErrors = object.get("validationErrors");
+					dateFormatValidation($.trim(value), attribute, validationErrors);
+				}
 			}
-		}),
-		"person.ssn_last_4": validation(function(object, attribute, value, validationErrors) {
-			if (value.length < 4) {
-				validationErrors.add(attribute, "length", null, "is too short");
-			}
-		})
+		},
+
+		"person.ssn_last_4": {
+			presence: true,
+			length: 4,
+			format: /^\d\d\d\d$/
+		}
 	},
 
 	isBusiness: Ember.computed.equal("merchant.type", "business"),
