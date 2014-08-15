@@ -50,6 +50,7 @@ Balanced.SessionsController = Ember.Controller.extend({
 					return registrationController.createMarketplaceForApiKeySecret(secret);
 				})
 				.then(function(mp) {
+					Balanced.Auth.setupGuestUserMarketplace(mp);
 					return;
 				});
 		}
