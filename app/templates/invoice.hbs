@@ -177,16 +177,18 @@
 			{{else}}
 				<nav class="search-filters-header">
 					<ul>
-						{{view Balanced.ResultsFilterListItemView text="Credits (Bank accounts)" resultsLoader=transactionsResultsLoader filterValue="bank_account_credits"}}
-						{{view Balanced.ResultsFilterListItemView text="Credits (Cards)" resultsLoader=transactionsResultsLoader filterValue="card_debits"}}
+						{{#if hasHoldsFee}}
+							{{view Balanced.ResultsFilterListItemView text="Holds" resultsLoader=transactionsResultsLoader filterValue="holds"}}
+						{{/if}}
+						{{view Balanced.ResultsFilterListItemView text="Debits (Cards)" resultsLoader=transactionsResultsLoader filterValue="card_debits"}}
 
 						{{view Balanced.ResultsFilterListItemView text="Debits (Bank accounts)" resultsLoader=transactionsResultsLoader filterValue="bank_account_debits"}}
 
+						{{view Balanced.ResultsFilterListItemView text="Credits (Succeeded)" resultsLoader=transactionsResultsLoader filterValue="bank_account_credits"}}
+
 						{{view Balanced.ResultsFilterListItemView text="Credits (Failed)" resultsLoader=transactionsResultsLoader filterValue="failed_credits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Holds" resultsLoader=transactionsResultsLoader filterValue="holds"}}
 						{{view Balanced.ResultsFilterListItemView text="Refunds" resultsLoader=transactionsResultsLoader filterValue="refunds"}}
-						{{view Balanced.ResultsFilterListItemView text="Reversals" resultsLoader=transactionsResultsLoader filterValue="reversals"}}
 					</ul>
 				</nav>
 				{{view Balanced.InvoiceTransactionsResultsView loader=transactionsResultsLoader}}
