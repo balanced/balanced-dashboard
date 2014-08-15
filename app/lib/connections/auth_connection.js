@@ -3,6 +3,11 @@ Balanced.Connections.AuthConnection = Balanced.Connections.BaseConnection.extend
 	getCsrfToken: function() {
 		return this.get("csrfToken");
 	},
+
+	createUser: function(attributes) {
+		return this.post("%@/users".fmt(ENV.BALANCED / AUTH), attributes);
+	},
+
 	settings: function(additionalSettings) {
 		var settings = _.extend({
 			headers: {

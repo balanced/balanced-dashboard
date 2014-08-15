@@ -6,6 +6,11 @@ var DEFAULT_SETTINGS = {
 	},
 };
 
+var API_COMMANDS_URIS = {
+	marketplaces: "%@/marketplaces".fmt(ENV.BALANCED.API),
+	api_keys: "%@/api_keys".fmt(ENV.BALANCED.API)
+};
+
 Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend({
 	getEncodedAuthorization: function() {
 		var apiKey = this.get("apiKey");
@@ -14,6 +19,14 @@ Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend(
 
 	isAuthorized: function() {
 		return !Ember.isBlank(this.get("apiKey"));
+	},
+
+	createMarketplace: function(attributes) {
+		return this.post(API_COMMANDS_URIS.marketplaces, attributes);
+	},
+
+	createApiKey: function(attributes) {
+		return this.post(API_COMMANDS_URIS.api_keys, attributes);
 	},
 
 	settings: function(additionalSettings) {

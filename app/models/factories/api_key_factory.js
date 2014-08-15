@@ -99,9 +99,10 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 
 	isBusiness: Ember.computed.equal("merchant.type", "business"),
 
-	getPostUrl: function() {
-		return "%@/api_keys".fmt(ENV.BALANCED.API);
+	_save: function() {
+		return this.getConnection().createApiKey(this.getPostAttributes());
 	},
+
 	getPostAttributes: function() {
 		return {
 			merchant: this.getMerchantAttributes()

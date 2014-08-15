@@ -31,9 +31,9 @@ Balanced.RegistrationController = Balanced.Controller.extend({
 	},
 
 	createApiKeySecret: function(attributes) {
-		attributes = _.extend({}, attributes);
-		return this.getApiConnection()
-			.post("%@/api_keys".fmt(ENV.BALANCED.API), attributes)
+		return this
+			.getApiConnection()
+			.createApiKey(attributes)
 			.then(function(response) {
 				var key = Balanced.APIKey.create();
 				key.populateFromJsonResponse(response);
@@ -42,9 +42,9 @@ Balanced.RegistrationController = Balanced.Controller.extend({
 	},
 
 	createMarketplaceForApiKeySecret: function(apiKeySecret, attributes) {
-		attributes = _.extend({}, attributes);
-		return this.getApiConnection(apiKeySecret)
-			.post("%@/marketplaces".fmt(ENV.BALANCED.API), attributes)
+		return this
+			.getApiConnection(apiKeySecret)
+			.createMarketplace(attributes)
 			.then(function(response) {
 				var mp = Balanced.Marketplace.create();
 				mp.populateFromJsonResponse(response);
