@@ -15,7 +15,15 @@ Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 		},
 		name: PRESENCE_VALIDATION,
 		support_email_address: PRESENCE_VALIDATION,
-		support_phone_number: PRESENCE_VALIDATION,
+		support_phone_number: {
+			presence: true,
+			length: {
+				maximum: 15,
+			},
+			format: {
+				validator: Balanced.ValidationHelpers.phoneNumberValidator
+			}
+		},
 		domain_url: PRESENCE_VALIDATION
 	},
 

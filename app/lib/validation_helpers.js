@@ -35,6 +35,13 @@ var generateTransactionAppearsOnStatementAsValidation = function(maxLength) {
 };
 
 Balanced.ValidationHelpers = Ember.Namespace.create({
+	phoneNumberValidator: function(object, attribute, value) {
+		var stripped = $.trim(value).replace(/[\d- ()+]/g, "");
+		if (stripped.length > 0) {
+			object.get("validationErrors")
+				.add(attribute, "format", null, 'has invalid characters (only "+", "-", "(", ")" spaces and numbers are accepted)');
+		}
+	},
 	positiveDollarAmount: {
 		presence: true,
 		format: formatValidator(function(object, attribute, value, cb) {

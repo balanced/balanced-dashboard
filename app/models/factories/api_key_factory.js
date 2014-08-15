@@ -58,13 +58,7 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 				maximum: 15,
 			},
 			format: {
-				validator: function(object, attribute, value) {
-					var errors = object.get("validationErrors");
-					var stripped = $.trim(value).replace(/[\d- ()+]/g, "");
-					if (stripped.length > 0) {
-						errors.add(attribute, "format", null, 'has invalid characters (only "+", "-", "(", ")" spaces and numbers are accepted)');
-					}
-				}
+				validator: Balanced.ValidationHelpers.phoneNumberValidator
 			}
 		},
 
