@@ -52,17 +52,11 @@ test('claim account creates a login', function(assert) {
 		})
 		.click('#account-create [name=modal-submit]')
 		.then(function() {
-			assert.deepEqual(stub.args[0], [{
-				"accepts": {
-					"json": "application/vnd.balancedpayments+json; version=1.1"
-				},
-				"contentType": "application/json; charset=UTF-8",
-				"data": '{"email_address":"marshall@example.com","password":"SupahSecret123~!","passwordConfirm":"SupahSecret123~!"}',
-				"dataType": "json",
-				"headers": {},
-				"type": "POST",
-				"url": "https://auth.balancedpayments.com/users"
-			}]);
+			assert.deepEqual(stub.args[0][0].data, {
+				"email_address": "marshall@example.com",
+				"password": "SupahSecret123~!",
+				"passwordConfirm": "SupahSecret123~!"
+			});
 			stub.restore();
 		});
 });
