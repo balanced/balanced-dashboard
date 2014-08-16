@@ -58,13 +58,7 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 				maximum: 15,
 			},
 			format: {
-				validator: function(object, attribute, value) {
-					var errors = object.get("validationErrors");
-					var stripped = $.trim(value).replace(/[\d- ()+]/g, "");
-					if (stripped.length > 0) {
-						errors.add(attribute, "format", null, 'has invalid characters (only "+", "-", "(", ")" spaces and numbers are accepted)');
-					}
-				}
+				validator: Balanced.ValidationHelpers.phoneNumberValidator
 			}
 		},
 
@@ -105,9 +99,10 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 
 	isBusiness: Ember.computed.equal("merchant.type", "business"),
 
-	getPostUrl: function() {
-		return "%@/api_keys".fmt(ENV.BALANCED.API);
+	_save: function() {
+		return this.getConnection().createApiKey(this.getPostAttributes());
 	},
+
 	getPostAttributes: function() {
 		return {
 			merchant: this.getMerchantAttributes()

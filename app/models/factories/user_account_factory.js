@@ -22,9 +22,10 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 		}
 	},
 
-	getPostUrl: function() {
-		return "%@/users".fmt(ENV.BALANCED.AUTH);
+	_save: function() {
+		return this.getConnection().createUser(this.getPostAttributes());
 	},
+
 	getPostAttributes: function() {
 		return this.getProperties(
 			"email_address",
@@ -32,6 +33,7 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 			"passwordConfirm"
 		);
 	},
+
 	handleResponse: function(response) {
 		return response.uri;
 	},
