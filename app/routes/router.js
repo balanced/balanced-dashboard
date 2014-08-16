@@ -50,10 +50,13 @@ Balanced.Router.map(function() {
 	this.route('login');
 	this.route('logout');
 
+
 	this.route('sign_up', {
 		path: "/claim"
 	});
-	this.route('start');
+	this.route('setup_guest_user', {
+		path: "/start"
+	});
 
 	this.route('forgotPassword', {
 		path: '/forgot_password'

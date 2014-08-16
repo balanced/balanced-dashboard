@@ -22,11 +22,11 @@ Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend(
 	},
 
 	createMarketplace: function(attributes) {
-		return this.post(API_COMMANDS_URIS.marketplaces, attributes);
+		return this.post(API_COMMANDS_URIS.marketplaces, attributes || {});
 	},
 
 	createApiKey: function(attributes) {
-		return this.post(API_COMMANDS_URIS.api_keys, attributes);
+		return this.post(API_COMMANDS_URIS.api_keys, attributes || {});
 	},
 
 	settings: function(additionalSettings) {

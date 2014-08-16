@@ -1,4 +1,8 @@
 Balanced.GuestUserController = Balanced.Controller.extend({
+	createUser: function() {
+		return Balanced.Auth.createNewGuestUser();
+	},
+
 	marketplace: function() {
 		var secretApiKey = this.get("secretApiKey");
 		var userMarketplace = Balanced.Auth.get("user.user_marketplaces").findBy("secret", secretApiKey);

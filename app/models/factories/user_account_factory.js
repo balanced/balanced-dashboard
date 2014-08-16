@@ -45,6 +45,15 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 		var validationErrors = this.get("validationErrors");
 		validationErrors.clear();
 		validationErrors.add("", "serverError", null, "There was an error creating your account.");
-		this.setValidationErrorsFromServer(response);
+
+		_.each(response, function(errorMessages, property) {
+			console.log(arguments);
+			errorMessages.forEach(function(message) {
+				console.log(property, message);
+				validationErrors.add(property, "serverError", null, message);
+			});
+		});
+		validationErrors.add("email_address", "serverError", null, "message");
+		console.log(validationErrors.get("allMessages"));
 	},
 });

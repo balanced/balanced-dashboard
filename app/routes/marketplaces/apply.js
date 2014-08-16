@@ -1,9 +1,20 @@
 Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
-	renderTemplate: function() {
-		var self = this;
-		this.render("marketplaces.index");
-		Ember.run.next(function() {
-			self.send("openModal", Balanced.ApiKeyCreateModalView);
-		});
+	beforeModel: function(transition) {
+		transition.abort();
+
+		if (transition.sequence > 0) {
+			this.send("openModal", Balanced.ApiKeyCreateModalView);
+		} else {
+			var self = this;
+			this.transitionTo("marketplaces.index")
+				.then(function(r) {
+					return Ember.run.next(function() {
+						self.transitionTo("marketplaces.apply");
+					});
+				})
+				.then(undefined, function() {
+					console.log("error", arguments);
+				});
+		}
 	},
 });

@@ -33,7 +33,6 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 			.join(model, apiKey)
 			.then(function(marketplace) {
 				self.set("isSaving", false);
-				self.close();
 				return Ember.RSVP.resolve(marketplace);
 			}, function() {
 				self.set("isSaving", false);
@@ -44,7 +43,6 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	actions: {
 		nextStep: function(marketplace) {
 			this.openNext(Balanced.ApiKeyCreateModalView);
-
 			var controller = this.getModalNotificationController();
 			controller.alertSuccess("Login created");
 		},
@@ -52,7 +50,7 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		save: function() {
 			var self = this;
 			var model = this.get("model");
-			var apiKey = this.get("auth.authToken");
+			var apiKey = this.get("container").lookup("controller:secretApiKey");
 			this.save(model, apiKey)
 				.then(function(marketplace) {
 					self.send("nextStep", marketplace);
