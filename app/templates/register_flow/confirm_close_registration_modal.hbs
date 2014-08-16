@@ -1,0 +1,11 @@
+<form>
+	<div class="modal-body clearfix">
+		<div class="content">
+			{{view.confirmMessage}}
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a {{action "retry" target="view"}} {{bind-attr disabled="view.isSaving" class=":btn :secondary view.isSaving:disabled"}}>{{view.cancelButtonText}}</a>
+		<a data-dismiss="modal" {{bind-attr disabled="view.isSaving" class=":btn view.isSaving:disabled"}}>{{view.submitButtonText}}</a>
+	</div>
+</form>

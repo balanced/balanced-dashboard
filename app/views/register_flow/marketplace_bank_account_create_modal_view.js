@@ -3,6 +3,7 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 	title: "Register for a production marketplace",
 	subtitle: "Step 3 of 3: Add your bank account",
 	submitButtonText: "Complete registration",
+	confirmMessage: "You have not completed the registration process. You will need to add and verify your bank account in order to deposit funds.",
 
 	accountTypes: [{
 		value: "checking",

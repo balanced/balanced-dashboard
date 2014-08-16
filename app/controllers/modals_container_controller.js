@@ -4,14 +4,19 @@ Balanced.ModalsContainerController = Ember.Controller.extend({
 	},
 
 	close: function() {
-		this.get("modalsContainer").forEach(function(modal) {
+		var modalsContainer = this.get("modalsContainer");
+		modalsContainer.forEach(function(modal) {
 			modal.close();
 		});
 	},
 
 	open: function(klass, args) {
 		this.close();
-		var modalView = klass.open.apply(klass, args);
+		var modalView = klass;
+		if (Ember.typeOf(klass) === "class") {
+			modalView = klass.open.apply(klass, args);
+		}
+
 		var modalsContainer = this.get("modalsContainer");
 
 		Ember.run(function() {

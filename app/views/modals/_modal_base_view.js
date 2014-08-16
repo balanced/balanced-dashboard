@@ -4,6 +4,7 @@ Balanced.ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base_modal_layout",
 	classNames: "modal",
 	submitButtonText: "Submit",
+	cancelButtonText: "Cancel",
 
 	reposition: function() {
 		$(window).resize();
@@ -54,8 +55,7 @@ Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
 
 Balanced.Modals.OpenNextModalMixin = Ember.Mixin.create({
 	openNext: function() {
-		this.close();
-		var controller = this.get("container").lookup("controller:application");
+		var controller = Balanced.__container__.lookup("controller:application");
 		var args = _.toArray(arguments);
 		args.unshift("openModal");
 		return controller.send.apply(controller, args);
