@@ -26,6 +26,10 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 		return this.getConnection().createUser(this.getPostAttributes());
 	},
 
+	getConnection: function() {
+		return Balanced.Connections.AuthConnection.create();
+	},
+
 	getPostAttributes: function() {
 		return this.getProperties(
 			"email_address",

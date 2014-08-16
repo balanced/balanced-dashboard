@@ -20,6 +20,10 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		return this.get("container").lookup("controller:registration");
 	},
 
+	open: function() {
+		return this.$().modal("show");
+	},
+
 	save: function(model, apiKey) {
 		var self = this;
 		var controller = this.getRegistrationController();

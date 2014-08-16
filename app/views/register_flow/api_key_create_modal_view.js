@@ -5,6 +5,7 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 	title: "Register for a production marketplace",
 	subtitle: "Step 1 of 3: Provide business information",
 	submitButtonText: "Continue",
+	confirmMessage: "You have not completed the registration process. You will have to resubmit information if you cancel now.",
 
 	apiKeyTypes: [{
 		value: "person",
