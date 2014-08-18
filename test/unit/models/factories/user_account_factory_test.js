@@ -1,9 +1,9 @@
 module("UserAccountFactory");
 
-test("#handleErrorResponse", function(assert) {
+test("#setValidationErrorsFromServer", function(assert) {
 	var subject = Balanced.UserAccountFactory.create();
 
-	subject.handleErrorResponse({
+	subject.setValidationErrorsFromServer({
 		email_address: ["Enter a valid e-mail address."]
 	});
 
@@ -14,4 +14,51 @@ test("#handleErrorResponse", function(assert) {
 			"email_address", "Enter a valid e-mail address."
 		]
 	]);
+});
+
+test("#_save", function(assert) {
+	var stub = sinon.stub(jQuery, "ajax");
+	stub.returns({
+		then: function() {}
+	});
+
+	var userAccount = Balanced.UserAccountFactory.create({
+		email_address: "jimmy@example.com",
+		password: "secrutPassword",
+		passwordConfirm: "secrutPassword"
+	});
+
+	userAccount._save();
+	var request = stub.args[0][0];
+	assert.deepEqual(request.data, {
+		email_address: "jimmy@example.com",
+		password: "secrutPassword",
+		passwordConfirm: "secrutPassword"
+	});
+
+	stub.restore();
+});
+
+test("#getPostAttributes", function(assert) {
+	var userAccount = Balanced.UserAccountFactory.create({
+		email_address: "jimmy@example.com",
+		password: "secrutPassword",
+		passwordConfirm: "secrutPassword",
+		name: "Rob",
+		lastName: "Grape"
+	});
+
+	assert.deepEqual(userAccount.getPostAttributes(), {
+		email_address: "jimmy@example.com",
+		password: "secrutPassword",
+		passwordConfirm: "secrutPassword"
+	});
+});
+
+test("#handleResponse", function(assert) {
+	var userAccount = Balanced.UserAccountFactory.create();
+
+	assert.deepEqual(userAccount.handleResponse({
+		uri: "/users/:id"
+	}), "/users/:id");
 });
