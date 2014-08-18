@@ -1,5 +1,6 @@
 Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
-	setValidationErrorsFromServer: function(errorsList) {
+	setValidationErrorsFromServer: function(response) {
+		var errorsList = response.errors || [];
 		var validationErrors = this.get("validationErrors");
 		validationErrors.clear();
 
@@ -23,7 +24,7 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 	},
 
 	handleErrorResponse: function(response) {
-		this.setValidationErrorsFromServer(response && response.errors);
+		this.setValidationErrorsFromServer(response);
 	},
 
 	isComplete: false,

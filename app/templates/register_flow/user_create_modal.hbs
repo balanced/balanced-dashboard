@@ -1,6 +1,12 @@
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Login information"}}
-- {{view.model.validationErrors.email_address}} -
+{{view.model.validationErrors.email_address.allMessages}}
+<br>
+{{view.model.validationErrors.email_address.fullMessages}}
+<br>
+- {{view.model.validationErrors.allMessages}} -
+<br>
 {{view.model.validationErrors.fullMessages}}
+<br>
 	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
 		inputName="email_address" field="email_address" labelText="Email" inputClassNames="full"}}
 

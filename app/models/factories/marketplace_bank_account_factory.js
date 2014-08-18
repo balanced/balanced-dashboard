@@ -48,7 +48,7 @@ Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
 			balanced.bankAccount
 				.create(this.getPostAttributes(), function(response) {
 					if (response.errors) {
-						self.setValidationErrorsFromServer(response.errors);
+						self.setValidationErrorsFromServer(response);
 						deferred.reject();
 					} else {
 						self.set("isComplete", true);

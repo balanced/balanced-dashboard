@@ -1,4 +1,4 @@
-Balanced.FormFields.ModalFormFieldView = Balanced.FormFields.BaseFormFieldView.extend({
+Balanced.FormFields.ModalFormFieldView = Balanced.BaseFormFieldView.extend({
 	layoutName: "form_fields/modal_form_field_layout",
 	classNameBindings: [":control-group", "isError:error"],
 

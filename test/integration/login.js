@@ -72,7 +72,7 @@ test('login transition works', function(assert) {
 		.visit('/login')
 		.then(function() {
 			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'marketplace.transactions');
+			assert.equal(app.get('currentRouteName'), 'login');
 		});
 });
 
