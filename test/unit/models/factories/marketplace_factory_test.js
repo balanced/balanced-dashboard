@@ -52,3 +52,25 @@ test("#handleResponse", function(assert) {
 	});
 	assert.deepEqual(result, "/marketplace/:some_id");
 });
+
+test("#_save", function(assert) {
+	var stub = sinon.stub(jQuery, "ajax");
+	stub.returns({
+		then: function() {}
+	});
+	var subject = Balanced.MarketplaceFactory.create({
+		domain_url: "http://www.example.org",
+		name: "Cool Marketplace",
+		support_email_address: "email@example.org",
+		support_phone_number: "123-333-3333",
+	});
+
+	subject._save();
+	assert.deepEqual(JSON.parse(stub.args[0][0].data), {
+		domain_url: "http://www.example.org",
+		name: "Cool Marketplace",
+		support_email_address: "email@example.org",
+		support_phone_number: "123-333-3333",
+	});
+	stub.restore();
+});

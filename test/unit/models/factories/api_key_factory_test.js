@@ -175,3 +175,32 @@ test("#getPostAttributes", function(assert) {
 		}
 	});
 });
+
+test("#_save", function(assert) {
+	var stub = sinon.stub(jQuery, "ajax");
+	stub.returns({
+		then: function() {}
+	});
+	var subject = Balanced.ApiKeyFactory.create({
+		person: {
+			name: "Tom Person"
+		},
+		business: {
+			name: "Important Inc."
+		},
+		merchant: {
+			type: "person",
+		}
+	});
+	subject._save();
+
+	var request = stub.args[0][0];
+	assert.deepEqual(JSON.parse(request.data), {
+		"merchant": {
+			"name": "Tom Person",
+			"production": false,
+			"type": "person"
+		}
+	});
+	stub.restore();
+});
