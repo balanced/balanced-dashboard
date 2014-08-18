@@ -41,6 +41,7 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 	handleResponse: function(response) {
 		return response.uri;
 	},
+
 	setValidationErrorsFromServer: function(response) {
 		var validationErrors = this.get("validationErrors");
 		validationErrors.clear();
