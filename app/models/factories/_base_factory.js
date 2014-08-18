@@ -5,7 +5,11 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 		validationErrors.clear();
 
 		_.each(errorsList, function(error) {
-			if (error.description) {
+			if (error.extras) {
+				_.each(error.extras, function(message, key) {
+					validationErrors.add(key, "serverError", null, message);
+				});
+			} else if (error.description) {
 				validationErrors.add("", "serverError", null, error.description.split(" - ")[1]);
 			} else {
 				validationErrors.add("", "serverError", null, error[0]);
