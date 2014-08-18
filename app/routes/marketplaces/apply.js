@@ -11,9 +11,6 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 					return Ember.run.next(function() {
 						self.transitionTo("marketplaces.apply");
 					});
-				})
-				.then(undefined, function() {
-					console.log("error", arguments);
 				});
 		}
 	},
