@@ -26,6 +26,7 @@ var BankAccountsNotificationsManager = Ember.Object.extend({
 	isAnyCanConfirmVerification: isAnyBankAccount("can_confirm_verification"),
 
 	isBankAccountsEmpty: Ember.computed.equal("bankAccounts.length", 0),
+
 	isNeedsStartVerification: function() {
 		return this.get("isAnyCanVerify") && !this.get("isAnyCanDebit") && !this.get("isAnyCanConfirmVerification");
 	}.property("isAnyCanVerify", "isAnyCanDebit", "isAnyCanConfirmVerification"),
@@ -81,19 +82,18 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 		bankAccountsNotificationsManager: function() {
 			var marketplace = this.get("model");
 			var bankAccounts = this.get("model.bank_accounts");
-
-			return BankAccountsNotificationsManager.create({
-				marketplace: marketplace,
-				bankAccounts: bankAccounts
-			});
-		}.property("model", "model.bank_accounts"),
+			if (bankAccounts.get('isLoaded')) {
+				return BankAccountsNotificationsManager.create({
+					marketplace: marketplace,
+					bankAccounts: bankAccounts
+				});
+			} else {
+				return undefined;
+			}
+		}.property("model", "model.bank_accounts", "model.bank_accounts.isLoaded"),
 
 		updateBankAccountNotifications: function() {
 			var message;
-
-			if (this.get('bankAccountsNotificationsManager.isShowBankAccountNotifications')) {
-				return;
-			}
 
 			if (this.get('bankAccountsNotificationsManager.isBankAccountsEmpty')) {
 				message = "Your marketplace is not linked to any bank accounts. Add a bank account by visiting the settings page";
@@ -106,7 +106,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 			if (message) {
 				this.get("controllers.notification_center").alertError(message);
 			}
-		}.observes("bankAccountsNotificationsManager.isBankAccountsLoaded"),
+		}.observes("bankAccountsNotificationsManager"),
 
 	});
 
