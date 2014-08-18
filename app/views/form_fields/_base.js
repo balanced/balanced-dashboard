@@ -31,7 +31,7 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 
 	errorMessages: function() {
 		return this.getFullErrorMessagesFor(this.get("field"));
-	}.property("model.validationErrors", "field"),
+	}.property("model.validationErrors.allMessages.length"),
 
 	isError: function() {
 		return this.get("errorMessages.length") > 0;

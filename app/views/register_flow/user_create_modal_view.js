@@ -36,6 +36,8 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 				return Ember.RSVP.resolve(marketplace);
 			}, function() {
 				self.set("isSaving", false);
+				self.getModalNotificationController()
+					.alertError("There was an error submitting your information.");
 				return Ember.RSVP.reject();
 			});
 	},
