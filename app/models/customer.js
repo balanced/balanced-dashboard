@@ -4,7 +4,9 @@ var CUSTOMER_TYPES = {
 };
 
 Balanced.Customer = Balanced.Model.extend({
-	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
+	bank_accounts: function() {
+		return Balanced.ModelArray.newArrayLoadedFromUri(this.get("bank_accounts_uri"), Balanced.BankAccount);
+	}.property("bank_accounts_uri"),
 	cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
 	transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
 	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),

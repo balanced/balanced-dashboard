@@ -38,7 +38,7 @@ var BankAccountsNotificationsManager = Ember.Object.extend({
 Balanced.MarketplaceController = Balanced.ObjectController.extend(
 	Balanced.ActionEvented('openPaySellerModal', 'openChargeCardModal'), {
 
-		needs: ['application'],
+		needs: ['application', 'notification_center'],
 
 		transactionSelected: Computed.isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
 		orderSelected: Computed.isSelected('marketplace.orders', 'orders'),
@@ -62,34 +62,51 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 			return Balanced.Utils.formatCurrency(escrow);
 		}.property('in_escrow'),
 
+		updateGuestNotification: function() {
+			var name = "GuestNotification";
+			var controller = this.get("controllers.notification_center");
+			var message = "You're logged in as a guest user. Create an account to claim your test marketplace.";
+
+			controller.clearNamedAlert(name);
+
+			if (this.get('auth.isGuest')) {
+				controller.alertInfo(message, {
+					name: name
+				});
+			}
+		}.observes("auth.isGuest"),
+
+		owner_customer: Ember.computed.oneWay("model.owner_customer"),
+
 		bankAccountsNotificationsManager: function() {
 			var marketplace = this.get("model");
-			var bankAccounts = this.get("model.owner_customer.bank_accounts");
+			var bankAccounts = this.get("model.bank_accounts");
 
 			return BankAccountsNotificationsManager.create({
 				marketplace: marketplace,
 				bankAccounts: bankAccounts
 			});
-		}.property("model", "model.owner_customer", "model.owner_customer.bank_accounts"),
+		}.property("model", "model.bank_accounts"),
 
 		updateBankAccountNotifications: function() {
+			var message;
+
 			if (this.get('bankAccountsNotificationsManager.isShowBankAccountNotifications')) {
-				if (this.get('bankAccountsNotificationsManager.isBankAccountsEmpty')) {
-					this.controllerFor("notification_center")
-						.alertError("Your marketplace is not linked to any bank accounts. Add a bank account by visiting the settings page");
-				}
-
-				if (this.get("bankAccountsNotificationsManager.isNeedsStartVerification")) {
-					this.controllerFor("notification_center")
-						.alertError("You have unverified bank accounts. Start a verification by visiting the settings page.");
-				}
-
-				if (this.get("bankAccountsNotificationsManager.isNeedsConfirmVerification")) {
-					this.controllerFor("notification_center")
-						.alertError('Please verify your marketplace bank account by confirming the deposit amounts. Verify now');
-				}
+				return;
 			}
-		},
+
+			if (this.get('bankAccountsNotificationsManager.isBankAccountsEmpty')) {
+				message = "Your marketplace is not linked to any bank accounts. Add a bank account by visiting the settings page";
+			} else if (this.get("bankAccountsNotificationsManager.isNeedsStartVerification")) {
+				message = "You have unverified bank accounts. Start a verification by visiting the settings page.";
+			} else if (this.get("bankAccountsNotificationsManager.isNeedsConfirmVerification")) {
+				message = "Please verify your marketplace bank account by confirming the deposit amounts. Verify now";
+			}
+
+			if (message) {
+				this.get("controllers.notification_center").alertError(message);
+			}
+		}.observes("bankAccountsNotificationsManager.isBankAccountsLoaded"),
 
 	});
 
