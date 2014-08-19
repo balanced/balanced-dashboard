@@ -50,7 +50,7 @@ Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
 			if (response.errors) {
 				deferred.reject(response);
 			} else {
-				deferred.resolve(response)
+				deferred.resolve(response);
 			}
 		});
 		return deferred.promise;

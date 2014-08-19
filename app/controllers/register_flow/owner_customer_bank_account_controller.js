@@ -31,7 +31,7 @@ Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
 		return this
 			.find(bankAccountHref)
 			.then(function(bankAccount) {
-				return self.link(marketplace, bankAccount)
+				return self.link(marketplace, bankAccount);
 			})
 			.then(function(bankAccount) {
 				return self.verify(bankAccount);

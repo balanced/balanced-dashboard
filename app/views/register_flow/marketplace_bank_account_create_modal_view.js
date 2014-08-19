@@ -59,7 +59,6 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		}
 	},
 
-	isSaving: false,
 	save: function(bankAccountModel, initialDepositModel) {
 		var self = this;
 		return this
