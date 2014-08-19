@@ -45,8 +45,10 @@ Balanced.ResultsLoader = Ember.Object.extend({
 			});
 		} else {
 			var searchArray = Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
-			searchArray.set('sortProperties', [this.get('sortField') || 'created_at']);
-			searchArray.set('sortAscending', this.get('sortDirection') === 'asc');
+			searchArray.setProperties({
+				sortProperties: [this.get('sortField') || 'created_at'],
+				sortAscending: this.get('sortDirection') === 'asc'
+			});
 			return searchArray;
 		}
 	}.property("resultsUri", "resultsType", "sortField", "sortDirection"),
@@ -91,17 +93,18 @@ Balanced.ResultsLoader = Ember.Object.extend({
 	},
 
 	postCsvExport: function(emailAddress) {
-		var DATE_FORMAT = "YYYY-MM-DD HH:mm:ss.SSS";
-		var downloadAttributes = {
-			uri: "/v1" + this.get("resultsUri"),
-			email_address: emailAddress
-		};
+		var downloadAttributes;
 		if (this.isBulkDownloadCsv()) {
 			downloadAttributes = {
 				email_address: emailAddress,
 				beginning: moment(this.get("startTime")).utc().toISOString(),
 				ending: moment(this.get("endTime")).utc().toISOString(),
 				type: this.getCsvExportType()
+			};
+		} else {
+			downloadAttributes = {
+				uri: "/v1" + this.get("resultsUri"),
+				email_address: emailAddress
 			};
 		}
 		var download = Balanced.Download.create(downloadAttributes);
