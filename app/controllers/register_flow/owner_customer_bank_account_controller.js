@@ -25,4 +25,16 @@ Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
 			})
 			.save();
 	},
+
+	linkAndVerify: function(marketplace, bankAccountHref) {
+		var self = this;
+		return this
+			.find(bankAccountHref)
+			.then(function(bankAccount) {
+				return self.link(marketplace, bankAccount);
+			})
+			.then(function(bankAccount) {
+				return self.verify(bankAccount);
+			});
+	},
 });

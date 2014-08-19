@@ -22,7 +22,7 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		});
 	}.property(),
 
-	isInitialDepositCreate: true,
+	isInitialDepositCreate: false,
 	isInitialDepositTransactionCreated: false,
 	initialDepositModel: function() {
 		return Balanced.InitialDepositTransactionFactory.create({
@@ -59,10 +59,8 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		}
 	},
 
-	isSaving: false,
 	save: function(bankAccountModel, initialDepositModel) {
 		var self = this;
-		self.set("isSaving", true);
 		return this
 			.validate(bankAccountModel, initialDepositModel)
 			.then(function() {
@@ -71,38 +69,48 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 				}
 			})
 			.then(function() {
-				return self.set("isInitialDepositTransactionCreated", true);
-			})
-			.then(function() {
+				self.set("isInitialDepositTransactionCreated", true);
 				return bankAccountModel.save();
-			})
-			.then(function(result) {
-				self.set("isSaving", false);
-				return result;
-			}, function(errors) {
-				self.set("isSaving", false);
-				return Ember.RSVP.reject(errors);
 			});
 	},
 
+	getInitialDepositModel: function() {
+		return this.get("isInitialDepositCreate") ?
+			this.get("initialDepositModel") : undefined;
+	},
+
+	isSaving: false,
+	makeSaving: function() {
+		this.set("isSaving", true);
+		this.$(":input").attr("disabled", true);
+	},
+
+	unmakeSaving: function() {
+		this.set("isSaving", false);
+		if (this.get("element")) {
+			this.$(":input").attr("disabled", false);
+		}
+	},
+
 	actions: {
-		nextStep: function(marketplace, bankAccountHref) {
-			this.openNext(Balanced.BankAccountFindIntermediateStateModalView, {
-				marketplace: marketplace,
-				bankAccountHref: bankAccountHref
-			});
-		},
 		save: function() {
 			var self = this;
 			var marketplace = this.get("marketplace");
 
 			var model = this.get("model");
-			var initialDepositModel = this.get("isInitialDepositCreate") ?
-				this.get("initialDepositModel") : undefined;
 
-			this.save(model, initialDepositModel)
+			this.makeSaving();
+			this.save(model, this.getInitialDepositModel())
 				.then(function(bankAccountHref) {
-					self.send("nextStep", marketplace, bankAccountHref);
+					return self.get("container")
+						.lookup("controller:owner_customer_bank_account")
+						.linkAndVerify(marketplace, bankAccountHref)
+						.finally(function() {
+							self.close();
+						});
+				})
+				.finally(function() {
+					self.unmakeSaving();
 				});
 		}
 	}

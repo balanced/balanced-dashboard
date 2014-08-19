@@ -6,10 +6,9 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 	apiKeySecret: Ember.computed.oneWay("model.secret"),
 
 	actions: {
-		nextStep: function() {
-			var marketplaceHref = this.get("marketplaceHref");
-			this.openNext(Balanced.UserReloadIntermediateStateModalView, {
-				marketplaceHref: marketplaceHref
+		nextStep: function(marketplace) {
+			this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
+				marketplace: marketplace
 			});
 
 			var apiKeySecret = this.get('apiKeySecret');
@@ -21,6 +20,7 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 		save: function() {
 			var self = this;
 			var model = this.get("model");
+			var href = this.get("marketplaceHref");
 
 			this
 				.execute(function() {
@@ -28,7 +28,15 @@ Balanced.ApiKeyLinkIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 				})
 				.then(function() {
 					Balanced.Auth.setAPIKey(self.get("apiKeySecret"));
-					self.send("nextStep");
+				})
+				.then(function() {
+					return Balanced.Auth.get("user").reload();
+				})
+				.then(function() {
+					return Balanced.Marketplace.find(href);
+				})
+				.then(function(marketplace) {
+					self.send("nextStep", marketplace);
 				});
 		}
 	}

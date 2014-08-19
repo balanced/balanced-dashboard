@@ -38,32 +38,25 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 		this.setValidationErrorsFromServer(response);
 	},
 
-	isComplete: false,
-
 	_save: function() {
 		Ember.assert("Factories should implement their own _save method");
 	},
 	save: function() {
-		var deferred = Ember.RSVP.defer();
 		var self = this;
 
 		this.get("validationErrors").clear();
 		this.validate();
 
 		if (this.get("isValid")) {
-			return this
-				._save()
+			return this._save()
 				.then(function(response) {
-					self.set("isComplete", true);
-					deferred.resolve(self.handleResponse(response));
+					return self.handleResponse(response);
 				}, function(xhr) {
 					self.handleErrorResponse(xhr.responseJSON);
-					deferred.reject();
+					return Ember.RSVP.reject();
 				});
 		} else {
-			deferred.reject();
+			return Ember.RSVP.reject();
 		}
-
-		return deferred.promise;
 	}
 });

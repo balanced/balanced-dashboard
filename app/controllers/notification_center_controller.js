@@ -1,8 +1,5 @@
 var AlertMessage = Ember.Object.extend({
 	expire: false,
-	expires: function() {
-		this.set("expire", true);
-	}
 });
 
 Balanced.NotificationCenterController = Ember.ArrayController.extend({
