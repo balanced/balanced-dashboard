@@ -177,8 +177,8 @@ module('Payments', {
 				var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
 				Ember.run(function() {
 					controller.get("resultsLoader").setProperties({
-						startTime: null,
-						endTime: null
+						startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+						endTime: moment('2013-08-01T00:00:00.000Z').toDate()
 					});
 				});
 			})
@@ -192,11 +192,10 @@ module('Payments', {
 				assert.equal(stub.firstCall.args[0], Balanced.Download);
 				assert.equal(stub.firstCall.args[1], "/downloads");
 				assert.deepEqual(stub.firstCall.args[2], {
-					"beginning": null,
-					"email_address": "test@example.com",
-					"ending": null,
-					"type": "transactions",
-					"uri": ""
+					beginning: "2013-08-01T00:00:00.000Z",
+					email_address: "test@example.com",
+					ending: "2013-08-01T00:00:00.000Z",
+					type: "transactions"
 				});
 			})
 			.checkElements({
