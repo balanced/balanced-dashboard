@@ -4,6 +4,10 @@ module('Payments', {
 		Testing.createDebits();
 		this.ADD_FUNDS_SELECTOR = ".nav-item .add-funds-btn";
 		this.WITHDRAW_FUNDS_SELECTOR = ".nav-item .withdraw-funds-btn";
+		Ember.run(function() {
+			var controller = Balanced.__container__.lookup('controller:marketplace_transactions');
+			controller.set("limit", 2);
+		});
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -219,6 +223,42 @@ module('Payments', {
 			.click(objectPath)
 			.then(function() {
 				assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+			});
+	});
+
+	test('Filter Activity transactions table by type & status', function(assert) {
+		visit(Testing.ACTIVITY_ROUTE)
+			.click('#activity .results table.transactions th.type .type-filter li a:contains(Holds)')
+			.then(function() {
+				var resultsUri = getResultsUri();
+				assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
+				assertQueryString(resultsUri, {
+					type: "hold",
+					'status[in]': 'failed,succeeded,pending',
+					limit: "2",
+					offset: "0",
+					q: "",
+					sort: "created_at,desc"
+				}, assert);
+			})
+			.click('#activity .results table.transactions th.type .type-filter li a:contains(All)')
+			.click('#activity .results table.transactions th.status .status-filter li a:contains(Succeeded)')
+			.then(function() {
+				assertQueryString(getResultsUri(), {
+					status: "succeeded",
+					"type[in]": "debit,credit,hold,refund",
+					limit: "2",
+					offset: "0",
+					q: "",
+					sort: "created_at,desc"
+				}, assert);
+			})
+			.click('#activity .results table.transactions th.type .type-filter li a:contains(Debits)')
+			.then(function() {
+				assertQueryString(getResultsUri(), {
+					status: "succeeded",
+					type: "debit"
+				}, assert);
 			});
 	});
 })();
