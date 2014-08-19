@@ -5,22 +5,23 @@ test("#model", function(assert) {
 	assert.equal(subject.get("model.constructor"), Balanced.BankAccount);
 });
 
-test("#save invalid", function(assert) {
+asyncTest("#save invalid", function(assert) {
 	var view = Balanced.Modals.CustomerBankAccountCreateModalView.create();
 	view.get("model").setProperties({
 		account_number: "xxxxxxx",
 		routing_number: "xxxxxxx",
 	});
-
-	view.send("save");
-	var errors = view.get("model.validationErrors");
-	assert.deepEqual(errors, {
-		"name": "Invalid field [name] - Missing field \"name\"",
-		"routing_number": "Invalid field [routing_number] - \"xxxxxxx\" is not a valid routing number"
+	view.save().then(undefined, function() {
+		var errors = view.get("model.validationErrors");
+		assert.deepEqual(errors, {
+			"name": "Invalid field [name] - Missing field \"name\"",
+			"routing_number": "Invalid field [routing_number] - \"xxxxxxx\" is not a valid routing number"
+		});
+		start();
 	});
 });
 
-test("#save", function(assert) {
+asyncTest("#save", function(assert) {
 	var model = Ember.Object.create({
 		tokenizeAndCreate: sinon.stub(),
 		route_name: "cool_route"
@@ -37,7 +38,10 @@ test("#save", function(assert) {
 			id: "xxxxxxxxxxxxxxx"
 		}
 	});
-	view.send("save");
-	assert.ok(model.tokenizeAndCreate.calledOnce);
-	assert.deepEqual(model.tokenizeAndCreate.firstCall.args, ["xxxxxxxxxxxxxxx"]);
+	view.save().then(function() {
+		assert.ok(model.tokenizeAndCreate.calledOnce);
+		assert.deepEqual(model.tokenizeAndCreate.firstCall.args, ["xxxxxxxxxxxxxxx"]);
+		start();
+
+	});
 });

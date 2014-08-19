@@ -23,10 +23,10 @@ Balanced.Modals.CustomerBankAccountCreateModalView = Balanced.ModalBaseView.exte
 		});
 	}.property(),
 
-	save: function(fundingInstrument) {
+	save: function() {
 		var self = this;
+		var fundingInstrument = this.get("model");
 		this.set("isSaving", true);
-		fundingInstrument.set("validationErrors", null);
 		return fundingInstrument
 			.tokenizeAndCreate(this.get('customer.id'))
 			.then(function(model) {
@@ -42,7 +42,7 @@ Balanced.Modals.CustomerBankAccountCreateModalView = Balanced.ModalBaseView.exte
 	actions: {
 		save: function() {
 			var controller = this.get("controller");
-			this.save(this.get("model"))
+			this.save()
 				.then(function(model) {
 					controller.transitionToRoute(model.get("route_name"), model);
 				});
