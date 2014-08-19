@@ -61,3 +61,19 @@ test('filter logs by endpoint bank accounts', function(assert) {
 		}, assert);
 
 });
+
+test('view a particular log entry', function(assert) {
+	visit(Testing.LOGS_ROUTE)
+		.click('#marketplace-nav i.icon-logs')
+		.click('table.logs tbody tr:last-of-type a')
+		.then(function() {
+			assert.equal($('h1.page-title').text(), 'POST /customers/' + Testing.CUSTOMER_ID + '/debits', 'h1 title is correct');
+			assert.equal($('dd[data-property="request-id"]').text().length, 35, 'Log request id valid');
+
+			// Check request/response bodies
+			assert.ok($('.request-info .prettyprint').text().length > 3, 'Has Request Body');
+			assert.ok($('.response-info .prettyprint').text().length > 3, 'Has Response Body');
+			assert.ok($('.request-info .prettyprint').children().length > 3, 'Request Body Is Highlighted');
+			assert.ok($('.response-info .prettyprint').children().length > 3, 'Response Body Is Highlighted');
+		});
+});
