@@ -172,8 +172,8 @@ module('Payments', {
 				var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
 				Ember.run(function() {
 					controller.get("resultsLoader").setProperties({
-						startTime: null,
-						endTime: null
+						startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+						endTime: moment('2013-08-01T00:00:00.000Z').toDate()
 					});
 				});
 			})
@@ -182,24 +182,15 @@ module('Payments', {
 				emailAddress: "test@example.com"
 			})
 			.then(function() {
-				stub = sinon.stub(jQuery, "ajax");
-				stub.returns(Ember.RSVP.resolve({
-					uri: "",
-				}));
-			})
-			.click('#download-csv [name=modal-submit]')
-			.then(function() {
-				var expectedData = {
-					uri: "",
+				assert.ok(stub.calledOnce);
+				assert.equal(stub.firstCall.args[0], Balanced.Download);
+				assert.equal(stub.firstCall.args[1], "/downloads");
+				assert.deepEqual(stub.firstCall.args[2], {
+					beginning: "2013-08-01T00:00:00.000Z",
 					email_address: "test@example.com",
-					beginning: null,
-					ending: null,
+					ending: "2013-08-01T00:00:00.000Z",
 					type: "transactions"
-				};
-				var parsedData = JSON.parse(stub.firstCall.args[0].data);
-				assert.ok(stub.calledOnce, "Download save called once");
-				assert.deepEqual(parsedData, expectedData);
-				stub.restore();
+				});
 			})
 			.checkElements({
 				"#header .notification-center-message:last": "We're processing your request. We will email you once the exported data is ready to view."

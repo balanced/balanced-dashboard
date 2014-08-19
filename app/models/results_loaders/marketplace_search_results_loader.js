@@ -59,4 +59,8 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 	path: function() {
 		return this.get("marketplace.uri") + "/search";
 	}.property("marketplace.uri"),
+
+	getCsvExportType: function() {
+		return undefined;
+	},
 });
