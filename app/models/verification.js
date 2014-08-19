@@ -1,5 +1,8 @@
 Balanced.Verification = Balanced.Model.extend({
 	no_attempts_remaining: Ember.computed.equal('attempts_remaining', 0),
+	isVerifiable: function() {
+		return this.get("attempts_remaining") > 0;
+	}.property("attempts_remaining", "deposit_status"),
 
 	allowed_attempts: function() {
 		return this.get('attempts_remaining') + this.get('attempts');
