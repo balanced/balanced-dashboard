@@ -1,7 +1,8 @@
 module("Balanced.ResultsLoader", {
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.ModelArray.newArrayLoadedFromUri,
+			Balanced.SearchModelArray.newArrayLoadedFromUri,
+			jQuery.ajax,
 			Balanced.ModelArray.create
 		);
 	},
@@ -61,8 +62,6 @@ test("#results", function(assert) {
 	assert.deepEqual(result.get("sortProperties"), ["created_at"]);
 	assert.deepEqual(result.get("sortAscending"), false);
 	assert.equal(r, result);
-
-	stub.restore();
 });
 
 test("#isBulkDownloadCsv", function(assert) {
@@ -110,8 +109,6 @@ test("#postCsvExport (by uri)", function(assert) {
 		email_address: "jim@example.org",
 		uri: "/v1/transactions"
 	});
-
-	stub.restore();
 });
 
 test("#postCsvExport (bulk)", function(assert) {
@@ -134,6 +131,4 @@ test("#postCsvExport (bulk)", function(assert) {
 		ending: "2013-02-08T10:30:26.000Z",
 		type: "transactions"
 	});
-
-	stub.restore();
 });
