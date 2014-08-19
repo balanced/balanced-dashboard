@@ -46,7 +46,9 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	status: Ember.computed.oneWay("verificationStatus"),
 
 	customer: function() {
-		return Balanced.ModelArray.newArrayLoadedFromUri(this.get("customer_uri"), Balanced.BankAccount);
+		if (this.get("customer_uri")) {
+			return Balanced.Customer.find(this.get("customer_uri"));
+		}
 	}.property("customer_uri"),
 
 	verificationStatus: function() {
@@ -73,11 +75,11 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	}.property('can_debit', 'can_confirm_verification', 'customer'),
 
 	can_confirm_verification: function() {
-		return this.get('verifications') &&
-			this.get('verifications.verification_status') !== 'failed' &&
-			this.get('verifications.verification_status') !== 'verified' &&
-			this.get('verifications.attempts_remaining') > 0;
-	}.property('verifications', 'verifications.verification_status', 'verifications.attempts_remaining'),
+		return this.get('verification') &&
+			this.get('verification.verification_status') !== 'failed' &&
+			this.get('verification.verification_status') !== 'verified' &&
+			this.get('verification.attempts_remaining') > 0;
+	}.property('verification', 'verification.verification_status', 'verification.attempts_remaining'),
 
 	tokenizeAndCreate: function(customerId) {
 		var self = this;
