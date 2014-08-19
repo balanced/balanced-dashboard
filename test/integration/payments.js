@@ -224,7 +224,7 @@ module('Payments', {
 
 	test('Filter Activity transactions table by type & status', function(assert) {
 		visit(Testing.ACTIVITY_ROUTE)
-			.click('#activity .results table.transactions th.type .type-filter li a:contains(Holds)')
+			.click('#content .results table.transactions th.type .type-filter li a:contains(Holds)')
 			.then(function() {
 				var resultsUri = getResultsUri();
 				assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
@@ -232,28 +232,16 @@ module('Payments', {
 					type: "hold",
 					'status[in]': 'failed,succeeded,pending',
 					limit: "50",
-					offset: "0",
-					q: "",
 					sort: "created_at,desc"
 				}, assert);
 			})
-			.click('#activity .results table.transactions th.type .type-filter li a:contains(All)')
-			.click('#activity .results table.transactions th.status .status-filter li a:contains(Succeeded)')
+			.click('#content table.transactions th.type a:contains(All)')
+			.click("#content table.transactions th.status a:contains(Succeeded)")
 			.then(function() {
 				assertQueryString(getResultsUri(), {
 					status: "succeeded",
-					"type[in]": "debit,credit,hold,refund",
 					limit: "50",
-					offset: "0",
-					q: "",
 					sort: "created_at,desc"
-				}, assert);
-			})
-			.click('#activity .results table.transactions th.type .type-filter li a:contains(Debits)')
-			.then(function() {
-				assertQueryString(getResultsUri(), {
-					status: "succeeded",
-					type: "debit"
 				}, assert);
 			});
 	});
