@@ -82,7 +82,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 					.alertError("Couldn't find the resource for this page, please make sure the URL is valid.");
 				this.transitionTo('marketplaces');
 			} else {
-				var name = "other";
+				var name = "PageLoadError";
 
 				controller.clearNamedAlert(name);
 				this.controllerFor("notification_center")
