@@ -38,16 +38,21 @@ Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
 		);
 	},
 
+	handleResponse: function(response) {
+		return response.bank_accounts[0].href;
+	},
+
 	_save: function() {
+		var attributes = this.getPostAttributes();
+
 		var deferred = Ember.RSVP.defer();
-		balanced.bankAccount
-			.create(this.getPostAttributes(), function(response) {
-				if (response.errors) {
-					deferred.reject(response);
-				} else {
-					deferred.resolve(response);
-				}
-			});
+		balanced.bankAccount.create(attributes, function(response) {
+			if (response.errors) {
+				deferred.reject(response);
+			} else {
+				deferred.resolve(response)
+			}
+		});
 		return deferred.promise;
 	},
 });
