@@ -28,8 +28,8 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		return Balanced.InitialDepositTransactionFactory.create({
 			number: "4111 1111 1111 1111",
 			cvv: "111",
-			expiration_month: 1,
-			expiration_year: "2014",
+			expiration_month: 6,
+			expiration_year: 2016,
 			dollar_amount: 10
 		});
 	}.property(),
@@ -65,7 +65,10 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 			.validate(bankAccountModel, initialDepositModel)
 			.then(function() {
 				if (initialDepositModel) {
-					return initialDepositModel.save();
+					return initialDepositModel.save()
+						.then(function(debit) {
+							self.getModalNotificationController().alertSuccess("Initial deposit was made from your bank account.");
+						});
 				}
 			})
 			.then(function() {
@@ -81,12 +84,17 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 
 	isSaving: false,
 	makeSaving: function() {
+		this.getModalNotificationController().alertWarning("Saving...", {
+			name: "Saving"
+		});
 		this.set("isSaving", true);
 		this.$(":input").attr("disabled", true);
 	},
 
 	unmakeSaving: function() {
+		this.getModalNotificationController().clearNamedAlert("Saving");
 		this.set("isSaving", false);
+
 		if (this.get("element")) {
 			this.$(":input").attr("disabled", false);
 		}
@@ -96,10 +104,10 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		save: function() {
 			var self = this;
 			var marketplace = this.get("marketplace");
-
 			var model = this.get("model");
 
 			this.makeSaving();
+
 			this.save(model, this.getInitialDepositModel())
 				.then(function(bankAccountHref) {
 					return self.get("container")
@@ -111,6 +119,8 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 				})
 				.finally(function() {
 					self.unmakeSaving();
+					self.getNotificationController()
+						.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
 				});
 		}
 	}
