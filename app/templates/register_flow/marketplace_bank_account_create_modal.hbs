@@ -27,59 +27,53 @@
 	</div>
 {{/view}}
 
-{{#if view.isInitialDepositTransactionCreated}}
-	{{#if view.isInitialDepositCreate}}
-		<p>we have created the initial deposit</p>
-	{{/if}}
-{{else}}
-	{{#view Balanced.FormSectionView sectionTitle="Add funds now" model=view.initialDepositModel}}
-		<div class="form-group">
-			<p>While you're waiting to verify your bank account, you may fund your balance with your credit/debit card to send payouts immediately.</p>
-		</div>
-		<div class="form-group">
-			<label class="control-label">
-				{{input type="checkbox" checked=view.parentView.isInitialDepositCreate}}
-				Add funds with my credit/debit card
-			</label>
-		</div>
+{{#view Balanced.FormSectionView sectionTitle="Add funds now" model=view.initialDepositModel}}
+	<div class="form-group">
+		<p>While you're waiting to verify your bank account, you may fund your balance with your credit/debit card to send payouts immediately.</p>
+	</div>
+	<div class="form-group">
+		<label class="control-label">
+			{{input type="checkbox" checked=view.parentView.isInitialDepositCreate}}
+			Add funds with my credit/debit card
+		</label>
+	</div>
 
-		{{#if view.parentView.isInitialDepositCreate}}
-			{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
-				labelText="Card number"
-				field="number"
-			}}
+	{{#if view.parentView.isInitialDepositCreate}}
+		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+			labelText="Card number"
+			field="number"
+		}}
 
-			<div {{bind-attr class=":form-group view.model.validationErrors.expiration_date.length:has-error"}}>
-				<label {{bind-attr for=view.expirationMonth.elementId}}>Expiration date</label>
-				<div>
-					{{view Ember.Select
-						content=view.parentView.expirationMonths
-						value=view.model.expiration_month
-						viewName="expirationMonth"
-						class="span2"
-					}}
-					{{view Ember.Select
-						content=view.parentView.expirationYears
-						value=transactionModel.expiration_year
-						class="span2"
-					}}
-				</div>
-				{{#each message in view.model.validationErrors.expiration_date.fullMessages}}
-					<div class="alert alert-error">{{message}}</div>
-				{{/each}}
+		<div {{bind-attr class=":form-group view.model.validationErrors.expiration_date.length:has-error"}}>
+			<label {{bind-attr for=view.expirationMonth.elementId}}>Expiration date</label>
+			<div>
+				{{view Ember.Select
+					content=view.parentView.expirationMonths
+					value=view.model.expiration_month
+					viewName="expirationMonth"
+					class="span2"
+				}}
+				{{view Ember.Select
+					content=view.parentView.expirationYears
+					value=view.model.expiration_year
+					class="span2"
+				}}
 			</div>
-			{{view Balanced.TextFormFieldView model=view.model
-				labelText="Security code"
-				field="cvv"
-			}}
-			{{view Balanced.TextFormFieldView model=view.model
-				labelText="Postal code"
-				field="postal_code"
-			}}
-			{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
-				labelText="Amount"
-				field="dollar_amount"
-			}}
-		{{/if}}
-	{{/view}}
-{{/if}}
+			{{#each message in view.model.validationErrors.expiration_date.fullMessages}}
+				<div class="alert alert-error">{{message}}</div>
+			{{/each}}
+		</div>
+		{{view Balanced.TextFormFieldView model=view.model
+			labelText="Security code"
+			field="cvv"
+		}}
+		{{view Balanced.TextFormFieldView model=view.model
+			labelText="Postal code"
+			field="postal_code"
+		}}
+		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+			labelText="Amount"
+			field="dollar_amount"
+		}}
+	{{/if}}
+{{/view}}

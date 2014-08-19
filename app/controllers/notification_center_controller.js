@@ -5,6 +5,10 @@ var AlertMessage = Ember.Object.extend({
 Balanced.NotificationCenterController = Ember.ArrayController.extend({
 	content: [],
 
+	clearAlerts: function() {
+		this.set("content", []);
+	},
+
 	clearNamedAlert: function(name) {
 		var cleanAlerts = this.rejectBy("name", name);
 		this.set("content", cleanAlerts);
