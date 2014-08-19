@@ -11,14 +11,15 @@ asyncTest("#save invalid", function(assert) {
 		account_number: "xxxxxxx",
 		routing_number: "xxxxxxx",
 	});
-	view.save().then(undefined, function() {
-		var errors = view.get("model.validationErrors");
-		assert.deepEqual(errors, {
-			"name": "Invalid field [name] - Missing field \"name\"",
-			"routing_number": "Invalid field [routing_number] - \"xxxxxxx\" is not a valid routing number"
-		});
-		start();
-	});
+	view.save()
+		.then(undefined, function() {
+			var errors = view.get("model.validationErrors");
+			assert.deepEqual(errors, {
+				"name": "Invalid field [name] - Missing field \"name\"",
+				"routing_number": "Invalid field [routing_number] - \"xxxxxxx\" is not a valid routing number"
+			});
+		})
+		.then(start);
 });
 
 asyncTest("#save", function(assert) {
