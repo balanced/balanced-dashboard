@@ -17,7 +17,9 @@ Balanced.Modals.TransactionEditModalView = Balanced.ModalBaseView.extend(Wide, S
 				.then(function(model) {
 					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
-					controller.alertSuccess(message).expires();
+					controller.alertSuccess(message, {
+						expire: true
+					});
 				});
 		}
 	}

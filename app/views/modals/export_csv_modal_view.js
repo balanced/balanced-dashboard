@@ -38,7 +38,9 @@ Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend(Save, {
 			var message = "We're processing your request. We will email you once the exported data is ready to view.";
 			this.save(this.get("model"))
 				.then(function() {
-					alertsController.alertSuccess(message).expires();
+					alertsController.alertSuccess(message, {
+						expire: true
+					});
 				});
 		},
 	}
