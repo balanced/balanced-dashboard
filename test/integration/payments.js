@@ -4,10 +4,6 @@ module('Payments', {
 		Testing.createDebits();
 		this.ADD_FUNDS_SELECTOR = ".nav-item .add-funds-btn";
 		this.WITHDRAW_FUNDS_SELECTOR = ".nav-item .withdraw-funds-btn";
-		Ember.run(function() {
-			var controller = Balanced.__container__.lookup('controller:marketplace_transactions');
-			controller.set("limit", 2);
-		});
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -235,7 +231,7 @@ module('Payments', {
 				assertQueryString(resultsUri, {
 					type: "hold",
 					'status[in]': 'failed,succeeded,pending',
-					limit: "2",
+					limit: "50",
 					offset: "0",
 					q: "",
 					sort: "created_at,desc"
@@ -247,7 +243,7 @@ module('Payments', {
 				assertQueryString(getResultsUri(), {
 					status: "succeeded",
 					"type[in]": "debit,credit,hold,refund",
-					limit: "2",
+					limit: "50",
 					offset: "0",
 					q: "",
 					sort: "created_at,desc"
