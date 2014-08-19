@@ -2,21 +2,24 @@ Balanced.UserReloadIntermediateStateModalView = Balanced.IntermediateStateBaseMo
 	message: "Reloading user",
 
 	actions: {
-		nextStep: function() {
-			var href = this.get("marketplaceHref");
-			this.openNext(Balanced.MarketplaceFindIntermediateStateModalView, {
-				marketplaceHref: href
+		nextStep: function(marketplace) {
+			this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
+				marketplace: marketplace
 			});
 		},
 		save: function() {
 			var self = this;
+			var href = this.get("marketplaceHref");
 
 			this
 				.execute(function() {
 					return Balanced.Auth.get("user").reload();
 				})
 				.then(function() {
-					self.send("nextStep");
+					return Balanced.Marketplace.find(href);
+				})
+				.then(function(marketplace) {
+					self.send("nextStep", marketplace);
 				});
 		}
 	}
