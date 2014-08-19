@@ -51,7 +51,9 @@ test("#expireAlerts", function(assert) {
 	controller.alertError("Something bad happened", {
 		expire: true
 	});
-	controller.alertError("Something bad is happening").expires();
+	controller.alertError("Something bad is happening", {
+		expire: true
+	});
 
 	assert.deepEqual(controller.get("length"), 3);
 	this.controller.expireAlerts();
