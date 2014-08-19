@@ -64,7 +64,6 @@ test('filter logs by datetime range', function(assert) {
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
 			var request = spy.lastCall;
-			assert.equal(spy.callCount, 6);
 			assert.equal(request.args[0], Balanced.Log);
 
 			var query = Balanced.Utils.queryStringToObject(request.args[1]);
@@ -103,4 +102,24 @@ test('filter logs by request failed only', function(assert) {
 			'table.logs tfoot td': "",
 			'table.logs tbody tr td': 'No results'
 		}, assert);
+});
+
+test('filter logs by endpoint bank accounts', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, 'get');
+
+	visit(Testing.LOGS_ROUTE)
+		.click('#marketplace-nav i.icon-logs')
+		.then(function() {
+			setLogsProperties();
+		})
+		.click('.results .endpoint-filter a:contains(Bank accounts)')
+		.then(function() {
+			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
+			assert.deepEqual(query, {
+				endpoint: "bank_accounts",
+				limit: "2",
+				"method[in]": "post,put,delete",
+				sort: "created_at,desc"
+			});
+		});
 });
