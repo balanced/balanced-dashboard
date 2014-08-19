@@ -16,29 +16,40 @@ var isAnyBankAccount = function(propertyName) {
 };
 
 var BankAccountsNotificationsManager = Ember.Object.extend({
-	isProduction: Ember.computed.readOnly("marketplace.production"),
-	isBankAccountsLoaded: Ember.computed.readOnly("bankAccounts.isLoaded"),
-
-	isShowBankAccountNotifications: Ember.computed.and("isProduction", "isBankAccountsLoaded"),
-
-	isAnyCanDebit: isAnyBankAccount("can_debit"),
-	isAnyCanVerify: isAnyBankAccount("can_verify"),
-	isAnyCanConfirmVerification: isAnyBankAccount("can_confirm_verification"),
+	bankAccounts: Ember.computed.readOnly("marketplace.owner_customer.bank_accounts"),
+	isShowBankAccountNotifications: Ember.computed.and("marketplace.production", "bankAccounts.isLoaded"),
 
 	isBankAccountsEmpty: Ember.computed.equal("bankAccounts.length", 0),
-	isNeedsStartVerification: function() {
-		return this.get("isAnyCanVerify") && !this.get("isAnyCanDebit") && !this.get("isAnyCanConfirmVerification");
-	}.property("isAnyCanVerify", "isAnyCanDebit", "isAnyCanConfirmVerification"),
+	isAnyCanVerify: isAnyBankAccount("can_verify"),
+	isAnyVerified: isAnyBankAccount("can_debit"),
+	isNoneVerified: Ember.computed.not("isAnyVerified"),
+	isAnyCanConfirmVerification: isAnyBankAccount("can_confirm_verification"),
 
 	isNeedsConfirmVerification: function() {
-		return this.get("isAnyCanConfirmVerification") && !this.get("isAnyCanDebit");
-	}.property("isAnyCanConfirmVerification", "isAnyCanDebit")
+		return this.get("isNoneVerified") && this.get("isAnyCanConfirmVerification");
+	}.property("isNoneVerified", "isAnyCanConfirmVerification"),
+
+	isNeedsStartVerification: function() {
+		return this.get("isNoneVerified") && this.get("isAnyCanVerify");
+	}.property("isNoneVerified", "isAnyCanVerify"),
+
+	message: function() {
+		if (this.get("isShowBankAccountNotifications")) {
+			if (this.get('isBankAccountsEmpty')) {
+				return "Your marketplace is not linked to any bank accounts. Add a bank account by visiting the settings page.";
+			} else if (this.get("isNeedsConfirmVerification")) {
+				return "Please verify your marketplace bank account by confirming the deposit amounts.";
+			} else if (this.get("isNeedsStartVerification")) {
+				return "You have unverified bank accounts. Start a verification by visiting the settings page.";
+			}
+		}
+	}.property("isShowBankAccountNotifications", "isBankAccountsEmpty", "isNeedsConfirmVerification", "isNeedsStartVerification")
 });
 
 Balanced.MarketplaceController = Balanced.ObjectController.extend(
 	Balanced.ActionEvented('openPaySellerModal', 'openChargeCardModal'), {
 
-		needs: ['application'],
+		needs: ['application', 'notification_center'],
 
 		transactionSelected: Computed.isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
 		orderSelected: Computed.isSelected('marketplace.orders', 'orders'),
@@ -62,34 +73,41 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend(
 			return Balanced.Utils.formatCurrency(escrow);
 		}.property('in_escrow'),
 
+		updateGuestNotification: function() {
+			var name = "GuestNotification";
+			var controller = this.get("controllers.notification_center");
+			var message = "You're logged in as a guest user. Create an account to claim your test marketplace.";
+
+			controller.clearNamedAlert(name);
+
+			if (this.get('auth.isGuest')) {
+				controller.alertInfo(message, {
+					name: name
+				});
+			}
+		}.observes("auth.isGuest"),
+
 		bankAccountsNotificationsManager: function() {
 			var marketplace = this.get("model");
-			var bankAccounts = this.get("model.owner_customer.bank_accounts");
 
 			return BankAccountsNotificationsManager.create({
-				marketplace: marketplace,
-				bankAccounts: bankAccounts
+				marketplace: marketplace
 			});
-		}.property("model", "model.owner_customer", "model.owner_customer.bank_accounts"),
+		}.property("model"),
 
 		updateBankAccountNotifications: function() {
-			if (this.get('bankAccountsNotificationsManager.isShowBankAccountNotifications')) {
-				if (this.get('bankAccountsNotificationsManager.isBankAccountsEmpty')) {
-					this.controllerFor("notification_center")
-						.alertError("Your marketplace is not linked to any bank accounts. Add a bank account by visiting the settings page");
-				}
+			var name = "BankAccountVerification";
+			var controller = this.get("controllers.notification_center");
+			var message = this.get("bankAccountsNotificationsManager.message");
 
-				if (this.get("bankAccountsNotificationsManager.isNeedsStartVerification")) {
-					this.controllerFor("notification_center")
-						.alertError("You have unverified bank accounts. Start a verification by visiting the settings page.");
-				}
+			controller.clearNamedAlert(name);
 
-				if (this.get("bankAccountsNotificationsManager.isNeedsConfirmVerification")) {
-					this.controllerFor("notification_center")
-						.alertError('Please verify your marketplace bank account by confirming the deposit amounts. Verify now');
-				}
+			if (message) {
+				controller.alertError(message, {
+					name: name
+				});
 			}
-		},
+		}.observes("bankAccountsNotificationsManager.message"),
 
 	});
 

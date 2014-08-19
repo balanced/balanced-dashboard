@@ -1,7 +1,7 @@
 Balanced.ErrorMessagesCollection = Ember.ArrayProxy.extend({
 	populate: function(response, defaultMessage) {
 		this.clear();
-		var errors = ["An unknown error ocurred."];
+		var errors = ["Something went wrong while trying to save your information."];
 
 		if (response.message) {
 			errors = [response.message];

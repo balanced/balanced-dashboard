@@ -47,6 +47,8 @@ Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
 		this.get("model.validationErrors.allMessages").forEach(function(error) {
 			if (Ember.isBlank(error[0])) {
 				controller.alertError(error[1]);
+			} else {
+				controller.alertError("Your information could not be saved. Please correct the errors below.");
 			}
 		});
 
