@@ -1,6 +1,8 @@
 Balanced.LoginView = Balanced.View.extend({
 	templateName: 'login',
 	didInsertElement: function() {
+		$('input[name="email"]').focus();
+
 		$(document.body).addClass('light-bg');
 		$('footer').css('display', 'none');
 		$('#content').addClass('no-min-height');

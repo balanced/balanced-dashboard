@@ -96,6 +96,13 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			this.resetError();
 		},
 
+		signUp: function() {
+			Balanced.Analytics.trackEvent("SignUp: Opened 'Create an account'", {
+				path: "login"
+			});
+			this.transitionToRoute('setup_guest_user');
+		},
+
 		signIn: function() {
 			var self = this;
 			var sessionsController = this.get("controllers.sessions");

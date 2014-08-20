@@ -14,7 +14,7 @@
 	</a>
 	<ul class="dropdown-menu">
 		{{#if auth.isGuest}}
-			<li>{{#link-to 'sign_up'}}Create an account{{/link-to}}</li>
+			<li><a {{action "signUp" target="controllers.application"}}>Create an account</a></li>
 		{{else}}
       {{#if auth.isAdmin}}
 	      <li class="administration">

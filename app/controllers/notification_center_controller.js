@@ -63,5 +63,14 @@ Balanced.NotificationCenterController = Ember.ArrayController.extend({
 });
 
 Balanced.ModalNotificationCenterController = Balanced.NotificationCenterController.extend({
-	content: []
+	content: [],
+	alert: function(attributes) {
+		var self = this;
+		Balanced.Analytics.trackEvent(attributes.message, {
+			type: attributes.type,
+			path: self.get("container").lookup("controller:application").get('currentRouteName')
+		});
+
+		this._super(attributes);
+	}
 });
