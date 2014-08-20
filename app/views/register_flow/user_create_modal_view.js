@@ -45,6 +45,7 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 			this.openNext(Balanced.ApiKeyCreateModalView);
 			var controller = this.getModalNotificationController();
 			controller.alertSuccess("Login created");
+			Balanced.Analytics.trackEvent("SignUp: Login created");
 		},
 
 		save: function() {

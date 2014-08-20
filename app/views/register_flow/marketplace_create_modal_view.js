@@ -84,6 +84,8 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save
 							self.unmakeSaving();
 							self.send("nextStep", marketplace);
 						});
+				}, function(error) {
+					self.unmakeSaving();
 				});
 		}
 	}
