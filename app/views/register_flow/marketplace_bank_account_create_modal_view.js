@@ -14,26 +14,8 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		label: "Savings"
 	}],
 
-	model: function() {
-		return Balanced.MarketplaceBankAccountFactory.create({
-			name: "Cool guy",
-			account_type: "savings",
-			account_number: "11111111111",
-			routing_number: "123123123"
-		});
-	}.property(),
-
 	isInitialDepositCreate: false,
 	isInitialDepositTransactionCreated: false,
-	initialDepositModel: function() {
-		return Balanced.InitialDepositTransactionFactory.create({
-			number: "4111 1111 1111 1111",
-			cvv: "111",
-			expiration_month: 6,
-			expiration_year: 2016,
-			dollar_amount: 10
-		});
-	}.property(),
 
 	expirationMonths: Balanced.TIME.MONTHS,
 	expirationYears: function() {

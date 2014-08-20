@@ -6,14 +6,6 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 
 	auth: Balanced.Auth,
 
-	model: function() {
-		return Balanced.UserAccountFactory.create({
-			email_address: "carlos",
-			password: "vlrjnvrljknvr",
-			passwordConfirm: "vlrjnvrljknvr"
-		});
-	}.property(),
-
 	isSaving: false,
 
 	getRegistrationController: function() {
