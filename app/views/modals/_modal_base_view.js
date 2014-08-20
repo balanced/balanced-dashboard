@@ -64,17 +64,21 @@ Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
 
 		this.get("model.validationErrors.allMessages").forEach(function(error) {
 			if (Ember.isBlank(error[0])) {
-				errorMessage = error[1];
+				errorMessage += "<br>%@".fmt(error[1]);
 			} else {
 				errorMessage = "Your information could not be saved. Please correct the errors below.";
 			}
-
-			controller.alertError(errorMessage);
-
-			Balanced.Analytics.trackEvent(errorMessage, {
-				path: self.get("container").lookup("controller:application").get('currentRouteName')
-			});
 		});
+
+		if (errorMessage) {
+			controller.clearAlerts();
+			controller.alertError(new Ember.Handlebars.SafeString(errorMessage));
+		}
+
+		Balanced.Analytics.trackEvent(errorMessage, {
+			path: self.get("container").lookup("controller:application").get('currentRouteName')
+		});
+
 
 	}.observes("model.validationErrors.allMessages"),
 });

@@ -11,6 +11,7 @@ Balanced.FormFields.ModalFormFieldView = Balanced.View.extend({
 		return model.get(fieldName);
 	}.property("model", "fieldName"),
 	isError: Ember.computed.gt("errorMessages.length", 0),
+	isOneError: Ember.computed.gt("errorMessages.length", 1),
 	errorMessages: function() {
 		var model = this.get("model");
 		var fieldName = this.get("fieldName");
