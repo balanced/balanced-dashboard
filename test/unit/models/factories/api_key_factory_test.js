@@ -128,7 +128,7 @@ test("#getMerchantAttributes (person)", function(assert) {
 		name: "Freddy Person",
 		phone_number: "11111",
 		postal_code: "99999",
-		production: false,
+		production: true,
 		ssn_last_4: "1111",
 		type: "person"
 	});
@@ -158,7 +158,7 @@ test("#getMerchantAttributes (business)", function(assert) {
 		},
 		phone_number: "11111",
 		postal_code: "99999",
-		production: false,
+		production: true,
 		type: "business"
 	});
 });
@@ -196,10 +196,10 @@ test("#_save", function(assert) {
 
 	var request = stub.args[0][0];
 	assert.deepEqual(JSON.parse(request.data), {
-		"merchant": {
-			"name": "Tom Person",
-			"production": false,
-			"type": "person"
+		merchant: {
+			name: "Tom Person",
+			production: true,
+			type: "person"
 		}
 	});
 	stub.restore();
