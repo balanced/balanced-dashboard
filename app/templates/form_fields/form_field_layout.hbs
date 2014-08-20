@@ -5,9 +5,19 @@
 	{{yield}}
 </div>
 
-{{#each message in view.errorMessages}}
-	<div class="alert alert-error">{{message}}</div>
-{{/each}}
+{{#if view.isError}}
+	<div class="alert alert-error">
+		{{#if view.isOneError}}
+			{{view.errorMessages}}
+		{{else}}
+			<ul>
+				{{#each message in view.errorMessages}}
+					<li>{{message}}</li>
+				{{/each}}
+			</ul>
+		{{/if}}
+	</div>
+{{/if}}
 
 {{#if view.explanationText}}
 	<div class="alert alert-info">{{view.explanationText}}</div>

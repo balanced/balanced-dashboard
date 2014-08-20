@@ -2,7 +2,7 @@ var DeleteMixin = Balanced.Modals.ObjectActionMixin;
 
 Balanced.Modals.MarketplaceDeleteModalView = Balanced.ModalBaseView.extend(DeleteMixin, {
 	templateName: 'modals/marketplace_delete_modal',
-	title: "Remove marketplace from access list?",
+	title: "Remove marketplace?",
 	elementId: "delete-marketplace",
 
 	getUserMarketplace: function() {

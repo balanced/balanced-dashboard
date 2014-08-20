@@ -1,5 +1,5 @@
 var DATE_FORMAT = /^(\d\d\d\d)-(\d\d)$/;
-var IS_PRODUCTION = false;
+var IS_PRODUCTION = true;
 
 var isBusinessValidation = function(callback) {
 	return {

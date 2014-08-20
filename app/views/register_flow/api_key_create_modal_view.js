@@ -20,20 +20,20 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		return Balanced.ApiKeyFactory.create({
 			merchant: {
 				type: "person",
-				phone_number: "11111",
+				phone_number: "",
 				postal_code: ""
 			},
 			business: {
 				company_type: "llc",
-				name: "Cccccc",
-				incorporation_date: "2000-10",
-				tax_id: "1111"
+				name: "",
+				incorporation_date: "",
+				tax_id: ""
 			},
 			person: {
-				name: "Cool",
-				ssn_last_4: "1111",
-				dob: "2000-10",
-				postal_code: "33333"
+				name: "",
+				ssn_last_4: "",
+				dob: "",
+				postal_code: ""
 			},
 		});
 	}.property(),
