@@ -140,7 +140,7 @@ Balanced.SummarySectionView = Balanced.View.extend({
 
 Balanced.OrderSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
-		return this.resourceLinks("model.seller", "model.buyers");
+		return this.resourceLinks("model.seller");
 	}.property("model.seller", "model.buyers")
 });
 
@@ -149,7 +149,7 @@ Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
 
 	linkedResources: function() {
 		return this.resourceLinks("model.order", "model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");
-	}.property("model.order", "model.dispute", "model.refunds", "model.hold", "model.customer", "model.source")
+	}.property("model.order", "model.dispute", "model.refunds", "model.refunds.length", "model.hold", "model.customer", "model.source")
 });
 
 Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({
@@ -157,25 +157,25 @@ Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({
 
 	linkedResources: function() {
 		return this.resourceLinks("model.order", "model.reversals", "model.customer", "model.destination");
-	}.property("model.order", "model.reversals", "model.customer", "model.destination")
+	}.property("model.order", "model.reversals", "model.reversals.length", "model.customer", "model.destination")
 });
 
 Balanced.RefundSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
 		return this.resourceLinks("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source");
-	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.customer", "model.debit.source")
+	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.refunds.length", "model.debit.customer", "model.debit.source")
 });
 
 Balanced.ReversalSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
 		return this.resourceLinks("model.credit.order", "model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination");
-	}.property("model.credit.order", "model.credit", "model.credit.reversals", "model.credit.customer", "model.credit.destination")
+	}.property("model.credit.order", "model.credit", "model.credit.reversals", "model.credit.reversals.length", "model.credit.customer", "model.credit.destination")
 });
 
 Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
 	linkedResources: function() {
 		return this.resourceLinks("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source");
-	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.customer", "model.source")
+	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.refunds.length", "model.customer", "model.source")
 });
 
 Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
@@ -191,8 +191,8 @@ Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 	}.property('model.status'),
 
 	linkedResources: function() {
-		return this.resourceLinks("model.transaction.order", "model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source");
-	}.property("model.transaction.order", "model.transaction", "model.transaction.refunds", "model.transaction.hold", "model.transaction.customer", "model.transaction.source")
+		return this.resourceLinks("model.transaction.order", "model.transaction.customer", "model.transaction.source");
+	}.property("model.transaction.order", "model.transaction.customer", "model.transaction.source")
 });
 
 Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
@@ -212,7 +212,7 @@ Balanced.CustomerSummarySectionView = Balanced.SummarySectionView.extend({
 
 	linkedResources: function() {
 		return this.resourceLinks("model.orders_list");
-	}.property("model.orders_list")
+	}.property("model.orders_list", "model.orders_list.length")
 });
 
 Balanced.CardSummarySectionView = Balanced.SummarySectionView.extend({

@@ -5,11 +5,6 @@
 		</div>
 	</nav>
 	<nav class="search-filters-header">
-		<div class="pull-right">
-			<a {{action "openModal" Balanced.Modals.ExportCsvModalView resultsLoader}} class="btn-link sm">
-				<i class="icon icon-export"></i> Export
-			</a>
-		</div>
 		<ul>
 			<li {{bind-attr class=":orders :filter totalOrders::disabled isOrdersTabSelected:selected"}} >
 				<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber totalOrders}}) </a>

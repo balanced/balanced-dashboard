@@ -1,5 +1,5 @@
 var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectSaveMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 
 Balanced.Modals.InvoiceFundingSourceEditModalView = Balanced.ModalBaseView.extend(Wide, Save, {
 	templateName: 'modals/invoice_funding_source_edit_modal',

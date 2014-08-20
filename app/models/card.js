@@ -54,7 +54,6 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 
 	route_name: 'cards',
 	postal_code: Ember.computed.alias('address.postal_code'),
-	is_bank_account: false,
 	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
 	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD,
 	page_title: Ember.computed.readOnly('displayName'),

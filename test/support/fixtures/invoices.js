@@ -1373,6 +1373,8 @@ Balanced.Adapter.addFixtures([{
 	}],
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
 }, {
+	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/bank_account_credits?limit=50&sort=created_at%2Cdesc",
+}, {
 	"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/holds?limit=50&sort=created_at%2Cdesc",
 }, {
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/holds?limit=50&sort=created_at%2Cdesc"

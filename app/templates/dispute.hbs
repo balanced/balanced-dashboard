@@ -8,6 +8,10 @@
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
+		<h3>Associated transactions</h3>
+		<div class="results">
+			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader hasNoFilter=true}}
+
 		{{#if canUploadDocuments}}
 			<div class="dispute-alert">
 				{{#view Balanced.NotificationMessageView}}

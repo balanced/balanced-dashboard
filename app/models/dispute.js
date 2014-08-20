@@ -21,16 +21,6 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		return '/disputes/' + this.get('id') + '/documents';
 	}.property('id'),
 
-	statusChanged: function() {
-		if (this.get('canUploadDocuments')) {
-			this.set('status', 'new');
-		} else if (this.get('documents.length') > 0) {
-			this.set('status', 'submitted');
-		} else {
-			this.set('status', 'lost');
-		}
-	}.observes('canUploadDocuments', 'documents.length', 'status').on('init'),
-
 	amount_dollars: function() {
 		if (this.get('amount')) {
 			return (this.get('amount') / 100).toFixed(2);
@@ -48,6 +38,14 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	funding_instrument_name: Ember.computed.alias('transaction.funding_instrument_name'),
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),
 	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
+
+	getTransactionsLoader: function(attributes) {
+		attributes = _.extend({
+			dispute: this
+		}, attributes);
+
+		return Balanced.DisputeTransactionsResultsLoader.create(attributes);
+	},
 
 	hasExpired: function() {
 		return moment(this.get('respond_by')).toDate() < moment().toDate();
