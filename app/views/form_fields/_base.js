@@ -4,6 +4,9 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 	layoutName: "form_fields/form_field_layout",
 	templateName: "form_fields/base_form_field",
 	classNameBindings: [":form-group", "isError:has-error"],
+	inputName: function() {
+		return this.get("field").replace(/\./, "_");
+	}.property("field"),
 
 	setModelValue: function(value) {
 		var model = this.get("model");

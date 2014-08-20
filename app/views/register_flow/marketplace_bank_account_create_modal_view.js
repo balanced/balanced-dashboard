@@ -4,6 +4,7 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 	subtitle: "Step 3 of 3: Add your bank account",
 	submitButtonText: "Complete registration",
 	confirmMessage: "You have not completed the registration process. You will need to add and verify your bank account in order to deposit funds.",
+	elementId: "marketplaceBankAccountCreate",
 
 	accountTypes: [{
 		value: "checking",

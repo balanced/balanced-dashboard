@@ -42,6 +42,16 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 		message = new Ember.Handlebars.SafeString(message);
 		this.getModalNotificationController().alertSuccess(message);
 	},
+	alertError: function(message) {
+		message = new Ember.Handlebars.SafeString(message);
+		this.getModalNotificationController().alertError(message);
+	},
+
+	alertServerError: function(response) {
+		if (response.description) {
+			this.alertError(response.description);
+		}
+	},
 
 	globalAlertSuccess: function(message) {
 		this.getNotificationController().alertSuccess(message);

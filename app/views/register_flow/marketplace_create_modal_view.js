@@ -4,6 +4,7 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	subtitle: "Step 2 of 3: Provide marketplace information",
 	submitButtonText: "Continue",
 	confirmMessage: "You have not completed the registration process. You will have to resubmit information from Step 1 if you cancel now.",
+	elementId: "marketplaceCreate",
 
 	linkMarketplace: function(user, apiKeySecret, href) {
 		var controller = this.get("container").lookup("controller:user_marketplace");

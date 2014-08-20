@@ -4,6 +4,7 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	subtitle: "Step 1 of 3: Provide business information",
 	submitButtonText: "Continue",
 	confirmMessage: "You have not completed the registration process. You will have to resubmit information if you cancel now.",
+	elementId: "apiKeyCreate",
 
 	apiKeyTypes: [{
 		value: "person",
@@ -62,6 +63,7 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 						error: error,
 						formFields: model.getPropertiesDump()
 					});
+					self.alertServerError(error);
 				})
 				.finally(function() {
 					self.unmakeSaving();
