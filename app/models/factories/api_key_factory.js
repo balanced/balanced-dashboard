@@ -26,7 +26,7 @@ var dateFormatValidation = function(value, attribute, validationErrors) {
 	if (!match) {
 		validationErrors.add(attribute, "format", null, "does not match expected format YYYY-MM");
 	} else {
-		if (month > 12) {
+		if (month < 1 || month < 12) {
 			validationErrors.add(attribute, "format", null, '"%@" has invalid month %@'.fmt(value, month));
 		}
 		if (year === 0) {

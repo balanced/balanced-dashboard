@@ -170,27 +170,24 @@ module('Payments', {
 		visit(Testing.ACTIVITY_ROUTE)
 			.then(function() {
 				var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
+				var loader = controller.get("resultsLoader");
 				Ember.run(function() {
-					controller.get("resultsLoader").setProperties({
+					loader.setProperties({
 						startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
 						endTime: moment('2013-08-01T00:00:00.000Z').toDate()
 					});
 				});
+				stub = sinon.stub(loader, "postCsvExport");
+				stub.returns(Ember.RSVP.resolve());
 			})
 			.click(".results-actions-bar a:contains(Export)")
 			.fillForm("#download-csv form", {
 				emailAddress: "test@example.com"
 			})
+			.click("#download-csv [name=modal-submit]")
 			.then(function() {
 				assert.ok(stub.calledOnce);
-				assert.equal(stub.firstCall.args[0], Balanced.Download);
-				assert.equal(stub.firstCall.args[1], "/downloads");
-				assert.deepEqual(stub.firstCall.args[2], {
-					beginning: "2013-08-01T00:00:00.000Z",
-					email_address: "test@example.com",
-					ending: "2013-08-01T00:00:00.000Z",
-					type: "transactions"
-				});
+				assert.equal(stub.firstCall.args[0], "test@example.com");
 			})
 			.checkElements({
 				"#header .notification-center-message:last": "We're processing your request. We will email you once the exported data is ready to view."
