@@ -51,6 +51,7 @@ Balanced.Modals.WideModalMixin = Ember.Mixin.create({
 });
 
 Balanced.Modals.FullModalMixin = Ember.Mixin.create({
+	layoutName: "modals/new_base_modal_layout",
 	classNameBindings: [":half-screen-modal"],
 });
 

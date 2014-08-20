@@ -6,16 +6,16 @@
 		</div>
 
 		<div class="modal-body">
-			<span>Are you sure you want to delete this key?</span>
-			<br><span>This key will be deleted immediately.</span>
-			<br>
-			<ul>
-				<li class="sl-sb">ID: {{key.id}}</li>
-				{{#if key.meta.name}}
-					<li class="sl-sb">Name: {{key.meta.name}}</li>
-				{{/if}}
-			</ul>
-			<br>
+			<div class="content">
+				<p>Are you sure you want to delete this key?</p>
+				<p>This key will be deleted immediately.</p>
+				<ul>
+					<li class="sl-sb">ID: {{key.id}}</li>
+					{{#if key.meta.name}}
+						<li class="sl-sb">Name: {{key.meta.name}}</li>
+					{{/if}}
+				</ul>
+			</div>
 		</div>
 
 		<div class="modal-footer">
