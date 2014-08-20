@@ -12,13 +12,22 @@ Balanced.Adapter.registerHostForType(Balanced.Download, ENV.BALANCED.WWW);
 Balanced.Download.reopenClass({
 	serializer: Balanced.Rev0Serializer.extend({
 		_propertiesMap: function(record) {
-			return record.getProperties(
+			var result = {};
+			var properties = [
 				"uri",
 				"email_address",
 				"beginning",
 				"ending",
 				"type"
-			);
+			];
+			properties.forEach(function(name) {
+				var value = record.get(name);
+				if (!Ember.isBlank(value)) {
+					result[name] = value;
+				}
+			});
+
+			return result;
 		}
 	}).create()
 });

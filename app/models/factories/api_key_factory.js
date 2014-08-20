@@ -26,7 +26,7 @@ var dateFormatValidation = function(value, attribute, validationErrors) {
 	if (!match) {
 		validationErrors.add(attribute, "format", null, "does not match expected format YYYY-MM");
 	} else {
-		if (month > 12) {
+		if (month < 1 || month > 12) {
 			validationErrors.add(attribute, "format", null, '"%@" has invalid month %@'.fmt(value, month));
 		}
 		if (year === 0) {
@@ -110,6 +110,23 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 	},
 	handleResponse: function(response) {
 		return response.api_keys[0].secret;
+	},
+
+	getPropertiesDump: function() {
+		var attributes = this.getMerchantAttributes();
+		var hideProperty = function(key) {
+			var value = Ember.get(attributes, key);
+			if (!Ember.isBlank(value)) {
+				Ember.set(attributes, key, value.toString().replace(/\d/g, "x"));
+			}
+		};
+
+		hideProperty("tax_id");
+		hideProperty("ssn_last_4");
+		hideProperty("person.ssn_last_4");
+		hideProperty("business.tax_id");
+
+		return attributes;
 	},
 
 	getMerchantAttributes: function() {

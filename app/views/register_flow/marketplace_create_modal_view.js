@@ -1,90 +1,70 @@
-var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
-
-Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
+Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/marketplace_create_modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 2 of 3: Provide marketplace information",
 	submitButtonText: "Continue",
 	confirmMessage: "You have not completed the registration process. You will have to resubmit information from Step 1 if you cancel now.",
 
-	errorMessages: function() {
-		return Balanced.ErrorMessagesCollection.create();
-	}.property(),
-
-	isSaving: false,
-	makeSaving: function() {
-		this.getModalNotificationController().alertWarning("Saving...", {
-			name: "Saving"
-		});
-		this.set("isSaving", true);
-		this.$(":input").attr("disabled", true);
-	},
-
-	unmakeSaving: function() {
-		this.getModalNotificationController().clearNamedAlert("Saving");
-		this.set("isSaving", false);
-
-		if (this.get("element")) {
-			this.$(":input").attr("disabled", false);
-		}
-	},
-
-	execute: function(callback) {
-		var errors = this.get("errorMessages");
-		errors.clear();
-
-		return callback()
-			.then(function(response) {
-				return Ember.RSVP.resolve(response);
-			}, function(response) {
-				errors.populate(response);
-				return Ember.RSVP.reject();
+	linkMarketplace: function(user, apiKeySecret, href) {
+		var controller = this.get("container").lookup("controller:user_marketplace");
+		var self = this;
+		return controller
+			.pushMarketplace(user, apiKeySecret, href)
+			.then(function(marketplace) {
+				self.nextStepSuccess(marketplace, apiKeySecret);
+			}, function() {
+				self.nextStepFailure(href);
 			});
+	},
+
+	nextStepFailure: function(marketplaceHref) {
+		Balanced.Analytics.trackEvent("Error linking marketplace to user", {
+			marketplace: marketplaceHref,
+			formFields: this.get("model").getPropertiesDump()
+		});
+		this.close();
+		this.globalAlertError("Your marketplace was created but there was an error linking it to your user account. Please contact support@balancedpayments.com");
+	},
+
+	nextStepSuccess: function(marketplace, apiKeySecret) {
+		Balanced.Analytics.trackEvent("Success linking marketplace to user", {
+			marketplace: marketplace.get("uri"),
+			formFields: this.get("model").getPropertiesDump()
+		});
+		this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
+			marketplace: marketplace
+		});
+		this.alertSuccess('Marketplace created. API key: <span class="sl-sb">%@</span>'.fmt(apiKeySecret));
 	},
 
 	actions: {
-		nextStep: function(marketplace) {
-			this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
-				marketplace: marketplace
-			});
-
-			var apiKeySecret = this.get('model.apiKeySecret');
-			var message = 'Marketplace created. API key: <span class="sl-sb">%@</span>';
-			var controller = this.getModalNotificationController();
-			controller.alertSuccess(new Ember.Handlebars.SafeString(message.fmt(apiKeySecret)));
-
-		},
-
 		save: function() {
 			var self = this;
 			var model = this.get("model");
-			this.makeSaving();
 
-			this.save(model)
-				.then(function(marketplaceUri) {
-					var userMarketplace = Balanced.UserMarketplace.create({
-						secret: model.get("apiKeySecret"),
-						uri: Balanced.Auth.get("user.api_keys_uri")
+			this.makeSaving();
+			self.trackEvent("User creating marketplace", {
+				formFields: model.getPropertiesDump()
+			});
+			model.save()
+				.then(function(href) {
+					var apiKeySecret = self.get("model.apiKeySecret");
+					var user = Balanced.Auth.get("user");
+
+					self.trackEvent("Marketplace created", {
+						marketplace: href,
+						formFields: model.getPropertiesDump()
 					});
 
-					self
-						.execute(function() {
-							return userMarketplace.save();
-						})
-						.then(function() {
-							Balanced.Auth.setAPIKey(model.get("apiKeySecret"));
-						})
-						.then(function() {
-							return Balanced.Auth.get("user").reload();
-						})
-						.then(function() {
-							return Balanced.Marketplace.find(marketplaceUri);
-						})
-						.then(function(marketplace) {
-							self.unmakeSaving();
-							self.send("nextStep", marketplace);
-						});
-				}, function(error) {
+					return self.linkMarketplace(user, apiKeySecret, href);
+				})
+				.catch(function(error) {
+					self.trackEvent("Error creating marketplace", {
+						error: error,
+						formFields: model.getPropertiesDump()
+					});
+				})
+				.finally(function() {
 					self.unmakeSaving();
 				});
 		}

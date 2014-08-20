@@ -56,6 +56,10 @@ Balanced.SessionsController = Ember.Controller.extend({
 		}
 	},
 
+	setCurrentApiKey: function(apiKeySecret) {
+		Balanced.Auth.setAPIKey(apiKeySecret);
+	},
+
 	actions: {
 		afterLoginTransition: function() {
 			var pendingTransition = this.get("transitionPendingLogin");

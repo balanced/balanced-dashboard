@@ -53,10 +53,15 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 					return self.handleResponse(response);
 				}, function(xhr) {
 					self.handleErrorResponse(xhr.responseJSON);
-					return Ember.RSVP.reject();
+					return Ember.RSVP.reject(xhr.responseJSON);
 				});
 		} else {
-			return Ember.RSVP.reject();
+			return Ember.RSVP.reject({
+				errors: [{
+					description: "Validation errors",
+					extras: this.get("validationErrors.fullMessages")
+				}]
+			});
 		}
 	}
 });

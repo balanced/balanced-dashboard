@@ -38,6 +38,23 @@ Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
 		);
 	},
 
+	getPropertiesDump: function() {
+		var attributes = this.getProperties(
+			"name",
+			"account_type",
+			"routing_number",
+			"account_number"
+		);
+		var hideProperty = function(key) {
+			var value = Ember.get(attributes, key);
+			if (!Ember.isBlank(value)) {
+				Ember.set(attributes, key, value.toString().replace(/\d/g, "x"));
+			}
+		};
+		hideProperty("account_number");
+		return attributes;
+	},
+
 	handleResponse: function(response) {
 		return response.bank_accounts[0].href;
 	},

@@ -170,36 +170,24 @@ module('Payments', {
 		visit(Testing.ACTIVITY_ROUTE)
 			.then(function() {
 				var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
+				var loader = controller.get("resultsLoader");
 				Ember.run(function() {
-					controller.get("resultsLoader").setProperties({
-						startTime: null,
-						endTime: null
+					loader.setProperties({
+						startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+						endTime: moment('2013-08-01T00:00:00.000Z').toDate()
 					});
 				});
+				stub = sinon.stub(loader, "postCsvExport");
+				stub.returns(Ember.RSVP.resolve());
 			})
 			.click(".results-actions-bar a:contains(Export)")
 			.fillForm("#download-csv form", {
 				emailAddress: "test@example.com"
 			})
+			.click("#download-csv [name=modal-submit]")
 			.then(function() {
-				stub = sinon.stub(jQuery, "ajax");
-				stub.returns(Ember.RSVP.resolve({
-					uri: "",
-				}));
-			})
-			.click('#download-csv [name=modal-submit]')
-			.then(function() {
-				var expectedData = {
-					uri: "",
-					email_address: "test@example.com",
-					beginning: null,
-					ending: null,
-					type: "transactions"
-				};
-				var parsedData = JSON.parse(stub.firstCall.args[0].data);
-				assert.ok(stub.calledOnce, "Download save called once");
-				assert.deepEqual(parsedData, expectedData);
-				stub.restore();
+				assert.ok(stub.calledOnce);
+				assert.equal(stub.firstCall.args[0], "test@example.com");
 			})
 			.checkElements({
 				"#header .notification-center-message:last": "We're processing your request. We will email you once the exported data is ready to view."
@@ -219,6 +207,30 @@ module('Payments', {
 			.click(objectPath)
 			.then(function() {
 				assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+			});
+	});
+
+	test('Filter Activity transactions table by type & status', function(assert) {
+		visit(Testing.ACTIVITY_ROUTE)
+			.click('#content .results table.transactions th.type .type-filter li a:contains(Holds)')
+			.then(function() {
+				var resultsUri = getResultsUri();
+				assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
+				assertQueryString(resultsUri, {
+					type: "hold",
+					'status[in]': 'failed,succeeded,pending',
+					limit: "50",
+					sort: "created_at,desc"
+				}, assert);
+			})
+			.click('#content table.transactions th.type a:contains(All)')
+			.click("#content table.transactions th.status a:contains(Succeeded)")
+			.then(function() {
+				assertQueryString(getResultsUri(), {
+					status: "succeeded",
+					limit: "50",
+					sort: "created_at,desc"
+				}, assert);
 			});
 	});
 })();

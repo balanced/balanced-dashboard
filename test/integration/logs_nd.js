@@ -35,33 +35,6 @@ test('has logs in table', function(assert) {
 		}, assert);
 });
 
-test('filter logs by endpoint bank accounts', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get');
-
-	visit(Testing.LOGS_ROUTE)
-		.click('#marketplace-nav i.icon-logs')
-		.then(function() {
-			setLogsProperties();
-		})
-		.checkElements({
-			'table.logs tbody tr': 2
-		}, assert)
-		.click('.results .endpoint-filter a:contains(Bank accounts)')
-		.then(function() {
-			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
-			assert.deepEqual(query, {
-				endpoint: "bank_accounts",
-				limit: "2",
-				"method[in]": "post,put,delete",
-				sort: "created_at,desc"
-			});
-		})
-		.checkElements({
-			'table.logs tbody tr': 1
-		}, assert);
-
-});
-
 test('view a particular log entry', function(assert) {
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
