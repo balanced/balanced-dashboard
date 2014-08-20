@@ -4,13 +4,17 @@ var Form = Balanced.Modals.FormModalMixin;
 var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
 
 Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+	staticBackdrop: true,
+
 	open: function() {
 		var self = this;
 		var $el = this._super().undelegate('[data-dismiss="modal"]', 'click.dismiss.modal');
+
 		$el.delegate('[data-dismiss="modal"]', 'click.dismiss.modal', function() {
 			self.close();
 			self.openConfirmCloseModal();
 		});
+
 		return $el;
 	},
 	openConfirmCloseModal: function() {
@@ -25,5 +29,5 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 	},
 	getModalNotificationController: function() {
 		return this.get("container").lookup("controller:modal_notification_center");
-	},
+	}
 });

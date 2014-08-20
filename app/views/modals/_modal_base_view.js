@@ -11,7 +11,17 @@ Balanced.ModalBaseView = Ember.View.extend({
 	},
 
 	open: function(container) {
-		return this.$().modal("show");
+		var options = {
+			show: true
+		}
+
+		if (this.get('staticBackdrop')) {
+			_.extend(options, {
+				backdrop: "static",
+				keyboard: false
+			});
+		}
+		return this.$().modal(options);
 	},
 
 	close: function() {
@@ -43,13 +53,23 @@ Balanced.Modals.FullModalMixin = Ember.Mixin.create({
 Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
 	updateErrorsBar: function() {
 		var controller = this.get("container").lookup("controller:modal_notification_center");
+		var self = this;
+		var errorMessage;
+
 		controller.clear();
+
 		this.get("model.validationErrors.allMessages").forEach(function(error) {
 			if (Ember.isBlank(error[0])) {
-				controller.alertError(error[1]);
+				errorMessage = error[1];
 			} else {
-				controller.alertError("Your information could not be saved. Please correct the errors below.");
+				errorMessage = "Your information could not be saved. Please correct the errors below.";
 			}
+
+			controller.alertError(errorMessage);
+
+			Balanced.Analytics.trackEvent(errorMessage, {
+				path: self.get("container").lookup("controller:application").get('currentRouteName')
+			});
 		});
 
 	}.observes("model.validationErrors.allMessages"),
