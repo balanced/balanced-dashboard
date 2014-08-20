@@ -112,6 +112,23 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 		return response.api_keys[0].secret;
 	},
 
+	getPropertiesDump: function() {
+		var attributes = this.getMerchantAttributes();
+		var hideProperty = function(key) {
+			var value = Ember.get(attributes, key);
+			if (!Ember.isBlank(value)) {
+				Ember.set(attributes, key, value.toString().replace(/\d/g, "x"));
+			}
+		};
+
+		hideProperty("tax_id");
+		hideProperty("ssn_last_4");
+		hideProperty("person.ssn_last_4");
+		hideProperty("business.tax_id");
+
+		return attributes;
+	},
+
 	getMerchantAttributes: function() {
 		var businessAttributes = this.get("business");
 		var personAttributes = this.get("person");

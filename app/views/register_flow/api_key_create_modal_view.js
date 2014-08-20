@@ -1,6 +1,4 @@
-var Save = Balanced.Modals.ObjectValidateAndSaveMixin;
-
-Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
+Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/api_key_create_modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 1 of 3: Provide business information",
@@ -39,17 +37,34 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save, {
 		});
 	}.property(),
 
+	nextStepSuccess: function(apiKeySecret) {
+		this.trackEvent("User created api key", {
+			formFields: this.get("model").getPropertiesDump()
+		});
+		this.openNext(Balanced.MarketplaceCreateModalView, apiKeySecret);
+		this.alertSuccess("Business information confirmed");
+	},
+
 	actions: {
-		nextStep: function(apiKeySecret) {
-			this.openNext(Balanced.MarketplaceCreateModalView, apiKeySecret);
-			this.alertSuccess("Business information confirmed");
-		},
 		save: function() {
 			var self = this;
 			var model = this.get("model");
-			this.save(model)
+			this.makeSaving();
+			this.trackEvent("User saving api key", {
+				formFields: model.getPropertiesDump()
+			});
+			model.save()
 				.then(function(apiKeySecret) {
-					self.send("nextStep", apiKeySecret);
+					self.nextStepSuccess(apiKeySecret);
+				})
+				.catch(function(error) {
+					self.trackEvent("Error creating apiKey", {
+						error: error,
+						formFields: model.getPropertiesDump()
+					});
+				})
+				.finally(function() {
+					self.unmakeSaving();
 				});
 		}
 	}

@@ -40,6 +40,9 @@ Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 	getPostAttributes: function() {
 		return this.getProperties("name", "support_phone_number", "support_email_address", "domain_url");
 	},
+	getPropertiesDump: function() {
+		return this.getPostAttributes();
+	},
 	handleResponse: function(response) {
 		return response.marketplaces[0].href;
 	},

@@ -82,45 +82,70 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 			this.get("initialDepositModel") : undefined;
 	},
 
-	isSaving: false,
-	makeSaving: function() {
-		this.getModalNotificationController().alertWarning("Saving...", {
-			name: "Saving"
+
+	nextStepFailure: function(marketplace, bankAccountHref, error) {
+		this.trackEvent("Bank account links error", {
+			error: error,
+			marketplace: marketplace.get("uri"),
+			bankAccountHref: bankAccountHref
 		});
-		this.set("isSaving", true);
-		this.$(":input").attr("disabled", true);
+	},
+	nextStepSuccess: function(marketplace, bankAccountHref) {
+		this.trackEvent("Bank account linked", {
+			marketplace: marketplace.get("uri"),
+			bankAccountHref: bankAccountHref
+		});
 	},
 
-	unmakeSaving: function() {
-		this.getModalNotificationController().clearNamedAlert("Saving");
-		this.set("isSaving", false);
-
-		if (this.get("element")) {
-			this.$(":input").attr("disabled", false);
-		}
+	linkAndVerify: function(marketplace, bankAccountHref) {
+		var self = this;
+		return self.get("container")
+			.lookup("controller:owner_customer_bank_account")
+			.linkAndVerify(marketplace, bankAccountHref)
+			.then(function(marketplace) {
+				self.nextStepSuccess(marketplace, bankAccountHref);
+			}, function(error) {
+				self.nextStepFailure(marketplace, bankAccountHref, error);
+			})
+			.finally(function() {
+				self.close();
+				self.get("container").lookup("controller:application").transitionToRoute("marketplace", marketplace);
+			})
 	},
 
 	actions: {
+		openNext: function() {
+			this.close();
+			self.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
+		},
 		save: function() {
 			var self = this;
 			var marketplace = this.get("marketplace");
 			var model = this.get("model");
 
 			this.makeSaving();
+			self.trackEvent("User creating bank account", {
+				formFields: model.getPropertiesDump(),
+				isInitialDepositCreate: this.get("isInitialDepositCreate")
+			});
 
 			this.save(model, this.getInitialDepositModel())
 				.then(function(bankAccountHref) {
-					return self.get("container")
-						.lookup("controller:owner_customer_bank_account")
-						.linkAndVerify(marketplace, bankAccountHref)
-						.finally(function() {
-							self.close();
-						});
+					self.trackEvent("User created bank account", {
+						formFields: model.getPropertiesDump(),
+						isInitialDepositCreate: this.get("isInitialDepositCreate"),
+						bankAccountHref: bankAccountHref
+					});
+					return self.linkAndVerify(marketplace, bankAccountHref);
+				})
+				.catch(function(error) {
+					self.trackEvent("Error creating bank account", {
+						error: error,
+						formFields: model.getPropertiesDump()
+					});
 				})
 				.finally(function() {
 					self.unmakeSaving();
-					self.getNotificationController()
-						.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
 				});
 		}
 	}

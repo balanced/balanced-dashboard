@@ -14,10 +14,43 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 		return $el;
 	},
 
+	trackEvent: function(message, attributes) {
+		attributes = _.extend({
+			email_address: Balanced.Auth.get("user.email_address")
+		}, attributes);
+		console.log(message, attributes);
+		Balanced.Analytics.trackEvent(message, attributes);
+	},
+
+	isSaving: false,
+	makeSaving: function() {
+		this.getModalNotificationController().alertWarning("Saving...", {
+			name: "Saving"
+		});
+		this.set("isSaving", true);
+		this.$(":input").attr("disabled", true);
+	},
+	unmakeSaving: function() {
+		this.getModalNotificationController().clearNamedAlert("Saving");
+		this.set("isSaving", false);
+
+		if (this.get("element")) {
+			this.$(":input").attr("disabled", false);
+		}
+	},
+
 	alertSuccess: function(message) {
-		message = new Ember.Handlebars.SafeString(message.fmt(apiKeySecret));
+		message = new Ember.Handlebars.SafeString(message);
 		this.getModalNotificationController().alertSuccess(message);
 	},
+
+	globalAlertSuccess: function(message) {
+		this.getNotificationController().alertSuccess(message);
+	},
+	globalAlertError: function(message) {
+		this.getNotificationController().alertError(message);
+	},
+
 	openConfirmCloseModal: function() {
 		var self = this;
 		this.openNext(Balanced.ConfirmCloseRegistrationModalView, {
