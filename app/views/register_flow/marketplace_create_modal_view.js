@@ -19,7 +19,7 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	},
 
 	nextStepFailure: function(marketplaceHref) {
-		Balanced.Analytics.trackEvent("Error linking marketplace to user", {
+		this.trackEvent("Error linking marketplace to user", {
 			marketplace: marketplaceHref,
 			formFields: this.get("model").getPropertiesDump()
 		});
@@ -28,7 +28,7 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	},
 
 	nextStepSuccess: function(marketplace, apiKeySecret) {
-		Balanced.Analytics.trackEvent("Success linking marketplace to user", {
+		this.trackEvent("Success linking marketplace to user", {
 			marketplace: marketplace.get("uri"),
 			formFields: this.get("model").getPropertiesDump()
 		});

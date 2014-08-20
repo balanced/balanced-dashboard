@@ -1,6 +1,11 @@
 Balanced.SimpleCheckboxFormFieldView = Balanced.View.extend({
 	templateName: "form_fields/simple_checkbox_form_field",
 	classNameBindings: [":form-group", "isError:has-error", ":checkbox"],
+	inputName: function() {
+		if (this.get("field")) {
+			return this.get("field").replace(/\./g, "_");
+		}
+	}.property("field"),
 
 	setModelValue: function(value) {
 		var model = this.get("model");
