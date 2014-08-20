@@ -29,6 +29,10 @@ Balanced.ModalBaseView = Ember.View.extend({
 		if (element) {
 			return element.modal("hide");
 		}
+	},
+
+	didInsertElement: function() {
+		$('.modal input:eq(0)').focus();
 	}
 });
 
