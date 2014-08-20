@@ -5,11 +5,12 @@ var MESSAGES = {
 };
 
 // We need to handle 4 cases for bank account notification:
-// 1. marketplace doesn't have any bank accounts: "please create and verify a bank account"
-// 2. marketplace has a debitable bank account: no message
+// 1. marketplace has a debitable bank account: no message
+// 2. marketplace doesn't have any bank accounts: "please create and verify a bank account"
 // 3. marketplace has a bank account with pending verification: "Please finish verification"
 // 4. marketplace has bank accounts but no open verifications: "Please start verify process"
 Balanced.BankAccountVerificationMessage = {
+	MESSAGES: MESSAGES,
 	forMarketplace: function(marketplace) {
 		var self = this;
 		var uri = marketplace.get("owner_customer_uri");
