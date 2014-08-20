@@ -43,16 +43,11 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save
 	},
 
 	actions: {
-		nextStep: function(marketplace) {
+		nextStep: function(marketplace, apiKeySecret) {
 			this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
 				marketplace: marketplace
 			});
-
-			var apiKeySecret = this.get('model.apiKeySecret');
-			var message = 'Marketplace created. API key: <span class="sl-sb">%@</span>';
-			var controller = this.getModalNotificationController();
-			controller.alertSuccess(new Ember.Handlebars.SafeString(message.fmt(apiKeySecret)));
-
+			this.alertSuccess('Marketplace created. API key: <span class="sl-sb">%@</span>'.fmt(apiKeySecret));
 		},
 
 		save: function() {
@@ -82,7 +77,7 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend(Save
 						})
 						.then(function(marketplace) {
 							self.unmakeSaving();
-							self.send("nextStep", marketplace);
+							self.send("nextStep", marketplace, self.get("model.apiKeySecret"));
 						});
 				});
 		}

@@ -13,6 +13,11 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 		});
 		return $el;
 	},
+
+	alertSuccess: function(message) {
+		message = new Ember.Handlebars.SafeString(message.fmt(apiKeySecret));
+		this.getModalNotificationController().alertSuccess(message);
+	},
 	openConfirmCloseModal: function() {
 		var self = this;
 		this.openNext(Balanced.ConfirmCloseRegistrationModalView, {
