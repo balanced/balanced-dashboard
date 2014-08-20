@@ -2,7 +2,7 @@ Balanced.UserMarketplaceController = Balanced.Controller.extend({
 	needs: ["registration", "sessions"],
 
 	pushMarketplace: function(user, secret, marketplaceHref) {
-		var self = this
+		var self = this;
 		return this
 			.createUserMarketplace(user, secret)
 			.then(function() {

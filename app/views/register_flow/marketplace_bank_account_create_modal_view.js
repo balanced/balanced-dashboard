@@ -110,13 +110,13 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 			.finally(function() {
 				self.close();
 				self.get("container").lookup("controller:application").transitionToRoute("marketplace", marketplace);
-			})
+			});
 	},
 
 	actions: {
 		openNext: function() {
 			this.close();
-			self.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
+			this.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
 		},
 		save: function() {
 			var self = this;

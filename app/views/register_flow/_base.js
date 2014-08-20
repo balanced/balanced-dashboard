@@ -18,7 +18,6 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 		attributes = _.extend({
 			email_address: Balanced.Auth.get("user.email_address")
 		}, attributes);
-		console.log(message, attributes);
 		Balanced.Analytics.trackEvent(message, attributes);
 	},
 
