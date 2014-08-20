@@ -14,8 +14,16 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		label: "Savings"
 	}],
 
+	model: function() {
+		return Balanced.MarketplaceBankAccountFactory.create();
+	}.property(),
+
 	isInitialDepositCreate: false,
 	isInitialDepositTransactionCreated: false,
+
+	initialDepositModel: function() {
+		return Balanced.InitialDepositTransactionFactory.create();
+	}.property(),
 
 	expirationMonths: Balanced.TIME.MONTHS,
 	expirationYears: function() {

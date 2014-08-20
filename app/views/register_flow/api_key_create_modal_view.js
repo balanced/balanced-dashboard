@@ -16,6 +16,28 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 
 	businessTypes: Balanced.Marketplace.COMPANY_TYPES,
 
+	model: function() {
+		return Balanced.ApiKeyFactory.create({
+			merchant: {
+				type: "person",
+				phone_number: "",
+				postal_code: ""
+			},
+			business: {
+				company_type: "llc",
+				name: "",
+				incorporation_date: "",
+				tax_id: ""
+			},
+			person: {
+				name: "",
+				ssn_last_4: "",
+				dob: "",
+				postal_code: ""
+			},
+		});
+	}.property(),
+
 	nextStepSuccess: function(apiKeySecret) {
 		this.trackEvent("User created api key", {
 			formFields: this.get("model").getPropertiesDump()
