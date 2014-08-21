@@ -51,7 +51,7 @@ test("#apply fails person KYC", function(assert) {
 			stub.restore();
 		})
 		.checkElements({
-			"#apiKeyCreate .notification-center.error": "Person KYC failed."
+			"#apiKeyCreate .notification-center.error": "We could not verify your identity. Please check your information again and resubmit."
 		}, assert);
 });
 
