@@ -1,12 +1,17 @@
 Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
-	title: 'Apply for production access',
+	beforeModel: function(transition) {
+		transition.abort();
 
-	setupController: function(controller) {
-		var model = Balanced.ProductionAccessRequest.create({});
-
-		model.set("user", this.get("user"));
-
-		this._super(controller, model);
-		this.controllerFor('marketplace').set('content', null);
+		if (transition.sequence > 0) {
+			this.send("openModal", Balanced.ApiKeyCreateModalView);
+		} else {
+			var self = this;
+			this.transitionTo("marketplaces.index")
+				.then(function(r) {
+					return Ember.run.next(function() {
+						self.transitionTo("marketplaces.apply");
+					});
+				});
+		}
 	},
 });

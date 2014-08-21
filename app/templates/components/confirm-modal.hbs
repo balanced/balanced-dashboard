@@ -1,12 +1,12 @@
 <div class="modal hide modal-confirm" data-backdrop="static" data-keyboard="false">
-    <div class="modal-header">
-        <h2>{{title}}</h2>
-    </div>
-    <div class="modal-body">
-      <p class="text-center label3a">{{mainText}}</p>
-      <div class="actions">
-        <button class="btn secondary" {{action "cancel" on="click" target="view"}}>Cancel</button>
-        <button class="btn" {{action "confirm" on="click" target="view"}}>Yes</button>
-      </div>
-    </div>
+	<div class="modal-header">
+		<h2>{{title}}</h2>
+	</div>
+	<div class="modal-body clearfix">
+		<div class="content">{{mainText}}</div>
+		<div class="actions">
+			<button class="btn secondary" {{action "cancel" on="click" target="view"}}>Cancel</button>
+			<button class="btn" {{action "confirm" on="click" target="view"}}>Yes</button>
+		</div>
+	</div>
 </div>

@@ -1,0 +1,9 @@
+{{#each alert in controller}}
+	<div class="alert-row">
+		<div {{bind-attr class=":row-fluid :notification-center alert.type"}}>
+			<div class="notification-center-message">
+				<span class="message">{{alert.message}}</span>
+			</div>
+		</div>
+	</div>
+{{/each}}

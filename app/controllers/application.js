@@ -1,39 +1,19 @@
 Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
-	showNotificationCenter: true,
-
-	alert: function(options) {
-		var self = this;
-		this.set('alertObj', options);
-		if (options.reset > 0) {
-			setTimeout(function() {
-				if (!self.get("isDestroyed")) {
-					self.set("alertObj", null);
-				}
-			}, options.reset);
-		}
-	},
-
-	alertTransition: function() {
-		var alert = this.get('alertObj');
-		if (alert) {
-			if (alert.persists) {
-				alert.persists = false;
-			} else {
-				this.set('alertObj', null);
-			}
-		}
-	},
+	needs: ["notification_center"],
 
 	actions: {
-		alert: function(options) {
-			this.alert(options);
-		},
-		closeNotificationCenter: function() {
-			this.set('showNotificationCenter', false);
+		signUp: function() {
+			Balanced.Analytics.trackEvent("SignUp: Opened 'Create an account' modal", {
+				path: this.get("container").lookup("controller:application").get('currentRouteName')
+			});
+			this.transitionToRoute('setup_guest_user');
 		},
 
-		toggleNotificationCenter: function() {
-			this.set('showNotificationCenter', !this.get('showNotificationCenter'));
+		register: function() {
+			Balanced.Analytics.trackEvent("SignUp: Opened 'Register for production access' modal", {
+				path: this.get("container").lookup("controller:application").get('currentRouteName')
+			});
+			this.transitionToRoute('marketplaces.apply');
 		},
 
 		openChangePasswordModal: function() {

@@ -45,6 +45,12 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 	status: Ember.computed.oneWay("verificationStatus"),
 
+	customer: function() {
+		if (this.get("customer_uri")) {
+			return Balanced.Customer.find(this.get("customer_uri"));
+		}
+	}.property("customer_uri"),
+
 	verificationStatus: function() {
 		if (this.get("isRemoved")) {
 			return "removed";

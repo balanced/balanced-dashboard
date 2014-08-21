@@ -3,41 +3,94 @@ Balanced.Modals = {};
 Balanced.ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base_modal_layout",
 	classNames: "modal",
-
-	modalElement: function() {
-		var el = this.get("element");
-		if (el) {
-			return this.$(el).modal();
-		}
-	}.property("element"),
+	submitButtonText: "Submit",
+	cancelButtonText: "Cancel",
 
 	reposition: function() {
 		$(window).resize();
 	},
 
 	open: function(container) {
-		var self = this;
+		var options = {
+			show: true
+		};
 
-		Ember.run(function() {
-			container.pushObject(self);
-		});
-
-		var modal = this.get("modalElement");
-		modal.on("hidden.bs.modal", function() {
-			container.removeObject(self);
-		});
+		if (this.get('staticBackdrop')) {
+			_.extend(options, {
+				backdrop: "static",
+				keyboard: false
+			});
+		}
+		return this.$().modal(options);
 	},
 
 	close: function() {
-		var modal = this.get("modalElement");
-		if (modal) {
-			modal.modal('hide');
+		var element = this.$();
+		if (element) {
+			return element.modal("hide");
 		}
+	},
+
+	didInsertElement: function() {
+		$('.modal input:eq(0)').focus();
 	}
+});
+
+Balanced.ModalBaseView.reopenClass({
+	open: function(attributes) {
+		return this.create(attributes);
+	}
+});
+
+Balanced.Modals.FormModalMixin = Ember.Mixin.create({
+	layoutName: "modals/form_modal_layout",
 });
 
 Balanced.Modals.WideModalMixin = Ember.Mixin.create({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
+});
+
+Balanced.Modals.FullModalMixin = Ember.Mixin.create({
+	layoutName: "modals/new_base_modal_layout",
+	classNameBindings: [":half-screen-modal"],
+});
+
+Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
+	updateErrorsBar: function() {
+		var controller = this.get("container").lookup("controller:modal_notification_center");
+		var self = this;
+		var errorMessage;
+
+		controller.clear();
+
+		this.get("model.validationErrors.allMessages").forEach(function(error) {
+			if (Ember.isBlank(error[0])) {
+				errorMessage += "<br>%@".fmt(error[1]);
+			} else {
+				errorMessage = "Your information could not be saved. Please correct the errors below.";
+			}
+		});
+
+		if (errorMessage) {
+			controller.clearAlerts();
+			controller.alertError(new Ember.Handlebars.SafeString(errorMessage));
+		}
+
+		Balanced.Analytics.trackEvent(errorMessage, {
+			path: self.get("container").lookup("controller:application").get('currentRouteName')
+		});
+
+
+	}.observes("model.validationErrors.allMessages"),
+});
+
+Balanced.Modals.OpenNextModalMixin = Ember.Mixin.create({
+	openNext: function() {
+		var controller = Balanced.__container__.lookup("controller:application");
+		var args = _.toArray(arguments);
+		args.unshift("openModal");
+		return controller.send.apply(controller, args);
+	},
 });
 
 Balanced.Modals.ObjectActionMixin = Ember.Mixin.create({
@@ -72,9 +125,26 @@ Balanced.Modals.ObjectActionMixin = Ember.Mixin.create({
 	}
 });
 
-Balanced.ModalBaseView.reopenClass({
-	open: function(attributes) {
-		return this.create(attributes);
+Balanced.Modals.ObjectValidateAndSaveMixin = Ember.Mixin.create({
+	isSaving: false,
+	save: function(model) {
+		var self = this;
+		this.set("isSaving", true);
+		model.validate();
+		if (model.get("isValid")) {
+			return model.save()
+				.then(function(savedModel) {
+					self.set("isSaving", false);
+					self.close();
+					return Ember.RSVP.resolve(savedModel);
+				}, function(errors) {
+					self.set("isSaving", false);
+					return Ember.RSVP.reject(errors);
+				});
+		} else {
+			self.set("isSaving", false);
+			return Ember.RSVP.reject();
+		}
 	}
 });
 

@@ -50,9 +50,9 @@ Balanced.Router.map(function() {
 	this.route('login');
 	this.route('logout');
 
-	this.route('claim');
-	this.route('start');
-
+	this.route('setup_guest_user', {
+		path: "/start"
+	});
 	this.route('forgotPassword', {
 		path: '/forgot_password'
 	});
@@ -77,7 +77,6 @@ Balanced.Router.map(function() {
 		}, function() {
 			this.route('settings');
 			this.route('add_customer');
-			this.route('initial_deposit');
 			this.route('import_payouts');
 
 			// exists to handle old URIs

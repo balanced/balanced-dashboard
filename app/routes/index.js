@@ -1,5 +1,11 @@
 Balanced.IndexRoute = Balanced.AuthRoute.extend({
 	redirect: function() {
-		this.transitionTo('marketplaces');
+		var sessions = this.controllerFor("sessions");
+
+		if (sessions.get("isUserRegistered")) {
+			this.transitionTo('marketplaces');
+		} else {
+			this.transitionTo("login");
+		}
 	}
 });

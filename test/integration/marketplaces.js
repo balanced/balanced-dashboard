@@ -1,10 +1,13 @@
 module('Marketplaces.Index', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Balanced.Utils.setCurrentMarketplace(null);
+		this.fakeRegisteredUser = function() {
+			Ember.run(function() {
+				Balanced.__container__.lookup("controller:sessions").set("isUserRegistered", true);
+			});
+		};
 	},
 	teardown: function() {
-		$("#delete-marketplace").modal('hide');
 		Testing.restoreMethods(
 			Balanced.Adapter.create,
 			Balanced.Adapter.delete,
@@ -44,6 +47,8 @@ test('add test marketplace', function(assert) {
 	// Stub error logger to reduce console noise.
 	sinon.stub(Ember.Logger, "error");
 
+	this.fakeRegisteredUser();
+
 	var spy = sinon.spy(Balanced.Adapter, "create");
 	Balanced.Auth.set('user.api_keys_uri', '/users/%@/api_keys'.fmt(Testing.CUSTOMER_ID));
 
@@ -59,8 +64,8 @@ test('add test marketplace', function(assert) {
 
 test('add existing marketplace', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
-	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
-		Testing.CUSTOMER_ID + '/marketplaces');
+	this.fakeRegisteredUser();
+	Balanced.Auth.set('user.marketplaces_uri', '/users/%@/marketplaces'.fmt(Testing.CUSTOMER_ID));
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.fillIn(".marketplace-list.production li.mp-new input[name='secret']", '1234')
@@ -72,6 +77,7 @@ test('add existing marketplace', function(assert) {
 
 test('delete marketplace', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
+	this.fakeRegisteredUser();
 	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
 		Testing.CUSTOMER_ID + '/marketplaces');
 
@@ -85,15 +91,15 @@ test('delete marketplace', function(assert) {
 
 test('delete marketplace only deletes once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "delete");
-	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
-		Testing.CUSTOMER_ID + '/marketplaces');
+	this.fakeRegisteredUser();
+	Balanced.Auth.set('user.marketplaces_uri', '/users/%@/marketplaces'.fmt(Testing.CUSTOMER_ID));
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".marketplace-list.test li:first-of-type .icon-delete")
+		.click('#delete-marketplace [name="modal-submit"]')
+		.click('#delete-marketplace [name="modal-submit"]')
+		.click('#delete-marketplace [name="modal-submit"]')
 		.then(function() {
-			for (var i = 0; i < 20; i++) {
-				click('#delete-marketplace .modal-footer button[name="modal-submit"]');
-			}
 			assert.ok(stub.calledOnce, "Delete should have been called once");
 		});
 });

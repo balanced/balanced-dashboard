@@ -1,6 +1,6 @@
 Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 	model: function(params) {
-		return this.getUser().get("marketplacesLoader").find(params.marketplace_id);
+		return this.get("auth.user").get("marketplacesLoader").find(params.marketplace_id);
 	},
 
 	afterModel: function(model) {
@@ -12,6 +12,8 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 		this._super(controller, model);
 
 		Balanced.Utils.setCurrentMarketplace(model);
+		controller.updateGuestNotification();
+		controller.updateBankAccountNotifications();
 	},
 
 	actions: {

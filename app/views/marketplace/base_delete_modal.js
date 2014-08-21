@@ -1,5 +1,5 @@
 Balanced.DeleteModalView = Balanced.ActionModalView.extend({
 	defaultModelAction: 'delete',
-	submitTitle: 'Yes',
+	submitTitle: 'Delete',
 	submittingTitle: 'Deleting...'
 });

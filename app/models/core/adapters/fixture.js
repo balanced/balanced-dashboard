@@ -82,6 +82,17 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		});
 	},
 
+	load: function(settings) {
+		var uri = settings.uri;
+		var json = this.dataMap[uri];
+		var clonedJson = this._cloneObject(json);
+		if (!json) {
+			Ember.Logger.warn("Couldn't retrieve fixture for URI => " + uri);
+		}
+
+		return Ember.RSVP.resolve(clonedJson);
+	},
+
 	addFixture: function(json) {
 		this.dataMap[json.href || json.uri] = json;
 	},

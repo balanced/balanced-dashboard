@@ -1,11 +1,7 @@
 module("Balanced.ObjectCreatorModalBaseView");
 
-var createSubject = function(attributes) {
-	return Balanced.ObjectCreatorModalBaseView.create(attributes);
-};
-
 test("#model", function(assert) {
-	var view = createSubject({
+	var view = Balanced.ObjectCreatorModalBaseView.create({
 		model_class: Ember.Object.extend({
 			name: "Cool class"
 		})
@@ -31,7 +27,7 @@ test("#submit", function(assert) {
 		save: saveStub
 	});
 
-	var view = createSubject({
+	var view = Balanced.ObjectCreatorModalBaseView.create({
 		model: model
 	});
 	view.send("submit");
