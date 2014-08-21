@@ -52,22 +52,16 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		var status = this.get('status');
-		var completed = ['won', 'lost'];
-
-		if (this.get('hasExpired')) {
+		if (this.get('hasExpired') || this.get('status') !== 'pending') {
 			return false;
 		}
 
-		if (_.contains(completed, status)) {
-			return false;
-		}
-
-		if (this.get('documents.isLoaded') && this.get('documents.length') > 0) {
-			return false;
-		} else {
+		// no document
+		if (!this.get('documents.isLoaded') && this.get('documents.isError')) {
 			return true;
 		}
+
+		return !(this.get('documents.isLoaded') && this.get('documents.length') > 0);
 
 	}.property('status', 'documents.isLoaded', 'hasExpired', 'documents.length')
 });

@@ -8,21 +8,25 @@
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
+		{{#if canUploadDocuments}}
+			<div class="dispute-alert">
+				<div class="row-fluid notification-center warning">
+					<div class="notification-center-message">
+						<span class="message">
+							Provide documentation by <span class="sl-sb">{{humanReadableDateLong respond_by}}</span> to avoid a loss.
+						</span>
+						<div class="pull-right">
+							<a class="btn" {{action "openModal" Balanced.EvidencePortalModalView model}}>Attach docs</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{{/if}}
+
 		<h3>Associated transactions</h3>
 		<div class="results">
 			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader hasNoFilter=true}}
 		</div>
-
-		{{#if canUploadDocuments}}
-			<div class="dispute-alert">
-				{{#view Balanced.NotificationMessageView}}
-					Provide documentation by <span class="sl-sb">{{humanReadableDateLong respond_by}}</span> to avoid a loss.
-					<div class="pull-right">
-						<a class="btn" {{action "openModal" Balanced.EvidencePortalModalView model}}>Attach docs</a>
-					</div>
-				{{/view}}
-			</div>
-		{{/if}}
 
 		<h3>Documents</h3>
 		<div class="results documents">
