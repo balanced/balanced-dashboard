@@ -80,12 +80,14 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 			marketplace: marketplace.get("uri"),
 			bankAccountHref: bankAccountHref
 		});
+		this.globalAlertError("Your bank account was created but there was an error linking it to your marketplace. Please contact support@balancedpayments.com");
 	},
 	nextStepSuccess: function(marketplace, bankAccountHref) {
 		this.trackEvent("Bank account linked", {
 			marketplace: marketplace.get("uri"),
 			bankAccountHref: bankAccountHref
 		});
+		this.globalAlertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
 	},
 
 	linkAndVerify: function(marketplace, bankAccountHref) {
@@ -105,10 +107,6 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 	},
 
 	actions: {
-		openNext: function() {
-			this.close();
-			this.alertSuccess("Bank account linked. Remember to verify your bank account once you receive your micro-deposits in 1–2 business days.");
-		},
 		save: function() {
 			var self = this;
 			var marketplace = this.get("marketplace");
@@ -124,7 +122,7 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 				.then(function(bankAccountHref) {
 					self.trackEvent("User created bank account", {
 						formFields: model.getPropertiesDump(),
-						isInitialDepositCreate: this.get("isInitialDepositCreate"),
+						isInitialDepositCreate: self.get("isInitialDepositCreate"),
 						bankAccountHref: bankAccountHref
 					});
 					return self.linkAndVerify(marketplace, bankAccountHref);
