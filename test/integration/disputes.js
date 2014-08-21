@@ -38,3 +38,47 @@ test('can visit page', function(assert) {
 			'table.disputes tbody tr:eq(0) td.amount': '$12.00',
 		}, assert);
 });
+
+test('can upload a dispute document', function(assert) {
+	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
+	var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
+	var disputePage = {
+		'#content .page-type': 'Dispute',
+		'#content .dispute-alert a': 1
+	};
+
+	visit(DISPUTE_ROUTE)
+		.then(function() {
+			var disputeController = Balanced.__container__.lookup("controller:dispute");
+			Ember.run(function() {
+				disputeController.get('model').set('canUploadDocuments', true);
+			});
+		})
+		.checkElements(disputePage, assert)
+		.click('#content .dispute-alert a')
+		.then(function() {
+			assert.equal($('#evidence-portal .modal-header h2').text(), 'Attach docs');
+			assert.equal($('#evidence-portal .fileinput-button').length, 1);
+			// check that the upload prompt shows up
+		})
+		.then(function() {
+			var disputeController = Balanced.__container__.lookup("controller:dispute");
+			Ember.run(function() {
+				disputeController.get('model').set('documents', [Balanced.DisputeDocument.create({
+					"created_at": "2014-06-26T00:27:30.544797+00:00",
+					"file_name": "test.jpg",
+					"file_url": "http://www.balancedpayments.com",
+					"guid": "DO9dJjGmyqbzDK5kXdp3fniy",
+					"mime_type": "image/jpeg",
+					"size": 129386,
+					"updated_at": "2014-06-26T00:27:30.544821+00:00"
+				})]);
+
+				disputeController.get('model').set('canUploadDocuments', false);
+			});
+		})
+		.then(function() {
+			assert.equal($('#content div.documents table tbody tr').length, 1, 'attached doc is displayed');
+			assert.equal($('#content .dispute-alert a').length, 0, 'cannot attach docs after docs are uploaded');
+		});
+});
