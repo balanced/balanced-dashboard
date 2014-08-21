@@ -43,7 +43,7 @@ test("#apply fails person KYC", function(assert) {
 					name: "Jimmy Business",
 					phone_number: "200-200-2000",
 					postal_code: "99900",
-					production: false,
+					production: true,
 					ssn_last_4: "1111",
 					type: "person"
 				}
@@ -92,7 +92,7 @@ test("#apply success", function(assert) {
 					name: "Jimmy Business",
 					phone_number: "200-200-2000",
 					postal_code: "99900",
-					production: false,
+					production: true,
 					ssn_last_4: "1111",
 					type: "person"
 				}

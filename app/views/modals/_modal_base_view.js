@@ -13,7 +13,7 @@ Balanced.ModalBaseView = Ember.View.extend({
 	open: function(container) {
 		var options = {
 			show: true
-		}
+		};
 
 		if (this.get('staticBackdrop')) {
 			_.extend(options, {
