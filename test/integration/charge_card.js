@@ -97,8 +97,6 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID
 			})), "Called with right arguments");
-			tokenizingStub.restore();
-			spy.restore();
 		});
 });
 
@@ -108,7 +106,7 @@ test('when charge a card triggers an error, the error is displayed to the user',
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry'
 		}, {
-			click: '.modal-footer button:eq(1)'
+			click: '.modal-footer button:contains(Debit)'
 		})
 		.then(function() {
 			assert.equal($('.alert-error').is(':visible'), true);

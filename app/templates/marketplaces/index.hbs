@@ -1,5 +1,3 @@
-{{partial "alert"}}
-
 <h1>Add/Remove Marketplaces</h1>
 <div class="marketplace-list production">
 	<div class="label7a">Production marketplace</div>
@@ -48,11 +46,9 @@
 				<i class="icon icon-docs"></i>
 			</div>
 			<div class="info">
-				{{#link-to 'marketplaces.apply' classNames="btn"}}Register{{/link-to}}
+				<a class="btn" {{action "register" target="controllers.application"}}>Register</a>
 				<span class="name">Not transacting yet? Register for production access.</span>
 			</div>
 		</li>
 	</ul>
 </div>
-
-{{view Balanced.DeleteMarketplaceModalView user=user}}

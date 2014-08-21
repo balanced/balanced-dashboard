@@ -6,16 +6,19 @@ Balanced.Modals.TransactionEditModalView = Balanced.ModalBaseView.extend(Wide, S
 	templateName: 'modals/transaction_edit_modal',
 	title: "Edit info",
 
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification_center");
+	},
+
 	actions: {
 		save: function() {
-			var controller = this.get("controller");
+			var controller = this.getNotificationController();
 			this.save(this.get("model"))
 				.then(function(model) {
+					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
-					controller.alert({
-						reset: 5000,
-						type: 'success',
-						message: 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase())
+					controller.alertSuccess(message, {
+						expire: true
 					});
 				});
 		}

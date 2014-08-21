@@ -1,5 +1,5 @@
 Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Evented, {
-	needs: ['marketplaces', 'marketplace', 'application'],
+	needs: ['marketplaces', 'marketplace', 'application', "notification_center"],
 
 	content: null,
 	auth_code_confirm: null,
@@ -97,11 +97,8 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 					self.set('status', 'disabled');
 					$('#qrcode').html('');
 
-					self.get('application').alert({
-						message: 'Two-factor authentication is now disabled.',
-						type: 'error',
-						persists: true
-					});
+					self.get('controllers.notification_center')
+						.alertSuccess('Two-factor authentication is now disabled.', 3000);
 
 					self.send('goBack');
 				});
@@ -113,11 +110,8 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 				self.set('status', 'enabled');
 				$('#qrcode').html('');
 
-				self.get('application').alert({
-					message: 'Two-factor authentication is now enabled.',
-					type: 'success',
-					persists: true
-				});
+				self.get('controllers.notification_center')
+					.alertSuccess('Two-factor authentication is now enabled.');
 
 				self.send('goBack');
 			}, function() {

@@ -2,6 +2,8 @@ module('Payments', {
 	setup: function() {
 		Testing.setupMarketplace();
 		Testing.createDebits();
+		this.ADD_FUNDS_SELECTOR = ".nav-item .add-funds-btn";
+		this.WITHDRAW_FUNDS_SELECTOR = ".nav-item .withdraw-funds-btn";
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -11,9 +13,6 @@ module('Payments', {
 });
 
 (function() {
-	var ADD_FUNDS_SELECTOR = ".nav-item .add-funds-btn";
-	var WITHDRAW_FUNDS_SELECTOR = ".nav-item .withdraw-funds-btn";
-
 	var setupMarketplaceController = function(bankAccounts) {
 		Ember.run(function() {
 			var model = Balanced.__container__.lookup('controller:marketplace').get('model');
@@ -61,7 +60,7 @@ module('Payments', {
 			.then(function() {
 				setupMarketplaceController(bankAccounts);
 			})
-			.click(ADD_FUNDS_SELECTOR)
+			.click(this.ADD_FUNDS_SELECTOR)
 			.checkElements({
 				"#add-funds:visible": 1,
 				'#add-funds select option': 1,
@@ -95,7 +94,7 @@ module('Payments', {
 			.then(function() {
 				setupMarketplaceController(bankAccounts);
 			})
-			.click(ADD_FUNDS_SELECTOR)
+			.click(this.ADD_FUNDS_SELECTOR)
 			.fillForm("#add-funds", {
 				dollar_amount: "55.55",
 				appears_on_statement_as: "BALANCED TEST",
@@ -115,7 +114,7 @@ module('Payments', {
 			.then(function() {
 				setupMarketplaceController(bankAccounts);
 			})
-			.click(WITHDRAW_FUNDS_SELECTOR)
+			.click(this.WITHDRAW_FUNDS_SELECTOR)
 			.then(function() {
 				assert.equal(
 					$('input[name=appears_on_statement_as]:visible').attr('maxlength'),
@@ -154,7 +153,7 @@ module('Payments', {
 			.then(function() {
 				setupMarketplaceController(bankAccounts);
 			})
-			.click(WITHDRAW_FUNDS_SELECTOR)
+			.click(this.WITHDRAW_FUNDS_SELECTOR)
 			.fillForm('#withdraw-funds', {
 				dollar_amount: "55.55",
 				appears_on_statement_as: "Cool test"
@@ -166,40 +165,32 @@ module('Payments', {
 	});
 
 	test('download activity', function(assert) {
-		assert.equal($(".alert span").length, 0);
-		var stub = sinon.stub(Balanced.Adapter, "create");
-		stub.withArgs(Balanced.Download).callsArgWith(3, {
-			download: {}
-		});
+		var stub;
 
 		visit(Testing.ACTIVITY_ROUTE)
 			.then(function() {
 				var controller = Balanced.__container__.lookup("controller:marketplace_transactions");
+				var loader = controller.get("resultsLoader");
 				Ember.run(function() {
-					controller.get("resultsLoader").setProperties({
+					loader.setProperties({
 						startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
 						endTime: moment('2013-08-01T00:00:00.000Z').toDate()
 					});
 				});
+				stub = sinon.stub(loader, "postCsvExport");
+				stub.returns(Ember.RSVP.resolve());
 			})
 			.click(".results-actions-bar a:contains(Export)")
 			.fillForm("#download-csv form", {
 				emailAddress: "test@example.com"
 			})
-			.click('#download-csv button[name=modal-submit]')
+			.click("#download-csv [name=modal-submit]")
 			.then(function() {
 				assert.ok(stub.calledOnce);
-				assert.equal(stub.firstCall.args[0], Balanced.Download);
-				assert.equal(stub.firstCall.args[1], "/downloads");
-				assert.deepEqual(stub.firstCall.args[2], {
-					beginning: "2013-08-01T00:00:00.000Z",
-					email_address: "test@example.com",
-					ending: "2013-08-01T00:00:00.000Z",
-					type: "transactions"
-				});
+				assert.equal(stub.firstCall.args[0], "test@example.com");
 			})
 			.checkElements({
-				".alert span": "We're processing your request. We will email you once the exported data is ready to view."
+				"#header .notification-center-message:last": "We're processing your request. We will email you once the exported data is ready to view."
 			}, assert);
 	});
 
@@ -216,6 +207,30 @@ module('Payments', {
 			.click(objectPath)
 			.then(function() {
 				assert.ok($(objectPath).is(".ascending"), "Search is set to ascending");
+			});
+	});
+
+	test('Filter Activity transactions table by type & status', function(assert) {
+		visit(Testing.ACTIVITY_ROUTE)
+			.click('#content .results table.transactions th.type .type-filter li a:contains(Holds)')
+			.then(function() {
+				var resultsUri = getResultsUri();
+				assert.deepEqual(resultsUri.split("?")[0], '/transactions', 'Activity Transactions URI is correct');
+				assertQueryString(resultsUri, {
+					type: "hold",
+					'status[in]': 'failed,succeeded,pending',
+					limit: "50",
+					sort: "created_at,desc"
+				}, assert);
+			})
+			.click('#content table.transactions th.type a:contains(All)')
+			.click("#content table.transactions th.status a:contains(Succeeded)")
+			.then(function() {
+				assertQueryString(getResultsUri(), {
+					status: "succeeded",
+					limit: "50",
+					sort: "created_at,desc"
+				}, assert);
 			});
 	});
 })();

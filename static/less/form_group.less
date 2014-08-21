@@ -1,0 +1,118 @@
+// Form groups
+//
+// Designed to help with the organization and spacing of vertical forms. For
+// horizontal forms, use the predefined grid classes.
+@padding-base-vertical: 10px;
+
+.form-errors {
+  background-color: @white;
+  border: 1px solid @imperialRed100;
+  color: @imperialRed100;
+}
+
+.form-group {
+  width: 340px;
+  margin-bottom: 24px;
+
+  label {
+    margin-bottom: 4px;
+
+    a {
+      font-size: 12px;
+    }
+  }
+
+  label:after {
+    content: "";
+  }
+
+  p {
+    .sl-sm;
+  }
+
+  .alert {
+    background-color: transparent;
+    border-style: none;
+    margin: 0;
+    padding: 0;
+    text-shadow: none;
+
+    &.alert-error {
+      display: none;
+      background-color: @white;
+      border: 1px solid @imperialRed100;
+      color: @imperialRed100;
+      padding: 8px 10px;
+      position: absolute;
+      margin-top: -36px;
+      margin-left: -238px;
+      width: 210px;
+      .border-radius(0);
+
+      p {
+        color: @imperialRed100;
+
+        &:last-of-type {
+          margin-bottom: 0px;
+        }
+      }
+
+      ul {
+        padding-left: 15px;
+
+        li {
+          list-style: disc;
+        }
+      }
+
+      // right arrow
+      &:before, &:after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent;
+        border-right: 0;
+      }
+
+      &:before {
+        top: 10px;
+        right: -8px;
+        border-left-color: @imperialRed100;
+        border-width: 8px;
+      }
+
+      &:after {
+        top: 11px;
+        right: -7px;
+        border-left-color: @white;
+        border-width: 7px;
+      }
+    }
+  }
+
+  .alert-info {
+    .sl-note;
+    margin: 5px 0;
+  }
+}
+
+.form-group.has-error {
+  label {
+    color: @imperialRed100;
+  }
+  input, select, textarea {
+    border-color: @imperialRed100;
+    background-color: @imperialRed10;
+    color: @imperialRed100;
+  }
+}
+
+.form-horizontal {
+  .control-label {
+    text-align: right;
+    margin-bottom: 0;
+    padding-top: (@padding-base-vertical + 1); // Default padding plus a border
+  }
+}

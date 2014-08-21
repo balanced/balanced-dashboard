@@ -1,0 +1,12 @@
+<label class="control-label">
+	{{input type="checkbox" checked=view.value name=view.inputName}}
+	{{view.labelText}}
+</label>
+
+{{#each message in view.errorMessages}}
+	<div class="alert alert-error">{{message}}</div>
+{{/each}}
+
+{{#if view.explanationText}}
+	<div class="alert alert-info">{{view.explanationText}}</div>
+{{/if}}

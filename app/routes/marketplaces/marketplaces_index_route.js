@@ -1,9 +1,10 @@
-Balanced.MarketplacesIndexRoute = Balanced.AuthRoute.extend({
+Balanced.MarketplacesIndexRoute = Balanced.Route.extend({
 	pageTitle: 'Marketplaces',
 
-	redirect: function() {
-		if (this.get('auth.isGuest') && Balanced.currentMarketplace) {
-			this.transitionTo('marketplace', Balanced.currentMarketplace);
+	beforeModel: function() {
+		var sessionsController = this.controllerFor("sessions");
+		if (!sessionsController.get("isUserRegistered")) {
+			this.transitionTo("setup_guest_user");
 		}
 	},
 

@@ -1,0 +1,26 @@
+{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Marketplace information"}}
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Name"
+		field="name"
+	}}
+
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Domain url"
+		field="domain_url"
+		explanationText="http://www.example.com"
+	}}
+
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Support email address"
+		field="support_email_address"
+	}}
+
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		labelText="Support phone number"
+		field="support_phone_number"
+	}}
+{{/view}}
+
+{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Terms & Conditions / Privacy policy"}}
+	{{view Balanced.TocCheckboxFormFieldView model=view.model}}
+{{/view}}

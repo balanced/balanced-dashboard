@@ -1,4 +1,5 @@
 Balanced.LoginController = Balanced.ObjectController.extend({
+	needs: ["sessions"],
 	email: null,
 	password: null,
 	loginError: false,
@@ -54,8 +55,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				isSubmitting: false
 			});
 		});
-
-		this.transitionToRoute('marketplaces.index');
+		this.get("controllers.sessions").send("afterLoginTransition");
 	},
 
 	getEmail: function() {
@@ -96,16 +96,26 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			this.resetError();
 		},
 
+		signUp: function() {
+			Balanced.Analytics.trackEvent("SignUp: Opened 'Create an account'", {
+				path: "login"
+			});
+			this.transitionToRoute('setup_guest_user');
+		},
+
 		signIn: function() {
 			var self = this;
-			var auth = this.get('auth');
+			var sessionsController = this.get("controllers.sessions");
 
 			this.resetError();
 			this.set('isSubmitting', true);
 
-			auth.forgetLogin();
-			auth
-				.signIn(this.getEmail(), this.getPassword())
+			sessionsController.nuke();
+			sessionsController
+				.login({
+					email_address: this.getEmail(),
+					password: this.getPassword()
+				})
 				.then(function() {
 					// When we add the MFA modal to ask users to login
 					// self.send('openMFAInformationModal');
@@ -168,10 +178,9 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						});
 					}
 				})
-				.
-			finally(function() {
-				self.set('isSubmitting', false);
-			});
+				.finally(function() {
+					self.set('isSubmitting', false);
+				});
 		}
 	}
 });

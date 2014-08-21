@@ -26,11 +26,8 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 	},
 
 	confirmDownload: function() {
-		this.get('controller').send('alert', {
-			message: "We're processing your request. We will email you once the exported data is ready to view.",
-			persists: false,
-			type: 'success'
-		});
+		var message = "We're processing your request. We will email you once the exported data is ready to view.";
+		this.get('controller.controllers.notification_center').alertSuccess(message);
 	},
 
 	actions: {

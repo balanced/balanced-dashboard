@@ -5,7 +5,19 @@ Balanced.Connections.BaseConnection = Ember.Object.extend({
 		return settings;
 	},
 
+	post: function(url, data) {
+		var self = this;
+		return new Ember.RSVP.Promise(function(resolve, reject) {
+			return self.ajax({
+				url: url,
+				data: data,
+				type: "POST"
+			}).then(resolve, reject);
+		});
+	},
+
 	ajax: function(settings) {
-		return $.ajax(this.settings(settings));
+		settings = this.settings(settings);
+		return Balanced.Adapter.load(settings);
 	},
 });

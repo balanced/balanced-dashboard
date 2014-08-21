@@ -1,19 +1,19 @@
 module('Holds', {
 	setup: function() {
 		Testing.setupMarketplace();
-		Ember.run(function() {
-			Testing._createCard().then(function(card) {
+		Testing._createCard()
+			.then(function(card) {
 				return Balanced.Hold.create({
 					uri: card.get('card_holds_uri'),
 					appears_on_statement_as: 'Pixie Dust',
 					amount: 10000,
 					description: 'Cocaine'
 				}).save();
-			}).then(function(hold) {
+			})
+			.then(function(hold) {
 				Testing.HOLD_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/holds/' + hold.get('id');
 				Testing.HOLD_URI = hold.get("uri");
 			});
-		});
 	},
 	teardown: function() {
 		Testing.restoreMethods(
