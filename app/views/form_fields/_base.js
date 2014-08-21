@@ -36,9 +36,9 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 		return this.getFullErrorMessagesFor(this.get("field"));
 	}.property("model.validationErrors.allMessages.length"),
 
-	isError: function() {
-		return this.get("errorMessages.length") > 0;
-	}.property("errorMessages.length"),
+	isOneError: Ember.computed.equal("errorMessages.length", 1),
+
+	isError: Ember.computed.gt("errorMessages.length", 0),
 
 	didInsertElement: function() {
 		$('.form-group').hover(function(event) {

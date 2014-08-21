@@ -75,10 +75,6 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 Balanced.MarketplaceCreateModalView.reopenClass({
 	open: function(apiKeySecret) {
 		var model = Balanced.MarketplaceFactory.create({
-			name: "startupl.io",
-			domain_url: "startupl.io",
-			support_email_address: "carlosrr@gmail.com",
-			support_phone_number: "1112222",
 			apiKeySecret: apiKeySecret
 		});
 		return this.create({

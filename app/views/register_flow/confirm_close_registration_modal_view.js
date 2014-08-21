@@ -3,6 +3,7 @@ var OpenNext = Balanced.Modals.OpenNextModalMixin;
 
 Balanced.ConfirmCloseRegistrationModalView = Balanced.ModalBaseView.extend(Full, OpenNext, {
 	templateName: "register_flow/confirm_close_registration_modal",
+	staticBackdrop: true,
 	title: "Cancel registration?",
 	submitButtonText: "Cancel registration",
 	cancelButtonText: "Resume",

@@ -1,5 +1,6 @@
 Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 	setValidationErrorsFromServer: function(response) {
+		var self = this;
 		var errorsList = response.errors || [];
 		var validationErrors = this.get("validationErrors");
 		validationErrors.clear();
@@ -7,6 +8,7 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 		_.each(errorsList, function(error) {
 			if (error.extras) {
 				_.each(error.extras, function(message, key) {
+					key = self.getServerExtraKeyMapping(key);
 					validationErrors.add(key, "serverError", null, message);
 				});
 			} else if (error.description) {
@@ -22,6 +24,10 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 				validationErrors.add("", "serverError", null, error[0]);
 			}
 		});
+	},
+
+	getServerExtraKeyMapping: function(extraKey) {
+		return extraKey;
 	},
 
 	getConnection: function() {
