@@ -34,9 +34,13 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 		return Balanced.Utils.formatCurrency(escrow);
 	}.property('in_escrow'),
 
+	getNotificationController: function() {
+		return this.get("controllers.notification_center");
+	},
+
 	updateGuestNotification: function() {
 		var name = "GuestNotification";
-		var controller = this.get("controllers.notification_center");
+		var controller = this.getNotificationController();
 		var message = "You're logged in as a guest user. Create an account to claim your test marketplace.";
 
 		controller.clearNamedAlert(name);
@@ -48,10 +52,18 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 		}
 	}.observes("auth.isGuest"),
 
+	updateProductionMarketplaceNotification: function() {
+		if (!this.get("auth.isGuest") && !this.get("user.hasProductionMarketplace")) {
+			var controller = this.getNotificationController();
+			var message = "Sign up for a production marketplace to transact live.";
+			controller.alertInfo(message);
+		}
+	}.observes("auth.isGuest", "user.hasProductionMarketplace"),
+
 	updateBankAccountNotifications: function() {
 		var name = "BankAccountVerification";
 		var mp = this.get("marketplace");
-		var controller = this.get("controllers.notification_center");
+		var controller = this.getNotificationController();
 
 		if (mp && mp.get("isLoaded")) {
 			Balanced.BankAccountVerificationMessage

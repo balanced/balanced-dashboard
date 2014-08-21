@@ -13,6 +13,7 @@ Balanced.MarketplaceRoute = Balanced.AuthRoute.extend({
 
 		Balanced.Utils.setCurrentMarketplace(model);
 		controller.updateGuestNotification();
+		controller.updateProductionMarketplaceNotification();
 		controller.updateBankAccountNotifications();
 	},
 
