@@ -1,3 +1,17 @@
+var ERROR_MESSAGES = {
+	"person-kyc": "We could not verify your identity. Please check your information again and resubmit.",
+	"business-principal-kyc": "We could not verify your identity. Please check your information again and resubmit.",
+	"business-kyc": "We could not verify your business. Please check your information again and resubmit.",
+	"marketplace-already-created": "A marketplace has already been created with this information. If you cannot access it please contact support at support@balancedpayments.com"
+};
+
+var getApiErrorFor10 = function(response) {
+	return ERROR_MESSAGES[response.category_code] || response.description;
+};
+var isApiErrorFor10 = function(response) {
+	return !Ember.isBlank(response.category_code);
+};
+
 Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/api_key_create_modal",
 	title: "Register for a production marketplace",
@@ -11,7 +25,7 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		label: "Individual"
 	}, {
 		value: "business",
-		label: "Business: Corporation"
+		label: "Business"
 	}],
 
 	businessTypes: Balanced.Marketplace.COMPANY_TYPES,
@@ -44,6 +58,20 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		});
 		this.openNext(Balanced.MarketplaceCreateModalView, apiKeySecret);
 		this.alertSuccess("Business information confirmed");
+	},
+
+	alertServerError: function(response) {
+		if (!this.get("model.isValid")) {
+			return;
+		}
+
+		var message = "There was an unknown error creating your marketplace. Please contact support at support@balancedpayments.com";
+
+		if (isApiErrorFor10(response)) {
+			message = getApiErrorFor10(response);
+		}
+
+		this.alertError(message);
 	},
 
 	actions: {

@@ -97,6 +97,17 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 		}
 	},
 
+	getServerExtraKeyMapping: function(key) {
+		if (key === "incorporation_date") {
+			key = "business.incorporation_date";
+		} else if (key === "tax_id") {
+			key = "business.tax_id";
+		} else if (key === "dob") {
+			key = "person.dob";
+		}
+		return key;
+	},
+
 	isBusiness: Ember.computed.equal("merchant.type", "business"),
 
 	_save: function() {
@@ -138,7 +149,7 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 			return _.extend({
 				production: IS_PRODUCTION
 			}, merchantAttributes, businessAttributes, {
-				person: personAttributes,
+				person: _.extend({}, personAttributes),
 			});
 
 		} else {
