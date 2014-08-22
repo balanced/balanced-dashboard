@@ -1,4 +1,5 @@
 Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
+	needs: ["marketplace"],
 	find: function(bankAccountHref) {
 		return Balanced.BankAccount.find(bankAccountHref);
 	},
@@ -26,6 +27,10 @@ Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
 			})
 			.then(function(bankAccount) {
 				return self.verify(bankAccount);
+			})
+			.then(function(a) {
+				self.get("controllers.marketplace").updateBankAccountNotifications();
+				return a;
 			});
 	},
 });

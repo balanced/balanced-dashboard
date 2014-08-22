@@ -18,6 +18,7 @@ Balanced.Modals.VerifyBankAccountModalView = Balanced.ModalBaseView.extend({
 				.then(function() {
 					self.set("isSaving", false);
 					self.get("bankAccount").reload();
+					self.get("container").lookup("controller:marketplace").updateBankAccountNotifications();
 					self.close();
 				}, function() {
 					self.set("isSaving", false);

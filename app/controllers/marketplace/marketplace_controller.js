@@ -10,7 +10,7 @@ var Computed = {
 
 Balanced.MarketplaceController = Balanced.ObjectController.extend({
 
-	needs: ['application', 'notification_center'],
+	needs: ['application', 'notification_center', 'sessions'],
 
 	transactionSelected: Computed.isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
 	orderSelected: Computed.isSelected('marketplace.orders', 'orders'),
@@ -45,12 +45,12 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 
 		controller.clearNamedAlert(name);
 
-		if (this.get('auth.isGuest')) {
+		if (!this.get('controllers.sessions.isUserRegistered')) {
 			controller.alertInfo(message, {
 				name: name
 			});
 		}
-	}.observes("auth.isGuest"),
+	}.observes("controllers.sessions.isUserRegistered"),
 
 	updateProductionMarketplaceNotification: function() {
 		if (!this.get("auth.isGuest") && !this.get("user.hasProductionMarketplace")) {
