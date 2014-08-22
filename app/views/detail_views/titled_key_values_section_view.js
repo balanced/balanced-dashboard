@@ -33,6 +33,10 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 		var value = this.getFieldValue(fieldName);
 		var link = Ember.get(this.get("model"), hrefFieldName);
 
+		if (link && link.indexOf('@') > 0) {
+			link = "mailto:" + link;
+		}
+
 		return Balanced.LinkedKeyValueView.create({
 			key: label,
 			value: value,
@@ -207,8 +211,8 @@ Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValue
 		.add("Created at", "created_at")
 		.add("Marketplace ID", "id")
 		.add("Name", "name")
-		.add("Support email", "support_email_address")
-		.add("Domain URL", "domain_url")
+		.add("Support email", "support_email_address", "support_email_address")
+		.add("Domain URL", "domain_url", "domain_url")
 		.add("Support phone number", "support_phone_number")
 		.toProperty()
 });
