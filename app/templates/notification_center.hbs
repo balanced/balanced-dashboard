@@ -3,6 +3,9 @@
 		<div {{bind-attr class=":row-fluid :notification-center alert.type"}}>
 			<div class="notification-center-message">
 				<span class="message">{{alert.message}}</span>
+				{{#if alert.linkText}}
+					{{#link-to alert.linkTo alert.item}}{{alert.linkText}}{{/link-to}}
+				{{/if}}
 			</div>
 		</div>
 	</div>
