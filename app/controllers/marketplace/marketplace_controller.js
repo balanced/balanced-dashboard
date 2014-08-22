@@ -41,22 +41,30 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 	updateGuestNotification: function() {
 		var name = "GuestNotification";
 		var controller = this.getNotificationController();
-		var message = "You're logged in as a guest user. Create an account to claim your test marketplace.";
+		var message = "You're logged in as a guest user. Create an account to save your data.";
 
 		controller.clearNamedAlert(name);
 
 		if (!this.get('controllers.sessions.isUserRegistered')) {
 			controller.alertInfo(message, {
-				name: name
+				name: name,
+				linkTo: 'setup_guest_user',
+				linkText: 'Create account'
 			});
 		}
 	}.observes("controllers.sessions.isUserRegistered"),
 
 	updateProductionMarketplaceNotification: function() {
 		if (!this.get("auth.isGuest") && !this.get("user.hasProductionMarketplace")) {
+			var name = "SignUp";
 			var controller = this.getNotificationController();
 			var message = "Sign up for a production marketplace to transact live.";
-			controller.alertInfo(message);
+			controller.clearNamedAlert(name);
+			controller.alertInfo(message, {
+				name: name,
+				linkTo: 'marketplaces.apply',
+				linkText: 'Register'
+			});
 		}
 	}.observes("auth.isGuest", "user.hasProductionMarketplace"),
 
@@ -68,11 +76,13 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 		if (mp && mp.get("isLoaded")) {
 			Balanced.BankAccountVerificationMessage
 				.forMarketplace(mp)
-				.then(function(message) {
+				.then(function(alert) {
 					controller.clearNamedAlert(name);
-					if (message) {
-						controller.alertError(message, {
-							name: name
+					if (alert) {
+						controller.alertError(alert.message, {
+							name: name,
+							linkTo: alert.linkTo,
+							linkText: alert.linkText
 						});
 					}
 				});
