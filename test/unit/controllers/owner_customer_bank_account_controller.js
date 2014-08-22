@@ -1,6 +1,6 @@
 module("Balanced.OwnerCustomerBankAccountController", {
 	setup: function() {
-		var container = new Ember.Container();
+		var container = Balanced.__container__;
 		this.controller = Balanced.OwnerCustomerBankAccountController.create({
 			container: container
 		});
