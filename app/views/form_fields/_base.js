@@ -11,13 +11,13 @@ Balanced.BaseFormFieldView = Balanced.View.extend({
 	setModelValue: function(value) {
 		var model = this.get("model");
 		var field = this.get("field");
-		return model.set(field, value);
+		return (model) ? model.set(field, value) : null;
 	},
 
 	getModelValue: function() {
 		var model = this.get("model");
 		var field = this.get("field");
-		return model.get(field);
+		return (model) ? model.get(field) : null;
 	},
 
 	value: function(a, value) {

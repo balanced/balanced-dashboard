@@ -1,0 +1,28 @@
+<form id="auth-form" method="POST" {{bind-attr class="loginError:error otpRequired:hidden"}} {{action "signIn" view.model on="submit"}}>
+	{{view Balanced.BaseFormFieldView model=view.model inputType="email" inputClassNames="full" labelText="Email address" field="email_address"}}
+
+	{{view Balanced.BaseFormFieldView model=view.model inputType="password" inputClassNames="full" labelText="Password" field="password"}}
+
+	{{#link-to "forgotPassword" class="sm forgot-password"}}Forgot?{{/link-to}}
+
+	<div class="pull-right">
+		{{#if isSubmitting}}
+			<span class="btn btn-loader">
+				<span class="loader loading"></span>
+			</span>
+		{{/if}}
+		<button {{bind-attr class=":btn isSubmitting:btn-disabled"}} type="submit" {{bind-attr disabled="isSubmitting"}}>Sign in</button>
+	</div>
+</form>
+
+<form id="forgot-form" {{bind-attr class=":otp-form otpRequired::hidden"}} {{action "otpSubmit" on="submit"}}>
+	{{view Ember.TextField name="otp_secret" valueBinding="otpCode" placeholder="Authentication Code" autocomplete="off"}}
+	<button type="submit" {{bind-attr disabled="isSubmitting"}}>
+		{{#if isSubmitting}}
+			<div class="loader-container"><span class="loader loading"></span>Authenticating...</div>
+		{{else}}
+			Authenticate
+		{{/if}}
+	</button>
+</form>
+

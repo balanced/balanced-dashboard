@@ -1,5 +1,7 @@
 require('app/views/login');
 
 Balanced.ResetPasswordView = Balanced.LoginView.extend({
-	templateName: 'resetPassword'
+	templateName: 'login_flow/reset_password',
+	pageTitle: 'Reset password',
+	afterFormLink: null,
 });

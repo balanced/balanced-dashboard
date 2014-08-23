@@ -7,6 +7,7 @@ Balanced.LogoutRoute = Balanced.Route.extend({
 		var self = this;
 		this.get('auth').signOut().then(function() {
 			self.transitionTo('login');
+			self.controllerFor("notification_center").clearAlerts();
 		});
 	}
 });

@@ -1,8 +1,12 @@
 require('app/views/login');
 
 Balanced.ForgotPasswordView = Balanced.LoginView.extend({
-	templateName: 'forgotPassword',
-	didInsertElement: function() {
-		$('input[name="otp_secret"]').focus();
-	}
+	templateName: 'login_flow/forgot_password',
+	pageTitle: 'Reset password',
+	afterFormLink: function() {
+		return {
+			linkTo: 'login',
+			linkText: 'Back to sign in'
+		}
+	}.property(),
 });

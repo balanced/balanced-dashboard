@@ -1,21 +1,23 @@
 Balanced.LoginView = Balanced.View.extend({
-	templateName: 'login',
+	layoutName: 'page-form',
+	templateName: 'login_flow/login',
+	pageTitle: 'Sign in',
+	afterFormLink: function() {
+		return {
+			linkTo: 'setup_guest_user',
+			linkText: 'Create an account'
+		}
+	}.property(),
+
+	model: function() {
+		return Balanced.Login.create();
+	}.property(),
+
 	didInsertElement: function() {
-		$('input[name="email"]').focus();
-
-		$(document.body).addClass('light-bg');
-		$('footer').css('display', 'none');
-		$('#content').addClass('no-min-height');
-
+		$('input[name="email"]', 'input[name="otp_secret"]').focus();
 		this._super();
 	},
-	willDestroyElement: function() {
-		$(document.body).removeClass('light-bg');
-		$('footer').css('display', 'block');
-		$('#content').removeClass('no-min-height');
 
-		this._super();
-	},
 	keyDown: function(e) {
 		// Lets make sure we are in the login view
 		if (this.templateName !== 'login') {
