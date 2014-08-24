@@ -1,16 +1,21 @@
-Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
+Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 	needs: ["notification_center"],
 	content: null,
-	email_address: null,
-	submitted: false,
+	password: null,
+	password_confirm: null,
 	hasError: false,
 
 	actions: {
-		forgotPass: function() {
-			var model = this.get("model");
+		resetPassword: function() {
+			var model = this.get('model');
 			var self = this;
+			var baseUri = location.hash.indexOf('invite') > 0 ? '/invite/' : '/password/';
 
-			model.set('email_address', model.get('email_address'));
+			model.setProperties({
+				uri: baseUri + model.get('token'),
+				password: model.get('password'),
+				password_confirm: model.get('password_confirm')
+			});
 
 			if (model.validate()) {
 				self.set('hasError', false);
@@ -25,14 +30,15 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 
 				model.save().then(function() {
 					self.setProperties({
-						email_address: '',
-						submitted: true
+						password: null,
+						password_confirm: null,
 					});
 
 					self.transitionToRoute('login').then(function(loginRoute) {
 						var controller = self.get("controllers.notification_center");
 						controller.clearAlerts();
-						controller.alertSuccess("We've sent you an email with password reset instructions.");
+						controller.alertSuccess("Your password has been successfully updated.")
+
 					});
 				});
 			} else {

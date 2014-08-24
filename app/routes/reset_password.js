@@ -1,10 +1,6 @@
 Balanced.ResetPasswordRoute = Balanced.Route.extend({
 	setupController: function(controller, model) {
-		controller.setProperties({
-			submitted: false,
-			hasError: false
-		});
-
+		controller.set("hasError", false);
 		this._super(controller, model.rp);
 	},
 

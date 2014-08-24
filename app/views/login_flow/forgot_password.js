@@ -1,4 +1,4 @@
-require('app/views/login');
+require('app/views/login_flow/login');
 
 Balanced.ForgotPasswordView = Balanced.LoginView.extend({
 	templateName: 'login_flow/forgot_password',

@@ -3,8 +3,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	email_address: null,
 	password: null,
 	loginError: false,
-	otpRequired: false,
-	otpCode: null,
 	isSubmitting: false,
 
 	init: function() {
@@ -18,8 +16,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			email_address: null,
 			password: null,
 			loginError: false,
-			otpRequired: false,
-			otpCode: null,
 			isSubmitting: false
 		});
 	},
@@ -53,64 +49,19 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	},
 
 	actions: {
-		otpSubmit: function() {
-			var self = this;
-			var auth = this.get('auth');
-
-			this.set('isSubmitting', true);
-
-			auth.confirmOTP(this.get('otpCode'))
-				.then(function() {
-					self.afterLogin();
-				}, function(error) {
-					auth.forgetLogin();
-					self.reset();
-					self.set("loginError", true);
-
-					var MESSAGES = {
-						"You need to pass in a confirm token to continue login": "Authentication code is blank.",
-						"Not found": "OTP verification has expired. Please enter your email address and password again.",
-						"Invalid OTP verification": "The authentication code you entered is invalid. Please log in again."
-					}
-					var message = "There was an unknown error submitting your OTP.";
-					var controller = self.getNotificationController();
-
-					if (error.responseJSON.detail) {
-						message = MESSAGES[error.responseJSON.detail];
-					}
-
-					controller.clearAlerts();
-					controller.alertError(message);
-
-					self.focus();
-				})
-				.
-			finally(function() {
-				self.set('isSubmitting', false);
-			});
-		},
-
-		reset: function() {
-			this.resetError();
-		},
-
-		signUp: function() {
-			Balanced.Analytics.trackEvent("SignUp: Opened 'Create an account'", {
-				path: "login"
-			});
-			this.transitionToRoute('setup_guest_user');
-		},
-
 		signIn: function(model) {
 			var self = this;
+			var auth = this.get('auth');
 			var sessionsController = this.get("controllers.sessions");
 
 			this.resetError();
 			this.set('isSubmitting', true);
+
 			sessionsController.nuke();
 			sessionsController
 				.login(model)
-				.then(function() {
+				.then(function(loginUri) {
+					auth.set('lastLoginUri', loginUri);
 					// When we add the MFA modal to ask users to login
 					// self.send('openMFAInformationModal');
 					// For now tho:
@@ -147,7 +98,8 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 						}
 
 						if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
-							self.set('otpRequired', true);
+							self.transitionToRoute('otp');
+
 						} else {
 							self.set('loginError', true);
 

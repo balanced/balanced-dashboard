@@ -1,7 +1,6 @@
-require('app/views/login');
+require('app/views/login_flow/login');
 
 Balanced.LogoutView = Balanced.LoginView.extend({
-	layoutName: 'page-form',
 	templateName: 'login_flow/logout',
 	pageTitle: 'Logout',
 	afterFormLink: function() {
