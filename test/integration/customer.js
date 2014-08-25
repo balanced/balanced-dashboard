@@ -254,19 +254,6 @@ test("debit customer triggers reload of transactions", function(assert) {
 		});
 });
 
-module('Customer Page: Credit', {
-	setup: function() {
-		Testing.setupMarketplace();
-		Testing.createCreditCard();
-		Testing.createDebitCard();
-	},
-	teardown: function() {
-		Testing.restoreMethods(
-			Balanced.Adapter.create
-		);
-	}
-});
-
 test('can credit to a debit card', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "create");
 	visit(Testing.CUSTOMER_ROUTE)
