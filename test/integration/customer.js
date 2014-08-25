@@ -330,21 +330,6 @@ test("can't credit customer multiple times using the same modal", function(asser
 		});
 });
 
-module('Customer Page: Add', {
-	setup: function() {
-		Testing.setupMarketplace();
-		Testing.createBankAccount();
-		Testing.createCard();
-	},
-	teardown: function() {
-		Testing.restoreMethods(
-			Balanced.Adapter.create,
-			balanced.bankAccount.create,
-			balanced.card.create
-		);
-	}
-});
-
 test('can add bank account', function(assert) {
 	var tokenizingSpy = sinon.stub(balanced.bankAccount, "create");
 
