@@ -86,16 +86,18 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 				.then(function(apiKeySecret) {
 					self.nextStepSuccess(apiKeySecret);
 				})
-				.catch(function(error) {
-					self.trackEvent("Error creating apiKey", {
-						error: error,
-						formFields: model.getPropertiesDump()
-					});
-					self.alertServerError(error);
-				})
-				.finally(function() {
-					self.unmakeSaving();
+				.
+			catch (function(error) {
+				self.trackEvent("Error creating apiKey", {
+					error: error,
+					formFields: model.getPropertiesDump()
 				});
+				self.alertServerError(error);
+			})
+				.
+			finally(function() {
+				self.unmakeSaving();
+			});
 		}
 	}
 });

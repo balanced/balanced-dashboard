@@ -59,15 +59,17 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 
 					return self.linkMarketplace(user, apiKeySecret, href);
 				})
-				.catch(function(error) {
-					self.trackEvent("Error creating marketplace", {
-						error: error,
-						formFields: model.getPropertiesDump()
-					});
-				})
-				.finally(function() {
-					self.unmakeSaving();
+				.
+			catch (function(error) {
+				self.trackEvent("Error creating marketplace", {
+					error: error,
+					formFields: model.getPropertiesDump()
 				});
+			})
+				.
+			finally(function() {
+				self.unmakeSaving();
+			});
 		}
 	}
 });
