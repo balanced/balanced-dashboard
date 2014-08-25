@@ -5,9 +5,9 @@ Balanced.Analytics = (function() {
 	var isMixpanelLoaded = !Ember.isBlank(ENV.BALANCED.MIXPANEL);
 	var isGoogleAnalyticsLoaded = !Ember.isBlank(ENV.BALANCED.GOOGLE_ANALYTICS);
 
-
 	if (isGoogleAnalyticsLoaded) {
-		// This page will almost always be over https, so can just load this directly.
+		// This page will almost always be over https, so can just load this
+		// directly.
 		$.getScript('https://ssl.google-analytics.com/ga.js', {
 			cache: true
 		});
@@ -65,17 +65,28 @@ Balanced.Analytics = (function() {
 
 			// HACK: can't find an good way to track all events in ember atm
 			// to track all click events
-			$(document).on('click', 'a,.btn,button', function() {
-				var e = $(this);
-				// trims text contained in element
-				var tt = e.text().replace(/^\s*([\S\s]*?)\s*$/, '$1');
-				var eventName = 'click ' + tt;
-
-				Balanced.Analytics.trackEvent(eventName, {});
-			});
+			$(document).on('click', 'a,.btn,button', Balanced.Analytics.trackClick);
 		},
-		trackPage: _.debounce(function(page) {
-			var currentLocation = page + location.hash;
+		trackClick: function() {
+			var e = $(this);
+			// trims text contained in element
+			var tt = e.text().replace(/^\s*([\S\s]*?)\s*$/, '$1');
+			var eventName = 'click ' + tt;
+
+			Balanced.Analytics.trackEvent(eventName, {});
+		},
+		trackPage: _.debounce(function(routerPath) {
+			/*
+			 * `routerPath` will look like marketplaces/marketplace/marketplace.transactions
+			 * It's all the names of the routers used to render the current
+			 * view concatenated together.
+			 * The search will look like ?foo=bar
+			 * The hash will look like #/marketplaces/MP123123/transactions
+			 * The final URL therefore will look like the components
+			 * concatenated together.
+			 * */
+
+			var currentLocation = routerPath + location.search + location.hash;
 
 			if (isGoogleAnalyticsLoaded) {
 				window._gaq.push(['_trackPageview', currentLocation]);
@@ -93,11 +104,12 @@ Balanced.Analytics = (function() {
 			}
 
 			var filteredData = Balanced.Utils.filterSensitivePropertiesMap(data);
-			if (isMixpanelLoaded) {
+
+			if (Balanced.Analytics.isMixpanelLoaded) {
 				window.mixpanel.track(name, filteredData);
 			}
 
-			if (isGoogleAnalyticsLoaded) {
+			if (Balanced.Analytics.isGoogleAnalyticsLoaded) {
 				window._gaq.push(['_trackEvent', 'dashboard', name]);
 			}
 		}

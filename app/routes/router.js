@@ -4,9 +4,8 @@ Balanced.Router = Ember.Router.extend({
 	/*
 	 * This function update page title when a transition is made
 	 */
-	_update_title: function(infos) {
+	updatePageTitle: function(infos) {
 		var last_info = infos[infos.length - 1];
-		var title = last_info.handler.title;
 		var route = last_info.handler;
 		var page_title = route.get('pageTitle');
 
@@ -17,10 +16,9 @@ Balanced.Router = Ember.Router.extend({
 
 		var self = this;
 		var set_title = function(title) {
+			document.title = self._doc_title;
 			if (typeof title !== 'undefined') {
-				document.title = self._doc_title + ' | ' + title;
-			} else {
-				document.title = self._doc_title;
+				document.title += ' | ' + title;
 			}
 		};
 
@@ -39,10 +37,21 @@ Balanced.Router = Ember.Router.extend({
 	},
 
 	didTransition: function(infos) {
-		this._update_title(infos);
-		Balanced.Analytics.trackPage(_.pluck(infos, 'name').join('/'));
+		this.updatePageTitle(infos);
+		var controllerPath = this.generateControllerPath(infos);
+		Balanced.Analytics.trackPage(controllerPath);
 		return this._super.apply(this, arguments);
-	}
+	},
+
+	generateControllerPath: function(infos) {
+		// will return the current set of routers used on this route e.g.
+		//  marketplaces/marketplace/marketplace.transactions
+		return _.pluck(_.rest(infos), 'name').join('/');
+	},
+
+	getNestedRouteName: function() {
+		console.log('fooooooo');
+	}.observes('didTransition')
 });
 
 Balanced.Router.map(function() {
@@ -51,7 +60,7 @@ Balanced.Router.map(function() {
 	this.route('logout');
 
 	this.route('setup_guest_user', {
-		path: "/start"
+		path: '/start'
 	});
 	this.route('forgotPassword', {
 		path: '/forgot_password'
@@ -83,36 +92,36 @@ Balanced.Router.map(function() {
 			this.resource('accounts', {
 				path: '/accounts/:item_id'
 			});
-			this.route("redirect_activity_transactions", {
+			this.route('redirect_activity_transactions', {
 				path: '/activity/transactions'
 			});
-			this.route("redirect_activity_orders", {
+			this.route('redirect_activity_orders', {
 				path: '/activity/orders'
 			});
-			this.route("redirect_activity_customers", {
+			this.route('redirect_activity_customers', {
 				path: 'activity/customers'
 			});
-			this.route("redirect_activity_funding_instruments", {
+			this.route('redirect_activity_funding_instruments', {
 				path: 'activity/funding_instruments'
 			});
-			this.route("redirect_activity_disputes", {
+			this.route('redirect_activity_disputes', {
 				path: 'activity/disputes'
 			});
-			this.route("redirect_invoices", {
+			this.route('redirect_invoices', {
 				path: 'invoices'
 			});
 
-			this.route("orders");
+			this.route('orders');
 			this.resource('orders', {
 				path: '/orders/:item_id'
 			});
 
-			this.route("customers");
+			this.route('customers');
 			this.resource('customer', {
 				path: '/customers/:item_id'
 			});
 
-			this.route("disputes");
+			this.route('disputes');
 			this.resource('dispute', {
 				path: '/disputes/:item_id'
 			});
@@ -127,7 +136,7 @@ Balanced.Router.map(function() {
 				path: '/cards/:item_id'
 			});
 
-			this.route("transactions");
+			this.route('transactions');
 			this.resource('credits', {
 				path: '/credits/:item_id'
 			});
@@ -148,9 +157,9 @@ Balanced.Router.map(function() {
 				path: '/events/:item_id'
 			});
 
-			this.route("logs");
-			this.resource("log", {
-				path: "/logs/:item_id"
+			this.route('logs');
+			this.resource('log', {
+				path: '/logs/:item_id'
 			});
 
 			this.route('invoices', {
