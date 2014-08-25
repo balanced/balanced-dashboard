@@ -97,6 +97,7 @@ Balanced.Analytics = (function() {
 		}, 500),
 		trackEvent: function(name, data) {
 			data = data || {};
+			data.pageTitle = document.title;
 
 			if (Balanced.currentMarketplace) {
 				data.marketplaceId = Balanced.currentMarketplace.get('id');

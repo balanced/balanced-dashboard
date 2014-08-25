@@ -30,7 +30,9 @@ test('test click tracking', function(assert) {
 
 	var expectedEventName = 'click ' + buttonText;
 
-	assert.ok(window.mixpanel.track.calledWith(expectedEventName, {}));
+	assert.ok(window.mixpanel.track.calledWith(expectedEventName, {
+		pageTitle: 'QUnit basic example | Login'
+	}));
 	assert.ok(window._gaq.push.calledWith(
 		['_trackEvent', 'dashboard', expectedEventName]
 	));
