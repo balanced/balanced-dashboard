@@ -100,11 +100,10 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 			}, function(error) {
 				self.nextStepFailure(marketplace, bankAccountHref, error);
 			})
-			.
-		finally(function() {
-			self.close();
-			self.get("container").lookup("controller:application").transitionToRoute("marketplace", marketplace);
-		});
+			.finally(function() {
+				self.close();
+				self.get("container").lookup("controller:application").transitionToRoute("marketplace", marketplace);
+			});
 	},
 
 	actions: {
@@ -128,17 +127,15 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 					});
 					return self.linkAndVerify(marketplace, bankAccountHref);
 				})
-				.
-			catch (function(error) {
-				self.trackEvent("Error creating bank account", {
-					error: error,
-					formFields: model.getPropertiesDump()
+				.catch(function(error) {
+					self.trackEvent("Error creating bank account", {
+						error: error,
+						formFields: model.getPropertiesDump()
+					});
+				})
+				.finally(function() {
+					self.unmakeSaving();
 				});
-			})
-				.
-			finally(function() {
-				self.unmakeSaving();
-			});
 		}
 	}
 });
