@@ -37,7 +37,7 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 					self.transitionToRoute('login').then(function(loginRoute) {
 						var controller = self.get("controllers.notification_center");
 						controller.clearAlerts();
-						controller.alertSuccess("Your password has been successfully updated.")
+						controller.alertSuccess("Your password has been successfully updated.");
 
 					});
 				});

@@ -27,7 +27,8 @@ Balanced.OtpController = Balanced.LoginController.extend({
 						"You need to pass in a confirm token to continue login": "Authentication code is blank.",
 						"Not found": "Authentication has expired. Please enter your email address and password again.",
 						"Invalid OTP verification": "The authentication code you entered is invalid. Please log in again."
-					}
+					};
+
 					var message = "There was an unknown error submitting your authentication code.";
 
 					if (error.responseJSON) {

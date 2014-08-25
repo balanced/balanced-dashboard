@@ -7,6 +7,6 @@ Balanced.LogoutView = Balanced.LoginView.extend({
 		return {
 			linkTo: 'login',
 			linkText: 'Back to sign in'
-		}
+		};
 	}.property(),
 });

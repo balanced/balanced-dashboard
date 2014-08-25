@@ -53,6 +53,7 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 			var self = this;
 			var auth = this.get('auth');
 			var sessionsController = this.get("controllers.sessions");
+			var controller = self.getNotificationController();
 
 			this.resetError();
 			this.set('isSubmitting', true);
@@ -73,7 +74,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					if (jqxhr.status === 401) {
 						self.set("loginError", true);
 
-						var controller = self.getNotificationController();
 						controller.clearAlerts();
 						controller.alertError("The e-mail address or password you entered is invalid.");
 
@@ -113,7 +113,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 							}
 
 							if (error) {
-								var controller = self.getNotificationController();
 								controller.clearAlerts();
 								controller.alertError(error);
 							}

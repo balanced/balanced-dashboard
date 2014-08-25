@@ -6,7 +6,7 @@ Balanced.LoginView = Balanced.View.extend({
 		return {
 			linkTo: 'setup_guest_user',
 			linkText: 'Create an account'
-		}
+		};
 	}.property(),
 
 	model: function() {
