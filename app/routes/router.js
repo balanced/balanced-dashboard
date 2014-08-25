@@ -47,11 +47,7 @@ Balanced.Router = Ember.Router.extend({
 		// will return the current set of routers used on this route e.g.
 		//  marketplaces/marketplace/marketplace.transactions
 		return _.pluck(_.rest(infos), 'name').join('/');
-	},
-
-	getNestedRouteName: function() {
-		console.log('fooooooo');
-	}.observes('didTransition')
+	}
 });
 
 Balanced.Router.map(function() {
