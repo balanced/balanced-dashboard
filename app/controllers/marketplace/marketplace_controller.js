@@ -55,10 +55,11 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 	}.observes("controllers.sessions.isUserRegistered"),
 
 	updateProductionMarketplaceNotification: function() {
-		if (!this.get("auth.isGuest") && !this.get("user.hasProductionMarketplace")) {
+		if (this.get("controllers.sessions.isUserRegistered") && !this.get("user.hasProductionMarketplace")) {
 			var name = "SignUp";
 			var controller = this.getNotificationController();
 			var message = "Sign up for a production marketplace to transact live.";
+
 			controller.clearNamedAlert(name);
 			controller.alertInfo(message, {
 				name: name,
@@ -66,7 +67,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 				linkText: 'Register'
 			});
 		}
-	}.observes("auth.isGuest", "user.hasProductionMarketplace"),
+	}.observes("controllers.sessions.isUserRegistered", "user.hasProductionMarketplace"),
 
 	updateBankAccountNotifications: function() {
 		var name = "BankAccountVerification";
