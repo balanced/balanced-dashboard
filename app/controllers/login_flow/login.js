@@ -122,7 +122,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 
 						self.set("loginError", true);
 
-						var controller = self.getNotificationController();
 						controller.clearAlerts();
 						controller.alertError(message);
 					}
