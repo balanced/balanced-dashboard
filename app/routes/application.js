@@ -100,6 +100,8 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 		},
 
 		signOut: function() {
+			console.log("test")
+			this.controllerFor('notification_center').clearAlerts();
 			this.transitionTo('logout');
 		}
 	}
