@@ -37,7 +37,8 @@ test('claim account creates a login', function(assert) {
 
 	visit('/claim')
 		.checkElements({
-			"#account-create h2": "Create an account"
+			"#account-create h2": "Balanced Dashboard",
+			"#account-create .form-section h3": "Create your account"
 		}, assert)
 		.fillForm("#account-create", {
 			email_address: emailAddress,
