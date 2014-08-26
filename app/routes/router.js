@@ -53,6 +53,9 @@ Balanced.Router.map(function() {
 	this.route('setup_guest_user', {
 		path: "/start"
 	});
+	this.route('otp', {
+		path: '/otp'
+	});
 	this.route('forgotPassword', {
 		path: '/forgot_password'
 	});

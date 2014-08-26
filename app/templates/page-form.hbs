@@ -1,0 +1,17 @@
+<section id="main" class="container scale">
+	{{render "notification_center"}}
+	<div class="page-with-logo">
+		<a href="https://www.balancedpayments.com"><img class="logo" src="images/balanced-logo.png" alt="Balanced" /></a>
+		<div class="page-form span10">
+			{{#if view.pageTitle}}
+				<h3>{{view.pageTitle}}</h3>
+			{{/if}}
+			<div class="page-form-body clearfix">
+				{{yield}}
+			</div>
+		</div>
+		<div class="after-form-link">
+			{{#link-to view.afterFormLink.linkTo}}{{view.afterFormLink.linkText}}{{/link-to}}
+		</div>
+	</div>
+</section>

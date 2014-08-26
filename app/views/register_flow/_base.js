@@ -27,9 +27,12 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 
 	isSaving: false,
 	makeSaving: function() {
-		this.getModalNotificationController().alertWarning("Saving...", {
+		var controller = this.getModalNotificationController();
+		controller.clearAlerts();
+		controller.alertWarning("Saving..", {
 			name: "Saving"
 		});
+
 		this.set("isSaving", true);
 		this.$(":input").attr("disabled", true);
 	},

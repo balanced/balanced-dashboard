@@ -29,7 +29,7 @@ test('reset password form submits on button click', function(assert) {
 		.fillIn("form#reset-password-form input[name=password]", 'abcdef5')
 		.fillIn("form#reset-password-form input[name=password_confirm]", 'abcdef5')
 		.click("form#reset-password-form button").then(function() {
-			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
+			assert.equal($(".notification-center.success .message").length, 1, 'The confirmation message is visible');
 
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.ResetPassword, '/password/abcdefghijklmnopq', sinon.match({
@@ -47,7 +47,7 @@ test('reset password form submits on form submit', function(assert) {
 		.fillIn("form#reset-password-form input[name=password]", 'abcdef5')
 		.fillIn("form#reset-password-form input[name=password_confirm]", 'abcdef5')
 		.submitForm("form#reset-password-form").then(function() {
-			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
+			assert.equal($(".notification-center.success .message").length, 1, 'The confirmation message is visible');
 
 			assert.ok(spy.calledOnce);
 			assert.ok(spy.calledWith(Balanced.ResetPassword, '/password/abcdefghijklmnopq', sinon.match({
