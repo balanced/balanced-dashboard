@@ -47,6 +47,12 @@
       p {
         padding-bottom: 30px;
       }
+
+      // override bootstrap invalid style
+      input[type="email"]:focus:invalid {
+        color: @black;
+        border-color: rgba(82,168,236,.8);
+      }
     }
   }
 }
@@ -134,6 +140,7 @@
       margin-left: 5px;
     }
   }
+
   input[type="text"], input[type="email"] {
     width: 300px;
     margin: 0;
