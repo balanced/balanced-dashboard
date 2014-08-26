@@ -24,7 +24,7 @@ test('login page exists and has correct fields', function(assert) {
 		.then(function() {
 			assert.equal(spy.callCount, 1, 'Login form correctly validated missing information.');
 			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".alert.alert-error").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
+			assert.ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
 		});
 });
 
@@ -37,7 +37,7 @@ test('login form submits correctly', function(assert) {
 		.then(function() {
 			assert.equal(spy.callCount, 1, 'Login form correctly validated missing information.');
 			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".alert.alert-error").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
+			assert.ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
 		});
 });
 
@@ -47,7 +47,7 @@ test('login page works', function(assert) {
 
 	visit('/login')
 		.fillForm('form#auth-form', {
-			email: 'user@balancedpayments.com',
+			email_address: 'user@balancedpayments.com',
 			password: '111111'
 		}, {
 			click: 'button'
@@ -55,7 +55,7 @@ test('login page works', function(assert) {
 		.then(function() {
 			assert.equal(spy.callCount, 1, 'Login form correctly errored.');
 			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".alert.alert-error").text().trim().toLowerCase().indexOf('invalid') >= 0, 'Has error text');
+			assert.ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('invalid') >= 0, 'Has error text');
 		});
 });
 
