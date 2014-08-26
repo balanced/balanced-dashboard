@@ -104,10 +104,12 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 							self.set('loginError', true);
 
 							var error;
+							var fieldPlaceholder = "This field";
+
 							if (typeof responseText.email_address !== 'undefined') {
-								error = responseText.email_address[0].replace('This field', 'Email address');
+								error = responseText.email_address[0].replace(fieldPlaceholder, 'Email address');
 							} else if (typeof responseText.password !== 'undefined') {
-								error = responseText.password[0].replace('This field', 'Password');
+								error = responseText.password[0].replace(fieldPlaceholder, 'Password');
 							} else if (responseText.detail) {
 								error = responseText.detail;
 							}
