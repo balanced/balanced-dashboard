@@ -49,7 +49,7 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 			controller.alertInfo(message, {
 				name: name,
 				linkTo: 'setup_guest_user',
-				linkText: 'Create account'
+				linkText: 'Create an account'
 			});
 		}
 	}.observes("controllers.sessions.isUserRegistered"),

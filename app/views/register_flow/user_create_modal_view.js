@@ -1,7 +1,10 @@
 Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	templateName: "register_flow/user_create_modal",
-	title: "Create an account",
-	submitButtonText: "Create",
+	logo: true,
+	title: "Balanced Dashboard",
+	description: "Manage your customers and transactions in one place from charging buyers to paying sellers. Get started by creating an account to obtain a test marketplace.",
+	submitButtonText: "Create an account",
+	cancelButtonText: "Skip for now",
 	elementId: "account-create",
 
 	auth: Balanced.Auth,

@@ -1,7 +1,19 @@
 var MESSAGES = {
-	noBankAccounts: "Your marketplace is not linked to any bank accounts. Add a bank account by visiting the settings page.",
-	noOpenVerification: "You have unverified bank accounts. Start a verification by visiting the settings page.",
-	openVerification: "Please verify your marketplace bank account by confirming the deposit amounts."
+	noBankAccounts: {
+		message: "Your marketplace is not linked to any bank accounts. Please add a bank account.",
+		linkTo: "marketplace.settings",
+		linkText: "Visit settings page"
+	},
+	noOpenVerification: {
+		message: "You have unverified bank accounts. Please start a verification.",
+		linkTo: "marketplace.settings",
+		linkText: "Visit settings page"
+	},
+	openVerification: {
+		message: "Please verify your marketplace bank account by confirming the deposit amounts.",
+		linkTo: "marketplace.settings",
+		linkText: "Visit settings page"
+	}
 };
 
 // We need to handle 4 cases for bank account notification:

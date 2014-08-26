@@ -4,7 +4,6 @@ Balanced.ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base_modal_layout",
 	classNames: "modal",
 	submitButtonText: "Submit",
-	cancelButtonText: "Cancel",
 
 	reposition: function() {
 		$(window).resize();
