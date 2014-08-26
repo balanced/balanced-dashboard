@@ -254,6 +254,19 @@ test("debit customer triggers reload of transactions", function(assert) {
 		});
 });
 
+module('Customer Page: Credit', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createCreditCard();
+		Testing.createDebitCard();
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create
+		);
+	}
+});
+
 test('can credit to a debit card', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "create");
 	visit(Testing.CUSTOMER_ROUTE)
@@ -315,6 +328,21 @@ test("can't credit customer multiple times using the same modal", function(asser
 		.then(function() {
 			assert.deepEqual(stub.callCount, 1, "Create is created only once");
 		});
+});
+
+module('Customer Page: Add', {
+	setup: function() {
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
+		Testing.createCard();
+	},
+	teardown: function() {
+		Testing.restoreMethods(
+			Balanced.Adapter.create,
+			balanced.bankAccount.create,
+			balanced.card.create
+		);
+	}
 });
 
 test('can add bank account', function(assert) {
