@@ -30,7 +30,7 @@ test('forgot password form submits', function(assert) {
 		})
 		.onUrl('/login', assert)
 		.then(function() {
-			assert.equal($("div#content div.alert-black").length, 1, 'The black confirmation box is visible');
+			assert.equal($(".notification-center.success .message").length, 1, 'The confirmation message is visible');
 			assert.ok(stub.calledOnce);
 			assert.deepEqual(stub.firstCall.args.slice(1, 3), ["/password", {
 				email_address: "foo@bar.com"

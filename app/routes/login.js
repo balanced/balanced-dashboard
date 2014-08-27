@@ -1,4 +1,5 @@
 Balanced.LoginRoute = Balanced.Route.extend({
+	modelObject: Balanced.Login,
 	pageTitle: 'Login',
 
 	beforeModel: function() {

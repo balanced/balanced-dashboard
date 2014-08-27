@@ -1,33 +1,21 @@
 Balanced.LoginController = Balanced.ObjectController.extend({
-	needs: ["sessions"],
-	email: null,
+	needs: ["sessions", "notification_center"],
+	email_address: null,
 	password: null,
 	loginError: false,
-	loginResponse: '',
-	otpError: false,
-	otpRequired: false,
-	otpCode: null,
-	from: null,
 	isSubmitting: false,
 
-	fromResetPassword: Ember.computed.equal('from', 'ResetPassword'),
-	fromForgotPassword: Ember.computed.equal('from', 'ForgotPassword'),
-
 	init: function() {
+		this.getNotificationController().clearAlerts();
 		this._super();
 		this.focus();
 	},
 
 	reset: function() {
 		this.setProperties({
-			loginError: false,
-			otpError: false,
-			loginResponse: '',
-			email: null,
+			email_address: null,
 			password: null,
-			otpRequired: false,
-			otpCode: null,
-			from: null,
+			loginError: false,
 			isSubmitting: false
 		});
 	},
@@ -35,9 +23,6 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 	resetError: function() {
 		this.setProperties({
 			loginError: false,
-			otpError: false,
-			loginResponse: '',
-			from: null,
 			isSubmitting: false
 		});
 	},
@@ -55,68 +40,29 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 				isSubmitting: false
 			});
 		});
+		this.getNotificationController().clearAlerts();
 		this.get("controllers.sessions").send("afterLoginTransition");
 	},
 
-	getEmail: function() {
-		return this.get('email') || $('form input[type=email]').val();
-	},
-
-	getPassword: function() {
-		return this.get('password') || $('form input[type=password]').val();
+	getNotificationController: function() {
+		return this.get("controllers.notification_center");
 	},
 
 	actions: {
-		otpSubmit: function() {
+		signIn: function(model) {
 			var self = this;
 			var auth = this.get('auth');
-
-			this.set('isSubmitting', true);
-
-			auth.confirmOTP(this.get('otpCode'))
-				.then(function() {
-					self.afterLogin();
-				}, function() {
-					auth.forgetLogin();
-					self.reset();
-					self.setProperties({
-						loginError: true,
-						loginResponse: 'Invalid OTP code. Please login again.'
-					});
-
-					self.focus();
-				})
-				.
-			finally(function() {
-				self.set('isSubmitting', false);
-			});
-		},
-
-		reset: function() {
-			this.resetError();
-		},
-
-		signUp: function() {
-			Balanced.Analytics.trackEvent("SignUp: Opened 'Create an account'", {
-				path: "login"
-			});
-			this.transitionToRoute('setup_guest_user');
-		},
-
-		signIn: function() {
-			var self = this;
 			var sessionsController = this.get("controllers.sessions");
+			var controller = self.getNotificationController();
 
 			this.resetError();
 			this.set('isSubmitting', true);
 
 			sessionsController.nuke();
 			sessionsController
-				.login({
-					email_address: this.getEmail(),
-					password: this.getPassword()
-				})
-				.then(function() {
+				.login(model)
+				.then(function(loginUri) {
+					auth.set('lastLoginUri', loginUri);
 					// When we add the MFA modal to ask users to login
 					// self.send('openMFAInformationModal');
 					// For now tho:
@@ -126,10 +72,11 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 					self.set('password', null);
 
 					if (jqxhr.status === 401) {
-						self.setProperties({
-							loginError: true,
-							loginResponse: 'Invalid e-mail address or password.'
-						});
+						self.set("loginError", true);
+
+						controller.clearAlerts();
+						controller.alertError("The e-mail address or password you entered is invalid.");
+
 						return;
 					}
 
@@ -150,32 +97,35 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 							}
 						}
 
-						// OTP Required Case
 						if (jqxhr.status === 409 && responseText.status === 'OTP_REQUIRED') {
-							self.set('otpRequired', true);
+							self.transitionToRoute('otp');
+
 						} else {
 							self.set('loginError', true);
 
 							var error;
+							var fieldPlaceholder = "This field";
+
 							if (typeof responseText.email_address !== 'undefined') {
-								error = responseText.email_address[0].replace('This', 'Email');
+								error = responseText.email_address[0].replace(fieldPlaceholder, 'Email address');
 							} else if (typeof responseText.password !== 'undefined') {
-								error = responseText.password[0].replace('This', 'Password');
+								error = responseText.password[0].replace(fieldPlaceholder, 'Password');
 							} else if (responseText.detail) {
 								error = responseText.detail;
 							}
 
 							if (error) {
-								self.set('loginResponse', error);
+								controller.clearAlerts();
+								controller.alertError(error);
 							}
 						}
 					} else if (message || jqxhr.status < 100) {
 						message = message.message || message || 'Oops, something went wrong.';
 
-						self.setProperties({
-							loginError: true,
-							loginResponse: message
-						});
+						self.set("loginError", true);
+
+						controller.clearAlerts();
+						controller.alertError(message);
 					}
 				})
 				.finally(function() {

@@ -1,0 +1,11 @@
+<form id="auth-form" method="POST" {{bind-attr class="loginError:error"}} {{action "signIn" view.model on="submit"}}>
+	{{view Balanced.BaseFormFieldView model=view.model inputType="email" inputClassNames="full" labelText="Email address" field="email_address"}}
+
+	{{view Balanced.BaseFormFieldView model=view.model inputType="password" inputClassNames="full" labelText="Password" field="password"}}
+
+	{{#link-to "forgotPassword" class="sm forgot-password"}}Forgot?{{/link-to}}
+
+	<div class="pull-right">
+		<button {{bind-attr class=":btn isSubmitting:disabled"}} type="submit" {{bind-attr disabled="isSubmitting"}}>Sign in</button>
+	</div>
+</form>
