@@ -1,4 +1,7 @@
 <h3>{{view.sectionTitle}}</h3>
+{{#if view.sectionDescription}}
+	<p class="span6">{{view.sectionDescription}}</p>
+{{/if}}
 <div class="pull-right">
 	{{yield}}
 </div>
