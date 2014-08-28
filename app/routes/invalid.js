@@ -5,8 +5,14 @@ Balanced.InvalidRoute = Balanced.AuthRoute.extend({
 			type: 'invalid-route',
 			location: window.location.toString()
 		});
-		this.controllerFor('notification_center')
-			.alertError("Invalid URL specified, please check the URL.");
+
+		var controller = this.controllerFor('notification_center');
+		controller.clearNamedAlert('InvalidUrl');
+
+		controller.alertError("Invalid URL specified, please check the URL.", {
+			name: 'InvalidUrl'
+		});
+
 		this.transitionTo('marketplaces');
 	},
 
