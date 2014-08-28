@@ -7,6 +7,7 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 	actions: {
 		forgotPass: function() {
 			var model = this.get("model");
+			var controller = this.get("controllers.notification_center");
 			var self = this;
 
 			model.set('email_address', model.get('email_address'));
@@ -26,10 +27,14 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 					self.set('email_address', null);
 
 					self.transitionToRoute('login').then(function(loginRoute) {
-						var controller = self.get("controllers.notification_center");
 						controller.clearAlerts();
 						controller.alertSuccess("We've sent you an email with password reset instructions.");
 					});
+				}, function(response) {
+					if (response.detail === 'Not found') {
+						controller.clearAlerts();
+						controller.alertError("The email address you entered could not be found.");
+					}
 				});
 			} else {
 				self.set('hasError', true);

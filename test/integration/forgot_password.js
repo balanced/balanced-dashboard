@@ -37,3 +37,15 @@ test('forgot password form submits', function(assert) {
 			}]);
 		});
 });
+
+test('displays error message if email address was not found', function(assert) {
+	visit('/forgot_password')
+		.fillForm("#forgot-form", {
+			"email_address": "foo12345@bar.com"
+		}, {
+			click: "button"
+		})
+		.then(function() {
+			assert.equal($(".notification-center.error .message").length, 1, 'The error message is visible');
+		});
+});
