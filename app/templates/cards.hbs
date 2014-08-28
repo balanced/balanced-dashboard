@@ -1,7 +1,7 @@
 {{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
 	{{#unless model.isRemoved}}
 		<div class="buttons page-actions">
-			{{#if model.customer}}
+			{{#if model.can_debit}}
 				<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
 				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
 				{{#if model.can_credit}}
