@@ -1,5 +1,5 @@
 Balanced.MarketplaceInvoicesController = Balanced.ObjectController.extend(Ember.Evented, {
-	needs: ['marketplace'],
+	needs: ['marketplace', "notification_center"],
 
 	resultsLoader: Ember.computed.oneWay("model"),
 	actions: {
