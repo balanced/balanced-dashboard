@@ -32,7 +32,6 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	getLinkedKeyValueView: function(label, fieldName, hrefFieldName) {
 		var value = this.getFieldValue(fieldName);
 		var link = Ember.get(this.get("model"), hrefFieldName);
-
 		if (link && link.indexOf('@') > 0) {
 			link = "mailto:" + link;
 		}
@@ -134,7 +133,7 @@ Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionVie
 		.add("Business Name", "business_name")
 		.add("EIN", "ein")
 		.add("Name", "name")
-		.add("Email", "email")
+		.add("Email address", "email", "email")
 		.add("Address line 1", "address.line1")
 		.add("Address line 2", "address.line2")
 		.add("City", "address.city")

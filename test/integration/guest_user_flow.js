@@ -19,6 +19,20 @@ test('visiting start creates a marketplace', function(assert) {
 
 test('viewing settings page as guest, can view api secret key', function(assert) {
 	visit('/marketplaces/' + Testing.MARKETPLACE_ID)
+		.then(function() {
+			var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
+			Ember.run(function() {
+				var customer = Balanced.Customer.create();
+				marketplace.set("owner_customer", customer);
+				customer.set("bank_accounts", [
+					Ember.Object.create({
+						can_debit: true,
+						uri: "/bank_accounts/xxxxxxxxxx",
+						description: "Super cool"
+					})
+				]);
+			});
+		})
 		.click('#marketplace-nav i.icon-my-marketplace')
 		.click('#marketplace-nav a:contains(Settings)')
 		.click('.create-api-key-btn')
@@ -35,7 +49,7 @@ test('claim account creates a login', function(assert) {
 	var emailAddress = 'marshall@example.com',
 		password = 'SupahSecret123~!';
 
-	visit('/claim')
+	visit('/start')
 		.checkElements({
 			"#account-create h2": "Balanced Dashboard",
 			"#account-create .form-section h3": "Create your account"
