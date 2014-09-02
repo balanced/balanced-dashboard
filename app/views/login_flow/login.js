@@ -14,8 +14,7 @@ Balanced.LoginView = Balanced.View.extend({
 	}.property(),
 
 	didInsertElement: function() {
-		$('input[name="email"]', 'input[name="otpCode"]').focus();
-		this._super();
+		$('form input:first').focus();
 	},
 
 	keyDown: function(e) {

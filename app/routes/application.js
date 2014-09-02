@@ -95,6 +95,7 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 		},
 
 		willTransition: function() {
+			this.controllerFor('modals_container').close();
 			this.controllerFor('marketplace.search').send('closeSearch');
 			this.controllerFor('notification_center').expireAlerts();
 		},
