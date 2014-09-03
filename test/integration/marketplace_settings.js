@@ -1,5 +1,3 @@
-var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
-
 module('Marketplace Settings', {
 	setup: function() {
 		Testing.useFixtureData();

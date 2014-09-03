@@ -92,6 +92,7 @@ var Testing = {
 	},
 
 	visitSettingsPage: function() {
+		var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
 		var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
 		var disputesController = Balanced.__container__.lookup('controller:marketplace_disputes');
 		disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
