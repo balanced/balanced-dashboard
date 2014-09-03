@@ -96,7 +96,7 @@ test('can delete user', function(assert) {
 		users: users
 	});
 
-	this.visitSettingsPage()
+	Testing.visitSettingsPage()
 		.checkElements({
 			'.users-info table tr td.no-results': 0,
 			'.users-info table tr': 2
