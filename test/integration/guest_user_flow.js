@@ -24,13 +24,6 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 			Ember.run(function() {
 				var customer = Balanced.Customer.create();
 				marketplace.set("owner_customer", customer);
-				customer.set("bank_accounts", [
-					Ember.Object.create({
-						can_debit: true,
-						uri: "/bank_accounts/xxxxxxxxxx",
-						description: "Super cool"
-					})
-				]);
 			});
 		})
 		.click('#marketplace-nav i.icon-my-marketplace')
