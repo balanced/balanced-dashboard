@@ -91,6 +91,25 @@ var Testing = {
 		this.fixtureLogin();
 	},
 
+	visitSettingsPage: function() {
+		var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
+		var disputesController = Balanced.__container__.lookup('controller:marketplace_disputes');
+		disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
+		disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
+
+		return visit(DISPUTES_ROUTE)
+			.then(function() {
+				var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
+				Ember.run(function() {
+					var customer = Balanced.Customer.create();
+					marketplace.set("owner_customer", customer);
+				});
+			})
+			.then(function() {
+				return visit(SETTINGS_ROUTE);
+			});
+	},
+
 	logout: function() {
 		Ember.run(function() {
 			Balanced.Auth.setAuthProperties(false, null, null, null, false);

@@ -3,24 +3,6 @@ var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
 module('Marketplace Settings', {
 	setup: function() {
 		Testing.useFixtureData();
-		this.visitSettingsPage = function() {
-			var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-			var disputesController = Balanced.__container__.lookup('controller:marketplace_disputes');
-			disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
-			disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
-
-			return visit(DISPUTES_ROUTE)
-				.then(function() {
-					var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
-					Ember.run(function() {
-						var customer = Balanced.Customer.create();
-						marketplace.set("owner_customer", customer);
-					});
-				})
-				.then(function() {
-					return visit(SETTINGS_ROUTE);
-				});
-		};
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -31,7 +13,7 @@ module('Marketplace Settings', {
 });
 
 test('can manage users', function(assert) {
-	this.visitSettingsPage()
+	Testing.visitSettingsPage()
 		.then(function() {
 			assert.equal($('.users-info table tr td.no-results').length, 0, '1 User Shown');
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
@@ -41,7 +23,7 @@ test('can manage users', function(assert) {
 });
 
 test('test marketplace info', function(assert) {
-	this.visitSettingsPage()
+	Testing.visitSettingsPage()
 		.assertDictionaryExists(".dl-horizontal:first", {
 			"Marketplace ID": 'FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
 			"Name": 'FIXTURED Marketplace',
@@ -68,7 +50,7 @@ test('can add user', function(assert) {
 
 	var TEST_EMAIL = 'Test1234@example.com';
 
-	this.visitSettingsPage()
+	Testing.visitSettingsPage()
 		.click('.create-user-btn')
 		.click('.modal.create-user:visible button[name="modal-submit"]')
 		.then(function() {

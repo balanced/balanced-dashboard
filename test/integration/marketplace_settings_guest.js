@@ -20,7 +20,7 @@ module('Marketplace Settings Guest', {
 });
 
 test('can visit page', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.checkPageTitle("Settings", assert)
 		.checkElements({
 			'#user-menu > a.dropdown-toggle.gravatar': "Guest user",
@@ -29,7 +29,7 @@ test('can visit page', function(assert) {
 });
 
 test('can update marketplace info', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.then(function() {
 			Ember.run(function() {
 				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
@@ -47,7 +47,7 @@ test('can update marketplace info', function(assert) {
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.then(function() {
 			Ember.run(function() {
 				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
@@ -67,7 +67,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 test('can update owner info', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "update");
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.then(function() {
 			var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
 			Ember.run(function() {
@@ -123,7 +123,7 @@ test('can create checking accounts', function(assert) {
 		}]
 	});
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.main-panel a:contains(Add a bank account)')
 		.fillForm({
 			name: "TEST",
@@ -162,7 +162,7 @@ test('can fail at creating bank accounts', function(assert) {
 		}]
 	});
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.main-panel a:contains(Add a bank account)')
 		.fillForm({
 			name: "TEST",
@@ -188,7 +188,7 @@ test('can fail at creating bank accounts', function(assert) {
 test('can create savings accounts', function(assert) {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click(".main-panel a:contains(Add a bank account)")
 		.fillForm({
 			name: "TEST",
@@ -218,7 +218,7 @@ test('can create cards', function(assert) {
 		}]
 	});
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.main-panel a:contains(Add a card)')
 		.fillForm("#add-card", {
 			name: "TEST",

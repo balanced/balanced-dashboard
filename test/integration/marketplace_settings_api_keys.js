@@ -20,7 +20,7 @@ module('Marketplace Settings Api Keys', {
 });
 
 test('can manage api keys', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.checkElements({
 			'.api-keys-info tbody tr': 1
 		}, assert)
@@ -44,7 +44,7 @@ test('can manage api keys', function(assert) {
 
 test('can add api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'create');
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
@@ -78,7 +78,7 @@ test('adding api key updates auth', function(assert) {
 		}
 	});
 
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
@@ -92,7 +92,7 @@ test('adding api key updates auth', function(assert) {
 });
 
 test('cannot delete current api key without a replacement', function(assert) {
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.checkElements({
 			".confirm-delete-key": 0
 		}, assert)
@@ -108,7 +108,7 @@ test('cannot delete current api key without a replacement', function(assert) {
 
 test('can delete api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'delete');
-	visit(Testing.SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.click('.confirm-delete-key:first')
