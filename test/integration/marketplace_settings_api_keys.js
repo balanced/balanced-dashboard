@@ -1,7 +1,6 @@
 module('Marketplace Settings Api Keys', {
 	setup: function() {
-		Testing.useFixtureData();
-		// Testing.setupMarketplace();
+		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
 
@@ -21,7 +20,7 @@ module('Marketplace Settings Api Keys', {
 });
 
 test('can manage api keys', function(assert) {
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.checkElements({
 			'.api-keys-info tbody tr': 1
 		}, assert)
@@ -45,7 +44,7 @@ test('can manage api keys', function(assert) {
 
 test('can add api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'create');
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
@@ -79,7 +78,7 @@ test('adding api key updates auth', function(assert) {
 		}
 	});
 
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
@@ -93,7 +92,7 @@ test('adding api key updates auth', function(assert) {
 });
 
 test('cannot delete current api key without a replacement', function(assert) {
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.checkElements({
 			".confirm-delete-key": 0
 		}, assert)
@@ -109,7 +108,7 @@ test('cannot delete current api key without a replacement', function(assert) {
 
 test('can delete api key', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, 'delete');
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.click('.confirm-delete-key:first')

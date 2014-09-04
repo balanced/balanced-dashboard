@@ -24,7 +24,7 @@ module('Marketplace Settings Webhooks', {
 
 
 test('shows webhooks', function(assert) {
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.checkElements({
 			".webhooks tbody tr": 1
 		}, assert);
@@ -33,7 +33,7 @@ test('shows webhooks', function(assert) {
 test('can add webhooks', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
 		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.0')
@@ -48,7 +48,7 @@ test('can add webhooks', function(assert) {
 test('webhooks get created once if submit button is clicked multiple times', function(assert) {
 	var stub = sinon.stub(Balanced.Adapter, "create");
 
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
 		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
 		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.1')
@@ -63,7 +63,7 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 });
 
 test('can delete webhooks', function(assert) {
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.webhooks tbody tr:first a.delete-callback-link')
 		.click('#delete-callback:visible .modal-footer button[name=modal-submit]')
 		.checkElements({
@@ -74,7 +74,7 @@ test('can delete webhooks', function(assert) {
 test('delete webhooks only submits once even if clicked multiple times', function(assert) {
 	var spy = sinon.stub(Balanced.Adapter, "delete");
 
-	Testing.visitSettingsPage()
+	visit(Testing.SETTINGS_ROUTE)
 		.click('.webhooks tbody tr:first a.delete-callback-link')
 		.click('#delete-callback .modal-footer button[name=modal-submit]')
 		.click('#delete-callback .modal-footer button[name=modal-submit]')
