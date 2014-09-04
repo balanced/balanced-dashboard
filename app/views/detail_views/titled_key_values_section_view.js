@@ -30,10 +30,21 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	},
 
 	getLinkedKeyValueView: function(label, fieldName, hrefFieldName) {
+		if (Ember.isBlank(this.get("model"))) {
+			return this.getKeyValueView(label, fieldName);
+		}
+
 		var value = this.getFieldValue(fieldName);
 		var link = Ember.get(this.get("model"), hrefFieldName);
-		if (link && link.indexOf('@') > 0) {
+
+		if (Ember.isBlank(link)) {
+			return this.getKeyValueView(label, fieldName);
+		}
+
+		if (link.indexOf('@') > 0) {
 			link = "mailto:" + link;
+		} else if (link.indexOf('http') < 0) {
+			link = "http://" + link;
 		}
 
 		return Balanced.LinkedKeyValueView.create({

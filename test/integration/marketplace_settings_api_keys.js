@@ -1,6 +1,7 @@
 module('Marketplace Settings Api Keys', {
 	setup: function() {
-		Testing.setupMarketplace();
+		Testing.useFixtureData();
+		// Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
 
