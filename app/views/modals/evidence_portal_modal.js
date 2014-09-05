@@ -115,13 +115,13 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend({
 	},
 
 	open: function(container) {
-		this._super(container);
 		this.trackCollectionEvent("EvidencePortal: Modal opened");
+		return this._super(container);
 	},
 
 	close: function() {
-		this._super();
 		this.trackCollectionEvent("EvidencePortal: Modal closed");
+		return this._super();
 	},
 
 	trackCollectionEvent: function(message, extra) {
