@@ -1,5 +1,3 @@
-var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
-
 module('Marketplace Settings', {
 	setup: function() {
 		Testing.useFixtureData();
@@ -13,7 +11,7 @@ module('Marketplace Settings', {
 });
 
 test('can manage users', function(assert) {
-	visit(SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.then(function() {
 			assert.equal($('.users-info table tr td.no-results').length, 0, '1 User Shown');
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
@@ -23,11 +21,11 @@ test('can manage users', function(assert) {
 });
 
 test('test marketplace info', function(assert) {
-	visit(SETTINGS_ROUTE)
-		.assertDictionaryExists(".dl-horizontal", {
+	Testing.visitSettingsPage()
+		.assertDictionaryExists(".dl-horizontal:first", {
 			"Marketplace ID": 'FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
 			"Name": 'FIXTURED Marketplace',
-			"Support email": 'support@example.com',
+			"Support email address": 'support@example.com',
 			"Domain URL": 'example.com',
 			"Support phone number": '+16505551234'
 		}, assert);
@@ -50,7 +48,7 @@ test('can add user', function(assert) {
 
 	var TEST_EMAIL = 'Test1234@example.com';
 
-	visit(SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.click('.create-user-btn')
 		.click('.modal.create-user:visible button[name="modal-submit"]')
 		.then(function() {
@@ -98,7 +96,7 @@ test('can delete user', function(assert) {
 		users: users
 	});
 
-	visit(SETTINGS_ROUTE)
+	Testing.visitSettingsPage()
 		.checkElements({
 			'.users-info table tr td.no-results': 0,
 			'.users-info table tr': 2

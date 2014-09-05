@@ -30,11 +30,21 @@ Balanced.TitledKeyValuesSectionView = Balanced.View.extend({
 	},
 
 	getLinkedKeyValueView: function(label, fieldName, hrefFieldName) {
+		if (Ember.isBlank(this.get("model"))) {
+			return this.getKeyValueView(label, fieldName);
+		}
+
 		var value = this.getFieldValue(fieldName);
 		var link = Ember.get(this.get("model"), hrefFieldName);
 
-		if (link && link.indexOf('@') > 0) {
+		if (Ember.isBlank(link)) {
+			return this.getKeyValueView(label, fieldName);
+		}
+
+		if (link.indexOf('@') > 0) {
 			link = "mailto:" + link;
+		} else if (link.indexOf('http') < 0) {
+			link = "http://" + link;
 		}
 
 		return Balanced.LinkedKeyValueView.create({
@@ -134,7 +144,7 @@ Balanced.CustomerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSectionVie
 		.add("Business Name", "business_name")
 		.add("EIN", "ein")
 		.add("Name", "name")
-		.add("Email", "email")
+		.add("Email address", "email", "email")
 		.add("Address line 1", "address.line1")
 		.add("Address line 2", "address.line2")
 		.add("City", "address.city")
@@ -211,7 +221,7 @@ Balanced.SettingsMarketplaceTitledKeyValuesSectionView = Balanced.TitledKeyValue
 		.add("Created at", "created_at")
 		.add("Marketplace ID", "id")
 		.add("Name", "name")
-		.add("Support email", "support_email_address", "support_email_address")
+		.add("Support email address", "support_email_address", "support_email_address")
 		.add("Domain URL", "domain_url", "domain_url")
 		.add("Support phone number", "support_phone_number")
 		.toProperty()
@@ -234,7 +244,7 @@ Balanced.SettingsOwnerTitledKeyValuesSectionView = Balanced.TitledKeyValuesSecti
 	keyValueListViews: ListValueGenerator.create()
 		.add("Type", "type")
 		.add("Name", "display_me")
-		.add("Support email", "email")
+		.add("Email address", "email", "email")
 		.add("Address line 1", "address.line1")
 		.add("Address line 2", "address.line2")
 		.add("City", "address.city")

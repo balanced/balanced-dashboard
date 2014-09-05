@@ -3,10 +3,10 @@ Balanced.SetupGuestUserRoute = Balanced.Route.extend({
 		var sessionsController = this.controllerFor("sessions");
 
 		if (sessionsController.get("isUserRegistered")) {
-			this.transitionTo("marketplaces.index");
+			this.replaceWith("marketplaces.index");
 		} else if (sessionsController.get("isUserGuest")) {
 			var model = this.controllerFor("guest_user").get("marketplace");
-			this.transitionTo("marketplace", model);
+			this.replaceWith("marketplace", model);
 			transition.send("openModal", Balanced.UserCreateModalView);
 		} else if (sessionsController.get("isUserMissing")) {
 			return this.controllerFor("guest_user").createUser();
@@ -19,8 +19,8 @@ Balanced.SetupGuestUserRoute = Balanced.Route.extend({
 		return this.controllerFor("registration").createMarketplaceForApiKeySecret(apiKey);
 	},
 
-	redirect: function(model, transition) {
-		this.transitionTo("marketplace", model);
+	replace: function(model, transition) {
+		this.replaceWith("marketplace", model);
 		transition.send("openModal", Balanced.UserCreateModalView);
 	},
 });

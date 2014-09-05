@@ -85,10 +85,12 @@
     dt, dd {
       .sl-sb;
       font-size: 13px;
+      line-height: 18px;
       display: inline-block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      padding: 1px 0;
     }
 
     dt {
@@ -97,23 +99,24 @@
       color: @black;
     }
 
-    [class^="icon-"] {
-      color: @black;
-      margin-right: 2px;
-      vertical-align: -2px;
-    }
-
     dd {
       color: @persianBlue60;
       width: 144px;
       margin-left: 10px;
     }
+
     ul {
       margin-bottom: 18px;
 
       li {
         margin: 5px 0;
       }
+    }
+
+    [class^="icon-"] {
+      color: @black;
+      margin-right: 2px;
+      vertical-align: -2px;
     }
   }
 
@@ -139,26 +142,26 @@
       margin-left: 17px;
     }
 
-    .verified, .captured, .succeeded, .paid, .active, .won {
+    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified, .active, .good {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    .pending, .new, .scheduled, .unverified, .unverifiable {
+    .new, .pending, .scheduled, .unverified, .unverifiable {
       &:before {
         background-color: @curryYellow80;
       }
     }
 
-    .submitted:before {
-      background-color: @byzantiumPurple80;
-    }
-
-    .failed, .removed, .lost {
+    .failed, .expired, .lost, .arbitration, .canceled, .voided, .invalidated, .removed, .bad {
       &:before {
         background-color: @imperialRed80;
       }
+    }
+
+    .submitted:before {
+      background-color: @byzantiumPurple80;
     }
   }
 }
