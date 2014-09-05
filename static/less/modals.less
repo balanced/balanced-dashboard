@@ -178,6 +178,10 @@ body .modal-backdrop.fade.in {
       .sl-16-sb;
     }
   }
+
+  .modal-body {
+    padding: 0 45px;
+  }
 }
 
 // Body (where all modal content resides)
@@ -186,11 +190,6 @@ body .modal-backdrop.fade.in {
   overflow-y: auto;
   max-height: 420px;
   margin: 0;
-
-  .content {
-    padding-top: 45px;
-    padding-bottom: 45px;
-  }
 
   &.modal-info {
     padding-bottom: 0px !important;
@@ -232,14 +231,14 @@ body .modal-backdrop.fade.in {
     line-height: 48px;
   }
 
-  &:not(.modal-with-headers) {
+  &:not(.modal-with-headers, .half-screen-modal .modal-body) {
     background-color: @modalBodyBackgroundColor;
-    padding: 0 45px;
+    padding: 45px;
   }
 
   .modal-content {
     background-color: @modalBodyBackgroundColor;
-    padding: 20px 35px 20px 35px;
+    padding: 45px;
 
     &.no-top-content {
       padding-top: 0;
