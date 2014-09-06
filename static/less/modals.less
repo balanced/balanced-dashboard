@@ -201,9 +201,21 @@ body .modal-backdrop.fade.in {
     h3 {
       .sl-sb;
     }
-    p {
-      color: @gray8;
+
+    .description {
+      color: @gray6;
       margin: 15px 0 60px;
+
+      ul {
+        .sl-note;
+        color: @gray8;
+        margin-left: 25px;
+
+        li {
+          list-style: disc;
+          padding: 3px 0;
+        }
+      }
     }
   }
 
@@ -360,6 +372,12 @@ body .modal-backdrop.fade.in {
   border-top: 1px solid @gray2;
   .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
+  .before-submit-text {
+    font-size: 12px;
+    float: left;
+    margin: 6px 0;
+  }
+
   // Properly space out buttons
   .button + .btn {
     margin-left: 5px;
@@ -396,6 +414,8 @@ body .modal-backdrop.fade.in {
 }
 
 .control-group {
+  margin: 0 0 24px 0;
+
   &.error {
     input, select, textarea {
       border-color: @imperialRed100;
@@ -422,8 +442,6 @@ body .modal-backdrop.fade.in {
   &:last-of-type {
     margin-bottom: 0;
   }
-
-  margin: 10px 0 10px 0;
 
   .controls {
     .alert-error {
@@ -637,20 +655,6 @@ body .modal-backdrop.fade.in {
     height: 120px;
   }
 
-  p {
-    color: @gray6;
-  }
-
-  ul {
-    margin-left: 25px;
-    color: @gray6;
-
-    li {
-      list-style: disc;
-      padding: 3px 0;
-    }
-  }
-
   .fileinput-button {
     position: relative;
 
@@ -661,8 +665,10 @@ body .modal-backdrop.fade.in {
     input#fileupload {
       position: absolute;
       right: 0;
-      width: 74px;
+      top: 0;
       opacity: 0;
+      width: 135px;
+      height: 32px;
 
       &:hover {
         cursor: pointer;

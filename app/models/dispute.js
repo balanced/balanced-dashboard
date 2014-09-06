@@ -2,10 +2,14 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
-	dispute_note: function() {
-		var note = this.get('note');
-		return note ? note : 'none';
-	}.property('note'),
+	justitia_dispute: function() {
+		return Balanced.JustitiaDispute.find(this.get('dispute_uri'));
+	}.property('dispute_uri'),
+
+	// dispute_note: function() {
+	// 	var note = this.get('note');
+	// 	return note ? note : 'none';
+	// }.property('note'),
 
 	type_name: 'Dispute',
 	route_name: 'dispute',

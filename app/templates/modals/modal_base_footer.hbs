@@ -1,4 +1,5 @@
+<div class="before-submit-text">{{view.beforeSubmitText}}</div>
 {{#if view.cancelButtonText}}
 	<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>{{view.cancelButtonText}}</button>
 {{/if}}
-<button type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving" class=":btn view.isSaving:disabled"}}>{{view.submitButtonText}}</button>
+<button type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving" disabled="view.isDisabled" class=":btn view.isSaving:disabled view.isDisabled:disabled"}}>{{view.submitButtonText}}</button>

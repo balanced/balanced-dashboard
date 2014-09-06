@@ -4,23 +4,25 @@
 			<th class="span3 date">
 				<span>Date</span>
 			</th>
-			<th class="span6">
-				<span>Name</span>
+			<th class="span7">
+				<span>File</span>
 			</th>
-			<th class="span3"><span>Size</span></th>
+			<th class="span5 num"><span>Size</span></th>
 		</tr>
 	</thead>
 	<tbody>
 	{{#each doc in view.content.documents}}
 		<tr>
-			<td>
-				<a {{bind-attr href="doc.file_url"}}><time {{bind-attr datetime="doc.created_at"}} {{bind-attr title="doc.created_at"}}>
-				{{humanReadableDateShort doc.created_at}}</time></a>
-			</td>
+			{{view Balanced.LinkedDateCellView
+				item=doc
+				classNames="span3"
+				href=doc.file_url
+				date=doc.created_at
+			}}
 			<td>
 				<a {{bind-attr href="doc.file_url"}}><span>{{doc.file_name}}</span></a>
 			</td>
-			<td>
+			<td class="num">
 				<a {{bind-attr href="doc.file_url"}}><span>{{formatFileSize doc.size}}</span></a>
 			</td>
 		</tr>
@@ -40,6 +42,13 @@
 {{#if view.content.documents}}
 	<div class="dispute-note">
 		<span class="sl-sm">Note:</span>
-		<span class="sl-note">{{view.content.dispute_note}}</span>
+		<span class="sl-note">{{view.content.justitia_dispute.note}}</span>
 	</div>
+
+	{{#if view.content.tracking_number}}
+	<div class="dispute-note">
+		<span class="sl-sm">Tracking number:</span>
+		<span class="sl-note">{{view.content.tracking_number}}</span>
+	</div>
+	{{/if}}
 {{/if}}
