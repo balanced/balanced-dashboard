@@ -148,8 +148,8 @@ Balanced.DebitSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: Ember.computed.alias('model.status_description'),
 
 	linkedResources: function() {
-		return this.resourceLinks("model.order", "model.dispute", "model.refunds", "model.hold", "model.customer", "model.source");
-	}.property("model.order", "model.dispute", "model.refunds", "model.refunds.length", "model.hold", "model.customer", "model.source")
+		return this.resourceLinks("model.order", "model.refunds", "model.hold", "model.customer", "model.source");
+	}.property("model.order", "model.refunds", "model.refunds.length", "model.hold", "model.customer", "model.source")
 });
 
 Balanced.CreditSummarySectionView = Balanced.SummarySectionView.extend({

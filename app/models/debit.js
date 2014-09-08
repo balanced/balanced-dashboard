@@ -12,6 +12,13 @@ Balanced.Debit = Balanced.Transaction.extend({
 	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
 	order: Balanced.Model.belongsTo('order', 'Balanced.Order'),
 
+	getDisputesLoader: function(attributes) {
+		attributes = _.extend({
+			path: this.get("dispute_uri")
+		}, attributes);
+		return Balanced.DisputesResultsLoader.create(attributes);
+	},
+
 	funding_instrument_description: Ember.computed.alias('source.description'),
 	last_four: Ember.computed.alias('source.last_four'),
 	funding_instrument_name: Ember.computed.alias('source.brand'),
