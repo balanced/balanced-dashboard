@@ -50,6 +50,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 
 	isDisabled: Balanced.computed.orProperties('isNoteEmpty', 'model.isSaving'),
 
+	notificationCenter: function() {
+		return this.get('controller.controllers.modal_notification_center');
+	},
+
 	addFiles: function(files) {
 		var documentsToUpload = this.get('documentsToUpload');
 		var errorCount = 0;
@@ -84,8 +88,9 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 				displayErrorDescription: true,
 				errorDescription: invalidFileMessage
 			});
-			var notification = this.get('controller.controllers.modal_notification_center');
-			notification.alertError(invalidFileMessage);
+
+			this.notificationCenter().clearAlerts();
+			this.notificationCenter().alertError(invalidFileMessage);
 
 			this.trackCollectionEvent("EvidencePortal: Files upload failed (client)", {
 				error: invalidFileMessage
@@ -104,6 +109,9 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 			displayErrorDescription: true,
 			errorDescription: data.responseJSON.message.htmlSafe()
 		});
+
+		this.notificationCenter().clearAlerts();
+		this.notificationCenter().alertError(data.responseJSON.message.htmlSafe());
 
 		this.trackCollectionEvent("EvidencePortal: File upload failed (server)", {
 			error: data.responseJSON.message.htmlSafe()

@@ -4,10 +4,10 @@
 			<th class="span3 date">
 				<span>Date</span>
 			</th>
-			<th class="span7">
+			<th class="span9">
 				<span>File</span>
 			</th>
-			<th class="span5 num"><span>Size</span></th>
+			<th class="span3 num"><span>Size</span></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -40,15 +40,13 @@
 	</tbody>
 </table>
 {{#if view.content.documents}}
-	<div class="dispute-note">
-		<span class="sl-sm">Note:</span>
-		<span class="sl-note">{{view.content.justitia_dispute.note}}</span>
-	</div>
+	<dl class="dispute-note">
+		{{#if view.content.justitia_dispute.tracking_number}}
+			<dt>Tracking number</dt>
+			<dd>{{view.content.justitia_dispute.tracking_number}}</dd>
+		{{/if}}
 
-	{{#if view.content.tracking_number}}
-	<div class="dispute-note">
-		<span class="sl-sm">Tracking number:</span>
-		<span class="sl-note">{{view.content.tracking_number}}</span>
-	</div>
-	{{/if}}
+		<dt>Note</dt>
+		<dd>{{view.content.justitia_dispute.note}}</dd>
+	</dl>
 {{/if}}

@@ -54,14 +54,14 @@ Balanced.Modals.FullModalMixin = Ember.Mixin.create({
 	classNameBindings: [":half-screen-modal"],
 });
 
-Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create({
+Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create(Ember.Validations, {
 	updateErrorsBar: function() {
 		var controller = this.get("container").lookup("controller:modal_notification_center");
 		var self = this;
 		var errorMessage;
 
 		controller.clear();
-
+		console.log(this.get("model.validationErrors.allMessages"))
 		this.get("model.validationErrors.allMessages").forEach(function(error) {
 			if (Ember.isBlank(error[0])) {
 				errorMessage += "<br>%@".fmt(error[1]);
