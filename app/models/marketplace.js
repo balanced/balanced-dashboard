@@ -89,6 +89,11 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
 
 Balanced.Marketplace.reopenClass({
+	findByApiKeySecret: function(secret) {
+		return this.find("/marketplaces", {
+			secret: secret
+		});
+	},
 	findById: function(id) {
 		var uri = this.constructUri(id);
 		return this.find(uri);

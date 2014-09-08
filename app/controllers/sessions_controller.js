@@ -51,7 +51,6 @@ Balanced.SessionsController = Ember.Controller.extend({
 				})
 				.then(function(mp) {
 					Balanced.Auth.setupGuestUserMarketplace(mp);
-					return;
 				});
 		}
 	},

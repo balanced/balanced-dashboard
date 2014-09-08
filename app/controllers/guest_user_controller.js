@@ -1,17 +1,17 @@
 Balanced.GuestUserController = Balanced.Controller.extend({
-	createUser: function() {
-		return Balanced.Auth.createNewGuestUser();
-	},
-
-	marketplace: function() {
-		var secretApiKey = this.get("secretApiKey");
-		var userMarketplace = Balanced.Auth.get("user.user_marketplaces").findBy("secret", secretApiKey);
-		if (userMarketplace) {
-			return userMarketplace.get("marketplace");
-		}
-	}.property("secretApiKey", "user.user_marketplaces"),
-
+	needs: ["registration"],
 	secretApiKey: function() {
 		return Ember.get("Balanced.NET.defaultApiKey");
 	}.property("Balanced.NET.defaultApiKey"),
+
+	createUser: function() {
+		var self = this;
+		return this.get("controllers.registration").createTestMarketplace(function(apiKeySecret, marketplace) {
+			Balanced.Auth.rememberGuestUser(apiKey);
+		});
+	},
+
+	user: function() {
+		return Ember.get("Balanced.Auth.user");
+	}.property("Balanced.Auth.user"),
 });

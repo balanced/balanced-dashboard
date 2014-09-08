@@ -123,7 +123,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			marketplace.get('name'),
 			this.getGuestAPIKey()
 		);
-
 		Balanced.Utils.setCurrentMarketplace(marketplace);
 	},
 
@@ -140,11 +139,9 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			return item.isEqual(guestMarketplace);
 		});
 
-		if (equivalentMarketplace) {
-			return;
+		if (!equivalentMarketplace) {
+			userMarketplaces.pushObject(guestMarketplace);
 		}
-
-		userMarketplaces.pushObject(guestMarketplace);
 	},
 
 	signOut: function() {
