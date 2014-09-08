@@ -2,6 +2,12 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
+
+	validations: {
+		note: {
+			presence: true,
+		}
+	},
 	justitia_dispute: function() {
 		return Balanced.JustitiaDispute.find(this.get('dispute_uri'));
 	}.property('dispute_uri'),

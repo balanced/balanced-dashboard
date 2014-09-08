@@ -44,19 +44,9 @@
 {{/view}}
 
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Tracking information" sectionDescription=view.trackingCodeText}}
-	<div {{bind-attr class=":form-group view.model.validationErrors.tracking_number:error"}}>
-		<div class="controls row-fluid">
-			{{view Balanced.TextFormFieldView model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number"
-			explanationText="FedEx or USPS tracking number only"}}
-		</div>
-	</div>
+	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number" explanationText="FedEx or USPS tracking number only"}}
 {{/view}}
 
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Evidence description" sectionDescription=view.noteText}}
-	<div {{bind-attr class=":form-group view.model.validationErrors.note:error"}}>
-		<label class="control-label clearfix">Note</label>
-		<div class="controls row-fluid">
-			{{view Ember.TextArea valueBinding="view.model.note" name="note" class="span"}}
-		</div>
-	</div>
+	{{view Balanced.TextAreaFormFieldView model=view.model inputClassNames="full" inputName="note" field="note" labelText="Note"}}
 {{/view}}

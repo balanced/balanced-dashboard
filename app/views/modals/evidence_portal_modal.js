@@ -48,8 +48,6 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 		return Ember.isEmpty(this.get('model.note'));
 	}.property('model.note'),
 
-	isDisabled: Balanced.computed.orProperties('isNoteEmpty', 'model.isSaving'),
-
 	notificationCenter: function() {
 		return this.get('controller.controllers.modal_notification_center');
 	},
@@ -187,34 +185,40 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 		},
 
 		save: function() {
-			var formData = new FormData();
+			console.log(this.get('model.note'), this.get('model.tracking_number'));
+			this.get('model').validate();
+			if (this.get('model').get("isValid")) {
+				var formData = new FormData();
 
-			var note = this.get('model.note') ? this.get('model.note') : null;
-			var tracking_number = this.get('model.tracking_number') ? this.get('model.tracking_number') : null;
-			formData.append('note', note);
-			formData.append('tracking_number', tracking_number);
+				var note = this.get('model.note');
+				var tracking_number = this.get('model.tracking_number');
+				formData.append('note', note);
+				formData.append('tracking_number', tracking_number);
 
-			var marketplaceId = Balanced.currentMarketplace.get('id');
-			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
-			var secret = userMarketplace.get('secret');
-			var auth = Balanced.Utils.encodeAuthorization(secret);
+				var marketplaceId = Balanced.currentMarketplace.get('id');
+				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
+				var secret = userMarketplace.get('secret');
+				var auth = Balanced.Utils.encodeAuthorization(secret);
 
-			var documentsToUpload = this.get('documentsToUpload');
-			documentsToUpload.mapBy('file').forEach(function(file, index) {
-				formData.append("documents[%@]".fmt(index), file);
-			});
-			$.ajax(ENV.BALANCED.JUSTITIA + this.get('model.dispute_uri'), {
-				headers: {
-					'Authorization': auth
-				},
-				type: 'post',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: _.bind(this.uploadSuccess, this),
-				error: _.bind(this.uploadError, this),
-				always: _.bind(this.uploadAlways, this)
-			});
+				var documentsToUpload = this.get('documentsToUpload');
+				documentsToUpload.mapBy('file').forEach(function(file, index) {
+					formData.append("documents[%@]".fmt(index), file);
+				});
+				$.ajax(ENV.BALANCED.JUSTITIA + this.get('model.dispute_uri'), {
+					headers: {
+						'Authorization': auth
+					},
+					type: 'post',
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: _.bind(this.uploadSuccess, this),
+					error: _.bind(this.uploadError, this),
+					always: _.bind(this.uploadAlways, this)
+				});
+			} else {
+				return Ember.RSVP.reject();
+			}
 		}
 	}
 });
