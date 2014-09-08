@@ -6,11 +6,6 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		return Balanced.JustitiaDispute.find(this.get('dispute_uri'));
 	}.property('dispute_uri'),
 
-	// dispute_note: function() {
-	// 	var note = this.get('note');
-	// 	return note ? note : 'none';
-	// }.property('note'),
-
 	type_name: 'Dispute',
 	route_name: 'dispute',
 
