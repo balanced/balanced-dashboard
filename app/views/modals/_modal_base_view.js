@@ -61,7 +61,6 @@ Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create(Ember.Validati
 		var errorMessage;
 
 		controller.clear();
-		console.log(this.get("model.validationErrors.allMessages"))
 		this.get("model.validationErrors.allMessages").forEach(function(error) {
 			if (Ember.isBlank(error[0])) {
 				errorMessage += "<br>%@".fmt(error[1]);
