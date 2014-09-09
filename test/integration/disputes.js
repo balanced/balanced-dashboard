@@ -1,6 +1,3 @@
-var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
-
 module('Disputes', {
 	setup: function() {
 		Testing.useFixtureData();
@@ -9,6 +6,7 @@ module('Disputes', {
 });
 
 test('can visit page', function(assert) {
+	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
 	var disputesController = Balanced.__container__.lookup('controller:marketplace_disputes');
 	disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
 	disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
@@ -42,6 +40,8 @@ test('can visit page', function(assert) {
 });
 
 test('can upload a dispute document', function(assert) {
+	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
+	var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
 	var disputePage = {
 		'#content .page-type': 'Dispute',
 		'#content .dispute-alert a': 1
@@ -80,34 +80,5 @@ test('can upload a dispute document', function(assert) {
 		.then(function() {
 			assert.equal($('#content div.documents table tbody tr').length, 1, 'attached doc is displayed');
 			assert.equal($('#content .dispute-alert a').length, 0, 'cannot attach docs after docs are uploaded');
-		});
-});
-
-test('can submit tracking number without a document', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
-
-	visit(DISPUTE_ROUTE)
-		.then(function() {
-			var disputeController = Balanced.__container__.lookup("controller:dispute");
-			Ember.run(function() {
-				disputeController.get('model').set('canUploadDocuments', true);
-			});
-		})
-		.click('#content .dispute-alert a')
-		.then(function() {
-			var disputeController = Balanced.__container__.lookup("controller:dispute");
-			Ember.run(function() {
-				disputeController.get('model').set('note', "fighting this dispute");
-				disputeController.get('model').set('tracking_number', 12345);
-			});
-		})
-		.click('button:contains(Submit)')
-		.then(function() {
-			console.log(stub);
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Credit, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits', sinon.match({
-				amount: 100000,
-				description: "Test credit"
-			})));
 		});
 });
