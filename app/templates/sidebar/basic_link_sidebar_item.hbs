@@ -3,6 +3,9 @@
 		<i {{bind-attr class="linkIcon"}}></i>
 	{{/if}}
 	<span>{{view.linkText}}</span>
+	{{#if view.alertCount}}
+		<div class="alert-count">{{view.alertCount}}</div>
+	{{/if}}
 {{/link-to}}
 
 {{#if view.childViewItems.length}}
