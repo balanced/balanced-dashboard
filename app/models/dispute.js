@@ -3,6 +3,8 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
 
+	note: null,
+	tracking_number: null,
 	validations: {
 		note: {
 			presence: true,
@@ -57,18 +59,8 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		if (this.get('hasExpired') || this.get('status') !== 'pending') {
-			return false;
-		}
-
-		// no document
-		if (!this.get('documents.isLoaded') && this.get('documents.isError')) {
-			return true;
-		}
-
-		return !(this.get('documents.isLoaded') && this.get('documents.length') > 0);
-
-	}.property('status', 'documents.isLoaded', 'hasExpired', 'documents.length')
+		return !(this.get('justitia_dispute'));
+	}.property('justitia_dispute')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');

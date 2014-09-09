@@ -5,10 +5,10 @@ Balanced.TextAreaFormFieldView = Balanced.BaseFormFieldView.extend({
 		var maxLength = this.get('maxlength');
 
 		if (maxLength > 0) {
-			var noteLength = this.get('model.note') ? this.get('model.note.length') : 0;
+			var noteLength = this.get('value') ? this.get('value.length') : 0;
 			var remaining = maxLength - noteLength;
 			return "%@ characters remaining".fmt(remaining);
 		}
-	}.property('model.note.length'),
+	}.property('value.length'),
 
 });

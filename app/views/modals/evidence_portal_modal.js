@@ -185,15 +185,15 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 		},
 
 		save: function() {
-			console.log(this.get('model.note'), this.get('model.tracking_number'));
 			this.get('model').validate();
 			if (this.get('model').get("isValid")) {
 				var formData = new FormData();
+				formData.append('note', this.get('model.note'));
 
-				var note = this.get('model.note');
 				var tracking_number = this.get('model.tracking_number');
-				formData.append('note', note);
-				formData.append('tracking_number', tracking_number);
+				if (tracking_number) {
+					formData.append('tracking_number', tracking_number);
+				}
 
 				var marketplaceId = Balanced.currentMarketplace.get('id');
 				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
