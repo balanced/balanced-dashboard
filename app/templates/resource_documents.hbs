@@ -40,12 +40,14 @@
 	</tbody>
 </table>
 
-<dl class="dispute-note">
-	{{#if view.content.justitia_dispute.tracking_number}}
-		<dt>Tracking number</dt>
-		<dd>{{view.content.justitia_dispute.tracking_number}}</dd>
-	{{/if}}
+{{#if view.content.justitia_dispute}}
+	<dl class="dispute-note">
+		{{#if view.content.justitia_dispute.tracking_number}}
+			<dt>Tracking number</dt>
+			<dd>{{view.content.justitia_dispute.tracking_number}}</dd>
+		{{/if}}
 
-	<dt>Note</dt>
-	<dd>{{view.content.justitia_dispute.note}}</dd>
-</dl>
+		<dt>Note</dt>
+		<dd>{{view.content.justitia_dispute.note}}</dd>
+	</dl>
+{{/if}}
