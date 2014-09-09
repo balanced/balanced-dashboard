@@ -132,58 +132,6 @@ body .modal-backdrop.fade.in {
   }
 }
 
-.half-screen-modal {
-  .modal-header {
-    position: relative;
-    padding: 70px 45px 15px;
-    background-color: transparent;
-
-    .balanced-logo-24 {
-      background-image: url('../images/logo_3dots.png');
-      background-size: 30px 27px;
-      width: 30px;
-      height: 27px;
-      margin-top: 20px;
-      margin-bottom: -10px;
-    }
-
-    .close {
-      font-size: 20px;
-      line-height: 26px;
-      color: @gray2;
-      background-color: transparent;
-      position: absolute;
-      right: 10px;
-      top: 10px;
-      border: none;
-
-      &:hover {
-        color: @black;
-      }
-    }
-
-    h2 {
-      .sl-lg-sb;
-      padding: 0;
-      margin: 40px 0 0 0;
-    }
-
-    p.description {
-      .sl-20;
-      color: @gray6;
-      padding: 30px 0 60px;
-    }
-
-    h3 {
-      .sl-16-sb;
-    }
-  }
-
-  .modal-body {
-    padding: 0 45px;
-  }
-}
-
 // Body (where all modal content resides)
 .modal-body {
   position: relative;
@@ -243,7 +191,7 @@ body .modal-backdrop.fade.in {
     line-height: 48px;
   }
 
-  &:not(.modal-with-headers, .half-screen-modal .modal-body) {
+  &:not(.modal-with-headers) {
     background-color: @modalBodyBackgroundColor;
     padding: 45px;
   }
@@ -410,6 +358,62 @@ body .modal-backdrop.fade.in {
   .label1a {
     padding-top: 5px;
     display: inline-block;
+  }
+}
+
+.half-screen-modal {
+  .modal-header {
+    position: relative;
+    padding: 70px 45px 15px;
+    background-color: transparent;
+
+    .balanced-logo-24 {
+      background-image: url('../images/logo_3dots.png');
+      background-size: 30px 27px;
+      width: 30px;
+      height: 27px;
+      margin-top: 20px;
+      margin-bottom: -10px;
+    }
+
+    .close {
+      font-size: 20px;
+      line-height: 26px;
+      color: @gray2;
+      background-color: transparent;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      border: none;
+
+      &:hover {
+        color: @black;
+      }
+    }
+
+    h2 {
+      .sl-lg-sb;
+      padding: 0;
+      margin: 40px 0 0 0;
+    }
+
+    p.description {
+      .sl-20;
+      color: @gray6;
+      padding: 30px 0 60px;
+    }
+
+    h3 {
+      .sl-16-sb;
+    }
+  }
+
+  .modal-body {
+    padding: 0 45px;
+
+    .content {
+      padding: 45px 0;
+    }
   }
 }
 

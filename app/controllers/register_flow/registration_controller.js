@@ -60,8 +60,8 @@ Balanced.RegistrationController = Balanced.Controller.extend({
 			.then(function(apiKeySecret) {
 				return self
 					.createMarketplaceForApiKeySecret(apiKeySecret)
-					.then(function() {
-						return apiKeySecret;
+					.then(function(marketplace) {
+						return Ember.RSVP.resolve(apiKeySecret, marketplace);
 					});
 			});
 	},
