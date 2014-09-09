@@ -1,4 +1,5 @@
 Balanced.ModalsContainerController = Ember.Controller.extend({
+	needs: ['notification_center', 'modal_notification_center'],
 	registerContainer: function(modalsContainer) {
 		this.set("modalsContainer", modalsContainer);
 	},

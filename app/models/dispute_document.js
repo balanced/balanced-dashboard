@@ -19,3 +19,15 @@ Balanced.DisputeDocument.reopenClass({
 Balanced.Adapter.registerHostForType(Balanced.DisputeDocument, ENV.BALANCED.JUSTITIA);
 
 Balanced.TypeMappings.addTypeMapping('dispute_documents', 'Balanced.DisputeDocument');
+
+
+
+Balanced.JustitiaDispute = Balanced.Model.extend({});
+
+Balanced.JustitiaDispute.reopenClass({
+	loadFromUri: function(uri) {
+		return Balanced.ModelArray.newArrayLoadedFromUri(uri, Balanced.JustitiaDispute, "disputes");
+	}
+});
+
+Balanced.Adapter.registerHostForType(Balanced.JustitiaDispute, ENV.BALANCED.JUSTITIA);

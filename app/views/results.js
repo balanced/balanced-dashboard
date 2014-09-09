@@ -93,7 +93,7 @@ Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
 
 Balanced.EmbeddedDisputesResultsView = Balanced.DisputesResultsView.extend({
 	isSmallTable: true,
-	colspan: 4
+	colspan: 5
 });
 
 Balanced.LogsResultsView = Balanced.ResultsTableView.extend({

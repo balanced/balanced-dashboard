@@ -2,10 +2,21 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'Balanced.Transaction'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
-	dispute_note: function() {
-		var note = this.get('note');
-		return note ? note : 'none';
-	}.property('note'),
+
+	note: null,
+	tracking_number: null,
+	validations: {
+		note: {
+			presence: true,
+		}
+	},
+	justitia_dispute: function() {
+		return Balanced.JustitiaDispute.find(this.get('dispute_uri'));
+	}.property('dispute_uri'),
+
+	isEvidenceProvided: function() {
+		return !!this.get('justitia_dispute.created_at');
+	}.property('justitia_dispute.created_at'),
 
 	type_name: 'Dispute',
 	route_name: 'dispute',
@@ -52,18 +63,8 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		if (this.get('hasExpired') || this.get('status') !== 'pending') {
-			return false;
-		}
-
-		// no document
-		if (!this.get('documents.isLoaded') && this.get('documents.isError')) {
-			return true;
-		}
-
-		return !(this.get('documents.isLoaded') && this.get('documents.length') > 0);
-
-	}.property('status', 'documents.isLoaded', 'hasExpired', 'documents.length')
+		return !this.get('isEvidenceProvided') && !this.get('hasExpired') && (this.get('status') === 'pending');
+	}.property('isEvidenceProvided', 'hasExpired', 'status')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');
