@@ -46,6 +46,16 @@ Balanced.SummarySectionView = Balanced.View.extend({
 			};
 		}
 
+		if (model.constructor === Balanced.Hold) {
+			return {
+				className: 'icon-single-transaction',
+				title: 'Hold',
+				resource: model,
+				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+			};
+		}
+
 		if (model.constructor === Balanced.Debit) {
 			return {
 				className: 'icon-single-transaction',

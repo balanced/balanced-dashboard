@@ -7,7 +7,7 @@ Balanced.Debit = Balanced.Transaction.extend({
 	route_name: "debits",
 
 	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
-	hold: Balanced.Model.belongsTo('hold', 'Balanced.Hold'),
+	hold: Balanced.Model.belongsTo('card_hold', 'Balanced.Hold'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
 	order: Balanced.Model.belongsTo('order', 'Balanced.Order'),
