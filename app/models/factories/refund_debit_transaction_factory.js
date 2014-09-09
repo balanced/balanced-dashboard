@@ -49,7 +49,8 @@ Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
 			return Balanced.Refund.create({
 				uri: debit.get('refunds_uri'),
 				debit_uri: debit.get('uri'),
-				amount: this.get("amount")
+				amount: this.get("amount"),
+				description: this.get("description")
 			}).save().then(function(refund) {
 				return refund;
 			});
