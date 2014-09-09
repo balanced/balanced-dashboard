@@ -108,6 +108,32 @@
   font-style: italic;
 }
 
+.file-drop {
+  background-color: @gray1;
+  border: 2px dotted @gray3;
+  height: 170px;
+  padding: 30px 45px;
+  text-align: center;
+
+  .fileinput-button {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  &.dragging {
+    background-color: @white;
+  }
+
+  p {
+    .sl-sb;
+    margin-bottom: 15px;
+  }
+
+  .icon-upload {
+    .sl-44;
+    line-height: 30px;
+  }
+}
+
 /* admin */
 
 .admin-search-form {

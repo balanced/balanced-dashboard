@@ -1,0 +1,7 @@
+<div {{bind-attr class=":file-drop :droppable view.isDragging:dragging"}}>
+	<i class="icon-upload non-interactive"></i>
+	<p>{{view.dropMessage}}</p>
+	<a class="fileinput-button btn secondary">Select files
+		<input id="fileupload" type="file" name="files[]" multiple {{action 'fileSelectionChanged' on="change" target="view.parentView"}}>
+	</a>
+</div>

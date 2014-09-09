@@ -57,7 +57,7 @@ test('can upload a dispute document', function(assert) {
 		.checkElements(disputePage, assert)
 		.click('#content .dispute-alert a')
 		.then(function() {
-			assert.equal($('#evidence-portal .modal-header h2').text(), 'Attach docs');
+			assert.equal($('#evidence-portal .modal-header h2').text(), 'Provide dispute evidence');
 			assert.equal($('#evidence-portal .fileinput-button').length, 1);
 			// check that the upload prompt shows up
 		})

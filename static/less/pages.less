@@ -71,6 +71,43 @@
   }
 }
 
+.linked-resources {
+  dt, dd {
+    .sl-sb;
+    font-size: 13px;
+    line-height: 18px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1px 0;
+  }
+
+  dt {
+    width: 100px;
+    float: left;
+  }
+
+  dd {
+    width: 144px;
+    margin-left: 10px;
+  }
+
+  ul {
+    margin-bottom: 18px;
+
+    li {
+      margin: 5px 0;
+    }
+  }
+
+  [class^="icon-"] {
+    color: @black;
+    margin-right: 2px;
+    vertical-align: -2px;
+  }
+}
+
 .side-panel {
   .summary {
     margin-bottom: 40px;
@@ -78,45 +115,6 @@
     p {
       color: @gray7;
       padding-left: 18px;
-    }
-  }
-
-  .linked-resources {
-    dt, dd {
-      .sl-sb;
-      font-size: 13px;
-      line-height: 18px;
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 1px 0;
-    }
-
-    dt {
-      width: 100px;
-      float: left;
-      color: @black;
-    }
-
-    dd {
-      color: @persianBlue60;
-      width: 144px;
-      margin-left: 10px;
-    }
-
-    ul {
-      margin-bottom: 18px;
-
-      li {
-        margin: 5px 0;
-      }
-    }
-
-    [class^="icon-"] {
-      color: @black;
-      margin-right: 2px;
-      vertical-align: -2px;
     }
   }
 
@@ -276,5 +274,33 @@ section[class$="-info"] {
 }
 
 .dispute-note {
-  padding: 10px 25px 0;
+  padding: 15px 25px;
+  margin-top: 20px;
+  border: 1px solid @gray2;
+
+  dt {
+    .sl-sm-sb;
+    width: 100%;
+    float: none;
+  }
+
+  dd {
+    .sl-sm;
+    color: @gray6;
+    margin-bottom: 10px;
+    display: block;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.body-panel {
+  h3 {
+    .icon-disputes {
+      color: @curryYellow80;
+      margin-left: 10px;
+    }
+  }
 }

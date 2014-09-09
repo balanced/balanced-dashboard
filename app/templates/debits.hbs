@@ -14,6 +14,13 @@
 	{{/view}}
 
 	{{#view Balanced.MainPanelView}}
+		{{#if model.dispute}}
+			<h3>Associated dispute<i class="icon-disputes"></i></h3>
+			<div class="results">
+				{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
+			</div>
+		{{/if}}
+
 		<h3>Logs</h3>
 		<div class="results">
 			{{view Balanced.ResourceLogsView content=model}}
