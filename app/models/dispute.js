@@ -14,6 +14,10 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		return Balanced.JustitiaDispute.find(this.get('dispute_uri'));
 	}.property('dispute_uri'),
 
+	isEvidenceProvided: function() {
+		return !!this.get('justitia_dispute.created_at');
+	}.property('justitia_dispute.created_at'),
+
 	type_name: 'Dispute',
 	route_name: 'dispute',
 
@@ -59,8 +63,8 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		return !(this.get('justitia_dispute'));
-	}.property('justitia_dispute')
+		return !this.get('isEvidenceProvided') && !this.get('hasExpired') && (this.get('status') === 'pending');
+	}.property('isEvidenceProvided', 'hasExpired', 'status')
 });
 
 Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');
