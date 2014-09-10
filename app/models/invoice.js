@@ -36,6 +36,12 @@ Balanced.Invoice = Balanced.Model.extend({
 	from_date: Computed.date(0),
 	to_date: Computed.date(1),
 
+	typeChanged: function() {
+		if (this.get('type') === 'fee') {
+			this.set('type', 'transaction');
+		}
+	}.observes('type').on('init'),
+
 	invoice_type: function() {
 		if (this.get('isDispute')) {
 			return 'Disputes';
