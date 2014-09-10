@@ -23,7 +23,7 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 
 	uri: '/disputes',
 	events_uri: Balanced.computed.concat('uri', '/events'),
-
+	alertCount: 5,
 	dispute_uri: function() {
 		return '/disputes/' + this.get('id');
 	}.property('id'),
