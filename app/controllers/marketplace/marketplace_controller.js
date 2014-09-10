@@ -25,14 +25,13 @@ Balanced.MarketplaceController = Balanced.ObjectController.extend({
 	paymentSelected: Ember.computed.or('transactionSelected', 'orderSelected'),
 	myMarketplaceSelected: Ember.computed.or('settingSelected', 'invoiceSelected'),
 
-	disputeAlertCount: function() {
-		var disputes = this.get('model').getDisputesLoader({
+	disputesResultsLoader: function() {
+		return this.get('model').getDisputesLoader({
 			type: 'pending'
-		}).get('results');
+		});
+	}.property('model'),
 
-		console.log(disputes, disputes.get("content.length"));
-		return disputes.get("content.length");
-	}.property('model.results.content.length'),
+	disputeAlertCount: Ember.computed.oneWay("disputesResultsLoader.results.length"),
 
 	formattedEscrowAmount: function() {
 		var escrow = this.get('in_escrow');
