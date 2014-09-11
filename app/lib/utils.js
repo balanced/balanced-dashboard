@@ -207,7 +207,7 @@ Balanced.Utils = Ember.Namespace.create({
 
 	centsToDollars: function(cents) {
 		if (!cents) {
-			return '';
+			return '0';
 		}
 
 		return (cents / 100).toFixed(2).replace(FORMAT_CURRENCY_REGEX, '$1,');

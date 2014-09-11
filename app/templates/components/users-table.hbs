@@ -7,12 +7,11 @@
 	<tbody>
 		{{#each user in users}}
 			<tr>
-				<td>
-					<span>
-						<span class="icon-avatar"></span>
-						{{humanReadableDateShort user.created_at}}
-					</span>
-				</td>
+				{{view Balanced.LinkedDateCellView
+					item=user
+					classNames="span3"
+					date=user.created_at
+				}}
 				<td {{bind-attr title="user.email_address"}}>
 					<span class="wrap">
 						{{user.email_address}}

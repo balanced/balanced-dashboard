@@ -1,16 +1,14 @@
 <thead>
 	<tr>
-		{{#if view.hasNoFilter}}
-			<th class="span3 date">
+		<th class="span3 date view.hasNoFilter::has-filter">
+			{{#if view.hasNoFilter}}
 				<span>Date</span>
-			</th>
-		{{else}}
-			<th class="span3 date has-filter">
+			{{else}}
 				{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
 					<span>Date</span>
 				{{/view}}
-			</th>
-		{{/if}}
+			{{/if}}
+		</th>
 		{{#if view.hasNoFilter}}
 			<th class="span3 type">
 				<span>Type</span>

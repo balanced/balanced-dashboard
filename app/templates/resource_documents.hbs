@@ -47,7 +47,9 @@
 			<dd>{{view.content.justitia_dispute.tracking_number}}</dd>
 		{{/if}}
 
-		<dt>Note</dt>
-		<dd>{{view.content.justitia_dispute.note}}</dd>
+		{{#if view.content.justitia_dispute.note}}
+			<dt>Note</dt>
+			<dd>{{view.content.justitia_dispute.note}}</dd>
+		{{/if}}
 	</dl>
 {{/if}}

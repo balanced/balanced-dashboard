@@ -27,7 +27,7 @@ Balanced.OrderBuyersSectionView = Balanced.ListSectionView.extend({
 	resources: Ember.computed.alias("buyersResults"),
 
 	totalBuyers: function() {
-		return this.get("buyersResults.total") - 1;
+		return this.get("buyersResults.total");
 	}.property("buyersResults.total"),
 
 	buyersResults: function() {

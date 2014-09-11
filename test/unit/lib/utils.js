@@ -87,12 +87,12 @@ test('centsToDollars', function(assert) {
 		'-100.00',
 		'-1.05',
 		'-0.01',
-		'',
+		'0',
 		'0.01',
 		'1.05',
 		'100.00',
 		'9,847,263.72',
-		''
+		'0'
 	];
 
 	for (var i = 0; i < cents.length; i++) {

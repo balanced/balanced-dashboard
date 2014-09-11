@@ -1,6 +1,6 @@
 {{#view Balanced.InvoicePageNavigationView model=model}}
 	<h1 class="page-value">
-		<div class="page-type">Total transaction fees</div>
+		<div class="page-type">Total {{model.type}} fees</div>
 		{{formatCurrency total_fee}}
 	</h1>
 {{/view}}
