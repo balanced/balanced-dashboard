@@ -11,7 +11,7 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 		var mapping = {
 			"funding_instrument": FUNDING_INSTRUMENT_TYPES,
 			"customer": CUSTOMER_TYPES,
-			"order": ORDER_TYPES
+			"order": ORDER_TYPES,
 		};
 
 		return mapping[this.get("searchType")] || TRANSACTION_TYPES;
@@ -43,22 +43,24 @@ Balanced.MarketplaceSearchResultsLoader = Balanced.ResultsLoader.extend({
 		if (q === "%") {
 			q = "";
 		}
+
 		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
 			type: this.get("type"),
+			method: this.get("methodFilters"),
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime"),
 			q: q
 		});
 
 		return queryStringBuilder.getQueryStringAttributes();
-	}.property("type", "limit", "sort", "startTime", "endTime", "query"),
+	}.property("type", "limit", "sort", "methodFilters", "startTime", "endTime", "query", "path", "searchType"),
 
 	path: function() {
 		return this.get("marketplace.uri") + "/search";
-	}.property("marketplace.uri"),
+	}.property("marketplace.uri", "query"),
 
 	getCsvExportType: function() {
 		return undefined;

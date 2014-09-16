@@ -8,14 +8,17 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 	isTransactionsTabSelected: Ember.computed.equal("selectedTabType", "transaction"),
 	isCustomersTabSelected: Ember.computed.equal("selectedTabType", "customer"),
 	isFundingInstrumentsTabSelected: Ember.computed.equal("selectedTabType", "funding_instrument"),
+	isLogsTabSelected: Ember.computed.equal("selectedTabType", "log"),
 
 	totalOrders: Ember.computed.oneWay("resultsLoader.results.total_orders"),
 	totalTransactions: Ember.computed.oneWay("resultsLoader.results.total_transactions"),
 	totalCustomers: Ember.computed.oneWay("resultsLoader.results.counts.customer"),
 	totalFundingInstruments: Ember.computed.oneWay("resultsLoader.results.total_funding_instruments"),
+	totalLogs: Ember.computed.oneWay("logsResultsLoader.results.length"),
 
 	isDisplayResults: false,
 
+	query: Ember.computed.oneWay("resultsLoader.query"),
 	isQueryPresent: Ember.computed.oneWay("resultsLoader.query.length"),
 	isResultsOpen: Ember.computed.and("isQueryPresent", "isDisplayResults"),
 
@@ -29,6 +32,11 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 			marketplace.getSearchLoader({}) :
 			undefined;
 	}.property("marketplace"),
+
+	logsResultsLoader: function() {
+		var marketplace = this.get("marketplace");
+		return marketplace ? marketplace.getSearchLogsLoader(this.get("query")) : undefined;
+	}.property("marketplace", "query"),
 
 	actions: {
 		closeSearch: function() {
