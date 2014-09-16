@@ -1,5 +1,3 @@
-require('app/components/modal');
-
 Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 	submitAction: false,
 	hasError: false,

@@ -1,5 +1,3 @@
-require('app/components/modal');
-
 Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
 	isSubmitting: false,
 	hasError: false,

@@ -1,5 +1,3 @@
-require("app/views/modals/progress_bar_modal");
-
 var Computed = {
 	completedFilter: function(propertyName) {
 		return function() {

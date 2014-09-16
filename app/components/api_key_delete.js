@@ -1,5 +1,3 @@
-require('app/components/modal');
-
 Balanced.ApiKeyDeleteModalComponent = Balanced.ModalComponent.extend({
 	moreWarning: function() {
 		return this.key.get('secret') === this.marketplaceSecret;

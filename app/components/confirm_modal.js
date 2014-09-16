@@ -1,5 +1,3 @@
-require('app/components/modal');
-
 Balanced.ConfirmModalComponent = Balanced.ModalComponent.extend({
 
 	reset: function() {

@@ -1,5 +1,3 @@
-require("./transaction_factory");
-
 Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
 	isAmountOverMaximum: function() {
 		return this.get("amount") > this.get("credit.reversal_amount");

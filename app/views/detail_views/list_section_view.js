@@ -1,5 +1,3 @@
-require('app/views/detail_views/summary_section_view');
-
 Balanced.ListSectionView = Balanced.SummarySectionView.extend({
 	templateName: "detail_views/list_section",
 });

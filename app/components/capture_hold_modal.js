@@ -1,5 +1,3 @@
-require('app/components/modal');
-
 Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
 	submitAction: 'submitCaptureHold',
 

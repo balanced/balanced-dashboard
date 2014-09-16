@@ -354,3 +354,5 @@ if (!Balanced.constructor.initializers.injectAuth) {
 		}
 	});
 }
+
+export default auth;

@@ -1,5 +1,3 @@
-require("./transaction_factory");
-
 Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
 	isAmountOverMaximum: function() {
 		return this.get("amount") > this.get("debit.refund_amount");

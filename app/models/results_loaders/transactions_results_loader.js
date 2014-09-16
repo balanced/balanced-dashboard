@@ -1,5 +1,3 @@
-require("app/model/transaction");
-
 var VALID_STATUSES = ["failed", "succeeded", "pending"];
 
 Balanced.TransactionsResultsLoader = Balanced.ResultsLoader.extend({

@@ -1,5 +1,3 @@
-require('app/models/funding_instrument');
-
 Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	uri: '/cards',
 

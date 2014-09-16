@@ -1,6 +1,3 @@
-require("app/model/transaction");
-
-
 Balanced.InvoiceTransactionsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Transaction,
 	type: "bank_account_credits",

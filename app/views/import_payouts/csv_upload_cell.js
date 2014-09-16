@@ -1,5 +1,3 @@
-require("app/views/popover");
-
 var initializePopover = function(self, label, selector, messagesProperty) {
 	var $element = self.$(selector);
 	var position = $element.attr("data-position") || "top";

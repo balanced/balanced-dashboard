@@ -1,4 +1,3 @@
-require("app/model/reversal");
 Balanced.CreditReversalsResultsLoader = Balanced.ResultsLoader.extend({
 	resultsType: Balanced.Reversal,
 	path: Ember.computed.oneWay("credit.reversals_uri"),

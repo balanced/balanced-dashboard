@@ -1,5 +1,3 @@
-require('app/components/modal');
-
 Balanced.ApiKeyCreateModalComponent = Balanced.ModalComponent.extend({
 	keyName: '',
 	actions: {

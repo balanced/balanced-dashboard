@@ -1,6 +1,3 @@
-require('app/models/user_marketplace');
-require("./results_loaders/*");
-
 var generateResultsLoader = function(klass, uriFieldName) {
 	return function(attributes) {
 		attributes = _.extend({

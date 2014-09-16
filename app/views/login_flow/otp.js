@@ -1,5 +1,3 @@
-require('app/views/login_flow/login');
-
 Balanced.OtpView = Balanced.LoginView.extend({
 	templateName: 'login_flow/otp',
 	pageTitle: 'Two-factor authentication',

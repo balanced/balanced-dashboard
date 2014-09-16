@@ -1,7 +1,7 @@
-require('app/models/core/mixins/load_promise');
-require('app/models/core/model_array');
-require('app/models/core/type_mappings');
-require('app/models/core/serializers/rev1');
+require('balanced-dashboard/models/core/mixins/load_promise');
+require('balanced-dashboard/models/core/model_array');
+require('balanced-dashboard/models/core/type_mappings');
+require('balanced-dashboard/models/core/serializers/rev1');
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';

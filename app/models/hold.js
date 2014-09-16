@@ -1,5 +1,3 @@
-require('app/models/transaction');
-
 Balanced.Hold = Balanced.Transaction.extend({
 	card: Balanced.Model.belongsTo('card', 'Balanced.FundingInstrument'),
 	source: Ember.computed.alias('card'),

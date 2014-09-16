@@ -1,5 +1,3 @@
-require("./_modal_base_view");
-
 Balanced.TransactionCreatorModalView = Balanced.ObjectCreatorModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 });

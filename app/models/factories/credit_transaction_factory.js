@@ -1,5 +1,3 @@
-require("./transaction_factory");
-
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 Balanced.CreditExistingFundingInstrumentTransactionFactory = Balanced.TransactionFactory.extend({

@@ -1,4 +1,4 @@
-Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
+var ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	needs: ["notification_center"],
 
 	actions: {
@@ -55,3 +55,5 @@ Balanced.ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		}
 	}
 });
+
+export default ApplicationController;

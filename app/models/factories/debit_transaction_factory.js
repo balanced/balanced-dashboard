@@ -1,5 +1,3 @@
-require("./transaction_factory");
-
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 Balanced.CardDebitBaseTransactionFactory = Balanced.TransactionFactory.extend({

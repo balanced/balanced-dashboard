@@ -8,6 +8,9 @@ lib-cov
 *.pid
 *.gz
 
+tmp
+bower_components
+
 pids
 logs/*
 ./results

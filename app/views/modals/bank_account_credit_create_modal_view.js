@@ -1,5 +1,3 @@
-require("./transaction_creator_modal_base_view");
-
 Balanced.Modals.BankAccountCreditCreateModalView = Balanced.TransactionCreatorModalView.extend({
 	title: "Credit a bank account",
 	templateName: "modals/bank_account_credit_create_modal",

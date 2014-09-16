@@ -1,5 +1,3 @@
-require('app/models/transaction');
-
 Balanced.Credit = Balanced.Transaction.extend({
 	reversal_amount: Ember.computed.oneWay('amount'),
 	uri: '/credits',

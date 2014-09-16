@@ -1,5 +1,9 @@
-require('app/models/core/adapters/base');
-require('app/models/core/adapters/**/*');
-require('app/models/core/adapter_config');
-require('app/models/core/model');
-require('app/models/core/serializers/**/*');
+require('balanced-dashboard/models/core/adapters/base');
+require('balanced-dashboard/models/core/adapters/ajax');
+require('balanced-dashboard/models/core/adapters/base');
+require('balanced-dashboard/models/core/adapters/fixture');
+require('balanced-dashboard/models/core/adapter_config');
+require('balanced-dashboard/models/core/model');
+require('balanced-dashboard/models/core/serializers/base');
+require('balanced-dashboard/models/core/serializers/rev0');
+require('balanced-dashboard/models/core/serializers/rev1');

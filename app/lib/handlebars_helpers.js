@@ -1,4 +1,4 @@
-require('app/lib/utils');
+require('balanced-dashboard/lib/utils');
 
 Ember.Handlebars.registerBoundHelper('formatCurrency', Balanced.Utils.formatCurrency);
 

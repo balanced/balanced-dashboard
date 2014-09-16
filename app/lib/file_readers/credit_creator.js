@@ -1,4 +1,4 @@
-require("app/lib/validation_helpers");
+require("balanced-dashboard/lib/validation_helpers");
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 var baseValidationsObject = {

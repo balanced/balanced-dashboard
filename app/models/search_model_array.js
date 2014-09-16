@@ -1,5 +1,3 @@
-require('app/models/core/model_array');
-
 var readOnly = function(type) {
 	return Ember.computed.readOnly('counts.' + type);
 };

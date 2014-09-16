@@ -1,5 +1,3 @@
-require("./table_cell_base_view");
-
 Balanced.LogsTableCellView = Balanced.LinkedTextCellView.extend({
 	routeName: Ember.computed.oneWay("item.route_name"),
 });

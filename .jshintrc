@@ -11,10 +11,11 @@
 	"undef": true,
 	"boss": true,
 	"eqnull": true,
+	"esnext": true,
 	"browser": true,
 	"jquery": true,
 	"camelcase": false,
-	"globals": {
+	"predef": {
 		"module": true,
 		"require": true,
 		"Ember": true,
