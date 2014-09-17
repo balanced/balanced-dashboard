@@ -1,9 +1,8 @@
 var Full = Balanced.Modals.FullModalMixin;
 var OpenNext = Balanced.Modals.OpenNextModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
-var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
 
-Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, {
 	staticBackdrop: true,
 
 	open: function() {

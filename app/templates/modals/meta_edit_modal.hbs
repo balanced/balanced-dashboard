@@ -1,0 +1,9 @@
+{{#each metaField in view.metaFields}}
+	<div class="control-group">
+		<label class="control-label">Field name (key)</label>
+		<div class="controls">
+			{{view Ember.TextField name=metaField.key value=metaField.key}}
+			{{view Ember.TextField name=metaField.value value=metaField.value}}
+		</div>
+	</div>
+{{/each}}
