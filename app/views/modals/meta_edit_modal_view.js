@@ -13,6 +13,14 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 	},
 
 	actions: {
+		addNewField: function() {
+			this.get("metaFields").push({
+				key: "",
+				value: ""
+			});
+			this.get("model").reload();
+		},
+
 		save: function() {
 			var controller = this.getNotificationController();
 			var newMeta = {};
@@ -27,6 +35,7 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 				.then(function(model) {
 					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
+					controller.clearAlerts();
 					controller.alertSuccess(message, {
 						expire: true
 					});
