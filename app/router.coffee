@@ -1,4 +1,5 @@
 `import Ember from 'ember'`
+`import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger"`
 
 Router = Ember.Router.extend
 	_update_title: (infos) ->
@@ -23,7 +24,7 @@ Router = Ember.Router.extend
 
 	didTransition: (infos) ->
 		this._update_title(infos)
-		Balanced.Analytics.trackPage(_.pluck(infos, 'name').join('/'))
+		AnalyticsLogger.trackPage(_.pluck(infos, 'name').join('/'))
 		return this._super.apply(this, arguments)
 
 Router.map ->
@@ -47,7 +48,6 @@ Router.map ->
 
 			# exists to handle old URIs
 			this.resource('accounts', path: '/accounts/:item_id')
-
 			this.route("redirect_activity_transactions", path: '/activity/transactions')
 			this.route("redirect_activity_orders", path: '/activity/orders')
 			this.route("redirect_activity_customers", path: 'activity/customers')

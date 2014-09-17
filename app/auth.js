@@ -69,6 +69,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				type: 'GET'
 			})
 			.then(undefined, function() {
+				console.log(arguments);
 				var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
 				if (authCookie) {
 					return self.signInRequest({
@@ -175,6 +176,8 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	loadExtensions: function() {
+		// TODO: reenable extensions
+		return Ember.RSVP.resolve();
 		var promises = _.map(this.getExtensions(), function(val, key) {
 			var deferred = Ember.RSVP.defer();
 			$.getScript(key).always(function() {
@@ -332,27 +335,5 @@ Balanced.register('auth:main', Balanced.Auth, {
 	instantiate: false,
 	singleton: true
 });
-
-if (!Balanced.constructor.initializers.injectUser) {
-	Balanced.initializer({
-		name: 'injectUser',
-
-		initialize: function(container, App) {
-			container.typeInjection('controller', 'user', 'user:main');
-			container.typeInjection('route', 'user', 'user:main');
-		}
-	});
-}
-
-if (!Balanced.constructor.initializers.injectAuth) {
-	Balanced.initializer({
-		name: 'injectAuth',
-
-		initialize: function(container, App) {
-			container.typeInjection('controller', 'auth', 'auth:main');
-			container.typeInjection('route', 'auth', 'auth:main');
-		}
-	});
-}
 
 export default auth;

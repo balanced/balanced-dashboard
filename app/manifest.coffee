@@ -1,3 +1,4 @@
+
 require('balanced-dashboard/lib/variables')
 require('balanced-dashboard/lib/ajax')
 require('balanced-dashboard/lib/bank_account_verification_message')
@@ -7,7 +8,6 @@ require('balanced-dashboard/lib/csv_writer')
 require('balanced-dashboard/lib/error_messages_collection')
 require('balanced-dashboard/lib/forms')
 require('balanced-dashboard/lib/handlebars_helpers')
-require('balanced-dashboard/lib/highlight')
 require('balanced-dashboard/lib/utils')
 require('balanced-dashboard/lib/validation_helpers')
 
@@ -20,6 +20,12 @@ require('balanced-dashboard/lib/file_readers/credit_creator_csv_object_mapper')
 require('balanced-dashboard/lib/file_readers/credit_creators_collection')
 require('balanced-dashboard/lib/file_readers/csv_reader')
 
+require('balanced-dashboard/adapters/base')
+require('balanced-dashboard/adapters/ajax')
+require('balanced-dashboard/adapters/fixture')
+
+require('balanced-dashboard/serializers/rev0')
+require('balanced-dashboard/serializers/rev1')
 require('balanced-dashboard/models/core/core')
 
 require('balanced-dashboard/models/funding_instrument')
@@ -30,6 +36,7 @@ require('balanced-dashboard/models/customer')
 require('balanced-dashboard/models/order')
 require('balanced-dashboard/models/invoice')
 require('balanced-dashboard/models/log')
+require('balanced-dashboard/models/user')
 
 require('balanced-dashboard/models/results_loaders/_base')
 require('balanced-dashboard/models/results_loaders/credit_reversals_results_loader')
@@ -78,7 +85,6 @@ require('balanced-dashboard/models/refund')
 require('balanced-dashboard/models/reset_password')
 require('balanced-dashboard/models/search_model_array')
 require('balanced-dashboard/models/settlement')
-require('balanced-dashboard/models/user')
 require('balanced-dashboard/models/verification')
 
 require('balanced-dashboard/auth')

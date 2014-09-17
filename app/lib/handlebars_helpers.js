@@ -16,13 +16,6 @@ Ember.Handlebars.registerBoundHelper('titleCase', Balanced.Utils.toTitleCase);
 
 Ember.Handlebars.registerBoundHelper('prettyPrint', Balanced.Utils.prettyPrint);
 
-Ember.Handlebars.registerBoundHelper('colorizeStatus', function(status) {
-	var statusClass = status.match(/2\d\d/) ? 'ok' : 'error';
-	return new Ember.Handlebars.SafeString(
-		'<span class="status-%@">%@</span>'.fmt(statusClass, status)
-	);
-});
-
 Ember.Handlebars.registerBoundHelper('modalFieldErrors', function(errorsList) {
 	var errors = Balanced.Utils.formatError(errorsList);
 	errors = Ember.Handlebars.Utils.escapeExpression(errors);

@@ -15,15 +15,6 @@ App = Ember.Application.extend
 	ready: ->
 		$('#balanced-loading').remove()
 
-	onLoad: ->
-		# initialize anything that needs to be done on application load
-$ ->
-	Balanced.NET.loadCSRFTokenIfNotLoaded()
-		.then ->
-			Balanced.Auth.getCurrentLogin()
-		.finally ->
-			Balanced.advanceReadiness()
-
 window.Balanced = App.create(window.BALANCED_ENV.APP)
 require("balanced-dashboard/manifest")
 

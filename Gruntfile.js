@@ -93,7 +93,6 @@ module.exports = function(grunt) {
 					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
 					'static/javascripts/bootstrap/js/bootstrap-popover.js',
 					'static/javascripts/lodash/dist/lodash.underscore.js',
-					'static/javascripts/mixpanel/mixpanel.js',
 					'static/javascripts/google-code-prettify/src/prettify.js',
 					'static/javascripts/strftime/index.js',
 					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',

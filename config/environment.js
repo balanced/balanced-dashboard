@@ -14,7 +14,7 @@ module.exports = function(environment) {
 			JUSTITIA: 'https://justitia.balancedpayments.com',
 			WWW: 'https://www.balancedpayments.com',
 			DOCS: 'https://docs.balancedpayments.com',
-			DEBUG: true,
+			DEBUG: environment !== "production",
 			MIXPANEL: '',
 			GOOGLE_ANALYTICS: ''
 		}

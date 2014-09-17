@@ -1,7 +1,7 @@
 var INFINITE_LOOP_DURATION_MILLIS = 2500;
 var INFINITE_LOOP_NUM_ERRORS = 5;
 
-Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
+var ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 	init: function() {
 		this.set('errorTimestamps', []);
 	},
@@ -106,3 +106,5 @@ Balanced.ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 		}
 	}
 });
+
+export default ApplicationRoute;
