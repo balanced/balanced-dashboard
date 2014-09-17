@@ -118,9 +118,9 @@ test('displays failure reason amount in dollars', function(assert) {
 			Ember.run(function() {
 				model.set('amount', '50036');
 				model.set('status', 'failed');
-				model.set('failure_reason', 'Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of 50036. There is currently a required reserve of 50036.');
+				model.set('failure_reason', 'Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of 42500. There is currently a required reserve of 50036.');
 			});
 		}).checkElements({
-			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $500.36. There is currently a required reserve of $500.36."
+			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
 		}, assert);
 });

@@ -20,8 +20,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 		if (Ember.isEmpty(this.get('failure_reason'))) {
 			return;
 		}
-		var amountInCents = this.get('amount');
-		var formattedMessage = this.get('failure_reason').replace(amountInCents, '$%@'.fmt(Balanced.Utils.centsToDollars(amountInCents)));
+		var formattedMessage = this.get('failure_reason').replace(/of\s(\d+)(\d\d)/g, 'of $$' + '$1.$2');
 		this.set('failure_reason', formattedMessage);
 	}.observes('failure_reason', 'amount').on('init'),
 
