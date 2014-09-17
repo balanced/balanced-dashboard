@@ -8,17 +8,27 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 	title: "Meta information",
 	submitButtonText: "Update",
 
+	init: function() {
+		if (Ember.isEmpty(this.get("metaFields"))) {
+			this.createNewField();
+		}
+		this._super();
+	},
+
 	getNotificationController: function() {
 		return this.get("container").lookup("controller:notification_center");
 	},
 
+	createNewField: function() {
+		this.get("metaFields").pushObject({
+			key: "",
+			value: ""
+		});
+	},
+
 	actions: {
 		addNewField: function() {
-			this.get("metaFields").push({
-				key: "",
-				value: ""
-			});
-			this.get("model").reload();
+			this.createNewField();
 		},
 
 		save: function() {
@@ -26,7 +36,9 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 			var newMeta = {};
 
 			this.get("metaFields").forEach(function(metaField) {
-				newMeta[metaField.key] = metaField.value;
+				if (!Ember.isBlank(metaField.key)) {
+					newMeta[metaField.key] = metaField.value || "";
+				}
 			});
 
 			this.set("model.meta", newMeta);
@@ -48,7 +60,7 @@ Balanced.Modals.MetaEditModalView.reopenClass({
 	open: function(model, metaFields) {
 		return this.create({
 			model: model,
-			metaFields: metaFields
+			metaFields: Ember.copy(metaFields, true)
 		});
 	}
 });

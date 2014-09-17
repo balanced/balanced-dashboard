@@ -7,14 +7,6 @@
 				{{view Ember.TextField name=metaField.value value=metaField.value}}
 			</div>
 		</div>
-	{{else}}
-		<div class="control-group">
-			<label class="control-label">Field name (key)</label>
-			<div class="controls">
-				{{view Ember.TextField name=view.metaFields.key value=view.metaFields.key}}
-				{{view Ember.TextField name=view.metaFields.value value=view.metaFields.value}}
-			</div>
-		</div>
 	{{/each}}
 	<a {{action 'addNewField' target=view.parentView}}>Add another field</a>
 {{/view}}
