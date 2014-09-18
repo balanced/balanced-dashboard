@@ -16,10 +16,10 @@ test('state', function(assert) {
 		expected: 'lost'
 	}].each(function(state) {
 		dispute.set('status', state.actual);
-		assert.equal(dispute.get('state', state.expected));
+		assert.equal(dispute.get('state'), state.expected);
 	});
 
 	dispute.set('documents', []);
 	dispute.set('status', 'pending');
-	assert.equal(dispute.get('state', 'pending'));
+	assert.equal(dispute.get('state'), 'pending');
 });
