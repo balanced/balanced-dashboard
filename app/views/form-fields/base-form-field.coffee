@@ -1,8 +1,8 @@
 `import Ember from "ember";`
 
 BaseFormFieldView = Ember.View.extend
-	layoutName: "form_fields/form_field_layout"
-	templateName: "form_fields/base_form_field"
+	layoutName: "form-fields/form-field-layout"
+	templateName: "form-fields/base-form-field"
 	classNameBindings: [":form-group", "isError:has-error"]
 	inputName: (->
 		return @get("field").replace(/\./, "_")

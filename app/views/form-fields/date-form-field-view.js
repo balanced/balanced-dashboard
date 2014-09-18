@@ -1,4 +1,4 @@
-import BaseFormFieldView from "./base_form_field";
+import BaseFormFieldView from "./base-form-field";
 
 var addEmptyField = function(allowEmpty, values) {
 	if (allowEmpty) {

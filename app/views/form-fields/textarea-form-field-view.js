@@ -1,4 +1,4 @@
-import BaseFormFieldView from "./base_form_field";
+import BaseFormFieldView from "./base-form-field";
 
 var TextAreaFormFieldView = BaseFormFieldView.extend({
 	templateName: "form_fields/textarea_form_field",
