@@ -3,11 +3,20 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'Balanced.DisputeDocument'),
 
+	state: function() {
+		var status = this.get('status');
+		if (status === 'pending' && this.get('documents.length')) {
+			return 'submitted';
+		}
+		console.log(status, this.get('documents.length'));
+		return status;
+	}.property('dispute_documents', 'status'),
+
 	note: null,
 	tracking_number: null,
 	validations: {
 		note: {
-			presence: true,
+			presence: true
 		}
 	},
 	justitia_dispute: function() {
