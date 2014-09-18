@@ -9,7 +9,7 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 			return 'submitted';
 		}
 		return status;
-	}.property('dispute_documents', 'status'),
+	}.property('documents.length', 'status'),
 
 	note: null,
 	tracking_number: null,
