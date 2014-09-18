@@ -54,7 +54,7 @@ Balanced.Credit = Balanced.Transaction.extend({
 	}.property('is_pending', 'is_succeeded', 'is_failed', 'failure_reason', 'failure_reason_code', 'funding_instrument_type'),
 });
 
-Balanced.TypeMappings.addTypeMapping('credit', 'Balanced.Credit');
+
 
 Balanced.Credit.reopenClass({
 	serializer: Balanced.Rev1Serializer.extend({

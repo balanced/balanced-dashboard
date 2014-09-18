@@ -4,4 +4,4 @@ Balanced.Settlement = Balanced.Transaction.extend({
 	route_name: 'Settlement'
 });
 
-Balanced.TypeMappings.addTypeMapping('settlement', 'Balanced.Settlement');
+

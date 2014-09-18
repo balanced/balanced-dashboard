@@ -1,4 +1,5 @@
 require('balanced-dashboard/models/core/mixins/load_promise');
+import TypeMappings from "balanced-dashboard/models/core/type_mappings";
 
 Balanced.ModelArray = Ember.ArrayProxy.extend(Balanced.LoadPromise, {
 	isLoaded: false,
@@ -154,7 +155,7 @@ Balanced.ModelArray.reopenClass({
 	},
 
 	newArrayCreatedFromJson: function(json, defaultType) {
-		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+		var typeClass = TypeMappings.typeClass(defaultType);
 		var modelObjectsArray = this.create({
 			content: Ember.A(),
 			typeClass: typeClass,

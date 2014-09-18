@@ -1,4 +1,6 @@
-Balanced.OtpView = Balanced.LoginView.extend({
+import LoginView from "../login";
+
+var OtpView = LoginView.extend({
 	templateName: 'login_flow/otp',
 	pageTitle: 'Two-factor authentication',
 
@@ -9,3 +11,5 @@ Balanced.OtpView = Balanced.LoginView.extend({
 		};
 	}.property(),
 });
+
+export default OtpView;

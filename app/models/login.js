@@ -1,4 +1,4 @@
-Balanced.Login = Balanced.Model.extend(Ember.Validations, {
+var Login = Balanced.Model.extend(Ember.Validations, {
 	validations: {
 		otpCode: {
 			presence: true
@@ -6,4 +6,5 @@ Balanced.Login = Balanced.Model.extend(Ember.Validations, {
 	}
 });
 
-Balanced.TypeMappings.addTypeMapping('login', 'Balanced.Login');
+Balanced.Login = Login;
+export default Login;

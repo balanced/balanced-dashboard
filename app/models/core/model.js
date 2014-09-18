@@ -1,7 +1,3 @@
-require('balanced-dashboard/models/core/mixins/load_promise');
-require('balanced-dashboard/models/core/model_array');
-require('balanced-dashboard/models/core/type_mappings');
-
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
 var URI_METADATA_PROPERTY = '_uris';
@@ -54,8 +50,8 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 	}.property('uri'),
 
 	save: function(settings) {
-		settings = settings || {};
 		var self = this;
+		settings = settings || {};
 		var data = this.constructor.serializer.serialize(this);
 
 		self.set('isSaving', true);

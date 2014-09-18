@@ -32,7 +32,7 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 
 	resolveOn: function(successEvent) {
 		var model = this;
-		var deferred = Ember.Deferred.create();
+		var deferred = Ember.RSVP.defer();
 
 		function success(args) {
 			resetEventHandlers();

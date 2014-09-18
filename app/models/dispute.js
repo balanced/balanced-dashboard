@@ -67,4 +67,4 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('isEvidenceProvided', 'hasExpired', 'status')
 });
 
-Balanced.TypeMappings.addTypeMapping('dispute', 'Balanced.Dispute');
+

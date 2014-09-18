@@ -1,6 +1,6 @@
 var JSON_PROPERTY_KEY = '__json';
 
-Balanced.Rev0Serializer = Ember.Object.extend({
+var Rev0Serializer = Ember.Object.extend({
 	//  properties which are not echoed back to the server
 	privateProperties: ['id', 'uri', 'validationErrors', JSON_PROPERTY_KEY, 'links', '_type'],
 
@@ -43,3 +43,6 @@ Balanced.Rev0Serializer = Ember.Object.extend({
 		return props;
 	}
 });
+
+Balanced.Rev0Serializer = Rev0Serializer;
+export default Rev0Serializer;

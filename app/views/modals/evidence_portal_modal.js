@@ -1,3 +1,5 @@
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
 var Full = Balanced.Modals.FullModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
 var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
@@ -155,7 +157,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 			email: Balanced.Auth.get('user.email_address')
 		};
 		_.extend(attributes, extra);
-		Balanced.Analytics.trackEvent(message, attributes);
+		AnalyticsLogger.trackEvent(message, attributes);
 	},
 
 	drop: function(event) {

@@ -9,4 +9,4 @@ Balanced.Event = Balanced.Model.extend({
 	}.property('type')
 });
 
-Balanced.TypeMappings.addTypeMapping('event', 'Balanced.Event');
+

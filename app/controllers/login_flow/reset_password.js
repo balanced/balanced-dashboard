@@ -1,6 +1,5 @@
 Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 	needs: ["notification_center"],
-	content: null,
 	password: null,
 	password_confirm: null,
 	hasError: false,

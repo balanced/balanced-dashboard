@@ -1,7 +1,9 @@
-Balanced.InvalidRoute = Balanced.AuthRoute.extend({
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
+var InvalidRoute = Balanced.AuthRoute.extend({
 	redirect: function() {
 		Ember.Logger.warn("Invalid route specified: " + window.location.pathname + window.location.hash);
-		Balanced.Analytics.trackEvent('route-error', {
+		AnalyticsLogger.trackEvent('route-error', {
 			type: 'invalid-route',
 			location: window.location.toString()
 		});
@@ -20,3 +22,5 @@ Balanced.InvalidRoute = Balanced.AuthRoute.extend({
 		return null;
 	}
 });
+
+export default InvalidRoute;

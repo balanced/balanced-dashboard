@@ -1,3 +1,5 @@
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
 var Full = Balanced.Modals.FullModalMixin;
 var OpenNext = Balanced.Modals.OpenNextModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
@@ -22,7 +24,7 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 		attributes = _.extend({
 			email_address: Balanced.Auth.get("user.email_address")
 		}, attributes);
-		Balanced.Analytics.trackEvent(message, attributes);
+		AnalyticsLogger.trackEvent(message, attributes);
 	},
 
 	isSaving: false,

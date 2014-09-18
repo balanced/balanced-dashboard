@@ -10,4 +10,4 @@ Balanced.Reversal = Balanced.Transaction.extend({
 	customer: Ember.computed.readOnly('credit.customer')
 });
 
-Balanced.TypeMappings.addTypeMapping('reversal', 'Balanced.Reversal');
+

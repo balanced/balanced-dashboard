@@ -174,4 +174,4 @@ Balanced.Customer.reopenClass({
 	}
 });
 
-Balanced.TypeMappings.addTypeMapping('customer', 'Balanced.Customer');
+

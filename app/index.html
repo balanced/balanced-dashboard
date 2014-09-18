@@ -23,16 +23,12 @@
 			</div>
 		</div>
 	</section>
-    <script>
-      window.BALANCED_ENV = window.ENV = {{ENV}};
-      window.EMBER_ENV = window.BALANCED_ENV.EmberENV;
-    </script>
 	<script src="//cdn.ravenjs.com/1.1.3/jquery,native/raven.min.js"></script>
 	<script src="//js.balancedpayments.com/1.1/balanced.js"></script>
     <script src="assets/vendor.js"></script>
     <script src="assets/balanced-dashboard.js"></script>
     <script>
-		require('balanced-dashboard/app');
+		window.BalancedApp = require('balanced-dashboard/app')['default'].create(window.BALANCED_ENV.APP);
     </script>
   </body>
 </html>

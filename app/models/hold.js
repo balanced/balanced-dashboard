@@ -29,5 +29,5 @@ Balanced.Hold = Balanced.Transaction.extend({
 	funding_instrument_type: Ember.computed.alias('card.type_name')
 });
 
-Balanced.TypeMappings.addTypeMapping('hold', 'Balanced.Hold');
-Balanced.TypeMappings.addTypeMapping('card_hold', 'Balanced.Hold');
+
+

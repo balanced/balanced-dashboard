@@ -1,13 +1,13 @@
 `import SessionManager from "balanced-dashboard/auth"`
 
-UserSessionInitializer =
+Initializer =
 	name: "userSession"
 	initialize: (container, App) ->
 		App.deferReadiness()
-		App.NET.loadCSRFTokenIfNotLoaded()
+		SessionManager.loadCsrfTokenIfNotLoaded()
 			.then ->
 				SessionManager.getCurrentLogin()
 			.finally ->
 				App.advanceReadiness()
 
-`export default UserSessionInitializer`
+`export default Initializer`

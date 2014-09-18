@@ -20,4 +20,4 @@ Balanced.Verification = Balanced.Model.extend({
 	}.property('verification_status')
 });
 
-Balanced.TypeMappings.addTypeMapping('bank_account_verification', 'Balanced.Verification');
+

@@ -1,5 +1,8 @@
+`import Rev0Serializer from "balanced-dashboard/serializers/rev0";`
+`import UserMarketplace from "./user_marketplace";`
+
 User = Balanced.Model.extend Ember.Validations,
-	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', 'Balanced.UserMarketplace')
+	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', UserMarketplace)
 
 	marketplacesLoader: (->
 		find: (id) ->
@@ -30,15 +33,18 @@ User = Balanced.Model.extend Ember.Validations,
 Balanced.Adapter.registerHostForType(User, ENV.BALANCED.AUTH)
 
 User.reopenClass(
-	serializer: Balanced.Rev0Serializer.extend(
+	serializer: Rev0Serializer.extend(
 		extractSingle: (rootJson, type, href) ->
 			json = this._super(rootJson, type, href)
 			json.user_marketplaces = json.marketplaces || []
 			delete json.marketplaces
 			json.user_marketplaces.sort (a, b) ->
-				if (a.name == b.name)
+				if a.name == b.name
 					return 0
-				return (a.name > b.name) ? 1 : -1
+				else if a.name > b.name
+					return 1
+				else
+					return -1
 			return json
 	).create()
 )

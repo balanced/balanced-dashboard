@@ -1,3 +1,5 @@
+import ENV from "balanced-dashboard/config/environment";
+
 Balanced.NET = Ember.Namespace.create({
 	csrfToken: $.cookie(Balanced.COOKIE.CSRF_TOKEN),
 	defaultApiKey: null,
@@ -9,7 +11,7 @@ Balanced.NET = Ember.Namespace.create({
 		this
 			.ajax({
 				type: 'POST',
-				url: Ember.ENV.BALANCED.AUTH
+				url: ENV.BALANCED.AUTH
 			})
 			.then(function(response) {
 				self.csrfToken = response.csrf;

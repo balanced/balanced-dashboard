@@ -1,5 +1,0 @@
-new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,appears_on_statement_as,description,amount
-Damon Chin,damon@example.com,012345678,1234567890,Damon Chin,checking,Marketplace,Order #004150,36.94
-Chris Sale,chris@example.com,012345678,1234567890,Chris Sale,savings,Marketplace,Order #004151,63.28
-David Price,david@example.com,012345678,1234567890,David Price,checking,Marketplace,Order #004152,52.19
-Mark Trumbo,mark@example.com,012345678,1234567890,Mark Trumbo,checking,Marketplace,Order #004153,73.25

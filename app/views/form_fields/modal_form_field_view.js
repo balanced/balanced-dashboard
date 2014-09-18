@@ -1,4 +1,6 @@
-Balanced.FormFields.ModalFormFieldView = Balanced.View.extend({
+import Ember from "ember";
+
+Balanced.FormFields.ModalFormFieldView = Ember.View.extend({
 	layoutName: "form_fields/modal_form_field_layout",
 	classNameBindings: [":control-group", "isError:error"],
 

@@ -18,7 +18,7 @@ Balanced.DisputeDocument.reopenClass({
 
 Balanced.Adapter.registerHostForType(Balanced.DisputeDocument, ENV.BALANCED.JUSTITIA);
 
-Balanced.TypeMappings.addTypeMapping('dispute_documents', 'Balanced.DisputeDocument');
+
 
 
 

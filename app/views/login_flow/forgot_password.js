@@ -1,4 +1,6 @@
-Balanced.ForgotPasswordView = Balanced.LoginView.extend({
+import LoginView from "../login";
+
+var ForgotPasswordView = LoginView.extend({
 	templateName: 'login_flow/forgot_password',
 	pageTitle: 'Reset password',
 	afterFormLink: function() {
@@ -8,3 +10,5 @@ Balanced.ForgotPasswordView = Balanced.LoginView.extend({
 		};
 	}.property(),
 });
+
+export default ForgotPasswordView;

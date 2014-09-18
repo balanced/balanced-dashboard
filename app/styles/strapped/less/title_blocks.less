@@ -1,0 +1,62 @@
+.tb,.title-block {
+  @titleBarHeight: 70px;
+
+  background-color: @gray2;
+  height: @titleBarHeight;
+  margin-bottom: 0;
+
+  .tb-icon {
+    font-size: 36px;
+    line-height: 86px;
+  }
+
+  .tb-label {
+    line-height: 70px;
+  }
+
+  .tb-label, .tb-icon {
+    background-color: @gray7;
+    background-image: none;
+    color: @white;
+    display: block;
+    float: left;
+    height: 70px;
+    text-align: center;
+    text-indent: 0;
+    width: 70px;
+  }
+
+  .tb-content {
+    .sl-md;
+    color: @gray9;
+    line-height: 70px;
+    letter-spacing: normal;
+    padding: 0 20px;
+    text-transform: inherit;
+  }
+
+  .tb-actions {
+    display: block;
+    float: right;
+    height: @titleBarHeight;
+    line-height: @titleBarHeight;
+    margin-right: 20px;
+  }
+
+  &.tb-imperial-red {
+    background-color: @imperialRed60;
+    color: @white;
+    .tb-icon, .tb-label {
+      background-color: @imperialRed100;
+    }
+  }
+
+  &.tb-egyptian-blue {
+    background-color: @egyptianBlue60;
+    color: @white;
+    .tb-icon, .tb-label {
+      background-color: @egyptianBlue100;
+    }
+  }
+}
+

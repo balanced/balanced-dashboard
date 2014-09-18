@@ -1,0 +1,345 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'Balanced-Icon';
+  src: url('../fonts/balanced.eot');
+  src: url('../fonts/balanced.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/balanced.woff') format('woff'),
+       url('../fonts/balanced.svg#Balanced') format('svg'),
+       url('../fonts/balanced.ttf') format('truetype');
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: "Balanced-Icon" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "Balanced-Icon" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Default icon style
+
+[class^="icon-"] {
+  color: @gray4;
+  vertical-align: sub;
+
+  &:not(.non-interactive):hover {
+    color: @black;
+    cursor: pointer;
+  }
+}
+
+// Special cases
+
+.icon-edit {
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.icon-table-x {
+  color: @gray3;
+  vertical-align: -6px;
+}
+
+.icon-download {
+  .cssicon(@iconsFile, 30px, 30px);
+  background-position: -10px -580px;
+  background-color: rgb(165, 163, 163);
+  &:hover {
+    background-color: #000;
+  }
+}
+
+.icon-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 0;
+  font-size: 25px;
+  padding: 0;
+  text-indent: -4000px;
+  &:after {
+    .cssicon(
+      @url: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAKCAYAAACALL/6AAAAV0lEQVR42p2R4QlAIQiEHcERG6UNGqUR3giNdBUoTy76kR8IcqeRKgB0xWfRhNha8NXFgp9GxU6RCJu3R7ip46TLBZ9nwLBcUw2pL+WHJrMGvfJanw83AfPFCSKK6ozSAAAAAElFTkSuQmCC'),
+      @width: 12px,
+      @height: 10px,
+      @display: block
+    );
+    position: absolute;
+    top: 6px;
+    left: 5px;
+    background-size: 11px;
+    background-repeat: no-repeat;
+    content: ' ';
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.loader {
+  display: none;
+  background: url('../images/loading.gif');
+  width: 24px;
+  height: 24px;
+
+  &.loading {
+    display: block;
+  }
+}
+
+// Fontastic css
+
+.icon-addproductionmp:before {
+  content: "a";
+}
+.icon-addtestmp:before {
+  content: "b";
+}
+.icon-arrow-backward-dashboard:before {
+  content: "c";
+}
+.icon-arrow-forward-dashboard:before {
+  content: "d";
+}
+.icon-arrow-triangle-forward:before {
+  content: "e";
+}
+.icon-balanced-dots:before {
+  content: "f";
+}
+.icon-balanced-logo-horizontal:before {
+  content: "g";
+}
+.icon-business:before {
+  content: "h";
+}
+.icon-carat-down:before {
+  content: "i";
+}
+.icon-carat-right:before {
+  content: "j";
+}
+.icon-carat-up:before {
+  content: "k";
+}
+.icon-docs:before {
+  content: "l";
+}
+.icon-document-upload:before {
+  content: "m";
+}
+.icon-github:before {
+  content: "n";
+}
+.icon-jsfiddle:before {
+  content: "o";
+}
+.icon-key:before {
+  content: "p";
+}
+.icon-menu:before {
+  content: "q";
+}
+.icon-navigation-arrow-back:before {
+  content: "r";
+}
+.icon-navigation-arrow-forward:before {
+  content: "s";
+}
+.icon-small-x:before {
+  content: "t";
+}
+.icon-notification:before {
+  content: "u";
+}
+.icon-order:before {
+  content: "v";
+}
+.icon-person:before {
+  content: "w";
+}
+.icon-plus-sign:before {
+  content: "x";
+}
+.icon-productionmp:before {
+  content: "y";
+}
+.icon-quora:before {
+  content: "z";
+}
+.icon-settings:before {
+  content: "A";
+}
+.icon-star:before {
+  content: "B";
+}
+.icon-testmp:before {
+  content: "C";
+}
+.icon-tooltip:before {
+  content: "D";
+}
+.icon-twitter:before {
+  content: "E";
+}
+.icon-watchers:before {
+  content: "F";
+}
+.icon-bank-account:before {
+  content: "G";
+}
+.icon-card:before {
+  content: "H";
+}
+.icon-export:before {
+  content: "I";
+}
+.icon-question-mark:before {
+  content: "J";
+}
+.icon-x:before {
+  content: "K";
+}
+.icon-arrow-thin-backward:before {
+  content: "L";
+}
+.icon-arrow-thin-forward:before {
+  content: "M";
+}
+.icon-customers:before {
+  content: "N";
+}
+.icon-disputes:before {
+  content: "O";
+}
+.icon-my-marketplace:before {
+  content: "P";
+}
+.icon-payments:before {
+  content: "Q";
+}
+.icon-sort-descending:before {
+  content: "R";
+}
+.icon-sort-ascending:before {
+  content: "S";
+}
+.icon-sort-none:before {
+  content: "T";
+}
+.icon-invoices:before {
+  content: "U";
+}
+.icon-checkmark:before {
+  content: "V";
+}
+.icon-pushtocard:before {
+  content: "W";
+}
+.icon-card-processing:before {
+  content: "X";
+}
+.icon-ach-debit:before {
+  content: "Y";
+}
+.icon-ach-credit:before {
+  content: "Z";
+}
+.icon-mastercard:before {
+  content: "0";
+}
+.icon-discover:before {
+  content: "1";
+}
+.icon-american-express:before {
+  content: "2";
+}
+.icon-visa:before {
+  content: "3";
+}
+.icon-cent:before {
+  content: "4";
+}
+.icon-percent:before {
+  content: "5";
+}
+.icon-dollar:before {
+  content: "6";
+}
+.icon-calendar:before {
+  content: "7";
+}
+.icon-logs:before {
+  content: "8";
+}
+.icon-search:before {
+  content: "9";
+}
+.icon-overview:before {
+  content: "!";
+}
+.icon-edit:before {
+  content: "\"";
+}
+.icon-right-arc-arrow:before {
+  content: "#";
+}
+.icon-left-arc-arrow:before {
+  content: "$";
+}
+.icon-table-x:before {
+  content: "%";
+}
+.icon-single-transaction:before {
+  content: "&";
+}
+.icon-escrow:before {
+  content: "'";
+}
+.icon-printer:before {
+  content: "(";
+}
+.icon-alert:before {
+  content: ")";
+}
+.icon-checkmark2:before {
+  content: "*";
+}
+.icon-test:before {
+  content: "+";
+}
+.icon-live:before {
+  content: ",";
+}
+.icon-code:before {
+  content: "-";
+}
+.icon-upload:before {
+  content: ".";
+}

@@ -15,7 +15,7 @@ var FORMAT_NUMBER_REGEX = /\B(?=(\d{3})+(?!\d))/g,
 	HIDE_CC_NUMBER_REGEX = /([0-9]*)([0-9]{4})/g;
 
 
-Balanced.Utils = Ember.Namespace.create({
+var Utils = Ember.Namespace.create({
 
 	toDataUri: function(string) {
 		return "data:text/plain;charset=utf-8;base64," + window.btoa(string);
@@ -457,3 +457,6 @@ Balanced.Utils = Ember.Namespace.create({
 		return bytes;
 	}
 });
+
+Balanced.Utils = Utils;
+export default Utils;

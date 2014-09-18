@@ -19,4 +19,4 @@ Balanced.Refund = Balanced.Transaction.extend({
 	}.property('id', 'debit.refunds.@each')
 });
 
-Balanced.TypeMappings.addTypeMapping('refund', 'Balanced.Refund');
+

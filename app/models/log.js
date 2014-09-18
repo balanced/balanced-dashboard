@@ -33,5 +33,5 @@ Balanced.Log = Balanced.Model.extend({
 	}.property('message.request.headers.X-Real-Ip'),
 });
 
-Balanced.TypeMappings.addTypeMapping('log', 'Balanced.Log');
-Balanced.TypeMappings.addTypeMapping('log_search', 'Balanced.Log');
+
+

@@ -1,3 +1,5 @@
+import BaseFormFieldView from "./base_form_field";
+
 var addEmptyField = function(allowEmpty, values) {
 	if (allowEmpty) {
 		values = [undefined].concat(values);
@@ -5,7 +7,7 @@ var addEmptyField = function(allowEmpty, values) {
 	return values;
 };
 
-Balanced.DateFormFieldView = Balanced.BaseFormFieldView.extend({
+var DateFormFieldView = BaseFormFieldView.extend({
 	templateName: "form_fields/date_form_field",
 	optionValuePath: "content.value",
 	optionLabelPath: "content.label",
@@ -47,3 +49,5 @@ Balanced.DateFormFieldView = Balanced.BaseFormFieldView.extend({
 		return this.getModelValue();
 	}.property("model", "field"),
 });
+
+export default DateFormFieldView;

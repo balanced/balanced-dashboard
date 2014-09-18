@@ -1,6 +1,5 @@
 module.exports = function(environment) {
-	var ENV;
-	ENV = {
+	var ENV = {
 		environment: environment,
 		baseURL: '/',
 		locationType: 'auto',
@@ -19,10 +18,20 @@ module.exports = function(environment) {
 			GOOGLE_ANALYTICS: ''
 		}
 	};
+
+	if (environment === "development") {
+		ENV.APP.LOG_ACTIVE_GENERATION = true;
+		ENV.APP.LOG_TRANSITIONS = true;
+		ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+		ENV.APP.LOG_VIEW_LOOKUPS = true;
+	}
+
 	if (environment === 'test') {
 		ENV.baseURL = '/';
 	}
+
 	if (environment === 'production') {
+		ENV.baseURL = '/';
 		ENV.BALANCED.MIXPANEL = '991598fc644dd5d0894e6cb070154330';
 		ENV.BALANCED.GOOGLE_ANALYTICS = 'UA-30733850-1';
 	}

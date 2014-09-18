@@ -1,0 +1,56 @@
+/*
+* fonts.less
+*
+*/
+
+@baseFontFamily: "Proxima Nova Reg", arial, sans-serif;
+@baseFontFamilyReg: "Proxima Nova Reg", arial, sans-serif;
+@baseFontFamilyItalic: "Plantin Italic", arial, sans-serif;
+@baseFontFamilyLight: "Proxima Nova Light", arial, sans-serif;
+@baseFontFamilySemiBold: "Proxima Nova Semi Bold", arial, sans-serif;
+@baseFontFamilyBold: "Proxima Nova Bold", arial, sans-serif;
+@monoFontFamily: "Inconsolata", Monaco, Menlo, "Courier New", monospace;
+
+@textColor: @black;
+@bodyBackground: @white;
+@linkColor: @persianBlue60;
+@linkColorHover: @persianBlue100;
+
+@baseFontSize: 14px;
+@baseLineHeight: 20px;
+
+.fontyFont(label1; Proxima Nova Reg, Arial, sans-serif; 18px);
+.fontyFont(label1; Proxima Nova Reg, Arial, sans-serif; 18px);
+.fontyFont(label2; Proxima Nova Reg Bold, Arial, sans-serif; 15px);
+.fontyFont(label3; Proxima Nova Reg, Arial, sans-serif; 15px);
+.fontyFont(label4; Proxima Nova Reg, Arial, sans-serif; 13px);
+.fontyFont(label6; Proxima Nova Semi Bold, Arial, sans-serif; 13px);
+.fontyFont(label7; Proxima Nova Semi Bold, Arial, sans-serif; 15px);
+.fontyFont(number1; Proxima Nova Semi Bold, Arial, sans-serif; 56px);
+.fontyFont(number3; Proxima Nova Semi Bold, Arial, sans-serif; 18px);
+.fontyFont(nav1; Proxima Nova Reg, Arial, sans-serif; 12px; @textTransform: uppercase; @letterSpacing: 1px);
+.fontyFont(nav2; Proxima Nova Reg, Arial, sans-serif; 18px);
+.fontyFont(nav3; Proxima Nova Reg, Arial, sans-serif; 22px);
+.fontyFont(body1; Proxima Nova Reg, Arial, sans-serif; 13px);
+.fontyFont(subhead2; Proxima Nova Reg, Arial, sans-serif; 15px);
+
+.fontFaceDefinition('Proxima Nova Reg'; 400; '../fonts/Proxima Nova Reg');
+.fontFaceDefinition('Proxima Nova Reg Italic'; 400; '../fonts/Proxima Nova Reg It');
+.fontFaceDefinition('Plantin Italic'; 400; '../fonts/PlantinStd-Italic');
+.fontFaceDefinition('Proxima Nova Light'; 400; '../fonts/Proxima Nova Light');
+.fontFaceDefinition('Proxima Nova Semi Bold'; 400; '../fonts/Proxima Nova Sbold');
+.fontFaceDefinition('Proxima Nova Bold'; 400; '../fonts/Proxima Nova Bold');
+
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Inconsolata'), url(https://themes.googleusercontent.com/static/fonts/inconsolata/v6/BjAYBlHtW3CJxDcjzrnZCLrIa-7acMAeDBVuclsi6Gc.woff) format('woff');
+}
+
+@font-face {
+  font-family: 'Inconsolata';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Inconsolata Bold'), local('Inconsolata-Bold'), url(https://themes.googleusercontent.com/static/fonts/inconsolata/v6/AIed271kqQlcIRSOnQH0yRbnBKKEOwRKgsHDreGcocg.woff) format('woff');
+}

@@ -109,4 +109,4 @@ Balanced.Invoice = Balanced.Model.extend({
 	disputes_uri: Computed.uri('disputes')
 });
 
-Balanced.TypeMappings.addTypeMapping('invoice', 'Balanced.Invoice');
+

@@ -1,6 +1,8 @@
+import Ember from "ember";
+
 // We need a temporary route for logout so the views don't have to assume that
 // the Balanced.Auth.user can be null for logged in pages
-Balanced.LogoutRoute = Balanced.Route.extend({
+var LogoutRoute = Ember.Route.extend({
 	pageTitle: 'Logout',
 
 	redirect: function() {
@@ -15,3 +17,5 @@ Balanced.LogoutRoute = Balanced.Route.extend({
 		}
 	}
 });
+
+export default LogoutRoute;

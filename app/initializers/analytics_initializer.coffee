@@ -1,8 +1,8 @@
 `import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger"`
 
-AnalyticsInitializer =
+Initializer =
   name: "analytics"
   initialize: ->
     AnalyticsLogger.init(ENV.BALANCED)
 
-`export default AnalyticsInitializer`
+`export default Initializer`

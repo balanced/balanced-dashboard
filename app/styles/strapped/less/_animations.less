@@ -1,0 +1,286 @@
+/*
+* animations.less
+*
+*/
+
+// Float
+@-webkit-keyframes floatUpRight { .floatUpRight }
+@-moz-keyframes floatUpRight { .floatUpRight }
+@-ms-keyframes floatUpRight { .floatUpRight }
+@-o-keyframes floatUpRight { .floatUpRight }
+@keyframes floatUpRight { .floatUpRight }
+
+.floatUpRight() {
+  0%, 100% {
+    .transform(translateY(0) rotate(6deg));
+  }
+  50%{
+    .transform(translateY(-10px) rotate(8deg));
+  }
+}
+
+@-webkit-keyframes floatUpLeft { .floatUpLeft }
+@-moz-keyframes floatUpLeft { .floatUpLeft }
+@-ms-keyframes floatUpLeft { .floatUpLeft }
+@-o-keyframes floatUpLeft { .floatUpLeft }
+@keyframes floatUpLeft { .floatUpLeft }
+
+.floatUpLeft() {
+  0%, 100% {
+    .transform(translateY(0) rotate(-6deg));
+  }
+  50%{
+    .transform(translateY(-10px) rotate(-8deg));
+  }
+}
+
+@-webkit-keyframes floatDownLeft { .floatDownLeft }
+@-moz-keyframes floatDownLeft { .floatDownLeft }
+@-ms-keyframes floatDownLeft { .floatDownLeft }
+@-o-keyframes floatDownLeft { .floatDownLeft }
+@keyframes floatDownLeft { .floatDownLeft }
+
+.floatDownLeft() {
+  0%, 100% {
+    .transform(translateY(0));
+  }
+  50%{
+    .transform(translateY(8px) rotate(-5deg));
+  }
+}
+
+// Slide
+@-webkit-keyframes slideLeft { .slideLeft }
+@-moz-keyframes slideLeft { .slideLeft }
+@-ms-keyframes slideLeft { .slideLeft }
+@-o-keyframes slideLeft { .slideLeft }
+@keyframes slideLeft { .slideLeft }
+
+.slideLeft() {
+  0% {
+    background-position-x: 0;
+  }
+
+  100% {
+    background-position-x: -100%;
+  }
+}
+
+@-webkit-keyframes slideUp { .slideUp }
+@-moz-keyframes slideUp { .slideUp }
+@-ms-keyframes slideUp { .slideUp }
+@-o-keyframes slideUp { .slideUp }
+@keyframes slideUp { .slideUp }
+
+.slideUp() {
+  0% {
+    .transform(translateY(0));
+  }
+
+  1% {
+    .transform(translateY(20px));
+  }
+
+  100% {
+    opacity: 1;
+    .transform(translateY(0));
+  }
+}
+
+.slide-up {
+  .animation(slideUp, 500ms, ease-in, 200ms);
+}
+
+// Bounce
+@-webkit-keyframes bounceDown { .bounceDown }
+@-moz-keyframes bounceDown { .bounceDown }
+@-ms-keyframes bounceDown { .bounceDown }
+@-o-keyframes bounceDown { .bounceDown }
+@keyframes bounceDown { .bounceDown }
+
+.bounceDown() {
+  0% {
+    .transform(translateY(0));
+  }
+
+  1% {
+    .transform(translateY(-500px));
+  }
+
+  20%, 50%, 80%, 100% {
+    opacity: 1;
+    .transform(translateY(0px));
+  }
+
+  40% {
+    opacity: 1;
+    .transform(translateY(-30px));
+  }
+
+  60% {
+    opacity: 1;
+    .transform(translateY(-15px));
+  }
+}
+
+.bounce-down {
+  .animation(bounceDown, 1s, ease-in-out, 200ms);
+}
+
+// Loading Spinner
+@loadingSpinnerDotSize: 2;
+@loadingSpinnerDotSizeSmall: 5;
+
+#loadingSpinner {
+  height:@loadingSpinnerDotSize+0em;
+  width:@loadingSpinnerDotSize+0em;
+  border-radius:100%;
+  background:RGB(234, 171, 0);
+  display:block;
+  margin:2em auto;
+  position:relative;
+  z-index: 20;
+  .animation(spin, 2s, ease, infinite);
+
+  &.inline {
+    display: inline-block;
+    margin: 0;
+    margin-bottom: 8px;
+    height:@loadingSpinnerDotSizeSmall+0px;
+    width:@loadingSpinnerDotSizeSmall+0px;
+    .animation(spinSmall, 2s, ease, infinite);
+    
+    &:before, &:after {
+     .animation(spinUpSmall, 2s, ease, infinite); 
+    }
+
+    &:before {
+      left:-(@loadingSpinnerDotSizeSmall*1.30)+0px;
+    }
+
+    &:after {
+      left:(@loadingSpinnerDotSizeSmall*1.30)+0px;
+    }
+  }
+
+  &:before, &:after{
+    content:'';
+    display:block;
+    position:absolute;
+    height:inherit;
+    width:inherit;
+    background:inherit;
+    border-radius:inherit;
+    .animation(spinUp, 2s, ease, infinite);
+  }
+
+  &:before{
+    left:-(@loadingSpinnerDotSize*1.15)+0em;
+    background: RGB(115, 150, 0);    
+  }
+
+  &:after{
+    left:(@loadingSpinnerDotSize*1.15)+0em;
+    background: RGB(213, 43, 30);
+  }
+}
+
+.loadingSpinnerSpin() {
+  0%{
+    top:0;
+    .transform(rotate(0deg));
+  }
+  15%{
+    top:-(@loadingSpinnerDotSize / 2)+0em;
+    .transform(rotate(-180deg));
+  }
+  50%{
+    top:(@loadingSpinnerDotSize)+0em;
+    .transform(rotate(-180deg));
+  }
+  55%{
+    top:-(@loadingSpinnerDotSize / 2)+0em;
+    .transform(rotate(-180deg));
+  }
+  100%{
+    top:0;
+    .transform(rotate(-360deg));
+  }
+}
+
+.loadingSpinnerSpinUp() {
+  0%{
+    top:0;
+    .transform(rotate(0deg));
+  }
+  50%{
+    top:(@loadingSpinnerDotSize*2)+0em;
+    .transform(rotate(-180deg));
+  }
+  100%{
+    top:0;
+    .transform(rotate(-360deg));
+  }
+}
+
+@-webkit-keyframes spin {.loadingSpinnerSpin}
+@-moz-keyframes spin {.loadingSpinnerSpin}
+@-ms-keyframes spin {.loadingSpinnerSpin}
+@-o-keyframes spin {.loadingSpinnerSpin}
+@keyframes spin {.loadingSpinnerSpin}
+
+@-webkit-keyframes spinUp {.loadingSpinnerSpinUp}
+@-moz-keyframes spinUp {.loadingSpinnerSpinUp}
+@-ms-keyframes spinUp {.loadingSpinnerSpinUp}
+@-o-keyframes spinUp {.loadingSpinnerSpinUp}
+@keyframes spinUp {.loadingSpinnerSpinUp}
+
+.loadingSpinnerSpinSmall() {
+  0%{
+    top:0;
+    .transform(rotate(0deg));
+  }
+  15%{
+    top:-(@loadingSpinnerDotSizeSmall / 2)+0px;
+    .transform(rotate(-180deg));
+  }
+  50%{
+    top:(@loadingSpinnerDotSizeSmall)+0px;
+    .transform(rotate(-180deg));
+  }
+  55%{
+    top:-(@loadingSpinnerDotSizeSmall / 2)+0px;
+    .transform(rotate(-180deg));
+  }
+  100%{
+    top:0;
+    .transform(rotate(-360deg));
+  }
+}
+
+.loadingSpinnerSpinUpSmall() {
+  0%{
+    top:0;
+    .transform(rotate(0deg));
+  }
+  50%{
+    top:(@loadingSpinnerDotSizeSmall*2)+0px;
+    .transform(rotate(-180deg));
+  }
+  100%{
+    top:0;
+    .transform(rotate(-360deg));
+  }
+}
+
+@-webkit-keyframes spinSmall {.loadingSpinnerSpinSmall}
+@-moz-keyframes spinSmall {.loadingSpinnerSpinSmall}
+@-ms-keyframes spinSmall {.loadingSpinnerSpinSmall}
+@-o-keyframes spinSmall {.loadingSpinnerSpinSmall}
+@keyframes spinSmall {.loadingSpinnerSpinSmall}
+
+@-webkit-keyframes spinUpSmall {.loadingSpinnerSpinUpSmall}
+@-moz-keyframes spinUpSmall {.loadingSpinnerSpinUpSmall}
+@-ms-keyframes spinUpSmall {.loadingSpinnerSpinUpSmall}
+@-o-keyframes spinUpSmall {.loadingSpinnerSpinUpSmall}
+@keyframes spinUpSmall {.loadingSpinnerSpinUpSmall}

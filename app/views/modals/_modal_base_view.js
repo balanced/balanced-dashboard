@@ -1,3 +1,5 @@
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
 Balanced.Modals = {};
 
 Balanced.ModalBaseView = Ember.View.extend({
@@ -74,7 +76,7 @@ Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create(Ember.Validati
 			controller.alertError(new Ember.Handlebars.SafeString(errorMessage));
 		}
 
-		Balanced.Analytics.trackEvent(errorMessage, {
+		AnalyticsLogger.trackEvent(errorMessage, {
 			path: self.get("container").lookup("controller:application").get('currentRouteName')
 		});
 

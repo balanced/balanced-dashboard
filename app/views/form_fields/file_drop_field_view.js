@@ -1,4 +1,6 @@
-Balanced.FileDropFieldView = Ember.View.extend({
+import Ember from "ember";
+
+var FileDropFieldView = Ember.View.extend({
 	templateName: 'form_fields/file_drop_field',
 	dropMessage: 'Drag and drop files',
 
@@ -16,3 +18,5 @@ Balanced.FileDropFieldView = Ember.View.extend({
 		this.set('isDragging', false);
 	}
 });
+
+export default FileDropFieldView;

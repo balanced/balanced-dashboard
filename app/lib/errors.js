@@ -1,3 +1,5 @@
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
 var delegateToRaven = function(methodName) {
 	var Raven = window.Raven;
 
@@ -57,7 +59,7 @@ var reportError = function(error) {
 			tags: data
 		});
 
-		Balanced.Analytics.trackEvent('js-error', data);
+		AnalyticsLogger.trackEvent('js-error', data);
 	}
 
 	Ember.Logger.error(realError);

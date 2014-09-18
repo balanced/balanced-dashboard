@@ -1,0 +1,87 @@
+/*
+* notfound.less
+* (404 page)
+*
+*/
+
+#notfound {
+  .logo > img {
+    padding-top: 50px;
+    width: 145px;
+  }
+
+  h1 {
+    padding-top: 150px;
+    .num-xlg;
+  }
+
+  h3 {
+    .sl-sb;
+    border-bottom: 1px solid @gray3;
+  }
+
+  p {
+    .sl-lg-lt;
+    width: 350px;
+    z-index: 10;
+  }
+
+  .next-steps {
+    > div:first-of-type {
+      padding-left: 0;
+    }
+    a {
+      display: block;
+      padding-bottom: 5px;
+    }
+  }
+
+  .balloon {
+    width: 110px;
+    height: 160px;
+    position: absolute;
+    background-size: cover;
+
+    &.red {
+      top: 100px;
+      right: 40%;
+      background-image: url('../images/red_balloon.png');
+      .animation(floatUpLeft, 2s, ease, infinite);
+    }
+
+    &.green {
+      top: 100px;
+      right: 10%;
+      background-image: url('../images/green_balloon.png');
+      .animation(floatUpRight, 4s, ease, infinite);
+    }
+
+    &.yellow {
+      top: 400px;
+      right: 25%;
+      background-image: url('../images/yellow_balloon.png');
+      .animation(floatDownLeft, 3s, ease, infinite);
+    }
+  }
+
+  .cloud {
+    position: absolute;
+    top: 300px;
+    background-image: url('../images/clouds.png');
+    background-size: cover;
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 180px;
+    opacity: 0.8;
+    .animation(slideLeft, 22s, linear, infinite);
+  }
+
+  .cloud-rest {
+    position: absolute;
+    top: 480px;
+    bottom: 0;
+    background-color: @white;
+    opacity: 0.8;
+    width: 100%;
+  }
+}

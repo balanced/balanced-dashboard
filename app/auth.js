@@ -1,4 +1,9 @@
+import ENV from "balanced-dashboard/config/environment";
+
 var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
+	loadCsrfTokenIfNotLoaded: function() {
+		return Balanced.NET.loadCSRFTokenIfNotLoaded();
+	},
 	request: function(opts) {
 		var deferred = Ember.RSVP.defer();
 		Balanced.NET.ajax(opts || {})
@@ -69,7 +74,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				type: 'GET'
 			})
 			.then(undefined, function() {
-				console.log(arguments);
 				var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
 				if (authCookie) {
 					return self.signInRequest({
@@ -178,6 +182,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadExtensions: function() {
 		// TODO: reenable extensions
 		return Ember.RSVP.resolve();
+		/*
 		var promises = _.map(this.getExtensions(), function(val, key) {
 			var deferred = Ember.RSVP.defer();
 			$.getScript(key).always(function() {
@@ -186,6 +191,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			return deferred.promise;
 		});
 		return Ember.RSVP.allSettled(promises);
+		*/
 	},
 
 	enableMultiFactorAuthentication: function() {
@@ -324,16 +330,6 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			path: '/'
 		});
 	}
-});
-
-Balanced.register('user:main', null, {
-	instantiate: false,
-	singleton: true
-});
-
-Balanced.register('auth:main', Balanced.Auth, {
-	instantiate: false,
-	singleton: true
 });
 
 export default auth;

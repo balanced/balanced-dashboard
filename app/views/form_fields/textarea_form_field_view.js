@@ -1,4 +1,6 @@
-Balanced.TextAreaFormFieldView = Balanced.BaseFormFieldView.extend({
+import BaseFormFieldView from "./base_form_field";
+
+var TextAreaFormFieldView = BaseFormFieldView.extend({
 	templateName: "form_fields/textarea_form_field",
 	maxlength: 0,
 	explanationText: function() {
@@ -12,3 +14,5 @@ Balanced.TextAreaFormFieldView = Balanced.BaseFormFieldView.extend({
 	}.property('value.length'),
 
 });
+
+export default TextAreaFormFieldView;

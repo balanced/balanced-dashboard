@@ -1,3 +1,5 @@
+import UserMarketplace from "./user_marketplace";
+
 var generateResultsLoader = function(klass, uriFieldName) {
 	return function(attributes) {
 		attributes = _.extend({
@@ -7,7 +9,7 @@ var generateResultsLoader = function(klass, uriFieldName) {
 	};
 };
 
-Balanced.Marketplace = Balanced.UserMarketplace.extend({
+Balanced.Marketplace = UserMarketplace.extend({
 	uri: '/marketplaces',
 
 	getInvoicesLoader: generateResultsLoader(Balanced.InvoicesResultsLoader, "invoices_uri"),
@@ -83,7 +85,7 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account')
 });
 
-Balanced.TypeMappings.addTypeMapping('marketplace', 'Balanced.Marketplace');
+
 
 Balanced.Marketplace.reopenClass({
 	findByApiKeySecret: function(secret) {

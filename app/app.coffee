@@ -1,21 +1,28 @@
 `import Ember from 'ember';`
 `import Resolver from 'ember/resolver';`
 `import loadInitializers from 'ember/load-initializers';`
+`import ENV from "balanced-dashboard/config/environment";`
+
+window.BALANCED_ENV = window.ENV = ENV
+window.EMBER_ENV = window.BALANCED_ENV.EmberENV
 
 Ember.MODEL_FACTORY_INJECTIONS = true
 
 App = Ember.Application.extend
 	modulePrefix: 'balanced-dashboard'
+
+	rootElement: "#balanced-app"
+
 	Resolver: Resolver
 
-	LOG_TRANSITIONS: false,
 	customEvents:
 		changeDate: 'changeDate'
 
 	ready: ->
 		$('#balanced-loading').remove()
 
-window.Balanced = App.create(window.BALANCED_ENV.APP)
+window.Balanced = App
 require("balanced-dashboard/manifest")
-
 loadInitializers(App, 'balanced-dashboard')
+
+`export default App;`

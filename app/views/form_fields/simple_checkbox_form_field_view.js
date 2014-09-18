@@ -1,4 +1,6 @@
-Balanced.SimpleCheckboxFormFieldView = Balanced.View.extend({
+import Ember from "ember";
+
+Balanced.SimpleCheckboxFormFieldView = Ember.View.extend({
 	templateName: "form_fields/simple_checkbox_form_field",
 	classNameBindings: [":form-group", "isError:has-error", ":checkbox"],
 	inputName: function() {

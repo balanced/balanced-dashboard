@@ -1,3 +1,5 @@
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
 var INFINITE_LOOP_DURATION_MILLIS = 2500;
 var INFINITE_LOOP_NUM_ERRORS = 5;
 
@@ -55,7 +57,7 @@ var ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
 				this.get('auth').forgetLastUsedMarketplaceUri();
 			}
 
-			Balanced.Analytics.trackEvent('route-error', {
+			AnalyticsLogger.trackEvent('route-error', {
 				type: 'error-loading-route',
 				location: window.location.toString(),
 				statusCode: statusCode

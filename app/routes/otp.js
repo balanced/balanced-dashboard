@@ -1,1 +1,5 @@
-Balanced.OtpRoute = Balanced.LoginRoute.extend({});
+import LoginRoute from "./login";
+
+var OtpRoute = LoginRoute.extend();
+
+export default OtpRoute;

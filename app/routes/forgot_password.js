@@ -1,4 +1,6 @@
-Balanced.ForgotPasswordRoute = Balanced.Route.extend({
+import Ember from 'ember';
+
+var ForgotPasswordRoute = Ember.Route.extend({
 	setupController: function(controller, model) {
 		controller.set("hasError", false);
 		this._super(controller, model.fp);
@@ -12,3 +14,5 @@ Balanced.ForgotPasswordRoute = Balanced.Route.extend({
 		};
 	}
 });
+
+export default ForgotPasswordRoute;

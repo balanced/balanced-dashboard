@@ -1,3 +1,5 @@
+import AnalyticsLogger from "../utils/analytics_logger";
+
 Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.Evented, {
 	needs: ['marketplace', "notification_center"],
 
@@ -25,7 +27,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 		} catch (e) {
 			this.set("errorMessage", "There was an error reading your CSV file");
 
-			Balanced.Analytics.trackEvent("Csv file parsing error", {
+			AnalyticsLogger.trackEvent("Csv file parsing error", {
 				text: text.slice(0, 200),
 				error: e
 			});
@@ -65,7 +67,7 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 			invalidLength: collection.get("invalid.length"),
 		};
 		_.extend(attributes, extra);
-		Balanced.Analytics.trackEvent(message, attributes);
+		AnalyticsLogger.trackEvent(message, attributes);
 	},
 
 	actions: {

@@ -1,6 +1,5 @@
 Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 	needs: ["notification_center"],
-	content: null,
 	email_address: null,
 	hasError: false,
 

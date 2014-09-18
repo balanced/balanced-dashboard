@@ -1,15 +1,12 @@
 `import Ember from "ember";`
+`import Auth from "balanced-dashboard/auth";`
 
-MarketplacesIndexController = Balanced.ArrayController.extend(Ember.Evented,
-	needs: ['application']
-
+MarketplacesIndexController = Balanced.ArrayController.extend
 	testMarketplaces: Ember.computed.filterBy("auth.user.user_marketplaces", "production", false)
-	productionMarketplaces: Ember.computed.filterBy("auth.user.user_marketplaces", "production", true)
+	productionMarketplaces: [] # Ember.computed.filterBy("auth.user.user_marketplaces", "production", true)
 
 	actions:
 		goToMarketplace: (marketplace) ->
-			this.transitionTo('marketplace', marketplace)
-)
+			@transitionTo('marketplace', marketplace)
 
-Balanced.MarketplacesIndexController = MarketplacesIndexController
 `export default MarketplacesIndexController;`

@@ -1,4 +1,4 @@
-Balanced.UserMarketplace = Balanced.Model.extend({
+var UserMarketplace = Balanced.Model.extend({
 	production: function() {
 		return this.get('uri').indexOf('TEST') === -1;
 	}.property('uri'),
@@ -88,10 +88,11 @@ Balanced.UserMarketplace = Balanced.Model.extend({
 	}.property('marketplace')
 });
 
-Balanced.TypeMappings.addTypeMapping('user_marketplace', 'Balanced.UserMarketplace');
+Balanced.Adapter.registerHostForType(UserMarketplace, ENV.BALANCED.AUTH);
 
-Balanced.Adapter.registerHostForType(Balanced.UserMarketplace, ENV.BALANCED.AUTH);
-
-Balanced.UserMarketplace.reopenClass({
+UserMarketplace.reopenClass({
 	serializer: Balanced.Rev0Serializer.create()
 });
+
+Balanced.UserMarketplace = UserMarketplace;
+export default UserMarketplace;

@@ -1,16 +1,18 @@
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+
 var ApplicationController = Ember.Controller.extend(Ember.Evented, {
 	needs: ["notification_center"],
 
 	actions: {
 		signUp: function() {
-			Balanced.Analytics.trackEvent("SignUp: Opened 'Create an account' modal", {
+			AnalyticsLogger.trackEvent("SignUp: Opened 'Create an account' modal", {
 				path: this.get("container").lookup("controller:application").get('currentRouteName')
 			});
 			this.transitionToRoute('setup_guest_user');
 		},
 
 		register: function() {
-			Balanced.Analytics.trackEvent("SignUp: Opened 'Register for production access' modal", {
+			AnalyticsLogger.trackEvent("SignUp: Opened 'Register for production access' modal", {
 				path: this.get("container").lookup("controller:application").get('currentRouteName')
 			});
 			this.transitionToRoute('marketplaces.apply');

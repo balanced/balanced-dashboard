@@ -156,4 +156,4 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	}
 });
 
-Balanced.TypeMappings.addTypeMapping('card', 'Balanced.Card');
+
