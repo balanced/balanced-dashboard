@@ -32,7 +32,7 @@ test('can visit page', function(assert) {
 			"table.disputes tbody tr": 2,
 			'table.disputes tbody tr:eq(0) td.date.initiated': 1,
 			'table.disputes tbody tr:eq(0) td.date.respond-by': 1,
-			'table.disputes tbody tr:eq(0) td.status': 'pending',
+			'table.disputes tbody tr:eq(0) td.state': 'pending',
 			'table.disputes tbody tr:eq(0) td.account': 1,
 			'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 			'table.disputes tbody tr:eq(0) td.amount': '$12.00',
@@ -46,10 +46,10 @@ test('can upload a dispute document', function(assert) {
 		'#content .page-type': 'Dispute',
 		'#content .dispute-alert a': 1
 	};
+	var disputeController = Balanced.__container__.lookup("controller:dispute");
 
 	visit(DISPUTE_ROUTE)
 		.then(function() {
-			var disputeController = Balanced.__container__.lookup("controller:dispute");
 			Ember.run(function() {
 				disputeController.get('model').set('canUploadDocuments', true);
 			});
@@ -62,9 +62,9 @@ test('can upload a dispute document', function(assert) {
 			// check that the upload prompt shows up
 		})
 		.then(function() {
-			var disputeController = Balanced.__container__.lookup("controller:dispute");
 			Ember.run(function() {
-				disputeController.get('model').set('documents', [Balanced.DisputeDocument.create({
+				var disputeModel = disputeController.get('model');
+				disputeModel.set('documents', [Balanced.DisputeDocument.create({
 					"created_at": "2014-06-26T00:27:30.544797+00:00",
 					"file_name": "test.jpg",
 					"file_url": "http://www.balancedpayments.com",
@@ -73,12 +73,15 @@ test('can upload a dispute document', function(assert) {
 					"size": 129386,
 					"updated_at": "2014-06-26T00:27:30.544821+00:00"
 				})]);
-
-				disputeController.get('model').set('canUploadDocuments', false);
+				disputeModel.set('canUploadDocuments', false);
+				disputeModel.set('status', 'pending');
 			});
 		})
 		.then(function() {
+			var disputeModel = disputeController.get('model');
 			assert.equal($('#content div.documents table tbody tr').length, 1, 'attached doc is displayed');
 			assert.equal($('#content .dispute-alert a').length, 0, 'cannot attach docs after docs are uploaded');
+			assert.equal(disputeModel.get('documents.length'), 1);
+			assert.equal(disputeModel.get('state'), 'submitted');
 		});
 });

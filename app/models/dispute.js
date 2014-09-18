@@ -8,7 +8,6 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		if (status === 'pending' && this.get('documents.length')) {
 			return 'submitted';
 		}
-		console.log(status, this.get('documents.length'));
 		return status;
 	}.property('dispute_documents', 'status'),
 

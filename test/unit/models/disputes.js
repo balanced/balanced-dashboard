@@ -5,7 +5,7 @@ test('state', function(assert) {
 	var document = Balanced.DisputeDocument.create();
 	dispute.set('documents', [document]);
 
-	[{
+	$([{
 		actual: 'won',
 		expected: 'won'
 	}, {
@@ -14,7 +14,7 @@ test('state', function(assert) {
 	}, {
 		actual: 'lost',
 		expected: 'lost'
-	}].each(function(state) {
+	}]).each(function(index, state) {
 		dispute.set('status', state.actual);
 		assert.equal(dispute.get('state'), state.expected);
 	});
