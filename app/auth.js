@@ -1,4 +1,7 @@
 import ENV from "balanced-dashboard/config/environment";
+import ApiKey from "balanced-dashboard/models/api_key";
+import User from "balanced-dashboard/models/user";
+import UserMarketplace from "balanced-dashboard/models/user_marketplace";
 
 var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {
@@ -23,7 +26,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		}, options);
 		return this.request(attributes)
 			.then(function(response) {
-				var user = Balanced.User.create();
+				var user = User.create();
 				user.populateFromJsonResponse(response.user);
 				self.setAuthProperties(
 					true,
@@ -95,7 +98,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		var self = this;
 		this.setAPIKey(apiKey);
 
-		return Balanced.APIKey.findAll()
+		return ApiKey.findAll()
 			.then(function(apiKeys) {
 				var apiKeysWithSecrets = apiKeys.filterBy('secret');
 				var secret = apiKeysWithSecrets.length ? apiKeysWithSecrets[0].get('secret') : null;
@@ -113,7 +116,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		this.storeGuestAPIKey(apiKey);
 		this.setAPIKey(apiKey);
 
-		var guestUser = Balanced.User.create({
+		var guestUser = User.create({
 			user_marketplaces: Ember.A(),
 			marketplaces_uri: '/users/guest/marketplaces',
 			api_keys_uri: '/users/guest/api_keys'
@@ -132,7 +135,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	addUserMarketplace: function(id, uri, name, secret) {
-		var guestMarketplace = Balanced.UserMarketplace.create({
+		var guestMarketplace = UserMarketplace.create({
 			id: id,
 			uri: uri,
 			name: name,
@@ -233,7 +236,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		};
 		return this.request(attributes)
 			.then(function(response) {
-				var user = self.get('user') || Balanced.User.create();
+				var user = self.get('user') || User.create();
 				user.populateFromJsonResponse(response.user);
 
 				if (!self.get('signedIn')) {

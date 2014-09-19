@@ -1,4 +1,4 @@
-{{#view Balanced.PageNavigationView pageType=model.type_name title=model.title_description}}
+{{#view "page-navigations/page-navigation" pageType=model.type_name title=model.title_description}}
 	{{#unless model.isRemoved}}
 		<div class="buttons page-actions">
 			{{#if model.can_debit}}

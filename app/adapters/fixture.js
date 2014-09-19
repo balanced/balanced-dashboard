@@ -1,4 +1,6 @@
-Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
+import BaseAdapter from "./base";
+
+var FixtureAdapter = BaseAdapter.extend({
 	// Set this to true for all callbacks to be executed in an async callback.
 	// This is the preferred way to operate, since it will catch computed
 	// property / async bugs.
@@ -121,3 +123,5 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		}
 	}
 });
+
+export default FixtureAdapter;

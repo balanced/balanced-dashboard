@@ -1,4 +1,6 @@
-Balanced.LoginController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var LoginController = Ember.ObjectController.extend({
 	needs: ["sessions", "notification_center"],
 	email_address: null,
 	password: null,
@@ -134,3 +136,5 @@ Balanced.LoginController = Balanced.ObjectController.extend({
 		}
 	}
 });
+
+export default LoginController;

@@ -1,5 +1,4 @@
-Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
-	templateName: 'modals/change_email',
+var ChangeEmailModalView = Balanced.ModalView.extend({
 	controllerKey: 'controller.controllers.application',
 	controllerEventName: 'openChangeEmailModal',
 	fieldName: 'email address',
@@ -75,3 +74,5 @@ Balanced.ChangeEmailModalView = Balanced.ModalView.extend({
 		this.get('controller.controllers.notification_center').alertSuccess(message);
 	}
 });
+
+export default ChangeEmailModalView;

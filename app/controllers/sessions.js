@@ -1,17 +1,11 @@
 import Ember from "ember";
 import Auth from "balanced-dashboard/auth";
 
-var oneWayGlobal = function(globalName) {
-	return Ember.computed(globalName, function() {
-		return Ember.get(globalName);
-	});
-};
-
 var SessionsController = Ember.Controller.extend({
 	needs: ["registration"],
 
-	currentUser: oneWayGlobal("auth.user"),
-	isUserGuest: oneWayGlobal("auth.isGuest"),
+	currentUser: Ember.computed.oneWay("auth.user"),
+	isUserGuest: Ember.computed.oneWay("auth.isGuest"),
 
 	isUserMissing: Ember.computed.none("currentUser"),
 	isUserPresent: Ember.computed.not("isUserMissing"),

@@ -1,5 +1,6 @@
-Balanced.ChangePasswordModalView = Balanced.ChangeEmailModalView.extend({
-	templateName: 'modals/change_password',
+import ChangeEmailModalView from "./change-email-modal";
+
+var ChangePasswordModalView = ChangeEmailModalView.extend({
 	controllerEventName: 'openChangePasswordModal',
 	fieldName: 'password',
 	defaultError: 'Oops, we failed to change your password. Please try again.',
@@ -9,3 +10,5 @@ Balanced.ChangePasswordModalView = Balanced.ChangeEmailModalView.extend({
 		this._super(user);
 	}
 });
+
+export default ChangePasswordModalView;

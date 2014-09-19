@@ -1,4 +1,6 @@
-Balanced.OtpController = Balanced.LoginController.extend({
+import LoginController from "../login";
+
+Balanced.OtpController = LoginController.extend({
 	otpCode: null,
 
 	actions: {

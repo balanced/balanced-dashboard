@@ -2,6 +2,8 @@ Balanced.Route = Ember.Route.extend();
 
 Balanced.AuthRoute = Balanced.Route.extend({
 	beforeModel: function(transition) {
+		var sessionsController = this.controllerFor("sessions");
+		console.log(sessionsController, sessionsController.get("isUserPresent"));
 		if (!this.controllerFor("sessions").get("isUserPresent")) {
 			this.controllerFor("sessions").set("transitionPendingLogin", transition);
 			this.transitionTo('login');

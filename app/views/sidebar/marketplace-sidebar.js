@@ -1,3 +1,5 @@
+import SidebarView from "./sidebar";
+
 var SIDEBAR_ITEMS = [{
 	linkText: "Payments",
 	linkIcon: "icon-payments",
@@ -51,19 +53,8 @@ var SIDEBAR_ITEMS = [{
 	}]
 }];
 
-Balanced.SidebarView = Ember.View.extend({
-	templateName: "sidebar/marketplace_sidebar",
-	items: function() {
-		return [];
-	}.property(),
-	dropdownDisplayLabel: function() {
-		return this.get("marketplace") ?
-			this.get("marketplace.name") :
-			"Marketplaces";
-	}.property("marketplace", "marketplace.name"),
-});
 
-Balanced.MarketplaceSidebarView = Balanced.SidebarView.extend({
+var MarketplaceSidebarView = SidebarView.extend({
 	sidebarItemsDefinition: function() {
 		return this.get("marketplace") ?
 			SIDEBAR_ITEMS : [];
@@ -76,3 +67,5 @@ Balanced.MarketplaceSidebarView = Balanced.SidebarView.extend({
 			});
 	}.property("sidebarItemsDefinition")
 });
+
+export default MarketplaceSidebarView;

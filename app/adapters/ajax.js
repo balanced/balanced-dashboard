@@ -1,6 +1,8 @@
+import BaseAdapter from "./base";
+
 var MARKETPLACE_URI_REGEX = /\/marketplaces\/([^\/]+)/;
 
-Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
+var AjaxAdapter = BaseAdapter.extend({
 	initAdapter: function() {
 		this.hostsByType = {};
 	},
@@ -115,3 +117,5 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 		return host;
 	}
 });
+
+export default AjaxAdapter;

@@ -1,3 +1,5 @@
+import Ember from "ember";
+
 var Computed = {
 	isSelected: function() {
 		var routes = _.toArray(arguments);
@@ -8,7 +10,7 @@ var Computed = {
 	}
 };
 
-Balanced.MarketplaceController = Balanced.ObjectController.extend({
+var MarketplaceController = Ember.ObjectController.extend({
 
 	needs: ['application', 'notification_center', 'sessions'],
 
@@ -119,3 +121,5 @@ Balanced.MarketplaceRefundsController = Balanced.ObjectController.extend({
 Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
 	needs: ['marketplace']
 });
+
+export default MarketplaceController;

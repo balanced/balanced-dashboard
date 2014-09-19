@@ -22,4 +22,4 @@ BaseAdapter = Ember.Object.extend
 		if !type
 			throw new Error('Missing type in adapter call for %@'.fmt(uri))
 
-Balanced.BaseAdapter = BaseAdapter
+`export default BaseAdapter`

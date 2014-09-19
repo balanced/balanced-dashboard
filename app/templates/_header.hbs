@@ -30,13 +30,13 @@
 					</div>
 				{{/if}}
 
-				{{partial "user_dropdown"}}
+				{{partial "user-dropdown"}}
 			</div>
 		</div>
 	</header>
 </div>
 
 {{#unless auth.isGuest}}
-	{{view Balanced.ChangePasswordModalView viewName="changePasswordModal"}}
-	{{view Balanced.ChangeEmailModalView viewName="changeEmailModal"}}
+	{{view "modals/change-password-modal" viewName="changePasswordModal"}}
+	{{view "modals/change-email-modal" viewName="changeEmailModal"}}
 {{/unless}}
