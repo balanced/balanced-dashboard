@@ -1,4 +1,5 @@
-Balanced.ResourceLogsView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.ResourceLogsView = Ember.View.extend({
 	templateName: 'resource_logs',
 	results: Ember.computed.oneWay("resultsLoader.results"),
 	resultsLoader: function() {

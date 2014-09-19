@@ -1,9 +1,9 @@
 import Ember from "ember";
-import Login from "../models/login";
 
 export default Ember.View.extend({
 	layoutName: 'page-form',
 	pageTitle: 'Sign in',
+	model: Ember.computed.oneWay("controller.model"),
 
 	afterFormLink: function() {
 		return {
@@ -12,18 +12,13 @@ export default Ember.View.extend({
 		};
 	}.property(),
 
-	model: Ember.computed.oneWay("controller.model"),
-
 	didInsertElement: function() {
 		$('form input:first').focus();
 	},
 
 	keyDown: function(e) {
-		// Lets make sure we are in the login view
-		if (this.templateName !== 'login') {
-			return;
+		if (this.templateName === 'login') {
+			this.get('controller').send('reset');
 		}
-
-		this.get('controller').send('reset');
 	}
 });

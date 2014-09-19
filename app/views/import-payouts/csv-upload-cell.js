@@ -15,7 +15,8 @@ var initializePopover = function(self, label, selector, messagesProperty) {
 	});
 };
 
-Balanced.CsvUploadCellView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.CsvUploadCellView = Ember.View.extend({
 	tagName: "td",
 	fieldsErrors: function() {
 		return this.get("context.validationErrors.csvFields");

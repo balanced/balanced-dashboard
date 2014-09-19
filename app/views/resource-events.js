@@ -1,3 +1,4 @@
-Balanced.ResourceEventsView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.ResourceEventsView = Ember.View.extend({
 	templateName: 'resource_events'
 });

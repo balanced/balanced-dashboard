@@ -1,3 +1,6 @@
+import LoadPromise from "./mixins/load-promise";
+import TypeMappings from "./type-mappings";
+
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
 var URI_METADATA_PROPERTY = '_uris';
@@ -21,7 +24,7 @@ var AJAX_ERROR_PARSERS = [{
 	}
 }];
 
-Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.LoadPromise, {
+Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 	isLoaded: false,
 	isSaving: false,
@@ -245,7 +248,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, Balanced.Loa
 
 		var metadataType = this.get(uriMetadataProperty + '.' + uriProperty + '._type');
 		if (metadataType) {
-			var mappedType = Balanced.TypeMappings.classForType(metadataType);
+			var mappedType = TypeMappings.classForType(metadataType);
 			if (mappedType) {
 				return mappedType;
 			} else {
@@ -324,7 +327,7 @@ Balanced.Model.reopenClass({
 		var fullUriProperty = JSON_PROPERTY_KEY + '.' + propertyName + URI_POSTFIX;
 
 		return Ember.computed(function() {
-			var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+			var typeClass = TypeMappings.typeClass(defaultType);
 
 			var embeddedPropertyValue = this.get(embeddedProperty);
 			var uriPropertyValue = this.get(fullUriProperty);
@@ -386,7 +389,7 @@ Balanced.Model.reopenClass({
 		var uriMetadataProperty = JSON_PROPERTY_KEY + '.' + URI_METADATA_PROPERTY;
 
 		return Ember.computed(function() {
-			var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+			var typeClass = TypeMappings.typeClass(defaultType);
 			var embeddedPropertyValue = this.get(embeddedProperty);
 			// if the URI isn't defined in the JSON, check for a property on
 			// the model. This way we can hardcode URIs if necessary to support
@@ -410,7 +413,7 @@ Balanced.Model.reopenClass({
 		var objClass = this;
 
 		if (json._type) {
-			var mappedTypeClass = Balanced.TypeMappings.classForType(json._type);
+			var mappedTypeClass = TypeMappings.classForType(json._type);
 			if (mappedTypeClass) {
 				objClass = mappedTypeClass;
 			}
@@ -442,3 +445,4 @@ Balanced.Model.reopenClass({
 });
 
 Balanced.Model.Events = Ember.Object.extend(Ember.Evented).create();
+export default Balanced.Model;

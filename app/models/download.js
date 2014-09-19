@@ -1,4 +1,6 @@
-Balanced.Download = Balanced.Model.extend({
+import Rev0Serializer from "../serializers/rev0";
+
+var Download = Balanced.Model.extend({
 	// have to override the URI for create, since the uri property of the JSON is the search URI
 	_createUri: function() {
 		return '/downloads';
@@ -7,10 +9,8 @@ Balanced.Download = Balanced.Model.extend({
 	uri: ""
 });
 
-Balanced.Adapter.registerHostForType(Balanced.Download, ENV.BALANCED.WWW);
-
-Balanced.Download.reopenClass({
-	serializer: Balanced.Rev0Serializer.extend({
+Download.reopenClass({
+	serializer: Rev0Serializer.extend({
 		_propertiesMap: function(record) {
 			var result = {};
 			var properties = [
@@ -31,3 +31,5 @@ Balanced.Download.reopenClass({
 		}
 	}).create()
 });
+
+export default Download;

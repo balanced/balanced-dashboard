@@ -1,3 +1,5 @@
-Balanced.AccountSecurityView = Balanced.View.extend({
-	templateName: 'account_security'
-});
+import Ember from "ember";
+
+var AccountSecurityView = Ember.View.extend({});
+
+export default AccountSecurityView;

@@ -1,4 +1,5 @@
-Balanced.ResultsTableView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.ResultsTableView = Ember.View.extend({
 	tagName: 'table',
 	classNames: 'items',
 });
@@ -63,7 +64,8 @@ Balanced.LogsEmbeddedResultsView = Balanced.ResultsTableView.extend({
 	templateName: 'results/logs_embedded_table'
 });
 
-Balanced.DateFilterHeaderView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.DateFilterHeaderView = Ember.View.extend({
 	templateName: 'results/date_filter_header',
 	tagName: 'header'
 });

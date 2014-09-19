@@ -1,7 +1,7 @@
 import ENV from "balanced-dashboard/config/environment";
-import ApiKey from "balanced-dashboard/models/api_key";
+import ApiKey from "balanced-dashboard/models/api-key";
 import User from "balanced-dashboard/models/user";
-import UserMarketplace from "balanced-dashboard/models/user_marketplace";
+import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 
 var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {

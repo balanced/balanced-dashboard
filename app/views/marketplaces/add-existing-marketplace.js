@@ -1,4 +1,5 @@
-Balanced.AddExistingMarketplaceView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.AddExistingMarketplaceView = Ember.View.extend({
 	templateName: 'marketplaces/_add_existing',
 	tagName: 'form',
 

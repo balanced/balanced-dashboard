@@ -145,3 +145,5 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 		return props;
 	}
 });
+
+export default Balanced.Rev1Serializer;

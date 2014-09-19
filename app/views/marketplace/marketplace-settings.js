@@ -1,4 +1,5 @@
-Balanced.MarketplaceSettingsView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.MarketplaceSettingsView = Ember.View.extend({
 	keySecret: false,
 
 	actions: {

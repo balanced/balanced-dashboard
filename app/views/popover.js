@@ -1,4 +1,6 @@
-Balanced.PopoverView = Balanced.View.extend({
+import Ember from "ember";
+
+var PopoverView = Ember.View.extend({
 	tagName: 'a',
 	attributeBindings: ['class', 'data-toggle', 'data-placement', 'data-original-title', 'data-content', 'data-html', 'data-trigger'],
 	'data-toggle': 'popover',
@@ -8,3 +10,5 @@ Balanced.PopoverView = Balanced.View.extend({
 		this._super();
 	}
 });
+
+export default PopoverView;

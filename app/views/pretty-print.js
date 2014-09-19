@@ -1,4 +1,6 @@
-Balanced.PrettyPrintView = Balanced.View.extend({
+import Ember from "ember";
+
+var PrettyPrintView = Ember.View.extend({
 	templateName: 'prettyPrint',
 	content: null,
 
@@ -13,3 +15,5 @@ Balanced.PrettyPrintView = Balanced.View.extend({
 		prettyPrint();
 	}.observes('content')
 });
+
+export default PrettyPrintView;

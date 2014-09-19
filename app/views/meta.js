@@ -1,5 +1,6 @@
-Balanced.MetaView = Ember.View.extend({
-	templateName: "_meta",
+import Ember from "ember";
+
+var MetaView = Ember.View.extend({
 	meta_array: function() {
 		var meta = this.get('type.meta');
 		if (!meta) {
@@ -13,5 +14,6 @@ Balanced.MetaView = Ember.View.extend({
 			};
 		}) || [];
 	}.property('type.meta')
-
 });
+
+export default MetaView;

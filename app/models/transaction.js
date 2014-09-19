@@ -60,3 +60,5 @@ Balanced.Transaction.reopenClass({
 			.join("");
 	}
 });
+
+export default Balanced.Transaction;

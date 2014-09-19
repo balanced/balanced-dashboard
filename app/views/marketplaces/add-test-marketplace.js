@@ -1,4 +1,5 @@
-Balanced.AddTestMarketplaceView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.AddTestMarketplaceView = Ember.View.extend({
 	templateName: 'marketplaces/_add_test',
 	tagName: 'form',
 

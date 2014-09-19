@@ -1,3 +1,4 @@
-Balanced.LogsLogView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.LogsLogView = Ember.View.extend({
 	templateName: 'logs/log'
 });

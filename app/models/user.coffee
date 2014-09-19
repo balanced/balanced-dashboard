@@ -1,5 +1,5 @@
 `import Rev0Serializer from "balanced-dashboard/serializers/rev0";`
-`import UserMarketplace from "./user_marketplace";`
+`import UserMarketplace from "./user-marketplace";`
 
 User = Balanced.Model.extend Ember.Validations,
 	user_marketplaces: Balanced.Model.hasMany('user_marketplaces', UserMarketplace)
@@ -30,8 +30,6 @@ User = Balanced.Model.extend Ember.Validations,
 			match:
 				property: "confirm_password"
 
-Balanced.Adapter.registerHostForType(User, ENV.BALANCED.AUTH)
-
 User.reopenClass(
 	serializer: Rev0Serializer.extend(
 		extractSingle: (rootJson, type, href) ->
@@ -49,5 +47,4 @@ User.reopenClass(
 	).create()
 )
 
-Balanced.User = User
 `export default User`

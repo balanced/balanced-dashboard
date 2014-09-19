@@ -1,4 +1,6 @@
-import UserMarketplace from "./user_marketplace";
+import Transaction from "./transaction";
+import Rev1Serializer from "../serializers/rev1";
+import UserMarketplace from "./user-marketplace";
 
 var generateResultsLoader = function(klass, uriFieldName) {
 	return function(attributes) {
@@ -9,7 +11,7 @@ var generateResultsLoader = function(klass, uriFieldName) {
 	};
 };
 
-Balanced.Marketplace = UserMarketplace.extend({
+var Marketplace = UserMarketplace.extend({
 	uri: '/marketplaces',
 
 	getInvoicesLoader: generateResultsLoader(Balanced.InvoicesResultsLoader, "invoices_uri"),
@@ -30,7 +32,7 @@ Balanced.Marketplace = UserMarketplace.extend({
 	getSearchLoader: function(attributes) {
 		attributes = _.extend({
 			marketplace: this,
-			resultsType: Balanced.Transaction
+			resultsType: Transaction
 		}, attributes);
 		return Balanced.MarketplaceSearchResultsLoader.create(attributes);
 	},
@@ -85,9 +87,7 @@ Balanced.Marketplace = UserMarketplace.extend({
 	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account')
 });
 
-
-
-Balanced.Marketplace.reopenClass({
+Marketplace.reopenClass({
 	findByApiKeySecret: function(secret) {
 		return this.find("/marketplaces", {
 			secret: secret
@@ -97,7 +97,7 @@ Balanced.Marketplace.reopenClass({
 		var uri = this.constructUri(id);
 		return this.find(uri);
 	},
-	serializer: Balanced.Rev1Serializer.create(),
+	serializer: Rev1Serializer.create(),
 }, {
 	COMPANY_TYPES: [{
 		value: "llc",
@@ -116,3 +116,5 @@ Balanced.Marketplace.reopenClass({
 		label: "Sole Proprietorship"
 	}]
 });
+
+export default Marketplace;

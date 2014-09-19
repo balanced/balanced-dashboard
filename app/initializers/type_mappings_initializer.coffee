@@ -1,5 +1,5 @@
-`import TypeMappings from "balanced-dashboard/models/core/type_mappings"`
-`import UserMarketplace from "balanced-dashboard/models/user_marketplace"`
+`import TypeMappings from "balanced-dashboard/models/core/type-mappings"`
+`import UserMarketplace from "balanced-dashboard/models/user-marketplace"`
 
 TypeMappingsInitializer =
 	name: "typeMappings"

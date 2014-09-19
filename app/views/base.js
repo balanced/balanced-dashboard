@@ -1,20 +1,8 @@
+import Ember from "ember";
+
 var get = Ember.get;
 
-Balanced.View = Ember.View.extend({
-	didInsertElement: function() {
-		this.set('elementInDom', true);
-		this._super();
-
-		this.$('form input[type=text]:first').focus();
-	},
-
-	willDestroyElement: function() {
-		this.set('elementInDom', false);
-		this._super();
-	}
-});
-
-Balanced.ModalView = Balanced.View.extend({
+Balanced.ModalView = Ember.View.extend({
 	controllerEventName: 'openModal',
 	modalElement: '.modal',
 	defaultModelAction: 'save',

@@ -1,4 +1,5 @@
-Balanced.ImportPayoutsView = Balanced.View.extend({
+import Ember from "ember";
+Balanced.ImportPayoutsView = Ember.View.extend({
 
 	title: function() {
 		return this.get("creditCreators.isDataMissing") ?
