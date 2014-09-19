@@ -1,26 +1,7 @@
 import Ember from "ember";
-Balanced.ResultsTableView = Ember.View.extend({
-	tagName: 'table',
-	classNames: 'items',
-});
+import ResultsTableView from "results/results-table";
 
-Balanced.OrdersResultsView = Balanced.ResultsTableView.extend({
-	classNames: 'orders',
-	templateName: 'results/orders_table'
-});
-
-Balanced.TransactionsResultsView = Balanced.ResultsTableView.extend({
-	classNames: 'transactions',
-	templateName: 'results/transactions_table',
-	colspan: 7
-});
-
-Balanced.EmbeddedTransactionsResultsView = Balanced.TransactionsResultsView.extend({
-	isSmallTable: true,
-	colspan: 5
-});
-
-Balanced.InvoiceTransactionsResultsView = Balanced.ResultsTableView.extend({
+Balanced.InvoiceTransactionsResultsView = ResultsTableView.extend({
 	templateName: "results/invoice_transactions_table"
 });
 
@@ -28,12 +9,12 @@ Balanced.OrderTransactionsResultsView = Balanced.TransactionsResultsView.extend(
 	templateName: 'results/order_transactions_table'
 });
 
-Balanced.CustomersResultsView = Balanced.ResultsTableView.extend({
+Balanced.CustomersResultsView = ResultsTableView.extend({
 	classNames: 'customers',
 	templateName: 'results/customers_table'
 });
 
-Balanced.FundingInstrumentsResultsView = Balanced.ResultsTableView.extend({
+Balanced.FundingInstrumentsResultsView = ResultsTableView.extend({
 	classNames: 'funding-instruments',
 	templateName: 'results/funding_instruments_table'
 });
@@ -42,7 +23,7 @@ Balanced.EmbeddedFundingInstrumentsResultsView = Balanced.FundingInstrumentsResu
 	templateName: 'results/embedded_funding_instruments_table'
 });
 
-Balanced.DisputesResultsView = Balanced.ResultsTableView.extend({
+Balanced.DisputesResultsView = ResultsTableView.extend({
 	classNames: 'disputes',
 	templateName: 'results/disputes_table',
 	colspan: 6
@@ -53,24 +34,18 @@ Balanced.EmbeddedDisputesResultsView = Balanced.DisputesResultsView.extend({
 	colspan: 5
 });
 
-Balanced.LogsResultsView = Balanced.ResultsTableView.extend({
+Balanced.LogsResultsView = ResultsTableView.extend({
 	classNames: 'logs',
 	classNameBindings: 'selected',
 	templateName: 'results/logs_table'
 });
 
-Balanced.LogsEmbeddedResultsView = Balanced.ResultsTableView.extend({
+Balanced.LogsEmbeddedResultsView = ResultsTableView.extend({
 	classNameBindings: 'selected',
 	templateName: 'results/logs_embedded_table'
 });
 
-import Ember from "ember";
-Balanced.DateFilterHeaderView = Ember.View.extend({
-	templateName: 'results/date_filter_header',
-	tagName: 'header'
-});
-
-Balanced.InvoicesResultsView = Balanced.ResultsTableView.extend({
+Balanced.InvoicesResultsView = ResultsTableView.extend({
 	classNames: 'invoices',
 	classNameBindings: 'selected',
 	templateName: 'results/invoices_table'
