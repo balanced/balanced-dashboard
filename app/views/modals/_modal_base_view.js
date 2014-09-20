@@ -44,6 +44,14 @@ Balanced.ModalBaseView.reopenClass({
 Balanced.Modals.FormModalMixin = Ember.Mixin.create({
 	layoutName: "modals/form_modal_layout",
 
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification_center");
+	},
+
+	getModalNotificationController: function() {
+		return this.get("container").lookup("controller:modal_notification_center");
+	},
+
 	updateErrorsBar: function() {
 		var controller = this.get("container").lookup("controller:modal_notification_center");
 		var self = this;
