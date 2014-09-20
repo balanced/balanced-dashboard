@@ -5,7 +5,7 @@ var AlertMessage = Ember.Object.extend({
 });
 
 var NotificationCenterController = Ember.ArrayController.extend({
-	content: [],
+	model: [],
 
 	clearAlerts: function() {
 		this.set("content", []);

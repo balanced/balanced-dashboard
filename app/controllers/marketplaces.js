@@ -1,5 +1,8 @@
 import Ember from "ember";
 
-export default Balanced.ArrayController.extend({
-	needs: ["marketplace"]
+var MarketplacesController = Balanced.ArrayController.extend({
+	needs: ["marketplace", "application"]
 });
+
+
+export default MarketplacesController;

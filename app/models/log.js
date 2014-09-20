@@ -33,5 +33,4 @@ Balanced.Log = Balanced.Model.extend({
 	}.property('message.request.headers.X-Real-Ip'),
 });
 
-
-
+export default Balanced.Log;

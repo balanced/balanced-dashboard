@@ -53,4 +53,4 @@ Balanced.Debit = Balanced.Transaction.extend({
 	}.property('amount', 'refund_amount', 'is_succeeded', 'dispute')
 });
 
-
+export default Balanced.Debit;

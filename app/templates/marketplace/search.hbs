@@ -1,7 +1,7 @@
 {{#view Balanced.SearchBarView value=resultsLoader.query isLoading=resultsLoader.isLoading isOpen=isResultsOpen}}
 	<nav class="results-actions-bar">
 		<div class="span">
-			{{view Balanced.DatePickerView viewName="dateTimePicker"}}
+			{{view "form-fields/date-picker-view" viewName="dateTimePicker"}}
 		</div>
 	</nav>
 	<nav class="search-filters-header">
@@ -24,27 +24,21 @@
 		</ul>
 	</nav>
 
-	{{#if isOrdersTabSelected}}
-		<div class="items-wrapper">
-			{{view Balanced.OrdersResultsView loader=resultsLoader}}
-		</div>
-	{{/if}}
+	<div class="items-wrapper">
+		{{#if isOrdersTabSelected}}
+			{{view "results/orders-table" loader=resultsLoader}}
+		{{/if}}
 
-	{{#if isTransactionsTabSelected}}
-		<div class="items-wrapper">
-			{{view Balanced.TransactionsResultsView loader=resultsLoader}}
-		</div>
-	{{/if}}
+		{{#if isTransactionsTabSelected}}
+			{{view "results/transactions-table" loader=resultsLoader}}
+		{{/if}}
 
-	{{#if isCustomersTabSelected}}
-		<div class="items-wrapper">
-			{{view Balanced.CustomersResultsView loader=resultsLoader}}
-		</div>
-	{{/if}}
+		{{#if isCustomersTabSelected}}
+			{{view "results/customers-table" loader=resultsLoader}}
+		{{/if}}
 
-	{{#if isFundingInstrumentsTabSelected}}
-		<div class="items-wrapper">
-			{{view Balanced.FundingInstrumentsResultsView loader=resultsLoader}}
-		</div>
-	{{/if}}
+		{{#if isFundingInstrumentsTabSelected}}
+			{{view "results/funding-instruments-table" loader=resultsLoader}}
+		{{/if}}
+	</div>
 {{/view}}

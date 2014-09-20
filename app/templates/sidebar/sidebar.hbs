@@ -11,8 +11,8 @@
 	</div>
 
 	<ul class="sidebar">
-		{{#each view.items}}
-			{{view this}}
+		{{#each item view.items}}
+			{{item}}
 		{{/each}}
 	</ul>
 	{{partial "_footer"}}

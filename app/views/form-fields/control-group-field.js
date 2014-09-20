@@ -4,7 +4,6 @@ var ControlGroupFieldView = Ember.View.extend({
 	tagName: 'div',
 	classNames: ['control-group'],
 	classNameBindings: ['cssError:error'],
-	templateName: '_control_group_field',
 	type: 'text',
 
 	recommendedField: false,

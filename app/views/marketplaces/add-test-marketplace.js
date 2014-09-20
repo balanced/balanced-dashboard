@@ -1,7 +1,11 @@
 import Ember from "ember";
-Balanced.AddTestMarketplaceView = Ember.View.extend({
-	templateName: 'marketplaces/_add_test',
+import ApiKey from "balanced-dashboard/models/api-key";
+import Marketplace from "balanced-dashboard/models/marketplace";
+import UserMarketplace from "balanced-dashboard/models/user-marketplace";
+
+var AddTestMarketplaceView = Ember.View.extend({
 	tagName: 'form',
+	templateName: "marketplaces/add-test-marketplace",
 
 	name: null,
 
@@ -26,7 +30,7 @@ Balanced.AddTestMarketplaceView = Ember.View.extend({
 			Balanced.Utils.setCurrentMarketplace(null);
 			auth.unsetAPIKey();
 
-			Balanced.APIKey.create().save().then(function(apiKey) {
+			ApiKey.create().save().then(function(apiKey) {
 				var apiKeySecret = apiKey.get('secret');
 				//  set the api key for this request
 				auth.setAPIKey(apiKeySecret);
@@ -36,12 +40,12 @@ Balanced.AddTestMarketplaceView = Ember.View.extend({
 					}
 				};
 
-				Balanced.Marketplace.create({
+				Marketplace.create({
 					name: marketplaceName
 				}).save(settings).then(function(marketplace) {
 					var user = self.get('user');
 
-					Balanced.UserMarketplace.create({
+					UserMarketplace.create({
 						uri: user.get('api_keys_uri'),
 						secret: apiKeySecret
 					}).save().then(function() {
@@ -58,3 +62,5 @@ Balanced.AddTestMarketplaceView = Ember.View.extend({
 		}
 	}
 });
+
+export default AddTestMarketplaceView;

@@ -29,5 +29,4 @@ Balanced.Hold = Balanced.Transaction.extend({
 	funding_instrument_type: Ember.computed.alias('card.type_name')
 });
 
-
-
+export default Balanced.Hold;

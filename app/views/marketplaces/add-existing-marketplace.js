@@ -1,7 +1,9 @@
 import Ember from "ember";
-Balanced.AddExistingMarketplaceView = Ember.View.extend({
-	templateName: 'marketplaces/_add_existing',
+import UserMarketplace from "balanced-dashboard/models/user-marketplace";
+
+var AddExistingMarketplaceView = Ember.View.extend({
 	tagName: 'form',
+	templateName: "marketplaces/add-existing-marketplace",
 
 	secret: null,
 
@@ -20,7 +22,7 @@ Balanced.AddExistingMarketplaceView = Ember.View.extend({
 				self.set('isSubmitting', false);
 				return;
 			}
-			var marketplace = Balanced.UserMarketplace.create({
+			var marketplace = UserMarketplace.create({
 				uri: this.get('user.marketplaces_uri'),
 				secret: secret
 			});
@@ -35,3 +37,5 @@ Balanced.AddExistingMarketplaceView = Ember.View.extend({
 		}
 	}
 });
+
+export default AddExistingMarketplaceView;

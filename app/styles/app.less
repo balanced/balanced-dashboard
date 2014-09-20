@@ -1,2 +1,186 @@
-@import "./strapped/less/strapped.less";
-@import "./base.less";
+@import "./bootstrap.less";
+@import "../../bower_components/strapped/static/less/strapped.less";
+/*
+* base.less
+*
+* Here we define less/css that affects the whole site.
+*
+* Styles for individual components/pages should go in their own file.
+*/
+
+// TODO: find a better way to make the sidebar full height
+html, body {
+  height: 100%;
+}
+
+#balanced-app, #balanced-app > div.ember-view {
+  height: 100%;
+
+  #main {
+    height: calc(~"100% - 50px");
+  }
+}
+
+body {
+  &.overlaid {
+    #main-overlay {
+      display: block;
+    }
+  }
+}
+
+// Need to override the bootstrap default
+.container {
+  min-width: @mainWidth !important;
+  width: 100% !important;
+  // Support full max-width on Apple Cinema Displays
+  max-width: 2560px !important;
+
+  &.scale {
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+#main-overlay {
+  background-color: @modalBodyBackgroundColor;
+  bottom: -61px;
+  display: none;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+input:focus, select:focus, textarea:focus, a:focus {
+  outline: none;
+  outline-width: 0;
+  box-shadow: none;
+}
+
+.empty-field-label {
+  font-style: italic;
+}
+
+table {
+  border-collapse: collapse;
+  th {
+    text-align: left;
+  }
+}
+
+strong {
+  .sl-b;
+}
+
+.loader {
+  display: none;
+  background: @iconsFile -164px -484px no-repeat;
+  width: 23px;
+  height: 23px;
+
+  &.loading {
+    display: block;
+    -webkit-animation: rotation 2s infinite linear;
+    -moz-animation: rotate 20s linear 0s infinite;
+  }
+}
+
+.loader-container {
+  display: inline-block;
+}
+
+.window {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+
+  .frame {
+    height: 200px;
+    width: 100%;
+    top: 50%;
+    position: absolute;
+    margin: -100px auto 0;
+    text-align: center;
+  }
+
+  &.black {
+    background-color: @black;
+    .opacity(80);
+  }
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+  }
+}
+
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(359deg);
+  }
+}
+
+dl, dt, dd {
+  padding: 0;
+  margin: 0;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  white-space: nowrap;
+}
+
+// 3rd party libs
+@import "./datepicker.less";
+
+@import "./form_group";
+
+// our stuff
+@import "./scaffolding.less";
+@import "./forms.less";
+@import "./dropdowns.less";
+@import "./modals.less";
+@import "./components.less";
+@import "./progress_bar.less";
+@import "./popovers.less";
+@import "./search.less";
+@import "./pages.less";
+@import "./loading.less";
+
+@import "./custom_inputs.less";
+@import "./custom_tables.less";
+
+@import "./login.less";
+@import "./marketplace.less";
+@import "./csv_upload.less";
+@import "./key_value.less";
+@import "./logs.less";
+@import "./google_prettify.less";
+@import "./alerts.less";
+@import "./events.less";
+
+//  individual page components
+@import "./results.less";
+
+// seperate pages inside our dashboard
+@import "./account_security.less";

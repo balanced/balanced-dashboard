@@ -1,7 +1,7 @@
 `import NotificationCenterController from "./notification-center";`
 
 ModalNotificationCenterController = NotificationCenterController.extend(
-	content: []
+	model: [],
 )
 
 `export default ModalNotificationCenterController;`

@@ -2,39 +2,43 @@ import Transaction from "./transaction";
 import Rev1Serializer from "../serializers/rev1";
 import UserMarketplace from "./user-marketplace";
 
-var generateResultsLoader = function(klass, uriFieldName) {
+var getResultsLoader = function(loaderClassName, attributes) {
+	return BalancedApp.__container__.lookup("results-loader:" + loaderClassName, attributes);
+};
+
+var generateResultsLoader = function(loaderClassName, uriFieldName) {
 	return function(attributes) {
 		attributes = _.extend({
 			path: this.get(uriFieldName)
 		}, attributes);
-		return klass.create(attributes);
+		return getResultsLoader(loaderClassName, attributes);
 	};
 };
 
 var Marketplace = UserMarketplace.extend({
 	uri: '/marketplaces',
 
-	getInvoicesLoader: generateResultsLoader(Balanced.InvoicesResultsLoader, "invoices_uri"),
-	getCustomersLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "customers_uri"),
-	getDisputesLoader: generateResultsLoader(Balanced.DisputesResultsLoader, "disputes_uri"),
-	getTransactionsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "transactions_uri"),
-	getOrdersLoader: generateResultsLoader(Balanced.OrdersResultsLoader, "orders_uri"),
+	getInvoicesLoader: generateResultsLoader("invoices", "invoices_uri"),
+	getCustomersLoader: generateResultsLoader("customers", "customers_uri"),
+	getDisputesLoader: generateResultsLoader("disputes", "disputes_uri"),
+	getTransactionsLoader: generateResultsLoader("transactions", "transactions_uri"),
+	getOrdersLoader: generateResultsLoader("orders", "orders_uri"),
 	getFundingInstrumentsLoader: function(attributes) {
 		attributes = _.extend({
 			marketplace: this
 		}, attributes);
-		return Balanced.FundingInstrumentsResultsLoader.create(attributes);
+		return getResultsLoader("funding-instruments", attributes);
 	},
 	getLogsLoader: function(attributes) {
 		attributes = _.extend({}, attributes);
-		return Balanced.LogsResultsLoader.create(attributes);
+		return getResultsLoader("logs", attributes);
 	},
 	getSearchLoader: function(attributes) {
 		attributes = _.extend({
 			marketplace: this,
 			resultsType: Transaction
 		}, attributes);
-		return Balanced.MarketplaceSearchResultsLoader.create(attributes);
+		return getResultsLoader("marketplace-search", attributes);
 	},
 
 	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),

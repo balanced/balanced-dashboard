@@ -4,7 +4,7 @@
 
 	<ul>
 		{{#each marketplace in productionMarketplaces}}
-	        {{view Balanced.MarketplaceLinkBarView marketplace=marketplace}}
+	        {{view "marketplaces/marketplace-link-bar" marketplace=marketplace}}
 		{{/each}}
 
 		<li class="mp-new">
@@ -12,7 +12,7 @@
 				<i class="icon icon-addproductionmp"></i>
 			</div>
 			<div class="info">
-				{{view Balanced.AddExistingMarketplaceView user=user auth=auth}}
+				{{view "marketplaces/add-existing-marketplace" user=user auth=auth}}
 			</div>
 		</li>
 	</ul>
@@ -23,7 +23,7 @@
 
 	<ul>
 		{{#each marketplace in testMarketplaces}}
-	        {{view Balanced.MarketplaceLinkBarView marketplace=marketplace}}
+	        {{view "marketplaces/marketplace-link-bar" marketplace=marketplace}}
 		{{/each}}
 
 		<li class="mp-new">
@@ -31,7 +31,7 @@
 				<i class="icon icon-addtestmp"></i>
 			</div>
 			<div class="info">
-				{{view Balanced.AddTestMarketplaceView user=user auth=auth}}
+				{{view "marketplaces/add-test-marketplace" user=user auth=auth}}
 			</div>
 		</li>
 	</ul>

@@ -10,7 +10,7 @@ var UserMarketplace = Balanced.Model.extend({
 	}.property('uri'),
 
 	marketplace: function() {
-		var Marketplace = require("./marketplace")["default"];
+		var Marketplace = require("balanced-dashboard/models/marketplace")["default"];
 		return Marketplace.find(this.get('uri'));
 	}.property('uri'),
 

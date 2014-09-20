@@ -2,7 +2,6 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 	needs: ["marketplace"],
 
 	optionalFieldsOpen: false,
-	content: null,
 
 	actions: {
 		save: function() {

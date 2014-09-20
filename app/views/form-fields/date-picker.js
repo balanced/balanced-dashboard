@@ -13,7 +13,7 @@ var DEFAULT_LOCALE = {
 };
 
 var DatePickerView = Ember.View.extend({
-	templateName: 'date_picker',
+	templateName: 'form-fields/date-picker',
 
 	// temporary properties to use for selecting time periods, controller
 	// stores the values used for filtering

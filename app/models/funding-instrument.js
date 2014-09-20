@@ -28,3 +28,5 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 		return '/%@/%@/transactions'.fmt(this.get('route_name'), this.get('id'));
 	}.property('id', 'route_name')
 });
+
+export default Balanced.FundingInstrument;

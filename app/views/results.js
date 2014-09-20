@@ -1,5 +1,5 @@
 import Ember from "ember";
-import ResultsTableView from "results/results-table";
+import ResultsTableView from "./results/results-table";
 
 Balanced.InvoiceTransactionsResultsView = ResultsTableView.extend({
 	templateName: "results/invoice_transactions_table"

@@ -61,10 +61,11 @@ var MarketplaceSidebarView = SidebarView.extend({
 	}.property("marketplace"),
 
 	items: function() {
-		return this.get("sidebarItemsDefinition")
-			.map(function(itemHash) {
-				return Balanced.BasicLinkSidebarItemView.create(itemHash);
-			});
+		var BasicLinkSidebarItemView = this.container.lookup("views:basic-link-sidebar-item");
+		console.log(BasicLinkSidebarItemView);
+		return this.get("sidebarItemsDefinition").map(function(itemHash) {
+			return BasicLinkSidebarItemView.extend(itemHash);
+		});
 	}.property("sidebarItemsDefinition")
 });
 

@@ -94,4 +94,4 @@ Balanced.Order = Balanced.Model.extend({
 	}.property('credits_list', 'credits_list.@each.reversals')
 });
 
-
+export default Balanced.Order;
