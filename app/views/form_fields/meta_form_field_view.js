@@ -1,4 +1,6 @@
-Balanced.MetaFormFieldView = Balanced.BaseFormFieldView.extend({
+require("./text_form_field_view");
+
+Balanced.MetaFormFieldView = Balanced.TextFormFieldView.extend({
 	setModelValue: function(value) {
 		var model = this.get("model");
 		var field = this.get("field");

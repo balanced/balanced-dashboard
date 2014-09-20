@@ -3,13 +3,15 @@
 		{{view Balanced.MetaFormFieldView
 			model=metaField
 			labelText="Key"
-			field=key
+			field="key"
+			inputClassNames="full"
 		}}
 
 		{{view Balanced.MetaFormFieldView
 			model=metaField
 			labelText="Value"
-			field=value
+			field="value"
+			inputClassNames="full"
 		}}
 	{{/each}}
 	<a {{action 'addNewField' target=view.parentView}}>Add another field</a>
