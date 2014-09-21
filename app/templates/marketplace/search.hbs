@@ -1,7 +1,7 @@
-{{#view Balanced.SearchBarView value=resultsLoader.query isLoading=resultsLoader.isLoading isOpen=isResultsOpen}}
+{{#view "search-bar" value=resultsLoader.query isLoading=resultsLoader.isLoading isOpen=isResultsOpen}}
 	<nav class="results-actions-bar">
 		<div class="span">
-			{{view "form-fields/date-picker-view" viewName="dateTimePicker"}}
+			{{view "form-fields/date-picker" viewName="dateTimePicker"}}
 		</div>
 	</nav>
 	<nav class="search-filters-header">

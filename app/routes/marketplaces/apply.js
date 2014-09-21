@@ -1,9 +1,12 @@
-Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
+import Ember from "ember";
+
+var MarketplacesApplyRoute = Ember.Route.extend({
 	beforeModel: function(transition) {
 		transition.abort();
 
 		if (transition.sequence > 0) {
-			this.send("openModal", Balanced.ApiKeyCreateModalView);
+			var ApiKeyCreateModalView = this.container.lookupFactory("view:api-key-create-modal");
+			this.send("openModal", ApiKeyCreateModalView);
 		} else {
 			var self = this;
 			this.transitionTo("marketplaces.index")
@@ -15,3 +18,5 @@ Balanced.MarketplacesApplyRoute = Balanced.Route.extend({
 		}
 	},
 });
+
+export default MarketplacesApplyRoute;

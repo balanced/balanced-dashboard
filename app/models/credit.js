@@ -1,4 +1,7 @@
-Balanced.Credit = Balanced.Transaction.extend({
+import Transaction from "./transaction";
+import Rev1Serializer from "../serializers/rev1";
+
+var Credit = Transaction.extend({
 	reversal_amount: Ember.computed.oneWay('amount'),
 	uri: '/credits',
 	type_name: "Credit",
@@ -54,10 +57,8 @@ Balanced.Credit = Balanced.Transaction.extend({
 	}.property('is_pending', 'is_succeeded', 'is_failed', 'failure_reason', 'failure_reason_code', 'funding_instrument_type'),
 });
 
-
-
-Balanced.Credit.reopenClass({
-	serializer: Balanced.Rev1Serializer.extend({
+Credit.reopenClass({
+	serializer: Rev1Serializer.extend({
 		serialize: function(record) {
 			var json = this._super(record);
 
@@ -74,3 +75,5 @@ Balanced.Credit.reopenClass({
 		}
 	}).create(),
 });
+
+export default Credit;

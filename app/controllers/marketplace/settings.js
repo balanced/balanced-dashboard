@@ -1,5 +1,7 @@
+import Ember from "ember";
+
 var actionsMixin = Balanced.ActionEvented('openDeleteModal', 'openDeleteCallbackModal');
-Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(actionsMixin, {
+var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, {
 	needs: ["marketplace"],
 
 	can_edit: Ember.computed.alias('production'),
@@ -26,3 +28,5 @@ Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend(action
 		return this.get('userMarketplace.secret') || '';
 	}.property('userMarketplace', 'userMarketplace.secret')
 });
+
+export default MarketplaceSettingsController;

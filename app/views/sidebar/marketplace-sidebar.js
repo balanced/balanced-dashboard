@@ -1,4 +1,5 @@
 import SidebarView from "./sidebar";
+import BasicLinkSidebarItemView from "./basic-link-sidebar-item";
 
 var SIDEBAR_ITEMS = [{
 	linkText: "Payments",
@@ -61,8 +62,6 @@ var MarketplaceSidebarView = SidebarView.extend({
 	}.property("marketplace"),
 
 	items: function() {
-		var BasicLinkSidebarItemView = this.container.lookup("views:basic-link-sidebar-item");
-		console.log(BasicLinkSidebarItemView);
 		return this.get("sidebarItemsDefinition").map(function(itemHash) {
 			return BasicLinkSidebarItemView.extend(itemHash);
 		});

@@ -1,4 +1,6 @@
-Balanced.BankAccount = Balanced.FundingInstrument.extend({
+import FundingInstrument from "./funding-instrument";
+
+var BankAccount = FundingInstrument.extend({
 	uri: '/bank_accounts',
 
 	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
@@ -122,22 +124,22 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 
 				promise.reject(validationErrors);
 			} else {
-				Balanced.BankAccount.find(response.bank_accounts[0].href)
 				// Now that it's been tokenized, we just need to associate it with the customer's account
-				.then(function(bankAccount) {
-					bankAccount.set('links.customer', customerId);
+				BankAccount.find(response.bank_accounts[0].href)
+					.then(function(bankAccount) {
+						bankAccount.set('links.customer', customerId);
 
-					bankAccount.save().then(function(account) {
-						self.setProperties({
-							isSaving: false,
-							isNew: false,
-							isLoaded: true
-						});
+						bankAccount.save().then(function(account) {
+							self.setProperties({
+								isSaving: false,
+								isNew: false,
+								isLoaded: true
+							});
 
-						self.updateFromModel(account);
-						self.trigger('didCreate');
+							self.updateFromModel(account);
+							self.trigger('didCreate');
+						}, errorCreatingBankAccount);
 					}, errorCreatingBankAccount);
-				}, errorCreatingBankAccount);
 			}
 		});
 
@@ -145,8 +147,8 @@ Balanced.BankAccount = Balanced.FundingInstrument.extend({
 	}
 });
 
-Balanced.BankAccount.reopenClass({
+BankAccount.reopenClass({
 	ACCOUNT_TYPES: ["Checking", "Savings"]
 });
 
-export default Balanced.BankAccount;
+export default BankAccount;

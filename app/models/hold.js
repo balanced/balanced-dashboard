@@ -1,4 +1,6 @@
-Balanced.Hold = Balanced.Transaction.extend({
+import Transaction from "./transaction";
+
+var Hold = Balanced.Transaction.extend({
 	card: Balanced.Model.belongsTo('card', 'Balanced.FundingInstrument'),
 	source: Ember.computed.alias('card'),
 	debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
@@ -29,4 +31,4 @@ Balanced.Hold = Balanced.Transaction.extend({
 	funding_instrument_type: Ember.computed.alias('card.type_name')
 });
 
-export default Balanced.Hold;
+export default Hold;

@@ -8,7 +8,6 @@ TypeMapping = Ember.Object.extend
 		@typesMap[typeCode] = className
 
 	classForType: (typeCode) ->
-		console.log("?????????", typeCode)
 		mappedType = @typesMap[typeCode]
 		if !mappedType
 			Ember.Logger.warn "Couldn't map typeCode %@".fmt(typeCode)

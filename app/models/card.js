@@ -1,4 +1,6 @@
-Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
+import FundingInstrument from "./funding-instrument";
+
+Balanced.Card = FundingInstrument.extend(Ember.Validations, {
 	uri: '/cards',
 
 	validations: {
@@ -156,4 +158,4 @@ Balanced.Card = Balanced.FundingInstrument.extend(Ember.Validations, {
 	}
 });
 
-
+export default Balanced.Card;

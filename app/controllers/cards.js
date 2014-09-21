@@ -1,6 +1,8 @@
+import Ember from "ember";
+
 var EventMixin = Balanced.ActionEvented('openDebitFundingInstrumentModal', 'openCreditFundingInstrumentModal', 'openHoldCardModal');
 
-Balanced.CardsController = Balanced.ObjectController.extend(EventMixin, {
+var CardsController = Ember.ObjectController.extend(EventMixin, {
 	needs: ['marketplace'],
 
 	actions: {
@@ -20,3 +22,5 @@ Balanced.CardsController = Balanced.ObjectController.extend(EventMixin, {
 		},
 	}
 });
+
+export default CardsController;

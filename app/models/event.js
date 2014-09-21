@@ -9,4 +9,4 @@ Balanced.Event = Balanced.Model.extend({
 	}.property('type')
 });
 
-
+export default Balanced.Event;

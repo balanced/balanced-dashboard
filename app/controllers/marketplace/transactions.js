@@ -1,4 +1,6 @@
-var MarketplaceTransactionsController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var MarketplaceTransactionsController = Ember.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
 	noDownloadsUri: true,
 

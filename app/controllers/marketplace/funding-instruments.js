@@ -1,4 +1,6 @@
-Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var MarketplaceFundingInstrumentsController = Ember.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
 	resultsLoader: Ember.computed.oneWay("model"),
 	sortField: Ember.computed.oneWay("resultsLoader.sortField"),
@@ -25,3 +27,5 @@ Balanced.MarketplaceFundingInstrumentsController = Balanced.ObjectController.ext
 		},
 	}
 });
+
+export default MarketplaceFundingInstrumentsController;

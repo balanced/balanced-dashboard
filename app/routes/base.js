@@ -1,31 +1,9 @@
 Balanced.Route = Ember.Route.extend();
 
-Balanced.AuthRoute = Balanced.Route.extend({
-	beforeModel: function(transition) {
-		var sessionsController = this.controllerFor("sessions");
-		if (!this.controllerFor("sessions").get("isUserPresent")) {
-			this.controllerFor("sessions").set("transitionPendingLogin", transition);
-			this.transitionTo('login');
-		}
-	}
-});
+import AuthRoute from "./auth";
+import TitleRoute from "./title";
 
-Balanced.TitleRoute = Balanced.AuthRoute.extend({
-	title: 'Model',
-
-	pageTitle: function(route, setTitle) {
-		var model = route.controller.content;
-		var title = route.get('title');
-
-		return Balanced.Utils.maybeDeferredLoading(model, setTitle, function() {
-			return title + ': loading ...';
-		}, function() {
-			return title + ': %@'.fmt(model.get('page_title'));
-		});
-	}
-});
-
-Balanced.ModelRoute = Balanced.TitleRoute.extend({
+Balanced.ModelRoute = TitleRoute.extend({
 	model: function(params) {
 		var marketplace = this.modelFor('marketplace');
 		var modelObject = this.get('modelObject');
@@ -45,14 +23,14 @@ Balanced.ModelControllerRoute = Balanced.ModelRoute.extend({
 	}
 });
 
-Balanced.ControllerRoute = Balanced.AuthRoute.extend({
+Balanced.ControllerRoute = AuthRoute.extend({
 	setupController: function(controller, model) {
 		controller.send('reload');
 	}
 });
 
 Balanced.RedirectRoute = function redirectRoute(routeName, modelFor, baseRoute) {
-	baseRoute = baseRoute || Balanced.AuthRoute;
+	baseRoute = baseRoute || AuthRoute;
 	modelFor = modelFor || 'marketplace';
 
 	return baseRoute.extend({

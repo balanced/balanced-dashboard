@@ -1,6 +1,7 @@
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+import AuthRoute from "./auth";
 
-var InvalidRoute = Balanced.AuthRoute.extend({
+var InvalidRoute = AuthRoute.extend({
 	redirect: function() {
 		Ember.Logger.warn("Invalid route specified: " + window.location.pathname + window.location.hash);
 		AnalyticsLogger.trackEvent('route-error', {

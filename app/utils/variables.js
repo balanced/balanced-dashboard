@@ -1,14 +1,3 @@
-Balanced.COOKIE = {
-	// cookies set by the Ember dashboard app
-	EMBER_AUTH_TOKEN: 'ember-auth-rememberable',
-	MARKETPLACE_URI: 'mru',
-	API_KEY_SECRET: 'apiKeySecret',
-	NEW_UPDATES: 'new-updates',
-	// read only (set by the auth proxy)
-	CSRF_TOKEN: 'csrftoken',
-	SESSION: 'session'
-};
-
 Balanced.TIME = {
 	THREE_YEARS: 365 * 3,
 	MONTHS: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],

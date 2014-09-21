@@ -102,24 +102,4 @@ var MarketplaceController = Ember.ObjectController.extend({
 
 });
 
-Balanced.MarketplaceCreditsController = Balanced.ObjectController.extend({
-	needs: ['marketplace']
-});
-
-Balanced.MarketplaceDebitsController = Balanced.ObjectController.extend({
-	needs: ['marketplace']
-});
-
-Balanced.MarketplaceHoldsController = Balanced.ObjectController.extend({
-	needs: ['marketplace']
-});
-
-Balanced.MarketplaceRefundsController = Balanced.ObjectController.extend({
-	needs: ['marketplace']
-});
-
-Balanced.MarketplaceSettingsController = Balanced.ObjectController.extend({
-	needs: ['marketplace']
-});
-
 export default MarketplaceController;

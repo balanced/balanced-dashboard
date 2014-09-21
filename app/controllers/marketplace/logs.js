@@ -1,4 +1,6 @@
-Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var MarketplaceLogsController = Ember.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
 	resultsLoader: Ember.computed.oneWay("model"),
 	sortField: Ember.computed.oneWay("resultsLoader.sortField"),
@@ -19,16 +21,4 @@ Balanced.MarketplaceLogsController = Balanced.ObjectController.extend(Ember.Even
 	}
 });
 
-/*
-	This controller provides embedded log records in resource pages
-*/
-Balanced.LogsEmbeddedController = Balanced.MarketplaceLogsController.extend({
-	resultsLoader: function() {
-		var marketplace = this.modelFor("marketplace");
-		return Balanced.LogsResultsLoader.create({
-			limit: 5,
-			resource: this.get("model"),
-			marketplace: marketplace
-		});
-	}.property(),
-});
+export default MarketplaceLogsController;

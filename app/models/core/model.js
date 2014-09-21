@@ -68,7 +68,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 		var promise = this.resolveOn(resolveEvent);
 
 		adapterFunc.call(Balanced.Adapter, this.constructor, uri, data, function(json) {
-			var deserializedJson = self.constructor.serializer.extractSingle(json, this.constructor, (creatingNewModel ? null : self.get('href')));
+			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, (creatingNewModel ? null : self.get('href')));
 			self._updateFromJson(deserializedJson);
 
 			self.setProperties({

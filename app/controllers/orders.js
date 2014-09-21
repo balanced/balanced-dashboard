@@ -1,10 +1,12 @@
+import Ember from "ember";
+
 var resultsLoaderProperty = function(methodName) {
 	return function() {
 		return this.get("model")[methodName]();
 	}.property("model");
 };
 
-Balanced.OrdersController = Balanced.ObjectController.extend({
+var OrdersController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 
 	debitsResultsLoader: resultsLoaderProperty("getDebitsResultsLoader"),
@@ -46,3 +48,5 @@ Balanced.OrdersController = Balanced.ObjectController.extend({
 		}
 	}
 });
+
+export default OrdersController;

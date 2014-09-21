@@ -9,19 +9,24 @@
 `import UserInvite from "balanced-dashboard/models/user-invite";`
 `import UserMarketplace from "balanced-dashboard/models/user-marketplace";`
 
+
 ModelsAdapterInitializer =
 	name: "modelsAdapter"
 	initialize: (container, app) ->
 		Adapter = AjaxAdapter.create()
-		Adapter.registerHostForType(Claim, ENV.BALANCED.AUTH)
-		Adapter.registerHostForType(DisputeDocument, ENV.BALANCED.JUSTITIA)
-		Adapter.registerHostForType(Download, ENV.BALANCED.WWW)
-		Adapter.registerHostForType(ForgotPassword, ENV.BALANCED.AUTH)
-		Adapter.registerHostForType(JustitiaDispute, ENV.BALANCED.JUSTITIA)
-		Adapter.registerHostForType(ResetPassword, ENV.BALANCED.AUTH)
-		Adapter.registerHostForType(User, ENV.BALANCED.AUTH)
-		Adapter.registerHostForType(UserInvite, ENV.BALANCED.AUTH)
-		Adapter.registerHostForType(UserMarketplace, ENV.BALANCED.AUTH)
+		register = (factoryName, host) ->
+			klass = container.lookupFactory("model:#{factoryName}")
+			Adapter.registerHostForType(klass, host)
+
+		register("claim", ENV.BALANCED.AUTH)
+		register("disputed-document", ENV.BALANCED.JUSTITIA)
+		register("download", ENV.BALANCED.WWW)
+		register("forgot-password", ENV.BALANCED.AUTH)
+		register("justitia-dispute", ENV.BALANCED.JUSTITIA)
+		register("reset-password", ENV.BALANCED.AUTH)
+		register("user", ENV.BALANCED.AUTH)
+		register("user-invite", ENV.BALANCED.AUTH)
+		register("user-marketplace", ENV.BALANCED.AUTH)
 
 		container.register("adapter:main", Adapter)
 		Balanced.Adapter = Adapter

@@ -1,4 +1,6 @@
-Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var MarketplaceSearchController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 
 	// UI properties
@@ -52,3 +54,5 @@ Balanced.MarketplaceSearchController = Balanced.ObjectController.extend({
 		},
 	}
 });
+
+export default MarketplaceSearchController;

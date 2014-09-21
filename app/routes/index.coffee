@@ -1,4 +1,6 @@
-IndexRoute = Balanced.AuthRoute.extend
+`import AuthRoute from "./auth";`
+
+IndexRoute = AuthRoute.extend
   redirect: ->
     sessions = @controllerFor("sessions")
 

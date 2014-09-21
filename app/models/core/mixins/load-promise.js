@@ -61,7 +61,7 @@ var LoadPromise = Ember.Mixin.create(Evented, Deferred, {
 		model.one('becameError', error);
 		model.one('becameInvalid', error);
 
-		return deferred;
+		return deferred.promise;
 	},
 
 	_resetPromise: function() {

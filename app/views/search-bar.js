@@ -1,6 +1,7 @@
 import Ember from "ember";
-Balanced.SearchBarView = Ember.View.extend({
-	layoutName: "search_bar_layout",
+
+var SearchBarView = Ember.View.extend({
+	layoutName: "search-bar-layout",
 
 	overlayClass: 'overlaid',
 	isHighlight: false,
@@ -20,3 +21,5 @@ Balanced.SearchBarView = Ember.View.extend({
 		this.set("isHighlight", false);
 	},
 });
+
+export default SearchBarView;

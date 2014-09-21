@@ -1,4 +1,5 @@
 import Rev0Serializer from "../serializers/rev0";
+import ApiKey from "../models/api-key";
 
 var UserMarketplace = Balanced.Model.extend({
 	production: function() {
@@ -39,7 +40,7 @@ var UserMarketplace = Balanced.Model.extend({
 			});
 		}
 
-		Balanced.APIKey.findAll()
+		ApiKey.findAll()
 			.then(function(result) {
 				var keys = result.content;
 				var date1, date2;

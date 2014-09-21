@@ -1,4 +1,6 @@
-Balanced.MarketplaceImportPayoutsRoute = Balanced.AuthRoute.extend({
+import AuthRoute from "./auth";
+
+var MarketplaceImportPayoutsRoute = AuthRoute.extend({
 	pageTitle: 'Import payouts',
 
 	setupController: function(controller, model) {
@@ -10,3 +12,5 @@ Balanced.MarketplaceImportPayoutsRoute = Balanced.AuthRoute.extend({
 		this.render('import_payouts/index');
 	}
 });
+
+export default MarketplaceImportPayoutsRoute;

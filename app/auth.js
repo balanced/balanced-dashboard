@@ -2,6 +2,9 @@ import ENV from "balanced-dashboard/config/environment";
 import ApiKey from "balanced-dashboard/models/api-key";
 import User from "balanced-dashboard/models/user";
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
+import Marketplace from "balanced-dashboard/models/marketplace";
+
+import COOKIE from "balanced-dashboard/utils/variables/cookie";
 
 var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {
@@ -77,7 +80,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				type: 'GET'
 			})
 			.then(undefined, function() {
-				var authCookie = $.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN);
+				var authCookie = $.cookie(COOKIE.EMBER_AUTH_TOKEN);
 				if (authCookie) {
 					return self.signInRequest({
 						data: {
@@ -103,7 +106,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				var apiKeysWithSecrets = apiKeys.filterBy('secret');
 				var secret = apiKeysWithSecrets.length ? apiKeysWithSecrets[0].get('secret') : null;
 				self.loginGuestUser(secret);
-				return Balanced.Marketplace.findAll();
+				return Marketplace.findAll();
 			})
 			.then(function(marketplaces) {
 				var marketplace = marketplaces.get('length') ? marketplaces.objectAt(0) : null;
@@ -169,7 +172,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 		var self = this;
 		this.unsetAPIKey();
 
-		return Balanced.APIKey
+		return ApiKey
 			.create()
 			.save()
 			.then(function(apiKey) {
@@ -262,8 +265,8 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			isAdmin: isAdmin
 		});
 
-		Balanced.__container__.unregister('user:main');
-		Balanced.register('user:main', user, {
+		BalancedApp.__container__.unregister('user:main');
+		BalancedApp.register('user:main', user, {
 			instantiate: false,
 			singleton: true
 		});
@@ -272,14 +275,14 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	rememberLogin: function(token) {
 		this.set('lastLoginUri', token);
 
-		$.cookie(Balanced.COOKIE.EMBER_AUTH_TOKEN, token, {
+		$.cookie(COOKIE.EMBER_AUTH_TOKEN, token, {
 			expires: Balanced.TIME.WEEK,
 			path: '/'
 		});
 	},
 
 	forgetLogin: function() {
-		_.each([Balanced.COOKIE.EMBER_AUTH_TOKEN, Balanced.COOKIE.API_KEY_SECRET, Balanced.COOKIE.SESSION], function(CONST_VAR) {
+		_.each([COOKIE.EMBER_AUTH_TOKEN, COOKIE.API_KEY_SECRET, COOKIE.SESSION], function(CONST_VAR) {
 			$.removeCookie(CONST_VAR, {
 				path: '/'
 			});
@@ -307,29 +310,29 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	storeGuestAPIKey: function(apiKeySecret) {
-		$.cookie(Balanced.COOKIE.API_KEY_SECRET, apiKeySecret, {
+		$.cookie(COOKIE.API_KEY_SECRET, apiKeySecret, {
 			path: '/',
 			expires: Balanced.TIME.WEEK
 		});
 	},
 
 	getGuestAPIKey: function() {
-		return $.cookie(Balanced.COOKIE.API_KEY_SECRET);
+		return $.cookie(COOKIE.API_KEY_SECRET);
 	},
 
 	rememberLastUsedMarketplaceUri: function(marketplaceUri) {
-		$.cookie(Balanced.COOKIE.MARKETPLACE_URI, marketplaceUri, {
+		$.cookie(COOKIE.MARKETPLACE_URI, marketplaceUri, {
 			path: '/',
 			expires: Balanced.TIME.THREE_YEARS
 		});
 	},
 
 	getLastUsedMarketplaceUri: function() {
-		return $.cookie(Balanced.COOKIE.MARKETPLACE_URI);
+		return $.cookie(COOKIE.MARKETPLACE_URI);
 	},
 
 	forgetLastUsedMarketplaceUri: function() {
-		$.removeCookie(Balanced.COOKIE.MARKETPLACE_URI, {
+		$.removeCookie(COOKIE.MARKETPLACE_URI, {
 			path: '/'
 		});
 	}

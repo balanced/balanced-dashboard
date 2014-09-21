@@ -1,7 +1,8 @@
 import ENV from "balanced-dashboard/config/environment";
+import COOKIE from "balanced-dashboard/utils/variables/cookie";
 
 Balanced.NET = Ember.Namespace.create({
-	csrfToken: $.cookie(Balanced.COOKIE.CSRF_TOKEN),
+	csrfToken: $.cookie(COOKIE.CSRF_TOKEN),
 	defaultApiKey: null,
 
 	loadCSRFToken: function() {

@@ -1,4 +1,6 @@
-Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var AccountSecurityController = Ember.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplaces', 'marketplace', 'application', "notification_center"],
 
 	auth_code_confirm: null,
@@ -122,3 +124,5 @@ Balanced.AccountSecurityController = Balanced.ObjectController.extend(Ember.Even
 		}
 	}
 });
+
+export default AccountSecurityController;

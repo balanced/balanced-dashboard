@@ -174,4 +174,4 @@ Balanced.Customer.reopenClass({
 	}
 });
 
-
+export default Balanced.Customer;

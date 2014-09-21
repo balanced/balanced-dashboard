@@ -1,4 +1,4 @@
-Balanced.Verification = Balanced.Model.extend({
+var Verification = Balanced.Model.extend({
 	no_attempts_remaining: Ember.computed.equal('attempts_remaining', 0),
 	isVerifiable: function() {
 		return this.get("attempts_remaining") > 0;
@@ -20,4 +20,4 @@ Balanced.Verification = Balanced.Model.extend({
 	}.property('verification_status')
 });
 
-
+export default Verification;

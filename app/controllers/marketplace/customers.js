@@ -1,4 +1,6 @@
-Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var MarketplaceCustomersController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 	noDownloadsUri: true,
 	resultsLoader: Ember.computed.oneWay("model"),
@@ -14,3 +16,5 @@ Balanced.MarketplaceCustomersController = Balanced.ObjectController.extend({
 		},
 	}
 });
+
+export default MarketplaceCustomersController;

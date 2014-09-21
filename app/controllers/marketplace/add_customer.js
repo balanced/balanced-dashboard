@@ -1,4 +1,6 @@
-Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var MarketplaceAddCustomerController = Ember.ObjectController.extend({
 	needs: ["marketplace"],
 
 	optionalFieldsOpen: false,
@@ -60,3 +62,5 @@ Balanced.MarketplaceAddCustomerController = Balanced.ObjectController.extend({
 		}
 	}.property('isBusiness')
 });
+
+export default MarketplaceAddCustomerController;

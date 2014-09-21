@@ -6,5 +6,4 @@ var Login = Balanced.Model.extend(Ember.Validations, {
 	}
 });
 
-Balanced.Login = Login;
 export default Login;

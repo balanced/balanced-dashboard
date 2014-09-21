@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'PlantinStdItalic';
+    src: url('plantinstd-italic.eot');
+    src: url('plantinstd-italic.eot') format('embedded-opentype'),
+         url('plantinstd-italic.woff') format('woff'),
+         url('plantinstd-italic.ttf') format('truetype'),
+         url('plantinstd-italic.svg#PlantinStdItalic') format('svg');
+}

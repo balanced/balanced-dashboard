@@ -4,7 +4,7 @@ var MARKETPLACE_URI_REGEX = /\/marketplaces\/([^\/]+)/;
 
 var AjaxAdapter = BaseAdapter.extend({
 	initAdapter: function() {
-		this.hostsByType = {};
+		this.hostsByType = [];
 	},
 
 	_uri: function(type, uri) {
@@ -102,7 +102,10 @@ var AjaxAdapter = BaseAdapter.extend({
 	},
 
 	registerHostForType: function(type, host) {
-		this.hostsByType[type] = host;
+		this.hostsByType.push({
+			type: type,
+			host: host
+		});
 	},
 
 	load: function(settings) {
@@ -110,11 +113,7 @@ var AjaxAdapter = BaseAdapter.extend({
 	},
 
 	getHostForType: function(type) {
-		var host = ENV.BALANCED.API;
-		if (this.hostsByType[type]) {
-			host = this.hostsByType[type];
-		}
-		return host;
+		return this.hostsByType.findBy("type", type) || ENV.BALANCED.API;
 	}
 });
 

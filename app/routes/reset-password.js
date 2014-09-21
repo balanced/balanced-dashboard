@@ -1,11 +1,13 @@
-Balanced.ResetPasswordRoute = Balanced.Route.extend({
+import Ember from "ember";
+
+var ResetPasswordRoute = Ember.Route.extend({
 	setupController: function(controller, model) {
 		controller.set("hasError", false);
 		this._super(controller, model.rp);
 	},
 
 	model: function(params) {
-		var rp = Balanced.ResetPassword.create({
+		var rp = this.container.lookup("model:reset-password", {
 			isLoaded: true,
 			isNew: false,
 			token: params.token
@@ -16,3 +18,5 @@ Balanced.ResetPasswordRoute = Balanced.Route.extend({
 		};
 	}
 });
+
+export default ResetPasswordRoute;

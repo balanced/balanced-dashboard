@@ -1,6 +1,7 @@
 `import Utils from "balanced-dashboard/lib/utils";`
+`import AuthRoute from "./auth";`
 
-MarketplaceRoute = Balanced.AuthRoute.extend
+MarketplaceRoute = AuthRoute.extend
 	model: (params) ->
 		return @controllerFor("sessions")
 			.get("currentUser.marketplacesLoader")
@@ -10,7 +11,6 @@ MarketplaceRoute = Balanced.AuthRoute.extend
 		Utils.setCurrentMarketplace(model)
 
 	setupController: (controller, model) ->
-		console.log model
 		@_super(controller, model)
 
 		Utils.setCurrentMarketplace(model)

@@ -1,4 +1,6 @@
-Balanced.Reversal = Balanced.Transaction.extend({
+import Transaction from "./transaction";
+
+var Reversal = Transaction.extend({
 	credit: Balanced.Model.belongsTo('credit', 'Balanced.Credit'),
 
 	type_name: 'Reversal',
@@ -10,4 +12,4 @@ Balanced.Reversal = Balanced.Transaction.extend({
 	customer: Ember.computed.readOnly('credit.customer')
 });
 
-
+export default Reversal;

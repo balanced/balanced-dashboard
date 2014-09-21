@@ -1,4 +1,6 @@
-Balanced.MarketplaceInvoicesController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var MarketplaceInvoicesController = Ember.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace', "notification_center"],
 
 	resultsLoader: Ember.computed.oneWay("model"),
@@ -14,3 +16,5 @@ Balanced.MarketplaceInvoicesController = Balanced.ObjectController.extend(Ember.
 		},
 	}
 });
+
+export default MarketplaceInvoicesController;

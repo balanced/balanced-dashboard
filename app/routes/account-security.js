@@ -1,6 +1,8 @@
+import AuthRoute from "./auth";
+
 var NOT_ALLOWED_ROUTES = ['shapeshifter', 'login', 'logout', 'claim', 'apply'];
 
-var AccountSecurityRoute = Balanced.AuthRoute.extend({
+var AccountSecurityRoute = AuthRoute.extend({
 	pageTitle: 'Account Security',
 
 	setupController: function(controller, model) {

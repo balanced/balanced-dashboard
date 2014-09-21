@@ -1,10 +1,13 @@
-Balanced.MarketplaceAddCustomerRoute = Balanced.AuthRoute.extend({
+import AuthRoute from "../auth";
+import Customer from "balanced-dashboard/models/customer";
+
+var MarketplaceAddCustomerRoute = AuthRoute.extend({
 	pageTitle: 'Add customer',
 
 	setupController: function(controller, model) {
 		var marketplace = this.modelFor('marketplace');
 
-		controller.set('content', Balanced.Customer.create({
+		controller.set('content', Customer.create({
 			uri: marketplace.get('customers_uri'),
 			address: {}
 		}));
@@ -12,3 +15,5 @@ Balanced.MarketplaceAddCustomerRoute = Balanced.AuthRoute.extend({
 		controller.set('optionalFieldsOpen', false);
 	}
 });
+
+export default MarketplaceAddCustomerRoute;

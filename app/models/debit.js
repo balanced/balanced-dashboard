@@ -1,4 +1,6 @@
-Balanced.Debit = Balanced.Transaction.extend({
+import Transaction from "./transaction";
+
+var Debit = Transaction.extend({
 
 	refund_amount: Ember.computed.oneWay('amount'),
 	type_name: "Debit",
@@ -53,4 +55,4 @@ Balanced.Debit = Balanced.Transaction.extend({
 	}.property('amount', 'refund_amount', 'is_succeeded', 'dispute')
 });
 
-export default Balanced.Debit;
+export default Debit;

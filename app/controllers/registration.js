@@ -17,6 +17,7 @@ var RegistrationController = Ember.Controller.extend({
 
 	addStarterMarketplace: function(user, authToken) {
 		var self = this;
+		var Marketplace = this.container.lookupFactory("model:marketplace");
 		return self
 			.getStarterMarketplaceApiKeySecret(user, authToken)
 			.then(function(marketplaceApiKeySecret) {
@@ -28,7 +29,7 @@ var RegistrationController = Ember.Controller.extend({
 				});
 			})
 			.then(function(marketplaceUri) {
-				return Balanced.Marketplace.find(marketplaceUri);
+				return Marketplace.find(marketplaceUri);
 			});
 	},
 
@@ -44,11 +45,12 @@ var RegistrationController = Ember.Controller.extend({
 	},
 
 	createMarketplaceForApiKeySecret: function(apiKeySecret, attributes) {
+		var Marketplace = this.container.lookupFactory("model:marketplace");
 		return this
 			.getApiConnection(apiKeySecret)
 			.createMarketplace(attributes)
 			.then(function(response) {
-				var mp = Balanced.Marketplace.create();
+				var mp = Marketplace.create();
 				mp.populateFromJsonResponse(response);
 				return mp;
 			});
@@ -78,12 +80,13 @@ var RegistrationController = Ember.Controller.extend({
 
 	addSecretToUser: function(user, apiKeySecret) {
 		var uri = "%@%@".fmt(ENV.BALANCED.AUTH, user.get("marketplaces_uri"));
+		var UserMarketplace = this.container.lookupFactory("model:user-marketplace");
 		return this.getAuthConnection()
 			.post(uri, {
 				secret: apiKeySecret
 			})
 			.then(function(response) {
-				var userMarketplace = Balanced.UserMarketplace.create();
+				var userMarketplace = UserMarketplace.create();
 				userMarketplace.populateFromJsonResponse(response);
 				return userMarketplace.get("uri");
 			});

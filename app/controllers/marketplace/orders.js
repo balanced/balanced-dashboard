@@ -1,12 +1,12 @@
-Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var MarketplaceOrdersController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 	resultsLoader: Ember.computed.oneWay("model"),
+
 	actions: {
-		changeDisputesSort: function(column) {
+		changeOrdersSort: function(column) {
 			this.get("resultsLoader").setSortField(column);
-		},
-		changeDisputeStatusFilter: function(status) {
-			this.set('resultsLoader.statusFilters', status);
 		},
 		changeDateFilter: function(startTime, endTime) {
 			this.get("resultsLoader").setProperties({
@@ -16,3 +16,5 @@ Balanced.MarketplaceDisputesController = Balanced.ObjectController.extend(Ember.
 		},
 	}
 });
+
+export default MarketplaceOrdersController;

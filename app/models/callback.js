@@ -1,3 +1,3 @@
-Balanced.Callback = Balanced.Model.extend();
+var Callback = Balanced.Model.extend();
 
-
+export default Callback;

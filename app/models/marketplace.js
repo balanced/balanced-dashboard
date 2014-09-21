@@ -2,6 +2,8 @@ import Transaction from "./transaction";
 import Rev1Serializer from "../serializers/rev1";
 import UserMarketplace from "./user-marketplace";
 
+import SearchResultsLoader form "./results-loader/marketplace-search";
+
 var getResultsLoader = function(loaderClassName, attributes) {
 	return BalancedApp.__container__.lookup("results-loader:" + loaderClassName, attributes);
 };

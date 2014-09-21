@@ -4,33 +4,31 @@
 TypeMappingsInitializer =
 	name: "typeMappings"
 	initialize: (container, app) ->
-		mappings =
-			api_key: Balanced.APIKey
-			bank_account: Balanced.BankAccount
-			bank_account_verification: Balanced.Verification
-			callback: Balanced.Callback
-			card: Balanced.Card
-			card_hold: Balanced.Hold
-			credit: Balanced.Credit
-			customer: Balanced.Customer
-			debit: Balanced.Debit
-			dispute: Balanced.Dispute
-			dispute_documents: Balanced.DisputeDocument
-			event: Balanced.Event
-			event_callback: Balanced.EventCallback
-			hold: Balanced.Hold
-			invoice: Balanced.Invoice
-			log: Balanced.Log
-			log_search: Balanced.Log
-			login: Balanced.Login
-			marketplace: Balanced.Marketplace
-			order: Balanced.Order
-			refund: Balanced.Refund
-			reversal: Balanced.Reversal
-			settlement: Balanced.Settlement
-			user_marketplace: UserMarketplace
+		registerMapping = (key, factoryName) ->
+			klass = container.lookupFactory("model:#{factoryName || key}")
+			TypeMappings.addTypeMapping(key, klass)
 
-		for key, value of mappings
-			Balanced.TypeMappings.addTypeMapping(key, value)
+		registerMapping "api_key", "api-key"
+		registerMapping "bank_account", "bank-account"
+		registerMapping "bank_account_verification", "verification"
+		registerMapping "callback"
+		registerMapping "card"
+		registerMapping "card_hold", "hold"
+		registerMapping "credit"
+		registerMapping "customer"
+		registerMapping "debit"
+		registerMapping "dispute_documents", "dispute-document"
+		registerMapping "event"
+		registerMapping "event_callback", "event-callback"
+		registerMapping "hold"
+		registerMapping "log"
+		registerMapping "log_search", "log"
+		registerMapping "login"
+		registerMapping "marketplace"
+		registerMapping "order"
+		registerMapping "refund"
+		registerMapping "reversal"
+		registerMapping "settlement"
+		registerMapping "user_marketplace", "user-marketplace"
 
 `export default TypeMappingsInitializer`
