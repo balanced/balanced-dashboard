@@ -1,4 +1,7 @@
 import Ember from "ember";
-Balanced.MainPanelView = Ember.View.extend({
+
+var MainPanelView = Ember.View.extend({
 	classNameBindings: [":main-panel", ":span"]
 });
+
+export default MainPanelView;

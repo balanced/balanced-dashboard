@@ -1,4 +1,8 @@
-Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
+import Ember from "ember";
+import DisputeTransactionsResultsLoader from "./results-loaders/dispute-transactions";
+import JustitiaDispute from "./justitia-dispute";
+
+var Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'transaction'),
 	events: Balanced.Model.hasMany('events', 'event'),
 	documents: Balanced.Model.hasMany('dispute_documents', 'dispute-document'),
@@ -11,7 +15,7 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 		}
 	},
 	justitia_dispute: function() {
-		return Balanced.JustitiaDispute.find(this.get('dispute_uri'));
+		return JustitiaDispute.find(this.get('dispute_uri'));
 	}.property('dispute_uri'),
 
 	isEvidenceProvided: function() {
@@ -55,7 +59,7 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 			dispute: this
 		}, attributes);
 
-		return Balanced.DisputeTransactionsResultsLoader.create(attributes);
+		return DisputeTransactionsResultsLoader.create(attributes);
 	},
 
 	hasExpired: function() {
@@ -67,4 +71,4 @@ Balanced.Dispute = Balanced.Model.extend(Ember.Validations, {
 	}.property('isEvidenceProvided', 'hasExpired', 'status')
 });
 
-export default Balanced.Dispute;
+export default Dispute;

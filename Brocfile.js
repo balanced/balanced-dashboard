@@ -16,7 +16,8 @@ app.import('bower_components/bootstrap/js/bootstrap-modal.js');
 app.import('bower_components/bootstrap/js/bootstrap-tooltip.js');
 app.import('bower_components/bootstrap/js/bootstrap-popover.js');
 
-app.import("vendor/daterangepicker.js");
+app.import("bower_components/bootstrap-daterangepicker/daterangepicker.js");
+
 app.import("vendor/ember-validations.prod.js");
 
 module.exports = app.toTree();

@@ -1,12 +1,12 @@
 {{view "page-navigations/page-navigation" title="Settings" hideDateFilter=true}}
 
-{{#view Balanced.BodyPanelView}}
-	{{#view Balanced.SidePanelView model=model}}
+{{#view "detail-views/body-panel"}}
+	{{#view "detail-views/api-model-panel" model=model}}
 		{{view Balanced.SettingsMarketplaceTitledKeyValuesSectionView model=model}}
 		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model.owner_customer}}
 	{{/view}}
 
-	{{#view Balanced.MainPanelView}}
+	{{#view "detail-views/main-panel"}}
 		<section class="payment-method-info">
 			<h3>Payment methods</h3>
 			<div class="pull-right">

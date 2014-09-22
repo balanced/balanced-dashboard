@@ -51,8 +51,8 @@ Balanced.EXPECTED_CREDIT_DAYS_OFFSET = {
 Balanced.DATES = {
 	CREATED_AT: moment('2011-04-01').startOf('day').toDate(),
 
-	RESULTS_MAX_TIME: moment().add('hours', 2).startOf('hour').toDate(),
-	RESULTS_MIN_TIME: moment().subtract('months', 1).startOf('hour').toDate()
+	RESULTS_MAX_TIME: moment().add(2, 'hours').startOf('hour').toDate(),
+	RESULTS_MIN_TIME: moment().subtract(1, 'months').startOf('hour').toDate()
 };
 
 Balanced.BANK_NAMES = {

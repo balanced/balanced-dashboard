@@ -5,8 +5,8 @@
 	</h1>
 {{/view}}
 
-{{#view Balanced.BodyPanelView}}
-	{{#view Balanced.SidePanelView model=model}}
+{{#view "detail-views/body-panel"}}
+	{{#view "detail-views/api-model-panel" model=model}}
 		{{#if marketplace.production}}
 			<section class="hidden-invoice">
 				<h3>Bill to</h3>
@@ -36,7 +36,7 @@
 		{{/view}}
 	{{/view}}
 
-	{{#view Balanced.MainPanelView}}
+	{{#view "detail-views/main-panel"}}
 		<h3>Fees</h3>
 		<div class="results">
 			<div class="hidden-print">

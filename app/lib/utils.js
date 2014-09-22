@@ -340,7 +340,10 @@ var Utils = Ember.Namespace.create({
 		if (_.isDate(date)) {
 			return moment(date).format(format);
 		} else if (_.isString(date)) {
-			return moment(date).format(format);
+			// As of Sept 22 2014 there is an issue with log api results returning the time zone as
+			// "+00:00Z" which is not being parsed as valid ISO_8601
+			// https://github.com/balanced/balanced/issues/644
+			return moment(date.replace(/\+00:00Z$/, "Z"), moment.ISO_8601).format(format);
 		} else {
 			return date;
 		}

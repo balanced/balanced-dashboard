@@ -1,4 +1,6 @@
-Balanced.ListSectionView = Balanced.SummarySectionView.extend({
+import SummarySectionView from "./summary-section";
+
+var ListSectionView = SummarySectionView.extend({
 	templateName: "detail_views/list_section",
 });
 

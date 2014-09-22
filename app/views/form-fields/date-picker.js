@@ -6,7 +6,7 @@ var DEFAULT_MAX_TIME = Balanced.DATES.RESULTS_MAX_TIME;
 var DEFAULT_MIN_TIME = BALANCED_CREATED_AT;
 
 var DEFAULT_LOCALE = {
-	monthNames: moment()._lang._months,
+	monthNames: moment.localeData()._months,
 	daysOfWeek: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
 	cancelLabel: false,
 	applyLabel: 'Update'
@@ -59,7 +59,7 @@ var DatePickerView = Ember.View.extend({
 			timePicker: true,
 			format: 'MMM D, YYYY',
 			minDate: BALANCED_CREATED_AT,
-			maxDate: moment().add('days', 2),
+			maxDate: moment().add(2, 'days'),
 			parentEl: '.ember-application'
 		}, _.bind(this.chooseDateTime, this)).on('apply.daterangepicker', _.bind(this.applyDateTime, this));
 	},

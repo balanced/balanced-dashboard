@@ -11,14 +11,14 @@
 	{{/unless}}
 {{/view}}
 
-{{#view Balanced.BodyPanelView}}
-	{{#view Balanced.SidePanelView model=model}}
+{{#view "detail-views/body-panel"}}
+	{{#view "detail-views/api-model-panel" model=model}}
 		{{view Balanced.BankAccountSummarySectionView model=model}}
 		{{view Balanced.BankAccountTitledKeyValuesSectionView model=model}}
 		{{view Balanced.MetaView type=model}}
 	{{/view}}
 
-	{{#view Balanced.MainPanelView}}
+	{{#view "detail-views/main-panel"}}
 		<h3>Payments</h3>
 		<div class="results">
 			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}

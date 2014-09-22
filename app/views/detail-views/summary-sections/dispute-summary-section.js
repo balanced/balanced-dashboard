@@ -1,0 +1,19 @@
+import SummarySectionView from "./summary-section";
+
+var DisputeSummarySectionView = SummarySectionView.extend({
+	statusText: function() {
+		var status = this.get('model.status');
+
+		if (status === 'new') {
+			return 'Provide documentation to fight this dispute';
+		} else if (status === 'submitted') {
+			return 'This dispute is under review. Once the card holder issues a decision, the status will update to won or lost.';
+		}
+		return null;
+	}.property('model.status'),
+
+	linkedResources: function() {
+		return this.resourceLinks("model.transaction.order", "model.transaction.customer", "model.transaction.source");
+	}.property("model.transaction.order", "model.transaction.customer", "model.transaction.source")
+});
+

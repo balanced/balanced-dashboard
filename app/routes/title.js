@@ -4,7 +4,7 @@ var TitleRoute = AuthRoute.extend({
 	title: 'Model',
 
 	pageTitle: function(route, setTitle) {
-		var model = route.controller.content;
+		var model = route.controller.get("content");
 		var title = route.get('title');
 
 		return Balanced.Utils.maybeDeferredLoading(model, setTitle, function() {

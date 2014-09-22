@@ -1,4 +1,4 @@
-{{#view Balanced.TransactionPageNavigationView model=model}}
+{{#view "page-navigations/transaction-page-navigation" model=model}}
 	<div class="buttons page-actions">
 		{{#if model.can_refund}}
 			<a class="btn" {{action "openModal" Balanced.Modals.RefundDebitModalView model}}>Refund</a>
@@ -6,14 +6,14 @@
 	</div>
 {{/view}}
 
-{{#view Balanced.BodyPanelView}}
-	{{#view Balanced.SidePanelView model=model}}
+{{#view "detail-views/body-panel"}}
+	{{#view "detail-views/api-model-panel" model=model}}
 		{{view Balanced.DebitSummarySectionView model=model}}
 		{{view Balanced.TransactionTitledKeyValuesSectionView model=model}}
 		{{view Balanced.MetaView type=model}}
 	{{/view}}
 
-	{{#view Balanced.MainPanelView}}
+	{{#view "detail-views/main-panel"}}
 		{{#if model.dispute}}
 			<h3>Associated dispute<i class="icon-disputes"></i></h3>
 			<div class="results">

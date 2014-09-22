@@ -1,17 +1,7 @@
-Balanced.LogsTableCellView = Balanced.LinkedTextCellView.extend({
-	routeName: Ember.computed.oneWay("item.route_name"),
-});
+import LinkedTextCellView from "../linked-text-cell";
+import Ember from "ember";
 
-Balanced.LogDescriptionCellView = Balanced.LogsTableCellView.extend({
-	labelText: function() {
-		return "%@ %@".fmt(
-			this.get("item.message.request.method"),
-			this.get("item.condensed_request_url")
-		);
-	}.property("item.condensed_request_url", "item.message.request.method"),
-});
-
-Balanced.LogStatusCellView = Balanced.LinkedTextCellView.extend({
+var LogStatusCellView = LinkedTextCellView.extend({
 	routeName: Ember.computed.oneWay("item.route_name"),
 	classNameBindings: [":black"],
 	isBlank: false,
@@ -35,3 +25,5 @@ Balanced.LogStatusCellView = Balanced.LinkedTextCellView.extend({
 		}
 	}.property('primaryLabelText', 'secondaryLabelText')
 });
+
+export default LogStatusCellView;

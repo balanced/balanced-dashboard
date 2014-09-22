@@ -1,13 +1,13 @@
-{{view Balanced.TransactionPageNavigationView model=model}}
+{{view "page-navigations/transaction-page-navigation" model=model}}
 
-{{#view Balanced.BodyPanelView}}
-	{{#view Balanced.SidePanelView model=model}}
+{{#view "detail-views/body-panel"}}
+	{{#view "detail-views/api-model-panel" model=model}}
 		{{view Balanced.DisputeSummarySectionView model=model}}
 		{{view Balanced.DisputeTitledKeyValuesSectionView model=model}}
 		{{view Balanced.MetaView type=model}}
 	{{/view}}
 
-	{{#view Balanced.MainPanelView}}
+	{{#view "detail-views/main-panel"}}
 		{{#if canUploadDocuments}}
 			<div class="dispute-alert">
 				<div class="row-fluid notification-center warning">

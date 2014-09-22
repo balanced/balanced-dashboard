@@ -1,4 +1,6 @@
-Balanced.BodyPanelView = Ember.View.extend({
+import Ember from "ember";
+
+var BodyPanelView = Ember.View.extend({
 	classNames: ['body-panel', 'clearfix'],
 
 	didInsertElement: function() {
@@ -23,3 +25,5 @@ Balanced.BodyPanelView = Ember.View.extend({
 		}
 	}
 });
+
+export default BodyPanelView;

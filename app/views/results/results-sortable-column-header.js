@@ -1,5 +1,6 @@
 import Ember from "ember";
-Balanced.ResultsSortableColumnHeaderView = Ember.View.extend({
+
+var ResultsSortableColumnHeaderView = Ember.View.extend({
 	tagName: 'div',
 	classNameBindings: 'sortClass',
 
@@ -41,3 +42,5 @@ Balanced.ResultsSortableColumnHeaderView = Ember.View.extend({
 		this.get('controller').send('changeSortOrder', this.get('field'), nextSortOrder);
 	}
 });
+
+export default ResultsSortableColumnHeaderView;
