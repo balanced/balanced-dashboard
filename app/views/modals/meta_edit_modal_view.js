@@ -1,7 +1,8 @@
 var Full = Balanced.Modals.FullModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
+var Save = Balanced.Modals.ObjectActionMixin;
 
-Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, {
+Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Save, {
 	elementId: "edit-meta",
 	templateName: 'modals/meta_edit_modal',
 	title: "Edit meta information",
