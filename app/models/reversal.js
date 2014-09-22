@@ -1,7 +1,7 @@
 import Transaction from "./transaction";
 
 var Reversal = Transaction.extend({
-	credit: Balanced.Model.belongsTo('credit', 'Balanced.Credit'),
+	credit: Balanced.Model.belongsTo('credit', 'credit'),
 
 	type_name: 'Reversal',
 	route_name: 'reversals',

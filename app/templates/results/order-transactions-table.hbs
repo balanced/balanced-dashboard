@@ -28,7 +28,7 @@
 				routeName=transaction.route_name
 				date=transaction.created_at
 			}}
-			{{view Balanced.LinkedTextCellView
+			{{view "tables/cells/linked-text-cell"
 				item=transaction
 				labelText=transaction.status
 				routeName=transaction.route_name
@@ -36,7 +36,7 @@
 				classNames="span3 status"
 				titleBinding="transaction.status"
 			}}
-			{{view Balanced.LinkedTextCellView
+			{{view "tables/cells/linked-text-cell"
 				item=transaction
 				labelText=transaction.description
 				routeName=transaction.route_name

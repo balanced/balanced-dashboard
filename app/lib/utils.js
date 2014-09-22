@@ -330,17 +330,17 @@ var Utils = Ember.Namespace.create({
 	},
 
 	date_formats: {
-		date: '%b %e, %Y',
-		time: '%l:%M %p',
-		short: '%m/%e/%y, %l:%M %p',
-		long: '%B %e %Y, %l:%M %p',
+		date: 'MMM D, YYYY',
+		time: 'h:mm a',
+		short: 'M/D/YYYY, h:mm a',
+		long: 'MMMM D YYYY, h:mm a',
 	},
 
 	formatDate: function(date, format) {
 		if (_.isDate(date)) {
-			return date.strftime(format);
+			return moment(date).format(format);
 		} else if (_.isString(date)) {
-			return Date.parseISO8601(date).strftime(format);
+			return moment(date).format(format);
 		} else {
 			return date;
 		}

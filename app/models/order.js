@@ -12,11 +12,11 @@ Balanced.Order = Balanced.Model.extend({
 	route_name: 'orders',
 	type_name: 'Order',
 
-	buyers: Balanced.Model.hasMany('buyers', 'Balanced.Customer'),
-	seller: Balanced.Model.belongsTo('merchant', 'Balanced.Customer'),
+	buyers: Balanced.Model.hasMany('buyers', 'customer'),
+	seller: Balanced.Model.belongsTo('merchant', 'customer'),
 
-	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
-	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
+	credits: Balanced.Model.hasMany('credits', 'credit'),
+	debits: Balanced.Model.hasMany('debits', 'debit'),
 	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 

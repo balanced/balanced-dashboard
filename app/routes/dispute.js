@@ -1,6 +1,9 @@
-Balanced.DisputeRoute = Balanced.ModelRoute.extend({
+import ModelRoute from "./model";
+import Dispute from "../models/dispute";
+
+var DisputeRoute = ModelRoute.extend({
 	title: 'Dispute',
-	modelObject: Balanced.Dispute,
+	modelObject: Dispute,
 	marketplaceUri: 'disputes_uri',
 	setupController: function(controller, dispute) {
 		this._super(controller, dispute);
@@ -10,3 +13,5 @@ Balanced.DisputeRoute = Balanced.ModelRoute.extend({
 		});
 	}
 });
+
+export default DisputeRoute;

@@ -82,7 +82,6 @@ require('balanced-dashboard/auth')
 require('balanced-dashboard/controllers/_base')
 
 require('balanced-dashboard/controllers/mixins/actions_to_events')
-require('balanced-dashboard/controllers/mixins/results_table')
 
 require('balanced-dashboard/components/modal')
 require('balanced-dashboard/components/add_callback_modal')

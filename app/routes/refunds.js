@@ -1,5 +1,10 @@
-Balanced.RefundsRoute = Balanced.ModelRoute.extend({
+import ModelRoute from "./model";
+import Refund from "../models/refund" ;
+
+var RefundsRoute = ModelRoute.extend({
 	title: 'Refund',
-	modelObject: Balanced.Refund,
+	modelObject: Refund,
 	marketplaceUri: 'refunds_uri'
 });
+
+export default RefundsRoute;

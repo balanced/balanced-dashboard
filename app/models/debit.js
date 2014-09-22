@@ -6,11 +6,11 @@ var Debit = Transaction.extend({
 	type_name: "Debit",
 	route_name: "debits",
 
-	source: Balanced.Model.belongsTo('source', 'Balanced.FundingInstrument'),
-	hold: Balanced.Model.belongsTo('card_hold', 'Balanced.Hold'),
-	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
-	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
-	order: Balanced.Model.belongsTo('order', 'Balanced.Order'),
+	source: Balanced.Model.belongsTo('source', 'funding-instrument'),
+	hold: Balanced.Model.belongsTo('card_hold', 'hold'),
+	refunds: Balanced.Model.hasMany('refunds', 'refund'),
+	dispute: Balanced.Model.belongsTo('dispute', 'dispute'),
+	order: Balanced.Model.belongsTo('order', 'order'),
 
 	getDisputesLoader: function(attributes) {
 		attributes = _.extend({

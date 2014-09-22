@@ -1,6 +1,9 @@
-Balanced.CustomerRoute = Balanced.ModelRoute.extend({
+import ModelRoute from "./model";
+import Customer from "../models/customer";
+
+var CustomerRoute = ModelRoute.extend({
 	title: 'Customer',
-	modelObject: Balanced.Customer,
+	modelObject: Customer,
 	marketplaceUri: 'customers_uri',
 	setupController: function(controller, customer) {
 		this._super(controller, customer);
@@ -19,3 +22,5 @@ Balanced.CustomerRoute = Balanced.ModelRoute.extend({
 		});
 	}
 });
+
+export default CustomerRoute;

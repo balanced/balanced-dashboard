@@ -14,13 +14,10 @@ TypeMapping = Ember.Object.extend
 		return @typeClass(mappedType)
 
 	typeClass: (type) ->
-		typeClass = type
-
-		a = eval
 		if _.isString(type)
-			typeClass = a(type)
-
-		return typeClass
+			return @classForType(type)
+		else
+			return type
 
 Balanced.TypeMappings = TypeMappings = TypeMapping.create()
 

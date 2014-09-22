@@ -1,9 +1,9 @@
 import Transaction from "./transaction";
 
 var Hold = Balanced.Transaction.extend({
-	card: Balanced.Model.belongsTo('card', 'Balanced.FundingInstrument'),
+	card: Balanced.Model.belongsTo('card', 'funding-instrument'),
 	source: Ember.computed.alias('card'),
-	debit: Balanced.Model.belongsTo('debit', 'Balanced.Debit'),
+	debit: Balanced.Model.belongsTo('debit', 'debit'),
 
 	status: function() {
 		if (this.get('debit')) {
@@ -18,7 +18,7 @@ var Hold = Balanced.Transaction.extend({
 	}.property('debit', 'voided_at', 'is_expired'),
 
 	is_expired: function() {
-		return Date.parseISO8601(this.get('expires_at')) < new Date();
+		return moment(this.get('expires_at')).toDate() < new Date();
 	}.property('expires_at'),
 
 	can_void_or_capture: Ember.computed.equal('status', 'created'),

@@ -1,5 +1,5 @@
 Balanced.FundingInstrument = Balanced.Model.extend({
-	customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
+	customer: Balanced.Model.belongsTo('customer', 'customer'),
 
 	title_description: Balanced.computed.fmt('last_four', 'funding_instrument_name', '%@ %@'),
 	description_with_type: Balanced.computed.fmt('type_name', 'description', '%@: %@'),

@@ -39,21 +39,21 @@ var Marketplace = UserMarketplace.extend({
 		return getResultsLoader("marketplace-search", attributes);
 	},
 
-	credits: Balanced.Model.hasMany('credits', 'Balanced.Credit'),
-	debits: Balanced.Model.hasMany('debits', 'Balanced.Debit'),
+	credits: Balanced.Model.hasMany('credits', 'credit'),
+	debits: Balanced.Model.hasMany('debits', 'debit'),
 	// disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
 	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
 	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
 	transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
 	callbacks: Balanced.Model.hasMany('callbacks', 'Balanced.Callback'),
 
-	funding_instruments: Balanced.Model.hasMany('funding_instruments', 'Balanced.FundingInstrument'),
+	funding_instruments: Balanced.Model.hasMany('funding_instruments', 'funding-instrument'),
 	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
 	cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
 
-	owner_customer: Balanced.Model.belongsTo('owner_customer', 'Balanced.Customer'),
+	owner_customer: Balanced.Model.belongsTo('owner_customer', 'customer'),
 
-	customers: Balanced.Model.hasMany('customers', 'Balanced.Customer'),
+	customers: Balanced.Model.hasMany('customers', 'customer'),
 
 	// TODO - take this out once marketplace has a link to invoices list
 	users_uri: function() {

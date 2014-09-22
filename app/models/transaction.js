@@ -5,7 +5,7 @@ var Computed = {
 };
 
 Balanced.Transaction = Balanced.Model.extend({
-	customer: Balanced.Model.belongsTo('customer', 'Balanced.Customer'),
+	customer: Balanced.Model.belongsTo('customer', 'customer'),
 	events: Balanced.Model.hasMany('events', 'Balanced.Event'),
 
 	amount_dollars: function() {

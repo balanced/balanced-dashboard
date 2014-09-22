@@ -1,8 +1,6 @@
 import Ember from "ember";
 
-var get = Ember.get;
-
-Balanced.ModalView = Ember.View.extend({
+var ModalView = Ember.View.extend({
 	controllerEventName: 'openModal',
 	modalElement: '.modal',
 	defaultModelAction: 'save',
@@ -69,7 +67,7 @@ Balanced.ModalView = Ember.View.extend({
 		save: function(model, opts) {
 			model = model || this.get('model');
 
-			if (get(model, 'isSaving')) {
+			if (Ember.get(model, 'isSaving')) {
 				return;
 			}
 
@@ -98,12 +96,5 @@ Balanced.ModalView = Ember.View.extend({
 	}
 });
 
-Balanced.ActionModalView = Balanced.ModalView.extend({
-	modalElement: Balanced.computed.concat('idElement', '#', true),
-	templateName: 'modals/action_modal',
 
-	name: 'Override This',
-	description: 'Override This',
-	submitTitle: 'Confirm',
-	submittingTitle: 'Confirming'
-});
+export default ModalView;

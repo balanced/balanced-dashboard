@@ -1,6 +1,9 @@
-Balanced.DebitsRoute = Balanced.ModelRoute.extend({
+import ModelRoute from "./model";
+import Debit from "../models/debit";
+
+var DebitsRoute = ModelRoute.extend({
 	title: 'Debit',
-	modelObject: Balanced.Debit,
+	modelObject: Debit,
 	marketplaceUri: 'debits_uri',
 	setupController: function(controller, model) {
 		this._super(controller, model);
@@ -9,3 +12,5 @@ Balanced.DebitsRoute = Balanced.ModelRoute.extend({
 		});
 	}
 });
+
+export default DebitsRoute;

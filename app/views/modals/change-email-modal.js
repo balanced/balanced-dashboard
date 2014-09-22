@@ -1,4 +1,6 @@
-var ChangeEmailModalView = Balanced.ModalView.extend({
+import ModalView from "./modal";
+
+var ChangeEmailModalView = ModalView.extend({
 	controllerKey: 'controller.controllers.application',
 	controllerEventName: 'openChangeEmailModal',
 	fieldName: 'email address',

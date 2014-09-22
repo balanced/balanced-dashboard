@@ -1,4 +1,6 @@
-Balanced.CreditsController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var CreditsController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 
 	reversalsLoader: function() {
@@ -7,3 +9,5 @@ Balanced.CreditsController = Balanced.ObjectController.extend({
 		});
 	}.property("model")
 });
+
+export default CreditsController;
