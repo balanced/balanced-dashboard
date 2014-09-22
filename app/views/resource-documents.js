@@ -1,4 +1,7 @@
 import Ember from "ember";
-Balanced.ResourceDocumentsView = Ember.View.extend({
-	templateName: 'resource_documents'
+
+var ResourceDocumentsView = Ember.View.extend({
+	templateName: 'resource-documents'
 });
+
+export default ResourceDocumentsView;

@@ -6,3 +6,4 @@ var ReversalSummarySectionView = SummarySectionView.extend({
 	}.property("model.credit.order", "model.credit", "model.credit.reversals", "model.credit.reversals.length", "model.credit.customer", "model.credit.destination")
 });
 
+export default ReversalSummarySectionView;

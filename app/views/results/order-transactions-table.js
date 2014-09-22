@@ -4,4 +4,4 @@ var OrderTransactionsTableView = TransactionsTableView.extend({
 	templateName: 'results/order-transactions-table'
 });
 
-export default OrderTransactionsTableView;;
+export default OrderTransactionsTableView;

@@ -6,3 +6,4 @@ var CardSummarySectionView = SummarySectionView.extend({
 	}.property("model.customer")
 });
 
+export default CardSummarySectionView;

@@ -1,5 +1,5 @@
-var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectActionMixin;
+import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
 Balanced.Modals.CustomerBankAccountCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
 	templateName: 'modals/customer_bank_account_create_modal',

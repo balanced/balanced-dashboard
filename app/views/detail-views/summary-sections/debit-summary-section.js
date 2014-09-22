@@ -1,4 +1,4 @@
-import SummarySectionView from "summary-section-view";
+import SummarySectionView from "./summary-section";
 
 var DebitSummarySectionView = SummarySectionView.extend({
 	statusText: Ember.computed.alias('model.status_description'),
@@ -8,4 +8,4 @@ var DebitSummarySectionView = SummarySectionView.extend({
 	}.property("model.order", "model.refunds", "model.refunds.length", "model.hold", "model.customer", "model.source")
 });
 
-export default DebitSummarySection;
+export default DebitSummarySectionView;

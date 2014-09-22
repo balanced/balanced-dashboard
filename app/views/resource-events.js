@@ -1,4 +1,7 @@
 import Ember from "ember";
-Balanced.ResourceEventsView = Ember.View.extend({
-	templateName: 'resource_events'
+
+var ResourceEventsView = Ember.View.extend({
+	templateName: 'resource-events'
 });
+
+export default ResourceEventsView;

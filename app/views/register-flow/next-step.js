@@ -1,6 +1,6 @@
 Balanced.NextStepView = Balanced.RegisterFlowBaseModal.extend({
-	layoutName: "modals/base_modal_layout",
-	templateName: "register_flow/next_step_modal",
+	layoutName: "modals/base-modal-layout",
+	templateName: "register-flow/next-step-modal",
 	title: "Next step",
 	continueButtonText: "Register",
 	cancelButtonText: "Go to dashboard",

@@ -6,3 +6,5 @@ var InvoiceSummarySectionView = SummarySectionView.extend({
 		return 'on %@'.fmt(createdAt);
 	}.property('model.settle_at')
 });
+
+export default InvoiceSummarySectionView;

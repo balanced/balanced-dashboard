@@ -1,6 +1,6 @@
 import DisputesTableView from "./disputes-table";
 
-var EmbeddedDisputesTableView = DisputesResultsView.extend({
+var EmbeddedDisputesTableView = DisputesTableView.extend({
 	isSmallTable: true,
 	colspan: 5
 });

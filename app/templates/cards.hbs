@@ -16,22 +16,22 @@
 	{{#view "detail-views/api-model-panel" model=model}}
 		{{view Balanced.CardSummarySectionView model=model}}
 		{{view Balanced.CardTitledKeyValuesSectionView model=model}}
-		{{view Balanced.MetaView type=model}}
+		{{view "meta-list" type=model}}
 	{{/view}}
 
 	{{#view "detail-views/main-panel"}}
 		<h3>Payments</h3>
 		<div class="results">
-			{{view Balanced.EmbeddedTransactionsResultsView loader=transactionsResultsLoader}}
+			{{view "results/embedded-transactions-table" loader=transactionsResultsLoader}}
 		</div>
 		<h3>Logs</h3>
 		<div class="results">
-			{{view Balanced.ResourceLogsView content=model}}
+			{{view "resource-logs" content=model}}
 		</div>
 
 		<h3>Events</h3>
 		<div class="results">
-			{{view Balanced.ResourceEventsView content=model}}
+			{{view "resource-events" content=model}}
 		</div>
 	{{/view}}
 {{/view}}

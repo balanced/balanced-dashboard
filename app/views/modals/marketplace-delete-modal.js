@@ -1,4 +1,4 @@
-var DeleteMixin = Balanced.Modals.ObjectActionMixin;
+import DeleteMixin from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
 Balanced.Modals.MarketplaceDeleteModalView = Balanced.ModalBaseView.extend(DeleteMixin, {
 	templateName: 'modals/marketplace_delete_modal',

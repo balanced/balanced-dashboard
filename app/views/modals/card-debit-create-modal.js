@@ -1,5 +1,5 @@
-var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectActionMixin;
+import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
 Balanced.Modals.CardDebitCreateModalView = Balanced.ModalBaseView.extend(Save, Wide, {
 	title: "Debit a card",

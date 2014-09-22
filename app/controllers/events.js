@@ -1,4 +1,6 @@
-Balanced.EventsController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var EventsController = Ember.ObjectController.extend({
 	eventData: Ember.computed.alias('model.entity'),
 
 	actions: {
@@ -11,3 +13,5 @@ Balanced.EventsController = Balanced.ObjectController.extend({
 		}
 	}
 });
+
+export default EventsController;

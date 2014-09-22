@@ -1,4 +1,4 @@
-import SummarySectionView from "./summary-section";
+import SummarySectionView from "./summary-sections/summary-section";
 
 var ListSectionView = SummarySectionView.extend({
 	templateName: "detail_views/list_section",

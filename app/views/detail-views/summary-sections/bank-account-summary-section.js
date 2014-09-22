@@ -37,3 +37,4 @@ var BankAccountSummarySectionView = SummarySectionView.extend({
 	}.property('model.customer'),
 });
 
+export default BankAccountSummarySectionView;

@@ -77,6 +77,6 @@
 			<button class="btn secondary" name="modal-submit" data-dismiss="modal" aria-hidden="true">Close</button>
 		</div>
 	{{else}}
-		{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving submitButtonText="Confirm"}}
+		{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Confirm"}}
 	{{/if}}
 </form>

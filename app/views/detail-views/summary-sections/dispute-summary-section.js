@@ -17,3 +17,4 @@ var DisputeSummarySectionView = SummarySectionView.extend({
 	}.property("model.transaction.order", "model.transaction.customer", "model.transaction.source")
 });
 
+export default DisputeSummarySectionView;

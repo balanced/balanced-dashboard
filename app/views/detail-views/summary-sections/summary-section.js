@@ -151,4 +151,3 @@ var SummarySectionView = Ember.View.extend({
 });
 
 export default SummarySectionView;
-

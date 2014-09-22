@@ -1,9 +1,10 @@
-var Wide = Balanced.Modals.WideModalMixin;
-var Save = Balanced.Modals.ObjectActionMixin;
+import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import ModalBaseView from "./modal-base";
 
-Balanced.Modals.TransactionEditModalView = Balanced.ModalBaseView.extend(Wide, Save, {
+var TransactionEditModalView = ModalBaseView.extend(Wide, Save, {
 	elementId: "edit-transaction",
-	templateName: 'modals/transaction_edit_modal',
+	templateName: 'modals/transaction-edit-modal',
 	title: "Edit info",
 
 	getNotificationController: function() {
@@ -25,10 +26,12 @@ Balanced.Modals.TransactionEditModalView = Balanced.ModalBaseView.extend(Wide, S
 	}
 });
 
-Balanced.Modals.TransactionEditModalView.reopenClass({
+TransactionEditModalView.reopenClass({
 	open: function(model) {
 		return this.create({
 			model: model
 		});
 	}
 });
+
+export default TransactionEditModalView;

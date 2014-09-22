@@ -1,6 +1,7 @@
 import Ember from "ember";
 
-var MetaView = Ember.View.extend({
+var MetaListView = Ember.View.extend({
+	templateName: "meta-list",
 	meta_array: function() {
 		var meta = this.get('type.meta');
 		if (!meta) {
@@ -16,4 +17,4 @@ var MetaView = Ember.View.extend({
 	}.property('type.meta')
 });
 
-export default MetaView;
+export default MetaListView;

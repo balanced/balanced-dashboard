@@ -10,7 +10,7 @@
 		{{view Balanced.OrderSellerSectionView model=model}}
 		{{view Balanced.OrderBuyersSectionView model=model}}
 		{{view Balanced.OrderTitledKeyValuesSectionView model=model}}
-		{{view Balanced.MetaView type=model}}
+		{{view "meta-list" type=model}}
 
 	{{/view}}
 
@@ -37,12 +37,12 @@
 
 		<h3>Logs</h3>
 		<div class="results">
-			{{view Balanced.ResourceLogsView content=model}}
+			{{view "resource-logs" content=model}}
 		</div>
 
 		<h3>Events</h3>
 		<div class="results">
-			{{view Balanced.ResourceEventsView content=model}}
+			{{view "resource-events" content=model}}
 		</div>
 	{{/view}}
 {{/view}}

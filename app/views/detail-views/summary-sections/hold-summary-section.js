@@ -6,3 +6,4 @@ var HoldSummarySectionView = SummarySectionView.extend({
 	}.property("model.debit.order", "model.debit.dispute", "model.debit", "model.debit.refunds", "model.debit.refunds.length", "model.customer", "model.source")
 });
 
+export default HoldSummarySectionView;

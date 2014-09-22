@@ -9,6 +9,6 @@ function createRedirectRoute(routeName, modelFor, baseRoute) {
 			this.transitionTo(routeName, this.modelFor(modelFor));
 		}
 	});
-};
+}
 
 export default createRedirectRoute;

@@ -1,5 +1,5 @@
-var Save = Balanced.Modals.ObjectActionMixin;
-var Wide = Balanced.Modals.WideModalMixin;
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 
 Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend(Save, Wide, {
 	templateName: 'modals/marketplace_edit_modal',

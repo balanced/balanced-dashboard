@@ -20,6 +20,7 @@ TypeMappingsInitializer =
 		registerMapping "debit"
 		registerMapping "dispute"
 		registerMapping "dispute_documents", "dispute-document"
+		registerMapping "dispute-document"
 		registerMapping "event"
 		registerMapping "event_callback", "event-callback"
 		registerMapping "funding-instrument"

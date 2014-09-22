@@ -16,5 +16,5 @@
 	<div class="modal-body clearfix">
 		{{yield}}
 	</div>
-	{{view Balanced.Modals.ModalBaseFooter isSaving=view.isSaving beforeSubmitText=view.beforeSubmitText cancelButtonText=view.cancelButtonText submitButtonText=view.submitButtonText}}
+	{{view "modals/modal-base-footer" isSaving=view.isSaving beforeSubmitText=view.beforeSubmitText cancelButtonText=view.cancelButtonText submitButtonText=view.submitButtonText}}
 </form>

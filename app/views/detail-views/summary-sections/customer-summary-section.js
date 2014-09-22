@@ -20,3 +20,4 @@ var CustomerSummarySectionView = SummarySectionView.extend({
 	}.property("model.orders_list", "model.orders_list.length")
 });
 
+export default CustomerSummarySectionView;
