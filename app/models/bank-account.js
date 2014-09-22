@@ -3,8 +3,8 @@ import FundingInstrument from "./funding-instrument";
 var BankAccount = FundingInstrument.extend({
 	uri: '/bank_accounts',
 
-	verifications: Balanced.Model.hasMany('bank_account_verifications', 'Balanced.Verification'),
-	verification: Balanced.Model.belongsTo('bank_account_verification', 'Balanced.Verification'),
+	verifications: Balanced.Model.hasMany('bank_account_verifications', 'verification'),
+	verification: Balanced.Model.belongsTo('bank_account_verification', 'verification'),
 
 	isBankAccount: true,
 

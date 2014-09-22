@@ -1,6 +1,6 @@
 import FundingInstrumentsTableView from "./funding-instruments-table";
 
-var EmbeddedFundingInstrumentsTable = Balanced.FundingInstrumentsResultsView.extend({
+var EmbeddedFundingInstrumentsTable = FundingInstrumentsTableView.extend({
 	templateName: 'results/embedded-funding-instruments-table'
 });
 

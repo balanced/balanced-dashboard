@@ -14,7 +14,7 @@
 	</tr>
 </thead>
 {{#if view.loader.results.hasNextPage}}
-	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=7}}
+	{{view "results/results-load-more" results=view.loader.results columns=7}}
 {{/if}}
 <tbody>
 	{{#each invoice in view.loader.results}}

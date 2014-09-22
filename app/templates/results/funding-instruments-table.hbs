@@ -6,7 +6,7 @@
 			{{/view}}
 		</th>
 		<th class="span4 label6a funding-instruments has-filter">
-			{{view Balanced.PaymentMethodsResultsDropdownFilterView model=view.loader}}
+			{{view "results/payment-methods-results-dropdown-filter" model=view.loader}}
 		</th>
 		<th class="span3 label6a"><span>Status</span></th>
 		<th class="span4 label6a"><span>Bank</span></th>
@@ -16,7 +16,7 @@
 </thead>
 
 {{#if view.loader.results.hasNextPage}}
-	{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=6}}
+	{{view "results/results-load-more" results=view.loader.results columns=6}}
 {{/if}}
 
 <tbody>

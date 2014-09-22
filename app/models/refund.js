@@ -1,6 +1,6 @@
 Balanced.Refund = Balanced.Transaction.extend({
 	debit: Balanced.Model.belongsTo('debit', 'debit'),
-	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
+	dispute: Balanced.Model.belongsTo('dispute', 'dispute'),
 
 	type_name: 'Refund',
 	route_name: 'refunds',

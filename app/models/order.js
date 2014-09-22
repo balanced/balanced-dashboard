@@ -17,8 +17,8 @@ Balanced.Order = Balanced.Model.extend({
 
 	credits: Balanced.Model.hasMany('credits', 'credit'),
 	debits: Balanced.Model.hasMany('debits', 'debit'),
-	reversals: Balanced.Model.hasMany('reversals', 'Balanced.Reversal'),
-	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
+	reversals: Balanced.Model.hasMany('reversals', 'reversal'),
+	refunds: Balanced.Model.hasMany('refunds', 'refund'),
 
 	page_title: Balanced.computed.orProperties('description', 'id'),
 

@@ -1,14 +1,16 @@
-Balanced.CardsIndexRoute = Balanced.RedirectRoute('activity.funding_instruments');
+import ModelRoute from "./model";
+import Card from "../models/card";
+import TransactionsResultsLoader from "../models/results-loaders/transactions";
 
-Balanced.CardsRoute = Balanced.ModelRoute.extend({
+var CardsRoute = ModelRoute.extend({
 	title: 'Card',
-	modelObject: Balanced.Card,
+	modelObject: Card,
 	marketplaceUri: 'cards_uri',
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		var transactions = Balanced.TransactionsResultsLoader.create({
+		var transactions = TransactionsResultsLoader.create({
 			path: model.get("transactions_uri"),
 			limit: 10,
 		});
@@ -18,3 +20,5 @@ Balanced.CardsRoute = Balanced.ModelRoute.extend({
 		});
 	},
 });
+
+export default CardsRoute;

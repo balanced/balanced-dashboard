@@ -4,15 +4,15 @@ var CUSTOMER_TYPES = {
 };
 
 Balanced.Customer = Balanced.Model.extend({
-	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
-	cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
-	transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
+	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'bank-account'),
+	cards: Balanced.Model.hasMany('cards', 'card'),
+	transactions: Balanced.Model.hasMany('transactions', 'transaction'),
 	debits: Balanced.Model.hasMany('debits', 'debit'),
 	credits: Balanced.Model.hasMany('credits', 'credit'),
-	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
-	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
-	orders: Balanced.Model.hasMany('orders', 'Balanced.Order'),
-	disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
+	holds: Balanced.Model.hasMany('holds', 'hold'),
+	refunds: Balanced.Model.hasMany('refunds', 'refund'),
+	orders: Balanced.Model.hasMany('orders', 'order'),
+	disputes: Balanced.Model.hasMany('disputes', 'dispute'),
 
 	uri: '/customers',
 	route_name: 'customer',

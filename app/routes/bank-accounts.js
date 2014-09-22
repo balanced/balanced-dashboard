@@ -1,14 +1,16 @@
-Balanced.BankAccountsIndexRoute = Balanced.RedirectRoute('activity.funding_instruments');
+import ModelRoute from "./model";
+import BankAccount from "../models/bank-account";
+import TransactionsResultsLoader from "../models/results-loaders/transactions";
 
-Balanced.BankAccountsRoute = Balanced.ModelRoute.extend({
+var BankAccountsRoute = ModelRoute.extend({
 	title: 'Bank Account',
-	modelObject: Balanced.BankAccount,
+	modelObject: BankAccount,
 	marketplaceUri: 'bank_accounts_uri',
 
 	setupController: function(controller, model) {
 		this._super(controller, model);
 
-		var transactions = Balanced.TransactionsResultsLoader.create({
+		var transactions = TransactionsResultsLoader.create({
 			path: model.get("transactions_uri"),
 			limit: 10,
 		});
@@ -18,3 +20,5 @@ Balanced.BankAccountsRoute = Balanced.ModelRoute.extend({
 		});
 	},
 });
+
+export default BankAccountsRoute;

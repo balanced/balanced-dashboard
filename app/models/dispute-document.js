@@ -1,5 +1,5 @@
 var DisputeDocument = Balanced.Model.extend({
-	dispute: Balanced.Model.belongsTo('dispute', 'Balanced.Dispute'),
+	dispute: Balanced.Model.belongsTo('dispute', 'dispute'),
 	isUploading: false
 });
 

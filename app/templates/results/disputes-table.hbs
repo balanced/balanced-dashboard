@@ -27,9 +27,9 @@
 
 {{#if view.loader.results.hasNextPage}}
 	{{#if view.isSmallTable}}
-		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=4}}
+		{{view "results/results-load-more" results=view.loader.results columns=4}}
 	{{else}}
-		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=6}}
+		{{view "results/results-load-more" results=view.loader.results columns=6}}
 	{{/if}}
 {{/if}}
 

@@ -11,6 +11,7 @@ TypeMappingsInitializer =
 		registerMapping "api_key", "api-key"
 		registerMapping "bank_account", "bank-account"
 		registerMapping "bank_account_verification", "verification"
+		registerMapping "verification", "verification"
 		registerMapping "callback"
 		registerMapping "card"
 		registerMapping "card_hold", "hold"
@@ -30,6 +31,7 @@ TypeMappingsInitializer =
 		registerMapping "refund"
 		registerMapping "reversal"
 		registerMapping "settlement"
+		registerMapping "transaction"
 		registerMapping "user_marketplace", "user-marketplace"
 
 `export default TypeMappingsInitializer`

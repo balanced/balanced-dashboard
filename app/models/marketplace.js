@@ -41,15 +41,15 @@ var Marketplace = UserMarketplace.extend({
 
 	credits: Balanced.Model.hasMany('credits', 'credit'),
 	debits: Balanced.Model.hasMany('debits', 'debit'),
-	// disputes: Balanced.Model.hasMany('disputes', 'Balanced.Dispute'),
-	refunds: Balanced.Model.hasMany('refunds', 'Balanced.Refund'),
-	holds: Balanced.Model.hasMany('holds', 'Balanced.Hold'),
-	transactions: Balanced.Model.hasMany('transactions', 'Balanced.Transaction'),
-	callbacks: Balanced.Model.hasMany('callbacks', 'Balanced.Callback'),
+	// disputes: Balanced.Model.hasMany('disputes', 'dispute'),
+	refunds: Balanced.Model.hasMany('refunds', 'refund'),
+	holds: Balanced.Model.hasMany('holds', 'hold'),
+	transactions: Balanced.Model.hasMany('transactions', 'transaction'),
+	callbacks: Balanced.Model.hasMany('callbacks', 'callback'),
 
 	funding_instruments: Balanced.Model.hasMany('funding_instruments', 'funding-instrument'),
-	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'Balanced.BankAccount'),
-	cards: Balanced.Model.hasMany('cards', 'Balanced.Card'),
+	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'bank-account'),
+	cards: Balanced.Model.hasMany('cards', 'card'),
 
 	owner_customer: Balanced.Model.belongsTo('owner_customer', 'customer'),
 
