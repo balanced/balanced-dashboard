@@ -2,10 +2,13 @@ var Full = Balanced.Modals.FullModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
 
 Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, {
-	elementId: "edit-transaction",
+	elementId: "edit-meta",
 	templateName: 'modals/meta_edit_modal',
-	title: "Meta information",
+	title: "Edit meta information",
 	submitButtonText: "Update",
+
+	firstLabelText: "Key",
+	secondLabelText: "Value",
 
 	init: function() {
 		if (Ember.isEmpty(this.get("metaDictionary.fields"))) {
@@ -22,8 +25,13 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, {
 	},
 
 	actions: {
-		addNewField: function() {
+		addField: function() {
 			this.createNewField();
+		},
+
+		removeField: function(metaField) {
+			var metaFields = this.get("metaDictionary.fields");
+			metaFields.removeObject(metaField);
 		},
 
 		save: function() {
@@ -32,16 +40,16 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, {
 			var notification = this.getNotificationController();
 			var newMeta = {};
 
-			this.get("metaDictionary").validate();
+			self.get("metaDictionary").validate();
 
-			if (this.get("metaDictionary.isValid")) {
+			if (self.get("metaDictionary.isValid")) {
 				metaFields.forEach(function(metaField) {
 					newMeta[metaField.key] = metaField.value || "";
 				});
 
-				this.set("model.meta", newMeta);
+				self.set("model.meta", newMeta);
 
-				this.save(this.get("model"))
+				self.save(self.get("model"))
 					.then(function(model) {
 						var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 						model.reload();

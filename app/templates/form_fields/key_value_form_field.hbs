@@ -1,0 +1,8 @@
+<div class="key-value-field-group clearfix">
+	{{input viewName="firstInputElement" name=view.firstInputName type=view.inputType value=view.firstValue class="key-value"}}
+
+	{{input viewName="secondInputElement" name=view.secondInputName type=view.inputType value=view.secondValue class="key-value"}}
+	<a class="pull-right" {{action "removeField" view.model target=view.parentView.parentView}}>
+		<i class="icon-table-x"></i>
+	</a>
+</div>

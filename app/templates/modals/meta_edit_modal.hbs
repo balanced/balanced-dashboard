@@ -1,18 +1,18 @@
-{{#view Balanced.FormSectionView metaFields=view.metaDictionary.fields}}
+{{#view Balanced.FormSectionView sectionTitle="Meta information" metaFields=view.metaDictionary.fields}}
+	<label class="control-label key-value">
+		{{view.parentView.firstLabelText}}
+	</label>
+
+	<label class="control-label key-value">
+		{{view.parentView.secondLabelText}}
+	</label>
+
 	{{#each metaField in view.metaFields}}
 		{{view Balanced.MetaFormFieldView
 			model=metaField
-			labelText="Key"
-			field="key"
-			inputClassNames="full"
-		}}
-
-		{{view Balanced.MetaFormFieldView
-			model=metaField
-			labelText="Value"
-			field="value"
-			inputClassNames="full"
 		}}
 	{{/each}}
-	<a {{action 'addNewField' target=view.parentView}}>Add another field</a>
+	<div class="form-group clearfix">
+		<a class="pull-right" {{action 'addField' target=view.parentView}}>Add another field</a>
+	</div>
 {{/view}}
