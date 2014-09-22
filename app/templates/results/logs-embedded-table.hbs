@@ -12,7 +12,7 @@
 <tbody>
 	{{#each log in view.results}}
 		<tr>
-			{{view Balanced.LinkedDateCellView
+			{{view "tables/cells/linked-date-cell"
 				item=log
 				classNames="span3"
 				routeName=log.route_name

@@ -1,12 +1,12 @@
 <thead>
 	<tr>
 		<th class="span3 date has-filter">
-			{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
 				<span>Date</span>
 			{{/view}}
 		</th>
 		<th class="span3 status has-filter">
-			{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
+			{{view "results/transactions-status-results-dropdown-filter"}}
 		</th>
 		<th class="span4 description"><span>Description</span></th>
 		<th class="span3 amount num">
@@ -21,7 +21,7 @@
 <tbody>
 	{{#each transaction in view.loader.results}}
 		<tr>
-			{{view Balanced.LinkedDateCellView
+			{{view "tables/cells/linked-date-cell"
 				item=transaction
 				classNames="span3"
 				routeName=transaction.route_name

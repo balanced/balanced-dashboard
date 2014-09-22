@@ -1,4 +1,5 @@
 import Ember from "ember";
+import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import Download from "balanced-dashboard/models/download";
 import Dispute from "balanced-dashboard/models/dispute";
 import Transaction from "balanced-dashboard/models/transaction";
@@ -62,7 +63,7 @@ var BaseResultsLoader = Ember.Object.extend({
 	isLoading: Ember.computed.not("results.isLoaded"),
 
 	queryStringArguments: function() {
-		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),

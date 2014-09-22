@@ -1,4 +1,5 @@
 import BaseResultsLoader from "./base";
+import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import FundingInstrument from "balanced-dashboard/models/funding-instrument";
 
 var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
@@ -14,7 +15,7 @@ var FundingInstrumentsResultsLoader = BaseResultsLoader.extend({
 	},
 
 	queryStringArguments: function() {
-		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),

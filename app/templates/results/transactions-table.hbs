@@ -4,7 +4,7 @@
 			{{#if view.hasNoFilter}}
 				<span>Date</span>
 			{{else}}
-				{{#view Balanced.ResultsLoaderSortColumnHeaderView resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+				{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
 					<span>Date</span>
 				{{/view}}
 			{{/if}}
@@ -15,7 +15,7 @@
 			</th>
 		{{else}}
 			<th class="span2 type has-filter">
-				{{view Balanced.TransactionsTypeResultsDropdownFilterView}}
+				{{view "results/transactions-type-results-dropdown-filter"}}
 			</th>
 		{{/if}}
 		{{#if view.hasNoFilter}}
@@ -24,7 +24,7 @@
 			</th>
 		{{else}}
 			<th class="span3 status has-filter">
-				{{view Balanced.TransactionsStatusResultsDropdownFilterView}}
+				{{view "results/transactions-status-results-dropdown-filter"}}
 			</th>
 		{{/if}}
 		<th class="span4 description"><span>Description</span></th>
@@ -39,16 +39,24 @@
 </thead>
 {{#if view.loader.results.hasNextPage}}
 	{{#if view.isSmallTable}}
-		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=5}}
+		{{view "results/results-load-more" results=view.loader.results columns=5}}
 	{{else}}
-		{{view Balanced.ResultsLoadMoreView results=view.loader.results columns=7}}
+		{{view "results/results-load-more" results=view.loader.results columns=7}}
 	{{/if}}
 {{/if}}
 
 <tbody>
+	<tr>
+		<td colspan=7>
+			uri: {{view.loader}}
+			<br>
+			{{view.loader.resultsUri}}
+			ccccccc
+		</td>
+	</tr>
 	{{#each transaction in view.loader.results}}
 		<tr>
-			{{view Balanced.LinkedDateCellView
+			{{view "tables/cells/linked-date-cell"
 				item=transaction
 				classNames="span3"
 				routeName=transaction.route_name
@@ -80,7 +88,7 @@
 			{{#unless view.isSmallTable}}
 				{{view Balanced.TransactionCustomerCellView item=transaction classNames="span4"}}
 
-				{{view Balanced.LinkedTwoLinesCellView
+				{{view "tables/cells/linked-two-lines-cell"
 					item=transaction
 					routeName=transaction.route_name
 					classNames="span3 funding-instrument"

@@ -1,5 +1,6 @@
 import Ember from "ember";
-Balanced.ResultsLoadMoreView = Ember.View.extend({
+
+var ResultsLoadMoreView = Ember.View.extend({
 	tagName: "tfoot",
 	templateName: "results/results_load_more",
 	actions: {
@@ -8,3 +9,5 @@ Balanced.ResultsLoadMoreView = Ember.View.extend({
 		}
 	}
 });
+
+export default ResultsLoadMoreView;

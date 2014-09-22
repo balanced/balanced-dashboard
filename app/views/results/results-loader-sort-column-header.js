@@ -1,5 +1,6 @@
 import Ember from "ember";
-Balanced.ResultsLoaderSortColumnHeaderView = Ember.View.extend({
+
+var ResultsLoaderSortColumnHeaderView = Ember.View.extend({
 	tagName: 'div',
 	classNameBindings: [":sortable", "isAscending:ascending", "isDescending:descending", "isUnsorted:unsorted"],
 
@@ -24,3 +25,5 @@ Balanced.ResultsLoaderSortColumnHeaderView = Ember.View.extend({
 		this.get('controller').send(this.get("actionName"), field);
 	}
 });
+
+export default ResultsLoaderSortColumnHeaderView;

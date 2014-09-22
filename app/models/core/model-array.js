@@ -132,7 +132,7 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 
 ModelArray.reopenClass({
 	newArrayLoadedFromUri: function(uri, defaultType) {
-		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+		var typeClass = TypeMappings.typeClass(defaultType);
 		var modelObjectsArray = this.create({
 			content: Ember.A(),
 			typeClass: typeClass,
@@ -144,6 +144,7 @@ ModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
+
 		Balanced.Adapter.get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);

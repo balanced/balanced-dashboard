@@ -11,6 +11,11 @@ app.import("bower_components/moment/moment.js");
 app.import("bower_components/shapeshifter/shapeshifter.js");
 app.import('bower_components/mixpanel/mixpanel.js');
 
+app.import('bower_components/bootstrap/js/bootstrap-dropdown.js');
+app.import('bower_components/bootstrap/js/bootstrap-modal.js');
+app.import('bower_components/bootstrap/js/bootstrap-tooltip.js');
+app.import('bower_components/bootstrap/js/bootstrap-popover.js');
+
 app.import("vendor/daterangepicker.js");
 app.import("vendor/ember-validations.prod.js");
 

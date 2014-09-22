@@ -8,7 +8,7 @@
 	<tbody>
 		{{#each key in keys}}
 			<tr>
-				{{view Balanced.LinkedDateCellView
+				{{view "tables/cells/linked-date-cell"
 					item=key
 					classNames="span3"
 					date=key.created_at

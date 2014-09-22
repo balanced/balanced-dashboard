@@ -7,6 +7,7 @@ window.BALANCED_ENV = window.ENV = ENV
 window.EMBER_ENV = window.BALANCED_ENV.EmberENV
 
 Ember.MODEL_FACTORY_INJECTIONS = true
+Ember.deprecate = ->
 
 App = Ember.Application.extend
 	modulePrefix: 'balanced-dashboard'

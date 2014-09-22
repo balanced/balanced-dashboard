@@ -44,10 +44,13 @@ var MarketplaceSearchController = Ember.ObjectController.extend({
 			this.get("resultsLoader").setSortField(column);
 		},
 		changeDateFilter: function(startTime, endTime) {
-			this.get("resultsLoader").setProperties({
-				endTime: endTime,
-				startTime: startTime
-			});
+			var loader = this.get("resultsLoader");
+			if (loader) {
+				loader.setProperties({
+					endTime: endTime,
+					startTime: startTime
+				});
+			}
 		},
 		changeTransactionsSort: function(column) {
 			this.get("resultsLoader").setSortField(column);

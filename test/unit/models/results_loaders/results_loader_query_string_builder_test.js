@@ -1,8 +1,8 @@
-module("Balanced.ResultsLoaderQueryStringBuilder");
+module("ResultsLoaderQueryStringBuilder");
 
 test("#addValue", function(assert) {
 	var testExpectation = function(key, value, result) {
-		var builder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var builder = new ResultsLoaderQueryStringBuilder();
 		builder.addValue(key, value);
 		assert.deepEqual(builder.queryStringAttributes, result);
 	};

@@ -1,6 +1,7 @@
-import AnalyticsLogger from "../utils/analytics_logger";
+import Ember from "ember";
+import AnalyticsLogger from "../../utils/analytics_logger";
 
-Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.Evented, {
+var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, {
 	needs: ['marketplace', "notification_center"],
 
 	init: function() {
@@ -94,3 +95,5 @@ Balanced.MarketplaceImportPayoutsController = Balanced.Controller.extend(Ember.E
 		}
 	}
 });
+
+export default MarketplaceImportPayoutsController;

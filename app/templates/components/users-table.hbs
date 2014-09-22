@@ -7,7 +7,7 @@
 	<tbody>
 		{{#each user in users}}
 			<tr>
-				{{view Balanced.LinkedDateCellView
+				{{view "tables/cells/linked-date-cell"
 					item=user
 					classNames="span3"
 					date=user.created_at

@@ -1,4 +1,5 @@
 import BaseResultsLoader from "./base";
+import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 
 var TRANSACTION_TYPES = ["credit", "debit", "card_hold", "refund", "reversal"];
 var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
@@ -45,7 +46,7 @@ var MarketplaceSearchResultsLoader = BaseResultsLoader.extend({
 		if (q === "%") {
 			q = "";
 		}
-		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),
 			sort: this.get("sort"),

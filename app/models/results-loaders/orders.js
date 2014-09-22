@@ -1,11 +1,12 @@
 import BaseResultsLoader from "./base";
+import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import Order from "balanced-dashboard/models/order";
 
 var OrdersResultsLoader = BaseResultsLoader.extend({
 	resultsType: Order,
 
 	queryStringArguments: function() {
-		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),

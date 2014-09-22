@@ -1,4 +1,4 @@
-import AuthRoute from "./auth";
+import AuthRoute from "../auth";
 
 var MarketplaceImportPayoutsRoute = AuthRoute.extend({
 	pageTitle: 'Import payouts',

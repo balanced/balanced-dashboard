@@ -13,7 +13,7 @@
 	<tbody>
 	{{#each doc in view.content.documents}}
 		<tr>
-			{{view Balanced.LinkedDateCellView
+			{{view "tables/cells/linked-date-cell"
 				item=doc
 				classNames="span3"
 				href=doc.file_url

@@ -1,4 +1,5 @@
 import BaseResultsLoader from "./base";
+import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import Transaction from "balanced-dashboard/models/transaction";
 
 var InvoiceTransactionsResultsLoader = BaseResultsLoader.extend({
@@ -12,7 +13,7 @@ var InvoiceTransactionsResultsLoader = BaseResultsLoader.extend({
 	}.property("invoice.uri", "type"),
 
 	queryStringArguments: function() {
-		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 
 		var attributes = this.getProperties("limit", "sort", "status");
 		_.extend(attributes, {

@@ -1,11 +1,12 @@
 import BaseResultsLoader from "./base";
+import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import Transaction from "balanced-dashboard/models/transaction";
 
 var VALID_STATUSES = ["failed", "succeeded", "pending"];
 
 var TransactionsResultsLoader = BaseResultsLoader.extend({
 	resultsType: Transaction,
-	typeFilters: undefined, // ["transaction", "credit", "debit", "card_hold", "refund", "reversal"],
+	typeFilters: undefined,
 
 	setStatusFilter: function(value) {
 		if (!VALID_STATUSES.contains(value)) {
@@ -17,7 +18,7 @@ var TransactionsResultsLoader = BaseResultsLoader.extend({
 	status: VALID_STATUSES,
 
 	queryStringArguments: function() {
-		var queryStringBuilder = new Balanced.ResultsLoaderQueryStringBuilder();
+		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 
 		queryStringBuilder.addValues({
 			limit: this.get("limit"),

@@ -1,4 +1,6 @@
-Balanced.CustomerController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var CustomerController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 
 	actions: {
@@ -40,3 +42,5 @@ Balanced.CustomerController = Balanced.ObjectController.extend({
 		}
 	}
 });
+
+export default CustomerController;
