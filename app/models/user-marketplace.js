@@ -1,7 +1,9 @@
+import Model from "./core/model";
 import Rev0Serializer from "../serializers/rev0";
-import ApiKey from "../models/api-key";
+import ApiKey from "./api-key";
+import UserInvite from "./user-invite";
 
-var UserMarketplace = Balanced.Model.extend({
+var UserMarketplace = Model.extend({
 	production: function() {
 		return this.get('uri').indexOf('TEST') === -1;
 	}.property('uri'),
@@ -67,7 +69,7 @@ var UserMarketplace = Balanced.Model.extend({
 	}.property('marketplace', 'keys'),
 
 	users: function() {
-		Balanced.UserInvite.reopen({
+		var MarketplaceUserInvite = UserInvite.extend({
 			uri: this.get('marketplace.users_uri')
 		});
 
@@ -77,7 +79,7 @@ var UserMarketplace = Balanced.Model.extend({
 			noDelete: true
 		}];
 
-		Balanced.UserInvite.findAll()
+		MarketplaceUserInvite.findAll()
 			.then(function(result) {
 				var users = result.content;
 

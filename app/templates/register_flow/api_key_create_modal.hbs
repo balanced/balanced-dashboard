@@ -8,21 +8,21 @@
 
 {{#if view.model.isBusiness}}
 	{{#view Balanced.FormSectionView model=view.model sectionTitle="Business information"}}
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Legal business name"
 			field="business.name"
 		}}
 
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Employer identification number"
 			field="business.tax_id"
 		}}
 
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Business address"
 			field="business.address"
 		}}
-		{{view Balanced.TextFormFieldView model=view.model
+		{{view "form-fields/text-form-field" model=view.model
 			labelText="Postal code"
 			field="business.postal_code"
 		}}
@@ -33,10 +33,10 @@
 			field="business.company_type"
 		}}
 
-		{{view Balanced.DateFormFieldView
+		{{view "form-fields/date-form-field"
 			allowEmpty=true labelText="Incorporation date" model=view.model	field="business.incorporation_date"}}
 
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Phone number"
 			field="merchant.phone_number"
 			explanationText="(555) 555-5555"
@@ -45,30 +45,30 @@
 {{/if}}
 
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Personal information"}}
-	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 		labelText="Full name"
 		field="person.name"
 	}}
 
-	{{view Balanced.DateFormFieldView
+	{{view "form-fields/date-form-field"
 		allowEmpty=true
 		labelText="Date of birth"
 		model=view.model
 		field="person.dob"}}
 
-	{{view Balanced.TextFormFieldView model=view.model
+	{{view "form-fields/text-form-field" model=view.model
 		labelText="Postal Code"
 		field="person.postal_code"
 	}}
 
-	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 		labelText="Last 4 of SSN"
 		field="person.ssn_last_4"
 		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
 	}}
 
 	{{#unless view.model.isBusiness}}
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Phone number"
 			field="merchant.phone_number"
 			explanationText="(555) 555-5555"

@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Ember from "ember";
 Balanced.ImportPayoutsView = Ember.View.extend({
 
@@ -9,9 +10,9 @@ Balanced.ImportPayoutsView = Ember.View.extend({
 
 	creditCreators: Ember.computed.readOnly("controller.creditCreators"),
 
-	payoutTotal: Balanced.computed.sum("creditCreators.valid", "credit.amount"),
+	payoutTotal: Computed.sum("creditCreators.valid", "credit.amount"),
 	escrowTotal: Ember.computed.oneWay("controller.controllers.marketplace.in_escrow").readOnly(),
-	escrowDifference: Balanced.computed.subtract("escrowTotal", "payoutTotal").readOnly(),
+	escrowDifference: Computed.subtract("escrowTotal", "payoutTotal").readOnly(),
 
 	isEscrowValid: Ember.computed.gte("escrowDifference", 0),
 	isPreviewable: Ember.computed.and("isEscrowValid", "creditCreators.isLoaded"),

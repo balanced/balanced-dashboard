@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 Balanced.CsvReader = Ember.Object.extend({
 
 	getObjects: function() {
@@ -17,7 +18,7 @@ Balanced.CsvReader = Ember.Object.extend({
 		return this.get("rows")[0] || [];
 	},
 
-	fields: Balanced.computed.slice("rows", 1),
+	fields: Computed.slice("rows", 1),
 
 	rows: function() {
 		var body = this.get("body") || "";

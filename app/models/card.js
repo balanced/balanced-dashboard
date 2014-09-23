@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import FundingInstrument from "./funding-instrument";
 
 Balanced.Card = FundingInstrument.extend(Ember.Validations, {
@@ -82,7 +83,7 @@ Balanced.Card = FundingInstrument.extend(Ember.Validations, {
 		);
 	}.property('name', 'last_four', 'brand'),
 
-	human_readable_expiration: Balanced.computed.fmt('expiration_month', 'expiration_year', '%@/%@'),
+	human_readable_expiration: Computed.fmt('expiration_month', 'expiration_year', '%@/%@'),
 
 	tokenizeAndCreate: function(customerId) {
 		var self = this;

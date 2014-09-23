@@ -5,7 +5,7 @@ var SettingsMarketplaceTitledKeyValuesSectionView = TitledKeyValuesSectionView.e
 	classNameBindings: [":marketplace-info"],
 	title: "Marketplace information",
 	editModelModalClass: function() {
-		return Balanced.Modals.MarketplaceEditModalView;
+		return this.get("container").lookupFactory("view:modals/marketplace-edit-modal");
 	}.property("model"),
 
 	keyValueListViews: ListValueGenerator.create()

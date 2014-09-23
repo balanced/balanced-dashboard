@@ -2,8 +2,8 @@
 
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		{{view Balanced.SettingsMarketplaceTitledKeyValuesSectionView model=model}}
-		{{view Balanced.SettingsOwnerTitledKeyValuesSectionView model=model.owner_customer}}
+		{{view detail-views/description-lists/settings-marketplace-titled-key-values-section model=model}}
+		{{view "detail-views/description-lists/settings-owner-titled-key-values-section" model=model.owner_customer}}
 	{{/view}}
 
 	{{#view "detail-views/main-panel"}}
@@ -72,4 +72,4 @@
 	{{/view}}
 {{/view}}
 
-{{view Balanced.DeleteCallbackModalView}}
+{{view "modals/delete-callback-modal"}}

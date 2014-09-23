@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Transaction from "./transaction";
 
 var Debit = Transaction.extend({
@@ -13,17 +14,18 @@ var Debit = Transaction.extend({
 	order: Balanced.Model.belongsTo('order', 'order'),
 
 	getDisputesLoader: function(attributes) {
+		var DisputesResultsLoader = require("balanced-dashboard/models/results-loaders/disputes")["default"];
 		attributes = _.extend({
 			path: this.get("dispute_uri")
 		}, attributes);
-		return Balanced.DisputesResultsLoader.create(attributes);
+		return DisputesResultsLoader.create(attributes);
 	},
 
 	funding_instrument_description: Ember.computed.alias('source.description'),
 	last_four: Ember.computed.alias('source.last_four'),
 	funding_instrument_name: Ember.computed.alias('source.brand'),
 	funding_instrument_type: Ember.computed.alias('source.type_name'),
-	max_refund_amount_dollars: Balanced.computed.transform('refund_amount', Balanced.Utils.centsToDollars),
+	max_refund_amount_dollars: Computed.transform('refund_amount', Balanced.Utils.centsToDollars),
 	recipient: function() {
 		return this.get('customer') ? 'customer' : 'card';
 	}.property('customer'),

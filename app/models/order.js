@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 var generateResultsLoader = function(klass, uriFieldName) {
 	return function(attributes) {
 		attributes = _.extend({
@@ -20,15 +21,15 @@ Balanced.Order = Balanced.Model.extend({
 	reversals: Balanced.Model.hasMany('reversals', 'reversal'),
 	refunds: Balanced.Model.hasMany('refunds', 'refund'),
 
-	page_title: Balanced.computed.orProperties('description', 'id'),
+	page_title: Computed.orProperties('description', 'id'),
 
 	amount_credited: function() {
 		return this.get('amount') - this.get('amount_escrowed');
 	}.property('amount', 'amount_escrowed'),
 
-	debits_amount: Balanced.computed.transform('amount', Balanced.Utils.formatCurrency),
-	escrow_balance: Balanced.computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
-	credits_amount: Balanced.computed.transform('amount_credited', Balanced.Utils.formatCurrency),
+	debits_amount: Computed.transform('amount', Balanced.Utils.formatCurrency),
+	escrow_balance: Computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
+	credits_amount: Computed.transform('amount_credited', Balanced.Utils.formatCurrency),
 
 	getBuyersResultsLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "buyers_uri"),
 	getCreditsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "credits_uri"),

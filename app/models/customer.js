@@ -1,5 +1,5 @@
+import Computed from "balanced-dashboard/utils/computed";
 import FundingInstrumentsResultsLoader from "./results-loaders/funding-instruments";
-import DisputesResultsLoader from "./results-loaders/disputes";
 import TransactionsResultsLoader from "./results-loaders/transactions";
 
 var CUSTOMER_TYPES = {
@@ -59,6 +59,7 @@ var Customer = Balanced.Model.extend({
 		return FundingInstrumentsResultsLoader.create(attributes);
 	},
 	getDisputesLoader: function(attributes) {
+		var DisputesResultsLoader = require("balanced-dashboard/models/results-loaders/disputes")["default"];
 		attributes = _.extend({
 			path: this.get("disputes_uri"),
 		}, attributes);
@@ -77,7 +78,7 @@ var Customer = Balanced.Model.extend({
 
 	is_business: Ember.computed.equal('type', CUSTOMER_TYPES.BUSINESS),
 	is_person: Ember.computed.equal('type', CUSTOMER_TYPES.PERSON),
-	display_me: Balanced.computed.orProperties('name', 'id'),
+	display_me: Computed.orProperties('name', 'id'),
 
 	display_me_with_email: function() {
 		var name = this.get('display_me');
@@ -92,8 +93,8 @@ var Customer = Balanced.Model.extend({
 
 	page_title: Ember.computed.readOnly('displayName'),
 
-	facebook_id: Balanced.computed.orProperties('facebook', 'meta.facebook'),
-	twitter_id: Balanced.computed.orProperties('twitter', 'meta.twitter'),
+	facebook_id: Computed.orProperties('facebook', 'meta.facebook'),
+	twitter_id: Computed.orProperties('twitter', 'meta.twitter'),
 
 	facebook_url: function() {
 		if (this.get('facebook_id')) {
@@ -161,7 +162,7 @@ var Customer = Balanced.Model.extend({
 		}
 	}.property('dob_month', 'dob_year'),
 
-	dob_error: Balanced.computed.orProperties('validationErrors.dob_month', 'validationErrors.dob_year'),
+	dob_error: Computed.orProperties('validationErrors.dob_month', 'validationErrors.dob_year'),
 	is_identity_verified: Ember.computed.equal('merchant_status', 'underwritten'),
 
 	status: function() {

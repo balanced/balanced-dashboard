@@ -1,7 +1,8 @@
+import Computed from "balanced-dashboard/utils/computed";
 import ModalView from "./modal";
 
 var ActionModalView = ModalView.extend({
-	modalElement: Balanced.computed.concat('idElement', '#', true),
+	modalElement: Computed.concat('idElement', '#', true),
 	templateName: 'modals/action_modal',
 
 	name: 'Override This',

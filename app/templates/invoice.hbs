@@ -1,4 +1,4 @@
-{{#view Balanced.InvoicePageNavigationView model=model}}
+{{#view "page-navigations/invoice-page-navigation" model=model}}
 	<h1 class="page-value">
 		<div class="page-type">Total {{model.type}} fees</div>
 		{{formatCurrency total_fee}}
@@ -23,8 +23,8 @@
 				</p>
 			</section>
 		{{/if}}
-		{{view Balanced.InvoiceSummarySectionView model=model}}
-		{{#view Balanced.InvoiceTitledKeyValuesSectionView model=model}}
+		{{view "detail-views/summary-sections/invoice-summary-section" model=model}}
+		{{#view "detail-views/description-lists/invoice-titled-key-values-section" model=model}}
 			<dt>Payment method
 				{{#if is_not_paid}}
 					<a class="change-funding-source" {{action "openModal" Balanced.Modals.InvoiceFundingSourceEditModalView model controllers.marketplace.model}}>
@@ -56,16 +56,15 @@
 					</tr>
 				</thead>
 				<tbody>
-				{{#if isDispute}}
-					<tr class="dispute-details-row">
-						<td class="span3"><span>Disputes</span></td>
-						<td class="span2 num"><span>{{formatNumber disputes_count}}</span></td>
-						<td class="num"><span>{{formatCurrency disputes_total_amount}}</span></td>
-						<td><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
-						<td class="span3 num total"><span>{{formatCurrency disputes_total_fee}}</span></td>
-					</tr>
-				{{else}}
-					{{#if hasHoldsFee}}
+					{{#if isDispute}}
+						<tr class="dispute-details-row">
+							<td class="span3"><span>Disputes</span></td>
+							<td class="span2 num"><span>{{formatNumber disputes_count}}</span></td>
+							<td class="num"><span>{{formatCurrency disputes_total_amount}}</span></td>
+							<td><span>{{formatCurrency dispute_fixed_fee}} per dispute</span></td>
+							<td class="span3 num total"><span>{{formatCurrency disputes_total_fee}}</span></td>
+						</tr>
+					{{else}}
 						<tr class="hold-details-row">
 							<td><span>Holds</span></td>
 							<td class="num"><span>{{formatNumber holds_count}}</span></td>
@@ -73,65 +72,64 @@
 							<td><span>{{formatCurrency hold_fee}} per hold</span></td>
 							<td class="num total"><span>{{formatCurrency holds_total_fee}}</span></td>
 						</tr>
+						<tr class="card-debit-details-row">
+							<td class="two-line">
+								<span>
+									<span class="primary">Debit</span>
+									<span class="secondary">Cards</span>
+								</span>
+							</td>
+							<td class="num"><span>{{formatNumber card_debits_count}}</span></td>
+							<td class="num"><span>{{formatCurrency card_debits_total_amount}}</span></td>
+							<td><span>{{variable_fee_percentage}}% of txn amount + {{card_debit_fixed_fee}}&cent;</span></td>
+							<td class="num total"><span>{{formatCurrency card_debits_total_fee}}</span></td>
+						</tr>
+						<tr class="bank-account-debit-details-row">
+							<td class="two-line">
+								<span>
+									<span class="primary">Debit</span>
+									<span class="secondary">Bank accounts</span>
+								</span>
+							</td>
+							<td class="num"><span>{{formatNumber bank_account_debits_count}}</span></td>
+							<td class="num"><span>{{formatCurrency bank_account_debits_total_amount}}</span></td>
+							<td><span>
+								{{bank_account_debit_variable_fee_percentage}}% of debit amount + 30&cent;
+							</span></td>
+							<td class="num total"><span>{{formatCurrency bank_account_debits_total_fee}}</span></td>
+						</tr>
+						<tr class="succeeded-bank-account-credit-details-row">
+							<td class="two-line">
+								<span>
+									<span class="primary">Credit</span>
+									<span class="secondary">Succeeded</span>
+								</span>
+							</td>
+							<td class="num"><span>{{formatNumber bank_account_credits_count}}</span></td>
+							<td class="num"><span>{{formatCurrency bank_account_credits_total_amount}}</span></td>
+							<td><span>{{bank_account_credit_fee}}&cent; per credit</span></td>
+							<td class="num total"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
+						</tr>
+						<tr class="succeeded-card-credit-details-row">
+							<td class="two-line">
+								<span>
+									<span class="primary">Credit</span>
+									<span class="secondary">Push to card</span>
+								</span>
+							</td>
+							<td class="num"><span>{{formatNumber card_credits_count}}</span></td>
+							<td class="num"><span>{{formatCurrency card_credits_total_amount}}</span></td>
+							<td><span>{{card_credit_fixed_fee}}&cent; per credit</span></td>
+							<td class="num total"><span>{{formatCurrency card_credits_total_fee}}</span></td>
+						</tr>
+						<tr class="refund-details-row">
+							<td><span>Refund</span></td>
+							<td class="num"><span>{{formatNumber refunds_count}}</span></td>
+							<td class="num"><span>{{formatCurrency refunds_total_amount}}</span></td>
+							<td><span>{{variable_fee_percentage}}% of txn amount returned</span></td>
+							<td class="num total"><span>{{formatCurrency refunds_total_fee}}</span></td>
+						</tr>
 					{{/if}}
-					<tr class="card-debit-details-row">
-						<td class="two-line">
-							<span>
-								<span class="primary">Debit</span>
-								<span class="secondary">Cards</span>
-							</span>
-						</td>
-						<td class="num"><span>{{formatNumber card_debits_count}}</span></td>
-						<td class="num"><span>{{formatCurrency card_debits_total_amount}}</span></td>
-						<td><span>{{variable_fee_percentage}}% of txn amount + {{card_debit_fixed_fee}}&cent;</span></td>
-						<td class="num total"><span>{{formatCurrency card_debits_total_fee}}</span></td>
-					</tr>
-					<tr class="bank-account-debit-details-row">
-						<td class="two-line">
-							<span>
-								<span class="primary">Debit</span>
-								<span class="secondary">Bank accounts</span>
-							</span>
-						</td>
-						<td class="num"><span>{{formatNumber bank_account_debits_count}}</span></td>
-						<td class="num"><span>{{formatCurrency bank_account_debits_total_amount}}</span></td>
-						<td><span>
-							{{bank_account_debit_variable_fee_percentage}}% of debit amount + 30&cent;
-						</span></td>
-						<td class="num total"><span>{{formatCurrency bank_account_debits_total_fee}}</span></td>
-					</tr>
-					<tr class="succeeded-bank-account-credit-details-row">
-						<td class="two-line">
-							<span>
-								<span class="primary">Credit</span>
-								<span class="secondary">Succeeded</span>
-							</span>
-						</td>
-						<td class="num"><span>{{formatNumber bank_account_credits_count}}</span></td>
-						<td class="num"><span>{{formatCurrency bank_account_credits_total_amount}}</span></td>
-						<td><span>{{bank_account_credit_fee}}&cent; per credit</span></td>
-						<td class="num total"><span>{{formatCurrency bank_account_credits_total_fee}}</span></td>
-					</tr>
-					<tr class="succeeded-card-credit-details-row">
-						<td class="two-line">
-							<span>
-								<span class="primary">Credit</span>
-								<span class="secondary">Push to card</span>
-							</span>
-						</td>
-						<td class="num"><span>{{formatNumber card_credits_count}}</span></td>
-						<td class="num"><span>{{formatCurrency card_credits_total_amount}}</span></td>
-						<td><span>{{card_credit_fixed_fee}}&cent; per credit</span></td>
-						<td class="num total"><span>{{formatCurrency card_credits_total_fee}}</span></td>
-					</tr>
-					<tr class="refund-details-row">
-						<td><span>Refund</span></td>
-						<td class="num"><span>{{formatNumber refunds_count}}</span></td>
-						<td class="num"><span>{{formatCurrency refunds_total_amount}}</span></td>
-						<td><span>{{variable_fee_percentage}}% of txn amount returned</span></td>
-						<td class="num total"><span>{{formatCurrency refunds_total_fee}}</span></td>
-					</tr>
-				{{/if}}
 				</tbody>
 				<tfoot>
 					<tr class="subtotal-row">
@@ -178,20 +176,20 @@
 				<nav class="search-filters-header">
 					<ul>
 						{{#if hasHoldsFee}}
-							{{view Balanced.ResultsFilterListItemView text="Holds" resultsLoader=transactionsResultsLoader filterValue="holds"}}
+							{{view "results/results-filter-list-item" text="Holds" resultsLoader=transactionsResultsLoader filterValue="holds"}}
 						{{/if}}
-						{{view Balanced.ResultsFilterListItemView text="Debits (Cards)" resultsLoader=transactionsResultsLoader filterValue="card_debits"}}
+						{{view "results/results-filter-list-item" text="Debits (Cards)" resultsLoader=transactionsResultsLoader filterValue="card_debits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Debits (Bank accounts)" resultsLoader=transactionsResultsLoader filterValue="bank_account_debits"}}
+						{{view "results/results-filter-list-item" text="Debits (Bank accounts)" resultsLoader=transactionsResultsLoader filterValue="bank_account_debits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Credits (Succeeded)" resultsLoader=transactionsResultsLoader filterValue="bank_account_credits"}}
+						{{view "results/results-filter-list-item" text="Credits (Succeeded)" resultsLoader=transactionsResultsLoader filterValue="bank_account_credits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Credits (Failed)" resultsLoader=transactionsResultsLoader filterValue="failed_credits"}}
+						{{view "results/results-filter-list-item" text="Credits (Failed)" resultsLoader=transactionsResultsLoader filterValue="failed_credits"}}
 
-						{{view Balanced.ResultsFilterListItemView text="Refunds" resultsLoader=transactionsResultsLoader filterValue="refunds"}}
+						{{view "results/results-filter-list-item" text="Refunds" resultsLoader=transactionsResultsLoader filterValue="refunds"}}
 					</ul>
 				</nav>
-				{{view Balanced.InvoiceTransactionsResultsView loader=transactionsResultsLoader}}
+				{{view "results/invoice-transactions-table" loader=transactionsResultsLoader}}
 			{{/if}}
 		</div>
 	{{/view}}

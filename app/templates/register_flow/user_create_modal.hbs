@@ -1,13 +1,13 @@
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Create your account"}}
-	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 		field="email_address"
 		labelText="Email"
 		inputName="email_address"
 	}}
 
-	{{view Balanced.BaseFormFieldView model=view.model inputClassNames="full" inputType="password"
+	{{view "form-fields/base-form-field" model=view.model inputClassNames="full" inputType="password"
 		inputName="password" field="password" labelText="Password"}}
 
-	{{view Balanced.BaseFormFieldView model=view.model inputClassNames="full" inputType="password"
+	{{view "form-fields/base-form-field" model=view.model inputClassNames="full" inputType="password"
 		inputName="passwordConfirm" field="passwordConfirm" labelText="Re-enter password"}}
 {{/view}}

@@ -1,6 +1,7 @@
 import Ember from "ember";
 
 var actionsMixin = Balanced.ActionEvented('openDeleteModal', 'openDeleteCallbackModal');
+
 var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, {
 	needs: ["marketplace"],
 
@@ -14,7 +15,7 @@ var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, 
 				limit: 10
 			});
 		} else {
-			return Balanced.ResultsLoader.create();
+			return this.get("container").lookup("results-loader:base");
 		}
 	}.property("owner_customer"),
 

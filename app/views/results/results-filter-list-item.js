@@ -1,6 +1,7 @@
 import Ember from "ember";
-Balanced.ResultsFilterListItemView = Ember.View.extend({
-	templateName: "./results_filter_list_item",
+
+var ResultsFilterListItemView = Ember.View.extend({
+	templateName: "results/results-filter-list-item",
 	tagName: "li",
 	classNameBindings: ["isActive:selected", ":filter"],
 	isActive: function() {
@@ -9,3 +10,5 @@ Balanced.ResultsFilterListItemView = Ember.View.extend({
 		return filterValue === currentValue;
 	}.property("filterValue", "resultsLoader.type")
 });
+
+export default ResultsFilterListItemView;

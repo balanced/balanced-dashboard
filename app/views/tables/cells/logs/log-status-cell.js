@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import LinkedTextCellView from "../linked-text-cell";
 import Ember from "ember";
 
@@ -6,7 +7,7 @@ var LogStatusCellView = LinkedTextCellView.extend({
 	classNameBindings: [":black"],
 	isBlank: false,
 	primaryLabelText: Ember.computed.oneWay('item.status_code'),
-	secondaryLabelText: Balanced.computed.transform('item.category_code', Balanced.Utils.formatStatusCode),
+	secondaryLabelText: Computed.transform('item.category_code', Balanced.Utils.formatStatusCode),
 
 	spanClassNames: function() {
 		return this.get('primaryLabelText').match(/2\d\d/) ? 'succeeded' : 'failed';

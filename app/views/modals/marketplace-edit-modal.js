@@ -1,7 +1,8 @@
-import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
-import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import Save from "./mixins/object-action-mixin";
+import Wide from "./mixins/wide-modal-mixin";
+import ModalBaseView from "./modal-base";
 
-Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend(Save, Wide, {
+var MarketplaceEditModalView = ModalBaseView.extend(Save, Wide, {
 	templateName: 'modals/marketplace_edit_modal',
 	elementId: "edit-marketplace-info",
 	title: "Edit marketplace information",
@@ -24,10 +25,12 @@ Balanced.Modals.MarketplaceEditModalView = Balanced.ModalBaseView.extend(Save, W
 	}
 });
 
-Balanced.Modals.MarketplaceEditModalView.reopenClass({
+MarketplaceEditModalView.reopenClass({
 	open: function(marketplace) {
 		return this.create({
 			marketplace: marketplace
 		});
 	}
 });
+
+export default MarketplaceEditModalView;

@@ -14,8 +14,8 @@
 
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		{{view Balanced.CardSummarySectionView model=model}}
-		{{view Balanced.CardTitledKeyValuesSectionView model=model}}
+		{{view detail-views/summary-sections/card-summary-section model=model}}
+		{{view detail-views/description-lists/card-titled-key-values-section model=model}}
 		{{view "meta-list" type=model}}
 	{{/view}}
 

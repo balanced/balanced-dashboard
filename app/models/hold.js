@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Transaction from "./transaction";
 
 var Hold = Balanced.Transaction.extend({
@@ -25,7 +26,7 @@ var Hold = Balanced.Transaction.extend({
 	type_name: 'Hold',
 	route_name: 'holds',
 	funding_instrument_description: Ember.computed.readOnly('card.description'),
-	customer: Balanced.computed.orProperties('debit.customer', 'card.customer'),
+	customer: Computed.orProperties('debit.customer', 'card.customer'),
 	last_four: Ember.computed.readOnly('card.last_four'),
 	funding_instrument_name: Ember.computed.readOnly('card.brand'),
 	funding_instrument_type: Ember.computed.alias('card.type_name')

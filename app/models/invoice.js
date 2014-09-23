@@ -1,7 +1,9 @@
-var ComputedUri = function(key) {
-	return Balanced.computed.concat('uri', '/' + key);
+import Computed from "balanced-dashboard/utils/computed";
+
+var computedUri = function(key) {
+	return Computed.concat('uri', '/' + key);
 };
-var ComputedDate = function(p) {
+var computedDate = function(p) {
 	return function() {
 		var period = this.get('period');
 		if (!period) {
@@ -14,7 +16,7 @@ var ComputedDate = function(p) {
 Balanced.Invoice = Balanced.Model.extend({
 	route_name: 'invoice',
 
-	page_title: Balanced.computed.fmt('sequence_number', 'No. %@'),
+	page_title: Computed.fmt('sequence_number', 'No. %@'),
 	type_name: 'Account statement',
 
 	source: Balanced.Model.belongsTo('source', 'funding-instrument'),
@@ -31,8 +33,8 @@ Balanced.Invoice = Balanced.Model.extend({
 	settlements: Balanced.Model.hasMany('settlements', 'settlement'),
 	disputes: Balanced.Model.hasMany('disputes', 'dispute'),
 
-	from_date: ComputedDate(0),
-	to_date: ComputedDate(1),
+	from_date: computedDate(0),
+	to_date: computedDate(1),
 
 	typeChanged: function() {
 		if (this.get('type') === 'fee') {
@@ -49,7 +51,8 @@ Balanced.Invoice = Balanced.Model.extend({
 	}.property('isDispute'),
 
 	getInvoicesLoader: function() {
-		return Balanced.DisputesResultsLoader.create({
+		var DisputesResultsLoader = require("balanced-dashboard/models/results-loaders/disputes")["default"];
+		return DisputesResultsLoader.create({
 			// Note: The Api is throwing an error when fetching the disputes using /invoices/:invoice_id/disputes
 			// so we are defaulting this to created_at for now.
 			// description: "Unable to sort on unknown field "initiated_at" Your request id is OHM4eadba4c092211e4b88e02b12035401b."
@@ -59,10 +62,11 @@ Balanced.Invoice = Balanced.Model.extend({
 	},
 
 	getTransactionsLoader: function(attributes) {
+		var InvoiceTransactionsResultsLoader = require("balanced-dashboard/models/results-loaders/invoice-transactions")["default"];
 		attributes = _.extend({
 			invoice: this
 		}, attributes);
-		return Balanced.InvoiceTransactionsResultsLoader.create(attributes);
+		return InvoiceTransactionsResultsLoader.create(attributes);
 	},
 
 	isDispute: Ember.computed.equal('type', 'dispute'),
@@ -95,16 +99,16 @@ Balanced.Invoice = Balanced.Model.extend({
 	reversal_fee: 0,
 
 	// TODO - take all these URIs out once invoice has links for them
-	bank_account_debits_uri: ComputedUri('bank_account_debits'),
-	card_debits_uri: ComputedUri('card_debits'),
-	debits_uri: ComputedUri('debits'),
-	bank_account_credits_uri: ComputedUri('bank_account_credits'),
-	holds_uri: ComputedUri('holds'),
-	failed_credits_uri: ComputedUri('failed_credits'),
-	lost_debit_chargebacks_uri: ComputedUri('lost_debit_chargebacks'),
-	refunds_uri: ComputedUri('refunds'),
-	reversals_uri: ComputedUri('reversals'),
-	disputes_uri: ComputedUri('disputes')
+	bank_account_debits_uri: computedUri('bank_account_debits'),
+	card_debits_uri: computedUri('card_debits'),
+	debits_uri: computedUri('debits'),
+	bank_account_credits_uri: computedUri('bank_account_credits'),
+	holds_uri: computedUri('holds'),
+	failed_credits_uri: computedUri('failed_credits'),
+	lost_debit_chargebacks_uri: computedUri('lost_debit_chargebacks'),
+	refunds_uri: computedUri('refunds'),
+	reversals_uri: computedUri('reversals'),
+	disputes_uri: computedUri('disputes')
 });
 
 export default Balanced.Invoice;

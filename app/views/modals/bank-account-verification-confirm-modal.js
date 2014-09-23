@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
@@ -17,8 +18,8 @@ Balanced.Modals.BankAccountVerificationConfirmModalView = Balanced.ModalBaseView
 		verification.reload();
 	},
 
-	amount_1_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_1'),
-	amount_2_highlight: Balanced.computed.orProperties('failedConfirmation', 'model.validationErrors.amount_2'),
+	amount_1_highlight: Computed.orProperties('failedConfirmation', 'model.validationErrors.amount_1'),
+	amount_2_highlight: Computed.orProperties('failedConfirmation', 'model.validationErrors.amount_2'),
 	actions: {
 		save: function() {
 			var self = this;

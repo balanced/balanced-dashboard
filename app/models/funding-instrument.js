@@ -1,10 +1,11 @@
+import Computed from "balanced-dashboard/utils/computed";
 Balanced.FundingInstrument = Balanced.Model.extend({
 	customer: Balanced.Model.belongsTo('customer', 'customer'),
 
-	title_description: Balanced.computed.fmt('last_four', 'funding_instrument_name', '%@ %@'),
-	description_with_type: Balanced.computed.fmt('type_name', 'description', '%@: %@'),
-	funding_instrument_name: Balanced.computed.orProperties('brand', 'formatted_bank_name'),
-	funding_instrument_type: Balanced.computed.orProperties('type_name', 'account_type'),
+	title_description: Computed.fmt('last_four', 'funding_instrument_name', '%@ %@'),
+	description_with_type: Computed.fmt('type_name', 'description', '%@: %@'),
+	funding_instrument_name: Computed.orProperties('brand', 'formatted_bank_name'),
+	funding_instrument_type: Computed.orProperties('type_name', 'account_type'),
 	expected_credit_date: function() {
 		return moment().addBusinessDays(this.get('expected_credit_days_offset')).format();
 	}.property('expected_credit_days_offset'),

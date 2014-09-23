@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Ember from "ember";
 
 var ActionButtonsView = Ember.View.extend({
@@ -8,7 +9,7 @@ var ActionButtonsView = Ember.View.extend({
 	// override to customize, adds "ing..." to submitTitle if not defined
 	submittingTitle: null,
 
-	isSubmitting: Balanced.computed.orProperties('parentView.model.isSaving', 'parentView.isSubmitting'),
+	isSubmitting: Computed.orProperties('parentView.model.isSaving', 'parentView.isSubmitting'),
 
 	_submitTitle: function() {
 		if (this.get('isSubmitting')) {

@@ -1,6 +1,7 @@
 import Ember from "ember";
 import Customer from "balanced-dashboard/models/customer";
 import Verification from "balanced-dashboard/models/verification";
+import BankAccount from "balanced-dashboard/models/bank-account";
 
 var MESSAGES = {
 	noBankAccounts: {
@@ -42,7 +43,7 @@ Balanced.BankAccountVerificationMessage = {
 	forCustomer: function(customer) {
 		var self = this;
 		var uri = customer.get("bank_accounts_uri");
-		return Balanced.ModelArray.newArrayLoadedFromUri(uri, Balanced.BankAccount)
+		return Balanced.ModelArray.newArrayLoadedFromUri(uri, BankAccount)
 			.then(function(bankAccounts) {
 				return self.forBankAccounts(bankAccounts);
 			});

@@ -1,15 +1,15 @@
 {{#view Balanced.FormSectionView model=view.model accountTypes=view.accountTypes sectionTitle="Bank account information"}}
-	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 		labelText="Name on account"
 		field="name"
 	}}
 
-	{{view Balanced.TextFormFieldView model=view.model
+	{{view "form-fields/text-form-field" model=view.model
 		labelText="Routing number"
 		field="routing_number"
 	}}
 
-	{{view Balanced.TextFormFieldView model=view.model
+	{{view "form-fields/text-form-field" model=view.model
 		labelText="Account number"
 		field="account_number"
 	}}
@@ -39,7 +39,7 @@
 	</div>
 
 	{{#if view.parentView.isInitialDepositCreate}}
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Card number"
 			field="number"
 		}}
@@ -63,15 +63,15 @@
 				<div class="alert alert-error">{{message}}</div>
 			{{/each}}
 		</div>
-		{{view Balanced.TextFormFieldView model=view.model
+		{{view "form-fields/text-form-field" model=view.model
 			labelText="Security code"
 			field="cvv"
 		}}
-		{{view Balanced.TextFormFieldView model=view.model
+		{{view "form-fields/text-form-field" model=view.model
 			labelText="Postal code"
 			field="postal_code"
 		}}
-		{{view Balanced.TextFormFieldView model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Amount"
 			field="dollar_amount"
 		}}

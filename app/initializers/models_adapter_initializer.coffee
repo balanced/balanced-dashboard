@@ -9,7 +9,6 @@
 `import UserInvite from "balanced-dashboard/models/user-invite";`
 `import UserMarketplace from "balanced-dashboard/models/user-marketplace";`
 
-
 ModelsAdapterInitializer =
 	name: "modelsAdapter"
 	initialize: (container, app) ->
@@ -26,6 +25,7 @@ ModelsAdapterInitializer =
 		register("reset-password", ENV.BALANCED.AUTH)
 		register("user", ENV.BALANCED.AUTH)
 		register("user-invite", ENV.BALANCED.AUTH)
+		register("marketplace-user-invite", ENV.BALANCED.AUTH)
 		register("user-marketplace", ENV.BALANCED.AUTH)
 
 		container.register("adapter:main", Adapter)

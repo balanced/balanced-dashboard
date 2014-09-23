@@ -1,7 +1,6 @@
 require('balanced-dashboard/utils/variables')
 require('balanced-dashboard/lib/ajax')
 require('balanced-dashboard/lib/bank_account_verification_message')
-require('balanced-dashboard/lib/computed')
 require('balanced-dashboard/lib/country_codes')
 require('balanced-dashboard/lib/csv_writer')
 require('balanced-dashboard/lib/error_messages_collection')

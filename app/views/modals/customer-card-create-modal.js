@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
@@ -30,7 +31,7 @@ Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide
 		return years;
 	}.property(),
 
-	expiration_error: Balanced.computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
+	expiration_error: Computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
 
 
 	save: function(fundingInstrument) {

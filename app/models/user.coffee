@@ -1,3 +1,4 @@
+`import Computed from "balanced-dashboard/utils/computed";`
 `import Rev0Serializer from "balanced-dashboard/serializers/rev0";`
 `import UserMarketplace from "./user-marketplace";`
 `import Marketplace from "./marketplace";`
@@ -21,8 +22,8 @@ User = Balanced.Model.extend Ember.Validations,
 	user_marketplace_for_id: (id) ->
 		@get('user_marketplaces').findBy('id', id)
 
-	gravatar: Balanced.computed.transform('email_hash', Balanced.Utils.toGravatar)
-	multiFactorAuthUri: Balanced.computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp')
+	gravatar: Computed.transform('email_hash', Balanced.Utils.toGravatar)
+	multiFactorAuthUri: Computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp')
 
 	validations:
 		existing_password:

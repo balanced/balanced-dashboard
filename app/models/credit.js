@@ -1,3 +1,4 @@
+import Computed from "balanced-dashboard/utils/computed";
 import Transaction from "./transaction";
 import Rev1Serializer from "../serializers/rev1";
 
@@ -15,7 +16,7 @@ var Credit = Transaction.extend({
 	last_four: Ember.computed.alias('destination.last_four'),
 	funding_instrument_name: Ember.computed.alias('destination.formatted_bank_name'),
 	funding_instrument_type: Ember.computed.alias('destination.type_name'),
-	max_reversal_amount_dollars: Balanced.computed.transform('reversal_amount', Balanced.Utils.centsToDollars),
+	max_reversal_amount_dollars: Computed.transform('reversal_amount', Balanced.Utils.centsToDollars),
 
 
 	get_reversals: function() {

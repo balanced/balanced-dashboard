@@ -44,7 +44,7 @@
 {{/view}}
 
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Tracking information" sectionDescription=view.trackingCodeText}}
-	{{view Balanced.TextFormFieldView model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number" explanationText="FedEx or USPS tracking number only"}}
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number" explanationText="FedEx or USPS tracking number only"}}
 {{/view}}
 
 {{#view Balanced.FormSectionView model=view.model sectionTitle="Evidence description" sectionDescription=view.noteText}}
