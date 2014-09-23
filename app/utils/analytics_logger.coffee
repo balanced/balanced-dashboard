@@ -1,3 +1,5 @@
+`import ENV from 'balanced-dashboard/config/environment';`
+
 window.mixpanel = window.mixpanel || []
 window._gaq = window._gaq || []
 
