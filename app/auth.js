@@ -4,7 +4,8 @@ import User from "balanced-dashboard/models/user";
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 import Marketplace from "balanced-dashboard/models/marketplace";
 
-import COOKIE from "balanced-dashboard/utils/variables/cookie";
+import Constants from "./utils/constants";
+import CookieConstants from "./utils/constants/cookie";
 
 var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {
@@ -80,7 +81,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 				type: 'GET'
 			})
 			.then(undefined, function() {
-				var authCookie = $.cookie(COOKIE.EMBER_AUTH_TOKEN);
+				var authCookie = $.cookie(CookieConstants.EMBER_AUTH_TOKEN);
 				if (authCookie) {
 					return self.signInRequest({
 						data: {
@@ -275,14 +276,14 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	rememberLogin: function(token) {
 		this.set('lastLoginUri', token);
 
-		$.cookie(COOKIE.EMBER_AUTH_TOKEN, token, {
-			expires: Balanced.TIME.WEEK,
+		$.cookie(CookieConstants.EMBER_AUTH_TOKEN, token, {
+			expires: Constants.TIME.WEEK,
 			path: '/'
 		});
 	},
 
 	forgetLogin: function() {
-		_.each([COOKIE.EMBER_AUTH_TOKEN, COOKIE.API_KEY_SECRET, COOKIE.SESSION], function(CONST_VAR) {
+		_.each([CookieConstants.EMBER_AUTH_TOKEN, CookieConstants.API_KEY_SECRET, CookieConstants.SESSION], function(CONST_VAR) {
 			$.removeCookie(CONST_VAR, {
 				path: '/'
 			});
@@ -310,29 +311,29 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	storeGuestAPIKey: function(apiKeySecret) {
-		$.cookie(COOKIE.API_KEY_SECRET, apiKeySecret, {
+		$.cookie(CookieConstants.API_KEY_SECRET, apiKeySecret, {
 			path: '/',
-			expires: Balanced.TIME.WEEK
+			expires: Constants.TIME.WEEK
 		});
 	},
 
 	getGuestAPIKey: function() {
-		return $.cookie(COOKIE.API_KEY_SECRET);
+		return $.cookie(CookieConstants.API_KEY_SECRET);
 	},
 
 	rememberLastUsedMarketplaceUri: function(marketplaceUri) {
-		$.cookie(COOKIE.MARKETPLACE_URI, marketplaceUri, {
+		$.cookie(CookieConstants.MARKETPLACE_URI, marketplaceUri, {
 			path: '/',
-			expires: Balanced.TIME.THREE_YEARS
+			expires: Constants.TIME.THREE_YEARS
 		});
 	},
 
 	getLastUsedMarketplaceUri: function() {
-		return $.cookie(COOKIE.MARKETPLACE_URI);
+		return $.cookie(CookieConstants.MARKETPLACE_URI);
 	},
 
 	forgetLastUsedMarketplaceUri: function() {
-		$.removeCookie(COOKIE.MARKETPLACE_URI, {
+		$.removeCookie(CookieConstants.MARKETPLACE_URI, {
 			path: '/'
 		});
 	}

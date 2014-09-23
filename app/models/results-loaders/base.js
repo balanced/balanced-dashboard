@@ -1,4 +1,5 @@
 import Ember from "ember";
+import SearchModelArray from "../core/search-model-array";
 import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import Download from "balanced-dashboard/models/download";
 import Dispute from "balanced-dashboard/models/dispute";
@@ -51,7 +52,7 @@ var BaseResultsLoader = Ember.Object.extend({
 				isLoaded: true
 			});
 		} else {
-			var searchArray = Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+			var searchArray = SearchModelArray.newArrayLoadedFromUri(uri, type);
 			searchArray.setProperties({
 				sortProperties: [this.get('sortField') || 'created_at'],
 				sortAscending: this.get('sortDirection') === 'asc'

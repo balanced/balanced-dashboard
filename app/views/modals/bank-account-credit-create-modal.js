@@ -4,5 +4,5 @@ Balanced.Modals.BankAccountCreditCreateModalView = Balanced.TransactionCreatorMo
 	model_class: Balanced.CreditBankAccountTransactionFactory,
 	elementId: "pay-seller",
 
-	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 });

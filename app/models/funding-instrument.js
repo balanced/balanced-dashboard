@@ -1,6 +1,9 @@
 import Computed from "balanced-dashboard/utils/computed";
-Balanced.FundingInstrument = Balanced.Model.extend({
-	customer: Balanced.Model.belongsTo('customer', 'customer'),
+import Model from "./core/model";
+import Utils from "balanced-dashboard/lib/utils";
+
+var FundingInstrument = Model.extend({
+	customer: Model.belongsTo('customer', 'customer'),
 
 	title_description: Computed.fmt('last_four', 'funding_instrument_name', '%@ %@'),
 	description_with_type: Computed.fmt('type_name', 'description', '%@: %@'),
@@ -14,7 +17,7 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 	isBankAccount: false,
 	formatted_bank_name: function() {
 		if (this.get('bank_name')) {
-			return Balanced.Utils.formatBankName(this.get('bank_name'));
+			return Utils.formatBankName(this.get('bank_name'));
 		} else {
 			return undefined;
 		}
@@ -30,4 +33,9 @@ Balanced.FundingInstrument = Balanced.Model.extend({
 	}.property('id', 'route_name')
 });
 
-export default Balanced.FundingInstrument;
+
+if (this.Balanced) {
+	this.Balanced.FundingInstrument = FundingInstrument;
+}
+
+export default FundingInstrument;

@@ -1,8 +1,11 @@
-var JustitiaDispute = Balanced.Model.extend({});
+import Model from "./core/model";
+import ModelArray from "./core/model-array";
+
+var JustitiaDispute = Model.extend({});
 
 JustitiaDispute.reopenClass({
 	loadFromUri: function(uri) {
-		return Balanced.ModelArray.newArrayLoadedFromUri(uri, Balanced.JustitiaDispute, "disputes");
+		return ModelArray.newArrayLoadedFromUri(uri, JustitiaDispute, "disputes");
 	}
 });
 

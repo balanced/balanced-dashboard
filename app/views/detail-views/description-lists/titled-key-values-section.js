@@ -1,6 +1,7 @@
 import Ember from "ember";
 import KeyValueView from "../key-value";
 import LinkedKeyValueView from "../linked-key-value";
+import Utils from "balanced-dashboard/lib/utils";
 
 var TitledKeyValuesSectionView = Ember.View.extend({
 	layoutName: "detail-views/titled-key-values-section",
@@ -19,7 +20,7 @@ var TitledKeyValuesSectionView = Ember.View.extend({
 		var value = Ember.get(model, fieldName);
 
 		if (_.contains(dateFields, fieldName)) {
-			value = Balanced.Utils.humanReadableDateLong(value);
+			value = Utils.humanReadableDateLong(value);
 		}
 
 		return value;

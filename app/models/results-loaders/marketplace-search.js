@@ -1,5 +1,10 @@
 import BaseResultsLoader from "./base";
 import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
+import Transaction from "../transaction";
+import FundingInstrument from "../funding-instrument";
+import Customer from "../customer";
+import Order from "../order";
+import SearchModelArray from "../core/search-model-array";
 
 var TRANSACTION_TYPES = ["credit", "debit", "card_hold", "refund", "reversal"];
 var FUNDING_INSTRUMENT_TYPES = ["card", "bank_account"];
@@ -22,22 +27,22 @@ var MarketplaceSearchResultsLoader = BaseResultsLoader.extend({
 
 	resultsType: function() {
 		var mapping = {
-			"funding_instrument": Balanced.FundingInstrument,
-			"customer": Balanced.Customer,
-			"order": Balanced.Order
+			"funding_instrument": FundingInstrument,
+			"customer": Customer,
+			"order": Order
 		};
-		return mapping[this.get("searchType")] || Balanced.Transaction;
+		return mapping[this.get("searchType")] || Transaction;
 	}.property("searchType"),
 
 	results: function() {
 		if (Ember.isBlank(this.get("query"))) {
-			return Balanced.SearchModelArray.create({
+			return SearchModelArray.create({
 				isLoaded: true
 			});
 		} else {
 			var uri = this.get('resultsUri');
 			var type = this.get('resultsType');
-			return Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+			return SearchModelArray.newArrayLoadedFromUri(uri, type);
 		}
 	}.property("query", "resultsUri", "resultsType"),
 

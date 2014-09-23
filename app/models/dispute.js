@@ -1,11 +1,12 @@
 import Ember from "ember";
 import JustitiaDispute from "./justitia-dispute";
 import Computed from "../utils/computed";
+import Model from "./core/model";
 
-var Dispute = Balanced.Model.extend(Ember.Validations, {
-	transaction: Balanced.Model.belongsTo('transaction', 'transaction'),
-	events: Balanced.Model.hasMany('events', 'event'),
-	documents: Balanced.Model.hasMany('dispute_documents', 'dispute-document'),
+var Dispute = Model.extend(Ember.Validations, {
+	transaction: Model.belongsTo('transaction', 'transaction'),
+	events: Model.hasMany('events', 'event'),
+	documents: Model.hasMany('dispute_documents', 'dispute-document'),
 
 	note: null,
 	tracking_number: null,

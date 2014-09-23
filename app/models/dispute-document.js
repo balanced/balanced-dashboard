@@ -1,15 +1,20 @@
-var DisputeDocument = Balanced.Model.extend({
-	dispute: Balanced.Model.belongsTo('dispute', 'dispute'),
+import Model from "./core/model";
+import LinkedModelArray from "./core/linked-model-array";
+import Constants from "balanced-dashboard/utils/computed";
+
+
+var DisputeDocument = Model.extend({
+	dispute: Model.belongsTo('dispute', 'dispute'),
 	isUploading: false
 });
 
 DisputeDocument.reopenClass({
 	loadFromUri: function(uri) {
-		return Balanced.LinkedModelArray.newArrayLoadedFromUri(uri, Balanced.DisputeDocument, "documents");
+		return LinkedModelArray.newArrayLoadedFromUri(uri, Balanced.DisputeDocument, "documents");
 	},
 
 	hasErrors: function(file) {
-		if (file.size > Balanced.DISPUTE_DOCUMENTS.MAX_FILE_SIZE_BYTES || Balanced.DISPUTE_DOCUMENTS.ACCEPTED_MIME_TYPES.indexOf(file.type) < 0) {
+		if (file.size > Constants.DISPUTE_DOCUMENTS.MAX_FILE_SIZE_BYTES || Constants.DISPUTE_DOCUMENTS.ACCEPTED_MIME_TYPES.indexOf(file.type) < 0) {
 			return true;
 		}
 		return false;

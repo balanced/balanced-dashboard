@@ -1,7 +1,8 @@
 import Computed from "balanced-dashboard/utils/computed";
+import Constants from "balanced-dashboard/utils/constants";
 import FundingInstrument from "./funding-instrument";
 
-Balanced.Card = FundingInstrument.extend(Ember.Validations, {
+var Card = FundingInstrument.extend(Ember.Validations, {
 	uri: '/cards',
 
 	validations: {
@@ -55,8 +56,8 @@ Balanced.Card = FundingInstrument.extend(Ember.Validations, {
 
 	route_name: 'cards',
 	postal_code: Ember.computed.alias('address.postal_code'),
-	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
-	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD,
+	appears_on_statement_max_length: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
+	expected_credit_days_offset: Constants.EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD,
 	page_title: Ember.computed.readOnly('displayName'),
 
 	last_four: function() {
@@ -136,7 +137,7 @@ Balanced.Card = FundingInstrument.extend(Ember.Validations, {
 
 				promise.reject(validationErrors);
 			} else {
-				Balanced.Card.find(response.cards[0].href)
+				Card.find(response.cards[0].href)
 
 				// Now that it's been tokenized, we just need to associate it with the customer's account
 				.then(function(card) {
@@ -159,4 +160,4 @@ Balanced.Card = FundingInstrument.extend(Ember.Validations, {
 	}
 });
 
-export default Balanced.Card;
+export default Card;

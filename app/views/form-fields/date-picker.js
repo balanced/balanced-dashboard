@@ -1,8 +1,9 @@
 import Ember from "ember";
+import Constants from "balanced-dashboard/utils/constants";
 
-var BALANCED_CREATED_AT = Balanced.DATES.CREATED_AT;
+var BALANCED_CREATED_AT = Constants.DATES.CREATED_AT;
 
-var DEFAULT_MAX_TIME = Balanced.DATES.RESULTS_MAX_TIME;
+var DEFAULT_MAX_TIME = Constants.DATES.RESULTS_MAX_TIME;
 var DEFAULT_MIN_TIME = BALANCED_CREATED_AT;
 
 var DEFAULT_LOCALE = {

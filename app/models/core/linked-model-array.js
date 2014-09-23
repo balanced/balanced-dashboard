@@ -1,6 +1,6 @@
-require("./model_array");
+import ModelArray from "./model-array";
 
-Balanced.LinkedModelArray = Balanced.ModelArray.extend({
+var LinkedModelArray = ModelArray.extend({
 	_populateModels: function(json) {
 		var self = this;
 		var typeClass = this.get('typeClass');
@@ -36,7 +36,7 @@ Balanced.LinkedModelArray = Balanced.ModelArray.extend({
 	},
 });
 
-Balanced.LinkedModelArray.reopenClass({
+LinkedModelArray.reopenClass({
 	newArrayLoadedFromUri: function(uri, defaultType, linkedKey) {
 		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
 		var modelObjectsArray = this.create({
@@ -61,3 +61,5 @@ Balanced.LinkedModelArray.reopenClass({
 		return modelObjectsArray;
 	},
 });
+
+export default LinkedModelArray;

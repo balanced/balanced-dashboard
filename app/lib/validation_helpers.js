@@ -1,3 +1,5 @@
+import Constants from "balanced-dashboard/utils/constants";
+
 var formatValidator = function(callback) {
 	return {
 		validator: function(object, attribute, value) {
@@ -60,12 +62,12 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 
 	bankTransactionAppearsOnStatementAs: {
 		presence: true,
-		format: generateTransactionAppearsOnStatementAsValidation(Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT),
+		format: generateTransactionAppearsOnStatementAsValidation(Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT),
 	},
 
 	cardTransactionAppearsOnStatementAs: {
 		presence: true,
-		format: generateTransactionAppearsOnStatementAsValidation(Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_CARD),
+		format: generateTransactionAppearsOnStatementAsValidation(Constants.MAXLENGTH.APPEARS_ON_STATEMENT_CARD),
 	},
 
 	cardName: {

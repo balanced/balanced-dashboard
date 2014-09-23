@@ -1,9 +1,12 @@
+import Ember from "ember";
 import Computed from "balanced-dashboard/utils/computed";
+import ModelArray from "./model-array";
+
 var readOnly = function(type) {
 	return Ember.computed.readOnly('counts.' + type);
 };
 
-Balanced.SearchModelArray = Balanced.ModelArray.extend(Ember.SortableMixin, {
+var SearchModelArray = ModelArray.extend(Ember.SortableMixin, {
 	total_credits: readOnly('credit'),
 	total_debits: readOnly('debit'),
 	total_card_holds: readOnly('card_hold'),
@@ -16,3 +19,5 @@ Balanced.SearchModelArray = Balanced.ModelArray.extend(Ember.SortableMixin, {
 	total_transactions: Computed.sumAll('total_credits', 'total_debits', 'total_card_holds', 'total_refunds'),
 	total_funding_instruments: Computed.sumAll('total_bank_accounts', 'total_cards')
 });
+
+export default SearchModelArray;

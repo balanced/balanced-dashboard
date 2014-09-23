@@ -1,20 +1,23 @@
+import Ember from "ember";
+import Model from "./core/model";
 import Rev0Serializer from "../serializers/rev0";
+import Constants from "balanced-dashboard/utils/constants";
 
-Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
+var ResetPassword = Model.extend(Ember.Validations, {
 	validations: {
 		password: {
 			presence: true,
 			length: {
-				minimum: Balanced.PASSWORD.MIN_CHARS
+				minimum: Constants.PASSWORD.MIN_CHARS
 			},
 			format: {
-				with: Balanced.PASSWORD.REGEX
+				with: Constants.PASSWORD.REGEX
 			}
 		},
 		password_confirm: {
 			presence: true,
 			length: {
-				minimum: Balanced.PASSWORD.MIN_CHARS
+				minimum: Constants.PASSWORD.MIN_CHARS
 			},
 			format: {
 				validator: function(object, attribute, value) {
@@ -28,8 +31,8 @@ Balanced.ResetPassword = Balanced.Model.extend(Ember.Validations, {
 	}
 });
 
-Balanced.ResetPassword.reopenClass({
+ResetPassword.reopenClass({
 	serializer: Rev0Serializer.create()
 });
 
-export default Balanced.ResetPassword;
+export default ResetPassword;

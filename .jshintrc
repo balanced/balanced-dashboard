@@ -16,11 +16,11 @@
 	"jquery": true,
 	"camelcase": false,
 	"predef": {
+		"BalancedApp": true,
 		"module": true,
 		"require": true,
 		"Ember": true,
 		"Auth": true,
-		"Balanced": true,
 		"balanced": true,
 		"moment": true,
 		"DS": true,

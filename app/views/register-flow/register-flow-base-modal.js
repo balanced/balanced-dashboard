@@ -1,11 +1,12 @@
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+import ModalBaseView from "../modals/modal-base";
 
-var Full = Balanced.Modals.FullModalMixin;
-var OpenNext = Balanced.Modals.OpenNextModalMixin;
-var Form = Balanced.Modals.FormModalMixin;
-var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
+import OpenNext from "balanced-dashboard/views/modals/mixins/open-next-modal-mixin";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import DisplayModelErrors from "balanced-dashboard/views/modals/mixins/display-model-errors-modal-mixin";
 
-Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
 	staticBackdrop: true,
 
 	open: function() {
@@ -80,3 +81,5 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 		return this.get("container").lookup("controller:modal_notification_center");
 	}
 });
+
+export default RegisterFlowBaseModal;

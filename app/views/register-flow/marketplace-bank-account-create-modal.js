@@ -1,4 +1,7 @@
-Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.extend({
+import RegisterFlowBaseModalView from "./register-flow-base-modal";
+import Constants from "balanced-dashboard/utils/constants";
+
+var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 	templateName: "register_flow/marketplace_bank_account_create_modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 3 of 3: Add your bank account",
@@ -25,7 +28,7 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		return Balanced.InitialDepositTransactionFactory.create();
 	}.property(),
 
-	expirationMonths: Balanced.TIME.MONTHS,
+	expirationMonths: Constants.TIME.MONTHS,
 	expirationYears: function() {
 		var start = new Date().getFullYear();
 		return _.times(10, function(i) {
@@ -139,3 +142,5 @@ Balanced.MarketplaceBankAccountCreateModalView = Balanced.RegisterFlowBaseModal.
 		}
 	}
 });
+
+export default MarketplaceBankAccountCreateModalView;

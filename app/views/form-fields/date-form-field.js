@@ -1,4 +1,5 @@
 import BaseFormFieldView from "./base-form-field";
+import Constants from "balanced-dashboard/utils/constants";
 
 var addEmptyField = function(allowEmpty, values) {
 	if (allowEmpty) {
@@ -16,7 +17,7 @@ var DateFormFieldView = BaseFormFieldView.extend({
 	endYear: new Date().getFullYear(),
 
 	dateMonths: function() {
-		return addEmptyField(this.get("allowEmpty"), Balanced.TIME.MONTHS);
+		return addEmptyField(this.get("allowEmpty"), Constants.TIME.MONTHS);
 	}.property("allowEmpty"),
 	dateYears: function() {
 		var startYear = this.get("startYear");

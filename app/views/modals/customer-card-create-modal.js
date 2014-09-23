@@ -1,14 +1,16 @@
 import Computed from "balanced-dashboard/utils/computed";
+import Constants from "balanced-dashboard/utils/constants";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import Card from "balanced-dashboard/models/card";
 
-Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
-	templateName: 'modals/customer_card_create_modal',
+var CustomerCardCreateModalView = ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/customer-card-create-modal',
 	elementId: "add-card",
 	title: "Add a card",
 
 	model: function() {
-		return Balanced.Card.create({
+		return Card.create({
 			name: '',
 			number: '',
 			cvv: '',
@@ -18,7 +20,7 @@ Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide
 		});
 	}.property(),
 
-	validMonths: Balanced.TIME.MONTHS,
+	validMonths: Constants.TIME.MONTHS,
 	optionalFieldsOpen: false,
 
 	validYears: function() {
@@ -66,10 +68,12 @@ Balanced.Modals.CustomerCardCreateModalView = Balanced.ModalBaseView.extend(Wide
 	}
 });
 
-Balanced.Modals.CustomerCardCreateModalView.reopenClass({
+CustomerCardCreateModalView.reopenClass({
 	open: function(customer) {
 		return this.create({
 			customer: customer
 		});
 	}
 });
+
+export default CustomerCardCreateModalView;

@@ -1,3 +1,5 @@
+import Card from "../card";
+
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 Balanced.DebitCardTransactionFactory = Balanced.TransactionFactory.extend({
@@ -29,7 +31,7 @@ Balanced.DebitCardTransactionFactory = Balanced.TransactionFactory.extend({
 		var baseDebitAttributes = this.getDebitAttributes();
 		this.validate();
 		if (this.get("isValid")) {
-			Balanced.Card.create(this.getDestinationAttributes())
+			Card.create(this.getDestinationAttributes())
 				.tokenizeAndCreate()
 				.then(function(card) {
 					var debitAttributes = _.extend({}, baseDebitAttributes, {

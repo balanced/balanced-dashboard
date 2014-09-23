@@ -1,6 +1,10 @@
-Balanced.Refund = Balanced.Transaction.extend({
-	debit: Balanced.Model.belongsTo('debit', 'debit'),
-	dispute: Balanced.Model.belongsTo('dispute', 'dispute'),
+import Ember from "ember";
+import Model from "./core/model";
+import Transaction from "./transaction";
+
+var Refund = Transaction.extend({
+	debit: Model.belongsTo('debit', 'debit'),
+	dispute: Model.belongsTo('dispute', 'dispute'),
 
 	type_name: 'Refund',
 	route_name: 'refunds',
@@ -19,4 +23,4 @@ Balanced.Refund = Balanced.Transaction.extend({
 	}.property('id', 'debit.refunds.@each')
 });
 
-export default Balanced.Refund;
+export default Refund;

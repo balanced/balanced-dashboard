@@ -1,6 +1,8 @@
 import BaseResultsLoader from "./base";
+import SearchModelArray from "../core/search-model-array";
 import Hold from "balanced-dashboard/models/hold";
 import Debit from "balanced-dashboard/models/debit";
+import Refund from "balanced-dashboard/models/refund";
 
 var DisputeTransactionsResultsLoader = BaseResultsLoader.extend({
 	hold: function() {
@@ -21,7 +23,7 @@ var DisputeTransactionsResultsLoader = BaseResultsLoader.extend({
 			this.get("debit")
 		].compact();
 
-		var results = Balanced.SearchModelArray.newArrayLoadedFromUri(refundsUri, Balanced.Refund);
+		var results = SearchModelArray.newArrayLoadedFromUri(refundsUri, Refund);
 		results.pushObjects(content);
 
 		return results;

@@ -5,7 +5,7 @@ var isStatus = function(status) {
 	return Ember.computed.equal('status', status);
 };
 
-Balanced.Transaction = Model.extend({
+var Transaction = Model.extend({
 	customer: Model.belongsTo('customer', 'customer'),
 	events: Model.hasMany('events', 'event'),
 
@@ -48,7 +48,7 @@ Balanced.Transaction = Model.extend({
 	is_succeeded: isStatus('succeeded')
 });
 
-Balanced.Transaction.reopenClass({
+Transaction.reopenClass({
 	findAppearsOnStatementAsInvalidCharacters: function(originalString) {
 		// ASCII letters (a-z and A-Z)
 		// Digits (0-9)
@@ -62,4 +62,4 @@ Balanced.Transaction.reopenClass({
 	}
 });
 
-export default Balanced.Transaction;
+export default Transaction;

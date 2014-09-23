@@ -7,7 +7,7 @@ Balanced.CreateEscrowCreditModalView = Balanced.TransactionCreatorModalView.exte
 	templateName: "modals/create_escrow_credit",
 	elementId: "add-funds",
 
-	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 	debitableBankAccounts: Ember.computed.readOnly("marketplace.owner_customer.debitable_bank_accounts"),
 
 	model_class: Balanced.DebitExistingBankAccountTransactionFactory,

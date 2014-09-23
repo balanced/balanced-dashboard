@@ -1,16 +1,18 @@
-Balanced.TIME = {
+var Constants = {};
+
+Constants.TIME = {
 	THREE_YEARS: 365 * 3,
 	MONTHS: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 	DAYS_IN_MONTH: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
 	WEEK: 7
 };
 
-Balanced.KEYS = {
+Constants.KEYS = {
 	ENTER: 13,
 	ESCAPE: 27
 };
 
-Balanced.BANK_ACCOUNT_TYPES = [{
+Constants.BANK_ACCOUNT_TYPES = [{
 	label: 'Checking',
 	value: 'checking'
 }, {
@@ -18,7 +20,7 @@ Balanced.BANK_ACCOUNT_TYPES = [{
 	value: 'savings'
 }];
 
-Balanced.SEARCH = {
+Constants.SEARCH = {
 	CATEGORIES: ['order', 'transaction', 'search', 'customer', 'funding_instrument', 'dispute'],
 	SEARCH_TYPES: ['debit', 'credit', 'card_hold', 'refund', "reversal"],
 	TRANSACTION_TYPES: ['debit', 'credit', 'hold', 'refund'],
@@ -27,35 +29,35 @@ Balanced.SEARCH = {
 };
 
 //  time in ms to throttle between key presses for search
-Balanced.THROTTLE = {
+Constants.THROTTLE = {
 	SEARCH: 400,
 	REFRESH: 1000
 };
 
-Balanced.PASSWORD = {
+Constants.PASSWORD = {
 	MIN_CHARS: 6,
 	REGEX: /(?=.*[A-z])(?=.*\d)/
 };
 
-Balanced.MAXLENGTH = {
+Constants.MAXLENGTH = {
 	DESCRIPTION: 150,
 	APPEARS_ON_STATEMENT_BANK_ACCOUNT: 14,
 	APPEARS_ON_STATEMENT_CARD: 18
 };
 
-Balanced.EXPECTED_CREDIT_DAYS_OFFSET = {
+Constants.EXPECTED_CREDIT_DAYS_OFFSET = {
 	ACH: 1,
 	DEBIT_CARD: 2
 };
 
-Balanced.DATES = {
+Constants.DATES = {
 	CREATED_AT: moment('2011-04-01').startOf('day').toDate(),
 
 	RESULTS_MAX_TIME: moment().add(2, 'hours').startOf('hour').toDate(),
 	RESULTS_MIN_TIME: moment().subtract(1, 'months').startOf('hour').toDate()
 };
 
-Balanced.BANK_NAMES = {
+Constants.BANK_NAMES = {
 	// formatted : [ unformatted ]
 	'': ['Na', ', N.a.', 'N.a.', 'N. a.'],
 	'of': ['Of'],
@@ -76,7 +78,9 @@ Balanced.BANK_NAMES = {
 	'J.P. Morgan': ['Jpmorgan', 'J.p. Morgan'],
 };
 
-Balanced.DISPUTE_DOCUMENTS = {
+Constants.DISPUTE_DOCUMENTS = {
 	ACCEPTED_MIME_TYPES: ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg"],
 	MAX_FILE_SIZE_BYTES: 10485760
 };
+
+export default Constants;

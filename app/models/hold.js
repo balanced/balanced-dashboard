@@ -1,10 +1,12 @@
+import Ember from "ember";
+import Model from "./core/model";
 import Computed from "balanced-dashboard/utils/computed";
 import Transaction from "./transaction";
 
-var Hold = Balanced.Transaction.extend({
-	card: Balanced.Model.belongsTo('card', 'funding-instrument'),
+var Hold = Transaction.extend({
+	card: Model.belongsTo('card', 'funding-instrument'),
 	source: Ember.computed.alias('card'),
-	debit: Balanced.Model.belongsTo('debit', 'debit'),
+	debit: Model.belongsTo('debit', 'debit'),
 
 	status: function() {
 		if (this.get('debit')) {

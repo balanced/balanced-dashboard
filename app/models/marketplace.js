@@ -1,5 +1,6 @@
 import Rev1Serializer from "../serializers/rev1";
 import UserMarketplace from "./user-marketplace";
+import SearchModelArray from "./core/search-model-array";
 
 var getResultsLoader = function(loaderClassName, attributes) {
 	return BalancedApp.__container__.lookupFactory("results-loader:" + loaderClassName).create(attributes);
@@ -82,7 +83,7 @@ var Marketplace = UserMarketplace.extend({
 		}, params);
 
 		var resultsUri = Balanced.Utils.applyUriFilters(baseUri, searchParams);
-		return Balanced.SearchModelArray.newArrayLoadedFromUri(resultsUri, resultsType);
+		return SearchModelArray.newArrayLoadedFromUri(resultsUri, resultsType);
 	},
 
 	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account'),

@@ -1,7 +1,9 @@
+import Ember from "ember";
 import LoadPromise from "./mixins/load-promise";
 import TypeMappings from "./type-mappings";
 import Computed from "balanced-dashboard/utils/computed";
 import Rev1Serializer from "balanced-dashboard/serializers/rev1";
+import Utils from "balanced-dashboard/lib/utils";
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
@@ -15,7 +17,7 @@ var AJAX_ERROR_PARSERS = [{
 			error.description = error.description.replace(INTEGER_REGEX, function(m) {
 				try {
 					m = parseInt(m, 10);
-					return Balanced.Utils.formatCurrency(m);
+					return Utils.formatCurrency(m);
 				} catch (e) {}
 
 				return m;
@@ -26,7 +28,7 @@ var AJAX_ERROR_PARSERS = [{
 	}
 }];
 
-Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
+var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 	isLoaded: false,
 	isSaving: false,
@@ -81,7 +83,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 			});
 
 			self.trigger(resolveEvent);
-			Balanced.Model.Events.trigger(resolveEvent, self);
+			Model.Events.trigger(resolveEvent, self);
 		}, $.proxy(self._handleError, self), settings);
 
 		return promise;
@@ -105,7 +107,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 		Balanced.Adapter.delete(this.constructor, this.get('uri'), function(json) {
 			self.set('isSaving', false);
 			self.trigger('didDelete');
-			Balanced.Model.Events.trigger('didDelete', self);
+			Model.Events.trigger('didDelete', self);
 		}, $.proxy(self._handleError, self), settings);
 
 		return promise;
@@ -227,7 +229,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 				});
 
 				this.setProperties({
-					validationErrors: Balanced.Utils.extractValidationErrorHash(res),
+					validationErrors: Utils.extractValidationErrorHash(res),
 					errorDescription: error.description,
 					requestId: error.request_id,
 					errorCategoryCode: error.category_code,
@@ -267,7 +269,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 	}
 });
 
-Balanced.Model.reopenClass({
+Model.reopenClass({
 	serializer: Rev1Serializer.create(),
 
 	find: function(uri, settings) {
@@ -301,7 +303,7 @@ Balanced.Model.reopenClass({
 	constructUri: function(id) {
 		var uri = this.create().get('uri');
 		if (id) {
-			return Balanced.Utils.combineUri(uri, id);
+			return Utils.combineUri(uri, id);
 		}
 		return uri;
 	},
@@ -322,7 +324,7 @@ Balanced.Model.reopenClass({
 	 * });
 	 */
 	belongsTo: function(propertyName, defaultType) {
-		defaultType = defaultType || 'Balanced.Model';
+		defaultType = defaultType || 'model';
 
 		var embeddedProperty = JSON_PROPERTY_KEY + '.' + propertyName;
 		var uriProperty = propertyName + URI_POSTFIX;
@@ -383,7 +385,7 @@ Balanced.Model.reopenClass({
 	 * });
 	 */
 	hasMany: function(propertyName, defaultType) {
-		defaultType = defaultType || 'Balanced.Model';
+		defaultType = defaultType || 'model';
 
 		var embeddedProperty = JSON_PROPERTY_KEY + '.' + propertyName;
 		var uriProperty = propertyName + URI_POSTFIX;
@@ -446,5 +448,9 @@ Balanced.Model.reopenClass({
 	}
 });
 
-Balanced.Model.Events = Ember.Object.extend(Ember.Evented).create();
-export default Balanced.Model;
+Model.Events = Ember.Object.extend(Ember.Evented).create();
+
+if (this.Balanced) {
+	this.Balanced.Model = Model;
+}
+export default Model;

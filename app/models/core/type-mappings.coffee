@@ -19,6 +19,6 @@ TypeMapping = Ember.Object.extend
 		else
 			return type
 
-Balanced.TypeMappings = TypeMappings = TypeMapping.create()
+TypeMappings = TypeMapping.create()
 
 `export default TypeMappings`

@@ -44,5 +44,4 @@ var Rev0Serializer = Ember.Object.extend({
 	}
 });
 
-Balanced.Rev0Serializer = Rev0Serializer;
 export default Rev0Serializer;

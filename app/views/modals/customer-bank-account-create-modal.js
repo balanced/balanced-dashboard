@@ -1,8 +1,10 @@
+import ModalBaseView from "./modal-base";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import BankAccount from "balanced-dashboard/models/bank-account";
 
-Balanced.Modals.CustomerBankAccountCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
-	templateName: 'modals/customer_bank_account_create_modal',
+var CustomerBankAccountCreateModalView = ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/customer-bank-account-create-modal',
 	elementId: "add-bank-account",
 	title: "Add a bank account",
 
@@ -15,7 +17,7 @@ Balanced.Modals.CustomerBankAccountCreateModalView = Balanced.ModalBaseView.exte
 	}],
 
 	model: function() {
-		return Balanced.BankAccount.create({
+		return BankAccount.create({
 			name: '',
 			account_number: '',
 			routing_number: '',
@@ -50,10 +52,12 @@ Balanced.Modals.CustomerBankAccountCreateModalView = Balanced.ModalBaseView.exte
 	}
 });
 
-Balanced.Modals.CustomerBankAccountCreateModalView.reopenClass({
+CustomerBankAccountCreateModalView.reopenClass({
 	open: function(customer) {
 		return this.create({
 			customer: customer
 		});
 	}
 });
+
+export default CustomerBankAccountCreateModalView;

@@ -2,6 +2,8 @@ import Ember from "ember";
 import Model from "./core/model";
 import FundingInstrument from "./funding-instrument";
 import Customer from "./customer";
+import Utils from "balanced-dashboard/lib/utils";
+import Constants from "balanced-dashboard/utils/constants";
 
 var BankAccount = FundingInstrument.extend({
 	uri: '/bank_accounts',
@@ -21,8 +23,8 @@ var BankAccount = FundingInstrument.extend({
 
 	route_name: 'bank_accounts',
 	account_type_name: Ember.computed.alias('type_name'),
-	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
-	expected_credit_days_offset: Balanced.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
+	appears_on_statement_max_length: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	expected_credit_days_offset:  Constants.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
 	page_title: Ember.computed.readOnly('description'),
 
 	last_four: function() {
@@ -38,7 +40,7 @@ var BankAccount = FundingInstrument.extend({
 		if (this.get('bank_name')) {
 			return '%@ %@'.fmt(
 				this.get('last_four'),
-				Balanced.Utils.toTitleCase(this.get('bank_name'))
+				Utils.toTitleCase(this.get('bank_name'))
 			);
 		} else {
 			return this.get('last_four');
@@ -111,7 +113,7 @@ var BankAccount = FundingInstrument.extend({
 		// Tokenize the bank account using the balanced.js library
 		balanced.bankAccount.create(bankAccountData, function(response) {
 			if (response.errors) {
-				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
+				var validationErrors = Utils.extractValidationErrorHash(response);
 				self.setProperties({
 					validationErrors: validationErrors,
 					isSaving: false

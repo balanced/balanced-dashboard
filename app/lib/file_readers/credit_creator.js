@@ -1,3 +1,5 @@
+import Constants from "balanced-dashboard/utils/constants";
+
 require("balanced-dashboard/lib/validation_helpers");
 var ValidationHelpers = Balanced.ValidationHelpers;
 
@@ -11,7 +13,7 @@ Balanced.CreditCreator = Ember.Object.extend(Ember.Validations, {
 	isInvalid: Ember.computed.gt("validationErrors.length", 0),
 	isValid: Ember.computed.not("isInvalid"),
 
-	appears_on_statement_max_length: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	appears_on_statement_max_length: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 
 	isLoaded: function() {
 		var self = this;

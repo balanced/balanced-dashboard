@@ -1,6 +1,7 @@
 import Computed from "balanced-dashboard/utils/computed";
 import Ember from "ember";
-Balanced.ImportPayoutsView = Ember.View.extend({
+
+var ImportPayoutsView = Ember.View.extend({
 
 	title: function() {
 		return this.get("creditCreators.isDataMissing") ?
@@ -85,3 +86,5 @@ Balanced.ImportPayoutsView = Ember.View.extend({
 		}
 	}
 });
+
+export default ImportPayoutsView;

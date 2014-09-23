@@ -1,3 +1,4 @@
+import Model from "./core/model";
 import Computed from "balanced-dashboard/utils/computed";
 
 var computedUri = function(key) {
@@ -13,25 +14,25 @@ var computedDate = function(p) {
 	}.property('period');
 };
 
-Balanced.Invoice = Balanced.Model.extend({
+var Invoice = Model.extend({
 	route_name: 'invoice',
 
 	page_title: Computed.fmt('sequence_number', 'No. %@'),
 	type_name: 'Account statement',
 
-	source: Balanced.Model.belongsTo('source', 'funding-instrument'),
+	source: Model.belongsTo('source', 'funding-instrument'),
 
-	bank_account_debits: Balanced.Model.hasMany('bank_account_debits', 'debit'),
-	card_debits: Balanced.Model.hasMany('card_debits', 'debit'),
-	debits: Balanced.Model.hasMany('debits', 'debit'),
-	credits: Balanced.Model.hasMany('bank_account_credits', 'credit'),
-	holds: Balanced.Model.hasMany('holds', 'hold'),
-	failed_credits: Balanced.Model.hasMany('failed_credits', 'credit'),
-	lost_debit_chargebacks: Balanced.Model.hasMany('lost_debit_chargebacks', 'debit'),
-	refunds: Balanced.Model.hasMany('refunds', 'refund'),
-	reversals: Balanced.Model.hasMany('reversals', 'reversal'),
-	settlements: Balanced.Model.hasMany('settlements', 'settlement'),
-	disputes: Balanced.Model.hasMany('disputes', 'dispute'),
+	bank_account_debits: Model.hasMany('bank_account_debits', 'debit'),
+	card_debits: Model.hasMany('card_debits', 'debit'),
+	debits: Model.hasMany('debits', 'debit'),
+	credits: Model.hasMany('bank_account_credits', 'credit'),
+	holds: Model.hasMany('holds', 'hold'),
+	failed_credits: Model.hasMany('failed_credits', 'credit'),
+	lost_debit_chargebacks: Model.hasMany('lost_debit_chargebacks', 'debit'),
+	refunds: Model.hasMany('refunds', 'refund'),
+	reversals: Model.hasMany('reversals', 'reversal'),
+	settlements: Model.hasMany('settlements', 'settlement'),
+	disputes: Model.hasMany('disputes', 'dispute'),
 
 	from_date: computedDate(0),
 	to_date: computedDate(1),
@@ -111,4 +112,4 @@ Balanced.Invoice = Balanced.Model.extend({
 	disputes_uri: computedUri('disputes')
 });
 
-export default Balanced.Invoice;
+export default Invoice;

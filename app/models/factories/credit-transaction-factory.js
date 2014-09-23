@@ -1,3 +1,5 @@
+import Credit from "../credit";
+
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 Balanced.CreditExistingFundingInstrumentTransactionFactory = Balanced.TransactionFactory.extend({
@@ -15,7 +17,7 @@ Balanced.CreditExistingFundingInstrumentTransactionFactory = Balanced.Transactio
 	},
 
 	save: function() {
-		return Balanced.Credit.create(this.getCreditAttributes()).save();
+		return Credit.create(this.getCreditAttributes()).save();
 	},
 
 	validations: {
@@ -46,7 +48,7 @@ Balanced.CreditBankAccountTransactionFactory = Balanced.TransactionFactory.exten
 	},
 
 	save: function() {
-		return Balanced.Credit.create(this.getAttributes()).save();
+		return Credit.create(this.getAttributes()).save();
 	},
 
 	validations: {

@@ -1,3 +1,6 @@
+import Ember from "ember";
+import Constants from "balanced-dashboard/utils/constants";
+
 var FORMAT_NUMBER_REGEX = /\B(?=(\d{3})+(?!\d))/g,
 	PRETTY_LOG_URL_REGEX = /\/marketplaces\/[^\/]*\/(.+)$/,
 	STRIP_DOMAIN_REGEX = /^.*\/\/[^\/]+/,
@@ -52,7 +55,7 @@ var Utils = Ember.Namespace.create({
 	},
 
 	prettyLogUrl: function(url) {
-		return Balanced.Utils.stripDomain(url).replace(PRETTY_LOG_URL_REGEX, '/.../$1').split("?")[0];
+		return Utils.stripDomain(url).replace(PRETTY_LOG_URL_REGEX, '/.../$1').split("?")[0];
 	},
 
 	prettyPrint: function(obj) {
@@ -151,7 +154,7 @@ var Utils = Ember.Namespace.create({
 			prepend = '-$';
 		}
 
-		return prepend + Balanced.Utils.centsToDollars(cents);
+		return prepend + Utils.centsToDollars(cents);
 	},
 
 	formatNumber: function(number) {
@@ -259,13 +262,13 @@ var Utils = Ember.Namespace.create({
 		if (params.type) {
 			switch (params.type) {
 				case 'search':
-					filteringParams['type[in]'] = Balanced.SEARCH.SEARCH_TYPES.join(',');
+					filteringParams['type[in]'] = Constants.SEARCH.SEARCH_TYPES.join(',');
 					break;
 				case 'transaction':
-					filteringParams['type[in]'] = Balanced.SEARCH.TRANSACTION_TYPES.join(',');
+					filteringParams['type[in]'] = Constants.SEARCH.TRANSACTION_TYPES.join(',');
 					break;
 				case 'funding_instrument':
-					filteringParams['type[in]'] = Balanced.SEARCH.FUNDING_INSTRUMENT_TYPES.join(',');
+					filteringParams['type[in]'] = Constants.SEARCH.FUNDING_INSTRUMENT_TYPES.join(',');
 					break;
 				default:
 					filteringParams.type = params.type;
@@ -277,7 +280,7 @@ var Utils = Ember.Namespace.create({
 		}
 
 		filteringParams = _.extend(filteringParams, _.omit(params, transformedParams));
-		filteringParams = Balanced.Utils.sortDict(filteringParams);
+		filteringParams = Utils.sortDict(filteringParams);
 		return this.buildUri(uri, filteringParams);
 	},
 
@@ -331,9 +334,9 @@ var Utils = Ember.Namespace.create({
 
 	date_formats: {
 		date: 'MMM D, YYYY',
-		time: 'h:mm a',
-		short: 'M/D/YYYY, h:mm a',
-		long: 'MMMM D YYYY, h:mm a',
+		time: 'h:mm A',
+		short: 'M/D/YYYY, h:mm A',
+		long: 'MMMM D YYYY, h:mm A',
 	},
 
 	formatDate: function(date, format) {
@@ -350,19 +353,19 @@ var Utils = Ember.Namespace.create({
 	},
 
 	humanReadableDate: function(isoDate) {
-		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.date);
+		return Utils.formatDate(isoDate, Utils.date_formats.date);
 	},
 
 	humanReadableTime: function(isoDate) {
-		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.time);
+		return Utils.formatDate(isoDate, Utils.date_formats.time);
 	},
 
 	humanReadableDateShort: function(isoDate) {
-		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.short);
+		return Utils.formatDate(isoDate, Utils.date_formats.short);
 	},
 
 	humanReadableDateLong: function(isoDate) {
-		return Balanced.Utils.formatDate(isoDate, Balanced.Utils.date_formats.long);
+		return Utils.formatDate(isoDate, Utils.date_formats.long);
 	},
 
 	// filters any number that is in the form of a string and longer than 4 digits (bank codes, ccard numbers etc)
@@ -384,7 +387,7 @@ var Utils = Ember.Namespace.create({
 		var ret = {};
 		for (var name in obj) {
 			if (obj.hasOwnProperty(name)) {
-				ret[name] = Balanced.Utils.filterSensitiveData(obj[name]);
+				ret[name] = Utils.filterSensitiveData(obj[name]);
 			}
 		}
 		return ret;
@@ -411,7 +414,7 @@ var Utils = Ember.Namespace.create({
 			fn.call(this, val, addlKey + key);
 
 			if (_.isObject(val)) {
-				Balanced.Utils.traverse(val, fn, ctx, key + '.');
+				Utils.traverse(val, fn, ctx, key + '.');
 			}
 		}, ctx);
 	},
@@ -424,9 +427,9 @@ var Utils = Ember.Namespace.create({
 	},
 
 	formatBankName: function(bankName) {
-		var formattedBankName = Balanced.Utils.toTitleCase(bankName);
+		var formattedBankName = Utils.toTitleCase(bankName);
 
-		_.each(Balanced.BANK_NAMES, function(unformattedArr, formattedStr) {
+		_.each(Constants.BANK_NAMES, function(unformattedArr, formattedStr) {
 			_.each(unformattedArr, function(unformattedStr) {
 				formattedBankName = formattedBankName.replace(unformattedStr, formattedStr);
 			});
@@ -437,7 +440,7 @@ var Utils = Ember.Namespace.create({
 
 	formatStatusCode: function(statusCode) {
 		if (statusCode) {
-			return Balanced.Utils.capitalize(statusCode.replace(/-/g, ' '));
+			return Utils.capitalize(statusCode.replace(/-/g, ' '));
 		} else {
 			return null;
 		}
@@ -461,5 +464,8 @@ var Utils = Ember.Namespace.create({
 	}
 });
 
-Balanced.Utils = Utils;
+
+if (this.Balanced) {
+	this.Balanced.Utils = Utils;
+}
 export default Utils;

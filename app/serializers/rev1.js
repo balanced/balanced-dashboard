@@ -2,7 +2,7 @@ var JSON_PROPERTY_KEY = '__json';
 var LINKS_PROPERTY_KEY = '__links';
 var EMBEDDED_DATA_PROPERTY_KEY = '__embedded';
 
-Balanced.Rev1Serializer = Ember.Object.extend({
+var Rev1Serializer = Ember.Object.extend({
 	//  properties which are not echoed back to the server
 	privateProperties: ['id', 'uri', 'validationErrors', JSON_PROPERTY_KEY, LINKS_PROPERTY_KEY, EMBEDDED_DATA_PROPERTY_KEY, '_type'],
 
@@ -146,4 +146,4 @@ Balanced.Rev1Serializer = Ember.Object.extend({
 	}
 });
 
-export default Balanced.Rev1Serializer;
+export default Rev1Serializer;

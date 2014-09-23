@@ -4,7 +4,7 @@ Balanced.Modals.MarketplaceEscrowWithdrawalModalView = Balanced.ModalBaseView.ex
 	templateName: 'modals/marketplace_escrow_withdrawal_modal',
 	title: "Withdraw Funds",
 
-	appearsOnStatementAsMaxLength: Balanced.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 	appearsOnStatementAsLabel: function() {
 		var length = this.get("appearsOnStatementAsMaxLength");
 		return "Appears on statement as (%@ characters max)".fmt(length);

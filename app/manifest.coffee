@@ -1,4 +1,3 @@
-require('balanced-dashboard/utils/variables')
 require('balanced-dashboard/lib/ajax')
 require('balanced-dashboard/lib/bank_account_verification_message')
 require('balanced-dashboard/lib/country_codes')
@@ -72,7 +71,6 @@ require('balanced-dashboard/models/login')
 require('balanced-dashboard/models/marketplace')
 require('balanced-dashboard/models/refund')
 require('balanced-dashboard/models/reset-password')
-require('balanced-dashboard/models/search-model-array')
 require('balanced-dashboard/models/settlement')
 require('balanced-dashboard/models/verification')
 

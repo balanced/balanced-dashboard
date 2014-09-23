@@ -1,3 +1,4 @@
+import Model from "./core/model";
 import Computed from "balanced-dashboard/utils/computed";
 import FundingInstrumentsResultsLoader from "./results-loaders/funding-instruments";
 import TransactionsResultsLoader from "./results-loaders/transactions";
@@ -7,16 +8,16 @@ var CUSTOMER_TYPES = {
 	PERSON: 'Person'
 };
 
-var Customer = Balanced.Model.extend({
-	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'bank-account'),
-	cards: Balanced.Model.hasMany('cards', 'card'),
-	transactions: Balanced.Model.hasMany('transactions', 'transaction'),
-	debits: Balanced.Model.hasMany('debits', 'debit'),
-	credits: Balanced.Model.hasMany('credits', 'credit'),
-	holds: Balanced.Model.hasMany('holds', 'hold'),
-	refunds: Balanced.Model.hasMany('refunds', 'refund'),
-	orders: Balanced.Model.hasMany('orders', 'order'),
-	disputes: Balanced.Model.hasMany('disputes', 'dispute'),
+var Customer = Model.extend({
+	bank_accounts: Model.hasMany('bank_accounts', 'bank-account'),
+	cards: Model.hasMany('cards', 'card'),
+	transactions: Model.hasMany('transactions', 'transaction'),
+	debits: Model.hasMany('debits', 'debit'),
+	credits: Model.hasMany('credits', 'credit'),
+	holds: Model.hasMany('holds', 'hold'),
+	refunds: Model.hasMany('refunds', 'refund'),
+	orders: Model.hasMany('orders', 'order'),
+	disputes: Model.hasMany('disputes', 'dispute'),
 
 	uri: '/customers',
 	route_name: 'customer',

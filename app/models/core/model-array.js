@@ -174,5 +174,7 @@ ModelArray.reopenClass({
 	}
 });
 
-Balanced.ModelArray = ModelArray;
+if (this.Balanced) {
+	this.Balanced.ModelArray = ModelArray;
+}
 export default ModelArray;

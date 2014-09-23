@@ -1,16 +1,19 @@
+import Card from "../card";
+import Debit from "../debit";
+
 var ValidationHelpers = Balanced.ValidationHelpers;
 
 Balanced.CardDebitBaseTransactionFactory = Balanced.TransactionFactory.extend({
 	save: function() {
 		var self = this;
-		var card = Balanced.Card.create(this.getDestinationAttributes());
+		var card = Card.create(this.getDestinationAttributes());
 		return card.tokenizeAndCreate().then(function(card) {
 			var debitAttributes = _.extend(self.getDebitAttributes(), {
 				uri: card.get('debits_uri'),
 				source_uri: card.get('uri')
 			});
 
-			return Balanced.Debit.create(debitAttributes).save();
+			return Debit.create(debitAttributes).save();
 		});
 	}
 });
