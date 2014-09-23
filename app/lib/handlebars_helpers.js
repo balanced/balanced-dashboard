@@ -14,8 +14,6 @@ Ember.Handlebars.registerBoundHelper('lowerCase', Balanced.Utils.toLowerCase);
 
 Ember.Handlebars.registerBoundHelper('titleCase', Balanced.Utils.toTitleCase);
 
-Ember.Handlebars.registerBoundHelper('prettyPrint', Balanced.Utils.prettyPrint);
-
 Ember.Handlebars.registerBoundHelper('modalFieldErrors', function(errorsList) {
 	var errors = Balanced.Utils.formatError(errorsList);
 	errors = Ember.Handlebars.Utils.escapeExpression(errors);

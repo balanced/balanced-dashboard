@@ -1,9 +1,9 @@
 import ResultsTableView from "././results-table";
 
-var InvoicesResultsView = ResultsTableView.extend({
+var InvoicesTableView = ResultsTableView.extend({
 	classNames: 'invoices',
 	classNameBindings: 'selected',
 	templateName: 'results/invoices-table'
 });
 
-export default InvoicesResultsView;
+export default InvoicesTableView;

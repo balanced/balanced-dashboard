@@ -9,7 +9,7 @@ var SettingsOwnerTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend(
 		if (Ember.isBlank(this.get("model"))) {
 			return undefined;
 		}
-		return Balanced.EditCustomerInfoModalView.create({
+		return this.get("container").lookupFactory("view:modals/edit-customer-info-modal").extend({
 			customer: this.get("model"),
 			marketplaceOwner: true
 		});

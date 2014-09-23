@@ -1,5 +1,7 @@
-Balanced.EditCustomerInfoModalView = Balanced.ModalView.extend({
-	templateName: 'modals/edit_customer_info',
+import ModalView from "./modal";
+
+var EditCustomerInfoModalView = ModalView.extend({
+	templateName: 'modals/edit-customer-info',
 
 	classNames: ['modal-container', 'header-action-container'],
 
@@ -45,3 +47,5 @@ Balanced.EditCustomerInfoModalView = Balanced.ModalView.extend({
 		}
 	}
 });
+
+export default EditCustomerInfoModalView;

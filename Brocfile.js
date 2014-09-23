@@ -10,6 +10,7 @@ app.import("bower_components/lodash/dist/lodash.js");
 app.import("bower_components/moment/moment.js");
 app.import("bower_components/shapeshifter/shapeshifter.js");
 app.import('bower_components/mixpanel/mixpanel.js');
+app.import('bower_components/google-code-prettify/src/prettify.js');
 
 app.import('bower_components/bootstrap/js/bootstrap-dropdown.js');
 app.import('bower_components/bootstrap/js/bootstrap-modal.js');

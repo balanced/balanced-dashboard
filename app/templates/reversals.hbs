@@ -2,7 +2,7 @@
 
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		{{view Balanced.ReversalSummarySectionView model=model}}
+		{{view "detail-views/summary-sections/reversal-summary-section" model=model}}
 		{{view "detail-views/description-lists/transaction-titled-key-values-section" model=model}}
 		{{view "meta-list" type=model}}
 	{{/view}}

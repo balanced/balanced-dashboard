@@ -1,6 +1,9 @@
-Balanced.InvoiceRoute = Balanced.ModelRoute.extend({
+import ModelRoute from "./model";
+import Invoice from "../models/invoice";
+
+var InvoiceRoute = ModelRoute.extend({
 	title: 'Account statement',
-	modelObject: Balanced.Invoice,
+	modelObject: Invoice,
 	marketplaceUri: 'invoices_uri',
 	setupController: function(controller, model) {
 		this._super(controller, model);
@@ -10,3 +13,5 @@ Balanced.InvoiceRoute = Balanced.ModelRoute.extend({
 		});
 	}
 });
+
+export default InvoiceRoute;

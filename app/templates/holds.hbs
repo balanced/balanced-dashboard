@@ -9,7 +9,7 @@
 
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		{{view Balanced.HoldSummarySectionView model=model}}
+		{{view "detail-views/summary-sections/hold-summary-section" model=model}}
 		{{view "detail-views/description-lists/transaction-titled-key-values-section" model=model}}
 		{{view "meta-list" type=model}}
 	{{/view}}

@@ -1,16 +1,14 @@
-var Computed = {
-	uri: function(key) {
-		return Balanced.computed.concat('uri', '/' + key);
-	},
-	date: function(p) {
-		return function() {
-			var period = this.get('period');
-			if (!period) {
-				return this.get('created_at');
-			}
-			return period[p];
-		}.property('period');
-	}
+var ComputedUri = function(key) {
+	return Balanced.computed.concat('uri', '/' + key);
+};
+var ComputedDate = function(p) {
+	return function() {
+		var period = this.get('period');
+		if (!period) {
+			return this.get('created_at');
+		}
+		return period[p];
+	}.property('period');
 };
 
 Balanced.Invoice = Balanced.Model.extend({
@@ -33,8 +31,8 @@ Balanced.Invoice = Balanced.Model.extend({
 	settlements: Balanced.Model.hasMany('settlements', 'settlement'),
 	disputes: Balanced.Model.hasMany('disputes', 'dispute'),
 
-	from_date: Computed.date(0),
-	to_date: Computed.date(1),
+	from_date: ComputedDate(0),
+	to_date: ComputedDate(1),
 
 	typeChanged: function() {
 		if (this.get('type') === 'fee') {
@@ -97,16 +95,16 @@ Balanced.Invoice = Balanced.Model.extend({
 	reversal_fee: 0,
 
 	// TODO - take all these URIs out once invoice has links for them
-	bank_account_debits_uri: Computed.uri('bank_account_debits'),
-	card_debits_uri: Computed.uri('card_debits'),
-	debits_uri: Computed.uri('debits'),
-	bank_account_credits_uri: Computed.uri('bank_account_credits'),
-	holds_uri: Computed.uri('holds'),
-	failed_credits_uri: Computed.uri('failed_credits'),
-	lost_debit_chargebacks_uri: Computed.uri('lost_debit_chargebacks'),
-	refunds_uri: Computed.uri('refunds'),
-	reversals_uri: Computed.uri('reversals'),
-	disputes_uri: Computed.uri('disputes')
+	bank_account_debits_uri: ComputedUri('bank_account_debits'),
+	card_debits_uri: ComputedUri('card_debits'),
+	debits_uri: ComputedUri('debits'),
+	bank_account_credits_uri: ComputedUri('bank_account_credits'),
+	holds_uri: ComputedUri('holds'),
+	failed_credits_uri: ComputedUri('failed_credits'),
+	lost_debit_chargebacks_uri: ComputedUri('lost_debit_chargebacks'),
+	refunds_uri: ComputedUri('refunds'),
+	reversals_uri: ComputedUri('reversals'),
+	disputes_uri: ComputedUri('disputes')
 });
 
 export default Balanced.Invoice;

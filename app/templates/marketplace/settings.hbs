@@ -14,7 +14,7 @@
 				<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model.owner_customer}}>Add a card</a>
 			</div>
 			<div class="results">
-				{{view Balanced.EmbeddedFundingInstrumentsResultsView loader=fundingInstrumentsResultsLoader}}
+				{{view "results/embedded-funding-instruments-table" loader=fundingInstrumentsResultsLoader}}
 			</div>
 		</section>
 

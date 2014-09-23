@@ -17,7 +17,7 @@
 		{{#if model.dispute}}
 			<h3>Associated dispute<i class="icon-disputes"></i></h3>
 			<div class="results">
-				{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
+				{{view "results/embedded-disputes-table" loader=disputesResultsLoader}}
 			</div>
 		{{/if}}
 

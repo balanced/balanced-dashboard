@@ -1,6 +1,6 @@
 <form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
 	<div class="modal-body modal-with-headers">
-		{{partial "modals/modalErrors"}}
+		{{partial "modals/modal-errors"}}
 		<div class="modal-content">
 			<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
 				<label class="control-label">Name on account</label>
@@ -104,7 +104,7 @@
 				<label class="control-label">Country</label>
 
 				<div class="controls">
-					{{view Balanced.CountrySelectView valueBinding="view.model.address.country_code" name="country_code" class="full"}}
+					{{view "form-fields/country-select" valueBinding="view.model.address.country_code" name="country_code" class="full"}}
 				</div>
 			</div>
 		</div>

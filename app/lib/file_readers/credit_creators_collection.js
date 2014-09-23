@@ -1,21 +1,22 @@
-var Computed = {
-	isEvery: function(propertyName) {
-		return function() {
-			return this.isEvery(propertyName);
-		}.property("@each." + propertyName);
-	}
+import Ember from "ember";
+
+var isEvery = function(propertyName) {
+	return function() {
+		return this.isEvery(propertyName);
+	}.property("@each." + propertyName);
 };
+
 Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
 	isDataPresent: false,
 	isDataMissing: Ember.computed.not("isDataPresent"),
 
-	isExistingCustomers: Computed.isEvery("isExisting"),
+	isExistingCustomers: isEvery("isExisting"),
 
 	isLoading: Ember.computed.not("isLoaded"),
-	isLoaded: Computed.isEvery("isLoaded"),
+	isLoaded: isEvery("isLoaded"),
 
-	isSaved: Computed.isEvery("isSaved"),
+	isSaved: isEvery("isSaved"),
 
 	isEmpty: Ember.computed.equal("content.length", 0),
 	isInvalid: Ember.computed.gt("invalid.length", 0),

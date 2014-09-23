@@ -1,3 +1,7 @@
+import Ember from "ember";
+import Customer from "balanced-dashboard/models/customer";
+import Verification from "balanced-dashboard/models/verification";
+
 var MESSAGES = {
 	noBankAccounts: {
 		message: "Your marketplace is not linked to any bank accounts. Please add a bank account.",
@@ -27,7 +31,7 @@ Balanced.BankAccountVerificationMessage = {
 		var self = this;
 		var uri = marketplace.get("owner_customer_uri");
 		if (marketplace.get("production") && !Ember.isBlank(uri)) {
-			return Balanced.Customer.find(uri)
+			return Customer.find(uri)
 				.then(function(customer) {
 					return self.forCustomer(customer);
 				});
@@ -71,7 +75,7 @@ Balanced.BankAccountVerificationMessage = {
 			})
 			.compact()
 			.map(function(uri) {
-				return Balanced.Verification.find(uri);
+				return Verification.find(uri);
 			});
 
 		return Ember.RSVP.all(promises);

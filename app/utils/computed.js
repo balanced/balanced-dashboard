@@ -1,8 +1,9 @@
+import Ember from "ember";
 // Use Ember.get because this.get might be over-ridden for custom objects
 var get = Ember.get,
 a_slice = Array.prototype.slice;
 
-Balanced.computed = Ember.Namespace.create({
+var Computed = Ember.Namespace.create({
 	sum: function(dependentKey, itemKey) {
 		// FIXME - should be wrapped in Ember.arrayComputed?
 		return Ember.computed(function() {
@@ -132,3 +133,5 @@ Balanced.computed = Ember.Namespace.create({
 		});
 	}
 });
+
+export default Computed;

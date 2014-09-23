@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 var PrettyPrintView = Ember.View.extend({
-	templateName: 'prettyPrint',
+	templateName: 'pretty-print',
 	content: null,
 
 	didInsertElement: function() {

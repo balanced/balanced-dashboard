@@ -4,7 +4,7 @@ import ListValueGenerator from "./list-value-generator";
 var CustomerTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
 	title: "Customer information",
 	titleModalLinkView: function() {
-		return Balanced.EditCustomerInfoModalView.create({
+		return this.get("container").lookupFactory("view:modals/edit-customer-info-modal").extend({
 			customer: this.get("model")
 		});
 	}.property("model"),
@@ -26,8 +26,7 @@ var CustomerTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
 		.add("Date of birth", "dob")
 		.add("SSN", "ssn_last4")
 		.add("Country", "country_name")
-
-	.add("Facebook ID", "facebook_id", "facebook_url")
+		.add("Facebook ID", "facebook_id", "facebook_url")
 		.add("Twitter ID", "twitter_id", "twitter_url")
 		.toProperty()
 });

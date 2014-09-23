@@ -1,4 +1,6 @@
-Balanced.InvoiceController = Balanced.ObjectController.extend(Ember.Evented, {
+import Ember from "ember";
+
+var InvoiceController = Ember.ObjectController.extend(Ember.Evented, {
 	needs: ['marketplace'],
 
 	actions: {
@@ -21,3 +23,5 @@ Balanced.InvoiceController = Balanced.ObjectController.extend(Ember.Evented, {
 		}
 	},
 });
+
+export default InvoiceController;

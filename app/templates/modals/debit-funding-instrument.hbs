@@ -6,7 +6,7 @@
 		</div>
 
 		<div class="modal-body">
-			{{partial "modals/modalErrors"}}
+			{{partial "modals/modal-errors"}}
 
 			<div class="control-group">
 				<label class="control-label">{{type_name}}</label>
@@ -61,7 +61,7 @@
 		</div>
 
 		<div class="modal-footer">
-			{{view Balanced.ModalActionButtonsView submitTitle="Debit"}}
+			{{view "modals/action-buttons" submitTitle="Debit"}}
 		</div>
 	</form>
 </div>

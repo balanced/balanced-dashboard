@@ -1,5 +1,7 @@
 import LoadPromise from "./mixins/load-promise";
 import TypeMappings from "./type-mappings";
+import Computed from "balanced-dashboard/utils/computed";
+import Rev1Serializer from "balanced-dashboard/serializers/rev1";
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
@@ -38,7 +40,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 			(!this.get('validationErrors') || !_.keys(this.get('validationErrors')).length);
 	}.property('isValid', 'isError', 'validationErrors'),
 
-	id: Balanced.computed.orProperties('__json.id', '_id'),
+	id: Computed.orProperties('__json.id', '_id'),
 
 	// computes the ID from the URI - exists because at times Ember needs the
 	// ID of our model before it has finished loading. This gets overridden
@@ -120,7 +122,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 		var promise = this.resolveOn('didLoad');
 
 		Balanced.Adapter.get(this.constructor, this.get('uri'), function(json) {
-			var deserializedJson = self.constructor.serializer.extractSingle(json, this.constructor, self.get('href'));
+			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, self.get('href'));
 			self._updateFromJson(deserializedJson);
 			self.set('isLoaded', true);
 			self.trigger('didLoad');
@@ -266,7 +268,7 @@ Balanced.Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise,
 });
 
 Balanced.Model.reopenClass({
-	serializer: Balanced.Rev1Serializer.create(),
+	serializer: Rev1Serializer.create(),
 
 	find: function(uri, settings) {
 		var modelClass = this;

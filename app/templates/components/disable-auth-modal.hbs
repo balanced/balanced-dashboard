@@ -5,14 +5,14 @@
             <h2>Disable Two-Factor Authentication</h2>
         </div>
         <div class="modal-body modal-with-headers">
-            {{partial "modals/modalErrors"}}
+            {{partial "modals/modal-errors"}}
 
             <div class="modal-content">
               <div class="main-text">Disable two-factor authentication? Future signins will only require your email and password.</div>
             </div>
         </div>
         <div class="modal-footer">
-            {{view Balanced.ModalActionButtonsView submitTitle="Disable" submittingTitle="Disabling"}}
+            {{view "modals/action-buttons" submitTitle="Disable" submittingTitle="Disabling"}}
         </div>
     </form>
 </div>

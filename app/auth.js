@@ -50,7 +50,7 @@ var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
 			})
 			.then(function(user) {
 				if (user.get("admin")) {
-					Balanced.Shapeshifter.load("balanced-admin", true);
+					BalancedApp.Shapeshifter.load("balanced-admin", true);
 					self.setAPIKey(user.get("admin"));
 				}
 				return user;

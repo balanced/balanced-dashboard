@@ -9,7 +9,7 @@
 		<dt>URI</dt>
 		<dd><span>{{model.short_url}}</span></dd>
 		<dt>Status</dt>
-		<dd><span>{{colorizeStatus model.status_code}}</span></dd>
+		<dd><span>{{colorize-status model.status_code}}</span></dd>
 		<dt>Category code</dt>
 		<dd>{{model.category_code}}</dd>
 		<dt>Description</dt>
@@ -28,7 +28,7 @@
 		<h3>Request body</h3>
 	</header>
 
-	{{view Balanced.PrettyPrintView contentBinding="model.message.request.payload"}}
+	{{view "pretty-print" contentBinding="model.message.request.payload"}}
 </section>
 
 <section class="mb-none response-info">
@@ -36,5 +36,5 @@
 		<h3>Response body</h3>
 	</header>
 
-	{{view Balanced.PrettyPrintView contentBinding="model.message.response.body"}}
+	{{view "pretty-print" contentBinding="model.message.response.body"}}
 </section>

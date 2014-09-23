@@ -1,6 +1,7 @@
 import Rev0Serializer from "../serializers/rev0";
+import Model from "./core/model";
 
-var Download = Balanced.Model.extend({
+var Download = Model.extend({
 	// have to override the URI for create, since the uri property of the JSON is the search URI
 	_createUri: function() {
 		return '/downloads';

@@ -1,7 +1,7 @@
 <form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
 	<div class="modal-body modal-with-headers">
 		<div class="modal-content">
-			{{partial "modals/modalErrors"}}
+			{{partial "modals/modal-errors"}}
 
 			{{#if view.bank_accounts}}
 				<div {{bind-attr class=":control-group view.model.validationErrors.destination_uri:error"}}>

@@ -1,9 +1,13 @@
+import FundingInstrumentsResultsLoader from "./results-loaders/funding-instruments";
+import DisputesResultsLoader from "./results-loaders/disputes";
+import TransactionsResultsLoader from "./results-loaders/transactions";
+
 var CUSTOMER_TYPES = {
 	BUSINESS: 'Business',
 	PERSON: 'Person'
 };
 
-Balanced.Customer = Balanced.Model.extend({
+var Customer = Balanced.Model.extend({
 	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'bank-account'),
 	cards: Balanced.Model.hasMany('cards', 'card'),
 	transactions: Balanced.Model.hasMany('transactions', 'transaction'),
@@ -48,24 +52,23 @@ Balanced.Customer = Balanced.Model.extend({
 	debitable_funding_instruments: Ember.computed.union('debitable_bank_accounts', 'cards'),
 	creditable_funding_instruments: Ember.computed.union('bank_accounts', 'creditable_cards'),
 
-
 	getFundingInstrumentsLoader: function(attributes) {
 		attributes = _.extend({
 			path: this.get("uri") + "/search"
 		}, attributes);
-		return Balanced.FundingInstrumentsResultsLoader.create(attributes);
+		return FundingInstrumentsResultsLoader.create(attributes);
 	},
 	getDisputesLoader: function(attributes) {
 		attributes = _.extend({
 			path: this.get("disputes_uri"),
 		}, attributes);
-		return Balanced.DisputesResultsLoader.create(attributes);
+		return DisputesResultsLoader.create(attributes);
 	},
 	getTransactionsLoader: function(attributes) {
 		attributes = _.extend({
 			path: this.get("transactions_uri"),
 		}, attributes);
-		return Balanced.TransactionsResultsLoader.create(attributes);
+		return TransactionsResultsLoader.create(attributes);
 	},
 
 	type: function() {
@@ -166,7 +169,7 @@ Balanced.Customer = Balanced.Model.extend({
 	}.property('is_identity_verified')
 });
 
-Balanced.Customer.reopenClass({
+Customer.reopenClass({
 	findByNameOrEmail: function(marketplace, query) {
 		return marketplace.search(query, "Balanced.Customer", {
 			type: "customer"
@@ -174,4 +177,4 @@ Balanced.Customer.reopenClass({
 	}
 });
 
-export default Balanced.Customer;
+export default Customer;

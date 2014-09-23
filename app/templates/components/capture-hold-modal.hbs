@@ -5,7 +5,7 @@
             <h2>Capture the hold</h2>
         </div>
         <div class="modal-body">
-            {{partial "modals/modalErrors"}}
+            {{partial "modals/modal-errors"}}
 
             <div class="control-group">
                 <label class="control-label">Customer</label>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            {{view Balanced.ModalActionButtonsView submitTitle="Capture" submittingTitle="Capturing..."}}
+            {{view "modals/action-buttons" submitTitle="Capture" submittingTitle="Capturing..."}}
         </div>
     </form>
 </div>

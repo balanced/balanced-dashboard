@@ -1,12 +1,13 @@
-var Computed = {
-	isStatus: function(status) {
-		return Ember.computed.equal('status', status);
-	}
+import Computed from "../utils/computed";
+import Model from "./core/model";
+
+var isStatus = function(status) {
+	return Ember.computed.equal('status', status);
 };
 
-Balanced.Transaction = Balanced.Model.extend({
-	customer: Balanced.Model.belongsTo('customer', 'customer'),
-	events: Balanced.Model.hasMany('events', 'event'),
+Balanced.Transaction = Model.extend({
+	customer: Model.belongsTo('customer', 'customer'),
+	events: Model.hasMany('events', 'event'),
 
 	amount_dollars: function() {
 		if (this.get('amount')) {
@@ -20,8 +21,8 @@ Balanced.Transaction = Balanced.Model.extend({
 	customer_display_me: Ember.computed.oneWay('customer.display_me'),
 	customer_email: Ember.computed.oneWay('customer.email'),
 
-	page_title: Balanced.computed.orProperties('description', 'id'),
-	events_uri: Balanced.computed.concat('uri', '/events'),
+	page_title: Computed.orProperties('description', 'id'),
+	events_uri: Computed.concat('uri', '/events'),
 
 	dasherized_funding_instrument_type: function() {
 		if (this.get('funding_instrument_type')) {
@@ -42,9 +43,9 @@ Balanced.Transaction = Balanced.Model.extend({
 		}
 	}.property('is_failed', 'status', 'failure_reason', 'failure_reason_code'),
 
-	is_failed: Computed.isStatus('failed'),
-	is_pending: Computed.isStatus('pending'),
-	is_succeeded: Computed.isStatus('succeeded')
+	is_failed: isStatus('failed'),
+	is_pending: isStatus('pending'),
+	is_succeeded: isStatus('succeeded')
 });
 
 Balanced.Transaction.reopenClass({

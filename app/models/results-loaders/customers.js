@@ -1,7 +1,8 @@
 import BaseResultsLoader from "./base";
+import Customer from "../customer";
 
 var CustomersResultsLoader = BaseResultsLoader.extend({
-	resultsType: Balanced.Customer,
+	resultsType: Customer,
 });
 
 export default CustomersResultsLoader;

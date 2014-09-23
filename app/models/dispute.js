@@ -1,6 +1,6 @@
 import Ember from "ember";
-import DisputeTransactionsResultsLoader from "./results-loaders/dispute-transactions";
 import JustitiaDispute from "./justitia-dispute";
+import Computed from "../utils/computed";
 
 var Dispute = Balanced.Model.extend(Ember.Validations, {
 	transaction: Balanced.Model.belongsTo('transaction', 'transaction'),
@@ -26,7 +26,7 @@ var Dispute = Balanced.Model.extend(Ember.Validations, {
 	route_name: 'dispute',
 
 	uri: '/disputes',
-	events_uri: Balanced.computed.concat('uri', '/events'),
+	events_uri: Computed.concat('uri', '/events'),
 
 	dispute_uri: function() {
 		return '/disputes/' + this.get('id');
@@ -52,13 +52,13 @@ var Dispute = Balanced.Model.extend(Ember.Validations, {
 	funding_instrument_description: Ember.computed.oneWay('transaction.funding_instrument_description').readOnly(),
 	funding_instrument_name: Ember.computed.alias('transaction.funding_instrument_name'),
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),
-	page_title: Balanced.computed.orProperties('transaction.description', 'transaction.id'),
+	page_title: Computed.orProperties('transaction.description', 'transaction.id'),
 
 	getTransactionsLoader: function(attributes) {
+		var DisputeTransactionsResultsLoader = require("balanced-dashboard/models/results-loaders/dispute-transactions")["default"];
 		attributes = _.extend({
 			dispute: this
 		}, attributes);
-
 		return DisputeTransactionsResultsLoader.create(attributes);
 	},
 

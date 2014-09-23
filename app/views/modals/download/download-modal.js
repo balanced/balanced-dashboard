@@ -1,7 +1,10 @@
+import ModalView from "../modal";
+import Download from "balanced-dashboard/models/download";
+
 var CARD_HOLD_REGEX = /card_hold/g;
 
-Balanced.DownloadModalView = Balanced.ModalView.extend({
-	templateName: 'modals/download',
+var DownloadModalView = ModalView.extend({
+	templateName: 'modals/download/download-modal',
 	noURI: false,
 	type: function() {
 		var type = this.get("controller.type");
@@ -36,7 +39,7 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 			var type = this.get("type");
 
 			if (this.get('noURI')) {
-				download = Balanced.Download.create({
+				download = Download.create({
 					email_address: null,
 					type: type
 				});
@@ -47,7 +50,7 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 				uri = '/v1' + uri;
 				uri = uri.replace(CARD_HOLD_REGEX, 'hold');
 
-				download = Balanced.Download.create({
+				download = Download.create({
 					uri: uri,
 					email_address: null,
 					type: type
@@ -59,14 +62,4 @@ Balanced.DownloadModalView = Balanced.ModalView.extend({
 	}
 });
 
-Balanced.InvoiceDownloadModalView = Balanced.DownloadModalView.extend({
-	templateName: 'modals/invoices_download',
-	type: 'invoices',
-	noURI: true
-});
-
-Balanced.DisputeDownloadModalView = Balanced.DownloadModalView.extend({
-	templateName: 'modals/disputes_download',
-	type: 'disputes',
-	noURI: true
-});
+export default DownloadModalView;

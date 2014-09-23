@@ -1,27 +1,25 @@
 import Ember from "ember";
 
-var Computed = {
-	isSelected: function() {
-		var routes = _.toArray(arguments);
+var isSelected = function() {
+	var routes = _.toArray(arguments);
 
-		return function() {
-			return routes.indexOf(this.get('controllers.application.currentRouteName')) >= 0;
-		}.property('controllers.application.currentRouteName');
-	}
+	return function() {
+		return routes.indexOf(this.get('controllers.application.currentRouteName')) >= 0;
+	}.property('controllers.application.currentRouteName');
 };
 
 var MarketplaceController = Ember.ObjectController.extend({
 
 	needs: ['application', 'notification_center', 'sessions'],
 
-	transactionSelected: Computed.isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
-	orderSelected: Computed.isSelected('marketplace.orders', 'orders'),
-	customerSelected: Computed.isSelected('marketplace.customers', 'customer'),
-	fundingInstrumentSelected: Computed.isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),
-	disputeSelected: Computed.isSelected('marketplace.disputes', 'dispute'),
-	logSelected: Computed.isSelected('marketplace.logs', 'log'),
-	invoiceSelected: Computed.isSelected('marketplace.invoices', 'invoice'),
-	settingSelected: Computed.isSelected('marketplace.settings'),
+	transactionSelected: isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
+	orderSelected: isSelected('marketplace.orders', 'orders'),
+	customerSelected: isSelected('marketplace.customers', 'customer'),
+	fundingInstrumentSelected: isSelected('marketplace.funding_instruments', 'bank_accounts', 'cards'),
+	disputeSelected: isSelected('marketplace.disputes', 'dispute'),
+	logSelected: isSelected('marketplace.logs', 'log'),
+	invoiceSelected: isSelected('marketplace.invoices', 'invoice'),
+	settingSelected: isSelected('marketplace.settings'),
 
 	// Note: need this since bind-attr only works for a single property
 	paymentSelected: Ember.computed.or('transactionSelected', 'orderSelected'),

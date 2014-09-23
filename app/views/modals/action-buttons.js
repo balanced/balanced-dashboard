@@ -1,6 +1,7 @@
 import Ember from "ember";
 
 var ActionButtonsView = Ember.View.extend({
+	templateName: "modals/action-buttons",
 	// override this to customize
 	submitTitle: "Submit",
 

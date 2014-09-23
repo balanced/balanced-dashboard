@@ -1,9 +1,7 @@
-var Computed = {
-	completedFilter: function(propertyName) {
-		return function() {
-			return (this.get("collection") || []).filterBy(propertyName);
-		}.property("collection.@each." + propertyName);
-	}
+var completedFilter = function(propertyName) {
+	return function() {
+		return (this.get("collection") || []).filterBy(propertyName);
+	}.property("collection.@each." + propertyName);
 };
 
 var CsvProgressBarModalView = Balanced.ProgressBarModalView.extend({
@@ -36,7 +34,7 @@ Balanced.ParseCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
 		return this.get("collection").isEvery("isLoaded");
 	}.property("collection.@each.isLoaded"),
 
-	completed: Computed.completedFilter("isLoaded"),
+	completed: completedFilter("isLoaded"),
 
 	loadedObserver: function() {
 		if (this.get("isCompleted")) {
@@ -55,5 +53,5 @@ Balanced.ParseCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
 Balanced.SaveCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
 	title: "Processing",
 	isCancelable: false,
-	completed: Computed.completedFilter("isSaved")
+	completed: completedFilter("isSaved")
 });

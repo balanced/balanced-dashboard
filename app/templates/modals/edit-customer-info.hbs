@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="modal-body modal-with-headers">
-			{{partial "modals/modalErrors"}}
+			{{partial "modals/modal-errors"}}
 
 			<div class="modal-informational modal-informational-light">
 				<p class="modal-informational-content fields-header"><strong>Basic info</strong> (all fields are optional)</p>
@@ -93,7 +93,7 @@
 					<label class="control-label">Country</label>
 
 					<div class="controls">
-						{{view Balanced.CountrySelectView value=view.model.address.country_code name="country_code" class="full"}}
+						{{view "form-fields/country-select" value=view.model.address.country_code name="country_code" class="full"}}
 					</div>
 				</div>
 
@@ -149,7 +149,7 @@
 		</div>
 
 		<div class="modal-footer">
-			{{view Balanced.ModalActionButtonsView submitTitle="Save" submittingTitle="Saving..."}}
+			{{view "modals/action-buttons" submitTitle="Save" submittingTitle="Saving..."}}
 		</div>
 	</form>
 </div>

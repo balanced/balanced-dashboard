@@ -173,7 +173,7 @@
 		<h3>{{invoice_type}}</h3>
 		<div class="results">
 			{{#if isDispute}}
-				{{view Balanced.EmbeddedDisputesResultsView loader=disputesResultsLoader}}
+				{{view "results/embedded-disputes-table" loader=disputesResultsLoader}}
 			{{else}}
 				<nav class="search-filters-header">
 					<ul>
