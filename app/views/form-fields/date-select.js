@@ -1,10 +1,10 @@
 import ControlGroupFieldView from "./control-group-field";
 
-var DateSelectView = Balanced.ControlGroupFieldView.extend({
+var DateSelectView = ControlGroupFieldView.extend({
 	tagName: 'div',
 	classNames: ['control-group'],
 	classNameBindings: ['cssError:error'],
-	templateName: '_date_select_field',
+	templateName: 'form-fields/date-select-field',
 	type: 'select'
 });
 

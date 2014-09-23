@@ -1,18 +1,7 @@
-import SummarySectionView from "./summary-sections/summary-section";
+import Ember from "ember";
+import ListSectionView from "./list-section";
 
-var ListSectionView = SummarySectionView.extend({
-	templateName: "detail_views/list_section",
-});
-
-Balanced.OrderSellerSectionView = Balanced.ListSectionView.extend({
-	title: "Seller",
-
-	linkedResources: function() {
-		return this.resourceLinks("model.seller");
-	}.property("model.seller")
-});
-
-Balanced.OrderBuyersSectionView = Balanced.ListSectionView.extend({
+var OrderBuyersSectionView = ListSectionView.extend({
 	title: function() {
 		var titleText = ' %@ ';
 		var totalBuyers = this.get('totalBuyers');
@@ -41,3 +30,5 @@ Balanced.OrderBuyersSectionView = Balanced.ListSectionView.extend({
 		return this.resourceLinks("buyersResults");
 	}.property("buyersResults", "buyersResults.length")
 });
+
+export default OrderBuyersSectionView;

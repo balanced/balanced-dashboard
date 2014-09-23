@@ -1,4 +1,4 @@
-{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Marketplace information"}}
+{{#view "form-fields/form-section" model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Marketplace information"}}
 	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 		labelText="Name"
 		field="name"
@@ -21,6 +21,6 @@
 	}}
 {{/view}}
 
-{{#view Balanced.FormSectionView model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Terms & Conditions / Privacy policy"}}
+{{#view "form-fields/form-section" model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Terms & Conditions / Privacy policy"}}
 	{{view Balanced.TocCheckboxFormFieldView model=view.model}}
 {{/view}}

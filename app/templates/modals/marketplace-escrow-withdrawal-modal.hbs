@@ -20,11 +20,11 @@
 					</div>
 				</div>
 
-				{{view Balanced.FormFields.StaticTextModalFormFieldView
+				{{view "form-fields/static-text-modal-form-field"
 					label="Name on account"
 					displayText=view.model.destination.name
 				}}
-				{{view Balanced.FormFields.StaticTextModalFormFieldView
+				{{view "form-fields/static-text-modal-form-field"
 					label="Bank"
 					displayText=view.model.destination.formatted_bank_name
 				}}

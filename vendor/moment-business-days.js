@@ -16,16 +16,18 @@
 		]
 	};
 
-	var moment;
+	var moment = this.moment;
 
-	moment = typeof require !== "undefined" && require !== null ? require("moment") : this.moment;
+
+	//moment = typeof require !== "undefined" && require !== null ? require("moment") : this.moment;
+	//console.log(moment);
 
 	moment.fn.addBusinessDays = function (days) {
 		var i = 0;
         var weekOfMonth, diff, memorial, holiday;
 
 		while (i < days) {
-			this.add('day', 1);
+			this.add(1, 'day');
 
 			weekOfMonth = Math.ceil((this.date() + moment().startOf('month').day()) / 7);
 			holiday = 	_.contains(holidays['M'], this.format('MM/DD')) ||

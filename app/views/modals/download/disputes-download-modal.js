@@ -6,4 +6,4 @@ var DisputesDownloadModalView = DownloadModalView.extend({
 	noURI: true
 });
 
-export default DisputeDownloadModalView;
+export default DisputesDownloadModalView;

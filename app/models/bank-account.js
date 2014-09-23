@@ -1,10 +1,13 @@
+import Ember from "ember";
+import Model from "./core/model";
 import FundingInstrument from "./funding-instrument";
+import Customer from "./customer";
 
 var BankAccount = FundingInstrument.extend({
 	uri: '/bank_accounts',
 
-	verifications: Balanced.Model.hasMany('bank_account_verifications', 'verification'),
-	verification: Balanced.Model.belongsTo('bank_account_verification', 'verification'),
+	verifications: Model.hasMany('bank_account_verifications', 'verification'),
+	verification: Model.belongsTo('bank_account_verification', 'verification'),
 
 	isBankAccount: true,
 
@@ -47,7 +50,7 @@ var BankAccount = FundingInstrument.extend({
 
 	customer: function() {
 		if (this.get("customer_uri")) {
-			return Balanced.Customer.find(this.get("customer_uri"));
+			return Customer.find(this.get("customer_uri"));
 		}
 	}.property("customer_uri"),
 

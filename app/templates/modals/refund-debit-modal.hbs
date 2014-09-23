@@ -1,6 +1,6 @@
 <form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
 	<div class="modal-body">
-		{{view Balanced.FormFields.StaticTextModalFormFieldView
+		{{view "form-fields/static-text-modal-form-field"
 			label=view.recipientLabel
 			displayText=view.recipientDisplay
 		}}

@@ -40,7 +40,7 @@
 	{{partial "modals/download"}}
 {{/if}}
 {{#if can_credit}}
-	{{view Balanced.CreditFundingInstrumentModalView funding_instrumentBinding="model"}}
+	{{view "funding-instrument/credit-funding-instrument-modal" funding_instrument=model}}
 {{/if}}
-{{view Balanced.DebitFundingInstrumentModalView funding_instrumentBinding="model"}}
-{{view Balanced.HoldCardModalView funding_instrumentBinding="model"}}
+{{view "funding-instrument/debit-funding-instrument-modal" funding_instrument=model}}
+{{view "funding-instrument/hold-card-modal" funding_instrument=model}}

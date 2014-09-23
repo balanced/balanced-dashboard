@@ -1,6 +1,7 @@
 import Ember from "ember";
 
 var ControlGroupFieldView = Ember.View.extend({
+	templateName: "form-fields/control-group-field",
 	tagName: 'div',
 	classNames: ['control-group'],
 	classNameBindings: ['cssError:error'],

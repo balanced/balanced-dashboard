@@ -19,13 +19,13 @@
 				<p><strong>Basic info</strong> (all fields are optional)</p>
 			</div>
 			{{#if isBusiness}}
-				{{view Balanced.ControlGroupFieldView placeholder="Business name" field="business_name" help="Enter the full business name. " recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="EIN number" field="ein" help="Enter the EIN number. " recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Name" field="name" help="Enter the business representative's full legal name. " recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the email. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Business name" field="business_name" help="Enter the full business name. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="EIN number" field="ein" help="Enter the EIN number. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Name" field="name" help="Enter the business representative's full legal name. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Email" field="email" help="Enter the email. " recommendedField=true}}
 			{{else}}
-				{{view Balanced.ControlGroupFieldView placeholder="Full legal name" field="name" help="Enter the customer's full legal name. " recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Email" field="email" help="Enter the customer's email. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Full legal name" field="name" help="Enter the customer's full legal name. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Email" field="email" help="Enter the customer's email. " recommendedField=true}}
 			{{/if}}
 
 			<div class="section-banner-header special-rollover">
@@ -36,18 +36,18 @@
 			</div>
 
 			{{#if optionalFieldsOpen}}
-				{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 1)" field="address.line1" helpBinding="street_address_label" recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Permanent street address (line 2)" field="address.line2" helpBinding="street_address_label" recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="City" field="address.city" help="Enter the city. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Permanent street address (line 1)" field="address.line1" helpBinding="street_address_label" recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Permanent street address (line 2)" field="address.line2" helpBinding="street_address_label" recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="City" field="address.city" help="Enter the city. " recommendedField=true}}
 				<div {{bind-attr class=":control-group model.validationErrors.address.country_code:error"}}>
 					<div class="controls">
 						{{view "form-fields/country-select" valueBinding="address.country_code"}}
 					</div>
 					<label class="control-label">Enter the country. <span class="recommended-field">Recommended field</span></label>
 				</div>
-				{{view Balanced.ControlGroupFieldView placeholder="State/Province" field="address.state" help="Enter the state or province. " recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Postal code" field="address.postal_code" help="Enter the postal code. " recommendedField=true}}
-				{{view Balanced.ControlGroupFieldView placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="State/Province" field="address.state" help="Enter the state or province. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Postal code" field="address.postal_code" help="Enter the postal code. " recommendedField=true}}
+				{{view "form-fields/control-group-field" placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true}}
 				<div {{bind-attr class=":control-group model.dob_error:error"}}>
 					<div class="controls">
 						{{view Ember.TextField valueBinding="model.dob_month" name="dob_month" class="span2" placeholder="MM"}}
@@ -55,9 +55,9 @@
 					</div>
 					<label class="control-label">Enter the date of birth. <span class="recommended-field">Recommended field</span></label>
 				</div>
-				{{view Balanced.ControlGroupFieldView placeholder="Last 4 of SSN" field="ssn_last4" help="Enter the last 4 digits of the social security number"}}
-				{{view Balanced.ControlGroupFieldView placeholder="Facebook ID" field="facebook" help="Enter the Facebook ID"}}
-				{{view Balanced.ControlGroupFieldView placeholder="Twitter ID" field="twitter" help="Enter the Twitter ID"}}
+				{{view "form-fields/control-group-field" placeholder="Last 4 of SSN" field="ssn_last4" help="Enter the last 4 digits of the social security number"}}
+				{{view "form-fields/control-group-field" placeholder="Facebook ID" field="facebook" help="Enter the Facebook ID"}}
+				{{view "form-fields/control-group-field" placeholder="Twitter ID" field="twitter" help="Enter the Twitter ID"}}
 			{{/if}}
 		</fieldset>
 

@@ -1,7 +1,7 @@
 import Ember from "ember";
 
-Balanced.FormFields.ModalFormFieldView = Ember.View.extend({
-	layoutName: "form_fields/modal_form_field_layout",
+var ModalFormFieldView = Ember.View.extend({
+	layoutName: "form-fields/modal-form-field-layout",
 	classNameBindings: [":control-group", "isError:error"],
 
 	value: function(a, value) {
@@ -12,7 +12,9 @@ Balanced.FormFields.ModalFormFieldView = Ember.View.extend({
 		}
 		return model.get(fieldName);
 	}.property("model", "fieldName"),
+
 	isError: Ember.computed.gt("errorMessages.length", 0),
+	
 	errorMessages: function() {
 		var model = this.get("model");
 		var fieldName = this.get("fieldName");
@@ -26,3 +28,5 @@ Balanced.FormFields.ModalFormFieldView = Ember.View.extend({
 		}
 	}.property("model.validationErrors", "fieldName")
 });
+
+export default ModalFormFieldView;

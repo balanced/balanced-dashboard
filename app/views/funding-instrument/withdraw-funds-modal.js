@@ -1,5 +1,9 @@
-Balanced.WithdrawFundsModalView = Balanced.FundingInstrumentModalView.extend({
-	templateName: 'modals/withdraw_funds',
+import Ember from "ember";
+import Credit from "balanced-dashboard/models/credit";
+import BaseFundingInstrumentModalView from "./base-funding-instrument-modal";
+
+var WithdrawFundsModalView = BaseFundingInstrumentModalView.extend({
+	templateName: 'modals/withdraw-funds',
 	controllerEventName: 'openWithdrawFundsModal',
 	modalElement: '#withdraw-funds',
 
@@ -8,7 +12,7 @@ Balanced.WithdrawFundsModalView = Balanced.FundingInstrumentModalView.extend({
 
 	open: function() {
 		var self = this;
-		var credit = Balanced.Credit.create({
+		var credit = Credit.create({
 			amount: null,
 			description: null
 		});
@@ -49,3 +53,5 @@ Balanced.WithdrawFundsModalView = Balanced.FundingInstrumentModalView.extend({
 
 	bank_accounts: Ember.computed.readOnly('marketplace.owner_customer.bank_accounts')
 });
+
+export default WithdrawFundsModalView;

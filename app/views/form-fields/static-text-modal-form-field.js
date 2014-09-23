@@ -1,8 +1,13 @@
-Balanced.FormFields.StaticTextModalFormFieldView = Balanced.FormFields.ModalFormFieldView.extend({
-	templateName: "form_fields/static_text_modal_form_field",
+import ModalFormFieldView from "./modal-form-field";
+
+var StaticTextModalFormFieldView = ModalFormFieldView.extend({
+	templateName: "form-fields/static-text-modal-form-field",
 	classNameBindings: [":control-group"],
 	isError: false,
+
 	errorMessages: function() {
 		return [];
 	}.property()
 });
+
+export default StaticTextModalFormFieldView;

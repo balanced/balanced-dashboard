@@ -1,8 +1,9 @@
 `import Utils from "balanced-dashboard/lib/utils";`
 
 MarketplacesIndexRoute = Balanced.Route.extend
-	pageTitle: 'Marketplaces',
-
+	needs: ["application"]
+	pageTitle: 'Marketplaces'
+	
 	beforeModel: ->
 		sessionsController = @controllerFor("sessions")
 		if !sessionsController.get("isUserRegistered")

@@ -667,9 +667,9 @@
         clickPrev: function (e) {
             // var cal = $(e.target).parents('.calendar');
             // if (cal.hasClass('left')) {
-                this.leftCalendar.month.subtract('month', 1);
+                this.leftCalendar.month.subtract(1, 'month');
             // } else {
-                this.rightCalendar.month.subtract('month', 1);
+                this.rightCalendar.month.subtract(1, 'month');
             // }
             this.updateCalendars();
         },
@@ -677,9 +677,9 @@
         clickNext: function (e) {
             // var cal = $(e.target).parents('.calendar');
             // if (cal.hasClass('left')) {
-                this.leftCalendar.month.add('month', 1);
+                this.leftCalendar.month.add(1, 'month');
             // } else {
-                this.rightCalendar.month.add('month', 1);
+                this.rightCalendar.month.add(1, 'month');
             // }
             this.updateCalendars();
         },
@@ -756,10 +756,10 @@
 
 			if (cal.hasClass('left')) {
             	this.leftCalendar.month.month(this.startDate.month()).year(this.startDate.year());
-				this.rightCalendar.month = this.leftCalendar.month.clone().add('months', 1);
+				this.rightCalendar.month = this.leftCalendar.month.clone().add(1, 'months');
 			} else {
 	            this.rightCalendar.month.month(this.endDate.month()).year(this.endDate.year());
-				this.leftCalendar.month = this.rightCalendar.month.clone().subtract('months', 1);
+				this.leftCalendar.month = this.rightCalendar.month.clone().subtract(1, 'months');
 			}
 
             this.updateCalendars();
@@ -900,8 +900,8 @@
 
         buildCalendar: function (month, year, hour, minute, side) {
             var firstDay = moment([year, month, 1]);
-            var lastMonth = moment(firstDay).subtract('month', 1).month();
-            var lastYear = moment(firstDay).subtract('month', 1).year();
+            var lastMonth = moment(firstDay).subtract(1, 'month').month();
+            var lastYear = moment(firstDay).subtract(1, 'month').year();
 
             var daysInLastMonth = moment([lastYear, lastMonth]).daysInMonth();
 
@@ -925,7 +925,7 @@
 
             var curDate = moment([lastYear, lastMonth, startDay, 12, minute]);
             var col, row;
-            for (i = 0, col = 0, row = 0; i < 42; i++, col++, curDate = moment(curDate).add('hour', 24)) {
+            for (i = 0, col = 0, row = 0; i < 42; i++, col++, curDate = moment(curDate).add(24, 'hour')) {
                 if (i > 0 && col % 7 === 0) {
                     col = 0;
                     row++;

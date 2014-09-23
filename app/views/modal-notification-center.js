@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 var ModalNotificationCenterView = Ember.View.extend({
-	templateName: "notification_center"
+	templateName: "notification-center"
 });
 
 export default ModalNotificationCenterView;

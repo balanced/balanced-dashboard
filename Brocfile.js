@@ -20,5 +20,6 @@ app.import('bower_components/bootstrap/js/bootstrap-popover.js');
 app.import("bower_components/bootstrap-daterangepicker/daterangepicker.js");
 
 app.import("vendor/ember-validations.prod.js");
+app.import('vendor/moment-business-days.js');
 
 module.exports = app.toTree();

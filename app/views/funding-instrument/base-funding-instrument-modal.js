@@ -1,4 +1,6 @@
-Balanced.FundingInstrumentModalView = Balanced.ModalView.extend({
+import ModalView from "../modals/modal";
+
+var BaseFundingInstrumentModalView = ModalView.extend({
 	dollar_amount: null,
 
 	open: function(model) {
@@ -35,3 +37,5 @@ Balanced.FundingInstrumentModalView = Balanced.ModalView.extend({
 		this.get('controller').transitionToRoute(model.get('route_name'), model);
 	}
 });
+
+export default BaseFundingInstrumentModalView;

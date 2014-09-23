@@ -1,4 +1,4 @@
-{{#view Balanced.FormSectionView model=view.model sectionTitle="File upload" sectionDescription=view.fileUploadText}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="File upload" sectionDescription=view.fileUploadText}}
 	<div class="form-group">
 		{{view Balanced.FileDropFieldView}}
 	</div>
@@ -43,10 +43,10 @@
 	</div>
 {{/view}}
 
-{{#view Balanced.FormSectionView model=view.model sectionTitle="Tracking information" sectionDescription=view.trackingCodeText}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Tracking information" sectionDescription=view.trackingCodeText}}
 	{{view "form-fields/text-form-field" model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number" explanationText="FedEx or USPS tracking number only"}}
 {{/view}}
 
-{{#view Balanced.FormSectionView model=view.model sectionTitle="Evidence description" sectionDescription=view.noteText}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Evidence description" sectionDescription=view.noteText}}
 	{{view Balanced.TextAreaFormFieldView model=view.model inputClassNames="full" inputName="note" field="note" labelText="Note" maxlength=434}}
 {{/view}}

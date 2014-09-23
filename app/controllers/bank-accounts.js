@@ -1,7 +1,9 @@
+import Ember from "ember";
+
 var EventMixin = Balanced.ActionEvented('openDebitFundingInstrumentModal', 'openCreditFundingInstrumentModal', 'openVerifyBankAccountModal', 'openConfirmVerificationModal');
 
-Balanced.BankAccountsController = Balanced.ObjectController.extend(EventMixin, {
+var BankAccountsController = Ember.ObjectController.extend(EventMixin, {
 	needs: ['marketplace'],
-
-	actions: {}
 });
+
+export default BankAccountsController;
