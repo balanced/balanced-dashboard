@@ -36,38 +36,25 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 		},
 
 		save: function() {
-			var self = this;
-			var metaFields = this.get("metaDictionary.fields");
+			var metaDictionary = this.get("metaDictionary");
 			var notification = this.getNotificationController();
-			var newMeta = {};
+			var modalNotification = this.getModalNotificationController();
 
-			self.get("metaDictionary").validate();
+			notification.clearAlerts();
+			modalNotification.clearAlerts();
 
-			if (self.get("metaDictionary.isValid")) {
-				metaFields.forEach(function(metaField) {
-					newMeta[metaField.key] = metaField.value || "";
-				});
-
-				self.set("model.meta", newMeta);
-
-				self.save(self.get("model"))
-					.then(function(model) {
-						var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
-						model.reload();
-						notification.clearAlerts();
-						notification.alertSuccess(message, {
-							expire: true
-						});
+			metaDictionary.save()
+				.then(function(model) {
+					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
+					model.reload();
+					notification.alertSuccess(message, {
+						expire: true
 					});
-			} else {
-				var modalNotification = self.getModalNotificationController();
-				modalNotification.clearAlerts();
-				self.get("metaDictionary.validationErrors.fields.fullMessages").forEach(function(message) {
-					modalNotification.alertError(message);
+				}, function() {
+					metaDictionary.get("validationErrors.fields.fullMessages").forEach(function(message) {
+						modalNotification.alertError(message);
+					});
 				});
-
-				return Ember.RSVP.reject();
-			}
 		}
 	}
 });
@@ -75,28 +62,10 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 Balanced.Modals.MetaEditModalView.reopenClass({
 	open: function(model, metaFields) {
 		return this.create({
-			model: model,
 			metaDictionary: Balanced.MetaDictionary.create({
+				transaction: model,
 				fields: Ember.copy(metaFields, true)
 			})
 		});
-	}
-});
-
-Balanced.MetaDictionary = Ember.Object.extend(Ember.Validations, {
-	validations: {
-		fields: {
-			keyPresent: {
-				validator: function(obj, attr, value) {
-					var error = obj.get('fields').any(function(item, index) {
-						return Ember.isBlank(item.key);
-					});
-
-					if (error) {
-						obj.get("validationErrors").add(attr, "keyPresent", null, "All keys must be present.");
-					}
-				}
-			}
-		}
 	}
 });
