@@ -1,5 +1,6 @@
 /* global require, module */
 
+var pickFiles = require('broccoli-static-compiler');
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 var app = new EmberApp();
@@ -22,4 +23,12 @@ app.import("bower_components/bootstrap-daterangepicker/daterangepicker.js");
 app.import("vendor/ember-validations.prod.js");
 app.import('vendor/moment-business-days.js');
 
-module.exports = app.toTree();
+
+var qunitBdd = pickFiles('bower_components/sinon/', {
+	srcDir: '/',
+	files: ['index.js'],
+	destDir: '/assets'
+});
+
+
+module.exports = app.toTree(qunitBdd);

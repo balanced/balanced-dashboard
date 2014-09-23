@@ -1,9 +1,10 @@
-module("Balanced.RegisterFlowBaseModal");
+import { test, moduleFor } from 'ember-qunit';
+moduleFor("view:register-flow/register-flow-base-modal", "View - RegisterFlowBaseModal");
 
 test("#openConfirmCloseModal", function(assert) {
 	var modalsController = Balanced.__container__.lookup("controller:modals_container");
 	var openModalStub = sinon.stub(modalsController, "open");
-	var modal = Balanced.RegisterFlowBaseModal.create({
+	var modal = this.subject({
 		confirmMessage: "A cool confirm message"
 	});
 
@@ -26,7 +27,7 @@ test("#getNotificationController", function(assert) {
 	});
 	var container = new Ember.Container();
 	container.register('controller:notification_center', Controller);
-	var modal = Balanced.RegisterFlowBaseModal.create({
+	var modal = this.subject({
 		container: container
 	});
 
@@ -39,7 +40,7 @@ test("#getModalNotificationController", function(assert) {
 	});
 	var container = new Ember.Container();
 	container.register('controller:modal_notification_center', Controller);
-	var modal = Balanced.RegisterFlowBaseModal.create({
+	var modal = this.subject({
 		container: container
 	});
 

@@ -1,16 +1,19 @@
-module("Balanced.ObjectCreatorModalBaseView");
+import Ember from "ember";
+import { test, moduleFor } from 'ember-qunit';
 
-test("#model", function(assert) {
-	var view = Balanced.ObjectCreatorModalBaseView.create({
+moduleFor("view:modals/object-creator-modal-base", "View - ObjectCreatorModalBase");
+
+test("#model", function() {
+	var view = this.subject({
 		model_class: Ember.Object.extend({
 			name: "Cool class"
 		})
 	});
 
-	assert.equal(view.get("model.name"), "Cool class");
+	equal(view.get("model.name"), "Cool class");
 });
 
-test("#submit", function(assert) {
+test("#submit", function() {
 	var validateStub = sinon.stub();
 	var finallyStub = sinon.stub();
 	var saveStub = sinon.stub().returns({
@@ -27,7 +30,7 @@ test("#submit", function(assert) {
 		save: saveStub
 	});
 
-	var view = Balanced.ObjectCreatorModalBaseView.create({
+	var view = this.subject({
 		model: model
 	});
 	view.send("submit");
@@ -35,7 +38,7 @@ test("#submit", function(assert) {
 	model.set("isValid", true);
 	view.send("submit");
 
-	assert.ok(validateStub.calledTwice, "Validate was called");
-	assert.ok(saveStub.calledOnce, "Save was called");
-	assert.ok(finallyStub.calledOnce, "Finally was called");
+	ok(validateStub.calledTwice, "Validate was called");
+	ok(saveStub.calledOnce, "Save was called");
+	ok(finallyStub.calledOnce, "Finally was called");
 });

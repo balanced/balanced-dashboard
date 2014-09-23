@@ -1,3 +1,4 @@
+import Ember from "ember";
 import { test, moduleFor } from 'ember-qunit';
 
 moduleFor("view:modals/customer-bank-account-create-modal", "View - CustomerBankAccountCreateModalView");
@@ -8,7 +9,7 @@ test("#model", function() {
 	ok(subject.get("model") instanceof BankAccount);
 });
 
-asyncTest("#save", function() {
+test("#save", function() {
 	var model = Ember.Object.create({
 		tokenizeAndCreate: sinon.stub().returns(Ember.RSVP.resolve(model)),
 		route_name: "cool_route"
@@ -20,10 +21,10 @@ asyncTest("#save", function() {
 			id: "xxxxxxxxxxxxxxx"
 		}
 	});
+
 	view.save()
 		.then(function() {
 			ok(model.tokenizeAndCreate.calledOnce);
 			deepEqual(model.tokenizeAndCreate.firstCall.args, ["xxxxxxxxxxxxxxx"]);
-		})
-		.then(start);
+		});
 });

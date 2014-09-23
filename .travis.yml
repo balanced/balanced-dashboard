@@ -7,13 +7,7 @@ cache:
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-script: "grunt test $TEST_SUITE"
+script: "ember test"
 env:
-  matrix:
-    - TEST_SUITE=--skip=test/integration/**/*_nd*
-    - TEST_SUITE=--file=test/integration/**/*_nd*
   global:
     - COVERALLS_REPO_TOKEN=m3Z9p5t4SQLKw22IE9mkdr1iFSVpeJPoV
-matrix:
-  allow_failures:
-    - env: TEST_SUITE=--file=test/integration/**/*_nd*
