@@ -1,4 +1,5 @@
 import BaseAdapter from "./base";
+import Auth from "balanced-dashboard/auth";
 
 var MARKETPLACE_URI_REGEX = /\/marketplaces\/([^\/]+)/;
 
@@ -61,7 +62,7 @@ var AjaxAdapter = BaseAdapter.extend({
 
 		// HACK this goes away when we have oAuth
 		if (!alreadyHasAuth && url && url.indexOf(ENV.BALANCED.AUTH) === -1) {
-			if (Balanced.Auth.get('signedIn')) {
+			if (Auth.get('signedIn')) {
 				var marketplaceId = Balanced.currentMarketplace ? Balanced.currentMarketplace.get('id') : null;
 
 				var matches = MARKETPLACE_URI_REGEX.exec(url);
@@ -69,7 +70,7 @@ var AjaxAdapter = BaseAdapter.extend({
 					marketplaceId = matches[1];
 				}
 
-				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
+				var userMarketplace = Auth.get('user').user_marketplace_for_id(marketplaceId);
 
 				if (!userMarketplace) {
 					if (marketplaceId) {
@@ -81,7 +82,7 @@ var AjaxAdapter = BaseAdapter.extend({
 							type: 'GET',
 							error: settings.error
 						}).then(function(response) {
-							Balanced.Auth.addUserMarketplace(response.id, response.uri, response.name, response.secret);
+							Auth.addUserMarketplace(response.id, response.uri, response.name, response.secret);
 
 							settings.headers = settings.headers || {};
 							settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(response.secret);

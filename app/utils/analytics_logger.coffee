@@ -1,4 +1,5 @@
 `import ENV from 'balanced-dashboard/config/environment';`
+`import Auth from 'balanced-dashboard/auth';`
 
 window.mixpanel = window.mixpanel || []
 window._gaq = window._gaq || []
@@ -39,12 +40,12 @@ AnalyticsLogger =
 			window._gaq.push(['_setDomainName', 'balancedpayments.com'])
 			window._gaq.push(['_trackPageview'])
 
-		Balanced.Auth.on 'signInSuccess', =>
+		Auth.on 'signInSuccess', =>
 			@trackEvent('login-success', remembered: false)
-			user = Balanced.Auth.get('user')
+			user = Auth.get('user')
 			trackLogin(user.get('email_address'))
 
-		Balanced.Auth.on 'signInError', =>
+		Auth.on 'signInError', =>
 			@trackEvent('login-error')
 
 		$(document).bind "ajaxComplete", (evt, jqxhr, ajaxOptions) =>

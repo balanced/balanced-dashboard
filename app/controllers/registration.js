@@ -1,4 +1,5 @@
 import Ember from "ember";
+import Auth from "balanced-dashboard/auth";
 
 var RegistrationController = Ember.Controller.extend({
 	join: function(userFactory, authToken) {
@@ -8,7 +9,7 @@ var RegistrationController = Ember.Controller.extend({
 			.then(function(userUri) {
 				var email = userFactory.get("email_address");
 				var password = userFactory.get("passwordConfirm");
-				return Balanced.Auth.signIn(email, password);
+				return Auth.signIn(email, password);
 			})
 			.then(function(user) {
 				return self.addStarterMarketplace(user, authToken);

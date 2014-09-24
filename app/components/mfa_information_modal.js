@@ -1,3 +1,5 @@
+import Auth from "balanced-dashboard/auth";
+
 Balanced.MFAInformationModalComponent = Ember.Component.extend({
 	classNames: ['modal-container'],
 
@@ -17,10 +19,10 @@ Balanced.MFAInformationModalComponent = Ember.Component.extend({
 	},
 
 	hidden: function() {
-		var attemptedTransition = Balanced.Auth.get('attemptedTransition');
+		var attemptedTransition = Auth.get('attemptedTransition');
 		if (attemptedTransition) {
 			attemptedTransition.retry();
-			Balanced.Auth.set('attemptedTransition', null);
+			Auth.set('attemptedTransition', null);
 		} else {
 			this.transitionToRoute('index');
 		}

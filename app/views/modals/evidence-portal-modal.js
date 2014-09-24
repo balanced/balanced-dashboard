@@ -1,4 +1,5 @@
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+import Auth from "balanced-dashboard/auth";
 
 var Full = Balanced.Modals.FullModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
@@ -154,7 +155,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 
 	trackCollectionEvent: function(message, extra) {
 		var attributes = {
-			email: Balanced.Auth.get('user.email_address')
+			email: Auth.get('user.email_address')
 		};
 		_.extend(attributes, extra);
 		AnalyticsLogger.trackEvent(message, attributes);
@@ -198,7 +199,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 				}
 
 				var marketplaceId = Balanced.currentMarketplace.get('id');
-				var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplaceId);
+				var userMarketplace = Auth.get('user').user_marketplace_for_id(marketplaceId);
 				var secret = userMarketplace.get('secret');
 				var auth = Balanced.Utils.encodeAuthorization(secret);
 

@@ -1,5 +1,6 @@
 import Ember from "ember";
 import Constants from "balanced-dashboard/utils/constants";
+import Auth from "balanced-dashboard/auth";
 
 var FORMAT_NUMBER_REGEX = /\B(?=(\d{3})+(?!\d))/g,
 	PRETTY_LOG_URL_REGEX = /\/marketplaces\/[^\/]*\/(.+)$/,
@@ -224,13 +225,13 @@ var Utils = Ember.Namespace.create({
 		// Store the marketplace in a global so we can use it for auth.
 		// TODO: TAKE THIS OUT when we've moved to oAuth
 		Ember.set(Balanced, 'currentMarketplace', marketplace);
-		Balanced.Auth.set('currentMarketplace', marketplace);
+		Auth.set('currentMarketplace', marketplace);
 		if (marketplace) {
-			Balanced.Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
+			Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
 
-			var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_id(marketplace.get('id'));
+			var userMarketplace = Auth.get('user').user_marketplace_for_id(marketplace.get('id'));
 			if (userMarketplace) {
-				Balanced.Auth.setAPIKey(userMarketplace.get('secret'));
+				Auth.setAPIKey(userMarketplace.get('secret'));
 			} else {
 				Ember.Logger.warn("Couldn't find API key for %@".fmt(marketplace.get('uri')));
 			}

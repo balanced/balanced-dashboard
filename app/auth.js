@@ -3,11 +3,12 @@ import ApiKey from "balanced-dashboard/models/api-key";
 import User from "balanced-dashboard/models/user";
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 import Marketplace from "balanced-dashboard/models/marketplace";
+import Auth from "balanced-dashboard/auth";
 
 import Constants from "./utils/constants";
 import CookieConstants from "./utils/constants/cookie";
 
-var auth = Balanced.Auth = Ember.Namespace.extend(Ember.Evented).create({
+var auth = Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {
 		return Balanced.NET.loadCSRFTokenIfNotLoaded();
 	},

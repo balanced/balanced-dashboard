@@ -1,4 +1,5 @@
 import ChangeEmailModalView from "./change-email-modal";
+import Auth from "balanced-dashboard/auth";
 
 var ChangePasswordModalView = ChangeEmailModalView.extend({
 	controllerEventName: 'openChangePasswordModal',
@@ -6,7 +7,7 @@ var ChangePasswordModalView = ChangeEmailModalView.extend({
 	defaultError: 'Oops, we failed to change your password. Please try again.',
 
 	open: function() {
-		var user = Ember.copy(Balanced.Auth.get('user'), true);
+		var user = Ember.copy(Auth.get('user'), true);
 		this._super(user);
 	}
 });

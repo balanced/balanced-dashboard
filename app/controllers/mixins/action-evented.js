@@ -1,4 +1,6 @@
-Balanced.ActionEvented = function() {
+import Ember from 'ember';
+
+var ActionEvented = function() {
 	var arr = _.toArray(arguments);
 
 	var obj = {};
@@ -15,3 +17,5 @@ Balanced.ActionEvented = function() {
 		actions: obj
 	});
 };
+
+export default ActionEvented;

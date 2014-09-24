@@ -1,4 +1,5 @@
 import ModalView from "./modal";
+import Auth from "balanced-dashboard/auth";
 
 var ChangeEmailModalView = ModalView.extend({
 	controllerKey: 'controller.controllers.application',
@@ -10,7 +11,7 @@ var ChangeEmailModalView = ModalView.extend({
 		var user = model;
 
 		if (!user) {
-			user = Ember.copy(Balanced.Auth.get('user'), true);
+			user = Ember.copy(Auth.get('user'), true);
 			user.set('email', user.get('email_address'));
 
 			// HACK to validate user emails
@@ -69,7 +70,7 @@ var ChangeEmailModalView = ModalView.extend({
 	},
 
 	afterSave: function() {
-		Balanced.Auth.get('user').reload();
+		Auth.get('user').reload();
 		this.hide();
 
 		var message = 'Your %@ has been updated.'.fmt(this.get("fieldName"));

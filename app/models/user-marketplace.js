@@ -2,6 +2,7 @@ import Model from "./core/model";
 import Rev0Serializer from "../serializers/rev0";
 import ApiKey from "./api-key";
 import UserInvite from "./user-invite";
+import Auth from "balanced-dashboard/auth";
 
 var UserMarketplace = Model.extend({
 	production: function() {
@@ -74,7 +75,7 @@ var UserMarketplace = Model.extend({
 		});
 
 		var usersArr = [{
-			email_address: Balanced.Auth.get('user.email_address'),
+			email_address: Auth.get('user.email_address'),
 			created_at: this.get('keys.0.created_at'),
 			noDelete: true
 		}];

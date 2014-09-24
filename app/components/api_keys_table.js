@@ -1,3 +1,5 @@
+import Auth from "balanced-dashboard/auth";
+
 Balanced.ApiKeysTableComponent = Ember.Component.extend({
 	oneKey: function() {
 		return this.get('keys').length === 1;
@@ -16,7 +18,7 @@ Balanced.ApiKeysTableComponent = Ember.Component.extend({
 				if (!newKey) {
 					return;
 				}
-				Balanced.Auth.setAPIKey(newKey.get('secret'));
+				Auth.setAPIKey(newKey.get('secret'));
 				this.userMarketplace.updateSecret(newKey.get('secret'));
 			}
 			key.delete().then(function() {
