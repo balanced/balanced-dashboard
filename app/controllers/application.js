@@ -1,3 +1,4 @@
+import Ember from "ember";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
 var ApplicationController = Ember.Controller.extend(Ember.Evented, {
@@ -27,7 +28,7 @@ var ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		},
 
 		openVerifyBankAccountLink: function() {
-			var bankAccount = Balanced.currentMarketplace.get('owner_customer.bank_accounts.firstObject');
+			var bankAccount = BalancedApp.currentMarketplace.get('owner_customer.bank_accounts.firstObject');
 			this.transitionToRoute('bank_accounts', bankAccount).then(function(route) {
 				_.delay(function() {
 					var controller = route && route.routeName ?

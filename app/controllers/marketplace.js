@@ -1,4 +1,6 @@
 import Ember from "ember";
+import Utils from "balanced-dashboard/lib/utils";
+import BankAccountVerificationMessage from "balanced-dashboard/lib/bank-account-verification-message";
 
 var isSelected = function() {
 	var routes = _.toArray(arguments);
@@ -38,8 +40,7 @@ var MarketplaceController = Ember.ObjectController.extend({
 		if (isNaN(escrow)) {
 			return '$--';
 		}
-
-		return Balanced.Utils.formatCurrency(escrow);
+		return Utils.formatCurrency(escrow);
 	}.property('in_escrow'),
 
 	getNotificationController: function() {
@@ -83,7 +84,7 @@ var MarketplaceController = Ember.ObjectController.extend({
 		var controller = this.getNotificationController();
 
 		if (mp && mp.get("isLoaded")) {
-			Balanced.BankAccountVerificationMessage
+			BankAccountVerificationMessage
 				.forMarketplace(mp)
 				.then(function(alert) {
 					controller.clearNamedAlert(name);

@@ -1,6 +1,7 @@
 import Ember from "ember";
+import actionEvented from "./mixins/action-evented";
 
-var EventMixin = Balanced.ActionEvented('openDebitFundingInstrumentModal', 'openCreditFundingInstrumentModal', 'openHoldCardModal');
+var EventMixin = actionEvented('openDebitFundingInstrumentModal', 'openCreditFundingInstrumentModal', 'openHoldCardModal');
 
 var CardsController = Ember.ObjectController.extend(EventMixin, {
 	needs: ['marketplace'],

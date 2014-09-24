@@ -2,6 +2,7 @@ import Ember from "ember";
 import Customer from "balanced-dashboard/models/customer";
 import Verification from "balanced-dashboard/models/verification";
 import BankAccount from "balanced-dashboard/models/bank-account";
+import ModelArray from "balanced-dashboard/models/core/model-array";
 
 var MESSAGES = {
 	noBankAccounts: {
@@ -26,7 +27,7 @@ var MESSAGES = {
 // 2. marketplace doesn't have any bank accounts: "please create and verify a bank account"
 // 3. marketplace has a bank account with pending verification: "Please finish verification"
 // 4. marketplace has bank accounts but no open verifications: "Please start verify process"
-Balanced.BankAccountVerificationMessage = {
+var BankAccountVerificationMessage = {
 	MESSAGES: MESSAGES,
 	forMarketplace: function(marketplace) {
 		var self = this;
@@ -43,7 +44,7 @@ Balanced.BankAccountVerificationMessage = {
 	forCustomer: function(customer) {
 		var self = this;
 		var uri = customer.get("bank_accounts_uri");
-		return Balanced.ModelArray.newArrayLoadedFromUri(uri, BankAccount)
+		return ModelArray.newArrayLoadedFromUri(uri, BankAccount)
 			.then(function(bankAccounts) {
 				return self.forBankAccounts(bankAccounts);
 			});
@@ -83,3 +84,5 @@ Balanced.BankAccountVerificationMessage = {
 	},
 
 };
+
+export default BankAccountVerificationMessage;

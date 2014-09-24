@@ -1,3 +1,5 @@
+import Ajax from "balanced-dashboard/lib/ajax";
+import Utils from "balanced-dashboard/lib/utils";
 import BaseAdapter from "./base";
 import Auth from "balanced-dashboard/auth";
 
@@ -63,7 +65,7 @@ var AjaxAdapter = BaseAdapter.extend({
 		// HACK this goes away when we have oAuth
 		if (!alreadyHasAuth && url && url.indexOf(ENV.BALANCED.AUTH) === -1) {
 			if (Auth.get('signedIn')) {
-				var marketplaceId = Balanced.currentMarketplace ? Balanced.currentMarketplace.get('id') : null;
+				var marketplaceId = BalancedApp.currentMarketplace ? BalancedApp.currentMarketplace.get('id') : null;
 
 				var matches = MARKETPLACE_URI_REGEX.exec(url);
 				if (matches) {
@@ -77,7 +79,7 @@ var AjaxAdapter = BaseAdapter.extend({
 						Ember.Logger.warn("Couldn't find user marketplace for ID %@ (url: %@)".fmt(marketplaceId, url));
 
 						// If we couldn't find the user marketplace, maybe this is an admin user, so hit the auth server to try to find the API secret
-						return Balanced.NET.ajax({
+						return Ajax.ajax({
 							url: ENV.BALANCED.AUTH + '/marketplaces/%@'.fmt(marketplaceId),
 							type: 'GET',
 							error: settings.error
@@ -85,8 +87,8 @@ var AjaxAdapter = BaseAdapter.extend({
 							Auth.addUserMarketplace(response.id, response.uri, response.name, response.secret);
 
 							settings.headers = settings.headers || {};
-							settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(response.secret);
-							return Balanced.NET.ajax(settings);
+							settings.headers['Authorization'] = Utils.encodeAuthorization(response.secret);
+							return Ajax.ajax(settings);
 						});
 					}
 				} else if (!userMarketplace.get('secret')) {
@@ -94,12 +96,12 @@ var AjaxAdapter = BaseAdapter.extend({
 				} else {
 					var secret = userMarketplace.get('secret');
 					settings.headers = settings.headers || {};
-					settings.headers['Authorization'] = Balanced.Utils.encodeAuthorization(secret);
+					settings.headers['Authorization'] = Utils.encodeAuthorization(secret);
 				}
 			}
 		}
 
-		return Balanced.NET.ajax(settings);
+		return Ajax.ajax(settings);
 	},
 
 	registerHostForType: function(type, host) {

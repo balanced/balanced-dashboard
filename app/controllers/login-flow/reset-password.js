@@ -1,4 +1,6 @@
-Balanced.ResetPasswordController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var ResetPasswordController = Ember.ObjectController.extend({
 	needs: ["notification_center"],
 	password: null,
 	password_confirm: null,
@@ -46,3 +48,5 @@ Balanced.ResetPasswordController = Balanced.ObjectController.extend({
 		}
 	}
 });
+
+export default ResetPasswordController;

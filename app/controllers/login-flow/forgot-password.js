@@ -1,4 +1,6 @@
-Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
+import Ember from "ember";
+
+var ForgotPasswordController = Ember.ObjectController.extend({
 	needs: ["notification_center"],
 	email_address: null,
 	hasError: false,
@@ -41,3 +43,5 @@ Balanced.ForgotPasswordController = Balanced.ObjectController.extend({
 		}
 	}
 });
+
+export default ForgotPasswordController;

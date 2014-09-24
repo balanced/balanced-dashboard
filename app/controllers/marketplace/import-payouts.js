@@ -1,5 +1,6 @@
 import Ember from "ember";
 import AnalyticsLogger from "../../utils/analytics_logger";
+import CreditCreatorsCollection from "balanced-dashboard/lib/file-readers/credit-creators-collection";
 
 var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, {
 	needs: ['marketplace', "notification_center"],
@@ -24,7 +25,7 @@ var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, 
 		this.set("errorMessage", null);
 
 		try {
-			return Balanced.CreditCreatorsCollection.fromCsvText(Balanced.currentMarketplace, text);
+			return CreditCreatorsCollection.fromCsvText(BalancedApp.currentMarketplace, text);
 		} catch (e) {
 			this.set("errorMessage", "There was an error reading your CSV file");
 
@@ -33,7 +34,7 @@ var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, 
 				error: e
 			});
 
-			return Balanced.CreditCreatorsCollection.create({
+			return CreditCreatorsCollection.create({
 				content: []
 			});
 		}

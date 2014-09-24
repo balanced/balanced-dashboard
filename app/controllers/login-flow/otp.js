@@ -1,6 +1,6 @@
 import LoginController from "../login";
 
-Balanced.OtpController = LoginController.extend({
+var OtpController = LoginController.extend({
 	otpCode: null,
 
 	actions: {
@@ -49,3 +49,5 @@ Balanced.OtpController = LoginController.extend({
 		},
 	}
 });
+
+export default OtpController;
