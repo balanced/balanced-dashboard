@@ -1,5 +1,8 @@
+import Ember from "ember";
 import RegisterFlowBaseModalView from "./register-flow-base-modal";
 import Constants from "balanced-dashboard/utils/constants";
+import MarketplaceBankAccountFactory from "balanced-dashboard/models/factories/marketplace-bank-account-factory";
+import InitialDepositTransactionFactory from "balanced-dashboard/models/factories/initial-deposit-transaction-factory";
 
 var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 	templateName: "register_flow/marketplace_bank_account_create_modal",
@@ -18,14 +21,14 @@ var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 	}],
 
 	model: function() {
-		return Balanced.MarketplaceBankAccountFactory.create();
+		return MarketplaceBankAccountFactory.create();
 	}.property(),
 
 	isInitialDepositCreate: false,
 	isInitialDepositTransactionCreated: false,
 
 	initialDepositModel: function() {
-		return Balanced.InitialDepositTransactionFactory.create();
+		return InitialDepositTransactionFactory.create();
 	}.property(),
 
 	expirationMonths: Constants.TIME.MONTHS,

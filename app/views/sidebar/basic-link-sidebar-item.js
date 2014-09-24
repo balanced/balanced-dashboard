@@ -10,7 +10,8 @@ var BasicLinkSidebarItemView = SidebarItemView.extend({
 	}.property("routeName"),
 
 	isCurrent: function() {
-		var currentRouteName = Balanced.Router.router.currentHandlerInfos.get("lastObject.handler.routeName");
+		var router = this.get("container").lookup("router:main");
+		var currentRouteName = router.currentHandlerInfos.get("lastObject.handler.routeName");
 		return this.get("routeName") === currentRouteName;
 	}.property("href")
 });

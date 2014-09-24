@@ -5,6 +5,7 @@ import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import OpenNext from "balanced-dashboard/views/modals/mixins/open-next-modal-mixin";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 import DisplayModelErrors from "balanced-dashboard/views/modals/mixins/display-model-errors-modal-mixin";
+import Auth from "balanced-dashboard/auth";
 
 var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
 	staticBackdrop: true,
@@ -23,7 +24,7 @@ var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayMo
 
 	trackEvent: function(message, attributes) {
 		attributes = _.extend({
-			email_address: Balanced.Auth.get("user.email_address")
+			email_address: Auth.get("user.email_address")
 		}, attributes);
 		AnalyticsLogger.trackEvent(message, attributes);
 	},

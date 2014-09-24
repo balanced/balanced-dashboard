@@ -1,5 +1,7 @@
 import Ember from "ember";
 
-Balanced.DateFilterHeaderView = Ember.View.extend({
+var DateFilterHeaderView = Ember.View.extend({
 	tagName: 'header'
 });
+
+export default DateFilterHeaderView;

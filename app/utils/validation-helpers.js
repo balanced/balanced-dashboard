@@ -1,6 +1,7 @@
 import Ember from "ember";
 import Constants from "balanced-dashboard/utils/constants";
 import Utils from "balanced-dashboard/lib/utils";
+import Transaction from "balanced-dashboard/models/transaction";
 
 var formatValidator = function(callback) {
 	return {
@@ -28,7 +29,7 @@ var generateTransactionAppearsOnStatementAsValidation = function(maxLength) {
 			messages.push("must be under %@ characters".fmt(maxLength + 1));
 		}
 
-		var invalidCharacters = Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value);
+		var invalidCharacters = Transaction.findAppearsOnStatementAsInvalidCharacters(value);
 		if (invalidCharacters.length === 1) {
 			messages.push('"%@" is an invalid character'.fmt(invalidCharacters));
 		} else if (invalidCharacters.length > 1) {
@@ -50,7 +51,7 @@ var ValidationHelpers = Ember.Namespace.create({
 		presence: true,
 		format: formatValidator(function(object, attribute, value, cb) {
 			try {
-				var v = Balanced.Utils.dollarsToCents(value);
+				var v = Utils.dollarsToCents(value);
 				if (isNaN(v) || v <= 0) {
 					cb("must be a positive number");
 				}
@@ -115,7 +116,7 @@ var ValidationHelpers = Ember.Namespace.create({
 	bankAccountType: {
 		presence: true,
 		format: formatValidator(function(object, attribute, value, cb) {
-			var validStrings = Balanced.BankAccount.ACCOUNT_TYPES.map(function(str) {
+			var validStrings = Constants.BANK_ACCOUNT_TYPES.map(function(str) {
 				return str.toLowerCase();
 			});
 			value = value.toLowerCase();

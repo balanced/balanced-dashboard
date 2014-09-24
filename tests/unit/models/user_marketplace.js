@@ -1,12 +1,14 @@
-module('Balanced.UserMarketplace', {
-	setup: function() {
-		Testing.setupMarketplace();
-	},
-	teardown: function() {}
-});
+moduleForModel("user-marketplace", "Model - UserMarketplace", {});
+
+//module('Balanced.UserMarketplace', {
+//	setup: function() {
+//		Testing.setupMarketplace();
+//	},
+//	teardown: function() {}
+//});
 
 test('fullKeys', function(assert) {
-	var userMarketplace = Balanced.Auth.get('user.user_marketplaces')[0];
+	var userMarketplace = this.subject();
 	Ember.run(function() {
 		return userMarketplace.get('fullKeys');
 	});

@@ -102,4 +102,6 @@ Constants.COMPANY_TYPES = [
 	}
 ];
 
+Constants.BANK_ACCOUNT_TYPES = ["Checking", "Savings"];
+
 export default Constants;

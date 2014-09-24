@@ -1,4 +1,9 @@
-Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
+import NextStepView from "./next-step";
+import RegisterFlowBaseModal from "./register-flow-base-modal";
+import UserAccountFactory from "balanced-dashboard/models/factories/user-account-factory";
+import Auth from "balanced-dashboard/auth";
+
+var UserCreateModalView = RegisterFlowBaseModal.extend({
 	templateName: "register_flow/user_create_modal",
 	logo: true,
 	title: "Balanced Dashboard",
@@ -7,10 +12,10 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	cancelButtonText: "Skip for now",
 	elementId: "account-create",
 
-	auth: Balanced.Auth,
+	auth: Auth,
 
 	model: function() {
-		return Balanced.UserAccountFactory.create();
+		return UserAccountFactory.create();
 	}.property(),
 
 	isSaving: false,
@@ -47,7 +52,7 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 
 	actions: {
 		nextStep: function(marketplace) {
-			this.openNext(Balanced.NextStepView);
+			this.openNext(NextStepView);
 			var controller = this.getModalNotificationController();
 			controller.alertSuccess("Login created");
 		},
@@ -63,3 +68,5 @@ Balanced.UserCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		}
 	}
 });
+
+export default UserCreateModalView;

@@ -1,4 +1,7 @@
-Balanced.NextStepView = Balanced.RegisterFlowBaseModal.extend({
+import RegisterFlowBaseModalView from "./register-flow-base-modal";
+import ApiKeyCreateModalView from "./api-key-create-modal";
+
+var NextStepView = RegisterFlowBaseModalView.extend({
 	layoutName: "modals/base-modal-layout",
 	templateName: "register-flow/next-step-modal",
 	title: "Next step",
@@ -8,7 +11,7 @@ Balanced.NextStepView = Balanced.RegisterFlowBaseModal.extend({
 
 	actions: {
 		nextStep: function() {
-			this.openNext(Balanced.ApiKeyCreateModalView);
+			this.openNext(ApiKeyCreateModalView);
 		},
 
 		goToDashboard: function() {
@@ -16,3 +19,5 @@ Balanced.NextStepView = Balanced.RegisterFlowBaseModal.extend({
 		}
 	}
 });
+
+export default NextStepView;

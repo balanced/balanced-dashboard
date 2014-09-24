@@ -1,7 +1,8 @@
-var Full = Balanced.Modals.FullModalMixin;
-var OpenNext = Balanced.Modals.OpenNextModalMixin;
+import FullModalMixin from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
+import OpenNextModalMixin from "balanced-dashboard/views/modals/mixins/open-next-modal-mixin";
+import ModalBaseView from "balanced-dashboard/views/modal-base";
 
-Balanced.ConfirmCloseRegistrationModalView = Balanced.ModalBaseView.extend(Full, OpenNext, {
+var ConfirmCloseRegistrationModalView = ModalBaseView.extend(FullModalMixin, OpenNextModalMixin, {
 	templateName: "register_flow/confirm_close_registration_modal",
 	staticBackdrop: true,
 	title: "Cancel registration?",
@@ -13,3 +14,5 @@ Balanced.ConfirmCloseRegistrationModalView = Balanced.ModalBaseView.extend(Full,
 		}
 	}
 });
+
+export default ModalBaseView;

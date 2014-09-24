@@ -1,4 +1,5 @@
 import ModalView from "../modals/modal";
+import Utils from "balanced-dashboard/lib/utils";
 
 var BaseFundingInstrumentModalView = ModalView.extend({
 	dollar_amount: null,
@@ -17,7 +18,7 @@ var BaseFundingInstrumentModalView = ModalView.extend({
 		});
 
 		try {
-			cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+			cents = Utils.dollarsToCents(this.get('dollar_amount'));
 		} catch (error) {
 			model.setProperties({
 				validationErrors: {

@@ -1,3 +1,4 @@
+import Utils from "balanced-dashboard/lib/utils";
 import AuthRoute from "./auth";
 
 var TitleRoute = AuthRoute.extend({
@@ -7,7 +8,7 @@ var TitleRoute = AuthRoute.extend({
 		var model = route.controller.get("content");
 		var title = route.get('title');
 
-		return Balanced.Utils.maybeDeferredLoading(model, setTitle, function() {
+		return Utils.maybeDeferredLoading(model, setTitle, function() {
 			return title + ': loading ...';
 		}, function() {
 			return title + ': %@'.fmt(model.get('page_title'));

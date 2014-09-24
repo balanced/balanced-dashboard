@@ -1,7 +1,8 @@
 import Ember from "ember";
+import { CountryCodes } from "balanced-dashboard/lib/country-codes";
 
 var CountrySelectView = Ember.Select.extend({
-	content: Balanced.CountryCodes,
+	content: CountryCodes,
 	classNames: ["country-select"],
 	optionValuePath: "content.code",
 	optionLabelPath: "content.name",

@@ -1,4 +1,7 @@
 import Ember from "ember";
-Balanced.LogsLogView = Ember.View.extend({
+
+var LogsLogView = Ember.View.extend({
 	templateName: 'logs/log'
 });
+
+export default LogsLogView;

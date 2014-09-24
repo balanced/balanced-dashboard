@@ -153,7 +153,7 @@ var BankAccount = FundingInstrument.extend({
 });
 
 BankAccount.reopenClass({
-	ACCOUNT_TYPES: ["Checking", "Savings"]
+	ACCOUNT_TYPES: Constants.BANK_ACCOUNT_TYPES
 });
 
 export default BankAccount;

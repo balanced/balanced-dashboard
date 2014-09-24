@@ -1,4 +1,9 @@
-Balanced.Modals.MarketplaceEscrowWithdrawalModalView = Balanced.ModalBaseView.extend({
+import Ember from "ember";
+import ModalBaseView from "./modal-base";
+import Constants from "balanced-dashboard/utils/constants";
+import CreditExistingFundingInstrumentTransactionFactory from "balanced-dashboard/models/factories/credit-existing-funding-instrument-transaction-factory";
+
+var MarketplaceEscrowWithdrawalModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	elementId: 'withdraw-funds',
 	templateName: 'modals/marketplace_escrow_withdrawal_modal',
@@ -12,7 +17,7 @@ Balanced.Modals.MarketplaceEscrowWithdrawalModalView = Balanced.ModalBaseView.ex
 
 	bank_accounts: Ember.computed.readOnly('marketplace.owner_customer.bank_accounts'),
 	model: function() {
-		return Balanced.CreditExistingFundingInstrumentTransactionFactory.create();
+		return CreditExistingFundingInstrumentTransactionFactory.create();
 	}.property(),
 
 	isSaving: false,
@@ -33,10 +38,12 @@ Balanced.Modals.MarketplaceEscrowWithdrawalModalView = Balanced.ModalBaseView.ex
 	}
 });
 
-Balanced.Modals.MarketplaceEscrowWithdrawalModalView.reopenClass({
+MarketplaceEscrowWithdrawalModalView.reopenClass({
 	open: function(marketplace) {
 		return this.create({
 			marketplace: marketplace
 		});
 	}
 });
+
+export default MarketplaceEscrowWithdrawalModalView;

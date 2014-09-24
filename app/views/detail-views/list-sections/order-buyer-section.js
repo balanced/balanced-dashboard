@@ -1,5 +1,6 @@
 import Ember from "ember";
 import ListSectionView from "./list-section";
+import Utils from "balanced-dashboard/lib/utils";
 
 var OrderBuyersSectionView = ListSectionView.extend({
 	title: function() {
@@ -10,7 +11,7 @@ var OrderBuyersSectionView = ListSectionView.extend({
 			titleText += '(%@)'.fmt(totalBuyers);
 		}
 
-		return Balanced.Utils.safeFormat(titleText, "Buyers").htmlSafe();
+		return Utils.safeFormat(titleText, "Buyers").htmlSafe();
 	}.property('totalBuyers'),
 
 	resources: Ember.computed.alias("buyersResults"),

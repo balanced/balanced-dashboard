@@ -17,9 +17,9 @@ var BankAccountSummarySectionView = SummarySectionView.extend({
 	statusButtonModalView: function() {
 		var status = this.get('status');
 		if (status === 'unverified') {
-			return Balanced.Modals.VerifyBankAccountModalView;
+			return this.get("container").lookupFactory("view:modals/verify-bank-account-modal");
 		} else if (status === 'pending') {
-			return Balanced.Modals.BankAccountVerificationConfirmModalView;
+			return this.get("container").lookupFactory("view:modals/bank-account-verification-confirm-modal");
 		}
 		return undefined;
 	}.property('status'),

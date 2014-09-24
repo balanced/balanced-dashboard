@@ -1,11 +1,12 @@
 import LinkedTextCellView from "./linked-text-cell";
+import Utils from "balanced-dashboard/lib/utils";
 
 var LinkedTwoLinesCellView = LinkedTextCellView.extend({
 	isBlank: Ember.computed.empty('primaryLabelText'),
 	labelText: function() {
 		var label = '<span class="primary">%@</span><span class="secondary">%@</span>';
 		var secondaryLabel = this.get('secondaryLabelText') || '';
-		return Balanced.Utils.safeFormat(label, this.get('primaryLabelText'), secondaryLabel).htmlSafe();
+		return Utils.safeFormat(label, this.get('primaryLabelText'), secondaryLabel).htmlSafe();
 	}.property('primaryLabelText', 'secondaryLabelText')
 });
 

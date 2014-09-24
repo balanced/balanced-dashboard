@@ -1,5 +1,6 @@
 import Ember from "ember";
-Balanced.MarketplaceSettingsView = Ember.View.extend({
+
+var MarketplaceSettingsView = Ember.View.extend({
 	keySecret: false,
 
 	actions: {
@@ -8,3 +9,5 @@ Balanced.MarketplaceSettingsView = Ember.View.extend({
 		}
 	}
 });
+
+export default MarketplaceSettingsView;

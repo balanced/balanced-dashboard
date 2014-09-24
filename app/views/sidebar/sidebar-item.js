@@ -17,7 +17,7 @@ var SidebarItemView = Ember.View.extend({
 	}.property("children.@each"),
 
 	getRoute: function(routeName, model) {
-		var router = Balanced.Router.router;
+		var router = this.get("container").lookup("router:main");
 		return router.generate.apply(router, arguments);
 	},
 });

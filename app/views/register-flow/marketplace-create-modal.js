@@ -1,4 +1,9 @@
-Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
+import RegisterFlowBaseModalView from "./register-flow-base-modal";
+import MarketplaceFactory from "balanced-dashboard/models/factories/marketplace-factory";
+import MarketplaceBankAccountCreateModalView from "./marketplace-bank-account-create-modal";
+import Auth from "balanced-dashboard/auth";
+
+var MarketplaceCreateModalView = RegisterFlowBaseModalView.extend({
 	templateName: "register_flow/marketplace_create_modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 2 of 3: Provide marketplace information",
@@ -32,7 +37,7 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 			marketplace: marketplace.get("uri"),
 			formFields: this.get("model").getPropertiesDump()
 		});
-		this.openNext(Balanced.MarketplaceBankAccountCreateModalView, {
+		this.openNext(MarketplaceBankAccountCreateModalView, {
 			marketplace: marketplace
 		});
 		this.alertSuccess('Marketplace created. API key: <span class="sl-sb">%@</span>'.fmt(apiKeySecret));
@@ -50,7 +55,7 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 			model.save()
 				.then(function(href) {
 					var apiKeySecret = self.get("model.apiKeySecret");
-					var user = Balanced.Auth.get("user");
+					var user = Auth.get("user");
 
 					self.trackEvent("Marketplace created", {
 						marketplace: href,
@@ -72,9 +77,9 @@ Balanced.MarketplaceCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 	}
 });
 
-Balanced.MarketplaceCreateModalView.reopenClass({
+MarketplaceCreateModalView.reopenClass({
 	open: function(apiKeySecret) {
-		var model = Balanced.MarketplaceFactory.create({
+		var model = MarketplaceFactory.create({
 			apiKeySecret: apiKeySecret
 		});
 		return this.create({
@@ -82,3 +87,5 @@ Balanced.MarketplaceCreateModalView.reopenClass({
 		});
 	}
 });
+
+export default MarketplaceCreateModalView;

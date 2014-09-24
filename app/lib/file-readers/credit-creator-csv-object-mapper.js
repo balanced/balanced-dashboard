@@ -1,5 +1,4 @@
-Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
-
+var CreditCreatorCsvObjectMapper = Ember.Object.extend({
 	deserializers: {
 		string: function(val) {
 			return val.length ?
@@ -55,3 +54,5 @@ Balanced.CreditCreatorCsvObjectMapper = Ember.Object.extend({
 		};
 	}
 });
+
+export default CreditCreatorCsvObjectMapper;
