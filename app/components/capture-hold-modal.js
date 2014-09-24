@@ -1,9 +1,13 @@
-Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
+import ModalComponent from "./modal";
+import Debit from "balanced-dashboard/models/debit";
+import Utils from "balanced-dashboard/lib/utils";
+
+var CaptureHoldModalComponent = ModalComponent.extend({
 	submitAction: 'submitCaptureHold',
 
 	actions: {
 		open: function() {
-			var debit = Balanced.Debit.create({
+			var debit = Debit.create({
 				uri: this.get('hold.debits_uri'),
 				hold_uri: this.get('hold.uri'),
 				amount: null
@@ -21,7 +25,7 @@ Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
 			var debit = this.get('model');
 			var cents = null;
 			try {
-				cents = Balanced.Utils.dollarsToCents(this.get('dollar_amount'));
+				cents = Utils.dollarsToCents(this.get('dollar_amount'));
 			} catch (error) {
 				debit.set('validationErrors', {
 					'amount': error
@@ -34,3 +38,5 @@ Balanced.CaptureHoldModalComponent = Balanced.ModalComponent.extend({
 		}
 	}
 });
+
+export default CaptureHoldModalComponent;

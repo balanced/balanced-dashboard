@@ -1,25 +1,29 @@
 import Computed from "balanced-dashboard/utils/computed";
-var generateResultsLoader = function(klass, uriFieldName) {
+import Model from "./core/model";
+import Utils from "balanced-dashboard/lib/utils";
+import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
+
+var generateResultsLoader = function(loaderClassName, uriFieldName) {
 	return function(attributes) {
 		attributes = _.extend({
 			path: this.get(uriFieldName)
 		}, attributes);
-		return klass.create(attributes);
+		return BalancedApp.__container__.lookupFactory("results-loader:" + loaderClassName).create(attributes);
 	};
 };
 
-Balanced.Order = Balanced.Model.extend({
+var Order = Model.extend({
 	uri: '/orders',
 	route_name: 'orders',
 	type_name: 'Order',
 
-	buyers: Balanced.Model.hasMany('buyers', 'customer'),
-	seller: Balanced.Model.belongsTo('merchant', 'customer'),
+	buyers: Model.hasMany('buyers', 'customer'),
+	seller: Model.belongsTo('merchant', 'customer'),
 
-	credits: Balanced.Model.hasMany('credits', 'credit'),
-	debits: Balanced.Model.hasMany('debits', 'debit'),
-	reversals: Balanced.Model.hasMany('reversals', 'reversal'),
-	refunds: Balanced.Model.hasMany('refunds', 'refund'),
+	credits: Model.hasMany('credits', 'credit'),
+	debits: Model.hasMany('debits', 'debit'),
+	reversals: Model.hasMany('reversals', 'reversal'),
+	refunds: Model.hasMany('refunds', 'refund'),
 
 	page_title: Computed.orProperties('description', 'id'),
 
@@ -27,15 +31,15 @@ Balanced.Order = Balanced.Model.extend({
 		return this.get('amount') - this.get('amount_escrowed');
 	}.property('amount', 'amount_escrowed'),
 
-	debits_amount: Computed.transform('amount', Balanced.Utils.formatCurrency),
-	escrow_balance: Computed.transform('amount_escrowed', Balanced.Utils.formatCurrency),
-	credits_amount: Computed.transform('amount_credited', Balanced.Utils.formatCurrency),
+	debits_amount: Computed.transform('amount', Utils.formatCurrency),
+	escrow_balance: Computed.transform('amount_escrowed', Utils.formatCurrency),
+	credits_amount: Computed.transform('amount_credited', Utils.formatCurrency),
 
-	getBuyersResultsLoader: generateResultsLoader(Balanced.CustomersResultsLoader, "buyers_uri"),
-	getCreditsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "credits_uri"),
-	getDebitsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "debits_uri"),
-	getRefundsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "refunds_uri"),
-	getReversalsResultsLoader: generateResultsLoader(Balanced.TransactionsResultsLoader, "reversals_uri"),
+	getBuyersResultsLoader: generateResultsLoader("customers", "buyers_uri"),
+	getCreditsResultsLoader: generateResultsLoader("transactions", "credits_uri"),
+	getDebitsResultsLoader: generateResultsLoader("transactions", "debits_uri"),
+	getRefundsResultsLoader: generateResultsLoader("transactions", "refunds_uri"),
+	getReversalsResultsLoader: generateResultsLoader("transactions", "reversals_uri"),
 
 	// filter credits by those that belong to the customer
 	credits_list: function() {
@@ -95,4 +99,4 @@ Balanced.Order = Balanced.Model.extend({
 	}.property('credits_list', 'credits_list.@each.reversals')
 });
 
-export default Balanced.Order;
+export default Order;

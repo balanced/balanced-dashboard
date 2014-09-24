@@ -1,5 +1,7 @@
 import Computed from "balanced-dashboard/utils/computed";
 import Transaction from "./transaction";
+import Model from "./core/model";
+import Utils from "balanced-dashboard/lib/utils";
 
 var Debit = Transaction.extend({
 
@@ -7,11 +9,11 @@ var Debit = Transaction.extend({
 	type_name: "Debit",
 	route_name: "debits",
 
-	source: Balanced.Model.belongsTo('source', 'funding-instrument'),
-	hold: Balanced.Model.belongsTo('card_hold', 'hold'),
-	refunds: Balanced.Model.hasMany('refunds', 'refund'),
-	dispute: Balanced.Model.belongsTo('dispute', 'dispute'),
-	order: Balanced.Model.belongsTo('order', 'order'),
+	source: Model.belongsTo('source', 'funding-instrument'),
+	hold: Model.belongsTo('card_hold', 'hold'),
+	refunds: Model.hasMany('refunds', 'refund'),
+	dispute: Model.belongsTo('dispute', 'dispute'),
+	order: Model.belongsTo('order', 'order'),
 
 	getDisputesLoader: function(attributes) {
 		var DisputesResultsLoader = require("balanced-dashboard/models/results-loaders/disputes")["default"];
@@ -25,7 +27,7 @@ var Debit = Transaction.extend({
 	last_four: Ember.computed.alias('source.last_four'),
 	funding_instrument_name: Ember.computed.alias('source.brand'),
 	funding_instrument_type: Ember.computed.alias('source.type_name'),
-	max_refund_amount_dollars: Computed.transform('refund_amount', Balanced.Utils.centsToDollars),
+	max_refund_amount_dollars: Computed.transform('refund_amount', Utils.centsToDollars),
 	recipient: function() {
 		return this.get('customer') ? 'customer' : 'card';
 	}.property('customer'),

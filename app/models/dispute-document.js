@@ -2,7 +2,6 @@ import Model from "./core/model";
 import LinkedModelArray from "./core/linked-model-array";
 import Constants from "balanced-dashboard/utils/computed";
 
-
 var DisputeDocument = Model.extend({
 	dispute: Model.belongsTo('dispute', 'dispute'),
 	isUploading: false
@@ -10,7 +9,7 @@ var DisputeDocument = Model.extend({
 
 DisputeDocument.reopenClass({
 	loadFromUri: function(uri) {
-		return LinkedModelArray.newArrayLoadedFromUri(uri, Balanced.DisputeDocument, "documents");
+		return LinkedModelArray.newArrayLoadedFromUri(uri, this, "documents");
 	},
 
 	hasErrors: function(file) {

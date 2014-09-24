@@ -1,8 +1,9 @@
+import Debit from "../debit";
 import Card from "../card";
+import TransactionFactory from "./transaction-factory";
+import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
 
-var ValidationHelpers = Balanced.ValidationHelpers;
-
-Balanced.DebitCardTransactionFactory = Balanced.TransactionFactory.extend({
+var DebitCardTransactionFactory = TransactionFactory.extend({
 	getDestinationAttributes: function() {
 		var attributes = this.getProperties("name", "number", "cvv", "expiration_month", "expiration_year");
 		attributes.address = {
@@ -38,7 +39,7 @@ Balanced.DebitCardTransactionFactory = Balanced.TransactionFactory.extend({
 						uri: card.get('debits_uri'),
 						source_uri: card.get('uri')
 					});
-					return Balanced.Debit.create(debitAttributes).save();
+					return Debit.create(debitAttributes).save();
 				})
 				.then(function(model) {
 					deferred.resolve(model);

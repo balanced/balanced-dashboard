@@ -7,8 +7,7 @@ var ForgotPasswordRoute = Ember.Route.extend({
 	},
 
 	model: function() {
-		var fp = Balanced.ForgotPassword.create();
-
+		var fp = this.get("container").lookup("model:forgot-password");
 		return {
 			fp: fp
 		};

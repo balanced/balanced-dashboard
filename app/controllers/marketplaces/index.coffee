@@ -1,6 +1,6 @@
 `import Ember from "ember";`
 
-MarketplacesIndexController = Balanced.ArrayController.extend
+MarketplacesIndexController = Ember.ArrayController.extend
 	testMarketplaces: Ember.computed.filterBy("auth.user.user_marketplaces", "production", false)
 	productionMarketplaces: Ember.computed.filterBy("auth.user.user_marketplaces", "production", true)
 

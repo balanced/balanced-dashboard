@@ -1,4 +1,6 @@
-Balanced.ApiKeyDeleteModalComponent = Balanced.ModalComponent.extend({
+import ModalComponent from "./modal";
+
+var ApiKeyDeleteModalComponent = ModalComponent.extend({
 	moreWarning: function() {
 		return this.key.get('secret') === this.marketplaceSecret;
 	}.property('key', 'marketplaceSecret'),
@@ -19,3 +21,5 @@ Balanced.ApiKeyDeleteModalComponent = Balanced.ModalComponent.extend({
 		}
 	}
 });
+
+export default ApiKeyDeleteModalComponent;

@@ -1,11 +1,15 @@
+import Ember from "ember";
 import Computed from "balanced-dashboard/utils/computed";
-Balanced.Log = Balanced.Model.extend({
+import Model from "./core/model";
+import Utils from "balanced-dashboard/lib/utils";
+
+var Log = Model.extend({
 	uri: '/logs',
 	route_name: 'log',
 
 	page_title: Computed.fmt('message.request.method', 'short_url', '%@ %@'),
-	short_url: Computed.transform('message.request.url', Balanced.Utils.stripDomain),
-	condensed_request_url: Computed.transform('short_url', Balanced.Utils.prettyLogUrl),
+	short_url: Computed.transform('message.request.url', Utils.stripDomain),
+	condensed_request_url: Computed.transform('short_url', Utils.prettyLogUrl),
 	status: function() {
 		var status_code = this.get('status_rollup');
 		if (status_code === '2XX') {
@@ -27,11 +31,11 @@ Balanced.Log = Balanced.Model.extend({
 		if (ip) {
 			var self = this;
 
-			Balanced.Utils.geoIP(ip, function(result) {
+			Utils.geoIP(ip, function(result) {
 				self.set('geo_ip', result);
 			});
 		}
 	}.property('message.request.headers.X-Real-Ip'),
 });
 
-export default Balanced.Log;
+export default Log;

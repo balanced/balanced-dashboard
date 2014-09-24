@@ -1,4 +1,5 @@
 import TitleRoute from "./title";
+import Utils from "balanced-dashboard/lib/utils";
 
 var ModelRoute = TitleRoute.extend({
 	model: function(params) {
@@ -7,7 +8,7 @@ var ModelRoute = TitleRoute.extend({
 		var uri = this.get('marketplaceUri');
 
 		return marketplace.then(function(marketplace) {
-			var modelUri = Balanced.Utils.combineUri(marketplace.get(uri), params.item_id);
+			var modelUri = Utils.combineUri(marketplace.get(uri), params.item_id);
 			return modelObject.find(modelUri);
 		});
 	}

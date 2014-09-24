@@ -1,4 +1,7 @@
-var Verification = Balanced.Model.extend({
+import Ember from "ember";
+import Model from "./core/model";
+
+var Verification = Model.extend({
 	no_attempts_remaining: Ember.computed.equal('attempts_remaining', 0),
 	isVerifiable: function() {
 		return this.get("attempts_remaining") > 0;

@@ -1,4 +1,6 @@
-Balanced.DisableAuthModalComponent = Ember.Component.extend({
+import Ember from "ember";
+
+var DisableAuthModalComponent = Ember.Component.extend({
 	classNames: ['modal-container'],
 
 	willDestroyElement: function() {
@@ -22,3 +24,5 @@ Balanced.DisableAuthModalComponent = Ember.Component.extend({
 		}
 	}
 });
+
+export default DisableAuthModalComponent;

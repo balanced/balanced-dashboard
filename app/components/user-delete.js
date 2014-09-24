@@ -1,4 +1,6 @@
-Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
+import ModalComponent from "./modal";
+
+var UserDeleteModalComponent = ModalComponent.extend({
 	isSubmitting: false,
 	hasError: false,
 
@@ -33,3 +35,5 @@ Balanced.UserDeleteModalComponent = Balanced.ModalComponent.extend({
 		}
 	}
 });
+
+export default UserDeleteModalComponent;

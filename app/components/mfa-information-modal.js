@@ -1,6 +1,7 @@
+import Ember from "ember";
 import Auth from "balanced-dashboard/auth";
 
-Balanced.MFAInformationModalComponent = Ember.Component.extend({
+var MFAInformationModalComponent = Ember.Component.extend({
 	classNames: ['modal-container'],
 
 	didInsertElement: function() {
@@ -34,3 +35,5 @@ Balanced.MFAInformationModalComponent = Ember.Component.extend({
 		}
 	}
 });
+
+export default MFAInformationModalComponent;

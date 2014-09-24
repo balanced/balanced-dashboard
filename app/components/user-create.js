@@ -1,11 +1,14 @@
-Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
+import ModalComponent from "./modal";
+import UserInvite from "balanced-dashboard/models/user-invite";
+
+var UserCreateModalComponent = ModalComponent.extend({
 	submitAction: false,
 	hasError: false,
 	isSubmitting: false,
 
 	actions: {
 		open: function() {
-			var inviteUser = Balanced.UserInvite.create({
+			var inviteUser = UserInvite.create({
 				uri: this.get('marketplace.users_uri'),
 				email_address: ''
 			});
@@ -60,3 +63,5 @@ Balanced.UserCreateModalComponent = Balanced.ModalComponent.extend({
 		}
 	}
 });
+
+export default ModalComponent;

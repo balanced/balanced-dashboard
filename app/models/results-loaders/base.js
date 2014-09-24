@@ -1,3 +1,4 @@
+import Utils from "balanced-dashboard/lib/utils";
 import Ember from "ember";
 import ModelArray from "../core/model-array";
 import SearchModelArray from "../core/search-model-array";
@@ -36,12 +37,12 @@ var BaseResultsLoader = Ember.Object.extend({
 		if (path === undefined) {
 			return undefined;
 		} else {
-			return Balanced.Utils.buildUri(path, query);
+			return Utils.buildUri(path, query);
 		}
 	}.property("path", "queryStringArguments"),
 
 	queryString: function() {
-		return Balanced.Utils.objectToQueryString(this.get("queryStringArguments"));
+		return Utils.objectToQueryString(this.get("queryStringArguments"));
 	}.property("queryStringArguments"),
 
 	results: function() {

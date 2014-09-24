@@ -1,4 +1,5 @@
 import Ember from "ember";
+import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
 
 var BaseFactory = Ember.Object.extend(Ember.Validations, {
 	setValidationErrorsFromServer: function(response) {
@@ -33,7 +34,7 @@ var BaseFactory = Ember.Object.extend(Ember.Validations, {
 	},
 
 	getConnection: function() {
-		return Balanced.Connections.ApiConnection.create({
+		return ApiConnection.create({
 			apiKey: null
 		});
 	},

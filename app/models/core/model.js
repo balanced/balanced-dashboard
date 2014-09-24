@@ -417,6 +417,9 @@ Model.reopenClass({
 	},
 
 	_materializeLoadedObjectFromAPIResult: function(json) {
+		var UserMarketplace = require("balanced-dashboard/models/user-marketplace")['default'];
+		var UserInvite = require("balanced-dashboard/models/user-invite")['default'];
+
 		var objClass = this;
 
 		if (json._type) {

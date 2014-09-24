@@ -1,7 +1,9 @@
+import Ember from "ember";
 import Transaction from "./transaction";
+import Model from "./core/model";
 
 var Reversal = Transaction.extend({
-	credit: Balanced.Model.belongsTo('credit', 'credit'),
+	credit: Model.belongsTo('credit', 'credit'),
 
 	type_name: 'Reversal',
 	route_name: 'reversals',

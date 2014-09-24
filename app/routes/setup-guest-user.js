@@ -1,5 +1,6 @@
 import Ember from "ember";
 import Auth from "../auth";
+import UserCreateModalView from "balanced-dashboard/views/register-flow/user-create-modal";
 
 var SetupGuestUserRoute = Ember.Route.extend({
 	beforeModel: function(transition) {
@@ -18,7 +19,7 @@ var SetupGuestUserRoute = Ember.Route.extend({
 
 	afterModel: function(model, transition) {
 		this.replaceWith("marketplace", model);
-		transition.send("openModal", Balanced.UserCreateModalView);
+		transition.send("openModal", UserCreateModalView);
 	},
 });
 

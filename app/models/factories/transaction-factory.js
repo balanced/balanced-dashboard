@@ -1,11 +1,14 @@
-Balanced.TransactionFactory = Ember.Object.extend(Ember.Validations, {
+import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
+import Utils from "balanced-dashboard/lib/utils";
+
+var TransactionFactory = Ember.Object.extend(Ember.Validations, {
 	isAmountPositive: function() {
 		return this.get("amount") > 0;
 	},
 
 	amount: function() {
 		try {
-			return "" + Balanced.Utils.dollarsToCents("" + this.get('dollar_amount'));
+			return "" + Utils.dollarsToCents("" + this.get('dollar_amount'));
 		} catch (e) {
 			return undefined;
 		}
@@ -20,3 +23,5 @@ Balanced.TransactionFactory = Ember.Object.extend(Ember.Validations, {
 		}
 	}
 });
+
+export default TransactionFactory;

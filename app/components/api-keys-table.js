@@ -1,6 +1,7 @@
+import Ember from "ember";
 import Auth from "balanced-dashboard/auth";
 
-Balanced.ApiKeysTableComponent = Ember.Component.extend({
+var ApiKeysTableComponent = Ember.Component.extend({
 	oneKey: function() {
 		return this.get('keys').length === 1;
 	}.property('keys.@each'),
@@ -27,3 +28,5 @@ Balanced.ApiKeysTableComponent = Ember.Component.extend({
 		}
 	}
 });
+
+export default ApiKeysTableComponent;

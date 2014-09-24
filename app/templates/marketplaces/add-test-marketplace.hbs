@@ -4,5 +4,5 @@
 	{{else}}
 		<button class="btn" {{action "add" target="view"}}>Add</button>
 	{{/if}}
-	{{view Balanced.Forms.TextField valueBinding="view.name" name="name" placeholder="Enter test marketplace name"}}
+	{{view "form-fields/text-field" valueBinding="view.name" name="name" placeholder="Enter test marketplace name"}}
 </div>
