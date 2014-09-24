@@ -5,6 +5,8 @@ import Computed from "balanced-dashboard/utils/computed";
 import Rev1Serializer from "balanced-dashboard/serializers/rev1";
 import Utils from "balanced-dashboard/lib/utils";
 import ModelArray from "./model-array";
+import UserMarketplace from "../user-marketplace";
+import UserInvite from "../user-invite";
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
@@ -424,7 +426,7 @@ Model.reopenClass({
 			}
 		} else {
 			// HACK - once we fix the API response from the auth proxy, we should take out the if
-			if (objClass !== Balanced.UserMarketplace && objClass !== Balanced.UserInvite) {
+			if (objClass !== UserMarketplace && objClass !== UserInvite) {
 				Ember.Logger.warn('No _type field found on URI: ' + json.uri);
 			}
 		}
@@ -451,7 +453,4 @@ Model.reopenClass({
 
 Model.Events = Ember.Object.extend(Ember.Evented).create();
 
-if (this.Balanced) {
-	this.Balanced.Model = Model;
-}
 export default Model;

@@ -1,6 +1,7 @@
 import Computed from "balanced-dashboard/utils/computed";
 import Transaction from "./transaction";
 import Rev1Serializer from "../serializers/rev1";
+import Model from "./core/model";
 
 var Credit = Transaction.extend({
 	reversal_amount: Ember.computed.oneWay('amount'),
@@ -8,9 +9,9 @@ var Credit = Transaction.extend({
 	type_name: "Credit",
 	route_name: "credits",
 
-	destination: Balanced.Model.belongsTo('destination', 'funding-instrument'),
-	reversals: Balanced.Model.hasMany('reversals', 'reversal'),
-	order: Balanced.Model.belongsTo('order', 'order'),
+	destination: Model.belongsTo('destination', 'funding-instrument'),
+	reversals: Model.hasMany('reversals', 'reversal'),
+	order: Model.belongsTo('order', 'order'),
 
 	funding_instrument_description: Ember.computed.alias('destination.description'),
 	last_four: Ember.computed.alias('destination.last_four'),
