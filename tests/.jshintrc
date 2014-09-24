@@ -1,5 +1,6 @@
 {
   "predef": [
+  	"require",
   	"BalancedApp",
   	"Ember",
   	"sinon",

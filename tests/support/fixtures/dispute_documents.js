@@ -1,3 +1,3 @@
-Balanced.Adapter.addFixtures([{
+BalancedApp.Adapter.addFixtures([{
 	"uri": "disputes/"
 }]);
