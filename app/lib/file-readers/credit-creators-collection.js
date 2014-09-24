@@ -1,4 +1,7 @@
 import Ember from "ember";
+import CsvReader from "./csv-reader";
+import CreditCreator from "./credit-creator";
+import CsvWriter from "../csv-writer";
 
 var isEvery = function(propertyName) {
 	return function() {
@@ -6,7 +9,7 @@ var isEvery = function(propertyName) {
 	}.property("@each." + propertyName);
 };
 
-Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
+var CreditCreatorsCollection = Ember.ArrayProxy.extend({
 
 	isDataPresent: false,
 	isDataMissing: Ember.computed.not("isDataPresent"),
@@ -58,7 +61,7 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	},
 
 	toCsvString: function() {
-		var writer = new Balanced.CsvWriter();
+		var writer = new CsvWriter();
 		var firstObject = this.get("firstObject");
 		var fieldNames = firstObject ?
 			firstObject.get("fieldNames").slice() : [];
@@ -72,28 +75,30 @@ Balanced.CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	}
 });
 
-Balanced.CreditCreatorsCollection.reopenClass({
+CreditCreatorsCollection.reopenClass({
 	fromCsvText: function(marketplace, text) {
 		if (text === undefined) {
-			return Balanced.CreditCreatorsCollection.create({
+			return this.create({
 				content: []
 			});
 		}
-		var reader = Balanced.CsvReader.create({
+		var reader = CsvReader.create({
 			body: text
 		});
 
 		var columnNames = reader.getColumnNames();
-		if (!Balanced.CreditCreator.isValidCreditCreatorColumns(columnNames)) {
+		if (!CreditCreator.isValidCreditCreatorColumns(columnNames)) {
 			throw new Error("ColumnsMissing");
 		}
 
 		var content = reader.getObjects().map(function(row) {
-			return Balanced.CreditCreator.fromCsvRow(marketplace, row);
+			return CreditCreator.fromCsvRow(marketplace, row);
 		});
-		return Balanced.CreditCreatorsCollection.create({
+		return this.create({
 			isDataPresent: true,
 			content: content
 		});
 	}
 });
+
+export default CreditCreatorsCollection;

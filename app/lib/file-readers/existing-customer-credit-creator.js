@@ -1,4 +1,7 @@
 import Customer from "balanced-dashboard/models/customer";
+import CreditCreator from "./credit-creator";
+import baseValidationsObject from "./base-validations";
+import CreditCreatorFields from "./credit-creator-fields";
 
 var ExistingCustomerCreditCreator = CreditCreator.extend({
 	validations: _.extend({}, baseValidationsObject, {
