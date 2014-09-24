@@ -33,7 +33,7 @@ var DatePickerView = Ember.View.extend({
 
 	didInsertElement: function() {
 		this.set('maxTime', (this.get('controller.maxDate') || DEFAULT_MAX_TIME).getTime());
-		this.set('minTime', (this.get('controller.minDate') || moment(Balanced.currentMarketplace.get('created_at')).toDate() || DEFAULT_MIN_TIME).getTime());
+		this.set('minTime', (this.get('controller.minDate') || moment(BalancedApp.currentMarketplace.get('created_at')).toDate() || DEFAULT_MIN_TIME).getTime());
 
 		Ember.run.scheduleOnce('afterRender', this, this.bindDatePicker);
 		this._changeDateFilter('');

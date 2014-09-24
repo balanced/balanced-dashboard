@@ -1,4 +1,6 @@
+import Ember from "ember";
 import ModalView from "./modal";
+import Utils from "balanced-dashboard/lib/utils";
 
 var EditCustomerInfoModalView = ModalView.extend({
 	templateName: 'modals/edit-customer-info',
@@ -17,7 +19,7 @@ var EditCustomerInfoModalView = ModalView.extend({
 	beforeSave: function() {
 		var customer = this.get('model');
 
-		Balanced.Utils.traverse(customer, function(val, key) {
+		Utils.traverse(customer, function(val, key) {
 			if (!customer.get(key)) {
 				customer.set(key, null);
 			}

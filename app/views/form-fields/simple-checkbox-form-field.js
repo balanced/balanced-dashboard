@@ -1,6 +1,6 @@
 import Ember from "ember";
 
-Balanced.SimpleCheckboxFormFieldView = Ember.View.extend({
+var SimpleCheckboxFormFieldView = Ember.View.extend({
 	templateName: "form_fields/simple_checkbox_form_field",
 	classNameBindings: [":form-group", "isError:has-error", ":checkbox"],
 	inputName: function() {
@@ -44,14 +44,4 @@ Balanced.SimpleCheckboxFormFieldView = Ember.View.extend({
 	}.property("errorMessages.length")
 });
 
-Balanced.TocCheckboxFormFieldView = Balanced.SimpleCheckboxFormFieldView.extend({
-	labelText: function() {
-		var firstLink = '<a href="https://www.balancedpayments.com/terms/">Terms & Conditions</a>';
-		var secondLink = '<a href="https://www.balancedpayments.com/terms/marketplaceagreement">Marketplace Agreement</a>';
-		var thirdLink = '<a href="https://www.balancedpayments.com/privacy">Privacy Policy</a>';
-		return new Ember.Handlebars.SafeString("I accept the %@, %@ and %@".fmt(firstLink, secondLink, thirdLink));
-	}.property(),
-
-	field: "isTermsAccepted",
-	explanationText: "We respect your privacy. Your information is stored securely and used only for transaction processing, customer support, and fraud prevention."
-});
+export default SimpleCheckboxFormFieldView;

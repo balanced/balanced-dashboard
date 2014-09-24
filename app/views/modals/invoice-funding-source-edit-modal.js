@@ -1,8 +1,10 @@
+import Ember from "ember";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import ModalBaseView from "./modal-base";
 
-Balanced.Modals.InvoiceFundingSourceEditModalView = Balanced.ModalBaseView.extend(Wide, Save, {
-	templateName: 'modals/invoice_funding_source_edit_modal',
+var InvoiceFundingSourceEditModalView = ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/invoice-funding-source-edit-modal',
 	title: 'Change default payment method',
 	elementId: 'change-funding-source',
 
@@ -37,7 +39,7 @@ Balanced.Modals.InvoiceFundingSourceEditModalView = Balanced.ModalBaseView.exten
 	}
 });
 
-Balanced.Modals.InvoiceFundingSourceEditModalView.reopenClass({
+InvoiceFundingSourceEditModalView.reopenClass({
 	open: function(invoice, marketplace) {
 		var view = this.create({
 			invoice: invoice,
@@ -47,3 +49,5 @@ Balanced.Modals.InvoiceFundingSourceEditModalView.reopenClass({
 		return view;
 	}
 });
+
+export default InvoiceFundingSourceEditModalView;

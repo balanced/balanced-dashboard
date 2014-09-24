@@ -2,10 +2,11 @@ import Ember from "ember";
 
 var OpenNextModalMixin = Ember.Mixin.create({
 	openNext: function() {
-		var controller = this.container.lookup("controller:application");
+		var container = this.get("container");
+		var applicationController = container.lookup("controller:application");
 		var args = _.toArray(arguments);
 		args.unshift("openModal");
-		return controller.send.apply(controller, args);
+		return applicationController.send.apply(applicationController, args);
 	},
 });
 

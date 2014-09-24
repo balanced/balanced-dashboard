@@ -1,5 +1,6 @@
 import Computed from "balanced-dashboard/utils/computed";
 import Constants from "balanced-dashboard/utils/constants";
+import ModalBaseView from "./modal-base";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 import Card from "balanced-dashboard/models/card";

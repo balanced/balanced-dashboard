@@ -1,3 +1,7 @@
+import Ember from "ember";
+import ModalBaseView from "./modal-base";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+
 var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
 	validations: {
 		emailAddress: {
@@ -15,9 +19,7 @@ var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
 	},
 });
 
-import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
-
-Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend(Save, {
+var ExportCsvModalView = ModalBaseView.extend(Save, {
 	templateName: "modals/export_csv_modal",
 	title: "Export data",
 	elementId: "download-csv",
@@ -46,10 +48,12 @@ Balanced.Modals.ExportCsvModalView = Balanced.ModalBaseView.extend(Save, {
 	}
 });
 
-Balanced.Modals.ExportCsvModalView.reopenClass({
+ExportCsvModalView.reopenClass({
 	open: function(resultsLoader) {
 		return this.create({
 			loader: resultsLoader
 		});
 	},
 });
+
+export default ExportCsvModalView;

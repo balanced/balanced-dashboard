@@ -1,4 +1,8 @@
-Balanced.Modals.RefundDebitModalView = Balanced.ModalBaseView.extend({
+import Ember from "ember";
+import ModalBaseView from "./modal-base";
+import RefundDebitTransactionFactory from "balanced-dashboard/models/factories/refund-debit-transaction-factory";
+
+var RefundDebitModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	templateName: 'modals/refund_debit_modal',
 	elementId: "refund-debit",
@@ -14,7 +18,7 @@ Balanced.Modals.RefundDebitModalView = Balanced.ModalBaseView.extend({
 	recipientDisplay: Ember.computed.oneWay("debit.recipient_name"),
 
 	model: function() {
-		return Balanced.RefundDebitTransactionFactory.create({
+		return RefundDebitTransactionFactory.create({
 			dollar_amount: this.get("debit.dollar_amount"),
 			debit: this.get("debit")
 		});
@@ -39,10 +43,12 @@ Balanced.Modals.RefundDebitModalView = Balanced.ModalBaseView.extend({
 	}
 });
 
-Balanced.Modals.RefundDebitModalView.reopenClass({
+RefundDebitModalView.reopenClass({
 	open: function(debit) {
 		return this.create({
 			debit: debit
 		});
 	}
 });
+
+export default RefundDebitModalView;

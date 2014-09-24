@@ -1,6 +1,8 @@
 import Ember from "ember";
-Balanced.MarketplaceCsvPaymentsTableView = Ember.View.extend({
-	templateName: "import_payouts/results_table",
+import Utils from "balanced-dashboard/lib/utils";
+
+var MarketplaceCsvPaymentsTableView = Ember.View.extend({
+	templateName: "import-payouts/results-table",
 
 	isExisting: Ember.computed.readOnly("creditCreators.isExistingCustomers"),
 
@@ -21,17 +23,8 @@ Balanced.MarketplaceCsvPaymentsTableView = Ember.View.extend({
 
 	errorReportUri: function() {
 		var csv = this.get("creditCreators").toCsvString();
-		return Balanced.Utils.toDataUri(csv);
+		return Utils.toDataUri(csv);
 	}.property("creditCreators.length")
 });
 
-Balanced.MarketplaceValidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
-	validityAdjective: "valid",
-	items: Ember.computed.alias("creditCreators.valid")
-});
-
-Balanced.MarketplaceInvalidCsvPaymentsTableView = Balanced.MarketplaceCsvPaymentsTableView.extend({
-	validityAdjective: "invalid",
-	isError: true,
-	items: Ember.computed.alias("creditCreators.invalid")
-});
+export default MarketplaceCsvPaymentsTableView;
