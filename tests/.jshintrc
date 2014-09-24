@@ -1,5 +1,8 @@
 {
   "predef": [
+  	"BalancedApp",
+  	"Ember",
+  	"sinon",
     "document",
     "window",
     "location",

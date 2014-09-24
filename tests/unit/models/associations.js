@@ -1,42 +1,51 @@
+import Ember from 'ember';
+import Model from "balanced-dashboard/models/core/model";
+import Rev0Serializer from "balanced-dashboard/serializers/rev0";
+import TypeMappings from "balanced-dashboard/models/core/type-mappings";
+
 var rev0Model;
 
-module('Balanced.Model.Associations', {
+module('Model.Associations', {
 	setup: function() {
 		Testing.setupFixtures();
 
-		rev0Model = Balanced.Model.extend({});
+		rev0Model = Model.extend({});
 		rev0Model.reopenClass({
-			serializer: Balanced.Rev0Serializer.create()
+			serializer: Rev0Serializer.create()
 		});
 
-		Balanced.TestModel = rev0Model.extend({
+		var TestModel = rev0Model.extend({
 			basic_field: 1,
 			derived_field: function() {
 				return this.get('basic_field') + 1;
 			}.property('basic_field')
 		});
-		Balanced.TypeMappings.addTypeMapping('test', 'Balanced.TestModel');
+		BalancedApp.__container__.register('model:test-model');
+		TypeMappings.addTypeMapping('test', 'test-model');
 
-		Balanced.Adapter.addFixtures([{
+		BalancedApp.Adapter.addFixtures([{
 			uri: '/v1/testobjects/1',
 			_type: 'test',
 			basic_field: 123
 		}]);
 
-		Balanced.TestFirstChildModel = rev0Model.extend({
+		var TestFirstChildModel = rev0Model.extend({
 			child_class_field: function() {
 				return 'first';
 			}.property()
 		});
 
-		Balanced.TestSecondChildModel = rev0Model.extend({
+		var TestSecondChildModel = rev0Model.extend({
 			child_class_field: function() {
 				return 'second';
 			}.property()
 		});
 
-		Balanced.TypeMappings.addTypeMapping('first', 'Balanced.TestFirstChildModel');
-		Balanced.TypeMappings.addTypeMapping('second', 'Balanced.TestSecondChildModel');
+		BalancedApp.__container__.register('model', 'model:test-first-child-model');
+		BalancedApp.__container__.register('model', 'model:test-second-child-model');
+
+		TypeMappings.addTypeMapping('first', 'test-first-child-model');
+		TypeMappings.addTypeMapping('second', 'test-second-child-model');
 	},
 
 	teardown: function() {}
@@ -44,10 +53,10 @@ module('Balanced.Model.Associations', {
 
 test('belongsTo associations work for embedded objects', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
+		my_belongs_to_field: Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_belongs_to_field: {
 			"tests": [{
@@ -65,10 +74,10 @@ test('belongsTo associations work for embedded objects', function(assert) {
 
 test('belongsTo associations work for embedded objects of wrong type', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
+		my_belongs_to_field: Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_belongs_to_field: {
 			_type: 'test',
@@ -84,10 +93,10 @@ test('belongsTo associations work for embedded objects of wrong type', function(
 
 test('belongsTo associations work for URIs', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
+		my_belongs_to_field: Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		_uris: {
 			my_belongs_to_field_uri: {
@@ -108,10 +117,10 @@ test('belongsTo associations work for URIs', function(assert) {
 
 test('hasMany associations work for embedded objects', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_embedded_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_embedded_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_embedded_field: [{
 			_type: "test",
@@ -131,10 +140,10 @@ test('hasMany associations work for embedded objects', function(assert) {
 
 test('hasMany associations work for URIs', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_embedded_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_embedded_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_embedded_field_uri: '/v1/embedded/1'
 	}, {
@@ -157,11 +166,11 @@ test('hasMany associations work for URIs', function(assert) {
 
 test("belongsTo associations don't share state", function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_field'),
-		my_other_belongs_to_field: Balanced.Model.belongsTo('my_other_field')
+		my_belongs_to_field: Model.belongsTo('my_field'),
+		my_other_belongs_to_field: Model.belongsTo('my_other_field')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobj/123',
 		_uris: {
 			my_field_uri: {
@@ -197,10 +206,10 @@ test("belongsTo associations don't share state", function(assert) {
 
 test('Embedded belongsTo associations work with fields of the same name', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
+		my_belongs_to_field: Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_belongs_to_field: {
 			basic_field: 234,
@@ -219,11 +228,11 @@ test('Embedded belongsTo associations work with fields of the same name', functi
 
 test("hasMany associations don't share state", function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel'),
-		my_other_has_many_field: Balanced.Model.hasMany('my_other_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_field', 'test-model'),
+		my_other_has_many_field: Model.hasMany('my_other_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobj/123',
 		my_field_uri: '/v1/testobjects/1',
 		my_other_field_uri: '/v1/testobjects/2',
@@ -267,10 +276,10 @@ test("hasMany associations don't share state", function(assert) {
 
 test('Embedded hasMany associations work with fields of the same name', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_has_many_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_has_many_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_has_many_field: [{
 			_type: "test",
@@ -291,7 +300,7 @@ test('Embedded hasMany associations work with fields of the same name', function
 test("belongsTo returns undefined if the property hasn't been set yet", function(assert) {
 	var TestModel2 = rev0Model.extend({
 		my_field_uri: null,
-		my_belongs_to_field: Balanced.Model.belongsTo('my_field_uri')
+		my_belongs_to_field: Model.belongsTo('my_field_uri')
 	});
 
 	var t = TestModel2.create();
@@ -301,10 +310,10 @@ test("belongsTo returns undefined if the property hasn't been set yet", function
 
 test("embedded belongsTo returns null if the property was null", function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field1: Balanced.Model.belongsTo('my_first_obj')
+		my_belongs_to_field1: Model.belongsTo('my_first_obj')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobjects/0',
 		my_first_obj: null
 	}]);
@@ -316,10 +325,10 @@ test("embedded belongsTo returns null if the property was null", function(assert
 
 test("embedded belongsTo returns undefined if the property was not present", function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field1: Balanced.Model.belongsTo('my_first_obj')
+		my_belongs_to_field1: Model.belongsTo('my_first_obj')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobjects/0'
 	}]);
 
@@ -331,8 +340,8 @@ test("embedded belongsTo returns undefined if the property was not present", fun
 test("hasMany returns an object even if the property hasn't been set yet", function(assert) {
 	var TestModel2 = rev0Model.extend({
 		my_field_uri: null,
-		my_has_many_field: Balanced.Model.hasMany('my_field_uri', 'Balanced.TestModel'),
-		my_embedded_has_many_field: Balanced.Model.hasMany('my_field_uri', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_field_uri', 'test-model'),
+		my_embedded_has_many_field: Model.hasMany('my_field_uri', 'test-model')
 	});
 
 	var t = TestModel2.create();
@@ -346,10 +355,10 @@ test("belongsTo associations have promises that resolve when they're loaded", fu
 	expect(1);
 
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_field')
+		my_belongs_to_field: Model.belongsTo('my_field')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		_uris: {
 			my_field_uri: {
 				_type: 'test'
@@ -372,7 +381,7 @@ test('belongsTo association promises resolve async', function(assert) {
 	expect(2);
 
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_field')
+		my_belongs_to_field: Model.belongsTo('my_field')
 	});
 
 	var t = TestModel2.create();
@@ -400,10 +409,10 @@ test("hasMany associations have promises that resolve when they're loaded", func
 	expect(2);
 
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_field_uri: '/v1/testobjects/1'
 	}, {
@@ -431,10 +440,10 @@ test('hasMany association promises resolve async', function(assert) {
 	expect(4);
 
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_field_uri', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_field_uri', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_field_uri: '/v1/testobjects/1hasManyResolveAsync'
 	}]);
@@ -450,10 +459,10 @@ test('hasMany association promises resolve async', function(assert) {
 			assert.equal(hasManyArray.objectAt(1).get('basic_field'), 234);
 		});
 
-		t.get('my_has_many_field').addObject(Balanced.TestModel.create({
+		t.get('my_has_many_field').addObject(test-model.create({
 			basic_field: 123
 		}));
-		t.get('my_has_many_field').addObject(Balanced.TestModel.create({
+		t.get('my_has_many_field').addObject(test-model.create({
 			basic_field: 234
 		}));
 		t.get('my_has_many_field').trigger('didLoad');
@@ -463,10 +472,10 @@ test('hasMany association promises resolve async', function(assert) {
 test('hasMany creates correct types for polymorphic associations', function(assert) {
 	expect(3);
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobjects/10',
 		my_field_uri: '/v1/testobjects/1'
 	}, {
@@ -495,11 +504,11 @@ test('belongsTo creates correct types for embedded polymorphic associations', fu
 	expect(2);
 
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field1: Balanced.Model.belongsTo('my_first_obj'),
-		my_belongs_to_field2: Balanced.Model.belongsTo('my_second_obj')
+		my_belongs_to_field1: Model.belongsTo('my_first_obj'),
+		my_belongs_to_field2: Model.belongsTo('my_second_obj')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobjects/0',
 		my_first_obj: {
 			uri: '/v1/testobjects/1',
@@ -533,10 +542,10 @@ test('belongsTo creates correct types for embedded polymorphic associations', fu
 test('hasMany pagination works', function(assert) {
 	expect(6);
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel')
+		my_has_many_field: Model.hasMany('my_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testobjects/10',
 		my_field_uri: '/v1/testobjects/1'
 	}, {
@@ -592,10 +601,10 @@ test('hasMany collection can be reloaded', function(assert) {
 	expect(2);
 
 	var model = rev0Model.extend({
-		transactions: Balanced.Model.hasMany('transactions', 'Balanced.TestModel')
+		transactions: Model.hasMany('transactions', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/transactions',
 		transactions_uri: '/v1/transactions',
 		items: [{
@@ -622,11 +631,11 @@ test('hasMany collection can be reloaded', function(assert) {
 
 test('hasMany URIs can be specified in the model object, not just the JSON', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_has_many_field: Balanced.Model.hasMany('my_embedded_field', 'Balanced.TestModel'),
+		my_has_many_field: Model.hasMany('my_embedded_field', 'test-model'),
 		my_embedded_field_uri: '/v1/embedded/1'
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2'
 	}, {
 		uri: '/v1/embedded/1',
@@ -648,10 +657,10 @@ test('hasMany URIs can be specified in the model object, not just the JSON', fun
 
 test('belongsTo URI associations that are missing the metadata fetch to determine the correct type', function(assert) {
 	var TestModel2 = rev0Model.extend({
-		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field', 'Balanced.TestModel')
+		my_belongs_to_field: Model.belongsTo('my_belongs_to_field', 'test-model')
 	});
 
-	Balanced.Adapter.addFixtures([{
+	BalancedApp.Adapter.addFixtures([{
 		uri: '/v1/testmodel2s/2',
 		my_belongs_to_field_uri: '/v1/belongs_to_fields/1'
 	}, {
@@ -660,7 +669,7 @@ test('belongsTo URI associations that are missing the metadata fetch to determin
 		_type: 'test'
 	}]);
 
-	Balanced.Adapter.asyncCallbacks = true;
+	BalancedApp.Adapter.asyncCallbacks = true;
 
 	var t;
 	wait().then(function() {
