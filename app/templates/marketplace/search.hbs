@@ -7,19 +7,19 @@
 	<nav class="search-filters-header">
 		<ul>
 			<li {{bind-attr class=":orders :filter totalOrders::disabled isOrdersTabSelected:selected"}} >
-				<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{formatNumber totalOrders}}) </a>
+				<a href="#" {{action "changeTypeFilter" "order"}}> Orders ({{format-number totalOrders}}) </a>
 			</li>
 
 			<li {{bind-attr class=":transactions :filter totalTransactions::disabled isTransactionsTabSelected:selected"}} >
-				<a href="#" {{action "changeTypeFilter" "transaction"}}>Transactions ({{formatNumber totalTransactions}}) </a>
+				<a href="#" {{action "changeTypeFilter" "transaction"}}>Transactions ({{format-number totalTransactions}}) </a>
 			</li>
 
 			<li {{bind-attr class=":customers :filter totalCustomers::disabled isCustomersTabSelected:selected"}} >
-				<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{formatNumber totalCustomers}}) </a>
+				<a href="#" {{action "changeTypeFilter" "customer"}}> Customers ({{format-number totalCustomers}}) </a>
 			</li>
 
 			<li {{bind-attr class=":funding-instruments :filter totalFundingInstruments::disabled isFundingInstrumentsTabSelected:selected"}} >
-				<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{formatNumber totalFundingInstruments}}) </a>
+				<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{format-number totalFundingInstruments}}) </a>
 			</li>
 		</ul>
 	</nav>
