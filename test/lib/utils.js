@@ -67,7 +67,7 @@ var Testing = {
 
 	// use the fixture adapter
 	setupFixtures: function() {
-		Balanced.Adapter = Balanced.FixtureAdapter.create();
+		BalancedApp.Adapter = Balanced.FixtureAdapter.create();
 		window.setupTestFixtures();
 	},
 

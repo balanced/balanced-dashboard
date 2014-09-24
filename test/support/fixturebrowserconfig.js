@@ -6,7 +6,7 @@ window.Balanced.setupFixtureApp = function() {
 
 	window.setupBalanced();
 	BalancedApp.Adapter = Balanced.FixtureAdapter.create();
-	Balanced.Adapter.asyncCallbacks = true;
+	BalancedApp.Adapter.asyncCallbacks = true;
 	window.setupTestFixtures();
 
 	// // Set up Ember Auth

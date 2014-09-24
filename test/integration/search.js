@@ -81,7 +81,7 @@ test('search date range pick', function(assert) {
 			var dp = $("#search .datetime-picker").data("daterangepicker");
 			dp.setStartDate(moment('2013-08-01T00:00:00.000Z').toDate());
 			dp.setEndDate(moment('2013-08-01T23:59:59.999Z').toDate());
-			spy = sinon.spy(Balanced.Adapter, 'get');
+			spy = sinon.spy(BalancedApp.Adapter, 'get');
 		})
 		.assertClick('.daterangepicker:visible .buttons button.applyBtn', assert)
 		.then(function() {

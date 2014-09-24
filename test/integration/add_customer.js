@@ -14,7 +14,7 @@ test('can visit page', function(assert) {
 });
 
 test('can create person customer', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.person")
@@ -67,7 +67,7 @@ test('can create person customer', function(assert) {
 });
 
 test('can create business customer', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.business")

@@ -9,9 +9,9 @@ module('Marketplace Settings Guest', {
 	teardown: function() {
 		Testing.restoreMethods(
 			Balanced.APIKey.prototype.save,
-			Balanced.Adapter.create,
-			Balanced.Adapter['delete'],
-			Balanced.Adapter.update,
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter['delete'],
+			BalancedApp.Adapter.update,
 			balanced.bankAccount.create,
 			balanced.card.create,
 			Ember.Logger.error
@@ -45,7 +45,7 @@ test('can update marketplace info', function(assert) {
 });
 
 test('updating marketplace info only submits once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
@@ -65,7 +65,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 });
 
 test('can update owner info', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {

@@ -17,8 +17,8 @@ module('Holds', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.update,
-			Balanced.Adapter.create
+			BalancedApp.Adapter.update,
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -30,7 +30,7 @@ test('can visit page', function(assert) {
 });
 
 test('can void hold', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit(Testing.HOLD_ROUTE)
 		.click(".void-hold-button")
@@ -44,7 +44,7 @@ test('can void hold', function(assert) {
 });
 
 test('can capture hold', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.HOLD_ROUTE)
 		.click(".capture-hold-button")

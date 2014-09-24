@@ -5,7 +5,7 @@ module('Card Page', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -17,7 +17,7 @@ test('can view card page', function(assert) {
 });
 
 test('debit card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
@@ -52,7 +52,7 @@ test('debit card', function(assert) {
 });
 
 test('debiting only submits once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
@@ -74,7 +74,7 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 });
 
 test('hold card', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
@@ -101,7 +101,7 @@ test('hold card', function(assert) {
 			};
 
 			var args = spy.firstCall.args;
-			assert.ok(spy.calledOnce, "Balanced.Adapter.create called");
+			assert.ok(spy.calledOnce, "BalancedApp.Adapter.create called");
 			assert.equal(args[0], Balanced.Hold);
 			assert.equal(args[1], "/cards/" + Testing.CARD_ID + "/card_holds");
 			_.each(expectedAttributes, function(value, key) {
@@ -111,7 +111,7 @@ test('hold card', function(assert) {
 });
 
 test('holding only submits once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
@@ -130,7 +130,7 @@ test('holding only submits once despite multiple clicks', function(assert) {
 		.then(function() {
 			assert.ok(stub.calledOnce);
 
-			Balanced.Adapter.create.restore();
+			BalancedApp.Adapter.create.restore();
 		});
 });
 

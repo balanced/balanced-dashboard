@@ -6,9 +6,9 @@ module('Customer Page', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.update,
-			Balanced.Adapter.create,
-			Balanced.Adapter["delete"],
+			BalancedApp.Adapter.update,
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter["delete"],
 			balanced.bankAccount.create,
 			balanced.card.create
 		);
@@ -22,7 +22,7 @@ test('can view customer page', function(assert) {
 });
 
 test('can edit customer info', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a.icon-edit')
@@ -51,7 +51,7 @@ test('can edit customer info', function(assert) {
 });
 
 test('can update customer info', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a.icon-edit')
@@ -104,7 +104,7 @@ test('can update customer info', function(assert) {
 });
 
 test('can update customer info only some fields', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a.icon-edit')
@@ -144,7 +144,7 @@ test('can update customer info only some fields', function(assert) {
 });
 
 test('can debit customer using card', function(assert) {
-	var spy = sinon.stub(Balanced.Adapter, "create");
+	var spy = sinon.stub(BalancedApp.Adapter, "create");
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -177,7 +177,7 @@ test('can debit customer using card', function(assert) {
 });
 
 test('can debit customer using bank account', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -210,7 +210,7 @@ test('can debit customer using bank account', function(assert) {
 });
 
 test("can't debit customer multiple times using the same modal", function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -239,7 +239,7 @@ test("can't debit customer multiple times using the same modal", function(assert
 });
 
 test("debit customer triggers reload of transactions", function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "get");
+	var spy = sinon.spy(BalancedApp.Adapter, "get");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -262,13 +262,13 @@ module('Customer Page: Credit', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
 
 test('can credit to a debit card', function(assert) {
-	var spy = sinon.stub(Balanced.Adapter, "create");
+	var spy = sinon.stub(BalancedApp.Adapter, "create");
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Credit)")
 		.checkElements({
@@ -312,7 +312,7 @@ test('when crediting customer triggers an error, the error is displayed to the u
 });
 
 test("can't credit customer multiple times using the same modal", function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Credit)")
@@ -338,7 +338,7 @@ module('Customer Page: Add', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create,
+			BalancedApp.Adapter.create,
 			balanced.bankAccount.create,
 			balanced.card.create
 		);
@@ -418,7 +418,7 @@ test('can add card', function(assert) {
 });
 
 test('can add card with postal code', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 
 	tokenizingStub.callsArgWith(1, {
@@ -465,7 +465,7 @@ test('can add card with postal code', function(assert) {
 });
 
 test('can add card with address', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,

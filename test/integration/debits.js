@@ -18,8 +18,8 @@ module('Debits', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create,
-			Balanced.Adapter.update
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter.update
 		);
 	}
 });
@@ -31,7 +31,7 @@ test('can visit page', function(assert) {
 });
 
 test('can refund debit', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.DEBIT_ROUTE)
 		.click(".page-navigation a:contains(Refund)")
@@ -46,7 +46,7 @@ test('can refund debit', function(assert) {
 });
 
 test('failed debit shows failure information', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
 		.then(function() {
@@ -64,7 +64,7 @@ test('failed debit shows failure information', function(assert) {
 });
 
 test('failed debit does not show refund modal', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
 		.then(function() {
@@ -82,7 +82,7 @@ test('failed debit does not show refund modal', function(assert) {
 });
 
 test('fully refunded debit not show refund modal', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 	var REFUNDED_DEBIT_ID, REFUNDED_DEBIT_ROUTE, REFUND_ROUTE;
 
 	Ember.run(function() {
@@ -114,7 +114,7 @@ test('fully refunded debit not show refund modal', function(assert) {
 });
 
 test('disputed debit does not show refund modal', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit(Testing.DEBIT_ROUTE)
 		.then(function() {
@@ -131,7 +131,7 @@ test('disputed debit does not show refund modal', function(assert) {
 });
 
 test('renders metadata correctly', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	var metaData = {
 		'key': 'value',

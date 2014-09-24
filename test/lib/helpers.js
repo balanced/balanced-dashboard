@@ -43,7 +43,7 @@ Balanced.Test.asyncHelpers = {
 	},
 
 	testEditTransaction: function(app, transaction, assert) {
-		var spy = sinon.spy(Balanced.Adapter, "update");
+		var spy = sinon.spy(BalancedApp.Adapter, "update");
 		return click(".side-panel .edit-model-link")
 			.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
 			.click('#edit-transaction .modal-footer button[name=modal-submit]')
@@ -53,7 +53,7 @@ Balanced.Test.asyncHelpers = {
 				assert.equal(firstCall.args[0], transaction.constructor);
 				assert.equal(firstCall.args[1], transaction.get("uri"));
 				assert.equal(firstCall.args[2].description, "changing desc");
-				Testing.restoreMethods(Balanced.Adapter.update);
+				Testing.restoreMethods(BalancedApp.Adapter.update);
 			});
 	},
 

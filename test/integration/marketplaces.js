@@ -9,8 +9,8 @@ module('Marketplaces.Index', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create,
-			Balanced.Adapter.delete,
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter.delete,
 			Ember.Logger.error
 		);
 	}
@@ -49,7 +49,7 @@ test('add test marketplace', function(assert) {
 
 	this.fakeRegisteredUser();
 
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 	Balanced.Auth.set('user.api_keys_uri', '/users/%@/api_keys'.fmt(Testing.CUSTOMER_ID));
 
 	visit(Testing.MARKETPLACES_ROUTE)
@@ -63,7 +63,7 @@ test('add test marketplace', function(assert) {
 });
 
 test('add existing marketplace', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 	this.fakeRegisteredUser();
 	Balanced.Auth.set('user.marketplaces_uri', '/users/%@/marketplaces'.fmt(Testing.CUSTOMER_ID));
 
@@ -76,7 +76,7 @@ test('add existing marketplace', function(assert) {
 });
 
 test('delete marketplace', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "delete");
+	var stub = sinon.stub(BalancedApp.Adapter, "delete");
 	this.fakeRegisteredUser();
 	Balanced.Auth.set('user.marketplaces_uri', '/users/' +
 		Testing.CUSTOMER_ID + '/marketplaces');
@@ -90,7 +90,7 @@ test('delete marketplace', function(assert) {
 });
 
 test('delete marketplace only deletes once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "delete");
+	var stub = sinon.stub(BalancedApp.Adapter, "delete");
 	this.fakeRegisteredUser();
 	Balanced.Auth.set('user.marketplaces_uri', '/users/%@/marketplaces'.fmt(Testing.CUSTOMER_ID));
 

@@ -1,6 +1,7 @@
 {
   "predef": [
   	"require",
+  	"balanced",
   	"BalancedApp",
   	"Ember",
   	"sinon",
@@ -9,6 +10,7 @@
     "location",
     "setTimeout",
     "$",
+    "jQuery",
     "-Promise",
     "QUnit",
     "define",
@@ -49,7 +51,9 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+	"_",
+	"moment"
   ],
   "node": false,
   "browser": false,

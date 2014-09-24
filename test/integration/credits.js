@@ -5,8 +5,8 @@ module('Credits', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.update,
-			Balanced.Adapter.create
+			BalancedApp.Adapter.update,
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -18,7 +18,7 @@ test('can visit page', function(assert) {
 });
 
 test('can reverse credit', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 	var reverseSelector = ".page-navigation a:contains(Reverse)";
 
 	visit(Testing.CREDIT_ROUTE)
@@ -68,7 +68,7 @@ test('credit reversal errors', function(assert) {
 });
 
 test('reversing a credit with a comma in the amount will succeed', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "create");
+	var spy = sinon.spy(BalancedApp.Adapter, "create");
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.page-navigation a:contains(Reverse)')
@@ -89,7 +89,7 @@ test('reversing a credit with a comma in the amount will succeed', function(asse
 });
 
 test('renders metadata correctly', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	var metaData = {
 		'key': 'value',

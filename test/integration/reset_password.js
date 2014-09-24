@@ -23,7 +23,7 @@ test('setting a weak password should error', function(assert) {
 });
 
 test('reset password form submits on button click', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit('/password/abcdefghijklmnopq')
 		.fillIn("form#reset-password-form input[name=password]", 'abcdef5')
@@ -41,7 +41,7 @@ test('reset password form submits on button click', function(assert) {
 });
 
 test('reset password form submits on form submit', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit('/password/abcdefghijklmnopq')
 		.fillIn("form#reset-password-form input[name=password]", 'abcdef5')

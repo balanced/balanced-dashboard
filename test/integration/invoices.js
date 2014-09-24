@@ -6,8 +6,8 @@ module('Invoices', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.get,
-			Balanced.Adapter.update
+			BalancedApp.Adapter.get,
+			BalancedApp.Adapter.update
 		);
 	}
 });
@@ -38,7 +38,7 @@ test("transactions invoice detail page filters", function(assert) {
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.then(function() {
-			spy = sinon.stub(Balanced.Adapter, "get");
+			spy = sinon.stub(BalancedApp.Adapter, "get");
 		})
 		.click('.main-panel .search-filters-header a:contains(Debits (Cards))')
 		.click('.main-panel .search-filters-header a:contains(Refunds)')
@@ -62,7 +62,7 @@ test('transactions invoice detail page', function(assert) {
 
 test('change invoice funding source', function(assert) {
 	var invoiceUri = '/invoices/IVDOATjeyAPTJMJPnBR83uE';
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 	stub.callsArg(3);
 
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")

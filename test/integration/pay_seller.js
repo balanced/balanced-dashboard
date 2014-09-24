@@ -4,13 +4,13 @@ module('Pay Seller', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
 
 test('can pay a seller', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".page-navigation a:contains(Credit a bank account)")
@@ -41,7 +41,7 @@ test('can pay a seller', function(assert) {
 });
 
 test('pay a seller only submits once despite multiple button clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".page-navigation a:contains(Credit a bank account)")

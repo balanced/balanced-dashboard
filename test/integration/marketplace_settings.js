@@ -4,8 +4,8 @@ module('Marketplace Settings', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create,
-			Balanced.Adapter.delete
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter.delete
 		);
 	}
 });
@@ -32,7 +32,7 @@ test('test marketplace info', function(assert) {
 });
 
 test('can add user', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'create');
+	var stub = sinon.stub(BalancedApp.Adapter, 'create');
 	stub.onCall(0).callsArgWith(3, {
 		"api_keys": [{
 			"links": {},
@@ -84,7 +84,7 @@ test('can add user', function(assert) {
 });
 
 test('can delete user', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'delete');
+	var stub = sinon.stub(BalancedApp.Adapter, 'delete');
 	var TEST_EMAIL = 'Test1234@example.com';
 
 	var users = [{

@@ -5,7 +5,7 @@ module('Logs', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.get
+			BalancedApp.Adapter.get
 		);
 	}
 });
@@ -22,7 +22,7 @@ var setLogsProperties = function() {
 };
 
 test('can visit page', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get');
+	var spy = sinon.spy(BalancedApp.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
@@ -45,7 +45,7 @@ test('can visit page', function(assert) {
 });
 
 test('filter logs by datetime range', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get');
+	var spy = sinon.spy(BalancedApp.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
@@ -79,7 +79,7 @@ test('filter logs by datetime range', function(assert) {
 
 
 test('filter logs by request failed only', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get');
+	var spy = sinon.spy(BalancedApp.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
@@ -105,7 +105,7 @@ test('filter logs by request failed only', function(assert) {
 });
 
 test('filter logs by endpoint bank accounts', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'get');
+	var spy = sinon.spy(BalancedApp.Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')

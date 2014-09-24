@@ -5,7 +5,7 @@ module('Disputes (non-deterministic)', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -51,7 +51,7 @@ test('exist on the dispute page', function(assert) {
 
 test('can download disputes', function(assert) {
 	assert.equal($(".alert span").length, 0);
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 	stub.withArgs(Balanced.Download).callsArgWith(3, {
 		download: {}
 	});

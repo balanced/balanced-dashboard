@@ -9,9 +9,9 @@ module('Marketplace Settings Api Keys', {
 	teardown: function() {
 		Testing.restoreMethods(
 			Balanced.APIKey.prototype.save,
-			Balanced.Adapter.create,
-			Balanced.Adapter['delete'],
-			Balanced.Adapter.update,
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter['delete'],
+			BalancedApp.Adapter.update,
 			balanced.bankAccount.create,
 			balanced.card.create,
 			Ember.Logger.error
@@ -43,7 +43,7 @@ test('can manage api keys', function(assert) {
 });
 
 test('can add api key', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'create');
+	var stub = sinon.stub(BalancedApp.Adapter, 'create');
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
@@ -69,7 +69,7 @@ test('can add api key', function(assert) {
 test('adding api key updates auth', function(assert) {
 	var testSecret = 'amazing-secret';
 	var saveStub = sinon.stub(Balanced.APIKey.prototype, 'save');
-	var stub = sinon.stub(Balanced.Adapter, 'create');
+	var stub = sinon.stub(BalancedApp.Adapter, 'create');
 	saveStub.returns({
 		then: function(callback) {
 			callback(Ember.Object.create({
@@ -107,7 +107,7 @@ test('cannot delete current api key without a replacement', function(assert) {
 });
 
 test('can delete api key', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, 'delete');
+	var stub = sinon.stub(BalancedApp.Adapter, 'delete');
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')

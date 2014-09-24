@@ -7,7 +7,7 @@ module('Payments', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -53,7 +53,7 @@ module('Payments', {
 	});
 
 	test('add funds', function(assert) {
-		var spy = sinon.spy(Balanced.Adapter, "create");
+		var spy = sinon.spy(BalancedApp.Adapter, "create");
 		var bankAccounts = Balanced.BankAccount.findAll();
 
 		visit(Testing.ACTIVITY_ROUTE)
@@ -87,7 +87,7 @@ module('Payments', {
 	});
 
 	test('add funds only adds once despite multiple clicks', function(assert) {
-		var stub = sinon.stub(Balanced.Adapter, "create");
+		var stub = sinon.stub(BalancedApp.Adapter, "create");
 		var bankAccounts = Balanced.BankAccount.findAll();
 
 		visit(Testing.ACTIVITY_ROUTE)
@@ -107,7 +107,7 @@ module('Payments', {
 	});
 
 	test('withdraw funds', function(assert) {
-		var spy = sinon.spy(Balanced.Adapter, "create");
+		var spy = sinon.spy(BalancedApp.Adapter, "create");
 		var bankAccounts = Balanced.BankAccount.findAll();
 
 		visit(Testing.ACTIVITY_ROUTE)
@@ -146,7 +146,7 @@ module('Payments', {
 	});
 
 	test('withdraw funds only withdraws once despite multiple clicks', function(assert) {
-		var stub = sinon.stub(Balanced.Adapter, "create");
+		var stub = sinon.stub(BalancedApp.Adapter, "create");
 		var bankAccounts = Balanced.BankAccount.findAll();
 
 		visit(Testing.ACTIVITY_ROUTE)

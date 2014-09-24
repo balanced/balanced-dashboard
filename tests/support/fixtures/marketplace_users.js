@@ -1,4 +1,4 @@
-Balanced.Adapter.addFixtures([{
+BalancedApp.Adapter.addFixtures([{
 	"uri": "/customers/CU1BD7AWUgJdo3fiilJRbzy"
 }, {
 	"uri": "/callbacks",
