@@ -1,7 +1,11 @@
 <div class="key-value-display">
-	<header>
-		<h3>Meta information</h3>
-	</header>
+	<h3>
+		Meta information
+		<a class="pull-right edit-model-link" {{action "openModal" Balanced.Modals.MetaEditModalView view.type view.meta_array}}>
+			<i class="icon-edit"></i>
+		</a>
+	</h3>
+
 	{{#if view.meta_array}}
 	<dl class="dl-horizontal meta">
 		{{#each meta in view.meta_array}}

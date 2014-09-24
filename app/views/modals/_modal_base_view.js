@@ -43,18 +43,15 @@ Balanced.ModalBaseView.reopenClass({
 
 Balanced.Modals.FormModalMixin = Ember.Mixin.create({
 	layoutName: "modals/form_modal_layout",
-});
 
-Balanced.Modals.WideModalMixin = Ember.Mixin.create({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
-});
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification_center");
+	},
 
-Balanced.Modals.FullModalMixin = Ember.Mixin.create({
-	layoutName: "modals/new_base_modal_layout",
-	classNameBindings: [":half-screen-modal"],
-});
+	getModalNotificationController: function() {
+		return this.get("container").lookup("controller:modal_notification_center");
+	},
 
-Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create(Ember.Validations, {
 	updateErrorsBar: function() {
 		var controller = this.get("container").lookup("controller:modal_notification_center");
 		var self = this;
@@ -80,6 +77,15 @@ Balanced.Modals.DisplayModelErrorsModalMixin = Ember.Mixin.create(Ember.Validati
 
 
 	}.observes("model.validationErrors.allMessages"),
+});
+
+Balanced.Modals.WideModalMixin = Ember.Mixin.create({
+	classNameBindings: [":wide-modal", ":modal-overflow"],
+});
+
+Balanced.Modals.FullModalMixin = Ember.Mixin.create({
+	layoutName: "modals/new_base_modal_layout",
+	classNameBindings: [":half-screen-modal"],
 });
 
 Balanced.Modals.OpenNextModalMixin = Ember.Mixin.create({

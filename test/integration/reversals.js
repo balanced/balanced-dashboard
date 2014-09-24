@@ -20,7 +20,7 @@ test('can edit reversal', function(assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
 
 	visit(Testing.REVERSAL_ROUTE)
-		.click('.key-value-display .edit-model-link')
+		.click('.key-value-display .edit-model-link:eq(0)')
 		.fillForm("#edit-transaction", {
 			description: "changing desc"
 		})
@@ -52,4 +52,23 @@ test('renders metadata correctly', function(assert) {
 			".dl-horizontal dt:contains(other-keey)": 1,
 			".dl-horizontal dd:contains(other-vaalue)": 1,
 		}, assert);
+});
+
+test('can edit meta', function(assert) {
+	var spy = sinon.spy(Balanced.Adapter, "update");
+
+	visit(Testing.REVERSAL_ROUTE)
+		.click('.key-value-display .edit-model-link:eq(1)')
+		.fillForm("#edit-meta", {
+			key: "new key",
+			value: "new value"
+		})
+		.click('#edit-meta .modal-footer button[name=modal-submit]')
+		.then(function() {
+			assert.ok(spy.calledOnce);
+			assert.ok(spy.calledWith(Balanced.Reversal));
+			assert.deepEqual(spy.getCall(0).args[2].meta, {
+				"new key": "new value"
+			});
+		});
 });

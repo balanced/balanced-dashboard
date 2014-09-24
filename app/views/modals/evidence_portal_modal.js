@@ -1,8 +1,7 @@
 var Full = Balanced.Modals.FullModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
-var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
 
-Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, DisplayModelErrors, {
+Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, {
 	templateName: 'modals/evidence_portal_modal',
 	title: 'Provide dispute evidence',
 	elementId: 'evidence-portal',

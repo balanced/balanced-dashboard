@@ -1,9 +1,8 @@
 var Full = Balanced.Modals.FullModalMixin;
 var OpenNext = Balanced.Modals.OpenNextModalMixin;
 var Form = Balanced.Modals.FormModalMixin;
-var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
 
-Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenNext, {
 	staticBackdrop: true,
 
 	open: function() {
@@ -70,11 +69,5 @@ Balanced.RegisterFlowBaseModal = Balanced.ModalBaseView.extend(Full, Form, OpenN
 			confirmMessage: this.get("confirmMessage"),
 			previousModal: self
 		});
-	},
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
-	},
-	getModalNotificationController: function() {
-		return this.get("container").lookup("controller:modal_notification_center");
 	}
 });
