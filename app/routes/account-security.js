@@ -1,4 +1,5 @@
 import AuthRoute from "./auth";
+import Model from "balanced-dashboard/models/core/model";
 
 var NOT_ALLOWED_ROUTES = ['shapeshifter', 'login', 'logout', 'claim', 'apply'];
 
@@ -13,7 +14,7 @@ var AccountSecurityRoute = AuthRoute.extend({
 	},
 
 	model: function() {
-		var emptyModel = Balanced.Model.create();
+		var emptyModel = Model.create();
 
 		return {
 			emptyModel: emptyModel
@@ -21,7 +22,7 @@ var AccountSecurityRoute = AuthRoute.extend({
 	},
 
 	beforeModel: function(transition) {
-		var router = Balanced.__container__.lookup('router:main').get('router');
+		var router = this.get("container").lookup('router:main').get('router');
 		var currentHandlerInfos = router.currentHandlerInfos;
 		if (!currentHandlerInfos || !currentHandlerInfos.length) {
 			this.previousHandler = null;

@@ -1,6 +1,9 @@
 import Rev1Serializer from "../serializers/rev1";
 import UserMarketplace from "./user-marketplace";
 import SearchModelArray from "./core/search-model-array";
+import Model from "./core/model";
+import Utils from "balanced-dashboard/lib/utils";
+import Ajax from "balanced-dashboard/lib/ajax";
 
 var getResultsLoader = function(loaderClassName, attributes) {
 	return BalancedApp.__container__.lookupFactory("results-loader:" + loaderClassName).create(attributes);
@@ -40,21 +43,21 @@ var Marketplace = UserMarketplace.extend({
 		return getResultsLoader("marketplace-search", attributes);
 	},
 
-	credits: Balanced.Model.hasMany('credits', 'credit'),
-	debits: Balanced.Model.hasMany('debits', 'debit'),
-	// disputes: Balanced.Model.hasMany('disputes', 'dispute'),
-	refunds: Balanced.Model.hasMany('refunds', 'refund'),
-	holds: Balanced.Model.hasMany('holds', 'hold'),
-	transactions: Balanced.Model.hasMany('transactions', 'transaction'),
-	callbacks: Balanced.Model.hasMany('callbacks', 'callback'),
+	credits: Model.hasMany('credits', 'credit'),
+	debits: Model.hasMany('debits', 'debit'),
+	// disputes: Model.hasMany('disputes', 'dispute'),
+	refunds: Model.hasMany('refunds', 'refund'),
+	holds: Model.hasMany('holds', 'hold'),
+	transactions: Model.hasMany('transactions', 'transaction'),
+	callbacks: Model.hasMany('callbacks', 'callback'),
 
-	funding_instruments: Balanced.Model.hasMany('funding_instruments', 'funding-instrument'),
-	bank_accounts: Balanced.Model.hasMany('bank_accounts', 'bank-account'),
-	cards: Balanced.Model.hasMany('cards', 'card'),
+	funding_instruments: Model.hasMany('funding_instruments', 'funding-instrument'),
+	bank_accounts: Model.hasMany('bank_accounts', 'bank-account'),
+	cards: Model.hasMany('cards', 'card'),
 
-	owner_customer: Balanced.Model.belongsTo('owner_customer', 'customer'),
+	owner_customer: Model.belongsTo('owner_customer', 'customer'),
 
-	customers: Balanced.Model.hasMany('customers', 'customer'),
+	customers: Model.hasMany('customers', 'customer'),
 
 	// TODO - take this out once marketplace has a link to invoices list
 	users_uri: function() {
@@ -67,7 +70,7 @@ var Marketplace = UserMarketplace.extend({
 	populateWithTestTransactions: function() {
 		//  pre-populate marketplace with transactions
 		var id = this.get('id');
-		Balanced.NET.ajax({
+		Ajax.ajax({
 			url: ENV.BALANCED.AUTH + '/marketplaces/%@/spam'.fmt(id),
 			type: 'PUT'
 		});
@@ -82,7 +85,7 @@ var Marketplace = UserMarketplace.extend({
 			query: query
 		}, params);
 
-		var resultsUri = Balanced.Utils.applyUriFilters(baseUri, searchParams);
+		var resultsUri = Utils.applyUriFilters(baseUri, searchParams);
 		return SearchModelArray.newArrayLoadedFromUri(resultsUri, resultsType);
 	},
 

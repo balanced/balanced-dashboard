@@ -1,4 +1,6 @@
-Balanced.ConfirmModalComponent = Balanced.ModalComponent.extend({
+import ModalComponent from "./modal";
+
+var ConfirmModalComponent = ModalComponent.extend({
 
 	reset: function() {
 		this.off("cancel");
@@ -14,3 +16,5 @@ Balanced.ConfirmModalComponent = Balanced.ModalComponent.extend({
 		}
 	}
 });
+
+export default ConfirmModalComponent;

@@ -1,6 +1,8 @@
+import Ember from "ember";
 import Rev0Serializer from "../serializers/rev0";
+import Model from "./core/model";
 
-var ForgotPassword = Balanced.Model.extend(Ember.Validations, {
+var ForgotPassword = Model.extend(Ember.Validations, {
 	uri: '/password',
 
 	validations: {

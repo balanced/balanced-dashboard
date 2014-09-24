@@ -1,4 +1,6 @@
-Balanced.ModalComponent = Ember.Component.extend({
+import Ember from "ember";
+
+var ModalComponent = Ember.Component.extend({
 	submitAction: 'submit',
 	classNames: ['modal-container'],
 	modalElement: '.modal',
@@ -57,3 +59,5 @@ Balanced.ModalComponent = Ember.Component.extend({
 		}
 	}
 });
+
+export default ModalComponent;

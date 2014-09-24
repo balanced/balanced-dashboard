@@ -1,3 +1,4 @@
+import { CountryCodesToNames } from "balanced-dashboard/lib/country-codes";
 import Model from "./core/model";
 import Computed from "balanced-dashboard/utils/computed";
 import FundingInstrumentsResultsLoader from "./results-loaders/funding-instruments";
@@ -132,7 +133,7 @@ var Customer = Model.extend({
 	}.property('is_business', 'business_name', 'name', 'email'),
 
 	country_name: function() {
-		return Balanced.CountryCodesToNames[this.get('address.country_code')];
+		return CountryCodesToNames[this.get('address.country_code')];
 	}.property('address.country_code'),
 
 	address_string: function() {
@@ -173,7 +174,7 @@ var Customer = Model.extend({
 
 Customer.reopenClass({
 	findByNameOrEmail: function(marketplace, query) {
-		return marketplace.search(query, "Balanced.Customer", {
+		return marketplace.search(query, "customer", {
 			type: "customer"
 		});
 	}

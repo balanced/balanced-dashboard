@@ -1,3 +1,4 @@
+import Ember from "ember";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
 var delegateToRaven = function(methodName) {
@@ -10,7 +11,7 @@ var delegateToRaven = function(methodName) {
 	};
 };
 
-Balanced.ErrorsLogger = Ember.Namespace.create({
+var ErrorsLogger = Ember.Namespace.create({
 	captureMessage: delegateToRaven('captureMessage'),
 	captureException: delegateToRaven('captureException'),
 	isExpectedStatusCode: function(statusCode) {
@@ -25,12 +26,12 @@ Balanced.ErrorsLogger = Ember.Namespace.create({
 			if (!error.get("isValid")) {
 				return true;
 			} else if (error.get("isError")) {
-				return Balanced.ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
+				return ErrorsLogger.isExpectedStatusCode(error.get("errorStatusCode"));
 			}
 			return false;
 		} else if (error.errors) {
 			return error.errors.every(function(err) {
-				return Balanced.ErrorsLogger.isExpectedStatusCode(err.status_code);
+				return ErrorsLogger.isExpectedStatusCode(err.status_code);
 			});
 		}
 		return false;
@@ -38,7 +39,7 @@ Balanced.ErrorsLogger = Ember.Namespace.create({
 });
 
 var reportError = function(error) {
-	if (Balanced.ErrorsLogger.isExpectedError(error)) {
+	if (ErrorsLogger.isExpectedError(error)) {
 		return;
 	}
 
@@ -50,12 +51,12 @@ var reportError = function(error) {
 			location: window.location.toString()
 		};
 
-		if (Balanced.currentMarketplace) {
-			data.marketplaceId = Balanced.currentMarketplace.get('id');
-			data.marketplaceName = Balanced.currentMarketplace.get('name');
+		if (BalancedApp.currentMarketplace) {
+			data.marketplaceId = BalancedApp.currentMarketplace.get('id');
+			data.marketplaceName = BalancedApp.currentMarketplace.get('name');
 		}
 
-		Balanced.ErrorsLogger.captureException(error, {
+		ErrorsLogger.captureException(error, {
 			tags: data
 		});
 
@@ -71,3 +72,5 @@ if ('undefined' !== typeof Raven) {
 
 Ember.onerror = reportError;
 Ember.RSVP.configure('onerror', reportError);
+
+export default ErrorsLogger;

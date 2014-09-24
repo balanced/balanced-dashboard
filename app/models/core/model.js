@@ -415,6 +415,9 @@ Model.reopenClass({
 	},
 
 	_materializeLoadedObjectFromAPIResult: function(json) {
+		var UserMarketplace = this.get("container").lookupFactory("model:user-marketplace");
+		var UserInvite = this.get("container").lookupFactory("model:user-invite");
+
 		var objClass = this;
 
 		if (json._type) {
@@ -424,7 +427,7 @@ Model.reopenClass({
 			}
 		} else {
 			// HACK - once we fix the API response from the auth proxy, we should take out the if
-			if (objClass !== Balanced.UserMarketplace && objClass !== Balanced.UserInvite) {
+			if (objClass !== UserMarketplace && objClass !== UserInvite) {
 				Ember.Logger.warn('No _type field found on URI: ' + json.uri);
 			}
 		}
@@ -451,7 +454,4 @@ Model.reopenClass({
 
 Model.Events = Ember.Object.extend(Ember.Evented).create();
 
-if (this.Balanced) {
-	this.Balanced.Model = Model;
-}
 export default Model;

@@ -1,6 +1,8 @@
 import Rev0Serializer from "../serializers/rev0";
+import Model from "./core/model";
+import Ember from "ember";
 
-var UserInvite = Balanced.Model.extend(Ember.Validations, {
+var UserInvite = Model.extend(Ember.Validations, {
 	validations: {
 		email_address: {
 			presence: true,

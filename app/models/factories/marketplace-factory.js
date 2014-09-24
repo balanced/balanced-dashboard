@@ -1,8 +1,12 @@
+import BaseFactory from "./base";
+import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
+import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
+
 var PRESENCE_VALIDATION = {
 	presence: true
 };
 
-Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
+var MarketplaceFactory = BaseFactory.extend({
 	validations: {
 		isTermsAccepted: {
 			checked: {
@@ -21,7 +25,7 @@ Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 				maximum: 15,
 			},
 			format: {
-				validator: Balanced.ValidationHelpers.phoneNumberValidator
+				validator: ValidationHelpers.phoneNumberValidator
 			}
 		},
 		domain_url: PRESENCE_VALIDATION
@@ -30,7 +34,7 @@ Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 	isTermsAccepted: false,
 
 	getConnection: function() {
-		return Balanced.Connections.ApiConnection.create({
+		return ApiConnection.create({
 			apiKey: this.get("apiKeySecret")
 		});
 	},
@@ -47,3 +51,5 @@ Balanced.MarketplaceFactory = Balanced.BaseFactory.extend({
 		return response.marketplaces[0].href;
 	},
 });
+
+export default MarketplaceFactory;
