@@ -1,6 +1,10 @@
-Balanced.Connections.AuthConnection = Balanced.Connections.BaseConnection.extend({
+import ENV from "balanced-dashboard/config/environment";
+import Ajax from "../ajax";
+import BaseConnection from "./base-connection";
+
+var AuthConnection = BaseConnection.extend({
 	csrfToken: function() {
-		return Balanced.NET.csrfToken;
+		return Ajax.csrfToken;
 	}.property(),
 
 	getCsrfToken: function() {
@@ -33,3 +37,5 @@ Balanced.Connections.AuthConnection = Balanced.Connections.BaseConnection.extend
 		return settings;
 	}
 });
+
+export default AuthConnection;

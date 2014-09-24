@@ -29,6 +29,6 @@ ModelsAdapterInitializer =
 		register("user-marketplace", ENV.BALANCED.AUTH)
 
 		container.register("adapter:main", Adapter)
-		Balanced.Adapter = Adapter
+		BalancedApp.Adapter = Adapter
 
 `export default ModelsAdapterInitializer;`

@@ -1,3 +1,7 @@
+import BaseConnection from "./base-connection";
+import ENV from "balanced-dashboard/config/environment";
+import Utils from "balanced-dashboard/lib/utils";
+
 var DEFAULT_SETTINGS = {
 	dataType: 'json',
 	contentType: 'application/json; charset=UTF-8',
@@ -11,10 +15,10 @@ var API_COMMANDS_URIS = {
 	api_keys: "%@/api_keys".fmt(ENV.BALANCED.API)
 };
 
-Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend({
+var ApiConnection = BaseConnection.extend({
 	getEncodedAuthorization: function() {
 		var apiKey = this.get("apiKey");
-		return Balanced.Utils.encodeAuthorization(apiKey);
+		return Utils.encodeAuthorization(apiKey);
 	},
 
 	isAuthorized: function() {
@@ -44,3 +48,5 @@ Balanced.Connections.ApiConnection = Balanced.Connections.BaseConnection.extend(
 		return settings;
 	},
 });
+
+export default ApiConnection;

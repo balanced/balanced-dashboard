@@ -1,5 +1,5 @@
-import ENV from "balanced-dashboard/config/environment";
-import ApiKey from "balanced-dashboard/models/api-key";
+import Ember from "ember";
+import Utils from "./lib/utils";
 import User from "balanced-dashboard/models/user";
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 import Marketplace from "balanced-dashboard/models/marketplace";
@@ -7,14 +7,17 @@ import Auth from "balanced-dashboard/auth";
 
 import Constants from "./utils/constants";
 import CookieConstants from "./utils/constants/cookie";
+import Ajax from "balanced-dashboard/lib/ajax";
 
-var auth = Auth = Ember.Namespace.extend(Ember.Evented).create({
+import ApiKey from "./models/api-key";
+
+var Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {
-		return Balanced.NET.loadCSRFTokenIfNotLoaded();
+		return Ajax.loadCSRFTokenIfNotLoaded();
 	},
 	request: function(opts) {
 		var deferred = Ember.RSVP.defer();
-		Balanced.NET.ajax(opts || {})
+		Ajax.ajax(opts || {})
 			.done(function(response) {
 				deferred.resolve(response);
 			})
@@ -136,7 +139,7 @@ var auth = Auth = Ember.Namespace.extend(Ember.Evented).create({
 			marketplace.get('name'),
 			this.getGuestAPIKey()
 		);
-		Balanced.Utils.setCurrentMarketplace(marketplace);
+		Utils.setCurrentMarketplace(marketplace);
 	},
 
 	addUserMarketplace: function(id, uri, name, secret) {
@@ -166,7 +169,7 @@ var auth = Auth = Ember.Namespace.extend(Ember.Evented).create({
 		};
 		return this.request(attributes)
 			.then(function() {
-				Balanced.NET.loadCSRFToken();
+				Ajax.loadCSRFToken();
 			});
 	},
 
@@ -299,16 +302,16 @@ var auth = Auth = Ember.Namespace.extend(Ember.Evented).create({
 
 		this.setAuthProperties(false, null, null, null, false, false);
 
-		Balanced.Utils.setCurrentMarketplace(null);
+		Utils.setCurrentMarketplace(null);
 	},
 
 	setAPIKey: function(apiKeySecret) {
 		// Have to use Ember.set since we're using defaultApiKey in bindings
-		Ember.set(Balanced.NET, 'defaultApiKey', apiKeySecret);
+		Ember.set(Ajax, 'defaultApiKey', apiKeySecret);
 	},
 
 	unsetAPIKey: function() {
-		Ember.set(Balanced.NET, 'defaultApiKey', null);
+		Ember.set(Ajax, 'defaultApiKey', null);
 	},
 
 	storeGuestAPIKey: function(apiKeySecret) {
@@ -340,4 +343,4 @@ var auth = Auth = Ember.Namespace.extend(Ember.Evented).create({
 	}
 });
 
-export default auth;
+export default Auth;

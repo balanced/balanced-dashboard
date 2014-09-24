@@ -20,7 +20,6 @@
 		"module": true,
 		"require": true,
 		"Ember": true,
-		"Auth": true,
 		"balanced": true,
 		"moment": true,
 		"DS": true,

@@ -23,7 +23,6 @@ Router = Ember.Router.extend
 		set_title(page_title)
 
 	didTransition: (infos) ->
-		console.log("crljnvrlnvrlkvnrlkvnrvlkrn")
 		this._update_title(infos)
 		AnalyticsLogger.trackPage(_.pluck(infos, 'name').join('/'))
 		return this._super.apply(this, arguments)

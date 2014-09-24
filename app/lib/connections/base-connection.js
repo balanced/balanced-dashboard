@@ -1,6 +1,6 @@
-Balanced.Connections = {};
+import Ember from "ember";
 
-Balanced.Connections.BaseConnection = Ember.Object.extend({
+var BaseConnection = Ember.Object.extend({
 	settings: function(settings) {
 		return settings;
 	},
@@ -18,6 +18,8 @@ Balanced.Connections.BaseConnection = Ember.Object.extend({
 
 	ajax: function(settings) {
 		settings = this.settings(settings);
-		return Balanced.Adapter.load(settings);
+		return BalancedApp.Adapter.load(settings);
 	},
 });
+
+export default BaseConnection;
