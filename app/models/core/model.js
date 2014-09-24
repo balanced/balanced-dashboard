@@ -415,8 +415,8 @@ Model.reopenClass({
 	},
 
 	_materializeLoadedObjectFromAPIResult: function(json) {
-		var UserMarketplace = this.get("container").lookupFactory("model:user-marketplace");
-		var UserInvite = this.get("container").lookupFactory("model:user-invite");
+		var UserMarketplace = require("balanced-dashboard/models/user-marketplace")['default'];
+		var UserInvite = require("balanced-dashboard/models/user-invite")['default'];
 
 		var objClass = this;
 

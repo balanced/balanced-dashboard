@@ -4,5 +4,5 @@
 	{{else}}
 		<button class="btn" {{action "add" target="view"}}>Add</button>
 	{{/if}}
-	{{view Balanced.Forms.TextField valueBinding="view.secret" name="secret" placeholder="Enter API key of existing marketplace"}}
+	{{view "form-fields/text-field" valueBinding="view.secret" name="secret" placeholder="Enter API key of existing marketplace"}}
 </div>

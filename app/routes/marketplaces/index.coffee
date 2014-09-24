@@ -1,9 +1,10 @@
 `import Utils from "balanced-dashboard/lib/utils";`
+`import Ember from "ember";`
 
-MarketplacesIndexRoute = Balanced.Route.extend
+MarketplacesIndexRoute = Ember.Route.extend
 	needs: ["application"]
 	pageTitle: 'Marketplaces'
-	
+
 	beforeModel: ->
 		sessionsController = @controllerFor("sessions")
 		if !sessionsController.get("isUserRegistered")

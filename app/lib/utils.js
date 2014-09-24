@@ -1,6 +1,5 @@
 import Ember from "ember";
 import Constants from "balanced-dashboard/utils/constants";
-import Auth from "balanced-dashboard/auth";
 
 var FORMAT_NUMBER_REGEX = /\B(?=(\d{3})+(?!\d))/g,
 	PRETTY_LOG_URL_REGEX = /\/marketplaces\/[^\/]*\/(.+)$/,
@@ -222,9 +221,11 @@ var Utils = Ember.Namespace.create({
 	},
 
 	setCurrentMarketplace: function(marketplace) {
+		var Auth = require("balanced-dashboard/auth")["default"];
+
 		// Store the marketplace in a global so we can use it for auth.
 		// TODO: TAKE THIS OUT when we've moved to oAuth
-		Ember.set(Balanced, 'currentMarketplace', marketplace);
+		Ember.set(BalancedApp, 'currentMarketplace', marketplace);
 		Auth.set('currentMarketplace', marketplace);
 		if (marketplace) {
 			Auth.rememberLastUsedMarketplaceUri(marketplace.get('uri'));
@@ -465,8 +466,4 @@ var Utils = Ember.Namespace.create({
 	}
 });
 
-
-if (this.Balanced) {
-	this.Balanced.Utils = Utils;
-}
 export default Utils;

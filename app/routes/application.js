@@ -1,9 +1,10 @@
+import Ember from "ember";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
 var INFINITE_LOOP_DURATION_MILLIS = 2500;
 var INFINITE_LOOP_NUM_ERRORS = 5;
 
-var ApplicationRoute = Balanced.Route.extend(Ember.Evented, {
+var ApplicationRoute = Ember.Route.extend(Ember.Evented, {
 	init: function() {
 		this.set('errorTimestamps', []);
 	},
