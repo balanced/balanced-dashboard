@@ -1,3 +1,7 @@
+import RegisterFlowBaseModalView from "./register-flow-base-modal";
+import Constants from "balanced-dashboard/utils/constants";
+import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
+
 var ERROR_MESSAGES = {
 	"person-kyc": "We could not verify your identity. Please check your information again and resubmit.",
 	"business-principal-kyc": "We could not verify your identity. Please check your information again and resubmit.",
@@ -12,7 +16,7 @@ var isApiErrorFor10 = function(response) {
 	return !Ember.isBlank(response.category_code);
 };
 
-Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
+var ApiKeyCreateModalView = RegisterFlowBaseModalView.extend({
 	templateName: "register_flow/api_key_create_modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 1 of 3: Provide business information",
@@ -28,10 +32,10 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		label: "Business"
 	}],
 
-	businessTypes: Balanced.Marketplace.COMPANY_TYPES,
+	businessTypes: Constants.COMPANY_TYPES,
 
 	model: function() {
-		return Balanced.ApiKeyFactory.create({
+		return ApiKeyFactory.create({
 			merchant: {
 				type: "person",
 				phone_number: "",
@@ -99,3 +103,5 @@ Balanced.ApiKeyCreateModalView = Balanced.RegisterFlowBaseModal.extend({
 		}
 	}
 });
+
+export default ApiKeyCreateModalView;

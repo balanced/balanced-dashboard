@@ -1,4 +1,6 @@
+import Ember from "ember";
 import Constants from "balanced-dashboard/utils/constants";
+import Utils from "balanced-dashboard/lib/utils";
 
 var formatValidator = function(callback) {
 	return {
@@ -36,7 +38,7 @@ var generateTransactionAppearsOnStatementAsValidation = function(maxLength) {
 	});
 };
 
-Balanced.ValidationHelpers = Ember.Namespace.create({
+var ValidationHelpers = Ember.Namespace.create({
 	phoneNumberValidator: function(object, attribute, value) {
 		var stripped = $.trim(value).replace(/[\d- ()+]/g, "");
 		if (stripped.length > 0) {
@@ -138,3 +140,5 @@ Balanced.ValidationHelpers = Ember.Namespace.create({
 		})
 	},
 });
+
+export default ValidationHelpers;

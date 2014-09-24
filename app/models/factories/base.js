@@ -1,4 +1,6 @@
-Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
+import Ember from "ember";
+
+var BaseFactory = Ember.Object.extend(Ember.Validations, {
 	setValidationErrorsFromServer: function(response) {
 		var self = this;
 		var errorsList = response.errors || [];
@@ -71,3 +73,5 @@ Balanced.BaseFactory = Ember.Object.extend(Ember.Validations, {
 		}
 	}
 });
+
+export default BaseFactory;

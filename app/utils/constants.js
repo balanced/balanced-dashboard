@@ -83,4 +83,23 @@ Constants.DISPUTE_DOCUMENTS = {
 	MAX_FILE_SIZE_BYTES: 10485760
 };
 
+Constants.COMPANY_TYPES = [
+	{
+		value: "llc",
+		label: "LLC"
+	}, {
+		value: "s-corp",
+		label: "S-Corp"
+	}, {
+		value: "c-corp",
+		label: "C-Corp"
+	}, {
+		value: "partnership",
+		label: "Partnership"
+	}, {
+		value: "sole-proprietorship",
+		label: "Sole Proprietorship"
+	}
+];
+
 export default Constants;

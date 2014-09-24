@@ -1,3 +1,6 @@
+import BaseFactory from "./base";
+import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
+
 var DATE_FORMAT = /^(\d\d\d\d)-(\d\d)$/;
 var IS_PRODUCTION = true;
 
@@ -38,7 +41,7 @@ var dateFormatValidation = function(value, attribute, validationErrors) {
 var VALID_TYPE_VALUES = ["person", "business"];
 var VALID_COMPANY_TYPE_VALUES = [];
 
-Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
+var ApiKeyFactory = BaseFactory.extend({
 	validations: {
 		"merchant.type": {
 			presence: true,
@@ -58,7 +61,7 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 				maximum: 15,
 			},
 			format: {
-				validator: Balanced.ValidationHelpers.phoneNumberValidator
+				validator: ValidationHelpers.phoneNumberValidator
 			}
 		},
 
@@ -159,3 +162,5 @@ Balanced.ApiKeyFactory = Balanced.BaseFactory.extend({
 		}
 	},
 });
+
+export default ApiKeyFactory;
