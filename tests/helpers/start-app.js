@@ -18,12 +18,12 @@ export default function startApp(attrs) {
 
   Ember.run(function() {
     App = Application.create(attributes);
+	window.BalancedApp = App;
     App.setupForTesting();
     App.injectTestHelpers();
   });
 
   App.reset(); // this shouldn't be needed, i want to be able to "start an app at a specific URL"
 
-  window.BalancedApp = App;
   return App;
 }

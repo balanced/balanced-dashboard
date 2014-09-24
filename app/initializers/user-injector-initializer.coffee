@@ -11,9 +11,4 @@ UserInjectorInitializer =
 			singleton: true
 		)
 
-		container.register('auth:main', Auth,
-			instantiate: false,
-			singleton: true
-		)
-
 `export default UserInjectorInitializer`

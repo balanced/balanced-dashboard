@@ -1,6 +1,7 @@
 // Create the test namespace
-var Balanced = Balanced || {};
-Balanced.Test = Balanced.Test || {};
+var Balanced = {
+	Test: {}
+};
 
 var DEFAULT_FILL_FORM_OPTIONS = {
 	attr: 'name'

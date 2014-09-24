@@ -14,7 +14,7 @@ module('Balanced.Model', {
 			serializer: Balanced.Rev0Serializer.create()
 		});
 
-		Balanced.Adapter.addFixtures([{
+		BalancedApp.Adapter.addFixtures([{
 			uri: '/v1/testobjects/1',
 			basic_field: 123
 		}]);

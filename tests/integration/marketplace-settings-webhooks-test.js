@@ -14,9 +14,9 @@ module('Marketplace Settings Webhooks', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create,
-			Balanced.Adapter['delete'],
-			Balanced.Adapter.update,
+			BalancedApp.Adapter.create,
+			BalancedApp.Adapter['delete'],
+			BalancedApp.Adapter.update,
 			Ember.Logger.error
 		);
 	}
@@ -31,7 +31,7 @@ test('shows webhooks', function(assert) {
 });
 
 test('can add webhooks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
@@ -46,7 +46,7 @@ test('can add webhooks', function(assert) {
 });
 
 test('webhooks get created once if submit button is clicked multiple times', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
@@ -72,7 +72,7 @@ test('can delete webhooks', function(assert) {
 });
 
 test('delete webhooks only submits once even if clicked multiple times', function(assert) {
-	var spy = sinon.stub(Balanced.Adapter, "delete");
+	var spy = sinon.stub(BalancedApp.Adapter, "delete");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.webhooks tbody tr:first a.delete-callback-link')

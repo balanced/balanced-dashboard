@@ -15,7 +15,7 @@ test('clicking change password from header menu brings up modal', function(asser
 });
 
 test('change password form submits', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	stub.callsArgWith(3, {
 		"id": null,
@@ -44,7 +44,7 @@ test('change password form submits', function(assert) {
 });
 
 test('change password errors if no existing password', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	stub.callsArgWith(3, {
 		"id": null,
@@ -68,7 +68,7 @@ test('change password errors if no existing password', function(assert) {
 });
 
 test('change password errors if passwords are different', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	stub.callsArgWith(3, {
 		"id": null,

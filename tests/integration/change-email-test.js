@@ -15,7 +15,7 @@ test('clicking change email from header menu brings up modal', function(assert) 
 });
 
 test('change email form submits', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 	var USER_EMAIL = 'foo+1@bar.com';
 
 	stub.callsArgWith(3, {
@@ -47,7 +47,7 @@ test('change email form submits', function(assert) {
 });
 
 test('change email form errors if no email', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 
 	stub.callsArgWith(3, {
 		"id": null,
@@ -74,7 +74,7 @@ test('change email form errors if no email', function(assert) {
 
 
 test('change email errors if no existing password', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "update");
+	var stub = sinon.stub(BalancedApp.Adapter, "update");
 	var USER_EMAIL = 'foo+1@bar.com';
 
 	stub.callsArgWith(3, {

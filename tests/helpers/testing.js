@@ -1,3 +1,6 @@
+import Constants from "balanced-dashboard/utils/constants";
+import FixtureAdapter from "balanced-dashboard/adapters/fixture";
+
 var Testing = {
 	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
 	marketplace: null,
@@ -61,28 +64,39 @@ var Testing = {
 		$('#q').val(query).trigger('keyup');
 		// Press enter to run the search immediately
 		$("#q").trigger(jQuery.Event("keyup", {
-			keyCode: Balanced.KEYS.ENTER
+			keyCode: Constants.KEYS.ENTER
 		}));
 	},
 
 	// use the fixture adapter
 	setupFixtures: function() {
-		Balanced.Adapter = Balanced.FixtureAdapter.create();
-		window.setupTestFixtures();
+		BalancedApp.Adapter = FixtureAdapter.create();
+
+		var files = "dispute-documents disputes invoices marketplace marketplace-users user".split(" ");
+		_.each(files, function(file) {
+			require('balanced-dashboard/tests/fixtures/' + file);
+		});
+	},
+
+	getAuth: function() {
+		return BalancedApp.__container__.lookup("auth:main");
 	},
 
 	fixtureLogin: function() {
 		var self = this;
+		var Auth = this.getAuth();
+		var User = BalancedApp.__container__.lookupFactory("model:user");
+
 		Ember.run(function() {
 			var userId = self.FIXTURE_USER_ROUTE = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
-			Balanced.Auth.setAuthProperties(
+			Auth.setAuthProperties(
 				true,
-				Balanced.User.find(userId),
+				User.find(userId),
 				userId,
 				userId,
 				false);
 
-			self.FIXTURE_USER_EMAIL = Balanced.Auth.user.email_address;
+			self.FIXTURE_USER_EMAIL = Auth.user.email_address;
 		});
 	},
 
@@ -94,15 +108,15 @@ var Testing = {
 	visitSettingsPage: function() {
 		var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
 		var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-		var disputesController = Balanced.__container__.lookup('controller:marketplace_disputes');
+		var disputesController = BalancedApp.__container__.lookup('controller:marketplace-disputes');
 		disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
 		disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
 
 		return visit(DISPUTES_ROUTE)
 			.then(function() {
-				var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
+				var marketplace = BalancedApp.__container__.lookup("controller:marketplace").get("model");
 				Ember.run(function() {
-					var customer = Balanced.Customer.create();
+					var customer = BalancedApp.__container__.lookup("model:customer");
 					marketplace.set("owner_customer", customer);
 				});
 			})
@@ -112,25 +126,30 @@ var Testing = {
 	},
 
 	logout: function() {
+		var Auth = this.getAuth();
 		Ember.run(function() {
-			Balanced.Auth.setAuthProperties(false, null, null, null, false);
+			Auth.setAuthProperties(false, null, null, null, false);
 		});
 	},
 
 	// build up test fixtures
 	setupMarketplace: function() {
 		var self = this;
+		var Auth = this.getAuth();
+		var Marketplace = BalancedApp.__container__.lookupFactory("model:marketplace");
+		var Ajax = require("balanced-dashboard/lib/ajax")["default"];
+
 		Ember.run(function() {
-			return Balanced.NET.loadCSRFTokenIfNotLoaded()
+			return Ajax.loadCSRFTokenIfNotLoaded()
 				.then(function() {
-					return Balanced.Auth.createNewGuestUser();
+					return Auth.createNewGuestUser();
 				})
 				.then(function(apiKey) {
 					self.GUEST_USER_API_KEY = apiKey;
-					return Balanced.Marketplace.create().save();
+					return Marketplace.create().save();
 				})
 				.then(function(marketplace) {
-					Balanced.Auth.setupGuestUserMarketplace(marketplace);
+					Auth.setupGuestUserMarketplace(marketplace);
 					self.setupCreatedMarketplace(marketplace);
 				});
 		});
@@ -166,7 +185,7 @@ var Testing = {
 			number = '4000056655665556';
 		}
 
-		return Balanced.Card.create({
+		return BalancedApp.__container__.lookup("model:card", {
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: number,
 			expiration_year: 2020,
@@ -181,7 +200,7 @@ var Testing = {
 
 	_createDisputeCard: function() {
 		var self = this;
-		return Balanced.Card.create({
+		return BalancedApp.__container__.lookup("model:card", {
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '6500000000000002',
 			name: 'Dispute Card',
@@ -197,7 +216,7 @@ var Testing = {
 
 	_createBankAccount: function() {
 		var self = this;
-		return Balanced.BankAccount.create({
+		return BalancedApp.__container__.lookup("model:bank-account", {
 			uri: '/customers/' + self.CUSTOMER_ID + '/bank_accounts',
 			name: 'Test Account',
 			account_number: '1234',
@@ -214,7 +233,7 @@ var Testing = {
 	_createReversal: function() {
 		var self = this;
 
-		return Balanced.Reversal.create({
+		return BalancedApp.__container__.lookup("model:reversal", {
 			uri: '/credits/' + self.CREDIT_ID + '/reversals',
 			credit_uri: '/credits/' + self.CREDIT_ID,
 			amount: 10000
@@ -228,7 +247,7 @@ var Testing = {
 
 	_createDebit: function() {
 		var self = this;
-		return Balanced.Debit.create({
+		return BalancedApp.__container__.lookup("model:debit", {
 			uri: '/customers/' + self.CUSTOMER_ID + '/debits',
 			appears_on_statement_as: 'Pixie Dust',
 			amount: 10000,
@@ -243,7 +262,7 @@ var Testing = {
 
 	_createCredit: function() {
 		var self = this;
-		return Balanced.Credit.create({
+		return BalancedApp.__container__.lookup("model:credit", {
 			uri: '/bank_accounts/' + self.BANK_ACCOUNT_ID + '/credits',
 			amount: 10000
 		}).save().then(function(credit) {
@@ -273,7 +292,8 @@ var Testing = {
 
 	assertEnoughDisputesAvailable: function(num) {
 		return this.waitForState(1000, 10000, function(done, error) {
-			Balanced.Dispute.findAll().then(function(disputes) {
+			var Dispute = BalancedApp.__container__.lookupFactory("model:dispute");
+			return Dispute.findAll().then(function(disputes) {
 				if (disputes.get("length") < num) {
 					error();
 				} else {
@@ -315,10 +335,10 @@ var Testing = {
 			expiration_month: 11
 		};
 
-		return Balanced.Card.create(cardAttributes)
+		return BalancedApp.__container__.lookup("model:card", cardAttributes)
 			.save()
 			.then(function(card) {
-				var hold = Balanced.Hold.create({
+				var hold = BalancedApp.__container__.lookup("model:hold", {
 					uri: card.get("card_holds_uri"),
 					source_uri: card.get("uri"),
 					appears_on_statement_as: 'Test Hold',
@@ -400,7 +420,7 @@ var Testing = {
 	createCustomer: function() {
 		var self = this;
 
-		return Balanced.Customer.create({
+		return BalancedApp.__container__.lookup("model:customer", {
 			uri: this.marketplace.get('customers_uri'),
 			address: {}
 		}).save();
@@ -415,7 +435,8 @@ var Testing = {
 		this.stop();
 
 		return Ember.run(function() {
-			Balanced.Event.findAll().then(function(events) {
+			var Event = BalancedApp.__container__.lookupFactory("model:event");
+			Event.findAll().then(function(events) {
 				// Wait for atleast 2 events
 				if (events.get('length') < howMany) {
 					return setTimeout(_.bind(Testing.setupEvent, Testing, howMany), 1000);
@@ -460,7 +481,7 @@ var Testing = {
 			visit(route);
 		});
 
-		var controller = Balanced.__container__.lookup('controller:' + controllerKey);
+		var controller = BalancedApp.__container__.lookup('controller:' + controllerKey);
 
 		Ember.run(function() {
 			controller.set('type', type);
@@ -500,3 +521,5 @@ var Testing = {
 		});
 	}
 };
+
+export default Testing;

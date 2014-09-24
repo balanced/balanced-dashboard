@@ -5,7 +5,7 @@ module('Bank Account Page', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -24,7 +24,7 @@ test('can view bank account page', function(assert) {
 });
 
 test('credit bank account', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.click(".page-navigation a.credit-button")
@@ -53,7 +53,7 @@ test('credit bank account', function(assert) {
 });
 
 test('crediting only submits once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.click(".page-navigation a.credit-button")
@@ -69,7 +69,7 @@ test('crediting only submits once despite multiple clicks', function(assert) {
 });
 
 test('debit bank account', 4, function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
@@ -104,7 +104,7 @@ test('debit bank account', 4, function(assert) {
 });
 
 test('debiting only submits once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
@@ -127,7 +127,7 @@ test('debiting only submits once despite multiple clicks', function(assert) {
 });
 
 test('can initiate bank account verification', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {
@@ -149,7 +149,7 @@ test('can initiate bank account verification', function(assert) {
 });
 
 test('can confirm bank account verification', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
 		.then(function() {

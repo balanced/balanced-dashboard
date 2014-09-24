@@ -6,7 +6,7 @@ module('Charge Card', {
 	teardown: function() {
 		Testing.restoreMethods(
 			balanced.card.create,
-			Balanced.Adapter.create
+			BalancedApp.Adapter.create
 		);
 	}
 });
@@ -24,7 +24,7 @@ test('form validation', 2, function(assert) {
 });
 
 test('can charge a card', 3, function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'create');
+	var spy = sinon.spy(BalancedApp.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -63,7 +63,7 @@ test('can charge a card', 3, function(assert) {
 });
 
 test('charge a card button is hidden after submit', 4, function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, 'create');
+	var spy = sinon.spy(BalancedApp.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
 		status: 201,

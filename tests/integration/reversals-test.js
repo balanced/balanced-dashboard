@@ -5,7 +5,7 @@ module('Reversals', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Adapter.update
+			BalancedApp.Adapter.update
 		);
 	}
 });
@@ -17,7 +17,7 @@ test('can visit page', function(assert) {
 });
 
 test('can edit reversal', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy = sinon.spy(BalancedApp.Adapter, "update");
 
 	visit(Testing.REVERSAL_ROUTE)
 		.click('.key-value-display .edit-model-link')

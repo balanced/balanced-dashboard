@@ -1,4 +1,4 @@
-Balanced.Adapter.addFixtures([{
+BalancedApp.Adapter.addFixtures([{
 	"uri": "/invoices?limit=50&sort=created_at%2Cdesc"
 }, {
 	"invoices": [{
