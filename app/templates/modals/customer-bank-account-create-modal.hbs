@@ -6,7 +6,7 @@
 				<label class="control-label">Name on account</label>
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
-					<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.name}}</div>
+					<div class="alert alert-error row-full label4b">{{format-error view.model.validationErrors.name}}</div>
 				</div>
 			</div>
 
@@ -14,7 +14,7 @@
 				<label class="control-label">Routing Number</label>
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.routing_number" name="routing_number" class="full"}}
-					<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.routing_number}}</div>
+					<div class="alert alert-error row-full label4b">{{format-error view.model.validationErrors.routing_number}}</div>
 				</div>
 			</div>
 
@@ -22,7 +22,7 @@
 				<label class="control-label">Account number</label>
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.account_number" name="account_number" class="full"}}
-					<div class="alert alert-error row-full label4b">{{formatError view.model.validationErrors.account_number}}</div>
+					<div class="alert alert-error row-full label4b">{{format-error view.model.validationErrors.account_number}}</div>
 				</div>
 			</div>
 
@@ -42,7 +42,7 @@
 
 				{{#each message in view.model.validationErrors.type.fullMessages}}
 					<div class="alert alert-error label4b">
-						{{formatError message}}
+						{{format-error message}}
 					</div>
 				{{/each}}
 			</div>

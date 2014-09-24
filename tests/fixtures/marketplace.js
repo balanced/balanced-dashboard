@@ -1,4 +1,4 @@
-Balanced.Adapter.addFixtures([{
+BalancedApp.Adapter.addFixtures([{
 	"marketplaces": [{
 		"in_escrow": 0,
 		"domain_url": "example.com",

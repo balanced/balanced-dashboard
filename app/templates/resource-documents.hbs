@@ -23,7 +23,7 @@
 				<a {{bind-attr href="doc.file_url"}}><span>{{doc.file_name}}</span></a>
 			</td>
 			<td class="num">
-				<a {{bind-attr href="doc.file_url"}}><span>{{formatFileSize doc.size}}</span></a>
+				<a {{bind-attr href="doc.file_url"}}><span>{{format-file-size doc.size}}</span></a>
 			</td>
 		</tr>
 	{{else}}

@@ -3,16 +3,16 @@
 		<tbody>
 		  <tr>
 			<td>Current escrow balance</td>
-			<td class="number3a column-total">{{formatCurrency view.escrowTotal}}</td>
+			<td class="number3a column-total">{{format-currency view.escrowTotal}}</td>
 
 		  </tr>
 		  <tr>
 			<td>Total payouts</td>
-			<td class="number3a column-total">{{formatCurrency view.payoutTotal}}</td>
+			<td class="number3a column-total">{{format-currency view.payoutTotal}}</td>
 		  </tr>
 		  <tr>
 			<td>Escrow balance after payouts</td>
-			<td {{bind-attr class=":number3a :column-total view.isEscrowValid::column-error"}}>{{formatCurrency view.escrowDifference}}</td>
+			<td {{bind-attr class=":number3a :column-total view.isEscrowValid::column-error"}}>{{format-currency view.escrowDifference}}</td>
 		  </tr>
 		</tbody>
 	</table>

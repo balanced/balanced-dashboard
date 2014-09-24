@@ -15,7 +15,7 @@ test('clicking forgot password from login takes you to the page', function(asser
 });
 
 test('forgot password form submits', function(assert) {
-	var stub = sinon.stub(Balanced.Adapter, "create");
+	var stub = sinon.stub(BalancedApp.Adapter, "create");
 
 	stub.callsArgWith(3, {
 		"id": null,

@@ -14,7 +14,7 @@
 							class="span8"
 							name="source"
 						}}
-						<div class="alert alert-error label4b">{{formatError view.model.validationErrors.dollar_amount}}</div>
+						<div class="alert alert-error label4b">{{format-error view.model.validationErrors.dollar_amount}}</div>
 					</div>
 				</div>
 
@@ -41,7 +41,7 @@
 						<span class="add-on">$</span>
 						{{view Ember.TextField name="dollar_amount" valueBinding="view.model.dollar_amount" class="span3"}}
 					</div>
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.dollar_amount}}</div>
+					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.dollar_amount}}</div>
 				</div>
 			</div>
 
@@ -50,7 +50,7 @@
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.appearsOnStatementAsMaxLength"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.appears_on_statement_as}}</div>
+					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.appears_on_statement_as}}</div>
 				</div>
 			</div>
 

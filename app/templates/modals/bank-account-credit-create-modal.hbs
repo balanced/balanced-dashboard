@@ -5,7 +5,7 @@
 			<div class="controls">
 				{{input valueBinding="view.model.name" class="full" name="name" viewName="name"}}
 				<div class="alert alert-error label4b">
-					{{formatError view.model.validationErrors.name}}
+					{{format-error view.model.validationErrors.name}}
 				</div>
 			</div>
 		</div>
@@ -15,7 +15,7 @@
 			<div class="controls">
 				{{input valueBinding="view.model.routing_number" class="full" name="routing_number" viewName="routingNumber"}}
 				<div class="alert alert-error label4b">
-					{{formatError view.model.validationErrors.routing_number}}
+					{{format-error view.model.validationErrors.routing_number}}
 				</div>
 			</div>
 		</div>
@@ -25,7 +25,7 @@
 			<div class="controls">
 				{{view Ember.TextField valueBinding="view.model.account_number" class="full" name="account_number" viewName="accountName"}}
 				<div class="alert alert-error label4b">
-					{{formatError view.model.validationErrors.account_number}}
+					{{format-error view.model.validationErrors.account_number}}
 				</div>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 			</div>
 			{{#each message in view.model.validationErrors.type.fullMessages}}
 				<div class="alert alert-error label4b">
-					{{formatError message}}
+					{{format-error message}}
 				</div>
 			{{/each}}
 		</div>
@@ -59,7 +59,7 @@
 					{{view Ember.TextField valueBinding="view.model.dollar_amount" class="span3" name="dollar_amount" viewName="dollarAmount"}}
 				</div>
 				<div class="alert alert-error label4b">
-					{{formatError view.model.validationErrors.dollar_amount}}
+					{{format-error view.model.validationErrors.dollar_amount}}
 				</div>
 			</div>
 		</div>
@@ -78,7 +78,7 @@
 					viewName="dollarAmount"
 				}}
 				<div class="alert alert-error label4b">
-					{{formatError view.model.validationErrors.appears_on_statement_as}}
+					{{format-error view.model.validationErrors.appears_on_statement_as}}
 				</div>
 			</div>
 		</div>

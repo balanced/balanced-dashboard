@@ -33,9 +33,4 @@ var FundingInstrument = Model.extend({
 	}.property('id', 'route_name')
 });
 
-
-if (this.Balanced) {
-	this.Balanced.FundingInstrument = FundingInstrument;
-}
-
 export default FundingInstrument;

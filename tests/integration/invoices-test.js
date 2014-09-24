@@ -1,3 +1,5 @@
+import Testing from "../helpers/testing";
+
 var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/account_statements';
 
 module('Invoices', {

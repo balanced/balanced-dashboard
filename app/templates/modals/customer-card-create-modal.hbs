@@ -7,7 +7,7 @@
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.name}}</div>
+					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.name}}</div>
 				</div>
 			</div>
 
@@ -16,7 +16,7 @@
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.number" name="number" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.number}}</div>
+					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.number}}</div>
 				</div>
 			</div>
 
@@ -25,7 +25,7 @@
 
 				<div class="controls">
 					{{view Ember.TextField valueBinding="view.model.cvv" name="cvv" class="full"}}
-					<div class="alert alert-error label4b">{{formatError view.model.validationErrors.cvv}}</div>
+					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.cvv}}</div>
 				</div>
 			</div>
 
@@ -47,7 +47,7 @@
 					}}
 
 					{{#each message in view.model.validationErrors.expiration_month.fullMessages}}
-							<div class="alert alert-error label4b">{{formatError message}}</div>
+							<div class="alert alert-error label4b">{{format-error message}}</div>
 					{{/each}}
 				</div>
 			</div>
