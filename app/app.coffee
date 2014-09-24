@@ -22,8 +22,6 @@ App = Ember.Application.extend
 	ready: ->
 		$('#balanced-loading').remove()
 
-window.Balanced = App
-require("balanced-dashboard/manifest")
 loadInitializers(App, 'balanced-dashboard')
 
 `export default App;`

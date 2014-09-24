@@ -1,6 +1,7 @@
 import Rev0Serializer from "../serializers/rev0";
+import Model from "./core/model";
 
-var Claim = Balanced.Model.extend(Ember.Validations, {
+var Claim = Model.extend(Ember.Validations, {
 	uri: '/users',
 
 	validations: {
