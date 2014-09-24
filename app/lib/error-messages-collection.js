@@ -1,4 +1,6 @@
-Balanced.ErrorMessagesCollection = Ember.ArrayProxy.extend({
+import Ember from "ember";
+
+var ErrorMessagesCollection = Ember.ArrayProxy.extend({
 	populate: function(response, defaultMessage) {
 		this.clear();
 		var errors = ["Something went wrong while trying to save your information."];
@@ -18,3 +20,5 @@ Balanced.ErrorMessagesCollection = Ember.ArrayProxy.extend({
 		this.set("content", errors);
 	}
 });
+
+export default ErrorMessagesCollection;

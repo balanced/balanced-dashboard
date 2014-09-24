@@ -1,6 +1,8 @@
-Balanced.ProgressBarModalView = Ember.View.extend({
+import Ember from "ember";
 
-	templateName: "modals/progress_bar_modal",
+var ProgressBarModalView = Ember.View.extend({
+
+	templateName: "modals/progress-bar-modal",
 
 	classNames: ['modal-container'],
 
@@ -36,3 +38,5 @@ Balanced.ProgressBarModalView = Ember.View.extend({
 		},
 	}
 });
+
+export default ProgressBarModalView;

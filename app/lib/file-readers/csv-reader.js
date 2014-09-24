@@ -1,5 +1,6 @@
 import Computed from "balanced-dashboard/utils/computed";
-Balanced.CsvReader = Ember.Object.extend({
+
+var CsvReader = Ember.Object.extend({
 
 	getObjects: function() {
 		var columnNames = this.getColumnNames();
@@ -27,3 +28,5 @@ Balanced.CsvReader = Ember.Object.extend({
 	}.property("body"),
 
 });
+
+export default CsvReader;

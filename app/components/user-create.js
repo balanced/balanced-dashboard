@@ -38,7 +38,7 @@ var UserCreateModalComponent = ModalComponent.extend({
 				self.set('hasError', true);
 			});
 
-			Balanced.APIKey.create({
+			this.get("container").lookup("model:api-key", {
 				meta: {
 					name: model.get('email_address')
 				}

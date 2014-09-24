@@ -1,6 +1,8 @@
+import ModalBaseView from "./modal-base";
 import DeleteMixin from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import Utils from "balanced-dashboard/lib/utils";
 
-Balanced.Modals.MarketplaceDeleteModalView = Balanced.ModalBaseView.extend(DeleteMixin, {
+var MarketplaceDeleteModalView = ModalBaseView.extend(DeleteMixin, {
 	templateName: 'modals/marketplace_delete_modal',
 	title: "Remove marketplace?",
 	elementId: "delete-marketplace",
@@ -8,8 +10,8 @@ Balanced.Modals.MarketplaceDeleteModalView = Balanced.ModalBaseView.extend(Delet
 	getUserMarketplace: function() {
 		var marketplacesUri = this.get("user.marketplaces_uri");
 		var marketplaceId = this.get("marketplace.id");
-		var uri = Balanced.Utils.combineUri(marketplacesUri, marketplaceId);
-		return Balanced.UserMarketplace.create({
+		var uri = Utils.combineUri(marketplacesUri, marketplaceId);
+		return this.get("container").lookup("model:user-marketplace", {
 			uri: uri,
 			isLoaded: true
 		});
@@ -27,7 +29,7 @@ Balanced.Modals.MarketplaceDeleteModalView = Balanced.ModalBaseView.extend(Delet
 	}
 });
 
-Balanced.Modals.MarketplaceDeleteModalView.reopenClass({
+MarketplaceDeleteModalView.reopenClass({
 	open: function(user, marketplace) {
 		return this.create({
 			marketplace: marketplace,
@@ -35,3 +37,5 @@ Balanced.Modals.MarketplaceDeleteModalView.reopenClass({
 		});
 	}
 });
+
+export default MarketplaceDeleteModalView;

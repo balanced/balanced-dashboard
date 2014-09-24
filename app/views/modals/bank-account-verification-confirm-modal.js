@@ -1,9 +1,10 @@
 import Computed from "balanced-dashboard/utils/computed";
-import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import ModalBaseView from "./modal-base";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 
-Balanced.Modals.BankAccountVerificationConfirmModalView = Balanced.ModalBaseView.extend(Wide, Save, {
-	templateName: 'modals/bank_account_verification_confirm_modal',
+var BankAccountVerificationConfirmModalView = ModalBaseView.extend(Wide, Save, {
+	templateName: 'modals/bank-account-verification-confirm-modal',
 	elementId: 'confirm-verification',
 	title: "Confirm your bank account",
 
@@ -39,10 +40,12 @@ Balanced.Modals.BankAccountVerificationConfirmModalView = Balanced.ModalBaseView
 	}
 });
 
-Balanced.Modals.BankAccountVerificationConfirmModalView.reopenClass({
+BankAccountVerificationConfirmModalView.reopenClass({
 	open: function(bankAccount) {
 		return this.create({
 			bankAccount: bankAccount
 		});
 	}
 });
+
+export default BankAccountVerificationConfirmModalView;

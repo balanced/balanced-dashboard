@@ -4,6 +4,7 @@ import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
 import CreditCreatorCsvObjectMapper from "./credit-creator-csv-object-mapper";
 import Customer from "balanced-dashboard/models/customer";
 import BankAccount from "balanced-dashboard/models/bank-account";
+import baseValidationsObject from "./base-validations";
 
 var NewCustomerCreditCreator = CreditCreator.extend({
 	fieldNames: CreditCreatorFields.NEW_CUSTOMER_FIELDS,

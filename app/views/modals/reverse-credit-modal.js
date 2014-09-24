@@ -1,11 +1,15 @@
-Balanced.Modals.ReverseCreditModalView = Balanced.ModalBaseView.extend({
+import Ember from "ember";
+import ModalBaseView from "./modal-base";
+import ReverseCreditTransactionFactory from "balanced-dashboard/models/factories/reverse-credit-transaction-factory";
+
+var ReverseCreditModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	elementId: "reverse-credit",
 	templateName: 'modals/reverse_credit_modal',
 	title: "Reverse credit",
 
 	model: function() {
-		return Balanced.ReverseCreditTransactionFactory.create({
+		return ReverseCreditTransactionFactory.create({
 			dollar_amount: this.get("credit.dollar_amount"),
 			credit: this.get("credit")
 		});
@@ -43,10 +47,12 @@ Balanced.Modals.ReverseCreditModalView = Balanced.ModalBaseView.extend({
 	}
 });
 
-Balanced.Modals.ReverseCreditModalView.reopenClass({
+ReverseCreditModalView.reopenClass({
 	open: function(credit) {
 		return this.create({
 			credit: credit
 		});
 	}
 });
+
+export default ReverseCreditModalView;

@@ -1,4 +1,6 @@
-Balanced.VoidHoldModalComponent = Balanced.ModalComponent.extend({
+import ModalComponent from "./modal";
+
+var VoidHoldModalComponent = ModalComponent.extend({
 	submitAction: false,
 
 	actions: {
@@ -14,3 +16,5 @@ Balanced.VoidHoldModalComponent = Balanced.ModalComponent.extend({
 		}
 	}
 });
+
+export default VoidHoldModalComponent;

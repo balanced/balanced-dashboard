@@ -1,3 +1,4 @@
+`import ENV from "balanced-dashboard/config/environment";`
 `import Computed from "balanced-dashboard/utils/computed";`
 `import Rev0Serializer from "balanced-dashboard/serializers/rev0";`
 `import UserMarketplace from "./user-marketplace";`

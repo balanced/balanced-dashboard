@@ -1,10 +1,9 @@
 import Constants from "balanced-dashboard/utils/constants";
 import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
-
-var baseValidationsObject = {
-	"csvFields.appears_on_statement_as": ValidationHelpers.bankTransactionAppearsOnStatementAs,
-	"csvFields.amount": ValidationHelpers.positiveDollarAmount,
-};
+import CreditCreatorCsvObjectMapper from "./credit-creator-csv-object-mapper";
+import Credit from "balanced-dashboard/models/credit";
+import baseValidationsObject from "./base-validations";
+import CreditCreatorFields from "./credit-creator-fields";
 
 var CreditCreator = Ember.Object.extend(Ember.Validations, {
 
@@ -32,7 +31,7 @@ var CreditCreator = Ember.Object.extend(Ember.Validations, {
 	},
 
 	credit: function() {
-		var mapper = Balanced.CreditCreatorCsvObjectMapper.create();
+		var mapper = CreditCreatorCsvObjectMapper.create();
 		var attr = mapper.extractCreditAttributes(this.get("csvFields"));
 		var customer = this.get("customer");
 		var bankAccount = this.get("bankAccount");
@@ -49,7 +48,7 @@ var CreditCreator = Ember.Object.extend(Ember.Validations, {
 			});
 		}
 
-		return Balanced.Credit.create(attributes);
+		return Credit.create(attributes);
 	}.property("csvFields", "bankAccount", "bankAccount.credits_uri", "customer"),
 
 	getErrorMessagesSentences: function() {
@@ -82,20 +81,22 @@ var CreditCreator = Ember.Object.extend(Ember.Validations, {
 CreditCreator.reopenClass({
 	isValidCreditCreatorColumns: function(csvColumns) {
 		var requiredColumns = [
-			Balanced.ExistingCustomerCreditCreator.fieldNames,
-			Balanced.NewCustomerCreditCreator.fieldNames
+			CreditCreatorFields.NEW_CUSTOMER_FIELDS,
+			CreditCreatorFields.EXISTING_CUSTOMER_FIELDS
 		];
 		return requiredColumns.any(function(requiredColumns) {
 			return _.difference(requiredColumns, csvColumns).length === 0;
 		});
 	},
 	fromCsvRow: function(marketplace, object) {
+		var ExistingCustomerCreditCreator = require("balanced-dashboard/lib/file-readers/existing-customer-credit-creator")["default"];
+		var NewCustomerCreditCreator = require("balanced-dashboard/lib/file-readers/new-customer-credit-creator")["default"];
 		var creditCreator = null;
 
 		if (object.existing_customer_name_or_email !== undefined) {
-			creditCreator = Balanced.ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
+			creditCreator = ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
 		} else {
-			creditCreator = Balanced.NewCustomerCreditCreator.create({
+			creditCreator = NewCustomerCreditCreator.create({
 				csvFields: object
 			});
 		}
@@ -105,97 +106,3 @@ CreditCreator.reopenClass({
 });
 
 export default CreditCreator;
-
-Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
-	validations: _.extend({}, baseValidationsObject, {
-		"csvFields.existing_customer_name_or_email": {
-			presence: true,
-		},
-		customer: {
-			existence: {
-				validator: function(object, attribute, customer) {
-					var matchesLength = object.get("customersCollection.length");
-
-					if (matchesLength === 0) {
-						object.get("validationErrors").add("csvFields.existing_customer_name_or_email", "existence", null, "no matching customer found");
-					} else if (matchesLength > 1) {
-						object.get("validationErrors").add("csvFields.existing_customer_name_or_email", "existence", null, "multiple customers found");
-					}
-				}
-			}
-		},
-		bankAccount: {
-			existence: {
-				validator: function(object, attribute, value) {
-					var matchesLength = object.get("customer.bank_accounts.length");
-
-					if (matchesLength === 0) {
-						object.get("validationErrors").add("bankAccount", "existence", null, "no bank accounts available");
-					} else if (matchesLength > 1) {
-						object.get("validationErrors").add("bankAccount", "existence", null, "multiple bank accounts found");
-					}
-				}
-			}
-		},
-	}),
-
-	getErrorObject: function() {
-		return this.getProperties(
-			"existing_customer_name_or_email",
-			"amount",
-			"appears_on_statement_as",
-			"description"
-		);
-	},
-
-	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
-	isExisting: true,
-
-	save: function() {
-		return this.get('credit').save();
-	},
-
-	customer: function() {
-		var collection = this.get("customersCollection");
-
-		if (collection) {
-			return collection.get("length") === 1 ?
-				collection.objectAt(0) :
-				null;
-		}
-		return undefined;
-	}.property("customersCollection", "customersCollection.length"),
-
-	bankAccount: function() {
-		var customer = this.get("customer");
-		var collection = this.get("customer.bank_accounts");
-
-		if (customer === null) {
-			return null;
-		} else if (collection) {
-			return collection.get("length") === 1 ?
-				collection.objectAt(0) :
-				null;
-		}
-		return undefined;
-	}.property("customer", "customer.bank_accounts", "customer.bank_accounts.length")
-});
-
-Balanced.ExistingCustomerCreditCreator.reopenClass({
-	fieldNames: ["existing_customer_name_or_email", "amount", "appears_on_statement_as", "description"],
-	createFromQuery: function(marketplace, attributes) {
-		var creator = this.create({
-			csvFields: attributes
-		});
-
-		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
-		results.addObserver("isLoaded", function() {
-			creator.set("customersCollection", results);
-		});
-		creator.addObserver("isLoaded", function() {
-			creator.validate();
-		});
-
-		return creator;
-	}
-});

@@ -57,10 +57,11 @@ var ApiKeyCreateModalView = RegisterFlowBaseModalView.extend({
 	}.property(),
 
 	nextStepSuccess: function(apiKeySecret) {
+		var MarketplaceCreateModalView = this.get("container").lookupFactory("view:marketplace-create-modal");
 		this.trackEvent("User created api key", {
 			formFields: this.get("model").getPropertiesDump()
 		});
-		this.openNext(Balanced.MarketplaceCreateModalView, apiKeySecret);
+		this.openNext("register-flow/marketplace-create-modal", apiKeySecret);
 		this.alertSuccess("Business information confirmed");
 	},
 

@@ -1,6 +1,8 @@
+import Ember from "ember";
+import ModalBaseView from "./modal-base";
 import DeleteMixin from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
-Balanced.FundingInstrumentDeleteModalView = Balanced.ModalBaseView.extend(DeleteMixin, {
+var FundingInstrumentDeleteModalView = ModalBaseView.extend(DeleteMixin, {
 	templateName: "modals/funding_instrument_delete_modal",
 	isCard: Ember.computed.equal("fundingInstrument.type_name", "card"),
 
@@ -24,10 +26,12 @@ Balanced.FundingInstrumentDeleteModalView = Balanced.ModalBaseView.extend(Delete
 	}
 });
 
-Balanced.FundingInstrumentDeleteModalView.reopenClass({
+FundingInstrumentDeleteModalView.reopenClass({
 	open: function(fundingInstrument) {
 		return this.create({
 			fundingInstrument: fundingInstrument
 		});
 	},
 });
+
+export default ModalBaseView;

@@ -1,4 +1,6 @@
-Balanced.Modals.VerifyBankAccountModalView = Balanced.ModalBaseView.extend({
+import ModalBaseView from "./modal-base";
+
+var VerifyBankAccountModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	templateName: 'modals/verify_bank_account',
 	elementId: 'verify-bank-account',
@@ -10,7 +12,7 @@ Balanced.Modals.VerifyBankAccountModalView = Balanced.ModalBaseView.extend({
 		save: function() {
 			var self = this;
 			var controller = this.get("container").lookup("controller:modal_notification_center");
-			var verification = Balanced.Verification.create({
+			var verification = this.get("container").lookup("model:verification", {
 				uri: this.get('bankAccount.bank_account_verifications_uri')
 			});
 
@@ -30,10 +32,12 @@ Balanced.Modals.VerifyBankAccountModalView = Balanced.ModalBaseView.extend({
 	}
 });
 
-Balanced.Modals.VerifyBankAccountModalView.reopenClass({
+VerifyBankAccountModalView.reopenClass({
 	open: function(bankAccount) {
 		return this.create({
 			bankAccount: bankAccount
 		});
 	}
 });
+
+export default VerifyBankAccountModalView;

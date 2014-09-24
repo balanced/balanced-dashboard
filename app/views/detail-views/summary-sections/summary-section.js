@@ -1,4 +1,5 @@
 import Ember from "ember";
+import Utils from "balanced-dashboard/lib/utils";
 
 var SummarySectionView = Ember.View.extend({
 	templateName: "detail-views/summary-section",
@@ -33,89 +34,100 @@ var SummarySectionView = Ember.View.extend({
 	},
 
 	generateResourceLink: function(parentModel, model) {
+		var BankAccount = this.get("container").lookupFactory("model:bank-account");
+		var Card = this.get("container").lookupFactory("model:card");
+		var Credit = this.get("container").lookupFactory("model:credit");
+		var Customer = this.get("container").lookupFactory("model:customer");
+		var Debit = this.get("container").lookupFactory("model:debit");
+		var Dispute = this.get("container").lookupFactory("model:dispute");
+		var Hold = this.get("container").lookupFactory("model:hold");
+		var Order = this.get("container").lookupFactory("model:order");
+		var Refund = this.get("container").lookupFactory("model:refund");
+		var Reversal = this.get("container").lookupFactory("model:reversal");
+
 		var title;
 		if (Ember.isBlank(model) || parentModel.uri === model.uri) {
 			return;
 		}
 
-		if (model.constructor === Balanced.Order) {
+		if (model.constructor === Order) {
 			return {
 				className: 'icon-single-transaction',
 				title: 'Order',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount_escrowed'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount_escrowed'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Hold) {
+		if (model.constructor === Hold) {
 			return {
 				className: 'icon-single-transaction',
 				title: 'Hold',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Debit) {
+		if (model.constructor === Debit) {
 			return {
 				className: 'icon-single-transaction',
 				title: 'Debit',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Credit) {
+		if (model.constructor === Credit) {
 			return {
 				className: 'icon-single-transaction',
 				title: 'Credit',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Refund) {
-			title = (parentModel.constructor === Balanced.Refund) ? 'Other refund' : 'Refund';
+		if (model.constructor === Refund) {
+			title = (parentModel.constructor === Refund) ? 'Other refund' : 'Refund';
 
 			return {
 				className: 'icon-single-transaction',
 				title: title,
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Reversal) {
-			title = (parentModel.constructor === Balanced.Reversal) ? 'Other reversal' : 'Reversal';
+		if (model.constructor === Reversal) {
+			title = (parentModel.constructor === Reversal) ? 'Other reversal' : 'Reversal';
 
 			return {
 				className: 'icon-single-transaction',
 				title: title,
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Dispute) {
+		if (model.constructor === Dispute) {
 			return {
 				className: 'icon-single-transaction',
 				title: 'Dispute',
 				resource: model,
-				value: '$%@'.fmt(Balanced.Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Balanced.Utils.humanReadableDateShort(model.created_at))
+				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
+				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
-		if (model.constructor === Balanced.Customer) {
+		if (model.constructor === Customer) {
 			title = 'Customer';
 
-			if (parentModel.constructor === Balanced.Order) {
+			if (parentModel.constructor === Order) {
 				title = (model.get('id') === parentModel.get('seller.id')) ? 'Seller' : 'Buyer';
 			}
 
@@ -128,7 +140,7 @@ var SummarySectionView = Ember.View.extend({
 			};
 		}
 
-		if (model.constructor === Balanced.Card) {
+		if (model.constructor === Card) {
 			return {
 				className: 'icon-card',
 				title: model.get('type_name'),
@@ -138,7 +150,7 @@ var SummarySectionView = Ember.View.extend({
 			};
 		}
 
-		if (model.constructor === Balanced.BankAccount) {
+		if (model.constructor === BankAccount) {
 			return {
 				className: 'icon-bank-account',
 				title: model.get('type_name').split(' ')[0],

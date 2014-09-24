@@ -2,6 +2,7 @@ import Ember from "ember";
 import ApiKey from "balanced-dashboard/models/api-key";
 import Marketplace from "balanced-dashboard/models/marketplace";
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
+import Utils from "balanced-dashboard/lib/utils";
 
 var AddTestMarketplaceView = Ember.View.extend({
 	tagName: 'form',
@@ -27,7 +28,7 @@ var AddTestMarketplaceView = Ember.View.extend({
 				return;
 			}
 
-			Balanced.Utils.setCurrentMarketplace(null);
+			Utils.setCurrentMarketplace(null);
 			auth.unsetAPIKey();
 
 			ApiKey.create().save().then(function(apiKey) {
@@ -36,7 +37,7 @@ var AddTestMarketplaceView = Ember.View.extend({
 				auth.setAPIKey(apiKeySecret);
 				var settings = {
 					headers: {
-						Authorization: Balanced.Utils.encodeAuthorization(apiKeySecret)
+						Authorization: Utils.encodeAuthorization(apiKeySecret)
 					}
 				};
 

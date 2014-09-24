@@ -1,12 +1,18 @@
+import Ember from "ember";
+import ENV from "balanced-dashboard/config/environment";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 import Auth from "balanced-dashboard/auth";
+import Utils from "balanced-dashboard/lib/utils";
+import ErrorsLogger from "balanced-dashboard/lib/errors-logger";
+import DisputeDocument from "balanced-dashboard/models/dispute-document";
 
-var Full = Balanced.Modals.FullModalMixin;
-var Form = Balanced.Modals.FormModalMixin;
-var DisplayModelErrors = Balanced.Modals.DisplayModelErrorsModalMixin;
+import ModalBaseView from "./modal-base";
+import Full from "./mixins/full-modal-mixin";
+import Form from "./mixins/form-modal-mixin";
+import DisplayModelErrors from "./mixins/display-model-errors-modal-mixin";
 
-Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, DisplayModelErrors, {
-	templateName: 'modals/evidence_portal_modal',
+var EvidencePortalModalView = ModalBaseView.extend(Full, Form, DisplayModelErrors, {
+	templateName: 'modals/evidence-portal-modal',
 	title: 'Provide dispute evidence',
 	elementId: 'evidence-portal',
 	maxDocumentCount: 50,
@@ -30,7 +36,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 
 		message = '<p>The following types of documentation can help you win a dispute:</p><ul>%@</ul>'.fmt(message);
 
-		return Balanced.Utils.safeFormat(message).htmlSafe();
+		return Utils.safeFormat(message).htmlSafe();
 	}.property(),
 
 	trackingCodeText: 'Balanced will generate a screenshot of the delivery information based on the tracking number provided.',
@@ -66,12 +72,12 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 			}
 			// To remember the documents
 			file.uuid = _.uniqueId('DD');
-			var documentHasErrors = Balanced.DisputeDocument.hasErrors(file);
+			var documentHasErrors = DisputeDocument.hasErrors(file);
 
 			if (documentHasErrors) {
 				errorCount++;
 			} else {
-				var doc = Balanced.DisputeDocument.create({
+				var doc = DisputeDocument.create({
 					file_name: file.name,
 					file_size: file.size,
 					uuid: file.uuid,
@@ -118,7 +124,7 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 			error: data.responseJSON.message.htmlSafe()
 		});
 
-		Balanced.ErrorsLogger.captureMessage("Balanced.EvidencePortalModalView#uploadError", {
+		ErrorsLogger.captureMessage("Balanced.EvidencePortalModalView#uploadError", {
 			extra: {
 				validationMessages: data.responseJSON.message
 			}
@@ -198,10 +204,10 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 					formData.append('tracking_number', tracking_number);
 				}
 
-				var marketplaceId = Balanced.currentMarketplace.get('id');
+				var marketplaceId = BalancedApp.currentMarketplace.get('id');
 				var userMarketplace = Auth.get('user').user_marketplace_for_id(marketplaceId);
 				var secret = userMarketplace.get('secret');
-				var auth = Balanced.Utils.encodeAuthorization(secret);
+				var auth = Utils.encodeAuthorization(secret);
 
 				var documentsToUpload = this.get('documentsToUpload');
 				documentsToUpload.mapBy('file').forEach(function(file, index) {
@@ -226,10 +232,12 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, Dis
 	}
 });
 
-Balanced.EvidencePortalModalView.reopenClass({
+EvidencePortalModalView.reopenClass({
 	open: function(dispute) {
 		return this.create({
 			model: dispute
 		});
 	}
 });
+
+export default EvidencePortalModalView;

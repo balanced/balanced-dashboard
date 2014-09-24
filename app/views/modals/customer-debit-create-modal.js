@@ -1,7 +1,10 @@
+import Ember from "ember";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import ModalBaseView from "./modal-base";
+import DebitExistingFundingInstrumentTransactionFactory from "balanced-dashboard/models/factories/debit-existing-funding-instrument-transaction-factory";
 
-Balanced.Modals.CustomerDebitCreateModalView = Balanced.ModalBaseView.extend(Wide, Save, {
+var CustomerDebitCreateModalView = ModalBaseView.extend(Wide, Save, {
 	elementId: "debit-customer",
 	templateName: "modals/customer_debit_create_modal",
 	title: "Debit this customer",
@@ -13,7 +16,7 @@ Balanced.Modals.CustomerDebitCreateModalView = Balanced.ModalBaseView.extend(Wid
 	}.property("appearsOnStatementAsMaxLength"),
 
 	model: function() {
-		return Balanced.DebitExistingFundingInstrumentTransactionFactory.create({
+		return DebitExistingFundingInstrumentTransactionFactory.create({
 			customer: this.get("customer")
 		});
 	}.property("customer"),
@@ -31,7 +34,7 @@ Balanced.Modals.CustomerDebitCreateModalView = Balanced.ModalBaseView.extend(Wid
 	}
 });
 
-Balanced.Modals.CustomerDebitCreateModalView.reopenClass({
+CustomerDebitCreateModalView.reopenClass({
 	open: function(customer, order) {
 		return this.create({
 			customer: customer,
@@ -39,3 +42,5 @@ Balanced.Modals.CustomerDebitCreateModalView.reopenClass({
 		});
 	},
 });
+
+export default CustomerDebitCreateModalView;

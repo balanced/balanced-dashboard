@@ -1,4 +1,5 @@
 import Ember from "ember";
+import Utils from "balanced-dashboard/lib/utils";
 
 var PrettyPrintView = Ember.View.extend({
 	templateName: 'pretty-print',
@@ -11,7 +12,7 @@ var PrettyPrintView = Ember.View.extend({
 
 	format: function() {
 		this.$('.prettyprinted').removeClass('prettyprinted');
-		this.$('.prettyprint').text(Balanced.Utils.prettyPrint(this.get('content')));
+		this.$('.prettyprint').text(Utils.prettyPrint(this.get('content')));
 		prettyPrint();
 	}.observes('content')
 });
