@@ -157,9 +157,20 @@ Balanced.EvidencePortalModalView = Balanced.ModalBaseView.extend(Full, Form, {
 		Balanced.Analytics.trackEvent(message, attributes);
 	},
 
+	change: function(event) {
+		this._super();
+		this.send('fileSelectionChanged', this.$("#fileupload").get(0).files);
+	},
+
 	drop: function(event) {
 		this._super();
 		this.send('fileSelectionChanged', event.dataTransfer.files);
+	},
+
+	didInsertElement: function() {
+		if (Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0) {
+			$('#fileupload').removeAttr("multiple");
+		}
 	},
 
 	actions: {

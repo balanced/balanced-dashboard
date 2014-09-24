@@ -16,6 +16,13 @@ Balanced.Credit = Balanced.Transaction.extend({
 	funding_instrument_type: Ember.computed.alias('destination.type_name'),
 	max_reversal_amount_dollars: Balanced.computed.transform('reversal_amount', Balanced.Utils.centsToDollars),
 
+	failure_reasonChanged: function() {
+		if (Ember.isEmpty(this.get('failure_reason'))) {
+			return;
+		}
+		var formattedMessage = this.get('failure_reason').replace(/of\s(\d+)(\d\d)/g, 'of $$' + '$1.$2');
+		this.set('failure_reason', formattedMessage);
+	}.observes('failure_reason', 'amount').on('init'),
 
 	get_reversals: function() {
 		var self = this;

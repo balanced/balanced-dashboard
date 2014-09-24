@@ -28,10 +28,16 @@ Balanced.Marketplace = Balanced.UserMarketplace.extend({
 		attributes = _.extend({}, attributes);
 		return Balanced.LogsResultsLoader.create(attributes);
 	},
+
+	getSearchLogsLoader: function(queryString) {
+		return Balanced.SearchLogsResultsLoader.create({
+			query: queryString
+		});
+	},
+
 	getSearchLoader: function(attributes) {
 		attributes = _.extend({
-			marketplace: this,
-			resultsType: Balanced.Transaction
+			marketplace: this
 		}, attributes);
 		return Balanced.MarketplaceSearchResultsLoader.create(attributes);
 	},

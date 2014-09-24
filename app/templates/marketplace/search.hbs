@@ -21,6 +21,10 @@
 			<li {{bind-attr class=":funding-instruments :filter totalFundingInstruments::disabled isFundingInstrumentsTabSelected:selected"}} >
 				<a href="#" {{action "changeTypeFilter" "funding_instrument"}}> Cards &amp; Bank Accounts ({{formatNumber totalFundingInstruments}}) </a>
 			</li>
+
+			<li {{bind-attr class=":logs :filter totalLogs::disabled isLogsTabSelected:selected"}} >
+				<a href="#" {{action "changeTypeFilter" "log"}}> Logs ({{formatNumber totalLogs}}) </a>
+			</li>
 		</ul>
 	</nav>
 
@@ -45,6 +49,12 @@
 	{{#if isFundingInstrumentsTabSelected}}
 		<div class="items-wrapper">
 			{{view Balanced.FundingInstrumentsResultsView loader=resultsLoader}}
+		</div>
+	{{/if}}
+
+	{{#if isLogsTabSelected}}
+		<div class="items-wrapper">
+			{{view Balanced.LogsResultsView loader=logsResultsLoader}}
 		</div>
 	{{/if}}
 {{/view}}
