@@ -1,6 +1,8 @@
-var ValidationHelpers = Balanced.ValidationHelpers;
+import TransactionFactory from "./transaction-factory";
+import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
+import Debit from "balanced-dashboard/models/debit";
 
-Balanced.DebitExistingFundingInstrumentTransactionFactory = Balanced.TransactionFactory.extend({
+var DebitExistingFundingInstrumentTransactionFactory = TransactionFactory.extend({
 	appears_on_statement_max_length: Ember.computed.oneWay("source.appears_on_statement_max_length"),
 	source_uri: Ember.computed.readOnly("source.uri"),
 	getDebitAttributes: function() {
@@ -20,7 +22,7 @@ Balanced.DebitExistingFundingInstrumentTransactionFactory = Balanced.Transaction
 		var baseDebitAttributes = this.getDebitAttributes();
 		this.validate();
 		if (this.get("isValid")) {
-			Balanced.Debit.create(this.getDebitAttributes())
+			Debit.create(this.getDebitAttributes())
 				.save()
 				.then(function(model) {
 					deferred.resolve(model);
@@ -34,3 +36,5 @@ Balanced.DebitExistingFundingInstrumentTransactionFactory = Balanced.Transaction
 		return deferred.promise;
 	}
 });
+
+export default DebitExistingFundingInstrumentTransactionFactory;

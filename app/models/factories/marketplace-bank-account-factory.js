@@ -1,4 +1,6 @@
-Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
+import BaseFactory from "./base";
+
+var MarketplaceBankAccountFactory = BaseFactory.extend({
 	validations: {
 		name: {
 			presence: true
@@ -73,3 +75,5 @@ Balanced.MarketplaceBankAccountFactory = Balanced.BaseFactory.extend({
 		return deferred.promise;
 	},
 });
+
+export default MarketplaceBankAccountFactory;

@@ -1,4 +1,9 @@
-Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
+import Ember from "ember";
+import TransactionFactory from "./transaction-factory";
+import Utils from "balanced-dashboard/lib/utils";
+import Refund from "balanced-dashboard/models/refund";
+
+var RefundDebitTransactionFactory = TransactionFactory.extend({
 	isAmountOverMaximum: function() {
 		return this.get("amount") > this.get("debit.refund_amount");
 	},
@@ -16,12 +21,12 @@ Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
 						message("is required");
 					} else if (object.isAmountOverMaximum()) {
 						var maxAmount = object.get("debit.refund_amount");
-						message("cannot be more than %@".fmt(Balanced.Utils.formatCurrency(maxAmount)));
+						message("cannot be more than %@".fmt(Utils.formatCurrency(maxAmount)));
 					} else if (!object.isAmountPositive()) {
 						message("must be a positive number");
 					} else {
 						try {
-							var v = Balanced.Utils.dollarsToCents(value);
+							var v = Utils.dollarsToCents(value);
 							if (isNaN(v) || v <= 0) {
 								message("must be a positive number");
 							}
@@ -44,7 +49,7 @@ Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
 		this.validate();
 		var debit = this.get("debit");
 		if (this.get("isValid")) {
-			return Balanced.Refund.create({
+			return Refund.create({
 				uri: debit.get('refunds_uri'),
 				debit_uri: debit.get('uri'),
 				amount: this.get("amount"),
@@ -57,3 +62,5 @@ Balanced.RefundDebitTransactionFactory = Balanced.TransactionFactory.extend({
 		}
 	}
 });
+
+export default RefundDebitTransactionFactory;

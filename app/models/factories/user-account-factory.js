@@ -1,4 +1,7 @@
-Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
+import BaseFactory from "./base";
+import AuthConnection from "balanced-dashboard/lib/connections/auth-connection";
+
+var UserAccountFactory = BaseFactory.extend({
 	validations: {
 		email_address: {
 			presence: true
@@ -27,7 +30,7 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 	},
 
 	getConnection: function() {
-		return Balanced.Connections.AuthConnection.create();
+		return AuthConnection.create();
 	},
 
 	getPostAttributes: function() {
@@ -53,3 +56,5 @@ Balanced.UserAccountFactory = Balanced.BaseFactory.extend({
 		});
 	},
 });
+
+export default UserAccountFactory;

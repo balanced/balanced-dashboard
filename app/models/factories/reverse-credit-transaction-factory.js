@@ -1,4 +1,9 @@
-Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
+import Ember from "ember";
+import TransactionFactory from "./transaction-factory";
+import Utils from "balanced-dashboard/lib/utils";
+import Reversal from "balanced-dashboard/models/reversal";
+
+var ReverseCreditTransactionFactory = TransactionFactory.extend({
 	isAmountOverMaximum: function() {
 		return this.get("amount") > this.get("credit.reversal_amount");
 	},
@@ -16,12 +21,12 @@ Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
 						message("is required");
 					} else if (object.isAmountOverMaximum()) {
 						var maxAmount = object.get("credit.reversal_amount");
-						message("cannot be more than %@".fmt(Balanced.Utils.formatCurrency(maxAmount)));
+						message("cannot be more than %@".fmt(Utils.formatCurrency(maxAmount)));
 					} else if (!object.isAmountPositive()) {
 						message("must be a positive number");
 					} else {
 						try {
-							var v = Balanced.Utils.dollarsToCents(value);
+							var v = Utils.dollarsToCents(value);
 							if (isNaN(v) || v <= 0) {
 								message("must be a positive number");
 							}
@@ -43,7 +48,7 @@ Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
 	save: function() {
 		this.validate();
 		if (this.get("isValid")) {
-			return Balanced.Reversal.create({
+			return Reversal.create({
 				uri: this.get('credit.reversals_uri'),
 				credit_uri: this.get('credit.uri'),
 				amount: this.get("amount"),
@@ -56,3 +61,5 @@ Balanced.ReverseCreditTransactionFactory = Balanced.TransactionFactory.extend({
 		}
 	}
 });
+
+export default ReverseCreditTransactionFactory;

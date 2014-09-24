@@ -1,7 +1,7 @@
 import Model from "./core/model";
 import Computed from "balanced-dashboard/utils/computed";
 
-var Event = Model.extend({
+var EventModel = Model.extend({
 	transaction: Model.belongsTo('entity', 'transaction'),
 	eventCallbacks: Model.hasMany('callbacks', 'event-callback'),
 	uri: '/events',
@@ -12,4 +12,4 @@ var Event = Model.extend({
 	}.property('type')
 });
 
-export default Event;
+export default EventModel;
