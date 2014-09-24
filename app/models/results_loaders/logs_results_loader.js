@@ -29,12 +29,13 @@ Balanced.SearchLogsResultsLoader = Balanced.LogsResultsLoader.extend({
 			return Balanced.ModelArray.create({
 				isLoaded: true
 			});
-		} else {
-			var searchArray = Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
-			searchArray.then(function() {}, function() {
-				searchArray.set('isLoaded', true);
-			});
-			return searchArray;
 		}
+
+		var searchArray = Balanced.SearchModelArray.newArrayLoadedFromUri(uri, type);
+		searchArray.then(function() {}, function() {
+			searchArray.set('isLoaded', true);
+		});
+
+		return searchArray;
 	}.property("query", "resultsUri", "resultsType"),
 });
