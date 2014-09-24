@@ -124,7 +124,7 @@ var EvidencePortalModalView = ModalBaseView.extend(Full, Form, DisplayModelError
 			error: data.responseJSON.message.htmlSafe()
 		});
 
-		ErrorsLogger.captureMessage("Balanced.EvidencePortalModalView#uploadError", {
+		ErrorsLogger.captureMessage("BalancedApp.EvidencePortalModalView#uploadError", {
 			extra: {
 				validationMessages: data.responseJSON.message
 			}

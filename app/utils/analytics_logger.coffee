@@ -1,4 +1,5 @@
 `import ENV from 'balanced-dashboard/config/environment';`
+`import Utils from 'balanced-dashboard/lib/utils';`
 `import Auth from 'balanced-dashboard/auth';`
 
 window.mixpanel = window.mixpanel || []
@@ -63,12 +64,12 @@ AnalyticsLogger =
 	trackPage: _.debounce(trackPage, 500)
 
 	trackEvent: (name, data={}) ->
-		mp = Balanced.currentMarketplace
+		mp = BalancedApp.currentMarketplace
 		if mp
 			data.marketplaceId = mp.get('id')
 			data.marketplaceName = mp.get('name')
 
-		filteredData = Balanced.Utils.filterSensitivePropertiesMap(data)
+		filteredData = Utils.filterSensitivePropertiesMap(data)
 		if isMixpanelLoaded
 			window.mixpanel.track(name, filteredData)
 
