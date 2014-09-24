@@ -5,8 +5,6 @@ import Computed from "balanced-dashboard/utils/computed";
 import Rev1Serializer from "balanced-dashboard/serializers/rev1";
 import Utils from "balanced-dashboard/lib/utils";
 import ModelArray from "./model-array";
-import UserMarketplace from "../user-marketplace";
-import UserInvite from "../user-invite";
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
