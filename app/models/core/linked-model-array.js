@@ -1,4 +1,5 @@
 import ModelArray from "./model-array";
+import TypeMappings from "balanced-dashboard/models/core/type-mappings";
 
 var LinkedModelArray = ModelArray.extend({
 	_populateModels: function(json) {
@@ -38,7 +39,7 @@ var LinkedModelArray = ModelArray.extend({
 
 LinkedModelArray.reopenClass({
 	newArrayLoadedFromUri: function(uri, defaultType, linkedKey) {
-		var typeClass = Balanced.TypeMappings.typeClass(defaultType);
+		var typeClass = TypeMappings.typeClass(defaultType);
 		var modelObjectsArray = this.create({
 			content: Ember.A(),
 			typeClass: typeClass,
@@ -51,7 +52,7 @@ LinkedModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
-		Balanced.Adapter.get(typeClass, uri, function(json) {
+		BalancedApp.Adapter.get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);
 		}, function(jqXHR, textStatus, errorThrown) {

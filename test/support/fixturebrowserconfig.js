@@ -5,7 +5,7 @@ window.Balanced.setupFixtureApp = function() {
 	Ember.ENV.BALANCED.WWW = 'http://example.org';
 
 	window.setupBalanced();
-	Balanced.Adapter = Balanced.FixtureAdapter.create();
+	BalancedApp.Adapter = Balanced.FixtureAdapter.create();
 	Balanced.Adapter.asyncCallbacks = true;
 	window.setupTestFixtures();
 

@@ -4,6 +4,7 @@ import TypeMappings from "./type-mappings";
 import Computed from "balanced-dashboard/utils/computed";
 import Rev1Serializer from "balanced-dashboard/serializers/rev1";
 import Utils from "balanced-dashboard/lib/utils";
+import ModelArray from "./model-array";
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
@@ -67,11 +68,11 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var resolveEvent = creatingNewModel ? 'didCreate' : 'didUpdate';
 		var uri = creatingNewModel ? this._createUri() : this.get('uri');
-		var adapterFunc = creatingNewModel ? Balanced.Adapter.create : Balanced.Adapter.update;
+		var adapterFunc = creatingNewModel ? BalancedApp.Adapter.create : BalancedApp.Adapter.update;
 
 		var promise = this.resolveOn(resolveEvent);
 
-		adapterFunc.call(Balanced.Adapter, this.constructor, uri, data, function(json) {
+		adapterFunc.call(BalancedApp.Adapter, this.constructor, uri, data, function(json) {
 			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, (creatingNewModel ? null : self.get('href')));
 			self._updateFromJson(deserializedJson);
 
@@ -104,7 +105,7 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var promise = this.resolveOn('didDelete');
 
-		Balanced.Adapter.delete(this.constructor, this.get('uri'), function(json) {
+		BalancedApp.Adapter.delete(this.constructor, this.get('uri'), function(json) {
 			self.set('isSaving', false);
 			self.trigger('didDelete');
 			Model.Events.trigger('didDelete', self);
@@ -123,7 +124,7 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var promise = this.resolveOn('didLoad');
 
-		Balanced.Adapter.get(this.constructor, this.get('uri'), function(json) {
+		BalancedApp.Adapter.get(this.constructor, this.get('uri'), function(json) {
 			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, self.get('href'));
 			self._updateFromJson(deserializedJson);
 			self.set('isLoaded', true);
@@ -283,7 +284,7 @@ Model.reopenClass({
 			isNew: false
 		});
 
-		Balanced.Adapter.get(modelClass, uri, function(json) {
+		BalancedApp.Adapter.get(modelClass, uri, function(json) {
 			modelObject.populateFromJsonResponse(json, uri);
 		}, $.proxy(modelObject._handleError, modelObject));
 
@@ -297,7 +298,7 @@ Model.reopenClass({
 			throw new Error('Can\'t call findAll for class that doesn\'t have a default URI: %@'.fmt(this));
 		}
 
-		return Balanced.ModelArray.newArrayLoadedFromUri(uri, this);
+		return ModelArray.newArrayLoadedFromUri(uri, this);
 	},
 
 	constructUri: function(id) {
@@ -353,7 +354,7 @@ Model.reopenClass({
 					// property in our JSON. That'll force an update of the
 					// association
 					var self = this;
-					Balanced.Adapter.get(defaultType, uriPropertyValue, function(json) {
+					BalancedApp.Adapter.get(defaultType, uriPropertyValue, function(json) {
 						var modelJson = typeClass.serializer.extractSingle(json, typeClass, uriPropertyValue);
 						self.set(embeddedProperty, modelJson);
 					});
@@ -401,11 +402,11 @@ Model.reopenClass({
 			var uriPropertyValue = this.get(fullUriProperty) || this.get(uriProperty);
 
 			if (embeddedPropertyValue) {
-				return Balanced.ModelArray.newArrayCreatedFromJson(embeddedPropertyValue, defaultType);
+				return ModelArray.newArrayCreatedFromJson(embeddedPropertyValue, defaultType);
 			} else if (uriPropertyValue) {
-				return Balanced.ModelArray.newArrayLoadedFromUri(uriPropertyValue, defaultType);
+				return ModelArray.newArrayLoadedFromUri(uriPropertyValue, defaultType);
 			} else {
-				return Balanced.ModelArray.create({
+				return ModelArray.create({
 					content: Ember.A(),
 					typeClass: typeClass
 				});

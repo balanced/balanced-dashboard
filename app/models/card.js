@@ -1,6 +1,7 @@
 import Computed from "balanced-dashboard/utils/computed";
 import Constants from "balanced-dashboard/utils/constants";
 import FundingInstrument from "./funding-instrument";
+import Utils from "balanced-dashboard/lib/utils";
 
 var Card = FundingInstrument.extend(Ember.Validations, {
 	uri: '/cards',
@@ -72,7 +73,7 @@ var Card = FundingInstrument.extend(Ember.Validations, {
 	description: function() {
 		return '%@ %@'.fmt(
 			this.get('last_four'),
-			Balanced.Utils.toTitleCase(this.get('brand'))
+			Utils.toTitleCase(this.get('brand'))
 		);
 	}.property('last_four', 'brand'),
 
@@ -80,7 +81,7 @@ var Card = FundingInstrument.extend(Ember.Validations, {
 		return '%@ (%@ %@)'.fmt(
 			this.get('name'),
 			this.get('last_four'),
-			Balanced.Utils.toTitleCase(this.get('brand'))
+			Utils.toTitleCase(this.get('brand'))
 		);
 	}.property('name', 'last_four', 'brand'),
 
@@ -120,7 +121,7 @@ var Card = FundingInstrument.extend(Ember.Validations, {
 		// Tokenize the card using the balanced.js library
 		balanced.card.create(cardData, function(response) {
 			if (response.errors) {
-				var validationErrors = Balanced.Utils.extractValidationErrorHash(response);
+				var validationErrors = Utils.extractValidationErrorHash(response);
 				self.setProperties({
 					validationErrors: validationErrors,
 					isSaving: false

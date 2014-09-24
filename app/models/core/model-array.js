@@ -15,7 +15,7 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 		if (this.get('hasNextPage')) {
 			var typeClass = this.get('typeClass');
 
-			Balanced.Adapter.get(typeClass, this.get('next_uri'), function(json) {
+			BalancedApp.Adapter.get(typeClass, this.get('next_uri'), function(json) {
 				var deserializedJson = typeClass.serializer.extractCollection(json);
 				self._populateModels(deserializedJson);
 				self.set('loadingNextPage', false);
@@ -53,7 +53,7 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 		var promise = this.resolveOn('didLoad');
 		var typeClass = this.get('typeClass');
 
-		Balanced.Adapter.get(this.constructor, this.get('uri'), function(json) {
+		BalancedApp.Adapter.get(this.constructor, this.get('uri'), function(json) {
 			// todo, maybe we should go through and reload each item rather
 			// than nuking and re-adding
 			self.clear();
@@ -145,7 +145,7 @@ ModelArray.reopenClass({
 
 		modelObjectsArray.set('isLoaded', false);
 
-		Balanced.Adapter.get(typeClass, uri, function(json) {
+		BalancedApp.Adapter.get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);
 		}, function(jqXHR, textStatus, errorThrown) {
@@ -174,7 +174,4 @@ ModelArray.reopenClass({
 	}
 });
 
-if (this.Balanced) {
-	this.Balanced.ModelArray = ModelArray;
-}
 export default ModelArray;

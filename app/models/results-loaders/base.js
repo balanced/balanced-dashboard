@@ -1,4 +1,5 @@
 import Ember from "ember";
+import ModelArray from "../core/model-array";
 import SearchModelArray from "../core/search-model-array";
 import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
 import Download from "balanced-dashboard/models/download";
@@ -48,7 +49,7 @@ var BaseResultsLoader = Ember.Object.extend({
 		var type = this.get('resultsType');
 
 		if (Ember.isBlank(uri)) {
-			return Balanced.ModelArray.create({
+			return ModelArray.create({
 				isLoaded: true
 			});
 		} else {
