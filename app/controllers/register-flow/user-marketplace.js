@@ -1,4 +1,7 @@
-Balanced.UserMarketplaceController = Balanced.Controller.extend({
+import Ember from "ember";
+import Marketplace from "balanced-dashboard/models/marketplace";
+
+var UserMarketplaceController = Ember.Controller.extend({
 	needs: ["registration", "sessions"],
 
 	pushMarketplace: function(user, secret, marketplaceHref) {
@@ -29,6 +32,8 @@ Balanced.UserMarketplaceController = Balanced.Controller.extend({
 	},
 
 	findMarketplace: function(marketplaceHref) {
-		return Balanced.Marketplace.find(marketplaceHref);
+		return Marketplace.find(marketplaceHref);
 	},
 });
+
+export default Ember;

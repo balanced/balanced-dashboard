@@ -1,5 +1,9 @@
 import Ember from "ember";
+import Ajax from "balanced-dashboard/lib/ajax";
+import ApiKey from "balanced-dashboard/models/api-key";
 import Auth from "balanced-dashboard/auth";
+import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
+import AuthConnection from "balanced-dashboard/lib/connections/auth-connection";
 
 var RegistrationController = Ember.Controller.extend({
 	join: function(userFactory, authToken) {
@@ -39,7 +43,7 @@ var RegistrationController = Ember.Controller.extend({
 			.getApiConnection()
 			.createApiKey(attributes)
 			.then(function(response) {
-				var key = Balanced.APIKey.create();
+				var key = ApiKey.create();
 				key.populateFromJsonResponse(response);
 				return key.get("secret");
 			});
@@ -114,14 +118,14 @@ var RegistrationController = Ember.Controller.extend({
 				apiKey: secret
 			};
 		}
-		return Balanced.Connections.ApiConnection.create(attributes);
+		return ApiConnection.create(attributes);
 	},
 
 	getAuthConnection: function() {
 		var attributes = {
-			csrfToken: Balanced.NET.csrfToken
+			csrfToken: Ajax.csrfToken
 		};
-		return Balanced.Connections.AuthConnection.create(attributes);
+		return AuthConnection.create(attributes);
 	},
 
 });

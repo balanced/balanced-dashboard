@@ -1,7 +1,11 @@
-Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
+import Ember from "ember";
+import BankAccount from "balanced-dashboard/models/bank-account";
+import Verification from "balanced-dashboard/models/verification";
+
+var OwnerCustomerBankAccountController = Ember.Controller.extend({
 	needs: ["marketplace"],
 	find: function(bankAccountHref) {
-		return Balanced.BankAccount.find(bankAccountHref);
+		return BankAccount.find(bankAccountHref);
 	},
 
 	link: function(marketplace, bankAccount) {
@@ -11,7 +15,7 @@ Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
 	},
 
 	verify: function(bankAccount) {
-		return Balanced.Verification
+		return Verification
 			.create({
 				uri: bankAccount.get("bank_account_verifications_uri")
 			})
@@ -34,3 +38,5 @@ Balanced.OwnerCustomerBankAccountController = Balanced.Controller.extend({
 			});
 	},
 });
+
+export default OwnerCustomerBankAccountController;

@@ -1,4 +1,5 @@
 import Ember from "ember";
+import Utils from "balanced-dashboard/lib/utils";
 
 var resultsLoaderProperty = function(methodName) {
 	return function() {
@@ -30,7 +31,7 @@ var OrdersController = Ember.ObjectController.extend({
 				amounts[type].total += thing.get('amount');
 			});
 
-			amounts[type].total = Balanced.Utils.formatCurrency(amounts[type].total);
+			amounts[type].total = Utils.formatCurrency(amounts[type].total);
 		}, this);
 
 		return amounts;

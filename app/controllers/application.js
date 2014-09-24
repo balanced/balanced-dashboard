@@ -28,12 +28,13 @@ var ApplicationController = Ember.Controller.extend(Ember.Evented, {
 		},
 
 		openVerifyBankAccountLink: function() {
+			var bankAccountsController = this.get("container").lookup("controller:bank_accounts");
 			var bankAccount = BalancedApp.currentMarketplace.get('owner_customer.bank_accounts.firstObject');
 			this.transitionToRoute('bank_accounts', bankAccount).then(function(route) {
 				_.delay(function() {
 					var controller = route && route.routeName ?
 						route.get('controller') :
-						Balanced.__container__.lookup('controller:bank_accounts');
+						bankAccountsController;
 
 					if (!controller) {
 						return;
