@@ -3,11 +3,10 @@ import Constants from "balanced-dashboard/utils/constants";
 import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
 import CreditCreatorCsvObjectMapper from "./credit-creator-csv-object-mapper";
 import Credit from "balanced-dashboard/models/credit";
+import baseValidationsObject from "./base-validations";
 
-var baseValidationsObject = {
-	"csvFields.appears_on_statement_as": ValidationHelpers.bankTransactionAppearsOnStatementAs,
-	"csvFields.amount": ValidationHelpers.positiveDollarAmount,
-};
+import ExistingCustomerCreditCreator from "./existing-customer-credit-creator";
+import NewCustomerCreditCreator from "./new-customer-credit-creator";
 
 var CreditCreator = Ember.Object.extend(Ember.Validations, {
 
@@ -96,9 +95,9 @@ CreditCreator.reopenClass({
 		var creditCreator = null;
 
 		if (object.existing_customer_name_or_email !== undefined) {
-			creditCreator = Balanced.ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
+			creditCreator = ExistingCustomerCreditCreator.createFromQuery(marketplace, object);
 		} else {
-			creditCreator = Balanced.NewCustomerCreditCreator.create({
+			creditCreator = NewCustomerCreditCreator.create({
 				csvFields: object
 			});
 		}

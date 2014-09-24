@@ -1,4 +1,6 @@
-Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
+import Customer from "balanced-dashboard/models/customer";
+
+var ExistingCustomerCreditCreator = CreditCreator.extend({
 	validations: _.extend({}, baseValidationsObject, {
 		"csvFields.existing_customer_name_or_email": {
 			presence: true,
@@ -73,14 +75,14 @@ Balanced.ExistingCustomerCreditCreator = Balanced.CreditCreator.extend({
 	}.property("customer", "customer.bank_accounts", "customer.bank_accounts.length")
 });
 
-Balanced.ExistingCustomerCreditCreator.reopenClass({
+ExistingCustomerCreditCreator.reopenClass({
 	fieldNames: CreditCreatorFields.EXISTING_CUSTOMER_FIELDS,
 	createFromQuery: function(marketplace, attributes) {
 		var creator = this.create({
 			csvFields: attributes
 		});
 
-		var results = Balanced.Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
+		var results = Customer.findByNameOrEmail(marketplace, attributes.existing_customer_name_or_email);
 		results.addObserver("isLoaded", function() {
 			creator.set("customersCollection", results);
 		});
@@ -91,3 +93,5 @@ Balanced.ExistingCustomerCreditCreator.reopenClass({
 		return creator;
 	}
 });
+
+export default ExistingCustomerCreditCreator;

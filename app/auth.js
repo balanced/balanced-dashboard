@@ -1,3 +1,4 @@
+import ENV from "balanced-dashboard/config/environment";
 import Ember from "ember";
 import Utils from "./lib/utils";
 import User from "balanced-dashboard/models/user";
