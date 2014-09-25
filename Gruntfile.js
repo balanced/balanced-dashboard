@@ -5,42 +5,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		clean: {
 			files: {
-				src: ['build/', 'dist/', 'report/', 'js/', '.bower-tmp', 'coverage/']
-			}
-		},
-
-		// We're using the template here to construct an array of functions
-		// that sets up Balanced so we can destroy and reconstruct the
-		// entire app while running tests.
-		neuter: {
-			dev: {
-				options: {
-					includeSourceURL: true,
-					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
-				},
-				src: ['app/dashboard.js'],
-				dest: 'build/js/includes-dev.js'
-			},
-			prod: {
-				options: {
-					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
-				},
-				src: ['app/dashboard.js'],
-				dest: 'build/js/includes-prod.js'
-			},
-			templates: {
-				options: {
-					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
-				},
-				src: ['build/js/compiled-templates.js'],
-				dest: 'build/js/test-templates.js'
-			},
-			testfixtures: {
-				options: {
-					template: "{%= src %} ;"
-				},
-				src: ['test/support/fixtures/fixtures.js'],
-				dest: 'build/test/js/test-fixtures.js'
+				src: ['dist/', 'report/', 'js/', '.bower-tmp', 'coverage/']
 			}
 		},
 
@@ -52,191 +17,13 @@ module.exports = function(grunt) {
 			}
 		},
 
-		concat: {
-			options: {
-				separator: ';\n'
-			},
-			dashboarddev: {
-				src: [
-					'app/app_setup.js',
-					'build/js/compiled-templates.js',
-					'build/js/includes-dev.js',
-					'app/balanced.js'
-				],
-				dest: 'build/js/dashboard-dev.js'
-			},
-			dashboardtest: {
-				src: [
-					'app/app_setup.js',
-					'build/js/includes-dev.js'
-				],
-				dest: 'build/js/dashboard-test.js'
-			},
-			dashboardprod: {
-				src: [
-					'app/app_setup.js',
-					'build/js/compiled-templates.js',
-					'build/js/includes-prod.js',
-					'app/balanced.js'
-				],
-				dest: 'build/js/dashboard-prod.js'
-			},
-			libdev: {
-				src: [
-					'static/javascripts/jquery/jquery.js',
-					'static/javascripts/handlebars/handlebars.runtime.js',
-					'static/javascripts/ember/ember.js',
-					'static/javascripts/shapeshifter/shapeshifter.js',
-					'static/lib/ember-validations.prod.js',
-					'static/javascripts/lodash/dist/lodash.underscore.js',
-					'static/javascripts/google-code-prettify/src/prettify.js',
-					'static/javascripts/strftime/index.js',
-					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
-					'static/javascripts/jquery.cookie/jquery.cookie.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
-					'static/javascripts/jquery-csv/src/jquery.csv.js',
-					'static/javascripts/moment/moment.js',
-					'static/lib/moment-business-days.js',
-					'static/lib/daterangepicker.js',
-					'static/javascripts/timepicker/jquery.timepicker.js'
-				],
-				dest: 'build/js/lib-dev.js'
-			},
-			libprod: {
-				src: [
-					'static/javascripts/jquery/jquery.js',
-					'static/javascripts/handlebars/handlebars.runtime.js',
-					'static/javascripts/ember/ember.prod.js',
-					'static/javascripts/shapeshifter/shapeshifter.js',
-					'static/lib/ember-validations.prod.js',
-					'static/javascripts/bootstrap/js/bootstrap-dropdown.js',
-					'static/javascripts/bootstrap/js/bootstrap-modal.js',
-					'static/javascripts/bootstrap/js/bootstrap-tooltip.js',
-					'static/javascripts/bootstrap/js/bootstrap-popover.js',
-					'static/javascripts/lodash/dist/lodash.underscore.min.js',
-					'static/javascripts/mixpanel/mixpanel.js',
-					'static/javascripts/google-code-prettify/src/prettify.js',
-					'static/javascripts/strftime/index.js',
-					'static/javascripts/jquery-hotkeys/jquery.hotkeys.js',
-					'static/javascripts/jquery.cookie/jquery.cookie.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modalmanager.js',
-					'static/javascripts/bootstrap-modal/js/bootstrap-modal.js',
-					'static/javascripts/jquery-csv/src/jquery.csv.js',
-					'static/javascripts/moment/min/moment.min.js',
-					'static/lib/moment-business-days.js',
-					'static/lib/daterangepicker.js',
-					'static/javascripts/timepicker/jquery.timepicker.min.js'
-				],
-				dest: 'build/js/lib-prod.js'
-			},
-			tests: {
-				src: [
-					'test/lib/*.js',
-					'test/unit/**/*.js',
-					'test/integration/**/*.js'
-				],
-				dest: 'build/test/js/tests.js'
-			},
-			libtest: {
-				src: [
-					'static/javascripts/sinon/index.js',
-					'static/javascripts/qunit/qunit/qunit.js'
-				],
-				dest: 'build/test/js/test-runner.js'
-			}
-		},
-
-		uglify: {
-			dashboard: {
-				options: {
-					sourceMap: 'js/dashboard.map.js',
-					sourceMapRoot: '/js/',
-					sourceMappingURL: '/js/dashboard.map.js',
-					sourceMapPrefix: 1
-				},
-				files: {
-					'js/dashboard-prod.min.js': [
-						'js/dashboard-prod.js'
-					]
-				}
-			},
-			lib: {
-				options: {
-					sourceMap: 'js/lib.map.js',
-					sourceMapRoot: '/js/',
-					sourceMappingURL: '/js/lib.map.js',
-					sourceMapPrefix: 1
-				},
-				files: {
-					'js/lib-prod.min.js': [
-						'js/lib-prod.js'
-					]
-				}
-			}
-		},
-
-		/*
-		Finds Handlebars templates and precompiles them into functions.
-		The provides two benefits:
-
-		1. Templates render much faster
-		2. We only need to include the handlebars-runtime microlib
-		and not the entire Handlebars parser.
-
-		Files will be written out to build/compiled/templates.js
-		which is required within the project files so will end up
-		as part of our application.
-
-		The compiled result will be stored in
-		Ember.TEMPLATES keyed on their file path (with the 'app/templates' stripped)
-		*/
-		emberTemplates: {
-			options: {
-				templateName: function(sourceFile) {
-					return sourceFile.replace(/app\/templates\//, '');
-				}
-			},
-			'build/js/compiled-templates.js': ["app/templates/**/*.hbs"]
-		},
-
-		less: {
-			development: {
-				options: {
-					paths: ["assets/css"]
-				},
-				files: {
-					"build/css/base.css": "static/less/base.less",
-					"build/css/print.css": "static/less/print.less"
-				}
-			},
-			production: {
-				options: {
-					paths: ["assets/css"],
-					yuicompress: true
-				},
-				files: {
-					"build/css/base.min.css": "static/less/base.less",
-					"build/css/print.min.css": "static/less/print.less"
-				}
-			}
-		},
-
 		copy: {
 			staticFiles: {
 				files: [{
 					cwd: 'static/files/',
 					expand: true,
 					src: ['**'],
-					dest: 'build/files/'
-				}]
-			},
-			css: {
-				files: [{
-					cwd: 'build/css/',
-					expand: true,
-					src: ['**'],
-					dest: 'dist/css/'
+					dest: 'public/files/'
 				}]
 			},
 			images: {
@@ -244,22 +31,12 @@ module.exports = function(grunt) {
 					cwd: 'static/images/',
 					expand: true,
 					src: ['**'],
-					dest: 'build/images/'
-				}, {
-					cwd: 'static/images/',
-					expand: true,
-					src: ['**'],
-					dest: 'build/test/images/'
+					dest: 'public/images/'
 				}, {
 					cwd: 'static/javascripts/strapped/static/images/',
 					expand: true,
 					src: ['**'],
 					dest: 'build/images/'
-				}, {
-					cwd: 'static/javascripts/strapped/static/images/',
-					expand: true,
-					src: ['**'],
-					dest: 'build/test/images/'
 				}]
 			},
 			fonts: {
@@ -272,17 +49,7 @@ module.exports = function(grunt) {
 						'*.ttf',
 						'*.woff'
 					],
-					dest: 'build/fonts/'
-				}, {
-					cwd: 'static/javascripts/strapped/static/fonts/',
-					expand: true,
-					src: [
-						'*.eot',
-						'*.svg',
-						'*.ttf',
-						'*.woff'
-					],
-					dest: 'build/test/fonts/'
+					dest: 'public/fonts/'
 				}]
 			},
 			notfound: {
@@ -290,77 +57,7 @@ module.exports = function(grunt) {
 					cwd: 'static/javascripts/strapped/notfound',
 					expand: true,
 					src: ['**'],
-					dest: 'build/notfound'
-				}]
-			},
-			dist: {
-				files: [{
-					cwd: 'build/js/',
-					expand: true,
-					src: ['*-prod.min-*.js'],
-					dest: 'dist/js/'
-				}, {
-					cwd: 'build/css/',
-					expand: true,
-					src: ['*.min-*.css'],
-					dest: 'dist/css/'
-				}, {
-					src: 'build/prod.html',
-					dest: 'dist/index.html'
-				}, {
-					cwd: 'build/images/',
-					expand: true,
-					src: ['**'],
-					dest: 'dist/images/'
-				}, {
-					cwd: 'build/files/',
-					expand: true,
-					src: ['**'],
-					dest: 'dist/files/'
-				}, {
-					cwd: 'build/fonts/',
-					expand: true,
-					src: ['**'],
-					dest: 'dist/fonts/'
-				}, {
-					cwd: 'build/notfound/',
-					expand: true,
-					src: ['**'],
-					dest: 'dist/notfound/'
-				}]
-			},
-			test: {
-				files: [{
-					cwd: 'test/support/static/',
-					expand: true,
-					src: ['**'],
-					dest: 'build/test/'
-				}, {
-					src: 'test/support/testconfig.js',
-					dest: 'build/test/js/testconfig.js'
-				}, {
-					src: 'test/support/testenv.js',
-					dest: 'build/test/js/testenv.js'
-				}, {
-					src: 'test/support/fixturebrowserconfig.js',
-					dest: 'build/test/js/fixturebrowserconfig.js'
-				}, {
-					src: 'static/javascripts/qunit/qunit/qunit.css',
-					dest: 'build/test/css/qunit.css'
-				}, {
-					src: 'static/javascripts/sinon/index.js',
-					dest: 'build/test/js/sinon.js'
-				}, {
-					src: 'test/support/lib/balanced.min.js',
-					dest: 'build/test/js/balanced.min.js'
-				}]
-			},
-			preUglify: {
-				files: [{
-					expand: true,
-					flatten: true,
-					src: ['build/js/dashboard-prod.js', 'build/js/lib-prod.js'],
-					dest: 'js/'
+					dest: 'public/notfound'
 				}]
 			},
 			postUglify: {
@@ -370,94 +67,6 @@ module.exports = function(grunt) {
 					src: ['js/*'],
 					dest: 'dist/js/'
 				}]
-			}
-		},
-
-		/*jshint multistr: true */
-		'compile-handlebars': {
-			dev: {
-				template: 'app/index.html.hbs',
-				templateData: {
-					cssFile: "css/base.css",
-					printCssFile: "css/print.css",
-					jsLibFile: "js/lib-dev.js",
-					jsDashboardFile: "js/dashboard-dev.js",
-					includeLiveReload: true,
-					env: "{\
-						BALANCED: {\
-							API: 'https://api.balancedpayments.com',\
-							AUTH: 'https://auth.balancedpayments.com',\
-							JUSTITIA: 'https://justitia.balancedpayments.com',\
-							WWW: 'https://www.balancedpayments.com',\
-							DOCS: 'https://docs.balancedpayments.com',\
-							DEBUG: true,\
-							MIXPANEL: '',\
-							GOOGLE_ANALYTICS: ''\
-						}\
-					}",
-					ext: grunt.file.exists('./ext.json') ? grunt.file.read('./ext.json') : ''
-				},
-				output: 'build/dev.html'
-			},
-			prod: {
-				template: 'app/index.html.hbs',
-				templateData: {
-					cssFile: "css/base.min.css",
-					printCssFile: "css/print.min.css",
-					jsLibFile: "js/lib-prod.min.js",
-					jsDashboardFile: "js/dashboard-prod.min.js",
-					includeLiveReload: false,
-					env: "{\
-						BALANCED: {\
-							API: 'https://api.balancedpayments.com',\
-							AUTH: 'https://auth.balancedpayments.com',\
-							JUSTITIA: 'https://justitia.balancedpayments.com',\
-							WWW: 'https://www.balancedpayments.com',\
-							DOCS: 'https://docs.balancedpayments.com',\
-							DEBUG: false,\
-							MIXPANEL: '991598fc644dd5d0894e6cb070154330',\
-							GOOGLE_ANALYTICS: 'UA-30733850-1'\
-						}\
-					}"
-				},
-				output: 'build/prod.html'
-			}
-		},
-
-		hashres: {
-			options: {
-				fileNameFormat: '${name}-${hash}.${ext}'
-			},
-			css: {
-				src: ['build/css/*.css'],
-				dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'build/test/fixturebrowser.html', 'dist/*.html']
-			},
-			js: {
-				src: ['dist/js/dashboard-prod.js', 'dist/js/dashboard-prod.min.js', 'dist/js/lib-prod.js', 'dist/js/lib-prod.min.js'],
-				dest: ['build/dev.html', 'build/prod.html', 'build/test/runner.html', 'build/test/fixturebrowser.html', 'dist/js/*.map.js']
-			},
-			jsSourceMaps: {
-				src: ['dist/js/dashboard.map.js', 'dist/js/lib.map.js'],
-				dest: ['dist/js/*']
-			},
-			images: {
-				src: ['build/images/**/*.png'],
-				dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
-			},
-			fonts: {
-				src: ['build/fonts/**/*'],
-				dest: ['build/dev.html', 'build/prod.html', 'build/css/*.css', 'build/js/*.js', 'dist/js/*.js']
-			},
-			notfound: {
-				src: ['build/notfound/images/*.png', 'build/notfound/fonts/**/*', 'build/notfound/css/*.css'],
-				dest: ['build/notfound/*.html', 'build/notfound/css/*.css']
-			}
-		},
-
-		img: {
-			// using only dirs with output path
-			crush_them: {
-				src: ['build/images/**/*.png']
 			}
 		},
 
@@ -552,158 +161,22 @@ module.exports = function(grunt) {
 			},
 		},
 
-		/*
-		Reads the projects .jshintrc file and applies coding
-		standards. Doesn't lint the dependencies or test
-		support files.
-		*/
-		jshint: {
-			all: [
-				'Gruntfile.js',
-				'app/**/*.js'
-			],
-			options: {
-				jshintrc: '.jshintrc'
+		exec: {
+			ember_build: {
+				command: 'ember build'
 			},
-			test: {
-				files: {
-					src: [
-						'test/**/*.js',
-						'!test/support/lib/*.*',
-						'!test/support/*.js'
-					],
-				},
-				options: {
-					jshintrc: 'test/.jshintrc'
-				}
-			}
-		},
-
-		karma: {
-			unit: {
-				configFile: 'karma.conf.js',
-			}
-		},
-
-		jsbeautifier: {
-			options: {
-				config: '.jsbeautifyrc'
+			ember_server: {
+				command: 'ember server'
 			},
-			verify: {
-				options: {
-					mode: 'VERIFY_ONLY'
-				},
-				src: [
-					'Gruntfile.js',
-					'app/**/*.js',
-					'test/**/*.js',
-					'!test/support/lib/*.js',
-					'karma.conf.js',
-					'package.json',
-					'npm-shrinkwrap.json'
-				],
-			},
-			update: {
-				options: {
-					mode: 'VERIFY_AND_WRITE'
-				},
-				src: [
-					'Gruntfile.js',
-					'app/**/*.js',
-					'test/**/*.js',
-					'!test/support/lib/*.js',
-					'karma.conf.js',
-					'package.json',
-					'npm-shrinkwrap.json'
-				],
-			}
-		},
-
-		connect: {
-			server: {
-				options: {
-					port: 9876,
-					base: '.'
-				}
-			}
-		},
-
-		watch: {
-			templates: {
-				files: [
-					'app/**/*.hbs'
-				],
-				tasks: ['_buildJS'],
-				options: {
-					livereload: true,
-				}
-			},
-			js: {
-				files: [
-					'app/**/*.js',
-					'static/lib/**/*.js'
-				],
-				tasks: ['format', '_buildJSAfterTemplates'],
-				options: {
-					livereload: true,
-				}
-			},
-			tests: {
-				files: [
-					'test/support/**/*',
-					'test/**/*.js'
-				],
-				tasks: ['format', '_buildTests'],
-				options: {
-					livereload: true,
-				}
-			},
-			css: {
-				files: [
-					'static/less/*'
-				],
-				tasks: ['_buildCSS'],
-				options: {
-					livereload: true,
-				}
-			},
-			images: {
-				files: [
-					'static/images/**/*'
-				],
-				tasks: ['_buildImages'],
-				options: {
-					livereload: true,
-				}
-			},
-			html: {
-				files: [
-					'app/index.html.hbs'
-				],
-				tasks: ['_buildHTML'],
-				options: {
-					livereload: true,
-				}
+			ember_test: {
+				command: 'ember test'
 			}
 		},
 
 		open: {
 			dev: {
-				path: 'http://localhost:9876/build/dev.html'
+				path: 'http://localhost:4200'
 			},
-		},
-
-		coverage: {
-			options: {
-				thresholds: {
-					statements: 70,
-					branches: 55,
-					lines: 70,
-					functions: 70
-				},
-				dir: './coverage/',
-				root: '.'
-			}
 		},
 
 		coveralls: {
@@ -711,29 +184,29 @@ module.exports = function(grunt) {
 				src: 'coverage/**/lcov.info',
 				force: true
 			}
+		},
+
+		bump: {
+			options: {
+				files: ['package.json', 'bower.json'],
+				createTag: true,
+			    tagName: 'v%VERSION%',
+			    tagMessage: 'Version v%VERSION%',
+				commit: true,
+				commitFiles: ['-a'],
+				commitMessage: 'Release v%VERSION%',
+				push: false
+			}
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-neuter');
 	grunt.loadNpmTasks('grunt-bower-task');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-ember-templates');
-	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-hashres');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-s3');
-	grunt.loadNpmTasks('grunt-img');
 	grunt.loadNpmTasks('grunt-exec');
-	grunt.loadNpmTasks('grunt-compile-handlebars');
 	grunt.loadNpmTasks('grunt-open');
-	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-jsbeautifier');
-	grunt.loadNpmTasks('grunt-istanbul-coverage');
 	grunt.loadNpmTasks('grunt-coveralls');
+	grunt.loadNpmTasks('grunt-bump');
 
 	grunt.registerMultiTask('clean', 'Deletes files', function() {
 		this.files.forEach(function(file) {
@@ -746,47 +219,12 @@ module.exports = function(grunt) {
 	});
 
 	/*
-	A task to run the application's unit tests via the command line.
-	It will headlessy load the test runner page and print the test runner results
+		grunt task commands
 	*/
-	grunt.registerTask('test', ['_devBuild', 'verify', 'karma', 'coverage', 'coveralls:all']);
 
-	/*
-	Default task. Compiles templates, neuters application code, and begins
-	watching for changes.
-	*/
-	grunt.registerTask('default', ['_devBuild', 'connect', 'open', 'watch']);
-
-	/*
-	Builds for production.
-	*/
-	grunt.registerTask('build', ['jshint', '_devBuild', '_prodBuildSteps']);
-
-	grunt.registerTask('format', ['jsbeautifier:update']);
-	grunt.registerTask('verify', ['jshint', 'jsbeautifier:verify']);
-
-	/*
-	Uploads to s3. Requires environment variables to be set if the bucket
-	you're uploading to doesn't have public write access.
-	*/
+	grunt.registerTask('default', ['clean', 'bower', 'copy', 'exec:ember_server', 'open']);
+	grunt.registerTask('test', ['exec:ember_test']);
+	grunt.registerTask('build', ['exec:ember_build']);
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
-
-	grunt.registerTask('_devBuild', ['clean', '_buildJS', '_buildTests', '_buildCSS', '_buildImages', '_buildFonts', '_buildHTML', 'copy:staticFiles', 'copy:notfound']);
-
-	grunt.registerTask('_uglify', ['copy:preUglify', 'uglify', 'copy:postUglify']);
-
-	// keeping these steps out of the normal build because
-	// uglify) Uglifying takes forever
-	// img) Img task has dependencies that must be installed, so trying to ease the pain for new devs
-	// hashres) Hashes depend on image bytes, so need to crush the images before running this
-	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
-
-	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['bower:install', 'neuter:dev', 'neuter:prod', 'neuter:templates', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:dashboardtest', 'concat:libdev', 'concat:libprod']);
-	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:libtest', 'concat:tests', 'copy:test']);
-	grunt.registerTask('_buildCSS', ['less']);
-	grunt.registerTask('_buildImages', ['copy:images']);
-	grunt.registerTask('_buildFonts', ['copy:fonts']);
-	grunt.registerTask('_buildHTML', ['compile-handlebars']);
 };
