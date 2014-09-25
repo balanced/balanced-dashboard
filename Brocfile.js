@@ -2,6 +2,7 @@
 
 var pickFiles = require('broccoli-static-compiler');
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+var mergeTree = require('broccoli-merge-trees');
 
 var app = new EmberApp();
 
@@ -23,6 +24,17 @@ app.import("bower_components/bootstrap-daterangepicker/daterangepicker.js");
 app.import("vendor/ember-validations.prod.js");
 app.import('vendor/moment-business-days.js');
 
+var fonts = pickFiles('bower_components/strapped/static/fonts', {
+	srcDir: '/',
+	files: ['*.eot', '*.svg', '*.ttf', '*.woff'],
+	destDir: '/assets/fonts'
+});
+
+var images = pickFiles('bower_components/strapped/static/images', {
+	srcDir: '/',
+	files: ['**/*.png', '**/*.gif'],
+	destDir: '/assets/images'
+});
 
 var qunitBdd = pickFiles('bower_components/sinon/', {
 	srcDir: '/',
@@ -30,5 +42,4 @@ var qunitBdd = pickFiles('bower_components/sinon/', {
 	destDir: '/assets'
 });
 
-
-module.exports = app.toTree(qunitBdd);
+module.exports = app.toTree(mergeTree([fonts, images, qunitBdd]));

@@ -18,43 +18,9 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
-			staticFiles: {
-				files: [{
-					cwd: 'static/files/',
-					expand: true,
-					src: ['**'],
-					dest: 'public/files/'
-				}]
-			},
-			images: {
-				files: [{
-					cwd: 'static/images/',
-					expand: true,
-					src: ['**'],
-					dest: 'public/images/'
-				}, {
-					cwd: 'static/javascripts/strapped/static/images/',
-					expand: true,
-					src: ['**'],
-					dest: 'build/images/'
-				}]
-			},
-			fonts: {
-				files: [{
-					cwd: 'static/javascripts/strapped/static/fonts/',
-					expand: true,
-					src: [
-						'*.eot',
-						'*.svg',
-						'*.ttf',
-						'*.woff'
-					],
-					dest: 'public/fonts/'
-				}]
-			},
 			notfound: {
 				files: [{
-					cwd: 'static/javascripts/strapped/notfound',
+					cwd: './bower-components/strapped/static/notfound',
 					expand: true,
 					src: ['**'],
 					dest: 'public/notfound'
@@ -175,7 +141,7 @@ module.exports = function(grunt) {
 
 		open: {
 			dev: {
-				path: 'http://localhost:4200'
+				path: 'http://localhost:4200/'
 			},
 		},
 
