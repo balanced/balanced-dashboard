@@ -35,7 +35,7 @@
 			<td class="status">
 				{{#link-to funding_instrument.route_name funding_instrument}}
 					<span {{bind-attr class="funding_instrument.status"}}>
-						{{capitalize funding_instrument.status}}
+						{{sentence-case funding_instrument.status}}
 					</span>
 				{{/link-to}}
 			</td>

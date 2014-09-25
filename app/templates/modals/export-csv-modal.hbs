@@ -1,7 +1,7 @@
 <form {{action "save" on="submit" target=view}}>
 	<div class="modal-body">
 		<p class="label4a">A CSV file of your current data set will be sent to:</p>
-		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="emailAddress" label="Email address"}}
+		{{#view "form-fields/modal-form-field" model=view.model fieldName="emailAddress" label="Email address"}}
 			{{view Ember.TextField name="emailAddress" value=view.value class="full" viewName="inputElement"}}
 		{{/view}}
 	</div>

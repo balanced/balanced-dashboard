@@ -3,7 +3,7 @@
 
 	<div class="clearfix">
 	{{#if view.show_download_button}}
-		{{view Balanced.DownloadModalView noURIBinding="controller.noDownloadsUri"}}
+		{{view "modals/download/download-modal" noURIBinding="controller.noDownloadsUri"}}
 	{{/if}}
 
 	{{#unless auth.isGuest}}

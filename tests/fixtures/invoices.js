@@ -1,4 +1,4 @@
-BalancedApp.Adapter.addFixtures([{
+export default [{
 	"uri": "/invoices?limit=50&sort=created_at%2Cdesc"
 }, {
 	"invoices": [{
@@ -1396,4 +1396,4 @@ BalancedApp.Adapter.addFixtures([{
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc&offset=0&type=debit&status%5Bin%5D=pending%2Cwon%2Clost%2Carbitration"
 }, {
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X/disputes?limit=50&sort=created_at%2Cdesc"
-}]);
+}];

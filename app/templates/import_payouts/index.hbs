@@ -1,7 +1,7 @@
-{{#view Balanced.ImportPayoutsView id="upload-payments"}}
+{{#view "import-payouts/import-payouts" id="upload-payments"}}
 
-{{view Balanced.ParseCreditsCsvProgressBarModalView viewName="parseProgressBarModal"}}
-{{view Balanced.SaveCreditsCsvProgressBarModalView viewName="saveProgressBarModal"}}
+{{view "import-payouts/parse-credits-csv-progress-bar-modal" viewName="parseProgressBarModal"}}
+{{view "import-payouts/save-credits-csv-progress-bar-modal" viewName="saveProgressBarModal"}}
 
 {{confirm-modal viewName="confirmRemoveModal" title="Remove Entry" mainText="Remove this entry?"}}
 {{confirm-modal viewName="confirmClearAllModal" title="Clear all entries" mainText="Clear all error entries?"}}
@@ -18,10 +18,10 @@
 				<div class="csv-preview">
 					<h3>Preview data</h3>
 					{{#if creditCreators.isInvalid}}
-						{{view Balanced.MarketplaceInvalidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+						{{view "import-payouts/marketplace-invalid-csv-payments-table" creditCreatorsBinding="creditCreators"}}
 					{{/if}}
 
-					{{view Balanced.MarketplaceValidCsvPaymentsTableView creditCreatorsBinding="creditCreators"}}
+					{{view "import-payouts/marketplace-valid-csv-payments-table" creditCreatorsBinding="creditCreators"}}
 					{{partial 'import_payouts/account_summary'}}
 					{{partial "import_payouts/submit_area"}}
 				</div>

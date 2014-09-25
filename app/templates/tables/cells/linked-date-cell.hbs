@@ -2,8 +2,8 @@
 	<a {{bind-attr href=view.href}}>
 		<span>
 			<time {{bind-attr datetime="view.date" title="view.date"}}>
-				<span class="primary">{{humanReadableDate view.date}}</span>
-				<span class="secondary">{{humanReadableTime view.date}}</span>
+				<span class="primary">{{human-readable-date view.date}}</span>
+				<span class="secondary">{{human-readable-time view.date}}</span>
 			</time>
 		</span>
 	</a>
@@ -11,8 +11,8 @@
 	{{#link-to view.routeName view.item}}
 		<span>
 			<time {{bind-attr datetime="view.date" title="view.date"}}>
-				<span class="primary">{{humanReadableDate view.date}}</span>
-				<span class="secondary">{{humanReadableTime view.date}}</span>
+				<span class="primary">{{human-readable-date view.date}}</span>
+				<span class="secondary">{{human-readable-time view.date}}</span>
 			</time>
 		</span>
 	{{/link-to}}

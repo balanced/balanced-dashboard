@@ -1,6 +1,6 @@
 {{#view "form-fields/form-section" model=view.model sectionTitle="File upload" sectionDescription=view.fileUploadText}}
 	<div class="form-group">
-		{{view Balanced.FileDropFieldView}}
+		{{view "form-fields/file-drop-field"}}
 	</div>
 	<div class="clearfix form-group">
 		<label class="control-label clearfix">Documents</label>
@@ -48,5 +48,5 @@
 {{/view}}
 
 {{#view "form-fields/form-section" model=view.model sectionTitle="Evidence description" sectionDescription=view.noteText}}
-	{{view Balanced.TextAreaFormFieldView model=view.model inputClassNames="full" inputName="note" field="note" labelText="Note" maxlength=434}}
+	{{view "form-fields/textarea-form-field" model=view.model inputClassNames="full" inputName="note" field="note" labelText="Note" maxlength=434}}
 {{/view}}

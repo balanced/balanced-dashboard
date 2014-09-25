@@ -1,4 +1,4 @@
-BalancedApp.Adapter.addFixtures([{
+export default [{
 	"uri": "/customers/CU1BD7AWUgJdo3fiilJRbzy"
 }, {
 	"uri": "/callbacks",
@@ -28,4 +28,4 @@ BalancedApp.Adapter.addFixtures([{
 		"first": "/api_keys?limit=10&offset=0"
 	},
 	"links": {}
-}]);
+}];

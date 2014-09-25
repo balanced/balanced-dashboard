@@ -70,39 +70,16 @@ var Testing = {
 
 	// use the fixture adapter
 	setupFixtures: function() {
-		BalancedApp.Adapter = FixtureAdapter.create();
-
-		var files = "dispute-documents disputes invoices marketplace marketplace-users user".split(" ");
-		_.each(files, function(file) {
-			require('balanced-dashboard/tests/fixtures/' + file);
-		});
+		var setupFixtures = require("balanced-dashboard/tests/helpers/setup-fixtures")["default"];
+		setupFixtures();
 	},
 
 	getAuth: function() {
 		return BalancedApp.__container__.lookup("auth:main");
 	},
 
-	fixtureLogin: function() {
-		var self = this;
-		var Auth = this.getAuth();
-		var User = BalancedApp.__container__.lookupFactory("model:user");
-
-		Ember.run(function() {
-			var userId = self.FIXTURE_USER_ROUTE = '/users/USeb4a5d6ca6ed11e2bea6026ba7db2987';
-			Auth.setAuthProperties(
-				true,
-				User.find(userId),
-				userId,
-				userId,
-				false);
-
-			self.FIXTURE_USER_EMAIL = Auth.user.email_address;
-		});
-	},
-
 	useFixtureData: function() {
 		this.setupFixtures();
-		this.fixtureLogin();
 	},
 
 	visitSettingsPage: function() {

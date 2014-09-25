@@ -2,6 +2,7 @@ import ModalView from "./modal";
 import Auth from "balanced-dashboard/auth";
 
 var ChangeEmailModalView = ModalView.extend({
+	templateName: "modals/change-email",
 	controllerKey: 'controller.controllers.application',
 	controllerEventName: 'openChangeEmailModal',
 	fieldName: 'email address',

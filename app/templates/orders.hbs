@@ -7,8 +7,8 @@
 
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		{{view Balanced.OrderSellerSectionView model=model}}
-		{{view Balanced.OrderBuyersSectionView model=model}}
+		{{view "detail-views/list-sections/order-seller-section" model=model}}
+		{{view "detail-views/list-sections/order-buyer-section" model=model}}
 		{{view detail-views/description-lists/order-titled-key-values-section model=model}}
 		{{view "meta-list" type=model}}
 
@@ -17,22 +17,22 @@
 	{{#view "detail-views/main-panel"}}
 		<h3>Credits</h3>
 		<div class="results">
-			{{view Balanced.OrderTransactionsResultsView loader=creditsResultsLoader}}
+			{{view "results/order-transactions-table" loader=creditsResultsLoader}}
 		</div>
 
 		<h3>Debits</h3>
 		<div class="results">
-			{{view Balanced.OrderTransactionsResultsView loader=debitsResultsLoader}}
+			{{view "results/order-transactions-table" loader=debitsResultsLoader}}
 		</div>
 
 		<h3>Refunds</h3>
 		<div class="results">
-			{{view Balanced.OrderTransactionsResultsView loader=refundsResultsLoader}}
+			{{view "results/order-transactions-table" loader=refundsResultsLoader}}
 		</div>
 
 		<h3>Reversal</h3>
 		<div class="results">
-			{{view Balanced.OrderTransactionsResultsView loader=reversalsResultsLoader}}
+			{{view "results/order-transactions-table" loader=reversalsResultsLoader}}
 		</div>
 
 		<h3>Logs</h3>

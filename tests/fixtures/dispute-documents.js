@@ -1,3 +1,3 @@
-BalancedApp.Adapter.addFixtures([{
+export default [{
 	"uri": "disputes/"
-}]);
+}];

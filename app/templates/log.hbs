@@ -3,7 +3,7 @@
 <div class="key-value-display mb-large">
 	<dl class="dl-horizontal">
 		<dt>Date</dt>
-		<dd><span><time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{humanReadableDateLong model.created_at}}</time></span></dd>
+		<dd><span><time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{human-readable-dateLong model.created_at}}</time></span></dd>
 		<dt>Method</dt>
 		<dd><span>{{model.message.request.method}}</span></dd>
 		<dt>URI</dt>

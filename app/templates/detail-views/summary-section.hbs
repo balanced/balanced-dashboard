@@ -2,7 +2,7 @@
 	{{#if view.status}}
 		<div class="status">
 			<h3 {{bind-attr class=":status view.status"}}>
-				{{capitalize view.status}}
+				{{sentence-case view.status}}
 			</h3>
 
 			{{#if view.statusText}}
