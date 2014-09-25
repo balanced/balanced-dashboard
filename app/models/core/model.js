@@ -58,6 +58,7 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 	}.property('uri'),
 
 	save: function(settings) {
+		var Adapter = Model.ADAPTER;
 		var self = this;
 		settings = settings || {};
 		var data = this.constructor.serializer.serialize(this);
@@ -68,11 +69,11 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var resolveEvent = creatingNewModel ? 'didCreate' : 'didUpdate';
 		var uri = creatingNewModel ? this._createUri() : this.get('uri');
-		var adapterFunc = creatingNewModel ? BalancedApp.Adapter.create : BalancedApp.Adapter.update;
+		var adapterFunc = creatingNewModel ? Adapter.create : Adapter.update;
 
 		var promise = this.resolveOn(resolveEvent);
 
-		adapterFunc.call(BalancedApp.Adapter, this.constructor, uri, data, function(json) {
+		adapterFunc.call(Adapter, this.constructor, uri, data, function(json) {
 			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, (creatingNewModel ? null : self.get('href')));
 			self._updateFromJson(deserializedJson);
 
@@ -105,7 +106,7 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var promise = this.resolveOn('didDelete');
 
-		BalancedApp.Adapter.delete(this.constructor, this.get('uri'), function(json) {
+		Model.ADAPTER.delete(this.constructor, this.get('uri'), function(json) {
 			self.set('isSaving', false);
 			self.trigger('didDelete');
 			Model.Events.trigger('didDelete', self);
@@ -124,7 +125,7 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var promise = this.resolveOn('didLoad');
 
-		BalancedApp.Adapter.get(this.constructor, this.get('uri'), function(json) {
+		Model.ADAPTER.get(this.constructor, this.get('uri'), function(json) {
 			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, self.get('href'));
 			self._updateFromJson(deserializedJson);
 			self.set('isLoaded', true);
@@ -284,7 +285,7 @@ Model.reopenClass({
 			isNew: false
 		});
 
-		BalancedApp.Adapter.get(modelClass, uri, function(json) {
+		Model.ADAPTER.get(modelClass, uri, function(json) {
 			modelObject.populateFromJsonResponse(json, uri);
 		}, $.proxy(modelObject._handleError, modelObject));
 
@@ -354,7 +355,7 @@ Model.reopenClass({
 					// property in our JSON. That'll force an update of the
 					// association
 					var self = this;
-					BalancedApp.Adapter.get(defaultType, uriPropertyValue, function(json) {
+					Model.ADAPTER.get(defaultType, uriPropertyValue, function(json) {
 						var modelJson = typeClass.serializer.extractSingle(json, typeClass, uriPropertyValue);
 						self.set(embeddedProperty, modelJson);
 					});

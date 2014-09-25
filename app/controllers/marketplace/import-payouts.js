@@ -25,7 +25,7 @@ var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, 
 		this.set("errorMessage", null);
 
 		try {
-			return CreditCreatorsCollection.fromCsvText(BalancedApp.currentMarketplace, text);
+			return CreditCreatorsCollection.fromCsvText(this.get("controllers.marketplace.model"), text);
 		} catch (e) {
 			this.set("errorMessage", "There was an error reading your CSV file");
 

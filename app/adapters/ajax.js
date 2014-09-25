@@ -6,10 +6,6 @@ import Auth from "balanced-dashboard/auth";
 var MARKETPLACE_URI_REGEX = /\/marketplaces\/([^\/]+)/;
 
 var AjaxAdapter = BaseAdapter.extend({
-	initAdapter: function() {
-		this.hostsByType = [];
-	},
-
 	_uri: function(type, uri) {
 		this._checkParams(type, uri);
 

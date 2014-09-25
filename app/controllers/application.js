@@ -2,7 +2,7 @@ import Ember from "ember";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
 var ApplicationController = Ember.Controller.extend(Ember.Evented, {
-	needs: ["notification_center"],
+	needs: ["notification_center", "marketplace"],
 
 	actions: {
 		signUp: function() {
@@ -29,7 +29,7 @@ var ApplicationController = Ember.Controller.extend(Ember.Evented, {
 
 		openVerifyBankAccountLink: function() {
 			var bankAccountsController = this.get("container").lookup("controller:bank_accounts");
-			var bankAccount = BalancedApp.currentMarketplace.get('owner_customer.bank_accounts.firstObject');
+			var bankAccount = this.get("controllers.marketplace.model.owner_customer.bank_accounts.firstObject");
 			this.transitionToRoute('bank_accounts', bankAccount).then(function(route) {
 				_.delay(function() {
 					var controller = route && route.routeName ?

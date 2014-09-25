@@ -9,7 +9,8 @@ var FixtureAdapter = BaseAdapter.extend({
 	// Balanced.Adapter.asyncCallbacks = true;
 	asyncCallbacks: false,
 
-	initAdapter: function() {
+	init: function() {
+		this._super();
 		this.dataMap = {};
 
 		this.fetches = [];

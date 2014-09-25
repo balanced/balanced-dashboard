@@ -2,28 +2,29 @@ import Ember from 'ember';
 import Application from 'balanced-dashboard/app';
 import Router from 'balanced-dashboard/router';
 
-export default function startApp(attrs) {
-  var App;
+import Testing from "../helpers/testing";
+import fixturesAdapter from "./fixtures-adapter";
 
-  var attributes = Ember.merge({
-    // useful Test defaults
-    rootElement: '#ember-testing',
-    LOG_ACTIVE_GENERATION: false,
-    LOG_VIEW_LOOKUPS: false
-  }, attrs); // but you can override;
+var startApp = function (attrs) {
+	var App;
 
-  Router.reopen({
-    location: 'none'
-  });
+	var attributes = Ember.merge({
+		rootElement: '#ember-testing',
+		LOG_ACTIVE_GENERATION: false,
+		LOG_VIEW_LOOKUPS: false,
+	}, attrs);
 
-  Ember.run(function() {
-    App = Application.create(attributes);
-	window.BalancedApp = App;
-    App.setupForTesting();
-    App.injectTestHelpers();
-  });
+	Router.reopen({
+		location: 'none'
+	});
 
-  App.reset(); // this shouldn't be needed, i want to be able to "start an app at a specific URL"
+	Ember.run(function() {
+		App = Application.create(attributes);
+		App.setupForTesting();
+		App.injectTestHelpers();
+	});
 
-  return App;
+	return App;
 }
+
+export default startApp;
