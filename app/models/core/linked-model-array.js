@@ -52,7 +52,7 @@ LinkedModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
-		BalancedApp.Adapter.get(typeClass, uri, function(json) {
+		this.ADAPTER.get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);
 		}, function(jqXHR, textStatus, errorThrown) {

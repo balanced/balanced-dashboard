@@ -64,7 +64,9 @@ AnalyticsLogger =
 	trackPage: _.debounce(trackPage, 500)
 
 	trackEvent: (name, data={}) ->
-		mp = BalancedApp.currentMarketplace
+		if (window.BalancedApp && window.BalancedApp.currentMarketplace)
+			mp = window.BalancedApp.currentMarketplace
+
 		if mp
 			data.marketplaceId = mp.get('id')
 			data.marketplaceName = mp.get('name')

@@ -1,19 +1,19 @@
 import Ember from "ember";
 import { test } from 'ember-qunit';
-import Testing from "../helpers/testing";
 import startApp from '../helpers/start-app';
-import setupFixtures from "../helpers/setup-fixtures";
+import fixturesAdapter from "../helpers/fixtures-adapter";
 
 require("balanced-dashboard/tests/helpers/helpers");
 
+var BalancedApp;
+
 module('Account Security', {
 	setup: function() {
-		BalancedApp = startApp();
-		Testing.useFixtureData();
+		BalancedApp = startApp({
+			ADAPTER: fixturesAdapter,
+			USE_FIXTURES: true
+		});
 	},
-	teardown: function() {
-		Ember.run(BalancedApp, BalancedApp.destroy);
-	}
 });
 
 var getAuth = function() {
@@ -63,8 +63,8 @@ test('Can see change email modal', function() {
 
 test('Can disable', function() {
 	var Auth = getAuth();
-	var spy = sinon.stub(Auth, 'request')
-		.returns(Ember.RSVP.resolve());
+	var spy = sinon.stub(Auth, 'request').returns(Ember.RSVP.resolve());
+
 	Auth.set('user.otp_enabled', true);
 
 	visit('/security')

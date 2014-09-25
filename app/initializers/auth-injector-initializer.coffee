@@ -3,6 +3,7 @@
 AuthInjectorInitializer =
 	name: 'injectAuth'
 	initialize: (container, App) ->
+		Auth.applicationContainer = container
 		container.register('auth:main', Auth,
 			instantiate: false,
 			singleton: true

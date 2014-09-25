@@ -1,13 +1,14 @@
-`import SessionManager from "balanced-dashboard/auth"`
+`import Auth from "balanced-dashboard/auth"`
 
-Initializer =
+UserSessionInitializer =
 	name: "userSession"
+	after: "modelsAdapter"
 	initialize: (container, App) ->
 		App.deferReadiness()
-		SessionManager.loadCsrfTokenIfNotLoaded()
+		Auth.loadCsrfTokenIfNotLoaded()
 			.then ->
-				SessionManager.getCurrentLogin()
+				Auth.getCurrentLogin()
 			.finally ->
 				App.advanceReadiness()
 
-`export default Initializer`
+`export default UserSessionInitializer`

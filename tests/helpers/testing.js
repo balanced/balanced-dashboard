@@ -1,5 +1,4 @@
 import Constants from "balanced-dashboard/utils/constants";
-import FixtureAdapter from "balanced-dashboard/adapters/fixture";
 
 var Testing = {
 	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
@@ -68,18 +67,8 @@ var Testing = {
 		}));
 	},
 
-	// use the fixture adapter
-	setupFixtures: function() {
-		var setupFixtures = require("balanced-dashboard/tests/helpers/setup-fixtures")["default"];
-		setupFixtures();
-	},
-
 	getAuth: function() {
 		return BalancedApp.__container__.lookup("auth:main");
-	},
-
-	useFixtureData: function() {
-		this.setupFixtures();
 	},
 
 	visitSettingsPage: function() {

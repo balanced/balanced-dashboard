@@ -17,15 +17,7 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 		return Ajax.loadCSRFTokenIfNotLoaded();
 	},
 	request: function(opts) {
-		var deferred = Ember.RSVP.defer();
-		Ajax.ajax(opts || {})
-			.done(function(response) {
-				deferred.resolve(response);
-			})
-			.fail(function(response) {
-				deferred.reject(response);
-			});
-		return deferred.promise;
+		return Ajax.ajax(opts || {});
 	},
 	signInRequest: function(options) {
 		var self = this;
@@ -271,8 +263,8 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 			isAdmin: isAdmin
 		});
 
-		BalancedApp.__container__.unregister('user:main');
-		BalancedApp.register('user:main', user, {
+		this.applicationContainer.unregister('user:main');
+		this.applicationContainer.register('user:main', user, {
 			instantiate: false,
 			singleton: true
 		});
