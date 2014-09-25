@@ -108,7 +108,9 @@ var AjaxAdapter = BaseAdapter.extend({
 	},
 
 	load: function(settings) {
-		return jQuery.ajax(settings);
+		var deferred = Ember.RSVP.defer();
+		jQuery.ajax(settings).then(deferred.resolve, deferred.reject);
+		return deferred.promise;
 	},
 
 	getHostForType: function(type) {

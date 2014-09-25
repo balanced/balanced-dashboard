@@ -6,23 +6,22 @@ import sinonRestore from "../helpers/sinon-restore";
 
 require("balanced-dashboard/tests/helpers/helpers");
 
-var BalancedApp;
+var App;
 
 module('Account Security', {
 	setup: function() {
-		BalancedApp = startApp({
-			ADAPTER: fixturesAdapter,
-			USE_FIXTURES: true
+		App = startApp({
+			ADAPTER: fixturesAdapter
 		});
 	},
 	teardown: function() {
 		sinonRestore(getAuth().request);
-		Ember.run(BalancedApp, BalancedApp.destroy);
+		Ember.run(App, App.destroy);
 	},
 });
 
 var getAuth = function() {
-	return BalancedApp.__container__.lookup("auth:main");
+	return App.__container__.lookup("auth:main");
 };
 
 test('Can enable', function() {
