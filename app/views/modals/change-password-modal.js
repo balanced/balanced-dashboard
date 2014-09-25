@@ -2,6 +2,7 @@ import ChangeEmailModalView from "./change-email-modal";
 import Auth from "balanced-dashboard/auth";
 
 var ChangePasswordModalView = ChangeEmailModalView.extend({
+	templateName: "modals/change-password",
 	controllerEventName: 'openChangePasswordModal',
 	fieldName: 'password',
 	defaultError: 'Oops, we failed to change your password. Please try again.',

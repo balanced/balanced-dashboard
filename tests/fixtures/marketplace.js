@@ -1,4 +1,4 @@
-BalancedApp.Adapter.addFixtures([{
+export default [{
 	"marketplaces": [{
 		"in_escrow": 0,
 		"domain_url": "example.com",
@@ -34,4 +34,4 @@ BalancedApp.Adapter.addFixtures([{
 	"uri": "/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl",
 }, {
 	"uri": "/customers/search?limit=10&sort=created_at%2Cdesc&type%5Bin%5D=card%2Cbank_account"
-}]);
+}];

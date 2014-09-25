@@ -42,18 +42,18 @@
 				</div>
 			</div>
 
-			{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="dollar_amount" label="Amount"}}
+			{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}
 				<div class="input-prepend">
 					<span class="add-on">$</span>
 					{{view Ember.TextField value=view.value class="span3" name="dollar_amount" viewName="inputElement"}}
 				</div>
 			{{/view}}
 
-			{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
+			{{#view "form-fields/modal-form-field" model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
 				{{view Ember.TextField value=view.value name="appears_on_statement_as"  viewName="inputElement" class="full" maxlength=view.maxLength}}
 			{{/view}}
 
-			{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="description" label="Internal description"}}
+			{{#view "form-fields/modal-form-field" model=view.model fieldName="description" label="Internal description"}}
 				{{view Ember.TextField value=view.value class="full" name="description" maxlength=Constants.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
 			{{/view}}
 		</div>

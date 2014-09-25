@@ -80,21 +80,21 @@ Balanced.Test.asyncHelpers = {
 		var h1Text = $("#content h1.page-title").text().trim().replace(/\s+/gm, " ");
 		assert.deepEqual(h1Text, text);
 	},
-	checkElements: function(app, hash, assert) {
+	checkElements: function(app, hash) {
 		wait();
 
 		_.each(hash, function(val, selector) {
 			if (_.isObject(val)) {
 				if (val.count) {
-					assert.equal($(selector).length, val.count, 'Element exists ' + selector);
+					equal($(selector).length, val.count, 'Element exists ' + selector);
 				}
 
 				if (val.text) {
-					assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
+					equal($(selector).text().trim(), val, 'Text for ' + selector);
 				}
 
 				if (val.html) {
-					assert.equal($(selector).html().trim(), val, 'Html for ' + selector);
+					equal($(selector).html().trim(), val, 'Html for ' + selector);
 				}
 
 				if (val.classNames) {
@@ -103,41 +103,41 @@ Balanced.Test.asyncHelpers = {
 					}
 
 					_.each(val.classNames, function(key) {
-						assert.ok($(selector).hasClass(key), selector + ' has class ' + key);
+						ok($(selector).hasClass(key), selector + ' has class ' + key);
 					});
 				}
 
 				if (val.attr) {
 					_.each(val.attr, function(attrVal, attrName) {
-						assert.equal($(selector).prop(attrName), attrVal, selector + ' has ' + attrName + '=' + attrVal);
+						equal($(selector).prop(attrName), attrVal, selector + ' has ' + attrName + '=' + attrVal);
 					});
 				}
 
 				if (val.id) {
-					assert.equal($(selector).attr('id'), val.id, selector + ' has id=' + val.id);
+					equal($(selector).attr('id'), val.id, selector + ' has id=' + val.id);
 				}
 
 				if (val.hasText) {
-					assert.ok($(selector).text().trim().length > 0, selector + ' has text');
+					ok($(selector).text().trim().length > 0, selector + ' has text');
 				}
 
 				if (val.hasChildren) {
-					assert.ok($(selector).children().length > 0, selector + ' has children elements');
+					ok($(selector).children().length > 0, selector + ' has children elements');
 				}
 			} else if (_.isNumber(val)) {
-				assert.equal($(selector).length, val, 'Element exists ' + selector + ' ' + val + ' times');
+				equal($(selector).length, val, 'Element exists ' + selector + ' ' + val + ' times');
 			} else if (_.isString(val)) {
-				assert.equal($(selector).text().trim(), val, 'Text for ' + selector);
+				equal($(selector).text().trim(), val, 'Text for ' + selector);
 			}
 		});
 
 		return wait();
 	},
-	assertClick: function(app, selector, assert, message) {
+	assertClick: function(app, selector, message) {
 		message = message || "Clickable element " + selector + " exists";
 
 		var isPresent = $(selector).length > 0;
-		assert.ok(isPresent, message);
+		ok(isPresent, message);
 		if (isPresent) {
 			click(selector);
 		}

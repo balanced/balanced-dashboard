@@ -20,7 +20,7 @@
 						class="span8"
 						name="destination"
 					}}
-					{{modalFieldErrors view.model.validationErrors.destination_uri}}
+					{{modal-field-errors view.model.validationErrors.destination_uri}}
 				</div>
 			</div>
 		{{else}}
@@ -45,7 +45,7 @@
 				<div class="input-prepend">
 					<span class="add-on">$</span>
 					{{view Ember.TextField valueBinding="view.model.dollar_amount" name="dollar_amount" class="span" viewName="amount"}}
-					{{modalFieldErrors view.model.validationErrors.dollar_amount}}
+					{{modal-field-errors view.model.validationErrors.dollar_amount}}
 				</div>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 				{{view Ember.TextField valueBinding="view.model.appears_on_statement_as"
 				viewName="appearsOnStatementAs"
 				name="appears_on_statement_as" class="full" maxlengthBinding="view.appearsOnStatementAsMaxLength"}}
-				{{modalFieldErrors view.model.validationErrors.appears_on_statement_as}}
+				{{modal-field-errors view.model.validationErrors.appears_on_statement_as}}
 			</div>
 		</div>
 
@@ -65,7 +65,7 @@
 			<div class="controls">
 				{{view Ember.TextField valueBinding="view.model.description" name="description" class="full"
 					maxlengthBinding="Constants.MAXLENGTH.DESCRIPTION" viewName="description"}}
-				{{modalFieldErrors view.model.validationErrors.description}}
+				{{modal-field-errors view.model.validationErrors.description}}
 			</div>
 		</div>
 	</div>

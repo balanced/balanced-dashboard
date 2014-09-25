@@ -2,6 +2,7 @@ import Ember from "ember";
 import { test } from 'ember-qunit';
 import Testing from "../helpers/testing";
 import startApp from '../helpers/start-app';
+import setupFixtures from "../helpers/setup-fixtures";
 
 require("balanced-dashboard/tests/helpers/helpers");
 

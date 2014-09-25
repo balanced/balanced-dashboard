@@ -18,7 +18,7 @@
 						class="span8"
 						name="source"
 					}}
-					{{modalFieldErrors view.model.validationErrors.destination_uri}}
+					{{modal-field-errors view.model.validationErrors.destination_uri}}
 				</div>
 			</div>
 		{{else}}
@@ -36,7 +36,7 @@
 			displayText=view.model.source.formatted_bank_name
 		}}
 
-		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="dollar_amount" label="Amount"}}
+		{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}
 			<div class="input-prepend">
 				<span class="add-on">$</span>
 				{{view Ember.TextField value=view.value class="span3" name="dollar_amount" viewName="inputElement"}}
@@ -44,11 +44,11 @@
 		{{/view}}
 
 
-		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
+		{{#view "form-fields/modal-form-field" model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
 			{{view Ember.TextField value=view.value name="appears_on_statement_as"  viewName="inputElement" class="full" maxlength=view.maxLength}}
 		{{/view}}
 
-		{{#view Balanced.FormFields.ModalFormFieldView model=view.model fieldName="description" label="Internal description"}}
+		{{#view "form-fields/modal-form-field" model=view.model fieldName="description" label="Internal description"}}
 			{{view Ember.TextField value=view.value class="full" maxlength=Constants.MAXLENGTH.DESCRIPTION viewName="inputElement" name="description"}}
 		{{/view}}
 	</div>

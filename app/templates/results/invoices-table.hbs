@@ -21,8 +21,8 @@
 		<tr>
 			<td class="span3">
 				{{#link-to invoice.route_name invoice}}
-					<span class="primary">{{humanReadableDate invoice.created_at}}</span>
-					<span class="secondary">{{humanReadableTime invoice.created_at}}</span>
+					<span class="primary">{{human-readable-date invoice.created_at}}</span>
+					<span class="secondary">{{human-readable-time invoice.created_at}}</span>
 				{{/link-to}}
 			</td>
 			<td class="span3 type">
@@ -42,13 +42,13 @@
 			</td>
 			<td class="span3">
 				{{#link-to invoice.route_name invoice}}
-					<span class="primary">{{humanReadableDate invoice.from_date}}</span>
+					<span class="primary">{{human-readable-date invoice.from_date}}</span>
 					<span class="secondary">5:00 PM</span>
 				{{/link-to}}
 			</td>
 			<td class="span3">
 				{{#link-to invoice.route_name invoice}}
-					<span class="primary">{{humanReadableDate invoice.to_date}}</span>
+					<span class="primary">{{human-readable-date invoice.to_date}}</span>
 					<span class="secondary">5:00 PM</span>
 				{{/link-to}}
 			</td>

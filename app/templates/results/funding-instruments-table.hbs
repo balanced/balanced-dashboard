@@ -25,8 +25,8 @@
 			<td>
 				{{#link-to funding_instrument.route_name funding_instrument}}<span>
 					<time {{bind-attr datetime="funding_instrument.created_at"}} {{bind-attr title="funding_instrument.created_at"}}>
-						<span class="primary">{{humanReadableDate funding_instrument.created_at}}</span>
-						<span class="secondary">{{humanReadableTime funding_instrument.created_at}}</span>
+						<span class="primary">{{human-readable-date funding_instrument.created_at}}</span>
+						<span class="secondary">{{human-readable-time funding_instrument.created_at}}</span>
 					</time>
 				</span>{{/link-to}}
 			</td>

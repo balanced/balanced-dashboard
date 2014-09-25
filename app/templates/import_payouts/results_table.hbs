@@ -43,7 +43,7 @@
       {{#each view.items}}
         <tr class="table-row">
 			{{#if view.isExisting}}
-				{{#view Balanced.ExistingCustomerIdentityCsvUploadCellView}}
+				{{#view "import-payouts/existing-customer-identity-csv-upload-cell"}}
 					<span {{bind-attr class="view.customerLabelClasses"}}>
 						<span class="customer-name-tooltip" data-tooltip>
 							{{view.customerDisplayValue}}
@@ -57,18 +57,18 @@
 					</span>
 				{{/view}}
 			{{else}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_name"}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_customer_email"}}
+				{{view "import-payouts/default-csv-upload-cell" fieldName="new_customer_name"}}
+				{{view "import-payouts/default-csv-upload-cell" fieldName="new_customer_email"}}
 
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_routing_number"}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_number"}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_holders_name"}}
-				{{view Balanced.DefaultCsvUploadCellView fieldName="new_bank_account_type"}}
+				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_routing_number"}}
+				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_account_number"}}
+				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_account_holders_name"}}
+				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_account_type"}}
 			{{/if}}
 
-			{{view Balanced.DefaultCsvUploadCellView fieldName="appears_on_statement_as"}}
-			{{view Balanced.DefaultCsvUploadCellView fieldName="description"}}
-			{{view Balanced.CurrencyCsvUploadCellView fieldName="amount" class="table-column-amount"}}
+			{{view "import-payouts/default-csv-upload-cell" fieldName="appears_on_statement_as"}}
+			{{view "import-payouts/default-csv-upload-cell" fieldName="description"}}
+			{{view "import-payouts/currency-csv-upload-cell" fieldName="amount" class="table-column-amount"}}
 
 			<td class="table-column table-column-icons">
 				{{#if isInvalid}}
