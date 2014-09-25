@@ -1,7 +1,9 @@
+import UserAccountFactory from "balanced-dashboard/models/factories/user-account-factory";
+
 module("UserAccountFactory");
 
 test("#setValidationErrorsFromServer", function(assert) {
-	var subject = Balanced.UserAccountFactory.create();
+	var subject = UserAccountFactory.create();
 
 	subject.setValidationErrorsFromServer({
 		email_address: ["Enter a valid e-mail address."]
@@ -22,7 +24,7 @@ test("#_save", function(assert) {
 		then: function() {}
 	});
 
-	var userAccount = Balanced.UserAccountFactory.create({
+	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"
@@ -40,7 +42,7 @@ test("#_save", function(assert) {
 });
 
 test("#getPostAttributes", function(assert) {
-	var userAccount = Balanced.UserAccountFactory.create({
+	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword",
@@ -56,7 +58,7 @@ test("#getPostAttributes", function(assert) {
 });
 
 test("#handleResponse", function(assert) {
-	var userAccount = Balanced.UserAccountFactory.create();
+	var userAccount = UserAccountFactory.create();
 
 	assert.deepEqual(userAccount.handleResponse({
 		uri: "/users/:id"

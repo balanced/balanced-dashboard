@@ -1,17 +1,28 @@
-module('Balanced.Model', {
+import Testing from "balanced-dashboard/tests/helpers/testing";
+import Rev0Serializer from "balanced-dashboard/serializers/rev0";
+import TypeMappings from "balanced-dashboard/models/core/type-mappings";
+import Model from "balanced-dashboard/models/core/model";
+
+var getTestModel = function() {
+	return BalancedApp.__container__.lookupFactory('model:test-model');
+};
+
+module('Model', {
 	setup: function() {
 		Testing.setupFixtures();
 
-		Balanced.TestModel = Balanced.Model.extend({
+		var TestModel = Model.extend({
 			basic_field: 1,
 
 			derived_field: function() {
 				return this.get('basic_field') + 1;
 			}.property('basic_field')
 		});
+		BalancedApp.__container__.register('model:test-model');
+		TypeMappings.addTypeMapping('test', 'test-model');
 
-		Balanced.TestModel.reopenClass({
-			serializer: Balanced.Rev0Serializer.create()
+		getTestModel().reopenClass({
+			serializer: Rev0Serializer.create()
 		});
 
 		BalancedApp.Adapter.addFixtures([{
@@ -24,7 +35,7 @@ module('Balanced.Model', {
 });
 
 test('model computes embedded properties correctly', function(assert) {
-	var t = Balanced.TestModel.create();
+	var t = getTestModel().create();
 	assert.equal(t.get('basic_field'), 1);
 	assert.equal(t.get('derived_field'), 2);
 
@@ -34,13 +45,13 @@ test('model computes embedded properties correctly', function(assert) {
 });
 
 test("created models don't share state", function(assert) {
-	var t = Balanced.TestModel.create();
+	var t = getTestModel().create();
 	t.set('basic_field', 5);
 
 	assert.equal(t.get('basic_field'), 5);
 	assert.equal(t.get('derived_field'), 6);
 
-	var s = Balanced.TestModel.create();
+	var s = getTestModel().create();
 	s.set('basic_field', 123);
 
 	assert.equal(s.get('basic_field'), 123);
@@ -52,7 +63,7 @@ test("created models don't share state", function(assert) {
 
 test("models have promises that resolve when they're loaded", function(assert) {
 	Ember.run(function() {
-		Balanced.TestModel.find('/v1/testobjects/1').then(function(testModel) {
+		getTestModel().find('/v1/testobjects/1').then(function(testModel) {
 			assert.equal(testModel.get('basic_field'), 123);
 		});
 	});
@@ -61,7 +72,7 @@ test("models have promises that resolve when they're loaded", function(assert) {
 test('models promises resolve async', function(assert) {
 	expect(1);
 
-	var t = Balanced.TestModel.create();
+	var t = getTestModel().create();
 	Ember.run(function() {
 		t.then(function(testModel) {
 			assert.equal(testModel.get('basic_field'), 123);
@@ -76,7 +87,7 @@ test('models promises resolve async', function(assert) {
 
 test('models have promises for create', function(assert) {
 	expect(1);
-	var t = Balanced.TestModel.create({
+	var t = getTestModel().create({
 		uri: '/v1/woo'
 	});
 
@@ -89,7 +100,7 @@ test('models have promises for create', function(assert) {
 
 test('create promises work if the model was previously invalid', function(assert) {
 	expect(2);
-	var t = Balanced.TestModel.create({
+	var t = getTestModel().create({
 		uri: '/v1/woo'
 	});
 
@@ -115,7 +126,7 @@ test('create promises work if the model was previously invalid', function(assert
 
 test('models have promises for update', function(assert) {
 	expect(1);
-	var t = Balanced.TestModel.find('/v1/testobjects/1');
+	var t = getTestModel().find('/v1/testobjects/1');
 
 	Ember.run(function() {
 		t.save().then(function(model) {
@@ -126,7 +137,7 @@ test('models have promises for update', function(assert) {
 
 test('models have promises for delete', function(assert) {
 	expect(1);
-	var t = Balanced.TestModel.find('/v1/testobjects/1');
+	var t = getTestModel().find('/v1/testobjects/1');
 
 	Ember.run(function() {
 		t.delete().then(function(model) {
@@ -137,7 +148,7 @@ test('models have promises for delete', function(assert) {
 
 test('newly created models have promises for delete', function(assert) {
 	expect(1);
-	var t = Balanced.TestModel.create({
+	var t = getTestModel().create({
 		uri: '/v1/testobjects/1',
 		isLoaded: true
 	});
@@ -151,7 +162,7 @@ test('newly created models have promises for delete', function(assert) {
 
 test('models have promises for reload', function(assert) {
 	expect(1);
-	var t = Balanced.TestModel.find('/v1/testobjects/1');
+	var t = getTestModel().find('/v1/testobjects/1');
 	Ember.run(function() {
 		t.reload().then(function(model) {
 			assert.ok(true);
@@ -160,7 +171,7 @@ test('models have promises for reload', function(assert) {
 });
 
 test('models handles error', function(assert) {
-	var t = Balanced.TestModel.create();
+	var t = getTestModel().create();
 	t._handleError({
 		status: 409,
 		responseJSON: {

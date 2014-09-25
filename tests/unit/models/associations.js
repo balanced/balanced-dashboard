@@ -2,8 +2,13 @@ import Ember from 'ember';
 import Model from "balanced-dashboard/models/core/model";
 import Rev0Serializer from "balanced-dashboard/serializers/rev0";
 import TypeMappings from "balanced-dashboard/models/core/type-mappings";
+import Testing from "balanced-dashboard/tests/helpers/testing";
 
 var rev0Model;
+
+var getTestModel = function() {
+	return BalancedApp.__container__.lookupFactory('model:test-model');
+};
 
 module('Model.Associations', {
 	setup: function() {
@@ -41,8 +46,8 @@ module('Model.Associations', {
 			}.property()
 		});
 
-		BalancedApp.__container__.register('model', 'model:test-first-child-model');
-		BalancedApp.__container__.register('model', 'model:test-second-child-model');
+		BalancedApp.__container__.register('model:test-first-child-model');
+		BalancedApp.__container__.register('model:test-second-child-model');
 
 		TypeMappings.addTypeMapping('first', 'test-first-child-model');
 		TypeMappings.addTypeMapping('second', 'test-second-child-model');
@@ -459,10 +464,10 @@ test('hasMany association promises resolve async', function(assert) {
 			assert.equal(hasManyArray.objectAt(1).get('basic_field'), 234);
 		});
 
-		t.get('my_has_many_field').addObject(test-model.create({
+		t.get('my_has_many_field').addObject(getTestModel().create({
 			basic_field: 123
 		}));
-		t.get('my_has_many_field').addObject(test-model.create({
+		t.get('my_has_many_field').addObject(getTestModel().create({
 			basic_field: 234
 		}));
 		t.get('my_has_many_field').trigger('didLoad');

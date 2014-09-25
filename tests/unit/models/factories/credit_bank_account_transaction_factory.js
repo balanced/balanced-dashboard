@@ -1,7 +1,9 @@
-module("Balanced.CreditBankAccountTransactionFactory");
+import CreditBankAccountTransactionFactory from "balanced-dashboard/models/factories/credit-bank-account-transaction-factory";
+
+module("CreditBankAccountTransactionFactory");
 
 test("#getDestinationAttributes", function(assert) {
-	var subject = Balanced.CreditBankAccountTransactionFactory.create({
+	var subject = CreditBankAccountTransactionFactory.create({
 		account_number: "100000000",
 		name: "Dr. Crock",
 		routing_number: "1231234",
@@ -17,7 +19,7 @@ test("#getDestinationAttributes", function(assert) {
 });
 
 test("#getAttributes", function(assert) {
-	var subject = Balanced.CreditBankAccountTransactionFactory.create({
+	var subject = CreditBankAccountTransactionFactory.create({
 		dollar_amount: "5.67",
 		appears_on_statement_as: "Important Comp",
 		description: "xxxxx",

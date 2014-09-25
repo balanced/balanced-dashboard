@@ -1,7 +1,9 @@
+import MarketplaceBankAccountFactory from "balanced-dashboard/models/factories/marketplace-bank-account-factory";
+
 module("MarketplaceBankAccountFactory");
 
 test("#getPostAttributes", function(assert) {
-	var subject = Balanced.MarketplaceBankAccountFactory.create({
+	var subject = MarketplaceBankAccountFactory.create({
 		name: "Monopoly Guy",
 		account_type: "savings",
 		routing_number: "123123123",
@@ -19,7 +21,7 @@ test("#getPostAttributes", function(assert) {
 test("#_save", function(assert) {
 	var stub = sinon.stub(balanced.bankAccount, "create");
 
-	var subject = Balanced.MarketplaceBankAccountFactory.create({
+	var subject = MarketplaceBankAccountFactory.create({
 		name: "Monopoly Guy",
 		account_type: "savings",
 		routing_number: "123123123",

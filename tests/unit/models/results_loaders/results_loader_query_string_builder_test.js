@@ -1,3 +1,5 @@
+import ResultsLoaderQueryStringBuilder from "balanced-dashboard/models/results-loaders/results-loader-query-string-builder";
+
 module("ResultsLoaderQueryStringBuilder");
 
 test("#addValue", function(assert) {

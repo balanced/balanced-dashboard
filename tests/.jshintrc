@@ -53,7 +53,9 @@
     "currentPath",
     "currentRouteName",
 	"_",
-	"moment"
+	"moment",
+	"clickMultiple",
+	"waitFor"
   ],
   "node": false,
   "browser": false,

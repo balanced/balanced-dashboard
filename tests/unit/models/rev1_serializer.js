@@ -1,4 +1,7 @@
-module('Balanced.Rev1Serializer');
+import Marketplace from "balanced-dashboard/models/marketplace";
+import Rev1Serializer from "balanced-dashboard/serializers/rev1";
+
+module('Rev1Serializer');
 
 var marketplaceJson = {
 	"marketplaces": [{
@@ -69,26 +72,26 @@ var marketplaceJsonWithNullCustomer = {
 };
 
 test('Can extractSingle marketplace', function(assert) {
-	var serializer = Balanced.Rev1Serializer.create();
+	var serializer = Rev1Serializer.create();
 
-	var extracted = serializer.extractSingle(marketplaceJson, Balanced.Marketplace, '/marketplaces/TEST-MP1XQLiGuuKx5kaIgsRPjQyZ');
+	var extracted = serializer.extractSingle(marketplaceJson, Marketplace, '/marketplaces/TEST-MP1XQLiGuuKx5kaIgsRPjQyZ');
 	assert.equal(extracted.name, "Test Marketplace");
 	assert.equal(extracted.transactions_uri, "/transactions");
 	assert.equal(extracted.owner_customer_uri, "/customers/CU1XSPjcwGw7h279IMxptENX");
 });
 
 test('Can extractSingle new marketplace', function(assert) {
-	var serializer = Balanced.Rev1Serializer.create();
+	var serializer = Rev1Serializer.create();
 
-	var extracted = serializer.extractSingle(marketplaceJson, Balanced.Marketplace);
+	var extracted = serializer.extractSingle(marketplaceJson, Marketplace);
 	assert.equal(extracted.name, "Test Marketplace");
 	assert.equal(extracted.transactions_uri, "/transactions");
 	assert.equal(extracted.owner_customer_uri, "/customers/CU1XSPjcwGw7h279IMxptENX");
 });
 
 test('Extracts macros with null correctly', function(assert) {
-	var serializer = Balanced.Rev1Serializer.create();
+	var serializer = Rev1Serializer.create();
 
-	var extracted = serializer.extractSingle(marketplaceJsonWithNullCustomer, Balanced.Marketplace, '/marketplaces/TEST-MP1XQLiGuuKx5kaIgsRPjQyZ');
+	var extracted = serializer.extractSingle(marketplaceJsonWithNullCustomer, Marketplace, '/marketplaces/TEST-MP1XQLiGuuKx5kaIgsRPjQyZ');
 	assert.equal(extracted.owner_customer_uri, null);
 });

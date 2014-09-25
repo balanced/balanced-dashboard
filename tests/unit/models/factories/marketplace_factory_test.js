@@ -1,7 +1,9 @@
+import MarketplaceFactory from "balanced-dashboard/models/factories/marketplace-factory";
+
 module("MarketplaceFactory");
 
 test("validations", function(assert) {
-	var factory = Balanced.MarketplaceFactory.create();
+	var factory = MarketplaceFactory.create();
 	factory.validate();
 
 	assert.deepEqual(factory.get("validationErrors.fullMessages"), [
@@ -12,7 +14,7 @@ test("validations", function(assert) {
 		"domain_url can't be blank"
 	]);
 
-	factory = Balanced.MarketplaceFactory.create({
+	factory = MarketplaceFactory.create({
 		isTermsAccepted: true,
 		name: "Cool Marketplace",
 		support_phone_number: "3903.333333"
@@ -27,7 +29,7 @@ test("validations", function(assert) {
 
 
 test("#getPostAttributes", function(assert) {
-	var subject = Balanced.MarketplaceFactory.create({
+	var subject = MarketplaceFactory.create({
 		isTermsAccepted: true,
 		domain_url: "http://www.example.org",
 		name: "Cool Marketplace",
@@ -44,7 +46,7 @@ test("#getPostAttributes", function(assert) {
 });
 
 test("#handleResponse", function(assert) {
-	var subject = Balanced.MarketplaceFactory.create();
+	var subject = MarketplaceFactory.create();
 	var result = subject.handleResponse({
 		marketplaces: [{
 			href: "/marketplace/:some_id"
@@ -58,7 +60,7 @@ test("#_save", function(assert) {
 	stub.returns({
 		then: function() {}
 	});
-	var subject = Balanced.MarketplaceFactory.create({
+	var subject = MarketplaceFactory.create({
 		domain_url: "http://www.example.org",
 		name: "Cool Marketplace",
 		support_email_address: "email@example.org",

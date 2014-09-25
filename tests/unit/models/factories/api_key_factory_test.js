@@ -1,8 +1,10 @@
+import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
+
 module("ApiKeyFactory");
 
 test("business validations", function(assert) {
 	var expectationsTest = function(attributes, expectations) {
-		var subject = Balanced.ApiKeyFactory.create(attributes);
+		var subject = ApiKeyFactory.create(attributes);
 		subject.validate();
 		var messages = subject.get("validationErrors.fullMessages");
 		assert.deepEqual(messages, expectations);
@@ -50,7 +52,7 @@ test("business validations", function(assert) {
 
 test("person validations", function(assert) {
 	var expectationsTest = function(attributes, expectations) {
-		var subject = Balanced.ApiKeyFactory.create(attributes);
+		var subject = ApiKeyFactory.create(attributes);
 		subject.validate();
 		var messages = subject.get("validationErrors.fullMessages");
 		assert.deepEqual(messages, expectations);
@@ -86,7 +88,7 @@ test("person validations", function(assert) {
 });
 
 test("#isBusiness", function(assert) {
-	var subject = Balanced.ApiKeyFactory.create({
+	var subject = ApiKeyFactory.create({
 		merchant: {
 			type: "person"
 		}
@@ -98,7 +100,7 @@ test("#isBusiness", function(assert) {
 });
 
 test("#handleResponse", function(assert) {
-	var subject = Balanced.ApiKeyFactory.create();
+	var subject = ApiKeyFactory.create();
 	var result = subject.handleResponse({
 		api_keys: [{
 			secret: "cool-secret"
@@ -109,7 +111,7 @@ test("#handleResponse", function(assert) {
 });
 
 test("#getMerchantAttributes (person)", function(assert) {
-	var subject = Balanced.ApiKeyFactory.create({
+	var subject = ApiKeyFactory.create({
 		merchant: {
 			type: "person",
 			phone_number: "11111",
@@ -135,7 +137,7 @@ test("#getMerchantAttributes (person)", function(assert) {
 });
 
 test("#getMerchantAttributes (business)", function(assert) {
-	var subject = Balanced.ApiKeyFactory.create({
+	var subject = ApiKeyFactory.create({
 		merchant: {
 			type: "business",
 			phone_number: "11111",
@@ -164,7 +166,7 @@ test("#getMerchantAttributes (business)", function(assert) {
 });
 
 test("#getPostAttributes", function(assert) {
-	var subject = Balanced.ApiKeyFactory.create();
+	var subject = ApiKeyFactory.create();
 	sinon.stub(subject, "getMerchantAttributes").returns({
 		name: "Freddy Stub"
 	});
@@ -181,7 +183,7 @@ test("#_save", function(assert) {
 	stub.returns({
 		then: function() {}
 	});
-	var subject = Balanced.ApiKeyFactory.create({
+	var subject = ApiKeyFactory.create({
 		person: {
 			name: "Tom Person"
 		},

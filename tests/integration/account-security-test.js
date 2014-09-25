@@ -5,8 +5,6 @@ import startApp from '../helpers/start-app';
 
 require("balanced-dashboard/tests/helpers/helpers");
 
-var BalancedApp;
-
 module('Account Security', {
 	setup: function() {
 		BalancedApp = startApp();

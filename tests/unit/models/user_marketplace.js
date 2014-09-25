@@ -1,3 +1,5 @@
+import Auth from "balanced-dashboard/auth";
+
 moduleForModel("user-marketplace", "Model - UserMarketplace", {});
 
 //module('Balanced.UserMarketplace', {
@@ -20,7 +22,7 @@ test('fullKeys', function(assert) {
 });
 
 test('users', function(assert) {
-	var userMarketplace = Balanced.Auth.get('user.user_marketplaces')[0];
+	var userMarketplace = Auth.get('user.user_marketplaces')[0];
 	Ember.run(function() {
 		return userMarketplace.get('users');
 	});
@@ -30,12 +32,12 @@ test('users', function(assert) {
 });
 
 test('isTest', function(assert) {
-	var userMarketplace = Balanced.Auth.get('user.user_marketplaces')[0];
+	var userMarketplace = Auth.get('user.user_marketplaces')[0];
 	assert.equal(userMarketplace.get('production'), false, 'Is Test Marketplace');
 });
 
 test('marketplace', function(assert) {
-	var userMarketplace = Balanced.Auth.get('user.user_marketplaces')[0];
+	var userMarketplace = Auth.get('user.user_marketplaces')[0];
 	Ember.run(function() {
 		return userMarketplace.get('marketplace');
 	});

@@ -1,4 +1,6 @@
-module('Balanced.Transaction');
+import Transaction from "balanced-dashboard/models/transaction";
+
+module('Transaction');
 
 test(".findAppearsOnStatementAsInvalidCharacters", function(assert) {
 	var tests = {
@@ -8,6 +10,6 @@ test(".findAppearsOnStatementAsInvalidCharacters", function(assert) {
 	};
 
 	_.each(tests, function(expected, value) {
-		assert.equal(Balanced.Transaction.findAppearsOnStatementAsInvalidCharacters(value), expected);
+		assert.equal(Transaction.findAppearsOnStatementAsInvalidCharacters(value), expected);
 	});
 });

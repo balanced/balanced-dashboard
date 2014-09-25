@@ -1,15 +1,24 @@
-module("Balanced.ResultsLoader", {
+import ModelArray from "balanced-dashboard/models/core/model-array";
+import SearchModelArray from "balanced-dashboard/models/core/search-model-array";
+import ResultsLoader from "balanced-dashboard/models/results-loaders/base";
+import Testing from "balanced-dashboard/tests/helpers/testing";
+import Transaction from "balanced-dashboard/models/transaction";
+import Dispute from "balanced-dashboard/models/dispute";
+import Invoice from "balanced-dashboard/models/invoice";
+import Customer from "balanced-dashboard/models/customer";
+
+module("ResultsLoader", {
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.SearchModelArray.newArrayLoadedFromUri,
+			SearchModelArray.newArrayLoadedFromUri,
 			jQuery.ajax,
-			Balanced.ModelArray.create
+			ModelArray.create
 		);
 	},
 });
 
 test("#setSortField", function(assert) {
-	var subject = Balanced.ResultsLoader.create();
+	var subject = ResultsLoader.create();
 	var test = function(expectation) {
 		assert.deepEqual(subject.get("sort"), expectation);
 	};
@@ -22,7 +31,7 @@ test("#setSortField", function(assert) {
 });
 
 test("#resultsUri", function(assert) {
-	var subject = Balanced.ResultsLoader.create({});
+	var subject = ResultsLoader.create({});
 
 	var test = function(expectation) {
 		assert.deepEqual(subject.get("resultsUri"), expectation);
@@ -34,7 +43,7 @@ test("#resultsUri", function(assert) {
 });
 
 test("#results (blank)", function(assert) {
-	var subject = Balanced.ResultsLoader.create({
+	var subject = ResultsLoader.create({
 		resultsUri: ""
 	});
 
@@ -45,19 +54,19 @@ test("#results (blank)", function(assert) {
 });
 
 test("#results", function(assert) {
-	var stub = sinon.stub(Balanced.SearchModelArray, "newArrayLoadedFromUri");
+	var stub = sinon.stub(SearchModelArray, "newArrayLoadedFromUri");
 	var result = Ember.Object.create();
 	stub.returns(result);
 
-	var subject = Balanced.ResultsLoader.create({
-		resultsType: Balanced.Transaction,
+	var subject = ResultsLoader.create({
+		resultsType: Transaction,
 		resultsUri: "/transactions/cool"
 	});
 
 	var r = subject.get("results");
 
 	assert.deepEqual(stub.args, [
-		["/transactions/cool", Balanced.Transaction]
+		["/transactions/cool", Transaction]
 	]);
 	assert.deepEqual(result.get("sortProperties"), ["created_at"]);
 	assert.deepEqual(result.get("sortAscending"), false);
@@ -66,31 +75,31 @@ test("#results", function(assert) {
 
 test("#isBulkDownloadCsv", function(assert) {
 	var test = function(type, expectation) {
-		var subject = Balanced.ResultsLoader.create({
+		var subject = ResultsLoader.create({
 			resultsType: type,
 		});
 		assert.deepEqual(subject.isBulkDownloadCsv(), expectation);
 	};
 
-	test(Balanced.Dispute, true);
-	test(Balanced.Transaction, true);
-	test(Balanced.Invoice, true);
-	test(Balanced.Customer, false);
+	test(Dispute, true);
+	test(Transaction, true);
+	test(Invoice, true);
+	test(Customer, false);
 	test(undefined, false);
 });
 
 test("#getCsvExportType", function(assert) {
 	var test = function(type, expectation) {
-		var subject = Balanced.ResultsLoader.create({
+		var subject = ResultsLoader.create({
 			resultsType: type,
 		});
 		assert.equal(subject.getCsvExportType(), expectation);
 	};
 
-	test(Balanced.Dispute, "disputes");
-	test(Balanced.Transaction, "transactions");
-	test(Balanced.Invoice, "invoices");
-	test(Balanced.Customer, undefined);
+	test(Dispute, "disputes");
+	test(Transaction, "transactions");
+	test(Invoice, "invoices");
+	test(Customer, undefined);
 	test(undefined, undefined);
 });
 
@@ -100,7 +109,7 @@ test("#postCsvExport (by uri)", function(assert) {
 		then: function() {}
 	});
 
-	var subject = Balanced.ResultsLoader.create({
+	var subject = ResultsLoader.create({
 		resultsUri: "/transactions"
 	});
 	subject.postCsvExport("jim@example.org");
@@ -117,8 +126,8 @@ test("#postCsvExport (bulk)", function(assert) {
 		then: function() {}
 	});
 
-	var subject = Balanced.ResultsLoader.create({
-		resultsType: Balanced.Transaction,
+	var subject = ResultsLoader.create({
+		resultsType: Transaction,
 		resultsUri: "/transactions",
 		startTime: moment("2013-02-08 09:30:26 Z").toDate(),
 		endTime: moment("2013-02-08 10:30:26 Z").toDate(),

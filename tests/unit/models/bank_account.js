@@ -1,13 +1,15 @@
-module("Balanced.BankAccount");
+import BankAccount from "balanced-dashboard/models/bank-account";
+
+module("BankAccount");
 
 test("#type_name", function(assert) {
-	var bankAccount = Balanced.BankAccount.create({
+	var bankAccount = BankAccount.create({
 		account_type: "savings"
 	});
 
 	assert.equal(bankAccount.get("type_name"), "Savings account");
 
-	bankAccount = Balanced.BankAccount.create({
+	bankAccount = BankAccount.create({
 		account_type: "checking"
 	});
 	assert.equal(bankAccount.get("type_name"), "Checking account");
@@ -15,7 +17,7 @@ test("#type_name", function(assert) {
 
 test("#description", function(assert) {
 	var test = function(expectation, attributes) {
-		var bankAccount = Balanced.BankAccount.create(attributes);
+		var bankAccount = BankAccount.create(attributes);
 		assert.deepEqual(bankAccount.get("description"), expectation);
 	};
 
@@ -31,7 +33,7 @@ test("#description", function(assert) {
 
 test("#isRemoved", function(assert) {
 	var test = function(expectation, attributes) {
-		var bankAccount = Balanced.BankAccount.create(attributes);
+		var bankAccount = BankAccount.create(attributes);
 		assert.deepEqual(bankAccount.get("isRemoved"), expectation);
 	};
 
@@ -46,7 +48,7 @@ test("#isRemoved", function(assert) {
 
 test("#isVerified", function(assert) {
 	var test = function(expectation, attributes) {
-		var bankAccount = Balanced.BankAccount.create(attributes);
+		var bankAccount = BankAccount.create(attributes);
 		assert.deepEqual(bankAccount.get("isVerified"), expectation);
 	};
 
@@ -61,7 +63,7 @@ test("#isVerified", function(assert) {
 
 test("#verificationStatus", function(assert) {
 	var test = function(expectation, attributes) {
-		var bankAccount = Balanced.BankAccount.create(attributes);
+		var bankAccount = BankAccount.create(attributes);
 		assert.equal(bankAccount.get("status"), expectation);
 	};
 

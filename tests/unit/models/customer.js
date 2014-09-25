@@ -1,10 +1,12 @@
-module('Balanced.Customer');
+import Customer from "balanced-dashboard/models/customer";
+
+module('Customer');
 
 test('displayName', function(assert) {
 	var emailAddress = 'bob@example.org';
 	var name = 'Bob';
 	var businessName = 'Balanced';
-	var customer = Balanced.Customer.create();
+	var customer = Customer.create();
 	customer.set('email', emailAddress);
 	assert.equal(customer.get('displayName'), emailAddress);
 	customer.set('name', name);

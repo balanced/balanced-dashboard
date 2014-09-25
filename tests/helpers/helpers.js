@@ -1,3 +1,5 @@
+import Testing from "../helpers/testing";
+
 // Create the test namespace
 var Balanced = {
 	Test: {}
