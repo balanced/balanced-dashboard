@@ -2,6 +2,7 @@ import Ember from "ember";
 import { test } from 'ember-qunit';
 import startApp from '../helpers/start-app';
 import fixturesAdapter from "../helpers/fixtures-adapter";
+import sinonRestore from "../helpers/sinon-restore";
 
 require("balanced-dashboard/tests/helpers/helpers");
 
@@ -13,6 +14,10 @@ module('Account Security', {
 			ADAPTER: fixturesAdapter,
 			USE_FIXTURES: true
 		});
+	},
+	teardown: function() {
+		sinonRestore(getAuth().request);
+		Ember.run(BalancedApp, BalancedApp.destroy);
 	},
 });
 
@@ -34,10 +39,6 @@ test('Can enable', function() {
 			"#account_security.disabled": 1,
 			".status-circle:visible": 2,
 			".window-pane:visible": 0
-		})
-		.then(function() {
-			var currentRoute = BalancedApp.__container__.lookup('route:accountSecurity');
-			equal(currentRoute.previousHandler.name, 'login', 'Route to go back correct');
 		})
 		.click('.status-circle.green a')
 		.then(function() {
@@ -73,10 +74,6 @@ test('Can disable', function() {
 			"#account_security.enabled": 1,
 			".status-circle:visible": 2,
 			".window-pane:visible": 0
-		})
-		.then(function() {
-			var currentRoute = BalancedApp.__container__.lookup('route:account-security');
-			equal(currentRoute.previousHandler.name, 'login', 'Route to go back correct');
 		})
 		.click('.status-circle.red a')
 		.checkElements({

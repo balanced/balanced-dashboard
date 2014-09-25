@@ -5,7 +5,7 @@ import Router from 'balanced-dashboard/router';
 import Testing from "../helpers/testing";
 import fixturesAdapter from "./fixtures-adapter";
 
-var startApp = function startApp(attrs) {
+var startApp = function (attrs) {
 	var App;
 
 	var attributes = Ember.merge({

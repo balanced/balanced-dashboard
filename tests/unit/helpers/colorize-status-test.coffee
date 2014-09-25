@@ -4,6 +4,5 @@ module "Helper - colorize-status"
 
 test "colorize-status", ->
   value = "200"
-  console.log colorizeStatus
   rendered = colorizeStatus._rawFunction(value)
   equal(rendered.string, "<span class=\"status-ok\">200</span>")
