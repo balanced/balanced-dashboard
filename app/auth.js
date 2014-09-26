@@ -4,7 +4,6 @@ import Utils from "./lib/utils";
 import User from "balanced-dashboard/models/user";
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 import Marketplace from "balanced-dashboard/models/marketplace";
-import Auth from "balanced-dashboard/auth";
 
 import Constants from "./utils/constants";
 import CookieConstants from "./utils/constants/cookie";

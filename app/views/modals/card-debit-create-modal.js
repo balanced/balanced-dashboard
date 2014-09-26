@@ -9,7 +9,7 @@ var CardDebitCreateModalView = ModalBaseView.extend(Save, Wide, {
 	elementId: "charge-card",
 
 	model: function() {
-		var DebitCardTransactionFactory = require("balanced-dashboard/models/factories/debit-card-transaction")['default'];
+		var DebitCardTransactionFactory = require("balanced-dashboard/models/factories/debit-card-transaction-factory")['default'];
 		return DebitCardTransactionFactory.create();
 	}.property(),
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,

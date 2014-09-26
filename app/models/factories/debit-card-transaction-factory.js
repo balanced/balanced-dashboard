@@ -53,3 +53,5 @@ var DebitCardTransactionFactory = TransactionFactory.extend({
 		return deferred.promise;
 	}
 });
+
+export default DebitCardTransactionFactory;
