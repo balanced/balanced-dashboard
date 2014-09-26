@@ -144,7 +144,6 @@ ModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
-
 		ModelArray.ADAPTER.get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);

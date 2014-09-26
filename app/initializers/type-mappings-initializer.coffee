@@ -10,6 +10,7 @@ TypeMappingsInitializer =
 
 		registerMapping "api_key", "api-key"
 		registerMapping "bank_account", "bank-account"
+		registerMapping "bank-account", "bank-account"
 		registerMapping "bank_account_verification", "verification"
 		registerMapping "verification", "verification"
 		registerMapping "callback"
