@@ -98,34 +98,12 @@ var Testing = {
 		});
 	},
 
-	// build up test fixtures
-	setupMarketplace: function() {
-		var self = this;
-		var Auth = this.getAuth();
-		var Marketplace = BalancedApp.__container__.lookupFactory("model:marketplace");
-		var Ajax = require("balanced-dashboard/lib/ajax")["default"];
-
-		Ember.run(function() {
-			return Ajax.loadCSRFTokenIfNotLoaded()
-				.then(function() {
-					return Auth.createNewGuestUser();
-				})
-				.then(function(apiKey) {
-					self.GUEST_USER_API_KEY = apiKey;
-					return Marketplace.create().save();
-				})
-				.then(function(marketplace) {
-					Auth.setupGuestUserMarketplace(marketplace);
-					self.setupCreatedMarketplace(marketplace);
-				});
-		});
-	},
-
 	setupCreatedMarketplace: function(marketplace) {
 		this.marketplace = marketplace;
 
 		this.MARKETPLACE_ID = marketplace.get('id');
 		this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
+
 		this.MARKETPLACES_ROUTE = '/marketplaces';
 		this.MARKETPLACE_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID;
 		this.ACTIVITY_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/activity/transactions';
