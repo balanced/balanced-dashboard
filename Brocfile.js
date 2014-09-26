@@ -27,13 +27,13 @@ app.import('vendor/moment-business-days.js');
 var fonts = pickFiles('bower_components/strapped/static/fonts', {
 	srcDir: '/',
 	files: ['*.eot', '*.svg', '*.ttf', '*.woff'],
-	destDir: '/assets/fonts'
+	destDir: '/fonts'
 });
 
 var images = pickFiles('bower_components/strapped/static/images', {
 	srcDir: '/',
 	files: ['**/*.png', '**/*.gif'],
-	destDir: '/assets/images'
+	destDir: '/images'
 });
 
 var qunitBdd = pickFiles('bower_components/sinon/', {

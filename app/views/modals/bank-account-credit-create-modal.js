@@ -4,7 +4,7 @@ import CreditBankAccountTransactionFactory from "balanced-dashboard/models/facto
 
 var BankAccountCreditCreateModalView = TransactionCreatorModalView.extend({
 	title: "Credit a bank account",
-	templateName: "modals/bank_account_credit_create_modal",
+	templateName: "modals/bank-account-credit-create-modal",
 	model_class: CreditBankAccountTransactionFactory,
 	elementId: "pay-seller",
 

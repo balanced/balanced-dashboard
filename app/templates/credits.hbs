@@ -1,7 +1,7 @@
 {{#view "page-navigations/transaction-page-navigation" model=model}}
 	<div class="buttons page-actions">
 		{{#if model.can_reverse}}
-			<a class="btn" {{action "openModal" Balanced.Modals.ReverseCreditModalView model}}>Reverse</a>
+			<a class="btn" {{action "openModal" "modals/reverse-credit-modal" model}}>Reverse</a>
 		{{/if}}
 	</div>
 {{/view}}

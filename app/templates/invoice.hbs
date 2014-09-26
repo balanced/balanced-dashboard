@@ -27,7 +27,7 @@
 		{{#view "detail-views/description-lists/invoice-titled-key-values-section" model=model}}
 			<dt>Payment method
 				{{#if is_not_paid}}
-					<a class="change-funding-source" {{action "openModal" Balanced.Modals.InvoiceFundingSourceEditModalView model controllers.marketplace.model}}>
+					<a class="change-funding-source" {{action "openModal" "modals/invoice-funding-source-edit-modal" model controllers.marketplace.model}}>
 						<i class="icon-edit"></i>
 					</a>
 				{{/if}}

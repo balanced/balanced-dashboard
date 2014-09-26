@@ -10,8 +10,8 @@
 		<section class="payment-method-info">
 			<h3>Payment methods</h3>
 			<div class="pull-right">
-				<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerBankAccountCreateModalView model.owner_customer}}>Add a bank account</a>
-				<a class="btn-link sm" {{action "openModal" Balanced.Modals.CustomerCardCreateModalView model.owner_customer}}>Add a card</a>
+				<a class="btn-link sm" {{action "openModal" "modals/customer-bank-account-create-modal" model.owner_customer}}>Add a bank account</a>
+				<a class="btn-link sm" {{action "openModal" "modals/customer-card-create-modal" model.owner_customer}}>Add a card</a>
 			</div>
 			<div class="results">
 				{{view "results/embedded-funding-instruments-table" loader=fundingInstrumentsResultsLoader}}
