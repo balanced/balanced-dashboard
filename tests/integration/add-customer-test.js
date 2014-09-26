@@ -1,9 +1,4 @@
-import Ember from "ember";
-import { test } from 'ember-qunit';
 import startApp from '../helpers/start-app';
-import sinonRestore from "../helpers/sinon-restore";
-
-import setupMarketplace from "../helpers/setup-marketplace";
 import Testing from "../helpers/testing";
 
 import checkElements from "../helpers/check-elements";
@@ -12,24 +7,24 @@ import helpers from "../helpers/helpers";
 import Customer from "balanced-dashboard/models/customer";
 
 var App, Adapter;
-var context = this;
 
 module('Integration - AddCustomer', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
-		setupMarketplace(App);
+		Testing.setupMarketplace(App);
 	},
 	teardown: function() {
-		sinonRestore(Adapter.create)
+		Testing.restoreMethods(
+			Adapter.create
+		)
 		Ember.run(App, 'destroy');
 	}
 });
 
 test('can visit page', function() {
-	visit(Testing.ADD_CUSTOMER_ROUTE).then(function() {
-		equal(text("#content h1"), "Add customer");
-	});
+	visit(Testing.ADD_CUSTOMER_ROUTE)
+		.checkText("#content h1", "Add customer");
 });
 
 test('can create person customer', function() {
@@ -55,9 +50,9 @@ test('can create person customer', function() {
 		})
 		.fillIn('#add-customer .country-select', 'US')
 		.click('.actions button')
+		.checkText("#content .page-type", "Customer")
 		.then(function() {
 			ok(spy.calledOnce);
-			equal(text('#content .page-type'), 'Customer', 'Title is not correct');
 			ok(spy.calledWith(Customer, '/customers', sinon.match({
 				name: 'TEST',
 				applicationType: 'PERSON',
@@ -105,12 +100,10 @@ test('can create business customer', function() {
 		})
 		.fillIn('#add-customer .country-select', 'USA')
 		.click('.actions button')
+		.checkText("#content .page-type", "Customer")
 		.then(function() {
 			// make sure we posted the customer
 			ok(spy.calledOnce);
-
-			// should end up on the customer page
-			equal(text('#content .page-type'), 'Customer', 'Title is not correct');
 
 			// make sure we made the correct call with the proper object
 			ok(spy.calledWith(Customer, '/customers', sinon.match({

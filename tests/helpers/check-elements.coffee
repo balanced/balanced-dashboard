@@ -4,8 +4,22 @@ text = (element) ->
 html = (element) ->
 	$.trim(element.html())
 
+Ember.Test.registerHelper "checkValue", (app, selector, val, message) ->
+	message ||= "Value for #{selector}"
+	equal(find(selector).val(), val, message)
+
+Ember.Test.registerHelper "checkText", (app, selector, val, message) ->
+	message ||= "Text for #{selector}"
+	equal($.trim(find(selector).text()), val, message)
+
 Ember.Test.registerHelper "text", (app, selector) ->
-	find(selector).text()
+	$.trim(find(selector).text()).replace(/\s+/gm, " ")
+
+Ember.Test.registerHelper "checkPageType", (app, text) ->
+	checkText "#content .page-type", text
+
+Ember.Test.registerHelper "checkPageTitle", (app, text) ->
+	checkText "#content h1.page-title", text
 
 Ember.Test.registerHelper "check", (app, selector, val) ->
 	element = $(selector)
@@ -35,10 +49,10 @@ Ember.Test.registerHelper "check", (app, selector, val) ->
 		equal(element.length, val, "Element exists #{selector} #{val} times")
 
 	else if _.isString(val)
-		equal(text(element), val, "Text for #{selector}")
+		checkText(element, val)
 
 Ember.Test.registerHelper 'checkElements', (app, hash) ->
 	_.each hash, (value, selector) ->
-		check(value, selector)
+		check(selector, value)
 
 `export default {};`

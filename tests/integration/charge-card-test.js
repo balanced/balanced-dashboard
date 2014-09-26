@@ -1,29 +1,44 @@
-module('Charge Card', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration -  Charge Card', {
 	setup: function() {
-		Testing.setupMarketplace();
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+
+		startMarketplace(Testing);
 		Testing.createCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
 			balanced.card.create,
-			BalancedApp.Adapter.create
+			Adapter.create
 		);
+		Ember.run(App, "destroy");
 	}
 });
 
-test('form validation', 2, function(assert) {
+test('form validation', 2, function() {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.click('.page-navigation a:contains(Debit a card)')
 		.checkElements({
 			"#charge-card button:contains(Debit)": 1
-		}, assert)
+		})
 		.click('button:contains(Debit)')
 		.then(function() {
-			assert.ok($('.control-group.error').length > 0, 'errors are displayed');
+			ok($('.control-group.error').length > 0, 'errors are displayed');
 		});
 });
 
-test('can charge a card', 3, function(assert) {
+test('can charge a card', 3, function() {
 	var spy = sinon.spy(BalancedApp.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -49,9 +64,9 @@ test('can charge a card', 3, function(assert) {
 			click: 'button:contains(Debit)'
 		})
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
+			ok(tokenizingStub.calledOnce);
+			ok(spy.calledOnce);
+			ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
 				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
@@ -62,7 +77,7 @@ test('can charge a card', 3, function(assert) {
 		});
 });
 
-test('charge a card button is hidden after submit', 4, function(assert) {
+test('charge a card button is hidden after submit', 4, function() {
 	var spy = sinon.spy(BalancedApp.Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -85,13 +100,13 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 			description: 'Internal',
 			dollar_amount: '12.00'
 		})
-		.assertClick("#charge-card .modal-footer .btn:last", assert)
+		.click("#charge-card .modal-footer .btn:last")
 		.then(function() {
-			assert.equal($("#charge-card .modal-footer .btn:last").length, 0, "Button not present");
+			equal($("#charge-card .modal-footer .btn:last").length, 0, "Button not present");
 		})
 		.then(function() {
-			assert.ok(spy.calledOnce, "Called once");
-			assert.ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
+			ok(spy.calledOnce, "Called once");
+			ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
 				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
@@ -100,7 +115,7 @@ test('charge a card button is hidden after submit', 4, function(assert) {
 		});
 });
 
-test('when charge a card triggers an error, the error is displayed to the user', function(assert) {
+test('when charge a card triggers an error, the error is displayed to the user', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('.page-navigation a:contains(Debit a card)')
 		.fillForm('#charge-card', {
@@ -109,6 +124,6 @@ test('when charge a card triggers an error, the error is displayed to the user',
 			click: '.modal-footer button:contains(Debit)'
 		})
 		.then(function() {
-			assert.equal($('.alert-error').is(':visible'), true);
+			equal($('.alert-error').is(':visible'), true);
 		});
 });

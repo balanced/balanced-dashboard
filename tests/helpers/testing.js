@@ -1,7 +1,14 @@
 import Constants from "balanced-dashboard/utils/constants";
+import setupMarketplace from "./setup-marketplace";
+import setupCreatedMarketplace from "./setup-created-marketplace";
+
+var instantiateModel = function(type, properties) {
+	return BalancedApp.__container__.lookup("model:" + type).setProperties(properties);
+};
 
 var Testing = {
 	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
+	FIXTURE_USER_EMAIL: "foo@bar.com",
 	marketplace: null,
 
 	// constant ids
@@ -24,36 +31,6 @@ var Testing = {
 	DEBIT_ROUTE: null,
 	REVERSAL_ROUTE: null,
 
-	// isStopped: false,
-	isStopped: function() {
-		return window.QUnit.config.semaphore !== 0;
-	},
-
-	stop: function() {
-		if (!this.isStopped()) {
-			stop();
-		}
-	},
-
-	start: function() {
-		if (this.isStopped()) {
-			start();
-		}
-	},
-
-	pause: function(number, fn) {
-		if (!number) {
-			number = 1000;
-		}
-
-		this.stop();
-		_.delay(_.bind(this.start, this), number);
-
-		if (fn) {
-			_.delay(fn, number);
-		}
-	},
-
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
 		$('#marketplaces ul a:contains("' + name + '")').click();
@@ -67,10 +44,6 @@ var Testing = {
 		}));
 	},
 
-	getAuth: function() {
-		return BalancedApp.__container__.lookup("auth:main");
-	},
-
 	visitSettingsPage: function() {
 		var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
 		var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
@@ -82,7 +55,7 @@ var Testing = {
 			.then(function() {
 				var marketplace = BalancedApp.__container__.lookup("controller:marketplace").get("model");
 				Ember.run(function() {
-					var customer = BalancedApp.__container__.lookup("model:customer");
+					var customer = instantiateModel("customer");
 					marketplace.set("owner_customer", customer);
 				});
 			})
@@ -92,31 +65,24 @@ var Testing = {
 	},
 
 	logout: function() {
-		var Auth = this.getAuth();
+		var Auth = BalancedApp.__container__.lookup("auth:main");
 		Ember.run(function() {
 			Auth.setAuthProperties(false, null, null, null, false);
 		});
 	},
 
-	setupCreatedMarketplace: function(marketplace) {
-		this.marketplace = marketplace;
-
-		this.MARKETPLACE_ID = marketplace.get('id');
-		this.CUSTOMER_ID = marketplace.get('owner_customer_uri').split('/').pop();
-
-		this.MARKETPLACES_ROUTE = '/marketplaces';
-		this.MARKETPLACE_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID;
-		this.ACTIVITY_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/activity/transactions';
-		this.ADD_CUSTOMER_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/add_customer';
-		this.CUSTOMER_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/customers/' + this.CUSTOMER_ID;
-		this.LOGS_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/logs';
-		this.SETTINGS_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/settings';
-		this.INITIAL_DEPOSIT_ROUTE = '/marketplaces/' + this.MARKETPLACE_ID + '/initial_deposit';
+	setupMarketplace: function(App) {
+		var self = this;
+		return setupMarketplace(App)
+			.then(function(mp) {
+				var routes = setupCreatedMarketplace(mp);
+				_.extend(self, routes);
+			});
 	},
 
 	restoreMethods: function() {
 		_.each(arguments, function(method) {
-			if (method.restore) {
+			if (method && method.restore) {
 				method.restore();
 			}
 		});
@@ -129,7 +95,7 @@ var Testing = {
 			number = '4000056655665556';
 		}
 
-		return BalancedApp.__container__.lookup("model:card", {
+		return instantiateModel("card", {
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: number,
 			expiration_year: 2020,
@@ -144,7 +110,7 @@ var Testing = {
 
 	_createDisputeCard: function() {
 		var self = this;
-		return BalancedApp.__container__.lookup("model:card", {
+		return instantiateModel("card", {
 			uri: '/customers/' + this.CUSTOMER_ID + '/cards',
 			number: '6500000000000002',
 			name: 'Dispute Card',
@@ -160,7 +126,7 @@ var Testing = {
 
 	_createBankAccount: function() {
 		var self = this;
-		return BalancedApp.__container__.lookup("model:bank-account", {
+		return instantiateModel("bank-account", {
 			uri: '/customers/' + self.CUSTOMER_ID + '/bank_accounts',
 			name: 'Test Account',
 			account_number: '1234',
@@ -177,7 +143,7 @@ var Testing = {
 	_createReversal: function() {
 		var self = this;
 
-		return BalancedApp.__container__.lookup("model:reversal", {
+		return instantiateModel("reversal", {
 			uri: '/credits/' + self.CREDIT_ID + '/reversals',
 			credit_uri: '/credits/' + self.CREDIT_ID,
 			amount: 10000
@@ -191,7 +157,7 @@ var Testing = {
 
 	_createDebit: function() {
 		var self = this;
-		return BalancedApp.__container__.lookup("model:debit", {
+		return instantiateModel("debit", {
 			uri: '/customers/' + self.CUSTOMER_ID + '/debits',
 			appears_on_statement_as: 'Pixie Dust',
 			amount: 10000,
@@ -206,7 +172,7 @@ var Testing = {
 
 	_createCredit: function() {
 		var self = this;
-		return BalancedApp.__container__.lookup("model:credit", {
+		return instantiateModel("credit", {
 			uri: '/bank_accounts/' + self.BANK_ACCOUNT_ID + '/credits',
 			amount: 10000
 		}).save().then(function(credit) {
@@ -214,36 +180,6 @@ var Testing = {
 			self.CREDIT_ROUTE = self.MARKETPLACE_ROUTE +
 				'/credits/' + self.CREDIT_ID;
 			return credit;
-		});
-	},
-
-	waitForState: function(intervalTimeout, errorTimeout, callback) {
-		var startDate = new Date();
-		return new Ember.RSVP.Promise(function(resolve, reject) {
-			var execute = function() {
-				callback(resolve, function() {
-					var elapsedTime = new Date() - startDate;
-					if (elapsedTime < errorTimeout) {
-						setTimeout(execute, intervalTimeout);
-					} else {
-						reject();
-					}
-				});
-			};
-			execute();
-		});
-	},
-
-	assertEnoughDisputesAvailable: function(num) {
-		return this.waitForState(1000, 10000, function(done, error) {
-			var Dispute = BalancedApp.__container__.lookupFactory("model:dispute");
-			return Dispute.findAll().then(function(disputes) {
-				if (disputes.get("length") < num) {
-					error();
-				} else {
-					done(disputes.get("length"));
-				}
-			});
 		});
 	},
 
@@ -279,10 +215,10 @@ var Testing = {
 			expiration_month: 11
 		};
 
-		return BalancedApp.__container__.lookup("model:card", cardAttributes)
+		return instantiateModel("card", cardAttributes)
 			.save()
 			.then(function(card) {
-				var hold = BalancedApp.__container__.lookup("model:hold", {
+				var hold = instantiateModel("hold", {
 					uri: card.get("card_holds_uri"),
 					source_uri: card.get("uri"),
 					appears_on_statement_as: 'Test Hold',
@@ -294,7 +230,7 @@ var Testing = {
 
 	createCard: function() {
 		var self = this;
-		Ember.run(function() {
+		andThen(function() {
 			self._createCard();
 		});
 	},
@@ -314,10 +250,7 @@ var Testing = {
 	},
 
 	createBankAccount: function() {
-		var self = this;
-		Ember.run(function() {
-			self._createBankAccount();
-		});
+		createBankAccount(this);
 	},
 
 	createReversal: function() {
@@ -364,7 +297,7 @@ var Testing = {
 	createCustomer: function() {
 		var self = this;
 
-		return BalancedApp.__container__.lookup("model:customer", {
+		return instantiateModel("customer", {
 			uri: this.marketplace.get('customers_uri'),
 			address: {}
 		}).save();
@@ -394,52 +327,6 @@ var Testing = {
 				self.start();
 			});
 		});
-	},
-
-	waitForResults: function(controller, howMany, type) {
-		var self = this;
-
-		Ember.run(function() {
-			controller.get('results').then(function(results) {
-				// Wait for atleast 4 results
-				if (results.get('length') < howMany && results.get('total_' + (type === 'search' ? 'transaction' : type) + 's') < howMany) {
-					controller.send('reload');
-					return setTimeout(_.bind(self.waitForResults, self, controller, howMany, type), 1000);
-				}
-
-				self.start();
-			});
-		});
-	},
-
-	setupResults: function(route, controllerKey, defaultType, howMany, type, setupControllerCall) {
-		howMany = howMany || 1;
-		type = type || defaultType;
-
-		// Call stop to stop executing the tests before
-		// a log is created
-		this.stop();
-
-		// Visit the marketplace route to initialize everything
-		Ember.run(function() {
-			visit(route);
-		});
-
-		var controller = BalancedApp.__container__.lookup('controller:' + controllerKey);
-
-		Ember.run(function() {
-			controller.set('type', type);
-
-			if (_.isFunction(setupControllerCall)) {
-				setupControllerCall(controller, howMany, type);
-			}
-		});
-
-		this.waitForResults(controller, howMany, type);
-	},
-
-	setupActivity: function(howMany, type) {
-		this.setupResults(this.ACTIVITY_ROUTE, 'marketplace', 'transaction', howMany, type);
 	},
 
 	createDisputes: function(number) {

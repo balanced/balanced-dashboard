@@ -1,7 +1,4 @@
-`import Testing from "./testing";`
-
 setupMarketplace = (App) ->
-	stop()
 	secret = undefined
 	marketplace = undefined
 
@@ -19,9 +16,7 @@ setupMarketplace = (App) ->
 			auth.loginGuestUser(secret)
 		.then ->
 			auth.setupGuestUserMarketplace(marketplace)
-			Testing.setupCreatedMarketplace(marketplace)
-		.fail ->
-			console.log("fail", arguments)
-		.then(start)
+		.then ->
+			marketplace
 
 `export default setupMarketplace;`
