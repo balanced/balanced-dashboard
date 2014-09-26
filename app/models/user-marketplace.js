@@ -2,7 +2,6 @@ import Model from "./core/model";
 import Rev0Serializer from "../serializers/rev0";
 import ApiKey from "./api-key";
 import UserInvite from "./user-invite";
-import Auth from "balanced-dashboard/auth";
 
 var UserMarketplace = Model.extend({
 	production: function() {
@@ -73,6 +72,8 @@ var UserMarketplace = Model.extend({
 		var MarketplaceUserInvite = UserInvite.extend({
 			uri: this.get('marketplace.users_uri')
 		});
+
+		var Auth = require("balanced-dashboard/auth")["default"];
 
 		var usersArr = [{
 			email_address: Auth.get('user.email_address'),

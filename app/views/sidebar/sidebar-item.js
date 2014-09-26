@@ -9,10 +9,9 @@ var SidebarItemView = Ember.View.extend({
 	}.property(),
 
 	childViewItems: function() {
-		var childView = require("balanced-dashboard/views/sidebar/basic-link-sidebar-item")["default"];
-		var container = this.container;
+		var container = this.container.lookupFactory("view:sidebar/basic-link-sidebar-item");
 		return this.get("children").map(function(child) {
-			return childView.extend(child);
+			return container.extend(child);
 		});
 	}.property("children.@each"),
 

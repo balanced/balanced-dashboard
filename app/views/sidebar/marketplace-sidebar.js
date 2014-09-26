@@ -1,19 +1,18 @@
 import SidebarView from "./sidebar";
-import BasicLinkSidebarItemView from "./basic-link-sidebar-item";
 
 var SIDEBAR_ITEMS = [{
 	linkText: "Payments",
 	linkIcon: "icon-payments",
 	routeName: "marketplace.transactions",
-	isSelectedBinding: "controller.marketplace.paymentSelected",
+	isSelectedBinding: "controller.controllers.marketplace.paymentSelected",
 	children: [{
 		routeName: "marketplace.transactions",
 		linkText: "Transactions",
-		isSelectedBinding: "controller.marketplace.transactionSelected"
+		isSelectedBinding: "controller.controllers.marketplace.transactionSelected"
 	}, {
 		routeName: "marketplace.orders",
 		linkText: "Orders",
-		isSelectedBinding: "controller.marketplace.orderSelected"
+		isSelectedBinding: "controller.controllers.marketplace.orderSelected"
 	}]
 }, {
 	linkText: "Customers",
@@ -24,33 +23,31 @@ var SIDEBAR_ITEMS = [{
 	linkText: "Payment methods",
 	linkIcon: "icon-card",
 	routeName: "marketplace.funding_instruments",
-	isSelectedBinding: "controller.marketplace.fundingInstrumentSelected"
+	isSelectedBinding: "controller.controllers.marketplace.fundingInstrumentSelected"
 }, {
 	linkText: "Disputes",
 	linkIcon: "icon-disputes",
 	routeName: "marketplace.disputes",
-	isSelectedBinding: "controller.marketplace.disputeSelected",
-	alertCountBinding: "controller.marketplace.disputeAlertCount",
+	isSelectedBinding: "controller.controllers.marketplace.disputeSelected",
+	alertCountBinding: "controller.controllers.marketplace.disputeAlertCount",
 }, {
 	linkText: "Logs",
 	linkIcon: "icon-logs",
 	routeName: "marketplace.logs",
-	isSelectedBinding: "controller.marketplace.logSelected"
+	isSelectedBinding: "controller.controllers.marketplace.logSelected"
 }, {
 	linkText: "My marketplace",
 	linkIcon: "icon-my-marketplace",
 	routeName: "marketplace.invoices",
-	isSelectedBinding: "controller.marketplace.myMarketplaceSelected",
+	isSelectedBinding: "controller.controllers.marketplace.myMarketplaceSelected",
 	children: [{
 		routeName: 'marketplace.invoices',
-		linkIcon: "icon-invoices",
 		linkText: "Account statements",
-		isSelectedBinding: "controller.marketplace.invoiceSelected"
+		isSelectedBinding: "controller.controllers.marketplace.invoiceSelected"
 	}, {
 		routeName: "marketplace.settings",
-		linkIcon: 'icon-settings',
 		linkText: 'Settings',
-		isSelectedBinding: "controller.marketplace.settingSelected"
+		isSelectedBinding: "controller.controllers.marketplace.settingSelected"
 	}]
 }];
 
@@ -62,6 +59,7 @@ var MarketplaceSidebarView = SidebarView.extend({
 	}.property("marketplace"),
 
 	items: function() {
+		var BasicLinkSidebarItemView = this.get("container").lookupFactory("view:sidebar/basic-link-sidebar-item");
 		return this.get("sidebarItemsDefinition").map(function(itemHash) {
 			return BasicLinkSidebarItemView.extend(itemHash);
 		});

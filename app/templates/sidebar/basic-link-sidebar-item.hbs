@@ -1,10 +1,11 @@
-{{#link-to view.routeName activeBinding="view.isSelected" classBinding="view.childViewItems.length:expanded"}}
+{{#link-to view.routeName active=view.isSelected classBinding="view.childViewItems.length:expanded"}}
 	{{#if view.linkIcon}}
-		<i {{bind-attr class="linkIcon"}}></i>
+		<i {{bind-attr class="view.linkIcon"}}></i>
 	{{/if}}
 	<span>{{view.linkText}}</span>
+
 	{{#if view.alertCount}}
-		<div class="alert-count">{{view.parentView.alertCount}}</div>
+		<div class="alert-count">{{view.alertCount}}</div>
 	{{/if}}
 {{/link-to}}
 
