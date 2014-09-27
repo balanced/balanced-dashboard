@@ -18,27 +18,28 @@ var SessionsController = Ember.Controller.extend({
 	transitionPendingLogin: null,
 
 	login: function(value) {
-		if (Ember.typeOf(value) === "string") {
-			Auth.loginGuestUser(value);
+		var auth = this.get("auth");
+		if (_.isString(value)) {
+			auth.loginGuestUser(value);
 			return Ember.RSVP.resolve();
 		} else {
-			return Auth.signIn(value.email_address, value.password);
+			return auth.signIn(value.email_address, value.password);
 		}
 	},
 
 	nuke: function() {
-		Auth.forgetLogin();
+		this.get("auth").forgetLogin();
 	},
 
 	createGuestUser: function() {
 		var self = this;
 		var registrationController = this.get("controllers.registration");
-		var user = Auth.get("user");
+		var user = this.get("auth.user");
 
 		if (user) {
 			return Ember.RSVP.resolve();
 		} else {
-			return Auth
+			return this.get("auth")
 				.createNewGuestUser()
 				.then(function(apiKey) {
 					var secret = apiKey.get("secret");
@@ -46,13 +47,13 @@ var SessionsController = Ember.Controller.extend({
 					return registrationController.createMarketplaceForApiKeySecret(secret);
 				})
 				.then(function(mp) {
-					Auth.setupGuestUserMarketplace(mp);
+					this.get("auth").setupGuestUserMarketplace(mp);
 				});
 		}
 	},
 
 	setCurrentApiKey: function(apiKeySecret) {
-		Auth.setAPIKey(apiKeySecret);
+		this.get("auth").setAPIKey(apiKeySecret);
 	},
 
 	actions: {

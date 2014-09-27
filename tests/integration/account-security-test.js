@@ -4,28 +4,26 @@ import startApp from '../helpers/start-app';
 import fixturesAdapter from "../helpers/fixtures-adapter";
 import sinonRestore from "../helpers/sinon-restore";
 
-require("balanced-dashboard/tests/helpers/helpers");
+import helpers from "../helpers/helpers";
+import checkElements from "../helpers/check-elements";
 
-var App;
+var App, Auth;
 
-module('Account Security', {
+module('Integration - Account Security', {
 	setup: function() {
 		App = startApp({
 			ADAPTER: fixturesAdapter
 		});
+		Auth = App.__container__.lookup("auth:main");
 	},
 	teardown: function() {
-		sinonRestore(getAuth().request);
-		Ember.run(App, App.destroy);
+		sinonRestore(Auth.request);
+		Ember.run(App, "destroy");
 	},
 });
 
-var getAuth = function() {
-	return App.__container__.lookup("auth:main");
-};
-
 test('Can enable', function() {
-	var spy = sinon.stub(getAuth(), 'request')
+	var spy = sinon.stub(Auth, 'request')
 		.returns(Ember.RSVP.resolve({
 			id: "USxxxxxxxxxxxxxxx",
 			secret: "VERYSECRET",
@@ -33,12 +31,10 @@ test('Can enable', function() {
 		}));
 
 	visit('/security')
-		.checkElements({
-			"h1.page-title": 'Account Security',
-			"#account_security.disabled": 1,
-			".status-circle:visible": 2,
-			".window-pane:visible": 0
-		})
+		.checkText("h1.page-title", "Account Security")
+		.check("#account_security.disabled", 1)
+		.check(".status-circle:visible", 2)
+		.check(".window-pane:visible", 0)
 		.click('.status-circle.green a')
 		.then(function() {
 			equal(spy.callCount, 1, 'Enabled');
@@ -62,7 +58,6 @@ test('Can see change email modal', function() {
 });
 
 test('Can disable', function() {
-	var Auth = getAuth();
 	var spy = sinon.stub(Auth, 'request').returns(Ember.RSVP.resolve());
 
 	Auth.set('user.otp_enabled', true);

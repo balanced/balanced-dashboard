@@ -2,9 +2,6 @@ import Ember from 'ember';
 import Application from 'balanced-dashboard/app';
 import Router from 'balanced-dashboard/router';
 
-import Testing from "../helpers/testing";
-import fixturesAdapter from "./fixtures-adapter";
-
 export default function (attrs) {
 	var App;
 
@@ -24,6 +21,5 @@ export default function (attrs) {
 		App.injectTestHelpers();
 	});
 	window.BalancedApp = App;
-
 	return App;
 }

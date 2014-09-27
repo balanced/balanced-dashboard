@@ -25,7 +25,9 @@ ModelsAdapterInitializer =
 		register("marketplace-user-invite", ENV.BALANCED.AUTH)
 		register("user-marketplace", ENV.BALANCED.AUTH)
 
-		container.register("adapter:main", adapter)
+		container.register("adapter:main", adapter, {
+			instantiate: false
+		})
 		BaseConnection.ADAPTER = adapter
 		Model.ADAPTER = adapter
 		ModelArray.ADAPTER = adapter

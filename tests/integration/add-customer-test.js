@@ -1,32 +1,34 @@
-import Ember from "ember";
-import { test } from 'ember-qunit';
 import startApp from '../helpers/start-app';
-import fixturesAdapter from "../helpers/fixtures-adapter";
-import sinonRestore from "../helpers/sinon-restore";
 import Testing from "../helpers/testing";
 
-import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
-require("balanced-dashboard/tests/helpers/helpers");
+import checkElements from "../helpers/check-elements";
+import helpers from "../helpers/helpers";
 
-var App;
+import Customer from "balanced-dashboard/models/customer";
 
-module('AddCustomer', {
+var App, Adapter;
+
+module('Integration - AddCustomer', {
 	setup: function() {
 		App = startApp();
-		Testing.setupMarketplace();
+		Adapter = App.__container__.lookup("adapter:main");
+		Testing.setupMarketplace(App);
 	},
-	teardown: function() {}
+	teardown: function() {
+		Testing.restoreMethods(
+			Adapter.create
+		)
+		Ember.run(App, 'destroy');
+	}
 });
 
 test('can visit page', function() {
 	visit(Testing.ADD_CUSTOMER_ROUTE)
-		.checkElements({
-			"#content h1": "Add customer"
-		});
+		.checkText("#content h1", "Add customer");
 });
 
 test('can create person customer', function() {
-	var spy = sinon.spy(BaseConnection.Adapter, "create");
+	var spy = sinon.spy(Adapter, "create");
 
 	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.person")
@@ -48,15 +50,10 @@ test('can create person customer', function() {
 		})
 		.fillIn('#add-customer .country-select', 'US')
 		.click('.actions button')
+		.checkText("#content .page-type", "Customer")
 		.then(function() {
-			// make sure we posted the customer
 			ok(spy.calledOnce);
-
-			// should end up on the customer page
-			equal($('#content .page-type').text().trim(), 'Customer', 'Title is not correct');
-
-			// make sure we made the correct call with the proper object
-			ok(spy.calledWith(Balanced.Customer, '/customers', sinon.match({
+			ok(spy.calledWith(Customer, '/customers', sinon.match({
 				name: 'TEST',
 				applicationType: 'PERSON',
 				address: {
@@ -79,7 +76,7 @@ test('can create person customer', function() {
 });
 
 test('can create business customer', function() {
-	var spy = sinon.spy(App.Adapter, "create");
+	var spy = sinon.spy(Adapter, "create");
 
 	visit(Testing.ADD_CUSTOMER_ROUTE)
 		.click("fieldset.application-type a.business")
@@ -103,15 +100,13 @@ test('can create business customer', function() {
 		})
 		.fillIn('#add-customer .country-select', 'USA')
 		.click('.actions button')
+		.checkText("#content .page-type", "Customer")
 		.then(function() {
 			// make sure we posted the customer
 			ok(spy.calledOnce);
 
-			// should end up on the customer page
-			equal($('#content .page-type').text().trim(), 'Customer', 'Title is not correct');
-
 			// make sure we made the correct call with the proper object
-			ok(spy.calledWith(Balanced.Customer, '/customers', sinon.match({
+			ok(spy.calledWith(Customer, '/customers', sinon.match({
 				name: "TEST",
 				applicationType: "BUSINESS",
 				business_name: "Something Inc",

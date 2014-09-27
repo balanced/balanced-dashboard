@@ -45,94 +45,33 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 
-	testEditTransaction: function(app, transaction, assert) {
+	testEditTransaction: function(app, transaction) {
 		var spy = sinon.spy(BalancedApp.Adapter, "update");
 		return click(".side-panel .edit-model-link")
 			.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
 			.click('#edit-transaction .modal-footer button[name=modal-submit]')
 			.then(function() {
 				var firstCall = spy.getCall(0);
-				assert.ok(spy.calledOnce);
-				assert.equal(firstCall.args[0], transaction.constructor);
-				assert.equal(firstCall.args[1], transaction.get("uri"));
-				assert.equal(firstCall.args[2].description, "changing desc");
+				ok(spy.calledOnce);
+				equal(firstCall.args[0], transaction.constructor);
+				equal(firstCall.args[1], transaction.get("uri"));
+				equal(firstCall.args[2].description, "changing desc");
 				Testing.restoreMethods(BalancedApp.Adapter.update);
 			});
 	},
 
-	assertDictionaryExists: function(app, baseDl, dictionary, assert) {
+	assertDictionaryExists: function(app, baseDl, dictionary) {
 		var dl = $(baseDl);
 
 		_.each(dictionary, function(value, label) {
 			var labelElement = dl.find("dt:contains(%@)".fmt(label));
 			var valueElement = labelElement.nextAll("dd:first");
-			assert.equal($.trim(labelElement.text()), label, "%@ contains dt with text \"%@\"".fmt("baseDl", label));
-			assert.equal($.trim(valueElement.text()), value, "%@ contains dd with text \"%@\"".fmt("baseDl", value));
+			equal($.trim(labelElement.text()), label, "%@ contains dt with text \"%@\"".fmt("baseDl", label));
+			equal($.trim(valueElement.text()), value, "%@ contains dd with text \"%@\"".fmt("baseDl", value));
 		});
 		return;
 	},
 
-	checkPageType: function(app, text, assert) {
-		var h1Text = $("#content .page-type").text().trim().replace(/\s+/gm, " ");
-		assert.deepEqual(h1Text, text);
-	},
-	checkPageTitle: function(app, text, assert) {
-		var h1Text = $("#content h1.page-title").text().trim().replace(/\s+/gm, " ");
-		assert.deepEqual(h1Text, text);
-	},
-	checkElements: function(app, hash) {
-		wait();
-
-		_.each(hash, function(val, selector) {
-			if (_.isObject(val)) {
-				if (val.count) {
-					equal($(selector).length, val.count, 'Element exists ' + selector);
-				}
-
-				if (val.text) {
-					equal($(selector).text().trim(), val, 'Text for ' + selector);
-				}
-
-				if (val.html) {
-					equal($(selector).html().trim(), val, 'Html for ' + selector);
-				}
-
-				if (val.classNames) {
-					if (!_.isArray(val.classNames)) {
-						val.classNames = [val.classNames];
-					}
-
-					_.each(val.classNames, function(key) {
-						ok($(selector).hasClass(key), selector + ' has class ' + key);
-					});
-				}
-
-				if (val.attr) {
-					_.each(val.attr, function(attrVal, attrName) {
-						equal($(selector).prop(attrName), attrVal, selector + ' has ' + attrName + '=' + attrVal);
-					});
-				}
-
-				if (val.id) {
-					equal($(selector).attr('id'), val.id, selector + ' has id=' + val.id);
-				}
-
-				if (val.hasText) {
-					ok($(selector).text().trim().length > 0, selector + ' has text');
-				}
-
-				if (val.hasChildren) {
-					ok($(selector).children().length > 0, selector + ' has children elements');
-				}
-			} else if (_.isNumber(val)) {
-				equal($(selector).length, val, 'Element exists ' + selector + ' ' + val + ' times');
-			} else if (_.isString(val)) {
-				equal($(selector).text().trim(), val, 'Text for ' + selector);
-			}
-		});
-
-		return wait();
-	},
 	assertClick: function(app, selector, message) {
 		message = message || "Clickable element " + selector + " exists";
 
@@ -157,79 +96,32 @@ Balanced.Test.asyncHelpers = {
 		return wait();
 	},
 	clickMultiple: function(app, clickEl, number) {
-		var clickCaller = function(number) {
-			if (number > 0) {
-				return click(clickEl).then(function() {
+		andThen(function() {
+			stop();
+			var clickCaller = function(number) {
+				if (number > 0) {
+					$(clickEl).click();
 					clickCaller(number - 1);
-				});
-			}
-		};
-		number = number || 10;
-
-		clickCaller(number);
-	},
-	waitForVisit: function(app, url, cb, err, time) {
-		visit(url);
-
-		return waitFor(function() {
-			if (cb()) {
-				return true;
-			}
-
-			visit(url);
-			wait();
-			return false;
-		}, err, time);
-	},
-	waitFor: function(app, cb, err, time) {
-		wait();
-
-		if (err && _.isNumber(err)) {
-			time = err;
-			err = null;
-		}
-
-		// Wait for up to 5 mins
-		time = time || 300000;
-
-		var startTime = new Date();
-		var runInterval = function() {
-			var elapsed = new Date() - startTime;
-			if (cb()) {
-				Testing.start();
-			} else if (elapsed >= time) {
-				// If an error message is included
-				// then something failed so throw an error
-				// otherwise, just start it
-				if (err) {
-					var error = new Error(err);
-					throw error;
-				} else {
-					Testing.start();
 				}
-			} else {
-				wait();
-				setTimeout(runInterval, 100);
-			}
-		};
-
-		setTimeout(runInterval, 0);
-		Ember.Logger.debug('Tests waiting for...');
-		return Testing.stop();
+				else {
+					start();
+				}
+			};
+			number = number || 10;
+			clickCaller(number);
+		});
 	},
-	onUrl: function(app, route, assert) {
+	onUrl: function(app, route) {
 		wait();
 
-		assert.equal(Balanced.__container__.lookup('router:main').get('url'), route, 'On correct url');
+		equal(Balanced.__container__.lookup('router:main').get('url'), route, 'On correct url');
 
 		return wait();
 	}
 };
 
-_.each(Balanced.Test.helpers || {}, function(fn, name) {
-	Ember.Test.registerHelper(name, fn);
-});
-
 _.each(Balanced.Test.asyncHelpers || {}, function(fn, name) {
 	Ember.Test.registerAsyncHelper(name, fn);
 });
+
+export default {};
