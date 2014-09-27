@@ -3,7 +3,7 @@ import Wide from "./mixins/wide-modal-mixin";
 import ModalBaseView from "./modal-base";
 
 var MarketplaceEditModalView = ModalBaseView.extend(Save, Wide, {
-	templateName: 'modals/marketplace_edit_modal',
+	templateName: 'modals/marketplace-edit-modal',
 	elementId: "edit-marketplace-info",
 	title: "Edit marketplace information",
 

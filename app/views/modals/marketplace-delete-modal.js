@@ -3,7 +3,7 @@ import DeleteMixin from "balanced-dashboard/views/modals/mixins/object-action-mi
 import Utils from "balanced-dashboard/lib/utils";
 
 var MarketplaceDeleteModalView = ModalBaseView.extend(DeleteMixin, {
-	templateName: 'modals/marketplace_delete_modal',
+	templateName: 'modals/marketplace-delete-modal',
 	title: "Remove marketplace?",
 	elementId: "delete-marketplace",
 

@@ -5,7 +5,7 @@ import ReverseCreditTransactionFactory from "balanced-dashboard/models/factories
 var ReverseCreditModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	elementId: "reverse-credit",
-	templateName: 'modals/reverse_credit_modal',
+	templateName: 'modals/reverse-credit-modal',
 	title: "Reverse credit",
 
 	model: function() {

@@ -2,7 +2,7 @@ import ModalBaseView from "./modal-base";
 
 var VerifyBankAccountModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
-	templateName: 'modals/verify_bank_account',
+	templateName: 'modals/verify-bank-account',
 	elementId: 'verify-bank-account',
 	title: "Bank account verification",
 

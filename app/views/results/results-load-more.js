@@ -2,7 +2,7 @@ import Ember from "ember";
 
 var ResultsLoadMoreView = Ember.View.extend({
 	tagName: "tfoot",
-	templateName: "results/results_load_more",
+	templateName: "results/results-load-more",
 	actions: {
 		loadMore: function(results) {
 			results.loadNextPage();

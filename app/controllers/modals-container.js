@@ -18,9 +18,12 @@ var ModalsContainerController = Ember.Controller.extend({
 	open: function(klass, args) {
 		this.close();
 		var modalView = klass;
-		if (Ember.typeOf(klass) === "class") {
-			modalView = klass.open.apply(klass, args);
+
+		if (_.isString(klass)) {
+			klass = this.get("container").lookupFactory("view:" + klass);
 		}
+
+		modalView = klass.open.apply(klass, args);
 
 		var modalsContainer = this.get("modalsContainer");
 

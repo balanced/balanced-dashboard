@@ -1,7 +1,7 @@
 import LoginView from "../login";
 
 var OtpView = LoginView.extend({
-	templateName: 'login_flow/otp',
+	templateName: 'login-flow/otp',
 	pageTitle: 'Two-factor authentication',
 
 	afterFormLink: function() {

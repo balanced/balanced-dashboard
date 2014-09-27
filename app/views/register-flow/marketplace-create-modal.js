@@ -4,7 +4,7 @@ import MarketplaceBankAccountCreateModalView from "./marketplace-bank-account-cr
 import Auth from "balanced-dashboard/auth";
 
 var MarketplaceCreateModalView = RegisterFlowBaseModalView.extend({
-	templateName: "register_flow/marketplace_create_modal",
+	templateName: "register-flow/marketplace-create-modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 2 of 3: Provide marketplace information",
 	submitButtonText: "Continue",

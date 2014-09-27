@@ -5,7 +5,7 @@ import MarketplaceBankAccountFactory from "balanced-dashboard/models/factories/m
 import InitialDepositTransactionFactory from "balanced-dashboard/models/factories/initial-deposit-transaction-factory";
 
 var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
-	templateName: "register_flow/marketplace_bank_account_create_modal",
+	templateName: "register-flow/marketplace-bank-account-create-modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 3 of 3: Add your bank account",
 	submitButtonText: "Complete registration",

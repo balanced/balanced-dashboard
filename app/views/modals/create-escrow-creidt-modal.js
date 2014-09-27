@@ -5,7 +5,7 @@ import DebitExistingBankAccountTransactionFactory from "balanced-dashboard/model
 
 var CreateEscrowCreditModalView = TransactionCreatorModalView.extend({
 	title: "Add funds",
-	templateName: "modals/create_escrow_credit",
+	templateName: "modals/create-escrow-credit",
 	elementId: "add-funds",
 
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,

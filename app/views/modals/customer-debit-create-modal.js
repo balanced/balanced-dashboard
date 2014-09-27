@@ -6,7 +6,7 @@ import DebitExistingFundingInstrumentTransactionFactory from "balanced-dashboard
 
 var CustomerDebitCreateModalView = ModalBaseView.extend(Wide, Save, {
 	elementId: "debit-customer",
-	templateName: "modals/customer_debit_create_modal",
+	templateName: "modals/customer-debit-create-modal",
 	title: "Debit this customer",
 
 	appearsOnStatementAsMaxLength: Ember.computed.oneWay("model.appears_on_statement_max_length"),

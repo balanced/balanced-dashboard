@@ -1,7 +1,7 @@
 import LoginView from "../login";
 
 var LogoutView = LoginView.extend({
-	templateName: 'login_flow/logout',
+	templateName: 'login-flow/logout',
 	pageTitle: 'Logout',
 	afterFormLink: function() {
 		return {

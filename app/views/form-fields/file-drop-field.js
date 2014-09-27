@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 var FileDropFieldView = Ember.View.extend({
-	templateName: 'form_fields/file_drop_field',
+	templateName: 'form-fields/file-drop-field',
 	dropMessage: 'Drag and drop files',
 
 	dragEnter: function() {

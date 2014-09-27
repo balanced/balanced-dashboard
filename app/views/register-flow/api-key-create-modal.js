@@ -17,7 +17,7 @@ var isApiErrorFor10 = function(response) {
 };
 
 var ApiKeyCreateModalView = RegisterFlowBaseModalView.extend({
-	templateName: "register_flow/api_key_create_modal",
+	templateName: "register-flow/api-key-create-modal",
 	title: "Register for a production marketplace",
 	subtitle: "Step 1 of 3: Provide business information",
 	submitButtonText: "Continue",

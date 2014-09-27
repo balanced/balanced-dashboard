@@ -1,7 +1,7 @@
 import BaseFormFieldView from "./base-form-field";
 
 var TextAreaFormFieldView = BaseFormFieldView.extend({
-	templateName: "form_fields/textarea_form_field",
+	templateName: "form-fields/textarea-form-field",
 	maxlength: 0,
 	explanationText: function() {
 		var maxLength = this.get('maxlength');

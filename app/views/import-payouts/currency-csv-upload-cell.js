@@ -2,7 +2,7 @@ import CsvUploadCellView from "./csv-upload-cell";
 import Utils from "balanced-dashboard/lib/utils";
 
 var CurrencyCsvUploadCellView = CsvUploadCellView.extend({
-	templateName: "import_payouts/default_csv_upload_cell",
+	templateName: "import-payouts/default-csv-upload-cell",
 
 	displayValue: function() {
 		if (this.get("isError")) {

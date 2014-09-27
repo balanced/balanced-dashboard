@@ -6,7 +6,7 @@ import CreditExistingFundingInstrumentTransactionFactory from "balanced-dashboar
 var MarketplaceEscrowWithdrawalModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
 	elementId: 'withdraw-funds',
-	templateName: 'modals/marketplace_escrow_withdrawal_modal',
+	templateName: 'modals/marketplace-escrow-withdrawal-modal',
 	title: "Withdraw Funds",
 
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,

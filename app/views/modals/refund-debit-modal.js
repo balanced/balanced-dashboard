@@ -4,7 +4,7 @@ import RefundDebitTransactionFactory from "balanced-dashboard/models/factories/r
 
 var RefundDebitModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
-	templateName: 'modals/refund_debit_modal',
+	templateName: 'modals/refund-debit-modal',
 	elementId: "refund-debit",
 	title: function() {
 		return "Refund this %@".fmt(this.get("recipient"));

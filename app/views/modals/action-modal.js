@@ -3,7 +3,7 @@ import ModalView from "./modal";
 
 var ActionModalView = ModalView.extend({
 	modalElement: Computed.concat('idElement', '#', true),
-	templateName: 'modals/action_modal',
+	templateName: 'modals/action-modal',
 
 	name: 'Override This',
 	description: 'Override This',

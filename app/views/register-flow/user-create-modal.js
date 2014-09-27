@@ -4,7 +4,7 @@ import UserAccountFactory from "balanced-dashboard/models/factories/user-account
 import Auth from "balanced-dashboard/auth";
 
 var UserCreateModalView = RegisterFlowBaseModal.extend({
-	templateName: "register_flow/user_create_modal",
+	templateName: "register-flow/user-create-modal",
 	logo: true,
 	title: "Balanced Dashboard",
 	description: "Manage your customers and transactions in one place from charging buyers to paying sellers. Get started by creating an account to obtain a test marketplace.",

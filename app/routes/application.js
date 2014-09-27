@@ -18,10 +18,6 @@ var ApplicationRoute = Ember.Route.extend(Ember.Evented, {
 		},
 		openModal: function(klass) {
 			var container = this.get("container");
-
-			if (_.isString(klass)) {
-				klass = container.lookupFactory("view:" + klass);
-			}
 			var args = _.toArray(arguments).slice(1);
 			return container
 				.lookup("controller:modals_container")
