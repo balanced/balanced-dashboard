@@ -1,18 +1,33 @@
-module('Logs', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Logs', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+		Testing.setupMarketplace();
 		Testing.setupMarketplace();
 		Testing.createDebits();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.get
+			Adapter.get
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
 var setLogsProperties = function() {
 	Ember.run(function() {
-		var controller = Balanced.__container__.lookup('controller:marketplaceLogs');
+		var controller = BalancedApp.__container__.lookup('controller:marketplaceLogs');
 		controller.get("resultsLoader").setProperties({
 			limit: 2,
 			startTime: null,
@@ -21,8 +36,8 @@ var setLogsProperties = function() {
 	});
 };
 
-test('can visit page', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, 'get');
+test('can visit page', function() {
+	var spy = sinon.spy(Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
@@ -31,9 +46,9 @@ test('can visit page', function(assert) {
 		})
 		.then(function() {
 			var logRequest = spy.getCall(spy.callCount - 1);
-			var query = Balanced.Utils.queryStringToObject(logRequest.args[1]);
-			assert.equal(logRequest.args[0], Balanced.Log);
-			assert.deepEqual(query, {
+			var query = Models.Utils.queryStringToObject(logRequest.args[1]);
+			equal(logRequest.args[0], Models.Log);
+			deepEqual(query, {
 				limit: "2",
 				sort: "created_at,desc",
 				"method[in]": "post,put,delete"
@@ -41,21 +56,21 @@ test('can visit page', function(assert) {
 		})
 		.checkElements({
 			'#content h1': "Logs"
-		}, assert);
+		});
 });
 
-test('filter logs by datetime range', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, 'get');
+test('filter logs by datetime range', function() {
+	var spy = sinon.spy(Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
 		.click('#content .datetime-picker')
 		.then(function() {
-			assert.equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
+			equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
 			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
 		.then(function() {
-			var controller = Balanced.__container__.lookup('controller:marketplaceLogs');
+			var controller = BalancedApp.__container__.lookup('controller:marketplaceLogs');
 			controller.get("resultsLoader").setProperties({
 				startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
 				endTime: moment('2013-08-01T23:59:59.999Z').toDate()
@@ -64,10 +79,10 @@ test('filter logs by datetime range', function(assert) {
 		.click('.daterangepicker:visible .buttons button.applyBtn')
 		.then(function() {
 			var request = spy.lastCall;
-			assert.equal(request.args[0], Balanced.Log);
+			equal(request.args[0], Models.Log);
 
-			var query = Balanced.Utils.queryStringToObject(request.args[1]);
-			assert.deepEqual(query, {
+			var query = Models.Utils.queryStringToObject(request.args[1]);
+			deepEqual(query, {
 				"created_at[<]": "2013-08-01T23:59:59.999Z",
 				"created_at[>]": "2013-08-01T00:00:00.000Z",
 				limit: "50",
@@ -78,8 +93,8 @@ test('filter logs by datetime range', function(assert) {
 });
 
 
-test('filter logs by request failed only', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, 'get');
+test('filter logs by request failed only', function() {
+	var spy = sinon.spy(Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
@@ -88,9 +103,9 @@ test('filter logs by request failed only', function(assert) {
 		})
 		.click('.results .status-filter a:contains(Failed)')
 		.then(function() {
-			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
-			assert.equal(spy.lastCall.args[0], Balanced.Log);
-			assert.deepEqual(query, {
+			var query = Models.Utils.queryStringToObject(spy.lastCall.args[1]);
+			equal(spy.lastCall.args[0], Models.Log);
+			deepEqual(query, {
 				limit: "2",
 				sort: "created_at,desc",
 				"method[in]": "post,put,delete",
@@ -101,11 +116,11 @@ test('filter logs by request failed only', function(assert) {
 			'table.logs tbody tr': 1,
 			'table.logs tfoot td': "",
 			'table.logs tbody tr td': 'No results'
-		}, assert);
+		});
 });
 
-test('filter logs by endpoint bank accounts', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, 'get');
+test('filter logs by endpoint bank accounts', function() {
+	var spy = sinon.spy(Adapter, 'get');
 
 	visit(Testing.LOGS_ROUTE)
 		.click('#marketplace-nav i.icon-logs')
@@ -114,8 +129,8 @@ test('filter logs by endpoint bank accounts', function(assert) {
 		})
 		.click('.results .endpoint-filter a:contains(Bank accounts)')
 		.then(function() {
-			var query = Balanced.Utils.queryStringToObject(spy.lastCall.args[1]);
-			assert.deepEqual(query, {
+			var query = Models.Utils.queryStringToObject(spy.lastCall.args[1]);
+			deepEqual(query, {
 				endpoint: "bank_accounts",
 				limit: "2",
 				"method[in]": "post,put,delete",

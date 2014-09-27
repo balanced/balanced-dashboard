@@ -12,7 +12,7 @@ module('Integration - AddCustomer', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
-		Testing.setupMarketplace(App);
+		Testing.setupMarketplace();
 	},
 	teardown: function() {
 		Testing.restoreMethods(

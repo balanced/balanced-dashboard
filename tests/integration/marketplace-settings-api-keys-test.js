@@ -1,5 +1,18 @@
-module('Marketplace Settings Api Keys', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Marketplace Settings Api Keys', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
@@ -8,22 +21,23 @@ module('Marketplace Settings Api Keys', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.APIKey.prototype.save,
-			BalancedApp.Adapter.create,
-			BalancedApp.Adapter['delete'],
-			BalancedApp.Adapter.update,
+			Models.APIKey.prototype.save,
+			Adapter.create,
+			Adapter['delete'],
+			Adapter.update,
 			balanced.bankAccount.create,
 			balanced.card.create,
 			Ember.Logger.error
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can manage api keys', function(assert) {
+test('can manage api keys', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.checkElements({
 			'.api-keys-info tbody tr': 1
-		}, assert)
+		})
 		.click('.create-api-key-btn')
 		.fillIn(".modal.create-api-key", {
 			apiKeyName: "Cool Api Key"
@@ -31,32 +45,32 @@ test('can manage api keys', function(assert) {
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.checkElements({
 			'.api-keys-info tbody tr': 2
-		}, assert)
+		})
 		.click('.confirm-delete-key:first')
 		.checkElements({
 			'.modal.delete-key:visible': 1
-		}, assert)
+		})
 		.click('.modal.delete-key:visible button[name=modal-submit]')
 		.checkElements({
 			'.api-keys-info tbody tr': 1
-		}, assert);
+		});
 });
 
-test('can add api key', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, 'create');
+test('can add api key', function() {
+	var stub = sinon.stub(Adapter, 'create');
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.APIKey));
+			ok(stub.calledOnce);
+			ok(stub.calledWith(Models.APIKey));
 		})
 		.click('.create-api-key-btn')
 		.fillIn('.modal.create-api-key input.full', 'Test1234')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledTwice);
-			assert.ok(stub.getCall(1).calledWith(
+			ok(stub.calledTwice);
+			ok(stub.getCall(1).calledWith(
 				sinon.match.any,
 				sinon.match.any,
 				sinon.match.has('meta', {
@@ -66,10 +80,10 @@ test('can add api key', function(assert) {
 		});
 });
 
-test('adding api key updates auth', function(assert) {
+test('adding api key updates auth', function() {
 	var testSecret = 'amazing-secret';
-	var saveStub = sinon.stub(Balanced.APIKey.prototype, 'save');
-	var stub = sinon.stub(BalancedApp.Adapter, 'create');
+	var saveStub = sinon.stub(Models.APIKey.prototype, 'save');
+	var stub = sinon.stub(Adapter, 'create');
 	saveStub.returns({
 		then: function(callback) {
 			callback(Ember.Object.create({
@@ -82,39 +96,39 @@ test('adding api key updates auth', function(assert) {
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(
-				Balanced.UserMarketplace,
+			ok(stub.calledOnce);
+			ok(stub.calledWith(
+				Models.UserMarketplace,
 				sinon.match.any,
 				sinon.match.has('secret', testSecret)
 			));
 		});
 });
 
-test('cannot delete current api key without a replacement', function(assert) {
+test('cannot delete current api key without a replacement', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.checkElements({
 			".confirm-delete-key": 0
-		}, assert)
+		})
 		.then(function() {
-			assert.equal($('.confirm-delete-key').length, 0);
+			equal($('.confirm-delete-key').length, 0);
 		})
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.checkElements({
 			".confirm-delete-key": 2
-		}, assert);
+		});
 });
 
-test('can delete api key', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, 'delete');
+test('can delete api key', function() {
+	var stub = sinon.stub(Adapter, 'delete');
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.create-api-key-btn')
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.click('.confirm-delete-key:first')
 		.click('.modal.delete-key button[name=modal-submit]:visible')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.APIKey));
+			ok(stub.calledOnce);
+			ok(stub.calledWith(Models.APIKey));
 		});
 });

@@ -1,9 +1,22 @@
-module('Marketplace Settings Webhooks', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Marketplace Settings Webhooks', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 
 		Ember.run(function() {
-			Balanced.Callback.create({
+			Models.Callback.create({
 				uri: '/callbacks',
 				url: 'http://api.com/something',
 				revision: '1.0'
@@ -14,24 +27,25 @@ module('Marketplace Settings Webhooks', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.create,
-			BalancedApp.Adapter['delete'],
-			BalancedApp.Adapter.update,
+			Adapter.create,
+			Adapter['delete'],
+			Adapter.update,
 			Ember.Logger.error
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
 
-test('shows webhooks', function(assert) {
+test('shows webhooks', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.checkElements({
 			".webhooks tbody tr": 1
-		}, assert);
+		});
 });
 
-test('can add webhooks', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test('can add webhooks', function() {
+	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
@@ -39,14 +53,14 @@ test('can add webhooks', function(assert) {
 		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.0')
 		.click('#add-callback .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.equal(stub.getCall(0).args[2].revision, '1.0');
-			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
+			ok(stub.calledOnce);
+			equal(stub.getCall(0).args[2].revision, '1.0');
+			equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
 		});
 });
 
-test('webhooks get created once if submit button is clicked multiple times', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test('webhooks get created once if submit button is clicked multiple times', function() {
+	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click(".webhook-info .add")
@@ -56,23 +70,23 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 		.click('#add-callback .modal-footer button[name=modal-submit]')
 		.click('#add-callback .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.equal(stub.getCall(0).args[2].revision, '1.1');
-			assert.equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
+			ok(stub.calledOnce);
+			equal(stub.getCall(0).args[2].revision, '1.1');
+			equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
 		});
 });
 
-test('can delete webhooks', function(assert) {
+test('can delete webhooks', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.webhooks tbody tr:first a.delete-callback-link')
 		.click('#delete-callback:visible .modal-footer button[name=modal-submit]')
 		.checkElements({
 			".webhooks tbody td.no-results": 1
-		}, assert);
+		});
 });
 
-test('delete webhooks only submits once even if clicked multiple times', function(assert) {
-	var spy = sinon.stub(BalancedApp.Adapter, "delete");
+test('delete webhooks only submits once even if clicked multiple times', function() {
+	var spy = sinon.stub(Adapter, "delete");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.click('.webhooks tbody tr:first a.delete-callback-link')
@@ -81,6 +95,6 @@ test('delete webhooks only submits once even if clicked multiple times', functio
 		.click('#delete-callback .modal-footer button[name=modal-submit]')
 		.click('#delete-callback .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
+			ok(spy.calledOnce);
 		});
 });

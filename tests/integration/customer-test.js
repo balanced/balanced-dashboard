@@ -1,28 +1,42 @@
-module('Customer Page', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Customer Page', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.update,
-			BalancedApp.Adapter.create,
-			BalancedApp.Adapter["delete"],
+			Adapter.update,
+			Adapter.create,
+			Adapter["delete"],
 			balanced.bankAccount.create,
 			balanced.card.create
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can view customer page', function(assert) {
+test('can view customer page', function() {
 	visit(Testing.CUSTOMER_ROUTE)
-		.checkPageType("Customer", assert)
-		.checkPageTitle("William Henry Cavendish III", assert);
+		.checkPageType("Customer")
+		.checkPageTitle("William Henry Cavendish III");
 });
 
-test('can edit customer info', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "update");
+test('can edit customer info', function() {
+	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a.icon-edit')
@@ -32,14 +46,14 @@ test('can edit customer info', function(assert) {
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
 			var args = spy.firstCall.args;
-			assert.ok(spy.calledOnce);
-			assert.deepEqual(args.slice(0, 2), [
-				Balanced.Customer,
+			ok(spy.calledOnce);
+			deepEqual(args.slice(0, 2), [
+				Models.Customer,
 				"/customers/%@".fmt(Testing.CUSTOMER_ID)
 			]);
-			assert.deepEqual(args[2].name, "TEST");
-			assert.deepEqual(args[2].email, "whc@example.org");
-			assert.deepEqual(args[2].address, {
+			deepEqual(args[2].name, "TEST");
+			deepEqual(args[2].email, "whc@example.org");
+			deepEqual(args[2].address, {
 				"city": "Nowhere",
 				"country_code": null,
 				"line1": null,
@@ -50,8 +64,8 @@ test('can edit customer info', function(assert) {
 		});
 });
 
-test('can update customer info', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "update");
+test('can update customer info', function() {
+	var stub = sinon.stub(Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a.icon-edit')
@@ -94,17 +108,17 @@ test('can update customer info', function(assert) {
 				},
 			};
 
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.args[0], Balanced.Customer);
+			ok(stub.calledOnce);
+			ok(stub.args[0], Models.Customer);
 
 			_.each(argsObject, function(val, key) {
-				assert.deepEqual(stub.getCall(0).args[2][key], val);
+				deepEqual(stub.getCall(0).args[2][key], val);
 			});
 		});
 });
 
-test('can update customer info only some fields', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "update");
+test('can update customer info only some fields', function() {
+	var stub = sinon.stub(Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a.icon-edit')
@@ -123,28 +137,28 @@ test('can update customer info only some fields', function(assert) {
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Customer));
+			ok(stub.calledOnce);
+			ok(stub.calledWith(Models.Customer));
 
-			assert.deepEqual(stub.getCall(0).args[2].name, "William Henry Cavendish III");
-			assert.deepEqual(stub.getCall(0).args[2].email, "whc@example.org");
-			assert.deepEqual(stub.getCall(0).args[2].business_name, null);
-			assert.deepEqual(stub.getCall(0).args[2].ein, null);
-			assert.deepEqual(stub.getCall(0).args[2].address.line1, '1 1st St');
-			assert.deepEqual(stub.getCall(0).args[2].address.line2, null);
-			assert.deepEqual(stub.getCall(0).args[2].address.city, null);
-			assert.deepEqual(stub.getCall(0).args[2].address.state, null);
-			assert.deepEqual(stub.getCall(0).args[2].address.country_code, null);
-			assert.deepEqual(stub.getCall(0).args[2].address.postal_code, null);
-			assert.deepEqual(stub.getCall(0).args[2].phone, "1231231234");
-			assert.deepEqual(stub.getCall(0).args[2].dob_month, 2);
-			assert.deepEqual(stub.getCall(0).args[2].dob_year, 1947);
-			assert.deepEqual(stub.getCall(0).args[2].ssn_last4, "xxxx");
+			deepEqual(stub.getCall(0).args[2].name, "William Henry Cavendish III");
+			deepEqual(stub.getCall(0).args[2].email, "whc@example.org");
+			deepEqual(stub.getCall(0).args[2].business_name, null);
+			deepEqual(stub.getCall(0).args[2].ein, null);
+			deepEqual(stub.getCall(0).args[2].address.line1, '1 1st St');
+			deepEqual(stub.getCall(0).args[2].address.line2, null);
+			deepEqual(stub.getCall(0).args[2].address.city, null);
+			deepEqual(stub.getCall(0).args[2].address.state, null);
+			deepEqual(stub.getCall(0).args[2].address.country_code, null);
+			deepEqual(stub.getCall(0).args[2].address.postal_code, null);
+			deepEqual(stub.getCall(0).args[2].phone, "1231231234");
+			deepEqual(stub.getCall(0).args[2].dob_month, 2);
+			deepEqual(stub.getCall(0).args[2].dob_year, 1947);
+			deepEqual(stub.getCall(0).args[2].ssn_last4, "xxxx");
 		});
 });
 
-test('can debit customer using card', function(assert) {
-	var spy = sinon.stub(BalancedApp.Adapter, "create");
+test('can debit customer using card', function() {
+	var spy = sinon.stub(Adapter, "create");
 	var fundingInstrumentUri;
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -153,7 +167,7 @@ test('can debit customer using card', function(assert) {
 			"#debit-customer form select[name=source] option": 3,
 			"#debit-customer form select[name=source] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
 			"#debit-customer form select[name=source] option:eq(2)": "Credit card: 1111 Visa"
-		}, assert)
+		})
 		.then(function() {
 			fundingInstrumentUri = $("#debit-customer form select[name=source] option:eq(2)").val();
 			$("#debit-customer form select[name=source]").val(fundingInstrumentUri).change();
@@ -165,9 +179,9 @@ test('can debit customer using card', function(assert) {
 		})
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
+			ok(spy.calledOnce);
 			var firstCall = spy.firstCall;
-			assert.deepEqual(firstCall.args.slice(0, 3), [Balanced.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID), {
+			deepEqual(firstCall.args.slice(0, 3), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID), {
 				amount: "100000",
 				description: "Card debit",
 				appears_on_statement_as: "Cool",
@@ -176,8 +190,8 @@ test('can debit customer using card', function(assert) {
 		});
 });
 
-test('can debit customer using bank account', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "create");
+test('can debit customer using bank account', function() {
+	var spy = sinon.spy(Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -185,7 +199,7 @@ test('can debit customer using bank account', function(assert) {
 			"#debit-customer form select[name=source] option": 3,
 			"#debit-customer form select[name=source] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
 			"#debit-customer form select[name=source] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
-		}, assert)
+		})
 		.then(function() {
 			var fundingInstrument = $("#debit-customer form select[name=source] option").eq(0).val();
 			$("#debit-customer select[name=source]").val(fundingInstrument);
@@ -198,9 +212,9 @@ test('can debit customer using bank account', function(assert) {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			assert.ok(spy.calledOnce);
+			ok(spy.calledOnce);
 			var firstCall = spy.firstCall;
-			assert.deepEqual(firstCall.args.slice(0, 3), [Balanced.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID), {
+			deepEqual(firstCall.args.slice(0, 3), [Models.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID), {
 				amount: "100000",
 				description: "Test debit",
 				appears_on_statement_as: "Cool",
@@ -209,8 +223,8 @@ test('can debit customer using bank account', function(assert) {
 		});
 });
 
-test("can't debit customer multiple times using the same modal", function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test("can't debit customer multiple times using the same modal", function() {
+	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -228,8 +242,8 @@ test("can't debit customer multiple times using the same modal", function(assert
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.deepEqual(stub.firstCall.args.slice(0, 3), [Balanced.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID), {
+			ok(stub.calledOnce);
+			deepEqual(stub.firstCall.args.slice(0, 3), [Models.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID), {
 				amount: "100000",
 				appears_on_statement_as: "Cool",
 				description: "Test debit",
@@ -238,8 +252,8 @@ test("can't debit customer multiple times using the same modal", function(assert
 		});
 });
 
-test("debit customer triggers reload of transactions", function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "get");
+test("debit customer triggers reload of transactions", function() {
+	var spy = sinon.spy(Adapter, "get");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -250,31 +264,34 @@ test("debit customer triggers reload of transactions", function(assert) {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			assert.ok(spy.calledWith(Balanced.Transaction));
+			ok(spy.calledWith(Models.Transaction));
 		});
 });
 
-module('Customer Page: Credit', {
+module('Integration - Customer Page: Credit', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+		Testing.setupMarketplace();
 		Testing.setupMarketplace();
 		Testing.createCreditCard();
 		Testing.createDebitCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.create
+			Adapter.create
 		);
 	}
 });
 
-test('can credit to a debit card', function(assert) {
-	var spy = sinon.stub(BalancedApp.Adapter, "create");
+test('can credit to a debit card', function() {
+	var spy = sinon.stub(Adapter, "create");
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Credit)")
 		.checkElements({
 			"#credit-customer form select[name=destination] option:contains(Checking account: 5555 Wells Fargo Bank Na)": 1,
 			"#credit-customer form select[name=destination] option:contains(Debit card: 5556 Visa)": 1
-		}, assert)
+		})
 		.then(function() {
 			var fundingInstrument = $("#credit-customer form select[name=destination] option:contains(Debit card: 5556 Visa)").val();
 			$("#credit-customer form select[name=destination]").val(fundingInstrument).change();
@@ -287,17 +304,17 @@ test('can credit to a debit card', function(assert) {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			var card = Balanced.__container__.lookup("controller:customer").get("model.creditable_cards").objectAt(0);
-			assert.ok(spy.calledOnce, "Create was called once");
-			assert.equal(spy.firstCall.args[0], Balanced.Credit);
-			assert.equal(spy.firstCall.args[1], card.get("uri") + '/credits');
+			var card = BalancedApp.__container__.lookup("controller:customer").get("model.creditable_cards").objectAt(0);
+			ok(spy.calledOnce, "Create was called once");
+			equal(spy.firstCall.args[0], Models.Credit);
+			equal(spy.firstCall.args[1], card.get("uri") + '/credits');
 
-			assert.deepEqual(spy.firstCall.args[2].amount, '100');
-			assert.deepEqual(spy.firstCall.args[2].description, "Test credit to a debit card");
+			deepEqual(spy.firstCall.args[2].amount, '100');
+			deepEqual(spy.firstCall.args[2].description, "Test credit to a debit card");
 		});
 });
 
-test('when crediting customer triggers an error, the error is displayed to the user', function(assert) {
+test('when crediting customer triggers an error, the error is displayed to the user', function() {
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Credit)")
 		.fillForm('#credit-customer', {
@@ -308,11 +325,11 @@ test('when crediting customer triggers an error, the error is displayed to the u
 		})
 		.checkElements({
 			"#credit-customer .alert-error:contains(can't be blank)": 1
-		}, assert);
+		});
 });
 
-test("can't credit customer multiple times using the same modal", function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test("can't credit customer multiple times using the same modal", function() {
+	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Credit)")
@@ -326,26 +343,29 @@ test("can't credit customer multiple times using the same modal", function(asser
 		.click('#credit-customer .modal-footer button[name=modal-submit]')
 		.click('#credit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.deepEqual(stub.callCount, 1, "Create is created only once");
+			deepEqual(stub.callCount, 1, "Create is created only once");
 		});
 });
 
-module('Customer Page: Add', {
+module('Integration - Customer Page: Add', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+		Testing.setupMarketplace();
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.create,
+			Adapter.create,
 			balanced.bankAccount.create,
 			balanced.card.create
 		);
 	}
 });
 
-test('can add bank account', function(assert) {
+test('can add bank account', function() {
 	var tokenizingSpy = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -365,15 +385,15 @@ test('can add bank account', function(assert) {
 				routing_number: "123123123"
 			};
 			var callArgs = tokenizingSpy.firstCall.args[0];
-			assert.ok(tokenizingSpy.calledOnce);
+			ok(tokenizingSpy.calledOnce);
 
 			_.each(expectedArgs, function(val, key) {
-				assert.equal(callArgs[key], val);
+				equal(callArgs[key], val);
 			});
 		});
 });
 
-test('can add card', function(assert) {
+test('can add card', function() {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	var stub = tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -410,15 +430,15 @@ test('can add card', function(assert) {
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			var callArgs = tokenizingStub.firstCall.args;
-			assert.ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledOnce);
 			_.each(expectedArgs, function(val, key) {
-				assert.deepEqual(callArgs[0][key], val);
+				deepEqual(callArgs[0][key], val);
 			});
 		});
 });
 
-test('can add card with postal code', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test('can add card with postal code', function() {
+	var stub = sinon.stub(Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 
 	tokenizingStub.callsArgWith(1, {
@@ -457,15 +477,15 @@ test('can add card with postal code', function(assert) {
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			var callArgs = tokenizingStub.firstCall.args;
-			assert.ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledOnce);
 			_.each(expected, function(val, key) {
-				assert.deepEqual(callArgs[0][key], val);
+				deepEqual(callArgs[0][key], val);
 			});
 		});
 });
 
-test('can add card with address', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test('can add card with address', function() {
+	var stub = sinon.stub(Adapter, "create");
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -511,19 +531,19 @@ test('can add card with address', function(assert) {
 		.then(function() {
 
 			// this tests balanced.js
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith(sinon.match(expected)));
+			ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledWith(sinon.match(expected)));
 			var callArgs = tokenizingStub.firstCall.args;
-			assert.ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledOnce);
 			_.each(expected, function(val, key) {
-				assert.deepEqual(callArgs[0][key], val);
+				deepEqual(callArgs[0][key], val);
 			});
 		});
 });
 
-test('verification renders properly against rev1', function(assert) {
+test('verification renders properly against rev1', function() {
 	visit(Testing.CUSTOMER_ROUTE)
 		.checkElements({
 			".status.verified": "Verified"
-		}, assert);
+		});
 });

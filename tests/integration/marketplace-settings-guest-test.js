@@ -1,5 +1,18 @@
-module('Marketplace Settings Guest', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Marketplace Settings Guest', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
@@ -8,31 +21,32 @@ module('Marketplace Settings Guest', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.APIKey.prototype.save,
-			BalancedApp.Adapter.create,
-			BalancedApp.Adapter['delete'],
-			BalancedApp.Adapter.update,
+			Models.APIKey.prototype.save,
+			Adapter.create,
+			Adapter['delete'],
+			Adapter.update,
 			balanced.bankAccount.create,
 			balanced.card.create,
 			Ember.Logger.error
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can visit page', function(assert) {
+test('can visit page', function() {
 	visit(Testing.SETTINGS_ROUTE)
-		.checkPageTitle("Settings", assert)
+		.checkPageTitle("Settings")
 		.checkElements({
 			'#user-menu > a.dropdown-toggle.gravatar': "Guest user",
 			'.notification-center-message': 1
-		}, assert);
+		});
 });
 
-test('can update marketplace info', function(assert) {
+test('can update marketplace info', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			Ember.run(function() {
-				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+				var model = BalancedApp.__container__.lookup('controller:marketplaceSettings').get('model');
 				model.set('production', true);
 			});
 		})
@@ -41,16 +55,16 @@ test('can update marketplace info', function(assert) {
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.checkElements({
 			'.key-value-display:first dd:contains(Test boogie boo)': 1
-		}, assert);
+		});
 });
 
-test('updating marketplace info only submits once despite multiple clicks', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "update");
+test('updating marketplace info only submits once despite multiple clicks', function() {
+	var stub = sinon.stub(Adapter, "update");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			Ember.run(function() {
-				var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+				var model = BalancedApp.__container__.lookup('controller:marketplaceSettings').get('model');
 				model.set('production', true);
 			});
 		})
@@ -60,18 +74,18 @@ test('updating marketplace info only submits once despite multiple clicks', func
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.click('#edit-marketplace-info .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
+			ok(stub.calledOnce);
 		});
 });
 
-test('can update owner info', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "update");
+test('can update owner info', function() {
+	var stub = sinon.stub(Adapter, "update");
 
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
-			var model = Balanced.__container__.lookup('controller:marketplaceSettings').get('model');
+			var model = BalancedApp.__container__.lookup('controller:marketplaceSettings').get('model');
 			Ember.run(function() {
-				model.set('owner_customer', Balanced.Customer.create());
+				model.set('owner_customer', Models.Customer.create());
 				model.set('production', true);
 			});
 		})
@@ -95,26 +109,26 @@ test('can update owner info', function(assert) {
 		})
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Customer));
-			assert.equal(stub.getCall(0).args[2].name, "TEST");
-			assert.equal(stub.getCall(0).args[2].email, "TEST@example.com");
-			assert.equal(stub.getCall(0).args[2].business_name, "TEST");
-			assert.equal(stub.getCall(0).args[2].ein, "1234");
-			assert.equal(stub.getCall(0).args[2].address.line1, "600 William St");
-			assert.equal(stub.getCall(0).args[2].address.line2, "Apt 400");
-			assert.equal(stub.getCall(0).args[2].address.city, "Oakland");
-			assert.equal(stub.getCall(0).args[2].address.state, "CA");
-			assert.equal(stub.getCall(0).args[2].address.country_code, "US");
-			assert.equal(stub.getCall(0).args[2].address.postal_code, "12345");
-			assert.equal(stub.getCall(0).args[2].phone, "1231231234");
-			assert.equal(stub.getCall(0).args[2].dob_month, "12");
-			assert.equal(stub.getCall(0).args[2].dob_year, "1924");
-			assert.equal(stub.getCall(0).args[2].ssn_last4, "1234");
+			ok(stub.calledOnce);
+			ok(stub.calledWith(Models.Customer));
+			equal(stub.getCall(0).args[2].name, "TEST");
+			equal(stub.getCall(0).args[2].email, "TEST@example.com");
+			equal(stub.getCall(0).args[2].business_name, "TEST");
+			equal(stub.getCall(0).args[2].ein, "1234");
+			equal(stub.getCall(0).args[2].address.line1, "600 William St");
+			equal(stub.getCall(0).args[2].address.line2, "Apt 400");
+			equal(stub.getCall(0).args[2].address.city, "Oakland");
+			equal(stub.getCall(0).args[2].address.state, "CA");
+			equal(stub.getCall(0).args[2].address.country_code, "US");
+			equal(stub.getCall(0).args[2].address.postal_code, "12345");
+			equal(stub.getCall(0).args[2].phone, "1231231234");
+			equal(stub.getCall(0).args[2].dob_month, "12");
+			equal(stub.getCall(0).args[2].dob_year, "1924");
+			equal(stub.getCall(0).args[2].ssn_last4, "1234");
 		});
 });
 
-test('can create checking accounts', function(assert) {
+test('can create checking accounts', function() {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -133,8 +147,8 @@ test('can create checking accounts', function(assert) {
 		})
 		.click('#add-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
+			ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledWith({
 				account_type: "checking",
 				name: "TEST",
 				account_number: "123",
@@ -143,7 +157,7 @@ test('can create checking accounts', function(assert) {
 		});
 });
 
-test('can fail at creating bank accounts', function(assert) {
+test('can fail at creating bank accounts', function() {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 400,
@@ -172,20 +186,20 @@ test('can fail at creating bank accounts', function(assert) {
 		})
 		.click('#add-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
+			ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledWith({
 				account_type: "checking",
 				name: "TEST",
 				account_number: "123",
 				routing_number: "123123123abc"
 			}));
 
-			assert.ok($('#add-bank-account .modal-body input[name=routing_number]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
-			assert.equal($('#add-bank-account .modal-body input[name=routing_number]').next().text().trim(), '"321171184abc" must have length <= 9');
+			ok($('#add-bank-account .modal-body input[name=routing_number]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
+			equal($('#add-bank-account .modal-body input[name=routing_number]').next().text().trim(), '"321171184abc" must have length <= 9');
 		});
 });
 
-test('can create savings accounts', function(assert) {
+test('can create savings accounts', function() {
 	var tokenizingStub = sinon.stub(balanced.bankAccount, "create");
 
 	visit(Testing.SETTINGS_ROUTE)
@@ -199,8 +213,8 @@ test('can create savings accounts', function(assert) {
 		.click('#add-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
 			// test balanced.js
-			assert.ok(tokenizingStub.calledOnce);
-			assert.ok(tokenizingStub.calledWith({
+			ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledWith({
 				account_type: "savings",
 				name: "TEST",
 				account_number: "123",
@@ -209,7 +223,7 @@ test('can create savings accounts', function(assert) {
 		});
 });
 
-test('can create cards', function(assert) {
+test('can create cards', function() {
 	var tokenizingStub = sinon.stub(balanced.card, "create");
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -229,7 +243,7 @@ test('can create cards', function(assert) {
 		})
 		.click('#add-card .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(tokenizingStub.calledWith(sinon.match({
+			ok(tokenizingStub.calledWith(sinon.match({
 				name: "TEST",
 				number: "1234123412341234",
 				cvv: "123",
@@ -237,6 +251,6 @@ test('can create cards', function(assert) {
 				expiration_year: 2020,
 				address: {}
 			})));
-			assert.ok(tokenizingStub.calledOnce);
+			ok(tokenizingStub.calledOnce);
 		});
 });

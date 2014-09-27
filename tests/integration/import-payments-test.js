@@ -1,9 +1,24 @@
-module("ImportPayments", {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module("Integration - ImportPayments", {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createDebits();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Ember.run(App, 'destroy');		
+	}
 });
 
 var matchProperties = function(object, properties) {
@@ -16,10 +31,10 @@ var matchProperties = function(object, properties) {
 
 var assertProperties = function(assert, object, expectedProperties, message) {
 	var actualProperties = matchProperties(object, _.keys(expectedProperties));
-	assert.deepEqual(actualProperties, expectedProperties, message);
+	deepEqual(actualProperties, expectedProperties, message);
 };
 
-asyncTest("Read and process CSV data", function(assert) {
+asyncTest("Read and process CSV data", function() {
 	var expectations = [{
 		customer: {
 			name: "Harry Tan",
@@ -90,7 +105,7 @@ asyncTest("Read and process CSV data", function(assert) {
 		return expectation !== null;
 	});
 
-	var mp = Balanced.currentMarketplace;
+	var mp = Models.currentMarketplace;
 
 	var csvString = [
 		"new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
@@ -100,7 +115,7 @@ asyncTest("Read and process CSV data", function(assert) {
 		"Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]"
 	].join("\n");
 
-	var collection = Balanced.CreditCreatorsCollection.fromCsvText(mp, csvString);
+	var collection = Models.CreditCreatorsCollection.fromCsvText(mp, csvString);
 
 	expectations.forEach(function(objects, index) {
 		var obj = collection.objectAt(index);
@@ -109,8 +124,8 @@ asyncTest("Read and process CSV data", function(assert) {
 		});
 	});
 
-	assert.equal(collection.get("length"), 4, "Is correct length");
-	assert.deepEqual(collection.objectAt(0).get("csvFields"), {
+	equal(collection.get("length"), 4, "Is correct length");
+	deepEqual(collection.objectAt(0).get("csvFields"), {
 		new_customer_name: "Harry Tan",
 		new_customer_email: "harry.tan@example.com",
 		new_bank_routing_number: "121000358",
@@ -123,7 +138,7 @@ asyncTest("Read and process CSV data", function(assert) {
 	}, "CSV fields are correct");
 
 	collection.save(function(results) {
-		var credits = Balanced.currentMarketplace.get("credits");
+		var credits = Models.currentMarketplace.get("credits");
 		assertProperties(assert, credits.objectAt(1), expectations[0].credit, "Saved credit 0");
 		assertProperties(assert, credits.objectAt(0), expectations[3].credit, "Saved credit 1");
 		start();

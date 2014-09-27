@@ -1,16 +1,30 @@
-module('Disputes (non-deterministic)', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Disputes (non-deterministic)', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createDisputes();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.create
+			Adapter.create
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('exist on the dispute page', function(assert) {
+test('exist on the dispute page', function() {
 	var DISPUTES_ROUTE = Testing.MARKETPLACE_ROUTE + '/disputes';
 	var activityDisputesPage = {
 		'table.disputes tbody tr:eq(0) td.date.initiated': 1,
@@ -22,20 +36,20 @@ test('exist on the dispute page', function(assert) {
 		'table.disputes tfoot td:eq(0)': 1
 	};
 	Ember.run(function() {
-		var disputesController = Balanced.__container__.lookup('controller:marketplaceDisputes');
+		var disputesController = BalancedApp.__container__.lookup('controller:marketplaceDisputes');
 		disputesController.set("limit", 2);
 	});
 
 	visit(DISPUTES_ROUTE)
 		.then(function() {
-			assert.ok($('table.disputes tbody tr').length >= 1, 'Correct # of Rows');
+			ok($('table.disputes tbody tr').length >= 1, 'Correct # of Rows');
 
 			// Manually check the disputes uri is correct
-			var disputesController = Balanced.__container__.lookup('controller:marketplaceDisputes');
-			assert.equal(disputesController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
-			assert.ok(disputesController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
+			var disputesController = BalancedApp.__container__.lookup('controller:marketplaceDisputes');
+			equal(disputesController.get('results_base_uri'), '/disputes', 'Disputes URI is correct');
+			ok(disputesController.get('results_uri').indexOf('sort=initiated_at') > 0, 'Disputes Sort is correct');
 		})
-		.checkElements(activityDisputesPage, assert)
+		.checkElements(activityDisputesPage)
 		.then(function() {
 			var clickEl = 'table.disputes tfoot tr.load-more-results a';
 			if ($(clickEl).length > 0) {
@@ -45,14 +59,14 @@ test('exist on the dispute page', function(assert) {
 			}
 		})
 		.then(function() {
-			assert.ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
+			ok($('table.disputes tbody tr').length >= 3, 'has more disputes');
 		});
 });
 
-test('can download disputes', function(assert) {
-	assert.equal($(".alert span").length, 0);
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
-	stub.withArgs(Balanced.Download).callsArgWith(3, {
+test('can download disputes', function() {
+	equal($(".alert span").length, 0);
+	var stub = sinon.stub(Adapter, "create");
+	stub.withArgs(Models.Download).callsArgWith(3, {
 		download: {}
 	});
 
@@ -61,18 +75,18 @@ test('can download disputes', function(assert) {
 		.fillIn(".download-modal.in form input[name='email']", "test@example.com")
 		.click('.download-modal.in .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			assert.ok(stub.calledOnce);
-			assert.ok(stub.calledWith(Balanced.Download, '/downloads', {
+			ok(stub.calledOnce);
+			ok(stub.calledWith(Models.Download, '/downloads', {
 				email_address: "test@example.com",
 				uri: "",
 				type: "disputes"
 			}));
-			assert.equal($(".alert span").length, 1);
-			assert.equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
+			equal($(".alert span").length, 1);
+			equal($(".alert span").text(), "We're processing your request. We will email you once the exported data is ready to view.");
 		});
 });
 
-test('can visit page', function(assert) {
+test('can visit page', function() {
 	var disputePage = {
 		'#content h1': 'Dispute',
 		'#dispute > .main-header .title': 1, // 'Brand New Electric Guitar Rosewood Fingerboard Sunset Red',
@@ -82,5 +96,5 @@ test('can visit page', function(assert) {
 	};
 
 	visit(Testing.DISPUTE_ROUTE)
-		.checkElements(disputePage, assert);
+		.checkElements(disputePage);
 });

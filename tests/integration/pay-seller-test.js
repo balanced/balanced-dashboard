@@ -1,16 +1,30 @@
-module('Pay Seller', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Pay Seller', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.create
+			Adapter.create
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can pay a seller', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test('can pay a seller', function() {
+	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".page-navigation a:contains(Credit a bank account)")
@@ -25,8 +39,8 @@ test('can pay a seller', function(assert) {
 		})
 		.click('#pay-seller .modal-footer button:contains(Credit)')
 		.then(function() {
-			assert.ok(stub.calledOnce, "Called Once");
-			assert.deepEqual(stub.firstCall.args.slice(0, 3), [Balanced.Credit, "/credits", {
+			ok(stub.calledOnce, "Called Once");
+			deepEqual(stub.firstCall.args.slice(0, 3), [Models.Credit, "/credits", {
 				amount: "9800",
 				appears_on_statement_as: "Transaction",
 				description: "Cool",
@@ -40,8 +54,8 @@ test('can pay a seller', function(assert) {
 		});
 });
 
-test('pay a seller only submits once despite multiple button clicks', function(assert) {
-	var stub = sinon.stub(BalancedApp.Adapter, "create");
+test('pay a seller only submits once despite multiple button clicks', function() {
+	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".page-navigation a:contains(Credit a bank account)")
@@ -56,6 +70,6 @@ test('pay a seller only submits once despite multiple button clicks', function(a
 			clickMultiple: '.modal-footer button:contains(Credit)'
 		})
 		.then(function() {
-			assert.ok(stub.calledOnce);
+			ok(stub.calledOnce);
 		});
 });

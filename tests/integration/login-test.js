@@ -1,48 +1,62 @@
-module('Login', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Login', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Balanced.Auth.signInRequest,
-			Balanced.Auth.request
+			Auth.signInRequest,
+			Auth.request
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('login page exists and has correct fields', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, 'signInRequest');
+test('login page exists and has correct fields', function() {
+	var spy = sinon.spy(Auth, 'signInRequest');
 	Testing.logout();
 
 	visit('/login')
 		.then(function() {
-			assert.equal($("form#auth-form").length, 1, 'The login form exists.');
-			assert.equal($("form#auth-form input.ember-text-field").length, 2, '2 fields exist on the login form.');
-			assert.equal($("form#auth-form button").length, 1, 'Submit button exist on the login form.');
+			equal($("form#auth-form").length, 1, 'The login form exists.');
+			equal($("form#auth-form input.ember-text-field").length, 2, '2 fields exist on the login form.');
+			equal($("form#auth-form button").length, 1, 'Submit button exist on the login form.');
 		})
 		.click('form#auth-form button')
 		.then(function() {
-			assert.equal(spy.callCount, 1, 'Login form correctly validated missing information.');
-			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
+			equal(spy.callCount, 1, 'Login form correctly validated missing information.');
+			ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
+			ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
 		});
 });
 
-test('login form submits correctly', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, 'signInRequest');
+test('login form submits correctly', function() {
+	var spy = sinon.spy(Auth, 'signInRequest');
 	Testing.logout();
 
 	visit('/login')
 		.submitForm('form#auth-form')
 		.then(function() {
-			assert.equal(spy.callCount, 1, 'Login form correctly validated missing information.');
-			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
+			equal(spy.callCount, 1, 'Login form correctly validated missing information.');
+			ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
+			ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
 		});
 });
 
-test('login page works', function(assert) {
-	var spy = sinon.spy(Balanced.Auth, 'signInRequest');
+test('login page works', function() {
+	var spy = sinon.spy(Auth, 'signInRequest');
 	Testing.logout();
 
 	visit('/login')
@@ -53,30 +67,30 @@ test('login page works', function(assert) {
 			click: 'button'
 		})
 		.then(function() {
-			assert.equal(spy.callCount, 1, 'Login form correctly errored.');
-			assert.ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			assert.ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('invalid') >= 0, 'Has error text');
+			equal(spy.callCount, 1, 'Login form correctly errored.');
+			ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
+			ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('invalid') >= 0, 'Has error text');
 		});
 });
 
-test('login stay works', function(assert) {
+test('login stay works', function() {
 	visit('/login')
 		.then(function() {
-			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'login');
+			var app = BalancedApp.__container__.lookup('controller:application');
+			equal(app.get('currentRouteName'), 'login');
 		});
 });
 
-test('login transition works', function(assert) {
+test('login transition works', function() {
 	visit('/start')
 		.visit('/login')
 		.then(function() {
-			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), 'login');
+			var app = BalancedApp.__container__.lookup('controller:application');
+			equal(app.get('currentRouteName'), 'login');
 		});
 });
 
-test('login afterLogin with transition works', 1, function(assert) {
+test('login afterLogin with transition works', 1, function() {
 	var loginResponse = {
 		"id": "ULxxx",
 		"email_address": "xxx@gmail.com",
@@ -94,19 +108,19 @@ test('login afterLogin with transition works', 1, function(assert) {
 			"created_at": "2014-02-04T23:27:46.860461Z",
 			"otp_enabled": false,
 			"email_address": "xxx@gmail.com",
-			"marketplaces": Balanced.Auth.get('user.user_marketplaces')
+			"marketplaces": Auth.get('user.user_marketplaces')
 		},
 		"status": "OK"
 	};
 
 	var promise = Ember.RSVP.resolve(loginResponse);
-	var stub = sinon.stub(Balanced.Auth, 'request').returns(promise);
+	var stub = sinon.stub(Auth, 'request').returns(promise);
 
 	Testing.logout();
 	visit(Testing.MARKETPLACE_ROUTE)
 		.click('form#auth-form button')
 		.then(function() {
-			var app = Balanced.__container__.lookup('controller:application');
-			assert.equal(app.get('currentRouteName'), "marketplace.transactions");
+			var app = BalancedApp.__container__.lookup('controller:application');
+			equal(app.get('currentRouteName'), "marketplace.transactions");
 		});
 });

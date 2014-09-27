@@ -1,13 +1,28 @@
-module('Disputes', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Disputes', {
 	setup: function() {
-		Testing.useFixtureData();
+		App = startApp({
+			ADAPTER: fixturesAdapter
+		});
 	},
-	teardown: function() {}
+	teardown: function() {
+		Ember.run(App, 'destroy');
+	}
 });
 
-test('can visit page', function(assert) {
+test('can visit page', function() {
 	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-	var disputesController = Balanced.__container__.lookup('controller:marketplace_disputes');
+	var disputesController = BalancedApp.__container__.lookup('controller:marketplace_disputes');
 	disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
 	disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
 
@@ -19,8 +34,8 @@ test('can visit page', function(assert) {
 		})
 		.then(function() {
 			var resultsLoader = disputesController.get("model");
-			assert.equal(resultsLoader.get("path"), '/disputes', 'Disputes URI is correct');
-			assert.deepEqual(resultsLoader.get("queryStringArguments"), {
+			equal(resultsLoader.get("path"), '/disputes', 'Disputes URI is correct');
+			deepEqual(resultsLoader.get("queryStringArguments"), {
 				"created_at[<]": "2013-08-01T23:59:59.999Z",
 				"created_at[>]": "2013-08-01T00:00:00.000Z",
 				"limit": 50,
@@ -36,10 +51,10 @@ test('can visit page', function(assert) {
 			'table.disputes tbody tr:eq(0) td.account': 1,
 			'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 			'table.disputes tbody tr:eq(0) td.amount': '$12.00',
-		}, assert);
+		});
 });
 
-test('can upload a dispute document', function(assert) {
+test('can upload a dispute document', function() {
 	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
 	var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
 	var disputePage = {
@@ -49,22 +64,22 @@ test('can upload a dispute document', function(assert) {
 
 	visit(DISPUTE_ROUTE)
 		.then(function() {
-			var disputeController = Balanced.__container__.lookup("controller:dispute");
+			var disputeController = BalancedApp.__container__.lookup("controller:dispute");
 			Ember.run(function() {
 				disputeController.get('model').set('canUploadDocuments', true);
 			});
 		})
-		.checkElements(disputePage, assert)
+		.checkElements(disputePage)
 		.click('#content .dispute-alert a')
 		.then(function() {
-			assert.equal($('#evidence-portal .modal-header h2').text(), 'Provide dispute evidence');
-			assert.equal($('#evidence-portal .fileinput-button').length, 1);
+			equal($('#evidence-portal .modal-header h2').text(), 'Provide dispute evidence');
+			equal($('#evidence-portal .fileinput-button').length, 1);
 			// check that the upload prompt shows up
 		})
 		.then(function() {
-			var disputeController = Balanced.__container__.lookup("controller:dispute");
+			var disputeController = BalancedApp.__container__.lookup("controller:dispute");
 			Ember.run(function() {
-				disputeController.get('model').set('documents', [Balanced.DisputeDocument.create({
+				disputeController.get('model').set('documents', [Models.DisputeDocument.create({
 					"created_at": "2014-06-26T00:27:30.544797+00:00",
 					"file_name": "test.jpg",
 					"file_url": "http://www.balancedpayments.com",
@@ -78,7 +93,7 @@ test('can upload a dispute document', function(assert) {
 			});
 		})
 		.then(function() {
-			assert.equal($('#content div.documents table tbody tr').length, 1, 'attached doc is displayed');
-			assert.equal($('#content .dispute-alert a').length, 0, 'cannot attach docs after docs are uploaded');
+			equal($('#content div.documents table tbody tr').length, 1, 'attached doc is displayed');
+			equal($('#content .dispute-alert a').length, 0, 'cannot attach docs after docs are uploaded');
 		});
 });

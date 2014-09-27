@@ -1,5 +1,3 @@
-import Ember from "ember";
-import { test } from 'ember-qunit';
 import startApp from '../helpers/start-app';
 import fixturesAdapter from "../helpers/fixtures-adapter";
 import sinonRestore from "../helpers/sinon-restore";
@@ -7,7 +5,7 @@ import sinonRestore from "../helpers/sinon-restore";
 import helpers from "../helpers/helpers";
 import checkElements from "../helpers/check-elements";
 
-var App, Auth;
+var App, Auth, Adapter = fixturesAdapter;
 
 module('Integration - Account Security', {
 	setup: function() {

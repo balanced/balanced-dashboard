@@ -71,13 +71,16 @@ var Testing = {
 		});
 	},
 
-	setupMarketplace: function(App) {
+	setupMarketplace: function() {
 		var self = this;
-		return setupMarketplace(App)
-			.then(function(mp) {
-				var routes = setupCreatedMarketplace(mp);
-				_.extend(self, routes);
-			});
+
+		andThen(function() {
+			setupMarketplace(window.BalancedApp)
+				.then(function(mp) {
+					var routes = setupCreatedMarketplace(mp);
+					_.extend(self, routes);
+				});
+		});
 	},
 
 	restoreMethods: function() {
@@ -237,60 +240,65 @@ var Testing = {
 
 	createDebitCard: function() {
 		var self = this;
-		Ember.run(function() {
+		andThen(function() {
 			self._createCard('debit');
 		});
 	},
 
 	createCreditCard: function() {
 		var self = this;
-		Ember.run(function() {
+		andThen(function() {
 			self._createCard('credit');
 		});
 	},
 
 	createBankAccount: function() {
-		createBankAccount(this);
+		var self = this;
+		andThen(function() {
+			self._createBankAccount();
+		});
 	},
 
 	createReversal: function() {
 		this.createCredit();
 
 		var self = this;
-		Ember.run(function() {
+		andThen(function() {
 			self._createReversal();
 		});
 	},
 
 	createCredit: function() {
 		var self = this;
-		Ember.run(function() {
-			self._createCard().then(function() {
-				return self._createDebit();
-			}).then(function() {
-				return self._createBankAccount();
-			}).then(function() {
-				self._createCredit();
-			});
+		andThen(function() {
+			self._createCard()
+		});
+		andThen(function() {
+			self._createDebit();
+		});
+		andThen(function() {
+			self._createBankAccount();
+		})
+		andThen(function() {
+			self._createCredit();
 		});
 	},
 
 	createRefund: function() {
-		this.createDebit();
-
-		var _this = this;
-		Ember.run(function() {
-			_this._createRefund();
+		var self = this;
+		andThen(function() {
+			self._createRefund();
 		});
 	},
 
 	createDebit: function() {
 		var self = this;
 
-		return Ember.run(function() {
-			return self._createCard().then(function() {
-				return self._createDebit();
-			});
+		andThen(function() {
+			self._createCard();
+		});
+		andThen(function() {
+			self._createDebit();
 		});
 	},
 
@@ -332,9 +340,7 @@ var Testing = {
 	createDisputes: function(number) {
 		var self = this;
 		var initialNumberDisputes = number || 4;
-
-		this.stop();
-		Ember.run(function() {
+		andThen(function() {
 			self._createDispute(initialNumberDisputes);
 		});
 	},

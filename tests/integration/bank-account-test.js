@@ -13,9 +13,8 @@ module('Integration - Bank Account Page', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
-
-		startMarketplace(Testing);
-		createBankAccount(Testing);
+		Testing.setupMarketplace();
+		Testing.createBankAccount();
 	},
 	teardown: function() {
 		Testing.restoreMethods(

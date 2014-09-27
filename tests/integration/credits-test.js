@@ -1,24 +1,39 @@
-module('Credits', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Credits', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+
 		Testing.setupMarketplace();
 		Testing.createCredit();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.update,
-			BalancedApp.Adapter.create
+			Adapter.update,
+			Adapter.create
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can visit page', function(assert) {
+test('can visit page', function() {
 	visit(Testing.CREDIT_ROUTE)
-		.checkPageType("Credit", assert)
-		.checkPageTitle("$100.00", assert);
+		.checkPageType("Credit")
+		.checkPageTitle("$100.00");
 });
 
-test('can reverse credit', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "create");
+test('can reverse credit', function() {
+	var spy = sinon.spy(Adapter, "create");
 	var reverseSelector = ".page-navigation a:contains(Reverse)";
 
 	visit(Testing.CREDIT_ROUTE)
@@ -27,34 +42,34 @@ test('can reverse credit', function(assert) {
 		.click('#reverse-credit .modal-footer button[name=modal-submit]')
 		.then(function() {
 			var firstCall = spy.firstCall;
-			assert.ok(spy.calledOnce);
-			assert.deepEqual(firstCall.args[0], Balanced.Reversal);
-			assert.deepEqual(firstCall.args[2].amount, "1000");
+			ok(spy.calledOnce);
+			deepEqual(firstCall.args[0], Models.Reversal);
+			deepEqual(firstCall.args[2].amount, "1000");
 		})
 		.checkElements({
 			"#reverse-credit:visible": 0
-		}, assert);
+		});
 
 	visit(Testing.CREDIT_ROUTE)
 		.click(reverseSelector)
 		.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', 90)
 		.click('#reverse-credit .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledTwice);
-			assert.ok(spy.calledWith(Balanced.Reversal));
-			assert.equal(spy.getCall(1).args[2].amount, "9000");
+			ok(spy.calledTwice);
+			ok(spy.calledWith(Models.Reversal));
+			equal(spy.getCall(1).args[2].amount, "9000");
 		})
 		.checkElements({
 			"#reverse-credit:visible": 0
-		}, assert);
+		});
 
 	visit(Testing.CREDIT_ROUTE)
 		.then(function() {
-			assert.equal($(reverseSelector).length, 0, 'No reverse credit buttons');
+			equal($(reverseSelector).length, 0, 'No reverse credit buttons');
 		});
 });
 
-test('credit reversal errors', function(assert) {
+test('credit reversal errors', function() {
 	$.each(['-10000', '0'], function(e, amount) {
 		visit(Testing.CREDIT_ROUTE)
 			.click('.page-navigation a:contains(Reverse)')
@@ -62,13 +77,13 @@ test('credit reversal errors', function(assert) {
 			.click('#reverse-credit .modal-footer button[name=modal-submit]')
 			.checkElements({
 				"#reverse-credit .control-group.error": 1
-			}, assert)
+			})
 			.click("#reverse-credit .close");
 	});
 });
 
-test('reversing a credit with a comma in the amount will succeed', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "create");
+test('reversing a credit with a comma in the amount will succeed', function() {
+	var spy = sinon.spy(Adapter, "create");
 
 	visit(Testing.CREDIT_ROUTE)
 		.click('.page-navigation a:contains(Reverse)')
@@ -78,9 +93,9 @@ test('reversing a credit with a comma in the amount will succeed', function(asse
 		})
 		.click('#reverse-credit .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
+			ok(spy.calledOnce);
 			var firstCall = spy.getCall(0);
-			assert.deepEqual(firstCall.args.slice(0, 3), [Balanced.Reversal, "/credits/" + Testing.CREDIT_ID + "/reversals", {
+			deepEqual(firstCall.args.slice(0, 3), [Models.Reversal, "/credits/" + Testing.CREDIT_ID + "/reversals", {
 				amount: "1000",
 				description: "Cool Reversal",
 				credit_uri: "/credits/" + Testing.CREDIT_ID
@@ -88,8 +103,8 @@ test('reversing a credit with a comma in the amount will succeed', function(asse
 		});
 });
 
-test('renders metadata correctly', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "update");
+test('renders metadata correctly', function() {
+	var spy = sinon.spy(Adapter, "update");
 
 	var metaData = {
 		'key': 'value',
@@ -97,8 +112,8 @@ test('renders metadata correctly', function(assert) {
 	};
 	visit(Testing.CREDIT_ROUTE)
 		.then(function() {
-			var controller = Balanced.__container__.lookup("controller:credits");
 			Ember.run(function() {
+				var controller = BalancedApp.__container__.lookup("controller:credits");
 				controller.get("model").set("meta", metaData);
 			});
 		})
@@ -108,5 +123,5 @@ test('renders metadata correctly', function(assert) {
 
 			".dl-horizontal dt:contains(other-keey)": 1,
 			".dl-horizontal dd:contains(other-vaalue)": 1,
-		}, assert);
+		});
 });

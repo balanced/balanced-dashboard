@@ -9,12 +9,12 @@ import Models from "../helpers/models";
 
 var App, Adapter;
 
-module('Integration -  Charge Card', {
+module('Integration - Charge Card', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
 
-		startMarketplace(Testing);
+		Testing.setupMarketplace();
 		Testing.createCard();
 	},
 	teardown: function() {
@@ -39,7 +39,7 @@ test('form validation', 2, function() {
 });
 
 test('can charge a card', 3, function() {
-	var spy = sinon.spy(BalancedApp.Adapter, 'create');
+	var spy = sinon.spy(Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -60,25 +60,23 @@ test('can charge a card', 3, function() {
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
 			dollar_amount: '12.00'
-		}, {
-			click: 'button:contains(Debit)'
 		})
+		.click('button:contains(Debit)')
 		.then(function() {
 			ok(tokenizingStub.calledOnce);
 			ok(spy.calledOnce);
-			ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
+			ok(spy.calledWith(Models.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
 				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID
 			})));
 			tokenizingStub.restore();
-			spy.restore();
 		});
 });
 
 test('charge a card button is hidden after submit', 4, function() {
-	var spy = sinon.spy(BalancedApp.Adapter, 'create');
+	var spy = sinon.spy(Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
 		status: 201,
@@ -106,7 +104,7 @@ test('charge a card button is hidden after submit', 4, function() {
 		})
 		.then(function() {
 			ok(spy.calledOnce, "Called once");
-			ok(spy.calledWith(Balanced.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
+			ok(spy.calledWith(Models.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
 				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',

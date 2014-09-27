@@ -1,17 +1,31 @@
-module('Marketplace ApiKeyCreate', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Marketplace ApiKeyCreate', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Balanced.__container__.lookup("controller:sessions")
+		BalancedApp.__container__.lookup("controller:sessions")
 			.setProperties({
 				isUserGuest: false
 			});
 	},
 	teardown: function() {
 		Testing.restoreMethods($.ajax);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test("#apply fails person KYC", function(assert) {
+test("#apply fails person KYC", function() {
 	var stub;
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".mp-register .info a:contains(Register)")
@@ -37,7 +51,7 @@ test("#apply fails person KYC", function(assert) {
 		})
 		.click("#apiKeyCreate [name=modal-submit]")
 		.then(function() {
-			assert.deepEqual(JSON.parse(stub.args[0][0].data), {
+			deepEqual(JSON.parse(stub.args[0][0].data), {
 				merchant: {
 					dob: "1980-11",
 					name: "Jimmy Business",
@@ -52,11 +66,11 @@ test("#apply fails person KYC", function(assert) {
 		})
 		.checkElements({
 			"#apiKeyCreate .notification-center.error": "We could not verify your identity. Please check your information again and resubmit."
-		}, assert);
+		});
 });
 
-test("#apply success", function(assert) {
-	var modalsController = Balanced.__container__.lookup("controller:modals_container");
+test("#apply success", function() {
+	var modalsController = BalancedApp.__container__.lookup("controller:modals_container");
 	var openModalStub;
 	var stub;
 	visit(Testing.MARKETPLACES_ROUTE)
@@ -86,7 +100,7 @@ test("#apply success", function(assert) {
 		})
 		.click("#apiKeyCreate [name=modal-submit]")
 		.then(function() {
-			assert.deepEqual(JSON.parse(stub.args[0][0].data), {
+			deepEqual(JSON.parse(stub.args[0][0].data), {
 				merchant: {
 					dob: "1980-11",
 					name: "Jimmy Business",
@@ -98,24 +112,24 @@ test("#apply success", function(assert) {
 				}
 			});
 			stub.restore();
-			assert.deepEqual(openModalStub.args, [
+			deepEqual(openModalStub.args, [
 				[
-					Balanced.MarketplaceCreateModalView, ["ak-test-secretsecret"]
+					Models.MarketplaceCreateModalView, ["ak-test-secretsecret"]
 				]
 			]);
 			openModalStub.restore();
 		});
 });
 
-test("#marketplace create success", function(assert) {
-	var modalsController = Balanced.__container__.lookup("controller:modals_container");
+test("#marketplace create success", function() {
+	var modalsController = BalancedApp.__container__.lookup("controller:modals_container");
 	var stub;
 	var pushMarketplaceStub;
 	var dummyMarketplace = Ember.Object.create();
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.then(function() {
-			modalsController.open(Balanced.MarketplaceCreateModalView, ["ak-test-secretsecret"]);
+			modalsController.open(Models.MarketplaceCreateModalView, ["ak-test-secretsecret"]);
 		})
 		.fillForm("#marketplaceCreate", {
 			name: "merchant.ly",
@@ -125,7 +139,7 @@ test("#marketplace create success", function(assert) {
 		})
 		.click("#marketplaceCreate [name=isTermsAccepted]")
 		.then(function() {
-			var mpController = Balanced.__container__.lookup("controller:user_marketplace");
+			var mpController = BalancedApp.__container__.lookup("controller:user_marketplace");
 
 			stub = sinon.stub(jQuery, "ajax");
 			stub.returns(Ember.RSVP.resolve({
@@ -139,15 +153,15 @@ test("#marketplace create success", function(assert) {
 		})
 		.click("#marketplaceCreate [name=modal-submit]")
 		.then(function() {
-			assert.deepEqual(JSON.parse(stub.args[0][0].data), {
+			deepEqual(JSON.parse(stub.args[0][0].data), {
 				name: "merchant.ly",
 				domain_url: "www.merchant.ly",
 				support_phone_number: "202-222-3333",
 				support_email_address: "tester@example.org"
 			}, "Submitted data is correct");
 
-			assert.deepEqual(pushMarketplaceStub.args, [
-				[Balanced.Auth.get("user"), "ak-test-secretsecret", "/marketplaces/MPxxxxxxxxxxx"]
+			deepEqual(pushMarketplaceStub.args, [
+				[Auth.get("user"), "ak-test-secretsecret", "/marketplaces/MPxxxxxxxxxxx"]
 			], "Marketplace link data is correct");
 		})
 		.then(function() {

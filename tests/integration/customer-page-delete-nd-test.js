@@ -1,18 +1,32 @@
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
 module("Customer Page: Delete (Non deterministic)", {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter["delete"]
+			Adapter["delete"]
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can delete bank account', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "delete");
+test('can delete bank account', function() {
+	var spy = sinon.spy(Adapter, "delete");
 	var initialLength, href;
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -26,14 +40,14 @@ test('can delete bank account', function(assert) {
 		.then(function() {
 			var args = spy.firstCall.args;
 
-			assert.equal($(".results .funding-instruments tr.type-bank-account").length, initialLength - 1);
-			assert.ok(spy.calledOnce, "BalancedApp.Adapter.deleted calledOnce");
-			assert.deepEqual(args.slice(0, 2), [Balanced.BankAccount, href]);
+			equal($(".results .funding-instruments tr.type-bank-account").length, initialLength - 1);
+			ok(spy.calledOnce, "Adapter.deleted calledOnce");
+			deepEqual(args.slice(0, 2), [Models.BankAccount, href]);
 		});
 });
 
-test('can delete cards', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "delete");
+test('can delete cards', function() {
+	var spy = sinon.spy(Adapter, "delete");
 	var initialLength, href;
 
 	visit(Testing.CUSTOMER_ROUTE)
@@ -47,8 +61,8 @@ test('can delete cards', function(assert) {
 		.then(function() {
 			var args = spy.firstCall.args;
 
-			assert.equal($(".results .funding-instruments tr.type-card").length, initialLength - 1);
-			assert.ok(spy.calledOnce, "BalancedApp.Adapter.deleted calledOnce");
-			assert.deepEqual(args.slice(0, 2), [Balanced.Card, href]);
+			equal($(".results .funding-instruments tr.type-card").length, initialLength - 1);
+			ok(spy.calledOnce, "Adapter.deleted calledOnce");
+			deepEqual(args.slice(0, 2), [Models.Card, href]);
 		});
 });

@@ -1,28 +1,43 @@
-module('Guest', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Guest', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 	},
-	teardown: function() {}
+	teardown: function() {
+		Ember.run(App, 'destroy');		
+	}
 });
 
-test('visiting start creates a marketplace', function(assert) {
+test('visiting start creates a marketplace', function() {
 	visit('/start')
 		.then(function() {
-			var session = Balanced.__container__.lookup("controller:sessions");
+			var session = BalancedApp.__container__.lookup("controller:sessions");
 
-			assert.deepEqual(session.getProperties("isUserGuest", "isUserPresent"), {
+			deepEqual(session.getProperties("isUserGuest", "isUserPresent"), {
 				isUserPresent: true,
 				isUserGuest: true
 			});
 		});
 });
 
-test('viewing settings page as guest, can view api secret key', function(assert) {
+test('viewing settings page as guest, can view api secret key', function() {
 	visit('/marketplaces/' + Testing.MARKETPLACE_ID)
 		.then(function() {
-			var marketplace = Balanced.__container__.lookup("controller:marketplace").get("model");
+			var marketplace = BalancedApp.__container__.lookup("controller:marketplace").get("model");
 			Ember.run(function() {
-				var customer = Balanced.Customer.create();
+				var customer = Models.Customer.create();
 				marketplace.set("owner_customer", customer);
 			});
 		})
@@ -32,11 +47,11 @@ test('viewing settings page as guest, can view api secret key', function(assert)
 		.then(function() {
 			var shown_api_secret_key = $('.api-key-secret').text().trim();
 
-			assert.ok(shown_api_secret_key, sinon.match(/^ak\-test/), 'shown api secret in settings for guest');
+			ok(shown_api_secret_key, sinon.match(/^ak\-test/), 'shown api secret in settings for guest');
 		});
 });
 
-test('claim account creates a login', function(assert) {
+test('claim account creates a login', function() {
 	var stub;
 
 	var emailAddress = 'marshall@example.com',
@@ -46,7 +61,7 @@ test('claim account creates a login', function(assert) {
 		.checkElements({
 			"#account-create h2": "Balanced Dashboard",
 			"#account-create .form-section h3": "Create your account"
-		}, assert)
+		})
 		.fillForm("#account-create", {
 			email_address: emailAddress,
 			password: password,
@@ -60,7 +75,7 @@ test('claim account creates a login', function(assert) {
 		})
 		.click('#account-create [name=modal-submit]')
 		.then(function() {
-			assert.deepEqual(stub.args[0][0].data, {
+			deepEqual(stub.args[0][0].data, {
 				"email_address": "marshall@example.com",
 				"password": "SupahSecret123~!",
 				"passwordConfirm": "SupahSecret123~!"

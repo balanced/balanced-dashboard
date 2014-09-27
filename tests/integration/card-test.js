@@ -13,11 +13,8 @@ module('Integration - Card Page', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
-
-		startMarketplace(Testing);
-		andThen(function() {
-			Testing.createCard();
-		});
+		Testing.setupMarketplace();
+		Testing.createCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(

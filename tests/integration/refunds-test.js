@@ -1,14 +1,27 @@
-module('Refunds', {
+import startApp from '../helpers/start-app';
+import Testing from "../helpers/testing";
+
+import checkElements from "../helpers/check-elements";
+import createObjects from "../helpers/create-objects";
+import helpers from "../helpers/helpers";
+
+import Models from "../helpers/models";
+
+var App, Adapter;
+
+module('Integration - Refunds', {
 	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Ember.run(function() {
+		andThen(function() {
 			Testing._createCard().then(function(card) {
-				return Balanced.Debit.create({
+				return Models.Debit.create({
 					uri: card.get('debits_uri'),
 					amount: 100000
 				}).save();
 			}).then(function(debit) {
-				return Balanced.Refund.create({
+				return Models.Refund.create({
 					uri: debit.get('refunds_uri'),
 					debit_uri: debit.get('uri'),
 					amount: 10000
@@ -20,32 +33,33 @@ module('Refunds', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			BalancedApp.Adapter.update
+			Adapter.update
 		);
+		Ember.run(App, 'destroy');
 	}
 });
 
-test('can visit page', function(assert) {
+test('can visit page', function() {
 	visit(Testing.REFUND_ROUTE)
-		.checkPageType("Refund", assert)
-		.checkPageTitle("$100.00", assert);
+		.checkPageType("Refund")
+		.checkPageTitle("$100.00");
 });
 
-test('can edit refund', function(assert) {
-	var spy = sinon.spy(BalancedApp.Adapter, "update");
+test('can edit refund', function() {
+	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REFUND_ROUTE)
 		.click('.key-value-display .edit-model-link')
 		.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
 		.click('#edit-transaction .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Refund));
-			assert.equal(spy.getCall(0).args[2].description, "changing desc");
+			ok(spy.calledOnce);
+			ok(spy.calledWith(Models.Refund));
+			equal(spy.getCall(0).args[2].description, "changing desc");
 		});
 });
 
-test('renders metadata correctly', function(assert) {
+test('renders metadata correctly', function() {
 	var metaData = {
 		'key': 'value',
 		'other-keey': 'other-vaalue'
@@ -53,7 +67,7 @@ test('renders metadata correctly', function(assert) {
 
 	visit(Testing.REFUND_ROUTE)
 		.then(function() {
-			var controller = Balanced.__container__.lookup('controller:refunds');
+			var controller = BalancedApp.__container__.lookup('controller:refunds');
 			Ember.run(function() {
 				controller.set('model.meta', metaData);
 			});
@@ -64,5 +78,5 @@ test('renders metadata correctly', function(assert) {
 
 			".dl-horizontal dt:contains(other-keey)": 1,
 			".dl-horizontal dd:contains(other-vaalue)": 1,
-		}, assert);
+		});
 });
