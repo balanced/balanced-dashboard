@@ -10,7 +10,6 @@ var AjaxAdapter = BaseAdapter.extend({
 		this._checkParams(type, uri);
 
 		var host = this.getHostForType(type);
-		console.log("HOST", host);
 		if (uri && uri.indexOf(host) !== 0 && uri.indexOf('https') !== 0) {
 			uri = host + uri;
 		}
@@ -115,9 +114,6 @@ var AjaxAdapter = BaseAdapter.extend({
 	},
 
 	getHostForType: function(type) {
-		console.dir(type)
-		console.log("type:", type.typeKey);
-		console.log("Getting host for type", type, this.hostsByType);
 		var hostType = this.hostsByType.findBy("type", type);
 		if (hostType) {
 			return hostType.host;

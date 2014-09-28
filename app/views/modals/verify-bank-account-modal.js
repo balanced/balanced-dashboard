@@ -35,7 +35,6 @@ var VerifyBankAccountModalView = ModalBaseView.extend({
 
 VerifyBankAccountModalView.reopenClass({
 	open: function(bankAccount) {
-		console.log(bankAccount, bankAccount.get("bank_account_verifications_uri"));
 		return this.create({
 			bankAccount: bankAccount
 		});

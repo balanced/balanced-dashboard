@@ -46,7 +46,7 @@ var ChangePasswordModalView = ModalBaseView.extend(WideModalMixin, {
 		model.validate();
 
 		if (model.get("isValid")) {
-			return model.save()
+			return model.save();
 		} else {
 			return Ember.RSVP.reject(model.get("validationErrors"));
 		}
