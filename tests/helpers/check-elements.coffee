@@ -4,6 +4,10 @@ text = (element) ->
 html = (element) ->
 	$.trim(element.html())
 
+Ember.Test.registerHelper "matchesProperties", (app, result, expected) ->
+	for key, value of expected
+		equal(result[key], value, "result[#{key}] equals #{value}")
+
 Ember.Test.registerHelper "checkValue", (app, selector, val, message) ->
 	message ||= "Value for #{selector}"
 	equal(find(selector).val(), val, message)

@@ -39,22 +39,6 @@ test('Can enable', function() {
 		});
 });
 
-test('Can see change password modal', function() {
-	visit('/security')
-		.click('#user-menu .change-password a')
-		.checkElements({
-			'.change-password-modal.modal:visible': 1
-		});
-});
-
-test('Can see change email modal', function() {
-	visit('/security')
-		.click('#user-menu .change-email a')
-		.checkElements({
-			'.change-email-modal.modal:visible': 1
-		});
-});
-
 test('Can disable', function() {
 	var spy = sinon.stub(Auth, 'request').returns(Ember.RSVP.resolve());
 

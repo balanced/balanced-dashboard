@@ -13,7 +13,6 @@ module('Integration - Charge Card', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
-
 		Testing.setupMarketplace();
 		Testing.createCard();
 	},
@@ -75,7 +74,7 @@ test('can charge a card', 3, function() {
 		});
 });
 
-test('charge a card button is hidden after submit', 4, function() {
+test('charge a card button is hidden after submit', function() {
 	var spy = sinon.spy(Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -99,9 +98,7 @@ test('charge a card button is hidden after submit', 4, function() {
 			dollar_amount: '12.00'
 		})
 		.click("#charge-card .modal-footer .btn:last")
-		.then(function() {
-			equal($("#charge-card .modal-footer .btn:last").length, 0, "Button not present");
-		})
+		.check("#charge-card .modal-footer .btn:last", 0)
 		.then(function() {
 			ok(spy.calledOnce, "Called once");
 			ok(spy.calledWith(Models.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
@@ -121,7 +118,5 @@ test('when charge a card triggers an error, the error is displayed to the user',
 		}, {
 			click: '.modal-footer button:contains(Debit)'
 		})
-		.then(function() {
-			equal($('.alert-error').is(':visible'), true);
-		});
+		.check(".alert-error:visible", 1);
 });
