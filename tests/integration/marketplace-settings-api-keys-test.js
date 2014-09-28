@@ -63,7 +63,7 @@ test('can add api key', function() {
 		.click('.modal.create-api-key button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.APIKey));
+			ok(stub.calledWith(Models.ApiKey));
 		})
 		.click('.create-api-key-btn')
 		.fillIn('.modal.create-api-key input.full', 'Test1234')
@@ -82,7 +82,7 @@ test('can add api key', function() {
 
 test('adding api key updates auth', function() {
 	var testSecret = 'amazing-secret';
-	var saveStub = sinon.stub(Models.APIKey.prototype, 'save');
+	var saveStub = sinon.stub(Models.ApiKey.prototype, 'save');
 	var stub = sinon.stub(Adapter, 'create');
 	saveStub.returns({
 		then: function(callback) {

@@ -21,7 +21,7 @@ module('Integration - Marketplace Settings Guest', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Models.APIKey.prototype.save,
+			Models.ApiKey.prototype.save,
 			Adapter.create,
 			Adapter['delete'],
 			Adapter.update,
@@ -46,7 +46,7 @@ test('can update marketplace info', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			Ember.run(function() {
-				var model = BalancedApp.__container__.lookup('controller:marketplaceSettings').get('model');
+				var model = BalancedApp.__container__.lookup('controller:marketplace-settings').get('model');
 				model.set('production', true);
 			});
 		})

@@ -47,7 +47,7 @@ var SessionsController = Ember.Controller.extend({
 					return registrationController.createMarketplaceForApiKeySecret(secret);
 				})
 				.then(function(mp) {
-					this.get("auth").setupGuestUserMarketplace(mp);
+					self.get("auth").setupGuestUserMarketplace(mp);
 				});
 		}
 	},
