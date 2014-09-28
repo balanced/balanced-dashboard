@@ -1,4 +1,6 @@
+import Testing from "../helpers/testing";
 import startApp from '../helpers/start-app';
+import Models from "../helpers/models";
 import fixturesAdapter from "../helpers/fixtures-adapter";
 import sinonRestore from "../helpers/sinon-restore";
 
@@ -79,7 +81,7 @@ test('can add user', function() {
 		.then(function() {
 			ok(stub.calledTwice);
 			ok(stub.getCall(0).calledWith(
-				Models.APIKey,
+				Models.ApiKey,
 				'/api_keys', {
 					meta: {
 						name: TEST_EMAIL

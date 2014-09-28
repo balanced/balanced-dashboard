@@ -29,7 +29,7 @@ module('Integration - Holds', {
 					Testing.HOLD_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID + '/holds/' + hold.get('id');
 					Testing.HOLD_URI = hold.get("uri");
 				});
-		})
+		});
 	},
 	teardown: function() {
 		Testing.restoreMethods(

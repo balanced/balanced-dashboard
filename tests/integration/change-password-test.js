@@ -27,10 +27,7 @@ module('Integration - ChangePassword', {
 test('clicking change password from header menu brings up modal', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.then(function() {
-			equal($(".modal.change-password-modal.in").length, 1, 'The change password modal exists.');
-			ok($(".modal.change-password-modal.in").is(":visible"), 'The change password modal is visible.');
-		});
+		.check("#change-password-modal", 1);
 });
 
 test('change password form submits', function() {
@@ -43,21 +40,21 @@ test('change password form submits', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.fillForm('.change-password-modal form', {
+		.fillForm('#change-password-modal form', {
 			existing_password: '123456',
 			password: '12345678',
 			confirm_password: '12345678'
 		})
-		.click('button[name=modal-submit]')
+		.click('#change-password-modal button[name=modal-submit]')
+		.check("#change-password-modal", 0)
 		.then(function() {
-			ok($(".modal.change-password-modal").is(":hidden"), 'The change password modal is hidden.');
-
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.User, Testing.FIXTURE_USER_ROUTE, sinon.match({
-				confirm_password: "12345678",
-				existing_password: "123456",
-				password: "12345678"
-			})));
+			var args = stub.args[0];
+			equal(args[0], BalancedApp.__container__.lookupFactory("model:user"), "User model");
+			equal(args[1], Testing.FIXTURE_USER_ROUTE);
+			equal(args[2].confirm_password, "12345678");
+			equal(args[2].existing_password, "123456");
+			equal(args[2].password, "12345678");
 		});
 });
 
@@ -71,41 +68,19 @@ test('change password errors if no existing password', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-password a")
-		.fillForm('.change-password-modal form', {
+		.fillForm('#change-password-modal form', {
 			password: '12345678',
-			confirm_password: '12345678'
+			confirm_password: '1234567'
 		}, {
 			click: 'button[name=modal-submit]'
 		})
-		.then(function() {
-			ok($(".modal.change-password-modal.in").is(":visible"), 'The change password modal is still visible.');
-			ok($(".modal.change-password-modal .alert-error").is(":visible"), 'The change password modal error is visible.');
-
-			equal(stub.callCount, 0);
-		});
-});
-
-test('change password errors if passwords are different', function() {
-	var stub = sinon.stub(Adapter, "update");
-
-	stub.callsArgWith(3, {
-		"id": null,
-		"admin": false
-	});
-
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-password a")
-		.fillForm('.change-password-modal form', {
-			existing_password: '123456',
-			password: '12345678',
-			confirm_password: '666666'
-		}, {
-			click: 'button[name=modal-submit]'
+		.checkElements({
+			"#change-password-modal": 1,
+			"#change-password-modal .control-group:eq(0) .alert-error": "can't be blank",
+			"#change-password-modal .control-group:eq(1) .alert-error": "",
+			"#change-password-modal .control-group:eq(2) .alert-error": "must match password",
 		})
 		.then(function() {
-			ok($(".modal.change-password-modal.in").is(":visible"), 'The change password modal is still visible.');
-			ok($(".modal.change-password-modal .alert-error").is(":visible"), 'The change password modal error is visible.');
-
 			equal(stub.callCount, 0);
 		});
 });

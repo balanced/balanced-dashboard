@@ -17,7 +17,7 @@ module('Integration - AddCustomer', {
 	teardown: function() {
 		Testing.restoreMethods(
 			Adapter.create
-		)
+		);
 		Ember.run(App, 'destroy');
 	}
 });

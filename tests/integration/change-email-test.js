@@ -27,10 +27,7 @@ module('Integration - ChangeEmail', {
 test('clicking change email from header menu brings up modal', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
-		.then(function() {
-			equal($(".modal.change-email-modal.in").length, 1, 'The change email modal exists.');
-			ok($(".modal.change-email-modal.in").is(":visible"), 'The change email modal is visible.');
-		});
+		.check("#change-email-modal", 1);
 });
 
 test('change email form submits', function() {
@@ -45,20 +42,20 @@ test('change email form submits', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
-		.checkValue(".change-email-modal form input[name=email]", Testing.FIXTURE_USER_EMAIL, 'Email is filled in')
-		.fillForm('.change-email-modal form', {
-			email: USER_EMAIL,
+		.checkValue("#change-email-modal input[name=email_address]", Testing.FIXTURE_USER_EMAIL, 'Email is filled in')
+		.fillForm('#change-email-modal', {
+			email_address: USER_EMAIL,
 			existing_password: '123456',
 		})
-		.click('button[name=modal-submit]')
+		.click('#change-email-modal button[name=modal-submit]')
+		.check("#change-email-modal", 0)
 		.then(function() {
-			ok($(".modal.change-email-modal").is(":hidden"), 'The change email modal is hidden.');
-
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.User, Testing.FIXTURE_USER_ROUTE, sinon.match({
-				email: USER_EMAIL,
-				existing_password: "123456",
-			})));
+			var args = stub.args[0];
+			equal(args[0], BalancedApp.__container__.lookupFactory("model:user"), "User model");
+			equal(args[1], Testing.FIXTURE_USER_ROUTE);
+			equal(args[2].email, USER_EMAIL);
+			equal(args[2].existing_password, "123456");
 		});
 });
 
@@ -73,17 +70,18 @@ test('change email form errors if no email', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
-		.fillForm('.change-email-modal form', {
-			email: '',
+		.fillForm('#change-email-modal form', {
+			email_address: '',
 			existing_password: '123456'
 		}, {
 			click: 'button[name=modal-submit]'
 		})
-		.click(".change-email-modal form button[name=modal-submit]")
+		.click("#change-email-modal form button[name=modal-submit]")
+		.checkElements({
+			"#change-email-modal": 1,
+			"#change-email-modal .alert.alert-error": "can't be blank, is invalid, is too short (minimum 6 characters)"
+		})
 		.then(function() {
-			ok($(".modal.change-email-modal.in").is(":visible"), 'The change email modal is still visible.');
-			ok($(".modal.change-email-modal .alert-error").is(":visible"), 'The change email modal error is visible.');
-
 			equal(stub.callCount, 0);
 		});
 });
@@ -101,15 +99,16 @@ test('change email errors if no existing password', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
-		.fillForm('.change-email-modal form', {
-			email: USER_EMAIL,
+		.fillForm('#change-email-modal form', {
+			email_address: USER_EMAIL,
 		}, {
 			click: 'button[name=modal-submit]'
 		})
+		.checkElements({
+			"#change-email-modal": 1,
+			"#change-email-modal .alert.alert-error": "can't be blank",
+		})
 		.then(function() {
-			ok($(".modal.change-email-modal.in").is(":visible"), 'The change email modal is still visible.');
-			ok($(".modal.change-email-modal .alert-error").is(":visible"), 'The change email modal error is visible.');
-
 			equal(stub.callCount, 0);
 		});
 });

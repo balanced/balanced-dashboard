@@ -7,12 +7,13 @@ import helpers from "../helpers/helpers";
 
 import Models from "../helpers/models";
 
-var App, Adapter;
+var App, Adapter, Auth;
 
 module('Integration - Marketplaces.Index', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
+		Auth = App.__container__.lookup("auth:main");
 		Testing.setupMarketplace();
 		this.fakeRegisteredUser = function() {
 			Ember.run(function() {

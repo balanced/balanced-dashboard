@@ -17,10 +17,10 @@
 			<li><a {{action "signUp" target="controllers.application"}}>Create an account</a></li>
 		{{else}}
 			<li class="change-email">
-				<a href="#" {{action "openChangeEmailModal" target="controllers.application"}}>Change email address</a>
+				<a href="#" {{action "openModal" "modals/change-email-modal"}}>Change email address</a>
 			</li>
 			<li class="change-password">
-				<a href="#" {{action "openChangePasswordModal" target="controllers.application"}}>Change password</a>
+				<a href="#" {{action "openModal" "modals/change-password-modal"}}>Change password</a>
 			</li>
 			<li>{{#link-to 'accountSecurity'}}Account security{{/link-to}}</li>
 		{{/if}}

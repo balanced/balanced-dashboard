@@ -1,5 +1,6 @@
 import startApp from '../helpers/start-app';
 import Testing from "../helpers/testing";
+import fixturesAdapter from "../helpers/fixtures-adapter";
 
 import checkElements from "../helpers/check-elements";
 import createObjects from "../helpers/create-objects";
@@ -7,7 +8,7 @@ import helpers from "../helpers/helpers";
 
 import Models from "../helpers/models";
 
-var App, Adapter;
+var App, Adapter = fixturesAdapter;
 
 module('Integration - Disputes', {
 	setup: function() {

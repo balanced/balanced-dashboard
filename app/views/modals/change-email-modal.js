@@ -1,81 +1,86 @@
-import ModalView from "./modal";
 import Auth from "balanced-dashboard/auth";
+import User from "balanced-dashboard/models/user";
 
-var ChangeEmailModalView = ModalView.extend({
-	templateName: "modals/change-email",
-	controllerKey: 'controller.controllers.application',
-	controllerEventName: 'openChangeEmailModal',
-	fieldName: 'email address',
-	defaultError: 'Oops, this email address is already associated to an account.',
+import ModalBaseView from "./modal-base";
+import WideModalMixin from "./mixins/wide-modal-mixin";
 
-	open: function(model) {
-		var user = model;
-
-		if (!user) {
-			user = Ember.copy(Auth.get('user'), true);
-			user.set('email', user.get('email_address'));
-
-			// HACK to validate user emails
-			user.validations.email = {
+var getUserModel = function(uri, emailAddress) {
+	var user = BalancedApp.__container__.lookupFactory("model:user").create({
+		email_address: emailAddress,
+		email: emailAddress,
+		isNew: false,
+		uri: uri,
+		validations: {
+			existing_password: {
+				presence: true
+			},
+			email: {
 				presence: true,
+				format: /.+@.+\..{2,4}/,
 				length: {
 					minimum: 6
-				},
-				format: /.+@.+\..{2,4}/
-			};
-
-			// Necessary hack to get the password correct
-			user.set('password', undefined);
-		}
-
-		this._super(user);
-
-		_.delay(_.bind(function() {
-			this.$('input:text').focus();
-		}, this));
-	},
-
-	beforeSave: function() {
-		var user = this.get('model');
-
-		_.each(user, function(val, key) {
-			if (!val) {
-				this.set(key, undefined);
+				}
 			}
-		}, user);
-
-		//  bug in ember-validation requires this extra check for length
-		if (!user.validate() && user.get('validationErrors.length')) {
-			user.setProperties({
-				displayErrorDescription: true,
-				errorDescription: 'Please fix the errors below.'
-			});
-
-			return false;
 		}
+	});
+	return user;
+};
 
-		// Turn off errors
-		user.setProperties({
-			displayErrorDescription: false,
-			errorDescription: ''
-		});
-	},
+var ChangeEmailModalView = ModalBaseView.extend(WideModalMixin, {
+	title: "Change email address",
+	elementId: "change-email-modal",
+	templateName: "modals/change-email-modal",
 
-	errorSaving: function() {
-		var user = this.get('model');
+	isSaving: false,
 
-		user.setProperties({
-			displayErrorDescription: true,
-			errorDescription: this.get('defaultError')
-		});
-	},
-
-	afterSave: function() {
-		Auth.get('user').reload();
-		this.hide();
-
-		var message = 'Your %@ has been updated.'.fmt(this.get("fieldName"));
+	onSuccess: function() {
+		Auth.get("user").reload();
+		var message = 'Your email address has been updated.';
 		this.get('controller.controllers.notification_center').alertSuccess(message);
+	},
+
+	validateAndSave: function(model) {
+		model.get("validationErrors").clear();
+		model.validate();
+
+		if (model.get("isValid")) {
+			return model.save()
+		} else {
+			return Ember.RSVP.reject(model.get("validationErrors"));
+		}
+	},
+
+	actions: {
+		submit: function(model) {
+			var self = this;
+			var notifications = self.get("container").lookup("controller:modal-notification-center");
+			notifications.clearAlerts();
+			self.set("isSaving", true);
+			this.validateAndSave(model)
+				.then(function() {
+					self.onSuccess();
+					self.close();
+				}, function(errorResponse) {
+					(errorResponse.non_field_errors || []).forEach(function(message) {
+						notifications.alertError(message);
+					});
+				})
+				.finally(function() {
+					self.set("isSaving", false);
+				});
+		}
+	},
+});
+
+ChangeEmailModalView.reopenClass({
+	open: function() {
+		var originalUser = Auth.get("user");
+		var emailAddress = originalUser.get("email_address");
+		var uri = originalUser.get("uri");
+		return this.create({
+			currentEmailAddress: emailAddress,
+			model: getUserModel(uri, emailAddress)
+		});
 	}
 });
 

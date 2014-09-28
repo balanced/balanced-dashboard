@@ -7,7 +7,7 @@ import helpers from "../helpers/helpers";
 
 import Models from "../helpers/models";
 
-var App, Adapter;
+var App, Adapter, Auth;
 
 module('Integration - Search', {
 	setup: function() {

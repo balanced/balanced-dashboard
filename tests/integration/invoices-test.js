@@ -7,6 +7,7 @@ import sinonRestore from "../helpers/sinon-restore";
 import Testing from "../helpers/testing";
 import helpers from "../helpers/helpers";
 import checkElements from "../helpers/check-elements";
+import Models from "../helpers/models";
 
 var INVOICES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/account_statements';
 

@@ -17,7 +17,7 @@ module("Integration - ImportPayments", {
 		Testing.createDebits();
 	},
 	teardown: function() {
-		Ember.run(App, 'destroy');		
+		Ember.run(App, 'destroy');
 	}
 });
 
@@ -29,7 +29,7 @@ var matchProperties = function(object, properties) {
 	return result;
 };
 
-var assertProperties = function(assert, object, expectedProperties, message) {
+var assertProperties = function(object, expectedProperties, message) {
 	var actualProperties = matchProperties(object, _.keys(expectedProperties));
 	deepEqual(actualProperties, expectedProperties, message);
 };
@@ -120,7 +120,7 @@ asyncTest("Read and process CSV data", function() {
 	expectations.forEach(function(objects, index) {
 		var obj = collection.objectAt(index);
 		_.each(objects, function(expectedProperties, keyName) {
-			assertProperties(assert, obj.get(keyName), expectedProperties, "Properties of object %@.%@ ".fmt(index, keyName));
+			assertProperties(obj.get(keyName), expectedProperties, "Properties of object %@.%@ ".fmt(index, keyName));
 		});
 	});
 
@@ -139,8 +139,8 @@ asyncTest("Read and process CSV data", function() {
 
 	collection.save(function(results) {
 		var credits = Models.currentMarketplace.get("credits");
-		assertProperties(assert, credits.objectAt(1), expectations[0].credit, "Saved credit 0");
-		assertProperties(assert, credits.objectAt(0), expectations[3].credit, "Saved credit 1");
+		assertProperties(credits.objectAt(1), expectations[0].credit, "Saved credit 0");
+		assertProperties(credits.objectAt(0), expectations[3].credit, "Saved credit 1");
 		start();
 	});
 });

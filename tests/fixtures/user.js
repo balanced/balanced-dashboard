@@ -14,6 +14,7 @@ export default [{
 		"password": null,
 		"marketplaces_uri": "http://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/marketplaces",
 		"api_keys_uri": "http://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/api_keys",
+		"uri": "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987",
 		"email_address": "foo@bar.com",
 		"otp_enabled": false,
 		"marketplaces": [{

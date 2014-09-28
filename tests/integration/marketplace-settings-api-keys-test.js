@@ -21,7 +21,7 @@ module('Integration - Marketplace Settings Api Keys', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Models.APIKey.prototype.save,
+			Models.ApiKey.prototype.save,
 			Adapter.create,
 			Adapter['delete'],
 			Adapter.update,

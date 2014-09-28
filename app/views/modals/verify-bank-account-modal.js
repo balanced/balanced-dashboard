@@ -1,4 +1,5 @@
 import ModalBaseView from "./modal-base";
+import Verification from "balanced-dashboard/models/verification";
 
 var VerifyBankAccountModalView = ModalBaseView.extend({
 	classNameBindings: [":wide-modal", ":modal-overflow"],
@@ -11,8 +12,8 @@ var VerifyBankAccountModalView = ModalBaseView.extend({
 	actions: {
 		save: function() {
 			var self = this;
-			var controller = this.get("container").lookup("controller:modal_notification_center");
-			var verification = this.get("container").lookup("model:verification", {
+			var controller = this.get("container").lookup("controller:modal-notification-center");
+			var verification = Verification.create({
 				uri: this.get('bankAccount.bank_account_verifications_uri')
 			});
 
@@ -34,6 +35,7 @@ var VerifyBankAccountModalView = ModalBaseView.extend({
 
 VerifyBankAccountModalView.reopenClass({
 	open: function(bankAccount) {
+		console.log(bankAccount, bankAccount.get("bank_account_verifications_uri"));
 		return this.create({
 			bankAccount: bankAccount
 		});

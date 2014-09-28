@@ -9,6 +9,7 @@ var instantiateModel = function(type, properties) {
 var Testing = {
 	FIXTURE_MARKETPLACE_ROUTE: '/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
 	FIXTURE_USER_EMAIL: "foo@bar.com",
+	FIXTURE_USER_ROUTE: "/users/USeb4a5d6ca6ed11e2bea6026ba7db2987",
 	marketplace: null,
 
 	// constant ids
@@ -271,14 +272,14 @@ var Testing = {
 	createCredit: function() {
 		var self = this;
 		andThen(function() {
-			self._createCard()
+			self._createCard();
 		});
 		andThen(function() {
 			self._createDebit();
 		});
 		andThen(function() {
 			self._createBankAccount();
-		})
+		});
 		andThen(function() {
 			self._createCredit();
 		});
