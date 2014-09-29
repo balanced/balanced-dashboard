@@ -354,6 +354,10 @@ var Utils = Ember.Namespace.create({
 		}
 	},
 
+	humanReadableDateTime: function(isoDate) {
+		return '%@, %@'.fmt(Utils.formatDate(isoDate, Utils.date_formats.date), Utils.formatDate(isoDate, Utils.date_formats.time));
+	},
+
 	humanReadableDate: function(isoDate) {
 		return Utils.formatDate(isoDate, Utils.date_formats.date);
 	},

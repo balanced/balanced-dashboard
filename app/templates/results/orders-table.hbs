@@ -1,43 +1,29 @@
-<thead>
-	<tr>
-		<th class="span3 date has-filter">
-			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeOrdersSort"}}
-				<span>Date</span>
-			{{/view}}
-		</th>
-		<th class="span4 label6a description"><span>Description</span></th>
-		<th class="span4 label6a buyer"><span>Customer (buyer)</span></th>
-		<th class="span4 label6a seller"><span>Customer (seller)</span></th>
-		<th class="span2 label6a debits"><span>Debits</span></th>
-		<th class="span2 label6a credits"><span>Credits</span></th>
-		<th class="span2 label6a escrow"><span>Escrow</span></th>
-	</tr>
-</thead>
-
-{{#if view.loader.results.hasNextPage}}
-	{{view "results/results-load-more" results=view.loader.results columns=7}}
-{{/if}}
-
-<tbody>
+<div>
 	{{#each order in view.loader.results}}
-		<tr>
-			{{view "tables/cells/linked-date-cell" routeName=order.route_name date=order.created_at item=order classNames="span3"}}
-			{{view "tables/cells/titled-linked-cell" routeName=order.route_name item=order labelText=order.page_title classNames="span4"}}
-			{{view "tables/cells/titled-linked-cell" routeName=order.route_name item=order labelText=order.buyers.firstObject.display_me classNames="span4"}}
-			{{view "tables/cells/titled-linked-cell" routeName=order.route_name item=order labelText=order.seller.display_me classNames="span4"}}
-			{{view "tables/cells/titled-linked-cell" routeName=order.route_name item=order labelText=order.debits_amount classNames="span4"}}
-			{{view "tables/cells/titled-linked-cell" routeName=order.route_name item=order labelText=order.credits_amount classNames="span4"}}
-			{{view "tables/cells/titled-linked-cell" routeName=order.route_name item=order labelText=order.escrow_balance classNames="span4"}}
-		</tr>
+		{{view "tables/cells/linked-card"
+			routeName=order.route_name
+			dateLabel="Created at"
+			date=order.created_at
+			title=order.page_title
+			amountLabel="Balance"
+			amount=order.escrow_balance
+			item=order
+			}}
 	{{else}}
-		<tr>
-			<td colspan="7" class="no-results">
-				{{#if view.loader.results.isLoaded}}
-					No results
-				{{else}}
-					Loading...
-				{{/if}}
-			</td>
-		</tr>
+		<div>
+			{{#if view.loader.results.isLoaded}}
+				No orders
+			{{else}}
+				Loading...
+			{{/if}}
+		</div>
 	{{/each}}
-</tbody>
+</div>
+
+{{#if view.results.loadingNextPage}}
+	<div class="loader-container">
+		<span class="loader loading"></span>
+	</div>
+{{else}} {{#if view.results.hasNextPage}}
+	<a class="btn secondary" {{action "loadMore" view.results target=view}}>Load more</a>
+{{/if}} {{/if}}
