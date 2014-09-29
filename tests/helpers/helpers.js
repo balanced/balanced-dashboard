@@ -114,7 +114,7 @@ Balanced.Test.asyncHelpers = {
 	onUrl: function(app, route) {
 		wait();
 
-		equal(Balanced.__container__.lookup('router:main').get('url'), route, 'On correct url');
+		equal(BalancedApp.__container__.lookup('router:main').get('url'), route, 'On correct url');
 
 		return wait();
 	}

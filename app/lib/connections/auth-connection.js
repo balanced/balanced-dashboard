@@ -1,9 +1,9 @@
 import ENV from "balanced-dashboard/config/environment";
-import Ajax from "../ajax";
 import BaseConnection from "./base-connection";
 
 var AuthConnection = BaseConnection.extend({
 	csrfToken: function() {
+		var Ajax = require("balanced-dashboard/lib/ajax")["default"];
 		return Ajax.csrfToken;
 	}.property(),
 

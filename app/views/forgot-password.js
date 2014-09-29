@@ -1,7 +1,7 @@
-import LoginView from "../login";
+import LoginView from "./login";
 
 var ForgotPasswordView = LoginView.extend({
-	templateName: 'login-flow/forgot-password',
+	templateName: 'forgot-password',
 	pageTitle: 'Reset password',
 	afterFormLink: function() {
 		return {

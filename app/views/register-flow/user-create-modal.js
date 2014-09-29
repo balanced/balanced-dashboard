@@ -60,7 +60,8 @@ var UserCreateModalView = RegisterFlowBaseModal.extend({
 		save: function() {
 			var self = this;
 			var model = this.get("model");
-			var apiKey = this.get("container").lookup("controller:secretApiKey");
+			var auth = this.get("container").lookup("auth:main");
+			var apiKey = auth.get("authToken");
 			this.save(model, apiKey)
 				.then(function(marketplace) {
 					self.send("nextStep", marketplace);

@@ -53,7 +53,7 @@ Ember.Test.registerHelper "check", (app, selector, val) ->
 		equal(element.length, val, "Element exists #{selector} #{val} times")
 
 	else if _.isString(val)
-		checkText(element, val)
+		checkText(selector, val)
 
 Ember.Test.registerHelper 'checkElements', (app, hash) ->
 	_.each hash, (value, selector) ->

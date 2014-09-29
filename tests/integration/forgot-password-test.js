@@ -17,16 +17,14 @@ module('Integration - ForgotPassword', {
 		Testing.logout();
 	},
 	teardown: function() {
-  Ember.run(App, 'destroy');		
-}
+	  Ember.run(App, 'destroy');
+	}
 });
 
 test('clicking forgot password from login takes you to the page', function() {
 	visit('/login')
 		.click("form#auth-form a:eq(0)")
-		.then(function() {
-			equal($("form#forgot-form").length, 1, 'The forgot form exists.');
-		});
+		.check("form#forgot-form", 1);
 });
 
 test('forgot password form submits', function() {
@@ -37,30 +35,37 @@ test('forgot password form submits', function() {
 		"email_address": "foo@bar.com"
 	});
 
-	visit('/forgot_password')
+	visit('/login')
+		.click("form#auth-form a:eq(0)")
 		.fillForm("#forgot-form", {
 			"email_address": "foo@bar.com"
 		}, {
 			click: "button"
 		})
 		.onUrl('/login')
+		.check(".notification-center.success .message", 1, 'The confirmation message is visible')
 		.then(function() {
-			equal($(".notification-center.success .message").length, 1, 'The confirmation message is visible');
 			ok(stub.calledOnce);
-			deepEqual(stub.firstCall.args.slice(1, 3), ["/password", {
+			deepEqual(stub.firstCall.args[1], "/password");
+			matchesProperties(stub.firstCall.args[2], {
 				email_address: "foo@bar.com"
-			}]);
+			});
 		});
 });
 
 test('displays error message if email address was not found', function() {
-	visit('/forgot_password')
+	visit('/login')
+		.click("form#auth-form a:eq(0)")
 		.fillForm("#forgot-form", {
 			"email_address": "foo12345@bar.com"
-		}, {
-			click: "button"
 		})
 		.then(function() {
-			equal($(".notification-center.error .message").length, 1, 'The error message is visible');
-		});
+			var c = BalancedApp.__container__.lookup("controller:forgot-password");
+			var m = c.get("model");
+			sinon.stub(m, "save").returns(Ember.RSVP.reject({
+				detail: "Not found"
+			}));
+		})
+		.click("#forgot-form button")
+		.check(".notification-center.error .message", 1, 'The confirmation message is visible');
 });

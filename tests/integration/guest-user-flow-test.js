@@ -16,7 +16,7 @@ module('Integration - Guest', {
 		Testing.setupMarketplace();
 	},
 	teardown: function() {
-		Ember.run(App, 'destroy');		
+		Ember.run(App, 'destroy');
 	}
 });
 
@@ -75,10 +75,15 @@ test('claim account creates a login', function() {
 		})
 		.click('#account-create [name=modal-submit]')
 		.then(function() {
-			deepEqual(stub.args[0][0].data, {
-				"email_address": "marshall@example.com",
-				"password": "SupahSecret123~!",
-				"passwordConfirm": "SupahSecret123~!"
+			var request = stub.args[0][0];
+			matchesProperties(request, {
+				type: "POST",
+				url: "https://auth.balancedpayments.com/users"
+				data: {
+					"email_address": "marshall@example.com",
+					"password": "SupahSecret123~!",
+					"passwordConfirm": "SupahSecret123~!"
+				}
 			});
 			stub.restore();
 		});
