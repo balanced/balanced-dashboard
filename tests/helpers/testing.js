@@ -348,14 +348,10 @@ var Testing = {
 
 	createDebits: function(number) {
 		var self = this;
-		number = number || 4;
 
-		var promises = _.times(number, function() {
-			return self._createDebit();
-		});
-		self.stop();
-		Ember.RSVP.all(promises).then(function() {
-			self.start();
+		number = number || 4;
+		_.times(number, function() {
+			return self.createDebit();
 		});
 	}
 };

@@ -5,6 +5,8 @@ import checkElements from "../helpers/check-elements";
 import createObjects from "../helpers/create-objects";
 import helpers from "../helpers/helpers";
 
+import CreditCreatorsCollection from "balanced-dashboard/lib/file-readers/credit-creators-collection";
+
 import Models from "../helpers/models";
 
 var App, Adapter;
@@ -34,7 +36,7 @@ var assertProperties = function(object, expectedProperties, message) {
 	deepEqual(actualProperties, expectedProperties, message);
 };
 
-asyncTest("Read and process CSV data", function() {
+test("Read and process CSV data", function() {
 	var expectations = [{
 		customer: {
 			name: "Harry Tan",
@@ -115,7 +117,7 @@ asyncTest("Read and process CSV data", function() {
 		"Dwyane Braggart,dwyane.braggart@example.org,121000358,123123123,Dwyane Braggart,SAVINGS,54,Payment #7050,[VALID]"
 	].join("\n");
 
-	var collection = Models.CreditCreatorsCollection.fromCsvText(mp, csvString);
+	var collection = CreditCreatorsCollection.fromCsvText(mp, csvString);
 
 	expectations.forEach(function(objects, index) {
 		var obj = collection.objectAt(index);
@@ -141,6 +143,5 @@ asyncTest("Read and process CSV data", function() {
 		var credits = Models.currentMarketplace.get("credits");
 		assertProperties(credits.objectAt(1), expectations[0].credit, "Saved credit 0");
 		assertProperties(credits.objectAt(0), expectations[3].credit, "Saved credit 1");
-		start();
 	});
 });

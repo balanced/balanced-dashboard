@@ -78,12 +78,12 @@ test('claim account creates a login', function() {
 			var request = stub.args[0][0];
 			matchesProperties(request, {
 				type: "POST",
-				url: "https://auth.balancedpayments.com/users"
-				data: {
-					"email_address": "marshall@example.com",
-					"password": "SupahSecret123~!",
-					"passwordConfirm": "SupahSecret123~!"
-				}
+				url: "https://auth.balancedpayments.com/users",
+			});
+			deepEqual(request.data, {
+				"email_address": "marshall@example.com",
+				"password": "SupahSecret123~!",
+				"passwordConfirm": "SupahSecret123~!"
 			});
 			stub.restore();
 		});
