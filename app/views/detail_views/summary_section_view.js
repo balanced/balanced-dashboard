@@ -190,15 +190,16 @@ Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
 
 Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
 	statusText: function() {
-		var status = this.get('model.status');
+		var status = this.get('model.state');
 
 		if (status === 'new') {
 			return 'Provide documentation to fight this dispute';
-		} else if (status === 'submitted') {
+		}
+		if (status === 'submitted') {
 			return 'This dispute is under review. Once the card holder issues a decision, the status will update to won or lost.';
 		}
 		return null;
-	}.property('model.status'),
+	}.property('model.state'),
 
 	linkedResources: function() {
 		return this.resourceLinks("model.transaction.order", "model.transaction.customer", "model.transaction.source");
