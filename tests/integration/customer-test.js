@@ -19,11 +19,9 @@ module('Integration - Customer Page', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
-			Adapter.update,
 			Adapter.create,
-			Adapter["delete"],
-			balanced.bankAccount.create,
-			balanced.card.create
+			Adapter.get,
+			Adapter.update
 		);
 		Ember.run(App, 'destroy');
 	}

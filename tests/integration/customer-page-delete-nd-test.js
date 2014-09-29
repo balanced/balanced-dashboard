@@ -9,7 +9,7 @@ import Models from "../helpers/models";
 
 var App, Adapter;
 
-module("Customer Page: Delete (Non deterministic)", {
+module("Integration - Customer Page: Delete (Non deterministic)", {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
@@ -35,8 +35,8 @@ test('can delete bank account', function() {
 			initialLength = elements.length;
 			href = elements.last().attr("data-item-href");
 		})
-		.click('.results .funding-instruments tr.type-bank-account .funding-instrument-delete:last')
-		.click('#delete-bank-account button[name=modal-submit]')
+		.click("table.items.funding-instruments tr.type-bank-account .funding-instrument-delete:last")
+		.click('#delete-funding-instrument button[name=modal-submit]')
 		.then(function() {
 			var args = spy.firstCall.args;
 
@@ -56,8 +56,8 @@ test('can delete cards', function() {
 			initialLength = elements.length;
 			href = elements.last().attr("data-item-href");
 		})
-		.click('.results .funding-instruments tr.type-card .funding-instrument-delete:last')
-		.click('#delete-card button[name=modal-submit]')
+		.click("table.items.funding-instruments tr.type-bank-account .funding-instrument-delete:last")
+		.click('#delete-funding-instrument button[name=modal-submit]')
 		.then(function() {
 			var args = spy.firstCall.args;
 

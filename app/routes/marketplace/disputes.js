@@ -4,7 +4,8 @@ var MarketplaceDisputesRoute = AuthRoute.extend({
 	pageTitle: 'Disputes',
 	model: function() {
 		var marketplace = this.modelFor("marketplace");
-		return marketplace.getDisputesLoader({});
+		var attributes = this.getProperties("startTime", "endTime");
+		return marketplace.getDisputesLoader(attributes);
 	},
 });
 

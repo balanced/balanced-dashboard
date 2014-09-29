@@ -4,6 +4,7 @@ import DeleteMixin from "balanced-dashboard/views/modals/mixins/object-action-mi
 
 var FundingInstrumentDeleteModalView = ModalBaseView.extend(DeleteMixin, {
 	templateName: "modals/funding-instrument-delete-modal",
+	elementId: "delete-funding-instrument",
 	isCard: Ember.computed.equal("fundingInstrument.type_name", "card"),
 
 	title: function() {

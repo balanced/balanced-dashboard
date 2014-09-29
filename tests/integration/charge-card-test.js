@@ -62,7 +62,7 @@ test('can charge a card', function() {
 		})
 		.click('button:contains(Debit)')
 		.then(function() {
-			var args = spy.firstCall.args
+			var args = spy.firstCall.args;
 			ok(tokenizingStub.calledOnce);
 			ok(spy.calledOnce);
 			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);

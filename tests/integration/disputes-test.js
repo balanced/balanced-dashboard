@@ -23,16 +23,19 @@ module('Integration - Disputes', {
 
 test('can visit page', function() {
 	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-	var disputesController = BalancedApp.__container__.lookup('controller:marketplace_disputes');
-	disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
-	disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
+	var disputesController = BalancedApp.__container__.lookup('controller:marketplace/disputes');
+	sinon.stub(disputesController, "send");
 
 	visit(DISPUTES_ROUTE)
 		.then(function() {
 			Ember.run(function() {
-				disputesController.send("changeDateFilter", moment('2013-08-01T00:00:00.000Z'), moment('2013-08-01T23:59:59.999Z'));
+				disputesController.get("model").setProperties({
+					startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+					endTime: moment('2013-08-01T23:59:59.999Z').toDate()
+				});
 			});
 		})
+		.check(".page-navigation h1", "Disputes")
 		.then(function() {
 			var resultsLoader = disputesController.get("model");
 			equal(resultsLoader.get("path"), '/disputes', 'Disputes URI is correct');
@@ -43,8 +46,11 @@ test('can visit page', function() {
 				"sort": "initiated_at,desc"
 			}, "Query string arguments match");
 		})
+		.then(function() {
+			// Doing this so the results loader triggers an update
+			return  Ember.RSVP.defer().promise;
+		})
 		.checkElements({
-			".page-navigation h1": "Disputes",
 			"table.disputes tbody tr": 2,
 			'table.disputes tbody tr:eq(0) td.date.initiated': 1,
 			'table.disputes tbody tr:eq(0) td.date.respond-by': 1,

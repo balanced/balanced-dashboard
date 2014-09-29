@@ -50,7 +50,7 @@
 			</td>
 			<td>
 				{{#unless funding_instrument.isRemoved}}
-					<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openModal" Balanced.FundingInstrumentDeleteModalView funding_instrument}}>
+					<a class="funding-instrument-delete" {{bind-attr data-item-href=funding_instrument.href}} {{action "openModal" "modals/funding-instrument-delete-modal" funding_instrument}}>
 						<i class="icon-table-x"></i>
 					</a>
 				{{/unless}}
