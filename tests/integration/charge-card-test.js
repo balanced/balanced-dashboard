@@ -37,7 +37,7 @@ test('form validation', 2, function() {
 		});
 });
 
-test('can charge a card', 3, function() {
+test('can charge a card', function() {
 	var spy = sinon.spy(Adapter, 'create');
 	var tokenizingStub = sinon.stub(balanced.card, 'create');
 	tokenizingStub.callsArgWith(1, {
@@ -62,15 +62,16 @@ test('can charge a card', 3, function() {
 		})
 		.click('button:contains(Debit)')
 		.then(function() {
+			var args = spy.firstCall.args
 			ok(tokenizingStub.calledOnce);
 			ok(spy.calledOnce);
-			ok(spy.calledWith(Models.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
+			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);
+			matchesProperties(args[2], {
 				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID
-			})));
-			tokenizingStub.restore();
+			});
 		});
 });
 
@@ -101,12 +102,14 @@ test('charge a card button is hidden after submit', function() {
 		.check("#charge-card .modal-footer .btn:last", 0)
 		.then(function() {
 			ok(spy.calledOnce, "Called once");
-			ok(spy.calledWith(Models.Debit, '/cards/' + Testing.CARD_ID + '/debits', sinon.match({
+			var args = spy.firstCall.args;
+			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);
+			matchesProperties(args[2], {
 				amount: "1200",
 				appears_on_statement_as: 'My Charge',
 				description: 'Internal',
 				source_uri: '/cards/' + Testing.CARD_ID
-			})), "Called with right arguments");
+			});
 		});
 });
 
@@ -118,5 +121,5 @@ test('when charge a card triggers an error, the error is displayed to the user',
 		}, {
 			click: '.modal-footer button:contains(Debit)'
 		})
-		.check(".alert-error:visible", 1);
+		.check(".alert-error:visible", 9);
 });

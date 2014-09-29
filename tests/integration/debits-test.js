@@ -14,7 +14,7 @@ module('Integration - Debits', {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Ember.run(function() {
+		andThen(function() {
 			Testing._createCard().then(function(card) {
 				return Models.Debit.create({
 					uri: card.get('debits_uri'),

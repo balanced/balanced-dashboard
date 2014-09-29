@@ -12,6 +12,7 @@
     "$",
     "jQuery",
     "-Promise",
+	"matchesProperties",
     "QUnit",
     "define",
     "console",
