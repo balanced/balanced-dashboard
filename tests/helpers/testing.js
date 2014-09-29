@@ -3,7 +3,7 @@ import setupMarketplace from "./setup-marketplace";
 import setupCreatedMarketplace from "./setup-created-marketplace";
 
 var instantiateModel = function(type, properties) {
-	return BalancedApp.__container__.lookup("model:" + type).setProperties(properties);
+	return BalancedApp.__container__.lookupFactory("model:" + type).create(properties);
 };
 
 var Testing = {
@@ -219,7 +219,7 @@ var Testing = {
 			expiration_month: 11
 		};
 
-		return instantiateModel("card", cardAttributes)
+		instantiateModel("card", cardAttributes)
 			.save()
 			.then(function(card) {
 				var hold = instantiateModel("hold", {
@@ -306,10 +306,12 @@ var Testing = {
 	createCustomer: function() {
 		var self = this;
 
-		return instantiateModel("customer", {
-			uri: this.marketplace.get('customers_uri'),
-			address: {}
-		}).save();
+		andThen(function() {
+			instantiateModel("customer", {
+				uri: this.marketplace.get('customers_uri'),
+				address: {}
+			}).save();
+		});
 	},
 
 	setupEvent: function(howMany) {

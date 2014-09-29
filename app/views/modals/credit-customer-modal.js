@@ -14,10 +14,9 @@ var CreditCustomerModalView = ObjectCreatorModalBaseView.extend({
 });
 
 CreditCustomerModalView.reopenClass({
-	open: function(customer, order) {
+	open: function(customer) {
 		return this.create({
-			customer: customer,
-			order: order
+			customer: customer
 		});
 	},
 });

@@ -1,8 +1,6 @@
 import ENV from "balanced-dashboard/config/environment";
 import Ember from "ember";
 import Utils from "./lib/utils";
-import User from "balanced-dashboard/models/user";
-import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 import Marketplace from "balanced-dashboard/models/marketplace";
 
 import Constants from "./utils/constants";
@@ -10,6 +8,10 @@ import CookieConstants from "./utils/constants/cookie";
 import Ajax from "balanced-dashboard/lib/ajax";
 
 import ApiKey from "./models/api-key";
+
+var createInstance = function(name, attributes) {
+	return BalancedApp.__container__.lookupFactory(name).create(attributes);
+};
 
 var Auth = Ember.Namespace.extend(Ember.Evented).create({
 	loadCsrfTokenIfNotLoaded: function() {
@@ -26,7 +28,7 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 		}, options);
 		return this.request(attributes)
 			.then(function(response) {
-				var user = User.create();
+				var user = createInstance("model:user");
 				user.populateFromJsonResponse(response.user);
 				self.setAuthProperties(
 					true,
@@ -116,7 +118,7 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 		this.storeGuestAPIKey(apiKey);
 		this.setAPIKey(apiKey);
 
-		var guestUser = User.create({
+		var guestUser = createInstance("model:user", {
 			user_marketplaces: Ember.A(),
 			marketplaces_uri: '/users/guest/marketplaces',
 			api_keys_uri: '/users/guest/api_keys'
@@ -135,7 +137,7 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	addUserMarketplace: function(id, uri, name, secret) {
-		var guestMarketplace = UserMarketplace.create({
+		var guestMarketplace = createInstance("model:user-marketplace", {
 			id: id,
 			uri: uri,
 			name: name,
@@ -236,7 +238,7 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 		};
 		return this.request(attributes)
 			.then(function(response) {
-				var user = self.get('user') || User.create();
+				var user = self.get('user') || createInstance("model:user");
 				user.populateFromJsonResponse(response.user);
 
 				if (!self.get('signedIn')) {
