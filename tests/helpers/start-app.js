@@ -17,9 +17,9 @@ export default function (attrs) {
 
 	Ember.run(function() {
 		App = Application.create(attributes);
+		window.BalancedApp = App;
 		App.setupForTesting();
 		App.injectTestHelpers();
 	});
-	window.BalancedApp = App;
 	return App;
 }
