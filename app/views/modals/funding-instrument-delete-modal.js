@@ -35,4 +35,4 @@ FundingInstrumentDeleteModalView.reopenClass({
 	},
 });
 
-export default ModalBaseView;
+export default FundingInstrumentDeleteModalView;
