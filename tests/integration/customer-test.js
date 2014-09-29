@@ -14,8 +14,6 @@ module('Integration - Customer Page', {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Testing.createBankAccount();
-		Testing.createCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -156,6 +154,8 @@ test('can update customer info only some fields', function() {
 });
 
 test('can debit customer using card', function() {
+	Testing.createBankAccount();
+	Testing.createCard();
 	var spy = sinon.stub(Adapter, "create");
 	var fundingInstrumentUri;
 

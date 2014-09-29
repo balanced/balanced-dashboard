@@ -1,6 +1,7 @@
 import Constants from "balanced-dashboard/utils/constants";
 import setupMarketplace from "./setup-marketplace";
 import setupCreatedMarketplace from "./setup-created-marketplace";
+import Models from "./models";
 
 var instantiateModel = function(type, properties) {
 	return BalancedApp.__container__.lookupFactory("model:" + type).create(properties);
@@ -187,30 +188,6 @@ var Testing = {
 		});
 	},
 
-	_createDispute: function(howMany) {
-		var self = this;
-		var createDisputesPromises = _.times(howMany, function() {
-			return self._createDisputeCard().then(function() {
-				return self._createDebit();
-			});
-		});
-
-		Ember.RSVP.all(createDisputesPromises).then(function(results) {
-			var timeout = 10000;
-			self.assertEnoughDisputesAvailable(howMany).then(function(disputes) {
-				var evt = disputes.objectAt(0);
-				self.DISPUTE = evt;
-				self.DISPUTE_ID = evt.get('id');
-				self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
-					'/disputes/' + self.DISPUTE_ID;
-				self.start();
-			}, function() {
-				Ember.Logger.error("Couldn't find disputes after " + timeout + "ms");
-				self.start();
-			});
-		});
-	},
-
 	createHold: function() {
 		var self = this;
 		var cardAttributes = {
@@ -342,10 +319,25 @@ var Testing = {
 
 	createDisputes: function(number) {
 		var self = this;
-		var initialNumberDisputes = number || 4;
+
 		andThen(function() {
-			self._createDispute(initialNumberDisputes);
+			self._createDisputeCard()
+				.then(function() {
+					return self._createDebit();
+				})
+				.then(function(evt) {
+					console.log(evt);
+				});
 		});
+
+		andThen(function() {
+			Models.Dispute.findAll().then(function(evt) {
+				evt = evt[0]
+				self.DISPUTE = evt;
+				self.DISPUTE_ID = evt.get('id');
+				self.DISPUTE_ROUTE = '%@/disputes/%@'.fmt(self.MARKETPLACE_ROUTE, self.DISPUTE_ID);
+			});
+		})
 	},
 
 	createDebits: function(number) {
