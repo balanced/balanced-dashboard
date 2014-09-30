@@ -15,19 +15,20 @@ module('Integration - Search', {
 		Adapter = App.__container__.lookup("adapter:main");
 		Auth = App.__container__.lookup("auth:main");
 		Testing.setupMarketplace();
-		Testing.setupMarketplace();
 		Testing.createDebits();
 		Testing.createCustomer();
-		Auth.setProperties({
-			signedIn: true,
-			isGuest: false
+		andThen(function() {
+			Ember.run(function() {
+				App.__container__.lookup("controller:marketplace").setProperties({
+					isShowSearchBar: true
+				});
+			});
 		});
 	},
 	teardown: function() {
 		Ember.run(App, 'destroy');
 	}
 });
-
 
 var assertQueryString = function(string, expected) {
 	var qsParameters = Models.Utils.queryStringToObject(string);
@@ -73,18 +74,20 @@ test('search date picker dropdown', function() {
 			Testing.runSearch('%');
 		})
 		.click('#search .datetime-picker')
+		.checkElements({
+			'.daterangepicker:visible': 1,
+			'.daterangepicker:visible .calendar': 2
+		})
 		.then(function() {
-			equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
-			equal($('.daterangepicker:visible .calendar').length, 2, 'Date Picker has 2 calendars visible');
 			$('.daterangepicker:visible input[name="daterangepicker_start"]').val('8/1/2013').trigger('change');
 			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
-		.then(function() {
-			equal($('.daterangepicker:visible').length, 1, 'Date Picker visible');
+		.checkElements({
+			'.daterangepicker:visible': 1,
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
-		.then(function() {
-			equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
+		.checkElements({
+			'.daterangepicker:visible': 0,
 		});
 });
 

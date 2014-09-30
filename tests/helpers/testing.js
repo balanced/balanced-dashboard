@@ -280,12 +280,20 @@ var Testing = {
 		});
 	},
 
+	createDebits: function() {
+		var self = this;
+
+		_.times(4, function() {
+			return self.createDebit();
+		});
+	},
+
 	createCustomer: function() {
 		var self = this;
 
 		andThen(function() {
 			instantiateModel("customer", {
-				uri: this.marketplace.get('customers_uri'),
+				uri: self.marketplace.get('customers_uri'),
 				address: {}
 			}).save();
 		});
@@ -339,15 +347,6 @@ var Testing = {
 			});
 		})
 	},
-
-	createDebits: function(number) {
-		var self = this;
-
-		number = number || 4;
-		_.times(number, function() {
-			return self.createDebit();
-		});
-	}
 };
 
 export default Testing;
