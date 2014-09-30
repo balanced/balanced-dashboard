@@ -39,18 +39,19 @@ test('can pay a seller', function() {
 		})
 		.click('#pay-seller .modal-footer button:contains(Credit)')
 		.then(function() {
-			ok(stub.calledOnce, "Called Once");
-			deepEqual(stub.firstCall.args.slice(0, 3), [Models.Credit, "/credits", {
+			var args = stub.firstCall.args;
+			deepEqual(args.slice(0, 2), [Models.lookupFactory("credit"), "/credits"]);
+			matchesProperties(args[2], {
 				amount: "9800",
 				appears_on_statement_as: "Transaction",
 				description: "Cool",
-				destination: {
-					account_number: "123123123",
-					name: "TEST",
-					routing_number: "123123123",
-					account_type: "checking"
-				}
-			}]);
+			});
+			matchesProperties(args[2].destination, {
+				account_number: "123123123",
+				name: "TEST",
+				routing_number: "123123123",
+				account_type: "checking"
+			});
 		});
 });
 
