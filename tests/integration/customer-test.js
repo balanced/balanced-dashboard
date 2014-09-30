@@ -180,7 +180,7 @@ test('can debit customer using card', function() {
 		.then(function() {
 			ok(spy.calledOnce, "Called once");
 			var args = spy.firstCall.args;
-			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);
+			deepEqual(args.slice(0, 2), [Models.lookupFactory("debit"), "/cards/%@/debits".fmt(Testing.CARD_ID)]);
 			matchesProperties(args[2], {
 				amount: "100000",
 				description: "Card debit",
@@ -218,7 +218,7 @@ test('can debit customer using bank account', function() {
 		.then(function() {
 			ok(spy.calledOnce);
 			var args = spy.firstCall.args;
-			deepEqual(args.slice(0, 2), [Models.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID)]);
+			deepEqual(args.slice(0, 2), [Models.lookupFactory('debit'), "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID)]);
 			matchesProperties(args[2], {
 				amount: "100000",
 				description: "Test debit",
@@ -253,7 +253,7 @@ test("can't debit customer multiple times using the same modal", function() {
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(spy.calledOnce);
-			deepEqual(spy.firstCall.args.slice(0, 2), [Models.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID)]);
+			deepEqual(spy.firstCall.args.slice(0, 2), [Models.lookupFactory('debit'), "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID)]);
 			matchesProperties(spy.firstCall.args[2], {
 				amount: "100000",
 				appears_on_statement_as: "Cool",
