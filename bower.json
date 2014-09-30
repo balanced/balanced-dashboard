@@ -2,7 +2,6 @@
   "name": "Balanced Dashboard",
   "version": "0.1.3",
   "dependencies": {
-    "bootstrap": "2.3.1",
     "bootstrap-daterangepicker": "~1.3.13",
     "bootstrap-modal": "2.1.0",
     "ember": "1.8.0-beta.1",
@@ -14,7 +13,7 @@
     "ember-resolver": "~0.1.1",
     "google-code-prettify": "1.0.0",
     "handlebars": "~1.3.0",
-    "strapped": "0.1.87",
+    "strapped": "kyungmin/strapped#new-bootstrap",
     "jquery": "^1.11.1",
     "jquery-csv": "",
     "jquery-hotkeys": "jeresig/jquery.hotkeys",
