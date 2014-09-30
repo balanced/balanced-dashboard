@@ -89,14 +89,16 @@ test('add funds', function() {
 		.click("#add-funds [name=modal-submit]")
 		.then(function() {
 			var fundingInstrumentUri = bankAccounts.objectAt(0).get("uri");
-			var call = spy.firstCall;
+			var args = spy.firstCall.args;
 			ok(spy.calledOnce);
-			deepEqual(call.args.slice(0, 3), [Models.Debit, fundingInstrumentUri + '/debits', {
+			equal(args[0], Models.lookupFactory("debit"));
+			deepEqual(args[1], fundingInstrumentUri + "/debits");
+			matchesProperties(args[2], {
 				"source_uri": fundingInstrumentUri,
 				"amount": "5555",
 				"appears_on_statement_as": "BALANCED TEST",
 				"description": 'Adding lots of money yo'
-			}]);
+			});
 		});
 });
 
@@ -150,12 +152,13 @@ test('withdraw funds', function() {
 			var args = spy.firstCall.args;
 			ok(spy.calledOnce);
 
-			deepEqual(args.slice(0, 3), [Models.Credit, bankAccounts.objectAt(0).get("uri") + "/credits", {
+			deepEqual(args.slice(0, 2), [Models.lookupFactory("credit"), bankAccounts.objectAt(0).get("uri") + "/credits"]);
+			matchesProperties(args[2], {
 				amount: "5555",
 				appears_on_statement_as: "BALANCED TEST",
 				description: "Withdrawing some monies",
 				destination_uri: bankAccounts.objectAt(0).get("uri")
-			}]);
+			});
 		});
 });
 

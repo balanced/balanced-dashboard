@@ -1,4 +1,6 @@
-Models = {}
+Models =
+	lookupFactory: (name) ->
+		BalancedApp.__container__.lookupFactory("model:#{name}")
 
 r = (name) ->
 	klass = require("balanced-dashboard/models/#{name}").default

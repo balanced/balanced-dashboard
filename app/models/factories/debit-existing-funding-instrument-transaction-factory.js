@@ -1,6 +1,5 @@
 import TransactionFactory from "./transaction-factory";
 import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
-import Debit from "balanced-dashboard/models/debit";
 
 var DebitExistingFundingInstrumentTransactionFactory = TransactionFactory.extend({
 	appears_on_statement_max_length: Ember.computed.oneWay("source.appears_on_statement_max_length"),
@@ -17,6 +16,7 @@ var DebitExistingFundingInstrumentTransactionFactory = TransactionFactory.extend
 	},
 
 	save: function() {
+		var Debit = BalancedApp.__container__.lookupFactory("model:debit");
 		var deferred = Ember.RSVP.defer();
 
 		var baseDebitAttributes = this.getDebitAttributes();

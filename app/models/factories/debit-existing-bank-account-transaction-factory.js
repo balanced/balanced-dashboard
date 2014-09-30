@@ -1,7 +1,5 @@
 import DebitExistingFundingInstrumentTransactionFactory from "./debit-existing-funding-instrument-transaction-factory";
 import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
-import Card from "../card";
-import Debit from "../debit";
 
 var DebitExistingBankAccountTransactionFactory = DebitExistingFundingInstrumentTransactionFactory.extend({
 	validations: {
