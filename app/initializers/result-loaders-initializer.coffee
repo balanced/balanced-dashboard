@@ -20,5 +20,4 @@ ResultLoadersInitializer =
 			klass = require("balanced-dashboard/models/results-loaders/#{name}").default
 			container.register("results-loader:#{name}", klass)
 
-
 `export default ResultLoadersInitializer;`
