@@ -34,6 +34,7 @@ var BaseResultsLoader = Ember.Object.extend({
 	resultsUri: function() {
 		var path = this.get("path");
 		var query = this.get("queryStringArguments");
+
 		if (path === undefined) {
 			return undefined;
 		} else {
