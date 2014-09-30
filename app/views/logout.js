@@ -1,4 +1,4 @@
-import LoginView from "../login";
+import LoginView from "./login";
 
 var LogoutView = LoginView.extend({
 	templateName: 'login-flow/logout',

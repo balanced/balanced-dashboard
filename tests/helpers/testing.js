@@ -324,29 +324,6 @@ var Testing = {
 			});
 		});
 	},
-
-	createDisputes: function(number) {
-		var self = this;
-
-		andThen(function() {
-			self._createDisputeCard()
-				.then(function() {
-					return self._createDebit();
-				})
-				.then(function(evt) {
-					console.log(evt);
-				});
-		});
-
-		andThen(function() {
-			Models.Dispute.findAll().then(function(evt) {
-				evt = evt[0]
-				self.DISPUTE = evt;
-				self.DISPUTE_ID = evt.get('id');
-				self.DISPUTE_ROUTE = '%@/disputes/%@'.fmt(self.MARKETPLACE_ROUTE, self.DISPUTE_ID);
-			});
-		})
-	},
 };
 
 export default Testing;
