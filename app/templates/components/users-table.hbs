@@ -1,15 +1,14 @@
 <table class="items non-interactive">
 	<thead>
-		<th class="span3"><span>Date</span></th>
-		<th class="span9"><span>Email</span></th>
-		<th class="span1"><span></span></th>
+		<th class="col-md-3"><span>Date</span></th>
+		<th class="col-md-8"><span>Email</span></th>
+		<th class="col-md-1"><span></span></th>
 	</thead>
 	<tbody>
 		{{#each user in users}}
 			<tr>
 				{{view "tables/cells/linked-date-cell"
 					item=user
-					classNames="span3"
 					date=user.created_at
 				}}
 				<td {{bind-attr title="user.email_address"}}>

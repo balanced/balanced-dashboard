@@ -51,12 +51,12 @@
 					content=view.parentView.expirationMonths
 					value=view.model.expiration_month
 					viewName="expirationMonth"
-					class="span2"
+					class="col-md-2"
 				}}
 				{{view Ember.Select
 					content=view.parentView.expirationYears
 					value=view.model.expiration_year
-					class="span2"
+					class="col-md-2"
 				}}
 			</div>
 			{{#each message in view.model.validationErrors.expiration_date.fullMessages}}

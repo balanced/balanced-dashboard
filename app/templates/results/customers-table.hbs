@@ -1,12 +1,12 @@
 <thead>
 	<tr>
-		<th class="span3 label6a has-filter">
+		<th class="col-md-3 has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
 				<span>Date</span>
 			{{/view}}
 		</th>
-		<th class="span4 label6a name"><span>Customer</span></th>
-		<th class="span4 label6a name"><span>Business</span></th>
+		<th class="col-md-4"><span>Customer</span></th>
+		<th class="col-md-4"><span>Business</span></th>
 	</tr>
 </thead>
 
@@ -17,16 +17,15 @@
 <tbody>
 	{{#each customer in view.loader.results}}
 		<tr>
-			{{view "tables/cells/linked-date-cell" routeName=customer.route_name date=customer.created_at item=customer classNames="span3"}}
+			{{view "tables/cells/linked-date-cell" routeName=customer.route_name date=customer.created_at item=customer}}
 			{{view "tables/cells/linked-two-lines-cell"
 				item=customer
 				routeName=customer.route_name
-				classNames="span4 name"
 				primaryLabelText=customer.display_me
 				secondaryLabelText=customer.email
 				title=customer.display_me_with_email
 			}}
-			{{view "tables/cells/titled-linked-cell" routeName=customer.route_name item=customer labelText=customer.business_name classNames="span4 business_name"}}
+			{{view "tables/cells/titled-linked-cell" routeName=customer.route_name item=customer labelText=customer.business_name}}
 		</tr>
 	{{else}}
 		<tr>

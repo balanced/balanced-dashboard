@@ -48,21 +48,21 @@
 			<table class="items non-interactive">
 				<thead>
 					<tr>
-						<th class="span2"><span>Type</span></th>
-						<th class="span1 num"><span>Quantity</span></th>
-						<th class="span2 num"><span>Txn amount</span></th>
-						<th class="span3"><span>Fee</span></th>
-						<th class="span2 num total"><span>Amount</span></th>
+						<th class="col-md-2"><span>Type</span></th>
+						<th class="col-md-1 num"><span>Quantity</span></th>
+						<th class="col-md-2 num"><span>Txn amount</span></th>
+						<th class="col-md-3"><span>Fee</span></th>
+						<th class="col-md-2 num total"><span>Amount</span></th>
 					</tr>
 				</thead>
 				<tbody>
 					{{#if isDispute}}
 						<tr class="dispute-details-row">
-							<td class="span3"><span>Disputes</span></td>
-							<td class="span2 num"><span>{{format-number disputes_count}}</span></td>
+							<td class="col-md-3"><span>Disputes</span></td>
+							<td class="col-md-2 num"><span>{{format-number disputes_count}}</span></td>
 							<td class="num"><span>{{format-currency disputes_total_amount}}</span></td>
 							<td><span>{{format-currency dispute_fixed_fee}} per dispute</span></td>
-							<td class="span3 num total"><span>{{format-currency disputes_total_fee}}</span></td>
+							<td class="col-md-3 num total"><span>{{format-currency disputes_total_fee}}</span></td>
 						</tr>
 					{{else}}
 						<tr class="hold-details-row">
@@ -146,8 +146,8 @@
 				<table class="items non-interactive">
 					<thead>
 						<tr>
-							<th class="span18"><span>Description</span></th>
-							<th class="span2 num total"><span>Total</span></th>
+							<th class="col-md-10"><span>Description</span></th>
+							<th class="col-md-2 num total"><span>Total</span></th>
 						</tr>
 					</thead>
 					<tbody>

@@ -50,8 +50,8 @@
 				{{view "form-fields/control-group-field" placeholder="Phone number" field="phone" help="Enter the phone number. " recommendedField=true}}
 				<div {{bind-attr class=":control-group model.dob_error:error"}}>
 					<div class="controls">
-						{{view Ember.TextField valueBinding="model.dob_month" name="dob_month" class="span2" placeholder="MM"}}
-						{{view Ember.TextField valueBinding="model.dob_year" name="dob_year" class="span2" placeholder="YYYY"}}
+						{{view Ember.TextField valueBinding="model.dob_month" name="dob_month" class="col-md-2" placeholder="MM"}}
+						{{view Ember.TextField valueBinding="model.dob_year" name="dob_year" class="col-md-2" placeholder="YYYY"}}
 					</div>
 					<label class="control-label">Enter the date of birth. <span class="recommended-field">Recommended field</span></label>
 				</div>

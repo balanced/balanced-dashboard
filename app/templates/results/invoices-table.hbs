@@ -1,16 +1,16 @@
 <thead>
 	<tr>
-		<th class="span3 label6a has-filter">
+		<th class="col-md-2 has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
 				<span>Date</span>
 			{{/view}}
 		</th>
-		<th class="span3 label6a"><span>Type</span></th>
-		<th class="span3 label6a"><span>Status</span></th>
-		<th class="span2 label6a"><span>Statement #</span></th>
-		<th class="span3 label6a"><span>From</span></th>
-		<th class="span3 label6a"><span>To</span></th>
-		<th class="span3 num"><span>Amount</span></th>
+		<th class="col-md-2"><span>Type</span></th>
+		<th class="col-md-2"><span>Status</span></th>
+		<th class="col-md-2"><span>Statement #</span></th>
+		<th class="col-md-2"><span>From</span></th>
+		<th class="col-md-2"><span>To</span></th>
+		<th class="col-md-2 num"><span>Amount</span></th>
 	</tr>
 </thead>
 {{#if view.loader.results.hasNextPage}}
@@ -19,40 +19,40 @@
 <tbody>
 	{{#each invoice in view.loader.results}}
 		<tr>
-			<td class="span3">
+			<td>
 				{{#link-to invoice.route_name invoice}}
 					<span class="primary">{{human-readable-date invoice.created_at}}</span>
 					<span class="secondary">{{human-readable-time invoice.created_at}}</span>
 				{{/link-to}}
 			</td>
-			<td class="span3 type">
+			<td class="type">
 				{{#link-to invoice.route_name invoice}}
 					<span>{{invoice.invoice_type}}</span>
 				{{/link-to}}
 			</td>
-			<td class="span3 status">
+			<td class="status">
 				{{#link-to invoice.route_name invoice}}
 					<span {{bind-attr class="invoice.status"}}>{{invoice.status}}</span>
 				{{/link-to}}
 			</td>
-			<td class="span2">
+			<td>
 				{{#link-to invoice.route_name invoice}}
 					{{invoice.sequence_number}}
 				{{/link-to}}
 			</td>
-			<td class="span3">
+			<td>
 				{{#link-to invoice.route_name invoice}}
 					<span class="primary">{{human-readable-date invoice.from_date}}</span>
 					<span class="secondary">5:00 PM</span>
 				{{/link-to}}
 			</td>
-			<td class="span3">
+			<td>
 				{{#link-to invoice.route_name invoice}}
 					<span class="primary">{{human-readable-date invoice.to_date}}</span>
 					<span class="secondary">5:00 PM</span>
 				{{/link-to}}
 			</td>
-			<td class="span3 amount num">
+			<td class="amount num">
 				{{#link-to invoice.route_name invoice}}
 					{{format-currency invoice.total_fee}}
 				{{/link-to}}

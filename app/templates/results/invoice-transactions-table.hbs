@@ -1,15 +1,15 @@
 <thead>
 	<tr>
-		<th class="span3 date has-filter">
+		<th class="col-md-3 date has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
 				<span>Date</span>
 			{{/view}}
 		</th>
-		<th class="span3 status has-filter">
+		<th class="col-md-2 status has-filter">
 			{{view "results/transactions-status-results-dropdown-filter"}}
 		</th>
-		<th class="span4 description"><span>Description</span></th>
-		<th class="span3 amount num">
+		<th class="col-md-4 description"><span>Description</span></th>
+		<th class="col-md-3 amount num">
 			<span>Amount</span>
 		</th>
 	</tr>
@@ -23,7 +23,6 @@
 		<tr>
 			{{view "tables/cells/linked-date-cell"
 				item=transaction
-				classNames="span3"
 				routeName=transaction.route_name
 				date=transaction.created_at
 			}}
@@ -32,18 +31,17 @@
 				labelText=transaction.status
 				routeName=transaction.route_name
 				spanClassNamesBinding="transaction.status"
-				classNames="span3 status"
+				classNames="status"
 				titleBinding="transaction.status"
 			}}
 			{{view "tables/cells/linked-text-cell"
 				item=transaction
 				labelText=transaction.description
 				routeName=transaction.route_name
-				classNames="span4"
 				titleBinding="transaction.description"
 			}}
 
-			{{view "tables/cells/transaction/amount-cell" item=transaction classNames="span3"}}
+			{{view "tables/cells/transaction/amount-cell" item=transaction}}
 		</tr>
 	{{else}}
 		<tr>
