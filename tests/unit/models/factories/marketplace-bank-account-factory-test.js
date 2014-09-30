@@ -2,7 +2,7 @@ import MarketplaceBankAccountFactory from "balanced-dashboard/models/factories/m
 
 module("MarketplaceBankAccountFactory");
 
-test("#getPostAttributes", function(assert) {
+test("#getPostAttributes", function() {
 	var subject = MarketplaceBankAccountFactory.create({
 		name: "Monopoly Guy",
 		account_type: "savings",
@@ -10,7 +10,7 @@ test("#getPostAttributes", function(assert) {
 		account_number: "123123123"
 	});
 
-	assert.deepEqual(subject.getPostAttributes(), {
+	deepEqual(subject.getPostAttributes(), {
 		name: "Monopoly Guy",
 		account_type: "savings",
 		routing_number: "123123123",
@@ -18,7 +18,7 @@ test("#getPostAttributes", function(assert) {
 	});
 });
 
-test("#_save", function(assert) {
+test("#_save", function() {
 	var stub = sinon.stub(balanced.bankAccount, "create");
 
 	var subject = MarketplaceBankAccountFactory.create({
@@ -30,7 +30,7 @@ test("#_save", function(assert) {
 
 	subject._save();
 
-	assert.deepEqual(stub.args[0][0], {
+	deepEqual(stub.args[0][0], {
 		name: "Monopoly Guy",
 		account_type: "savings",
 		routing_number: "123123123",

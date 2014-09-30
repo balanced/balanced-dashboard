@@ -81,8 +81,8 @@ test('renders metadata correctly', function() {
 		});
 });
 
-test('can edit meta', function(assert) {
-	var spy = sinon.spy(Balanced.Adapter, "update");
+test('can edit meta', function() {
+	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REFUND_ROUTE)
 		.click('.key-value-display .edit-model-link:eq(1)')
@@ -92,9 +92,10 @@ test('can edit meta', function(assert) {
 		})
 		.click('#edit-meta .modal-footer button[name=modal-submit]')
 		.then(function() {
-			assert.ok(spy.calledOnce);
-			assert.ok(spy.calledWith(Balanced.Refund));
-			assert.deepEqual(spy.getCall(0).args[2].meta, {
+			var args = spy.firstCall.args;
+			ok(spy.calledOnce);
+			equal(args[0], Models.lookupFactory("refund"));
+			deepEqual(args[2].meta, {
 				"new key": "new value"
 			});
 		});

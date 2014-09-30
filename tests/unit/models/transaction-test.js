@@ -1,8 +1,8 @@
 import Transaction from "balanced-dashboard/models/transaction";
 
-module('Transaction');
+module('Module - Transaction');
 
-test(".findAppearsOnStatementAsInvalidCharacters", function(assert) {
+test(".findAppearsOnStatementAsInvalidCharacters", function() {
 	var tests = {
 		"BALANCED, INC.": ",",
 		"BALANCED-INC": "",
@@ -10,6 +10,6 @@ test(".findAppearsOnStatementAsInvalidCharacters", function(assert) {
 	};
 
 	_.each(tests, function(expected, value) {
-		assert.equal(Transaction.findAppearsOnStatementAsInvalidCharacters(value), expected);
+		equal(Transaction.findAppearsOnStatementAsInvalidCharacters(value), expected);
 	});
 });

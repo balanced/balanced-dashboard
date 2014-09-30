@@ -2,11 +2,11 @@ import ResultsLoaderQueryStringBuilder from "balanced-dashboard/models/results-l
 
 module("ResultsLoaderQueryStringBuilder");
 
-test("#addValue", function(assert) {
+test("#addValue", function() {
 	var testExpectation = function(key, value, result) {
 		var builder = new ResultsLoaderQueryStringBuilder();
 		builder.addValue(key, value);
-		assert.deepEqual(builder.queryStringAttributes, result);
+		deepEqual(builder.queryStringAttributes, result);
 	};
 
 	testExpectation("status", null, {});

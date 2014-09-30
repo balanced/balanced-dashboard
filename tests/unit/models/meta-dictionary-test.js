@@ -1,7 +1,9 @@
-module('Balanced.MetaDictionary');
+import MetaDictionary from "balanced-dashboard/models/helpers/meta-dictionary";
 
-asyncTest('save (invalid)', function(assert) {
-	var metaDictionary = Balanced.MetaDictionary.create({
+module('Model - MetaDictionary');
+
+asyncTest('save (invalid)', function() {
+	var metaDictionary = MetaDictionary.create({
 		transaction: Ember.Object.create(),
 		fields: [{
 			key: "",
@@ -11,17 +13,17 @@ asyncTest('save (invalid)', function(assert) {
 
 	metaDictionary.save()
 		.then(undefined, function() {
-			assert.deepEqual(metaDictionary.get("validationErrors.fullMessages"), ["fields All keys must be present."]);
+			deepEqual(metaDictionary.get("validationErrors.fullMessages"), ["fields All keys must be present."]);
 		})
 		.then(start);
 });
 
-asyncTest('save (valid)', function(assert) {
+asyncTest('save (valid)', function() {
 	var transaction = {};
 	transaction.set = sinon.stub();
 	transaction.save = sinon.stub().returns(Ember.RSVP.resolve());
 
-	var metaDictionary = Balanced.MetaDictionary.create({
+	var metaDictionary = MetaDictionary.create({
 		transaction: transaction,
 		fields: [{
 			key: "sample key",
@@ -31,18 +33,18 @@ asyncTest('save (valid)', function(assert) {
 
 	metaDictionary.save()
 		.then(function() {
-			assert.deepEqual(transaction.set.args, [
+			deepEqual(transaction.set.args, [
 				[
 					"meta", {
 						"sample key": "sample value"
 					}
 				]
 			]);
-			assert.deepEqual(transaction.save.args, [
+			deepEqual(transaction.save.args, [
 				[]
 			]);
 
-			assert.deepEqual(metaDictionary.get("validationErrors.fullMessages"), []);
+			deepEqual(metaDictionary.get("validationErrors.fullMessages"), []);
 		})
 		.then(start);
 });

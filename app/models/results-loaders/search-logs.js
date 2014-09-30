@@ -1,4 +1,4 @@
-import Ember from "./ember";
+import Ember from "ember";
 import LogsResultsLoader from "./logs";
 import ModelArray from "../core/model-array";
 import SearchModelArray from "../core/search-model-array";

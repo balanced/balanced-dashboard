@@ -17,10 +17,10 @@ module("ResultsLoader", {
 	},
 });
 
-test("#setSortField", function(assert) {
+test("#setSortField", function() {
 	var subject = ResultsLoader.create();
 	var test = function(expectation) {
-		assert.deepEqual(subject.get("sort"), expectation);
+		deepEqual(subject.get("sort"), expectation);
 	};
 
 	test("created_at,desc");
@@ -30,11 +30,11 @@ test("#setSortField", function(assert) {
 	test("initiated_at,desc");
 });
 
-test("#resultsUri", function(assert) {
+test("#resultsUri", function() {
 	var subject = ResultsLoader.create({});
 
 	var test = function(expectation) {
-		assert.deepEqual(subject.get("resultsUri"), expectation);
+		deepEqual(subject.get("resultsUri"), expectation);
 	};
 
 	test(undefined);
@@ -42,18 +42,18 @@ test("#resultsUri", function(assert) {
 	test("/marketplaces?limit=50&sort=created_at%2Cdesc");
 });
 
-test("#results (blank)", function(assert) {
+test("#results (blank)", function() {
 	var subject = ResultsLoader.create({
 		resultsUri: ""
 	});
 
 	var results = subject.get("results");
 
-	assert.equal(results.get("length"), 0);
-	assert.deepEqual(results.get("isLoaded"), true);
+	equal(results.get("length"), 0);
+	deepEqual(results.get("isLoaded"), true);
 });
 
-test("#results", function(assert) {
+test("#results", function() {
 	var stub = sinon.stub(SearchModelArray, "newArrayLoadedFromUri");
 	var result = Ember.Object.create();
 	stub.returns(result);
@@ -65,20 +65,20 @@ test("#results", function(assert) {
 
 	var r = subject.get("results");
 
-	assert.deepEqual(stub.args, [
+	deepEqual(stub.args, [
 		["/transactions/cool", Transaction]
 	]);
-	assert.deepEqual(result.get("sortProperties"), ["created_at"]);
-	assert.deepEqual(result.get("sortAscending"), false);
-	assert.equal(r, result);
+	deepEqual(result.get("sortProperties"), ["created_at"]);
+	deepEqual(result.get("sortAscending"), false);
+	equal(r, result);
 });
 
-test("#isBulkDownloadCsv", function(assert) {
+test("#isBulkDownloadCsv", function() {
 	var test = function(type, expectation) {
 		var subject = ResultsLoader.create({
 			resultsType: type,
 		});
-		assert.deepEqual(subject.isBulkDownloadCsv(), expectation);
+		deepEqual(subject.isBulkDownloadCsv(), expectation);
 	};
 
 	test(Dispute, true);
@@ -88,12 +88,12 @@ test("#isBulkDownloadCsv", function(assert) {
 	test(undefined, false);
 });
 
-test("#getCsvExportType", function(assert) {
+test("#getCsvExportType", function() {
 	var test = function(type, expectation) {
 		var subject = ResultsLoader.create({
 			resultsType: type,
 		});
-		assert.equal(subject.getCsvExportType(), expectation);
+		equal(subject.getCsvExportType(), expectation);
 	};
 
 	test(Dispute, "disputes");
@@ -103,7 +103,7 @@ test("#getCsvExportType", function(assert) {
 	test(undefined, undefined);
 });
 
-test("#postCsvExport (by uri)", function(assert) {
+test("#postCsvExport (by uri)", function() {
 	var stub = sinon.stub(jQuery, "ajax");
 	stub.returns({
 		then: function() {}
@@ -114,13 +114,13 @@ test("#postCsvExport (by uri)", function(assert) {
 	});
 	subject.postCsvExport("jim@example.org");
 
-	assert.deepEqual(JSON.parse(stub.args[0][0].data), {
+	deepEqual(JSON.parse(stub.args[0][0].data), {
 		email_address: "jim@example.org",
 		uri: "/v1/transactions"
 	});
 });
 
-test("#postCsvExport (bulk)", function(assert) {
+test("#postCsvExport (bulk)", function() {
 	var stub = sinon.stub(jQuery, "ajax");
 	stub.returns({
 		then: function() {}
@@ -134,7 +134,7 @@ test("#postCsvExport (bulk)", function(assert) {
 	});
 	subject.postCsvExport("jim@example.org");
 
-	assert.deepEqual(JSON.parse(stub.args[0][0].data), {
+	deepEqual(JSON.parse(stub.args[0][0].data), {
 		beginning: "2013-02-08T09:30:26.000Z",
 		email_address: "jim@example.org",
 		ending: "2013-02-08T10:30:26.000Z",

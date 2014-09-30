@@ -1,10 +1,12 @@
-var Full = Balanced.Modals.FullModalMixin;
-var Form = Balanced.Modals.FormModalMixin;
-var Save = Balanced.Modals.ObjectActionMixin;
+import MetaDictionary from "balanced-dashboard/models/helpers/meta-dictionary";
+import Full from "./mixins/full-modal-mixin";
+import Form from "./mixins/form-modal-mixin";
+import Save from "./mixins/object-action-mixin";
+import ModalBaseView from "./modal-base";
 
-Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Save, {
+var MetaEditModalView = ModalBaseView.extend(Full, Form, Save, {
 	elementId: "edit-meta",
-	templateName: 'modals/meta_edit_modal',
+	templateName: 'modals/meta-edit-modal',
 	title: "Edit meta information",
 	submitButtonText: "Update",
 
@@ -59,13 +61,15 @@ Balanced.Modals.MetaEditModalView = Balanced.ModalBaseView.extend(Full, Form, Sa
 	}
 });
 
-Balanced.Modals.MetaEditModalView.reopenClass({
+MetaEditModalView.reopenClass({
 	open: function(model, metaFields) {
 		return this.create({
-			metaDictionary: Balanced.MetaDictionary.create({
+			metaDictionary: MetaDictionary.create({
 				transaction: model,
 				fields: Ember.copy(metaFields, true)
 			})
 		});
 	}
 });
+
+export default MetaEditModalView;

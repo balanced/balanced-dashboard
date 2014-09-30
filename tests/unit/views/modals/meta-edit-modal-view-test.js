@@ -1,9 +1,11 @@
-module('Balanced.Modals.MetaEditModalView');
+import MetaEditModalView from "balanced-dashboard/views/modals/meta-edit-modal";
 
-test('save (invalid)', function(assert) {
+module('View - MetaEditModalView');
+
+test('save (invalid)', function() {
 	var transaction = {};
 
-	var view = Balanced.Modals.MetaEditModalView.open(transaction, [{
+	var view = MetaEditModalView.open(transaction, [{
 		key: "",
 		value: "sample value"
 	}]);
@@ -22,18 +24,18 @@ test('save (invalid)', function(assert) {
 		view.send('save');
 	});
 
-	assert.deepEqual(notificationController.alertError.args, [
+	deepEqual(notificationController.alertError.args, [
 		[
 			"All keys must be present."
 		]
 	]);
-	assert.equal(notificationController.clearAlerts.args.length, 2);
+	equal(notificationController.clearAlerts.args.length, 2);
 });
 
-test('save (valid)', function(assert) {
+test('save (valid)', function() {
 	var transaction = {};
 
-	var view = Balanced.Modals.MetaEditModalView.open(transaction, [{
+	var view = MetaEditModalView.open(transaction, [{
 		key: "sample key",
 		value: "sample value"
 	}]);
@@ -52,6 +54,6 @@ test('save (valid)', function(assert) {
 		view.send('save');
 	});
 
-	assert.deepEqual(notificationController.alertSuccess.args, []);
-	assert.equal(notificationController.clearAlerts.args.length, 2);
+	deepEqual(notificationController.alertSuccess.args, []);
+	equal(notificationController.clearAlerts.args.length, 2);
 });

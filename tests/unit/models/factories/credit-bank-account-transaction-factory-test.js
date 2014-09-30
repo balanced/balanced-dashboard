@@ -2,7 +2,7 @@ import CreditBankAccountTransactionFactory from "balanced-dashboard/models/facto
 
 module("CreditBankAccountTransactionFactory");
 
-test("#getDestinationAttributes", function(assert) {
+test("#getDestinationAttributes", function() {
 	var subject = CreditBankAccountTransactionFactory.create({
 		account_number: "100000000",
 		name: "Dr. Crock",
@@ -10,7 +10,7 @@ test("#getDestinationAttributes", function(assert) {
 		account_type: null
 	});
 
-	assert.deepEqual(subject.getDestinationAttributes(), {
+	deepEqual(subject.getDestinationAttributes(), {
 		account_number: "100000000",
 		name: "Dr. Crock",
 		routing_number: "1231234",
@@ -18,7 +18,7 @@ test("#getDestinationAttributes", function(assert) {
 	});
 });
 
-test("#getAttributes", function(assert) {
+test("#getAttributes", function() {
 	var subject = CreditBankAccountTransactionFactory.create({
 		dollar_amount: "5.67",
 		appears_on_statement_as: "Important Comp",
@@ -26,7 +26,7 @@ test("#getAttributes", function(assert) {
 		account_number: "100000000",
 	});
 
-	assert.deepEqual(subject.getAttributes(), {
+	deepEqual(subject.getAttributes(), {
 		amount: "567",
 		appears_on_statement_as: "Important Comp",
 		description: "xxxxx",

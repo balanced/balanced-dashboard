@@ -2,7 +2,7 @@ import UserAccountFactory from "balanced-dashboard/models/factories/user-account
 
 module("UserAccountFactory");
 
-test("#setValidationErrorsFromServer", function(assert) {
+test("#setValidationErrorsFromServer", function() {
 	var subject = UserAccountFactory.create();
 
 	subject.setValidationErrorsFromServer({
@@ -11,14 +11,14 @@ test("#setValidationErrorsFromServer", function(assert) {
 
 	var errors = subject.get("validationErrors.allMessages");
 
-	assert.deepEqual(errors, [
+	deepEqual(errors, [
 		[
 			"email_address", "Enter a valid e-mail address."
 		]
 	]);
 });
 
-test("#_save", function(assert) {
+test("#_save", function() {
 	var stub = sinon.stub(jQuery, "ajax");
 	stub.returns({
 		then: function() {}
@@ -32,7 +32,7 @@ test("#_save", function(assert) {
 
 	userAccount._save();
 	var request = stub.args[0][0];
-	assert.deepEqual(request.data, {
+	deepEqual(request.data, {
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"
@@ -41,7 +41,7 @@ test("#_save", function(assert) {
 	stub.restore();
 });
 
-test("#getPostAttributes", function(assert) {
+test("#getPostAttributes", function() {
 	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
@@ -50,17 +50,17 @@ test("#getPostAttributes", function(assert) {
 		lastName: "Grape"
 	});
 
-	assert.deepEqual(userAccount.getPostAttributes(), {
+	deepEqual(userAccount.getPostAttributes(), {
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"
 	});
 });
 
-test("#handleResponse", function(assert) {
+test("#handleResponse", function() {
 	var userAccount = UserAccountFactory.create();
 
-	assert.deepEqual(userAccount.handleResponse({
+	deepEqual(userAccount.handleResponse({
 		uri: "/users/:id"
 	}), "/users/:id");
 });

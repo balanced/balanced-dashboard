@@ -127,10 +127,10 @@ test('renders metadata correctly', function() {
 		});
 });
 
-test('displays failure reason amount in dollars', function(assert) {
+test('displays failure reason amount in dollars', function() {
 	visit(Testing.CREDIT_ROUTE)
 		.then(function() {
-			var model = Balanced.__container__.lookup('controller:credits').get('model');
+			var model = BalancedApp.__container__.lookup('controller:credits').get('model');
 			Ember.run(function() {
 				model.set('amount', '50036');
 				model.set('status', 'failed');

@@ -1,8 +1,8 @@
-require("./text_form_field_view");
+import TextFormFieldView from "./text-form-field";
 
-Balanced.MetaFormFieldView = Balanced.TextFormFieldView.extend({
+var MetaFormFieldView = TextFormFieldView.extend({
 	layoutName: null,
-	templateName: "form_fields/key_value_form_field",
+	templateName: "form-fields/meta-form-field",
 
 	key: function(a, value) {
 		var model = this.get("model");
@@ -21,3 +21,5 @@ Balanced.MetaFormFieldView = Balanced.TextFormFieldView.extend({
 		return (model) ? model["value"] : null;
 	}.property("model")
 });
+
+export default MetaFormFieldView;

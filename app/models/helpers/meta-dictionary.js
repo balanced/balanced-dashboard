@@ -1,4 +1,6 @@
-Balanced.MetaDictionary = Ember.Object.extend(Ember.Validations, {
+import Ember from "ember";
+
+var MetaDictionary = Ember.Object.extend(Ember.Validations, {
 	validations: {
 		fields: {
 			keyPresent: {
@@ -34,3 +36,5 @@ Balanced.MetaDictionary = Ember.Object.extend(Ember.Validations, {
 
 	}
 });
+
+export default MetaDictionary;

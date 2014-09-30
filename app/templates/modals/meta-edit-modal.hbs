@@ -1,4 +1,4 @@
-{{#view Balanced.FormSectionView sectionTitle="Meta information" metaFields=view.metaDictionary.fields}}
+{{#view "form-fields/section" sectionTitle="Meta information" metaFields=view.metaDictionary.fields}}
 	<label class="control-label key-value">
 		{{view.parentView.firstLabelText}}
 	</label>
@@ -8,9 +8,7 @@
 	</label>
 
 	{{#each metaField in view.metaFields}}
-		{{view Balanced.MetaFormFieldView
-			model=metaField
-		}}
+		{{view "form-fields/meta-form-field" model=metaField}}
 	{{/each}}
 	<div class="form-group clearfix">
 		<a class="pull-right" {{action 'addField' target=view.parentView}}>Add another field</a>

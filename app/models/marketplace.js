@@ -38,7 +38,7 @@ var Marketplace = UserMarketplace.extend({
 	},
 
 	getSearchLogsLoader: function(queryString) {
-		return Balanced.SearchLogsResultsLoader.create({
+		return getResultsLoader("search-logs", {
 			query: queryString
 		});
 	},
