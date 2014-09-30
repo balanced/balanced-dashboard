@@ -10,7 +10,7 @@ setupCreatedMarketplace = (marketplace) ->
 
 	routes.MARKETPLACES_ROUTE = '/marketplaces'
 	routes.MARKETPLACE_ROUTE = "/marketplaces/#{id}"
-	routes.ACTIVITY_ROUTE = "/marketplaces/#{id}/activity/transactions"
+	routes.ACTIVITY_ROUTE = "/marketplaces/#{id}/transactions"
 	routes.ADD_CUSTOMER_ROUTE = "/marketplaces/#{id}/add_customer"
 	routes.CUSTOMER_ROUTE = "/marketplaces/#{id}/customers/#{customerId}"
 	routes.LOGS_ROUTE = "/marketplaces/#{id}/logs"

@@ -298,32 +298,6 @@ var Testing = {
 			}).save();
 		});
 	},
-
-	setupEvent: function(howMany) {
-		var self = this;
-		howMany = howMany || 4;
-
-		// Call stop to stop executing the tests before
-		// a event is created
-		this.stop();
-
-		return Ember.run(function() {
-			var Event = BalancedApp.__container__.lookupFactory("model:event");
-			Event.findAll().then(function(events) {
-				// Wait for atleast 2 events
-				if (events.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupEvent, Testing, howMany), 1000);
-				}
-
-				var evt = events.objectAt(0);
-				self.EVENT_ID = evt.get('id');
-				self.EVENT_ROUTE = self.MARKETPLACE_ROUTE +
-					'/events/' + self.EVENT_ID;
-
-				self.start();
-			});
-		});
-	},
 };
 
 export default Testing;

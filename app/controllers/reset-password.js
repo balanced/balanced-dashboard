@@ -6,10 +6,6 @@ var ResetPasswordController = Ember.ObjectController.extend({
 	password_confirm: null,
 	hasError: false,
 
-	validateAndSave: function(model) {
-
-	},
-
 	actions: {
 		resetPassword: function() {
 			var model = this.get('model');
