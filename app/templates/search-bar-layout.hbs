@@ -1,7 +1,7 @@
 <div id="search" {{bind-attr class="view.isOpen:with-results"}}>
 	<div {{bind-attr class=":search-field-container view.isHighlight:search-highlight"}}>
 		<label {{bind-attr for=view.queryField.elementId class=":icon-search view.isHighlight:search-highlight"}}></label>
-    {{input type="text" id="q" autocomplete="off" name="search_query" viewName="queryField" value=view.value}}
+	    {{input type="text" id="q" autocomplete="off" name="search_query" viewName="queryField" value=resultsLoader.query}}
 		{{#if view.isLoading}}
 			<span class="query-loader">
 				<span class="loader loading"></span>

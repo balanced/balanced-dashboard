@@ -14,6 +14,10 @@ var MarketplaceController = Ember.ObjectController.extend({
 
 	needs: ['application', 'notification_center', 'sessions'],
 
+	isShowSearchBar: function() {
+		return this.get("auth.signedIn") && this.get("model");
+	}.property("auth.signedIn", "model"),
+
 	transactionSelected: isSelected('marketplace.transactions', 'credits', 'debits', 'holds', 'refunds', 'reversals'),
 	orderSelected: isSelected('marketplace.orders', 'orders'),
 	customerSelected: isSelected('marketplace.customers', 'customer'),
@@ -28,9 +32,11 @@ var MarketplaceController = Ember.ObjectController.extend({
 	myMarketplaceSelected: Ember.computed.or('settingSelected', 'invoiceSelected'),
 
 	disputesResultsLoader: function() {
-		return this.get('model').getDisputesLoader({
-			type: 'pending'
-		});
+		if (this.get("model")) {
+			return this.get('model').getDisputesLoader({
+				type: 'pending'
+			});
+		}
 	}.property('model'),
 
 	disputeAlertCount: Ember.computed.oneWay("disputesResultsLoader.results.length"),

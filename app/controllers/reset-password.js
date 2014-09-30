@@ -29,19 +29,16 @@ var ResetPasswordController = Ember.ObjectController.extend({
 					self.set('hasError', true);
 				});
 
-				model.save().then(function() {
-					self.setProperties({
-						password: null,
-						password_confirm: null,
-					});
-
-					self.transitionToRoute('login').then(function(loginRoute) {
+				model.save()
+					.then(function() {
+						model.setProperties({
+							password: null,
+							password_confirm: null,
+						});
 						var controller = self.get("controllers.notification_center");
 						controller.clearAlerts();
 						controller.alertSuccess("Your password has been successfully updated.");
-
 					});
-				});
 			} else {
 				self.set('hasError', true);
 			}

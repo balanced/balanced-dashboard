@@ -1,4 +1,4 @@
-import LoginController from "../login";
+import LoginController from "./login";
 
 var OtpController = LoginController.extend({
 	otpCode: null,

@@ -18,15 +18,17 @@ var MarketplaceSearchController = Ember.ObjectController.extend({
 
 	isDisplayResults: false,
 
-	isQueryPresent: Ember.computed.oneWay("resultsLoader.query.length"),
+	isQueryPresent: Ember.computed.gt("resultsLoader.query.length", 0),
 	isResultsOpen: Ember.computed.and("isQueryPresent", "isDisplayResults"),
 
 	queryChanged: function(a, value) {
 		this.set("isDisplayResults", true);
 	}.observes("resultsLoader.query"),
 
+	marketplace: Ember.computed.reads("model"),
+
 	resultsLoader: function() {
-		var marketplace = this.get("marketplace");
+		var marketplace = this.get("model");
 		return marketplace ?
 			marketplace.getSearchLoader({}) :
 			undefined;

@@ -154,20 +154,21 @@ test('can update customer info only some fields', function() {
 });
 
 test('can debit customer using card', function() {
-	Testing.createBankAccount();
 	Testing.createCard();
-	var spy = sinon.stub(Adapter, "create");
-	var fundingInstrumentUri;
+
+	var spy, fundingInstrumentUri;
+	andThen(function() {
+		spy = sinon.stub(Adapter, "create");
+	});
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
 		.checkElements({
-			"#debit-customer form select[name=source] option": 3,
-			"#debit-customer form select[name=source] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
-			"#debit-customer form select[name=source] option:eq(2)": "Credit card: 1111 Visa"
+			"#debit-customer form select[name=source] option": 2,
+			"#debit-customer form select[name=source] option:eq(1)": "Credit card: 1111 Visa",
 		})
 		.then(function() {
-			fundingInstrumentUri = $("#debit-customer form select[name=source] option:eq(2)").val();
+			fundingInstrumentUri = $("#debit-customer form select[name=source] option:eq(1)").val();
 			$("#debit-customer form select[name=source]").val(fundingInstrumentUri).change();
 		})
 		.fillForm("#debit-customer", {
@@ -177,7 +178,7 @@ test('can debit customer using card', function() {
 		})
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
-			ok(spy.calledOnce);
+			ok(spy.calledOnce, "Called once");
 			var args = spy.firstCall.args;
 			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);
 			matchesProperties(args[2], {
@@ -190,14 +191,18 @@ test('can debit customer using card', function() {
 });
 
 test('can debit customer using bank account', function() {
-	var spy = sinon.spy(Adapter, "create");
+	Testing.createBankAccount();
+
+	var spy, fundingInstrumentUri;
+	andThen(function() {
+		spy = sinon.stub(Adapter, "create");
+	});
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
 		.checkElements({
-			"#debit-customer form select[name=source] option": 3,
+			"#debit-customer form select[name=source] option": 2,
 			"#debit-customer form select[name=source] option:eq(0)": "Checking account: 1234 Wells Fargo Bank",
-			"#debit-customer form select[name=source] option:eq(1)": "Checking account: 5555 Wells Fargo Bank Na"
 		})
 		.then(function() {
 			var fundingInstrument = $("#debit-customer form select[name=source] option").eq(0).val();
@@ -224,7 +229,12 @@ test('can debit customer using bank account', function() {
 });
 
 test("can't debit customer multiple times using the same modal", function() {
-	var stub = sinon.stub(Adapter, "create");
+	Testing.createBankAccount();
+
+	var spy, fundingInstrumentUri;
+	andThen(function() {
+		spy = sinon.stub(Adapter, "create");
+	});
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click(".page-navigation a:contains(Debit)")
@@ -242,9 +252,9 @@ test("can't debit customer multiple times using the same modal", function() {
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.click('#debit-customer .modal-footer button[name=modal-submit]')
 		.then(function() {
-			ok(stub.calledOnce);
-			deepEqual(stub.firstCall.args.slice(0, 2), [Models.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID)]);
-			matchesProperties(stub.firstCall.args[2], {
+			ok(spy.calledOnce);
+			deepEqual(spy.firstCall.args.slice(0, 2), [Models.Debit, "/bank_accounts/%@/debits".fmt(Testing.BANK_ACCOUNT_ID)]);
+			matchesProperties(spy.firstCall.args[2], {
 				amount: "100000",
 				appears_on_statement_as: "Cool",
 				description: "Test debit",
