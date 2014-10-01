@@ -136,7 +136,8 @@ test('displays failure reason amount in dollars', function() {
 				model.set('status', 'failed');
 				model.set('failure_reason', 'Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of 42500. There is currently a required reserve of 50036.');
 			});
-		}).checkElements({
+		})
+		.checkElements({
 			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
-		}, assert);
+		});
 });

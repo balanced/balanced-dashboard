@@ -27,6 +27,10 @@ var MetaEditModalView = ModalBaseView.extend(Full, Form, Save, {
 		});
 	},
 
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification_center");
+	},
+
 	actions: {
 		addField: function() {
 			this.createNewField();
