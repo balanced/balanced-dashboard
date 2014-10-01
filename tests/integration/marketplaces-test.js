@@ -6,6 +6,7 @@ import createObjects from "../helpers/create-objects";
 import helpers from "../helpers/helpers";
 
 import Models from "../helpers/models";
+import Cookies from "balanced-dashboard/utils/constants/cookies";
 
 var App, Adapter, Auth;
 
@@ -36,7 +37,7 @@ test('view a marketplace sets the mru cookie', function() {
 		.then(function() {
 			Testing.selectMarketplaceByName();
 			equal(
-				$.cookie(Models.COOKIE.MARKETPLACE_URI),
+				$.cookie(Cookies.COOKIE.MARKETPLACE_URI),
 				'/marketplaces/' + Testing.MARKETPLACE_ID,
 				'mru cookie is set'
 			);
