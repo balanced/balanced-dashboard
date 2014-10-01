@@ -147,6 +147,6 @@ test("Read and process CSV data", function() {
 						assertProperties(credits.objectAt(1), expectations[0].credit, "Saved credit 0");
 						assertProperties(credits.objectAt(0), expectations[3].credit, "Saved credit 1");
 					});
-			})
+			});
 	});
 });
