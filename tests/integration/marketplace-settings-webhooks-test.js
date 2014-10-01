@@ -76,19 +76,27 @@ test('webhooks get created once if submit button is clicked multiple times', fun
 		});
 });
 
-test('can delete webhooks', function() {
+test('can manage webhooks', function() {
 	visit(Testing.SETTINGS_ROUTE)
+		.click(".webhook-info .add")
+		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
+		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.1')
+		.click('#add-callback .modal-footer button[name=modal-submit]')
+		.check(".webhooks tbody td.no-results", 0)
 		.click('.webhooks tbody tr:first a.delete-callback-link')
-		.click('#delete-callback:visible .modal-footer button[name=modal-submit]')
-		.checkElements({
-			".webhooks tbody td.no-results": 1
-		});
+		.click('#delete-callback .modal-footer button[name=modal-submit]')
+		.check(".webhooks tbody td.no-results", 1);
 });
 
 test('delete webhooks only submits once even if clicked multiple times', function() {
 	var spy = sinon.stub(Adapter, "delete");
 
 	visit(Testing.SETTINGS_ROUTE)
+		.click(".webhook-info .add")
+		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
+		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.1')
+		.click('#add-callback .modal-footer button[name=modal-submit]')
+
 		.click('.webhooks tbody tr:first a.delete-callback-link')
 		.click('#delete-callback .modal-footer button[name=modal-submit]')
 		.click('#delete-callback .modal-footer button[name=modal-submit]')

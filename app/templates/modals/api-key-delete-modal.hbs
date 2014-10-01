@@ -1,0 +1,16 @@
+<form {{action "save" view.apiKey on="submit" target=view}}>
+	<div class="modal-body">
+		<div class="content">
+			<p>Are you sure you want to delete this key?</p>
+			<p>This key will be deleted immediately.</p>
+			<ul>
+				<li class="sl-sb">ID: {{view.apiKey.id}}</li>
+				{{#if view.apiKey.meta.name}}
+					<li class="sl-sb">Name: {{view.apiKey.meta.name}}</li>
+				{{/if}}
+			</ul>
+		</div>
+	</div>
+
+	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Delete"}}
+</form>

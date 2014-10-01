@@ -5,8 +5,7 @@ var MarketplacesApplyRoute = Ember.Route.extend({
 		transition.abort();
 
 		if (transition.sequence > 0) {
-			var ApiKeyCreateModalView = this.container.lookupFactory("view:api-key-create-modal");
-			this.send("openModal", ApiKeyCreateModalView);
+			this.send("openModal", "register-flow/api-key-create-modal");
 		} else {
 			var self = this;
 			this.transitionTo("marketplaces.index")

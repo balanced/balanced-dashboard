@@ -107,7 +107,7 @@ test("Read and process CSV data", function() {
 		return expectation !== null;
 	});
 
-	var mp = Models.currentMarketplace;
+	var mp = BalancedApp.currentMarketplace;
 
 	var csvString = [
 		"new_customer_name,new_customer_email,new_bank_routing_number,new_bank_account_number,new_bank_account_holders_name,new_bank_account_type,amount,appears_on_statement_as,description",
@@ -139,9 +139,14 @@ test("Read and process CSV data", function() {
 		description: "[VALID]"
 	}, "CSV fields are correct");
 
-	collection.save(function(results) {
-		var credits = Models.currentMarketplace.get("credits");
-		assertProperties(credits.objectAt(1), expectations[0].credit, "Saved credit 0");
-		assertProperties(credits.objectAt(0), expectations[3].credit, "Saved credit 1");
+	andThen(function() {
+		collection
+			.save(function(results) {
+				return BalancedApp.currentMarketplace.get("credits")
+					.then(function(credits) {
+						assertProperties(credits.objectAt(1), expectations[0].credit, "Saved credit 0");
+						assertProperties(credits.objectAt(0), expectations[3].credit, "Saved credit 1");
+					});
+			});
 	});
 });

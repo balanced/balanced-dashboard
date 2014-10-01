@@ -141,34 +141,3 @@ test('filter logs by endpoint bank accounts', function() {
 			});
 		});
 });
-
-test('has logs in table', function() {
-	visit(Testing.LOGS_ROUTE)
-		.then(function() {
-			setLogsProperties();
-		})
-		.click('#marketplace-nav i.icon-logs')
-		.checkElements({
-			'table.logs tbody tr': 2
-		})
-		.click('table.logs tfoot tr a')
-		.checkElements({
-			'table.logs tbody tr': 4,
-			'table.logs tfoot td': 1
-		});
-});
-
-test('view a particular log entry', function() {
-	visit(Testing.LOGS_ROUTE)
-		.click('table.logs tbody tr:eq(-3) a')
-		.then(function() {
-			equal($('h1.page-title').text(), 'POST /customers/' + Testing.CUSTOMER_ID + '/debits', 'h1 title is correct');
-			equal($('dd[data-property="request-id"]').text().length, 35, 'Log request id valid');
-
-			// Check request/response bodies
-			ok($('.request-info .prettyprint').text().length > 3, 'Has Request Body');
-			ok($('.response-info .prettyprint').text().length > 3, 'Has Response Body');
-			ok($('.request-info .prettyprint').children().length > 3, 'Request Body Is Highlighted');
-			ok($('.response-info .prettyprint').children().length > 3, 'Response Body Is Highlighted');
-		});
-});

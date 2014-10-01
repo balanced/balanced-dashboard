@@ -49,11 +49,9 @@ var Testing = {
 	visitSettingsPage: function() {
 		var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
 		var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-		var disputesController = BalancedApp.__container__.lookup('controller:marketplace-disputes');
-		disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
-		disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
+		var disputesController = BalancedApp.__container__.lookup('controller:marketplace/disputes');
 
-		return visit(DISPUTES_ROUTE)
+		return visit(this.DISPUTES_ROUTE)
 			.then(function() {
 				var marketplace = BalancedApp.__container__.lookup("controller:marketplace").get("model");
 				Ember.run(function() {

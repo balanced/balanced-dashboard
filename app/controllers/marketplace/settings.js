@@ -1,7 +1,7 @@
 import Ember from "ember";
 import actionEvented from "../mixins/action-evented";
 
-var actionsMixin = actionEvented('openDeleteModal', 'openDeleteCallbackModal');
+var actionsMixin = actionEvented('openDeleteModal');
 
 var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, {
 	needs: ["marketplace"],
@@ -26,9 +26,17 @@ var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, 
 		return currentUserMarketplace;
 	}.property('user', 'id'),
 
-	marketplaceSecret: function() {
-		return this.get('userMarketplace.secret') || '';
-	}.property('userMarketplace', 'userMarketplace.secret')
+	marketplaceSecret: Ember.computed.reads("userMarketplace.secret"),
+
+	actions: {
+		reloadApiKeys: function() {
+			this.get("userMarketplace.marketplaceApiKeys").reload();
+		},
+
+		reloadUsers: function() {
+			this.get("userMarketplace").reloadMarketplaceUsers();
+		},
+	}
 });
 
 export default MarketplaceSettingsController;

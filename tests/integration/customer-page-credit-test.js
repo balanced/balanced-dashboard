@@ -73,7 +73,7 @@ test('can credit to a debit card', function() {
 		.then(function() {
 			var card = BalancedApp.__container__.lookup("controller:customer").get("model.creditable_cards").objectAt(0);
 			ok(spy.calledOnce, "Create was called once");
-			equal(spy.firstCall.args[0], Models.Credit);
+			equal(spy.firstCall.args[0], Models.lookupFactory("credit"));
 			equal(spy.firstCall.args[1], '/cards/CCxxxxxxxxxxxxxxxxxxx/credits');
 
 			deepEqual(spy.firstCall.args[2].amount, '100');
