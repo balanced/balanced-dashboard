@@ -1,7 +1,6 @@
 import Model from "./core/model";
+import ModelArray from "./core/model-array";
 import Rev0Serializer from "../serializers/rev0";
-import ApiKey from "./api-key";
-import UserInvite from "./user-invite";
 
 var UserMarketplace = Model.extend({
 	production: function() {
@@ -26,52 +25,34 @@ var UserMarketplace = Model.extend({
 		this.set('secret', newSecret);
 	},
 
+	marketplaceApiKeys: function() {
+		var ApiKey = BalancedApp.__container__.lookupFactory("model:api-key");
+		var uri = ApiKey.create().get("uri");
+		return ModelArray.newArrayLoadedFromUri(uri, ApiKey);
+	}.property("marketplace"),
+
 	fullKeys: function() {
-		var self = this;
-		var knownKeys = this.get('keys');
+		var knownKeys = this.get('keys') || [];
 		var secrets = {};
-		var keyID;
-		var keysArr = [];
 
-		if (knownKeys) {
-			knownKeys.forEach(function(key) {
-				if (key.uri) {
-					keyID = key.uri.replace(/.*\//, '');
-					secrets[keyID] = key.secret;
-				}
-			});
-		}
+		knownKeys.forEach(function(key) {
+			var keyUri = key.uri.replace(/^\/v1/, '');
+			secrets[keyUri] = key.secret;
+		});
 
-		ApiKey.findAll()
-			.then(function(result) {
-				var keys = result.content;
-				var date1, date2;
-				var secret;
-				keys.sort(function(k1, k2) {
-					date1 = k1.get('created_at');
-					date2 = k2.get('created_at');
-
-					return date1 < date2 ? 1 : -1;
-				});
-
-				keys.forEach(function(key) {
-					secret = secrets[key.get('id')];
-
-					if (secret) {
-						key.set('secret', secret);
-					}
-				});
-
-				keysArr.pushObjects(keys);
-			});
-
-		return keysArr;
-	}.property('marketplace', 'keys'),
+		var keys = this.get("marketplaceApiKeys.content");
+		keys.forEach(function(key) {
+			var secret = secrets[key.get('uri')];
+			if (secret) {
+				key.set('secret', secret);
+			}
+		});
+		return Ember.ArrayProxy.create({content: keys});
+	}.property('marketplaceApiKeys.@each.uri', 'keys'),
 
 	users: function() {
-		var MarketplaceUserInvite = UserInvite.extend({
-			uri: this.get('marketplace.users_uri')
-		});
+		var UserInvite = BalancedApp.__container__.lookupFactory("model:user-invite");
+		var uri = this.get('marketplace.users_uri');
 
 		var Auth = require("balanced-dashboard/auth")["default"];
 
@@ -81,7 +62,7 @@ var UserMarketplace = Model.extend({
 			noDelete: true
 		}];
 
-		MarketplaceUserInvite.findAll()
+		ModelArray.newArrayLoadedFromUri(uri, UserInvite)
 			.then(function(result) {
 				var users = result.content;
 

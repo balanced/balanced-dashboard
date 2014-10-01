@@ -2,29 +2,17 @@ import Ember from "ember";
 import Auth from "balanced-dashboard/auth";
 
 var ApiKeysTableComponent = Ember.Component.extend({
-	oneKey: function() {
-		return this.get('keys').length === 1;
-	}.property('keys.@each'),
+	oneKey: Ember.computed.equal('keys', 1),
 	haveOtherSecrets: function() {
 		return this.get('keys').filterBy('secret').length > 1;
 	}.property('keys.@each'),
 
+	knownApiKeys: Ember.computed.filterBy("keys", "secret"),
+	canDeleteApiKeys: Ember.computed.gt("knownApiKeys.length", 1),
+
 	actions: {
 		delete: function(key) {
-			var self = this;
-			var secret = key.get('secret');
-			var newKey;
-			if (secret === this.get('marketplaceSecret')) {
-				newKey = this.get('keys').filterBy('secret').without(key)[0];
-				if (!newKey) {
-					return;
-				}
-				Auth.setAPIKey(newKey.get('secret'));
-				this.userMarketplace.updateSecret(newKey.get('secret'));
-			}
-			key.delete().then(function() {
-				self.get('keys').removeObject(key);
-			});
+			this.get("container").lookup("controller:application").send("openModal", "modals/api-key-delete-modal", key);
 		}
 	}
 });
