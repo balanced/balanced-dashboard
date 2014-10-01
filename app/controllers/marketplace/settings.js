@@ -1,7 +1,7 @@
 import Ember from "ember";
 import actionEvented from "../mixins/action-evented";
 
-var actionsMixin = actionEvented('openDeleteModal', 'openDeleteCallbackModal');
+var actionsMixin = actionEvented('openDeleteModal');
 
 var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, {
 	needs: ["marketplace"],
