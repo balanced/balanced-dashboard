@@ -12,6 +12,10 @@ var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayMo
 		return this.get("container").lookup("controller:modal-notification-center");
 	},
 
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification-center");
+	},
+
 	staticBackdrop: true,
 
 	open: function() {
