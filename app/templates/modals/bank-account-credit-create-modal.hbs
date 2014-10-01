@@ -35,7 +35,7 @@
 
 			<div class="controls">
 				{{view Ember.Select
-					contentBinding="Balanced.BANK_ACCOUNT_TYPES"
+					content=view.bankAccountTypes
 					optionValuePath="content.value"
 					optionLabelPath="content.label"
 					valueBinding="view.model.account_type"

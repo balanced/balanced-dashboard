@@ -17,11 +17,13 @@
 					</span>
 				</td>
 				<td class="delete-container">
-					<span>
+					<div>
 						{{#unless user.noDelete}}
-							{{user-delete-modal user=user usersList=users userMarketplace=userMarketplace}}
+							<a href="#" {{action "delete" user}}>
+								<i class="confirm-delete-user icon-table-x action"></i>
+							</a>
 						{{/unless}}
-					</span>
+					</div>
 				</td>
 			</tr>
 		{{else}}

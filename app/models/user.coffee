@@ -1,17 +1,15 @@
 `import ENV from "balanced-dashboard/config/environment";`
 `import Computed from "balanced-dashboard/utils/computed";`
 `import Rev0Serializer from "balanced-dashboard/serializers/rev0";`
-`import UserMarketplace from "./user-marketplace";`
-`import Marketplace from "./marketplace";`
 `import Model from "./core/model";`
 `import Utils from "balanced-dashboard/lib/utils";`
 
 User = Model.extend Ember.Validations,
-	user_marketplaces: Model.hasMany('user_marketplaces', UserMarketplace)
+	user_marketplaces: Model.hasMany('user_marketplaces', "user_marketplace")
 
 	marketplacesLoader: (->
 		find: (id) ->
-			return Marketplace.findById(id)
+			BalancedApp.__container__.lookupFactory("model:marketplace").findById(id)
 	).property()
 
 	hasProductionMarketplace: (->

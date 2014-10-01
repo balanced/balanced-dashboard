@@ -88,7 +88,7 @@ var BankAccount = FundingInstrument.extend({
 
 	tokenizeAndCreate: function(customerId) {
 		var self = this;
-		var promise = this.resolveOn('didCreate');
+		var deferred = Ember.RSVP.defer();
 
 		function errorCreatingBankAccount(err) {
 			Ember.run.next(function() {
@@ -99,7 +99,7 @@ var BankAccount = FundingInstrument.extend({
 					validationErrors: Ember.get(err, 'validationErrors') || {}
 				});
 			});
-			promise.reject(err);
+			deferred.reject(err);
 		}
 
 		this.set('isSaving', true);
@@ -127,7 +127,7 @@ var BankAccount = FundingInstrument.extend({
 					});
 				}
 
-				promise.reject(validationErrors);
+				deferred.reject(validationErrors);
 			} else {
 				// Now that it's been tokenized, we just need to associate it with the customer's account
 				BankAccount.find(response.bank_accounts[0].href)
@@ -143,12 +143,13 @@ var BankAccount = FundingInstrument.extend({
 
 							self.updateFromModel(account);
 							self.trigger('didCreate');
+							deferred.resolve(bankAccount);
 						}, errorCreatingBankAccount);
 					}, errorCreatingBankAccount);
 			}
 		});
 
-		return promise;
+		return deferred.promise;
 	}
 });
 

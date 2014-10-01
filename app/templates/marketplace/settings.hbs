@@ -20,7 +20,10 @@
 
 		<section class="api-key-info">
 			<h3>API keys</h3>
-			{{api-key-create-modal keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace name=name production=production user=user}}
+
+			<div class="pull-right">
+				<a href="#" {{action "openModal" "modals/api-key-create-modal"}} class="btn-link sm create-api-key-btn">Add a key</a>
+			</div>
 			<span class="sl-note">(All keys have admin access to the dashboard)</span>
 			<div class="results">
 				{{api-keys-table keys=userMarketplace.fullKeys marketplaceSecret=marketplaceSecret userMarketplace=userMarketplace}}
@@ -30,7 +33,9 @@
 		{{#unless auth.isGuest}}
 			<section class="users-info">
 				<h3>Users</h3>
-				{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
+				<div class="pull-right">
+					<a href="#" {{action "openModal" "modals/marketplace-user-create-modal" marketplace.users_uri}} class="btn-link sm create-user-btn">Add a user</a>
+				</div>
 				<div class="results">
 					{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
 				</div>
@@ -56,7 +61,7 @@
 								<span class="callback-method"><span class="uppercase">{{callback.method}}</span> {{callback.url}}</span>
 							</td>
 							<td>
-								<a class="delete-callback-link" href="#" {{action "openDeleteCallbackModal" callback}}><i class="icon-table-x"></i></a>
+								<a class="delete-callback-link" href="#" {{action "openModal" "modals/callback-delete-modal" callback}}><i class="icon-table-x"></i></a>
 							</td>
 						</tr>
 					{{else}}
@@ -71,5 +76,3 @@
 		</section>
 	{{/view}}
 {{/view}}
-
-{{view "modals/delete-callback-modal"}}

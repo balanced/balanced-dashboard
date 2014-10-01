@@ -46,7 +46,7 @@ test('can update marketplace info', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			Ember.run(function() {
-				var model = BalancedApp.__container__.lookup('controller:marketplace-settings').get('model');
+				var model = BalancedApp.__container__.lookup('controller:marketplace/settings').get('model');
 				model.set('production', true);
 			});
 		})
@@ -64,7 +64,7 @@ test('updating marketplace info only submits once despite multiple clicks', func
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
 			Ember.run(function() {
-				var model = BalancedApp.__container__.lookup('controller:marketplaceSettings').get('model');
+				var model = BalancedApp.__container__.lookup('controller:marketplace/settings').get('model');
 				model.set('production', true);
 			});
 		})
@@ -83,9 +83,8 @@ test('can update owner info', function() {
 
 	visit(Testing.SETTINGS_ROUTE)
 		.then(function() {
-			var model = BalancedApp.__container__.lookup('controller:marketplaceSettings').get('model');
+			var model = BalancedApp.__container__.lookup('controller:marketplace').get('model');
 			Ember.run(function() {
-				model.set('owner_customer', Models.Customer.create());
 				model.set('production', true);
 			});
 		})
@@ -96,12 +95,6 @@ test('can update owner info', function() {
 			email: 'TEST@example.com',
 			business_name: 'TEST',
 			ein: '1234',
-			line1: '600 William St',
-			line2: 'Apt 400',
-			city: 'Oakland',
-			state: 'CA',
-			country_code: 'US',
-			postal_code: '12345',
 			phone: '1231231234',
 			dob_month: '12',
 			dob_year: '1924',
@@ -110,21 +103,17 @@ test('can update owner info', function() {
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.Customer));
-			equal(stub.getCall(0).args[2].name, "TEST");
-			equal(stub.getCall(0).args[2].email, "TEST@example.com");
-			equal(stub.getCall(0).args[2].business_name, "TEST");
-			equal(stub.getCall(0).args[2].ein, "1234");
-			equal(stub.getCall(0).args[2].address.line1, "600 William St");
-			equal(stub.getCall(0).args[2].address.line2, "Apt 400");
-			equal(stub.getCall(0).args[2].address.city, "Oakland");
-			equal(stub.getCall(0).args[2].address.state, "CA");
-			equal(stub.getCall(0).args[2].address.country_code, "US");
-			equal(stub.getCall(0).args[2].address.postal_code, "12345");
-			equal(stub.getCall(0).args[2].phone, "1231231234");
-			equal(stub.getCall(0).args[2].dob_month, "12");
-			equal(stub.getCall(0).args[2].dob_year, "1924");
-			equal(stub.getCall(0).args[2].ssn_last4, "1234");
+			equal(stub.firstCall.args[0], Models.lookupFactory("customer"));
+			matchesProperties(stub.firstCall.args[2], {
+				name: "TEST",
+				email: "TEST@example.com",
+				business_name: "TEST",
+				ein: "1234",
+				phone: "1231231234",
+				dob_month: "12",
+				dob_year: "1924",
+				ssn_last4: "1234",
+			});
 		});
 });
 

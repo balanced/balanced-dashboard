@@ -8,6 +8,13 @@ var BankAccountCreditCreateModalView = TransactionCreatorModalView.extend({
 	model_class: CreditBankAccountTransactionFactory,
 	elementId: "pay-seller",
 
+	bankAccountTypes: Constants.BANK_ACCOUNT_TYPES.map(function(name) {
+		return {
+			value: name.toLowerCase(),
+			label: name
+		};
+	}),
+
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 });
 

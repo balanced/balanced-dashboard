@@ -1,0 +1,12 @@
+<form {{action "submit" view.userInvite on="submit" target=view}}>
+	<div class="modal-body">
+		<div class="content">
+			<p>Are you sure you want to remove user?</p>
+			<p>This user will no longer have access to the dashboard.</p>
+			<ul>
+				<li class="sl-sb">Email: {{view.userInvite.email_address}}</li>
+			</ul>
+		</div>
+	</div>
+	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Remove"}}
+</form>
