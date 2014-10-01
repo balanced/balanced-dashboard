@@ -44,13 +44,13 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 	},
 
 	reload: function() {
+		var deferred = Ember.RSVP.defer();
 		if (!this.get('isLoaded')) {
 			return this;
 		}
 
 		var self = this;
 		this.set('isLoaded', false);
-		var promise = this.resolveOn('didLoad');
 		var typeClass = this.get('typeClass');
 
 		ModelArray.ADAPTER.get(this.constructor, this.get('uri'), function(json) {
@@ -59,10 +59,11 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 			self.clear();
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			self._populateModels(deserializedJson);
+			deferred.resolve(self);
 		}, function() {
-			promise.reject(self);
+			deferred.reject(self);
 		});
-		return promise;
+		return deferred.promise;
 	},
 
 	_populateModels: function(json) {

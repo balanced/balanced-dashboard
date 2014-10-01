@@ -26,7 +26,7 @@ module('Integration - Marketplace Settings', {
 });
 
 test('can manage users', function() {
-	Testing.visitSettingsPage()
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
 		.then(function() {
 			equal($('.users-info table tr td.no-results').length, 0, '1 User Shown');
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
@@ -36,7 +36,7 @@ test('can manage users', function() {
 });
 
 test('test marketplace info', function() {
-	Testing.visitSettingsPage()
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
 		.assertDictionaryExists(".dl-horizontal:first", {
 			"Marketplace ID": 'FIXTURED-MP4cOZZqeAelhxXQzljLLtgl',
 			"Name": 'FIXTURED Marketplace',
@@ -63,38 +63,39 @@ test('can add user', function() {
 
 	var TEST_EMAIL = 'Test1234@example.com';
 
-	Testing.visitSettingsPage()
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
 		.click('.create-user-btn')
-		.click('.modal.create-user:visible button[name="modal-submit"]')
+		.click('#marketplace-user-create button[name=modal-submit]')
 		.then(function() {
 			equal(stub.callCount, 0);
-			equal($('.modal.create-user:visible .alert-error').length, 1, 'Error on Create Users Modal should be visible');
 		})
-		.fillIn('.modal.create-user:visible input.full', 'Test1234')
-		.click('.modal.create-user button[name="modal-submit"]')
+		.check('#marketplace-user-create .alert-error', 1)
+		.fillIn('#marketplace-user-create [name=email_address]', 'Test1234')
+		.click('#marketplace-user-create button[name=modal-submit]')
 		.then(function() {
 			equal(stub.callCount, 0);
-			equal($('.modal.create-user:visible .alert-error').length, 1, 'Error on Create Users Modal should be visible');
 		})
-		.fillIn('.modal.create-user:visible input.full', TEST_EMAIL)
-		.click('.modal.create-user button[name="modal-submit"]')
+		.check('#marketplace-user-create .alert-error', 1)
+		.fillIn('#marketplace-user-create [name=email_address]', TEST_EMAIL)
+		.click('#marketplace-user-create button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledTwice);
-			ok(stub.getCall(0).calledWith(
-				Models.ApiKey,
-				'/api_keys', {
-					meta: {
-						name: TEST_EMAIL
-					}
-				}
-			));
-			ok(stub.getCall(1).calledWith(
-				Models.UserInvite,
-				sinon.match.any, {
-					email_address: TEST_EMAIL,
-					secret: 'ak-TEST-123'
-				}
-			));
+			deepEqual(stub.getCall(0).args.slice(0, 2), [
+				Models.lookupFactory("api-key"),
+				"/api_keys"
+			]);
+			matchesProperties(stub.getCall(0).args[2].meta, {
+				name: TEST_EMAIL
+			});
+
+			deepEqual(stub.getCall(1).args.slice(0, 2), [
+				Models.lookupFactory("user-invite"),
+				"/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl/users"
+			]);
+			matchesProperties(stub.getCall(1).args[2], {
+				email_address: TEST_EMAIL,
+				secret: 'ak-TEST-123'
+			});
 		});
 });
 
@@ -111,11 +112,12 @@ test('can delete user', function() {
 		users: users
 	});
 
-	Testing.visitSettingsPage()
+	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
+		.click('.create-user-btn')
 		.checkElements({
 			'.users-info table tr td.no-results': 0,
 			'.users-info table tr': 2
 		})
 		.click('.confirm-delete-user:first')
-		.click('.modal.delete-user button[name="modal-submit"]:visible');
+		.click('#marketplace-user-delete button[name=modal-submit]');
 });

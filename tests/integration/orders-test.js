@@ -119,7 +119,7 @@ test("can visit orders page", function() {
 		.click(".sidebar a:contains(Orders)")
 		.checkPageTitle("Orders")
 		.then(function() {
-			var resultsUri = BalancedApp.__container__.lookup('controller:marketplace_orders').get("resultsLoader.resultsUri");
+			var resultsUri = BalancedApp.__container__.lookup('controller:marketplace/orders').get("resultsLoader.resultsUri");
 			deepEqual(resultsUri.split("?")[0], "/orders");
 
 			assertQueryString(resultsUri, {

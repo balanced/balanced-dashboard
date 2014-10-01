@@ -33,7 +33,9 @@
 		{{#unless auth.isGuest}}
 			<section class="users-info">
 				<h3>Users</h3>
-				{{user-create-modal marketplaceBinding="model" userMarketplace=userMarketplace}}
+				<div class="pull-right">
+					<a href="#" {{action "openModal" "modals/marketplace-user-create-modal" marketplace.users_uri}} class="btn-link sm create-user-btn">Add a user</a>
+				</div>
 				<div class="results">
 					{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
 				</div>

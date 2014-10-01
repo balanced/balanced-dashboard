@@ -26,7 +26,17 @@ var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, 
 		return currentUserMarketplace;
 	}.property('user', 'id'),
 
-	marketplaceSecret: Ember.computed.reads("userMarketplace.secret")
+	marketplaceSecret: Ember.computed.reads("userMarketplace.secret"),
+
+	actions: {
+		reloadApiKeys: function() {
+			this.get("userMarketplace.marketplaceApiKeys").reload();
+		},
+
+		reloadUsers: function() {
+			this.get("userMarketplace").reloadMarketplaceUsers();
+		},
+	}
 });
 
 export default MarketplaceSettingsController;
