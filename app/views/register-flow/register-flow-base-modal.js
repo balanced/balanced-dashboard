@@ -8,6 +8,10 @@ import DisplayModelErrors from "balanced-dashboard/views/modals/mixins/display-m
 import Auth from "balanced-dashboard/auth";
 
 var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+	getModalNotificationController: function() {
+		return this.get("container").lookup("controller:modal-notification-center");
+	},
+
 	staticBackdrop: true,
 
 	open: function() {
