@@ -27,13 +27,14 @@ module('Integration - Marketplace Settings', {
 
 test('can manage users', function() {
 	BalancedApp.__container__.lookup("controller:notification_center").clear();
+
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
-		.equal('.users-info table tr td.no-results', 0)
+		.check('.users-info table tr td.no-results', 0)
 		.then(function() {
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
 			notEqual($dropdown.text().trim().length, 0, 'No Email is shown');
 		})
-		.equal('.notification-center-message', 0);
+		.check('.notification-center-message', 0);
 });
 
 test('test marketplace info', function() {
