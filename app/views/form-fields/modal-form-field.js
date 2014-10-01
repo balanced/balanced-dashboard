@@ -14,7 +14,7 @@ var ModalFormFieldView = Ember.View.extend({
 	}.property("model", "fieldName"),
 
 	isError: Ember.computed.gt("errorMessages.length", 0),
-	
+
 	errorMessages: function() {
 		var model = this.get("model");
 		var fieldName = this.get("fieldName");

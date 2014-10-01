@@ -4,10 +4,9 @@ import ModalBaseView from "../modals/modal-base";
 import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import OpenNext from "balanced-dashboard/views/modals/mixins/open-next-modal-mixin";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
-import DisplayModelErrors from "balanced-dashboard/views/modals/mixins/display-model-errors-modal-mixin";
 import Auth from "balanced-dashboard/auth";
 
-var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, {
 	staticBackdrop: true,
 
 	open: function() {

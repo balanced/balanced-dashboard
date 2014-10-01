@@ -7,10 +7,6 @@ var TransactionEditModalView = ModalBaseView.extend(Wide, Save, {
 	templateName: 'modals/transaction-edit-modal',
 	title: "Edit info",
 
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
-	},
-
 	actions: {
 		save: function() {
 			var controller = this.getNotificationController();
