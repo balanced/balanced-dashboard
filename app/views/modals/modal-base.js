@@ -2,7 +2,7 @@ import Ember from "ember";
 
 var ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base-modal-layout",
-	classNames: "modal",
+	classNames: ["modal"],
 	submitButtonText: "Submit",
 
 	reposition: function() {
@@ -11,7 +11,8 @@ var ModalBaseView = Ember.View.extend({
 
 	open: function(container) {
 		var options = {
-			show: true
+			show: true,
+			backdrop: true
 		};
 
 		if (this.get('staticBackdrop')) {

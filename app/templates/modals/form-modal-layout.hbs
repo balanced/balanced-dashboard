@@ -1,20 +1,24 @@
-{{render "modal_notification_center"}}
-<div class="modal-header">
-	<a class="close" data-dismiss="modal"><i class="icon-x"></i></a>
-	{{#if view.logo}}
-		<div class="balanced-logo-24"></div>
-	{{/if}}
-	<h2>{{view.title}}</h2>
-	{{#if view.subtitle}}
-		<h3>{{view.subtitle}}</h3>
-	{{/if}}
-	{{#if view.description}}
-		<p class="description">{{view.description}}</p>
-	{{/if}}
-</div>
-<form {{action "save" on="submit" target=view}}>
-	<div class="modal-body clearfix">
-		{{yield}}
+<div class="modal-dialog">
+	<div class="modal-content">
+		{{render "modal_notification_center"}}
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal"><i class="icon-x"></i></a>
+			{{#if view.logo}}
+				<div class="balanced-logo-24"></div>
+			{{/if}}
+			<h2>{{view.title}}</h2>
+			{{#if view.subtitle}}
+				<h3>{{view.subtitle}}</h3>
+			{{/if}}
+			{{#if view.description}}
+				<p class="description">{{view.description}}</p>
+			{{/if}}
+		</div>
+		<form {{action "save" on="submit" target=view}}>
+			<div class="modal-body clearfix">
+				{{yield}}
+			</div>
+			{{view "modals/modal-base-footer" isSaving=view.isSaving beforeSubmitText=view.beforeSubmitText cancelButtonText=view.cancelButtonText submitButtonText=view.submitButtonText}}
+		</form>
 	</div>
-	{{view "modals/modal-base-footer" isSaving=view.isSaving beforeSubmitText=view.beforeSubmitText cancelButtonText=view.cancelButtonText submitButtonText=view.submitButtonText}}
-</form>
+</div>
