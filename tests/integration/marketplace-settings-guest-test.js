@@ -34,6 +34,7 @@ module('Integration - Marketplace Settings Guest', {
 });
 
 test('can visit page', function() {
+	BalancedApp.__container__.lookup("controller:notification_center").clear();
 	visit(Testing.SETTINGS_ROUTE)
 		.checkPageTitle("Settings")
 		.checkElements({

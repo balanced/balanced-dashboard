@@ -26,13 +26,15 @@ module('Integration - Marketplace Settings', {
 });
 
 test('can manage users', function() {
+	BalancedApp.__container__.lookup("controller:notification_center").clear();
+
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
+		.check('.users-info table tr td.no-results', 0)
 		.then(function() {
-			equal($('.users-info table tr td.no-results').length, 0, '1 User Shown');
 			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
 			notEqual($dropdown.text().trim().length, 0, 'No Email is shown');
-			equal($('.notification-center-message').length, 0, 'Has No Notification');
-		});
+		})
+		.check('.notification-center-message', 0);
 });
 
 test('test marketplace info', function() {

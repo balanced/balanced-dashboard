@@ -5,6 +5,7 @@ import checkElements from "../helpers/check-elements";
 import createObjects from "../helpers/create-objects";
 import helpers from "../helpers/helpers";
 
+import Utils from "balanced-dashboard/lib/utils";
 import Models from "../helpers/models";
 
 var App, Adapter;
@@ -102,7 +103,7 @@ module('Integration - Order Page', {
 });
 
 var assertQueryString = function(string, expected) {
-	var qsParameters = Models.Utils.queryStringToObject(string);
+	var qsParameters = Utils.queryStringToObject(string);
 	_.each(expected, function(value, key) {
 		deepEqual(qsParameters[key], value, "Query string parameter %@".fmt(key));
 	});
