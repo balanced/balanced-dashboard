@@ -172,11 +172,6 @@ var EvidencePortalModalView = ModalBaseView.extend(Full, Form, DisplayModelError
 		this.send('fileSelectionChanged', this.$("#fileupload").get(0).files);
 	},
 
-	change: function(event) {
-		this._super();
-		this.send('fileSelectionChanged', this.$("#fileupload").get(0).files);
-	},
-
 	drop: function(event) {
 		this._super();
 		this.send('fileSelectionChanged', event.dataTransfer.files);
