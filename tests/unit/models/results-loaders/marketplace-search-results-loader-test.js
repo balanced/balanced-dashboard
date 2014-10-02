@@ -3,7 +3,7 @@ import MarketplaceSearchResultsLoader from "balanced-dashboard/models/results-lo
 import Customer from "balanced-dashboard/models/customer";
 import Testing from "balanced-dashboard/tests/helpers/testing";
 
-module("MarketplaceSearchResultsLoader", {
+module("ResultsLoader - MarketplaceSearchResultsLoader", {
 	teardown: function() {
 		Testing.restoreMethods(
 			SearchModelArray.newArrayLoadedFromUri,

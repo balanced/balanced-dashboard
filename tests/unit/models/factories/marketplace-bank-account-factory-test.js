@@ -1,6 +1,6 @@
 import MarketplaceBankAccountFactory from "balanced-dashboard/models/factories/marketplace-bank-account-factory";
 
-module("MarketplaceBankAccountFactory");
+module("Factory - MarketplaceBankAccountFactory");
 
 test("#getPostAttributes", function() {
 	var subject = MarketplaceBankAccountFactory.create({

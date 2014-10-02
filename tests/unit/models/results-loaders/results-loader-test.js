@@ -7,7 +7,7 @@ import Dispute from "balanced-dashboard/models/dispute";
 import Invoice from "balanced-dashboard/models/invoice";
 import Customer from "balanced-dashboard/models/customer";
 
-module("ResultsLoader", {
+module("ResultsLoader - ResultsLoader", {
 	teardown: function() {
 		Testing.restoreMethods(
 			SearchModelArray.newArrayLoadedFromUri,

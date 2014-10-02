@@ -1,6 +1,6 @@
 import BaseFactory from "balanced-dashboard/models/factories/base";
 
-module("BaseFactory");
+module("Factory - BaseFactory");
 
 test("setValidationErrorsFromServer", function() {
 	var subject = BaseFactory.create({});

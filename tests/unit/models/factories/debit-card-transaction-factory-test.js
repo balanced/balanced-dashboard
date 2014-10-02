@@ -1,6 +1,6 @@
 import DebitCardTransactionFactory from "balanced-dashboard/models/factories/debit-card-transaction-factory";
 
-module("DebitCardTransactionFactory");
+module("Factory - DebitCardTransactionFactory");
 
 test("#getDestinationAttributes", function() {
 	var subject = DebitCardTransactionFactory.create({

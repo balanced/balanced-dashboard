@@ -1,6 +1,6 @@
 import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
 
-module("ApiKeyFactory");
+module("Factory - ApiKeyFactory");
 
 test("business validations", function() {
 	var expectationsTest = function(attributes, expectations) {

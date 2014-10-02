@@ -1,6 +1,6 @@
 import UserAccountFactory from "balanced-dashboard/models/factories/user-account-factory";
 
-module("UserAccountFactory");
+module("Factory - UserAccountFactory");
 
 test("#setValidationErrorsFromServer", function() {
 	var subject = UserAccountFactory.create();

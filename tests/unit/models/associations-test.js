@@ -16,7 +16,7 @@ var lookupFactory = function(name) {
 	return BalancedApp.__container__.lookupFactory('model:' + name);
 };
 
-module('Model.Associations', {
+module('Model - Associations', {
 	setup: function() {
 		var App = startApp({
 			ADAPTER: fixturesAdapter

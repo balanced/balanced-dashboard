@@ -1,6 +1,6 @@
 import Transaction from "balanced-dashboard/models/transaction";
 
-module('Module - Transaction');
+module('Model - Transaction');
 
 test(".findAppearsOnStatementAsInvalidCharacters", function() {
 	var tests = {

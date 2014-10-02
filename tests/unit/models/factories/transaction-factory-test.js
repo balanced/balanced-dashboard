@@ -1,6 +1,6 @@
 import TransactionFactory from "balanced-dashboard/models/factories/transaction-factory";
 
-module("TransactionFactory");
+module("Factory - TransactionFactory");
 
 test("#isAmountPositive", function() {
 	var test = function(amount, expectation) {

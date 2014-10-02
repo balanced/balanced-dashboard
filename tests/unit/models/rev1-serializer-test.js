@@ -1,7 +1,7 @@
 import Marketplace from "balanced-dashboard/models/marketplace";
 import Rev1Serializer from "balanced-dashboard/serializers/rev1";
 
-module('Module - Rev1Serializer');
+module('Model - Rev1Serializer');
 
 var marketplaceJson = {
 	"marketplaces": [{

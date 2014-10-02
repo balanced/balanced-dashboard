@@ -1,6 +1,6 @@
 import ResultsLoaderQueryStringBuilder from "balanced-dashboard/models/results-loaders/results-loader-query-string-builder";
 
-module("ResultsLoaderQueryStringBuilder");
+module("ResultsLoader - ResultsLoaderQueryStringBuilder");
 
 test("#addValue", function() {
 	var testExpectation = function(key, value, result) {

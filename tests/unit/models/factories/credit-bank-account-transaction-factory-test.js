@@ -1,6 +1,6 @@
 import CreditBankAccountTransactionFactory from "balanced-dashboard/models/factories/credit-bank-account-transaction-factory";
 
-module("CreditBankAccountTransactionFactory");
+module("Factory - CreditBankAccountTransactionFactory");
 
 test("#getDestinationAttributes", function() {
 	var subject = CreditBankAccountTransactionFactory.create({

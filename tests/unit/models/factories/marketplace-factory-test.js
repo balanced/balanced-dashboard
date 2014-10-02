@@ -1,6 +1,6 @@
 import MarketplaceFactory from "balanced-dashboard/models/factories/marketplace-factory";
 
-module("MarketplaceFactory");
+module("Factory - MarketplaceFactory");
 
 test("validations", function() {
 	var factory = MarketplaceFactory.create();
