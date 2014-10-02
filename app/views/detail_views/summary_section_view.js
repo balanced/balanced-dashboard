@@ -189,6 +189,7 @@ Balanced.HoldSummarySectionView = Balanced.SummarySectionView.extend({
 });
 
 Balanced.DisputeSummarySectionView = Balanced.SummarySectionView.extend({
+	status: Ember.computed.oneWay("model.state"),
 	statusText: function() {
 		var status = this.get('model.state');
 
