@@ -1,21 +1,29 @@
 import Ember from "ember";
+import Utils from "balanced-dashboard/lib/utils";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import Constants from "balanced-dashboard/utils/constants";
 import CreditExistingFundingInstrumentTransactionFactory from "balanced-dashboard/models/factories/credit-existing-funding-instrument-transaction-factory";
 
-var MarketplaceEscrowWithdrawalModalView = ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
+var WithdrawFundsModalView = ModalBaseView.extend(Full, Form, {
+	templateName: 'modals/withdraw-funds-modal',
 	elementId: 'withdraw-funds',
-	templateName: 'modals/marketplace-escrow-withdrawal-modal',
 	title: "Withdraw Funds",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Withdraw",
 
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
-	appearsOnStatementAsLabel: function() {
+	appearsOnStatementAsLabelText: function() {
 		var length = this.get("appearsOnStatementAsMaxLength");
 		return "Appears on statement as (%@ characters max)".fmt(length);
 	}.property("appearsOnStatementAsMaxLength"),
 
-	bank_accounts: Ember.computed.readOnly('marketplace.owner_customer.bank_accounts'),
+	bankAccounts: Ember.computed.readOnly('marketplace.owner_customer.bank_accounts'),
+	availableBalance: function() {
+		return 'Available balance: $%@'.fmt(Utils.centsToDollars(this.get("marketplace.in_escrow")));
+	}.property("marketplace.in_escrow"),
+
 	model: function() {
 		return CreditExistingFundingInstrumentTransactionFactory.create();
 	}.property(),
@@ -38,7 +46,7 @@ var MarketplaceEscrowWithdrawalModalView = ModalBaseView.extend({
 	}
 });
 
-MarketplaceEscrowWithdrawalModalView.reopenClass({
+WithdrawFundsModalView.reopenClass({
 	open: function(marketplace) {
 		return this.create({
 			marketplace: marketplace
@@ -46,4 +54,4 @@ MarketplaceEscrowWithdrawalModalView.reopenClass({
 	}
 });
 
-export default MarketplaceEscrowWithdrawalModalView;
+export default WithdrawFundsModalView;
