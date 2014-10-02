@@ -45,7 +45,7 @@ var Marketplace = UserMarketplace.extend({
 
 	getSearchLoader: function(attributes) {
 		attributes = _.extend({
-			marketplace: this,
+			marketplace: this
 		}, attributes);
 		return getResultsLoader("marketplace-search", attributes);
 	},
