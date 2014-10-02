@@ -1,41 +1,33 @@
-import startApp from "../../helpers/start-app";
-import Testing from "../../helpers/testing";
+import fixturesAdapter from "balanced-dashboard/adapters/fixture";
+import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 import Rev0Serializer from "balanced-dashboard/serializers/rev0";
-import TypeMappings from "balanced-dashboard/models/core/type-mappings";
 import Model from "balanced-dashboard/models/core/model";
-import fixturesAdapter from "../../helpers/fixtures-adapter";
 
+var TestModel;
 var getTestModel = function() {
-	return BalancedApp.__container__.lookupFactory('model:test-model');
+	return TestModel;
 };
 
 module('Model - Model', {
 	setup: function() {
-		var App = startApp({
-			ADAPTER: fixturesAdapter
-		});
+		Model.ADAPTER = fixturesAdapter.create();
 
-		var TestModel = Model.extend({
+		Model.ADAPTER.addFixtures([{
+			uri: '/v1/testobjects/1',
+			basic_field: 123
+		}]);
+
+		TestModel = Model.extend({
 			basic_field: 1,
-
 			derived_field: function() {
 				return this.get('basic_field') + 1;
 			}.property('basic_field')
 		});
-		BalancedApp.__container__.register('model:test-model', TestModel);
-		TypeMappings.addTypeMapping('test', 'test-model');
 
-		getTestModel().reopenClass({
+		TestModel.reopenClass({
 			serializer: Rev0Serializer.create()
 		});
-
-		fixturesAdapter.addFixtures([{
-			uri: '/v1/testobjects/1',
-			basic_field: 123
-		}]);
 	},
-
-	teardown: function() {}
 });
 
 test('model computes embedded properties correctly', function() {
@@ -67,12 +59,11 @@ test("created models don't share state", function() {
 
 test("models have promises that resolve when they're loaded", function() {
 	stop();
-	getTestModel()
-		.find('/v1/testobjects/1')
+	getTestModel().find('/v1/testobjects/1')
 		.then(function(testModel) {
 			equal(testModel.get('basic_field'), 123);
-		})
-		.then(start);
+			start();
+		});
 });
 
 test('models promises resolve async', function() {
@@ -105,30 +96,34 @@ test('models have promises for create', function() {
 });
 
 test('create promises work if the model was previously invalid', function() {
+	stop();
 	var spy = sinon.spy();
 	var t = getTestModel().create({
 		uri: '/v1/woo'
 	});
 
-	andThen(function () {
-		t.then(undefined, function(model) {
+	t
+		.then(undefined, function(model) {
 			spy(model.uri);
+		})
+		.then(function() {
+			return t.save();
+		})
+		.then(function(model) {
+			spy(model.uri);
+		})
+		.then(function() {
+			deepEqual(spy.args, [["/v1/woo"], ["/v1/woo"]]);
+			start();
 		});
-	});
-	andThen(function() {
+
+
 		t._handleError({
 			status: 400,
 			responseText: 'Something bad'
 		});
-	});
-	andThen(function() {
-		t.save().then(function(model) {
-			spy(model.uri);
-		});
-	});
-	andThen(function() {
-		deepEqual(spy.args, [["/v1/woo"], ["/v1/woo"]]);
-	});
+
+
 });
 
 test('models have promises for update', function() {

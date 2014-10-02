@@ -1,24 +1,13 @@
 import UserAccountFactory from "balanced-dashboard/models/factories/user-account-factory";
-import startApp from '../../../helpers/start-app';
-import Testing from "../../../helpers/testing";
+import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 
-import checkElements from "../../../helpers/check-elements";
-import createObjects from "../../../helpers/create-objects";
-import helpers from "../../../helpers/helpers";
-
-import Models from "../../../helpers/models";
-
-var App, Adapter;
-
+var Adapter;
 
 module("Factory - UserAccountFactory", {
 	setup: function() {
-		App = startApp();
-		Adapter = App.__container__.lookup("adapter:main");
-	},
-	teardown: function() {
-		Testing.restoreMethods(jQuery.ajax);
-		Ember.run(App, "destroy");
+		Adapter = BaseConnection.ADAPTER = {
+			load: sinon.stub()
+		};
 	}
 });
 
@@ -40,9 +29,7 @@ test("#setValidationErrorsFromServer", function() {
 
 test("#_save", function() {
 	expect(1);
-	var stub = sinon.stub(jQuery, "ajax").returns(Ember.RSVP.resolve({
-		users: []
-	}));
+	var stub = Adapter.load;
 
 	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
@@ -53,12 +40,10 @@ test("#_save", function() {
 	userAccount._save();
 	var request = stub.args[0][0];
 
-	andThen(function() {
-		deepEqual(request.data, {
-			email_address: "jimmy@example.com",
-			password: "secrutPassword",
-			passwordConfirm: "secrutPassword"
-		});
+	deepEqual(request.data, {
+		email_address: "jimmy@example.com",
+		password: "secrutPassword",
+		passwordConfirm: "secrutPassword"
 	});
 });
 
