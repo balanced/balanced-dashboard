@@ -1,29 +1,15 @@
-<form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
-	<div class="modal-body">
-		{{view "form-fields/static-text-form-field"
-			labelText="Customer"
-			value=view.customerDisplay
-			emptyText="No customer"
-		}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Payment information"}}
+	{{view "form-fields/static-text-form-field"
+		labelText="Customer"
+		value=view.customerDisplay
+		emptyText="none"
+	}}
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" maxlength=Constants.MAXLENGTH.DESCRIPTION inputClassNames="full"}}
+{{/view}}
 
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}
-			<div class="input-prepend">
-				<span class="add-on">$</span>
-				{{view Ember.TextField value=view.value class="col-md-3" name="dollar_amount" viewName="inputElement"}}
-			</div>
-		{{/view}}
-
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="description" label="Internal description"}}
-			{{view Ember.TextField name="description" value=view.value class="full" maxlength=Constants.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
-		{{/view}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Note"}}
+	<div class="form-group">
+		<p>A credit reversal will take 4-5 business days to process. The reversal status will update to "succeeded" or "failed".</p>
 	</div>
-
-	<div class="modal-informational">
-		<p class="modal-informational-content">A credit reversal will take 4-5 business days to process. The reversal status will update to "succeeded" or "failed".</p>
-	</div>
-
-	<div class="modal-footer">
-		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
-		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Reverse</button>
-	</div>
-</form>
+{{/view}}

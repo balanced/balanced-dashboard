@@ -1,23 +1,8 @@
-<form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
-	<div class="modal-body">
-		{{view "form-fields/static-text-form-field"
-			labelText=view.recipientLabel
-			value=view.recipientDisplay
-		}}
-
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}
-			<div class="input-prepend">
-				<span class="add-on">$</span>
-				{{view Ember.TextField value=view.value class="col-md-3" name="dollar_amount" viewName="inputElement"}}
-			</div>
-		{{/view}}
-
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="description" label="Internal description"}}
-			{{view Ember.TextField value=view.value class="full" maxlength=Constants.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
-		{{/view}}
-	</div>
-	<div class="modal-footer">
-		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
-		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Refund</button>
-	</div>
-</form>
+{{#view "form-fields/form-section" recipientLabel=view.recipientLabel recipientDisplay=view.recipientDisplay model=view.model sectionTitle="Payment information"}}
+	{{view "form-fields/static-text-form-field"
+		labelText=view.recipientLabel
+		value=view.recipientDisplay
+	}}
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" maxlength=Constants.MAXLENGTH.DESCRIPTION inputClassNames="full"}}
+{{/view}}
