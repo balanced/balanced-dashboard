@@ -1,12 +1,5 @@
-<div class="controls">
+<div class="clearfix">
 	{{view Ember.Select contentBinding="view.yearContent" valueBinding="view.yearValue" class="col-md-2"}}
 	{{view Ember.Select contentBinding="view.monthContent" valueBinding="view.monthValue" class="col-md-2"}}
 	{{view Ember.Select contentBinding="view.dayContent" valueBinding="view.dayValue" class="col-md-2"}}
 </div>
-<label class="control-label" {{bind-attr for="view.field"}}>
-	{{view.labelForField}}
-
-	{{#if view.recommendedField}}
-		<span class="recommended-field">Recommended field</span>
-	{{/if}}
-</label>

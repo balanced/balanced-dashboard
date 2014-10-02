@@ -1,12 +1,21 @@
-import ObjectCreatorModalBaseView from "./object-creator-modal-base";
+import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 import Constants from "balanced-dashboard/utils/constants";
 import CreditBankAccountTransactionFactory from "balanced-dashboard/models/factories/credit-bank-account-transaction-factory";
 
-var BankAccountCreditCreateModalView = ObjectCreatorModalBaseView.extend({
-	title: "Credit a bank account",
+var BankAccountCreditCreateModalView = ModalBaseView.extend(Save, Full, Form, {
 	templateName: "modals/bank-account-credit-create-modal",
-	model_class: CreditBankAccountTransactionFactory,
 	elementId: "pay-seller",
+	title: "Credit a bank account",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Credit",
+
+	model: function() {
+		var DebitCardTransactionFactory = require("balanced-dashboard/models/factories/credit-bank-account-transaction-factory")['default'];
+		return DebitCardTransactionFactory.create();
+	}.property(),
 
 	bankAccountTypes: Constants.BANK_ACCOUNT_TYPES.map(function(name) {
 		return {
@@ -15,7 +24,22 @@ var BankAccountCreditCreateModalView = ObjectCreatorModalBaseView.extend({
 		};
 	}),
 
+	appearsOnStatementAsLabelText: function() {
+		var length = this.get("appearsOnStatementAsMaxLength");
+		return "Appears on statement as (%@ characters max)".fmt(length);
+	}.property("appearsOnStatementAsMaxLength"),
+
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
+
+	actions: {
+		save: function() {
+			var controller = this.get("controller");
+			this.save(this.get("model"))
+				.then(function(model) {
+					controller.transitionToRoute(model.get("route_name"), model);
+				});
+		},
+	}
 });
 
 export default BankAccountCreditCreateModalView;

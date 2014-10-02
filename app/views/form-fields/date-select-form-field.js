@@ -9,7 +9,7 @@ var addEmptyField = function(allowEmpty, values) {
 };
 
 var DateFormFieldView = BaseFormFieldView.extend({
-	templateName: "form-fields/date-form-field",
+	templateName: "form-fields/date-select-form-field",
 	optionValuePath: "content.value",
 	optionLabelPath: "content.label",
 

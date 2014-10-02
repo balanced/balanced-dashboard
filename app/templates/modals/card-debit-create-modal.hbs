@@ -1,59 +1,30 @@
-<form class="form-horizontal split-labels" {{action "save" target=view on="submit"}}>
-	<div class="modal-body">
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="name" label="Card holder's name"}}
-			{{view Ember.TextField value=view.value name="name" class="full" viewName="inputElement"}}
-		{{/view}}
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="number" label="Card number"}}
-			{{view Ember.TextField value=view.value name="number" class="full" viewName="inputElement"}}
-		{{/view}}
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="cvv" label="Security code"}}
-			{{view Ember.TextField value=view.value name="cvv" class="full" viewName="inputElement"}}
-		{{/view}}
+{{#view "form-fields/form-section" validMonths=view.validMonths validYears=view.validYears appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength model=view.model sectionTitle="Payment information"}}
+	{{view "form-fields/text-form-field" model=view.model field="name" labelText="Card holder's name" inputClassNames="full"}}
+	{{view "form-fields/text-form-field" model=view.model field="number" labelText="Card number" inputClassNames="full"}}
+	{{view "form-fields/text-form-field" model=view.model field="cvv" labelText="Security code"}}
 
-		<div {{bind-attr class=":control-group view.model.validationErrors.expiration_date:error"}}>
-			<label class="control-label" {{bind-attr for=view.expirationMonth.elementId}}>Expiration Date</label>
+	{{view "form-fields/month-year-select-form-field"
+		model=view.model
+		monthContent=view.validMonths
+		yearContent=view.validYears
+		monthValue=view.model.expiration_month
+		yearValue=view.model.expiration_year
+		labelText="Expiration date"
+		name="expiration_date"
+	}}
 
-			<div class="controls inline-control">
-				{{view Ember.Select
-					content=view.validMonths
-					value=view.model.expiration_month
-					prompt="Month"
-					name="expiration_month"
-					viewName="expirationMonth"
-				}}
-				{{view Ember.Select
-					content=view.validYears
-					value=view.model.expiration_year
-					prompt="Year"
-					name="expiration_year"
-				}}
-				<div class="alert alert-error label4b">{{format-error view.model.validationErrors.expiration_date}}</div>
-			</div>
-		</div>
+	{{view "form-fields/text-form-field" model=view.model field="postal_code" labelText="Billing zip code" explanationText="Required for American Express cards"}}
 
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="postal_code" label="Billing zip code"}}
-			<span>Required for American Express cards</span>
-			{{view Ember.TextField value=view.value name="postal_code" class="full" viewName="inputElement"}}
-		{{/view}}
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
 
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}
-			<div class="input-prepend">
-				<span class="add-on">$</span>
-				{{view Ember.TextField value=view.value class="col-md-3" name="dollar_amount" viewName="inputElement"}}
-			</div>
-		{{/view}}
+	{{view "form-fields/text-form-field" model=view.model field="appears_on_statement_as" labelText=view.appearsOnStatementAsLabelText maxlength=view.appearsOnStatementAsMaxLength inputClassNames="full"}}
 
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="appears_on_statement_as" label=view.appearsOnStatementAsLabel maxLength=view.appearsOnStatementAsMaxLength}}
-			{{view Ember.TextField value=view.value name="appears_on_statement_as"  viewName="inputElement" class="full" maxlength=view.maxLength}}
-		{{/view}}
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" inputClassNames="full"}}
+{{/view}}
 
-		{{#view "form-fields/modal-form-field" model=view.model fieldName="description" label="Internal description"}}
-			{{view Ember.TextField value=view.value class="full" name="description" maxlength=Constants.MAXLENGTH.DESCRIPTION viewName="inputElement"}}
-		{{/view}}
-	</div>
-
-	<div class="modal-informational">
+{{#view "form-fields/form-section" sectionTitle="Note"}}
+	<div class="form-group">
 		<img src="images/credit-card-instructions.png" alt="Credit Card Instructions" class="modal-informational-content"/>
 	</div>
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Debit"}}
-</form>
+{{/view}}
+
