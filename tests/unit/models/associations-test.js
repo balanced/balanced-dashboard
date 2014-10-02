@@ -517,7 +517,7 @@ test('hasMany association promises resolve async', function() {
 			testModel2.get('my_has_many_field').trigger('didLoad');
 			return testModel2.get('my_has_many_field');
 		})
-		.then(function(hasManyArray) {
+		.then(function() {
 			var hasManyArray = t.get("my_has_many_field");
 			ok(Ember.isArray(hasManyArray));
 			equal(hasManyArray.get('length'), 2);
@@ -667,8 +667,8 @@ test('hasMany pagination works', function() {
 		equal(hasManyArray.get('length'), 4);
 		ok(hasManyArray.get('hasNextPage'));
 		hasManyArray.loadNextPage();
-	})
-	andThen(function(hasManyArray) {
+	});
+	andThen(function() {
 		var hasManyArray = testModel.get("my_has_many_field");
 		equal(hasManyArray.get('length'), 5);
 		ok(!hasManyArray.get('hasNextPage'));
