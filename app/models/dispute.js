@@ -16,14 +16,6 @@ var Dispute = Model.extend(Ember.Validations, {
 		return status;
 	}.property('documents.length', 'status'),
 
-	state: function() {
-		var status = this.get('status');
-		if (status === 'pending' && this.get('documents.length')) {
-			return 'submitted';
-		}
-		return status;
-	}.property('documents.length', 'status'),
-
 	note: null,
 	tracking_number: null,
 	validations: {
