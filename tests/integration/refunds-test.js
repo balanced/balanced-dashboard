@@ -94,7 +94,8 @@ test('can edit meta', function() {
 		.then(function() {
 			var args = spy.firstCall.args;
 			ok(spy.calledOnce);
-			equal(args[0], Models.lookupFactory("refund"));
+			console.log(args);
+			equal(args[0], Models.Refund);
 			deepEqual(args[2].meta, {
 				"new key": "new value"
 			});
