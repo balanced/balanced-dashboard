@@ -1,6 +1,26 @@
 import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
 
-module("Factory - ApiKeyFactory");
+import startApp from '../../../helpers/start-app';
+import Testing from "../../../helpers/testing";
+
+import checkElements from "../../../helpers/check-elements";
+import createObjects from "../../../helpers/create-objects";
+import helpers from "../../../helpers/helpers";
+
+import Models from "../../../helpers/models";
+
+var App, Adapter;
+
+module("Factory - ApiKeyFactory", {
+	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+	},
+	teardown: function() {
+		Testing.restoreMethods(jQuery.ajax);
+		Ember.run(App, "destroy");
+	}
+});
 
 test("business validations", function() {
 	var expectationsTest = function(attributes, expectations) {
@@ -179,10 +199,10 @@ test("#getPostAttributes", function() {
 });
 
 test("#_save", function() {
-	var stub = sinon.stub(jQuery, "ajax");
-	stub.returns({
-		then: function() {}
-	});
+	expect(1);
+	var stub = sinon.stub(jQuery, "ajax").returns(Ember.RSVP.resolve({
+		api_keys: []
+	}));
 	var subject = ApiKeyFactory.create({
 		person: {
 			name: "Tom Person"
@@ -197,12 +217,14 @@ test("#_save", function() {
 	subject._save();
 
 	var request = stub.args[0][0];
-	deepEqual(JSON.parse(request.data), {
-		merchant: {
-			name: "Tom Person",
-			production: true,
-			type: "person"
-		}
+
+	andThen(function() {
+		deepEqual(JSON.parse(request.data), {
+			merchant: {
+				name: "Tom Person",
+				production: true,
+				type: "person"
+			}
+		});
 	});
-	stub.restore();
 });

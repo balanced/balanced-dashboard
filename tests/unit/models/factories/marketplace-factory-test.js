@@ -1,6 +1,26 @@
 import MarketplaceFactory from "balanced-dashboard/models/factories/marketplace-factory";
+import startApp from '../../../helpers/start-app';
+import Testing from "../../../helpers/testing";
 
-module("Factory - MarketplaceFactory");
+import checkElements from "../../../helpers/check-elements";
+import createObjects from "../../../helpers/create-objects";
+import helpers from "../../../helpers/helpers";
+
+import Models from "../../../helpers/models";
+
+var App, Adapter;
+
+module("Factory - MarketplaceFactory", {
+	setup: function() {
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+	},
+	teardown: function() {
+		Testing.restoreMethods(jQuery.ajax);
+		Ember.run(App, "destroy");
+	}
+});
+
 
 test("validations", function() {
 	var factory = MarketplaceFactory.create();
@@ -56,10 +76,10 @@ test("#handleResponse", function() {
 });
 
 test("#_save", function() {
-	var stub = sinon.stub(jQuery, "ajax");
-	stub.returns({
-		then: function() {}
-	});
+	expect(1);
+	var stub = sinon.stub(jQuery, "ajax").returns(Ember.RSVP.resolve({
+		marketplaces: []
+	}));
 	var subject = MarketplaceFactory.create({
 		domain_url: "http://www.example.org",
 		name: "Cool Marketplace",
@@ -68,11 +88,12 @@ test("#_save", function() {
 	});
 
 	subject._save();
-	deepEqual(JSON.parse(stub.args[0][0].data), {
-		domain_url: "http://www.example.org",
-		name: "Cool Marketplace",
-		support_email_address: "email@example.org",
-		support_phone_number: "123-333-3333",
+	andThen(function() {
+		deepEqual(JSON.parse(stub.args[0][0].data), {
+			domain_url: "http://www.example.org",
+			name: "Cool Marketplace",
+			support_email_address: "email@example.org",
+			support_phone_number: "123-333-3333",
+		});
 	});
-	stub.restore();
 });
