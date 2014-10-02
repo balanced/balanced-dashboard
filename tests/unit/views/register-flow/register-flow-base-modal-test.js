@@ -34,7 +34,7 @@ test("#getNotificationController", function() {
 		message: "this is the right controller"
 	});
 	var container = new Ember.Container();
-	container.register('controller:notification_center', Controller);
+	container.register('controller:notification-center', Controller);
 	var modal = this.subject({
 		container: container
 	});
@@ -47,7 +47,7 @@ test("#getModalNotificationController", function() {
 		message: "this is the modal notification controller"
 	});
 	var container = new Ember.Container();
-	container.register('controller:modal_notification_center', Controller);
+	container.register('controller:modal-notification-center', Controller);
 	var modal = this.subject({
 		container: container
 	});

@@ -1,13 +1,22 @@
 import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
+import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 
-module("ApiKeyFactory");
+var Adapter;
 
-test("business validations", function(assert) {
+module("Factory - ApiKeyFactory", {
+	setup: function() {
+		Adapter = BaseConnection.ADAPTER = {
+			load: sinon.stub()
+		};
+	}
+});
+
+test("business validations", function() {
 	var expectationsTest = function(attributes, expectations) {
 		var subject = ApiKeyFactory.create(attributes);
 		subject.validate();
 		var messages = subject.get("validationErrors.fullMessages");
-		assert.deepEqual(messages, expectations);
+		deepEqual(messages, expectations);
 	};
 
 
@@ -50,12 +59,12 @@ test("business validations", function(assert) {
 	]);
 });
 
-test("person validations", function(assert) {
+test("person validations", function() {
 	var expectationsTest = function(attributes, expectations) {
 		var subject = ApiKeyFactory.create(attributes);
 		subject.validate();
 		var messages = subject.get("validationErrors.fullMessages");
-		assert.deepEqual(messages, expectations);
+		deepEqual(messages, expectations);
 	};
 
 	expectationsTest({
@@ -87,19 +96,19 @@ test("person validations", function(assert) {
 	]);
 });
 
-test("#isBusiness", function(assert) {
+test("#isBusiness", function() {
 	var subject = ApiKeyFactory.create({
 		merchant: {
 			type: "person"
 		}
 	});
-	assert.deepEqual(subject.get("isBusiness"), false);
+	deepEqual(subject.get("isBusiness"), false);
 
 	subject.set("merchant.type", "business");
-	assert.deepEqual(subject.get("isBusiness"), true);
+	deepEqual(subject.get("isBusiness"), true);
 });
 
-test("#handleResponse", function(assert) {
+test("#handleResponse", function() {
 	var subject = ApiKeyFactory.create();
 	var result = subject.handleResponse({
 		api_keys: [{
@@ -107,10 +116,10 @@ test("#handleResponse", function(assert) {
 		}]
 	});
 
-	assert.deepEqual(result, "cool-secret");
+	deepEqual(result, "cool-secret");
 });
 
-test("#getMerchantAttributes (person)", function(assert) {
+test("#getMerchantAttributes (person)", function() {
 	var subject = ApiKeyFactory.create({
 		merchant: {
 			type: "person",
@@ -126,7 +135,7 @@ test("#getMerchantAttributes (person)", function(assert) {
 		}
 	});
 
-	assert.deepEqual(subject.getMerchantAttributes(), {
+	deepEqual(subject.getMerchantAttributes(), {
 		name: "Freddy Person",
 		phone_number: "11111",
 		postal_code: "99999",
@@ -136,7 +145,7 @@ test("#getMerchantAttributes (person)", function(assert) {
 	});
 });
 
-test("#getMerchantAttributes (business)", function(assert) {
+test("#getMerchantAttributes (business)", function() {
 	var subject = ApiKeyFactory.create({
 		merchant: {
 			type: "business",
@@ -152,7 +161,7 @@ test("#getMerchantAttributes (business)", function(assert) {
 		}
 	});
 
-	assert.deepEqual(subject.getMerchantAttributes(), {
+	deepEqual(subject.getMerchantAttributes(), {
 		name: "Business Co. Inc.",
 		person: {
 			name: "Freddy Person",
@@ -165,24 +174,22 @@ test("#getMerchantAttributes (business)", function(assert) {
 	});
 });
 
-test("#getPostAttributes", function(assert) {
+test("#getPostAttributes", function() {
 	var subject = ApiKeyFactory.create();
 	sinon.stub(subject, "getMerchantAttributes").returns({
 		name: "Freddy Stub"
 	});
 
-	assert.deepEqual(subject.getPostAttributes(), {
+	deepEqual(subject.getPostAttributes(), {
 		merchant: {
 			name: "Freddy Stub"
 		}
 	});
 });
 
-test("#_save", function(assert) {
-	var stub = sinon.stub(jQuery, "ajax");
-	stub.returns({
-		then: function() {}
-	});
+test("#_save", function() {
+	expect(1);
+	var stub = Adapter.load;
 	var subject = ApiKeyFactory.create({
 		person: {
 			name: "Tom Person"
@@ -197,12 +204,11 @@ test("#_save", function(assert) {
 	subject._save();
 
 	var request = stub.args[0][0];
-	assert.deepEqual(JSON.parse(request.data), {
+	deepEqual(JSON.parse(request.data), {
 		merchant: {
 			name: "Tom Person",
 			production: true,
 			type: "person"
 		}
 	});
-	stub.restore();
 });

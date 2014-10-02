@@ -1,8 +1,8 @@
 import DebitCardTransactionFactory from "balanced-dashboard/models/factories/debit-card-transaction-factory";
 
-module("DebitCardTransactionFactory");
+module("Factory - DebitCardTransactionFactory");
 
-test("#getDestinationAttributes", function(assert) {
+test("#getDestinationAttributes", function() {
 	var subject = DebitCardTransactionFactory.create({
 		name: "King K. Rool",
 		number: "4111 1111 1111 1111",
@@ -12,7 +12,7 @@ test("#getDestinationAttributes", function(assert) {
 		postal_code: "98102"
 	});
 
-	assert.deepEqual(subject.getDestinationAttributes(), {
+	deepEqual(subject.getDestinationAttributes(), {
 		name: "King K. Rool",
 		number: "4111 1111 1111 1111",
 		cvv: "900",
@@ -24,12 +24,12 @@ test("#getDestinationAttributes", function(assert) {
 	});
 });
 
-test("#getDebitAttributes", function(assert) {
+test("#getDebitAttributes", function() {
 	var subject = DebitCardTransactionFactory.create({
 		dollar_amount: "1.54",
 		appears_on_statement_as: "Pirate Crocodile",
 	});
-	assert.deepEqual(subject.getDebitAttributes(), {
+	deepEqual(subject.getDebitAttributes(), {
 		amount: "154",
 		appears_on_statement_as: "Pirate Crocodile",
 		description: undefined

@@ -74,12 +74,6 @@ var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, {
 			confirmMessage: this.get("confirmMessage"),
 			previousModal: self
 		});
-	},
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
-	},
-	getModalNotificationController: function() {
-		return this.get("container").lookup("controller:modal_notification_center");
 	}
 });
 

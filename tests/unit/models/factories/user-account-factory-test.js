@@ -1,8 +1,17 @@
 import UserAccountFactory from "balanced-dashboard/models/factories/user-account-factory";
+import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 
-module("UserAccountFactory");
+var Adapter;
 
-test("#setValidationErrorsFromServer", function(assert) {
+module("Factory - UserAccountFactory", {
+	setup: function() {
+		Adapter = BaseConnection.ADAPTER = {
+			load: sinon.stub()
+		};
+	}
+});
+
+test("#setValidationErrorsFromServer", function() {
 	var subject = UserAccountFactory.create();
 
 	subject.setValidationErrorsFromServer({
@@ -11,18 +20,16 @@ test("#setValidationErrorsFromServer", function(assert) {
 
 	var errors = subject.get("validationErrors.allMessages");
 
-	assert.deepEqual(errors, [
+	deepEqual(errors, [
 		[
 			"email_address", "Enter a valid e-mail address."
 		]
 	]);
 });
 
-test("#_save", function(assert) {
-	var stub = sinon.stub(jQuery, "ajax");
-	stub.returns({
-		then: function() {}
-	});
+test("#_save", function() {
+	expect(1);
+	var stub = Adapter.load;
 
 	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
@@ -32,16 +39,15 @@ test("#_save", function(assert) {
 
 	userAccount._save();
 	var request = stub.args[0][0];
-	assert.deepEqual(request.data, {
+
+	deepEqual(request.data, {
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"
 	});
-
-	stub.restore();
 });
 
-test("#getPostAttributes", function(assert) {
+test("#getPostAttributes", function() {
 	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
@@ -50,17 +56,17 @@ test("#getPostAttributes", function(assert) {
 		lastName: "Grape"
 	});
 
-	assert.deepEqual(userAccount.getPostAttributes(), {
+	deepEqual(userAccount.getPostAttributes(), {
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"
 	});
 });
 
-test("#handleResponse", function(assert) {
+test("#handleResponse", function() {
 	var userAccount = UserAccountFactory.create();
 
-	assert.deepEqual(userAccount.handleResponse({
+	deepEqual(userAccount.handleResponse({
 		uri: "/users/:id"
 	}), "/users/:id");
 });

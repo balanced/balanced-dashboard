@@ -36,6 +36,13 @@ var Marketplace = UserMarketplace.extend({
 		attributes = _.extend({}, attributes);
 		return getResultsLoader("logs", attributes);
 	},
+
+	getSearchLogsLoader: function(queryString) {
+		return getResultsLoader("search-logs", {
+			query: queryString
+		});
+	},
+
 	getSearchLoader: function(attributes) {
 		attributes = _.extend({
 			marketplace: this,

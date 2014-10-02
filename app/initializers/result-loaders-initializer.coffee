@@ -8,6 +8,7 @@ LOADER_NAMES = [
 	"invoice-transactions"
 	"invoices"
 	"logs"
+	"search-logs"
 	"marketplace-search"
 	"orders"
 	"transactions"
