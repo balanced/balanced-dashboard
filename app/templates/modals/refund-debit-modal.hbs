@@ -1,8 +1,8 @@
 <form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
 	<div class="modal-body">
-		{{view "form-fields/static-text-modal-form-field"
-			label=view.recipientLabel
-			displayText=view.recipientDisplay
+		{{view "form-fields/static-text-form-field"
+			labelText=view.recipientLabel
+			value=view.recipientDisplay
 		}}
 
 		{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}

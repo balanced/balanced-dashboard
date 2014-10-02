@@ -1,8 +1,8 @@
 <form class="form-horizontal split-labels" {{action "save" target="view" on="submit"}}>
 	<div class="modal-body">
-		{{view "form-fields/static-text-modal-form-field"
-			label="Customer"
-			displayText=view.customer.display_me_with_email
+		{{view "form-fields/static-text-form-field"
+			labelText="Customer"
+			value=view.customer.display_me_with_email
 		}}
 
 		{{#if view.fundingInstruments}}
@@ -27,13 +27,13 @@
 			</div>
 		{{/if}}
 
-		{{view "form-fields/static-text-modal-form-field"
-			label="Name on account"
-			displayText=view.model.source.name
+		{{view "form-fields/static-text-form-field"
+			labelText="Name on account"
+			value=view.model.source.name
 		}}
-		{{view "form-fields/static-text-modal-form-field"
-			label="Bank"
-			displayText=view.model.source.formatted_bank_name
+		{{view "form-fields/static-text-form-field"
+			labelText="Bank"
+			value=view.model.source.formatted_bank_name
 		}}
 
 		{{#view "form-fields/modal-form-field" model=view.model fieldName="dollar_amount" label="Amount"}}

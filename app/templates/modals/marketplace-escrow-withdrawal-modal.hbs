@@ -20,13 +20,13 @@
 					</div>
 				</div>
 
-				{{view "form-fields/static-text-modal-form-field"
-					label="Name on account"
-					displayText=view.model.destination.name
+				{{view "form-fields/static-text-form-field"
+					labelText="Name on account"
+					value=view.model.destination.name
 				}}
-				{{view "form-fields/static-text-modal-form-field"
-					label="Bank"
-					displayText=view.model.destination.formatted_bank_name
+				{{view "form-fields/static-text-form-field"
+					labelText="Bank"
+					value=view.model.destination.formatted_bank_name
 				}}
 			{{else}}
 				<div class="alert alert-info">

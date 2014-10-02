@@ -1,7 +1,7 @@
 import Ember from "ember";
 
-var SimpleCheckboxFormFieldView = Ember.View.extend({
-	templateName: "form-fields/simple-checkbox-form-field",
+var CheckboxFormFieldView = Ember.View.extend({
+	templateName: "form-fields/checkbox-form-field",
 	classNameBindings: [":form-group", "isError:has-error", ":checkbox"],
 	inputName: function() {
 		if (this.get("field")) {
@@ -44,4 +44,4 @@ var SimpleCheckboxFormFieldView = Ember.View.extend({
 	}.property("errorMessages.length")
 });
 
-export default SimpleCheckboxFormFieldView;
+export default CheckboxFormFieldView;

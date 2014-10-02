@@ -1,0 +1,53 @@
+{{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength source=view.model.source debitableBankAccounts=view.debitableBankAccounts model=view.model sectionTitle="Payment method"}}
+	{{#if view.debitableBankAccounts}}
+		{{view "form-fields/select-form-field"
+			model=view.model
+			content=view.debitableBankAccounts
+			value=view.model.source
+			labelText="Account number"
+			optionValuePath="content"
+			optionLabelPath="content.description"
+			name="source"
+			field="source"
+		}}
+
+		{{view "form-fields/static-text-form-field"
+			model=view.model.source
+			labelText="Name on account"
+			field="name"
+		}}
+
+		{{view "form-fields/static-text-form-field"
+			model=view.model.source
+			labelText="Bank"
+			field="bank_name"
+		}}
+	{{/if}}
+
+	{{view "form-fields/amount-form-field"
+		model=view.model
+		labelText="Amount"
+		field="dollar_amount"
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText=view.appearsOnStatementAsLabelText
+		field="appears_on_statement_as"
+		inputClassNames="full"
+		maxlength=view.appearsOnStatementAsMaxLength
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Internal description"
+		inputClassNames="full"
+		field="description"
+	}}
+{{/view}}
+
+{{#view "form-fields/form-section" sectionTitle="Note"}}
+	<div class="form-group">
+		<p>Funds will appear in your balance in 3-5 business days.</p>
+	</div>
+{{/view}}

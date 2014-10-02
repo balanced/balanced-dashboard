@@ -53,8 +53,6 @@ var AddCallbackModalView = ModalBaseView.extend(Wide, Form, {
 
 AddCallbackModalView.reopenClass({
 	open: function(marketplace) {
-		var callback = marketplace
-
 		return this.create({
 			marketplace: marketplace
 		});

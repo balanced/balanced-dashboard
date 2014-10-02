@@ -30,8 +30,12 @@
 						{{/if}}
 					</span>
 				</td>
-				<td class="delete-container">
-					{{api-key-delete-modal action="delete" param=key key=key marketplaceSecret=marketplaceSecret oneKey=oneKey haveOtherSecrets=haveOtherSecrets}}
+				<td class="span1 delete-container">
+					{{#if canDeleteApiKeys}}
+						<a href="#" {{action "delete" key}}>
+							<i class="icon-table-x confirm-delete-key action"></i>
+						</a>
+					{{/if}}
 				</td>
 			</tr>
 		{{else}}

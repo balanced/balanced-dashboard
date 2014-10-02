@@ -1,8 +1,8 @@
-import TransactionCreatorModalView from "./transaction-creator-modal";
+import ObjectCreatorModalBaseView from "./object-creator-modal-base";
 import Constants from "balanced-dashboard/utils/constants";
 import CreditBankAccountTransactionFactory from "balanced-dashboard/models/factories/credit-bank-account-transaction-factory";
 
-var BankAccountCreditCreateModalView = TransactionCreatorModalView.extend({
+var BankAccountCreditCreateModalView = ObjectCreatorModalBaseView.extend({
 	title: "Credit a bank account",
 	templateName: "modals/bank-account-credit-create-modal",
 	model_class: CreditBankAccountTransactionFactory,
