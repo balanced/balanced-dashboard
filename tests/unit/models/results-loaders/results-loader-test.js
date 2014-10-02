@@ -1,4 +1,6 @@
+import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 import ModelArray from "balanced-dashboard/models/core/model-array";
+import Model from "balanced-dashboard/models/core/model";
 import SearchModelArray from "balanced-dashboard/models/core/search-model-array";
 import ResultsLoader from "balanced-dashboard/models/results-loaders/base";
 import Testing from "balanced-dashboard/tests/helpers/testing";
@@ -7,7 +9,14 @@ import Dispute from "balanced-dashboard/models/dispute";
 import Invoice from "balanced-dashboard/models/invoice";
 import Customer from "balanced-dashboard/models/customer";
 
+var Adapter;
+
 module("ResultsLoader - ResultsLoader", {
+	setup: function() {
+		Adapter = Model.ADAPTER = {
+			create: sinon.stub()
+		};
+	},
 	teardown: function() {
 		Testing.restoreMethods(
 			SearchModelArray.newArrayLoadedFromUri,
@@ -104,27 +113,21 @@ test("#getCsvExportType", function() {
 });
 
 test("#postCsvExport (by uri)", function() {
-	var stub = sinon.stub(jQuery, "ajax");
-	stub.returns({
-		then: function() {}
-	});
+	var stub = Adapter.create;
 
 	var subject = ResultsLoader.create({
 		resultsUri: "/transactions"
 	});
 	subject.postCsvExport("jim@example.org");
-
-	deepEqual(JSON.parse(stub.args[0][0].data), {
+	deepEqual(stub.args[0][1], "/downloads");
+	deepEqual(stub.args[0][2], {
 		email_address: "jim@example.org",
 		uri: "/v1/transactions"
 	});
 });
 
 test("#postCsvExport (bulk)", function() {
-	var stub = sinon.stub(jQuery, "ajax");
-	stub.returns({
-		then: function() {}
-	});
+	var stub = Adapter.create;
 
 	var subject = ResultsLoader.create({
 		resultsType: Transaction,
@@ -134,7 +137,8 @@ test("#postCsvExport (bulk)", function() {
 	});
 	subject.postCsvExport("jim@example.org");
 
-	deepEqual(JSON.parse(stub.args[0][0].data), {
+	deepEqual(stub.args[0][1], "/downloads");
+	deepEqual(stub.args[0][2], {
 		beginning: "2013-02-08T09:30:26.000Z",
 		email_address: "jim@example.org",
 		ending: "2013-02-08T10:30:26.000Z",
