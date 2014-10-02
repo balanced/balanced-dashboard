@@ -49,7 +49,7 @@ test('can edit refund', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REFUND_ROUTE)
-		.click('.key-value-display .edit-model-link')
+		.click('.key-value-display .edit-model-link:eq(0)')
 		.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
 		.click('#edit-transaction .modal-footer button[name=modal-submit]')
 		.then(function() {
@@ -78,5 +78,25 @@ test('renders metadata correctly', function() {
 
 			".dl-horizontal dt:contains(other-keey)": 1,
 			".dl-horizontal dd:contains(other-vaalue)": 1,
+		});
+});
+
+test('can edit meta', function() {
+	var spy = sinon.spy(Adapter, "update");
+
+	visit(Testing.REFUND_ROUTE)
+		.click('.key-value-display .edit-model-link:eq(1)')
+		.fillForm("#edit-meta", {
+			key: "new key",
+			value: "new value"
+		})
+		.click('#edit-meta .modal-footer button[name=modal-submit]')
+		.then(function() {
+			var args = spy.firstCall.args;
+			ok(spy.calledOnce);
+			equal(args[0], Models.Refund);
+			deepEqual(args[2].meta, {
+				"new key": "new value"
+			});
 		});
 });

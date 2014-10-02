@@ -1,24 +1,24 @@
 import BankAccount from "balanced-dashboard/models/bank-account";
 
-module("BankAccount");
+module("Model - BankAccount");
 
-test("#type_name", function(assert) {
+test("#type_name", function() {
 	var bankAccount = BankAccount.create({
 		account_type: "savings"
 	});
 
-	assert.equal(bankAccount.get("type_name"), "Savings account");
+	equal(bankAccount.get("type_name"), "Savings account");
 
 	bankAccount = BankAccount.create({
 		account_type: "checking"
 	});
-	assert.equal(bankAccount.get("type_name"), "Checking account");
+	equal(bankAccount.get("type_name"), "Checking account");
 });
 
-test("#description", function(assert) {
+test("#description", function() {
 	var test = function(expectation, attributes) {
 		var bankAccount = BankAccount.create(attributes);
-		assert.deepEqual(bankAccount.get("description"), expectation);
+		deepEqual(bankAccount.get("description"), expectation);
 	};
 
 	test("1111 Cool Bank", {
@@ -31,10 +31,10 @@ test("#description", function(assert) {
 	});
 });
 
-test("#isRemoved", function(assert) {
+test("#isRemoved", function() {
 	var test = function(expectation, attributes) {
 		var bankAccount = BankAccount.create(attributes);
-		assert.deepEqual(bankAccount.get("isRemoved"), expectation);
+		deepEqual(bankAccount.get("isRemoved"), expectation);
 	};
 
 	test(true, {
@@ -46,10 +46,10 @@ test("#isRemoved", function(assert) {
 	});
 });
 
-test("#isVerified", function(assert) {
+test("#isVerified", function() {
 	var test = function(expectation, attributes) {
 		var bankAccount = BankAccount.create(attributes);
-		assert.deepEqual(bankAccount.get("isVerified"), expectation);
+		deepEqual(bankAccount.get("isVerified"), expectation);
 	};
 
 	test(false, {
@@ -61,10 +61,10 @@ test("#isVerified", function(assert) {
 	});
 });
 
-test("#verificationStatus", function(assert) {
+test("#verificationStatus", function() {
 	var test = function(expectation, attributes) {
 		var bankAccount = BankAccount.create(attributes);
-		assert.equal(bankAccount.get("status"), expectation);
+		equal(bankAccount.get("status"), expectation);
 	};
 
 	test("removed", {

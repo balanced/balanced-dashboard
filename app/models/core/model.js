@@ -321,8 +321,8 @@ Model.reopenClass({
 	 *
 	 * Example:
 	 *
-	 * Balanced.Marketplace = Balanced.UserMarketplace.extend({
-	 *      owner_customer: Balanced.Model.belongsTo('owner_customer_json', 'customer')
+	 * Marketplace = UserMarketplace.extend({
+	 *      owner_customer: Model.belongsTo('owner_customer_json', 'customer')
 	 * });
 	 */
 	belongsTo: function(propertyName, defaultType) {
@@ -382,8 +382,8 @@ Model.reopenClass({
 	 *
 	 * Example:
 	 *
-	 * Balanced.Marketplace = Balanced.UserMarketplace.extend({
-	 *      customers: Balanced.Model.hasMany('customers_json', 'customer')
+	 * Marketplace = UserMarketplace.extend({
+	 *      customers: Model.hasMany('customers_json', 'customer')
 	 * });
 	 */
 	hasMany: function(propertyName, defaultType) {

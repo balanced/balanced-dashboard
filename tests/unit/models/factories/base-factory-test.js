@@ -1,8 +1,8 @@
 import BaseFactory from "balanced-dashboard/models/factories/base";
 
-module("BaseFactory");
+module("Factory - BaseFactory");
 
-test("setValidationErrorsFromServer", function(assert) {
+test("setValidationErrorsFromServer", function() {
 	var subject = BaseFactory.create({});
 	subject.validate();
 
@@ -21,12 +21,12 @@ test("setValidationErrorsFromServer", function(assert) {
 	});
 
 	var messages = subject.get("validationErrors.fullMessages");
-	assert.deepEqual(messages, [
+	deepEqual(messages, [
 		"phone_number \"99.99\" is not an E.164 formatted phone number",
 		"honorific Doctor Parrot is not a real doctor"
 	]);
 	messages = subject.get("validationErrors.honorific.fullMessages");
-	assert.deepEqual(messages, [
+	deepEqual(messages, [
 		"Doctor Parrot is not a real doctor"
 	]);
 });

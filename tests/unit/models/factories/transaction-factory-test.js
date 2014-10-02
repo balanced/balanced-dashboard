@@ -1,13 +1,13 @@
 import TransactionFactory from "balanced-dashboard/models/factories/transaction-factory";
 
-module("TransactionFactory");
+module("Factory - TransactionFactory");
 
-test("#isAmountPositive", function(assert) {
+test("#isAmountPositive", function() {
 	var test = function(amount, expectation) {
 		var subject = TransactionFactory.create({
 			dollar_amount: amount
 		});
-		assert.deepEqual(subject.isAmountPositive(), expectation);
+		deepEqual(subject.isAmountPositive(), expectation);
 	};
 
 	test("1000", true);
@@ -20,11 +20,11 @@ test("#isAmountPositive", function(assert) {
 	test(null, false);
 });
 
-test("#amount", function(assert) {
+test("#amount", function() {
 	var test = function(amount, expectation) {
 		var subject = TransactionFactory.create();
 		subject.set("dollar_amount", amount);
-		assert.deepEqual(subject.get("amount"), expectation);
+		deepEqual(subject.get("amount"), expectation);
 	};
 
 	test("10.00", "1000");
