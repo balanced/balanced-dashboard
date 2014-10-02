@@ -22,6 +22,10 @@
 			labelText="Bank"
 			field="formatted_bank_name"
 		}}
+	{{else}}
+		<div class="form-group">
+			<p>You don't have any verified bank accounts to add funds.</p>
+		</div>
 	{{/if}}
 
 	{{view "form-fields/amount-form-field"
