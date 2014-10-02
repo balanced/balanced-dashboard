@@ -1,30 +1,3 @@
-<form {{action "submit" view.model on="submit" target="view"}} class="form-horizontal split-labels">
-	<div class="modal-body modal-with-headers">
-		<div class="modal-content">
-			<div class="control-group">
-				<label class="control-label">Current email address</label>
-				<div class="controls text-label">{{view.currentEmailAddress}}</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.email:error"}}>
-				<label class="control-label">New email address</label>
-
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.email" name="email_address" class="full"}}
-					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.email}}</div>
-				</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.existing_password:error"}}>
-				<label class="control-label">Current password</label>
-
-				<div class="controls">
-					{{view Ember.TextField type="password" name="existing_password" valueBinding="view.model.existing_password" class="full"}}
-					<div class="alert alert-error label4b">{{format-error view.model.validationErrors.existing_password}}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Change"}}
-</form>
+{{view "form-fields/static-text-form-field" value=view.currentEmailAddress labelText="Current email address" inputClassNames="full"}}
+{{view "form-fields/text-form-field" model=view.model field="email" labelText="New email address" name="email_address" inputClassNames="full"}}
+{{view "form-fields/text-form-field" model=view.model field="existing_password" labelText="Current password" name="existing_password" inputClassNames="full"}}

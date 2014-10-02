@@ -21,6 +21,7 @@ var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
 });
 
 var ExportCsvModalView = ModalBaseView.extend(Form, Save, {
+	classNames: ["wide-modal"],
 	templateName: "modals/export-csv-modal",
 	elementId: "download-csv",
 	title: "Export data",
