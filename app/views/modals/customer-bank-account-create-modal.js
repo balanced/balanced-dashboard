@@ -1,12 +1,15 @@
 import ModalBaseView from "./modal-base";
-import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 import BankAccount from "balanced-dashboard/models/bank-account";
 
-var CustomerBankAccountCreateModalView = ModalBaseView.extend(Wide, Save, {
+var CustomerBankAccountCreateModalView = ModalBaseView.extend(Full, Form, Save, {
 	templateName: 'modals/customer-bank-account-create-modal',
 	elementId: "add-bank-account",
 	title: "Add a bank account",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Add",
 
 	bankAccountTypes: [{
 		value: "checking",
