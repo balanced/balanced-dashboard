@@ -66,7 +66,7 @@ test("#handleResponse", function() {
 
 test("#_save", function() {
 	expect(1);
-	var stub = Adapter.load
+	var stub = Adapter.load;
 	var subject = MarketplaceFactory.create({
 		domain_url: "http://www.example.org",
 		name: "Cool Marketplace",
