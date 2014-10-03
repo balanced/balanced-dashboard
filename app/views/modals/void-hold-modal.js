@@ -2,6 +2,7 @@ import ModalBaseView from "./modal-base";
 
 var VoidHoldModalView = ModalBaseView.extend({
 	templateName: "modals/void-hold-modal",
+	elementId: '#void-hold',
 	title: "Void this hold",
 
 	actions: {
