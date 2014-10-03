@@ -28,10 +28,6 @@ var ExportCsvModalView = ModalBaseView.extend(Form, Save, {
 	cancelButtonText: "Cancel",
 	submitButtonText: "Export",
 
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
-	},
-
 	model: function() {
 		return ExportTransactionCreator.create({
 			loader: this.get("loader")

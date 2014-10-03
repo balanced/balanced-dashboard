@@ -118,7 +118,7 @@ var BaseResultsLoader = Ember.Object.extend({
 				email_address: emailAddress
 			};
 		}
-		var download = Download.create(downloadAttributes);
+		var download = BalancedApp.__container__.lookupFactory('model:download').create(downloadAttributes);
 		return download.save();
 	}
 });

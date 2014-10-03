@@ -20,7 +20,8 @@ var ModalBaseView = Ember.View.extend({
 	open: function(container) {
 		var options = {
 			show: true,
-			backdrop: true
+			backdrop: true,
+			keyboard: true
 		};
 
 		if (this.get('staticBackdrop')) {
