@@ -1,11 +1,14 @@
 import ErrorsLogger from "balanced-dashboard/lib/errors-logger";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 
-var MarketplaceUserCreateModalView = ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
+var MarketplaceUserCreateModalView = ModalBaseView.extend(Form, {
+	classNameBindings: [":wide-modal"],
 	elementId: "marketplace-user-create",
 	templateName: "modals/marketplace-user-create-modal",
-	title: "Add user",
+	title: "Add a user",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Add",
 
 	buildApiKey: function(emailAddress) {
 		var apiKey = this.get("container").lookupFactory("model:api-key").create();

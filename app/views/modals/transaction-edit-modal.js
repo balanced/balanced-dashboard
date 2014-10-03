@@ -1,8 +1,9 @@
-import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 
-var TransactionEditModalView = ModalBaseView.extend(Wide, Save, {
+var TransactionEditModalView = ModalBaseView.extend(Full, Form, Save, {
 	elementId: "edit-transaction",
 	templateName: 'modals/transaction-edit-modal',
 	title: "Edit info",

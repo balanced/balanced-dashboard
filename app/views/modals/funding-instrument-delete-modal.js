@@ -6,7 +6,7 @@ var FundingInstrumentDeleteModalView = ModalBaseView.extend(DeleteMixin, {
 	templateName: "modals/funding-instrument-delete-modal",
 	elementId: "delete-funding-instrument",
 	isCard: Ember.computed.equal("fundingInstrument.type_name", "card"),
-
+	classNames: ["wide-modal"],
 	title: function() {
 		return this.get("isCard") ?
 			"Remove card" :

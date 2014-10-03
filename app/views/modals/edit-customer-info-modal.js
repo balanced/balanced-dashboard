@@ -1,52 +1,43 @@
 import Ember from "ember";
-import ModalView from "./modal";
+import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 import Utils from "balanced-dashboard/lib/utils";
 
-var EditCustomerInfoModalView = ModalView.extend({
+var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
 	templateName: 'modals/edit-customer-info',
+	elementId: "edit-customer-info",
+	title: function() {
+		var subject = (this.get("marketplaceOwner")) ? "owner": "customer";
+		return "Edit %@ information".fmt(subject);
+	}.property("marketplaceOwner"),
 
-	classNames: ['modal-container', 'header-action-container'],
+	cancelButtonText: "Cancel",
+	submitButtonText: "Edit",
 
 	marketplaceOwner: false,
-	optionalFieldsOpen: false,
-	controllerEventName: false,
-
-	afterSave: function() {
-		this.get('customer').reload();
-		this.hide();
-	},
-
-	beforeSave: function() {
-		var customer = this.get('model');
-
-		Utils.traverse(customer, function(val, key) {
-			if (!customer.get(key)) {
-				customer.set(key, null);
-			}
-		});
-	},
 
 	actions: {
-		open: function() {
-			var customer = Ember.copy(this.get('customer'), true);
-
-			// if the address hash is empty, cast it to an empty object
-			customer.setProperties({
-				isNew: false,
-				address: customer.get('address') || {}
-			});
-			customer.trigger('didCreate');
-
-			this.set('optionalFieldsOpen', false);
-
-			this._super(customer);
-		},
-
-		toggleOptionalFields: function() {
-			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
-			// trigger a resize to reposition the dialog
-			$('body').trigger('resize');
+		save: function() {
+			var controller = this.getNotificationController();
+			this.save(this.get("model"))
+				.then(function(model) {
+					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
+					model.reload();
+					controller.alertSuccess(message, {
+						expire: true
+					});
+				});
 		}
+	}
+});
+
+EditCustomerInfoModalView.reopenClass({
+	open: function(model) {
+		return this.create({
+			model: model
+		});
 	}
 });
 

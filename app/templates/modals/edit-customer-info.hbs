@@ -1,157 +1,101 @@
-<div class="modal wide-modal hide" id="edit-customer-info">
-	<form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>
-				{{#if view.marketplaceOwner}}
-					Edit owner info
-				{{else}}
-					Edit customer info
-				{{/if}}
-			</h2>
+{{#view "form-fields/form-section" model=view.model sectionTitle="Bank account information"}}
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		labelText="Name"
+		field="name"
+	}}
+
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		labelText="Email address"
+		field="email"
+	}}
+
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		labelText="Legal business name"
+		field="business_name"
+	}}
+
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		labelText="Employer identification number"
+		field="ein"
+	}}
+{{/view}}
+
+{{#view "form-fields/form-section" model=view.model sectionTitle="Additional information (optional)"}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Street address (line 1)"
+		field="address.line1"
+		inputClassNames="full"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Street address (line 2)"
+		field="address.line2"
+		inputClassNames="full"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="City"
+		field="address.city"
+		inputClassNames="full"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="State"
+		field="address.state"
+		inputClassNames="full"
+	}}
+	{{view "form-fields/country-select"
+		model=view.model
+		labelText="Country"
+		field="address.country_code"
+		name="country_code"
+		inputClassNames="full"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Country"
+		field="address.postal_code"
+		name="postal_code"
+		inputClassNames="full"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Phone number"
+		field="address.phone"
+		name="phone"
+		inputClassNames="full"
+	}}
+	<div {{bind-attr class=":control-group view.model.dob_error:error"}}>
+		<label class="control-label">Date of birth</label>
+
+		<div class="controls">
+			{{view Ember.TextField value=view.model.dob_month name="dob_month" placeholder="Month" class="half"}}
+			{{view Ember.TextField value=view.model.dob_year name="dob_year" placeholder="Year" class="half"}}
 		</div>
+	</div>
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
+		labelText="Last 4 of SSN"
+		field="ssn_last4"
+		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
+	}}
 
-		<div class="modal-body modal-with-headers">
-			{{partial "modals/modal-errors"}}
-
-			<div class="modal-informational modal-informational-light">
-				<p class="modal-informational-content fields-header"><strong>Basic info</strong> (all fields are optional)</p>
-			</div>
-			<div class="modal-content">
-				<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-					<label class="control-label">Name</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.name name="name" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.email:error"}}>
-					<label class="control-label">Email</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.email name="email" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.business_name:error"}}>
-					<label class="control-label">Business Name</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.business_name name="business_name" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.ein:error"}}>
-					<label class="control-label">EIN #</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.ein name="ein" class="full"}}
-					</div>
-				</div>
-			</div>
-
-			<div class="modal-informational modal-informational-light special-rollover"><a href="#" class="more-info" {{action "toggleOptionalFields" target="view"}}>
-				<div {{bind-attr class=":disclosure-button view.optionalFieldsOpen:icon-carat-down:icon-carat-right :icon"}}></div>
-				<p class="modal-informational-content fields-header"><strong>Additional info</strong> (all fields are optional)</p></a>
-			</div>
-
-			<div {{bind-attr class=":modal-content :optional-modal-fields view.optionalFieldsOpen:open"}}>
-				<div {{bind-attr class=":control-group view.model.validationErrors.address.line1:error"}}>
-					<label class="control-label">Street address (line 1)</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.address.line1 name="line1" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.address.line2:error"}}>
-					<label class="control-label">Street address (line 2)</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.address.line2 name="line2" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.address.city:error"}}>
-					<label class="control-label">City</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.address.city name="city" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.address.state:error"}}>
-					<label class="control-label">State or Province</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.address.state name="state" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.address.country_code:error"}}>
-					<label class="control-label">Country</label>
-
-					<div class="controls">
-						{{view "form-fields/country-select" value=view.model.address.country_code name="country_code" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.address.postal_code:error"}}>
-					<label class="control-label">Postal code</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.address.postal_code name="postal_code" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.phone:error"}}>
-					<label class="control-label">Phone number</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.phone name="phone" class="full"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.dob_error:error"}}>
-					<label class="control-label">Date of Birth</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.dob_month name="dob_month" placeholder="Month" class="half"}}
-						{{view Ember.TextField value=view.model.dob_year name="dob_year" placeholder="Year" class="half"}}
-					</div>
-				</div>
-
-				<div {{bind-attr class=":control-group view.model.validationErrors.ssn_last4:error"}}>
-					<label class="control-label">SSN # (last 4 digits)</label>
-
-					<div class="controls">
-						{{view Ember.TextField value=view.model.ssn_last4 name="ssn_last4" class="full"}}
-					</div>
-				</div>
-
-				{{#unless view.marketplaceOwner}}
-					<div {{bind-attr class=":control-group view.model.validationErrors.facebook:error"}}>
-						<label class="control-label">Facebook ID</label>
-						<div class="controls">
-							{{view Ember.TextField value=view.model.meta.facebook name="facebook" class="full"}}
-						</div>
-					</div>
-
-					<div {{bind-attr class=":control-group view.model.validationErrors.twitter:error"}}>
-						<label class="control-label">Twitter ID</label>
-						<div class="controls">
-							{{view Ember.TextField value=view.model.meta.twitter name="twitter" class="full"}}
-						</div>
-					</div>
-				{{/unless}}
-			</div>
-		</div>
-
-		<div class="modal-footer">
-			{{view "modals/action-buttons" submitTitle="Save" submittingTitle="Saving..."}}
-		</div>
-	</form>
-</div>
-
-<a class="icon-edit action pull-right" title="Edit" {{action "open" target="view"}}></a>
+	{{#unless view.marketplaceOwner}}
+		{{view "form-fields/text-form-field"
+			model=view.model
+			labelText="Facebook ID"
+			field="meta.facebook"
+			name="facebook"
+			inputClassNames="full"
+		}}
+		{{view "form-fields/text-form-field"
+			model=view.model
+			labelText="Twitter ID"
+			field="meta.twitter"
+			name="facebook"
+			inputClassNames="full"
+		}}
+	{{/unless}}
+{{/view}}
