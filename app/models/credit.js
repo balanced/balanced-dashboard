@@ -45,8 +45,8 @@ var Credit = Transaction.extend({
 	}.on('didLoad'),
 
 	can_reverse: function() {
-		return (!this.get('is_failed')) && (this.get('reversal_amount') > 0);
-	}.property('is_failed', 'reversal_amount'),
+		return (!this.get('is_failed')) && (this.get('reversal_amount') > 0 && this.get('funding_instrument_type') !== 'Debit card');
+	}.property('is_failed', 'reversal_amount', 'funding_instrument_type'),
 
 	status_description: function() {
 		if (this.get('is_pending')) {

@@ -141,3 +141,17 @@ test('displays failure reason amount in dollars', function() {
 			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
 		});
 });
+
+test('displays failure reason amount in dollars', function(assert) {
+	visit(Testing.CREDIT_ROUTE)
+		.then(function() {
+			var model = BalancedApp.__container__.lookup('controller:credits').get('model');
+			Ember.run(function() {
+				model.set('amount', '50036');
+				model.set('status', 'failed');
+				model.set('failure_reason', 'Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of 42500. There is currently a required reserve of 50036.');
+			});
+		}).checkElements({
+			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
+		}, assert);
+});

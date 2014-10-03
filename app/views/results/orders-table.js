@@ -1,7 +1,8 @@
 import ResultsTableView from "./results-table";
 
-var OrdersResultsView = ResultsTableView.extend({
+var OrdersTableView = ResultsTableView.extend({
 	classNames: 'orders',
+	templateName: "results/orders-table"
 });
 
-export default OrdersResultsView;
+export default OrdersTableView;

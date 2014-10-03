@@ -170,8 +170,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-s3');
 	grunt.loadNpmTasks('grunt-exec');
-	grunt.loadNpmTasks('grunt-open');
-	grunt.loadNpmTasks('grunt-coveralls');
 	grunt.loadNpmTasks('grunt-bump');
 
 	grunt.registerMultiTask('clean', 'Deletes files', function() {
