@@ -1,0 +1,52 @@
+<div class="control-group">
+    <label class="control-label">Customer</label>
+    <div class="controls">
+        <span class="label1a">{{hold.customer.display_me}} ({{hold.customer.email}})</span>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">Credit card</label>
+    <div class="controls">
+        <span class="label1a">{{hold.source.number}}</span>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">Name on account</label>
+    <div class="controls">
+        <span class="label1a">{{hold.source.name}}</span>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">Bank</label>
+    <div class="controls">
+        <span class="label1a">{{hold.source.bank_name}}</span>
+    </div>
+</div>
+
+<div class="control-group">
+    <label class="control-label">Type</label>
+    <div class="controls">
+        <span class="label1a">{{hold.source.brand}}</span>
+    </div>
+</div>
+
+<div {{bind-attr class=":control-group model.validationErrors.amount:error"}}>
+    <label class="control-label">Amount</label>
+    <div class="controls">
+        <div class="input-prepend">
+            <span class="add-on">$</span>
+            {{view Ember.TextField valueBinding="dollar_amount" name="dollar_amount" class="col-md-3"}}
+        </div>
+    </div>
+</div>
+
+<div {{bind-attr class=":control-group model.validationErrors.description:error"}}>
+    <label class="control-label">Internal Description</label>
+    <div class="controls">
+        {{view Ember.TextField valueBinding="model.description" name="description" class="full" maxlengthBinding="Constants.MAXLENGTH.DESCRIPTION"}}
+    </div>
+</div>
+

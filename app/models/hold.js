@@ -12,7 +12,7 @@ var Hold = Transaction.extend({
 		if (this.get('debit')) {
 			return 'captured';
 		} else if (this.get('voided_at')) {
-			return 'void';
+			return 'voided';
 		} else if (this.get('is_expired')) {
 			return 'expired';
 		} else {
