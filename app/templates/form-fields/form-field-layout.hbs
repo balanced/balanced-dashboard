@@ -1,5 +1,10 @@
 <label class="control-label" {{bind-attr for=view.inputElement.elementId}}>
 	{{view.labelText}}
+	{{#if view.tooltipContent}}
+		{{#view "popover" data-trigger="hover" data-placement="left" data-original-title=view.tooltipTitle data-content=view.tooltipContent data-html="true"}}
+			<i class="icon-tooltip"></i>
+		{{/view}}
+	{{/if}}
 </label>
 <div>
 	{{yield}}

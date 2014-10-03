@@ -1,7 +1,7 @@
 {{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText bankAccountTypes=view.bankAccountTypes model=view.model sectionTitle="Payment information"}}
 	{{view "form-fields/text-form-field" model=view.model field="name" labelText="Account holder's name" inputClassNames="full"}}
-	{{view "form-fields/text-form-field" model=view.model field="routing_number" labelText="Routing number" inputClassNames="full"}}
-	{{view "form-fields/text-form-field" model=view.model field="account_number" labelText="Account number" inputClassNames="full"}}
+	{{view "form-fields/text-form-field" model=view.model field="routing_number" labelText="Routing number" inputClassNames="full" tooltipTitle="Where is the routing number?" tooltipContent='<img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>'}}
+	{{view "form-fields/text-form-field" model=view.model field="account_number" labelText="Account number" inputClassNames="full" tooltipTitle="Where is the account number?" tooltipContent='<img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>'}}
 
 	{{view "form-fields/select-form-field"
 		model=view.model
@@ -24,6 +24,5 @@
 {{#view "form-fields/form-section" sectionTitle="Note"}}
 	<div class="form-group">
 		<p>Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
-		<img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>
 	</div>
 {{/view}}
