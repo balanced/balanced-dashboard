@@ -7,6 +7,8 @@ var TransactionEditModalView = ModalBaseView.extend(Full, Form, Save, {
 	elementId: "edit-transaction",
 	templateName: 'modals/transaction-edit-modal',
 	title: "Edit info",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Edit",
 
 	actions: {
 		save: function() {

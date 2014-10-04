@@ -37,7 +37,7 @@ var ApiKeyCreateModalView = ModalBaseView.extend(Form, {
 		save: function() {
 			var self = this;
 			var userMarketplace = self.get("container").lookup("controller:marketplace/settings").get("userMarketplace");
-			console.log(self.get('keyName'))
+
 			self.set("isSaving", true);
 			self.buildApiKey(self.get('keyName'))
 				.save()
