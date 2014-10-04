@@ -1,4 +1,5 @@
-`import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger"`
+`import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";`
+`import ENV from "balanced-dashboard/config/environment";`
 
 Initializer =
   name: "analytics"

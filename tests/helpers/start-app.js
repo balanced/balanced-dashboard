@@ -1,16 +1,12 @@
 import Ember from 'ember';
-import Application from 'balanced-dashboard/app';
-import Router from 'balanced-dashboard/router';
+import Application from '../../app';
+import Router from '../../router';
+import config from '../../config/environment';
 
 export default function (attrs) {
 	var App;
 
-	var attributes = Ember.merge({
-		rootElement: '#ember-testing',
-		LOG_ACTIVE_GENERATION: false,
-		LOG_VIEW_LOOKUPS: false,
-	}, attrs);
-
+	var attributes = Ember.merge(config, attrs);
 	Router.reopen({
 		location: 'none'
 	});
@@ -21,5 +17,7 @@ export default function (attrs) {
 		App.setupForTesting();
 		App.injectTestHelpers();
 	});
+
+	App.reset();
 	return App;
 }

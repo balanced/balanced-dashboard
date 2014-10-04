@@ -1,3 +1,5 @@
+`import ENV from "balanced-dashboard/config/environment";`
+
 BaseAdapter = Ember.Object.extend
 	init: ->
 		@hostsByType = []
@@ -34,4 +36,4 @@ BaseAdapter = Ember.Object.extend
 		if !type
 			throw new Error('Missing type in adapter call for %@'.fmt(uri))
 
-`export default BaseAdapter`
+`export default BaseAdapter;`

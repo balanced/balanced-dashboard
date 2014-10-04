@@ -1,3 +1,4 @@
+import ENV from "balanced-dashboard/config/environment";
 import Ajax from "balanced-dashboard/lib/ajax";
 import Utils from "balanced-dashboard/lib/utils";
 import BaseAdapter from "./base";

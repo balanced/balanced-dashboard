@@ -1,5 +1,7 @@
 module.exports = function(environment) {
 	var ENV = {
+		modulePrefix: 'balanced-dashboard',
+		rootElement: "#balanced-app",
 		environment: environment,
 		baseURL: '/',
 		locationType: 'auto',
@@ -27,6 +29,7 @@ module.exports = function(environment) {
 
 	if (environment === 'test') {
 		ENV.baseURL = '/';
+		ENV.rootElement = '#ember-testing';
 	}
 
 	if (environment === 'production') {

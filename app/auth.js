@@ -185,18 +185,24 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	loadExtensions: function() {
-		// TODO: reenable extensions
-		return Ember.RSVP.resolve();
-		/*
 		var promises = _.map(this.getExtensions(), function(val, key) {
 			var deferred = Ember.RSVP.defer();
-			$.getScript(key).always(function() {
-				deferred.resolve();
+
+			$.ajax({
+				dataType: "script",
+				cache: true,
+				url: key,
+				success: function() {
+					require("ember/load-initializers").default(BalancedApp, "balanced-admin");
+					deferred.resolve();
+				},
+				error: function() {
+					deferred.resolve();
+				}
 			});
 			return deferred.promise;
 		});
 		return Ember.RSVP.allSettled(promises);
-		*/
 	},
 
 	enableMultiFactorAuthentication: function() {

@@ -4,27 +4,24 @@
   "description": "Balanced Dashboard",
   "main": "Gruntfile.js",
   "scripts": {
+    "start": "grunt",
     "test": "grunt test --verbose"
   },
   "repository": "git@github.com:balanced/balanced-dashboard.git",
   "author": "Balanced <dev@balancedpayments.com>",
-  "dependencies": {
-    "pullstream": "~0.4.0",
-    "recursive-readdir": "1.0.0"
-  },
   "devDependencies": {
     "body-parser": "^1.2.0",
-    "broccoli-asset-rev": "0.1.1",
+    "broccoli-asset-rev": "0.3.0",
     "broccoli-coffee": "^0.1.1",
     "broccoli-ember-hbs-template-compiler": "^1.6.2",
     "broccoli-less-single": "^0.1.4",
     "broccoli-merge-trees": "^0.1.4",
     "broccoli-static-compiler": "^0.1.4",
-    "ember-cli": "0.0.46",
+    "ember-cli": "0.0.47",
     "ember-cli-coffeescript": "0.0.7",
     "ember-cli-ic-ajax": "0.1.1",
-    "ember-cli-inject-live-reload": "^1.0.2",
-    "ember-cli-qunit": "0.0.5",
+    "ember-cli-inject-live-reload": "^1.2.2",
+    "ember-cli-qunit": "0.1.0",
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "grunt": "0.4.4",
@@ -34,7 +31,9 @@
     "grunt-contrib-connect": "0.7.1",
     "grunt-contrib-copy": "0.5.0",
     "grunt-exec": "0.4.5",
-    "grunt-s3": "~0.2.0-alpha.3"
+    "grunt-s3": "~0.2.0-alpha.3",
+    "pullstream": "~0.4.0",
+    "recursive-readdir": "1.0.0"
   },
   "optionalDependencies": {
     "grunt-img": "0.1.7"
