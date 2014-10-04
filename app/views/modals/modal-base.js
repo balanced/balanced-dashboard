@@ -6,11 +6,11 @@ var ModalBaseView = Ember.View.extend({
 	submitButtonText: "Submit",
 
 	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
+		return this.get("container").lookup("controller:notification-center");
 	},
 
 	getModalNotificationController: function() {
-		return this.get("container").lookup("controller:modal_notification_center");
+		return this.get("container").lookup("controller:modal-notification-center");
 	},
 
 	reposition: function() {
