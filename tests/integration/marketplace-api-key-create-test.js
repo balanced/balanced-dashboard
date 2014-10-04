@@ -1,3 +1,4 @@
+import Ember from "ember";
 import startApp from '../helpers/start-app';
 import Testing from "../helpers/testing";
 
@@ -21,7 +22,6 @@ module('Integration - Marketplace ApiKeyCreate', {
 			});
 	},
 	teardown: function() {
-		Testing.restoreMethods($.ajax);
 		Ember.run(App, 'destroy');
 	}
 });
@@ -115,7 +115,7 @@ test("#apply success", function() {
 			stub.restore();
 			deepEqual(openModalStub.args, [
 				[
-					Models.MarketplaceCreateModalView, ["ak-test-secretsecret"]
+					"register-flow/marketplace-create-modal", ["ak-test-secretsecret"]
 				]
 			]);
 			openModalStub.restore();
@@ -130,7 +130,7 @@ test("#marketplace create success", function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.then(function() {
-			modalsController.open(Models.MarketplaceCreateModalView, ["ak-test-secretsecret"]);
+			modalsController.open("register-flow/marketplace-create-modal", ["ak-test-secretsecret"]);
 		})
 		.fillForm("#marketplaceCreate", {
 			name: "merchant.ly",
@@ -140,8 +140,6 @@ test("#marketplace create success", function() {
 		})
 		.click("#marketplaceCreate [name=isTermsAccepted]")
 		.then(function() {
-			var mpController = BalancedApp.__container__.lookup("controller:user_marketplace");
-
 			stub = sinon.stub(jQuery, "ajax");
 			stub.returns(Ember.RSVP.resolve({
 				"marketplaces": [{
@@ -149,21 +147,22 @@ test("#marketplace create success", function() {
 				}]
 			}));
 
+			var mpController = BalancedApp.__container__.lookup("controller:register-flow/user-marketplace");
 			pushMarketplaceStub = sinon.stub(mpController, "pushMarketplace");
 			pushMarketplaceStub.returns(Ember.RSVP.resolve(dummyMarketplace));
 		})
 		.click("#marketplaceCreate [name=modal-submit]")
 		.then(function() {
-			deepEqual(JSON.parse(stub.args[0][0].data), {
+			var jqueryData = JSON.parse(stub.args[0][0].data);
+			var pushArgs = pushMarketplaceStub.args[0].slice(0, 3);
+			deepEqual(jqueryData, {
 				name: "merchant.ly",
 				domain_url: "www.merchant.ly",
 				support_phone_number: "202-222-3333",
 				support_email_address: "tester@example.org"
 			}, "Submitted data is correct");
 
-			deepEqual(pushMarketplaceStub.args, [
-				[Auth.get("user"), "ak-test-secretsecret", "/marketplaces/MPxxxxxxxxxxx"]
-			], "Marketplace link data is correct");
+			deepEqual(pushArgs, [Auth.get("user"), "ak-test-secretsecret", "/marketplaces/MPxxxxxxxxxxx"], "Marketplace link data is correct");
 		})
 		.then(function() {
 			stub.restore();

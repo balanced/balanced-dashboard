@@ -8,6 +8,7 @@ LOADER_NAMES = [
 	"invoice-transactions"
 	"invoices"
 	"logs"
+	"search-logs"
 	"marketplace-search"
 	"orders"
 	"transactions"
@@ -19,6 +20,5 @@ ResultLoadersInitializer =
 		for name in LOADER_NAMES
 			klass = require("balanced-dashboard/models/results-loaders/#{name}").default
 			container.register("results-loader:#{name}", klass)
-
 
 `export default ResultLoadersInitializer;`

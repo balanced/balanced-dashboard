@@ -8,11 +8,19 @@ var Dispute = Model.extend(Ember.Validations, {
 	events: Model.hasMany('events', 'event'),
 	documents: Model.hasMany('dispute_documents', 'dispute-document'),
 
+	state: function() {
+		var status = this.get('status');
+		if (status === 'pending' && this.get('documents.length')) {
+			return 'submitted';
+		}
+		return status;
+	}.property('documents.length', 'status'),
+
 	note: null,
 	tracking_number: null,
 	validations: {
 		note: {
-			presence: true,
+			presence: true
 		}
 	},
 	justitia_dispute: function() {

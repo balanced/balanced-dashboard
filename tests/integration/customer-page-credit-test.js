@@ -14,7 +14,6 @@ module('Integration - Customer Page: Credit', {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Testing.setupMarketplace();
 		Testing.createCreditCard();
 		Testing.createDebitCard();
 	},
@@ -28,7 +27,33 @@ module('Integration - Customer Page: Credit', {
 
 test('can credit to a debit card', function() {
 	var spy = sinon.stub(Adapter, "create");
+
 	visit(Testing.CUSTOMER_ROUTE)
+		.then(function() {
+			var m = BalancedApp.__container__.lookup("controller:customer").get("model");
+			var loadCard = function(response) {
+				var card = BalancedApp.__container__.lookupFactory("model:card").create();
+				card.populateFromJsonResponse(response);
+				return card;
+			};
+
+			Ember.run(function() {
+				var cards = Ember.A();
+				m.set("creditable_cards", cards);
+				cards.pushObject(loadCard({
+					cards: [{
+						"number": "xxxxxxxxxxxx5556",
+						"id": "CCxxxxxxxxxxxxxxxxxxx",
+						"type": "debit",
+						"brand": "Visa",
+						"can_debit": true,
+						"can_credit": true,
+						"href": "/cards/CC3xmLuwXzCJEfUc89h297hj",
+						"credits_uri": "/cards/CCxxxxxxxxxxxxxxxxxxx/credits"
+					}]
+				}));
+			});
+		})
 		.click(".page-navigation a:contains(Credit)")
 		.checkElements({
 			"#credit-customer form select[name=destination] option:contains(Checking account: 5555 Wells Fargo Bank Na)": 1,
@@ -48,8 +73,8 @@ test('can credit to a debit card', function() {
 		.then(function() {
 			var card = BalancedApp.__container__.lookup("controller:customer").get("model.creditable_cards").objectAt(0);
 			ok(spy.calledOnce, "Create was called once");
-			equal(spy.firstCall.args[0], Models.Credit);
-			equal(spy.firstCall.args[1], card.get("uri") + '/credits');
+			equal(spy.firstCall.args[0], Models.lookupFactory("credit"));
+			equal(spy.firstCall.args[1], '/cards/CCxxxxxxxxxxxxxxxxxxx/credits');
 
 			deepEqual(spy.firstCall.args[2].amount, '100');
 			deepEqual(spy.firstCall.args[2].description, "Test credit to a debit card");

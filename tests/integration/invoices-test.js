@@ -29,11 +29,19 @@ module('Integration - Invoices', {
 });
 
 test('can visit page', function() {
-	var invoicesController = BalancedApp.__container__.lookup('controller:marketplace_invoices');
-	invoicesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
-	invoicesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
+	var invoicesController = BalancedApp.__container__.lookup('controller:marketplace/invoices');
+	sinon.stub(invoicesController, "send");
 
 	visit(INVOICES_ROUTE)
+		.then(function() {
+			Ember.run(function() {
+				invoicesController.get("model").setProperties({
+					startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+					endTime: moment('2013-08-01T23:59:59.999Z').toDate()
+				});
+			});
+		})
+		.visit(INVOICES_ROUTE)
 		.checkElements({
 			"#content h1": "Account statements",
 			"table.invoices tbody tr": 19
@@ -60,7 +68,7 @@ test("transactions invoice detail page filters", function() {
 		.click('.main-panel .search-filters-header a:contains(Refunds)')
 		.then(function() {
 			deepEqual(spy.getCall(0).args.slice(0, 2), [Models.Transaction, invoiceUri + '/card_debits?limit=50&sort=created_at%2Cdesc']);
-			deepEqual(spy.getCall(1).args.slice(0, 2), [Models.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
+			deepEqual(spy.getCall(2).args.slice(0, 2), [Models.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
 		});
 });
 

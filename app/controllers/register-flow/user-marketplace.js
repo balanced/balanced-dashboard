@@ -36,4 +36,4 @@ var UserMarketplaceController = Ember.Controller.extend({
 	},
 });
 
-export default Ember;
+export default UserMarketplaceController;

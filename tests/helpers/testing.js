@@ -1,9 +1,10 @@
 import Constants from "balanced-dashboard/utils/constants";
 import setupMarketplace from "./setup-marketplace";
 import setupCreatedMarketplace from "./setup-created-marketplace";
+import Models from "./models";
 
 var instantiateModel = function(type, properties) {
-	return BalancedApp.__container__.lookup("model:" + type).setProperties(properties);
+	return BalancedApp.__container__.lookupFactory("model:" + type).create(properties);
 };
 
 var Testing = {
@@ -48,11 +49,9 @@ var Testing = {
 	visitSettingsPage: function() {
 		var SETTINGS_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/settings';
 		var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
-		var disputesController = BalancedApp.__container__.lookup('controller:marketplace-disputes');
-		disputesController.minDate = moment('2013-08-01T00:00:00.000Z').toDate();
-		disputesController.maxDate = moment('2013-08-01T23:59:59.999Z').toDate();
+		var disputesController = BalancedApp.__container__.lookup('controller:marketplace/disputes');
 
-		return visit(DISPUTES_ROUTE)
+		return visit(this.DISPUTES_ROUTE)
 			.then(function() {
 				var marketplace = BalancedApp.__container__.lookup("controller:marketplace").get("model");
 				Ember.run(function() {
@@ -187,30 +186,6 @@ var Testing = {
 		});
 	},
 
-	_createDispute: function(howMany) {
-		var self = this;
-		var createDisputesPromises = _.times(howMany, function() {
-			return self._createDisputeCard().then(function() {
-				return self._createDebit();
-			});
-		});
-
-		Ember.RSVP.all(createDisputesPromises).then(function(results) {
-			var timeout = 10000;
-			self.assertEnoughDisputesAvailable(howMany).then(function(disputes) {
-				var evt = disputes.objectAt(0);
-				self.DISPUTE = evt;
-				self.DISPUTE_ID = evt.get('id');
-				self.DISPUTE_ROUTE = self.MARKETPLACE_ROUTE +
-					'/disputes/' + self.DISPUTE_ID;
-				self.start();
-			}, function() {
-				Ember.Logger.error("Couldn't find disputes after " + timeout + "ms");
-				self.start();
-			});
-		});
-	},
-
 	createHold: function() {
 		var self = this;
 		var cardAttributes = {
@@ -219,7 +194,7 @@ var Testing = {
 			expiration_month: 11
 		};
 
-		return instantiateModel("card", cardAttributes)
+		instantiateModel("card", cardAttributes)
 			.save()
 			.then(function(card) {
 				var hold = instantiateModel("hold", {
@@ -303,57 +278,24 @@ var Testing = {
 		});
 	},
 
+	createDebits: function() {
+		var self = this;
+
+		_.times(4, function() {
+			return self.createDebit();
+		});
+	},
+
 	createCustomer: function() {
 		var self = this;
 
-		return instantiateModel("customer", {
-			uri: this.marketplace.get('customers_uri'),
-			address: {}
-		}).save();
-	},
-
-	setupEvent: function(howMany) {
-		var self = this;
-		howMany = howMany || 4;
-
-		// Call stop to stop executing the tests before
-		// a event is created
-		this.stop();
-
-		return Ember.run(function() {
-			var Event = BalancedApp.__container__.lookupFactory("model:event");
-			Event.findAll().then(function(events) {
-				// Wait for atleast 2 events
-				if (events.get('length') < howMany) {
-					return setTimeout(_.bind(Testing.setupEvent, Testing, howMany), 1000);
-				}
-
-				var evt = events.objectAt(0);
-				self.EVENT_ID = evt.get('id');
-				self.EVENT_ROUTE = self.MARKETPLACE_ROUTE +
-					'/events/' + self.EVENT_ID;
-
-				self.start();
-			});
-		});
-	},
-
-	createDisputes: function(number) {
-		var self = this;
-		var initialNumberDisputes = number || 4;
 		andThen(function() {
-			self._createDispute(initialNumberDisputes);
+			instantiateModel("customer", {
+				uri: self.marketplace.get('customers_uri'),
+				address: {}
+			}).save();
 		});
 	},
-
-	createDebits: function(number) {
-		var self = this;
-
-		number = number || 4;
-		_.times(number, function() {
-			return self.createDebit();
-		});
-	}
 };
 
 export default Testing;

@@ -8,6 +8,14 @@ import DisplayModelErrors from "balanced-dashboard/views/modals/mixins/display-m
 import Auth from "balanced-dashboard/auth";
 
 var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayModelErrors, {
+	getModalNotificationController: function() {
+		return this.get("container").lookup("controller:modal-notification-center");
+	},
+
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification-center");
+	},
+
 	staticBackdrop: true,
 
 	open: function() {
@@ -75,12 +83,6 @@ var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, DisplayMo
 			confirmMessage: this.get("confirmMessage"),
 			previousModal: self
 		});
-	},
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
-	},
-	getModalNotificationController: function() {
-		return this.get("container").lookup("controller:modal_notification_center");
 	}
 });
 

@@ -1,7 +1,11 @@
 import Model from "./core/model";
+import ModelArray from "./core/model-array";
 import Rev0Serializer from "../serializers/rev0";
-import ApiKey from "./api-key";
-import UserInvite from "./user-invite";
+
+var loadArray = function(dependencyName, uri) {
+	var klass = BalancedApp.__container__.lookupFactory(dependencyName);
+	return ModelArray.newArrayLoadedFromUri(uri, klass);
+};
 
 var UserMarketplace = Model.extend({
 	production: function() {
@@ -13,7 +17,7 @@ var UserMarketplace = Model.extend({
 	}.property('uri'),
 
 	marketplace: function() {
-		var Marketplace = require("balanced-dashboard/models/marketplace")["default"];
+		var Marketplace = BalancedApp.__container__.lookupFactory("model:marketplace");
 		return Marketplace.find(this.get('uri'));
 	}.property('uri'),
 
@@ -26,54 +30,43 @@ var UserMarketplace = Model.extend({
 		this.set('secret', newSecret);
 	},
 
+	marketplaceApiKeys: function() {
+		return loadArray("model:api-key", "/api_keys");
+	}.property("marketplace"),
+
+	marketplaceUsers: function() {
+		return loadArray("model:user-invite", this.get("marketplace.users_uri"));
+	}.property("marketplace.users_uri"),
+
+	reloadMarketplaceUsers: function() {
+		var array = loadArray("model:user-invite", this.get("marketplace.users_uri"));
+		this.set("marketplaceUsers", array);
+		return array;
+	},
+
 	fullKeys: function() {
-		var self = this;
-		var knownKeys = this.get('keys');
+		var knownKeys = this.get('keys') || [];
 		var secrets = {};
-		var keyID;
-		var keysArr = [];
 
-		if (knownKeys) {
-			knownKeys.forEach(function(key) {
-				if (key.uri) {
-					keyID = key.uri.replace(/.*\//, '');
-					secrets[keyID] = key.secret;
-				}
-			});
-		}
-
-		ApiKey.findAll()
-			.then(function(result) {
-				var keys = result.content;
-				var date1, date2;
-				var secret;
-				keys.sort(function(k1, k2) {
-					date1 = k1.get('created_at');
-					date2 = k2.get('created_at');
-
-					return date1 < date2 ? 1 : -1;
-				});
-
-				keys.forEach(function(key) {
-					secret = secrets[key.get('id')];
-
-					if (secret) {
-						key.set('secret', secret);
-					}
-				});
-
-				keysArr.pushObjects(keys);
-			});
-
-		return keysArr;
-	}.property('marketplace', 'keys'),
-
-	users: function() {
-		var MarketplaceUserInvite = UserInvite.extend({
-			uri: this.get('marketplace.users_uri')
+		knownKeys.forEach(function(key) {
+			var keyUri = key.uri.replace(/^\/v1/, '');
+			secrets[keyUri] = key.secret;
 		});
 
-		var Auth = require("balanced-dashboard/auth")["default"];
+		var keys = this.get("marketplaceApiKeys.content");
+		keys.forEach(function(key) {
+			var secret = secrets[key.get('uri')];
+			if (secret) {
+				key.set('secret', secret);
+			}
+		});
+		return Ember.ArrayProxy.create({content: keys});
+	}.property('marketplaceApiKeys.@each.uri', 'keys'),
+
+	users: function() {
+		var container = BalancedApp.__container__;
+		var Auth = container.lookup("auth:main");
+		var marketplaceUri = this.get("marketplace.users_uri");
 
 		var usersArr = [{
 			email_address: Auth.get('user.email_address'),
@@ -81,19 +74,17 @@ var UserMarketplace = Model.extend({
 			noDelete: true
 		}];
 
-		MarketplaceUserInvite.findAll()
-			.then(function(result) {
-				var users = result.content;
-
-				users.sort(function(u1, u2) {
-					return u1.get('created_at') < u2.get('created_at') ? 1 : -1;
-				});
-
-				usersArr.pushObjects(users);
+		var users = this.get("marketplaceUsers.content")
+			.sort(function(u1, u2) {
+				return u1.get('created_at') < u2.get('created_at') ? 1 : -1;
 			});
 
+		users.forEach(function(user) {
+			user.set("uri", marketplaceUri);
+		});
+		usersArr.pushObjects(users);
 		return usersArr;
-	}.property('marketplace')
+	}.property('marketplaceUsers.@each')
 });
 
 UserMarketplace.reopenClass({

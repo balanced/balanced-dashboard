@@ -12,7 +12,7 @@ var MarketplaceCreateModalView = RegisterFlowBaseModalView.extend({
 	elementId: "marketplaceCreate",
 
 	linkMarketplace: function(user, apiKeySecret, href) {
-		var controller = this.get("container").lookup("controller:user_marketplace");
+		var controller = this.get("container").lookup("controller:register-flow/user-marketplace");
 		var self = this;
 		return controller
 			.pushMarketplace(user, apiKeySecret, href)

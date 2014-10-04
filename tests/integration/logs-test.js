@@ -5,6 +5,8 @@ import checkElements from "../helpers/check-elements";
 import createObjects from "../helpers/create-objects";
 import helpers from "../helpers/helpers";
 
+import Utils from "balanced-dashboard/lib/utils";
+
 import Models from "../helpers/models";
 
 var App, Adapter;
@@ -13,7 +15,6 @@ module('Integration - Logs', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
-		Testing.setupMarketplace();
 		Testing.setupMarketplace();
 		Testing.createDebits();
 	},
@@ -27,7 +28,7 @@ module('Integration - Logs', {
 
 var setLogsProperties = function() {
 	Ember.run(function() {
-		var controller = BalancedApp.__container__.lookup('controller:marketplaceLogs');
+		var controller = BalancedApp.__container__.lookup('controller:marketplace/logs');
 		controller.get("resultsLoader").setProperties({
 			limit: 2,
 			startTime: null,
@@ -46,7 +47,7 @@ test('can visit page', function() {
 		})
 		.then(function() {
 			var logRequest = spy.getCall(spy.callCount - 1);
-			var query = Models.Utils.queryStringToObject(logRequest.args[1]);
+			var query = Utils.queryStringToObject(logRequest.args[1]);
 			equal(logRequest.args[0], Models.Log);
 			deepEqual(query, {
 				limit: "2",
@@ -70,10 +71,12 @@ test('filter logs by datetime range', function() {
 			$('.daterangepicker:visible input[name="daterangepicker_end"]').val('8/1/2013').trigger('change');
 		})
 		.then(function() {
-			var controller = BalancedApp.__container__.lookup('controller:marketplaceLogs');
-			controller.get("resultsLoader").setProperties({
-				startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
-				endTime: moment('2013-08-01T23:59:59.999Z').toDate()
+			var controller = BalancedApp.__container__.lookup('controller:marketplace/logs');
+			Ember.run(function() {
+				controller.get("resultsLoader").setProperties({
+					startTime: moment('2013-08-01T00:00:00.000Z').toDate(),
+					endTime: moment('2013-08-01T23:59:59.999Z').toDate()
+				});
 			});
 		})
 		.click('.daterangepicker:visible .buttons button.applyBtn')
@@ -81,7 +84,7 @@ test('filter logs by datetime range', function() {
 			var request = spy.lastCall;
 			equal(request.args[0], Models.Log);
 
-			var query = Models.Utils.queryStringToObject(request.args[1]);
+			var query = Utils.queryStringToObject(request.args[1]);
 			deepEqual(query, {
 				"created_at[<]": "2013-08-01T23:59:59.999Z",
 				"created_at[>]": "2013-08-01T00:00:00.000Z",
@@ -103,7 +106,7 @@ test('filter logs by request failed only', function() {
 		})
 		.click('.results .status-filter a:contains(Failed)')
 		.then(function() {
-			var query = Models.Utils.queryStringToObject(spy.lastCall.args[1]);
+			var query = Utils.queryStringToObject(spy.lastCall.args[1]);
 			equal(spy.lastCall.args[0], Models.Log);
 			deepEqual(query, {
 				limit: "2",
@@ -129,7 +132,7 @@ test('filter logs by endpoint bank accounts', function() {
 		})
 		.click('.results .endpoint-filter a:contains(Bank accounts)')
 		.then(function() {
-			var query = Models.Utils.queryStringToObject(spy.lastCall.args[1]);
+			var query = Utils.queryStringToObject(spy.lastCall.args[1]);
 			deepEqual(query, {
 				endpoint: "bank_accounts",
 				limit: "2",

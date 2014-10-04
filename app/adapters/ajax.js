@@ -100,28 +100,11 @@ var AjaxAdapter = BaseAdapter.extend({
 		return Ajax.ajax(settings);
 	},
 
-	registerHostForType: function(type, host) {
-		this.hostsByType.push({
-			type: type,
-			host: host
-		});
-	},
-
 	load: function(settings) {
 		var deferred = Ember.RSVP.defer();
 		jQuery.ajax(settings).then(deferred.resolve, deferred.reject);
 		return deferred.promise;
 	},
-
-	getHostForType: function(type) {
-		var hostType = this.hostsByType.findBy("type", type);
-		if (hostType) {
-			return hostType.host;
-		}
-		else {
-			return ENV.BALANCED.API;
-		}
-	}
 });
 
 export default AjaxAdapter;

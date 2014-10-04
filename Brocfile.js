@@ -19,9 +19,11 @@ app.import('bower_components/bootstrap/js/bootstrap-modal.js');
 app.import('bower_components/bootstrap/js/bootstrap-tooltip.js');
 app.import('bower_components/bootstrap/js/bootstrap-popover.js');
 
-app.import("bower_components/bootstrap-daterangepicker/daterangepicker.js");
+// app.import("bower_components/bootstrap-daterangepicker/daterangepicker.js");
+
 app.import("bower_components/jquery-csv/src/jquery.csv.js");
 
+app.import("vendor/daterangepicker.js");
 app.import("vendor/ember-validations.prod.js");
 app.import('vendor/moment-business-days.js');
 

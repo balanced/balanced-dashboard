@@ -9,7 +9,11 @@ BaseAdapter = Ember.Object.extend
 		)
 
 	getHostForType: (type) ->
-		@hostsByType.findBy("type", type) || ENV.BALANCED.API
+		hostType = @hostsByType.findBy("type", type)
+		if hostType
+			hostType.host
+		else
+			ENV.BALANCED.API
 
 	get: (type, uri, success, error) ->
 		Ember.assert("Your adapter should override get", false)

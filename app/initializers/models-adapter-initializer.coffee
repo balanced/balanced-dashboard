@@ -15,14 +15,13 @@ ModelsAdapterInitializer =
 			adapter.registerHostForType(klass, host)
 
 		register("claim", ENV.BALANCED.AUTH)
-		register("disputed-document", ENV.BALANCED.JUSTITIA)
+		register("dispute-document", ENV.BALANCED.JUSTITIA)
 		register("download", ENV.BALANCED.WWW)
 		register("forgot-password", ENV.BALANCED.AUTH)
 		register("justitia-dispute", ENV.BALANCED.JUSTITIA)
 		register("reset-password", ENV.BALANCED.AUTH)
 		register("user", ENV.BALANCED.AUTH)
 		register("user-invite", ENV.BALANCED.AUTH)
-		register("marketplace-user-invite", ENV.BALANCED.AUTH)
 		register("user-marketplace", ENV.BALANCED.AUTH)
 
 		container.register("adapter:main", adapter, {

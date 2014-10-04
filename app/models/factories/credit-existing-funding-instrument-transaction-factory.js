@@ -1,5 +1,4 @@
 import Ember from "ember";
-import Credit from "../credit";
 import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
 import TransactionFactory from "./transaction-factory";
 
@@ -18,6 +17,7 @@ var CreditExistingFundingInstrumentTransactionFactory = TransactionFactory.exten
 	},
 
 	save: function() {
+		var Credit = BalancedApp.__container__.lookupFactory("model:credit");
 		return Credit.create(this.getCreditAttributes()).save();
 	},
 
