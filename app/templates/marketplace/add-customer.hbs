@@ -39,9 +39,10 @@
 				{{view "form-fields/control-group-field" placeholder="Permanent street address (line 1)" field="address.line1" helpBinding="street_address_label" recommendedField=true}}
 				{{view "form-fields/control-group-field" placeholder="Permanent street address (line 2)" field="address.line2" helpBinding="street_address_label" recommendedField=true}}
 				{{view "form-fields/control-group-field" placeholder="City" field="address.city" help="Enter the city. " recommendedField=true}}
+
 				<div {{bind-attr class=":control-group model.validationErrors.address.country_code:error"}}>
 					<div class="controls">
-						{{view "form-fields/country-select" valueBinding="address.country_code"}}
+						{{view "form-fields/country-select" name="country_code"}}
 					</div>
 					<label class="control-label">Enter the country. <span class="recommended-field">Recommended field</span></label>
 				</div>

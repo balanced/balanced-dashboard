@@ -91,7 +91,7 @@ test('debit bank account', 4, function() {
 		.then(function() {
 			// opened the modal
 			equal(
-				$('label.control-label:contains(characters max):visible').text(),
+				$('label.control-label:contains(characters max):visible').text().trim(),
 				'Appears on statement as (14 characters max)'
 			);
 			equal(
