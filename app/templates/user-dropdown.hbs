@@ -23,11 +23,11 @@
 				<a href="#" {{action "openModal" "modals/change-password-modal"}}>Change password</a>
 			</li>
 			{{#if auth.user.otp_enabled}}
-				<li>
+				<li class="disable-auth">
 					<a href="#" {{action "openModal" "modals/disable-auth-modal"}}>Disable two-factor authentication</a>
 				</li>
 			{{else}}
-				<li>
+				<li class="enable-auth">
 					<a href="#" {{action "openModal" "modals/enable-auth-modal"}}>Enable two-factor authentication</a>
 				</li>
 			{{/if}}

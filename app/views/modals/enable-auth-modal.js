@@ -6,7 +6,7 @@ import Auth from "balanced-dashboard/auth";
 var EnableAuthModalView = ModalBaseView.extend(Full, Form, {
 	title: "Enable two-factor authentication",
 	description: "Two-factor authentication adds another layer of security to your dashboard account. In addition to your login email and password, you'll need to enter an authentication code from Balanced using your Google Authenticator app on your smartphone.",
-	elementId: "enable-mfa",
+	elementId: "enable-auth",
 	templateName: "modals/enable-auth-modal",
 	cancelButtonText: "Cancel",
 	submitButtonText: "Enable",

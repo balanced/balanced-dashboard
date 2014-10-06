@@ -6,7 +6,7 @@ import Auth from "balanced-dashboard/auth";
 
 var DisableAuthModalView = ModalBaseView.extend(Wide, Form, {
 	title: "Disable two-factor-authentication",
-	elementId: "disable-mfa",
+	elementId: "disable-auth",
 	classNames: ["wide-modal"],
 	templateName: "modals/confirm-modal",
 	confirmMessage: "Are you sure you want to disable two-factor-authentication? Future logins will only require your email and password.",
