@@ -5,11 +5,11 @@ import Wide from "./mixins/wide-modal-mixin";
 import Auth from "balanced-dashboard/auth";
 
 var DisableAuthModalView = ModalBaseView.extend(Wide, Form, {
-	title: "Disable two-factor-authentication",
+	title: "Disable two-factor authentication",
 	elementId: "disable-auth",
 	classNames: ["wide-modal"],
 	templateName: "modals/confirm-modal",
-	confirmMessage: "Are you sure you want to disable two-factor-authentication? Future logins will only require your email and password.",
+	confirmMessage: "Are you sure you want to disable two-factor authentication? Future logins will only require your email and password.",
 	cancelButtonText: "Cancel",
 	submitButtonText: "Disable",
 
@@ -20,7 +20,7 @@ var DisableAuthModalView = ModalBaseView.extend(Wide, Form, {
 			Auth.disableMultiFactorAuthentication()
 				.then(function() {
 					self.getNotificationController()
-						.alertSuccess('Two-factor-authentication is now disabled.', 3000);
+						.alertSuccess('Two-factor authentication is disabled.', 3000);
 					Auth.get("user").reload();
 				});
 		}
