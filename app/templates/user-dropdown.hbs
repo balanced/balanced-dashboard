@@ -22,7 +22,15 @@
 			<li class="change-password">
 				<a href="#" {{action "openModal" "modals/change-password-modal"}}>Change password</a>
 			</li>
-			<li>{{#link-to 'accountSecurity'}}Account security{{/link-to}}</li>
+			{{#if auth.user.otp_enabled}}
+				<li>
+					<a href="#" {{action "openModal" "modals/disable-auth-modal"}}>Disable two-factor authentication</a>
+				</li>
+			{{else}}
+				<li>
+					<a href="#" {{action "openModal" "modals/enable-auth-modal"}}>Enable two-factor authentication</a>
+				</li>
+			{{/if}}
 		{{/if}}
 		<li><a href="https://support.balancedpayments.com" target='_blank'>Help center</a></li>
 		<li><a href="#" {{action "signOut"}}>Log out</a></li>

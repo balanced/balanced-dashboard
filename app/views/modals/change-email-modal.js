@@ -3,7 +3,7 @@ import User from "balanced-dashboard/models/user";
 
 import ModalBaseView from "./modal-base";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
-import WideModalMixin from "./mixins/wide-modal-mixin";
+import Wide from "./mixins/wide-modal-mixin";
 
 var getUserModel = function(uri, emailAddress) {
 	var user = BalancedApp.__container__.lookupFactory("model:user").create({
@@ -27,7 +27,7 @@ var getUserModel = function(uri, emailAddress) {
 	return user;
 };
 
-var ChangeEmailModalView = ModalBaseView.extend(WideModalMixin, Form, {
+var ChangeEmailModalView = ModalBaseView.extend(Wide, Form, {
 	title: "Change email address",
 	elementId: "change-email-modal",
 	templateName: "modals/change-email-modal",
