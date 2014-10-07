@@ -8,7 +8,7 @@ var addEmptyField = function(allowEmpty, values) {
 	return values;
 };
 
-var DateFormFieldView = BaseFormFieldView.extend({
+var DateSelectFormFieldView = BaseFormFieldView.extend({
 	templateName: "form-fields/date-select-form-field",
 	optionValuePath: "content.value",
 	optionLabelPath: "content.label",
@@ -51,4 +51,4 @@ var DateFormFieldView = BaseFormFieldView.extend({
 	}.property("model", "field"),
 });
 
-export default DateFormFieldView;
+export default DateSelectFormFieldView;

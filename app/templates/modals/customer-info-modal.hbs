@@ -1,90 +1,79 @@
-{{#view "form-fields/form-section" model=view.model sectionTitle="Bank account information"}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Customer information"}}
 	{{view "form-fields/text-form-field"
 		model=view.model
-		inputClassNames="full"
 		labelText="Name"
 		field="name"
 	}}
 
 	{{view "form-fields/text-form-field"
 		model=view.model
-		inputClassNames="full"
 		labelText="Email address"
 		field="email"
 	}}
 
 	{{view "form-fields/text-form-field"
 		model=view.model
-		inputClassNames="full"
 		labelText="Legal business name"
 		field="business_name"
+		explanationText="(Leave blank if individual)"
 	}}
 
 	{{view "form-fields/text-form-field"
 		model=view.model
-		inputClassNames="full"
 		labelText="Employer identification number"
 		field="ein"
+		explanationText="(Leave blank if individual)"
 	}}
 {{/view}}
 
-{{#view "form-fields/form-section" model=view.model sectionTitle="Additional information (optional)"}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Additional information" sectionDescription="While all fields are optional, we suggest collecting this information in order to verify the customer's identity. You may still credit an unverified customer."}}
 	{{view "form-fields/text-form-field"
 		model=view.model
 		labelText="Street address (line 1)"
 		field="address.line1"
-		inputClassNames="full"
 	}}
 	{{view "form-fields/text-form-field"
 		model=view.model
 		labelText="Street address (line 2)"
 		field="address.line2"
-		inputClassNames="full"
 	}}
 	{{view "form-fields/text-form-field"
 		model=view.model
 		labelText="City"
 		field="address.city"
-		inputClassNames="full"
 	}}
 	{{view "form-fields/text-form-field"
 		model=view.model
 		labelText="State"
 		field="address.state"
-		inputClassNames="full"
 	}}
 	{{view "form-fields/country-select"
 		model=view.model
 		labelText="Country"
 		field="address.country_code"
 		name="country_code"
-		inputClassNames="full"
 	}}
 	{{view "form-fields/text-form-field"
 		model=view.model
-		labelText="Country"
+		labelText="Postal code"
 		field="address.postal_code"
 		name="postal_code"
-		inputClassNames="full"
 	}}
 	{{view "form-fields/text-form-field"
 		model=view.model
 		labelText="Phone number"
 		field="address.phone"
 		name="phone"
-		inputClassNames="full"
 	}}
-	<div {{bind-attr class=":control-group view.model.dob_error:error"}}>
-		<label class="control-label">Date of birth</label>
-
-		<div class="controls">
-			{{view Ember.TextField value=view.model.dob_month name="dob_month" placeholder="Month" class="half"}}
-			{{view Ember.TextField value=view.model.dob_year name="dob_year" placeholder="Year" class="half"}}
-		</div>
-	</div>
+	{{view "form-fields/month-year-select-form-field"
+		model=view.model
+		monthValue=view.model.dob_month
+		yearValue=view.model.dob_year
+		labelText="Date of birth"
+		name="dob"
+	}}
 	{{view "form-fields/text-form-field"
 		model=view.model
-		inputClassNames="full"
 		labelText="Last 4 of SSN"
 		field="ssn_last4"
 		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
@@ -96,14 +85,12 @@
 			labelText="Facebook ID"
 			field="meta.facebook"
 			name="facebook"
-			inputClassNames="full"
-		}}
+			}}
 		{{view "form-fields/text-form-field"
 			model=view.model
 			labelText="Twitter ID"
 			field="meta.twitter"
 			name="facebook"
-			inputClassNames="full"
-		}}
+			}}
 	{{/unless}}
 {{/view}}

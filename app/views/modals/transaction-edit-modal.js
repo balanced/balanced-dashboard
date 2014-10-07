@@ -12,12 +12,13 @@ var TransactionEditModalView = ModalBaseView.extend(Full, Form, Save, {
 
 	actions: {
 		save: function() {
-			var controller = this.getNotificationController();
+			var notification = this.getNotificationController();
 			this.save(this.get("model"))
 				.then(function(model) {
 					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
-					controller.alertSuccess(message, {
+					notification.clearAlerts();
+					notification.alertSuccess(message, {
 						expire: true
 					});
 				});

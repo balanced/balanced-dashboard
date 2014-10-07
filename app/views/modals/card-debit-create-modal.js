@@ -21,15 +21,6 @@ var CardDebitCreateModalView = ModalBaseView.extend(Save, Full, Form, {
 		return "Appears on statement as (%@ characters max)".fmt(length);
 	}.property("appearsOnStatementAsMaxLength"),
 
-	validMonths: Constants.TIME.MONTHS,
-	validYears: function() {
-		var years = [];
-		var currentYear = (new Date()).getFullYear();
-		return _.times(10, function(i) {
-			return currentYear + i;
-		});
-	}.property(),
-
 	actions: {
 		save: function() {
 			var controller = this.get("controller");

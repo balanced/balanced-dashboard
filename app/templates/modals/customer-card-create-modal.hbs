@@ -1,4 +1,4 @@
-{{#view "form-fields/form-section" validMonths=view.validMonths validYears=view.validYears model=view.model sectionTitle="Bank account information"}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Bank account information"}}
 	{{view "form-fields/text-form-field"
 		model=view.model
 		labelText="Name on account"
@@ -23,8 +23,6 @@
 
 	{{view "form-fields/month-year-select-form-field"
 		model=view.model
-		monthContent=view.validMonths
-		yearContent=view.validYears
 		monthValue=view.model.expiration_month
 		yearValue=view.model.expiration_year
 		labelText="Expiration date"

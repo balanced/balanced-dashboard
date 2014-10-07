@@ -6,7 +6,7 @@ import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 import Utils from "balanced-dashboard/lib/utils";
 
 var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
-	templateName: 'modals/edit-customer-info',
+	templateName: 'modals/customer-info-modal',
 	elementId: "edit-customer-info",
 	title: function() {
 		var subject = (this.get("marketplaceOwner")) ? "owner": "customer";
@@ -20,12 +20,13 @@ var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
 
 	actions: {
 		save: function() {
-			var controller = this.getNotificationController();
+			var notification = this.getNotificationController();
 			this.save(this.get("model"))
 				.then(function(model) {
 					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
-					controller.alertSuccess(message, {
+					notification.clearAlerts();
+					notification.alertSuccess(message, {
 						expire: true
 					});
 				});
