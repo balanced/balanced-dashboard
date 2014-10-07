@@ -1,20 +1,25 @@
 {{#view "form-fields/form-section" model=view.model accountTypes=view.accountTypes sectionTitle="Bank account information"}}
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
 		labelText="Name on account"
 		field="name"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model
+	{{view "form-fields/text-form-field"
+		model=view.model
 		labelText="Routing number"
 		field="routing_number"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model
+	{{view "form-fields/text-form-field"
+		model=view.model
 		labelText="Account number"
 		field="account_number"
 	}}
 
-	{{view "form-fields/select-form-field" model=view.model
+	{{view "form-fields/select-form-field"
+		model=view.model
 		content=view.accountTypes
 		labelText="Bank account type"
 		field="account_type"

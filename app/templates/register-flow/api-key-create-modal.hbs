@@ -1,5 +1,6 @@
 {{#view "form-fields/form-section" model=view.model apiKeyTypes=view.apiKeyTypes sectionTitle="Business type"}}
-	{{view "form-fields/select-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/select-form-field"
+		model=view.model
 		content=view.apiKeyTypes
 		labelText="Who are you?"
 		field="merchant.type"
@@ -8,35 +9,48 @@
 
 {{#if view.model.isBusiness}}
 	{{#view "form-fields/form-section" model=view.model sectionTitle="Business information"}}
-		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field"
+			model=view.model
+			inputClassNames="full"
 			labelText="Legal business name"
 			field="business.name"
 		}}
 
-		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field"
+			model=view.model
+			inputClassNames="full"
 			labelText="Employer identification number"
 			field="business.tax_id"
 		}}
 
-		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field"
+			model=view.model
+			inputClassNames="full"
 			labelText="Business address"
 			field="business.address"
 		}}
-		{{view "form-fields/text-form-field" model=view.model
+		{{view "form-fields/text-form-field"
+			model=view.model
 			labelText="Postal code"
 			field="business.postal_code"
 		}}
 
-		{{view "form-fields/select-form-field" model=view.model inputClassNames="full"
+		{{view "form-fields/select-form-field"
+			model=view.model
 			content=view.parentView.businessTypes
 			labelText="Company type"
 			field="business.company_type"
 		}}
 
 		{{view "form-fields/date-form-field"
-			allowEmpty=true labelText="Incorporation date" model=view.model	field="business.incorporation_date"}}
+			allowEmpty=true
+			labelText="Incorporation date"
+			model=view.model
+			field="business.incorporation_date"}}
 
-		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field"
+			model=view.model
+			inputClassNames="full"
 			labelText="Phone number"
 			field="merchant.phone_number"
 			explanationText="(555) 555-5555"

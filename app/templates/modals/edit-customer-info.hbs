@@ -1,20 +1,28 @@
 {{#view "form-fields/form-section" model=view.model sectionTitle="Bank account information"}}
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
 		labelText="Name"
 		field="name"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
 		labelText="Email address"
 		field="email"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
 		labelText="Legal business name"
 		field="business_name"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
 		labelText="Employer identification number"
 		field="ein"
 	}}

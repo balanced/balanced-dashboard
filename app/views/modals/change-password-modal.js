@@ -1,7 +1,7 @@
 import ModalBaseView from "./modal-base";
 import Auth from "balanced-dashboard/auth";
 import User from "balanced-dashboard/models/user";
-import WideModalMixin from "./mixins/wide-modal-mixin";
+import Full from "./mixins/full-modal-mixin";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 
 var getUserModel = function(uri, emailAddress) {
@@ -31,7 +31,7 @@ var getUserModel = function(uri, emailAddress) {
 	return user;
 };
 
-var ChangePasswordModalView = ModalBaseView.extend(WideModalMixin, Form, {
+var ChangePasswordModalView = ModalBaseView.extend(Full, Form, {
 	templateName: "modals/change-password-modal",
 	elementId: "change-password-modal",
 	title: "Change password",
