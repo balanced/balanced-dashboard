@@ -5,12 +5,12 @@ import sinonRestore from "../helpers/sinon-restore";
 import helpers from "../helpers/helpers";
 import checkElements from "../helpers/check-elements";
 
-var App, Auth, Adapter = fixturesAdapter;
+var App, Auth;
 
 module('Integration - Account Security', {
 	setup: function() {
 		App = startApp({
-			ADAPTER: fixturesAdapter
+//			ADAPTER: fixturesAdapter
 		});
 		Auth = App.__container__.lookup("auth:main");
 	},
@@ -29,10 +29,12 @@ test('Can enable', function() {
 		}));
 
 	visit('/security')
-		.checkText("h1.page-title", "Account Security")
-		.check("#account_security.disabled", 1)
-		.check(".status-circle:visible", 2)
-		.check(".window-pane:visible", 0)
+		.check({
+			"h1.page-title": "Account Security",
+			"#account_security.disabled": 1,
+			".status-circle:visible": 2,
+			".window-pane:visible": 0,
+		})
 		.click('.status-circle.green a')
 		.then(function() {
 			equal(spy.callCount, 1, 'Enabled');

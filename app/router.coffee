@@ -1,5 +1,4 @@
 `import Ember from 'ember'`
-# `import adminRouter from 'balanced-admin/router';`
 `import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger"`
 
 Router = Ember.Router.extend
@@ -29,7 +28,6 @@ Router = Ember.Router.extend
 		return this._super.apply(this, arguments)
 
 Router.map ->
-	# adminRouter @
 	this.route('login')
 	this.route('logout')
 
