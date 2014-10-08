@@ -1,29 +1,5 @@
-<form {{action "save" on="submit" target=view}}>
-	<div class="modal-body modal-info">
-		{{partial "modals/modal-errors"}}
-
-		<div class="row-pad">
-			<p class="label1a">To debit this bank account, you need to verify it.</p>
-		</div>
-		<div class="row-pad row-full modal-informational-light row-borders">
-			<div class="col-md-2 number1a">
-				1
-			</div>
-			<p>Balanced will make two small deposits (each less than $1.00) to this bank account.</p>
-		</div>
-		<div class="row-pad row-full modal-informational-light row-borders">
-			<div class="col-md-2 number1a">
-				2
-			</div>
-			<p>Check the bank account in <strong>1-2</strong> business days for the exact deposit amounts.</p>
-		</div>
-		<div class="row-pad row-full modal-informational-light row-borders">
-			<div class="col-md-2 number1a">
-				3
-			</div>
-			<p>Click on this verification link again to enter the deposit amounts. If verification is unsuccessful after three attempts, you will have to restart the process and wait for two new deposits.</p>
-		</div>
+{{#view "form-fields/form-section" model=view.model sectionTitle="Bank account verification required"}}
+	<div class="form-group">
+		<p>To verify your bank account, we'll make two small deposits, each less than $1.00. Check this bank account in 1-2 business days and enter the amounts by clicking on the "verify" link from the bank accont page.</p>
 	</div>
-
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Start verification"}}
-</form>
+{{/view}}

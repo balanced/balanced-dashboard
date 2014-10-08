@@ -1,32 +1,12 @@
 import Ember from "ember";
 import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
+import ServerError from "balanced-dashboard/utils/validation-server-error-handler";
 
 var BaseFactory = Ember.Object.extend(Ember.Validations, {
 	setValidationErrorsFromServer: function(response) {
-		var self = this;
-		var errorsList = response.errors || [];
-		var validationErrors = this.get("validationErrors");
-		validationErrors.clear();
-
-		_.each(errorsList, function(error) {
-			if (error.extras) {
-				_.each(error.extras, function(message, key) {
-					key = self.getServerExtraKeyMapping(key);
-					validationErrors.add(key, "serverError", null, message);
-				});
-			} else if (error.description) {
-				var message;
-				if (error.description.indexOf(" - ") > 0) {
-					message = error.description.split(" - ")[1];
-				} else {
-					message = error.description;
-				}
-
-				validationErrors.add("", "serverError", null, message);
-			} else {
-				validationErrors.add("", "serverError", null, error[0]);
-			}
-		});
+		var serverError = new ServerError(this, response);
+		serverError.clear();
+		serverError.execute();
 	},
 
 	getServerExtraKeyMapping: function(extraKey) {
