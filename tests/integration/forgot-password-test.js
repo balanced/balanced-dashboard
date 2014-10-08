@@ -17,7 +17,8 @@ module('Integration - ForgotPassword', {
 		Testing.logout();
 	},
 	teardown: function() {
-	  Ember.run(App, 'destroy');
+		Testing.restoreMethods(Adapter.create);
+		Ember.run(App, 'destroy');
 	}
 });
 

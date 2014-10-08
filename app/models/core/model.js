@@ -108,14 +108,12 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 			isSaving: true
 		});
 
-		var promise = this.resolveOn('didDelete');
 		getAdapter().delete(this.constructor, this.get('uri'), function(json) {
 			self.set('isSaving', false);
 			self.trigger('didDelete');
 			Model.Events.trigger('didDelete', self);
 		}, $.proxy(self._handleError, self), settings);
-
-		return promise;
+		return this.resolveOn('didDelete');
 	},
 
 	reload: function() {

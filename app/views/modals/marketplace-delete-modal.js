@@ -11,10 +11,12 @@ var MarketplaceDeleteModalView = ModalBaseView.extend(DeleteMixin, {
 		var marketplacesUri = this.get("user.marketplaces_uri");
 		var marketplaceId = this.get("marketplace.id");
 		var uri = Utils.combineUri(marketplacesUri, marketplaceId);
-		return this.get("container").lookup("model:user-marketplace", {
+		var marketplace = this.get("container").lookup("model:user-marketplace");
+		marketplace.setProperties({
 			uri: uri,
 			isLoaded: true
 		});
+		return marketplace;
 	},
 
 	actions: {
@@ -23,7 +25,7 @@ var MarketplaceDeleteModalView = ModalBaseView.extend(DeleteMixin, {
 			var model = this.getUserMarketplace();
 			this.delete(model)
 				.then(function() {
-					user.reload();
+					return user.reload();
 				});
 		}
 	}
