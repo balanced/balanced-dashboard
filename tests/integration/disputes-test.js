@@ -8,7 +8,7 @@ import helpers from "../helpers/helpers";
 
 import Models from "../helpers/models";
 
-var App, Adapter = fixturesAdapter;
+var App;
 
 module('Integration - Disputes', {
 	setup: function() {
@@ -64,43 +64,40 @@ test('can visit page', function() {
 test('can upload a dispute document', function() {
 	var DISPUTES_ROUTE = Testing.FIXTURE_MARKETPLACE_ROUTE + '/disputes';
 	var DISPUTE_ROUTE = DISPUTES_ROUTE + '/DT2xOc7zAdgufK4XsCIW5QgD';
-	var disputePage = {
-		'#content .page-type': 'Dispute',
-		'#content .dispute-alert a': 1
+	var setModel = function(key, property) {
+		var disputeController = BalancedApp.__container__.lookup("controller:dispute");
+		Ember.run(function() {
+			disputeController.get('model').set(key, property);
+		});
 	};
 
 	visit(DISPUTE_ROUTE)
 		.then(function() {
-			var disputeController = BalancedApp.__container__.lookup("controller:dispute");
-			Ember.run(function() {
-				disputeController.get('model').set('canUploadDocuments', true);
-			});
+			setModel('canUploadDocuments', true);
 		})
-		.checkElements(disputePage)
+		.checkElements({
+			'#content .page-type': 'Dispute',
+			'#content .dispute-alert a': 1
+		})
 		.click('#content .dispute-alert a')
-		.then(function() {
-			equal($('#evidence-portal .modal-header h2').text(), 'Provide dispute evidence');
-			equal($('#evidence-portal .fileinput-button').length, 1);
-			// check that the upload prompt shows up
+		.checkElements({
+			'#evidence-portal .modal-header h2': 'Provide dispute evidence',
+			'#evidence-portal .fileinput-button': 1
 		})
 		.then(function() {
-			var disputeController = BalancedApp.__container__.lookup("controller:dispute");
-			Ember.run(function() {
-				disputeController.get('model').set('documents', [Models.DisputeDocument.create({
-					"created_at": "2014-06-26T00:27:30.544797+00:00",
-					"file_name": "test.jpg",
-					"file_url": "http://www.balancedpayments.com",
-					"guid": "DO9dJjGmyqbzDK5kXdp3fniy",
-					"mime_type": "image/jpeg",
-					"size": 129386,
-					"updated_at": "2014-06-26T00:27:30.544821+00:00"
-				})]);
-
-				disputeController.get('model').set('canUploadDocuments', false);
-			});
+			setModel('documents', [Models.DisputeDocument.create({
+				"created_at": "2014-06-26T00:27:30.544797+00:00",
+				"file_name": "test.jpg",
+				"file_url": "http://www.balancedpayments.com",
+				"guid": "DO9dJjGmyqbzDK5kXdp3fniy",
+				"mime_type": "image/jpeg",
+				"size": 129386,
+				"updated_at": "2014-06-26T00:27:30.544821+00:00"
+			})]);
+			setModel('canUploadDocuments', false);
 		})
-		.then(function() {
-			equal($('#content div.documents table tbody tr').length, 1, 'attached doc is displayed');
-			equal($('#content .dispute-alert a').length, 0, 'cannot attach docs after docs are uploaded');
+		.checkElements({
+			'#content div.documents table tbody tr': 1,
+			'#content .dispute-alert a': 0
 		});
 });

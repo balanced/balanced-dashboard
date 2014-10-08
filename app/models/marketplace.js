@@ -4,6 +4,7 @@ import SearchModelArray from "./core/search-model-array";
 import Model from "./core/model";
 import Utils from "balanced-dashboard/lib/utils";
 import Ajax from "balanced-dashboard/lib/ajax";
+import ENV from "balanced-dashboard/config/environment";
 
 var getResultsLoader = function(loaderClassName, attributes) {
 	return BalancedApp.__container__.lookupFactory("results-loader:" + loaderClassName).create(attributes);

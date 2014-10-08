@@ -1,6 +1,5 @@
 <div id="user-menu" class="dropdown borderless nav-item">
 {{#if auth.signedIn}}
-
 	<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
 		<i class="icon-customers"></i>
 		<span>
@@ -16,6 +15,11 @@
 		{{#if auth.isGuest}}
 			<li><a {{action "signUp" target="controllers.application"}}>Create an account</a></li>
 		{{else}}
+			{{#if auth.isAdmin}}
+				<li class="administration">
+					{{#link-to "administrator"}}Administration{{/link-to}}
+				</li>
+			{{/if}}
 			<li class="change-email">
 				<a href="#" {{action "openModal" "modals/change-email-modal"}}>Change email address</a>
 			</li>

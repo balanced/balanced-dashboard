@@ -14,6 +14,7 @@ BaseConnection = Ember.Object.extend
 		)
 
 	ajax: (settings) ->
-		BaseConnection.ADAPTER.load @settings(settings)
+		Adapter = BalancedApp.__container__.lookup("adapter:main")
+		Adapter.load @settings(settings)
 
 `export default BaseConnection;`

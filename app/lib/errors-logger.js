@@ -1,5 +1,6 @@
 import Ember from "ember";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
+import ENV from "balanced-dashboard/config/environment";
 
 var delegateToRaven = function(methodName) {
 	var Raven = window.Raven;

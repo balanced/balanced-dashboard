@@ -427,7 +427,7 @@
         },
 
         updateView: function () {
-			var left = this.endDate.clone().subtract('months', 1);
+			var left = this.endDate.clone().subtract(1, 'months');
 
             this.leftCalendar.month.month(left.month()).year(left.year());
             this.rightCalendar.month.month(this.endDate.month()).year(this.endDate.year());

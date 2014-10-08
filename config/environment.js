@@ -1,5 +1,16 @@
+var requireIfPresent = function(file) {
+	try {
+		return require(file);
+	}
+	catch (e) {
+		return null;
+	}
+};
+
 module.exports = function(environment) {
 	var ENV = {
+		modulePrefix: 'balanced-dashboard',
+		rootElement: "#balanced-app",
 		environment: environment,
 		baseURL: '/',
 		locationType: 'auto',
@@ -23,10 +34,12 @@ module.exports = function(environment) {
 		ENV.APP.LOG_ACTIVE_GENERATION = true;
 //		ENV.APP.LOG_TRANSITIONS = true;
 //		ENV.APP.LOG_VIEW_LOOKUPS = true;
+		ENV.BALANCED.EXT = requireIfPresent("./extensions");
 	}
 
 	if (environment === 'test') {
 		ENV.baseURL = '/';
+		ENV.rootElement = '#ember-testing';
 	}
 
 	if (environment === 'production') {
