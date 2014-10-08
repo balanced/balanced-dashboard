@@ -1,6 +1,10 @@
 import LoadPromise from "./mixins/load-promise";
 import TypeMappings from "./type-mappings";
 
+var getAdapter = function() {
+	return BalancedApp.__container__.lookup("adapter:main");
+};
+
 var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 	isLoaded: false,
 	hasNextPage: false,
@@ -14,8 +18,7 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 
 		if (this.get('hasNextPage')) {
 			var typeClass = this.get('typeClass');
-
-			ModelArray.ADAPTER.get(typeClass, this.get('next_uri'), function(json) {
+			getAdapter().get(typeClass, this.get('next_uri'), function(json) {
 				var deserializedJson = typeClass.serializer.extractCollection(json);
 				self._populateModels(deserializedJson);
 				self.set('loadingNextPage', false);
@@ -53,7 +56,7 @@ var ModelArray = Ember.ArrayProxy.extend(LoadPromise, {
 		this.set('isLoaded', false);
 		var typeClass = this.get('typeClass');
 
-		ModelArray.ADAPTER.get(this.constructor, this.get('uri'), function(json) {
+		getAdapter().get(this.constructor, this.get('uri'), function(json) {
 			// todo, maybe we should go through and reload each item rather
 			// than nuking and re-adding
 			self.clear();
@@ -145,7 +148,7 @@ ModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
-		ModelArray.ADAPTER.get(typeClass, uri, function(json) {
+		getAdapter().get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);
 		}, function(jqXHR, textStatus, errorThrown) {

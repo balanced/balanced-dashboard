@@ -6,7 +6,11 @@ import config from '../../config/environment';
 export default function (attrs) {
 	var App;
 
-	var attributes = Ember.merge(config, attrs);
+	var attributes = Ember.merge(config, {
+		ADAPTER: null
+	});
+	attributes = Ember.merge(attributes, attrs);
+
 	Router.reopen({
 		location: 'none'
 	});

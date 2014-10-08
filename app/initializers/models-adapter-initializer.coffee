@@ -28,8 +28,5 @@ ModelsAdapterInitializer =
 		container.register("adapter:main", adapter, {
 			instantiate: false
 		})
-		BaseConnection.ADAPTER = adapter
-		Model.ADAPTER = adapter
-		ModelArray.ADAPTER = adapter
 
 `export default ModelsAdapterInitializer;`

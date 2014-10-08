@@ -10,7 +10,7 @@ var App, Auth;
 module('Integration - Account Security', {
 	setup: function() {
 		App = startApp({
-//			ADAPTER: fixturesAdapter
+			ADAPTER: fixturesAdapter
 		});
 		Auth = App.__container__.lookup("auth:main");
 	},

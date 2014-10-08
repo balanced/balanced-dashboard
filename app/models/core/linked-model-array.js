@@ -1,6 +1,10 @@
 import ModelArray from "./model-array";
 import TypeMappings from "balanced-dashboard/models/core/type-mappings";
 
+var getAdapter = function() {
+	return BalancedApp.__container__.lookup("adapter:main");
+};
+
 var LinkedModelArray = ModelArray.extend({
 	_populateModels: function(json) {
 		var self = this;
@@ -52,7 +56,8 @@ LinkedModelArray.reopenClass({
 		}
 
 		modelObjectsArray.set('isLoaded', false);
-		this.ADAPTER.get(typeClass, uri, function(json) {
+
+		getAdapter().get(typeClass, uri, function(json) {
 			var deserializedJson = typeClass.serializer.extractCollection(json);
 			modelObjectsArray._populateModels(deserializedJson);
 		}, function(jqXHR, textStatus, errorThrown) {
