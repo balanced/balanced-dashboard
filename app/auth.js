@@ -181,7 +181,8 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 	},
 
 	getExtensions: function() {
-		return ENV.BALANCED.EXT || this.get("user.ext");
+		return {};
+		// return ENV.BALANCED.EXT || this.get("user.ext");
 	},
 
 	loadExtensions: function() {
