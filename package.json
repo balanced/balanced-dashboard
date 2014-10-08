@@ -10,6 +10,7 @@
   "repository": "git@github.com:balanced/balanced-dashboard.git",
   "author": "Balanced <dev@balancedpayments.com>",
   "devDependencies": {
+    "dashboard-admin": "cohitre/dashboard-admin",
     "body-parser": "^1.2.0",
     "broccoli-asset-rev": "0.3.0",
     "broccoli-coffee": "^0.1.1",
@@ -37,5 +38,6 @@
   },
   "optionalDependencies": {
     "grunt-img": "0.1.7"
-  }
+  },
+  "dependencies": {}
 }
