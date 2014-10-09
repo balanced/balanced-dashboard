@@ -1,13 +1,13 @@
 <table class="items">
 	<thead>
 		<tr>
-			<th class="span3 date">
+			<th class="col-md-3 date">
 				<span>Date</span>
 			</th>
-			<th class="span3 status">
+			<th class="col-md-3 status">
 				<span>Status</span>
 			</th>
-			<th class="span9 event"><span>Event name</span></th>
+			<th class="col-md-6 event"><span>Event name</span></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -15,7 +15,6 @@
 		<tr>
 			{{view "tables/cells/linked-date-cell"
 				item=event
-				classNames="span3"
 				routeName=event.route_name
 				date=event.occurred_at
 			}}

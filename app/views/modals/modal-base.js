@@ -2,8 +2,16 @@ import Ember from "ember";
 
 var ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base-modal-layout",
-	classNames: "modal",
+	classNames: ["modal"],
 	submitButtonText: "Submit",
+
+	getNotificationController: function() {
+		return this.get("container").lookup("controller:notification-center");
+	},
+
+	getModalNotificationController: function() {
+		return this.get("container").lookup("controller:modal-notification-center");
+	},
 
 	reposition: function() {
 		$(window).resize();
@@ -11,7 +19,9 @@ var ModalBaseView = Ember.View.extend({
 
 	open: function(container) {
 		var options = {
-			show: true
+			show: true,
+			backdrop: true,
+			keyboard: true
 		};
 
 		if (this.get('staticBackdrop')) {

@@ -1,0 +1,21 @@
+{{#view "form-fields/form-section" callbackRevisions=view.callbackRevisions model=view.model}}
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		labelText="URL"
+		field="url"
+		explanationText="Include http:// or https://"
+	}}
+
+	<div class="form-group">
+		<label class="control-label">Revision</label>
+			<div>
+				{{view Ember.Select
+					contentBinding="view.callbackRevisions"
+					valueBinding="view.model.revision"
+					class="full"
+					name="callback-revision"
+					optionValuePath="content.value"
+					optionLabelPath="content.label"
+					}}
+			</div>
+	</div>
+{{/view}}

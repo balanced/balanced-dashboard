@@ -2,10 +2,10 @@
 	{{#unless model.isRemoved}}
 		<div class="buttons page-actions">
 			{{#if model.can_debit}}
-				<a class="btn hold-button" {{action "openHoldCardModal"}}>Hold</a>
-				<a class="btn debit-button" {{action "openDebitFundingInstrumentModal"}}>Debit</a>
+				<a class="btn hold-button" {{action "openModal" "modals/hold-card-modal" model}}>Hold</a>
+				<a class="btn debit-button" {{action "openModal" "modals/debit-funding-instrument-modal" model}}>Debit</a>
 				{{#if model.can_credit}}
-					<a class="btn credit-button" {{action "openCreditFundingInstrumentModal"}}>Credit</a>
+					<a class="btn credit-button" {{action "openModal" "modals/credit-funding-instrument-modal" model}}>Credit</a>
 				{{/if}}
 			{{/if}}
 		</div>
@@ -35,12 +35,3 @@
 		</div>
 	{{/view}}
 {{/view}}
-
-{{#if show_download}}
-	{{partial "modals/download"}}
-{{/if}}
-{{#if can_credit}}
-	{{view "funding-instrument/credit-funding-instrument-modal" funding_instrument=model}}
-{{/if}}
-{{view "funding-instrument/debit-funding-instrument-modal" funding_instrument=model}}
-{{view "funding-instrument/hold-card-modal" funding_instrument=model}}

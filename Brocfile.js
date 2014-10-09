@@ -14,10 +14,10 @@ app.import("bower_components/shapeshifter/shapeshifter.js");
 app.import('bower_components/mixpanel/mixpanel.js');
 app.import('bower_components/google-code-prettify/src/prettify.js');
 
-app.import('bower_components/bootstrap/js/bootstrap-dropdown.js');
-app.import('bower_components/bootstrap/js/bootstrap-modal.js');
-app.import('bower_components/bootstrap/js/bootstrap-tooltip.js');
-app.import('bower_components/bootstrap/js/bootstrap-popover.js');
+app.import('bower_components/strapped/static/js/bootstrap/dropdown.js');
+app.import('bower_components/strapped/static/js/bootstrap/modal.js');
+app.import('bower_components/strapped/static/js/bootstrap/tooltip.js');
+app.import('bower_components/strapped/static/js/bootstrap/popover.js');
 
 app.import("bower_components/jquery-csv/src/jquery.csv.js");
 

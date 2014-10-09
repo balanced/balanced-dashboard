@@ -4,8 +4,7 @@ import ListValueGenerator from "./list-value-generator";
 var SettingsOwnerTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
 	classNameBindings: [":owner-info"],
 	title: "Owner information",
-
-	titleModalLinkView: function() {
+	editModelModalClass: function() {
 		if (Ember.isBlank(this.get("model"))) {
 			return undefined;
 		}

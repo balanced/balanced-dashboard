@@ -24,15 +24,13 @@ module('Integration - AddCustomer', {
 
 test('can visit page', function() {
 	visit(Testing.ADD_CUSTOMER_ROUTE)
-		.checkText("#content h1", "Add customer");
+		.checkText("#add-customer h2", "Add a customer");
 });
 
 test('can create person customer', function() {
 	var spy = sinon.spy(Adapter, "create");
 
 	visit(Testing.ADD_CUSTOMER_ROUTE)
-		.click("fieldset.application-type a.person")
-		.click(".disclosure-button")
 		.fillForm('#add-customer', {
 			name: 'TEST',
 			email: 'nick@example.com',
@@ -49,13 +47,11 @@ test('can create person customer', function() {
 			twitter: 'kleinsch'
 		})
 		.fillIn('#add-customer .country-select', 'US')
-		.click('.actions button')
-		.checkText("#content .page-type", "Customer")
+		.click('button[name=modal-submit]')
 		.then(function() {
 			ok(spy.calledOnce);
 			ok(spy.calledWith(Customer, '/customers', sinon.match({
 				name: 'TEST',
-				applicationType: 'PERSON',
 				address: {
 					city: "oakland",
 					country_code: "US",
@@ -79,8 +75,6 @@ test('can create business customer', function() {
 	var spy = sinon.spy(Adapter, "create");
 
 	visit(Testing.ADD_CUSTOMER_ROUTE)
-		.click("fieldset.application-type a.business")
-		.click(".disclosure-button")
 		.fillForm('#add-customer', {
 			business_name: 'Something Inc',
 			ein: '123123123',
@@ -98,9 +92,8 @@ test('can create business customer', function() {
 			facebook: 'kleinsch',
 			twitter: 'kleinsch'
 		})
-		.fillIn('#add-customer .country-select', 'USA')
-		.click('.actions button')
-		.checkText("#content .page-type", "Customer")
+		.fillIn('#add-customer .country-select', 'US')
+		.click('button[name=modal-submit]')
 		.then(function() {
 			// make sure we posted the customer
 			ok(spy.calledOnce);
@@ -108,7 +101,6 @@ test('can create business customer', function() {
 			// make sure we made the correct call with the proper object
 			ok(spy.calledWith(Customer, '/customers', sinon.match({
 				name: "TEST",
-				applicationType: "BUSINESS",
 				business_name: "Something Inc",
 				address: {
 					city: "oakland",

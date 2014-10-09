@@ -1,79 +1,43 @@
-<form class="form-horizontal split-labels" {{action "submit" target="view" on="submit"}}>
-	<div class="modal-body">
-		<div class="control-group">
-			<label class="control-label">Customer</label>
-			<div class="controls">
-				<span class="label1a">{{view.customer.display_me_with_email}}</span>
-			</div>
-		</div>
+{{#view "form-fields/form-section" appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText fundingInstruments=view.fundingInstruments customer=view.customer model=view.model sectionTitle="Payment information"}}
 
-		{{#if view.fundingInstruments}}
-			<div {{bind-attr class=":control-group view.model.validationErrors.destination_uri:error"}}>
-				<label class="control-label" {{bind-attr for=view.destination.elementId}}>Payment method</label>
-				<div class="controls">
-					{{view Ember.Select
-						contentBinding="view.fundingInstruments"
-						valueBinding="view.model.destination"
-						optionValuePath="content"
-						optionLabelPath="content.description_with_type"
-						viewName="destination"
-						class="span8"
-						name="destination"
-					}}
-					{{modal-field-errors view.model.validationErrors.destination_uri}}
-				</div>
-			</div>
-		{{else}}
-			<div class="alert alert-error">
-				The customer must have at least one funding instrument to credit.
-			</div>
-		{{/if}}
+	{{view "form-fields/static-text-form-field" labelText="Customer" value=view.customer.display_me_with_email}}
 
-		<div class="control-group">
-			<label class="control-label">Name on account</label>
-			<div class="controls text-label">{{view.model.destination.name}}</div>
+	{{#if view.fundingInstruments}}
+		{{view "form-fields/select-form-field"
+			model=view.model
+			content=view.fundingInstruments
+			value=view.model.destination
+			labelText="Payment method"
+			optionValuePath="content"
+			optionLabelPath="content.description_with_type"
+			name="destination"
+			field="destination"
+		}}
+	{{else}}
+		<div class="form-group">
+			<p>This customer doesn't have any payment method to credit.</p>
 		</div>
+	{{/if}}
 
-		<div class="control-group">
-			<label class="control-label">Bank</label>
-			<div class="controls text-label">{{view.model.destination.formatted_bank_name}}</div>
-		</div>
+	{{view "form-fields/static-text-form-field"
+		labelText="Name on account"
+		value=view.model.destination.name
+	}}
 
-		<div {{bind-attr class=":control-group view.model.validationErrors.dollar_amount:error"}}>
-			<label class="control-label" {{bind-attr for=view.amount.elementId}}>Amount</label>
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">$</span>
-					{{view Ember.TextField valueBinding="view.model.dollar_amount" name="dollar_amount" class="span" viewName="amount"}}
-					{{modal-field-errors view.model.validationErrors.dollar_amount}}
-				</div>
-			</div>
-		</div>
+	{{view "form-fields/static-text-form-field"
+		labelText="Bank"
+		value=view.model.destination.formatted_bank_name
+	}}
 
-		<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-			<label class="control-label" {{bind-attr for=view.appearsOnStatementAs.elementId}}>Appears on statement as ({{view.appearsOnStatementAsMaxLength}} characters max)</label>
-			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.appears_on_statement_as"
-				viewName="appearsOnStatementAs"
-				name="appears_on_statement_as" class="full" maxlengthBinding="view.appearsOnStatementAsMaxLength"}}
-				{{modal-field-errors view.model.validationErrors.appears_on_statement_as}}
-			</div>
-		</div>
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
 
-		<div {{bind-attr class=":control-group view.model.validationErrors.description:error"}}>
-			<label class="control-label" {{bind-attr for=view.description.elementId}}>Internal Description</label>
-			<div class="controls">
-				{{view Ember.TextField valueBinding="view.model.description" name="description" class="full"
-					maxlengthBinding="Constants.MAXLENGTH.DESCRIPTION" viewName="description"}}
-				{{modal-field-errors view.model.validationErrors.description}}
-			</div>
-		</div>
+	{{view "form-fields/text-form-field" model=view.model field="appears_on_statement_as" labelText=view.appearsOnStatementAsLabelText maxLength=view.appearsOnStatementAsMaxLength inputClassNames="full" maxlength=view.appearsOnStatementAsMaxLength}}
+
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" maxlength=Constants.MAXLENGTH.DESCRIPTION inputClassNames="full"}}
+{{/view}}
+
+{{#view "form-fields/form-section" sectionTitle="Note"}}
+	<div class="form-group">
+		<p>Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
 	</div>
-	<div class="modal-informational">
-		<p class="modal-informational-content">Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days.</p>
-	</div>
-	<div class="modal-footer">
-		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>Cancel</button>
-		<button class="btn" type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving"}}>Credit</button>
-	</div>
-</form>
+{{/view}}

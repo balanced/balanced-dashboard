@@ -1,6 +1,7 @@
 import startApp from '../helpers/start-app';
 import fixturesAdapter from "../helpers/fixtures-adapter";
 import sinonRestore from "../helpers/sinon-restore";
+import Testing from "../helpers/testing";
 
 import helpers from "../helpers/helpers";
 import checkElements from "../helpers/check-elements";
@@ -28,14 +29,10 @@ test('Can enable', function() {
 			secret_uri: "otpauth://xxxxxxxxxxxxxxxxxxxxxxx"
 		}));
 
-	visit('/security')
-		.check({
-			"h1.page-title": "Account Security",
-			"#account_security.disabled": 1,
-			".status-circle:visible": 2,
-			".window-pane:visible": 0,
-		})
-		.click('.status-circle.green a')
+	visit(Testing.MARKETPLACES_ROUTE)
+		.click("#user-menu .enable-auth a")
+		.checkText("#enable-auth h2", "Enable two-factor-authentication")
+		.click('#enable-auth button[name=modal-submit]')
 		.then(function() {
 			equal(spy.callCount, 1, 'Enabled');
 		});
@@ -46,18 +43,10 @@ test('Can disable', function() {
 
 	Auth.set('user.otp_enabled', true);
 
-	visit('/security')
-		.checkElements({
-			"h1.page-title": 'Account Security',
-			"#account_security.enabled": 1,
-			".status-circle:visible": 2,
-			".window-pane:visible": 0
-		})
-		.click('.status-circle.red a')
-		.checkElements({
-			'#disable-mfa:visible': 1
-		})
-		.click('#disable-mfa button[name=modal-submit]')
+	visit(Testing.MARKETPLACES_ROUTE)
+		.click("#user-menu .disable-auth a")
+		.checkText("#disable-auth h2", "Disable two-factor-authentication")
+		.click('#enable-auth button[name=modal-submit]')
 		.then(function() {
 			equal(spy.callCount, 1, 'Disabled');
 		});

@@ -1,13 +1,13 @@
 <table class="items">
 	<thead>
 		<tr>
-			<th class="span3 date">
+			<th class="col-md-3 date">
 				<span>Date</span>
 			</th>
-			<th class="span9">
+			<th class="col-md-6">
 				<span>File</span>
 			</th>
-			<th class="span3 num"><span>Size</span></th>
+			<th class="col-md-3 num"><span>Size</span></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -15,7 +15,6 @@
 		<tr>
 			{{view "tables/cells/linked-date-cell"
 				item=doc
-				classNames="span3"
 				href=doc.file_url
 				date=doc.created_at
 			}}

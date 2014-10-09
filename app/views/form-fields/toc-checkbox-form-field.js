@@ -1,7 +1,7 @@
-import SimpleCheckboxFormFieldView from "./simple-checkbox-form-field";
+import CheckboxFormFieldView from "./checkbox-form-field";
 import Ember from "ember";
 
-var TocCheckboxFormFieldView = SimpleCheckboxFormFieldView.extend({
+var TocCheckboxFormFieldView = CheckboxFormFieldView.extend({
 	labelText: function() {
 		var firstLink = '<a href="https://www.balancedpayments.com/terms/">Terms & Conditions</a>';
 		var secondLink = '<a href="https://www.balancedpayments.com/terms/marketplaceagreement">Marketplace Agreement</a>';

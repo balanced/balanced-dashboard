@@ -1,8 +1,8 @@
 {{#view "page-navigations/transaction-page-navigation" model=model}}
 	<div class="buttons page-actions">
 		{{#if can_void_or_capture}}
-			{{capture-hold-modal hold=model}}
-			{{void-hold-modal hold=model}}
+			<a class="btn capture-hold-button" {{action "openModal" "modals/capture-hold-modal" model}}>Capture</a>
+			<a class="btn void-hold-button" {{action "openModal" "modals/void-hold-modal" model}}>Void</a>
 		{{/if}}
 	</div>
 {{/view}}

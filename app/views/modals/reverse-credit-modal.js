@@ -1,12 +1,15 @@
 import Ember from "ember";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import ReverseCreditTransactionFactory from "balanced-dashboard/models/factories/reverse-credit-transaction-factory";
 
-var ReverseCreditModalView = ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
-	elementId: "reverse-credit",
+var ReverseCreditModalView = ModalBaseView.extend(Full, Form, {
 	templateName: 'modals/reverse-credit-modal',
+	elementId: "reverse-credit",
 	title: "Reverse credit",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Reverse",
 
 	model: function() {
 		return ReverseCreditTransactionFactory.create({

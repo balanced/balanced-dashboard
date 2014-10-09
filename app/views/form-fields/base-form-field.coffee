@@ -35,7 +35,7 @@ BaseFormFieldView = Ember.View.extend
 
 	errorMessages: ( ->
 		return @getFullErrorMessagesFor(@get("field"))
-	).property("model.validationErrors.allMessages.length")
+	).property("model.validationErrors.allMessages.length", "model.validationErrors")
 
 	isOneError: Ember.computed.equal("errorMessages.length", 1)
 

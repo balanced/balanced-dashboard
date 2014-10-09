@@ -27,13 +27,6 @@ var MetaEditModalView = ModalBaseView.extend(Full, Form, Save, {
 		});
 	},
 
-	getModalNotificationController: function() {
-		return this.get("container").lookup("controller:modal-notification-center");
-	},
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification-center");
-	},
-
 	actions: {
 		addField: function() {
 			this.createNewField();
@@ -48,6 +41,7 @@ var MetaEditModalView = ModalBaseView.extend(Full, Form, Save, {
 			var metaDictionary = this.get("metaDictionary");
 			var notification = this.getNotificationController();
 			var modalNotification = this.getModalNotificationController();
+			var self = this;
 
 			notification.clearAlerts();
 			modalNotification.clearAlerts();
@@ -56,6 +50,7 @@ var MetaEditModalView = ModalBaseView.extend(Full, Form, Save, {
 				.then(function(model) {
 					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
 					model.reload();
+					self.close();
 					notification.alertSuccess(message, {
 						expire: true
 					});

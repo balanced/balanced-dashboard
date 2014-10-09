@@ -1,13 +1,16 @@
 import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 import ErrorsLogger from "balanced-dashboard/lib/errors-logger";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 
-var ApiKeyCreateModalView = ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
+var ApiKeyCreateModalView = ModalBaseView.extend(Form, {
+	classNameBindings: [":wide-modal"],
 	elementId: "api-key-create",
 	templateName: "modals/api-key-create-modal",
 	title: "Add an API key",
 	isSaving: false,
+	cancelButtonText: "Cancel",
+	submitButtonText: "Add",
 
 	buildApiKey: function(name) {
 		var klass = this.get("container").lookupFactory("model:api-key");
@@ -31,7 +34,7 @@ var ApiKeyCreateModalView = ModalBaseView.extend({
 	},
 
 	actions: {
-		submit: function() {
+		save: function() {
 			var self = this;
 			var userMarketplace = self.get("container").lookup("controller:marketplace/settings").get("userMarketplace");
 

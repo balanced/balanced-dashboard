@@ -3,10 +3,8 @@ import ListValueGenerator from "./list-value-generator";
 
 var CustomerTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
 	title: "Customer information",
-	titleModalLinkView: function() {
-		return this.get("container").lookupFactory("view:modals/edit-customer-info-modal").extend({
-			customer: this.get("model")
-		});
+	editModelModalClass: function() {
+		return this.get("container").lookupFactory("view:modals/edit-customer-info-modal");
 	}.property("model"),
 
 	keyValueListViews: ListValueGenerator.create()

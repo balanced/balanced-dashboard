@@ -62,7 +62,9 @@ var BankAccount = FundingInstrument.extend({
 		} else if (this.get("isVerified")) {
 			return "verified";
 		} else if (this.get('customer')) {
-			if (this.get('can_confirm_verification')) {
+			if (this.get('verification.verification_status') === 'failed') {
+				return 'failed';
+			} else if (this.get('can_confirm_verification')) {
 				return 'pending';
 			} else {
 				return 'unverified';
@@ -70,7 +72,7 @@ var BankAccount = FundingInstrument.extend({
 		} else {
 			return 'unverifiable';
 		}
-	}.property('isRemoved', 'isVerified', 'customer', 'can_confirm_verification'),
+	}.property('isRemoved', 'isVerified', 'customer', 'can_confirm_verification', 'verification.verification_status'),
 
 	isVerified: Ember.computed.oneWay("can_debit"),
 	isRemoved: Ember.computed.not("can_credit"),

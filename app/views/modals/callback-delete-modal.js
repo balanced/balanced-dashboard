@@ -4,7 +4,7 @@ var CallbackDeleteModalView = ModalBaseView.extend({
 	templateName: "modals/callback-delete-modal",
 	title: 'Delete webhook',
 	elementId: 'delete-callback',
-
+	classNames: ["wide-modal"],
 	description: 'Are you sure you want to delete this endpoint? No future webhooks will be sent to this URL.',
 
 	isSaving: false,
