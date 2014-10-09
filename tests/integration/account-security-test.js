@@ -31,7 +31,7 @@ test('Can enable', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .enable-auth a")
-		.checkText("#enable-auth h2", "Enable two-factor-authentication")
+		.checkText("#enable-auth h2", "Enable two-factor authentication")
 		.click('#enable-auth button[name=modal-submit]')
 		.then(function() {
 			equal(spy.callCount, 1, 'Enabled');
@@ -45,7 +45,7 @@ test('Can disable', function() {
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .disable-auth a")
-		.checkText("#disable-auth h2", "Disable two-factor-authentication")
+		.checkText("#disable-auth h2", "Disable two-factor authentication")
 		.click('#enable-auth button[name=modal-submit]')
 		.then(function() {
 			equal(spy.callCount, 1, 'Disabled');

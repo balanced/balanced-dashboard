@@ -8,6 +8,12 @@ import Customer from "balanced-dashboard/models/customer";
 
 var App, Adapter;
 
+var visitAddACustomerModal = function() {
+	var CUSTOMERS_ROUTE = Testing.MARKETPLACE_ROUTE + "/customers";
+	return visit(CUSTOMERS_ROUTE)
+		.click(".page-navigation a:contains(Add a customer)");
+};
+
 module('Integration - AddCustomer', {
 	setup: function() {
 		App = startApp();
@@ -23,14 +29,14 @@ module('Integration - AddCustomer', {
 });
 
 test('can visit page', function() {
-	visit(Testing.ADD_CUSTOMER_ROUTE)
+	visitAddACustomerModal()
 		.checkText("#add-customer h2", "Add a customer");
 });
 
 test('can create person customer', function() {
 	var spy = sinon.spy(Adapter, "create");
 
-	visit(Testing.ADD_CUSTOMER_ROUTE)
+	visitAddACustomerModal()
 		.fillForm('#add-customer', {
 			name: 'TEST',
 			email: 'nick@example.com',
@@ -73,8 +79,7 @@ test('can create person customer', function() {
 
 test('can create business customer', function() {
 	var spy = sinon.spy(Adapter, "create");
-
-	visit(Testing.ADD_CUSTOMER_ROUTE)
+	visitAddACustomerModal()
 		.fillForm('#add-customer', {
 			business_name: 'Something Inc',
 			ein: '123123123',

@@ -3,7 +3,7 @@ import CreditExistingFundingInstrumentTransactionFactory from "balanced-dashboar
 
 var CreditFundingInstrumentModalView = BaseFundingInstrumentModalView.extend({
 	templateName: 'modals/credit-funding-instrument',
-	elementId: '#credit-funding-instrument',
+	elementId: 'credit-funding-instrument',
 	title: function() {
 		return "Credit this %@".fmt(this.get("model.destination.type_name").toLowerCase());
 	}.property("model.destination.type_name"),

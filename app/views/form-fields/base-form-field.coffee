@@ -43,12 +43,12 @@ BaseFormFieldView = Ember.View.extend
 
 	didInsertElement: ->
 		$('.form-group').hover( (event) ->
-			$('.alert-error').css('display', 'none')
+			$('.alert-error').hide()
 			$(event.currentTarget).find('.alert-error').css('display', 'inline')
 		)
 
 		$('.form-group input').focus( (event) ->
-			$('.alert-error').css('display', 'none')
+			$('.alert-error').hide()
 			$(event.currentTarget).parents('.form-group').find('.alert-error').css('display', 'inline')
 		)
 

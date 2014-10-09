@@ -5,20 +5,17 @@ class ValidationServerErrorHandler
 		@model.get("validationErrors").add(key, "serverError", null, message)
 
 	clear: ->
-		console.log(@model.get("validationErrors"))
 		@model.get("validationErrors").clear()
 
 	getServerExtraKeyMapping: (key) ->
-		if key == "incorporation_date"
-			key = "business.incorporation_date"
-		else if key == "tax_id"
-			key = "business.tax_id"
-		else if key == "dob"
-			key = "person.dob"
-		return key
+		switch key
+			when "incorporation_date" then "business.incorporation_date"
+			when "tax_id" then "business.tax_id"
+			when "dob" then "person.dob"
+			else key
 
 	execute: ->
-		errorsList = @response.errors || [];
+		errorsList = @response.errors || []
 
 		_.each errorsList, (error) =>
 			if _.keys(error.extras).length > 0
@@ -29,7 +26,7 @@ class ValidationServerErrorHandler
 				if error.description.indexOf(" - ") > 0
 					message = error.description.split(" - ")[1]
 				else
-					message = error.description;
+					message = error.description
 				@addErrorMessage("", message)
 			else
 				@addErrorMessage("", error[0])

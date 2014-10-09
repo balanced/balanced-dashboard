@@ -3,7 +3,7 @@ import DebitExistingFundingInstrumentTransactionFactory from "balanced-dashboard
 
 var DebitFundingInstrumentModalView = BaseFundingInstrumentModalView.extend({
 	templateName: 'modals/debit-funding-instrument',
-	elementId: '#debit-funding-instrument',
+	elementId: 'debit-funding-instrument',
 	title: function() {
 		return "Debit this %@".fmt(this.get("model.source.type_name").toLowerCase());
 	}.property("model.source.type_name"),
