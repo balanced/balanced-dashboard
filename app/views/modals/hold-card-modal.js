@@ -3,7 +3,7 @@ import HoldExistingFundingInstrumentTransactionFactory from "balanced-dashboard/
 
 var HoldCardModalView = BaseFundingInstrumentModalView.extend({
 	templateName: 'modals/hold-card-modal',
-	elementId: '#hold-card',
+	elementId: 'hold-card',
 	title: "Hold this card",
 	cancelButtonText: "Cancel",
 	submitButtonText: "Hold",
