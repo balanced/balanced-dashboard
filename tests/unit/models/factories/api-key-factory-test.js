@@ -1,13 +1,19 @@
+import startApp from '../../../helpers/start-app';
 import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
 import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 
-var Adapter;
+var Adapter, App;
 
 module("Factory - ApiKeyFactory", {
 	setup: function() {
-		Adapter = BaseConnection.ADAPTER = {
-			load: sinon.stub()
-		};
+		App = startApp();
+		Adapter = App.__container__.lookup("adapter:main");
+		sinon.stub(Adapter, "load").returns(Ember.RSVP.resolve({
+			user: {}
+		}));
+	},
+	teardown: function() {
+		Ember.run(App, 'destroy');
 	}
 });
 
@@ -203,12 +209,14 @@ test("#_save", function() {
 	});
 	subject._save();
 
-	var request = stub.args[0][0];
-	deepEqual(JSON.parse(request.data), {
-		merchant: {
-			name: "Tom Person",
-			production: true,
-			type: "person"
-		}
+	andThen(function() {
+		var request = stub.args[0][0];
+		deepEqual(JSON.parse(request.data), {
+			merchant: {
+				name: "Tom Person",
+				production: true,
+				type: "person"
+			}
+		});
 	});
 });

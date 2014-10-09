@@ -118,7 +118,7 @@ var BaseResultsLoader = Ember.Object.extend({
 			};
 		}
 
-		var Download = BalancedApp.__container__.lookupFactory("model:download");
+		var Download = this.get("container").lookupFactory("model:download");
 		var download = Download.create(downloadAttributes);
 		return download.save();
 	}
