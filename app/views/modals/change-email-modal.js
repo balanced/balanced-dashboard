@@ -54,8 +54,9 @@ var ChangeEmailModalView = ModalBaseView.extend(Full, Form, {
 	},
 
 	actions: {
-		submit: function(model) {
+		save: function() {
 			var self = this;
+			var model = this.get("model")
 			var notifications = self.get("container").lookup("controller:modal-notification-center");
 			notifications.clearAlerts();
 			self.set("isSaving", true);

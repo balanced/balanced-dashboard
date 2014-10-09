@@ -57,9 +57,10 @@ var ChangePasswordModalView = ModalBaseView.extend(Full, Form, {
 
 	isSaving: false,
 	actions: {
-		submit: function(model) {
+		save: function() {
 			var self = this;
 			var notifications = self.get("container").lookup("controller:modal-notification-center");
+			var model = self.get("model");
 			notifications.clearAlerts();
 			self.set("isSaving", true);
 			this.validateAndSave(model)

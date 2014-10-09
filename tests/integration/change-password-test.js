@@ -46,15 +46,16 @@ test('change password form submits', function() {
 			confirm_password: '12345678'
 		})
 		.click('#change-password-modal button[name=modal-submit]')
-		.check("#change-password-modal", 0)
 		.then(function() {
-			ok(stub.calledOnce);
 			var args = stub.args[0];
-			equal(args[0], BalancedApp.__container__.lookupFactory("model:user"), "User model");
+			ok(stub.calledOnce);
+			equal(args[0], Models.lookupFactory("user"));
 			equal(args[1], Testing.FIXTURE_USER_ROUTE);
-			equal(args[2].confirm_password, "12345678");
-			equal(args[2].existing_password, "123456");
-			equal(args[2].password, "12345678");
+			matchesProperties(args[2], {
+				confirm_password: "12345678",
+				existing_password: "123456",
+				password: "12345678"
+			});
 		});
 });
 
@@ -76,9 +77,9 @@ test('change password errors if no existing password', function() {
 		})
 		.checkElements({
 			"#change-password-modal": 1,
-			"#change-password-modal .control-group:eq(0) .alert-error": "can't be blank",
-			"#change-password-modal .control-group:eq(1) .alert-error": "",
-			"#change-password-modal .control-group:eq(2) .alert-error": "must match password",
+			"#change-password-modal .form-group:eq(0) .alert-error": "can't be blank",
+			"#change-password-modal .form-group:eq(1) .alert-error": "",
+			"#change-password-modal .form-group:eq(2) .alert-error": "must match password",
 		})
 		.then(function() {
 			equal(stub.callCount, 0);

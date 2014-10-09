@@ -34,21 +34,14 @@ test('change email form submits', function() {
 	var stub = sinon.stub(Adapter, "update");
 	var USER_EMAIL = 'foo+1@bar.com';
 
-	stub.callsArgWith(3, {
-		"id": null,
-		"admin": false,
-		"email_address": USER_EMAIL
-	});
-
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
-		.checkValue("#change-email-modal input[name=email_address]", Testing.FIXTURE_USER_EMAIL, 'Email is filled in')
+		.check("#change-email-modal .sl", Testing.FIXTURE_USER_EMAIL, 'Email is filled in')
 		.fillForm('#change-email-modal', {
-			email_address: USER_EMAIL,
+			email: USER_EMAIL,
 			existing_password: '123456',
 		})
 		.click('#change-email-modal button[name=modal-submit]')
-		.check("#change-email-modal", 0)
 		.then(function() {
 			ok(stub.calledOnce);
 			var args = stub.args[0];
@@ -71,15 +64,16 @@ test('change email form errors if no email', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
 		.fillForm('#change-email-modal form', {
-			email_address: '',
+			email: '',
 			existing_password: '123456'
 		}, {
 			click: 'button[name=modal-submit]'
 		})
 		.click("#change-email-modal form button[name=modal-submit]")
-		.checkElements({
-			"#change-email-modal": 1,
-			"#change-email-modal .alert.alert-error": "can't be blank, is invalid, is too short (minimum 6 characters)"
+		.check("#change-email-modal", 1)
+		.then(function() {
+			var text = $("#change-email-modal .alert.alert-error").text().replace(/\s+/g, " ");
+			deepEqual($.trim(text), "can't be blank is invalid is too short (minimum 6 characters)");
 		})
 		.then(function() {
 			equal(stub.callCount, 0);
@@ -100,7 +94,7 @@ test('change email errors if no existing password', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .change-email a")
 		.fillForm('#change-email-modal form', {
-			email_address: USER_EMAIL,
+			email: USER_EMAIL,
 		}, {
 			click: 'button[name=modal-submit]'
 		})
