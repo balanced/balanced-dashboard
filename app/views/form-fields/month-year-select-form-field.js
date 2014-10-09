@@ -4,6 +4,26 @@ import Constants from "balanced-dashboard/utils/constants";
 var MonthYearSelectFormFieldView = DateSelectFormFieldView.extend({
 	templateName: "form-fields/month-year-select-form-field",
 
+	yearName: function() {
+		var name = this.get("name");
+		if (name) {
+			return name + "_year";
+		}
+		else {
+			return "year";
+		}
+	}.property("name"),
+
+	monthName: function() {
+		var name = this.get("name");
+		if (name) {
+			return name + "_month";
+		}
+		else {
+			return "month";
+		}
+	}.property("name"),
+
 	validMonths: Constants.TIME.MONTHS,
 
 	validYears: function() {

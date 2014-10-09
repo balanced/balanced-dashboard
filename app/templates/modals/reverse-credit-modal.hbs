@@ -1,7 +1,7 @@
 {{#view "form-fields/form-section" model=view.model sectionTitle="Payment information"}}
 	{{view "form-fields/static-text-form-field"
 		labelText="Customer"
-		value=view.customerDisplay
+		value=view.parentView.customerDisplay
 		emptyText="none"
 	}}
 	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}

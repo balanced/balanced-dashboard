@@ -35,7 +35,7 @@ test('can edit customer info', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.side-panel a.icon-edit')
+		.click('.side-panel a .icon-edit:first')
 		.fillForm('#edit-customer-info', {
 			name: "TEST"
 		})
@@ -64,19 +64,18 @@ test('can update customer info', function() {
 	var stub = sinon.stub(Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.side-panel a.icon-edit')
-		.click('#edit-customer-info a.more-info')
+		.click('.side-panel a .icon-edit:first')
 		.fillForm('#edit-customer-info', {
 			name: 'TEST',
 			email: 'TEST@example.com',
 			business_name: 'TEST',
 			ein: '1234',
-			line1: '600 William St',
-			line2: 'Apt 400',
-			city: 'Oakland',
-			state: 'CA',
+			address_line1: '600 William St',
+			address_line2: 'Apt 400',
+			address_city: 'Oakland',
+			address_state: 'CA',
 			country_code: 'US',
-			postal_code: '12345',
+			address_postal_code: '12345',
 			phone: '1231231234',
 			dob_month: '12',
 			dob_year: '1924',
@@ -91,8 +90,8 @@ test('can update customer info', function() {
 				business_name: "TEST",
 				ein: "1234",
 				phone: "1231231234",
-				dob_month: "12",
-				dob_year: "1924",
+				dob_month: 12,
+				dob_year: 1924,
 				ssn_last4: "1234",
 				address: {
 					line1: "600 William St",
@@ -117,39 +116,43 @@ test('can update customer info only some fields', function() {
 	var stub = sinon.stub(Adapter, "update");
 
 	visit(Testing.CUSTOMER_ROUTE)
-		.click('.side-panel a.icon-edit')
-		.click('#edit-customer-info a.more-info')
+		.click('.side-panel a .icon-edit:first')
 		.fillForm('#edit-customer-info', {
 			business_name: '',
 			ein: '',
-			line1: '1 1st St',
-			line2: '',
-			city: '',
-			state: '',
+			address_line1: '1 1st St',
+			address_line2: '',
+			address_city: '',
+			address_state: '',
 			country_code: '',
-			postal_code: '',
+			address_postal_code: '',
 			phone: '1231231234'
 		})
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.Customer));
-
-			deepEqual(stub.getCall(0).args[2].name, "William Henry Cavendish III");
-			deepEqual(stub.getCall(0).args[2].email, "whc@example.org");
-			deepEqual(stub.getCall(0).args[2].business_name, null);
-			deepEqual(stub.getCall(0).args[2].ein, null);
-			deepEqual(stub.getCall(0).args[2].address.line1, '1 1st St');
-			deepEqual(stub.getCall(0).args[2].address.line2, null);
-			deepEqual(stub.getCall(0).args[2].address.city, null);
-			deepEqual(stub.getCall(0).args[2].address.state, null);
-			deepEqual(stub.getCall(0).args[2].address.country_code, null);
-			deepEqual(stub.getCall(0).args[2].address.postal_code, null);
-			deepEqual(stub.getCall(0).args[2].phone, "1231231234");
-			deepEqual(stub.getCall(0).args[2].dob_month, 2);
-			deepEqual(stub.getCall(0).args[2].dob_year, 1947);
-			deepEqual(stub.getCall(0).args[2].ssn_last4, "xxxx");
+			equal(stub.args[0][0], Models.Customer);
+			console.log(stub.args[0]);
+			deepEqual(stub.args[0][1], "/customers/" + Testing.CUSTOMER_ID);
+			matchesProperties(stub.getCall(0).args[2], {
+				name: "William Henry Cavendish III",
+				email: "whc@example.org",
+				business_name: "",
+				ein: "",
+				country_code: undefined,
+				phone: "1231231234",
+				dob_month: 2,
+				dob_year: 1947,
+				ssn_last4: "xxxx"
+			});
+			matchesProperties(stub.getCall(0).args[2].address, {
+				line1: '1 1st St',
+				line2: "",
+				city: "",
+				state: "",
+				postal_code: ""
+			});
 		});
 });
 
