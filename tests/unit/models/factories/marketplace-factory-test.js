@@ -64,7 +64,7 @@ test("#_save", function() {
 		support_email_address: "email@example.org",
 		support_phone_number: "123-333-3333",
 	});
-	var connection = subject.getConnection()
+	var connection = subject.getConnection();
 	var stub = sinon.stub(connection, "createMarketplace");
 
 	subject._save();
