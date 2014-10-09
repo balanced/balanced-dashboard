@@ -8,17 +8,20 @@ import Transaction from "balanced-dashboard/models/transaction";
 import Dispute from "balanced-dashboard/models/dispute";
 import Invoice from "balanced-dashboard/models/invoice";
 import Customer from "balanced-dashboard/models/customer";
+import Download from "balanced-dashboard/models/download";
 
 var Adapter;
 
 module("ResultsLoader - ResultsLoader", {
 	setup: function() {
-		Adapter = Model.ADAPTER = {
+		Adapter = {
 			create: sinon.stub()
 		};
+		sinon.stub(Download, "getAdapter").returns(Adapter);
 	},
 	teardown: function() {
 		Testing.restoreMethods(
+			Download.getAdapter,
 			SearchModelArray.newArrayLoadedFromUri,
 			jQuery.ajax,
 			ModelArray.create
@@ -116,6 +119,9 @@ test("#postCsvExport (by uri)", function() {
 	var stub = Adapter.create;
 
 	var subject = ResultsLoader.create({
+		container: {
+			lookupFactory: sinon.stub().returns(Download)
+		},
 		resultsUri: "/transactions"
 	});
 	subject.postCsvExport("jim@example.org");
@@ -134,6 +140,9 @@ test("#postCsvExport (bulk)", function() {
 		resultsUri: "/transactions",
 		startTime: moment("2013-02-08 09:30:26 Z").toDate(),
 		endTime: moment("2013-02-08 10:30:26 Z").toDate(),
+		container: {
+			lookupFactory: sinon.stub().returns(Download)
+		},
 	});
 	subject.postCsvExport("jim@example.org");
 
