@@ -23,7 +23,6 @@ var EnableAuthModalView = ModalBaseView.extend(Full, Form, {
 				self.getNotificationController()
 					.alertSuccess('Two-factor authentication is enabled.');
 			}, function(response) {
-				console.log(response)
 				self.getModalNotificationController()
 					.alertError(response.responseJSON.detail);
 				self.set('auth_code_confirm', null);
