@@ -3,7 +3,7 @@ import CreditExistingFundingInstrumentTransactionFactory from "balanced-dashboar
 import ModalBaseView from "./modal-base";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
-import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
+import Save from "balanced-dashboard/views/modals/mixins/object-validate-and-save-mixin";
 
 var CreditCustomerModalView = ModalBaseView.extend(Full, Form, Save, {
 	templateName: "modals/credit-customer-modal",
