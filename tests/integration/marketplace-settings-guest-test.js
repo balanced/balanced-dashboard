@@ -89,8 +89,7 @@ test('can update owner info', function() {
 				model.set('production', true);
 			});
 		})
-		.click('.owner-info a.icon-edit')
-		.click('#edit-customer-info a.more-info')
+		.click('.owner-info a .icon-edit')
 		.fillForm("#edit-customer-info", {
 			name: 'TEST',
 			email: 'TEST@example.com',
