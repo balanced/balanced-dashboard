@@ -133,7 +133,6 @@ test('can update customer info only some fields', function() {
 		.then(function() {
 			ok(stub.calledOnce);
 			equal(stub.args[0][0], Models.Customer);
-			console.log(stub.args[0]);
 			deepEqual(stub.args[0][1], "/customers/" + Testing.CUSTOMER_ID);
 			matchesProperties(stub.getCall(0).args[2], {
 				name: "William Henry Cavendish III",
