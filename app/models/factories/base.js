@@ -1,6 +1,6 @@
 import Ember from "ember";
 import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
-import ServerError from "balanced-dashboard/utils/validation-server-error-handler";
+import ServerError from "balanced-dashboard/utils/error-handlers/validation-server-error-handler";
 
 var BaseFactory = Ember.Object.extend(Ember.Validations, {
 	setValidationErrorsFromServer: function(response) {

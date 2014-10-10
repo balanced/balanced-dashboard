@@ -1,8 +1,9 @@
+import Ember from "ember";
 import ModalBaseView from "./modal-base";
-import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
-import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
-import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
-import BankAccount from "balanced-dashboard/models/bank-account";
+import Full from "./mixins/full-modal-mixin";
+import Form from "./mixins/form-modal-mixin";
+import Save from "./mixins/object-action-mixin";
+import BankAccountValidatable from "balanced-dashboard/models/bank-account-validatable";
 
 var CustomerBankAccountCreateModalView = ModalBaseView.extend(Full, Form, Save, {
 	templateName: 'modals/customer-bank-account-create-modal',
@@ -20,7 +21,7 @@ var CustomerBankAccountCreateModalView = ModalBaseView.extend(Full, Form, Save, 
 	}],
 
 	model: function() {
-		return BankAccount.create({
+		return BankAccountValidatable.create({
 			name: '',
 			account_number: '',
 			routing_number: '',
@@ -28,18 +29,17 @@ var CustomerBankAccountCreateModalView = ModalBaseView.extend(Full, Form, Save, 
 		});
 	}.property(),
 
+	isSaving: Ember.computed.oneWay("model.isSaving"),
+
 	save: function() {
 		var self = this;
 		var fundingInstrument = this.get("model");
-		this.set("isSaving", true);
 		return fundingInstrument
 			.tokenizeAndCreate(this.get('customer.id'))
 			.then(function(model) {
-				self.set("isSaving", false);
 				self.close();
 				return model;
-			}, function() {
-				self.set("isSaving", false);
+			}, function(model) {
 				return Ember.RSVP.reject();
 			});
 	},

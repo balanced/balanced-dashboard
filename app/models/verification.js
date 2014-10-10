@@ -1,6 +1,6 @@
 import Ember from "ember";
 import Model from "./core/model";
-import ServerError from "balanced-dashboard/utils/validation-server-error-handler";
+import ServerError from "balanced-dashboard/utils/error-handlers/validation-server-error-handler";
 
 var Verification = Model.extend(Ember.Validations, {
 	no_attempts_remaining: Ember.computed.equal('attempts_remaining', 0),

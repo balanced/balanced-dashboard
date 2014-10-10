@@ -23,17 +23,18 @@ module('Integration - Account Security', {
 
 test('Can enable', function() {
 	var spy = sinon.stub(Auth, 'request')
-		.returns(Ember.RSVP.resolve({
-			id: "USxxxxxxxxxxxxxxx",
-			secret: "VERYSECRET",
-			secret_uri: "otpauth://xxxxxxxxxxxxxxxxxxxxxxx"
-		}));
+	spy.returns(Ember.RSVP.resolve({
+		id: "USxxxxxxxxxxxxxxx",
+		secret: "VERYSECRET",
+		secret_uri: "otpauth://xxxxxxxxxxxxxxxxxxxxxxx"
+	}));
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click("#user-menu .enable-auth a")
 		.checkText("#enable-auth h2", "Enable two-factor authentication")
 		.click('#enable-auth button[name=modal-submit]')
 		.then(function() {
+			console.log(spy.args);
 			equal(spy.callCount, 1, 'Enabled');
 		});
 });

@@ -1,11 +1,7 @@
-class ValidationServerErrorHandler
+`import BaseErrorHandler from "./base";`
+
+class ValidationServerErrorHandler extends BaseErrorHandler
 	constructor: (@model, @response) ->
-
-	addErrorMessage: (key, message) ->
-		@model.get("validationErrors").add(key, "serverError", null, message)
-
-	clear: ->
-		@model.get("validationErrors").clear()
 
 	getServerExtraKeyMapping: (key) ->
 		switch key
@@ -31,4 +27,4 @@ class ValidationServerErrorHandler
 			else
 				@addErrorMessage("", error[0])
 
-`export default ValidationServerErrorHandler`
+`export default ValidationServerErrorHandler;`

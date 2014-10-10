@@ -176,16 +176,14 @@ test('can fail at creating bank accounts', function() {
 		.click('#add-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(tokenizingStub.calledOnce);
-			ok(tokenizingStub.calledWith({
+			matchesProperties(tokenizingStub.args[0][0], {
 				account_type: "checking",
 				name: "TEST",
 				account_number: "123",
 				routing_number: "123123123abc"
-			}));
-
-			ok($('#add-bank-account .modal-body input[name=routing_number]').closest('.control-group').hasClass('error'), 'Validation errors being reported');
-			equal($('#add-bank-account .modal-body input[name=routing_number]').next().text().trim(), '"321171184abc" must have length <= 9');
-		});
+			});
+		})
+		.check('#add-bank-account .form-group:eq(1) .alert', '"321171184abc" must have length <= 9');
 });
 
 test('can create savings accounts', function() {
@@ -227,8 +225,8 @@ test('can create cards', function() {
 			name: "TEST",
 			number: "1234123412341234",
 			cvv: "123",
-			expiration_year: "2020",
-			expiration_month: "1"
+			expiration_date_year: "2020",
+			expiration_date_month: "1"
 		})
 		.click('#add-card .modal-footer button[name=modal-submit]')
 		.then(function() {
