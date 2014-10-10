@@ -22,7 +22,7 @@ module('Integration - Account Security', {
 });
 
 test('Can enable', function() {
-	var spy = sinon.stub(Auth, 'request')
+	var spy = sinon.stub(Auth, 'request');
 	spy.returns(Ember.RSVP.resolve({
 		id: "USxxxxxxxxxxxxxxx",
 		secret: "VERYSECRET",

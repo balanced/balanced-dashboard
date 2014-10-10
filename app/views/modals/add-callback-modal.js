@@ -28,6 +28,8 @@ var AddCallbackModalView = ModalBaseView.extend(Wide, Form, {
 		});
 	}.property('marketplace'),
 
+	isSaving: Ember.computed.oneWay("model.isSaving"),
+
 	actions: {
 		save: function() {
 			var self = this;

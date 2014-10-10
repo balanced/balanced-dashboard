@@ -41,8 +41,9 @@ var MarketplaceUserCreateModalView = ModalBaseView.extend(Form, {
 
 	isSaving: false,
 	actions: {
-		submit: function(userInvite) {
+		save: function() {
 			var self = this;
+			var userInvite = this.get("userInvite");
 			self.set("isSaving", true);
 			this.validateAndSave(userInvite)
 				.then(function() {
