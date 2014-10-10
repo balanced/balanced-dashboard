@@ -65,14 +65,19 @@ test('can capture hold', function() {
 
 	visit(Testing.HOLD_ROUTE)
 		.click(".capture-hold-button")
-		.fillIn('#capture-hold .modal-body input[name="dollar_amount"]', '10')
-		.fillIn('#capture-hold .modal-body input[name="description"]', 'Test debit')
+		.fillForm("#capture-hold", {
+			dollar_amount: "10",
+			description: "Test debit"
+		})
 		.click('#capture-hold .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			ok(spy.calledOnce);
-			ok(spy.calledWith(Models.Debit));
-			equal(spy.getCall(0).args[2].amount, 1000);
-			equal(spy.getCall(0).args[2].description, "Test debit");
-			equal(spy.getCall(0).args[2].hold_uri, Testing.HOLD_URI);
+			var args = spy.firstCall.args;
+			ok(spy.calledOnce, "Create capture called once");
+			equal(args[0], Models.lookupFactory("debit"));
+			matchesProperties(args[2], {
+				amount: 1000,
+				description: "Test debit",
+				hold_uri: Testing.HOLD_URI
+			});
 		});
 });

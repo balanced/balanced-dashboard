@@ -3,7 +3,7 @@ import CaptureHoldTransactionFactory from "balanced-dashboard/models/factories/c
 
 var CaptureHoldModalView = BaseFundingInstrumentModalView.extend({
 	templateName: 'modals/capture-hold-modal',
-	elementId: '#capture-hold',
+	elementId: 'capture-hold',
 	title: "Capture this hold",
 	cancelButtonText: "Cancel",
 	submitButtonText: "Capture"

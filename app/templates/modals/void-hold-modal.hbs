@@ -2,7 +2,5 @@
     <div class="modal-body">
         <div class="content">Are you sure you want to void the hold?</div>
     </div>
-    <div class="modal-footer">
-        {{view "modals/action-buttons" submitTitle="Void" submittingTitle="Voiding..."}}
-    </div>
+	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Void"}}
 </form>
