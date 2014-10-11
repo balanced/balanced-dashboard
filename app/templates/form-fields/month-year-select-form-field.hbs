@@ -1,0 +1,12 @@
+<div class="clearfix">
+	{{view Ember.Select
+		name=view.monthName
+		contentBinding="view.validMonths"
+		valueBinding="view.monthValue"
+		class="col-md-4"}}
+	{{view Ember.Select
+		name=view.yearName
+		contentBinding="view.validYears"
+		valueBinding="view.yearValue"
+		class="col-md-4"}}
+</div>

@@ -1,14 +1,17 @@
 import Ember from "ember";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import RefundDebitTransactionFactory from "balanced-dashboard/models/factories/refund-debit-transaction-factory";
 
-var RefundDebitModalView = ModalBaseView.extend({
-	classNameBindings: [":wide-modal", ":modal-overflow"],
+var RefundDebitModalView = ModalBaseView.extend(Full, Form, {
 	templateName: 'modals/refund-debit-modal',
 	elementId: "refund-debit",
 	title: function() {
 		return "Refund this %@".fmt(this.get("recipient"));
 	}.property("recipient"),
+	cancelButtonText: "Cancel",
+	submitButtonText: "Refund",
 
 	recipient: Ember.computed.oneWay("debit.recipient"),
 	recipientLabel: function() {

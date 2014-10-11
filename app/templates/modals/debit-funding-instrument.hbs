@@ -1,67 +1,13 @@
-<div class="modal wide-modal hide" id="debit-funding-instrument">
-	<form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">×</button>
-			<h2>Debit this {{lower-case type_name}}</h2>
-		</div>
+{{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText model=view.model sectionTitle="Payment information"}}
+	{{view "form-fields/static-text-form-field" value=view.model.source.title_description field="name" labelText=view.model.source.type_name inputClassNames="full"}}
 
-		<div class="modal-body">
-			{{partial "modals/modal-errors"}}
+	{{view "form-fields/static-text-form-field" value=view.model.source.name labelText="Name on account" inputClassNames="full"}}
 
-			<div class="control-group">
-				<label class="control-label">{{type_name}}</label>
+	{{view "form-fields/static-text-form-field" value=view.model.source.formatted_bank_name emptyText="unknown" labelText="Bank" inputClassNames="full"}}
 
-				<div class="controls">
-					<span class="label1a">{{view.funding_instrument.title_description}}</span>
-				</div>
-			</div>
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
 
-			<div class="control-group">
-				<label class="control-label">Name on account</label>
+	{{view "form-fields/text-form-field" model=view.model field="appears_on_statement_as" labelText=view.appearsOnStatementAsLabelText maxlength=view.model.source.appears_on_statement_max_length inputClassNames="full"}}
 
-				<div class="controls">
-					<span class="label1a">{{view.funding_instrument.name}}</span>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<label class="control-label">Bank</label>
-
-				<div class="controls">
-					<span class="label1a">{{sentence-case view.funding_instrument.bank_name}}</span>
-				</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.amount:error"}}>
-				<label class="control-label">Amount</label>
-
-				<div class="controls">
-					<div class="input-prepend">
-						<span class="add-on">$</span>
-						{{view Ember.TextField valueBinding="view.dollar_amount" name="dollar_amount" class="span3"}}
-					</div>
-				</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.appears_on_statement_as:error"}}>
-				<label class="control-label">Appears on statement as ({{view.funding_instrument.appears_on_statement_max_length}} characters max)</label>
-
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.appears_on_statement_as" name="appears_on_statement_as" class="full" maxlengthBinding="view.funding_instrument.appears_on_statement_max_length"}}
-				</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.description:error"}}>
-				<label class="control-label">Internal Description</label>
-
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.description" name="description" class="full" maxlengthBinding="Constants.MAXLENGTH.DESCRIPTION"}}
-				</div>
-			</div>
-		</div>
-
-		<div class="modal-footer">
-			{{view "modals/action-buttons" submitTitle="Debit"}}
-		</div>
-	</form>
-</div>
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" inputClassNames="full" maxlength=Constants.MAXLENGTH.DESCRIPTION}}
+{{/view}}

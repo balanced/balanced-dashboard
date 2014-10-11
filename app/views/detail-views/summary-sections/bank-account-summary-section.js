@@ -1,4 +1,5 @@
 import SummarySectionView from "./summary-section";
+import Utils from "balanced-dashboard/lib/utils";
 
 var BankAccountSummarySectionView = SummarySectionView.extend({
 	statusText: function() {
@@ -10,9 +11,12 @@ var BankAccountSummarySectionView = SummarySectionView.extend({
 			return 'You may only credit to this bank account. You must verify this bank account to debit from it.';
 		} else if (status === 'unverifiable') {
 			return 'You may only credit to this bank account. This bank account is unverifiable because it\'s not associated with a customer.';
+		} else if (status === 'failed') {
+			return 'We could not verify your bank account. You may restart verification process after three business days after %@.'.fmt(Utils.humanReadableDateShort(this.get('model.verification.updated_at')));
 		}
+
 		return undefined;
-	}.property('status'),
+	}.property('status', 'model.verification.updated_at'),
 
 	statusButtonModalView: function() {
 		var status = this.get('status');

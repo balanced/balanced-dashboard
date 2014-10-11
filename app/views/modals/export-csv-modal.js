@@ -1,5 +1,6 @@
 import Ember from "ember";
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
 var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
@@ -19,14 +20,13 @@ var ExportTransactionCreator = Ember.Object.extend(Ember.Validations, {
 	},
 });
 
-var ExportCsvModalView = ModalBaseView.extend(Save, {
+var ExportCsvModalView = ModalBaseView.extend(Form, Save, {
+	classNames: ["wide-modal"],
 	templateName: "modals/export-csv-modal",
-	title: "Export data",
 	elementId: "download-csv",
-
-	getNotificationController: function() {
-		return this.get("container").lookup("controller:notification_center");
-	},
+	title: "Export data",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Export",
 
 	model: function() {
 		return ExportTransactionCreator.create({

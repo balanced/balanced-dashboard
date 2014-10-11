@@ -1,31 +1,25 @@
 import ModalBaseView from "./modal-base";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import Constants from "balanced-dashboard/utils/constants";
-import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
-var CardDebitCreateModalView = ModalBaseView.extend(Save, Wide, {
-	title: "Debit a card",
+var CardDebitCreateModalView = ModalBaseView.extend(Save, Full, Form, {
 	templateName: "modals/card-debit-create-modal",
 	elementId: "charge-card",
+	title: "Debit a card",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Debit",
 
 	model: function() {
 		var DebitCardTransactionFactory = require("balanced-dashboard/models/factories/debit-card-transaction-factory")['default'];
 		return DebitCardTransactionFactory.create();
 	}.property(),
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
-	appearsOnStatementAsLabel: function() {
+	appearsOnStatementAsLabelText: function() {
 		var length = this.get("appearsOnStatementAsMaxLength");
 		return "Appears on statement as (%@ characters max)".fmt(length);
 	}.property("appearsOnStatementAsMaxLength"),
-
-	validMonths: Constants.TIME.MONTHS,
-	validYears: function() {
-		var years = [];
-		var currentYear = (new Date()).getFullYear();
-		return _.times(10, function(i) {
-			return currentYear + i;
-		});
-	}.property(),
 
 	actions: {
 		save: function() {

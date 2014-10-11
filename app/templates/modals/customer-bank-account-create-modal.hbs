@@ -1,55 +1,34 @@
-<form {{action "save" on="submit" target=view}} class="form-horizontal split-labels">
-	<div class="modal-body modal-with-headers">
-		{{partial "modals/modal-errors"}}
-		<div class="modal-content">
-			<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-				<label class="control-label">Name on account</label>
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
-					<div class="alert alert-error row-full label4b">{{format-error view.model.validationErrors.name}}</div>
-				</div>
-			</div>
+{{#view "form-fields/form-section" bankAccountTypes=view.bankAccountTypes model=view.model sectionTitle="Bank account information"}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Name on account"
+		field="name"
+		inputClassNames="full"
+	}}
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.routing_number:error"}}>
-				<label class="control-label">Routing Number</label>
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.routing_number" name="routing_number" class="full"}}
-					<div class="alert alert-error row-full label4b">{{format-error view.model.validationErrors.routing_number}}</div>
-				</div>
-			</div>
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Routing number"
+		field="routing_number"
+		inputClassNames="full"
+		tooltipTitle="Where is the routing number?"
+		tooltipContent='<img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>'
+	}}
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.account_number:error"}}>
-				<label class="control-label">Account number</label>
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.account_number" name="account_number" class="full"}}
-					<div class="alert alert-error row-full label4b">{{format-error view.model.validationErrors.account_number}}</div>
-				</div>
-			</div>
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Account number"
+		field="account_number"
+		inputClassNames="full"
+		tooltipTitle="Where is the account number?"
+		tooltipContent='<img src="images/bank-account-instructions.png" alt="Bank Account Instructions"/>'
+	}}
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.type:error"}}>
-				<label class="control-label" {{bind-attr for=view.accountType.elementId}}>Account type</label>
-
-				<div class="controls">
-					{{view Ember.Select
-						content=view.bankAccountTypes
-						optionValuePath="content.value"
-						optionLabelPath="content.label"
-						value=view.model.account_type
-						name="account_type"
-						viewName="accountType"
-					}}
-				</div>
-
-				{{#each message in view.model.validationErrors.type.fullMessages}}
-					<div class="alert alert-error label4b">
-						{{format-error message}}
-					</div>
-				{{/each}}
-			</div>
-		</div>
-		<div class="modal-informational">
-			<img src="images/bank-account-instructions.png" alt="Bank Account Instructions" class="modal-informational-content"/>
-		</div>
-	</div>
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Add"}}
-</form>
+	{{view "form-fields/select-form-field"
+		model=view.model
+		content=view.bankAccountTypes
+		labelText="Bank account type"
+		name="account_type"
+		field="account_type"
+	}}
+{{/view}}

@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 var SidePanelView = Ember.View.extend({
-	classNameBindings: [":side-panel", ":span8"],
+	classNameBindings: [":side-panel"],
 	layoutName: "detail-views/side-panel-layout"
 });
 

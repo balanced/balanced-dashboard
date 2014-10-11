@@ -9,6 +9,14 @@ import Models from "../helpers/models";
 
 var App, Adapter;
 
+var setCardProperties = function(properties) {
+	var controller = BalancedApp.__container__.lookup('controller:cards');
+	var model = controller.get('model');
+	Ember.run(function() {
+		model.setProperties(properties);
+	});
+};
+
 module('Integration - Card Page', {
 	setup: function() {
 		App = startApp();
@@ -35,55 +43,31 @@ test('debit card', function() {
 
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
-			var controller = BalancedApp.__container__.lookup('controller:cards');
-			var model = controller.get('model');
-			Ember.run(function() {
-				model.set('customer', true);
+			setCardProperties({
+				customer: true
 			});
 		})
 		.click(".page-actions a:contains(Debit)")
-		.checkElements({
-			'label.control-label:contains(characters max):visible': "Appears on statement as (18 characters max)",
-		})
+		.check('#debit-funding-instrument label:contains(characters max)', "Appears on statement as (18 characters max)")
 		.then(function() {
-			equal(
-				$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-				'18'
-			);
+			var l = $('#debit-funding-instrument input[name=appears_on_statement_as]').prop('maxlength');
+			equal(l, 18);
 		})
 		.fillForm("#debit-funding-instrument", {
 			dollar_amount: "1000",
-			description: "Test debit"
-		})
-		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
-		.then(function() {
-			ok(spy.calledOnce);
-			ok(spy.calledWith(Models.Debit, "/cards/" + Testing.CARD_ID + "/debits", sinon.match({
-				amount: 100000,
-				description: "Test debit"
-			})));
-		});
-});
-
-test('debiting only submits once despite multiple clicks', function() {
-	var spy = sinon.stub(Adapter, "create");
-
-	visit(Testing.CARD_ROUTE)
-		.then(function() {
-			var controller = BalancedApp.__container__.lookup('controller:cards');
-			var model = controller.get('model');
-			Ember.run(function() {
-				model.set('customer', true);
-			});
-		})
-		.click(".page-actions a:contains(Debit)")
-		.fillForm("#debit-funding-instrument", {
-			dollar_amount: "1000",
-			description: "Test debit"
+			description: "Test debit",
+			appears_on_statement_as: "Test transaction"
 		})
 		.clickMultiple('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(spy.calledOnce);
+			deepEqual(spy.firstCall.args[0], Models.lookupFactory("debit"));
+			deepEqual(spy.firstCall.args[1], "/cards/" + Testing.CARD_ID + "/debits");
+			matchesProperties(spy.firstCall.args[2], {
+				amount: 100000,
+				description: "Test debit",
+				appears_on_statement_as: "Test transaction"
+			});
 		});
 });
 
@@ -92,57 +76,27 @@ test('hold card', function() {
 
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
-			var controller = BalancedApp.__container__.lookup('controller:cards');
-			var model = controller.get('model');
-			Ember.run(function() {
-				model.set('customer', true);
+			setCardProperties({
+				customer: true
 			});
 		})
 		.click(".page-actions a:contains(Hold)")
-		.then(function() {
-			ok($('#hold-card').is(':visible'), 'Hold Card Modal Visible');
-		})
+		.check("#hold-card", 1)
 		.fillForm("#hold-card", {
 			dollar_amount: "1000",
 			description: "Test Hold"
 		})
-		.click("#hold-card .modal-footer button[name=modal-submit]")
+		.clickMultiple("#hold-card .modal-footer button[name=modal-submit]")
 		.then(function() {
-			var expectedAttributes = {
+			var args = spy.firstCall.args;
+			ok(spy.calledOnce, "Adapter.create called");
+			deepEqual(args[0], Models.lookupFactory("hold"));
+			deepEqual(args[1], "/cards/" + Testing.CARD_ID + "/card_holds");
+			matchesProperties(args[2], {
 				amount: 100000,
 				description: "Test Hold",
 				source_uri: "/cards/" + Testing.CARD_ID
-			};
-
-			var args = spy.firstCall.args;
-			ok(spy.calledOnce, "Adapter.create called");
-			equal(args[0], Models.Hold);
-			equal(args[1], "/cards/" + Testing.CARD_ID + "/card_holds");
-			_.each(expectedAttributes, function(value, key) {
-				equal(args[2][key], value);
 			});
-		});
-});
-
-test('holding only submits once despite multiple clicks', function() {
-	var stub = sinon.stub(Adapter, "create");
-
-	visit(Testing.CARD_ROUTE)
-		.then(function() {
-			var controller = BalancedApp.__container__.lookup('controller:cards');
-			var model = controller.get('model');
-			Ember.run(function() {
-				model.set('customer', true);
-			});
-		})
-		.click(".page-actions a:contains(Hold)")
-		.fillForm("#hold-card", {
-			dollar_amount: "1000",
-			description: "Test debit"
-		})
-		.clickMultiple('#hold-card .modal-footer button[name=modal-submit]')
-		.then(function() {
-			ok(stub.calledOnce);
 		});
 });
 
@@ -153,9 +107,8 @@ test('renders metadata correctly', function() {
 	};
 	visit(Testing.CARD_ROUTE)
 		.then(function() {
-			var controller = BalancedApp.__container__.lookup("controller:cards");
-			Ember.run(function() {
-				controller.get("model").set("meta", metaData);
+			setCardProperties({
+				meta: metaData
 			});
 		})
 		.checkElements({

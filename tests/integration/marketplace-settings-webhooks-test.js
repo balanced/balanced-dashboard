@@ -52,26 +52,11 @@ test('can add webhooks', function() {
 		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
 		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.0')
 		.click('#add-callback .modal-footer button[name=modal-submit]')
+		.click('#add-callback .modal-footer button[name=modal-submit]')
+		.click('#add-callback .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledOnce);
 			equal(stub.getCall(0).args[2].revision, '1.0');
-			equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
-		});
-});
-
-test('webhooks get created once if submit button is clicked multiple times', function() {
-	var stub = sinon.stub(Adapter, "create");
-
-	visit(Testing.SETTINGS_ROUTE)
-		.click(".webhook-info .add")
-		.fillIn("#add-callback .modal-body input[name=url]", 'http://www.example.com/something')
-		.fillIn("#add-callback .modal-body select[name=callback-revision]", '1.1')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.click('#add-callback .modal-footer button[name=modal-submit]')
-		.then(function() {
-			ok(stub.calledOnce);
-			equal(stub.getCall(0).args[2].revision, '1.1');
 			equal(stub.getCall(0).args[2].url, 'http://www.example.com/something');
 		});
 });

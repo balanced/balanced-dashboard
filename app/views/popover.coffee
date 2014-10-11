@@ -2,7 +2,7 @@
 
 PopoverView = Ember.View.extend
 	tagName: 'a'
-	attributeBindings: ['class', 'data-toggle', 'data-placement', 'data-original-title', 'data-content', 'data-html', 'data-trigger']
+	attributeBindings: ['class', 'data-toggle', 'data-placement', 'data-original-title', 'data-content', 'data-html', 'data-trigger', 'data-template']
 	'data-toggle': 'popover'
 
 	didInsertElement: ->

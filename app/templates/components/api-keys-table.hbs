@@ -1,16 +1,15 @@
 <table class="items non-interactive api-keys-info">
 	<thead>
-		<th class="span3"><span>Date</span></th>
-		<th class="span3"><span>Name</span></th>
-		<th class="span8"><span>Secret</span></th>
-		<th class="span1"><span></span></th>
+		<th class="col-md-3"><span>Date</span></th>
+		<th class="col-md-3"><span>Name</span></th>
+		<th class="col-md-5"><span>Secret</span></th>
+		<th class="col-md-1"><span></span></th>
 	</thead>
 	<tbody>
 		{{#each key in keys}}
 			<tr>
 				{{view "tables/cells/linked-date-cell"
 					item=key
-					classNames="span3"
 					date=key.created_at
 				}}
 				<td {{bind-attr title="key.meta.name"}}>
@@ -25,8 +24,8 @@
 						{{#if key.secret}}
 							{{api-key-secret-shower key=key}}
 						{{else}}
-							{{#view "popover" class="sl-none" data-trigger="hover" data-placement="top" data-original-title="Secret Unavailable" data-content="You cannot view the key secret for keys created outside of the Dashboard or created by other users."}}
-							Secret unavailable
+							{{#view "popover" class="sl-none" data-trigger="hover" data-placement="top" data-original-title="Secret unavailable" data-content="You cannot view the key secret for keys created outside of the Balanced Dashboard or created by other users."}}
+								Secret unavailable
 							{{/view}}
 						{{/if}}
 					</span>

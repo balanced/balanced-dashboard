@@ -44,7 +44,7 @@ test('can add api key', function() {
 			equal(stub.firstCall.args[0], Models.lookupFactory("api-key"));
 		})
 		.click('.create-api-key-btn')
-		.fillIn('#api-key-create [name=apiKeyName]', 'Test1234')
+		.fillIn('#api-key-create [name=keyName]', 'Test1234')
 		.click('#api-key-create button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledTwice);

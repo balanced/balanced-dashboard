@@ -41,44 +41,35 @@ test('credit bank account', function() {
 	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.click(".page-navigation a.credit-button")
-		.checkText('label.control-label:contains(characters max):visible', 'Appears on statement as (14 characters max)')
+		.click(".page-navigation a:contains(Credit)")
+		.checkText('#credit-funding-instrument label:contains(characters max)', 'Appears on statement as (14 characters max)')
 		.then(function() {
-			equal(
-				$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-				'14'
-			);
+			var attribute = $('#credit-funding-instrument input[name=appears_on_statement_as]').prop("maxLength");
+			equal(attribute, 14);
 		})
-		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
-		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
+		.fillForm("#credit-funding-instrument", {
+			dollar_amount: '1000',
+			description: 'Test credit',
+			appears_on_statement_as: "Test transaction"
+		})
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
 		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
-			// should be one create for the debit
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.Credit, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits', sinon.match({
+			deepEqual(stub.firstCall.args[0], Models.lookupFactory("credit"));
+			deepEqual(stub.firstCall.args[1], '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits');
+			matchesProperties(stub.firstCall.args[2], {
 				amount: 100000,
-				description: "Test credit"
-			})));
+				description: "Test credit",
+				appears_on_statement_as: "Test transaction"
+			});
 		});
 });
 
-test('crediting only submits once despite multiple clicks', function() {
-	var stub = sinon.stub(Adapter, "create");
-
-	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.click(".page-navigation a.credit-button")
-		.fillIn('#credit-funding-instrument .modal-body input[name="dollar_amount"]', '1000')
-		.fillIn('#credit-funding-instrument .modal-body input[name="description"]', 'Test credit')
-		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
-		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
-		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
-		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
-		.then(function() {
-			ok(stub.calledOnce);
-		});
-});
-
-test('debit bank account', 4, function() {
+test('debit bank account', function() {
 	var stub = sinon.stub(Adapter, "create");
 
 	visit(Testing.BANK_ACCOUNT_ROUTE)
@@ -87,52 +78,30 @@ test('debit bank account', 4, function() {
 				can_debit: true
 			});
 		})
-		.click(".page-navigation a.debit-button")
+		.click(".page-navigation a:contains(Debit)")
+		.checkText('#debit-funding-instrument label:contains(characters max)', 'Appears on statement as (14 characters max)')
 		.then(function() {
-			// opened the modal
-			equal(
-				$('label.control-label:contains(characters max):visible').text(),
-				'Appears on statement as (14 characters max)'
-			);
-			equal(
-				$('input[name="appears_on_statement_as"]:visible').attr('maxlength'),
-				'14'
-			);
+			var attr = $('#debit-funding-instrument input[name=appears_on_statement_as]').prop('maxLength');
+			equal(attr, 14);
 		})
 		.fillForm("#debit-funding-instrument", {
 			dollar_amount: '1000',
-			description: 'Test debit'
+			description: 'Test debit',
+			appears_on_statement_as: "Test transaction"
 		})
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
+		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.Debit, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/debits', sinon.match({
+			deepEqual(stub.firstCall.args[0], Models.lookupFactory("debit"));
+			deepEqual(stub.firstCall.args[1], '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/debits');
+			matchesProperties(stub.firstCall.args[2], {
 				amount: 100000,
-				description: "Test debit"
-			})));
-		});
-});
-
-test('debiting only submits once despite multiple clicks', function() {
-	var stub = sinon.stub(Adapter, "create");
-
-	visit(Testing.BANK_ACCOUNT_ROUTE)
-		.then(function() {
-			setBankAccountProperties({
-				can_debit: true
+				description: "Test debit",
+				appears_on_statement_as: "Test transaction"
 			});
-		})
-		.click(".page-navigation a.debit-button")
-		.fillForm("#debit-funding-instrument", {
-			dollar_amount: '1000',
-			description: 'Test debit'
-		})
-		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
-		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
-		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
-		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
-		.then(function() {
-			ok(stub.calledOnce);
 		});
 });
 
@@ -148,9 +117,7 @@ test('can initiate bank account verification', function() {
 			});
 		})
 		.click(".status a:contains(Verify)")
-		.then(function() {
-			ok($('#verify-bank-account:visible'), 'verify bank account modal visible');
-		})
+		.check('#verify-bank-account', 1)
 		.click('#verify-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(stub.calledOnce);

@@ -1,20 +1,25 @@
 {{#view "form-fields/form-section" model=view.model accountTypes=view.accountTypes sectionTitle="Bank account information"}}
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
 		labelText="Name on account"
 		field="name"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model
+	{{view "form-fields/text-form-field"
+		model=view.model
 		labelText="Routing number"
 		field="routing_number"
 	}}
 
-	{{view "form-fields/text-form-field" model=view.model
+	{{view "form-fields/text-form-field"
+		model=view.model
 		labelText="Account number"
 		field="account_number"
 	}}
 
-	{{view "form-fields/select-form-field" model=view.model
+	{{view "form-fields/select-form-field"
+		model=view.model
 		content=view.accountTypes
 		labelText="Bank account type"
 		field="account_type"
@@ -51,12 +56,12 @@
 					content=view.parentView.expirationMonths
 					value=view.model.expiration_month
 					viewName="expirationMonth"
-					class="span2"
+					class="col-md-2"
 				}}
 				{{view Ember.Select
 					content=view.parentView.expirationYears
 					value=view.model.expiration_year
-					class="span2"
+					class="col-md-2"
 				}}
 			</div>
 			{{#each message in view.model.validationErrors.expiration_date.fullMessages}}

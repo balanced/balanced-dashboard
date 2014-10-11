@@ -24,7 +24,6 @@ var ModalsContainerController = Ember.Controller.extend({
 		}
 
 		modalView = klass.open.apply(klass, args);
-
 		var modalsContainer = this.get("modalsContainer");
 
 		Ember.run(function() {

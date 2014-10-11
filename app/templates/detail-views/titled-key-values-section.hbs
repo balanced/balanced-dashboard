@@ -2,10 +2,6 @@
 	<h3>
 		{{view.title}}
 
-		{{#if view.titleModalLinkView}}
-			{{view view.titleModalLinkView}}
-		{{/if}}
-
 		{{#if view.editModelModalClass}}
 			<a class="pull-right edit-model-link" {{action "openModal" view.editModelModalClass view.model}}>
 				<i class="icon-edit"></i>

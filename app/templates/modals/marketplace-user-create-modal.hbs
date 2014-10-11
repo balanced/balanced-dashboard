@@ -1,12 +1,9 @@
-<form {{action "submit" view.userInvite target=view on="submit"}}>
-	<div class="modal-body">
-		<div {{bind-attr class=":control-group view.userInvite.validationErrors.email_address:error"}}>
-			<label class="control-label">Enter user's email</label>
-			<div class="controls">
-				{{view Ember.TextField type="text" value=view.userInvite.email_address class="full" name="email_address"}}
-				<div class="alert alert-error label4b">{{format-error view.userInvite.validationErrors.email_address}}</div>
-			</div>
-		</div>
-	</div>
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Add"}}
-</form>
+{{#view "form-fields/form-section" userInvite=view.userInvite model=view.model}}
+	{{view "form-fields/text-form-field"
+		model=view.userInvite
+		inputClassNames="full"
+		labelText="Email address"
+		field="email_address"
+		name="email_address"
+	}}
+{{/view}}

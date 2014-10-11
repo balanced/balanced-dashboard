@@ -1,50 +1,64 @@
-.popover.top .arrow:after {
-  border-top-color: @black;
+.icon-tooltip {
+  font-size: 16px;
+  margin-left: 3px;
 }
 
 .popover {
-  background-color: @black;
+  .sl;
+  padding: 30px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: @white;
+  text-align: left;
+  max-width: 300px;
+  .box-shadow(0px, 1px, 4px, @gray2);
 
   .popover-title {
-    .sl-md;
-  	padding: 15px 20px 15px 20px;
-  	background-color: @black;
-  	color: @white;
+    .sl-md-sb;
+  	padding: 0;
+    background-color: @white;
+    border-bottom: none;
+    border-radius: 0;
   }
 
   .popover-content {
     .sl;
-  	padding: 20px;
-  	color: @white;
-  }
-}
+    color: @gray6;
+  	padding: 10px 0;
 
-.check_image_tool_tip, .card_security_image_tool_tip {
-  width: 280px;
-  height: 155px;
-}
-
-
-.icon-tooltip {
-  position: absolute;
-  top: -1000px;
-  left: 350px;
-  color: @gray4;
-  margin-left: 10px;
-
-  &:hover, &.hover {
-    color: @black;
+    img {
+      max-width: 240px;
+    }
   }
 
-  &.tooltip_account_number {
-    top: 145px;
+  &.top > .arrow {
+    border-top-color: @gray2;
+
+    &:after {
+      border-top-color: @white;
+    }
   }
 
-  &.tooltip_routing_number {
-    top: 235px;
-  }
+  &.bottom > .arrow {
+    border-bottom-color: @gray2;
 
-  &.tooltip_card {
-    top: 228px;
+    &:after {
+      border-bottom-color: @white;
+    }
+  }
+  &.right > .arrow {
+    border-right-color: @gray2;
+
+    &:after {
+      border-right-color: @white;
+    }
+  }
+  &.left > .arrow {
+    border-left-color: @gray2;
+
+    &:after {
+      border-left-color: @white;
+    }
   }
 }

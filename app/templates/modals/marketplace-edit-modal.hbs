@@ -1,41 +1,29 @@
-<form class="form-horizontal split-labels" {{action "save" on="submit" target="view"}}>
-	<div class="modal-body modal-with-headers">
-		{{partial "modals/modal-errors"}}
+{{#view "form-fields/form-section" model=view.model sectionTitle="Bank account information"}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
+		labelText="Name"
+		field="name"
+	}}
 
-		<div class="modal-content">
-			<div {{bind-attr class=":control-group view.model.validationErrors.name:error"}}>
-				<label class="control-label">Name</label>
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
+		labelText="Support email"
+		field="support_email_address"
+	}}
 
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.name" name="name" class="full"}}
-				</div>
-			</div>
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
+		labelText="Domain URL"
+		field="domain_url"
+	}}
 
-			<div {{bind-attr class=":control-group view.model.validationErrors.support_email_address:error"}}>
-				<label class="control-label">Support email</label>
-
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.support_email_address" name="support_email_address" class="full"}}
-				</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.domain_url:error"}}>
-				<label class="control-label">Domain URL</label>
-
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.domain_url" name="domain_url" class="full"}}
-				</div>
-			</div>
-
-			<div {{bind-attr class=":control-group view.model.validationErrors.support_phone_number:error"}}>
-				<label class="control-label">Support phone number</label>
-
-				<div class="controls">
-					{{view Ember.TextField valueBinding="view.model.support_phone_number" name="support_phone_number" class="full"}}
-				</div>
-			</div>
-		</div>
-	</div>
-
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Save"}}
-</form>
+	{{view "form-fields/text-form-field"
+		model=view.model
+		inputClassNames="full"
+		labelText="Support phone number"
+		field="support_phone number"
+	}}
+{{/view}}

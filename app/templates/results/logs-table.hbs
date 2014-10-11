@@ -1,13 +1,13 @@
 <thead>
 	<tr>
-		<th class="span3 label6a has-filter">{{#view "results/results-sortable-column-header" class="sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}</th>
-		<th class="span3 label6a has-filter endpoint-filter">
+		<th class="col-md-2 label6a has-filter">{{#view "results/results-sortable-column-header" class="sortable unsorted" field="created_at"}}<span>Date</span>{{/view}}</th>
+		<th class="col-md-2 label6a has-filter endpoint-filter">
 			{{view "results/logs-endpoint-results-dropdown-filter" model=view.loader}}
 		</th>
-		<th class="span3 label6a has-filter status-filter">
+		<th class="col-md-2 label6a has-filter status-filter">
 			{{view "results/logs-status-results-dropdown-filter" model=view.loader}}
 		</th>
-		<th class="span11 label6a"><span>Method &amp; URI</span></th>
+		<th class="col-md-6 label6a"><span>Method &amp; URI</span></th>
 	</tr>
 </thead>
 
@@ -18,9 +18,9 @@
 <tbody>
 	{{#each log in view.loader.results}}
 		<tr>
-			{{view "tables/cells/linked-date-cell" routeName=log.route_name date=log.created_at item=log classNames="span3"}}
-			{{view "tables/cells/titled-linked-cell" routeName=log.route_name item=log labelText=log.endpoint classNames="span3 endpoint"}}
-			{{view "tables/cells/logs/log-status-cell" item=log classNames="span3 status two-line"}}
+			{{view "tables/cells/linked-date-cell" routeName=log.route_name date=log.created_at item=log}}
+			{{view "tables/cells/titled-linked-cell" routeName=log.route_name item=log labelText=log.endpoint classNames="endpoint"}}
+			{{view "tables/cells/logs/log-status-cell" item=log classNames="status two-line"}}
 			{{view "tables/cells/logs/log-description-cell" item=log}}
 		</tr>
 	{{else}}

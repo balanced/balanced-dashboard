@@ -14,7 +14,6 @@ module('Integration - Customer Page: Add', {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Testing.setupMarketplace();
 		Testing.createBankAccount();
 		Testing.createCard();
 	},
@@ -65,28 +64,12 @@ test('can add card', function() {
 		}]
 	});
 
-	var expectedArgs = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		cvv: '123',
-		name: 'TEST',
-		address: {
-			"city": "Nowhere",
-			"country_code": null,
-			"line1": null,
-			"line2": null,
-			"postal_code": "90210",
-			"state": null
-		}
-	};
-
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.main-panel a:contains(Add a card)')
 		.fillForm('#add-card', {
 			number: '1234123412341234',
-			expiration_month: 1,
-			expiration_year: 2020,
+			expiration_date_month: 1,
+			expiration_date_year: 2020,
 			cvv: '123',
 			name: 'TEST'
 		})
@@ -94,8 +77,20 @@ test('can add card', function() {
 		.then(function() {
 			var callArgs = tokenizingStub.firstCall.args;
 			ok(tokenizingStub.calledOnce);
-			_.each(expectedArgs, function(val, key) {
-				deepEqual(callArgs[0][key], val);
+			matchesProperties(callArgs[0], {
+				number: '1234123412341234',
+				expiration_month: 1,
+				expiration_year: 2020,
+				cvv: '123',
+				name: 'TEST'
+			});
+			matchesProperties(callArgs[0].address, {
+				city: "Nowhere",
+				country_code: null,
+				line1: null,
+				line2: null,
+				postal_code: "90210",
+				state: null
 			});
 		});
 });
@@ -110,39 +105,35 @@ test('can add card with postal code', function() {
 			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
-	var input = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		cvv: '123',
-		name: 'TEST',
-		postal_code: '94612'
-	};
-	var expected = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		cvv: '123',
-		name: 'TEST',
-		address: {
-			"city": "Nowhere",
-			"country_code": null,
-			"line1": null,
-			"line2": null,
-			"postal_code": "94612",
-			"state": null
-		}
-	};
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.main-panel a:contains(Add a card)')
-		.fillForm('#add-card', input)
+		.fillForm('#add-card', {
+			number: '1234123412341234',
+			expiration_date_month: 1,
+			expiration_date_year: 2020,
+			cvv: '123',
+			name: 'TEST',
+			address_postal_code: '94612'
+		})
 		.click('#add-card .modal-footer button[name="modal-submit"]')
 		.then(function() {
 			var callArgs = tokenizingStub.firstCall.args;
 			ok(tokenizingStub.calledOnce);
-			_.each(expected, function(val, key) {
-				deepEqual(callArgs[0][key], val);
+			matchesProperties(callArgs[0], {
+				number: '1234123412341234',
+				expiration_month: 1,
+				expiration_year: 2020,
+				cvv: '123',
+				name: 'TEST',
+			});
+			matchesProperties(callArgs[0].address, {
+				city: "Nowhere",
+				country_code: null,
+				line1: null,
+				line2: null,
+				postal_code: "94612",
+				state: null
 			});
 		});
 });
@@ -156,57 +147,45 @@ test('can add card with address', function() {
 			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
-	var input = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		cvv: '123',
-		name: 'TEST',
-		postal_code: '94612',
-		line1: '600 William St',
-		line2: 'Apt 400',
-		city: 'Oakland',
-		state: 'CA',
-		country_code: 'US'
-	};
-	var expected = {
-		number: '1234123412341234',
-		expiration_month: 1,
-		expiration_year: 2020,
-		cvv: '123',
-		name: 'TEST',
-		address: {
-			postal_code: '94612',
-			line1: '600 William St',
-			line2: 'Apt 400',
-			city: 'Oakland',
-			state: 'CA',
-			country_code: 'US'
-		}
-	};
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.main-panel a:contains(Add a card)')
-		.click('#add-card a.more-info')
-		.fillForm('#add-card', input, {
-			click: '.modal-footer button[name="modal-submit"]'
+		.fillForm('#add-card', {
+			number: '1234123412341234',
+			expiration_date_month: 1,
+			expiration_date_year: 2020,
+			cvv: '123',
+			name: 'TEST',
+			address_postal_code: '94612',
+			address_line1: '600 William St',
+			address_line2: 'Apt 400',
+			address_city: 'Oakland',
+			address_state: 'CA',
+			country_code: 'US'
 		})
+		.click('.modal-footer button[name="modal-submit"]')
 		.then(function() {
-
-			// this tests balanced.js
-			ok(tokenizingStub.calledOnce);
-			ok(tokenizingStub.calledWith(sinon.match(expected)));
 			var callArgs = tokenizingStub.firstCall.args;
 			ok(tokenizingStub.calledOnce);
-			_.each(expected, function(val, key) {
-				deepEqual(callArgs[0][key], val);
+			matchesProperties(callArgs[0], {
+				number: '1234123412341234',
+				expiration_month: 1,
+				expiration_year: 2020,
+				cvv: '123',
+				name: 'TEST',
+			});
+			matchesProperties(callArgs[0].address, {
+				postal_code: '94612',
+				line1: '600 William St',
+				line2: 'Apt 400',
+				city: 'Oakland',
+				state: 'CA',
+				country_code: 'US'
 			});
 		});
 });
 
 test('verification renders properly against rev1', function() {
 	visit(Testing.CUSTOMER_ROUTE)
-		.checkElements({
-			".status.verified": "Verified"
-		});
+		.check(".status.verified", "Verified");
 });

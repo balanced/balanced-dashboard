@@ -1,9 +1,10 @@
 import Ember from "ember";
+import SelectFormFieldView from "./select-form-field";
 import { CountryCodes } from "balanced-dashboard/lib/country-codes";
 
-var CountrySelectView = Ember.Select.extend({
+var CountrySelectView = SelectFormFieldView.extend({
 	content: CountryCodes,
-	classNames: ["country-select"],
+	inputClassNames: ["country-select", "full"],
 	optionValuePath: "content.code",
 	optionLabelPath: "content.name",
 	prompt: " "

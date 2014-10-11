@@ -76,7 +76,7 @@ test('credit reversal errors', function() {
 			.fillIn('#reverse-credit .modal-body input[name=dollar_amount]', amount)
 			.click('#reverse-credit .modal-footer button[name=modal-submit]')
 			.checkElements({
-				"#reverse-credit .control-group.error": 1
+				"#reverse-credit .form-group.has-error": 1
 			})
 			.click("#reverse-credit .close");
 	});

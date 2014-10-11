@@ -1,17 +1,19 @@
 import Computed from "balanced-dashboard/utils/computed";
-import Constants from "balanced-dashboard/utils/constants";
 import ModalBaseView from "./modal-base";
-import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
+import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
+import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
-import Card from "balanced-dashboard/models/card";
+import CardValidatable from "balanced-dashboard/models/card-validatable";
 
-var CustomerCardCreateModalView = ModalBaseView.extend(Wide, Save, {
+var CustomerCardCreateModalView = ModalBaseView.extend(Full, Form, Save, {
 	templateName: 'modals/customer-card-create-modal',
 	elementId: "add-card",
 	title: "Add a card",
+	cancelButtonText: "Cancel",
+	submitButtonText: "Add",
 
 	model: function() {
-		return Card.create({
+		return CardValidatable.create({
 			name: '',
 			number: '',
 			cvv: '',
@@ -21,44 +23,21 @@ var CustomerCardCreateModalView = ModalBaseView.extend(Wide, Save, {
 		});
 	}.property(),
 
-	validMonths: Constants.TIME.MONTHS,
-	optionalFieldsOpen: false,
-
-	validYears: function() {
-		var years = [];
-
-		for (var year = (new Date()).getFullYear(), maxYear = year + 10; year < maxYear; year++) {
-			years.push(year);
-		}
-
-		return years;
-	}.property(),
-
 	expiration_error: Computed.orProperties('model.validationErrors.expiration_month', 'model.validationErrors.expiration_year'),
-
+	isSaving: Ember.computed.oneWay("model.isSaving"),
 
 	save: function(fundingInstrument) {
 		var self = this;
-		this.set("isSaving", true);
-		fundingInstrument.set("validationErrors", null);
+		fundingInstrument.get("validationErrors").clear();
 		return fundingInstrument
 			.tokenizeAndCreate(this.get('customer.id'))
 			.then(function(model) {
-				self.set("isSaving", false);
 				self.close();
 				return model;
-			}, function() {
-				self.set("isSaving", false);
-				return Ember.RSVP.reject();
 			});
 	},
 
 	actions: {
-		toggleOptionalFields: function() {
-			this.set('optionalFieldsOpen', !this.get('optionalFieldsOpen'));
-			this.reposition();
-		},
-
 		save: function() {
 			var controller = this.get("controller");
 			this.save(this.get("model"))
