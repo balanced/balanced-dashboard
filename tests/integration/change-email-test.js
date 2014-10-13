@@ -10,6 +10,10 @@ import helpers from "../helpers/helpers";
 import checkElements from "../helpers/check-elements";
 
 var App, Auth, Adapter = fixturesAdapter;
+var openChangeEmailModal = function() {
+	return visit(Testing.MARKETPLACES_ROUTE)
+		.click("#user-menu a:contains(Change email address)");
+};
 
 module('Integration - ChangeEmail', {
 	setup: function() {
@@ -25,8 +29,7 @@ module('Integration - ChangeEmail', {
 });
 
 test('clicking change email from header menu brings up modal', function() {
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-email a")
+	openChangeEmailModal()
 		.check("#change-email-modal", 1);
 });
 
@@ -34,8 +37,7 @@ test('change email form submits', function() {
 	var stub = sinon.stub(Adapter, "update");
 	var USER_EMAIL = 'foo+1@bar.com';
 
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-email a")
+	openChangeEmailModal()
 		.check("#change-email-modal .sl", Testing.FIXTURE_USER_EMAIL, 'Email is filled in')
 		.fillForm('#change-email-modal', {
 			email: USER_EMAIL,
@@ -61,8 +63,7 @@ test('change email form errors if no email', function() {
 		"email_address": "foo+1@bar.com",
 	});
 
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-email a")
+	openChangeEmailModal()
 		.fillForm('#change-email-modal form', {
 			email: '',
 			existing_password: '123456'
@@ -91,8 +92,7 @@ test('change email errors if no existing password', function() {
 		"email_address": USER_EMAIL
 	});
 
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-email a")
+	openChangeEmailModal()
 		.fillForm('#change-email-modal form', {
 			email: USER_EMAIL,
 		}, {

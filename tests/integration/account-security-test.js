@@ -65,7 +65,7 @@ test('Can disable', function() {
 	Auth.set('user.otp_enabled', true);
 
 	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .disable-auth a")
+		.click("#user-menu a:contains(Disable two-factor authentication)")
 		.checkText("#disable-auth h2", "Disable two-factor authentication")
 		.click('#disable-auth button[name=modal-submit]')
 		.then(function() {

@@ -161,7 +161,6 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-s3');
 	grunt.loadNpmTasks('grunt-exec');
@@ -181,7 +180,7 @@ module.exports = function(grunt) {
 		grunt task commands
 	*/
 
-	grunt.registerTask('default', ['clean', 'bower', 'copy', 'exec:ember_server']);
+	grunt.registerTask('default', ['clean', 'copy', 'exec:ember_server']);
 	grunt.registerTask('test', ['exec:ember_test']);
 	grunt.registerTask('build', ['exec:ember_build']);
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);

@@ -12,15 +12,13 @@
 		}}
 
 		{{view "form-fields/static-text-form-field"
-			model=view.model.source
+			value=view.model.source.name
 			labelText="Name on account"
-			field="name"
 		}}
 
 		{{view "form-fields/static-text-form-field"
-			model=view.model.source
+			value=view.model.source.formatted_bank_name
 			labelText="Bank"
-			field="formatted_bank_name"
 		}}
 	{{else}}
 		<div class="form-group">
