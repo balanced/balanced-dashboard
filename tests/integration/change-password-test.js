@@ -11,6 +11,11 @@ import checkElements from "../helpers/check-elements";
 
 var App, Auth, Adapter = fixturesAdapter;
 
+var openChangePasswordModal = function() {
+	return visit(Testing.MARKETPLACES_ROUTE)
+		.click("#user-menu a:contains(Change password)");
+};
+
 module('Integration - ChangePassword', {
 	setup: function() {
 		App = startApp({
@@ -25,8 +30,7 @@ module('Integration - ChangePassword', {
 });
 
 test('clicking change password from header menu brings up modal', function() {
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-password a")
+	openChangePasswordModal()
 		.check("#change-password-modal", 1);
 });
 
@@ -38,8 +42,7 @@ test('change password form submits', function() {
 		"admin": false
 	});
 
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-password a")
+	openChangePasswordModal()
 		.fillForm('#change-password-modal form', {
 			existing_password: '123456',
 			password: '12345678',
@@ -67,8 +70,7 @@ test('change password errors if no existing password', function() {
 		"admin": false
 	});
 
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click("#user-menu .change-password a")
+	openChangePasswordModal()
 		.fillForm('#change-password-modal form', {
 			password: '12345678',
 			confirm_password: '1234567'
