@@ -18,6 +18,16 @@ UserMenuView = BaseMenuView.extend(
 		else
 			return @get("auth.user.email_address")
 	).property("auth.isGuest", "auth.user.email_address")
+
+	administratorLinks: (->
+		@constructor.administratorLinks
+	).property()
+)
+
+UserMenuView.reopenClass(
+	administratorLinks: []
+	addAdministratorLink: (klass, attributes) ->
+		@administratorLinks.addObject klass.extend(attributes)
 )
 
 `export default UserMenuView;`
