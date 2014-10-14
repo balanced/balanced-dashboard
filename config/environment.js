@@ -38,12 +38,10 @@ module.exports = function(environment) {
 	}
 
 	if (environment === 'test') {
-		ENV.baseURL = '/';
 		ENV.rootElement = '#ember-testing';
 	}
 
 	if (environment === 'production') {
-		ENV.baseURL = '/';
 		ENV.BALANCED.MIXPANEL = '991598fc644dd5d0894e6cb070154330';
 		ENV.BALANCED.GOOGLE_ANALYTICS = 'UA-30733850-1';
 	}

@@ -126,6 +126,9 @@ module.exports = function(grunt) {
 			ember_build: {
 				command: 'ember build'
 			},
+			ember_build_production: {
+				command: "ember build --environment=production"
+			},
 			ember_server: {
 				command: 'ember server'
 			},
@@ -182,7 +185,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', ['clean', 'copy', 'exec:ember_server']);
 	grunt.registerTask('test', ['exec:ember_test']);
-	grunt.registerTask('build', ['exec:ember_build']);
+	grunt.registerTask('build', ['exec:ember_build_production']);
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 };
