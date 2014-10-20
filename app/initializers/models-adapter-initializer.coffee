@@ -1,6 +1,7 @@
 `import BaseConnection from "balanced-dashboard/lib/connections/base-connection";`
-`import Model from "balanced-dashboard/models/core/model"`
-`import ModelArray from "balanced-dashboard/models/core/model-array"`
+`import ENV from "balanced-dashboard/config/environment";`
+`import Model from "balanced-dashboard/models/core/model";`
+`import ModelArray from "balanced-dashboard/models/core/model-array";`
 
 ModelsAdapterInitializer =
 	name: "modelsAdapter"
@@ -27,8 +28,5 @@ ModelsAdapterInitializer =
 		container.register("adapter:main", adapter, {
 			instantiate: false
 		})
-		BaseConnection.ADAPTER = adapter
-		Model.ADAPTER = adapter
-		ModelArray.ADAPTER = adapter
 
 `export default ModelsAdapterInitializer;`

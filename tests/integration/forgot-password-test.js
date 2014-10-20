@@ -1,4 +1,5 @@
 import startApp from '../helpers/start-app';
+import fixturesAdapter from "../helpers/fixtures-adapter";
 import Testing from "../helpers/testing";
 
 import checkElements from "../helpers/check-elements";
@@ -11,13 +12,16 @@ var App, Adapter;
 
 module('Integration - ForgotPassword', {
 	setup: function() {
-		App = startApp();
+		App = startApp({
+			ADAPTER: fixturesAdapter
+		});
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.logout();
 	},
 	teardown: function() {
-	  Ember.run(App, 'destroy');
+		Testing.restoreMethods(Adapter.create);
+		Ember.run(App, 'destroy');
 	}
 });
 

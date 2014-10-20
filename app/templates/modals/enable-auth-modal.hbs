@@ -1,0 +1,20 @@
+{{#view "form-fields/form-section" sectionTitle="1. Install Google Authenticator" sectionDescription="Download the Google Authenticator app (or any other comparable authentication) on your mobile device."}}
+	<div class="text-center">
+		<img id="google-authenticator" src="images/google_authenticator.png"/>
+	</div>
+{{/view}}
+
+{{#view "form-fields/form-section" sectionTitle="2. Scan QR code" sectionDescription="Open your Authenticator app. Tap on Begin Setup followed by Scan Barcode. Scan the QR code to the right."}}
+	<div class="text-center">
+		<div id="qrcode"></div>
+	</div>
+{{/view}}
+
+{{#view "form-fields/form-section" auth_code_confirm=view.auth_code_confirm sectionTitle="3. Enter authentication code" sectionDescription="Enter the authentication code from your smartphone. The code will expire in 30 seconds."}}
+	<div class="form-group">
+		<label class="control-label">Authentication code</label>
+		<div>
+			{{input type="text" name="auth_code" valueBinding="view.auth_code_confirm" class="full"}}
+		</div>
+	</div>
+{{/view}}

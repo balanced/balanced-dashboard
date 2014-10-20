@@ -1,0 +1,55 @@
+{{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength debitableBankAccounts=view.debitableBankAccounts model=view.model sectionTitle="Payment information"}}
+	{{#if view.debitableBankAccounts}}
+		{{view "form-fields/select-form-field"
+			model=view.model
+			content=view.debitableBankAccounts
+			value=view.model.source
+			labelText="Account number"
+			optionValuePath="content"
+			optionLabelPath="content.description_with_type"
+			name="source"
+			field="source"
+		}}
+
+		{{view "form-fields/static-text-form-field"
+			value=view.model.source.name
+			labelText="Name on account"
+		}}
+
+		{{view "form-fields/static-text-form-field"
+			value=view.model.source.formatted_bank_name
+			labelText="Bank"
+		}}
+	{{else}}
+		<div class="form-group">
+			<p>You don't have any verified bank accounts to add funds.</p>
+		</div>
+	{{/if}}
+
+	{{view "form-fields/amount-form-field"
+		model=view.model
+		labelText="Amount"
+		field="dollar_amount"
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText=view.appearsOnStatementAsLabelText
+		field="appears_on_statement_as"
+		inputClassNames="full"
+		maxlength=view.appearsOnStatementAsMaxLength
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Internal description"
+		inputClassNames="full"
+		field="description"
+	}}
+{{/view}}
+
+{{#view "form-fields/form-section" sectionTitle="Note"}}
+	<div class="form-group">
+		<p>Funds will appear in your balance in 3-5 business days.</p>
+	</div>
+{{/view}}

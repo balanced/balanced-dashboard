@@ -1,18 +1,17 @@
-import fixturesAdapter from "balanced-dashboard/adapters/fixture";
+import Testing from '../../helpers/testing';
+import fixturesAdapter from "../../helpers/fixtures-adapter";
 import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 import Rev0Serializer from "balanced-dashboard/serializers/rev0";
 import Model from "balanced-dashboard/models/core/model";
 
-var TestModel;
+var TestModel, App;
 var getTestModel = function() {
 	return TestModel;
 };
 
 module('Model - Model', {
 	setup: function() {
-		Model.ADAPTER = fixturesAdapter.create();
-
-		Model.ADAPTER.addFixtures([{
+		fixturesAdapter.addFixtures([{
 			uri: '/v1/testobjects/1',
 			basic_field: 123
 		}]);
@@ -27,6 +26,10 @@ module('Model - Model', {
 		TestModel.reopenClass({
 			serializer: Rev0Serializer.create()
 		});
+		sinon.stub(TestModel, "getAdapter").returns(fixturesAdapter);
+	},
+	teardown: function() {
+		Testing.restoreMethods(Model.getAdapter);
 	},
 });
 

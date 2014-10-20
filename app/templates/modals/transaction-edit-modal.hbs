@@ -1,11 +1,3 @@
-<form class="form-horizontal split-labels" {{action "save" on="submit" target=view}}>
-	<div class="modal-body">
-		<div class="control-group">
-			<label class="control-label">Internal description</label>
-			<div class="controls">
-				{{view Ember.TextField name="description" value=view.model.description class="full" maxlength=Constants.MAXLENGTH.DESCRIPTION}}
-			</div>
-		</div>
-	</div>
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Edit"}}
-</form>
+{{#view "form-fields/form-section" model=view.model sectionTitle="Payment information"}}
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" maxlength=Constants.MAXLENGTH.DESCRIPTION inputClassNames="full"}}
+{{/view}}

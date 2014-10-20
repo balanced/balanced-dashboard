@@ -1,0 +1,12 @@
+{{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText model=view.model sectionTitle="Payment information"}}
+	{{view "form-fields/static-text-form-field" value=view.model.source.title_description labelText=view.model.source.type_name inputClassNames="full"}}
+
+	{{view "form-fields/static-text-form-field" value=view.model.source.name labelText="Name on account" inputClassNames="full"}}
+
+	{{view "form-fields/static-text-form-field" value=view.model.source.formatted_bank_name emptyText="unknown" labelText="Bank" inputClassNames="full"}}
+
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
+
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" inputClassNames="full" maxlength=Constants.MAXLENGTH.DESCRIPTION}}
+{{/view}}
+

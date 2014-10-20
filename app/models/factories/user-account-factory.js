@@ -29,8 +29,12 @@ var UserAccountFactory = BaseFactory.extend({
 		return this.getConnection().createUser(this.getPostAttributes());
 	},
 
-	getConnection: function() {
+	connection: function() {
 		return AuthConnection.create();
+	}.property(),
+
+	getConnection: function() {
+		return this.get("connection");
 	},
 
 	getPostAttributes: function() {

@@ -6,6 +6,7 @@ var ApiKeyDeleteModalView = ModalBaseView.extend({
 	templateName: "modals/api-key-delete-modal",
 	title: "Delete this key",
 	elementId: "api-key-delete",
+	classNames: ["wide-modal"],
 
 	isSaving: false,
 	actions: {

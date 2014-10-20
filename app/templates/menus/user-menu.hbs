@@ -1,0 +1,17 @@
+<ul class="dropdown-menu">
+	{{#if view.isGuest}}
+		<li><a {{action "signUp" target="controllers.application"}}>Create an account</a></li>
+	{{else}}
+		{{#if view.isAdmin}}
+			{{#each administratorLink in view.administratorLinks}}
+				{{view administratorLink}}
+			{{/each}}
+		{{/if}}
+		{{view "menus/dropdown-menu-items/open-modal" text="Change email address" modalName="modals/change-email-modal"}}
+		{{view "menus/dropdown-menu-items/open-modal" text="Change password" modalName="modals/change-password-modal"}}
+
+		{{view "menus/dropdown-menu-items/otp-setting-trigger"}}
+	{{/if}}
+	<li><a href="https://support.balancedpayments.com" target='_blank'>Help center</a></li>
+	<li><a href="#" {{action "signOut"}}>Log out</a></li>
+</ul>

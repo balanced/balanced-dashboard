@@ -8,7 +8,9 @@ import helpers from "../helpers/helpers";
 import Models from "../helpers/models";
 import Utils from "balanced-dashboard/lib/utils";
 
-var App, Adapter;
+var App, Adapter,
+	ADD_FUNDS_SELECTOR = "#marketplace-escrow-menu a:contains(Add funds)",
+	WITHDRAW_FUNDS_SELECTOR = "#marketplace-escrow-menu a:contains(Withdraw funds)";
 
 module('Integration - Payments', {
 	setup: function() {
@@ -16,8 +18,6 @@ module('Integration - Payments', {
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
 		Testing.createDebits();
-		this.ADD_FUNDS_SELECTOR = ".nav-item .add-funds-btn";
-		this.WITHDRAW_FUNDS_SELECTOR = ".nav-item .withdraw-funds-btn";
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -74,11 +74,11 @@ test('add funds', function() {
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
-		.click(this.ADD_FUNDS_SELECTOR)
+		.click(ADD_FUNDS_SELECTOR)
 		.checkElements({
 			"#add-funds:visible": 1,
 			'#add-funds select option': 1,
-			'#add-funds label.control-label:contains(characters max)': 'Appears on statement as (14 characters max)',
+			'#add-funds label:contains(characters max)': 'Appears on statement as (14 characters max)',
 			'#add-funds input[name=appears_on_statement_as][maxlength=14]': 1
 		})
 		.fillForm("#add-funds form", {
@@ -110,7 +110,7 @@ test('add funds only adds once despite multiple clicks', function() {
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
-		.click(this.ADD_FUNDS_SELECTOR)
+		.click(ADD_FUNDS_SELECTOR)
 		.fillForm("#add-funds", {
 			dollar_amount: "55.55",
 			appears_on_statement_as: "BALANCED TEST",
@@ -130,7 +130,7 @@ test('withdraw funds', function() {
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
-		.click(this.WITHDRAW_FUNDS_SELECTOR)
+		.click(WITHDRAW_FUNDS_SELECTOR)
 		.then(function() {
 			equal(
 				$('input[name=appears_on_statement_as]:visible').attr('maxlength'),
@@ -170,7 +170,7 @@ test('withdraw funds only withdraws once despite multiple clicks', function() {
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
-		.click(this.WITHDRAW_FUNDS_SELECTOR)
+		.click(WITHDRAW_FUNDS_SELECTOR)
 		.fillForm('#withdraw-funds', {
 			dollar_amount: "55.55",
 			appears_on_statement_as: "Cool test"

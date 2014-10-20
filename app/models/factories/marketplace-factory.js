@@ -33,10 +33,14 @@ var MarketplaceFactory = BaseFactory.extend({
 
 	isTermsAccepted: false,
 
-	getConnection: function() {
+	connection: function() {
 		return ApiConnection.create({
 			apiKey: this.get("apiKeySecret")
 		});
+	}.property("apiKeySecret"),
+
+	getConnection: function() {
+		return this.get("connection");
 	},
 	_save: function() {
 		return this.getConnection().createMarketplace(this.getPostAttributes());

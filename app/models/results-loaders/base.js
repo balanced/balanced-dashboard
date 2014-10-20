@@ -3,7 +3,6 @@ import Ember from "ember";
 import ModelArray from "../core/model-array";
 import SearchModelArray from "../core/search-model-array";
 import ResultsLoaderQueryStringBuilder from "./results-loader-query-string-builder";
-import Download from "balanced-dashboard/models/download";
 import Dispute from "balanced-dashboard/models/dispute";
 import Transaction from "balanced-dashboard/models/transaction";
 import Invoice from "balanced-dashboard/models/invoice";
@@ -118,6 +117,8 @@ var BaseResultsLoader = Ember.Object.extend({
 				email_address: emailAddress
 			};
 		}
+
+		var Download = this.get("container").lookupFactory("model:download");
 		var download = Download.create(downloadAttributes);
 		return download.save();
 	}

@@ -1,0 +1,95 @@
+{{#view "form-fields/form-section" model=view.model sectionTitle="Customer information"}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Name"
+		field="name"
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Email address"
+		field="email"
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Legal business name"
+		field="business_name"
+		explanationText="(Leave blank if individual)"
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Employer identification number"
+		field="ein"
+		explanationText="(Leave blank if individual)"
+	}}
+{{/view}}
+
+{{#view "form-fields/form-section" model=view.model sectionTitle="Additional information" sectionDescription="While all fields are optional, we suggest collecting this information in order to verify the customer's identity. You may still credit an unverified customer."}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Street address (line 1)"
+		field="address.line1"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Street address (line 2)"
+		field="address.line2"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="City"
+		field="address.city"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="State"
+		field="address.state"
+	}}
+	{{view "form-fields/country-select"
+		model=view.model
+		labelText="Country"
+		field="address.country_code"
+		name="country_code"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Postal code"
+		field="address.postal_code"
+		name="postal_code"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Phone number"
+		field="phone"
+	}}
+	{{view "form-fields/month-year-select-form-field"
+		model=view.model
+		monthValue=view.model.dob_month
+		yearValue=view.model.dob_year
+		labelText="Date of birth"
+		name="dob"
+	}}
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Last 4 of SSN"
+		field="ssn_last4"
+		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
+	}}
+
+	{{#unless view.marketplaceOwner}}
+		{{view "form-fields/text-form-field"
+			model=view.model
+			labelText="Facebook ID"
+			field="meta.facebook"
+			name="facebook"
+			}}
+		{{view "form-fields/text-form-field"
+			model=view.model
+			labelText="Twitter ID"
+			field="meta.twitter"
+			name="facebook"
+			}}
+	{{/unless}}
+{{/view}}

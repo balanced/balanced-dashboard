@@ -1,31 +1,32 @@
 import Ember from "ember";
 import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
+var getModelRootErrorMessages = function(model) {
+	var messages = model.get("validationErrors.allMessages");
+	var errorMessage = "Your information could not be saved.";
+
+	var hasPropertyError = _.find(messages, function(error) {
+		return !Ember.isBlank(error[0]);
+	});
+
+	if (hasPropertyError) {
+		errorMessage = "Your information could not be saved. Please correct the errors below.";
+	}
+	return errorMessage;
+};
+
 var DisplayModelErrorsModalMixin = Ember.Mixin.create(Ember.Validations, {
 	updateErrorsBar: function() {
-		var controller = this.get("container").lookup("controller:modal_notification_center");
-		var self = this;
-		var errorMessage;
-
-		controller.clear();
-		this.get("model.validationErrors.allMessages").forEach(function(error) {
-			if (Ember.isBlank(error[0])) {
-				errorMessage += "<br>%@".fmt(error[1]);
-			} else {
-				errorMessage = "Your information could not be saved. Please correct the errors below.";
-			}
-		});
-
+		var errorMessage = getModelRootErrorMessages(this.get("model"));
 		if (errorMessage) {
+			var controller = this.get("container").lookup("controller:modal_notification_center");
 			controller.clearAlerts();
 			controller.alertError(new Ember.Handlebars.SafeString(errorMessage));
 		}
 
 		AnalyticsLogger.trackEvent(errorMessage, {
-			path: self.get("container").lookup("controller:application").get('currentRouteName')
+			path: this.get("container").lookup("controller:application").get('currentRouteName')
 		});
-
-
 	}.observes("model.validationErrors.allMessages"),
 });
 

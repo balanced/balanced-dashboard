@@ -1,6 +1,6 @@
 <thead>
 	<tr>
-		<th class="span3 date view.hasNoFilter::has-filter">
+		<th class="col-md-2 date view.hasNoFilter::has-filter">
 			{{#if view.hasNoFilter}}
 				<span>Date</span>
 			{{else}}
@@ -10,29 +10,29 @@
 			{{/if}}
 		</th>
 		{{#if view.hasNoFilter}}
-			<th class="span3 type">
+			<th class="col-md-2 type">
 				<span>Type</span>
 			</th>
 		{{else}}
-			<th class="span2 type has-filter">
+			<th class="col-md-2 type has-filter">
 				{{view "results/transactions-type-results-dropdown-filter"}}
 			</th>
 		{{/if}}
 		{{#if view.hasNoFilter}}
-			<th class="span3 status">
+			<th class="col-md-2 status">
 				<span>Status</span>
 			</th>
 		{{else}}
-			<th class="span3 status has-filter">
+			<th class="col-md-2 status has-filter">
 				{{view "results/transactions-status-results-dropdown-filter"}}
 			</th>
 		{{/if}}
-		<th class="span4 description"><span>Description</span></th>
+		<th class="col-md-3 description"><span>Description</span></th>
 		{{#unless view.isSmallTable}}
-			<th class="span3 account"><span>Customer</span></th>
-			<th class="span3 funding-instrument"><span>Payment method</span></th>
+			<th class="col-md-2 account"><span>Customer</span></th>
+			<th class="col-md-2 funding-instrument"><span>Payment method</span></th>
 		{{/unless}}
-		<th class="span3 amount num">
+		<th class="col-md-2 amount num">
 			<span>Amount</span>
 		</th>
 	</tr>
@@ -50,7 +50,6 @@
 		<tr>
 			{{view "tables/cells/linked-date-cell"
 				item=transaction
-				classNames="span3"
 				routeName=transaction.route_name
 				date=transaction.created_at
 			}}
@@ -58,7 +57,7 @@
 				item=transaction
 				labelText=transaction.type_name
 				routeName=transaction.route_name
-				classNames="span2 type"
+				classNames="type"
 				title=transaction.type_name
 			}}
 			{{view "tables/cells/linked-text-cell"
@@ -66,31 +65,30 @@
 				labelText=transaction.status
 				routeName=transaction.route_name
 				spanClassNamesBinding="transaction.status"
-				classNames="span3 status"
+				classNames="status"
 				titleBinding="transaction.status"
 			}}
 			{{view "tables/cells/linked-text-cell"
 				item=transaction
 				labelText=transaction.description
 				routeName=transaction.route_name
-				classNames="span4"
 				titleBinding="transaction.description"
 			}}
 
 			{{#unless view.isSmallTable}}
-				{{view "tables/cells/transaction/customer-cell" item=transaction classNames="span4"}}
+				{{view "tables/cells/transaction/customer-cell" item=transaction}}
 
 				{{view "tables/cells/linked-two-lines-cell"
 					item=transaction
 					routeName=transaction.route_name
-					classNames="span3 funding-instrument"
+					classNames="funding-instrument"
 					primaryLabelText=transaction.last_four
 					secondaryLabelText=transaction.funding_instrument_type
 					title=transaction.funding_instrument_type
 				}}
 			{{/unless}}
 
-			{{view "tables/cells/transaction/amount-cell" item=transaction classNames="span3"}}
+			{{view "tables/cells/transaction/amount-cell" item=transaction}}
 		</tr>
 	{{else}}
 		<tr>

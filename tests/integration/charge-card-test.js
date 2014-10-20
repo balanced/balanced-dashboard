@@ -32,9 +32,7 @@ test('form validation', 2, function() {
 			"#charge-card button:contains(Debit)": 1
 		})
 		.click('button:contains(Debit)')
-		.then(function() {
-			ok($('.control-group.error').length > 0, 'errors are displayed');
-		});
+		.check("#charge-card .form-group.has-error", 5);
 });
 
 test('can charge a card', function() {
@@ -53,14 +51,15 @@ test('can charge a card', function() {
 			name: 'Tarun Chaudhry',
 			number: '4111111111111111',
 			cvv: '123',
-			expiration_month: '12',
-			expiration_year: '2016',
+			expiration_date_month: '12',
+			expiration_date_year: '2016',
 			postal_code: '95014',
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
 			dollar_amount: '12.00'
 		})
 		.click('button:contains(Debit)')
+		.check("#charge-card", 0)
 		.then(function() {
 			var args = spy.firstCall.args;
 			ok(tokenizingStub.calledOnce);
@@ -73,53 +72,4 @@ test('can charge a card', function() {
 				source_uri: '/cards/' + Testing.CARD_ID
 			});
 		});
-});
-
-test('charge a card button is hidden after submit', function() {
-	var spy = sinon.spy(Adapter, 'create');
-	var tokenizingStub = sinon.stub(balanced.card, 'create');
-	tokenizingStub.callsArgWith(1, {
-		status: 201,
-		cards: [{
-			href: '/cards/' + Testing.CARD_ID
-		}]
-	});
-
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click('.page-navigation a:contains(Debit a card)')
-		.fillForm('#charge-card', {
-			name: 'Tarun Chaudhry',
-			number: '4111111111111111',
-			cvv: '123',
-			expiration_month: '12',
-			expiration_year: '2016',
-			postal_code: '95014',
-			appears_on_statement_as: 'My Charge',
-			description: 'Internal',
-			dollar_amount: '12.00'
-		})
-		.click("#charge-card .modal-footer .btn:last")
-		.check("#charge-card .modal-footer .btn:last", 0)
-		.then(function() {
-			ok(spy.calledOnce, "Called once");
-			var args = spy.firstCall.args;
-			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);
-			matchesProperties(args[2], {
-				amount: "1200",
-				appears_on_statement_as: 'My Charge',
-				description: 'Internal',
-				source_uri: '/cards/' + Testing.CARD_ID
-			});
-		});
-});
-
-test('when charge a card triggers an error, the error is displayed to the user', function() {
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click('.page-navigation a:contains(Debit a card)')
-		.fillForm('#charge-card', {
-			name: 'Tarun Chaudhry'
-		}, {
-			click: '.modal-footer button:contains(Debit)'
-		})
-		.check(".alert-error:visible", 9);
 });

@@ -42,10 +42,9 @@ var OtpController = LoginController.extend({
 
 					self.focus();
 				})
-				.
-			finally(function() {
-				self.set('isSubmitting', false);
-			});
+				.finally(function() {
+					self.set('isSubmitting', false);
+				});
 		},
 	}
 });

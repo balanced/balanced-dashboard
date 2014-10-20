@@ -58,7 +58,7 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 	}.property('uri'),
 
 	save: function(settings) {
-		var Adapter = Model.ADAPTER;
+		var Adapter = this.constructor.getAdapter();
 		var self = this;
 		settings = settings || {};
 		var data = this.constructor.serializer.serialize(this);
@@ -104,15 +104,15 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 			isSaving: true
 		});
 
-		var promise = this.resolveOn('didDelete');
-
-		Model.ADAPTER.delete(this.constructor, this.get('uri'), function(json) {
-			self.set('isSaving', false);
-			self.trigger('didDelete');
-			Model.Events.trigger('didDelete', self);
-		}, $.proxy(self._handleError, self), settings);
-
-		return promise;
+		this
+			.constructor
+			.getAdapter()
+			.delete(this.constructor, this.get('uri'), function(json) {
+				self.set('isSaving', false);
+				self.trigger('didDelete');
+				Model.Events.trigger('didDelete', self);
+			}, $.proxy(self._handleError, self), settings);
+		return this.resolveOn('didDelete');
 	},
 
 	reload: function() {
@@ -125,12 +125,15 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 
 		var promise = this.resolveOn('didLoad');
 
-		Model.ADAPTER.get(this.constructor, this.get('uri'), function(json) {
-			var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, self.get('href'));
-			self._updateFromJson(deserializedJson);
-			self.set('isLoaded', true);
-			self.trigger('didLoad');
-		}, $.proxy(self._handleError, self));
+		this
+			.constructor
+			.getAdapter()
+			.get(this.constructor, this.get('uri'), function(json) {
+				var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, self.get('href'));
+				self._updateFromJson(deserializedJson);
+				self.set('isLoaded', true);
+				self.trigger('didLoad');
+			}, $.proxy(self._handleError, self));
 
 		return promise;
 	},
@@ -272,6 +275,10 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 });
 
 Model.reopenClass({
+	getAdapter: function() {
+		return BalancedApp.__container__.lookup("adapter:main");
+	},
+
 	serializer: Rev1Serializer.create(),
 
 	find: function(uri, settings) {
@@ -285,9 +292,11 @@ Model.reopenClass({
 			isNew: false
 		});
 
-		Model.ADAPTER.get(modelClass, uri, function(json) {
-			modelObject.populateFromJsonResponse(json, uri);
-		}, $.proxy(modelObject._handleError, modelObject));
+		this
+			.getAdapter()
+			.get(modelClass, uri, function(json) {
+				modelObject.populateFromJsonResponse(json, uri);
+			}, $.proxy(modelObject._handleError, modelObject));
 
 		return modelObject;
 	},
@@ -355,10 +364,13 @@ Model.reopenClass({
 					// property in our JSON. That'll force an update of the
 					// association
 					var self = this;
-					Model.ADAPTER.get(defaultType, uriPropertyValue, function(json) {
-						var modelJson = typeClass.serializer.extractSingle(json, typeClass, uriPropertyValue);
-						self.set(embeddedProperty, modelJson);
-					});
+					this
+						.constructor
+						.getAdapter()
+						.get(defaultType, uriPropertyValue, function(json) {
+							var modelJson = typeClass.serializer.extractSingle(json, typeClass, uriPropertyValue);
+							self.set(embeddedProperty, modelJson);
+						});
 
 					return embeddedPropertyValue;
 				}

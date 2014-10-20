@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<link rel="shortcut icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAB50RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNS4xqx9I6wAAAStJREFUWIXtlT1SwzAQRp+YHMAeGsrcIGlc4yukpDHODaBLF6dzB5yAkIYyOYJSu/INUtIw9g1MgZhhZJlITogbfZ12Pu2+0c+uaJqGIXU1aHUP4AGAkR4QQlDF0Rh4BWKgBl5CWWQuiRebyROQAgEggXmelAf913WdwFYVRyVYVnGUOhRPgQe1F5Vra/K2AKo4CoCpwXtvC9DhnS42k/FRgD9Un+rNk/JwFCCURc33nel6cwAweXcmY9cJzICVApHALJSFMYFJeVLuVI6f/c/A3OQV+qsUQtjW6SXbX3AxeQAP4AFa09BWH+/XGXCrlvubu8+sT55ejUgVX2rhlQ3EuRqRadq5TMuTAQLL2L8BmAaT9bA6B8AjsP61XquYs1qP8NIavA94AA/wBRJiTbdsTuB4AAAAAElFTkSuQmCC" type="image/x-icon">
-	<title>Balanced</title>
-
-    {{BASE_TAG}}
-
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/balanced-dashboard.css">
-  </head>
-  <body>
-	<section id="balanced-app">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="shortcut icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAB50RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNS4xqx9I6wAAAStJREFUWIXtlT1SwzAQRp+YHMAeGsrcIGlc4yukpDHODaBLF6dzB5yAkIYyOYJSu/INUtIw9g1MgZhhZJlITogbfZ12Pu2+0c+uaJqGIXU1aHUP4AGAkR4QQlDF0Rh4BWKgBl5CWWQuiRebyROQAgEggXmelAf913WdwFYVRyVYVnGUOhRPgQe1F5Vra/K2AKo4CoCpwXtvC9DhnS42k/FRgD9Un+rNk/JwFCCURc33nel6cwAweXcmY9cJzICVApHALJSFMYFJeVLuVI6f/c/A3OQV+qsUQtjW6SXbX3AxeQAP4AFa09BWH+/XGXCrlvubu8+sT55ejUgVX2rhlQ3EuRqRadq5TMuTAQLL2L8BmAaT9bA6B8AjsP61XquYs1qP8NIavA94AA/wBRJiTbdsTuB4AAAAAElFTkSuQmCC" type="image/x-icon">
+		<title>Balanced</title>
+		{{content-for 'head'}}
+		<link rel="stylesheet" href="assets/vendor.css">
+		<link rel="stylesheet" href="assets/balanced-dashboard.css">
+	</head>
+	<body>
+		<section id="balanced-app">
 		<div id="balanced-loading">
 			<div class="window black"></div>
 			<div class="window">
@@ -21,16 +19,10 @@
 				</div>
 			</div>
 		</div>
-	</section>
-	<script src="//cdn.ravenjs.com/1.1.3/jquery,native/raven.min.js"></script>
-	<script src="//js.balancedpayments.com/1.1/balanced.js"></script>
-    <script src="assets/vendor.js"></script>
-    <script src="assets/balanced-dashboard.js"></script>
-    <script>
-		window.BalancedApp = require('balanced-dashboard/app')['default'].create(window.BALANCED_ENV.APP);
-    </script>
-
-    <!-- Remove this script once https://github.com/stefanpenner/ember-cli/issues/2100 is resolved -->
-    <script src="http://localhost:35729/livereload.js?snipver=1" type="text/javascript"></script>
-  </body>
+		</section>
+		<script src="//cdn.ravenjs.com/1.1.3/jquery,native/raven.min.js"></script>
+		<script src="//js.balancedpayments.com/1.1/balanced.js"></script>
+		<script src="assets/vendor.js"></script>
+		<script src="assets/balanced-dashboard.js"></script>
+	</body>
 </html>

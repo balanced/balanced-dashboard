@@ -1,0 +1,37 @@
+{{#view "form-fields/form-section" appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText fundingInstruments=view.fundingInstruments customer=view.customer model=view.model sectionTitle="Payment information"}}
+
+	{{view "form-fields/static-text-form-field" labelText="Customer" value=view.customer.display_me_with_email}}
+
+	{{#if view.fundingInstruments}}
+		{{view "form-fields/select-form-field"
+			model=view.model
+			content=view.fundingInstruments
+			value=view.model.source
+			labelText="Payment method"
+			optionValuePath="content"
+			optionLabelPath="content.description_with_type"
+			name="source"
+			field="source"
+		}}
+	{{else}}
+		<div class="form-group">
+			<p>This customer doesn't have any payment method to debit.</p>
+		</div>
+	{{/if}}
+
+	{{view "form-fields/static-text-form-field"
+		labelText="Name on account"
+		value=view.model.source.name
+	}}
+
+	{{view "form-fields/static-text-form-field"
+		labelText="Bank"
+		value=view.model.source.formatted_bank_name
+	}}
+
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
+
+	{{view "form-fields/text-form-field" model=view.model field="appears_on_statement_as" labelText=view.appearsOnStatementAsLabelText maxLength=view.appearsOnStatementAsMaxLength inputClassNames="full" maxlength=view.appearsOnStatementAsMaxLength}}
+
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" inputClassNames="full" maxlength=Constants.MAXLENGTH.DESCRIPTION}}
+{{/view}}

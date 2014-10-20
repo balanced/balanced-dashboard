@@ -36,7 +36,6 @@ Router.map ->
 	this.route('forgotPassword', path: '/forgot_password')
 	this.route('resetPassword', path: '/password/:token')
 	this.route('resetPassword', path: '/invite/:token')
-	this.route('accountSecurity', path: '/security')
 
 	this.resource 'marketplaces', path: '/marketplaces', ->
 		this.route('apply')

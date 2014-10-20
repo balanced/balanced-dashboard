@@ -1,0 +1,57 @@
+{{#view "form-fields/form-section" availableBalance=view.availableBalance appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength bankAccounts=view.bankAccounts model=view.model sectionTitle="Payment information"}}
+	{{#if view.bankAccounts}}
+		{{view "form-fields/select-form-field"
+			model=view.model
+			content=view.bankAccounts
+			value=view.model.destination
+			labelText="Account number"
+			optionValuePath="content"
+			optionLabelPath="content.description_with_type"
+			inputClassNames="full"
+			name="destination"
+			field="destination"
+		}}
+
+		{{view "form-fields/static-text-form-field"
+			value=view.model.destination.name
+			labelText="Name on account"
+		}}
+
+		{{view "form-fields/static-text-form-field"
+			value=view.model.destination.formatted_bank_name
+			labelText="Bank"
+			emptyText="unknown"
+		}}
+	{{else}}
+		<div class="form-group">
+			<p>You don't have any verified bank accounts to withdraw funds.</p>
+		</div>
+	{{/if}}
+
+	{{view "form-fields/amount-form-field"
+		model=view.model
+		labelText="Amount"
+		field="dollar_amount"
+		explanationText=view.availableBalance
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText=view.appearsOnStatementAsLabelText
+		field="appears_on_statement_as"
+		maxlength=view.appearsOnStatementAsMaxLength
+	}}
+
+	{{view "form-fields/text-form-field"
+		model=view.model
+		labelText="Internal description"
+		field="description"
+		maxlength=Constants.MAXLENGTH.DESCRIPTION
+	}}
+{{/view}}
+
+{{#view "form-fields/form-section" sectionTitle="Note"}}
+	<div class="form-group">
+		<p>Funds will appear in your balance in 1-2 business days.</p>
+	</div>
+{{/view}}

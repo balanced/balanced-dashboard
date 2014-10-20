@@ -44,12 +44,12 @@
 
 		<section class="webhook-info">
 			<h3>Webhooks</h3>
-			{{add-callback-modal marketplaceBinding="model"}}
+			<a href="#" class="add btn-link sm pull-right" {{action "openModal" "modals/add-callback-modal" model}}>Add a webhook</a>
 			<table class="items non-interactive webhooks">
 				<thead>
-					<th class="span3"><span>Version</span></th>
-					<th class="span13"><span>Method &amp; URI</span></th>
-					<th><span></span></th>
+					<th class="col-md-3"><span>Version</span></th>
+					<th class="col-md-8"><span>Method &amp; URI</span></th>
+					<th class="col-md-1"><span></span></th>
 				</thead>
 				<tbody>
 					{{#each callback in callbacks}}

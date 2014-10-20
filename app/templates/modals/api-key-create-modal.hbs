@@ -1,9 +1,9 @@
-<form {{action "submit" target="view" on="submit"}}>
-	<div class="modal-body">
-		<div class="control-group">
-			<label class="control-label">Name (Optional)</label>
-			{{view Ember.TextField type="text" value=view.keyName class="full" name="apiKeyName"}}
-		</div>
-	</div>
-	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Add"}}
-</form>
+{{#view "form-fields/form-section" model=view.model}}
+	{{view "form-fields/text-form-field"
+		model=view.parentView
+		inputClassNames="full"
+		labelText="Name (optional)"
+		field="keyName"
+		name="keyName"
+	}}
+{{/view}}

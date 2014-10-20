@@ -1,0 +1,6 @@
+<form {{action "save" target="view" on="submit"}}>
+    <div class="modal-body">
+        <div class="content">Are you sure you want to void the hold?</div>
+    </div>
+	{{view "modals/modal-base-footer" isSaving=view.isSaving submitButtonText="Void"}}
+</form>

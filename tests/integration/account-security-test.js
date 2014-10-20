@@ -1,11 +1,12 @@
 import startApp from '../helpers/start-app';
 import fixturesAdapter from "../helpers/fixtures-adapter";
 import sinonRestore from "../helpers/sinon-restore";
+import Testing from "../helpers/testing";
 
 import helpers from "../helpers/helpers";
 import checkElements from "../helpers/check-elements";
 
-var App, Auth, Adapter = fixturesAdapter;
+var App, Auth;
 
 module('Integration - Account Security', {
 	setup: function() {
@@ -15,27 +16,46 @@ module('Integration - Account Security', {
 		Auth = App.__container__.lookup("auth:main");
 	},
 	teardown: function() {
-		sinonRestore(Auth.request);
+		sinonRestore(
+			Auth.request,
+			$.getScript
+		);
 		Ember.run(App, "destroy");
 	},
 });
 
 test('Can enable', function() {
-	var spy = sinon.stub(Auth, 'request')
-		.returns(Ember.RSVP.resolve({
-			id: "USxxxxxxxxxxxxxxx",
-			secret: "VERYSECRET",
-			secret_uri: "otpauth://xxxxxxxxxxxxxxxxxxxxxxx"
-		}));
+	var getScript = sinon.stub($, "getScript").returns(Ember.RSVP.resolve());
+	Auth.get("user").set("uri", "/user");
+	var confirmOtpSpy = sinon.stub(Auth, "confirmOTP")
+		.returns(Ember.RSVP.resolve());
+	var userSpy = sinon.stub(Auth.get("user"), "reload");
+	var spy = sinon.stub(Auth, 'request');
+	spy.onCall(0).returns(Ember.RSVP.resolve({
+		id: "USxxxxxxxxxxxxxxx",
+		secret: "VERYSECRET",
+		secret_uri: "otpauth://xxxxxxxxxxxxxxxxxxxxxxx"
+	}));
+	spy.onCall(1).returns(Ember.RSVP.resolve({
+		detail: "You need to pass in a confirm token to continue login"
+	}));
 
-	visit('/security')
-		.checkText("h1.page-title", "Account Security")
-		.check("#account_security.disabled", 1)
-		.check(".status-circle:visible", 2)
-		.check(".window-pane:visible", 0)
-		.click('.status-circle.green a')
+	visit(Testing.MARKETPLACES_ROUTE)
+		.click("#user-menu a:contains(Enable two-factor authentication)")
+		.check("#enable-auth h2", "Enable two-factor authentication")
+		.fillForm("#enable-auth", {
+			auth_code: "111222"
+		})
+		.click('#enable-auth button[name=modal-submit]')
 		.then(function() {
-			equal(spy.callCount, 1, 'Enabled');
+			deepEqual(confirmOtpSpy.args, [["111222"]]);
+			var args = spy.args;
+			deepEqual(args, [
+				[{
+					url: "https://auth.balancedpayments.com/users/USeb4a5d6ca6ed11e2bea6026ba7db2987/otp",
+					type: "POST"
+				}]
+			]);
 		});
 });
 
@@ -44,18 +64,10 @@ test('Can disable', function() {
 
 	Auth.set('user.otp_enabled', true);
 
-	visit('/security')
-		.checkElements({
-			"h1.page-title": 'Account Security',
-			"#account_security.enabled": 1,
-			".status-circle:visible": 2,
-			".window-pane:visible": 0
-		})
-		.click('.status-circle.red a')
-		.checkElements({
-			'#disable-mfa:visible': 1
-		})
-		.click('#disable-mfa button[name=modal-submit]')
+	visit(Testing.MARKETPLACES_ROUTE)
+		.click("#user-menu a:contains(Disable two-factor authentication)")
+		.checkText("#disable-auth h2", "Disable two-factor authentication")
+		.click('#disable-auth button[name=modal-submit]')
 		.then(function() {
 			equal(spy.callCount, 1, 'Disabled');
 		});

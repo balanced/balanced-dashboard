@@ -1,15 +1,7 @@
 import UserAccountFactory from "balanced-dashboard/models/factories/user-account-factory";
 import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 
-var Adapter;
-
-module("Factory - UserAccountFactory", {
-	setup: function() {
-		Adapter = BaseConnection.ADAPTER = {
-			load: sinon.stub()
-		};
-	}
-});
+module("Factory - UserAccountFactory");
 
 test("#setValidationErrorsFromServer", function() {
 	var subject = UserAccountFactory.create();
@@ -28,19 +20,17 @@ test("#setValidationErrorsFromServer", function() {
 });
 
 test("#_save", function() {
-	expect(1);
-	var stub = Adapter.load;
-
 	var userAccount = UserAccountFactory.create({
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"
 	});
 
+	var connection = userAccount.getConnection();
+	var stub = sinon.stub(connection, "createUser");
 	userAccount._save();
 	var request = stub.args[0][0];
-
-	deepEqual(request.data, {
+	deepEqual(request, {
 		email_address: "jimmy@example.com",
 		password: "secrutPassword",
 		passwordConfirm: "secrutPassword"

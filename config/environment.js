@@ -1,5 +1,16 @@
+var requireIfPresent = function(file) {
+	try {
+		return require(file);
+	}
+	catch (e) {
+		return null;
+	}
+};
+
 module.exports = function(environment) {
 	var ENV = {
+		modulePrefix: 'balanced-dashboard',
+		rootElement: "#balanced-app",
 		environment: environment,
 		baseURL: '/',
 		locationType: 'auto',
@@ -23,14 +34,14 @@ module.exports = function(environment) {
 		ENV.APP.LOG_ACTIVE_GENERATION = true;
 //		ENV.APP.LOG_TRANSITIONS = true;
 //		ENV.APP.LOG_VIEW_LOOKUPS = true;
+		ENV.BALANCED.EXT = requireIfPresent("./extensions");
 	}
 
 	if (environment === 'test') {
-		ENV.baseURL = '/';
+		ENV.rootElement = '#ember-testing';
 	}
 
 	if (environment === 'production') {
-		ENV.baseURL = '/';
 		ENV.BALANCED.MIXPANEL = '991598fc644dd5d0894e6cb070154330';
 		ENV.BALANCED.GOOGLE_ANALYTICS = 'UA-30733850-1';
 	}

@@ -1,15 +1,8 @@
+import startApp from '../../../helpers/start-app';
 import MarketplaceFactory from "balanced-dashboard/models/factories/marketplace-factory";
 import BaseConnection from "balanced-dashboard/lib/connections/base-connection";
 
-var Adapter;
-
-module("Factory - MarketplaceFactory", {
-	setup: function() {
-		Adapter = BaseConnection.ADAPTER = {
-			load: sinon.stub()
-		};
-	}
-});
+module("Factory - MarketplaceFactory");
 
 test("validations", function() {
 	var factory = MarketplaceFactory.create();
@@ -65,17 +58,17 @@ test("#handleResponse", function() {
 });
 
 test("#_save", function() {
-	expect(1);
-	var stub = Adapter.load;
 	var subject = MarketplaceFactory.create({
 		domain_url: "http://www.example.org",
 		name: "Cool Marketplace",
 		support_email_address: "email@example.org",
 		support_phone_number: "123-333-3333",
 	});
+	var connection = subject.getConnection();
+	var stub = sinon.stub(connection, "createMarketplace");
 
 	subject._save();
-	deepEqual(JSON.parse(stub.args[0][0].data), {
+	deepEqual(stub.args[0][0], {
 		domain_url: "http://www.example.org",
 		name: "Cool Marketplace",
 		support_email_address: "email@example.org",
