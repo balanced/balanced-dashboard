@@ -17,10 +17,12 @@ OtpController = Ember.Controller.extend(
 			controller = @getNotificationController()
 
 			successCallback = (session) =>
+				console.log("controller", session)
+				auth.setAuthPropertiesFromSession(session)
+				auth.rememberLogin(session.get("uri"))
+
 				@getNotificationController().clearAlerts()
 				@getSessionsController().send("afterLoginTransition")
-				console.log session
-				auth.setAuthPropertiesFromSession(session)
 
 			errorCallback = =>
 				auth.forgetLogin()

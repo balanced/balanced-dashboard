@@ -1,7 +1,7 @@
-`import LoginView from "./login";`
+`import Ember from "ember";`
 
-LogoutView = LoginView.extend
-	templateName: 'login-flow/logout'
+LogoutView = Ember.View.extend
+	templateName: 'logout'
 	pageTitle: 'Logout'
 	afterFormLink:
 		linkTo: 'login'
