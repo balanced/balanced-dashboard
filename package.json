@@ -17,7 +17,7 @@
     "broccoli-less-single": "^0.1.4",
     "broccoli-merge-trees": "^0.1.4",
     "broccoli-static-compiler": "^0.1.4",
-    "ember-cli": "0.0.47",
+    "ember-cli": "0.1.1",
     "ember-cli-coffeescript": "0.0.7",
     "ember-cli-ic-ajax": "0.1.1",
     "ember-cli-inject-live-reload": "^1.2.2",
