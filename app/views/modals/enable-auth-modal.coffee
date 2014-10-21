@@ -4,37 +4,53 @@
 `import Auth from "balanced-dashboard/auth";`
 
 EnableAuthModalView = ModalBaseView.extend Full, Form,
-  title: "Enable two-factor authentication"
-  description: "Two-factor authentication adds another layer of security to your dashboard account. In addition to your login email and password, you'll need to enter an authentication code from Balanced using your Google Authenticator app on your smartphone."
-  elementId: "enable-auth"
-  templateName: "modals/enable-auth-modal"
-  cancelButtonText: "Cancel"
-  submitButtonText: "Enable"
-  auth_code_confirm: null,
+	title: "Enable two-factor authentication"
+	description: "Two-factor authentication adds another layer of security to your dashboard account. In addition to your login email and password, you'll need to enter an authentication code from Balanced using your Google Authenticator app on your smartphone."
+	elementId: "enable-auth"
+	templateName: "modals/enable-auth-modal"
+	cancelButtonText: "Cancel"
+	submitButtonText: "Enable"
+	auth_code_confirm: null,
 
-  didInsertElement: ->
-    QR_CODE_URL = '//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js'
-    Auth.enableMultiFactorAuthentication()
-      .then ->
-        $.getScript(QR_CODE_URL)
-      .then =>
-        otpSecret = Auth.get('OTPSecret')
-        if $.fn.qrcode
-          @$('#qrcode').qrcode(otpSecret.secret_uri)
+	didInsertElement: ->
+		QR_CODE_URL = '//cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js'
+		Auth.enableMultiFactorAuthentication()
+			.then ->
+				$.getScript(QR_CODE_URL)
+			.then =>
+				otpSecret = Auth.get('OTPSecret')
+				if $.fn.qrcode
+					@$('#qrcode').qrcode(otpSecret.secret_uri)
 
-  actions:
-    save: ->
-      successCallback = =>
-        Auth.get("user").reload()
-        @$('#qrcode').empty()
-        @set('auth_code_confirm', null)
-        @getNotificationController().alertSuccess('Two-factor authentication is enabled.')
-        @close()
-      errorCallback = (response) =>
-        @getModalNotificationController().alertError(response.responseJSON.detail)
-        @set('auth_code_confirm', null)
+	model: (->
+		model = @get("container").lookup("model:otp-login")
+		model
+	).property()
 
-      authCode = @get("auth_code_confirm")
-      Auth.confirmOTP(authCode).then(successCallback, errorCallback)
+	isSubmitting: false
+	actions:
+		save: ->
+			model = @get("model")
+			model.set("path", Auth.get("lastLoginUri"))
+
+			successCallback = =>
+				Auth.get("user").reload()
+				@$('#qrcode').empty()
+				model.set("otpCode", null)
+				@getNotificationController().alertSuccess('Two-factor authentication is enabled.')
+				@close()
+
+			errorCallback = (response) =>
+				controller = @getModalNotificationController()
+				controller.clearAlerts()
+				model.set("otpCode", null)
+				model.get("validationErrors.fullMessages").forEach (message) ->
+					controller.alertError(message)
+
+			@set("isSubmitting", true)
+			model.save()
+				.then(successCallback, errorCallback)
+				.finally =>
+					@set('isSubmitting', false)
 
 `export default EnableAuthModalView;`

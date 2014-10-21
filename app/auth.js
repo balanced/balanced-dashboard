@@ -240,8 +240,6 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 		var isAdmin = session.get("isAdmin");
 		var isGuest = session.get("isGuest");
 
-		console.log("session", session);
-		console.log("user", user);
 		this.setAuthProperties(true, user, userId, userId, isGuest, isAdmin);
 		this.rememberLogin(uri);
 	},

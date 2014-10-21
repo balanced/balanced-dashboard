@@ -10,6 +10,7 @@ OtpController = Ember.Controller.extend(
 	focus: ->
 		$('#forgot-form input:first').focus()
 
+	isSubmitting: false
 	actions:
 		otpSubmit: ->
 			model = @get("model")
@@ -17,7 +18,6 @@ OtpController = Ember.Controller.extend(
 			controller = @getNotificationController()
 
 			successCallback = (session) =>
-				console.log("controller", session)
 				auth.setAuthPropertiesFromSession(session)
 				auth.rememberLogin(session.get("uri"))
 
