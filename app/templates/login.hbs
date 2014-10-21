@@ -1,6 +1,6 @@
-<form id="auth-form" method="POST" {{bind-attr class="loginError:error"}} {{action "signIn" view.model on="submit"}}>
-	{{view "form-fields/base-form-field" model=view.model inputType="email" inputClassNames="full" labelText="Email address" field="email_address"}}
-	{{view "form-fields/base-form-field" model=view.model inputType="password" inputClassNames="full" labelText="Password" field="password"}}
+<form id="auth-form" method="POST" {{bind-attr class="loginError:error"}} {{action "signIn" on="submit"}}>
+	{{view "form-fields/base-form-field" model=model inputType="email" inputClassNames="full" labelText="Email address" field="emailAddress"}}
+	{{view "form-fields/base-form-field" model=model inputType="password" inputClassNames="full" labelText="Password" field="password"}}
 
 	{{#link-to "forgotPassword" class="sm forgot-password"}}Forgot?{{/link-to}}
 

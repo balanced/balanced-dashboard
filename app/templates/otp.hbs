@@ -1,4 +1,4 @@
-<form id="forgot-form" class="otp-form" {{action "otpSubmit" view.model on="submit"}}>
+<form id="forgot-form" class="otp-form" {{action "otpSubmit" on="submit"}}>
 	{{view "form-fields/text-form-field" model=view.model inputClassNames="full" labelText="Authentication code" field="otpCode"}}
 	<div class="pull-right">
 		<button type="submit" {{bind-attr class="isSubmitting:disabled" disabled=isSubmitting}}>Authenticate</button>
