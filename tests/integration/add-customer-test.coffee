@@ -10,12 +10,10 @@ App = undefined
 Adapter = undefined
 
 visitAddACustomerModal = ->
-	CUSTOMERS_ROUTE = Testing.MARKETPLACE_ROUTE + "/customers"
-	return visit(CUSTOMERS_ROUTE)
-		.then(->
-			console.log(CUSTOMERS_ROUTE)
-		)
-		.click(".page-navigation a:contains(Add a customer)")
+	route = Testing.MARKETPLACE_ROUTE + "/customers"
+	selector = ".page-navigation a:contains(Add a customer)"
+
+	visit(route).click(selector)
 
 module 'Integration - AddCustomer',
 	setup: ->

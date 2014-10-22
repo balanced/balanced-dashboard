@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="assets/balanced-dashboard.css">
 	</head>
 	<body>
-		<section id="balanced-app">
+		{{content-for 'body'}}
 		<div id="balanced-loading">
 			<div class="window black"></div>
 			<div class="window">
@@ -19,7 +19,6 @@
 				</div>
 			</div>
 		</div>
-		</section>
 		<script src="//cdn.ravenjs.com/1.1.3/jquery,native/raven.min.js"></script>
 		<script src="//js.balancedpayments.com/1.1/balanced.js"></script>
 		<script src="assets/vendor.js"></script>

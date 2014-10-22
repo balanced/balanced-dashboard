@@ -8,6 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		{{content-for 'head'}}
+		{{content-for 'test-head'}}
 
 		<link rel="stylesheet" href="assets/vendor.css">
 		<link rel="stylesheet" href="assets/balanced-dashboard.css">
@@ -32,6 +33,9 @@
 	<body>
 		<div id="qunit"></div>
 		<div id="qunit-fixture"></div>
+
+		{{content-for 'body'}}
+		{{content-for 'test-body'}}
 
 		<script src="//js.balancedpayments.com/1.1/balanced.js"></script>
 		<script src="assets/vendor.js"></script>

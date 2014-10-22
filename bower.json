@@ -26,9 +26,6 @@
     "strftime": "https://raw.github.com/mjallday/strftime/master/strftime.js",
     "timepicker": "jonthornton/jquery-timepicker",
     "loader.js": "stefanpenner/loader.js#1.0.1",
-    "jquery": "1.11.1"
-  },
-  "resolutions": {
-    "jquery": "1.11.1"
+    "jquery": "2.1.1"
   }
 }
