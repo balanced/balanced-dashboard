@@ -19,7 +19,6 @@
     "broccoli-static-compiler": "^0.1.4",
     "ember-cli": "0.1.2",
     "ember-cli-coffeescript": "0.0.7",
-    "ember-cli-content-security-policy": "^0.3.0",
     "ember-cli-less": "^1.0.4",
     "ember-cli-qunit": "0.1.0",
     "express": "^4.8.5",
