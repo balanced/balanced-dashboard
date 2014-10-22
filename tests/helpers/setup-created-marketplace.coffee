@@ -1,9 +1,8 @@
 setupCreatedMarketplace = (marketplace) ->
 	id = marketplace.get("id")
 	customerId = marketplace.get('owner_customer_uri').split('/').pop()
-	routes = {
+	routes =
 		marketplace: marketplace
-	}
 
 	routes.MARKETPLACE_ID = id
 	routes.CUSTOMER_ID = customerId
