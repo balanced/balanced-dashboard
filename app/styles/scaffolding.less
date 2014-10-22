@@ -163,13 +163,93 @@ hr {
   .border-radius(15px);
 }
 
-.cards-results-actions-bar, .cards-container {
+.payments-navbar {
   background-color: @gray1;
+  border-bottom: 1px solid @gray2;
   margin: 0 -45px;
+  padding: 5px 45px;
+
+  .actions {
+    a {
+      line-height: 32px;
+
+      i {
+        vertical-align: sub;
+      }
+    }
+  }
 }
 
 .cards-container {
+  margin: 0 -45px;
+  background-color: @gray1;
+
   .results {
-    padding: 45px;
+    padding: 45px 45px 35px 45px;
+    margin-bottom: -45px;
   }
+}
+
+.nav-pills {
+  float: left;
+
+  & > li {
+    & > a {
+      .sl-sb;
+      color: @gray4;
+      background-color: @white;
+      border: 1px solid @gray2;
+      padding: 5px 10px;
+      .border-radius(0);
+
+      [class^="icon-"] {
+        color: @gray4;
+      }
+
+      span {
+        vertical-align: middle;
+      }
+
+      &:hover {
+        background-color: @gray1;
+        color: @black;
+
+        [class^="icon-"] {
+          color: @black;
+        }
+      }
+
+      &.active {
+        background-color: @gray7;
+        border: 1px solid @gray7;
+        color: @white;
+
+        [class^="icon-"] {
+          color: @white;
+        }
+      }
+    }
+  }
+
+  & > li + li {
+    margin-left: -1px;
+  }
+}
+
+.linked-list {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid @gray2;
+
+  i {
+    color: @black;
+    margin-right: 10px;
+  }
+
+  & + & {
+    margin-top: -1px;
+  }
+}
+.col-icon {
+  width: 34px;
 }

@@ -1,0 +1,38 @@
+{{#view "page-navigations/page-navigation" title="Payments"}}
+	<div class="buttons page-actions">
+		<a class="btn" {{action "openModal" "modals/card-debit-create-modal"}}>Debit a card</a>
+		<a class="btn" {{action "openModal" "modals/bank-account-credit-create-modal"}}>Credit a bank account</a>
+	</div>
+{{/view}}
+
+<nav class="payments-navbar clearfix">
+	<ul class="nav nav-pills">
+		<li>
+			{{#link-to 'marketplace.orders' active=controller.controllers.marketplace.orderSelected}}
+				<i class="icon-grid"></i>
+				<span>Orders</span>
+			{{/link-to}}
+		</li>
+		<li>
+			{{#link-to 'marketplace.transactions' active=controller.controllers.marketplace.transactionSelected}}
+				<i class="icon-list"></i>
+				<span>Transactions</span>
+			{{/link-to}}
+		</li>
+	</ul>
+
+	<div class="actions pull-right">
+		{{#unless auth.isGuest}}
+			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
+				<i class="icon icon-document-upload import-payout"></i>
+				Import payouts
+			{{/link-to}}
+		{{/unless}}
+		<a {{action "openModal" "modals/export-csv-modal" resultsLoader}} class="btn-link sm">
+			<i class="icon icon-export"></i>
+			Export
+		</a>
+	</div>
+</nav>
+
+{{yield}}

@@ -2,7 +2,7 @@ import TransactionsTableView from "./transactions-table";
 
 var EmbeddedTransactionsTableView = TransactionsTableView.extend({
 	isSmallTable: true,
-	colspan: 5
+	colspan: 6
 });
 
 export default EmbeddedTransactionsTableView;
