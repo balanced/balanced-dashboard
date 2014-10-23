@@ -34,7 +34,6 @@ var Transaction = Model.extend({
 
 	status_description: function() {
 		if (this.get('is_failed')) {
-			console.log("failed")
 			if (this.get('failure_reason') || this.get('failure_reason_code')) {
 				return this.get('failure_reason') || this.get('failure_reason_code');
 			}
