@@ -1,3 +1,12 @@
 <div class="results transactions">
+	{{#if hasUnlinkedTransactions}}
+		<div class="alert-row">
+			<div class="row-fluid notification-center secondary unlinked">
+				<div class="notification-center-message">
+					<span class="message">You have unlinked transactions. Use Orders to link related transactions between buyer and merchant.</span>
+				</div>
+			</div>
+		</div>
+	{{/if}}
 	{{view "results/transactions-table" loader=resultsLoader}}
 </div>

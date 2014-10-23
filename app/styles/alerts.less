@@ -36,6 +36,14 @@
     }
   }
 
+  &.secondary {
+    .sl-sb;
+    text-align: left;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   &.error {
     .sl;
     color: @imperialRed100;
@@ -65,6 +73,22 @@
     .message:before {
       &:extend(.icon-alert:before);
       color: @curryYellow80;
+    }
+  }
+
+  &.unlinked {
+    background-color: @curryYellow20;
+
+    .notification-center-message {
+      padding-left: 20px;
+    }
+
+    .message:before {
+      font-size: 14px;
+      line-height: 20px;
+      margin-left: -20px;
+      &:extend(.icon-unlinked:before);
+      color: @imperialRed100;
     }
   }
 

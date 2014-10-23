@@ -13,7 +13,7 @@ header.results-label h3 {
   margin-bottom: 55px;
   .clearfix();
 
-  .transactions {
+  &.transactions {
     margin-top: 45px;
   }
 
@@ -118,8 +118,12 @@ header.results-label h3 {
 
   td.unlinked-status {
     i.icon-unlinked {
-      color: @imperialRed80;
+      color: @imperialRed60;
       vertical-align: -8px;
+
+      &:hover {
+        color: @imperialRed100;
+      }
     }
   }
 

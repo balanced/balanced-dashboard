@@ -1,5 +1,8 @@
 <div class="page-navigation clearfix">
 	<div class="left-page-navigation">
+		{{#if view.model.order}}
+			<div class="page-type">{{#link-to view.model.order.route_name view.model.order}}Order{{/link-to}} &rsaquo; </div>
+		{{/if}}
 		{{#if view.pageType}}
 			<div class="page-type">{{view.pageType}}</div>
 		{{/if}}
