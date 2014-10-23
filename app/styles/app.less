@@ -20,6 +20,10 @@ html, body {
 
   #main {
     height: calc(~"100% - 50px");
+
+    & > #content, & > #content > div.ember-view:last-child {
+      height: 100%;
+    }
   }
 }
 

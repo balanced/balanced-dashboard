@@ -10,13 +10,16 @@
 			item=order
 			}}
 	{{else}}
-		<div>
-			{{#if view.loader.results.isLoaded}}
+		{{#if view.loader.results.isLoaded}}
+			<div class="text-center no-result">
+				<i class="icon-payments non-interactive"></i>
 				No orders
-			{{else}}
+			</div>
+		{{else}}
+			<div class="text-center loading">
 				Loading...
-			{{/if}}
-		</div>
+			</div>
+		{{/if}}
 	{{/each}}
 </div>
 
