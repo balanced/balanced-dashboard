@@ -44,7 +44,8 @@
 		<script src="assets/balanced-dashboard.js"></script>
 		<script src="testem.js"></script>
 		<script>
-			require('balanced-dashboard/tests/test-helper');
+			require("balanced-dashboard/tests/qunit-tap");
+			qunitTap(QUnit, function() { console.log.apply(console, arguments); });
 		</script>
 		<script src="assets/test-loader.js"></script>
 	</body>
