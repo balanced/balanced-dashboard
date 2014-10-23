@@ -14,6 +14,7 @@ import DisplayModelErrors from "./mixins/display-model-errors-modal-mixin";
 var EvidencePortalModalView = ModalBaseView.extend(Full, Form, DisplayModelErrors, {
 	templateName: 'modals/evidence-portal-modal',
 	title: 'Provide dispute evidence',
+	description: 'Balanced will invoice you immediately for the transaction amount and dispute fee. If the dispute is won, Balanced will credit back the transaction amount to your account.',
 	elementId: 'evidence-portal',
 	maxDocumentCount: 50,
 	beforeSubmitText: 'You will not be able to add or modify files once you submit.',

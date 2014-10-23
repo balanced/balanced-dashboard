@@ -46,7 +46,7 @@ var BankAccountVerificationConfirmModalView = ModalBaseView.extend(Full, Form, S
 
 					if (verification.get("verification_status") === "failed") {
 						self.close();
-						notification.alertError("Verification failed. You may restart verification process after three business days.");
+						notification.alertError("Verification failed. You may restart the verification process after three business days.");
 						return Ember.RSVP.reject();
 					}
 
