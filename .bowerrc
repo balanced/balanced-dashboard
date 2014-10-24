@@ -1,4 +1,4 @@
 {
-	"directory" : "bower_components",
-	"analytics": false
+  "directory": "bower_components",
+  "analytics": false
 }

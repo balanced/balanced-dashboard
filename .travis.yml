@@ -1,16 +1,12 @@
+---
 language: node_js
-node_js:
-  - 0.10
-cache:
-  directories:
-    - node_modules
-    - bower_components
-before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+
+sudo: false
+
+install:
   - npm install -g bower
+  - npm install
   - bower install
-script: "grunt test"
-env:
-  global:
-    - COVERALLS_REPO_TOKEN=m3Z9p5t4SQLKw22IE9mkdr1iFSVpeJPoV
+
+script:
+  - npm test

@@ -9,6 +9,7 @@ var requireIfPresent = function(file) {
 
 module.exports = function(environment) {
 	var ENV = {
+		contentSecurityPolicyHeader: "Content-Security-Policy-Report-Only",
 		modulePrefix: 'balanced-dashboard',
 		rootElement: "#balanced-app",
 		environment: environment,

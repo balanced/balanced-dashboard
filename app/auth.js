@@ -233,32 +233,15 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 			});
 	},
 
-	confirmOTP: function(token) {
-		var self = this;
-		var attributes = {
-			url: ENV.BALANCED.AUTH + this.get('lastLoginUri'),
-			type: 'PUT',
-			data: {
-				confirm: token
-			},
-			dataType: 'JSON'
-		};
-		return this.request(attributes)
-			.then(function(response) {
-				var user = self.get('user') || createInstance("model:user");
-				user.populateFromJsonResponse(response.user);
+	setAuthPropertiesFromSession: function(session) {
+		var user = session.get("user");
+		var userId = session.get("userId");
+		var uri = session.get("uri");
+		var isAdmin = session.get("isAdmin");
+		var isGuest = session.get("isGuest");
 
-				if (!self.get('signedIn')) {
-					self.setAuthProperties(true,
-						user,
-						response.user_id,
-						response.user_id,
-						false,
-						response.admin);
-
-					self.rememberLogin(response.uri);
-				}
-			});
+		this.setAuthProperties(true, user, userId, userId, isGuest, isAdmin);
+		this.rememberLogin(uri);
 	},
 
 	setAuthProperties: function(signedIn, user, userId, authToken, isGuest, isAdmin) {

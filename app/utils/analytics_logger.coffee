@@ -34,10 +34,10 @@ trackPage = (page) ->
 AnalyticsLogger =
 	init: ->
 		if isMixpanelLoaded
-			window.mixpanel.init(settings.MIXPANEL)
+			window.mixpanel.init(ENV.BALANCED.MIXPANEL)
 
 		if isGoogleAnalyticsLoaded
-			window._gaq.push(['_setAccount', settings.GOOGLE_ANALYTICS])
+			window._gaq.push(['_setAccount', ENV.BALANCED.GOOGLE_ANALYTICS])
 			window._gaq.push(['_setDomainName', 'balancedpayments.com'])
 			window._gaq.push(['_trackPageview'])
 

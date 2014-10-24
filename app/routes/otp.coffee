@@ -1,8 +1,7 @@
-`import Ember from 'ember';`
+`import Ember from "ember";`
 
-LoginRoute = Ember.Route.extend
+OtpRoute = Ember.Route.extend(
 	pageTitle: 'Login'
-
 	beforeModel: ->
 		sessionsController = this.controllerFor("sessions")
 		if sessionsController.get("isUserRegistered")
@@ -10,10 +9,12 @@ LoginRoute = Ember.Route.extend
 
 	setupController: (controller, model) ->
 		@_super(controller, model)
+		Auth = @get("container").lookup("auth:main")
+		model.set "path", Auth.get("lastLoginUri")
 		@controllerFor("notification-center").clearAlerts()
-		controller.focus()
 
 	model: ->
-		@get("container").lookup("model:login")
+		@get("container").lookup("model:otp-login")
+)
 
-`export default LoginRoute;`
+`export default OtpRoute;`

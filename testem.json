@@ -1,11 +1,17 @@
 {
   "framework": "qunit",
   "test_page": "tests/index.html",
+  "launchers": {
+	"PhantomJsSslAny": {
+		"command": "phantomjs --ssl-protocol=any ./tests/phantom-runner.js http://localhost:7357/",
+		"protocol": "tap"
+	}
+  },
   "launch_in_ci": [
-    "PhantomJS"
+    "PhantomJsSslAny"
   ],
   "launch_in_dev": [
-    "PhantomJS",
+	"PhantomJsSslAny",
     "Chrome"
   ]
 }
