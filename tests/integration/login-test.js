@@ -30,29 +30,18 @@ test('login page exists and has correct fields', function() {
 	Testing.logout();
 
 	visit('/login')
-		.then(function() {
-			equal($("form#auth-form").length, 1, 'The login form exists.');
-			equal($("form#auth-form input.ember-text-field").length, 2, '2 fields exist on the login form.');
-			equal($("form#auth-form button").length, 1, 'Submit button exist on the login form.');
+		.checkElements({
+			"form#auth-form": 1,
+			"form#auth-form input.ember-text-field": 2,
+			"form#auth-form button": 1
 		})
 		.click('form#auth-form button')
+		.checkElements({
+			"form#auth-form .form-group:first .alert.alert-error": "can't be blank",
+			"form#auth-form .form-group:eq(1) .alert.alert-error": "can't be blank"
+		})
 		.then(function() {
-			equal(spy.callCount, 1, 'Login form correctly validated missing information.');
-			ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
-		});
-});
-
-test('login form submits correctly', function() {
-	var spy = sinon.spy(Auth, 'signInRequest');
-	Testing.logout();
-
-	visit('/login')
-		.submitForm('form#auth-form')
-		.then(function() {
-			equal(spy.callCount, 1, 'Login form correctly validated missing information.');
-			ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('is required') >= 0, 'Has error text');
+			equal(spy.callCount, 0, 'Login form correctly validated missing information.');
 		});
 });
 
@@ -62,15 +51,21 @@ test('login page works', function() {
 
 	visit('/login')
 		.fillForm('form#auth-form', {
-			email_address: 'user@balancedpayments.com',
+			emailAddress: 'user@balancedpayments.com',
 			password: '111111'
 		}, {
 			click: 'button'
 		})
+		.checkElements({
+			".notification-center .message": "The e-mail address or password you entered is invalid."
+		})
 		.then(function() {
-			equal(spy.callCount, 1, 'Login form correctly errored.');
-			ok($("form#auth-form").hasClass('error'), 'Login form has an error.');
-			ok($(".notification-center.error .message").text().trim().toLowerCase().indexOf('invalid') >= 0, 'Has error text');
+			deepEqual(spy.args, [[{
+				"data": {
+					"email_address": "user@balancedpayments.com",
+					"password": "111111"
+				}
+			}]]);
 		});
 });
 
@@ -92,7 +87,7 @@ test('login transition works', function() {
 });
 
 test('login afterLogin with transition works', 1, function() {
-	var loginResponse = {
+	var promise = Ember.RSVP.resolve({
 		"id": "ULxxx",
 		"email_address": "xxx@gmail.com",
 		"created_at": "2014-04-18T18:38:22.610397",
@@ -101,6 +96,7 @@ test('login afterLogin with transition works', 1, function() {
 		"uri": "/logins/ULxxx",
 		"session": "xxx",
 		"email_hash": "xxx",
+		"status": "OK",
 		"user": {
 			"id": "USxxx",
 			"uri": "/users/USxxx",
@@ -110,15 +106,16 @@ test('login afterLogin with transition works', 1, function() {
 			"otp_enabled": false,
 			"email_address": "xxx@gmail.com",
 			"marketplaces": Auth.get('user.user_marketplaces')
-		},
-		"status": "OK"
-	};
-
-	var promise = Ember.RSVP.resolve(loginResponse);
+		}
+	});
 	var stub = sinon.stub(Auth, 'request').returns(promise);
-
 	Testing.logout();
+
 	visit(Testing.MARKETPLACE_ROUTE)
+		.fillForm("#auth-form", {
+			"emailAddress": "guy@example.com",
+			"password": "111111"
+		})
 		.click('form#auth-form button')
 		.then(function() {
 			var app = BalancedApp.__container__.lookup('controller:application');
