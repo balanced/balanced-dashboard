@@ -10,10 +10,11 @@ var resultsLoaderProperty = function(methodName) {
 var OrdersController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 
-	debitsResultsLoader: resultsLoaderProperty("getDebitsResultsLoader"),
+	debitsResultsLoader: resultsLoaderProperty("getOrderDebitsResultsLoader"),
 	creditsResultsLoader: resultsLoaderProperty("getCreditsResultsLoader"),
 	reversalsResultsLoader: resultsLoaderProperty("getReversalsResultsLoader"),
 	refundsResultsLoader: resultsLoaderProperty("getRefundsResultsLoader"),
+	buyersResultsLoader: resultsLoaderProperty("getBuyersResultsLoader"),
 
 	amounts: function() {
 		var amounts = {};

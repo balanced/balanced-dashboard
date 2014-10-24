@@ -41,6 +41,14 @@ var Order = Model.extend({
 	getRefundsResultsLoader: generateResultsLoader("transactions", "refunds_uri"),
 	getReversalsResultsLoader: generateResultsLoader("transactions", "reversals_uri"),
 
+	getOrderDebitsResultsLoader: function(attributes) {
+		var OrderDebitsResultsLoader = require("balanced-dashboard/models/results-loaders/order-debits")["default"];
+		attributes = _.extend({
+			order: this
+		}, attributes);
+		return OrderDebitsResultsLoader.create(attributes);
+	},
+
 	// filter credits by those that belong to the customer
 	credits_list: function() {
 		var customer = this.get('customer.href');

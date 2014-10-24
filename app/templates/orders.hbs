@@ -15,24 +15,9 @@
 	{{/view}}
 
 	{{#view "detail-views/main-panel"}}
-		<h3>Credits</h3>
+		<h3>Related transactions</h3>
 		<div class="results">
-			{{view "results/order-transactions-table" loader=creditsResultsLoader}}
-		</div>
-
-		<h3>Debits</h3>
-		<div class="results">
-			{{view "results/order-transactions-table" loader=debitsResultsLoader}}
-		</div>
-
-		<h3>Refunds</h3>
-		<div class="results">
-			{{view "results/order-transactions-table" loader=refundsResultsLoader}}
-		</div>
-
-		<h3>Reversal</h3>
-		<div class="results">
-			{{view "results/order-transactions-table" loader=reversalsResultsLoader}}
+			{{view "results/order-debits-table" loader=debitsResultsLoader}}
 		</div>
 
 		<h3>Logs</h3>
