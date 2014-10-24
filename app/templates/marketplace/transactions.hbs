@@ -9,13 +9,11 @@
 	<div class="pull-right">
 		{{#unless auth.isGuest}}
 			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
-				<i class="icon icon-document-upload import-payout"></i>
-				Import payouts
+				<i class="icon icon-document-upload import-payout"></i>Import payouts
 			{{/link-to}}
 		{{/unless}}
 		<a {{action "openModal" "modals/export-csv-modal" resultsLoader}} class="btn-link sm">
-			<i class="icon icon-export"></i>
-			Export
+			<i class="icon icon-export"></i>Export
 		</a>
 	</div>
 </nav>

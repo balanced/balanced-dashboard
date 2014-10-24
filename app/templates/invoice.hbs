@@ -94,7 +94,11 @@
 							<td class="num"><span>{{format-number bank_account_debits_count}}</span></td>
 							<td class="num"><span>{{format-currency bank_account_debits_total_amount}}</span></td>
 							<td><span>
-								{{bank_account_debit_variable_fee_percentage}}% of debit amount + 30&cent;
+								{{#if bank_account_debit_variable_fee_cap}}
+									{{bank_account_debit_variable_fee_cap}}&cent; per debit
+								{{else}}
+									{{bank_account_debit_variable_fee_percentage}}% of debit amount + 30&cent;
+								{{/if}}
 							</span></td>
 							<td class="num total"><span>{{format-currency bank_account_debits_total_fee}}</span></td>
 						</tr>

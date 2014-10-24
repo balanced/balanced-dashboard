@@ -12,7 +12,7 @@ var BankAccountSummarySectionView = SummarySectionView.extend({
 		} else if (status === 'unverifiable') {
 			return 'You may only credit to this bank account. This bank account is unverifiable because it\'s not associated with a customer.';
 		} else if (status === 'failed') {
-			return 'We could not verify your bank account. You may restart verification process after three business days after %@.'.fmt(Utils.humanReadableDateShort(this.get('model.verification.updated_at')));
+			return 'We could not verify your bank account. You may restart the verification process after three business days after %@.'.fmt(Utils.humanReadableDateShort(this.get('model.verification.updated_at')));
 		}
 
 		return undefined;

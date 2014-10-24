@@ -10,8 +10,8 @@
 		<section class="payment-method-info">
 			<h3>Payment methods</h3>
 			<div class="pull-right">
-				<a class="btn-link sm" {{action "openModal" "modals/customer-bank-account-create-modal" model.owner_customer}}>Add a bank account</a>
-				<a class="btn-link sm" {{action "openModal" "modals/customer-card-create-modal" model.owner_customer}}>Add a card</a>
+				<a class="btn-link sm" {{action "openModal" "modals/customer-bank-account-create-modal" model.owner_customer}}><i class="icon icon-add non-interactive"></i>Add a bank account</a>
+				<a class="btn-link sm" {{action "openModal" "modals/customer-card-create-modal" model.owner_customer}}><i class="icon icon-add non-interactive"></i>Add a card</a>
 			</div>
 			<div class="results">
 				{{view "results/embedded-funding-instruments-table" loader=fundingInstrumentsResultsLoader}}
@@ -22,7 +22,7 @@
 			<h3>API keys</h3>
 
 			<div class="pull-right">
-				<a href="#" {{action "openModal" "modals/api-key-create-modal"}} class="btn-link sm create-api-key-btn">Add a key</a>
+				<a href="#" {{action "openModal" "modals/api-key-create-modal"}} class="btn-link sm create-api-key-btn"><i class="icon icon-add non-interactive"></i>Add a key</a>
 			</div>
 			<span class="sl-note">(All keys have admin access to the dashboard)</span>
 			<div class="results">
@@ -34,7 +34,7 @@
 			<section class="users-info">
 				<h3>Users</h3>
 				<div class="pull-right">
-					<a href="#" {{action "openModal" "modals/marketplace-user-create-modal" marketplace.users_uri}} class="btn-link sm create-user-btn">Add a user</a>
+					<a href="#" {{action "openModal" "modals/marketplace-user-create-modal" marketplace.users_uri}} class="btn-link sm create-user-btn"><i class="icon icon-add non-interactive"></i>Add a user</a>
 				</div>
 				<div class="results">
 					{{users-table users=userMarketplace.users userMarketplace=userMarketplace}}
@@ -44,7 +44,7 @@
 
 		<section class="webhook-info">
 			<h3>Webhooks</h3>
-			<a href="#" class="add btn-link sm pull-right" {{action "openModal" "modals/add-callback-modal" model}}>Add a webhook</a>
+			<a href="#" class="add btn-link sm pull-right" {{action "openModal" "modals/add-callback-modal" model}}><i class="icon icon-add non-interactive"></i>Add a webhook</a>
 			<table class="items non-interactive webhooks">
 				<thead>
 					<th class="col-md-3"><span>Version</span></th>
