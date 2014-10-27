@@ -1,6 +1,29 @@
 /*jshint camelcase: false */
 /*global module:false */
 module.exports = function(grunt) {
+	var S3_CACHED_UPLOAD_CONFIGURATION = [{
+		src: 'dist/js/*',
+		dest: 'js/'
+	}, {
+		src: 'dist/assets/*',
+		dest: 'assets/'
+	}, {
+		src: 'dist/css/*',
+		dest: 'css/'
+	}, {
+		src: 'dist/images/**/*',
+		dest: 'images/'
+	}, {
+		src: 'dist/fonts/**/*',
+		dest: 'fonts/'
+	}, {
+		src: 'dist/files/**/*',
+		dest: 'files/'
+	}, {
+		src: 'dist/notfound/**/*',
+		rel: 'dist/notfound',
+		dest: 'notfound/'
+	}];
 
 	grunt.initConfig({
 		clean: {
@@ -52,29 +75,7 @@ module.exports = function(grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: [{
-					src: 'dist/js/*',
-					dest: 'js/'
-				}, {
-					src: 'dist/assets/*',
-					dest: 'assets/'
-				}, {
-					src: 'dist/css/*',
-					dest: 'css/'
-				}, {
-					src: 'dist/images/**/*',
-					dest: 'images/'
-				}, {
-					src: 'dist/fonts/**/*',
-					dest: 'fonts/'
-				}, {
-					src: 'dist/files/**/*',
-					dest: 'files/'
-				}, {
-					src: 'dist/notfound/**/*',
-					rel: 'dist/notfound',
-					dest: 'notfound/'
-				}]
+				upload: S3_CACHED_UPLOAD_CONFIGURATION
 			},
 			previewUncached: {
 				options: {
@@ -95,26 +96,7 @@ module.exports = function(grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: [{
-					src: 'dist/js/*',
-					dest: 'js/'
-				}, {
-					src: 'dist/css/*',
-					dest: 'css/'
-				}, {
-					src: 'dist/images/**/*',
-					dest: 'images/'
-				}, {
-					src: 'dist/fonts/**/*',
-					dest: 'fonts/'
-				}, {
-					src: 'dist/files/**/*',
-					dest: 'files/'
-				}, {
-					src: 'dist/notfound/**/*',
-					rel: 'dist/notfound',
-					dest: 'notfound/'
-				}]
+				upload: S3_CACHED_UPLOAD_CONFIGURATION
 			},
 			productionUncached: {
 				options: {
