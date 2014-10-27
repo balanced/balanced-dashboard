@@ -42,13 +42,7 @@ var OrdersController = Ember.ObjectController.extend({
 
 	multiple_credits: function() {
 		return this.get('credits.length') > 1;
-	}.property('credits', 'credits.length'),
-
-	actions: {
-		loadMore: function(results) {
-			results.loadNextPage();
-		}
-	}
+	}.property('credits', 'credits.length')
 });
 
 export default OrdersController;
