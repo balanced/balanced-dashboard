@@ -2,6 +2,7 @@
 
 ### Master
 
+* Fix for blinking "Upload dispute document" banner.
 * Uploading assets directory into production deployment (#1512)
 * Specifying hard version numbers on packages (#1512)
 
