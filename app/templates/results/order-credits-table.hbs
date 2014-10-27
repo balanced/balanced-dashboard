@@ -1,15 +1,7 @@
 <thead>
 	<tr>
-		<th class="col-md-2 date has-filter">
-			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
-				<span>Date</span>
-			{{/view}}
-		</th>
-		<th class="col-md-2 status has-filter">
-			{{view "results/transactions-status-results-dropdown-filter"}}
-		</th>
-		<th class="col-md-2 description"><span>Description</span></th>
-		<th class="col-md-2 account"><span>Customer</span></th>
+		<th class="col-md-3 customer"><span>Customer</span></th>
+		<th class="col-md-7 transaction"><span>Transaction</span></th>
 		<th class="col-md-2 amount num">
 			<span>Amount</span>
 		</th>
@@ -20,62 +12,24 @@
 {{/if}}
 
 <tbody>
-	{{#each customer in view.loader.results}}
-		{{#each credit in customer.credits}}
-			<tr>
-				{{view "tables/cells/linked-date-cell"
-					item=credit
-					routeName=credit.route_name
-					date=credit.created_at
-				}}
-				{{view "tables/cells/linked-text-cell"
-					item=credit
-					labelText=credit.status
-					routeName=credit.route_name
-					spanClassNamesBinding="credit.status"
-					classNames="status"
-					titleBinding="credit.status"
-				}}
-				{{view "tables/cells/linked-text-cell"
-					item=credit
-					labelText=credit.description
-					routeName=credit.route_name
-					titleBinding="credit.description"
-				}}
-				{{view "tables/cells/credit/customer-cell" item=credit}}
-				{{view "tables/cells/credit/amount-cell" item=credit}}
-			</tr>
-			{{#if credit.reversals_uri}}
-				{{#each refund in credit.reversals}}
-					<tr>
-						{{view "tables/cells/linked-date-cell"
-							item=refund
-							routeName=refund.route_name
-							date=refund.created_at
-						}}
-						{{view "tables/cells/linked-text-cell"
-							item=refund
-							labelText=refund.status
-							routeName=refund.route_name
-							spanClassNamesBinding="refund.status"
-							classNames="status"
-							titleBinding="refund.status"
-						}}
-						{{view "tables/cells/linked-text-cell"
-							item=refund
-							labelText=refund.description
-							routeName=refund.route_name
-							titleBinding="refund.description"
-						}}
-						{{view "tables/cells/transaction/customer-cell" item=refund}}
-						{{view "tables/cells/transaction/amount-cell" item=refund}}
-					</tr>
-				{{/each}}
-			{{/if}}
-		{{/each}}
+	{{#each credit in view.loader.results}}
+		<tr>
+			{{view "tables/cells/linked-two-lines-cell"
+				item=credit.customer
+				routeName=credit.customer.route_name
+				primaryLabelText=credit.customer.display_me
+				secondaryLabelText=credit.customer.email
+				title=credit.customer.display_me_with_email
+				class="customer-group"
+			}}
+			<td class="grouped-transactions-container" colspan="2">
+				{{#view "tables/grouped-transactions-table"}}
+					{{view "tables/grouped-transaction-row" item=credit}}
+				{{/view}}
+			</td>
 	{{else}}
 		<tr>
-			<td colspan="5" class="no-results">
+			<td colspan="3" class="no-results">
 				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}

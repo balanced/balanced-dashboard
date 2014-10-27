@@ -20,11 +20,15 @@
 				primaryLabelText=customer_group.customer.display_me
 				secondaryLabelText=customer_group.customer.email
 				title=customer_group.customer.display_me_with_email
-				class="clickable"
+				class="customer-group"
 			}}
 			<td class="grouped-transactions-container" colspan="2">
 				{{#each debit in customer_group.debits}}
 					{{#view "tables/grouped-transactions-table"}}
+						{{#if debit.dispute}}
+							{{view "tables/grouped-transaction-row" item=debit.dispute}}
+						{{/if}}
+
 						{{view "tables/grouped-transaction-row" item=debit}}
 
 						{{#if debit.hold}}
@@ -34,12 +38,6 @@
 						{{#if debit.refunds}}
 							{{#each refund in debit.refunds}}
 								{{view "tables/grouped-transaction-row" item=refund}}
-							{{/each}}
-						{{/if}}
-
-						{{#if debit.disputes}}
-							{{#each dispute in debit.disputes}}
-								{{view "tables/grouped-transaction-row" item=dispute}}
 							{{/each}}
 						{{/if}}
 					{{/view}}

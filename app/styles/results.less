@@ -128,11 +128,16 @@ header.results-label h3 {
   }
 
   table.non-interactive {
-    td.clickable > a > span > .primary {
-      &:extend(a);
+    td.customer-group {
+      vertical-align: top;
+      padding-top: 4px;
 
-      &:hover {
-        &:extend(a:hover);
+      & > a > span > .primary {
+        &:extend(a);
+
+        &:hover {
+          &:extend(a:hover);
+        }
       }
     }
 
@@ -167,6 +172,21 @@ header.results-label h3 {
 
             a > span > .secondary {
               margin-left: 14px;
+            }
+
+            &.dispute .pending {
+              &:before {
+                font-family: 'Balanced-Icon';
+                font-size: 12px;
+                &:extend(.icon-disputes:before);
+                color: @curryYellow80;
+                margin-top: -12px;
+                width: 0;
+                height: 0;
+              }
+              > .primary {
+                margin-left: 14px;
+              }
             }
 
             a > span:after {
@@ -233,6 +253,10 @@ header.results-label h3 {
 
   .num, .align-right {
     text-align: right;
+
+    .failed {
+      color: @imperialRed100;
+    }
   }
   .null-field {
     font-style:italic;

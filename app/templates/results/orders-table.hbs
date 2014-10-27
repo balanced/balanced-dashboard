@@ -28,7 +28,7 @@
 		<span class="loader loading"></span>
 	</div>
 {{else}} {{#if view.loader.results.hasNextPage}}
-	<table class="items">
+	<table class="items non-interactive">
 		{{view "results/results-load-more" results=view.loader.results}}
 	</table>
 {{/if}} {{/if}}

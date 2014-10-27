@@ -1,4 +1,4 @@
-<td class="status two-line">
+<td {{bind-attr class="view.item.route_name :status :two-line"}}>
 	{{#link-to view.routeName view.item}}
 		<span {{bind-attr class="view.isBlank:sl-none view.spanClassNames"}}>
 			{{view.displayValue}}
@@ -6,7 +6,7 @@
 	{{/link-to}}
 </td>
 <td class="col-md-3 amount num">
-	<span>
+	<span {{bind-attr class="view.spanClassNames"}}>
 		{{view.amountText}}
 	</span>
 </td>
