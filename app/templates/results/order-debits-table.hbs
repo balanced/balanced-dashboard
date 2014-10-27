@@ -20,87 +20,97 @@
 {{/if}}
 
 <tbody>
-	{{#each customer in view.loader.results}}
-		{{#each debit in customer.debits}}
-			<tr>
-				{{view "tables/cells/linked-date-cell"
-					item=debit
-					routeName=debit.route_name
-					date=debit.created_at
-				}}
-				{{view "tables/cells/linked-text-cell"
-					item=debit
-					labelText=debit.status
-					routeName=debit.route_name
-					spanClassNamesBinding="debit.status"
-					classNames="status"
-					titleBinding="debit.status"
-				}}
-				{{view "tables/cells/linked-text-cell"
-					item=debit
-					labelText=debit.description
-					routeName=debit.route_name
-					titleBinding="debit.description"
-				}}
-				{{view "tables/cells/debit/customer-cell" item=debit}}
-				{{view "tables/cells/debit/amount-cell" item=debit}}
-			</tr>
-			{{#if debit.refunds_uri}}
-				{{#each refund in debit.refunds}}
-					<tr>
+	{{#each customer_group in view.loader.results}}
+		<tr>
+			{{view "tables/cells/linked-two-lines-cell"
+				item=customer_group.customer
+				routeName=customer_group.customer.route_name
+				primaryLabelText=customer_group.customer.display_me
+				secondaryLabelText=customer_group.customer.email
+				title=customer_group.customer.display_me_with_email
+			}}
+			<td colspan="4">
+				{{#each debit in customer_group.debits}}
+					<div>
 						{{view "tables/cells/linked-date-cell"
-							item=refund
-							routeName=refund.route_name
-							date=refund.created_at
+							item=debit
+							routeName=debit.route_name
+							date=debit.created_at
 						}}
 						{{view "tables/cells/linked-text-cell"
-							item=refund
-							labelText=refund.status
-							routeName=refund.route_name
-							spanClassNamesBinding="refund.status"
+							item=debit
+							labelText=debit.status
+							routeName=debit.route_name
+							spanClassNamesBinding="debit.status"
 							classNames="status"
-							titleBinding="refund.status"
+							titleBinding="debit.status"
 						}}
 						{{view "tables/cells/linked-text-cell"
-							item=refund
-							labelText=refund.description
-							routeName=refund.route_name
-							titleBinding="refund.description"
+							item=debit
+							labelText=debit.description
+							routeName=debit.route_name
+							titleBinding="debit.description"
 						}}
-						{{view "tables/cells/transaction/customer-cell" item=refund}}
-						{{view "tables/cells/transaction/amount-cell" item=refund}}
-					</tr>
-				{{/each}}
-			{{/if}}
+						{{view "tables/cells/transaction/customer-cell" item=debit}}
+						{{view "tables/cells/transaction/amount-cell" item=debit}}
+					</div>
+					{{#if debit.refunds_uri}}
+						{{#each refund in debit.refunds}}
+							<div>
+								{{view "tables/cells/linked-date-cell"
+									item=refund
+									routeName=refund.route_name
+									date=refund.created_at
+								}}
+								{{view "tables/cells/linked-text-cell"
+									item=refund
+									labelText=refund.status
+									routeName=refund.route_name
+									spanClassNamesBinding="refund.status"
+									classNames="status"
+									titleBinding="refund.status"
+								}}
+								{{view "tables/cells/linked-text-cell"
+									item=refund
+									labelText=refund.description
+									routeName=refund.route_name
+									titleBinding="refund.description"
+								}}
+								{{view "tables/cells/transaction/customer-cell" item=refund}}
+								{{view "tables/cells/transaction/amount-cell" item=refund}}
+							</div>
+						{{/each}}
+					{{/if}}
 
-			{{#if debit.disputes_uri}}
-				{{#each dispute in debit.disputes}}
-					<tr>
-						{{view "tables/cells/linked-date-cell"
-							item=dispute
-							routeName=dispute.route_name
-							date=dispute.created_at
-						}}
-						{{view "tables/cells/linked-text-cell"
-							item=dispute
-							labelText=dispute.status
-							routeName=dispute.route_name
-							spanClassNamesBinding="dispute.status"
-							classNames="status"
-							titleBinding="dispute.status"
-						}}
-						{{view "tables/cells/linked-text-cell"
-							item=dispute
-							labelText=dispute.description
-							routeName=dispute.route_name
-							titleBinding="dispute.description"
-						}}
-						{{view "tables/cells/transaction/customer-cell" item=dispute}}
-						{{view "tables/cells/transaction/amount-cell" item=dispute}}
-					</tr>
+					{{#if debit.disputes_uri}}
+						{{#each dispute in debit.disputes}}
+							<div>
+								{{view "tables/cells/linked-date-cell"
+									item=dispute
+									routeName=dispute.route_name
+									date=dispute.created_at
+								}}
+								{{view "tables/cells/linked-text-cell"
+									item=dispute
+									labelText=dispute.status
+									routeName=dispute.route_name
+									spanClassNamesBinding="dispute.status"
+									classNames="status"
+									titleBinding="dispute.status"
+								}}
+								{{view "tables/cells/linked-text-cell"
+									item=dispute
+									labelText=dispute.description
+									routeName=dispute.route_name
+									titleBinding="dispute.description"
+								}}
+								{{view "tables/cells/transaction/customer-cell" item=dispute}}
+								{{view "tables/cells/transaction/amount-cell" item=dispute}}
+							</div>
+						{{/each}}
+					{{/if}}
 				{{/each}}
-			{{/if}}
-		{{/each}}
+			</td>
 	{{else}}
 		<tr>
 			<td colspan="5" class="no-results">

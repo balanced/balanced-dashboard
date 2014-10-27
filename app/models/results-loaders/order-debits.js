@@ -7,34 +7,34 @@ import Dispute from "balanced-dashboard/models/dispute";
 import Customer from "balanced-dashboard/models/customer";
 
 var OrderDebitsResultsLoader = BaseResultsLoader.extend({
-	debits: function() {
-		var debitUri = this.get("order.debits_uri");
-		return SearchModelArray.newArrayLoadedFromUri(debitUri, Customer);
-	}.property("order.debits_uri"),
-
-	results: function () {
+	results: function() {
 		var results = SearchModelArray.create({
-   			isLoaded: true,
-   			content: []
-   		});
+			isLoaded: true,
+			content: []
+		});
 
-		console.log(results, this.get("debits"))
-		this.get("debits").then(function(debits) {
-			debits.get("content").forEach(function(debit) {
+		var buyers = this.get("order.buyers");
+		var debitUri = this.get("order.debits_uri");
+		var debitsArray = SearchModelArray.newArrayLoadedFromUri(debitUri, Customer);
+
+		debitsArray.then(function(debits){
+			debits.forEach(function(debit) {
 				var hasCustomer = results.findBy('customer_uri', debit.get('customer_uri'));
+				var buyer = buyers.findBy("uri", debit.get('customer_uri'));
+
 				if(!hasCustomer) {
 					results.get("content").pushObject(Ember.Object.create({
 						customer_uri: debit.get('customer_uri'),
+						customer: buyer,
 						debits: []
 					}));
 				}
 				results.findBy('customer_uri', debit.get('customer_uri')).get('debits').pushObject(debit);
 			});
-			console.log("results:", results);
-
-			return results;
 		});
-	}.property('debits.content.[]')
+
+		return results;
+	}.property("order.debits_uri", "order.buyers"),
 });
 
 export default OrderDebitsResultsLoader;
