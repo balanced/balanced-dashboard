@@ -127,6 +127,60 @@ header.results-label h3 {
     }
   }
 
+  table.non-interactive {
+    td.clickable > a > span > .primary {
+      &:extend(a);
+
+      &:hover {
+        &:extend(a:hover);
+      }
+    }
+
+    td.grouped-transactions-container {
+      padding-right: 0;
+
+      table.grouped-transactions {
+        border-bottom: 1px solid @gray2;
+
+        &:last-of-type {
+          border-bottom: none;
+        }
+
+        tr {
+          border-bottom: none;
+
+          &:hover {
+            background-color: @persianBlue10;
+          }
+
+          &:last-of-type {
+            td.status > a > span:after {
+              content: none;
+            }
+          }
+        }
+        td {
+          &.status {
+            text-transform: none;
+            a > span > .secondary {
+              margin-left: 14px;
+            }
+
+            a > span:after {
+              position: absolute;
+              content: '';
+              border-left: 2px solid @gray3;
+              height: 30px;
+              margin-top: -19px;
+              margin-left: 3px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
   td.status {
     text-transform: capitalize;
 

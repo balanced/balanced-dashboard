@@ -1,15 +1,7 @@
 <thead>
 	<tr>
-		<th class="col-md-2 date has-filter">
-			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
-				<span>Date</span>
-			{{/view}}
-		</th>
-		<th class="col-md-2 status has-filter">
-			{{view "results/transactions-status-results-dropdown-filter"}}
-		</th>
-		<th class="col-md-2 description"><span>Description</span></th>
-		<th class="col-md-2 account"><span>Customer</span></th>
+		<th class="col-md-3 customer"><span>Customer</span></th>
+		<th class="col-md-7 transaction"><span>Transaction</span></th>
 		<th class="col-md-2 amount num">
 			<span>Amount</span>
 		</th>
@@ -28,92 +20,34 @@
 				primaryLabelText=customer_group.customer.display_me
 				secondaryLabelText=customer_group.customer.email
 				title=customer_group.customer.display_me_with_email
+				class="clickable"
 			}}
-			<td colspan="4">
+			<td class="grouped-transactions-container" colspan="2">
 				{{#each debit in customer_group.debits}}
-					<div>
-						{{view "tables/cells/linked-date-cell"
-							item=debit
-							routeName=debit.route_name
-							date=debit.created_at
-						}}
-						{{view "tables/cells/linked-text-cell"
-							item=debit
-							labelText=debit.status
-							routeName=debit.route_name
-							spanClassNamesBinding="debit.status"
-							classNames="status"
-							titleBinding="debit.status"
-						}}
-						{{view "tables/cells/linked-text-cell"
-							item=debit
-							labelText=debit.description
-							routeName=debit.route_name
-							titleBinding="debit.description"
-						}}
-						{{view "tables/cells/transaction/customer-cell" item=debit}}
-						{{view "tables/cells/transaction/amount-cell" item=debit}}
-					</div>
-					{{#if debit.refunds_uri}}
-						{{#each refund in debit.refunds}}
-							<div>
-								{{view "tables/cells/linked-date-cell"
-									item=refund
-									routeName=refund.route_name
-									date=refund.created_at
-								}}
-								{{view "tables/cells/linked-text-cell"
-									item=refund
-									labelText=refund.status
-									routeName=refund.route_name
-									spanClassNamesBinding="refund.status"
-									classNames="status"
-									titleBinding="refund.status"
-								}}
-								{{view "tables/cells/linked-text-cell"
-									item=refund
-									labelText=refund.description
-									routeName=refund.route_name
-									titleBinding="refund.description"
-								}}
-								{{view "tables/cells/transaction/customer-cell" item=refund}}
-								{{view "tables/cells/transaction/amount-cell" item=refund}}
-							</div>
-						{{/each}}
-					{{/if}}
+					{{#view "tables/grouped-transactions-table"}}
+						{{view "tables/grouped-transaction-row" item=debit}}
 
-					{{#if debit.disputes_uri}}
-						{{#each dispute in debit.disputes}}
-							<div>
-								{{view "tables/cells/linked-date-cell"
-									item=dispute
-									routeName=dispute.route_name
-									date=dispute.created_at
-								}}
-								{{view "tables/cells/linked-text-cell"
-									item=dispute
-									labelText=dispute.status
-									routeName=dispute.route_name
-									spanClassNamesBinding="dispute.status"
-									classNames="status"
-									titleBinding="dispute.status"
-								}}
-								{{view "tables/cells/linked-text-cell"
-									item=dispute
-									labelText=dispute.description
-									routeName=dispute.route_name
-									titleBinding="dispute.description"
-								}}
-								{{view "tables/cells/transaction/customer-cell" item=dispute}}
-								{{view "tables/cells/transaction/amount-cell" item=dispute}}
-							</div>
-						{{/each}}
-					{{/if}}
+						{{#if debit.hold}}
+							{{view "tables/grouped-transaction-row" item=debit.hold}}
+						{{/if}}
+
+						{{#if debit.refunds}}
+							{{#each refund in debit.refunds}}
+								{{view "tables/grouped-transaction-row" item=refund}}
+							{{/each}}
+						{{/if}}
+
+						{{#if debit.disputes}}
+							{{#each dispute in debit.disputes}}
+								{{view "tables/grouped-transaction-row" item=dispute}}
+							{{/each}}
+						{{/if}}
+					{{/view}}
 				{{/each}}
 			</td>
 	{{else}}
 		<tr>
-			<td colspan="5" class="no-results">
+			<td colspan="3" class="no-results">
 				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}
