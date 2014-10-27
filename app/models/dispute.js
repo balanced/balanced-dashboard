@@ -1,5 +1,4 @@
 import Ember from "ember";
-import JustitiaDispute from "./justitia-dispute";
 import Computed from "../utils/computed";
 import Model from "./core/model";
 
@@ -24,6 +23,7 @@ var Dispute = Model.extend(Ember.Validations, {
 		}
 	},
 	justitia_dispute: function() {
+		var JustitiaDispute = BalancedApp.__container__.lookupFactory("model:justitia-dispute");
 		return JustitiaDispute.find(this.get('dispute_uri'));
 	}.property('dispute_uri'),
 
