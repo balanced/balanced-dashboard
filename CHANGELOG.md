@@ -1,6 +1,6 @@
 # Balanced Dashboard Changelog
 
-### Master
+### 1.0.1
 
 * Fix for blinking "Upload dispute document" banner.
 * Uploading assets directory into production deployment (#1512)
