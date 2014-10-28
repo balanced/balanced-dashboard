@@ -39,7 +39,7 @@
 					{{linkedResource.title}}
 
 					{{#if linkedResource.editModelModalClass}}
-						<a class="edit-model-link" {{action "openModal" view.editModelModalClass view.model}}>
+						<a class="edit-model-link" {{action "openModal" linkedResource.editModelModalClass view.model}}>
 							<i class="icon-edit"></i>
 						</a>
 					{{/if}}
