@@ -2,10 +2,6 @@ import TitledKeyValuesSectionView from "./titled-key-values-section";
 import ListValueGenerator from "./list-value-generator";
 
 var TransactionTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
-	editModelModalClass: function() {
-		return this.get("container").lookupFactory("view:modals/edit-description-modal");
-	}.property(),
-
 	keyValueListViews: function() {
 		var idTitle = "%@ ID".fmt(this.get("model.type_name"));
 		return [

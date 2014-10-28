@@ -14,6 +14,8 @@ var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 
 		if (description) {
 			title = description;
+		} else if (_.contains(this.get("classNames"), "current")) {
+			return 'You are currently viewing this transaction.';
 		}
 
 		return title;

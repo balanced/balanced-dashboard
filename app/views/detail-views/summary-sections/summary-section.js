@@ -42,7 +42,8 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-description',
 				title: 'Internal description',
 				value: value,
-				hoverValue: value
+				hoverValue: value,
+				editModelModalClass: this.get("container").lookupFactory("view:modals/edit-description-modal")
 			};
 		}
 	},

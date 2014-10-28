@@ -38,8 +38,8 @@
 					<i {{bind-attr class="linkedResource.className :non-interactive"}}></i>
 					{{linkedResource.title}}
 
-					{{#if view.editModelModalClass}}
-						<a class="pull-right edit-model-link" {{action "openModal" view.editModelModalClass view.model}}>
+					{{#if linkedResource.editModelModalClass}}
+						<a class="edit-model-link" {{action "openModal" view.editModelModalClass view.model}}>
 							<i class="icon-edit"></i>
 						</a>
 					{{/if}}

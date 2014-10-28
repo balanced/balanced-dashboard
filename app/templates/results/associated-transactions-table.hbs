@@ -18,14 +18,30 @@
 						{{view "results/grouped-transaction-row" item=view.parentView.transaction.dispute}}
 					{{/if}}
 
+					{{#if view.parentView.transaction.debit}}
+						{{#if view.parentView.transaction.debit.dispute}}
+							{{view "results/grouped-transaction-row" item=view.parentView.transaction.debit.dispute}}
+						{{/if}}
+						{{view "results/grouped-transaction-row" item=view.parentView.transaction.debit}}
+					{{/if}}
+
+					{{#if view.parentView.transaction.credit}}
+						{{view "results/grouped-transaction-row" item=view.parentView.transaction.credit}}
+					{{/if}}
+
 					{{view "results/grouped-transaction-row" item=view.parentView.transaction class="current"}}
+
+					{{#if view.parentView.transaction.transaction}}
+						{{view "results/grouped-transaction-row" item=view.parentView.transaction.transaction}}
+						{{view "results/grouped-transaction-row" item=view.parentView.transaction.transaction.hold}}
+					{{/if}}
 
 					{{#if view.parentView.transaction.hold}}
 						{{view "results/grouped-transaction-row" item=view.parentView.transaction.hold}}
 					{{/if}}
 
 					{{#if view.parentView.transaction.refunds}}
-						{{#each refund in transaction.refunds}}
+						{{#each refund in view.parentView.transaction.refunds}}
 							{{view "results/grouped-transaction-row" item=refund}}
 						{{/each}}
 					{{/if}}
