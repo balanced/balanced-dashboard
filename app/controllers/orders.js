@@ -11,7 +11,7 @@ var OrdersController = Ember.ObjectController.extend({
 	needs: ['marketplace'],
 
 	debitsResultsLoader: resultsLoaderProperty("getOrderDebitsResultsLoader"),
-	creditsResultsLoader: resultsLoaderProperty("getCreditsResultsLoader"),
+	creditsResultsLoader: resultsLoaderProperty("getOrderCreditsResultsLoader"),
 	reversalsResultsLoader: resultsLoaderProperty("getReversalsResultsLoader"),
 	refundsResultsLoader: resultsLoaderProperty("getRefundsResultsLoader"),
 	buyersResultsLoader: resultsLoaderProperty("getBuyersResultsLoader"),

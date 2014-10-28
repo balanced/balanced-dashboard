@@ -49,6 +49,14 @@ var Order = Model.extend({
 		return OrderDebitsResultsLoader.create(attributes);
 	},
 
+	getOrderCreditsResultsLoader: function(attributes) {
+		var OrderCreditsResultsLoader = require("balanced-dashboard/models/results-loaders/order-credits")["default"];
+		attributes = _.extend({
+			order: this
+		}, attributes);
+		return OrderCreditsResultsLoader.create(attributes);
+	},
+
 	// filter credits by those that belong to the customer
 	credits_list: function() {
 		var customer = this.get('customer.href');

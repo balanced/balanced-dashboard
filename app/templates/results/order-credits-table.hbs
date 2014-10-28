@@ -12,20 +12,28 @@
 {{/if}}
 
 <tbody>
-	{{#each credit in view.loader.results}}
+	{{#each customer_group in view.loader.results}}
 		<tr>
 			{{view "tables/cells/linked-two-lines-cell"
-				item=credit.customer
-				routeName=credit.customer.route_name
-				primaryLabelText=credit.customer.display_me
-				secondaryLabelText=credit.customer.email
-				title=credit.customer.display_me_with_email
+				item=customer_group.customer
+				routeName=customer_group.customer.route_name
+				primaryLabelText=customer_group.customer.display_me
+				secondaryLabelText=customer_group.customer.email
+				title=customer_group.customer.display_me_with_email
 				class="customer-group"
 			}}
 			<td class="grouped-transactions-container" colspan="2">
-				{{#view "tables/grouped-transactions-table"}}
-					{{view "tables/grouped-transaction-row" item=credit}}
-				{{/view}}
+				{{#each credit in customer_group.credits}}
+					{{#view "tables/grouped-transactions-table"}}
+						{{view "tables/grouped-transaction-row" item=credit}}
+
+						{{#if credit.reversals}}
+							{{#each reversal in credit.reversals}}
+								{{view "tables/grouped-transaction-row" item=reversal}}
+							{{/each}}
+						{{/if}}
+					{{/view}}
+				{{/each}}
 			</td>
 	{{else}}
 		<tr>

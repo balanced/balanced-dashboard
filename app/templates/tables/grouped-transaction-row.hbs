@@ -6,7 +6,9 @@
 	{{/link-to}}
 </td>
 <td class="col-md-3 amount num">
-	<span {{bind-attr class="view.spanClassNames"}}>
-		{{view.amountText}}
-	</span>
+	{{#link-to view.routeName view.item}}
+		<span {{bind-attr class="view.spanClassNames"}}>
+			{{view.amountText}}
+		</span>
+	{{/link-to}}
 </td>

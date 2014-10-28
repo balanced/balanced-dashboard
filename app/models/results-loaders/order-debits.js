@@ -1,13 +1,12 @@
 import BaseResultsLoader from "./base";
 import SearchModelArray from "../core/search-model-array";
 import Debit from "balanced-dashboard/models/debit";
-import Customer from "balanced-dashboard/models/customer";
 
 var OrderDebitsResultsLoader = BaseResultsLoader.extend({
 	results: function() {
 		var buyers = this.get("order.buyers");
 		var debitUri = this.get("order.debits_uri");
-		var debitsArray = SearchModelArray.newArrayLoadedFromUri(debitUri, Customer);
+		var debitsArray = SearchModelArray.newArrayLoadedFromUri(debitUri, Debit);
 
 		var results = SearchModelArray.create({
 			isLoaded: true,
