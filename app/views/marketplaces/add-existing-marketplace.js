@@ -1,5 +1,4 @@
 import Ember from "ember";
-import UserMarketplace from "balanced-dashboard/models/user-marketplace";
 
 var AddExistingMarketplaceView = Ember.View.extend({
 	tagName: 'form',
@@ -8,9 +7,9 @@ var AddExistingMarketplaceView = Ember.View.extend({
 	secret: null,
 
 	isSubmitting: false,
-
 	actions: {
 		add: function() {
+			var UserMarketplace = this.get("container").lookupFactory("model:user-marketplace");
 			if (this.get('isSubmitting')) {
 				return;
 			}
@@ -22,6 +21,7 @@ var AddExistingMarketplaceView = Ember.View.extend({
 				self.set('isSubmitting', false);
 				return;
 			}
+
 			var marketplace = UserMarketplace.create({
 				uri: this.get('user.marketplaces_uri'),
 				secret: secret
