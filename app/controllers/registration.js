@@ -4,6 +4,7 @@ import ApiKey from "balanced-dashboard/models/api-key";
 import Auth from "balanced-dashboard/auth";
 import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
 import AuthConnection from "balanced-dashboard/lib/connections/auth-connection";
+import ENV from "balanced-dashboard/config/environment";
 
 var RegistrationController = Ember.Controller.extend({
 	join: function(userFactory, authToken) {
