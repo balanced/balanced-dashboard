@@ -4,6 +4,7 @@
 
 * Fixed bug where new marketplaces would not link to the user after being created.
 * Fixed bug where dispute documentation could not be uploaded.
+* Fixed bug with displaying hold information on capture hold modal
 
 ### 1.0.1
 
