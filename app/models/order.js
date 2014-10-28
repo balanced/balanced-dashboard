@@ -35,12 +35,6 @@ var Order = Model.extend({
 	escrow_balance: Computed.transform('amount_escrowed', Utils.formatCurrency),
 	credits_amount: Computed.transform('amount_credited', Utils.formatCurrency),
 
-	getBuyersResultsLoader: generateResultsLoader("customers", "buyers_uri"),
-	getCreditsResultsLoader: generateResultsLoader("transactions", "credits_uri"),
-	getDebitsResultsLoader: generateResultsLoader("transactions", "debits_uri"),
-	getRefundsResultsLoader: generateResultsLoader("transactions", "refunds_uri"),
-	getReversalsResultsLoader: generateResultsLoader("transactions", "reversals_uri"),
-
 	getOrderDebitsResultsLoader: function(attributes) {
 		var OrderDebitsResultsLoader = require("balanced-dashboard/models/results-loaders/order-debits")["default"];
 		attributes = _.extend({

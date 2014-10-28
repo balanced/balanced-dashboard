@@ -22,10 +22,10 @@ var OrderDebitsResultsLoader = BaseResultsLoader.extend({
 					results.get("content").pushObject(Ember.Object.create({
 						customer_uri: debit.get('customer_uri'),
 						customer: buyer,
-						debits: []
+						transactions: []
 					}));
 				}
-				results.findBy('customer_uri', debit.get('customer_uri')).get('debits').pushObject(debit);
+				results.findBy('customer_uri', debit.get('customer_uri')).get('transactions').pushObject(debit);
 			});
 		});
 

@@ -27,10 +27,10 @@ var OrderCreditsResultsLoader = BaseResultsLoader.extend({
 					results.get("content").pushObject(Ember.Object.create({
 						customer_uri: credit.get('customer_uri'),
 						customer: customer,
-						credits: []
+						transactions: []
 					}));
 				}
-				results.findBy('customer_uri', credit.get('customer_uri')).get('credits').pushObject(credit);
+				results.findBy('customer_uri', credit.get('customer_uri')).get('transactions').pushObject(credit);
 			});
 		});
 

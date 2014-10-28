@@ -23,21 +23,27 @@
 				class="customer-group"
 			}}
 			<td class="grouped-transactions-container" colspan="2">
-				{{#each debit in customer_group.debits}}
+				{{#each transaction in customer_group.transactions}}
 					{{#view "results/grouped-transactions-table"}}
-						{{#if debit.dispute}}
-							{{view "results/grouped-transaction-row" item=debit.dispute}}
+						{{#if transaction.dispute}}
+							{{view "results/grouped-transaction-row" item=transaction.dispute}}
 						{{/if}}
 
-						{{view "results/grouped-transaction-row" item=debit}}
+						{{view "results/grouped-transaction-row" item=transaction}}
 
-						{{#if debit.hold}}
-							{{view "results/grouped-transaction-row" item=debit.hold}}
+						{{#if transaction.hold}}
+							{{view "results/grouped-transaction-row" item=transaction.hold}}
 						{{/if}}
 
-						{{#if debit.refunds}}
-							{{#each refund in debit.refunds}}
+						{{#if transaction.refunds}}
+							{{#each refund in transaction.refunds}}
 								{{view "results/grouped-transaction-row" item=refund}}
+							{{/each}}
+						{{/if}}
+
+						{{#if transaction.reversals}}
+							{{#each reversal in transaction.reversals}}
+								{{view "results/grouped-transaction-row" item=reversal}}
 							{{/each}}
 						{{/if}}
 					{{/view}}
