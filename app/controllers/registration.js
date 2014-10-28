@@ -85,8 +85,11 @@ var RegistrationController = Ember.Controller.extend({
 	},
 
 	addSecretToUser: function(user, apiKeySecret) {
-		var uri = "%@%@".fmt(ENV.BALANCED.AUTH, user.get("marketplaces_uri"));
 		var UserMarketplace = this.container.lookupFactory("model:user-marketplace");
+		var uri = user.get("marketplaces_uri");
+		if (uri.indexOf("http") !== 0) {
+			uri = ENV.BALANCED.AUTH + uri;
+		}
 		return this.getAuthConnection()
 			.post(uri, {
 				secret: apiKeySecret

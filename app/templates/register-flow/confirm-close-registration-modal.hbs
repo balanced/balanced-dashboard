@@ -1,11 +1,28 @@
-<form>
-	<div class="modal-body clearfix">
-		<div class="content">
-			{{view.confirmMessage}}
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal"><i class="icon-x"></i></a>
+			{{#if view.logo}}
+				<div class="balanced-logo-24"></div>
+			{{/if}}
+			<h2>{{view.title}}</h2>
+			{{#if view.subtitle}}
+				<h3>{{view.subtitle}}</h3>
+			{{/if}}
+			{{#if view.description}}
+				<p class="description">{{view.description}}</p>
+			{{/if}}
 		</div>
+		<form>
+			<div class="modal-body clearfix">
+				<div class="content">
+					{{view.confirmMessage}}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a {{action "retry" target="view"}} {{bind-attr disabled="view.isSaving" class=":btn :secondary view.isSaving:disabled"}}>{{view.cancelButtonText}}</a>
+				<a data-dismiss="modal" {{bind-attr disabled="view.isSaving" class=":btn view.isSaving:disabled"}}>{{view.submitButtonText}}</a>
+			</div>
+		</form>
 	</div>
-	<div class="modal-footer">
-		<a {{action "retry" target="view"}} {{bind-attr disabled="view.isSaving" class=":btn :secondary view.isSaving:disabled"}}>{{view.cancelButtonText}}</a>
-		<a data-dismiss="modal" {{bind-attr disabled="view.isSaving" class=":btn view.isSaving:disabled"}}>{{view.submitButtonText}}</a>
-	</div>
-</form>
+</div>

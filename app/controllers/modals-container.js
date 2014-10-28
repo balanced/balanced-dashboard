@@ -24,6 +24,11 @@ var ModalsContainerController = Ember.Controller.extend({
 		}
 
 		modalView = klass.open.apply(klass, args);
+		this.openInstance(modalView);
+		return modalView;
+	},
+
+	openInstance: function(modalView) {
 		var modalsContainer = this.get("modalsContainer");
 
 		Ember.run(function() {
@@ -34,8 +39,6 @@ var ModalsContainerController = Ember.Controller.extend({
 			.on("hidden.bs.modal", function() {
 				modalsContainer.removeObject(modalView);
 			});
-
-		return modalView;
 	},
 });
 
