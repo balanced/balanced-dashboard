@@ -7,18 +7,19 @@
 `import checkElements from "../helpers/check-elements";`
 
 App = undefined
-Auth = undefined
 
 module 'Integration - Marketplace Registration',
 	setup: ->
 		App = startApp(ADAPTER: fixturesAdapter)
-		Auth = App.__container__.lookup("auth:main")
 	teardown: ->
-		sinonRestore(Auth.request, $.getScript)
 		Ember.run(App, "destroy")
 
 
 test "complete flow", ->
+	flushPromises = ->
+		d = Ember.RSVP.defer()
+		setTimeout(d.resolve, 0)
+		d.promise
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".mp-register a:contains(Register)")
 		.fillForm("#apiKeyCreate",
@@ -41,7 +42,16 @@ test "complete flow", ->
 		)
 		.click("#marketplaceCreate .checkbox label")
 		.click("#marketplaceCreate button:contains(Continue)")
-#		.checkElements(
-#			"#marketplaceBankAccountCreate .notification-center": "Marketplace created. API key: ak-prod-2xxxxxxxxxxxxxxxxxxxxxxxxx"
-#			"#marketplaceBankAccountCreate h3:first": "Step 3 of 3: Add your bank account"
-#		)
+		.then(flushPromises)
+		.checkElements(
+			"#marketplaceBankAccountCreate .notification-center": "Marketplace created. API key: ak-prod-2xxxxxxxxxxxxxxxxxxxxxxxxx"
+			"#marketplaceBankAccountCreate h3:first": "Step 3 of 3: Add your bank account"
+		)
+		.fillForm("#marketplaceBankAccountCreate",
+			name: "Test Person"
+			routing_number: "122100024"
+		)
+		.click("#marketplaceBankAccountCreate button:contains(Complete registration)")
+		.checkElements(
+			"#marketplaceBankAccountCreate .alert-error": "can't be blank"
+		)
