@@ -16,7 +16,6 @@ module('Integration - ForgotPassword', {
 			ADAPTER: fixturesAdapter
 		});
 		Adapter = App.__container__.lookup("adapter:main");
-		Testing.setupMarketplace();
 		Testing.logout();
 	},
 	teardown: function() {
