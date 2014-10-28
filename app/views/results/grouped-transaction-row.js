@@ -1,23 +1,34 @@
 import Ember from "ember";
-import LinkedTwoLinesCellView from "./cells/linked-two-lines-cell";
+import LinkedTwoLinesCellView from "../tables/cells/linked-two-lines-cell";
 import Utils from "balanced-dashboard/lib/utils";
 
 var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 	tagName: 'tr',
-	templateName: 'tables/grouped-transaction-row',
+	templateName: 'results/grouped-transaction-row',
 	routeName: Ember.computed.oneWay("item.route_name"),
 	spanClassNames: Ember.computed.oneWay("item.status"),
 
 	title: function() {
-		return '%@ (Created at %@)'.fmt(this.get("primaryLabelText"), this.get("secondaryLabelText"));
-	}.property("primaryLabelText", "secondaryLabelText"),
+		var description = this.get("description");
+		var title = '%@ (Created at %@)'.fmt(this.get("primaryLabelText"), this.get("secondaryLabelText"));
+
+		if (description) {
+			title = description;
+		}
+
+		return title;
+	}.property("description", "primaryLabelText", "secondaryLabelText"),
 
 	primaryLabelText: function() {
+		if (_.contains(this.get("classNames"), "current")) {
+			return '%@ (currently viewing)'.fmt(this.get('item.type_name'));
+		}
+
 		return '%@ %@ on %@ %@'.fmt(this.get('item.type_name'), this.get('item.status'), this.get('item.last_four'), Utils.toLowerCase(this.get('item.funding_instrument_type')));
 	}.property('item.type_name', 'item.status', 'item.last_four', 'item.funding_instrument_type'),
 
 	secondaryLabelText: function () {
-		return Utils.humanReadableDateLong(this.get('item.created_at'));
+		return Utils.humanReadableDateTime(this.get('item.created_at'));
 	}.property('item.created_at'),
 
 	amountText: function() {

@@ -30,21 +30,15 @@
 			</th>
 		{{/if}}
 		<th class="col-md-3 description"><span>Description</span></th>
-		{{#unless view.isSmallTable}}
-			<th class="col-md-2 account"><span>Customer</span></th>
-			<th class="col-md-2 funding-instrument"><span>Payment method</span></th>
-		{{/unless}}
+		<th class="col-md-2 account"><span>Customer</span></th>
+		<th class="col-md-2 funding-instrument"><span>Payment method</span></th>
 		<th class="col-md-2 amount num">
 			<span>Amount</span>
 		</th>
 	</tr>
 </thead>
 {{#if view.loader.results.hasNextPage}}
-	{{#if view.isSmallTable}}
-		{{view "results/results-load-more" results=view.loader.results columns=5}}
-	{{else}}
-		{{view "results/results-load-more" results=view.loader.results columns=7}}
-	{{/if}}
+	{{view "results/results-load-more" results=view.loader.results columns=7}}
 {{/if}}
 
 <tbody>
@@ -83,24 +77,22 @@
 				titleBinding="transaction.description"
 			}}
 
-			{{#unless view.isSmallTable}}
-				{{view "tables/cells/transaction/customer-cell" item=transaction}}
+			{{view "tables/cells/transaction/customer-cell" item=transaction}}
 
-				{{view "tables/cells/linked-two-lines-cell"
-					item=transaction
-					routeName=transaction.route_name
-					classNames="funding-instrument"
-					primaryLabelText=transaction.last_four
-					secondaryLabelText=transaction.funding_instrument_type
-					title=transaction.funding_instrument_type
-				}}
-			{{/unless}}
+			{{view "tables/cells/linked-two-lines-cell"
+				item=transaction
+				routeName=transaction.route_name
+				classNames="funding-instrument"
+				primaryLabelText=transaction.last_four
+				secondaryLabelText=transaction.funding_instrument_type
+				title=transaction.funding_instrument_type
+			}}
 
 			{{view "tables/cells/transaction/amount-cell" item=transaction}}
 		</tr>
 	{{else}}
 		<tr>
-			<td {{bind-attr colspan=view.colspan}} class="no-results">
+			<td colspan="8" class="no-results">
 				{{#if view.loader.results.isLoaded}}
 					No results
 				{{else}}

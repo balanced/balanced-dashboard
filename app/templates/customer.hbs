@@ -17,11 +17,6 @@
 			{{view "results/embedded-transactions-table" loader=transactionsResultsLoader}}
 		</div>
 
-		<h3>Disputes</h3>
-		<div class="results">
-			{{view "results/embedded-disputes-table" loader=disputesResultsLoader}}
-		</div>
-
 		<div class="pull-right">
 			<a class="btn-link sm" {{action "openModal" "modals/customer-bank-account-create-modal" model}}>Add a bank account</a>
 			<a class="btn-link sm" {{action "openModal" "modals/customer-card-create-modal" model}}>Add a card</a>

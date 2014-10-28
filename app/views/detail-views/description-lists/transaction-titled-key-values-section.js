@@ -3,7 +3,7 @@ import ListValueGenerator from "./list-value-generator";
 
 var TransactionTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
 	editModelModalClass: function() {
-		return this.get("container").lookupFactory("view:modals/transaction-edit-modal");
+		return this.get("container").lookupFactory("view:modals/edit-description-modal");
 	}.property(),
 
 	keyValueListViews: function() {
@@ -12,7 +12,6 @@ var TransactionTitledKeyValuesSectionView = TitledKeyValuesSectionView.extend({
 			this.getKeyValueView("Created at", "created_at"),
 			this.getKeyValueView(idTitle, "id"),
 			this.getKeyValueView("Transaction number", "transaction_number"),
-			this.getKeyValueView("Internal description", "description"),
 			this.getKeyValueView("On statement as", "appears_on_statement_as")
 		];
 	}.property("model", "model.id", "model.transaction_number", "model.description", "model.appears_on_statement_as")

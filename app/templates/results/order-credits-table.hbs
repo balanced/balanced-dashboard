@@ -24,12 +24,12 @@
 			}}
 			<td class="grouped-transactions-container" colspan="2">
 				{{#each credit in customer_group.credits}}
-					{{#view "tables/grouped-transactions-table"}}
-						{{view "tables/grouped-transaction-row" item=credit}}
+					{{#view "results/grouped-transactions-table"}}
+						{{view "results/grouped-transaction-row" item=credit}}
 
 						{{#if credit.reversals}}
 							{{#each reversal in credit.reversals}}
-								{{view "tables/grouped-transaction-row" item=reversal}}
+								{{view "results/grouped-transaction-row" item=reversal}}
 							{{/each}}
 						{{/if}}
 					{{/view}}

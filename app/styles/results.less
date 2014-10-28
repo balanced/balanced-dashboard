@@ -159,6 +159,10 @@ header.results-label h3 {
             background-color: @persianBlue10;
           }
 
+          &.current:hover {
+            background-color: transparent;
+          }
+
           &:last-of-type {
             td.status > a > span:after {
               content: none;
@@ -166,9 +170,22 @@ header.results-label h3 {
           }
         }
         td {
+          a.active {
+            pointer-events: none;
+            cursor: default;
+
+            span {
+              color: @gray4;
+            }
+          }
+
           &.status {
             text-transform: none;
             padding-left: 10px;
+
+            &:first-of-type {
+              padding-left: 25px;
+            }
 
             a > span > .secondary {
               margin-left: 14px;
@@ -202,7 +219,6 @@ header.results-label h3 {
       }
     }
   }
-
 
   td.status {
     text-transform: capitalize;

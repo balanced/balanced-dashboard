@@ -18,6 +18,9 @@ var SummarySectionView = Ember.View.extend({
 			if (_.isArray(resource.content)) {
 				resource = resource.content;
 			}
+			if (_.isString(resource)) {
+				return self.generateResource(resource, resourceName);
+			}
 
 			if (resource.length > 0) {
 				var resources = [];
@@ -31,6 +34,17 @@ var SummarySectionView = Ember.View.extend({
 		});
 
 		return _.flatten(result).compact();
+	},
+
+	generateResource: function(value, resourceName) {
+		if (resourceName === "model.description") {
+			return {
+				className: 'icon-description',
+				title: 'Internal description',
+				value: value,
+				hoverValue: value
+			};
+		}
 	},
 
 	generateResourceLink: function(parentModel, model) {
