@@ -40,7 +40,7 @@ var ChangePasswordModalView = ModalBaseView.extend(Full, Form, {
 
 	onSuccess: function() {
 		Auth.get("user").reload();
-		var message = 'Your email address has been updated.';
+		var message = 'Your password has been updated.';
 		this.get('controller.controllers.notification_center').alertSuccess(message);
 	},
 
