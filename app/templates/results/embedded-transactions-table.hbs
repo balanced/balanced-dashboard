@@ -17,6 +17,10 @@
 		<tr>
 			<td class="grouped-transactions-container" colspan="2">
 				{{#view "results/grouped-transactions-table"}}
+					{{#if transaction.order}}
+						{{view "results/grouped-order-row" item=transaction.order}}
+					{{/if}}
+
 					{{#if transaction.dispute}}
 						{{view "results/grouped-transaction-row" item=transaction.dispute}}
 					{{/if}}

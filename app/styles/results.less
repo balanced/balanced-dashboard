@@ -190,6 +190,24 @@ header.results-label h3 {
             a > span > .secondary {
               margin-left: 14px;
             }
+            &.orders .order, &.dispute .pending {
+
+            }
+
+            &.orders .order {
+              &:before {
+                font-family: 'Balanced-Icon';
+                font-size: 10px;
+                &:extend(.icon-orders:before);
+                color: @gray4;
+                margin-top: -14px;
+                width: 0;
+                height: 0;
+              }
+              > .primary {
+                margin-left: 14px;
+              }
+            }
 
             &.dispute .pending {
               &:before {

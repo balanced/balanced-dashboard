@@ -9,7 +9,7 @@ var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 	spanClassNames: Ember.computed.oneWay("item.status"),
 
 	title: function() {
-		var description = this.get("description");
+		var description = this.get("item.description");
 		var title = '%@ (Created at %@)'.fmt(this.get("primaryLabelText"), this.get("secondaryLabelText"));
 
 		if (description) {
@@ -19,7 +19,7 @@ var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 		}
 
 		return title;
-	}.property("description", "primaryLabelText", "secondaryLabelText"),
+	}.property("item.description", "primaryLabelText", "secondaryLabelText"),
 
 	primaryLabelText: function() {
 		if (_.contains(this.get("classNames"), "current")) {
