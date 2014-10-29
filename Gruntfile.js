@@ -1,11 +1,42 @@
 /*jshint camelcase: false */
 /*global module:false */
 module.exports = function(grunt) {
+	var S3_CACHED_UPLOAD_CONFIGURATION = [{
+		src: 'dist/js/*',
+		dest: 'js/'
+	}, {
+		src: 'dist/assets/*',
+		dest: 'assets/'
+	}, {
+		src: 'dist/css/*',
+		dest: 'css/'
+	}, {
+		src: 'dist/images/**/*',
+		dest: 'images/'
+	}, {
+		src: 'dist/fonts/**/*',
+		dest: 'fonts/'
+	}, {
+		src: 'dist/files/**/*',
+		dest: 'files/'
+	}, {
+		src: 'dist/notfound/**/*',
+		rel: 'dist/notfound',
+		dest: 'notfound/'
+	}];
 
 	grunt.initConfig({
 		clean: {
 			files: {
 				src: ['dist/', 'report/', 'js/', '.bower-tmp', 'coverage/']
+			}
+		},
+
+		bower: {
+			install: {
+				options: {
+					copy: false
+				}
 			}
 		},
 
@@ -44,29 +75,7 @@ module.exports = function(grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: [{
-					src: 'dist/js/*',
-					dest: 'js/'
-				}, {
-					src: 'dist/assets/*',
-					dest: 'assets/'
-				}, {
-					src: 'dist/css/*',
-					dest: 'css/'
-				}, {
-					src: 'dist/images/**/*',
-					dest: 'images/'
-				}, {
-					src: 'dist/fonts/**/*',
-					dest: 'fonts/'
-				}, {
-					src: 'dist/files/**/*',
-					dest: 'files/'
-				}, {
-					src: 'dist/notfound/**/*',
-					rel: 'dist/notfound',
-					dest: 'notfound/'
-				}]
+				upload: S3_CACHED_UPLOAD_CONFIGURATION
 			},
 			previewUncached: {
 				options: {
@@ -87,26 +96,7 @@ module.exports = function(grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: [{
-					src: 'dist/js/*',
-					dest: 'js/'
-				}, {
-					src: 'dist/css/*',
-					dest: 'css/'
-				}, {
-					src: 'dist/images/**/*',
-					dest: 'images/'
-				}, {
-					src: 'dist/fonts/**/*',
-					dest: 'fonts/'
-				}, {
-					src: 'dist/files/**/*',
-					dest: 'files/'
-				}, {
-					src: 'dist/notfound/**/*',
-					rel: 'dist/notfound',
-					dest: 'notfound/'
-				}]
+				upload: S3_CACHED_UPLOAD_CONFIGURATION
 			},
 			productionUncached: {
 				options: {
@@ -164,6 +154,7 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-s3');
 	grunt.loadNpmTasks('grunt-exec');
@@ -183,8 +174,8 @@ module.exports = function(grunt) {
 		grunt task commands
 	*/
 
-	grunt.registerTask('default', ['clean', 'copy', 'exec:ember_server']);
-	grunt.registerTask('test', ['exec:ember_test']);
+	grunt.registerTask('default', ['clean', 'bower', 'copy', 'exec:ember_server']);
+	grunt.registerTask('test', ['bower:install', 'exec:ember_test']);
 	grunt.registerTask('build', ['exec:ember_build_production']);
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);

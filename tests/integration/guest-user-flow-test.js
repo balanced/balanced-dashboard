@@ -43,11 +43,10 @@ test('viewing settings page as guest, can view api secret key', function() {
 		})
 		.click('#marketplace-nav i.icon-my-marketplace')
 		.click('#marketplace-nav a:contains(Settings)')
-		.click('.create-api-key-btn')
+		.click(".api-key-secret a")
 		.then(function() {
-			var shown_api_secret_key = $('.api-key-secret').text().trim();
-
-			ok(shown_api_secret_key, sinon.match(/^ak\-test/), 'shown api secret in settings for guest');
+			var shownApiSecretKey = $.trim($('.api-key-secret').text());
+			deepEqual(shownApiSecretKey.slice(0, 8), "ak-test-");
 		});
 });
 

@@ -11,10 +11,11 @@
 {{/view}}
 
 {{#view "form-fields/form-section" auth_code_confirm=view.auth_code_confirm sectionTitle="3. Enter authentication code" sectionDescription="Enter the authentication code from your smartphone. The code will expire in 30 seconds."}}
-	<div class="form-group">
-		<label class="control-label">Authentication code</label>
-		<div>
-			{{input type="text" name="auth_code" valueBinding="view.auth_code_confirm" class="full"}}
-		</div>
-	</div>
+	{{view "form-fields/text-form-field"
+		model=view.parentView.model
+		labelText="Authentication code"
+		field="otpCode"
+		inputClassNames="full"
+		inputName="auth_code"
+	}}
 {{/view}}

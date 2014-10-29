@@ -11,6 +11,6 @@
 		{{view "form-fields/meta-form-field" model=metaField}}
 	{{/each}}
 	<div class="form-group clearfix">
-		<a class="pull-right" {{action 'addField' target=view.parentView}}>Add another field</a>
+		<a class="btn-link sm pull-right" {{action 'addField' target=view.parentView}}><i class="icon icon-add non-interactive"></i>Add another field</a>
 	</div>
 {{/view}}

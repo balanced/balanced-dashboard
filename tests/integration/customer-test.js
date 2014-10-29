@@ -84,7 +84,11 @@ test('can update customer info', function() {
 			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			var argsObject = {
+			var args = stub.args[0];
+
+			ok(stub.calledOnce);
+			deepEqual(args[0], Models.Customer);
+			matchesProperties(args[2], {
 				name: "TEST",
 				email: "TEST@example.com",
 				business_name: "TEST",
@@ -92,22 +96,16 @@ test('can update customer info', function() {
 				phone: "1231231234",
 				dob_month: 12,
 				dob_year: 1924,
-				ssn_last4: "1234",
-				address: {
-					line1: "600 William St",
-					line2: "Apt 400",
-					city: "Oakland",
-					state: "CA",
-					country_code: "US",
-					postal_code: "12345",
-				},
-			};
+				ssn_last4: "1234"
+			});
 
-			ok(stub.calledOnce);
-			ok(stub.args[0], Models.Customer);
-
-			_.each(argsObject, function(val, key) {
-				deepEqual(stub.getCall(0).args[2][key], val);
+			matchesProperties(args[2].address, {
+				line1: "600 William St",
+				line2: "Apt 400",
+				city: "Oakland",
+				state: "CA",
+				country_code: "US",
+				postal_code: "12345"
 			});
 		});
 });
