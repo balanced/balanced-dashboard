@@ -58,6 +58,7 @@ var Dispute = Model.extend(Ember.Validations, {
 
 	last_four: Ember.computed.alias('transaction.last_four'),
 	bank_name: Ember.computed.alias('transaction.bank_name'),
+	last_four_with_name: Computed.fmt('last_four', 'funding_instrument_name', '%@ %@'),
 	funding_instrument_description: Ember.computed.oneWay('transaction.funding_instrument_description').readOnly(),
 	funding_instrument_name: Ember.computed.alias('transaction.funding_instrument_name'),
 	funding_instrument_type: Ember.computed.alias('transaction.funding_instrument_type'),

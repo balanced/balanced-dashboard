@@ -1,23 +1,23 @@
 <thead>
 	<tr>
-		<th class="col-md-3 initiated date has-filter">
+		<th class="col-md-2 initiated date has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="initiated_at" actionName="changeDisputesSort"}}
-				<span>Date initiated</span>
+				<span>Initiated at</span>
 			{{/view}}
 		</th>
-		<th class="col-md-3 respond-by date has-filter">
+		<th class="col-md-2 respond-by date has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="respond_by" actionName="changeDisputesSort"}}
 				<span>Respond by</span>
 			{{/view}}
 		</th>
-		<th class="col-md-3 status has-filter">
+		<th class="col-md-2 status has-filter">
 			{{view "results/disputes-status-results-dropdown-filter"}}
 		</th>
 		{{#unless view.isSmallTable}}
 			<th class="col-md-3 account"><span>Customer</span></th>
 		{{/unless}}
 		<th class="col-md-3 funding-instrument"><span>Payment method</span></th>
-		<th class="col-md-3 amount num has-filter">
+		<th class="col-md-2 amount num has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="amount" actionName="changeDisputesSort"}}
 				<span>Amount</span>
 			{{/view}}
@@ -74,7 +74,7 @@
 			<td class="funding-instrument">
 				{{#link-to dispute.route_name dispute}}
 				<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
-					<span class="primary">{{dispute.last_four}} {{dispute.funding_instrument_name}}</span>
+					<span class="primary">{{dispute.last_four_with_name}}</span>
 					<span class="secondary">{{dispute.funding_instrument_type}}</span>
 				</span>{{/link-to}}
 			</td>
