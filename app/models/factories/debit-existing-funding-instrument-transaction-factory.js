@@ -19,7 +19,6 @@ var DebitExistingFundingInstrumentTransactionFactory = TransactionFactory.extend
 		var Debit = BalancedApp.__container__.lookupFactory("model:debit");
 		var deferred = Ember.RSVP.defer();
 
-		var baseDebitAttributes = this.getDebitAttributes();
 		this.validate();
 		if (this.get("isValid")) {
 			Debit.create(this.getDebitAttributes())
