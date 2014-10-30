@@ -1,4 +1,4 @@
-{{#if view.linkedResources}}
+{{#if view.hasStatusOrLinkedResources}}
 	<div class="summary">
 		<dl class="linked-resources">
 			{{#if view.status}}
@@ -20,7 +20,7 @@
 					{{/if}}
 
 					{{#if view.statusButtonModalView}}
-						<a class="btn sm pull-left" {{action "openModal" view.statusButtonModalView view.model}}>
+						<a class="btn sm" {{action "openModal" view.statusButtonModalView view.model}}>
 							{{view.statusButtonText}}
 						</a>
 					{{/if}}

@@ -1,10 +1,11 @@
 import Ember from "ember";
 import Utils from "balanced-dashboard/lib/utils";
+import Computed from "balanced-dashboard/utils/computed";
 
 var SummarySectionView = Ember.View.extend({
 	templateName: "detail-views/summary-section",
 	status: Ember.computed.oneWay("model.status"),
-
+	hasStatusOrLinkedResources: Computed.orProperties("status", "linkedResources"),
 	resourceLinks: function() {
 		var self = this;
 		var args = _.toArray(arguments);
