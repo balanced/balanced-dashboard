@@ -9,16 +9,19 @@ var getModelRootErrorMessages = function(model) {
 
 var DisplayModelErrorsModalMixin = Ember.Mixin.create({
 	updateErrorsBar: function() {
-		var errorMessage = getModelRootErrorMessages(this.get("model"));
-		if (errorMessage) {
-			var controller = this.get("container").lookup("controller:modal_notification_center");
-			controller.clearAlerts();
-			controller.alertError(new Ember.Handlebars.SafeString(errorMessage));
-		}
+		var model = this.get("model");
+		if (model.get("validationErrors.length")) {
+			var errorMessage = getModelRootErrorMessages(model);
+			if (errorMessage) {
+				var controller = this.get("container").lookup("controller:modal_notification_center");
+				controller.clearAlerts();
+				controller.alertError(new Ember.Handlebars.SafeString(errorMessage));
+			}
 
-		AnalyticsLogger.trackEvent(errorMessage, {
-			path: this.get("container").lookup("controller:application").get('currentRouteName')
-		});
+			AnalyticsLogger.trackEvent(errorMessage, {
+				path: this.get("container").lookup("controller:application").get('currentRouteName')
+			});
+		}
 	}.observes("model.validationErrors.allMessages"),
 });
 

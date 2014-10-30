@@ -13,9 +13,9 @@ var getUserModel = function(uri, emailAddress) {
 				presence: true,
 				matches: {
 					validator: function(object, attribute, value) {
-						var password = object.get('password');
+						var password = user.get('password');
 						if (value !== password) {
-							object.get('validationErrors').add(attribute, 'invalid', null, "must match password");
+							user.get('validationErrors').add(attribute, 'invalid', null, "must match password");
 						}
 					}
 				}
@@ -40,7 +40,7 @@ var ChangePasswordModalView = ModalBaseView.extend(Full, Form, {
 
 	onSuccess: function() {
 		Auth.get("user").reload();
-		var message = 'Your email address has been updated.';
+		var message = 'Your password has been updated.';
 		this.get('controller.controllers.notification_center').alertSuccess(message);
 	},
 

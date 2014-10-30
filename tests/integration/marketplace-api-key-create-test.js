@@ -65,10 +65,8 @@ test("#apply fails person KYC", function() {
 			});
 			stub.restore();
 		})
-		.then(function() {
-			var text = $("#apiKeyCreate .notification-center.error").text();
-			text = $.trim(text).replace(/\s+/g, " ");
-			deepEqual(text, "Your information could not be saved. We could not verify your identity. Please check your information again and resubmit.");
+		.checkElements({
+			"#apiKeyCreate .notification-center.error": "We could not verify your identity. Please check your information again and resubmit."
 		});
 });
 

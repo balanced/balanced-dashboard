@@ -1,14 +1,14 @@
 {{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText model=view.model sectionTitle="Payment information"}}
 
-	{{view "form-fields/static-text-form-field" value=view.model.source.customer.display_me labelText="Customer" inputClassNames="full"}}
+	{{view "form-fields/static-text-form-field" value=view.model.hold.source.customer.display_me labelText="Customer" inputClassNames="full"}}
 
-	{{view "form-fields/static-text-form-field" value=view.model.source.number labelText="Credit card" inputClassNames="full"}}
+	{{view "form-fields/static-text-form-field" value=view.model.hold.source.number labelText="Credit card" inputClassNames="full"}}
 
-	{{view "form-fields/static-text-form-field" value=view.model.source.name labelText="Name on account" inputClassNames="full"}}
+	{{view "form-fields/static-text-form-field" value=view.model.hold.source.name labelText="Name on account" inputClassNames="full"}}
 
-	{{view "form-fields/static-text-form-field" value=view.model.source.bank_name emptyText="unknown" labelText="Bank" inputClassNames="full"}}
+	{{view "form-fields/static-text-form-field" value=view.model.hold.source.bank_name emptyText="unknown" labelText="Bank" inputClassNames="full"}}
 
-	{{view "form-fields/static-text-form-field" value=view.model.source.brand emptyText="unknown" labelText="Type" inputClassNames="full"}}
+	{{view "form-fields/static-text-form-field" value=view.model.hold.source.brand emptyText="unknown" labelText="Type" inputClassNames="full"}}
 
 	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
 

@@ -3,7 +3,7 @@
 adapter = FixtureAdapter.create()
 adapter.asyncCallbacks = true
 
-files = "dispute-documents disputes invoices marketplace marketplace-users user".split(" ")
+files = "registration dispute-documents disputes invoices marketplace marketplace-users user".split(" ")
 
 for file in files
 	fixtures = require("balanced-dashboard/tests/fixtures/#{file}").default
