@@ -134,7 +134,9 @@
     }
 
     &.succeeded, &.captured, &.created, &.won, &.paid, &.updated, &.deposited, &.verified, &.active, &.good {
-      color: @pineGreen100;
+      span {
+        color: @pineGreen100;
+      }
 
       &:before {
         background-color: @pineGreen80;
@@ -142,7 +144,9 @@
     }
 
     &.new, &.pending, &.scheduled, &.unverified, &.unverifiable {
-      color: @curryYellow100;
+      span {
+        color: @curryYellow100;
+      }
 
       &:before {
         background-color: @curryYellow80;
@@ -150,7 +154,9 @@
     }
 
     &.failed, &.expired, &.lost, &.arbitration, &.canceled, &.voided, &.invalidated, &.removed, &.bad {
-      color: @imperialRed100;
+      span {
+        color: @imperialRed100;
+      }
 
       &:before {
         background-color: @imperialRed80;
@@ -158,7 +164,9 @@
     }
 
     &.submitted {
-      color: @byzantiumPurple100;
+      span {
+        color: @byzantiumPurple100;
+      }
 
       &:before {
         background-color: @byzantiumPurple80;
