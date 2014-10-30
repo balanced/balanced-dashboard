@@ -1,6 +1,6 @@
 {
   "name": "balanced-dashboard",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Balanced Dashboard",
   "main": "Gruntfile.js",
   "scripts": {
