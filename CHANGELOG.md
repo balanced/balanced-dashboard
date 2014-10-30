@@ -4,7 +4,8 @@
 
 * Fixed images in import payouts page.
 * Fixed duplicate "Logs" tab in search results
-* Fixed broken csv import flow.
+* Fixed csv import flow.
+* Fixed funding instrument title in disputes page.
 
 ### 1.0.2
 
