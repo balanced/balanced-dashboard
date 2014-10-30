@@ -17,10 +17,14 @@ OtpLogin = Ember.Object.extend(Ember.Validations,
 		auth.request(
 			dataType: 'JSON'
 			type: 'PUT'
-			url: "#{ENV.BALANCED.AUTH}#{@get("path")}"
+			url: @getUrl()
 			data:
 				confirm: @get("otpCode")
 		)
+
+	getUrl: ->
+		auth = @get("container").lookup("auth:main")
+		"#{ENV.BALANCED.AUTH}#{auth.get("lastLoginUri")}"
 
 	save: ->
 		successCallback = (response) =>

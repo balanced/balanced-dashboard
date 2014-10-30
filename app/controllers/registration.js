@@ -4,6 +4,7 @@ import ApiKey from "balanced-dashboard/models/api-key";
 import Auth from "balanced-dashboard/auth";
 import ApiConnection from "balanced-dashboard/lib/connections/api-connection";
 import AuthConnection from "balanced-dashboard/lib/connections/auth-connection";
+import ENV from "balanced-dashboard/config/environment";
 
 var RegistrationController = Ember.Controller.extend({
 	join: function(userFactory, authToken) {
@@ -84,8 +85,11 @@ var RegistrationController = Ember.Controller.extend({
 	},
 
 	addSecretToUser: function(user, apiKeySecret) {
-		var uri = "%@%@".fmt(ENV.BALANCED.AUTH, user.get("marketplaces_uri"));
 		var UserMarketplace = this.container.lookupFactory("model:user-marketplace");
+		var uri = user.get("marketplaces_uri");
+		if (uri.indexOf("http") !== 0) {
+			uri = ENV.BALANCED.AUTH + uri;
+		}
 		return this.getAuthConnection()
 			.post(uri, {
 				secret: apiKeySecret

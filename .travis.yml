@@ -4,6 +4,7 @@ language: node_js
 sudo: false
 
 install:
+  - npm install phantomjs
   - npm install -g bower
   - npm install
   - bower install

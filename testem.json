@@ -8,7 +8,7 @@
 	}
   },
   "launch_in_ci": [
-    "PhantomJsSslAny"
+    "PhantomJs"
   ],
   "launch_in_dev": [
 	"PhantomJsSslAny",

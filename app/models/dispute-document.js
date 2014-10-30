@@ -1,6 +1,6 @@
 import Model from "./core/model";
 import LinkedModelArray from "./core/linked-model-array";
-import Constants from "balanced-dashboard/utils/computed";
+import Constants from "balanced-dashboard/utils/constants";
 
 var DisputeDocument = Model.extend({
 	dispute: Model.belongsTo('dispute', 'dispute'),

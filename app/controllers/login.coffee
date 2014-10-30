@@ -16,8 +16,7 @@ LoginController = Ember.ObjectController.extend(
 			controller = @getNotificationController()
 			controller.clearAlerts()
 
-			successCallback = (loginUri) =>
-				@get("auth").set('lastLoginUri', loginUri)
+			successCallback = (user) =>
 				if model.get("isNeedsOtp")
 					@transitionToRoute('otp')
 				else

@@ -69,8 +69,7 @@ var RegisterFlowBaseModal = ModalBaseView.extend(Full, Form, OpenNext, {
 
 	openConfirmCloseModal: function() {
 		var self = this;
-		var ConfirmCloseView = this.get("container").lookupFactory("view:register-flow/confirm-close-registration-modal");
-		this.openNext(ConfirmCloseView, {
+		this.openNext("register-flow.confirm-close-registration-modal", {
 			confirmMessage: this.get("confirmMessage"),
 			previousModal: self
 		});

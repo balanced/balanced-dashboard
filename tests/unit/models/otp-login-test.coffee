@@ -4,6 +4,7 @@ module "Model - OtpLogin"
 
 test "#submitRequest", ->
 	auth = Ember.Object.create(
+		lastLoginUri: "/login/xxxxx"
 		request: sinon.spy()
 	)
 	container = new Ember.Container()
@@ -14,7 +15,6 @@ test "#submitRequest", ->
 
 	subject = OtpLogin.create(
 		container: container
-		path: "/login/xxxxx"
 		otpCode: "xxxxxx"
 	)
 

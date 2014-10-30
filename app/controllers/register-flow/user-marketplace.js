@@ -1,5 +1,4 @@
 import Ember from "ember";
-import Marketplace from "balanced-dashboard/models/marketplace";
 
 var UserMarketplaceController = Ember.Controller.extend({
 	needs: ["registration", "sessions"],
@@ -32,7 +31,7 @@ var UserMarketplaceController = Ember.Controller.extend({
 	},
 
 	findMarketplace: function(marketplaceHref) {
-		return Marketplace.find(marketplaceHref);
+		return this.get("container").lookupFactory("model:marketplace").find(marketplaceHref);
 	},
 });
 

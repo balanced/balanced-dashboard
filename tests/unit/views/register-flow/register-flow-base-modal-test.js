@@ -1,4 +1,5 @@
 import { test, moduleFor } from 'ember-qunit';
+import checkElements from "../../../helpers/check-elements";
 moduleFor("view:register-flow/register-flow-base-modal", "View - RegisterFlowBaseModal");
 
 test("#openConfirmCloseModal", function() {
@@ -12,7 +13,6 @@ test("#openConfirmCloseModal", function() {
 	});
 
 	this.container.register("controller:modals_container", modalsController);
-	this.container.register("view:register-flow/confirm-close-registration-modal", modalView);
 	this.container.register("controller:application", applicationController);
 
 	var modal = this.subject({
@@ -21,12 +21,12 @@ test("#openConfirmCloseModal", function() {
 
 	modal.openConfirmCloseModal();
 
-	var modalProps = {
+	deepEqual(sendStub.args.length, 1);
+	deepEqual(sendStub.args[0].slice(0, 2), ["openModal", "register-flow.confirm-close-registration-modal"]);
+	deepEqual(sendStub.args[0][2], {
 		confirmMessage: "A cool confirm message",
 		previousModal: modal
-	};
-
-	deepEqual(sendStub.args, [ ["openModal", modalView, modalProps] ]);
+	});
 });
 
 test("#getNotificationController", function() {

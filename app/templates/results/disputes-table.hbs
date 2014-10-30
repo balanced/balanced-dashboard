@@ -36,22 +36,8 @@
 <tbody>
 	{{#each dispute in view.loader.results}}
 		<tr>
-			<td class="date initiated">
-				{{#link-to dispute.route_name dispute}}<span>
-					<time {{bind-attr datetime="dispute.initiated_at"}} {{bind-attr title="dispute.initiated_at"}}>
-						<span class="primary">{{human-readable-date dispute.initiated_at}}</span>
-						<span class="secondary">{{human-readable-time dispute.initiated_at}}</span>
-					</time>
-				</span>{{/link-to}}
-			</td>
-			<td class="date respond-by">
-				{{#link-to dispute.route_name dispute}}<span>
-					<time {{bind-attr datetime="dispute.respond_by"}} {{bind-attr title="dispute.respond_by"}}>
-						<span class="primary">{{human-readable-date dispute.respond_by}}</span>
-						<span class="secondary">{{human-readable-time dispute.respond_by}}</span>
-					</time>
-				</span>{{/link-to}}
-			</td>
+			{{view "tables/cells/linked-date-cell" routeName=dispute.route_name date=dispute.initiated_at item=dispute}}
+			{{view "tables/cells/linked-date-cell" routeName=dispute.route_name date=dispute.respond_by item=dispute}}
 			<td {{bind-attr class=":label4a :status"}}>
 				{{#link-to dispute.route_name dispute}}<span {{bind-attr class="dispute.status"}}>
 					{{dispute.status}}
@@ -71,12 +57,14 @@
 					{{/link-to}}
 				</td>
 			{{/unless}}
+
 			<td class="funding-instrument">
 				{{#link-to dispute.route_name dispute}}
-				<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
-					<span class="primary">{{dispute.last_four_with_name}}</span>
-					<span class="secondary">{{dispute.funding_instrument_type}}</span>
-				</span>{{/link-to}}
+					<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
+						<span class="primary">{{dispute.last_four_with_name}}</span>
+						<span class="secondary">{{dispute.funding_instrument_type}}</span>
+					</span>
+				{{/link-to}}
 			</td>
 
 			<td class="amount num">

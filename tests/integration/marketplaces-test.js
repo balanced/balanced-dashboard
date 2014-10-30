@@ -74,7 +74,9 @@ test('add test marketplace', function() {
 		})
 		.click(".marketplace-list.test li.mp-new form button")
 		.then(function() {
-			ok(spy.calledWith(Models.Marketplace));
+			deepEqual(spy.args[0][0], Models.lookupFactory("api-key"));
+			deepEqual(spy.args[1][0], Models.lookupFactory("marketplace"));
+			deepEqual(spy.args[2][0], Models.lookupFactory("user-marketplace"));
 		});
 });
 
