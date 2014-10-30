@@ -117,14 +117,15 @@ test('can visit order page', function() {
 
 test("can visit orders page", function() {
 	visit(Testing.MARKETPLACE_ROUTE)
-		.click(".sidebar a:contains(Orders)")
-		.checkPageTitle("Orders")
+		.click(".sidebar a:contains(Payments)")
+		.click(".nav-pills a:contains(Orders)")
+		.checkPageTitle("Payments")
 		.then(function() {
 			var resultsUri = BalancedApp.__container__.lookup('controller:marketplace/orders').get("resultsLoader.resultsUri");
 			deepEqual(resultsUri.split("?")[0], "/orders");
 
 			assertQueryString(resultsUri, {
-				limit: "50",
+				limit: "20",
 			});
 		});
 });
