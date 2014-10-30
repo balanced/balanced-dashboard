@@ -50,7 +50,7 @@ test('credit bank account', function() {
 		.fillForm("#credit-funding-instrument", {
 			dollar_amount: '1000',
 			description: 'Test credit',
-			appears_on_statement_as: "Test transaction"
+			appears_on_statement_as: "Test credit"
 		})
 		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
 		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
@@ -64,7 +64,7 @@ test('credit bank account', function() {
 			matchesProperties(stub.firstCall.args[2], {
 				amount: 100000,
 				description: "Test credit",
-				appears_on_statement_as: "Test transaction"
+				appears_on_statement_as: "Test credit"
 			});
 		});
 });
@@ -109,7 +109,7 @@ test('debit bank account', function() {
 		.fillForm("#debit-funding-instrument", {
 			dollar_amount: '1000',
 			description: 'Test debit',
-			appears_on_statement_as: "Test transaction"
+			appears_on_statement_as: "Test debit"
 		})
 		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
@@ -122,7 +122,7 @@ test('debit bank account', function() {
 			matchesProperties(stub.firstCall.args[2], {
 				amount: 100000,
 				description: "Test debit",
-				appears_on_statement_as: "Test transaction"
+				appears_on_statement_as: "Test debit"
 			});
 		});
 });

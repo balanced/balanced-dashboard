@@ -18,22 +18,13 @@ var CreditExistingFundingInstrumentTransactionFactory = TransactionFactory.exten
 
 	save: function() {
 		var Credit = BalancedApp.__container__.lookupFactory("model:credit");
-		var deferred = Ember.RSVP.defer();
 
 		this.validate();
 		if (this.get("isValid")) {
-			Credit.create(this.getCreditAttributes())
-				.save()
-				.then(function(model) {
-					deferred.resolve(model);
-				}, function() {
-					deferred.reject();
-				});
+			return Credit.create(this.getCreditAttributes()).save();
 		} else {
-			deferred.reject();
+			return Ember.RSVP.reject();
 		}
-
-		return deferred.promise;
 	},
 
 	validations: {
