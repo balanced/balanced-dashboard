@@ -69,6 +69,28 @@ test('credit bank account', function() {
 		});
 });
 
+test('displays error message if properties are invalid', function() {
+	var stub = sinon.stub(Adapter, "create");
+
+	visit(Testing.BANK_ACCOUNT_ROUTE)
+		.click(".page-navigation a:contains(Credit)")
+		.checkText('#credit-funding-instrument label:contains(characters max)', 'Appears on statement as (14 characters max)')
+		.then(function() {
+			var attribute = $('#credit-funding-instrument input[name=appears_on_statement_as]').prop("maxLength");
+			equal(attribute, 14);
+		})
+		.fillForm("#credit-funding-instrument", {
+			dollar_amount: 'abc',
+			description: 'Test credit',
+			appears_on_statement_as: "10/26 invalid statement"
+		})
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.checkElements({
+			".notification-center.error .message": 1,
+			"#credit-funding-instrument .form-group.has-error": 2
+		});
+});
+
 test('debit bank account', function() {
 	var stub = sinon.stub(Adapter, "create");
 
