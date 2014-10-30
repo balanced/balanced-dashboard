@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### 1.0.3
+
+* Fixed images in import payouts page.
+
 ### 1.0.2
 
 * Fixed bug where new marketplaces would not link to the user after being created.
