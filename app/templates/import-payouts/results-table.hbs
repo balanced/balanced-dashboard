@@ -14,7 +14,7 @@
 					<i class="icon icon-csvexport"></i>
 					Download error report
 				</a>
-				<a {{action "confirmClearAll" target="view.parentView"}} class="link-action">Clear all</a>
+				<a {{action "openModal" "import-payouts/confirm-clear-all-modal"}} class="link-action">Clear all</a>
 			{{/if}}
 		</div>
 	</header>
@@ -40,10 +40,10 @@
       </tr>
     </thead>
     <tbody>
-      {{#each view.items}}
+      {{#each item in view.items}}
         <tr class="table-row">
 			{{#if view.isExisting}}
-				{{#view "import-payouts/existing-customer-identity-csv-upload-cell"}}
+				{{#view "import-payouts/existing-customer-identity-csv-upload-cell" item=item}}
 					<span {{bind-attr class="view.customerLabelClasses"}}>
 						<span class="customer-name-tooltip" data-tooltip>
 							{{view.customerDisplayValue}}
@@ -57,25 +57,25 @@
 					</span>
 				{{/view}}
 			{{else}}
-				{{view "import-payouts/default-csv-upload-cell" fieldName="new_customer_name"}}
-				{{view "import-payouts/default-csv-upload-cell" fieldName="new_customer_email"}}
+				{{view "import-payouts/default-csv-upload-cell" item=item fieldName="new_customer_name"}}
+				{{view "import-payouts/default-csv-upload-cell" item=item fieldName="new_customer_email"}}
 
-				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_routing_number"}}
-				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_account_number"}}
-				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_account_holders_name"}}
-				{{view "import-payouts/default-csv-upload-cell" fieldName="new_bank_account_type"}}
+				{{view "import-payouts/default-csv-upload-cell" item=item fieldName="new_bank_routing_number"}}
+				{{view "import-payouts/default-csv-upload-cell" item=item fieldName="new_bank_account_number"}}
+				{{view "import-payouts/default-csv-upload-cell" item=item fieldName="new_bank_account_holders_name"}}
+				{{view "import-payouts/default-csv-upload-cell" item=item fieldName="new_bank_account_type"}}
 			{{/if}}
 
-			{{view "import-payouts/default-csv-upload-cell" fieldName="appears_on_statement_as"}}
-			{{view "import-payouts/default-csv-upload-cell" fieldName="description"}}
-			{{view "import-payouts/currency-csv-upload-cell" fieldName="amount" class="table-column-amount"}}
+			{{view "import-payouts/default-csv-upload-cell" item=item fieldName="appears_on_statement_as"}}
+			{{view "import-payouts/default-csv-upload-cell" item=item fieldName="description"}}
+			{{view "import-payouts/currency-csv-upload-cell" item=item fieldName="amount" class="table-column-amount"}}
 
 			<td class="table-column table-column-icons">
-				{{#if isInvalid}}
-					<a {{action "confirmRemoveCreditCreator" this target="view.parentView"}} class="remove-icon">&times;</a>
-				{{else}} {{#if isProcessing}}
+				{{#if item.isInvalid}}
+					<a {{action "openModal" "import-payouts/confirm-remove-row-modal" item}} class="remove-icon">&times;</a>
+				{{else}} {{#if item.isProcessing}}
 					<i class="icon icon-loading"></i>
-				{{else}} {{#if isSaved}}
+				{{else}} {{#if item.isSaving}}
 					<i class="icon icon-checkmark"></i>
 				{{/if}} {{/if}} {{/if}}
 			</td>

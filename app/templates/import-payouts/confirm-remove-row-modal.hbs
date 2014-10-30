@@ -1,0 +1,9 @@
+<div class="modal-body">
+	<div class="content">Are you sure you want to remove this entry?</div>
+</div>
+<div class="modal-footer">
+	{{#if view.cancelButtonText}}
+		<button class="btn secondary" type="button" name="modal-cancel" data-dismiss="modal" aria-hidden="true" {{bind-attr disabled="view.isSaving"}}>{{view.cancelButtonText}}</button>
+	{{/if}}
+	<button {{action "confirm" target=view}} type="submit" name="modal-submit" {{bind-attr disabled="view.isSaving" class=":btn view.isSaving:disabled"}}>{{view.submitButtonText}}</button>
+</div>

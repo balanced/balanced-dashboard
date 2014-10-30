@@ -1,14 +1,7 @@
 {{#view "import-payouts/import-payouts" id="upload-payments"}}
-
-{{view "import-payouts/parse-credits-csv-progress-bar-modal" viewName="parseProgressBarModal"}}
-{{view "import-payouts/save-credits-csv-progress-bar-modal" viewName="saveProgressBarModal"}}
-
-{{confirm-modal viewName="confirmRemoveModal" title="Remove Entry" mainText="Remove this entry?"}}
-{{confirm-modal viewName="confirmClearAllModal" title="Clear all entries" mainText="Clear all error entries?"}}
-
-<h1 class="page-title">Import payouts</h1>
+	<h1 class="page-title">Import payouts</h1>
 	<form {{action "submit" on="submit" target="view"}} class="full-page-form">
-		{{title-bar icon="icon-document-upload" titleBinding="view.title"}}
+		{{title-bar icon="icon-document-upload" title=view.title}}
 
 		{{#if creditCreators.isDataMissing}}
 			{{partial 'import_payouts/instructions'}}
@@ -18,10 +11,10 @@
 				<div class="csv-preview">
 					<h3>Preview data</h3>
 					{{#if creditCreators.isInvalid}}
-						{{view "import-payouts/marketplace-invalid-csv-payments-table" creditCreatorsBinding="creditCreators"}}
+						{{view "import-payouts/marketplace-invalid-csv-payments-table" creditCreators=creditCreators items=creditCreators.invalid}}
 					{{/if}}
 
-					{{view "import-payouts/marketplace-valid-csv-payments-table" creditCreatorsBinding="creditCreators"}}
+					{{view "import-payouts/marketplace-valid-csv-payments-table" creditCreators=creditCreators items=creditCreators.valid}}
 					{{partial 'import_payouts/account_summary'}}
 					{{partial "import_payouts/submit_area"}}
 				</div>

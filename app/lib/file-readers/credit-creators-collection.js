@@ -30,12 +30,12 @@ var CreditCreatorsCollection = Ember.ArrayProxy.extend({
 	}.property("isInvalid", "valid.length"),
 
 	valid: function() {
-		return this.filterBy("isValid");
-	}.property("content.@each.isValid"),
+		return this.get("content").filterBy("isValid");
+	}.property("@each.isValid"),
 
 	invalid: function() {
-		return this.filterBy("isInvalid");
-	}.property("content.@each.isInvalid"),
+		return this.get("content").filterBy("isInvalid");
+	}.property("@each.isInvalid"),
 
 	hasValid: Ember.computed.gt("valid.length", 0),
 
