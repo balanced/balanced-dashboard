@@ -5,8 +5,8 @@ import initializePopover from "./initialize-popover";
 var ExistingCustomerIdentityCsvUploadCellView = CsvUploadCellView.extend({
 	classNames: ["csv-customer-profile"],
 
-	customer: Ember.computed.readOnly("context.customer"),
-	bankAccount: Ember.computed.readOnly("context.bankAccount"),
+	customer: Ember.computed.reads("item.customer"),
+	bankAccount: Ember.computed.reads("item.bankAccount"),
 
 	hasBankAccountRequiredError: function() {
 		var customer = this.get("customer");
@@ -28,7 +28,7 @@ var ExistingCustomerIdentityCsvUploadCellView = CsvUploadCellView.extend({
 	customerDisplayValue: function() {
 		var object = this.get("customer");
 		if (object === null || object === undefined) {
-			return this.get("context.csvFields.existing_customer_name_or_email");
+			return this.get("item.csvFields.existing_customer_name_or_email");
 		} else {
 			return object.get("name");
 		}
@@ -66,12 +66,12 @@ var ExistingCustomerIdentityCsvUploadCellView = CsvUploadCellView.extend({
 		initializePopover(this, "Bank account", ".bank-description-tooltip", 'bankAccountErrorMessages');
 	},
 
-	bankAccountErrorMessages: Ember.computed.readOnly("context.validationErrors.bankAccount.messages"),
-	customerErrorMessages: Ember.computed.readOnly("context.validationErrors.csvFields.existing_customer_name_or_email.messages"),
+	bankAccountErrorMessages: Ember.computed.readOnly("item.validationErrors.bankAccount.messages"),
+	customerErrorMessages: Ember.computed.readOnly("item.validationErrors.csvFields.existing_customer_name_or_email.messages"),
 
 	isError: function() {
 		return this.get("bankAccountErrorMessages.length") || this.get("customerErrorMessages.length");
-	}.property("bankAccountErrorMessages.lenght", "customerErrorMessages.length"),
+	}.property("bankAccountErrorMessages.length", "customerErrorMessages.length"),
 
 	initializePopover: function() {
 		if (this.get("bankAccountErrorMessages.length")) {

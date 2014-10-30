@@ -49,7 +49,7 @@ CsvWriter.prototype.toCsvString = function() {
 	var rowCells = map(this.rows, function(row, index) {
 		var csvRow;
 
-		if (this.columnNames) {
+		if (columnNames) {
 			csvRow = map(columnNames, function(name, index) {
 				return row[name.key];
 			});

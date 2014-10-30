@@ -3,9 +3,7 @@ import initializePopover from "./initialize-popover";
 
 var CsvUploadCellView = Ember.View.extend({
 	tagName: "td",
-	fieldsErrors: function() {
-		return this.get("context.validationErrors.csvFields");
-	}.property("context", "context.validationErrors.csvFields"),
+	fieldsErrors: Ember.computed.reads("item.validationErrors.csvFields"),
 
 	didInsertElement: function() {
 		this._super();
@@ -39,7 +37,7 @@ var CsvUploadCellView = Ember.View.extend({
 
 	fieldValue: function() {
 		var fieldName = this.get("fieldName");
-		var fields = this.get("context.csvFields");
+		var fields = this.get("item.csvFields");
 		if (fields) {
 			var value = (fields[fieldName] || "").trim();
 			if (value.length > 0) {
@@ -47,7 +45,7 @@ var CsvUploadCellView = Ember.View.extend({
 			}
 		}
 		return undefined;
-	}.property("context.csvFields"),
+	}.property("item.csvFields", "fieldName"),
 
 	hasIsRequiredError: function() {
 		var messages = this.get("errorMessages.allMessages") || [];

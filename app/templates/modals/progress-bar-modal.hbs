@@ -1,14 +1,11 @@
-<div class="modal hide modal-progress" data-backdrop="static" data-keyboard="false">
-	<div class="modal-body">
-		<span class="label-front label3a">{{view.title}}</span>
-		<span class="progress">
-			<span class="progress-bar"></span>
-		</span>
-		<span class="label3a">{{view.progressText}}</span>
-	</div>
-	{{#if view.isCancelable}}
-		<div class="modal-actions">
-			<button class="btn btn-default" {{action "cancel" target="view"}}>Cancel Upload</button>
-		</div>
-	{{/if}}
+<div class="modal-body">
+	<span class="progress">
+		<span class="progress-bar"></span>
+	</span>
+	<span class="label3a">{{view.progressText}}</span>
 </div>
+{{#if view.isCancelable}}
+	<div class="modal-actions">
+		<button class="btn btn-default" {{action "cancel" target="view"}}>Cancel Upload</button>
+	</div>
+{{/if}}

@@ -51,7 +51,7 @@ var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, 
 				callback();
 			}
 			var count = collection.filterBy('isSaved').get('length');
-			self.transitionToRoute('transactions');
+			self.transitionToRoute('marketplace.transactions');
 
 			self.refresh('');
 			var message = '%@ payouts were successfully submitted. Payouts might take a couple seconds to appear in the transactions list.'.fmt(count);
@@ -75,11 +75,8 @@ var MarketplaceImportPayoutsController = Ember.Controller.extend(Ember.Evented, 
 	actions: {
 		clearAll: function() {
 			this.trackCollectionEvent("Csv invalid rows cleared");
-
 			var collection = this.get("creditCreators");
-			collection.get("invalid").forEach(function(creator, index) {
-				collection.removeObject(creator);
-			});
+			collection.removeObjects(collection.get("invalid"));
 		},
 
 		removeCreditCreator: function(creator) {

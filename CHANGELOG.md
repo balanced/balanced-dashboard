@@ -3,6 +3,8 @@
 ### 1.0.3
 
 * Fixed images in import payouts page.
+* Fixed duplicate "Logs" tab in search results
+* Fixed broken csv import flow.
 
 ### 1.0.2
 
