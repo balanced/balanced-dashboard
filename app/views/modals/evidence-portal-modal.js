@@ -169,16 +169,17 @@ var EvidencePortalModalView = ModalBaseView.extend(Full, Form, DisplayModelError
 	},
 
 	change: function(event) {
-		this._super();
+		this._super(event);
 		this.send('fileSelectionChanged', this.$("#fileupload").get(0).files);
 	},
 
 	drop: function(event) {
-		this._super();
+		this._super(event);
 		this.send('fileSelectionChanged', event.dataTransfer.files);
 	},
 
 	didInsertElement: function() {
+		// Safari check
 		if (Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0) {
 			$('#fileupload').removeAttr("multiple");
 		}

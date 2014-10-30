@@ -99,7 +99,7 @@ var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 	linkAndVerify: function(marketplace, bankAccountHref) {
 		var self = this;
 		return self.get("container")
-			.lookup("controller:owner_customer_bank_account")
+			.lookup("controller:register-flow/owner-customer-bank-account")
 			.linkAndVerify(marketplace, bankAccountHref)
 			.then(function(marketplace) {
 				self.nextStepSuccess(marketplace, bankAccountHref);
