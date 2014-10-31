@@ -49,7 +49,7 @@ test('can edit refund', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REFUND_ROUTE)
-		.click('.key-value-display .edit-model-link:eq(0)')
+		.click('.key-value-display:eq(0) .edit-model-link')
 		.fillIn('#edit-description .modal-body input[name=description]', "changing desc")
 		.click('#edit-description .modal-footer button[name=modal-submit]')
 		.then(function() {

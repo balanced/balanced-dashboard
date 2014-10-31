@@ -24,7 +24,7 @@ test("#groupedResults", function() {
 			equal(results[index].get("customer_uri"), object.customer_uri, "Buyer uri for uri " + object.customer_uri);
 			deepEqual(results[index].get("transactions"), object.transactions, "transactions for uri " + object.customer_uri);
 		});
-	}
+	};
 
 	var debitArray = [Ember.Object.create({
 		customer_uri: "/customers/CUxxxxxx1111111",

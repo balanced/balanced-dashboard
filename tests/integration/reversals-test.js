@@ -34,7 +34,7 @@ test('can edit reversal', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REVERSAL_ROUTE)
-		.click('.key-value-display .edit-model-link:first')
+		.click('.key-value-display:eq(0) .edit-model-link')
 		.fillForm("#edit-description", {
 			description: "changing desc"
 		})
