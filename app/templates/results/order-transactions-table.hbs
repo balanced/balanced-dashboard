@@ -12,7 +12,7 @@
 {{/if}}
 
 <tbody>
-	{{#each customer_group in view.loader.results}}
+	{{#each customer_group in view.groupedResults}}
 		<tr>
 			{{view "tables/cells/linked-two-lines-cell"
 				item=customer_group.customer

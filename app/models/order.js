@@ -36,17 +36,17 @@ var Order = Model.extend({
 	credits_amount: Computed.transform('amount_credited', Utils.formatCurrency),
 
 	getOrderDebitsResultsLoader: function(attributes) {
-		var OrderDebitsResultsLoader = require("balanced-dashboard/models/results-loaders/order-debits")["default"];
+		var OrderDebitsResultsLoader = require("balanced-dashboard/models/results-loaders/transactions")["default"];
 		attributes = _.extend({
-			order: this
+			resultsUri: this.get("debits_uri")
 		}, attributes);
 		return OrderDebitsResultsLoader.create(attributes);
 	},
 
 	getOrderCreditsResultsLoader: function(attributes) {
-		var OrderCreditsResultsLoader = require("balanced-dashboard/models/results-loaders/order-credits")["default"];
+		var OrderCreditsResultsLoader = require("balanced-dashboard/models/results-loaders/transactions")["default"];
 		attributes = _.extend({
-			order: this
+			resultsUri: this.get("credits_uri")
 		}, attributes);
 		return OrderCreditsResultsLoader.create(attributes);
 	},
