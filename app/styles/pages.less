@@ -153,7 +153,7 @@
       }
     }
 
-    &.failed, &.expired, &.lost, &.arbitration, &.canceled, &.voided, &.invalidated, &.removed, &.bad {
+    &.failed, &.expired, &.lost, &.arbitration, &.canceled, &.voided, &.invalidated, &.removed, &.bad, &.overdue {
       span {
         color: @imperialRed100;
       }
@@ -170,6 +170,18 @@
 
       &:before {
         background-color: @byzantiumPurple80;
+      }
+    }
+
+    &.overdue {
+      &:before {
+        font-family: 'Balanced-Icon';
+        &:extend(.icon-overdue:before);
+        font-size: 12px;
+        color: @imperialRed80;
+        background-color: transparent;
+        margin-right: 4px;
+        vertical-align: -1px;
       }
     }
   }

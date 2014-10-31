@@ -51,6 +51,18 @@ var Order = Model.extend({
 		return OrderCreditsResultsLoader.create(attributes);
 	},
 
+	status: Ember.computed.oneWay("isOverdue"),
+	isOverdue: function() {
+		if (this.get('amount_escrowed') === 0) {
+			return false;
+		}
+		var firstDebit = this.get('debits_list').get('lastObject');
+		if (firstDebit && moment().diff(moment(firstDebit.get('created_at')), 'days') >= 30) {
+			return true;
+		}
+		return false;
+	}.property('debits_list', 'amount_escrowed'),
+
 	// filter credits by those that belong to the customer
 	credits_list: function() {
 		var customer = this.get('customer.href');

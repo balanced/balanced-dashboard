@@ -190,19 +190,15 @@ header.results-label h3 {
             a > span > .secondary {
               margin-left: 14px;
             }
-            &.orders .order, &.dispute .pending {
-
-            }
 
             &.orders .order {
               &:before {
                 font-family: 'Balanced-Icon';
-                font-size: 10px;
+                background-color: transparent;
                 &:extend(.icon-orders:before);
+                font-size: 10px;
                 color: @gray4;
                 margin-top: -14px;
-                width: 0;
-                height: 0;
               }
               > .primary {
                 margin-left: 14px;
@@ -212,12 +208,11 @@ header.results-label h3 {
             &.dispute .pending {
               &:before {
                 font-family: 'Balanced-Icon';
-                font-size: 12px;
+                background-color: transparent;
                 &:extend(.icon-disputes:before);
+                font-size: 12px;
                 color: @curryYellow80;
                 margin-top: -12px;
-                width: 0;
-                height: 0;
               }
               > .primary {
                 margin-left: 14px;
