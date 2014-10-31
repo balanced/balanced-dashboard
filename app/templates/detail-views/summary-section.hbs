@@ -50,7 +50,11 @@
 							{{linkedResource.value}}
 						{{/link-to}}
 					{{else}}
-						{{linkedResource.value}}
+						{{#if linkedResource.value}}
+							{{linkedResource.value}}
+						{{else}}
+							<span class="sl-none">none</span>
+						{{/if}}
 					{{/if}}
 				</dd>
 			{{/each}}
