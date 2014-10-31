@@ -18,15 +18,18 @@ var ImportPayoutsView = Ember.View.extend({
 	isEscrowValid: Ember.computed.gte("escrowDifference", 0),
 	isPreviewable: Ember.computed.and("isEscrowValid", "creditCreators.isLoaded"),
 
-	updateReaderBody: function(text) {
-		var modal = this.get("parseProgressBarModal");
+	getProgressModal: function(modalName) {
+		var controller = this.get("container").lookup("controller:modals-container");
+		return controller.open(modalName);
+	},
 
+	updateReaderBody: function(text) {
+		var modal = this.getProgressModal("import-payouts/parse-credits-csv-progress-bar-modal");
 		this.get("controller").refresh(text);
 		modal.refresh(this.get("creditCreators"));
-
 		setTimeout(function() {
 			if (modal.get("isCompleted")) {
-				modal.hide();
+				modal.close();
 			}
 		}, 300);
 	},
@@ -36,41 +39,11 @@ var ImportPayoutsView = Ember.View.extend({
 			this.updateReaderBody();
 		},
 
-		confirmClearAll: function() {
-			var self = this;
-			var modal = this.get("confirmClearAllModal");
-			modal.on("cancel", function() {
-				modal.send("close");
-				modal.reset();
-			});
-			modal.on("confirm", function() {
-				self.get("controller").send("clearAll");
-				modal.send("close");
-				modal.reset();
-			});
-			modal.send("open");
-		},
-
-		confirmRemoveCreditCreator: function(creator) {
-			var self = this;
-			var modal = this.get("confirmRemoveModal");
-			modal.on("cancel", function() {
-				modal.send("close");
-				modal.reset();
-			});
-			modal.on("confirm", function() {
-				self.get("controller").send("removeCreditCreator", creator);
-				modal.send("close");
-				modal.reset();
-			});
-			modal.send("open");
-		},
-
 		submit: function() {
-			var modal = this.get("saveProgressBarModal");
+			var modal = this.getProgressModal("import-payouts/save-credits-csv-progress-bar-modal");
 			modal.refresh(this.get("creditCreators"));
 			this.get("controller").save(function() {
-				modal.hide();
+				modal.close();
 			});
 		},
 

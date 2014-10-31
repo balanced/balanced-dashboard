@@ -1,34 +1,19 @@
 import Ember from "ember";
+import ModalBaseView from "./modal-base";
 
-var ProgressBarModalView = Ember.View.extend({
-
+var ProgressBarModalView = ModalBaseView.extend({
 	templateName: "modals/progress-bar-modal",
-
-	classNames: ['modal-container'],
-
-	modalElement: function() {
-		return this.$(".modal").get(0);
-	}.property("element"),
-
-	$modal: function(options) {
-		var element = this.get("modalElement");
-		return $(element).modal(options || {});
-	},
-
-	show: function() {
-		this.$modal("show");
-	},
-
-	hide: function() {
-		this.$modal("hide");
-	},
+	classNames: ["modal-progress"],
 
 	getProgressBar: function() {
-		return $(this.get("modalElement")).find(".progress-bar");
+		return this.$(".progress-bar");
 	},
 
 	setProgressBarFraction: function(fractionValue) {
-		this.getProgressBar().width((fractionValue * 100) + "%");
+		var element = this.getProgressBar();
+		if (element) {
+			element.width((fractionValue * 100) + "%");
+		}
 	},
 
 	actions: {

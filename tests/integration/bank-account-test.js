@@ -50,7 +50,7 @@ test('credit bank account', function() {
 		.fillForm("#credit-funding-instrument", {
 			dollar_amount: '1000',
 			description: 'Test credit',
-			appears_on_statement_as: "Test transaction"
+			appears_on_statement_as: "Test credit"
 		})
 		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
 		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
@@ -64,8 +64,30 @@ test('credit bank account', function() {
 			matchesProperties(stub.firstCall.args[2], {
 				amount: 100000,
 				description: "Test credit",
-				appears_on_statement_as: "Test transaction"
+				appears_on_statement_as: "Test credit"
 			});
+		});
+});
+
+test('displays error message if properties are invalid', function() {
+	var stub = sinon.stub(Adapter, "create");
+
+	visit(Testing.BANK_ACCOUNT_ROUTE)
+		.click(".page-navigation a:contains(Credit)")
+		.checkText('#credit-funding-instrument label:contains(characters max)', 'Appears on statement as (14 characters max)')
+		.then(function() {
+			var attribute = $('#credit-funding-instrument input[name=appears_on_statement_as]').prop("maxLength");
+			equal(attribute, 14);
+		})
+		.fillForm("#credit-funding-instrument", {
+			dollar_amount: 'abc',
+			description: 'Test credit',
+			appears_on_statement_as: "10/26 invalid statement"
+		})
+		.click('#credit-funding-instrument .modal-footer button[name=modal-submit]')
+		.checkElements({
+			".notification-center.error .message": 1,
+			"#credit-funding-instrument .form-group.has-error": 2
 		});
 });
 
@@ -87,7 +109,7 @@ test('debit bank account', function() {
 		.fillForm("#debit-funding-instrument", {
 			dollar_amount: '1000',
 			description: 'Test debit',
-			appears_on_statement_as: "Test transaction"
+			appears_on_statement_as: "Test debit"
 		})
 		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
 		.click('#debit-funding-instrument .modal-footer button[name=modal-submit]')
@@ -100,7 +122,7 @@ test('debit bank account', function() {
 			matchesProperties(stub.firstCall.args[2], {
 				amount: 100000,
 				description: "Test debit",
-				appears_on_statement_as: "Test transaction"
+				appears_on_statement_as: "Test debit"
 			});
 		});
 });

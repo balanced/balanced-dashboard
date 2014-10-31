@@ -4,9 +4,6 @@ var CsvProgressBarModalView = ProgressBarModalView.extend({
 	refresh: function(collection) {
 		this.set("collection", collection);
 		this.updateProgressBar();
-		if (!collection.get("isEmpty")) {
-			this.show();
-		}
 	},
 
 	progressText: function() {

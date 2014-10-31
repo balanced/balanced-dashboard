@@ -18,7 +18,13 @@ var CreditExistingFundingInstrumentTransactionFactory = TransactionFactory.exten
 
 	save: function() {
 		var Credit = BalancedApp.__container__.lookupFactory("model:credit");
-		return Credit.create(this.getCreditAttributes()).save();
+
+		this.validate();
+		if (this.get("isValid")) {
+			return Credit.create(this.getCreditAttributes()).save();
+		} else {
+			return Ember.RSVP.reject();
+		}
 	},
 
 	validations: {
@@ -26,10 +32,7 @@ var CreditExistingFundingInstrumentTransactionFactory = TransactionFactory.exten
 			presence: true
 		},
 		dollar_amount: ValidationHelpers.positiveDollarAmount,
-		appears_on_statement_as: {
-			presence: true,
-			format: ValidationHelpers.generateTransactionAppearsOnStatementFormatValidation("appears_on_statement_max_length")
-		},
+		appears_on_statement_as: ValidationHelpers.bankTransactionAppearsOnStatementAs
 	}
 });
 

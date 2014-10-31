@@ -13,14 +13,14 @@ var ParseCreditsCsvProgressBarModalView = CsvProgressBarModalView.extend({
 
 	loadedObserver: function() {
 		if (this.get("isCompleted")) {
-			this.hide();
+			this.close();
 		}
 	}.observes("collection.@each.isLoaded"),
 
 	actions: {
 		cancel: function() {
 			this.get("parentView.controller").refresh(undefined);
-			this.hide();
+			this.close();
 		}
 	}
 });
