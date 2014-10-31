@@ -13,7 +13,11 @@ var SummarySectionView = Ember.View.extend({
 		var result = args.map(function(resourceName) {
 			var resource = self.get(resourceName);
 
-			if (!resource && resourceName !== 'model.description') {
+			if (resourceName === 'model.description') {
+				return self.generateResource(resource, resourceName);
+			}
+
+			if (!resource) {
 				return undefined;
 			}
 
