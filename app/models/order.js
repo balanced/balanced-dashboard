@@ -51,7 +51,13 @@ var Order = Model.extend({
 		return OrderCreditsResultsLoader.create(attributes);
 	},
 
-	status: Ember.computed.oneWay("isOverdue"),
+	status: function() {
+		if (this.get("isOverdue")) {
+			return "overdue";
+		}
+		return null;
+	}.property("isOverdue"),
+
 	isOverdue: function() {
 		if (this.get('amount_escrowed') === 0) {
 			return false;
