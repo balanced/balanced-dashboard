@@ -49,9 +49,9 @@ test('can edit refund', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REFUND_ROUTE)
-		.click('.key-value-display .edit-model-link:eq(0)')
-		.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
-		.click('#edit-transaction .modal-footer button[name=modal-submit]')
+		.click('.linked-resources .edit-model-link')
+		.fillIn('#edit-description .modal-body input[name=description]', "changing desc")
+		.click('#edit-description .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(spy.calledOnce);
 			ok(spy.calledWith(Models.Refund));
@@ -85,7 +85,7 @@ test('can edit meta', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REFUND_ROUTE)
-		.click('.key-value-display .edit-model-link:eq(1)')
+		.click('.key-value-display:eq(1) .edit-model-link')
 		.fillForm("#edit-meta", {
 			key: "new key",
 			value: "new value"

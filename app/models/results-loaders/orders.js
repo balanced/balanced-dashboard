@@ -4,7 +4,7 @@ import Order from "balanced-dashboard/models/order";
 
 var OrdersResultsLoader = BaseResultsLoader.extend({
 	resultsType: Order,
-
+	limit: 20,
 	queryStringArguments: function() {
 		var queryStringBuilder = new ResultsLoaderQueryStringBuilder();
 

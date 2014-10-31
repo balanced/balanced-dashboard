@@ -1,0 +1,8 @@
+<a>
+{{view.order}}
+	{{#if view.isUnlinked}}
+		{{#view "popover" data-trigger="click" data-placement="right" data-original-title=view.tooltipTitle data-content=view.tooltipContent data-html="true"}}
+			<i {{bind-attr class="view.parentView.iconName :non-interactive"}} title="Unlinked transaction (Click to learn more)"></i>
+		{{/view}}
+	{{/if}}
+</a>

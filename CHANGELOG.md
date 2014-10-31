@@ -1,5 +1,13 @@
 # Balanced Dashboard Changelog
 
+### master
+* Combined Orders and Transactions list into Payments tab
+* Changed Orders table into cards view
+* Updated Order details page to display transactions grouped by customers
+* Updated Transaction details page to include associated orders and transactions
+* Added "Unlinked transactions" tooltips in the Transactions table
+* Indicate overdue Orders
+
 ### 1.0.3
 
 * Fixed images in import payouts page.
