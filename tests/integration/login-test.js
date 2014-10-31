@@ -51,7 +51,7 @@ test('login page works', function() {
 
 	visit('/login')
 		.fillForm('form#auth-form', {
-			emailAddress: 'user@balancedpayments.com',
+			email_address: 'user@balancedpayments.com',
 			password: '111111'
 		}, {
 			click: 'button'
@@ -113,8 +113,8 @@ test('login afterLogin with transition works', 1, function() {
 
 	visit(Testing.MARKETPLACE_ROUTE)
 		.fillForm("#auth-form", {
-			"emailAddress": "guy@example.com",
-			"password": "111111"
+			email_address: "guy@example.com",
+			password: "111111"
 		})
 		.click('form#auth-form button')
 		.then(function() {
