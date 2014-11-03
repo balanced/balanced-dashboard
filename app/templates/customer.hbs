@@ -17,6 +17,12 @@
 			{{view "results/embedded-transactions-table" loader=transactionsResultsLoader}}
 		</div>
 
+
+		<h3>Disputes</h3>
+		<div class="results">
+			{{view "results/embedded-disputes-table" loader=disputesResultsLoader}}
+		</div>
+
 		<div class="pull-right">
 			<a class="btn-link sm" {{action "openModal" "modals/customer-bank-account-create-modal" model}}>
 				<i class="icon icon-add non-interactive"></i>Add a bank account
@@ -29,6 +35,7 @@
 		<div class="results">
 			{{view "results/embedded-funding-instruments-table" loader=fundingInstrumentsResultsLoader}}
 		</div>
+
 		<h3>Logs</h3>
 		<div class="results">
 			{{view "resource-logs" content=model}}

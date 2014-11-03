@@ -7,6 +7,8 @@
 * Updated Transaction details page to include associated orders and transactions
 * Added "Unlinked transactions" tooltips in the Transactions table
 * Indicate overdue Orders
+* Readded disputes table to customer page
+* Fixed error handling for create bank account modal
 
 ### 1.0.3
 
