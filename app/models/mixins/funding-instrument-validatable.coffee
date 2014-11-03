@@ -5,7 +5,7 @@ FundingInstrumentValidatable = Ember.Mixin.create(
 		@set('isSaving', true)
 		deferred = Ember.RSVP.defer()
 
-		errorCreating = (error) =>
+		errorCreating = (err) =>
 			errorMessage = "There was an error processing your bank account. #{Ember.get(err, 'errorDescription')}"
 			@set("isSaving", false)
 			@get("validationErrors").add("", "serverError", null, errorMessage)

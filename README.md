@@ -4,7 +4,6 @@ balanced-dashboard
 The Balanced Dashboard
 
 [![Build Status](https://travis-ci.org/balanced/balanced-dashboard.png?branch=master)](https://travis-ci.org/balanced/balanced-dashboard)
-[![Coverage Status](https://coveralls.io/repos/balanced/balanced-dashboard/badge.png)](https://coveralls.io/r/balanced/balanced-dashboard)
 [![Code Climate](https://codeclimate.com/github/balanced/balanced-dashboard.png)](https://codeclimate.com/github/balanced/balanced-dashboard)
 
 ## What
@@ -12,12 +11,12 @@ The Balanced Dashboard
 Welcome to the Balanced Dashboard.
 
 As an open company we want to put as much of our company in the public view as
-possible. We're creating our new dashboard as a javascript application that
-anyone can fork, comment on, contribute to, or generally tinker with.
+possible. Our dashboard is a a javascript application that anyone can fork,
+comment on, contribute to, or generally tinker with.
 
 ## Why
 
-Found a spelling mistake? Want to run your own version with customised
+Found a spelling mistake? Want to run your own version with customized
 functionality? Jump in and contribute!
 
 ## How
@@ -30,11 +29,9 @@ You will need node installed as a development dependency. See
 1. `npm install -g grunt-cli`
 2. `npm install`
 3. Build - `grunt`
-4. To view in a browser - [http://localhost:9876/build/dev.html](http://localhost:9876/build/dev.html)
+4. To view in a browser - [http://localhost:4200](http://localhost:4200)
 5. To run unit tests at the command line `grunt test`
-6. To run unit tests in a browser - [http://localhost:9876/build/test/runner.html](http://localhost:9876/build/test/runner.html)
-7. To browse the dashboard running against test fixture data - [http://localhost:9876/build/test/fixturebrowser.html](http://localhost:9876/build/test/fixturebrowser.html)
-8. To run browser tests `grunt itest`
+6. To run unit tests in a browser - [http://localhost:4200/tests](http://localhost:4200/tests)
 
 ### Building and Deploying
 
