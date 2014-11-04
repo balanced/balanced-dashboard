@@ -1,7 +1,6 @@
 import Ember from "ember";
 import Model from "./core/model";
 import FundingInstrument from "./funding-instrument";
-import Customer from "./customer";
 import Utils from "balanced-dashboard/lib/utils";
 import Constants from "balanced-dashboard/utils/constants";
 
@@ -49,12 +48,6 @@ var BankAccount = FundingInstrument.extend({
 
 
 	status: Ember.computed.oneWay("verificationStatus"),
-
-	customer: function() {
-		if (this.get("customer_uri")) {
-			return Customer.find(this.get("customer_uri"));
-		}
-	}.property("customer_uri"),
 
 	verificationStatus: function() {
 		if (this.get("isRemoved")) {
