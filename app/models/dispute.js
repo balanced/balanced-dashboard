@@ -7,13 +7,17 @@ var Dispute = Model.extend(Ember.Validations, {
 	events: Model.hasMany('events', 'event'),
 	documents: Model.hasMany('dispute_documents', 'dispute-document'),
 
-	state: function() {
-		var status = this.get('status');
-		if (status === 'pending' && this.get('documents.length')) {
-			return 'submitted';
+	statusDidChange: function() {
+		if (this.get('status') !== 'pending' && this.get('status') !== 'new') {
+			return;
 		}
-		return status;
-	}.property('documents.length', 'status'),
+
+		if (this.get('isEvidenceProvided')) {
+			this.set('status', 'submitted');
+		} else {
+			this.set('status', 'new');
+		}
+	}.observes('isEvidenceProvided', 'status').on('init'),
 
 	note: null,
 	tracking_number: null,
@@ -77,7 +81,7 @@ var Dispute = Model.extend(Ember.Validations, {
 	}.property('respond_by'),
 
 	canUploadDocuments: function() {
-		return !this.get('isEvidenceProvided') && !this.get('hasExpired') && (this.get('status') === 'pending');
+		return !this.get('isEvidenceProvided') && !this.get('hasExpired') && (this.get('status') === 'new');
 	}.property('isEvidenceProvided', 'hasExpired', 'status')
 });
 
