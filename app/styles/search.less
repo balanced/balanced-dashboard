@@ -14,6 +14,8 @@
 @searchSelectorBackground: #62A0A8;
 @searchBorderWidth: 5px;
 @searchBorder: @searchBorderWidth solid @black;
+@searchIconWidth: 50px;
+@searchPostLabelWidth: 50px;
 
 #marketplaces-and-search {
   position: relative;
@@ -40,37 +42,10 @@
     }
   }
 
-  @searchIconWidth: 50px;
-  @searchPostLabelWidth: 50px;
 
   &.focus {
     .search-field-container {
       .icon-search {
-        color: @black;
-      }
-    }
-  }
-
-  .search-field-container {
-    height: @searchBoxHeight;
-    margin: 0;
-    padding: 0 @searchPostLabelWidth 0 @searchIconWidth;
-    position: relative;
-    z-index: 2;
-
-    .icon-search {
-      .sl-24;
-      color: @gray4;
-      display: inline-block;
-      height: @searchBoxHeight;
-      left: 13px;
-      margin-top: 21px;
-      position: absolute;
-      text-align: center;
-      top: 0;
-      width: @searchIconWidth;
-
-      &.search-highlight {
         color: @black;
       }
     }
@@ -114,14 +89,39 @@
   }
 }
 
-#q {
+.search-field-container {
+  height: @searchBoxHeight;
+  margin: 0;
+  padding: 0 @searchPostLabelWidth 0 @searchIconWidth;
+  position: relative;
+  z-index: 2;
+}
+
+.icon-search {
+  .sl-24;
+  color: @gray4;
+  display: inline-block;
+  height: @searchBoxHeight;
+  left: 13px;
+  margin-top: 21px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: @searchIconWidth;
+
+  &.search-highlight {
+    color: @black;
+  }
+}
+
+#q, .q {
   .sl-lg;
   color: @gray2;
   display: inline-block;
   background-color: transparent;
   line-height: 1.5em;
   border-radius: 0px;
-  width: calc(~"100% - 396px");
+  width: 100%;
   margin: 0;
   padding-left: 20px;
   border: 0;
@@ -130,5 +130,31 @@
 
   &:focus {
     color: @black;
+  }
+}
+
+.search-nav {
+  &:extend(#marketplace-nav);
+  top: 0;
+  background-color: @gray1;
+  border-right: solid 1px @gray2;
+
+  & > ul {
+    margin-top: 100px;
+
+    & > li {
+
+      a {
+        .sl-sb;
+        color: @gray4;
+        display: block;
+        padding: 10px 10px 10px 20px;
+
+        &:hover {
+          background-color: @gray2;
+          color: @gray6;
+        }
+      }
+    }
   }
 }

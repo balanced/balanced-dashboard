@@ -1,8 +1,6 @@
 `import Ember from "ember";`
 
-SearchBarView = Ember.View.extend
-	layoutName: "search-bar-layout"
-
+MarketplaceSearchView = Ember.View.extend
 	overlayClass: 'overlaid'
 	isHighlight: false
 
@@ -17,4 +15,4 @@ SearchBarView = Ember.View.extend
 	mouseLeave: (evt) ->
 		@set("isHighlight", false)
 
-`export default SearchBarView;`
+`export default MarketplaceSearchView;`

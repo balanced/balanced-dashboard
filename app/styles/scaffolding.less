@@ -305,3 +305,25 @@ hr {
     z-index: 2;
   }
 }
+
+.modal {
+  &.search-screen-modal {
+    width: 100%;
+    height: 100%;
+    background-color: @white;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .modal-header {
+      padding: 0;
+      margin-left: 180px;
+    }
+    .modal-body {
+      margin-left: 180px;
+      padding: 45px;
+    }
+  }
+}
