@@ -1,12 +1,22 @@
-<div class="results transactions">
-	{{#if hasUnlinkedTransactions}}
-		<div class="alert-row">
-			<div class="row-fluid notification-center secondary unlinked">
-				<div class="notification-center-message">
-					<span class="message">You have unlinked transactions. Use Orders to link related transactions between buyer and merchant.</span>
-				</div>
-			</div>
-		</div>
-	{{/if}}
+{{#view "page-navigations/page-navigation" title="Transactions"}}
+	<div class="buttons page-actions">
+		<a class="btn" {{action "openModal" "modals/card-debit-create-modal"}}>Debit a card</a>
+		<a class="btn" {{action "openModal" "modals/bank-account-credit-create-modal"}}>Credit a bank account</a>
+	</div>
+{{/view}}
+
+<nav class="results-actions-bar">
+	<div class="pull-right">
+		{{#unless auth.isGuest}}
+			{{#link-to "marketplace.import_payouts" class="btn-link sm"}}
+				<i class="icon icon-document-upload import-payout"></i>Import payouts
+			{{/link-to}}
+		{{/unless}}
+		<a {{action "openModal" "modals/export-csv-modal" resultsLoader}} class="btn-link sm">
+			<i class="icon icon-export"></i>Export
+		</a>
+	</div>
+</nav>
+<div class="results">
 	{{view "results/transactions-table" loader=resultsLoader}}
 </div>

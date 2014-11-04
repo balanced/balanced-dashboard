@@ -3,8 +3,17 @@ import SidebarView from "./sidebar";
 var SIDEBAR_ITEMS = [{
 	linkText: "Payments",
 	linkIcon: "icon-payments",
-	routeName: "marketplace.orders",
+	routeName: "marketplace.transactions",
 	isSelectedBinding: "controller.controllers.marketplace.paymentSelected",
+	children: [{
+		routeName: "marketplace.transactions",
+		linkText: "Transactions",
+		isSelectedBinding: "controller.controllers.marketplace.transactionSelected"
+	}, {
+		routeName: "marketplace.orders",
+		linkText: "Orders",
+		isSelectedBinding: "controller.controllers.marketplace.orderSelected"
+	}]
 }, {
 	linkText: "Customers",
 	linkIcon: "icon-customers",

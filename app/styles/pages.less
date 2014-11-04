@@ -72,27 +72,25 @@
 }
 
 .linked-resources {
-  dt {
+  dt, dd {
     .sl-sb;
+    font-size: 13px;
     line-height: 18px;
-    margin-bottom: 0;
+    display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 1px 0;
+  }
 
-    & > [class^="icon-"] {
-      color: @black;
-      margin-right: 2px;
-      vertical-align: -2px;
-    }
+  dt {
+    width: 100px;
+    float: left;
   }
 
   dd {
-    .sl;
-    color: @gray6;
-    margin-left: 20px;
-    margin-bottom: 23px;
-    margin-top: -2px;
+    width: 144px;
+    margin-left: 10px;
   }
 
   ul {
@@ -102,6 +100,12 @@
       margin: 5px 0;
     }
   }
+
+  [class^="icon-"] {
+    color: @black;
+    margin-right: 2px;
+    vertical-align: -2px;
+  }
 }
 
 .side-panel {
@@ -110,79 +114,52 @@
 
     p {
       color: @gray7;
-      padding-top: 3px;
+      padding-left: 18px;
     }
   }
 
-  dd.status {
-    & > span {
-      .sl-sb;
-      text-transform: capitalize;
-    }
+  div.status {
+    .clearfix();
+    margin-bottom: 30px;
 
-    &:before {
-      content: '';
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius:100%;
-      margin-right: 1px;
+    h3 {
+      text-transform: capitalize;
+
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius:100%;
+        margin-right: 1px;
+        margin-left: 3px;
+      }
     }
 
     .btn {
-      margin-top: -3px;
+      margin-left: 17px;
     }
 
-    &.succeeded, &.captured, &.created, &.won, &.paid, &.updated, &.deposited, &.verified, &.active, &.good {
-      span {
-        color: @pineGreen100;
-      }
-
+    .succeeded, .captured, .created, .won, .paid, .updated, .deposited, .verified, .active, .good {
       &:before {
         background-color: @pineGreen80;
       }
     }
 
-    &.new, &.pending, &.scheduled, &.unverified, &.unverifiable {
-      span {
-        color: @curryYellow100;
-      }
-
+    .new, .pending, .scheduled, .unverified, .unverifiable {
       &:before {
         background-color: @curryYellow80;
       }
     }
 
-    &.failed, &.expired, &.lost, &.arbitration, &.canceled, &.voided, &.invalidated, &.removed, &.bad, &.overdue {
-      span {
-        color: @imperialRed100;
-      }
-
+    .failed, .expired, .lost, .arbitration, .canceled, .voided, .invalidated, .removed, .bad {
       &:before {
         background-color: @imperialRed80;
       }
     }
 
-    &.submitted {
-      span {
-        color: @byzantiumPurple100;
-      }
-
-      &:before {
-        background-color: @byzantiumPurple80;
-      }
-    }
-
-    &.overdue {
-      &:before {
-        font-family: 'Balanced-Icon';
-        &:extend(.icon-overdue:before);
-        font-size: 12px;
-        color: @imperialRed80;
-        background-color: transparent;
-        margin-right: 4px;
-        vertical-align: -1px;
-      }
+    .submitted:before {
+      background-color: @byzantiumPurple80;
     }
   }
 }

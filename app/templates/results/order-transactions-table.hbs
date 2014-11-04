@@ -1,7 +1,15 @@
 <thead>
 	<tr>
-		<th class="col-md-3 customer"><span>Customer</span></th>
-		<th class="col-md-7 transaction"><span>Transaction</span></th>
+		<th class="col-md-2 date has-filter">
+			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+				<span>Date</span>
+			{{/view}}
+		</th>
+		<th class="col-md-2 status has-filter">
+			{{view "results/transactions-status-results-dropdown-filter"}}
+		</th>
+		<th class="col-md-2 description"><span>Description</span></th>
+		<th class="col-md-2 account"><span>Customer</span></th>
 		<th class="col-md-2 amount num">
 			<span>Amount</span>
 		</th>
@@ -12,48 +20,35 @@
 {{/if}}
 
 <tbody>
-	{{#each customer_group in view.groupedResults}}
+	{{#each transaction in view.loader.results}}
 		<tr>
-			{{view "tables/cells/linked-two-lines-cell"
-				item=customer_group.customer
-				routeName=customer_group.customer.route_name
-				primaryLabelText=customer_group.customer.display_me
-				secondaryLabelText=customer_group.customer.email
-				title=customer_group.customer.display_me_with_email
-				class="customer-group"
+			{{view "tables/cells/linked-date-cell"
+				item=transaction
+				routeName=transaction.route_name
+				date=transaction.created_at
 			}}
-			<td class="grouped-transactions-container" colspan="2">
-				{{#each transaction in customer_group.transactions}}
-					{{#view "results/grouped-transactions-table"}}
-						{{#if transaction.dispute}}
-							{{view "results/grouped-transaction-row" item=transaction.dispute}}
-						{{/if}}
-
-						{{view "results/grouped-transaction-row" item=transaction}}
-
-						{{#if transaction.hold}}
-							{{view "results/grouped-transaction-row" item=transaction.hold}}
-						{{/if}}
-
-						{{#if transaction.refunds}}
-							{{#each refund in transaction.refunds}}
-								{{view "results/grouped-transaction-row" item=refund}}
-							{{/each}}
-						{{/if}}
-
-						{{#if transaction.reversals}}
-							{{#each reversal in transaction.reversals}}
-								{{view "results/grouped-transaction-row" item=reversal}}
-							{{/each}}
-						{{/if}}
-					{{/view}}
-				{{/each}}
-			</td>
+			{{view "tables/cells/linked-text-cell"
+				item=transaction
+				labelText=transaction.status
+				routeName=transaction.route_name
+				spanClassNamesBinding="transaction.status"
+				classNames="status"
+				titleBinding="transaction.status"
+			}}
+			{{view "tables/cells/linked-text-cell"
+				item=transaction
+				labelText=transaction.description
+				routeName=transaction.route_name
+				titleBinding="transaction.description"
+			}}
+			{{view "tables/cells/transaction/customer-cell" item=transaction}}
+			{{view "tables/cells/transaction/amount-cell" item=transaction}}
+		</tr>
 	{{else}}
 		<tr>
-			<td colspan="3" class="no-results">
+			<td colspan="5" class="no-results">
 				{{#if view.loader.results.isLoaded}}
-					No transactions
+					No results
 				{{else}}
 					Loading...
 				{{/if}}

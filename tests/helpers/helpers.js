@@ -48,8 +48,8 @@ Balanced.Test.asyncHelpers = {
 	testEditTransaction: function(app, transaction) {
 		var spy = sinon.spy(BalancedApp.Adapter, "update");
 		return click(".side-panel .edit-model-link")
-			.fillIn('#edit-description .modal-body input[name=description]', "changing desc")
-			.click('#edit-description .modal-footer button[name=modal-submit]')
+			.fillIn('#edit-transaction .modal-body input[name=description]', "changing desc")
+			.click('#edit-transaction .modal-footer button[name=modal-submit]')
 			.then(function() {
 				var firstCall = spy.getCall(0);
 				ok(spy.calledOnce);

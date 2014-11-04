@@ -17,7 +17,84 @@ module('Integration - Order Page', {
 		Testing.setupMarketplace();
 
 		andThen(function() {
-			return Testing.createOrder();
+			Models.Order.create({
+				uri: '/customers/' + Testing.CUSTOMER_ID + '/orders',
+				description: '#123'
+			}).save().then(function(order) {
+				Testing.ORDER_ID = order.get('id');
+				Testing.ORDER_ROUTE = '/marketplaces/' + Testing.MARKETPLACE_ID +
+					'/orders/' + Testing.ORDER_ID;
+
+				return Models.Debit.create({
+					uri: '/customers/' + Testing.CUSTOMER_ID + '/debits',
+					appears_on_statement_as: 'Pixie Dust',
+					amount: 10000,
+					description: 'Cocaine',
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+			}).then(function(debit) {
+				Testing.DEBIT = debit;
+				return Testing._createBankAccount();
+			}).then(function(bankAccount) {
+				Testing.BANK_ACCOUNT_ID = bankAccount.get('id');
+
+				return Models.Credit.create({
+					uri: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits',
+					amount: 1000,
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+			}).then(function(credit) {
+				Testing.CREDIT_1 = credit;
+
+				return Models.BankAccount.create({
+					uri: '/customers/' + Testing.CUSTOMER_ID + '/bank_accounts',
+					name: 'Test Account 2',
+					account_number: '12345',
+					routing_number: '122242607',
+					type: 'checking'
+				}).save();
+			}).then(function(bankAccount) {
+				Testing.BANK_ACCOUNT_ID = bankAccount.get('id');
+
+				return Models.Credit.create({
+					uri: '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/credits',
+					amount: 1000,
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+			}).then(function(credit) {
+				Testing.CREDIT_2 = credit;
+
+				return Models.Refund.create({
+					uri: '/debits/' + Testing.DEBIT.get('id') + '/refunds',
+					amount: 200,
+					description: 'Cocaine refund',
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+			}).then(function(refund) {
+				Testing.REFUND = refund;
+
+				return Models.Reversal.create({
+					uri: '/credits/' + Testing.CREDIT_1.get('id') + '/reversals',
+					amount: 100,
+					links: {
+						order: '/orders/' + Testing.ORDER_ID
+					}
+				}).save();
+			}).then(function(reversal) {
+				Testing.REVERSAL = reversal;
+
+				return Models.Customer.find('/customers/' + Testing.CUSTOMER_ID);
+			}).then(function(customer) {
+				Testing.CUSTOMER = customer;
+			});
 		});
 	},
 	teardown: function() {
@@ -32,34 +109,22 @@ var assertQueryString = function(string, expected) {
 	});
 };
 
-test("can visit orders page", function() {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.click(".sidebar a:contains(Payments)")
-		.click(".nav-pills a:contains(Orders)")
-		.checkPageTitle("Payments")
-		.then(function() {
-			var resultsUri = BalancedApp.__container__.lookup('controller:marketplace/orders').get("resultsLoader.resultsUri");
-			deepEqual(resultsUri.split("?")[0], "/orders");
-
-			assertQueryString(resultsUri, {
-				limit: "20",
-			});
-		});
-});
-
 test('can visit order page', function() {
 	visit(Testing.ORDER_ROUTE)
 		.checkPageType("OrderOrder escrow")
 		.checkPageTitle("#123");
 });
 
-test('displays correct number of charges and payouts per customer', function() {
-	visit(Testing.ORDER_ROUTE)
-		.checkElements({
-			".customer-group": 2,
-			".grouped-transactions-container": 2,
-			".grouped-transactions-container .grouped-transactions": 3,
-			".grouped-transactions-container .grouped-transactions tr": 5
+test("can visit orders page", function() {
+	visit(Testing.MARKETPLACE_ROUTE)
+		.click(".sidebar a:contains(Orders)")
+		.checkPageTitle("Orders")
+		.then(function() {
+			var resultsUri = BalancedApp.__container__.lookup('controller:marketplace/orders').get("resultsLoader.resultsUri");
+			deepEqual(resultsUri.split("?")[0], "/orders");
+
+			assertQueryString(resultsUri, {
+				limit: "50",
+			});
 		});
 });
-

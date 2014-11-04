@@ -1,32 +1,22 @@
 import Ember from "ember";
 import Utils from "balanced-dashboard/lib/utils";
-import Computed from "balanced-dashboard/utils/computed";
 
 var SummarySectionView = Ember.View.extend({
 	templateName: "detail-views/summary-section",
 	status: Ember.computed.oneWay("model.status"),
-	hasStatusOrLinkedResources: Computed.orProperties("status", "linkedResources"),
+
 	resourceLinks: function() {
 		var self = this;
 		var args = _.toArray(arguments);
 
 		var result = args.map(function(resourceName) {
 			var resource = self.get(resourceName);
-
-			if (resourceName === 'model.description') {
-				return self.generateResource(resource, resourceName);
-			}
-
 			if (!resource) {
 				return undefined;
 			}
 
 			if (_.isArray(resource.content)) {
 				resource = resource.content;
-			}
-
-			if (_.isString(resource)) {
-				return self.generateResource(resource, resourceName);
 			}
 
 			if (resource.length > 0) {
@@ -41,18 +31,6 @@ var SummarySectionView = Ember.View.extend({
 		});
 
 		return _.flatten(result).compact();
-	},
-
-	generateResource: function(value, resourceName) {
-		if (resourceName === "model.description") {
-			return {
-				className: 'icon-description',
-				title: 'Internal description',
-				value: value,
-				hoverValue: value,
-				editModelModalClass: this.get("container").lookupFactory("view:modals/edit-description-modal")
-			};
-		}
 	},
 
 	generateResourceLink: function(parentModel, model) {

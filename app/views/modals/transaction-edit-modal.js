@@ -3,10 +3,10 @@ import ModalBaseView from "./modal-base";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 
-var EditDescriptionModalView = ModalBaseView.extend(Full, Form, Save, {
-	elementId: "edit-description",
-	templateName: 'modals/edit-description-modal',
-	title: "Edit description",
+var TransactionEditModalView = ModalBaseView.extend(Full, Form, Save, {
+	elementId: "edit-transaction",
+	templateName: 'modals/transaction-edit-modal',
+	title: "Edit info",
 	cancelButtonText: "Cancel",
 	submitButtonText: "Edit",
 
@@ -26,7 +26,7 @@ var EditDescriptionModalView = ModalBaseView.extend(Full, Form, Save, {
 	}
 });
 
-EditDescriptionModalView.reopenClass({
+TransactionEditModalView.reopenClass({
 	open: function(model) {
 		return this.create({
 			model: model
@@ -34,4 +34,4 @@ EditDescriptionModalView.reopenClass({
 	}
 });
 
-export default EditDescriptionModalView;
+export default TransactionEditModalView;
