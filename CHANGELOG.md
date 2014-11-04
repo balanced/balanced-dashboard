@@ -1,8 +1,10 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.0.4
 
 * Fixed error handling for create bank account modal
+* Restored input field name in login page to fix 1password functionality
+* Updated readme
 
 ### 1.0.3
 
