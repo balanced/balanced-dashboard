@@ -25,6 +25,7 @@ var DisputeTransactionsResultsLoader = BaseResultsLoader.extend({
 
 		var results = SearchModelArray.newArrayLoadedFromUri(refundsUri, Refund);
 		results.pushObjects(content);
+
 		return results;
 	}.property("hold", "debit", "dispute.transaction.refunds_uri"),
 });

@@ -52,10 +52,9 @@ var getResultsUri = function() {
 
 test('can visit page', function() {
 	visit(Testing.ACTIVITY_ROUTE)
-		.click(".nav-pills a:contains(Orders)")
-		.checkPageTitle("Payments")
+		.checkPageTitle("Transactions")
 		.checkElements({
-			'.payments-navbar a:contains(Export)': 1
+			'.results-actions-bar a:contains(Export)': 1
 		})
 		.then(function() {
 			var resultsUri = getResultsUri();
@@ -198,7 +197,7 @@ test('download activity', function() {
 			stub = sinon.stub(loader, "postCsvExport");
 			stub.returns(Ember.RSVP.resolve());
 		})
-		.click(".payments-navbar a:contains(Export)")
+		.click(".results-actions-bar a:contains(Export)")
 		.fillForm("#download-csv form", {
 			emailAddress: "test@example.com"
 		})

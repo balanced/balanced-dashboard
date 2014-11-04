@@ -1,8 +1,8 @@
 import TransactionsTableView from "./transactions-table";
 
 var EmbeddedTransactionsTableView = TransactionsTableView.extend({
-	templateName: "results/embedded-transactions-table",
-	classNames: ["non-interactive"]
+	isSmallTable: true,
+	colspan: 5
 });
 
 export default EmbeddedTransactionsTableView;

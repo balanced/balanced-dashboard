@@ -35,39 +35,11 @@ var Order = Model.extend({
 	escrow_balance: Computed.transform('amount_escrowed', Utils.formatCurrency),
 	credits_amount: Computed.transform('amount_credited', Utils.formatCurrency),
 
-	getOrderDebitsResultsLoader: function(attributes) {
-		var OrderDebitsResultsLoader = require("balanced-dashboard/models/results-loaders/transactions")["default"];
-		attributes = _.extend({
-			resultsUri: this.get("debits_uri")
-		}, attributes);
-		return OrderDebitsResultsLoader.create(attributes);
-	},
-
-	getOrderCreditsResultsLoader: function(attributes) {
-		var OrderCreditsResultsLoader = require("balanced-dashboard/models/results-loaders/transactions")["default"];
-		attributes = _.extend({
-			resultsUri: this.get("credits_uri")
-		}, attributes);
-		return OrderCreditsResultsLoader.create(attributes);
-	},
-
-	status: function() {
-		if (this.get("isOverdue")) {
-			return "overdue";
-		}
-		return null;
-	}.property("isOverdue"),
-
-	isOverdue: function() {
-		if (this.get('amount_escrowed') === 0) {
-			return false;
-		}
-		var firstDebit = this.get('debits_list').get('lastObject');
-		if (firstDebit && moment().diff(moment(firstDebit.get('created_at')), 'days') >= 30) {
-			return true;
-		}
-		return false;
-	}.property('debits_list', 'amount_escrowed'),
+	getBuyersResultsLoader: generateResultsLoader("customers", "buyers_uri"),
+	getCreditsResultsLoader: generateResultsLoader("transactions", "credits_uri"),
+	getDebitsResultsLoader: generateResultsLoader("transactions", "debits_uri"),
+	getRefundsResultsLoader: generateResultsLoader("transactions", "refunds_uri"),
+	getReversalsResultsLoader: generateResultsLoader("transactions", "reversals_uri"),
 
 	// filter credits by those that belong to the customer
 	credits_list: function() {

@@ -118,7 +118,7 @@ test('filter logs by request failed only', function() {
 		.checkElements({
 			'table.logs tbody tr': 1,
 			'table.logs tfoot td': "",
-			'table.logs tbody tr td': 'No logs'
+			'table.logs tbody tr td': 'No results'
 		});
 });
 

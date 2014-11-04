@@ -21,7 +21,6 @@ var Testing = {
 	CUSTOMER_ID: null,
 	DEBIT_ID: null,
 	REVERSAL_ID: null,
-	ORDER_ID: null,
 
 	// constant routes
 	MARKETPLACES_ROUTE: '/marketplaces',
@@ -33,15 +32,6 @@ var Testing = {
 	CUSTOMER_ROUTE: null,
 	DEBIT_ROUTE: null,
 	REVERSAL_ROUTE: null,
-	ORDER_ROUTE: null,
-
-	// constant models
-	CREDIT_1: null,
-	CREDIT_2: null,
-	DEBIT: null,
-	REFUND: null,
-	REVERSAL: null,
-	CUSTOMER: null,
 
 	selectMarketplaceByName: function(name) {
 		name = name || 'Test Marketplace';
@@ -294,93 +284,6 @@ var Testing = {
 		_.times(4, function() {
 			return self.createDebit();
 		});
-	},
-
-	createOrder: function() {
-		var self = this;
-		var orderAttributes = {
-			uri: '/customers/' + this.CUSTOMER_ID + '/orders',
-			description: '#123'
-		};
-
-		instantiateModel("order", orderAttributes)
-			.save()
-			.then(function(order) {
-				self.ORDER_ID = order.get('id');
-				self.ORDER_ROUTE = '/marketplaces/' + self.MARKETPLACE_ID +
-					'/orders/' + self.ORDER_ID;
-
-				return instantiateModel("debit", {
-					uri: '/customers/' + self.CUSTOMER_ID + '/debits',
-					appears_on_statement_as: 'Pixie Dust',
-					amount: 10000,
-					description: 'Cocaine',
-					links: {
-						order: '/orders/' + self.ORDER_ID
-					}
-				}).save();
-			}).then(function(debit) {
-				self.DEBIT = debit;
-				return self._createBankAccount();
-			}).then(function(bankAccount) {
-				self.BANK_ACCOUNT_ID = bankAccount.get('id');
-
-				return instantiateModel("credit", {
-					uri: '/bank_accounts/' + self.BANK_ACCOUNT_ID + '/credits',
-					amount: 1000,
-					links: {
-						order: '/orders/' + self.ORDER_ID
-					}
-				}).save();
-			}).then(function(credit) {
-				self.CREDIT_1 = credit;
-
-				return instantiateModel("bank-account", {
-					uri: '/customers/' + self.CUSTOMER_ID + '/bank_accounts',
-					name: 'Test Account 2',
-					account_number: '12345',
-					routing_number: '122242607',
-					type: 'checking'
-				}).save();
-			}).then(function(bankAccount) {
-				self.BANK_ACCOUNT_ID = bankAccount.get('id');
-
-				return instantiateModel("credit", {
-					uri: '/bank_accounts/' + self.BANK_ACCOUNT_ID + '/credits',
-					amount: 1000,
-					links: {
-						order: '/orders/' + self.ORDER_ID
-					}
-				}).save();
-			}).then(function(credit) {
-				self.CREDIT_2 = credit;
-
-				return instantiateModel("refund", {
-					uri: '/debits/' + self.DEBIT.get('id') + '/refunds',
-					amount: 200,
-					description: 'Cocaine refund',
-					links: {
-						order: '/orders/' + self.ORDER_ID
-					}
-				}).save();
-			}).then(function(refund) {
-				self.REFUND = refund;
-
-				return instantiateModel("reversal", {
-					uri: '/credits/' + self.CREDIT_1.get('id') + '/reversals',
-					amount: 100,
-					links: {
-						order: '/orders/' + self.ORDER_ID
-					}
-				}).save();
-			}).then(function(reversal) {
-				self.REVERSAL = reversal;
-
-				return BalancedApp.__container__.lookupFactory("model:customer")
-					.find('/customers/' + self.CUSTOMER_ID);
-			}).then(function(customer) {
-				self.CUSTOMER = customer;
-			});
 	},
 
 	createCustomer: function() {

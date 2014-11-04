@@ -138,7 +138,7 @@ test('displays failure reason amount in dollars', function() {
 			});
 		})
 		.checkElements({
-			".status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
+			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
 		});
 });
 
@@ -152,6 +152,6 @@ test('displays failure reason amount in dollars', function(assert) {
 				model.set('failure_reason', 'Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of 42500. There is currently a required reserve of 50036.');
 			});
 		}).checkElements({
-			".status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
+			"div.status p": "Marketplace MP77RU803dGnrYYws7ySAkDA has insufficient funds to cover a transfer of $425.00. There is currently a required reserve of $500.36."
 		}, assert);
 });

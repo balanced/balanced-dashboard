@@ -7,6 +7,12 @@
 				<i class="icon-edit"></i>
 			</a>
 		{{/if}}
+
+		{{#if view.editActionTrigger}}
+			<a class="pull-right edit-model-link" {{action view.editActionTrigger target="view"}}>
+				<i class="icon-edit"></i>
+			</a>
+		{{/if}}
 	</h3>
 	<dl class="dl-horizontal">
 		{{#each	item in view.keyValueListViews}}

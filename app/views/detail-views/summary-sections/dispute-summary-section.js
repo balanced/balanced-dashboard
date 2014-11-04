@@ -13,8 +13,8 @@ var DisputeSummarySectionView = SummarySectionView.extend({
 	}.property('model.status'),
 
 	linkedResources: function() {
-		return this.resourceLinks("model.transaction.customer", "model.transaction.source");
-	}.property("model.transaction.customer", "model.transaction.source")
+		return this.resourceLinks("model.transaction.order", "model.transaction.customer", "model.transaction.source");
+	}.property("model.transaction.order", "model.transaction.customer", "model.transaction.source")
 });
 
 export default DisputeSummarySectionView;

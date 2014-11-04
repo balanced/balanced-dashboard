@@ -25,7 +25,7 @@
 
 		<h3>Associated transactions</h3>
 		<div class="results">
-			{{view "results/associated-transactions-table" transaction=model}}
+			{{view "results/embedded-transactions-table" loader=transactionsResultsLoader hasNoFilter=true}}
 		</div>
 
 		<h3>Evidence</h3>

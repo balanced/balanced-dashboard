@@ -20,7 +20,7 @@ var TitledKeyValuesSectionView = Ember.View.extend({
 		var value = Ember.get(model, fieldName);
 
 		if (_.contains(dateFields, fieldName)) {
-			value = Utils.humanReadableDateTime(value);
+			value = Utils.humanReadableDateLong(value);
 		}
 
 		return value;
