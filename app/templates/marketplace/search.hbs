@@ -1,11 +1,6 @@
 <div id="search" {{bind-attr class="view.isOpen:with-results"}}>
 	<div {{bind-attr class=":search-field-container view.isHighlight:search-highlight"}} {{action "openModal" "modals/search-modal" model}}>
 		<label {{bind-attr for=view.queryField.elementId class=":icon-search view.isHighlight:search-highlight"}}></label>
-	    {{input type="text" class="q" autocomplete="off" name="search_query" viewName="queryField" value=resultsLoader.query}}
-		{{#if view.isLoading}}
-			<span class="query-loader">
-				<span class="loader loading"></span>
-			</span>
-		{{/if}}
+	    {{input type="text" class="q"}}
 	</div>
 </div>

@@ -25,7 +25,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	query: Ember.computed.oneWay("resultsLoader.query"),
 	isResultsOpen: Ember.computed.and("isQueryPresent", "isDisplayResults"),
 
-	queryChanged: function(a, value) {
+	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
 	}.observes("resultsLoader.query"),
 
@@ -67,6 +67,14 @@ var SearchModalView = ModalBaseView.extend(Search, {
 			this.get("resultsLoader").setSortField(column);
 		},
 	}
+});
+
+SearchModalView.reopenClass({
+	open: function(model) {
+		return this.create({
+			model: model
+		});
+	},
 });
 
 export default SearchModalView;

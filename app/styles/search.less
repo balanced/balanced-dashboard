@@ -144,6 +144,14 @@
 
     & > li {
 
+      &.selected {
+        background-color: @gray2;
+
+        a {
+          color: @gray6;
+        }
+      }
+
       a {
         .sl-sb;
         color: @gray4;
@@ -151,8 +159,7 @@
         padding: 10px 10px 10px 20px;
 
         &:hover {
-          background-color: @gray2;
-          color: @gray6;
+          &:extend(.search-nav > ul > li.selected);
         }
       }
     }
