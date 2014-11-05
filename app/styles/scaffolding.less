@@ -164,7 +164,7 @@ hr {
 }
 
 .payments-navbar {
-  background-color: @gray1;
+  background-color: @gray0;
   border-bottom: 1px solid @gray2;
   margin: 0 -45px;
   padding: 5px 45px;
@@ -183,7 +183,7 @@ hr {
 .cards-container {
   margin: 0 -45px -45px;
   min-height: 390px;
-  background-color: @gray1;
+  background-color: @gray0;
 
   .results {
     padding: 45px 45px 35px 45px;
@@ -191,7 +191,7 @@ hr {
   }
 
   .cards {
-    margin-bottom: 15px;
+    margin-right: -15px;
   }
 }
 
@@ -275,33 +275,5 @@ hr {
 .btn-link {
   i.icon {
     margin-right: 5px;
-  }
-}
-
-.card {
-  position: relative;
-
-  &.overdue:before {
-    position: absolute;
-    content: '';
-    top: 1px;
-    right: 16px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 30px 30px 0;
-    border-color: transparent @imperialRed10 transparent transparent;
-    z-index: 1;
-  }
-
-  &.overdue:after {
-    font-family: 'Balanced-Icon';
-    &:extend(.icon-overdue:before);
-    font-size: 12px;
-    color: @imperialRed80;
-    position: absolute;
-    top: 0;
-    right: 18px;
-    z-index: 2;
   }
 }

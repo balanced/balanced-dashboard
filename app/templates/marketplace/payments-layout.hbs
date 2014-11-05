@@ -1,8 +1,10 @@
 {{#view "page-navigations/page-navigation" title="Payments"}}
-	<div class="buttons page-actions">
-		<a class="btn" {{action "openModal" "modals/card-debit-create-modal"}}>Debit a card</a>
-		<a class="btn" {{action "openModal" "modals/bank-account-credit-create-modal"}}>Credit a bank account</a>
-	</div>
+	{{#if view.parentView.showActionButtons}}
+		<div class="buttons page-actions">
+			<a class="btn" {{action "openModal" "modals/card-debit-create-modal"}}>Debit a card</a>
+			<a class="btn" {{action "openModal" "modals/bank-account-credit-create-modal"}}>Credit a bank account</a>
+		</div>
+	{{/if}}
 {{/view}}
 
 <nav class="payments-navbar clearfix">
