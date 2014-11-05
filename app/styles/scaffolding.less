@@ -163,8 +163,145 @@ hr {
   .border-radius(15px);
 }
 
+.payments-navbar {
+  background-color: @gray1;
+  border-bottom: 1px solid @gray2;
+  margin: 0 -45px;
+  padding: 5px 45px;
+
+  .actions {
+    a {
+      line-height: 32px;
+
+      i {
+        vertical-align: sub;
+      }
+    }
+  }
+}
+
+.cards-container {
+  margin: 0 -45px -45px;
+  min-height: 390px;
+  background-color: @gray1;
+
+  .results {
+    padding: 45px 45px 35px 45px;
+    margin-bottom: -45px;
+  }
+
+  .cards {
+    margin-bottom: 15px;
+  }
+}
+
+.nav-pills {
+  float: left;
+
+  & > li {
+    & > a {
+      .sl-sb;
+      color: @gray4;
+      background-color: @white;
+      border: 1px solid @gray2;
+      padding: 5px 10px;
+      .border-radius(0);
+
+      [class^="icon-"] {
+        color: @gray4;
+      }
+
+      span {
+        vertical-align: middle;
+      }
+
+      &:hover {
+        background-color: @gray1;
+        color: @black;
+
+        [class^="icon-"] {
+          color: @black;
+        }
+      }
+
+      &.active {
+        background-color: @gray7;
+        border: 1px solid @gray7;
+        color: @white;
+
+        [class^="icon-"] {
+          color: @white;
+        }
+      }
+    }
+  }
+
+  & > li + li {
+    margin-left: -1px;
+  }
+}
+
+.linked-list {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid @gray2;
+
+  i {
+    color: @black;
+    margin-right: 10px;
+  }
+
+  & + & {
+    margin-top: -1px;
+  }
+}
+
+.col-icon {
+  width: 40px;
+}
+
+.no-result {
+  .sl-lg-lt;
+  color: @gray3;
+
+  i {
+    font-size: 80px;
+    color: @gray2;
+    display: block;
+    margin: 80px 0 20px;
+  }
+}
+
 .btn-link {
   i.icon {
     margin-right: 5px;
+  }
+}
+
+.card {
+  position: relative;
+
+  &.overdue:before {
+    position: absolute;
+    content: '';
+    top: 1px;
+    right: 16px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 30px 0;
+    border-color: transparent @imperialRed10 transparent transparent;
+    z-index: 1;
+  }
+
+  &.overdue:after {
+    font-family: 'Balanced-Icon';
+    &:extend(.icon-overdue:before);
+    font-size: 12px;
+    color: @imperialRed80;
+    position: absolute;
+    top: 0;
+    right: 18px;
+    z-index: 2;
   }
 }

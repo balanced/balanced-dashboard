@@ -1,0 +1,59 @@
+<thead>
+	<tr>
+		<th class="col-md-10 transaction">
+			<span>Transaction</span>
+		</th>
+		<th class="col-md-2 amount num">
+			<span>Amount</span>
+		</th>
+	</tr>
+</thead>
+{{#if view.loader.results.hasNextPage}}
+	{{view "results/results-load-more" results=view.loader.results columns=2}}
+{{/if}}
+
+<tbody>
+	{{#each transaction in view.loader.results}}
+		<tr>
+			<td class="grouped-transactions-container" colspan="2">
+				{{#view "results/grouped-transactions-table"}}
+					{{#if transaction.order}}
+						{{view "results/grouped-order-row" item=transaction.order}}
+					{{/if}}
+
+					{{#if transaction.dispute}}
+						{{view "results/grouped-transaction-row" item=transaction.dispute}}
+					{{/if}}
+
+					{{view "results/grouped-transaction-row" item=transaction}}
+
+					{{#if transaction.hold}}
+						{{view "results/grouped-transaction-row" item=transaction.hold}}
+					{{/if}}
+
+					{{#if transaction.refunds}}
+						{{#each refund in transaction.refunds}}
+							{{view "results/grouped-transaction-row" item=refund}}
+						{{/each}}
+					{{/if}}
+
+					{{#if transaction.reversals}}
+						{{#each reversal in transaction.reversals}}
+							{{view "results/grouped-transaction-row" item=reversal}}
+						{{/each}}
+					{{/if}}
+				{{/view}}
+			</td>
+		</tr>
+	{{else}}
+		<tr>
+			<td colspan="2" class="no-results">
+				{{#if view.loader.results.isLoaded}}
+					No transactions
+				{{else}}
+					Loading...
+				{{/if}}
+			</td>
+		</tr>
+	{{/each}}
+</tbody>

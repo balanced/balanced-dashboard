@@ -55,15 +55,18 @@ Router.map ->
 			this.route("redirect_invoices", path: 'invoices')
 
 			this.route("orders")
-
 			this.resource('orders', path: '/orders/:item_id')
+
 			this.route("customers")
 			this.resource('customer', path: '/customers/:item_id')
+
 			this.route("disputes")
 			this.resource('dispute', path: '/disputes/:item_id')
+
 			this.route('funding_instruments', path: '/payment_methods')
 			this.resource('bank_accounts', path: '/bank_accounts/:item_id')
 			this.resource('cards', path: '/cards/:item_id')
+
 			this.route("transactions")
 			this.resource('credits', path: '/credits/:item_id')
 			this.resource('reversals', path: '/reversals/:item_id')
