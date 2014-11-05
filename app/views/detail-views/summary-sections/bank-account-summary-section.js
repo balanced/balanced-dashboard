@@ -3,7 +3,7 @@ import Utils from "balanced-dashboard/lib/utils";
 
 var BankAccountSummarySectionView = SummarySectionView.extend({
 	statusText: function() {
-		var status = this.get('status');
+		var status = this.get('model.status');
 
 		if (status === 'pending') {
 			return 'Two deposits have been made to your bank account. Confirm verification by entering the amounts.';
@@ -16,25 +16,25 @@ var BankAccountSummarySectionView = SummarySectionView.extend({
 		}
 
 		return undefined;
-	}.property('status', 'model.verification.updated_at'),
+	}.property('model.status', 'model.verification.updated_at'),
 
 	statusButtonModalView: function() {
-		var status = this.get('status');
+		var status = this.get('model.status');
 		if (status === 'unverified') {
 			return this.get("container").lookupFactory("view:modals/verify-bank-account-modal");
 		} else if (status === 'pending') {
 			return this.get("container").lookupFactory("view:modals/bank-account-verification-confirm-modal");
 		}
 		return undefined;
-	}.property('status'),
+	}.property('model.status'),
 
 	statusButtonText: function() {
-		var status = this.get('status');
+		var status = this.get('model.status');
 		if (status === 'unverified' || status === 'pending') {
 			return "Verify";
 		}
 		return undefined;
-	}.property("status"),
+	}.property("model.status"),
 
 	linkedResources: function() {
 		return this.resourceLinks("model.customer");

@@ -337,6 +337,7 @@ var Utils = Ember.Namespace.create({
 	date_formats: {
 		date: 'MMM D, YYYY',
 		time: 'h:mm A',
+		date_time: 'MMM D, YYYY, h:mm A',
 		short: 'M/D/YYYY, h:mm A',
 		long: 'MMMM D YYYY, h:mm A',
 	},
@@ -352,6 +353,10 @@ var Utils = Ember.Namespace.create({
 		} else {
 			return date;
 		}
+	},
+
+	humanReadableDateTime: function(isoDate) {
+		return Utils.formatDate(isoDate, Utils.date_formats.date_time);
 	},
 
 	humanReadableDate: function(isoDate) {

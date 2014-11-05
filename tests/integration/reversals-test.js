@@ -34,11 +34,11 @@ test('can edit reversal', function() {
 	var spy = sinon.spy(Adapter, "update");
 
 	visit(Testing.REVERSAL_ROUTE)
-		.click('.key-value-display .edit-model-link:first')
-		.fillForm("#edit-transaction", {
+		.click('.linked-resources .edit-model-link')
+		.fillForm("#edit-description", {
 			description: "changing desc"
 		})
-		.click('#edit-transaction .modal-footer button[name=modal-submit]')
+		.click('#edit-description .modal-footer button[name=modal-submit]')
 		.then(function() {
 			ok(spy.calledOnce);
 			ok(spy.calledWith(Models.Reversal));

@@ -21,6 +21,8 @@
     "ember-cli-coffeescript": "0.0.7",
     "ember-cli-less": "1.0.4",
     "ember-cli-qunit": "0.1.0",
+    "ember-cli-content-security-policy": "0.1.4",
+    "ember-cli-inject-live-reload": "^1.2.0",
     "express": "4.8.5",
     "glob": "4.0.5",
     "grunt": "0.4.4",

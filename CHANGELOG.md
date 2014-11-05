@@ -1,5 +1,15 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Combined Orders and Transactions list into Payments tab
+* Changed Orders table into cards view
+* Updated Order details page to display transactions grouped by customers
+* Updated Transaction details page to include associated orders and transactions
+* Added "Unlinked transactions" tooltips in the Transactions table
+* Indicate overdue Orders
+* Readded disputes table to customer page
+
 ### 1.0.4
 
 * Fixed error handling for create bank account modal

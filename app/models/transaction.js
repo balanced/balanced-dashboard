@@ -9,6 +9,8 @@ var Transaction = Model.extend({
 	customer: Model.belongsTo('customer', 'customer'),
 	events: Model.hasMany('events', 'event'),
 
+	isUnlinked: Ember.computed.not("links.order"),
+
 	amount_dollars: function() {
 		if (this.get('amount')) {
 			return (this.get('amount') / 100).toFixed(2);

@@ -2,7 +2,6 @@ import TableCellBaseView from "./table-cell-base";
 
 var LinkedTextCellView = TableCellBaseView.extend({
 	templateName: "tables/cells/linked-text-cell",
-	classNames: ["label4a"],
 	blankText: 'none',
 	attributeBindings: ['title'],
 	isBlank: Ember.computed.empty('labelText'),

@@ -15,6 +15,11 @@
 	{{/view}}
 
 	{{#view "detail-views/main-panel"}}
+		<h3>Associated transactions</h3>
+		<div class="results">
+			{{view "results/associated-transactions-table" transaction=model}}
+		</div>
+
 		<h3>Logs</h3>
 		<div class="results">
 			{{view "resource-logs" content=model}}
