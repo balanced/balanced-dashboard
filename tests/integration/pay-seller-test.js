@@ -26,7 +26,7 @@ module('Integration - Pay Seller', {
 test('can pay a seller', function() {
 	var stub = sinon.stub(Adapter, "create");
 
-	visit(Testing.MARKETPLACES_ROUTE)
+	visit(Testing.ACTIVITY_ROUTE)
 		.click(".page-navigation a:contains(Credit a bank account)")
 		.fillForm('#pay-seller', {
 			'name': 'TEST',
@@ -58,7 +58,7 @@ test('can pay a seller', function() {
 test('pay a seller only submits once despite multiple button clicks', function() {
 	var stub = sinon.stub(Adapter, "create");
 
-	visit(Testing.MARKETPLACES_ROUTE)
+	visit(Testing.ACTIVITY_ROUTE)
 		.click(".page-navigation a:contains(Credit a bank account)")
 		.fillForm('#pay-seller', {
 			'name': 'TEST',
