@@ -1,5 +1,7 @@
-<a href="#" data-toggle="dropdown" class="dropdown-toggle gravatar">
-	<i {{bind-attr class="view.iconName"}}></i>
+<a href="#" data-toggle="dropdown" class="dropdown-toggle">
+	{{#if view.iconName}}
+		<i {{bind-attr class="view.iconName"}}></i>
+	{{/if}}
 	<span>{{view.menuTitle}}</span>
 	<b class="caret"></b>
 </a>

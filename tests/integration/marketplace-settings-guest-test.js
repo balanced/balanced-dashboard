@@ -38,7 +38,7 @@ test('can visit page', function() {
 	visit(Testing.SETTINGS_ROUTE)
 		.checkPageTitle("Settings")
 		.checkElements({
-			'#user-menu > a.dropdown-toggle.gravatar': "Guest user",
+			'#user-menu > a.dropdown-toggle': "Guest user",
 			'.notification-center-message': 1
 		});
 });
