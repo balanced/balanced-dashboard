@@ -12,6 +12,7 @@ UserMenuView = BaseMenuView.extend(
 		return @get("container").lookup("auth:main")
 	).property()
 
+	iconName: "icon-customers",
 	menuTitle: (->
 		if @get("auth.isGuest")
 			return "Guest user"
