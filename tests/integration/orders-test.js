@@ -25,6 +25,11 @@ module('Integration - Order Page', {
 	}
 });
 
+var getResultsUri = function() {
+	var controller = BalancedApp.__container__.lookup("controller:marketplace/orders");
+	return controller.get("resultsLoader.resultsUri");
+};
+
 var assertQueryString = function(string, expected) {
 	var qsParameters = Utils.queryStringToObject(string);
 	_.each(expected, function(value, key) {
@@ -47,6 +52,18 @@ test("can visit orders page", function() {
 		});
 });
 
+test('can sort orders by date', function() {
+	visit(Testing.ORDER_ROUTE)
+		.click("#order-sort-menu")
+		.click(".dropdown-menu a:contains(Date created: oldest)")
+		.then(function() {
+			var resultsUri = getResultsUri();
+			assertQueryString(resultsUri, {
+				sort: "created_at,asc"
+			});
+		});
+});
+
 test('can visit order page', function() {
 	visit(Testing.ORDER_ROUTE)
 		.checkPageType("OrderOrder escrow")
@@ -62,4 +79,3 @@ test('displays correct number of charges and payouts per customer', function() {
 			".grouped-transactions-container .grouped-transactions tr": 5
 		});
 });
-

@@ -12,7 +12,7 @@ var App, Adapter,
 	ADD_FUNDS_SELECTOR = "#marketplace-escrow-menu a:contains(Add funds)",
 	WITHDRAW_FUNDS_SELECTOR = "#marketplace-escrow-menu a:contains(Withdraw funds)";
 
-module('Integration - Payments', {
+module('Integration - Transactions', {
 	setup: function() {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
@@ -51,8 +51,8 @@ var getResultsUri = function() {
 };
 
 test('can visit page', function() {
-	visit(Testing.ACTIVITY_ROUTE)
-		.click(".nav-pills a:contains(Orders)")
+	visit(Testing.TRANSACTIONS_ROUTE)
+		.click(".nav-pills a:contains(Transactions)")
 		.checkPageTitle("Payments")
 		.checkElements({
 			'.payments-navbar a:contains(Export)': 1
@@ -71,7 +71,7 @@ test('add funds', function() {
 	var spy = sinon.spy(Adapter, "create");
 	var bankAccounts = Models.BankAccount.findAll();
 
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
@@ -107,7 +107,7 @@ test('add funds only adds once despite multiple clicks', function() {
 	var stub = sinon.stub(Adapter, "create");
 	var bankAccounts = Models.BankAccount.findAll();
 
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
@@ -127,7 +127,7 @@ test('withdraw funds', function() {
 	var spy = sinon.spy(Adapter, "create");
 	var bankAccounts = Models.BankAccount.findAll();
 
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
@@ -167,7 +167,7 @@ test('withdraw funds only withdraws once despite multiple clicks', function() {
 	var stub = sinon.stub(Adapter, "create");
 	var bankAccounts = Models.BankAccount.findAll();
 
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.then(function() {
 			setupMarketplaceController(bankAccounts);
 		})
@@ -185,7 +185,7 @@ test('withdraw funds only withdraws once despite multiple clicks', function() {
 test('download activity', function() {
 	var stub;
 
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.then(function() {
 			var controller = BalancedApp.__container__.lookup("controller:marketplace/transactions");
 			var loader = controller.get("resultsLoader");
@@ -218,7 +218,7 @@ test('transactions date sort has different states', function() {
 	var count = 0;
 	var testAmount = 5;
 
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.then(function() {
 			ok($(objectPath).is(".descending"), "Search defaults to descending");
 		})
@@ -229,7 +229,7 @@ test('transactions date sort has different states', function() {
 });
 
 test('Filter Activity transactions table by type & status', function() {
-	visit(Testing.ACTIVITY_ROUTE)
+	visit(Testing.TRANSACTIONS_ROUTE)
 		.click('#content .results table.transactions th.type .type-filter li a:contains(Holds)')
 		.then(function() {
 			var resultsUri = getResultsUri();
