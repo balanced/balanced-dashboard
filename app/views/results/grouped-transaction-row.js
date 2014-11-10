@@ -26,7 +26,7 @@ var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 			return '%@ (currently viewing)'.fmt(this.get('item.type_name'));
 		}
 
-		return '%@ %@ on %@ %@'.fmt(this.get('item.type_name'), this.get('item.status'), this.get('item.last_four'), Utils.toLowerCase(this.get('item.funding_instrument_type')));
+		return '%@ %@ on %@ %@'.fmt(this.get('item.type_name'), this.get('item.status'), Utils.toLowerCase(this.get('item.funding_instrument_type')), this.get('item.last_four'));
 	}.property('item.type_name', 'item.status', 'item.last_four', 'item.funding_instrument_type'),
 
 	secondaryLabelText: function () {

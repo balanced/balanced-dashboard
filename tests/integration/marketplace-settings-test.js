@@ -31,7 +31,7 @@ test('can manage users', function() {
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/settings")
 		.check('.users-info table tr td.no-results', 0)
 		.then(function() {
-			var $dropdown = $('#user-menu > a.dropdown-toggle.gravatar');
+			var $dropdown = $('#user-menu > a.dropdown-toggle');
 			notEqual($dropdown.text().trim().length, 0, 'No Email is shown');
 		})
 		.check('.notification-center-message', 0);

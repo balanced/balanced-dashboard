@@ -1,3 +1,11 @@
+{{#if view.item.isOverdue}}
+	<div class="overdue">
+	{{#view "popover" data-trigger="hover" data-placement="top" data-original-title="Overdue order" data-content="Funds cannot be held for more than 30 days." data-html="true"}}
+		<i class="icon-overdue non-interactive"></i>
+	{{/view}}
+	</div>
+{{/if}}
+
 {{#link-to view.routeName view.item}}
 	<span class="sl-note">{{view.dateLabel}}: {{human-readable-date-time view.date}}</span>
 	<h2 {{bind-attr class="view.isBlank:sl-none :title"}}>{{view.title}}</h2>
