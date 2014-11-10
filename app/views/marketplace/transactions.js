@@ -1,6 +1,7 @@
 var MarketplaceTransactionsView = Ember.View.extend({
 	layoutName: "marketplace/payments-layout",
-	templateName: "marketplace/transactions"
+	templateName: "marketplace/transactions",
+	showActionButtons: true
 });
 
 export default MarketplaceTransactionsView;

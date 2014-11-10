@@ -2,7 +2,7 @@
 
 BaseMenuView = Ember.View.extend(
 	layoutName: "menus/base-menu-layout"
-	classNames: "dropdown borderless nav-item"
+	classNames: "dropdown borderless"
 )
 
 `export default BaseMenuView;`

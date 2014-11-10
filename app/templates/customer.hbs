@@ -12,6 +12,11 @@
 		{{view "meta-list" type=model}}
 	{{/view}}
 	{{#view "detail-views/main-panel"}}
+		<h3>Disputes</h3>
+		<div class="results">
+			{{view "results/embedded-disputes-table" loader=disputesResultsLoader}}
+		</div>
+
 		<h3>Payments</h3>
 		<div class="results">
 			{{view "results/embedded-transactions-table" loader=transactionsResultsLoader}}
@@ -29,6 +34,7 @@
 		<div class="results">
 			{{view "results/embedded-funding-instruments-table" loader=fundingInstrumentsResultsLoader}}
 		</div>
+
 		<h3>Logs</h3>
 		<div class="results">
 			{{view "resource-logs" content=model}}

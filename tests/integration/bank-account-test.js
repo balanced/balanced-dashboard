@@ -179,6 +179,23 @@ test('can confirm bank account verification', function() {
 		});
 });
 
+test('renders customer', function() {
+	visit(Testing.BANK_ACCOUNT_ROUTE)
+		.then(function() {
+			var controller = App.__container__.lookup("controller:bank_accounts");
+			var customer = App.__container__.lookupFactory("model:customer")
+								.find('/customers/' + Testing.CUSTOMER_ID);
+
+			Ember.run(function() {
+				controller.get("model").set("customer", customer);
+			});
+		})
+		.checkElements({
+			".linked-resources dt:contains(Customer)": 1,
+			".linked-resources dd > a": 1,
+		});
+});
+
 test('renders metadata correctly', function() {
 	var metaData = {
 		'key': 'value',

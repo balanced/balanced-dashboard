@@ -34,7 +34,7 @@ var MarketplaceController = Ember.ObjectController.extend({
 	disputesResultsLoader: function() {
 		if (this.get("model")) {
 			return this.get('model').getDisputesLoader({
-				type: 'pending'
+				type: 'new'
 			});
 		}
 	}.property('model'),

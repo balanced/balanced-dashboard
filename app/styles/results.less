@@ -205,7 +205,7 @@ header.results-label h3 {
               }
             }
 
-            &.dispute .pending {
+            &.dispute > a > span {
               &:before {
                 font-family: 'Balanced-Icon';
                 background-color: transparent;
@@ -214,6 +214,23 @@ header.results-label h3 {
                 color: @curryYellow80;
                 margin-top: -12px;
               }
+
+              &.new:before {
+                color: @curryYellow80;
+              }
+
+              &.submitted:before {
+                color: @byzantiumPurple80;
+              }
+
+              &.won:before {
+                color: @pineGreen80;
+              }
+
+              &.lost:before {
+                color: @imperialRed80;
+              }
+
               > .primary {
                 margin-left: 14px;
               }

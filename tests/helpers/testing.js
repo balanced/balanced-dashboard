@@ -25,7 +25,7 @@ var Testing = {
 
 	// constant routes
 	MARKETPLACES_ROUTE: '/marketplaces',
-	ACTIVITY_ROUTE: null,
+	TRANSACTIONS_ROUTE: null,
 	ADD_CUSTOMER_ROUTE: null,
 	BANK_ACCOUNT_ROUTE: null,
 	CARD_ROUTE: null,

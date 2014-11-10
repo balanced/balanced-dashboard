@@ -5,8 +5,11 @@ var MarketplaceOrdersController = Ember.ObjectController.extend({
 	resultsLoader: Ember.computed.oneWay("model"),
 
 	actions: {
-		changeOrdersSort: function(column) {
-			this.get("resultsLoader").setSortField(column);
+		changeOrdersSort: function(field, direction) {
+			this.get("resultsLoader").setProperties({
+				sortField: field,
+				sortDirection: direction
+			});
 		},
 		changeDateFilter: function(startTime, endTime) {
 			this.get("resultsLoader").setProperties({
