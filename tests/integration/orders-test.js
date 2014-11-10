@@ -53,7 +53,7 @@ test("can visit orders page", function() {
 });
 
 test('can sort orders by date', function() {
-	visit(Testing.ORDER_ROUTE)
+	visit(Testing.MARKETPLACE_ROUTE)
 		.click("#order-sort-menu")
 		.click(".dropdown-menu a:contains(Date created: oldest)")
 		.then(function() {
