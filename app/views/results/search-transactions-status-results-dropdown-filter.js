@@ -1,7 +1,7 @@
 import SearchResultsDropdownFilterView from "./search-results-dropdown-filter";
 import { defineFilter } from "./results-dropdown-filter";
 
-var TransactionsTypeSearchResultsDropdownFilterView = SearchResultsDropdownFilterView.extend({
+var SearchTransactionsTypeResultsDropdownFilterView = SearchResultsDropdownFilterView.extend({
 	toggleText: "Status",
 	actionName: "changeStatusFilter",
 
@@ -15,4 +15,4 @@ var TransactionsTypeSearchResultsDropdownFilterView = SearchResultsDropdownFilte
 	}.property(),
 });
 
-export default TransactionsTypeSearchResultsDropdownFilterView;
+export default SearchTransactionsTypeResultsDropdownFilterView;

@@ -74,7 +74,6 @@ var SearchModalView = ModalBaseView.extend(Search, {
 			this.get("resultsLoader").set("statusFilters", status);
 		},
 		changePaymentMethodFilter: function(type) {
-			console.log(this.get('resultsLoader'));
 			this.set('resultsLoader.type', type);
 		},
 	}

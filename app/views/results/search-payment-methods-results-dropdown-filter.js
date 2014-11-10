@@ -1,8 +1,10 @@
-import ResultsDropdownFilterView from "./results-dropdown-filter";
+import SearchResultsDropdownFilterView from "./search-results-dropdown-filter";
 import { defineFilter } from "./results-dropdown-filter";
 
-var PaymentMethodsResultsDropdownFilterView = ResultsDropdownFilterView.extend({
+var SearchPaymentMethodsResultsDropdownFilterView = SearchResultsDropdownFilterView.extend({
 	toggleText: "Payment method",
+	actionName: "changePaymentMethodFilter",
+
 	filters: function() {
 		return [
 			defineFilter("All", null, true),
@@ -10,14 +12,6 @@ var PaymentMethodsResultsDropdownFilterView = ResultsDropdownFilterView.extend({
 			defineFilter("Bank accounts", "bank_account")
 		];
 	}.property(),
-
-	actions: {
-		setFilter: function(filterLink) {
-			var controller = this.get('controller');
-			controller.send('changePaymentMethodFilter', filterLink.value);
-			this.toggleSelected(filterLink);
-		}
-	}
 });
 
-export default PaymentMethodsResultsDropdownFilterView;
+export default SearchPaymentMethodsResultsDropdownFilterView;
