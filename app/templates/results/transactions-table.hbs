@@ -1,17 +1,31 @@
 <thead>
 	<tr>
 		<th class="col-md-2 date has-filter">
-			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeTransactionsSort"}}
+		{{#if view.isSearch}}
+			{{#view "results/search-results-loader-sort-column-header" field="created_at" actionName="changeSortOrder"}}
 				<span>Date</span>
 			{{/view}}
+		{{else}}
+			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
+				<span>Date</span>
+			{{/view}}
+		{{/if}}
 		</th>
 		<th class="col-icon unlinked-status">
 		</th>
 		<th class="col-md-2 type has-filter">
-			{{view "results/transactions-type-results-dropdown-filter"}}
+			{{#if view.isSearch}}
+				{{view "results/transactions-type-search-results-dropdown-filter"}}
+			{{else}}
+				{{view "results/transactions-type-results-dropdown-filter"}}
+			{{/if}}
 		</th>
 		<th class="col-md-2 status has-filter">
-			{{view "results/transactions-status-results-dropdown-filter"}}
+			{{#if view.isSearch}}
+				{{view "results/transactions-status-search-results-dropdown-filter"}}
+			{{else}}
+				{{view "results/transactions-status-results-dropdown-filter"}}
+			{{/if}}
 		</th>
 		<th class="col-md-3 description"><span>Description</span></th>
 		<th class="col-md-2 account"><span>Customer</span></th>

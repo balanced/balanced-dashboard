@@ -56,13 +56,14 @@ var MarketplaceSearchResultsLoader = BaseResultsLoader.extend({
 			limit: this.get("limit"),
 			sort: this.get("sort"),
 			type: this.get("type"),
+			status: this.get("statusFilters"),
 			"created_at[>]": this.get("startTime"),
 			"created_at[<]": this.get("endTime"),
 			q: q
 		});
 
 		return queryStringBuilder.getQueryStringAttributes();
-	}.property("type", "limit", "sort", "startTime", "endTime", "query"),
+	}.property("type", "limit", "sort", "startTime", "endTime", "query", "statusFilters"),
 
 	path: function() {
 		return this.get("marketplace.uri") + "/search";

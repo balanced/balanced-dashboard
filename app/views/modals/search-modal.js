@@ -47,9 +47,16 @@ var SearchModalView = ModalBaseView.extend(Search, {
 		closeSearch: function() {
 			this.set("isDisplayResults", false);
 		},
+		changeSearchTab: function(tabName) {
+			this.set("selectedTabType", tabName);
+			this.get("resultsLoader").set("searchType", tabName);
+		},
 		changeTypeFilter: function(type) {
-			this.set("selectedTabType", type);
-			this.get("resultsLoader").set("searchType", type);
+			if (type === "transaction") {
+				type = null;
+			}
+
+			this.set("resultsLoader.type", type);
 		},
 		changeSortOrder: function(column) {
 			this.get("resultsLoader").setSortField(column);
@@ -63,8 +70,12 @@ var SearchModalView = ModalBaseView.extend(Search, {
 				});
 			}
 		},
-		changeTransactionsSort: function(column) {
-			this.get("resultsLoader").setSortField(column);
+		changeStatusFilter: function(status) {
+			this.get("resultsLoader").set("statusFilters", status);
+		},
+		changePaymentMethodFilter: function(type) {
+			console.log(this.get('resultsLoader'));
+			this.set('resultsLoader.type', type);
 		},
 	}
 });
