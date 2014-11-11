@@ -23,23 +23,35 @@
 </div>
 
 <div class="modal-body results" isLoading=view.resultsLoader.isLoading>
-	{{#if view.isOrdersTabSelected}}
-		{{view "results/orders-table" loader=view.resultsLoader}}
-	{{/if}}
+	{{#if view.isLoaded}}
+		{{#if view.hasResults}}
+			{{#if view.isOrdersTabSelected}}
+				{{view "results/orders-table" loader=view.resultsLoader}}
+			{{/if}}
 
-	{{#if view.isTransactionsTabSelected}}
-		{{view "results/transactions-table" loader=view.resultsLoader isSearch=true}}
-	{{/if}}
+			{{#if view.isTransactionsTabSelected}}
+				{{view "results/transactions-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
 
-	{{#if view.isCustomersTabSelected}}
-		{{view "results/customers-table" loader=view.resultsLoader isSearch=true}}
-	{{/if}}
+			{{#if view.isCustomersTabSelected}}
+				{{view "results/customers-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
 
-	{{#if view.isFundingInstrumentsTabSelected}}
-		{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
-	{{/if}}
+			{{#if view.isFundingInstrumentsTabSelected}}
+				{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
 
-	{{#if view.isLogsTabSelected}}
-		{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
+			{{#if view.isLogsTabSelected}}
+				{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
+			{{/if}}
+		{{else}}
+			{{#if view.isQueryPresent}}
+				{{render "results/no-results"}}
+			{{else}}
+				{{render "results/keyboard-shortcuts"}}
+			{{/if}}
+		{{/if}}
+	{{else}}
+		Loading...
 	{{/if}}
 </div>

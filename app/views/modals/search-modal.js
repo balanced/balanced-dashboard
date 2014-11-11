@@ -21,9 +21,10 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	isDisplayResults: false,
 
+	isLoaded: Ember.computed.oneWay("resultsLoader.results.isLoaded"),
 	isQueryPresent: Ember.computed.gt("resultsLoader.query.length", 0),
+	hasResults: Ember.computed.gt("resultsLoader.results.length", 0),
 	query: Ember.computed.oneWay("resultsLoader.query"),
-	isResultsOpen: Ember.computed.and("isQueryPresent", "isDisplayResults"),
 
 	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
