@@ -23,7 +23,7 @@ MarketplaceRoute = AuthRoute.extend
 
 	actions:
 		openSearch: ->
-			this.send("openModal", "modals/search-modal")
+			this.send("openModal", "modals/search-modal", @modelFor("marketplace"))
 		submitRefundDebit: (refund) ->
 			@transitionTo('refunds', refund)
 		submitReverseCredit: (reversal) ->
