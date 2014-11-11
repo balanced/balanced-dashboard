@@ -27,5 +27,8 @@
     "timepicker": "jonthornton/jquery-timepicker",
     "loader.js": "stefanpenner/loader.js#1.0.1",
     "jquery": "2.1.1"
+  },
+  "devDependencies": {
+    "ember-shortcuts": "~0.0.2"
   }
 }

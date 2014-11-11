@@ -44,6 +44,16 @@ var SearchModalView = ModalBaseView.extend(Search, {
 		return marketplace ? marketplace.getSearchLogsLoader(this.get("query")) : undefined;
 	}.property("marketplace", "query"),
 
+	didInsertElement: function(){
+		var self = this;
+
+		Ember.$('body').on('keyup', function(e) {
+			if (e.keyCode === 27) {
+				self.close();
+			}
+		});
+	},
+
 	actions: {
 		changeSearchTab: function(tabName) {
 			this.set("selectedTabType", tabName);
