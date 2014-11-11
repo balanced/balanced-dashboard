@@ -8,10 +8,6 @@ var ApplicationRoute = Ember.Route.extend(Ember.Evented, {
 	init: function() {
 		this.set('errorTimestamps', []);
 	},
-	shortcuts: {
-		'/': 'openSearch',
-		'a': 'openSearch',
-	},
 
 	actions: {
 		closeModal: function() {
@@ -27,11 +23,6 @@ var ApplicationRoute = Ember.Route.extend(Ember.Evented, {
 			return container
 				.lookup("controller:modals_container")
 				.open(klass, args);
-		},
-
-		openSearch: function() {
-			console.log("clicked")
-			this.send("openModal", "modals/modal-search");
 		},
 
 		error: function(error, transition) {
