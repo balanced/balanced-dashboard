@@ -26,23 +26,6 @@
   height: 100%;
   text-align: left;
 
-  .results {
-    background-color: @white;
-    border: 5px solid @gray9;
-    border-top: 0;
-    display: none;
-    margin: 0 45px;
-    padding-top: 10px;
-    position: absolute;
-    top: @headerHeight;
-    z-index: 1;
-
-    header {
-      background-color: @white;
-    }
-  }
-
-
   &.focus {
     .search-field-container {
       .icon-search {
@@ -72,15 +55,6 @@
     top: 0;
     width: @searchPostLabelWidth;
     height: @searchBoxHeight;
-  }
-
-  .results {
-    display: none;
-  }
-  &.with-results {
-    .results, .results-backdrop {
-      display: block;
-    }
   }
 
   .search-field-container {

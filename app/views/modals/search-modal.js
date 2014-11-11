@@ -44,9 +44,6 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	}.property("marketplace", "query"),
 
 	actions: {
-		closeSearch: function() {
-			this.set("isDisplayResults", false);
-		},
 		changeSearchTab: function(tabName) {
 			this.set("selectedTabType", tabName);
 			this.get("resultsLoader").set("searchType", tabName);
