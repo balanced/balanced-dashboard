@@ -3,7 +3,7 @@ import Search from "./mixins/search-modal-mixin";
 
 var SearchModalView = ModalBaseView.extend(Search, {
 	templateName: 'modals/search-modal',
-	elementId: 'search',
+	elementId: 'search-modal',
 
 	selectedTabType: "transaction",
 
@@ -28,7 +28,8 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
-	}.observes("resultsLoader.query"),
+		this.get("model").set("query", this.get("query"));
+	}.observes("query"),
 
 	marketplace: Ember.computed.reads("model"),
 
@@ -46,6 +47,8 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	didInsertElement: function(){
 		var self = this;
+
+		$("#q").focus();
 
 		Ember.$('body').on('keyup', function(e) {
 			if (e.keyCode === 27) {

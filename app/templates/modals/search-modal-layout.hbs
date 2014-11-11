@@ -1,13 +1,8 @@
 <div class="modal-header">
 	<div {{bind-attr class=":search-field-container view.isHighlight:search-highlight"}}>
 		<a class="close" data-dismiss="modal"><i class="icon-x"></i></a>
-		<label {{bind-attr for=view.queryField.elementId class=":icon-search view.isHighlight:search-highlight"}}></label>
-		{{input type="text" id="q" autocomplete="off" name="search_query" viewName="queryField" value=view.resultsLoader.query}}
-		{{#if view.isLoading}}
-			<span class="query-loader">
-				<span class="loader loading"></span>
-			</span>
-		{{/if}}
+		<label class="icon-search"></label>
+		{{view "form-fields/text-field" id="q" autocomplete="off" valueBinding="view.resultsLoader.query" name="search_query" autofocus="autofocus"}}
 	</div>
 </div>
 {{yield}}
