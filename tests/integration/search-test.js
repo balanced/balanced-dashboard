@@ -38,33 +38,20 @@ var assertQueryString = function(string, expected) {
 	});
 };
 
-test('search results show and hide', function() {
+test('search results and no results', function() {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('Cocaine');
 		})
 		.checkElements({
-			"#search.with-results": 1,
+			"#search-modal .results": 1,
 		})
 		.then(function() {
 			Testing.runSearch('');
 		})
 		.checkElements({
-			"#search.with-results": 0,
-		});
-});
-
-test('search results hide when backdrop is clicked', function() {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-			Testing.runSearch('%');
-		})
-		.checkElements({
-			"#search.with-results": 1,
-		})
-		.click('#search .modal-backdrop')
-		.checkElements({
-			"#search.with-results": 0,
+			"#search-modal .results": 0,
+			"#search-modal .page-summary-with-icon h2": 1
 		});
 });
 
@@ -74,7 +61,7 @@ test('search date picker dropdown', function() {
 			equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
 			Testing.runSearch('%');
 		})
-		.click('#search .datetime-picker')
+		.click('#search-modal .datetime-picker')
 		.checkElements({
 			'.daterangepicker:visible': 1,
 			'.daterangepicker:visible .calendar': 2
@@ -98,9 +85,9 @@ test('search date range pick', function() {
 		.then(function() {
 			Testing.runSearch('%');
 		})
-		.click('#search .datetime-picker')
+		.click('#search-modal .datetime-picker')
 		.then(function() {
-			var dp = $("#search .datetime-picker").data("daterangepicker");
+			var dp = $("#search-modal .datetime-picker").data("daterangepicker");
 			dp.setStartDate(moment('2013-08-01T00:00:00.000Z').toDate());
 			dp.setEndDate(moment('2013-08-01T23:59:59.999Z').toDate());
 			spy = sinon.spy(Adapter, 'get');
@@ -121,7 +108,7 @@ test('search date range pick', function() {
 });
 
 test('search date sort has three states', function() {
-	var objectPath = "#search .results th.date .sortable";
+	var objectPath = "#search-modal .results th.date .sortable";
 
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
