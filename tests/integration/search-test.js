@@ -16,8 +16,7 @@ module('Integration - Search', {
 		Adapter = App.__container__.lookup("adapter:main");
 		Auth = App.__container__.lookup("auth:main");
 		Testing.setupMarketplace();
-		Testing.createDebits();
-		Testing.createCustomer();
+
 		andThen(function() {
 			Ember.run(function() {
 				App.__container__.lookup("controller:marketplace").setProperties({
@@ -38,10 +37,19 @@ var assertQueryString = function(string, expected) {
 	});
 };
 
+var stubResults = function() {
+	Ember.run(function() {
+		var searchModal = BalancedApp.__container__.lookup("controller:modals-container").get("modalsContainer.childViews").objectAt(0);
+		searchModal.set("hasResults", true);
+	});
+};
+
 test('search results and no results', function() {
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			Testing.runSearch('Cocaine');
+			Testing.runSearch('');
+			stubResults();
 		})
 		.checkElements({
 			"#search-modal .results": 1,
@@ -53,13 +61,15 @@ test('search results and no results', function() {
 			"#search-modal .results": 0,
 			"#search-modal .page-summary-with-icon h2": 1
 		});
+
 });
 
 test('search date picker dropdown', function() {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
-			Testing.runSearch('%');
+			Testing.runSearch('');
+			stubResults();
 		})
 		.click('#search-modal .datetime-picker')
 		.checkElements({
@@ -84,6 +94,7 @@ test('search date range pick', function() {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
+			stubResults();
 		})
 		.click('#search-modal .datetime-picker')
 		.then(function() {
@@ -112,7 +123,8 @@ test('search date sort has three states', function() {
 
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			Testing.runSearch('%');
+			Testing.runSearch('');
+			stubResults();
 		})
 		.then(function() {
 			ok($(objectPath).is(".descending"), "Search defaults to descending");

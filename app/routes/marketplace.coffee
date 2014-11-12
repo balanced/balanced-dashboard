@@ -22,7 +22,8 @@ MarketplaceRoute = AuthRoute.extend
 		controller.updateBankAccountNotifications()
 
 	actions:
-		openSearch: ->
+		openSearch: (event) ->
+			event.preventDefault()
 			this.send("openModal", "modals/search-modal", @modelFor("marketplace"))
 		submitRefundDebit: (refund) ->
 			@transitionTo('refunds', refund)

@@ -2,7 +2,7 @@
 	<tr>
 		<th class="col-md-3 has-filter">
 			{{#if view.isSearch}}
-				{{#view "results/search-results-loader-sort-column-header" field="created_at" actionName="changeSortOrder"}}
+				{{#view "results/search-results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
 					<span>Date</span>
 				{{/view}}
 			{{else}}

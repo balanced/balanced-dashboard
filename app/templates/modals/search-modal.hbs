@@ -22,40 +22,40 @@
 	</ul>
 </div>
 
-<div class="modal-body" isLoading=view.resultsLoader.isLoading>
-	{{#if view.isLoaded}}
-		{{#if view.hasResults}}
-			<div class="results">
-				{{view "form-fields/search-date-picker" viewName="dateTimePicker"}}
+<div {{bind-attr data-length=view.resultsLoader.results.length}} class="modal-body">
+	{{#if view.hasResults}}
+		<div class="results">
+			{{view "form-fields/search-date-picker" viewName="dateTimePicker"}}
 
-				{{#if view.isOrdersTabSelected}}
-					{{view "results/orders-table" loader=view.resultsLoader}}
-				{{/if}}
+			{{#if view.isOrdersTabSelected}}
+				{{view "results/orders-table" loader=view.resultsLoader}}
+			{{/if}}
 
-				{{#if view.isTransactionsTabSelected}}
-					{{view "results/transactions-table" loader=view.resultsLoader isSearch=true}}
-				{{/if}}
+			{{#if view.isTransactionsTabSelected}}
+				{{view "results/transactions-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
 
-				{{#if view.isCustomersTabSelected}}
-					{{view "results/customers-table" loader=view.resultsLoader isSearch=true}}
-				{{/if}}
+			{{#if view.isCustomersTabSelected}}
+				{{view "results/customers-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
 
-				{{#if view.isFundingInstrumentsTabSelected}}
-					{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
-				{{/if}}
+			{{#if view.isFundingInstrumentsTabSelected}}
+				{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
 
-				{{#if view.isLogsTabSelected}}
-					{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
-				{{/if}}
-			</div>
-		{{else}}
+			{{#if view.isLogsTabSelected}}
+				{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
+			{{/if}}
+		</div>
+	{{else}}
+		{{#if view.isLoaded}}
 			{{#if view.isQueryPresent}}
 				{{render "results/no-results"}}
 			{{else}}
 				{{render "results/keyboard-shortcuts"}}
 			{{/if}}
+		{{else}}
+			Loading...
 		{{/if}}
-	{{else}}
-		Loading...
 	{{/if}}
 </div>

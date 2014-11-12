@@ -22,8 +22,8 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	isDisplayResults: false,
 
 	isLoaded: Ember.computed.oneWay("resultsLoader.results.isLoaded"),
-	isQueryPresent: Ember.computed.gt("resultsLoader.query.length", 0),
-	hasResults: Ember.computed.gt("resultsLoader.results.length", 0),
+	isQueryPresent: Ember.computed.notEmpty("resultsLoader.query"),
+	hasResults: Ember.computed.notEmpty("resultsLoader.results"),
 	query: Ember.computed.oneWay("resultsLoader.query"),
 
 	queryDidChange: function(a, value) {
@@ -72,6 +72,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 			this.set("resultsLoader.type", type);
 		},
 		changeSortOrder: function(column) {
+			console.log(column)
 			this.get("resultsLoader").setSortField(column);
 		},
 		changeDateFilter: function(startTime, endTime) {
