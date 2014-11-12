@@ -72,7 +72,6 @@ var SearchModalView = ModalBaseView.extend(Search, {
 			this.set("resultsLoader.type", type);
 		},
 		changeSortOrder: function(column) {
-			console.log(column)
 			this.get("resultsLoader").setSortField(column);
 		},
 		changeDateFilter: function(startTime, endTime) {
