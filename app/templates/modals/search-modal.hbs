@@ -25,6 +25,8 @@
 <div class="modal-body results" isLoading=view.resultsLoader.isLoading>
 	{{#if view.isLoaded}}
 		{{#if view.hasResults}}
+			{{view "form-fields/search-date-picker" viewName="dateTimePicker"}}
+
 			{{#if view.isOrdersTabSelected}}
 				{{view "results/orders-table" loader=view.resultsLoader}}
 			{{/if}}

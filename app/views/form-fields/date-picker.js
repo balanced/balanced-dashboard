@@ -81,6 +81,7 @@ var DatePickerView = Ember.View.extend({
 	_changeDateFilter: function(label) {
 		var maxTime = new Date(this.get('maxTime'));
 		var minTime = new Date(this.get('minTime'));
+		console.log(this.get('controller'))
 		this.get('controller').send('changeDateFilter', minTime, maxTime, label);
 	}
 });
