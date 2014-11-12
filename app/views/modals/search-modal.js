@@ -28,7 +28,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
-		this.get("model").set("query", this.get("query"));
+		this.set("model.query", this.get("query"));
 	}.observes("query"),
 
 	marketplace: Ember.computed.reads("model"),
@@ -36,9 +36,11 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	resultsLoader: function() {
 		var marketplace = this.get("marketplace");
 		return marketplace ?
-			marketplace.getSearchLoader({}) :
+			marketplace.getSearchLoader({
+				query: this.get("model.query")
+			}) :
 			undefined;
-	}.property("marketplace"),
+	}.property("marketplace", "model.query"),
 
 	logsResultsLoader: function() {
 		var marketplace = this.get("marketplace");
@@ -46,12 +48,12 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	}.property("marketplace", "query"),
 
 	didInsertElement: function(){
-		var self = this;
-
+		this.$().hide().fadeIn(300);
 		$("#q").focus();
 
+		var self = this;
 		Ember.$('body').on('keyup', function(e) {
-			if (e.keyCode === 27) {
+			if (e.keyCode === 27) { // esc
 				self.close();
 			}
 		});
