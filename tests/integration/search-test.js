@@ -126,15 +126,13 @@ test('search date sort has two states', function() {
 			Testing.runSearch('');
 			stubResults();
 		})
-		.then(function() {
-			ok($(objectPath).is(".descending"), "Search defaults to descending");
+		.checkElements({
+			"#search-modal .results th.date .sortable.descending": 1
 		})
 		.then(function() {
-			Testing.runSearch('');
 			$(objectPath).click();
-			stubResults();
 		})
-		.then(function() {
-			ok($(objectPath).is(".ascending"), "Search is set to ascending");
+		.checkElements({
+			"#search-modal .results th.date .sortable.ascending": 1
 		});
 });
