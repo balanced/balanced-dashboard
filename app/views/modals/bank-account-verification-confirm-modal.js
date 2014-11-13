@@ -40,6 +40,7 @@ var BankAccountVerificationConfirmModalView = ModalBaseView.extend(Full, Form, S
 			this.save(verification)
 				.then(function() {
 					verification.reload();
+					bankAccount.reload();
 					notification.alertSuccess("Bank account verified");
 				}, function(errors) {
 					verification.reload();
