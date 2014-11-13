@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### 1.1.1
+
+* Bug fixes for order views
+
 ### 1.1.0
 
 * Combined Orders and Transactions list into Payments tab
