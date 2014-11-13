@@ -129,8 +129,9 @@ test('search date sort has two states', function() {
 		.then(function() {
 			ok($(objectPath).is(".descending"), "Search defaults to descending");
 		})
-		.click(objectPath)
 		.then(function() {
+			Testing.runSearch('');
+			$(objectPath).click();
 			stubResults();
 		})
 		.then(function() {
