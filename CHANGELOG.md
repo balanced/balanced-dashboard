@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### master
+* Updated search results view (#1489)
+* Added keyboard shortcuts to open and close the search modal
+
 ### 1.1.0
 
 * Combined Orders and Transactions list into Payments tab
