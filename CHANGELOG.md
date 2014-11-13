@@ -1,6 +1,6 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.1.0
 
 * Combined Orders and Transactions list into Payments tab
 * Changed Orders table into cards view
