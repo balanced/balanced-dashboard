@@ -118,7 +118,7 @@ test('search date range pick', function() {
 		});
 });
 
-test('search date sort has three states', function() {
+test('search date sort has two states', function() {
 	var objectPath = "#search-modal .results th.date .sortable";
 
 	visit(Testing.MARKETPLACE_ROUTE)
@@ -130,6 +130,9 @@ test('search date sort has three states', function() {
 			ok($(objectPath).is(".descending"), "Search defaults to descending");
 		})
 		.click(objectPath)
+		.then(function() {
+			stubResults();
+		})
 		.then(function() {
 			ok($(objectPath).is(".ascending"), "Search is set to ascending");
 		});
