@@ -34,12 +34,20 @@ var MarketplaceController = Ember.ObjectController.extend({
 	disputesResultsLoader: function() {
 		if (this.get("model")) {
 			return this.get('model').getDisputesLoader({
-				type: 'new'
+				statusFilters: 'pending',
+				limit: 100
 			});
 		}
 	}.property('model'),
 
-	disputeAlertCount: Ember.computed.oneWay("disputesResultsLoader.results.length"),
+	disputeAlertCount: function() {
+		var length = this.get("disputesResultsLoader.results.length");
+
+		if (length > 99) {
+			length = "99+";
+		}
+		return length;
+	}.property("disputesResultsLoader.results.length"),
 
 	formattedEscrowAmount: function() {
 		var escrow = this.get('in_escrow');
