@@ -1,12 +1,22 @@
 <thead>
 	<tr>
 		<th class="col-md-2 date has-filter">
-			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeFundingInstrumentsSort"}}
-				<span>Date</span>
-			{{/view}}
+			{{#if view.isSearch}}
+				{{#view "results/search-results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
+					<span>Date</span>
+				{{/view}}
+			{{else}}
+				{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
+					<span>Date</span>
+				{{/view}}
+			{{/if}}
 		</th>
 		<th class="col-md-2 label6a funding-instruments has-filter">
-			{{view "results/payment-methods-results-dropdown-filter" model=view.loader}}
+			{{#if view.isSearch}}
+				{{view "results/search-payment-methods-results-dropdown-filter"}}
+			{{else}}
+				{{view "results/payment-methods-results-dropdown-filter" model=view.loader}}
+			{{/if}}
 		</th>
 		<th class="col-md-2 label6a"><span>Status</span></th>
 		<th class="col-md-2 label6a"><span>Bank</span></th>

@@ -1,9 +1,10 @@
-import Ember from "ember";
+import ModalBaseView from "./modal-base";
+import Search from "./mixins/search-modal-mixin";
 
-var MarketplaceSearchController = Ember.ObjectController.extend({
-	needs: ['marketplace'],
+var SearchModalView = ModalBaseView.extend(Search, {
+	templateName: 'modals/search-modal',
+	elementId: 'search-modal',
 
-	// UI properties
 	selectedTabType: "transaction",
 
 	isOrdersTabSelected: Ember.computed.equal("selectedTabType", "order"),
@@ -20,35 +21,55 @@ var MarketplaceSearchController = Ember.ObjectController.extend({
 
 	isDisplayResults: false,
 
-	isQueryPresent: Ember.computed.gt("resultsLoader.query.length", 0),
+	isLoaded: Ember.computed.oneWay("resultsLoader.results.isLoaded"),
+	isQueryPresent: Ember.computed.notEmpty("resultsLoader.query"),
+	hasResults: Ember.computed.notEmpty("resultsLoader.results"),
 	query: Ember.computed.oneWay("resultsLoader.query"),
-	isResultsOpen: Ember.computed.and("isQueryPresent", "isDisplayResults"),
 
-	queryChanged: function(a, value) {
+	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
-	}.observes("resultsLoader.query"),
+		this.set("model.query", this.get("query"));
+	}.observes("query"),
 
 	marketplace: Ember.computed.reads("model"),
 
 	resultsLoader: function() {
-		var marketplace = this.get("model");
+		var marketplace = this.get("marketplace");
 		return marketplace ?
-			marketplace.getSearchLoader({}) :
+			marketplace.getSearchLoader({
+				query: this.get("model.query")
+			}) :
 			undefined;
-	}.property("marketplace"),
+	}.property("marketplace", "model.query"),
 
 	logsResultsLoader: function() {
 		var marketplace = this.get("marketplace");
 		return marketplace ? marketplace.getSearchLogsLoader(this.get("query")) : undefined;
 	}.property("marketplace", "query"),
 
+	didInsertElement: function(){
+		this.$().hide().fadeIn(300);
+		$("#q").focus();
+
+		var self = this;
+		Ember.$('body').on('keyup', function(e) {
+			if (e.keyCode === 27) { // esc
+				self.close();
+			}
+		});
+	},
+
 	actions: {
-		closeSearch: function() {
-			this.set("isDisplayResults", false);
+		changeSearchTab: function(tabName) {
+			this.set("selectedTabType", tabName);
+			this.get("resultsLoader").set("searchType", tabName);
 		},
 		changeTypeFilter: function(type) {
-			this.set("selectedTabType", type);
-			this.get("resultsLoader").set("searchType", type);
+			if (type === "transaction") {
+				type = null;
+			}
+
+			this.set("resultsLoader.type", type);
 		},
 		changeSortOrder: function(column) {
 			this.get("resultsLoader").setSortField(column);
@@ -62,10 +83,21 @@ var MarketplaceSearchController = Ember.ObjectController.extend({
 				});
 			}
 		},
-		changeTransactionsSort: function(column) {
-			this.get("resultsLoader").setSortField(column);
+		changeStatusFilter: function(status) {
+			this.get("resultsLoader").set("statusFilters", status);
+		},
+		changePaymentMethodFilter: function(type) {
+			this.set('resultsLoader.type', type);
 		},
 	}
 });
 
-export default MarketplaceSearchController;
+SearchModalView.reopenClass({
+	open: function(model) {
+		return this.create({
+			model: model
+		});
+	},
+});
+
+export default SearchModalView;

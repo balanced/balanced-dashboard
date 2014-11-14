@@ -49,11 +49,17 @@ var Testing = {
 	},
 
 	runSearch: function(query) {
-		$('#q').val(query).trigger('keyup');
-		// Press enter to run the search immediately
-		$("#q").trigger(jQuery.Event("keyup", {
-			keyCode: Constants.KEYS.ENTER
-		}));
+		Ember.run(function() {
+			$('.search-field-container').click();
+		});
+
+		Ember.run(function() {
+			$('#q').val(query).trigger('keyup');
+			// Press enter to run the search immediately
+			$("#q").trigger(jQuery.Event("keyup", {
+				keyCode: Constants.KEYS.ENTER
+			}));
+		});
 	},
 
 	visitSettingsPage: function() {

@@ -16,6 +16,7 @@ var ApplicationRoute = Ember.Route.extend(Ember.Evented, {
 				.lookup("controller:modals_container")
 				.close();
 		},
+
 		openModal: function(klass) {
 			var container = this.get("container");
 			var args = _.toArray(arguments).slice(1);
@@ -99,7 +100,6 @@ var ApplicationRoute = Ember.Route.extend(Ember.Evented, {
 
 		willTransition: function() {
 			this.controllerFor('modals_container').close();
-			this.controllerFor('marketplace.search').send('closeSearch');
 			this.controllerFor('notification_center').expireAlerts();
 		},
 

@@ -1,0 +1,8 @@
+<div class="modal-header">
+	<div {{bind-attr class=":search-field-container view.isHighlight:search-highlight"}}>
+		<a class="close" data-dismiss="modal"><i class="icon-x"></i></a>
+		<label class="icon-search"></label>
+		{{view "form-fields/text-field" id="q" autocomplete="off" valueBinding="view.resultsLoader.query" name="search_query"}}
+	</div>
+</div>
+{{yield}}

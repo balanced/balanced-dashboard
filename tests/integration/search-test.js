@@ -16,8 +16,7 @@ module('Integration - Search', {
 		Adapter = App.__container__.lookup("adapter:main");
 		Auth = App.__container__.lookup("auth:main");
 		Testing.setupMarketplace();
-		Testing.createDebits();
-		Testing.createCustomer();
+
 		andThen(function() {
 			Ember.run(function() {
 				App.__container__.lookup("controller:marketplace").setProperties({
@@ -38,43 +37,41 @@ var assertQueryString = function(string, expected) {
 	});
 };
 
-test('search results show and hide', function() {
+var stubResults = function() {
+	Ember.run(function() {
+		var searchModal = BalancedApp.__container__.lookup("controller:modals-container").get("modalsContainer.childViews").objectAt(0);
+		searchModal.set("hasResults", true);
+	});
+};
+
+test('search results and no results', function() {
+
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			Testing.runSearch('Cocaine');
+			Testing.runSearch('');
+			stubResults();
 		})
 		.checkElements({
-			"#search.with-results": 1,
+			"#search-modal .results": 1,
 		})
 		.then(function() {
 			Testing.runSearch('');
 		})
 		.checkElements({
-			"#search.with-results": 0,
+			"#search-modal .results": 0,
+			"#search-modal .page-summary-with-icon h2": 1
 		});
-});
 
-test('search results hide when backdrop is clicked', function() {
-	visit(Testing.MARKETPLACE_ROUTE)
-		.then(function() {
-			Testing.runSearch('%');
-		})
-		.checkElements({
-			"#search.with-results": 1,
-		})
-		.click('#search .modal-backdrop')
-		.checkElements({
-			"#search.with-results": 0,
-		});
 });
 
 test('search date picker dropdown', function() {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			equal($('.daterangepicker:visible').length, 0, 'Date Picker not visible');
-			Testing.runSearch('%');
+			Testing.runSearch('');
+			stubResults();
 		})
-		.click('#search .datetime-picker')
+		.click('#search-modal .datetime-picker')
 		.checkElements({
 			'.daterangepicker:visible': 1,
 			'.daterangepicker:visible .calendar': 2
@@ -97,10 +94,11 @@ test('search date range pick', function() {
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('%');
+			stubResults();
 		})
-		.click('#search .datetime-picker')
+		.click('#search-modal .datetime-picker')
 		.then(function() {
-			var dp = $("#search .datetime-picker").data("daterangepicker");
+			var dp = $("#search-modal .datetime-picker").data("daterangepicker");
 			dp.setStartDate(moment('2013-08-01T00:00:00.000Z').toDate());
 			dp.setEndDate(moment('2013-08-01T23:59:59.999Z').toDate());
 			spy = sinon.spy(Adapter, 'get');
@@ -120,18 +118,21 @@ test('search date range pick', function() {
 		});
 });
 
-test('search date sort has three states', function() {
-	var objectPath = "#search .results th.date .sortable";
+test('search date sort has two states', function() {
+	var objectPath = "#search-modal .results th.date .sortable";
 
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
-			Testing.runSearch('%');
+			Testing.runSearch('');
+			stubResults();
+		})
+		.checkElements({
+			"#search-modal .results th.date .sortable.descending": 1
 		})
 		.then(function() {
-			ok($(objectPath).is(".descending"), "Search defaults to descending");
+			$(objectPath).click();
 		})
-		.click(objectPath)
-		.then(function() {
-			ok($(objectPath).is(".ascending"), "Search is set to ascending");
+		.checkElements({
+			"#search-modal .results th.date .sortable.ascending": 1
 		});
 });

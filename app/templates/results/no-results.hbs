@@ -1,0 +1,15 @@
+<div class="page-summary-with-icon">
+	<i class="icon-sad-face non-interactive"></i>
+	<h2>No results</h2>
+</div>
+<div class="page-form white">
+	<h3>Example searches</h3>
+	<div class="page-form-body clearfix">
+		<dl>
+			{{#each example in view.examples}}
+				<dt>{{example.key}}</dt>
+				<dd>{{example.value}}</dd>
+			{{/each}}
+		</dl>
+	</div>
+</div>
