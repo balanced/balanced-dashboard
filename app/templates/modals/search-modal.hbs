@@ -43,7 +43,7 @@
 				{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
 			{{/if}}
 
-			{{#if view.isLogsTabSelected}}
+			{{#if view.hasLogResult}}
 				{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
 			{{/if}}
 		</div>
