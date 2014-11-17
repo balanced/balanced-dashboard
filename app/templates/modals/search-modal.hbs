@@ -22,7 +22,7 @@
 	</ul>
 </div>
 
-<div {{bind-attr data-length=view.resultsLoader.results.length}} class="modal-body">
+<div {{bind-attr data-length=view.hasResults}} class="modal-body">
 	{{#if view.hasResults}}
 		<div class="results">
 			{{view "form-fields/search-date-picker" viewName="dateTimePicker"}}
@@ -43,7 +43,7 @@
 				{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
 			{{/if}}
 
-			{{#if view.hasLogResult}}
+			{{#if view.isLogsTabSelected}}
 				{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
 			{{/if}}
 		</div>

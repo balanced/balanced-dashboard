@@ -1,5 +1,6 @@
 import ModalBaseView from "./modal-base";
 import Search from "./mixins/search-modal-mixin";
+import Computed from "balanced-dashboard/utils/computed";
 
 var SearchModalView = ModalBaseView.extend(Search, {
 	templateName: 'modals/search-modal',
@@ -33,7 +34,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	isFundingInstrumentsTabSelected: Ember.computed.equal("selectedTabType", "funding_instrument"),
 	isLogsTabSelected: Ember.computed.equal("selectedTabType", "log"),
 
-	totalResults: Ember.computed.oneWay("resultsLoader.results.total_results"),
+	totalResults: Computed.sumAll("resultsLoader.results.total_results", "totalLogs"),
 	totalOrders: Ember.computed.oneWay("resultsLoader.results.total_orders"),
 	totalTransactions: Ember.computed.oneWay("resultsLoader.results.total_transactions"),
 	totalCustomers: Ember.computed.oneWay("resultsLoader.results.counts.customer"),
@@ -44,18 +45,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	isLoaded: Ember.computed.oneWay("resultsLoader.results.isLoaded"),
 	isQueryPresent: Ember.computed.notEmpty("resultsLoader.query"),
-	hasResults: function() {
-		if (this.get("totalLogs") > 0) {
-			return true;
-		}
-
-		if (this.get("totalResults") > 0) {
-			return true;
-		}
-
-		return false;
-	}.property("totalResults", "totalLogs"),
-
+	hasResults: Ember.computed.notEmpty("totalResults"),
 	hasLogResult: Ember.computed.notEmpty("logsResultsLoader.results"),
 	query: Ember.computed.oneWay("resultsLoader.query"),
 
