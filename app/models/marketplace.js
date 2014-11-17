@@ -6,6 +6,8 @@ import Utils from "balanced-dashboard/lib/utils";
 import Ajax from "balanced-dashboard/lib/ajax";
 import ENV from "balanced-dashboard/config/environment";
 
+var ORDERS_DATE = moment("2014-11-07").utc().startOf("day");
+
 var getResultsLoader = function(loaderClassName, attributes) {
 	return BalancedApp.__container__.lookupFactory("results-loader:" + loaderClassName).create(attributes);
 };
@@ -98,7 +100,11 @@ var Marketplace = UserMarketplace.extend({
 	},
 
 	has_debitable_bank_account: Ember.computed.readOnly('owner_customer.has_debitable_bank_account'),
-	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account')
+	has_bank_account: Ember.computed.readOnly('owner_customer.has_bank_account'),
+
+	isOrdersRequired: function() {
+		return ORDERS_DATE.isBefore(this.get("created_at"));
+	}.property("created_at"),
 });
 
 Marketplace.reopenClass({

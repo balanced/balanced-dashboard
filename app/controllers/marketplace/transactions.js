@@ -4,6 +4,8 @@ var MarketplaceTransactionsController = Ember.ObjectController.extend(Ember.Even
 	needs: ['marketplace'],
 	noDownloadsUri: true,
 
+	marketplace: Ember.computed.reads("controllers.marketplace.model"),
+
 	resultsLoader: Ember.computed.oneWay("model"),
 	hasUnlinkedTransactions: function() {
 		// Note: hiding the notification bar until we get the stats from the API.

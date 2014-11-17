@@ -49,12 +49,16 @@
 				routeName=transaction.route_name
 				date=transaction.created_at
 			}}
-			{{view "tables/cells/transaction/unlinked-status-cell"
-				item=transaction
-				isUnlinked=transaction.isUnlinked
-				classNames="unlinked-status"
-				routeName=transaction.route_name
-			}}
+			{{#if view.showUnlinkedTransactionsIcon}}
+				{{view "tables/cells/transaction/unlinked-status-cell"
+					item=transaction
+					isUnlinked=transaction.isUnlinked
+					classNames="unlinked-status"
+					routeName=transaction.route_name
+				}}
+			{{else}}
+				<td></td>
+			{{/if}}
 			{{view "tables/cells/linked-text-cell"
 				item=transaction
 				labelText=transaction.type_name
