@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### 1.1.2
+
+* Removed the orders messages from old marketplaces
+
 ### 1.1.0
 
 * Combined Orders and Transactions list into Payments tab
