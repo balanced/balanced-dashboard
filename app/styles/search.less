@@ -77,8 +77,13 @@
   }
 }
 
-.q:hover {
-  cursor: text;
+.q {
+  width: calc(~"100% - 424px");
+  text-overflow: ellipsis;
+
+  &:hover {
+    cursor: text;
+  }
 }
 
 .search-nav {
