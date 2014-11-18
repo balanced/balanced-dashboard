@@ -1,0 +1,15 @@
+<div class="page-summary-with-icon">
+	<i class="icon-search non-interactive"></i>
+	<h2>Search for payments, customers, payment methods, disputes, or logs</h2>
+</div>
+<div class="page-form white">
+	<h3>Search keyboard shortcuts</h3>
+	<div class="page-form-body clearfix">
+		<dl>
+			{{#each shortcut in view.shortcuts}}
+				<dt>{{shortcut.key}}</dt>
+				<dd><div class="keyboard">{{{shortcut.value}}}</div></dd>
+			{{/each}}
+		</dl>
+	</div>
+</div>

@@ -307,155 +307,155 @@ header.results-label h3 {
   .null-field {
     font-style:italic;
   }
+}
 
-  .sortable {
-    display: inline-block;
-    padding: 0 10px;
+.sortable {
+  display: inline-block;
+  padding: 0 10px;
 
-    & > span {
-      &:extend(table.items th > span);
-    }
-
-    &:hover {
-      cursor: pointer;
-      background-color: @gray2;
-
-      > span {
-        color: @black;
-      }
-    }
-    &:after {
-      font-family: 'Balanced-Icon';
-      &:extend(.icon-sort-none:before);
-      color: @gray3;
-      margin-left: 2px;
-      vertical-align: sub;
-    }
-    &.ascending {
-      &:after {
-        font-family: 'Balanced-Icon';
-        &:extend(.icon-sort-ascending:before);
-        color: @gray6;
-      }
-    }
-    &.descending {
-      &:after {
-        font-family: 'Balanced-Icon';
-        &:extend(.icon-sort-descending:before);
-        color: @gray6;
-      }
-    }
+  & > span {
+    &:extend(table.items th > span);
   }
 
-  .timing {
+  &:hover {
+    cursor: pointer;
+    background-color: @gray2;
+
+    > span {
+      color: @black;
+    }
+  }
+  &:after {
+    font-family: 'Balanced-Icon';
+    &:extend(.icon-sort-none:before);
+    color: @gray3;
+    margin-left: 2px;
+    vertical-align: sub;
+  }
+  &.ascending {
+    &:after {
+      font-family: 'Balanced-Icon';
+      &:extend(.icon-sort-ascending:before);
+      color: @gray6;
+    }
+  }
+  &.descending {
+    &:after {
+      font-family: 'Balanced-Icon';
+      &:extend(.icon-sort-descending:before);
+      color: @gray6;
+    }
+  }
+}
+
+.timing {
+  border-bottom: 0;
+  margin: 0 9px 0 0;
+
+  &.pull-left {
+      float: left;
+      border-left: 0px;
+  }
+
+  &:hover {
     border-bottom: 0;
-    margin: 0 9px 0 0;
+  }
 
-    &.pull-left {
-        float: left;
-        border-left: 0px;
+  &.filter-endpoints {
+      .dropdown-menu {
+        width: 130px;
+      }
+  }
+
+  &.filter-datetime {
+      .dropdown-menu {
+      }
+  }
+
+  .dropdown-menu {
+    //  120px = set timing width
+    // 330px = width of date picker
+    width: 120px + 330px + @searchBorderWidth * 8;
+    padding: 0;
+
+    .set-times {
+      background-color: @white;
+      float: left;
+      width: 120px;
+      height: 205px;
+      padding: 10px 10px 57px 10px;
+
+      > li a {
+        padding: 10px 15px;
+      }
+    }
+    .date-picker {
+      padding: 10px;
+      float: right;
+      width: 330px;
     }
 
-    &:hover {
-      border-bottom: 0;
-    }
+    .before, .after {
+      position: absolute;
+      width: 220px;
+      padding-top: 10px;
 
-    &.filter-endpoints {
-        .dropdown-menu {
-          width: 130px;
-        }
-    }
-
-    &.filter-datetime {
-        .dropdown-menu {
-        }
-    }
-
-    .dropdown-menu {
-      //  120px = set timing width
-      // 330px = width of date picker
-      width: 120px + 330px + @searchBorderWidth * 8;
-      padding: 0;
-
-      .set-times {
-        background-color: @white;
-        float: left;
-        width: 120px;
-        height: 205px;
-        padding: 10px 10px 57px 10px;
-
-        > li a {
-          padding: 10px 15px;
-        }
-      }
-      .date-picker {
-        padding: 10px;
-        float: right;
-        width: 330px;
-      }
-
-      .before, .after {
-        position: absolute;
-        width: 220px;
-        padding-top: 10px;
-
-        .datepicker {
-          .box-shadow(none);
-          background-color: @gray2;
-          display: none;
-        }
-        .dt {
-        }
-        &.selected {
-          .datepicker, .dt {
-            background-color: @gray2;
-            display: block;
-          }
-        }
-      }
-      .go {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-      }
-      .before {
-        float: right;
-        .dt {
-          top: 50px;
-          text-align: right;
-        }
-      }
-      .after {
-        float: left;
-      }
-      //  wrapper around dp
-      .dt {
-        position: absolute;
-        top: 0;
-        // 90px + 10px padding * 2
-        right: -110px;
-        width: 50%;
-        padding: 10px;
-        width: 90px;
-      }
-      //  date picker (input box with date in it)
-      .dp {
-        width: 75px;
-        margin: 0;
-        border-radius: 0;
-        border: 1px solid rgb(197, 197, 197);
-        &:focus, &:active {
-          outline: none;
-          box-shadow: none;
-          border-color: #000;
-        }
-      }
       .datepicker {
-        top: 0;
-        display: block;
-        width: 220px;
-        border: 0;
+        .box-shadow(none);
+        background-color: @gray2;
+        display: none;
       }
+      .dt {
+      }
+      &.selected {
+        .datepicker, .dt {
+          background-color: @gray2;
+          display: block;
+        }
+      }
+    }
+    .go {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    .before {
+      float: right;
+      .dt {
+        top: 50px;
+        text-align: right;
+      }
+    }
+    .after {
+      float: left;
+    }
+    //  wrapper around dp
+    .dt {
+      position: absolute;
+      top: 0;
+      // 90px + 10px padding * 2
+      right: -110px;
+      width: 50%;
+      padding: 10px;
+      width: 90px;
+    }
+    //  date picker (input box with date in it)
+    .dp {
+      width: 75px;
+      margin: 0;
+      border-radius: 0;
+      border: 1px solid rgb(197, 197, 197);
+      &:focus, &:active {
+        outline: none;
+        box-shadow: none;
+        border-color: #000;
+      }
+    }
+    .datepicker {
+      top: 0;
+      display: block;
+      width: 220px;
+      border: 0;
     }
   }
 }

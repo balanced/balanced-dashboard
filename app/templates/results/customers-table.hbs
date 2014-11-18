@@ -1,9 +1,15 @@
 <thead>
 	<tr>
 		<th class="col-md-3 has-filter">
-			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
-				<span>Date</span>
-			{{/view}}
+			{{#if view.isSearch}}
+				{{#view "results/search-results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
+					<span>Date</span>
+				{{/view}}
+			{{else}}
+				{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="created_at" actionName="changeSortOrder"}}
+					<span>Date</span>
+				{{/view}}
+			{{/if}}
 		</th>
 		<th class="col-md-4"><span>Customer</span></th>
 		<th class="col-md-4"><span>Business</span></th>

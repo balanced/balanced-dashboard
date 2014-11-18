@@ -1,0 +1,61 @@
+<div class="search-nav">
+	<ul>
+		<li {{bind-attr class=":orders :filter view.totalOrders::disabled view.isOrdersTabSelected:selected"}} >
+			<a href="#" {{action "changeSearchTab" "order" target="view"}}>{{format-number view.totalOrders}} Orders</a>
+		</li>
+
+		<li {{bind-attr class=":transactions :filter view.totalTransactions::disabled view.isTransactionsTabSelected:selected"}} >
+			<a href="#" {{action "changeSearchTab" "transaction" target="view"}}>{{format-number view.totalTransactions}} Transactions</a>
+		</li>
+
+		<li {{bind-attr class=":customers :filter view.totalCustomers::disabled view.isCustomersTabSelected:selected"}} >
+			<a href="#" {{action "changeSearchTab" "customer" target="view"}}>{{format-number view.totalCustomers}} Customers</a>
+		</li>
+
+		<li {{bind-attr class=":funding-instruments :filter view.totalFundingInstruments::disabled view.isFundingInstrumentsTabSelected:selected"}} >
+			<a href="#" {{action "changeSearchTab" "funding_instrument" target="view"}}>{{format-number view.totalFundingInstruments}} Payment methods</a>
+		</li>
+
+		<li {{bind-attr class=":logs :filter view.totalLogs::disabled view.isLogsTabSelected:selected"}} >
+			<a href="#" {{action "changeSearchTab" "log" target="view"}}>{{format-number view.totalLogs}} Logs</a>
+		</li>
+	</ul>
+</div>
+
+<div {{bind-attr data-length=view.hasResults}} class="modal-body">
+	{{#if view.hasResults}}
+		<div class="results">
+			{{view "form-fields/search-date-picker" viewName="dateTimePicker"}}
+
+			{{#if view.isOrdersTabSelected}}
+				{{view "results/orders-table" loader=view.resultsLoader}}
+			{{/if}}
+
+			{{#if view.isTransactionsTabSelected}}
+				{{view "results/transactions-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
+
+			{{#if view.isCustomersTabSelected}}
+				{{view "results/customers-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
+
+			{{#if view.isFundingInstrumentsTabSelected}}
+				{{view "results/funding-instruments-table" loader=view.resultsLoader isSearch=true}}
+			{{/if}}
+
+			{{#if view.isLogsTabSelected}}
+				{{view "results/logs-table" loader=view.logsResultsLoader isSearch=true}}
+			{{/if}}
+		</div>
+	{{else}}
+		{{#if view.isLoaded}}
+			{{#if view.isQueryPresent}}
+				{{render "results/no-results"}}
+			{{else}}
+				{{render "results/keyboard-shortcuts"}}
+			{{/if}}
+		{{else}}
+			Loading...
+		{{/if}}
+	{{/if}}
+</div>

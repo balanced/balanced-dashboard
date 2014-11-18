@@ -53,6 +53,10 @@ var DatePickerView = Ember.View.extend({
 	},
 
 	bindDatePicker: function() {
+		if (!this.$('.datetime-picker')) {
+			return;
+		}
+
 		this.$('.datetime-picker').daterangepicker({
 			endDate: moment(this.get('maxTime')),
 			startDate: moment(this.get('minTime')),

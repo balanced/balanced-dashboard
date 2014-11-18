@@ -24,6 +24,7 @@ app.import("bower_components/jquery-csv/src/jquery.csv.js");
 app.import("vendor/daterangepicker.js");
 app.import("vendor/ember-validations.prod.js");
 app.import('vendor/moment-business-days.js');
+app.import('bower_components/ember-shortcuts/ember-shortcuts.js');
 
 var fonts = pickFiles('bower_components/strapped/static/fonts', {
 	srcDir: '/',
