@@ -29,6 +29,7 @@ var VerifyBankAccountModalView = ModalBaseView.extend(Full, Form, {
 				.save()
 				.then(function(model) {
 					model.reload();
+					self.get('bankAccount').reload();
 					self.set("isSaving", false);
 					notification.alertSuccess("Verification started. Remember to verify your bank account once you receive your microdeposits in 1–2 business days.");
 					self.get("container").lookup("controller:marketplace").updateBankAccountNotifications();

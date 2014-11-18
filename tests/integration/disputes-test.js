@@ -58,6 +58,7 @@ test('can visit page', function() {
 			'table.disputes tbody tr:eq(0) td.account': 1,
 			'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 			'table.disputes tbody tr:eq(0) td.amount': '$12.00',
+			'#marketplace-nav .alert-count': '2'
 		});
 });
 

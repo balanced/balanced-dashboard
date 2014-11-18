@@ -2,6 +2,9 @@
 `import AuthRoute from "./auth";`
 
 MarketplaceRoute = AuthRoute.extend
+	shortcuts:
+		"/": "openSearch"
+
 	model: (params) ->
 		return @controllerFor("sessions")
 			.get("currentUser.marketplacesLoader")
@@ -19,6 +22,9 @@ MarketplaceRoute = AuthRoute.extend
 		controller.updateBankAccountNotifications()
 
 	actions:
+		openSearch: (event) ->
+			event.preventDefault()
+			this.send("openModal", "modals/search-modal", @modelFor("marketplace"))
 		submitRefundDebit: (refund) ->
 			@transitionTo('refunds', refund)
 		submitReverseCredit: (reversal) ->

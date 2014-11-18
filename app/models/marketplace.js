@@ -40,10 +40,9 @@ var Marketplace = UserMarketplace.extend({
 		return getResultsLoader("logs", attributes);
 	},
 
-	getSearchLogsLoader: function(queryString) {
-		return getResultsLoader("search-logs", {
-			query: queryString
-		});
+	getSearchLogsLoader: function(attributes) {
+		attributes = _.extend({}, attributes);
+		return getResultsLoader("search-logs", attributes);
 	},
 
 	getSearchLoader: function(attributes) {

@@ -22,12 +22,31 @@
   text-align: center;
 }
 
+.page-summary-with-icon {
+  width: 435px;
+  margin: 45px auto 20px;
+  text-align: center;
+
+  i {
+    font-size: 86px;
+    color: @gray2;
+  }
+
+  h2 {
+    .sl-20-lt;
+  }
+}
+
 .page-form {
   background-color: @gray1;
   border: 1px solid @gray2;
   margin: 45px auto 20px;
   float: none;
   width: 435px;
+
+  &.white {
+    background-color: @white;
+  }
 
   h3 {
     .sl-sb;
@@ -44,6 +63,32 @@
       text-align: center;
     }
 
+    dl {
+      dt, dd {
+        .sl-note;
+        float: left;
+        line-height: 20px;
+        margin-bottom: 20px;
+      }
+
+      dt {
+        width: 40%;
+      }
+
+      dd {
+        width: 60%;
+        color: @black;
+
+        .keyboard {
+          .sl-sb;
+          color: @white;
+          background-color: @black;
+          padding: 3px 5px;
+          display: inline;
+          .border-radius(3px);
+        }
+      }
+    }
     form {
       p {
         padding-bottom: 30px;

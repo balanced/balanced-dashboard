@@ -11,7 +11,7 @@
     "PhantomJs"
   ],
   "launch_in_dev": [
-	"PhantomJsSslAny",
+	"PhantomJs",
     "Chrome"
   ]
 }
