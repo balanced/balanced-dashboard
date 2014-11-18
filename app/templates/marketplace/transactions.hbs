@@ -8,5 +8,8 @@
 			</div>
 		</div>
 	{{/if}}
-	{{view "results/transactions-table" loader=resultsLoader}}
+	{{view "results/transactions-table"
+		loader=resultsLoader
+		showUnlinkedTransactionsIcon=marketplace.isOrdersRequired
+	}}
 </div>
