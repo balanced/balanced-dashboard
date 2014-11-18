@@ -1,11 +1,32 @@
 import ModalBaseView from "./modal-base";
 import Search from "./mixins/search-modal-mixin";
+import Computed from "balanced-dashboard/utils/computed";
 
 var SearchModalView = ModalBaseView.extend(Search, {
 	templateName: 'modals/search-modal',
 	elementId: 'search-modal',
 
 	selectedTabType: "transaction",
+	resultsLoaderDidChange: function() {
+		if (this.get("hasResults") && this.get("totalTransactions") === 0) {
+			if (this.get("totalOrders") > 0) {
+				this.send("changeSearchTab", "order");
+			}
+
+			if (this.get("totalCustomers") > 0) {
+				this.send("changeSearchTab", "customer");
+			}
+
+			if (this.get("totalFundingInstruments") > 0) {
+				this.send("changeSearchTab", "funding_instrument");
+			}
+
+			if (this.get("totalLogs") > 0) {
+				this.send("changeSearchTab", "log");
+			}
+		}
+
+	}.observes("hasResults", "totalOrders", "totalTransactions", "totalCustomers", "totalFundingInstruments", "totalLogs").on("init"),
 
 	isOrdersTabSelected: Ember.computed.equal("selectedTabType", "order"),
 	isTransactionsTabSelected: Ember.computed.equal("selectedTabType", "transaction"),
@@ -13,6 +34,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	isFundingInstrumentsTabSelected: Ember.computed.equal("selectedTabType", "funding_instrument"),
 	isLogsTabSelected: Ember.computed.equal("selectedTabType", "log"),
 
+	totalResults: Computed.sumAll("resultsLoader.results.total_results", "totalLogs"),
 	totalOrders: Ember.computed.oneWay("resultsLoader.results.total_orders"),
 	totalTransactions: Ember.computed.oneWay("resultsLoader.results.total_transactions"),
 	totalCustomers: Ember.computed.oneWay("resultsLoader.results.counts.customer"),
@@ -23,7 +45,8 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	isLoaded: Ember.computed.oneWay("resultsLoader.results.isLoaded"),
 	isQueryPresent: Ember.computed.notEmpty("resultsLoader.query"),
-	hasResults: Ember.computed.notEmpty("resultsLoader.results"),
+	hasResults: Ember.computed.notEmpty("totalResults"),
+	hasLogResult: Ember.computed.notEmpty("logsResultsLoader.results"),
 	query: Ember.computed.oneWay("resultsLoader.query"),
 
 	queryDidChange: function(a, value) {
@@ -44,7 +67,9 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	logsResultsLoader: function() {
 		var marketplace = this.get("marketplace");
-		return marketplace ? marketplace.getSearchLogsLoader(this.get("query")) : undefined;
+		return marketplace ? marketplace.getSearchLogsLoader({
+			query: this.get("query")
+		}) : undefined;
 	}.property("marketplace", "query"),
 
 	didInsertElement: function(){
