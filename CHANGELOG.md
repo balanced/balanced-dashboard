@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Fixed bug with internal description not showing on some transaction pages
+
 ### 1.1.2
 
 * Removed the orders messages from old marketplaces
