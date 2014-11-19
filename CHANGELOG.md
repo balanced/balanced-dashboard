@@ -1,12 +1,17 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.1.3
 
+* Adding some events to mixpanel.
 * Fixed bug with internal description not showing on some transaction pages
 
 ### 1.1.2
 
 * Removed the orders messages from old marketplaces
+
+### 1.1.1
+
+* Bug fixes for order views
 
 ### 1.1.0
 
