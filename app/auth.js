@@ -48,6 +48,7 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 				return user;
 			})
 			.then(function(user) {
+				var AnalyticsLogger = require("balanced-dashboard/utils/analytics_logger")["default"];
 				AnalyticsLogger.identify(user);
 				return user;
 			})

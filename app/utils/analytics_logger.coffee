@@ -1,7 +1,6 @@
 `import Ember from "ember";`
 `import ENV from 'balanced-dashboard/config/environment';`
 `import Utils from 'balanced-dashboard/lib/utils';`
-`import Auth from 'balanced-dashboard/auth';`
 
 window.mixpanel = window.mixpanel || []
 window._gaq = window._gaq || []
@@ -33,9 +32,6 @@ AnalyticsLogger =
 			window._gaq.push(['_setAccount', ENV.BALANCED.GOOGLE_ANALYTICS])
 			window._gaq.push(['_setDomainName', 'balancedpayments.com'])
 			window._gaq.push(['_trackPageview'])
-
-		Auth.on 'signInError', =>
-			@trackEvent('login-error')
 
 		$(document).bind "ajaxComplete", (evt, jqxhr, ajaxOptions) =>
 			if jqxhr && jqxhr.status >= 400
