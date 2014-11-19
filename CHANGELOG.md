@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### 1.1.4
+
+* Fixing some tracking bugs.
+
 ### 1.1.3
 
 * Adding some events to mixpanel.
