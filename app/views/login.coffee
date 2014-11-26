@@ -6,5 +6,7 @@ LoginView = Ember.View.extend
 	afterFormLink:
 		linkTo: 'setup_guest_user'
 		linkText: 'Create an account'
+	didInsertElement: ->
+		@$('input:first').focus()
 
 `export default LoginView;`

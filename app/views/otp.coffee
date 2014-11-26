@@ -6,5 +6,7 @@ OtpView = Ember.View.extend
 	afterFormLink:
 		linkTo: 'login'
 		linkText: 'Back to sign in'
+	didInsertElement: ->
+		@$('input:first').focus()
 
 `export default OtpView;`
