@@ -25,6 +25,7 @@ var Order = Model.extend({
 	reversals: Model.hasMany('reversals', 'reversal'),
 	refunds: Model.hasMany('refunds', 'refund'),
 
+	selectedTab: "charges",
 	page_title: Computed.orProperties('description', 'id'),
 
 	amount_credited: function() {

@@ -1,0 +1,5 @@
+<ul class="nav-tabs">
+	{{#each tabLink in view.tabs}}
+		<li><a href="#" {{bind-attr class="tabLink.isSelected:active"}} {{action "setTab" tabLink target=view}}>{{tabLink.text}}</a></li>
+	{{/each}}
+</ul>
