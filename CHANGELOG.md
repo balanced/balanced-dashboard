@@ -1,10 +1,14 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.1.6
 
 * Updated search results view (#1489)
 * Added keyboard shortcuts to open and close the search modal
-* Bug fix for log search results
+* Added mixpanel events for routes
+
+### 1.1.5
+
+* Mixpanel tracking (reverted)
 
 ### 1.1.4
 
