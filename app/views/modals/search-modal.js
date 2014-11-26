@@ -7,22 +7,6 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	elementId: 'search-modal',
 
 	selectedTabType: "transaction",
-	resultsLoaderDidChange: function() {
-		if (this.get("hasResults") && this.get("totalTransactions") === 0) {
-			if (this.get("totalOrders") > 0) {
-				this.send("changeSearchTab", "order");
-			}
-			else if (this.get("totalCustomers") > 0) {
-				this.send("changeSearchTab", "customer");
-			}
-			else if (this.get("totalFundingInstruments") > 0) {
-				this.send("changeSearchTab", "funding_instrument");
-			}
-			else if (this.get("totalLogs") > 0) {
-				this.send("changeSearchTab", "log");
-			}
-		}
-	}.observes("hasResults", "totalOrders", "totalTransactions", "totalCustomers", "totalFundingInstruments", "totalLogs").on("init"),
 
 	isOrdersTabSelected: Ember.computed.equal("selectedTabType", "order"),
 	isTransactionsTabSelected: Ember.computed.equal("selectedTabType", "transaction"),
