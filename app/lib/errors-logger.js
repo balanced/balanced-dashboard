@@ -61,6 +61,7 @@ var reportError = function(error) {
 			tags: data
 		});
 
+
 		AnalyticsLogger.trackEvent('js-error', data);
 	}
 

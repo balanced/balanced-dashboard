@@ -2,11 +2,18 @@
 
 ### master
 
-* Fixed bug with internal description not showing on some transaction pages
 * Updated search results view (#1489)
 * Added keyboard shortcuts to open and close the search modal
 * Bug fix for log search results
-* Display the most appropriate search results tab by default
+
+### 1.1.4
+
+* Fixing some tracking bugs.
+
+### 1.1.3
+
+* Adding some events to mixpanel.
+* Fixed bug with internal description not showing on some transaction pages
 
 ### 1.1.2
 

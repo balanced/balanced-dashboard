@@ -1,6 +1,6 @@
+`import Ember from "ember";`
 `import ENV from 'balanced-dashboard/config/environment';`
 `import Utils from 'balanced-dashboard/lib/utils';`
-`import Auth from 'balanced-dashboard/auth';`
 
 window.mixpanel = window.mixpanel || []
 window._gaq = window._gaq || []
@@ -13,14 +13,6 @@ if isGoogleAnalyticsLoaded
 	$.getScript('https://ssl.google-analytics.com/ga.js',
 		cache: true
 	)
-
-trackLogin = (email) ->
-	try
-		if isMixpanelLoaded
-			window.mixpanel.identify(email)
-
-		Raven.setUser(email: email)
-	catch err
 
 trackPage = (page) ->
 	currentLocation = page + window.location.hash
@@ -41,14 +33,6 @@ AnalyticsLogger =
 			window._gaq.push(['_setDomainName', 'balancedpayments.com'])
 			window._gaq.push(['_trackPageview'])
 
-		Auth.on 'signInSuccess', =>
-			@trackEvent('login-success', remembered: false)
-			user = Auth.get('user')
-			trackLogin(user.get('email_address'))
-
-		Auth.on 'signInError', =>
-			@trackEvent('login-error')
-
 		$(document).bind "ajaxComplete", (evt, jqxhr, ajaxOptions) =>
 			if jqxhr && jqxhr.status >= 400
 				@trackEvent('ajax-error',
@@ -58,10 +42,26 @@ AnalyticsLogger =
 					responseText: jqxhr.responseText
 				)
 
-		$(document).on 'click', 'a,.btn,button', =>
-			@trackEvent("click #{$.trim $(this).text()}", {})
+		$(document).on 'click', 'a,.btn,button', (event) =>
+			target = $(event.target).closest("a, .btn, button")
+			eventText = target.attr("data-track-event")
+			if Ember.isBlank(eventText)
+				eventText = "click #{$.trim target.text()}"
+			@trackEvent(eventText, {})
 
 	trackPage: _.debounce(trackPage, 500)
+
+	identify: (user) ->
+		userProperties =
+			"$first_name": user.get("email_address")
+			"$created": user.get("created_at")
+			"$email": user.get("email_address")
+
+		try
+			Raven.setUser(email: user.get("email_address"))
+			window.mixpanel.identify(user.get("id"))
+			window.mixpanel.people.set(userProperties)
+		catch error
 
 	trackEvent: (name, data={}) ->
 		if (window.BalancedApp && window.BalancedApp.currentMarketplace)

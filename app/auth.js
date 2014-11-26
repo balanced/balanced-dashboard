@@ -42,16 +42,14 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 				return user;
 			})
 			.then(function(user) {
-				return self.loadExtensions(user)
-					.then(function() {
-						return user;
-					});
-			})
-			.then(function(user) {
 				if (user.get("admin")) {
-					BalancedApp.Shapeshifter.load("balanced-admin", true);
 					self.setAPIKey(user.get("admin"));
 				}
+				return user;
+			})
+			.then(function(user) {
+				var AnalyticsLogger = require("balanced-dashboard/utils/analytics_logger")["default"];
+				AnalyticsLogger.identify(user);
 				return user;
 			})
 			.then(undefined, function(jqxhr) {
@@ -178,32 +176,6 @@ var Auth = Ember.Namespace.extend(Ember.Evented).create({
 				self.loginGuestUser(apiKey.get('secret'));
 				return apiKey;
 			});
-	},
-
-	getExtensions: function() {
-		return {};
-		// return ENV.BALANCED.EXT || this.get("user.ext");
-	},
-
-	loadExtensions: function() {
-		var promises = _.map(this.getExtensions(), function(val, key) {
-			var deferred = Ember.RSVP.defer();
-
-			$.ajax({
-				dataType: "script",
-				cache: true,
-				url: key,
-				success: function() {
-					require("ember/load-initializers").default(BalancedApp, "balanced-admin");
-					deferred.resolve();
-				},
-				error: function() {
-					deferred.resolve();
-				}
-			});
-			return deferred.promise;
-		});
-		return Ember.RSVP.allSettled(promises);
 	},
 
 	enableMultiFactorAuthentication: function() {
