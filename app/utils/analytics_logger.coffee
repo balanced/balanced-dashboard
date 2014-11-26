@@ -70,6 +70,7 @@ AnalyticsLogger =
 		if mp
 			data.marketplaceId = mp.get('id')
 			data.marketplaceName = mp.get('name')
+			data.createdAt = mp.get("created_at")
 
 		filteredData = Utils.filterSensitivePropertiesMap(data)
 		if isMixpanelLoaded

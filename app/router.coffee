@@ -25,6 +25,7 @@ Router = Ember.Router.extend
 	didTransition: (infos) ->
 		this._update_title(infos)
 		AnalyticsLogger.trackPage(_.pluck(infos, 'name').join('/'))
+		AnalyticsLogger.trackEvent("Visited #{this.get("pageTitle")} page")
 		return this._super.apply(this, arguments)
 
 Router.map ->
