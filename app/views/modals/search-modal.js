@@ -1,6 +1,7 @@
 import ModalBaseView from "./modal-base";
 import Search from "./mixins/search-modal-mixin";
 import Computed from "balanced-dashboard/utils/computed";
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
 var SearchModalView = ModalBaseView.extend(Search, {
 	templateName: 'modals/search-modal',
@@ -32,6 +33,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
 		this.set("model.query", this.get("query"));
+		AnalyticsLogger.trackEvent("Searched for #{this.get('query')}");
 	}.observes("query"),
 
 	marketplace: Ember.computed.reads("model"),
