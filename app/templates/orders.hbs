@@ -1,6 +1,6 @@
 {{#view "page-navigations/page-navigation" pageType=model.type_name title=model.page_title}}
 	<div class="buttons page-actions">
-		<a class="btn" {{action "openModal" "modals/credit-order-modal" model}}>Credit</a>
+		<a class="btn" {{action "openModal" "modals/credit-order-modal" model controllers.marketplace.model}}>Credit</a>
 	</div>
 {{/view}}
 {{#view "detail-views/body-panel"}}
