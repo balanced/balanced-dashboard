@@ -15,7 +15,11 @@
 		}}
 	{{else}}
 		<div class="form-group">
+		{{#if view.fundingInstruments.isLoading}}
+			<p>Loading...</p>
+		{{else}}
 			<p>This customer doesn't have any payment method to credit.</p>
+		{{/if}}
 		</div>
 	{{/if}}
 
