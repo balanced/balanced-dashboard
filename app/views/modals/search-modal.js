@@ -28,13 +28,15 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	isQueryPresent: Ember.computed.notEmpty("resultsLoader.query"),
 	hasResults: Ember.computed.notEmpty("totalResults"),
 	hasLogResult: Ember.computed.notEmpty("logsResultsLoader.results"),
-	query: Ember.computed.oneWay("resultsLoader.query"),
+	query: Ember.computed.alias("searchController.query"),
+
+	searchController: function() {
+		return this.container.lookup("controller:marketplace/search");
+	}.property(),
 
 	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
-		this.set("model.query", this.get("query"));
-		AnalyticsLogger.trackEvent("Searched for #{this.get('query')}");
-	}.observes("query"),
+	},
 
 	marketplace: Ember.computed.reads("model"),
 
@@ -42,10 +44,13 @@ var SearchModalView = ModalBaseView.extend(Search, {
 		var marketplace = this.get("marketplace");
 		return marketplace ?
 			marketplace.getSearchLoader({
-				query: this.get("model.query")
+				searchType: this.get("selectedTabType"),
+				endTime: this.get("endTime"),
+				startTime: this.get("startTime"),
+				query: this.get("query")
 			}) :
 			undefined;
-	}.property("marketplace", "model.query"),
+	}.property("marketplace", "query", "selectedTabType", "startTime", "endTime"),
 
 	logsResultsLoader: function() {
 		var marketplace = this.get("marketplace");
@@ -69,7 +74,6 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	actions: {
 		changeSearchTab: function(tabName) {
 			this.set("selectedTabType", tabName);
-			this.get("resultsLoader").set("searchType", tabName);
 		},
 		changeTypeFilter: function(type) {
 			if (type === "transaction") {
@@ -82,13 +86,10 @@ var SearchModalView = ModalBaseView.extend(Search, {
 			this.get("resultsLoader").setSortField(column);
 		},
 		changeDateFilter: function(startTime, endTime) {
-			var loader = this.get("resultsLoader");
-			if (loader) {
-				loader.setProperties({
-					endTime: endTime,
-					startTime: startTime
-				});
-			}
+			this.setProperties({
+				endTime: endTime,
+				startTime: startTime
+			});
 		},
 		changeStatusFilter: function(status) {
 			this.get("resultsLoader").set("statusFilters", status);
