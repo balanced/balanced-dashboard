@@ -36,15 +36,12 @@ var BankAccount = FundingInstrument.extend({
 	}.property('account_number'),
 
 	description: function() {
-		if (this.get('bank_name')) {
-			return '%@ %@'.fmt(
-				this.get('last_four'),
-				Utils.toTitleCase(this.get('bank_name'))
-			);
+		if (this.get('formatted_bank_name')) {
+			return '%@ %@'.fmt(this.get('last_four'), this.get('formatted_bank_name'));
 		} else {
 			return this.get('last_four');
 		}
-	}.property('last_four', 'bank_name'),
+	}.property('last_four', 'formatted_bank_name'),
 
 
 	status: Ember.computed.oneWay("verificationStatus"),

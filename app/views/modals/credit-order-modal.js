@@ -9,9 +9,10 @@ var CreditOrderModalView = CreditCustomerModalView.extend({
 
 	model: function() {
 		return CreditExistingFundingInstrumentTransactionFactory.create({
-			customer: this.get("recipient")
+			customer: this.get("recipient"),
+			order:this.get("order")
 		});
-	}.property("recipient"),
+	}.property("recipient", "order"),
 
 	merchantCustomer: Ember.computed.reads("order.seller"),
 	ownerCustomer: Ember.computed.reads("marketplace.owner_customer"),
@@ -36,7 +37,15 @@ var CreditOrderModalView = CreditCustomerModalView.extend({
 		}
 	}.property("recipientKey", "seller"),
 
-	fundingInstruments: Ember.computed.reads("recipient.funding_instruments"),
+	fundingInstruments: Ember.computed.reads("recipient.creditable_funding_instruments"),
+
+	nameOnAccount: function() {
+		var nameOnAccount = this.get("model.destination.name");
+		if (nameOnAccount) {
+			return "Name on account: %@".fmt(nameOnAccount);
+		}
+		return undefined;
+	}.property("model.destination.name"),
 
 	actions: {
 		save: function() {
