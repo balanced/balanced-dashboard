@@ -9,8 +9,8 @@ var ResultsTableView = Ember.View.extend({
 
 		return this.get("isSearch") ?
 			"Clicked a row in %@ via search".fmt(templateName) :
-			"Clicked a row in %@".ftm(templateName);
-	}.property("isSearch")
+			"Clicked a row in %@".fmt(templateName);
+	}.property("isSearch", "templateName")
 });
 
 export default ResultsTableView;
