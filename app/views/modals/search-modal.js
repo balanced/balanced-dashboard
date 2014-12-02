@@ -26,7 +26,7 @@ var SearchModalView = ModalBaseView.extend(Search, {
 
 	isLoaded: Ember.computed.oneWay("resultsLoader.results.isLoaded"),
 	isQueryPresent: Ember.computed.notEmpty("resultsLoader.query"),
-	hasResults: Ember.computed.notEmpty("totalResults"),
+	hasResults: Ember.computed.reads("totalResults"),
 	hasLogResult: Ember.computed.notEmpty("logsResultsLoader.results"),
 	query: Ember.computed.alias("searchController.query"),
 
