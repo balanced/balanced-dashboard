@@ -45,7 +45,6 @@ var stubResults = function() {
 };
 
 test('search results and no results', function() {
-
 	visit(Testing.MARKETPLACE_ROUTE)
 		.then(function() {
 			Testing.runSearch('');
@@ -58,8 +57,7 @@ test('search results and no results', function() {
 			Testing.runSearch('');
 		})
 		.checkElements({
-			"#search-modal .results": 0,
-			"#search-modal .page-summary-with-icon h2": 1
+			"#search-modal .results .no-results": 1
 		});
 
 });
