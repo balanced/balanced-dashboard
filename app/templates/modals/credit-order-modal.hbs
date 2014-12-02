@@ -1,7 +1,7 @@
 {{#view "form-fields/form-section" appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText fundingInstruments=view.fundingInstruments model=view.model sectionTitle="Payment information" sectionDescription="Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days."}}
 	{{view "form-fields/static-text-form-field"
 		labelText="From"
-		value="Order balance"
+		value=view.parentView.fromText
 	}}
 
 	{{view "form-fields/radio-form-field" labelText="To" options=view.parentView.recipients model=view.parentView field="recipientKey"}}

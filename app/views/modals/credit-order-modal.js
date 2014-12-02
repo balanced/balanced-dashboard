@@ -14,6 +14,10 @@ var CreditOrderModalView = CreditCustomerModalView.extend({
 		});
 	}.property("recipient", "order"),
 
+	fromText: function() {
+		return "Order balance (%@)".fmt(this.get("order.escrow_balance"));
+	}.property("order.escrow_balance"),
+
 	merchantCustomer: Ember.computed.reads("order.seller"),
 	ownerCustomer: Ember.computed.reads("marketplace.owner_customer"),
 
