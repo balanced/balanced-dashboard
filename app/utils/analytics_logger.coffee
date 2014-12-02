@@ -8,6 +8,13 @@ window._gaq = window._gaq || []
 isMixpanelLoaded = !Ember.isBlank(ENV.BALANCED.MIXPANEL)
 isGoogleAnalyticsLoaded = !Ember.isBlank(ENV.BALANCED.GOOGLE_ANALYTICS)
 
+searchTypeMapping =
+	OR: order
+	CR: credit
+	WD: debit
+	RF: refund
+	RV: reversal
+
 if isGoogleAnalyticsLoaded
 	# This page will almost always be over https, so can just load this directly.
 	$.getScript('https://ssl.google-analytics.com/ga.js',
@@ -62,6 +69,22 @@ AnalyticsLogger =
 			window.mixpanel.identify(user.get("id"))
 			window.mixpanel.people.set(userProperties)
 		catch error
+
+	trackSearch: (query) ->
+		if Ember.isBlank(query)
+			return
+
+		for type in @searchTypeMapping
+			if query.indexOf(type) == 0
+				return @trackEvent('Searched ',
+					type: @searchTypeMapping[type],
+					query: query
+				)
+
+		@trackEvent('Searched ',
+			type: "unknown",
+			query: query
+		)
 
 	trackEvent: (name, data={}) ->
 		if (window.BalancedApp && window.BalancedApp.currentMarketplace)
