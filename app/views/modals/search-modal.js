@@ -37,7 +37,6 @@ var SearchModalView = ModalBaseView.extend(Search, {
 	queryDidChange: function(a, value) {
 		this.set("isDisplayResults", true);
 		AnalyticsLogger.trackEvent("Searched for #{this.get('query')}");
-		AnalyticsLogger.trackSearch(this.get('query'));
 	},
 
 	marketplace: Ember.computed.reads("model"),
