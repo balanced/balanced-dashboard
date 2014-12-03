@@ -8,7 +8,7 @@ MarketplaceEscrowMenuView = BaseMenuView.extend(
 	escrowAmount: Ember.computed.reads("marketplace.formattedEscrowAmount")
 	iconName: "icon-escrow",
 	menuTitle: (->
-		"Escrow: #{@get("escrowAmount")}"
+		"Total balance: #{@get("escrowAmount")}"
 	).property("escrowAmount")
 )
 

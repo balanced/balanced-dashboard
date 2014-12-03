@@ -1,6 +1,7 @@
 `import ModalBaseView from "./modal-base";`
 `import Search from "./mixins/search-modal-mixin";`
 `import Computed from "balanced-dashboard/utils/computed";`
+`import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";`
 
 isTabSelected = (value) ->
 	Ember.computed.equal("selectedTabType", value)
@@ -54,11 +55,16 @@ SearchModalView = ModalBaseView.extend(Search,
 			)
 	).property("marketplace", "query")
 
+	queryDidChange: (->
+		AnalyticsLogger.trackEvent("Searched for #{@get('query')}")
+	).observes("query")
+
 	didInsertElement: ->
 		@$().hide().fadeIn(300)
 		$("#q").focus()
 		Ember.$('body').on 'keyup', (e) =>
 			if e.keyCode == 27 # ESC key
+				AnalyticsLogger.trackEvent("Closed search modal")
 				@close()
 
 	actions:

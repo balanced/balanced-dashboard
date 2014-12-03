@@ -1,36 +1,43 @@
 {{#view "page-navigations/page-navigation" pageType=model.type_name title=model.page_title}}
-	<h1 class="page-value">
-		<div class="page-type">Order escrow</div>
-		{{escrow_balance}}
-	</h1>
+	<div class="buttons page-actions">
+		<a class="btn" {{action "openModal" "modals/credit-order-modal" model controllers.marketplace.model}}>Credit</a>
+	</div>
 {{/view}}
-
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
+		<ul class="nav-tabs">
+			<li><a class="balance">Order balance: {{escrow_balance}}<a></li>
+		</ul>
 		{{view "detail-views/summary-sections/order-summary-section" model=model}}
 		{{view detail-views/description-lists/order-titled-key-values-section model=model}}
 		{{view "meta-list" type=model}}
 	{{/view}}
 
-	{{#view "detail-views/main-panel"}}
-		<h3>Charges</h3>
-		<div class="results table-responsive">
-			{{view "results/order-transactions-table" loader=debitsResultsLoader customers=model.buyers}}
-		</div>
+	{{#view "detail-views/order-main-panel" model=model}}
+		{{view "detail-views/tabs/order-tab" model=model}}
 
-		<h3>Payouts</h3>
-		<div class="results table-responsive">
-			{{view "results/order-transactions-table" loader=creditsResultsLoader customers=model.seller}}
-		</div>
+		{{#if view.isChargesTabSelected}}
+			<div class="results table-responsive">
+				{{view "results/order-transactions-table" loader=debitsResultsLoader customers=model.buyers}}
+			</div>
+		{{/if}}
 
-		<h3>Logs</h3>
-		<div class="results">
-			{{view "resource-logs" content=model}}
-		</div>
+		{{#if view.isPayoutsTabSelected}}
+			<div class="results table-responsive">
+				{{view "results/order-transactions-table" loader=creditsResultsLoader customers=model.seller}}
+			</div>
+		{{/if}}
 
-		<h3>Events</h3>
-		<div class="results">
-			{{view "resource-events" content=model}}
-		</div>
+		{{#if view.isLogsEventsTabSelected}}
+			<h3>Logs</h3>
+			<div class="results">
+				{{view "resource-logs" content=model}}
+			</div>
+
+			<h3>Events</h3>
+			<div class="results">
+				{{view "resource-events" content=model}}
+			</div>
+		{{/if}}
 	{{/view}}
 {{/view}}

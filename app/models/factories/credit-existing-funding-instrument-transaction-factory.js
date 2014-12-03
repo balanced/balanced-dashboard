@@ -11,7 +11,7 @@ var CreditExistingFundingInstrumentTransactionFactory = TransactionFactory.exten
 		properties.uri = this.get("destination.credits_uri");
 
 		if (this.get("order.href")) {
-			properties.order = this.get("order.href");
+			properties.order_uri = this.get("order.href");
 		}
 		return properties;
 	},

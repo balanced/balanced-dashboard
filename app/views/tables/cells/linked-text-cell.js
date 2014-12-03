@@ -1,3 +1,4 @@
+import Ember from "ember";
 import TableCellBaseView from "./table-cell-base";
 
 var LinkedTextCellView = TableCellBaseView.extend({
@@ -12,6 +13,7 @@ var LinkedTextCellView = TableCellBaseView.extend({
 			return this.get('labelText');
 		}
 	}.property('blankText', 'isBlank', 'labelText'),
+	eventTrackerText: Ember.computed.reads("parentView.eventTrackerText"),
 });
 
 export default LinkedTextCellView;

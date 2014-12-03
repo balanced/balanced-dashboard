@@ -31,10 +31,10 @@ test "#totalResults", ->
 
 test "#hasResults", ->
 	subject = @subject()
-	deepEqual(subject.get("hasResults"), false, "Is false when there are no results")
+	deepEqual(subject.get("hasResults"), 0, "Is falsy when there are no results")
 	subject.set("resultsLoader", {
 		results: {
 			total_results: 10
 		}
 	})
-	deepEqual(subject.get("hasResults"), true)
+	deepEqual(subject.get("hasResults"), 10)

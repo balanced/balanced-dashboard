@@ -9,8 +9,8 @@ var OrderSummarySectionView = SummarySectionView.extend({
 	}.property("model.status"),
 
 	linkedResources: function() {
-		return this.resourceLinks("model.description");
-	}.property("model.description")
+		return this.resourceLinks("model.description", "model.seller");
+	}.property("model.description", "model.seller")
 });
 
 export default OrderSummarySectionView;

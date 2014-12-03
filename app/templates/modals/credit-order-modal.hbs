@@ -1,0 +1,32 @@
+{{#view "form-fields/form-section" appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText fundingInstruments=view.fundingInstruments model=view.model sectionTitle="Payment information" sectionDescription="Funds will appear in the bank account by the next business day. First time credits to new accounts may take 3-5 business days."}}
+	{{view "form-fields/static-text-form-field"
+		labelText="From"
+		value=view.parentView.fromText
+	}}
+
+	{{view "form-fields/radio-form-field" labelText="To" options=view.parentView.recipients model=view.parentView field="recipientKey"}}
+
+	{{#if view.fundingInstruments}}
+		{{view "form-fields/select-form-field"
+			model=view.model
+			content=view.fundingInstruments
+			value=view.model.destination
+			labelText="Payment method"
+			optionValuePath="content"
+			optionLabelPath="content.description_with_type"
+			name="destination"
+			field="destination"
+			explanationText=view.parentView.nameOnAccount
+		}}
+	{{else}}
+		<div class="form-group">
+			<p>This customer doesn't have any payment method to credit.</p>
+		</div>
+	{{/if}}
+
+	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
+
+	{{view "form-fields/text-form-field" model=view.model field="appears_on_statement_as" labelText=view.appearsOnStatementAsLabelText maxLength=view.appearsOnStatementAsMaxLength inputClassNames="full" maxlength=view.appearsOnStatementAsMaxLength}}
+
+	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" maxlength=Constants.MAXLENGTH.DESCRIPTION inputClassNames="full"}}
+{{/view}}

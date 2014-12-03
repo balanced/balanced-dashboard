@@ -83,6 +83,11 @@ Credit.reopenClass({
 				}
 			}
 
+			if (!Ember.isBlank(json.order_uri)) {
+				json.order = json.order_uri;
+				delete json.order_uri;
+			}
+
 			return json;
 		}
 	}).create(),

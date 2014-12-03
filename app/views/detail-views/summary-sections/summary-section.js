@@ -150,7 +150,7 @@ var SummarySectionView = Ember.View.extend({
 			title = 'Customer';
 
 			if (parentModel.constructor === Order) {
-				title = (model.get('id') === parentModel.get('seller.id')) ? 'Seller' : 'Buyer';
+				title = (model.get('id') === parentModel.get('seller.id')) ? 'Merchant' : 'Buyer';
 			}
 
 			return {

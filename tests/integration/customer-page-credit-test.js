@@ -14,8 +14,6 @@ module('Integration - Customer Page: Credit', {
 		App = startApp();
 		Adapter = App.__container__.lookup("adapter:main");
 		Testing.setupMarketplace();
-		Testing.createCreditCard();
-		Testing.createDebitCard();
 	},
 	teardown: function() {
 		Testing.restoreMethods(
@@ -31,32 +29,56 @@ test('can credit to a debit card', function() {
 	visit(Testing.CUSTOMER_ROUTE)
 		.then(function() {
 			var m = BalancedApp.__container__.lookup("controller:customer").get("model");
-			var loadCard = function(response) {
-				var card = BalancedApp.__container__.lookupFactory("model:card").create();
-				card.populateFromJsonResponse(response);
-				return card;
-			};
 
 			Ember.run(function() {
-				var cards = Ember.A();
-				m.set("creditable_cards", cards);
-				cards.pushObject(loadCard({
-					cards: [{
+				var cards = loadCards([{
 						"number": "xxxxxxxxxxxx5556",
 						"id": "CCxxxxxxxxxxxxxxxxxxx",
 						"type": "debit",
 						"brand": "Visa",
 						"can_debit": true,
 						"can_credit": true,
-						"href": "/cards/CC3xmLuwXzCJEfUc89h297hj",
+						"href": "/cards/CCxxxxxxxxxxxxxxxxxxx",
 						"credits_uri": "/cards/CCxxxxxxxxxxxxxxxxxxx/credits"
-					}]
-				}));
+					}, {
+						"number": "xxxxxxxxxxxx6666",
+						"id": "CCxxxxxxxxxxxxxxxxxxx",
+						"type": "credit",
+						"brand": "Visa",
+						"can_debit": true,
+						"can_credit": false,
+						"href": "/cards/CCxxxxxxxxxxxxxxxxxxx",
+						"credits_uri": "/cards/CCxxxxxxxxxxxxxxxxxxx/credits"
+				}]);
+
+				var bankAccounts = loadBankAccounts([{
+					"routing_number": "121212120",
+					"bank_name": "Wells Fargo Bank",
+					"account_type": "checking",
+					"name": "carlos",
+					"can_credit": true,
+					"href": "/bank_accounts/BAxxxxxxxxxxxxxxxxxxxxxxx",
+					"meta": {},
+					"account_number": "xxx5556",
+					"address": {
+						"city": null,
+						"line2": null,
+						"line1": null,
+						"state": null,
+						"postal_code": null,
+						"country_code": null
+					},
+					"can_debit": false,
+					"id": "BAxxxxxxxxxxxxxxxxxxxxxxx"
+				}]);
+
+				m.set("cards", cards);
+				m.set("bank_accounts", bankAccounts);
 			});
 		})
 		.click(".page-navigation a:contains(Credit)")
 		.checkElements({
-			"#credit-customer form select[name=destination] option:contains(Checking account: 5555 Wells Fargo Bank Na)": 1,
+			"#credit-customer form select[name=destination] option:contains(Checking account: 5556 Wells Fargo Bank)": 1,
 			"#credit-customer form select[name=destination] option:contains(Debit card: 5556 Visa)": 1
 		})
 		.then(function() {
@@ -114,3 +136,22 @@ test("can't credit customer multiple times using the same modal", function() {
 		});
 });
 
+function loadCards(response) {
+	return response.map(function(response) {
+		var card = BalancedApp.__container__.lookupFactory("model:card").create();
+		card.populateFromJsonResponse({
+			cards: [response]
+		});
+		return card;
+	});
+}
+
+function loadBankAccounts(response) {
+	return response.map(function(response) {
+		var bankAccount = BalancedApp.__container__.lookupFactory("model:bankAccount").create();
+		bankAccount.populateFromJsonResponse({
+			bank_accounts: [response]
+		});
+		return bankAccount;
+	});
+}

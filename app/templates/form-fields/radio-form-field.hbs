@@ -1,0 +1,6 @@
+{{#each option in view.options}}
+	<label class="radio-label">
+		{{radio-button viewName="inputElement" name=view.inputName value=option.value checked=view.value class=view.inputClassNames}} {{option.label}}
+	</label>
+{{/each}}
+

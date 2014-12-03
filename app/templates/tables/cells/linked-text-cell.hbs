@@ -1,4 +1,4 @@
-{{#link-to view.routeName view.item}}
+{{#link-to view.routeName view.item data-track-event=view.eventTrackerText}}
 	<span {{bind-attr class="view.isBlank:sl-none view.spanClassNames"}}>
 		{{view.displayValue}}
 	</span>
