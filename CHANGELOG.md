@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Added full screen search and keyboard shortcuts
+
 ### 1.1.6
 
 * Updated search results view (#1489)
