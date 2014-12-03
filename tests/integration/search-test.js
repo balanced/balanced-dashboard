@@ -57,7 +57,8 @@ test('search results and no results', function() {
 			Testing.runSearch('');
 		})
 		.checkElements({
-			"#search-modal .results .no-results": 1
+			"#search-modal .results .no-results": 0,
+			"#search-modal .page-summary-with-icon": 1
 		});
 
 });
