@@ -13,6 +13,9 @@ var MarketplaceTransactionsController = Ember.ObjectController.extend(Ember.Even
 	}.property(),
 
 	actions: {
+		changeSortOrder: function(column) {
+			this.get("resultsLoader").setSortField(column);
+		},
 		changeTypeFilter: function(type) {
 			if (type === "transaction") {
 				type = null;

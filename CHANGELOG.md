@@ -1,5 +1,10 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Added full screen search and keyboard shortcuts
+* Fixed broken sorting on transactions table
+
 ### 1.1.6
 
 * Updated search results view (#1489)
