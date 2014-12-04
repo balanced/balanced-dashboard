@@ -12,8 +12,8 @@
 	{{view "form-fields/text-form-field" model=view.model field="description" labelText="Internal description" inputClassNames="full" maxlength=Constants.MAXLENGTH.DESCRIPTION}}
 {{/view}}
 
-{{#view "form-fields/form-section" sectionTitle="Note"}}
+{{#view "form-fields/form-section" sectionTitle="Note" model=view.model}}
 	<div class="form-group">
-		<p>This credit is expected to appear on {{human-readable-date view.funding_instrument.expected_credit_date}}.</p>
+		<p>This credit is expected to appear on {{human-readable-date view.model.destination.expected_credit_date}}.</p>
 	</div>
 {{/view}}
