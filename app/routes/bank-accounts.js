@@ -8,7 +8,13 @@ var BankAccountsRoute = ModelRoute.extend({
 	marketplaceUri: 'bank_accounts_uri',
 
 	setupController: function(controller, model) {
+		var href = model.get("href");
+		var store = this.container.lookup("controller:marketplace").get("store");
 		this._super(controller, model);
+
+		store.fetchItem("bank_account", href).then(function(model) {
+			controller.set("bkModel", model);
+		});
 
 		var transactions = TransactionsResultsLoader.create({
 			path: model.get("transactions_uri"),
