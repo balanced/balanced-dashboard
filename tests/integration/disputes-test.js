@@ -54,7 +54,7 @@ test('can visit page', function() {
 			"table.disputes tbody tr": 2,
 			'table.disputes tbody tr:eq(0) td.date.initiated': 1,
 			'table.disputes tbody tr:eq(0) td.date.respond-by': 1,
-			'table.disputes tbody tr:eq(0) td.status': 'new',
+			'table.disputes tbody tr:eq(0) td.status': 'needs_attention',
 			'table.disputes tbody tr:eq(0) td.account': 1,
 			'table.disputes tbody tr:eq(0) td.funding-instrument': 1,
 			'table.disputes tbody tr:eq(0) td.amount': '$12.00',

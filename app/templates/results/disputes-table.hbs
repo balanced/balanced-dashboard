@@ -40,7 +40,7 @@
 			{{view "tables/cells/linked-date-cell" routeName=dispute.route_name date=dispute.respond_by item=dispute}}
 			<td {{bind-attr class=":label4a :status"}}>
 				{{#link-to dispute.route_name dispute}}<span {{bind-attr class="dispute.status"}}>
-					{{dispute.status}}
+					{{sentence-case dispute.status}}
 				</span>{{/link-to}}
 			</td>
 			{{#unless view.isSmallTable}}
