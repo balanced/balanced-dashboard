@@ -20,9 +20,13 @@
 					{{/if}}
 				</td>
 				<td>
-					<span>
+					<span class="api-key-secret">
 						{{#if key.secret}}
-							{{api-key-secret-shower key=key}}
+							{{#if showSecret}}
+								{{key.secret}}
+							{{else}}
+								<a href="#" {{action "showKeySecret"}}>Show key secret</a>
+							{{/if}}
 						{{else}}
 							{{#view "popover" class="sl-none" data-trigger="hover" data-placement="top" data-original-title="Secret unavailable" data-content="You cannot view the key secret for keys created outside of the Balanced Dashboard or created by other users."}}
 								Secret unavailable
