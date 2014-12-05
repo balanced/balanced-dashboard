@@ -11,6 +11,19 @@ BkBankAccount = BankAccount.extend(
 			null
 	)
 
+	canCreateVerificationStatus: Ember.computed("canCredit", "canDebit", ->
+		status = StatusCalculator.create()
+		if @get("canDebit") || !@get("hasCustomer") || !@get("canCredit")
+			status.error("negative", "Verification cannot be created")
+		else
+			@fetchVerifications().then (verifications) ->
+				if verifications.isAny("verification_status", "pending")
+					status.error("negative", "Verification cannot be created")
+				else
+					status.success("positive", "Verification can be created")
+		status
+	)
+
 	verificationStatus: Ember.computed("canCredit", "canDebit", ->
 		status = StatusCalculator.create()
 
@@ -18,14 +31,12 @@ BkBankAccount = BankAccount.extend(
 			status.success("verified", "Verified")
 		else if @get("hasCustomer")
 			@fetchVerifications().then (verifications) ->
-				console.log(verifications)
 				if verifications.isAny("verification_status", "pending")
 					status.warning("pending", "Verification pending")
 				else if verifications.isEvery("verification_status", "failed")
 					status.warning("failed", "Verification failed")
 				else
 					status.warning("unknown", "Unknown state")
-				return status
 		else
 			status.error("unverifiable", "Unverifiable")
 
