@@ -6,7 +6,7 @@ var DisputesStatusResultsDropdownFilterView = ResultsDropdownFilterView.extend({
 	filters: function() {
 		return [
 			defineFilter("All", null, true),
-			defineFilter("New & Submitted", ["pending"]),
+			defineFilter("Needs attention & Submitted", ["pending"]),
 			defineFilter("Won", ["won"]),
 			defineFilter("Lost", ["lost"])
 		];
