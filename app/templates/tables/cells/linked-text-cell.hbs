@@ -1,5 +1,9 @@
 {{#link-to view.routeName view.item data-track-event=view.eventTrackerText}}
 	<span {{bind-attr class="view.isBlank:sl-none view.spanClassNames"}}>
+	{{#if view.isStatusCell}}
+		{{sentence-case view.displayValue}}
+	{{else}}
 		{{view.displayValue}}
+	{{/if}}
 	</span>
 {{/link-to}}
