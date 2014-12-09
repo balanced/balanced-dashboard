@@ -61,7 +61,49 @@ test("#isVerified", function() {
 	});
 });
 
-test("#verificationStatus", function() {
+test("#isFailed", function() {
+	var test = function(expectation, attributes) {
+		var bankAccount = BankAccount.create(attributes);
+		deepEqual(bankAccount.get("isFailed"), expectation);
+	};
+
+	test(true, {
+		verification: {
+			verification_status: "failed",
+			updated_at: moment().toDate()
+		}
+	});
+
+	test(true, {
+		verification: {
+			verification_status: "failed",
+			updated_at: moment().subtract(2, 'days').toDate()
+		}
+	});
+
+	test(false, {
+		verification: {
+			verification_status: "failed",
+			updated_at: moment().subtract(4, 'days').toDate()
+		}
+	});
+
+	test(false, {
+		verification: {
+			verification_status: "failed",
+			updated_at: "2014-11-08T00:00:00.000Z"
+		}
+	});
+
+	test(false, {
+		verification: {
+			verification_status: "verified",
+			updated_at: "2014-11-08T00:00:00.000Z"
+		}
+	});
+});
+
+test("#status", function() {
 	var test = function(expectation, attributes) {
 		var bankAccount = BankAccount.create(attributes);
 		equal(bankAccount.get("status"), expectation);
@@ -79,6 +121,13 @@ test("#verificationStatus", function() {
 		customer: true
 	});
 
+	test("failed", {
+		isFailed: true,
+		isRemoved: false,
+		isVerified: false,
+		customer: true
+	});
+
 	test("pending", {
 		isRemoved: false,
 		isVerified: false,
@@ -88,6 +137,7 @@ test("#verificationStatus", function() {
 
 	test("unverified", {
 		isRemoved: false,
+		isFailed: false,
 		isVerified: false,
 		customer: true,
 		can_confirm_verification: false

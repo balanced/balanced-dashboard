@@ -23,7 +23,8 @@ var BankAccount = FundingInstrument.extend({
 	route_name: 'bank_accounts',
 	account_type_name: Ember.computed.alias('type_name'),
 	appears_on_statement_max_length: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
-	expected_credit_days_offset:  Constants.EXPECTED_CREDIT_DAYS_OFFSET.ACH,
+	expected_credit_days_offset: Constants.EXPECTED_DAYS_OFFSET.CREDIT_ACH,
+	restartVerificationDaysOffset: Constants.EXPECTED_DAYS_OFFSET.RESTART_VERIFICATION,
 	page_title: Ember.computed.readOnly('description'),
 
 	last_four: function() {
@@ -44,25 +45,33 @@ var BankAccount = FundingInstrument.extend({
 	}.property('last_four', 'formatted_bank_name'),
 
 
-	status: Ember.computed.oneWay("verificationStatus"),
+	isFailed: function() {
+		if (this.get('verification.verification_status') !== "failed") {
+			return false;
+		}
 
-	verificationStatus: function() {
+		var restartVerificationDate = moment(this.get('verification.updated_at')).addBusinessDays(this.get('restartVerificationDaysOffset'));
+		return moment().diff(restartVerificationDate, 'days') < 0;
+   	}.property('verification.updated_at', 'restartVerificationDaysOffset', 'status'),
+
+	status: function() {
 		if (this.get("isRemoved")) {
 			return "removed";
-		} else if (this.get("isVerified")) {
-			return "verified";
-		} else if (this.get('customer')) {
-			if (this.get('verification.verification_status') === 'failed') {
-				return 'failed';
-			} else if (this.get('can_confirm_verification')) {
-				return 'pending';
-			} else {
-				return 'unverified';
-			}
-		} else {
-			return 'unverifiable';
 		}
-	}.property('isRemoved', 'isVerified', 'customer', 'can_confirm_verification', 'verification.verification_status'),
+		if (this.get("isVerified")) {
+			return "verified";
+		}
+		if (this.get("isFailed")) {
+			return "failed";
+		}
+		if (!this.get("customer")) {
+			return "unverifiable";
+		}
+		if (this.get("can_confirm_verification")) {
+			return "pending";
+		}
+		return "unverified";
+	}.property("isRemoved", "isVerified", "isFailed", "customer", "can_confirm_verification"),
 
 	isVerified: Ember.computed.oneWay("can_debit"),
 	isRemoved: Ember.computed.not("can_credit"),

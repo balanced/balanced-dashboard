@@ -45,14 +45,14 @@ Constants.MAXLENGTH = {
 	APPEARS_ON_STATEMENT_CARD: 18
 };
 
-Constants.EXPECTED_CREDIT_DAYS_OFFSET = {
-	ACH: 1,
-	DEBIT_CARD: 2
+Constants.EXPECTED_DAYS_OFFSET = {
+	CREDIT_ACH: 1,
+	CREDIT_DEBIT_CARD: 2,
+	RESTART_VERIFICATION: 3
 };
 
 Constants.DATES = {
 	CREATED_AT: moment('2011-04-01').startOf('day').toDate(),
-
 	RESULTS_MAX_TIME: moment().add(2, 'hours').startOf('hour').toDate(),
 	RESULTS_MIN_TIME: moment().subtract(1, 'months').startOf('hour').toDate()
 };
