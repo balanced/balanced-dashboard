@@ -77,14 +77,14 @@ test("#isFailed", function() {
 	test(true, {
 		verification: {
 			verification_status: "failed",
-			updated_at: moment().subtract(2, 'days').toDate()
+			updated_at: moment().subtractBusinessDays(2).toDate()
 		}
 	});
 
 	test(false, {
 		verification: {
 			verification_status: "failed",
-			updated_at: moment().subtract(4, 'days').toDate()
+			updated_at: moment().subtractBusinessDays(4).toDate()
 		}
 	});
 

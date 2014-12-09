@@ -49,9 +49,8 @@ var BankAccount = FundingInstrument.extend({
 		if (this.get('verification.verification_status') !== "failed") {
 			return false;
 		}
-
 		var restartVerificationDate = moment(this.get('verification.updated_at')).addBusinessDays(this.get('restartVerificationDaysOffset'));
-		return moment().diff(restartVerificationDate, 'days') < 0;
+		return moment().diff(restartVerificationDate, 'days') <= 0;
    	}.property('verification.updated_at', 'restartVerificationDaysOffset', 'status'),
 
 	status: function() {

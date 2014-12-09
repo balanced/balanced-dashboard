@@ -40,4 +40,23 @@
 		}
 		return this;
 	};
+
+	moment.fn.subtractBusinessDays = function (days) {
+		var i = 0;
+        var weekOfMonth, diff, memorial, holiday;
+
+		while (i < days) {
+			this.subtract(1, 'day');
+
+			weekOfMonth = Math.ceil((this.date() + moment().startOf('month').day()) / 7);
+			holiday = 	_.contains(holidays['M'], this.format('MM/DD')) ||
+						_.contains(holidays['W'], this.format('M/'+ weekOfMonth +'/d'));
+
+			if (!holiday && this.day() > 0 && this.day() < 6) {
+				i++;
+
+			}
+		}
+		return this;
+	};
 }).call(this);
