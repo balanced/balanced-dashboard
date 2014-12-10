@@ -176,7 +176,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('default', ['clean', 'bower', 'copy', 'exec:ember_server']);
 	grunt.registerTask('test', ['bower:install', 'exec:ember_test']);
-	grunt.registerTask('build', ['exec:ember_build_production']);
+	grunt.registerTask('build', ['bower:install', 'exec:ember_build_production']);
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
 };
