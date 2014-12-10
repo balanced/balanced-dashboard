@@ -1,9 +1,14 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.1.7
 
 * Added full screen search and keyboard shortcuts
 * Fixed broken sorting on transactions table
+* Update dispute status from 'new' to 'needs attention' (#1554)
+* Display expected credit date in create credit modal (#1556)
+* Wrap text for API keys and webhook URIs (#1552)
+* Enable 'start verification' button after 3 business days or verification failure. (#1535)
+* Disable search shortcut trigger when the user is already typing in an input (#1564)
 
 ### 1.1.6
 
