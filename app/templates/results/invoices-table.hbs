@@ -32,7 +32,7 @@
 			</td>
 			<td class="status">
 				{{#link-to invoice.route_name invoice}}
-					<span {{bind-attr class="invoice.status"}}>{{invoice.status}}</span>
+					<span {{bind-attr class="invoice.status"}}>{{sentence-case invoice.status}}</span>
 				{{/link-to}}
 			</td>
 			<td>
