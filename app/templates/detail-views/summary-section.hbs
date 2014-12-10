@@ -7,7 +7,7 @@
 					Status
 				</dt>
 				<dd {{bind-attr class=":status view.status"}}>
-					<span>{{view.status}}</span>
+					<span>{{sentence-case view.status}}</span>
 
 					{{#if view.statusText}}
 						<p>

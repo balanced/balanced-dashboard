@@ -68,15 +68,16 @@
 				item=transaction
 				labelText=transaction.status
 				routeName=transaction.route_name
-				spanClassNamesBinding="transaction.status"
+				spanClassNames=transaction.status
 				classNames="status"
-				titleBinding="transaction.status"
+				isStatusCell=true
+				title=transaction.status
 			}}
 			{{view "tables/cells/linked-text-cell"
 				item=transaction
 				labelText=transaction.description
 				routeName=transaction.route_name
-				titleBinding="transaction.description"
+				title=transaction.description
 			}}
 
 			{{view "tables/cells/transaction/customer-cell" item=transaction}}

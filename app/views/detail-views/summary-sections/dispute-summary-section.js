@@ -4,7 +4,7 @@ var DisputeSummarySectionView = SummarySectionView.extend({
 	statusText: function() {
 		var status = this.get('model.status');
 
-		if (status === 'new') {
+		if (status === 'needs_attention') {
 			return 'Provide documentation to fight this dispute';
 		} else if (status === 'submitted') {
 			return 'This dispute is under review. Once the card holder issues a decision, the status will update to won or lost.';

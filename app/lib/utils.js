@@ -189,7 +189,7 @@ var Utils = Ember.Namespace.create({
 			return str;
 		}
 
-		return str.charAt(0).toUpperCase() + str.slice(1);
+		return str.charAt(0).toUpperCase() + str.slice(1).replace(UNDERSCORE_REPLACE_REGEX, ' ');
 	},
 
 	dollarsToCents: function(dollars) {

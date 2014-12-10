@@ -58,7 +58,7 @@ var Card = FundingInstrument.extend(Ember.Validations, {
 	route_name: 'cards',
 	postal_code: Ember.computed.alias('address.postal_code'),
 	appears_on_statement_max_length: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_CARD,
-	expected_credit_days_offset: Constants.EXPECTED_CREDIT_DAYS_OFFSET.DEBIT_CARD,
+	expected_credit_days_offset: Constants.EXPECTED_DAYS_OFFSET.CREDIT_DEBIT_CARD,
 	page_title: Ember.computed.readOnly('displayName'),
 
 	last_four: function() {

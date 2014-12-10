@@ -30,5 +30,5 @@ test('status', function() {
 	dispute.set('documents', []);
 	dispute.set('justitia_dispute.created_at', null);
 	dispute.set('status', 'pending');
-	equal(dispute.get('status'), 'new');
+	equal(dispute.get('status'), 'needs_attention');
 });

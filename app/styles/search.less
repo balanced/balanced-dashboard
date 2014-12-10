@@ -4,14 +4,6 @@
 @headerHeight: 70px;
 
 @searchActiveBackground: @gray6;
-@searchHeaderBackground: #d4e5e6;
-@searchCloseBackground: rgb(116, 175, 183);
-@searchBodyBackground: @gray1;
-@searchTimingBackground: @gray6;
-@searchTimingBackgroundHover: #000;
-@searchTimingColor: @black;
-@searchTimingColorHover: @white;
-@searchSelectorBackground: #62A0A8;
 @searchBorderWidth: 5px;
 @searchBorder: @searchBorderWidth solid @black;
 @searchIconWidth: 50px;
@@ -89,19 +81,18 @@
 .search-nav {
   &:extend(#marketplace-nav);
   top: 0;
-  background-color: @gray1;
+  background-color: @gray0;
   border-right: solid 1px @gray2;
 
   & > ul {
     margin-top: 100px;
 
     & > li {
-
       &.selected {
-        background-color: @gray2;
+        background-color: @gray1;
 
         a {
-          color: @gray6;
+          color: @gray7;
         }
       }
 

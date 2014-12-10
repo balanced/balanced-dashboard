@@ -251,8 +251,6 @@ header.results-label h3 {
   }
 
   td.status {
-    text-transform: capitalize;
-
     a > span:before {
       content: '';
       display: inline-block;
@@ -280,7 +278,7 @@ header.results-label h3 {
       }
     }
 
-    .new, .pending, .scheduled, .unverified, .unverifiable {
+    .needs_attention, .pending, .scheduled, .unverified, .unverifiable {
       &:before {
         background-color: @curryYellow80;
       }

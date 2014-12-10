@@ -118,7 +118,6 @@
   dd.status {
     & > span {
       .sl-sb;
-      text-transform: capitalize;
     }
 
     &:before {
@@ -144,7 +143,7 @@
       }
     }
 
-    &.new, &.pending, &.scheduled, &.unverified, &.unverifiable {
+    &.needs_attention, &.pending, &.scheduled, &.unverified, &.unverifiable {
       span {
         color: @curryYellow100;
       }
