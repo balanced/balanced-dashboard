@@ -1,10 +1,20 @@
 `import SummarySectionView from "./summary-section";`
 `import Utils from "balanced-dashboard/lib/utils";`
 
-BankAccountVerificationSummarySectionView = SummarySectionView.extend(
-	statusText: Ember.computed("model.verificationStatus", ->
-		verificationStatus = @get("model.verificationStatus.value")
+BankAccountStateSummarySectionView = SummarySectionView.extend(
+	isRemoved: Ember.computed.reads("model.isRemoved").readOnly()
 
+	verficationUpdateDate: Ember.computed.reads("model.verificationStatus.verification.updatedAt").readOnly()
+
+	status: Ember.computed("model.verificationStatus.value", "isRemoved", ->
+		if @get("isRemoved")
+			"removed"
+		else
+			@get("model.verificationStatus.value")
+	).readOnly()
+
+	statusText: Ember.computed("status", ->
+		verificationStatus = @get("status")
 		switch verificationStatus
 			when "loading"
 				"Loading status"
@@ -16,8 +26,10 @@ BankAccountVerificationSummarySectionView = SummarySectionView.extend(
 				"You may only credit to this bank account. This bank account is unverifiable because it's not associated with a customer."
 			when "failed"
 				'We could not verify your bank account. You may restart the verification process three business days after %@.'.fmt(Utils.humanReadableDateShort(this.get('model.verification.updated_at')))
+			else
+				undefined
 	)
 
 )
 
-`export default BankAccountVerificationSummarySectionView;`
+`export default BankAccountStateSummarySectionView;`
