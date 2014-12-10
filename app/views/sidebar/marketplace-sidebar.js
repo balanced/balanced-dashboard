@@ -27,19 +27,15 @@ var SIDEBAR_ITEMS = [{
 	routeName: "marketplace.logs",
 	isSelectedBinding: "controller.controllers.marketplace.logSelected"
 }, {
-	linkText: "My marketplace",
-	linkIcon: "icon-my-marketplace",
+	linkText: "Account statements",
+	linkIcon: "icon-invoices",
 	routeName: "marketplace.invoices",
-	isSelectedBinding: "controller.controllers.marketplace.myMarketplaceSelected",
-	children: [{
-		routeName: 'marketplace.invoices',
-		linkText: "Account statements",
-		isSelectedBinding: "controller.controllers.marketplace.invoiceSelected"
-	}, {
-		routeName: "marketplace.settings",
-		linkText: 'Settings',
-		isSelectedBinding: "controller.controllers.marketplace.settingSelected"
-	}]
+	isSelectedBinding: "controller.controllers.marketplace.invoiceSelected"
+}, {
+	linkText: "Settings",
+	linkIcon: "icon-settings",
+	routeName: "marketplace.settings",
+	isSelectedBinding: "controller.controllers.marketplace.settingSelected"
 }];
 
 
