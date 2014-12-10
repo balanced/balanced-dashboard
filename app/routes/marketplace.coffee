@@ -23,8 +23,9 @@ MarketplaceRoute = AuthRoute.extend
 
 	actions:
 		openSearch: (event) ->
-			event.preventDefault()
-			this.send("openModal", "modals/search-modal", @modelFor("marketplace"))
+			if !$(event.target).is(":input")
+				event.preventDefault()
+				this.send("openModal", "modals/search-modal", @modelFor("marketplace"))
 		submitRefundDebit: (refund) ->
 			@transitionTo('refunds', refund)
 		submitReverseCredit: (reversal) ->
