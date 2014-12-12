@@ -25,8 +25,10 @@ var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 		if (_.contains(this.get("classNames"), "current")) {
 			return '%@ (currently viewing)'.fmt(this.get('item.type_name'));
 		}
-		var status = Utils.capitalize(this.get('item.status')).toLowerCase();
-
+		var status = Utils.capitalize(this.get('item.status'));
+		if (status) {
+			status = status.toLowerCase();
+		}
 		var description = this.get('item.description') || '<span class="sl-none">(no description)</span>';
 		var transactionText = '%@ %@ for %@'.fmt(this.get('item.type_name'), status, description);
 
