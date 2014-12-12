@@ -11,13 +11,14 @@ var Dispute = Model.extend(Ember.Validations, {
 		if (this.get('status') !== 'pending' && this.get('status') !== 'needs_attention') {
 			return;
 		}
-
 		if (this.get('isEvidenceProvided')) {
 			this.set('status', 'submitted');
+		} else if (this.get('hasExpired')) {
+			this.set('status', 'expired');
 		} else {
 			this.set('status', 'needs_attention');
 		}
-	}.observes('isEvidenceProvided', 'status', 'justitia_dispute.isLoaded').on('init'),
+	}.observes('isEvidenceProvided', 'status', 'hasExpired').on('init'),
 
 	note: null,
 	tracking_number: null,

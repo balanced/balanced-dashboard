@@ -16,7 +16,7 @@
 		{{#unless view.isSmallTable}}
 			<th class="col-md-3 account"><span>Customer</span></th>
 		{{/unless}}
-		<th class="col-md-3 funding-instrument"><span>Payment method</span></th>
+		<th class="col-md-2 funding-instrument"><span>Payment method</span></th>
 		<th class="col-md-2 amount num has-filter">
 			{{#view "results/results-loader-sort-column-header" resultsLoader=view.loader field="amount" actionName="changeDisputesSort"}}
 				<span>Amount</span>
@@ -26,11 +26,7 @@
 </thead>
 
 {{#if view.loader.results.hasNextPage}}
-	{{#if view.isSmallTable}}
-		{{view "results/results-load-more" results=view.loader.results columns=4}}
-	{{else}}
-		{{view "results/results-load-more" results=view.loader.results columns=6}}
-	{{/if}}
+	{{view "results/results-load-more" results=view.loader.results columns=view.colspan}}
 {{/if}}
 
 <tbody>
