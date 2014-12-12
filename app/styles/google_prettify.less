@@ -1,21 +1,15 @@
-@code1a: @turmericYellow80;
-@code1b: #e31837;
-@code1c: #4e917a;
-@code1d: #006973;
-@code1e: #872175;
-@code1f: #627351;
-@code1g: #aa710A;
-
-.lit { color: @code1g; }
-.pun, .opn, .clo { color: @code1f; }
-.str, .atv { color: @code1e; }
-.kwd, .prettyprint .tag { color: @turmericYellow80; }
-.pln { color: @code1d; line-height: 21px; }
+.pun, .opn, .clo { color: @burntOrange100; }
+.lit, .str, .atv { color: @black; }
+.kwd, .prettyprint .tag { color: @black; }
+.pln { color: @black; line-height: 21px; }
 
 .prettyprint {
-  padding: 10px;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 40px;
   background-color: @white;
   border: 1px solid @gray2;
+  .border-radius(0);
 }
 /* Specify class=linenums on a pre to get line numbering */
 ol.linenums {

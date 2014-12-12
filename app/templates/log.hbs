@@ -1,40 +1,16 @@
-<h1 class="page-title ellipsis">{{model.message.request.method}} {{model.condensed_request_url}}</h1>
+{{view "page-navigations/log-page-navigation" model=model hideDateFilter=true}}
 
-<div class="key-value-display mb-large">
-	<dl class="dl-horizontal">
-		<dt>Date</dt>
-		<dd><span><time {{bind-attr datetime="model.created_at"}} {{bind-attr title="model.created_at"}}>{{human-readable-dateLong model.created_at}}</time></span></dd>
-		<dt>Method</dt>
-		<dd><span>{{model.message.request.method}}</span></dd>
-		<dt>URI</dt>
-		<dd><span>{{model.short_url}}</span></dd>
-		<dt>Status</dt>
-		<dd><span>{{colorize-status model.status_code}}</span></dd>
-		<dt>Category code</dt>
-		<dd>{{model.category_code}}</dd>
-		<dt>Description</dt>
-		<dd>{{model.description}}</dd>
-		<dt>Request ID</dt>
-		<dd data-property="request-id"><span>{{model.guru_id}}</span></dd>
-		<dt>IP address</dt>
-		<dd><span>{{model.message.request.headers.X-Real-Ip}} {{model.geo_ip}}</span></dd>
-		<dt>User-agent</dt>
-		<dd><span>{{model.message.request.headers.User-Agent}}</span></dd>
-	</dl>
-</div>
+{{#view "detail-views/body-panel"}}
+	{{#view "detail-views/api-model-panel" model=model}}
+		{{view detail-views/summary-sections/log-summary-section model=model}}
+		{{view "detail-views/description-lists/log-titled-key-values-section" model=model}}
+	{{/view}}
 
-<section class="request-info">
-	<header>
-		<h3>Request body</h3>
-	</header>
+	{{#view "detail-views/main-panel"}}
+		<h3>Request</h3>
+		{{view "pretty-print" contentBinding="model.message.request.payload"}}
 
-	{{view "pretty-print" contentBinding="model.message.request.payload"}}
-</section>
-
-<section class="mb-none response-info">
-	<header>
-		<h3>Response body</h3>
-	</header>
-
-	{{view "pretty-print" contentBinding="model.message.response.body"}}
-</section>
+		<h3>Response</h3>
+		{{view "pretty-print" contentBinding="model.message.response.body"}}
+	{{/view}}
+{{/view}}
