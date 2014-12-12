@@ -5,8 +5,8 @@
 {{/view}}
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		<ul class="nav-tabs">
-			<li><a class="balance">Order balance: {{escrow_balance}}<a></li>
+		<ul class="nav-tabs balance">
+			<li><a>Order balance: {{escrow_balance}}</a></li>
 		</ul>
 		{{view "detail-views/summary-sections/order-summary-section" model=model}}
 		{{view detail-views/description-lists/order-titled-key-values-section model=model}}

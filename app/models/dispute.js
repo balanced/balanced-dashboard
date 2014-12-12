@@ -7,17 +7,20 @@ var Dispute = Model.extend(Ember.Validations, {
 	events: Model.hasMany('events', 'event'),
 	documents: Model.hasMany('dispute_documents', 'dispute-document'),
 
-	statusDidChange: function() {
-		if (this.get('status') !== 'pending' && this.get('status') !== 'needs_attention') {
-			return;
-		}
+	serverStatus: Ember.computed.reads("__json.status"),
+	status: function() {
+		var serverStatus = this.get("serverStatus");
 
-		if (this.get('isEvidenceProvided')) {
-			this.set('status', 'submitted');
+		if (serverStatus !== 'pending') {
+			return serverStatus;
+		} else if (this.get('isEvidenceProvided')) {
+			return 'submitted';
+		} else if (this.get('hasExpired')) {
+			return 'expired';
 		} else {
-			this.set('status', 'needs_attention');
+			return 'needs_attention';
 		}
-	}.observes('isEvidenceProvided', 'status', 'justitia_dispute.isLoaded').on('init'),
+	}.property('serverStatus', 'isEvidenceProvided', 'hasExpired'),
 
 	note: null,
 	tracking_number: null,

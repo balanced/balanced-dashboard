@@ -1,9 +1,12 @@
 <thead>
 	<tr>
-		<th class="col-md-10 transaction">
+		<th class="col-md-6 transaction">
 			<span>Transaction</span>
 		</th>
-		<th class="col-md-2 amount num">
+		<th class="col-md-3 payment-method">
+			<span>Payment method</span>
+		</th>
+		<th class="col-md-3 amount num">
 			<span>Amount</span>
 		</th>
 	</tr>
@@ -12,7 +15,7 @@
 <tbody>
 	{{#if view.transaction}}
 		<tr>
-			<td class="grouped-transactions-container" colspan="2">
+			<td class="grouped-transactions-container" colspan="3">
 				{{#view "results/grouped-transactions-table"}}
 					{{#if view.parentView.transaction.dispute}}
 						{{view "results/grouped-transaction-row" item=view.parentView.transaction.dispute}}
@@ -56,7 +59,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="2" class="no-results">
+			<td colspan="3" class="no-results">
 				{{#if view.transaction.isLoaded}}
 					No transactions
 				{{else}}

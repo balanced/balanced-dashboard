@@ -19,10 +19,12 @@
 <tbody>
 	{{#each invoice in view.loader.results}}
 		<tr>
-			<td>
+			<td class="two-lines">
 				{{#link-to invoice.route_name invoice}}
-					<span class="primary">{{human-readable-date invoice.created_at}}</span>
-					<span class="secondary">{{human-readable-time invoice.created_at}}</span>
+					<span>
+						<span class="primary">{{human-readable-date invoice.created_at}}</span>
+						<span class="secondary">{{human-readable-time invoice.created_at}}</span>
+					</span>
 				{{/link-to}}
 			</td>
 			<td class="type">
@@ -32,7 +34,7 @@
 			</td>
 			<td class="status">
 				{{#link-to invoice.route_name invoice}}
-					<span {{bind-attr class="invoice.status"}}>{{invoice.status}}</span>
+					<span {{bind-attr class="invoice.status"}}>{{sentence-case invoice.status}}</span>
 				{{/link-to}}
 			</td>
 			<td>
@@ -40,16 +42,20 @@
 					{{invoice.sequence_number}}
 				{{/link-to}}
 			</td>
-			<td>
+			<td class="two-lines">
 				{{#link-to invoice.route_name invoice}}
-					<span class="primary">{{human-readable-date invoice.from_date}}</span>
-					<span class="secondary">5:00 PM</span>
+					<span>
+						<span class="primary">{{human-readable-date invoice.from_date}}</span>
+						<span class="secondary">5:00 PM</span>
+					</span>
 				{{/link-to}}
 			</td>
-			<td>
+			<td class="two-lines">
 				{{#link-to invoice.route_name invoice}}
-					<span class="primary">{{human-readable-date invoice.to_date}}</span>
-					<span class="secondary">5:00 PM</span>
+					<span>
+						<span class="primary">{{human-readable-date invoice.to_date}}</span>
+						<span class="secondary">5:00 PM</span>
+					</span>
 				{{/link-to}}
 			</td>
 			<td class="amount num">

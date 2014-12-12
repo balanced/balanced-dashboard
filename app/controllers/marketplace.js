@@ -29,7 +29,6 @@ var MarketplaceController = Ember.ObjectController.extend({
 
 	// Note: need this since bind-attr only works for a single property
 	paymentSelected: Ember.computed.or('transactionSelected', 'orderSelected'),
-	myMarketplaceSelected: Ember.computed.or('settingSelected', 'invoiceSelected'),
 
 	disputesResultsLoader: function() {
 		if (this.get("model")) {
