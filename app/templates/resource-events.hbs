@@ -20,7 +20,7 @@
 			}}
 			<td class="status">
 				{{#link-to 'events' event}}
-					<span {{bind-attr class="event.status"}}>{{event.status}}</span>
+					<span {{bind-attr class="event.status"}}>{{sentence-case event.status}}</span>
 				{{/link-to}}
 			</td>
 			<td>

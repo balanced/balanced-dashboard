@@ -17,7 +17,7 @@
 <tbody>
 	{{#each funding_instrument in view.loader.results}}
 		<tr {{bind-attr class="funding_instrument.isCard:type-card funding_instrument.isBankAccount:type-bank-account"}}>
-			<td>
+			<td class="two-lines">
 				{{#link-to funding_instrument.route_name funding_instrument}}<span {{bind-attr title="funding_instrument.description"}}>
 					<span class="primary">{{funding_instrument.last_four}} {{#if funding_instrument.brand}}{{funding_instrument.brand}}{{/if}}</span>
 					<span class="secondary">{{funding_instrument.funding_instrument_type}}</span>

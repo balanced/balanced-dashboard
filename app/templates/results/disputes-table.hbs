@@ -44,7 +44,7 @@
 				</span>{{/link-to}}
 			</td>
 			{{#unless view.isSmallTable}}
-				<td {{bind-attr class=":account dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
+				<td {{bind-attr class=":account :two-lines dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
 					{{#link-to dispute.route_name dispute}}
 						{{#if dispute.customer_display_me}}
 							<span class="primary">{{dispute.customer_display_me}}</span>
@@ -58,7 +58,7 @@
 				</td>
 			{{/unless}}
 
-			<td class="funding-instrument">
+			<td class="funding-instrument two-lines">
 				{{#link-to dispute.route_name dispute}}
 					<span {{bind-attr class="dispute.transaction.dasherized_funding_instrument_type"}}>
 						<span class="primary">{{dispute.last_four_with_name}}</span>

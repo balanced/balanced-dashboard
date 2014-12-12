@@ -6,13 +6,13 @@ var GroupedOrderRowView = GroupedTransactionRowView.extend({
 	spanClassNames: "order",
 
 	title: function() {
-		var description = this.get("item.description");
-		return description ? description : "No order description";
-	}.property("item.description"),
+		return this.get('item.description') || this.get('item.id');
+	}.property('item.description', 'item.id'),
 
 	primaryLabelText: function() {
-		return '%@: %@'.fmt(this.get('item.type_name'), this.get('item.description'));
-	}.property('item.type_name', 'item.description'),
+		var description = this.get('item.description') || this.get('item.id');
+		return '%@: %@'.fmt(this.get('item.type_name'), description);
+	}.property('item.type_name', 'item.description', 'item.id'),
 
 	secondaryLabelText: function () {
 		return Utils.humanReadableDateTime(this.get('item.created_at'));

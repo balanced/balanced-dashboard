@@ -20,7 +20,7 @@
 		<tr>
 			{{view "tables/cells/linked-date-cell" routeName=log.route_name date=log.created_at item=log}}
 			{{view "tables/cells/titled-linked-cell" routeName=log.route_name item=log labelText=log.endpoint classNames="endpoint"}}
-			{{view "tables/cells/logs/log-status-cell" item=log classNames="status two-line"}}
+			{{view "tables/cells/logs/log-status-cell" item=log classNames="status two-lines"}}
 			{{view "tables/cells/logs/log-description-cell" item=log}}
 		</tr>
 	{{else}}

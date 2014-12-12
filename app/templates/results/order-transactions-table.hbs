@@ -1,14 +1,17 @@
 <thead>
 	<tr>
 		<th class="col-md-3 customer"><span>Customer</span></th>
-		<th class="col-md-7 transaction"><span>Transaction</span></th>
+		<th class="col-md-4 transaction"><span>Transaction</span></th>
+		<th class="col-md-2 payment-method">
+			<span>Payment method</span>
+		</th>
 		<th class="col-md-2 amount num">
 			<span>Amount</span>
 		</th>
 	</tr>
 </thead>
 {{#if view.loader.results.hasNextPage}}
-	{{view "results/results-load-more" results=view.loader.results columns=5}}
+	{{view "results/results-load-more" results=view.loader.results columns=4}}
 {{/if}}
 
 <tbody>
@@ -20,9 +23,9 @@
 				primaryLabelText=customer_group.customer.display_me
 				secondaryLabelText=customer_group.customer.email
 				title=customer_group.customer.display_me_with_email
-				class="customer-group"
+				class="customer-group two-lines"
 			}}
-			<td class="grouped-transactions-container" colspan="2">
+			<td class="grouped-transactions-container" colspan="3">
 				{{#each transaction in customer_group.transactions}}
 					{{#view "results/grouped-transactions-table"}}
 						{{#if transaction.dispute}}
@@ -51,7 +54,7 @@
 			</td>
 	{{else}}
 		<tr>
-			<td colspan="3" class="no-results">
+			<td colspan="4" class="no-results">
 				{{#if view.loader.results.isLoaded}}
 					No transactions
 				{{else}}

@@ -1,7 +1,14 @@
-<td {{bind-attr class="view.item.route_name :status :two-line"}}>
+<td {{bind-attr class="view.item.route_name :status :two-lines :col-md-6"}}>
 	{{#link-to view.routeName view.item}}
 		<span {{bind-attr class="view.isBlank:sl-none view.spanClassNames"}}>
 			{{view.displayValue}}
+		</span>
+	{{/link-to}}
+</td>
+<td class="col-md-3 payment-method two-lines">
+	{{#link-to view.routeName view.item}}
+		<span {{bind-attr class="view.spanClassNames"}}>
+			{{view.paymentMethodText}}
 		</span>
 	{{/link-to}}
 </td>

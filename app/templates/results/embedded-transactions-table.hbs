@@ -1,7 +1,10 @@
 <thead>
 	<tr>
-		<th class="col-md-10 transaction">
+		<th class="col-md-7 transaction">
 			<span>Transaction</span>
+		</th>
+		<th class="col-md-3 payment-method">
+			<span>Payment method</span>
 		</th>
 		<th class="col-md-2 amount num">
 			<span>Amount</span>
@@ -9,13 +12,13 @@
 	</tr>
 </thead>
 {{#if view.loader.results.hasNextPage}}
-	{{view "results/results-load-more" results=view.loader.results columns=2}}
+	{{view "results/results-load-more" results=view.loader.results columns=3}}
 {{/if}}
 
 <tbody>
 	{{#each transaction in view.loader.results}}
 		<tr>
-			<td class="grouped-transactions-container" colspan="2">
+			<td class="grouped-transactions-container" colspan="3">
 				{{#view "results/grouped-transactions-table"}}
 					{{#if transaction.order}}
 						{{view "results/grouped-order-row" item=transaction.order}}
@@ -47,7 +50,7 @@
 		</tr>
 	{{else}}
 		<tr>
-			<td colspan="2" class="no-results">
+			<td colspan="3" class="no-results">
 				{{#if view.loader.results.isLoaded}}
 					No transactions
 				{{else}}

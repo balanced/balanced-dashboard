@@ -62,7 +62,7 @@ Constants.BANK_NAMES = {
 	'': ['Na', ', N.a.', 'N.a.', 'N. a.'],
 	'of': ['Of'],
 	'and': ['And'],
-	'U.S.': ['U.s.'],
+	'U.S.': ['U.s.', 'Us'],
 	'USAA': ['Usaa'],
 	'USA': ['Usa'],
 	'National': ['tional'],
