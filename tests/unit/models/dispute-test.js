@@ -23,12 +23,14 @@ test('status', function() {
 		actual: 'lost',
 		expected: 'lost'
 	}].forEach(function(status, index) {
-		dispute.set('status', status.actual);
+		dispute.set('serverStatus', status.actual);
 		equal(dispute.get('status'), status.expected);
 	});
 
 	dispute.set('documents', []);
 	dispute.set('justitia_dispute.created_at', null);
-	dispute.set('status', 'pending');
+	dispute.set('serverStatus', 'pending');
 	equal(dispute.get('status'), 'needs_attention');
+	dispute.set('respond_by', moment().subtract(3, 'days').toDate());
+	equal(dispute.get('status'), 'expired');
 });

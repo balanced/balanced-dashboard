@@ -41,8 +41,7 @@ test('viewing settings page as guest, can view api secret key', function() {
 				marketplace.set("owner_customer", customer);
 			});
 		})
-		.click('#marketplace-nav i.icon-my-marketplace')
-		.click('#marketplace-nav a:contains(Settings)')
+		.click('#marketplace-nav i.icon-settings')
 		.click(".api-key-secret a")
 		.then(function() {
 			var shownApiSecretKey = $.trim($('.api-key-secret').text());

@@ -10,7 +10,7 @@ test("#sidebarItemsDefinition", function() {
 		}
 	});
 
-	deepEqual(view.get("items.length"), 6);
+	deepEqual(view.get("items.length"), 7);
 	view.set("marketplace", null);
 	deepEqual(view.get("items.length"), 0);
 });
