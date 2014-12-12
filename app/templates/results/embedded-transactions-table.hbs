@@ -16,7 +16,7 @@
 {{/if}}
 
 <tbody>
-	{{#each transaction in view.loader.results}}
+	{{#each transaction in view.filteredResults}}
 		<tr>
 			<td class="grouped-transactions-container" colspan="3">
 				{{#view "results/grouped-transactions-table"}}
