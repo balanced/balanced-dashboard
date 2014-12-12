@@ -30,26 +30,43 @@ BaseFormFieldView = Ember.View.extend
 		return @getModelValue()
 	).property("model", "field")
 
-	getFullErrorMessagesFor: (fieldName) ->
-		@get("model.validationErrors.#{fieldName}.fullMessages") || []
+	init: ->
+		@_super()
 
-	errorMessages: ( ->
-		return @getFullErrorMessagesFor(@get("field"))
-	).property("model.validationErrors.allMessages.length", "model.validationErrors")
+	displayAlertErrors: ->
+		$('.alert-error').hide()
+		@$('.alert-error').css('display', 'inline')
 
-	isOneError: Ember.computed.equal("errorMessages.length", 1)
+	bindUpdateErrorMessages: ->
+		fieldName = @get("field")
+		if @get("isLegacyModel")
+			errorsListKeyName = "model.validationErrors.#{fieldName}.fullMessages"
+		else
+			errorsListKeyName = "model.errors.#{fieldName}"
 
-	isError: Ember.computed.gt("errorMessages.length", 0)
+		updateErrorMessages = =>
+			errorsList = @get(errorsListKeyName) || []
+			@set("errorMessages", errorsList)
+		updateErrorMessages()
+		@addObserver(errorsListKeyName, updateErrorMessages)
 
+
+	# Since we don't know the name of the property to
+	# observe ahead of time, create the observer when
+	# inserted into the DOM (we'll have the key then).
 	didInsertElement: ->
-		$('.form-group').hover( (event) ->
-			$('.alert-error').hide()
-			$(event.currentTarget).find('.alert-error').css('display', 'inline')
-		)
+		$el = @$()
+		$el.hover (event) =>
+			@displayAlertErrors()
+		$el.find('input').focus (event) =>
+			@displayAlertErrors()
 
-		$('.form-group input').focus( (event) ->
-			$('.alert-error').hide()
-			$(event.currentTarget).parents('.form-group').find('.alert-error').css('display', 'inline')
-		)
+		@bindUpdateErrorMessages()
+
+	isLegacyModel: Ember.computed.notEmpty("model.validationErrors")
+
+	errorMessages: Ember.computed(-> [])
+	isOneError: Ember.computed.equal("errorMessages.length", 1)
+	isError: Ember.computed.gt("errorMessages.length", 0)
 
 `export default BaseFormFieldView;`
