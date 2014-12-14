@@ -10,6 +10,8 @@ var AddCustomerModal = ModalBaseView.extend(Full, Form, Save, {
 	cancelButtonText: "Cancel",
 	submitButtonText: "Add",
 
+	successAlertText: "Your customer was created successfully",
+
 	onModelSaved: function(model) {
 		var Customer = this.get("container").lookupFactory("model:customer");
 		var controller = this.container.lookup("controller:marketplace");
@@ -20,9 +22,7 @@ var AddCustomerModal = ModalBaseView.extend(Full, Form, Save, {
 
 	actions: {
 		save: function() {
-			this.save(this.get("model")).then(function(model) {
-				return this.onModelSaved(model);
-			}.bind(this));
+			this.save(this.get("model"));
 		}
 	}
 });

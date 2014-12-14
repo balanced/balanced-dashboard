@@ -13,16 +13,6 @@
 
 {{#view "detail-views/body-panel"}}
 	{{#view "detail-views/api-model-panel" model=model}}
-		<p>Last four: {{bkModel.lastFour}}</p>
-		<p>Account Number: {{bkModel.account_number}}</p>
-
-		<p>Verification status: {{bkModel.verificationStatus.label}}</p>
-		<p>Can create verification: {{bkModel.canCreateVerificationStatus.label}}</p>
-		--
-		{{bkModel}}
-		ll
-		{{view detail-views/summary-sections/bank-account-state-summary-section model=bkModel}}
-		--
 		{{view detail-views/summary-sections/bank-account-summary-section model=model}}
 		{{view detail-views/description-lists/bank-account-titled-key-values-section model=model}}
 		{{view "meta-list" type=model}}

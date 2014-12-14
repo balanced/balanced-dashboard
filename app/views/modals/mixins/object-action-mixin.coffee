@@ -1,36 +1,39 @@
 `import Ember from "ember";`
 
-execute = (callback) ->
-	@getModalNotificationController().clearAlerts()
-	@set("isSaving", true)
-	callback
-		.then(successHandler(@), errorHandler(@))
-		.finally =>
-			@set("isSaving", false)
-
-successHandler = (view) ->
-	notificationsController = view.getModalNotificationController()
-	(model) ->
-		view.close()
-		Ember.RSVP.resolve(model)
-
-errorHandler = (view) ->
-	notificationsController = view.getModalNotificationController()
-	(model) ->
-		errors = Ember.A(model.get("errors._root"))
-		errors.forEach (message) ->
-			notificationsController.alertError(message)
-		Ember.RSVP.reject(model)
-
 ObjectActionMixin = Ember.Mixin.create(
 	isSaving: false
+
+	executeAction: (callback) ->
+		notificationsController = @getModalNotificationController()
+		notificationsController.clearAlerts()
+
+		successHandler = (model) =>
+			successAlertText = @get("successAlertText")
+			if !Ember.isBlank(successAlertText)
+				@getNotificationController().alertSuccess(successAlertText)
+
+			if Ember.typeOf(@onModelSaved) == "function"
+				@onModelSaved(model)
+
+			@close()
+			Ember.RSVP.resolve(model)
+
+		errorHandler = (model) ->
+			errors = Ember.A(model.get("errors._root"))
+			errors.forEach (message) ->
+				notificationsController.alertError(message)
+			Ember.RSVP.reject(model)
+
+		@set("isSaving", true)
+		callback()
+			.then(successHandler, errorHandler)
+			.finally(=> @set("isSaving", false))
+
 	delete: (model) ->
-		execute =>
-			model.delete()
+		@executeAction(=> model.delete())
 
 	save: (model) ->
-		execute =>
-			model.save()
+		@executeAction(=> model.save())
 )
 
 `export default ObjectActionMixin;`

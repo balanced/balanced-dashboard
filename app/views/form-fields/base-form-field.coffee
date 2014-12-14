@@ -30,19 +30,16 @@ BaseFormFieldView = Ember.View.extend
 		return @getModelValue()
 	).property("model", "field")
 
-	init: ->
-		@_super()
-
 	displayAlertErrors: ->
 		$('.alert-error').hide()
 		@$('.alert-error').css('display', 'inline')
 
 	bindUpdateErrorMessages: ->
 		fieldName = @get("field")
-		if @get("isLegacyModel")
-			errorsListKeyName = "model.validationErrors.#{fieldName}.fullMessages"
-		else
+		if !@get("isLegacyModel")
 			errorsListKeyName = "model.errors.#{fieldName}"
+		else
+			errorsListKeyName = "model.validationErrors.#{fieldName}.fullMessages"
 
 		updateErrorMessages = =>
 			errorsList = @get(errorsListKeyName) || []
@@ -63,7 +60,7 @@ BaseFormFieldView = Ember.View.extend
 
 		@bindUpdateErrorMessages()
 
-	isLegacyModel: Ember.computed.notEmpty("model.validationErrors")
+	isLegacyModel: Ember.computed.none("model.errors")
 
 	errorMessages: Ember.computed(-> [])
 	isOneError: Ember.computed.equal("errorMessages.length", 1)
