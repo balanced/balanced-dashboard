@@ -1,5 +1,10 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Fixing payments filter on marketplace settings page
+* Fixing style error on disputes table
+
 ### 1.1.7
 
 * Added full screen search and keyboard shortcuts
