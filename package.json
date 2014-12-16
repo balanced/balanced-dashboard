@@ -20,7 +20,6 @@
     "broccoli-static-compiler": "0.1.4",
     "ember-cli": "0.1.2",
     "ember-cli-coffeescript": "0.0.7",
-    "ember-cli-inject-live-reload": "^1.2.0",
     "ember-cli-less": "1.0.4",
     "ember-cli-qunit": "0.1.0",
     "ember-radio-buttons": "2.1.0",
