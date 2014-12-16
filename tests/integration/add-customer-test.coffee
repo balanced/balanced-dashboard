@@ -21,7 +21,7 @@ module 'Integration - AddCustomer',
 		Adapter = App.__container__.lookup("adapter:main")
 		Testing.setupMarketplace()
 	teardown: ->
-		Testing.restoreMethods(Adapter.create)
+		Testing.restoreMethods(Adapter.create, jQuery.ajax)
 		Ember.run(App, 'destroy')
 
 test 'can visit page', ->
@@ -29,8 +29,7 @@ test 'can visit page', ->
 		.checkText("#add-customer h2", "Add a customer")
 
 test 'can create person customer', ->
-	spy = sinon.spy(Adapter, "create")
-
+	$spy = null
 	visitAddACustomerModal()
 		.fillForm('#add-customer',
 			name: 'TEST',
@@ -48,13 +47,14 @@ test 'can create person customer', ->
 			meta_twitter: 'kleinsch',
 			country_code: "US"
 		)
+		.then ->
+			$spy = sinon.spy(jQuery, "ajax")
 		.click('button[name=modal-submit]')
 		.then ->
-			args = spy.firstCall.args
-			ok(spy.calledOnce)
-			equal(args[0], Customer)
-			deepEqual(args[1], "/customers")
-			matchesProperties(args[2].address,
+			args = $spy.firstCall.args
+			data = JSON.parse(args[1].data)
+			deepEqual(args[0], "https://api.balancedpayments.com/customers")
+			matchesProperties(data.address,
 				city: "oakland"
 				country_code: "US"
 				line1: "1234 main street"
@@ -62,11 +62,11 @@ test 'can create person customer', ->
 				postal_code: "94612"
 				state: "ca"
 			)
-			matchesProperties(args[2].meta,
+			matchesProperties(data.meta,
 				facebook: "kleinsch"
 				twitter: "kleinsch"
 			)
-			matchesProperties(args[2],
+			matchesProperties(data,
 				dob_month: "12"
 				dob_year: "1930"
 				email: "nick@example.com"
@@ -76,7 +76,7 @@ test 'can create person customer', ->
 			)
 
 test 'can create business customer', ->
-	spy = sinon.spy(Adapter, "create")
+	$spy = null
 	visitAddACustomerModal()
 		.fillForm('#add-customer',
 			business_name: 'Something Inc'
@@ -96,13 +96,14 @@ test 'can create business customer', ->
 			meta_twitter: 'kleinsch'
 			country_code: "US"
 		)
+		.then ->
+			$spy = sinon.spy(jQuery, "ajax")
 		.click('button[name=modal-submit]')
 		.then ->
-			args = spy.firstCall.args
-			ok(spy.calledOnce)
-			equal(args[0], Customer)
-			deepEqual(args[1], "/customers")
-			matchesProperties(args[2],
+			args = $spy.firstCall.args
+			data = JSON.parse(args[1].data)
+			deepEqual(args[0], "https://api.balancedpayments.com/customers")
+			matchesProperties(data,
 				name: "TEST"
 				business_name: "Something Inc"
 				dob_month: "12"
@@ -112,11 +113,11 @@ test 'can create business customer', ->
 				ssn_last4: "1234"
 				phone: "1231231234"
 			)
-			matchesProperties(args[2].meta,
+			matchesProperties(data.meta,
 				facebook: "kleinsch"
 				twitter: "kleinsch"
 			)
-			matchesProperties(args[2].address,
+			matchesProperties(data.address,
 				city: "oakland"
 				line1: "1234 main street"
 				line2: "Ste 200"
