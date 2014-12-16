@@ -43,10 +43,12 @@
 				<td {{bind-attr class=":account :two-lines dispute.transaction.customer::null-field"}} {{bind-attr title="dispute.customer_name_summary"}}>
 					{{#link-to dispute.route_name dispute}}
 						{{#if dispute.customer_display_me}}
-							<span class="primary">{{dispute.customer_display_me}}</span>
-							{{#if dispute.customer_email}}
-								<span class="secondary">{{dispute.customer_email}}</span>
-							{{/if}}
+							<span>
+								<span class="primary">{{dispute.customer_display_me}}</span>
+								{{#if dispute.customer_email}}
+									<span class="secondary">{{dispute.customer_email}}</span>
+								{{/if}}
+							</span>
 						{{else}}
 							<span class="sl-none">none</span>
 						{{/if}}
