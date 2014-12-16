@@ -29,6 +29,10 @@ var MarketplaceSettingsController = Ember.ObjectController.extend(actionsMixin, 
 	marketplaceSecret: Ember.computed.reads("userMarketplace.secret"),
 
 	actions: {
+		changePaymentMethodFilter: function(method) {
+			this.set("fundingInstrumentsResultsLoader.type", method);
+		},
+
 		reloadApiKeys: function() {
 			this.get("userMarketplace.marketplaceApiKeys").reload();
 		},
