@@ -19,9 +19,12 @@ ObjectActionMixin = Ember.Mixin.create(
 			Ember.RSVP.resolve(model)
 
 		errorHandler = (model) ->
-			Ember.A(model.get("errors._root")).forEach (message) ->
-				notificationsController.alertError(message)
-			Ember.RSVP.reject(model)
+			if !Ember.isBlank(model)
+				Ember.A(model.get("errors._root")).forEach (message) ->
+					notificationsController.alertError(message)
+				Ember.RSVP.reject(model)
+			else
+				Ember.RSVP.reject()
 
 		@set("isSaving", true)
 		callback()
