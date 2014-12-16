@@ -19,7 +19,7 @@ ObjectActionMixin = Ember.Mixin.create(
 			Ember.RSVP.resolve(model)
 
 		errorHandler = (model) ->
-			 Ember.A(model.get("errors._root")).forEach (message) ->
+			Ember.A(model.get("errors._root")).forEach (message) ->
 				notificationsController.alertError(message)
 			Ember.RSVP.reject(model)
 
