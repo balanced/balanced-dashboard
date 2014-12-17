@@ -44,7 +44,7 @@
 {{/view}}
 
 {{#view "form-fields/form-section" model=view.model sectionTitle="Tracking information" sectionDescription=view.trackingCodeText}}
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number" explanationText="FedEx or USPS tracking number only"}}
+	{{view "form-fields/text-form-field" model=view.model inputClassNames="full" inputName="tracking_number" field="tracking_number" labelText="Tracking number" explanationText="FedEx, UPS or USPS tracking number only"}}
 {{/view}}
 
 {{#view "form-fields/form-section" model=view.model sectionTitle="Evidence description" sectionDescription=view.noteText}}
