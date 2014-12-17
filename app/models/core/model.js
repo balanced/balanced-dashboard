@@ -345,7 +345,8 @@ Model.reopenClass({
 			var typeClass = TypeMappings.typeClass(defaultType);
 
 			var embeddedPropertyValue = this.get(embeddedProperty);
-			var uriPropertyValue = this.get(fullUriProperty);
+			var uriPropertyValue = this.get(fullUriProperty) || this.get(uriProperty);
+
 			if (embeddedPropertyValue) {
 				if (!embeddedPropertyValue._type) {
 					embeddedPropertyValue = typeClass.serializer.extractSingle(embeddedPropertyValue, typeClass) || embeddedPropertyValue;
