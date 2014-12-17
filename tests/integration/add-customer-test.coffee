@@ -21,7 +21,7 @@ module 'Integration - AddCustomer',
 		Adapter = App.__container__.lookup("adapter:main")
 		Testing.setupMarketplace()
 	teardown: ->
-		Testing.restoreMethods(Adapter.create, jQuery.ajax)
+		Testing.restoreMethods(jQuery.ajax)
 		Ember.run(App, 'destroy')
 
 test 'can visit page', ->
