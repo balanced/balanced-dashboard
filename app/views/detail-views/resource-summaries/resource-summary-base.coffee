@@ -33,12 +33,15 @@ ResourceSummaryBase = Ember.View.extend(
 	).property("model.created_at", "model.display_me_with_email", "model.last_four", "model.brand", "model.type_name", "model.formatted_bank_name")
 
 	isType: (typeNames...) ->
-		modelConstructor = @get("model").constructor
-		container = @get("container")
+		if @get("model")
+			modelConstructor = @get("model").constructor
+			container = @get("container")
 
-		typeNames.any (typeName) =>
-			type = container.lookupFactory("model:#{typeName}")
-			modelConstructor == type
+			return typeNames.any (typeName) =>
+				type = container.lookupFactory("model:#{typeName}")
+				modelConstructor == type
+		else
+			return false
 )
 
 `export default ResourceSummaryBase;`
