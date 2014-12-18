@@ -1,5 +1,14 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Showing related resource links on log page (#717)
+* Adding UPS tracking number to disputes
+* Fixing payments filter on marketplace settings page
+* Fixing style error on disputes table
+* Not displaying duplicate holds, refunds, and reversals on transactions timeline (#1569)
+* Using internal description for transaction list (#1565)
+
 ### 1.1.7
 
 * Added full screen search and keyboard shortcuts

@@ -76,9 +76,7 @@ var SummarySectionView = Ember.View.extend({
 			return {
 				className: 'icon-single-transaction',
 				title: 'Order',
-				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount_escrowed'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
+				resource: model
 			};
 		}
 
@@ -86,9 +84,7 @@ var SummarySectionView = Ember.View.extend({
 			return {
 				className: 'icon-single-transaction',
 				title: 'Hold',
-				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
+				resource: model
 			};
 		}
 
@@ -96,9 +92,7 @@ var SummarySectionView = Ember.View.extend({
 			return {
 				className: 'icon-single-transaction',
 				title: 'Debit',
-				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
+				resource: model
 			};
 		}
 
@@ -107,8 +101,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-single-transaction',
 				title: 'Credit',
 				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -119,8 +111,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-single-transaction',
 				title: title,
 				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -131,8 +121,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-single-transaction',
 				title: title,
 				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -141,8 +129,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-single-transaction',
 				title: 'Dispute',
 				resource: model,
-				value: '$%@'.fmt(Utils.centsToDollars(model.get('amount'))),
-				hoverValue: 'Created at %@'.fmt(Utils.humanReadableDateShort(model.created_at))
 			};
 		}
 
@@ -157,8 +143,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-customers',
 				title: title,
 				resource: model,
-				value: model.get('display_me'),
-				hoverValue: model.get('display_me_with_email')
 			};
 		}
 
@@ -167,8 +151,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-card',
 				title: model.get('type_name'),
 				resource: model,
-				value: '%@ %@'.fmt(model.get('last_four'), model.get('brand')),
-				hoverValue: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('brand'), model.get('type_name')),
 			};
 		}
 
@@ -177,8 +159,6 @@ var SummarySectionView = Ember.View.extend({
 				className: 'icon-bank-account',
 				title: model.get('type_name').split(' ')[0],
 				resource: model,
-				value: '%@ %@'.fmt(model.get('last_four'), model.get('formatted_bank_name')),
-				hoverValue: '%@ %@ (%@)'.fmt(model.get('last_four'), model.get('formatted_bank_name'), model.get('type_name'))
 			};
 		}
 	}
