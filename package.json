@@ -10,7 +10,7 @@
   "repository": "git@github.com:balanced/balanced-dashboard.git",
   "author": "Balanced <dev@balancedpayments.com>",
   "devDependencies": {
-    "balanced-addon-models": "balanced/balanced-addon-models",
+    "balanced-addon-models": "0.0.3",
     "body-parser": "1.2.0",
     "bower": "1.3.12",
     "broccoli-asset-rev": "0.3.1",
