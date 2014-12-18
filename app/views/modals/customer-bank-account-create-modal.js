@@ -20,44 +20,35 @@ var CustomerBankAccountCreateModalView = ModalBaseView.extend(Full, Form, Save, 
 		label: "Savings"
 	}],
 
-	model: function() {
-		return BankAccountValidatable.create({
-			name: '',
-			account_number: '',
-			routing_number: '',
-			account_type: 'checking'
+	onModelSaved: function(model) {
+		var controller = this.container.lookup("controller:marketplace");
+		controller.transitionToRoute(model.get("route_name"), model);
+	},
+
+	save: function(model) {
+		var customerId = this.get("customer.id");
+		return this.executeAction(function() {
+			return model.tokenizeAndCreate(customerId);
 		});
-	}.property(),
-
-	isSaving: Ember.computed.oneWay("model.isSaving"),
-
-	save: function() {
-		var self = this;
-		var fundingInstrument = this.get("model");
-		return fundingInstrument
-			.tokenizeAndCreate(this.get('customer.id'))
-			.then(function(model) {
-				self.close();
-				return model;
-			}, function(model) {
-				return Ember.RSVP.reject();
-			});
 	},
 
 	actions: {
 		save: function() {
-			var controller = this.get("controller");
-			this.save()
-				.then(function(model) {
-					controller.transitionToRoute(model.get("route_name"), model);
-				});
+			this.save(this.get("model"));
 		}
 	}
 });
 
 CustomerBankAccountCreateModalView.reopenClass({
 	open: function(customer) {
+		var bankAccount = BankAccountValidatable.create({
+			name: '',
+			account_number: '',
+			routing_number: '',
+			account_type: 'checking'
+		});
 		return this.create({
+			model: bankAccount,
 			customer: customer
 		});
 	}

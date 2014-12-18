@@ -11,6 +11,13 @@ var isSelected = function() {
 };
 
 var MarketplaceController = Ember.ObjectController.extend({
+	store: function() {
+		var Ajax = require("balanced-dashboard/lib/ajax").default;
+		var apiKey = Ember.get(Ajax, "defaultApiKey");
+		return this.container.lookupFactory("store:balanced").create({
+			apiKey: apiKey
+		});
+	}.property().volatile(),
 
 	needs: ['application', 'notification_center', 'sessions'],
 
