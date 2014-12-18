@@ -5,37 +5,40 @@ ObjectActionMixin = Ember.Mixin.create(
 
 	executeAction: (callback) ->
 		notificationsController = @getModalNotificationController()
-		notificationsController.clearAlerts()
+		if notificationsController
+			notificationsController.clearAlerts()
 
 		successHandler = (model) =>
 			successAlertText = @get("successAlertText")
 			if !Ember.isBlank(successAlertText)
-				@getNotificationController().alertSuccess(successAlertText)
+				@getNotificationController().alertSuccess successAlertText
 
 			if Ember.typeOf(@onModelSaved) == "function"
-				@onModelSaved(model)
+				@onModelSaved model
 
 			@close()
-			Ember.RSVP.resolve(model)
+			return Ember.RSVP.resolve(model)
 
 		errorHandler = (model) ->
 			if !Ember.isBlank(model)
 				Ember.A(model.get("errors._root")).forEach (message) ->
 					notificationsController.alertError(message)
-				Ember.RSVP.reject(model)
+				return Ember.RSVP.reject(model)
 			else
-				Ember.RSVP.reject()
+				return Ember.RSVP.reject()
 
 		@set("isSaving", true)
-		callback()
+		return callback()
 			.then(successHandler, errorHandler)
 			.finally(=> @set("isSaving", false))
 
 	delete: (model) ->
-		@executeAction(=> model.delete())
+		@executeAction ->
+			return model.delete()
 
 	save: (model) ->
-		@executeAction(=> model.save())
+		@executeAction ->
+			return model.save()
 )
 
 `export default ObjectActionMixin;`

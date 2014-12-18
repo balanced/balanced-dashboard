@@ -3,28 +3,30 @@ import { test, moduleFor } from 'ember-qunit';
 
 moduleFor("view:modals/customer-bank-account-create-modal", "View - CustomerBankAccountCreateModalView");
 
-test("#model", function() {
-	var BankAccount = require("balanced-dashboard/models/bank-account")['default'];
-	var subject = this.subject();
-	ok(subject.get("model") instanceof BankAccount);
-});
-
 test("#save", function() {
+	var transitionToRouteStub = sinon.stub();
 	var model = Ember.Object.create({
-		tokenizeAndCreate: sinon.stub().returns(Ember.RSVP.resolve(model)),
-		route_name: "cool_route"
+		route_name: "cool_route",
+	});
+	model.tokenizeAndCreate = sinon.stub().returns(Ember.RSVP.resolve(model));
+
+	var controller = Ember.Object.extend({
+		transitionToRoute: transitionToRouteStub
 	});
 
-	var view = this.subject({
+	var view = this.subject();
+	view.setProperties({
 		model: model,
 		customer: {
 			id: "xxxxxxxxxxxxxxx"
 		}
 	});
 
-	view.save()
+	view.container.register("controller:marketplace", controller)
+
+	view.save(model)
 		.then(function() {
-			ok(model.tokenizeAndCreate.calledOnce);
-			deepEqual(model.tokenizeAndCreate.firstCall.args, ["xxxxxxxxxxxxxxx"]);
+			deepEqual(transitionToRouteStub.args, [["cool_route", model]]);
+			deepEqual(model.tokenizeAndCreate.args, [["xxxxxxxxxxxxxxx"]]);
 		});
 });
