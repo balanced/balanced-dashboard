@@ -6,7 +6,7 @@
 					<i class="icon-status non-interactive"></i>
 					Status
 				</dt>
-				<dd {{bind-attr class=":status view.status"}}>
+				<dd {{bind-attr class=":status view.status view.statusClassName"}}>
 					<span>{{sentence-case view.status}}</span>
 
 					{{#if view.statusText}}

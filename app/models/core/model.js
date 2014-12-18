@@ -346,6 +346,7 @@ Model.reopenClass({
 
 			var embeddedPropertyValue = this.get(embeddedProperty);
 			var uriPropertyValue = this.get(fullUriProperty);
+
 			if (embeddedPropertyValue) {
 				if (!embeddedPropertyValue._type) {
 					embeddedPropertyValue = typeClass.serializer.extractSingle(embeddedPropertyValue, typeClass) || embeddedPropertyValue;
@@ -378,6 +379,18 @@ Model.reopenClass({
 				return embeddedPropertyValue;
 			}
 		}).property(embeddedProperty, fullUriProperty);
+	},
+
+	belongsToWithUri: function(defaultType, uriPropertyName) {
+		return Ember.computed(function() {
+			var typeClass = this.get("container").lookupFactory("model:" + defaultType);
+			var uriPropertyValue = this.get(uriPropertyName);
+			if (uriPropertyValue) {
+				return typeClass.find(uriPropertyValue);
+			} else {
+				return null;
+			}
+		}).property(uriPropertyName);
 	},
 
 	/*
