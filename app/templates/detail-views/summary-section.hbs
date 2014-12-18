@@ -44,19 +44,7 @@
 						</a>
 					{{/if}}
 				</dt>
-				<dd>
-					{{#if linkedResource.resource}}
-						{{#link-to linkedResource.resource.route_name linkedResource.resource title=linkedResource.hoverValue}}
-							{{linkedResource.value}}
-						{{/link-to}}
-					{{else}}
-						{{#if linkedResource.value}}
-							{{linkedResource.value}}
-						{{else}}
-							<span class="sl-none">none</span>
-						{{/if}}
-					{{/if}}
-				</dd>
+				{{view "detail-views/resource-summaries/resource-summary-base" model=linkedResource.resource hoverValue=linkedResource.hoverValue}}
 			{{/each}}
 		<dl>
 	</div>
