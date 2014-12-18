@@ -1,6 +1,6 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.1.8
 
 * Showing related resource links on log page (#717)
 * Adding UPS tracking number to disputes
