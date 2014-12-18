@@ -1,0 +1,9 @@
+{{#if view.model}}
+	{{#link-to view.model.route_name view.model title=view.hoverValue}}
+		{{view.value}}
+	{{/link-to}}
+{{else}} {{#if view.value}}
+	{{view.value}}
+{{else}}
+	<span class="sl-none">none</span>
+{{/if}} {{/if}}
