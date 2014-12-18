@@ -383,8 +383,6 @@ Model.reopenClass({
 
 	belongsToWithUri: function(defaultType, uriPropertyName) {
 		return Ember.computed(function() {
-			var attributeName = arguments[0];
-			var self = this;
 			var typeClass = this.get("container").lookupFactory("model:" + defaultType);
 			var uriPropertyValue = this.get(uriPropertyName);
 			if (uriPropertyValue) {
