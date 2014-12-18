@@ -56,9 +56,9 @@ test "#hoverValue", ->
 	executeTest null
 
 	setModel "dispute", created_at: "2014-12-18T19:12:24.373Z"
-	executeTest "Created at 12/18/2014, 11:12 AM"
-	setModel "refund", created_at: "2012-12-18T19:00:24.373Z"
-	executeTest "Created at 12/18/2012, 11:00 AM"
+	deepEqual(view.get("hoverValue").replace(/,.*$/, ""),  "Created at 12/18/2014")
+	setModel "refund", created_at: "2012-12-10T19:00:24.373Z"
+	deepEqual(view.get("hoverValue").replace(/,.*$/, ""),  "Created at 12/10/2012")
 
 	setModel "customer", display_me_with_email: "xxxxxxxxx"
 	executeTest "xxxxxxxxx"
