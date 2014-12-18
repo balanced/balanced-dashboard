@@ -22,7 +22,7 @@ test("#save", function() {
 		}
 	});
 
-	view.container.register("controller:marketplace", controller)
+	view.container.register("controller:marketplace", controller);
 
 	view.save(model)
 		.then(function() {
