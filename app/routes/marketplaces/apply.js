@@ -5,7 +5,7 @@ var MarketplacesApplyRoute = Ember.Route.extend({
 		transition.abort();
 
 		if (transition.sequence > 0) {
-			this.send("openModal", "register-flow/api-key-create-modal");
+			this.send("openModal", "modals/marketplace-application-create");
 		} else {
 			var self = this;
 			this.transitionTo("marketplaces.index")
