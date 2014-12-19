@@ -18,7 +18,7 @@ test('status', function() {
 		expected: 'won'
 	}, {
 		actual: 'pending',
-		expected: 'submitted'
+		expected: 'under_review'
 	}, {
 		actual: 'lost',
 		expected: 'lost'
@@ -32,5 +32,5 @@ test('status', function() {
 	dispute.set('serverStatus', 'pending');
 	equal(dispute.get('status'), 'needs_attention');
 	dispute.set('respond_by', moment().subtract(3, 'days').toDate());
-	equal(dispute.get('status'), 'expired');
+	equal(dispute.get('status'), 'under_review');
 });

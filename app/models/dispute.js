@@ -13,10 +13,8 @@ var Dispute = Model.extend(Ember.Validations, {
 
 		if (serverStatus !== 'pending') {
 			return serverStatus;
-		} else if (this.get('isEvidenceProvided')) {
-			return 'submitted';
-		} else if (this.get('hasExpired')) {
-			return 'expired';
+		} else if (this.get('isEvidenceProvided') || this.get('hasExpired')) {
+			return 'under_review';
 		} else {
 			return 'needs_attention';
 		}
