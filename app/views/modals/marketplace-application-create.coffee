@@ -13,9 +13,13 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 	title: "Apply for production access"
 	subtitle: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
 
-	isBusiness: true
+	isBusiness: Ember.computed.reads("model.isBusiness").readOnly()
 
-	businessTypes: [
+	model: Ember.computed(->
+		@get("container").lookup("controller:marketplace").get("store").build("api-key-production")
+	).readOnly()
+
+	marketplaceCategories: [
 		selectItem("Goods/services", "goods_services")
 		selectItem("Crowdfunding")
 		selectItem("Donations")
@@ -29,8 +33,15 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 		selectItem("Business: C-Corp", "ccorp")
 		selectItem("Business: Partnership", "partnership")
 		selectItem("Business: Sole proprietorship", "sole_proprietorship")
-		selectItem("Individual")
+		selectItem("Individual", "person")
 	]
+
+	onModelSaved: (model) ->
+		model.saveAsMarketplaceApplication()
+
+	actions:
+		save: ->
+			@save @get("model")
 )
 
 `export default MarketplaceApplicationCreateView;`

@@ -6,7 +6,8 @@
 		<li>Company representative who is a permanent U.S. resident</li>
 	</ul>
 {{/view}}
-{{#view "form-fields/form-section" businessTypes=view.businessTypes model=view.model sectionTitle="Business type"}}
+
+{{#view "form-fields/form-section" marketplaceCategories=view.marketplaceCategories model=view.model sectionTitle="Business type"}}
 	<p>Prohibited businesses include:</p>
 	<ul>
 		<li>Equity &amp; real estate crowdfunding</li>
@@ -18,47 +19,48 @@
 
 	{{view "form-fields/select-form-field"
 		model=view.model
-		content=view.businessTypes
+		content=view.marketplaceCategories
 		labelText="Business type"
-		field="merchant.type"
+		field="marketplaceCategory"
 	}}
 {{/view}}
-{{#view "form-fields/form-section" companyTypes=view.companyTypes model=view.model sectionTitle="Business type"}}
+{{#view "form-fields/form-section" companyTypes=view.companyTypes model=view.model sectionTitle="Company type"}}
 	{{view "form-fields/select-form-field"
 		model=view.model
 		content=view.companyTypes
 		labelText="Business type"
-		field="merchant.type"
+		field="businessType"
 	}}
 {{/view}}
 {{#if view.isBusiness}}
 	{{#view "form-fields/form-section" model=view.model sectionTitle="Business information"}}
 		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Legal business name"
-			field="legalBusinessName"
+			field="business.name"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Employee identification number"
-			field="employeeIdentificationNumber"
+			field="business.tax_id"
 		}}
 
 		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Business address"
-			field="businessAddress.line1"
+			field="business.address"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Postal code"
-			field="businessAddress.postalCode"
+			field="business.postal_code"
 		}}
 
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Incorporation date"
 			field="incorporationDate"
-			placeholder="MM / YYYY"
+			inputPlaceholder="MM / YYYY"
+			explanationText="MM / YYYY"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Phone number"
-			field="phoneNumber"
+			field="phone_number"
 		}}
 	{{/view}}
 {{/if}}
@@ -67,20 +69,28 @@
 		{{view "form-fields/text-form-field" model=view.model
 			inputClassNames="full"
 			labelText="Full legal name"
-			field="person.fullName"
+			field="person.name"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Date of birth"
-			field="person.birthDate"
+			field="person.dob"
 			placeholder="MM / DD / YYYY"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Postal code"
-			field="person.address.postalCode"
+			field="person.postal_code"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Social security number (last 4)"
-			field="person.socialSecurityNumber"
+			field="person.ssn_last_4"
 			explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
 		}}
+
+		{{#unless view.model.isBusiness}}
+			{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+				labelText="Phone number"
+				field="phone_number"
+				explanationText="(555) 555-5555"
+			}}
+		{{/unless}}
 {{/view}}
