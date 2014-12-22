@@ -34,63 +34,93 @@
 {{/view}}
 {{#if view.isBusiness}}
 	{{#view "form-fields/form-section" model=view.model sectionTitle="Business information"}}
-		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+		{{view "form-fields/text-form-field" model=view.model
+			inputClassNames="full"
 			labelText="Legal business name"
-			field="business.name"
+			field="businessName"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Employee identification number"
-			field="business.tax_id"
+			field="businessTaxId"
 		}}
 
 		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
 			labelText="Business address"
-			field="business.address"
+			field="businessAddressLine1"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Postal code"
-			field="business.postal_code"
+			field="businessAddressPostalCode"
 		}}
 
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Incorporation date"
-			field="incorporationDate"
-			inputPlaceholder="MM / YYYY"
+			field="businessIncorporationDate"
 			explanationText="MM / YYYY"
 		}}
 		{{view "form-fields/text-form-field" model=view.model
 			labelText="Phone number"
-			field="phone_number"
+			field="businessPhoneNumber"
 		}}
 	{{/view}}
 {{/if}}
 
 {{#view "form-fields/form-section" model=view.model sectionTitle="Personal information"}}
-		{{view "form-fields/text-form-field" model=view.model
-			inputClassNames="full"
-			labelText="Full legal name"
-			field="person.name"
-		}}
-		{{view "form-fields/text-form-field" model=view.model
-			labelText="Date of birth"
-			field="person.dob"
-			placeholder="MM / DD / YYYY"
-		}}
-		{{view "form-fields/text-form-field" model=view.model
-			labelText="Postal code"
-			field="person.postal_code"
-		}}
-		{{view "form-fields/text-form-field" model=view.model
-			labelText="Social security number (last 4)"
-			field="person.ssn_last_4"
-			explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
-		}}
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Full legal name"
+		field="personFullName"
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Date of birth"
+		field="personDateOfBirth"
+		explanationText="MM / YYYY"
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Email address"
+		field="personEmailAddress"
+	}}
 
-		{{#unless view.model.isBusiness}}
-			{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
-				labelText="Phone number"
-				field="phone_number"
-				explanationText="(555) 555-5555"
-			}}
-		{{/unless}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Postal code"
+		field="personAddressPostalCode"
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Social security number (last 4)"
+		field="personSsnLast4"
+		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Phone number"
+		field="personPhoneNumber"
+		explanationText="(555) 555-5555"
+	}}
+{{/view}}
+
+{{#view "form-fields/form-section" model=view.model sectionTitle="Marketplace information"}}
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Marketplace name"
+		field="marketplaceName"
+	}}
+
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Marketplace url"
+		field="marketplaceUrl"
+	}}
+
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Marketplace support email address"
+		field="marketplaceSupportEmailAddress"
+		explanationText="We will send a verification email to this address"
+	}}
+
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Marketplace support phone number"
+		field="marketplaceSupportPhoneNumber"
+	}}
 {{/view}}
