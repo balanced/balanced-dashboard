@@ -39,7 +39,6 @@ var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 		});
 	}.property(),
 
-
 	validate: function(bankAccountModel, initialDepositModel) {
 		var validate = function(model) {
 			if (model) {

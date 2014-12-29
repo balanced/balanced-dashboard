@@ -40,6 +40,8 @@ var ModalsContainerController = Ember.Controller.extend({
 				modalsContainer.removeObject(modalView);
 			});
 	},
+
+	currentModal: Ember.computed.reads("modalsContainer.firstObject")
 });
 
 export default ModalsContainerController;

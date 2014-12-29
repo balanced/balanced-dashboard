@@ -14,9 +14,9 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 	subtitle: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
 
 	isBusiness: Ember.computed.reads("model.isBusiness").readOnly()
-
 	model: Ember.computed(->
-		@get("container").lookup("controller:marketplace").get("store").build("api-key-production")
+		store = @container.lookupFactory("store:balanced").create()
+		store.build("api-key-production")
 	).readOnly()
 
 	marketplaceCategories: [
@@ -36,8 +36,19 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 		selectItem("Individual", "person")
 	]
 
+
 	onModelSaved: (model) ->
-		model.saveAsMarketplaceApplication()
+		@close()
+		marketplace = @container
+			.lookupFactory("store:balanced")
+			.create(apiKey: model.get("secret"))
+			.build("marketplace", name: "Cool")
+
+		controller = @container.lookup("controller:modals-container")
+		controller.open("modals/marketplace-create-modal", [{
+			marketplace: marketplace
+			apiKey: model
+		}])
 
 	actions:
 		save: ->

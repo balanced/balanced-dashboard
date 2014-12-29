@@ -77,11 +77,6 @@
 		explanationText="MM / YYYY"
 	}}
 	{{view "form-fields/text-form-field" model=view.model
-		labelText="Email address"
-		field="personEmailAddress"
-	}}
-
-	{{view "form-fields/text-form-field" model=view.model
 		labelText="Postal code"
 		field="personAddressPostalCode"
 	}}
@@ -95,32 +90,5 @@
 		labelText="Phone number"
 		field="personPhoneNumber"
 		explanationText="(555) 555-5555"
-	}}
-{{/view}}
-
-{{#view "form-fields/form-section" model=view.model sectionTitle="Marketplace information"}}
-	{{view "form-fields/text-form-field" model=view.model
-		inputClassNames="full"
-		labelText="Marketplace name"
-		field="marketplaceName"
-	}}
-
-	{{view "form-fields/text-form-field" model=view.model
-		inputClassNames="full"
-		labelText="Marketplace url"
-		field="marketplaceUrl"
-	}}
-
-	{{view "form-fields/text-form-field" model=view.model
-		inputClassNames="full"
-		labelText="Marketplace support email address"
-		field="marketplaceSupportEmailAddress"
-		explanationText="We will send a verification email to this address"
-	}}
-
-	{{view "form-fields/text-form-field" model=view.model
-		inputClassNames="full"
-		labelText="Marketplace support phone number"
-		field="marketplaceSupportPhoneNumber"
 	}}
 {{/view}}
