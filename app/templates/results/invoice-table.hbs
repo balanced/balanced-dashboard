@@ -9,7 +9,7 @@
 </thead>
 <tbody>
 	{{#each fee in view.fees}}
-		<tr class="dispute-details-row">
+		<tr {{bind-attr class="fee.className"}}>
 			{{#if fee.primary}}
 				<td class="two-lines">
 					<a href="#">
