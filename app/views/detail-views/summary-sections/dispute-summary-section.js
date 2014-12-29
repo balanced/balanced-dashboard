@@ -7,7 +7,7 @@ var DisputeSummarySectionView = SummarySectionView.extend({
 		if (status === 'needs_attention') {
 			return 'Provide documentation to fight this dispute';
 		} else if (status === 'under_review') {
-			return 'This dispute is under review. Once the card holder issues a decision, the status will update to won or lost.';
+			return 'This dispute is under review. Once the card reviewer issues a decision, the status will update to won or lost.';
 		}
 		return null;
 	}.property('model.status'),

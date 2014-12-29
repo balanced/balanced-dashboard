@@ -2,6 +2,7 @@ import SummarySectionView from "./summary-section";
 
 var LogSummarySectionView = SummarySectionView.extend({
 	status: Ember.computed.reads("model.status_code"),
+	statusText: Ember.computed.reads("model.additional"),
 	statusClassName: Ember.computed.reads("model.status"),
 
 	linkedResources: function() {

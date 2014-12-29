@@ -41,6 +41,7 @@ var Log = Model.extend({
 	}.property('status_rollup'),
 
 	status_code: Ember.computed.alias('message.response.status'),
+	additional: Ember.computed.reads('message.response.body.errors.0.additional'),
 
 	// Handling the difference between rev 1.0 and 1.1
 	category_code: Computed.orProperties('message.response.body.category_code', 'message.response.body.errors.0.category_code'),

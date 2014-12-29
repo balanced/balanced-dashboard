@@ -28,12 +28,6 @@
 						{{view "results/grouped-transaction-row" item=transaction.dispute}}
 					{{/if}}
 
-					{{view "results/grouped-transaction-row" item=transaction}}
-
-					{{#if transaction.hold}}
-						{{view "results/grouped-transaction-row" item=transaction.hold}}
-					{{/if}}
-
 					{{#if transaction.refunds}}
 						{{#each refund in transaction.refunds}}
 							{{view "results/grouped-transaction-row" item=refund}}
@@ -44,6 +38,12 @@
 						{{#each reversal in transaction.reversals}}
 							{{view "results/grouped-transaction-row" item=reversal}}
 						{{/each}}
+					{{/if}}
+
+					{{view "results/grouped-transaction-row" item=transaction}}
+
+					{{#if transaction.hold}}
+						{{view "results/grouped-transaction-row" item=transaction.hold}}
 					{{/if}}
 				{{/view}}
 			</td>

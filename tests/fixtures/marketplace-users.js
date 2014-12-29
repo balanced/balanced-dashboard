@@ -1,5 +1,27 @@
 export default [{
-	"uri": "/customers/CU1BD7AWUgJdo3fiilJRbzy"
+	"customers": [{
+		"name": "Test customer",
+		"links": {
+			"source": null,
+			"destination": null
+		},
+		"updated_at": "2000-07-31T08:07:50.435681Z",
+		"created_at": "2000-07-23T18:08:25.361018Z",
+		"dob_month": 4,
+		"id": "CU1BD7AWUgJdo3fiilJRbzy",
+		"phone": "",
+		"href": "/customers/CU1BD7AWUgJdo3fiilJRbzy",
+		"merchant_status": "underwritten",
+		"meta": {},
+		"dob_year": null,
+		"address": {},
+		"business_name": "Real Marketplace",
+		"ssn_last4": null,
+		"email": "",
+		"ein": ""
+	}],
+	"uri": "/customers/CU1BD7AWUgJdo3fiilJRbzy",
+	"links": {}
 }, {
 	"uri": "/callbacks",
 	"meta": {

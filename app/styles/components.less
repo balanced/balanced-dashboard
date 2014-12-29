@@ -15,7 +15,9 @@
   .page-title {
     .sl-lg-sb;
     margin: 0;
-    word-break: break-all;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .page-type {
@@ -28,12 +30,16 @@
     .sl-lg-sb;
     text-align: right;
     float: right;
+    margin: 0;
+
+    .page-type {
+      display: block;
+    }
   }
 
   .page-actions {
     float: right;
     text-align: right;
-    width: 325px;
     margin-top: 30px;
 
     .btn {
