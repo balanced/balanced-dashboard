@@ -19,6 +19,7 @@ var InvoiceTableView = ResultsTableView.extend({
 		var self = this;
 		return feesByType.map(function(fee) {
 			var rowObject = Ember.Object.create({
+				className: fee.className,
 				type: fee.type,
 				quantity: Utils.formatNumber(self.getValue(fee.quantity)),
 				txnAmount: Utils.formatCurrency(self.getValue(fee.txnAmount)),

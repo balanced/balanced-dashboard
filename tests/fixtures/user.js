@@ -20,14 +20,17 @@ export default [{
 		"marketplaces": [{
 			"id": "MP5m04ORxNlNDm1bB7nkcgSY",
 			"uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
+			"_type": "marketplace",
 			"name": "Nick's Test Marketplace"
 		}, {
 			"id": "TEST-MP3",
 			"uri": "/v1/marketplaces/TEST-MP3",
+			"_type": "marketplace",
 			"name": "Third Marketplace"
 		}, {
 			"id": "FIXTURED-MP4cOZZqeAelhxXQzljLLtgl",
 			"uri": "/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl",
+			"_type": "marketplace",
 			"name": "Real Marketplace"
 		}]
 	}
@@ -42,14 +45,17 @@ export default [{
 	"marketplaces": [{
 		"id": "MP5m04ORxNlNDm1bB7nkcgSY",
 		"uri": "/v1/marketplaces/MP5m04ORxNlNDm1bB7nkcgSY",
+		"_type": "marketplace",
 		"name": "Nick's Test Marketplace"
 	}, {
 		"id": "TEST-MP3",
 		"uri": "/v1/marketplaces/TEST-MP3",
+		"_type": "marketplace",
 		"name": "Third Marketplace"
 	}, {
 		"id": "FIXTURED-MP4cOZZqeAelhxXQzljLLtgl",
 		"uri": "/marketplaces/FIXTURED-MP4cOZZqeAelhxXQzljLLtgl",
+		"_type": "marketplace",
 		"name": "Real Marketplace"
 	}]
 }];

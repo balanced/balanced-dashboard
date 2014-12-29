@@ -1139,6 +1139,10 @@ export default [{
 	}
 }, {
 	// test transactions invoice
+	"links": {
+		"source": null,
+		"settlement": null
+	},
 	"invoices": [{
 		"_type": "invoice",
 		"_uris": {
@@ -1256,7 +1260,6 @@ export default [{
 			"uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/settlements/ST6KJstgXSFUJI4nJaZluQlG"
 		},
 		"settlements_uri": "/invoices/IVDOATjeyAPTJMJPnBR83uE/settlements",
-		"source": "/bank_accounts/123",
 		"state": "scheduled",
 		"total_fee": 1785,
 		"updated_at": "2013-01-11T02:01:51.739Z",
@@ -1369,7 +1372,6 @@ export default [{
 		"failed_credits_total_fee": 0,
 		"bank_account_debits_count": 0,
 		"sequence_number": 476,
-		"source": "/bank_accounts/123",
 	}],
 	"uri": "/invoices/IV7GSC6Fm4gx7UxjnmNXJ54X"
 }, {

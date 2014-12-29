@@ -76,7 +76,7 @@ test('transactions invoice detail page', function() {
 	visit(Testing.FIXTURE_MARKETPLACE_ROUTE + "/account_statements/IVDOATjeyAPTJMJPnBR83uE")
 		.checkElements({
 			".card-debit-details-row .total": "$2.45",
-			".card-debit-details-row td:eq(3)": "3.5% of txn amount + 29¢",
+			".card-debit-details-row td:eq(3)": "3.5% of txn + $0.29",
 			".bank-account-debit-details-row .total": "$0.00",
 			".succeeded-bank-account-credit-details-row .total": "$0.00",
 			".succeeded-card-credit-details-row .total": "$0.00",
