@@ -68,7 +68,7 @@ var Card = FundingInstrument.extend(Ember.Validations, {
 		} else {
 			return accountNumber.substr(accountNumber.length - 4, 4);
 		}
-	}.property('account_number'),
+	}.property('number'),
 
 	description: function() {
 		return '%@ %@'.fmt(
