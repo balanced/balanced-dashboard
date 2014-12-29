@@ -54,6 +54,10 @@ export default [{
 }, {
 	"uri": "/disputes?limit=50&sort=initiated_at%2Cdesc"
 }, {
+	"uri": "/disputes?limit=100&sort=initiated_at%2Cdesc&status=pending",
+	"meta": {},
+	"disputes": []
+}, {
 	"uri": "/disputes?limit=50&offset=0&q=&sort=initiated_at%2Cdesc&type=dispute"
 }, {
 	"uri": "/logs?limit=5&sort=created_at%2Cdesc&method%5Bin%5D=post%2Cput%2Cdelete&resource_id=DT2xOc7zAdgufK4XsCIW5QgD"
