@@ -36,13 +36,9 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 		selectItem("Individual", "person")
 	]
 
-
 	onModelSaved: (model) ->
 		@close()
-		marketplace = @container
-			.lookupFactory("store:balanced")
-			.create(apiKey: model.get("secret"))
-			.build("marketplace", name: "Cool")
+		marketplace = model.getStore().build("marketplace", name: "Cool")
 
 		controller = @container.lookup("controller:modals-container")
 		controller.open("modals/marketplace-create-modal", [{

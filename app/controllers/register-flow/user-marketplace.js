@@ -33,6 +33,11 @@ var UserMarketplaceController = Ember.Controller.extend({
 	findMarketplace: function(marketplaceHref) {
 		return this.get("container").lookupFactory("model:marketplace").find(marketplaceHref);
 	},
+
+	addApiKeyToCurrentUser: function(apiKeySecret) {
+		var user = this.container.lookup("auth:main").get("user");
+		return user.addSecret(apiKeySecret);
+	}
 });
 
 export default UserMarketplaceController;

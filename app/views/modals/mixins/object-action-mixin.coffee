@@ -5,6 +5,7 @@ ObjectActionMixin = Ember.Mixin.create(
 
 	onModelSaved: (model) ->
 		@close()
+		Ember.RSVP.resolve(model)
 
 	executeAction: (callback) ->
 		notificationsController = @getModalNotificationController()
@@ -15,9 +16,7 @@ ObjectActionMixin = Ember.Mixin.create(
 			successAlertText = @get("successAlertText")
 			if !Ember.isBlank(successAlertText)
 				@getNotificationController().alertSuccess successAlertText
-
 			@onModelSaved(model)
-			return Ember.RSVP.resolve(model)
 
 		errorHandler = (model) ->
 			if !Ember.isBlank(model)

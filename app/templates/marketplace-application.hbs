@@ -1,0 +1,10 @@
+<p>{{model.href}} - {{model.api_key}}</p>
+
+<p>{{model.status}}</p>
+<p>{{model.isAccepted}}</p>
+{{#if model.isAccepted}}
+	Your application has been accepted.
+	<p>
+		<a {{action "linkToUser" model}}>Click here to bind</a>
+	</p>
+{{/if}}
