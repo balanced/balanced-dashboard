@@ -1,4 +1,5 @@
 import Ember from "ember";
+import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";
 
 var ModalBaseView = Ember.View.extend({
 	layoutName: "modals/base-modal-layout",
@@ -11,6 +12,20 @@ var ModalBaseView = Ember.View.extend({
 
 	getModalNotificationController: function() {
 		return this.get("container").lookup("controller:modal-notification-center");
+	},
+
+	openModal: function(name) {
+		this.get("container")
+			.lookup("controller:modals-container")
+			.open(name, _.toArray(arguments).slice(1));
+	},
+
+	trackEvent: function(message, data) {
+		var attributes = AnalyticsLogger.flattenEventData({
+			formData: data,
+			user_email_address: this.container.lookup("auth:main").get("user.email_address")
+		});
+		AnalyticsLogger.trackEvent(message, attributes);
 	},
 
 	reposition: function() {

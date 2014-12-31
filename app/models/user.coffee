@@ -27,8 +27,7 @@ User = Model.extend Ember.Validations,
 	multiFactorAuthUri: Computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp')
 
 	addSecret: (apiKeySecret) ->
-		AuthConnection = require("balanced-dashboard/lib/connections/auth-connection").default
-		connection = AuthConnection.create()
+		connection = @getAuthConnection()
 
 		UserMarketplace = BalancedApp.__container__.lookupFactory("model:user-marketplace")
 
@@ -41,6 +40,14 @@ User = Model.extend Ember.Validations,
 			.then (response) =>
 				@reload().then ->
 					response.uri
+
+	getAuthConnection: ->
+		AuthConnection = require("balanced-dashboard/lib/connections/auth-connection").default
+		AuthConnection.create()
+
+	removeMarketplace: (marketplaceId) ->
+		uri = "#{ENV.BALANCED.AUTH}#{@get("uri")}/marketplaces/#{marketplaceId}"
+		@getAuthConnection().delete(uri)
 
 	validations:
 		existing_password:

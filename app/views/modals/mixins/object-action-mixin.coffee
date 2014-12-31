@@ -26,6 +26,7 @@ ObjectActionMixin = Ember.Mixin.create(
 			else
 				return Ember.RSVP.reject()
 
+
 		@set("isSaving", true)
 		return callback()
 			.then(successHandler, errorHandler)

@@ -40,6 +40,7 @@ var UserMarketplaceController = Ember.Controller.extend({
 		notification.alertInfo("Linking the marketplace to your user", {
 			name: "mp-linking"
 		});
+
 		return this.addApiKeyToCurrentUser(apiKeySecret)
 			.then(function(href) {
 				notification.clearNamedAlert("mp-linking");

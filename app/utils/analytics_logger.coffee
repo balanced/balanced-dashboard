@@ -63,6 +63,22 @@ AnalyticsLogger =
 			window.mixpanel.people.set(userProperties)
 		catch error
 
+	flattenEventData: (data) ->
+		result = {}
+
+		flattenObject = (object, prefix) ->
+			for key, value of object
+				switch Ember.typeOf(value)
+					when "array"
+						for arrayValue, index in value
+							result["#{prefix}#{key}.#{index}"] = arrayValue
+					when "object"
+						flattenObject(value, "#{prefix}#{key}.")
+					else
+						result["#{prefix}#{key}"] = value
+		flattenObject(data, "")
+		result
+
 	trackEvent: (name, data={}) ->
 		if (window.BalancedApp && window.BalancedApp.currentMarketplace)
 			mp = window.BalancedApp.currentMarketplace

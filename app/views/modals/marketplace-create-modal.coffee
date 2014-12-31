@@ -1,3 +1,4 @@
+`import AnalyticsLogger from "balanced-dashboard/utils/analytics_logger";`
 `import ModalBaseView from "./modal-base";`
 `import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";`
 `import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";`
@@ -14,38 +15,46 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 		@container.lookup("auth:main").get("user")
 
 	createMarketplaceApplication: ->
-		store = @container.lookup("store:balanced")
+		mp = @get("marketplace")
+		@trackEvent "Marketplace created", mp.getDebuggingProperties()
+		@trackEvent "Creating marketplace application", mp.getDebuggingProperties()
 
+		store = @container.lookup("store:balanced")
 		mpApplication = store.build("marketplace-application")
 		mpApplication.ingestUser @getUser()
 		mpApplication.ingestMarketplace @get("model")
 		mpApplication.ingestApiKey @get("apiKey")
+
 		mpApplication.save().then =>
+			@trackEvent "Gandalf application created", mpApplication.getDebuggingProperties()
 			@close()
-			@get("container")
-				.lookup("controller:application")
-				.transitionToRoute("marketplace-application", mpApplication)
+			@getNotificationController()
+				.alertSuccess("Marketplace application created id: #{mpApplication.get("href")}", name: "marketplace-application-success")
 
 	linkMarketplaceToUser: ->
-		apiKey = @get("apiKey")
-		store = apiKey.getStore()
-		controller = @container.lookup("controller:modals-container")
-		Marketplace = @container.lookupFactory("model:marketplace")
+		mp = @get("marketplace")
+
+		@trackEvent "Marketplace created", mp.getDebuggingProperties()
+		@trackEvent "Linking marketplace to user", mp.getDebuggingProperties()
 
 		@container
 			.lookup("controller:register-flow/user-marketplace")
-			.addApiKeyToCurrentUserFlow(apiKey.get("secret"))
-		@close()
+			.addApiKeyToCurrentUserFlow(@get("apiKey.secret"))
+			.then =>
+				@trackEvent "Marketplace linked to user", mp.getDebuggingProperties()
+				@close()
 
 	onModelSaved: (model) ->
-		# @createMarketplaceApplication()
-		@linkMarketplaceToUser()
+		@createMarketplaceApplication()
+		# @linkMarketplaceToUser()
 
 	model: Ember.computed.reads("marketplace").readOnly()
 
 	actions:
 		save: ->
-			@save @get("marketplace")
+			mp = @get("marketplace")
+			@trackEvent "User creating marketplace", mp.getDebuggingProperties()
+			@save mp
 )
 
 `export default MarketplaceCreateView;`

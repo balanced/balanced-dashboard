@@ -37,18 +37,20 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 	]
 
 	onModelSaved: (model) ->
+		@trackEvent "Api key created", model.getDebuggingProperties()
 		@close()
-		marketplace = model.getStore().build("marketplace", name: "Cool")
 
-		controller = @container.lookup("controller:modals-container")
-		controller.open("modals/marketplace-create-modal", [{
+		marketplace = model.getStore().build("marketplace", name: "Cool")
+		@openModal("modals/marketplace-create-modal",
 			marketplace: marketplace
 			apiKey: model
-		}])
+		)
 
 	actions:
 		save: ->
-			@save @get("model")
+			model = @get("model")
+			@trackEvent "Creating api key", model.getDebuggingProperties()
+			@save model
 )
 
 `export default MarketplaceApplicationCreateView;`
