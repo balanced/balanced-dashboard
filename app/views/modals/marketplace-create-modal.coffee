@@ -34,25 +34,12 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 
 		@container
 			.lookup("controller:register-flow/user-marketplace")
-			.addApiKeyToCurrentUser(apiKey.get("secret"))
-			.then (marketplaceHref) =>
-				store.fetchItem("marketplace", marketplaceHref)
-			.then (marketplace) =>
-				@close()
-				controller.open("modals/marketplace-bank-account-create-modal", [{
-					marketplace: marketplace
-					store: store
-					bankAccount: store.build("bank-account",
-						routing_number: "021000021"
-						account_number: "111111111"
-						name: "Carlos"
-						account_type: "savings"
-					)
-				}])
+			.addApiKeyToCurrentUserFlow(apiKey.get("secret"))
+		@close()
 
 	onModelSaved: (model) ->
-		@createMarketplaceApplication()
-		# @linkMarketplaceToUser()
+		# @createMarketplaceApplication()
+		@linkMarketplaceToUser()
 
 	model: Ember.computed.reads("marketplace").readOnly()
 

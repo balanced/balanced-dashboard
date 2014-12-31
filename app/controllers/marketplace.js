@@ -11,12 +11,16 @@ var isSelected = function() {
 };
 
 var MarketplaceController = Ember.ObjectController.extend({
-	store: function() {
+	getStore: function() {
 		var Ajax = require("balanced-dashboard/lib/ajax").default;
 		var apiKey = Ember.get(Ajax, "defaultApiKey");
 		return this.container.lookupFactory("store:balanced").create({
 			apiKey: apiKey
 		});
+	},
+
+	store: function() {
+		return this.getStore();
 	}.property().volatile(),
 
 	needs: ['application', 'notification_center', 'sessions'],
@@ -119,6 +123,43 @@ var MarketplaceController = Ember.ObjectController.extend({
 		}
 	}.observes("marketplace.isLoaded"),
 
+	updateOpenMarketplaceBankAccountCreateModal: function() {
+		var result = this.get("marketplaceBankAccounts");
+		var isLoaded = this.get("marketplaceBankAccounts.isLoaded");
+		if (this.get("isEmptyMarketplaceBankAccounts")) {
+			this.send("openMarketplaceBankAccountCreateModal");
+		}
+	}.observes("isEmptyMarketplaceBankAccounts"),
+
+	marketplaceBankAccounts: Ember.computed.reads("marketplace.owner_customer.bank_accounts").readOnly(),
+	isEmptyMarketplaceBankAccounts: function() {
+		var bankAccounts = this.get("marketplaceBankAccounts");
+		var isLoaded = this.get("marketplaceBankAccounts.isLoaded");
+
+		return (bankAccounts && isLoaded) ?
+			bankAccounts.get("length") === 0 :
+			null;
+	}.property("marketplaceBankAccounts", "marketplaceBankAccounts.isLoaded", "marketplaceBankAccounts.length"),
+
+	actions: {
+		openMarketplaceBankAccountCreateModal: function() {
+			var store = this.getStore();
+			var marketplace = this.get("marketplace");
+
+			this.container
+				.lookup("controller:modals-container")
+				.open("modals/marketplace-bank-account-create-modal", [{
+					marketplace: marketplace,
+					store: store,
+					bankAccount: store.build("bank-account", {
+						routing_number: "021000021",
+						account_number: "111111111",
+						name: "Carlos",
+						account_type: "savings"
+					})
+				}]);
+		},
+	}
 });
 
 export default MarketplaceController;

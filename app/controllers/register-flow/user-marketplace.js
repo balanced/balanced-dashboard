@@ -1,7 +1,7 @@
 import Ember from "ember";
 
 var UserMarketplaceController = Ember.Controller.extend({
-	needs: ["registration", "sessions"],
+	needs: ["registration", "sessions", "notification_center"],
 
 	pushMarketplace: function(user, secret, marketplaceHref) {
 		var self = this;
@@ -32,6 +32,24 @@ var UserMarketplaceController = Ember.Controller.extend({
 
 	findMarketplace: function(marketplaceHref) {
 		return this.get("container").lookupFactory("model:marketplace").find(marketplaceHref);
+	},
+
+	addApiKeyToCurrentUserFlow: function(apiKeySecret) {
+		var self = this;
+		var notification = this.get("controllers.notification_center");
+		notification.alertInfo("Linking the marketplace to your user", {
+			name: "mp-linking"
+		});
+		return this.addApiKeyToCurrentUser(apiKeySecret)
+			.then(function(href) {
+				notification.clearNamedAlert("mp-linking");
+				return self.get("container")
+					.lookupFactory("model:marketplace")
+					.find(href);
+			})
+			.then(function(marketplace) {
+				self.transitionToRoute("marketplace", marketplace);
+			});
 	},
 
 	addApiKeyToCurrentUser: function(apiKeySecret) {
