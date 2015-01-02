@@ -69,7 +69,13 @@ SearchModalView = ModalBaseView.extend(Search,
 
 	actions:
 		changeSearchTab: (tabName) ->
-			@set "selectedTabType", tabName
+			@set("selectedTabType", tabName)
+
+		changeDateFilter: (startTime, endTime) ->
+			@get("resultsLoader").setProperties(
+				endTime: endTime
+				startTime: startTime
+			)
 )
 
 SearchModalView.reopenClass(

@@ -1,20 +1,25 @@
 `import { test, moduleFor } from "ember-qunit";`
 
-moduleFor "view:detail-views/resource-summaries/resource-summary-base", "View - ResourceSummaryBase"
+moduleFor("view:detail-views/resource-summaries/resource-summary-base", "View - ResourceSummaryBase", {},
+	(container) ->
+		typeNames = ["dispute", "reversal", "refund", "credit", "debit", "hold", "order", "customer", "card", "bank-account"]
+		for typeName in typeNames
+			container.register("model:#{typeName}", Ember.Object.extend(), singleton: false, instantiate: true)
+)
+
+generateSetModel = (view) ->
+	setModel = (modelType, attributes) ->
+		Ember.run ->
+			model = view.get("container").lookup("model:#{modelType}")
+			model.setProperties attributes
+			view.set("model", model)
+			console.log modelType, attributes
 
 test "#value", ->
 	view = @subject()
-	register = (typeNames...) ->
-		for typeName in typeNames
-			view.get("container").register("model:#{typeName}", Ember.Object.extend())
-	register("dispute", "reversal", "refund", "credit", "debit", "hold", "order", "customer", "card", "bank-account")
-
-	setModel = (modelType, attributes) ->
-		model = view.get("container").lookup("model:#{modelType}")
-		model.setProperties attributes
-		view.set("model", model)
-
+	setModel = generateSetModel(view)
 	executeTest = (expectation) ->
+		console.log "expectation", expectation
 		deepEqual(view.get("value"), expectation)
 
 	executeTest(null)
@@ -40,17 +45,11 @@ test "#value", ->
 
 test "#hoverValue", ->
 	view = @subject()
-	register = (typeNames...) ->
-		for typeName in typeNames
-			view.get("container").register("model:#{typeName}", Ember.Object.extend())
-	register("dispute", "reversal", "refund", "credit", "debit", "hold", "order", "customer", "card", "bank-account")
 
-	setModel = (modelType, attributes) ->
-		model = view.get("container").lookup("model:#{modelType}")
-		model.setProperties attributes
-		view.set("model", model)
+	setModel = generateSetModel(view)
 
 	executeTest = (expectation) ->
+		console.log "expectation", expectation
 		deepEqual(view.get("hoverValue"), expectation)
 
 	executeTest null
