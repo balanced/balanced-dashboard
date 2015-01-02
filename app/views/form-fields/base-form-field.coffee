@@ -59,6 +59,9 @@ BaseFormFieldView = Ember.View.extend
 		$el.find(":input").blur (event) =>
 			@set("isCanShowValidationErrors", true)
 
+		$el.closest("form").submit =>
+			@set("isCanShowValidationErrors", true)
+
 		@bindUpdateErrorMessages()
 
 	isLegacyModel: Ember.computed.none("model.errors")
