@@ -24,7 +24,7 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 		selectItem("Crowdfunding")
 		selectItem("Donations")
 		selectItem("E-commerce", "ecommerce")
-		selectItem("Other (specify)", "other")
+		selectItem("Other", "other")
 	]
 
 	companyTypes: [

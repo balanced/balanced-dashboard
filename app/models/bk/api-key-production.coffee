@@ -3,14 +3,9 @@
 
 ApiKeyProduction = BkApiKeyProduction.extend
 	marketplaceCategory: "goods_services"
-	# companyType: "llc"
-	businessType: "person"
+	businessType: "llc"
 
-	personFullName: "Carlos"
-	personDateOfBirth: "10 / 1984"
-	personAddressPostalCode: "94609"
-	personSsnLast4: "1122"
-	personPhoneNumber: "777 888 9999"
+	isProduction: false
 
 	getStore: ->
 		@get("container")

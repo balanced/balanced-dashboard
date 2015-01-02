@@ -25,11 +25,14 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 		mpApplication.ingestMarketplace @get("model")
 		mpApplication.ingestApiKey @get("apiKey")
 
-		mpApplication.save().then =>
-			@trackEvent "Gandalf application created", mpApplication.getDebuggingProperties()
-			@close()
-			@getNotificationController()
-				.alertSuccess("Marketplace application created id: #{mpApplication.get("href")}", name: "marketplace-application-success")
+		mpApplication.save()
+			.then =>
+				@trackEvent "Gandalf application created", mpApplication.getDebuggingProperties()
+				@close()
+				@getNotificationController()
+					.alertSuccess("Marketplace application created id: #{mpApplication.get("href")}", name: "marketplace-application-success")
+			.finally =>
+				@set("isSaving", false)
 
 	linkMarketplaceToUser: ->
 		mp = @get("marketplace")

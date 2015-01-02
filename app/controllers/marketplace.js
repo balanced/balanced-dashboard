@@ -151,12 +151,7 @@ var MarketplaceController = Ember.ObjectController.extend({
 				.open("modals/marketplace-bank-account-create-modal", [{
 					marketplace: marketplace,
 					store: store,
-					bankAccount: store.build("bank-account", {
-						routing_number: "021000021",
-						account_number: "111111111",
-						name: "Carlos",
-						account_type: "savings"
-					})
+					bankAccount: store.build("bank-account")
 				}]);
 		},
 	}
