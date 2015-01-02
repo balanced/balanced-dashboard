@@ -4,7 +4,7 @@ var MarketplaceSearchController = Ember.ObjectController.extend({
 
 	getModal: function() {
 		var c = this.container.lookup("controller:modals-container");
-		return c.get("modalsContainer").objectAt(0)
+		return c.get("modalsContainer").objectAt(0);
 	},
 
 	actions: {
