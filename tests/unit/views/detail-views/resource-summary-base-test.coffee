@@ -13,13 +13,11 @@ generateSetModel = (view) ->
 			model = view.get("container").lookup("model:#{modelType}")
 			model.setProperties attributes
 			view.set("model", model)
-			console.log modelType, attributes
 
 test "#value", ->
 	view = @subject()
 	setModel = generateSetModel(view)
 	executeTest = (expectation) ->
-		console.log "expectation", expectation
 		deepEqual(view.get("value"), expectation)
 
 	executeTest(null)
@@ -49,7 +47,6 @@ test "#hoverValue", ->
 	setModel = generateSetModel(view)
 
 	executeTest = (expectation) ->
-		console.log "expectation", expectation
 		deepEqual(view.get("hoverValue"), expectation)
 
 	executeTest null
