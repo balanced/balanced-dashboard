@@ -4,16 +4,25 @@ import TabView from "./tab";
 var OrderTabView = TabView.extend({
 	tabs: function(){
 		return [
-			defineFilter("Charges", "charges", true),
-			defineFilter("Payouts", "payouts"),
+			defineFilter("Activity", "activity", true),
 			defineFilter("Logs & Events", "logsEvents"),
 		];
 	}.property(),
 
 	actions: {
 		setTab: function(tabLink) {
-			var model = this.get("model");
-			model.set("selectedTab", tabLink.value);
+			if (tabLink.value === "activity") {
+				this.get("parentView").setProperties({
+					"isActivityTabSelected": true,
+					"isLogsEventsTabSelected": false
+				});
+			} else if (tabLink.value === "logsEvents") {
+				this.get("parentView").setProperties({
+					"isActivityTabSelected": false,
+					"isLogsEventsTabSelected": true
+				});
+			}
+
 			this.toggleSelected(tabLink);
 		}
 	}

@@ -74,23 +74,16 @@ test('displays order balance and tabs', function() {
 	visit(Testing.ORDER_ROUTE)
 		.checkElements({
 			".side-panel .balance": 1,
-			".main-panel .nav-tabs li": 3
+			".main-panel .nav-tabs li": 2
 		});
 });
 
 test('displays correct number of charges and payouts per customer', function() {
 	visit(Testing.ORDER_ROUTE)
 		.checkElements({
-			".customer-group": 1,
-			".grouped-transactions-container": 1,
-			".grouped-transactions-container .grouped-transactions": 1,
-			".grouped-transactions-container .grouped-transactions tr": 2
-		})
-		.click(".main-panel .nav-tabs li a:contains(Payouts)")
-		.checkElements({
-			".customer-group": 1,
-			".grouped-transactions-container": 1,
-			".grouped-transactions-container .grouped-transactions": 2,
-			".grouped-transactions-container .grouped-transactions tr": 3
+			".customer-group": 2,
+			".grouped-transactions-container": 2,
+			".grouped-transactions-container .grouped-transactions": 3,
+			".grouped-transactions-container .grouped-transactions tr": 5
 		});
 });

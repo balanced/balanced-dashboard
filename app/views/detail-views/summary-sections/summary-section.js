@@ -14,7 +14,7 @@ var SummarySectionView = Ember.View.extend({
 			var resource = self.get(resourceName);
 
 			if (resourceName === 'model.description') {
-				return self.generateResource(resource, resourceName);
+				return self.generateDescriptionResource(self.get("model"));
 			}
 
 			if (!resource) {
@@ -23,10 +23,6 @@ var SummarySectionView = Ember.View.extend({
 
 			if (_.isArray(resource.content)) {
 				resource = resource.content;
-			}
-
-			if (_.isString(resource)) {
-				return self.generateResource(resource, resourceName);
 			}
 
 			if (resource.length > 0) {
@@ -43,16 +39,14 @@ var SummarySectionView = Ember.View.extend({
 		return _.flatten(result).compact();
 	},
 
-	generateResource: function(value, resourceName) {
-		if (resourceName === "model.description") {
-			return {
-				className: 'icon-description',
-				title: 'Internal description',
-				value: value,
-				hoverValue: value,
-				editModelModalClass: this.get("container").lookupFactory("view:modals/edit-description-modal")
-			};
-		}
+	generateDescriptionResource: function(model) {
+		return {
+			className: 'icon-description',
+			title: 'Internal description',
+			resource: model,
+			isDescription: true,
+			editModelModalClass: this.get("container").lookupFactory("view:modals/edit-description-modal")
+		};
 	},
 
 	generateResourceLink: function(parentModel, model) {

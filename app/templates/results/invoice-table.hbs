@@ -1,0 +1,47 @@
+<thead>
+	<tr>
+		<th class="col-md-2"><span>Type</span></th>
+		<th class="col-md-1 num"><span>Quantity</span></th>
+		<th class="col-md-2 num"><span>Txn amount</span></th>
+		<th class="col-md-3"><span>Fee</span></th>
+		<th class="col-md-2 num total"><span>Amount</span></th>
+	</tr>
+</thead>
+<tbody>
+	{{#each fee in view.fees}}
+		<tr {{bind-attr class="fee.className"}}>
+			{{#if fee.primary}}
+				<td class="two-lines">
+					<a href="#">
+						<span>
+							<span class="primary">{{fee.primary}}</span>
+							<span class="secondary">{{fee.secondary}}</span>
+						</span>
+					</a>
+				</td>
+			{{else}}
+				<td>
+					<span>{{fee.type}}</span>
+				</td>
+			{{/if}}
+			<td class="num">
+				<span>{{fee.quantity}}</span>
+			</td>
+			<td class="num">
+				<span>{{fee.txnAmount}}</span>
+			</td>
+			<td class="sl-none">
+				<span>{{fee.fee}}</span>
+			</td>
+			<td class="num total">
+				<span>{{fee.totalFee}}</span>
+			</td>
+		</tr>
+	{{/each}}
+</tbody>
+<tfoot>
+	<tr class="subtotal-row">
+		<td class="sl-sb" colspan="4"><span>Total fees</span></td>
+		<td class="num total sl-sb"><span>{{format-currency subtotal}}</span></td>
+	</tr>
+</tfoot>

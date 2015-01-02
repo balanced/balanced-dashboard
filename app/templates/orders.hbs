@@ -16,13 +16,13 @@
 	{{#view "detail-views/order-main-panel" model=model}}
 		{{view "detail-views/tabs/order-tab" model=model}}
 
-		{{#if view.isChargesTabSelected}}
+		{{#if view.isActivityTabSelected}}
+			<h3>Charges</h3>
 			<div class="results table-responsive">
 				{{view "results/order-transactions-table" loader=debitsResultsLoader customers=model.buyers}}
 			</div>
-		{{/if}}
 
-		{{#if view.isPayoutsTabSelected}}
+			<h3>Payouts</h3>
 			<div class="results table-responsive">
 				{{view "results/order-transactions-table" loader=creditsResultsLoader customers=model.seller}}
 			</div>

@@ -5,6 +5,8 @@ ResourceSummaryBase = Ember.View.extend(
 	templateName: "detail-views/resource-summary"
 	tagName: "dd"
 
+	hasDescription: Ember.computed.notEmpty("model.description")
+
 	value: (->
 		model = @get("model")
 		if @isType("order")
