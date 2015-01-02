@@ -10,7 +10,7 @@ var TransactionsTypeSearchResultsDropdownFilterView = SearchResultsDropdownFilte
 			defineFilter("All", "transaction", true),
 			defineFilter("Credits", "credit"),
 			defineFilter("Debits", "debit"),
-			defineFilter("Holds", "hold"),
+			defineFilter("Holds", "card_hold"),
 			defineFilter("Refunds", "refund"),
 			defineFilter("Reversals", "reversal")
 		];

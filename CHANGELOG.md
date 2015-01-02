@@ -1,5 +1,15 @@
 # Balanced Dashboard Changelog
 
+### 1.1.9
+
+* Fixing filtering on search results.
+* Fixing "Card name on card log page shows 'undefined'" (#1603)
+* Fixes #1588: Do not truncate values in the side panel
+* Fixes #1591: Display transaction failure reason in log page
+* Fixes #1597: Reorder associated transactions
+* Fixes #1598: Align buttons correctly
+* Fixes #1601: Update dispute text
+
 ### 1.1.8
 
 * Showing related resource links on log page (#717)
