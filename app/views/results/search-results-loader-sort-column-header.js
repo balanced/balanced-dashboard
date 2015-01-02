@@ -22,8 +22,8 @@ var SearchResultsLoaderSortColumnHeaderView = ResultsLoaderSortColumnHeaderView.
 	}.property("isCurrentColumn", "sortDirection"),
 
 	click: function(e) {
-		var field = this.get("field");
-		this.get("parentView.parentView").send(this.get("actionName"), field);
+		var controller = this.container.lookup("controller:marketplace/search");
+		controller.send(this.get("actionName"), this.get("field"));
 	}
 });
 

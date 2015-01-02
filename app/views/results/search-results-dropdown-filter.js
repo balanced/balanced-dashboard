@@ -13,9 +13,9 @@ var SearchResultsDropdownFilterView = ResultsDropdownFilterView.extend({
 
 	actions: {
 		setFilter: function(filterLink) {
+			var controller = this.container.lookup("controller:marketplace/search");
 			this.toggleSelected(filterLink);
-			// this.get("parentView.resultsLoader").send(this.get("actionName"), filterLink.value);
-			this.get("parentView").send(this.get("actionName"), filterLink.value);
+			controller.send(this.get("actionName"), filterLink.value);
 		}
 	}
 });

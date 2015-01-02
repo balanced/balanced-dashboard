@@ -69,27 +69,7 @@ SearchModalView = ModalBaseView.extend(Search,
 
 	actions:
 		changeSearchTab: (tabName) ->
-			@set("selectedTabType", tabName)
-
-		changeTypeFilter: (type) ->
-			if type == "transaction"
-				type = null
-			@set("resultsLoader.type", type)
-
-		changePaymentMethodFilter: (type) ->
-			@set('resultsLoader.type', type)
-
-		changeSortOrder: (column) ->
-			@get("resultsLoader").setSortField(column)
-
-		changeDateFilter: (startTime, endTime) ->
-			@setProperties(
-				endTime: endTime
-				startTime: startTime
-			)
-
-		changeStatusFilter: (status) ->
-			@set("resultsLoader.statusFilters", status)
+			@set "selectedTabType", tabName
 )
 
 SearchModalView.reopenClass(
