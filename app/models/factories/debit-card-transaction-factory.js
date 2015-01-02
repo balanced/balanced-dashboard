@@ -30,6 +30,7 @@ var DebitCardTransactionFactory = TransactionFactory.extend({
 		var deferred = Ember.RSVP.defer();
 
 		var baseDebitAttributes = this.getDebitAttributes();
+		var self = this;
 		this.validate();
 		if (this.get("isValid")) {
 			Card.create(this.getDestinationAttributes())
@@ -43,8 +44,11 @@ var DebitCardTransactionFactory = TransactionFactory.extend({
 				})
 				.then(function(model) {
 					deferred.resolve(model);
-				}, function() {
-					deferred.reject();
+				}, function(response) {
+					response.errors.forEach(function(error) {
+						self.get("validationErrors").add(undefined, "server", null, error.description);
+					});
+					deferred.reject(self);
 				});
 		} else {
 			deferred.reject();

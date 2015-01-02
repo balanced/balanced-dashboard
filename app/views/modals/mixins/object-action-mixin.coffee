@@ -1,5 +1,9 @@
 `import Ember from "ember";`
 
+getRootErrorMessages = (model) ->
+	messages = model.get("errors._root") || model.get("validationErrors.messages")
+	Ember.A(messages)
+
 ObjectActionMixin = Ember.Mixin.create(
 	isSaving: false
 
@@ -21,7 +25,7 @@ ObjectActionMixin = Ember.Mixin.create(
 
 		errorHandler = (model) ->
 			if !Ember.isBlank(model)
-				Ember.A(model.get("errors._root")).forEach (message) ->
+				getRootErrorMessages(model).forEach (message) ->
 					notificationsController.alertError(message)
 				return Ember.RSVP.reject(model)
 			else
