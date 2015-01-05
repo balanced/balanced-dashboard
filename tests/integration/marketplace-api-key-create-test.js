@@ -63,7 +63,7 @@ test("#apply success", function() {
 			personPhoneNumber: "200-200-2000"
 		})
 		.then(function() {
-			controller = BalancedApp.__container__.lookup("controller:modals-container")
+			controller = BalancedApp.__container__.lookup("controller:modals-container");
 			model = controller.get("currentModal.model");
 			sinon.stub(controller, "open").returns(Ember.RSVP.resolve());
 			sinon.stub(model, "save").returns(Ember.RSVP.resolve(model));
