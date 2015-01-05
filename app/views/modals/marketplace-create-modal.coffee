@@ -6,8 +6,8 @@
 
 MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 	templateName: "modals/marketplace-create"
-	title: "Enter marketplace information"
-	subtitle: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
+	title: "Apply for production access"
+	subtitle: "Step 2: Provide marketplace information"
 
 	isMarketplaceApplicationProcess: false
 
