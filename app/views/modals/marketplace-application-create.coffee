@@ -49,6 +49,8 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 			apiKey: model
 		)
 
+		@getModalNotificationController().alertSuccess("Business information confirmed")
+
 	actions:
 		save: ->
 			model = @get("model")
