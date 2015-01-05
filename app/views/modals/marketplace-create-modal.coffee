@@ -5,6 +5,7 @@
 `import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";`
 
 MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
+	elementId: "marketplaceCreate"
 	templateName: "modals/marketplace-create"
 	title: "Apply for production access"
 	subtitle: "Step 2: Provide marketplace information"

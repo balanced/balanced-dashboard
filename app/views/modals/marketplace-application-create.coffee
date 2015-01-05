@@ -9,6 +9,7 @@ selectItem = (label, value) ->
 	value: value
 
 MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
+	elementId: "apiKeyCreate"
 	templateName: "modals/marketplace-application-create"
 	title: "Apply for production access"
 	description: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
