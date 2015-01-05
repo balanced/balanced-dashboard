@@ -48,8 +48,8 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 				@close()
 
 	onModelSaved: (model) ->
-		@createMarketplaceApplication()
-		# @linkMarketplaceToUser()
+		# @createMarketplaceApplication()
+		@linkMarketplaceToUser()
 
 	model: Ember.computed.reads("marketplace").readOnly()
 
