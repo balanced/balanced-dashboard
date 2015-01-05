@@ -46,16 +46,16 @@ test('view a marketplace sets the mru cookie', function() {
 
 test('view marketplace list', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
-		.then(function() {
-			equal($('#marketplaces ul').find('a').first().text(), 'Test Marketplace');
+		.checkElements({
+			"#marketplaces ul a:first": "Test Marketplace"
 		});
 });
 
 test('view single marketplace', function() {
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click('#marketplaces ul a:contains("Test Marketplace")')
-		.then(function() {
-			equal($('#marketplace-name').text().trim(), 'Test Marketplace');
+		.checkElements({
+			"#marketplace-name": "Test Marketplace"
 		});
 });
 
