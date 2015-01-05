@@ -7,11 +7,11 @@
 				<div class="balanced-logo-24"></div>
 			{{/if}}
 			<h2>{{view.title}}</h2>
-			{{#if view.subtitle}}
-				<h3>{{view.subtitle}}</h3>
-			{{/if}}
 			{{#if view.description}}
 				<p class="description">{{view.description}}</p>
+			{{/if}}
+			{{#if view.subtitle}}
+				<h3>{{view.subtitle}}</h3>
 			{{/if}}
 		</div>
 		<form {{action "save" on="submit" target=view}}>

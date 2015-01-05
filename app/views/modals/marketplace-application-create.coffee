@@ -11,7 +11,9 @@ selectItem = (label, value) ->
 MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 	templateName: "modals/marketplace-application-create"
 	title: "Apply for production access"
-	subtitle: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
+	description: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
+	subtitle: "Step 1: Provide business information"
+	prohibitedBusinessesLink: "https://support.balancedpayments.com/hc/en-us/articles/201863174-What-businesses-are-prohibited-from-using-Balanced-"
 
 	isBusiness: Ember.computed.reads("model.isBusiness").readOnly()
 	model: Ember.computed(->
@@ -20,7 +22,7 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 	).readOnly()
 
 	marketplaceCategories: [
-		selectItem("Goods/services", "goods_services")
+		selectItem("Goods/Services", "goods_services")
 		selectItem("Crowdfunding")
 		selectItem("Donations")
 		selectItem("E-commerce", "ecommerce")

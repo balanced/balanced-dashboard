@@ -1,34 +1,31 @@
-{{#view "form-fields/form-section" sectionTitle="Requirements"}}
-	<p>To apply for production access you must meet these requirements.</p>
-	<ul>
-		<li>Have a us bank account</li>
-		<li>U.S. registered company with Employee Identification Number</li>
+{{#view "form-fields/form-section" sectionTitle="Requirements" prohibitedBusinessesLink=view.prohibitedBusinessesLink sectionDescription="To apply for production access you must meet these requirements."}}
+	<ul class="checklist">
+		<li>Have a U.S. bank account</li>
+		<li>U.S.-registered company with Employee Identification Number</li>
 		<li>Company representative who is a permanent U.S. resident</li>
+		<li>Prohibited businesses include:
+			<ul>
+				<li>Equity &amp; real estate crowdfunding</li>
+				<li>Tenant/Landlord payments</li>
+				<li>Money transmission (sending money to your friends)</li>
+				<li>Loan payments</li>
+			</ul>
+			<a target="_blank" {{bind-attr href="view.prohibitedBusinessesLink"}}>Review the full list</a>
+		</li>
 	</ul>
 {{/view}}
 
-{{#view "form-fields/form-section" marketplaceCategories=view.marketplaceCategories model=view.model sectionTitle="Business type"}}
-	<p>Prohibited businesses include:</p>
-	<ul>
-		<li>Equity &amp; real estate crowdfunding</li>
-		<li>Tenant/Landlord payments</li>
-		<li>Money transmission (sending money to your friends)</li>
-		<li>Loan payments</li>
-	</ul>
-	<a href="#">Review the full list</a>
-
+{{#view "form-fields/form-section" companyTypes=view.companyTypes marketplaceCategories=view.marketplaceCategories model=view.model sectionTitle="Business type"}}
 	{{view "form-fields/select-form-field"
 		model=view.model
 		content=view.marketplaceCategories
-		labelText="Business type"
+		labelText="Business category"
 		field="marketplaceCategory"
 	}}
-{{/view}}
-{{#view "form-fields/form-section" companyTypes=view.companyTypes model=view.model sectionTitle="Company type"}}
 	{{view "form-fields/select-form-field"
 		model=view.model
 		content=view.companyTypes
-		labelText="Business type"
+		labelText="Company type"
 		field="businessType"
 	}}
 {{/view}}
