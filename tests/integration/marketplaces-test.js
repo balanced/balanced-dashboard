@@ -94,30 +94,24 @@ test('add existing marketplace', function() {
 });
 
 test('delete marketplace', function() {
-	var stub = sinon.stub(Adapter, "delete");
+	var stub;
 	this.fakeRegisteredUser();
-	Auth.set('user.marketplaces_uri', '/users/' +
-		Testing.CUSTOMER_ID + '/marketplaces');
+	Auth.set('user.uri', '/users/xxxxxxxxxxxxxxxxxx');
+	var uri;
 
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".marketplace-list.test li:first-of-type .icon-delete")
-		.click('#delete-marketplace .modal-footer button[name="modal-submit"]')
 		.then(function() {
-			ok(stub.calledOnce, "Delete should have been called once");
-		});
-});
-
-test('delete marketplace only deletes once despite multiple clicks', function() {
-	var stub = sinon.stub(Adapter, "delete");
-	this.fakeRegisteredUser();
-	Auth.set('user.marketplaces_uri', '/users/%@/marketplaces'.fmt(Testing.CUSTOMER_ID));
-
-	visit(Testing.MARKETPLACES_ROUTE)
-		.click(".marketplace-list.test li:first-of-type .icon-delete")
-		.click('#delete-marketplace [name="modal-submit"]')
-		.click('#delete-marketplace [name="modal-submit"]')
-		.click('#delete-marketplace [name="modal-submit"]')
+			stub = sinon.stub(jQuery, "ajax").returns(Ember.RSVP.resolve());
+			var mp = BalancedApp.__container__.lookup("controller:modals-container").get("currentModal.marketplace");
+			uri = "https://auth.balancedpayments.com/users/xxxxxxxxxxxxxxxxxx/marketplaces/" + mp.get("id");
+		})
+		.click('#delete-marketplace [name=modal-submit]')
 		.then(function() {
+			var args = stub.args[0][0];
 			ok(stub.calledOnce, "Delete should have been called once");
+			deepEqual(args.type, "DELETE");
+			deepEqual(args.url, uri);
+			stub.restore();
 		});
 });
