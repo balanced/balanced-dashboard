@@ -170,13 +170,40 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask("admin:install", "Installs admin extensions", function() {
+		var done = this.async();
+		grunt.util.spawn({
+			cmd: 'npm',
+			args: ['install', '--save-dev', 'balanced/balanced-admin']
+		}, function(err) {
+			if (err) {
+				grunt.log.error(err);
+				return;
+			}
+			done();
+		});
+	});
+
+	grunt.registerTask("admin:uninstall", "Removes admin extensions", function() {
+		var done = this.async();
+		grunt.util.spawn({
+			cmd: 'npm',
+			args: ['uninstall', '--save-dev', 'balanced-admin']
+		}, function(err) {
+			if (err) {
+				grunt.log.error(err);
+				return;
+			}
+			done();
+		});
+	});
+
 	/*
 		grunt task commands
 	*/
-
 	grunt.registerTask('default', ['clean', 'bower', 'copy', 'exec:ember_server']);
 	grunt.registerTask('test', ['bower:install', 'exec:ember_test']);
 	grunt.registerTask('build', ['bower:install', 'exec:ember_build_production']);
 	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
-	grunt.registerTask('deployPreview', ['build', 's3:previewCached', 's3:previewUncached']);
+	grunt.registerTask('deployPreview', ['admin:install', 'build', 's3:previewCached', 's3:previewUncached']);
 };
