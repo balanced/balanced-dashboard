@@ -13,6 +13,10 @@ var EmbeddedTransactionsTableView = TransactionsTableView.extend({
 			}
 		});
 
+		if (filteredResults.length === 0 && results.total > 0) {
+			results.loadNextPage();
+		}
+
 		return filteredResults;
 	}.property("loader.results.length"),
 });
