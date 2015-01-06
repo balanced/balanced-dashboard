@@ -75,7 +75,7 @@ var InvoiceTableView = ResultsTableView.extend({
 				className: "succeeded-bank-account-credit-details-row",
 				primary: "Credit",
 				secondary: "Succeeded",
-				quantity: "bank_account_credits_total_amount",
+				quantity: "bank_account_credits_count",
 				txnAmount: "bank_account_credits_total_amount",
 				fee: "%@ per credit".fmt(Utils.formatCurrency(this.get("model.bank_account_credit_fee"))),
 				totalFee: "bank_account_credits_total_fee"

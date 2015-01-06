@@ -79,7 +79,8 @@ test('transactions invoice detail page', function() {
 			".card-debit-details-row .total": "$2.45",
 			".card-debit-details-row td:eq(3)": "3.5% of txn + $0.29",
 			".bank-account-debit-details-row .total": "$0.00",
-			".succeeded-bank-account-credit-details-row .total": "$0.00",
+			".succeeded-bank-account-credit-details-row td:eq(2)": "$2,142.54",
+			".succeeded-bank-account-credit-details-row .total": "$1.75",
 			".succeeded-card-credit-details-row .total": "$0.00",
 			".refund-details-row .total": "-$2.45",
 		});
