@@ -75,7 +75,7 @@ module.exports = function(grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: S3_CACHED_UPLOAD_CONFIGURATION
+				sync: S3_CACHED_UPLOAD_CONFIGURATION
 			},
 			previewUncached: {
 				options: {
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
 				headers: {
 					'Cache-Control': 'public, max-age=86400'
 				},
-				upload: S3_CACHED_UPLOAD_CONFIGURATION
+				sync: S3_CACHED_UPLOAD_CONFIGURATION
 			},
 			productionUncached: {
 				options: {
@@ -174,7 +174,7 @@ module.exports = function(grunt) {
 		var done = this.async();
 		grunt.util.spawn({
 			cmd: 'npm',
-			args: ['install', '--save-dev', 'balanced/balanced-admin']
+			args: ['install', '--save-dev', 'git+https://github.com/balanced/balanced-admin.git']
 		}, function(err) {
 			if (err) {
 				grunt.log.error(err);
@@ -204,6 +204,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['clean', 'bower', 'copy', 'exec:ember_server']);
 	grunt.registerTask('test', ['bower:install', 'exec:ember_test']);
 	grunt.registerTask('build', ['bower:install', 'exec:ember_build_production']);
-	grunt.registerTask('deploy', ['build', 's3:productionCached', 's3:productionUncached']);
+	grunt.registerTask('deploy', ['admin:uninstall', 'build', 's3:productionCached', 's3:productionUncached']);
 	grunt.registerTask('deployPreview', ['admin:install', 'build', 's3:previewCached', 's3:previewUncached']);
 };
