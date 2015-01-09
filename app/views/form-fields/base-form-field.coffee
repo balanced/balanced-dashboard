@@ -51,16 +51,20 @@ BaseFormFieldView = Ember.View.extend
 	# observe ahead of time, create the observer when
 	# inserted into the DOM (we'll have the key then).
 	didInsertElement: ->
+		makeShowValidationErrors = =>
+			if !(@get('isDestroyed') || @get('isDestroying'))
+				@set("isCanShowValidationErrors", true)
+
 		$el = @$()
 		$el.hover (event) =>
 			@displayAlertErrors()
 		$el.find(':input').focus (event) =>
 			@displayAlertErrors()
-		$el.find(":input").blur (event) =>
-			@set("isCanShowValidationErrors", true)
+		$el.find(":input").blur (event) ->
+			makeShowValidationErrors()
 
-		$el.closest("form").submit =>
-			@set("isCanShowValidationErrors", true)
+		$el.closest("form").submit ->
+			makeShowValidationErrors()
 
 		@bindUpdateErrorMessages()
 
