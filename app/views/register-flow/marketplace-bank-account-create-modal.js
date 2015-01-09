@@ -3,6 +3,7 @@ import RegisterFlowBaseModalView from "./register-flow-base-modal";
 import Constants from "balanced-dashboard/utils/constants";
 import MarketplaceBankAccountFactory from "balanced-dashboard/models/factories/marketplace-bank-account-factory";
 import InitialDepositTransactionFactory from "balanced-dashboard/models/factories/initial-deposit-transaction-factory";
+import ErrorsLogger from "balanced-dashboard/lib/errors-logger";
 
 var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 	templateName: "register-flow/marketplace-bank-account-create-modal",
@@ -81,6 +82,7 @@ var MarketplaceBankAccountCreateModalView = RegisterFlowBaseModalView.extend({
 
 
 	nextStepFailure: function(marketplace, bankAccountHref, error) {
+		ErrorsLogger.captureMessage(error);
 		this.trackEvent("Bank account links error", {
 			error: error,
 			marketplace: marketplace.get("uri"),

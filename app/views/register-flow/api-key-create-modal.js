@@ -1,6 +1,7 @@
 import RegisterFlowBaseModalView from "./register-flow-base-modal";
 import Constants from "balanced-dashboard/utils/constants";
 import ApiKeyFactory from "balanced-dashboard/models/factories/api-key";
+import ErrorsLogger from "balanced-dashboard/lib/errors-logger";
 
 var ERROR_MESSAGES = {
 	"person-kyc": "We could not verify your identity. Please check your information again and resubmit.",
@@ -92,6 +93,7 @@ var ApiKeyCreateModalView = RegisterFlowBaseModalView.extend({
 					self.nextStepSuccess(apiKeySecret);
 				})
 				.catch(function(error) {
+					ErrorsLogger.captureMessage(error);
 					self.trackEvent("Error creating apiKey", {
 						error: error,
 						formFields: model.getPropertiesDump()
