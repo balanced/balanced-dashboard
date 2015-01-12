@@ -9,16 +9,20 @@ var Hold = Transaction.extend({
 	debit: Model.belongsTo('debit', 'debit'),
 
 	status: function() {
+		var apiStatus = this.get("__json.status");
 		if (this.get('debit')) {
 			return 'captured';
 		} else if (this.get('voided_at')) {
 			return 'voided';
 		} else if (this.get('is_expired')) {
 			return 'expired';
-		} else {
-			return 'created';
+		} else if (!Ember.isBlank(apiStatus)) {
+			return apiStatus;
 		}
-	}.property('debit', 'voided_at', 'is_expired'),
+		else {
+			return "created";
+		}
+	}.property('debit', 'voided_at', 'is_expired', "__json.status"),
 
 	is_expired: function() {
 		return moment(this.get('expires_at')).toDate() < new Date();

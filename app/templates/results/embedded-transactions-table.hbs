@@ -42,6 +42,10 @@
 
 					{{view "results/grouped-transaction-row" item=transaction}}
 
+					{{#if transaction.transaction}}
+						{{view "results/grouped-transaction-row" item=transaction.transaction}}
+					{{/if}}
+
 					{{#if transaction.hold}}
 						{{view "results/grouped-transaction-row" item=transaction.hold}}
 					{{/if}}
