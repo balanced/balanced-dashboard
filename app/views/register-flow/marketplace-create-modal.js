@@ -2,6 +2,7 @@ import RegisterFlowBaseModalView from "./register-flow-base-modal";
 import MarketplaceFactory from "balanced-dashboard/models/factories/marketplace-factory";
 import MarketplaceBankAccountCreateModalView from "./marketplace-bank-account-create-modal";
 import Auth from "balanced-dashboard/auth";
+import ErrorsLogger from "balanced-dashboard/lib/errors-logger";
 
 var MarketplaceCreateModalView = RegisterFlowBaseModalView.extend({
 	templateName: "register-flow/marketplace-create-modal",
@@ -65,6 +66,7 @@ var MarketplaceCreateModalView = RegisterFlowBaseModalView.extend({
 					return self.linkMarketplace(user, apiKeySecret, href);
 				})
 				.catch(function(error) {
+					ErrorsLogger.captureMessage(error);
 					self.trackEvent("Error creating marketplace", {
 						error: error,
 						formFields: model.getPropertiesDump()
