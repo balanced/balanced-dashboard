@@ -28,7 +28,9 @@ var Hold = Transaction.extend({
 		return moment(this.get('expires_at')).toDate() < new Date();
 	}.property('expires_at'),
 
-	can_void_or_capture: Ember.computed.equal('status', 'created'),
+	can_void_or_capture: function() {
+		return ["created", "succeeded"].contains(this.get("status"));
+	}.property("status"),
 	type_name: 'Hold',
 	route_name: 'holds',
 	funding_instrument_description: Ember.computed.readOnly('card.description'),
