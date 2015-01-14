@@ -5,8 +5,6 @@ ApiKeyProduction = BkApiKeyProduction.extend
 	marketplaceCategory: "goods_services"
 	businessType: "llc"
 
-	isProduction: false
-
 	getStore: ->
 		@get("container")
 			.lookupFactory("store:balanced")
