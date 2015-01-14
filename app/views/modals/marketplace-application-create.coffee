@@ -12,7 +12,13 @@ MarketplaceApplicationCreateView = ModalBaseView.extend(Full, Form, Save,
 	elementId: "apiKeyCreate"
 	templateName: "modals/marketplace-application-create"
 	title: "Apply for production access"
-	description: "Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
+
+	description: Ember.computed(->
+		if BalancedApp.USE_MARKETPLACE_APPLICATION
+			"Submit your business and use case information. Balanced will notify you of your approval status via email within two business days. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
+		else
+			"Submit your business and use case information. Balanced reserves the right to change product, terms and acceptable use cases prior to approval."
+	)
 	subtitle: "Step 1: Provide business information"
 	prohibitedBusinessesLink: "https://support.balancedpayments.com/hc/en-us/articles/201863174-What-businesses-are-prohibited-from-using-Balanced-"
 

@@ -9,7 +9,9 @@ module.exports = function(environment) {
 		EmberENV: {
 			FEATURES: {}
 		},
-		APP: {},
+		APP: {
+			USE_MARKETPLACE_APPLICATION: false
+		},
 		BALANCED: {
 			API: 'https://api.balancedpayments.com',
 			AUTH: 'https://auth.balancedpayments.com',

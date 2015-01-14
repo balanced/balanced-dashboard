@@ -15,6 +15,13 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 	getUser: ->
 		@container.lookup("auth:main").get("user")
 
+	emailAddressExplanationText: Ember.computed(->
+		if BalancedApp.USE_MARKETPLACE_APPLICATION
+			"We will send a verification email to this address"
+		else
+			null
+	)
+
 	createMarketplaceApplication: ->
 		mp = @get("marketplace")
 		@trackEvent "Marketplace created", mp.getDebuggingProperties()
@@ -49,8 +56,10 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 				@close()
 
 	onModelSaved: (model) ->
-		# @createMarketplaceApplication()
-		@linkMarketplaceToUser()
+		if BalancedApp.USE_MARKETPLACE_APPLICATION
+			@createMarketplaceApplication()
+		else
+			@linkMarketplaceToUser()
 
 	model: Ember.computed.reads("marketplace").readOnly()
 
