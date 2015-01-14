@@ -1,6 +1,6 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.1.10
 
 * Fixes #1614: Display correct succeeded bank account credit count
 * Fix reversals not showing sometimes on search results.
