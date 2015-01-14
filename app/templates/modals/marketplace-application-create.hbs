@@ -1,0 +1,92 @@
+{{#view "form-fields/form-section" sectionTitle="Requirements" prohibitedBusinessesLink=view.prohibitedBusinessesLink sectionDescription="To apply for production access you must meet these requirements."}}
+	<ul class="checklist">
+		<li>Have a U.S. bank account</li>
+		<li>U.S.-registered company with Employee Identification Number</li>
+		<li>Company representative who is a permanent U.S. resident</li>
+		<li>Prohibited businesses include:
+			<ul>
+				<li>Equity &amp; real estate crowdfunding</li>
+				<li>Tenant/Landlord payments</li>
+				<li>Money transmission (sending money to your friends)</li>
+				<li>Loan payments</li>
+			</ul>
+			<a target="_blank" {{bind-attr href="view.prohibitedBusinessesLink"}}>Review the full list</a>
+		</li>
+	</ul>
+{{/view}}
+
+{{#view "form-fields/form-section" companyTypes=view.companyTypes marketplaceCategories=view.marketplaceCategories model=view.model sectionTitle="Business type"}}
+	{{view "form-fields/select-form-field"
+		model=view.model
+		content=view.marketplaceCategories
+		labelText="Business category"
+		field="marketplaceCategory"
+	}}
+	{{view "form-fields/select-form-field"
+		name="businessType"
+		model=view.model
+		content=view.companyTypes
+		labelText="Company type"
+		field="businessType"
+	}}
+{{/view}}
+{{#if view.isBusiness}}
+	{{#view "form-fields/form-section" model=view.model sectionTitle="Business information"}}
+		{{view "form-fields/text-form-field" model=view.model
+			inputClassNames="full"
+			labelText="Legal business name"
+			field="businessName"
+		}}
+		{{view "form-fields/text-form-field" model=view.model
+			labelText="Employee identification number"
+			field="businessTaxId"
+		}}
+
+		{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+			labelText="Business address"
+			field="businessAddressLine1"
+		}}
+		{{view "form-fields/text-form-field" model=view.model
+			labelText="Postal code"
+			field="businessAddressPostalCode"
+		}}
+
+		{{view "form-fields/text-form-field" model=view.model
+			labelText="Incorporation date"
+			field="businessIncorporationDate"
+			explanationText="MM / YYYY"
+		}}
+		{{view "form-fields/text-form-field" model=view.model
+			labelText="Phone number"
+			field="businessPhoneNumber"
+		}}
+	{{/view}}
+{{/if}}
+
+{{#view "form-fields/form-section" model=view.model sectionTitle="Personal information"}}
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Full legal name"
+		field="personFullName"
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Date of birth"
+		field="personDateOfBirth"
+		explanationText="MM / YYYY"
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Postal code"
+		field="personAddressPostalCode"
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		labelText="Social security number (last 4)"
+		field="personSsnLast4"
+		explanationText="A verifiable social security number is needed to underwrite your application. No credit checks will be performed."
+	}}
+	{{view "form-fields/text-form-field" model=view.model
+		inputClassNames="full"
+		labelText="Phone number"
+		field="personPhoneNumber"
+		explanationText="(555) 555-5555"
+	}}
+{{/view}}

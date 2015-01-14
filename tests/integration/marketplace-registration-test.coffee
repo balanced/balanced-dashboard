@@ -14,45 +14,43 @@ module 'Integration - Marketplace Registration',
 	teardown: ->
 		Ember.run(App, "destroy")
 
-
 test "complete flow", ->
-	flushPromises = ->
-		d = Ember.RSVP.defer()
-		setTimeout(d.resolve, 10)
-		d.promise
+	apiKey = undefined
+	marketplace = undefined
+	userMarketplaceController = BalancedApp.__container__.lookup("controller:register-flow/user-marketplace")
+	sinon.stub(userMarketplaceController, "addApiKeyToCurrentUserFlow").returns(Ember.RSVP.resolve())
+
 	visit(Testing.MARKETPLACES_ROUTE)
 		.click(".mp-register a:contains(Register)")
 		.fillForm("#apiKeyCreate",
-			person_name: "Test Person"
-			dobYear: "1990"
-			dobMonth: "12"
-			person_postal_code: "90210"
-			person_ssn_last_4: "1111"
-			merchant_phone_number: "200-200-2000"
+			businessType: "person"
+			personFullName: "Jimmy Business"
+			personDateOfBirth: "11/1980"
+			personAddressPostalCode: "99900"
+			personSsnLast4: "1111"
+			personPhoneNumber: "200-200-2000"
 		)
-		.click("#apiKeyCreate button:contains(Continue)")
+		.then(->
+			apiKey = BalancedApp.__container__.lookup("controller:modals-container").get("currentModal.model")
+			sinon.stub(apiKey, "save").returns(Ember.RSVP.resolve(apiKey))
+		)
+		.click("#apiKeyCreate [name=modal-submit]")
 		.checkElements(
 			"#marketplaceCreate .notification-center": "Business information confirmed"
 		)
 		.fillForm("#marketplaceCreate",
 			name: "Example marketplace"
-			domain_url: "marketplace.example.com"
-			support_email_address: "marketplace@example.com"
-			support_phone_number: "200-200-2000"
+			domainUrl: "marketplace.example.com"
+			supportEmailAddress: "marketplace@example.com"
+			supportPhoneNumber: "200-200-2000"
 		)
-		.click("#marketplaceCreate .checkbox label")
-		.click("#marketplaceCreate button:contains(Continue)")
-#		.then(flushPromises)
-#		.checkElements(
-#			"#marketplaceBankAccountCreate .notification-center": "Marketplace created. API key: ak-prod-2xxxxxxxxxxxxxxxxxxxxxxxxx"
-#			"#marketplaceBankAccountCreate h3:first": "Step 3 of 3: Add your bank account"
-#		)
-#		.fillForm("#marketplaceBankAccountCreate",
-#			name: "Test Person"
-#			routing_number: "122100024"
-#		)
-#		.click("#marketplaceBankAccountCreate button:contains(Complete registration)")
-#		.then(flushPromises)
-#		.checkElements(
-#			"#marketplaceBankAccountCreate .alert-error": "can't be blank"
-#		)
+		.then(->
+			apiKey.set("secret", "ak-test-secretsecret")
+			marketplace = BalancedApp.__container__.lookup("controller:modals-container").get("currentModal.marketplace")
+			sinon.stub(marketplace, "save").returns(Ember.RSVP.resolve(marketplace))
+		)
+		.click("#marketplaceCreate [name=modal-submit]")
+		.then ->
+			deepEqual(marketplace.save.args, [[]])
+			deepEqual(apiKey.save.args, [[]])
+			deepEqual(userMarketplaceController.addApiKeyToCurrentUserFlow.args, [["ak-test-secretsecret"]])

@@ -20,6 +20,7 @@ MarketplaceRoute = AuthRoute.extend
 		controller.updateGuestNotification()
 		controller.updateProductionMarketplaceNotification()
 		controller.updateBankAccountNotifications()
+		controller.updateOpenMarketplaceBankAccountCreateModal()
 
 	actions:
 		openSearch: (event) ->

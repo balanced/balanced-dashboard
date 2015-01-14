@@ -78,3 +78,29 @@
     margin: 0;
   }
 }
+
+.checklist {
+  margin-bottom: 40px;
+
+  & > li {
+    color: @gray6;
+    margin: 10px;
+
+    & > ul {
+      margin: 10px 15px;
+
+      li {
+        list-style: disc;
+      }
+    }
+
+    &:before {
+      font-family: 'Balanced-Icon';
+      &:extend(.icon-checkmark2:before);
+      color: @black;
+      margin-left: -24px;
+      margin-right: 10px;
+      float: left;
+    }
+  }
+}

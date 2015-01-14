@@ -1,5 +1,4 @@
 import RegisterFlowBaseModalView from "./register-flow-base-modal";
-import ApiKeyCreateModalView from "./api-key-create-modal";
 
 var NextStepView = RegisterFlowBaseModalView.extend({
 	layoutName: "modals/base-modal-layout",
@@ -11,7 +10,7 @@ var NextStepView = RegisterFlowBaseModalView.extend({
 
 	actions: {
 		nextStep: function() {
-			this.openNext(ApiKeyCreateModalView);
+			this.openModal("modals/marketplace-application-create");
 		},
 
 		goToDashboard: function() {

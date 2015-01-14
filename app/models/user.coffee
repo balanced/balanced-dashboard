@@ -26,6 +26,29 @@ User = Model.extend Ember.Validations,
 	gravatar: Computed.transform('email_hash', Utils.toGravatar)
 	multiFactorAuthUri: Computed.fmt('id', ENV.BALANCED.AUTH + '/users/%@/otp')
 
+	addSecret: (apiKeySecret) ->
+		connection = @getAuthConnection()
+
+		UserMarketplace = BalancedApp.__container__.lookupFactory("model:user-marketplace")
+
+		uri = @get("marketplaces_uri")
+		if uri.indexOf("http") != 0
+			uri = ENV.BALANCED.AUTH + uri
+
+		connection
+			.post(uri, secret: apiKeySecret)
+			.then (response) =>
+				@reload().then ->
+					response.uri
+
+	getAuthConnection: ->
+		AuthConnection = require("balanced-dashboard/lib/connections/auth-connection").default
+		AuthConnection.create()
+
+	removeMarketplace: (marketplaceId) ->
+		uri = "#{ENV.BALANCED.AUTH}#{@get("uri")}/marketplaces/#{marketplaceId}"
+		@getAuthConnection().delete(uri)
+
 	validations:
 		existing_password:
 			presence: true

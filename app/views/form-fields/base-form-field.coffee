@@ -47,16 +47,24 @@ BaseFormFieldView = Ember.View.extend
 		updateErrorMessages()
 		@addObserver(errorsListKeyName, updateErrorMessages)
 
-
 	# Since we don't know the name of the property to
 	# observe ahead of time, create the observer when
 	# inserted into the DOM (we'll have the key then).
 	didInsertElement: ->
+		makeShowValidationErrors = =>
+			if !(@get('isDestroyed') || @get('isDestroying'))
+				@set("isCanShowValidationErrors", true)
+
 		$el = @$()
 		$el.hover (event) =>
 			@displayAlertErrors()
-		$el.find('input').focus (event) =>
+		$el.find(':input').focus (event) =>
 			@displayAlertErrors()
+		$el.find(":input").blur (event) ->
+			makeShowValidationErrors()
+
+		$el.closest("form").submit ->
+			makeShowValidationErrors()
 
 		@bindUpdateErrorMessages()
 
@@ -64,6 +72,8 @@ BaseFormFieldView = Ember.View.extend
 
 	errorMessages: Ember.computed(-> [])
 	isOneError: Ember.computed.equal("errorMessages.length", 1)
-	isError: Ember.computed.gt("errorMessages.length", 0)
+	isCanShowValidationErrors: false
+	isError: Ember.computed "isCanShowValidationErrors", "errorMessages.length",  ->
+		(@get("errorMessages.length") > 0) && @get("isCanShowValidationErrors")
 
 `export default BaseFormFieldView;`

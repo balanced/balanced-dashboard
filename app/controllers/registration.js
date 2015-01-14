@@ -30,11 +30,6 @@ var RegistrationController = Ember.Controller.extend({
 				return self.addSecretToUser(user, marketplaceApiKeySecret);
 			})
 			.then(function(marketplaceUri) {
-				return user.reload().then(function() {
-					return marketplaceUri;
-				});
-			})
-			.then(function(marketplaceUri) {
 				return Marketplace.find(marketplaceUri);
 			});
 	},
@@ -85,20 +80,7 @@ var RegistrationController = Ember.Controller.extend({
 	},
 
 	addSecretToUser: function(user, apiKeySecret) {
-		var UserMarketplace = this.container.lookupFactory("model:user-marketplace");
-		var uri = user.get("marketplaces_uri");
-		if (uri.indexOf("http") !== 0) {
-			uri = ENV.BALANCED.AUTH + uri;
-		}
-		return this.getAuthConnection()
-			.post(uri, {
-				secret: apiKeySecret
-			})
-			.then(function(response) {
-				var userMarketplace = UserMarketplace.create();
-				userMarketplace.populateFromJsonResponse(response);
-				return userMarketplace.get("uri");
-			});
+		return user.addSecret(apiKeySecret);
 	},
 
 	saveUser: function(model) {

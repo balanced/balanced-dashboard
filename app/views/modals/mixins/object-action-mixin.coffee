@@ -7,6 +7,10 @@ getRootErrorMessages = (model) ->
 ObjectActionMixin = Ember.Mixin.create(
 	isSaving: false
 
+	onModelSaved: (model) ->
+		@close()
+		Ember.RSVP.resolve(model)
+
 	executeAction: (callback) ->
 		notificationsController = @getModalNotificationController()
 		if notificationsController
@@ -16,12 +20,7 @@ ObjectActionMixin = Ember.Mixin.create(
 			successAlertText = @get("successAlertText")
 			if !Ember.isBlank(successAlertText)
 				@getNotificationController().alertSuccess successAlertText
-
-			if Ember.typeOf(@onModelSaved) == "function"
-				@onModelSaved model
-
-			@close()
-			return Ember.RSVP.resolve(model)
+			@onModelSaved(model)
 
 		errorHandler = (model) ->
 			if !Ember.isBlank(model)
@@ -30,6 +29,7 @@ ObjectActionMixin = Ember.Mixin.create(
 				return Ember.RSVP.reject(model)
 			else
 				return Ember.RSVP.reject()
+
 
 		@set("isSaving", true)
 		return callback()
