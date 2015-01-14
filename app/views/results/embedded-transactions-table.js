@@ -11,7 +11,16 @@ var EmbeddedTransactionsTableView = TransactionsTableView.extend({
 			if (!_.contains(["Hold", "Refund", "Reversal"], transaction.get("type_name"))) {
 				filteredResults.pushObject(transaction);
 			}
+
+			// TODO: Figure out a better way to include manually created holds
+			if (transaction.get("type_name") === "Hold" && Ember.keys(transaction.meta).length !== 0) {
+				filteredResults.pushObject(transaction);
+			}
 		});
+
+		if (filteredResults.length === 0 && results.total > 0) {
+			results.loadNextPage();
+		}
 
 		return filteredResults;
 	}.property("loader.results.length"),

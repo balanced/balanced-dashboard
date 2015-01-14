@@ -1,5 +1,9 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Fixes #1614: Display correct succeeded bank account credit count
+
 ### 1.1.9
 
 * Fixing filtering on search results.
