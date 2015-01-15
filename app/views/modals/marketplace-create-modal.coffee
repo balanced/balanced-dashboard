@@ -65,9 +65,15 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 
 	actions:
 		save: ->
+
 			mp = @get("marketplace")
+			@getModalNotificationController().clearAlerts()
 			@trackEvent "User creating marketplace", mp.getDebuggingProperties()
-			@save mp
+			if @get("isTermsAccepted")
+				@save mp
+			else
+				@getModalNotificationController()
+					.alertError("Must accept the terms and conditions", name: "terms-accepted")
 )
 
 `export default MarketplaceCreateView;`
