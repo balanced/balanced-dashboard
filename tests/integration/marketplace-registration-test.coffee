@@ -34,6 +34,7 @@ test "complete flow", ->
 			apiKey = BalancedApp.__container__.lookup("controller:modals-container").get("currentModal.model")
 			sinon.stub(apiKey, "save").returns(Ember.RSVP.resolve(apiKey))
 		)
+		.click("#marketplaceCreate [name=isTermsAccepted]")
 		.click("#apiKeyCreate [name=modal-submit]")
 		.checkElements(
 			"#marketplaceCreate .notification-center": "Business information confirmed"
