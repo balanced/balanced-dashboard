@@ -126,10 +126,10 @@ var MarketplaceController = Ember.ObjectController.extend({
 	updateOpenMarketplaceBankAccountCreateModal: function() {
 		var result = this.get("marketplaceBankAccounts");
 		var isLoaded = this.get("marketplaceBankAccounts.isLoaded");
-		if (this.get("isEmptyMarketplaceBankAccounts")) {
+		if (this.get("isEmptyMarketplaceBankAccounts") && this.get("marketplace.production")) {
 			this.send("openMarketplaceBankAccountCreateModal");
 		}
-	}.observes("isEmptyMarketplaceBankAccounts"),
+	}.observes("isEmptyMarketplaceBankAccounts", "marketplace.production"),
 
 	marketplaceBankAccounts: Ember.computed.reads("marketplace.owner_customer.bank_accounts").readOnly(),
 	isEmptyMarketplaceBankAccounts: function() {

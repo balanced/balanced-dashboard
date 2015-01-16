@@ -38,7 +38,7 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 				@trackEvent "Gandalf application created", mpApplication.getDebuggingProperties()
 				@close()
 				@getNotificationController()
-					.alertSuccess("Marketplace application created id: #{mpApplication.get("href")}", name: "marketplace-application-success")
+					.alertSuccess("Marketplace application created id: /marketplaces#{mpApplication.get("href")}", name: "marketplace-application-success")
 			.finally =>
 				@set("isSaving", false)
 
@@ -65,9 +65,15 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 
 	actions:
 		save: ->
+
 			mp = @get("marketplace")
+			@getModalNotificationController().clearAlerts()
 			@trackEvent "User creating marketplace", mp.getDebuggingProperties()
-			@save mp
+			if @get("isTermsAccepted")
+				@save mp
+			else
+				@getModalNotificationController()
+					.alertError("Must accept the terms and conditions", name: "terms-accepted")
 )
 
 `export default MarketplaceCreateView;`

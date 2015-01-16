@@ -101,6 +101,7 @@ test("#marketplace create success", function() {
 			supportPhoneNumber: "202-222-3333",
 			supportEmailAddress: "tester@example.org",
 		})
+		.click("#marketplaceCreate [name=isTermsAccepted]")
 		.click("#marketplaceCreate [name=modal-submit]")
 		.then(function() {
 			deepEqual(marketplace.save.args, [[]]);

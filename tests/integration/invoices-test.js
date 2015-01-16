@@ -67,7 +67,6 @@ test("transactions invoice detail page filters", function() {
 		.click('.main-panel .search-filters-header a:contains(Debits (Cards))')
 		.click('.main-panel .search-filters-header a:contains(Refunds)')
 		.then(function() {
-			console.log(spy.args);
 			deepEqual(spy.getCall(0).args.slice(0, 2), [Models.Transaction, invoiceUri + '/card_debits?limit=50&sort=created_at%2Cdesc']);
 			deepEqual(spy.getCall(3).args.slice(0, 2), [Models.Transaction, invoiceUri + '/refunds?limit=50&sort=created_at%2Cdesc']);
 		});

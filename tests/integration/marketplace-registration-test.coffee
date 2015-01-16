@@ -49,6 +49,7 @@ test "complete flow", ->
 			marketplace = BalancedApp.__container__.lookup("controller:modals-container").get("currentModal.marketplace")
 			sinon.stub(marketplace, "save").returns(Ember.RSVP.resolve(marketplace))
 		)
+		.click("#marketplaceCreate [name=isTermsAccepted]")
 		.click("#marketplaceCreate [name=modal-submit]")
 		.then ->
 			deepEqual(marketplace.save.args, [[]])
