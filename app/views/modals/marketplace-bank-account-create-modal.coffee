@@ -10,7 +10,7 @@ selectItem = (label, value) ->
 
 MarketplaceBankAccountCreateView = ModalBaseView.extend(Full, Form, Save,
 	templateName: "modals/marketplace-bank-account-create-modal"
-	title: "Register for a production marketplace"
+	title: "Add a marketplace bank account"
 
 	accountTypes: [
 		selectItem("Checking"),
@@ -19,18 +19,10 @@ MarketplaceBankAccountCreateView = ModalBaseView.extend(Full, Form, Save,
 
 	model: Ember.computed.reads("bankAccount").readOnly()
 
-	getLegacyMarketplace: ->
-		href = @get("marketplace.href")
-		@get("container").lookupFactory("model:marketplace").find(href)
-
-	onModelSaved: (model) ->
+	onModelSaved: (bankAccount) ->
 		customerHref = @get("marketplace.owner_customer_uri")
-		model.linkToCustomer(customerHref)
-			.then =>
-				@close()
-				@get("container")
-					.lookup("controller:application")
-					.transitionToRoute("marketplace", @getLegacyMarketplace())
+		bankAccount.linkToCustomer(customerHref).then =>
+			@close()
 
 	actions:
 		save: ->
