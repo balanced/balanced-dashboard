@@ -1,6 +1,6 @@
 # Balanced Dashboard Changelog
 
-### master
+### 1.2.0
 
 * Refactoring marketplace application flow to use balanced-addon-models
 
