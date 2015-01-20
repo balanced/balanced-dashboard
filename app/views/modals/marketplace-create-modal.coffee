@@ -53,6 +53,7 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 			.addApiKeyToCurrentUserFlow(@get("apiKey.secret"))
 			.then =>
 				@trackEvent "Marketplace linked to user", mp.getDebuggingProperties()
+				@getModalNotificationController().alertSuccess("Marketplace created")
 				@close()
 
 	onModelSaved: (model) ->
@@ -65,7 +66,6 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 
 	actions:
 		save: ->
-
 			mp = @get("marketplace")
 			@getModalNotificationController().clearAlerts()
 			@trackEvent "User creating marketplace", mp.getDebuggingProperties()

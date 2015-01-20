@@ -10,7 +10,7 @@ selectItem = (label, value) ->
 
 MarketplaceBankAccountCreateView = ModalBaseView.extend(Full, Form, Save,
 	templateName: "modals/marketplace-bank-account-create-modal"
-	title: "Add a marketplace bank account"
+	title: "Link marketplace bank account"
 
 	accountTypes: [
 		selectItem("Checking"),
