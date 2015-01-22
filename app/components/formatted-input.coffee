@@ -2,6 +2,7 @@
 
 FormattedInputComponent = Ember.TextField.extend(
 	tagName: "input"
+	type: "text"
 
 	getFormatterAttributes: ->
 		value = @get("format")
@@ -11,7 +12,8 @@ FormattedInputComponent = Ember.TextField.extend(
 			return pattern: value
 
 	didInsertElement: ->
-		new window.Formatter(@element, @getFormatterAttributes())
+		@_super()
+		formatter = new window.Formatter(@element, @getFormatterAttributes())
 )
 
 `export default FormattedInputComponent;`

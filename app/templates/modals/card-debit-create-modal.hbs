@@ -1,12 +1,13 @@
 {{#view "form-fields/form-section" appearsOnStatementAsLabelText=view.appearsOnStatementAsLabelText appearsOnStatementAsMaxLength=view.appearsOnStatementAsMaxLength model=view.model sectionTitle="Payment information"}}
 	{{view "form-fields/text-form-field" model=view.model field="name" labelText="Card holder's name"}}
-	{{view "form-fields/credit-card-form-field" model=view.model field="number" labelText="Card number"}}
+	{{view "form-fields/credit-card-number-form-field" model=view.model field="number" labelText="Card number"}}
 
-	{{view "form-fields/text-form-field" model=view.model field="cvv" labelText="Security code" tooltipTitle="Where is the security code?" tooltipContent='<img src="images/credit-card-instructions.png" alt="Credit Card Instructions" class="modal-informational-content"/>'}}
-	{{view "form-fields/month-year-select-form-field"
+	{{view "form-fields/text-form-field" model=view.model field="cvv" labelText="Security code" tooltipTitle="Where is the security code?" tooltipContent='<img src="images/credit-card-instructions.png" alt="Credit Card Instructions" class="modal-informational-content"/>'
+	}}
+
+	{{view "form-fields/credit-card-expiration-date-form-field"
 		model=view.model
-		monthValue=view.model.expiration_month
-		yearValue=view.model.expiration_year
+		field="expiration_date"
 		labelText="Expiration date"
 		name="expiration_date"
 	}}

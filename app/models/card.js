@@ -161,4 +161,26 @@ var Card = FundingInstrument.extend(Ember.Validations, {
 	}
 });
 
+Card.reopenClass({
+	findCreatedCard: function(uri) {
+		var deferred = Ember.RSVP.defer();
+		var modelClass = this;
+
+		this
+			.getAdapter()
+			.get(modelClass, uri, function(json) {
+				var modelObject = modelClass.create({
+					uri: uri,
+					isLoaded: false,
+					isNew: false
+				});
+				modelObject.populateFromJsonResponse(json, uri);
+				deferred.resolve(modelObject);
+			}, function(errorsResponse) {
+				deferred.reject(errorsResponse.responseJSON);
+			});
+		return deferred.promise;
+	},
+});
+
 export default Card;

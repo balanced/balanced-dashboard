@@ -13,8 +13,7 @@ var BankAccountCreditCreateModalView = ModalBaseView.extend(Save, Full, Form, {
 	submitButtonText: "Credit",
 
 	model: function() {
-		var DebitCardTransactionFactory = require("balanced-dashboard/models/factories/credit-bank-account-transaction-factory")['default'];
-		return DebitCardTransactionFactory.create();
+		return this.container.lookup("model:factories/credit-bank-account-transaction-factory");
 	}.property(),
 
 	bankAccountTypes: Constants.BANK_ACCOUNT_TYPES.map(function(name) {
