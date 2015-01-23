@@ -21,6 +21,24 @@ test "#status", ->
 	s.set "debit", "Some value"
 	t "captured"
 
+test "#is_expired", ->
+	s = Hold.create()
+
+	date = "2015-01-01T00:46:21.554001Z"
+	s.set("expires_at", date)
+	deepEqual(s.get("is_expired"), true)
+
+	date = "2025-01-01T00:46:21.554001Z"
+	s.set("expires_at", date)
+	deepEqual(s.get("is_expired"), false)
+
+	date = new Date()
+	date.setSeconds(date.getSeconds() - 1)
+	s.set("expires_at_date", date)
+	deepEqual(s.get("is_expired"), true)
+
+
+
 test "#can_void_or_capture", ->
 	s = Hold.create()
 	t = (expected) ->

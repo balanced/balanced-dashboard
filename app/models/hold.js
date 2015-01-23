@@ -24,9 +24,14 @@ var Hold = Transaction.extend({
 		}
 	}.property('debit', 'voided_at', 'is_expired', "__json.status"),
 
+	expires_at_date: function() {
+		var expirationString = this.get("expires_at");
+		return moment(expirationString, moment.ISO_8601).toDate();
+	}.property("expires_at"),
+
 	is_expired: function() {
-		return moment(this.get('expires_at')).toDate() < new Date();
-	}.property('expires_at'),
+		return moment(this.get("expires_at_date")).isBefore(new Date());
+	}.property('expires_at_date'),
 
 	can_void_or_capture: function() {
 		return ["created", "succeeded"].contains(this.get("status"));
