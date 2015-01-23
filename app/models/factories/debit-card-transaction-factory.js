@@ -69,16 +69,23 @@ var DebitCardTransactionFactory = TransactionFactory.extend({
 
 	saveCard: function() {
 		var attributes = this.getDestinationAttributes();
-		return new Ember.RSVP.Promise(function(resolve, reject) {
-			window.balanced.card.create(attributes, function(response) {
-				if (response.status_code === 201) {
-					Card.findCreatedCard(response.cards[0].href).then(resolve, reject);
-				}
-				else {
-					reject(response);
-				}
-			});
+		var deferred = Ember.RSVP.defer();
+
+		function resolve(r) {
+			deferred.resolve(r);
+		}
+		function reject(r) {
+			deferred.reject(r);
+		}
+		window.balanced.card.create(attributes, function(response) {
+			if (response.status_code === 201) {
+				Card.findCreatedCard(response.cards[0].href).then(resolve, reject);
+			}
+			else {
+				reject(response);
+			}
 		});
+		return deferred.promise;
 	},
 
 	save: function() {

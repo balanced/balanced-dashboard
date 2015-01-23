@@ -21,7 +21,7 @@ test "#status", ->
 	s.set "debit", "Some value"
 	t "captured"
 
-tet "#can_void_or_capture", ->
+test "#can_void_or_capture", ->
 	s = Hold.create()
 	t = (expected) ->
 		deepEqual s.get("can_void_or_capture"), expected
