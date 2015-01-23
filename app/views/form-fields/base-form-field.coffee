@@ -34,22 +34,6 @@ BaseFormFieldView = Ember.View.extend
 		$('.alert-error').hide()
 		@$('.alert-error').css('display', 'inline')
 
-	bindUpdateErrorMessages: ->
-		fieldName = @get("field")
-		if !@get("isLegacyModel")
-			errorsListKeyName = "model.errors.#{fieldName}"
-		else
-			errorsListKeyName = "model.validationErrors.#{fieldName}.fullMessages"
-
-		updateErrorMessages = =>
-			errorsList = @get(errorsListKeyName) || []
-			@set("errorMessages", errorsList)
-		updateErrorMessages()
-		@addObserver(errorsListKeyName, updateErrorMessages)
-
-	# Since we don't know the name of the property to
-	# observe ahead of time, create the observer when
-	# inserted into the DOM (we'll have the key then).
 	didInsertElement: ->
 		makeShowValidationErrors = =>
 			if !(@get('isDestroyed') || @get('isDestroying'))
@@ -66,12 +50,24 @@ BaseFormFieldView = Ember.View.extend
 		$el.closest("form").submit ->
 			makeShowValidationErrors()
 
-		@bindUpdateErrorMessages()
-
 	isLegacyModel: Ember.computed.none("model.errors")
 
-	errorMessages: Ember.computed(-> [])
+	errorMessages: Ember.computed.reads("errorMessagesIndirectionHandler.messages")
 	isOneError: Ember.computed.equal("errorMessages.length", 1)
+	errorMessagesIndirectionHandler: Ember.computed("model", "field", ->
+		fieldName = @get("field")
+		model = @get("model")
+
+		if !@get("isLegacyModel")
+			errorsListKeyName = "model.errors.#{fieldName}"
+		else
+			errorsListKeyName = "model.validationErrors.#{fieldName}.fullMessages"
+
+		Ember.Object.extend(
+			messages: Ember.computed.reads(errorsListKeyName)
+		).create(model: model)
+	)
+
 	isCanShowValidationErrors: false
 	isError: Ember.computed "isCanShowValidationErrors", "errorMessages.length",  ->
 		(@get("errorMessages.length") > 0) && @get("isCanShowValidationErrors")

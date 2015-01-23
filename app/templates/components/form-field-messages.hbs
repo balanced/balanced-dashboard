@@ -1,0 +1,9 @@
+{{#if isDisplayList}}
+	<ul>
+		{{#each message in messages}}
+			<li>{{message}}</li>
+		{{/each}}
+	</ul>
+{{else}}
+	{{messages}}
+{{/if}}

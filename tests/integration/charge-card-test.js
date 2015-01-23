@@ -32,7 +32,7 @@ test('form validation', 2, function() {
 			"#charge-card button:contains(Debit)": 1
 		})
 		.click('button:contains(Debit)')
-		.check("#charge-card .form-group.has-error", 5);
+		.check("#charge-card .form-group.has-error", 6);
 });
 
 test('can charge a card', function() {
@@ -44,25 +44,27 @@ test('can charge a card', function() {
 			href: '/cards/' + Testing.CARD_ID
 		}]
 	});
-
 	visit(Testing.TRANSACTIONS_ROUTE)
 		.click('.page-navigation a:contains(Debit a card)')
 		.fillForm('#charge-card', {
 			name: 'Tarun Chaudhry',
 			number: '4111111111111111',
 			cvv: '123',
-			expiration_date_month: '12',
-			expiration_date_year: '2016',
+			expiration_date: '12 / 2020',
 			postal_code: '95014',
 			appears_on_statement_as: 'My Charge',
 			description: 'Internal',
 			dollar_amount: '12.00'
 		})
+		.then(function() {
+			var model = App.__container__.lookup("controller:modals-container").get("currentModal.model");
+			model.saveCard = function() {
+				return App.__container__.lookupFactory("model:card").find("/cards/" + Testing.CARD_ID);
+			};
+		})
 		.click('button:contains(Debit)')
-		.check("#charge-card", 0)
 		.then(function() {
 			var args = spy.firstCall.args;
-			ok(tokenizingStub.calledOnce);
 			ok(spy.calledOnce);
 			deepEqual(args.slice(0, 2), [Models.Debit, "/cards/%@/debits".fmt(Testing.CARD_ID)]);
 			matchesProperties(args[2], {
@@ -73,3 +75,4 @@ test('can charge a card', function() {
 			});
 		});
 });
+

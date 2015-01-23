@@ -20,6 +20,7 @@ app.import('bower_components/strapped/static/js/bootstrap/tooltip.js');
 app.import('bower_components/strapped/static/js/bootstrap/popover.js');
 
 app.import("bower_components/jquery-csv/src/jquery.csv.js");
+app.import("bower_components/formatter/dist/formatter.js");
 
 app.import("vendor/daterangepicker.js");
 app.import("vendor/ember-validations.prod.js");

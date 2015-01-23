@@ -18,6 +18,12 @@ var formatValidator = function(callback) {
 	};
 };
 
+var isCardExpired = function(month, year) {
+	var endOfMonth = moment("" + month + "/" + year, "MM/YYYY").endOf("month").toDate();
+	var now = new Date();
+	return endOfMonth < now;
+};
+
 var generateTransactionAppearsOnStatementAsValidation = function(maxLength) {
 	return formatValidator(function(object, attribute, value, cb) {
 		var messages = [];
@@ -99,13 +105,15 @@ var ValidationHelpers = Ember.Namespace.create({
 			validator: function(object, attribute, value) {
 				var month = object.get("expiration_month");
 				var year = object.get("expiration_year");
+
 				if (Ember.isEmpty(month)) {
 					object.get("validationErrors").add("expiration_date", "date", null, "month is required");
 				}
 				if (Ember.isEmpty(year)) {
 					object.get("validationErrors").add("expiration_date", "date", null, "year is required");
 				}
-				if (month && year && (moment("" + month + "/" + year, "MM/YYYY").toDate() < (new Date()))) {
+
+				if (month && year && isCardExpired(month, year)) {
 					object.get("validationErrors").add("expiration_date", "date", null, "card is expired");
 				}
 			}
