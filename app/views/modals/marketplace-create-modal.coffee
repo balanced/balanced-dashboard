@@ -38,7 +38,7 @@ MarketplaceCreateView = ModalBaseView.extend(Full, Form, Save,
 				@trackEvent "Gandalf application created", mpApplication.getDebuggingProperties()
 				@close()
 				@getNotificationController()
-					.alertSuccess("Marketplace application created id: /marketplaces#{mpApplication.get("href")}", name: "marketplace-application-success")
+					.alertSuccess("Marketplace application created", name: "marketplace-application-success")
 			.finally =>
 				@set("isSaving", false)
 

@@ -10,7 +10,7 @@ module.exports = function(environment) {
 			FEATURES: {}
 		},
 		APP: {
-			USE_MARKETPLACE_APPLICATION: false
+			USE_MARKETPLACE_APPLICATION: true
 		},
 		BALANCED: {
 			API: 'https://api.balancedpayments.com',
