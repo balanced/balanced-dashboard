@@ -2,10 +2,6 @@
 	<div class="summary">
 		<dl class="linked-resources">
 			{{#if view.status}}
-				<dt>
-					<i class="icon-status non-interactive"></i>
-					Status
-				</dt>
 				<dd {{bind-attr class=":status view.status view.statusClassName"}}>
 					<span>{{sentence-case view.status}}</span>
 

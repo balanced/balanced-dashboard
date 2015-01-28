@@ -1,11 +1,8 @@
-import SummarySectionView from "./summary-section";
+import TransactionBaseSummarySection from "./transaction-base-summary-section";
 
-var ReversalSummarySectionView = SummarySectionView.extend({
-	statusText: Ember.computed.alias('model.status_description'),
-
-	linkedResources: function() {
-		return this.resourceLinks("model.description", "model.credit.customer", "model.credit.destination");
-	}.property("model.description", "model.credit.customer", "model.credit.destination")
+var ReversalSummarySectionView = TransactionBaseSummarySection.extend({
+	fundingInstrument: Ember.computed.reads("model.credit.destination")
 });
 
 export default ReversalSummarySectionView;
+

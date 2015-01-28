@@ -1,20 +1,49 @@
-import SummarySectionView from "./summary-section";
+import BaseSummarySection from "./summary-section-base";
 
-var DisputeSummarySectionView = SummarySectionView.extend({
-	statusText: function() {
-		var status = this.get('model.status');
+var DisputeSummarySectionView = BaseSummarySection.extend({
+	generateItems: function() {
+		var model = this.get("model");
+		this.addLabel("Status", "status");
+		this.addSummaryItem("dispute-status", {
+			model: model
+		});
 
-		if (status === 'needs_attention') {
-			return 'Provide documentation to fight this dispute';
-		} else if (status === 'under_review') {
-			return 'This dispute is under review. Once the card reviewer issues a decision, the status will update to won or lost.';
+		this.addLabel("Customer", "customers");
+		this.addSummaryItem("customer", {
+			modelBinding: "summaryView.customer",
+			summaryView: this
+		});
+
+		this.addLabel("Funding instrument label", {
+			textBinding: "summaryView.fundingInstrumentLabelText",
+			iconBinding: "summaryView.fundingInstrumentLabelIcon",
+			summaryView: this
+		});
+		this.addSummaryItem("funding-instrument", {
+			modelBinding: "summaryView.fundingInstrument",
+			summaryView: this
+		});
+	},
+
+	customer: Ember.computed.reads("model.transaction.customer"),
+
+	fundingInstrument: Ember.computed.reads("model.transaction.source"),
+	fundingInstrumentLabelText: Ember.computed("fundingInstrument.isCard", function() {
+		var isCard = this.get("fundingInstrument.isCard");
+		if (Ember.isBlank(isCard)) {
+			return "Source";
 		}
-		return null;
-	}.property('model.status'),
+		else {
+			return isCard ? "Source card" : "Source bank account";
+		}
+	}),
 
-	linkedResources: function() {
-		return this.resourceLinks("model.transaction.customer", "model.transaction.source");
-	}.property("model.transaction.customer", "model.transaction.source")
+	fundingInstrumentLabelIcon: Ember.computed("fundingInstrument.isCard", function() {
+		var isCard = this.get("fundingInstrument.isCard");
+		if (!Ember.isBlank(isCard)) {
+			return isCard ? "card" : "bank-account";
+		}
+	}),
 });
 
 export default DisputeSummarySectionView;

@@ -1,11 +1,28 @@
-import SummarySectionView from "./summary-section";
-import Utils from "balanced-dashboard/lib/utils";
+import SummarySectionBase from "./summary-section-base";
 
-var InvoiceSummarySectionView = SummarySectionView.extend({
-	statusText: function() {
-		var createdAt = Utils.humanReadableDateLong(this.get('model.settle_at'));
-		return 'on %@'.fmt(createdAt);
-	}.property('model.settle_at')
+var InvoiceSummarySectionView = SummarySectionBase.extend({
+	generateItems: function() {
+		var model = this.get("model");
+		this.addLabel("Status", "status");
+		this.addSummaryItem("invoice-status", {
+			model: model,
+		});
+
+		this.addLabel("Funding instrument label", {
+			textBinding: "summaryView.fundingInstrumentLabelText",
+			iconBinding: "summaryView.fundingInstrumentLabelIcon",
+			summaryView: this
+		});
+		this.addSummaryItem("funding-instrument", {
+			summaryView: this,
+			modelBinding: "summaryView.fundingInstrument"
+		});
+	},
+
+	isSource: true,
+	fundingInstrument: Ember.computed.reads("model.source"),
+	fundingInstrumentLabelText: "Source",
+	fundingInstrumentLabelIcon: "bank-account"
 });
 
 export default InvoiceSummarySectionView;
