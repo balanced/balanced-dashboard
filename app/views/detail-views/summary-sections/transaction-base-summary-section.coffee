@@ -6,13 +6,10 @@ TransactionBaseSummarySection = SummarySectionBaseView.extend(
 		model = @get("model")
 		@addLabel("Status", "status")
 		@addSummaryItem("transaction-status", model: model)
-
-		@addLabel "Internal description", "description"
+		@addInternalDescriptionLabel()
 		@addSummaryItem("model-description", model: model)
-
 		@addLabel "Customer", "customers"
 		@addSummaryItem("customer", modelBinding: "transaction.customer", transaction: model)
-
 		@addLabel("Funding instrument",
 			textBinding: "summaryView.fundingInstrumentLabelText"
 			iconBinding: "summaryView.fundingInstrumentLabelIcon"

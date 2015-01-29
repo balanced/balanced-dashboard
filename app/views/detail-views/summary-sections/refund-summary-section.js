@@ -8,7 +8,7 @@ var RefundSummarySectionView = SummarySectionBase.extend({
 			model: model,
 		});
 
-		this.addLabel("Internal description", "description");
+		this.addInternalDescriptionLabel();
 		this.addSummaryItem("model-description", {
 			model: model
 		});

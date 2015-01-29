@@ -15,6 +15,14 @@ SummarySectionBase = Ember.View.extend(
 
 	addSummaryItem: (name, attrs) ->
 		@addItem("detail-views/summary-items/#{name}", attrs)
+
+	addInternalDescriptionLabel: ->
+		@addLabel("Internal description",
+			icon: "description",
+			model: @get("model"),
+			modalEditClass: @container.lookupFactory("view:modals/edit-description-modal")
+		)
+
 )
 
 `export default SummarySectionBase;`
