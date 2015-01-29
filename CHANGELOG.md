@@ -1,5 +1,10 @@
 # Balanced Dashboard Changelog
 
+### master
+
+* Refactoring how model sidebars are displayed
+* Turning off marketplace application process temporarily
+
 ### 1.2.1
 
 * Adding formatted input library
