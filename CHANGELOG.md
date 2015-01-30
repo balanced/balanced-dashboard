@@ -1,5 +1,10 @@
 # Balanced Dashboard Changelog
 
+
+### master
+
+* Fixing restart verification button not showing after the wait period is over
+
 ### 1.2.1
 
 * Adding formatted input library
