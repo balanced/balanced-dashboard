@@ -1,5 +1,6 @@
 import TransactionFactory from "./transaction-factory";
 import ValidationHelpers from "balanced-dashboard/utils/validation-helpers";
+import ValidationServerErrorHandler from "balanced-dashboard/utils/error-handlers/validation-server-error-handler";
 
 var DebitExistingFundingInstrumentTransactionFactory = TransactionFactory.extend({
 	appears_on_statement_max_length: Ember.computed.oneWay("source.appears_on_statement_max_length"),
@@ -11,28 +12,42 @@ var DebitExistingFundingInstrumentTransactionFactory = TransactionFactory.extend
 	},
 
 	validations: {
+		source: {
+			presence: {
+				message: "a source must be selected"
+			}
+		},
 		dollar_amount: ValidationHelpers.positiveDollarAmount,
 		appears_on_statement_as: ValidationHelpers.cardTransactionAppearsOnStatementAs,
 	},
 
 	save: function() {
 		var Debit = BalancedApp.__container__.lookupFactory("model:debit");
-		var deferred = Ember.RSVP.defer();
-
+		var self = this;
 		this.validate();
 		if (this.get("isValid")) {
-			Debit.create(this.getDebitAttributes())
+			return Debit.create(this.getDebitAttributes())
 				.save()
-				.then(function(model) {
-					deferred.resolve(model);
-				}, function() {
-					deferred.reject();
+				.catch(function(response) {
+					if (response.debits && response.debits.length > 0) {
+						var debit = Debit.create();
+						debit.setProperties({
+							isNew: false,
+							href: response.debits[0].href,
+							uri: response.debits[0].href,
+						});
+						debit.populateFromJsonResponse(response);
+						return debit;
+					}
+					else {
+						var errorHandler = new ValidationServerErrorHandler(self, response);
+						errorHandler.execute();
+						return Ember.RSVP.reject(self);
+					}
 				});
 		} else {
-			deferred.reject();
+			return Ember.RSVP.reject(this);
 		}
-
-		return deferred.promise;
 	}
 });
 

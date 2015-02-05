@@ -18,6 +18,8 @@ class ValidationServerErrorHandler extends BaseErrorHandler
 				_.each error.extras, (message, key) =>
 					key = @getServerExtraKeyMapping(key)
 					@addErrorMessage(key, message)
+			else if error.additional
+				@addErrorMessage(undefined, error.additional)
 			else if error.description
 				if error.description.indexOf(" - ") > 0
 					message = error.description.split(" - ")[1]

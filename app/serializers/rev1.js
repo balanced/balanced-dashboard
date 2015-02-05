@@ -15,7 +15,7 @@ var Rev1Serializer = Ember.Object.extend({
 		var modelObj;
 		var objType;
 
-		var objTypes = _.keys(_.omit(rootJson, "links", "meta"));
+		var objTypes = _.keys(_.omit(rootJson, "links", "meta", "errors"));
 		if (objTypes.length === 0) {
 			return null;
 		}

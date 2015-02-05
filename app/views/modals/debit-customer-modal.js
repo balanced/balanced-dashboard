@@ -25,14 +25,15 @@ var DebitCustomerModalView = ModalBaseView.extend(Full, Form, Save, {
 	}.property("customer"),
 	fundingInstruments: Ember.computed.oneWay('customer.debitable_funding_instruments'),
 
+	onModelSaved: function (model) {
+		this.get("controller").transitionToRoute(model.get("route_name"), model);
+		this.close();
+		return model;
+	},
+
 	actions: {
 		save: function() {
-			var controller = this.get("controller");
-
-			this.save(this.get("model"))
-				.then(function(model) {
-					controller.transitionToRoute(model.get("route_name"), model);
-				});
+			this.save(this.get("model"));
 		},
 	}
 });

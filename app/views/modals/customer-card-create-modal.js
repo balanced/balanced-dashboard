@@ -13,12 +13,13 @@ var CustomerCardCreateModalView = ModalBaseView.extend(Full, Form, Save, {
 	submitButtonText: "Add",
 
 	model: function() {
+		var currentDate = new Date();
 		return CardValidatable.create({
 			name: '',
 			number: '',
 			cvv: '',
-			expiration_month: '',
-			expiration_year: '',
+			expiration_month: currentDate.getMonth() + 1,
+			expiration_year: currentDate.getFullYear(),
 			address: this.get('customer.address') || {}
 		});
 	}.property(),
@@ -27,23 +28,25 @@ var CustomerCardCreateModalView = ModalBaseView.extend(Full, Form, Save, {
 	isSaving: Ember.computed.oneWay("model.isSaving"),
 
 	save: function(fundingInstrument) {
-		var self = this;
+		var customerId = this.get("customer.id");
 		fundingInstrument.get("validationErrors").clear();
-		return fundingInstrument
-			.tokenizeAndCreate(this.get('customer.id'))
-			.then(function(model) {
-				self.close();
-				return model;
-			});
+		this.executeAction(function() {
+			fundingInstrument.tokenizeAndCreate(customerId);
+		});
+	},
+
+	onModelSaved: function (model) {
+		this.get("controller").transitionToRoute(model.get("route_name"), model);
+		this.close();
+		return model;
 	},
 
 	actions: {
 		save: function() {
-			var controller = this.get("controller");
-			this.save(this.get("model"))
-				.then(function(model) {
-					controller.transitionToRoute(model.get("route_name"), model);
-				});
+			var self = this;
+			this.executeAction(function () {
+				return self.save(self.get("model"));
+			});
 		}
 	}
 });

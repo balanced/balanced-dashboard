@@ -301,6 +301,25 @@ Model.reopenClass({
 		return modelObject;
 	},
 
+	fetch: function(uri, settings) {
+		var modelClass = this;
+		var deferred = Ember.RSVP.defer();
+		this
+			.getAdapter()
+			.get(modelClass, uri, function(json) {
+				var object = modelClass.create({
+					uri: uri,
+					isLoaded: false,
+					isNew: false
+				});
+				object.populateFromJsonResponse(json, uri);
+				deferred.resolve(object);
+			}, function(error) {
+				deferred.reject(error.responseJSON);
+			});
+		return deferred.promise;
+	},
+
 	findAll: function(settings) {
 		var uri = this.create().get('uri');
 

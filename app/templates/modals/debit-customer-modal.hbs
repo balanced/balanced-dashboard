@@ -22,11 +22,15 @@
 	{{view "form-fields/static-text-form-field"
 		labelText="Name on account"
 		value=view.model.source.name
+		model=view.model
+		field="source"
 	}}
 
 	{{view "form-fields/static-text-form-field"
 		labelText="Bank"
 		value=view.model.source.formatted_bank_name
+		model=view.model
+		field="source"
 	}}
 
 	{{view "form-fields/amount-form-field" model=view.model field="dollar_amount" labelText="Amount"}}
