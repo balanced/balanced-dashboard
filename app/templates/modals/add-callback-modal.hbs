@@ -1,5 +1,7 @@
-{{#view "form-fields/form-section" callbackRevisions=view.callbackRevisions model=view.model}}
-	{{view "form-fields/text-form-field" model=view.model inputClassNames="full"
+{{#view "form-fields/form-section" callbackRevisions=view.callbackRevisions model=view.model viewName="formSection"}}
+	{{view "form-fields/text-form-field" inputClassNames="full"
+		viewName="urlField"
+		model=view.model
 		labelText="URL"
 		field="url"
 		explanationText="Include http:// or https://"

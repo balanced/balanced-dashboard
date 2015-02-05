@@ -3,7 +3,6 @@ import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
 import Callback from "balanced-dashboard/models/callback";
 import Wide from "balanced-dashboard/views/modals/mixins/wide-modal-mixin";
 import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
-import ValidationServerErrorHandler from "balanced-dashboard/utils/error-handlers/validation-server-error-handler";
 
 var AddCallbackModalView = ModalBaseView.extend(Wide, Form, Save, {
 	templateName: 'modals/add-callback-modal',
@@ -39,20 +38,7 @@ var AddCallbackModalView = ModalBaseView.extend(Wide, Form, Save, {
 
 	save: function(model) {
 		this.executeAction(function() {
-			model.validate();
-			if (model.get("isValid")) {
-				return model.save()
-					.then(function() {
-						return model;
-					}, function(response) {
-						var errorHandler = new ValidationServerErrorHandler(model, response);
-						errorHandler.execute();
-						return Ember.RSVP.reject(model);
-					});
-			}
-			else {
-				return Ember.RSVP.reject(model);
-			}
+			return model.validateAndSave();
 		});
 	},
 

@@ -23,9 +23,9 @@ ObjectActionMixin = Ember.Mixin.create(
 			@onModelSaved(model)
 
 		errorHandler = (model) ->
-			console.log "errorHandler", model
 			if !Ember.isBlank(model)
-				getRootErrorMessages(model).forEach (message) ->
+				messages = getRootErrorMessages(model)
+				messages.forEach (message) ->
 					notificationsController.alertError(message)
 				return Ember.RSVP.reject(model)
 			else
