@@ -92,6 +92,11 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 		return promise;
 	},
 
+	ingestErrorResponse: function(response) {
+		var errorHandler = new ValidationServerErrorHandler(this, response);
+		errorHandler.execute();
+	},
+
 	validateAndSave: function(settings) {
 		this.get("validationErrors").clear();
 		this.validate();
@@ -118,16 +123,11 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 				});
 			};
 
-			var errorHandler = function(response) {
-				var errorHandler = new ValidationServerErrorHandler(self, response);
-				errorHandler.execute();
-			};
-
 			adapterFunc.call(Adapter, this.constructor, uri, data, function(json) {
 				successHandler(json);
 				deferred.resolve(self);
 			}, function(response) {
-				errorHandler(response.responseJSON);
+				self.ingestErrorResponse(response.responseJSON);
 				deferred.reject(self);
 			}, settings);
 			return deferred.promise;

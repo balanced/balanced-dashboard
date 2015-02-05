@@ -41,6 +41,11 @@ ObjectActionMixin = Ember.Mixin.create(
 		@executeAction ->
 			return model.delete()
 
+	validateAndSaveModel: ->
+		model = @get("model")
+		@executeAction ->
+			return model.validateAndSave()
+
 	save: (model) ->
 		@executeAction ->
 			if model.get("validationErrors")

@@ -1,9 +1,9 @@
 import ModalBaseView from "./modal-base";
 import Full from "balanced-dashboard/views/modals/mixins/full-modal-mixin";
 import Form from "balanced-dashboard/views/modals/mixins/form-modal-mixin";
-import Verification from "balanced-dashboard/models/verification";
+import Save from "balanced-dashboard/views/modals/mixins/object-action-mixin";
 
-var VerifyBankAccountModalView = ModalBaseView.extend(Full, Form, {
+var VerifyBankAccountModalView = ModalBaseView.extend(Full, Form, Save, {
 	templateName: 'modals/verify-bank-account',
 	elementId: 'verify-bank-account',
 	title: "Bank account verification",
@@ -15,29 +15,24 @@ var VerifyBankAccountModalView = ModalBaseView.extend(Full, Form, {
 		this.getModalNotificationController().clearAlerts();
 	},
 
+	model: Ember.computed("bankAccount.bank_account_verifications_uri", function() {
+		var uri = this.get("bankAccount.bank_account_verifications_uri");
+		var verification = this.get("container").lookup("model:verification");
+		verification.set("uri", uri);
+		return verification;
+	}),
+
+	onModelSaved: function() {
+		var notification = this.getNotificationController();
+		notification.alertSuccess("Verification started. Remember to verify your bank account once you receive your microdeposits in 1–2 business days.");
+		this.get("container").lookup("controller:marketplace").updateBankAccountNotifications();
+		this.get("bankAccount").reload();
+		this.close();
+	},
+
 	actions: {
 		save: function() {
-			var self = this;
-			var notification = this.getNotificationController();
-			var modalNotification = this.getModalNotificationController();
-			var verification = Verification.create({
-				uri: this.get('bankAccount.bank_account_verifications_uri')
-			});
-
-			self.set("isSaving", true);
-			verification
-				.save()
-				.then(function(model) {
-					model.reload();
-					self.get('bankAccount').reload();
-					self.set("isSaving", false);
-					notification.alertSuccess("Verification started. Remember to verify your bank account once you receive your microdeposits in 1–2 business days.");
-					self.get("container").lookup("controller:marketplace").updateBankAccountNotifications();
-					self.close();
-				}, function(response) {
-					modalNotification.alertError(response.errors[0].additional);
-					self.set("isSaving", false);
-				});
+			this.validateAndSaveModel();
 		}
 	}
 });

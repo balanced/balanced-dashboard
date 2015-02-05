@@ -11,11 +11,11 @@ var BankAccountVerificationConfirmModalView = ModalBaseView.extend(Full, Form, S
 	submitButtonText: "Verify",
 
 	sectionTitle: function() {
-		return "Verification: %@ attempts left".fmt(this.get("verification.attempts_remaining"));
-	}.property("verification.attempts_remaining"),
+		return "Verification: %@ attempts left".fmt(this.get("model.attempts_remaining"));
+	}.property("model.attempts_remaining"),
 
 	failedConfirmation: false,
-	verification: Ember.computed.oneWay("bankAccount.verification"),
+	model: Ember.computed.oneWay("bankAccount.verification"),
 
 	errorSaving: function(error) {
 		var verification = this.get('verification');
@@ -25,42 +25,36 @@ var BankAccountVerificationConfirmModalView = ModalBaseView.extend(Full, Form, S
 		verification.reload();
 	},
 
+	onModelSaved: function(verification) {
+		var notification = this.getNotificationController();
+
+		this.get("bankAccount").reload();
+		this.get("model").reload();
+		notification.alertSuccess("Bank account verified");
+		this.close();
+	},
+
+	onModelError: function() {
+		var self = this;
+		var notification = this.getNotificationController();
+		var verification = this.get("model");
+		return verification.reload()
+			.then(function() {
+				var message = "Verification failed. You may restart the verification process after three business days.";
+				if (verification.get("verification_status") === "failed") {
+					notification.alertError(message);
+					self.close();
+				}
+				return Ember.RSVP.reject(verification);
+			});
+	},
+
 	actions: {
 		save: function() {
 			var self = this;
-			var verification = this.get("verification");
-			var bankAccount = this.get("bankAccount");
-
-			var notification = this.getNotificationController();
-			var modalNotification = this.getModalNotificationController();
-
-			verification.get("validationErrors").clear();
-			modalNotification.clearAlerts();
-
-			this.save(verification)
-				.then(function() {
-					verification.reload();
-					bankAccount.reload();
-					notification.alertSuccess("Bank account verified");
-				}, function(errors) {
-					verification.reload();
-
-					if (verification.get("verification_status") === "failed") {
-						self.close();
-						notification.alertError("Verification failed. You may restart the verification process after three business days.");
-						return Ember.RSVP.reject();
-					}
-
-					var globalMessages = verification.get("validationErrors.messages");
-					if (globalMessages.get("length") > 0) {
-						globalMessages.forEach(function(message) {
-							modalNotification.alertError(message);
-						});
-					} else {
-						modalNotification.alertError("Please fix the errors below.");
-					}
-
-					return Ember.RSVP.reject();
+			this.validateAndSaveModel()
+				.catch(function() {
+					return self.onModelError();
 				});
 		}
 	}

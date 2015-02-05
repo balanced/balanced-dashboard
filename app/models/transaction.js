@@ -5,7 +5,7 @@ var isStatus = function(status) {
 	return Ember.computed.equal('status', status);
 };
 
-var Transaction = Model.extend({
+var Transaction = Model.extend(Ember.Validations, {
 	customer: Model.belongsTo('customer', 'customer'),
 	events: Model.hasMany('events', 'event'),
 

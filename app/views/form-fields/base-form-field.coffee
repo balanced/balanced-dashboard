@@ -16,7 +16,7 @@ BaseFormFieldView = Ember.View.extend
 			model.set(field, value)
 
 		if model
-			return model.get("field")
+			return model.get(field)
 
 	displayAlertErrors: ->
 		$('.alert-error').hide()

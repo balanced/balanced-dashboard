@@ -9,7 +9,7 @@ var CUSTOMER_TYPES = {
 	PERSON: 'Person'
 };
 
-var Customer = Model.extend({
+var Customer = Model.extend(Ember.Validations, {
 	bank_accounts: Model.hasMany('bank_accounts', 'bank-account'),
 	cards: Model.hasMany('cards', 'card'),
 	transactions: Model.hasMany('transactions', 'transaction'),

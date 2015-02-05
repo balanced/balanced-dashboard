@@ -36,16 +36,9 @@ var AddCallbackModalView = ModalBaseView.extend(Wide, Form, Save, {
 		this.close();
 	},
 
-	save: function(model) {
-		this.executeAction(function() {
-			return model.validateAndSave();
-		});
-	},
-
 	actions: {
 		save: function() {
-			var model = this.get("model");
-			this.save(model);
+			this.validateAndSaveModel();
 		}
 	}
 });
