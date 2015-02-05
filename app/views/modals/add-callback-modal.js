@@ -30,6 +30,7 @@ var AddCallbackModalView = ModalBaseView.extend(Wide, Form, Save, {
 	}.property('marketplace.callbacks_uri'),
 
 	onModelSaved: function(model) {
+		this.get("marketplace").reload();
 		this.getNotificationController().alertSuccess('Your callback has been added.', {
 			expire: true
 		});
