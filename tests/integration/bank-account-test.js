@@ -142,8 +142,9 @@ test('can initiate bank account verification', function() {
 		.check('#verify-bank-account', 1)
 		.click('#verify-bank-account .modal-footer button[name=modal-submit]')
 		.then(function() {
-			ok(stub.calledOnce);
-			ok(stub.calledWith(Models.Verification, '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/verifications'));
+			ok(stub.calledOnce, "Adapter#create called once");
+			deepEqual(stub.args[0][0], App.__container__.lookupFactory("model:verification"));
+			deepEqual(stub.args[0][1], '/bank_accounts/' + Testing.BANK_ACCOUNT_ID + '/verifications');
 		});
 });
 
