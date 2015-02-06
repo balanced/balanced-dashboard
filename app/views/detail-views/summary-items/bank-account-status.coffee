@@ -12,7 +12,7 @@ BankAccountStatus = Base.extend(
 				 'You may only credit to this bank account. This bank account is unverifiable because it\'s not associated with a customer.'
 			when "failed"
 				date = Utils.humanReadableDate @get('verificationRestartDate')
-				"We could not verify your bank account. You may restart the verification process after #{date}".
+				"We could not verify your bank account. You may restart the verification process after #{date}"
 			else
 				null
 	)
