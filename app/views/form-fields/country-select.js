@@ -6,7 +6,7 @@ var CountrySelectView = SelectFormFieldView.extend({
 	content: Ember.computed(function() {
 		var result = [{
 			name: "",
-			code: ""
+			code: null
 		}];
 		return result.concat(CountryCodes);
 	}),
