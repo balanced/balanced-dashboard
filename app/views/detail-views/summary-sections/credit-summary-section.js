@@ -1,11 +1,5 @@
-import SummarySectionView from "./summary-section";
+import TransactionBaseSummarySection from "./transaction-base-summary-section";
 
-var CreditSummarySectionView = SummarySectionView.extend({
-	statusText: Ember.computed.alias('model.status_description'),
-
-	linkedResources: function() {
-		return this.resourceLinks("model.description", "model.customer", "model.destination");
-	}.property("model.customer", "model.destination", "model.description")
-});
+var CreditSummarySectionView = TransactionBaseSummarySection.extend();
 
 export default CreditSummarySectionView;

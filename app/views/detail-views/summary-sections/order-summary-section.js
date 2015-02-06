@@ -1,16 +1,26 @@
-import SummarySectionView from "./summary-section";
+import SummarySectionBase from "./summary-section-base";
 
-var OrderSummarySectionView = SummarySectionView.extend({
-	statusText: function() {
-		if (this.get("model.status") === "overdue") {
-			return "Funds in this order are older than 30 days. Pay out your outstanding balance now.";
-		}
-		return null;
-	}.property("model.status"),
+var OrderSummarySectionView = SummarySectionBase.extend({
+	generateItems: function() {
+		var model = this.get("model");
+		this.addLabel("Status", "status");
+		this.addSummaryItem("order-status", {
+			model: model,
+		});
 
-	linkedResources: function() {
-		return this.resourceLinks("model.description", "model.seller");
-	}.property("model.description", "model.seller")
+		this.addInternalDescriptionLabel();
+		this.addSummaryItem("model-description", {
+			model: model
+		});
+
+		this.addLabel("Merchant", "customers");
+		this.addSummaryItem("customer", {
+			sectionView: this,
+			modelBinding: "sectionView.merchant"
+		});
+	},
+
+	merchant: Ember.computed.reads("model.seller")
 });
 
 export default OrderSummarySectionView;

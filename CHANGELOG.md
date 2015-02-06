@@ -1,9 +1,10 @@
 # Balanced Dashboard Changelog
 
-
 ### master
 
 * Fixing restart verification button not showing after the wait period is over
+* Refactoring how model sidebars are displayed
+* Turning off marketplace application process temporarily
 
 ### 1.2.1
 
