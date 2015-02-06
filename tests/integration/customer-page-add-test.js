@@ -73,7 +73,7 @@ test('can add card', function() {
 			cvv: '123',
 			name: 'TEST'
 		})
-		.click('#add-card .modal-footer button[name="modal-submit"]')
+		.click('#add-card .modal-footer button[name=modal-submit]')
 		.then(function() {
 			var callArgs = tokenizingStub.firstCall.args;
 			ok(tokenizingStub.calledOnce);
@@ -187,5 +187,5 @@ test('can add card with address', function() {
 
 test('verification renders properly against rev1', function() {
 	visit(Testing.CUSTOMER_ROUTE)
-		.check(".status.verified span", "Verified");
+		.check(".status.succeeded span", "Verified");
 });

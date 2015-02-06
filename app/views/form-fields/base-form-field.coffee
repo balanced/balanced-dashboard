@@ -4,31 +4,19 @@ BaseFormFieldView = Ember.View.extend
 	layoutName: "form-fields/form-field-layout"
 	templateName: "form-fields/base-form-field"
 	classNameBindings: [":form-group", "isError:has-error"]
-	inputName: (->
-		return @get("field").replace(/\./, "_")
-	).property("field")
+	inputName: Ember.computed "field", ->
+		@get("field").replace(/\./, "_")
 
-	setModelValue: (value) ->
+	value: Ember.computed "model", "field", (a, value) ->
 		model = @get("model")
 		field = @get("field")
-		if (model)
+
+		# setter
+		if arguments.length > 1 && model
 			model.set(field, value)
-		else
-			null
 
-	getModelValue: ->
-		model = @get("model")
-		field = @get("field")
 		if model
 			return model.get(field)
-		else
-			null
-
-	value: ( (a, value) ->
-		if arguments.length > 1
-			@setModelValue(value)
-		return @getModelValue()
-	).property("model", "field")
 
 	displayAlertErrors: ->
 		$('.alert-error').hide()
@@ -54,22 +42,25 @@ BaseFormFieldView = Ember.View.extend
 
 	errorMessages: Ember.computed.reads("errorMessagesIndirectionHandler.messages")
 	isOneError: Ember.computed.equal("errorMessages.length", 1)
-	errorMessagesIndirectionHandler: Ember.computed("model", "field", ->
+	errorMessagesIndirectionHandler: Ember.computed "isLegacyModel", "model", "field", ->
 		fieldName = @get("field")
 		model = @get("model")
 
 		if !@get("isLegacyModel")
 			errorsListKeyName = "model.errors.#{fieldName}"
 		else
-			errorsListKeyName = "model.validationErrors.#{fieldName}.fullMessages"
-
+			errorsListKeyName = "model.validationErrors.#{fieldName}.messages"
 		Ember.Object.extend(
 			messages: Ember.computed.reads(errorsListKeyName)
 		).create(model: model)
-	)
 
 	isCanShowValidationErrors: false
-	isError: Ember.computed "isCanShowValidationErrors", "errorMessages.length",  ->
-		(@get("errorMessages.length") > 0) && @get("isCanShowValidationErrors")
+
+	isError: Ember.computed "isCanShowValidationErrors", "isLegacyModel", "errorMessages.length",  ->
+		length = @get("errorMessages.length")
+		if @get("isLegacyModel")
+			length > 0
+		else
+			(length > 0) && @get("isCanShowValidationErrors")
 
 `export default BaseFormFieldView;`

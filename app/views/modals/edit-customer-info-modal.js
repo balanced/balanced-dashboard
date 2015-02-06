@@ -18,18 +18,17 @@ var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
 
 	marketplaceOwner: false,
 
+	onModelSaved: function() {
+		this.getNotificationController().alertSuccess('Your customer has been saved.', {
+			expire: true
+		});
+		this.get("originalModel").reload();
+		this.close();
+	},
+
 	actions: {
 		save: function() {
-			var notification = this.getNotificationController();
-			this.save(this.get("model"))
-				.then(function(model) {
-					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
-					model.reload();
-					notification.clearAlerts();
-					notification.alertSuccess(message, {
-						expire: true
-					});
-				});
+			this.validateAndSaveModel();
 		}
 	}
 });
@@ -37,7 +36,8 @@ var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
 EditCustomerInfoModalView.reopenClass({
 	open: function(model) {
 		return this.create({
-			model: model
+			originalModel: model,
+			model: model.copy()
 		});
 	}
 });

@@ -1,0 +1,7 @@
+<i {{bind-attr class=view.iconClasses}}></i> {{view.text}}
+
+{{#if view.isModalEditLink}}
+	<a class="edit-model-link" {{action "openModal" view.modalEditClass view.model}}>
+		<i class="icon-edit"></i>
+	</a>
+{{/if}}

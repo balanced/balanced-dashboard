@@ -5,6 +5,7 @@ import Computed from "balanced-dashboard/utils/computed";
 import Rev1Serializer from "balanced-dashboard/serializers/rev1";
 import Utils from "balanced-dashboard/lib/utils";
 import ModelArray from "./model-array";
+import ValidationServerErrorHandler from "balanced-dashboard/utils/error-handlers/validation-server-error-handler";
 
 var JSON_PROPERTY_KEY = '__json';
 var URI_POSTFIX = '_uri';
@@ -89,6 +90,51 @@ var Model = Ember.Object.extend(Ember.Evented, Ember.Copyable, LoadPromise, {
 		}, $.proxy(self._handleError, self), settings);
 
 		return promise;
+	},
+
+	ingestErrorResponse: function(response) {
+		var errorHandler = new ValidationServerErrorHandler(this, response);
+		errorHandler.execute();
+	},
+
+	validateAndSave: function(settings) {
+		this.get("validationErrors").clear();
+		this.validate();
+		if (this.get("isValid")) {
+			var Adapter = this.constructor.getAdapter();
+			var self = this;
+			settings = settings || {};
+			var data = this.constructor.serializer.serialize(this);
+
+			self.set('isSaving', true);
+
+			var creatingNewModel = this.get('isNew');
+			var uri = creatingNewModel ? this._createUri() : this.get('uri');
+			var adapterFunc = creatingNewModel ? Adapter.create : Adapter.update;
+			var deferred = Ember.RSVP.defer();
+			var successHandler = function(json) {
+				var deserializedJson = self.constructor.serializer.extractSingle(json, self.constructor, (creatingNewModel ? null : self.get('href')));
+				self._updateFromJson(deserializedJson);
+				self.setProperties({
+					isNew: false,
+					isSaving: false,
+					isValid: true,
+					isError: false
+				});
+			};
+
+			adapterFunc.call(Adapter, this.constructor, uri, data, function(json) {
+				successHandler(json);
+				deferred.resolve(self);
+			}, function(response) {
+				self.ingestErrorResponse(response.responseJSON);
+				deferred.reject(self);
+			}, settings);
+			return deferred.promise;
+		}
+		else {
+			return Ember.RSVP.reject(this);
+		}
 	},
 
 	_createUri: function() {
@@ -299,6 +345,25 @@ Model.reopenClass({
 			}, $.proxy(modelObject._handleError, modelObject));
 
 		return modelObject;
+	},
+
+	fetch: function(uri, settings) {
+		var modelClass = this;
+		var deferred = Ember.RSVP.defer();
+		this
+			.getAdapter()
+			.get(modelClass, uri, function(json) {
+				var object = modelClass.create({
+					uri: uri,
+					isLoaded: false,
+					isNew: false
+				});
+				object.populateFromJsonResponse(json, uri);
+				deferred.resolve(object);
+			}, function(error) {
+				deferred.reject(error.responseJSON);
+			});
+		return deferred.promise;
 	},
 
 	findAll: function(settings) {

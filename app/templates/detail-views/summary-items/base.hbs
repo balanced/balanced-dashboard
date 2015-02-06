@@ -1,0 +1,32 @@
+{{#if view.isLoading}}
+	<span class="sl-none">Loading</span>
+{{else}} {{#if view.isBlank}}
+	<span class="sl-none">none</span>
+{{else}} {{#if view.isLink}}
+	{{#link-to view.routeName view.model title=view.hoverValue}}
+		{{view.text}}
+	{{/link-to}}
+{{else}}
+	<span>{{view.text}}</span>
+{{/if}} {{/if}} {{/if}}
+
+{{#if view.isDescription}}
+	<p>
+		{{view.description}}
+		{{#if view.isLearnMoreText}}
+			<a {{action "toggleDrawer" target=view}}>Learn more</a>
+		{{/if}}
+	</p>
+{{/if}}
+{{#if view.isHasButton}}
+	<a class="btn sm" {{action "openModal" view.buttonModal view.buttonModalArgument}}>
+		{{view.buttonModalText}}
+	</a>
+{{/if}}
+
+
+{{#if view.isLearnMoreText}}
+	<p {{bind-attr class=":drawer view.isShowLearnMoreSection:drawer-open"}}>
+		{{view.learnMoreText}}
+	</p>
+{{/if}}

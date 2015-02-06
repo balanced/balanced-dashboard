@@ -51,7 +51,7 @@ test('can edit customer info', function() {
 			deepEqual(args[2].email, "whc@example.org");
 			deepEqual(args[2].address, {
 				"city": "Nowhere",
-				"country_code": null,
+				"country_code": undefined,
 				"line1": null,
 				"line2": null,
 				"postal_code": "90210",

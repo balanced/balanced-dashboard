@@ -18,13 +18,17 @@ class ValidationServerErrorHandler extends BaseErrorHandler
 				_.each error.extras, (message, key) =>
 					key = @getServerExtraKeyMapping(key)
 					@addErrorMessage(key, message)
+			else if error.additional
+				@addErrorMessage(undefined, error.additional)
 			else if error.description
 				if error.description.indexOf(" - ") > 0
 					message = error.description.split(" - ")[1]
 				else
 					message = error.description
-				@addErrorMessage("", message)
+				@addErrorMessage(undefined, message)
 			else
-				@addErrorMessage("", error[0])
+				@addErrorMessage(undefined, error[0])
+
+		@model.notifyPropertyChange("validationErrors")
 
 `export default ValidationServerErrorHandler;`

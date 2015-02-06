@@ -13,12 +13,13 @@ var ApiKeyCreateModalView = ModalBaseView.extend(Form, {
 	submitButtonText: "Add",
 
 	buildApiKey: function(name) {
-		var klass = this.get("container").lookupFactory("model:api-key");
-		return klass.create({
+		var model = this.get("container").lookup("model:api-key");
+		model.setProperties({
 			meta: {
 				name: name
 			}
 		});
+		return model;
 	},
 
 	buildUserMarketplace: function(uri, key) {

@@ -10,18 +10,19 @@ var EditDescriptionModalView = ModalBaseView.extend(Full, Form, Save, {
 	cancelButtonText: "Cancel",
 	submitButtonText: "Edit",
 
+	onModelSaved: function() {
+		var typeName = this.get("model.type_name");
+		var message = 'Your %@ has been updated.'.fmt(typeName.toLowerCase());
+		this.getNotificationController().alertSuccess(message, {
+			expire: true
+		});
+		this.get("originalModel").reload();
+		this.close();
+	},
+
 	actions: {
 		save: function() {
-			var notification = this.getNotificationController();
-			this.save(this.get("model"))
-				.then(function(model) {
-					var message = 'Your %@ has been updated.'.fmt(model.get("type_name").toLowerCase());
-					model.reload();
-					notification.clearAlerts();
-					notification.alertSuccess(message, {
-						expire: true
-					});
-				});
+			this.validateAndSaveModel();
 		}
 	}
 });
@@ -29,7 +30,8 @@ var EditDescriptionModalView = ModalBaseView.extend(Full, Form, Save, {
 EditDescriptionModalView.reopenClass({
 	open: function(model) {
 		return this.create({
-			model: model
+			originalModel: model,
+			model: model.copy()
 		});
 	}
 });

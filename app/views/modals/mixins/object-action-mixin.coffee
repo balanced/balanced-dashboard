@@ -24,7 +24,8 @@ ObjectActionMixin = Ember.Mixin.create(
 
 		errorHandler = (model) ->
 			if !Ember.isBlank(model)
-				getRootErrorMessages(model).forEach (message) ->
+				messages = getRootErrorMessages(model)
+				messages.forEach (message) ->
 					notificationsController.alertError(message)
 				return Ember.RSVP.reject(model)
 			else
@@ -40,8 +41,15 @@ ObjectActionMixin = Ember.Mixin.create(
 		@executeAction ->
 			return model.delete()
 
+	validateAndSaveModel: ->
+		model = @get("model")
+		@executeAction ->
+			return model.validateAndSave()
+
 	save: (model) ->
 		@executeAction ->
+			if model.get("validationErrors")
+				model.get("validationErrors").clear()
 			return model.save()
 )
 

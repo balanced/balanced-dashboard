@@ -1,11 +1,36 @@
-import SummarySectionView from "./summary-section";
+import SummarySectionBase from "./transaction-base-summary-section";
 
-var RefundSummarySectionView = SummarySectionView.extend({
-	statusText: Ember.computed.alias('model.status_description'),
+var RefundSummarySectionView = SummarySectionBase.extend({
+	generateItems: function() {
+		var model = this.get("model");
+		this.addLabel("Status", "status");
+		this.addSummaryItem("refund-status", {
+			model: model,
+		});
 
-	linkedResources: function() {
-		return this.resourceLinks("model.description", "model.debit.customer", "model.debit.source");
-	}.property("model.description", "model.debit.refunds.length", "model.debit.customer", "model.debit.source")
+		this.addInternalDescriptionLabel();
+		this.addSummaryItem("model-description", {
+			model: model
+		});
+
+		this.addLabel("Customer", "customers");
+		this.addSummaryItem("customer", {
+			sectionView: this,
+			modelBinding: "sectionView.debit.customer"
+		});
+		this.addLabel("Funding instrument", {
+			textBinding: "summaryView.fundingInstrumentLabelText",
+			iconBinding: "summaryView.fundingInstrumentLabelIcon",
+			summaryView: this
+		});
+		this.addSummaryItem("funding-instrument", {
+			summaryView: this,
+			modelBinding: "summaryView.fundingInstrument"
+		});
+	},
+
+	isSource: true,
+	fundingInstrument: Ember.computed.reads("model.debit.source"),
 });
 
 export default RefundSummarySectionView;

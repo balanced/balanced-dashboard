@@ -1,4 +1,4 @@
-{{#view "form-fields/form-section" verification=view.verification bankAccount=view.bankAccount sectionTitle=view.sectionTitle sectionDescription="Enter the two micro-deposit amounts from Balanced."}}
+{{#view "form-fields/form-section" model=view.model bankAccount=view.bankAccount sectionTitle=view.sectionTitle sectionDescription="Enter the two micro-deposit amounts from Balanced."}}
 	{{view "form-fields/static-text-form-field"
 		model=view.bankAccount
 		labelText="Bank account"
@@ -7,14 +7,14 @@
 	}}
 
 	{{view "form-fields/cents-form-field"
-		model=view.verification
+		model=view.model
 		labelText="First amount"
 		field="amount_1"
 		name="amount_1"
 	}}
 
 	{{view "form-fields/cents-form-field"
-		model=view.verification
+		model=view.model
 		labelText="Second amount"
 		field="amount_2"
 		name="amount_2"

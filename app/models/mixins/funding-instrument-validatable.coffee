@@ -3,39 +3,38 @@
 FundingInstrumentValidatable = Ember.Mixin.create(
 	tokenizeAndCreate: (customerId) ->
 		@set('isSaving', true)
-		deferred = Ember.RSVP.defer()
 
-		errorCreating = (err) =>
-			errorMessage = "There was an error processing your bank account. #{Ember.get(err, 'errorDescription')}"
-			@set("isSaving", false)
-			@get("validationErrors").add("", "serverError", null, errorMessage)
-			@notifyPropertyChange("validationErrors")
-			deferred.reject(@)
+		tokenizationToPromise = (data) =>
+			deferred = Ember.RSVP.defer()
+			@getTokenizingObject().create data, (response) ->
+				if response.errors
+					deferred.reject(response)
+				else
+					deferred.resolve(response)
+			return deferred.promise
 
 		# Tokenize the bank account using the balanced.js library
-		@getTokenizingObject().create @getTokenizingData(), (response) =>
-			if response.errors
+		tokenizationToPromise(@getTokenizingData())
+			.then (response) =>
+				@constructor.fetch(@getTokenizingResponseHref(response))
+			.then (object) =>
+				object.set('links.customer', customerId)
+				object.save()
+			.then (fundingInstrument) =>
+				@setProperties(
+					isSaving: false
+					isNew: false
+					isLoaded: true
+				)
+				@updateFromModel(fundingInstrument)
+				@trigger('didCreate')
+				return @
+			.catch (response) =>
 				errorHandler = new ValidationServerErrorHandler(@, response)
 				errorHandler.execute()
 				@set("isSaving", false)
 				@notifyPropertyChange("validationErrors")
-				deferred.reject(@)
-			else
-				@constructor.find(@getTokenizingResponseHref(response)).then (object) =>
-					object.set('links.customer', customerId)
-					object.save().then (account) =>
-						@setProperties(
-							isSaving: false
-							isNew: false
-							isLoaded: true
-						)
-						@updateFromModel(account)
-						@trigger('didCreate')
-						deferred.resolve(object)
-				, errorCreating
-		, errorCreating
-
-		return deferred.promise
+				Ember.RSVP.reject(@)
 )
 
 `export default FundingInstrumentValidatable;`
