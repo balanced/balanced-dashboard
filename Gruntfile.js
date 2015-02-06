@@ -174,7 +174,7 @@ module.exports = function(grunt) {
 		var done = this.async();
 		grunt.util.spawn({
 			cmd: 'npm',
-			args: ['install', '--save-dev', 'git+https://github.com/balanced/balanced-admin.git']
+			args: ['install', '--save-dev', 'balanced/balanced-admin']
 		}, function(err) {
 			if (err) {
 				grunt.log.error(err);
