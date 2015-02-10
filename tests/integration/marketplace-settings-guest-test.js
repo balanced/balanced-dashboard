@@ -80,39 +80,52 @@ test('updating marketplace info only submits once despite multiple clicks', func
 });
 
 test('can update owner info', function() {
-	var stub = sinon.stub(Adapter, "update");
+	var $spy = null;
 
 	visit(Testing.SETTINGS_ROUTE)
-		.then(function() {
-			var model = BalancedApp.__container__.lookup('controller:marketplace').get('model');
-			Ember.run(function() {
-				model.set('production', true);
-			});
-		})
 		.click('.owner-info a .icon-edit')
 		.fillForm("#edit-customer-info", {
-			name: 'TEST',
-			email: 'TEST@example.com',
-			business_name: 'TEST',
-			ein: '1234',
-			phone: '1231231234',
+			name: 'Cool Test User',
+			email: 'test+1111@example.com',
+			business_name: 'Test Business',
+			ein: '',
+			phone: '987654321',
 			dob_month: '12',
 			dob_year: '1924',
-			ssn_last4: '1234',
+			ssn_last4: '7744',
+			address_line1: '123 Main St',
+			address_line2: '#333',
+			address_city: 'Metropolis',
+			address_state: 'CA',
+			country_code: 'US',
+			address_postal_code: '12345',
 		})
-		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
 		.then(function() {
-			ok(stub.calledOnce);
-			equal(stub.firstCall.args[0], Models.lookupFactory("customer"));
-			matchesProperties(stub.firstCall.args[2], {
-				name: "TEST",
-				email: "TEST@example.com",
-				business_name: "TEST",
-				ein: "1234",
-				phone: "1231231234",
-				dob_month: "12",
-				dob_year: "1924",
-				ssn_last4: "1234",
+			$spy = sinon.spy(jQuery, "ajax");
+		})
+		.click('#edit-customer-info button[name=modal-submit]')
+		.then(function() {
+			var href = BalancedApp.__container__.lookup('controller:marketplace').get('model.owner_customer_uri');
+
+			deepEqual($spy.args[0][0], "https://api.balancedpayments.com" + href);
+			deepEqual(JSON.parse($spy.args[0][1].data), {
+				name: "Cool Test User",
+				email: "test+1111@example.com",
+				business_name: "Test Business",
+				ein: null,
+				phone: '987654321',
+				dob_month: 12,
+				dob_year: 1924,
+				ssn_last4: "7744",
+				meta: {},
+				address: {
+					line1: "123 Main St",
+					line2: "#333",
+					city: "Metropolis",
+					country_code: "US",
+					postal_code: "12345",
+					state: "CA"
+				}
 			});
 		});
 });

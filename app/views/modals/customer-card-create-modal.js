@@ -30,9 +30,7 @@ var CustomerCardCreateModalView = ModalBaseView.extend(Full, Form, Save, {
 	save: function(fundingInstrument) {
 		var customerId = this.get("customer.id");
 		fundingInstrument.get("validationErrors").clear();
-		this.executeAction(function() {
-			fundingInstrument.tokenizeAndCreate(customerId);
-		});
+		return fundingInstrument.tokenizeAndCreate(customerId);
 	},
 
 	onModelSaved: function (model) {

@@ -17,6 +17,7 @@ module('Integration - Customer Page', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
+			jQuery.ajax,
 			Adapter.create,
 			Adapter.get,
 			Adapter.update
@@ -31,124 +32,51 @@ test('can view customer page', function() {
 		.checkPageTitle("William Henry Cavendish III");
 });
 
-test('can edit customer info', function() {
-	var spy = sinon.spy(Adapter, "update");
-
-	visit(Testing.CUSTOMER_ROUTE)
-		.click('.side-panel a .icon-edit:first')
-		.fillForm('#edit-customer-info', {
-			name: "TEST"
-		})
-		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
-		.then(function() {
-			var args = spy.firstCall.args;
-			ok(spy.calledOnce);
-			deepEqual(args.slice(0, 2), [
-				Models.Customer,
-				"/customers/%@".fmt(Testing.CUSTOMER_ID)
-			]);
-			deepEqual(args[2].name, "TEST");
-			deepEqual(args[2].email, "whc@example.org");
-			deepEqual(args[2].address, {
-				"city": "Nowhere",
-				"country_code": undefined,
-				"line1": null,
-				"line2": null,
-				"postal_code": "90210",
-				"state": null
-			});
-		});
-});
-
 test('can update customer info', function() {
-	var stub = sinon.stub(Adapter, "update");
+	var $spy = null;
 
 	visit(Testing.CUSTOMER_ROUTE)
 		.click('.side-panel a .icon-edit:first')
 		.fillForm('#edit-customer-info', {
-			name: 'TEST',
-			email: 'TEST@example.com',
-			business_name: 'TEST',
-			ein: '1234',
-			address_line1: '600 William St',
-			address_line2: 'Apt 400',
-			address_city: 'Oakland',
+			name: 'Cool Test User',
+			email: 'test+1111@example.com',
+			business_name: 'Test Business',
+			ein: '',
+			phone: '987654321',
+			dob_month: '12',
+			dob_year: '1924',
+			ssn_last4: '7744',
+			address_line1: '123 Main St',
+			address_line2: '#333',
+			address_city: 'Metropolis',
 			address_state: 'CA',
 			country_code: 'US',
 			address_postal_code: '12345',
-			phone: '1231231234',
-			dob_month: '12',
-			dob_year: '1924',
-			ssn_last4: '1234'
-		}, {
-			click: '.modal-footer button[name=modal-submit]'
 		})
 		.then(function() {
-			var args = stub.args[0];
-
-			ok(stub.calledOnce);
-			deepEqual(args[0], Models.Customer);
-			matchesProperties(args[2], {
-				name: "TEST",
-				email: "TEST@example.com",
-				business_name: "TEST",
-				ein: "1234",
-				phone: "1231231234",
+			$spy = sinon.spy(jQuery, "ajax");
+		})
+		.click('#edit-customer-info button[name=modal-submit]')
+		.then(function() {
+			deepEqual($spy.args[0][0], "https://api.balancedpayments.com/customers/" + Testing.CUSTOMER_ID);
+			deepEqual(JSON.parse($spy.args[0][1].data), {
+				name: "Cool Test User",
+				email: "test+1111@example.com",
+				business_name: "Test Business",
+				ein: null,
+				phone: '987654321',
 				dob_month: 12,
 				dob_year: 1924,
-				ssn_last4: "1234"
-			});
-
-			matchesProperties(args[2].address, {
-				line1: "600 William St",
-				line2: "Apt 400",
-				city: "Oakland",
-				state: "CA",
-				country_code: "US",
-				postal_code: "12345"
-			});
-		});
-});
-
-test('can update customer info only some fields', function() {
-	var stub = sinon.stub(Adapter, "update");
-
-	visit(Testing.CUSTOMER_ROUTE)
-		.click('.side-panel a .icon-edit:first')
-		.fillForm('#edit-customer-info', {
-			business_name: '',
-			ein: '',
-			address_line1: '1 1st St',
-			address_line2: '',
-			address_city: '',
-			address_state: '',
-			country_code: '',
-			address_postal_code: '',
-			phone: '1231231234'
-		})
-		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
-		.click('#edit-customer-info .modal-footer button[name=modal-submit]')
-		.then(function() {
-			ok(stub.calledOnce);
-			equal(stub.args[0][0], Models.Customer);
-			deepEqual(stub.args[0][1], "/customers/" + Testing.CUSTOMER_ID);
-			matchesProperties(stub.getCall(0).args[2], {
-				name: "William Henry Cavendish III",
-				email: "whc@example.org",
-				business_name: "",
-				ein: "",
-				country_code: undefined,
-				phone: "1231231234",
-				dob_month: 2,
-				dob_year: 1947,
-				ssn_last4: "xxxx"
-			});
-			matchesProperties(stub.getCall(0).args[2].address, {
-				line1: '1 1st St',
-				line2: "",
-				city: "",
-				state: "",
-				postal_code: ""
+				ssn_last4: "7744",
+				meta: {},
+				address: {
+					line1: "123 Main St",
+					line2: "#333",
+					city: "Metropolis",
+					country_code: "US",
+					postal_code: "12345",
+					state: "CA"
+				}
 			});
 		});
 });
