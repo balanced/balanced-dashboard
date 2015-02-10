@@ -14,8 +14,7 @@ var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
 	}.property("marketplaceOwner"),
 
 	cancelButtonText: "Cancel",
-	submitButtonText: "Edit",
-
+	submitButtonText: "Save",
 	marketplaceOwner: false,
 
 	onModelSaved: function() {
@@ -28,17 +27,23 @@ var EditCustomerInfoModalView = ModalBaseView.extend(Full, Form, Save, {
 
 	actions: {
 		save: function() {
-			this.validateAndSaveModel();
+			this.save(this.get("model"));
 		}
 	}
 });
 
 EditCustomerInfoModalView.reopenClass({
 	open: function(model) {
-		return this.create({
-			originalModel: model,
-			model: model.copy()
+		var view = this.create({
+			originalModel: model
 		});
+		view.container.lookup("controller:marketplace")
+			.get("store")
+			.fetchItem("customer", model.get("href"))
+			.then(function(customer) {
+				view.set("model", customer);
+			});
+		return view;
 	}
 });
 
