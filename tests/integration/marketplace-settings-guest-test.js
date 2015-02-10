@@ -21,6 +21,7 @@ module('Integration - Marketplace Settings Guest', {
 	},
 	teardown: function() {
 		Testing.restoreMethods(
+			jQuery.ajax,
 			Models.ApiKey.prototype.save,
 			Adapter.create,
 			Adapter['delete'],
