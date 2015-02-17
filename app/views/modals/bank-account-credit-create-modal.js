@@ -30,13 +30,15 @@ var BankAccountCreditCreateModalView = ModalBaseView.extend(Save, Full, Form, {
 
 	appearsOnStatementAsMaxLength: Constants.MAXLENGTH.APPEARS_ON_STATEMENT_BANK_ACCOUNT,
 
+	onModelSaved: function(model) {
+		var controller = this.get("controller");
+		controller.transitionToRoute(model.get("route_name"), model);
+		this.close();
+	},
+
 	actions: {
 		save: function() {
-			var controller = this.get("controller");
-			this.save(this.get("model"))
-				.then(function(model) {
-					controller.transitionToRoute(model.get("route_name"), model);
-				});
+			this.save(this.get("model"));
 		},
 	}
 });
