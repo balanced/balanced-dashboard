@@ -2,6 +2,7 @@ import Ember from "ember";
 import TransactionFactory from "./transaction-factory";
 import Utils from "balanced-dashboard/lib/utils";
 import Refund from "balanced-dashboard/models/refund";
+import ServerError from "balanced-dashboard/utils/error-handlers/validation-server-error-handler";
 
 var RefundDebitTransactionFactory = TransactionFactory.extend({
 	isAmountOverMaximum: function() {
@@ -45,9 +46,16 @@ var RefundDebitTransactionFactory = TransactionFactory.extend({
 		return this.get("maxAmountDollars");
 	}.property(),
 
+	setValidationErrorsFromServer: function(response) {
+		var serverError = new ServerError(this, response);
+		serverError.clear();
+		serverError.execute();
+	},
+
 	save: function() {
 		this.validate();
 		var debit = this.get("debit");
+		var self = this;
 		if (this.get("isValid")) {
 			return Refund.create({
 				uri: debit.get('refunds_uri'),
@@ -56,9 +64,12 @@ var RefundDebitTransactionFactory = TransactionFactory.extend({
 				description: this.get("description")
 			}).save().then(function(refund) {
 				return refund;
+			}, function(response) {
+				self.setValidationErrorsFromServer(response);
+				return Ember.RSVP.reject(self);
 			});
 		} else {
-			return Ember.RSVP.reject();
+			return Ember.RSVP.reject(this);
 		}
 	}
 });
