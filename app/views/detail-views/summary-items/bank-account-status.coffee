@@ -26,12 +26,15 @@ BankAccountStatus = Base.extend(
 		switch @get("model.status")
 			when "unverified"
 				@get("container").lookupFactory("view:modals/verify-bank-account-modal")
+			when "failed"
+				if new Date() > @get("verificationRestartDate")
+					@get("container").lookupFactory("view:modals/verify-bank-account-modal")
 			when "pending"
 				@get("container").lookupFactory("view:modals/bank-account-verification-confirm-modal")
 
 	buttonModalText: Ember.computed "model.status", ->
 		status = @get('model.status')
-		if ["unverified", "pending"].contains(status)
+		if ["failed", "unverified", "pending"].contains(status)
 			return "Verify"
 )
 
