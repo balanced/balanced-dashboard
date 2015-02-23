@@ -23,7 +23,7 @@ var Log = Model.extend({
 	credit_uri: Ember.computed.reads('message.response.body.credits.0.href'),
 	refund_uri: Ember.computed.reads('message.response.body.refunds.0.href'),
 	reversal_uri: Ember.computed.reads('message.response.body.reversals.0.href'),
-	hold_uri: Ember.computed.reads('message.response.body.credits.0.href'),
+	hold_uri: Ember.computed.reads('message.response.body.holds.0.href'),
 	customer_uri: Ember.computed.reads('message.response.body.customers.0.href'),
 	card_uri: Ember.computed.reads('message.response.body.cards.0.href'),
 	bank_account_uri: Computed.orProperties('message.response.body.bank_accounts.0.href', 'message.request.payload.bank_account_uri'),

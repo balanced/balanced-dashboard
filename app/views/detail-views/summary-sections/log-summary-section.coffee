@@ -9,7 +9,7 @@ LogSummarySectionView = SummarySectionBase.extend({
 		@addModelItem "Order", "order", "order"
 		@addTransactionItem "Hold", "hold"
 		@addTransactionItem "Debit", "debit"
-		@addTransactionItem "Credit", "Credit"
+		@addTransactionItem "Credit", "credit"
 		@addTransactionItem "Refund", "refund"
 		@addTransactionItem "Reversal", "reversal"
 		@addTransactionItem "Dispute", "dispute"

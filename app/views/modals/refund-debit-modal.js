@@ -26,7 +26,7 @@ var RefundDebitModalView = ModalBaseView.extend(Full, Form, ObjectActionMixin, {
 			dollar_amount: this.get("debit.dollar_amount"),
 			debit: this.get("debit")
 		});
-	}.property("debit"),
+	}.property("debit", "debit.dollar_amount"),
 
 	save: function(model) {
 		this.executeAction(function() {

@@ -58,6 +58,7 @@ var RefundDebitTransactionFactory = TransactionFactory.extend({
 		var self = this;
 		if (this.get("isValid")) {
 			return Refund.create({
+				order: debit.get("order_uri"),
 				uri: debit.get('refunds_uri'),
 				debit_uri: debit.get('uri'),
 				amount: this.get("amount"),
