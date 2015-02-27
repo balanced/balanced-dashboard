@@ -15,11 +15,14 @@ var VerifyBankAccountModalView = ModalBaseView.extend(Full, Form, Save, {
 		this.getModalNotificationController().clearAlerts();
 	},
 
-	model: Ember.computed("bankAccount.bank_account_verifications_uri", function() {
-		var uri = this.get("bankAccount.bank_account_verifications_uri");
-		var verification = this.get("container").lookup("model:verification");
-		verification.set("uri", uri);
-		return verification;
+	modelUriBinding: "bankAccount.bank_account_verifications_uri",
+
+	model: Ember.computed("modelUri", function() {
+		var uri = this.get("modelUri");
+		var Verification = this.container.lookupFactory("model:verification");
+		return Verification.create({
+			uri: uri
+		});
 	}),
 
 	onModelSaved: function() {

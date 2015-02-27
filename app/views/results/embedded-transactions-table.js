@@ -3,27 +3,11 @@ import TransactionsTableView from "./transactions-table";
 var EmbeddedTransactionsTableView = TransactionsTableView.extend({
 	templateName: "results/embedded-transactions-table",
 	classNames: ["non-interactive"],
-	filteredResults: function() {
-		var results = this.get("loader.results");
-		var filteredResults = [];
-
-		results.forEach(function(transaction) {
-			if (!_.contains(["Hold", "Refund", "Reversal"], transaction.get("type_name"))) {
-				filteredResults.pushObject(transaction);
-			}
-
-			// TODO: Figure out a better way to include manually created holds
-			if (transaction.get("type_name") === "Hold" && Ember.keys(transaction.meta).length !== 0) {
-				filteredResults.pushObject(transaction);
-			}
-		});
-
-		if (filteredResults.length === 0 && results.total > 0) {
-			results.loadNextPage();
-		}
-
-		return filteredResults;
-	}.property("loader.results.length"),
+	filteredResults: Ember.computed.filter("loader.results", function(transaction) {
+		var IGNOREABLE_TRANSACTIONS = ["Hold", "Refund", "Reversal"];
+		var transactionType = transaction.get("type_name");
+		return !IGNOREABLE_TRANSACTIONS.contains(transactionType) || (transactionType === "Hold" && transaction.get("debit_uri") === null);
+	}),
 });
 
 export default EmbeddedTransactionsTableView;
