@@ -1,0 +1,34 @@
+<h1 class="page-title title-1">Stripe migration</h3>
+
+<hr>
+
+<h3>Migration information</h3>
+<div class="form-section clearfix col-md-offset-4">
+	<h4 class="group-label">Migrate production marketplace</h4>
+	<div class="form-item">
+		{{model.name}}
+		{{#if model.isMigrationStarted}}
+			<strong>(migration started)</strong>
+		{{/if}}
+	</div>
+
+	<h4 class="group-label">Migrate data</h4>
+	<p>
+		Card, bank account, and seller identity data
+	</p>
+</div>
+<hr>
+
+<h3>Migration agreement</h3>
+<div class="form-section clearfix col-md-offset-4">
+	<div class="form-item">
+		By clicking below, you indicate your acceptance of the
+		<a href="https://www.balancedpayments.com/terms/stripe-migration" target="_blank">Migration Agreement</a>
+	</div>
+</div>
+<hr>
+<div class="form-section form-footer">
+	<a {{bind-attr href=view.activateAccountHref}} class="btn btn-info pull-right">
+		Connect Stripe account
+	</a>
+</div>

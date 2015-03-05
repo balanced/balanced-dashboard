@@ -1,0 +1,82 @@
+<h1 class="page-title title-1">Stripe migration</h3>
+
+<form {{action "startMigration" view.model.marketplace view.model.emailAddress view.model.isAcceptsTerms on="submit"}} class="migrate-form">
+	<hr>
+
+	<h3>Migration information</h3>
+	<div class="form-section clearfix col-md-offset-4">
+		<h4 class="group-label">Migrate production marketplace</h4>
+		<div class="form-item">
+			{{#each marketplace in marketplaces}}
+				{{#if marketplace.production}}
+					<label {{bind-attr class="marketplace.marketplace.isMigrationStarted:disabled"}}>
+						{{view "form-fields/radio-button" required="required" value=marketplace checked=view.model.marketplace name="migration[marketplace]" disabled=marketplace.marketplace.isMigrationStarted}}
+						{{marketplace.name}} {{marketplace.id}}
+						{{#if marketplace.marketplace.isMigrationStarted}}
+							(migration started)
+						{{/if}}
+					</label>
+					<br>
+				{{/if}}
+			{{/each}}
+		</div>
+
+		<h4 class="group-label">Migrate data</h4>
+		<p>
+		Card, bank account, and seller identity data
+		</p>
+	</div>
+	<hr>
+
+	<h3>Stripe account creation</h3>
+	<div class="form-section clearfix col-md-offset-4">
+		<label class="group-label" for="account-email">Account email</label>
+		<div class="form-item">
+			{{input type="email" required="required" value=view.model.emailAddress class="full" elementId="account-email" name="migration[email]"}}
+			<p class="help-block">
+				Stripe will send you an email with instructions to create your password.
+			</p>
+		</div>
+	</div>
+	<hr>
+
+	<h3>Migration agreement</h3>
+	<div class="form-section clearfix col-md-offset-4">
+		<label class="group-label" for="isAcceptsTerms">Migration agreement</label>
+		<div class="form-item">
+			{{input required="required" elementId="isAcceptsTerms" type="checkbox" checked=view.model.isAcceptsTerms name="migration[terms]"}}
+			<label for="isAcceptsTerms">
+				I accept the <a href="https://www.balancedpayments.com/terms/stripe-migration" target="_blank">Migration Agreement</a>
+			</label>
+		</div>
+	</div>
+
+	<div class="alert alert-info">
+		<p>Next step: Provide your personal and business information to process live on Stripe</p>
+	</div>
+
+	<hr>
+	{{#each error in errors}}
+		<div class="alert alert-danger">
+			{{error.description}}
+			{{#if error.isStripeUnderwritingError}}
+				<br>
+				{{#link-to "migrateConnect" view.model.marketplace}}
+					Connect to your existing Stripe account.
+				{{/link-to}}
+			{{/if}}
+		</div>
+	{{/each}}
+
+	<div class="form-section form-footer">
+		{{#if isStartingMigration}}
+			<div class="pull-right button-spinner">
+				<i class="icon-loading"></i>
+			</div>
+		{{else}}
+			<button {{bind-attr disabled=isStartingMigration class=":pull-right isStartingMigration:disabled"}} type="submit">
+				Submit
+			</button>
+		{{/if}}
+	</div>
+</form>
