@@ -43,7 +43,7 @@ var GroupedTransactionRowView = LinkedTwoLinesCellView.extend({
 			transactionText = '%@ %@'.fmt(this.get('item.type_name'), status);
 		}
 
-		return Utils.safeFormat(transactionText).htmlSafe();
+		return transactionText;
 	}.property('classNames', 'item.type_name', 'item.status', 'item.description'),
 
 	secondaryLabelText: function () {
