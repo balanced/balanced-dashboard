@@ -76,6 +76,10 @@ var Marketplace = UserMarketplace.extend({
 	invoices_uri: '/invoices',
 	disputes_uri: '/disputes',
 
+	isMigrationStarted: Ember.computed("meta", function() {
+		return this.get("meta") && !Ember.isBlank(this.get("meta")["stripe.account_id"]);
+	}),
+
 	populateWithTestTransactions: function() {
 		//  pre-populate marketplace with transactions
 		var id = this.get('id');

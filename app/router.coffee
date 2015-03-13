@@ -38,6 +38,10 @@ Router.map ->
 	this.route('resetPassword', path: '/password/:token')
 	this.route('resetPassword', path: '/invite/:token')
 
+	this.route("migrate", path: "/migrate")
+	this.route("migrateConnect", path: "/connect/:marketplace_id")
+	this.route("migrateSuccess", path: "/migrate/:marketplace_id")
+
 	this.route("marketplace-application", path: "/marketplaces/applications/:id")
 	this.resource 'marketplaces', path: '/marketplaces', ->
 		this.route('apply')
