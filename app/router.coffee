@@ -39,6 +39,7 @@ Router.map ->
 	this.route('resetPassword', path: '/invite/:token')
 
 	this.route("migrate", path: "/migrate")
+	this.route("migrateConnectSuccess", path: "/connect/success")
 	this.route("migrateConnect", path: "/connect/:marketplace_id")
 	this.route("migrateSuccess", path: "/migrate/:marketplace_id")
 
