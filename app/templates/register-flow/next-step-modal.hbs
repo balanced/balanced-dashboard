@@ -1,11 +1,5 @@
 <div class="modal-body clearfix">
 	{{#view "form-fields/form-section" model=view.model
-		sectionTitle="Create a production marketplace"
-		sectionDescription="Register to process live transactions."}}
-		<a class="btn pull-right" {{action 'nextStep' target="view.parentView"}}>{{view.parentView.continueButtonText}}</a>
-	{{/view}}
-
-	{{#view "form-fields/form-section" model=view.model
 		sectionTitle="Explore my test marketplace"
 		sectionDescription="Explore the dashboard and interact with the Balanced API in test mode."}}
 		<a class="btn pull-right" {{action 'goToDashboard' target="view.parentView"}}>{{view.parentView.cancelButtonText}}</a>
